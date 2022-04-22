@@ -2,198 +2,101 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CD79C4321E
-	for <webhook@archiver.kernel.org>; Fri, 22 Apr 2022 16:51:59 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web09.1932.1650581972962316312
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12387C352A7
+	for <webhook@archiver.kernel.org>; Fri, 22 Apr 2022 16:52:00 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+ [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web12.4682.1650600359080245770
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Apr 2022 15:59:33 -0700
+ Thu, 21 Apr 2022 21:05:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QR4j5GCt;
- spf=pass (domain: gmail.com, ip: 209.85.214.171,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=XR6ri/CM;
+ spf=pass (domain: gmail.com, ip: 209.85.210.172,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id c12so6939750plr.6
+Received: by mail-pf1-f172.google.com with SMTP id l127so6837042pfl.6
         for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Apr 2022 15:59:32 -0700 (PDT)
+ Thu, 21 Apr 2022 21:05:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0YgrboZ8+0byZwOleOs+DEM8AH/lHNud/xMTzAEA6d4=;
-        b=QR4j5GCtJ6K04VNP8i21rAchtTZHUsj+Dv+gJUMYxjkVnIAXAlnSVjqVLpWSqnl2XQ
-         7S9IML/052cDTLRK6YV5m/eW7I30SrLys9peDziG3dvOHgRbjSWAEJIa2w38LRUMLCSU
-         Kz8ZHQiLftkQOCBHrnaO4BKefGu1gRu3PL0kliPvaYmH0SoWXvoInMo+thbKBoM+ek1Q
-         hds1dRQgRnMUCcI20wOehgVwpbNN4WiOs+/pLXeuChbl0/3XVkfYaulg/JIYsrJaLSr0
-         g7dtRrdpuaJJIlDrgJqgCzYqTYoPoSVqh8ksl5p4qh0mn1fGjTL+hu9lGhMZ0roZ9vAd
-         WOLA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=aLiBjDOEv8vg6tq6F9NmuSruz/R1djvz3tJlhjoo3Pg=;
+        b=XR6ri/CMHXiwo/wKC+fGYNCljQH0Ogv21SEvQIk3Q/UuRmWFOtBgD0axe5GdHP1Rl3
+         PXmd6GqEVlleazcHaLEIeSJfJ4z41ng5fu0O8YtDJ1z3WoU6OH2E3TxxfOiQLIuFtUPG
+         VR44rcsD4O+x89fnUscugJtN32qix+eojokLcOGMfsQr+FbBB3iAvJACM7ugdA3vr8m0
+         kDFboWnvyks/dMs9jNdnYVVJFwa8U4JbcsKdmuHS7piKG9gtr6UnmIApcWAaFGuGE1Pu
+         r/AABv5edVIaRnPK7/3QXCuG4D9iTD0PpQHhTbXcBmdEkpNC/oh1onGJ9Vv1qhqVtpXL
+         3jZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0YgrboZ8+0byZwOleOs+DEM8AH/lHNud/xMTzAEA6d4=;
-        b=opicMymet5JlcffoakLLNFHpbyn9wTMkoFfjHDKFEARKJ3wdbs6A7gMnQDcvB1/LBO
-         UUQ0ODfn6gLv25loRpBVWnKQUf5BcgMd77wsqARiBK87a2t0oQYhD+omzDI6Mv9rkA5x
-         H0MhGbMW6PIODtW7qwBTfWzO4NiixSbIXWOcZHdrM5gh57bwCy1uXdh/CK9ZikTdyacU
-         Mel5Wye950XVtOnP0/wrXZs1y4DOB3V4oqLLGy06p00XhOABKjVsDEgMlrhAOVkFrtdX
-         LFKdM2bUT0MN/ynAR4kaolxpLGYfSMF/gWoYlTr3S5TDAcw1USn6iK7A47PETJ+sdIJP
-         6o3w==
-X-Gm-Message-State: AOAM533RJ+3NK9aKyI1LT7bH1DMuhjLLgz9cvzoZVIbyleBoxD9mnFw0
-	DNqWiEnEgimkfRn/7uILDZWMp8g68NhBFQ==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=aLiBjDOEv8vg6tq6F9NmuSruz/R1djvz3tJlhjoo3Pg=;
+        b=xPSZG+P9rzH1S6XKBcERLZqfzA3Ey4GJQjSfFNqPDfoki8I2+P/MG1B5+I7NA9aYbT
+         3QvbE5eFXP/BqaWG11qqBst7SLD4CEaxtKLoBr4jJvhh0PA90PieoT+SmZS4ATZEVsKh
+         9L6yPXCDvpud+m75AnPwuH6nxmcCuYNpfjg/y34zO/KaWy8KnJ3GJE73Xer3Gn0aauAN
+         6uoVha7jiRoR7peLeR+sLaUdj8HEHcctujAIJlWJjP9YGGKjlxqsU4sdUX4A06B4MfAj
+         PvqOVBh0TFjWAbMLuUyssjTAJoefggz8g7EtQWWjAi58tXuD5RqIZKWflSpYrNVCGbgD
+         pUGw==
+X-Gm-Message-State: AOAM531XOPdtkt+2q4k6HQSmsv4hwCBAYSw7FSJrBjU6Hs89VGi3k08O
+	2B21b2W/Svg7r+vqZEQY0bnvhyPFvNLuYQ==
 X-Google-Smtp-Source: 
- ABdhPJzGD1aF+c5yOeKNcqS8RbW7WJ1LEoxjRblmGJ1xkSLCe9hYn+k7I4RPjvV/pEIcTNBGEcmBoA==
-X-Received: by 2002:a17:903:22d2:b0:159:606:e620 with SMTP id
- y18-20020a17090322d200b001590606e620mr1689636plg.59.1650581971874;
-        Thu, 21 Apr 2022 15:59:31 -0700 (PDT)
+ ABdhPJyAEh1SC8RyVUujd+09Vl90CrsqH6PNcbejFVqRVo+fdsUh1PB0k1E98sMOOOunlCefcXdenA==
+X-Received: by 2002:a65:5181:0:b0:3aa:3668:26a9 with SMTP id
+ h1-20020a655181000000b003aa366826a9mr2350540pgq.184.1650600358185;
+        Thu, 21 Apr 2022 21:05:58 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::2ca3])
         by smtp.gmail.com with ESMTPSA id
- h7-20020aa786c7000000b00505bf336385sm165686pfo.124.2022.04.21.15.59.30
+ fv9-20020a17090b0e8900b001cd4989febcsm4399089pjb.8.2022.04.21.21.05.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 15:59:31 -0700 (PDT)
+        Thu, 21 Apr 2022 21:05:57 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] musl-locales: Add package
-Date: Thu, 21 Apr 2022 15:59:28 -0700
-Message-Id: <20220421225928.101707-1-raj.khem@gmail.com>
+Subject: [PATCH 2/2] gcompat: Fix build when usrmerge distro feature is
+ enabled
+Date: Thu, 21 Apr 2022 21:05:52 -0700
+Message-Id: <20220422040552.2528282-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.36.0
+In-Reply-To: <20220422040552.2528282-1-raj.khem@gmail.com>
+References: <20220422040552.2528282-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Apr 2022 16:51:59 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Apr 2022 16:52:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164767
-
-This package will provide a limited set of localedata for musl based
-systems. It will fill in into images when IMAGE_LINGUAS variable is set
-however the choice is limited to the given 13 locales as of now.
-
-e.g.
-IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
-
-would work fine
-
-Default locale can be set by exporting LANG=<locale> in /etc/profile or some
-such file e.g.
-
-export LANG=de_DE.UTF-8
-
-This will also help in ptest coverage with musl where some test packages
-expect locales e.g. pango to name one.
+ https://lists.openembedded.org/g/openembedded-core/message/164772
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/distro/include/maintainers.inc   |  1 +
- meta/conf/distro/include/tclibc-musl.inc   |  1 +
- meta/recipes-core/musl/musl-locales_git.bb | 73 ++++++++++++++++++++++
- 3 files changed, 75 insertions(+)
- create mode 100644 meta/recipes-core/musl/musl-locales_git.bb
+ meta/recipes-core/musl/gcompat_git.bb | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 8bbcf071603..8efa27324f3 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -519,6 +519,7 @@ RECIPE_MAINTAINER:pn-mtd-utils = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER:pn-mtdev = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-mtools = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-musl = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER:pn-musl-locales = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-musl-obstack = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-musl-utils = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-nasm = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-diff --git a/meta/conf/distro/include/tclibc-musl.inc b/meta/conf/distro/include/tclibc-musl.inc
-index 8badbbb40a6..9698d35a7a4 100644
---- a/meta/conf/distro/include/tclibc-musl.inc
-+++ b/meta/conf/distro/include/tclibc-musl.inc
-@@ -10,6 +10,7 @@ PREFERRED_PROVIDER_virtual/libc ?= "musl"
- PREFERRED_PROVIDER_virtual/libiconv ?= "musl"
- PREFERRED_PROVIDER_virtual/libintl ?= "musl"
- PREFERRED_PROVIDER_virtual/crypt ?= "musl"
-+PREFERRED_PROVIDER_virtual/libc-locale ?= "musl-locales"
- PREFERRED_PROVIDER_virtual/nativesdk-libintl ?= "nativesdk-glibc"
- PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?= "nativesdk-glibc"
+diff --git a/meta/recipes-core/musl/gcompat_git.bb b/meta/recipes-core/musl/gcompat_git.bb
+index 962bcd8c75f..b051e43b6ce 100644
+--- a/meta/recipes-core/musl/gcompat_git.bb
++++ b/meta/recipes-core/musl/gcompat_git.bb
+@@ -37,14 +37,14 @@ do_compile () {
+ }
  
-diff --git a/meta/recipes-core/musl/musl-locales_git.bb b/meta/recipes-core/musl/musl-locales_git.bb
-new file mode 100644
-index 00000000000..e883d602b21
---- /dev/null
-+++ b/meta/recipes-core/musl/musl-locales_git.bb
-@@ -0,0 +1,73 @@
-+# Copyright (C) 2022 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
-+#
-+SUMMARY = "Locales support for musl"
-+HOMEPAGE = "https://gitlab.com/rilian-la-te/musl-locales"
-+LICENSE = "MIT & LGPL-3.0-or-later"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=cf5713fba707073020b1db2acaa73e78 \
-+                    file://LICENSE.MIT;md5=a4f1c6864a83ddf4b754cdab7d593523"
-+
-+SRC_URI = "git://gitlab.com/rilian-la-te/musl-locales;protocol=https;branch=master"
-+
-+PV = "1.0+git${SRCPV}"
-+SRCREV = "1101fb2bcdd189cd9415b8bd1c775eb43527d25c"
-+
-+S = "${WORKDIR}/git"
-+
-+DEPENDS = "virtual/libintl"
-+
-+PROVIDES = "virtual/libc-locale"
-+
-+inherit cmake gettext
-+
-+EXTRA_OECMAKE = ""
-+#
-+# We will skip parsing for non-musl systems
-+#
-+COMPATIBLE_HOST = ".*-musl.*"
-+
-+# only locale binaries are under GPL-3.0-or-later others are MIT
-+LICENSE:${PN} = "GPL-3.0-or-later"
-+LICENSE:locale-base-ch-de = "MIT"
-+LICENSE:locale-base-de-ch = "MIT"
-+LICENSE:locale-base-de-de = "MIT"
-+LICENSE:locale-base-en-gb = "MIT"
-+LICENSE:locale-base-en-us = "MIT"
-+LICENSE:locale-base-es-es = "MIT"
-+LICENSE:locale-base-fr-fr = "MIT"
-+LICENSE:locale-base-it-it = "MIT"
-+LICENSE:locale-base-nb-no = "MIT"
-+LICENSE:locale-base-nl-nl = "MIT"
-+LICENSE:locale-base-pt-br = "MIT"
-+LICENSE:locale-base-ru-ru = "MIT"
-+LICENSE:locale-base-sv-se = "MIT"
-+
-+PACKAGES =+ "locale-base-ch-de \
-+             locale-base-de-ch \
-+             locale-base-de-de \
-+             locale-base-en-gb \
-+             locale-base-en-us \
-+             locale-base-es-es \
-+             locale-base-fr-fr \
-+             locale-base-it-it \
-+             locale-base-nb-no \
-+             locale-base-nl-nl \
-+             locale-base-pt-br \
-+             locale-base-ru-ru \
-+             locale-base-sv-se \
-+             "
-+FILES:locale-base-ch-de += "${datadir}/i18n/locales/musl/ch_DE.UTF-8"
-+FILES:locale-base-de-ch += "${datadir}/i18n/locales/musl/de_CH.UTF-8"
-+FILES:locale-base-de-de += "${datadir}/i18n/locales/musl/de_DE.UTF-8"
-+FILES:locale-base-en-gb += "${datadir}/i18n/locales/musl/en_GB.UTF-8"
-+FILES:locale-base-en-us += "${datadir}/i18n/locales/musl/en_US.UTF-8"
-+FILES:locale-base-es-es += "${datadir}/i18n/locales/musl/es_ES.UTF-8"
-+FILES:locale-base-fr-fr += "${datadir}/i18n/locales/musl/fr_FR.UTF-8"
-+FILES:locale-base-it-it += "${datadir}/i18n/locales/musl/it_IT.UTF-8"
-+FILES:locale-base-nb-no += "${datadir}/i18n/locales/musl/nb_NO.UTF-8"
-+FILES:locale-base-nl-nl += "${datadir}/i18n/locales/musl/nl_NL.UTF-8"
-+FILES:locale-base-pt-br += "${datadir}/i18n/locales/musl/pt_BR.UTF-8"
-+FILES:locale-base-ru-ru += "${datadir}/i18n/locales/musl/ru_RU.UTF-8"
-+FILES:locale-base-sv-se += "${datadir}/i18n/locales/musl/sv_SE.UTF-8"
-+
-+UPSTREAM_CHECK_COMMITS = "1"
+ do_install () {
+-	oe_runmake install 'DESTDIR=${D}'
++	oe_runmake install 'DESTDIR=${D}${root_prefix}'
+ 	if [ "${SITEINFO_BITS}" = "64" ]; then
+-		install -d ${D}/lib64
+-		ln -rs ${D}${GLIBC_LDSO} ${D}/lib64/`basename ${GLIBC_LDSO}`
++		install -d ${D}${nonarch_base_libdir}${SITEINFO_BITS}
++		ln -rs ${D}${GLIBC_LDSO} ${D}${nonarch_base_libdir}${SITEINFO_BITS}/`basename ${GLIBC_LDSO}`
+ 	fi
+ }
+ 
+-FILES:${PN} += "/lib64"
++FILES:${PN} += "${nonarch_base_libdir}${SITEINFO_BITS}"
+ 
+ INSANE_SKIP:${PN} = "libdir"
+ 
 -- 
 2.36.0
 
