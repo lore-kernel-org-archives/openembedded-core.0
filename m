@@ -1,72 +1,62 @@
-Return-Path: <cam@myfastmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72236C41535
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCE9CC4707A
 	for <webhook@archiver.kernel.org>; Mon, 25 Apr 2022 19:26:11 +0000 (UTC)
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
- [64.147.123.19])
- by mx.groups.io with SMTP id smtpd.web08.30625.1650898195166807268
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+ [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web10.13914.1650769556877999557
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Apr 2022 07:49:55 -0700
+ Sat, 23 Apr 2022 20:05:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@myfastmail.com
- header.s=fm1 header.b=S9pQ8MhO;
- spf=pass (domain: myfastmail.com, ip: 64.147.123.19,
- mailfrom: cam@myfastmail.com)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id A37E63201FED;
-	Mon, 25 Apr 2022 10:49:53 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Mon, 25 Apr 2022 10:49:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=myfastmail.com;
-	 h=cc:cc:content-transfer-encoding:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to; s=fm1; t=1650898193; x=1650984593; bh=2tPedNtqgL
-	c6fd6ALOk1npY/wSk6V4d1Ok6QwVKcS9o=; b=S9pQ8MhOwFoNRiQiYo5ZHdFn2s
-	K3hKxv4B5rWZX4ZCdTsbFJRehDIXbBWSanX3w/HbUS5mOVIs3sKQNWVAq5aIRu45
-	zdQC8BqF0JIgFSXXGmz89TABbHBt9STeUBQNI6DlEXc6aQ8ZNiwWAA+gEqGBTkTr
-	upIrg014nyeJtXIk1A+aJa1c9ovVzUcTQZuomvzNMZ1pr7NgW9tFOTats9VH8FNo
-	ws/Itiwq/ISfsUz7ojkpCpUinyDwW+BOSR/LnxFutCfO402yFIbnn4gONXNQAxjk
-	g69cRoQEvPbGFgP7hMaAFepin0SdroCd3VEvXpihqfG4GRWF/9cLnFG9aPzg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:from:from:in-reply-to:message-id:mime-version:reply-to:sender
-	:subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1650898193; x=1650984593; bh=2
-	tPedNtqgLc6fd6ALOk1npY/wSk6V4d1Ok6QwVKcS9o=; b=rqpkWr0rKkBR33FAP
-	Q4QkiBHGCVzvmHAsVOaA/45QBabCjorFAQJGFdPrZscLlHglHPMJLON3tIPLMKWq
-	9a9UWAdXo5LlO/uhwOOCp0gVvNdnaL9bHUnBuGSLZCmwwbpzvFc4vuESGpyCaGIY
-	a+jz9vVcVEtwVNp76hrSyw7xVFVbnJHMcSItnea00bWs92tX1g64VxiDs2BP8Ate
-	XJbbhiM/xMLbxHR0JEyzpdt9iAxzRHe3o8mTJCgy9cc06enVTUSV2LE7SK+cCrwJ
-	4qQLR+8BO0ymipMloN9IeO4dy7AqW2aKNQczzrN4Y26Y41VCL9MoGHVnGdC5ZAlM
-	kIp8Q==
-X-ME-Sender: <xms:ELVmYgPWg5XvpzhFZFiJQI0beDyRS_iTWc8B_Qb-r87ynhuHupQ6Bg>
-    <xme:ELVmYm_tIki3KjzcEDCpRT2b3RFbaYL01kRzotJEHvUulAjI_HUsFwccNA5B64vQW
-    XI_4epbzYFxSw>
-X-ME-Received: 
- <xmr:ELVmYnQq5TOVqYb7QfASs8MiEnGV5UOE2n5ZyOaoSw8A2vpeeUiXw3SZjUpAAGZsTajIyUSKSZYgbR6ma0MVKeXFvqZbr-4rAhJo4WQ8dK-8jpgGyDA>
-X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvfedruddugdejlecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
-    dttdenucfhrhhomhepfdevrdcutehnugihucforghrthhinhdfuceotggrmhesmhihfhgr
-    shhtmhgrihhlrdgtohhmqeenucggtffrrghtthgvrhhnpedtvdeludfgledtueetlefghf
-    dtudekhedvveekfeegjeffueehudeftedvvdejheenucevlhhushhtvghrufhiiigvpedt
-    necurfgrrhgrmhepmhgrihhlfhhrohhmpegtrghmsehmhihfrghsthhmrghilhdrtghomh
-X-ME-Proxy: <xmx:ELVmYou3ivwgqNQjkveCuzbga3H4XVyNdMfdTf5BqkAyj1z-at1Jkg>
-    <xmx:ELVmYofMXiKwOtI9YkStk9s1-VlPmT92gJafr0yARtwIASoGPxqstA>
-    <xmx:ELVmYs37eO0YV4DXZxtzDVRf6k360MrgSIYhKhs7-UnA_b7qx3vPCw>
-    <xmx:EbVmYgmi-Vx4GFgO0_Hu2IU1rxIklq7xUo6sFOV5BDe0lYkDMvqG5A>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 25 Apr 2022 10:49:52 -0400 (EDT)
-From: "C. Andy Martin" <cam@myfastmail.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=TO8SVbAr;
+ spf=pass (domain: gmail.com, ip: 209.85.215.172,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f172.google.com with SMTP id bg9so10559846pgb.9
+        for <openembedded-core@lists.openembedded.org>;
+ Sat, 23 Apr 2022 20:05:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aYTthZabQxbvYSfO7lzzU7LNtkScx7ufSx2XzpWlX0A=;
+        b=TO8SVbArIBQISfP44j/35Qn1We1auQFM1sAI0J++PE+XZMJ03iFQPhF1kuajS8XzKF
+         D2axb3F+gCaSkaaisUNaRBsvUqiOL2VMEl/UdeutDso+kKCcBnU8LfHpCKCN4NjDGdEb
+         DGD9623ZZSG/uOafh1/8Q2jkqevqPKJTZLtAfIBBvfJh2JOTEaGBI3kfPx46BPwyVrCC
+         /QWbXdltK3VsNsHJK6MQWzXxlMVN2HKvkT4/RRbpvn/xh3Er+UD+9J3YybPCGHZmQbNk
+         sGtxJ9ufZXnd/tkGWKOod4trHhPQL4bhNltIvCJD3VtQzxj5byJzA2XlveIKZb2/9Anh
+         hDTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aYTthZabQxbvYSfO7lzzU7LNtkScx7ufSx2XzpWlX0A=;
+        b=v85iE/942mkRuM9DXzFnumqH71VNEf2uEYeUMsMvDUNeJ9h5GPMkXk2oQXEDMNMWfB
+         K/PYbY63iCUPzMguOsprkvBpVOs60vCej0slrCAoVlOcva1QaUJZ0Rb4Wzx7bzAWWvwQ
+         8O6zuKJ4oYChEJPm6lzmFZle585Kq/YAZnC3hjpBhYsIpsgqZ+SNut9wuva27KKTuRnP
+         ISbwCD0Ss1sp7LWK40Dz95Nh0SAUj51GfKtAzpY+fRQsXFSq2oT62tD6hSJXN2cjIBDj
+         29/GklcbVXn0m0jtaX+m87Yalm/Jy5lcNVWJgcpwx2mLeYqb6YWHpVwvpx2T7LImYAiL
+         VdvQ==
+X-Gm-Message-State: AOAM531krcJHCb3dKanEAXxNEm5z05FvBz7XL0rmdckiWQmNacMY2cbC
+	YgqBCEahRPjsqbc1AhpEA12ZxZVhwayEgg==
+X-Google-Smtp-Source: 
+ ABdhPJyf1qfTNqauzVLRBavn7VJhf+cuwua5OvIpb/TFzWdfzCiKqYPAn5kdOzVwOcOaEZOm5gewIA==
+X-Received: by 2002:a63:1b20:0:b0:382:70f9:dc24 with SMTP id
+ b32-20020a631b20000000b0038270f9dc24mr9723875pgb.485.1650769556110;
+        Sat, 23 Apr 2022 20:05:56 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::2ca3])
+        by smtp.gmail.com with ESMTPSA id
+ t18-20020aa79472000000b0050ad180a4bbsm7033157pfq.1.2022.04.23.20.05.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Apr 2022 20:05:55 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: "C. Andy Martin" <cam@myfastmail.com>
-Subject: [pseudo][PATCH] do not abort on hard link path mismatch
-Date: Mon, 25 Apr 2022 10:49:24 -0400
-Message-Id: <20220425144924.1033647-1-cam@myfastmail.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] glibc: Update to latest 2.35 tip
+Date: Sat, 23 Apr 2022 20:05:53 -0700
+Message-Id: <20220424030553.3015919-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -74,67 +64,64 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 25 Apr 2022 19:26:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164824
+ https://lists.openembedded.org/g/openembedded-core/message/164801
 
-For hard-links there are many potential races where the path may not
-yet exist in the database but we find an inode match on the linked
-file. For instance, if one sub-process performs the link and another
-one soon after opens the link, it is a race as to which operation's
-message is received first by the pseudo server. Therefore, do not
-abort on hard links, instead go back to master-branch behavior
-(verbose file debug) for such cases.
+Brings in below changes
 
-See commit 691a2304c8c29a3b7d5977908ef82aaf188f5ba0 for original
-nerf of the path mismatch messages for hard links.
+* 499a601796 Default to --with-default-link=no (bug 25812)
+* 70f1eecdc1 scripts: Add glibcelf.py module
+* d3feff2232 m68k: Handle fewer relocations for RTLD_BOOTSTRAP (#BZ29071)
+* 68d3a9a696 nptl: Fix pthread_cancel cancelhandling atomic operations
+* 8e8d46d598 mips: Fix mips64n32 64 bit time_t stat support (BZ#29069)
+* bd415684df hurd: Fix arbitrary error code
+* ba9c42ac0e nptl: Handle spurious EINTR when thread cancellation is disabled (BZ#29029)
+* 6583d53445 S390: Add new s390 platform z16.
+* cc9a4a664f elf: Fix memory leak in _dl_find_object_update (bug 29062)
+* db03235895 NEWS: Move PLT tracking slowdown to glibc 2.35.
+* 9be62976af hppa: Use END instead of PSEUDO_END in swapcontext.S
+* 01d5214bb4 hppa: Implement swapcontext in assembler (bug 28960)
+* 123bd1ec66 nss: Protect against errno changes in function lookup (bug 28953)
+* c54c5cd8e3 nss: Do not mention NSS test modules in <gnu/lib-names.h>
+* 3149f47b80 io: Add fsync call in tst-stat
+* e30c1c73da nptl: Fix cleanups for stack grows up [BZ# 28899]
+* ca0570fee3 hppa: Fix warnings from _dl_lookup_address
+* d82d9cdff4 hppa: Revise gettext trampoline design
+* 2631d3b3a6 hppa: Fix swapcontext
+* 1f77081178 Fix elf/tst-audit2 on hppa
+* c60e6a458b hppa: Fix bind-now audit (BZ #28857)
+* 90797f4972 localedef: Handle symbolic links when generating locale-archive
+* 732dd3a63d localedata: Do not generate output if warnings were present.
+* 3feecd8001 localedef: Update LC_MONETARY handling (Bug 28845)
+* a787325e83 NEWS: Add a bug fix entry for BZ #28688
+* 264ad5d7d6 resolv: Fix tst-resolv tests for 2.35 ABIs and later
+* e247a3b118 elf: Replace tst-audit24bmod2.so with tst-audit24bmod2
+* 1dd783fafd elf: Check invalid hole in PT_LOAD segments [BZ #28838]
+* 3226ffde07 NEWS: Add a bug fix entry for BZ #28896
+* 676f85759c x86: Fix TEST_NAME to make it a string in tst-strncmp-rtm.c
+* d001088e22 x86: Test wcscmp RTM in the wcsncmp overflow case [BZ #28896]
+* fd412fff6d x86: Fallback {str|wcs}cmp RTM in the ncmp overflow case [BZ #28896]
+* a30807b7db string: Add a testcase for wcsncmp with SIZE_MAX [BZ #28755]
+* f055faf801 linux: Use socket-constants-time64.h on tst-socket-timestamp-compat
+* 491f2ef1f0 linux: fix accuracy of get_nprocs and get_nprocs_conf [BZ #28865]
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- pseudo.c | 32 ++++++++++++++++++++++++--------
- 1 file changed, 24 insertions(+), 8 deletions(-)
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/pseudo.c b/pseudo.c
-index 528fe1b..cb03987 100644
---- a/pseudo.c
-+++ b/pseudo.c
-@@ -696,15 +696,31 @@ pseudo_op(pseudo_msg_t *msg, const char *program, const char *tag, char **respon
- 					pseudo_debug(PDBGF_FILE, "inode mismatch for '%s' -- old one was marked for deletion.\n",
- 						msg->path);
- 				} else {
--					pseudo_diag("path mismatch [%d link%s]: ino %llu db '%s' req '%s'.\n",
--						msg->nlink,
--						msg->nlink == 1 ? "" : "s",
--						(unsigned long long) msg_header.ino,
--						path_by_ino ? path_by_ino : "no path",
--						msg->path);
-+					if (msg->nlink > 1) {
-+						/* For hard-links there are many potential races
-+						 * where the path may not yet exist in the
-+						 * database but we find an inode match on the
-+						 * linked file. */
-+						int flags = PDBGF_FILE | PDBGF_VERBOSE;
-+						pseudo_debug(flags, "path mismatch [%d link%s]: ino %llu db '%s' req '%s'.\n",
-+							msg->nlink,
-+							msg->nlink == 1 ? "" : "s",
-+							(unsigned long long) msg_header.ino,
-+							path_by_ino ? path_by_ino : "no path",
-+							msg->path);
-+					} else {
-+						pseudo_diag("path mismatch [%d link%s]: ino %llu db '%s' req '%s'.\n",
-+							msg->nlink,
-+							msg->nlink == 1 ? "" : "s",
-+							(unsigned long long) msg_header.ino,
-+							path_by_ino ? path_by_ino : "no path",
-+							msg->path);
-+					}
- 					found_ino = 0;
--					msg->result = RESULT_ABORT;
--					goto op_exit;
-+					if (msg->nlink == 1) {
-+						msg->result = RESULT_ABORT;
-+						goto op_exit;
-+					}
- 				}
- 			}
- 		} else {
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 080e905b6e1..5fea8b33ef6 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.35/master"
+ PV = "2.35"
+-SRCREV_glibc ?= "24962427071fa532c3c48c918e9d64d719cc8a6c"
++SRCREV_glibc ?= "499a60179657d2945c6ad01bdac90e8427a6310e"
+ SRCREV_localedef ?= "794da69788cbf9bf57b59a852f9f11307663fa87"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
 -- 
-2.25.1
+2.36.0
 
 
