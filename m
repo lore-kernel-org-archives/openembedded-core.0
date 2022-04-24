@@ -1,124 +1,97 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5A02C352AA
-	for <webhook@archiver.kernel.org>; Mon, 25 Apr 2022 19:26:11 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web08.14026.1650770019720608928
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F10EC38161
+	for <webhook@archiver.kernel.org>; Mon, 25 Apr 2022 19:26:12 +0000 (UTC)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web11.14469.1650775777738774417
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Apr 2022 20:13:39 -0700
+ Sat, 23 Apr 2022 21:49:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
- domain name (domain: windriver.com, ip: 147.11.3.146,
- mailfrom: changqing.li@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 23O3Da6f028877
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Apr 2022 20:13:36 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 23O3DaLr019989
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Apr 2022 20:13:36 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Sat, 23 Apr 2022 20:13:35 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Sat, 23 Apr 2022 20:13:35 -0700
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Sat, 23 Apr 2022 20:13:34 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [hardknott][PATCH V2] libsdl2: fix CVE-2021-33657
-Date: Sun, 24 Apr 2022 11:13:34 +0800
-Message-ID: <20220424031334.2089603-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=o4PJrFMe;
+ spf=pass (domain: gmail.com, ip: 209.85.214.172,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f172.google.com with SMTP id s17so19842483plg.9
+        for <openembedded-core@lists.openembedded.org>;
+ Sat, 23 Apr 2022 21:49:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PyfKQ5yNB4dlH2heRFTk5PUSIecj8SWN+oDOTW1aMeY=;
+        b=o4PJrFMeV1Z2vzbaLr+ZTEtcO9Y8x4FsUMtWrTCFrQc6/AhGA5dBjCtF5tzAH6N+Wb
+         0Iw5ksY5x16kxlWNRy+Mg07aK/xnv9BKODxCveI/rInaRNeFHaJ2+SFQuAM4CGVXSF5a
+         frGZTGUSMyzN7/7+KdYS3Z8FW4vSi5EL56PYxwGm8UJ9LabAaIMoNPjjXwuReT7JHTLl
+         Q+WzeabzO98dhuUKKCVepHUEJcfSe1WG/sv1lJvKPj7GNhxAEWp+Qb3wx++p6vzUCt0A
+         wYTklV2iV8HUecdDnQUa0UxsvzAYmSlmcZYR/Lb1Eg+oFi6A0Pr+PyiYPHYAMNfAdaOp
+         3guw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PyfKQ5yNB4dlH2heRFTk5PUSIecj8SWN+oDOTW1aMeY=;
+        b=qV1QfgOdcFyO34IH6fBs11AV5bx9fthcR4HdOL8D0fXOcsbRAV2uJAXOCGpCG9etsu
+         RONe4eepYP4gFpEUyN07bUMg7GJTeXPOw3Ioa5S58OKpnn+OVIUfy284ChKIdGxwPCgi
+         9AN+QsbAxw0m4TgBYHZG9B2iWz8r6GlUl0YJMATAUpYU4ifw513RTDCu6cYyBDyocvbB
+         3A2qFz2KClhBKQ2f4+RZjqJEV1XQ3E71uwBjBONFUwMuWX0+GgIqtMN6lwn1AxXprp80
+         Oewl/zk/z1pDq84kGt0qQxTwrH4feqAC8hN9hCzc0Smt9aARwcvIfslZVNQmlt1KlK/i
+         C9AA==
+X-Gm-Message-State: AOAM532mFFpvOjFU6dHsac9/w6L+H1LN0Bpo6UpMeplahXXLFoHYTKAU
+	jLuxV16bAYmHPpaFp2st4w1kBc1JEmz+zQ==
+X-Google-Smtp-Source: 
+ ABdhPJz2vZ4BlmzOpsr3ggk4MOesgOOAp3sq+dFQYAzeYqq0bDG0lTfqIMywOUFrfGqGhHH0+24FMg==
+X-Received: by 2002:a17:90b:1bc5:b0:1d2:699a:54e3 with SMTP id
+ oa5-20020a17090b1bc500b001d2699a54e3mr24681085pjb.136.1650775777011;
+        Sat, 23 Apr 2022 21:49:37 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::2ca3])
+        by smtp.gmail.com with ESMTPSA id
+ l10-20020a056a00140a00b004c55d0dcbd1sm7502717pfu.120.2022.04.23.21.49.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Apr 2022 21:49:36 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] qemu.bbclass: Extend ppc/ppc64 extra options
+Date: Sat, 23 Apr 2022 21:49:33 -0700
+Message-Id: <20220424044933.3553497-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Apr 2022 19:26:11 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Apr 2022 19:26:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164802
+ https://lists.openembedded.org/g/openembedded-core/message/164803
 
-From: Changqing Li <changqing.li@windriver.com>
+Some recipes are marked machine specific which need qemu usermode during
+build eg. if they use meson build system, which means they wont get
+right -cpu settings to run qemu-ppc/qemu-ppc64 and build fails, this
+ensures that we set the right options when PACKAGE_ARCH is set to
+MACHINE_ARCH on ppc/ppc64 qemu
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../libsdl2/libsdl2/CVE-2021-33657.patch      | 39 +++++++++++++++++++
- .../libsdl2/libsdl2_2.0.14.bb                 |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/CVE-2021-33657.patch
+ meta/classes/qemu.bbclass | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/CVE-2021-33657.patch b/meta/recipes-graphics/libsdl2/libsdl2/CVE-2021-33657.patch
-new file mode 100644
-index 0000000000..4f744794f2
---- /dev/null
-+++ b/meta/recipes-graphics/libsdl2/libsdl2/CVE-2021-33657.patch
-@@ -0,0 +1,39 @@
-+From e39a9a81ab7bbccef1de40d1bc5041c73299c9ce Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Wed, 13 Apr 2022 08:53:34 +0800
-+Subject: [PATCH] Always create a full 256-entry map in case color values are
-+ out of range Fixes #5042
-+
-+Upstream-Status: Backport [https://github.com/libsdl-org/SDL/commit/8c91cf7dba5193f5ce12d06db1336515851c9ee9]
-+CVE: CVE-2021-33657
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ src/video/SDL_pixels.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/video/SDL_pixels.c b/src/video/SDL_pixels.c
-+index 84b6932..c27dc6f 100644
-+--- a/src/video/SDL_pixels.c
-++++ b/src/video/SDL_pixels.c
-+@@ -947,7 +947,7 @@ Map1to1(SDL_Palette * src, SDL_Palette * dst, int *identical)
-+         }
-+         *identical = 0;
-+     }
-+-    map = (Uint8 *) SDL_malloc(src->ncolors);
-++    map = (Uint8 *) SDL_calloc(256, sizeof(Uint8));
-+     if (map == NULL) {
-+         SDL_OutOfMemory();
-+         return (NULL);
-+@@ -971,7 +971,7 @@ Map1toN(SDL_PixelFormat * src, Uint8 Rmod, Uint8 Gmod, Uint8 Bmod, Uint8 Amod,
-+     SDL_Palette *pal = src->palette;
-+ 
-+     bpp = ((dst->BytesPerPixel == 3) ? 4 : dst->BytesPerPixel);
-+-    map = (Uint8 *) SDL_malloc(pal->ncolors * bpp);
-++    map = (Uint8 *) SDL_calloc(256, bpp);
-+     if (map == NULL) {
-+         SDL_OutOfMemory();
-+         return (NULL);
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.14.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.14.bb
-index 54556abb27..28b3b20beb 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.14.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.14.bb
-@@ -18,6 +18,7 @@ PROVIDES = "virtual/libsdl2"
- 
- SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
-            file://more-gen-depends.patch \
-+           file://CVE-2021-33657.patch \
- "
- 
- S = "${WORKDIR}/SDL2-${PV}"
+diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
+index 01a7b86ae1a..7493ac34d4b 100644
+--- a/meta/classes/qemu.bbclass
++++ b/meta/classes/qemu.bbclass
+@@ -64,4 +64,8 @@ QEMU_EXTRAOPTIONS_ppc64e5500 = " -cpu e500mc"
+ QEMU_EXTRAOPTIONS_ppce6500 = " -cpu e500mc"
+ QEMU_EXTRAOPTIONS_ppc64e6500 = " -cpu e500mc"
+ QEMU_EXTRAOPTIONS_ppc7400 = " -cpu 7400"
+-QEMU_EXTRAOPTIONS:powerpc64le = " -cpu POWER8"
++QEMU_EXTRAOPTIONS_powerpc64le = " -cpu POWER9"
++# Some packages e.g. fwupd sets PACKAGE_ARCH = MACHINE_ARCH and uses meson which
++# needs right options to usermode qemu
++QEMU_EXTRAOPTIONS_qemuppc = " -cpu 7400"
++QEMU_EXTRAOPTIONS_qemuppc64 = " -cpu POWER9"
 -- 
-2.25.1
+2.36.0
 
 
