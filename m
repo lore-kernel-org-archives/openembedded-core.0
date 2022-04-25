@@ -1,53 +1,189 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <749f33fad354821ee5e1b9f061aae211c252b934.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Git and pseudo
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Mon, 25 Apr 2022 13:51:46 +0100
-In-Reply-To: <ef4b958c-8310-4b40-f671-779558228550@topic.nl>
-References: 
-	<1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.6812ddf4-d065-4e4e-ad42-c48d1bca155d@emailsignatures365.codetwo.com>
-	 <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.0d2bd5fa-15cc-4b27-b94e-83614f9e5b38.65eda1d8-3d07-4fbe-a1d1-669c533cd0a5@emailsignatures365.codetwo.com>
-	 <ef4b958c-8310-4b40-f671-779558228550@topic.nl>
+Message-ID: <6e876436-d79d-c88a-b788-b84857886903@victronenergy.com>
+Date: Mon, 25 Apr 2022 17:36:19 +0200
+From: "Jeroen Hofstee" <jhofstee@victronenergy.com>
+Subject: RFC: build linux with a OE SDK
+Return-Path: jhofstee@victronenergy.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="------------8DAHvBcOTkw6tXVrDbZeMLmT"
+Content-Language: en-US
 List-id: <openembedded-core.lists.openembedded.org>
-To: Mike Looijmans <mike.looijmans@topic.nl>, openembedded-core@lists.openembedded.org
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Cc: bruce.ashfield@gmail.com, daniel.thompson@linaro.org, Qi.Chen@windriver.com
 
-On Mon, 2022-04-25 at 09:40 +0200, Mike Looijmans wrote:
-> Recently GIT got updated with a security fix:
-> 
-> https://github.blog/2022-04-12-git-security-vulnerability-announced/
-> 
-> 
-> The problem is that this causes all "git" tasks that run within pseudo 
-> (most noticably, image recipes) to fail. In many repositories, we use:
-> git rev-parse --verify HEAD > /etc/revision
-> 
-> Or something similar to that. After the GIT update, this now fails with 
-> an error like:
-> 
-> '''
-> fatal: unsafe repository ('/home/mike/repository/path' is owned by 
-> someone else)
-> To add an exception for this directory, call:
-> 
->      git config --global --add safe.directory /home/mike/repository/path
-> '''
-> 
-> Apart from doing as it says, or even "git config --global --add 
-> safe.directory '*'" anyone have a better idea, especially one that 
-> prevents the system thinking I'm someone else (root in the case of pseudo).
+--------------8DAHvBcOTkw6tXVrDbZeMLmT
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
 
-https://git.yoctoproject.org/poky/commit/?id=21559199516a31c7635c5f2d874eaa4a92fff0e5
+Hi,
 
-However this isn't quite enough as some things encode the path to git into build
-files so the PATH change at do_install isn't enough. igt-gpu-tools via meson in
-OE-Core is an example.
+As already tracked at [1], building an arm32 fails with a OE sdk. This 
+is caused
+by the fact that it is a Canadian build (or at least looks like it). In 
+my case:
 
-Cheers,
+"--build=x86_64-linux --host=x86_64-ve-linux --target=arm-ve-linux-gnueabi"
 
-Richard
+As a consequence it will skip the check for rdynamic, see [2]. And hence 
+the gcc
+symbols are not dynamically available and the gcc plugins won't work. The
+opt_pass.*set_pass_param symbols are there hence Daniel's strings can 
+find it,
+but not as exported symbols so nm -D won't see them e.g..
 
+Attached is patch to workaround that (for Dunfell), by assuming rdynamic 
+is needed
+when the host is linux. I am bit in doubt this cannot always be checked, 
+the only thing
+we want to know if it cc1 needs rdynamic to make the symbols available, 
+I guess that
+can be inspected, without running it. I don't have a true Canadian 
+setup, so I can't
+test that.
+
+Some more fun, the plugin_default_version_check compares the configure 
+arguments,
+I have no idea how that is supposed to work for a cross compiler, so I 
+simply disabled it.
+
+Furthermore the nativesdk gcc must match the cross gcc (and have some
+headers and libraries available):
+
++TOOLCHAIN_HOST_TASK += " \
++    nativesdk-binutils \
++    nativesdk-binutils-symlinks \
++    nativesdk-cpp \
++    nativesdk-cpp-symlinks \
++    nativesdk-gcc \
++    nativesdk-gcc-plugins \
++    nativesdk-gcc-symlinks \
++    nativesdk-g++ \
++    nativesdk-g++-symlinks \
++    nativesdk-gmp-dev \
++    nativesdk-libmpc-dev \
++    nativesdk-openssl-dev \
++"
+
+Regards,
+
+Jeroen
+
+[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=14681
+[2] https://github.com/gcc-mirror/gcc/blob/master/config/gcc-plugin.m4#L52
+
+--------------8DAHvBcOTkw6tXVrDbZeMLmT
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-make-gcc-plugins-work-for-the-sdk.patch"
+Content-Disposition: attachment;
+ filename="0001-make-gcc-plugins-work-for-the-sdk.patch"
+Content-Transfer-Encoding: base64
+
+RnJvbSA1OWMzYTQ4ZDExMDJkMzg4ODU4NDUyYTNiNzg4ZmRjMDgyOTFmMDJjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBKZXJvZW4gSG9mc3RlZSA8amhvZnN0ZWVAdmljdHJvbmVuZXJn
+eS5jb20+CkRhdGU6IFN1biwgMjQgQXByIDIwMjIgMjM6MTE6NDcgKzAyMDAKU3ViamVjdDogW1BB
+VENIXSBtYWtlIGdjYy1wbHVnaW5zIHdvcmsgZm9yIHRoZSBzZGsKCmZpeGVzIGh0dHBzOi8vYnVn
+emlsbGEueW9jdG9wcm9qZWN0Lm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MTQ2ODEKLS0tCiBtZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvZ2NjL2djYy05LjMuaW5jICAgICAgICAgfCAgMyArKwogLi4ucy1uZWVk
+ZWQtZm9yLWEtY2FuYWRpYW4tYnVpbGQtd2l0aC1hLnBhdGNoIHwgMzYgKysrKysrKysrKysrKysr
+KysrKwogLi4uL2djYy05LjMvMDAwMi1yZHluYW1pYy1hdXRvY29uZi1pLWYucGF0Y2ggIHwgMzYg
+KysrKysrKysrKysrKysrKysrKwogLi4uc2FibGUtY29uZmlndXJlLWFyZ3VtZW50cy1jb21wYXJp
+c29uLnBhdGNoIHwgMzMgKysrKysrKysrKysrKysrKysKIDQgZmlsZXMgY2hhbmdlZCwgMTA4IGlu
+c2VydGlvbnMoKykKIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2Nj
+L2djYy05LjMvMDAwMS1ndWVzcy1yZHluYW1pYy1pcy1uZWVkZWQtZm9yLWEtY2FuYWRpYW4tYnVp
+bGQtd2l0aC1hLnBhdGNoCiBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2djYy9nY2MtOS4zLzAwMDItcmR5bmFtaWMtYXV0b2NvbmYtaS1mLnBhdGNoCiBjcmVhdGUgbW9k
+ZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2djYy9nY2MtOS4zLzAwMDMtZGlzYWJsZS1j
+b25maWd1cmUtYXJndW1lbnRzLWNvbXBhcmlzb24ucGF0Y2gKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvZ2NjL2djYy05LjMuaW5jIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dj
+Yy9nY2MtOS4zLmluYwppbmRleCBjMTcxZjY3M2U5Li44MDJlNDE3MDdkIDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2NjL2djYy05LjMuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9nY2MvZ2NjLTkuMy5pbmMKQEAgLTc0LDYgKzc0LDkgQEAgU1JDX1VSSSA9ICJcCiAg
+ICAgICAgICAgIGZpbGU6Ly8wMDAyLWFhcmNoNjQtSW50cm9kdWNlLVNMUy1taXRpZ2F0aW9uLWZv
+ci1SRVQtYW5kLUJSLWluc3QucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vMDAwMy1hYXJjaDY0
+LU1pdGlnYXRlLVNMUy1mb3ItQkxSLWluc3RydWN0aW9uLnBhdGNoIFwKICAgICAgICAgICAgZmls
+ZTovLzAwMDEtQmFja3BvcnQtZml4LWZvci1QUi10cmVlLW9wdGltaXphdGlvbi05NzIzNi1maXgt
+YmFkLS5wYXRjaCBcCisgICAgICAgICAgIGZpbGU6Ly8wMDAxLWd1ZXNzLXJkeW5hbWljLWlzLW5l
+ZWRlZC1mb3ItYS1jYW5hZGlhbi1idWlsZC13aXRoLWEucGF0Y2ggXAorICAgICAgICAgICBmaWxl
+Oi8vMDAwMi1yZHluYW1pYy1hdXRvY29uZi1pLWYucGF0Y2ggXAorICAgICAgICAgICBmaWxlOi8v
+MDAwMy1kaXNhYmxlLWNvbmZpZ3VyZS1hcmd1bWVudHMtY29tcGFyaXNvbi5wYXRjaCBcCiAiCiBT
+ID0gIiR7VE1QRElSfS93b3JrLXNoYXJlZC9nY2MtJHtQVn0tJHtQUn0vZ2NjLSR7UFZ9IgogU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjcxZTE5Nzg2NzYxMWY2MDU0YWExMTE5YjEzYTBjMGFiYWMxMjgz
+NDc2NWZlMmQ4MWYzNWFjNTdmODRmNzQyZDEiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvZ2NjL2djYy05LjMvMDAwMS1ndWVzcy1yZHluYW1pYy1pcy1uZWVkZWQtZm9yLWEtY2Fu
+YWRpYW4tYnVpbGQtd2l0aC1hLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2djYy9nY2Mt
+OS4zLzAwMDEtZ3Vlc3MtcmR5bmFtaWMtaXMtbmVlZGVkLWZvci1hLWNhbmFkaWFuLWJ1aWxkLXdp
+dGgtYS5wYXRjaApuZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAwMDAwMDAwLi4zN2NlZjNl
+Nzc1Ci0tLSAvZGV2L251bGwKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2djYy9nY2MtOS4z
+LzAwMDEtZ3Vlc3MtcmR5bmFtaWMtaXMtbmVlZGVkLWZvci1hLWNhbmFkaWFuLWJ1aWxkLXdpdGgt
+YS5wYXRjaApAQCAtMCwwICsxLDM2IEBACitGcm9tIGFhMDQ2OTlkMWNlNjcyZTczNTVkNjQyMWM0
+MzQyMWRlZjlhNWNiNjcgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tOiBKZXJvZW4gSG9m
+c3RlZSA8amhvZnN0ZWVAdmljdHJvbmVuZXJneS5jb20+CitEYXRlOiBTdW4sIDI0IEFwciAyMDIy
+IDE4OjQ5OjA3ICswMjAwCitTdWJqZWN0OiBbUEFUQ0ggMS8zXSBndWVzcyAtcmR5bmFtaWMgaXMg
+bmVlZGVkIGZvciBhIGNhbmFkaWFuIGJ1aWxkIHdpdGggYQorIGxpbnV4IGhvc3QKKworaHR0cHM6
+Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL3Nob3dfYnVnLmNnaT9pZD0xNDY4MQorLS0tCisg
+Y29uZmlnL2djYy1wbHVnaW4ubTQgfCAxMSArKysrKysrKysrLQorIDEgZmlsZSBjaGFuZ2VkLCAx
+MCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCisKK2RpZmYgLS1naXQgYS9jb25maWcvZ2Nj
+LXBsdWdpbi5tNCBiL2NvbmZpZy9nY2MtcGx1Z2luLm00CitpbmRleCA4ZjI3ODcxOTEuLjk2NmQ0
+YzE0ZSAxMDA2NDQKKy0tLSBhL2NvbmZpZy9nY2MtcGx1Z2luLm00CisrKysgYi9jb25maWcvZ2Nj
+LXBsdWdpbi5tNAorQEAgLTc3LDcgKzc3LDE2IEBAIEFDX0RFRlVOKFtHQ0NfRU5BQkxFX1BMVUdJ
+TlNdLAorIAkgQUNfTVNHX1JFU1VMVChbJHBsdWdpbl9yZHluYW1pY10pCisgICAgICAgIGZpCisg
+ICAgICBlbHNlCistICAgICAgIEFDX01TR19SRVNVTFQoW3VuYWJsZSB0byBjaGVja10pCisrICAg
+ICAgIGNhc2UgIiR7aG9zdH0iIGluCisrICAgICAgICAgKi0qLWxpbnV4KikKKysgICAgICAgICAg
+IEFDX01TR19SRVNVTFQoW3VuYWJsZSB0byBjaGVjaywgZ3Vlc3NpbmcgLXJkeW5hbWljIGlzIG5l
+ZWRlZF0pCisrICAgICAgICAgICBwbHVnaW5fcmR5bmFtaWM9eWVzCisrICAgICAgICAgICBwbHVn
+aW5saWJzPSItcmR5bmFtaWMiCisrICAgICAgICAgOzsKKysgICAgICAgICAqKQorKyAgICAgICAg
+ICAgQUNfTVNHX1JFU1VMVChbdW5hYmxlIHRvIGNoZWNrXSkKKysgICAgICAgICA7OworKyAgICAg
+ICBlc2FjCisgICAgICBmaQorIAorICAgICAgIyBDaGVjayAtbGRsCistLSAKKzIuMjUuMQorCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2NjL2djYy05LjMvMDAwMi1yZHluYW1p
+Yy1hdXRvY29uZi1pLWYucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2NjL2djYy05LjMv
+MDAwMi1yZHluYW1pYy1hdXRvY29uZi1pLWYucGF0Y2gKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5k
+ZXggMDAwMDAwMDAwMC4uYTVjNzRjYmM4YgotLS0gL2Rldi9udWxsCisrKyBiL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9nY2MvZ2NjLTkuMy8wMDAyLXJkeW5hbWljLWF1dG9jb25mLWktZi5wYXRjaApA
+QCAtMCwwICsxLDM2IEBACitGcm9tIDNlODlkOGVhNGVjMGQxZGNiYzY0NmI3NTQ2NmM4MTUzNjhk
+N2U3OTIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tOiBKZXJvZW4gSG9mc3RlZSA8amhv
+ZnN0ZWVAdmljdHJvbmVuZXJneS5jb20+CitEYXRlOiBTdW4sIDI0IEFwciAyMDIyIDIwOjQyOjE1
+ICswMjAwCitTdWJqZWN0OiBbUEFUQ0ggMi8zXSByZHluYW1pYzogYXV0b2NvbmYgLWkgLWYKKwor
+LS0tCisgZ2NjL2NvbmZpZ3VyZSB8IDEyICsrKysrKysrKysrLQorIDEgZmlsZSBjaGFuZ2VkLCAx
+MSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCisKK2RpZmYgLS1naXQgYS9nY2MvY29uZmln
+dXJlIGIvZ2NjL2NvbmZpZ3VyZQoraW5kZXggYmI4NmViMDkxLi45ODNkYTVhNzEgMTAwNzU1Cist
+LS0gYS9nY2MvY29uZmlndXJlCisrKysgYi9nY2MvY29uZmlndXJlCitAQCAtMjk5NzUsOCArMjk5
+NzUsMTggQEAgJGFzX2VjaG9fbiAiY2hlY2tpbmcgZm9yIC1yZHluYW1pYy4uLiAiID4mNjsgfQor
+ICRhc19lY2hvICIkcGx1Z2luX3JkeW5hbWljIiA+JjY7IH0KKyAgICAgICAgZmkKKyAgICAgIGVs
+c2UKKy0gICAgICAgeyAkYXNfZWNobyAiJGFzX21lOiR7YXNfbGluZW5vLSRMSU5FTk99OiByZXN1
+bHQ6IHVuYWJsZSB0byBjaGVjayIgPiY1CisrICAgICAgIGNhc2UgIiR7aG9zdH0iIGluCisrICAg
+ICAgICAgKi0qLWxpbnV4KikKKysgICAgICAgICAgIHsgJGFzX2VjaG8gIiRhc19tZToke2FzX2xp
+bmVuby0kTElORU5PfTogcmVzdWx0OiB1bmFibGUgdG8gY2hlY2ssIGd1ZXNzaW5nIC1yZHluYW1p
+YyBpcyBuZWVkZWQiID4mNQorKyRhc19lY2hvICJ1bmFibGUgdG8gY2hlY2ssIGd1ZXNzaW5nIC1y
+ZHluYW1pYyBpcyBuZWVkZWQiID4mNjsgfQorKyAgICAgICAgICAgcGx1Z2luX3JkeW5hbWljPXll
+cworKyAgICAgICAgICAgcGx1Z2lubGlicz0iLXJkeW5hbWljIgorKyAgICAgICAgIDs7CisrICAg
+ICAgICAgKikKKysgICAgICAgICAgIHsgJGFzX2VjaG8gIiRhc19tZToke2FzX2xpbmVuby0kTElO
+RU5PfTogcmVzdWx0OiB1bmFibGUgdG8gY2hlY2siID4mNQorICRhc19lY2hvICJ1bmFibGUgdG8g
+Y2hlY2siID4mNjsgfQorKyAgICAgICAgIDs7CisrICAgICAgIGVzYWMKKyAgICAgIGZpCisgCisg
+ICAgICAjIENoZWNrIC1sZGwKKy0tIAorMi4yNS4xCisKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9nY2MvZ2NjLTkuMy8wMDAzLWRpc2FibGUtY29uZmlndXJlLWFyZ3VtZW50cy1j
+b21wYXJpc29uLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2djYy9nY2MtOS4zLzAwMDMt
+ZGlzYWJsZS1jb25maWd1cmUtYXJndW1lbnRzLWNvbXBhcmlzb24ucGF0Y2gKbmV3IGZpbGUgbW9k
+ZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMC4uYmYyNjE3NmVkNwotLS0gL2Rldi9udWxsCisrKyBi
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9nY2MvZ2NjLTkuMy8wMDAzLWRpc2FibGUtY29uZmlndXJl
+LWFyZ3VtZW50cy1jb21wYXJpc29uLnBhdGNoCkBAIC0wLDAgKzEsMzMgQEAKK0Zyb20gZmJiMjQ1
+MzIyNjY2MDVmZGM4Y2VhZjIxYTY4MGI4NmUyYTQ0OTczYSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKK0Zyb206IEplcm9lbiBIb2ZzdGVlIDxqaG9mc3RlZUB2aWN0cm9uZW5lcmd5LmNvbT4KK0Rh
+dGU6IFN1biwgMjQgQXByIDIwMjIgMjA6NDM6MTcgKzAyMDAKK1N1YmplY3Q6IFtQQVRDSCAzLzNd
+IGRpc2FibGUgY29uZmlndXJlIGFyZ3VtZW50cyBjb21wYXJpc29uCisKK1RoZXNlIHdpbGwgZGlm
+ZmVyIGZvciBhIG5hdGl2ZSB2ZXJzdXMgY3Jvc3MtY29tcGlsZXIuCistLS0KKyBnY2MvcGx1Z2lu
+LmMgfCA2ICsrKysrKworIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykKKworZGlmZiAt
+LWdpdCBhL2djYy9wbHVnaW4uYyBiL2djYy9wbHVnaW4uYworaW5kZXggMjg5NmM2YTkzLi45OGM5
+MDE5NjEgMTAwNjQ0CistLS0gYS9nY2MvcGx1Z2luLmMKKysrKyBiL2djYy9wbHVnaW4uYworQEAg
+LTk3Nyw5ICs5NzcsMTUgQEAgcGx1Z2luX2RlZmF1bHRfdmVyc2lvbl9jaGVjayAoc3RydWN0IHBs
+dWdpbl9nY2NfdmVyc2lvbiAqZ2NjX3ZlcnNpb24sCisgICAgIHJldHVybiBmYWxzZTsKKyAgIGlm
+IChzdHJjbXAgKGdjY192ZXJzaW9uLT5yZXZpc2lvbiwgcGx1Z2luX3ZlcnNpb24tPnJldmlzaW9u
+KSkKKyAgICAgcmV0dXJuIGZhbHNlOworKworKyNpZiAwCisrICAvKiBJbiBjYXNlIG9mIGEgY3Jv
+c3MgY29tcGlsZXIsIHRoaXMgY29tcGFyZXMgdGhlIGNyb3NzIGNvbmZpZyB3aXRoIHRoZSBuYXRp
+dmUKKysgICAgIGNvbmZpZywgd2hpY2ggd2lsbCBhbHdheXMgZmFpbCwgYXQgbGVhc3QgZm9yIE9F
+LiBEaXNhYmxlIGl0LiAqLworICAgaWYgKHN0cmNtcCAoZ2NjX3ZlcnNpb24tPmNvbmZpZ3VyYXRp
+b25fYXJndW1lbnRzLAorIAkgICAgICBwbHVnaW5fdmVyc2lvbi0+Y29uZmlndXJhdGlvbl9hcmd1
+bWVudHMpKQorICAgICByZXR1cm4gZmFsc2U7CisrI2VuZGlmCisrCisgICByZXR1cm4gdHJ1ZTsK
+KyB9CisgCistLSAKKzIuMjUuMQorCi0tIAoyLjI1LjEKCg==
+
+--------------8DAHvBcOTkw6tXVrDbZeMLmT--
