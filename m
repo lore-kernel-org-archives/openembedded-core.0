@@ -1,215 +1,404 @@
-Return-Path: <stefan.herbrechtsmeier-oss@weidmueller.com>
+Return-Path: <mingli.yu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA107C55187
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3FB9C5519F
 	for <webhook@archiver.kernel.org>; Mon, 25 Apr 2022 19:26:13 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.62])
- by mx.groups.io with SMTP id smtpd.web09.27452.1650878286610517487
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
+ by mx.groups.io with SMTP id smtpd.web11.26803.1650875796095555961
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Apr 2022 02:18:09 -0700
+ Mon, 25 Apr 2022 01:36:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@weidmueller.onmicrosoft.com
- header.s=selector1-weidmueller-onmicrosoft-com header.b=HrtRrbtj;
- spf=pass (domain: weidmueller.com, ip: 40.107.22.62,
- mailfrom: stefan.herbrechtsmeier-oss@weidmueller.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ioci99r6giRz0ZmBnKiZtU7XRrMBFAkQZAk7WF2AHXtCIZbWAYWjfVkmOh/BrSsSWg1izHNhhDeDoTavpj5/Lvfp8lZJ+iIG5c+O48So0gmlrcLTq3Nc7sImP2Q8jQWayuaDSaykf/egMVpitCqYPHmmOCVvr66MlQasoUiJ3G/rVj9NTCNRrOBsD0ZRwMggDm2cjHlCSfILYtUIIDeGzdT/Ivr8H8DdQ/KScolwW32sNPgihr/v7uY1B3oMdRwgUzyluJvnPHOwGZ7ZK3IavfL+vS1yHkvQdRjyGZkIhIbo+sYsy4un3NqjF7enoWqlsMMOA/Qog7JnxYJ6EaX+/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yM6aGs9qP4bN3Dcvg0LVyDF6cliLlNfk29qLBEhhjmc=;
- b=gjPOaY4l/8/F3Q4hoahCqmutkjTSO2vLU6iQ0jxU5qVidMYhSeBgipdG7n55IGzAsnewmuIc7d5/f7oYUSFbWxrgoTa/d7wzoHBmcK6h71rNEtdHC9YhFRu44b8hZubETr7i7h6zW3PeWV5+XXkPSa/TcuefSB4THCETrftUMbKe+35kCNOuwTgALK0xRGpuh8Vg+D8VCXzRGLzawhwaJfHRxO0wWgHABjkACLAqRmuNOl8/pKR8tB2d6/TaQTxSZa/w29hOwoNGizrI7NVtL/3F/LRVWEH1MnWZiRjLXJY9PvzjERMci0dHsazmszZIPDf9kuGmOqj3L9wzRbiUXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=weidmueller.com; dmarc=pass action=none
- header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yM6aGs9qP4bN3Dcvg0LVyDF6cliLlNfk29qLBEhhjmc=;
- b=HrtRrbtjt6wLeGh5EweOnVPOT168I43x8/KpF6jyTyCMiffWt26CL3jqUe2kYMHatrt2mHbsfkds+8ejhrxUPxFcLVle2kzYualLlEtUFsfgJ6jYSbJULUTXZZLXrHv2wgxmxAptjwsqFqi2tCpXPRUzeUiManOCn3mRVOwf4d8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=weidmueller.com;
-Received: from PAXPR08MB6969.eurprd08.prod.outlook.com (2603:10a6:102:1d8::23)
- by AM0PR08MB3025.eurprd08.prod.outlook.com (2603:10a6:208:5c::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.18; Mon, 25 Apr
- 2022 09:18:01 +0000
-Received: from PAXPR08MB6969.eurprd08.prod.outlook.com
- ([fe80::54f5:855:abbd:9232]) by PAXPR08MB6969.eurprd08.prod.outlook.com
- ([fe80::54f5:855:abbd:9232%5]) with mapi id 15.20.5186.021; Mon, 25 Apr 2022
- 09:18:01 +0000
-Message-ID: <68c2ad8c-192c-d7d2-c1e4-f30ba994a1ff@weidmueller.com>
-Date: Mon, 25 Apr 2022 11:17:59 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [OE-core] [PATCH v2] bluez5: Add fix for startup issues under
- systemd
-Content-Language: en-US
-To: richard.purdie@linuxfoundation.org,
- openembedded-core@lists.openembedded.org
-References: <20220414205205.2264840-1-richard.purdie@linuxfoundation.org>
-From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>
-In-Reply-To: <20220414205205.2264840-1-richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS8PR04CA0167.eurprd04.prod.outlook.com
- (2603:10a6:20b:331::22) To PAXPR08MB6969.eurprd08.prod.outlook.com
- (2603:10a6:102:1d8::23)
+ dkim=missing;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
+ domain name (domain: windriver.com, ip: 147.11.3.146,
+ mailfrom: mingli.yu@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 23P8aZl1001753
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 25 Apr 2022 01:36:35 -0700
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 25 Apr 2022 01:36:35 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Mon, 25 Apr 2022 01:36:34 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Mon, 25 Apr 2022 01:36:33 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [hardknott][PATCH] bind: Upgrade to 9.16.28
+Date: Mon, 25 Apr 2022 16:36:32 +0800
+Message-ID: <20220425083632.3473657-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 71089816-936b-484d-ded9-08da269c7ef5
-X-MS-TrafficTypeDiagnostic: AM0PR08MB3025:EE_
-X-Microsoft-Antispam-PRVS: 
-	<AM0PR08MB302538338579A86F47CF0DAFD7F89@AM0PR08MB3025.eurprd08.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	ITunB+VTnuOFlOItp7c8ScmU3rrmZIVTUlM27aqldkOq7NpgDYxIZOWY0Gl9nKCTmTJpw8UnR2SMI3MLGCBXjyoHWpyvxpOqnadadI1aU/3b6Oa2te4wk0CDmDw9lcfA6NDY9yu3NE5owjA5r55mSVfJ2dHHyEoasg/YfhryiYKxsgUkhRv0YwxC5XYYnV1RXcjNAPy5XX8z7N18T9xwhPq7f5t7nQ/0R5QaV2WPpf5KF9hycwL+KTMJY+mA+caa5ybmM6gD/jUtqLgmY0Jc3X8d9BTDDaqmId9JdIWgj8v987HUarqrpxgHs2M1DjlJbI1qcA2aXW475NIKkDkRixXl2At7kEtu5W92fAAihnYX/JuAA5DozFwSJGHwEymCBFolV1sf4TrtlOkXmkrSLPkf55+rziPLicHKK4MuD0ht0A23o3tcLXMtvXmU5f5QehIeovmHHXiCVhIsMorleTi8Zj6GtumHY+3nuBll4tRGASYwf9E9eCXs0JVSCnyWheoQLt/kTT8JCFLA9pt1GQwN6+BDRj/KdECxnn242S3c3FQI5vRgz8iujh2iY+eFvO22kPmcMC4MTnqLV+TyTeJGMUPqYh20DQjarFah6AqXhcnHtSJYkTid8DVfT3SWLudNGUXn4+eCnrKTboTHnBEHMG6N7eKXesBbmoFLG3kQffK9XF4unVfIh9G954z0hZhOis2o8ZNNbEURzS6+2VVcNV2Y2WcB8EmaXVZd6UcGXr8xxdn4UNXW+kCg8sIYldMKzoF2+vxQB7jr9fsTamEvuVJmTuTGe1TvCU5Gr6ogl464fvVY2W/lq+O3O04ftdVmyP/IdCHVCFM6vRSwmtd83rW1lDK9jg0F07MMpqA=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR08MB6969.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(8676002)(38100700002)(38350700002)(508600001)(36756003)(52116002)(316002)(6506007)(31686004)(6486002)(966005)(83380400001)(2906002)(66476007)(66556008)(66946007)(5660300002)(2616005)(86362001)(84970400001)(6512007)(31696002)(186003)(26005)(8936002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?NFZoeVlpbnUvUCtSNk5veHRFcHpzZE8weTg0RWZpcmxSVzZFbzFRWWpMY0t1?=
- =?utf-8?B?ckNuNEl2cDRKQ1FMZUNsSjVra0t3eitxa1hkdUlDMDlmcTMyZlNaODFyY2Jw?=
- =?utf-8?B?RTBTMUZ2Wm01NzBXR0FJMzl6L2kwRVJ2WjF6cFk1MndCNXRBUUp5WlBabUVP?=
- =?utf-8?B?WkFlMmV2c0NnT0h4SFVHV05YZVUrVTY2RW1hR0N6cW82aXpjNnFOOXp1ZmNF?=
- =?utf-8?B?L0lzU2NXYklDd0g4dG96QlRFWjhINTA3bXYxTkpuZTdHNkkvYjRyNlFxRkgw?=
- =?utf-8?B?dXM3OWE2cnFnbzRuR01Da1kxMkF4Nm9VTE9wc1BRbmdMZnFWQW1BV0RsRU1W?=
- =?utf-8?B?aHU5citkRmRiT2xnRGtBMW80ZTR5K1FxZ3BCR2R3dS9lZHJmallCNHM5SE4w?=
- =?utf-8?B?WGdxV2NhYXV5Q1hzcUlKTHBYUiszM3hJVE1KNDFrYkk0Wm1tVEV5ZzlCN0ZD?=
- =?utf-8?B?QTJhb3g4RnBPNlYyVTZhQWluY2t0OVc1RUlBclpjNlkvaisva3JXelZxRUFn?=
- =?utf-8?B?Qm16cWxDUVkxcWJrV0k5eURoYnV6ek9YQzZPMjlUNmc2d0Y2OVh1ZGVlV3RE?=
- =?utf-8?B?d0FmQStmZVcvN2pYVTNjZFZaQ2tSTm4vMTdXa3A1R3NRbzlFTDkwbjJRdVZm?=
- =?utf-8?B?OVA0OWJiaHVBTzQ1cmZSSHUwMndlNVVmeUQrWm9SMnZhYkRpYllxaUNvRm1l?=
- =?utf-8?B?TWM1ZjBZUGVDSkRHSHBqNGpvS1VzdWRaUEMvUmV3QlRBNDFCYnkxZy9RNnNo?=
- =?utf-8?B?WlJIdlpScUxlSVVTR285MWVDQXp6VHRoVlJmenJudWFLd243Vk5xdzlsY2RE?=
- =?utf-8?B?YW43aHJrM0VSSW1HaVNEK0l5TVlUb3lTSlQxTkFWNzNzU1Zwa0lLeXRlYm5y?=
- =?utf-8?B?d1ZrOEU4VTh3aGxkMnU1YnZHSnNCMmJmVGlwNXp3ZExUdkJVdVZKMmVWdmtn?=
- =?utf-8?B?Rmh4Y0I1M0NKeWE3eElZTlkvZW5lM3luZzMwUVVhWkl2aDZYQzFIQnFxQjNy?=
- =?utf-8?B?aS9PTWlJalEzMzNVUzM3endqMk4xZ05sU1NKZ2pMRFVuRi81UklrUXVrdHVK?=
- =?utf-8?B?ai9EQmdzV1RGRExENEwzWTN5VGJpc3V2QXhyZXUvSjlzUElJMjZjL29PbHBH?=
- =?utf-8?B?b1ptaEVOZVRqWmdWQkZkMzFBUHhGSlN1QWp6Qm5zOU9RRWw0cHQ3WWgrbXFt?=
- =?utf-8?B?Ym40U0p5OHhJZkFKR3FZTlY0RkltWVFZM2RqdCsvakIwc2MrUHhvdWtETjB1?=
- =?utf-8?B?TnNlQ0VwOFFuRVcwM3dFQnBrQ0xXdG1FWEs2RUdtOVpva2lZeVJlQzQyR0RW?=
- =?utf-8?B?T3JNRlhPMWx4L1pnU0w5TWdReGNqc3RIQjZlS2ZzQ01pRUJxNm96bU80R2or?=
- =?utf-8?B?SmtZcEdGemUvZENVSWF1ZklvV0hQeEo3cGhDS001ZzNTdXoxaHVGOEo4VnB4?=
- =?utf-8?B?THphd0g2OTdHVUVxT1JyYnBnSjgyM29nbklNYktmSWQ3U3NzZlZITXJGb0hw?=
- =?utf-8?B?UGJONkFZRnhKNHVuVlBTUHRqMitNSy9pcmx1aXlCUUduL1cydjVmcGJtK0lY?=
- =?utf-8?B?YVZqMU9CMnFYWjY3Mzhsa2FJNHE4VmxFMkY3SmJCMGhVdlpGNmpDeTZvcWtU?=
- =?utf-8?B?c2hWVXp3STZOb0F6M2VCOUdsTWlNclY4bFhwL2w5K0FFeVhxMWl1U3B1TFFj?=
- =?utf-8?B?Wi9pa2lNWWZJaE1aamhkVzQ5d1BBNllXc0VrS2lubUg4WEt1dEMram1qOHlZ?=
- =?utf-8?B?SU04T0RRdFBYM1pCcWhDV1FnaERjZjAvMXd3Y0RqSkhaUU1yTUx2MnhNckQ0?=
- =?utf-8?B?aWw2OGw3K2NZVDZ2b2hua2Nrc0lSZFVKQVlTcG82d1hCRUQ3UEdlcFFVRm5p?=
- =?utf-8?B?WGhVQzdibzAwV3NrYzZCaWY1cDg3S2wzWGdaZzhhTCs1enBhUjh5ODY0cUhj?=
- =?utf-8?B?aVo5MVVKUUZFRk5DT1dpSCtnYTRNamNUTHVRK2FCNnBxb28yR1psdDdvTStS?=
- =?utf-8?B?WVhMOE1PbUVnNFl5MmZ5aHdJc1ljU1JXOGFpREFQazh2QVlpYUM2N2tabDFQ?=
- =?utf-8?B?Y1N4ZG45akZXaVZncWhhMlZJVS9ibkx1RnR1QlJqbXBoNUhpS1U5ZU9KQUR4?=
- =?utf-8?B?SFVieWhGM0lhb3hBTEZjM0NUVW9MWFVXaW9zdXJxQm9XR2s1b1hNZmU1L3RS?=
- =?utf-8?B?L1huUFQrRGVIb2N0bXF5YVhaZmkzdFBRY3l4eVVER09VWTBoeDdkTlBKVUZH?=
- =?utf-8?B?ZzZ4OHFCa2Rkc3J1N0hoR0lVL011c2VaSTdvS3VMZEhHaGJ0by96SEJjVWl0?=
- =?utf-8?B?WCtUMTYyeENmMDIrV2EvZ1hNcS92VWRtQVc0eEFWeVZGRUxsZjh1ZnE3TW9X?=
- =?utf-8?Q?1z5wywBBhzaUETZo=3D?=
-X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 71089816-936b-484d-ded9-08da269c7ef5
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6969.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2022 09:18:01.6267
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- ONm8tdIxPx6zVxN+Rqqb5E3R0Lxvov8jpVxu8Gd/ab/zP4z1kmsFqK5Azw9EaUSXHI9gAmSZS5rr7b5u43UrcQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3025
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 25 Apr 2022 19:26:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164813
+ https://lists.openembedded.org/g/openembedded-core/message/164811
 
-Hi Richard,
+From: Mingli Yu <mingli.yu@windriver.com>
 
-should I update your patch or only the Upstream-Status or will you 
-prefer to do it yourself?
+* The 9.16 branch will be limited to bug fixes [1] now and upgrade to the
+  latest 9.16.x release to fix some security fixes.
+ - CVE-2021-25219
+ - CVE-2021-25220
 
-Regards
-   Stefan
+* License-Update: copyright years
 
-Am 14.04.2022 um 22:52 schrieb Richard Purdie via lists.openembedded.org:
-> The systemd bluetooth service failed to start. Add a workaround for this whilst the
-> final fix is discussed upstream, https://github.com/bluez/bluez/issues/329.
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> 
-> v2: Add ProtectSystem=strict
->   meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
->   .../bluez5/bluez5/fix_service.patch           | 30 +++++++++++++++++++
->   2 files changed, 31 insertions(+)
->   create mode 100644 meta/recipes-connectivity/bluez5/bluez5/fix_service.patch
-> 
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-> index 79d4645ca89..22dd07b3480 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
-> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-> @@ -53,6 +53,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
->              ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
->              file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
->              file://0001-test-gatt-Fix-hung-issue.patch \
-> +           file://fix_service.patch \
->              "
->   S = "${WORKDIR}/bluez-${PV}"
->   
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5/fix_service.patch b/meta/recipes-connectivity/bluez5/bluez5/fix_service.patch
-> new file mode 100644
-> index 00000000000..96fdf6b299c
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/bluez5/bluez5/fix_service.patch
-> @@ -0,0 +1,30 @@
-> +The systemd bluetooth service failed to start because the /var/lib/bluetooth
-> +path of ReadWritePaths= is created by the bluetooth daemon itself.
-> +
-> +The commit systemd: Add more filesystem lockdown (442d211) add ReadWritePaths=/etc/bluetooth
-> +and ReadOnlyPaths=/var/lib/bluetooth options to the bluetooth systemd service.
-> +The existing ProtectSystem=full option mounts the /usr, the boot loader
-> +directories and /etc read-only. This means the two option are useless and could be removed.
-> +
-> +Upstream-Status: Submitted [https://github.com/bluez/bluez/issues/329]
-> +
-> +Index: bluez-5.64/src/bluetooth.service.in
-> +===================================================================
-> +--- bluez-5.64.orig/src/bluetooth.service.in
-> ++++ bluez-5.64/src/bluetooth.service.in
-> +@@ -15,12 +15,12 @@ LimitNPROC=1
-> +
-> + # Filesystem lockdown
-> + ProtectHome=true
-> +-ProtectSystem=full
-> ++ProtectSystem=strict
-> + PrivateTmp=true
-> + ProtectKernelTunables=true
-> + ProtectControlGroups=true
-> +-ReadWritePaths=@statedir@
-> +-ReadOnlyPaths=@confdir@
-> ++ConfigurationDirectory=bluetooth
-> ++StateDirectory=bluetooth
-> +
-> + # Execute Mappings
-> + MemoryDenyWriteExecute=true
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#164413): https://lists.openembedded.org/g/openembedded-core/message/164413
-> Mute This Topic: https://lists.openembedded.org/mt/90474022/6374899
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [stefan.herbrechtsmeier-oss@weidmueller.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+[1] https://bind9.readthedocs.io/en/v9_16/notes.html#notes-for-bind-9-16-28
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ ...d-V-and-start-log-hide-build-options.patch | 35 ---------
+ .../bind/bind-9.16.16/CVE-2021-25219-1.patch  | 76 -------------------
+ .../bind/bind-9.16.16/CVE-2021-25219-2.patch  | 65 ----------------
+ ...1-avoid-start-failure-with-bind-user.patch |  0
+ ...d-V-and-start-log-hide-build-options.patch | 40 ++++++++++
+ ...ching-for-json-headers-searches-sysr.patch |  0
+ .../bind/{bind-9.16.16 => bind-9.16.28}/bind9 |  0
+ .../{bind-9.16.16 => bind-9.16.28}/conf.patch |  0
+ .../generate-rndc-key.sh                      |  0
+ ...t.d-add-support-for-read-only-rootfs.patch |  0
+ .../make-etc-initd-bind-stop-work.patch       |  0
+ .../named.service                             |  0
+ .../bind/{bind_9.16.16.bb => bind_9.16.28.bb} |  8 +-
+ 13 files changed, 42 insertions(+), 182 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bind/bind-9.16.16/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind-9.16.16/CVE-2021-25219-1.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind-9.16.16/CVE-2021-25219-2.patch
+ rename meta/recipes-connectivity/bind/{bind-9.16.16 => bind-9.16.28}/0001-avoid-start-failure-with-bind-user.patch (100%)
+ create mode 100644 meta/recipes-connectivity/bind/bind-9.16.28/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+ rename meta/recipes-connectivity/bind/{bind-9.16.16 => bind-9.16.28}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.16 => bind-9.16.28}/bind9 (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.16 => bind-9.16.28}/conf.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.16 => bind-9.16.28}/generate-rndc-key.sh (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.16 => bind-9.16.28}/init.d-add-support-for-read-only-rootfs.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.16 => bind-9.16.28}/make-etc-initd-bind-stop-work.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.16 => bind-9.16.28}/named.service (100%)
+ rename meta/recipes-connectivity/bind/{bind_9.16.16.bb => bind_9.16.28.bb} (93%)
+
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.16.16/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+deleted file mode 100644
+index 5bcc16c9b2..0000000000
+--- a/meta/recipes-connectivity/bind/bind-9.16.16/0001-named-lwresd-V-and-start-log-hide-build-options.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From a3af4a405baf5ff582e82aaba392dd9667d94bdc Mon Sep 17 00:00:00 2001
+-From: Hongxu Jia <hongxu.jia@windriver.com>
+-Date: Mon, 27 Aug 2018 21:24:20 +0800
+-Subject: [PATCH] `named/lwresd -V' and start log hide build options
+-
+-The build options expose build path directories, so hide them.
+-[snip]
+-$ named -V
+-|built by make with *** (options are hidden)
+-[snip]
+-
+-Upstream-Status: Inappropriate [oe-core specific]
+-
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+-
+-Refreshed for 9.16.0
+-Signed-off-by: Armin Kuster <akuster@mvista.com>
+-
+----
+- bin/named/include/named/globals.h | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-Index: bind-9.16.0/bin/named/include/named/globals.h
+-===================================================================
+---- bind-9.16.0.orig/bin/named/include/named/globals.h
+-+++ bind-9.16.0/bin/named/include/named/globals.h
+-@@ -69,7 +69,7 @@ EXTERN const char *named_g_version     I
+- EXTERN const char *named_g_product     INIT(PRODUCT);
+- EXTERN const char *named_g_description INIT(DESCRIPTION);
+- EXTERN const char *named_g_srcid       INIT(SRCID);
+--EXTERN const char *named_g_configargs  INIT(CONFIGARGS);
+-+EXTERN const char *named_g_configargs  INIT("*** (options are hidden)");
+- EXTERN const char *named_g_builder     INIT(BUILDER);
+- EXTERN in_port_t named_g_port	       INIT(0);
+- EXTERN isc_dscp_t named_g_dscp	       INIT(-1);
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/CVE-2021-25219-1.patch b/meta/recipes-connectivity/bind/bind-9.16.16/CVE-2021-25219-1.patch
+deleted file mode 100644
+index f63c333264..0000000000
+--- a/meta/recipes-connectivity/bind/bind-9.16.16/CVE-2021-25219-1.patch
++++ /dev/null
+@@ -1,76 +0,0 @@
+-From 011e9418ce9bb25675de6ac8d47536efedeeb312 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Ond=C5=99ej=20Sur=C3=BD?= <ondrej@sury.org>
+-Date: Fri, 24 Sep 2021 09:35:11 +0200
+-Subject: [PATCH] Disable lame-ttl cache
+-
+-The lame-ttl cache is implemented in ADB as per-server locked
+-linked-list "indexed" with <qname,qtype>.  This list has to be walked
+-every time there's a new query or new record added into the lame cache.
+-Determined attacker can use this to degrade performance of the resolver.
+-
+-Resolver testing has shown that disabling the lame cache has little
+-impact on the resolver performance and it's a minimal viable defense
+-against this kind of attack.
+-
+-CVE: CVE-2021-25219
+-
+-Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/8fe18c0566c41228a568157287f5a44f96d37662]
+-
+-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+----
+- bin/named/config.c    | 2 +-
+- bin/named/server.c    | 7 +++++--
+- doc/arm/reference.rst | 6 +++---
+- 3 files changed, 9 insertions(+), 6 deletions(-)
+-
+-diff --git a/bin/named/config.c b/bin/named/config.c
+-index fa8473db7c..b6453b814e 100644
+---- a/bin/named/config.c
+-+++ b/bin/named/config.c
+-@@ -151,7 +151,7 @@ options {\n\
+- 	fetches-per-server 0;\n\
+- 	fetches-per-zone 0;\n\
+- 	glue-cache yes;\n\
+--	lame-ttl 600;\n"
+-+	lame-ttl 0;\n"
+- #ifdef HAVE_LMDB
+- 			    "	lmdb-mapsize 32M;\n"
+- #endif /* ifdef HAVE_LMDB */
+-diff --git a/bin/named/server.c b/bin/named/server.c
+-index 638703e8c2..35ad6a0b7f 100644
+---- a/bin/named/server.c
+-+++ b/bin/named/server.c
+-@@ -4806,8 +4806,11 @@ configure_view(dns_view_t *view, dns_viewlist_t *viewlist, cfg_obj_t *config,
+- 	result = named_config_get(maps, "lame-ttl", &obj);
+- 	INSIST(result == ISC_R_SUCCESS);
+- 	lame_ttl = cfg_obj_asduration(obj);
+--	if (lame_ttl > 1800) {
+--		lame_ttl = 1800;
+-+	if (lame_ttl > 0) {
+-+		cfg_obj_log(obj, named_g_lctx, ISC_LOG_WARNING,
+-+			    "disabling lame cache despite lame-ttl > 0 as it "
+-+			    "may cause performance issues");
+-+		lame_ttl = 0;
+- 	}
+- 	dns_resolver_setlamettl(view->resolver, lame_ttl);
+- 
+-diff --git a/doc/arm/reference.rst b/doc/arm/reference.rst
+-index 3bc4439745..fea854f3d1 100644
+---- a/doc/arm/reference.rst
+-+++ b/doc/arm/reference.rst
+-@@ -3358,9 +3358,9 @@ Tuning
+- ^^^^^^
+- 
+- ``lame-ttl``
+--   This sets the number of seconds to cache a lame server indication. 0
+--   disables caching. (This is **NOT** recommended.) The default is
+--   ``600`` (10 minutes) and the maximum value is ``1800`` (30 minutes).
+-+   This is always set to 0. More information is available in the
+-+   `security advisory for CVE-2021-25219
+-+   <https://kb.isc.org/docs/cve-2021-25219>`_.
+- 
+- ``servfail-ttl``
+-    This sets the number of seconds to cache a SERVFAIL response due to DNSSEC
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/CVE-2021-25219-2.patch b/meta/recipes-connectivity/bind/bind-9.16.16/CVE-2021-25219-2.patch
+deleted file mode 100644
+index 1217f7f186..0000000000
+--- a/meta/recipes-connectivity/bind/bind-9.16.16/CVE-2021-25219-2.patch
++++ /dev/null
+@@ -1,65 +0,0 @@
+-From 117cf776a7add27ac6d236b4062258da0d068486 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Ond=C5=99ej=20Sur=C3=BD?= <ondrej@sury.org>
+-Date: Mon, 15 Nov 2021 16:26:52 +0800
+-Subject: [PATCH] Enable lame response detection even with disabled lame cache
+-
+-Previously, when lame cache would be disabled by setting lame-ttl to 0,
+-it would also disable lame answer detection.  In this commit, we enable
+-the lame response detection even when the lame cache is disabled.  This
+-enables stopping answer processing early rather than going through the
+-whole answer processing flow.
+-
+-CVE: CVE-2021-25219
+-
+-Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/e4931584a34bdd0a0d18e4d918fb853bf5296787]
+-
+-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+----
+- lib/dns/resolver.c | 23 ++++++++++++-----------
+- 1 file changed, 12 insertions(+), 11 deletions(-)
+-
+-diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
+-index 50fadc0..9291bd4 100644
+---- a/lib/dns/resolver.c
+-+++ b/lib/dns/resolver.c
+-@@ -10217,25 +10217,26 @@ rctx_badserver(respctx_t *rctx, isc_result_t result) {
+-  */
+- static isc_result_t
+- rctx_lameserver(respctx_t *rctx) {
+--	isc_result_t result;
+-+	isc_result_t result = ISC_R_SUCCESS;
+- 	fetchctx_t *fctx = rctx->fctx;
+- 	resquery_t *query = rctx->query;
+- 
+--	if (fctx->res->lame_ttl == 0 || ISFORWARDER(query->addrinfo) ||
+--	    !is_lame(fctx, query->rmessage))
+--	{
+-+	if (ISFORWARDER(query->addrinfo) || !is_lame(fctx, query->rmessage)) {
+- 		return (ISC_R_SUCCESS);
+- 	}
+- 
+- 	inc_stats(fctx->res, dns_resstatscounter_lame);
+- 	log_lame(fctx, query->addrinfo);
+--	result = dns_adb_marklame(fctx->adb, query->addrinfo, &fctx->name,
+--				  fctx->type, rctx->now + fctx->res->lame_ttl);
+--	if (result != ISC_R_SUCCESS) {
+--		isc_log_write(dns_lctx, DNS_LOGCATEGORY_RESOLVER,
+--			      DNS_LOGMODULE_RESOLVER, ISC_LOG_ERROR,
+--			      "could not mark server as lame: %s",
+--			      isc_result_totext(result));
+-+	if (fctx->res->lame_ttl != 0) {
+-+		result = dns_adb_marklame(fctx->adb, query->addrinfo,
+-+					  &fctx->name, fctx->type,
+-+					  rctx->now + fctx->res->lame_ttl);
+-+		if (result != ISC_R_SUCCESS) {
+-+			isc_log_write(dns_lctx, DNS_LOGCATEGORY_RESOLVER,
+-+				      DNS_LOGMODULE_RESOLVER, ISC_LOG_ERROR,
+-+				      "could not mark server as lame: %s",
+-+				      isc_result_totext(result));
+-+		}
+- 	}
+- 	rctx->broken_server = DNS_R_LAME;
+- 	rctx->next_server = true;
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.16.28/0001-avoid-start-failure-with-bind-user.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.16/0001-avoid-start-failure-with-bind-user.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.28/0001-avoid-start-failure-with-bind-user.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.28/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.16.28/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+new file mode 100644
+index 0000000000..c405617baa
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind-9.16.28/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+@@ -0,0 +1,40 @@
++From ed30068de0349af0296f16523a623574ed3f803b Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Mon, 25 Apr 2022 15:55:14 +0800
++Subject: [PATCH] `named/lwresd -V' and start log hide build options
++
++The build options expose build path directories, so hide them.
++[snip]
++$ named -V
++|built by make with *** (options are hidden)
++[snip]
++
++Upstream-Status: Inappropriate [oe-core specific]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++
++Refreshed for 9.16.0
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++Rebased to 9.16.28
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ bin/named/include/named/globals.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/bin/named/include/named/globals.h b/bin/named/include/named/globals.h
++index 82b632e..b33a27b 100644
++--- a/bin/named/include/named/globals.h
+++++ b/bin/named/include/named/globals.h
++@@ -71,7 +71,7 @@ EXTERN const char *named_g_version	  INIT(VERSION);
++ EXTERN const char *named_g_product	  INIT(PRODUCT);
++ EXTERN const char *named_g_description	  INIT(DESCRIPTION);
++ EXTERN const char *named_g_srcid	  INIT(SRCID);
++-EXTERN const char *named_g_configargs	  INIT(CONFIGARGS);
+++EXTERN const char *named_g_configargs	  INIT("*** (options are hidden)");
++ EXTERN const char *named_g_builder	  INIT(BUILDER);
++ EXTERN in_port_t named_g_port		  INIT(0);
++ EXTERN isc_dscp_t named_g_dscp		  INIT(-1);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.16.28/bind-ensure-searching-for-json-headers-searches-sysr.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.16/bind-ensure-searching-for-json-headers-searches-sysr.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.28/bind-ensure-searching-for-json-headers-searches-sysr.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/bind9 b/meta/recipes-connectivity/bind/bind-9.16.28/bind9
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.16/bind9
+rename to meta/recipes-connectivity/bind/bind-9.16.28/bind9
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/conf.patch b/meta/recipes-connectivity/bind/bind-9.16.28/conf.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.16/conf.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.28/conf.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.16.28/generate-rndc-key.sh
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.16/generate-rndc-key.sh
+rename to meta/recipes-connectivity/bind/bind-9.16.28/generate-rndc-key.sh
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.16.28/init.d-add-support-for-read-only-rootfs.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.16/init.d-add-support-for-read-only-rootfs.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.28/init.d-add-support-for-read-only-rootfs.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.16.28/make-etc-initd-bind-stop-work.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.16/make-etc-initd-bind-stop-work.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.28/make-etc-initd-bind-stop-work.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.16/named.service b/meta/recipes-connectivity/bind/bind-9.16.28/named.service
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.16/named.service
+rename to meta/recipes-connectivity/bind/bind-9.16.28/named.service
+diff --git a/meta/recipes-connectivity/bind/bind_9.16.16.bb b/meta/recipes-connectivity/bind/bind_9.16.28.bb
+similarity index 93%
+rename from meta/recipes-connectivity/bind/bind_9.16.16.bb
+rename to meta/recipes-connectivity/bind/bind_9.16.28.bb
+index 4bfdeca9ce..2ebd9fdde5 100644
+--- a/meta/recipes-connectivity/bind/bind_9.16.16.bb
++++ b/meta/recipes-connectivity/bind/bind_9.16.28.bb
+@@ -4,7 +4,7 @@ DESCRIPTION = "BIND 9 provides a full-featured Domain Name Server system"
+ SECTION = "console/network"
+ 
+ LICENSE = "MPL-2.0"
+-LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=ef10b4de6371115dcecdc38ca2af4561"
++LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4e7b3c52170a348459a4ff3f5ce95e37"
+ 
+ DEPENDS = "openssl libcap zlib libuv"
+ 
+@@ -18,11 +18,9 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
+            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+-           file://CVE-2021-25219-1.patch \
+-           file://CVE-2021-25219-2.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "6c913902adf878e7dc5e229cea94faefc9d40f44775a30213edd08860f761d7b"
++SRC_URI[sha256sum] = "332e34dcbd723a2569efbaf4e79b62e6d56c9abd5bb8411df01533f984d1a370"
+ 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # stay at 9.16 follow the ESV versions divisible by 4
+@@ -64,8 +62,6 @@ SYSTEMD_SERVICE_${PN} = "named.service"
+ 
+ do_install_append() {
+ 
+-	rmdir "${D}${localstatedir}/run"
+-	rmdir --ignore-fail-on-non-empty "${D}${localstatedir}"
+ 	install -d -o bind "${D}${localstatedir}/cache/bind"
+ 	install -d "${D}${sysconfdir}/bind"
+ 	install -d "${D}${sysconfdir}/init.d"
+-- 
+2.25.1
+
 
