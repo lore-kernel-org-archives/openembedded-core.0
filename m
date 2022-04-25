@@ -1,129 +1,53 @@
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Ferry Toth" <fntoth@gmail.com>
-Subject: [PATCH v2 3/3] apt: add apt selftest to test signed package feeds
-Date: Sun,  3 Apr 2022 21:50:46 +0200
-Message-Id: <20220403195046.7060-5-fntoth@gmail.com>
-In-Reply-To: <20220403195046.7060-1-fntoth@gmail.com>
-References: <20220403195046.7060-1-fntoth@gmail.com>
+Message-ID: <749f33fad354821ee5e1b9f061aae211c252b934.camel@linuxfoundation.org>
+Subject: Re: [OE-core] Git and pseudo
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+Date: Mon, 25 Apr 2022 13:51:46 +0100
+In-Reply-To: <ef4b958c-8310-4b40-f671-779558228550@topic.nl>
+References: 
+	<1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.6812ddf4-d065-4e4e-ad42-c48d1bca155d@emailsignatures365.codetwo.com>
+	 <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.0d2bd5fa-15cc-4b27-b94e-83614f9e5b38.65eda1d8-3d07-4fbe-a1d1-669c533cd0a5@emailsignatures365.codetwo.com>
+	 <ef4b958c-8310-4b40-f671-779558228550@topic.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Xavier Berger <xavier.berger@bio-logic.net>, Alexander Kanavin <alex@linutronix.de>, Ferry Toth <ftoth@exalondelft.nl>
+To: Mike Looijmans <mike.looijmans@topic.nl>, openembedded-core@lists.openembedded.org
 
-From: Ferry Toth <ftoth@exalondelft.nl>
+On Mon, 2022-04-25 at 09:40 +0200, Mike Looijmans wrote:
+> Recently GIT got updated with a security fix:
+> 
+> https://github.blog/2022-04-12-git-security-vulnerability-announced/
+> 
+> 
+> The problem is that this causes all "git" tasks that run within pseudo 
+> (most noticably, image recipes) to fail. In many repositories, we use:
+> git rev-parse --verify HEAD > /etc/revision
+> 
+> Or something similar to that. After the GIT update, this now fails with 
+> an error like:
+> 
+> '''
+> fatal: unsafe repository ('/home/mike/repository/path' is owned by 
+> someone else)
+> To add an exception for this directory, call:
+> 
+>      git config --global --add safe.directory /home/mike/repository/path
+> '''
+> 
+> Apart from doing as it says, or even "git config --global --add 
+> safe.directory '*'" anyone have a better idea, especially one that 
+> prevents the system thinking I'm someone else (root in the case of pseudo).
 
-Since Gatesgarth apt (1.8.2) has become more strict and doesn’t allow unsigned repositories by default.
-Currently when building images this requirement is worked around by using [allow-insecure=yes] and
-equivalently when performing selftest.
+https://git.yoctoproject.org/poky/commit/?id=21559199516a31c7635c5f2d874eaa4a92fff0e5
 
-Patches "gpg-sign: Add parameters to gpg signature function" and "package_manager: sign DEB package feeds"
-enable signed DEB package feeds. This patch adds a runtime test for apt derived from the test_testimage_dnf
-test. It creates a signed deb package feed, runs a qemu image to install the key and performs some package
-management. To be able to install the key the gnupg package is added to the testimage.
+However this isn't quite enough as some things encode the path to git into build
+files so the PATH change at do_install isn't enough. igt-gpu-tools via meson in
+OE-Core is an example.
 
-Signed-off-by: Ferry Toth <ftoth@exalondelft.nl>
----
- meta/lib/oeqa/runtime/cases/apt.py           | 16 ++++++---
- meta/lib/oeqa/selftest/cases/runtime_test.py | 38 ++++++++++++++++++++
- 2 files changed, 49 insertions(+), 5 deletions(-)
+Cheers,
 
-diff --git a/meta/lib/oeqa/runtime/cases/apt.py b/meta/lib/oeqa/runtime/cases/apt.py
-index 53745df93f..49f8714730 100644
---- a/meta/lib/oeqa/runtime/cases/apt.py
-+++ b/meta/lib/oeqa/runtime/cases/apt.py
-@@ -21,7 +21,7 @@ class AptRepoTest(AptTest):
- 
-     @classmethod
-     def setUpClass(cls):
--        service_repo = os.path.join(cls.tc.td['DEPLOY_DIR_DEB'], 'all')
-+        service_repo = os.path.join(cls.tc.td['DEPLOY_DIR_DEB'], '')
-         cls.repo_server = HTTPService(service_repo,
-                                       '0.0.0.0', port=cls.tc.target.server_port,
-                                       logger=cls.tc.logger)
-@@ -32,13 +32,18 @@ class AptRepoTest(AptTest):
-         cls.repo_server.stop()
- 
-     def setup_source_config_for_package_install(self):
--        apt_get_source_server = 'http://%s:%s/' % (self.tc.target.server_ip, self.repo_server.port)
-+        apt_get_source_server = 'http:\/\/%s:%s' % (self.tc.target.server_ip, self.repo_server.port)
-         apt_get_sourceslist_dir = '/etc/apt/'
--        self.target.run('cd %s; echo deb [ allow-insecure=yes ] %s ./ > sources.list' % (apt_get_sourceslist_dir, apt_get_source_server))
-+        self.target.run("cd %s; cp sources.list sources.list.bak; sed -i 's/\[trusted=yes\] http:\/\/bogus_ip:bogus_port/%s/g' sources.list" % (apt_get_sourceslist_dir, apt_get_source_server))
- 
-     def cleanup_source_config_for_package_install(self):
-         apt_get_sourceslist_dir = '/etc/apt/'
--        self.target.run('cd %s; rm sources.list' % (apt_get_sourceslist_dir))
-+        self.target.run('cd %s; mv sources.list.bak sources.list' % (apt_get_sourceslist_dir))
-+
-+    def setup_key(self):
-+        # the key is found on the target /etc/pki/packagefeed-gpg/
-+        # named PACKAGEFEED-GPG-KEY-poky-branch
-+        self.target.run('cd %s; apt-key add P*' % ('/etc/pki/packagefeed-gpg'))
- 
-     @skipIfNotFeature('package-management',
-                       'Test requires package-management to be in IMAGE_FEATURES')
-@@ -47,7 +52,8 @@ class AptRepoTest(AptTest):
-     @OEHasPackage(['apt'])
-     def test_apt_install_from_repo(self):
-         self.setup_source_config_for_package_install()
-+        self.setup_key()
-         self.pkg('update')
-         self.pkg('remove --yes run-postinsts-dev')
--        self.pkg('install --yes --allow-unauthenticated run-postinsts-dev')
-+        self.pkg('install --yes run-postinsts-dev')
-         self.cleanup_source_config_for_package_install()
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 642f0eb637..7a75b95a99 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -162,6 +162,44 @@ class TestImage(OESelftestTestCase):
-         bitbake('core-image-full-cmdline socat')
-         bitbake('-c testimage core-image-full-cmdline')
- 
-+    def test_testimage_apt(self):
-+        """
-+        Summary: Check package feeds functionality for apt
-+        Expected: 1. Check that remote package feeds can be accessed
-+        Product: oe-core
-+        Author: Ferry Toth <fntoth@gmail.com>
-+        """
-+        if get_bb_var('DISTRO') == 'poky-tiny':
-+            self.skipTest('core-image-full-cmdline not buildable for poky-tiny')
-+
-+        features = 'INHERIT += "testimage"\n'
-+        features += 'TEST_SUITES = "ping ssh apt.AptRepoTest.test_apt_install_from_repo"\n'
-+        # We don't yet know what the server ip and port will be - they will be patched
-+        # in at the start of the on-image test
-+        features += 'PACKAGE_FEED_URIS = "http://bogus_ip:bogus_port"\n'
-+        features += 'EXTRA_IMAGE_FEATURES += "package-management"\n'
-+        features += 'PACKAGE_CLASSES = "package_deb"\n'
-+        # We need  gnupg on the target to install keys
-+        features += 'IMAGE_INSTALL:append:pn-core-image-full-cmdline = " gnupg"\n'
-+
-+        bitbake('gnupg-native -c addto_recipe_sysroot')
-+
-+        # Enable package feed signing
-+        self.gpg_home = tempfile.mkdtemp(prefix="oeqa-feed-sign-")
-+        self.track_for_cleanup(self.gpg_home)
-+        signing_key_dir = os.path.join(self.testlayer_path, 'files', 'signing')
-+        runCmd('gpgconf --list-dirs --homedir %s; gpg -v --batch --homedir %s --import %s' % (self.gpg_home, self.gpg_home, os.path.join(signing_key_dir, 'key.secret')), native_sysroot=get_bb_var("RECIPE_SYSROOT_NATIVE", "gnupg-native"), shell=True)
-+        features += 'INHERIT += "sign_package_feed"\n'
-+        features += 'PACKAGE_FEED_GPG_NAME = "testuser"\n'
-+        features += 'PACKAGE_FEED_GPG_PASSPHRASE_FILE = "%s"\n' % os.path.join(signing_key_dir, 'key.passphrase')
-+        features += 'GPG_PATH = "%s"\n' % self.gpg_home
-+        features += 'PSEUDO_IGNORE_PATHS .= ",%s"\n' % self.gpg_home
-+        self.write_config(features)
-+
-+        # Build core-image-sato and testimage
-+        bitbake('core-image-full-cmdline socat')
-+        bitbake('-c testimage core-image-full-cmdline')
-+
-     def test_testimage_virgl_gtk_sdl(self):
-         """
-         Summary: Check host-assisted accelerate OpenGL functionality in qemu with gtk and SDL frontends
--- 
-2.32.0
+Richard
 
