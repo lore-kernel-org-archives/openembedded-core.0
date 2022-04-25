@@ -1,85 +1,130 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBBF8C63697
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1001C5AC78
 	for <webhook@archiver.kernel.org>; Mon, 25 Apr 2022 19:26:13 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.27828.1650884574978003190
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web12.27914.1650884098580435060
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Apr 2022 04:02:55 -0700
+ Mon, 25 Apr 2022 03:54:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=h6Bhx0K5;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id e2so13997876wrh.7
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Apr 2022 04:02:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=7BSTV7zriIyIrDkzEkYasq8JEL5OIkuE4rb7ZmhP/fg=;
-        b=h6Bhx0K5EHeV5rSIx3u4ks6hKdF2VAQQ+7Grzd0yASQxR6JqNWey5QBOg+l+Y5pOK/
-         uLPZhGzn8j2kfqlX4gIWaVYHgjTtZb4ZTRvlA9OWhquxxoNYtB+NiWwDVWrZljK2dACp
-         N2WGegiAs7iO+UjXrQYMeUltSdbSossKdEmHA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=7BSTV7zriIyIrDkzEkYasq8JEL5OIkuE4rb7ZmhP/fg=;
-        b=F792c4Br4PP0yhayH006HzlnssXU+scvVai2gMApEim3r/Deu5Lm0zYb0RWHnoYtjx
-         aQyyopH1aAu876eObIlDhF4kPGlhimjlEWzTxdEcrWM1b67in/RNR5Ox3JkycCZqDVCA
-         Zb8vmNuFqMD5QyCxEnC4KT9zaar90J7fZoZ0tlm6RRnftl2IOZMn67ET5ChhN65rluGc
-         dR8dQq8yIgPSgFfyJNOKPLV055cs3gV/TNWMJDu3VltS4cva3zKmeyT1d5yxEN/cxFM2
-         BB4+WEhQI2yxMbPuXaKjr0CSXiUKq2AqtxRxESV/NBovS1vqkNrx7+udippb7p0rFp8s
-         y4+A==
-X-Gm-Message-State: AOAM532mA6UxPTQ0fp/Stv4t67C7wFYZ8Nv5cPwHQ/ZGCDyeoxOtu5IB
-	OocU1JnDobjEXmd1NkujJarqzQ==
-X-Google-Smtp-Source: 
- ABdhPJxzD5TflIjuqQn9Yn1/fDG6ZZZck+XrFFQH37rx2y6kpCdoqpvRpeU3mptl00uERm3EH6szKQ==
-X-Received: by 2002:a05:6000:1e12:b0:209:6a0e:9f9f with SMTP id
- bj18-20020a0560001e1200b002096a0e9f9fmr13653566wrb.169.1650884572760;
-        Mon, 25 Apr 2022 04:02:52 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:fa79:b435:615c:b6d3?
- ([2001:8b0:aba:5f3c:fa79:b435:615c:b6d3])
-        by smtp.gmail.com with ESMTPSA id
- v28-20020adf8b5c000000b0020ad668407bsm4952291wra.115.2022.04.25.04.02.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Apr 2022 04:02:52 -0700 (PDT)
-Message-ID: 
- <7582c60372b7878e80547481b2ff65e0be4a3e46.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] bluez5: Add fix for startup issues under
- systemd
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Stefan Herbrechtsmeier <stefan.herbrechtsmeier-oss@weidmueller.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 25 Apr 2022 12:02:48 +0100
-In-Reply-To: <68c2ad8c-192c-d7d2-c1e4-f30ba994a1ff@weidmueller.com>
-References: <20220414205205.2264840-1-richard.purdie@linuxfoundation.org>
-	 <68c2ad8c-192c-d7d2-c1e4-f30ba994a1ff@weidmueller.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+ dkim=missing;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6D7971FB
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 25 Apr 2022 03:54:57 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com
+ (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 19FEB3F73B
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 25 Apr 2022 03:54:56 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] e2fsprogs: fix CVE-2022-1304
+Date: Mon, 25 Apr 2022 11:54:55 +0100
+Message-Id: <20220425105455.3561063-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 25 Apr 2022 19:26:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164817
+ https://lists.openembedded.org/g/openembedded-core/message/164815
 
-On Mon, 2022-04-25 at 11:17 +0200, Stefan Herbrechtsmeier wrote:
-> Hi Richard,
-> 
-> should I update your patch or only the Upstream-Status or will you 
-> prefer to do it yourself?
+Backport a submitted patch to fix CVE-2022-1304.
 
-Patches to update it very welcome!
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ .../e2fsprogs/e2fsprogs/extents.patch         | 56 +++++++++++++++++++
+ .../e2fsprogs/e2fsprogs_1.46.5.bb             |  1 +
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/extents.pat=
+ch
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/extents.patch b/me=
+ta/recipes-devtools/e2fsprogs/e2fsprogs/extents.patch
+new file mode 100644
+index 0000000000..ffaecc622a
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/extents.patch
+@@ -0,0 +1,56 @@
++CVE: CVE-2022-1304
++Upstream-Status: Submitted [https://lore.kernel.org/linux-ext4/202204211=
+73148.20193-1-lczerner@redhat.com/]
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++From 347084c9c1ad20f47dae16f5a3dcd8628d5fc7b0 Mon Sep 17 00:00:00 2001
++From: Lukas Czerner <lczerner@redhat.com>
++Date: Thu, 21 Apr 2022 19:31:48 +0200
++Subject: [PATCH] e2fsprogs: add sanity check to extent manipulation
++
++It is possible to have a corrupted extent tree in such a way that a leaf
++node contains zero extents in it. Currently if that happens and we try
++to traverse the tree we can end up accessing wrong data, or possibly
++even uninitialized memory. Make sure we don't do that.
++
++Additionally make sure that we have a sane number of bytes passed to
++memmove() in ext2fs_extent_delete().
++
++Note that e2fsck is currently unable to spot and fix such corruption in
++pass1.
++
++Signed-off-by: Lukas Czerner <lczerner@redhat.com>
++Reported-by: Nils Bars <nils_bars@t-online.de>
++Addressess: https://bugzilla.redhat.com/show_bug.cgi?id=3D2068113
++---
++ lib/ext2fs/extent.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
++
++diff --git a/lib/ext2fs/extent.c b/lib/ext2fs/extent.c
++index b324c7b0..1a206a16 100644
++--- a/lib/ext2fs/extent.c
+++++ b/lib/ext2fs/extent.c
++@@ -495,6 +495,10 @@ retry:
++ 			ext2fs_le16_to_cpu(eh->eh_entries);
++ 		newpath->max_entries =3D ext2fs_le16_to_cpu(eh->eh_max);
++=20
+++		/* Make sure there is at least one extent present */
+++		if (newpath->left <=3D 0)
+++			return EXT2_ET_EXTENT_NO_DOWN;
+++
++ 		if (path->left > 0) {
++ 			ix++;
++ 			newpath->end_blk =3D ext2fs_le32_to_cpu(ix->ei_block);
++@@ -1630,6 +1634,10 @@ errcode_t ext2fs_extent_delete(ext2_extent_handle=
+_t handle, int flags)
++=20
++ 	cp =3D path->curr;
++=20
+++	/* Sanity check before memmove() */
+++	if (path->left < 0)
+++		return EXT2_ET_EXTENT_LEAF_BAD;
+++
++ 	if (path->left) {
++ 		memmove(cp, cp + sizeof(struct ext3_extent_idx),
++ 			path->left * sizeof(struct ext3_extent_idx));
++--=20
++2.25.1
++
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb b/meta/r=
+ecipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb
+index 16c183eed3..ec48f419c7 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.46.5.bb
+@@ -4,6 +4,7 @@ SRC_URI +=3D "file://remove.ldconfig.call.patch \
+            file://run-ptest \
+            file://ptest.patch \
+            file://mkdir_p.patch \
++           file://extents.patch \
+            "
+ SRC_URI:append:class-native =3D " \
+            file://e2fsprogs-fix-missing-check-for-permission-denied.patc=
+h \
+--=20
+2.25.1
 
 
