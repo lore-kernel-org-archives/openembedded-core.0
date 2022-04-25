@@ -1,98 +1,140 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <cam@myfastmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48ADCC4167D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72236C41535
 	for <webhook@archiver.kernel.org>; Mon, 25 Apr 2022 19:26:11 +0000 (UTC)
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
- [209.85.160.169])
- by mx.groups.io with SMTP id smtpd.web12.32202.1650904993582930254
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
+ [64.147.123.19])
+ by mx.groups.io with SMTP id smtpd.web08.30625.1650898195166807268
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Apr 2022 09:43:13 -0700
+ Mon, 25 Apr 2022 07:49:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=KzkwKh6n;
- spf=pass (domain: gmail.com, ip: 209.85.160.169,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f169.google.com with SMTP id x21so1259839qtr.12
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Apr 2022 09:43:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Qm4dcpnKa62+7Tklvl4tpWGzwm3QB+lcxO+hxOCMRFw=;
-        b=KzkwKh6nA6PvnQI4livsXQZVO+My8esKrvoguEaECuRe7HUbqhg8zGQPc27HlCskWm
-         DFKcWQh2lStjtYQAM8eCE1dRWZy8W7PTIOdRyY+xnsfwyIfYSkfViMno1jLqBAfGoq9p
-         CXfqeXtjej+Mo31tzIalLqb/2RkTtorbFJreSU5WWcm1rIKsu/2IENcE+ppmmHLjVp2p
-         VhdnJIlkbPCF4V5cfOjTJsZbQRelkEz/Kt5HzfNCULCrhrLJPPb6wbuhovZxR0J2sshm
-         GfN9gRyw6Bwp5mKPmn6tAWE/7TL9GmRdaRluEMfZmJIZEoQWBED3m93swaAXPQMbS++W
-         Nfvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Qm4dcpnKa62+7Tklvl4tpWGzwm3QB+lcxO+hxOCMRFw=;
-        b=fmu345XrNtvTLpzTnHb15kfELRo7yMLGXC2YQ5OFsS9pRP8Vc2gcI4Qg6tMcVdOHpi
-         tDNZD0Kn4seI/9LSNqg1lFrxaHqfjjfWrinqk4aQiZ++BHSgKTBpTCy1bjAePGFA4qJp
-         5q3pWvFj0NbdCFCEF57mYsPrwQhqWF3W0J13qo5fqgpBY1wbeO/UzOOowu4nltDkQYsi
-         U/cfhIa5hrunVS+4dYV7CFvV9//uwt3cbL2fXxrpa3jJH2Wachm5p3XaNji9F7LX+LKJ
-         q1hS74Sx0cuQ1bhANdAypm5bf7x11y0I3pLx5+Rm/VhK51iZR3NwhFL5kyPvPRIbFmQG
-         eMzw==
-X-Gm-Message-State: AOAM533cCoqCycNxXM/kiLSTAU0SuN3Ms01MFItBG9eEWB7xoI15B6yR
-	NNPSU+2CrThEDjEaE6bBRxILTd2O2HPwStScv0qgscTccJU=
-X-Google-Smtp-Source: 
- ABdhPJx7v0zF7U2//NAanm1RixMwjehcwtqa0wVbX7wUU4Ggi9ECC2kJb1uzt3u7/xCaRIiwXTC59NWM1f6dwQ8bXrM=
-X-Received: by 2002:ac8:728f:0:b0:2f1:e9d8:9091 with SMTP id
- v15-20020ac8728f000000b002f1e9d89091mr12511585qto.54.1650904992687; Mon, 25
- Apr 2022 09:43:12 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@myfastmail.com
+ header.s=fm1 header.b=S9pQ8MhO;
+ spf=pass (domain: myfastmail.com, ip: 64.147.123.19,
+ mailfrom: cam@myfastmail.com)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id A37E63201FED;
+	Mon, 25 Apr 2022 10:49:53 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Mon, 25 Apr 2022 10:49:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=myfastmail.com;
+	 h=cc:cc:content-transfer-encoding:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to; s=fm1; t=1650898193; x=1650984593; bh=2tPedNtqgL
+	c6fd6ALOk1npY/wSk6V4d1Ok6QwVKcS9o=; b=S9pQ8MhOwFoNRiQiYo5ZHdFn2s
+	K3hKxv4B5rWZX4ZCdTsbFJRehDIXbBWSanX3w/HbUS5mOVIs3sKQNWVAq5aIRu45
+	zdQC8BqF0JIgFSXXGmz89TABbHBt9STeUBQNI6DlEXc6aQ8ZNiwWAA+gEqGBTkTr
+	upIrg014nyeJtXIk1A+aJa1c9ovVzUcTQZuomvzNMZ1pr7NgW9tFOTats9VH8FNo
+	ws/Itiwq/ISfsUz7ojkpCpUinyDwW+BOSR/LnxFutCfO402yFIbnn4gONXNQAxjk
+	g69cRoQEvPbGFgP7hMaAFepin0SdroCd3VEvXpihqfG4GRWF/9cLnFG9aPzg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:from:from:in-reply-to:message-id:mime-version:reply-to:sender
+	:subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm1; t=1650898193; x=1650984593; bh=2
+	tPedNtqgLc6fd6ALOk1npY/wSk6V4d1Ok6QwVKcS9o=; b=rqpkWr0rKkBR33FAP
+	Q4QkiBHGCVzvmHAsVOaA/45QBabCjorFAQJGFdPrZscLlHglHPMJLON3tIPLMKWq
+	9a9UWAdXo5LlO/uhwOOCp0gVvNdnaL9bHUnBuGSLZCmwwbpzvFc4vuESGpyCaGIY
+	a+jz9vVcVEtwVNp76hrSyw7xVFVbnJHMcSItnea00bWs92tX1g64VxiDs2BP8Ate
+	XJbbhiM/xMLbxHR0JEyzpdt9iAxzRHe3o8mTJCgy9cc06enVTUSV2LE7SK+cCrwJ
+	4qQLR+8BO0ymipMloN9IeO4dy7AqW2aKNQczzrN4Y26Y41VCL9MoGHVnGdC5ZAlM
+	kIp8Q==
+X-ME-Sender: <xms:ELVmYgPWg5XvpzhFZFiJQI0beDyRS_iTWc8B_Qb-r87ynhuHupQ6Bg>
+    <xme:ELVmYm_tIki3KjzcEDCpRT2b3RFbaYL01kRzotJEHvUulAjI_HUsFwccNA5B64vQW
+    XI_4epbzYFxSw>
+X-ME-Received: 
+ <xmr:ELVmYnQq5TOVqYb7QfASs8MiEnGV5UOE2n5ZyOaoSw8A2vpeeUiXw3SZjUpAAGZsTajIyUSKSZYgbR6ma0MVKeXFvqZbr-4rAhJo4WQ8dK-8jpgGyDA>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvfedruddugdejlecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
+    dttdenucfhrhhomhepfdevrdcutehnugihucforghrthhinhdfuceotggrmhesmhihfhgr
+    shhtmhgrihhlrdgtohhmqeenucggtffrrghtthgvrhhnpedtvdeludfgledtueetlefghf
+    dtudekhedvveekfeegjeffueehudeftedvvdejheenucevlhhushhtvghrufhiiigvpedt
+    necurfgrrhgrmhepmhgrihhlfhhrohhmpegtrghmsehmhihfrghsthhmrghilhdrtghomh
+X-ME-Proxy: <xmx:ELVmYou3ivwgqNQjkveCuzbga3H4XVyNdMfdTf5BqkAyj1z-at1Jkg>
+    <xmx:ELVmYofMXiKwOtI9YkStk9s1-VlPmT92gJafr0yARtwIASoGPxqstA>
+    <xmx:ELVmYs37eO0YV4DXZxtzDVRf6k360MrgSIYhKhs7-UnA_b7qx3vPCw>
+    <xmx:EbVmYgmi-Vx4GFgO0_Hu2IU1rxIklq7xUo6sFOV5BDe0lYkDMvqG5A>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 25 Apr 2022 10:49:52 -0400 (EDT)
+From: "C. Andy Martin" <cam@myfastmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: "C. Andy Martin" <cam@myfastmail.com>
+Subject: [pseudo][PATCH] do not abort on hard link path mismatch
+Date: Mon, 25 Apr 2022 10:49:24 -0400
+Message-Id: <20220425144924.1033647-1-cam@myfastmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220425100533.101314-1-pgowda.cve@gmail.com>
- <12715f51-7013-d520-574c-c13774549e53@gmail.com>
- <CANNYZj-LgnwiS2UiSOwo-mKpaHtpoeJw5f6sBi4dOJoEOPcZ2Q@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj-LgnwiS2UiSOwo-mKpaHtpoeJw5f6sBi4dOJoEOPcZ2Q@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 25 Apr 2022 09:42:46 -0700
-Message-ID: 
- <CAMKF1sqAuFW17AXdzjV5rsGqYU-SS58Z25YOQtbR673EXar-wQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rust: update 1.59.0 -> 1.60.0
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Pgowda <pgowda.cve@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Randy MacLeod <rwmacleod@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 25 Apr 2022 19:26:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164836
+ https://lists.openembedded.org/g/openembedded-core/message/164824
 
-On Mon, Apr 25, 2022 at 8:52 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> On Mon, 25 Apr 2022 at 17:33, Khem Raj <raj.khem@gmail.com> wrote:
-> > > --- a/meta/recipes-devtools/rust/rust-snapshot.inc
-> > > +++ b/meta/recipes-devtools/rust/rust-snapshot.inc
-> > > @@ -2,21 +2,21 @@
-> > >   ## snapshot info is taken from rust/src/stage0.txt
-> > >   ## TODO: find a way to add additional SRC_URIs based on the contents of an
-> > >   ##       earlier SRC_URI.
-> > > -RS_VERSION = "1.58.0"
-> > > -CARGO_VERSION = "1.58.0"
-> > > +RS_VERSION = "1.59.0"
-> > > +CARGO_VERSION = "1.59.0"
-> >
-> > why 1.59.0 ? its a bit counter-intuitive.
->
-> Rust is self-hosting and bootstraps itself with a pre-built previous
-> version of itself. Just like gcc. The exact (previous) version that
-> has been used is specified in the source tarball, here we just
-> replicate that info.
+For hard-links there are many potential races where the path may not
+yet exist in the database but we find an inode match on the linked
+file. For instance, if one sub-process performs the link and another
+one soon after opens the link, it is a race as to which operation's
+message is received first by the pseudo server. Therefore, do not
+abort on hard links, instead go back to master-branch behavior
+(verbose file debug) for such cases.
 
-right, this might be good to have as comment on top of that assignment
-for future reference
+See commit 691a2304c8c29a3b7d5977908ef82aaf188f5ba0 for original
+nerf of the path mismatch messages for hard links.
+---
+ pseudo.c | 32 ++++++++++++++++++++++++--------
+ 1 file changed, 24 insertions(+), 8 deletions(-)
 
->
-> Alex
+diff --git a/pseudo.c b/pseudo.c
+index 528fe1b..cb03987 100644
+--- a/pseudo.c
++++ b/pseudo.c
+@@ -696,15 +696,31 @@ pseudo_op(pseudo_msg_t *msg, const char *program, const char *tag, char **respon
+ 					pseudo_debug(PDBGF_FILE, "inode mismatch for '%s' -- old one was marked for deletion.\n",
+ 						msg->path);
+ 				} else {
+-					pseudo_diag("path mismatch [%d link%s]: ino %llu db '%s' req '%s'.\n",
+-						msg->nlink,
+-						msg->nlink == 1 ? "" : "s",
+-						(unsigned long long) msg_header.ino,
+-						path_by_ino ? path_by_ino : "no path",
+-						msg->path);
++					if (msg->nlink > 1) {
++						/* For hard-links there are many potential races
++						 * where the path may not yet exist in the
++						 * database but we find an inode match on the
++						 * linked file. */
++						int flags = PDBGF_FILE | PDBGF_VERBOSE;
++						pseudo_debug(flags, "path mismatch [%d link%s]: ino %llu db '%s' req '%s'.\n",
++							msg->nlink,
++							msg->nlink == 1 ? "" : "s",
++							(unsigned long long) msg_header.ino,
++							path_by_ino ? path_by_ino : "no path",
++							msg->path);
++					} else {
++						pseudo_diag("path mismatch [%d link%s]: ino %llu db '%s' req '%s'.\n",
++							msg->nlink,
++							msg->nlink == 1 ? "" : "s",
++							(unsigned long long) msg_header.ino,
++							path_by_ino ? path_by_ino : "no path",
++							msg->path);
++					}
+ 					found_ino = 0;
+-					msg->result = RESULT_ABORT;
+-					goto op_exit;
++					if (msg->nlink == 1) {
++						msg->result = RESULT_ABORT;
++						goto op_exit;
++					}
+ 				}
+ 			}
+ 		} else {
+-- 
+2.25.1
+
 
