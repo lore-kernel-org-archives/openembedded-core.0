@@ -1,131 +1,287 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <crg7475@mailbox.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E92CCC6370E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D21D7C6370A
 	for <webhook@archiver.kernel.org>; Mon, 25 Apr 2022 19:26:14 +0000 (UTC)
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
- [209.85.160.170])
- by mx.groups.io with SMTP id smtpd.web10.32425.1650905913897799211
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by mx.groups.io with SMTP id smtpd.web08.31998.1650903565091933190
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Apr 2022 09:58:34 -0700
+ Mon, 25 Apr 2022 09:19:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=WsHquxsX;
- spf=pass (domain: gmail.com, ip: 209.85.160.170,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f170.google.com with SMTP id t11so3835647qto.11
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Apr 2022 09:58:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hsKnIIX78b2G2Qbv2atgA3mTrO+N82RvdeakveDwZ3I=;
-        b=WsHquxsXWDLo2zbeVaFgjnPJI/6OEFn8uW9ECwdUXmF6jX0T2gieGw8pI3obBs2xi9
-         Ar1tmtZQ0vLSzoXifenvJo0vy9td7lCPue8KvJX8uixqf0QGBCNSge+eYhp7V4VpCNuY
-         AEx6z+6CLNsnCGzMh08FcivrjV/7C71mY3llWMiVk+8bGUortQOrwzQDiLagAvvmUP4T
-         51bBApriRts89QfFa58L9Dn7zDVpwogKeisLq8NO9h+D3bxLz18xKjhAxhMcHwtJnAaa
-         F/NBrIU+gZyLvC04OczgW2iTmrWyOsfCvY7m1p6GTXcDIzzlcxERG5D2pXZQFtvYxLv3
-         Lm8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hsKnIIX78b2G2Qbv2atgA3mTrO+N82RvdeakveDwZ3I=;
-        b=2WVvwp2Qssipt7CnlHRnnOqQg4Yt+aI+DshIlqBItRepMGQ3u2VSsm82ep+FIt7pjw
-         2LBmpCMTL4LSuDi6quYsx7/Y32eWEeLiL9oS1RQFT/8EFodJNo+LlHx+giNOY22tH/Be
-         6G+qiR+aSYLM0VjLjaVP9AtoZST53eM+g8Oi60uljAz9iqlHmrrdp3mZcE3+EALih/Ym
-         PypFHTsMQkOEtjlqMCw5rMU8/kiHMSBJ4EhFPkTnvC8rgyeGoFH8zE9Ov2Jg2foecUbN
-         djABvqMdH7IkudqHZUsqtjy9s3TBc68g3a8O7PFGfl6YDXu6uLiyh4hzUoOp79NOTiBX
-         ncOA==
-X-Gm-Message-State: AOAM531lZM7C9XhioV8J253MeN9fwbdZzus68INqR56CH7obUCRC1kTY
-	68GA8XxpgGEQRPUChm/CERhK32Wor1LgEngBYG5nJ03WLsQ=
-X-Google-Smtp-Source: 
- ABdhPJxUGwzamFA/WG9c+P79C09Q0F5oy8DCdLwo77vSAN4nTCnVfmldqFkXhSnTTDoIcsK5oXFuQ4s+RO1WDS921so=
-X-Received: by 2002:a05:622a:2cf:b0:2f1:f3aa:e861 with SMTP id
- a15-20020a05622a02cf00b002f1f3aae861mr12465775qtx.532.1650905912964; Mon, 25
- Apr 2022 09:58:32 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@mailbox.org
+ header.s=mail20150812 header.b=IJZWbMiU;
+ spf=pass (domain: mailbox.org, ip: 80.241.56.151,
+ mailfrom: crg7475@mailbox.org)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [80.241.60.245])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Kn9FP6lVKz9sW5
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 25 Apr 2022 18:19:21 +0200 (CEST)
+Content-Type: multipart/alternative;
+ boundary="------------5Dym7E1rFbE6zKFXs2GX4h24"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812;
+	t=1650903559;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9YlX88eDvKjUycErZj1/h7Iu2aEVpCF5SN+7tt+lB9U=;
+	b=IJZWbMiUrKmfCoTKaFG4MLF4ouqDXJtTw2NRG/qthPUd++CluW6tDNjL5JE5M1ixynrD/A
+	YceGll8v44a5ibqNREVf8whQ67qDiRGjNzUCiTzJjfxWBsmweKI8t4MufH8CBGmegUQYCD
+	jRfs3KrI9Xsq//MP88wZtFOgv9jFtf6tKfg9Wj8ZLxz6ej/AOQKNbMowHuEDsz22GSmzQ8
+	O9L/p//QbPN7IGQPrgInd9Qg2FUQ9Gnno3c/NWEoWuw4/jskGmMJzv564gfZfAQrLjwFI8
+	ipBXk+VPVbXRy5Pp+fSqr3ZILFtmbcfPOX94xqdVKkhkkI4JNLbq2Oq9hXScZg==
+Message-ID: <1bd6d4e0-f62f-086c-6668-899037221a7d@mailbox.org>
+Date: Mon, 25 Apr 2022 18:19:14 +0200
 MIME-Version: 1.0
-References: <20220425140102.2743203-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20220425140102.2743203-1-richard.purdie@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 25 Apr 2022 09:58:06 -0700
-Message-ID: 
- <CAMKF1spk5uj2DGq56=efxwT-=_6Xbh_On8+WakMuXPCF3-8jgQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] scripts: Make git intercept global
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [OE-core] [master][kirkstone][PATCH] gstreamer1.0-plugins-good:
+ Fix libsoup dependency
+Content-Language: en-US
+To: openembedded-core@lists.openembedded.org
+References: <20220425150104.1001838-1-crg7475@mailbox.org>
+ <d250366a-40fe-0476-971d-4ff125559eb1@gmail.com>
+From: Carlos Rafael Giani <crg7475@mailbox.org>
+In-Reply-To: <d250366a-40fe-0476-971d-4ff125559eb1@gmail.com>
+X-MBO-RS-META: 4781yx31h6fcxtpz9j86qi7u15oy8pfh
+X-MBO-RS-ID: bd58660032b6bb5026d
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 25 Apr 2022 19:26:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164837
+ https://lists.openembedded.org/g/openembedded-core/message/164834
 
-I see git describe hung during bitbake parse stage in few of meta-oe
-recipe and also kernel recipe with this patch.
+This is a multi-part message in MIME format.
+--------------5Dym7E1rFbE6zKFXs2GX4h24
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 25, 2022 at 7:01 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> The previous minimially invasive git intercept simply isn't enough. For example,
-> meson used in the igt-gpu-tools recipe hardcodes the path to git in the configure
-> step so at install time, changing PATH has no effect.
->
-> There are lots of interesting things we could do to try and avoid problems but
-> making the git intercept and dropping fakeroot privs for git global is probably
-> the least worst solution at this point. It will add slight overhead to git calls
-> but we don't make many so the overall impact is likely minimal.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/classes/base.bbclass       | 1 -
->  meta/classes/devshell.bbclass   | 2 --
->  scripts/{git-intercept => }/git | 0
->  3 files changed, 3 deletions(-)
->  rename scripts/{git-intercept => }/git (100%)
->
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index b54b56d6248..3515720bf95 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -367,7 +367,6 @@ addtask install after do_compile
->  do_install[dirs] = "${B}"
->  # Remove and re-create ${D} so that is it guaranteed to be empty
->  do_install[cleandirs] = "${D}"
-> -PATH:prepend:task-install = "${COREBASE}/scripts/git-intercept:"
->
->  base_do_install() {
->         :
-> diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
-> index 75604d0c076..62dc958d9a4 100644
-> --- a/meta/classes/devshell.bbclass
-> +++ b/meta/classes/devshell.bbclass
-> @@ -2,8 +2,6 @@ inherit terminal
->
->  DEVSHELL = "${SHELL}"
->
-> -PATH:prepend:task-devshell = "${COREBASE}/scripts/git-intercept:"
-> -
->  python do_devshell () {
->      if d.getVarFlag("do_devshell", "manualfakeroot"):
->         d.prependVar("DEVSHELL", "pseudo ")
-> diff --git a/scripts/git-intercept/git b/scripts/git
-> similarity index 100%
-> rename from scripts/git-intercept/git
-> rename to scripts/git
-> --
-> 2.32.0
+According to https://gstreamer.freedesktop.org/releases/1.20/ , libsoup=20
+3 support isn't stable:
+
+ > Runtime compatibility support for libsoup2 and libsoup3 (libsoup3=20
+support experimental)
+
+So I wouldn't add it just yet.
+
+
+On 25.04.22 17:39, Khem Raj wrote:
 >
 >
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#164823): https://lists.openembedded.org/g/openembedded-core/message/164823
-> Mute This Topic: https://lists.openembedded.org/mt/90685316/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> On 4/25/22 8:01 AM, Carlos Rafael Giani via lists.openembedded.org wrot=
+e:
+>> Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
+>> ---
+>> =C2=A0 .../gstreamer/gstreamer1.0-plugins-good_1.20.1.bb=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 7 ++++++-
+>> =C2=A0 1 file changed, 6 insertions(+), 1 deletion(-)
+>>
+>> diff --git=20
+>> a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.1.b=
+b=20
+>> b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.1.b=
+b
+>> index 08ff5a0bb5..1f61d9a10e 100644
+>> ---=20
+>> a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.1.b=
+b
+>> +++=20
+>> b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.1.b=
+b
+>> @@ -49,7 +49,12 @@ PACKAGECONFIG[libv4l2]=C2=A0=C2=A0=C2=A0 =3D=20
+>> "-Dv4l2-libv4l2=3Denabled,-Dv4l2-libv4l2=3Ddisabled,v4l-
+>> =C2=A0 PACKAGECONFIG[mpg123]=C2=A0=C2=A0=C2=A0=C2=A0 =3D=20
+>> "-Dmpg123=3Denabled,-Dmpg123=3Ddisabled,mpg123"
+>> =C2=A0 PACKAGECONFIG[pulseaudio] =3D=20
+>> "-Dpulse=3Denabled,-Dpulse=3Ddisabled,pulseaudio"
+>> =C2=A0 PACKAGECONFIG[qt5]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D=
+ "-Dqt5=3Denabled,-Dqt5=3Ddisabled,qtbase=20
+>> qtdeclarative qtbase-native ${QT5WAYLANDDEPENDS}"
+>> -PACKAGECONFIG[soup]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D=20
+>> "-Dsoup=3Denabled,-Dsoup=3Ddisabled,libsoup-2.4"
+>> +# Starting with version 1.20, the GStreamer soup plugin loads=20
+>> libsoup with dlopen()
+>> +# instead of linking to it. And instead of using the default libsoup=20
+>> C headers, it
+>> +# uses its own stub header. Consequently, objdump will not show the=20
+>> libsoup .so as
+>> +# a dependency, and libsoup won't be added to an image. Fix this by=20
+>> setting libsoup
+>> +# as RDEPEND instead of DEPEND.
+>> +PACKAGECONFIG[soup]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D=20
+>> "-Dsoup=3Denabled,-Dsoup=3Ddisabled,,libsoup-2.4"
 >
+> We have soup3 as well. I wonder if that should also be an option ?
+>
+>> =C2=A0 PACKAGECONFIG[speex]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D "-Dspeex=
+=3Denabled,-Dspeex=3Ddisabled,speex"
+>> =C2=A0 PACKAGECONFIG[rpi]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D=
+=20
+>> "-Drpicamsrc=3Denabled,-Drpicamsrc=3Ddisabled,userland"
+>> =C2=A0 PACKAGECONFIG[taglib]=C2=A0=C2=A0=C2=A0=C2=A0 =3D=20
+>> "-Dtaglib=3Denabled,-Dtaglib=3Ddisabled,taglib"
+>>
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#164825):=20
+>> https://lists.openembedded.org/g/openembedded-core/message/164825
+>> Mute This Topic: https://lists.openembedded.org/mt/90686912/1997914
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=20
+>> [raj.khem@gmail.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+--------------5Dym7E1rFbE6zKFXs2GX4h24
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
+-8">
+  </head>
+  <body>
+    <p><font face=3D"Helvetica, Arial, sans-serif">According to
+        <a class=3D"moz-txt-link-freetext" href=3D"https://gstreamer.free=
+desktop.org/releases/1.20/">https://gstreamer.freedesktop.org/releases/1.=
+20/</a> , libsoup 3
+        support isn't stable:</font></p>
+    <p><font face=3D"Helvetica, Arial, sans-serif">&gt; Runtime
+        compatibility support for libsoup2 and libsoup3 (libsoup3
+        support experimental)</font></p>
+    <p><font face=3D"Helvetica, Arial, sans-serif">So I wouldn't add it
+        just yet.</font></p>
+    <p><font face=3D"Helvetica, Arial, sans-serif"></font><br>
+    </p>
+    <div class=3D"moz-cite-prefix">On 25.04.22 17:39, Khem Raj wrote:<br>
+    </div>
+    <blockquote type=3D"cite"
+      cite=3D"mid:d250366a-40fe-0476-971d-4ff125559eb1@gmail.com">
+      <br>
+      <br>
+      On 4/25/22 8:01 AM, Carlos Rafael Giani via lists.openembedded.org
+      wrote:
+      <br>
+      <blockquote type=3D"cite">Signed-off-by: Carlos Rafael Giani
+        <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:crg7475@mailbox=
+.org">&lt;crg7475@mailbox.org&gt;</a>
+        <br>
+        ---
+        <br>
+        =C2=A0 .../gstreamer/gstreamer1.0-plugins-good_1.20.1.bb=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 7
+        ++++++-
+        <br>
+        =C2=A0 1 file changed, 6 insertions(+), 1 deletion(-)
+        <br>
+        <br>
+        diff --git
+        a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.2=
+0.1.bb
+b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.1.bb
+        <br>
+        index 08ff5a0bb5..1f61d9a10e 100644
+        <br>
+        ---
+        a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.2=
+0.1.bb
+        <br>
+        +++
+        b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.2=
+0.1.bb
+        <br>
+        @@ -49,7 +49,12 @@ PACKAGECONFIG[libv4l2]=C2=A0=C2=A0=C2=A0 =3D
+        "-Dv4l2-libv4l2=3Denabled,-Dv4l2-libv4l2=3Ddisabled,v4l-
+        <br>
+        =C2=A0 PACKAGECONFIG[mpg123]=C2=A0=C2=A0=C2=A0=C2=A0 =3D
+        "-Dmpg123=3Denabled,-Dmpg123=3Ddisabled,mpg123"
+        <br>
+        =C2=A0 PACKAGECONFIG[pulseaudio] =3D
+        "-Dpulse=3Denabled,-Dpulse=3Ddisabled,pulseaudio"
+        <br>
+        =C2=A0 PACKAGECONFIG[qt5]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ =3D
+        "-Dqt5=3Denabled,-Dqt5=3Ddisabled,qtbase qtdeclarative qtbase-nat=
+ive
+        ${QT5WAYLANDDEPENDS}"
+        <br>
+        -PACKAGECONFIG[soup]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D
+        "-Dsoup=3Denabled,-Dsoup=3Ddisabled,libsoup-2.4"
+        <br>
+        +# Starting with version 1.20, the GStreamer soup plugin loads
+        libsoup with dlopen()
+        <br>
+        +# instead of linking to it. And instead of using the default
+        libsoup C headers, it
+        <br>
+        +# uses its own stub header. Consequently, objdump will not show
+        the libsoup .so as
+        <br>
+        +# a dependency, and libsoup won't be added to an image. Fix
+        this by setting libsoup
+        <br>
+        +# as RDEPEND instead of DEPEND.
+        <br>
+        +PACKAGECONFIG[soup]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D
+        "-Dsoup=3Denabled,-Dsoup=3Ddisabled,,libsoup-2.4"
+        <br>
+      </blockquote>
+      <br>
+      We have soup3 as well. I wonder if that should also be an option ?
+      <br>
+      <br>
+      <blockquote type=3D"cite">=C2=A0 PACKAGECONFIG[speex]=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 =3D
+        "-Dspeex=3Denabled,-Dspeex=3Ddisabled,speex"
+        <br>
+        =C2=A0 PACKAGECONFIG[rpi]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ =3D
+        "-Drpicamsrc=3Denabled,-Drpicamsrc=3Ddisabled,userland"
+        <br>
+        =C2=A0 PACKAGECONFIG[taglib]=C2=A0=C2=A0=C2=A0=C2=A0 =3D
+        "-Dtaglib=3Denabled,-Dtaglib=3Ddisabled,taglib"
+        <br>
+        <br>
+        <br>
+        <br>
+        -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+        <br>
+        Links: You receive all messages sent to this group.
+        <br>
+        View/Reply Online (#164825):
+        <a class=3D"moz-txt-link-freetext" href=3D"https://lists.openembe=
+dded.org/g/openembedded-core/message/164825">https://lists.openembedded.o=
+rg/g/openembedded-core/message/164825</a>
+        <br>
+        Mute This Topic:
+        <a class=3D"moz-txt-link-freetext" href=3D"https://lists.openembe=
+dded.org/mt/90686912/1997914">https://lists.openembedded.org/mt/90686912/=
+1997914</a>
+        <br>
+        Group Owner: <a class=3D"moz-txt-link-abbreviated" href=3D"mailto=
+:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@=
+lists.openembedded.org</a>
+        <br>
+        Unsubscribe:
+        <a class=3D"moz-txt-link-freetext" href=3D"https://lists.openembe=
+dded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/open=
+embedded-core/unsub</a>
+        [<a class=3D"moz-txt-link-abbreviated" href=3D"mailto:raj.khem@gm=
+ail.com">raj.khem@gmail.com</a>]
+        <br>
+        -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+        <br>
+        <br>
+      </blockquote>
+    </blockquote>
+  </body>
+</html>
+
+--------------5Dym7E1rFbE6zKFXs2GX4h24--
 
