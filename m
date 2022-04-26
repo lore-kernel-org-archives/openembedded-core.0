@@ -1,101 +1,89 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B370C433F5
-	for <webhook@archiver.kernel.org>; Tue, 26 Apr 2022 09:52:05 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web11.4251.1650966718653435019
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D7A6C433F5
+	for <webhook@archiver.kernel.org>; Tue, 26 Apr 2022 11:56:17 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web11.5269.1650974170563529458
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Apr 2022 02:51:59 -0700
+ Tue, 26 Apr 2022 04:56:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hIIKrN3q;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id i5so5593693wrc.13
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Apr 2022 02:51:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3OZYMXR7zEKv4aycntarSYQ/hJS+YoirpELdBykKnl4=;
-        b=hIIKrN3qvnrAW9W2oln0Pwox68zNFuSNSQhS7qUAXXqoxuYGIwaxMq2Ax9es2q8GCf
-         rRdPhhnL6ymS+++bJm2953AxYHwRutQM3zaoqI7w9V0d07FCySnTB1TdoEl4Wqsjn+RH
-         SEfrUks0oHqzA99MAkq9sMiBEUEvn+GOPMQnY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3OZYMXR7zEKv4aycntarSYQ/hJS+YoirpELdBykKnl4=;
-        b=esLsAsJM+AkfE3p4tHL1rzvCEx+clGKOBgTmvQMW45hH0BloGCC1ejyxkfZUYF3k3n
-         XbA7PucFOuiff0D17pmt6UXJ6FWgv6ZQ6O79ntBr/9ClEluldtxLJGoid48WSaN0HOO2
-         DWbqzBIjctj4uATJM4J3XxSAVD+XkVWV6OpMv7OQSWLDrrAIjgZbz2VAOgIp0aK+bC7w
-         KgfB1nYKEMy1RZbNoOJQMnjKEebDFDRqWbr4+PK+9cDETMYvprhkaOOHq1PQmmX3C7dw
-         syED+1OCEqJ+Vphdql1IL6LUSHxWbhuwdiIktpz5iEghiDPn+2cyhZaoaR2q5+l84QCs
-         O9Rg==
-X-Gm-Message-State: AOAM533ea2GLLYBxznL48Jk8FCgYD1MxIHv30YGQBS9gkunRX9FMK2K5
-	+9MYKwBDAbatlFY6zvaQWVgPlPfiMROmXA==
-X-Google-Smtp-Source: 
- ABdhPJzgV9q1UkdKzRNHeFshtd3oflroKWHeFqUvjy05eOJMQ3AJkH+Czz3WHfBpTpBROShRD4lM8Q==
-X-Received: by 2002:a5d:610b:0:b0:20a:e00b:5e46 with SMTP id
- v11-20020a5d610b000000b0020ae00b5e46mr5002302wrt.293.1650966716409;
-        Tue, 26 Apr 2022 02:51:56 -0700 (PDT)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:8d4:bce8:ef63:7bc2])
-        by smtp.gmail.com with ESMTPSA id
- g3-20020a5d64e3000000b0020aaa0fea8bsm11246130wri.49.2022.04.26.02.51.55
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Apr 2022 02:51:56 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] scripts/git: Ensure we don't have circular references
-Date: Tue, 26 Apr 2022 10:51:55 +0100
-Message-Id: <20220426095155.2773858-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ajRKk93Y;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195,
+ mailfrom: luca.ceresoli@bootlin.com)
+Received: (Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id AD7756000C;
+	Tue, 26 Apr 2022 11:56:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1650974168;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9HCJlW6Esazi0uNNgzG7gxBev+W5cKApl8xgeul5wo8=;
+	b=ajRKk93YwJrqvHDdB3M75HFtJPY2J6Z5GqNt/W6SCyyxYnRatyJX1Dxy92wVSWKCpd2oPY
+	NLU+3WfahHfE9iWBPyuK31PALD4Q7AIr3AdEvb2rf2ej0f6R923zkDUEZX7M9pMeyd7YaF
+	yWE+/aEjf3uZcl3TZmgf8TERmGr6C4TxuUUFDgxOF1EFMMsLdbhRfZCyVubcH0Cu5JPWv1
+	qW8L++6mRtZQw+mVM+bYWhXW2Fo9P3apIbdav1L4n0k8wMRwgTGeFogG7lshEiimZHzxR5
+	ocZOey457MMphYiFnN2xH2MvXZF9ehwbJ8A1HPCPKmZj9DWu4y/fBSuaqSjdDA==
+Date: Tue, 26 Apr 2022 13:56:05 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Pgowda" <pgowda.cve@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, rwmacleod@gmail.com,
+ alex.kanavin@gmail.com
+Subject: Re: [OE-core] [PATCH] rust: update 1.59.0 -> 1.60.0
+Message-ID: <20220426135605.34ac2f80@melee>
+In-Reply-To: <20220425100533.101314-1-pgowda.cve@gmail.com>
+References: <20220425100533.101314-1-pgowda.cve@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Apr 2022 09:52:05 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Apr 2022 11:56:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164865
+ https://lists.openembedded.org/g/openembedded-core/message/164866
 
-This is horrible but I'm running out of better ideas. We hit circular reference
-issues which we were trying to avoid in the core HOSTTOOLS code. When building
-the eSDK, there can be two copies of the script.
+Hello Pgowda,
 
-Therefore assume git will never be in a directory called scripts. This
-fixes eSDK build failures.
+Il giorno Mon, 25 Apr 2022 03:05:33 -0700
+"Pgowda" <pgowda.cve@gmail.com> ha scritto:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- scripts/git | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+> Rust has been upgraded to rust-1.60.0 that uses LLVM 14.
+> 
+> Please refer the following link for more detailed features.
+> https://blog.rust-lang.org/2022/04/07/Rust-1.60.0.html
+> https://github.com/rust-lang/rust/blob/master/RELEASES.md
+> 
+> Signed-off-by: pgowda <pgowda.cve@gmail.com>
 
-diff --git a/scripts/git b/scripts/git
-index 8adf5c9ecb7..644055e5401 100755
---- a/scripts/git
-+++ b/scripts/git
-@@ -10,7 +10,14 @@ os.environ['PSEUDO_UNLOAD'] = '1'
- 
- # calculate path to the real 'git'
- path = os.environ['PATH']
--path = path.replace(os.path.dirname(sys.argv[0]), '')
-+# we need to remove our path but also any other copy of this script which
-+# may be present, e.g. eSDK.
-+replacements = [os.path.dirname(sys.argv[0])]
-+for p in path.split(":"):
-+    if p.endswith("/scripts"):
-+        replacements.append(p)
-+for r in replacements:
-+    path = path.replace(r, '/ignoreme')
- real_git = shutil.which('git', path=path)
- 
- if len(sys.argv) == 1:
+Testing with this patch applied triggers many warnings:
+
+WARNING: preferred version 1.59% of cargo-native not available (for item cargo-native)
+WARNING: versions of cargo-native available: 1.60.0
+WARNING: preferred version 1.59% of libstd-rs not available (for item libstd-rs)
+WARNING: versions of libstd-rs available: 1.60.0
+WARNING: preferred version 1.59% of libstd-rs not available (for item libstd-rs)
+WARNING: versions of libstd-rs available: 1.60.0
+WARNING: preferred version 1.59% of libstd-rs not available (for item libstd-rs-dev)
+WARNING: versions of libstd-rs available: 1.60.0
+WARNING: preferred version 1.59% of rust-native not available (for item rust-native)
+WARNING: versions of rust-native available: 1.60.0
+WARNING: preferred version 1.59% of rust-llvm-native not available (for item rust-llvm-native)
+WARNING: versions of rust-llvm-native available: 1.60.0
+
+See also the logs:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/5151/steps/11/logs/warnings
+https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/5151/steps/11/logs/stdio
+
 -- 
-2.32.0
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
