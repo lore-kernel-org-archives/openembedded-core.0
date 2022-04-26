@@ -1,153 +1,114 @@
-Return-Path: <jacob.kroon@gmail.com>
+Return-Path: <armccurdy@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA565C433F5
-	for <webhook@archiver.kernel.org>; Tue, 26 Apr 2022 20:20:17 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web12.2561.1651004413566472076
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4738FC433F5
+	for <webhook@archiver.kernel.org>; Tue, 26 Apr 2022 20:51:18 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web08.294.1651006277054098649
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Apr 2022 13:20:13 -0700
+ Tue, 26 Apr 2022 13:51:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=g4+7VY4m;
- spf=pass (domain: gmail.com, ip: 209.85.208.178,
- mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lj1-f178.google.com with SMTP id 16so8337803lju.13
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QAliFucp;
+ spf=pass (domain: gmail.com, ip: 209.85.167.42,
+ mailfrom: armccurdy@gmail.com)
+Received: by mail-lf1-f42.google.com with SMTP id bu29so34095986lfb.0
         for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Apr 2022 13:20:13 -0700 (PDT)
+ Tue, 26 Apr 2022 13:51:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JUJCempm07JGMbY+wV47KktWoYiYL6ps0u1mBrZ5MGI=;
-        b=g4+7VY4m1Iyx+huwmJFmF6aQLk4JDUDZcaUh9Q/XdWKGFUewyC/jU8QgCq8NoQKpZ2
-         lzs+sv4FRSd7xWSht+e/rzUCxpA6gvihlLBYtzcKzDikKfzH/+DaBI+IdOpgQ4gs6BgM
-         vZUP3gdtTMn04I9nmfDf4zpliTORYaELwyfARvCVgzHUdJZp/JRUaRm7Vo0Z4hL9waeT
-         iMtC1TLXQp2ES6fKvOU2G4znZM6Pv5tGirwzkSjdlgzmjCdh0EKC8CQkHX7InW5KCVpD
-         gYA5kzIquXPeF0Fsi3oguxmUowLGuF0TOw1G6z+G/GYX5GOFetgNkxYSp3g8r992Nhu5
-         KLPw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8Ik9Cz/D+vM8oj1v9bWkKcToyOBUmlIhoHnsJ1NOHG0=;
+        b=QAliFucpuvkiQ/pKmVIDraQ15MFYLGqLtoVDCHbS6Nb7ZifCZX1cCHv7Oe6Lx62G/g
+         fEeF9rZFWgMFdNqhv1g8SK0orIWwQ6/b7gv1fOgKrFu4YpnUmcPEYmJZyLRXGvgCgSOs
+         LQ2Z3sMH25a6Rir3aOveytUUbGMNZRuV6xwnLxE4+1R56qADS62CfHcmrJRE38P+PW+F
+         /q+8cRTLtKWiGOi9wmp/a+NlK4y/X1DT8ajCiO2V/XT5AJID6aNHQXZNtGkgRYeQYaxw
+         7kbY3MNHLcFuJQ2PYA1Fng6BrJeaYvgEsRDOuSSjOKlpS0IqqQYu23q204J1ze+C/lr1
+         KKhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JUJCempm07JGMbY+wV47KktWoYiYL6ps0u1mBrZ5MGI=;
-        b=00IvtPLRc/uiq1ytMufisxQ9gh+hxIIHFUp6oAGCedi/Wmlv0sq7p2jiCyipBfXA0B
-         fHG+4FkSouTpqqHFEi6/KV555bwp0pVk0SM8O4h+7bJqg7hxdR7uIOiW5x9bK7IbLebh
-         Dg07FLaAQKLbwKCowWMK28dR3d7FDkJfA/OrcPjivle2AHLd4cW3H0Tem9xHmYC2cktJ
-         GLY6Oy2KB4W5kaTZZbInUog+NHtLACqC3NAt4bakH1x831kPwIUzGeqnTXeRiiTK70ls
-         xFGzeoS9FelGOiOB78RX9XSMGgZc63fas5G+07aIWPvvJ65cJ9HyCQVRfbsz/DYZ6aX7
-         GdTw==
-X-Gm-Message-State: AOAM530gL0ULqmNlzHcd38dLQ+LM4+17RtjviAaWNmzH7eM0y35pa51o
-	5wcsHFY2o6Mbo1KQLZPTlGwtbr7Sfs4=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8Ik9Cz/D+vM8oj1v9bWkKcToyOBUmlIhoHnsJ1NOHG0=;
+        b=r3tiAXBmly/XtbKd8OjLcPWytkY2Jjabq9LcFrNVeIlQNIcaY+9GqBI+3eO+d/0chc
+         anncipbxS9srYu3nJFPPB29Ql3e4TmLkwtlk7d4bZacyJEGRGZWDLKhkvjg/FSIYTzG4
+         Dx9535djs7YwTHMB0BtCmJoBC1oDJ7Pim9HjEGx8+n/bEvA77GPFqSg5yzAyk8kqPZVo
+         9f4lBf04jKmMD4vnlXNb0Rx/bt4f1CIKU9Ux4ZtaoYC/6l/OdbC3SYpG2ryvRjtbTAqX
+         +BcrdasNu6Xc0QRqJK2v1wZFyhh4oryjFESLj0ULmY9vT29x6VVM3doyHnOMrB0KA2O+
+         VXbQ==
+X-Gm-Message-State: AOAM5310uCjz7X5damu72dWVRFwPqslBSObTk7b4ZPWNvZTQ3E6v3r2t
+	qYmgsK62TjOlhp9PHNvy0ssD7hLV4BQlak/Rn5A=
 X-Google-Smtp-Source: 
- ABdhPJzA3tR+dTFdgXymnVG6iu0o/SxDKJjjs3DRkaqkAY0TdbQYxS6gS9L54eviUVp9WE64TdeNTQ==
-X-Received: by 2002:a05:651c:1791:b0:24b:1797:53b1 with SMTP id
- bn17-20020a05651c179100b0024b179753b1mr16105868ljb.269.1651004411538;
-        Tue, 26 Apr 2022 13:20:11 -0700 (PDT)
-Received: from localhost.localdomain (89-253-118-72.customers.ownit.se.
- [89.253.118.72])
-        by smtp.gmail.com with ESMTPSA id
- f11-20020ac2498b000000b0047223ff0224sm122551lfl.169.2022.04.26.13.20.10
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Apr 2022 13:20:10 -0700 (PDT)
-From: Jacob Kroon <jacob.kroon@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] zlib: Add patch to fix building icedtea7-native from
- meta-java
-Date: Tue, 26 Apr 2022 22:19:52 +0200
-Message-Id: <20220426201952.3867-1-jacob.kroon@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ ABdhPJyMf1msSWqkYefaZ61KUmH43FxUiED/0jv9nUEOezCgdolhtjltT66A+P4Ou8SBcxXqCm/UIJTskHLt3A7O12g=
+X-Received: by 2002:ac2:4f0d:0:b0:472:1b7d:2a93 with SMTP id
+ k13-20020ac24f0d000000b004721b7d2a93mr3069280lfr.684.1651006275078; Tue, 26
+ Apr 2022 13:51:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220426194618.218353-1-nicolas.dechesne@linaro.org>
+In-Reply-To: <20220426194618.218353-1-nicolas.dechesne@linaro.org>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 26 Apr 2022 13:50:48 -0700
+Message-ID: 
+ <CAJ86T=XZLytHs3yQxezF59+UbJnKPUsqJwqY0Cs8HTAqWoYRuQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] sanity: skip make 4.2.1 warning for debian
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Apr 2022 20:20:17 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Apr 2022 20:51:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164882
+ https://lists.openembedded.org/g/openembedded-core/message/164883
 
-Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
----
-Changes in v2:
-* Add SoB tag in patch
+On Tue, Apr 26, 2022 at 12:46 PM Nicolas Dechesne
+<nicolas.dechesne@linaro.org> wrote:
+>
+> This is a follow up patch of:
+> ad5829aa1f8a (sanity: Show a warning that make 4.2.1 is buggy on non-ubuntu systems)
+>
+> Debian10 has the exact same version/sources for make as Ubuntu
+> (focal), e.g. https://packages.debian.org/source/buster/make-dfsg and
+> https://packages.ubuntu.com/source/focal/make-dfsg.
+>
+> As per the corresponding changelog, the patch mentioned in
+> ad5829aa1f8a, is included in both Debian and Ubuntu in make
+> 4.2.1-1.1. So it's safe to use make 4.2.1 in Debian10.
+>
+> Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+> ---
+>  meta/classes/sanity.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index c385d92e8b..c72a7b3ed3 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -470,7 +470,7 @@ def check_make_version(sanity_data):
+>
+>      if bb.utils.vercmp_string_op(version, "4.2.1", "=="):
+>          distro = oe.lsb.distro_identifier()
 
- ...t-inputs-provided-to-the-CRC-functio.patch | 54 +++++++++++++++++++
- meta/recipes-core/zlib/zlib_1.2.12.bb         |  1 +
- 2 files changed, 55 insertions(+)
- create mode 100644 meta/recipes-core/zlib/zlib/0001-Correct-incorrect-inputs-provided-to-the-CRC-functio.patch
+Not directly related to your change, but shouldn't this be
+lsb_distro_identifier() instead of oe.lsb.distro_identifier()?
 
-diff --git a/meta/recipes-core/zlib/zlib/0001-Correct-incorrect-inputs-provided-to-the-CRC-functio.patch b/meta/recipes-core/zlib/zlib/0001-Correct-incorrect-inputs-provided-to-the-CRC-functio.patch
-new file mode 100644
-index 0000000000..ad5e59de04
---- /dev/null
-+++ b/meta/recipes-core/zlib/zlib/0001-Correct-incorrect-inputs-provided-to-the-CRC-functio.patch
-@@ -0,0 +1,54 @@
-+From ec3df00224d4b396e2ac6586ab5d25f673caa4c2 Mon Sep 17 00:00:00 2001
-+From: Mark Adler <madler@alumni.caltech.edu>
-+Date: Wed, 30 Mar 2022 11:14:53 -0700
-+Subject: [PATCH] Correct incorrect inputs provided to the CRC functions.
-+
-+The previous releases of zlib were not sensitive to incorrect CRC
-+inputs with bits set above the low 32. This commit restores that
-+behavior, so that applications with such bugs will continue to
-+operate as before.
-+
-+Upstream-Status: Backport [https://github.com/madler/zlib/commit/ec3df00224d4b396e2ac6586ab5d25f673caa4c2]
-+Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
-+---
-+ crc32.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/crc32.c b/crc32.c
-+index a1bdce5..451887b 100644
-+--- a/crc32.c
-++++ b/crc32.c
-+@@ -630,7 +630,7 @@ unsigned long ZEXPORT crc32_z(crc, buf, len)
-+ #endif /* DYNAMIC_CRC_TABLE */
-+ 
-+     /* Pre-condition the CRC */
-+-    crc ^= 0xffffffff;
-++    crc = (~crc) & 0xffffffff;
-+ 
-+     /* Compute the CRC up to a word boundary. */
-+     while (len && ((z_size_t)buf & 7) != 0) {
-+@@ -749,7 +749,7 @@ unsigned long ZEXPORT crc32_z(crc, buf, len)
-+ #endif /* DYNAMIC_CRC_TABLE */
-+ 
-+     /* Pre-condition the CRC */
-+-    crc ^= 0xffffffff;
-++    crc = (~crc) & 0xffffffff;
-+ 
-+ #ifdef W
-+ 
-+@@ -1077,7 +1077,7 @@ uLong ZEXPORT crc32_combine64(crc1, crc2, len2)
-+ #ifdef DYNAMIC_CRC_TABLE
-+     once(&made, make_crc_table);
-+ #endif /* DYNAMIC_CRC_TABLE */
-+-    return multmodp(x2nmodp(len2, 3), crc1) ^ crc2;
-++    return multmodp(x2nmodp(len2, 3), crc1) ^ (crc2 & 0xffffffff);
-+ }
-+ 
-+ /* ========================================================================= */
-+@@ -1112,5 +1112,5 @@ uLong crc32_combine_op(crc1, crc2, op)
-+     uLong crc2;
-+     uLong op;
-+ {
-+-    return multmodp(op, crc1) ^ crc2;
-++    return multmodp(op, crc1) ^ (crc2 & 0xffffffff);
-+ }
-diff --git a/meta/recipes-core/zlib/zlib_1.2.12.bb b/meta/recipes-core/zlib/zlib_1.2.12.bb
-index 95e873584b..e921703137 100644
---- a/meta/recipes-core/zlib/zlib_1.2.12.bb
-+++ b/meta/recipes-core/zlib/zlib_1.2.12.bb
-@@ -11,6 +11,7 @@ SRC_URI = "https://zlib.net/${BP}.tar.xz \
-            file://ldflags-tests.patch \
-            file://0001-configure-Pass-LDFLAGS-to-link-tests.patch \
-            file://run-ptest \
-+           file://0001-Correct-incorrect-inputs-provided-to-the-CRC-functio.patch \
-            "
- UPSTREAM_CHECK_URI = "http://zlib.net/"
- 
+> -        if "ubuntu" in distro:
+> +        if "ubuntu" in distro or "debian" in distro:
+>              return None
+>          return "make version 4.2.1 is known to have issues on Centos/OpenSUSE and other non-Ubuntu systems. Please use a buildtools-make-tarball or a newer version of make.\n"
+>      return None
+> --
+> 2.36.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#164881): https://lists.openembedded.org/g/openembedded-core/message/164881
+> Mute This Topic: https://lists.openembedded.org/mt/90716488/3619030
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [armccurdy@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
