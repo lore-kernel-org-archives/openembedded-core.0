@@ -2,48 +2,48 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0D19C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABFB2C433F5
 	for <webhook@archiver.kernel.org>; Tue, 26 Apr 2022 02:54:18 +0000 (UTC)
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web09.1726.1650941652560455819
+ by mx.groups.io with SMTP id smtpd.web09.1727.1650941653883027039
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Apr 2022 19:54:15 -0700
+ Mon, 25 Apr 2022 19:54:14 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=FQZEz6Z4;
+ header.b=VDkuQZTE;
  spf=pass (domain: intel.com, ip: 134.134.136.24,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650941654; x=1682477654;
+  t=1650941653; x=1682477653;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=tkDx4M2uMLv6CRjWIMpEKGm2tEhdHIPWSt6D4oAlAyg=;
-  b=FQZEz6Z4j+eBmxQ68fjsPhhmpKEvO7EYs2ZfaDmjM+MIl8m2Y724/Tp4
-   jQlMXAeDFymE5faFuDMkX7+fXuADwpkA7Z/tvr7I7DdVhVc7Wo4Uar9tE
-   W6BV9kS9Xf8GUD7//FQAQ9gpgXGIAdBh6acokwSpHC5Q7gV4Ut4/Yigfc
-   F4PS2t1yJznNw1ZbC7cs+fH/J6oCVYkVNfRfn7oHTLuSIdAFQGvnXo799
-   0Os0n0boUr8XulkUX/3zyMtVXCHVqRMUJp6CLns/N+LzOWDr1st1aVgWb
-   H77N1Kp4H+3x/+3mWp9Kabr3aNjDkbTl8w4j6ZBv8Fjcxxu/r6Hj2aFuK
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="264950956"
+  bh=2M7zbXb4KodL5DiHR4xmKaDVHSyTqw6G8thD2ihHfCA=;
+  b=VDkuQZTEAJVRovjN+JoCtKrgV8rhOUCZTgkYzZYXBwOB4JxMctp+5LKx
+   fKAWP6REwDBkZT0T51tpAd8r020JYdONpFPMuQVzdIG1AIxRkg8uLyM3V
+   43dfVWJkxNMXFyB8UMe0js96kov6lX4Nf96TY3s53KmWXjrg4w2zFk57G
+   16WbEB3s3GAueWjEsUYYoG42wdleIgnfiBfw5bYC/f4gV2poqmhowQ99o
+   v/yfMhLXsDdFIRB7v5mNhpPtlDDqp+Ae+6OU42l2LCZEC7iCdnpgfGftM
+   ufgbCVt6L3J+FN0ry7xURL/yEqRjmWOJX7NgmIDXbQrWK4zGrH9c/EY1M
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="264950952"
 X-IronPort-AV: E=Sophos;i="5.90,290,1643702400";
-   d="scan'208";a="264950956"
+   d="scan'208";a="264950952"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2022 19:54:14 -0700
+ 25 Apr 2022 19:54:12 -0700
 X-IronPort-AV: E=Sophos;i="5.90,290,1643702400";
-   d="scan'208";a="660439813"
+   d="scan'208";a="660439797"
 Received: from huiyingn-mobl2.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.213.47.238])
   by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2022 19:54:13 -0700
+ 25 Apr 2022 19:54:11 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 2/7] alsa-tools: Ensure we install correctly
-Date: Tue, 26 Apr 2022 10:54:00 +0800
+Subject: [honister][PATCH 1/7] gmp: add missing COPYINGv3
+Date: Tue, 26 Apr 2022 10:53:59 +0800
 Message-Id: 
- <a27f0e9e7efc2554826b7365a83c25980b28cf2d.1650941226.git.anuj.mittal@intel.com>
+ <8b6a363e0acfb690bb3621eeb55cab7c1f2294cc.1650941226.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <cover.1650941226.git.anuj.mittal@intel.com>
 References: <cover.1650941226.git.anuj.mittal@intel.com>
@@ -54,33 +54,40 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 26 Apr 2022 02:54:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164849
+ https://lists.openembedded.org/g/openembedded-core/message/164848
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Konrad Weihmann <kweihmann@outlook.com>
 
-With the fix for #8621, cleandirs is now applied to autotools_do_install
-and this results in a lot of the install targets to be removed. Ensure
-cleandirs isn't set for autotools_do_install.
+add COPYINGv3 license text to LIC_FILES_CHKSUM
 
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 72299395b06fc3fdaca5f7b8b87a6ea32a6267ad)
+(cherry picked from commit 8e8cf07a58a6bf5412572e76e2a7ab27df8af01f)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-multimedia/alsa/alsa-tools_1.2.5.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-support/gmp/gmp_6.2.1.bb | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.2.5.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.2.5.bb
-index 540f4f79f4..e6fe83a186 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools_1.2.5.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-tools_1.2.5.bb
-@@ -71,6 +71,7 @@ python do_compile() {
- }
+diff --git a/meta/recipes-support/gmp/gmp_6.2.1.bb b/meta/recipes-support/gmp/gmp_6.2.1.bb
+index e61582afdf..091a390511 100644
+--- a/meta/recipes-support/gmp/gmp_6.2.1.bb
++++ b/meta/recipes-support/gmp/gmp_6.2.1.bb
+@@ -2,9 +2,11 @@ require gmp.inc
  
- python do_install() {
-+    d.delVarFlag("autotools_do_install", "cleandirs")
-     for subdir in d.getVar("PACKAGECONFIG").split():
-         subdir = subdir.replace("--", "/")
-         bb.note("Installing %s" % subdir)
+ LICENSE = "GPLv2+ | LGPLv3+"
+ 
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+-                   file://COPYING.LESSERv3;md5=6a6a8e020838b23406c81b19c1d46df6 \
+-                   file://COPYINGv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++LIC_FILES_CHKSUM = "\
++        file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
++        file://COPYING.LESSERv3;md5=6a6a8e020838b23406c81b19c1d46df6 \
++        file://COPYINGv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++        file://COPYINGv3;md5=11cc2d3ee574f9d6b7ee797bdce4d423 \
+ "
+ 
+ REVISION = ""
 -- 
 2.35.1
 
