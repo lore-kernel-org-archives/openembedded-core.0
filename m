@@ -1,91 +1,87 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 204CAC433EF
-	for <webhook@archiver.kernel.org>; Mon, 25 Apr 2022 22:03:52 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.36594.1650924209671484487
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0D19C433EF
+	for <webhook@archiver.kernel.org>; Tue, 26 Apr 2022 02:54:18 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by mx.groups.io with SMTP id smtpd.web09.1726.1650941652560455819
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Apr 2022 15:03:30 -0700
+ Mon, 25 Apr 2022 19:54:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Q9EAdURQ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id bg25so9377343wmb.4
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Apr 2022 15:03:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7Xl628NPFhWIXj2U0D9i7t+0rLjcikeW+yi8000V4pE=;
-        b=Q9EAdURQGpbBdEATxhcJYk18HQVwIKq8Wahy4xx/VWVq9gnMMcEcjIWKY/XpuCea5C
-         ARoIFClZY/2uAhyn8UwSnO48FktdQ0ZKU/exqop8ehnCgvfY10/Nl3RJo6CC4DvhlJY7
-         yy/iZOtXv3f7yV81V3w+GdNXxyRxJOiGi2vNQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7Xl628NPFhWIXj2U0D9i7t+0rLjcikeW+yi8000V4pE=;
-        b=RGUDeYFTeUNPJ1N/KESoDwa/cO2L9VGS5kpq6diyDuRefpjjUOfnnwZOtg2mYnhgz/
-         t5rgHwhvXPCvCzUkzbtTe1mL/LDQ9ekiCv4EohNNjgl1EsPRRqSgh+/jGGH4/w3MCzdq
-         1MLs5jE1xIdadouhmdECJvu0I5dYY4AhtEubEavgUaOj358WsDe/AVaXKLbNWlC+489q
-         wF/y1W/qJewyvilJtRNlqLBlFBaCdHyPnDH7L98wkIikNWD/A6XYX/rRoqCG5hkLtd0d
-         mSUxqCWfYN9a0J89s2gDJ0nlOWhCu6oAo0Sh5VDAI9+ZLA/VaxDmIhxD/5KJeLXgyroF
-         Hq4A==
-X-Gm-Message-State: AOAM5324TzWZrzSwGB3+5VuhW7mfFNX+NDvi0pbTfyuOclGBUi2K6aIO
-	FLsUTvN6pmy92TGSAH4vWqXNod77AsW49Q==
-X-Google-Smtp-Source: 
- ABdhPJwQfZU0umlKUOKh4z7OLp45rQ0m2Li5Gu4M9jr8HIX2zKp8eVkV6S4kRQwZC1/jbvY8xhMNBA==
-X-Received: by 2002:a7b:cc17:0:b0:38d:af7:3848 with SMTP id
- f23-20020a7bcc17000000b0038d0af73848mr18604177wmh.41.1650924207785;
-        Mon, 25 Apr 2022 15:03:27 -0700 (PDT)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:8d4:bce8:ef63:7bc2])
-        by smtp.gmail.com with ESMTPSA id
- l6-20020a1c2506000000b0038e6fe8e8d8sm11989769wml.5.2022.04.25.15.03.26
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Apr 2022 15:03:26 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=FQZEz6Z4;
+ spf=pass (domain: intel.com, ip: 134.134.136.24,
+ mailfrom: anuj.mittal@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650941654; x=1682477654;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=tkDx4M2uMLv6CRjWIMpEKGm2tEhdHIPWSt6D4oAlAyg=;
+  b=FQZEz6Z4j+eBmxQ68fjsPhhmpKEvO7EYs2ZfaDmjM+MIl8m2Y724/Tp4
+   jQlMXAeDFymE5faFuDMkX7+fXuADwpkA7Z/tvr7I7DdVhVc7Wo4Uar9tE
+   W6BV9kS9Xf8GUD7//FQAQ9gpgXGIAdBh6acokwSpHC5Q7gV4Ut4/Yigfc
+   F4PS2t1yJznNw1ZbC7cs+fH/J6oCVYkVNfRfn7oHTLuSIdAFQGvnXo799
+   0Os0n0boUr8XulkUX/3zyMtVXCHVqRMUJp6CLns/N+LzOWDr1st1aVgWb
+   H77N1Kp4H+3x/+3mWp9Kabr3aNjDkbTl8w4j6ZBv8Fjcxxu/r6Hj2aFuK
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="264950956"
+X-IronPort-AV: E=Sophos;i="5.90,290,1643702400";
+   d="scan'208";a="264950956"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2022 19:54:14 -0700
+X-IronPort-AV: E=Sophos;i="5.90,290,1643702400";
+   d="scan'208";a="660439813"
+Received: from huiyingn-mobl2.gar.corp.intel.com (HELO
+ anmitta2-mobl3.intel.com) ([10.213.47.238])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2022 19:54:13 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] base: Avoid circular references to our own scripts
-Date: Mon, 25 Apr 2022 23:03:25 +0100
-Message-Id: <20220425220325.2761246-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+Subject: [honister][PATCH 2/7] alsa-tools: Ensure we install correctly
+Date: Tue, 26 Apr 2022 10:54:00 +0800
+Message-Id: 
+ <a27f0e9e7efc2554826b7365a83c25980b28cf2d.1650941226.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <cover.1650941226.git.anuj.mittal@intel.com>
+References: <cover.1650941226.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Apr 2022 22:03:52 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Apr 2022 02:54:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164846
+ https://lists.openembedded.org/g/openembedded-core/message/164849
 
-We'd like to intercept git calls but we don't want circular references
-and HOSTTOOLS currently sets them up. Tweak to avoid them.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+With the fix for #8621, cleandirs is now applied to autotools_do_install
+and this results in a lot of the install targets to be removed. Ensure
+cleandirs isn't set for autotools_do_install.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 72299395b06fc3fdaca5f7b8b87a6ea32a6267ad)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/classes/base.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-multimedia/alsa/alsa-tools_1.2.5.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 3515720bf95..16b7c69995e 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -115,6 +115,9 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=True):
-     tools = d.getVar(toolsvar).split()
-     origbbenv = d.getVar("BB_ORIGENV", False)
-     path = origbbenv.getVar("PATH")
-+    # Need to ignore our own scripts directory to avoid circular links
-+    ourscripts = d.expand("${COREBASE}/scripts")
-+    path = path.replace(ourscripts, "/ignoreme")
-     bb.utils.mkdirhier(dest)
-     notfound = []
-     for tool in tools:
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.2.5.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.2.5.bb
+index 540f4f79f4..e6fe83a186 100644
+--- a/meta/recipes-multimedia/alsa/alsa-tools_1.2.5.bb
++++ b/meta/recipes-multimedia/alsa/alsa-tools_1.2.5.bb
+@@ -71,6 +71,7 @@ python do_compile() {
+ }
+ 
+ python do_install() {
++    d.delVarFlag("autotools_do_install", "cleandirs")
+     for subdir in d.getVar("PACKAGECONFIG").split():
+         subdir = subdir.replace("--", "/")
+         bb.note("Installing %s" % subdir)
 -- 
-2.32.0
+2.35.1
 
 
