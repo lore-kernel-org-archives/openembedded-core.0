@@ -1,221 +1,164 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13B62C433F5
-	for <webhook@archiver.kernel.org>; Tue, 26 Apr 2022 03:28:59 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.1989.1650943738606288737
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5839DC433EF
+	for <webhook@archiver.kernel.org>; Tue, 26 Apr 2022 03:59:39 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
+ [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.2212.1650945575093926100
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Apr 2022 20:28:58 -0700
+ Mon, 25 Apr 2022 20:59:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gj8UOXck;
- spf=pass (domain: gmail.com, ip: 209.85.214.171,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id n18so29042895plg.5
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Apr 2022 20:28:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3q6dJg6vq7jFmT1v8QwMWZdNBQjtbd9rPRk6UdpdemA=;
-        b=gj8UOXckV8pm3YZGP/ReEoegqAk+RkexoK2XJ2bIIYovhTyx9YFj4VLJj9pdgmJOxC
-         /Y7mO5k8wKlrIhiktPxHhfU1j5d7dE1spf2VQpzYicC9FQvzhZNEyYSsFQwowTbsnnDG
-         3zMGaYg8sZF7BHxqaLJoufN+CYe73MGTKQ8zuLH66ER6w0g24fZPLBOicdS5+20DXXNX
-         t9G2oV9C79Xcw7o5WcPD1mvpKQGG/mKFr9YdrE87x/tUfQGsyMXXFtdLZxISFTMpeeHs
-         ZjQb8E6HeSBZppFDq9CL3FdEs+954PtahIHYlosWO+p5+z3zrti1A0rdWFHiB42+GmAy
-         H+Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3q6dJg6vq7jFmT1v8QwMWZdNBQjtbd9rPRk6UdpdemA=;
-        b=kTkSSEfLgNLTU1cYYusvyl7GuA+WUiscSg0v6q29uGjAbLANur8uHYNTEI4qvcYZRh
-         zaesn4+fJfpDSFss+6qZTVrjQCm3/cGBgcNNtT+/pBmnEnrkgGk1CFBP0RCcOy2khqQi
-         C/z31q2lCN3SGpc0QdPfBGDM7LlegFZi0FJimfKb5Tlf6j/zHZZsB5s7F9XzkXdxnTuy
-         N8+E+vPbUTbq2Mc+RhV/I1zUMhdqw8LwfrU2S1FBqQ70PifS4TKRxUOnQQkojGIQ++Hh
-         YeNLviFpMCOSiANBcewfRxOwZMC8MU4kJwd3YNAWI7Y+Q27NfVDLraTgGcBG+YmXglS5
-         W6Aw==
-X-Gm-Message-State: AOAM530KI8Wy/IinrecmAH/b/Oz464KMNEb47oPPOEBlDcBCTwev/uXq
-	E97fqpQLpBJPr3ZYhuOiGk0+hT1wZDIHjg==
-X-Google-Smtp-Source: 
- ABdhPJx40dQNp8b068wNWJI01aT0/FNxHLRpDE8Nb8wq/Q5CcDEysvJCgRPmhzR7BF0o0Ng5f6jLMw==
-X-Received: by 2002:a17:902:d5cd:b0:156:6263:bbc7 with SMTP id
- g13-20020a170902d5cd00b001566263bbc7mr22236228plh.160.1650943737459;
-        Mon, 25 Apr 2022 20:28:57 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::2ca3])
-        by smtp.gmail.com with ESMTPSA id
- g6-20020a056a001a0600b004f7bd56cc08sm13112790pfv.123.2022.04.25.20.28.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Apr 2022 20:28:56 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=JGt8kJjO;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.166.238,
+ mailfrom: prvs=1115f13a8e=qi.chen@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
+ 23Q3rCeY000968
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 25 Apr 2022 20:59:33 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to :
+ subject : date : message-id : content-type : mime-version; s=PPS06212021;
+ bh=FlUVivGRdKOrnm+vpbQZE8QvwRuoDP4aiaFxhxOVoa4=;
+ b=JGt8kJjOMlKVkg86l3Jb4K1gaZMDynJnPbDnoOsqw4TxA7g0APgQkEvOyj9lJYEKSEm0
+ 4uoAhEtfRCSekIwKQx770o2nocLgjbO1ERRG7lQqxaWPGq1SptP7C5ZR5hDB+ChBI3Cc
+ q4YmA0XNQrRFnkKNlSOCd3HOiR6BshKBa9o+7msBdoJRb+qKn9VUQVOBR86q0eeNHk4q
+ dW+ZuvARS0h6SpaaJl20K8KefyRgJDE9P1Exrh+rx065RgWKAk7xnO1gaS17eJqBOwXV
+ 3pvy5YSVA43mJwRqVDh/MCnEjUweplrpOGWM4wWOtkBnoFsE7ADZulmvekuHBZXCj4OT aw==
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2106.outbound.protection.outlook.com [104.47.55.106])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3fmcr49yvq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 25 Apr 2022 20:59:33 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=E293iSZvkoGHc30uBHtWzPkqc/cWCkmoKeLnjK2CuoQgjlfzbYeUhVlp/HAMh9zNTFQ9xzUczq92DWH7QNgY6ngBCwGRBN/YcR1lzIlwFbaf/KHd4xf39rGcCet3eEGom4yUsjMpOr68mz9rm3lcZQRONc2xc/Fc1NDjFysVMHS4h7RB1Z9KLRcchCt30JrnleZGmfb4KNPqILTf6Z/LXE4mu/Jiy+pEMT1dYQMqXyJqsK7jdLqQ1qYVyo/kQI7docFWr+f6ngnYNQ4Hq4mCjKXvm5Oxrj9AI4livxPao8vcwdpn7aUEzG9o0+Ytzqx2Jgqaq0kZOVczQDfj0WRpRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FlUVivGRdKOrnm+vpbQZE8QvwRuoDP4aiaFxhxOVoa4=;
+ b=T+4O5LbUEZLaOiZD/BNdFIadwmK5fB0OWXF7kCFJWKZtO9nFfbX67bOdd3aKFcY+6xZoIbXOzk02Fj2jSmLohZeFru0RKld7x4Qz1RVk0NX1vohMdV0wFYUnp8lOVPriJxuuyXPx6dTDDVomq05fuyB3jNoHzi/EwOOmVk6nivdkVDSZiDyrfk3xHXkxO50U4W63ahRl6VbRIHGhhgjC+HvL6dA6GslXiLR26NRu+3a3q/s2tVA8lHg/IK7EFZsNc2nm37QKY9aI1t/06/do0VPoQflmlGyZCQ2DN5PTiVeOsjuZzMFJa29juj0lOdhglPNQb85uQYPbmNG+7uY+/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by MW3PR11MB4538.namprd11.prod.outlook.com (2603:10b6:303:57::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Tue, 26 Apr
+ 2022 03:59:31 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::ac26:a55b:f183:d9a8]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::ac26:a55b:f183:d9a8%5]) with mapi id 15.20.5186.021; Tue, 26 Apr 2022
+ 03:59:31 +0000
+From: Chen Qi <Qi.Chen@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v4] musl-locales: Add package
-Date: Mon, 25 Apr 2022 20:28:54 -0700
-Message-Id: <20220426032854.878793-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.36.0
+Subject: [OE-core][master][kirkstone][PATCH 1/2] cases/buildepoxy.py: fix typo
+Date: Tue, 26 Apr 2022 11:59:08 +0800
+Message-Id: <20220426035909.26021-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: HK2PR0302CA0023.apcprd03.prod.outlook.com
+ (2603:1096:202::33) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a47b0d0d-7a28-46ac-dfbe-08da27392a7f
+X-MS-TrafficTypeDiagnostic: MW3PR11MB4538:EE_
+X-Microsoft-Antispam-PRVS: 
+	<MW3PR11MB4538A05E30FB03A296016196EDFB9@MW3PR11MB4538.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	vJ0WOGBi5XEyESBVeqQwm8T+6dM7y7VlCFimY3NvI5+ON/kgleFfuh4f8EcgJqDlc+GxvgLbh3+yhULKyhih9R0YzVyQ5cg04yQWLnTa9SbCwkltRzlDN3m9d9ZiStgpfM+wk5Ut3pgBIAk4G02eHiWRvDEUZkcwqnxyE6RVrk/j0wXEYWfxsnXN6u4ItxK2+EBVGdewO/aWAkxs3NUCr+AP1CQKtmjGYDnqaqbDDSt2tYG/jKs61xtwFkdwaqog7I6ooYPntM89Bw9XaPepyE43UzXv1DD7t5LAHMnlXVoEa3EAq295+1liCYZpe2QQz+ltjRwZfGPtOQjBm09MAW6u7U8uqcMkJ0yskj6vXM/6anhkPGb2G/9Z0lQbI/vClrOnK46GLPHTOMcWkVK6cIeWg04N5d3KEPGKz6LwtBUpr0Gv3zDpJzrx0WdG1sSHVh/gfPg3TPc639WHjUA8iLXYE8xcGBKiwIXt4Wn54o/5awVmtZwdBGVZxqFRriS7gYw8DU+W3APPqr0j8VETrd8KDiQ4UEHgfkSEgQeK9l2a1yQsAOkNO76onArLcxLQ7dq8uICWjbFUYAI0P2Ka1d7ZZipVJSl9LJj6UdRThBXuqWNEXKpgWOosgFvz0d+NW2WAoBColgdXPZvEpIdNH1O5CrU9yaVIG/3LYwCpJ8Gkw4sKRXDIz03ZyiVvU8rtm4lw4m8TFCFVfkIuEauARA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(83380400001)(5660300002)(36756003)(52116002)(6486002)(66946007)(66556008)(66476007)(316002)(6916009)(8676002)(86362001)(2616005)(6666004)(8936002)(4744005)(508600001)(186003)(1076003)(38350700002)(38100700002)(2906002)(26005)(6512007)(6506007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?YuIgrdL99USA6EKylUv0j3LG2piJJ/FsAu+caYe0mlEdh4A3wYyk8wLDMXRy?=
+ =?us-ascii?Q?ZV6cCUYFJ0GHbF6qW0pe2gGVo28myYvZg5wqSF8SdW0twRnzPO/ootGIxEks?=
+ =?us-ascii?Q?CAo4N8DSvRUPs6mwTbSkj54xNVjGwrwAkaa/MMd/tgMjgKZpl/fOBJn61Ptj?=
+ =?us-ascii?Q?ipnPUHKgd3PAUYMrYwINO1usNA/WlKzV2PsxD0J0f0A9aZcj4QOfLZH2gpZ1?=
+ =?us-ascii?Q?+vydKgviU5zF19WOC2eDwxsAuvmK2LBg7ZSsAS6jawBxVfj8yTt5idpENpvD?=
+ =?us-ascii?Q?ceOvHCvfnHneQ99YGioAeu9/0JnhK544Q8W4lvvTMTz6YyFTPi9lAFl/i6CN?=
+ =?us-ascii?Q?+wtzuH6xs67b1pK1ruSyRn8u7YBZtb4thlf/u5/8jRaR2vuOmdZbN8YUeHU2?=
+ =?us-ascii?Q?v0I4YCwXn18s89lNt+XTvY4uRVN3iT5C6tYCa6TjiNFGJzWeSSbhr+y8NnvS?=
+ =?us-ascii?Q?Bi/5pZcM1lTgTNrvbHvP0Ry2mQ7RP/lNcxdNRHeVHjirUOdKRnLtV/qO+8eR?=
+ =?us-ascii?Q?Q5AI9uALNh7th8zfOTPMoZln88KbPXnInYXRzGLi2ym27t1WocKPdWYF7uDD?=
+ =?us-ascii?Q?NfnisSEtxt2f2SwowgFx4p3VWT4OeBqQjEG1LGjpbSd3tl1pcjDTkU4gDccs?=
+ =?us-ascii?Q?5aLms19zNqC+EmdJDCqZKy6MB7KhicOK8Mcf8zJqgtVzUSgRcLK8Fme4q7fy?=
+ =?us-ascii?Q?dtBF1xf9NOU5f7aZM+hSrjUjV27a+mQux+lrOIgcbeabWze//szKP9MFv2+8?=
+ =?us-ascii?Q?2QjD+ie5+iqazja8RflaYc+8v67/6WHBlr+gJ/i2PxKW6tfbRjGwuhmWKudV?=
+ =?us-ascii?Q?uFnLCdOFuKfhEqp5YEQttbOTZrCWoAp+ln86Y6fNbhzuK6DnEZfpRJZNVB2l?=
+ =?us-ascii?Q?T+NNUhMTztCXFZDR58HZh3VkrdmDhFsJjKA3XoRbkv1VEfuouPD2pU0RZOpb?=
+ =?us-ascii?Q?mvD9qXe2kUimAmfln039uUV5lB+l+P+19By7vSK9XwFrCj/PWAAD8kAeSxev?=
+ =?us-ascii?Q?eWrjFAHBTVMo8VcoGmXrNt2D+91EOyF9e0hH6oFtvXjFvZyCSAWZvb8TFfDi?=
+ =?us-ascii?Q?0dD60t/+wjd79mTKGLlzK5JHHtLYjX2+xNBxsz9uCYOyL3O98auFfrB48a4n?=
+ =?us-ascii?Q?7ltmcT0QfgdKN3PVDjz7D+ak4I046bY7uLQ17t9e7v9ItXTlym6MKJA5yyfA?=
+ =?us-ascii?Q?9qmKG9jnrBt1Z/eApiEnCxbOmdMtkjbjZaLORICJFpFRZEytnoGFFMb85amR?=
+ =?us-ascii?Q?792ak5CpLFp+gau5LWdzZIqc7idcb6d3bllxJI6iRnB2t0jiA4BySpjlu4sO?=
+ =?us-ascii?Q?sGW+LG2Rdc66MLmqkBNRygu8UIyBTuthDWEfNloWwF/eKHnBUJFAGGZ9Z9g+?=
+ =?us-ascii?Q?MnvqSEDOMOPwV/1VjBS7Isp7F3yfA8JD5hsZL1uAhUIBYg+QV10zmU7cmO4u?=
+ =?us-ascii?Q?tvq1AfY0qlrME3BiIdBLv9Ph1y17d39QInIELeA3vuJhH+Qo/dkjsODiOMUC?=
+ =?us-ascii?Q?aYTkDIakQI5BgceESADaoU2eTOw8aBWWPHvBF0AbMllbaFAdBhRjuwWQ/3fi?=
+ =?us-ascii?Q?qSFAcBmflIv+KVrJNRiKpumA52naErgQcyKJwpwzCssL/pIIp7EQRxjg/ww1?=
+ =?us-ascii?Q?GfPKr0ya4AsVxeQekiJx1j8MQjFB1wbvPhLYZpzT/b//tJFMFGdDDUADDGHW?=
+ =?us-ascii?Q?GuOMd3vt1COAOSsCwoLIFn+Brs8hHpFhY1m74kkZLJpGrx+x5emO8uOnAzxz?=
+ =?us-ascii?Q?V01K1xI7ivjwEhunF1JGQFGLrJc/n9I=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ a47b0d0d-7a28-46ac-dfbe-08da27392a7f
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2022 03:59:30.9775
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ a4S4EhE7xtcnomfiAW7pF9/M13duLe786ftJgROASEFQ3efrErPKm1kiAqtlw8THx6+IMZRpKToxgx45OgZEYQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4538
+X-Proofpoint-GUID: 3HuIkYQguwKPRGQoeU43nwJHA4ZQjPgD
+X-Proofpoint-ORIG-GUID: 3HuIkYQguwKPRGQoeU43nwJHA4ZQjPgD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-26_01,2022-04-25_03,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ suspectscore=0 mlxlogscore=644 phishscore=0 clxscore=1011 malwarescore=0
+ spamscore=0 priorityscore=1501 lowpriorityscore=0 mlxscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204260023
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Apr 2022 03:28:59 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Apr 2022 03:59:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164855
+ https://lists.openembedded.org/g/openembedded-core/message/164857
 
-This package will provide a limited set of localedata for musl based
-systems. It will fill in into images when IMAGE_LINGUAS variable is set
-however the choice is limited to the given 13 locales as of now.
-
-e.g.
-IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
-
-would work fine
-
-Default locale can be set by exporting LANG=<locale> in /etc/profile or some
-such file e.g.
-
-export LANG=de_DE.UTF-8
-
-This will also help in ptest coverage with musl where some test packages
-expect locales e.g. pango to name one.
-
-Do not empty out IMAGE_LINGUAS forcibly for musl anymore
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
-v2:
-- Fix typo in LICENSE for musl-locales output package
-- Do not reset IMAGE_LINGUAS for musl
-v3:
-- Skip parsing recipe when TCLIBC != musl
-v4:
-- Fix the tclibc check to include recipe only on musl
+ meta/lib/oeqa/sdk/cases/buildepoxy.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- meta/conf/distro/include/maintainers.inc   |  1 +
- meta/conf/distro/include/tclibc-musl.inc   |  3 +-
- meta/recipes-core/musl/musl-locales_git.bb | 75 ++++++++++++++++++++++
- 3 files changed, 77 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/musl/musl-locales_git.bb
-
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 8bbcf071603..8efa27324f3 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -519,6 +519,7 @@ RECIPE_MAINTAINER:pn-mtd-utils = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER:pn-mtdev = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-mtools = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-musl = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER:pn-musl-locales = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-musl-obstack = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-musl-utils = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-nasm = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-diff --git a/meta/conf/distro/include/tclibc-musl.inc b/meta/conf/distro/include/tclibc-musl.inc
-index 8badbbb40a6..98d7a801ac8 100644
---- a/meta/conf/distro/include/tclibc-musl.inc
-+++ b/meta/conf/distro/include/tclibc-musl.inc
-@@ -10,6 +10,7 @@ PREFERRED_PROVIDER_virtual/libc ?= "musl"
- PREFERRED_PROVIDER_virtual/libiconv ?= "musl"
- PREFERRED_PROVIDER_virtual/libintl ?= "musl"
- PREFERRED_PROVIDER_virtual/crypt ?= "musl"
-+PREFERRED_PROVIDER_virtual/libc-locale ?= "musl-locales"
- PREFERRED_PROVIDER_virtual/nativesdk-libintl ?= "nativesdk-glibc"
- PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?= "nativesdk-glibc"
+diff --git a/meta/lib/oeqa/sdk/cases/buildepoxy.py b/meta/lib/oeqa/sdk/cases/buildepoxy.py
+index 385f8ccca8..f69f720cd6 100644
+--- a/meta/lib/oeqa/sdk/cases/buildepoxy.py
++++ b/meta/lib/oeqa/sdk/cases/buildepoxy.py
+@@ -17,7 +17,7 @@ class EpoxyTest(OESDKTestCase):
+     """
+     def setUp(self):
+         if not (self.tc.hasHostPackage("nativesdk-meson")):
+-            raise unittest.SkipTest("GalculatorTest class: SDK doesn't contain Meson")
++            raise unittest.SkipTest("EpoxyTest class: SDK doesn't contain Meson")
  
-@@ -19,8 +20,6 @@ DISTRO_FEATURES_BACKFILL_CONSIDERED += "ldconfig"
- 
- CXXFLAGS += "-fvisibility-inlines-hidden"
- 
--IMAGE_LINGUAS = ""
--
- LIBC_DEPENDENCIES = "\
-     musl \
-     musl-dbg \
-diff --git a/meta/recipes-core/musl/musl-locales_git.bb b/meta/recipes-core/musl/musl-locales_git.bb
-new file mode 100644
-index 00000000000..fa814d2bd90
---- /dev/null
-+++ b/meta/recipes-core/musl/musl-locales_git.bb
-@@ -0,0 +1,75 @@
-+# Copyright (C) 2022 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
-+#
-+SUMMARY = "Locales support for musl"
-+HOMEPAGE = "https://gitlab.com/rilian-la-te/musl-locales"
-+LICENSE = "MIT & LGPL-3.0-or-later"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=cf5713fba707073020b1db2acaa73e78 \
-+                    file://LICENSE.MIT;md5=a4f1c6864a83ddf4b754cdab7d593523"
-+
-+SRC_URI = "git://gitlab.com/rilian-la-te/musl-locales;protocol=https;branch=master"
-+
-+PV = "1.0+git${SRCPV}"
-+SRCREV = "1101fb2bcdd189cd9415b8bd1c775eb43527d25c"
-+
-+S = "${WORKDIR}/git"
-+
-+DEPENDS = "virtual/libintl"
-+
-+PROVIDES = "virtual/libc-locale"
-+
-+inherit cmake gettext
-+
-+EXTRA_OECMAKE = ""
-+#
-+# We will skip parsing for non-musl systems
-+python () {
-+    if d.getVar('TCLIBC') != "musl":
-+        raise bb.parse.SkipRecipe("Only use it with Musl C library")
-+}
-+
-+# only locale binaries are under GPL-3.0-or-later others are MIT
-+LICENSE:${PN} = "LGPL-3.0-or-later"
-+LICENSE:locale-base-ch-de = "MIT"
-+LICENSE:locale-base-de-ch = "MIT"
-+LICENSE:locale-base-de-de = "MIT"
-+LICENSE:locale-base-en-gb = "MIT"
-+LICENSE:locale-base-en-us = "MIT"
-+LICENSE:locale-base-es-es = "MIT"
-+LICENSE:locale-base-fr-fr = "MIT"
-+LICENSE:locale-base-it-it = "MIT"
-+LICENSE:locale-base-nb-no = "MIT"
-+LICENSE:locale-base-nl-nl = "MIT"
-+LICENSE:locale-base-pt-br = "MIT"
-+LICENSE:locale-base-ru-ru = "MIT"
-+LICENSE:locale-base-sv-se = "MIT"
-+
-+PACKAGES =+ "locale-base-ch-de \
-+             locale-base-de-ch \
-+             locale-base-de-de \
-+             locale-base-en-gb \
-+             locale-base-en-us \
-+             locale-base-es-es \
-+             locale-base-fr-fr \
-+             locale-base-it-it \
-+             locale-base-nb-no \
-+             locale-base-nl-nl \
-+             locale-base-pt-br \
-+             locale-base-ru-ru \
-+             locale-base-sv-se \
-+             "
-+FILES:locale-base-ch-de += "${datadir}/i18n/locales/musl/ch_DE.UTF-8"
-+FILES:locale-base-de-ch += "${datadir}/i18n/locales/musl/de_CH.UTF-8"
-+FILES:locale-base-de-de += "${datadir}/i18n/locales/musl/de_DE.UTF-8"
-+FILES:locale-base-en-gb += "${datadir}/i18n/locales/musl/en_GB.UTF-8"
-+FILES:locale-base-en-us += "${datadir}/i18n/locales/musl/en_US.UTF-8"
-+FILES:locale-base-es-es += "${datadir}/i18n/locales/musl/es_ES.UTF-8"
-+FILES:locale-base-fr-fr += "${datadir}/i18n/locales/musl/fr_FR.UTF-8"
-+FILES:locale-base-it-it += "${datadir}/i18n/locales/musl/it_IT.UTF-8"
-+FILES:locale-base-nb-no += "${datadir}/i18n/locales/musl/nb_NO.UTF-8"
-+FILES:locale-base-nl-nl += "${datadir}/i18n/locales/musl/nl_NL.UTF-8"
-+FILES:locale-base-pt-br += "${datadir}/i18n/locales/musl/pt_BR.UTF-8"
-+FILES:locale-base-ru-ru += "${datadir}/i18n/locales/musl/ru_RU.UTF-8"
-+FILES:locale-base-sv-se += "${datadir}/i18n/locales/musl/sv_SE.UTF-8"
-+
-+UPSTREAM_CHECK_COMMITS = "1"
+     def test_epoxy(self):
+         with tempfile.TemporaryDirectory(prefix="epoxy", dir=self.tc.sdk_dir) as testdir:
 -- 
-2.36.0
+2.17.1
 
 
