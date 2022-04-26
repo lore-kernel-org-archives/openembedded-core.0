@@ -1,167 +1,143 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61063C433EF
-	for <webhook@archiver.kernel.org>; Tue, 26 Apr 2022 15:18:20 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com
- (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.84])
- by mx.groups.io with SMTP id smtpd.web12.7898.1650986294163315284
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9C8BC433EF
+	for <webhook@archiver.kernel.org>; Tue, 26 Apr 2022 16:09:10 +0000 (UTC)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web08.8851.1650989349904356218
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Apr 2022 08:18:15 -0700
+ Tue, 26 Apr 2022 09:09:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com
- header.s=selector2-armh-onmicrosoft-com header.b=mWTk1EVn;
- spf=pass (domain: arm.com, ip: 40.107.104.84, mailfrom: ross.burton@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c6SO7h8UcUxrJp2GFLQ3oXYPLJy62s6vHh+v8H0HGME=;
- b=mWTk1EVnovgAzY0PzQG+Ocb3SlaFIxD1zZGHJFwwdpcPkIjInZok/jQDJPxehLxkDQ7KbzoiScL51RpjkYN/ZEiL6s8t4QN68ITa1UY5PpSEi87VeDcyBq8X+j70p54iIHclbwvX70TXtXfVxIZpwKdlCRdyzCecVd3MhoENiFA=
-Received: from AS9PR0301CA0043.eurprd03.prod.outlook.com
- (2603:10a6:20b:469::35) by VI1PR08MB4032.eurprd08.prod.outlook.com
- (2603:10a6:803:e2::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Tue, 26 Apr
- 2022 15:18:04 +0000
-Received: from VE1EUR03FT044.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:20b:469:cafe::ed) by AS9PR0301CA0043.outlook.office365.com
- (2603:10a6:20b:469::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.21 via Frontend
- Transport; Tue, 26 Apr 2022 15:18:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- VE1EUR03FT044.mail.protection.outlook.com (10.152.19.106) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5186.14 via Frontend Transport; Tue, 26 Apr 2022 15:18:03 +0000
-Received: ("Tessian outbound 9511859e950a:v118");
- Tue, 26 Apr 2022 15:18:03 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 68fa210f73680b69
-X-CR-MTA-TID: 64aa7808
-Received: from e7533c71e381.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 321D4492-8AF9-4B27-BA47-90F613C0D6B9.1;
-	Tue, 26 Apr 2022 15:17:56 +0000
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id
- e7533c71e381.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Tue, 26 Apr 2022 15:17:56 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fpn4QLffq+cw3zNH7XgolUR5mlK33Qbm+wHIVey7iFIy6wRGrzdtLNpjWPvhpzpq72fF0WX6RC+/1eBr3bLhi5/2PhSwdDAT00iiJdxRNA3ijCFZyMWeboOd2tYMPEblYsAYA9pNbZfLDy8NJ2GGRC1Gybl8zrlYhynL3/4AgNMn+ID8CRWzAwoNLFxMNL0abxSa9DNf2ynubbbMICLst2jwDjFq6PvT05ckK27cQrZXdiKe06yiFbL4/wcVgeWiB7GVtV3nPguhpimVs36nwtH0LZUI72ByeJiQvbcNwyxinIPeOILiHuIvOd8cwIybAd6QIH9m9sLyYcb5fKQFjg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c6SO7h8UcUxrJp2GFLQ3oXYPLJy62s6vHh+v8H0HGME=;
- b=diIiG46E1x3AlHvyiTMMopQWnDBDw+6hKM3FsrC2sCZczq6lxeO6uIPPjyBg0T7TVUwETnD84Tmzq2Vi0VEBv7YYCw0wl81U/Q2zA6PglbvgRjwhc+fcsEa/PMQ/iPp+EvuN6KQgrrj6NV96K2uy4uNEe1a2rXSEwSFmWHaEWK52A4x2EnfQuyKxG9eXOu6YQHE9UkrjmAj3oAXuLxPRJ4aLG36oIUFOj+7hkfFMb3wVsYRZD+ii4HYDrYuSxu4UmvZt3DfNF0yaSPABSeBjMPvaQevYM+wgM5YXqzmmI+5w0f+DwuG9y+RzidBDYaZiBDDaZwthQ++gY1vqp7uSxA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c6SO7h8UcUxrJp2GFLQ3oXYPLJy62s6vHh+v8H0HGME=;
- b=mWTk1EVnovgAzY0PzQG+Ocb3SlaFIxD1zZGHJFwwdpcPkIjInZok/jQDJPxehLxkDQ7KbzoiScL51RpjkYN/ZEiL6s8t4QN68ITa1UY5PpSEi87VeDcyBq8X+j70p54iIHclbwvX70TXtXfVxIZpwKdlCRdyzCecVd3MhoENiFA=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by HE1PR0802MB2538.eurprd08.prod.outlook.com (2603:10a6:3:e1::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Tue, 26 Apr
- 2022 15:17:54 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::8af:d35b:6628:5013]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::8af:d35b:6628:5013%5]) with mapi id 15.20.5186.021; Tue, 26 Apr 2022
- 15:17:54 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "jacob.kroon@gmail.com" <jacob.kroon@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] zlib: Add patch to fix building icedtea7-native
- from meta-java
-Thread-Topic: [OE-core] [PATCH] zlib: Add patch to fix building
- icedtea7-native from meta-java
-Thread-Index: AQHYWXFsepBFqvWLBEGKdAA5XX9jHK0CTrUA
-Date: Tue, 26 Apr 2022 15:17:53 +0000
-Message-ID: <9795D8A1-03BD-479C-ACE6-CE5CFFD250AD@arm.com>
-References: <20220426132657.988726-1-jacob.kroon@gmail.com>
-In-Reply-To: <20220426132657.988726-1-jacob.kroon@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3693.60.0.1.1)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-MS-Office365-Filtering-Correlation-Id: 43f43173-0f50-4cc4-a761-08da2797f544
-x-ms-traffictypediagnostic: 
-	HE1PR0802MB2538:EE_|VE1EUR03FT044:EE_|VI1PR08MB4032:EE_
-X-Microsoft-Antispam-PRVS: 
-	<VI1PR08MB40327D987142BE3BD0395293E8FB9@VI1PR08MB4032.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- Lxru17fm+K+00PfpZUOI15yB43KonrcbWJ9c0LsswMkflNMDCWL9oWGXq/J85zoFIdUC0tAmMnNJE8ppdFdHc3vKnh3iGGXp3jppRYPre4VPXY+2dUFQ5wijONDhCl0F1DKI4GFgMWnxbDvSHx5wPEf1OZ1QGNbu//3Olpdb7h7hlY5cu1vzePMoCrt08WmKvrG2+f0+NJizvfjWlbGHw+SpScXJd571VNNAr+unS/SEmZEhBrmiX7wo1B9OnPPG2Fs+dmoWLg8oEx3+q+UymWlSxWoZw/MQnPfQX9m+MlFluqcLnEKvdPqpSpidybZtbKIQuCMUYFLGybBFIjIIqR07sluWzhKn49dL2qnz0+Me06B5IeCU2fzeZjxIbR9LTO78FAz1V1SgY95XRQNhv+t0v4k+y1NCxJF5VWlfEZc1/vXQN5cqSB26sgtuQJz0Q5fD11NqPgb1cAkWk+k9YqUzBcYXs6DQP0sQfXUsRlFFwUWl4K7n2dY+9l0x6XlZvJyneSlqgvccnJCKvV7+X49p52s2k+pjRlQ9cash/DfAIhvGIgf/b9LvDUuu44v/PTvziJXQgDLwU2lVqZVakmPCYm2HCMOY/aLesZWj8ApvclgfjKgmmCUtJFboDwwC3KP/2fiV97vsVx4ua838StXjqegHdNjJhl04E7+lC5qY++yrFEPIxKVA7u1EBNZnLBqT2ajDz7+FfeK0HoR3yXsV/CK17NSFavAFFNHlAohULlTzOtIkV+g8GV+tP75twRlCIoafxEG8+vU0vvkdG0x26jhlp0Eq698wHEq0grGSp0CphVIN0KX4D/lRtfT+
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(508600001)(316002)(6486002)(4326008)(33656002)(8676002)(66556008)(66476007)(66446008)(86362001)(64756008)(76116006)(91956017)(6916009)(122000001)(71200400001)(38070700005)(66946007)(38100700002)(6506007)(5660300002)(53546011)(2906002)(36756003)(4744005)(26005)(6512007)(83380400001)(186003)(8936002)(2616005)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <DD8B0BB1B2132E4ABD340D0D683DA91D@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Wlg/EcwE;
+ spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f54.google.com with SMTP id
+ d23-20020a17090a115700b001d2bde6c234so2064193pje.1;
+        Tue, 26 Apr 2022 09:09:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:to
+         :references:from:organization:subject:in-reply-to
+         :content-transfer-encoding;
+        bh=kaRBE2itETDdzN5OkMt3+NYvSCediYYkd9zBR4S3rp8=;
+        b=Wlg/EcwEAHLiOP+XBBnvzSVp43GXEviCWhdVp/IQyTrursv+5Y7p6uYjH9yS0yJruh
+         hqkM6OCHEswUFPqaSMVTnRLmoVBX6jJa5PzbIuiNiMY+d8jYVYtqE+fCBu+cjQEkuY3a
+         hW6pvPvG6334NXYd4wWhDVGS+crYhmOJf4szQFoizarnT6+BK2BIZSgvSNPpFQy/VEph
+         I7JFOaIx8fOGZwDPLLs2io1bKyBdRrknFFQQJ93MPMUJt3CukfTryAqrYayRjHzE5rv3
+         JSfLQqSMj1/o4H55O27v8fX9BOceoZH/cpPprcrUhBXoH3iS9KUBvhJNJAEzTmjqtCk5
+         7qrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:references:from:organization:subject
+         :in-reply-to:content-transfer-encoding;
+        bh=kaRBE2itETDdzN5OkMt3+NYvSCediYYkd9zBR4S3rp8=;
+        b=YzWXHGTHqNa/EVkf0YoyWoARxIN5kTX+5tg9VI+CZDtsDITevnfZkt+URKvLY+10VA
+         2LOj99VMh74vHAHjWvHp4PlY0JY3l+NplowKJpoA9TnqD31oXubR6LLnq5VGo307j7gF
+         Rs3SMbKkA8UpLUzpbsssuSzTOQJHR10WJjV6SvcXKE3QMvBXdpDRCFswGu5eW5VgWSAU
+         GiliYwVqRSUAkisWZMyd1WPdGxHEN7kkIPau+hPgd4fGCbXHzykmrJgaWxRhJ2BMFaRO
+         RZ+N7UtjkApzWYp55MKz8IwRItSM+x6IMRJ27B8EC+3ksrSqYHCeEyb74gdjLNYe/jxB
+         XFJg==
+X-Gm-Message-State: AOAM532e/AMlMBib30tz+AtT6r62nJeVMzidx5DNPQ4zOHo6F2q6VE2T
+	jN6QHC0mCOGcsHgg4/XqUgA=
+X-Google-Smtp-Source: 
+ ABdhPJzCwfqD9ZiM7u1ej3uxGVFC39qZZVG7StiI/dMP1Q5JhaXCZRU4g8Ub+UABK7n9i2JGxchjnQ==
+X-Received: by 2002:a17:902:bb90:b0:156:2c05:b34f with SMTP id
+ m16-20020a170902bb9000b001562c05b34fmr24546317pls.53.1650989349176;
+        Tue, 26 Apr 2022 09:09:09 -0700 (PDT)
+Received: from ?IPV6:2601:646:9200:a0f0:7cd2:3e2e:157d:406?
+ ([2601:646:9200:a0f0:7cd2:3e2e:157d:406])
+        by smtp.gmail.com with ESMTPSA id
+ e6-20020a056a001a8600b004fac74c8382sm15948247pfv.47.2022.04.26.09.09.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Apr 2022 09:09:08 -0700 (PDT)
+Message-ID: <5e82785b-14bc-5a4d-a807-fdaa58afee5d@gmail.com>
+Date: Tue, 26 Apr 2022 09:09:06 -0700
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0802MB2538
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- VE1EUR03FT044.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	b775aacc-21a4-443e-f395-08da2797ef9d
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	pQ8zn6UrdJ7WBazmcpwMVSXoRMhqKVZYHPygm9ts5gMO+ZwK5dF7et0TuJmj5qM6lPHLIKb30bM1V6nJS9qRKAWiAKRn536sV4bPQT8K2Og3A+lHLW8gQlzrC3thCtBRZQo2FWnwLurjbHdcuJDlP0pWJ3OqkE3AUropnIeDM+7T4lL07OCt9qEwAQ100aIBKRwp19Wkz/B2KRGU+gqUL9+REVP3pYXsV6oigcU3cAiKuWjo1oy5VnMb+xkkW8zq/0q1j3iS5MlLAkK5YOyNIhoQX05xQPq/+dYw5ohmWAr/QCUdIX9b/348F6VRZUeLsSOKddXnlHCdLOVEocsM+OqLMulbKNTtq90nt+8+Rldnf52SYH2Q9hvmYDRFufz3E8PdGHsCBu7kIZfOVgolmcXVKJTE23+ucrr7u5qQ7Bl9vsJvvPsE069Jh4QpVPuEF0wtLkrbeuPDRPi59eqeaCLSsMsS0ExDvZrf4Qd1mIkrVXpaPeosi27ZKZ6Nd+5a0LDB2ALXzoyP03BG4MCTDpIoi4bj1rm7PDVbdA1DxFA2KnCk6oMgztO3uusZG35SvzrWISc8NwxIx/Y9oVzSUUS0foLA5GSqfihxeP34E/EFF6/a/IhA9bG/7vmc89dQ4dW8PYBROTJ3vQHF6oc2R22P9MLDRxx6BI1npmmKVXFAQxwk4zs3InzRXXVZqsRMKXJYkYT0ENURZa1+zUp6GTwqG2e5McUgf1yyEnKl52v0FnvaKLz/6H+4TTVgaEX8
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230001)(4636009)(46966006)(36840700001)(40470700004)(356005)(2906002)(53546011)(70586007)(70206006)(81166007)(82310400005)(33656002)(36860700001)(4326008)(6512007)(6506007)(6862004)(8676002)(26005)(86362001)(40460700003)(8936002)(47076005)(508600001)(186003)(5660300002)(336012)(316002)(83380400001)(4744005)(2616005)(6486002)(36756003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2022 15:18:03.3714
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 43f43173-0f50-4cc4-a761-08da2797f544
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
- TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	VE1EUR03FT044.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB4032
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.8.1
+Content-Language: en-US
+To: Marta Rybczynska <rybczynska@gmail.com>,
+ OE-core <openembedded-core@lists.openembedded.org>,
+ OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+References: 
+ <CAApg2=Q9DOoYVHNSCR_=pEN-x7EQuRw2yhwqWhEG2zaMTONt8w@mail.gmail.com>
+ <CAApg2=TjNwub9WsLfh1ZAA8hfMVDPgTYVCELotUfGRGpO9gu8Q@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Subject: Re: CVE-check failing on world with meta-openembedded: diff.gz file
+In-Reply-To: 
+ <CAApg2=TjNwub9WsLfh1ZAA8hfMVDPgTYVCELotUfGRGpO9gu8Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Apr 2022 15:18:20 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Apr 2022 16:09:10 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164878
+ https://lists.openembedded.org/g/openembedded-core/message/164879
+
+Hi Marta
+
+On 4/26/22 5:20 AM, Marta Rybczynska wrote:
+> 
+> 
+> On Fri, Apr 22, 2022 at 11:07 AM Marta Rybczynska <rybczynska@gmail.com 
+> <mailto:rybczynska@gmail.com>> wrote:
+> 
+>     Dear all,
+>     We're running cve-check on a world build containing oe-core, meta-oe
+>     and more. We have an issue with the lockdev recipe
+>     (meta-openembedded/meta-oe/recipes-support/lockdev/lockdev_1.0.3.bb
+>     <http://lockdev_1.0.3.bb>), which causes a fail like below:
+> 
+>     $ bitbake world --runonly=do_cve_check
+>     ERROR: lockdev-1_1.0.3-r0 do_cve_check: File Not found:
+>     <path>lockdev/1_1.0.3-r0/lockdev_1.0.3-1.6.diff
+>     ERROR: lockdev-1_1.0.3-r0 do_cve_check: Failure in searching patches
+>     ERROR: Logfile of failure stored in:
+>     <path>/lockdev/1_1.0.3-r0/temp/log.do_cve_check.8709
+>     ERROR: Task
+>     (<path>/meta-openembedded/meta-oe/recipes-support/lockdev/lockdev_1.0.3.bb:do_cve_check)
+>     failed with exit code '1'
+> 
+>     The issue is caused by the fact that lockdev_1.0.3-1.6.diff is
+>     missing. When we look into the recipe, it is downloading
+>     lockdev_1.0.3-1.6.diff.gz file Please note the additional extension.
+> 
+>     Stripping the extension comes from oe-core/meta/oe/patch.py, from
+>     the patch_path function, which is figuring out if a file is a patch,
+>     and returning the local path if it is so. However, at the moment
+>     when we do_cve_check, the .gz file is not uncompressed.
+> 
+>     I'm wondering how to solve it.
+>     1. Add a dependency to make sure eventual patch files are
+>     decompressed first?
 
 
-> On 26 Apr 2022, at 14:26, Jacob Kroon via lists.openembedded.org <jacob.k=
-roon=3Dgmail.com@lists.openembedded.org> wrote:
->
-> +Upstream-Status: Backport [https://github.com/madler/zlib/commit/ec3df00=
-224d4b396e2ac6586ab5d25f673caa4c2]
+I think this option looks best or perhaps we should drop applying debian 
+diff entirely since debian seems to have dropped this package
 
-Your Signed-off-by should also be in the patch file, alongside the Upstream=
--Status.
+I think regardless of what we do with this package it seems to be a 
+limitation of cve-check process which perhaps should either be fixed or 
+documented.
 
-Ross
-IMPORTANT NOTICE: The contents of this email and any attachments are confid=
-ential and may also be privileged. If you are not the intended recipient, p=
-lease notify the sender immediately and do not disclose the contents to any=
- other person, use it for any purpose, or store or copy the information in =
-any medium. Thank you.
+>     2. Do not consider this as a patch file in the scope of cve-check ?
+>     (this is more a part of the source then an actual patch that might
+>     be fixing a CVE)
+> 
+>     This is the only case like that we have in the build. Please note
+>     that removing ".diff" from the extension list in patch_path() is
+>     solving the issue.
+> 
+>     Any comments or suggestions?
+> 
+> 
+> Khem,
+> Any feedback about this? From the history it looks like it was you who 
+> changed the recipe to use the .diff.gz file.
+> 
+> Thanks in advance,
+> Marta
 
