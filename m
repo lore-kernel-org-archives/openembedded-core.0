@@ -1,133 +1,105 @@
-Return-Path: <armccurdy@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72F14C433EF
-	for <webhook@archiver.kernel.org>; Tue, 26 Apr 2022 21:39:28 +0000 (UTC)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by mx.groups.io with SMTP id smtpd.web10.830.1651009160404932026
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33313C433EF
+	for <webhook@archiver.kernel.org>; Tue, 26 Apr 2022 22:45:49 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web08.1654.1651013140590044178
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Apr 2022 14:39:20 -0700
+ Tue, 26 Apr 2022 15:45:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XhWfbC9y;
- spf=pass (domain: gmail.com, ip: 209.85.167.52,
- mailfrom: armccurdy@gmail.com)
-Received: by mail-lf1-f52.google.com with SMTP id j4so9713268lfh.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=mBoYrc68;
+ spf=pass (domain: gmail.com, ip: 209.85.214.174,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f174.google.com with SMTP id c12so70227plr.6
         for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Apr 2022 14:39:20 -0700 (PDT)
+ Tue, 26 Apr 2022 15:45:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6Iypx94KyKmKlY5OeoyaTsSLH61O/Id9l5k3fB+AM6M=;
-        b=XhWfbC9yH2rbe3EQZsKI6SES3O3n+kwGdI5gmtGnh3+zPoybPrhcd93ZSeRagzkcIg
-         edEfKRduX7B3aiahqdOIaqQ6bYB7B2HtNbO6Tu6NZThbjrrYW7GE2K57NYWmQyEbRheP
-         xw1T8R1kpA+W/bmiaCovRM5hQtghtguNGiU/Ex0DV4ZPmKEi1JpJloPzsMelyz/ozwYp
-         t6QaBX/9oblTtPdmUPz7eKVyzOWVmT5xwVAyW8cjPsPEBFQblMgX4y2W20SSKtkV754P
-         29B9TuFydxsXTJJu163HcKb3X9He8eYHJr3lYzKINK+N4opDLuRtCaqF/nKc/Ob0FTji
-         YRdA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lBeScZd0Nx3DlFT+cNGmM5edh/cEosSJJdjTz4WIUdM=;
+        b=mBoYrc68t1/TYEyCaOpXo/Ki+RNp/hZZwxctm+YGrghdXrgWSJF6PpFXlDh6R6k3AW
+         my78O7rYPL7+Mo4Ef038QzD64QNxnyd40zl0Zh5h8jmKItDfU4KR0GCHUX+lQX6+1HDg
+         5+83fCap0L8Y4cvomrdLz3ouvf1z5to8zO9YNK2i8RPunU9ZyxKBfbOCL17vbHMwYaUF
+         GcHhBoaQ+CBCfVD6/5thcfbo8trcQj0ep+4greaC2YrA2qFswflreIhEQG89MvYePSGN
+         ZaQdOSkEqn4YJDz7caep7KB9re4v+oXcuEQ7HpL610ZeCtY9StTVth5KbGWKDHi5+M/E
+         7PzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6Iypx94KyKmKlY5OeoyaTsSLH61O/Id9l5k3fB+AM6M=;
-        b=MdI59yDa9zlkjJms2duMB+8DscJOGS4hXe7eNTMui29jIDKZrUoPpajGgjdUit944V
-         zG7G4J2HhU4ScGM5JGtNyMUpqA+rjIFqVQ9GFon4UZf3pgoF4h/Jyyf4VD9r/okljAaP
-         oDLGUPIXrOyEH7zd6Cv/liD3VTMEraErbyTum+zppjIe5YZ8+wV6u44RhiCCyFTYLhDk
-         r8fWMYvGs6hF2UMNUwMdR8nfGt2AwB0G5h2NuR1tNdrtTLIMEd3m1/2pn3TsDMuxPBMg
-         FOBLC/9gNWNmz5m11BvbjeLf33mR5cvERAQ/63iWxiN2iP5N4H/OvyTjTTBxud1Ps0y0
-         EK8A==
-X-Gm-Message-State: AOAM532K3SF/BkwX2TzwVrEN1OxzsVtgM/buqO9yElK6BkI8WvFwA2+c
-	kfVT902IyhHOoicu1Ad6lz4Gsyg1kAwhjvmdYEo=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lBeScZd0Nx3DlFT+cNGmM5edh/cEosSJJdjTz4WIUdM=;
+        b=diWEuYn4/S3LrCKG9SHAOPXMdAeNaEBISWWAfHT6qj7PJJ1mgabMbMxO5EziFP05fk
+         itNEvHHg1q6l89W6t6PZ9CBCQG8zJHZUl/JuHS2zHadKxkR0mNHo0AwzPj+pTSVu6qG1
+         1LrR1EtAkNPtW/t/ORoPiKbY5bS7b5AgWKC+gRnHidb/5o2XEjqyBPTUcJqgHJeh51CH
+         xjjWa9WLLCkcov0wZcjgfLpFbo0EYoDmzPbJUM68AESsy8hqXPpR5VWp9qtrfmNMraGl
+         yUtChq0YGsDi06MnBX1YID+R3Zh3Pj0QF0fyZQec2DHHh7C9ZqfvG4Hj4u6YSyKEYrCl
+         0g3w==
+X-Gm-Message-State: AOAM531/6aFyh7QutFEjl1yS+6GPl8zicoyW33zggm75e1UpHpaIla7A
+	YGnzdYbgoMvjGSHs/ilw19RBcFghpI9SUQ==
 X-Google-Smtp-Source: 
- ABdhPJyzkiC2I5BB8c6BNYTwdUcF04p893i7HbCUKqF0TULT1ra2HB9NKJcTkJwD4Z5Muvxgm8G8tIifSlQMVjnMFjE=
-X-Received: by 2002:a05:6512:1083:b0:472:1013:aad1 with SMTP id
- j3-20020a056512108300b004721013aad1mr5862194lfg.52.1651009158305; Tue, 26 Apr
- 2022 14:39:18 -0700 (PDT)
+ ABdhPJzLlev4SqCuUXIX9CxcMbpnKtM1EkF7NmhLZq0PNLW3JVPaXx6/xUNWYRQY65j4Pec/HIeUvQ==
+X-Received: by 2002:a17:902:ce11:b0:15b:4232:e5e7 with SMTP id
+ k17-20020a170902ce1100b0015b4232e5e7mr25591178plg.39.1651013139761;
+        Tue, 26 Apr 2022 15:45:39 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::2ca3])
+        by smtp.gmail.com with ESMTPSA id
+ t4-20020a628104000000b0050d3ccc653dsm9094305pfd.116.2022.04.26.15.45.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Apr 2022 15:45:39 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] util-linux: Create u-a symlink for findfs utility
+Date: Tue, 26 Apr 2022 15:45:36 -0700
+Message-Id: <20220426224536.1906939-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-References: <20220426194618.218353-1-nicolas.dechesne@linaro.org>
- <CAJ86T=XZLytHs3yQxezF59+UbJnKPUsqJwqY0Cs8HTAqWoYRuQ@mail.gmail.com>
- <CAMKF1srtoJ018V4x3nX2CQ+77DfLgnN2-KizL1Zfje2e-wUEFQ@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1srtoJ018V4x3nX2CQ+77DfLgnN2-KizL1Zfje2e-wUEFQ@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 26 Apr 2022 14:39:01 -0700
-Message-ID: 
- <CAJ86T=WOttBz2W-xWD=dEP36FredBqzjEC3d+sF_ciUX_aCS1w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] sanity: skip make 4.2.1 warning for debian
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Apr 2022 21:39:28 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Apr 2022 22:45:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164885
+ https://lists.openembedded.org/g/openembedded-core/message/164886
 
-On Tue, Apr 26, 2022 at 1:56 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Tue, Apr 26, 2022 at 1:51 PM Andre McCurdy <armccurdy@gmail.com> wrote:
-> >
-> > On Tue, Apr 26, 2022 at 12:46 PM Nicolas Dechesne
-> > <nicolas.dechesne@linaro.org> wrote:
-> > >
-> > > This is a follow up patch of:
-> > > ad5829aa1f8a (sanity: Show a warning that make 4.2.1 is buggy on non-ubuntu systems)
-> > >
-> > > Debian10 has the exact same version/sources for make as Ubuntu
-> > > (focal), e.g. https://packages.debian.org/source/buster/make-dfsg and
-> > > https://packages.ubuntu.com/source/focal/make-dfsg.
-> > >
-> > > As per the corresponding changelog, the patch mentioned in
-> > > ad5829aa1f8a, is included in both Debian and Ubuntu in make
-> > > 4.2.1-1.1. So it's safe to use make 4.2.1 in Debian10.
-> > >
-> > > Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-> > > ---
-> > >  meta/classes/sanity.bbclass | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> > > index c385d92e8b..c72a7b3ed3 100644
-> > > --- a/meta/classes/sanity.bbclass
-> > > +++ b/meta/classes/sanity.bbclass
-> > > @@ -470,7 +470,7 @@ def check_make_version(sanity_data):
-> > >
-> > >      if bb.utils.vercmp_string_op(version, "4.2.1", "=="):
-> > >          distro = oe.lsb.distro_identifier()
-> >
-> > Not directly related to your change, but shouldn't this be
-> > lsb_distro_identifier() instead of oe.lsb.distro_identifier()?
->
-> lsb_distro_identifier would work when it is inheriting base.bbclass
-> otherwise the utility function is needed.
+busybox also installs findfs but into base_sbindir which works out to be
+ok when sbindir != base_sbindir but with usrmerge distro feature enabled
+this starts to cause trouble because busybox's postinst is trying to
+create a symlink for findfs applet in base_sbindir which is same as
+sbindir now and there already is binary from util-linux and image fails
+to build
 
-Question isn't really whether it will work or not (if it doesn't work,
-we should make it work) but rather whether any user-defined
-LSB_DISTRO_ADJUST should be applied before checking if the host distro
-is based on Debian/Ubuntu or not.
+do_rootfs: Postinstall scriptlets of ['busybox'] have failed. If the intention is to defer them to first boot,
+then please place them into pkg_postinst_ontarget:${PN} ().
 
-> > > -        if "ubuntu" in distro:
-> > > +        if "ubuntu" in distro or "debian" in distro:
-> > >              return None
-> > >          return "make version 4.2.1 is known to have issues on Centos/OpenSUSE and other non-Ubuntu systems. Please use a buildtools-make-tarball or a newer version of make.\n"
-> > >      return None
-> > > --
-> > > 2.36.0
-> > >
-> > >
-> > >
-> > >
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#164883): https://lists.openembedded.org/g/openembedded-core/message/164883
-> > Mute This Topic: https://lists.openembedded.org/mt/90716488/1997914
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
+The real reason is burried in do_rootfs logs
+
+update-alternatives: Error: not linking /mnt/b/yoe/master/build/tmp/work/beaglebone-yoe-linux-gnueabi/yoe-sdk-image/1.0-r0/rootfs/usr/sbin/findfs to /usr/bin/busybox.suid since /mnt/b/yoe/master/build/tmp/work/beaglebone-yoe-linux-gnueabi/yoe-sdk-image/1.0-r0/rootfs/usr/sbin/findfs exists and is not a link
+
+Creating proper u-a for findfs in util-linux fixes the issue
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/util-linux/util-linux_2.37.4.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-core/util-linux/util-linux_2.37.4.bb b/meta/recipes-core/util-linux/util-linux_2.37.4.bb
+index d609c30067f..b39020884fb 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.37.4.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.37.4.bb
+@@ -221,6 +221,7 @@ ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
+ ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
+ ALTERNATIVE_LINK_NAME[fallocate] = "${bindir}/fallocate"
+ ALTERNATIVE_LINK_NAME[fdisk] = "${base_sbindir}/fdisk"
++ALTERNATIVE_LINK_NAME[findfs] = "${sbindir}/findfs"
+ ALTERNATIVE_LINK_NAME[flock] = "${bindir}/flock"
+ ALTERNATIVE_LINK_NAME[fsck] = "${base_sbindir}/fsck"
+ ALTERNATIVE_LINK_NAME[fsfreeze] = "${sbindir}/fsfreeze"
+-- 
+2.36.0
+
 
