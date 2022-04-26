@@ -1,131 +1,149 @@
-Return-Path: <pgowda.cve@gmail.com>
+Return-Path: <jacob.kroon@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1438C433F5
-	for <webhook@archiver.kernel.org>; Tue, 26 Apr 2022 13:08:27 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web08.6040.1650978497521726337
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA255C433EF
+	for <webhook@archiver.kernel.org>; Tue, 26 Apr 2022 13:27:27 +0000 (UTC)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web11.6436.1650979640251248583
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Apr 2022 06:08:17 -0700
+ Tue, 26 Apr 2022 06:27:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=UnC0XbfV;
- spf=pass (domain: gmail.com, ip: 209.85.208.175,
- mailfrom: pgowda.cve@gmail.com)
-Received: by mail-lj1-f175.google.com with SMTP id 4so8333096ljw.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=YzBnan2T;
+ spf=pass (domain: gmail.com, ip: 209.85.208.180,
+ mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lj1-f180.google.com with SMTP id m23so11120682ljc.0
         for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Apr 2022 06:08:17 -0700 (PDT)
+ Tue, 26 Apr 2022 06:27:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=p1JMTwfAg5+upS0VVq1h/sdl+7btoPCTHJ+ioB3MR3I=;
-        b=UnC0XbfVLIfcC21QcseVngpxWQ4qlZ9ub9VDUOSvGMyrzYTO1X65vLx5qTHNzv1v1Y
-         /nOqbx3Y1VokoACKYJL/J9+rFUSeDZtBGAEKeuLi9Lc3YJap2o3uVeM5c49TtKAHFmj/
-         hJeBRr3fY1IdWyzwtWXtI2adRX71mgJLrzaei9jWAu93TyRMnijn1Vt9Bw/GDVzSQaMU
-         lwPm7opYG66JA1ee2OzD17fndMsGTCw4v2st9Y7d5oB9Ey7LCG1HlTIhXfBG3jrixIo0
-         irbrS7He/X62wMb2m9d//fTXh3qxTW8ouHkr3YmE6qPG0uY9yWHQPsN+o073u1HS5mJI
-         J0YQ==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9CwFpHJxi72IgmtIXttASpNuyfCQRdT3gKGJUBzYDHc=;
+        b=YzBnan2TpAF7GAlVv1vpusr6WAp8epQ8dcvDOA65DzcJewQ4KsXJrG1Fbn/a0vuJUp
+         D3+8zLIFg0W7XQvcQ1I02v6D+DoQY1U/ybk52QLxnjiwh0wrRxLmQ5PzOv+itS2gN9jD
+         m5hWhItRfKMdqw7g07Gin5SZOXtO6x2z6nbrodEjqJmQJIEXYhqEEsTNwTyTlI7N8ZD6
+         Z7lI3nQBkU28E8a14gXujsEBljjDYQ7i5yoZxVfN0lyIyprA4kKloXC18xdtITLfjs2H
+         seFgSIU6uE9zQBdOXpRyXiWqdBD5+EJRrT7xyd5N9nNjxyQIaFxYdcTrGnPP6txxEQbA
+         3veQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=p1JMTwfAg5+upS0VVq1h/sdl+7btoPCTHJ+ioB3MR3I=;
-        b=LrK/w40u5uAQIa+Rq5gG80MlTTXDtVMIZIgMdSlW0/jmVwBjDcSUnjQo1sWrno9a32
-         6yvPObLuMPTY+B90GCqG5tUuVV/t8FegNS5mRFC+VzCHUX57/pu7CD3xL6TLA1LufpOl
-         wY5ACKugadPFkhrcXGscoH31GmbaObDW9Tac8Og0TBSv8/tObHriU/w0zozq2kEFjYi2
-         HYt8J8YnSfuoo4udZ6FaR5K5sj1Hp3xlvzVWGueIU7HwqXQF+DySKCCARuG632gillnV
-         Re2eoT2y/yE6VesrjbgYzRA5lyEK8QY9OWbAIhOitrfeLdXTLKjP1kAWR1b+Xs2Zor5m
-         TYdw==
-X-Gm-Message-State: AOAM533w2cRNG1qWboy9Svzj0mq9F7GEvRjloDsKJ5Ldx190On6aeftu
-	C/MMhp//Sf/XSsuqAWxbFqTpnI5TtqLlIfkzrsA=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9CwFpHJxi72IgmtIXttASpNuyfCQRdT3gKGJUBzYDHc=;
+        b=GmCIsC9lfTgKZ1GCvtNMxQt/QjgWESDLRDHFvO79SYKTjcRnjYBxkC4XaujRSB21Tj
+         qRjYtI4/SU7fjPKa/E4RxD5Z1a4hkSx00K+ylBwJtJ5PR8nOKXVxJA1Dl2rNE0PfznJ+
+         mg6hxdWgD7T19sQOhxgQHeGI90oO/JjZslcRptW23sDKyx74mMliV47/S4TIyh6O94uY
+         tjzUFPRnowMdM+AsEj7pllTSRMSRlLdc5nSjA9Y4YFk3YfSQosF75UyvK6kNS2MS/o0M
+         b1RZVqKwHcg7Xs0uHnWRvI0SiTuYOZyH9FllCf+TrbKap5tsQKIQOpqpLjjVzwz3WG0A
+         U/UQ==
+X-Gm-Message-State: AOAM533O892vvTinQqVdfyyo1cAkm98ZQsN4JACFvAfVznEzg8DlbDj6
+	TM6kiJG+eVLHGONGOD9jGQkqNbqTEuPcTw==
 X-Google-Smtp-Source: 
- ABdhPJyA9TND/rIM9AnOcqXOhj4hTGIiiEBlHCsGn2zNeBTS8+0YYRKBN4KFBQaqyaMuukogNMN01pO7p/bwNxnL6T8=
-X-Received: by 2002:a2e:82d5:0:b0:247:e3e7:7c26 with SMTP id
- n21-20020a2e82d5000000b00247e3e77c26mr14746311ljh.395.1650978495723; Tue, 26
- Apr 2022 06:08:15 -0700 (PDT)
+ ABdhPJwL/zH8Eyx4BxD+3BgVdmFQCXdmzhyqZVbgD3BLwhn8Evy4Qp4wjo4ek6p1sVdQrjIJ+W95pw==
+X-Received: by 2002:a2e:b88c:0:b0:24e:f647:ea2a with SMTP id
+ r12-20020a2eb88c000000b0024ef647ea2amr12873897ljp.247.1650979638338;
+        Tue, 26 Apr 2022 06:27:18 -0700 (PDT)
+Received: from localhost.localdomain (89-253-118-72.customers.ownit.se.
+ [89.253.118.72])
+        by smtp.gmail.com with ESMTPSA id
+ k5-20020a196f05000000b00472035deb89sm883170lfc.1.2022.04.26.06.27.17
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Apr 2022 06:27:17 -0700 (PDT)
+From: Jacob Kroon <jacob.kroon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] zlib: Add patch to fix building icedtea7-native from
+ meta-java
+Date: Tue, 26 Apr 2022 15:26:57 +0200
+Message-Id: <20220426132657.988726-1-jacob.kroon@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220425100533.101314-1-pgowda.cve@gmail.com>
- <20220426135605.34ac2f80@melee>
- <CAO5Uq5Rd2KdssUbeW6WSX743i2HCTq+MFcdDAFyJU8EVYvF6zQ@mail.gmail.com>
-In-Reply-To: 
- <CAO5Uq5Rd2KdssUbeW6WSX743i2HCTq+MFcdDAFyJU8EVYvF6zQ@mail.gmail.com>
-From: pgowda cve <pgowda.cve@gmail.com>
-Date: Tue, 26 Apr 2022 18:38:03 +0530
-Message-ID: 
- <CALY49850OECgkKV7pMH7j75-0tfv2rj_gA1xzjyDmAOxNMY-Pg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rust: update 1.59.0 -> 1.60.0
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Randy MacLeod <rwmacleod@gmail.com>,
- Alexander Kanavin <alex.kanavin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Apr 2022 13:08:27 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Apr 2022 13:27:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164873
+ https://lists.openembedded.org/g/openembedded-core/message/164875
 
-Hi,
+Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+---
+ ...t-inputs-provided-to-the-CRC-functio.patch | 53 +++++++++++++++++++
+ meta/recipes-core/zlib/zlib_1.2.12.bb         |  1 +
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-core/zlib/zlib/0001-Correct-incorrect-inputs-provided-to-the-CRC-functio.patch
 
-@Khem
->> right, this might be good to have as comment on top of that assignment
->> for future reference
-Thanks for the info.
-It's been updated as per your comments.
-
-> like the the version bump in tcmode-default.inc was missing.
-Thanks for mentioning it.
-I figured it out after seeing the warning message from Luca Ceresoli.
-It's was updated, tested for all the recipes and a new version of the
-patch is posted as:-
-https://lists.openembedded.org/g/openembedded-core/message/164872
-
-Thanks,
-Pgowda
-
-On Tue, Apr 26, 2022 at 5:36 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
->
-> On Tue, Apr 26, 2022 at 12:56 PM Luca Ceresoli via
-> lists.openembedded.org
-> <luca.ceresoli=bootlin.com@lists.openembedded.org> wrote:
-> >
-> > Hello Pgowda,
-> >
-> > Il giorno Mon, 25 Apr 2022 03:05:33 -0700
-> > "Pgowda" <pgowda.cve@gmail.com> ha scritto:
-> >
-> > > Rust has been upgraded to rust-1.60.0 that uses LLVM 14.
-> > >
-> > > Please refer the following link for more detailed features.
-> > > https://blog.rust-lang.org/2022/04/07/Rust-1.60.0.html
-> > > https://github.com/rust-lang/rust/blob/master/RELEASES.md
-> > >
-> > > Signed-off-by: pgowda <pgowda.cve@gmail.com>
-> >
-> > Testing with this patch applied triggers many warnings:
-> >
-> > WARNING: preferred version 1.59% of cargo-native not available (for item cargo-native)
-> > WARNING: versions of cargo-native available: 1.60.0
-> > WARNING: preferred version 1.59% of libstd-rs not available (for item libstd-rs)
-> > WARNING: versions of libstd-rs available: 1.60.0
-> > WARNING: preferred version 1.59% of libstd-rs not available (for item libstd-rs)
-> > WARNING: versions of libstd-rs available: 1.60.0
-> > WARNING: preferred version 1.59% of libstd-rs not available (for item libstd-rs-dev)
-> > WARNING: versions of libstd-rs available: 1.60.0
-> > WARNING: preferred version 1.59% of rust-native not available (for item rust-native)
-> > WARNING: versions of rust-native available: 1.60.0
-> > WARNING: preferred version 1.59% of rust-llvm-native not available (for item rust-llvm-native)
-> > WARNING: versions of rust-llvm-native available: 1.60.0
-> >
->
-> When I was cherry-picking this back for thud (don't ask) it looked
-> like the the version bump in tcmode-default.inc was missing.
->
-> --
-> Alex Kiernan
+diff --git a/meta/recipes-core/zlib/zlib/0001-Correct-incorrect-inputs-provided-to-the-CRC-functio.patch b/meta/recipes-core/zlib/zlib/0001-Correct-incorrect-inputs-provided-to-the-CRC-functio.patch
+new file mode 100644
+index 0000000000..6bd36d56d2
+--- /dev/null
++++ b/meta/recipes-core/zlib/zlib/0001-Correct-incorrect-inputs-provided-to-the-CRC-functio.patch
+@@ -0,0 +1,53 @@
++From ec3df00224d4b396e2ac6586ab5d25f673caa4c2 Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Wed, 30 Mar 2022 11:14:53 -0700
++Subject: [PATCH] Correct incorrect inputs provided to the CRC functions.
++
++The previous releases of zlib were not sensitive to incorrect CRC
++inputs with bits set above the low 32. This commit restores that
++behavior, so that applications with such bugs will continue to
++operate as before.
++
++Upstream-Status: Backport [https://github.com/madler/zlib/commit/ec3df00224d4b396e2ac6586ab5d25f673caa4c2]
++---
++ crc32.c | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/crc32.c b/crc32.c
++index a1bdce5..451887b 100644
++--- a/crc32.c
+++++ b/crc32.c
++@@ -630,7 +630,7 @@ unsigned long ZEXPORT crc32_z(crc, buf, len)
++ #endif /* DYNAMIC_CRC_TABLE */
++ 
++     /* Pre-condition the CRC */
++-    crc ^= 0xffffffff;
+++    crc = (~crc) & 0xffffffff;
++ 
++     /* Compute the CRC up to a word boundary. */
++     while (len && ((z_size_t)buf & 7) != 0) {
++@@ -749,7 +749,7 @@ unsigned long ZEXPORT crc32_z(crc, buf, len)
++ #endif /* DYNAMIC_CRC_TABLE */
++ 
++     /* Pre-condition the CRC */
++-    crc ^= 0xffffffff;
+++    crc = (~crc) & 0xffffffff;
++ 
++ #ifdef W
++ 
++@@ -1077,7 +1077,7 @@ uLong ZEXPORT crc32_combine64(crc1, crc2, len2)
++ #ifdef DYNAMIC_CRC_TABLE
++     once(&made, make_crc_table);
++ #endif /* DYNAMIC_CRC_TABLE */
++-    return multmodp(x2nmodp(len2, 3), crc1) ^ crc2;
+++    return multmodp(x2nmodp(len2, 3), crc1) ^ (crc2 & 0xffffffff);
++ }
++ 
++ /* ========================================================================= */
++@@ -1112,5 +1112,5 @@ uLong crc32_combine_op(crc1, crc2, op)
++     uLong crc2;
++     uLong op;
++ {
++-    return multmodp(op, crc1) ^ crc2;
+++    return multmodp(op, crc1) ^ (crc2 & 0xffffffff);
++ }
+diff --git a/meta/recipes-core/zlib/zlib_1.2.12.bb b/meta/recipes-core/zlib/zlib_1.2.12.bb
+index 95e873584b..e921703137 100644
+--- a/meta/recipes-core/zlib/zlib_1.2.12.bb
++++ b/meta/recipes-core/zlib/zlib_1.2.12.bb
+@@ -11,6 +11,7 @@ SRC_URI = "https://zlib.net/${BP}.tar.xz \
+            file://ldflags-tests.patch \
+            file://0001-configure-Pass-LDFLAGS-to-link-tests.patch \
+            file://run-ptest \
++           file://0001-Correct-incorrect-inputs-provided-to-the-CRC-functio.patch \
+            "
+ UPSTREAM_CHECK_URI = "http://zlib.net/"
+ 
 
