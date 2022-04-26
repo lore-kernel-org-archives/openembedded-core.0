@@ -2,103 +2,98 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADAEAC433FE
-	for <webhook@archiver.kernel.org>; Tue, 26 Apr 2022 02:54:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A683C43217
+	for <webhook@archiver.kernel.org>; Tue, 26 Apr 2022 02:54:28 +0000 (UTC)
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web09.1726.1650941652560455819
+ by mx.groups.io with SMTP id smtpd.web12.1700.1650941656313754698
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Apr 2022 19:54:13 -0700
+ Mon, 25 Apr 2022 19:54:21 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=b1//Lrzb;
+ header.b=S2D2l4wG;
  spf=pass (domain: intel.com, ip: 134.134.136.24,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650941652; x=1682477652;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=vpEGp0ghpWYvh1jQWR6f1TDFvSxla9EPiqCeRV7OjXk=;
-  b=b1//LrzbGDh+wTmvhJKF1FjDI6B6Sl8vglHyOswqGPGEE1lvq7IElr3+
-   5T9NiOMUadsaVW9w2gF/crnppL/E3FckPYlJVqNGldUoKZFqjYk5p1RO7
-   r1a7BOICIMRAHLj67RwGSDLdB5GQYpL88hUOLp5GKYjhRVkmt5OeJpJaW
-   lvNVkI30TtS76fIiqIfLgHksweObl0vthP97+ysFS0kOx751Nw7gn+0A5
-   9X+ZzwipoYg8fLE6Q/QSBrNRsEvENiyHbBmo+ysF9xE/gkRPzN5Dxg3+r
-   QQS5CpO0hH9kDTT7vWCkLuNVBdKRpOhL6TekPxyswY1WcCj4O8yRNvZuv
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="264950945"
+  t=1650941660; x=1682477660;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=EL3fYsUJoNCIUOxRSX7pm0R6GVF2RxAwk4SP6ZI5wSo=;
+  b=S2D2l4wGpbiTkAMsxjpXxQbAo2QwvvxVpbvhV6hLLrey4PcgEBno8ikk
+   +9S+iedH7GLyJvfeyt0MlKMwwoVOIYPFnmIx8LE81wol0JrHc1SFnxoxE
+   DIEpQABSU5j5zXdtal9vabxzHU5MzPNhzFL8xzI/PgfwfJ4ZfDAFlmNjq
+   94IUnaZ/ZWQS/gu4gJuQWxC4aBv9LlaZhDS6nUrCl/6uawm98iDnNUZyL
+   Nq+CiS6U0GEoLq250zsNwGnVq/Pb4QBWZ9M1ro2z2NLSGRWopnQsDSRIm
+   bMMSZTuslf5D1xnuatoA9RzRR0LnXCtftDaxvYrm+uT+BB0VyvJeJyFYe
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="264950977"
 X-IronPort-AV: E=Sophos;i="5.90,290,1643702400";
-   d="scan'208";a="264950945"
+   d="scan'208";a="264950977"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2022 19:54:11 -0700
+ 25 Apr 2022 19:54:20 -0700
 X-IronPort-AV: E=Sophos;i="5.90,290,1643702400";
-   d="scan'208";a="660439775"
+   d="scan'208";a="660439881"
 Received: from huiyingn-mobl2.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.213.47.238])
   by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2022 19:54:10 -0700
+ 25 Apr 2022 19:54:19 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 0/7] Patch review
-Date: Tue, 26 Apr 2022 10:53:58 +0800
-Message-Id: <cover.1650941226.git.anuj.mittal@intel.com>
+Subject: [honister][PATCH 6/7] linux-firmware: correct license for ar3k
+ firmware
+Date: Tue, 26 Apr 2022 10:54:04 +0800
+Message-Id: 
+ <c246ed4215821d145c86633df7097047855621c5.1650941226.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <cover.1650941226.git.anuj.mittal@intel.com>
+References: <cover.1650941226.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Apr 2022 02:54:18 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Apr 2022 02:54:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164847
+ https://lists.openembedded.org/g/openembedded-core/message/164853
 
-Last set of patches for honister before 3.4.4. Please review.
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 
-No problems seen while testing:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3565
+According to the WHENCE file, some a3k firmware files are licensed
+under the special ar3k license, while others are licensed under the more
+generic Atheros license. Document this by adding extending the
+LICENSE:${PN}-ar3k and depending on both of them.
 
-Thanks,
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+(cherry picked from commit 8e651814af706285d64b532095fcd6f5f02629ba)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Anuj
-
-The following changes since commit 4c556b4fd07a3ce9128019b51e5623e8eeeb7400:
-
-  license_image.bbclass: close package.manifest file (2022-04-19 22:22:49 +0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib anujm/honister
-
-Dmitry Baryshkov (1):
-  linux-firmware: correct license for ar3k firmware
-
-Konrad Weihmann (1):
-  gmp: add missing COPYINGv3
-
-Peter Kjellerstedt (1):
-  u-boot: Inherit pkgconfig
-
-Richard Purdie (2):
-  alsa-tools: Ensure we install correctly
-  shadow-native: Simplify and fix syslog disable patch
-
-wangmy (1):
-  linux-firmware: upgrade 20220310 -> 20220411
-
-zhengruoqin (1):
-  wireless-regdb: upgrade 2022.02.18 -> 2022.04.08
-
- meta/recipes-bsp/u-boot/u-boot-common.inc     |   3 +
- ...01-Disable-use-of-syslog-for-sysroot.patch | 150 +++++-------------
- ...20220310.bb => linux-firmware_20220411.bb} |   8 +-
- ....02.18.bb => wireless-regdb_2022.04.08.bb} |   2 +-
- .../alsa/alsa-tools_1.2.5.bb                  |   1 +
- meta/recipes-support/gmp/gmp_6.2.1.bb         |   8 +-
- 6 files changed, 53 insertions(+), 119 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220310.bb => linux-firmware_20220411.bb} (99%)
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2022.02.18.bb => wireless-regdb_2022.04.08.bb} (94%)
-
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
+index c7d9e1126e..4a443d14d1 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
+@@ -352,7 +352,7 @@ FILES:${PN}-carl9170 = " \
+ RDEPENDS:${PN}-carl9170 += "${PN}-gplv2-license"
+ 
+ # For QualCommAthos
+-LICENSE:${PN}-ar3k = "Firmware-qualcommAthos_ar3k"
++LICENSE:${PN}-ar3k = "Firmware-qualcommAthos_ar3k & Firmware-atheros_firmware"
+ LICENSE:${PN}-ar3k-license = "Firmware-qualcommAthos_ar3k"
+ LICENSE:${PN}-ath10k = "Firmware-qualcommAthos_ath10k"
+ LICENSE:${PN}-ath10k-license = "Firmware-qualcommAthos_ath10k"
+@@ -376,7 +376,7 @@ FILES:${PN}-qca = " \
+   ${nonarch_base_libdir}/firmware/qca \
+ "
+ 
+-RDEPENDS:${PN}-ar3k += "${PN}-ar3k-license"
++RDEPENDS:${PN}-ar3k += "${PN}-ar3k-license ${PN}-atheros-license"
+ RDEPENDS:${PN}-ath10k += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-ath11k += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-qca += "${PN}-ath10k-license"
 -- 
 2.35.1
 
