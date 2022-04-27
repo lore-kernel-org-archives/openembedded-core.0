@@ -1,191 +1,266 @@
-Return-Path: <sbabic@denx.de>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BD2FC433FE
-	for <webhook@archiver.kernel.org>; Wed, 27 Apr 2022 06:48:25 +0000 (UTC)
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web11.5174.1651042095668802060
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41560C433FE
+	for <webhook@archiver.kernel.org>; Wed, 27 Apr 2022 07:15:15 +0000 (UTC)
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
+ [209.85.166.51])
+ by mx.groups.io with SMTP id smtpd.web11.5322.1651043711377281169
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Apr 2022 23:48:17 -0700
+ Wed, 27 Apr 2022 00:15:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@denx.de
- header.s=phobos-20191101 header.b=esTA59V/;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: sbabic@denx.de)
-Received: from [IPV6:2001:a61:616e:1401:bb69:bc17:3cad:66e8] (unknown
- [IPv6:2001:a61:616e:1401:bb69:bc17:3cad:66e8])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: sbabic@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 023CF80137;
-	Wed, 27 Apr 2022 08:48:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1651042087;
-	bh=93Gli3gIwqEnOLXWxP/CSH2RQvQWfp+1donDcJThnzQ=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=esTA59V/u8/EC3Z5l8gvaftnH2RE4sWEYv4mvPkZPqfXS7UJrzARZCbnCVGeCn4/s
-	 Jo8YdDGvfjdtw+4w2886Bb3DgiR9XjMKc0R61fZfFY2HfiBR1J7HDsXjWk/LKDtVeD
-	 onQRNutPNPROuAl4eG4pPiaYN7QJ0n525oJj4xXrXyF7oCz8Uf3wOyW6zpodCg9LwB
-	 j4R5/1Bg484/FFkaGzJpbjRfpsdPCQWrz9ANOBJWskpNaNMBVpSOqPlcqQASgOdZaR
-	 CWSXJOoN5ZdtZMSdwvLnDRwfpkFDLadPDIgF9fGfZOPwImiMiSIuV9LDey+tN5jRGx
-	 ygjIU31pVPY8g==
-Message-ID: <b14c0ed1-ebf3-3b25-54c7-dc6b9efdb4ce@denx.de>
-Date: Wed, 27 Apr 2022 08:47:58 +0200
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=mMCgt+tR;
+ spf=pass (domain: gmail.com, ip: 209.85.166.51,
+ mailfrom: rybczynska@gmail.com)
+Received: by mail-io1-f51.google.com with SMTP id e194so1782556iof.11;
+        Wed, 27 Apr 2022 00:15:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=o+Av3UmYe+uepSNCZCopxeVFfOAhHDiwCLMMN3+R17A=;
+        b=mMCgt+tRaOKUsq7cXFm2zPo0uuLF/1crJmUPzu/qTBhYMSjnWO8EMYgqe8q7NzyHg/
+         VLiYSnmSK92QSx7ruYh+I3JRlCQQy4j6UHF87Q7JieQr50nmYZ50teOuJq4rNkjav6OP
+         4q4tq6kYeM/anuRKn4Mg7i8lOto5wqGNt4V0Y9PmkJR2qx6IpsLETwrK/6TAS/lJdzNN
+         ldpgnRZY7jaUYGRwX1PtkZjOk2FOmT1bwqlT7nydImEj9DPhPDyyA1kZ0lLmJcVGpjPF
+         f4dzedKqapbDJGjRl89V9x6cZu+Bw0VplXk8lT6BHK4T6sadVb6et6n8d2044EpzYp7M
+         4c0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=o+Av3UmYe+uepSNCZCopxeVFfOAhHDiwCLMMN3+R17A=;
+        b=OzZMoickSApmgO3XXhBrI9y9rDcKEGLi8SXF3GOedVO4vJ+1wOPSvYYiB+vEEna6cN
+         1l/6CP3VXKJkQFMfTjvVndSbJ2AmZO1yosmdlm1+YC02E00XHDKPp/PHhkD70ncbHB2+
+         AhDAli6cBcQaMXJF2Q4tc8uaQKAK1hCh1Dziiw2gzbVLe4kPmK2G4Bdyk9+uFxeBDiTc
+         Ojll7REzL9PwTb+fMpFh+QHzQbmqoxQ05QVCEX25o5RW8xWh9q594D5+MHlehuhevMg+
+         7U3gJx6gYCBimb72S7rOu2US12s7hpPoDhOyMcUzThRO0YfZVeLYZiQCxYoY/I9fU2rD
+         tJWg==
+X-Gm-Message-State: AOAM533QJqk8cXBXjROjgCS1J5xmFNBZnUI/79vNwlhGjASR6ObejOA0
+	WdRtPy3+U7qOI8eXD0l5rwzfKe+lHM2T2Xo2d7c=
+X-Google-Smtp-Source: 
+ ABdhPJxMk0WZLGvB6lkpI5BJZrFK1qkvklHAgjc8l/gR7LIOu1HkWSOzUHjNaCwls+krAdJvAV76rm++7qOWBH03shQ=
+X-Received: by 2002:a02:cb03:0:b0:328:8369:9023 with SMTP id
+ j3-20020a02cb03000000b0032883699023mr11949699jap.247.1651043710705; Wed, 27
+ Apr 2022 00:15:10 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [OE-core] Git and pseudo
-Content-Language: en-US
-To: Mike Looijmans <mike.looijmans@topic.nl>,
- Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
 References: 
- <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.6812ddf4-d065-4e4e-ad42-c48d1bca155d@emailsignatures365.codetwo.com>
- <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.0d2bd5fa-15cc-4b27-b94e-83614f9e5b38.65eda1d8-3d07-4fbe-a1d1-669c533cd0a5@emailsignatures365.codetwo.com>
- <ef4b958c-8310-4b40-f671-779558228550@topic.nl>
- <749f33fad354821ee5e1b9f061aae211c252b934.camel@linuxfoundation.org>
- <70d61f68-8a56-86fa-5772-598628219797@topic.nl>
-From: Stefano Babic <sbabic@denx.de>
-In-Reply-To: <70d61f68-8a56-86fa-5772-598628219797@topic.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
-Content-Transfer-Encoding: quoted-printable
+ <CAApg2=Q9DOoYVHNSCR_=pEN-x7EQuRw2yhwqWhEG2zaMTONt8w@mail.gmail.com>
+ <CAApg2=TjNwub9WsLfh1ZAA8hfMVDPgTYVCELotUfGRGpO9gu8Q@mail.gmail.com>
+ <5e82785b-14bc-5a4d-a807-fdaa58afee5d@gmail.com>
+In-Reply-To: <5e82785b-14bc-5a4d-a807-fdaa58afee5d@gmail.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Wed, 27 Apr 2022 09:14:59 +0200
+Message-ID: 
+ <CAApg2=Rd7rBM_PaVEzt4K4vKd4AqVC1uA6yZJZrABFLFYNWrcQ@mail.gmail.com>
+Subject: Re: CVE-check failing on world with meta-openembedded: diff.gz file
+To: Khem Raj <raj.khem@gmail.com>, Ross Burton <ross@burtonini.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Steve Sakoman <steve@sakoman.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000e2a33505dd9d917b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Apr 2022 06:48:25 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Apr 2022 07:15:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164889
+ https://lists.openembedded.org/g/openembedded-core/message/164890
 
-Hi Mike, Richard,
+--000000000000e2a33505dd9d917b
+Content-Type: text/plain; charset="UTF-8"
 
-On 26.04.22 11:08, Mike Looijmans wrote:
->=20
-> Met vriendelijke groet / kind regards,
->=20
-> Mike Looijmans
-> System Expert
->=20
->=20
-> TOPIC Embedded Products B.V.
-> Materiaalweg 4, 5681 RJ Best
-> The Netherlands
->=20
-> T: +31 (0) 499 33 69 69
-> E: mike.looijmans@topicproducts.com
-> W: www.topic.nl
->=20
-> Please consider the environment before printing this e-mail
-> On 25-04-2022 14:51, Richard Purdie wrote:
->> On Mon, 2022-04-25 at 09:40 +0200, Mike Looijmans wrote:
->>> Recently GIT got updated with a security fix:
->>>
->>> https://github.blog/2022-04-12-git-security-vulnerability-announced/
->>>
->>>
->>> The problem is that this causes all "git" tasks that run within pseud=
-o
->>> (most noticably, image recipes) to fail. In many repositories, we use=
-:
->>> git rev-parse --verify HEAD > /etc/revision
->>>
->>> Or something similar to that. After the GIT update, this now fails wi=
-th
->>> an error like:
->>>
->>> '''
->>> fatal: unsafe repository ('/home/mike/repository/path' is owned by
->>> someone else)
->>> To add an exception for this directory, call:
->>>
->>> =C2=A0 =C2=A0=C2=A0 =C2=A0git config --global --add safe.directory=20
->>> /home/mike/repository/path
->>> '''
->>>
->>> Apart from doing as it says, or even "git config --global --add
->>> safe.directory '*'" anyone have a better idea, especially one that
->>> prevents the system thinking I'm someone else (root in the case of=20
->>> pseudo).
->> https://git.yoctoproject.org/poky/commit/?id=3D21559199516a31c7635c5f2=
-d874eaa4a92fff0e5=20
->>
->>
->> However this isn't quite enough as some things encode the path to git=20
->> into build
->> files so the PATH change at do_install isn't enough. igt-gpu-tools via=
-=20
->> meson in
->> OE-Core is an example.
->>
->> Cheers,
->>
->> Richard
->>
-> Nice, also for general usefulness.
->=20
->=20
-> For our particular case, I came up with this (works in old OE versions=20
-> as well), just inserting a task since both do_image and do_rootfs run=20
-> under fakeroot:
->=20
->  =C2=A0# We require access to the git repository here, so we must run o=
-utside=20
-> fakeroot
-> do_swumetadata() {
->  =C2=A0=C2=A0 # Hardware revision for SWUpdate
->  =C2=A0=C2=A0 echo "${SWU_BOARD_HWREVISION}" >=20
-> ${IMAGE_ROOTFS}${sysconfdir}/hwrevision
->  =C2=A0=C2=A0 v=3D`git rev-parse --verify HEAD`
->  =C2=A0=C2=A0 echo $v > ${IMAGE_ROOTFS}${sysconfdir}/swrevision
->  =C2=A0=C2=A0 echo $v > ${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}.swrevisio=
-n
-> }
-> addtask do_swumetadata before do_image after do_rootfs
->=20
+On Tue, Apr 26, 2022 at 6:09 PM Khem Raj <raj.khem@gmail.com> wrote:
 
-It looks like we have several breakages. I found yesterday that=20
-buildinfo (image-buildinfo) does not work anymore.
+> Hi Marta
+>
+> On 4/26/22 5:20 AM, Marta Rybczynska wrote:
+> >
+> >
+> > On Fri, Apr 22, 2022 at 11:07 AM Marta Rybczynska <rybczynska@gmail.com
+> > <mailto:rybczynska@gmail.com>> wrote:
+> >
+> >     Dear all,
+> >     We're running cve-check on a world build containing oe-core, meta-oe
+> >     and more. We have an issue with the lockdev recipe
+> >     (meta-openembedded/meta-oe/recipes-support/lockdev/lockdev_1.0.3.bb
+> >     <http://lockdev_1.0.3.bb>), which causes a fail like below:
+> >
+> >     $ bitbake world --runonly=do_cve_check
+> >     ERROR: lockdev-1_1.0.3-r0 do_cve_check: File Not found:
+> >     <path>lockdev/1_1.0.3-r0/lockdev_1.0.3-1.6.diff
+> >     ERROR: lockdev-1_1.0.3-r0 do_cve_check: Failure in searching patches
+> >     ERROR: Logfile of failure stored in:
+> >     <path>/lockdev/1_1.0.3-r0/temp/log.do_cve_check.8709
+> >     ERROR: Task
+> >
+>  (<path>/meta-openembedded/meta-oe/recipes-support/lockdev/lockdev_1.0.3.bb:
+> do_cve_check)
+> >     failed with exit code '1'
+> >
+> >     The issue is caused by the fact that lockdev_1.0.3-1.6.diff is
+> >     missing. When we look into the recipe, it is downloading
+> >     lockdev_1.0.3-1.6.diff.gz file Please note the additional extension.
+> >
+> >     Stripping the extension comes from oe-core/meta/oe/patch.py, from
+> >     the patch_path function, which is figuring out if a file is a patch,
+> >     and returning the local path if it is so. However, at the moment
+> >     when we do_cve_check, the .gz file is not uncompressed.
+> >
+> >     I'm wondering how to solve it.
+> >     1. Add a dependency to make sure eventual patch files are
+> >     decompressed first?
+>
+>
+> I think this option looks best or perhaps we should drop applying debian
+> diff entirely since debian seems to have dropped this package
+>
+> I think regardless of what we do with this package it seems to be a
+> limitation of cve-check process which perhaps should either be fixed or
+> documented.
+>
+> >     2. Do not consider this as a patch file in the scope of cve-check ?
+> >     (this is more a part of the source then an actual patch that might
+> >     be fixing a CVE)
+> >
+> >     This is the only case like that we have in the build. Please note
+> >     that removing ".diff" from the extension list in patch_path() is
+> >     solving the issue.
+> >
+> >     Any comments or suggestions?
+> >
+> >
 
-meta-filesystems  =3D <unknown>:<unknown>
+Adding Ross, Richard and Steve.
 
-meta-networking   =3D <unknown>:<unknown>
+I'm wondering if it makes sense to consider .diff.gz (or .patch.gz) files
+as patches for
+cve-check. They basically come directly from 3rd parties and it is quite
+unlikely to expect
+them to keep the CVE: tag. All the pieces of documentation I can find
+mention also only
+.patch files for CVEs, and not .patch.gz.
 
-meta-oe           =3D <unknown>:<unknown>
+This is tempting to remove the .gz handling here (for the cve-check) in my
+opinion.
 
-meta-perl         =3D <unknown>:<unknown>
+Also, since the commit f5f97d33a1703d75b9fd9760f2c7767081538e00, cve-check
+depends only on do_fetch.
 
-meta-python       =3D <unknown>:<unknown>
+Any further opinions?
 
-meta-swupdate     =3D <unknown>:<unknown>
+Regards,
+Marta
 
-meta              =3D <unknown>:<unknown>
+--000000000000e2a33505dd9d917b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-meta-poky         =3D <unknown>:<unknown>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Apr 26, 2022 at 6:09 PM Khem =
+Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Marta<br=
+>
+<br>
+On 4/26/22 5:20 AM, Marta Rybczynska wrote:<br>
+&gt; <br>
+&gt; <br>
+&gt; On Fri, Apr 22, 2022 at 11:07 AM Marta Rybczynska &lt;<a href=3D"mailt=
+o:rybczynska@gmail.com" target=3D"_blank">rybczynska@gmail.com</a> <br>
+&gt; &lt;mailto:<a href=3D"mailto:rybczynska@gmail.com" target=3D"_blank">r=
+ybczynska@gmail.com</a>&gt;&gt; wrote:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Dear all,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0We&#39;re running cve-check on a world build contai=
+ning oe-core, meta-oe<br>
+&gt;=C2=A0 =C2=A0 =C2=A0and more. We have an issue with the lockdev recipe<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0(meta-openembedded/meta-oe/recipes-support/lockdev/=
+<a href=3D"http://lockdev_1.0.3.bb" rel=3D"noreferrer" target=3D"_blank">lo=
+ckdev_1.0.3.bb</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"http://lockdev_1.0.3.bb" rel=3D"nore=
+ferrer" target=3D"_blank">http://lockdev_1.0.3.bb</a>&gt;), which causes a =
+fail like below:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0$ bitbake world --runonly=3Ddo_cve_check<br>
+&gt;=C2=A0 =C2=A0 =C2=A0ERROR: lockdev-1_1.0.3-r0 do_cve_check: File Not fo=
+und:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;path&gt;lockdev/1_1.0.3-r0/lockdev_1.0.3-1.6.di=
+ff<br>
+&gt;=C2=A0 =C2=A0 =C2=A0ERROR: lockdev-1_1.0.3-r0 do_cve_check: Failure in =
+searching patches<br>
+&gt;=C2=A0 =C2=A0 =C2=A0ERROR: Logfile of failure stored in:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;path&gt;/lockdev/1_1.0.3-r0/temp/log.do_cve_che=
+ck.8709<br>
+&gt;=C2=A0 =C2=A0 =C2=A0ERROR: Task<br>
+&gt;=C2=A0 =C2=A0 =C2=A0(&lt;path&gt;/meta-openembedded/meta-oe/recipes-sup=
+port/lockdev/lockdev_1.0.3.bb:do_cve_check)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0failed with exit code &#39;1&#39;<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0The issue is caused by the fact that lockdev_1.0.3-=
+1.6.diff is<br>
+&gt;=C2=A0 =C2=A0 =C2=A0missing. When we look into the recipe, it is downlo=
+ading<br>
+&gt;=C2=A0 =C2=A0 =C2=A0lockdev_1.0.3-1.6.diff.gz file Please note the addi=
+tional extension.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Stripping the extension comes from oe-core/meta/oe/=
+patch.py, from<br>
+&gt;=C2=A0 =C2=A0 =C2=A0the patch_path function, which is figuring out if a=
+ file is a patch,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0and returning the local path if it is so. However, =
+at the moment<br>
+&gt;=C2=A0 =C2=A0 =C2=A0when we do_cve_check, the .gz file is not uncompres=
+sed.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0I&#39;m wondering how to solve it.<br>
+&gt;=C2=A0 =C2=A0 =C2=A01. Add a dependency to make sure eventual patch fil=
+es are<br>
+&gt;=C2=A0 =C2=A0 =C2=A0decompressed first?<br>
+<br>
+<br>
+I think this option looks best or perhaps we should drop applying debian <b=
+r>
+diff entirely since debian seems to have dropped this package<br>
+<br>
+I think regardless of what we do with this package it seems to be a <br>
+limitation of cve-check process which perhaps should either be fixed or <br=
+>
+documented.<br>
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A02. Do not consider this as a patch file in the scop=
+e of cve-check ?<br>
+&gt;=C2=A0 =C2=A0 =C2=A0(this is more a part of the source then an actual p=
+atch that might<br>
+&gt;=C2=A0 =C2=A0 =C2=A0be fixing a CVE)<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0This is the only case like that we have in the buil=
+d. Please note<br>
+&gt;=C2=A0 =C2=A0 =C2=A0that removing &quot;.diff&quot; from the extension =
+list in patch_path() is<br>
+&gt;=C2=A0 =C2=A0 =C2=A0solving the issue.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Any comments or suggestions?<br>
+&gt; <br>
+&gt; </blockquote></div><div class=3D"gmail_quote">Adding Ross, Richard and=
+ Steve.</div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote=
+">I&#39;m wondering if it makes sense to consider .diff.gz (or .patch.gz) f=
+iles as patches for</div><div class=3D"gmail_quote">cve-check. They basical=
+ly come directly from 3rd parties and it is quite unlikely to expect</div><=
+div class=3D"gmail_quote"><span class=3D"ng" style=3D"background:rgba(0,0,0=
+,0) none repeat scroll 0% 0%!important">them to</span> keep the CVE: tag. A=
+ll the pieces of documentation I can find mention also only</div><div class=
+=3D"gmail_quote">.patch files for CVEs, and not .patch.gz.</div><div class=
+=3D"gmail_quote"><br></div><div class=3D"gmail_quote">This is tempting to r=
+emove the .gz handling here (for the cve-check) in my opinion.</div><div cl=
+ass=3D"gmail_quote"><br></div><div class=3D"gmail_quote">Also, since the co=
+mmit f5f97d33a1703d75b9fd9760f2c7767081538e00, cve-check</div><div class=3D=
+"gmail_quote">depends only on do_fetch.</div><div class=3D"gmail_quote"><br=
+></div><div class=3D"gmail_quote">Any further opinions?</div><div class=3D"=
+gmail_quote"><br></div><div class=3D"gmail_quote">Regards,</div><div class=
+=3D"gmail_quote">Marta<br></div></div>
 
-meta-yocto-bsp    =3D <unknown>:<unknown>
-
-
-
-And the reason is exactly this security update to git, and=20
-base_get_metadata_git_revision / base_get_metadata_git_branch do not=20
-work anymore (in this context, of course). So should we create=20
-/etc/build in a task before do_rootfs ?
-
-Bad is also that this affects older versions (dunfell for example),=20
-because it depends on an external package (git) to OE.
-
-Best regards,
-Stefano
-
---=20
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: +49-8142-66989-53 Fax: +49-8142-66989-80 Email: sbabic@denx.de
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+--000000000000e2a33505dd9d917b--
 
