@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E73C4C4332F
-	for <webhook@archiver.kernel.org>; Wed, 27 Apr 2022 08:40:26 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web11.5847.1651048817537905457
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BB4AC4167D
+	for <webhook@archiver.kernel.org>; Wed, 27 Apr 2022 08:40:27 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web12.5853.1651048823508880251
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Apr 2022 01:40:17 -0700
+ Wed, 27 Apr 2022 01:40:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=cpRWk4F4;
- spf=pass (domain: gmail.com, ip: 209.85.208.45,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MIO79i97;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f45.google.com with SMTP id be20so1070869edb.12
+Received: by mail-ed1-f50.google.com with SMTP id p18so1086654edr.7
         for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Apr 2022 01:40:17 -0700 (PDT)
+ Wed, 27 Apr 2022 01:40:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=bKCyq8rfS36WRX6+4T+mlRAbRrjpWqEe+4nkbROvXnM=;
-        b=cpRWk4F4zhbFdxumilRMpglo9bPkyC9W9QUhFbfxeqe1ilONxonPpIm6JYFHZ094nX
-         s3YPrk4m1/wxSWq58Z7hFiy5vI1oINS70l+DOR/e2oHvQBRTibaUOId2sod2ZMlhOMR/
-         13+rdy026NopFGkvjxSPckpbju+1FbHAeLKlmMkGGiI5AjIFStMuZ9nIboJg6DjFflk/
-         tO0+v5XJzY04MaRYPZy1SdqlGZAYeFlEwhBRQiV6jkA1fnjbd1FPTn4gOombKLaYmBn2
-         u21KjdIOoSWFYi5IdJMr5Pl9XzvA4F3pPhpEkg0m3fQ2ldr0kQS+rRUdkcKLh42k4r28
-         8O3w==
+        bh=YEuOB7ogfRJsSEaV/GCCIiSRGkrpxhfaq1V0JPSes/Q=;
+        b=MIO79i97Ze6irKjfr68E2JFtxOFOvxzNJtaY+ECXOAN5BcDSi2qgfu+uK4LIszYAC5
+         enwiUs4TUlFINm8dBTRc4N+J2OT/me1htGZ154L99/kNrAl83AhM8ikAmN3vxog1e4mm
+         nuH5TQv0ytOM00FYqOCtKbXhuaVEkcUcm+rPjhXr4bszdL6ahd6PEQj6G5QzPv1xsW2g
+         HMs228D35x85P9PlSIvJ+6r0oZ1yd1+nz/WEmXFCBiH8+dwUQl9zc2h7ah3/h/W+wWwp
+         dNPZ+I8HnZ/0+XYHDtEjBy7oy1BGC3HgWoYUIodYbnF0eYaMQxLX2vcLL1Y4VLoFRsWD
+         XC5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=bKCyq8rfS36WRX6+4T+mlRAbRrjpWqEe+4nkbROvXnM=;
-        b=V7y61fe0bn+URaNZ78/lN6Zi+PatYMMhUYJn8njW1rTSwsn3ruDOUwZhMnQomFp4zQ
-         i/8bmLWBsfJQqWpPpf9w0QaE1plbYN0hscmcBv7BNGZaNENm7wNBFGue7GWBpgOpXOr0
-         Nfk5qky0cgvhrTCC0Ahe+h46pjOVn8mrQE6x1Szv26oMZQJNyAeB1WAnOFYXxqaiKpGr
-         5nN8xxp3OJP84q4oKL+/N6VWxXmrDoyfos4eMndrnaV2o0M48T4POmyRj6EolVcmXBmH
-         EZRBZDk1i0BA28u2Xd/oW58px9s8dGaEUWYJEiHX7yep6M7FwTRwv6wYJMgz2OcWxgAV
-         N2Wg==
-X-Gm-Message-State: AOAM5307SdGJAXgaVXjnYoyddWkq9k8fO8bwYj72a4qoTyXkJP3lTC1f
-	UpMqqjgIf6mBE3cPy3s0tTJboOaTz0c=
+        bh=YEuOB7ogfRJsSEaV/GCCIiSRGkrpxhfaq1V0JPSes/Q=;
+        b=4DOezZIWegTDqIcBQuM8ambc3T4obNutS2mtPyOYtbj0KubB2tgVOs8HhdX9/QPy4n
+         mC5mYLt4RVDu8ne2pd0gBYe7j6PhONOq01EmYnAOSNiBt8VFtt2fDrylxnpxmmuk31KM
+         BJ+/wnKQt6FU9TLJdRYHKQHbwHU5zuYUkKyGcfAzwv3yByWs5k3eRRdrbRJ/wuweqmAD
+         DStJ1adZZzCEC7KeARo3WpwkpWihluEfOmQk4tvYGsE81LrtDSNPK9iEpfM+TTsXXKVm
+         TWNKn7cSgFL9NiSvUigqy02WZ2Kw88503bMdiR49LEp2coJhUWntfcvHwb1sJc749BVR
+         6mrg==
+X-Gm-Message-State: AOAM53138lKHlNuDcQWn2ZMJ3tv9/iAq3VGaVJkUrsLTIIt6Jq8V1A2i
+	dM4ap9ds6tIkVhqPl8Ag4suFTiEJppE=
 X-Google-Smtp-Source: 
- ABdhPJylKsj/7cutMabi1zlMfJN48bLbjninuJzA+I0zBWYT/Pmi84TMWMukvAZjbkpCPZ6Vxn4/SQ==
-X-Received: by 2002:a05:6402:1d4b:b0:425:e0ad:7203 with SMTP id
- dz11-20020a0564021d4b00b00425e0ad7203mr17125348edb.367.1651048816124;
-        Wed, 27 Apr 2022 01:40:16 -0700 (PDT)
+ ABdhPJwXm6Sw4d+cyLTE65Ov+Yh6ptJ16oySwK8qHsuvqRFIfr/zpOOK/CAiEZ7l5OtajWcxhLq/xg==
+X-Received: by 2002:a05:6402:e9f:b0:41c:df21:b113 with SMTP id
+ h31-20020a0564020e9f00b0041cdf21b113mr29493315eda.217.1651048822042;
+        Wed, 27 Apr 2022 01:40:22 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- p14-20020a05640210ce00b00413211746d4sm7893024edu.51.2022.04.27.01.40.15
+ p14-20020a05640210ce00b00413211746d4sm7893024edu.51.2022.04.27.01.40.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 01:40:15 -0700 (PDT)
+        Wed, 27 Apr 2022 01:40:21 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 04/18] go-helloworld: update to latest revision
-Date: Wed, 27 Apr 2022 10:39:55 +0200
-Message-Id: <20220427084009.3406717-4-alex@linutronix.de>
+Subject: [PATCH 11/18] llvm: update 14.0.0 -> 14.0.1
+Date: Wed, 27 Apr 2022 10:40:02 +0200
+Message-Id: <20220427084009.3406717-11-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220427084009.3406717-1-alex@linutronix.de>
 References: <20220427084009.3406717-1-alex@linutronix.de>
@@ -66,28 +66,50 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Apr 2022 08:40:26 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Apr 2022 08:40:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164895
+ https://lists.openembedded.org/g/openembedded-core/message/164902
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-extended/go-examples/go-helloworld_0.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/distro/include/tcmode-default.inc | 2 +-
+ meta/recipes-devtools/llvm/llvm_git.bb      | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
-index 1e2434fb17..0faab39b66 100644
---- a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
-+++ b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
-@@ -6,7 +6,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 2200af5b60..3f28514554 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -26,7 +26,7 @@ QEMUVERSION ?= "6.2%"
+ GOVERSION ?= "1.18%"
+ # This can not use wildcards like 8.0.% since it is also used in mesa to denote
+ # llvm version being used, so always bump it with llvm recipe version bump
+-LLVMVERSION ?= "14.0.0"
++LLVMVERSION ?= "14.0.1"
+ RUSTVERSION ?= "1.59%"
  
- SRC_URI = "git://go.googlesource.com/example;branch=master;protocol=https"
--SRCREV = "ad95e7f791d8e1e7e7ec7f7cedfc2f6b29f6c9e2"
-+SRCREV = "2e68773dfca072cb81f219fc3b97ad34fe9d9f94"
- UPSTREAM_CHECK_COMMITS = "1"
+ PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index e10348a7f2..53ae1abd57 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -19,14 +19,14 @@ inherit cmake pkgconfig
  
- GO_IMPORT = "golang.org/x/example"
+ PROVIDES += "llvm${PV}"
+ 
+-PV = "14.0.0"
++PV = "14.0.1"
+ 
+ MAJOR_VERSION = "${@oe.utils.trim_version("${PV}", 1)}"
+ 
+ LLVM_RELEASE = "${PV}"
+ 
+ BRANCH = "release/${MAJOR_VERSION}.x"
+-SRCREV = "329fda39c507e8740978d10458451dcdb21563be"
++SRCREV = "c62053979489ccb002efe411c3af059addcb5d7d"
+ SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH};protocol=https \
+            file://0006-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch;striplevel=2 \
+            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
 -- 
 2.30.2
 
