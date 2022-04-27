@@ -1,114 +1,146 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <armccurdy@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92FE6C433FE
-	for <webhook@archiver.kernel.org>; Wed, 27 Apr 2022 15:25:21 +0000 (UTC)
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com
- [209.85.210.46])
- by mx.groups.io with SMTP id smtpd.web12.9741.1651073115276341841
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67474C433F5
+	for <webhook@archiver.kernel.org>; Wed, 27 Apr 2022 16:54:23 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web09.222.1651078462437659288
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Apr 2022 08:25:15 -0700
+ Wed, 27 Apr 2022 09:54:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=P4fwu30O;
- spf=pass (domain: gmail.com, ip: 209.85.210.46,
- mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f46.google.com with SMTP id
- v12-20020a9d7d0c000000b006054b51c3d4so1299871otn.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OQl/tvGt;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171,
+ mailfrom: armccurdy@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id bn33so3456107ljb.6
         for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Apr 2022 08:25:15 -0700 (PDT)
+ Wed, 27 Apr 2022 09:54:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:in-reply-to
-         :content-transfer-encoding;
-        bh=C6SYK+JSE1rhbE73dyfiFAnn+TUtgzsR8cdBDwPYH0E=;
-        b=P4fwu30OJeEaj3qYp8KP/zZ4ZX5yijuGrzqnH/Fas4pxql7jGb1fNiKeBP01ntFUcI
-         E/WPu/LCo1DWb/p5yHnWzOofXhgg1DWU55Kcc+y4odpyYZXXi34Cnwu/I6HS9e+pm8M7
-         +8Qd4CbzvaIvsHQWLSdJe7AvuLHI7CpHmKb32F8Q8rUcvZrtU2x8yyoe/Zw77/fpPXO7
-         DReKAxWogae3x4Fg4b3pSFNNx2vdNNp30m07snTM9PcFDrfTrFx98LHA0T2NSOsYhPa1
-         s0CD2kN1ZRFCGljEvbE6FzNGR9oAz9lEOsj18eNmhdpIQiSzU2+YOWbFFnHx3sTOMXql
-         mraA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fX3HRGtucn8oyRC8t5nqUXA/7n9ZqgQ1Osm2xBGHP58=;
+        b=OQl/tvGtYi6jdkJZmj2a09cvdhZYbRjd7ssO1DEAUeTFfse+eEW0tCR65Bp5w8yPCX
+         YAW8SKZsINthYB9+2mcd5+KNJpNPqNR1dQvGpBL01qS2EEoD2jrKJq/fy0rR5VNcTK0Z
+         dxpkNmh4Q4P4mp8/a5Yx7hlcqR6PQFy9uPsDrY+tJeUlij9qsk+JlxYlEXIrQFUaBZfr
+         Iublie0nDwtiVIpYgeHKEow43vxk3Y2i9EZ3ioUVvIeYceUzxYft2XlhXl7jgMjMgtQM
+         1xyZK7/E/S9hlccIvgVp46jfnt/ci7XqiOUcAW8lf21+jF6kT6TBNjmT1TxLFhdnC7Hq
+         jElQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:message-id:date:mime-version:user-agent
-         :subject:content-language:to:references:in-reply-to
-         :content-transfer-encoding;
-        bh=C6SYK+JSE1rhbE73dyfiFAnn+TUtgzsR8cdBDwPYH0E=;
-        b=Rc8hFiX5jkXc4mKpAfOnAfZMkZoMGBcI8s7HMJq6LiuMi2M+e3osK0zvcsr0q4C7r/
-         3OQkEN4tBYdV4a0KnF5qkyTd+q2xtug15PkFllkvPLFpFeeXH2KPilZXBJd42lkHSmpF
-         /P6F4dASldj1LOi6r0cyPgw8Mf0/AZIoJFaHqosnusJlvPEsq5g9c4M0JPskXHUFg3xn
-         Qquf4VEjdwyFdNKYOsBceVGXJjvehaufHblh/4Q3VVx6DFJtey382ZefEpBnZUueqyIx
-         OCJqnZHU/QCwDRB3Lu9PY2ryqsJ+yjTXoRCD/ICSMS+iEqXDyZEWHiBVXyAB70pjxbIL
-         aV9w==
-X-Gm-Message-State: AOAM533I1OwEsdaGAX/Rq/hAT2MbnB8jbsjKal6TngQaqcPxHgkpkYmc
-	57KEgy5cMAN1Td0T3I8LMq8=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fX3HRGtucn8oyRC8t5nqUXA/7n9ZqgQ1Osm2xBGHP58=;
+        b=1AJ1ItSCka2etyjLGR0Cqy2t2SR3No+Pbi6dW5xN+Gq1MUedD+4UwAdy+bxtohH4bm
+         DEMEOz48CVkRclZjgAvRAeWKubPrZdr3JOvIeRFogJ8DdRCk04x47mbqYaohybnfMNps
+         W4kAhEqU0TW4Vv2WQasa4Ir9pbcbue4Ogpa+/pM3V9T8p+Xi1SnfSMbMiEzuylwWQDeH
+         cY6MMm9LToSTUFSLr1MARjdREyXcWtANnW3GEwxn0Chbf9PGqyjk9iIRzTqXr0/DMVWf
+         Aljls5uxdf6Kn/qWnSUzFRHWkEy2xdtNHfIy5TyLoP5AMGyWul0FoN8/bYl64mJ7S52v
+         z05Q==
+X-Gm-Message-State: AOAM533iuf6g4sJdZoSMFB4RcQXIjNtGoYJ6VZIpU4Ob4whAfC1KJumh
+	1o+icirzXbe42kU6psPXyt/VO/V0BziLWdhp1fk=
 X-Google-Smtp-Source: 
- ABdhPJw/dx2rAjYq4Hn5j+3S1uOhurAjx92J0ycKpDYT53qSKzcYTyJTZuGd6mO6HVgyOMy51B7huA==
-X-Received: by 2002:a9d:4b0f:0:b0:605:4b29:9e8b with SMTP id
- q15-20020a9d4b0f000000b006054b299e8bmr10224503otf.152.1651073114575;
-        Wed, 27 Apr 2022 08:25:14 -0700 (PDT)
-Received: from ?IPV6:2605:a601:ac3d:c100:e3e8:d9:3a56:e27d?
- ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id
- z82-20020aca3355000000b002ef73b018absm5914035oiz.9.2022.04.27.08.25.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Apr 2022 08:25:14 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <ac98c29b-ecd8-5dc4-12bc-d60f770fb58d@gmail.com>
-Date: Wed, 27 Apr 2022 10:25:12 -0500
+ ABdhPJxiISeFHE076OuHw4MdJtvyRFzlrhXhklC9jPv6kAm3Po5lDDltxgCDdAistLQ8wnt7RvODZY5CYq1zNRtY1mU=
+X-Received: by 2002:a2e:3c1a:0:b0:24d:b349:76d2 with SMTP id
+ j26-20020a2e3c1a000000b0024db34976d2mr18548102lja.214.1651078460504; Wed, 27
+ Apr 2022 09:54:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [OE-core] [PATCH] staging: Ensure we filter out ourselves
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20220427152354.2824313-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20220427152354.2824313-1-richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220426194618.218353-1-nicolas.dechesne@linaro.org>
+ <CAJ86T=XZLytHs3yQxezF59+UbJnKPUsqJwqY0Cs8HTAqWoYRuQ@mail.gmail.com>
+ <CAMKF1srtoJ018V4x3nX2CQ+77DfLgnN2-KizL1Zfje2e-wUEFQ@mail.gmail.com>
+ <CAJ86T=WOttBz2W-xWD=dEP36FredBqzjEC3d+sF_ciUX_aCS1w@mail.gmail.com>
+ <c57ed8a714da34b9649a49e823a304e99dc6b7a8.camel@linuxfoundation.org>
+In-Reply-To: 
+ <c57ed8a714da34b9649a49e823a304e99dc6b7a8.camel@linuxfoundation.org>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 27 Apr 2022 09:54:03 -0700
+Message-ID: 
+ <CAJ86T=XjdWroxsPB90ccptODqCNwnue9o2JdNznATWQJk7v+Aw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] sanity: skip make 4.2.1 warning for debian
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Khem Raj <raj.khem@gmail.com>,
+ Nicolas Dechesne <nicolas.dechesne@linaro.org>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>,
+	chris_larson <chris_larson@mentor.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Apr 2022 15:25:21 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Apr 2022 16:54:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164928
+ https://lists.openembedded.org/g/openembedded-core/message/164929
 
-Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
+On Wed, Apr 27, 2022 at 3:40 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Tue, 2022-04-26 at 14:39 -0700, Andre McCurdy wrote:
+> > On Tue, Apr 26, 2022 at 1:56 PM Khem Raj <raj.khem@gmail.com> wrote:
+> > >
+> > > On Tue, Apr 26, 2022 at 1:51 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+> > > >
+> > > > On Tue, Apr 26, 2022 at 12:46 PM Nicolas Dechesne
+> > > > <nicolas.dechesne@linaro.org> wrote:
+> > > > >
+> > > > > This is a follow up patch of:
+> > > > > ad5829aa1f8a (sanity: Show a warning that make 4.2.1 is buggy on non-ubuntu systems)
+> > > > >
+> > > > > Debian10 has the exact same version/sources for make as Ubuntu
+> > > > > (focal), e.g. https://packages.debian.org/source/buster/make-dfsg and
+> > > > > https://packages.ubuntu.com/source/focal/make-dfsg.
+> > > > >
+> > > > > As per the corresponding changelog, the patch mentioned in
+> > > > > ad5829aa1f8a, is included in both Debian and Ubuntu in make
+> > > > > 4.2.1-1.1. So it's safe to use make 4.2.1 in Debian10.
+> > > > >
+> > > > > Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+> > > > > ---
+> > > > >  meta/classes/sanity.bbclass | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> > > > > index c385d92e8b..c72a7b3ed3 100644
+> > > > > --- a/meta/classes/sanity.bbclass
+> > > > > +++ b/meta/classes/sanity.bbclass
+> > > > > @@ -470,7 +470,7 @@ def check_make_version(sanity_data):
+> > > > >
+> > > > >      if bb.utils.vercmp_string_op(version, "4.2.1", "=="):
+> > > > >          distro = oe.lsb.distro_identifier()
+> > > >
+> > > > Not directly related to your change, but shouldn't this be
+> > > > lsb_distro_identifier() instead of oe.lsb.distro_identifier()?
+> > >
+> > > lsb_distro_identifier would work when it is inheriting base.bbclass
+> > > otherwise the utility function is needed.
+> >
+> > Question isn't really whether it will work or not (if it doesn't work,
+> > we should make it work) but rather whether any user-defined
+> > LSB_DISTRO_ADJUST should be applied before checking if the host distro
+> > is based on Debian/Ubuntu or not.
+>
+> It would help to be a little more specific with the background. Having looked at
+> the code, we have two lsb functions, one in base.bbclass and one in
+> oe/lib/lsb.py. The one in base.bbclass is a wrapper which uses
+> LSB_DISTRO_ADJUST.
+>
+> As far as I know, we don't use LSB_DISTRO_ADJUST in core at all. I suspect it
+> should really probably be added to the lsb.py function in most cases. Is there
+> any documentation or other info about when it should be applied and when it
+> should not?
 
-On 4/27/22 10:23, Richard Purdie wrote:
-> Adding a dependency on ourselves in this function doesn't make sense, the hash
-> may change after hash equivalence is applied. Other code using BB_TASKDEPDATA does
-> handle the self reference correctly (which is there for a reason), update this
-> code to do likewise.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->   meta/classes/staging.bbclass | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-> index ab827766bef..9fc8f4f2839 100644
-> --- a/meta/classes/staging.bbclass
-> +++ b/meta/classes/staging.bbclass
-> @@ -651,7 +651,7 @@ python target_add_sysroot_deps () {
->       taskdepdata = d.getVar("BB_TASKDEPDATA", False)
->       deps = {}
->       for dep in taskdepdata.values():
-> -        if dep[1] == "do_populate_sysroot" and not dep[0].endswith(("-native", "-initial")) and "-cross-" not in dep[0]:
-> +        if dep[1] == "do_populate_sysroot" and not dep[0].endswith(("-native", "-initial")) and "-cross-" not in dep[0] and dep[0] != pn:
->               deps[dep[0]] = dep[6]
->   
->       d.setVar("HASHEQUIV_EXTRA_SIGDATA", "\n".join("%s: %s" % (k, deps[k]) for k in sorted(deps.keys())))
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#164927): https://lists.openembedded.org/g/openembedded-core/message/164927
-> Mute This Topic: https://lists.openembedded.org/mt/90733144/3616693
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JPEWhacker@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Adding LSB_DISTRO_ADJUST directly to lsb.py would be fine I think.
+Personally I use LSB_DISTRO_ADJUST to map Linux Mint to Ubuntu. Linux
+Mint is binary compatible with Ubuntu (created from Ubuntu package
+feeds). The LSB_DISTRO_ADJUST mapping allows native sstate from a
+build server running Ubuntu to be reused on a developer laptop running
+Linux Mint.
+
+  https://github.com/lgirdk/meta-mng/blob/ofw/conf/distro/include/mng-sstate.inc
+
+If the make 4.2.1 sanity check were to include LSB_DISTRO_ADJUST then
+(for me at least) it would suppress unnecessary warnings when running
+on Linux Mint (ie with the Ubuntu version of make). But in general, if
+we give users a method to adjust how their host distro is identified
+then we should enable it consistently unless there's a clear reason
+not to.
 
