@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEC93C4321E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E73C4C4332F
 	for <webhook@archiver.kernel.org>; Wed, 27 Apr 2022 08:40:26 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web08.5890.1651048820082995162
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by mx.groups.io with SMTP id smtpd.web11.5847.1651048817537905457
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Apr 2022 01:40:20 -0700
+ Wed, 27 Apr 2022 01:40:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Uj3lhC9F;
- spf=pass (domain: gmail.com, ip: 209.85.208.44,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cpRWk4F4;
+ spf=pass (domain: gmail.com, ip: 209.85.208.45,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id e23so1071838eda.11
+Received: by mail-ed1-f45.google.com with SMTP id be20so1070869edb.12
         for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Apr 2022 01:40:19 -0700 (PDT)
+ Wed, 27 Apr 2022 01:40:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=atTm5Ub3rSmUdgtjrwlgjQFOilgE0QvFoM/8cueb+VU=;
-        b=Uj3lhC9FqBI/Kf8EtAtE3WsN6SQBbquGLz5xQsXbW66GEeDN+zHT0j3Qdc7Hb8NWlF
-         DkicmROAiTjIGG+DKk6EIXk5HhHlZJnB6x+SVQdQYyhSrwFTWU1fSgfFfyzreM2ux3iZ
-         b92vdZuQ/lV4/tHCXCosDexip1lNZTPKx6xs5t793dnPrMdTdNsV6LFoACV/TzD12Div
-         ft3aI+mt4qJeHXP648c4K3jJ02IAGSfeV80FJZh3FW0Jfin1iAkYEdVBdopUdt2q+/bi
-         SDrhivp0cfs3NBdkIXKPiBGcFyPcJrUoyxXy6iixWseTMsgL03VzxB91piuQwzrqELXD
-         dwqw==
+        bh=bKCyq8rfS36WRX6+4T+mlRAbRrjpWqEe+4nkbROvXnM=;
+        b=cpRWk4F4zhbFdxumilRMpglo9bPkyC9W9QUhFbfxeqe1ilONxonPpIm6JYFHZ094nX
+         s3YPrk4m1/wxSWq58Z7hFiy5vI1oINS70l+DOR/e2oHvQBRTibaUOId2sod2ZMlhOMR/
+         13+rdy026NopFGkvjxSPckpbju+1FbHAeLKlmMkGGiI5AjIFStMuZ9nIboJg6DjFflk/
+         tO0+v5XJzY04MaRYPZy1SdqlGZAYeFlEwhBRQiV6jkA1fnjbd1FPTn4gOombKLaYmBn2
+         u21KjdIOoSWFYi5IdJMr5Pl9XzvA4F3pPhpEkg0m3fQ2ldr0kQS+rRUdkcKLh42k4r28
+         8O3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=atTm5Ub3rSmUdgtjrwlgjQFOilgE0QvFoM/8cueb+VU=;
-        b=Mw4ZoEYOeCYvVbrCFR00VwF1jgrT5iC8BWfFanXafip3O+Ju4zyCV065vi/PaL+9Jh
-         cF1tFFc8OtPi49Mtuq1sJKdbxkXvX+tilf3U5pw+la+vW3IZGSDb/fmTW5+lpaHeZFIb
-         vUGuGljHBCr6FQvRwyKUdMQpMTQp3rGbCgftkrn2KJ1CLJ5vM5KbIabt7iDAgJe1Zjzf
-         s/boIeYmmtl0urSttHYZXAayTI/byWmfWMz/8MTENT/7Ld7X6u0Qobu3JcZXU5jD+xRp
-         /tw8y4EkqX0C4NHAlBjNwO3APTgpuZ2fR58DP9VqvlErNrAhn6VgtvBwts1IBncPUoiU
-         0OUw==
-X-Gm-Message-State: AOAM531MYqapmAErlNSnVhqEoU5jJV7b9fhcWeqeH9J3gojXGQMPMZAb
-	+CNMSNPqmuahyxXHk/LNLTI8KOj1Ifg=
+        bh=bKCyq8rfS36WRX6+4T+mlRAbRrjpWqEe+4nkbROvXnM=;
+        b=V7y61fe0bn+URaNZ78/lN6Zi+PatYMMhUYJn8njW1rTSwsn3ruDOUwZhMnQomFp4zQ
+         i/8bmLWBsfJQqWpPpf9w0QaE1plbYN0hscmcBv7BNGZaNENm7wNBFGue7GWBpgOpXOr0
+         Nfk5qky0cgvhrTCC0Ahe+h46pjOVn8mrQE6x1Szv26oMZQJNyAeB1WAnOFYXxqaiKpGr
+         5nN8xxp3OJP84q4oKL+/N6VWxXmrDoyfos4eMndrnaV2o0M48T4POmyRj6EolVcmXBmH
+         EZRBZDk1i0BA28u2Xd/oW58px9s8dGaEUWYJEiHX7yep6M7FwTRwv6wYJMgz2OcWxgAV
+         N2Wg==
+X-Gm-Message-State: AOAM5307SdGJAXgaVXjnYoyddWkq9k8fO8bwYj72a4qoTyXkJP3lTC1f
+	UpMqqjgIf6mBE3cPy3s0tTJboOaTz0c=
 X-Google-Smtp-Source: 
- ABdhPJw672Lr8dA3Fu8pGfvCmlF2ju8+J6YiGk229PdKW+vBXyoqkjXsohDFGZAQBDqlpiPi6wy3HA==
-X-Received: by 2002:a05:6402:2945:b0:41d:aad:c824 with SMTP id
- ed5-20020a056402294500b0041d0aadc824mr28903056edb.364.1651048818684;
-        Wed, 27 Apr 2022 01:40:18 -0700 (PDT)
+ ABdhPJylKsj/7cutMabi1zlMfJN48bLbjninuJzA+I0zBWYT/Pmi84TMWMukvAZjbkpCPZ6Vxn4/SQ==
+X-Received: by 2002:a05:6402:1d4b:b0:425:e0ad:7203 with SMTP id
+ dz11-20020a0564021d4b00b00425e0ad7203mr17125348edb.367.1651048816124;
+        Wed, 27 Apr 2022 01:40:16 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- p14-20020a05640210ce00b00413211746d4sm7893024edu.51.2022.04.27.01.40.17
+ p14-20020a05640210ce00b00413211746d4sm7893024edu.51.2022.04.27.01.40.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 01:40:17 -0700 (PDT)
+        Wed, 27 Apr 2022 01:40:15 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 07/18] python3-typing-extensions: upgrade 3.10.0.0 -> 4.2.0
-Date: Wed, 27 Apr 2022 10:39:58 +0200
-Message-Id: <20220427084009.3406717-7-alex@linutronix.de>
+Subject: [PATCH 04/18] go-helloworld: update to latest revision
+Date: Wed, 27 Apr 2022 10:39:55 +0200
+Message-Id: <20220427084009.3406717-4-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220427084009.3406717-1-alex@linutronix.de>
 References: <20220427084009.3406717-1-alex@linutronix.de>
@@ -68,35 +68,26 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 27 Apr 2022 08:40:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164898
-
-Upstream has transitioned to flit from setuptools.
+ https://lists.openembedded.org/g/openembedded-core/message/164895
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...ensions_3.10.0.0.bb => python3-typing-extensions_4.2.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-typing-extensions_3.10.0.0.bb => python3-typing-extensions_4.2.0.bb} (73%)
+ meta/recipes-extended/go-examples/go-helloworld_0.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-typing-extensions_3.10.0.0.bb b/meta/recipes-devtools/python/python3-typing-extensions_4.2.0.bb
-similarity index 73%
-rename from meta/recipes-devtools/python/python3-typing-extensions_3.10.0.0.bb
-rename to meta/recipes-devtools/python/python3-typing-extensions_4.2.0.bb
-index a8e83fc824..3aac39b8ef 100644
---- a/meta/recipes-devtools/python/python3-typing-extensions_3.10.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-typing-extensions_4.2.0.bb
-@@ -5,9 +5,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=64fc2b30b67d0a8423c250e0386ed72f"
- # The name on PyPi is slightly different.
- PYPI_PACKAGE = "typing_extensions"
+diff --git a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+index 1e2434fb17..0faab39b66 100644
+--- a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
++++ b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+@@ -6,7 +6,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
  
--SRC_URI[sha256sum] = "50b6f157849174217d0656f99dc82fe932884fb250826c18350e159ec6cdf342"
-+SRC_URI[sha256sum] = "f1c24655a0da0d1b67f07e17a5e6b2a105894e6824b92096378bb3668ef02376"
+ SRC_URI = "git://go.googlesource.com/example;branch=master;protocol=https"
+-SRCREV = "ad95e7f791d8e1e7e7ec7f7cedfc2f6b29f6c9e2"
++SRCREV = "2e68773dfca072cb81f219fc3b97ad34fe9d9f94"
+ UPSTREAM_CHECK_COMMITS = "1"
  
--inherit pypi setuptools3
-+inherit pypi python_flit_core
- 
- BBCLASSEXTEND = "native nativesdk"
- 
+ GO_IMPORT = "golang.org/x/example"
 -- 
 2.30.2
 
