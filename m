@@ -1,350 +1,144 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Subject: [PATCH 09/18] glib: upgrade 2.72.0 -> 2.72.1
-Date: Wed, 27 Apr 2022 10:40:00 +0200
-Message-Id: <20220427084009.3406717-9-alex@linutronix.de>
-In-Reply-To: <20220427084009.3406717-1-alex@linutronix.de>
-References: <20220427084009.3406717-1-alex@linutronix.de>
+Message-ID: <24e9cfaa101ed3c4f1eb227cfee43a14ee475ecf.camel@linuxfoundation.org>
+Subject: Re: [OE-core] Git and pseudo
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+Date: Wed, 27 Apr 2022 11:22:50 +0100
+In-Reply-To: <b14c0ed1-ebf3-3b25-54c7-dc6b9efdb4ce@denx.de>
+References: 
+	<1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.6812ddf4-d065-4e4e-ad42-c48d1bca155d@emailsignatures365.codetwo.com>
+	 <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.0d2bd5fa-15cc-4b27-b94e-83614f9e5b38.65eda1d8-3d07-4fbe-a1d1-669c533cd0a5@emailsignatures365.codetwo.com>
+	 <ef4b958c-8310-4b40-f671-779558228550@topic.nl>
+	 <749f33fad354821ee5e1b9f061aae211c252b934.camel@linuxfoundation.org>
+	 <70d61f68-8a56-86fa-5772-598628219797@topic.nl>
+	 <b14c0ed1-ebf3-3b25-54c7-dc6b9efdb4ce@denx.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
+To: Stefano Babic <sbabic@denx.de>, Mike Looijmans <mike.looijmans@topic.nl>, openembedded-core@lists.openembedded.org
+Cc: Steve Sakoman <steve@sakoman.com>
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- ...s-for-typechecking-with-atomic-compa.patch | 64 -----------------
- ...variant-of-g_atomic_int_compare_and_.patch | 70 -------------------
- ...ble-more-tests-while-cross-compiling.patch | 32 ++++-----
- .../glib-2.0/glib-2.0/relocate-modules.patch  |  8 +--
- ...{glib-2.0_2.72.0.bb => glib-2.0_2.72.1.bb} |  4 +-
- 5 files changed, 20 insertions(+), 158 deletions(-)
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-tests-Add-C-tests-for-typechecking-with-atomic-compa.patch
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0002-gatomic-Add-a-C-variant-of-g_atomic_int_compare_and_.patch
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.72.0.bb => glib-2.0_2.72.1.bb} (90%)
+On Wed, 2022-04-27 at 08:47 +0200, Stefano Babic wrote:
+> Hi Mike, Richard,
+> 
+> On 26.04.22 11:08, Mike Looijmans wrote:
+> > 
+> > Met vriendelijke groet / kind regards,
+> > 
+> > Mike Looijmans
+> > System Expert
+> > 
+> > 
+> > TOPIC Embedded Products B.V.
+> > Materiaalweg 4, 5681 RJ Best
+> > The Netherlands
+> > 
+> > T: +31 (0) 499 33 69 69
+> > E: mike.looijmans@topicproducts.com
+> > W: www.topic.nl
+> > 
+> > Please consider the environment before printing this e-mail
+> > On 25-04-2022 14:51, Richard Purdie wrote:
+> > > On Mon, 2022-04-25 at 09:40 +0200, Mike Looijmans wrote:
+> > > > Recently GIT got updated with a security fix:
+> > > > 
+> > > > https://github.blog/2022-04-12-git-security-vulnerability-announced/
+> > > > 
+> > > > 
+> > > > The problem is that this causes all "git" tasks that run within pseudo
+> > > > (most noticably, image recipes) to fail. In many repositories, we use:
+> > > > git rev-parse --verify HEAD > /etc/revision
+> > > > 
+> > > > Or something similar to that. After the GIT update, this now fails with
+> > > > an error like:
+> > > > 
+> > > > '''
+> > > > fatal: unsafe repository ('/home/mike/repository/path' is owned by
+> > > > someone else)
+> > > > To add an exception for this directory, call:
+> > > > 
+> > > >       git config --global --add safe.directory 
+> > > > /home/mike/repository/path
+> > > > '''
+> > > > 
+> > > > Apart from doing as it says, or even "git config --global --add
+> > > > safe.directory '*'" anyone have a better idea, especially one that
+> > > > prevents the system thinking I'm someone else (root in the case of 
+> > > > pseudo).
+> > > https://git.yoctoproject.org/poky/commit/?id=21559199516a31c7635c5f2d874eaa4a92fff0e5 
+> > > 
+> > > 
+> > > However this isn't quite enough as some things encode the path to git 
+> > > into build
+> > > files so the PATH change at do_install isn't enough. igt-gpu-tools via 
+> > > meson in
+> > > OE-Core is an example.
+> > > 
+> > > Cheers,
+> > > 
+> > > Richard
+> > > 
+> > Nice, also for general usefulness.
+> > 
+> > 
+> > For our particular case, I came up with this (works in old OE versions 
+> > as well), just inserting a task since both do_image and do_rootfs run 
+> > under fakeroot:
+> > 
+> >   # We require access to the git repository here, so we must run outside 
+> > fakeroot
+> > do_swumetadata() {
+> >     # Hardware revision for SWUpdate
+> >     echo "${SWU_BOARD_HWREVISION}" > 
+> > ${IMAGE_ROOTFS}${sysconfdir}/hwrevision
+> >     v=`git rev-parse --verify HEAD`
+> >     echo $v > ${IMAGE_ROOTFS}${sysconfdir}/swrevision
+> >     echo $v > ${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}.swrevision
+> > }
+> > addtask do_swumetadata before do_image after do_rootfs
+> > 
+> 
+> It looks like we have several breakages. I found yesterday that 
+> buildinfo (image-buildinfo) does not work anymore.
+> 
+> meta-filesystems  = <unknown>:<unknown>
+> 
+> meta-networking   = <unknown>:<unknown>
+> 
+> meta-oe           = <unknown>:<unknown>
+> 
+> meta-perl         = <unknown>:<unknown>
+> 
+> meta-python       = <unknown>:<unknown>
+> 
+> meta-swupdate     = <unknown>:<unknown>
+> 
+> meta              = <unknown>:<unknown>
+> 
+> meta-poky         = <unknown>:<unknown>
+> 
+> meta-yocto-bsp    = <unknown>:<unknown>
+> 
+> 
+> 
+> And the reason is exactly this security update to git, and 
+> base_get_metadata_git_revision / base_get_metadata_git_branch do not 
+> work anymore (in this context, of course). So should we create 
+> /etc/build in a task before do_rootfs ?
+> 
+> Bad is also that this affects older versions (dunfell for example), 
+> because it depends on an external package (git) to OE.
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-tests-Add-C-tests-for-typechecking-with-atomic-compa.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-tests-Add-C-tests-for-typechecking-with-atomic-compa.patch
-deleted file mode 100644
-index 4842f462e1..0000000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/0001-tests-Add-C-tests-for-typechecking-with-atomic-compa.patch
-+++ /dev/null
-@@ -1,64 +0,0 @@
--From 44b4bcd56d7ac2bd8ebf00e9fa433ad897d68216 Mon Sep 17 00:00:00 2001
--From: Philip Withnall <pwithnall@endlessos.org>
--Date: Fri, 1 Apr 2022 13:44:45 +0100
--Subject: [PATCH 1/2] tests: Add C++ tests for typechecking with atomic compare
-- and exchanges
--
--Signed-off-by: Philip Withnall <pwithnall@endlessos.org>
--
--Helps: #2625
--Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/glib/-/merge_requests/2578]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- glib/tests/cxx.cpp | 28 ++++++++++++++++++++++++++++
-- 1 file changed, 28 insertions(+)
--
--diff --git a/glib/tests/cxx.cpp b/glib/tests/cxx.cpp
--index be0a6bfa1..7d7f27c91 100644
----- a/glib/tests/cxx.cpp
--+++ b/glib/tests/cxx.cpp
--@@ -53,6 +53,32 @@ test_typeof (void)
-- #endif
-- }
-- 
--+static void
--+test_atomic_pointer_compare_and_exchange (void)
--+{
--+  const gchar *str1 = "str1";
--+  const gchar *str2 = "str2";
--+  const gchar *atomic_string = str1;
--+
--+  g_test_message ("Test that g_atomic_pointer_compare_and_exchange() with a "
--+                  "non-void* pointer doesn’t have any compiler warnings in C++ mode");
--+
--+  g_assert_true (g_atomic_pointer_compare_and_exchange (&atomic_string, str1, str2));
--+  g_assert_true (atomic_string == str2);
--+}
--+
--+static void
--+test_atomic_int_compare_and_exchange (void)
--+{
--+  gint atomic_int = 5;
--+
--+  g_test_message ("Test that g_atomic_int_compare_and_exchange() doesn’t have "
--+                  "any compiler warnings in C++ mode");
--+
--+  g_assert_true (g_atomic_int_compare_and_exchange (&atomic_int, 5, 50));
--+  g_assert_cmpint (atomic_int, ==, 50);
--+}
--+
-- int
-- main (int argc, char *argv[])
-- {
--@@ -63,6 +89,8 @@ main (int argc, char *argv[])
-- #endif
-- 
--   g_test_add_func ("/C++/typeof", test_typeof);
--+  g_test_add_func ("/C++/atomic-pointer-compare-and-exchange", test_atomic_pointer_compare_and_exchange);
--+  g_test_add_func ("/C++/atomic-int-compare-and-exchange", test_atomic_int_compare_and_exchange);
-- 
--   return g_test_run ();
-- }
---- 
--2.35.1
--
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0002-gatomic-Add-a-C-variant-of-g_atomic_int_compare_and_.patch b/meta/recipes-core/glib-2.0/glib-2.0/0002-gatomic-Add-a-C-variant-of-g_atomic_int_compare_and_.patch
-deleted file mode 100644
-index a07f94672f..0000000000
---- a/meta/recipes-core/glib-2.0/glib-2.0/0002-gatomic-Add-a-C-variant-of-g_atomic_int_compare_and_.patch
-+++ /dev/null
-@@ -1,70 +0,0 @@
--From 2668390454bc0efe52a262eb2faa4a2bd5a062e2 Mon Sep 17 00:00:00 2001
--From: Philip Withnall <pwithnall@endlessos.org>
--Date: Fri, 1 Apr 2022 13:47:19 +0100
--Subject: [PATCH 2/2] gatomic: Add a C++ variant of
-- g_atomic_int_compare_and_exchange()
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--The C++ variant implements type safety differently, to avoid warnings
--from C++ compilers about:
--```
--../../../gnome-commander-1.14.2/src/intviewer/searcher.cc:303:5: error: cannot initialize a parameter of type 'gint *' (aka 'int *') with an rvalue of type 'void *'
--    g_atomic_int_compare_and_exchange ((gint*)&src->priv->progress_value, oldval, (gint)d);
--    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--/mnt/b/yoe/master/build/tmp/work/cortexa72-yoe-linux/gnome-commander/1.14.2-r0/recipe-sysroot/usr/include/glib-2.0/glib/gatomic.h:160:44: note: expanded from macro 'g_atomic_int_compare_and_exchange'
--    __atomic_compare_exchange_n ((atomic), (void *) (&(gaicae_oldval)), (newval), FALSE, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST) ? TRUE : FALSE; \
--                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
--```
--
--This complements the existing C++ variant for
--`g_atomic_pointer_compare_and_exchange()`, and fixes a regression on C++
--from https://gitlab.gnome.org/GNOME/glib/-/merge_requests/2114.
--
--With the addition of the unit tests in the previous commit, this is
--effectively tested by the FreeBSD and macOS CI jobs, as they use
--`clang++` in C++ mode. `g++` doesn’t seem to emit a warning about this.
--
--Signed-off-by: Philip Withnall <pwithnall@endlessos.org>
--
--Fixes: #2625
--Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/glib/-/merge_requests/2578]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- glib/gatomic.h | 12 ++++++++++++
-- 1 file changed, 12 insertions(+)
--
--diff --git a/glib/gatomic.h b/glib/gatomic.h
--index 5eba1dbc7..8b2b880c8 100644
----- a/glib/gatomic.h
--+++ b/glib/gatomic.h
--@@ -152,6 +152,17 @@ G_END_DECLS
--     (void) (0 ? *(atomic) ^ *(atomic) : 1);                                  \
--     __atomic_fetch_sub ((atomic), 1, __ATOMIC_SEQ_CST) == 1;                 \
--   }))
--+#if defined(glib_typeof) && defined(__cplusplus) && __cplusplus >= 201103L
--+/* See comments below about equivalent g_atomic_pointer_compare_and_exchange()
--+ * shenanigans for type-safety when compiling in C++ mode. */
--+#define g_atomic_int_compare_and_exchange(atomic, oldval, newval) \
--+  (G_GNUC_EXTENSION ({                                                       \
--+    glib_typeof (*(atomic)) gaicae_oldval = (oldval);                        \
--+    G_STATIC_ASSERT (sizeof *(atomic) == sizeof (gint));                     \
--+    (void) (0 ? *(atomic) ^ (newval) ^ (oldval) : 1);                        \
--+    __atomic_compare_exchange_n ((atomic), &gaicae_oldval, (newval), FALSE, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST) ? TRUE : FALSE; \
--+  }))
--+#else /* if !(defined(glib_typeof) && defined(__cplusplus) && __cplusplus >= 201103L) */
-- #define g_atomic_int_compare_and_exchange(atomic, oldval, newval) \
--   (G_GNUC_EXTENSION ({                                                       \
--     gint gaicae_oldval = (oldval);                                           \
--@@ -159,6 +170,7 @@ G_END_DECLS
--     (void) (0 ? *(atomic) ^ (newval) ^ (oldval) : 1);                        \
--     __atomic_compare_exchange_n ((atomic), (void *) (&(gaicae_oldval)), (newval), FALSE, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST) ? TRUE : FALSE; \
--   }))
--+#endif /* defined(glib_typeof) */
-- #define g_atomic_int_add(atomic, val) \
--   (G_GNUC_EXTENSION ({                                                       \
--     G_STATIC_ASSERT (sizeof *(atomic) == sizeof (gint));                     \
---- 
--2.35.1
--
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch b/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch
-index 6147bdae46..f5c161fe04 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch
-@@ -1,4 +1,4 @@
--From d2d7af496b4f4a13779179dbcbb98de56b09783f Mon Sep 17 00:00:00 2001
-+From 1f3c05529c0c9032ae0a289fb1f088b7541fc9b0 Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Mon, 9 Nov 2015 11:07:27 +0200
- Subject: [PATCH] Enable more tests while cross-compiling
-@@ -9,24 +9,25 @@ case we can depend on glib-2.0-native.
- 
- Upstream-Status: Inappropriate [OE specific]
- Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+
- ---
-  gio/tests/meson.build | 24 ++++++++++++------------
-  1 file changed, 12 insertions(+), 12 deletions(-)
- 
- diff --git a/gio/tests/meson.build b/gio/tests/meson.build
--index e8d10a0f11f2..abe676767c60 100644
-+index 3ed23a5..5df932a 100644
- --- a/gio/tests/meson.build
- +++ b/gio/tests/meson.build
--@@ -250,7 +250,7 @@ if host_machine.system() != 'windows'
-+@@ -253,7 +253,7 @@ if host_machine.system() != 'windows'
-+     }
-+   endif
-  
--   #  Test programs that need to bring up a session bus (requires dbus-daemon)
--   have_dbus_daemon = find_program('dbus-daemon', required : false).found()
- -  if have_dbus_daemon
- +  if true
-      annotate_args = [
-        '--annotate', 'org.project.Bar', 'Key1', 'Value1',
-        '--annotate', 'org.project.Bar', 'org.gtk.GDBus.Internal', 'Value2',
--@@ -601,14 +601,14 @@ if installed_tests_enabled
-+@@ -603,14 +603,14 @@ if installed_tests_enabled
-    endforeach
-  endif
-  
-@@ -43,7 +44,7 @@ index e8d10a0f11f2..abe676767c60 100644
-                 compiler_type,
-                 '--target=@OUTPUT@',
-                 '--sourcedir=' + meson.current_source_dir(),
--@@ -634,7 +634,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-+@@ -636,7 +636,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-    test_gresource = custom_target('test.gresource',
-      input : 'test.gresource.xml',
-      output : 'test.gresource',
-@@ -52,7 +53,7 @@ index e8d10a0f11f2..abe676767c60 100644
-                 compiler_type,
-                 '--target=@OUTPUT@',
-                 '--sourcedir=' + meson.current_source_dir(),
--@@ -647,7 +647,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-+@@ -649,7 +649,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-    test_resources2_c = custom_target('test_resources2.c',
-      input : 'test3.gresource.xml',
-      output : 'test_resources2.c',
-@@ -61,7 +62,7 @@ index e8d10a0f11f2..abe676767c60 100644
-                 compiler_type,
-                 '--target=@OUTPUT@',
-                 '--sourcedir=' + meson.current_source_dir(),
--@@ -660,7 +660,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-+@@ -662,7 +662,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-    test_resources2_h = custom_target('test_resources2.h',
-      input : 'test3.gresource.xml',
-      output : 'test_resources2.h',
-@@ -70,7 +71,7 @@ index e8d10a0f11f2..abe676767c60 100644
-                 compiler_type,
-                 '--target=@OUTPUT@',
-                 '--sourcedir=' + meson.current_source_dir(),
--@@ -674,7 +674,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-+@@ -676,7 +676,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-      input : 'test2.gresource.xml',
-      depends : big_test_resource,
-      output : 'test_resources.c',
-@@ -79,7 +80,7 @@ index e8d10a0f11f2..abe676767c60 100644
-                 compiler_type,
-                 '--target=@OUTPUT@',
-                 '--sourcedir=' + meson.current_source_dir(),
--@@ -687,7 +687,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-+@@ -689,7 +689,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-    digit_test_resources_c = custom_target('digit_test_resources.c',
-      input : '111_digit_test.gresource.xml',
-      output : 'digit_test_resources.c',
-@@ -88,7 +89,7 @@ index e8d10a0f11f2..abe676767c60 100644
-                 compiler_type,
-                 '--target=@OUTPUT@',
-                 '--sourcedir=' + meson.current_source_dir(),
--@@ -700,7 +700,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-+@@ -702,7 +702,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-    digit_test_resources_h = custom_target('digit_test_resources.h',
-      input : '111_digit_test.gresource.xml',
-      output : 'digit_test_resources.h',
-@@ -97,7 +98,7 @@ index e8d10a0f11f2..abe676767c60 100644
-                 compiler_type,
-                 '--target=@OUTPUT@',
-                 '--sourcedir=' + meson.current_source_dir(),
--@@ -742,11 +742,11 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-+@@ -744,11 +744,11 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-  
-    ld = find_program('ld', required : false)
-  
-@@ -111,7 +112,7 @@ index e8d10a0f11f2..abe676767c60 100644
-                   compiler_type,
-                   '--target=@OUTPUT@',
-                   '--sourcedir=' + meson.current_source_dir(),
--@@ -760,7 +760,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-+@@ -762,7 +762,7 @@ if not meson.is_cross_build() or meson.has_exe_wrapper()
-      test_resources_binary_c = custom_target('test_resources_binary.c',
-        input : 'test5.gresource.xml',
-        output : 'test_resources_binary.c',
-@@ -120,6 +121,3 @@ index e8d10a0f11f2..abe676767c60 100644
-                   compiler_type,
-                   '--target=@OUTPUT@',
-                   '--sourcedir=' + meson.current_source_dir(),
---- 
--2.34.1
--
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-index d3bb05e669..816b790ce7 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-@@ -1,4 +1,4 @@
--From d4e95568151cb7a62b6a29a4d2c3f532fd55c98c Mon Sep 17 00:00:00 2001
-+From d52b1b530c5d8a1e70ae45d6e2139e9d3f25207f Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Fri, 11 Mar 2016 15:35:55 +0000
- Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
-@@ -19,10 +19,10 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-  1 file changed, 11 insertions(+), 1 deletion(-)
- 
- diff --git a/gio/giomodule.c b/gio/giomodule.c
--index d34037a..7442df6 100644
-+index 2a043cc..e2d2310 100644
- --- a/gio/giomodule.c
- +++ b/gio/giomodule.c
--@@ -54,6 +54,8 @@
-+@@ -56,6 +56,8 @@
-  #ifdef G_OS_WIN32
-  #include "gregistrysettingsbackend.h"
-  #include "giowin32-priv.h"
-@@ -31,7 +31,7 @@ index d34037a..7442df6 100644
-  #endif
-  #include <glib/gstdio.h>
-  
--@@ -1224,7 +1226,15 @@ get_gio_module_dir (void)
-+@@ -1267,7 +1269,15 @@ get_gio_module_dir (void)
-                                       NULL);
-        g_free (install_dir);
-  #else
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.72.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.72.1.bb
-similarity index 90%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.72.0.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.72.1.bb
-index 62479e3c3f..c9ccedd81f 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.72.0.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.72.1.bb
-@@ -16,12 +16,10 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
-            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
-            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
--           file://0001-tests-Add-C-tests-for-typechecking-with-atomic-compa.patch \
--           file://0002-gatomic-Add-a-C-variant-of-g_atomic_int_compare_and_.patch \
-            "
- SRC_URI:append:class-native = " file://relocate-modules.patch"
- 
--SRC_URI[sha256sum] = "d7bef0d4c4e7a62e08efb8e5f252a01357007b9588a87ff2b463a3857011f79d"
-+SRC_URI[sha256sum] = "c07e57147b254cef92ce80a0378dc0c02a4358e7de4702e9f403069781095fe2"
- 
- # Find any meson cross files in FILESPATH that are relevant for the current
- # build (using siteinfo) and add them to EXTRA_OEMESON.
--- 
-2.30.2
+
+https://git.yoctoproject.org/poky/commit/?id=5bca57859b280f73b23247aac7dec6b05f48fde8
+
+is now the preferred fix and we will likely be backporting this to kirkstone,
+honister and dunfell.
+
+Cheers,
+
+Richard
+
 
