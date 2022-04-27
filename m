@@ -1,144 +1,62 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <24e9cfaa101ed3c4f1eb227cfee43a14ee475ecf.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Git and pseudo
+Message-ID: <6dff4bbd3390a8e6f7103210eb8e8d74d9cb239c.camel@linuxfoundation.org>
+Subject: Re: [oe] CVE-check failing on world with meta-openembedded: diff.gz file
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Wed, 27 Apr 2022 11:22:50 +0100
-In-Reply-To: <b14c0ed1-ebf3-3b25-54c7-dc6b9efdb4ce@denx.de>
+Date: Wed, 27 Apr 2022 11:33:56 +0100
+In-Reply-To: <6D1CD0C3-16D0-4FB4-BEDF-FA6FDF94724C@arm.com>
 References: 
-	<1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.6812ddf4-d065-4e4e-ad42-c48d1bca155d@emailsignatures365.codetwo.com>
-	 <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.0d2bd5fa-15cc-4b27-b94e-83614f9e5b38.65eda1d8-3d07-4fbe-a1d1-669c533cd0a5@emailsignatures365.codetwo.com>
-	 <ef4b958c-8310-4b40-f671-779558228550@topic.nl>
-	 <749f33fad354821ee5e1b9f061aae211c252b934.camel@linuxfoundation.org>
-	 <70d61f68-8a56-86fa-5772-598628219797@topic.nl>
-	 <b14c0ed1-ebf3-3b25-54c7-dc6b9efdb4ce@denx.de>
+	<CAApg2=Q9DOoYVHNSCR_=pEN-x7EQuRw2yhwqWhEG2zaMTONt8w@mail.gmail.com>
+	 <CAApg2=TjNwub9WsLfh1ZAA8hfMVDPgTYVCELotUfGRGpO9gu8Q@mail.gmail.com>
+	 <5e82785b-14bc-5a4d-a807-fdaa58afee5d@gmail.com>
+	 <CAApg2=Rd7rBM_PaVEzt4K4vKd4AqVC1uA6yZJZrABFLFYNWrcQ@mail.gmail.com>
+	 <6D1CD0C3-16D0-4FB4-BEDF-FA6FDF94724C@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Stefano Babic <sbabic@denx.de>, Mike Looijmans <mike.looijmans@topic.nl>, openembedded-core@lists.openembedded.org
-Cc: Steve Sakoman <steve@sakoman.com>
+To: Ross Burton <Ross.Burton@arm.com>, "rybczynska@gmail.com" <rybczynska@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>, Steve Sakoman <steve@sakoman.com>, OE-core <openembedded-core@lists.openembedded.org>
 
-On Wed, 2022-04-27 at 08:47 +0200, Stefano Babic wrote:
-> Hi Mike, Richard,
-> 
-> On 26.04.22 11:08, Mike Looijmans wrote:
+On Wed, 2022-04-27 at 10:32 +0000, Ross Burton wrote:
+> On 27 Apr 2022, at 08:14, Marta Rybczynska via lists.openembedded.org
+> <rybczynska=gmail.com@lists.openembedded.org> wrote:
+> > I'm wondering if it makes sense to consider .diff.gz (or .patch.gz) files as
+> > patches for
+> > cve-check. They basically come directly from 3rd parties and it is quite
+> > unlikely to expect
+> > them to keep the CVE: tag. All the pieces of documentation I can find
+> > mention also only
+> > .patch files for CVEs, and not .patch.gz.
 > > 
-> > Met vriendelijke groet / kind regards,
+> > This is tempting to remove the .gz handling here (for the cve-check) in my
+> > opinion.
 > > 
-> > Mike Looijmans
-> > System Expert
-> > 
-> > 
-> > TOPIC Embedded Products B.V.
-> > Materiaalweg 4, 5681 RJ Best
-> > The Netherlands
-> > 
-> > T: +31 (0) 499 33 69 69
-> > E: mike.looijmans@topicproducts.com
-> > W: www.topic.nl
-> > 
-> > Please consider the environment before printing this e-mail
-> > On 25-04-2022 14:51, Richard Purdie wrote:
-> > > On Mon, 2022-04-25 at 09:40 +0200, Mike Looijmans wrote:
-> > > > Recently GIT got updated with a security fix:
-> > > > 
-> > > > https://github.blog/2022-04-12-git-security-vulnerability-announced/
-> > > > 
-> > > > 
-> > > > The problem is that this causes all "git" tasks that run within pseudo
-> > > > (most noticably, image recipes) to fail. In many repositories, we use:
-> > > > git rev-parse --verify HEAD > /etc/revision
-> > > > 
-> > > > Or something similar to that. After the GIT update, this now fails with
-> > > > an error like:
-> > > > 
-> > > > '''
-> > > > fatal: unsafe repository ('/home/mike/repository/path' is owned by
-> > > > someone else)
-> > > > To add an exception for this directory, call:
-> > > > 
-> > > >       git config --global --add safe.directory 
-> > > > /home/mike/repository/path
-> > > > '''
-> > > > 
-> > > > Apart from doing as it says, or even "git config --global --add
-> > > > safe.directory '*'" anyone have a better idea, especially one that
-> > > > prevents the system thinking I'm someone else (root in the case of 
-> > > > pseudo).
-> > > https://git.yoctoproject.org/poky/commit/?id=21559199516a31c7635c5f2d874eaa4a92fff0e5 
-> > > 
-> > > 
-> > > However this isn't quite enough as some things encode the path to git 
-> > > into build
-> > > files so the PATH change at do_install isn't enough. igt-gpu-tools via 
-> > > meson in
-> > > OE-Core is an example.
-> > > 
-> > > Cheers,
-> > > 
-> > > Richard
-> > > 
-> > Nice, also for general usefulness.
-> > 
-> > 
-> > For our particular case, I came up with this (works in old OE versions 
-> > as well), just inserting a task since both do_image and do_rootfs run 
-> > under fakeroot:
-> > 
-> >   # We require access to the git repository here, so we must run outside 
-> > fakeroot
-> > do_swumetadata() {
-> >     # Hardware revision for SWUpdate
-> >     echo "${SWU_BOARD_HWREVISION}" > 
-> > ${IMAGE_ROOTFS}${sysconfdir}/hwrevision
-> >     v=`git rev-parse --verify HEAD`
-> >     echo $v > ${IMAGE_ROOTFS}${sysconfdir}/swrevision
-> >     echo $v > ${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}.swrevision
-> > }
-> > addtask do_swumetadata before do_image after do_rootfs
-> > 
+> > Also, since the commit f5f97d33a1703d75b9fd9760f2c7767081538e00, cve-check
+> > depends only on do_fetch.
 > 
-> It looks like we have several breakages. I found yesterday that 
-> buildinfo (image-buildinfo) does not work anymore.
+> The patch being a .patch.gz isn’t entirely relevant, it’s the fact that it’s a
+> remote http: patch not a local file: patch which is causing the problem. The
+> code uses the localpath, which only exists for remote URL after do_unpack.
 > 
-> meta-filesystems  = <unknown>:<unknown>
+> There are three alternatives here:
+> 1) Only consider local patches.  Any remote patches won’t be scanned, but they
+> don’t work anyway right now. This might mean the dependency on do_fetch can be
+> dropped to speed up checking even further.
+> 2) Change the task dependency to be on do_unpack instead of do_fetch. This
+> will slow down processing if a build hasn’t already happened as tarballs will
+> be unpacked, but remote files will be present for scanning then.
+> 3) Try to be clever and manually call unpack on remote files.  More
+> complicated but preserves the speed.
 > 
-> meta-networking   = <unknown>:<unknown>
-> 
-> meta-oe           = <unknown>:<unknown>
-> 
-> meta-perl         = <unknown>:<unknown>
-> 
-> meta-python       = <unknown>:<unknown>
-> 
-> meta-swupdate     = <unknown>:<unknown>
-> 
-> meta              = <unknown>:<unknown>
-> 
-> meta-poky         = <unknown>:<unknown>
-> 
-> meta-yocto-bsp    = <unknown>:<unknown>
-> 
-> 
-> 
-> And the reason is exactly this security update to git, and 
-> base_get_metadata_git_revision / base_get_metadata_git_branch do not 
-> work anymore (in this context, of course). So should we create 
-> /etc/build in a task before do_rootfs ?
-> 
-> Bad is also that this affects older versions (dunfell for example), 
-> because it depends on an external package (git) to OE.
+> I’m actually undecided over what the best solution is. Clearly we need some
+> test cases for this code too.
 
-
-https://git.yoctoproject.org/poky/commit/?id=5bca57859b280f73b23247aac7dec6b05f48fde8
-
-is now the preferred fix and we will likely be backporting this to kirkstone,
-honister and dunfell.
+I think the deciding factor may be that most remote patches probably don't have
+the information we're looking for in them anyway?
 
 Cheers,
 
 Richard
-
 
