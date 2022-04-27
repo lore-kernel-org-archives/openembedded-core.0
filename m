@@ -1,61 +1,60 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <fd4d3e333e61fcaa9c49c6abf6dc02053fbadf3d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Git and pseudo
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Date: Wed, 27 Apr 2022 11:56:21 +0100
-In-Reply-To: <CANPvuRkZ20058vkTg8EQsg7C0fbVczdguj+0AY9Q-eBGq59P=g@mail.gmail.com>
-References: 
-	<1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.6812ddf4-d065-4e4e-ad42-c48d1bca155d@emailsignatures365.codetwo.com>
-	 <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.0d2bd5fa-15cc-4b27-b94e-83614f9e5b38.65eda1d8-3d07-4fbe-a1d1-669c533cd0a5@emailsignatures365.codetwo.com>
-	 <ef4b958c-8310-4b40-f671-779558228550@topic.nl>
-	 <749f33fad354821ee5e1b9f061aae211c252b934.camel@linuxfoundation.org>
-	 <70d61f68-8a56-86fa-5772-598628219797@topic.nl>
-	 <b14c0ed1-ebf3-3b25-54c7-dc6b9efdb4ce@denx.de>
-	 <24e9cfaa101ed3c4f1eb227cfee43a14ee475ecf.camel@linuxfoundation.org>
-	 <CANPvuRkZ20058vkTg8EQsg7C0fbVczdguj+0AY9Q-eBGq59P=g@mail.gmail.com>
+Date: Wed, 27 Apr 2022 14:22:55 +0100
+From: "Mike Crowe" <mac@mcrowe.com>
+Subject: Re: [OE-core] [PATCH] sanity: skip make 4.2.1 warning for debian
+Message-ID: <YmlDr4HMSXRpnAx4@mcrowe.com>
+References: <20220426194618.218353-1-nicolas.dechesne@linaro.org>
+ <CAJ86T=XZLytHs3yQxezF59+UbJnKPUsqJwqY0Cs8HTAqWoYRuQ@mail.gmail.com>
+ <CAMKF1srtoJ018V4x3nX2CQ+77DfLgnN2-KizL1Zfje2e-wUEFQ@mail.gmail.com>
+ <CAJ86T=WOttBz2W-xWD=dEP36FredBqzjEC3d+sF_ciUX_aCS1w@mail.gmail.com>
+ <c57ed8a714da34b9649a49e823a304e99dc6b7a8.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <c57ed8a714da34b9649a49e823a304e99dc6b7a8.camel@linuxfoundation.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 List-id: <openembedded-core.lists.openembedded.org>
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: Stefano Babic <sbabic@denx.de>, Mike Looijmans <mike.looijmans@topic.nl>, OE-core <openembedded-core@lists.openembedded.org>, Steve Sakoman <steve@sakoman.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Andre McCurdy <armccurdy@gmail.com>, Khem Raj <raj.khem@gmail.com>, Nicolas Dechesne <nicolas.dechesne@linaro.org>, OE Core mailing list <openembedded-core@lists.openembedded.org>, chris_larson <chris_larson@mentor.com>
 
-On Wed, 2022-04-27 at 11:37 +0100, Jose Quaresma wrote:
-> Hi,
-> 
-> Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia quarta,
-> 27/04/2022 à(s) 11:22:
-> > On Wed, 2022-04-27 at 08:47 +0200, Stefano Babic wrote:
-> > 
-> > 
-> > 
-> > https://git.yoctoproject.org/poky/commit/?id=5bca57859b280f73b23247aac7dec6b05f48fde8
-> > 
-> 
-> 
-> The change that introduces the intercept script [1] Is partially reversed with
-> [2]
-> With this approach using the environment we don't need the intercept script
-> anymore or I am missing something?
-> 
-> [1]
-> https://git.yoctoproject.org/poky/commit/?id=21559199516a31c7635c5f2d874eaa4a92fff0e5
-> [2]
-> https://git.yoctoproject.org/poky/commit/?id=5546a868b52400ed1487b2ac7149f3a9e7293bd2
+On Wednesday 27 April 2022 at 11:40:49 +0100, Richard Purdie wrote:
+> As far as I know, we don't use LSB_DISTRO_ADJUST in core at all. I suspec=
+t it
+> should really probably be added to the lsb.py function in most cases. Is =
+there
+> any documentation or other info about when it should be applied and when =
+it
+> should not?
 
-The devshell experience is better with the intercept as it means things like the
-user's HOMEDIR is used for their gitconfig for things like user and email when
-writing commits. I've therefore chosen to leave that in master. We may or may
-not backport those pieces, I don't have any strong preference.
+We used to use LSB_DISTRO_ADJUST to stop Debian minor release upgrades
+causing sstate paths to change up until about five years ago when we
+upgraded to an oe-core version that only considered the major version to be
+important.
 
-The other commit from Ross solves the major issue we care about build wide
-outside devshell.
+> I did have a look at
+> https://git.yoctoproject.org/poky/commit/meta/classes/base.bbclass?id=3D0=
+96306ecd1bb80fe5e732584caca0172305628a2
+> where it was introduced 10 years ago but there isn't much more info.=A0
 
-Cheers,
+I believe that we use the mapping in SSTATE_MIRRORS to do the equivalent of
+what is described in that commit message:
 
-Richard
+  SSTATE_MIRRORS ?=3D "\
+  file://debian ${OUR_SSTATE_DIR}/debian-10 \n \
+  file://debian-11 ${OUR_SSTATE_DIR}/debian-10 \n \
+  file://debian-10 ${OUR_SSTATE_DIR}/debian-10 \n \
+  \
+  file://debian-9 ${OUR_SSTATE_DIR}/debian-9 \n \
+  file://.* ${OUR_SSTATE_DIR}/PATH \n \
+  "
 
+(Our autobuilders are running Debian 10 at the moment, so anyone running
+Debian 11 can make use of sstate files they wrote to debian-10, but anyone
+running Debian 9 cannot.)
 
+I have no idea whether this works for the Red Hat world though.
 
+HTH.
+
+Mike.
