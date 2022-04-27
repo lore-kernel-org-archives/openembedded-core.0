@@ -1,231 +1,92 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67FB5C433F5
-	for <webhook@archiver.kernel.org>; Wed, 27 Apr 2022 14:55:51 +0000 (UTC)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
- [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web12.9367.1651071344110809831
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA558C433EF
+	for <webhook@archiver.kernel.org>; Wed, 27 Apr 2022 15:24:01 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web11.9665.1651073037555835428
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Apr 2022 07:55:44 -0700
+ Wed, 27 Apr 2022 08:23:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=nAM0O6uA;
- spf=pass (domain: gmail.com, ip: 209.85.222.176,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f176.google.com with SMTP id s4so1491797qkh.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Y74aM0XB;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id k2so3003791wrd.5
         for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Apr 2022 07:55:44 -0700 (PDT)
+ Wed, 27 Apr 2022 08:23:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=v4J+LIn/X1tnXkQ/wQLwBe/oYSyXE4MUQnjxgy+CDFs=;
-        b=nAM0O6uA5l8wDxIZP9r5XlUl1e4BTAO+Zj84fZ1P0NV/ZX72N00580jUGvxXdET+Ps
-         ibk6+2kBCNlpnMsKE2hH9Tp6u8PN2xtIxwFarLjigjcCdHhJetJGPk7xclpcI31LtKHG
-         9y5k3SY2o0cqLUU/oqPZDzM2iAkb+2iLVxTivj1s5SrqyHwUvxvW93QiJ0EbSlX4bFYT
-         PeBx9Nfx/LXl73s8ttr7iNx/WpP+ds+JVE35xTmqlAfilU+bmBJc0ZbNKTr+KzuOVwcx
-         IayMJhNxHugKOWwKpc4M37iIqsLZYBx1iBMn755aTmh/mlwJlN2+i8BPAaR9f4yLZgmg
-         eHHg==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ViZmU1g5ET02x/1Y4htjreFTHmluw1d432af/fslGLA=;
+        b=Y74aM0XBIPAXgxJKAGGh9YFd9BcGctiuNQAa1AP2WkMQNU1sS/KyXpvfr6BfiZ10+q
+         OROemJpkhHQEQ75s2T0UfDB3HrZPcCdjhN/4EknZUGEhOSAYqX29cHe2HinQkx3/X28X
+         +mLt0R1Fh2bJsvhCaK6PzMcFVTd2V7ppdLLJ4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=v4J+LIn/X1tnXkQ/wQLwBe/oYSyXE4MUQnjxgy+CDFs=;
-        b=eHx9EcaDv3mQZ8X64Av3/eszIevY7Grq3m2HU6SFwsBDMX9P122LfPfxXYCi68Pe7z
-         gy17ol3vhaCL0XfQddcbKf/z+MSwXlDHdbv1Bxxq4vivaynibDcsuCB2CkgWzRmo4VLa
-         te7097w5+cj0L8GkDAuucsmk2WZL68oQLMKLXpTXkkF9NqUfJkDfma8c1DSzhFUd/n+c
-         eTLpPm9ORZzk/MGvn6yrentecPHBljUjzhbb1aDqQegD6hlZ9Oet9UQBcTdmQX5upE8y
-         2aLTARZRhvm+0X/YVIEGL+HjleiAOp+AODDp3Z3xpDCyyxz+jOh66tHF6UyTCzgr3Iyx
-         rKbA==
-X-Gm-Message-State: AOAM532hbTL5sfP+FC7Iqq05ZcBucloiAJqkfqqEH1/VEonIvRgjyC6P
-	dOkH/zprlaQ9VL6paBazUwkIsajkrfI7wVRg5fQ=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ViZmU1g5ET02x/1Y4htjreFTHmluw1d432af/fslGLA=;
+        b=ifNxbv3uT5v2vwnc6IFA//tcV9y4UdMPyeUsZtwQ+EDVyoE6p3GBVnT18U5BT7kOni
+         aXmU+X5A6jEHVRllFrmgCa61F1CcifNrIBSN2hPYdGIqi3SaT/3Ndv8z3QhLkuG+ctkf
+         gbyELSNnzXngwQc2lEJgZKMI+BmuYAGkfU1u1BMj9sI12r2GrOPlI6GxY38ErdHgBKYz
+         Zb0Q14jGc47RojZDFsHnwbDUZMSylkuaaHjbhKmhUFeaUc90yWKncXdpesLATAEFAFoj
+         xd/ykExut1Jw2eQNOQSCGtmyLAxSr8YzNqTU1RSU+qGlFMA5WPvesSjH2bcPI5FGmlwK
+         1m/Q==
+X-Gm-Message-State: AOAM532jm/RiYMoNf74tEHj7zUv6rwbJLKMT81s/6RY53r31VzEtKrZ0
+	RyfBWuLCiEGtoqzSUs7sQlbpCRjNFh0bUg==
 X-Google-Smtp-Source: 
- ABdhPJz7taKNBye0uHYXsnAlA+L9qH7qcCCziFnbUOwtHejpJ3/6mHpvz38PqaIM05bog8viA4WeNWAjKSS3DRjlwEo=
-X-Received: by 2002:a37:714:0:b0:69f:9086:7792 with SMTP id
- 20-20020a370714000000b0069f90867792mr1328867qkh.180.1651071343130; Wed, 27
- Apr 2022 07:55:43 -0700 (PDT)
+ ABdhPJwIgxYH0RCWo8Sy7KMLC/P1Viu17HDEcck3DUS3Q2cqws50GyHbJmXJiaW/3kikvGkljp7tpg==
+X-Received: by 2002:a05:6000:1a87:b0:20a:7ea5:2aef with SMTP id
+ f7-20020a0560001a8700b0020a7ea52aefmr22493439wry.666.1651073035621;
+        Wed, 27 Apr 2022 08:23:55 -0700 (PDT)
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:aee4:ace8:5bdc:9ee3])
+        by smtp.gmail.com with ESMTPSA id
+ b14-20020a7bc24e000000b003899c8053e1sm1980976wmj.41.2022.04.27.08.23.54
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Apr 2022 08:23:55 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] staging: Ensure we filter out ourselves
+Date: Wed, 27 Apr 2022 16:23:54 +0100
+Message-Id: <20220427152354.2824313-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: 
- <CAApg2=Q9DOoYVHNSCR_=pEN-x7EQuRw2yhwqWhEG2zaMTONt8w@mail.gmail.com>
- <CAApg2=TjNwub9WsLfh1ZAA8hfMVDPgTYVCELotUfGRGpO9gu8Q@mail.gmail.com>
- <5e82785b-14bc-5a4d-a807-fdaa58afee5d@gmail.com>
- <CAApg2=Rd7rBM_PaVEzt4K4vKd4AqVC1uA6yZJZrABFLFYNWrcQ@mail.gmail.com>
- <6D1CD0C3-16D0-4FB4-BEDF-FA6FDF94724C@arm.com>
- <6dff4bbd3390a8e6f7103210eb8e8d74d9cb239c.camel@linuxfoundation.org>
-In-Reply-To: 
- <6dff4bbd3390a8e6f7103210eb8e8d74d9cb239c.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 27 Apr 2022 07:55:32 -0700
-Message-ID: 
- <CAMKF1sqdtij84OPpw+p8B-OoNUU-=cUo6AmG5ousZp0xO5aY3w@mail.gmail.com>
-Subject: Re: [oe] CVE-check failing on world with meta-openembedded: diff.gz
- file
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Ross Burton <Ross.Burton@arm.com>, Steve Sakoman <steve@sakoman.com>,
-	"rybczynska@gmail.com" <rybczynska@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000e7fc9705dda40089"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Apr 2022 14:55:51 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Apr 2022 15:24:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164926
+ https://lists.openembedded.org/g/openembedded-core/message/164927
 
---000000000000e7fc9705dda40089
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Adding a dependency on ourselves in this function doesn't make sense, the hash
+may change after hash equivalence is applied. Other code using BB_TASKDEPDATA does
+handle the self reference correctly (which is there for a reason), update this
+code to do likewise.
 
-On Wed, Apr 27, 2022 at 3:33 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/staging.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> On Wed, 2022-04-27 at 10:32 +0000, Ross Burton wrote:
-> > On 27 Apr 2022, at 08:14, Marta Rybczynska via lists.openembedded.org
-> > <rybczynska=3Dgmail.com@lists.openembedded.org> wrote:
-> > > I'm wondering if it makes sense to consider .diff.gz (or .patch.gz)
-> files as
-> > > patches for
-> > > cve-check. They basically come directly from 3rd parties and it is
-> quite
-> > > unlikely to expect
-> > > them to keep the CVE: tag. All the pieces of documentation I can find
-> > > mention also only
-> > > .patch files for CVEs, and not .patch.gz.
-> > >
-> > > This is tempting to remove the .gz handling here (for the cve-check)
-> in my
-> > > opinion.
-> > >
-> > > Also, since the commit f5f97d33a1703d75b9fd9760f2c7767081538e00,
-> cve-check
-> > > depends only on do_fetch.
-> >
-> > The patch being a .patch.gz isn=E2=80=99t entirely relevant, it=E2=80=
-=99s the fact that
-> it=E2=80=99s a
-> > remote http: patch not a local file: patch which is causing the problem=
-.
-> The
-> > code uses the localpath, which only exists for remote URL after
-> do_unpack.
-> >
-> > There are three alternatives here:
-> > 1) Only consider local patches.  Any remote patches won=E2=80=99t be sc=
-anned,
-> but they
-> > don=E2=80=99t work anyway right now. This might mean the dependency on =
-do_fetch
-> can be
-> > dropped to speed up checking even further.
-> > 2) Change the task dependency to be on do_unpack instead of do_fetch.
-> This
-> > will slow down processing if a build hasn=E2=80=99t already happened as=
- tarballs
-> will
-> > be unpacked, but remote files will be present for scanning then.
-> > 3) Try to be clever and manually call unpack on remote files.  More
-> > complicated but preserves the speed.
-> >
-> > I=E2=80=99m actually undecided over what the best solution is. Clearly =
-we need
-> some
-> > test cases for this code too.
->
-> I think the deciding factor may be that most remote patches probably don'=
-t
-> have
-> the information we're looking for in them anyway?
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index ab827766bef..9fc8f4f2839 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -651,7 +651,7 @@ python target_add_sysroot_deps () {
+     taskdepdata = d.getVar("BB_TASKDEPDATA", False)
+     deps = {}
+     for dep in taskdepdata.values():
+-        if dep[1] == "do_populate_sysroot" and not dep[0].endswith(("-native", "-initial")) and "-cross-" not in dep[0]:
++        if dep[1] == "do_populate_sysroot" and not dep[0].endswith(("-native", "-initial")) and "-cross-" not in dep[0] and dep[0] != pn:
+             deps[dep[0]] = dep[6]
+ 
+     d.setVar("HASHEQUIV_EXTRA_SIGDATA", "\n".join("%s: %s" % (k, deps[k]) for k in sorted(deps.keys())))
+-- 
+2.32.0
 
-
-I think covering more cases has value if it can be done in a reasonable
-manner without punishing the system too much otherwise a diagnostic message
-should definitely be an improvement which will nudge the user to perhaps
-change the patch mechanism like we did for lockdev
-
->
-> Cheers,
->
-> Richard
->
->
-
---000000000000e7fc9705dda40089
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Apr 27, 2022 at 3:33 AM Richard Purdie &lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
-on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Wed, 2022-=
-04-27 at 10:32 +0000, Ross Burton wrote:<br>
-&gt; On 27 Apr 2022, at 08:14, Marta Rybczynska via <a href=3D"http://lists=
-.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.=
-org</a><br>
-&gt; &lt;rybczynska=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" t=
-arget=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt; &gt; I&#39;m wondering if it makes sense to consider .diff.gz (or .pat=
-ch.gz) files as<br>
-&gt; &gt; patches for<br>
-&gt; &gt; cve-check. They basically come directly from 3rd parties and it i=
-s quite<br>
-&gt; &gt; unlikely to expect<br>
-&gt; &gt; them to keep the CVE: tag. All the pieces of documentation I can =
-find<br>
-&gt; &gt; mention also only<br>
-&gt; &gt; .patch files for CVEs, and not .patch.gz.<br>
-&gt; &gt; <br>
-&gt; &gt; This is tempting to remove the .gz handling here (for the cve-che=
-ck) in my<br>
-&gt; &gt; opinion.<br>
-&gt; &gt; <br>
-&gt; &gt; Also, since the commit f5f97d33a1703d75b9fd9760f2c7767081538e00, =
-cve-check<br>
-&gt; &gt; depends only on do_fetch.<br>
-&gt; <br>
-&gt; The patch being a .patch.gz isn=E2=80=99t entirely relevant, it=E2=80=
-=99s the fact that it=E2=80=99s a<br>
-&gt; remote http: patch not a local file: patch which is causing the proble=
-m. The<br>
-&gt; code uses the localpath, which only exists for remote URL after do_unp=
-ack.<br>
-&gt; <br>
-&gt; There are three alternatives here:<br>
-&gt; 1) Only consider local patches.=C2=A0 Any remote patches won=E2=80=99t=
- be scanned, but they<br>
-&gt; don=E2=80=99t work anyway right now. This might mean the dependency on=
- do_fetch can be<br>
-&gt; dropped to speed up checking even further.<br>
-&gt; 2) Change the task dependency to be on do_unpack instead of do_fetch. =
-This<br>
-&gt; will slow down processing if a build hasn=E2=80=99t already happened a=
-s tarballs will<br>
-&gt; be unpacked, but remote files will be present for scanning then.<br>
-&gt; 3) Try to be clever and manually call unpack on remote files.=C2=A0 Mo=
-re<br>
-&gt; complicated but preserves the speed.<br>
-&gt; <br>
-&gt; I=E2=80=99m actually undecided over what the best solution is. Clearly=
- we need some<br>
-&gt; test cases for this code too.<br>
-<br>
-I think the deciding factor may be that most remote patches probably don&#3=
-9;t have<br>
-the information we&#39;re looking for in them anyway?</blockquote><div dir=
-=3D"auto"><br></div><div dir=3D"auto">I think covering more cases has value=
- if it can be done in a reasonable manner without punishing the system too =
-much otherwise a diagnostic message should definitely be an improvement whi=
-ch will nudge the user to perhaps change the patch mechanism like we did fo=
-r lockdev=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"></blockquo=
-te><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex"><br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div></div>
-
---000000000000e7fc9705dda40089--
 
