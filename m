@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E022C4332F
-	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 21:47:21 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web08.2946.1651182441011175862
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 709DEC433EF
+	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 21:47:31 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+ [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web10.2988.1651182443529051846
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Apr 2022 14:47:21 -0700
+ Thu, 28 Apr 2022 14:47:23 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=E2ISupu1;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43,
+ header.b=DH9Z2L4s;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id
- j8-20020a17090a060800b001cd4fb60dccso5608038pjj.2
+Received: by mail-pf1-f173.google.com with SMTP id p8so5326817pfh.8
         for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Apr 2022 14:47:20 -0700 (PDT)
+ Thu, 28 Apr 2022 14:47:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=bkMeNNHEJRCOix41sp3liAyAArRWXnPUDUE/v+1u8gw=;
-        b=E2ISupu1ZddNUO8b3QbWo7IiSBDBpfuuruKlN78Q8NiMcbapLFLlGXSCoU82sDBxoQ
-         bawEvniXOhrPtw80s6fqJzzXaNa+3jCG1buMyC1zXPn/InLfreiudhMbKHUF9lEMXnbe
-         iWpvf3xowNc9whcqM0VFPdL6v7Oe2qIhjZQSBDg4BrOnvPwoq2TixZ8fxNPQPH8eQjc0
-         wO9l7K/NJpVE1IvSSdrzA88mwz4J9gX+mtsm5DwdUstqU0ZTC7UrJTmENcVqTcmjFUaT
-         EVqSqNlmKFmFMBP3db3nPnYep6X/JWYElZk5lNUNJ9dz+607Kmf68IFNnzjXfz257LXa
-         NHNA==
+        bh=Aq2U1YTdeve7Ovc+I8J+wOUaDfdo0lh+64TNGIhnRFc=;
+        b=DH9Z2L4saDB3oqLzmBaqhUd6F3ysxR9TXfLg8zGyGY517n7XDRo6sLQzH/MnDEIQQz
+         7xYYcH7QdhPARwRH6+cRR6j2X9czDhsKA1vkuI1tlFZF5ekmno4iQ4MMgar9pL+xBBZs
+         WvTYtMASDpqQgnbSkvzMP0YlXJixhsC3iUVh5r516lWm7Dw7F7KOfz9oF4vnggGmCyZq
+         zTl/14EAHKQDWUKz2jzdUXdlWo6fCNXXUeNNveAwiRa4nrKiS/4YMRFTiEvte61rJVaF
+         tOvYLWRrmpTS97M/8M2DfYbno8fGsOvUz1IhhCsLZh8vq1j+3sv/w0XH9jzkLBG4zKY0
+         YSMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=bkMeNNHEJRCOix41sp3liAyAArRWXnPUDUE/v+1u8gw=;
-        b=3DMdgOnrXrz/0vjf6O3QyACcs43947SJ3yvNx2q+F8zCZL1MRnFc2GmpD5XjilDxqp
-         LCPdp/0zswscuoWLzeTwYORcC5568gqErN7qHeFz+JyaxC7K7wWEToHqdvIsEmnpC2jy
-         oh9sTdk3TyC7r3ZJmsoI1Ec4boBF5Xxdy/MpfY4lhXiDQyGgtXKTEvBKREHOk7mLUPP4
-         pqksXE8xe8TWB0rcwHciySM+6o/NDG8kyMsxE8nzNIHpP/QvTtBOO00d1DMF3ivfXGde
-         pHKzHLuFixvwPLhnIaUOWLnFlRz7rbqpHigMrwUKA4n0YRRJw/YTCWokGxfa8ElP8b6B
-         26kA==
-X-Gm-Message-State: AOAM533yxiHwilXze/36OfT0JGOD3hMiYR69URVX37eEIDgLq8keqpXg
-	RjM7XR/Fh5q9nsCUI4fGiYZZR4jXCyAF2B4tyqI=
+        bh=Aq2U1YTdeve7Ovc+I8J+wOUaDfdo0lh+64TNGIhnRFc=;
+        b=drJdMesUGZjteIzJkdoc36JqLsA01t0GjzvgGlwsT2KMiIkJvy16f4zs0W6mCKEbWI
+         9zqN+eVIPKZQHMs6vFTnJmH4pUSXjwrKLa7wYPcaul+3VcrLDdz2a1MpicpO5AGblVXH
+         SEGFfg4YZKPn3ev4z/BjbzGsAI/zhh++LFoDNIcGfPE69+y9PWZvJZNbmwvy/06NpCv6
+         fkQKxjI3snQEXUNBHrVLl/M7p6Y2wpt9Ml1NAjD6r7MDtTBc9ZR0/yzCaail8tPZox3/
+         m2vbBB1TMn+Wx8jtFSl1NfotO3uccY4dtDLTPR2mjW5LN8JksKFV18DvH8U52+Oi1xDC
+         Zltw==
+X-Gm-Message-State: AOAM532kDTg4WbYSsZ7lY25t7nXyR62/nU0N+5hHWXlaUb+89m2nvPoX
+	0DAQeLp2wS5StfU7ybJ2LyJq3rqJk5xdC/0rfRY=
 X-Google-Smtp-Source: 
- ABdhPJwu1UEfZmBdvvcnckUqM0jkIpozAW9mJ+8dkEe3D5zuZvKT+m2XBDxcYCkqhdPQX+5EiG/QUQ==
-X-Received: by 2002:a17:90b:3805:b0:1db:c60d:59ed with SMTP id
- mq5-20020a17090b380500b001dbc60d59edmr324362pjb.97.1651182439929;
-        Thu, 28 Apr 2022 14:47:19 -0700 (PDT)
+ ABdhPJx73lV29MQpkuzXwlCR8YMOxO0EIMJ7BscSXRwTlubzMdPDX/bpRm8uABgGbVxbboLhX1U6/A==
+X-Received: by 2002:a63:564c:0:b0:3c1:976d:9f03 with SMTP id
+ g12-20020a63564c000000b003c1976d9f03mr2217026pgm.354.1651182442310;
+        Thu, 28 Apr 2022 14:47:22 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- c138-20020a624e90000000b005081f92826dsm749742pfb.99.2022.04.28.14.47.18
+ c138-20020a624e90000000b005081f92826dsm749742pfb.99.2022.04.28.14.47.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Apr 2022 14:47:19 -0700 (PDT)
+        Thu, 28 Apr 2022 14:47:21 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 4/6] cve-check: add json format
-Date: Thu, 28 Apr 2022 11:46:34 -1000
+Subject: [OE-core][dunfell 5/6] perf-build-test/report: Drop phantomjs and
+ html email reports support
+Date: Thu, 28 Apr 2022 11:46:35 -1000
 Message-Id: 
- <92b6011ab25fd36e2f8900a4db6883cdebc3cd3d.1651182153.git.steve@sakoman.com>
+ <ce6d41812a70a1586aaabb8de5d748a81f6d7cae.1651182153.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1651182153.git.steve@sakoman.com>
 References: <cover.1651182153.git.steve@sakoman.com>
@@ -68,261 +68,263 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Apr 2022 21:47:21 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Apr 2022 21:47:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164982
+ https://lists.openembedded.org/g/openembedded-core/message/164983
 
-From: Marta Rybczynska <rybczynska@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Backport to dunfell from master df567de36ae5964bee433ebb97e8bf702034994a
+phantomjs isn't reliable and we've moved to sharing the reports via a webserver.
+Update the scripts to more match those being used in the autobuilder helper
+where the html email support was removed.
 
-Add an option to output the CVE check in a JSON-based format.
-This format is easier to parse in software than the original
-text-based one and allows post-processing by other tools.
-
-Output formats are now handed by CVE_CHECK_FORMAT_TEXT and
-CVE_CHECK_FORMAT_JSON. The text format is enabled by default
-to maintain compatibility, while the JSON format is disabled
-by default.
-
-The JSON output format gets generated in a similar way to the
-text format with the exception of the manifest: appending to
-JSON arrays requires parsing the file. Because of that we
-first write JSON fragments and then assemble them in one pass
-at the end.
-
-Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit b5c131006e3fad0a15e6cdf81f71dc1e96647028)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/cve-check.bbclass | 144 ++++++++++++++++++++++++++++++++-
- meta/lib/oe/cve_check.py       |  16 ++++
- 2 files changed, 159 insertions(+), 1 deletion(-)
+ scripts/contrib/build-perf-test-wrapper.sh    |  15 +-
+ scripts/contrib/oe-build-perf-report-email.py | 154 +-----------------
+ 2 files changed, 8 insertions(+), 161 deletions(-)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 75c5b92b96..a7156cbdfb 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -34,15 +34,27 @@ CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
- CVE_CHECK_SUMMARY_DIR ?= "${LOG_DIR}/cve"
- CVE_CHECK_SUMMARY_FILE_NAME ?= "cve-summary"
- CVE_CHECK_SUMMARY_FILE ?= "${CVE_CHECK_SUMMARY_DIR}/${CVE_CHECK_SUMMARY_FILE_NAME}"
-+CVE_CHECK_SUMMARY_FILE_NAME_JSON = "cve-summary.json"
-+CVE_CHECK_SUMMARY_INDEX_PATH = "${CVE_CHECK_SUMMARY_DIR}/cve-summary-index.txt"
-+
-+CVE_CHECK_LOG_JSON ?= "${T}/cve.json"
+diff --git a/scripts/contrib/build-perf-test-wrapper.sh b/scripts/contrib/build-perf-test-wrapper.sh
+index fa71d4a2e9..0a85e6e708 100755
+--- a/scripts/contrib/build-perf-test-wrapper.sh
++++ b/scripts/contrib/build-perf-test-wrapper.sh
+@@ -87,21 +87,10 @@ if [ $# -ne 0 ]; then
+     exit 1
+ fi
  
- CVE_CHECK_DIR ??= "${DEPLOY_DIR}/cve"
- CVE_CHECK_RECIPE_FILE ?= "${CVE_CHECK_DIR}/${PN}"
-+CVE_CHECK_RECIPE_FILE_JSON ?= "${CVE_CHECK_DIR}/${PN}_cve.json"
- CVE_CHECK_MANIFEST ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cve"
-+CVE_CHECK_MANIFEST_JSON ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.json"
- CVE_CHECK_COPY_FILES ??= "1"
- CVE_CHECK_CREATE_MANIFEST ??= "1"
+-if [ -n "$email_to" ]; then
+-    if ! [ -x "$(command -v phantomjs)" ]; then
+-        echo "ERROR: Sending email needs phantomjs."
+-        exit 1
+-    fi
+-    if ! [ -x "$(command -v optipng)" ]; then
+-        echo "ERROR: Sending email needs optipng."
+-        exit 1
+-    fi
+-fi
+-
+ # Open a file descriptor for flock and acquire lock
+ LOCK_FILE="/tmp/oe-build-perf-test-wrapper.lock"
+ if ! exec 3> "$LOCK_FILE"; then
+-    echo "ERROR: Unable to open lock file"
++    echo "ERROR: Unable to open loemack file"
+     exit 1
+ fi
+ if ! flock -n 3; then
+@@ -226,7 +215,7 @@ if [ -n "$results_repo" ]; then
+     if [ -n "$email_to" ]; then
+         echo "Emailing test report"
+         os_name=`get_os_release_var PRETTY_NAME`
+-        "$script_dir"/oe-build-perf-report-email.py --to "$email_to" --subject "Build Perf Test Report for $os_name" --text $report_txt --html $report_html "${OE_BUILD_PERF_REPORT_EMAIL_EXTRA_ARGS[@]}"
++        "$script_dir"/oe-build-perf-report-email.py --to "$email_to" --subject "Build Perf Test Report for $os_name" --text $report_txt "${OE_BUILD_PERF_REPORT_EMAIL_EXTRA_ARGS[@]}"
+     fi
  
- CVE_CHECK_REPORT_PATCHED ??= "1"
+     # Upload report files, unless we're on detached head
+diff --git a/scripts/contrib/oe-build-perf-report-email.py b/scripts/contrib/oe-build-perf-report-email.py
+index de3862c897..c900720f6e 100755
+--- a/scripts/contrib/oe-build-perf-report-email.py
++++ b/scripts/contrib/oe-build-perf-report-email.py
+@@ -19,8 +19,6 @@ import socket
+ import subprocess
+ import sys
+ import tempfile
+-from email.mime.image import MIMEImage
+-from email.mime.multipart import MIMEMultipart
+ from email.mime.text import MIMEText
  
-+# Provide text output
-+CVE_CHECK_FORMAT_TEXT ??= "1"
-+
-+# Provide JSON output - disabled by default for backward compatibility
-+CVE_CHECK_FORMAT_JSON ??= "0"
-+
- # Whitelist for packages (PN)
- CVE_CHECK_PN_WHITELIST ?= ""
  
-@@ -118,6 +130,7 @@ python cve_check_cleanup () {
-     Delete the file used to gather all the CVE information.
-     """
-     bb.utils.remove(e.data.getVar("CVE_CHECK_TMP_FILE"))
-+    bb.utils.remove(e.data.getVar("CVE_CHECK_SUMMARY_INDEX_PATH"))
- }
+@@ -29,19 +27,6 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+ log = logging.getLogger('oe-build-perf-report')
  
- addhandler cve_check_cleanup
-@@ -129,11 +142,15 @@ python cve_check_write_rootfs_manifest () {
-     """
  
-     import shutil
-+    from oe.cve_check import cve_check_merge_jsons
+-# Find js scaper script
+-SCRAPE_JS = os.path.join(os.path.dirname(__file__), '..', 'lib', 'build_perf',
+-                         'scrape-html-report.js')
+-if not os.path.isfile(SCRAPE_JS):
+-    log.error("Unableto find oe-build-perf-report-scrape.js")
+-    sys.exit(1)
+-
+-
+-class ReportError(Exception):
+-    """Local errors"""
+-    pass
+-
+-
+ def check_utils():
+     """Check that all needed utils are installed in the system"""
+     missing = []
+@@ -77,137 +62,19 @@ def parse_args(argv):
+                              "the email parts")
+     parser.add_argument('--text',
+                         help="Plain text message")
+-    parser.add_argument('--html',
+-                        help="HTML peport generated by oe-build-perf-report")
+-    parser.add_argument('--phantomjs-args', action='append',
+-                        help="Extra command line arguments passed to PhantomJS")
  
-     if d.getVar("CVE_CHECK_COPY_FILES") == "1":
-         deploy_file = d.getVar("CVE_CHECK_RECIPE_FILE")
-         if os.path.exists(deploy_file):
-             bb.utils.remove(deploy_file)
-+        deploy_file_json = d.getVar("CVE_CHECK_RECIPE_FILE_JSON")
-+        if os.path.exists(deploy_file_json):
-+            bb.utils.remove(deploy_file_json)
+     args = parser.parse_args(argv)
  
-     if os.path.exists(d.getVar("CVE_CHECK_TMP_FILE")):
-         bb.note("Writing rootfs CVE manifest")
-@@ -152,6 +169,26 @@ python cve_check_write_rootfs_manifest () {
-                 os.remove(manifest_link)
-             os.symlink(os.path.basename(manifest_name), manifest_link)
-             bb.plain("Image CVE report stored in: %s" % manifest_name)
-+
-+    if os.path.exists(d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")):
-+        import json
-+        bb.note("Generating JSON CVE manifest")
-+        deploy_dir = d.getVar("DEPLOY_DIR_IMAGE")
-+        link_name = d.getVar("IMAGE_LINK_NAME")
-+        manifest_name = d.getVar("CVE_CHECK_MANIFEST_JSON")
-+        index_file = d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")
-+        manifest = {"version":"1", "package": []}
-+        with open(index_file) as f:
-+            filename = f.readline()
-+            while filename:
-+                with open(filename.rstrip()) as j:
-+                    data = json.load(j)
-+                    cve_check_merge_jsons(manifest, data)
-+                filename = f.readline()
-+
-+        with open(manifest_name, "w") as f:
-+            json.dump(manifest, f, indent=2)
-+        bb.plain("Image CVE report stored in: %s" % manifest_name)
- }
+-    if not args.html and not args.text:
+-        parser.error("Please specify --html and/or --text")
++    if not args.text:
++        parser.error("Please specify --text")
  
- ROOTFS_POSTPROCESS_COMMAND_prepend = "${@'cve_check_write_rootfs_manifest; ' if d.getVar('CVE_CHECK_CREATE_MANIFEST') == '1' else ''}"
-@@ -337,7 +374,7 @@ def get_cve_info(d, cves):
-     conn.close()
-     return cve_data
+     return args
  
--def cve_write_data(d, patched, unpatched, whitelisted, cve_data):
-+def cve_write_data_text(d, patched, unpatched, whitelisted, cve_data):
-     """
-     Write CVE information in WORKDIR; and to CVE_CHECK_DIR, and
-     CVE manifest if enabled.
-@@ -403,3 +440,108 @@ def cve_write_data(d, patched, unpatched, whitelisted, cve_data):
  
-             with open(d.getVar("CVE_CHECK_TMP_FILE"), "a") as f:
-                 f.write("%s" % write_string)
-+
-+def cve_check_write_json_output(d, output, direct_file, deploy_file, manifest_file):
-+    """
-+    Write CVE information in the JSON format: to WORKDIR; and to
-+    CVE_CHECK_DIR, if CVE manifest if enabled, write fragment
-+    files that will be assembled at the end in cve_check_write_rootfs_manifest.
-+    """
-+
-+    import json
-+
-+    write_string = json.dumps(output, indent=2)
-+    with open(direct_file, "w") as f:
-+        bb.note("Writing file %s with CVE information" % direct_file)
-+        f.write(write_string)
-+
-+    if d.getVar("CVE_CHECK_COPY_FILES") == "1":
-+        bb.utils.mkdirhier(os.path.dirname(deploy_file))
-+        with open(deploy_file, "w") as f:
-+            f.write(write_string)
-+
-+    if d.getVar("CVE_CHECK_CREATE_MANIFEST") == "1":
-+        cvelogpath = d.getVar("CVE_CHECK_SUMMARY_DIR")
-+        index_path = d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")
-+        bb.utils.mkdirhier(cvelogpath)
-+        fragment_file = os.path.basename(deploy_file)
-+        fragment_path = os.path.join(cvelogpath, fragment_file)
-+        with open(fragment_path, "w") as f:
-+            f.write(write_string)
-+        with open(index_path, "a+") as f:
-+            f.write("%s\n" % fragment_path)
-+
-+def cve_write_data_json(d, patched, unpatched, ignored, cve_data):
-+    """
-+    Prepare CVE data for the JSON format, then write it.
-+    """
-+
-+    output = {"version":"1", "package": []}
-+    nvd_link = "https://nvd.nist.gov/vuln/detail/"
-+
-+    fdir_name  = d.getVar("FILE_DIRNAME")
-+    layer = fdir_name.split("/")[-3]
-+
-+    include_layers = d.getVar("CVE_CHECK_LAYER_INCLUDELIST").split()
-+    exclude_layers = d.getVar("CVE_CHECK_LAYER_EXCLUDELIST").split()
-+
-+    if exclude_layers and layer in exclude_layers:
-+        return
-+
-+    if include_layers and layer not in include_layers:
-+        return
-+
-+    unpatched_cves = []
-+
-+    package_version = "%s%s" % (d.getVar("EXTENDPE"), d.getVar("PV"))
-+    package_data = {
-+        "name" : d.getVar("PN"),
-+        "layer" : layer,
-+        "version" : package_version
-+    }
-+    cve_list = []
-+
-+    for cve in sorted(cve_data):
-+        is_patched = cve in patched
-+        status = "Unpatched"
-+        if is_patched and (d.getVar("CVE_CHECK_REPORT_PATCHED") != "1"):
-+            continue
-+        if cve in ignored:
-+            status = "Ignored"
-+        elif is_patched:
-+            status = "Patched"
-+        else:
-+            # default value of status is Unpatched
-+            unpatched_cves.append(cve)
-+
-+        issue_link = "%s%s" % (nvd_link, cve)
-+
-+        cve_item = {
-+            "id" : cve,
-+            "summary" : cve_data[cve]["summary"],
-+            "scorev2" : cve_data[cve]["scorev2"],
-+            "scorev3" : cve_data[cve]["scorev3"],
-+            "vector" : cve_data[cve]["vector"],
-+            "status" : status,
-+            "link": issue_link
-+        }
-+        cve_list.append(cve_item)
-+
-+    package_data["issue"] = cve_list
-+    output["package"].append(package_data)
-+
-+    direct_file = d.getVar("CVE_CHECK_LOG_JSON")
-+    deploy_file = d.getVar("CVE_CHECK_RECIPE_FILE_JSON")
-+    manifest_file = d.getVar("CVE_CHECK_SUMMARY_FILE_NAME_JSON")
-+
-+    cve_check_write_json_output(d, output, direct_file, deploy_file, manifest_file)
-+
-+def cve_write_data(d, patched, unpatched, ignored, cve_data):
-+    """
-+    Write CVE data in each enabled format.
-+    """
-+
-+    if d.getVar("CVE_CHECK_FORMAT_TEXT") == "1":
-+        cve_write_data_text(d, patched, unpatched, ignored, cve_data)
-+    if d.getVar("CVE_CHECK_FORMAT_JSON") == "1":
-+        cve_write_data_json(d, patched, unpatched, ignored, cve_data)
-diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
-index a1d7c292af..1d3c775bbe 100644
---- a/meta/lib/oe/cve_check.py
-+++ b/meta/lib/oe/cve_check.py
-@@ -63,3 +63,19 @@ def _cmpkey(release, patch_l, pre_l, pre_v):
-     else:
-         _pre = float(pre_v) if pre_v else float('-inf')
-     return _release, _patch, _pre
-+
-+def cve_check_merge_jsons(output, data):
-+    """
-+    Merge the data in the "package" property to the main data file
-+    output
-+    """
-+    if output["version"] != data["version"]:
-+        bb.error("Version mismatch when merging JSON outputs")
-+        return
-+
-+    for product in output["package"]:
-+        if product["name"] == data["package"][0]["name"]:
-+            bb.error("Error adding the same package twice")
-+            return
-+
-+    output["package"].append(data["package"][0])
+-def decode_png(infile, outfile):
+-    """Parse/decode/optimize png data from a html element"""
+-    with open(infile) as f:
+-        raw_data = f.read()
+-
+-    # Grab raw base64 data
+-    b64_data = re.sub('^.*href="data:image/png;base64,', '', raw_data, 1)
+-    b64_data = re.sub('">.+$', '', b64_data, 1)
+-
+-    # Replace file with proper decoded png
+-    with open(outfile, 'wb') as f:
+-        f.write(base64.b64decode(b64_data))
+-
+-    subprocess.check_output(['optipng', outfile], stderr=subprocess.STDOUT)
+-
+-
+-def mangle_html_report(infile, outfile, pngs):
+-    """Mangle html file into a email compatible format"""
+-    paste = True
+-    png_dir = os.path.dirname(outfile)
+-    with open(infile) as f_in:
+-        with open(outfile, 'w') as f_out:
+-            for line in f_in.readlines():
+-                stripped = line.strip()
+-                # Strip out scripts
+-                if stripped == '<!--START-OF-SCRIPTS-->':
+-                    paste = False
+-                elif stripped == '<!--END-OF-SCRIPTS-->':
+-                    paste = True
+-                elif paste:
+-                    if re.match('^.+href="data:image/png;base64', stripped):
+-                        # Strip out encoded pngs (as they're huge in size)
+-                        continue
+-                    elif 'www.gstatic.com' in stripped:
+-                        # HACK: drop references to external static pages
+-                        continue
+-
+-                    # Replace charts with <img> elements
+-                    match = re.match('<div id="(?P<id>\w+)"', stripped)
+-                    if match and match.group('id') in pngs:
+-                        f_out.write('<img src="cid:{}"\n'.format(match.group('id')))
+-                    else:
+-                        f_out.write(line)
+-
+-
+-def scrape_html_report(report, outdir, phantomjs_extra_args=None):
+-    """Scrape html report into a format sendable by email"""
+-    tmpdir = tempfile.mkdtemp(dir='.')
+-    log.debug("Using tmpdir %s for phantomjs output", tmpdir)
+-
+-    if not os.path.isdir(outdir):
+-        os.mkdir(outdir)
+-    if os.path.splitext(report)[1] not in ('.html', '.htm'):
+-        raise ReportError("Invalid file extension for report, needs to be "
+-                          "'.html' or '.htm'")
+-
+-    try:
+-        log.info("Scraping HTML report with PhangomJS")
+-        extra_args = phantomjs_extra_args if phantomjs_extra_args else []
+-        subprocess.check_output(['phantomjs', '--debug=true'] + extra_args +
+-                                [SCRAPE_JS, report, tmpdir],
+-                                stderr=subprocess.STDOUT)
+-
+-        pngs = []
+-        images = []
+-        for fname in os.listdir(tmpdir):
+-            base, ext = os.path.splitext(fname)
+-            if ext == '.png':
+-                log.debug("Decoding %s", fname)
+-                decode_png(os.path.join(tmpdir, fname),
+-                           os.path.join(outdir, fname))
+-                pngs.append(base)
+-                images.append(fname)
+-            elif ext in ('.html', '.htm'):
+-                report_file = fname
+-            else:
+-                log.warning("Unknown file extension: '%s'", ext)
+-                #shutil.move(os.path.join(tmpdir, fname), outdir)
+-
+-        log.debug("Mangling html report file %s", report_file)
+-        mangle_html_report(os.path.join(tmpdir, report_file),
+-                           os.path.join(outdir, report_file), pngs)
+-        return (os.path.join(outdir, report_file),
+-                [os.path.join(outdir, i) for i in images])
+-    finally:
+-        shutil.rmtree(tmpdir)
+-
+-def send_email(text_fn, html_fn, image_fns, subject, recipients, copy=[],
+-               blind_copy=[]):
+-    """Send email"""
++def send_email(text_fn, subject, recipients, copy=[], blind_copy=[]):
+     # Generate email message
+-    text_msg = html_msg = None
+-    if text_fn:
+-        with open(text_fn) as f:
+-            text_msg = MIMEText("Yocto build performance test report.\n" +
+-                                f.read(), 'plain')
+-    if html_fn:
+-        html_msg = msg = MIMEMultipart('related')
+-        with open(html_fn) as f:
+-            html_msg.attach(MIMEText(f.read(), 'html'))
+-        for img_fn in image_fns:
+-            # Expect that content id is same as the filename
+-            cid = os.path.splitext(os.path.basename(img_fn))[0]
+-            with open(img_fn, 'rb') as f:
+-                image_msg = MIMEImage(f.read())
+-            image_msg['Content-ID'] = '<{}>'.format(cid)
+-            html_msg.attach(image_msg)
+-
+-    if text_msg and html_msg:
+-        msg = MIMEMultipart('alternative')
+-        msg.attach(text_msg)
+-        msg.attach(html_msg)
+-    elif text_msg:
+-        msg = text_msg
+-    elif html_msg:
+-        msg = html_msg
+-    else:
+-        raise ReportError("Neither plain text nor html body specified")
++    with open(text_fn) as f:
++        msg = MIMEText("Yocto build performance test report.\n" + f.read(), 'plain')
+ 
+     pw_data = pwd.getpwuid(os.getuid())
+     full_name = pw_data.pw_gecos.split(',')[0]
+@@ -245,25 +112,16 @@ def main(argv=None):
+ 
+     try:
+         log.debug("Storing email parts in %s", outdir)
+-        html_report = images = None
+-        if args.html:
+-            html_report, images = scrape_html_report(args.html, outdir,
+-                                                     args.phantomjs_args)
+-
+         if args.to:
+             log.info("Sending email to %s", ', '.join(args.to))
+             if args.cc:
+                 log.info("Copying to %s", ', '.join(args.cc))
+             if args.bcc:
+                 log.info("Blind copying to %s", ', '.join(args.bcc))
+-            send_email(args.text, html_report, images, args.subject,
+-                       args.to, args.cc, args.bcc)
++            send_email(args.text, args.subject, args.to, args.cc, args.bcc)
+     except subprocess.CalledProcessError as err:
+         log.error("%s, with output:\n%s", str(err), err.output.decode())
+         return 1
+-    except ReportError as err:
+-        log.error(err)
+-        return 1
+     finally:
+         if not args.outdir:
+             log.debug("Wiping %s", outdir)
 -- 
 2.25.1
 
