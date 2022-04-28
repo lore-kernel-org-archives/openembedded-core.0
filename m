@@ -1,104 +1,100 @@
-Return-Path: <jsbronder@cold-front.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73AE6C433F5
-	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 00:10:01 +0000 (UTC)
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by mx.groups.io with SMTP id smtpd.web08.4097.1651104596122242728
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E24BC433EF
+	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 06:26:54 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+ [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web08.6844.1651127210987215917
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Apr 2022 17:09:56 -0700
+ Wed, 27 Apr 2022 23:26:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@cold-front.org
- header.s=mesmtp header.b=kWvAIvCp;
- spf=pass (domain: cold-front.org, ip: 66.111.4.26,
- mailfrom: jsbronder@cold-front.org)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 238545C008B
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Apr 2022 20:09:55 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 27 Apr 2022 20:09:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cold-front.org;
-	 h=cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=mesmtp; t=1651104595; x=1651190995; bh=qIzXrASX0PosSjxPl4sb/A
-	xGIIUjQMQ+4TGnRM2hts0=; b=kWvAIvCpqbr9zlCvvqY82IGiZf+WvKmJA9h59u
-	79iwqc3QKfMfSHUxS5YYqqmelCCGc8Zei2S000S+yhjJp+G7LXZd1nNC/jNRgUIz
-	TlAQj6+kezW68JQhYyqRthhgukcZNBoBkXc/ZwSfbdiUWWOxnafTSoqD0Ls9TaBv
-	e4iqk=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:date:date
-	:from:from:in-reply-to:message-id:mime-version:reply-to:sender
-	:subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1651104595; x=1651190995; bh=q
-	IzXrASX0PosSjxPl4sb/AxGIIUjQMQ+4TGnRM2hts0=; b=fUqCbZtot9/JQgdN+
-	/FXxhP0gLS4+Q618QUvUfk6nzleYqnYT5yMqFgwtX4IgY0Mr/Da+SkB7hgR1c9In
-	5xUTOxTzToBJdBS1+C1+kRL/EP8sytXLMQmlW/fqYtpVp+9b8aQHWp5q5khiqmyI
-	c7lhSqU5IPuzef0z/f/6kh8bYtlcU7L/LksWZxsWP2oN7zMVJjyh0FrZw7yQHEaI
-	Bj86rkxzcdDAKTkY2aAzl8snVrpG50HYOT1NG0Vd7Vxp73Rqq27N1cZDeH+gZA0a
-	87GRkY25XsbPdWJ/WZ0bbRS9nT7hR4S/T1xypfObID9WMTov9o74Djnf7iTmE9/D
-	Eofyw==
-X-ME-Sender: <xms:UttpYmDnzwUawWFeT96q_S3Eq89ZmV-33BQTsQT4J4xExtbsV5I2Uw>
-    <xme:UttpYgjg2xfXdsIuW8ALNJoU1auiUH2XzTGlaIUmel4y1ANeAah95PNNxxJPW0KWm
-    vHrm9lMMMCPJmNXRA>
-X-ME-Received: 
- <xmr:UttpYpnrpSKGvQKOjcp9_XMFJQqOBxlepsPvU0PeEJKAPKJbUqMkvJ87xmt0688o_qwS6Zr2vklwHWXN4q07UvYPkcH1H5rHoLB8s-czcGoK>
-X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvfedrudeigdefvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
-    dtnecuhfhrohhmpefluhhsthhinhcuuehrohhnuggvrhcuoehjshgsrhhonhguvghrsegt
-    ohhlugdqfhhrohhnthdrohhrgheqnecuggftrfgrthhtvghrnhepvdfhtdfhffeiffevte
-    evieefuedvtdfhleduieetudekgefgveffgffffffffffhnecuvehluhhsthgvrhfuihii
-    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhssghrohhnuggvrhestgholhguqd
-    hfrhhonhhtrdhorhhg
-X-ME-Proxy: <xmx:UttpYkwyQPZd4R66qeaHyKnDV_IzOAYdQvtt2_uvJpVrnpiy8s10-Q>
-    <xmx:UttpYrR22QiACKEns6-Btxqj6p-X2-wJH2WOhEJt72hlAOGKHsRQfQ>
-    <xmx:UttpYvbeEyxlEuq0p8oRN7CHWkphKtM0suWPj3kzbv6vth9FD8wVbw>
-    <xmx:U9tpYuMLaWx9Hjfsm0pTuv7H7oWCbvq1rcRrc5QuXuvKviy2VNXfWQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA for
- <openembedded-core@lists.openembedded.org>; Wed,
- 27 Apr 2022 20:09:54 -0400 (EDT)
-From: Justin Bronder <jsbronder@cold-front.org>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=TO/ziMSt;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id p12so3481328pfn.0
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 27 Apr 2022 23:26:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=f5CgZVyJmvYRWXqgIvtbdGYclefVfVn2O7gVV/Ug9bc=;
+        b=TO/ziMStzhPR333jiQwg5sZC7xLDy2/x2V7lFcSHFzUycqhMRSd6dPUATHnsXhR+op
+         jNSu66nA82317csxx+eGAQdp6xSB7+Vd5Qh3RL91bqjqgZzRGMirkO/TVYYw/q9PJmzi
+         bDdtmw68bAzUozW70mHo7y3/644RfeUwkIMM5gxXhLIIdcm+u+u2in22L5sczWu5BHhs
+         AHdOVTbRnSMx/w2qWmumNVRVzsETpM4DcDxCtzG/FW9CjkTfyAPocES1OjHO5+7QFFhL
+         2fxnstijnrkqPeY+Cq4ywCA4zEBHS3cwpoVOF6pGj3FsZx2Cy0SiPmWFXW7+wxIE9EJ2
+         5feQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=f5CgZVyJmvYRWXqgIvtbdGYclefVfVn2O7gVV/Ug9bc=;
+        b=wxL9vRk3AQ3XSr2dOH8ebDEkaahgmjUvUNITPjnp1U1wyWrmKchpDRwAgmdfm5tHJB
+         2TsIGMHqTQC5yV1iSj1hPiPtawdlJtwYf43BvjCdzqPUGF4SUjISuM++buZgdac1C0sU
+         G1YL8bY/iqy0zagi6wQt1hoGaz9hDraK543X/F306rJXjpNx6FCAYRQ0Yd24Psk0UUUJ
+         cj7VY0kZ2skkozlKXQcxzn9UMEaTcwkf6L6JfN/riwQhwV3fJ/pngFmEExQa/ep5jhav
+         wkddMdi/XAVtELPmf3s2rfYgGTqdSD0Tv4humH9DKca20vpkLndhETsaLWnrCRXLNnHP
+         D4YQ==
+X-Gm-Message-State: AOAM532or8SAQSfPgLh6gOl7kbHgia1peJOs6WDaY+YEHcoiuTjhzIVv
+	R6nCkjZlo+WuKLgb1gYANjvuAK/ZcFXLjw==
+X-Google-Smtp-Source: 
+ ABdhPJwQeye5PD0kV7auivkhGO8PU+ZJpKFcAYsYvIQrBhF3MF82zHTzKgkm3r46S3qNQPeU+xgCyw==
+X-Received: by 2002:a05:6a00:c93:b0:50d:9f6d:6499 with SMTP id
+ a19-20020a056a000c9300b0050d9f6d6499mr885971pfv.37.1651127209889;
+        Wed, 27 Apr 2022 23:26:49 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::2ca3])
+        by smtp.gmail.com with ESMTPSA id
+ n10-20020a62970a000000b0050d906ca9ebsm1774201pfe.196.2022.04.27.23.26.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Apr 2022 23:26:49 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] pulseaudio: conditionally depend on
- alsa-plugins-pulseaudio-conf
-Date: Wed, 27 Apr 2022 20:09:29 -0400
-Message-Id: <20220428000928.13808-1-jsbronder@cold-front.org>
-X-Mailer: git-send-email 2.35.3
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] kmod: Enable xz support by default
+Date: Wed, 27 Apr 2022 23:26:47 -0700
+Message-Id: <20220428062647.2717638-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Apr 2022 00:10:01 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Apr 2022 06:26:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164931
+ https://lists.openembedded.org/g/openembedded-core/message/164932
 
-The alsa-plugins-pulseaudio-conf package is only enabled when
-DISTRO_FEATURES contains pulseaudio.
+RPi kernel has started building compressed kernel modules by default
+starting 5.15, currenrly therefore meta-raspberrypi kernels are unable
+to load kernel modules since kmod and kmod-native do not entertain xz
+compressed modules. There is a fix proposed in meta-raspberrypi [1]
+but the fix is needed for native and nativesdk recipes as well, perhaps
+its best to enable it here for best out of box experience with
+meta-raspberrypi
 
-Signed-off-by: Justin Bronder <jsbronder@cold-front.org>
+[1] https://github.com/agherzan/meta-raspberrypi/pull/1056
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
+ meta/recipes-kernel/kmod/kmod_29.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index a69dd32bd7f..821ce7d1df2 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -254,7 +254,7 @@ RDEPENDS:pulseaudio-server = " \
- # If the server is installed, it's usually desirable to make ALSA applications
- # use PulseAudio. alsa-plugins-pulseaudio-conf will install the configuration
- # that makes the PulseAudio plugin the default ALSA device.
--RDEPENDS:pulseaudio-server += "alsa-plugins-pulseaudio-conf"
-+RDEPENDS:pulseaudio-server += "${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'alsa-plugins-pulseaudio-conf', '', d)}"
+diff --git a/meta/recipes-kernel/kmod/kmod_29.bb b/meta/recipes-kernel/kmod/kmod_29.bb
+index 9b663490666..32dc49c1269 100644
+--- a/meta/recipes-kernel/kmod/kmod_29.bb
++++ b/meta/recipes-kernel/kmod/kmod_29.bb
+@@ -27,7 +27,7 @@ S = "${WORKDIR}/git"
  
- # pulseaudio-module-console-kit is built whenever dbus is enabled by PACKAGECONFIG
- # but consolekit depends on libx11 and is available only for DISTRO with x11 in DISTRO_FEATURES
+ EXTRA_OECONF += "--enable-tools"
+ 
+-PACKAGECONFIG ??= "zlib"
++PACKAGECONFIG ??= "zlib xz"
+ PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
+ PACKAGECONFIG[logging] = " --enable-logging,--disable-logging"
+ PACKAGECONFIG[manpages] = "--enable-manpages, --disable-manpages, libxslt-native xmlto-native"
 -- 
-2.35.3
+2.36.0
 
 
