@@ -1,100 +1,135 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <leimaohui@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E24BC433EF
-	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 06:26:54 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
- [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web08.6844.1651127210987215917
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9DD7C433F5
+	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 07:34:04 +0000 (UTC)
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
+ [195.245.231.4])
+ by mx.groups.io with SMTP id smtpd.web11.7102.1651131244000665777
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Apr 2022 23:26:51 -0700
+ Thu, 28 Apr 2022 00:34:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=TO/ziMSt;
- spf=pass (domain: gmail.com, ip: 209.85.210.181,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f181.google.com with SMTP id p12so3481328pfn.0
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Apr 2022 23:26:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=f5CgZVyJmvYRWXqgIvtbdGYclefVfVn2O7gVV/Ug9bc=;
-        b=TO/ziMStzhPR333jiQwg5sZC7xLDy2/x2V7lFcSHFzUycqhMRSd6dPUATHnsXhR+op
-         jNSu66nA82317csxx+eGAQdp6xSB7+Vd5Qh3RL91bqjqgZzRGMirkO/TVYYw/q9PJmzi
-         bDdtmw68bAzUozW70mHo7y3/644RfeUwkIMM5gxXhLIIdcm+u+u2in22L5sczWu5BHhs
-         AHdOVTbRnSMx/w2qWmumNVRVzsETpM4DcDxCtzG/FW9CjkTfyAPocES1OjHO5+7QFFhL
-         2fxnstijnrkqPeY+Cq4ywCA4zEBHS3cwpoVOF6pGj3FsZx2Cy0SiPmWFXW7+wxIE9EJ2
-         5feQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=f5CgZVyJmvYRWXqgIvtbdGYclefVfVn2O7gVV/Ug9bc=;
-        b=wxL9vRk3AQ3XSr2dOH8ebDEkaahgmjUvUNITPjnp1U1wyWrmKchpDRwAgmdfm5tHJB
-         2TsIGMHqTQC5yV1iSj1hPiPtawdlJtwYf43BvjCdzqPUGF4SUjISuM++buZgdac1C0sU
-         G1YL8bY/iqy0zagi6wQt1hoGaz9hDraK543X/F306rJXjpNx6FCAYRQ0Yd24Psk0UUUJ
-         cj7VY0kZ2skkozlKXQcxzn9UMEaTcwkf6L6JfN/riwQhwV3fJ/pngFmEExQa/ep5jhav
-         wkddMdi/XAVtELPmf3s2rfYgGTqdSD0Tv4humH9DKca20vpkLndhETsaLWnrCRXLNnHP
-         D4YQ==
-X-Gm-Message-State: AOAM532or8SAQSfPgLh6gOl7kbHgia1peJOs6WDaY+YEHcoiuTjhzIVv
-	R6nCkjZlo+WuKLgb1gYANjvuAK/ZcFXLjw==
-X-Google-Smtp-Source: 
- ABdhPJwQeye5PD0kV7auivkhGO8PU+ZJpKFcAYsYvIQrBhF3MF82zHTzKgkm3r46S3qNQPeU+xgCyw==
-X-Received: by 2002:a05:6a00:c93:b0:50d:9f6d:6499 with SMTP id
- a19-20020a056a000c9300b0050d9f6d6499mr885971pfv.37.1651127209889;
-        Wed, 27 Apr 2022 23:26:49 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::2ca3])
-        by smtp.gmail.com with ESMTPSA id
- n10-20020a62970a000000b0050d906ca9ebsm1774201pfe.196.2022.04.27.23.26.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 23:26:49 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] kmod: Enable xz support by default
-Date: Wed, 27 Apr 2022 23:26:47 -0700
-Message-Id: <20220428062647.2717638-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.36.0
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=TzAYpZbe;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.4,
+ mailfrom: leimaohui@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1651131242; i=@fujitsu.com;
+	bh=D2NERceGBvRinwrwqVDa2lMy2wrQnX60paLFQJEXCw0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=TzAYpZbeDuMDYj1vXfKlVfsp9viJeavNHX/XCjXINP1AAUWVj+0kktvBWxP8sauNz
+	 AOvagG4NndQNHmcyVlg5SqKOLskzVU/+Y+M9snQ/4tAbFoAGf1Rncanhh53TryDzxX
+	 hiIXaxMSlkzKyyo4irdO2tkPs7YTGNk7u0TDRSXUwmxrqX0JRJCLVNz57MSdEFd0Jw
+	 hbS0aFNqwxhw3rg8EqkX0pKzztyvEzmE76kg96+YFqKEhSOrkZWdKHPkuCFRXZnNOP
+	 Sx+FxJu4vJg7HTsxuJrcKb8vPNImrn/QVcBLIlmrAhajHUiv5cucelXCcvQC9GTIV1
+	 axQLxUacodjXg==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMIsWRWlGSWpSXmKPExsViZ8MxSTfTOSv
+  JYO11bYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePs94WsBSv4K7ZdaWZtYJzG28XIxSEk8JhR
+  Ysf542wQznkmiUV/JrNAOHsZJd5efs7YxcjJwSagIbF76mXmLkYODhEBPYmr/0RBwswCahJHX
+  /5kBrGFBWwlGh5eBrNZBFQlrnw8zARi8wq4SLzp/cACYksIKEhMefieGSIuKHFy5hMWiDkSEg
+  dfvGCGqFGSeHtpDyOEXSExa1YbE4StJnH13CbmCYz8s5C0z0LSvoCRaRWjdVJRZnpGSW5iZo6
+  uoYGBrqGhqa6xqa6hiaVeYpVuol5qqW55anGJrpFeYnmxXmpxsV5xZW5yTopeXmrJJkZgWKYU
+  K0/dwXh61U+9Q4ySHExKorxWpllJQnxJ+SmVGYnFGfFFpTmpxYcYZTg4lCR4gxyBcoJFqempF
+  WmZOcAYgUlLcPAoifDKGAOleYsLEnOLM9MhUqcYFaXEeVeB9AmAJDJK8+DaYHF5iVFWSpiXkY
+  GBQYinILUoN7MEVf4VozgHo5Iwr5sT0BSezLwSuOmvgBYzAS1eWZQJsrgkESEl1cDkef+pX5A
+  qh5KolvZa8eDIuuMvlrfaJ8pNlJ/SP0trm9yJmNuKTde8Dp693nOLRbMzOdXvuoiMeIJJdKBM
+  1fmFte/nJRtUnY01WqJ9bYL7J5vMwCezDnud7zHmqZ1S0nN1l7+K9/HE88IyNve2/tO4E7FvG
+  rdU3Zy88BbWjmDj9t9n9j3YfZpHvfSh59JnCnMi/8b8FvdO2ub1P1/gtLhhTbfWIp/Mjb6db1
+  Iq7rCtkvJLSfrFuCde7NXevEPP7JPSGYzM9Z557jJ+JpZe+4vn2eYZDsd0/Xx3rLSeoRwjdb+
+  lf1LHwcZrFzasa5zWlBN1/xyDWHT05LqZnhnHvefViB3jFjia815W+3BzjBJLcUaioRZzUXEi
+  AMgRAMNGAwAA
+X-Env-Sender: leimaohui@fujitsu.com
+X-Msg-Ref: server-18.tower-571.messagelabs.com!1651131241!12395!1
+X-Originating-IP: [62.60.8.146]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.86.4; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 20268 invoked from network); 28 Apr 2022 07:34:01 -0000
+Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
+  by server-18.tower-571.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 28 Apr 2022 07:34:01 -0000
+Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 5569E100331
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 28 Apr 2022 08:34:01 +0100 (BST)
+Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 488241000F5
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 28 Apr 2022 08:34:01 +0100 (BST)
+Received: from localhost.localdomain (10.167.225.227) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.32; Thu, 28 Apr 2022 08:33:47 +0100
+From: Lei Maohui <leimaohui@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Lei Maohui <leimaohui@fujitsu.com>
+Subject: [OE-core] [PATCH] gnutls: Added fips support option.
+Date: Thu, 28 Apr 2022 15:33:35 +0800
+Message-ID: <1651131215-4196-1-git-send-email-leimaohui@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.227]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Apr 2022 06:26:54 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Apr 2022 07:34:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164932
+ https://lists.openembedded.org/g/openembedded-core/message/164933
 
-RPi kernel has started building compressed kernel modules by default
-starting 5.15, currenrly therefore meta-raspberrypi kernels are unable
-to load kernel modules since kmod and kmod-native do not entertain xz
-compressed modules. There is a fix proposed in meta-raspberrypi [1]
-but the fix is needed for native and nativesdk recipes as well, perhaps
-its best to enable it here for best out of box experience with
-meta-raspberrypi
-
-[1] https://github.com/agherzan/meta-raspberrypi/pull/1056
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
 ---
- meta/recipes-kernel/kmod/kmod_29.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/gnutls/gnutls_3.7.4.bb | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/meta/recipes-kernel/kmod/kmod_29.bb b/meta/recipes-kernel/kmod/kmod_29.bb
-index 9b663490666..32dc49c1269 100644
---- a/meta/recipes-kernel/kmod/kmod_29.bb
-+++ b/meta/recipes-kernel/kmod/kmod_29.bb
-@@ -27,7 +27,7 @@ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-support/gnutls/gnutls_3.7.4.bb b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
+index b34eb7f..5a34805 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.7.4.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
+@@ -15,6 +15,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=71391c8e0c1cfe68077e7fce3b586283 \
+                     file://doc/COPYING.LESSER;md5=a6f89e2100d9b6cdffcea4f398e37343"
  
- EXTRA_OECONF += "--enable-tools"
+ DEPENDS = "nettle gmp virtual/libiconv libunistring"
++DEPENDS:append:class-target = " gnutls-native"
+ DEPENDS:append:libc-musl = " argp-standalone"
  
--PACKAGECONFIG ??= "zlib"
-+PACKAGECONFIG ??= "zlib xz"
- PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
- PACKAGECONFIG[logging] = " --enable-logging,--disable-logging"
- PACKAGECONFIG[manpages] = "--enable-manpages, --disable-manpages, libxslt-native xmlto-native"
+ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+@@ -36,6 +37,7 @@ PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn2"
+ PACKAGECONFIG[libtasn1] = "--with-included-libtasn1=no,--with-included-libtasn1,libtasn1"
+ PACKAGECONFIG[p11-kit] = "--with-p11-kit,--without-p11-kit,p11-kit"
+ PACKAGECONFIG[tpm] = "--with-tpm,--without-tpm,trousers"
++PACKAGECONFIG[fips] = "--enable-fips140-mode,--disable-fips140-mode"
+ 
+ EXTRA_OECONF = " \
+     --enable-doc \
+@@ -59,6 +61,21 @@ do_configure:prepend() {
+ 	done
+ }
+ 
++do_compile:prepend:class-target () {
++        if ${@bb.utils.contains('PACKAGECONFIG', 'fips', 'true', 'false', d)}; then
++          sed -i -e "s#\$(builddir)/fipshmac#${STAGING_DIR_NATIVE}${libdir}/fipshmac#g" ${B}/lib/Makefile
++        fi
++}
++
++do_install:append:class-native() {
++        if ${@bb.utils.contains('PACKAGECONFIG', 'fips', 'true', 'false', d)}; then
++          install -d ${D}${libdir}
++          install -d ${D}${libdir}/.libs
++          install -m 0755 ${B}/lib/fipshmac ${D}${libdir}/
++          install -m 0755 ${B}/lib/.libs/fipshmac ${D}${libdir}/.libs/
++        fi
++}
++
+ PACKAGES =+ "${PN}-openssl ${PN}-xx"
+ 
+ FILES:${PN}-dev += "${bindir}/gnutls-cli-debug"
 -- 
-2.36.0
+1.8.3.1
 
 
