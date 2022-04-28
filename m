@@ -1,133 +1,145 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 318AFC433EF
-	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 08:12:15 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web12.7446.1651133526605008142
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48A65C433F5
+	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 08:17:05 +0000 (UTC)
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
+ [209.85.166.43])
+ by mx.groups.io with SMTP id smtpd.web09.7300.1651133818589304307
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Apr 2022 01:12:07 -0700
+ Thu, 28 Apr 2022 01:16:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pj776rD0;
- spf=pass (domain: gmail.com, ip: 209.85.208.170,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id 17so5708443lji.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=iK34Nj/I;
+ spf=pass (domain: gmail.com, ip: 209.85.166.43,
+ mailfrom: rybczynska@gmail.com)
+Received: by mail-io1-f43.google.com with SMTP id 125so5689726iov.10
         for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Apr 2022 01:12:06 -0700 (PDT)
+ Thu, 28 Apr 2022 01:16:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=c6DF229Fz21ud4XoAoZ9lLRN8hdWStJ/08gs8MjHW5I=;
-        b=pj776rD0ZmejKmkdpzKZHQP/l8OZTH4qY1m65v2xhrBnG11E/QiBINe85NdgfXl7/X
-         uVkX0ZcBOa4n5pReUOYXZa99irFCOiIwxZ2PMnzQVnUz1jabNAUb4siLvkIpqrsfzYo9
-         nKcc9266T95ZnncHpQmZp90UIQn1vt5CuU0A+W8oal34g3foZqv/8NMC0H+eP3dPO2Xk
-         LOfR9FnrHwgqkrk/xNzSLDmgRB23oYIl25FEGmDp1RttfvmBjbThxk3McMRY7HvOVP9r
-         fD6VNyAQp5tAeoixkz5CM7JkEwbbcJyrQWSyiaxom1Q9a8PrOP3Ej6H8oIa9e9H5LGnR
-         /vVg==
+        bh=sNfBsrBvr4y08VYqdlwVnByzTq79jLIycB8RpFSwyhU=;
+        b=iK34Nj/ImDbsCodccnKL0fhjA3QVKH+FRM3E27iw1e0naoNQqlplCjmavYogHxNm6y
+         oMt18lx+vBF3eC0LiCUQky+loYJ9GDp3bJCDytYjX/e4NLfO7FDAxMfJSGOdIr6XqfUD
+         0dPREnmuUSXdBlqAYmahKCyn2b89gMi+gsz9ysm4d3txd8Wd/N3UlV6REz2Aq/8nvojO
+         XfImS1kY2mGcS39G7WfKPQLRd3CT2GIjm9TS6d7jWjaumbks4VZX7l19vP5/0IHWSzbh
+         Jg1WflWlSky9QmFT+AznGWj3uyg1VJ0xN1CeMd8fUycAu2XZZlcP09/9DrppFjL6nxfq
+         nTFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=c6DF229Fz21ud4XoAoZ9lLRN8hdWStJ/08gs8MjHW5I=;
-        b=b4DwIlMhg2kgCRoaZGbVDhqXmDNJ4cpxlyw7b3EvmCUVLTIeh9ULk0ZQUi0a9HjIYH
-         XR6EQyyjv+xiRDTdpUPmFdDW6rm6fwEmhMNJhVF47NzQa4guphKM9aMZK4INlvNPRo4d
-         /r0okFgw1jqR3SjCTfuckQ52IQb+tQvdhKj16m9a1oco1TfSq8ZwDK3v7X6IkNEfXwLl
-         uPOdVvUtg5xE60MZx6SRtWzewAYUFi+J+gm0y3oV6CD5J5SaV0VRti5E7cE8/Q71aOqN
-         uwJ3Uhg1ztQUdftKUSWSFntDc3//1Q4hLIWKdOmbPcVcFIWQkSGIjxDp0VSnVNn23zJ6
-         4ZqQ==
-X-Gm-Message-State: AOAM533QyYRvtnvsdSc7ICex4q7t1J7nXFZ3Tr7TsQRtvnldOgN1nIIv
-	m3B2R235hYX4Es0Z155kfGp8KrEJv14ssqNo9K4=
+        bh=sNfBsrBvr4y08VYqdlwVnByzTq79jLIycB8RpFSwyhU=;
+        b=Fc1+q6UFyS4pbK2yWnbw9MCV/lRm1Wdm4JP2NwLIy2geYlcRdOtRjO8/61tknEzang
+         ZN+3crnPtrD32O8fOwSbFTMe3KkDP3uSyMWBCUnutT40ju8Q00NeKY38GHGHHv76DJLC
+         6MPM7GIUxAaBnJ37C460BxXbI6bViVU32177AWmkHfviFisjYr4sd5weiizV6mvuoQ/f
+         3WER7iMyB8Pwf6T9wPB7jQYIG7U329RQb9eoX8AxZ8DRqXn85fAkzcLLhSROkbKnH856
+         o8A613Lzj8eQYyelsWL+zC+bE1PmTXJqqQYIdCOLWaQNH85zfdMmxqGGUceWWALQ/FKB
+         zl9w==
+X-Gm-Message-State: AOAM533nRwoW9vHfPaMx6jhOdMHibjl2W2hCCaWGuCk8NI+mEq7KY6Be
+	HHAUQJIQKnI5uQ5JTGDYhV7BPjARH43JzkuVfjw91pM3
 X-Google-Smtp-Source: 
- ABdhPJxmXcNyhGzXgRE9u5ULdi9rodRcKBoXSRpPpX4k6GksmR+HBmj0FkbzBJikWvd2Yia4PR5+EDW54n1woFsy98g=
-X-Received: by 2002:a2e:9e8d:0:b0:24b:5af4:3feb with SMTP id
- f13-20020a2e9e8d000000b0024b5af43febmr20781762ljk.257.1651133524289; Thu, 28
- Apr 2022 01:12:04 -0700 (PDT)
+ ABdhPJx2poz9yFNNC0Vf3HR3S/SA4ZQV1BjFCNn4C/rGsq1qodY+nDTqxJ3aLA4AvRmcAXnpNzPxvJjlrVzPUHkJaLQ=
+X-Received: by 2002:a5d:9316:0:b0:657:a364:ceb with SMTP id
+ l22-20020a5d9316000000b00657a3640cebmr5072112ion.63.1651133817986; Thu, 28
+ Apr 2022 01:16:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <1651131215-4196-1-git-send-email-leimaohui@fujitsu.com>
-In-Reply-To: <1651131215-4196-1-git-send-email-leimaohui@fujitsu.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 28 Apr 2022 10:11:52 +0200
+References: <20220427132228.1179532-1-ross.burton@arm.com>
+In-Reply-To: <20220427132228.1179532-1-ross.burton@arm.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Thu, 28 Apr 2022 10:16:46 +0200
 Message-ID: 
- <CANNYZj_5zAZvg_rbPw4C-YNA6ptohpxvDOXbCdNvj3Bom08b3g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gnutls: Added fips support option.
-To: leimaohui <leimaohui@fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ <CAApg2=ROu0Vx5qca_QRVxbeB2E6fUFSMz3bi=Cj3QD1neJ6D-Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cve-check: no need to depend on the fetch task
+To: Ross Burton <ross.burton@arm.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, nd@arm.com
+Content-Type: multipart/alternative; boundary="000000000000b2a40d05ddb28ced"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Apr 2022 08:12:15 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Apr 2022 08:17:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164935
+ https://lists.openembedded.org/g/openembedded-core/message/164936
 
-What do those do_compile/do_install tweaks do, and why are they
-necessary? Please explain, it seems like there might be a better way
-to do this.
+--000000000000b2a40d05ddb28ced
+Content-Type: text/plain; charset="UTF-8"
 
-Alex
+On Wed, Apr 27, 2022 at 3:22 PM Ross Burton <ross.burton@arm.com> wrote:
 
-On Thu, 28 Apr 2022 at 09:34, leimaohui <leimaohui@fujitsu.com> wrote:
+> The only part of the cve-check task which needs files is the patch
+> examination, and typically these patches are local so fetch isn't needed.
 >
-> Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
 > ---
->  meta/recipes-support/gnutls/gnutls_3.7.4.bb | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
+>  meta/classes/cve-check.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-support/gnutls/gnutls_3.7.4.bb b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
-> index b34eb7f..5a34805 100644
-> --- a/meta/recipes-support/gnutls/gnutls_3.7.4.bb
-> +++ b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
-> @@ -15,6 +15,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=71391c8e0c1cfe68077e7fce3b586283 \
->                      file://doc/COPYING.LESSER;md5=a6f89e2100d9b6cdffcea4f398e37343"
+> diff --git a/meta/classes/cve-check.bbclass
+> b/meta/classes/cve-check.bbclass
+> index 78516d0bb6..7cf206299b 100644
+> --- a/meta/classes/cve-check.bbclass
+> +++ b/meta/classes/cve-check.bbclass
+> @@ -126,7 +126,7 @@ python do_cve_check () {
 >
->  DEPENDS = "nettle gmp virtual/libiconv libunistring"
-> +DEPENDS:append:class-target = " gnutls-native"
->  DEPENDS:append:libc-musl = " argp-standalone"
->
->  SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
-> @@ -36,6 +37,7 @@ PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn2"
->  PACKAGECONFIG[libtasn1] = "--with-included-libtasn1=no,--with-included-libtasn1,libtasn1"
->  PACKAGECONFIG[p11-kit] = "--with-p11-kit,--without-p11-kit,p11-kit"
->  PACKAGECONFIG[tpm] = "--with-tpm,--without-tpm,trousers"
-> +PACKAGECONFIG[fips] = "--enable-fips140-mode,--disable-fips140-mode"
->
->  EXTRA_OECONF = " \
->      --enable-doc \
-> @@ -59,6 +61,21 @@ do_configure:prepend() {
->         done
 >  }
 >
-> +do_compile:prepend:class-target () {
-> +        if ${@bb.utils.contains('PACKAGECONFIG', 'fips', 'true', 'false', d)}; then
-> +          sed -i -e "s#\$(builddir)/fipshmac#${STAGING_DIR_NATIVE}${libdir}/fipshmac#g" ${B}/lib/Makefile
-> +        fi
-> +}
-> +
-> +do_install:append:class-native() {
-> +        if ${@bb.utils.contains('PACKAGECONFIG', 'fips', 'true', 'false', d)}; then
-> +          install -d ${D}${libdir}
-> +          install -d ${D}${libdir}/.libs
-> +          install -m 0755 ${B}/lib/fipshmac ${D}${libdir}/
-> +          install -m 0755 ${B}/lib/.libs/fipshmac ${D}${libdir}/.libs/
-> +        fi
-> +}
-> +
->  PACKAGES =+ "${PN}-openssl ${PN}-xx"
+> -addtask cve_check before do_build after do_fetch
+> +addtask cve_check before do_build
+>  do_cve_check[depends] = "cve-update-db-native:do_fetch"
+>  do_cve_check[nostamp] = "1"
 >
->  FILES:${PN}-dev += "${bindir}/gnutls-cli-debug"
 > --
-> 1.8.3.1
+> 2.25.1
 >
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#164933): https://lists.openembedded.org/g/openembedded-core/message/164933
-> Mute This Topic: https://lists.openembedded.org/mt/90748530/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> A side-effect of this change is that we seem to not be downloading the NVD
+database
+anymore... This is probably not exactly what we want right now.
+
+Kind regards,
+Marta
+
+--000000000000b2a40d05ddb28ced
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Apr 27, 2022 at 3:22 PM Ross =
+Burton &lt;<a href=3D"mailto:ross.burton@arm.com">ross.burton@arm.com</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The on=
+ly part of the cve-check task which needs files is the patch<br>
+examination, and typically these patches are local so fetch isn&#39;t neede=
+d.<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
+t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/cve-check.bbclass | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclas=
+s<br>
+index 78516d0bb6..7cf206299b 100644<br>
+--- a/meta/classes/cve-check.bbclass<br>
++++ b/meta/classes/cve-check.bbclass<br>
+@@ -126,7 +126,7 @@ python do_cve_check () {<br>
+<br>
+=C2=A0}<br>
+<br>
+-addtask cve_check before do_build after do_fetch<br>
++addtask cve_check before do_build<br>
+=C2=A0do_cve_check[depends] =3D &quot;cve-update-db-native:do_fetch&quot;<b=
+r>
+=C2=A0do_cve_check[nostamp] =3D &quot;1&quot;<br>
+<br>
+-- <br>
+2.25.1<br>
+<br></blockquote><div>A side-effect of this change is that we seem to not b=
+e downloading the NVD database</div><div>anymore... This is probably not ex=
+actly what we want right now.</div><div><br></div><div>Kind regards,</div><=
+div>Marta<br></div></div></div>
+
+--000000000000b2a40d05ddb28ced--
 
