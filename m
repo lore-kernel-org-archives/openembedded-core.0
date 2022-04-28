@@ -2,111 +2,92 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FE95C433EF
-	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 12:24:37 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web12.9567.1651148666672783090
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 116F0C433EF
+	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 12:30:57 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web12.9624.1651149049515488169
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Apr 2022 05:24:27 -0700
+ Thu, 28 Apr 2022 05:30:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=h3hjwAoB;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M5yr3lef;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id e2so6546646wrh.7
+Received: by mail-wm1-f52.google.com with SMTP id
+ n126-20020a1c2784000000b0038e8af3e788so2936947wmn.1
         for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Apr 2022 05:24:26 -0700 (PDT)
+ Thu, 28 Apr 2022 05:30:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Jqh6yvGeMIvvnR2eL/74jYG7Xl2zAWDCuc6gDlq+FKg=;
-        b=h3hjwAoBHjnAtwgXL4oY3GKXu7bIRVISKM7MaK/dQIbqH0RnP7467PUsXpEvGJhzS3
-         7/hmKvdrwfHgUDXMSnWUPVw2bpHeLyl8yKLvoXaxXSvZFdQOjfEBOP0reQBsF6VVV468
-         M2IcZPRLwVAjW2mlC7baX3mc36fqlrXfMnorw=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=hZMA+5eXe9bXoHhnB7L4o+3UhlnoXYfwJ0GmyniD9hw=;
+        b=M5yr3lefHQm626zVvCAGi3zJ4C1k9FkEd7WDBN3F3J7LdnUMQ3OIUUW3jr7ANqNAAu
+         +7mGdJq7lBhjojnMdiZOSbcRg4AZNfekICYVJ5Q2gz8tZ+YjLFI5Ml0pG2GkKl9esqmb
+         RY36GtSwSojDAwDCpDI4CQlrkceHPsHmycacg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Jqh6yvGeMIvvnR2eL/74jYG7Xl2zAWDCuc6gDlq+FKg=;
-        b=tx/KeKwMEx49p9Kc+NSCz0WFFepa1UJYMxnwIxuK5ckxiClKpF3CRSQRv3ECKaouNA
-         56h7nQCmXAZR021wbRsUV966eSQED9HqbKovpNsvzKIwI14UwMAMVA/glFbCZnDCmnHk
-         UZzUrIy5+yFP7WekTjlPLFuAU4Ce9gg1DTE/tK4SjpZPcNoKI/36pPjRITyyo8+TzJxB
-         7QVauGncdt6kOblvKgor3A90u1aa4SnBhq/iOXxhTBhfeExsVogrdRA6wBjXy5gFQ8c8
-         zybkIFcutA0wQ1Ng/dCjBqZnMYpdewr4SDD2qsPhO8bdOr/rlxfZhI49aVehzLuWfV/Q
-         AHiw==
-X-Gm-Message-State: AOAM5326JaU0xR57fbanUhsi5XNh1PEW/10rMaZJiPhWPSBSeOPBzO8f
-	CxD3r39fi5b8pwIK6D6NFD1YXptnAhjwzw==
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=hZMA+5eXe9bXoHhnB7L4o+3UhlnoXYfwJ0GmyniD9hw=;
+        b=o/2rUNVCNWwAu8ZiMsvUxGfjObT7t2lBJI9MUmNgds80vTV6Su/HVhesK5A6wkcykx
+         40EhZUDFLWW2Wn7uVFQC/7ew/ms7oOzEiY/czr+7y09Dfv577q7MoHiIcxJDZDQn+jBo
+         0xNKuqOKrdOHSKcWtrgOMRdR0vooMWnQ3/VZb4HlsmgrY2H76VOsLAg3WOgudkCKofEJ
+         0maP54GYRosw8GNc5Ust7cNxfrH9Vm/FugU6lDRQAwUTx0Kn6wq2athUl5yS5KzvAy7h
+         RvOwSsZgg/s+F9bJpxM1o9WwGOPjrJBqtkI2oMrgKtA309cu7cIHIGCXp1+huXKKZI3l
+         TxLQ==
+X-Gm-Message-State: AOAM533whQcm2kcZ6aoRYnXLhjAo1qR1iCmQ0hhLmnvAp8VhbG8kML8d
+	3riyL8y/crENnU4oWxLZFXk0JQ==
 X-Google-Smtp-Source: 
- ABdhPJwHK3vGSiRa8bs4F5Pa0t7Y5LcVy76UH5GJsqefFAuj24qbCvfPJ+iEO+etDXD+XMlhzdGfxA==
-X-Received: by 2002:a5d:5848:0:b0:20c:407b:4195 with SMTP id
- i8-20020a5d5848000000b0020c407b4195mr964148wrf.698.1651148664837;
-        Thu, 28 Apr 2022 05:24:24 -0700 (PDT)
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:e3fc:fa86:a530:4b66])
+ ABdhPJxvueBmsDqtGHZzK4Qo6FwUY0YMVIs0IerIN7I91dO6qWsFcGbk5W2YxOinmImW46Vnw9yhzA==
+X-Received: by 2002:a05:600c:1d0f:b0:393:f0f1:ab7f with SMTP id
+ l15-20020a05600c1d0f00b00393f0f1ab7fmr14503516wms.89.1651149047741;
+        Thu, 28 Apr 2022 05:30:47 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e3fc:fa86:a530:4b66?
+ ([2001:8b0:aba:5f3c:e3fc:fa86:a530:4b66])
         by smtp.gmail.com with ESMTPSA id
- f66-20020a1c3845000000b00393e84ea043sm3997035wma.44.2022.04.28.05.24.24
+ r3-20020a1c2b03000000b00392a3e6280bsm4006046wmr.8.2022.04.28.05.30.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Apr 2022 05:24:24 -0700 (PDT)
+        Thu, 28 Apr 2022 05:30:47 -0700 (PDT)
+Message-ID: 
+ <37753e878c988098cc777b5ddeb178267a1ec9b3.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2] sstate: add a LockedSet class to be used
+ on the mirror thread pool
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Steve Sakoman <steve@sakoman.com>
-Subject: [PATCH] scripts/contrib/oe-build-perf-report-email.py: remove
- obsolete check for phantomjs and optipng
-Date: Thu, 28 Apr 2022 13:24:23 +0100
-Message-Id: <20220428122423.2871904-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
+To: Jose Quaresma <quaresma.jose@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 28 Apr 2022 13:30:44 +0100
+In-Reply-To: <20220419094616.433632-1-quaresma.jose@gmail.com>
+References: <20220419094616.433632-1-quaresma.jose@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Apr 2022 12:24:37 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Apr 2022 12:30:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164943
+ https://lists.openembedded.org/g/openembedded-core/message/164944
 
-From: Steve Sakoman <steve@sakoman.com>
+On Tue, 2022-04-19 at 10:46 +0100, Jose Quaresma wrote:
+> The python set() is not thread safe and we use it on the ThreadedPool.
+> With this LockedSet python class we can call the 'add' and 'remove'
+> safely inside the ThreadedPool.
+> 
+> This piece of code is taken from the stackoverflow
+> https://stackoverflow.com/questions/13610654/how-to-make-built-in-containers-sets-dicts-lists-thread-safe
+> 
+> May be related with [YOCTO #14775] -- https://bugzilla.yoctoproject.org/show_bug.cgi?id=14775
+> 
+> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 
-Use of those tools was removed in b5c131006e3fad0a15e6cdf81f71dc1e96647028
-perf-build-test/report: Drop phantomjs and html email reports support
+For info, https://autobuilder.yoctoproject.org/typhoon/#/builders/74/builds/5083
+was a failure with master-next which included the changes in this discussion. It
+doesn't seem to address that issue :(
 
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- scripts/contrib/oe-build-perf-report-email.py | 13 -------------
- 1 file changed, 13 deletions(-)
+Cheers,
 
-diff --git a/scripts/contrib/oe-build-perf-report-email.py b/scripts/contrib/oe-build-perf-report-email.py
-index c900720f6e1..7192113c281 100755
---- a/scripts/contrib/oe-build-perf-report-email.py
-+++ b/scripts/contrib/oe-build-perf-report-email.py
-@@ -27,17 +27,6 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
- log = logging.getLogger('oe-build-perf-report')
- 
- 
--def check_utils():
--    """Check that all needed utils are installed in the system"""
--    missing = []
--    for cmd in ('phantomjs', 'optipng'):
--        if not shutil.which(cmd):
--            missing.append(cmd)
--    if missing:
--        log.error("The following tools are missing: %s", ' '.join(missing))
--        sys.exit(1)
--
--
- def parse_args(argv):
-     """Parse command line arguments"""
-     description = """Email build perf test report"""
-@@ -101,8 +90,6 @@ def main(argv=None):
-     if args.debug:
-         log.setLevel(logging.DEBUG)
- 
--    check_utils()
--
-     if args.outdir:
-         outdir = args.outdir
-         if not os.path.exists(outdir):
--- 
-2.32.0
+Richard
 
 
