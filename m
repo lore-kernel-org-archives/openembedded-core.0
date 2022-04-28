@@ -2,38 +2,36 @@ Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12BF6C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D7A8C433EF
 	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 14:04:08 +0000 (UTC)
 Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
  by mx.groups.io with SMTP id smtpd.web08.10833.1651154644313024039
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Apr 2022 07:04:05 -0700
+ Thu, 28 Apr 2022 07:04:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=gmbymGOL;
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=B/GhVDkK;
  spf=pass (domain: axis.com, ip: 195.60.68.17,
  mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1651154645;
-  x=1682690645;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=c6LGh7bki8L8v8sVtZyD0DFXluSg38EMFU+OmLoX+go=;
-  b=gmbymGOLe6b1H0Sre745xE6fAuiVj1qjds0XDirwaZN2nGP7YPF+38AA
-   GSTkq45lo5yjH/wfvs3FIYM7LM08f2V1UQFTRG6KMSMNKRtiVkeHRcpF0
-   birKwQQs4rb5x5ErVxz4793hN/M3MDGFowzCDu8gdcp51RTXnnw+KOLzc
-   UkeqjL/ul7B2sQ80MJQrvpcvRyBFRrxEd1/PqmwMIocUKHwpaHa+G9liE
-   mRnE0tZRJzCtdo5z1poKrU0Uzv9U8AHdflpxGA29jcRuN9oG///T3/sZi
-   bhGW9VGFrA8s11jr7TTKKCpI5XU0sQ7MxhB8rfWzILoYiq47Zcr5nbgLG
-   Q==;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1651154644;
+  x=1682690644;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=VTFhbml1liBkkGfdLlO/o1zS3mTmx+e1LaTNAZkR6xc=;
+  b=B/GhVDkK3LqPix0rVvIDhQTl9Qp7zc0GgueF3M0N4nMriVt3XGg0Di+0
+   KB50U4S1J2nw8g1rELvMZEGMHgxM4gkof3scMD2xuzjBRYvhDaNMduw0X
+   XM5NfvH7aP0V8Rgh4vXX1hJbh0UENw6bIwjY5Q8RCySy8m9A3WEwZGSrR
+   3+2ILa+1Ndnlwm9O4IZLsDiqwV9KSBXG38NvTV85D2xAM6+j8MNpvxlMg
+   irvlJJ+M3T9EqGPmgLtlAsW4RBtj410eguKpveCECAFbqhIkfJ9U0be7j
+   GAi7lWTdLKFqFMtB1NwCeTYy1frrd+07sp0A5wfZIZenTmXlYS5GXcrzk
+   g==;
 From: Peter Kjellerstedt <pkj@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [honister][PATCH 2/2] knotty: reduce keep-alive timeout from 5000s
- (83 minutes) to 10 minutes
-Date: Thu, 28 Apr 2022 16:03:59 +0200
-Message-ID: <20220428140359.17240-2-pkj@axis.com>
+Subject: [honister][PATCH 1/2] knotty: display active tasks when printing
+ keepAlive() message
+Date: Thu, 28 Apr 2022 16:03:58 +0200
+Message-ID: <20220428140359.17240-1-pkj@axis.com>
 X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20220428140359.17240-1-pkj@axis.com>
-References: <20220428140359.17240-1-pkj@axis.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -42,52 +40,41 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 28 Apr 2022 14:04:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164965
+ https://lists.openembedded.org/g/openembedded-core/message/164964
 
 From: Ross Burton <ross@burtonini.com>
 
-The keep alive timeout is excessively long at 83 minutes (5000 seconds),
-reduce this to 10 minutes: this should be long enough that it rarely
-triggers in normal builds, but when it does it has useful information.
+In interactive bitbake sessions it is obvious what tasks are running
+when one of them hangs or otherwise takes a long time. However, in
+non-interactive sessions (such as automated builds) bitbake just prints
+a message saying that it is "still alive" with no clues as to what tasks
+are active still.
+
+By simply listing the active tasks when printing the keep alive message,
+we don't need to parse the bitbake log to identify which of the tasks
+is still active and has presumably hung.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- bitbake/lib/bb/ui/knotty.py | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ bitbake/lib/bb/ui/knotty.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/bitbake/lib/bb/ui/knotty.py b/bitbake/lib/bb/ui/knotty.py
-index 64e33d81a6..3ba5579ca4 100644
+index 484545a684..64e33d81a6 100644
 --- a/bitbake/lib/bb/ui/knotty.py
 +++ b/bitbake/lib/bb/ui/knotty.py
-@@ -607,7 +607,8 @@ def main(server, eventHandler, params, tf = TerminalFilter):
-     warnings = 0
-     taskfailures = []
+@@ -228,7 +228,9 @@ class TerminalFilter(object):
  
--    printinterval = 5000
-+    printintervaldelta = 10 * 60 # 10 minutes
-+    printinterval = printintervaldelta
-     lastprint = time.time()
+     def keepAlive(self, t):
+         if not self.cuu:
+-            print("Bitbake still alive (%ds)" % t)
++            print("Bitbake still alive (no events for %ds). Active tasks:" % t)
++            for t in self.helper.running_tasks:
++                print(t)
+             sys.stdout.flush()
  
-     termfilter = tf(main, helper, console_handlers, params.options.quiet)
-@@ -617,7 +618,7 @@ def main(server, eventHandler, params, tf = TerminalFilter):
-         try:
-             if (lastprint + printinterval) <= time.time():
-                 termfilter.keepAlive(printinterval)
--                printinterval += 5000
-+                printinterval += printintervaldelta
-             event = eventHandler.waitEvent(0)
-             if event is None:
-                 if main.shutdown > 1:
-@@ -648,7 +649,7 @@ def main(server, eventHandler, params, tf = TerminalFilter):
- 
-             if isinstance(event, logging.LogRecord):
-                 lastprint = time.time()
--                printinterval = 5000
-+                printinterval = printintervaldelta
-                 if event.levelno >= bb.msg.BBLogFormatter.ERROR:
-                     errors = errors + 1
-                     return_value = 1
+     def updateFooter(self):
 
