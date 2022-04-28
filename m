@@ -2,178 +2,221 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC855C433F5
-	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 15:35:18 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web12.12389.1651160118004409179
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BD89C433F5
+	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 16:22:29 +0000 (UTC)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web08.12822.1651162946347605633
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Apr 2022 08:35:18 -0700
+ Thu, 28 Apr 2022 09:22:27 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=3IV3ty9i;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44,
+ header.b=kdQXn+jQ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.52,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id
- gj17-20020a17090b109100b001d8b390f77bso8055613pjb.1
+Received: by mail-ej1-f52.google.com with SMTP id kq17so10602364ejb.4
         for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Apr 2022 08:35:17 -0700 (PDT)
+ Thu, 28 Apr 2022 09:22:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HNlWIPStEq6OpvP2NOcJxNIanzI6fKHDO2ZLBiR5x6Q=;
-        b=3IV3ty9iGd/Tg8Yr/yoXxh0yi7xPZRRKy0613MyWqPLMe2BJq/NHOVs+XveyK7nJyI
-         NJwDiUglznBQ8/u+I+hrQ7N2eXXYIXzKNhXSufsh/b6kkMY7nU970kt0lX+XOZxn2zM0
-         J3b6WqyT0kIdOa9KhdaoOLRq3Cg8top9btK+bknfSTnZ96UbXw7KTa7UK8cTn20tDSI+
-         3nXNqPutwyOCJUpoOuxc46KcO/nzkBXoRI333V+NJXuCN+2hmNV83DL7lGnSZtpZDW1h
-         BhJjzgsX8JrYMcYpp7P97Wzj6u77v+Dj+Vhf86xJcOKuU5OgCLOnAm06gRiGOk8CanLS
-         ifxg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HbB/HHTTVxr3Yfz00Ooe4cEB+IU59NA9r8/hnlFjFTY=;
+        b=kdQXn+jQ943+9MpWfiJ8TqXCVmmN/fRYUKv5NqcwtYGloMrGFCoNXHpJbtfCLy7Q+A
+         A/xs2NwvsHKxVGHnCgup6e41o5BHbAov5mrfu6DejL4iA5bTf7www/e8UNcmN6BKc5SZ
+         HokeZ7luxCf8X3cdOUlWhCVkL0wlcym8OwjabT6O6chHE9PtRTBhaYPHw53mmsU8s3dM
+         UjhVtCb+PvhNNbpgN6P2myNFrA4CKMXQ9Wz863pAIN/cXlrmMsemyCGw18iLE8gC+o7K
+         Q/NGghEPyHDeB65KWA+ccLB8ZAK3mdTN2JIGw2Uc0x1n866zmBkYAaYU1LbgtODRA81p
+         seeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HNlWIPStEq6OpvP2NOcJxNIanzI6fKHDO2ZLBiR5x6Q=;
-        b=BsQe6dMs4rP5LysN98K2A4BEJ1GPLzgakc4uSV60Nu27GZlfpRhYdfYEoZa75fd2tD
-         Rbmf6/lcgxD16gQl7m1u4jA9eagNmBz9pt/6e6HoClOZtk9YSrKcVnLGxervE4Cz4eOF
-         p/AWmr1rqx5+0dnF355Sm1s2fLw1hzGNaRUeL+7zqC2op4aW1jULpNKT5GtFdFrFdT/G
-         aWaPvs2siQPZXjY+qqS3ZBU+yx/UjtbbryrCGCoxPvkXZI8xOCTizEOYjhcSxy2Te1Wi
-         0nOTiWwFHt9fI1z+XXwnqAIIt9GgYKftGeFxqdinWCrJFyuDTN9WzA7MT4Fy63eY1qSX
-         FcOQ==
-X-Gm-Message-State: AOAM5322rlntg/psgZXAuKgHyblBcP+5mfDdS15VecXZ+apn9BnYoSs8
-	/irwBZn3wp7V11p0TTmxoHPt1wsMVoIWYnTqyt8=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HbB/HHTTVxr3Yfz00Ooe4cEB+IU59NA9r8/hnlFjFTY=;
+        b=et9F6zchE2Iost69mqu0DovWwnQ0zWjJcWw9MzraLEODN3eBB7UbbGfz2nYOH2dTyc
+         3+8WL6YdSUCOnvEOLsTJbYQBy6i9BACiXTLTLdzw2y4m8Hu3W257rp8p8rkvN7bbULmt
+         NEcF+PZg3I7rX9Hl0YhZl7phrwhLDy9YZREYl2R1mhDiKsLWithrGmK2pFvPBM53VSNL
+         p7T6gA8ArLgpTtfA1zVtnLRAyNWk3esZknSIEc7CewZXGNsjJxTLoFFA7QTWIoITjqQC
+         sRJIHJWYj82fEQPZ0nsq3SyjbMENmH2g138ME+8uoIcs4hfpVWc5HzuorOzzn3Vro6Qq
+         7EHw==
+X-Gm-Message-State: AOAM530v3djzHRyKJ9fljSE0XY+v2awjWWHK7QyjPMAeRpQAQU27brG5
+	Yi3kJ6awdwzyEl+PCd0rhAq2yYwIlLOrZCrHf75B4g==
 X-Google-Smtp-Source: 
- ABdhPJyBnqIj9igv6v3+0gX4qoAMRfQlSsAT31EwMi7yZqvXugFjn7pKhZ+21NpaZGCZt6UA3TDiWw==
-X-Received: by 2002:a17:90b:1e0c:b0:1d9:75da:261e with SMTP id
- pg12-20020a17090b1e0c00b001d975da261emr24415510pjb.130.1651160116471;
-        Thu, 28 Apr 2022 08:35:16 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id
- li12-20020a17090b48cc00b001d983f83959sm11059284pjb.57.2022.04.28.08.35.15
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Apr 2022 08:35:15 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/26] Pull request (cover letter only)
-Date: Thu, 28 Apr 2022 05:35:07 -1000
-Message-Id: <cover.1651159932.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+ ABdhPJz2bSpN35ViCwFMcEJPC79OVUdECKbQohbZDaxovMdgZO7staAiBRtSAim1VlL2H9hIZTZ2PYahYNgrV8Yv5aw=
+X-Received: by 2002:a17:907:7202:b0:6df:83a9:67d2 with SMTP id
+ dr2-20020a170907720200b006df83a967d2mr31845217ejc.327.1651162944284; Thu, 28
+ Apr 2022 09:22:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220427084009.3406717-1-alex@linutronix.de>
+ <20220427084009.3406717-10-alex@linutronix.de>
+In-Reply-To: <20220427084009.3406717-10-alex@linutronix.de>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Thu, 28 Apr 2022 06:22:12 -1000
+Message-ID: 
+ <CAOSpxdb+=7exCMsnw0zFb8HVuKuPuPjz15V9DwLRfuDnkRGe9A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 10/18] go: update 1.18 -> 1.18.1
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Apr 2022 15:35:18 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Apr 2022 16:22:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164969
+ https://lists.openembedded.org/g/openembedded-core/message/164970
 
-The following changes since commit d2ba3b8850d461bc7b773240cdf15b22b31a3f9e:
+This appears to be a security/bug fix release.  Do you think it is
+suitable for kirkstone?
 
-  lua: fix CVE-2022-28805 (2022-04-19 14:02:08 +0100)
+Steve
 
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
-
-Alexander Kanavin (1):
-  webkitgtk: adjust patch status
-
-Davide Gardenal (1):
-  create-spdx: fix error when symlink cannot be created
-
-Ferry Toth (2):
-  apt: add apt selftest to test signed package feeds
-  package_manager: fix missing dependency on gnupg when signing deb
-    package feeds
-
-Jon Mason (1):
-  qemuarm64: use virtio pci interfaces
-
-Kai Kang (1):
-  update_udev_hwdb: fix multilib issue with systemd
-
-Khem Raj (5):
-  babeltrace: Disable warnings as errors
-  xserver-xorg: Fix build with gcc12
-  systemtap: Fix build with gcc-12
-  gnupg: Disable FORTIFY_SOURCES on mips
-  mdadm: Drop clang specific cflags
-
-Konrad Weihmann (2):
-  git: correct license
-  ncurses: use COPYING file
-
-Martin Jansa (1):
-  systemd-boot: remove outdated EFI_LD comment
-
-Paulo Neves (1):
-  selftest/lic_checksum: Add test for filename containing space
-
-Peter Kjellerstedt (2):
-  u-boot: Correct the SRC_URI
-  u-boot: Inherit pkgconfig
-
-Richard Purdie (1):
-  buildtools-tarball: Only add cert envvars if certs are included
-
-wangmy (5):
-  linux-firmware: upgrade 20220310 -> 20220411
-  libsoup: upgrade 3.0.5 -> 3.0.6
-  apt: upgrade 2.4.3 -> 2.4.4
-  libusb1: upgrade 1.0.25 -> 1.0.26
-  libgit2: upgrade 1.4.2 -> 1.4.3
-
-zhengruoqin (3):
-  wireless-regdb: upgrade 2022.02.18 -> 2022.04.08
-  git: upgrade 2.35.2 -> 2.35.3
-  ruby: upgrade 3.1.1 -> 3.1.2
-
- meta/classes/create-spdx.bbclass              | 10 +--
- meta/classes/sign_package_feed.bbclass        |  1 +
- meta/conf/machine/qemuarm64.conf              |  8 +-
- meta/lib/oeqa/runtime/cases/apt.py            | 38 ++++++--
- meta/lib/oeqa/selftest/cases/lic_checksum.py  | 18 ++++
- meta/lib/oeqa/selftest/cases/runtime_test.py  | 38 ++++++++
- meta/recipes-bsp/u-boot/u-boot-common.inc     |  6 +-
- meta/recipes-core/meta/buildtools-tarball.bb  |  6 +-
- meta/recipes-core/ncurses/ncurses.inc         |  2 +-
- .../systemd/systemd-boot_250.4.bb             |  1 -
- meta/recipes-core/systemd/systemd_250.4.bb    |  5 --
- meta/recipes-core/udev/eudev_3.2.10.bb        |  4 -
- .../apt/{apt_2.4.3.bb => apt_2.4.4.bb}        |  2 +-
- .../git/{git_2.35.2.bb => git_2.35.3.bb}      | 15 +++-
- .../ruby/{ruby_3.1.1.bb => ruby_3.1.2.bb}     |  2 +-
- meta/recipes-extended/mdadm/mdadm_4.2.bb      |  2 -
- .../0001-render-Fix-build-with-gcc-12.patch   | 90 +++++++++++++++++++
- .../xorg-xserver/xserver-xorg_21.1.3.bb       |  1 +
- ...20220310.bb => linux-firmware_20220411.bb} |  4 +-
- .../recipes-kernel/lttng/babeltrace2_2.0.4.bb |  2 +-
- ...ility-re-tweak-for-rhel6-use-functio.patch | 49 ++++++++++
- .../recipes-kernel/systemtap/systemtap_git.bb |  3 +-
- ....02.18.bb => wireless-regdb_2022.04.08.bb} |  2 +-
- ...spection.cmake-prefix-variables-obta.patch |  5 +-
- meta/recipes-support/gnupg/gnupg_2.3.4.bb     |  3 +
- .../{libgit2_1.4.2.bb => libgit2_1.4.3.bb}    |  2 +-
- .../{libsoup_3.0.5.bb => libsoup_3.0.6.bb}    |  2 +-
- .../{libusb1_1.0.25.bb => libusb1_1.0.26.bb}  |  2 +-
- scripts/postinst-intercepts/update_udev_hwdb  |  5 +-
- 29 files changed, 279 insertions(+), 49 deletions(-)
- rename meta/recipes-devtools/apt/{apt_2.4.3.bb => apt_2.4.4.bb} (97%)
- rename meta/recipes-devtools/git/{git_2.35.2.bb => git_2.35.3.bb} (86%)
- rename meta/recipes-devtools/ruby/{ruby_3.1.1.bb => ruby_3.1.2.bb} (97%)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-render-Fix-build-with-gcc-12.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220310.bb => linux-firmware_20220411.bb} (99%)
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-gcc12-c-compatibility-re-tweak-for-rhel6-use-functio.patch
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2022.02.18.bb => wireless-regdb_2022.04.08.bb} (94%)
- rename meta/recipes-support/libgit2/{libgit2_1.4.2.bb => libgit2_1.4.3.bb} (91%)
- rename meta/recipes-support/libsoup/{libsoup_3.0.5.bb => libsoup_3.0.6.bb} (94%)
- rename meta/recipes-support/libusb/{libusb1_1.0.25.bb => libusb1_1.0.26.bb} (94%)
-
--- 
-2.25.1
-
+On Tue, Apr 26, 2022 at 10:40 PM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> Do not version patch directories; we carry only one version of go.
+>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  meta/recipes-devtools/go/{go-1.18.inc => go-1.18.1.inc}       | 4 ++--
+>  .../{go-binary-native_1.18.bb => go-binary-native_1.18.1.bb}  | 4 ++--
+>  ...{go-cross-canadian_1.18.bb => go-cross-canadian_1.18.1.bb} | 0
+>  .../go/{go-cross_1.18.bb => go-cross_1.18.1.bb}               | 0
+>  .../go/{go-crosssdk_1.18.bb => go-crosssdk_1.18.1.bb}         | 0
+>  .../go/{go-native_1.18.bb => go-native_1.18.1.bb}             | 0
+>  .../go/{go-runtime_1.18.bb => go-runtime_1.18.1.bb}           | 0
+>  ...cmd-go-make-content-based-hash-generation-less-pedan.patch | 0
+>  ...0001-exec.go-do-not-write-linker-flags-into-buildids.patch | 0
+>  ...src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch | 0
+>  ...-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch | 0
+>  .../0004-ld-add-soname-to-shareable-objects.patch             | 0
+>  ...make.bash-override-CC-when-building-dist-and-go_boot.patch | 0
+>  .../0006-cmd-dist-separate-host-and-target-builds.patch       | 0
+>  .../0007-cmd-go-make-GOROOT-precious-by-default.patch         | 0
+>  meta/recipes-devtools/go/{go_1.18.bb => go_1.18.1.bb}         | 0
+>  16 files changed, 4 insertions(+), 4 deletions(-)
+>  rename meta/recipes-devtools/go/{go-1.18.inc => go-1.18.1.inc} (82%)
+>  rename meta/recipes-devtools/go/{go-binary-native_1.18.bb => go-binary-native_1.18.1.bb} (83%)
+>  rename meta/recipes-devtools/go/{go-cross-canadian_1.18.bb => go-cross-canadian_1.18.1.bb} (100%)
+>  rename meta/recipes-devtools/go/{go-cross_1.18.bb => go-cross_1.18.1.bb} (100%)
+>  rename meta/recipes-devtools/go/{go-crosssdk_1.18.bb => go-crosssdk_1.18.1.bb} (100%)
+>  rename meta/recipes-devtools/go/{go-native_1.18.bb => go-native_1.18.1.bb} (100%)
+>  rename meta/recipes-devtools/go/{go-runtime_1.18.bb => go-runtime_1.18.1.bb} (100%)
+>  rename meta/recipes-devtools/go/{go-1.18 => go}/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch (100%)
+>  rename meta/recipes-devtools/go/{go-1.18 => go}/0001-exec.go-do-not-write-linker-flags-into-buildids.patch (100%)
+>  rename meta/recipes-devtools/go/{go-1.18 => go}/0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch (100%)
+>  rename meta/recipes-devtools/go/{go-1.18 => go}/0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch (100%)
+>  rename meta/recipes-devtools/go/{go-1.18 => go}/0004-ld-add-soname-to-shareable-objects.patch (100%)
+>  rename meta/recipes-devtools/go/{go-1.18 => go}/0005-make.bash-override-CC-when-building-dist-and-go_boot.patch (100%)
+>  rename meta/recipes-devtools/go/{go-1.18 => go}/0006-cmd-dist-separate-host-and-target-builds.patch (100%)
+>  rename meta/recipes-devtools/go/{go-1.18 => go}/0007-cmd-go-make-GOROOT-precious-by-default.patch (100%)
+>  rename meta/recipes-devtools/go/{go_1.18.bb => go_1.18.1.bb} (100%)
+>
+> diff --git a/meta/recipes-devtools/go/go-1.18.inc b/meta/recipes-devtools/go/go-1.18.1.inc
+> similarity index 82%
+> rename from meta/recipes-devtools/go/go-1.18.inc
+> rename to meta/recipes-devtools/go/go-1.18.1.inc
+> index 54e241af10..64426471df 100644
+> --- a/meta/recipes-devtools/go/go-1.18.inc
+> +++ b/meta/recipes-devtools/go/go-1.18.1.inc
+> @@ -1,6 +1,6 @@
+>  require go-common.inc
+>
+> -FILESEXTRAPATHS:prepend := "${FILE_DIRNAME}/go-1.18:"
+> +FILESEXTRAPATHS:prepend := "${FILE_DIRNAME}/go:"
+>
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+>
+> @@ -14,4 +14,4 @@ SRC_URI += "\
+>      file://0001-exec.go-do-not-write-linker-flags-into-buildids.patch \
+>      file://0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
+>  "
+> -SRC_URI[main.sha256sum] = "38f423db4cc834883f2b52344282fa7a39fbb93650dc62a11fdf0be6409bdad6"
+> +SRC_URI[main.sha256sum] = "efd43e0f1402e083b73a03d444b7b6576bb4c539ac46208b63a916b69aca4088"
+> diff --git a/meta/recipes-devtools/go/go-binary-native_1.18.bb b/meta/recipes-devtools/go/go-binary-native_1.18.1.bb
+> similarity index 83%
+> rename from meta/recipes-devtools/go/go-binary-native_1.18.bb
+> rename to meta/recipes-devtools/go/go-binary-native_1.18.1.bb
+> index 500bb4ddcc..da9f39f428 100644
+> --- a/meta/recipes-devtools/go/go-binary-native_1.18.bb
+> +++ b/meta/recipes-devtools/go/go-binary-native_1.18.1.bb
+> @@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+>  PROVIDES = "go-native"
+>
+>  SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+> -SRC_URI[go_linux_amd64.sha256sum] = "e85278e98f57cdb150fe8409e6e5df5343ecb13cebf03a5d5ff12bd55a80264f"
+> -SRC_URI[go_linux_arm64.sha256sum] = "7ac7b396a691e588c5fb57687759e6c4db84a2a3bbebb0765f4b38e5b1c5b00e"
+> +SRC_URI[go_linux_amd64.sha256sum] = "b3b815f47ababac13810fc6021eb73d65478e0b2db4b09d348eefad9581a2334"
+> +SRC_URI[go_linux_arm64.sha256sum] = "56a91851c97fb4697077abbca38860f735c32b38993ff79b088dac46e4735633"
+>
+>  UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+>  UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+> diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.18.bb b/meta/recipes-devtools/go/go-cross-canadian_1.18.1.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go-cross-canadian_1.18.bb
+> rename to meta/recipes-devtools/go/go-cross-canadian_1.18.1.bb
+> diff --git a/meta/recipes-devtools/go/go-cross_1.18.bb b/meta/recipes-devtools/go/go-cross_1.18.1.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go-cross_1.18.bb
+> rename to meta/recipes-devtools/go/go-cross_1.18.1.bb
+> diff --git a/meta/recipes-devtools/go/go-crosssdk_1.18.bb b/meta/recipes-devtools/go/go-crosssdk_1.18.1.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go-crosssdk_1.18.bb
+> rename to meta/recipes-devtools/go/go-crosssdk_1.18.1.bb
+> diff --git a/meta/recipes-devtools/go/go-native_1.18.bb b/meta/recipes-devtools/go/go-native_1.18.1.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go-native_1.18.bb
+> rename to meta/recipes-devtools/go/go-native_1.18.1.bb
+> diff --git a/meta/recipes-devtools/go/go-runtime_1.18.bb b/meta/recipes-devtools/go/go-runtime_1.18.1.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go-runtime_1.18.bb
+> rename to meta/recipes-devtools/go/go-runtime_1.18.1.bb
+> diff --git a/meta/recipes-devtools/go/go-1.18/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go-1.18/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
+> rename to meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
+> diff --git a/meta/recipes-devtools/go/go-1.18/0001-exec.go-do-not-write-linker-flags-into-buildids.patch b/meta/recipes-devtools/go/go/0001-exec.go-do-not-write-linker-flags-into-buildids.patch
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go-1.18/0001-exec.go-do-not-write-linker-flags-into-buildids.patch
+> rename to meta/recipes-devtools/go/go/0001-exec.go-do-not-write-linker-flags-into-buildids.patch
+> diff --git a/meta/recipes-devtools/go/go-1.18/0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch b/meta/recipes-devtools/go/go/0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go-1.18/0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch
+> rename to meta/recipes-devtools/go/go/0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch
+> diff --git a/meta/recipes-devtools/go/go-1.18/0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch b/meta/recipes-devtools/go/go/0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go-1.18/0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch
+> rename to meta/recipes-devtools/go/go/0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch
+> diff --git a/meta/recipes-devtools/go/go-1.18/0004-ld-add-soname-to-shareable-objects.patch b/meta/recipes-devtools/go/go/0004-ld-add-soname-to-shareable-objects.patch
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go-1.18/0004-ld-add-soname-to-shareable-objects.patch
+> rename to meta/recipes-devtools/go/go/0004-ld-add-soname-to-shareable-objects.patch
+> diff --git a/meta/recipes-devtools/go/go-1.18/0005-make.bash-override-CC-when-building-dist-and-go_boot.patch b/meta/recipes-devtools/go/go/0005-make.bash-override-CC-when-building-dist-and-go_boot.patch
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go-1.18/0005-make.bash-override-CC-when-building-dist-and-go_boot.patch
+> rename to meta/recipes-devtools/go/go/0005-make.bash-override-CC-when-building-dist-and-go_boot.patch
+> diff --git a/meta/recipes-devtools/go/go-1.18/0006-cmd-dist-separate-host-and-target-builds.patch b/meta/recipes-devtools/go/go/0006-cmd-dist-separate-host-and-target-builds.patch
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go-1.18/0006-cmd-dist-separate-host-and-target-builds.patch
+> rename to meta/recipes-devtools/go/go/0006-cmd-dist-separate-host-and-target-builds.patch
+> diff --git a/meta/recipes-devtools/go/go-1.18/0007-cmd-go-make-GOROOT-precious-by-default.patch b/meta/recipes-devtools/go/go/0007-cmd-go-make-GOROOT-precious-by-default.patch
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go-1.18/0007-cmd-go-make-GOROOT-precious-by-default.patch
+> rename to meta/recipes-devtools/go/go/0007-cmd-go-make-GOROOT-precious-by-default.patch
+> diff --git a/meta/recipes-devtools/go/go_1.18.bb b/meta/recipes-devtools/go/go_1.18.1.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/go/go_1.18.bb
+> rename to meta/recipes-devtools/go/go_1.18.1.bb
+> --
+> 2.30.2
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#164901): https://lists.openembedded.org/g/openembedded-core/message/164901
+> Mute This Topic: https://lists.openembedded.org/mt/90726566/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
