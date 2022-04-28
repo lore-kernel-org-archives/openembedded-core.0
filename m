@@ -2,57 +2,57 @@ Return-Path: <jiaqing.zhao@linux.intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 061F1C4332F
-	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 09:47:16 +0000 (UTC)
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by mx.groups.io with SMTP id smtpd.web10.7883.1651139225600133395
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCF24C433EF
+	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 09:52:45 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by mx.groups.io with SMTP id smtpd.web11.7849.1651139559174195078
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Apr 2022 02:47:05 -0700
+ Thu, 28 Apr 2022 02:52:39 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=VBlYOL0f;
- spf=none, err=permanent DNS error (domain: linux.intel.com, ip: 192.55.52.93,
+ header.b=FqLwUCgr;
+ spf=none, err=permanent DNS error (domain: linux.intel.com, ip: 192.55.52.88,
  mailfrom: jiaqing.zhao@linux.intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651139225; x=1682675225;
+  t=1651139559; x=1682675559;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=bnaQ4pW1oSkgB7SeCX1J6nUUiu8uGRumIn7BRiCbJ80=;
-  b=VBlYOL0f9+O6y3gZieRadplUx1lmeUyoNLot9dxJU79t96G/85Jfduhr
-   JR8/0BB3URCIRK4zejtUeHuMygrWdmpTP41qrPQXKsALLAfujND9tOTEs
-   YCCfLw7qUJhB57iqujPC031jNzBNqAEyyHW9L3DMiKKYPVO1GwqOlnt7E
-   PIgEkHD72sfl22b1kLY5fokZI0TaT+RHD6tRSWNkOWAGEl9BUvOCBhuYY
-   9Piz6o5PjftrT3h8SRMEg0bRcLWBIDZvtTsfgTHfa34Vsi0rZcw3yojlF
-   JSZEakmB+Usb5HS1vg7TJ4gJF9DwashNQbNglCZ+wnC1gTp1L1s2MuyqN
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="263815339"
+  bh=kl9/Q1lxpWtXl/ihtbngDMWneMtG4sbmKIru7vKeVVg=;
+  b=FqLwUCgr0b9SaWRQK9Wky9QbBOkPKWaUcmL2/H1UoFltRSi+k0pk/aca
+   i1I2UiuCLWNfPyP8JUyZYEXmq79qTQOjhmVNgiUtjIehaekq2YmuT8DjS
+   0tvDsQgqeg7mmkhR8XoY74EjhfJxdgOKNS73c+XB2ADlCn+G/P7D3jBDy
+   DWHQW0Zfm7xrJy2z5uk1aeAQ7kstpJ4OwLdzrn2HnQPhZNzNBRFYYHrAI
+   Amsq55/9DuGH72B0FdFjGziW7Q0/HxVtVatcTzGn7UMNlt0kdeqpSsW7n
+   N3n6ow264pZgB0imw3HC/1nHT3+/yYzwBbjwMYudDa28414NRmY9MGpTy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="291386815"
 X-IronPort-AV: E=Sophos;i="5.90,295,1643702400";
-   d="scan'208";a="263815339"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2022 02:47:05 -0700
+   d="scan'208";a="291386815"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2022 02:52:29 -0700
 X-IronPort-AV: E=Sophos;i="5.90,295,1643702400";
-   d="scan'208";a="731339111"
+   d="scan'208";a="533774527"
 Received: from unknown (HELO jiaqingz-bmcdev-container.sh.intel.com)
  ([10.239.138.232])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2022 02:47:03 -0700
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2022 02:52:28 -0700
 From: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
-Subject: [PATCH] base-passwd: Disable shell for default users
-Date: Thu, 28 Apr 2022 17:46:22 +0800
-Message-Id: <20220428094621.1409328-1-jiaqing.zhao@linux.intel.com>
+Subject: [PATCH v2] base-passwd: Disable shell for default users
+Date: Thu, 28 Apr 2022 17:49:34 +0800
+Message-Id: <20220428094932.1411461-1-jiaqing.zhao@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Apr 2022 09:47:15 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Apr 2022 09:52:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164939
+ https://lists.openembedded.org/g/openembedded-core/message/164940
 
 Change the shell of all global static users other than root (which
 retains /bin/sh) and sync (as /bin/sync is rather harmless) to
@@ -60,6 +60,9 @@ retains /bin/sh) and sync (as /bin/sync is rather harmless) to
 
 Upstream-Status: Backport [https://launchpad.net/ubuntu/+source/base-passwd/3.5.30]
 Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+---
+v2:
+Fix indentation in bbfile.
 ---
  .../base-passwd/disable-shell.patch           | 57 +++++++++++++++++++
  .../base-passwd/base-passwd_3.5.29.bb         |  1 +
@@ -130,14 +133,14 @@ index 0000000000..dddc93ca35
 +2.32.0
 +
 diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-index 9a27ad3ab5..6f688681df 100644
+index 9a27ad3ab5..ef7792ae49 100644
 --- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
 +++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
 @@ -14,6 +14,7 @@ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
             file://input.patch \
             file://disable-docs.patch \
             file://kvm.patch \
-+		   file://disable-shell.patch \
++           file://disable-shell.patch \
             "
  
  SRC_URI[md5sum] = "6beccac48083fe8ae5048acd062e5421"
