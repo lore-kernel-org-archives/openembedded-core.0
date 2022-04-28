@@ -1,146 +1,104 @@
-Return-Path: <armccurdy@gmail.com>
+Return-Path: <jsbronder@cold-front.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67474C433F5
-	for <webhook@archiver.kernel.org>; Wed, 27 Apr 2022 16:54:23 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web09.222.1651078462437659288
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73AE6C433F5
+	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 00:10:01 +0000 (UTC)
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by mx.groups.io with SMTP id smtpd.web08.4097.1651104596122242728
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Apr 2022 09:54:22 -0700
+ Wed, 27 Apr 2022 17:09:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=OQl/tvGt;
- spf=pass (domain: gmail.com, ip: 209.85.208.171,
- mailfrom: armccurdy@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id bn33so3456107ljb.6
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Apr 2022 09:54:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fX3HRGtucn8oyRC8t5nqUXA/7n9ZqgQ1Osm2xBGHP58=;
-        b=OQl/tvGtYi6jdkJZmj2a09cvdhZYbRjd7ssO1DEAUeTFfse+eEW0tCR65Bp5w8yPCX
-         YAW8SKZsINthYB9+2mcd5+KNJpNPqNR1dQvGpBL01qS2EEoD2jrKJq/fy0rR5VNcTK0Z
-         dxpkNmh4Q4P4mp8/a5Yx7hlcqR6PQFy9uPsDrY+tJeUlij9qsk+JlxYlEXIrQFUaBZfr
-         Iublie0nDwtiVIpYgeHKEow43vxk3Y2i9EZ3ioUVvIeYceUzxYft2XlhXl7jgMjMgtQM
-         1xyZK7/E/S9hlccIvgVp46jfnt/ci7XqiOUcAW8lf21+jF6kT6TBNjmT1TxLFhdnC7Hq
-         jElQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fX3HRGtucn8oyRC8t5nqUXA/7n9ZqgQ1Osm2xBGHP58=;
-        b=1AJ1ItSCka2etyjLGR0Cqy2t2SR3No+Pbi6dW5xN+Gq1MUedD+4UwAdy+bxtohH4bm
-         DEMEOz48CVkRclZjgAvRAeWKubPrZdr3JOvIeRFogJ8DdRCk04x47mbqYaohybnfMNps
-         W4kAhEqU0TW4Vv2WQasa4Ir9pbcbue4Ogpa+/pM3V9T8p+Xi1SnfSMbMiEzuylwWQDeH
-         cY6MMm9LToSTUFSLr1MARjdREyXcWtANnW3GEwxn0Chbf9PGqyjk9iIRzTqXr0/DMVWf
-         Aljls5uxdf6Kn/qWnSUzFRHWkEy2xdtNHfIy5TyLoP5AMGyWul0FoN8/bYl64mJ7S52v
-         z05Q==
-X-Gm-Message-State: AOAM533iuf6g4sJdZoSMFB4RcQXIjNtGoYJ6VZIpU4Ob4whAfC1KJumh
-	1o+icirzXbe42kU6psPXyt/VO/V0BziLWdhp1fk=
-X-Google-Smtp-Source: 
- ABdhPJxiISeFHE076OuHw4MdJtvyRFzlrhXhklC9jPv6kAm3Po5lDDltxgCDdAistLQ8wnt7RvODZY5CYq1zNRtY1mU=
-X-Received: by 2002:a2e:3c1a:0:b0:24d:b349:76d2 with SMTP id
- j26-20020a2e3c1a000000b0024db34976d2mr18548102lja.214.1651078460504; Wed, 27
- Apr 2022 09:54:20 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@cold-front.org
+ header.s=mesmtp header.b=kWvAIvCp;
+ spf=pass (domain: cold-front.org, ip: 66.111.4.26,
+ mailfrom: jsbronder@cold-front.org)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 238545C008B
+	for <openembedded-core@lists.openembedded.org>;
+ Wed, 27 Apr 2022 20:09:55 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Wed, 27 Apr 2022 20:09:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cold-front.org;
+	 h=cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=mesmtp; t=1651104595; x=1651190995; bh=qIzXrASX0PosSjxPl4sb/A
+	xGIIUjQMQ+4TGnRM2hts0=; b=kWvAIvCpqbr9zlCvvqY82IGiZf+WvKmJA9h59u
+	79iwqc3QKfMfSHUxS5YYqqmelCCGc8Zei2S000S+yhjJp+G7LXZd1nNC/jNRgUIz
+	TlAQj6+kezW68JQhYyqRthhgukcZNBoBkXc/ZwSfbdiUWWOxnafTSoqD0Ls9TaBv
+	e4iqk=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:date
+	:from:from:in-reply-to:message-id:mime-version:reply-to:sender
+	:subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm1; t=1651104595; x=1651190995; bh=q
+	IzXrASX0PosSjxPl4sb/AxGIIUjQMQ+4TGnRM2hts0=; b=fUqCbZtot9/JQgdN+
+	/FXxhP0gLS4+Q618QUvUfk6nzleYqnYT5yMqFgwtX4IgY0Mr/Da+SkB7hgR1c9In
+	5xUTOxTzToBJdBS1+C1+kRL/EP8sytXLMQmlW/fqYtpVp+9b8aQHWp5q5khiqmyI
+	c7lhSqU5IPuzef0z/f/6kh8bYtlcU7L/LksWZxsWP2oN7zMVJjyh0FrZw7yQHEaI
+	Bj86rkxzcdDAKTkY2aAzl8snVrpG50HYOT1NG0Vd7Vxp73Rqq27N1cZDeH+gZA0a
+	87GRkY25XsbPdWJ/WZ0bbRS9nT7hR4S/T1xypfObID9WMTov9o74Djnf7iTmE9/D
+	Eofyw==
+X-ME-Sender: <xms:UttpYmDnzwUawWFeT96q_S3Eq89ZmV-33BQTsQT4J4xExtbsV5I2Uw>
+    <xme:UttpYgjg2xfXdsIuW8ALNJoU1auiUH2XzTGlaIUmel4y1ANeAah95PNNxxJPW0KWm
+    vHrm9lMMMCPJmNXRA>
+X-ME-Received: 
+ <xmr:UttpYpnrpSKGvQKOjcp9_XMFJQqOBxlepsPvU0PeEJKAPKJbUqMkvJ87xmt0688o_qwS6Zr2vklwHWXN4q07UvYPkcH1H5rHoLB8s-czcGoK>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvfedrudeigdefvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
+    dtnecuhfhrohhmpefluhhsthhinhcuuehrohhnuggvrhcuoehjshgsrhhonhguvghrsegt
+    ohhlugdqfhhrohhnthdrohhrgheqnecuggftrfgrthhtvghrnhepvdfhtdfhffeiffevte
+    evieefuedvtdfhleduieetudekgefgveffgffffffffffhnecuvehluhhsthgvrhfuihii
+    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhssghrohhnuggvrhestgholhguqd
+    hfrhhonhhtrdhorhhg
+X-ME-Proxy: <xmx:UttpYkwyQPZd4R66qeaHyKnDV_IzOAYdQvtt2_uvJpVrnpiy8s10-Q>
+    <xmx:UttpYrR22QiACKEns6-Btxqj6p-X2-wJH2WOhEJt72hlAOGKHsRQfQ>
+    <xmx:UttpYvbeEyxlEuq0p8oRN7CHWkphKtM0suWPj3kzbv6vth9FD8wVbw>
+    <xmx:U9tpYuMLaWx9Hjfsm0pTuv7H7oWCbvq1rcRrc5QuXuvKviy2VNXfWQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA for
+ <openembedded-core@lists.openembedded.org>; Wed,
+ 27 Apr 2022 20:09:54 -0400 (EDT)
+From: Justin Bronder <jsbronder@cold-front.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] pulseaudio: conditionally depend on
+ alsa-plugins-pulseaudio-conf
+Date: Wed, 27 Apr 2022 20:09:29 -0400
+Message-Id: <20220428000928.13808-1-jsbronder@cold-front.org>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-References: <20220426194618.218353-1-nicolas.dechesne@linaro.org>
- <CAJ86T=XZLytHs3yQxezF59+UbJnKPUsqJwqY0Cs8HTAqWoYRuQ@mail.gmail.com>
- <CAMKF1srtoJ018V4x3nX2CQ+77DfLgnN2-KizL1Zfje2e-wUEFQ@mail.gmail.com>
- <CAJ86T=WOttBz2W-xWD=dEP36FredBqzjEC3d+sF_ciUX_aCS1w@mail.gmail.com>
- <c57ed8a714da34b9649a49e823a304e99dc6b7a8.camel@linuxfoundation.org>
-In-Reply-To: 
- <c57ed8a714da34b9649a49e823a304e99dc6b7a8.camel@linuxfoundation.org>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 27 Apr 2022 09:54:03 -0700
-Message-ID: 
- <CAJ86T=XjdWroxsPB90ccptODqCNwnue9o2JdNznATWQJk7v+Aw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] sanity: skip make 4.2.1 warning for debian
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Khem Raj <raj.khem@gmail.com>,
- Nicolas Dechesne <nicolas.dechesne@linaro.org>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>,
-	chris_larson <chris_larson@mentor.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Apr 2022 16:54:23 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Apr 2022 00:10:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164929
+ https://lists.openembedded.org/g/openembedded-core/message/164931
 
-On Wed, Apr 27, 2022 at 3:40 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2022-04-26 at 14:39 -0700, Andre McCurdy wrote:
-> > On Tue, Apr 26, 2022 at 1:56 PM Khem Raj <raj.khem@gmail.com> wrote:
-> > >
-> > > On Tue, Apr 26, 2022 at 1:51 PM Andre McCurdy <armccurdy@gmail.com> wrote:
-> > > >
-> > > > On Tue, Apr 26, 2022 at 12:46 PM Nicolas Dechesne
-> > > > <nicolas.dechesne@linaro.org> wrote:
-> > > > >
-> > > > > This is a follow up patch of:
-> > > > > ad5829aa1f8a (sanity: Show a warning that make 4.2.1 is buggy on non-ubuntu systems)
-> > > > >
-> > > > > Debian10 has the exact same version/sources for make as Ubuntu
-> > > > > (focal), e.g. https://packages.debian.org/source/buster/make-dfsg and
-> > > > > https://packages.ubuntu.com/source/focal/make-dfsg.
-> > > > >
-> > > > > As per the corresponding changelog, the patch mentioned in
-> > > > > ad5829aa1f8a, is included in both Debian and Ubuntu in make
-> > > > > 4.2.1-1.1. So it's safe to use make 4.2.1 in Debian10.
-> > > > >
-> > > > > Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-> > > > > ---
-> > > > >  meta/classes/sanity.bbclass | 2 +-
-> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> > > > > index c385d92e8b..c72a7b3ed3 100644
-> > > > > --- a/meta/classes/sanity.bbclass
-> > > > > +++ b/meta/classes/sanity.bbclass
-> > > > > @@ -470,7 +470,7 @@ def check_make_version(sanity_data):
-> > > > >
-> > > > >      if bb.utils.vercmp_string_op(version, "4.2.1", "=="):
-> > > > >          distro = oe.lsb.distro_identifier()
-> > > >
-> > > > Not directly related to your change, but shouldn't this be
-> > > > lsb_distro_identifier() instead of oe.lsb.distro_identifier()?
-> > >
-> > > lsb_distro_identifier would work when it is inheriting base.bbclass
-> > > otherwise the utility function is needed.
-> >
-> > Question isn't really whether it will work or not (if it doesn't work,
-> > we should make it work) but rather whether any user-defined
-> > LSB_DISTRO_ADJUST should be applied before checking if the host distro
-> > is based on Debian/Ubuntu or not.
->
-> It would help to be a little more specific with the background. Having looked at
-> the code, we have two lsb functions, one in base.bbclass and one in
-> oe/lib/lsb.py. The one in base.bbclass is a wrapper which uses
-> LSB_DISTRO_ADJUST.
->
-> As far as I know, we don't use LSB_DISTRO_ADJUST in core at all. I suspect it
-> should really probably be added to the lsb.py function in most cases. Is there
-> any documentation or other info about when it should be applied and when it
-> should not?
+The alsa-plugins-pulseaudio-conf package is only enabled when
+DISTRO_FEATURES contains pulseaudio.
 
-Adding LSB_DISTRO_ADJUST directly to lsb.py would be fine I think.
-Personally I use LSB_DISTRO_ADJUST to map Linux Mint to Ubuntu. Linux
-Mint is binary compatible with Ubuntu (created from Ubuntu package
-feeds). The LSB_DISTRO_ADJUST mapping allows native sstate from a
-build server running Ubuntu to be reused on a developer laptop running
-Linux Mint.
+Signed-off-by: Justin Bronder <jsbronder@cold-front.org>
+---
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  https://github.com/lgirdk/meta-mng/blob/ofw/conf/distro/include/mng-sstate.inc
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index a69dd32bd7f..821ce7d1df2 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -254,7 +254,7 @@ RDEPENDS:pulseaudio-server = " \
+ # If the server is installed, it's usually desirable to make ALSA applications
+ # use PulseAudio. alsa-plugins-pulseaudio-conf will install the configuration
+ # that makes the PulseAudio plugin the default ALSA device.
+-RDEPENDS:pulseaudio-server += "alsa-plugins-pulseaudio-conf"
++RDEPENDS:pulseaudio-server += "${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'alsa-plugins-pulseaudio-conf', '', d)}"
+ 
+ # pulseaudio-module-console-kit is built whenever dbus is enabled by PACKAGECONFIG
+ # but consolekit depends on libx11 and is available only for DISTRO with x11 in DISTRO_FEATURES
+-- 
+2.35.3
 
-If the make 4.2.1 sanity check were to include LSB_DISTRO_ADJUST then
-(for me at least) it would suppress unnecessary warnings when running
-on Linux Mint (ie with the Ubuntu version of make). But in general, if
-we give users a method to adjust how their host distro is identified
-then we should enable it consistently unless there's a clear reason
-not to.
 
