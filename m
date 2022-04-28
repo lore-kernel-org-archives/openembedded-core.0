@@ -1,97 +1,179 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF1C9C433F5
-	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 15:00:38 +0000 (UTC)
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com
- [209.85.219.176])
- by mx.groups.io with SMTP id smtpd.web10.11754.1651158028926023892
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC855C433F5
+	for <webhook@archiver.kernel.org>; Thu, 28 Apr 2022 15:35:18 +0000 (UTC)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web12.12389.1651160118004409179
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Apr 2022 08:00:29 -0700
+ Thu, 28 Apr 2022 08:35:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pRAcF2HN;
- spf=pass (domain: gmail.com, ip: 209.85.219.176,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-yb1-f176.google.com with SMTP id g28so9478476ybj.10
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=3IV3ty9i;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.44,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f44.google.com with SMTP id
+ gj17-20020a17090b109100b001d8b390f77bso8055613pjb.1
         for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Apr 2022 08:00:28 -0700 (PDT)
+ Thu, 28 Apr 2022 08:35:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=4plBKDXB9kou3JR/FUCLTQzl2/m6xL1wsJ5tbg3pVBo=;
-        b=pRAcF2HNPgDoxzHQb4k0+3lATWG8lN9SnGCHAwu+1vxMLw9KxvE8kgC/SiDO6VBQdC
-         bh9xXdTirkUdxFarGWkDSy6K5t708vrCWhcQLeHeKrUXxm9W+7HTFIT0ncmIEDJgblN8
-         bMVH7800QT10zqpb5cvij7y790SH+1xC/N4GHRN/b62e3zEJTSZUrwhuSrguKvF/3ARm
-         JcZq9IBaf1lYNnLPlt1UUpFDIANU6yB9p7gTraIqSpFeFNhGUVSTMs4CxlD1oE/xwoED
-         ccXvDes7046GoqbnHD9NaPJ/RbXhZI+kXLxaefSLwnJ5ESc/doPNVyXwAlZCaJfaHErg
-         14uQ==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HNlWIPStEq6OpvP2NOcJxNIanzI6fKHDO2ZLBiR5x6Q=;
+        b=3IV3ty9iGd/Tg8Yr/yoXxh0yi7xPZRRKy0613MyWqPLMe2BJq/NHOVs+XveyK7nJyI
+         NJwDiUglznBQ8/u+I+hrQ7N2eXXYIXzKNhXSufsh/b6kkMY7nU970kt0lX+XOZxn2zM0
+         J3b6WqyT0kIdOa9KhdaoOLRq3Cg8top9btK+bknfSTnZ96UbXw7KTa7UK8cTn20tDSI+
+         3nXNqPutwyOCJUpoOuxc46KcO/nzkBXoRI333V+NJXuCN+2hmNV83DL7lGnSZtpZDW1h
+         BhJjzgsX8JrYMcYpp7P97Wzj6u77v+Dj+Vhf86xJcOKuU5OgCLOnAm06gRiGOk8CanLS
+         ifxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=4plBKDXB9kou3JR/FUCLTQzl2/m6xL1wsJ5tbg3pVBo=;
-        b=BjXvU/OTEaTKJ+8dT2lwF9aI4ZpDTbb0pjGvogxmTyqBkQ1c+1EqMoh6Q+efbAdBSi
-         TIb2tU6JqnCf5uv09fAv1AtDDEOcqTPy3rXker+FTLuKtP2F+zmMsGmRFisStBYn9p6h
-         hhe6rrOMd+chf8PD8LFrIrdpMlX4/eJVFuXIBvzKvqkelnTpfI8whtEZu2uPcTpe6Zfq
-         9TpNi3gByyhQBIMtS509zzn8nVRh77/jWCG6K48OQpzt/Z+jcEa1AteeDpWGX/CJcRMJ
-         w4Y9Ku+VKl00OrE+8yplyrNWwd9dRmLqR+P03JVRltwYK8HMbrY0leFyQm+VH3gXbKah
-         6MmA==
-X-Gm-Message-State: AOAM5323HMmYCEhia8qjviuUMT0It4mKKJ1bkXyCFy1/SetJNyeC2jdE
-	298BegiAtuAUA/izB/hn/zG/rhoG+or7YwypFqg=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HNlWIPStEq6OpvP2NOcJxNIanzI6fKHDO2ZLBiR5x6Q=;
+        b=BsQe6dMs4rP5LysN98K2A4BEJ1GPLzgakc4uSV60Nu27GZlfpRhYdfYEoZa75fd2tD
+         Rbmf6/lcgxD16gQl7m1u4jA9eagNmBz9pt/6e6HoClOZtk9YSrKcVnLGxervE4Cz4eOF
+         p/AWmr1rqx5+0dnF355Sm1s2fLw1hzGNaRUeL+7zqC2op4aW1jULpNKT5GtFdFrFdT/G
+         aWaPvs2siQPZXjY+qqS3ZBU+yx/UjtbbryrCGCoxPvkXZI8xOCTizEOYjhcSxy2Te1Wi
+         0nOTiWwFHt9fI1z+XXwnqAIIt9GgYKftGeFxqdinWCrJFyuDTN9WzA7MT4Fy63eY1qSX
+         FcOQ==
+X-Gm-Message-State: AOAM5322rlntg/psgZXAuKgHyblBcP+5mfDdS15VecXZ+apn9BnYoSs8
+	/irwBZn3wp7V11p0TTmxoHPt1wsMVoIWYnTqyt8=
 X-Google-Smtp-Source: 
- ABdhPJyQQyfuj1hi6q1+lysHYFwX5C8f7MKJnm+6tuoVevyYzCwBD5BQ0wf7m+rbPBfu6gMbGWoUKfl+gcaJQA45+4w=
-X-Received: by 2002:a25:34ca:0:b0:645:716c:8cd1 with SMTP id
- b193-20020a2534ca000000b00645716c8cd1mr32666891yba.83.1651158028025; Thu, 28
- Apr 2022 08:00:28 -0700 (PDT)
+ ABdhPJyBnqIj9igv6v3+0gX4qoAMRfQlSsAT31EwMi7yZqvXugFjn7pKhZ+21NpaZGCZt6UA3TDiWw==
+X-Received: by 2002:a17:90b:1e0c:b0:1d9:75da:261e with SMTP id
+ pg12-20020a17090b1e0c00b001d975da261emr24415510pjb.130.1651160116471;
+        Thu, 28 Apr 2022 08:35:16 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id
+ li12-20020a17090b48cc00b001d983f83959sm11059284pjb.57.2022.04.28.08.35.15
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Apr 2022 08:35:15 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 00/26] Pull request (cover letter only)
+Date: Thu, 28 Apr 2022 05:35:07 -1000
+Message-Id: <cover.1651159932.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220428062647.2717638-1-raj.khem@gmail.com>
- <b2ffb05a-5792-4630-8a85-5d4d64c7aa53@www.fastmail.com>
-In-Reply-To: <b2ffb05a-5792-4630-8a85-5d4d64c7aa53@www.fastmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 28 Apr 2022 08:00:01 -0700
-Message-ID: 
- <CAMKF1soLq0weUiGi+u--tgAk+ivxSCqo9Nvd5-cH5jpJeDvpJg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] kmod: Enable xz support by default
-To: Andrei Gherzan <andrei@gherzan.com>
-Cc: openembedded <openembedded-core@lists.openembedded.org>,
-	Steve Sakoman <steve@sakoman.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Apr 2022 15:00:38 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Apr 2022 15:35:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164968
+ https://lists.openembedded.org/g/openembedded-core/message/164969
 
-On Thu, Apr 28, 2022 at 4:27 AM Andrei Gherzan <andrei@gherzan.com> wrote:
->
-> On Thu, 28 Apr 2022, at 07:26, Khem Raj wrote:
-> > RPi kernel has started building compressed kernel modules by default
-> > starting 5.15, currenrly therefore meta-raspberrypi kernels are unable
-> > to load kernel modules since kmod and kmod-native do not entertain xz
-> > compressed modules. There is a fix proposed in meta-raspberrypi [1]
-> > but the fix is needed for native and nativesdk recipes as well, perhaps
-> > its best to enable it here for best out of box experience with
-> > meta-raspberrypi
-> >
-> > [1] https://github.com/agherzan/meta-raspberrypi/pull/1056
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
->
-> I don't see any reason not to do this and it does help with the BSPs usin=
-g this compression requirement. So here is my +1. Would it be reasonable to=
- propose to have it in kirkstone too? Otherwise, @khem, I'd need to drop co=
-mpression or downgrade the kernel in kirkstone rpi (or make some yocto inco=
-mpatible changes - which I'd rather not).
->
+The following changes since commit d2ba3b8850d461bc7b773240cdf15b22b31a3f9e:
 
-Its already in staging for master [1] so hope to land it in master
-soon. kirkstone is something from Steve to cherry-pick CCing Steve
-here
+  lua: fix CVE-2022-28805 (2022-04-19 14:02:08 +0100)
 
-[1] https://git.yoctoproject.org/poky-contrib/log/?h=3Dlucaceresoli/master-=
-next
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
+
+Alexander Kanavin (1):
+  webkitgtk: adjust patch status
+
+Davide Gardenal (1):
+  create-spdx: fix error when symlink cannot be created
+
+Ferry Toth (2):
+  apt: add apt selftest to test signed package feeds
+  package_manager: fix missing dependency on gnupg when signing deb
+    package feeds
+
+Jon Mason (1):
+  qemuarm64: use virtio pci interfaces
+
+Kai Kang (1):
+  update_udev_hwdb: fix multilib issue with systemd
+
+Khem Raj (5):
+  babeltrace: Disable warnings as errors
+  xserver-xorg: Fix build with gcc12
+  systemtap: Fix build with gcc-12
+  gnupg: Disable FORTIFY_SOURCES on mips
+  mdadm: Drop clang specific cflags
+
+Konrad Weihmann (2):
+  git: correct license
+  ncurses: use COPYING file
+
+Martin Jansa (1):
+  systemd-boot: remove outdated EFI_LD comment
+
+Paulo Neves (1):
+  selftest/lic_checksum: Add test for filename containing space
+
+Peter Kjellerstedt (2):
+  u-boot: Correct the SRC_URI
+  u-boot: Inherit pkgconfig
+
+Richard Purdie (1):
+  buildtools-tarball: Only add cert envvars if certs are included
+
+wangmy (5):
+  linux-firmware: upgrade 20220310 -> 20220411
+  libsoup: upgrade 3.0.5 -> 3.0.6
+  apt: upgrade 2.4.3 -> 2.4.4
+  libusb1: upgrade 1.0.25 -> 1.0.26
+  libgit2: upgrade 1.4.2 -> 1.4.3
+
+zhengruoqin (3):
+  wireless-regdb: upgrade 2022.02.18 -> 2022.04.08
+  git: upgrade 2.35.2 -> 2.35.3
+  ruby: upgrade 3.1.1 -> 3.1.2
+
+ meta/classes/create-spdx.bbclass              | 10 +--
+ meta/classes/sign_package_feed.bbclass        |  1 +
+ meta/conf/machine/qemuarm64.conf              |  8 +-
+ meta/lib/oeqa/runtime/cases/apt.py            | 38 ++++++--
+ meta/lib/oeqa/selftest/cases/lic_checksum.py  | 18 ++++
+ meta/lib/oeqa/selftest/cases/runtime_test.py  | 38 ++++++++
+ meta/recipes-bsp/u-boot/u-boot-common.inc     |  6 +-
+ meta/recipes-core/meta/buildtools-tarball.bb  |  6 +-
+ meta/recipes-core/ncurses/ncurses.inc         |  2 +-
+ .../systemd/systemd-boot_250.4.bb             |  1 -
+ meta/recipes-core/systemd/systemd_250.4.bb    |  5 --
+ meta/recipes-core/udev/eudev_3.2.10.bb        |  4 -
+ .../apt/{apt_2.4.3.bb => apt_2.4.4.bb}        |  2 +-
+ .../git/{git_2.35.2.bb => git_2.35.3.bb}      | 15 +++-
+ .../ruby/{ruby_3.1.1.bb => ruby_3.1.2.bb}     |  2 +-
+ meta/recipes-extended/mdadm/mdadm_4.2.bb      |  2 -
+ .../0001-render-Fix-build-with-gcc-12.patch   | 90 +++++++++++++++++++
+ .../xorg-xserver/xserver-xorg_21.1.3.bb       |  1 +
+ ...20220310.bb => linux-firmware_20220411.bb} |  4 +-
+ .../recipes-kernel/lttng/babeltrace2_2.0.4.bb |  2 +-
+ ...ility-re-tweak-for-rhel6-use-functio.patch | 49 ++++++++++
+ .../recipes-kernel/systemtap/systemtap_git.bb |  3 +-
+ ....02.18.bb => wireless-regdb_2022.04.08.bb} |  2 +-
+ ...spection.cmake-prefix-variables-obta.patch |  5 +-
+ meta/recipes-support/gnupg/gnupg_2.3.4.bb     |  3 +
+ .../{libgit2_1.4.2.bb => libgit2_1.4.3.bb}    |  2 +-
+ .../{libsoup_3.0.5.bb => libsoup_3.0.6.bb}    |  2 +-
+ .../{libusb1_1.0.25.bb => libusb1_1.0.26.bb}  |  2 +-
+ scripts/postinst-intercepts/update_udev_hwdb  |  5 +-
+ 29 files changed, 279 insertions(+), 49 deletions(-)
+ rename meta/recipes-devtools/apt/{apt_2.4.3.bb => apt_2.4.4.bb} (97%)
+ rename meta/recipes-devtools/git/{git_2.35.2.bb => git_2.35.3.bb} (86%)
+ rename meta/recipes-devtools/ruby/{ruby_3.1.1.bb => ruby_3.1.2.bb} (97%)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-render-Fix-build-with-gcc-12.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220310.bb => linux-firmware_20220411.bb} (99%)
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-gcc12-c-compatibility-re-tweak-for-rhel6-use-functio.patch
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2022.02.18.bb => wireless-regdb_2022.04.08.bb} (94%)
+ rename meta/recipes-support/libgit2/{libgit2_1.4.2.bb => libgit2_1.4.3.bb} (91%)
+ rename meta/recipes-support/libsoup/{libsoup_3.0.5.bb => libsoup_3.0.6.bb} (94%)
+ rename meta/recipes-support/libusb/{libusb1_1.0.25.bb => libusb1_1.0.26.bb} (94%)
+
+-- 
+2.25.1
+
 
