@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9054DC433FE
-	for <webhook@archiver.kernel.org>; Fri, 29 Apr 2022 16:01:39 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web12.12053.1651248094148510180
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 911E2C433F5
+	for <webhook@archiver.kernel.org>; Fri, 29 Apr 2022 16:01:49 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web10.12124.1651248104245974346
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Apr 2022 09:01:34 -0700
+ Fri, 29 Apr 2022 09:01:44 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=jpVydxTD;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45,
+ header.b=laAeEdw2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id
- cq17-20020a17090af99100b001dc0386cd8fso2294167pjb.5
+Received: by mail-pf1-f169.google.com with SMTP id z16so7282987pfh.3
         for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Apr 2022 09:01:34 -0700 (PDT)
+ Fri, 29 Apr 2022 09:01:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=BYeEwRyweIa27zhAoEgQmU+7EQzQosl9tz+hEYuEAJU=;
-        b=jpVydxTDj2AwaEmoX8rpQKVizcrydJtmqLoX42fUecXo5uCJK8yENk7H0glHAiQiR7
-         hV8FRoSN1khjkdaX+4QoqLH1D1ZEQVanl22889+c9L8ImrCOt6izarb35e9IpQfMOrqs
-         lI48TJLpaEQ3so+OpfpphMOFBR5A/hrOGHVGgr79CpncTxlrV1W06x9tK/P7mC/31xI4
-         DHFO90o9pYJcsC7erPG7gGvimCEJ8TdgjxllmUat5Cw788aIJbmrDWqGV28bvUpAVeJF
-         0ohAlAJmTMYC+Itn/PoEAj+gQ/pNyB6CnkKzldtoGVUeKjWf5FuIU5NX0dAMilNPWpxM
-         tr3w==
+        bh=eP1OA+LukvA7gd1XW7I4AZ3sov9R+s+GHbKg2rzgPtw=;
+        b=laAeEdw2TP5V+mIzOthDR6ee5+5YYmlUD0ILizibqyS8bBCbtrvfAAX+jHkvUU3V/W
+         hKERQbgSi5usytrKO2etFqGXokniqyw9QRbRYwz4/Fx55z+oT3eMDOZB4TxgHx7aoXi0
+         7NV9GBoS/yFoCyDjAOER36KThOqkbsjALMDCiBaY3iiCXGIOmxPCRilTstWKXIKxo49f
+         C7bk6GMrKlVgzRyO6UtIDYvMzmVTm+TAQ3qt55j6mJqV/9ct1Bc+7bQES5yyxrXBHVhV
+         lxuiGSJ+AmH8twFpUTgmCBxFVijQ663U1AAE4sM75iE+mJwOHwEYkTk3MKVq9p++VO6f
+         SXnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BYeEwRyweIa27zhAoEgQmU+7EQzQosl9tz+hEYuEAJU=;
-        b=xagm4Wo4HkonfLDwkNCB1bCLqO2r45UdKf6OIhyVfbbo6Owmf9LFe3UVBlWJITG4Oj
-         JCEJ+QYLhhRVgmoC+69wW3HexXJ3NC7tgzQcFnWlLW2wvFwye9/RDj1FR3qZZolqQM/d
-         5PFnv36XCbR9bkTDwgDkswFG71h3jxkbVgXVHDInxRwgEQNXKgYJSBM6T8oNQx53hZGQ
-         fHd9VjE/TKnOSiorKltnAdehOrmyUydXsxsTPD4m2bMzHDy6z6pIjyUbIhewz+K6PrMX
-         4aLP/tpGsKvRnjDzNjp0LEr8CfK5q9JFXRP2keMwL8Qic93T9BbPQacS0MbFAQ7X5zmU
-         QRJw==
-X-Gm-Message-State: AOAM533RuJRWrryedvJ5cBxyaAAPViw48r54uK/cbxadhlO47IpDPvtN
-	Mi7Ifqw/yuh7z+XdkoTwQ07+QqiuXpLHtnKhx5U=
+        bh=eP1OA+LukvA7gd1XW7I4AZ3sov9R+s+GHbKg2rzgPtw=;
+        b=nevelqbfHA9s6rqsi9PuJeYVls4FIFPkZgfUz9YdfzKg8ozcaTl9+xtPz7BqNHrQt/
+         qc7KqLlhbic+Aw+wtVepbx0QhOw9eSRtSNti3MNVlbfQx0uxbh7/N6fKQqIGPi3NrhIR
+         bzOA7KsnO25JEGKpVq/x9/7kBMJk5pwEoBvnmJdHwYW0Jbtw6nXkTPQPJGMO9M5jwxcw
+         YUGx71Zwkd8GAIiEbnN7UKd8EZYCCttNIH7rBKfUy/4xtmmqEQ1t+awlQyjDMnYLJJTh
+         oewPvfDBSONQXSNB7lI0TJqu4eLiiiUfMYXpCyLL2qcwTL6K7VleNRh0iSNlvW6slvwo
+         sm8Q==
+X-Gm-Message-State: AOAM5315wrbN/qNUKdoodI1XZnni+ZPzJuEZ3NB/S84xbRhgyN0DTJDt
+	zWgh9TWG8KOzha88j1fDuHlkGg9aNflE/S5GwwU=
 X-Google-Smtp-Source: 
- ABdhPJygGjlipQVGxPP1v5du/MiMZSHGa/+OEQxNVqCuxO5vwwLEsP3LoFdmqw354/OmInaaQ4sUHQ==
-X-Received: by 2002:a17:90a:f3c7:b0:1d9:6832:7be0 with SMTP id
- ha7-20020a17090af3c700b001d968327be0mr4671628pjb.209.1651248092427;
-        Fri, 29 Apr 2022 09:01:32 -0700 (PDT)
+ ABdhPJwIgg90IqQYqSr3RqVAbkgEi29bWOLJCJGZRLJPGtkFdJZDkvsxpUU81tyOukHtyrjbMWEgfw==
+X-Received: by 2002:a63:7e4b:0:b0:3a5:6636:5b94 with SMTP id
+ o11-20020a637e4b000000b003a566365b94mr60120pgn.173.1651248103022;
+        Fri, 29 Apr 2022 09:01:43 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- i3-20020a056a00224300b0050d32f838e1sm3486125pfu.21.2022.04.29.09.01.31
+ i3-20020a056a00224300b0050d32f838e1sm3486125pfu.21.2022.04.29.09.01.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 09:01:31 -0700 (PDT)
+        Fri, 29 Apr 2022 09:01:42 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 05/34] subversion: upgrade to 1.14.2
-Date: Fri, 29 Apr 2022 06:00:24 -1000
+Subject: [OE-core][kirkstone 09/34] package.bbclass: Prevent
+ perform_packagecopy from removing /sysroot-only
+Date: Fri, 29 Apr 2022 06:00:28 -1000
 Message-Id: 
- <76a74a8f22021e60326c001ccdd9b6ca200cd28e.1651246310.git.steve@sakoman.com>
+ <acc0a31305cb1f799e8a6b3ea2d2c5ac5a9f67ee.1651246310.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1651246310.git.steve@sakoman.com>
 References: <cover.1651246310.git.steve@sakoman.com>
@@ -68,128 +68,57 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Apr 2022 16:01:39 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Apr 2022 16:01:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165024
+ https://lists.openembedded.org/g/openembedded-core/message/165027
 
-From: Ross Burton <ross.burton@arm.com>
+From: Russ Dill <russ.dill@nikolamotor.com>
 
-This release is primarily to fix two CVEs:
-- CVE-2021-28544
-- CVE-2022-24070
+The files in /sysroot-only are intended to make it into the
+recipes sysroot output, but not into the package. However, if
+do_package is run before do_populate_sysroot, the files are
+removed.
 
-It also rewrites the macOS autoconf macros to be cross-compile friendly,
-so we don't need to delete them anymore.
+Use a smaller hammer to avoid copying the files into the package so
+they are still around when do_populate_sysroot runs.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Russ Dill <russ.dill@nikolamotor.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ecfbc2ef45a76ab96d215954ca0a109545e6ff02)
+(cherry picked from commit 493145c6f1bc92ab2b7a23e181641b09df87c9ff)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../subversion/subversion/disable_macos.patch | 71 -------------------
- ...version_1.14.1.bb => subversion_1.14.2.bb} |  3 +-
- 2 files changed, 1 insertion(+), 73 deletions(-)
- delete mode 100644 meta/recipes-devtools/subversion/subversion/disable_macos.patch
- rename meta/recipes-devtools/subversion/{subversion_1.14.1.bb => subversion_1.14.2.bb} (96%)
+ meta/classes/package.bbclass | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/meta/recipes-devtools/subversion/subversion/disable_macos.patch b/meta/recipes-devtools/subversion/subversion/disable_macos.patch
-deleted file mode 100644
-index 8d2d635992..0000000000
---- a/meta/recipes-devtools/subversion/subversion/disable_macos.patch
-+++ /dev/null
-@@ -1,71 +0,0 @@
--From 9c350c037ca3489dbeece6ecc2d7e2e5dbb177e9 Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Sat, 11 May 2019 15:21:46 +0800
--Subject: [PATCH] These tests don't work in cross compiling, just disable them
-- for now, we don't build subversion on OS-X at this time.
--
--RP 1014/7/16
--
--Upstream-Status: Pending [needs a rewrite to support a cache value]
--
--Rebase to 1.12.0
--
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- build/ac-macros/macosx.m4 | 31 +------------------------------
-- 1 file changed, 1 insertion(+), 30 deletions(-)
--
--diff --git a/build/ac-macros/macosx.m4 b/build/ac-macros/macosx.m4
--index 92fa58e..a568e1c 100644
----- a/build/ac-macros/macosx.m4
--+++ b/build/ac-macros/macosx.m4
--@@ -24,21 +24,7 @@ dnl Check for _dyld_image_name and _dyld_image_header availability
-- AC_DEFUN(SVN_LIB_MACHO_ITERATE,
-- [
--   AC_MSG_CHECKING([for Mach-O dynamic module iteration functions])
---  AC_RUN_IFELSE([AC_LANG_PROGRAM([[
---    #include <mach-o/dyld.h>
---    #include <mach-o/loader.h>
---  ]],[[
---    const struct mach_header *header = _dyld_get_image_header(0);
---    const char *name = _dyld_get_image_name(0);
---    if (name && header) return 0;
---    return 1;
---  ]])],[
---    AC_DEFINE([SVN_HAVE_MACHO_ITERATE], [1],
---              [Is Mach-O low-level _dyld API available?])
---    AC_MSG_RESULT([yes])
---  ],[
--     AC_MSG_RESULT([no])
---  ])
-- ])
-- 
-- dnl SVN_LIB_MACOS_PLIST
--@@ -46,23 +32,8 @@ dnl Assign variables for Mac OS property list support
-- AC_DEFUN(SVN_LIB_MACOS_PLIST,
-- [
--   AC_MSG_CHECKING([for Mac OS property list utilities])
---
---  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
---    #include <AvailabilityMacros.h>
---    #if !defined(MAC_OS_X_VERSION_MAX_ALLOWED) \
---     || !defined(MAC_OS_X_VERSION_10_0) \
---     || (MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_0)
---    #error ProperyList API unavailable.
---    #endif
---  ]],[[]])],[
---    SVN_MACOS_PLIST_LIBS="-framework CoreFoundation"
---    AC_SUBST(SVN_MACOS_PLIST_LIBS)
---    AC_DEFINE([SVN_HAVE_MACOS_PLIST], [1],
---              [Is Mac OS property list API available?])
---    AC_MSG_RESULT([yes])
---  ],[
--+  AC_SUBST([SVN_MACOS_PLIST_LIBS], [""])
--     AC_MSG_RESULT([no])
---  ])
-- ])
-- 
-- dnl SVN_LIB_MACOS_KEYCHAIN
---- 
--2.7.4
--
-diff --git a/meta/recipes-devtools/subversion/subversion_1.14.1.bb b/meta/recipes-devtools/subversion/subversion_1.14.2.bb
-similarity index 96%
-rename from meta/recipes-devtools/subversion/subversion_1.14.1.bb
-rename to meta/recipes-devtools/subversion/subversion_1.14.2.bb
-index 71183ac7ce..ba208d922f 100644
---- a/meta/recipes-devtools/subversion/subversion_1.14.1.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.14.2.bb
-@@ -9,11 +9,10 @@ DEPENDS = "apr-util serf sqlite3 file lz4"
- DEPENDS:append:class-native = " file-replacement-native"
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index e71daafe94..44fbc32df6 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -422,7 +422,6 @@ def splitstaticdebuginfo(file, dvar, dv, d):
+     # return a mapping of files:debugsources
  
- SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
--           file://disable_macos.patch \
-            file://serfmacro.patch \
-            "
+     import stat
+-    import shutil
  
--SRC_URI[sha256sum] = "2c5da93c255d2e5569fa91d92457fdb65396b0666fad4fd59b22e154d986e1a9"
-+SRC_URI[sha256sum] = "c9130e8d0b75728a66f0e7038fc77052e671830d785b5616aad53b4810d3cc28"
+     src = file[len(dvar):]
+     dest = dv["staticlibdir"] + os.path.dirname(src) + dv["staticdir"] + "/" + os.path.basename(src) + dv["staticappend"]
+@@ -807,15 +806,10 @@ python perform_packagecopy () {
+     dest = d.getVar('D')
+     dvar = d.getVar('PKGD')
  
- inherit autotools pkgconfig gettext python3native
+-    # Remove ${D}/sysroot-only if present
+-    sysroot_only = os.path.join(dest, 'sysroot-only')
+-    if cpath.exists(sysroot_only) and cpath.isdir(sysroot_only):
+-        shutil.rmtree(sysroot_only)
+-
+     # Start by package population by taking a copy of the installed
+     # files to operate on
+     # Preserve sparse files and hard links
+-    cmd = 'tar -cf - -C %s -p -S . | tar -xf - -C %s' % (dest, dvar)
++    cmd = 'tar --exclude=./sysroot-only -cf - -C %s -p -S . | tar -xf - -C %s' % (dest, dvar)
+     subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
  
+     # replace RPATHs for the nativesdk binaries, to make them relocatable
 -- 
 2.25.1
 
