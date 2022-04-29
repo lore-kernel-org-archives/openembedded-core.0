@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B104C43219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C86CC433F5
 	for <webhook@archiver.kernel.org>; Fri, 29 Apr 2022 16:01:59 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
- [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web08.11879.1651248118716885593
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web12.12057.1651248114054172636
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Apr 2022 09:01:58 -0700
+ Fri, 29 Apr 2022 09:01:54 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=eW00xzOA;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.169,
+ header.b=SQ7aAtaU;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f169.google.com with SMTP id p12so7326078pfn.0
+Received: by mail-pl1-f171.google.com with SMTP id b12so7522830plg.4
         for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Apr 2022 09:01:58 -0700 (PDT)
+ Fri, 29 Apr 2022 09:01:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=ZIxLbtbmuf03v0EfSRsnQBtxuKVxskyRfSU/pSicxjY=;
-        b=eW00xzOAWO5JoGATTOWUAy4xgTpzMtXjrcrGQ0T9nw41I4uw71gGKH1sFPi8iCmQ9F
-         7gffQ+k0TmvivUHIolWzaVUnC50hgZ91Nr5rHn2n8vmo3BW1Erq5ZJTnx12Yq73tjJAc
-         SVX1KjdhCKjOCgBbWirKveOlPY3AauEzDXyYV7rtpywWQ+0zlLDOsIbTEyNPmOC4eRn2
-         kPQAz2dSv1On0fRPMgLvO1lgWO8SZEKvrHPOExzGOj33i01QRXAkS+vUQjA2zxHVkmoY
-         KmxOtqTD3B1buTtwQKTpelUICoY2/vVHtRQltZWWDECoKhzCQO/68RCJVxMQHy7fQCUN
-         LbOw==
+        bh=rWmP+WQw464rSDQdyO0k/+gnHGGSmWWefxb23+aSadA=;
+        b=SQ7aAtaU5JG/8ewfrR1yM8Lv+rCFZ8znL6p4bwA34tQPpivPHiXvyhl0+NUNp/G2YV
+         c6q71kKzFUww7Rk90ChYbG2hC60tzR9S9dLijKsgO5AGNTSSNu5mC+6wTI52/cEiQ0ch
+         O3I9GyzojucnL3wY2xhq7dGI0U7eDRHQd1eZdbjk9sWB2qc9oaHvlL2pvRareGj+aAzR
+         j407/4I4J2frzpgGPq7y7mCj0dkkMFFXfaeq6SZWtbwMEJjG4aSZFwCe30vY5qdbUYxR
+         PNKpsf67RpTcIuhKBP0qa3MMWGFRcB2ca0xln0bNlv3aDTcMHnvwUuHUbALQmosthISu
+         vufA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ZIxLbtbmuf03v0EfSRsnQBtxuKVxskyRfSU/pSicxjY=;
-        b=HuKrQ8H+l1ZgjUbOCYoxNIoGnKDI1c1b+AqF/QqjN92smswacb9TYWDI6Yq3wec8Jp
-         HlyIlZAHxGiIYf50IfRA1r7JV2c6WECudNWmkEMOaNk+sy/Ul+cw76v+du7bhMJxmrq4
-         XlfZ3Goz1C9WpKj7vkiYW6blhF/CGqStI+22QJUeGqC0A4CvKpyM5I9khJSTdSA01w9z
-         tW/QvKf34x97Y3JbrUxhX+JP0Gp+oBLNl6MrJMtaQ4N9DEbERZyVNKOoyM/0E8suXXoJ
-         xjw1ZwuMP9bwWlLN7MjOBIO84yJ3um9VKzw73UU4pInnarXP2gYhH524iZP16k184upF
-         0IJA==
-X-Gm-Message-State: AOAM532hKH5Ovxz4hkXYkGkwVNf0bxDZGDHlLi47W0MMOdYPaAmkDH4u
-	tXVl5tCPNtAIuISAIT+l47jm8ZTYxKc5g3mpJsI=
+        bh=rWmP+WQw464rSDQdyO0k/+gnHGGSmWWefxb23+aSadA=;
+        b=MnHooZYIRO7qhwkDAvYTUu0cPI4XegakTbfSEhEr6Aq90JFBKR+AW+1g3QOb5NszfQ
+         aogNhnU/6B2p8rniaiapxaw0UD8WHuzMcb1ceVzGP0+09hrsJD9si98ZQjImAKfU3uoM
+         eFZ5oSmgyRdC5FGHrJRF36MbH+mZgdCFnubaUbk2+opzRuRcgVSr4CYKcw6ktFRCqdWq
+         xfLjcAnWz5kEjq07v17DjdyNfmEUUyFTNOyaL9XbA1Vwx/7i1VODsRX3XLGeZE0VqJyF
+         wzt4hxxqPt9qkFAar6xgKJdyQABv4tl5VRHHw9bZ+ZiAtmgs08JtlaBeNpaKVuPqklyC
+         Cxgg==
+X-Gm-Message-State: AOAM531HLIHCI6Nte11RpOfSCX5Vwe9JTN35MUhXz78ehkFwCb6XFSZi
+	RgGQa4V/QPX5Tca7+jnImbhnVUVKln/mHEXogGg=
 X-Google-Smtp-Source: 
- ABdhPJxbPPNZg1KZ02zdO5CEyDYFzXi2x2+q3cLhB2D0XsdlD5WRbzFAuCBkMIbBZg5FJgL1a6HrXw==
-X-Received: by 2002:a63:5163:0:b0:3a9:4e90:6d3d with SMTP id
- r35-20020a635163000000b003a94e906d3dmr102281pgl.48.1651248117466;
-        Fri, 29 Apr 2022 09:01:57 -0700 (PDT)
+ ABdhPJwfDtw10604VXyuyJsMniL8uFzKb7AvUnugCuqamKhV1C8VFXr1FLh/Kajz7MzUi8NUb7HYLQ==
+X-Received: by 2002:a17:902:edc7:b0:15b:4196:1957 with SMTP id
+ q7-20020a170902edc700b0015b41961957mr60445plk.161.1651248112821;
+        Fri, 29 Apr 2022 09:01:52 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- i3-20020a056a00224300b0050d32f838e1sm3486125pfu.21.2022.04.29.09.01.56
+ i3-20020a056a00224300b0050d32f838e1sm3486125pfu.21.2022.04.29.09.01.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 09:01:56 -0700 (PDT)
+        Fri, 29 Apr 2022 09:01:52 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 15/34] wic: do not use PARTLABEL for msdos
- partition tables
-Date: Fri, 29 Apr 2022 06:00:34 -1000
+Subject: [OE-core][kirkstone 13/34] musl: Fix build when usrmerge distro
+ feature is enabled
+Date: Fri, 29 Apr 2022 06:00:32 -1000
 Message-Id: 
- <354ef6b723f50b5f0b46a2bf5797e5b982c6ea73.1651246310.git.steve@sakoman.com>
+ <8a9f1d5a11b01de3145b16c19d98c3f030473326.1651246310.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1651246310.git.steve@sakoman.com>
 References: <cover.1651246310.git.steve@sakoman.com>
@@ -70,39 +70,49 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 29 Apr 2022 16:01:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165034
+ https://lists.openembedded.org/g/openembedded-core/message/165032
 
-From: Henning Schild <henning.schild@siemens.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-When using "msdos" partition tables and "--label" but not "--use-uuid"
-one can generate images which will not find their root, because
-PARTLABEL does not work for "msdos".
-
-Fix that by simply not going the PARTLABEL path in case of "msdos".
-
-Fixes: 2fb247c5ecf0 ("wic: support rootdev identified by partition label")
-Signed-off-by: Henning Schild <henning.schild@siemens.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9ea1a838b946020e026edc032039552b723fcaa4)
+(cherry picked from commit 02fd8e760cac1d2e0e25a4e3dbea3f2844b9fd01)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/wic/plugins/imager/direct.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/musl/musl_git.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 35fff7c102..4d0b836ef6 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -259,7 +259,7 @@ class DirectPlugin(ImagerPlugin):
-             if part.mountpoint == "/":
-                 if part.uuid:
-                     return "PARTUUID=%s" % part.uuid
--                elif part.label:
-+                elif part.label and self.ptable_format != 'msdos':
-                     return "PARTLABEL=%s" % part.label
-                 else:
-                     suffix = 'p' if part.disk.startswith('mmcblk') else ''
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 044ed9c064..4b85401360 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -49,7 +49,7 @@ CONFIGUREOPTS = " \
+     --bindir=${bindir} \
+     --libdir=${libdir} \
+     --includedir=${includedir} \
+-    --syslibdir=/lib \
++    --syslibdir=${nonarch_base_libdir} \
+ "
+ 
+ do_configure() {
+@@ -62,14 +62,14 @@ do_compile() {
+ 
+ do_install() {
+ 	oe_runmake install DESTDIR='${D}'
+-	install -d ${D}${bindir} ${D}/lib ${D}${sysconfdir}
++	install -d ${D}${bindir} ${D}${sysconfdir}
+         echo "${base_libdir}" > ${D}${sysconfdir}/ld-musl-${MUSL_LDSO_ARCH}.path
+         echo "${libdir}" >> ${D}${sysconfdir}/ld-musl-${MUSL_LDSO_ARCH}.path
+ 	rm -f ${D}${bindir}/ldd ${D}${GLIBC_LDSO}
+ 	ln -rs ${D}${libdir}/libc.so ${D}${bindir}/ldd
+ }
+ 
+-FILES:${PN} += "/lib/ld-musl-${MUSL_LDSO_ARCH}.so.1 ${sysconfdir}/ld-musl-${MUSL_LDSO_ARCH}.path"
++FILES:${PN} += "${nonarch_base_libdir}/ld-musl-${MUSL_LDSO_ARCH}.so.1 ${sysconfdir}/ld-musl-${MUSL_LDSO_ARCH}.path"
+ FILES:${PN}-staticdev = "${libdir}/libc.a"
+ FILES:${PN}-dev =+ "${libdir}/libcrypt.a ${libdir}/libdl.a ${libdir}/libm.a \
+                     ${libdir}/libpthread.a ${libdir}/libresolv.a \
 -- 
 2.25.1
 
