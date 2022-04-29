@@ -1,174 +1,194 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BC49C433EF
-	for <webhook@archiver.kernel.org>; Fri, 29 Apr 2022 12:22:18 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web09.9334.1651234928595317018
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 182ABC433F5
+	for <webhook@archiver.kernel.org>; Fri, 29 Apr 2022 12:27:48 +0000 (UTC)
+Received: from EUR02-VE1-obe.outbound.protection.outlook.com
+ (EUR02-VE1-obe.outbound.protection.outlook.com [40.107.2.50])
+ by mx.groups.io with SMTP id smtpd.web08.9312.1651235258172187381
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Apr 2022 05:22:09 -0700
+ Fri, 29 Apr 2022 05:27:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KwTxE6ls;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id k2so10573073wrd.5
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Apr 2022 05:22:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=A+iiNU1UWdOK9/QFUlneVolRvMpki0X5QXqQUKeMKyk=;
-        b=KwTxE6lsyYDJH8zKB3RfD2jHxRxKO+l5G61qGo2IFlNIuiEA5VW7LSm77GJ0FvW8Jk
-         hgiTA4RT5KsCW8wX51Ae2YvVV8FT/Q85iDzHqufwfh6HQIrc4HBhG69BTV0LkaMWcsKA
-         w24C5TjJR3jIrm9Fv+idrZg7B/2hjgJgYYwss=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=A+iiNU1UWdOK9/QFUlneVolRvMpki0X5QXqQUKeMKyk=;
-        b=REuIHkRZOOCbLx7UCJT9sE6EvUh02yrmAnKmpcC6azR/AluZ18eqy/jzOyS/r4EVag
-         8ZyjlxAqGk2kS7VAagaWmxcyUTRS/m0nV2UZWjqfmRH65gUcu8BxcxVoZlqjSMlK+WtZ
-         iapeqMy8UFyoLmQMlm+XM5nEFCTptHx2XVg+a4sUEwPeIfU1QQy4Z5R8RoVSA8ttPBK/
-         IkAEtDPV0+HNriGXN9hiKIQwSVkS9Ro0Wcy0qn1UsVpuR/1Tjj9KzosIo5Nrf2B8qOe4
-         78fleO8T098pMFuCRg/VLVjhpapmKdwiFE5qX8LZbQzLHgKaOgjwNxsEe7gJc1yKh/eo
-         mmjQ==
-X-Gm-Message-State: AOAM532Kyc0iKRA/ZBxiljaZyoVWfV7D2sz64nETR2kpRDWSUGMmve4V
-	GZ971rhFt54paST5NSVRVJpdoOW4z90XnA==
-X-Google-Smtp-Source: 
- ABdhPJxWGRonrJRwJEF1LzuuLNM9bHzvnaN9ScRp5ODQKQo9DvzCfX46XHtDggJP0V9RjE5sTzMZMg==
-X-Received: by 2002:a5d:6391:0:b0:20a:e4c5:c247 with SMTP id
- p17-20020a5d6391000000b0020ae4c5c247mr15411969wru.516.1651234926854;
-        Fri, 29 Apr 2022 05:22:06 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:480b:fc7a:f316:cb3a?
- ([2001:8b0:aba:5f3c:480b:fc7a:f316:cb3a])
-        by smtp.gmail.com with ESMTPSA id
- o42-20020a05600c512a00b00393f143efd8sm7087948wms.16.2022.04.29.05.22.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 05:22:06 -0700 (PDT)
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=tFY/HeYN;
+ spf=pass (domain: siemens.com, ip: 40.107.2.50,
+ mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=n3LjY/XoFWGYATFVjN+ISV5l+BHFSLBLR8hxUGNGkxh8djTX/UfsLhucT53uGvgGa3GP0Xkh5rOJSfK+CxIiaSFJ2fXO04Lt7ehXZMKXazeALlXwLUH4CNXtZwnP+x74eovRh42afRBD2szHmxgTaWTjNN3LaYR3f1hw2ZaQPKQwk3WrN5w95xlWPkDFiuLITpm0DU53bh3Cht/Tz7v/jNm/Y4kDXc89cwzHOMvu7/S5+Rv/7JEuGK6fezMsyuvR3tlxVp05XYCbyWXtfNmbXoEAZKD8VDwRwlvQEMrTze6TPFR9hWrtpWYDNV7rSleQQLbcsIzKAmREuFVInizH7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Tgi8WLVOetQsZTYAgrLMcL2UdZaWi3QfSNR+c9dGfEA=;
+ b=lKokRrskoiRQRtfzif76oRWHYLX4Ev5KqJBQ8ePqiqJNhzfbq+THCcBZdy0kKJvlRIJulMvGep8UHctcKrUX/vfnpKhtWpEs/3XwCwP3qd+SjexxO9NF8mW6LXohH6ISyPM29Dr5RgeektDPZjcE8KctVMm9RQrDmze9FdFMl34bJAXbPcbEntwureu57Sl3IA7WY0f/XjtqbNPTZR3+yRi4agosZ2miOuyO61DbxXg9+o1BWweifxQ2eWWiFfalZIGRcwsz/Z9hSF8DZI8FqnvaNv0PPQBCLyHjXbSEwzSn4zr7nS9o85Oo/yo043c+gBDS4wWow0MnprtbjW9ulA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Tgi8WLVOetQsZTYAgrLMcL2UdZaWi3QfSNR+c9dGfEA=;
+ b=tFY/HeYNDoeJbw2LiGnNgzjoEGvvdo+D8Uh4H7RcMRD+nYlbODMneNkNByc2iLMgQCIhxNhgIs083yPenBY1Sy2H2yWQohhM6IkTNh24PP3szfV2pY+f0mbTOclGbTqf16IotVLsMfgBlPHRt/QnsyTYmmyb0GZVgQ8BsKsj1nyNeTiSzpQYHsBufZ6/5Bt2OJevQaoHAWRZ7A8zH7xXL5z8nLfZXOEi4azSIm5/eUFBxgOV0BCCtHkw8G3NHnzF4jtHY2wRC6UTjLfr+0g8nAcv277Gtt5Oyk1DCvnnW8b6x49z9yGe9hkvNTdLk3AS6mkPpMZuGkyoFkF5FppU+w==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by AM0PR10MB3428.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:161::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.13; Fri, 29 Apr
+ 2022 12:27:35 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::18e6:1c49:fa68:19df]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::18e6:1c49:fa68:19df%5]) with mapi id 15.20.5186.021; Fri, 29 Apr 2022
+ 12:27:35 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][PATCH] openssl: extract legacy provider module to a
+ separate package
+Thread-Topic: [OE-core][PATCH] openssl: extract legacy provider module to a
+ separate package
+Thread-Index: AQHYU9+5D6YspAx7KUWcU2HpRYJyrq0G3+FA
+Date: Fri, 29 Apr 2022 12:27:35 +0000
 Message-ID: 
- <45f20b28ba385221f04e0a157d7a6485c8233a04.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] base-passwd: Disable shell for default
- users
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 29 Apr 2022 13:22:04 +0100
-In-Reply-To: <20220428094932.1411461-1-jiaqing.zhao@linux.intel.com>
-References: <20220428094932.1411461-1-jiaqing.zhao@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+ <AS1PR10MB56979EF202CB2921C9EA4C6AFDFC9@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20220419112118.60914-1-peter.marko@siemens.com>
+In-Reply-To: <20220419112118.60914-1-peter.marko@siemens.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Enabled=true;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_SetDate=2022-04-29T12:27:34Z;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Method=Standard;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Name=restricted-default;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_ActionId=ce622b74-307a-4d21-bad9-6c828eb1642c;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_ContentBits=0
+document_confidentiality: Restricted
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0ad31faf-676c-401d-647c-08da29dba3f2
+x-ms-traffictypediagnostic: AM0PR10MB3428:EE_
+x-microsoft-antispam-prvs: 
+ <AM0PR10MB3428CD559513527E50F2048BFDFC9@AM0PR10MB3428.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ eLqAZOKP67rBtJfsrC7p3vnFg7xwrJZRyynV3AWvB+jIKBp5PeNFgPUcjrh1vv/gkJ/JD2hFi8fTWuRqIS3x+yqKsn6Wd1rcHVss0m/IgFKx4VB1pV07pyypJwcpEIVLYDrvktMM+GC8XlEgN7oF5yISEgX2SutoKc7XfZNCZRRuM5Lax7n/amXxX6tNKJvhNlphnyakbYiDP5TcRT2Kqc+5/1ddEoYFcFiMlijYKv5qLiqYxbY/h/GqhyyZK11a8An8Cj+opv3TjcNj+t7zSxQrQ/wIH6bw5e9+I6ScZSiJH/BBiliHoIQt7OsHiB4HG/VX8FUT7bpNaTT7cslm/4xrzPV+EhTQnRJAA+YCGjEerituGbRvnZMNxi0fm9dfkC3HjcUNaJ90SGXU91C+l7hivp4p4UtcGOChmenJvL56YvIoh9xJQVIkg6qK+EzAiffpne3SCtutbOmxsCEGhuU4bm44I4zqCFVcjKJmfZ5mYsEYeSI+pAtHydxCN5+C8jXeveY5pIdLf30oiXTQ0B6sFwlMg2hP94lusnzPdmE/FjW+jbYRtGE9EvcTQV8OzGQeF2eYMFakfmbxnq9nzhwppzB4xvIv0SQ2dFZGhDp/1CeuyA36ZR5huK5PBJdCz4KJzZrV4ijCfTNwfWhzHZYhPtMAg4/yM2mrC39ywRbQRfuOJ74zKmynNmOc8tgdL4vf8nd87t9+vMTmy698Fw==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(2906002)(52536014)(8936002)(5660300002)(8676002)(9686003)(508600001)(26005)(76116006)(53546011)(55236004)(33656002)(6916009)(83380400001)(316002)(38100700002)(38070700005)(7696005)(71200400001)(82960400001)(86362001)(55016003)(66476007)(66446008)(66556008)(66946007)(6506007)(186003)(122000001)(64756008);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?pNNterPBEqe9nbJUoOwZ/vGxkDGKGauUg6XutyYVZcENEhauePjfkTZWOLdB?=
+ =?us-ascii?Q?6aHEnKTjYVuKQ9Shj5KBPChqdtQq7kWjEjx2dHPVkyM/5lcbUVW/dck6im1o?=
+ =?us-ascii?Q?xiofMTL0cwlIV0Dtkbi2U9Gr9loT1nkd0ewIVcW31TUe56VIl050JSSrEVXN?=
+ =?us-ascii?Q?BERtlHAfRsGHjGxWgifFFbSFYWlIR+Z2JDk17izBbfXOCq9r7q3Y7CCYNZLz?=
+ =?us-ascii?Q?fb5G5Yq/CWIoxb44eHq77/thzhUd9iQiBxUOat22spJDNT/XPMYOt3pTZrh7?=
+ =?us-ascii?Q?nCyq4opQsedAH8NeL9mZEyMf9gVNoePs1GmWtlpC9lcDDdx43Rq75xAnr0M1?=
+ =?us-ascii?Q?/7COnERwyXsT0AsOFOx0Joveo4JHXAY8Vg5NhLuJd+XPpx6m1TEcI7RiSwxA?=
+ =?us-ascii?Q?7ycEbcjv6mrn1+vYXL3sS8PF9qOyszbNmxhp0ZIaUDV9PcExGLYFC1NGiHt2?=
+ =?us-ascii?Q?lO2UjV+S/mxQBTwO0VmUnjhugOlCCHZ6Xb9uqP4HI/iAAh3wqg4rAK6i6DAN?=
+ =?us-ascii?Q?Ex+qPu5Wj5wu48ZohLk8RZEQCVtbmiUYWX+shjD7/Ms3h4aRoPUL0i3mLMy3?=
+ =?us-ascii?Q?wE88N3lVpHkYXAIWJklSBJn+22DKmo9cSoMiikEUGAGAIn0IWpeI2qgn9DsX?=
+ =?us-ascii?Q?pYJ1zA1kx4cCZEvR0HrRpaWG1CtBu6S+7JdZ/ksEH3abJJD1AiZquTVdqpqO?=
+ =?us-ascii?Q?aHfVHXOz4vmy24EP8YbMJH1nXhT9pm0SzhdOAZSJqNbPTHOuYYQ9Kn15U7zR?=
+ =?us-ascii?Q?49ODjqz/8ayzbkXE4nthdbCluTwaYn7OqJQPaRjX6VG4SzyOinO6xqGTcbD7?=
+ =?us-ascii?Q?oYIuYAnPgwXBdtMUrLw5ms0LQAQkKNg2UbFW3/Q7bfCjYBRucWQm/PHq4k/R?=
+ =?us-ascii?Q?6PloX/QM67YHfuWRhm2hW3QqaRnFMwY1Al3WoQqvLMsSfQcsNvXqz+1DZjmr?=
+ =?us-ascii?Q?7TFVSMztlE2BP/H1DWiyKV2+ZufUItAFn6uvStp1iAtVSKyTwLjlE15mzhtl?=
+ =?us-ascii?Q?/NzCygiezxuCYWfKZ2XdplPrR2x5jgP5Rysuh7d1b4V8WYQydEILE0CQlJaT?=
+ =?us-ascii?Q?4yttbQiepRxyS5OhG3qz2Z684/IoojEVFURbxXIJ37esfx0E8v5KFSKTGCbG?=
+ =?us-ascii?Q?tAxgImBgyaouhkfofTsFRABmQMpoWbXUJI10T5oL0AtNLcFC97nXDDn7kybs?=
+ =?us-ascii?Q?CQA/aLyjInojgAnWlATL7lyO2PcF7XKd4dwMeazpBgY8draxEqn1PLDRXevD?=
+ =?us-ascii?Q?zwKJocD6ioyXvYd9we8HXKX+/li7eD8orQauj0C6s3xe6xBynzPnqxXNX3ql?=
+ =?us-ascii?Q?WXnucXBxzsi/xrfoKwfwgVQezjtVew1hF9+jFqqgmfXFjejo/9f26Q69MSvx?=
+ =?us-ascii?Q?dnpS98/yQ2vMWjRRt7RkYdzrZURTO+4NTG1WvqHCqW3RgbZ7x8oCLe6GrygS?=
+ =?us-ascii?Q?BaLOkBX5WKwRzJlGasgCzs9YyPovc2kzKqK6iKghPDaf7YqUoN94O3/cTg19?=
+ =?us-ascii?Q?SlwAhFqxBQDI72Q74z9+bLu5MSCXtRy8/mayiBqdPdcUImSfS/F/8MAK8amF?=
+ =?us-ascii?Q?i8WW1G+RxYsGb9B5bp84q0cZgzSSwLQfrODCja5Yx+BfzXLnVY4k5bbHOb/M?=
+ =?us-ascii?Q?B9G2Qvc0Aq04wEAEz3KQIlSjZNJsoBlis+Se9bPnqhAnA6em28pNJ9QlDQBK?=
+ =?us-ascii?Q?1bW4+Unbv7dSRHZBT0DzzQevaoAAIxxsy++d1EdhDnZ4YmlxAzrY4gb/IThD?=
+ =?us-ascii?Q?tEMHvBTJWm71mfrsM8cIOpQhfgF53JU=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 0ad31faf-676c-401d-647c-08da29dba3f2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Apr 2022 12:27:35.1338
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 
+ lLnw3W8BY7t1vmJGClSU7puHGwzIz+S3O6BO+xji3jyhUjUl/XQ9ziC6YfNDk1ON0t0KLPbvvEgR0B2umzgx6A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB3428
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Apr 2022 12:22:18 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Apr 2022 12:27:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165008
+ https://lists.openembedded.org/g/openembedded-core/message/165009
 
-On Thu, 2022-04-28 at 17:49 +0800, Jiaqing Zhao wrote:
-> Change the shell of all global static users other than root (which
-> retains /bin/sh) and sync (as /bin/sync is rather harmless) to
-> /sbin/nologin (as /usr/sbin/nologin does not exist in openembedded)
-> 
-> Upstream-Status: Backport [https://launchpad.net/ubuntu/+source/base-passwd/3.5.30]
-> Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+This is important for seamless migration of applications to openssl3.
+In particular poco from meta-oe needs this as packageconfig cannot add rdep=
+ends to a sub-package.
+Could this be picked to kirkstone or do I need to send it as new patch?
+
+Thanks,
+  Peter
+
+> -----Original Message-----
+> From: Marko, Peter <Peter.Marko@siemens.com>=20
+> Sent: Tuesday, April 19, 2022 13:21
+> To: openembedded-core@lists.openembedded.org
+> Cc: Marko, Peter <Peter.Marko@siemens.com>
+> Subject: [OE-core][PATCH] openssl: extract legacy provider module to a se=
+parate package
+>
+> This module contains legacy cipher suites from libcrypto.
+> We should not need to include base package because we want
+>   to use this part of libcrypto.
+>
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
 > ---
-> v2:
-> Fix indentation in bbfile.
-> ---
->  .../base-passwd/disable-shell.patch           | 57 +++++++++++++++++++
->  .../base-passwd/base-passwd_3.5.29.bb         |  1 +
->  2 files changed, 58 insertions(+)
->  create mode 100644 meta/recipes-core/base-passwd/base-passwd/disable-shell.patch
-> 
-> diff --git a/meta/recipes-core/base-passwd/base-passwd/disable-shell.patch b/meta/recipes-core/base-passwd/base-passwd/disable-shell.patch
-> new file mode 100644
-> index 0000000000..dddc93ca35
-> --- /dev/null
-> +++ b/meta/recipes-core/base-passwd/base-passwd/disable-shell.patch
-> @@ -0,0 +1,57 @@
-> +From 91e0db96741359173ddf2be083aafcc1a3c32472 Mon Sep 17 00:00:00 2001
-> +From: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
-> +Date: Mon, 18 Apr 2022 11:22:43 +0800
-> +Subject: [PATCH] Disable shell for default users
-> +
-> +Change the shell of all global static users other than root (which
-> +retains /bin/sh) and sync (as /bin/sync is rather harmless) to
-> +/sbin/nologin (as /usr/sbin/nologin does not exist in openembedded)
-> +
-> +Upstream-Status: Backport [https://launchpad.net/ubuntu/+source/base-passwd/3.5.30]
-> +Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
-> +---
-> + passwd.master | 32 ++++++++++++++++----------------
-> + 1 file changed, 16 insertions(+), 16 deletions(-)
-> +
-> +diff --git a/passwd.master b/passwd.master
-> +index e1c32ff..0cd5ffd 100644
-> +--- a/passwd.master
-> ++++ b/passwd.master
-> +@@ -1,18 +1,18 @@
-> + root::0:0:root:/root:/bin/sh
-> +-daemon:*:1:1:daemon:/usr/sbin:/bin/sh
-> +-bin:*:2:2:bin:/bin:/bin/sh
-> +-sys:*:3:3:sys:/dev:/bin/sh
-> ++daemon:*:1:1:daemon:/usr/sbin:/sbin/nologin
-> ++bin:*:2:2:bin:/bin:/sbin/nologin
-> ++sys:*:3:3:sys:/dev:/sbin/nologin
-> + sync:*:4:65534:sync:/bin:/bin/sync
-> +-games:*:5:60:games:/usr/games:/bin/sh
-> +-man:*:6:12:man:/var/cache/man:/bin/sh
-> +-lp:*:7:7:lp:/var/spool/lpd:/bin/sh
-> +-mail:*:8:8:mail:/var/mail:/bin/sh
-> +-news:*:9:9:news:/var/spool/news:/bin/sh
-> +-uucp:*:10:10:uucp:/var/spool/uucp:/bin/sh
-> +-proxy:*:13:13:proxy:/bin:/bin/sh
-> +-www-data:*:33:33:www-data:/var/www:/bin/sh
-> +-backup:*:34:34:backup:/var/backups:/bin/sh
-> +-list:*:38:38:Mailing List Manager:/var/list:/bin/sh
-> +-irc:*:39:39:ircd:/var/run/ircd:/bin/sh
-> +-gnats:*:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh
-> +-nobody:*:65534:65534:nobody:/nonexistent:/bin/sh
-> ++games:*:5:60:games:/usr/games:/sbin/nologin
-> ++man:*:6:12:man:/var/cache/man:/sbin/nologin
-> ++lp:*:7:7:lp:/var/spool/lpd:/sbin/nologin
-> ++mail:*:8:8:mail:/var/mail:/sbin/nologin
-> ++news:*:9:9:news:/var/spool/news:/sbin/nologin
-> ++uucp:*:10:10:uucp:/var/spool/uucp:/sbin/nologin
-> ++proxy:*:13:13:proxy:/bin:/sbin/nologin
-> ++www-data:*:33:33:www-data:/var/www:/sbin/nologin
-> ++backup:*:34:34:backup:/var/backups:/sbin/nologin
-> ++list:*:38:38:Mailing List Manager:/var/list:/sbin/nologin
-> ++irc:*:39:39:ircd:/var/run/ircd:/sbin/nologin
-> ++gnats:*:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/sbin/nologin
-> ++nobody:*:65534:65534:nobody:/nonexistent:/sbin/nologin
-> +-- 
-> +2.32.0
-> +
-> diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-> index 9a27ad3ab5..ef7792ae49 100644
-> --- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-> +++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-> @@ -14,6 +14,7 @@ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
->             file://input.patch \
->             file://disable-docs.patch \
->             file://kvm.patch \
-> +           file://disable-shell.patch \
->             "
->  
->  SRC_URI[md5sum] = "6beccac48083fe8ae5048acd062e5421"
-
-This change causes a couple of ptest regressions in sed and strace:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/3185/steps/12/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/3432/steps/13/logs/stdio
-
-Cheers,
-
-Richard
-
+>  meta/recipes-connectivity/openssl/openssl_3.0.2.bb | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.2.bb b/meta/re=
+cipes-connectivity/openssl/openssl_3.0.2.bb
+> index ff2a22c6c3..a809666aa7 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_3.0.2.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_3.0.2.bb
+> @@ -224,7 +224,7 @@ do_install_ptest () {  # file to be installed for bot=
+h the openssl-bin package and the libcrypto  # package since the openssl-bi=
+n package depends on the libcrypto package.
+> =20
+> -PACKAGES =3D+ "libcrypto libssl openssl-conf ${PN}-engines ${PN}-misc"
+> +PACKAGES =3D+ "libcrypto libssl openssl-conf ${PN}-engines ${PN}-misc ${=
+PN}-ossl-module-legacy"
+> =20
+>  FILES:libcrypto =3D "${libdir}/libcrypto${SOLIBS}"
+>  FILES:libssl =3D "${libdir}/libssl${SOLIBS}"
+> @@ -235,12 +235,13 @@ FILES:${PN}-engines =3D "${libdir}/engines-3"
+>  # ${prefix} comes from what we pass into --prefix at configure time (whi=
+ch is used for INSTALLTOP)  FILES:${PN}-engines:append:mingw32:class-native=
+sdk =3D " ${prefix}${libdir}/engines-3"
+>  FILES:${PN}-misc =3D "${libdir}/ssl-3/misc ${bindir}/c_rehash"
+> +FILES:${PN}-ossl-module-legacy =3D "${libdir}/ossl-modules/legacy.so"
+>  FILES:${PN} =3D+ "${libdir}/ssl-3/* ${libdir}/ossl-modules/"
+>  FILES:${PN}:append:class-nativesdk =3D " ${SDKPATHNATIVE}/environment-se=
+tup.d/openssl.sh"
+> =20
+>  CONFFILES:openssl-conf =3D "${sysconfdir}/ssl/openssl.cnf"
+> =20
+> -RRECOMMENDS:libcrypto +=3D "openssl-conf"
+> +RRECOMMENDS:libcrypto +=3D "openssl-conf ${PN}-ossl-module-legacy"
+>  RDEPENDS:${PN}-misc =3D "perl"
+>  RDEPENDS:${PN}-ptest +=3D "openssl-bin perl perl-modules bash sed"
+> =20
+> --
+> 2.30.2
 
 
