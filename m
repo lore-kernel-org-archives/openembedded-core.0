@@ -1,124 +1,174 @@
-Return-Path: <davidegarde2000@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A259C433EF
-	for <webhook@archiver.kernel.org>; Fri, 29 Apr 2022 12:18:28 +0000 (UTC)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web11.9188.1651234705757148798
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BC49C433EF
+	for <webhook@archiver.kernel.org>; Fri, 29 Apr 2022 12:22:18 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web09.9334.1651234928595317018
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Apr 2022 05:18:26 -0700
+ Fri, 29 Apr 2022 05:22:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=e2fV1Mgv;
- spf=pass (domain: gmail.com, ip: 209.85.208.54,
- mailfrom: davidegarde2000@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id z19so8841538edx.9
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KwTxE6ls;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id k2so10573073wrd.5
         for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Apr 2022 05:18:25 -0700 (PDT)
+ Fri, 29 Apr 2022 05:22:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=U2sq0Oj+SNb42mulPTWw8kTed7xWyYrff8Ir3K0Hn0E=;
-        b=e2fV1MgvW5khdTYzpRiQayI8EDIF5tr7nTfGGUzKZ58Yv3a1OJZEc/quMhy52uIXg/
-         lueT68kAtKsSdfT/xRoCSVGdUF/b8ApiyhJDRFGvxPF/r+Qqolo2spKgqGeePCmcLFu4
-         hJbVy8C6oILNK49+T+6vc7Eu9VrJBXJEF++ncgNzjc4BHYxAKeHoj82kN/dDl623QlBl
-         Hx4UrHmdt+99dDb0ByvtuD6jwEzfXTbA616SWcbMtU67qbQIAtrsnxH1uGK9W7v60Alb
-         0NhfOJyuGU/t/69Lcir6TNkb5jUD+gT0xj751utmE9m4i/3VRuHFgf9ZRQ95VKmUfv9y
-         tzkQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=A+iiNU1UWdOK9/QFUlneVolRvMpki0X5QXqQUKeMKyk=;
+        b=KwTxE6lsyYDJH8zKB3RfD2jHxRxKO+l5G61qGo2IFlNIuiEA5VW7LSm77GJ0FvW8Jk
+         hgiTA4RT5KsCW8wX51Ae2YvVV8FT/Q85iDzHqufwfh6HQIrc4HBhG69BTV0LkaMWcsKA
+         w24C5TjJR3jIrm9Fv+idrZg7B/2hjgJgYYwss=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=U2sq0Oj+SNb42mulPTWw8kTed7xWyYrff8Ir3K0Hn0E=;
-        b=IYSKAj564IVp7ZCz0ZPH6LQuWTvZZ1pQzSw4i3TZNNW0/mGz4Z0QgcK8ODdAxTRgx5
-         HXraa4f4O4ixlIATRawmJ5JE99JxNOaRSbpA57xblEVC9Jtnr+ihoYB7U4za1Sa5Tf/P
-         eX35+LHzTHadgVvTH+A5zmOZi3t6ZK/r0mwB2bkIocxWixGsyUf/4lRB4YL0ZjgrCniG
-         TTri7CL83iKBjcwZtwJZSVcnDxtpBqzeU7EcfSk8rti+0G9MQcoociyKSJwrejexqFrx
-         rtRmCX2Mar+2vOv8JKvd0StZy8uPEbJSvflaDucRBf1NOLRR7l2NMTRlqXv+lrLqqRJr
-         niqA==
-X-Gm-Message-State: AOAM533Eshm/8VOLLdHto0hIVFq7wWVnMeWGVCkJIPl6PWBDxlvEFBTs
-	aKirSa1e7OO+MfPP3PCbd1ciqjunxZLtVA==
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=A+iiNU1UWdOK9/QFUlneVolRvMpki0X5QXqQUKeMKyk=;
+        b=REuIHkRZOOCbLx7UCJT9sE6EvUh02yrmAnKmpcC6azR/AluZ18eqy/jzOyS/r4EVag
+         8ZyjlxAqGk2kS7VAagaWmxcyUTRS/m0nV2UZWjqfmRH65gUcu8BxcxVoZlqjSMlK+WtZ
+         iapeqMy8UFyoLmQMlm+XM5nEFCTptHx2XVg+a4sUEwPeIfU1QQy4Z5R8RoVSA8ttPBK/
+         IkAEtDPV0+HNriGXN9hiKIQwSVkS9Ro0Wcy0qn1UsVpuR/1Tjj9KzosIo5Nrf2B8qOe4
+         78fleO8T098pMFuCRg/VLVjhpapmKdwiFE5qX8LZbQzLHgKaOgjwNxsEe7gJc1yKh/eo
+         mmjQ==
+X-Gm-Message-State: AOAM532Kyc0iKRA/ZBxiljaZyoVWfV7D2sz64nETR2kpRDWSUGMmve4V
+	GZ971rhFt54paST5NSVRVJpdoOW4z90XnA==
 X-Google-Smtp-Source: 
- ABdhPJw8p4OxOyq1WSn778VgNSCkp2czhm5MeL0j3HDeFmRM7OpR6oEL9tFQlbvZGsyk4gRSQ18Tsg==
-X-Received: by 2002:a05:6402:4414:b0:419:28bc:55dc with SMTP id
- y20-20020a056402441400b0041928bc55dcmr41232165eda.130.1651234703886;
-        Fri, 29 Apr 2022 05:18:23 -0700 (PDT)
-Received: from smtpclient.apple (host-82-60-178-66.retail.telecomitalia.it.
- [82.60.178.66])
+ ABdhPJxWGRonrJRwJEF1LzuuLNM9bHzvnaN9ScRp5ODQKQo9DvzCfX46XHtDggJP0V9RjE5sTzMZMg==
+X-Received: by 2002:a5d:6391:0:b0:20a:e4c5:c247 with SMTP id
+ p17-20020a5d6391000000b0020ae4c5c247mr15411969wru.516.1651234926854;
+        Fri, 29 Apr 2022 05:22:06 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:480b:fc7a:f316:cb3a?
+ ([2001:8b0:aba:5f3c:480b:fc7a:f316:cb3a])
         by smtp.gmail.com with ESMTPSA id
- i23-20020a0564020f1700b0042617ba6382sm2855461eda.12.2022.04.29.05.18.22
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 29 Apr 2022 05:18:23 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
-Subject: Re: [master][kirkstone][PATCH v2] create-spdx: delete virtual/kernel
- dependency to fix FreeRTOS build
-From: Davide Gardenal <davidegarde2000@gmail.com>
-In-Reply-To: <20220426134908.520502-1-davide.gardenal@huawei.com>
-Date: Fri, 29 Apr 2022 14:18:22 +0200
-Cc: Davide Gardenal <davide.gardenal@huawei.com>,
- Steve Sakoman <steve@sakoman.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <B1A86329-AB3D-428A-884A-D55028964FFF@gmail.com>
-References: <20220426134908.520502-1-davide.gardenal@huawei.com>
-To: openembedded-core@lists.openembedded.org
-X-Mailer: Apple Mail (2.3696.80.82.1.1)
+ o42-20020a05600c512a00b00393f143efd8sm7087948wms.16.2022.04.29.05.22.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Apr 2022 05:22:06 -0700 (PDT)
+Message-ID: 
+ <45f20b28ba385221f04e0a157d7a6485c8233a04.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] base-passwd: Disable shell for default
+ users
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 29 Apr 2022 13:22:04 +0100
+In-Reply-To: <20220428094932.1411461-1-jiaqing.zhao@linux.intel.com>
+References: <20220428094932.1411461-1-jiaqing.zhao@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Apr 2022 12:18:28 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Apr 2022 12:22:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165007
+ https://lists.openembedded.org/g/openembedded-core/message/165008
 
-I saw that this patch was not included in the kirkstone backport list. =
-Could you consider to add it please?
-
-Thanks!
-
-Davide
-
-CC: Steve Sakoman
-
-> Il giorno 26 apr 2022, alle ore 15:49, Davide Gardenal =
-<davidegarde2000@gmail.com> ha scritto:
->=20
-> When building FreeRTOS this dependency generates an error because
-> bitbake cannot find any provider for "virtual/kernel".
-> =46rom a dependency analysis the task is executed indipendently from
-> this so it can be safely removed.
->=20
-> This patch has been discussed in this ML thread:
-> https://lists.openembedded.org/g/openembedded-core/topic/90602531
->=20
-> Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
+On Thu, 2022-04-28 at 17:49 +0800, Jiaqing Zhao wrote:
+> Change the shell of all global static users other than root (which
+> retains /bin/sh) and sync (as /bin/sync is rather harmless) to
+> /sbin/nologin (as /usr/sbin/nologin does not exist in openembedded)
+> 
+> Upstream-Status: Backport [https://launchpad.net/ubuntu/+source/base-passwd/3.5.30]
+> Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
 > ---
-> Updates:
-> - v2: Reword of the commit message
+> v2:
+> Fix indentation in bbfile.
 > ---
-> meta/classes/create-spdx.bbclass | 2 --
-> 1 file changed, 2 deletions(-)
->=20
-> diff --git a/meta/classes/create-spdx.bbclass =
-b/meta/classes/create-spdx.bbclass
-> index 28fc449636..9979c1d70e 100644
-> --- a/meta/classes/create-spdx.bbclass
-> +++ b/meta/classes/create-spdx.bbclass
-> @@ -35,8 +35,6 @@ SPDX_SUPPLIER[doc] =3D "The SPDX PackageSupplier =
-field for SPDX packages created f
->     is the contact information for the person or organization who is =
-doing the \
->     build."
->=20
-> -do_image_complete[depends] =3D "virtual/kernel:do_create_spdx"
-> -
-> def extract_licenses(filename):
->     import re
->=20
-> --=20
-> 2.32.0
->=20
+>  .../base-passwd/disable-shell.patch           | 57 +++++++++++++++++++
+>  .../base-passwd/base-passwd_3.5.29.bb         |  1 +
+>  2 files changed, 58 insertions(+)
+>  create mode 100644 meta/recipes-core/base-passwd/base-passwd/disable-shell.patch
+> 
+> diff --git a/meta/recipes-core/base-passwd/base-passwd/disable-shell.patch b/meta/recipes-core/base-passwd/base-passwd/disable-shell.patch
+> new file mode 100644
+> index 0000000000..dddc93ca35
+> --- /dev/null
+> +++ b/meta/recipes-core/base-passwd/base-passwd/disable-shell.patch
+> @@ -0,0 +1,57 @@
+> +From 91e0db96741359173ddf2be083aafcc1a3c32472 Mon Sep 17 00:00:00 2001
+> +From: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+> +Date: Mon, 18 Apr 2022 11:22:43 +0800
+> +Subject: [PATCH] Disable shell for default users
+> +
+> +Change the shell of all global static users other than root (which
+> +retains /bin/sh) and sync (as /bin/sync is rather harmless) to
+> +/sbin/nologin (as /usr/sbin/nologin does not exist in openembedded)
+> +
+> +Upstream-Status: Backport [https://launchpad.net/ubuntu/+source/base-passwd/3.5.30]
+> +Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+> +---
+> + passwd.master | 32 ++++++++++++++++----------------
+> + 1 file changed, 16 insertions(+), 16 deletions(-)
+> +
+> +diff --git a/passwd.master b/passwd.master
+> +index e1c32ff..0cd5ffd 100644
+> +--- a/passwd.master
+> ++++ b/passwd.master
+> +@@ -1,18 +1,18 @@
+> + root::0:0:root:/root:/bin/sh
+> +-daemon:*:1:1:daemon:/usr/sbin:/bin/sh
+> +-bin:*:2:2:bin:/bin:/bin/sh
+> +-sys:*:3:3:sys:/dev:/bin/sh
+> ++daemon:*:1:1:daemon:/usr/sbin:/sbin/nologin
+> ++bin:*:2:2:bin:/bin:/sbin/nologin
+> ++sys:*:3:3:sys:/dev:/sbin/nologin
+> + sync:*:4:65534:sync:/bin:/bin/sync
+> +-games:*:5:60:games:/usr/games:/bin/sh
+> +-man:*:6:12:man:/var/cache/man:/bin/sh
+> +-lp:*:7:7:lp:/var/spool/lpd:/bin/sh
+> +-mail:*:8:8:mail:/var/mail:/bin/sh
+> +-news:*:9:9:news:/var/spool/news:/bin/sh
+> +-uucp:*:10:10:uucp:/var/spool/uucp:/bin/sh
+> +-proxy:*:13:13:proxy:/bin:/bin/sh
+> +-www-data:*:33:33:www-data:/var/www:/bin/sh
+> +-backup:*:34:34:backup:/var/backups:/bin/sh
+> +-list:*:38:38:Mailing List Manager:/var/list:/bin/sh
+> +-irc:*:39:39:ircd:/var/run/ircd:/bin/sh
+> +-gnats:*:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh
+> +-nobody:*:65534:65534:nobody:/nonexistent:/bin/sh
+> ++games:*:5:60:games:/usr/games:/sbin/nologin
+> ++man:*:6:12:man:/var/cache/man:/sbin/nologin
+> ++lp:*:7:7:lp:/var/spool/lpd:/sbin/nologin
+> ++mail:*:8:8:mail:/var/mail:/sbin/nologin
+> ++news:*:9:9:news:/var/spool/news:/sbin/nologin
+> ++uucp:*:10:10:uucp:/var/spool/uucp:/sbin/nologin
+> ++proxy:*:13:13:proxy:/bin:/sbin/nologin
+> ++www-data:*:33:33:www-data:/var/www:/sbin/nologin
+> ++backup:*:34:34:backup:/var/backups:/sbin/nologin
+> ++list:*:38:38:Mailing List Manager:/var/list:/sbin/nologin
+> ++irc:*:39:39:ircd:/var/run/ircd:/sbin/nologin
+> ++gnats:*:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/sbin/nologin
+> ++nobody:*:65534:65534:nobody:/nonexistent:/sbin/nologin
+> +-- 
+> +2.32.0
+> +
+> diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+> index 9a27ad3ab5..ef7792ae49 100644
+> --- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+> +++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+> @@ -14,6 +14,7 @@ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
+>             file://input.patch \
+>             file://disable-docs.patch \
+>             file://kvm.patch \
+> +           file://disable-shell.patch \
+>             "
+>  
+>  SRC_URI[md5sum] = "6beccac48083fe8ae5048acd062e5421"
+
+This change causes a couple of ptest regressions in sed and strace:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/3185/steps/12/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/3432/steps/13/logs/stdio
+
+Cheers,
+
+Richard
+
 
 
