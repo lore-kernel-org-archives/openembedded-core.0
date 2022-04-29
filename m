@@ -2,134 +2,107 @@ Return-Path: <sakoman@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E41A2C433F5
-	for <webhook@archiver.kernel.org>; Fri, 29 Apr 2022 18:17:10 +0000 (UTC)
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
- [209.85.166.44])
- by mx.groups.io with SMTP id smtpd.web12.13703.1651256221265324189
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11B32C433EF
+	for <webhook@archiver.kernel.org>; Fri, 29 Apr 2022 18:24:51 +0000 (UTC)
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com
+ [209.85.166.172])
+ by mx.groups.io with SMTP id smtpd.web10.13884.1651256682965929475
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Apr 2022 11:17:01 -0700
+ Fri, 29 Apr 2022 11:24:43 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=B5BT7TEo;
- spf=pass (domain: gmail.com, ip: 209.85.166.44, mailfrom: sakoman@gmail.com)
-Received: by mail-io1-f44.google.com with SMTP id h8so10559114iov.12
+ header.b=cNlDV6by;
+ spf=pass (domain: gmail.com, ip: 209.85.166.172, mailfrom: sakoman@gmail.com)
+Received: by mail-il1-f172.google.com with SMTP id t4so4512621ilo.12
         for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Apr 2022 11:17:01 -0700 (PDT)
+ Fri, 29 Apr 2022 11:24:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kl9XHUHskSA/sM2LjN4uTcjnHLW59vHYqgOgZxpY6EA=;
-        b=B5BT7TEol1RBo4y6MYCL7NQ6084FTNFqjnJErMnGS1HI7WLyF7UwUOT7WK4vqiMXvq
-         m4pN0Dx/3xItJnheJyTZQkeGP9knoUErR5JjthZT6GAUaCiHCdqPy5/Hxff2OF/c+lA5
-         0WK93EWvk/aUmfiY4c88iyCfhla0dgHY4PiyWVjh7y9z+oROZO+iL2DqXjdZTxDMYktA
-         8OlzZ0BKo6yeWmKTQ1xaY4MDkHIwIsGtZNVsPlvi3zu7EUo1DbFM2FkT+pyCop5V9ZYE
-         ArIywvMHvWsqjM2Uz/pzHSmcgnAH3NKJrfef0JE3mOweUtpHJXFdgk29qnoX26o0Wrji
-         B4bA==
+         :cc:content-transfer-encoding;
+        bh=twbHKD8DsURx95TIt7Vh8WOGpn7iRQMCJX/eydDP29E=;
+        b=cNlDV6by9jdP6zb4Om0hu5wDm3ko2666YfUPVgoUzd9kudHF3rZcZRsmarD9NZ2rql
+         BJqLnnlapn61twKcinePyMYI7ECZ6xtjebLyfLBLXACFF1N22SV2c9+Lq763kgiwRxPG
+         h9AVhD6Rk1sxNPyN2rilPvWcQDOUBqsxORF+fbKsKstCJGvISXF8s6n/4wzprOqdO6H6
+         wG+5KBXFDvf6N3KAE/6uSrS861nd3wrdmvf+jV7+gKw4QtqXXzon+lYUdaGNAPyxQyjI
+         eBbNP2DH+71jhlRm8sjptkXSI+M85pyEVHSy/87MtklmkgafpixhTpY5iu/q876qWhLG
+         Zd4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kl9XHUHskSA/sM2LjN4uTcjnHLW59vHYqgOgZxpY6EA=;
-        b=bytyJ2w73ilkWqjc3YeiQMs9UMcxTPeluhRcUt/NlzkTPzSb/3gTcClEK9xQXTccuX
-         0E/WrXgzqUOZYNsQ0XLy7zcS8Vmb2yEeEVJ1wPaIJpJYICOBeXdJ20fjSI04x6fo1p2J
-         nIeoaeusxrRJ7JZmGOJkfTzhZwd1A/ReEcMjAcPzAOtgJhQyDy0Mn6fu59gNv6dxH3hU
-         EfvsePuP23u5/D4h0FdRSrHbniC1z4aSx6DqG7IkFhb2tghTDcB02CeuPJZKjXqdfAp4
-         CkRAEORXV21ZhXYkt0/Cwj1oXzpS42LkjhgPjAdD1TC/YrUf8H9maGzjKq3PZ3Vik5IO
-         E84g==
-X-Gm-Message-State: AOAM5324Sdcfv3Qg+WIcsFVnMQGJ45AiDRIEhFyHrmWA1zpFLPUr521O
-	7KF/GgiMfMZZl+ydO388jsytHwAn03+QgUTcG6Q=
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=twbHKD8DsURx95TIt7Vh8WOGpn7iRQMCJX/eydDP29E=;
+        b=VkN/U4AZGQfme3q+RQIaq1CQzRyywn7rDiUUvyrUG2FTj6c/QmsKDp05ppYR1SDWIe
+         9rXtZobBrCZK40jNM6FgLZjgfd98UPJamG6RK1slXdH7W0n+P+sDzXm+XGvsvGp3Wfba
+         6sYwnBjCOOXbKow2nOViHdYS7AZTgXQhDAmYi3CnE8zIltyzcdbcCnlWs744nYLaAHxW
+         xGIRX8UNOs2Jm8y7TPFYpv6ii+mubLV5nPGM3HiJpMxcsXyuQUmpkss3Ly5zARI6rgw3
+         SkpUKHDMK1VNQPiQun+gcwzfd7yZOClVq6c0n3gjvjI6sKReHfp8LERGQZ7a+RPX/4nc
+         g6YQ==
+X-Gm-Message-State: AOAM531oWk3w7YgYqW9eNlul8kA+/0psGnS0RgaN7o5LGcZlhBm0pfNS
+	4Pi2DrstSSHmqXM7u08X+IjhPWM+cW79a1jMEt4=
 X-Google-Smtp-Source: 
- ABdhPJzobwIPSl/hbFDgRz2HB5gqH6xb4j+pU1Zq7RpFKD1V6DUk1HASqOUeFCfPi+p5hl6UJrVWj87IbpGskCANcwg=
-X-Received: by 2002:a05:6638:12d0:b0:32b:3b37:4712 with SMTP id
- v16-20020a05663812d000b0032b3b374712mr279008jas.54.1651256220545; Fri, 29 Apr
- 2022 11:17:00 -0700 (PDT)
+ ABdhPJyZzPAq+jJgWy4pggvusHM9Pwya0DoIPZOkvwki9VYkZOdLK5hb91aTG0a9GrwRAY44nZB3BJi8reXM2TDpRQ8=
+X-Received: by 2002:a05:6e02:1ca4:b0:2cc:467c:7eaf with SMTP id
+ x4-20020a056e021ca400b002cc467c7eafmr244060ill.175.1651256682395; Fri, 29 Apr
+ 2022 11:24:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220419112118.60914-1-peter.marko@siemens.com>
- <AS1PR10MB56979EF202CB2921C9EA4C6AFDFC9@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20220428062647.2717638-1-raj.khem@gmail.com>
+ <b2ffb05a-5792-4630-8a85-5d4d64c7aa53@www.fastmail.com>
+ <CAMKF1soLq0weUiGi+u--tgAk+ivxSCqo9Nvd5-cH5jpJeDvpJg@mail.gmail.com>
 In-Reply-To: 
- <AS1PR10MB56979EF202CB2921C9EA4C6AFDFC9@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+ <CAMKF1soLq0weUiGi+u--tgAk+ivxSCqo9Nvd5-cH5jpJeDvpJg@mail.gmail.com>
 From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 29 Apr 2022 08:16:49 -1000
+Date: Fri, 29 Apr 2022 08:24:31 -1000
 Message-ID: 
- <CAGDS+nkTey6cB9OAFMFYA=uG6SR=pF=xwkay2DXS_dUQQozgrw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] openssl: extract legacy provider module to a
- separate package
-To: Peter Marko <peter.marko@siemens.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
+ <CAGDS+nnWUvDZq+GjyujADWv4XF9nzF8SCiQ8re7VMvYfOGu2ew@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] kmod: Enable xz support by default
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Andrei Gherzan <andrei@gherzan.com>,
+	openembedded <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Apr 2022 18:17:10 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Apr 2022 18:24:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165054
+ https://lists.openembedded.org/g/openembedded-core/message/165055
 
-On Fri, Apr 29, 2022 at 2:27 AM Peter Marko <peter.marko@siemens.com> wrote:
+On Thu, Apr 28, 2022 at 5:00 AM Khem Raj <raj.khem@gmail.com> wrote:
 >
-> This is important for seamless migration of applications to openssl3.
-> In particular poco from meta-oe needs this as packageconfig cannot add rdepends to a sub-package.
-> Could this be picked to kirkstone or do I need to send it as new patch?
+> On Thu, Apr 28, 2022 at 4:27 AM Andrei Gherzan <andrei@gherzan.com> wrote=
+:
+> >
+> > On Thu, 28 Apr 2022, at 07:26, Khem Raj wrote:
+> > > RPi kernel has started building compressed kernel modules by default
+> > > starting 5.15, currenrly therefore meta-raspberrypi kernels are unabl=
+e
+> > > to load kernel modules since kmod and kmod-native do not entertain xz
+> > > compressed modules. There is a fix proposed in meta-raspberrypi [1]
+> > > but the fix is needed for native and nativesdk recipes as well, perha=
+ps
+> > > its best to enable it here for best out of box experience with
+> > > meta-raspberrypi
+> > >
+> > > [1] https://github.com/agherzan/meta-raspberrypi/pull/1056
+> > >
+> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> >
+> > I don't see any reason not to do this and it does help with the BSPs us=
+ing this compression requirement. So here is my +1. Would it be reasonable =
+to propose to have it in kirkstone too? Otherwise, @khem, I'd need to drop =
+compression or downgrade the kernel in kirkstone rpi (or make some yocto in=
+compatible changes - which I'd rather not).
+> >
+>
+> Its already in staging for master [1] so hope to land it in master
+> soon. kirkstone is something from Steve to cherry-pick CCing Steve
+> here
+>
+> [1] https://git.yoctoproject.org/poky-contrib/log/?h=3Dlucaceresoli/maste=
+r-next
 
-No need to send a patch, I'll cherry-pick it in my next patch set.
-
-Thanks,
+It's hit master now, so I will cherry-pick into my next patch set.
 
 Steve
-
-> > -----Original Message-----
-> > From: Marko, Peter <Peter.Marko@siemens.com>
-> > Sent: Tuesday, April 19, 2022 13:21
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Marko, Peter <Peter.Marko@siemens.com>
-> > Subject: [OE-core][PATCH] openssl: extract legacy provider module to a separate package
-> >
-> > This module contains legacy cipher suites from libcrypto.
-> > We should not need to include base package because we want
-> >   to use this part of libcrypto.
-> >
-> > Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> > ---
-> >  meta/recipes-connectivity/openssl/openssl_3.0.2.bb | 5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.2.bb b/meta/recipes-connectivity/openssl/openssl_3.0.2.bb
-> > index ff2a22c6c3..a809666aa7 100644
-> > --- a/meta/recipes-connectivity/openssl/openssl_3.0.2.bb
-> > +++ b/meta/recipes-connectivity/openssl/openssl_3.0.2.bb
-> > @@ -224,7 +224,7 @@ do_install_ptest () {  # file to be installed for both the openssl-bin package and the libcrypto  # package since the openssl-bin package depends on the libcrypto package.
-> >
-> > -PACKAGES =+ "libcrypto libssl openssl-conf ${PN}-engines ${PN}-misc"
-> > +PACKAGES =+ "libcrypto libssl openssl-conf ${PN}-engines ${PN}-misc ${PN}-ossl-module-legacy"
-> >
-> >  FILES:libcrypto = "${libdir}/libcrypto${SOLIBS}"
-> >  FILES:libssl = "${libdir}/libssl${SOLIBS}"
-> > @@ -235,12 +235,13 @@ FILES:${PN}-engines = "${libdir}/engines-3"
-> >  # ${prefix} comes from what we pass into --prefix at configure time (which is used for INSTALLTOP)  FILES:${PN}-engines:append:mingw32:class-nativesdk = " ${prefix}${libdir}/engines-3"
-> >  FILES:${PN}-misc = "${libdir}/ssl-3/misc ${bindir}/c_rehash"
-> > +FILES:${PN}-ossl-module-legacy = "${libdir}/ossl-modules/legacy.so"
-> >  FILES:${PN} =+ "${libdir}/ssl-3/* ${libdir}/ossl-modules/"
-> >  FILES:${PN}:append:class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
-> >
-> >  CONFFILES:openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
-> >
-> > -RRECOMMENDS:libcrypto += "openssl-conf"
-> > +RRECOMMENDS:libcrypto += "openssl-conf ${PN}-ossl-module-legacy"
-> >  RDEPENDS:${PN}-misc = "perl"
-> >  RDEPENDS:${PN}-ptest += "openssl-bin perl perl-modules bash sed"
-> >
-> > --
-> > 2.30.2
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#165009): https://lists.openembedded.org/g/openembedded-core/message/165009
-> Mute This Topic: https://lists.openembedded.org/mt/90559122/3617601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [sakoman@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
 
