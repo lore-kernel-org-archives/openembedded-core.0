@@ -1,200 +1,110 @@
-Return-Path: <jiaqing.zhao@linux.intel.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2231C433EF
-	for <webhook@archiver.kernel.org>; Fri, 29 Apr 2022 04:37:14 +0000 (UTC)
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by mx.groups.io with SMTP id smtpd.web10.6561.1651207025680458152
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A403AC433EF
+	for <webhook@archiver.kernel.org>; Fri, 29 Apr 2022 04:48:14 +0000 (UTC)
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com
+ [209.85.222.171])
+ by mx.groups.io with SMTP id smtpd.web12.6494.1651207684954909046
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Apr 2022 21:37:05 -0700
+ Thu, 28 Apr 2022 21:48:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=n2TLkYxl;
- spf=none, err=permanent DNS error (domain: linux.intel.com,
- ip: 134.134.136.31, mailfrom: jiaqing.zhao@linux.intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651207025; x=1682743025;
-  h=message-id:date:mime-version:subject:to:references:from:
-   in-reply-to:content-transfer-encoding;
-  bh=Hd1kwGuJYGfQh5JfR/zB82keOqOnw+iLk43NhTrn6+A=;
-  b=n2TLkYxlXRd4o8OeqNAhX/nFr94kyPbAYfHERHkX/Catnw6NaOvcp/ay
-   BiFLP/8dIc0Z8v2vwkOmEL6VxlRtYpEoVp3uiP72zKGDR6ncf4opfdDoL
-   JT00fFoMDMJAdsEzZLIqKDPGGl6EcVTjkMbiog20v7D5nlb3bjmnh7g5p
-   qy7VSXaxvmauyRVbMJyI5x1wbgyViIr03K5GCxgHaLNGXOfqWribhYk0T
-   bazFy5vCQOIC6si84nLclDXoeo25qFrZZI+VF0SomNV/Wf7cO/a6B4K6n
-   9SMbdQrpD2DvpbEFCqu4qRRe6rf8Ib77ysSQIoXF6GzD4WdOJs315c6K5
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10331"; a="327021047"
-X-IronPort-AV: E=Sophos;i="5.91,297,1647327600";
-   d="scan'208";a="327021047"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2022 21:37:04 -0700
-X-IronPort-AV: E=Sophos;i="5.91,297,1647327600";
-   d="scan'208";a="534290182"
-Received: from jiaqingz-mobl.ccr.corp.intel.com (HELO [10.249.171.110])
- ([10.249.171.110])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2022 21:37:04 -0700
-Message-ID: <c499f0d9-e2ba-0594-4a66-e3db13cb20fd@linux.intel.com>
-Date: Fri, 29 Apr 2022 12:37:01 +0800
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=GIAv2ms3;
+ spf=pass (domain: gmail.com, ip: 209.85.222.171,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f171.google.com with SMTP id a22so2042153qkl.5
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 28 Apr 2022 21:48:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Wrwr95JfxVV86U7gO8BB7cjgqtp9mZCMfIizdLyudKs=;
+        b=GIAv2ms3N00k2oHi0qfwJolMgsUAWhnP+KJL3gTOt1cirehaOkTFzM3lP5kDGdx7Ge
+         slfjfBViqvZWvbjEbGD+QnSn0oaAEyvUOe5dSnFY1XwYu24wIrcRThmDN7qKIs53xGcI
+         Lax+gVhnULMXdMqfuQAHvQdCvzrpt2QXa3F6mbTJzWE65QigR71630RmTFsGY/2a9xjr
+         99NEY1L+5f41YinIQ/pvxxN3+84hTEF6CPaVR/RKQmeiY27l+CJXzS4lm1xSXx4APA1k
+         6vfhM9/tpW6Td4ZfPUCCytXEvsSjkzABpccQ0cYkpU+bvU491IvrBaX6ab1F7tRdcEfa
+         x2Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Wrwr95JfxVV86U7gO8BB7cjgqtp9mZCMfIizdLyudKs=;
+        b=ldifFXBGpvadHnRKOS4YJKNRX/tF4ADTffKcACfWofdTXkBA1+QhjtkCAMHmrxtc8m
+         TX+q+vcmlpZ8KOE2unVzvZaq+IYNm7r0uCMa2uuUs8H2dt6UNUSnvM1BH6GVBZs+Hcdl
+         VLxTWeBBKB6TMtb5wuUfiGAd9dmuAOKYp57OIGEZuJvFiwGanGrBy6SfC4SoIKaD7ysB
+         gINmPOd1mwi/1lEK7cd8aUHYsWUnx5/6DhhnD86/lmF+0lkvWmivqMYQ02KTn+8E/4Ep
+         HggTdm+BW3hxpoOf2i6pM0i8DqhJ9+ypgVTcUVYy7N5NacmjheeRxObEKpaxLDIPh2S0
+         iE5g==
+X-Gm-Message-State: AOAM530sRvv29oLCZO2+BW/fjN4oz1FwTXcthmSGimJxLQUgGzgt73TF
+	hyydCX9kkWzJt5B3QkzOpexduk1ZL9FOeHkB1AVsagMoSjk=
+X-Google-Smtp-Source: 
+ ABdhPJywY9Xyg94KhDBIFhV5d2n7a3/j8lYAr32HlahMCnDjs7VbpeDkbE8sGnMpb+D3RtPkWk7pVZN9VA6Aw8OLHrg=
+X-Received: by 2002:a37:6297:0:b0:69f:ac0b:5f18 with SMTP id
+ w145-20020a376297000000b0069fac0b5f18mr3151336qkb.180.1651207683862; Thu, 28
+ Apr 2022 21:48:03 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [OE-core] [PATCH v2] base-passwd: Disable shell for default users
-Content-Language: en-US
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
- "openembedded-core@lists.openembedded.org"
+References: <20220429022238.38588-1-Qi.Chen@windriver.com>
+In-Reply-To: <20220429022238.38588-1-Qi.Chen@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 28 Apr 2022 21:47:38 -0700
+Message-ID: 
+ <CAMKF1soXsZsyvu-wP8Qac+=qrfx_2tw3TYkW_BpjDj+kBnCOYw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] go-helloworld: remove unused GO_WORKDIR
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>
-References: <20220428094932.1411461-1-jiaqing.zhao@linux.intel.com>
- <f8b6dac873114d92985ac907c1c7e088@axis.com>
-From: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
-In-Reply-To: <f8b6dac873114d92985ac907c1c7e088@axis.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Apr 2022 04:37:14 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Apr 2022 04:48:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164988
+ https://lists.openembedded.org/g/openembedded-core/message/164989
 
-On 2022-04-28 21:34, Peter Kjellerstedt wrote:
->> -----Original Message-----
->> From: openembedded-core@lists.openembedded.org <openembedded-
->> core@lists.openembedded.org> On Behalf Of Jiaqing Zhao
->> Sent: den 28 april 2022 11:50
->> To: openembedded-core@lists.openembedded.org
->> Cc: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
->> Subject: [OE-core] [PATCH v2] base-passwd: Disable shell for default users
->>
->> Change the shell of all global static users other than root (which
->> retains /bin/sh) and sync (as /bin/sync is rather harmless) to
->> /sbin/nologin (as /usr/sbin/nologin does not exist in openembedded)
->>
->> Upstream-Status: Backport [https://launchpad.net/ubuntu/+source/base-passwd/3.5.30]
-> 
-> Since Kirkstone is out the door, is there any reason to not update 
-> the version of base-passwd instead?
-> 
-> //Peter
+lgtm, thanks for fixing it
 
-The reason is that since base-passwd 3.5.30, it switches to dh-autoreconf instead of autoconf to configure
-
-Changelog: https://launchpad.net/ubuntu/+source/base-passwd/3.5.30
->  [ Colin Watson ]
->  * Remove config.h.in and configure, now autogenerated by dh-autoreconf.
-
-Since openembedded does not have the Debian toolchain, this recipe is marked NO UPDATE with reason "Version 3.5.38 requires cdebconf for update-passwd utility". 
-https://github.com/openembedded/openembedded-core/blob/master/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb#L8
-
-Jiaqing
-
-> 
->> Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
->> ---
->> v2:
->> Fix indentation in bbfile.
->> ---
->>  .../base-passwd/disable-shell.patch           | 57 +++++++++++++++++++
->>  .../base-passwd/base-passwd_3.5.29.bb         |  1 +
->>  2 files changed, 58 insertions(+)
->>  create mode 100644 meta/recipes-core/base-passwd/base-passwd/disable-
->> shell.patch
->>
->> diff --git a/meta/recipes-core/base-passwd/base-passwd/disable-shell.patch
->> b/meta/recipes-core/base-passwd/base-passwd/disable-shell.patch
->> new file mode 100644
->> index 0000000000..dddc93ca35
->> --- /dev/null
->> +++ b/meta/recipes-core/base-passwd/base-passwd/disable-shell.patch
->> @@ -0,0 +1,57 @@
->> +From 91e0db96741359173ddf2be083aafcc1a3c32472 Mon Sep 17 00:00:00 2001
->> +From: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
->> +Date: Mon, 18 Apr 2022 11:22:43 +0800
->> +Subject: [PATCH] Disable shell for default users
->> +
->> +Change the shell of all global static users other than root (which
->> +retains /bin/sh) and sync (as /bin/sync is rather harmless) to
->> +/sbin/nologin (as /usr/sbin/nologin does not exist in openembedded)
->> +
->> +Upstream-Status: Backport [https://launchpad.net/ubuntu/+source/base-
->> passwd/3.5.30]
->> +Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
->> +---
->> + passwd.master | 32 ++++++++++++++++----------------
->> + 1 file changed, 16 insertions(+), 16 deletions(-)
->> +
->> +diff --git a/passwd.master b/passwd.master
->> +index e1c32ff..0cd5ffd 100644
->> +--- a/passwd.master
->> ++++ b/passwd.master
->> +@@ -1,18 +1,18 @@
->> + root::0:0:root:/root:/bin/sh
->> +-daemon:*:1:1:daemon:/usr/sbin:/bin/sh
->> +-bin:*:2:2:bin:/bin:/bin/sh
->> +-sys:*:3:3:sys:/dev:/bin/sh
->> ++daemon:*:1:1:daemon:/usr/sbin:/sbin/nologin
->> ++bin:*:2:2:bin:/bin:/sbin/nologin
->> ++sys:*:3:3:sys:/dev:/sbin/nologin
->> + sync:*:4:65534:sync:/bin:/bin/sync
->> +-games:*:5:60:games:/usr/games:/bin/sh
->> +-man:*:6:12:man:/var/cache/man:/bin/sh
->> +-lp:*:7:7:lp:/var/spool/lpd:/bin/sh
->> +-mail:*:8:8:mail:/var/mail:/bin/sh
->> +-news:*:9:9:news:/var/spool/news:/bin/sh
->> +-uucp:*:10:10:uucp:/var/spool/uucp:/bin/sh
->> +-proxy:*:13:13:proxy:/bin:/bin/sh
->> +-www-data:*:33:33:www-data:/var/www:/bin/sh
->> +-backup:*:34:34:backup:/var/backups:/bin/sh
->> +-list:*:38:38:Mailing List Manager:/var/list:/bin/sh
->> +-irc:*:39:39:ircd:/var/run/ircd:/bin/sh
->> +-gnats:*:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh
->> +-nobody:*:65534:65534:nobody:/nonexistent:/bin/sh
->> ++games:*:5:60:games:/usr/games:/sbin/nologin
->> ++man:*:6:12:man:/var/cache/man:/sbin/nologin
->> ++lp:*:7:7:lp:/var/spool/lpd:/sbin/nologin
->> ++mail:*:8:8:mail:/var/mail:/sbin/nologin
->> ++news:*:9:9:news:/var/spool/news:/sbin/nologin
->> ++uucp:*:10:10:uucp:/var/spool/uucp:/sbin/nologin
->> ++proxy:*:13:13:proxy:/bin:/sbin/nologin
->> ++www-data:*:33:33:www-data:/var/www:/sbin/nologin
->> ++backup:*:34:34:backup:/var/backups:/sbin/nologin
->> ++list:*:38:38:Mailing List Manager:/var/list:/sbin/nologin
->> ++irc:*:39:39:ircd:/var/run/ircd:/sbin/nologin
->> ++gnats:*:41:41:Gnats Bug-Reporting System
->> (admin):/var/lib/gnats:/sbin/nologin
->> ++nobody:*:65534:65534:nobody:/nonexistent:/sbin/nologin
->> +--
->> +2.32.0
->> +
->> diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
->> b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
->> index 9a27ad3ab5..ef7792ae49 100644
->> --- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
->> +++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
->> @@ -14,6 +14,7 @@ SRC_URI =
->> "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
->>             file://input.patch \
->>             file://disable-docs.patch \
->>             file://kvm.patch \
->> +           file://disable-shell.patch \
->>             "
->>
->>  SRC_URI[md5sum] = "6beccac48083fe8ae5048acd062e5421"
->> --
->> 2.34.1
-> 
-> 
-> 
+On Thu, Apr 28, 2022 at 7:23 PM Chen Qi <Qi.Chen@windriver.com> wrote:
+>
+> The GO_WORKDIR is used only in go-mod.bbclass. As this recipe does
+> not inherit go-mod.bbclass, this variable is useless here.
+>
+> This go-helloworld recipe was made to inherit go-mod.bbclass and build
+> in module-aware mode. However, it was found that we need to build go
+> recipes in GOPATH mode in order to support offline build. As a result,
+> this recipe was changed back to only inherit go.bbclass. But the GO_WORKDIR
+> setting was not cleaned up.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/recipes-extended/go-examples/go-helloworld_0.1.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+> index 0faab39b66..d0de035921 100644
+> --- a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+> +++ b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
+> @@ -11,7 +11,7 @@ UPSTREAM_CHECK_COMMITS = "1"
+>
+>  GO_IMPORT = "golang.org/x/example"
+>  GO_INSTALL = "${GO_IMPORT}/hello"
+> -GO_WORKDIR = "${GO_INSTALL}"
+> +
+>  export GO111MODULE="off"
+>
+>  inherit go
+> --
+> 2.17.1
+>
+>
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#164947): https://lists.openembedded.org/g/openembedded-core/message/164947
-> Mute This Topic: https://lists.openembedded.org/mt/90749534/6787970
+> View/Reply Online (#164986): https://lists.openembedded.org/g/openembedded-core/message/164986
+> Mute This Topic: https://lists.openembedded.org/mt/90768475/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [jiaqing.zhao@linux.intel.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
-> 
+>
 
