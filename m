@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B01BC43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93EB8C433FE
 	for <webhook@archiver.kernel.org>; Fri, 29 Apr 2022 16:01:49 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
- [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web10.12125.1651248106993339315
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web12.12054.1651248105471858588
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Apr 2022 09:01:47 -0700
+ Fri, 29 Apr 2022 09:01:45 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=WfE+LTEx;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181,
+ header.b=w5Os2cyi;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id i24so7271390pfa.7
+Received: by mail-pl1-f179.google.com with SMTP id p6so7502599plf.9
         for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Apr 2022 09:01:46 -0700 (PDT)
+ Fri, 29 Apr 2022 09:01:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=lcp+FjqsfpM5lyHQU0zmtNWeTmGqf1Oyjf6OLVY3HiM=;
-        b=WfE+LTExhyvL2xyY4d3L8V0WqAFxcFTeCSP1dh0lqS8PPoiRd58JZtUOY7n9xCE/xq
-         YBuu4SzUuEq09nmHx8mIvUNFzcAu1slWwRDiMcWfsNpBOjkLZLuWQMgBhwndVSu70y/O
-         kuJSfEsxnyexB5DnAVIvpDT/kWcePReHBHSl4JpCLTSOWRHCcui8Ii7aXg1o25tL4YIg
-         S7rSngOhOaRN6qoiGApJqPz3h7BybtQ6eMjp/CwPDUL1Q0JRZuDFWimrBTtOI4c944zO
-         DdKXrgHkWZZBwQTv45tdyAr3Ap5/+pmBqByhO15bGRm/h7Lr01OqwfNPcMGItdim6WE+
-         jLuw==
+        bh=89nBWpKYPR6oqXErtfkjViaZR8BpPG9C69C0HAvya5I=;
+        b=w5Os2cyiTv0PeUVJgcs6X/UN7aZstEMysK6lU5kj95ghkmkAVuZ+YHEoNXJ1o53uKW
+         mO8O0EMwivbKKwwH2YpbFxAThOZfPCnHY4XYxhW/CtJC/C8UCsaeGwRljSEqKwLrLm7N
+         w3j8sgPN6GE8rmDDdrkIvq+PljX5xMPdeg0HHl7YEy4J+rmlej6cINZsNYdDDmiDvncS
+         VOolWNhLhFbhATVzjaxNZIN5yukzLsXMJKJQwmdiXXMxGiJt9lGwa1XL6X/qpcEH0Haj
+         +xBNYoflvrk3PTDhNi9zfzEPbXk4WSXYwh5Ut085HHX2YFuWcd3+0+OD7IDXKa23C5FW
+         gaBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=lcp+FjqsfpM5lyHQU0zmtNWeTmGqf1Oyjf6OLVY3HiM=;
-        b=e1Pc5mG+CGIIlIXXoOihrU4AprN6uyxKC4fyndD0QlGB3j7UDwBOgzY+NxMowmKEpi
-         h8TISG7Kc9YkuzpaJvXMci4q6srmtDcqa8PMoWRj2+E3v0yQU49wtnJVq5tx/hMDmc9/
-         iPCJKvn+a+gphPyTtL2BGWoPpTXB5QOmz3gi4OhtIXdAL0tHZA0b/P9+63J922v1LT+8
-         zmW/139TpQMhz8JIUbm5uCsA+2Q6rmQlIs56dJnj1QvuUR2FdRShLM+IPhM0ZKrOjGRH
-         j95QvmcJtJskv7NDaLaDur85STAsQrDqwuXQCGB4cPCgXy8UwLlMafVYd6MwFBti4LMo
-         DyXw==
-X-Gm-Message-State: AOAM5308VErPUGOjqfNbFvXLKNCaJn9ozBEY1Q+MOgmHn5fiW/6IhWlM
-	B4h9macbYIQGuSXzfASoRRHMlbd3nbXMw5p3NdE=
+        bh=89nBWpKYPR6oqXErtfkjViaZR8BpPG9C69C0HAvya5I=;
+        b=JePx9upnjwpVL0oc9faL2wo7VQw5IfT/IK7pU3NGsmFVvDsrycclRu1h3glQFbUS7+
+         WBujK6TUggtMO12guQ+m8UpeniRnhW3penKQ04SAprb+j5qSbHgk+oDVGoGA1rQ8Tbu2
+         ZvVxtS0S6tdL2ixEdxY/XaMGiKuorVxLlkEwRxcNOPbuuB5823Xq83q9H8Kpmm9XN0t8
+         jzAon+UR3kOZ9WknRXseMS5qDGrWmTUk5MbT9Lwsgq/hGdZeejSocBv2ptDjkAlMoo71
+         SL7Efmrxdv13XnjDmYc43ISAqcPXVLR6iHTCND4oxKd3caz8MVRdyH2PyiPYnjige5k3
+         lp3g==
+X-Gm-Message-State: AOAM532A50QF6S2v+cxi1DXtDkJaSQKzu7ShF2KLvvrednZIt1xjShzy
+	thAHm08ZncjWrD95YYTb/TXtpoQjF4AFQT323BE=
 X-Google-Smtp-Source: 
- ABdhPJzz2Kjov3p/bJpKQ/69vbSCKvDAPJsInChkNOuxvakwdQqYoYmFTvUYVssnJIDVtrwiTWJNUQ==
-X-Received: by 2002:a05:6a00:190f:b0:50d:8b82:cb90 with SMTP id
- y15-20020a056a00190f00b0050d8b82cb90mr68829pfi.65.1651248105844;
-        Fri, 29 Apr 2022 09:01:45 -0700 (PDT)
+ ABdhPJxiXzAXGEh1fvFIJIHh9URNaDA7mWxN8jdqRwoeC5fKHBMhm/fJ6rSB8jjpg9EqMadfXhPfQg==
+X-Received: by 2002:a17:903:4052:b0:156:229d:ffed with SMTP id
+ n18-20020a170903405200b00156229dffedmr39217454pla.98.1651248097991;
+        Fri, 29 Apr 2022 09:01:37 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- i3-20020a056a00224300b0050d32f838e1sm3486125pfu.21.2022.04.29.09.01.44
+ i3-20020a056a00224300b0050d32f838e1sm3486125pfu.21.2022.04.29.09.01.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 09:01:44 -0700 (PDT)
+        Fri, 29 Apr 2022 09:01:37 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 10/34] kernel-yocto.bbclass: Fixup
- do_kernel_configcheck usage of KMETA
-Date: Fri, 29 Apr 2022 06:00:29 -1000
+Subject: [OE-core][kirkstone 07/34] glibc: ptest: Fix glibc-tests package
+ issue
+Date: Fri, 29 Apr 2022 06:00:26 -1000
 Message-Id: 
- <c322272a51d923cda9b0e5e388e32b7dd3a6bd22.1651246310.git.steve@sakoman.com>
+ <2447c5abd7629af24bab5fccec8669f9ca676873.1651246310.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1651246310.git.steve@sakoman.com>
 References: <cover.1651246310.git.steve@sakoman.com>
@@ -70,67 +70,35 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 29 Apr 2022 16:01:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165029
+ https://lists.openembedded.org/g/openembedded-core/message/165028
 
-From: Russ Dill <russ.dill@nikolamotor.com>
+From: Pgowda <pgowda.cve@gmail.com>
 
-The do_kernel_configcheck task requires a meta directory, normally
-set by ${KMETA}. The meta directory is taken as a relative path
-from ${S}:
+Run glibc-tests only when its enabled in the DISTRO_FEATURES.
 
-        outfile = "{}/{}/cfg/mismatch.txt".format( s, kmeta )
-
-However, when checking for the presence of ${KMETA} the current
-working directory is searched. This will almost always fail and
-"kgit --meta" is used instead. If the user does have a path in
-their current working directory that matches the ${KMETA}
-variable but the path is not present within the kernel source
-directory, the build will fail if it tries to write config errors/
-warnings to that path.
-
-If ${KMETA} is not set, the same problem exists with the hard-coded
-"meta" directory.
-
-Fix these issues by checking for ${KMETA} within ${S} rather than
-the current working directory. Additionally, drop the hardcoded
-backup directory "meta" as it hasn't been functioning and
-probably has no users
-
-Signed-off-by: Russ Dill <russ.dill@nikolamotor.com>
+Signed-off-by: pgowda <pgowda.cve@gmail.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-(cherry picked from commit f4a3e80a4a6f4f709d09940dcaf45b2b00654496)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 5555e7cf935b047a3dc3228d26bf0fd52eb425e5)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/kernel-yocto.bbclass | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ meta/recipes-core/glibc/glibc-tests_2.35.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 1d5a8cdf29..4cb638864c 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -521,15 +521,15 @@ python do_config_analysis() {
- python do_kernel_configcheck() {
-     import re, string, sys, subprocess
+diff --git a/meta/recipes-core/glibc/glibc-tests_2.35.bb b/meta/recipes-core/glibc/glibc-tests_2.35.bb
+index 8c7ecf89ba..414f8660de 100644
+--- a/meta/recipes-core/glibc/glibc-tests_2.35.bb
++++ b/meta/recipes-core/glibc/glibc-tests_2.35.bb
+@@ -1,7 +1,8 @@
+ require glibc_${PV}.bb
+ require glibc-tests.inc
  
--    # if KMETA isn't set globally by a recipe using this routine, we need to
--    # set the default to 'meta'. Otherwise, kconf_check is not passed a valid
--    # meta-series for processing
--    kmeta = d.getVar("KMETA") or "meta"
--    if not os.path.exists(kmeta):
--        kmeta = subprocess.check_output(['kgit', '--meta'], cwd=d.getVar('S')).decode('utf-8').rstrip()
--
-     s = d.getVar('S')
+-inherit ptest
++inherit ptest features_check
++REQUIRED_DISTRO_FEATURES = "ptest"
  
-+    # if KMETA isn't set globally by a recipe using this routine, use kgit to
-+    # locate or create the meta directory. Otherwise, kconf_check is not
-+    # passed a valid meta-series for processing
-+    kmeta = d.getVar("KMETA")
-+    if not kmeta or not os.path.exists('{}/{}'.format(s,kmeta)):
-+        kmeta = subprocess.check_output(['kgit', '--meta'], cwd=d.getVar('S')).decode('utf-8').rstrip()
-+
-     env = os.environ.copy()
-     env['PATH'] = "%s:%s%s" % (d.getVar('PATH'), s, "/scripts/util/")
-     env['LD'] = d.getVar('KERNEL_LD')
+ SRC_URI:append = " \
+ 	file://run-ptest \
 -- 
 2.25.1
 
