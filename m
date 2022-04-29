@@ -2,65 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90F1FC4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B104C43219
 	for <webhook@archiver.kernel.org>; Fri, 29 Apr 2022 16:01:59 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web09.11935.1651248111896515725
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web08.11879.1651248118716885593
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Apr 2022 09:01:52 -0700
+ Fri, 29 Apr 2022 09:01:58 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=shL65o/Z;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48,
+ header.b=eW00xzOA;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id
- iq2-20020a17090afb4200b001d93cf33ae9so10892186pjb.5
+Received: by mail-pf1-f169.google.com with SMTP id p12so7326078pfn.0
         for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Apr 2022 09:01:51 -0700 (PDT)
+ Fri, 29 Apr 2022 09:01:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=/KrXy9vYfRwzdRcQgglSE6K0Qfu/I13jHNVE6FqMP1k=;
-        b=shL65o/ZfP1fop/fm0EfGw+bHDodcgRsIKEMceYNWH/SPzReQiEyMpWRmBgx8BfgPZ
-         Dtv27wbjoUYU/cVamYT8xKVPJ/1/MBxuxxHqZjqkcNOPjwcq0sQ/bG3Dv+2N3iEA5VCj
-         5I7F/8p9a16XTp82C6tyEppGWcAkcAPGAvhLWTu/rFd3U1Y1RIlnwoSOLcgP2Qqer1vW
-         D5/ov4A4U0CZWmQAcT8qgJ0Z/soY1seI4aHlbo9JSvEmIabozFyxWfo+ODTBbRAdYhTt
-         0sFXBNDg/6vxWpGIg3YiPWO+7vgQ8UoXOzQ/XVOoUJLTXkZy5tyc0jQjO7SQWK2D3JVx
-         qjVw==
+        bh=ZIxLbtbmuf03v0EfSRsnQBtxuKVxskyRfSU/pSicxjY=;
+        b=eW00xzOAWO5JoGATTOWUAy4xgTpzMtXjrcrGQ0T9nw41I4uw71gGKH1sFPi8iCmQ9F
+         7gffQ+k0TmvivUHIolWzaVUnC50hgZ91Nr5rHn2n8vmo3BW1Erq5ZJTnx12Yq73tjJAc
+         SVX1KjdhCKjOCgBbWirKveOlPY3AauEzDXyYV7rtpywWQ+0zlLDOsIbTEyNPmOC4eRn2
+         kPQAz2dSv1On0fRPMgLvO1lgWO8SZEKvrHPOExzGOj33i01QRXAkS+vUQjA2zxHVkmoY
+         KmxOtqTD3B1buTtwQKTpelUICoY2/vVHtRQltZWWDECoKhzCQO/68RCJVxMQHy7fQCUN
+         LbOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/KrXy9vYfRwzdRcQgglSE6K0Qfu/I13jHNVE6FqMP1k=;
-        b=P9bjgtf0x77+f826LV5YA3mU2ZD92nTJskX3DoRWem26HJ66EYigOGd5Je/yWO6AUD
-         /Pirv5y4NGs/v3dLoEmZ7J/ty7Bgz4xbLMLRC01b3O1Hg2kgaHF0KZkQm8d0fHEwU5+l
-         lJLAoXJVLelvy1eRBSFEZ+VLxvAMU1ifMWZ2Sg7obA+CPWh6Xq44inRGJeDuLmEyHeaC
-         SDQfttOH4t6Tb7FEiioCDGHvgCh1Rsz9GLMCW3FhNOzskf/3HW9HvfjbkZeFD9ylRISy
-         OG3DNwuglzdt+TP6+KqG9Ij6/PpcGv1eHyfL/XfnJWcsjQAgBfG1f7/6qq3VovedNQ2S
-         +D6w==
-X-Gm-Message-State: AOAM532aOlx3DHPNee6yAPDoGbMxgyXPSdwD34Z8z8myngUJ0iKbLf3b
-	xXy7VGd1vSNP2kDIQ+VAxDdiPkPq75/+9EIrNwg=
+        bh=ZIxLbtbmuf03v0EfSRsnQBtxuKVxskyRfSU/pSicxjY=;
+        b=HuKrQ8H+l1ZgjUbOCYoxNIoGnKDI1c1b+AqF/QqjN92smswacb9TYWDI6Yq3wec8Jp
+         HlyIlZAHxGiIYf50IfRA1r7JV2c6WECudNWmkEMOaNk+sy/Ul+cw76v+du7bhMJxmrq4
+         XlfZ3Goz1C9WpKj7vkiYW6blhF/CGqStI+22QJUeGqC0A4CvKpyM5I9khJSTdSA01w9z
+         tW/QvKf34x97Y3JbrUxhX+JP0Gp+oBLNl6MrJMtaQ4N9DEbERZyVNKOoyM/0E8suXXoJ
+         xjw1ZwuMP9bwWlLN7MjOBIO84yJ3um9VKzw73UU4pInnarXP2gYhH524iZP16k184upF
+         0IJA==
+X-Gm-Message-State: AOAM532hKH5Ovxz4hkXYkGkwVNf0bxDZGDHlLi47W0MMOdYPaAmkDH4u
+	tXVl5tCPNtAIuISAIT+l47jm8ZTYxKc5g3mpJsI=
 X-Google-Smtp-Source: 
- ABdhPJwLRRnbg7YQk9LTmgLFBN8bC/mu4n4bMO673+3KOwgIzovZ00DHjxvA4FoK6wfuTgiL3stKtQ==
-X-Received: by 2002:a17:902:9f96:b0:15d:1ee7:4231 with SMTP id
- g22-20020a1709029f9600b0015d1ee74231mr23693257plq.131.1651248110618;
-        Fri, 29 Apr 2022 09:01:50 -0700 (PDT)
+ ABdhPJxbPPNZg1KZ02zdO5CEyDYFzXi2x2+q3cLhB2D0XsdlD5WRbzFAuCBkMIbBZg5FJgL1a6HrXw==
+X-Received: by 2002:a63:5163:0:b0:3a9:4e90:6d3d with SMTP id
+ r35-20020a635163000000b003a94e906d3dmr102281pgl.48.1651248117466;
+        Fri, 29 Apr 2022 09:01:57 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- i3-20020a056a00224300b0050d32f838e1sm3486125pfu.21.2022.04.29.09.01.49
+ i3-20020a056a00224300b0050d32f838e1sm3486125pfu.21.2022.04.29.09.01.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 09:01:49 -0700 (PDT)
+        Fri, 29 Apr 2022 09:01:56 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 12/34] arch-armv8-2a.inc: fix a typo in TUNEVALID
- variable
-Date: Fri, 29 Apr 2022 06:00:31 -1000
+Subject: [OE-core][kirkstone 15/34] wic: do not use PARTLABEL for msdos
+ partition tables
+Date: Fri, 29 Apr 2022 06:00:34 -1000
 Message-Id: 
- <92e52e0bb7497a701a0a26305a1a1bed0f4a60ce.1651246310.git.steve@sakoman.com>
+ <354ef6b723f50b5f0b46a2bf5797e5b982c6ea73.1651246310.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1651246310.git.steve@sakoman.com>
 References: <cover.1651246310.git.steve@sakoman.com>
@@ -71,33 +70,39 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 29 Apr 2022 16:01:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165031
+ https://lists.openembedded.org/g/openembedded-core/message/165034
 
-From: Dmitry Baryshkov <dbaryshkov@gmail.com>
+From: Henning Schild <henning.schild@siemens.com>
 
-Fix a typo in the TUNEVALID[armv8-2a]: It enables instructions for
-ARMv8.2-a, not just ARMv8-a.
+When using "msdos" partition tables and "--label" but not "--use-uuid"
+one can generate images which will not find their root, because
+PARTLABEL does not work for "msdos".
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Fix that by simply not going the PARTLABEL path in case of "msdos".
+
+Fixes: 2fb247c5ecf0 ("wic: support rootdev identified by partition label")
+Signed-off-by: Henning Schild <henning.schild@siemens.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-(cherry picked from commit 0a4404c117ef8733713962767c1d2c9f87c2c990)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 9ea1a838b946020e026edc032039552b723fcaa4)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/machine/include/arm/arch-armv8-2a.inc | 2 +-
+ scripts/lib/wic/plugins/imager/direct.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/machine/include/arm/arch-armv8-2a.inc b/meta/conf/machine/include/arm/arch-armv8-2a.inc
-index 30f2870811..95368b0af7 100644
---- a/meta/conf/machine/include/arm/arch-armv8-2a.inc
-+++ b/meta/conf/machine/include/arm/arch-armv8-2a.inc
-@@ -1,6 +1,6 @@
- DEFAULTTUNE ?= "armv8-2a"
- 
--TUNEVALID[armv8-2a] = "Enable instructions for ARMv8-a"
-+TUNEVALID[armv8-2a] = "Enable instructions for ARMv8.2-a"
- TUNE_CCARGS_MARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'armv8-2a', ' -march=armv8.2-a', '', d)}"
- # TUNE crypto will be handled by arch-armv8a.inc below
- MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv8-2a', 'armv8-2a:', '', d)}"
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index 35fff7c102..4d0b836ef6 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -259,7 +259,7 @@ class DirectPlugin(ImagerPlugin):
+             if part.mountpoint == "/":
+                 if part.uuid:
+                     return "PARTUUID=%s" % part.uuid
+-                elif part.label:
++                elif part.label and self.ptable_format != 'msdos':
+                     return "PARTLABEL=%s" % part.label
+                 else:
+                     suffix = 'p' if part.disk.startswith('mmcblk') else ''
 -- 
 2.25.1
 
