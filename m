@@ -1,114 +1,126 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80343C433F5
-	for <webhook@archiver.kernel.org>; Fri, 29 Apr 2022 11:24:27 +0000 (UTC)
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by mx.groups.io with SMTP id smtpd.web08.8756.1651231457960502857
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D868FC433F5
+	for <webhook@archiver.kernel.org>; Fri, 29 Apr 2022 11:51:37 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.9134.1651233096227147882
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Apr 2022 04:24:19 -0700
+ Fri, 29 Apr 2022 04:51:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=ih1X2f9V;
- spf=pass (domain: intel.com, ip: 192.55.52.88,
- mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651231458; x=1682767458;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=zCS0MqkZQ6Qu6pwQjjsvNo+tljLGNbIztKj57IPpzbg=;
-  b=ih1X2f9Vhnjp/8HWaRcXvz4536568BAgZdjVi0K6Z1PIB294bd81K8JZ
-   wD8QOtxUSPAWUaMjBuehqxH+iUYHZeupaeycIOrAs2u551UoUExyJpr44
-   FLD6+DQtHbQAaUI5eqkxHL8fihqBp15EPERnMyWn3r7zzkvfcNuNlwt1d
-   JzCI9ScR+JNBwK+2zbIZYGoAWG5s4Isv1I0adSdoF+rQdVgXzolt6buMf
-   f5hg7k8fRezKl31/UDNWLqIzUPdpEGWSsG1obvzq3qZCBuMri65aOJ15a
-   prnymBI5DxCN393tUYuj3P7VDDVLOyuPDEZKNKQZ+zMI2SLDeFRcTk/MA
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10331"; a="291785721"
-X-IronPort-AV: E=Sophos;i="5.91,185,1647327600";
-   d="scan'208";a="291785721"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2022 04:19:34 -0700
-X-IronPort-AV: E=Sophos;i="5.91,185,1647327600";
-   d="scan'208";a="684639250"
-Received: from fsuhimi-mobl.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com)
- ([10.215.146.39])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2022 04:19:33 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 1/1] bitbake.conf: mark all directories as safe for
- git to read
-Date: Fri, 29 Apr 2022 19:19:27 +0800
-Message-Id: 
- <7a97531169d662fe0466db5992566bcdbe3a0d5f.1651231002.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <cover.1651231002.git.anuj.mittal@intel.com>
-References: <cover.1651231002.git.anuj.mittal@intel.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RE1LQwKg;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id e2so10460249wrh.7
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 29 Apr 2022 04:51:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=+S0qjUywLSiPDxoEYl3E6bEKWTiM0jDB03LvolorymE=;
+        b=RE1LQwKgt8FKMpgb0oPTXJ7I2lHnF0l0sz2gaqHcSfz7dfp2JzBAm3DzpxzBSBZxq/
+         yTyMNu3IZyv/zU5FkbqGhwUh0TphGNap5Dl1P9eVd8jxXUvdpm4dj3/F2GkocmoFE78E
+         baS9JRRaHr7xovpDB6uU8LgKO6He95q9mEiJM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=+S0qjUywLSiPDxoEYl3E6bEKWTiM0jDB03LvolorymE=;
+        b=slb5FpDMsjg7jcPqsUQDBblZXIlfiIcSeSRLVAF9RyZwf7kCadrPb2xZR7nMdOa32a
+         qwFicNixeriFMvM5Js815wAG2gam4VGbdQPBroADqY0LEAevfImd1oajgUdnCBk/Oji2
+         WrsgFKo9ZHOqd2WI4Q+udGDRSgd8q7K0u5aFRKKgFjUGKjzEtHIRh/7JMTgU8zEaTdRE
+         CDc2SgWGiImkLZF6NSHsQ+CfGcMAyZGam5EAgJOQz5vWqnxRwKU+rpdlwTTSJp0b135k
+         xNunMk1/afr3lYdWAIZvvnxArADe73J0YmvzXCZosYSs0HXHqb7lRXx2V4JkI/Dp0DW1
+         x+qw==
+X-Gm-Message-State: AOAM530lAKhsunX2ebFnp4KJ1zJwwUV0NEpXivoR0+eeJhMr+776SyM+
+	+3U66Cx3YcivUagcj4ikYr81RA==
+X-Google-Smtp-Source: 
+ ABdhPJxo0yI3ktB2qPn1Yh0vtd0+AW7FKzOJ3OfMBB6AvcCt+9FsAGu7UWxdWadOz011S/1r6fVUNQ==
+X-Received: by 2002:a5d:5309:0:b0:20a:cee3:9e3f with SMTP id
+ e9-20020a5d5309000000b0020acee39e3fmr26780354wrv.570.1651233094535;
+        Fri, 29 Apr 2022 04:51:34 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:480b:fc7a:f316:cb3a?
+ ([2001:8b0:aba:5f3c:480b:fc7a:f316:cb3a])
+        by smtp.gmail.com with ESMTPSA id
+ g13-20020a05600c4ecd00b00393ec8be5cfsm6980981wmq.24.2022.04.29.04.51.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Apr 2022 04:51:34 -0700 (PDT)
+Message-ID: 
+ <821e6cab4677b71af00197cf2be80680d57aa4ea.camel@linuxfoundation.org>
+Subject: Re: [PATCH 00/15] kernel-yocto: consolidated pull request
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: bruce.ashfield@gmail.com
+Cc: openembedded-core@lists.openembedded.org, raj.khem@gmail.com,
+	jdmason@kudzu.us
+Date: Fri, 29 Apr 2022 12:51:32 +0100
+In-Reply-To: <cover.1651153370.git.bruce.ashfield@gmail.com>
+References: <cover.1651153370.git.bruce.ashfield@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Apr 2022 11:24:27 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Apr 2022 11:51:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165005
+ https://lists.openembedded.org/g/openembedded-core/message/165006
 
-From: Ross Burton <ross.burton@arm.com>
+On Thu, 2022-04-28 at 09:47 -0400, bruce.ashfield@gmail.com wrote:
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> 
+> Richard,
+> 
+> This is mainly a resend of the pull request that I sent just before
+> the release builds.
+> 
+> At that time, there was a ppc boot issue, which I've fixed. There was
+> also a ptest warning, which I couldn't reproduce, so let's see if it
+> pops back up on the AB.
+> 
+> There is also a known issue with some of the arm reorganization done
+> for the -tiny cleaup. Jon has been working on fixes to that series, and
+> I've cc'd him here so he can add context. It was some boot issues,
+> even in the -standard kernel for sato (last I checked).
+> 
+> The issue with the ARM changes is that they've already been pushed
+> to my repos, so everything stacks on top. If we can't get them fixed
+> shortly, I can temporarily revert and do a new patch on top.
+> 
+> Khem has also indicated that the 5.15.36 -stable has all of the changes
+> required for gcc12, so it would be a good bump to get under test.
 
-Recent git releases containing [1] have an ownership check when opening
-repositories, and refuse to open a repository if it is owned by a
-different user.
+The testing says this is mostly good with two issues. Firstly, strace ptests are
+regressing:
 
-This breaks any use of git in do_install, as that is executed by the
-(fake) root user. Whilst not common, this does happen.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/3435
+and I suspect:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/3188
+will too when it finishes.
 
-Setting the git configuration safe.directories=* disables this check, so
-that git is usable in fakeroot tasks.  This can be set globally via the
-internal environment variable GIT_CONFIG_PARAMETERS, we can't use
-GIT_CONFIG_*_KEY/VALUE as that isn't present in all the releases which
-have the ownership check.
+There was another patch causing other ptest failures so I had to do a second
+pass but I think the strace issue above is from a kernel change.
 
-We already set GIT_CEILING_DIRECTORIES to ensure that git doesn't
-recurse up out of the work directory, so this isn't a security issue.
+Secondly, qemuarm graphics fails:
 
-[1] https://github.com/git/git/commit/8959555cee7ec045958f9b6dd62e541affb7e7d9
+https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/5132
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8bed8e6993e7297bdcd68940aa0d47ef47120117)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- meta/conf/bitbake.conf | 8 ++++++++
- 1 file changed, 8 insertions(+)
+I did try adding Jon's other qemuarm patches:
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index c2cb2f0d9d..51253003fd 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -730,10 +730,18 @@ export PKG_CONFIG_DISABLE_UNINSTALLED = "yes"
- export PKG_CONFIG_SYSTEM_LIBRARY_PATH = "${base_libdir}:${libdir}"
- export PKG_CONFIG_SYSTEM_INCLUDE_PATH = "${includedir}"
- 
-+# Git configuration
-+
- # Don't allow git to chdir up past WORKDIR so that it doesn't detect the OE
- # repository when building a recipe
- export GIT_CEILING_DIRECTORIES = "${WORKDIR}"
- 
-+# Treat all directories are safe, as during fakeroot tasks git will run as
-+# root so recent git releases (eg 2.30.3) will refuse to work on repositories. See
-+# https://github.com/git/git/commit/8959555cee7ec045958f9b6dd62e541affb7e7d9 for
-+# further details.
-+export GIT_CONFIG_PARAMETERS="'safe.directory=*'"
-+
- ###
- ### Config file processing
- ###
--- 
-2.35.1
+https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/5136
+
+and it still fails. I've not looked further as yet, just reporting what the
+varoious combinations of patches in testing showed.
+
+Cheers,
+
+Richard
+
+
+
+
 
 
