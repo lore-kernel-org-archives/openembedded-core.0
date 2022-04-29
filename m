@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C665C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB389C433F5
 	for <webhook@archiver.kernel.org>; Fri, 29 Apr 2022 16:02:19 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
- [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web08.11886.1651248129935820777
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
+ [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web08.11889.1651248137989494994
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Apr 2022 09:02:10 -0700
+ Fri, 29 Apr 2022 09:02:18 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=CyIfQbOl;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180,
+ header.b=laNyuxDh;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.179,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id 15so6857670pgf.4
+Received: by mail-pg1-f179.google.com with SMTP id q12so6831436pgj.13
         for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Apr 2022 09:02:09 -0700 (PDT)
+ Fri, 29 Apr 2022 09:02:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=gANJRnufMD2gWYq2LFH2Plb67gpHF4TGvFd4vFsOEws=;
-        b=CyIfQbOlPmmnU4Z2CGfDXnQAs6dNMHxJFlRPVYU8+w5FcnvFGHwycIa0PbCCxZBIA9
-         wsGTVE0hnajjSRnM4BEfGAU2DjbluydiHy4DmSYUkiqs3dOErS3y9zi/Z6MVFTTWGefu
-         XPOJAtBLbD9vR7KeYZhtPugBmlwrIoduIHPftr/iCbR5NX53i1nsDrK7qg2+VM7yg4MA
-         wXf7zCldzrUPEeagmMoLobOISGJHtmmS7cdr9LQDhTlWoon06nLOkxDt+h901OlVRTQc
-         eiQUh26xzgL1dm/1faLUicRqlB7zsL2IyNzdE115HBPmBz3ubuF04Mra3U3nv6E+UIow
-         awLA==
+        bh=lDr4wrKCLaSuFcf/yjvUJsvf8fMdBbBDGAqfU08FWO0=;
+        b=laNyuxDhlVMV+PovTXvelwGctazpRCF3SSHVEpe6r4NsRPpuTv7qw7zAiPak6YgFQa
+         mCFdr9G68MlwK0ImyQ/+uYV9TcrLcj9WXWX/9Yob1jZ0EEOsqNZEjTt7HERBNgXqEvd2
+         +05ZACDaznX6fbF/F6cSEpbc7bls+0mbJYtDvKxFmQ8Yn5vqU945/W4p9HYLJ1Di6pBG
+         j3iLGaVn/NG1MxNQDlR7qRpfHzbH1BdLVHacVax7HG1e9q3Jt9xejqW80TIKY6U8YBaZ
+         EN5Z8Ct6jcr+CJo1rfsmh/n6RMqHQrOhCQDNqWE9Tu10afmOKpVVAW39jjQsB8Iib7JS
+         kmwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gANJRnufMD2gWYq2LFH2Plb67gpHF4TGvFd4vFsOEws=;
-        b=ersgU3REhBRNgfUC1V79Ia07YF3BaGlGYALO1aHvDUg+dSGQef9PgzlWiM39nck/IS
-         c0IjmcBennya77r2cIB/kvfyPxWAUuvTj487ip6DwOqUi+G0jRa9FHo8K+vgbCNL4zgo
-         Vhy1nOFPsSEJNWTqZv+WZQxFuhVIKP50S06yDVWPcHaDTX1A2TXrUoupDBhdSvPnkK9v
-         QCgyO+wTxxhSHaZvLX24zQli6y6SyQkkbso4EXe5Vs/OVS3fagLrf2KgiUv5cpyJ5A0d
-         DQkfqQzy45OTFNTH70NCfi9pmodynIuYmQDCt9cy37sI8clf59R9jiS5uDzOBtb0mPFg
-         9oEw==
-X-Gm-Message-State: AOAM530QJyHUGgJBVd4c9LrBMEuCghIseDMAoG0PylBCbds+s0cF11WB
-	qP7mP8PrDBWjhgtwocLhF0EVh2jveEyRZuQzpVQ=
+        bh=lDr4wrKCLaSuFcf/yjvUJsvf8fMdBbBDGAqfU08FWO0=;
+        b=DWdpJmry54k8nmF1hTh7iv4BQd3GypHBW3irFwQDv9mjvfJ1e/NC5EN9mOAUlySC9d
+         x4HYkFJJQ4Luy79kALLlYnYuKvTVXhVuotaaTMHBNcNupbQyvk5xSDcgmwJQtXjwG0vQ
+         VdmQHcq7JgtlLE2GTHLBvoZ64pADEe5aSULprmr7Mn7loemrDBBXPqxMOXjlJORMxNke
+         ClrMr25QgtwQVscJt24sxcXJh8UOG5UpUPUZFyKGLIOfHriRYAAhfc+IZS4NIOJBVH03
+         gUiXn/x0BGGTWZuWuh794z96km1qc/FL9d86S/XsHCoIx+7oF6e21jjiSDwkiD4eJdeP
+         MyQQ==
+X-Gm-Message-State: AOAM532FCHJ5BgwtjXz2ANnd6m/P1RDgRtumBA85ofoo3Q4xTahctZri
+	LbQBbD+0lbvMLJNTsYS1II4rhd+CcNkRV3tTpqk=
 X-Google-Smtp-Source: 
- ABdhPJxG64ydNpN3vdzx2nu905KDzSCMDEFw34B/AVpUZlwCVw3KOgnQFm+q80ib5i1yYE6yBSenXg==
-X-Received: by 2002:a65:4789:0:b0:3a2:4866:dc48 with SMTP id
- e9-20020a654789000000b003a24866dc48mr64420pgs.87.1651248128563;
-        Fri, 29 Apr 2022 09:02:08 -0700 (PDT)
+ ABdhPJxySOzneeEmZPV/YuClEyuMUD5LDsVhEhIj3E8sisXwpw5jTxMryMiOEs7Gt3abN5/LDS7IBg==
+X-Received: by 2002:a63:8548:0:b0:3aa:fc6b:a36c with SMTP id
+ u69-20020a638548000000b003aafc6ba36cmr56432pgd.267.1651248136623;
+        Fri, 29 Apr 2022 09:02:16 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- i3-20020a056a00224300b0050d32f838e1sm3486125pfu.21.2022.04.29.09.02.06
+ i3-20020a056a00224300b0050d32f838e1sm3486125pfu.21.2022.04.29.09.02.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 09:02:07 -0700 (PDT)
+        Fri, 29 Apr 2022 09:02:15 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 19/34] gstreamer1.0-plugins-good: Fix libsoup
- dependency
-Date: Fri, 29 Apr 2022 06:00:38 -1000
+Subject: [OE-core][kirkstone 22/34] terminal.py: Restore error output from
+ Terminal
+Date: Fri, 29 Apr 2022 06:00:41 -1000
 Message-Id: 
- <5820e01f5b1f9ac5f1a803820258e92e7214ad31.1651246310.git.steve@sakoman.com>
+ <f8f8e2e159a5ac03f619e6d0882011445e6a2545.1651246310.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1651246310.git.steve@sakoman.com>
 References: <cover.1651246310.git.steve@sakoman.com>
@@ -70,37 +70,40 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 29 Apr 2022 16:02:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165038
+ https://lists.openembedded.org/g/openembedded-core/message/165041
 
-From: Carlos Rafael Giani <crg7475@mailbox.org>
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
+In bitbake commit 1ecc1d94 (process: Do not mix stderr with stdout),
+bb.process.Popen() was changed to no longer combine stdout and stderr by
+default. However, the Terminal class was not updated to reflect this and
+subsequently only output stdout in case of failures.
+
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7f66a3123c9ce77e9af538009fc51bf190703433)
+(cherry picked from commit 116d0bb07ba044cf8847bf3d5c3996ad7e58b7ae)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../gstreamer/gstreamer1.0-plugins-good_1.20.1.bb          | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ meta/lib/oe/terminal.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.1.bb
-index 08ff5a0bb5..1f61d9a10e 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.1.bb
-@@ -49,7 +49,12 @@ PACKAGECONFIG[libv4l2]    = "-Dv4l2-libv4l2=enabled,-Dv4l2-libv4l2=disabled,v4l-
- PACKAGECONFIG[mpg123]     = "-Dmpg123=enabled,-Dmpg123=disabled,mpg123"
- PACKAGECONFIG[pulseaudio] = "-Dpulse=enabled,-Dpulse=disabled,pulseaudio"
- PACKAGECONFIG[qt5]        = "-Dqt5=enabled,-Dqt5=disabled,qtbase qtdeclarative qtbase-native ${QT5WAYLANDDEPENDS}"
--PACKAGECONFIG[soup]       = "-Dsoup=enabled,-Dsoup=disabled,libsoup-2.4"
-+# Starting with version 1.20, the GStreamer soup plugin loads libsoup with dlopen()
-+# instead of linking to it. And instead of using the default libsoup C headers, it
-+# uses its own stub header. Consequently, objdump will not show the libsoup .so as
-+# a dependency, and libsoup won't be added to an image. Fix this by setting libsoup
-+# as RDEPEND instead of DEPEND.
-+PACKAGECONFIG[soup]       = "-Dsoup=enabled,-Dsoup=disabled,,libsoup-2.4"
- PACKAGECONFIG[speex]      = "-Dspeex=enabled,-Dspeex=disabled,speex"
- PACKAGECONFIG[rpi]        = "-Drpicamsrc=enabled,-Drpicamsrc=disabled,userland"
- PACKAGECONFIG[taglib]     = "-Dtaglib=enabled,-Dtaglib=disabled,taglib"
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index 53186c4a3e..de8dcebf94 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -30,9 +30,10 @@ class Registry(oe.classutils.ClassRegistry):
+ 
+ class Terminal(Popen, metaclass=Registry):
+     def __init__(self, sh_cmd, title=None, env=None, d=None):
++        from subprocess import STDOUT
+         fmt_sh_cmd = self.format_command(sh_cmd, title)
+         try:
+-            Popen.__init__(self, fmt_sh_cmd, env=env)
++            Popen.__init__(self, fmt_sh_cmd, env=env, stderr=STDOUT)
+         except OSError as exc:
+             import errno
+             if exc.errno == errno.ENOENT:
 -- 
 2.25.1
 
