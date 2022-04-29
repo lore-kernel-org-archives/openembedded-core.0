@@ -1,175 +1,200 @@
-Return-Path: <rahul.kumar_3@philips.com>
+Return-Path: <jiaqing.zhao@linux.intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96B55C433EF
-	for <webhook@archiver.kernel.org>; Fri, 29 Apr 2022 04:32:44 +0000 (UTC)
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
- (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.125])
- by mx.groups.io with SMTP id smtpd.web08.6415.1651206756330479722
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2231C433EF
+	for <webhook@archiver.kernel.org>; Fri, 29 Apr 2022 04:37:14 +0000 (UTC)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by mx.groups.io with SMTP id smtpd.web10.6561.1651207025680458152
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Apr 2022 21:32:37 -0700
+ Thu, 28 Apr 2022 21:37:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@philips.onmicrosoft.com
- header.s=selector2-philips-onmicrosoft-com header.b=RK9IKMuT;
- spf=pass (domain: code1.emi.philips.com, ip: 40.107.15.125,
- mailfrom: rahulkumar@code1.emi.philips.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d77hfSwUPXJyaq3UJSLPm/2lsvqRMZRLy5/siFe75i/nJQZ/CYIJ95fhA8H5jzR8rEnvMKgv54yQdPoUc7xJ7eJC9WbKWpJB+0HsgMd6sDexjYAasBSKLnZ2bhAGPwIzO2i87i4A2AKS8/zsjwFVqMIaP0x0bnmXOVo1eZkXfVc1hyg+XRCwkeEFkGG0k4aw25/wg2do/LD/9sne78sneyI3lIw4PzwawwXqCfVWjoN6vVV7NjOWRr6wF7yRb5bt+Ttcov4Dv91zOurUBKya5a+3f3rdmgEmi/vUGrISM1LrXuvagDmpLukkkyUo5pQcYAitFm4i8XbDGXV1U9MMfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2xN0bv1oNiUu8nCz6yyy4AaXbmZfjaamRjfMO0DF9OQ=;
- b=OADhA+RGmpigqijLGv97IASikIQsvpUDzOG+YZqyN0iLiy6TwOj+d+jFOZHau96MzpWQBwhJDpF1fZmr2JvU1jePq5NmzA1tNhS+xTE56GfpY9alLDHmW4eq8wAXFMCRKKpRDN93sgwvchfrgLZgnaB4eCqAgZ6XnqgpQDqlZpiiIu52/CKaLm2Wa911KvEU8EECdXrVidfUEDajkfP1Xo7zbzu7CyW1NdcAV9E/2scBr9dVnckkBGUmoyy4XQMjNbAVqJPgXGJ03L8a0y2Dy7R+Z33C5AUVBDUGgH77Av/FFTnG9xEfEouWRMDlwGb0ty2yirHIP940UKxjQSc4JQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 18.136.170.117) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=code1.emi.philips.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=code1.emi.philips.com; dkim=none (message not
- signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Philips.onmicrosoft.com; s=selector2-Philips-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2xN0bv1oNiUu8nCz6yyy4AaXbmZfjaamRjfMO0DF9OQ=;
- b=RK9IKMuTydEaSN1LQ1x5Bo0hagAoyLjgg8nK9fYjqDTg7mFzenejpQj14qGzoz33+GWGPsTAoSf6zOgDxM3k99amC94/HYV9SW5ayuAGcwLbxj/2yGQ72IzKUyHCH+HqGV0qSWtM3bBYe39cbSPRaSAM3DMUKf2wPPe1SPokK/s=
-Received: from AM6P191CA0020.EURP191.PROD.OUTLOOK.COM (2603:10a6:209:8b::33)
- by AM6P122MB0103.EURP122.PROD.OUTLOOK.COM (2603:10a6:209:71::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Fri, 29 Apr
- 2022 04:32:33 +0000
-Received: from VE1EUR01FT083.eop-EUR01.prod.protection.outlook.com
- (2603:10a6:209:8b:cafe::41) by AM6P191CA0020.outlook.office365.com
- (2603:10a6:209:8b::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14 via Frontend
- Transport; Fri, 29 Apr 2022 04:32:32 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 18.136.170.117)
- smtp.mailfrom=code1.emi.philips.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=code1.emi.philips.com;
-Received-SPF: Pass (protection.outlook.com: domain of code1.emi.philips.com
- designates 18.136.170.117 as permitted sender)
- receiver=protection.outlook.com; client-ip=18.136.170.117;
- helo=ext-asp1.smtp.philips.com;
-Received: from ext-asp1.smtp.philips.com (18.136.170.117) by
- VE1EUR01FT083.mail.protection.outlook.com (10.152.3.59) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5206.12 via Frontend Transport; Fri, 29 Apr 2022 04:32:31 +0000
-Received: from smtprelay-asp1.philips.com ([161.92.84.252])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 256/256 bits)
-	(Client did not present a certificate)
-	by ext-asp1.smtp.philips.com with ESMTP
-	id kI3nn9dFCG2CYkI4unA8zj; Fri, 29 Apr 2022 04:18:00 +0000
-Received: from ingbtcpic6lx242.in-101.lan.philips.com ([161.85.103.234])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 256/256 bits)
-	(Client did not present a certificate)
-	by smtprelay-asp1.philips.com with ESMTPA
-	id kIIVnB6fuOM31kIIxn9XNC; Fri, 29 Apr 2022 04:32:31 +0000
-X-CLAM-Verdict: legit
-X-CLAM-Score: ??
-X-CLAM-Description: ??
-From: Rahul Kumar <rahulkumar@code1.emi.philips.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [warrior][PATCH] neard: Switch SRC_URI to git repo
-Date: Fri, 29 Apr 2022 15:31:59 +0530
-Message-ID: <20220429100159.2196288-1-rahulkumar@code1.emi.philips.com>
-X-Mailer: git-send-email 2.25.1
-Reply-To: rahul.kumar_3@philips.com
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=n2TLkYxl;
+ spf=none, err=permanent DNS error (domain: linux.intel.com,
+ ip: 134.134.136.31, mailfrom: jiaqing.zhao@linux.intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651207025; x=1682743025;
+  h=message-id:date:mime-version:subject:to:references:from:
+   in-reply-to:content-transfer-encoding;
+  bh=Hd1kwGuJYGfQh5JfR/zB82keOqOnw+iLk43NhTrn6+A=;
+  b=n2TLkYxlXRd4o8OeqNAhX/nFr94kyPbAYfHERHkX/Catnw6NaOvcp/ay
+   BiFLP/8dIc0Z8v2vwkOmEL6VxlRtYpEoVp3uiP72zKGDR6ncf4opfdDoL
+   JT00fFoMDMJAdsEzZLIqKDPGGl6EcVTjkMbiog20v7D5nlb3bjmnh7g5p
+   qy7VSXaxvmauyRVbMJyI5x1wbgyViIr03K5GCxgHaLNGXOfqWribhYk0T
+   bazFy5vCQOIC6si84nLclDXoeo25qFrZZI+VF0SomNV/Wf7cO/a6B4K6n
+   9SMbdQrpD2DvpbEFCqu4qRRe6rf8Ib77ysSQIoXF6GzD4WdOJs315c6K5
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10331"; a="327021047"
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600";
+   d="scan'208";a="327021047"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2022 21:37:04 -0700
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600";
+   d="scan'208";a="534290182"
+Received: from jiaqingz-mobl.ccr.corp.intel.com (HELO [10.249.171.110])
+ ([10.249.171.110])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2022 21:37:04 -0700
+Message-ID: <c499f0d9-e2ba-0594-4a66-e3db13cb20fd@linux.intel.com>
+Date: Fri, 29 Apr 2022 12:37:01 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 6f78f9c7-1061-4a70-f7d3-08da299946d7
-X-MS-TrafficTypeDiagnostic: AM6P122MB0103:EE_
-X-Microsoft-Antispam-PRVS: 
-	<AM6P122MB010384458F96587BA95262EA9DFC9@AM6P122MB0103.EURP122.PROD.OUTLOOK.COM>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	McJN4Nuszu1rlNiPJ7sBQFznwZ9jAFP9e0B0aj4/RAUUkVq/njtSxuLmhjnyQWDLE8skDosPuDwceQLTOuLLhDh39M0wJvbmR6Kkyp0Ew7bjT90diPi+uNe17nZGSp+QL7g5eQn8eXHIE8+JxhTatpQ/05rM/nOdjb7kdsCrbbIUgv0GE5TwhTvKTbjcR2hIlkFr8yjVupWs1GPfQ+QJ5aZsUGJPvcIO7ehoDyScGJ1KBOvokOMdmg0YW3Cy3+1/jFLTneTE041FkiRtTYGkKwHPdcouVtWrnbvrRw5v3yZtdx3oC04hp+QEqRWTpQaB9BH2g+C1oX/brvAY1FSj0ensSSejQh1wE4CNNhPpIWpwkg81M7koz765CVMStyYLawzg/Xk0ZCMFrJgs7hE7CpQUdY1C3yEtrVmnQEYHcAXcRZ4hzV8fevYCx64i5dZ9zWhAAD8XKGjkvLAGO49Ocb5NAmxCI3wLSDim17EWsz+UseTLpMBkVRQoEFrm2dselb8tH+ejv8adLhKZfRuKO6Bp9B6sGs0TGvn1EJujG1KSwOjBIW+dPeKfiddT5FCN+l3GEw+hxJzLAflbxTe7GxhXkl3PT61HfGLvdx+lVZqb76mP+YimOJVEGgJjasuKESYjDj3v3f80UqOZxC+DfQdY/bQjw0lfb0hs3llJ4JDV5Zrejz2Gs+9mhG+Kpi0gHLTvsOIv1IRtb4cLbZLE+wSDrynYp7xX3ldE8DJWgK7wLQX5ih2/TW9jS6px8tTQXu298gcQsKbxBsaWzXtCvw==
-X-Forefront-Antispam-Report: 
-	CIP:18.136.170.117;CTRY:SG;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:ext-asp1.smtp.philips.com;PTR:ec2-18-136-170-117.ap-southeast-1.compute.amazonaws.com;CAT:NONE;SFS:(13230001)(4636009)(46966006)(36840700001)(40470700004)(70586007)(2616005)(70206006)(36860700001)(47076005)(83380400001)(5660300002)(81166007)(316002)(956004)(336012)(1076003)(2906002)(26005)(40460700003)(8936002)(186003)(8676002)(82960400001)(6666004)(356005)(508600001)(6916009)(966005)(86362001)(82310400005);DIR:OUT;SFP:1102;
-X-OriginatorOrg: code1.emi.philips.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2022 04:32:31.6796
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 6f78f9c7-1061-4a70-f7d3-08da299946d7
-X-MS-Exchange-CrossTenant-Id: 1a407a2d-7675-4d17-8692-b3ac285306e4
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
- TenantId=1a407a2d-7675-4d17-8692-b3ac285306e4;Ip=[18.136.170.117];Helo=[ext-asp1.smtp.philips.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	VE1EUR01FT083.eop-EUR01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6P122MB0103
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [OE-core] [PATCH v2] base-passwd: Disable shell for default users
+Content-Language: en-US
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20220428094932.1411461-1-jiaqing.zhao@linux.intel.com>
+ <f8b6dac873114d92985ac907c1c7e088@axis.com>
+From: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+In-Reply-To: <f8b6dac873114d92985ac907c1c7e088@axis.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Apr 2022 04:32:44 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Apr 2022 04:37:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/164987
+ https://lists.openembedded.org/g/openembedded-core/message/164988
 
-From: Rahul Kumar <rahul.kumar_3@philips.com>
+On 2022-04-28 21:34, Peter Kjellerstedt wrote:
+>> -----Original Message-----
+>> From: openembedded-core@lists.openembedded.org <openembedded-
+>> core@lists.openembedded.org> On Behalf Of Jiaqing Zhao
+>> Sent: den 28 april 2022 11:50
+>> To: openembedded-core@lists.openembedded.org
+>> Cc: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+>> Subject: [OE-core] [PATCH v2] base-passwd: Disable shell for default users
+>>
+>> Change the shell of all global static users other than root (which
+>> retains /bin/sh) and sync (as /bin/sync is rather harmless) to
+>> /sbin/nologin (as /usr/sbin/nologin does not exist in openembedded)
+>>
+>> Upstream-Status: Backport [https://launchpad.net/ubuntu/+source/base-passwd/3.5.30]
+> 
+> Since Kirkstone is out the door, is there any reason to not update 
+> the version of base-passwd instead?
+> 
+> //Peter
 
-The tarball (neard-0.16.tar.xz) fetched by the recipe is incomplete.
-Few plugins (e.g. tizen) and tests scripts (e.g. Test-channel, test-see,
-neard-ui.py, ndef-agent etc) are missing.
+The reason is that since base-passwd 3.5.30, it switches to dh-autoreconf instead of autoconf to configure
 
-Since neard did not release latest tarballs, so as per community
-recommendation switching the recipe SRC_URI to git repo.
+Changelog: https://launchpad.net/ubuntu/+source/base-passwd/3.5.30
+>  [ Colin Watson ]
+>  * Remove config.h.in and configure, now autogenerated by dh-autoreconf.
 
-Community Discussion:
-https://lists.openembedded.org/g/openembedded-core/topic/90058043#163681
+Since openembedded does not have the Debian toolchain, this recipe is marked NO UPDATE with reason "Version 3.5.38 requires cdebconf for update-passwd utility". 
+https://github.com/openembedded/openembedded-core/blob/master/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb#L8
 
-Signed-off-by: Rahul Kumar <rahul.kumar_3@philips.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
- (cherry-picked from b563f40ebf4461d9c35df72bd7599ea11e97da9c)
-Signed-off-by: Rahul Kumar <rahul.kumar_3@philips.com>
----
- meta/recipes-connectivity/neard/neard_0.16.bb | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+Jiaqing
 
-diff --git a/meta/recipes-connectivity/neard/neard_0.16.bb b/meta/recipes-c=
-onnectivity/neard/neard_0.16.bb
-index cc6af4e1ca..769fda8c19 100644
---- a/meta/recipes-connectivity/neard/neard_0.16.bb
-+++ b/meta/recipes-connectivity/neard/neard_0.16.bb
-@@ -2,21 +2,22 @@ SUMMARY =3D "Linux NFC daemon"
- DESCRIPTION =3D "A daemon for the Linux Near Field Communication stack"
- HOMEPAGE =3D "http://01.org/linux-nfc"
- LICENSE =3D "GPLv2"
-+LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D12f884d2ae1ff87c09e5b7ccc2c4ca7=
-e \
-+                    file://src/near.h;beginline=3D1;endline=3D20;md5=3D358=
-e4deefef251a4761e1ffacc965d13 \
-+                   "
-=20
- DEPENDS =3D "dbus glib-2.0 libnl"
-=20
--SRC_URI =3D "${KERNELORG_MIRROR}/linux/network/nfc/${BP}.tar.xz \
-+SRC_URI =3D "git://git.kernel.org/pub/scm/network/nfc/neard.git;protocol=
-=3Dgit;branch=3Dmaster \
-            file://neard.in \
-            file://Makefile.am-fix-parallel-issue.patch \
-            file://Makefile.am-do-not-ship-version.h.patch \
-            file://0001-Add-header-dependency-to-nciattach.o.patch \
-           "
--SRC_URI[md5sum] =3D "5c691fb7872856dc0d909c298bc8cb41"
--SRC_URI[sha256sum] =3D "eae3b11c541a988ec11ca94b7deab01080cd5b58cfef3ced6c=
-eac9b6e6e65b36"
-=20
--LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D12f884d2ae1ff87c09e5b7ccc2c4ca7=
-e \
-- file://src/near.h;beginline=3D1;endline=3D20;md5=3D358e4deefef251a4761e1f=
-facc965d13 \
-- "
-+SRCREV =3D "949795024f7625420e93e288c56e194cb9a3e74a"
-+
-+S =3D "${WORKDIR}/git"
-=20
- inherit autotools pkgconfig systemd update-rc.d bluetooth
-=20
---=20
-2.25.1
-
+> 
+>> Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+>> ---
+>> v2:
+>> Fix indentation in bbfile.
+>> ---
+>>  .../base-passwd/disable-shell.patch           | 57 +++++++++++++++++++
+>>  .../base-passwd/base-passwd_3.5.29.bb         |  1 +
+>>  2 files changed, 58 insertions(+)
+>>  create mode 100644 meta/recipes-core/base-passwd/base-passwd/disable-
+>> shell.patch
+>>
+>> diff --git a/meta/recipes-core/base-passwd/base-passwd/disable-shell.patch
+>> b/meta/recipes-core/base-passwd/base-passwd/disable-shell.patch
+>> new file mode 100644
+>> index 0000000000..dddc93ca35
+>> --- /dev/null
+>> +++ b/meta/recipes-core/base-passwd/base-passwd/disable-shell.patch
+>> @@ -0,0 +1,57 @@
+>> +From 91e0db96741359173ddf2be083aafcc1a3c32472 Mon Sep 17 00:00:00 2001
+>> +From: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+>> +Date: Mon, 18 Apr 2022 11:22:43 +0800
+>> +Subject: [PATCH] Disable shell for default users
+>> +
+>> +Change the shell of all global static users other than root (which
+>> +retains /bin/sh) and sync (as /bin/sync is rather harmless) to
+>> +/sbin/nologin (as /usr/sbin/nologin does not exist in openembedded)
+>> +
+>> +Upstream-Status: Backport [https://launchpad.net/ubuntu/+source/base-
+>> passwd/3.5.30]
+>> +Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+>> +---
+>> + passwd.master | 32 ++++++++++++++++----------------
+>> + 1 file changed, 16 insertions(+), 16 deletions(-)
+>> +
+>> +diff --git a/passwd.master b/passwd.master
+>> +index e1c32ff..0cd5ffd 100644
+>> +--- a/passwd.master
+>> ++++ b/passwd.master
+>> +@@ -1,18 +1,18 @@
+>> + root::0:0:root:/root:/bin/sh
+>> +-daemon:*:1:1:daemon:/usr/sbin:/bin/sh
+>> +-bin:*:2:2:bin:/bin:/bin/sh
+>> +-sys:*:3:3:sys:/dev:/bin/sh
+>> ++daemon:*:1:1:daemon:/usr/sbin:/sbin/nologin
+>> ++bin:*:2:2:bin:/bin:/sbin/nologin
+>> ++sys:*:3:3:sys:/dev:/sbin/nologin
+>> + sync:*:4:65534:sync:/bin:/bin/sync
+>> +-games:*:5:60:games:/usr/games:/bin/sh
+>> +-man:*:6:12:man:/var/cache/man:/bin/sh
+>> +-lp:*:7:7:lp:/var/spool/lpd:/bin/sh
+>> +-mail:*:8:8:mail:/var/mail:/bin/sh
+>> +-news:*:9:9:news:/var/spool/news:/bin/sh
+>> +-uucp:*:10:10:uucp:/var/spool/uucp:/bin/sh
+>> +-proxy:*:13:13:proxy:/bin:/bin/sh
+>> +-www-data:*:33:33:www-data:/var/www:/bin/sh
+>> +-backup:*:34:34:backup:/var/backups:/bin/sh
+>> +-list:*:38:38:Mailing List Manager:/var/list:/bin/sh
+>> +-irc:*:39:39:ircd:/var/run/ircd:/bin/sh
+>> +-gnats:*:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh
+>> +-nobody:*:65534:65534:nobody:/nonexistent:/bin/sh
+>> ++games:*:5:60:games:/usr/games:/sbin/nologin
+>> ++man:*:6:12:man:/var/cache/man:/sbin/nologin
+>> ++lp:*:7:7:lp:/var/spool/lpd:/sbin/nologin
+>> ++mail:*:8:8:mail:/var/mail:/sbin/nologin
+>> ++news:*:9:9:news:/var/spool/news:/sbin/nologin
+>> ++uucp:*:10:10:uucp:/var/spool/uucp:/sbin/nologin
+>> ++proxy:*:13:13:proxy:/bin:/sbin/nologin
+>> ++www-data:*:33:33:www-data:/var/www:/sbin/nologin
+>> ++backup:*:34:34:backup:/var/backups:/sbin/nologin
+>> ++list:*:38:38:Mailing List Manager:/var/list:/sbin/nologin
+>> ++irc:*:39:39:ircd:/var/run/ircd:/sbin/nologin
+>> ++gnats:*:41:41:Gnats Bug-Reporting System
+>> (admin):/var/lib/gnats:/sbin/nologin
+>> ++nobody:*:65534:65534:nobody:/nonexistent:/sbin/nologin
+>> +--
+>> +2.32.0
+>> +
+>> diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+>> b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+>> index 9a27ad3ab5..ef7792ae49 100644
+>> --- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+>> +++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+>> @@ -14,6 +14,7 @@ SRC_URI =
+>> "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
+>>             file://input.patch \
+>>             file://disable-docs.patch \
+>>             file://kvm.patch \
+>> +           file://disable-shell.patch \
+>>             "
+>>
+>>  SRC_URI[md5sum] = "6beccac48083fe8ae5048acd062e5421"
+>> --
+>> 2.34.1
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#164947): https://lists.openembedded.org/g/openembedded-core/message/164947
+> Mute This Topic: https://lists.openembedded.org/mt/90749534/6787970
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [jiaqing.zhao@linux.intel.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
