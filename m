@@ -1,207 +1,106 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 417A6C433F5
-	for <webhook@archiver.kernel.org>; Sat, 30 Apr 2022 04:26:45 +0000 (UTC)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com
- [209.85.128.179])
- by mx.groups.io with SMTP id smtpd.web09.18971.1651292803316273981
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C830AC433EF
+	for <webhook@archiver.kernel.org>; Sat, 30 Apr 2022 13:28:48 +0000 (UTC)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
+ [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web10.22452.1651325320747574981
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Apr 2022 21:26:43 -0700
+ Sat, 30 Apr 2022 06:28:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=cDDtvbJu;
- spf=pass (domain: gmail.com, ip: 209.85.128.179,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-yw1-f179.google.com with SMTP id
- 00721157ae682-2f16645872fso103395887b3.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=WjUP3T1f;
+ spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f43.google.com with SMTP id o69so7920800pjo.3
         for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Apr 2022 21:26:43 -0700 (PDT)
+ Sat, 30 Apr 2022 06:28:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gEsFcqPxbbGB0Ek0utqPSPCzzrtRsPWmE0/VntNgYBE=;
-        b=cDDtvbJuphM32lMjWSue57hZHf7eEN8nOGZK3/bI8RoWnGZWtfS94Qu3EfNVMuQIL5
-         tygUJRF0Or8IYsG84YV7j7f406h+gH5sfK2/tUZye5r0izJaGlbVuUcsQ2VkfZX7Bkcr
-         1stFABRkwgW0TjopzB7VQ/3UwLarBCPdHZ6q3Nd+IeKsd7Ek/8vcriCsK7QDZmVFMS4u
-         Su824sbAlmsM8NwwMUA99KVu2UxvxekzrtPtwJTl2yGyk3ndDCyVTPuipXWDEw6Nbkot
-         Edoj5p3ysHLJDhDS/In9u+xZ6jQx15t0cZYSXf3XoVmEeuydbf2WbysoGze8CbHRyJoI
-         8scg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Bua2/FG5kMASSfQOAOLHtoUlgY17rQCMw+IJrpt/LeE=;
+        b=WjUP3T1fher07B95u4m2GjuWZ8f5gavM/Yx7aPS9YCXibGIcG5Euk2qPpWAYD2GA4Q
+         d3v4fcGS419Cca+jJU9mYmoytvGiWKxGJGi9IDUsdpwDaWQLyOKDHkkbkWOKu6qnCbg/
+         dWYrolgOq+WGVHWvQ4GwSDmbX6YmrWAY/ZNn+YdRueTQe49le5nWW1nr8TPZLKPMRG6U
+         TgR6uGRPhfHeScLDBakejDJAptnpLzMu0K4h8+CLo9nRPpxtMlSTD8sB+6T/XJw2wN1Z
+         lnwPvUHNVl7ht16bOd2x8aAW8FbfV/JXG/cbjgdMXsMEuNteQ5yZa9JzzwVBywHtuMWi
+         /CTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gEsFcqPxbbGB0Ek0utqPSPCzzrtRsPWmE0/VntNgYBE=;
-        b=Udr4VnaoQNNXGYlFQVc3Z8Wn3a02jVepQUK4CRV9BQ7s6l8YNzaK1mZg851C02Znov
-         lS/rTuEBHHY9KAzuPDZ92nH3TSkNkEfPs5UPuCPrMb3mDYV+u6TtgRlORCbRgYKC9qwM
-         Lnul7ySMgXAN5dBMTFJTctvnW5Loek/nOWRpa4gORY5U/DB9ptB8H/pXSLTTHPMaEwMN
-         UBKRXXd5wNUVKmORu6/3nQ7m1kc2Eejh2A178AsOIrNpoPPPRpmW4MK0RdExSMxr+l4w
-         NBFu/jQo3vljvJILHpM6XWYXj7+ZcRy3VJUuC9iUQupp5DP+kVVvf1jY5bEN3EwQhM5q
-         sGag==
-X-Gm-Message-State: AOAM530r5xTYa6LRw+htaI2jT+Tf8CekX826hRFvaPaV4bNCVdSeg3PR
-	T3MpprEowol2kErD1bH2L1BZCeziBkzCNkT4aSM=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Bua2/FG5kMASSfQOAOLHtoUlgY17rQCMw+IJrpt/LeE=;
+        b=ixxLLOjuxta7btrKQmvG0eVMlOYgV5mXsfSrJXWqbzbsF/JI2+6CLFbVYlDkhFL9AZ
+         mAGb0jWvNwVxKfOTj/hR9yuGeRgpGq7XUO2txabYcf9Wi+ZVxKVbo2tqLYP2MU54gJxP
+         XbcRd9KLqqK/SlbVkTkRfRBvzg/Ir1JpjsolnYyHZFd1nAkyvbb83C3I7hCE7lNc+0kI
+         lfTCQ4bvFnQH834CNp2QKveAULX/FFp+onSRaQbETgC0K0+ei+5O/M39dqW8KfGdjIIp
+         AWHDpggsBEMkWdWGG1wd86gJW6l6myyJqX3Y0JKsoxjwF6B887YgzmpociI/o3X555UE
+         Ua1g==
+X-Gm-Message-State: AOAM532Y55OuUjQtUZiSXiFvtrQilfYOQO8DAYT7sCVGhHLfM45FdUIJ
+	qqaKGfl2u7bRqXxXfDJXIeFZMH7+IuUmlg==
 X-Google-Smtp-Source: 
- ABdhPJwBSGNBD8JLVxIO4WHLunNWw+PP3Lb2CR1fMaU7vd6A/w6JS5IlyeXlF/4DMG5+/RM7U16TSnvC3XEtOC7nwTg=
-X-Received: by 2002:a0d:f406:0:b0:2f4:e5c2:90f0 with SMTP id
- d6-20020a0df406000000b002f4e5c290f0mr2517645ywf.407.1651292802443; Fri, 29
- Apr 2022 21:26:42 -0700 (PDT)
+ ABdhPJzjS0f2ZfSRuTJ8iiZWxQy9dDYRaxL7RhdASlKoLJkZnxRXI0VlXmm/60hiSFdERdiXjUypXQ==
+X-Received: by 2002:a17:90b:1e4e:b0:1da:3931:951 with SMTP id
+ pi14-20020a17090b1e4e00b001da39310951mr4153759pjb.231.1651325319766;
+        Sat, 30 Apr 2022 06:28:39 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::2ca3])
+        by smtp.gmail.com with ESMTPSA id
+ v21-20020a634655000000b003c14af50645sm8006313pgk.93.2022.04.30.06.28.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Apr 2022 06:28:39 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>
+Subject: [PATCH] linux-yocto: Enable powerpc-debug fragment for ppc64 LE
+Date: Sat, 30 Apr 2022 06:28:36 -0700
+Message-Id: <20220430132836.1034892-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-References: <cover.1651153370.git.bruce.ashfield@gmail.com>
- <821e6cab4677b71af00197cf2be80680d57aa4ea.camel@linuxfoundation.org>
- <16EA5E7263695663.11702@lists.openembedded.org>
- <16EA76835C38B7CA.4798@lists.openembedded.org>
-In-Reply-To: <16EA76835C38B7CA.4798@lists.openembedded.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sat, 30 Apr 2022 00:26:31 -0400
-Message-ID: 
- <CADkTA4P2agP4r-9Ds1w=qOOdgi-0ZjeWDwqr1NHkX--VyY-BcA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 00/15] kernel-yocto: consolidated pull request
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>,
-	Jon Mason <jdmason@kudzu.us>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 30 Apr 2022 04:26:45 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 30 Apr 2022 13:28:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165067
+ https://lists.openembedded.org/g/openembedded-core/message/165068
 
-On Fri, Apr 29, 2022 at 4:02 PM Bruce Ashfield via
-lists.openembedded.org
-<bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
->
-> On Fri, Apr 29, 2022 at 8:41 AM Bruce Ashfield via
-> lists.openembedded.org
-> <bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
-> >
-> > On Fri, Apr 29, 2022 at 7:51 AM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >
-> > > On Thu, 2022-04-28 at 09:47 -0400, bruce.ashfield@gmail.com wrote:
-> > > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > > >
-> > > > Richard,
-> > > >
-> > > > This is mainly a resend of the pull request that I sent just before
-> > > > the release builds.
-> > > >
-> > > > At that time, there was a ppc boot issue, which I've fixed. There was
-> > > > also a ptest warning, which I couldn't reproduce, so let's see if it
-> > > > pops back up on the AB.
-> > > >
-> > > > There is also a known issue with some of the arm reorganization done
-> > > > for the -tiny cleaup. Jon has been working on fixes to that series, and
-> > > > I've cc'd him here so he can add context. It was some boot issues,
-> > > > even in the -standard kernel for sato (last I checked).
-> > > >
-> > > > The issue with the ARM changes is that they've already been pushed
-> > > > to my repos, so everything stacks on top. If we can't get them fixed
-> > > > shortly, I can temporarily revert and do a new patch on top.
-> > > >
-> > > > Khem has also indicated that the 5.15.36 -stable has all of the changes
-> > > > required for gcc12, so it would be a good bump to get under test.
-> > >
-> > > The testing says this is mostly good with two issues. Firstly, strace ptests are
-> > > regressing:
-> > >
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/3435
-> > > and I suspect:
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/3188
-> > > will too when it finishes.
-> > >
-> > > There was another patch causing other ptest failures so I had to do a second
-> > > pass but I think the strace issue above is from a kernel change.
-> >
-> > I'll see about running the strace locally today. Hopefully it pops up
-> > here so I can debug.
->
-> FYI: I have the landlock test case passing here, there's just an
-> output difference from the kernel. The test is passing.
+qemuppc64 is LE by default, this fixes kernel build for qemuppc64 with
+gcc12
 
-I have located the exact kernel commit that changed the output, hence
-why the test is failing.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 1 +
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb | 1 +
+ 2 files changed, 2 insertions(+)
 
-strace upstream hasn't adjusted yet, so I'll spin up a patch, and get
-send patches to the list over the weekend.
-
-Bruce
-
->
-> I had two other strace tests fail, but they look like OOMs/resource
-> problems, and they don't show up on the autobuilder, so I'm going to
-> ignore them for now.
->
-> >
-> > >
-> > > Secondly, qemuarm graphics fails:
-> > >
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/5132
-> > >
-> > > I did try adding Jon's other qemuarm patches:
-> > >
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/5136
-> > >
-> > > and it still fails. I've not looked further as yet, just reporting what the
-> > > varoious combinations of patches in testing showed.
-> >
-> > Yep, Jon has indicated that he still has more patches to come, but my
-> > queue is unfortunately blocked on them, unless we take that breakage
-> > or I do a revert of the first series.
-> >
-> > I'll wait another day or so, and will do the revert after that.
-> >
->
-> I have your suggested patch under test, but that build is still running.
->
-> I'll follow up over the weekend with the strace + qemuarm
-> configuration changes onto the end of my queue.
->
-> Bruce
->
-> > Bruce
-> >
-> > >
-> > > Cheers,
-> > >
-> > > Richard
-> > >
-> > >
-> > >
-> > >
-> > >
-> >
-> >
-> >
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
-> >
-> >
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#165057): https://lists.openembedded.org/g/openembedded-core/message/165057
-> Mute This Topic: https://lists.openembedded.org/mt/90753174/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
-
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.10.bb b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
+index b60f3e07738..3d3dad99b5a 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
+@@ -52,6 +52,7 @@ KERNEL_FEATURES:append:qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES:append:qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES:append:powerpc =" arch/powerpc/powerpc-debug.scc"
+ KERNEL_FEATURES:append:powerpc64 =" arch/powerpc/powerpc-debug.scc"
++KERNEL_FEATURES:append:powerpc64le =" arch/powerpc/powerpc-debug.scc"
+ KERNEL_FEATURES:append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "", d)}"
+ KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "", d)}"
+ KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/gpio/mockup.scc", "", d)}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+index 8bada989e54..7ccb13195f5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+@@ -64,6 +64,7 @@ KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " fe
+ KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/gpio/mockup.scc", "", d)}"
+ KERNEL_FEATURES:append:powerpc =" arch/powerpc/powerpc-debug.scc"
+ KERNEL_FEATURES:append:powerpc64 =" arch/powerpc/powerpc-debug.scc"
++KERNEL_FEATURES:append:powerpc64le =" arch/powerpc/powerpc-debug.scc"
+ 
+ INSANE_SKIP:kernel-vmlinux:qemuppc64 = "textrel"
+ 
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.36.0
+
 
