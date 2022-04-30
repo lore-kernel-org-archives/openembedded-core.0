@@ -1,106 +1,137 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <robert.joslyn@redrectangle.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C830AC433EF
-	for <webhook@archiver.kernel.org>; Sat, 30 Apr 2022 13:28:48 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web10.22452.1651325320747574981
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16730C433F5
+	for <webhook@archiver.kernel.org>; Sat, 30 Apr 2022 14:11:39 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web08.22773.1651327893966093690
  for <openembedded-core@lists.openembedded.org>;
- Sat, 30 Apr 2022 06:28:40 -0700
+ Sat, 30 Apr 2022 07:11:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=WjUP3T1f;
- spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f43.google.com with SMTP id o69so7920800pjo.3
-        for <openembedded-core@lists.openembedded.org>;
- Sat, 30 Apr 2022 06:28:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Bua2/FG5kMASSfQOAOLHtoUlgY17rQCMw+IJrpt/LeE=;
-        b=WjUP3T1fher07B95u4m2GjuWZ8f5gavM/Yx7aPS9YCXibGIcG5Euk2qPpWAYD2GA4Q
-         d3v4fcGS419Cca+jJU9mYmoytvGiWKxGJGi9IDUsdpwDaWQLyOKDHkkbkWOKu6qnCbg/
-         dWYrolgOq+WGVHWvQ4GwSDmbX6YmrWAY/ZNn+YdRueTQe49le5nWW1nr8TPZLKPMRG6U
-         TgR6uGRPhfHeScLDBakejDJAptnpLzMu0K4h8+CLo9nRPpxtMlSTD8sB+6T/XJw2wN1Z
-         lnwPvUHNVl7ht16bOd2x8aAW8FbfV/JXG/cbjgdMXsMEuNteQ5yZa9JzzwVBywHtuMWi
-         /CTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Bua2/FG5kMASSfQOAOLHtoUlgY17rQCMw+IJrpt/LeE=;
-        b=ixxLLOjuxta7btrKQmvG0eVMlOYgV5mXsfSrJXWqbzbsF/JI2+6CLFbVYlDkhFL9AZ
-         mAGb0jWvNwVxKfOTj/hR9yuGeRgpGq7XUO2txabYcf9Wi+ZVxKVbo2tqLYP2MU54gJxP
-         XbcRd9KLqqK/SlbVkTkRfRBvzg/Ir1JpjsolnYyHZFd1nAkyvbb83C3I7hCE7lNc+0kI
-         lfTCQ4bvFnQH834CNp2QKveAULX/FFp+onSRaQbETgC0K0+ei+5O/M39dqW8KfGdjIIp
-         AWHDpggsBEMkWdWGG1wd86gJW6l6myyJqX3Y0JKsoxjwF6B887YgzmpociI/o3X555UE
-         Ua1g==
-X-Gm-Message-State: AOAM532Y55OuUjQtUZiSXiFvtrQilfYOQO8DAYT7sCVGhHLfM45FdUIJ
-	qqaKGfl2u7bRqXxXfDJXIeFZMH7+IuUmlg==
-X-Google-Smtp-Source: 
- ABdhPJzjS0f2ZfSRuTJ8iiZWxQy9dDYRaxL7RhdASlKoLJkZnxRXI0VlXmm/60hiSFdERdiXjUypXQ==
-X-Received: by 2002:a17:90b:1e4e:b0:1da:3931:951 with SMTP id
- pi14-20020a17090b1e4e00b001da39310951mr4153759pjb.231.1651325319766;
-        Sat, 30 Apr 2022 06:28:39 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::2ca3])
-        by smtp.gmail.com with ESMTPSA id
- v21-20020a634655000000b003c14af50645sm8006313pgk.93.2022.04.30.06.28.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Apr 2022 06:28:39 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+ dkim=missing;
+ spf=none, err=permanent DNS error (domain: redrectangle.org,
+ ip: 217.70.183.195, mailfrom: robert.joslyn@redrectangle.org)
+Received: (Authenticated sender: robert.joslyn@redrectangle.org)
+	by mail.gandi.net (Postfix) with ESMTPSA id 7292F60002;
+	Sat, 30 Apr 2022 14:11:29 +0000 (UTC)
+From: Robert Joslyn <robert.joslyn@redrectangle.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Bruce Ashfield <bruce.ashfield@gmail.com>
-Subject: [PATCH] linux-yocto: Enable powerpc-debug fragment for ppc64 LE
-Date: Sat, 30 Apr 2022 06:28:36 -0700
-Message-Id: <20220430132836.1034892-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.36.0
+Cc: Robert Joslyn <robert.joslyn@redrectangle.org>
+Subject: [master][kirkstone][PATCH] powerpc: Remove invalid GLIBC_EXTRA_OECONF
+Date: Sat, 30 Apr 2022 07:08:04 -0700
+Message-Id: <20220430140804.1597722-1-robert.joslyn@redrectangle.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 30 Apr 2022 13:28:48 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 30 Apr 2022 14:11:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165068
+ https://lists.openembedded.org/g/openembedded-core/message/165069
 
-qemuppc64 is LE by default, this fixes kernel build for qemuppc64 with
-gcc12
+OE-core previously carried patches to glibc that added optimized sqrt
+implementations for various PowerPC chips. These were recently removed,
+which now results in errors when compiling glibc with certian PowerPC
+machine tunes:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+	checking sysdep dirs... configure: error: The 603e subspecies of powerpc is not supported.
+
+Remove setting GLIBC_EXTRA_OECONF with parameters that are no longer
+valid. Also remove a commented out setting of the variable that probably
+isn't vaild anyway.
+
+Fixes: 2511e937f445 ("glibc: Drop ppc sqrt optimisations")
+
+Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
 ---
- meta/recipes-kernel/linux/linux-yocto_5.10.bb | 1 +
- meta/recipes-kernel/linux/linux-yocto_5.15.bb | 1 +
- 2 files changed, 2 insertions(+)
+ meta/conf/machine/include/powerpc/tune-ppc603e.inc   | 3 ---
+ meta/conf/machine/include/powerpc/tune-ppc7400.inc   | 3 ---
+ meta/conf/machine/include/powerpc/tune-ppce300c3.inc | 3 ---
+ meta/conf/machine/include/powerpc/tune-ppce500mc.inc | 3 ---
+ meta/conf/machine/include/powerpc/tune-ppce5500.inc  | 3 ---
+ meta/conf/machine/include/powerpc/tune-ppce6500.inc  | 4 ----
+ 6 files changed, 19 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.10.bb b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-index b60f3e07738..3d3dad99b5a 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-@@ -52,6 +52,7 @@ KERNEL_FEATURES:append:qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
- KERNEL_FEATURES:append:qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
- KERNEL_FEATURES:append:powerpc =" arch/powerpc/powerpc-debug.scc"
- KERNEL_FEATURES:append:powerpc64 =" arch/powerpc/powerpc-debug.scc"
-+KERNEL_FEATURES:append:powerpc64le =" arch/powerpc/powerpc-debug.scc"
- KERNEL_FEATURES:append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "", d)}"
- KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "", d)}"
- KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/gpio/mockup.scc", "", d)}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-index 8bada989e54..7ccb13195f5 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-@@ -64,6 +64,7 @@ KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " fe
- KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/gpio/mockup.scc", "", d)}"
- KERNEL_FEATURES:append:powerpc =" arch/powerpc/powerpc-debug.scc"
- KERNEL_FEATURES:append:powerpc64 =" arch/powerpc/powerpc-debug.scc"
-+KERNEL_FEATURES:append:powerpc64le =" arch/powerpc/powerpc-debug.scc"
+diff --git a/meta/conf/machine/include/powerpc/tune-ppc603e.inc b/meta/conf/machine/include/powerpc/tune-ppc603e.inc
+index 8beec00f24..28680bdb3c 100644
+--- a/meta/conf/machine/include/powerpc/tune-ppc603e.inc
++++ b/meta/conf/machine/include/powerpc/tune-ppc603e.inc
+@@ -9,6 +9,3 @@ AVAILTUNES += "ppc603e"
+ TUNE_FEATURES:tune-ppc603e = "m32 fpu-hard ppc603e bigendian"
+ TUNE_PKGARCH:tune-ppc603e = "ppc603e"
+ PACKAGE_EXTRA_ARCHS:tune-ppc603e = "${PACKAGE_EXTRA_ARCHS:tune-powerpc} ppc603e"
+-
+-# glibc configure options to get 603e specific library (for sqrt)
+-GLIBC_EXTRA_OECONF += "${@bb.utils.contains('TUNE_FEATURES', 'ppc603e', '-with-cpu=603e', '', d)}"
+diff --git a/meta/conf/machine/include/powerpc/tune-ppc7400.inc b/meta/conf/machine/include/powerpc/tune-ppc7400.inc
+index 1e2c9fc2ce..49b94f5ee1 100644
+--- a/meta/conf/machine/include/powerpc/tune-ppc7400.inc
++++ b/meta/conf/machine/include/powerpc/tune-ppc7400.inc
+@@ -9,6 +9,3 @@ AVAILTUNES += "ppc7400"
+ TUNE_FEATURES:tune-ppc7400 = "m32 fpu-hard ppc7400 altivec bigendian"
+ TUNE_PKGARCH:tune-ppc7400 = "ppc7400"
+ PACKAGE_EXTRA_ARCHS:tune-ppc7400 = "${PACKAGE_EXTRA_ARCHS:tune-powerpc} ppc7400"
+-
+-# glibc configure options to get 7400 specific library (for sqrt)
+-#GLIBC_EXTRA_OECONF += "${@bb.utils.contains('TUNE_FEATURES', 'ppc7400', '--with-cpu=power4', '', d)}"
+diff --git a/meta/conf/machine/include/powerpc/tune-ppce300c3.inc b/meta/conf/machine/include/powerpc/tune-ppce300c3.inc
+index b74b6ad976..31aff51af3 100644
+--- a/meta/conf/machine/include/powerpc/tune-ppce300c3.inc
++++ b/meta/conf/machine/include/powerpc/tune-ppce300c3.inc
+@@ -11,9 +11,6 @@ TUNE_PKGARCH:tune-ppce300c3 = "ppce300c3"
+ PACKAGE_EXTRA_ARCHS:tune-ppce300c3 = "${PACKAGE_EXTRA_ARCHS:tune-powerpc} ppce300c3"
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'ppce300c3', ' -mcpu=e300c3', '', d)}"
  
- INSANE_SKIP:kernel-vmlinux:qemuppc64 = "textrel"
+-# glibc config options to make use of e300c3 (603e) specific sqrt/sqrtf routines
+-GLIBC_EXTRA_OECONF += "${@bb.utils.contains('TUNE_FEATURES', 'ppce300c3', '--with-cpu=e300c3', '', d)}"
+-
+ # soft-float
+ TUNEVALID[ppce300c3-nf] = "Enable ppce300c3 specific processor optimizations (no fpu)"
+ TUNE_FEATURES:tune-ppce300c3-nf = "${TUNE_FEATURES:tune-powerpc-nf} ppce300c3-nf"
+diff --git a/meta/conf/machine/include/powerpc/tune-ppce500mc.inc b/meta/conf/machine/include/powerpc/tune-ppce500mc.inc
+index e3524a10ca..036f8b2631 100644
+--- a/meta/conf/machine/include/powerpc/tune-ppce500mc.inc
++++ b/meta/conf/machine/include/powerpc/tune-ppce500mc.inc
+@@ -10,8 +10,5 @@ TUNE_FEATURES:tune-ppce500mc = "m32 fpu-hard ppce500mc bigendian"
+ TUNE_PKGARCH:tune-ppce500mc = "ppce500mc"
+ PACKAGE_EXTRA_ARCHS:tune-ppce500mc = "${PACKAGE_EXTRA_ARCHS:tune-powerpc} ppce500mc"
  
+-# glibc configure options to get e500mc specific library (for sqrt)
+-GLIBC_EXTRA_OECONF += "${@bb.utils.contains('TUNE_FEATURES', 'ppce500mc', '-with-cpu=e500mc', '', d)}"
+-
+ # pass -mcpu=e500mc for ppce500mc kernel cross compile
+ TARGET_CC_KERNEL_ARCH = "-mcpu=e500mc"
+diff --git a/meta/conf/machine/include/powerpc/tune-ppce5500.inc b/meta/conf/machine/include/powerpc/tune-ppce5500.inc
+index 2cf7b1737c..4915b81ee4 100644
+--- a/meta/conf/machine/include/powerpc/tune-ppce5500.inc
++++ b/meta/conf/machine/include/powerpc/tune-ppce5500.inc
+@@ -16,8 +16,5 @@ BASE_LIB:tune-ppc64e5500 = "lib64"
+ TUNE_PKGARCH:tune-ppc64e5500 = "ppc64e5500"
+ PACKAGE_EXTRA_ARCHS:tune-ppc64e5500 = "${PACKAGE_EXTRA_ARCHS:tune-powerpc64} ppc64e5500"
+ 
+-# glibc configure options to get e5500 specific library (for sqrt)
+-GLIBC_EXTRA_OECONF += "${@bb.utils.contains('TUNE_FEATURES', 'e5500', '--with-cpu=e5500', '', d)}"
+-
+ # QEMU usermode fails with invalid instruction error (YOCTO: #10304)
+ MACHINE_FEATURES_BACKFILL_CONSIDERED:append = "${@bb.utils.contains('TUNE_FEATURES', 'e5500', ' qemu-usermode', '', d)}"
+diff --git a/meta/conf/machine/include/powerpc/tune-ppce6500.inc b/meta/conf/machine/include/powerpc/tune-ppce6500.inc
+index e78de350ad..f6310ab4c4 100644
+--- a/meta/conf/machine/include/powerpc/tune-ppce6500.inc
++++ b/meta/conf/machine/include/powerpc/tune-ppce6500.inc
+@@ -16,9 +16,5 @@ BASE_LIB:tune-ppc64e6500 = "lib64"
+ TUNE_PKGARCH:tune-ppc64e6500 = "ppc64e6500"
+ PACKAGE_EXTRA_ARCHS:tune-ppc64e6500 = "${PACKAGE_EXTRA_ARCHS:tune-powerpc64} ppc64e6500"
+ 
+-# glibc configure options to get e6500 specific library
+-GLIBC_EXTRA_OECONF:powerpc64 += "${@bb.utils.contains('TUNE_FEATURES', 'e6500', '--with-cpu=e6500', '', d)}"
+-GLIBC_EXTRA_OECONF:powerpc += "${@bb.utils.contains('TUNE_FEATURES', 'e6500', '--with-cpu=e6500', '', d)}"
+-
+ # QEMU usermode fails with invalid instruction error (YOCTO: #10304)
+ MACHINE_FEATURES_BACKFILL_CONSIDERED:append = "${@bb.utils.contains('TUNE_FEATURES', 'e6500', ' qemu-usermode', '', d)}"
 -- 
-2.36.0
+2.35.1
 
 
