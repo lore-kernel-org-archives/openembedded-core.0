@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7C5DC4743F
-	for <webhook@archiver.kernel.org>; Sun,  1 May 2022 19:49:12 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com
- (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web08.2330.1651434545319117228
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B594CC35296
+	for <webhook@archiver.kernel.org>; Sun,  1 May 2022 19:49:11 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com
+ (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web12.2220.1651434542883375201
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 May 2022 12:49:05 -0700
+ Sun, 01 May 2022 12:49:03 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=YdC3MnKj;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191,
- mailfrom: 01010180812b5d83-a2fedaa9-cca5-4c6a-8011-dbfc40c06337-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=RtYUwUrS;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
+ mailfrom: 01010180812b539b-ba4c1b03-dfb2-4e7a-bb7d-351e4274ba5b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1651434544;
+	t=1651434542;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Q68JMJsa8Xdiky2tombxYrNJnlj9lm9ifDX+KRSy9JI=;
-	b=YdC3MnKjc4ZtKu8cd/dPiHr2TtPORYdEM4DUWuVfJgRTI/dXzSKekBJgrY+WErn1
-	8ka8UL+ubrJLexBlmpInQIlo2+IawO5/TwYFPGV1dmIV5BLvGycygSJ5oJWzVLGNsfZ
-	pWnxZ8331gvqg8OvKF8tplnY4pcGKvcwiND7uNNI=
+	bh=Eq52JRHLhHWamkMZ5nrqtdHkPm7jfhEgIwa7ZSUKRpI=;
+	b=RtYUwUrSOQ+jq2lSqjanxDJJ39dE1d68QXJwXGNcOAuh/v4h63y0YGeK6VUegcgC
+	15Fs+GYckLjVGIiCXSpl3hmFP+tYttLKhQNLDafVobJ0Z9B7s3dmve84BpRkexUiUai
+	UXm5MoORwqcPvE2RakRP2NSJX6dqdxfgfB9N3Vsg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1651434544;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1651434542;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Q68JMJsa8Xdiky2tombxYrNJnlj9lm9ifDX+KRSy9JI=;
-	b=G4ud4JEVX3T12eWLNR5qH3NwRDcbG0OMbKipmmajlUmYuM4G3WcM7h5xLH2w1Gix
-	J2bRzEBYIzsG85qkjYVUbyq/BnJV/nl1jM+qn7Rjb3LZ3a4RS5L5YNW1IoodjSqC9z8
-	wgDl6zs2djSneeAioc0vUlm5NrRcrUW+ID/SSPBA=
-Content-Type: multipart/mixed; boundary="===============8393140509345750282=="
+	bh=Eq52JRHLhHWamkMZ5nrqtdHkPm7jfhEgIwa7ZSUKRpI=;
+	b=iEMdfQsWflli4+BkX4MJuKS+16jJSi82MZ1nlpsUQ4CvF/pHe50zygI8PcXBhqH8
+	kCHjp+2QET6QRMMumY9fPjW/Tz24OWP0Aw/6R6MaXm3f3FbcDGzrVbo7UtVRl2ZJmwy
+	f+F0uvrGOltkWx7tet/gSgRK27K11NXJMjzqDbLU=
+Content-Type: multipart/mixed; boundary="===============2727113197685896079=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vte: upgrading to 0.68.0 SUCCEEDED
+Subject: [AUH] dnf: upgrading to 4.12.0 SUCCEEDED
 Message-ID: 
- <01010180812b5d83-a2fedaa9-cca5-4c6a-8011-dbfc40c06337-000000@us-west-2.amazonses.com>
-Date: Sun, 1 May 2022 19:49:04 +0000
+ <01010180812b539b-ba4c1b03-dfb2-4e7a-bb7d-351e4274ba5b-000000@us-west-2.amazonses.com>
+Date: Sun, 1 May 2022 19:49:02 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.05.01-54.240.27.191
+X-SES-Outgoing: 2022.05.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 May 2022 19:49:12 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 01 May 2022 19:49:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165155
+ https://lists.openembedded.org/g/openembedded-core/message/165104
 
---===============8393140509345750282==
+--===============2727113197685896079==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *vte* to *0.68.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *dnf* to *4.12.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-vte-upgrade-0.66.2-0.68.0.patch
+    - apply the patch: git am 0001-dnf-upgrade-4.11.1-4.12.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,900 +75,43 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8393140509345750282==
+--===============2727113197685896079==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-vte-upgrade-0.66.2-0.68.0.patch"
+ filename="0001-dnf-upgrade-4.11.1-4.12.0.patch"
 
-From 49b335f37908b80473e7fb27d7c45d87a7c17cde Mon Sep 17 00:00:00 2001
+From c9eceecee82fad5c9312d6a7dc5996bb2f80e8c5 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 May 2022 19:47:56 +0000
-Subject: [PATCH] vte: upgrade 0.66.2 -> 0.68.0
+Date: Sun, 1 May 2022 09:06:29 +0000
+Subject: [PATCH] dnf: upgrade 4.11.1 -> 4.12.0
 
 ---
- meta/recipes-support/vte/{vte_0.66.2.bb => vte_0.68.0.bb} | 2 +-
+ meta/recipes-devtools/dnf/{dnf_4.11.1.bb => dnf_4.12.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/vte/{vte_0.66.2.bb => vte_0.68.0.bb} (95%)
+ rename meta/recipes-devtools/dnf/{dnf_4.11.1.bb => dnf_4.12.0.bb} (98%)
 
-diff --git a/meta/recipes-support/vte/vte_0.66.2.bb b/meta/recipes-support/vte/vte_0.68.0.bb
-similarity index 95%
-rename from meta/recipes-support/vte/vte_0.66.2.bb
-rename to meta/recipes-support/vte/vte_0.68.0.bb
-index af1c47cf80..fc4324872d 100644
---- a/meta/recipes-support/vte/vte_0.66.2.bb
-+++ b/meta/recipes-support/vte/vte_0.68.0.bb
-@@ -21,7 +21,7 @@ inherit gnomebase gtk-doc features_check upstream-version-is-even gobject-intros
- # vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
- SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch \
-             file://0001-Makefile.docs-correctly-substitute-gtkdoc-qemu-wrapp.patch"
--SRC_URI[archive.sha256sum] = "e89974673a72a0a06edac6d17830b82bb124decf0cb3b52cebc92ec3ff04d976"
-+SRC_URI[archive.sha256sum] = "13e7d4789ca216a33780030d246c9b13ddbfd04094c6316eea7ff92284dd1749"
+diff --git a/meta/recipes-devtools/dnf/dnf_4.11.1.bb b/meta/recipes-devtools/dnf/dnf_4.12.0.bb
+similarity index 98%
+rename from meta/recipes-devtools/dnf/dnf_4.11.1.bb
+rename to meta/recipes-devtools/dnf/dnf_4.12.0.bb
+index 00eed0ce96..d621e72d4e 100644
+--- a/meta/recipes-devtools/dnf/dnf_4.11.1.bb
++++ b/meta/recipes-devtools/dnf/dnf_4.12.0.bb
+@@ -18,7 +18,7 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git;branch=master;protoc
+            file://0001-dnf-write-the-log-lock-to-root.patch \
+            "
  
- ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+-SRCREV = "fba1e2ec93f3d045a874567fd7ecafd606346509"
++SRCREV = "956b5c74bab2affde27f404e7aee98c10818b188"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
  
+ S = "${WORKDIR}/git"
 -- 
 2.27.0
 
 
---===============8393140509345750282==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 884 .bb files complete (0 cached, 884 parsed). 1643 targets, 50 skipped, 0 masked, 0 errors.
-Removing 97 recipes from the core2-32 sysroot...done.
-Removing 96 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux-musl"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-4a06ce9f4eae8d261e8358e490afd304696206f8"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:4a06ce9f4eae8d261e8358e490afd304696206f8"
-workspace            = "master:9e556960421c8bbe8851d9810352a5b4bd3b50df"
-
-Initialising tasks...done.
-Sstate summary: Wanted 396 Local 382 Mirrors 0 Missed 14 Current 196 (96% match, 97% complete)
-Removing 2 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 197 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 200 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 206 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.33.bb:do_packagedata_setscene)
-NOTE: Running setscene task 207 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 212 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.33.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 213 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.7.4.bb:do_populate_sysroot_setscene)
-NOTE: Running task 915 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_fetch)
-NOTE: Running task 916 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_fetch)
-NOTE: Running task 919 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_write_config)
-NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-passwd-3.5.29-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gnutls-3.7.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre2-10.40-r0: task do_fetch: Started
-NOTE: recipe gtk+3-3.24.33-r0: task do_packagedata_setscene: Started
-NOTE: recipe gnutls-3.7.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gtk+3-3.24.33-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vte-0.68.0-r0: task do_fetch: Started
-NOTE: recipe vte-0.68.0-r0: task do_write_config: Started
-NOTE: recipe libpcre2-10.40-r0: task do_fetch: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_fetch: Succeeded
-NOTE: Running task 920 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_unpack)
-NOTE: Running task 921 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_unpack)
-NOTE: recipe vte-0.68.0-r0: task do_write_config: Succeeded
-NOTE: recipe libpcre2-10.40-r0: task do_unpack: Started
-NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe base-passwd-3.5.29-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_unpack: Started
-NOTE: recipe gnutls-3.7.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gnutls-3.7.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 226 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 227 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 228 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 229 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 231 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 232 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 233 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.7.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 234 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.7.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe gtk+3-3.24.33-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe argp-standalone-1.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe argp-standalone-1.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libidn2-2.3.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libidn2-2.3.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libseccomp-2.5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libseccomp-2.5.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe nettle-3.7.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe nettle-3.7.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vte-0.68.0-r0: task do_unpack: Succeeded
-NOTE: Running task 930 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_patch)
-NOTE: recipe libpcre2-10.40-r0: task do_unpack: Succeeded
-NOTE: recipe argp-standalone-1.3-r0: task do_packagedata_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libseccomp/2.5.3-r0/temp/log.do_packagedata_setscene.3221117
-NOTE: Running task 931 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_patch)
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 236 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_package_setscene)
-NOTE: recipe nettle-3.7.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libidn2-2.3.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libseccomp-2.5.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe argp-standalone-1.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_patch: Started
-NOTE: recipe nettle-3.7.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libidn2-2.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpcre2-10.40-r0: task do_patch: Started
-NOTE: recipe gtk+3-3.24.33-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpcre2-10.40-r0: task do_patch: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_patch: Succeeded
-NOTE: Running setscene task 241 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 242 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 244 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 245 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.9.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 246 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 247 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 248 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 249 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 250 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 251 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 252 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 253 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 254 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 255 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 256 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 257 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 259 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 260 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_populate_sysroot_setscene)
-NOTE: Running task 947 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_deploy_source_date_epoch)
-NOTE: Running task 949 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 950 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_populate_lic)
-NOTE: recipe libepoxy-1.5.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe libepoxy-1.5.9-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pango-1.50.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe pango-1.50.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxkbcommon-1.4.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxkbcommon-1.4.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libunistring-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libunistring-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gmp-6.2.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpcre2-10.40-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vte-0.68.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vte-0.68.0-r0: task do_populate_lic: Started
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libepoxy-1.5.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe pango-1.50.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 266 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 267 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 268 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_packagedata_setscene)
-NOTE: recipe libepoxy-1.5.9-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxkbcommon-1.4.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe pango-1.50.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxcomposite-1_0.4.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libunistring-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 271 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.35.1.bb:do_packagedata_setscene)
-NOTE: recipe libxkbcommon-1.4.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 273 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 277 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 278 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.44.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 279 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.38.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 280 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 283 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.35.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe at-spi2-atk-2.38.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libunistring-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 285 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.44.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 286 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.38.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe gmp-6.2.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe fribidi-1.0.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre2-10.40-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe xkeyboard-config-2.35.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxft-1_2.3.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_populate_lic unihash changed to b5be5a6e0c104c8dca84fabb0f2f76f1b1fa5c188030104bfbfb9842fb9e40c4
-NOTE: recipe at-spi2-core-2.44.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe atk-2.38.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe fribidi-1.0.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xkeyboard-config-2.35.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vte-0.68.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe at-spi2-core-2.44.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe atk-2.38.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxft-1_2.3.4-r0: task do_packagedata_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/fribidi/1.0.11-r0/temp/log.do_packagedata_setscene.3223141
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: recipe harfbuzz-4.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe harfbuzz-4.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe fribidi-1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe atk-2.38.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe at-spi2-core-2.44.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xkeyboard-config-2.35.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 292 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 293 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 296 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_package_setscene)
-NOTE: Running setscene task 297 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_71.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 298 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_71.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe xkeyboard-config-2.35.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_packagedata_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/at-spi2-core/2.44.0-r0/temp/log.do_packagedata_setscene.3223184
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.44.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: recipe atk-2.38.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 303 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 304 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 305 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.44.0.bb:do_package_setscene)
-NOTE: Running setscene task 308 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 309 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe libseccomp-2.5.3-r0: task do_package_setscene: Started
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe icu-71.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe icu-71.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libjpeg-turbo-1_2.1.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libjpeg-turbo-1_2.1.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe fribidi-1.0.11-r0: task do_package_setscene: Started
-NOTE: recipe shared-mime-info-2.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe shared-mime-info-2.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe at-spi2-core-2.44.0-r0: task do_package_setscene: Started
-NOTE: recipe libjpeg-turbo-1_2.1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe icu-71.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 312 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 313 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 314 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_packagedata_setscene)
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 317 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 319 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 320 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe fribidi-1.0.11-r0: task do_package_setscene: Succeeded
-NOTE: recipe icu-71.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe shared-mime-info-2.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe fontconfig-2.14.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe fontconfig-2.14.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libseccomp-2.5.3-r0: task do_package_setscene: Succeeded
-NOTE: recipe fontconfig-2.14.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 325 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.12.0.bb:do_packagedata_setscene)
-NOTE: recipe shared-mime-info-2.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe pixman-1_0.40.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe pixman-1_0.40.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe fontconfig-2.14.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 330 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.12.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe freetype-2.12.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe mesa-2_22.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 333 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.110.bb:do_packagedata_setscene)
-NOTE: Running setscene task 334 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.110.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 336 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 337 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 338 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 339 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 340 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 341 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 342 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 343 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 344 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 345 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe at-spi2-core-2.44.0-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 346 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 347 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 348 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 349 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 350 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 351 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe freetype-2.12.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xrandr-1_1.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe xrandr-1_1.5.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdamage-1_1.1.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe freetype-2.12.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libdrm-2.4.110-r0: task do_packagedata_setscene: Started
-NOTE: recipe libdrm-2.4.110-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe wayland-1.20.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe wayland-1.20.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 354 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_packagedata_setscene)
-NOTE: recipe libxshmfence-1.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxshmfence-1.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdamage-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe dbus-1.14.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe dbus-1.14.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpng-1.6.37-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xrandr-1_1.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 356 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.2.bb:do_packagedata_setscene)
-NOTE: recipe libxdamage-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe freetype-2.12.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxshmfence-1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe wayland-1.20.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 360 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 362 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.13.bb:do_packagedata_setscene)
-NOTE: recipe libdrm-2.4.110-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe wayland-1.20.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libdrm-2.4.110-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 363 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.13.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 368 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb:do_packagedata_setscene)
-NOTE: Running setscene task 369 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb:do_populate_sysroot_setscene)
-NOTE: recipe xrandr-1_1.5.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxshmfence-1.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 371 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxdamage-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe dbus-1.14.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxrandr-1_1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 378 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb:do_packagedata_setscene)
-NOTE: Running setscene task 379 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.4.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 380 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 381 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.11.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 382 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_packagedata_setscene)
-NOTE: recipe libpng-1.6.37-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 384 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.bb:do_packagedata_setscene)
-NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxml2-2.9.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxtst-1_1.2.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 387 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 388 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpciaccess-0.16-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpciaccess-0.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxml2-2.9.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe dbus-1.14.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 392 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 394 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.4.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 395 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 396 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 397 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.11.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 398 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-passwd-3.5.29-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.4.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Started
-NOTE: recipe libsm-1_1.2.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.11.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxi-1_1.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrandr-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 400 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.10.bb:do_packagedata_setscene)
-NOTE: recipe libxi-1_1.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.4.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.72.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpciaccess-0.16-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxml2-2.9.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe shadow-4.11.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.72.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 404 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.4.bb:do_packagedata_setscene)
-NOTE: recipe libpciaccess-0.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe base-passwd-3.5.29-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxml2-2.9.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1112 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
-NOTE: Running setscene task 409 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 411 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_packagedata_setscene)
-NOTE: Running setscene task 414 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.10.bb:do_populate_sysroot_setscene)
-NOTE: recipe expat-2.4.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxi-1_1.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 417 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 418 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_packagedata_setscene)
-NOTE: recipe libxi-1_1.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 419 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 420 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-files-3.0.14-r89: task do_fetch: Started
-NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.4.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libice-1_1.0.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_fetch: Succeeded
-NOTE: recipe python3-3.10.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.11.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxfixes-1_6.0.0-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1140 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
-NOTE: Running task 1141 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxrender-1_0.9.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libsm-1_1.2.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 424 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxext-1_1.3.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-3.10.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.72.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe shadow-4.11.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_unpack: Started
-NOTE: Running setscene task 429 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 430 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-files-3.0.14-r89: task do_prepare_recipe_sysroot: Started
-NOTE: recipe base-files-3.0.14-r89: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libice-1_1.0.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libice-1_1.0.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxfixes-1_6.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 434 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.5.bb:do_packagedata_setscene)
-NOTE: recipe libxrender-1_0.9.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 437 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-files-3.0.14-r89: task do_unpack: Succeeded
-NOTE: recipe libx11-1_1.7.5-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1162 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
-NOTE: recipe libx11-1_1.7.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libice-1_1.0.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_patch: Started
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.72.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 444 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.37.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 445 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.37.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 446 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_packagedata_setscene)
-NOTE: Running setscene task 447 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-3.10.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libx11-1_1.7.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.10.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 449 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 450 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 452 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 453 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 454 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 455 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 457 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 458 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 459 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 460 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 461 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
-NOTE: Running setscene task 462 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 463 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 464 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 465 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 466 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libx11-1_1.7.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_patch: Succeeded
-NOTE: Running setscene task 468 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 469 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-2.37.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.37.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpcre-8.45-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre-8.45-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcb-1.14-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1185 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
-NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.0.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe readline-8.1.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.0.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe readline-8.1.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.2.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.2.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcb-1.14-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_configure: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_configure: Succeeded
-NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe readline-8.1.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 471 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb:do_packagedata_setscene)
-NOTE: recipe util-linux-2.37.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpcre-8.45-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 475 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running task 1186 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
-NOTE: recipe libpcre-8.45-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe readline-8.1.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 476 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/sqlite3/3_3.38.2-r0/temp/log.do_packagedata_setscene.3229545
-NOTE: Running setscene task 481 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb:do_populate_sysroot_setscene)
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 482 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_package_setscene)
-NOTE: recipe xz-5.2.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe openssl-3.0.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxcb-1.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xz-5.2.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 486 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 487 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 488 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 489 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata_setscene)
-NOTE: recipe libtirpc-1.3.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.0.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_compile: Started
-NOTE: recipe libxcb-1.14-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 493 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 494 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 496 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 497 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtirpc-1.3.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_compile: Succeeded
-NOTE: Running task 1223 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_package_setscene: Started
-NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtirpc-1.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 509 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 510 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_packagedata_setscene)
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 514 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 515 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_package_setscene: Succeeded
-NOTE: recipe xorgproto-2021.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-macros-1_1.19.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-macros-1_1.19.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xorgproto-2021.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.37.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 519 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 520 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 521 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.37.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 522 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.37.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 524 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 525 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 526 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 527 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 528 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 529 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe xorgproto-2021.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-macros-1_1.19.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: recipe util-linux-libuuid-2.37.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.37.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ncurses-6.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1256 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe util-macros-1_1.19.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe xorgproto-2021.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe util-linux-libuuid-2.37.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.37.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ncurses-6.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 540 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
-NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ncurses-6.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 543 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 547 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 548 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 549 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 550 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe cracklib-2.9.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe cracklib-2.9.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe cracklib-2.9.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cracklib-2.9.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 555 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_packagedata_setscene)
-NOTE: Running setscene task 556 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 557 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe zlib-1.2.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.2.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.2.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 560 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.3.bb:do_packagedata_setscene)
-NOTE: recipe zlib-1.2.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 562 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-runtime-11.3.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-11.3.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 1306 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe gcc-runtime-11.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 565 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.3.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe gcc-runtime-11.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 567 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-11.3.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-11.3.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-11.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 569 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 701b84400be6a894e12bc5efd8b8edbe811b8cdb6d9a3630f443403b418837a4
-NOTE: recipe musl-1.2.3+gitAUTOINC+7a43f6fea9-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-11.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 570 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-1.2.3+gitAUTOINC+7a43f6fea9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.3+gitAUTOINC+7a43f6fea9-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 573 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 574 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 575 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_packagedata_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-5.16-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.3+gitAUTOINC+7a43f6fea9-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 576 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 577 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-5.16-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 586 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_11.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-i686-11.3.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-i686-11.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 589 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 590 of 592 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.38.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-i686-2.38-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-i686-2.38-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1710 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running task 1837 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_packagedata)
-NOTE: Running task 1961 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_prepare_recipe_sysroot)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: Running task 1979 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_packagedata)
-NOTE: Running task 1988 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_packagedata)
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_packagedata: Started
-NOTE: recipe libpcre2-10.40-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe fribidi-1.0.11-r0: task do_packagedata: Started
-NOTE: recipe libseccomp-2.5.3-r0: task do_packagedata: Started
-NOTE: recipe libpcre2-10.40-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 1994 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_configure)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 0317d5775628c1dd2aefc61245d36eeabb8acaec29f8c546443c3829e208e9b7
-NOTE: Running task 2044 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.44.0.bb:do_packagedata)
-NOTE: recipe fribidi-1.0.11-r0: task do_packagedata: Succeeded
-NOTE: recipe libseccomp-2.5.3-r0: task do_packagedata: Succeeded
-NOTE: recipe libpcre2-10.40-r0: task do_configure: Started
-NOTE: recipe at-spi2-core-2.44.0-r0: task do_packagedata: Started
-NOTE: recipe at-spi2-core-2.44.0-r0: task do_packagedata: Succeeded
-NOTE: recipe libpcre2-10.40-r0: task do_configure: Succeeded
-NOTE: Running task 2054 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_compile)
-NOTE: recipe libpcre2-10.40-r0: task do_compile: Started
-NOTE: recipe libpcre2-10.40-r0: task do_compile: Succeeded
-NOTE: Running task 2055 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_install)
-NOTE: recipe libpcre2-10.40-r0: task do_install: Started
-NOTE: recipe libpcre2-10.40-r0: task do_install: Succeeded
-NOTE: Running task 2056 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_populate_sysroot)
-NOTE: Running task 2057 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_package)
-NOTE: recipe libpcre2-10.40-r0: task do_populate_sysroot: Started
-NOTE: recipe libpcre2-10.40-r0: task do_package: Started
-NOTE: recipe libpcre2-10.40-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2058 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vte-0.68.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vte-0.68.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2059 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_configure)
-NOTE: recipe vte-0.68.0-r0: task do_configure: Started
-NOTE: recipe libpcre2-10.40-r0: task do_package: Succeeded
-NOTE: Running task 2060 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_packagedata)
-NOTE: recipe libpcre2-10.40-r0: task do_packagedata: Started
-NOTE: recipe libpcre2-10.40-r0: task do_packagedata: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_configure: Succeeded
-NOTE: Running task 2061 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_compile)
-NOTE: recipe vte-0.68.0-r0: task do_compile: Started
-NOTE: recipe vte-0.68.0-r0: task do_compile: Succeeded
-NOTE: Running task 2062 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_install)
-NOTE: recipe vte-0.68.0-r0: task do_install: Started
-NOTE: recipe vte-0.68.0-r0: task do_install: Succeeded
-NOTE: Running task 2063 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_package)
-NOTE: Running task 2064 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_populate_sysroot)
-NOTE: recipe vte-0.68.0-r0: task do_package: Started
-NOTE: recipe vte-0.68.0-r0: task do_populate_sysroot: Started
-NOTE: recipe vte-0.68.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_package: Succeeded
-NOTE: Running task 2065 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_packagedata)
-NOTE: recipe vte-0.68.0-r0: task do_packagedata: Started
-NOTE: recipe vte-0.68.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2066 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_package_write_rpm)
-NOTE: Running task 2067 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_package_qa)
-NOTE: recipe vte-0.68.0-r0: task do_package_write_rpm: Started
-NOTE: recipe vte-0.68.0-r0: task do_package_qa: Started
-NOTE: recipe vte-0.68.0-r0: task do_package_qa: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 2068 of 2068 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_build)
-NOTE: Tasks Summary: Attempted 2068 tasks of which 2027 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There were 106 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-src went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-dbg went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-ptest went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-staticdev went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-dev went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-doc went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-locale went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-src went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-dbg went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-staticdev went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-dev went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-doc went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-locale went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-bin went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-src went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-dbg went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-staticdev went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-dev went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-doc went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-ab went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-an went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-as went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-ast went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-be went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-bg went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-bn-in went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-bs went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-ca went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-ca+valencia went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-cs went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-da went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-de went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-el went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-en-ca went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-en-gb went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-eo went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-es went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-et went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-eu went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-fa went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-fi went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-fr went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-fur went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-ga went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-gd went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-gl went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-gu went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-he went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-hi went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-hr went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-hu went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-id went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-is went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-it went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-ja went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-kk went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-km went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-kn went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-ko went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-lt went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-lv went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-ml went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-mr went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-ms went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-nb went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-ne went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-nl went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-oc went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-or went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-pa went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-pl went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-pt went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-pt-br went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-ro went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-ru went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-sk went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-sl went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-sq went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-sr went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-sr+latin went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-sv went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-ta went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-te went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-tg went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-tr went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-ug went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-uk went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-uz+cyrillic went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-vi went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-zh-cn went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-zh-hk went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: QA Issue: Package version for package at-spi2-core-locale-zh-tw went backwards which would break package feeds (from 0:2.44.1-r0 to 0:2.44.0-r0) [version-going-backwards]
-ERROR: at-spi2-core-2.44.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package sqlite3-src went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package sqlite3-dbg went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3 went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3-dev went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3-doc went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3-staticdev went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package sqlite3 went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============8393140509345750282==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/vte: PACKAGES: added "vte-locale-ab"
-packages/core2-32-poky-linux/vte/libvte: FILELIST: removed "/usr/lib/libvte-2.91.so.0.6600.2", added "/usr/lib/libvte-2.91.so.0.6800.0"
-Changes to packages/core2-32-poky-linux/vte (sysroot):
-  /usr/lib/libvte-2.91.so.0 changed symlink target from libvte-2.91.so.0.6600.2 to libvte-2.91.so.0.6800.0
-  /usr/lib/libvte-2.91.so.0.6600.2 moved to /usr/lib/libvte-2.91.so.0.6800.0
-packages/core2-32-poky-linux/vte/vte-locale-be: PKGSIZE changed from 1470 to 1112 (-24%)
-packages/core2-32-poky-linux/vte/vte-locale-is: PKGSIZE changed from 1068 to 1253 (+17%)
-
---===============8393140509345750282==
+--===============2727113197685896079==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -989,445 +132,1025 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "arm-poky-linux-gnueabi"
 MACHINE              = "qemuarm"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-4a06ce9f4eae8d261e8358e490afd304696206f8"
+DISTRO_VERSION       = "4.1+snapshot-1cff4aa500258f520af6fc8cfa3c5cc6eef3a6dc"
 TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
 TARGET_FPU           = "hard"
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:4a06ce9f4eae8d261e8358e490afd304696206f8"
+meta-yocto-bsp       = "tmp-auh-upgrades:1cff4aa500258f520af6fc8cfa3c5cc6eef3a6dc"
 workspace            = "master:9e556960421c8bbe8851d9810352a5b4bd3b50df"
 
 Initialising tasks...done.
-Sstate summary: Wanted 55 Local 41 Mirrors 0 Missed 14 Current 558 (74% match, 97% complete)
-Removing 3 stale sstate objects for arch qemuarm...done.
+Sstate summary: Wanted 115 Local 20 Mirrors 0 Missed 95 Current 490 (17% match, 84% complete)
+Removing 1 stale sstate objects for arch cortexa15t2hf-neon...done.
+Removing 4 stale sstate objects for arch qemuarm...done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 576 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 577 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 578 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 579 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 580 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 581 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1060 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe fribidi-1.0.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe fribidi-1.0.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libseccomp-2.5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libseccomp-2.5.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1329 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_fetch)
-NOTE: Running task 1343 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_fetch)
-NOTE: Running task 1353 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_write_config)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/sqlite3/3_3.38.2-r0/temp/log.do_packagedata_setscene.3145368
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 601 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_package_setscene)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/libseccomp/2.5.3-r0/temp/log.do_packagedata_setscene.3145366
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 602 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_package_setscene)
-NOTE: recipe fribidi-1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/fribidi/1.0.11-r0/temp/log.do_packagedata_setscene.3145364
-NOTE: recipe libseccomp-2.5.3-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpcre2-10.40-r0: task do_fetch: Started
-NOTE: recipe vte-0.68.0-r0: task do_fetch: Started
-NOTE: recipe vte-0.68.0-r0: task do_write_config: Started
-NOTE: recipe libpcre2-10.40-r0: task do_fetch: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_fetch: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_write_config: Succeeded
-NOTE: Running setscene task 603 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_package_setscene)
-NOTE: Running task 1354 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_unpack)
-NOTE: Running task 1355 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_unpack)
-NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe libpcre2-10.40-r0: task do_unpack: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_package_setscene: Started
-NOTE: recipe vte-0.68.0-r0: task do_unpack: Started
-NOTE: recipe libseccomp-2.5.3-r0: task do_package_setscene: Started
-NOTE: recipe fribidi-1.0.11-r0: task do_package_setscene: Started
-NOTE: recipe vte-0.68.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1356 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_patch)
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_package_setscene: Succeeded
-NOTE: recipe fribidi-1.0.11-r0: task do_package_setscene: Succeeded
-NOTE: recipe libpcre2-10.40-r0: task do_unpack: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_patch: Started
-NOTE: Running task 1366 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_patch)
-NOTE: recipe libseccomp-2.5.3-r0: task do_package_setscene: Succeeded
-NOTE: Running task 1367 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running task 1368 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: Running setscene task 606 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpcre2-10.40-r0: task do_patch: Started
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe vte-0.68.0-r0: task do_patch: Succeeded
-NOTE: Running task 1373 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1374 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_populate_lic)
-NOTE: recipe libpcre2-10.40-r0: task do_patch: Succeeded
-NOTE: Running task 1375 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_deploy_source_date_epoch)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 608 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe vte-0.68.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vte-0.68.0-r0: task do_populate_lic: Started
-NOTE: recipe libpcre2-10.40-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gcc-runtime-11.3.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vte-0.68.0-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_populate_lic unihash changed to b5be5a6e0c104c8dca84fabb0f2f76f1b1fa5c188030104bfbfb9842fb9e40c4
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 22db8996b954ad500e98bde8eb5d8f3f9ee45325e3d6ebc87a67531882ff9085
-NOTE: recipe libpcre2-10.40-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gcc-runtime-11.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 609 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 1381 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe libgcc-11.3.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe libgcc-11.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 610 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.35.bb:do_populate_sysroot_setscene)
-NOTE: recipe glibc-2.35-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 221777e03b432750d81a3353ee12bea75da31230352399fa97384f965b4130c2
-NOTE: recipe glibc-2.35-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 613 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 538 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 543 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 548 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzdata.bb:do_packagedata_setscene)
+NOTE: Running setscene task 557 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_packagedata_setscene)
+NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Started
+NOTE: recipe tzdata-2022a-r0: task do_packagedata_setscene: Started
+NOTE: recipe dbus-1.14.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe dbus-1.14.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe tzdata-2022a-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe dbus-1.14.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 597 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_packagedata_setscene)
+NOTE: recipe dbus-1.14.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 598 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe systemd-1_250.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe systemd-1_250.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1252 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_fetch)
+NOTE: Running task 1254 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_fetch)
+NOTE: Running task 1527 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_fetch)
+NOTE: recipe lua-5.4.4-r0: task do_fetch: Started
+NOTE: recipe popt-1.18-r0: task do_fetch: Started
+NOTE: Running task 1553 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_fetch)
+NOTE: Running task 1554 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_fetch)
+NOTE: Running task 1558 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_fetch)
+NOTE: Running task 1574 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_fetch)
+NOTE: recipe lua-5.4.4-r0: task do_fetch: Succeeded
+NOTE: Running task 1575 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_fetch)
+NOTE: Running task 1576 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_fetch)
+NOTE: recipe popt-1.18-r0: task do_fetch: Succeeded
+NOTE: Running task 1596 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_unpack)
+NOTE: Running task 1597 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1598 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_unpack)
+NOTE: Running task 1599 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1607 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_fetch)
+NOTE: Running task 1608 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_fetch)
+NOTE: Running task 1609 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_fetch)
+NOTE: Running task 1622 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_fetch)
+NOTE: Running task 1623 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_fetch)
+NOTE: Running task 1665 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_fetch)
+NOTE: Running task 1675 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_fetch)
+NOTE: Running task 1676 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_fetch)
+NOTE: Running task 1677 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_fetch)
+NOTE: Running task 1678 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_write_config)
+NOTE: recipe libassuan-2.5.5-r0: task do_fetch: Started
+NOTE: Running task 1716 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_fetch)
+NOTE: Running task 1738 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_fetch)
+NOTE: Running task 1740 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_fetch)
+NOTE: recipe libassuan-2.5.5-r0: task do_fetch: Succeeded
+NOTE: recipe librepo-1.14.2-r0: task do_fetch: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_fetch: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_fetch: Started
+NOTE: recipe json-c-0.16-r0: task do_fetch: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_fetch: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_fetch: Started
+NOTE: Running task 1786 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_unpack)
+NOTE: Running task 1787 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libyaml-0.2.5-r0: task do_fetch: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_fetch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_unpack: Started
+NOTE: Running task 1823 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_unpack)
+NOTE: recipe librepo-1.14.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1824 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1825 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_unpack)
+NOTE: Running task 1826 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_prepare_recipe_sysroot)
+NOTE: recipe systemd-1_250.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_fetch: Succeeded
+NOTE: recipe popt-1.18-r0: task do_unpack: Started
+NOTE: Running task 1827 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_unpack)
+NOTE: recipe libsolv-0.7.22-r0: task do_fetch: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_fetch: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_fetch: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_fetch: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_fetch: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_fetch: Started
+NOTE: Running task 1828 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_unpack)
+NOTE: recipe python3-iniparse-0.5-r0: task do_fetch: Started
+NOTE: Running task 1829 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_unpack)
+NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_fetch: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_fetch: Succeeded
+NOTE: recipe npth-1.6-r0: task do_fetch: Started
+NOTE: recipe dnf-4.12.0-r0: task do_fetch: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_fetch: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_write_config: Started
+NOTE: Running task 1830 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_unpack)
+NOTE: recipe libksba-1.6.0-r0: task do_fetch: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_fetch: Succeeded
+NOTE: Running task 1831 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libcomps-0.1.18-r0: task do_fetch: Succeeded
+NOTE: recipe gnupg-2.3.4-r0: task do_fetch: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1832 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_unpack)
+NOTE: Running task 1833 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_unpack)
+NOTE: recipe pinentry-1.2.0-r0: task do_fetch: Started
+NOTE: recipe unzip-1_6.0-r5: task do_fetch: Started
+NOTE: recipe npth-1.6-r0: task do_fetch: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_fetch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_unpack: Succeeded
+NOTE: Running task 1834 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_unpack)
+NOTE: recipe popt-1.18-r0: task do_unpack: Succeeded
+NOTE: Running task 1835 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_unpack)
+NOTE: recipe libksba-1.6.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1836 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1837 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gnupg-2.3.4-r0: task do_fetch: Succeeded
+NOTE: recipe dnf-4.12.0-r0: task do_fetch: Succeeded
+NOTE: recipe pinentry-1.2.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1838 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_patch)
+NOTE: Running task 1839 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_unpack)
+NOTE: Running task 1840 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_unpack)
+NOTE: recipe libassuan-2.5.5-r0: task do_unpack: Started
+NOTE: Running task 1841 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_unpack)
+NOTE: Running task 1842 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_patch)
+NOTE: Running task 1843 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_unpack)
+NOTE: Running task 1844 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libassuan-2.5.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_unpack: Started
+NOTE: Running task 1845 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_unpack)
+NOTE: Running task 1846 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libyaml-0.2.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe unzip-1_6.0-r5: task do_fetch: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_write_config: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_unpack: Started
+NOTE: recipe json-c-0.16-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe librepo-1.14.2-r0: task do_unpack: Started
+NOTE: Running task 1847 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_unpack)
+NOTE: Running task 1848 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_unpack)
+NOTE: Running task 1849 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_unpack)
+NOTE: Running task 1850 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libyaml-0.2.5-r0: task do_unpack: Succeeded
+NOTE: recipe libsolv-0.7.22-r0: task do_unpack: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/systemd/1_250.4-r0/temp/log.do_packagedata_setscene.1510560
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: recipe json-c-0.16-r0: task do_unpack: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_unpack: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running setscene task 599 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_package_setscene)
+NOTE: recipe rpm-1_4.17.0-r0: task do_unpack: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_unpack: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_unpack: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_unpack: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_unpack: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_unpack: Started
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1851 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_patch)
+NOTE: recipe python3-iniparse-0.5-r0: task do_unpack: Succeeded
+NOTE: Running task 1852 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_patch)
+NOTE: Running task 1853 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_patch)
+NOTE: recipe libcomps-0.1.18-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_unpack: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_unpack: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_unpack: Started
+NOTE: recipe popt-1.18-r0: task do_patch: Started
+NOTE: recipe npth-1.6-r0: task do_unpack: Started
+NOTE: recipe lua-5.4.4-r0: task do_patch: Started
+NOTE: recipe libksba-1.6.0-r0: task do_unpack: Started
+NOTE: recipe npth-1.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe unzip-1_6.0-r5: task do_unpack: Started
+NOTE: Running task 1854 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_patch)
+NOTE: recipe gnupg-2.3.4-r0: task do_unpack: Started
+NOTE: Running task 1855 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_patch)
+NOTE: recipe libksba-1.6.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe librepo-1.14.2-r0: task do_unpack: Succeeded
+NOTE: recipe dnf-4.12.0-r0: task do_unpack: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_unpack: Succeeded
+NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe pinentry-1.2.0-r0: task do_unpack: Started
+NOTE: recipe unzip-1_6.0-r5: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1856 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_patch)
+NOTE: recipe npth-1.6-r0: task do_unpack: Succeeded
+NOTE: Running task 1857 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_patch)
+NOTE: Running task 1858 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_patch)
+NOTE: recipe lua-5.4.4-r0: task do_patch: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_unpack: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1859 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1860 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_patch)
+NOTE: recipe libksba-1.6.0-r0: task do_unpack: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1861 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_patch)
+NOTE: recipe popt-1.18-r0: task do_patch: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1862 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1863 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_patch)
+NOTE: Running task 1864 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_patch)
+NOTE: recipe pinentry-1.2.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1865 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_patch)
+NOTE: recipe json-c-0.16-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_unpack: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_unpack: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_unpack: Succeeded
+NOTE: Running task 1866 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_patch)
+NOTE: Running task 1867 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_patch)
+NOTE: Running task 1868 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_patch)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_patch: Started
+NOTE: recipe json-c-0.16-r0: task do_patch: Started
+NOTE: recipe dnf-4.12.0-r0: task do_unpack: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_patch: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_patch: Started
+NOTE: recipe librepo-1.14.2-r0: task do_patch: Started
+NOTE: recipe npth-1.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libsolv-0.7.22-r0: task do_patch: Started
+NOTE: Running task 1869 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_patch)
+NOTE: recipe npth-1.6-r0: task do_patch: Started
+NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_patch: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_patch: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_patch: Started
+NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_patch: Started
+NOTE: recipe libksba-1.6.0-r0: task do_patch: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_patch: Started
+NOTE: recipe unzip-1_6.0-r5: task do_patch: Started
+NOTE: recipe json-c-0.16-r0: task do_patch: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_patch: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_patch: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_unpack: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_patch: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1870 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_generate_toolchain_file)
+NOTE: Running task 1871 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_patch)
+NOTE: Running task 1872 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1873 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-six-1.16.0-r0: task do_patch: Succeeded
+NOTE: recipe libksba-1.6.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1874 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-iniparse-0.5-r0: task do_patch: Succeeded
+NOTE: recipe dnf-4.12.0-r0: task do_patch: Started
+NOTE: Running task 1875 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_deploy_source_date_epoch)
+NOTE: recipe libassuan-2.5.5-r0: task do_patch: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_patch: Succeeded
+NOTE: Running task 1876 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_deploy_source_date_epoch)
+NOTE: recipe libcomps-0.1.18-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libksba-1.6.0-r0: task do_patch: Succeeded
+NOTE: Running task 1877 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_deploy_source_date_epoch)
+NOTE: recipe json-c-0.16-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe json-c-0.16-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1878 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe gpgme-1.17.1-r0: task do_patch: Started
+NOTE: recipe npth-1.6-r0: task do_patch: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_patch: Succeeded
+NOTE: Running task 1879 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1880 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_generate_toolchain_file)
+NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_patch: Succeeded
+NOTE: Running task 1881 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1882 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
+NOTE: recipe json-c-0.16-r0: task do_generate_toolchain_file: Succeeded
+NOTE: Running task 1883 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1884 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_generate_toolchain_file)
+NOTE: recipe librepo-1.14.2-r0: task do_patch: Succeeded
+NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1885 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1886 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_configure)
+NOTE: recipe libassuan-2.5.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1887 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_generate_toolchain_file)
+NOTE: recipe pinentry-1.2.0-r0: task do_patch: Succeeded
+NOTE: Running task 1888 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libksba-1.6.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe npth-1.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_patch: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_generate_toolchain_file: Started
+NOTE: Running task 1889 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe lua-5.4.4-r0: task do_configure: Started
+NOTE: recipe librepo-1.14.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe librepo-1.14.2-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe popt-1.18-r0: task do_configure: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1890 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_configure)
+NOTE: recipe python3-six-1.16.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_generate_toolchain_file: Succeeded
+NOTE: Running task 1891 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_configure)
+NOTE: Running task 1892 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_configure)
+NOTE: recipe librepo-1.14.2-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1893 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
+NOTE: recipe libassuan-2.5.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libksba-1.6.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1894 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_configure)
+NOTE: recipe libyaml-0.2.5-r0: task do_configure: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_patch: Succeeded
+NOTE: recipe libsolv-0.7.22-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1895 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_configure)
+NOTE: recipe json-c-0.16-r0: task do_configure: Started
+NOTE: Running task 1896 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1897 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_generate_toolchain_file)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe npth-1.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_configure: Started
+NOTE: Running task 1898 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_configure)
+NOTE: recipe libcomps-0.1.18-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe librepo-1.14.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1899 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_configure)
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_configure: Started
+NOTE: recipe dnf-4.12.0-r0: task do_patch: Succeeded
+NOTE: recipe systemd-1_250.4-r0: task do_package_setscene: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1900 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libdnf-0.66.0-r0: task do_generate_toolchain_file: Started
+NOTE: Running task 1901 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_generate_toolchain_file)
+NOTE: Running task 1902 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_populate_lic)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1903 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
+NOTE: recipe python3-six-1.16.0-r0: task do_configure: Succeeded
+NOTE: recipe npth-1.6-r0: task do_configure: Started
+NOTE: recipe libksba-1.6.0-r0: task do_configure: Started
+NOTE: Running task 1904 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_configure)
+NOTE: Running task 1905 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_compile)
+NOTE: recipe libcomps-0.1.18-r0: task do_configure: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe dnf-4.12.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe dnf-4.12.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe dnf-4.12.0-r0: task do_populate_lic: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_configure: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_compile: Started
+NOTE: recipe dnf-4.12.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_patch: Succeeded
+NOTE: Running task 1906 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe gnupg-2.3.4-r0: task do_unpack: Succeeded
+NOTE: recipe dnf-4.12.0-r0: task do_populate_lic: Succeeded
+NOTE: Running task 1907 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_patch)
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_populate_lic unihash changed to 2059057eb6a58b4046f22e7352cdfcd05a05501a85a91c6987d63f5240fe548e
+NOTE: recipe dnf-4.12.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_patch: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_patch: Succeeded
+NOTE: Running task 1908 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libcomps-0.1.18-r0: task do_configure: Succeeded
+NOTE: Running task 1909 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_compile)
+NOTE: recipe rpm-1_4.17.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_patch: Succeeded
+NOTE: Running task 1910 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libcomps-0.1.18-r0: task do_compile: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_patch: Succeeded
+NOTE: Running task 1911 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe unzip-1_6.0-r5: task do_deploy_source_date_epoch: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gnupg-2.3.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe unzip-1_6.0-r5: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1912 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_configure)
+NOTE: recipe gnupg-2.3.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_configure: Started
+NOTE: recipe unzip-1_6.0-r5: task do_configure: Succeeded
+NOTE: Running task 1913 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_compile)
+NOTE: recipe python3-six-1.16.0-r0: task do_compile: Succeeded
+NOTE: Running task 1914 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_install)
+NOTE: recipe unzip-1_6.0-r5: task do_compile: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_compile: Succeeded
+NOTE: Running task 1915 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_install)
+NOTE: recipe python3-six-1.16.0-r0: task do_install: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_install: Started
+NOTE: recipe systemd-1_250.4-r0: task do_package_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1929 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_packagedata)
-NOTE: Running task 2031 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_packagedata)
-NOTE: Running task 2057 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_prepare_recipe_sysroot)
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_packagedata: Started
-NOTE: Running task 2078 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_packagedata)
-NOTE: recipe libseccomp-2.5.3-r0: task do_packagedata: Started
-NOTE: recipe libpcre2-10.40-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe fribidi-1.0.11-r0: task do_packagedata: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_packagedata: Succeeded
-NOTE: recipe libseccomp-2.5.3-r0: task do_packagedata: Succeeded
-NOTE: recipe libpcre2-10.40-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2124 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_configure)
-NOTE: recipe fribidi-1.0.11-r0: task do_packagedata: Succeeded
-NOTE: recipe libpcre2-10.40-r0: task do_configure: Started
-NOTE: recipe libpcre2-10.40-r0: task do_configure: Succeeded
-NOTE: Running task 2129 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_compile)
-NOTE: recipe libpcre2-10.40-r0: task do_compile: Started
-NOTE: recipe libpcre2-10.40-r0: task do_compile: Succeeded
-NOTE: Running task 2130 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_install)
-NOTE: recipe libpcre2-10.40-r0: task do_install: Started
-NOTE: recipe libpcre2-10.40-r0: task do_install: Succeeded
-NOTE: Running task 2131 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_populate_sysroot)
-NOTE: Running task 2132 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_package)
-NOTE: recipe libpcre2-10.40-r0: task do_populate_sysroot: Started
-NOTE: recipe libpcre2-10.40-r0: task do_package: Started
-NOTE: recipe libpcre2-10.40-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2133 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vte-0.68.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vte-0.68.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2134 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_configure)
-NOTE: recipe vte-0.68.0-r0: task do_configure: Started
-NOTE: recipe libpcre2-10.40-r0: task do_package: Succeeded
-NOTE: Running task 2135 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_packagedata)
-NOTE: recipe libpcre2-10.40-r0: task do_packagedata: Started
-NOTE: recipe libpcre2-10.40-r0: task do_packagedata: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_configure: Succeeded
-NOTE: Running task 2136 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_compile)
-NOTE: recipe vte-0.68.0-r0: task do_compile: Started
-NOTE: recipe vte-0.68.0-r0: task do_compile: Succeeded
-NOTE: Running task 2137 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_install)
-NOTE: recipe vte-0.68.0-r0: task do_install: Started
-NOTE: recipe vte-0.68.0-r0: task do_install: Succeeded
-NOTE: Running task 2138 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_package)
-NOTE: Running task 2139 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_populate_sysroot)
-NOTE: recipe vte-0.68.0-r0: task do_package: Started
-NOTE: recipe vte-0.68.0-r0: task do_populate_sysroot: Started
-NOTE: recipe vte-0.68.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_package: Succeeded
-NOTE: Running task 2140 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_packagedata)
-NOTE: recipe vte-0.68.0-r0: task do_packagedata: Started
-NOTE: recipe vte-0.68.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2141 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_package_write_rpm)
-NOTE: Running task 2142 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_package_qa)
-NOTE: recipe vte-0.68.0-r0: task do_package_write_rpm: Started
-NOTE: recipe vte-0.68.0-r0: task do_package_qa: Started
-NOTE: recipe vte-0.68.0-r0: task do_package_qa: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 2143 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_build)
-NOTE: Tasks Summary: Attempted 2143 tasks of which 2109 didn't need to be rerun and all succeeded.
+NOTE: Running task 1926 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_install: Succeeded
+NOTE: Running task 1948 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_populate_sysroot)
+NOTE: Running task 1949 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package)
+NOTE: recipe python3-six-1.16.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_install: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_package: Started
+NOTE: Running task 1950 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_package)
+NOTE: Running task 1951 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_populate_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
+NOTE: Running task 1952 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: Running task 1953 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: Running task 1954 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe libcomps-0.1.18-r0: task do_package: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_populate_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1955 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
+NOTE: recipe python3-six-1.16.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1956 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_install: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 22db8996b954ad500e98bde8eb5d8f3f9ee45325e3d6ebc87a67531882ff9085
+NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
+NOTE: Running task 1970 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
+NOTE: recipe libcomps-0.1.18-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1971 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
+NOTE: Running task 1972 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
+NOTE: recipe python3-iniparse-0.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1973 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_configure)
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: Running task 1974 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_package: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_configure: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_package: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: Running task 1975 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_packagedata)
+NOTE: recipe python3-iniparse-0.5-r0: task do_configure: Succeeded
+NOTE: Running task 1976 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_compile)
+NOTE: recipe python3-six-1.16.0-r0: task do_packagedata: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_compile: Started
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 221777e03b432750d81a3353ee12bea75da31230352399fa97384f965b4130c2
+NOTE: Running task 1978 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_packagedata)
+NOTE: recipe python3-six-1.16.0-r0: task do_packagedata: Succeeded
+NOTE: recipe systemd-1_250.4-r0: task do_packagedata: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_package: Succeeded
+NOTE: Running task 1979 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_packagedata)
+NOTE: recipe libcomps-0.1.18-r0: task do_packagedata: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_packagedata: Succeeded
+NOTE: Running task 1980 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_package_write_rpm)
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_package_write_rpm: Started
+NOTE: recipe systemd-1_250.4-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_compile: Succeeded
+NOTE: Running task 1983 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_install)
+NOTE: recipe python3-iniparse-0.5-r0: task do_install: Started
+NOTE: recipe json-c-0.16-r0: task do_configure: Succeeded
+NOTE: Running task 1984 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_compile)
+NOTE: recipe json-c-0.16-r0: task do_compile: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_install: Succeeded
+NOTE: Running task 1985 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_package)
+NOTE: Running task 1986 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_populate_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
+NOTE: Running task 1987 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
+NOTE: recipe python3-iniparse-0.5-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_package: Started
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_compile: Succeeded
+NOTE: Running task 1988 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_install)
+NOTE: recipe json-c-0.16-r0: task do_install: Started
+NOTE: recipe json-c-0.16-r0: task do_install: Succeeded
+NOTE: Running task 1989 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_populate_sysroot)
+NOTE: Running task 1990 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_package)
+NOTE: recipe json-c-0.16-r0: task do_populate_sysroot: Started
+NOTE: recipe json-c-0.16-r0: task do_package: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_package: Succeeded
+NOTE: Running task 1991 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_packagedata)
+NOTE: recipe libyaml-0.2.5-r0: task do_configure: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_packagedata: Started
+NOTE: Running task 1992 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_compile)
+NOTE: recipe libyaml-0.2.5-r0: task do_compile: Started
+NOTE: recipe json-c-0.16-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_packagedata: Succeeded
+NOTE: Running task 1993 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_package_write_rpm)
+NOTE: recipe python3-iniparse-0.5-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_package: Succeeded
+NOTE: Running task 1994 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_packagedata)
+NOTE: recipe json-c-0.16-r0: task do_packagedata: Started
+NOTE: recipe json-c-0.16-r0: task do_packagedata: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_configure: Succeeded
+NOTE: Running task 1995 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_compile)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_compile: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_compile: Succeeded
+NOTE: Running task 1996 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_install)
+NOTE: recipe libyaml-0.2.5-r0: task do_install: Started
+NOTE: recipe popt-1.18-r0: task do_configure: Succeeded
+NOTE: Running task 1997 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_configure_ptest_base)
+NOTE: recipe libyaml-0.2.5-r0: task do_install: Succeeded
+NOTE: Running task 1998 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_populate_sysroot)
+NOTE: Running task 1999 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_package)
+NOTE: recipe popt-1.18-r0: task do_configure_ptest_base: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_populate_sysroot: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_package: Started
+NOTE: recipe popt-1.18-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2000 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_compile)
+NOTE: recipe popt-1.18-r0: task do_compile: Started
+NOTE: recipe libksba-1.6.0-r0: task do_configure: Succeeded
+NOTE: Running task 2001 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_compile)
+NOTE: recipe libyaml-0.2.5-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2002 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_compile: Succeeded
+NOTE: Running task 2003 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_install)
+NOTE: recipe libksba-1.6.0-r0: task do_compile: Started
+NOTE: recipe npth-1.6-r0: task do_configure: Succeeded
+NOTE: Running task 2004 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_compile)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_install: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_configure: Succeeded
+NOTE: Running task 2005 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_compile)
+NOTE: recipe npth-1.6-r0: task do_compile: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_compile: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_install: Succeeded
+NOTE: Running task 2006 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_populate_sysroot)
+NOTE: Running task 2007 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_package)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_populate_sysroot: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_package: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2008 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_configure)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_configure: Started
+NOTE: recipe npth-1.6-r0: task do_compile: Succeeded
+NOTE: Running task 2009 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_install)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe popt-1.18-r0: task do_compile: Succeeded
+NOTE: Running task 2010 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_compile_ptest_base)
+NOTE: recipe npth-1.6-r0: task do_install: Started
+NOTE: recipe popt-1.18-r0: task do_compile_ptest_base: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_package: Succeeded
+NOTE: Running task 2011 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_packagedata)
+NOTE: recipe popt-1.18-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2012 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_install)
+NOTE: recipe libyaml-0.2.5-r0: task do_packagedata: Started
+NOTE: recipe popt-1.18-r0: task do_install: Started
+NOTE: recipe npth-1.6-r0: task do_install: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_compile: Succeeded
+NOTE: Running task 2013 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_package)
+NOTE: Running task 2014 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_populate_sysroot)
+NOTE: Running task 2015 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_install)
+NOTE: recipe npth-1.6-r0: task do_populate_sysroot: Started
+NOTE: recipe npth-1.6-r0: task do_package: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_packagedata: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_install: Started
+NOTE: recipe unzip-1_6.0-r5: task do_compile: Succeeded
+NOTE: Running task 2016 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_install)
+NOTE: recipe unzip-1_6.0-r5: task do_install: Started
+NOTE: recipe npth-1.6-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_install: Succeeded
+NOTE: Running task 2017 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_populate_sysroot)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_package: Succeeded
+NOTE: Running task 2018 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_package)
+NOTE: recipe popt-1.18-r0: task do_install: Succeeded
+NOTE: Running task 2019 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_packagedata)
+NOTE: Running task 2020 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_install_ptest_base)
+NOTE: recipe unzip-1_6.0-r5: task do_install: Succeeded
+NOTE: Running task 2021 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_package)
+NOTE: recipe libksba-1.6.0-r0: task do_compile: Succeeded
+NOTE: Running task 2022 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_install)
+NOTE: recipe libassuan-2.5.5-r0: task do_populate_sysroot: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_package: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_packagedata: Started
+NOTE: recipe popt-1.18-r0: task do_install_ptest_base: Started
+NOTE: recipe unzip-1_6.0-r5: task do_package: Started
+NOTE: recipe libksba-1.6.0-r0: task do_install: Started
+NOTE: recipe popt-1.18-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2023 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_populate_sysroot)
+NOTE: Running task 2024 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_packagedata: Succeeded
+NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe popt-1.18-r0: task do_package: Started
+NOTE: Running task 2025 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2026 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gpgme-1.17.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libksba-1.6.0-r0: task do_install: Succeeded
+NOTE: Running task 2027 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_package)
+NOTE: Running task 2028 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_populate_sysroot)
+NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libksba-1.6.0-r0: task do_populate_sysroot: Started
+NOTE: Running task 2029 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libksba-1.6.0-r0: task do_package: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2030 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_configure)
+NOTE: recipe rpm-1_4.17.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe npth-1.6-r0: task do_package: Succeeded
+NOTE: Running task 2031 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_packagedata)
+NOTE: recipe pinentry-1.2.0-r0: task do_configure: Started
+NOTE: recipe npth-1.6-r0: task do_packagedata: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2032 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_configure)
+NOTE: recipe libksba-1.6.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2033 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_configure: Succeeded
+NOTE: Running task 2034 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_compile)
+NOTE: recipe gpgme-1.17.1-r0: task do_configure: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe npth-1.6-r0: task do_packagedata: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_compile: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2035 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_configure)
+NOTE: recipe gnupg-2.3.4-r0: task do_configure: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2036 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_configure)
+NOTE: recipe libassuan-2.5.5-r0: task do_package: Succeeded
+NOTE: Running task 2037 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_packagedata)
+NOTE: recipe unzip-1_6.0-r5: task do_package: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_configure: Started
+NOTE: Running task 2038 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata)
+NOTE: recipe libassuan-2.5.5-r0: task do_packagedata: Started
+NOTE: recipe unzip-1_6.0-r5: task do_packagedata: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_packagedata: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_packagedata: Succeeded
+NOTE: Running task 2039 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.4.bb:do_package_write_rpm)
+NOTE: recipe libksba-1.6.0-r0: task do_package: Succeeded
+NOTE: Running task 2040 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_packagedata)
+NOTE: recipe python3-3.10.4-r0: task do_package_write_rpm: Started
+NOTE: recipe libksba-1.6.0-r0: task do_packagedata: Started
+NOTE: recipe libksba-1.6.0-r0: task do_packagedata: Succeeded
+NOTE: recipe popt-1.18-r0: task do_package: Succeeded
+NOTE: Running task 2041 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_packagedata)
+NOTE: recipe popt-1.18-r0: task do_packagedata: Started
+NOTE: recipe popt-1.18-r0: task do_packagedata: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_compile: Succeeded
+NOTE: Running task 2042 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_install)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_install: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_configure: Succeeded
+NOTE: Running task 2043 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_compile)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_install: Succeeded
+NOTE: Running task 2044 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_populate_sysroot)
+NOTE: Running task 2045 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_package)
+NOTE: recipe pinentry-1.2.0-r0: task do_compile: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_package: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe pinentry-1.2.0-r0: task do_compile: Succeeded
+NOTE: Running task 2046 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_install)
+NOTE: recipe pinentry-1.2.0-r0: task do_install: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_install: Succeeded
+NOTE: Running task 2047 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_package)
+NOTE: recipe pinentry-1.2.0-r0: task do_package: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_package: Succeeded
+NOTE: Running task 2048 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_packagedata)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_packagedata: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_packagedata: Succeeded
+NOTE: recipe pinentry-1.2.0-r0: task do_package: Succeeded
+NOTE: Running task 2049 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_packagedata)
+NOTE: recipe pinentry-1.2.0-r0: task do_packagedata: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_packagedata: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_configure: Succeeded
+NOTE: Running task 2050 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_compile)
+NOTE: recipe gpgme-1.17.1-r0: task do_compile: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_configure: Succeeded
+NOTE: Running task 2051 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_compile)
+NOTE: recipe gnupg-2.3.4-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_configure: Succeeded
+NOTE: Running task 2052 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_compile)
+NOTE: recipe python3-3.10.4-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_compile: Succeeded
+NOTE: Running task 2053 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_install)
+NOTE: recipe rpm-1_4.17.0-r0: task do_install: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_install: Succeeded
+NOTE: Running task 2054 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_populate_sysroot)
+NOTE: Running task 2055 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_package)
+NOTE: recipe rpm-1_4.17.0-r0: task do_populate_sysroot: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_package: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2056 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsolv-0.7.22-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_compile: Succeeded
+NOTE: Running task 2057 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_install)
+NOTE: recipe gnupg-2.3.4-r0: task do_install: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2058 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_configure)
+NOTE: recipe libsolv-0.7.22-r0: task do_configure: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_install: Succeeded
+NOTE: Running task 2059 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_package)
+NOTE: recipe gnupg-2.3.4-r0: task do_package: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_configure: Succeeded
+NOTE: Running task 2060 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_compile)
+NOTE: recipe libsolv-0.7.22-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_package: Succeeded
+NOTE: Running task 2061 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_packagedata)
+NOTE: recipe rpm-1_4.17.0-r0: task do_packagedata: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2062 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_package_write_rpm)
+NOTE: recipe rpm-1_4.17.0-r0: task do_package_write_rpm: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_compile: Succeeded
+NOTE: Running task 2063 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_install)
+NOTE: recipe libsolv-0.7.22-r0: task do_install: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_package: Succeeded
+NOTE: Running task 2064 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_packagedata)
+NOTE: recipe gnupg-2.3.4-r0: task do_packagedata: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_install: Succeeded
+NOTE: Running task 2065 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_populate_sysroot)
+NOTE: Running task 2066 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_package)
+NOTE: recipe gnupg-2.3.4-r0: task do_packagedata: Succeeded
+NOTE: recipe libsolv-0.7.22-r0: task do_package: Started
+NOTE: Running task 2067 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_package_write_rpm)
+NOTE: recipe libsolv-0.7.22-r0: task do_populate_sysroot: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_package_write_rpm: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libsolv-0.7.22-r0: task do_package: Succeeded
+NOTE: Running task 2068 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_packagedata)
+NOTE: recipe libsolv-0.7.22-r0: task do_packagedata: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_packagedata: Succeeded
+NOTE: recipe gnupg-2.3.4-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_compile: Succeeded
+NOTE: Running task 2069 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_install)
+NOTE: recipe gpgme-1.17.1-r0: task do_install: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_install: Succeeded
+NOTE: Running task 2070 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_populate_sysroot)
+NOTE: Running task 2071 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_package)
+NOTE: recipe gpgme-1.17.1-r0: task do_populate_sysroot: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_package: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2072 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe librepo-1.14.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe librepo-1.14.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2073 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_configure)
+NOTE: recipe librepo-1.14.2-r0: task do_configure: Started
+NOTE: recipe librepo-1.14.2-r0: task do_configure: Succeeded
+NOTE: Running task 2074 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_compile)
+NOTE: recipe librepo-1.14.2-r0: task do_compile: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_package: Succeeded
+NOTE: Running task 2075 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_packagedata)
+NOTE: recipe gpgme-1.17.1-r0: task do_packagedata: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 2076 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_package_write_rpm)
+NOTE: recipe gpgme-1.17.1-r0: task do_package_write_rpm: Started
+NOTE: recipe librepo-1.14.2-r0: task do_compile: Succeeded
+NOTE: Running task 2077 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_install)
+NOTE: recipe librepo-1.14.2-r0: task do_install: Started
+NOTE: recipe librepo-1.14.2-r0: task do_install: Succeeded
+NOTE: Running task 2078 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_populate_sysroot)
+NOTE: Running task 2079 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_package)
+NOTE: recipe librepo-1.14.2-r0: task do_populate_sysroot: Started
+NOTE: recipe librepo-1.14.2-r0: task do_package: Started
+NOTE: recipe librepo-1.14.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2080 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libdnf-0.66.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2081 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_configure)
+NOTE: recipe libdnf-0.66.0-r0: task do_configure: Started
+NOTE: recipe librepo-1.14.2-r0: task do_package: Succeeded
+NOTE: Running task 2082 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_packagedata)
+NOTE: recipe librepo-1.14.2-r0: task do_packagedata: Started
+NOTE: recipe librepo-1.14.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 2083 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_package_write_rpm)
+NOTE: recipe librepo-1.14.2-r0: task do_package_write_rpm: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_configure: Succeeded
+NOTE: Running task 2084 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_compile)
+NOTE: recipe libdnf-0.66.0-r0: task do_compile: Started
+NOTE: recipe librepo-1.14.2-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_compile: Succeeded
+NOTE: Running task 2085 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_install)
+NOTE: recipe libdnf-0.66.0-r0: task do_install: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_install: Succeeded
+NOTE: Running task 2086 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_package)
+NOTE: Running task 2087 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_populate_sysroot)
+NOTE: recipe libdnf-0.66.0-r0: task do_package: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2088 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe dnf-4.12.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe dnf-4.12.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2089 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_configure)
+NOTE: recipe dnf-4.12.0-r0: task do_configure: Started
+NOTE: recipe dnf-4.12.0-r0: task do_configure: Succeeded
+NOTE: Running task 2090 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_compile)
+NOTE: recipe dnf-4.12.0-r0: task do_compile: Started
+NOTE: recipe dnf-4.12.0-r0: task do_compile: Succeeded
+NOTE: Running task 2091 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_install)
+NOTE: recipe dnf-4.12.0-r0: task do_install: Started
+NOTE: recipe dnf-4.12.0-r0: task do_install: Succeeded
+NOTE: Running task 2092 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_populate_sysroot)
+NOTE: recipe dnf-4.12.0-r0: task do_populate_sysroot: Started
+NOTE: recipe dnf-4.12.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_package: Succeeded
+NOTE: Running task 2093 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_packagedata)
+NOTE: recipe libdnf-0.66.0-r0: task do_packagedata: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2094 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_package)
+NOTE: Running task 2095 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_package_write_rpm)
+NOTE: recipe dnf-4.12.0-r0: task do_package: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_package_write_rpm: Started
+NOTE: recipe dnf-4.12.0-r0: task do_package: Succeeded
+NOTE: Running task 2096 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_packagedata)
+NOTE: recipe dnf-4.12.0-r0: task do_packagedata: Started
+NOTE: recipe dnf-4.12.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2097 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_package_write_rpm)
+NOTE: Running task 2098 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_package_qa)
+NOTE: recipe dnf-4.12.0-r0: task do_package_write_rpm: Started
+NOTE: recipe dnf-4.12.0-r0: task do_package_qa: Started
+NOTE: recipe dnf-4.12.0-r0: task do_package_qa: Succeeded
+NOTE: recipe dnf-4.12.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2099 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 2099 tasks of which 1841 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 
-Summary: There were 26 ERROR messages, returning a non-zero exit code.
+Summary: There were 66 ERROR messages, returning a non-zero exit code.
 /usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
   return f(*args, **kwds)
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package sqlite3-src went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-src went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package sqlite3-dbg went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3 went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-dbg went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-src went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3-dev went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-ptest went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3-doc went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-staticdev went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-dbg went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3-staticdev went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-dev went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-staticdev went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package sqlite3 went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-doc went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-dev went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-locale went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-doc went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-locale went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-bin went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-src went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-dbg went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-staticdev went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-dev went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-doc went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-gui went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-vconsole-setup went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-initramfs went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-analyze went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-kernel-install went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-rpm-macros went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-binfmt went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-zsh-completion went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-container went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-gatewayd went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-upload went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-remote went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-extra-utils went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-udev-rules went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libsystemd-shared went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package udev went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package udev-hwdb went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-bash-completion went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-be went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-be+latin went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-bg went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ca went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-cs went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-da went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-de went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-el went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-es went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-fi went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-fr went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-gl went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-hr went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-hu went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-id went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-it went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ja went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-kab went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ko went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-lt went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-nl went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pa went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pl went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pt went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pt-br went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ro went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ru went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-si went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sk went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sr went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sv went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-tr went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-uk went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-zh-cn went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-zh-tw went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-myhostname went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-mymachines went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-resolve went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-systemd went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libsystemd went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libudev went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============8393140509345750282==
+--===============2727113197685896079==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/vte: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte: PACKAGES: added "vte-locale-ab"
-packages/core2-32-poky-linux/vte: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte: SRC_URI changed from "https://download.gnome.org/sources//vte/0.66/vte-0.66.2.tar.xz;name=archive file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch file://0001-Makefile.docs-correctly-substitute-gtkdoc-qemu-wrapp.patch" to "https://download.gnome.org/sources//vte/0.68/vte-0.68.0.tar.xz;name=archive file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch file://0001-Makefile.docs-correctly-substitute-gtkdoc-qemu-wrapp.patch"
-packages/core2-32-poky-linux/vte/libvte: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/libvte: FILELIST: removed "/usr/lib/libvte-2.91.so.0.6600.2", added "/usr/lib/libvte-2.91.so.0.6800.0"
-packages/core2-32-poky-linux/vte/libvte: PKGSIZE changed from 643115 to 647559 (+1%)
-packages/core2-32-poky-linux/vte/libvte: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-Changes to packages/core2-32-poky-linux/vte (sysroot):
-  /usr/lib/libvte-2.91.so.0 changed symlink target from libvte-2.91.so.0.6600.2 to libvte-2.91.so.0.6800.0
-  /usr/lib/libvte-2.91.so.0.6600.2 moved to /usr/lib/libvte-2.91.so.0.6800.0
-packages/core2-32-poky-linux/vte/vte-dbg: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-dbg: FILELIST: removed "/usr/lib/.debug/libvte-2.91.so.0.6600.2", added "/usr/lib/.debug/libvte-2.91.so.0.6800.0"
-packages/core2-32-poky-linux/vte/vte-dbg: PKGSIZE changed from 6252180 to 6310712 (+1%)
-packages/core2-32-poky-linux/vte/vte-dbg: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-dev: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-dev: PKGSIZE changed from 379592 to 384168 (+1%)
-packages/core2-32-poky-linux/vte/vte-dev: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-doc: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-doc: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-am: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-am: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-an: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-an: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-ang: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-ang: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-ar: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-ar: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-as: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-as: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-ast: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-ast: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-az: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-az: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-be+latin: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-be+latin: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-be: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-be: PKGSIZE changed from 1470 to 1112 (-24%)
-packages/core2-32-poky-linux/vte/vte-locale-be: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-bg: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-bg: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-bn-in: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-bn-in: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-bn: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-bn: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-bs: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-bs: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-ca+valencia: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-ca+valencia: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-ca: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-ca: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-ckb: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-ckb: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-cs: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-cs: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-cy: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-cy: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-da: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-da: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-de: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-de: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-dz: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-dz: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-el: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-el: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-en+shaw: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-en+shaw: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-en-ca: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-en-ca: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-en-gb: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-en-gb: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-eo: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-eo: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-es: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-es: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-et: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-et: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-eu: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-eu: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-fa: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-fa: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-fi: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-fi: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-fr: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-fr: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-fur: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-fur: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-ga: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-ga: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-gd: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-gd: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-gl: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-gl: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-gu: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-gu: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-he: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-he: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-hi: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-hi: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-hr: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-hr: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-hu: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-hu: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-id: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-id: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-is: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-is: PKGSIZE changed from 1068 to 1253 (+17%)
-packages/core2-32-poky-linux/vte/vte-locale-is: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-it: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-it: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-ja: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-ja: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-ka: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-ka: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-kk: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-kk: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-kn: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-kn: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-ko: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-ko: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-ku: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-ku: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-ky: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-ky: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-li: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-li: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-lt: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-lt: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-lv: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-lv: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-mai: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-mai: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-mi: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-mi: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-mjw: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-mjw: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-mk: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-mk: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-ml: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-ml: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-mn: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-mn: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-mr: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-mr: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-ms: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-ms: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-nb: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-nb: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-nds: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-nds: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-ne: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-ne: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-nl: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-nl: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-nn: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-nn: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-oc: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-oc: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-or: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-or: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-pa: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-pa: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-pl: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-pl: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-pt-br: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-pt-br: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-pt: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-pt: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-ro: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-ro: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-ru: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-ru: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-rw: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-rw: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-si: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-si: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-sk: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-sk: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-sl: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-sl: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-sq: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-sq: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-sr+latin: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-sr+latin: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-sr: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-sr: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-sv: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-sv: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-ta: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-ta: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-te: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-te: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-tg: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-tg: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-th: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-th: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-tr: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-tr: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-ug: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-ug: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-uk: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-uk: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-uz+cyrillic: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-uz+cyrillic: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-vi: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-vi: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-wa: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-wa: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-xh: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-xh: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-zh-cn: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-zh-cn: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-zh-hk: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-zh-hk: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-locale-zh-tw: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-locale-zh-tw: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-prompt: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-prompt: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-src: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-src: FILELIST: directory renamed /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/app -> /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/app, directory renamed /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vte -> /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vte, directory renamed /usr/src/debug/vte/0.66.2-r0/build/src/vte -> /usr/src/debug/vte/0.68.0-r0/build/src/vte, directory renamed /usr/src/debug/vte/0.66.2-r0/build/src -> /usr/src/debug/vte/0.68.0-r0/build/src, directory renamed /usr/src/debug/vte/0.66.2-r0/build/src/app -> /usr/src/debug/vte/0.68.0-r0/build/src/app, removed "/usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/icu-glue.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/std-glue.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/reaper.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/modes.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/utf8.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vtetypes.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vtespawn.hh /u
- sr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vtestream-file.h /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/parser-charset-tables.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/regex.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/cxx-utils.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/reaper.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/libc-glue.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/pcre2-glue.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/parser.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/ringview.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/drawing-cairo.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vteunistr.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/spawn.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/clipboard-gtk.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vterowdata.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/missing.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/gobject-glue.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/color-triple.hh /usr/src/debug/
- vte/0.66.2-r0/vte-0.66.2/src/debug.h /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/icu-decoder.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/pty.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/utf8.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/attr.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vteutils.h /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vtegtk.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/parser.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/icu-converter.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/buffer.h /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/regex.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/bidi.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/glib-glue.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vteaccess.h /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vtestream.h /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vtepty.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/debug.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/fonts-pangocairo.cc /usr/src/debug/vte/0.66.
- 2-r0/vte-0.66.2/src/fwd.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/parser-string.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vteseq.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vte.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/parser-arg.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vteunistr.h /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/parser-glue.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/keymap.h /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/chunk.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/minifont.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/ring.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vtespawn.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/clipboard-gtk.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/urlencode.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/ringview.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/cell.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vteregexinternal.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/minifont.cc /usr/src/debug/
- vte/0.66.2-r0/vte-0.66.2/src/vtetypes.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/cairo-glue.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/missing.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/pty.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vteutils.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/icu-decoder.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vteinternal.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vterowdata.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/spawn.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vtestream-base.h /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/keymap.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/fonts-pangocairo.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/drawing-cairo.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vteaccess.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vte-glue.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/tabstops.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/bidi.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/ch
- unk.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/widget.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/icu-converter.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/pango-glue.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/gtk-glue.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/ring.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/icu-glue.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vteregex.cc /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/refptr.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/parser-reply.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vteptyinternal.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/widget.hh /usr/src/debug/vte/0.66.2-r0/vte-0.66.2/src/vtegtk.cc", added "/usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vteaccess.h /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vte.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/pastify.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vteregexinternal.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/chunk.cc /usr/src/debug/vte/0.68.0
- -r0/vte-0.68.0/src/vtestream.h /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/modes.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vte-glue.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vtepty.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/parser-charset-tables.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/pcre2-glue.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/spawn.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/regex.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/buffer.h /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/ringview.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vterowdata.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/parser-reply.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/pango-glue.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/parser-glue.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vteinternal.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/keymap.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/ring.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/glib-glue.hh /usr
- /src/debug/vte/0.68.0-r0/vte-0.68.0/src/drawing-cairo.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/utf8.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vtetypes.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vteunistr.h /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vteunistr.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vtespawn.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/chunk.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/icu-decoder.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/reaper.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/bidi.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vtegtk.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/gobject-glue.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vtestream-base.h /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/widget.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/refptr.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vteaccess.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/clipboard-gtk.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/
- minifont.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/missing.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/missing.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vtestream-file.h /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/icu-converter.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/minifont.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/fonts-pangocairo.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vteptyinternal.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/libc-glue.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/clipboard-gtk.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/regex.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/icu-decoder.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/icu-converter.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vteutils.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/color-triple.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/pty.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/cxx-utils.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vtetypes.hh 
- /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/pastify.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/icu-glue.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vterowdata.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vtespawn.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/fonts-pangocairo.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/cairo-glue.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/spawn.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/parser.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/utf8.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vteutils.h /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/urlencode.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/parser.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/reaper.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/debug.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/ringview.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/std-glue.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/fwd.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/tabstops.hh
-  /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vteregex.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vtegtk.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/keymap.h /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/bidi.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/parser-string.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/widget.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/pty.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/cell.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/ring.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/vteseq.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/gtk-glue.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/drawing-cairo.cc /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/icu-glue.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/debug.h /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/attr.hh /usr/src/debug/vte/0.68.0-r0/vte-0.68.0/src/parser-arg.hh"
-packages/core2-32-poky-linux/vte/vte-src: PKGSIZE changed from 2140070 to 2154012 (+1%)
-packages/core2-32-poky-linux/vte/vte-src: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte-staticdev: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte-staticdev: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
-packages/core2-32-poky-linux/vte/vte: PV changed from "0.66.2" to "0.68.0"
-packages/core2-32-poky-linux/vte/vte: PKGV changed from 0.66.2 [default] to 0.68.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-bash-completion: PKGSIZE changed from 10230 to 10220 (-0%)
+packages/core2-32-poky-linux/dnf/dnf-bash-completion: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-bash-completion: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-dbg: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-dbg: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-dev: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-dev: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-doc: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-doc: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-ar: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-ar: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-bg: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-bg: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-bn-in: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-bn-in: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-ca: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-ca: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-cs: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-cs: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-da: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-da: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-de: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-de: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-el: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-el: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-en-gb: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-en-gb: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-eo: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-eo: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-es: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-es: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-eu: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-eu: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-fa: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-fa: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-fi: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-fi: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-fil: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-fil: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-fr: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-fr: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-fur: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-fur: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-gd: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-gd: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-gu: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-gu: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-he: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-he: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-hi: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-hi: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-hr: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-hr: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-hu: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-hu: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-id: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-id: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-it: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-it: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-ja: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-ja: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-ka: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-ka: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-kk: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-kk: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-ko: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-ko: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-lt: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-lt: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-ml: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-ml: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-mr: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-mr: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-ms: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-ms: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-nb: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-nb: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-nl: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-nl: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-or: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-or: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-pa: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-pa: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-pl: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-pl: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-pt-br: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-pt-br: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-pt: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-pt: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-ru: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-ru: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-si: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-si: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-sk: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-sk: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-sq: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-sq: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-sr+latin: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-sr+latin: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-sr: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-sr: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-sv: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-sv: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-th: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-th: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-tr: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-tr: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-uk: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-uk: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-ur: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-ur: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-vi: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-vi: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-zh-cn: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-zh-cn: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-locale-zh-tw: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-locale-zh-tw: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-src: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-src: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf-staticdev: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf-staticdev: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf/dnf: PKGSIZE changed from 943913 to 944048 (+0%)
+packages/core2-32-poky-linux/dnf/dnf: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf/dnf: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
+packages/core2-32-poky-linux/dnf: PV changed from "4.11.1" to "4.12.0"
+packages/core2-32-poky-linux/dnf: PKGV changed from 4.11.1 [default] to 4.12.0 [default]
 
---===============8393140509345750282==
+--===============2727113197685896079==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1448,202 +1171,892 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "mips-poky-linux"
 MACHINE              = "qemumips"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-4a06ce9f4eae8d261e8358e490afd304696206f8"
+DISTRO_VERSION       = "4.1+snapshot-1cff4aa500258f520af6fc8cfa3c5cc6eef3a6dc"
 TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:4a06ce9f4eae8d261e8358e490afd304696206f8"
+meta-yocto-bsp       = "tmp-auh-upgrades:1cff4aa500258f520af6fc8cfa3c5cc6eef3a6dc"
 workspace            = "master:9e556960421c8bbe8851d9810352a5b4bd3b50df"
 
 Initialising tasks...done.
-Sstate summary: Wanted 55 Local 41 Mirrors 0 Missed 14 Current 558 (74% match, 97% complete)
-Removing 3 stale sstate objects for arch qemumips...done.
+Sstate summary: Wanted 115 Local 20 Mirrors 0 Missed 95 Current 490 (17% match, 84% complete)
+Removing 4 stale sstate objects for arch qemumips...done.
+Removing 1 stale sstate objects for arch mips32r2...done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 576 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 577 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 578 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 579 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 580 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 581 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1061 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe fribidi-1.0.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe fribidi-1.0.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libseccomp-2.5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libseccomp-2.5.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1330 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_fetch)
-NOTE: Running task 1343 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_fetch)
-NOTE: Running task 1353 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_write_config)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/sqlite3/3_3.38.2-r0/temp/log.do_packagedata_setscene.3170387
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 601 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_package_setscene)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/fribidi/1.0.11-r0/temp/log.do_packagedata_setscene.3170383
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 602 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_package_setscene)
-NOTE: recipe fribidi-1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/libseccomp/2.5.3-r0/temp/log.do_packagedata_setscene.3170385
-NOTE: recipe libseccomp-2.5.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: recipe libpcre2-10.40-r0: task do_fetch: Started
-NOTE: recipe vte-0.68.0-r0: task do_fetch: Started
-NOTE: recipe vte-0.68.0-r0: task do_write_config: Started
-NOTE: recipe libpcre2-10.40-r0: task do_fetch: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_fetch: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_write_config: Succeeded
-NOTE: Running setscene task 603 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_package_setscene)
-NOTE: Running task 1354 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_unpack)
-NOTE: Running task 1355 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_unpack)
+NOTE: Running setscene task 538 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 543 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 548 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzdata.bb:do_packagedata_setscene)
+NOTE: Running setscene task 557 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_packagedata_setscene)
+NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Started
+NOTE: recipe tzdata-2022a-r0: task do_packagedata_setscene: Started
+NOTE: recipe dbus-1.14.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe dbus-1.14.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe tzdata-2022a-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe dbus-1.14.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 597 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_packagedata_setscene)
+NOTE: recipe dbus-1.14.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 598 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe systemd-1_250.4-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1251 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_fetch)
+NOTE: Running task 1253 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_fetch)
+NOTE: recipe systemd-1_250.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe lua-5.4.4-r0: task do_fetch: Started
+NOTE: recipe popt-1.18-r0: task do_fetch: Started
+NOTE: Running task 1527 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_fetch)
+NOTE: Running task 1553 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_fetch)
+NOTE: Running task 1554 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_fetch)
+NOTE: Running task 1558 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_fetch)
+NOTE: Running task 1574 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_fetch)
+NOTE: Running task 1575 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_fetch)
+NOTE: Running task 1576 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_fetch)
+NOTE: recipe popt-1.18-r0: task do_fetch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_fetch: Succeeded
+NOTE: Running task 1601 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_unpack)
+NOTE: Running task 1602 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1603 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_unpack)
+NOTE: Running task 1604 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1607 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_fetch)
+NOTE: Running task 1608 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_fetch)
+NOTE: Running task 1609 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_fetch)
+NOTE: Running task 1622 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_fetch)
+NOTE: Running task 1623 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_fetch)
+NOTE: Running task 1663 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_fetch)
+NOTE: Running task 1675 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_fetch)
+NOTE: Running task 1676 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_fetch)
+NOTE: Running task 1677 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_fetch)
+NOTE: Running task 1678 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_write_config)
+NOTE: recipe libassuan-2.5.5-r0: task do_fetch: Started
+NOTE: Running task 1716 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_fetch)
+NOTE: Running task 1738 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_fetch)
+NOTE: Running task 1741 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_fetch)
+NOTE: recipe rpm-1_4.17.0-r0: task do_fetch: Started
+NOTE: recipe librepo-1.14.2-r0: task do_fetch: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_fetch: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_fetch: Started
+NOTE: recipe json-c-0.16-r0: task do_fetch: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_fetch: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_fetch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_unpack: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_fetch: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_fetch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1800 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_unpack)
+NOTE: Running task 1801 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsolv-0.7.22-r0: task do_fetch: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_fetch: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_fetch: Started
+NOTE: recipe popt-1.18-r0: task do_unpack: Started
+NOTE: Running task 1802 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_unpack)
+NOTE: recipe libcomps-0.1.18-r0: task do_fetch: Started
+NOTE: recipe librepo-1.14.2-r0: task do_fetch: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_fetch: Started
+NOTE: Running task 1803 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_unpack)
+NOTE: Running task 1804 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gpgme-1.17.1-r0: task do_fetch: Succeeded
+NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1805 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libdnf-0.66.0-r0: task do_fetch: Started
+NOTE: recipe systemd-1_250.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1806 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_unpack)
+NOTE: recipe python3-six-1.16.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_fetch: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_fetch: Succeeded
+NOTE: recipe libksba-1.6.0-r0: task do_fetch: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1807 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_unpack)
+NOTE: Running task 1808 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_unpack)
+NOTE: recipe dnf-4.12.0-r0: task do_fetch: Started
+NOTE: recipe npth-1.6-r0: task do_fetch: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1811 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_unpack)
+NOTE: Running task 1812 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-iniparse-0.5-r0: task do_fetch: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_fetch: Succeeded
+NOTE: recipe libksba-1.6.0-r0: task do_fetch: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_write_config: Started
+NOTE: Running task 1813 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_unpack)
+NOTE: Running task 1814 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_unpack)
+NOTE: Running task 1815 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_unpack)
+NOTE: Running task 1816 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe npth-1.6-r0: task do_fetch: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_fetch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_unpack: Succeeded
+NOTE: Running task 1817 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_unpack)
+NOTE: Running task 1818 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_unpack)
+NOTE: Running task 1819 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_unpack)
+NOTE: Running task 1820 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_prepare_recipe_sysroot)
+NOTE: recipe popt-1.18-r0: task do_unpack: Succeeded
+NOTE: recipe dnf-4.12.0-r0: task do_fetch: Succeeded
+NOTE: recipe gnupg-2.3.4-r0: task do_fetch: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_fetch: Started
+NOTE: recipe unzip-1_6.0-r5: task do_fetch: Started
+NOTE: Running task 1821 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1822 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_unpack)
+NOTE: Running task 1823 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_unpack)
+NOTE: Running task 1824 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gnupg-2.3.4-r0: task do_fetch: Succeeded
+NOTE: recipe pinentry-1.2.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1836 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_patch)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_write_config: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_unpack: Started
+NOTE: Running task 1837 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_patch)
+NOTE: Running task 1838 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_unpack)
+NOTE: Running task 1839 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_unpack)
+NOTE: Running task 1840 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_unpack)
+NOTE: recipe libassuan-2.5.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe json-c-0.16-r0: task do_unpack: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_unpack: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe json-c-0.16-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe unzip-1_6.0-r5: task do_fetch: Succeeded
+NOTE: recipe libsolv-0.7.22-r0: task do_unpack: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_unpack: Started
+NOTE: recipe librepo-1.14.2-r0: task do_unpack: Started
+NOTE: Running task 1849 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_unpack)
+NOTE: recipe gpgme-1.17.1-r0: task do_unpack: Started
+NOTE: Running task 1850 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe json-c-0.16-r0: task do_unpack: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_unpack: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_unpack: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_unpack: Started
+NOTE: Running task 1851 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_patch)
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1852 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_patch)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_unpack: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_unpack: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_unpack: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_unpack: Started
+NOTE: recipe libksba-1.6.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libksba-1.6.0-r0: task do_unpack: Started
+NOTE: Running task 1853 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_patch)
+NOTE: recipe npth-1.6-r0: task do_unpack: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_unpack: Started
+NOTE: recipe npth-1.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_unpack: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_patch: Started
+NOTE: recipe dnf-4.12.0-r0: task do_unpack: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_unpack: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_unpack: Started
+NOTE: Running task 1854 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_patch)
+NOTE: Running task 1855 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_patch)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/systemd/1_250.4-r0/temp/log.do_packagedata_setscene.1629019
+NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_prepare_recipe_sysroot: Started
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 599 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_package_setscene)
+NOTE: recipe gnupg-2.3.4-r0: task do_unpack: Started
+NOTE: recipe popt-1.18-r0: task do_patch: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_patch: Started
+NOTE: recipe json-c-0.16-r0: task do_patch: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_unpack: Started
+NOTE: recipe librepo-1.14.2-r0: task do_unpack: Succeeded
+NOTE: recipe npth-1.6-r0: task do_unpack: Succeeded
+NOTE: recipe libsolv-0.7.22-r0: task do_unpack: Succeeded
+NOTE: Running task 1856 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_patch)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_unpack: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_patch: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_patch: Started
+NOTE: Running task 1857 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_patch)
+NOTE: Running task 1858 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_patch)
+NOTE: recipe libcomps-0.1.18-r0: task do_unpack: Succeeded
+NOTE: Running task 1859 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_patch)
+NOTE: Running task 1860 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_patch)
+NOTE: recipe lua-5.4.4-r0: task do_patch: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_patch: Started
+NOTE: Running task 1861 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_patch)
+NOTE: recipe libyaml-0.2.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1862 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe libksba-1.6.0-r0: task do_unpack: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_patch: Succeeded
+NOTE: Running task 1863 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1864 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_patch)
+NOTE: recipe popt-1.18-r0: task do_patch: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe pinentry-1.2.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1865 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1866 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_patch)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_patch: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_patch: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_unpack: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_patch: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1867 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_patch)
+NOTE: recipe dnf-4.12.0-r0: task do_unpack: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_unpack: Succeeded
+NOTE: recipe libksba-1.6.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe npth-1.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1868 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_patch)
+NOTE: recipe gpgme-1.17.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1869 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1870 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_generate_toolchain_file)
+NOTE: Running task 1871 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_patch)
+NOTE: Running task 1872 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-six-1.16.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1873 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_patch)
+NOTE: Running task 1874 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1875 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1876 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_patch)
+NOTE: recipe librepo-1.14.2-r0: task do_patch: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_patch: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_patch: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_patch: Started
+NOTE: recipe npth-1.6-r0: task do_patch: Started
+NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libksba-1.6.0-r0: task do_patch: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_patch: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_patch: Started
+NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_patch: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe json-c-0.16-r0: task do_generate_toolchain_file: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_patch: Started
+NOTE: recipe json-c-0.16-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe dnf-4.12.0-r0: task do_patch: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe unzip-1_6.0-r5: task do_patch: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_patch: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_patch: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_generate_toolchain_file: Succeeded
+NOTE: Running task 1877 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_deploy_source_date_epoch)
+NOTE: recipe libksba-1.6.0-r0: task do_patch: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_patch: Succeeded
+NOTE: Running task 1878 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libsolv-0.7.22-r0: task do_patch: Succeeded
+NOTE: Running task 1879 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1880 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_generate_toolchain_file)
+NOTE: Running task 1881 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_generate_toolchain_file)
+NOTE: Running task 1882 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_deploy_source_date_epoch)
+NOTE: recipe npth-1.6-r0: task do_patch: Succeeded
+NOTE: Running task 1883 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_deploy_source_date_epoch)
+NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe librepo-1.14.2-r0: task do_patch: Succeeded
+NOTE: Running task 1884 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
+NOTE: recipe libyaml-0.2.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1885 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1886 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_generate_toolchain_file)
+NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1887 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_configure)
+NOTE: recipe libassuan-2.5.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe pinentry-1.2.0-r0: task do_patch: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1888 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_configure)
+NOTE: recipe python3-iniparse-0.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libksba-1.6.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1889 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_configure)
+NOTE: recipe libsolv-0.7.22-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_patch: Succeeded
+NOTE: recipe npth-1.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_configure: Started
+NOTE: recipe librepo-1.14.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1890 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_configure)
+NOTE: recipe librepo-1.14.2-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_configure: Started
+NOTE: Running task 1891 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe popt-1.18-r0: task do_configure: Started
+NOTE: Running task 1892 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_configure)
+NOTE: recipe librepo-1.14.2-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1893 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
+NOTE: Running task 1894 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
+NOTE: recipe libcomps-0.1.18-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libksba-1.6.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1895 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_configure)
+NOTE: recipe json-c-0.16-r0: task do_configure: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1896 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_configure)
+NOTE: recipe npth-1.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_configure: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_patch: Succeeded
+NOTE: Running task 1897 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_configure)
+NOTE: recipe python3-six-1.16.0-r0: task do_configure: Started
+NOTE: Running task 1898 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1899 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_generate_toolchain_file)
+NOTE: recipe librepo-1.14.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_configure: Started
+NOTE: recipe systemd-1_250.4-r0: task do_package_setscene: Started
+NOTE: recipe dnf-4.12.0-r0: task do_patch: Succeeded
+NOTE: recipe libksba-1.6.0-r0: task do_configure: Started
+NOTE: Running task 1900 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1901 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_generate_toolchain_file)
+NOTE: Running task 1902 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_populate_lic)
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe npth-1.6-r0: task do_configure: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_configure: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_generate_toolchain_file: Started
+NOTE: Running task 1903 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
+NOTE: Running task 1904 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_compile)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe pinentry-1.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1905 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_configure)
+NOTE: recipe dnf-4.12.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe dnf-4.12.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe dnf-4.12.0-r0: task do_populate_lic: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_compile: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_patch: Succeeded
+NOTE: recipe gnupg-2.3.4-r0: task do_unpack: Succeeded
+NOTE: Running task 1906 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1907 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_patch)
+NOTE: recipe dnf-4.12.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_configure: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_patch: Started
+NOTE: recipe dnf-4.12.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_populate_lic unihash changed to 2059057eb6a58b4046f22e7352cdfcd05a05501a85a91c6987d63f5240fe548e
+NOTE: recipe dnf-4.12.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_patch: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_configure: Succeeded
+NOTE: Running task 1908 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1909 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_compile)
+NOTE: recipe gnupg-2.3.4-r0: task do_patch: Succeeded
+NOTE: Running task 1910 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe rpm-1_4.17.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_compile: Started
+NOTE: recipe unzip-1_6.0-r5: task do_patch: Succeeded
+NOTE: Running task 1911 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe gnupg-2.3.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_deploy_source_date_epoch: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1912 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_configure)
+NOTE: recipe unzip-1_6.0-r5: task do_configure: Started
+NOTE: recipe unzip-1_6.0-r5: task do_configure: Succeeded
+NOTE: Running task 1913 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_compile)
+NOTE: recipe python3-six-1.16.0-r0: task do_compile: Succeeded
+NOTE: Running task 1914 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_install)
+NOTE: recipe unzip-1_6.0-r5: task do_compile: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_compile: Succeeded
+NOTE: Running task 1915 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_install)
+NOTE: recipe python3-six-1.16.0-r0: task do_install: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_install: Started
+NOTE: recipe systemd-1_250.4-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1926 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
 NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe libpcre2-10.40-r0: task do_unpack: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_package_setscene: Started
-NOTE: recipe vte-0.68.0-r0: task do_unpack: Started
-NOTE: recipe fribidi-1.0.11-r0: task do_package_setscene: Started
-NOTE: recipe libseccomp-2.5.3-r0: task do_package_setscene: Started
-NOTE: recipe vte-0.68.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1356 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_patch)
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_package_setscene: Succeeded
-NOTE: recipe fribidi-1.0.11-r0: task do_package_setscene: Succeeded
-NOTE: recipe libpcre2-10.40-r0: task do_unpack: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_install: Succeeded
+NOTE: Running task 1948 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_populate_sysroot)
+NOTE: Running task 1949 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package)
+NOTE: recipe python3-six-1.16.0-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_package: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_install: Succeeded
+NOTE: Running task 1950 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_package)
+NOTE: Running task 1951 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_populate_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
+NOTE: Running task 1952 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
 NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_patch: Started
-NOTE: Running task 1366 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_patch)
-NOTE: recipe libseccomp-2.5.3-r0: task do_package_setscene: Succeeded
-NOTE: Running task 1367 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running setscene task 606 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1372 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe libcomps-0.1.18-r0: task do_package: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_populate_sysroot: Started
+NOTE: Running task 1953 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: Running task 1954 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1955 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
 NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpcre2-10.40-r0: task do_patch: Started
 NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe vte-0.68.0-r0: task do_patch: Succeeded
-NOTE: Running task 1373 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1374 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_populate_lic)
-NOTE: recipe libpcre2-10.40-r0: task do_patch: Succeeded
-NOTE: Running task 1375 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_deploy_source_date_epoch)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 608 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe vte-0.68.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vte-0.68.0-r0: task do_populate_lic: Started
-NOTE: recipe libpcre2-10.40-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gcc-runtime-11.3.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1956 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_install: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_prepare_recipe_sysroot: Started
 NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_populate_sysroot: Succeeded
 NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to adc99ef3803769c431eb1fe143d0d4d2272069a430faf47bb88e42d021c57eca
-NOTE: recipe vte-0.68.0-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_populate_lic unihash changed to b5be5a6e0c104c8dca84fabb0f2f76f1b1fa5c188030104bfbfb9842fb9e40c4
-NOTE: recipe vte-0.68.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libpcre2-10.40-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gcc-runtime-11.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 609 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-11.3.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
+NOTE: Running task 1970 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1971 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
+NOTE: recipe python3-iniparse-0.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1972 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
+NOTE: Running task 1973 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_configure)
+NOTE: recipe python3-six-1.16.0-r0: task do_package: Succeeded
 NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 1381 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: Running task 1974 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_packagedata)
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
+NOTE: Running task 1975 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe lua-5.4.4-r0: task do_package: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_configure: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_packagedata: Started
 NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe libgcc-11.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 610 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.35.bb:do_populate_sysroot_setscene)
-NOTE: recipe glibc-2.35-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_configure: Succeeded
+NOTE: Running task 1976 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_compile)
+NOTE: recipe python3-iniparse-0.5-r0: task do_compile: Started
 NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
 NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 4f672850dad29842ce5ccb8318ecf7cb5c099e33eefd97dfd516e6119a48cb96
-NOTE: recipe glibc-2.35-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 613 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1923 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_packagedata)
-NOTE: Running task 2056 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2077 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_packagedata)
-NOTE: Running task 2087 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_packagedata)
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_packagedata: Started
-NOTE: recipe libpcre2-10.40-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe fribidi-1.0.11-r0: task do_packagedata: Started
-NOTE: recipe libseccomp-2.5.3-r0: task do_packagedata: Started
-NOTE: recipe libpcre2-10.40-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2090 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_configure)
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_packagedata: Succeeded
-NOTE: recipe fribidi-1.0.11-r0: task do_packagedata: Succeeded
-NOTE: recipe libseccomp-2.5.3-r0: task do_packagedata: Succeeded
-NOTE: recipe libpcre2-10.40-r0: task do_configure: Started
-NOTE: recipe libpcre2-10.40-r0: task do_configure: Succeeded
-NOTE: Running task 2129 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_compile)
-NOTE: recipe libpcre2-10.40-r0: task do_compile: Started
-NOTE: recipe libpcre2-10.40-r0: task do_compile: Succeeded
-NOTE: Running task 2130 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_install)
-NOTE: recipe libpcre2-10.40-r0: task do_install: Started
-NOTE: recipe libpcre2-10.40-r0: task do_install: Succeeded
-NOTE: Running task 2131 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_populate_sysroot)
-NOTE: Running task 2132 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_package)
-NOTE: recipe libpcre2-10.40-r0: task do_populate_sysroot: Started
-NOTE: recipe libpcre2-10.40-r0: task do_package: Started
-NOTE: recipe libpcre2-10.40-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2133 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vte-0.68.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vte-0.68.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2134 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_configure)
-NOTE: recipe vte-0.68.0-r0: task do_configure: Started
-NOTE: recipe libpcre2-10.40-r0: task do_package: Succeeded
-NOTE: Running task 2135 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_packagedata)
-NOTE: recipe libpcre2-10.40-r0: task do_packagedata: Started
-NOTE: recipe libpcre2-10.40-r0: task do_packagedata: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_configure: Succeeded
-NOTE: Running task 2136 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_compile)
-NOTE: recipe vte-0.68.0-r0: task do_compile: Started
-NOTE: recipe vte-0.68.0-r0: task do_compile: Succeeded
-NOTE: Running task 2137 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_install)
-NOTE: recipe vte-0.68.0-r0: task do_install: Started
-NOTE: recipe vte-0.68.0-r0: task do_install: Succeeded
-NOTE: Running task 2138 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_package)
-NOTE: Running task 2139 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_populate_sysroot)
-NOTE: recipe vte-0.68.0-r0: task do_package: Started
-NOTE: recipe vte-0.68.0-r0: task do_populate_sysroot: Started
-NOTE: recipe vte-0.68.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_package: Succeeded
-NOTE: Running task 2140 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_packagedata)
-NOTE: recipe vte-0.68.0-r0: task do_packagedata: Started
-NOTE: recipe vte-0.68.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2141 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_package_write_rpm)
-NOTE: Running task 2142 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_package_qa)
-NOTE: recipe vte-0.68.0-r0: task do_package_write_rpm: Started
-NOTE: recipe vte-0.68.0-r0: task do_package_qa: Started
-NOTE: recipe vte-0.68.0-r0: task do_package_qa: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 2143 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_build)
-NOTE: Tasks Summary: Attempted 2143 tasks of which 2109 didn't need to be rerun and all succeeded.
+NOTE: Running task 1978 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_packagedata)
+NOTE: recipe python3-six-1.16.0-r0: task do_packagedata: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe systemd-1_250.4-r0: task do_packagedata: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_package: Succeeded
+NOTE: Running task 1979 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_packagedata)
+NOTE: recipe libcomps-0.1.18-r0: task do_packagedata: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_packagedata: Succeeded
+NOTE: Running task 1980 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_package_write_rpm)
+NOTE: recipe libcomps-0.1.18-r0: task do_package_write_rpm: Started
+NOTE: recipe systemd-1_250.4-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_compile: Succeeded
+NOTE: Running task 1983 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_install)
+NOTE: recipe python3-iniparse-0.5-r0: task do_install: Started
+NOTE: recipe json-c-0.16-r0: task do_configure: Succeeded
+NOTE: Running task 1984 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_compile)
+NOTE: recipe json-c-0.16-r0: task do_compile: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_install: Succeeded
+NOTE: Running task 1985 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_package)
+NOTE: Running task 1986 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_populate_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
+NOTE: Running task 1987 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
+NOTE: recipe python3-iniparse-0.5-r0: task do_package: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_populate_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_compile: Succeeded
+NOTE: Running task 1988 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_install)
+NOTE: recipe json-c-0.16-r0: task do_install: Started
+NOTE: recipe json-c-0.16-r0: task do_install: Succeeded
+NOTE: Running task 1989 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_populate_sysroot)
+NOTE: Running task 1990 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_package)
+NOTE: recipe json-c-0.16-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_package: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_package: Started
+NOTE: Running task 1991 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_packagedata)
+NOTE: recipe libyaml-0.2.5-r0: task do_configure: Succeeded
+NOTE: Running task 1992 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_compile)
+NOTE: recipe python3-iniparse-0.5-r0: task do_packagedata: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_compile: Started
+NOTE: recipe json-c-0.16-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_packagedata: Succeeded
+NOTE: Running task 1993 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_package_write_rpm)
+NOTE: recipe python3-iniparse-0.5-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_package: Succeeded
+NOTE: Running task 1994 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_packagedata)
+NOTE: recipe json-c-0.16-r0: task do_packagedata: Started
+NOTE: recipe json-c-0.16-r0: task do_packagedata: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_compile: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_configure: Succeeded
+NOTE: Running task 1995 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_install)
+NOTE: Running task 1996 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_compile)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_compile: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_install: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_install: Succeeded
+NOTE: Running task 1997 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_populate_sysroot)
+NOTE: Running task 1998 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_package)
+NOTE: recipe libyaml-0.2.5-r0: task do_populate_sysroot: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_package: Started
+NOTE: recipe popt-1.18-r0: task do_configure: Succeeded
+NOTE: Running task 1999 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_configure_ptest_base)
+NOTE: recipe popt-1.18-r0: task do_configure_ptest_base: Started
+NOTE: recipe popt-1.18-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2000 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_compile)
+NOTE: recipe libyaml-0.2.5-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2001 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe popt-1.18-r0: task do_compile: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe npth-1.6-r0: task do_configure: Succeeded
+NOTE: Running task 2002 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_compile)
+NOTE: recipe libassuan-2.5.5-r0: task do_configure: Succeeded
+NOTE: Running task 2003 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_compile)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_compile: Succeeded
+NOTE: Running task 2004 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_install)
+NOTE: recipe npth-1.6-r0: task do_compile: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_compile: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_install: Started
+NOTE: recipe libksba-1.6.0-r0: task do_configure: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2005 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_configure)
+NOTE: Running task 2006 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_compile)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_install: Succeeded
+NOTE: Running task 2007 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_populate_sysroot)
+NOTE: Running task 2008 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_package)
+NOTE: recipe libksba-1.6.0-r0: task do_compile: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_configure: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_populate_sysroot: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_package: Started
+NOTE: recipe npth-1.6-r0: task do_compile: Succeeded
+NOTE: Running task 2009 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_install)
+NOTE: recipe npth-1.6-r0: task do_install: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_package: Succeeded
+NOTE: Running task 2010 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_packagedata)
+NOTE: recipe libyaml-0.2.5-r0: task do_packagedata: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_compile: Succeeded
+NOTE: Running task 2011 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_install)
+NOTE: recipe npth-1.6-r0: task do_install: Succeeded
+NOTE: Running task 2012 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_package)
+NOTE: Running task 2013 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_populate_sysroot)
+NOTE: recipe popt-1.18-r0: task do_compile: Succeeded
+NOTE: Running task 2014 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_compile_ptest_base)
+NOTE: recipe libassuan-2.5.5-r0: task do_install: Started
+NOTE: recipe npth-1.6-r0: task do_populate_sysroot: Started
+NOTE: recipe npth-1.6-r0: task do_package: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_packagedata: Succeeded
+NOTE: recipe popt-1.18-r0: task do_compile_ptest_base: Started
+NOTE: recipe popt-1.18-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2015 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_install)
+NOTE: recipe popt-1.18-r0: task do_install: Started
+NOTE: recipe npth-1.6-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_install: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_compile: Succeeded
+NOTE: Running task 2016 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_install)
+NOTE: Running task 2017 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_populate_sysroot)
+NOTE: Running task 2018 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_package)
+NOTE: recipe libassuan-2.5.5-r0: task do_populate_sysroot: Started
+NOTE: recipe unzip-1_6.0-r5: task do_install: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_package: Started
+NOTE: recipe unzip-1_6.0-r5: task do_install: Succeeded
+NOTE: Running task 2019 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_package)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_package: Succeeded
+NOTE: Running task 2020 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_packagedata)
+NOTE: recipe unzip-1_6.0-r5: task do_package: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_packagedata: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2021 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2022 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe popt-1.18-r0: task do_install: Succeeded
+NOTE: recipe pinentry-1.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2023 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_install_ptest_base)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_packagedata: Succeeded
+NOTE: recipe popt-1.18-r0: task do_install_ptest_base: Started
+NOTE: recipe popt-1.18-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe libksba-1.6.0-r0: task do_compile: Succeeded
+NOTE: Running task 2024 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_install)
+NOTE: recipe pinentry-1.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2025 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_populate_sysroot)
+NOTE: Running task 2026 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package)
+NOTE: Running task 2027 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_configure)
+NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Started
+NOTE: recipe libksba-1.6.0-r0: task do_install: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_configure: Started
+NOTE: recipe popt-1.18-r0: task do_package: Started
+NOTE: recipe npth-1.6-r0: task do_package: Succeeded
+NOTE: Running task 2028 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_packagedata)
+NOTE: recipe npth-1.6-r0: task do_packagedata: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2029 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_configure)
+NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_configure: Started
+NOTE: Running task 2030 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_configure: Succeeded
+NOTE: Running task 2031 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_compile)
+NOTE: recipe libksba-1.6.0-r0: task do_install: Succeeded
+NOTE: Running task 2032 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_package)
+NOTE: recipe npth-1.6-r0: task do_packagedata: Succeeded
+NOTE: Running task 2033 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_populate_sysroot)
+NOTE: recipe rpm-1_4.17.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_compile: Started
+NOTE: recipe libksba-1.6.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libksba-1.6.0-r0: task do_package: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_package: Succeeded
+NOTE: Running task 2034 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_packagedata)
+NOTE: recipe libassuan-2.5.5-r0: task do_packagedata: Started
+NOTE: recipe libksba-1.6.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2035 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gnupg-2.3.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe unzip-1_6.0-r5: task do_package: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_packagedata: Succeeded
+NOTE: Running task 2036 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata)
+NOTE: recipe gnupg-2.3.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2037 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_configure)
+NOTE: recipe unzip-1_6.0-r5: task do_packagedata: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_configure: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2038 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_configure)
+NOTE: recipe unzip-1_6.0-r5: task do_packagedata: Succeeded
+NOTE: Running task 2039 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.4.bb:do_package_write_rpm)
+NOTE: recipe rpm-1_4.17.0-r0: task do_configure: Started
+NOTE: recipe python3-3.10.4-r0: task do_package_write_rpm: Started
+NOTE: recipe libksba-1.6.0-r0: task do_package: Succeeded
+NOTE: Running task 2040 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_packagedata)
+NOTE: recipe libksba-1.6.0-r0: task do_packagedata: Started
+NOTE: recipe popt-1.18-r0: task do_package: Succeeded
+NOTE: Running task 2041 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_packagedata)
+NOTE: recipe popt-1.18-r0: task do_packagedata: Started
+NOTE: recipe libksba-1.6.0-r0: task do_packagedata: Succeeded
+NOTE: recipe popt-1.18-r0: task do_packagedata: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_compile: Succeeded
+NOTE: Running task 2042 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_install)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_install: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_configure: Succeeded
+NOTE: Running task 2043 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_compile)
+NOTE: recipe pinentry-1.2.0-r0: task do_compile: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_install: Succeeded
+NOTE: Running task 2044 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_populate_sysroot)
+NOTE: Running task 2045 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_package)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_package: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe pinentry-1.2.0-r0: task do_compile: Succeeded
+NOTE: Running task 2046 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_install)
+NOTE: recipe pinentry-1.2.0-r0: task do_install: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_install: Succeeded
+NOTE: Running task 2047 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_package)
+NOTE: recipe pinentry-1.2.0-r0: task do_package: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_package: Succeeded
+NOTE: Running task 2048 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_packagedata)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_packagedata: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_packagedata: Succeeded
+NOTE: recipe pinentry-1.2.0-r0: task do_package: Succeeded
+NOTE: Running task 2049 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_packagedata)
+NOTE: recipe pinentry-1.2.0-r0: task do_packagedata: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_packagedata: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_configure: Succeeded
+NOTE: Running task 2050 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_compile)
+NOTE: recipe gpgme-1.17.1-r0: task do_compile: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_configure: Succeeded
+NOTE: Running task 2051 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_compile)
+NOTE: recipe gnupg-2.3.4-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_configure: Succeeded
+NOTE: Running task 2052 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_compile)
+NOTE: recipe rpm-1_4.17.0-r0: task do_compile: Started
+NOTE: recipe python3-3.10.4-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_compile: Succeeded
+NOTE: Running task 2053 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_install)
+NOTE: recipe rpm-1_4.17.0-r0: task do_install: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_install: Succeeded
+NOTE: Running task 2054 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_populate_sysroot)
+NOTE: Running task 2055 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_package)
+NOTE: recipe rpm-1_4.17.0-r0: task do_populate_sysroot: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_package: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2056 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsolv-0.7.22-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2057 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_configure)
+NOTE: recipe libsolv-0.7.22-r0: task do_configure: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_compile: Succeeded
+NOTE: Running task 2058 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_install)
+NOTE: recipe gnupg-2.3.4-r0: task do_install: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_configure: Succeeded
+NOTE: Running task 2059 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_compile)
+NOTE: recipe libsolv-0.7.22-r0: task do_compile: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_install: Succeeded
+NOTE: Running task 2060 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_package)
+NOTE: recipe gnupg-2.3.4-r0: task do_package: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_package: Succeeded
+NOTE: Running task 2061 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_packagedata)
+NOTE: recipe rpm-1_4.17.0-r0: task do_packagedata: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2062 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_package_write_rpm)
+NOTE: recipe rpm-1_4.17.0-r0: task do_package_write_rpm: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_compile: Succeeded
+NOTE: Running task 2063 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_install)
+NOTE: recipe libsolv-0.7.22-r0: task do_install: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_install: Succeeded
+NOTE: Running task 2064 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_populate_sysroot)
+NOTE: Running task 2065 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_package)
+NOTE: recipe libsolv-0.7.22-r0: task do_populate_sysroot: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_package: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe gnupg-2.3.4-r0: task do_package: Succeeded
+NOTE: Running task 2066 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_packagedata)
+NOTE: recipe gnupg-2.3.4-r0: task do_packagedata: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_packagedata: Succeeded
+NOTE: Running task 2067 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_package_write_rpm)
+NOTE: recipe gnupg-2.3.4-r0: task do_package_write_rpm: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libsolv-0.7.22-r0: task do_package: Succeeded
+NOTE: Running task 2068 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_packagedata)
+NOTE: recipe libsolv-0.7.22-r0: task do_packagedata: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_packagedata: Succeeded
+NOTE: recipe gnupg-2.3.4-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_compile: Succeeded
+NOTE: Running task 2069 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_install)
+NOTE: recipe gpgme-1.17.1-r0: task do_install: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_install: Succeeded
+NOTE: Running task 2070 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_populate_sysroot)
+NOTE: Running task 2071 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_package)
+NOTE: recipe gpgme-1.17.1-r0: task do_populate_sysroot: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_package: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2072 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe librepo-1.14.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe librepo-1.14.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2073 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_configure)
+NOTE: recipe librepo-1.14.2-r0: task do_configure: Started
+NOTE: recipe librepo-1.14.2-r0: task do_configure: Succeeded
+NOTE: Running task 2074 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_compile)
+NOTE: recipe librepo-1.14.2-r0: task do_compile: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_package: Succeeded
+NOTE: Running task 2075 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_packagedata)
+NOTE: recipe gpgme-1.17.1-r0: task do_packagedata: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 2076 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_package_write_rpm)
+NOTE: recipe gpgme-1.17.1-r0: task do_package_write_rpm: Started
+NOTE: recipe librepo-1.14.2-r0: task do_compile: Succeeded
+NOTE: Running task 2077 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_install)
+NOTE: recipe librepo-1.14.2-r0: task do_install: Started
+NOTE: recipe librepo-1.14.2-r0: task do_install: Succeeded
+NOTE: Running task 2078 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_populate_sysroot)
+NOTE: Running task 2079 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_package)
+NOTE: recipe librepo-1.14.2-r0: task do_populate_sysroot: Started
+NOTE: recipe librepo-1.14.2-r0: task do_package: Started
+NOTE: recipe librepo-1.14.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2080 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libdnf-0.66.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2081 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_configure)
+NOTE: recipe libdnf-0.66.0-r0: task do_configure: Started
+NOTE: recipe librepo-1.14.2-r0: task do_package: Succeeded
+NOTE: Running task 2082 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_packagedata)
+NOTE: recipe librepo-1.14.2-r0: task do_packagedata: Started
+NOTE: recipe librepo-1.14.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 2083 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_package_write_rpm)
+NOTE: recipe librepo-1.14.2-r0: task do_package_write_rpm: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_configure: Succeeded
+NOTE: Running task 2084 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_compile)
+NOTE: recipe libdnf-0.66.0-r0: task do_compile: Started
+NOTE: recipe librepo-1.14.2-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_compile: Succeeded
+NOTE: Running task 2085 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_install)
+NOTE: recipe libdnf-0.66.0-r0: task do_install: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_install: Succeeded
+NOTE: Running task 2086 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_package)
+NOTE: Running task 2087 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_populate_sysroot)
+NOTE: recipe libdnf-0.66.0-r0: task do_package: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2088 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe dnf-4.12.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe dnf-4.12.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2089 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_configure)
+NOTE: recipe dnf-4.12.0-r0: task do_configure: Started
+NOTE: recipe dnf-4.12.0-r0: task do_configure: Succeeded
+NOTE: Running task 2090 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_compile)
+NOTE: recipe dnf-4.12.0-r0: task do_compile: Started
+NOTE: recipe dnf-4.12.0-r0: task do_compile: Succeeded
+NOTE: Running task 2091 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_install)
+NOTE: recipe dnf-4.12.0-r0: task do_install: Started
+NOTE: recipe dnf-4.12.0-r0: task do_install: Succeeded
+NOTE: Running task 2092 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_populate_sysroot)
+NOTE: recipe dnf-4.12.0-r0: task do_populate_sysroot: Started
+NOTE: recipe dnf-4.12.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_package: Succeeded
+NOTE: Running task 2093 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_packagedata)
+NOTE: recipe libdnf-0.66.0-r0: task do_packagedata: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2094 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_package)
+NOTE: Running task 2095 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_package_write_rpm)
+NOTE: recipe dnf-4.12.0-r0: task do_package: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_package_write_rpm: Started
+NOTE: recipe dnf-4.12.0-r0: task do_package: Succeeded
+NOTE: Running task 2096 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_packagedata)
+NOTE: recipe dnf-4.12.0-r0: task do_packagedata: Started
+NOTE: recipe dnf-4.12.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2097 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_package_write_rpm)
+NOTE: Running task 2098 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_package_qa)
+NOTE: recipe dnf-4.12.0-r0: task do_package_write_rpm: Started
+NOTE: recipe dnf-4.12.0-r0: task do_package_qa: Started
+NOTE: recipe dnf-4.12.0-r0: task do_package_qa: Succeeded
+NOTE: recipe dnf-4.12.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2099 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 2099 tasks of which 1841 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 
-Summary: There were 26 ERROR messages, returning a non-zero exit code.
+Summary: There were 66 ERROR messages, returning a non-zero exit code.
 /usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
   return f(*args, **kwds)
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package sqlite3-src went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-src went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package sqlite3-dbg went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-dbg went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3 went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-src went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-staticdev went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-dev went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-doc went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-dbg went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-ptest went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3-dev went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3-doc went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3-staticdev went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-locale went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-staticdev went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package sqlite3 went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-bin went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-dev went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-doc went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-locale went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-src went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-dbg went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-staticdev went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-dev went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-doc went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-gui went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-vconsole-setup went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-initramfs went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-analyze went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-kernel-install went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-rpm-macros went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-binfmt went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-zsh-completion went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-container went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-gatewayd went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-upload went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-remote went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-extra-utils went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-udev-rules went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libsystemd-shared went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package udev went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package udev-hwdb went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-bash-completion went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-be went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-be+latin went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-bg went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ca went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-cs went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-da went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-de went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-el went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-es went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-fi went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-fr went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-gl went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-hr went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-hu went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-id went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-it went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ja went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-kab went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ko went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-lt went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-nl went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pa went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pl went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pt went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pt-br went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ro went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ru went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-si went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sk went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sr went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sv went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-tr went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-uk went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-zh-cn went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-zh-tw went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-myhostname went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-mymachines went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-resolve went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-systemd went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libsystemd went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libudev went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============8393140509345750282==
+--===============2727113197685896079==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1664,202 +2077,892 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "powerpc-poky-linux"
 MACHINE              = "qemuppc"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-4a06ce9f4eae8d261e8358e490afd304696206f8"
+DISTRO_VERSION       = "4.1+snapshot-1cff4aa500258f520af6fc8cfa3c5cc6eef3a6dc"
 TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:4a06ce9f4eae8d261e8358e490afd304696206f8"
+meta-yocto-bsp       = "tmp-auh-upgrades:1cff4aa500258f520af6fc8cfa3c5cc6eef3a6dc"
 workspace            = "master:9e556960421c8bbe8851d9810352a5b4bd3b50df"
 
 Initialising tasks...done.
-Sstate summary: Wanted 55 Local 41 Mirrors 0 Missed 14 Current 558 (74% match, 97% complete)
-Removing 3 stale sstate objects for arch qemuppc...done.
+Sstate summary: Wanted 115 Local 20 Mirrors 0 Missed 95 Current 490 (17% match, 84% complete)
+Removing 4 stale sstate objects for arch qemuppc...done.
+Removing 1 stale sstate objects for arch ppc7400...done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 576 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 577 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 578 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 579 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 580 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 581 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1061 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe fribidi-1.0.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe fribidi-1.0.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libseccomp-2.5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libseccomp-2.5.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_populate_sysroot_setscene: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/libseccomp/2.5.3-r0/temp/log.do_packagedata_setscene.3195338
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/sqlite3/3_3.38.2-r0/temp/log.do_packagedata_setscene.3195340
-NOTE: Running setscene task 601 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_package_setscene)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/fribidi/1.0.11-r0/temp/log.do_packagedata_setscene.3195336
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 602 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_package_setscene)
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: recipe fribidi-1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libseccomp-2.5.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 603 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_package_setscene)
-NOTE: Running task 1329 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_fetch)
-NOTE: Running task 1343 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_fetch)
-NOTE: Running task 1353 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_write_config)
+NOTE: Running setscene task 538 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 543 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 548 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzdata.bb:do_packagedata_setscene)
+NOTE: Running setscene task 557 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_packagedata_setscene)
+NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Started
+NOTE: recipe tzdata-2022a-r0: task do_packagedata_setscene: Started
+NOTE: recipe dbus-1.14.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe dbus-1.14.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe tzdata-2022a-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe dbus-1.14.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 597 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_packagedata_setscene)
+NOTE: recipe dbus-1.14.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 598 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe systemd-1_250.4-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1254 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_fetch)
+NOTE: Running task 1255 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_fetch)
+NOTE: recipe systemd-1_250.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe lua-5.4.4-r0: task do_fetch: Started
+NOTE: recipe popt-1.18-r0: task do_fetch: Started
+NOTE: Running task 1527 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_fetch)
+NOTE: recipe lua-5.4.4-r0: task do_fetch: Succeeded
+NOTE: Running task 1553 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_fetch)
+NOTE: Running task 1554 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_fetch)
+NOTE: Running task 1558 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_fetch)
+NOTE: Running task 1574 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_fetch)
+NOTE: Running task 1575 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_fetch)
+NOTE: Running task 1576 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_fetch)
+NOTE: recipe popt-1.18-r0: task do_fetch: Succeeded
+NOTE: Running task 1593 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_unpack)
+NOTE: Running task 1594 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1595 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_unpack)
+NOTE: Running task 1596 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1607 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_fetch)
+NOTE: Running task 1608 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_fetch)
+NOTE: Running task 1609 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_fetch)
+NOTE: Running task 1622 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_fetch)
+NOTE: Running task 1623 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_fetch)
+NOTE: Running task 1665 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_fetch)
+NOTE: Running task 1675 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_fetch)
+NOTE: Running task 1676 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_fetch)
+NOTE: Running task 1677 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_fetch)
+NOTE: Running task 1678 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_write_config)
+NOTE: Running task 1716 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_fetch)
+NOTE: recipe libassuan-2.5.5-r0: task do_fetch: Started
+NOTE: Running task 1738 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_fetch)
+NOTE: Running task 1741 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_fetch)
+NOTE: recipe rpm-1_4.17.0-r0: task do_fetch: Started
+NOTE: recipe librepo-1.14.2-r0: task do_fetch: Started
+NOTE: recipe json-c-0.16-r0: task do_fetch: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_fetch: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_fetch: Succeeded
+NOTE: recipe libsolv-0.7.22-r0: task do_fetch: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_fetch: Started
+NOTE: Running task 1810 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_unpack)
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_unpack: Started
+NOTE: Running task 1811 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libyaml-0.2.5-r0: task do_fetch: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_fetch: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_fetch: Started
+NOTE: Running task 1823 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_unpack)
+NOTE: Running task 1824 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1825 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_unpack)
+NOTE: Running task 1826 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_prepare_recipe_sysroot)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/systemd/1_250.4-r0/temp/log.do_packagedata_setscene.1747982
+NOTE: recipe gpgme-1.17.1-r0: task do_fetch: Succeeded
+NOTE: recipe librepo-1.14.2-r0: task do_fetch: Succeeded
+NOTE: recipe libsolv-0.7.22-r0: task do_fetch: Succeeded
+NOTE: recipe popt-1.18-r0: task do_unpack: Started
+NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_fetch: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_fetch: Started
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 599 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_package_setscene)
+NOTE: recipe rpm-1_4.17.0-r0: task do_fetch: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_fetch: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_fetch: Started
+NOTE: Running task 1827 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_unpack)
+NOTE: recipe python3-iniparse-0.5-r0: task do_fetch: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_fetch: Started
+NOTE: recipe dnf-4.12.0-r0: task do_fetch: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_fetch: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_fetch: Succeeded
+NOTE: recipe npth-1.6-r0: task do_fetch: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_write_config: Started
+NOTE: recipe libksba-1.6.0-r0: task do_fetch: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_fetch: Succeeded
+NOTE: Running task 1828 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_unpack)
+NOTE: Running task 1829 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_unpack)
+NOTE: Running task 1830 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_unpack)
+NOTE: Running task 1831 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1832 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_unpack)
+NOTE: recipe libdnf-0.66.0-r0: task do_fetch: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_fetch: Started
+NOTE: recipe systemd-1_250.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_fetch: Succeeded
+NOTE: recipe gnupg-2.3.4-r0: task do_fetch: Started
+NOTE: Running task 1833 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_unpack)
+NOTE: recipe pinentry-1.2.0-r0: task do_fetch: Started
+NOTE: recipe libksba-1.6.0-r0: task do_fetch: Succeeded
+NOTE: recipe npth-1.6-r0: task do_fetch: Succeeded
+NOTE: Running task 1834 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_unpack)
+NOTE: Running task 1835 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_unpack)
+NOTE: Running task 1836 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_unpack)
+NOTE: Running task 1837 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_unpack)
+NOTE: Running task 1838 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe popt-1.18-r0: task do_unpack: Succeeded
+NOTE: recipe dnf-4.12.0-r0: task do_fetch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_unpack: Succeeded
+NOTE: Running task 1839 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_unpack)
+NOTE: Running task 1840 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pinentry-1.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_unpack: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_fetch: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_fetch: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe json-c-0.16-r0: task do_unpack: Started
+NOTE: recipe json-c-0.16-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_write_config: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_unpack: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1841 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_patch)
+NOTE: Running task 1842 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_patch)
+NOTE: Running task 1843 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_unpack)
+NOTE: Running task 1844 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_unpack)
+NOTE: Running task 1845 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe json-c-0.16-r0: task do_unpack: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_unpack: Succeeded
+NOTE: Running task 1846 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_patch)
+NOTE: Running task 1847 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1848 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_patch)
+NOTE: Running task 1849 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_unpack)
+NOTE: Running task 1850 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_unpack)
+NOTE: Running task 1851 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_unpack)
+NOTE: Running task 1852 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libassuan-2.5.5-r0: task do_unpack: Succeeded
+NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1853 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_patch)
+NOTE: recipe libassuan-2.5.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe librepo-1.14.2-r0: task do_unpack: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_unpack: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_unpack: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_unpack: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_unpack: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_unpack: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_unpack: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_unpack: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_unpack: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_unpack: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_unpack: Succeeded
+NOTE: Running task 1854 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_patch)
+NOTE: Running task 1855 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_patch)
+NOTE: recipe python3-six-1.16.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libksba-1.6.0-r0: task do_unpack: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe librepo-1.14.2-r0: task do_unpack: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_patch: Started
+NOTE: recipe popt-1.18-r0: task do_patch: Started
+NOTE: recipe npth-1.6-r0: task do_unpack: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_unpack: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_patch: Started
+NOTE: Running task 1856 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_patch)
+NOTE: recipe npth-1.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_unpack: Succeeded
+NOTE: recipe libksba-1.6.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1857 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_patch)
+NOTE: recipe libyaml-0.2.5-r0: task do_patch: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_unpack: Succeeded
+NOTE: recipe dnf-4.12.0-r0: task do_unpack: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_unpack: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_unpack: Started
+NOTE: recipe unzip-1_6.0-r5: task do_unpack: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_unpack: Succeeded
+NOTE: Running task 1858 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_patch)
+NOTE: Running task 1859 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_patch)
+NOTE: recipe unzip-1_6.0-r5: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1860 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_patch)
+NOTE: recipe libassuan-2.5.5-r0: task do_patch: Started
+NOTE: recipe json-c-0.16-r0: task do_patch: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_patch: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_patch: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_patch: Started
+NOTE: Running task 1861 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_generate_toolchain_file)
+NOTE: Running task 1862 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1863 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_deploy_source_date_epoch)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe librepo-1.14.2-r0: task do_patch: Started
+NOTE: recipe npth-1.6-r0: task do_unpack: Succeeded
+NOTE: recipe libsolv-0.7.22-r0: task do_patch: Started
+NOTE: Running task 1864 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_patch)
+NOTE: recipe libdnf-0.66.0-r0: task do_unpack: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_patch: Started
+NOTE: recipe libksba-1.6.0-r0: task do_unpack: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_patch: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_patch: Started
+NOTE: Running task 1865 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_patch)
+NOTE: recipe popt-1.18-r0: task do_patch: Succeeded
+NOTE: Running task 1866 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_patch)
+NOTE: recipe lua-5.4.4-r0: task do_patch: Succeeded
+NOTE: Running task 1867 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1868 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe pinentry-1.2.0-r0: task do_unpack: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_generate_toolchain_file: Started
+NOTE: recipe json-c-0.16-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1869 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_patch)
+NOTE: recipe libassuan-2.5.5-r0: task do_patch: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_patch: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1870 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_deploy_source_date_epoch)
+NOTE: recipe rpm-1_4.17.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1871 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1872 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_patch)
+NOTE: recipe libdnf-0.66.0-r0: task do_patch: Started
+NOTE: recipe json-c-0.16-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe libksba-1.6.0-r0: task do_patch: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_patch: Succeeded
+NOTE: recipe npth-1.6-r0: task do_patch: Started
+NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe unzip-1_6.0-r5: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1873 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_deploy_source_date_epoch)
+NOTE: recipe gpgme-1.17.1-r0: task do_unpack: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1874 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_patch)
+NOTE: recipe pinentry-1.2.0-r0: task do_patch: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_patch: Succeeded
+NOTE: recipe dnf-4.12.0-r0: task do_unpack: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_unpack: Succeeded
+NOTE: Running task 1875 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_generate_toolchain_file)
+NOTE: Running task 1876 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_deploy_source_date_epoch)
+NOTE: recipe npth-1.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1877 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_patch)
+NOTE: recipe rpm-1_4.17.0-r0: task do_patch: Started
+NOTE: Running task 1878 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_patch)
+NOTE: recipe libassuan-2.5.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe librepo-1.14.2-r0: task do_patch: Succeeded
+NOTE: Running task 1879 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1880 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_generate_toolchain_file)
+NOTE: recipe libksba-1.6.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1881 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_configure)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_patch: Started
+NOTE: Running task 1882 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_configure)
+NOTE: recipe libsolv-0.7.22-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe unzip-1_6.0-r5: task do_patch: Started
+NOTE: recipe libksba-1.6.0-r0: task do_patch: Succeeded
+NOTE: recipe dnf-4.12.0-r0: task do_patch: Started
+NOTE: Running task 1883 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-six-1.16.0-r0: task do_patch: Succeeded
+NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe librepo-1.14.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_patch: Succeeded
+NOTE: recipe librepo-1.14.2-r0: task do_generate_toolchain_file: Started
+NOTE: Running task 1884 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe npth-1.6-r0: task do_patch: Succeeded
+NOTE: Running task 1885 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_configure)
+NOTE: recipe python3-six-1.16.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libsolv-0.7.22-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1886 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1887 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_deploy_source_date_epoch)
+NOTE: recipe libyaml-0.2.5-r0: task do_configure: Started
+NOTE: Running task 1888 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
+NOTE: recipe python3-iniparse-0.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_configure: Started
+NOTE: recipe systemd-1_250.4-r0: task do_package_setscene: Started
+NOTE: recipe librepo-1.14.2-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe pinentry-1.2.0-r0: task do_patch: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libksba-1.6.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1889 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libassuan-2.5.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1890 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_configure)
+NOTE: recipe popt-1.18-r0: task do_configure: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe npth-1.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe lua-5.4.4-r0: task do_configure: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_patch: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1891 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1892 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_generate_toolchain_file)
+NOTE: recipe libsolv-0.7.22-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe librepo-1.14.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_configure: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_patch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1893 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1894 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_generate_toolchain_file)
+NOTE: recipe libcomps-0.1.18-r0: task do_generate_toolchain_file: Started
+NOTE: Running task 1895 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
+NOTE: recipe libksba-1.6.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1896 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_configure)
+NOTE: recipe npth-1.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1897 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_configure)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_generate_toolchain_file: Succeeded
+NOTE: Running task 1898 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_configure)
+NOTE: Running task 1899 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_configure)
+NOTE: recipe libdnf-0.66.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
+NOTE: recipe libksba-1.6.0-r0: task do_configure: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_configure: Started
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe npth-1.6-r0: task do_configure: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1900 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_configure: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1901 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_configure)
+NOTE: recipe dnf-4.12.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_configure: Succeeded
+NOTE: Running task 1902 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1903 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_generate_toolchain_file)
+NOTE: Running task 1904 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_populate_lic)
+NOTE: Running task 1905 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_compile)
+NOTE: recipe lua-5.4.4-r0: task do_compile: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_configure: Started
+NOTE: recipe dnf-4.12.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe dnf-4.12.0-r0: task do_populate_lic: Started
+NOTE: recipe dnf-4.12.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_compile: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_patch: Succeeded
+NOTE: Running task 1906 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe dnf-4.12.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe dnf-4.12.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_populate_lic unihash changed to 2059057eb6a58b4046f22e7352cdfcd05a05501a85a91c6987d63f5240fe548e
+NOTE: recipe dnf-4.12.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gnupg-2.3.4-r0: task do_unpack: Succeeded
+NOTE: Running task 1907 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_patch)
+NOTE: recipe rpm-1_4.17.0-r0: task do_patch: Succeeded
+NOTE: Running task 1908 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe gpgme-1.17.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gnupg-2.3.4-r0: task do_patch: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_configure: Succeeded
+NOTE: Running task 1909 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_compile)
+NOTE: recipe libcomps-0.1.18-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_patch: Succeeded
+NOTE: Running task 1910 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe gnupg-2.3.4-r0: task do_patch: Succeeded
+NOTE: Running task 1911 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe unzip-1_6.0-r5: task do_deploy_source_date_epoch: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe unzip-1_6.0-r5: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1912 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_configure)
+NOTE: recipe gnupg-2.3.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_configure: Started
+NOTE: recipe unzip-1_6.0-r5: task do_configure: Succeeded
+NOTE: Running task 1913 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_compile)
+NOTE: recipe systemd-1_250.4-r0: task do_package_setscene: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_compile: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1924 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: Running task 1946 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_install)
+NOTE: recipe libcomps-0.1.18-r0: task do_compile: Succeeded
+NOTE: Running task 1947 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_install)
+NOTE: recipe unzip-1_6.0-r5: task do_compile: Started
 NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_package_setscene: Started
-NOTE: recipe libseccomp-2.5.3-r0: task do_package_setscene: Started
-NOTE: recipe fribidi-1.0.11-r0: task do_package_setscene: Started
-NOTE: recipe libpcre2-10.40-r0: task do_fetch: Started
-NOTE: recipe vte-0.68.0-r0: task do_fetch: Started
-NOTE: recipe vte-0.68.0-r0: task do_write_config: Started
-NOTE: recipe libpcre2-10.40-r0: task do_fetch: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1354 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_unpack)
-NOTE: Running task 1355 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_unpack)
-NOTE: recipe vte-0.68.0-r0: task do_write_config: Succeeded
-NOTE: recipe libpcre2-10.40-r0: task do_unpack: Started
-NOTE: recipe vte-0.68.0-r0: task do_unpack: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_package_setscene: Succeeded
-NOTE: recipe fribidi-1.0.11-r0: task do_package_setscene: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_install: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_install: Started
 NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: recipe libseccomp-2.5.3-r0: task do_package_setscene: Succeeded
-NOTE: Running task 1365 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running task 1366 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: Running setscene task 606 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe vte-0.68.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1371 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_patch)
+NOTE: Running task 1948 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: Running task 1949 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe python3-six-1.16.0-r0: task do_install: Succeeded
+NOTE: Running task 1950 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_populate_sysroot)
+NOTE: Running task 1951 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package)
 NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe libpcre2-10.40-r0: task do_unpack: Succeeded
-NOTE: Running task 1372 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_patch)
-NOTE: recipe vte-0.68.0-r0: task do_patch: Started
-NOTE: recipe libpcre2-10.40-r0: task do_patch: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 608 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe vte-0.68.0-r0: task do_patch: Succeeded
-NOTE: Running task 1377 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libpcre2-10.40-r0: task do_patch: Succeeded
-NOTE: Running task 1378 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_populate_lic)
-NOTE: Running task 1379 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_deploy_source_date_epoch)
-NOTE: recipe gcc-runtime-11.3.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_install: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_package: Started
+NOTE: Running task 1952 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_package)
+NOTE: Running task 1953 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_populate_sysroot)
+NOTE: recipe libcomps-0.1.18-r0: task do_populate_sysroot: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_package: Started
 NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
 NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to cb21232c5a28826a835c7b82a0929a680de568bfa22b4e8f2902c7990c647f3e
-NOTE: recipe vte-0.68.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vte-0.68.0-r0: task do_populate_lic: Started
-NOTE: recipe libpcre2-10.40-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vte-0.68.0-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_populate_lic unihash changed to b5be5a6e0c104c8dca84fabb0f2f76f1b1fa5c188030104bfbfb9842fb9e40c4
-NOTE: recipe vte-0.68.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libpcre2-10.40-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gcc-runtime-11.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 609 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-11.3.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1967 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
+NOTE: Running task 1968 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1969 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
+NOTE: recipe libcomps-0.1.18-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_install: Started
 NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 1381 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: Running task 1970 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
 NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe libgcc-11.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 610 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.35.bb:do_populate_sysroot_setscene)
-NOTE: recipe glibc-2.35-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
+NOTE: Running task 1971 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
+NOTE: recipe python3-iniparse-0.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1972 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_configure)
+NOTE: recipe python3-six-1.16.0-r0: task do_package: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
+NOTE: Running task 1973 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_packagedata)
 NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_configure: Started
 NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 383898a484d5745ad8dfc12903788320e353f730bca51d01c97a5e5c0c4bdc03
-NOTE: recipe glibc-2.35-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 613 of 613 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1932 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_packagedata)
-NOTE: Running task 2030 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_packagedata)
-NOTE: Running task 2057 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2079 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_packagedata)
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_packagedata: Started
-NOTE: recipe libseccomp-2.5.3-r0: task do_packagedata: Started
-NOTE: recipe libpcre2-10.40-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe fribidi-1.0.11-r0: task do_packagedata: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_packagedata: Succeeded
-NOTE: recipe libpcre2-10.40-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2109 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_configure)
-NOTE: recipe libseccomp-2.5.3-r0: task do_packagedata: Succeeded
-NOTE: recipe fribidi-1.0.11-r0: task do_packagedata: Succeeded
-NOTE: recipe libpcre2-10.40-r0: task do_configure: Started
-NOTE: recipe libpcre2-10.40-r0: task do_configure: Succeeded
-NOTE: Running task 2129 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_compile)
-NOTE: recipe libpcre2-10.40-r0: task do_compile: Started
-NOTE: recipe libpcre2-10.40-r0: task do_compile: Succeeded
-NOTE: Running task 2130 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_install)
-NOTE: recipe libpcre2-10.40-r0: task do_install: Started
-NOTE: recipe libpcre2-10.40-r0: task do_install: Succeeded
-NOTE: Running task 2131 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_populate_sysroot)
-NOTE: Running task 2132 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_package)
-NOTE: recipe libpcre2-10.40-r0: task do_populate_sysroot: Started
-NOTE: recipe libpcre2-10.40-r0: task do_package: Started
-NOTE: recipe libpcre2-10.40-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2133 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vte-0.68.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vte-0.68.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2134 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_configure)
-NOTE: recipe vte-0.68.0-r0: task do_configure: Started
-NOTE: recipe libpcre2-10.40-r0: task do_package: Succeeded
-NOTE: Running task 2135 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_packagedata)
-NOTE: recipe libpcre2-10.40-r0: task do_packagedata: Started
-NOTE: recipe libpcre2-10.40-r0: task do_packagedata: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_configure: Succeeded
-NOTE: Running task 2136 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_compile)
-NOTE: recipe vte-0.68.0-r0: task do_compile: Started
-NOTE: recipe vte-0.68.0-r0: task do_compile: Succeeded
-NOTE: Running task 2137 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_install)
-NOTE: recipe vte-0.68.0-r0: task do_install: Started
-NOTE: recipe vte-0.68.0-r0: task do_install: Succeeded
-NOTE: Running task 2138 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_package)
-NOTE: Running task 2139 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_populate_sysroot)
-NOTE: recipe vte-0.68.0-r0: task do_package: Started
-NOTE: recipe vte-0.68.0-r0: task do_populate_sysroot: Started
-NOTE: recipe vte-0.68.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_package: Succeeded
-NOTE: Running task 2140 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_packagedata)
-NOTE: recipe vte-0.68.0-r0: task do_packagedata: Started
-NOTE: recipe vte-0.68.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2141 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_package_write_rpm)
-NOTE: Running task 2142 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_package_qa)
-NOTE: recipe vte-0.68.0-r0: task do_package_write_rpm: Started
-NOTE: recipe vte-0.68.0-r0: task do_package_qa: Started
-NOTE: recipe vte-0.68.0-r0: task do_package_qa: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 2143 of 2143 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_build)
-NOTE: Tasks Summary: Attempted 2143 tasks of which 2109 didn't need to be rerun and all succeeded.
+NOTE: Running task 1975 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_packagedata)
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_packagedata: Started
+NOTE: Running task 1976 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
+NOTE: Running task 1977 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
+NOTE: recipe python3-iniparse-0.5-r0: task do_configure: Succeeded
+NOTE: Running task 1978 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_compile)
+NOTE: recipe lua-5.4.4-r0: task do_package: Started
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
+NOTE: recipe systemd-1_250.4-r0: task do_packagedata: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_compile: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_packagedata: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_package: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1979 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_packagedata)
+NOTE: recipe systemd-1_250.4-r0: task do_packagedata: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_packagedata: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_packagedata: Succeeded
+NOTE: Running task 1982 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_package_write_rpm)
+NOTE: recipe libcomps-0.1.18-r0: task do_package_write_rpm: Started
+NOTE: recipe json-c-0.16-r0: task do_configure: Succeeded
+NOTE: Running task 1983 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_compile)
+NOTE: recipe json-c-0.16-r0: task do_compile: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_compile: Succeeded
+NOTE: Running task 1984 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_install)
+NOTE: recipe python3-iniparse-0.5-r0: task do_install: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_install: Succeeded
+NOTE: Running task 1985 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_package)
+NOTE: Running task 1986 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_populate_sysroot)
+NOTE: recipe python3-iniparse-0.5-r0: task do_package: Started
+NOTE: recipe json-c-0.16-r0: task do_compile: Succeeded
+NOTE: Running task 1987 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_install)
+NOTE: recipe python3-iniparse-0.5-r0: task do_populate_sysroot: Started
+NOTE: recipe json-c-0.16-r0: task do_install: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_install: Succeeded
+NOTE: Running task 1988 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
+NOTE: Running task 1989 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_populate_sysroot)
+NOTE: Running task 1990 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_package)
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
+NOTE: recipe json-c-0.16-r0: task do_populate_sysroot: Started
+NOTE: recipe json-c-0.16-r0: task do_package: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_configure: Succeeded
+NOTE: Running task 1991 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_compile)
+NOTE: recipe python3-iniparse-0.5-r0: task do_package: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_compile: Started
+NOTE: Running task 1992 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_packagedata)
+NOTE: recipe python3-iniparse-0.5-r0: task do_packagedata: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_packagedata: Succeeded
+NOTE: Running task 1993 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_package_write_rpm)
+NOTE: recipe python3-iniparse-0.5-r0: task do_package_write_rpm: Started
+NOTE: recipe json-c-0.16-r0: task do_package: Succeeded
+NOTE: Running task 1994 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_packagedata)
+NOTE: recipe json-c-0.16-r0: task do_packagedata: Started
+NOTE: recipe json-c-0.16-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_compile: Succeeded
+NOTE: Running task 1995 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_install)
+NOTE: recipe libyaml-0.2.5-r0: task do_install: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_configure: Succeeded
+NOTE: Running task 1996 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_compile)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_compile: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_install: Succeeded
+NOTE: Running task 1997 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_populate_sysroot)
+NOTE: Running task 1998 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_package)
+NOTE: recipe libyaml-0.2.5-r0: task do_populate_sysroot: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_package: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1999 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe popt-1.18-r0: task do_configure: Succeeded
+NOTE: Running task 2000 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_configure_ptest_base)
+NOTE: recipe libksba-1.6.0-r0: task do_configure: Succeeded
+NOTE: Running task 2001 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_compile)
+NOTE: recipe popt-1.18-r0: task do_configure_ptest_base: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_configure: Succeeded
+NOTE: Running task 2002 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_compile)
+NOTE: recipe popt-1.18-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2003 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_compile)
+NOTE: recipe libksba-1.6.0-r0: task do_compile: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_compile: Started
+NOTE: recipe npth-1.6-r0: task do_configure: Succeeded
+NOTE: recipe popt-1.18-r0: task do_compile: Started
+NOTE: Running task 2004 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_compile)
+NOTE: recipe npth-1.6-r0: task do_compile: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_compile: Succeeded
+NOTE: Running task 2005 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_install)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2006 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_configure)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_install: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_configure: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_install: Succeeded
+NOTE: Running task 2007 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_populate_sysroot)
+NOTE: Running task 2008 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_package)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_populate_sysroot: Started
+NOTE: recipe npth-1.6-r0: task do_compile: Succeeded
+NOTE: Running task 2009 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_install)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_package: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_package: Succeeded
+NOTE: recipe npth-1.6-r0: task do_install: Started
+NOTE: Running task 2010 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_packagedata)
+NOTE: recipe libyaml-0.2.5-r0: task do_packagedata: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_compile: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2011 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_install)
+NOTE: recipe popt-1.18-r0: task do_compile: Succeeded
+NOTE: recipe npth-1.6-r0: task do_install: Succeeded
+NOTE: Running task 2012 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_compile_ptest_base)
+NOTE: recipe libassuan-2.5.5-r0: task do_install: Started
+NOTE: Running task 2013 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_package)
+NOTE: Running task 2014 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_populate_sysroot)
+NOTE: recipe libyaml-0.2.5-r0: task do_packagedata: Succeeded
+NOTE: recipe popt-1.18-r0: task do_compile_ptest_base: Started
+NOTE: recipe npth-1.6-r0: task do_populate_sysroot: Started
+NOTE: recipe npth-1.6-r0: task do_package: Started
+NOTE: recipe popt-1.18-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2015 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_install)
+NOTE: recipe popt-1.18-r0: task do_install: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_install: Succeeded
+NOTE: Running task 2016 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_populate_sysroot)
+NOTE: Running task 2017 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_package)
+NOTE: recipe npth-1.6-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_compile: Succeeded
+NOTE: Running task 2018 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_install)
+NOTE: recipe libassuan-2.5.5-r0: task do_populate_sysroot: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_package: Started
+NOTE: recipe unzip-1_6.0-r5: task do_install: Started
+NOTE: recipe libksba-1.6.0-r0: task do_compile: Succeeded
+NOTE: Running task 2019 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_install)
+NOTE: recipe unzip-1_6.0-r5: task do_install: Succeeded
+NOTE: Running task 2020 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_package)
+NOTE: recipe libassuan-2.5.5-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2021 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2022 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libksba-1.6.0-r0: task do_install: Started
+NOTE: recipe popt-1.18-r0: task do_install: Succeeded
+NOTE: Running task 2023 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_install_ptest_base)
+NOTE: recipe unzip-1_6.0-r5: task do_package: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_package: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2024 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_packagedata)
+NOTE: recipe popt-1.18-r0: task do_install_ptest_base: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_packagedata: Started
+NOTE: recipe popt-1.18-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2025 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_populate_sysroot)
+NOTE: Running task 2026 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package)
+NOTE: recipe pinentry-1.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2027 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_configure)
+NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Started
+NOTE: recipe popt-1.18-r0: task do_package: Started
+NOTE: recipe libksba-1.6.0-r0: task do_install: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 2028 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_package)
+NOTE: recipe pinentry-1.2.0-r0: task do_configure: Started
+NOTE: Running task 2029 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_populate_sysroot)
+NOTE: recipe libksba-1.6.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libksba-1.6.0-r0: task do_package: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2030 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_configure)
+NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe npth-1.6-r0: task do_package: Succeeded
+NOTE: Running task 2031 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_configure: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_configure: Started
+NOTE: Running task 2032 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_compile)
+NOTE: Running task 2033 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_packagedata)
+NOTE: recipe rpm-1_4.17.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_compile: Started
+NOTE: recipe npth-1.6-r0: task do_packagedata: Started
+NOTE: recipe libksba-1.6.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2034 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gnupg-2.3.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe npth-1.6-r0: task do_packagedata: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_package: Succeeded
+NOTE: recipe gnupg-2.3.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2035 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_configure)
+NOTE: Running task 2036 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_packagedata)
+NOTE: recipe gnupg-2.3.4-r0: task do_configure: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_packagedata: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2037 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_configure)
+NOTE: recipe libassuan-2.5.5-r0: task do_packagedata: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_package: Succeeded
+NOTE: Running task 2038 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata)
+NOTE: recipe rpm-1_4.17.0-r0: task do_configure: Started
+NOTE: recipe unzip-1_6.0-r5: task do_packagedata: Started
+NOTE: recipe unzip-1_6.0-r5: task do_packagedata: Succeeded
+NOTE: Running task 2039 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.4.bb:do_package_write_rpm)
+NOTE: recipe libksba-1.6.0-r0: task do_package: Succeeded
+NOTE: Running task 2040 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_packagedata)
+NOTE: recipe libksba-1.6.0-r0: task do_packagedata: Started
+NOTE: recipe python3-3.10.4-r0: task do_package_write_rpm: Started
+NOTE: recipe libksba-1.6.0-r0: task do_packagedata: Succeeded
+NOTE: recipe popt-1.18-r0: task do_package: Succeeded
+NOTE: Running task 2041 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_packagedata)
+NOTE: recipe popt-1.18-r0: task do_packagedata: Started
+NOTE: recipe popt-1.18-r0: task do_packagedata: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_compile: Succeeded
+NOTE: Running task 2042 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_install)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_install: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_configure: Succeeded
+NOTE: Running task 2043 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_compile)
+NOTE: recipe pinentry-1.2.0-r0: task do_compile: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_install: Succeeded
+NOTE: Running task 2044 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_populate_sysroot)
+NOTE: Running task 2045 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_package)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_package: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe pinentry-1.2.0-r0: task do_compile: Succeeded
+NOTE: Running task 2046 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_install)
+NOTE: recipe pinentry-1.2.0-r0: task do_install: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_install: Succeeded
+NOTE: Running task 2047 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_package)
+NOTE: recipe pinentry-1.2.0-r0: task do_package: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_package: Succeeded
+NOTE: Running task 2048 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_packagedata)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_packagedata: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_packagedata: Succeeded
+NOTE: recipe pinentry-1.2.0-r0: task do_package: Succeeded
+NOTE: Running task 2049 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_packagedata)
+NOTE: recipe pinentry-1.2.0-r0: task do_packagedata: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_packagedata: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_configure: Succeeded
+NOTE: Running task 2050 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_compile)
+NOTE: recipe gpgme-1.17.1-r0: task do_compile: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_configure: Succeeded
+NOTE: Running task 2051 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_compile)
+NOTE: recipe gnupg-2.3.4-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_configure: Succeeded
+NOTE: Running task 2052 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_compile)
+NOTE: recipe rpm-1_4.17.0-r0: task do_compile: Started
+NOTE: recipe python3-3.10.4-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_compile: Succeeded
+NOTE: Running task 2053 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_install)
+NOTE: recipe rpm-1_4.17.0-r0: task do_install: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_install: Succeeded
+NOTE: Running task 2054 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_populate_sysroot)
+NOTE: Running task 2055 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_package)
+NOTE: recipe rpm-1_4.17.0-r0: task do_populate_sysroot: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_package: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2056 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsolv-0.7.22-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_compile: Succeeded
+NOTE: Running task 2057 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_install)
+NOTE: recipe gnupg-2.3.4-r0: task do_install: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2058 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_configure)
+NOTE: recipe libsolv-0.7.22-r0: task do_configure: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_install: Succeeded
+NOTE: Running task 2059 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_package)
+NOTE: recipe gnupg-2.3.4-r0: task do_package: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_configure: Succeeded
+NOTE: Running task 2060 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_compile)
+NOTE: recipe libsolv-0.7.22-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_package: Succeeded
+NOTE: Running task 2061 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_packagedata)
+NOTE: recipe rpm-1_4.17.0-r0: task do_packagedata: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2062 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_package_write_rpm)
+NOTE: recipe rpm-1_4.17.0-r0: task do_package_write_rpm: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_compile: Succeeded
+NOTE: Running task 2063 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_install)
+NOTE: recipe libsolv-0.7.22-r0: task do_compile: Succeeded
+NOTE: Running task 2064 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_install)
+NOTE: recipe gpgme-1.17.1-r0: task do_install: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_install: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_package: Succeeded
+NOTE: Running task 2065 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_packagedata)
+NOTE: recipe libsolv-0.7.22-r0: task do_install: Succeeded
+NOTE: recipe gnupg-2.3.4-r0: task do_packagedata: Started
+NOTE: Running task 2066 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_populate_sysroot)
+NOTE: Running task 2067 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_package)
+NOTE: recipe libsolv-0.7.22-r0: task do_populate_sysroot: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_package: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_packagedata: Succeeded
+NOTE: Running task 2068 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_package_write_rpm)
+NOTE: recipe gnupg-2.3.4-r0: task do_package_write_rpm: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_install: Succeeded
+NOTE: Running task 2069 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_populate_sysroot)
+NOTE: Running task 2070 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_package)
+NOTE: recipe gpgme-1.17.1-r0: task do_populate_sysroot: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_package: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2071 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe librepo-1.14.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe librepo-1.14.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2072 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_configure)
+NOTE: recipe rpm-1_4.17.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe librepo-1.14.2-r0: task do_configure: Started
+NOTE: recipe librepo-1.14.2-r0: task do_configure: Succeeded
+NOTE: Running task 2073 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_compile)
+NOTE: recipe librepo-1.14.2-r0: task do_compile: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_package: Succeeded
+NOTE: Running task 2074 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_packagedata)
+NOTE: recipe gpgme-1.17.1-r0: task do_package: Succeeded
+NOTE: Running task 2075 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_packagedata)
+NOTE: recipe libsolv-0.7.22-r0: task do_packagedata: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_packagedata: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_packagedata: Succeeded
+NOTE: recipe librepo-1.14.2-r0: task do_compile: Succeeded
+NOTE: Running task 2076 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_install)
+NOTE: recipe gpgme-1.17.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 2077 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_package_write_rpm)
+NOTE: recipe librepo-1.14.2-r0: task do_install: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_package_write_rpm: Started
+NOTE: recipe librepo-1.14.2-r0: task do_install: Succeeded
+NOTE: Running task 2078 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_populate_sysroot)
+NOTE: Running task 2079 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_package)
+NOTE: recipe librepo-1.14.2-r0: task do_populate_sysroot: Started
+NOTE: recipe librepo-1.14.2-r0: task do_package: Started
+NOTE: recipe librepo-1.14.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2080 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libdnf-0.66.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2081 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_configure)
+NOTE: recipe libdnf-0.66.0-r0: task do_configure: Started
+NOTE: recipe librepo-1.14.2-r0: task do_package: Succeeded
+NOTE: Running task 2082 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_packagedata)
+NOTE: recipe librepo-1.14.2-r0: task do_packagedata: Started
+NOTE: recipe librepo-1.14.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 2083 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_package_write_rpm)
+NOTE: recipe librepo-1.14.2-r0: task do_package_write_rpm: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_configure: Succeeded
+NOTE: Running task 2084 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_compile)
+NOTE: recipe libdnf-0.66.0-r0: task do_compile: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe librepo-1.14.2-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe gnupg-2.3.4-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_compile: Succeeded
+NOTE: Running task 2085 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_install)
+NOTE: recipe libdnf-0.66.0-r0: task do_install: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_install: Succeeded
+NOTE: Running task 2086 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_package)
+NOTE: Running task 2087 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_populate_sysroot)
+NOTE: recipe libdnf-0.66.0-r0: task do_package: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2088 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe dnf-4.12.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe dnf-4.12.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2089 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_configure)
+NOTE: recipe dnf-4.12.0-r0: task do_configure: Started
+NOTE: recipe dnf-4.12.0-r0: task do_configure: Succeeded
+NOTE: Running task 2090 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_compile)
+NOTE: recipe dnf-4.12.0-r0: task do_compile: Started
+NOTE: recipe dnf-4.12.0-r0: task do_compile: Succeeded
+NOTE: Running task 2091 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_install)
+NOTE: recipe dnf-4.12.0-r0: task do_install: Started
+NOTE: recipe dnf-4.12.0-r0: task do_install: Succeeded
+NOTE: Running task 2092 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_populate_sysroot)
+NOTE: recipe dnf-4.12.0-r0: task do_populate_sysroot: Started
+NOTE: recipe dnf-4.12.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_package: Succeeded
+NOTE: Running task 2093 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_packagedata)
+NOTE: recipe libdnf-0.66.0-r0: task do_packagedata: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2094 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_package)
+NOTE: Running task 2095 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_package_write_rpm)
+NOTE: recipe dnf-4.12.0-r0: task do_package: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_package_write_rpm: Started
+NOTE: recipe dnf-4.12.0-r0: task do_package: Succeeded
+NOTE: Running task 2096 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_packagedata)
+NOTE: recipe dnf-4.12.0-r0: task do_packagedata: Started
+NOTE: recipe dnf-4.12.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2097 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_package_write_rpm)
+NOTE: Running task 2098 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_package_qa)
+NOTE: recipe dnf-4.12.0-r0: task do_package_write_rpm: Started
+NOTE: recipe dnf-4.12.0-r0: task do_package_qa: Started
+NOTE: recipe dnf-4.12.0-r0: task do_package_qa: Succeeded
+NOTE: recipe dnf-4.12.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2099 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 2099 tasks of which 1841 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 
-Summary: There were 26 ERROR messages, returning a non-zero exit code.
+Summary: There were 66 ERROR messages, returning a non-zero exit code.
 /usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
   return f(*args, **kwds)
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-src went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-dbg went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package sqlite3-src went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-src went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-ptest went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package sqlite3-dbg went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-dbg went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-staticdev went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3 went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-dev went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-staticdev went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-doc went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3-dev went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-dev went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-locale went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3-doc went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-doc went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3-staticdev went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-locale went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-bin went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package sqlite3 went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-src went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-dbg went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-staticdev went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-dev went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-doc went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-gui went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-vconsole-setup went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-initramfs went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-analyze went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-kernel-install went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-rpm-macros went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-binfmt went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-zsh-completion went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-container went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-gatewayd went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-upload went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-remote went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-extra-utils went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-udev-rules went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libsystemd-shared went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package udev went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package udev-hwdb went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-bash-completion went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-be went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-be+latin went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-bg went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ca went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-cs went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-da went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-de went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-el went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-es went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-fi went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-fr went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-gl went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-hr went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-hu went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-id went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-it went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ja went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-kab went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ko went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-lt went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-nl went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pa went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pl went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pt went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pt-br went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ro went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ru went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-si went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sk went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sr went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sv went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-tr went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-uk went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-zh-cn went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-zh-tw went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-myhostname went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-mymachines went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-resolve went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-systemd went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libsystemd went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libudev went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============8393140509345750282==
+--===============2727113197685896079==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1878,200 +2981,890 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-4a06ce9f4eae8d261e8358e490afd304696206f8"
+DISTRO_VERSION       = "4.1+snapshot-1cff4aa500258f520af6fc8cfa3c5cc6eef3a6dc"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:4a06ce9f4eae8d261e8358e490afd304696206f8"
+meta-yocto-bsp       = "tmp-auh-upgrades:1cff4aa500258f520af6fc8cfa3c5cc6eef3a6dc"
 workspace            = "master:9e556960421c8bbe8851d9810352a5b4bd3b50df"
 
 Initialising tasks...done.
-Sstate summary: Wanted 55 Local 41 Mirrors 0 Missed 14 Current 562 (74% match, 97% complete)
-Removing 3 stale sstate objects for arch qemux86_64...done.
+Sstate summary: Wanted 115 Local 20 Mirrors 0 Missed 95 Current 490 (17% match, 84% complete)
+Removing 4 stale sstate objects for arch qemux86_64...done.
+Removing 1 stale sstate objects for arch core2-64...done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 580 of 617 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 581 of 617 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 582 of 617 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 583 of 617 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 584 of 617 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 585 of 617 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1060 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe fribidi-1.0.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe fribidi-1.0.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libseccomp-2.5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libseccomp-2.5.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_populate_sysroot_setscene: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/sqlite3/3_3.38.2-r0/temp/log.do_packagedata_setscene.3120315
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/fribidi/1.0.11-r0/temp/log.do_packagedata_setscene.3120311
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 605 of 617 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_package_setscene)
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 606 of 617 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_package_setscene)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/libseccomp/2.5.3-r0/temp/log.do_packagedata_setscene.3120313
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libseccomp-2.5.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe fribidi-1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 607 of 617 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_package_setscene)
-NOTE: Running task 1349 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_fetch)
-NOTE: Running task 1361 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_fetch)
-NOTE: Running task 1371 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_write_config)
+NOTE: Running setscene task 538 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 543 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 548 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzdata.bb:do_packagedata_setscene)
+NOTE: Running setscene task 557 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_packagedata_setscene)
+NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Started
+NOTE: recipe tzdata-2022a-r0: task do_packagedata_setscene: Started
+NOTE: recipe dbus-1.14.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe dbus-1.14.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe tzdata-2022a-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe dbus-1.14.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 597 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_packagedata_setscene)
+NOTE: recipe dbus-1.14.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 598 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe systemd-1_250.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe systemd-1_250.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1254 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_fetch)
+NOTE: Running task 1255 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_fetch)
+NOTE: recipe lua-5.4.4-r0: task do_fetch: Started
+NOTE: recipe popt-1.18-r0: task do_fetch: Started
+NOTE: Running task 1527 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_fetch)
+NOTE: recipe lua-5.4.4-r0: task do_fetch: Succeeded
+NOTE: Running task 1553 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_fetch)
+NOTE: Running task 1554 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_fetch)
+NOTE: Running task 1558 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_fetch)
+NOTE: recipe popt-1.18-r0: task do_fetch: Succeeded
+NOTE: Running task 1574 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_unpack)
+NOTE: Running task 1575 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1576 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_unpack)
+NOTE: Running task 1577 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1578 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_fetch)
+NOTE: Running task 1579 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_fetch)
+NOTE: Running task 1580 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_fetch)
+NOTE: Running task 1607 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_fetch)
+NOTE: Running task 1608 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_fetch)
+NOTE: Running task 1609 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_fetch)
+NOTE: Running task 1622 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_fetch)
+NOTE: Running task 1623 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_fetch)
+NOTE: Running task 1665 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_fetch)
+NOTE: Running task 1675 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_fetch)
+NOTE: Running task 1676 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_fetch)
+NOTE: Running task 1677 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_fetch)
+NOTE: Running task 1678 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_write_config)
+NOTE: Running task 1716 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_fetch)
+NOTE: Running task 1738 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_fetch)
+NOTE: Running task 1741 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_fetch)
+NOTE: recipe librepo-1.14.2-r0: task do_fetch: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_fetch: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_fetch: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_fetch: Started
+NOTE: recipe lua-5.4.4-r0: task do_unpack: Started
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_fetch: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_fetch: Started
+NOTE: recipe json-c-0.16-r0: task do_fetch: Started
+NOTE: recipe popt-1.18-r0: task do_unpack: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_fetch: Started
+NOTE: Running task 1821 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_unpack)
+NOTE: Running task 1822 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_fetch: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_fetch: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_fetch: Started
+NOTE: recipe librepo-1.14.2-r0: task do_fetch: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_fetch: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_fetch: Started
+NOTE: recipe systemd-1_250.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_fetch: Succeeded
+NOTE: Running task 1823 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_unpack)
+NOTE: recipe libcomps-0.1.18-r0: task do_fetch: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_fetch: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_fetch: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_fetch: Succeeded
+NOTE: Running task 1824 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_unpack)
+NOTE: Running task 1825 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_unpack)
+NOTE: Running task 1826 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_unpack)
+NOTE: Running task 1827 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-iniparse-0.5-r0: task do_fetch: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_fetch: Succeeded
+NOTE: recipe npth-1.6-r0: task do_fetch: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_fetch: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_fetch: Succeeded
+NOTE: recipe libksba-1.6.0-r0: task do_fetch: Started
+NOTE: Running task 1828 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_unpack)
+NOTE: Running task 1829 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_unpack)
+NOTE: Running task 1830 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_unpack)
+NOTE: Running task 1831 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe popt-1.18-r0: task do_unpack: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_fetch: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_fetch: Succeeded
+NOTE: recipe npth-1.6-r0: task do_fetch: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_write_config: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_fetch: Started
+NOTE: Running task 1832 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_unpack: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_fetch: Succeeded
+NOTE: recipe libksba-1.6.0-r0: task do_fetch: Succeeded
+NOTE: recipe dnf-4.12.0-r0: task do_fetch: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_fetch: Started
+NOTE: Running task 1833 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_unpack)
+NOTE: Running task 1834 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_unpack)
+NOTE: recipe unzip-1_6.0-r5: task do_fetch: Started
+NOTE: Running task 1835 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gnupg-2.3.4-r0: task do_fetch: Succeeded
+NOTE: Running task 1836 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_patch)
+NOTE: Running task 1837 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_patch)
+NOTE: Running task 1838 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_unpack)
+NOTE: recipe pinentry-1.2.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1839 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_unpack)
+NOTE: Running task 1840 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_unpack)
+NOTE: Running task 1841 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_unpack)
+NOTE: Running task 1842 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_unpack)
+NOTE: recipe dnf-4.12.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1843 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libassuan-2.5.5-r0: task do_unpack: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/systemd/1_250.4-r0/temp/log.do_packagedata_setscene.1391686
+NOTE: recipe libmodulemd-2.14.0-r0: task do_write_config: Succeeded
+NOTE: Running task 1844 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_unpack)
+NOTE: Running task 1845 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_prepare_recipe_sysroot)
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: recipe libassuan-2.5.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe unzip-1_6.0-r5: task do_fetch: Succeeded
+NOTE: recipe librepo-1.14.2-r0: task do_unpack: Started
+NOTE: Running setscene task 599 of 605 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_package_setscene)
+NOTE: recipe json-c-0.16-r0: task do_unpack: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_unpack: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1846 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libsolv-0.7.22-r0: task do_unpack: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_unpack: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_unpack: Started
+NOTE: Running task 1847 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_unpack)
+NOTE: Running task 1848 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_unpack)
+NOTE: Running task 1849 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_unpack)
+NOTE: Running task 1850 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe json-c-0.16-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_unpack: Started
+NOTE: recipe json-c-0.16-r0: task do_unpack: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_unpack: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_unpack: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_unpack: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_unpack: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1851 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_patch)
+NOTE: recipe lua-5.4.4-r0: task do_patch: Started
+NOTE: recipe popt-1.18-r0: task do_patch: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_unpack: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_unpack: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_unpack: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_unpack: Started
+NOTE: Running task 1852 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_patch)
+NOTE: Running task 1853 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_patch)
+NOTE: recipe libksba-1.6.0-r0: task do_unpack: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe npth-1.6-r0: task do_unpack: Started
+NOTE: Running task 1854 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_patch)
+NOTE: recipe libksba-1.6.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_unpack: Succeeded
+NOTE: recipe popt-1.18-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe dnf-4.12.0-r0: task do_unpack: Started
+NOTE: recipe librepo-1.14.2-r0: task do_unpack: Succeeded
+NOTE: recipe libsolv-0.7.22-r0: task do_unpack: Succeeded
+NOTE: Running task 1855 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_patch)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_unpack: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_unpack: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_patch: Succeeded
+NOTE: recipe npth-1.6-r0: task do_unpack: Succeeded
+NOTE: recipe popt-1.18-r0: task do_patch: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1856 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1857 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1858 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_patch)
+NOTE: recipe libcomps-0.1.18-r0: task do_unpack: Succeeded
+NOTE: recipe libksba-1.6.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1859 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_patch)
+NOTE: Running task 1860 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_patch)
+NOTE: Running task 1861 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_patch)
+NOTE: Running task 1862 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_patch)
+NOTE: Running task 1863 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_patch)
+NOTE: Running task 1864 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_patch)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_unpack: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1865 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_patch)
+NOTE: recipe rpm-1_4.17.0-r0: task do_unpack: Succeeded
+NOTE: recipe dnf-4.12.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1866 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_patch)
+NOTE: Running task 1867 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_patch)
+NOTE: recipe libksba-1.6.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_unpack: Succeeded
+NOTE: recipe npth-1.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe unzip-1_6.0-r5: task do_unpack: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_unpack: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_unpack: Started
+NOTE: recipe unzip-1_6.0-r5: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1868 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_patch)
+NOTE: recipe json-c-0.16-r0: task do_patch: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_patch: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_patch: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_patch: Started
+NOTE: recipe librepo-1.14.2-r0: task do_patch: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_patch: Started
+NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_patch: Started
+NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_patch: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_patch: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_patch: Started
+NOTE: recipe libksba-1.6.0-r0: task do_patch: Started
+NOTE: recipe npth-1.6-r0: task do_patch: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_patch: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_patch: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_patch: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_patch: Started
+NOTE: Running task 1869 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1870 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_generate_toolchain_file)
+NOTE: Running task 1871 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_deploy_source_date_epoch)
+NOTE: recipe rpm-1_4.17.0-r0: task do_patch: Started
+NOTE: recipe dnf-4.12.0-r0: task do_patch: Started
+NOTE: Running task 1872 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe gpgme-1.17.1-r0: task do_patch: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe pinentry-1.2.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1873 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_patch)
+NOTE: recipe libassuan-2.5.5-r0: task do_patch: Succeeded
+NOTE: Running task 1874 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_deploy_source_date_epoch)
+NOTE: recipe libyaml-0.2.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_patch: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_patch: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libksba-1.6.0-r0: task do_patch: Succeeded
+NOTE: Running task 1875 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_deploy_source_date_epoch)
+NOTE: recipe json-c-0.16-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1876 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1877 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1878 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_generate_toolchain_file)
+NOTE: Running task 1879 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe unzip-1_6.0-r5: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libsolv-0.7.22-r0: task do_patch: Succeeded
+NOTE: Running task 1880 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_generate_toolchain_file)
+NOTE: recipe pinentry-1.2.0-r0: task do_patch: Started
+NOTE: Running task 1881 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_deploy_source_date_epoch)
+NOTE: recipe lua-5.4.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe popt-1.18-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1882 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure)
+NOTE: recipe unzip-1_6.0-r5: task do_unpack: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe librepo-1.14.2-r0: task do_patch: Succeeded
+NOTE: recipe npth-1.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1883 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_configure)
+NOTE: recipe python3-iniparse-0.5-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1884 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_patch)
+NOTE: Running task 1885 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe libcomps-0.1.18-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1886 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_generate_toolchain_file)
+NOTE: recipe libcomps-0.1.18-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libksba-1.6.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_generate_toolchain_file: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_patch: Succeeded
+NOTE: Running task 1887 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe lua-5.4.4-r0: task do_configure: Started
+NOTE: recipe json-c-0.16-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_patch: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libsolv-0.7.22-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe popt-1.18-r0: task do_configure: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe librepo-1.14.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1888 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_configure)
+NOTE: Running task 1889 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_configure)
+NOTE: recipe librepo-1.14.2-r0: task do_generate_toolchain_file: Started
+NOTE: Running task 1890 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_configure)
+NOTE: recipe npth-1.6-r0: task do_patch: Succeeded
+NOTE: Running task 1891 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_deploy_source_date_epoch)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe librepo-1.14.2-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe pinentry-1.2.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1892 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libksba-1.6.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_configure: Started
+NOTE: Running task 1893 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_configure)
+NOTE: recipe lua-5.4.4-r0: task do_configure: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_configure: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1894 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_configure)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_configure: Started
+NOTE: Running task 1895 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_configure_ptest_base)
+NOTE: recipe npth-1.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1896 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_configure)
+NOTE: recipe pinentry-1.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe librepo-1.14.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_patch: Succeeded
+NOTE: recipe libassuan-2.5.5-r0: task do_configure: Started
+NOTE: Running task 1897 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1898 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_generate_toolchain_file)
+NOTE: recipe systemd-1_250.4-r0: task do_package_setscene: Started
+NOTE: recipe libksba-1.6.0-r0: task do_configure: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_configure: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Started
+NOTE: recipe dnf-4.12.0-r0: task do_patch: Succeeded
+NOTE: Running task 1899 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_compile)
+NOTE: recipe libcomps-0.1.18-r0: task do_configure: Started
+NOTE: Running task 1900 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1901 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_generate_toolchain_file)
+NOTE: Running task 1902 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_populate_lic)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe lua-5.4.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1903 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_configure)
+NOTE: Running task 1904 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile)
+NOTE: recipe libdnf-0.66.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe npth-1.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1905 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_configure)
+NOTE: recipe python3-six-1.16.0-r0: task do_compile: Started
+NOTE: recipe dnf-4.12.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe dnf-4.12.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe dnf-4.12.0-r0: task do_populate_lic: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_configure: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile: Started
+NOTE: recipe dnf-4.12.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe npth-1.6-r0: task do_configure: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_patch: Succeeded
+NOTE: Running task 1906 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libdnf-0.66.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe dnf-4.12.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_populate_lic unihash changed to 2059057eb6a58b4046f22e7352cdfcd05a05501a85a91c6987d63f5240fe548e
+NOTE: recipe dnf-4.12.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_configure: Succeeded
+NOTE: Running task 1907 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_compile)
+NOTE: recipe rpm-1_4.17.0-r0: task do_patch: Succeeded
+NOTE: Running task 1908 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe gpgme-1.17.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_unpack: Succeeded
+NOTE: Running task 1909 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_patch)
+NOTE: recipe gnupg-2.3.4-r0: task do_patch: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_patch: Succeeded
+NOTE: Running task 1910 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe gnupg-2.3.4-r0: task do_patch: Succeeded
+NOTE: Running task 1911 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe unzip-1_6.0-r5: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_compile: Succeeded
+NOTE: recipe gnupg-2.3.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1912 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_install)
+NOTE: recipe libcomps-0.1.18-r0: task do_compile: Succeeded
+NOTE: Running task 1913 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_install)
+NOTE: recipe unzip-1_6.0-r5: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1914 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_configure)
+NOTE: recipe python3-six-1.16.0-r0: task do_install: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_install: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_configure: Started
+NOTE: recipe unzip-1_6.0-r5: task do_configure: Succeeded
+NOTE: Running task 1915 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_compile)
+NOTE: recipe systemd-1_250.4-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1926 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe unzip-1_6.0-r5: task do_compile: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_install: Succeeded
 NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_package_setscene: Started
-NOTE: recipe fribidi-1.0.11-r0: task do_package_setscene: Started
-NOTE: recipe libseccomp-2.5.3-r0: task do_package_setscene: Started
-NOTE: recipe libpcre2-10.40-r0: task do_fetch: Started
-NOTE: recipe vte-0.68.0-r0: task do_fetch: Started
-NOTE: recipe vte-0.68.0-r0: task do_write_config: Started
-NOTE: recipe libpcre2-10.40-r0: task do_fetch: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1372 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_unpack)
-NOTE: Running task 1373 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_unpack)
-NOTE: recipe vte-0.68.0-r0: task do_write_config: Succeeded
-NOTE: recipe libpcre2-10.40-r0: task do_unpack: Started
-NOTE: recipe vte-0.68.0-r0: task do_unpack: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_package_setscene: Succeeded
-NOTE: recipe fribidi-1.0.11-r0: task do_package_setscene: Succeeded
+NOTE: Running task 1948 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_populate_sysroot)
+NOTE: Running task 1949 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package)
+NOTE: recipe libcomps-0.1.18-r0: task do_install: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_populate_sysroot: Started
+NOTE: Running task 1950 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_package)
+NOTE: Running task 1951 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_populate_sysroot)
+NOTE: recipe python3-six-1.16.0-r0: task do_package: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_package: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_populate_sysroot: Started
+NOTE: recipe lua-5.4.4-r0: task do_compile: Succeeded
+NOTE: Running task 1952 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_compile_ptest_base)
 NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: Running task 1383 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running task 1384 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe libseccomp-2.5.3-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 610 of 617 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe vte-0.68.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1953 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: Running task 1954 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Started
 NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: Running task 1389 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_patch)
+NOTE: recipe lua-5.4.4-r0: task do_compile_ptest_base: Succeeded
 NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpcre2-10.40-r0: task do_unpack: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_patch: Started
-NOTE: Running task 1390 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_patch)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 612 of 617 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpcre2-10.40-r0: task do_patch: Started
-NOTE: recipe vte-0.68.0-r0: task do_patch: Succeeded
-NOTE: Running task 1395 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1396 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_populate_lic)
-NOTE: recipe libpcre2-10.40-r0: task do_patch: Succeeded
-NOTE: recipe gcc-runtime-11.3.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1397 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1955 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install)
+NOTE: recipe python3-six-1.16.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1956 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lua-5.4.4-r0: task do_install: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_populate_sysroot: Succeeded
 NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
 NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to ea93135e6bc8e63cc54852e198d3eabbf225aea3faf287903bdd2c4fb2e8da5b
-NOTE: recipe vte-0.68.0-r0: task do_populate_lic: Started
-NOTE: recipe vte-0.68.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpcre2-10.40-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vte-0.68.0-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_populate_lic unihash changed to b5be5a6e0c104c8dca84fabb0f2f76f1b1fa5c188030104bfbfb9842fb9e40c4
-NOTE: recipe libpcre2-10.40-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gcc-runtime-11.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 613 of 617 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-11.3.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe lua-5.4.4-r0: task do_install: Succeeded
+NOTE: Running task 1970 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_install_ptest_base)
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Started
+NOTE: recipe lua-5.4.4-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1971 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_populate_sysroot)
+NOTE: Running task 1972 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_package)
+NOTE: recipe python3-iniparse-0.5-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_package: Succeeded
+NOTE: Running task 1973 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_configure)
+NOTE: Running task 1974 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_packagedata)
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Started
 NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 1399 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe lua-5.4.4-r0: task do_package: Started
+NOTE: Running task 1975 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe python3-iniparse-0.5-r0: task do_configure: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_packagedata: Started
 NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe libgcc-11.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 614 of 617 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.35.bb:do_populate_sysroot_setscene)
-NOTE: recipe glibc-2.35-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_configure: Succeeded
+NOTE: Running task 1976 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_compile)
+NOTE: recipe python3-iniparse-0.5-r0: task do_compile: Started
 NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_packagedata: Succeeded
 NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to e12ef1466cb841b8170ebe21bf855a1d72ab36d5c6b2197eb65f7498b9c23a64
-NOTE: recipe glibc-2.35-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 617 of 617 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1947 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_packagedata)
-NOTE: Running task 2048 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb:do_packagedata)
-NOTE: Running task 2077 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2097 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_packagedata)
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_packagedata: Started
-NOTE: recipe libseccomp-2.5.3-r0: task do_packagedata: Started
-NOTE: recipe libpcre2-10.40-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe fribidi-1.0.11-r0: task do_packagedata: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_packagedata: Succeeded
-NOTE: recipe libpcre2-10.40-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2132 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_configure)
-NOTE: recipe libseccomp-2.5.3-r0: task do_packagedata: Succeeded
-NOTE: recipe fribidi-1.0.11-r0: task do_packagedata: Succeeded
-NOTE: recipe libpcre2-10.40-r0: task do_configure: Started
-NOTE: recipe libpcre2-10.40-r0: task do_configure: Succeeded
-NOTE: Running task 2147 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_compile)
-NOTE: recipe libpcre2-10.40-r0: task do_compile: Started
-NOTE: recipe libpcre2-10.40-r0: task do_compile: Succeeded
-NOTE: Running task 2148 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_install)
-NOTE: recipe libpcre2-10.40-r0: task do_install: Started
-NOTE: recipe libpcre2-10.40-r0: task do_install: Succeeded
-NOTE: Running task 2149 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_populate_sysroot)
-NOTE: Running task 2150 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_package)
-NOTE: recipe libpcre2-10.40-r0: task do_populate_sysroot: Started
-NOTE: recipe libpcre2-10.40-r0: task do_package: Started
-NOTE: recipe libpcre2-10.40-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2151 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vte-0.68.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vte-0.68.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2152 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_configure)
-NOTE: recipe vte-0.68.0-r0: task do_configure: Started
-NOTE: recipe libpcre2-10.40-r0: task do_package: Succeeded
-NOTE: Running task 2153 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.40.bb:do_packagedata)
-NOTE: recipe libpcre2-10.40-r0: task do_packagedata: Started
-NOTE: recipe libpcre2-10.40-r0: task do_packagedata: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_configure: Succeeded
-NOTE: Running task 2154 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_compile)
-NOTE: recipe vte-0.68.0-r0: task do_compile: Started
-NOTE: recipe vte-0.68.0-r0: task do_compile: Succeeded
-NOTE: Running task 2155 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_install)
-NOTE: recipe vte-0.68.0-r0: task do_install: Started
-NOTE: recipe vte-0.68.0-r0: task do_install: Succeeded
-NOTE: Running task 2156 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_package)
-NOTE: Running task 2157 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_populate_sysroot)
-NOTE: recipe vte-0.68.0-r0: task do_package: Started
-NOTE: recipe vte-0.68.0-r0: task do_populate_sysroot: Started
-NOTE: recipe vte-0.68.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_package: Succeeded
-NOTE: Running task 2158 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_packagedata)
-NOTE: recipe vte-0.68.0-r0: task do_packagedata: Started
-NOTE: recipe vte-0.68.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2159 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_package_write_rpm)
-NOTE: Running task 2160 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_package_qa)
-NOTE: recipe vte-0.68.0-r0: task do_package_write_rpm: Started
-NOTE: recipe vte-0.68.0-r0: task do_package_qa: Started
-NOTE: recipe vte-0.68.0-r0: task do_package_qa: Succeeded
-NOTE: recipe vte-0.68.0-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 2161 of 2161 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/vte/vte_0.68.0.bb:do_build)
-NOTE: Tasks Summary: Attempted 2161 tasks of which 2127 didn't need to be rerun and all succeeded.
+NOTE: Running task 1978 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_250.4.bb:do_packagedata)
+NOTE: recipe lua-5.4.4-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_package: Succeeded
+NOTE: recipe systemd-1_250.4-r0: task do_packagedata: Started
+NOTE: Running task 1979 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_packagedata)
+NOTE: recipe libcomps-0.1.18-r0: task do_packagedata: Started
+NOTE: recipe libcomps-0.1.18-r0: task do_packagedata: Succeeded
+NOTE: Running task 1980 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libcomps/libcomps_0.1.18.bb:do_package_write_rpm)
+NOTE: recipe systemd-1_250.4-r0: task do_packagedata: Succeeded
+NOTE: recipe libcomps-0.1.18-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_compile: Succeeded
+NOTE: Running task 1983 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_install)
+NOTE: recipe json-c-0.16-r0: task do_configure: Succeeded
+NOTE: Running task 1984 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_compile)
+NOTE: recipe python3-iniparse-0.5-r0: task do_install: Started
+NOTE: recipe json-c-0.16-r0: task do_compile: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_install: Succeeded
+NOTE: Running task 1985 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_package)
+NOTE: recipe lua-5.4.4-r0: task do_package: Succeeded
+NOTE: Running task 1986 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/lua/lua_5.4.4.bb:do_packagedata)
+NOTE: Running task 1987 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_populate_sysroot)
+NOTE: recipe libcomps-0.1.18-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_package: Started
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_populate_sysroot: Started
+NOTE: recipe json-c-0.16-r0: task do_compile: Succeeded
+NOTE: Running task 1988 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_install)
+NOTE: recipe json-c-0.16-r0: task do_install: Started
+NOTE: recipe lua-5.4.4-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_install: Succeeded
+NOTE: Running task 1989 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_populate_sysroot)
+NOTE: Running task 1990 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_package)
+NOTE: recipe json-c-0.16-r0: task do_populate_sysroot: Started
+NOTE: recipe json-c-0.16-r0: task do_package: Started
+NOTE: recipe json-c-0.16-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-iniparse-0.5-r0: task do_package: Succeeded
+NOTE: Running task 1991 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_packagedata)
+NOTE: recipe python3-iniparse-0.5-r0: task do_packagedata: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_configure: Succeeded
+NOTE: Running task 1992 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_compile)
+NOTE: recipe libyaml-0.2.5-r0: task do_compile: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_packagedata: Succeeded
+NOTE: Running task 1993 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-iniparse_0.5.bb:do_package_write_rpm)
+NOTE: recipe python3-iniparse-0.5-r0: task do_package_write_rpm: Started
+NOTE: recipe json-c-0.16-r0: task do_package: Succeeded
+NOTE: Running task 1994 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/json-c/json-c_0.16.bb:do_packagedata)
+NOTE: recipe json-c-0.16-r0: task do_packagedata: Started
+NOTE: recipe python3-iniparse-0.5-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe json-c-0.16-r0: task do_packagedata: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_configure: Succeeded
+NOTE: Running task 1995 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_compile)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_compile: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_compile: Succeeded
+NOTE: Running task 1996 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_install)
+NOTE: recipe libyaml-0.2.5-r0: task do_install: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_install: Succeeded
+NOTE: Running task 1997 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_populate_sysroot)
+NOTE: Running task 1998 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_package)
+NOTE: recipe libyaml-0.2.5-r0: task do_populate_sysroot: Started
+NOTE: recipe popt-1.18-r0: task do_configure: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_package: Started
+NOTE: Running task 1999 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_configure_ptest_base)
+NOTE: recipe popt-1.18-r0: task do_configure_ptest_base: Started
+NOTE: recipe popt-1.18-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2000 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_compile)
+NOTE: recipe libksba-1.6.0-r0: task do_configure: Succeeded
+NOTE: Running task 2001 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_compile)
+NOTE: recipe popt-1.18-r0: task do_compile: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2002 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libksba-1.6.0-r0: task do_compile: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_configure: Succeeded
+NOTE: Running task 2003 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_compile)
+NOTE: recipe npth-1.6-r0: task do_configure: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_compile: Succeeded
+NOTE: Running task 2004 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_compile)
+NOTE: Running task 2005 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_install)
+NOTE: recipe libassuan-2.5.5-r0: task do_compile: Started
+NOTE: recipe npth-1.6-r0: task do_compile: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_install: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gtk-doc-1.33.2-r0: task do_install: Succeeded
+NOTE: Running task 2006 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_configure)
+NOTE: Running task 2007 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_populate_sysroot)
+NOTE: Running task 2008 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_package)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_configure: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_populate_sysroot: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_package: Started
+NOTE: recipe npth-1.6-r0: task do_compile: Succeeded
+NOTE: Running task 2009 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_install)
+NOTE: recipe unzip-1_6.0-r5: task do_compile: Succeeded
+NOTE: Running task 2010 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_install)
+NOTE: recipe popt-1.18-r0: task do_compile: Succeeded
+NOTE: Running task 2011 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_compile_ptest_base)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_install: Started
+NOTE: recipe npth-1.6-r0: task do_install: Started
+NOTE: recipe popt-1.18-r0: task do_compile_ptest_base: Started
+NOTE: recipe popt-1.18-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2012 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_install)
+NOTE: recipe libyaml-0.2.5-r0: task do_package: Succeeded
+NOTE: Running task 2013 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_packagedata)
+NOTE: recipe unzip-1_6.0-r5: task do_install: Succeeded
+NOTE: recipe popt-1.18-r0: task do_install: Started
+NOTE: Running task 2014 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_package)
+NOTE: recipe libyaml-0.2.5-r0: task do_packagedata: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_compile: Succeeded
+NOTE: Running task 2015 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_install)
+NOTE: recipe unzip-1_6.0-r5: task do_package: Started
+NOTE: recipe npth-1.6-r0: task do_install: Succeeded
+NOTE: Running task 2016 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_package)
+NOTE: Running task 2017 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_populate_sysroot)
+NOTE: recipe libassuan-2.5.5-r0: task do_install: Started
+NOTE: recipe npth-1.6-r0: task do_populate_sysroot: Started
+NOTE: recipe npth-1.6-r0: task do_package: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_packagedata: Succeeded
+NOTE: recipe npth-1.6-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libksba-1.6.0-r0: task do_compile: Succeeded
+NOTE: Running task 2018 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_install)
+NOTE: recipe libassuan-2.5.5-r0: task do_install: Succeeded
+NOTE: Running task 2019 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_populate_sysroot)
+NOTE: recipe popt-1.18-r0: task do_install: Succeeded
+NOTE: Running task 2020 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_package)
+NOTE: Running task 2021 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_install_ptest_base)
+NOTE: recipe libksba-1.6.0-r0: task do_install: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_populate_sysroot: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_package: Started
+NOTE: recipe popt-1.18-r0: task do_install_ptest_base: Started
+NOTE: recipe gtk-doc-1.33.2-r0: task do_package: Succeeded
+NOTE: Running task 2022 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_packagedata)
+NOTE: recipe popt-1.18-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2023 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_populate_sysroot)
+NOTE: Running task 2024 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_package)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_packagedata: Started
+NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Started
+NOTE: recipe popt-1.18-r0: task do_package: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libksba-1.6.0-r0: task do_install: Succeeded
+NOTE: Running task 2025 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2026 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2027 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_package)
+NOTE: Running task 2028 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_populate_sysroot)
+NOTE: recipe gtk-doc-1.33.2-r0: task do_packagedata: Succeeded
+NOTE: recipe pinentry-1.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libksba-1.6.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libksba-1.6.0-r0: task do_package: Started
+NOTE: recipe popt-1.18-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2029 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pinentry-1.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2030 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_configure)
+NOTE: recipe pinentry-1.2.0-r0: task do_configure: Started
+NOTE: recipe libksba-1.6.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2031 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe unzip-1_6.0-r5: task do_package: Succeeded
+NOTE: Running task 2032 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata)
+NOTE: recipe npth-1.6-r0: task do_package: Succeeded
+NOTE: Running task 2033 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/npth/npth_1.6.bb:do_packagedata)
+NOTE: recipe gnupg-2.3.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe unzip-1_6.0-r5: task do_packagedata: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2034 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_configure)
+NOTE: recipe npth-1.6-r0: task do_packagedata: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_configure: Succeeded
+NOTE: Running task 2035 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_compile)
+NOTE: recipe gpgme-1.17.1-r0: task do_configure: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_packagedata: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_compile: Started
+NOTE: Running task 2036 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_configure)
+NOTE: Running task 2037 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.4.bb:do_package_write_rpm)
+NOTE: recipe npth-1.6-r0: task do_packagedata: Succeeded
+NOTE: recipe gnupg-2.3.4-r0: task do_configure: Started
+NOTE: recipe python3-3.10.4-r0: task do_package_write_rpm: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2038 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_configure)
+NOTE: recipe libassuan-2.5.5-r0: task do_package: Succeeded
+NOTE: Running task 2039 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libassuan/libassuan_2.5.5.bb:do_packagedata)
+NOTE: recipe rpm-1_4.17.0-r0: task do_configure: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_packagedata: Started
+NOTE: recipe libassuan-2.5.5-r0: task do_packagedata: Succeeded
+NOTE: recipe libksba-1.6.0-r0: task do_package: Succeeded
+NOTE: Running task 2040 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libksba/libksba_1.6.0.bb:do_packagedata)
+NOTE: recipe libksba-1.6.0-r0: task do_packagedata: Started
+NOTE: recipe libksba-1.6.0-r0: task do_packagedata: Succeeded
+NOTE: recipe popt-1.18-r0: task do_package: Succeeded
+NOTE: Running task 2041 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/popt/popt_1.18.bb:do_packagedata)
+NOTE: recipe popt-1.18-r0: task do_packagedata: Started
+NOTE: recipe popt-1.18-r0: task do_packagedata: Succeeded
+NOTE: recipe libmodulemd-2.14.0-r0: task do_compile: Succeeded
+NOTE: Running task 2042 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_install)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_install: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_configure: Succeeded
+NOTE: Running task 2043 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_compile)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_install: Succeeded
+NOTE: Running task 2044 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_populate_sysroot)
+NOTE: Running task 2045 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_package)
+NOTE: recipe pinentry-1.2.0-r0: task do_compile: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_package: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe pinentry-1.2.0-r0: task do_compile: Succeeded
+NOTE: Running task 2046 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_install)
+NOTE: recipe pinentry-1.2.0-r0: task do_install: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_install: Succeeded
+NOTE: Running task 2047 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_package)
+NOTE: recipe pinentry-1.2.0-r0: task do_package: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_package: Succeeded
+NOTE: Running task 2048 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb:do_packagedata)
+NOTE: recipe libmodulemd-2.14.0-r0: task do_packagedata: Started
+NOTE: recipe libmodulemd-2.14.0-r0: task do_packagedata: Succeeded
+NOTE: recipe pinentry-1.2.0-r0: task do_package: Succeeded
+NOTE: Running task 2049 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/pinentry/pinentry_1.2.0.bb:do_packagedata)
+NOTE: recipe pinentry-1.2.0-r0: task do_packagedata: Started
+NOTE: recipe pinentry-1.2.0-r0: task do_packagedata: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_configure: Succeeded
+NOTE: Running task 2050 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_compile)
+NOTE: recipe gpgme-1.17.1-r0: task do_compile: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_configure: Succeeded
+NOTE: Running task 2051 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_compile)
+NOTE: recipe gnupg-2.3.4-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_configure: Succeeded
+NOTE: Running task 2052 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_compile)
+NOTE: recipe rpm-1_4.17.0-r0: task do_compile: Started
+NOTE: recipe python3-3.10.4-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_compile: Succeeded
+NOTE: Running task 2053 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_install)
+NOTE: recipe rpm-1_4.17.0-r0: task do_install: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_compile: Succeeded
+NOTE: Running task 2054 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_install)
+NOTE: recipe gnupg-2.3.4-r0: task do_install: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_install: Succeeded
+NOTE: Running task 2055 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_populate_sysroot)
+NOTE: Running task 2056 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_package)
+NOTE: recipe rpm-1_4.17.0-r0: task do_populate_sysroot: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_package: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_install: Succeeded
+NOTE: Running task 2057 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_package)
+NOTE: recipe rpm-1_4.17.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2058 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gnupg-2.3.4-r0: task do_package: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2059 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_configure)
+NOTE: recipe libsolv-0.7.22-r0: task do_configure: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_configure: Succeeded
+NOTE: Running task 2060 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_compile)
+NOTE: recipe libsolv-0.7.22-r0: task do_compile: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_package: Succeeded
+NOTE: Running task 2061 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_packagedata)
+NOTE: recipe gnupg-2.3.4-r0: task do_package: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_packagedata: Started
+NOTE: Running task 2062 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_packagedata)
+NOTE: recipe gnupg-2.3.4-r0: task do_packagedata: Started
+NOTE: recipe rpm-1_4.17.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2063 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rpm/rpm_4.17.0.bb:do_package_write_rpm)
+NOTE: recipe gnupg-2.3.4-r0: task do_packagedata: Succeeded
+NOTE: Running task 2064 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnupg/gnupg_2.3.4.bb:do_package_write_rpm)
+NOTE: recipe rpm-1_4.17.0-r0: task do_package_write_rpm: Started
+NOTE: recipe gnupg-2.3.4-r0: task do_package_write_rpm: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_compile: Succeeded
+NOTE: Running task 2065 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_install)
+NOTE: recipe libsolv-0.7.22-r0: task do_install: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_install: Succeeded
+NOTE: Running task 2066 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_populate_sysroot)
+NOTE: Running task 2067 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_package)
+NOTE: recipe libsolv-0.7.22-r0: task do_populate_sysroot: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_package: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe rpm-1_4.17.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libsolv-0.7.22-r0: task do_package: Succeeded
+NOTE: Running task 2068 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libsolv/libsolv_0.7.22.bb:do_packagedata)
+NOTE: recipe libsolv-0.7.22-r0: task do_packagedata: Started
+NOTE: recipe libsolv-0.7.22-r0: task do_packagedata: Succeeded
+NOTE: recipe gnupg-2.3.4-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_compile: Succeeded
+NOTE: Running task 2069 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_install)
+NOTE: recipe gpgme-1.17.1-r0: task do_install: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_install: Succeeded
+NOTE: Running task 2070 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_populate_sysroot)
+NOTE: Running task 2071 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_package)
+NOTE: recipe gpgme-1.17.1-r0: task do_populate_sysroot: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_package: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2072 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe librepo-1.14.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe librepo-1.14.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2073 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_configure)
+NOTE: recipe librepo-1.14.2-r0: task do_configure: Started
+NOTE: recipe librepo-1.14.2-r0: task do_configure: Succeeded
+NOTE: Running task 2074 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_compile)
+NOTE: recipe librepo-1.14.2-r0: task do_compile: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_package: Succeeded
+NOTE: Running task 2075 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_packagedata)
+NOTE: recipe gpgme-1.17.1-r0: task do_packagedata: Started
+NOTE: recipe gpgme-1.17.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 2076 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gpgme/gpgme_1.17.1.bb:do_package_write_rpm)
+NOTE: recipe librepo-1.14.2-r0: task do_compile: Succeeded
+NOTE: Running task 2077 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_install)
+NOTE: recipe gpgme-1.17.1-r0: task do_package_write_rpm: Started
+NOTE: recipe librepo-1.14.2-r0: task do_install: Started
+NOTE: recipe librepo-1.14.2-r0: task do_install: Succeeded
+NOTE: Running task 2078 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_populate_sysroot)
+NOTE: Running task 2079 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_package)
+NOTE: recipe librepo-1.14.2-r0: task do_populate_sysroot: Started
+NOTE: recipe librepo-1.14.2-r0: task do_package: Started
+NOTE: recipe librepo-1.14.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2080 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libdnf-0.66.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2081 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_configure)
+NOTE: recipe libdnf-0.66.0-r0: task do_configure: Started
+NOTE: recipe librepo-1.14.2-r0: task do_package: Succeeded
+NOTE: Running task 2082 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_packagedata)
+NOTE: recipe librepo-1.14.2-r0: task do_packagedata: Started
+NOTE: recipe librepo-1.14.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 2083 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/librepo/librepo_1.14.2.bb:do_package_write_rpm)
+NOTE: recipe librepo-1.14.2-r0: task do_package_write_rpm: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_configure: Succeeded
+NOTE: Running task 2084 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_compile)
+NOTE: recipe libdnf-0.66.0-r0: task do_compile: Started
+NOTE: recipe librepo-1.14.2-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe gpgme-1.17.1-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_compile: Succeeded
+NOTE: Running task 2085 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_install)
+NOTE: recipe libdnf-0.66.0-r0: task do_install: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_install: Succeeded
+NOTE: Running task 2086 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_package)
+NOTE: Running task 2087 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_populate_sysroot)
+NOTE: recipe libdnf-0.66.0-r0: task do_package: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2088 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe dnf-4.12.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe dnf-4.12.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2089 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_configure)
+NOTE: recipe dnf-4.12.0-r0: task do_configure: Started
+NOTE: recipe dnf-4.12.0-r0: task do_configure: Succeeded
+NOTE: Running task 2090 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_compile)
+NOTE: recipe dnf-4.12.0-r0: task do_compile: Started
+NOTE: recipe dnf-4.12.0-r0: task do_compile: Succeeded
+NOTE: Running task 2091 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_install)
+NOTE: recipe dnf-4.12.0-r0: task do_install: Started
+NOTE: recipe dnf-4.12.0-r0: task do_install: Succeeded
+NOTE: Running task 2092 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_populate_sysroot)
+NOTE: recipe dnf-4.12.0-r0: task do_populate_sysroot: Started
+NOTE: recipe dnf-4.12.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_package: Succeeded
+NOTE: Running task 2093 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_packagedata)
+NOTE: recipe libdnf-0.66.0-r0: task do_packagedata: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2094 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_package)
+NOTE: Running task 2095 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb:do_package_write_rpm)
+NOTE: recipe dnf-4.12.0-r0: task do_package: Started
+NOTE: recipe libdnf-0.66.0-r0: task do_package_write_rpm: Started
+NOTE: recipe dnf-4.12.0-r0: task do_package: Succeeded
+NOTE: Running task 2096 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_packagedata)
+NOTE: recipe dnf-4.12.0-r0: task do_packagedata: Started
+NOTE: recipe dnf-4.12.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2097 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_package_write_rpm)
+NOTE: Running task 2098 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_package_qa)
+NOTE: recipe dnf-4.12.0-r0: task do_package_write_rpm: Started
+NOTE: recipe dnf-4.12.0-r0: task do_package_qa: Started
+NOTE: recipe dnf-4.12.0-r0: task do_package_qa: Succeeded
+NOTE: recipe dnf-4.12.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libdnf-0.66.0-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2099 of 2099 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/dnf/dnf_4.12.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 2099 tasks of which 1841 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 
-Summary: There were 26 ERROR messages, returning a non-zero exit code.
+Summary: There were 66 ERROR messages, returning a non-zero exit code.
 /usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
   return f(*args, **kwds)
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-src went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package sqlite3-src went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-dbg went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package sqlite3-dbg went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-staticdev went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3 went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-dev went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3-dev went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-doc went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3-doc went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-src went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-locale went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package libsqlite3-staticdev went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-dbg went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi-bin went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: QA Issue: Package version for package sqlite3 went backwards which would break package feeds (from 3:3.38.3-r0 to 3:3.38.2-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-ptest went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: sqlite3-3_3.38.2-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: QA Issue: Package version for package fribidi went backwards which would break package feeds (from 0:1.0.12-r0 to 0:1.0.11-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-staticdev went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: fribidi-1.0.11-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-dev went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-doc went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp-locale went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libseccomp went backwards which would break package feeds (from 0:2.5.4-r0 to 0:2.5.3-r0) [version-going-backwards]
-ERROR: libseccomp-2.5.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-src went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-dbg went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-staticdev went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-dev went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-doc went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-gui went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-vconsole-setup went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-initramfs went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-analyze went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-kernel-install went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-rpm-macros went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-binfmt went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-zsh-completion went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-container went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-gatewayd went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-upload went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-journal-remote went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-extra-utils went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-udev-rules went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libsystemd-shared went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package udev went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package udev-hwdb went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-bash-completion went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-be went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-be+latin went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-bg went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ca went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-cs went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-da went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-de went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-el went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-es went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-fi went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-fr went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-gl went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-hr went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-hu went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-id went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-it went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ja went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-kab went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ko went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-lt went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-nl went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pa went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pl went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pt went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-pt-br went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ro went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-ru went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-si went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sk went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sr went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-sv went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-tr went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-uk went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-zh-cn went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package systemd-locale-zh-tw went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-myhostname went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-mymachines went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-resolve went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libnss-systemd went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libsystemd went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: QA Issue: Package version for package libudev went backwards which would break package feeds (from 1:250.5-r0 to 1:250.4-r0) [version-going-backwards]
+ERROR: systemd-1_250.4-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============8393140509345750282==--
+--===============2727113197685896079==--
 
