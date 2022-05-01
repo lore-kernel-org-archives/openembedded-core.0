@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48F33C43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51312C4321E
 	for <webhook@archiver.kernel.org>; Sun,  1 May 2022 19:49:11 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com
- (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web09.2252.1651434542042542362
+Received: from a27-30.smtp-out.us-west-2.amazonses.com
+ (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.2279.1651434542222957443
  for <openembedded-core@lists.openembedded.org>;
  Sun, 01 May 2022 12:49:02 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=WEISDVqI;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
- mailfrom: 01010180812b4fb2-1af13ced-3820-40bb-821a-7ef1cb739457-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dJMdGePU;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
+ mailfrom: 01010180812b5186-d6c005fd-eecc-4c2a-aee0-571a9083f5f6-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1651434541;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=QGCwIK7x73aZqH1qI7eBkHy3+M7Ga5AJpj3LGzRUiMQ=;
-	b=WEISDVqIAmsuBuzH7LlJH3K8ZHmmAdkFjq05Dc8BbPlvdrpWL/BPFP3xImKYD3cH
-	HGaGyoaV9qxukBgaw6F9UfnC+QCVVWoMvUqwLxqRkE2XfZtXzw6YPR7kcgLAA9C6xpM
-	S6pzZo4HoA04gZxHlA+FqAsB1oz4+Fsw/DU1QmG8=
+	bh=eDp9AJn51t8kMqKNMYDyujDGDoVL5QzLwWE5wYB5+Qs=;
+	b=dJMdGePUNojB//upmaQMbScyKbu7HMWuxRQpEDTD8zV8QNy2tw6Af31Q/OcbkkYS
+	kzArY5gygxIe02BhnoXLM+QIonmhHrrLgxOR3ihowLvoviDEHukf+0vw74t3h9bLXXf
+	XfPSXvhU8tDSjoec8NhjxANi/8WINWlPUTeS3/LY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1651434541;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=QGCwIK7x73aZqH1qI7eBkHy3+M7Ga5AJpj3LGzRUiMQ=;
-	b=HFBgS0PMUC6yjwXsyKvBj9h2Qo/Hh+lh4Pe041+Am80O0L9pmIwcB6h2dcy2QqYr
-	UQnjEXXGY5fAOIoIuHJG2UhvrjyMti6H+A2WmWAZEVtIVOv/ncGwkqMN9GICcHmY1mk
-	ilyfdiIyHqLd0C5Bnvl5K1WKbNyKrPl5WWAAnE8A=
-Content-Type: multipart/mixed; boundary="===============3938251613447968700=="
+	bh=eDp9AJn51t8kMqKNMYDyujDGDoVL5QzLwWE5wYB5+Qs=;
+	b=gVWklMsRgHRT1v3B6lr+lfaEv5N1ehTAtUxR//bpajzUzUlr+vqsBJLZbg9uK975
+	8jZiSyHDIlPKQDl4jLPexuUoOsWwE8+qIwjvv1zDmXOUyDTd4Vjf3Xv+ArUbkb9fdFD
+	V2ak5xDeFqYYp2hG9Go4p5budJ5s8zpPIGel2hp4=
+Content-Type: multipart/mixed; boundary="===============2887978369908273236=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] coreutils: upgrading to 9.1 FAILED
+Subject: [AUH] sysvinit: upgrading to 3.04 FAILED
 Message-ID: 
- <01010180812b4fb2-1af13ced-3820-40bb-821a-7ef1cb739457-000000@us-west-2.amazonses.com>
+ <01010180812b5186-d6c005fd-eecc-4c2a-aee0-571a9083f5f6-000000@us-west-2.amazonses.com>
 Date: Sun, 1 May 2022 19:49:01 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.05.01-54.240.27.23
+X-SES-Outgoing: 2022.05.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 May 2022 19:49:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165092
+ https://lists.openembedded.org/g/openembedded-core/message/165094
 
---===============3938251613447968700==
+--===============2887978369908273236==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,11 +56,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *coreutils* to *9.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *sysvinit* to *3.04* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe coreutils failed.
+Running 'devtool upgrade' for recipe sysvinit failed.
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
@@ -75,12 +75,12 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-42d26d34a7c3c12196fe0bfaaf88c5b88c19cbfa"
+DISTRO_VERSION       = "4.1+snapshot-4f978e76b8175f26e9e918cc1a11cddd79881eb1"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:42d26d34a7c3c12196fe0bfaaf88c5b88c19cbfa"
+meta-yocto-bsp       = "tmp-auh-upgrades:4f978e76b8175f26e9e918cc1a11cddd79881eb1"
 workspace            = "master:9e556960421c8bbe8851d9810352a5b4bd3b50df"
 
 Initialising tasks...done.
@@ -102,12 +102,12 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-42d26d34a7c3c12196fe0bfaaf88c5b88c19cbfa"
+DISTRO_VERSION       = "4.1+snapshot-4f978e76b8175f26e9e918cc1a11cddd79881eb1"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:42d26d34a7c3c12196fe0bfaaf88c5b88c19cbfa"
+meta-yocto-bsp       = "tmp-auh-upgrades:4f978e76b8175f26e9e918cc1a11cddd79881eb1"
 workspace            = "master:9e556960421c8bbe8851d9810352a5b4bd3b50df"
 
 Initialising tasks...done.
@@ -119,45 +119,20 @@ NOTE: Writing buildhistory took: 1 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   3% |#                                   | ETA:  0:00:05
-Adding changed files:   7% |##                                  | ETA:  0:00:02
-Adding changed files:  11% |####                                | ETA:  0:00:02
-Adding changed files:  14% |#####                               | ETA:  0:00:01
-Adding changed files:  18% |######                              | ETA:  0:00:01
-Adding changed files:  22% |########                            | ETA:  0:00:01
-Adding changed files:  26% |#########                           | ETA:  0:00:01
-Adding changed files:  29% |##########                          | ETA:  0:00:01
-Adding changed files:  33% |############                        | ETA:  0:00:00
-Adding changed files:  37% |#############                       | ETA:  0:00:00
-Adding changed files:  40% |##############                      | ETA:  0:00:00
-Adding changed files:  44% |################                    | ETA:  0:00:00
-Adding changed files:  48% |#################                   | ETA:  0:00:00
-Adding changed files:  52% |##################                  | ETA:  0:00:00
-Adding changed files:  55% |####################                | ETA:  0:00:00
-Adding changed files:  59% |#####################               | ETA:  0:00:00
-Adding changed files:  63% |######################              | ETA:  0:00:00
-Adding changed files:  67% |########################            | ETA:  0:00:00
-Adding changed files:  70% |#########################           | ETA:  0:00:00
-Adding changed files:  74% |##########################          | ETA:  0:00:00
-Adding changed files:  78% |############################        | ETA:  0:00:00
-Adding changed files:  81% |#############################       | ETA:  0:00:00
-Adding changed files:  85% |##############################      | ETA:  0:00:00
-Adding changed files:  89% |################################    | ETA:  0:00:00
-Adding changed files:  93% |#################################   | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:01
+Adding changed files: 100% |####################################| Time: 0:00:00
 INFO: Extracting current version source...
 INFO: Adding local source files to srctree...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://ftp.gnu.org/gnu/coreutils/coreutils-9.1.tar.xz...
-INFO: Rebasing devtool onto a0fcf323b14608d6f247cc8a7b0e1a0d381d3497
-WARNING: Command 'git rebase a0fcf323b14608d6f247cc8a7b0e1a0d381d3497' failed:
-Auto-merging m4/gnulib-comp.m4
-CONFLICT (content): Merge conflict in m4/gnulib-comp.m4
+INFO: Fetching https://download.savannah.gnu.org/releases/sysvinit/sysvinit-3.04.tar.xz...
+INFO: Rebasing devtool onto 7830e1f13da544c4f5b85d58459d9925afaf5074
+WARNING: Command 'git rebase 7830e1f13da544c4f5b85d58459d9925afaf5074' failed:
+Auto-merging src/bootlogd.h
+CONFLICT (content): Merge conflict in src/bootlogd.h
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/coreutils
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/coreutils/coreutils_9.1.bb
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/sysvinit
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/sysvinit/sysvinit_3.04.bb
 
 
 
@@ -166,5 +141,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3938251613447968700==--
+--===============2887978369908273236==--
 
