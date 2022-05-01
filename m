@@ -2,52 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F098C38A2E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4503DC47090
 	for <webhook@archiver.kernel.org>; Sun,  1 May 2022 19:49:12 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com
- (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web08.2325.1651434543197444419
+Received: from a27-29.smtp-out.us-west-2.amazonses.com
+ (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web08.2327.1651434544140412208
  for <openembedded-core@lists.openembedded.org>;
  Sun, 01 May 2022 12:49:04 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Rs6oVAT4;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
- mailfrom: 01010180812b5b38-0d409eec-a727-4772-bb76-9f42725a787a-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Snh5alPV;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29,
+ mailfrom: 01010180812b590c-b336a19b-c304-4225-b175-332f7aeafecb-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1651434544;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=IMQwA+bS5y7lRb+7x2R7GCODEV4D5rF0Aw8tKd8eoJU=;
-	b=Rs6oVAT49KWk2PcwL3eRixOUiAGIG0dzJ5xlt5TXomSDcxmtl0SQVcDTBkcAfBOg
-	CYpeWkzkcaSr+tapGBN/R/ghsk+2GmhxO/lSfDQnA0bhefUmGz8zmtA03PFF3qxfiKc
-	PIU9aguXcQjMr/6oTekPAJefDyEYjin7DFlA4D10=
+	t=1651434543;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=8VpwJ3cb/H5s9rnKFShJQwOxhGehF9PIVeXYYCszAOI=;
+	b=Snh5alPVPr84oQ02QvHY1WYGKLACI0Xjhj+2H3E2hixyJPwKHqwYyfapqMzYIib8
+	dTHHcAcDx/GI2D4elkbI+KH+Gf/tlqGcREY4veIvgZWTS+oJ/10uIzhQ83keOw0UZH0
+	MUGnCAOcsEZtZxNg4sTCUno8fgu6vnqfJxrDc1U8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1651434544;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=IMQwA+bS5y7lRb+7x2R7GCODEV4D5rF0Aw8tKd8eoJU=;
-	b=DC+5kyswjr+WlPgZ42ZQ0jz1BuqDay+ri/TUgkLps+x0OD59cUUCSY+SHQmnmmXU
-	be5BeC7ezZ9P7dYNdSvWt6ZDNI/ednPxpK0esk8hRT6lssXlyY3gR077i9gTkrndRe0
-	qVulmmODprohaez0AOihTIJIVKt3daDpeWJRqSSA=
-Content-Type: multipart/mixed; boundary="===============4578755094899154041=="
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1651434543;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=8VpwJ3cb/H5s9rnKFShJQwOxhGehF9PIVeXYYCszAOI=;
+	b=hlXYgZV/UJMDc27VHAt8oqo/wjsgKxJOLa9W6+tAgWruTcFPkHHFWfOhCfr+LJvV
+	muopgJdCv282owgbaC1yoX8pKb+SN0/UmyJ6ECP1NEIw7pZHNw5Gzg69ppSbnnfDifY
+	02N81JCILzoYDVvyfnIn1SEgxqFh82VK78xkRZc8=
+Content-Type: multipart/mixed; boundary="===============1742300748471011174=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libx11: upgrading to 1.8 SUCCEEDED
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] glslang: upgrading to 1.3.211.0 SUCCEEDED
 Message-ID: 
- <01010180812b5b38-0d409eec-a727-4772-bb76-9f42725a787a-000000@us-west-2.amazonses.com>
-Date: Sun, 1 May 2022 19:49:04 +0000
+ <01010180812b590c-b336a19b-c304-4225-b175-332f7aeafecb-000000@us-west-2.amazonses.com>
+Date: Sun, 1 May 2022 19:49:03 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.05.01-54.240.27.31
+X-SES-Outgoing: 2022.05.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 May 2022 19:49:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165136
+ https://lists.openembedded.org/g/openembedded-core/message/165134
 
---===============4578755094899154041==
+--===============1742300748471011174==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -55,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libx11* to *1.8* has Succeeded.
+that the automatic attempt to upgrade the recipe *glslang* to *1.3.211.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libx11-upgrade-1.7.5-1.8.patch
+    - apply the patch: git am 0001-glslang-upgrade-1.3.204.1-1.3.211.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -74,72 +75,84 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4578755094899154041==
+--===============1742300748471011174==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-libx11-upgrade-1.7.5-1.8.patch"
+ filename="0001-glslang-upgrade-1.3.204.1-1.3.211.0.patch"
 
-From 431500687332925a26f2ff321ef735996c32ef64 Mon Sep 17 00:00:00 2001
+From ed41cd55d5a4fcfc2119ab34dbdf9abc5516a76b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 May 2022 15:32:03 +0000
-Subject: [PATCH] libx11: upgrade 1.7.5 -> 1.8
+Date: Sun, 1 May 2022 14:20:30 +0000
+Subject: [PATCH] glslang: upgrade 1.3.204.1 -> 1.3.211.0
 
 ---
- .../xorg-lib/{libx11_1.7.5.bb => libx11_1.8.bb}                 | 2 +-
+ .../glslang/{glslang_1.3.204.1.bb => glslang_1.3.211.0.bb}      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libx11_1.7.5.bb => libx11_1.8.bb} (94%)
+ rename meta/recipes-graphics/glslang/{glslang_1.3.204.1.bb => glslang_1.3.211.0.bb} (95%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.7.5.bb b/meta/recipes-graphics/xorg-lib/libx11_1.8.bb
-similarity index 94%
-rename from meta/recipes-graphics/xorg-lib/libx11_1.7.5.bb
-rename to meta/recipes-graphics/xorg-lib/libx11_1.8.bb
-index 2a6f66957c..6d5a8626d6 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.7.5.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.8.bb
-@@ -16,7 +16,7 @@ SRC_URI = "${XORG_MIRROR}/individual/lib/${XORG_PN}-${PV}.tar.xz"
+diff --git a/meta/recipes-graphics/glslang/glslang_1.3.204.1.bb b/meta/recipes-graphics/glslang/glslang_1.3.211.0.bb
+similarity index 95%
+rename from meta/recipes-graphics/glslang/glslang_1.3.204.1.bb
+rename to meta/recipes-graphics/glslang/glslang_1.3.211.0.bb
+index 2af406212f..37dea07a8a 100644
+--- a/meta/recipes-graphics/glslang/glslang_1.3.204.1.bb
++++ b/meta/recipes-graphics/glslang/glslang_1.3.211.0.bb
+@@ -8,7 +8,7 @@ HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
+ LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPL-3-with-bison-exception"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2a2b5acd7bc4844964cfda45fe807dc3"
  
- SRC_URI += "file://disable_tests.patch \
-            "
--SRC_URI[sha256sum] = "5a1847e2e2c248e1a203a24a1338a5586d6f48472eac58f6f08539110a965151"
-+SRC_URI[sha256sum] = "081bf42ebab023aa92cfdb20c7af8c5ae13d13e88a5e22f90f4453ef80bbdde4"
- 
- PROVIDES = "virtual/libx11"
- 
+-SRCREV = "2742e959347ae2fac58acd0d022c92a0ff1f24bf"
++SRCREV = "9bb8cfffb0eed010e07132282c41d73064a7a609"
+ SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=master \
+            file://0001-generate-glslang-pkg-config.patch"
+ PE = "1"
 -- 
 2.27.0
 
 
---===============4578755094899154041==
+--===============1742300748471011174==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/glslang/glslang: FILELIST: removed "/usr/lib/libglslang.so.11.8.0", added "/usr/lib/libglslang.so.11.9.0"
+Changes to packages/core2-32-poky-linux/glslang (sysroot):
+  /usr/lib/libglslang.so.11 changed symlink target from libglslang.so.11.8.0 to libglslang.so.11.9.0
+  /usr/lib/libglslang.so.11.8.0 moved to /usr/lib/libglslang.so.11.9.0
+
+--===============1742300748471011174==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libx11: PKGV changed from 1.7.5 [default] to 1.8 [default]
-packages/core2-32-poky-linux/libx11: SRC_URI changed from "https://www.x.org/releases//individual/lib/libX11-1.7.5.tar.xz file://disable_tests.patch" to "https://www.x.org/releases//individual/lib/libX11-1.8.tar.xz file://disable_tests.patch"
-packages/core2-32-poky-linux/libx11: PV changed from "1.7.5" to "1.8"
-packages/core2-32-poky-linux/libx11/libx11-dbg: PKGV changed from 1.7.5 [default] to 1.8 [default]
-packages/core2-32-poky-linux/libx11/libx11-dbg: PKGSIZE changed from 10926172 to 10925296 (-0%)
-packages/core2-32-poky-linux/libx11/libx11-dbg: PV changed from "1.7.5" to "1.8"
-packages/core2-32-poky-linux/libx11/libx11-dev: PKGV changed from 1.7.5 [default] to 1.8 [default]
-packages/core2-32-poky-linux/libx11/libx11-dev: PKGSIZE changed from 253616 to 251569 (-1%)
-packages/core2-32-poky-linux/libx11/libx11-dev: PV changed from "1.7.5" to "1.8"
-packages/core2-32-poky-linux/libx11/libx11-doc: PKGV changed from 1.7.5 [default] to 1.8 [default]
-packages/core2-32-poky-linux/libx11/libx11-doc: PKGSIZE changed from 1996643 to 1995971 (-0%)
-packages/core2-32-poky-linux/libx11/libx11-doc: PV changed from "1.7.5" to "1.8"
-packages/core2-32-poky-linux/libx11/libx11-locale: PKGV changed from 1.7.5 [default] to 1.8 [default]
-packages/core2-32-poky-linux/libx11/libx11-locale: PKGSIZE changed from 1182207 to 1182441 (+0%)
-packages/core2-32-poky-linux/libx11/libx11-locale: PV changed from "1.7.5" to "1.8"
-packages/core2-32-poky-linux/libx11/libx11-src: PKGV changed from 1.7.5 [default] to 1.8 [default]
-packages/core2-32-poky-linux/libx11/libx11-src: PKGSIZE changed from 5437116 to 5435125 (-0%)
-packages/core2-32-poky-linux/libx11/libx11-src: PV changed from "1.7.5" to "1.8"
-packages/core2-32-poky-linux/libx11/libx11-staticdev: PKGV changed from 1.7.5 [default] to 1.8 [default]
-packages/core2-32-poky-linux/libx11/libx11-staticdev: PV changed from "1.7.5" to "1.8"
-packages/core2-32-poky-linux/libx11/libx11-xcb: PKGV changed from 1.7.5 [default] to 1.8 [default]
-packages/core2-32-poky-linux/libx11/libx11-xcb: PV changed from "1.7.5" to "1.8"
-packages/core2-32-poky-linux/libx11/libx11: PKGV changed from 1.7.5 [default] to 1.8 [default]
-packages/core2-32-poky-linux/libx11/libx11: PV changed from "1.7.5" to "1.8"
+packages/core2-32-poky-linux/glslang/glslang-dbg: PKGSIZE changed from 69930304 to 69926892 (-0%)
+packages/core2-32-poky-linux/glslang/glslang-dbg: PKGV changed from 1.3.204.1 [default] to 1.3.211.0 [default]
+packages/core2-32-poky-linux/glslang/glslang-dbg: FILELIST: removed "/usr/lib/.debug/libglslang.so.11.8.0", added "/usr/lib/.debug/libglslang.so.11.9.0"
+packages/core2-32-poky-linux/glslang/glslang-dbg: PV changed from "1.3.204.1" to "1.3.211.0"
+packages/core2-32-poky-linux/glslang/glslang-dev: PKGSIZE changed from 988900 to 989731 (+0%)
+packages/core2-32-poky-linux/glslang/glslang-dev: PKGV changed from 1.3.204.1 [default] to 1.3.211.0 [default]
+packages/core2-32-poky-linux/glslang/glslang-dev: PV changed from "1.3.204.1" to "1.3.211.0"
+packages/core2-32-poky-linux/glslang/glslang-doc: PKGV changed from 1.3.204.1 [default] to 1.3.211.0 [default]
+packages/core2-32-poky-linux/glslang/glslang-doc: PV changed from "1.3.204.1" to "1.3.211.0"
+packages/core2-32-poky-linux/glslang/glslang-locale: PKGV changed from 1.3.204.1 [default] to 1.3.211.0 [default]
+packages/core2-32-poky-linux/glslang/glslang-locale: PV changed from "1.3.204.1" to "1.3.211.0"
+packages/core2-32-poky-linux/glslang/glslang-src: PKGSIZE changed from 4581755 to 4588306 (+0%)
+packages/core2-32-poky-linux/glslang/glslang-src: PKGV changed from 1.3.204.1 [default] to 1.3.211.0 [default]
+packages/core2-32-poky-linux/glslang/glslang-src: PV changed from "1.3.204.1" to "1.3.211.0"
+packages/core2-32-poky-linux/glslang/glslang-staticdev: PKGSIZE changed from 42310 to 42302 (-0%)
+packages/core2-32-poky-linux/glslang/glslang-staticdev: PKGV changed from 1.3.204.1 [default] to 1.3.211.0 [default]
+packages/core2-32-poky-linux/glslang/glslang-staticdev: PV changed from "1.3.204.1" to "1.3.211.0"
+packages/core2-32-poky-linux/glslang/glslang: PKGV changed from 1.3.204.1 [default] to 1.3.211.0 [default]
+packages/core2-32-poky-linux/glslang/glslang: FILELIST: removed "/usr/lib/libglslang.so.11.8.0", added "/usr/lib/libglslang.so.11.9.0"
+packages/core2-32-poky-linux/glslang/glslang: PV changed from "1.3.204.1" to "1.3.211.0"
+packages/core2-32-poky-linux/glslang: PKGV changed from 1.3.204.1 [default] to 1.3.211.0 [default]
+packages/core2-32-poky-linux/glslang: PV changed from "1.3.204.1" to "1.3.211.0"
+Changes to packages/core2-32-poky-linux/glslang (sysroot):
+  /usr/lib/libglslang.so.11 changed symlink target from libglslang.so.11.8.0 to libglslang.so.11.9.0
+  /usr/lib/libglslang.so.11.8.0 moved to /usr/lib/libglslang.so.11.9.0
 
---===============4578755094899154041==--
+--===============1742300748471011174==--
 
