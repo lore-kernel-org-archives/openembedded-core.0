@@ -1,114 +1,94 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3F6DC433F5
-	for <webhook@archiver.kernel.org>; Sun,  1 May 2022 04:59:44 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.30708.1651381184075237062
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6250EC433F5
+	for <webhook@archiver.kernel.org>; Sun,  1 May 2022 12:02:27 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web12.33122.1651406543976311279
  for <openembedded-core@lists.openembedded.org>;
- Sat, 30 Apr 2022 21:59:44 -0700
+ Sun, 01 May 2022 05:02:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TcKwvfEr;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id x18so15760770wrc.0
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=Mr5OPIuF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.46,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f46.google.com with SMTP id
+ m14-20020a17090a34ce00b001d5fe250e23so10790527pjf.3
         for <openembedded-core@lists.openembedded.org>;
- Sat, 30 Apr 2022 21:59:43 -0700 (PDT)
+ Sun, 01 May 2022 05:02:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=m9XJW8CYW5f4unUo+23zQAEtuTqvdDXdJhToGIBQt4Y=;
-        b=TcKwvfErfGIE0S4vrtvWzZsVTe5o2RgJom7+s94OPhysmwoPq7gquoK0VS5u9Sm7L0
-         sNRbBRZez2e/nUHMH961YdsEsvm+yYI9uriUf2zW8aLKez/Z/tsNZSArgkFzARy+wR4O
-         QVcqTZwf51Ycqi4Px3+lY5YbY9lGQBwrP0BpY=
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:from:to:message-id:date;
+        bh=xto0ORfY7rmdGg/+MryxS/JQNTWmVh32uNw3rrfhwxg=;
+        b=Mr5OPIuFm59KaFCrvx561IotisPT9Qbi+kVkUWSHg4XqJEKoqgoWZDnqUOECttUy/9
+         tI4vGEe3i0INzfd0Eg0tk5/7pyQzOM4cZ/6EGUnec5Uje4Gnyd0abYZeUKIhxnQkzF23
+         S/LPiLZ/OVTyuqG9awiZkT86CJxH0pL+sJbmevhtYxbsXf1NVyA7LyHa/Bbf2aGqhqbG
+         dYWZT4XcaIX2MJJ4ceGm2AWlGea8q/4viOIlfJG1KKTIXCAJbnphzWt6FPFYYKqBLam4
+         Baa+LEhk/GlBwjz8BO9Ppr34bvd3AR720S2xZFLngJYpFl20b4bQ7+Dmbu875atz23iq
+         djQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=m9XJW8CYW5f4unUo+23zQAEtuTqvdDXdJhToGIBQt4Y=;
-        b=HLXJdTvg0qm8hlYCnCA2fFKpY2Jz2uhQaXwdbEuatYOv4uLnhyoGFzi0NFuz0jkmWY
-         Nx8j7u3XTVmXod0H17tXc/4jKOzOP2MYnN0M53nqUs/ZtDvAkVc8F4FA+o+S3fIOwmAx
-         ed2yso6aCh7klD4rsRQVCjRZKOnFJiliQrYTdhEIHOWLOrJsGTN1otg0h1p/RKMnJsj5
-         Egj2C0BjSnFog/p2BgGaAxKJbcsBRzVKAwbk6QGyd9MA90qsPlP67ayt4vFDbgU2y1zr
-         4DvGoXRYQR2L94QC+HvY2/bdziLeC8maF6CDG3tkrTu5RPAbcwdwm4C/zPfMb4x8JQcG
-         LbpQ==
-X-Gm-Message-State: AOAM531EO/FQ37JxZLw/3zGtLyWjwcvoq3Rdfcm0sDAaoQmCQKDXvUNL
-	fkmP24rwHBXbWCRvzNaMafs/sw==
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=xto0ORfY7rmdGg/+MryxS/JQNTWmVh32uNw3rrfhwxg=;
+        b=w4ot3pfY0hFP4dkNiFjB1qBDiKmGO6d2yLLBxm2BAGXBpfSWal4U/OGwZOw2TzD54r
+         vd0/i3EJkCrRVGE524fk1SUJ77qo05WDoHdKvCgotdCNkrLirI1sDE+RiXTdN7v5fNiY
+         kBJyY5m9+Q+U1OXVeet8jskYxbOy2OiaHBunaRboRaI2o/nHAePaHntEKghipFYVkbaO
+         kHt5lif0v4jmCr/v+h0vDqmOi/5DqpRk8pHp7sWwMaxW3GUOE/ImlfPm+pt+nHcuFV4i
+         +Q0N1dTfSM+4TMgmLcmE+9WhcFuslL4VHZeZsk7U/SpjlfjMjQ8Km4GLw6tEx7byhLin
+         3rGQ==
+X-Gm-Message-State: AOAM5319WVKQW0FSk0gda7JrM7wV8XxarRNmt91vrLopPkv7R+eV9oSV
+	ytGqgOeRAnATosYA+zVfxYhTrZUc2dd1FGqRWuA=
 X-Google-Smtp-Source: 
- ABdhPJxjUVziwuTxoNU85KPCNMVemaS24LmI8i/eDnSTfjOnHdQNQM3PJXjiLXvKi7CE4NwiQWhPQA==
-X-Received: by 2002:a5d:5954:0:b0:20c:4d55:1388 with SMTP id
- e20-20020a5d5954000000b0020c4d551388mr4984830wri.90.1651381182569;
-        Sat, 30 Apr 2022 21:59:42 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:b1e5:d274:7a89:e67a?
- ([2001:8b0:aba:5f3c:b1e5:d274:7a89:e67a])
+ ABdhPJw3/5lZ6IMxY/yv0In1C2pap2Amn/oLDX1tbUxBvqeAtUCoHSn6COo2UGJKofjFiQJWomWNtQ==
+X-Received: by 2002:a17:90a:4d04:b0:1d9:3f18:f4dd with SMTP id
+ c4-20020a17090a4d0400b001d93f18f4ddmr8013127pjg.111.1651406542381;
+        Sun, 01 May 2022 05:02:22 -0700 (PDT)
+Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
+ [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- q14-20020adfaa4e000000b0020c5253d91fsm3834649wrd.107.2022.04.30.21.59.41
+ w1-20020a17090a6b8100b001d9927ef1desm17626704pjj.34.2022.05.01.05.02.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Apr 2022 21:59:41 -0700 (PDT)
-Message-ID: 
- <f52bff6a24a5c2a015ed595ab09da89b2e249e75.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 00/15] kernel-yocto: consolidated pull request
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>,
- Jon Mason <jdmason@kudzu.us>
-Date: Sun, 01 May 2022 05:59:38 +0100
-In-Reply-To: 
- <CADkTA4M6NzCMVtEhiu+Hyaqp4gMZViP1XRH1qP1t2Ds3S6TL1w@mail.gmail.com>
-References: <cover.1651153370.git.bruce.ashfield@gmail.com>
-	 <821e6cab4677b71af00197cf2be80680d57aa4ea.camel@linuxfoundation.org>
-	 <16EA5E7263695663.11702@lists.openembedded.org>
-	 <16EA76835C38B7CA.4798@lists.openembedded.org>
-	 <16EA920E59E6B6F1.28542@lists.openembedded.org>
-	 <CADkTA4M6NzCMVtEhiu+Hyaqp4gMZViP1XRH1qP1t2Ds3S6TL1w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4-1ubuntu2 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Sun, 01 May 2022 05:02:21 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id 9A935962709; Sun,  1 May 2022 02:02:19 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 01 May 2022 02:00:01 AM HST
+FROM: steve@sakoman.com
+To: 
+ <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20220501120219.9A935962709@nuc.router0800d9.com>
+Date: Sun,  1 May 2022 02:02:19 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 May 2022 04:59:44 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 01 May 2022 12:02:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165076
+ https://lists.openembedded.org/g/openembedded-core/message/165077
 
-On Sat, 2022-04-30 at 17:35 -0400, Bruce Ashfield wrote:
-> On Sat, Apr 30, 2022 at 12:26 AM Bruce Ashfield via
-> lists.openembedded.org
-> <bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
-> > 
-> > On Fri, Apr 29, 2022 at 4:02 PM Bruce Ashfield via
-> > lists.openembedded.org
-> > <bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
-> > > 
-> > > On Fri, Apr 29, 2022 at 8:41 AM Bruce Ashfield via
-> > > lists.openembedded.org
-> > > <bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
-> > > > 
-> > > > 
-> > > > I'll see about running the strace locally today. Hopefully it pops up
-> > > > here so I can debug.
-> > > 
-> > > FYI: I have the landlock test case passing here, there's just an
-> > > output difference from the kernel. The test is passing.
-> > 
-> > I have located the exact kernel commit that changed the output, hence
-> > why the test is failing.
-> > 
-> > strace upstream hasn't adjusted yet, so I'll spin up a patch, and get
-> > send patches to the list over the weekend.
-> 
-> The two patches that fix the strace ptest fail, and qemuarm graphical
-> boot are on the list.
+Branch: master
 
-Thanks Bruce! I've queued it and started it running through testing.
+New this week: 3 CVEs
+CVE-2022-1381 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1381 *
+CVE-2022-1420 (CVSS3: 5.5 MEDIUM): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1420 *
+CVE-2022-29458 (CVSS3: 7.1 HIGH): ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-29458 *
 
-Cheers,
+Removed this week: 4 CVEs
+CVE-2015-20107 (CVSS3: 9.8 CRITICAL): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-20107 *
+CVE-2021-28544 (CVSS3: 4.3 MEDIUM): subversion https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-28544 *
+CVE-2022-1304 (CVSS3: 7.8 HIGH): e2fsprogs:e2fsprogs-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1304 *
+CVE-2022-24070 (CVSS3: 7.5 HIGH): subversion https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-24070 *
 
-Richard
+Full list:  Found 9 unpatched CVEs
+CVE-2019-12067 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
+CVE-2020-18974 (CVSS3: 3.3 LOW): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
+CVE-2021-20255 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
+CVE-2022-0529 (CVSS3: 7.8 HIGH): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0529 *
+CVE-2022-0530 (CVSS3: 7.8 HIGH): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0530 *
+CVE-2022-1210 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1210 *
+CVE-2022-1381 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1381 *
+CVE-2022-1420 (CVSS3: 5.5 MEDIUM): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1420 *
+CVE-2022-29458 (CVSS3: 7.1 HIGH): ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-29458 *
 
 
