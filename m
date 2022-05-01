@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 928CAC4707E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EDFFC35294
 	for <webhook@archiver.kernel.org>; Sun,  1 May 2022 19:49:11 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com
- (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.2280.1651434542748272530
+Received: from a27-192.smtp-out.us-west-2.amazonses.com
+ (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.2281.1651434542910292040
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 May 2022 12:49:02 -0700
+ Sun, 01 May 2022 12:49:03 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=rdAyQkzw;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
- mailfrom: 01010180812b5408-28706621-d3bb-4375-8ad9-5743a4b4033b-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=E8TFIv4+;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
+ mailfrom: 01010180812b54f3-fa173d9c-d495-47ae-9995-97993adfd018-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1651434542;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=qGgBej10FVIftUVebZ/DC1fmNnZtsiisNBcLkeZK6gs=;
-	b=rdAyQkzwZseVEdVc/0fPfJ9l6rpErs+e/F4ecIoY2SXNcwhrrrXnk+W9fGuCO9OW
-	2c427KosWV+M2k8FtCgqPM62kAf9ewsXg1evHdeu0Ft8oxN/LQVIxb359eFuu4Aj2OU
-	B3RI9hrKYTT8y/9dMT49oouUmsjizhAqwPVLNBIk=
+	bh=BgUvzKNuKViHTWXpdWeZgMCoIXmRYZLLq73LMIRmw/w=;
+	b=E8TFIv4+mWzoDEw0C1u6KaJHoCCDYbQtYGu24OF02beEX+QDNjNXoGtv3RboSbDB
+	2/rXL/f1tmUcLWMHNI5bGPF9f0hHplRM8z6VD1c0r5DxjMFFWPTcR5M/kQS1Fc3F7vo
+	VguVBhhjerNqhUUd+3DGt+NSZ1ZPNWOc35CP4ajA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1651434542;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=qGgBej10FVIftUVebZ/DC1fmNnZtsiisNBcLkeZK6gs=;
-	b=hEnvE6RR3Ub6FG/TSsjwn5JM5s0iShnDXp8oVqC4SlmeEtq9BGNjGuFqaFXmfi0I
-	Dj596OEo/1rs8s4n2toYmO0K5YKbMX8Fv2/PzcYAuSLE2kotQu/1vI44RiE1Oml1zv/
-	hJ162LW+8Uz6IFe1u2KUN67rAW6w72vhqkNDUPzo=
-Content-Type: multipart/mixed; boundary="===============7822340805219852025=="
+	bh=BgUvzKNuKViHTWXpdWeZgMCoIXmRYZLLq73LMIRmw/w=;
+	b=b1RRyaneh/pM/B3uv8b/ZRBNDNH252OD3gDrRX2+OXHKfIthh1REUtHhsx7sJflE
+	ojv7yapjMwo8K5X2mpQ4w7dcEPtJcIjTa62zt6QKSj/g+M0U5aNMzAulXDCAGWZ1a+C
+	R05TuXd+ZqiSfEHN21/wITE+9aKkuvYwOOsS82K8=
+Content-Type: multipart/mixed; boundary="===============4420054903445843510=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-cryptography-vectors: upgrading to 37.0.1 SUCCEEDED
+Subject: [AUH] python3-mako: upgrading to 1.2.0 SUCCEEDED
 Message-ID: 
- <01010180812b5408-28706621-d3bb-4375-8ad9-5743a4b4033b-000000@us-west-2.amazonses.com>
+ <01010180812b54f3-fa173d9c-d495-47ae-9995-97993adfd018-000000@us-west-2.amazonses.com>
 Date: Sun, 1 May 2022 19:49:02 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.05.01-54.240.27.31
+X-SES-Outgoing: 2022.05.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 May 2022 19:49:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165101
+ https://lists.openembedded.org/g/openembedded-core/message/165103
 
---===============7822340805219852025==
+--===============4420054903445843510==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-cryptography-vectors* to *37.0.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-mako* to *1.2.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-cryptography-vectors-upgrade-36.0.2-37.0.1.patch
+    - apply the patch: git am 0001-python3-mako-upgrade-1.1.6-1.2.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,111 +75,142 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7822340805219852025==
+--===============4420054903445843510==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: FILELIST: directory renamed /usr/lib/python3.10/site-packages/cryptography_vectors-36.0.2.dist-info -> /usr/lib/python3.10/site-packages/cryptography_vectors-37.0.1.dist-info, added "/usr/lib/python3.10/site-packages/cryptography_vectors/x509/ocsp/ocsp-army.inapplicable-req.der /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_hash_mask_diff.pem /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_hash_mask.pem /usr/lib/python3.10/site-packages/cryptography_vectors/pkcs7/amazon-roots.der /usr/lib/python3.10/site-packages/cryptography_vectors/x509/custom/invalid_utf8_common_name.pem /usr/lib/python3.10/site-packages/cryptography_vectors/x509/scottishpower-bitstring-dn.pem /usr/lib/python3.10/site-packages/cryptography_vectors/ciphers/AES/OCB3/test-vector-1-nonce112.txt /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetri
- c/PEM_Serialization/rsa-bad-1025-q-is-2.pem /usr/lib/python3.10/site-packages/cryptography_vectors/ciphers/AES/OCB3/test-vector-1-nonce104.txt /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048.pem /usr/lib/python3.10/site-packages/cryptography_vectors/x509/ocsp/ocsp-army.valid-req.der /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_hash.pem /usr/lib/python3.10/site-packages/cryptography_vectors/x509/ocsp/ocsp-army.revoked-req.der /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_hash_mask_salt.pem /usr/lib/python3.10/site-packages/cryptography_vectors/ciphers/AES/OCB3/test-vector-1-nonce120.txt"
-Changes to packages/core2-32-poky-linux/python3-cryptography-vectors (sysroot):
-  /usr/lib/python3.10/site-packages/cryptography_vectors-36.0.2.dist-info moved to /usr/lib/python3.10/site-packages/cryptography_vectors-37.0.1.dist-info
-  /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PEM_Serialization/rsa-bad-1025-q-is-2.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_hash_mask_diff.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_hash_mask.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_hash_mask_salt.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_hash.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/ciphers/AES/OCB3/test-vector-1-nonce104.txt was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/ciphers/AES/OCB3/test-vector-1-nonce112.txt was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/ciphers/AES/OCB3/test-vector-1-nonce120.txt was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/pkcs7/amazon-roots.der was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/custom/invalid_utf8_common_name.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/ocsp/ocsp-army.inapplicable-req.der was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/ocsp/ocsp-army.revoked-req.der was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/ocsp/ocsp-army.valid-req.der was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/scottishpower-bitstring-dn.pem was added
+packages/core2-32-poky-linux/python3-mako/python3-mako: FILELIST: removed "/usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/LICENSE /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/entry_points.txt /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/AUTHORS /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/METADATA /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/RECORD /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/WHEEL /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/top_level.txt", added "/usr/lib/python3.10/site-packages/mako/testing/__pycache__/exclusions.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/__pycache__/assertions.cpython-310.pyc /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/top_level.txt /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/WHEEL /usr/lib/python3.10/site-packages/mako/testing/fixtures.py /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/entry_points.txt /usr/lib/python3.10/site-pa
+ ckages/mako/testing/__pycache__/_config.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/helpers.py /usr/lib/python3.10/site-packages/mako/testing/assertions.py /usr/lib/python3.10/site-packages/mako/testing/__pycache__/__init__.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/__init__.py /usr/lib/python3.10/site-packages/mako/testing/exclusions.py /usr/lib/python3.10/site-packages/mako/testing/__pycache__/config.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/_config.py /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/METADATA /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/RECORD /usr/lib/python3.10/site-packages/mako/testing/config.py /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/LICENSE /usr/lib/python3.10/site-packages/mako/testing/__pycache__/helpers.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/__pycache__/fixtures.cpython-310.pyc"
+Changes to packages/core2-32-poky-linux/python3-mako (sysroot):
+  /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info moved to /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info
+  /usr/lib/python3.10/site-packages/mako/testing was added
+  /usr/lib/python3.10/site-packages/mako/testing/assertions.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/_config.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/config.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/exclusions.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/fixtures.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/helpers.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/__init__.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__ was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/assertions.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/_config.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/config.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/exclusions.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/fixtures.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/helpers.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/__init__.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/AUTHORS was removed
 
---===============7822340805219852025==
+--===============4420054903445843510==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-cryptography-vectors: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/cryptography_vectors/cryptography_vectors-36.0.2.tar.gz" to "https://files.pythonhosted.org/packages/source/c/cryptography_vectors/cryptography_vectors-37.0.1.tar.gz"
-packages/core2-32-poky-linux/python3-cryptography-vectors: PV changed from "36.0.2" to "37.0.1"
-packages/core2-32-poky-linux/python3-cryptography-vectors: PKGV changed from 36.0.2 [default] to 37.0.1 [default]
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dbg: PV changed from "36.0.2" to "37.0.1"
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dbg: PKGV changed from 36.0.2 [default] to 37.0.1 [default]
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dev: PV changed from "36.0.2" to "37.0.1"
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dev: PKGV changed from 36.0.2 [default] to 37.0.1 [default]
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-doc: PV changed from "36.0.2" to "37.0.1"
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-doc: PKGV changed from 36.0.2 [default] to 37.0.1 [default]
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-locale: PV changed from "36.0.2" to "37.0.1"
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-locale: PKGV changed from 36.0.2 [default] to 37.0.1 [default]
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-src: PV changed from "36.0.2" to "37.0.1"
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-src: PKGV changed from 36.0.2 [default] to 37.0.1 [default]
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-staticdev: PV changed from "36.0.2" to "37.0.1"
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-staticdev: PKGV changed from 36.0.2 [default] to 37.0.1 [default]
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: PV changed from "36.0.2" to "37.0.1"
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: PKGV changed from 36.0.2 [default] to 37.0.1 [default]
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: FILELIST: directory renamed /usr/lib/python3.10/site-packages/cryptography_vectors-36.0.2.dist-info -> /usr/lib/python3.10/site-packages/cryptography_vectors-37.0.1.dist-info, added "/usr/lib/python3.10/site-packages/cryptography_vectors/ciphers/AES/OCB3/test-vector-1-nonce120.txt /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048.pem /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_hash_mask.pem /usr/lib/python3.10/site-packages/cryptography_vectors/pkcs7/amazon-roots.der /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PEM_Serialization/rsa-bad-1025-q-is-2.pem /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_hash_mask_salt.pem /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_hash.pem /usr/lib/python3.10/site-packages/cryptography_vectors/x
- 509/custom/invalid_utf8_common_name.pem /usr/lib/python3.10/site-packages/cryptography_vectors/x509/ocsp/ocsp-army.valid-req.der /usr/lib/python3.10/site-packages/cryptography_vectors/x509/scottishpower-bitstring-dn.pem /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_hash_mask_diff.pem /usr/lib/python3.10/site-packages/cryptography_vectors/ciphers/AES/OCB3/test-vector-1-nonce112.txt /usr/lib/python3.10/site-packages/cryptography_vectors/x509/ocsp/ocsp-army.revoked-req.der /usr/lib/python3.10/site-packages/cryptography_vectors/x509/ocsp/ocsp-army.inapplicable-req.der /usr/lib/python3.10/site-packages/cryptography_vectors/ciphers/AES/OCB3/test-vector-1-nonce104.txt"
-packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: PKGSIZE changed from 74797462 to 74825210 (+0%)
-Changes to packages/core2-32-poky-linux/python3-cryptography-vectors (sysroot):
-  /usr/lib/python3.10/site-packages/cryptography_vectors-36.0.2.dist-info moved to /usr/lib/python3.10/site-packages/cryptography_vectors-37.0.1.dist-info
-  /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PEM_Serialization/rsa-bad-1025-q-is-2.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_hash_mask_diff.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_hash_mask.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_hash_mask_salt.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048_hash.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/asymmetric/PKCS8/rsa_pss_2048.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/ciphers/AES/OCB3/test-vector-1-nonce104.txt was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/ciphers/AES/OCB3/test-vector-1-nonce112.txt was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/ciphers/AES/OCB3/test-vector-1-nonce120.txt was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/pkcs7/amazon-roots.der was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/custom/invalid_utf8_common_name.pem was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/ocsp/ocsp-army.inapplicable-req.der was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/ocsp/ocsp-army.revoked-req.der was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/ocsp/ocsp-army.valid-req.der was added
-  /usr/lib/python3.10/site-packages/cryptography_vectors/x509/scottishpower-bitstring-dn.pem was added
+packages/core2-32-poky-linux/python3-mako: SRC_URI changed from "https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.1.6.tar.gz" to "https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.2.0.tar.gz"
+packages/core2-32-poky-linux/python3-mako: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/python3-mako: PV changed from "1.1.6" to "1.2.0"
+packages/core2-32-poky-linux/python3-mako/python3-mako-dbg: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-dbg: PV changed from "1.1.6" to "1.2.0"
+packages/core2-32-poky-linux/python3-mako/python3-mako-dev: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-dev: PV changed from "1.1.6" to "1.2.0"
+packages/core2-32-poky-linux/python3-mako/python3-mako-doc: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-doc: PV changed from "1.1.6" to "1.2.0"
+packages/core2-32-poky-linux/python3-mako/python3-mako-locale: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-locale: PV changed from "1.1.6" to "1.2.0"
+packages/core2-32-poky-linux/python3-mako/python3-mako-src: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-src: PV changed from "1.1.6" to "1.2.0"
+packages/core2-32-poky-linux/python3-mako/python3-mako-staticdev: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-staticdev: PV changed from "1.1.6" to "1.2.0"
+packages/core2-32-poky-linux/python3-mako/python3-mako: FILELIST: removed "/usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/top_level.txt /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/METADATA /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/AUTHORS /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/LICENSE /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/RECORD /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/WHEEL /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/entry_points.txt", added "/usr/lib/python3.10/site-packages/mako/testing/__pycache__/__init__.cpython-310.pyc /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/WHEEL /usr/lib/python3.10/site-packages/mako/testing/__pycache__/helpers.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/fixtures.py /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/METADATA /usr/lib/python3.10/site-packages/mako/testing/exclusions.py /usr/lib/python3.10/site-packages/mako/testing/_
+ _pycache__/_config.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/__pycache__/config.cpython-310.pyc /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/RECORD /usr/lib/python3.10/site-packages/mako/testing/__pycache__/fixtures.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/__init__.py /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/entry_points.txt /usr/lib/python3.10/site-packages/mako/testing/config.py /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/LICENSE /usr/lib/python3.10/site-packages/mako/testing/__pycache__/exclusions.cpython-310.pyc /usr/lib/python3.10/site-packages/mako/testing/_config.py /usr/lib/python3.10/site-packages/mako/testing/__pycache__/assertions.cpython-310.pyc /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info/top_level.txt /usr/lib/python3.10/site-packages/mako/testing/assertions.py /usr/lib/python3.10/site-packages/mako/testing/helpers.py"
+packages/core2-32-poky-linux/python3-mako/python3-mako: PKGV changed from 1.1.6 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako: PKGSIZE changed from 493107 to 506001 (+3%)
+packages/core2-32-poky-linux/python3-mako/python3-mako: PV changed from "1.1.6" to "1.2.0"
+Changes to packages/core2-32-poky-linux/python3-mako (sysroot):
+  /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info moved to /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info
+  /usr/lib/python3.10/site-packages/mako/testing was added
+  /usr/lib/python3.10/site-packages/mako/testing/assertions.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/_config.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/config.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/exclusions.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/fixtures.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/helpers.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/__init__.py was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__ was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/assertions.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/_config.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/config.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/exclusions.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/fixtures.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/helpers.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/mako/testing/__pycache__/__init__.cpython-310.pyc was added
+  /usr/lib/python3.10/site-packages/Mako-1.1.6.dist-info/AUTHORS was removed
 
---===============7822340805219852025==
+--===============4420054903445843510==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-python3-cryptography-vectors-upgrade-36.0.2-37.0.1.patch"
+ filename="0001-python3-mako-upgrade-1.1.6-1.2.0.patch"
 
-From 854ea143e7a0c555ef0070090fc8da6ca407bc74 Mon Sep 17 00:00:00 2001
+From ff781846e04f4d68ca458ee3f33551bf99f2181c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 May 2022 10:12:04 +0000
-Subject: [PATCH] python3-cryptography-vectors: upgrade 36.0.2 -> 37.0.1
+Date: Sun, 1 May 2022 10:24:03 +0000
+Subject: [PATCH] python3-mako: upgrade 1.1.6 -> 1.2.0
 
 ---
- ...vectors_36.0.2.bb => python3-cryptography-vectors_37.0.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-cryptography-vectors_36.0.2.bb => python3-cryptography-vectors_37.0.1.bb} (90%)
+ ...n3-mako_1.1.6.bb => python3-mako_1.2.0.bb} | 23 +++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-mako_1.1.6.bb => python3-mako_1.2.0.bb} (28%)
 
-diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors_36.0.2.bb b/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.1.bb
-similarity index 90%
-rename from meta/recipes-devtools/python/python3-cryptography-vectors_36.0.2.bb
-rename to meta/recipes-devtools/python/python3-cryptography-vectors_37.0.1.bb
-index be0eda056e..98740ba95f 100644
---- a/meta/recipes-devtools/python/python3-cryptography-vectors_36.0.2.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.1.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c3617db4fb6fae01f1d253ab91511e4 \
- # NOTE: Make sure to keep this recipe at the same version as python3-cryptography
- #       Upgrade both recipes at the same time
+diff --git a/meta/recipes-devtools/python/python3-mako_1.1.6.bb b/meta/recipes-devtools/python/python3-mako_1.2.0.bb
+similarity index 28%
+rename from meta/recipes-devtools/python/python3-mako_1.1.6.bb
+rename to meta/recipes-devtools/python/python3-mako_1.2.0.bb
+index 71e5d96ba1..c7d9ffadda 100644
+--- a/meta/recipes-devtools/python/python3-mako_1.1.6.bb
++++ b/meta/recipes-devtools/python/python3-mako_1.2.0.bb
+@@ -1,14 +1,33 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE
++# +++ LICENSE
++# @@ -1,4 +1,4 @@
++# -Copyright 2006-2020 the Mako authors and contributors <see AUTHORS file>.
++# +Copyright 2006-2021 the Mako authors and contributors <see AUTHORS file>.
++#  
++#  Permission is hereby granted, free of charge, to any person obtaining a copy of
++#  this software and associated documentation files (the "Software"), to deal in
++# 
++#
++
+ SUMMARY = "Templating library for Python"
+ HOMEPAGE = "http://www.makotemplates.org/"
+ SECTION = "devel/python"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=943eb67718222db21d44a4ef1836675f"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=b32291f107a8f1ea94c4a41e00a6a18d"
  
--SRC_URI[sha256sum] = "2a7924449a03025faf7f8754a6f4200001cab210734a6ce6ac1f6bdacd3a68e4"
-+SRC_URI[sha256sum] = "66c9a714232be730fe822bd7e4e9da6231ff9e537ee4feb0f092c06b8ea4d94a"
+ PYPI_PACKAGE = "Mako"
  
- PYPI_PACKAGE = "cryptography_vectors"
+ inherit pypi python_setuptools_build_meta
  
+-SRC_URI[sha256sum] = "4e9e345a41924a954251b95b4b28e14a301145b544901332e658907a7464b6b2"
++SRC_URI[sha256sum] = "9a7c7e922b87db3686210cf49d5d767033a41d4010b284e747682c92bddd8b39"
+ 
+ RDEPENDS:${PN} = "${PYTHON_PN}-html \
+                   ${PYTHON_PN}-netclient \
 -- 
 2.27.0
 
 
---===============7822340805219852025==--
+--===============4420054903445843510==--
 
