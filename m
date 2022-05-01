@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 928A5C35280
-	for <webhook@archiver.kernel.org>; Sun,  1 May 2022 19:49:11 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com
- (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web09.2259.1651434544369635888
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5635AC38A2D
+	for <webhook@archiver.kernel.org>; Sun,  1 May 2022 19:49:12 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com
+ (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.2291.1651434544139254897
  for <openembedded-core@lists.openembedded.org>;
  Sun, 01 May 2022 12:49:04 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=cmgjxeV+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
- mailfrom: 01010180812b59c0-a142297d-863b-4b95-96d6-de118462fe03-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=xaEsCIWg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
+ mailfrom: 01010180812b5996-b4f2d514-9901-4d06-87a1-0f932d4c5e5e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1651434543;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=x4wV/J7IQJS1S6Wuswb2hRvrwUyCBAPLUWJyzQkTmqU=;
-	b=cmgjxeV+zTNX5bXJIBxmTJYhTPMadW5eAFEI8iFt4jeXyzfHuyHrL42BiWjmR/mv
-	3hPhqKWWJAYoVvzN9wB/Dr8krtRWmlISypLhWNQSJsZpRW2DP9slgukEPEfsWKg2fsg
-	umEum62/4IdMSB3D71qMfIWv/Q6db0XNeOceCn+U=
+	bh=7IHqr4hiNauPQxdyNqFSkfJuogJs/9xoRv3jt+k89GI=;
+	b=xaEsCIWg+O0HfFgWFHC9c7qH8Dn4gGxGASpBYWoIr+nzG/YOr//9XRRuG8JdL62x
+	6oPyPEFItjUUO7o+f+AweG01n767MdKCBUQr3oYjGJt5J1oshc3XXg+ZVIcCtk6TaZY
+	vdPstijDPPuGF0nMYMQP0T2yRIpwFIc3h/LbwTfU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1651434543;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=x4wV/J7IQJS1S6Wuswb2hRvrwUyCBAPLUWJyzQkTmqU=;
-	b=jgYEx4zULHXmnKXjEJ2NDi7ABj20mYiunyf5ADr+OKRo17SCM9LaeXtzOy4PvTGs
-	phETy20IqO2N3iZsinTIp93R7hgl9Ksp66EJYFmV6/MCj1wcx80T6qNbFOycHye/L2S
-	8uwpU1rACh7uP20gs/LiZ9NIJdhy+0OnY1u/xwME=
-Content-Type: multipart/mixed; boundary="===============0276909154977941381=="
+	bh=7IHqr4hiNauPQxdyNqFSkfJuogJs/9xoRv3jt+k89GI=;
+	b=KfvuXkcTef+OrRLt14/Gm8Os9/pThrfFfTCKwXHFwHb3eGojf0PZYyp2SaaVMH+p
+	6JOKfKMFXp/il2dtsWxzggUro5EJmjyqpUse2kaKzSoO+5DGpUQkyRYCXmpaNZC7sA7
+	E1zGyC4I9HboCnDNqIhHkVWLZikJ9hcsB2W9bbHM=
+Content-Type: multipart/mixed; boundary="===============7469457710582233288=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] pango: upgrading to 1.50.7 SUCCEEDED
+Subject: [AUH] harfbuzz: upgrading to 4.2.1 SUCCEEDED
 Message-ID: 
- <01010180812b59c0-a142297d-863b-4b95-96d6-de118462fe03-000000@us-west-2.amazonses.com>
+ <01010180812b5996-b4f2d514-9901-4d06-87a1-0f932d4c5e5e-000000@us-west-2.amazonses.com>
 Date: Sun, 1 May 2022 19:49:03 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.05.01-54.240.27.192
+X-SES-Outgoing: 2022.05.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 May 2022 19:49:11 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 01 May 2022 19:49:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165145
+ https://lists.openembedded.org/g/openembedded-core/message/165135
 
---===============0276909154977941381==
+--===============7469457710582233288==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *pango* to *1.50.7* has Succeeded.
+that the automatic attempt to upgrade the recipe *harfbuzz* to *4.2.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-pango-upgrade-1.50.6-1.50.7.patch
+    - apply the patch: git am 0001-harfbuzz-upgrade-4.2.0-4.2.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,582 +75,24 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0276909154977941381==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 884 .bb files complete (0 cached, 884 parsed). 1643 targets, 50 skipped, 0 masked, 0 errors.
-Removing 68 recipes from the core2-32 sysroot...done.
-Removing 80 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux-musl"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-517911f0cc138b67e5c2fea25bd35bfe30d868a2"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:517911f0cc138b67e5c2fea25bd35bfe30d868a2"
-workspace            = "master:9e556960421c8bbe8851d9810352a5b4bd3b50df"
-
-Initialising tasks...done.
-Sstate summary: Wanted 288 Local 280 Mirrors 0 Missed 8 Current 171 (97% match, 98% complete)
-Removing 2 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 177 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 180 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 183 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 184 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 185 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 186 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 188 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 189 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_package_write_rpm_setscene)
-NOTE: Running task 744 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_fetch)
-NOTE: Running task 776 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_write_config)
-NOTE: recipe libxft-1_2.3.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxft-1_2.3.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe fribidi-1.0.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe fribidi-1.0.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pango-1.50.7-r0: task do_fetch: Started
-NOTE: recipe pango-1.50.7-r0: task do_write_config: Started
-NOTE: recipe pango-1.50.7-r0: task do_fetch: Succeeded
-NOTE: Running task 790 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_unpack)
-NOTE: recipe pango-1.50.7-r0: task do_write_config: Succeeded
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 195 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/psmisc/psmisc_23.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 196 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_packagedata_setscene)
-NOTE: recipe libxft-1_2.3.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.4-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/harfbuzz/4.2.0-r0/temp/log.do_packagedata_setscene.3809244
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fribidi-1.0.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe harfbuzz-4.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 199 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_package_setscene)
-NOTE: recipe pango-1.50.7-r0: task do_unpack: Started
-NOTE: recipe fribidi-1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Started
-NOTE: recipe psmisc-23.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 202 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_setscene)
-NOTE: recipe psmisc-23.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_unpack: Succeeded
-NOTE: Running task 808 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_patch)
-NOTE: recipe pango-1.50.7-r0: task do_patch: Started
-NOTE: recipe pango-1.50.7-r0: task do_patch: Succeeded
-NOTE: Running task 809 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_deploy_source_date_epoch)
-NOTE: Running task 810 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_populate_lic)
-NOTE: recipe pango-1.50.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe pango-1.50.7-r0: task do_populate_lic: Started
-NOTE: recipe pango-1.50.7-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_populate_lic unihash changed to db5ee44bf9625082326551c88ef7321689f613ab230250fd5a6d00aecca7805d
-NOTE: recipe pango-1.50.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_package_setscene: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 207 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 208 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 209 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 210 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 211 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 213 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_71.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 214 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_71.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe icu-71.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe icu-71.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 217 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 218 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 219 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 220 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 221 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_packagedata_setscene)
-NOTE: recipe icu-71.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 224 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 225 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 226 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 227 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 228 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe fontconfig-2.14.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsm-1_1.2.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe icu-71.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe pixman-1_0.40.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.72.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe fontconfig-2.14.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libsm-1_1.2.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.72.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libsm-1_1.2.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 232 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_packagedata_setscene)
-NOTE: recipe pixman-1_0.40.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fontconfig-2.14.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 235 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.12.0.bb:do_packagedata_setscene)
-NOTE: recipe libsm-1_1.2.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe fontconfig-2.14.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 236 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 238 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.12.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe pixman-1_0.40.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libice-1_1.0.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe freetype-2.12.0-r0: task do_packagedata_setscene: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/mesa/2_22.0.0-r0/temp/log.do_packagedata_setscene.3810771
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 241 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_package_setscene)
-NOTE: recipe libice-1_1.0.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe freetype-2.12.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.72.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libice-1_1.0.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe freetype-2.12.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 244 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_packagedata_setscene)
-NOTE: recipe libice-1_1.0.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe mesa-2_22.0.0-r0: task do_package_setscene: Started
-NOTE: recipe freetype-2.12.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 247 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpng-1.6.37-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.72.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 250 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.37.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 251 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.37.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 252 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_packagedata_setscene)
-NOTE: Running setscene task 253 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpng-1.6.37-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpcre-8.45-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre-8.45-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.37.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.37.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpcre-8.45-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpcre-8.45-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-2.37.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-2.37.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 260 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 261 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 262 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 263 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 264 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 265 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_package_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 266 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.110.bb:do_packagedata_setscene)
-NOTE: Running setscene task 267 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.110.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 269 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 270 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 271 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 272 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 273 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 274 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 275 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 276 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 277 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 278 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libdrm-2.4.110-r0: task do_packagedata_setscene: Started
-NOTE: recipe libdrm-2.4.110-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xrandr-1_1.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe wayland-1.20.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xrandr-1_1.5.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdamage-1_1.1.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe wayland-1.20.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdamage-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxshmfence-1.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxshmfence-1.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdamage-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xrandr-1_1.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxshmfence-1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe wayland-1.20.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 284 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 286 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.2.bb:do_packagedata_setscene)
-NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 288 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.4.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 289 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.13.bb:do_packagedata_setscene)
-NOTE: recipe xrandr-1_1.5.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libdrm-2.4.110-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libdrm-2.4.110-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 293 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxshmfence-1.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxdamage-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe wayland-1.20.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 296 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb:do_packagedata_setscene)
-NOTE: Running setscene task 297 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 299 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 301 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.4.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 302 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.13.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxfixes-1_6.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrandr-1_1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.4.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxml2-2.9.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpciaccess-0.16-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpciaccess-0.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.4.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxml2-2.9.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxfixes-1_6.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxrandr-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 307 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 308 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 309 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 310 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 313 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 314 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.10.bb:do_packagedata_setscene)
-NOTE: recipe expat-2.4.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpciaccess-0.16-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxml2-2.9.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 317 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 319 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.10.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 321 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.4.bb:do_packagedata_setscene)
-NOTE: recipe libpciaccess-0.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.4.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxml2-2.9.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe cracklib-2.9.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe cracklib-2.9.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 326 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxext-1_1.3.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrender-1_0.9.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxext-1_1.3.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrender-1_0.9.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-3.10.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxext-1_1.3.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.10.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 329 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.5.bb:do_packagedata_setscene)
-NOTE: recipe cracklib-2.9.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 331 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libx11-1_1.7.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe cracklib-2.9.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libx11-1_1.7.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libx11-1_1.7.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 338 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 339 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_packagedata_setscene)
-NOTE: recipe libx11-1_1.7.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 341 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 342 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxcb-1.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.10.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 344 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 345 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 346 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.37.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 347 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_packagedata_setscene)
-NOTE: Running setscene task 348 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 349 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 350 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 351 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
-NOTE: Running setscene task 352 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 353 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_packagedata_setscene)
-NOTE: recipe python3-3.10.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 354 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 355 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 356 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.37.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 357 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 359 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 360 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 361 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 362 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 363 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 364 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxcb-1.14-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.2.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe readline-8.1.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.37.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.0.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.2.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe readline-8.1.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.37.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.0.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.2.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.2.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcb-1.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 367 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 368 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 369 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 370 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata_setscene)
-NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxcb-1.14-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 372 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 373 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 375 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 376 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe readline-8.1.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.37.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zlib-1.2.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 378 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 382 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb:do_packagedata_setscene)
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xz-5.2.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe openssl-3.0.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe readline-8.1.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 388 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-libuuid-2.37.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 393 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe zlib-1.2.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.38.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xz-5.2.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe openssl-3.0.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ncurses-6.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 408 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 409 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_packagedata_setscene)
-NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 412 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 413 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe ncurses-6.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 415 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
-NOTE: recipe util-macros-1_1.19.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe xorgproto-2021.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtirpc-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ncurses-6.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 418 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-macros-1_1.19.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xorgproto-2021.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-macros-1_1.19.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xorgproto-2021.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 422 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.3.bb:do_packagedata_setscene)
-NOTE: recipe util-macros-1_1.19.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xorgproto-2021.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 427 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-runtime-11.3.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-11.3.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-11.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 430 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.3.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-11.3.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-11.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 432 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-11.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 434 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-11.3.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.3+gitAUTOINC+7a43f6fea9-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-11.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 435 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-1.2.3+gitAUTOINC+7a43f6fea9-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 438 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 439 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 440 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.3+gitAUTOINC+7a43f6fea9-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-5.16-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.3+gitAUTOINC+7a43f6fea9-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 442 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 443 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-5.16-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 451 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_11.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-i686-11.3.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-i686-11.3.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 454 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 455 of 459 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.38.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-i686-2.38-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-i686-2.38-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1531 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1581 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_packagedata)
-NOTE: Running task 1612 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_rpm)
-NOTE: recipe pango-1.50.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_packagedata: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1616 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_packagedata)
-NOTE: recipe harfbuzz-4.2.0-r0: task do_packagedata: Started
-NOTE: recipe pango-1.50.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1617 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_configure)
-NOTE: recipe harfbuzz-4.2.0-r0: task do_packagedata: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_configure: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_configure: Succeeded
-NOTE: Running task 1618 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_configure_ptest_base)
-NOTE: recipe pango-1.50.7-r0: task do_configure_ptest_base: Started
-NOTE: recipe pango-1.50.7-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1619 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_compile)
-NOTE: recipe pango-1.50.7-r0: task do_compile: Started
-NOTE: recipe pango-1.50.7-r0: task do_compile: Succeeded
-NOTE: Running task 1620 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_compile_ptest_base)
-NOTE: recipe pango-1.50.7-r0: task do_compile_ptest_base: Started
-NOTE: recipe pango-1.50.7-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1621 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_install)
-NOTE: recipe pango-1.50.7-r0: task do_install: Started
-NOTE: recipe pango-1.50.7-r0: task do_install: Succeeded
-NOTE: Running task 1622 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_install_ptest_base)
-NOTE: recipe pango-1.50.7-r0: task do_install_ptest_base: Started
-NOTE: recipe pango-1.50.7-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1623 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_package)
-NOTE: Running task 1624 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_populate_sysroot)
-NOTE: recipe pango-1.50.7-r0: task do_package: Started
-NOTE: recipe pango-1.50.7-r0: task do_populate_sysroot: Started
-NOTE: recipe pango-1.50.7-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_package: Succeeded
-NOTE: Running task 1625 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_packagedata)
-NOTE: recipe pango-1.50.7-r0: task do_packagedata: Started
-NOTE: recipe pango-1.50.7-r0: task do_packagedata: Succeeded
-NOTE: Running task 1626 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_package_write_rpm)
-NOTE: Running task 1627 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_package_qa)
-NOTE: recipe pango-1.50.7-r0: task do_package_write_rpm: Started
-NOTE: recipe pango-1.50.7-r0: task do_package_qa: Started
-NOTE: recipe pango-1.50.7-r0: task do_package_qa: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1628 of 1628 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_build)
-NOTE: Tasks Summary: Attempted 1628 tasks of which 1606 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There were 43 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-src went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-dbg went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-icu went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-icu-dev went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-subset went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-staticdev went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-dev went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-doc went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-locale went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-bin went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-src went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dbg went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-megadriver went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vulkan-drivers went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vdpau-drivers went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-staticdev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-doc went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-locale went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============0276909154977941381==
+--===============7469457710582233288==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/pango/pango: FILELIST: removed "/usr/lib/libpango-1.0.so.0.5000.6 /usr/lib/libpangoxft-1.0.so.0.5000.6 /usr/lib/libpangoft2-1.0.so.0.5000.6 /usr/lib/libpangocairo-1.0.so.0.5000.6", added "/usr/lib/libpangoxft-1.0.so.0.5000.7 /usr/lib/libpango-1.0.so.0.5000.7 /usr/lib/libpangocairo-1.0.so.0.5000.7 /usr/lib/libpangoft2-1.0.so.0.5000.7"
-Changes to packages/core2-32-poky-linux/pango (sysroot):
-  /usr/lib/libpango-1.0.so.0 changed symlink target from libpango-1.0.so.0.5000.6 to libpango-1.0.so.0.5000.7
-  /usr/lib/libpangocairo-1.0.so.0 changed symlink target from libpangocairo-1.0.so.0.5000.6 to libpangocairo-1.0.so.0.5000.7
-  /usr/lib/libpangoft2-1.0.so.0 changed symlink target from libpangoft2-1.0.so.0.5000.6 to libpangoft2-1.0.so.0.5000.7
-  /usr/lib/libpangoxft-1.0.so.0 changed symlink target from libpangoxft-1.0.so.0.5000.6 to libpangoxft-1.0.so.0.5000.7
-  /usr/lib/libpango-1.0.so.0.5000.6 moved to /usr/lib/libpango-1.0.so.0.5000.7
-  /usr/lib/libpangocairo-1.0.so.0.5000.6 moved to /usr/lib/libpangocairo-1.0.so.0.5000.7
-  /usr/lib/libpangoft2-1.0.so.0.5000.6 moved to /usr/lib/libpangoft2-1.0.so.0.5000.7
-  /usr/lib/libpangoxft-1.0.so.0.5000.6 moved to /usr/lib/libpangoxft-1.0.so.0.5000.7
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.40200.0", added "/usr/lib/libharfbuzz-icu.so.0.40201.0"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.40200.0", added "/usr/lib/libharfbuzz-subset.so.0.40201.0"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz-gobject.so.0.40200.0 /usr/lib/libharfbuzz.so.0.40200.0", added "/usr/lib/libharfbuzz-gobject.so.0.40201.0 /usr/lib/libharfbuzz.so.0.40201.0"
+Changes to packages/core2-32-poky-linux/harfbuzz (sysroot):
+  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.40200.0 to libharfbuzz-gobject.so.0.40201.0
+  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.40200.0 to libharfbuzz-icu.so.0.40201.0
+  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.40200.0 to libharfbuzz.so.0.40201.0
+  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.40200.0 to libharfbuzz-subset.so.0.40201.0
+  /usr/lib/libharfbuzz-gobject.so.0.40200.0 moved to /usr/lib/libharfbuzz-gobject.so.0.40201.0
+  /usr/lib/libharfbuzz-icu.so.0.40200.0 moved to /usr/lib/libharfbuzz-icu.so.0.40201.0
+  /usr/lib/libharfbuzz.so.0.40200.0 moved to /usr/lib/libharfbuzz.so.0.40201.0
+  /usr/lib/libharfbuzz-subset.so.0.40200.0 moved to /usr/lib/libharfbuzz-subset.so.0.40201.0
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1979,270 +1421,53 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.3.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.3.0/plugin/include/xcoffout.h was removed
 
---===============0276909154977941381==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 884 .bb files complete (0 cached, 884 parsed). 1642 targets, 53 skipped, 0 masked, 0 errors.
-Removing 2 recipes from the cortexa15t2hf-neon sysroot...done.
-Removing 2 recipes from the qemuarm sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-gnueabi"
-MACHINE              = "qemuarm"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-517911f0cc138b67e5c2fea25bd35bfe30d868a2"
-TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
-TARGET_FPU           = "hard"
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:517911f0cc138b67e5c2fea25bd35bfe30d868a2"
-workspace            = "master:9e556960421c8bbe8851d9810352a5b4bd3b50df"
-
-Initialising tasks...done.
-Sstate summary: Wanted 33 Local 22 Mirrors 0 Missed 11 Current 505 (66% match, 97% complete)
-Removing 3 stale sstate objects for arch qemuarm...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 512 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 513 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 516 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.303.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 519 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 522 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 526 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_setscene)
-NOTE: recipe cantarell-fonts-0.303.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cantarell-fonts-0.303.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe harfbuzz-4.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/harfbuzz/4.2.0-r0/temp/log.do_packagedata_setscene.3792028
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 535 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_package_setscene)
-NOTE: recipe mesa-2_22.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1362 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_fetch)
-NOTE: Running task 1519 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_write_config)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/mesa/2_22.0.0-r0/temp/log.do_packagedata_setscene.3792025
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 536 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_package_setscene)
-NOTE: Running task 1677 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe pango-1.50.7-r0: task do_fetch: Started
-NOTE: recipe pango-1.50.7-r0: task do_fetch: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_write_config: Started
-NOTE: recipe pango-1.50.7-r0: task do_write_config: Succeeded
-NOTE: Running task 1678 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_unpack)
-NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe pango-1.50.7-r0: task do_unpack: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_package_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_package_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: Running task 1825 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running task 1826 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe harfbuzz-4.2.0-r0: task do_package_setscene: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_unpack: Succeeded
-NOTE: Running task 1832 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_patch)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe pango-1.50.7-r0: task do_patch: Started
-NOTE: recipe pango-1.50.7-r0: task do_patch: Succeeded
-NOTE: Running task 1833 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1834 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_populate_lic)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 22db8996b954ad500e98bde8eb5d8f3f9ee45325e3d6ebc87a67531882ff9085
-NOTE: recipe pango-1.50.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe pango-1.50.7-r0: task do_populate_lic: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_package_setscene: Succeeded
-NOTE: Running task 1860 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1862 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_packagedata)
-NOTE: recipe pango-1.50.7-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_populate_lic unihash changed to db5ee44bf9625082326551c88ef7321689f613ab230250fd5a6d00aecca7805d
-NOTE: recipe pango-1.50.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pango-1.50.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe mesa-2_22.0.0-r0: task do_packagedata: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 1871 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1875 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_packagedata)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 221777e03b432750d81a3353ee12bea75da31230352399fa97384f965b4130c2
-NOTE: Running task 1880 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_rpm)
-NOTE: recipe harfbuzz-4.2.0-r0: task do_packagedata: Started
-NOTE: recipe pango-1.50.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1881 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_configure)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Started
-NOTE: recipe pango-1.50.7-r0: task do_configure: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_packagedata: Succeeded
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_configure: Succeeded
-NOTE: Running task 1882 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_configure_ptest_base)
-NOTE: recipe pango-1.50.7-r0: task do_configure_ptest_base: Started
-NOTE: recipe pango-1.50.7-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1883 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_compile)
-NOTE: recipe pango-1.50.7-r0: task do_compile: Started
-NOTE: recipe pango-1.50.7-r0: task do_compile: Succeeded
-NOTE: Running task 1884 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_compile_ptest_base)
-NOTE: recipe pango-1.50.7-r0: task do_compile_ptest_base: Started
-NOTE: recipe pango-1.50.7-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1885 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_install)
-NOTE: recipe pango-1.50.7-r0: task do_install: Started
-NOTE: recipe pango-1.50.7-r0: task do_install: Succeeded
-NOTE: Running task 1886 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_install_ptest_base)
-NOTE: recipe pango-1.50.7-r0: task do_install_ptest_base: Started
-NOTE: recipe pango-1.50.7-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1887 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_package)
-NOTE: Running task 1888 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_populate_sysroot)
-NOTE: recipe pango-1.50.7-r0: task do_package: Started
-NOTE: recipe pango-1.50.7-r0: task do_populate_sysroot: Started
-NOTE: recipe pango-1.50.7-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_package: Succeeded
-NOTE: Running task 1889 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_packagedata)
-NOTE: recipe pango-1.50.7-r0: task do_packagedata: Started
-NOTE: recipe pango-1.50.7-r0: task do_packagedata: Succeeded
-NOTE: Running task 1890 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_package_write_rpm)
-NOTE: Running task 1891 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_package_qa)
-NOTE: recipe pango-1.50.7-r0: task do_package_write_rpm: Started
-NOTE: recipe pango-1.50.7-r0: task do_package_qa: Started
-NOTE: recipe pango-1.50.7-r0: task do_package_qa: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1892 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_build)
-NOTE: Tasks Summary: Attempted 1892 tasks of which 1866 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There were 43 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-src went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-dbg went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-icu went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-icu-dev went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-subset went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-src went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-staticdev went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-dev went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dbg went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-doc went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-locale went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-bin went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-megadriver went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vulkan-drivers went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vdpau-drivers went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-staticdev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-doc went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-locale went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============0276909154977941381==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-pango-upgrade-1.50.6-1.50.7.patch"
-
-From dbe78192cdd705f2cc720fbab58e3360c0118dc6 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 May 2022 14:51:00 +0000
-Subject: [PATCH] pango: upgrade 1.50.6 -> 1.50.7
-
----
- .../recipes-graphics/pango/{pango_1.50.6.bb => pango_1.50.7.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/pango/{pango_1.50.6.bb => pango_1.50.7.bb} (94%)
-
-diff --git a/meta/recipes-graphics/pango/pango_1.50.6.bb b/meta/recipes-graphics/pango/pango_1.50.7.bb
-similarity index 94%
-rename from meta/recipes-graphics/pango/pango_1.50.6.bb
-rename to meta/recipes-graphics/pango/pango_1.50.7.bb
-index 93e1653464..727c170288 100644
---- a/meta/recipes-graphics/pango/pango_1.50.6.bb
-+++ b/meta/recipes-graphics/pango/pango_1.50.7.bb
-@@ -22,7 +22,7 @@ SRC_URI += "file://run-ptest \
-             file://0001-Skip-running-test-layout-test.patch \
- "
- 
--SRC_URI[archive.sha256sum] = "a998bcf36881c3ac20495d40bceb304f4eaa9175bd2967c85656434cbdafe86a"
-+SRC_URI[archive.sha256sum] = "0477f369a3d4c695df7299a6989dc004756a7f4de27eecac405c6790b7e3ad33"
- 
- DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
- 
--- 
-2.27.0
-
-
---===============0276909154977941381==
+--===============7469457710582233288==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/pango: PV changed from "1.50.6" to "1.50.7"
-packages/core2-32-poky-linux/pango: SRC_URI changed from "https://download.gnome.org/sources//pango/1.50/pango-1.50.6.tar.xz;name=archive file://run-ptest file://0001-Skip-running-test-layout-test.patch" to "https://download.gnome.org/sources//pango/1.50/pango-1.50.7.tar.xz;name=archive file://run-ptest file://0001-Skip-running-test-layout-test.patch"
-packages/core2-32-poky-linux/pango: PKGV changed from 1.50.6 [default] to 1.50.7 [default]
-packages/core2-32-poky-linux/pango/pango-dbg: PV changed from "1.50.6" to "1.50.7"
-packages/core2-32-poky-linux/pango/pango-dbg: PKGSIZE changed from 2366772 to 2367512 (+0%)
-packages/core2-32-poky-linux/pango/pango-dbg: PKGV changed from 1.50.6 [default] to 1.50.7 [default]
-packages/core2-32-poky-linux/pango/pango-dbg: FILELIST: removed "/usr/lib/.debug/libpangocairo-1.0.so.0.5000.6 /usr/lib/.debug/libpango-1.0.so.0.5000.6 /usr/lib/.debug/libpangoft2-1.0.so.0.5000.6 /usr/lib/.debug/libpangoxft-1.0.so.0.5000.6", added "/usr/lib/.debug/libpangoft2-1.0.so.0.5000.7 /usr/lib/.debug/libpangocairo-1.0.so.0.5000.7 /usr/lib/.debug/libpangoxft-1.0.so.0.5000.7 /usr/lib/.debug/libpango-1.0.so.0.5000.7"
-packages/core2-32-poky-linux/pango/pango-dev: PV changed from "1.50.6" to "1.50.7"
-packages/core2-32-poky-linux/pango/pango-dev: PKGV changed from 1.50.6 [default] to 1.50.7 [default]
-packages/core2-32-poky-linux/pango/pango-doc: PV changed from "1.50.6" to "1.50.7"
-packages/core2-32-poky-linux/pango/pango-doc: PKGV changed from 1.50.6 [default] to 1.50.7 [default]
-packages/core2-32-poky-linux/pango/pango-locale: PV changed from "1.50.6" to "1.50.7"
-packages/core2-32-poky-linux/pango/pango-locale: PKGV changed from 1.50.6 [default] to 1.50.7 [default]
-packages/core2-32-poky-linux/pango/pango-ptest: PV changed from "1.50.6" to "1.50.7"
-packages/core2-32-poky-linux/pango/pango-ptest: PKGV changed from 1.50.6 [default] to 1.50.7 [default]
-packages/core2-32-poky-linux/pango/pango-src: PV changed from "1.50.6" to "1.50.7"
-packages/core2-32-poky-linux/pango/pango-src: PKGSIZE changed from 2318329 to 2318700 (+0%)
-packages/core2-32-poky-linux/pango/pango-src: PKGV changed from 1.50.6 [default] to 1.50.7 [default]
-packages/core2-32-poky-linux/pango/pango-staticdev: PV changed from "1.50.6" to "1.50.7"
-packages/core2-32-poky-linux/pango/pango-staticdev: PKGV changed from 1.50.6 [default] to 1.50.7 [default]
-packages/core2-32-poky-linux/pango/pango: PV changed from "1.50.6" to "1.50.7"
-packages/core2-32-poky-linux/pango/pango: PKGV changed from 1.50.6 [default] to 1.50.7 [default]
-packages/core2-32-poky-linux/pango/pango: FILELIST: removed "/usr/lib/libpangoxft-1.0.so.0.5000.6 /usr/lib/libpango-1.0.so.0.5000.6 /usr/lib/libpangocairo-1.0.so.0.5000.6 /usr/lib/libpangoft2-1.0.so.0.5000.6", added "/usr/lib/libpangoft2-1.0.so.0.5000.7 /usr/lib/libpangocairo-1.0.so.0.5000.7 /usr/lib/libpango-1.0.so.0.5000.7 /usr/lib/libpangoxft-1.0.so.0.5000.7"
-Changes to packages/core2-32-poky-linux/pango (sysroot):
-  /usr/lib/libpango-1.0.so.0 changed symlink target from libpango-1.0.so.0.5000.6 to libpango-1.0.so.0.5000.7
-  /usr/lib/libpangocairo-1.0.so.0 changed symlink target from libpangocairo-1.0.so.0.5000.6 to libpangocairo-1.0.so.0.5000.7
-  /usr/lib/libpangoft2-1.0.so.0 changed symlink target from libpangoft2-1.0.so.0.5000.6 to libpangoft2-1.0.so.0.5000.7
-  /usr/lib/libpangoxft-1.0.so.0 changed symlink target from libpangoxft-1.0.so.0.5000.6 to libpangoxft-1.0.so.0.5000.7
-  /usr/lib/libpango-1.0.so.0.5000.6 moved to /usr/lib/libpango-1.0.so.0.5000.7
-  /usr/lib/libpangocairo-1.0.so.0.5000.6 moved to /usr/lib/libpangocairo-1.0.so.0.5000.7
-  /usr/lib/libpangoft2-1.0.so.0.5000.6 moved to /usr/lib/libpangoft2-1.0.so.0.5000.7
-  /usr/lib/libpangoxft-1.0.so.0.5000.6 moved to /usr/lib/libpangoxft-1.0.so.0.5000.7
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-bin: PKGV changed from 4.2.0 [default] to 4.2.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-bin: PV changed from "4.2.0" to "4.2.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-dbg: PKGV changed from 4.2.0 [default] to 4.2.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-dbg: FILELIST: removed "/usr/lib/.debug/libharfbuzz.so.0.40200.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.40200.0 /usr/lib/.debug/libharfbuzz-icu.so.0.40200.0 /usr/lib/.debug/libharfbuzz-subset.so.0.40200.0", added "/usr/lib/.debug/libharfbuzz-icu.so.0.40201.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.40201.0 /usr/lib/.debug/libharfbuzz.so.0.40201.0 /usr/lib/.debug/libharfbuzz-subset.so.0.40201.0"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-dbg: PV changed from "4.2.0" to "4.2.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-dbg: PKGSIZE changed from 38685080 to 38690144 (+0%)
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-dev: PKGV changed from 4.2.0 [default] to 4.2.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-dev: PV changed from "4.2.0" to "4.2.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-doc: PKGV changed from 4.2.0 [default] to 4.2.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-doc: PV changed from "4.2.0" to "4.2.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu-dev: PKGV changed from 4.2.0 [default] to 4.2.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu-dev: PV changed from "4.2.0" to "4.2.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu: PKGV changed from 4.2.0 [default] to 4.2.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.40200.0", added "/usr/lib/libharfbuzz-icu.so.0.40201.0"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu: PV changed from "4.2.0" to "4.2.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-locale: PKGV changed from 4.2.0 [default] to 4.2.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-locale: PV changed from "4.2.0" to "4.2.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-src: PKGV changed from 4.2.0 [default] to 4.2.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-src: PV changed from "4.2.0" to "4.2.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-src: PKGSIZE changed from 4003543 to 4004069 (+0%)
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-staticdev: PKGV changed from 4.2.0 [default] to 4.2.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-staticdev: PV changed from "4.2.0" to "4.2.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-subset: PKGV changed from 4.2.0 [default] to 4.2.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.40200.0", added "/usr/lib/libharfbuzz-subset.so.0.40201.0"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz-subset: PV changed from "4.2.0" to "4.2.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz: PKGV changed from 4.2.0 [default] to 4.2.1 [default]
+packages/core2-32-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz.so.0.40200.0 /usr/lib/libharfbuzz-gobject.so.0.40200.0", added "/usr/lib/libharfbuzz-gobject.so.0.40201.0 /usr/lib/libharfbuzz.so.0.40201.0"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz: PV changed from "4.2.0" to "4.2.1"
+packages/core2-32-poky-linux/harfbuzz/harfbuzz: PKGSIZE changed from 1422400 to 1418304 (-0%)
+packages/core2-32-poky-linux/harfbuzz: SRC_URI changed from "https://github.com/harfbuzz/harfbuzz/releases/download/4.2.0/harfbuzz-4.2.0.tar.xz" to "https://github.com/harfbuzz/harfbuzz/releases/download/4.2.1/harfbuzz-4.2.1.tar.xz"
+packages/core2-32-poky-linux/harfbuzz: PKGV changed from 4.2.0 [default] to 4.2.1 [default]
+packages/core2-32-poky-linux/harfbuzz: PV changed from "4.2.0" to "4.2.1"
+Changes to packages/core2-32-poky-linux/harfbuzz (sysroot):
+  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.40200.0 to libharfbuzz-gobject.so.0.40201.0
+  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.40200.0 to libharfbuzz-icu.so.0.40201.0
+  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.40200.0 to libharfbuzz.so.0.40201.0
+  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.40200.0 to libharfbuzz-subset.so.0.40201.0
+  /usr/lib/libharfbuzz-gobject.so.0.40200.0 moved to /usr/lib/libharfbuzz-gobject.so.0.40201.0
+  /usr/lib/libharfbuzz-icu.so.0.40200.0 moved to /usr/lib/libharfbuzz-icu.so.0.40201.0
+  /usr/lib/libharfbuzz.so.0.40200.0 moved to /usr/lib/libharfbuzz.so.0.40201.0
+  /usr/lib/libharfbuzz-subset.so.0.40200.0 moved to /usr/lib/libharfbuzz-subset.so.0.40201.0
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -3571,578 +2796,41 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.3.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.3.0/plugin/include/xcoffout.h was removed
 
---===============0276909154977941381==
-Content-Type: text/plain; charset="us-ascii"
+--===============7469457710582233288==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+Content-Disposition: attachment;
+ filename="0001-harfbuzz-upgrade-4.2.0-4.2.1.patch"
 
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 884 .bb files complete (0 cached, 884 parsed). 1642 targets, 63 skipped, 0 masked, 0 errors.
-Removing 2 recipes from the mips32r2 sysroot...done.
-Removing 2 recipes from the qemumips sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+From 51a42039805b2e995900af76b6f58636b88bdb56 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sun, 1 May 2022 14:28:30 +0000
+Subject: [PATCH] harfbuzz: upgrade 4.2.0 -> 4.2.1
 
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "mips-poky-linux"
-MACHINE              = "qemumips"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-517911f0cc138b67e5c2fea25bd35bfe30d868a2"
-TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:517911f0cc138b67e5c2fea25bd35bfe30d868a2"
-workspace            = "master:9e556960421c8bbe8851d9810352a5b4bd3b50df"
+---
+ .../harfbuzz/{harfbuzz_4.2.0.bb => harfbuzz_4.2.1.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_4.2.0.bb => harfbuzz_4.2.1.bb} (95%)
 
-Initialising tasks...done.
-Sstate summary: Wanted 33 Local 22 Mirrors 0 Missed 11 Current 501 (66% match, 97% complete)
-Removing 3 stale sstate objects for arch qemumips...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 508 of 534 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 509 of 534 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 512 of 534 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.303.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 515 of 534 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 518 of 534 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 522 of 534 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_setscene)
-NOTE: recipe cantarell-fonts-0.303.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cantarell-fonts-0.303.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe harfbuzz-4.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/harfbuzz/4.2.0-r0/temp/log.do_packagedata_setscene.3797715
-NOTE: recipe mesa-2_22.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 531 of 534 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_package_setscene)
-NOTE: Running task 1359 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_fetch)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/mesa/2_22.0.0-r0/temp/log.do_packagedata_setscene.3797712
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 532 of 534 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_package_setscene)
-NOTE: Running task 1511 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_write_config)
-NOTE: Running task 1663 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe pango-1.50.7-r0: task do_fetch: Started
-NOTE: recipe pango-1.50.7-r0: task do_fetch: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_write_config: Started
-NOTE: recipe pango-1.50.7-r0: task do_write_config: Succeeded
-NOTE: Running task 1664 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_unpack)
-NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Started
-NOTE: recipe pango-1.50.7-r0: task do_unpack: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_package_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_package_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: Running task 1811 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running task 1812 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe harfbuzz-4.2.0-r0: task do_package_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: recipe pango-1.50.7-r0: task do_unpack: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: Running task 1818 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_patch)
-NOTE: recipe pango-1.50.7-r0: task do_patch: Started
-NOTE: recipe pango-1.50.7-r0: task do_patch: Succeeded
-NOTE: Running task 1819 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1820 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_populate_lic)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to adc99ef3803769c431eb1fe143d0d4d2272069a430faf47bb88e42d021c57eca
-NOTE: recipe pango-1.50.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe pango-1.50.7-r0: task do_populate_lic: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_package_setscene: Succeeded
-NOTE: Running task 1846 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1848 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_packagedata)
-NOTE: recipe pango-1.50.7-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_populate_lic unihash changed to db5ee44bf9625082326551c88ef7321689f613ab230250fd5a6d00aecca7805d
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe pango-1.50.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_packagedata: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 1857 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1861 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_packagedata)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 4f672850dad29842ce5ccb8318ecf7cb5c099e33eefd97dfd516e6119a48cb96
-NOTE: Running task 1866 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_rpm)
-NOTE: recipe harfbuzz-4.2.0-r0: task do_packagedata: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Started
-NOTE: recipe pango-1.50.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1867 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_configure)
-NOTE: recipe pango-1.50.7-r0: task do_configure: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_packagedata: Succeeded
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_configure: Succeeded
-NOTE: Running task 1868 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_configure_ptest_base)
-NOTE: recipe pango-1.50.7-r0: task do_configure_ptest_base: Started
-NOTE: recipe pango-1.50.7-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1869 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_compile)
-NOTE: recipe pango-1.50.7-r0: task do_compile: Started
-NOTE: recipe pango-1.50.7-r0: task do_compile: Succeeded
-NOTE: Running task 1870 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_compile_ptest_base)
-NOTE: recipe pango-1.50.7-r0: task do_compile_ptest_base: Started
-NOTE: recipe pango-1.50.7-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1871 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_install)
-NOTE: recipe pango-1.50.7-r0: task do_install: Started
-NOTE: recipe pango-1.50.7-r0: task do_install: Succeeded
-NOTE: Running task 1872 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_install_ptest_base)
-NOTE: recipe pango-1.50.7-r0: task do_install_ptest_base: Started
-NOTE: recipe pango-1.50.7-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1873 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_package)
-NOTE: Running task 1874 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_populate_sysroot)
-NOTE: recipe pango-1.50.7-r0: task do_package: Started
-NOTE: recipe pango-1.50.7-r0: task do_populate_sysroot: Started
-NOTE: recipe pango-1.50.7-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_package: Succeeded
-NOTE: Running task 1875 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_packagedata)
-NOTE: recipe pango-1.50.7-r0: task do_packagedata: Started
-NOTE: recipe pango-1.50.7-r0: task do_packagedata: Succeeded
-NOTE: Running task 1876 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_package_write_rpm)
-NOTE: Running task 1877 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_package_qa)
-NOTE: recipe pango-1.50.7-r0: task do_package_write_rpm: Started
-NOTE: recipe pango-1.50.7-r0: task do_package_qa: Started
-NOTE: recipe pango-1.50.7-r0: task do_package_qa: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1878 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_build)
-NOTE: Tasks Summary: Attempted 1878 tasks of which 1852 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.1.bb
+similarity index 95%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_4.2.1.bb
+index 44d42e6904..05d5aefd87 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.1.bb
+@@ -12,7 +12,7 @@ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
+ UPSTREAM_CHECK_REGEX = "harfbuzz-(?P<pver>\d+(\.\d+)+).tar"
+ 
+ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "f2200f177768bdc21445aa09703326f3bbe8114ac083d081fe1a79d305c7ae73"
++SRC_URI[sha256sum] = "bd17916513829aeff961359a5ccebba6de2f4bf37a91faee3ac29c120e3d7ee1"
+ 
+ inherit meson pkgconfig lib_package gtk-doc gobject-introspection
+ 
+-- 
+2.27.0
 
-Summary: There were 43 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-src went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-dbg went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-src went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-icu went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dbg went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-icu-dev went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-subset went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-staticdev went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-dev went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-doc went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-locale went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-bin went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-megadriver went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vulkan-drivers went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vdpau-drivers went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-staticdev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-doc went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-locale went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============0276909154977941381==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 884 .bb files complete (0 cached, 884 parsed). 1642 targets, 70 skipped, 0 masked, 0 errors.
-Removing 2 recipes from the ppc7400 sysroot...done.
-Removing 2 recipes from the qemuppc sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "powerpc-poky-linux"
-MACHINE              = "qemuppc"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-517911f0cc138b67e5c2fea25bd35bfe30d868a2"
-TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:517911f0cc138b67e5c2fea25bd35bfe30d868a2"
-workspace            = "master:9e556960421c8bbe8851d9810352a5b4bd3b50df"
-
-Initialising tasks...done.
-Sstate summary: Wanted 33 Local 22 Mirrors 0 Missed 11 Current 505 (66% match, 97% complete)
-Removing 3 stale sstate objects for arch qemuppc...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 512 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 513 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 516 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.303.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 519 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 522 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 526 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_setscene)
-NOTE: recipe cantarell-fonts-0.303.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cantarell-fonts-0.303.1-r0: task do_packagedata_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/harfbuzz/4.2.0-r0/temp/log.do_packagedata_setscene.3803430
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 535 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_package_setscene)
-NOTE: recipe harfbuzz-4.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe mesa-2_22.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/mesa/2_22.0.0-r0/temp/log.do_packagedata_setscene.3803427
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 536 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_package_setscene)
-NOTE: Running task 1362 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_fetch)
-NOTE: Running task 1519 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_write_config)
-NOTE: Running task 1678 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe pango-1.50.7-r0: task do_fetch: Started
-NOTE: recipe pango-1.50.7-r0: task do_fetch: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_write_config: Started
-NOTE: recipe pango-1.50.7-r0: task do_write_config: Succeeded
-NOTE: Running task 1679 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_unpack)
-NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Started
-NOTE: recipe pango-1.50.7-r0: task do_unpack: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_package_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_package_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: Running task 1825 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: recipe harfbuzz-4.2.0-r0: task do_package_setscene: Succeeded
-NOTE: Running task 1826 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe pango-1.50.7-r0: task do_unpack: Succeeded
-NOTE: Running task 1832 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_patch)
-NOTE: recipe pango-1.50.7-r0: task do_patch: Started
-NOTE: recipe pango-1.50.7-r0: task do_patch: Succeeded
-NOTE: Running task 1833 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1834 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_populate_lic)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to cb21232c5a28826a835c7b82a0929a680de568bfa22b4e8f2902c7990c647f3e
-NOTE: recipe pango-1.50.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe pango-1.50.7-r0: task do_populate_lic: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_package_setscene: Succeeded
-NOTE: Running task 1860 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1862 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_packagedata)
-NOTE: recipe pango-1.50.7-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_populate_lic unihash changed to db5ee44bf9625082326551c88ef7321689f613ab230250fd5a6d00aecca7805d
-NOTE: recipe pango-1.50.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_packagedata: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 1871 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1875 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_packagedata)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 383898a484d5745ad8dfc12903788320e353f730bca51d01c97a5e5c0c4bdc03
-NOTE: Running task 1880 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_rpm)
-NOTE: recipe harfbuzz-4.2.0-r0: task do_packagedata: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Started
-NOTE: recipe pango-1.50.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1881 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_configure)
-NOTE: recipe harfbuzz-4.2.0-r0: task do_packagedata: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_configure: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_configure: Succeeded
-NOTE: Running task 1882 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_configure_ptest_base)
-NOTE: recipe pango-1.50.7-r0: task do_configure_ptest_base: Started
-NOTE: recipe pango-1.50.7-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1883 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_compile)
-NOTE: recipe pango-1.50.7-r0: task do_compile: Started
-NOTE: recipe pango-1.50.7-r0: task do_compile: Succeeded
-NOTE: Running task 1884 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_compile_ptest_base)
-NOTE: recipe pango-1.50.7-r0: task do_compile_ptest_base: Started
-NOTE: recipe pango-1.50.7-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1885 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_install)
-NOTE: recipe pango-1.50.7-r0: task do_install: Started
-NOTE: recipe pango-1.50.7-r0: task do_install: Succeeded
-NOTE: Running task 1886 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_install_ptest_base)
-NOTE: recipe pango-1.50.7-r0: task do_install_ptest_base: Started
-NOTE: recipe pango-1.50.7-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1887 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_package)
-NOTE: Running task 1888 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_populate_sysroot)
-NOTE: recipe pango-1.50.7-r0: task do_package: Started
-NOTE: recipe pango-1.50.7-r0: task do_populate_sysroot: Started
-NOTE: recipe pango-1.50.7-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_package: Succeeded
-NOTE: Running task 1889 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_packagedata)
-NOTE: recipe pango-1.50.7-r0: task do_packagedata: Started
-NOTE: recipe pango-1.50.7-r0: task do_packagedata: Succeeded
-NOTE: Running task 1890 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_package_write_rpm)
-NOTE: Running task 1891 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_package_qa)
-NOTE: recipe pango-1.50.7-r0: task do_package_write_rpm: Started
-NOTE: recipe pango-1.50.7-r0: task do_package_qa: Started
-NOTE: recipe pango-1.50.7-r0: task do_package_qa: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1892 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_build)
-NOTE: Tasks Summary: Attempted 1892 tasks of which 1866 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There were 43 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-src went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-dbg went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-icu went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-src went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-icu-dev went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dbg went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-subset went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-staticdev went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-dev went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-doc went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-locale went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-bin went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-megadriver went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vulkan-drivers went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vdpau-drivers went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-staticdev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-doc went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-locale went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============0276909154977941381==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-Loading cache...done.
-Loaded 1644 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 884 .bb files complete (883 cached, 1 parsed). 1642 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-517911f0cc138b67e5c2fea25bd35bfe30d868a2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:517911f0cc138b67e5c2fea25bd35bfe30d868a2"
-workspace            = "master:9e556960421c8bbe8851d9810352a5b4bd3b50df"
-
-Initialising tasks...done.
-Sstate summary: Wanted 34 Local 23 Mirrors 0 Missed 11 Current 504 (67% match, 97% complete)
-Removing 3 stale sstate objects for arch qemux86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 511 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.303.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 512 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 513 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 518 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 521 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 525 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_setscene)
-NOTE: recipe cantarell-fonts-0.303.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cantarell-fonts-0.303.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 534 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_0.303.1.bb:do_packagedata_setscene)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/harfbuzz/4.2.0-r0/temp/log.do_packagedata_setscene.3786274
-NOTE: recipe harfbuzz-4.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 535 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_package_setscene)
-NOTE: recipe cantarell-fonts-0.303.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/mesa/2_22.0.0-r0/temp/log.do_packagedata_setscene.3786272
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 536 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_package_setscene)
-NOTE: recipe cantarell-fonts-0.303.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1362 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_fetch)
-NOTE: Running task 1519 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_write_config)
-NOTE: recipe pango-1.50.7-r0: task do_fetch: Started
-NOTE: Running task 1678 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe pango-1.50.7-r0: task do_fetch: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_write_config: Started
-NOTE: recipe pango-1.50.7-r0: task do_write_config: Succeeded
-NOTE: Running task 1679 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_unpack)
-NOTE: recipe base-files-3.0.14-r89: task do_install: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Started
-NOTE: recipe pango-1.50.7-r0: task do_unpack: Started
-NOTE: recipe harfbuzz-4.2.0-r0: task do_package_setscene: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_package_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
-NOTE: recipe harfbuzz-4.2.0-r0: task do_package_setscene: Succeeded
-NOTE: Running task 1825 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running task 1826 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package: Started
-NOTE: recipe pango-1.50.7-r0: task do_unpack: Succeeded
-NOTE: Running task 1832 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_patch)
-NOTE: recipe pango-1.50.7-r0: task do_patch: Started
-NOTE: recipe pango-1.50.7-r0: task do_patch: Succeeded
-NOTE: Running task 1833 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1834 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_populate_lic)
-NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to ea93135e6bc8e63cc54852e198d3eabbf225aea3faf287903bdd2c4fb2e8da5b
-NOTE: recipe pango-1.50.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe pango-1.50.7-r0: task do_populate_lic: Started
-NOTE: recipe pango-1.50.7-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_populate_lic unihash changed to db5ee44bf9625082326551c88ef7321689f613ab230250fd5a6d00aecca7805d
-NOTE: recipe pango-1.50.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
-NOTE: Running task 1848 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe mesa-2_22.0.0-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1869 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1871 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_packagedata)
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
-NOTE: recipe pango-1.50.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_packagedata: Started
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to e12ef1466cb841b8170ebe21bf855a1d72ab36d5c6b2197eb65f7498b9c23a64
-NOTE: Running task 1876 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_rpm)
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Started
-NOTE: recipe mesa-2_22.0.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1880 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_packagedata)
-NOTE: recipe harfbuzz-4.2.0-r0: task do_packagedata: Started
-NOTE: recipe pango-1.50.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1881 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_configure)
-NOTE: recipe harfbuzz-4.2.0-r0: task do_packagedata: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_configure: Started
-NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_configure: Succeeded
-NOTE: Running task 1882 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_configure_ptest_base)
-NOTE: recipe pango-1.50.7-r0: task do_configure_ptest_base: Started
-NOTE: recipe pango-1.50.7-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1883 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_compile)
-NOTE: recipe pango-1.50.7-r0: task do_compile: Started
-NOTE: recipe pango-1.50.7-r0: task do_compile: Succeeded
-NOTE: Running task 1884 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_compile_ptest_base)
-NOTE: recipe pango-1.50.7-r0: task do_compile_ptest_base: Started
-NOTE: recipe pango-1.50.7-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1885 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_install)
-NOTE: recipe pango-1.50.7-r0: task do_install: Started
-NOTE: recipe pango-1.50.7-r0: task do_install: Succeeded
-NOTE: Running task 1886 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_install_ptest_base)
-NOTE: recipe pango-1.50.7-r0: task do_install_ptest_base: Started
-NOTE: recipe pango-1.50.7-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1887 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_package)
-NOTE: Running task 1888 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_populate_sysroot)
-NOTE: recipe pango-1.50.7-r0: task do_package: Started
-NOTE: recipe pango-1.50.7-r0: task do_populate_sysroot: Started
-NOTE: recipe pango-1.50.7-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_package: Succeeded
-NOTE: Running task 1889 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_packagedata)
-NOTE: recipe pango-1.50.7-r0: task do_packagedata: Started
-NOTE: recipe pango-1.50.7-r0: task do_packagedata: Succeeded
-NOTE: Running task 1890 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_package_write_rpm)
-NOTE: Running task 1891 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_package_qa)
-NOTE: recipe pango-1.50.7-r0: task do_package_write_rpm: Started
-NOTE: recipe pango-1.50.7-r0: task do_package_qa: Started
-NOTE: recipe pango-1.50.7-r0: task do_package_qa: Succeeded
-NOTE: recipe pango-1.50.7-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1892 of 1892 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_build)
-NOTE: Tasks Summary: Attempted 1892 tasks of which 1866 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There were 43 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-src went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-dbg went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-icu went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-icu-dev went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-src went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-subset went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-staticdev went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dbg went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-dev went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-doc went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-locale went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz-bin went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: QA Issue: Package version for package harfbuzz went backwards which would break package feeds (from 0:4.2.1-r0 to 0:4.2.0-r0) [version-going-backwards]
-ERROR: harfbuzz-4.2.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-megadriver went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vulkan-drivers went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vdpau-drivers went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-staticdev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dev went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-doc went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-locale went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package mesa went backwards which would break package feeds (from 2:22.0.2-r0 to 2:22.0.0-r0) [version-going-backwards]
-ERROR: mesa-2_22.0.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============0276909154977941381==--
+--===============7469457710582233288==--
 
