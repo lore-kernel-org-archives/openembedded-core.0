@@ -2,52 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A010C47096
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBC16C47094
 	for <webhook@archiver.kernel.org>; Sun,  1 May 2022 19:49:12 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com
- (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web09.2251.1651434542023789292
+Received: from a27-193.smtp-out.us-west-2.amazonses.com
+ (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web12.2225.1651434544792680663
  for <openembedded-core@lists.openembedded.org>;
  Sun, 01 May 2022 12:49:04 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=0Es/0Kxm;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
- mailfrom: 01010180812b5ba2-8ae8a2f3-630c-455b-b7ae-4d6214ed3221-000000@us-west-2.amazonses.com)
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fAwtompc;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
+ mailfrom: 01010180812b5c18-caa99a70-493b-40b3-913e-20b1f4440eee-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1651434544;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=uZNGbcPed9ph8av/uUi9EhAU2gDOc9vLdOX9qiHJqfs=;
-	b=0Es/0KxmY54Ep7RDchbqM9R3EiPc71QWR1uEHZ44px3CsccoMrxaRA9M2ged375V
-	YrPZm7c36A36DirVTzZ62hGr9CNrUwZ6xl58PzduV+Su9B48amZ4ykEmINWhvqHDk36
-	z2y7ZYUp8cwRYpRwIez/psuYNFxGKn94YqycikIg=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=Y9jXkxTWUwgv/CefziZ6/Ppfoqqd/ZkqT1Gd49SZZIM=;
+	b=fAwtompcR4N1/6oT7ZVOe+S8u1SKnrSbdntSrSQeOIFIUqqx9Qv0/mH4RN+WCkA/
+	RvgeaGe544DuQEo7XjfwiBxvTkOCaE8qXrd7XQoMVO05Q7fRy/mBbpSOU5wvGYXHIov
+	tJuwksSFyGkK4KKL6piXlwgUCHvCzVeZq17Oj2hg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1651434544;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=uZNGbcPed9ph8av/uUi9EhAU2gDOc9vLdOX9qiHJqfs=;
-	b=dl6bYTrmaDZ3e1YPS4mqVlCSq+haLUmkdGNWeLUQxY65dG/20fpry+PEb+tNEE4+
-	TR/gs1sGd7YNjZDDq6OI87JA+wkpyZH1KYJJmFvMqW4B7Fa6blDTPERbtb4D7vycFat
-	fBTHAaDk1Yg0mQ0qqEP0eEIs1HAG5v43iQ6nJ1/g=
-Content-Type: multipart/mixed; boundary="===============6542058104557965104=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=Y9jXkxTWUwgv/CefziZ6/Ppfoqqd/ZkqT1Gd49SZZIM=;
+	b=MFasFgrad2ZiLAGmd73oM/+bD6PG7LiuIQ5MTlOdvB425wOP/g3mTi4As8XRMUoo
+	Sk1XzngQ+mZAWN7RzxuiuTs6Ge4bIsLbHb+JBk57/LMj4dP2SMYf43b7adKjNu0GZzF
+	+3b51saS/5tEzBuC/DY/cXlUdrdw0gURyjlwip3k=
+Content-Type: multipart/mixed; boundary="===============3663723439167215808=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] xorgproto: upgrading to 2022.1 SUCCEEDED
+To: Tim Orling <tim.orling@konsulko.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] at-spi2-core: upgrading to 2.44.1 SUCCEEDED
 Message-ID: 
- <01010180812b5ba2-8ae8a2f3-630c-455b-b7ae-4d6214ed3221-000000@us-west-2.amazonses.com>
+ <01010180812b5c18-caa99a70-493b-40b3-913e-20b1f4440eee-000000@us-west-2.amazonses.com>
 Date: Sun, 1 May 2022 19:49:04 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.05.01-54.240.27.192
+X-SES-Outgoing: 2022.05.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 May 2022 19:49:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165152
+ https://lists.openembedded.org/g/openembedded-core/message/165156
 
---===============6542058104557965104==
+--===============3663723439167215808==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -55,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *xorgproto* to *2022.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *at-spi2-core* to *2.44.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-xorgproto-upgrade-2021.5-2022.1.patch
+    - apply the patch: git am 0001-at-spi2-core-upgrade-2.44.0-2.44.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -74,43 +75,7 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6542058104557965104==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-xorgproto-upgrade-2021.5-2022.1.patch"
-
-From f2ae9338cee2576c19cbd983a83b8d707f30422f Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 May 2022 15:34:34 +0000
-Subject: [PATCH] xorgproto: upgrade 2021.5 -> 2022.1
-
----
- .../xorg-proto/{xorgproto_2021.5.bb => xorgproto_2022.1.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-proto/{xorgproto_2021.5.bb => xorgproto_2022.1.bb} (90%)
-
-diff --git a/meta/recipes-graphics/xorg-proto/xorgproto_2021.5.bb b/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb
-similarity index 90%
-rename from meta/recipes-graphics/xorg-proto/xorgproto_2021.5.bb
-rename to meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb
-index 8f1ed36291..7786318476 100644
---- a/meta/recipes-graphics/xorg-proto/xorgproto_2021.5.bb
-+++ b/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb
-@@ -9,7 +9,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING-x11proto;md5=dfc4bd2b0568b31725b85b0604e69b56"
- 
- SRC_URI = "${XORG_MIRROR}/individual/proto/${BP}.tar.bz2"
--SRC_URI[sha256sum] = "aa2f663b8dbd632960b24f7477aa07d901210057f6ab1a1db5158732569ca015"
-+SRC_URI[sha256sum] = "1d2dcc66963f234d2c1e1f8d98a0d3e8725149cdac0a263df4097593c48bc2a6"
- 
- inherit meson
- 
--- 
-2.27.0
-
-
---===============6542058104557965104==
+--===============3663723439167215808==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1444,30 +1409,175 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.3.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.3.0/plugin/include/xcoffout.h was removed
 
---===============6542058104557965104==
+--===============3663723439167215808==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/xorgproto: PKGV changed from 2021.5 [default] to 2022.1 [default]
-packages/core2-32-poky-linux/xorgproto: SRC_URI changed from "https://www.x.org/releases//individual/proto/xorgproto-2021.5.tar.bz2" to "https://www.x.org/releases//individual/proto/xorgproto-2022.1.tar.bz2"
-packages/core2-32-poky-linux/xorgproto: PV changed from "2021.5" to "2022.1"
-packages/core2-32-poky-linux/xorgproto/xorgproto-dbg: PKGV changed from 2021.5 [default] to 2022.1 [default]
-packages/core2-32-poky-linux/xorgproto/xorgproto-dbg: PV changed from "2021.5" to "2022.1"
-packages/core2-32-poky-linux/xorgproto/xorgproto-dev: PKGV changed from 2021.5 [default] to 2022.1 [default]
-packages/core2-32-poky-linux/xorgproto/xorgproto-dev: PKGSIZE changed from 1149138 to 1149276 (+0%)
-packages/core2-32-poky-linux/xorgproto/xorgproto-dev: PV changed from "2021.5" to "2022.1"
-packages/core2-32-poky-linux/xorgproto/xorgproto-doc: PKGV changed from 2021.5 [default] to 2022.1 [default]
-packages/core2-32-poky-linux/xorgproto/xorgproto-doc: PV changed from "2021.5" to "2022.1"
-packages/core2-32-poky-linux/xorgproto/xorgproto-locale: PKGV changed from 2021.5 [default] to 2022.1 [default]
-packages/core2-32-poky-linux/xorgproto/xorgproto-locale: PV changed from "2021.5" to "2022.1"
-packages/core2-32-poky-linux/xorgproto/xorgproto-src: PKGV changed from 2021.5 [default] to 2022.1 [default]
-packages/core2-32-poky-linux/xorgproto/xorgproto-src: PV changed from "2021.5" to "2022.1"
-packages/core2-32-poky-linux/xorgproto/xorgproto-staticdev: PKGV changed from 2021.5 [default] to 2022.1 [default]
-packages/core2-32-poky-linux/xorgproto/xorgproto-staticdev: PV changed from "2021.5" to "2022.1"
-packages/core2-32-poky-linux/xorgproto/xorgproto: PKGV changed from 2021.5 [default] to 2022.1 [default]
-packages/core2-32-poky-linux/xorgproto/xorgproto: PV changed from "2021.5" to "2022.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGSIZE changed from 721356 to 721676 (+0%)
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dev: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dev: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-doc: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-doc: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ab: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ab: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-an: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-an: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-as: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-as: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-be: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-be: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-da: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-da: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-de: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-de: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-el: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-el: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-es: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-es: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-et: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-et: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-he: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-he: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-id: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-id: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-is: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-is: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-it: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-it: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-km: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-km: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-or: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-or: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-te: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-te: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-src: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-src: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-src: PKGSIZE changed from 978898 to 979023 (+0%)
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-staticdev: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-staticdev: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core: PV changed from "2.44.0" to "2.44.1"
+packages/core2-32-poky-linux/at-spi2-core: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
+packages/core2-32-poky-linux/at-spi2-core: SRC_URI changed from "https://download.gnome.org/sources//at-spi2-core/2.44/at-spi2-core-2.44.0.tar.xz file://08036a4c4491eea57d7b713bb4440f541584204b.patch" to "https://download.gnome.org/sources//at-spi2-core/2.44/at-spi2-core-2.44.1.tar.xz"
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2796,5 +2906,94 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.3.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.3.0/plugin/include/xcoffout.h was removed
 
---===============6542058104557965104==--
+--===============3663723439167215808==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-at-spi2-core-upgrade-2.44.0-2.44.1.patch"
+
+From 092a3812a022b895f4a7e92b65bac0e7f91258f9 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sun, 1 May 2022 18:50:22 +0000
+Subject: [PATCH] at-spi2-core: upgrade 2.44.0 -> 2.44.1
+
+---
+ ...-core_2.44.0.bb => at-spi2-core_2.44.1.bb} |  6 +--
+ ...6a4c4491eea57d7b713bb4440f541584204b.patch | 40 -------------------
+ 2 files changed, 2 insertions(+), 44 deletions(-)
+ rename meta/recipes-support/atk/{at-spi2-core_2.44.0.bb => at-spi2-core_2.44.1.bb} (89%)
+ delete mode 100644 meta/recipes-support/atk/files/08036a4c4491eea57d7b713bb4440f541584204b.patch
+
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.44.0.bb b/meta/recipes-support/atk/at-spi2-core_2.44.1.bb
+similarity index 89%
+rename from meta/recipes-support/atk/at-spi2-core_2.44.0.bb
+rename to meta/recipes-support/atk/at-spi2-core_2.44.1.bb
+index e276eb7b8e..95a6c619f0 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.44.0.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.44.1.bb
+@@ -9,11 +9,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
+ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ 
+-SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+-           file://08036a4c4491eea57d7b713bb4440f541584204b.patch \
+-          "
++SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "7eee3cf285b089060fd6b6e51b3eb2cacf752cca3a082c7f4c2c5ab841e51353"
++SRC_URI[sha256sum] = "4beb23270ba6cf7caf20b597354d75194d89afb69d2efcf15f4271688ba6f746"
+ 
+ X11DEPENDS = "virtual/libx11 libxi libxtst"
+ 
+diff --git a/meta/recipes-support/atk/files/08036a4c4491eea57d7b713bb4440f541584204b.patch b/meta/recipes-support/atk/files/08036a4c4491eea57d7b713bb4440f541584204b.patch
+deleted file mode 100644
+index 0f002256c9..0000000000
+--- a/meta/recipes-support/atk/files/08036a4c4491eea57d7b713bb4440f541584204b.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From 08036a4c4491eea57d7b713bb4440f541584204b Mon Sep 17 00:00:00 2001
+-From: Mike Gorse <mgorse@suse.com>
+-Date: Mon, 21 Mar 2022 10:19:03 -0500
+-Subject: [PATCH] Fix build with X11 disabled
+-
+-Closes #51
+-Upstream-Status: Backport
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- registryd/deviceeventcontroller.c | 8 ++++----
+- 1 file changed, 4 insertions(+), 4 deletions(-)
+-
+-diff --git a/registryd/deviceeventcontroller.c b/registryd/deviceeventcontroller.c
+-index 8a321adc..3068ec4b 100644
+---- a/registryd/deviceeventcontroller.c
+-+++ b/registryd/deviceeventcontroller.c
+-@@ -1720,16 +1720,16 @@ spi_dec_synth_keysym (SpiDEController *controller, long keysym)
+- 	if (synth_mods != modifiers) {
+- 		lock_mods = synth_mods & ~modifiers;
+- 		spi_dec_plat_lock_modifiers (controller, lock_mods);
+--		if (modifiers & LockMask)
+--			spi_dec_plat_unlock_modifiers (controller, LockMask);
+-+		if (modifiers & SPI_KEYMASK_SHIFTLOCK)
+-+			spi_dec_plat_unlock_modifiers (controller, SPI_KEYMASK_SHIFTLOCK);
+- 	}
+- 	spi_dec_plat_synth_keycode_press (controller, key_synth_code);
+- 	spi_dec_plat_synth_keycode_release (controller, key_synth_code);
+- 
+- 	if (synth_mods != modifiers) {
+- 		spi_dec_plat_unlock_modifiers (controller, lock_mods);
+--		if (modifiers & LockMask)
+--			spi_dec_plat_lock_modifiers (controller, LockMask);
+-+		if (modifiers & SPI_KEYMASK_SHIFTLOCK)
+-+			spi_dec_plat_lock_modifiers (controller, SPI_KEYMASK_SHIFTLOCK);
+- 	}
+- 	return TRUE;
+- }
+--- 
+-GitLab
+-
+-- 
+2.27.0
+
+
+--===============3663723439167215808==--
 
