@@ -2,41 +2,40 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61249C3A59D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4569C48BCB
 	for <webhook@archiver.kernel.org>; Sun,  1 May 2022 19:49:12 +0000 (UTC)
 Received: from a27-33.smtp-out.us-west-2.amazonses.com
  (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web08.2321.1651434542273153462
+ by mx.groups.io with SMTP id smtpd.web10.2291.1651434545390972334
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 May 2022 12:49:04 -0700
+ Sun, 01 May 2022 12:49:05 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=PJPF6oB3;
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=9xSLbLl8;
  spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
- mailfrom: 01010180812b5b86-0a0740fa-15a6-4d3c-8621-b30effc0794b-000000@us-west-2.amazonses.com)
+ mailfrom: 01010180812b5cdd-2e15e5fc-38a6-4043-8f39-bd93c7cb138c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1651434544;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=9nNC+RsOmbZEmCSoaVhXci5Ze0/ZS6TPKwgIupoM2J4=;
-	b=PJPF6oB3+O11i9Zw4o1iIoFt6DGIoVWjdxRltp8vBCSB+INFidlruKhlXuIhweqJ
-	FIh2nTgiPmh2vb2vXrnCI9qKgF0CvvPUkpCpYG5bN9J2y7yO1GrOm50qOupktLMci9x
-	gm6eU4phzkyDZk6vwj0C+o3B/0hwjdPmFMKPeE3I=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=bP54iI6RrPjAc+P85/hbs2XIUYhmd4inN2sfN28zJcE=;
+	b=9xSLbLl8H8towxztZPhbUwnlY6SpoaaM0fKJJyHhCjH0paQQ71m829TwQvx1EByJ
+	2pInS/1zZJNL9Ro5NQdhwIAlHPTFlqR41FD0H3Cm19RMVelMqBqEZvwR6oRmilFgtAR
+	yiAZBrk2I4qXIR/1hieYby7C1X8yg2M5tBL5a2RI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1651434544;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=9nNC+RsOmbZEmCSoaVhXci5Ze0/ZS6TPKwgIupoM2J4=;
-	b=OdPRdgeIgRh5vQ4S9An0mVk1EDUGuUQ0nXcu5EKhmLLOftB6mjTpQzi1IU/5zVbD
-	Iko7fuRVuDIbVgCtwihsx03SX0M+KJqKpObImzKum6senKU6KTOu3PntzNagfa1tG3F
-	cvgg0pytQpXB5G6m4ezHG/IMrkGtPnmtZjtWiri4=
-Content-Type: multipart/mixed; boundary="===============2876323607363044445=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=bP54iI6RrPjAc+P85/hbs2XIUYhmd4inN2sfN28zJcE=;
+	b=aSAQzuAmkHcrxsY+kAY9VcpWwvFN+7OtnEEnTiWzrArMwVgacOMxCbCLiZzA4O0M
+	to6ncXhffuk6adMpjQVmzIXH3uIJwZG+/Rsk1pzcY748/l5c7sIWGAEwH3QJ4BYXTU7
+	TZLRt+73xELLRf5eEog+SLwuFWuZsyl5eA+N8CBM=
+Content-Type: multipart/mixed; boundary="===============8016343232062500381=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] lttng-tools: upgrading to 2.13.7 SUCCEEDED
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] libseccomp: upgrading to 2.5.4 SUCCEEDED
 Message-ID: 
- <01010180812b5b86-0a0740fa-15a6-4d3c-8621-b30effc0794b-000000@us-west-2.amazonses.com>
+ <01010180812b5cdd-2e15e5fc-38a6-4043-8f39-bd93c7cb138c-000000@us-west-2.amazonses.com>
 Date: Sun, 1 May 2022 19:49:04 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
@@ -46,9 +45,9 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 May 2022 19:49:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165138
+ https://lists.openembedded.org/g/openembedded-core/message/165159
 
---===============2876323607363044445==
+--===============8016343232062500381==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +55,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *lttng-tools* to *2.13.7* has Succeeded.
+that the automatic attempt to upgrade the recipe *libseccomp* to *2.5.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-lttng-tools-upgrade-2.13.4-2.13.7.patch
+    - apply the patch: git am 0001-libseccomp-upgrade-2.5.3-2.5.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,110 +74,107 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============2876323607363044445==
+--===============8016343232062500381==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-libseccomp-upgrade-2.5.3-2.5.4.patch"
+
+From 97529bf5fa86f3b3acbc29fbb94cf1bab18d0cd5 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sun, 1 May 2022 19:11:00 +0000
+Subject: [PATCH] libseccomp: upgrade 2.5.3 -> 2.5.4
+
+---
+ .../libseccomp/{libseccomp_2.5.3.bb => libseccomp_2.5.4.bb}   | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libseccomp/{libseccomp_2.5.3.bb => libseccomp_2.5.4.bb} (96%)
+
+diff --git a/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb b/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb
+similarity index 96%
+rename from meta/recipes-support/libseccomp/libseccomp_2.5.3.bb
+rename to meta/recipes-support/libseccomp/libseccomp_2.5.4.bb
+index e6260a7754..c76f3c3573 100644
+--- a/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb
++++ b/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;beginline=0;endline=1;md5=8eac08d22113880357c
+ 
+ DEPENDS += "gperf-native"
+ 
+-SRCREV = "57357d2741a3b3d3e8425889a6b79a130e0fa2f3"
++SRCREV = "f33f95014b36f97b42f0c2290e96d5c31647ed10"
+ 
+ SRC_URI = "git://github.com/seccomp/libseccomp.git;branch=release-2.5;protocol=https \
+            file://run-ptest \
+@@ -51,4 +51,4 @@ FILES:${PN}-dbg += "${libdir}/${PN}/tests/.debug/* ${libdir}/${PN}/tools/.debug"
+ 
+ RDEPENDS:${PN}-ptest = "coreutils bash"
+ 
+-PV = "2.5.3"
++PV = "2.5.4"
+-- 
+2.27.0
+
+
+--===============8016343232062500381==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: FILELIST: added "/usr/lib/lttng-tools/ptest/tests/regression/kernel/test_rotation_destroy_flush /usr/lib/lttng-tools/ptest/tests/regression/kernel/validate_select_poll_epoll.py /usr/lib/lttng-tools/ptest/tests/regression/ust/java-log4j2/Makefile /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_userspace_probe /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_select_poll_epoll /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_syscall /usr/lib/lttng-tools/ptest/tests/regression/ust/java-log4j2/test_agent_log4j2_domain_log4j"
+packages/core2-32-poky-linux/libseccomp/libseccomp-ptest: FILELIST: added "/usr/lib/libseccomp/ptest/tests/59-basic-empty_binary_tree.py /usr/lib/libseccomp/ptest/tests/59-basic-empty_binary_tree /usr/lib/libseccomp/ptest/tests/59-basic-empty_binary_tree.tests"
+packages/core2-32-poky-linux/libseccomp/libseccomp: FILELIST: removed "/usr/lib/libseccomp.so.2.5.3", added "/usr/lib/libseccomp.so.2.5.4"
+Changes to packages/core2-32-poky-linux/libseccomp (sysroot):
+  /usr/lib/libseccomp.so.2 changed symlink target from libseccomp.so.2.5.3 to libseccomp.so.2.5.4
+  /usr/lib/libseccomp.so changed symlink target from libseccomp.so.2.5.3 to libseccomp.so.2.5.4
+  /usr/lib/libseccomp.so.2.5.3 moved to /usr/lib/libseccomp.so.2.5.4
 
---===============2876323607363044445==
+--===============8016343232062500381==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/lttng-tools: PKGV changed from 2.13.4 [default] to 2.13.7 [default]
-packages/core2-32-poky-linux/lttng-tools: SRC_URI changed from "https://lttng.org/files/lttng-tools/lttng-tools-2.13.4.tar.bz2 file://0001-tests-do-not-strip-a-helper-library.patch file://run-ptest file://lttng-sessiond.service file://determinism.patch file://disable-tests.patch" to "https://lttng.org/files/lttng-tools/lttng-tools-2.13.7.tar.bz2 file://0001-tests-do-not-strip-a-helper-library.patch file://run-ptest file://lttng-sessiond.service file://determinism.patch file://disable-tests.patch"
-packages/core2-32-poky-linux/lttng-tools: PV changed from "2.13.4" to "2.13.7"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-dbg: PKGSIZE changed from 46424712 to 46828220 (+1%)
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-dbg: PKGV changed from 2.13.4 [default] to 2.13.7 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-dbg: PV changed from "2.13.4" to "2.13.7"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-dev: PKGSIZE changed from 240999 to 240994 (-0%)
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-dev: PKGV changed from 2.13.4 [default] to 2.13.7 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-dev: PV changed from "2.13.4" to "2.13.7"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-doc: PKGSIZE changed from 293053 to 297234 (+1%)
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-doc: PKGV changed from 2.13.4 [default] to 2.13.7 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-doc: PV changed from "2.13.4" to "2.13.7"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-locale: PKGV changed from 2.13.4 [default] to 2.13.7 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-locale: PV changed from "2.13.4" to "2.13.7"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: PKGSIZE changed from 16038911 to 16307128 (+2%)
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: PKGV changed from 2.13.4 [default] to 2.13.7 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: FILELIST: added "/usr/lib/lttng-tools/ptest/tests/regression/kernel/test_select_poll_epoll /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_userspace_probe /usr/lib/lttng-tools/ptest/tests/regression/ust/java-log4j2/test_agent_log4j2_domain_log4j /usr/lib/lttng-tools/ptest/tests/regression/kernel/validate_select_poll_epoll.py /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_rotation_destroy_flush /usr/lib/lttng-tools/ptest/tests/regression/kernel/test_syscall /usr/lib/lttng-tools/ptest/tests/regression/ust/java-log4j2/Makefile"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-ptest: PV changed from "2.13.4" to "2.13.7"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-src: PKGSIZE changed from 5848449 to 5920515 (+1%)
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-src: PKGV changed from 2.13.4 [default] to 2.13.7 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-src: FILELIST: directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/utils/testapp, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/unit -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/unit, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/filter -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/filter, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/overlap/demo -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/ust/overlap/demo, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-syscall-events -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/utils/testapp/gen-syscall-events, directory rename
- d /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/bin/lttng/commands -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/bin/lttng/commands, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/utils, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/type-declarations -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/ust/type-declarations, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/filtering -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/tools/filtering, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/bin/lttng-crash -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/bin/lttng-crash, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/even
- t-expr -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/event-expr, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/include/lttng/condition -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/include/lttng/condition, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/bytecode -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/bytecode, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-ns-events -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/utils/testapp/gen-ns-events, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/vendor/msgpack -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/vendor/msgpack, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/getcpu-override -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/re
- gression/ust/getcpu-override, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/hashtable -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/hashtable, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/low-throughput -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/ust/high-throughput, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/userspace-probe-elf-cxx-binary -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/utils/testapp/userspace-probe-elf-cxx-binary, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/notification -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/tools/notification, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/testpoint -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-t
- ools-2.13.7/src/common/testpoint, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/lib/lttng-ctl -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/lib/lttng-ctl, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/actions -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/actions, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/fd-tracker -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/fd-tracker, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/relayd -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/relayd, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/include/lttng/notification -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/include/lttng/notification, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regre
- ssion/tools/health -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/tools/health, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/trigger/name -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/tools/trigger/name, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/fork -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/ust/fork, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/multi-session -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/ust/multi-session, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/sessiond-comm -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/sessiond-comm, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-syscall-ev
- ents-callstack -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/utils/testapp/gen-syscall-events-callstack, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/bin/lttng-consumerd -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/bin/lttng-consumerd, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/kernel-ctl -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/kernel-ctl, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/unit/ini_config -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/unit/ini_config, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/event-rule -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/event-rule, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/compat -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/co
- mmon/compat, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/health -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/health, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/live -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/tools/live, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/include/lttng/trigger -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/include/lttng/trigger, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/xml-utils -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/utils/xml-utils, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/argpar-utils -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/argpar-utils, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/
- testapp/gen-ust-nevents-str -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/utils/testapp/gen-ust-nevents-str, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/multi-lib -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/ust/multi-lib, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-ust-events-ns -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/utils/testapp/gen-ust-events-ns, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/bin/lttng-sessiond -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/bin/lttng-sessiond, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/include/lttng/event-rule -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/include/lttng/event-rule, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/config -> /usr
- /src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/config, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/clock-override -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/ust/clock-override, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/daemon -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/ust/daemon, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/baddr-statedump -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/ust/baddr-statedump, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/high-throughput -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/ust/low-throughput, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/rotation -> /usr/s
- rc/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/tools/rotation, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/exit-fast -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/ust/exit-fast, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/consumer -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/consumer, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/libc-wrapper -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/ust/libc-wrapper, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/ust/linking -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/ust/linking, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-ust-tracef -> /usr/src/debug/lttng-tools/2.13.7-r0/l
- ttng-tools-2.13.7/tests/utils/testapp/gen-ust-tracef, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/conditions -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/conditions, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/kernel -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/kernel, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/argpar -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/argpar, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/include/lttng -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/include/lttng, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/index -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/index, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/reg
- ression/ust/ust-dl -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/ust/ust-dl, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/userspace-probe-elf-binary -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/utils/testapp/userspace-probe-elf-binary, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/bin/lttng -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/bin/lttng, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/include/lttng/action -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/include/lttng/action, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/ust-consumer -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/ust-consumer, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-ust-nevents -> /usr/src/debug/lttng-tools/2.
- 13.7-r0/lttng-tools-2.13.7/tests/utils/testapp/gen-ust-nevents, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-ust-events -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/utils/testapp/gen-ust-events, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/trigger/utils -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/regression/tools/trigger/utils, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/kernel-consumer -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/kernel-consumer, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/tap -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/utils/tap, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/regression/tools/trigger/hidden -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.1
- 3.7/tests/regression/tools/trigger/hidden, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/string-utils -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/string-utils, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/tests/utils/testapp/gen-kernel-test-events -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/tests/utils/testapp/gen-kernel-test-events, directory renamed /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/bin/lttng-relayd -> /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/bin/lttng-relayd, removed "/usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/context.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/pipe.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/credentials.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/dynamic-array.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.1
- 3.4/src/common/location.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/session-descriptor.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/runas.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/buffer-view.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/event-field-value.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/payload.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/dynamic-array.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/futex.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/thread.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/trace-chunk.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/endpoint.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/macros.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/tracker.h /usr/src/debug/lt
- tng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/defaults.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/mi-lttng.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/shm.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/lttng-kernel.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/thread.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/trace-chunk.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/utils.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/uuid.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/unix.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/lttng-kernel-old.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/shm.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/uuid.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/index-allocator.c /usr/
- src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/event.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/payload-view.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/domain.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/log-level-rule.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/snapshot.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/kernel-probe.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/spawn-viewer.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/lttng-elf.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/evaluation.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/futex.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/snapshot.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/trace-chunk-registry.h /usr/src/debug/lttng-tools/2.13.4-r0/lttn
- g-tools-2.13.4/src/common/filter.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/uri.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/daemonize.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/runas.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/waiter.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/time.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/mi-lttng.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/context.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/notification.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/spawn-viewer.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/path.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/uri.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/fs-handle-internal.h /usr/src/debug/lttng-tools/2.13
- .4-r0/lttng-tools-2.13.4/src/common/payload.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/error-query.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/buffer-view.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/fd-handle.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/pipe.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/filter.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/waiter.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/tracker.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/trigger.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/unix.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/daemonize.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/defaults.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/fs-handle.h /usr/src/debug/lttng
- -tools/2.13.4-r0/lttng-tools-2.13.4/src/common/fs-handle.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/error.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/error.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/dynamic-buffer.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/fd-handle.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/lttng-elf.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/payload-view.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/time.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/readwrite.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/readwrite.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/dynamic-buffer.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/userspace-probe.c /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/com
- mon/index-allocator.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/credentials.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/path.h /usr/src/debug/lttng-tools/2.13.4-r0/lttng-tools-2.13.4/src/common/utils.h", added "/usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/futex.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/credentials.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/waiter.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/uri.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/shm.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/readwrite.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/defaults.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/utils.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/dynamic-buffer.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng
- -tools-2.13.7/src/common/fd-handle.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/index-allocator.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/tracker.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/uri.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/dynamic-array.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/userspace-probe.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/waiter.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/utils.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/lttng-elf.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/location.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/lttng-kernel-old.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/thread.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/credentials.h /usr/s
- rc/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/error-query.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/snapshot.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/buffer-view.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/path.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/kernel-probe.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/thread.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/evaluation.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/mi-lttng.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/lttng-kernel.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/fs-handle.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/log-level-rule.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/context.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.
- 13.7/src/common/context.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/payload.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/uuid.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/daemonize.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/channel.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/spawn-viewer.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/domain.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/time.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/defaults.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/shm.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/pipe.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/trace-chunk.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/notification.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-t
- ools-2.13.7/src/common/readwrite.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/uuid.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/payload-view.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/path.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/payload.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/macros.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/event.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/fs-handle-internal.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/tracker.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/lttng-elf.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/dynamic-array.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/event-field-value.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/snapshot.h /usr/src/deb
- ug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/trigger.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/futex.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/pipe.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/runas.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/runas.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/error.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/fs-handle.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/trace-chunk-registry.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/session-descriptor.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/fd-handle.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/buffer-view.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/time.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/
- unix.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/filter.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/daemonize.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/error.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/payload-view.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/mi-lttng.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/dynamic-buffer.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/spawn-viewer.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/unix.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/filter.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/trace-chunk.h /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/index-allocator.c /usr/src/debug/lttng-tools/2.13.7-r0/lttng-tools-2.13.7/src/common/endpoint.c"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-src: PV changed from "2.13.4" to "2.13.7"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-staticdev: PKGV changed from 2.13.4 [default] to 2.13.7 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools-staticdev: PV changed from "2.13.4" to "2.13.7"
-packages/core2-32-poky-linux/lttng-tools/lttng-tools: PKGSIZE changed from 5582269 to 5619133 (+1%)
-packages/core2-32-poky-linux/lttng-tools/lttng-tools: PKGV changed from 2.13.4 [default] to 2.13.7 [default]
-packages/core2-32-poky-linux/lttng-tools/lttng-tools: PV changed from "2.13.4" to "2.13.7"
+packages/core2-32-poky-linux/libseccomp: PV changed from "2.5.3" to "2.5.4"
+packages/core2-32-poky-linux/libseccomp: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/core2-32-poky-linux/libseccomp/libseccomp-dbg: PV changed from "2.5.3" to "2.5.4"
+packages/core2-32-poky-linux/libseccomp/libseccomp-dbg: FILELIST: removed "/usr/lib/.debug/libseccomp.so.2.5.3", added "/usr/lib/.debug/libseccomp.so.2.5.4 /usr/lib/libseccomp/ptest/tests/.debug/59-basic-empty_binary_tree"
+packages/core2-32-poky-linux/libseccomp/libseccomp-dbg: PKGSIZE changed from 21679156 to 22080556 (+2%)
+packages/core2-32-poky-linux/libseccomp/libseccomp-dbg: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/core2-32-poky-linux/libseccomp/libseccomp-dev: PV changed from "2.5.3" to "2.5.4"
+packages/core2-32-poky-linux/libseccomp/libseccomp-dev: PKGSIZE changed from 76752 to 76865 (+0%)
+packages/core2-32-poky-linux/libseccomp/libseccomp-dev: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/core2-32-poky-linux/libseccomp/libseccomp-doc: PV changed from "2.5.3" to "2.5.4"
+packages/core2-32-poky-linux/libseccomp/libseccomp-doc: PKGSIZE changed from 70991 to 70963 (-0%)
+packages/core2-32-poky-linux/libseccomp/libseccomp-doc: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/core2-32-poky-linux/libseccomp/libseccomp-locale: PV changed from "2.5.3" to "2.5.4"
+packages/core2-32-poky-linux/libseccomp/libseccomp-locale: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/core2-32-poky-linux/libseccomp/libseccomp-ptest: PV changed from "2.5.3" to "2.5.4"
+packages/core2-32-poky-linux/libseccomp/libseccomp-ptest: FILELIST: added "/usr/lib/libseccomp/ptest/tests/59-basic-empty_binary_tree /usr/lib/libseccomp/ptest/tests/59-basic-empty_binary_tree.py /usr/lib/libseccomp/ptest/tests/59-basic-empty_binary_tree.tests"
+packages/core2-32-poky-linux/libseccomp/libseccomp-ptest: PKGSIZE changed from 8160793 to 8294936 (+2%)
+packages/core2-32-poky-linux/libseccomp/libseccomp-ptest: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/core2-32-poky-linux/libseccomp/libseccomp-src: PV changed from "2.5.3" to "2.5.4"
+packages/core2-32-poky-linux/libseccomp/libseccomp-src: FILELIST: directory renamed /usr/src/debug/libseccomp/2.5.3-r0/git/src -> /usr/src/debug/libseccomp/2.5.4-r0/git/src, directory renamed /usr/src/debug/libseccomp/2.5.3-r0/git/tools -> /usr/src/debug/libseccomp/2.5.4-r0/git/tools, directory renamed /usr/src/debug/libseccomp/2.5.3-r0/git/include -> /usr/src/debug/libseccomp/2.5.4-r0/git/include, removed "/usr/src/debug/libseccomp/2.5.3-r0/git/tests/10-sim-syscall_priority_post.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/30-sim-socket_syscalls.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/04-sim-multilevel_chains.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/19-sim-missing_syscalls.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/47-live-kill_process.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/56-basic-iterate_syscalls.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/15-basic-resolver.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/08-sim-subtree_checks.c /usr/src/debug/libsecco
+ mp/2.5.3-r0/git/tests/05-sim-long_jumps.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/27-sim-bpf_blk_state.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/42-sim-adv_chains.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/31-basic-version_check.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/39-basic-api_level.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/49-sim-64b_comparisons.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/46-sim-kill_process.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/01-sim-allow.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/20-live-basic_die.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/22-sim-basic_chains_array.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/12-sim-basic_masked_ops.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/32-live-tsync_allow.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/35-sim-negative_one.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/58-live-tsync_notify.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/miniseq.c /usr/src/debug/libsecco
+ mp/2.5.3-r0/git/tests/11-basic-basic_errors.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/41-sim-syscall_priority_arch.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/37-sim-ipc_syscalls_be.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/48-sim-32b_args.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/51-live-user_notification.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/util.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/44-live-a2_order.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/09-sim-syscall_priority_pre.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/17-sim-arch_merge.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/16-sim-arch_basic.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/24-live-arg_allow.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/40-sim-log.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/13-basic-attrs.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/26-sim-arch_all_be_basic.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/53-sim-binary_tree.c /usr/src/debug/libseccomp
+ /2.5.3-r0/git/tests/34-sim-basic_denylist.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/02-sim-basic.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/06-sim-actions.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/38-basic-pfc_coverage.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/50-sim-hash_collision.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/43-sim-a2_order.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/07-sim-db_bug_looping.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/52-basic-load.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/28-sim-arch_x86.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/23-sim-arch_all_le_basic.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/03-sim-basic_chains.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/29-sim-pseudo_syscall.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/18-sim-basic_allowlist.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/25-sim-multilevel_chains_adv.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/54-live-binary_tree.c /usr/src/debug/l
+ ibseccomp/2.5.3-r0/git/tests/21-live-basic_allow.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/57-basic-rawsysrc.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/util.h /usr/src/debug/libseccomp/2.5.3-r0/git/tests/36-sim-ipc_syscalls.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/55-basic-pfc_binary_tree.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/33-sim-socket_syscalls_be.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/45-sim-chain_code_coverage.c /usr/src/debug/libseccomp/2.5.3-r0/git/tests/14-sim-reset.c", added "/usr/src/debug/libseccomp/2.5.4-r0/git/tests/37-sim-ipc_syscalls_be.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/14-sim-reset.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/08-sim-subtree_checks.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/32-live-tsync_allow.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/53-sim-binary_tree.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/49-sim-64b_comparisons.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/46-sim-kill_process.c /usr/
+ src/debug/libseccomp/2.5.4-r0/git/tests/12-sim-basic_masked_ops.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/44-live-a2_order.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/34-sim-basic_denylist.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/39-basic-api_level.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/56-basic-iterate_syscalls.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/54-live-binary_tree.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/util.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/22-sim-basic_chains_array.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/31-basic-version_check.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/miniseq.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/30-sim-socket_syscalls.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/23-sim-arch_all_le_basic.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/09-sim-syscall_priority_pre.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/55-basic-pfc_binary_tree.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/util.h /
+ usr/src/debug/libseccomp/2.5.4-r0/git/tests/41-sim-syscall_priority_arch.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/43-sim-a2_order.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/50-sim-hash_collision.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/07-sim-db_bug_looping.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/15-basic-resolver.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/03-sim-basic_chains.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/48-sim-32b_args.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/05-sim-long_jumps.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/29-sim-pseudo_syscall.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/42-sim-adv_chains.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/02-sim-basic.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/17-sim-arch_merge.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/21-live-basic_allow.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/10-sim-syscall_priority_post.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/24-live-arg_al
+ low.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/35-sim-negative_one.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/36-sim-ipc_syscalls.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/28-sim-arch_x86.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/47-live-kill_process.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/38-basic-pfc_coverage.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/52-basic-load.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/57-basic-rawsysrc.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/11-basic-basic_errors.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/25-sim-multilevel_chains_adv.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/26-sim-arch_all_be_basic.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/58-live-tsync_notify.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/18-sim-basic_allowlist.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/59-basic-empty_binary_tree.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/16-sim-arch_basic.c /usr/src/debug/libseccomp/2.5.4-r0/gi
+ t/tests/01-sim-allow.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/45-sim-chain_code_coverage.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/06-sim-actions.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/13-basic-attrs.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/33-sim-socket_syscalls_be.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/40-sim-log.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/04-sim-multilevel_chains.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/19-sim-missing_syscalls.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/27-sim-bpf_blk_state.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/20-live-basic_die.c /usr/src/debug/libseccomp/2.5.4-r0/git/tests/51-live-user_notification.c"
+packages/core2-32-poky-linux/libseccomp/libseccomp-src: PKGSIZE changed from 539108 to 540637 (+0%)
+packages/core2-32-poky-linux/libseccomp/libseccomp-src: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/core2-32-poky-linux/libseccomp/libseccomp-staticdev: PV changed from "2.5.3" to "2.5.4"
+packages/core2-32-poky-linux/libseccomp/libseccomp-staticdev: PKGSIZE changed from 474798 to 475502 (+0%)
+packages/core2-32-poky-linux/libseccomp/libseccomp-staticdev: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/core2-32-poky-linux/libseccomp/libseccomp: PV changed from "2.5.3" to "2.5.4"
+packages/core2-32-poky-linux/libseccomp/libseccomp: FILELIST: removed "/usr/lib/libseccomp.so.2.5.3", added "/usr/lib/libseccomp.so.2.5.4"
+packages/core2-32-poky-linux/libseccomp/libseccomp: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+Changes to packages/core2-32-poky-linux/libseccomp (sysroot):
+  /usr/lib/libseccomp.so.2 changed symlink target from libseccomp.so.2.5.3 to libseccomp.so.2.5.4
+  /usr/lib/libseccomp.so changed symlink target from libseccomp.so.2.5.3 to libseccomp.so.2.5.4
+  /usr/lib/libseccomp.so.2.5.3 moved to /usr/lib/libseccomp.so.2.5.4
 
---===============2876323607363044445==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-lttng-tools-upgrade-2.13.4-2.13.7.patch"
-
-From e77d440ca18f5679fe75fd39adc566a41ed4a05e Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 May 2022 16:03:19 +0000
-Subject: [PATCH] lttng-tools: upgrade 2.13.4 -> 2.13.7
-
----
- .../lttng/{lttng-tools_2.13.4.bb => lttng-tools_2.13.7.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/lttng/{lttng-tools_2.13.4.bb => lttng-tools_2.13.7.bb} (98%)
-
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb b/meta/recipes-kernel/lttng/lttng-tools_2.13.7.bb
-similarity index 98%
-rename from meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb
-rename to meta/recipes-kernel/lttng/lttng-tools_2.13.7.bb
-index 0ea4da05ce..0fa85679f4 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.13.7.bb
-@@ -39,7 +39,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
-            file://disable-tests.patch \
-            "
- 
--SRC_URI[sha256sum] = "565f3102410a53d484f4c8ff517978f1dc59f67f9d16f872f4357f3ca12200f6"
-+SRC_URI[sha256sum] = "d17a02e8f178a7cf3403e3c9edfb90ad3a1628e20aa0b5131408ae47f722f08d"
- 
- inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
- 
--- 
-2.27.0
-
-
---===============2876323607363044445==--
+--===============8016343232062500381==--
 
