@@ -2,41 +2,41 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBC16C47094
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5297C4743C
 	for <webhook@archiver.kernel.org>; Sun,  1 May 2022 19:49:12 +0000 (UTC)
 Received: from a27-193.smtp-out.us-west-2.amazonses.com
  (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web12.2225.1651434544792680663
+ by mx.groups.io with SMTP id smtpd.web11.2283.1651434542082268542
  for <openembedded-core@lists.openembedded.org>;
  Sun, 01 May 2022 12:49:04 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fAwtompc;
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Tl3MGVlb;
  spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
- mailfrom: 01010180812b5c18-caa99a70-493b-40b3-913e-20b1f4440eee-000000@us-west-2.amazonses.com)
+ mailfrom: 01010180812b5c1b-81ed257c-4bf4-4733-a8bb-22b1bc0b7d16-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1651434544;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Y9jXkxTWUwgv/CefziZ6/Ppfoqqd/ZkqT1Gd49SZZIM=;
-	b=fAwtompcR4N1/6oT7ZVOe+S8u1SKnrSbdntSrSQeOIFIUqqx9Qv0/mH4RN+WCkA/
-	RvgeaGe544DuQEo7XjfwiBxvTkOCaE8qXrd7XQoMVO05Q7fRy/mBbpSOU5wvGYXHIov
-	tJuwksSFyGkK4KKL6piXlwgUCHvCzVeZq17Oj2hg=
+	bh=3dZl1iUhW+3H+DszweDAqcSsuMUN0otMm/k0s2lRC5s=;
+	b=Tl3MGVlbw49cKo9uc08gCuwZkg/BJflef6wng6CoU0XXnfpbo4WQIpnf0cba1lhz
+	8QXzB1NwcA4atocHqiMd/2MVVAhKGxGCRfdHPsU8faqJIs6mrKLzCQDgs4PgX0K31hM
+	ZMTm6D+HVfhAjO83xw1vYREmaMRDrKITh4VyLr1A=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1651434544;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Y9jXkxTWUwgv/CefziZ6/Ppfoqqd/ZkqT1Gd49SZZIM=;
-	b=MFasFgrad2ZiLAGmd73oM/+bD6PG7LiuIQ5MTlOdvB425wOP/g3mTi4As8XRMUoo
-	Sk1XzngQ+mZAWN7RzxuiuTs6Ge4bIsLbHb+JBk57/LMj4dP2SMYf43b7adKjNu0GZzF
-	+3b51saS/5tEzBuC/DY/cXlUdrdw0gURyjlwip3k=
-Content-Type: multipart/mixed; boundary="===============3663723439167215808=="
+	bh=3dZl1iUhW+3H+DszweDAqcSsuMUN0otMm/k0s2lRC5s=;
+	b=RUsyOHPe/ko8NV58jEE4FYOfk+XILG3PTcljPgmokX42DvZvsmGKlD/eZ0lPSl0M
+	OcmdZYScXZnqeI6usVAdDDj576sMeK7GovbD1WSsuopw3Fv66+2Y1lAy+BL3R/0vUNQ
+	9+m7HLkhr4LJIzkKZJDc+IAibf3JlxkU4mK2sB9Y=
+Content-Type: multipart/mixed; boundary="===============1474721083591084498=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] at-spi2-core: upgrading to 2.44.1 SUCCEEDED
+Subject: [AUH] webkitgtk: upgrading to 2.36.1 SUCCEEDED
 Message-ID: 
- <01010180812b5c18-caa99a70-493b-40b3-913e-20b1f4440eee-000000@us-west-2.amazonses.com>
+ <01010180812b5c1b-81ed257c-4bf4-4733-a8bb-22b1bc0b7d16-000000@us-west-2.amazonses.com>
 Date: Sun, 1 May 2022 19:49:04 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
@@ -46,9 +46,9 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 May 2022 19:49:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165156
+ https://lists.openembedded.org/g/openembedded-core/message/165153
 
---===============3663723439167215808==
+--===============1474721083591084498==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *at-spi2-core* to *2.44.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *webkitgtk* to *2.36.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-at-spi2-core-upgrade-2.44.0-2.44.1.patch
+    - apply the patch: git am 0001-webkitgtk-upgrade-2.36.0-2.36.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,12 +75,836 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3663723439167215808==
+--===============1474721083591084498==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 884 .bb files complete (0 cached, 884 parsed). 1643 targets, 50 skipped, 0 masked, 0 errors.
+Removing 113 recipes from the core2-32 sysroot...done.
+Removing 113 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux-musl"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-22a3a95bf8ff148ed1af887aeb8ea59627116dac"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:22a3a95bf8ff148ed1af887aeb8ea59627116dac"
+workspace            = "master:9e556960421c8bbe8851d9810352a5b4bd3b50df"
+
+Initialising tasks...done.
+Sstate summary: Wanted 463 Local 452 Mirrors 0 Missed 11 Current 212 (97% match, 98% complete)
+Removing 2 stale sstate objects for arch x86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 213 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 216 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 222 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.33.bb:do_packagedata_setscene)
+NOTE: Running setscene task 223 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 224 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 225 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 226 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 227 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.2.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 230 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.33.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 231 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 232 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libsecret/libsecret_0.20.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 233 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 234 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 235 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/webp/libwebp_1.2.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 237 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.12.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 238 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/wpebackend-fdo_1.12.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 239 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.3.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 240 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/enchant/enchant2_2.3.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 241 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/libtasn1_4.18.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 242 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/libtasn1_4.18.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 243 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 244 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 245 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libxslt/libxslt_1.1.35.bb:do_packagedata_setscene)
+NOTE: Running setscene task 246 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libxslt/libxslt_1.1.35.bb:do_populate_sysroot_setscene)
+NOTE: Running task 919 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_fetch)
+NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-passwd-3.5.29-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnotify-0.7.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsecret-0.20.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libwebp-1.2.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe gtk+3-3.24.33-r0: task do_packagedata_setscene: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnotify-0.7.9-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gtk+3-3.24.33-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libsecret-0.20.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libwebp-1.2.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe wpebackend-fdo-1.12.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe wpebackend-fdo-1.12.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe enchant2-2.3.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe enchant2-2.3.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtasn1-4.18.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtasn1-4.18.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libsoup-2.4-2.74.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxslt-1.1.35-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxslt-1.1.35-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libsoup-2.4-2.74.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_fetch: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_fetch: Succeeded
+NOTE: Running task 976 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_unpack)
+NOTE: recipe libwebp-1.2.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/libnotify/0.7.9-r0/temp/log.do_packagedata_setscene.1709500
+NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Succeeded
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 257 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_package_setscene)
+NOTE: recipe wpebackend-fdo-1.12.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe enchant2-2.3.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-passwd-3.5.29-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtasn1-4.18.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnotify-0.7.9-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libsecret-0.20.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe enchant2-2.3.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxslt-1.1.35-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libwebp-1.2.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtasn1-4.18.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_unpack: Started
+NOTE: recipe wpebackend-fdo-1.12.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxslt-1.1.35-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libsoup-2.4-2.74.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gtk+3-3.24.33-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libsecret-0.20.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 262 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 263 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/vala/vala_0.56.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 266 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.12.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 267 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/libwpe_1.12.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 270 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 271 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/aspell/aspell_0.60.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 275 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 276 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libsoup-2.4-2.74.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 280 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 281 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 284 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_packagedata_setscene)
+NOTE: Running setscene task 285 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 286 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 287 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 288 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 289 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 291 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 292 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 293 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 294 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 295 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 296 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe vala-0.56.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe vala-0.56.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libwpe-1.12.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libwpe-1.12.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe aspell-0.60.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe aspell-0.60.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpsl-0.21.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpsl-0.21.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe orc-0.4.32-r0: task do_packagedata_setscene: Started
+NOTE: recipe orc-0.4.32-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxv-1.0.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxv-1.0.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe alsa-lib-1.2.6.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe alsa-lib-1.2.6.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot_setscene: Started
+NOTE: recipe gstreamer1.0-1.20.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtheora-1.1.1-r1: task do_packagedata_setscene: Started
+NOTE: recipe gstreamer1.0-1.20.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe vala-0.56.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libwpe-1.12.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 300 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.64.bb:do_packagedata_setscene)
+NOTE: Running setscene task 301 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.45.bb:do_packagedata_setscene)
+NOTE: recipe libwpe-1.12.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libgcrypt-1.10.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpsl-0.21.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe aspell-0.60.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gtk+3-3.24.33-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 303 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.64.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 305 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.45.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxv-1.0.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 308 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 309 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.9.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 310 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 311 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 312 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 313 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 314 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 315 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 316 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 317 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 318 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 319 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe orc-0.4.32-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe alsa-lib-1.2.6.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtheora-1.1.1-r1: task do_packagedata_setscene: Succeeded
+NOTE: recipe vala-0.56.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpsl-0.21.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe orc-0.4.32-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libcap-2.64-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgpg-error-1.45-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libcap-2.64-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe alsa-lib-1.2.6.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gstreamer1.0-1.20.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 331 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_packagedata_setscene)
+NOTE: recipe libxv-1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 332 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe libepoxy-1.5.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgpg-error-1.45-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxcomposite-1_0.4.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcomposite-1_0.4.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe pango-1.50.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libepoxy-1.5.9-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe aspell-0.60.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxkbcommon-1.4.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxkbcommon-1.4.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe at-spi2-atk-2.38.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe at-spi2-atk-2.38.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe pango-1.50.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-2.64-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-2.64-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libepoxy-1.5.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gstreamer1.0-1.20.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxcomposite-1_0.4.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgpg-error-1.45-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxkbcommon-1.4.0-r0: task do_packagedata_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/pango/1.50.6-r0/temp/log.do_packagedata_setscene.1712810
+NOTE: recipe libxcomposite-1_0.4.5-r0: task do_populate_sysroot_setscene: Succeeded
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 345 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_package_setscene)
+NOTE: Running setscene task 346 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.35.1.bb:do_packagedata_setscene)
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe at-spi2-atk-2.38.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 350 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.44.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 351 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.38.0.bb:do_packagedata_setscene)
+NOTE: recipe libgpg-error-1.45-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxkbcommon-1.4.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libogg-1.3.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libepoxy-1.5.9-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe at-spi2-atk-2.38.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 355 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.35.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 359 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.44.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 360 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/atk_2.38.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe pango-1.50.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xkeyboard-config-2.35.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe at-spi2-core-2.44.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe atk-2.38.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe xkeyboard-config-2.35.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe at-spi2-core-2.44.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe atk-2.38.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe atk-2.38.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe at-spi2-core-2.44.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xkeyboard-config-2.35.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xkeyboard-config-2.35.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnotify-0.7.9-r0: task do_package_setscene: Started
+NOTE: recipe pango-1.50.6-r0: task do_package_setscene: Started
+NOTE: recipe at-spi2-core-2.44.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 365 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 366 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxtst-1_1.2.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxtst-1_1.2.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe atk-2.38.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnotify-0.7.9-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 370 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 371 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 372 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 373 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.8.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxtst-1_1.2.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 376 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.bb:do_packagedata_setscene)
+NOTE: recipe libxtst-1_1.2.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 377 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.bb:do_populate_sysroot_setscene)
+NOTE: recipe dbus-1.14.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe dbus-1.14.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxi-1_1.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe pango-1.50.6-r0: task do_package_setscene: Succeeded
+NOTE: recipe libxi-1_1.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 379 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 380 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 382 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 383 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 384 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 385 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.11.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxi-1_1.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxft-1_2.3.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxft-1_2.3.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe dbus-1.14.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe harfbuzz-4.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe harfbuzz-4.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 390 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb:do_packagedata_setscene)
+NOTE: recipe fribidi-1.0.11-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 391 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 392 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.11.1.bb:do_packagedata_setscene)
+NOTE: recipe fribidi-1.0.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxi-1_1.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe dbus-1.14.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 395 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 397 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 398 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.11.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Started
+NOTE: recipe base-passwd-3.5.29-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-4.11.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxft-1_2.3.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe fribidi-1.0.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe harfbuzz-4.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 402 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 403 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_71.1.bb:do_packagedata_setscene)
+NOTE: recipe fribidi-1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe harfbuzz-4.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxft-1_2.3.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe shadow-4.11.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 405 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 407 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_71.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-passwd-3.5.29-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running task 1161 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
+NOTE: recipe cairo-1.16.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe icu-71.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe icu-71.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_fetch: Started
+NOTE: recipe shadow-4.11.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_fetch: Succeeded
+NOTE: Running task 1173 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
+NOTE: Running task 1174 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
+NOTE: recipe cairo-1.16.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe shadow-4.11.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 416 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 417 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 418 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 419 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 420 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 421 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe icu-71.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_unpack: Started
+NOTE: recipe base-files-3.0.14-r89: task do_prepare_recipe_sysroot: Started
+NOTE: recipe base-files-3.0.14-r89: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 424 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 425 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 426 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 427 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_unpack: Succeeded
+NOTE: recipe gdk-pixbuf-2.42.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 430 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 431 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 432 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 433 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 434 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 435 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1188 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_patch)
+NOTE: recipe pixman-1_0.40.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe icu-71.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe fontconfig-2.14.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe mesa-2_22.0.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libsm-1_1.2.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe fontconfig-2.14.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libsm-1_1.2.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe pixman-1_0.40.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libjpeg-turbo-1_2.1.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe mesa-2_22.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libjpeg-turbo-1_2.1.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_unpack: Succeeded
+NOTE: recipe shared-mime-info-2.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shared-mime-info-2.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_patch: Started
+NOTE: Running task 1193 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
+NOTE: recipe pixman-1_0.40.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe fontconfig-2.14.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 439 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.12.0.bb:do_packagedata_setscene)
+NOTE: recipe libsm-1_1.2.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 441 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_packagedata_setscene)
+NOTE: recipe attr-2.5.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_patch: Started
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe fontconfig-2.14.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe freetype-2.12.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe pixman-1_0.40.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 445 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.12.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libjpeg-turbo-1_2.1.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 448 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_populate_sysroot_setscene)
+NOTE: recipe libice-1_1.0.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe mesa-2_22.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 452 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.110.bb:do_packagedata_setscene)
+NOTE: Running setscene task 453 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 454 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 455 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 456 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 457 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb:do_packagedata_setscene)
+NOTE: recipe libjpeg-turbo-1_2.1.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe mesa-2_22.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 459 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.110.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 462 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 463 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 464 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 465 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 466 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe base-files-3.0.14-r89: task do_patch: Succeeded
+NOTE: recipe freetype-2.12.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shared-mime-info-2.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1227 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
+NOTE: recipe libice-1_1.0.10-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe freetype-2.12.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xrandr-1_1.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libdrm-2.4.110-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdamage-1_1.1.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe wayland-1.20.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxshmfence-1.3-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 468 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_packagedata_setscene)
+NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe xrandr-1_1.5.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdamage-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libdrm-2.4.110-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe wayland-1.20.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxshmfence-1.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libice-1_1.0.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_configure: Started
+NOTE: recipe libpng-1.6.37-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_configure: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_patch: Succeeded
+NOTE: recipe freetype-2.12.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1228 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxdamage-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 471 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 473 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_packagedata_setscene)
+NOTE: Running task 1233 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
+NOTE: recipe wayland-1.20.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xrandr-1_1.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 476 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.4.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 478 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.2.bb:do_packagedata_setscene)
+NOTE: Running task 1234 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_generate_toolchain_file)
+NOTE: Running task 1235 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_populate_lic)
+NOTE: recipe libice-1_1.0.10-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libdrm-2.4.110-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 482 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb:do_packagedata_setscene)
+NOTE: recipe xrandr-1_1.5.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe shared-mime-info-2.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 485 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe wayland-1.20.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libdrm-2.4.110-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 486 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.4.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 488 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_package_setscene)
+NOTE: recipe libxdamage-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 490 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 493 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpng-1.6.37-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.4.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe base-files-3.0.14-r89: task do_compile: Started
+NOTE: recipe libxrandr-1_1.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_lic: Started
+NOTE: recipe libpciaccess-0.16-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_compile: Succeeded
+NOTE: recipe libpciaccess-0.16-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe expat-2.4.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1266 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe shared-mime-info-2.2-r0: task do_package_setscene: Started
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpciaccess-0.16-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 497 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 498 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.10.bb:do_packagedata_setscene)
+NOTE: recipe expat-2.4.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_lic: Succeeded
+NOTE: recipe libxrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 502 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 504 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.10.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpciaccess-0.16-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_populate_lic unihash changed to f9e77c7bebefbf38f9b948dfd79bbdee56c4307c38a04a518ca2cf655533b7fb
+NOTE: recipe expat-2.4.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrender-1_0.9.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxext-1_1.3.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrender-1_0.9.10-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrender-1_0.9.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 510 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.5.bb:do_packagedata_setscene)
+NOTE: recipe libxext-1_1.3.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.10-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 512 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.7.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe libx11-1_1.7.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: Running task 1296 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe libx11-1_1.7.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libx11-1_1.7.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 515 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_packagedata_setscene)
+NOTE: Running setscene task 516 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_packagedata_setscene)
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe shared-mime-info-2.2-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 517 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 518 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 519 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.13.bb:do_packagedata_setscene)
+NOTE: Running setscene task 520 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.13.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 521 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxcb-1.14-r0: task do_packagedata_setscene: Started
+NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libx11-1_1.7.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 523 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 524 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe shared-mime-info-2.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxml2-2.9.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxml2-2.9.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe glib-2.0-1_2.72.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.72.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxcb-1.14-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe shared-mime-info-2.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxcb-1.14-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 527 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 528 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 529 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 530 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata_setscene)
+NOTE: recipe libxml2-2.9.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 532 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.4.bb:do_packagedata_setscene)
+NOTE: recipe libxml2-2.9.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 534 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxcb-1.14-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.72.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 536 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 537 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 539 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 540 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-3.10.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.10.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 544 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 545 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_packagedata_setscene)
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-macros-1_1.19.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2021.5-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 551 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2021.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 552 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe glib-2.0-1_2.72.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xorgproto-2021.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-macros-1_1.19.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 555 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.37.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 556 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.37.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 557 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_packagedata_setscene)
+NOTE: Running setscene task 558 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-macros-1_1.19.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xorgproto-2021.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-3.10.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpcre-8.45-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpcre-8.45-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.10.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-2.37.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-2.37.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 562 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 563 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 564 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 565 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 567 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 568 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 569 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 570 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 571 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: Running setscene task 572 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 573 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 574 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 575 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 576 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-macros-1_1.19.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xorgproto-2021.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe readline-8.1.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.0.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe readline-8.1.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.0.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.2.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.2.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.38.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sqlite3-3_3.38.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpcre-8.45-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpcre-8.45-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 580 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 581 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-linux-2.37.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 584 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb:do_packagedata_setscene)
+NOTE: recipe libffi-3.4.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe readline-8.1.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.38.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 588 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.2.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.38.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xz-5.2.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.0.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe readline-8.1.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe openssl-3.0.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtirpc-1.3.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: Running task 1392 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe util-linux-2.37.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 604 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 605 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 606 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.37.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 607 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.37.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 609 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 610 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 611 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 612 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 613 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 614 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-linux-libuuid-2.37.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.37.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe ncurses-6.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.37.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 701b84400be6a894e12bc5efd8b8edbe811b8cdb6d9a3630f443403b418837a4
+NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.37.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 623 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 624 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 628 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 629 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 630 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 631 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe cracklib-2.9.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe cracklib-2.9.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe cracklib-2.9.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe cracklib-2.9.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 636 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_packagedata_setscene)
+NOTE: Running setscene task 637 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_populate_sysroot_setscene)
+NOTE: recipe zlib-1.2.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.2.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.2.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 642 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.3.bb:do_packagedata_setscene)
+NOTE: recipe zlib-1.2.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 644 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_11.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-runtime-11.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-11.3.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-11.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 646 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.3.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-11.3.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 648 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_11.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcc-11.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-11.3.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-11.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 650 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.3+gitAUTOINC+7a43f6fea9-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-11.3.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 651 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-1.2.3+gitAUTOINC+7a43f6fea9-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 654 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 655 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 656 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.3+gitAUTOINC+7a43f6fea9-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-5.16-r0: task do_packagedata_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-1.2.3+gitAUTOINC+7a43f6fea9-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe linux-libc-headers-5.16-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 658 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 659 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 667 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_11.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-i686-11.3.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-i686-11.3.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 670 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 671 of 675 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.38.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-i686-2.38-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe binutils-cross-i686-2.38-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1905 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
+NOTE: Running task 2210 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_packagedata)
+NOTE: Running task 2270 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_package_write_rpm)
+NOTE: recipe pango-1.50.6-r0: task do_packagedata: Started
+NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Started
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 0317d5775628c1dd2aefc61245d36eeabb8acaec29f8c546443c3829e208e9b7
+NOTE: Running task 2305 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2308 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_packagedata)
+NOTE: recipe pango-1.50.6-r0: task do_packagedata: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libnotify-0.7.9-r0: task do_packagedata: Started
+NOTE: recipe libnotify-0.7.9-r0: task do_packagedata: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2313 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_configure)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_configure: Started
+NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_configure: Succeeded
+NOTE: Running task 2314 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_compile)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_compile: Started
+Bitbake still alive (no events for 600s). Active tasks:
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_compile
+NOTE: recipe webkitgtk-2.36.1-r0: task do_compile: Succeeded
+NOTE: Running task 2315 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_install)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_install: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_install: Succeeded
+NOTE: Running task 2316 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_package)
+NOTE: Running task 2317 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_populate_sysroot)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_sysroot: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package: Succeeded
+NOTE: Running task 2318 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_packagedata)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_packagedata: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 2319 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_package_write_rpm)
+NOTE: Running task 2320 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_package_qa)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_write_rpm: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_qa: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_qa: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2321 of 2321 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_build)
+NOTE: Tasks Summary: Attempted 2321 tasks of which 2292 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: There were 17 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-src went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-dbg went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-staticdev went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-dev went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-doc went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-locale went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-src went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dbg went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-ptest went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-staticdev went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dev went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-doc went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-locale went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============1474721083591084498==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-32-poky-linux/webkitgtk: PACKAGES: added "webkitgtk-locale-hr"
+Changes to packages/core2-32-poky-linux/webkitgtk (sysroot):
+  /usr/lib/libjavascriptcoregtk-4.0.so.18 changed symlink target from libjavascriptcoregtk-4.0.so.18.20.4 to libjavascriptcoregtk-4.0.so.18.20.5
+  /usr/lib/libwebkit2gtk-4.0.so.37 changed symlink target from libwebkit2gtk-4.0.so.37.56.4 to libwebkit2gtk-4.0.so.37.56.5
+  /usr/lib/libjavascriptcoregtk-4.0.so.18.20.4 moved to /usr/lib/libjavascriptcoregtk-4.0.so.18.20.5
+  /usr/lib/libwebkit2gtk-4.0.so.37.56.4 moved to /usr/lib/libwebkit2gtk-4.0.so.37.56.5
+packages/core2-32-poky-linux/webkitgtk/webkitgtk: FILELIST: removed "/usr/lib/libjavascriptcoregtk-4.0.so.18.20.4 /usr/lib/libwebkit2gtk-4.0.so.37.56.4", added "/usr/lib/libwebkit2gtk-4.0.so.37.56.5 /usr/lib/libjavascriptcoregtk-4.0.so.18.20.5"
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1409,175 +2233,287 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.3.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.3.0/plugin/include/xcoffout.h was removed
 
---===============3663723439167215808==
+--===============1474721083591084498==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 884 .bb files complete (0 cached, 884 parsed). 1642 targets, 53 skipped, 0 masked, 0 errors.
+Removing 2 recipes from the cortexa15t2hf-neon sysroot...done.
+Removing 2 recipes from the qemuarm sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-gnueabi"
+MACHINE              = "qemuarm"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-22a3a95bf8ff148ed1af887aeb8ea59627116dac"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+TARGET_FPU           = "hard"
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:22a3a95bf8ff148ed1af887aeb8ea59627116dac"
+workspace            = "master:9e556960421c8bbe8851d9810352a5b4bd3b50df"
+
+Initialising tasks...done.
+Sstate summary: Wanted 38 Local 27 Mirrors 0 Missed 11 Current 662 (71% match, 98% complete)
+Removing 3 stale sstate objects for arch qemuarm...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 672 of 700 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 673 of 700 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 681 of 700 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 684 of 700 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_populate_sysroot_setscene)
+NOTE: recipe libnotify-0.7.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnotify-0.7.9-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe pango-1.50.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe pango-1.50.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1488 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/libnotify/0.7.9-r0/temp/log.do_packagedata_setscene.1612928
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/pango/1.50.6-r0/temp/log.do_packagedata_setscene.1612926
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: recipe libnotify-0.7.9-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe pango-1.50.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 697 of 700 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_package_setscene)
+NOTE: Running setscene task 698 of 700 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_package_setscene)
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe libnotify-0.7.9-r0: task do_package_setscene: Started
+NOTE: recipe pango-1.50.6-r0: task do_package_setscene: Started
+NOTE: Running task 2043 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_fetch)
+NOTE: Running task 2319 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_package_write_rpm)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_fetch: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_fetch: Succeeded
+NOTE: recipe libnotify-0.7.9-r0: task do_package_setscene: Succeeded
+NOTE: Running task 2323 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_unpack)
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: recipe pango-1.50.6-r0: task do_package_setscene: Succeeded
+NOTE: Running task 2327 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: Running task 2328 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: Setscene tasks completed
+NOTE: Running task 2347 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_packagedata)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_unpack: Started
+NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Started
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe pango-1.50.6-r0: task do_packagedata: Started
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 22db8996b954ad500e98bde8eb5d8f3f9ee45325e3d6ebc87a67531882ff9085
+NOTE: Running task 2382 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pango-1.50.6-r0: task do_packagedata: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: Running task 2385 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 221777e03b432750d81a3353ee12bea75da31230352399fa97384f965b4130c2
+NOTE: Running task 2397 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_packagedata)
+NOTE: recipe libnotify-0.7.9-r0: task do_packagedata: Started
+NOTE: recipe libnotify-0.7.9-r0: task do_packagedata: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2398 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_patch)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_patch: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_patch: Succeeded
+NOTE: Running task 2399 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2400 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_generate_toolchain_file)
+NOTE: Running task 2401 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_populate_lic)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_lic: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_populate_lic unihash changed to f9e77c7bebefbf38f9b948dfd79bbdee56c4307c38a04a518ca2cf655533b7fb
+NOTE: recipe webkitgtk-2.36.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2402 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_configure)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_configure: Started
+NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_configure: Succeeded
+NOTE: Running task 2403 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_compile)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_compile: Started
+Bitbake still alive (no events for 600s). Active tasks:
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_compile
+NOTE: recipe webkitgtk-2.36.1-r0: task do_compile: Succeeded
+NOTE: Running task 2404 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_install)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_install: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_install: Succeeded
+NOTE: Running task 2405 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_package)
+NOTE: Running task 2406 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_populate_sysroot)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_sysroot: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package: Succeeded
+NOTE: Running task 2407 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_packagedata)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_packagedata: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 2408 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_package_write_rpm)
+NOTE: Running task 2409 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_package_qa)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_write_rpm: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_qa: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_qa: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2410 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_build)
+NOTE: Tasks Summary: Attempted 2410 tasks of which 2387 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: There were 17 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-src went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-src went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-dbg went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dbg went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-staticdev went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-ptest went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-dev went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-staticdev went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-doc went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dev went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-locale went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-doc went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-locale went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============1474721083591084498==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGSIZE changed from 721356 to 721676 (+0%)
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dev: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dev: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-doc: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-doc: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ab: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ab: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-an: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-an: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-as: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-as: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-be: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-be: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-da: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-da: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-de: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-de: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-el: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-el: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-es: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-es: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-et: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-et: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-he: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-he: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-id: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-id: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-is: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-is: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-it: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-it: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-km: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-km: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-or: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-or: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-te: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-te: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-src: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-src: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-src: PKGSIZE changed from 978898 to 979023 (+0%)
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-staticdev: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-staticdev: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core: PV changed from "2.44.0" to "2.44.1"
-packages/core2-32-poky-linux/at-spi2-core: PKGV changed from 2.44.0 [default] to 2.44.1 [default]
-packages/core2-32-poky-linux/at-spi2-core: SRC_URI changed from "https://download.gnome.org/sources//at-spi2-core/2.44/at-spi2-core-2.44.0.tar.xz file://08036a4c4491eea57d7b713bb4440f541584204b.patch" to "https://download.gnome.org/sources//at-spi2-core/2.44/at-spi2-core-2.44.1.tar.xz"
+packages/core2-32-poky-linux/webkitgtk: SRC_URI changed from "https://www.webkitgtk.org/releases/webkitgtk-2.36.0.tar.xz file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch file://0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch file://0001-Fix-build-without-opengl-or-es.patch file://reproducibility.patch file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch file://add_missing_include.patch" to "https://www.webkitgtk.org/releases/webkitgtk-2.36.1.tar.xz file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch file://0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch file://0001-Fix-build-without-opengl-or-es.patch file://reproducibility.patch file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch"
+packages/core2-32-poky-linux/webkitgtk: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk: PACKAGES: added "webkitgtk-locale-hr"
+Changes to packages/core2-32-poky-linux/webkitgtk (sysroot):
+  /usr/lib/libjavascriptcoregtk-4.0.so.18 changed symlink target from libjavascriptcoregtk-4.0.so.18.20.4 to libjavascriptcoregtk-4.0.so.18.20.5
+  /usr/lib/libwebkit2gtk-4.0.so.37 changed symlink target from libwebkit2gtk-4.0.so.37.56.4 to libwebkit2gtk-4.0.so.37.56.5
+  /usr/lib/libjavascriptcoregtk-4.0.so.18.20.4 moved to /usr/lib/libjavascriptcoregtk-4.0.so.18.20.5
+  /usr/lib/libwebkit2gtk-4.0.so.37.56.4 moved to /usr/lib/libwebkit2gtk-4.0.so.37.56.5
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-dbg: PKGSIZE changed from 3383787536 to 3384071332 (+0%)
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-dbg: FILELIST: removed "/usr/lib/.debug/libjavascriptcoregtk-4.0.so.18.20.4 /usr/lib/.debug/libwebkit2gtk-4.0.so.37.56.4", added "/usr/lib/.debug/libwebkit2gtk-4.0.so.37.56.5 /usr/lib/.debug/libjavascriptcoregtk-4.0.so.18.20.5"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-dbg: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-dbg: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-dev: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-dev: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-doc: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-doc: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ar: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ar: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-as: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-as: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-bg: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-bg: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ca: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ca: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-cs: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-cs: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-da: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-da: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-de: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-de: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-el: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-el: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-en-ca: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-en-ca: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-en-gb: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-en-gb: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-eo: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-eo: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-es: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-es: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-et: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-et: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-eu: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-eu: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-fi: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-fi: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-fr: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-fr: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-gl: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-gl: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-gu: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-gu: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-he: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-he: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hi: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hi: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hu: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-hu: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-id: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-id: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-it: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-it: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ja: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ja: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-kn: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-kn: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ko: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ko: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-lt: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-lt: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-lv: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-lv: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ml: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ml: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-mr: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-mr: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-nb: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-nb: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-nl: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-nl: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-or: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-or: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pa: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pa: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pl: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pl: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pt-br: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pt-br: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pt: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-pt: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ro: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ro: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ru: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ru: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sl: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sl: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sr+latin: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sr+latin: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sr: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sr: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sv: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-sv: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ta: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-ta: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-te: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-te: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-tr: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-tr: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-uk: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-uk: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-vi: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-vi: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-zh-cn: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-locale-zh-cn: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-src: PKGSIZE changed from 144674296 to 144684652 (+0%)
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-src: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-src: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-staticdev: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk-staticdev: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
+packages/core2-32-poky-linux/webkitgtk/webkitgtk: PKGSIZE changed from 78932619 to 78940811 (+0%)
+packages/core2-32-poky-linux/webkitgtk/webkitgtk: FILELIST: removed "/usr/lib/libwebkit2gtk-4.0.so.37.56.4 /usr/lib/libjavascriptcoregtk-4.0.so.18.20.4", added "/usr/lib/libjavascriptcoregtk-4.0.so.18.20.5 /usr/lib/libwebkit2gtk-4.0.so.37.56.5"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk: PV changed from "2.36.0" to "2.36.1"
+packages/core2-32-poky-linux/webkitgtk/webkitgtk: PKGV changed from 2.36.0 [default] to 2.36.1 [default]
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2906,94 +3842,528 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.3.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.3.0/plugin/include/xcoffout.h was removed
 
---===============3663723439167215808==
+--===============1474721083591084498==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 884 .bb files complete (0 cached, 884 parsed). 1642 targets, 63 skipped, 0 masked, 0 errors.
+Removing 2 recipes from the mips32r2 sysroot...done.
+Removing 2 recipes from the qemumips sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "mips-poky-linux"
+MACHINE              = "qemumips"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-22a3a95bf8ff148ed1af887aeb8ea59627116dac"
+TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:22a3a95bf8ff148ed1af887aeb8ea59627116dac"
+workspace            = "master:9e556960421c8bbe8851d9810352a5b4bd3b50df"
+
+Initialising tasks...done.
+Sstate summary: Wanted 38 Local 27 Mirrors 0 Missed 11 Current 652 (71% match, 98% complete)
+Removing 3 stale sstate objects for arch qemumips...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 662 of 690 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 663 of 690 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 671 of 690 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 674 of 690 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_populate_sysroot_setscene)
+NOTE: recipe libnotify-0.7.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnotify-0.7.9-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe pango-1.50.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe pango-1.50.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1479 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe libnotify-0.7.9-r0: task do_populate_sysroot_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/libnotify/0.7.9-r0/temp/log.do_packagedata_setscene.1645339
+NOTE: recipe pango-1.50.6-r0: task do_populate_sysroot_setscene: Succeeded
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/pango/1.50.6-r0/temp/log.do_packagedata_setscene.1645337
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 687 of 690 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_package_setscene)
+NOTE: Running setscene task 688 of 690 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_package_setscene)
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe libnotify-0.7.9-r0: task do_package_setscene: Started
+NOTE: recipe pango-1.50.6-r0: task do_package_setscene: Started
+NOTE: Running task 2027 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_fetch)
+NOTE: Running task 2283 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_package_write_rpm)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_fetch: Started
+NOTE: recipe libnotify-0.7.9-r0: task do_package_setscene: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_fetch: Succeeded
+NOTE: Running task 2290 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_unpack)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_unpack: Started
+NOTE: recipe pango-1.50.6-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Started
+NOTE: Running task 2309 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_packagedata)
+NOTE: Running task 2310 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: Running task 2311 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe pango-1.50.6-r0: task do_packagedata: Started
+NOTE: recipe pango-1.50.6-r0: task do_packagedata: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to adc99ef3803769c431eb1fe143d0d4d2272069a430faf47bb88e42d021c57eca
+NOTE: Running task 2348 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: Running task 2349 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 4f672850dad29842ce5ccb8318ecf7cb5c099e33eefd97dfd516e6119a48cb96
+NOTE: Running task 2361 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_packagedata)
+NOTE: recipe libnotify-0.7.9-r0: task do_packagedata: Started
+NOTE: recipe libnotify-0.7.9-r0: task do_packagedata: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2362 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_patch)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_patch: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_patch: Succeeded
+NOTE: Running task 2363 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2364 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_generate_toolchain_file)
+NOTE: Running task 2365 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_populate_lic)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_lic: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_populate_lic unihash changed to f9e77c7bebefbf38f9b948dfd79bbdee56c4307c38a04a518ca2cf655533b7fb
+NOTE: recipe webkitgtk-2.36.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2366 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_configure)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_configure: Started
+NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_configure: Succeeded
+NOTE: Running task 2367 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_compile)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_compile: Started
+Bitbake still alive (no events for 600s). Active tasks:
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_compile
+Bitbake still alive (no events for 1200s). Active tasks:
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_compile
+NOTE: recipe webkitgtk-2.36.1-r0: task do_compile: Succeeded
+NOTE: Running task 2368 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_install)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_install: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_install: Succeeded
+NOTE: Running task 2369 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_package)
+NOTE: Running task 2370 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_populate_sysroot)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_sysroot: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package: Succeeded
+NOTE: Running task 2371 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_packagedata)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_packagedata: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 2372 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_package_write_rpm)
+NOTE: Running task 2373 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_package_qa)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_write_rpm: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_qa: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_qa: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2374 of 2374 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_build)
+NOTE: Tasks Summary: Attempted 2374 tasks of which 2351 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There were 17 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-src went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-src went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-dbg went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dbg went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-staticdev went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-ptest went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-dev went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-staticdev went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-doc went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dev went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-locale went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-doc went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-locale went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============1474721083591084498==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 884 .bb files complete (0 cached, 884 parsed). 1642 targets, 70 skipped, 0 masked, 0 errors.
+Removing 2 recipes from the ppc7400 sysroot...done.
+Removing 2 recipes from the qemuppc sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "powerpc-poky-linux"
+MACHINE              = "qemuppc"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-22a3a95bf8ff148ed1af887aeb8ea59627116dac"
+TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:22a3a95bf8ff148ed1af887aeb8ea59627116dac"
+workspace            = "master:9e556960421c8bbe8851d9810352a5b4bd3b50df"
+
+Initialising tasks...done.
+Sstate summary: Wanted 38 Local 27 Mirrors 0 Missed 11 Current 662 (71% match, 98% complete)
+Removing 3 stale sstate objects for arch qemuppc...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 672 of 700 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 673 of 700 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 681 of 700 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 684 of 700 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_populate_sysroot_setscene)
+NOTE: recipe libnotify-0.7.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnotify-0.7.9-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe pango-1.50.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe pango-1.50.6-r0: task do_packagedata_setscene: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/libnotify/0.7.9-r0/temp/log.do_packagedata_setscene.1677837
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/pango/1.50.6-r0/temp/log.do_packagedata_setscene.1677835
+NOTE: Running setscene task 697 of 700 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_package_setscene)
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: recipe libnotify-0.7.9-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe pango-1.50.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 698 of 700 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_package_setscene)
+NOTE: Running task 1487 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe libnotify-0.7.9-r0: task do_package_setscene: Started
+NOTE: recipe pango-1.50.6-r0: task do_package_setscene: Started
+NOTE: Running task 2043 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_fetch)
+NOTE: recipe libnotify-0.7.9-r0: task do_package_setscene: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_fetch: Started
+NOTE: Running task 2324 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_package_write_rpm)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_fetch: Succeeded
+NOTE: Running task 2325 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_unpack)
+NOTE: recipe pango-1.50.6-r0: task do_package_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2343 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: Running task 2344 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: Running task 2347 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_packagedata)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_unpack: Started
+NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Started
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe pango-1.50.6-r0: task do_packagedata: Started
+NOTE: recipe pango-1.50.6-r0: task do_packagedata: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to cb21232c5a28826a835c7b82a0929a680de568bfa22b4e8f2902c7990c647f3e
+NOTE: Running task 2384 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: Running task 2385 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 383898a484d5745ad8dfc12903788320e353f730bca51d01c97a5e5c0c4bdc03
+NOTE: Running task 2396 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_packagedata)
+NOTE: recipe libnotify-0.7.9-r0: task do_packagedata: Started
+NOTE: recipe libnotify-0.7.9-r0: task do_packagedata: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2398 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_patch)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_patch: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_patch: Succeeded
+NOTE: Running task 2399 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2400 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_generate_toolchain_file)
+NOTE: Running task 2401 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_populate_lic)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_lic: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_populate_lic unihash changed to f9e77c7bebefbf38f9b948dfd79bbdee56c4307c38a04a518ca2cf655533b7fb
+NOTE: recipe webkitgtk-2.36.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2402 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_configure)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_configure: Started
+NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_configure: Succeeded
+NOTE: Running task 2403 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_compile)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_compile: Started
+Bitbake still alive (no events for 600s). Active tasks:
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_compile
+NOTE: recipe webkitgtk-2.36.1-r0: task do_compile: Succeeded
+NOTE: Running task 2404 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_install)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_install: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_install: Succeeded
+NOTE: Running task 2405 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_package)
+NOTE: Running task 2406 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_populate_sysroot)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_sysroot: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package: Succeeded
+NOTE: Running task 2407 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_packagedata)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_packagedata: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 2408 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_package_write_rpm)
+NOTE: Running task 2409 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_package_qa)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_write_rpm: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_qa: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_qa: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2410 of 2410 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_build)
+NOTE: Tasks Summary: Attempted 2410 tasks of which 2387 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There were 17 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-src went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-src went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-dbg went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dbg went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-staticdev went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-ptest went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-dev went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-staticdev went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-doc went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dev went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-locale went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-doc went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-locale went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============1474721083591084498==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-at-spi2-core-upgrade-2.44.0-2.44.1.patch"
+ filename="0001-webkitgtk-upgrade-2.36.0-2.36.1.patch"
 
-From 092a3812a022b895f4a7e92b65bac0e7f91258f9 Mon Sep 17 00:00:00 2001
+From 4da8252b2ab501c265703f36a2daed5337c67f9c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 May 2022 18:50:22 +0000
-Subject: [PATCH] at-spi2-core: upgrade 2.44.0 -> 2.44.1
+Date: Sun, 1 May 2022 18:46:04 +0000
+Subject: [PATCH] webkitgtk: upgrade 2.36.0 -> 2.36.1
 
 ---
- ...-core_2.44.0.bb => at-spi2-core_2.44.1.bb} |  6 +--
- ...6a4c4491eea57d7b713bb4440f541584204b.patch | 40 -------------------
- 2 files changed, 2 insertions(+), 44 deletions(-)
- rename meta/recipes-support/atk/{at-spi2-core_2.44.0.bb => at-spi2-core_2.44.1.bb} (89%)
- delete mode 100644 meta/recipes-support/atk/files/08036a4c4491eea57d7b713bb4440f541584204b.patch
+ .../webkitgtk/add_missing_include.patch       | 19 -------------------
+ ...ebkitgtk_2.36.0.bb => webkitgtk_2.36.1.bb} |  3 +--
+ 2 files changed, 1 insertion(+), 21 deletions(-)
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/add_missing_include.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.36.0.bb => webkitgtk_2.36.1.bb} (98%)
 
-diff --git a/meta/recipes-support/atk/at-spi2-core_2.44.0.bb b/meta/recipes-support/atk/at-spi2-core_2.44.1.bb
-similarity index 89%
-rename from meta/recipes-support/atk/at-spi2-core_2.44.0.bb
-rename to meta/recipes-support/atk/at-spi2-core_2.44.1.bb
-index e276eb7b8e..95a6c619f0 100644
---- a/meta/recipes-support/atk/at-spi2-core_2.44.0.bb
-+++ b/meta/recipes-support/atk/at-spi2-core_2.44.1.bb
-@@ -9,11 +9,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- 
- MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- 
--SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
--           file://08036a4c4491eea57d7b713bb4440f541584204b.patch \
--          "
-+SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "7eee3cf285b089060fd6b6e51b3eb2cacf752cca3a082c7f4c2c5ab841e51353"
-+SRC_URI[sha256sum] = "4beb23270ba6cf7caf20b597354d75194d89afb69d2efcf15f4271688ba6f746"
- 
- X11DEPENDS = "virtual/libx11 libxi libxtst"
- 
-diff --git a/meta/recipes-support/atk/files/08036a4c4491eea57d7b713bb4440f541584204b.patch b/meta/recipes-support/atk/files/08036a4c4491eea57d7b713bb4440f541584204b.patch
+diff --git a/meta/recipes-sato/webkit/webkitgtk/add_missing_include.patch b/meta/recipes-sato/webkit/webkitgtk/add_missing_include.patch
 deleted file mode 100644
-index 0f002256c9..0000000000
---- a/meta/recipes-support/atk/files/08036a4c4491eea57d7b713bb4440f541584204b.patch
+index 8f59db3130..0000000000
+--- a/meta/recipes-sato/webkit/webkitgtk/add_missing_include.patch
 +++ /dev/null
-@@ -1,40 +0,0 @@
--From 08036a4c4491eea57d7b713bb4440f541584204b Mon Sep 17 00:00:00 2001
--From: Mike Gorse <mgorse@suse.com>
--Date: Mon, 21 Mar 2022 10:19:03 -0500
--Subject: [PATCH] Fix build with X11 disabled
+@@ -1,19 +0,0 @@
+-Include locale.h for LC_MESSAGE definition
 -
--Closes #51
--Upstream-Status: Backport
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- registryd/deviceeventcontroller.c | 8 ++++----
-- 1 file changed, 4 insertions(+), 4 deletions(-)
+-This fixes build error
+-Source/WebCore/accessibility/atspi/AccessibilityRootAtspi.cpp:115:51: error: use of undeclared identifier 'LC_MESSAGES'
+-            return g_variant_new_string(setlocale(LC_MESSAGES, nullptr));
+-                                                  ^
+-Upstream-Status: Submitted [https://bugs.webkit.org/show_bug.cgi?id=239030]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
 -
--diff --git a/registryd/deviceeventcontroller.c b/registryd/deviceeventcontroller.c
--index 8a321adc..3068ec4b 100644
----- a/registryd/deviceeventcontroller.c
--+++ b/registryd/deviceeventcontroller.c
--@@ -1720,16 +1720,16 @@ spi_dec_synth_keysym (SpiDEController *controller, long keysym)
-- 	if (synth_mods != modifiers) {
-- 		lock_mods = synth_mods & ~modifiers;
-- 		spi_dec_plat_lock_modifiers (controller, lock_mods);
---		if (modifiers & LockMask)
---			spi_dec_plat_unlock_modifiers (controller, LockMask);
--+		if (modifiers & SPI_KEYMASK_SHIFTLOCK)
--+			spi_dec_plat_unlock_modifiers (controller, SPI_KEYMASK_SHIFTLOCK);
-- 	}
-- 	spi_dec_plat_synth_keycode_press (controller, key_synth_code);
-- 	spi_dec_plat_synth_keycode_release (controller, key_synth_code);
+---- a/Source/WebCore/accessibility/atspi/AccessibilityRootAtspi.cpp
+-+++ b/Source/WebCore/accessibility/atspi/AccessibilityRootAtspi.cpp
+-@@ -30,6 +30,7 @@
+- #include "FrameView.h"
+- #include "Page.h"
+- #include <glib/gi18n-lib.h>
+-+#include <locale.h>
 - 
-- 	if (synth_mods != modifiers) {
-- 		spi_dec_plat_unlock_modifiers (controller, lock_mods);
---		if (modifiers & LockMask)
---			spi_dec_plat_lock_modifiers (controller, LockMask);
--+		if (modifiers & SPI_KEYMASK_SHIFTLOCK)
--+			spi_dec_plat_lock_modifiers (controller, SPI_KEYMASK_SHIFTLOCK);
-- 	}
-- 	return TRUE;
-- }
---- 
--GitLab
--
+- namespace WebCore {
+- 
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.0.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb
+similarity index 98%
+rename from meta/recipes-sato/webkit/webkitgtk_2.36.0.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.36.1.bb
+index db8a565511..65757c36a7 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.36.0.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb
+@@ -15,10 +15,9 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-Fix-build-without-opengl-or-es.patch \
+            file://reproducibility.patch \
+            file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch \
+-           file://add_missing_include.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "b877cca1f105235f5dd57c7ac2b2c2be3c6b691ff444f93925c7254cf156c64d"
++SRC_URI[sha256sum] = "0149ea5fb1d20f2a9981677d45c952a047330001ea24a8dc29035239f12c0c8f"
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
+ 
 -- 
 2.27.0
 
 
---===============3663723439167215808==--
+--===============1474721083591084498==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+Loading cache...done.
+Loaded 1642 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 884 .bb files complete (883 cached, 1 parsed). 1642 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-22a3a95bf8ff148ed1af887aeb8ea59627116dac"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:22a3a95bf8ff148ed1af887aeb8ea59627116dac"
+workspace            = "master:9e556960421c8bbe8851d9810352a5b4bd3b50df"
+
+Initialising tasks...done.
+Sstate summary: Wanted 38 Local 27 Mirrors 0 Missed 11 Current 666 (71% match, 98% complete)
+Removing 3 stale sstate objects for arch qemux86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 676 of 704 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 677 of 704 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 685 of 704 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 688 of 704 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_populate_sysroot_setscene)
+NOTE: recipe libnotify-0.7.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe pango-1.50.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnotify-0.7.9-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe pango-1.50.6-r0: task do_populate_sysroot_setscene: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/libnotify/0.7.9-r0/temp/log.do_packagedata_setscene.1580489
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 701 of 704 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_package_setscene)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/pango/1.50.6-r0/temp/log.do_packagedata_setscene.1580487
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: recipe libnotify-0.7.9-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe pango-1.50.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 702 of 704 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_package_setscene)
+NOTE: Running task 1488 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe libnotify-0.7.9-r0: task do_package_setscene: Started
+NOTE: recipe pango-1.50.6-r0: task do_package_setscene: Started
+NOTE: Running task 2061 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_fetch)
+NOTE: recipe libnotify-0.7.9-r0: task do_package_setscene: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_fetch: Started
+NOTE: Running task 2342 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_package_write_rpm)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_fetch: Succeeded
+NOTE: Running task 2344 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_unpack)
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: Running task 2345 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: recipe pango-1.50.6-r0: task do_package_setscene: Succeeded
+NOTE: Running task 2346 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_unpack: Started
+NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Started
+NOTE: Setscene tasks completed
+NOTE: Running task 2365 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.6.bb:do_packagedata)
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe pango-1.50.6-r0: task do_packagedata: Started
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
+NOTE: recipe pango-1.50.6-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to ea93135e6bc8e63cc54852e198d3eabbf225aea3faf287903bdd2c4fb2e8da5b
+NOTE: Running task 2400 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: Running task 2403 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to e12ef1466cb841b8170ebe21bf855a1d72ab36d5c6b2197eb65f7498b9c23a64
+NOTE: Running task 2415 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb:do_packagedata)
+NOTE: recipe libnotify-0.7.9-r0: task do_packagedata: Started
+NOTE: recipe libnotify-0.7.9-r0: task do_packagedata: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2416 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_patch)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_patch: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_patch: Succeeded
+NOTE: Running task 2417 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2418 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_generate_toolchain_file)
+NOTE: Running task 2419 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_populate_lic)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_lic: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_populate_lic unihash changed to f9e77c7bebefbf38f9b948dfd79bbdee56c4307c38a04a518ca2cf655533b7fb
+NOTE: recipe webkitgtk-2.36.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2420 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_configure)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_configure: Started
+NOTE: recipe shared-mime-info-2.2-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_configure: Succeeded
+NOTE: Running task 2421 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_compile)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_compile: Started
+Bitbake still alive (no events for 600s). Active tasks:
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_compile
+Bitbake still alive (no events for 1200s). Active tasks:
+/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_compile
+NOTE: recipe webkitgtk-2.36.1-r0: task do_compile: Succeeded
+NOTE: Running task 2422 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_install)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_install: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_install: Succeeded
+NOTE: Running task 2423 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_package)
+NOTE: Running task 2424 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_populate_sysroot)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_sysroot: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package: Succeeded
+NOTE: Running task 2425 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_packagedata)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_packagedata: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 2426 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_package_write_rpm)
+NOTE: Running task 2427 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_package_qa)
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_write_rpm: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_qa: Started
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_qa: Succeeded
+NOTE: recipe webkitgtk-2.36.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2428 of 2428 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb:do_build)
+NOTE: Tasks Summary: Attempted 2428 tasks of which 2405 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: There were 17 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-src went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-src went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-dbg went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dbg went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-staticdev went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-ptest went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-dev went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-staticdev went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-doc went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-dev went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify-locale went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-doc went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: QA Issue: Package version for package libnotify went backwards which would break package feeds (from 0:0.7.11-r0 to 0:0.7.9-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango-locale went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: libnotify-0.7.9-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: QA Issue: Package version for package pango went backwards which would break package feeds (from 0:1.50.7-r0 to 0:1.50.6-r0) [version-going-backwards]
+ERROR: pango-1.50.6-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============1474721083591084498==--
 
