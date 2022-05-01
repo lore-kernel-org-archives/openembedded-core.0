@@ -2,41 +2,40 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7BE8C4743E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A010C47096
 	for <webhook@archiver.kernel.org>; Sun,  1 May 2022 19:49:12 +0000 (UTC)
 Received: from a27-192.smtp-out.us-west-2.amazonses.com
  (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.2290.1651434545072367086
+ by mx.groups.io with SMTP id smtpd.web09.2251.1651434542023789292
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 May 2022 12:49:05 -0700
+ Sun, 01 May 2022 12:49:04 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=cvFkBC9Y;
+ header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=0Es/0Kxm;
  spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
- mailfrom: 01010180812b5cfd-bd25bd8d-3fac-4c2f-ba8f-f52ce6ea782d-000000@us-west-2.amazonses.com)
+ mailfrom: 01010180812b5ba2-8ae8a2f3-630c-455b-b7ae-4d6214ed3221-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1651434544;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=5Jgf51/zeFeS+HBxRaraQxN/O/YFK/FbtvbZNkbI/fI=;
-	b=cvFkBC9YCx0bIdYTzz7BxF9JaNdGb5ddmfTHngeTqWKUzDEBk2cNgi2D3FceAqPT
-	U/rBvatu1N1XeSM5yjDvKEdWPMW68SGL1cBi9Uo/rdOUFhpXNGJqU0TzPYwDIavDyoH
-	8xkJULD00HXPnehNDN3WT8YprquB102PrxheRXSQ=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=uZNGbcPed9ph8av/uUi9EhAU2gDOc9vLdOX9qiHJqfs=;
+	b=0Es/0KxmY54Ep7RDchbqM9R3EiPc71QWR1uEHZ44px3CsccoMrxaRA9M2ged375V
+	YrPZm7c36A36DirVTzZ62hGr9CNrUwZ6xl58PzduV+Su9B48amZ4ykEmINWhvqHDk36
+	z2y7ZYUp8cwRYpRwIez/psuYNFxGKn94YqycikIg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1651434544;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=5Jgf51/zeFeS+HBxRaraQxN/O/YFK/FbtvbZNkbI/fI=;
-	b=I/pkUsx7/XCXFOjWRskiCX0mnhLg5Zy2bTzcH8O8tC0nHrh0QST9P85Rx1l2ypQ8
-	/5bsHex6IoODLOVDSyFEt/jHEQ3EnyEOYxdPajkf02Hxs4pL3aMwZ2HS7Pm1DtyaLPJ
-	s3gT50fTvMaLPFPQIfW5FQev86oM4P8nF9UP2G3I=
-Content-Type: multipart/mixed; boundary="===============3404042361043595921=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=uZNGbcPed9ph8av/uUi9EhAU2gDOc9vLdOX9qiHJqfs=;
+	b=dl6bYTrmaDZ3e1YPS4mqVlCSq+haLUmkdGNWeLUQxY65dG/20fpry+PEb+tNEE4+
+	TR/gs1sGd7YNjZDDq6OI87JA+wkpyZH1KYJJmFvMqW4B7Fa6blDTPERbtb4D7vycFat
+	fBTHAaDk1Yg0mQ0qqEP0eEIs1HAG5v43iQ6nJ1/g=
+Content-Type: multipart/mixed; boundary="===============6542058104557965104=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] sqlite3: upgrading to 3.38.3 SUCCEEDED
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] xorgproto: upgrading to 2022.1 SUCCEEDED
 Message-ID: 
- <01010180812b5cfd-bd25bd8d-3fac-4c2f-ba8f-f52ce6ea782d-000000@us-west-2.amazonses.com>
+ <01010180812b5ba2-8ae8a2f3-630c-455b-b7ae-4d6214ed3221-000000@us-west-2.amazonses.com>
 Date: Sun, 1 May 2022 19:49:04 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
@@ -46,9 +45,9 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 May 2022 19:49:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165158
+ https://lists.openembedded.org/g/openembedded-core/message/165152
 
---===============3404042361043595921==
+--===============6542058104557965104==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +55,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *sqlite3* to *3.38.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *xorgproto* to *2022.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-sqlite3-upgrade-3.38.2-3.38.3.patch
+    - apply the patch: git am 0001-xorgproto-upgrade-2021.5-2022.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,7 +74,43 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3404042361043595921==
+--===============6542058104557965104==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-xorgproto-upgrade-2021.5-2022.1.patch"
+
+From f2ae9338cee2576c19cbd983a83b8d707f30422f Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sun, 1 May 2022 15:34:34 +0000
+Subject: [PATCH] xorgproto: upgrade 2021.5 -> 2022.1
+
+---
+ .../xorg-proto/{xorgproto_2021.5.bb => xorgproto_2022.1.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/xorg-proto/{xorgproto_2021.5.bb => xorgproto_2022.1.bb} (90%)
+
+diff --git a/meta/recipes-graphics/xorg-proto/xorgproto_2021.5.bb b/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb
+similarity index 90%
+rename from meta/recipes-graphics/xorg-proto/xorgproto_2021.5.bb
+rename to meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb
+index 8f1ed36291..7786318476 100644
+--- a/meta/recipes-graphics/xorg-proto/xorgproto_2021.5.bb
++++ b/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb
+@@ -9,7 +9,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING-x11proto;md5=dfc4bd2b0568b31725b85b0604e69b56"
+ 
+ SRC_URI = "${XORG_MIRROR}/individual/proto/${BP}.tar.bz2"
+-SRC_URI[sha256sum] = "aa2f663b8dbd632960b24f7477aa07d901210057f6ab1a1db5158732569ca015"
++SRC_URI[sha256sum] = "1d2dcc66963f234d2c1e1f8d98a0d3e8725149cdac0a263df4097593c48bc2a6"
+ 
+ inherit meson
+ 
+-- 
+2.27.0
+
+
+--===============6542058104557965104==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -1409,31 +1444,30 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.3.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.3.0/plugin/include/xcoffout.h was removed
 
---===============3404042361043595921==
+--===============6542058104557965104==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/sqlite3: PV changed from "3.38.2" to "3.38.3"
-packages/core2-32-poky-linux/sqlite3: SRC_URI changed from "http://www.sqlite.org/2022/sqlite-autoconf-3380200.tar.gz" to "http://www.sqlite.org/2022/sqlite-autoconf-3380300.tar.gz"
-packages/core2-32-poky-linux/sqlite3: PKGV changed from 3.38.2 [default] to 3.38.3 [default]
-packages/core2-32-poky-linux/sqlite3/libsqlite3-dev: PV changed from "3.38.2" to "3.38.3"
-packages/core2-32-poky-linux/sqlite3/libsqlite3-dev: PKGV changed from 3.38.2 [default] to 3.38.3 [default]
-packages/core2-32-poky-linux/sqlite3/libsqlite3-doc: PV changed from "3.38.2" to "3.38.3"
-packages/core2-32-poky-linux/sqlite3/libsqlite3-doc: PKGV changed from 3.38.2 [default] to 3.38.3 [default]
-packages/core2-32-poky-linux/sqlite3/libsqlite3-staticdev: PV changed from "3.38.2" to "3.38.3"
-packages/core2-32-poky-linux/sqlite3/libsqlite3-staticdev: PKGV changed from 3.38.2 [default] to 3.38.3 [default]
-packages/core2-32-poky-linux/sqlite3/libsqlite3: PV changed from "3.38.2" to "3.38.3"
-packages/core2-32-poky-linux/sqlite3/libsqlite3: PKGV changed from 3.38.2 [default] to 3.38.3 [default]
-packages/core2-32-poky-linux/sqlite3/sqlite3-dbg: PV changed from "3.38.2" to "3.38.3"
-packages/core2-32-poky-linux/sqlite3/sqlite3-dbg: PKGV changed from 3.38.2 [default] to 3.38.3 [default]
-packages/core2-32-poky-linux/sqlite3/sqlite3-dbg: PKGSIZE changed from 4756240 to 4757896 (+0%)
-packages/core2-32-poky-linux/sqlite3/sqlite3-src: PV changed from "3.38.2" to "3.38.3"
-packages/core2-32-poky-linux/sqlite3/sqlite3-src: PKGV changed from 3.38.2 [default] to 3.38.3 [default]
-packages/core2-32-poky-linux/sqlite3/sqlite3-src: PKGSIZE changed from 9798871 to 9800724 (+0%)
-packages/core2-32-poky-linux/sqlite3/sqlite3: PV changed from "3.38.2" to "3.38.3"
-packages/core2-32-poky-linux/sqlite3/sqlite3: PKGV changed from 3.38.2 [default] to 3.38.3 [default]
+packages/core2-32-poky-linux/xorgproto: PKGV changed from 2021.5 [default] to 2022.1 [default]
+packages/core2-32-poky-linux/xorgproto: SRC_URI changed from "https://www.x.org/releases//individual/proto/xorgproto-2021.5.tar.bz2" to "https://www.x.org/releases//individual/proto/xorgproto-2022.1.tar.bz2"
+packages/core2-32-poky-linux/xorgproto: PV changed from "2021.5" to "2022.1"
+packages/core2-32-poky-linux/xorgproto/xorgproto-dbg: PKGV changed from 2021.5 [default] to 2022.1 [default]
+packages/core2-32-poky-linux/xorgproto/xorgproto-dbg: PV changed from "2021.5" to "2022.1"
+packages/core2-32-poky-linux/xorgproto/xorgproto-dev: PKGV changed from 2021.5 [default] to 2022.1 [default]
+packages/core2-32-poky-linux/xorgproto/xorgproto-dev: PKGSIZE changed from 1149138 to 1149276 (+0%)
+packages/core2-32-poky-linux/xorgproto/xorgproto-dev: PV changed from "2021.5" to "2022.1"
+packages/core2-32-poky-linux/xorgproto/xorgproto-doc: PKGV changed from 2021.5 [default] to 2022.1 [default]
+packages/core2-32-poky-linux/xorgproto/xorgproto-doc: PV changed from "2021.5" to "2022.1"
+packages/core2-32-poky-linux/xorgproto/xorgproto-locale: PKGV changed from 2021.5 [default] to 2022.1 [default]
+packages/core2-32-poky-linux/xorgproto/xorgproto-locale: PV changed from "2021.5" to "2022.1"
+packages/core2-32-poky-linux/xorgproto/xorgproto-src: PKGV changed from 2021.5 [default] to 2022.1 [default]
+packages/core2-32-poky-linux/xorgproto/xorgproto-src: PV changed from "2021.5" to "2022.1"
+packages/core2-32-poky-linux/xorgproto/xorgproto-staticdev: PKGV changed from 2021.5 [default] to 2022.1 [default]
+packages/core2-32-poky-linux/xorgproto/xorgproto-staticdev: PV changed from "2021.5" to "2022.1"
+packages/core2-32-poky-linux/xorgproto/xorgproto: PKGV changed from 2021.5 [default] to 2022.1 [default]
+packages/core2-32-poky-linux/xorgproto/xorgproto: PV changed from "2021.5" to "2022.1"
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2762,41 +2796,5 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.3.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/11.3.0/plugin/include/xcoffout.h was removed
 
---===============3404042361043595921==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-sqlite3-upgrade-3.38.2-3.38.3.patch"
-
-From 0956c3237b81ae5fdc3711a13bf28b870bdfc8e4 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 May 2022 19:39:17 +0000
-Subject: [PATCH] sqlite3: upgrade 3.38.2 -> 3.38.3
-
----
- .../sqlite/{sqlite3_3.38.2.bb => sqlite3_3.38.3.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/sqlite/{sqlite3_3.38.2.bb => sqlite3_3.38.3.bb} (86%)
-
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.38.2.bb b/meta/recipes-support/sqlite/sqlite3_3.38.3.bb
-similarity index 86%
-rename from meta/recipes-support/sqlite/sqlite3_3.38.2.bb
-rename to meta/recipes-support/sqlite/sqlite3_3.38.3.bb
-index a37aff6fe7..286987b708 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.38.2.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.38.3.bb
-@@ -4,7 +4,7 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
- 
- SRC_URI = "http://www.sqlite.org/2022/sqlite-autoconf-${SQLITE_PV}.tar.gz"
--SRC_URI[sha256sum] = "e7974aa1430bad690a5e9f79a6ee5c8492ada8269dc675875ad0fb747d7cada4"
-+SRC_URI[sha256sum] = "61f2dd93a2e38c33468b7125967c3218bf9f4dd8365def6025e314f905dc942e"
- 
- # -19242 is only an issue in specific development branch commits
- CVE_CHECK_IGNORE += "CVE-2019-19242"
--- 
-2.27.0
-
-
---===============3404042361043595921==--
+--===============6542058104557965104==--
 
