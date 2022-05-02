@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D47CC433FE
-	for <webhook@archiver.kernel.org>; Mon,  2 May 2022 23:03:19 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web09.4407.1651532597177918166
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F3DCC4332F
+	for <webhook@archiver.kernel.org>; Mon,  2 May 2022 23:03:29 +0000 (UTC)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+ [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web10.4268.1651532606036144150
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 May 2022 16:03:17 -0700
+ Mon, 02 May 2022 16:03:26 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=SEkF8zdB;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45,
+ header.b=gYEVahvw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id iq10so13914098pjb.0
+Received: by mail-pg1-f170.google.com with SMTP id j70so1835822pge.1
         for <openembedded-core@lists.openembedded.org>;
- Mon, 02 May 2022 16:03:17 -0700 (PDT)
+ Mon, 02 May 2022 16:03:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=altBkWQWccBuFJ9UBI+xQTpSpnpdHHrlpJA3NDFWCGU=;
-        b=SEkF8zdByI0T1G+NVJVIuNus6uVnyp/Jhp2u9LYszVgysUIF8wDUusr5kBVplCy/wM
-         FnGfCbwYowTveWrD6PydJkWM4evrJQSqpPcZbTTD5IOlW2aGxXAO7Vh6rZtK2brXJFhJ
-         +szN5PJZVXqM1wp2ySdSx9aMhKG1CEOft2iLq9KC5njtPzkkALneHHYmL0SMzi2UXXuj
-         3mJt6pJ3Llnbs3loVINGtP0Lk0Mm9tKmVcJIOZuSI1Y3WMbwqIn/Wv2kgS/Mp36nafO7
-         J70xo7F9UYfPUeiJUsq7MocUdw3kcSOVMYDErPekD3W5tQ2PZafHk4iANpLCcRFiIGK8
-         ijMg==
+        bh=ibq8oAokb7xi3qFrUEepHX9yDnhX2skPTBvluBceuOk=;
+        b=gYEVahvw0E6GL6JM45GN1QaOLKoScdJhdo8JmFTOl7775/TRD48OfrPOPtOjA0j4gr
+         0HShdfcFXeWqhRzw1Oz9suUZGD98kc5bWDfzav6M4xgQoov7KcWOC8qqbIbZkWrE3eQ3
+         Noi/9Z0Cw8DdytmullNH2z6Rxf5JQ+QyHT/Yx64QPfcsgrtFDt5YNvDCaY3l09I9vYwn
+         eyOBIYCz16bTgVsigozOpFUA3JCO5gGPpFqJf81Je+TCcTHP+BHcYaKGU1FQE3XT+sc2
+         43U7KSAGslMfi3SvYaB4GpQZw3v5sYamQswZruNs3h/hHjBZ9de5ojWN/0GToKnrIWs5
+         rRlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=altBkWQWccBuFJ9UBI+xQTpSpnpdHHrlpJA3NDFWCGU=;
-        b=YhlE/060YgiicMHC5mAj5CRzNhH9HxMm+RYwr+ceGrxfyTtwygA/RkpWZDprMmrxPJ
-         PcwNmeSlX8Sz9+IaZLIQyuAVZiAbCTds0uu+XP6uigQmJUv+AIuJzwgpB4NlEwRMk+UG
-         DtCUa5ZDZgmAdf/40SlvjfKxSi62PbOOi8MyKF14zNLjLKkH/pvBIdu7sd4Ncchbb3H4
-         6dlejtuEbI38pkTCnGYKSGrIwlA0Eh07zfhLd2aNFid6whTh2p+LHCh8NxCbvjB63MnP
-         sDkbs45tFp/QmeiKZNJTZt8MX/PcbDIf+InADb2GIHEb4ddgyBJPyi3qEYHYI7X59b+l
-         6DVw==
-X-Gm-Message-State: AOAM531ucxDeIeOfvXwBmonkU7i8zwfLZT9o+OMcvdNzzkH5hrRCSGOF
-	Y0z5qFALwrxY7V2CJA7uWIrQ7Njx5b6uBMkxfxE=
+        bh=ibq8oAokb7xi3qFrUEepHX9yDnhX2skPTBvluBceuOk=;
+        b=PV5vuUFCvmmZagDDvphlcIu1i2Bmz9fxibYmLSFiM+rWDYWiO3OLpKghAI0AcxINCA
+         XQgN05YNpb+S9xWq6ylyUaelP/NiQxOF7uAsuT0cPL8H8rhn+cM6TOruQuzTEQG9IIcQ
+         Utz8gTr4XFK/GTU2fCWeSI2Vscx+qT3br5YH6OwbP0c3ZntB5jEhHDRURO+1B7NVM1Gg
+         XbKlv8+IJiD+VVYLo6ML9yV+qYt+PfMF0v0VEpv4P7Xxu8qoXmL14K1UoX2i6piG9m9K
+         XDlS8UR6CbiK5lgKTDLgWmPUtI0z4zY4ZNFu8altGd13r1cpRvy1LipnNItY8sroQblx
+         OLJA==
+X-Gm-Message-State: AOAM532o9wPEGOf/wc17QjbsQXJP9KndETkS7puo4NUdM8dTg+URONyQ
+	zCxQ0ZqyiGMCIHaqA1E1uo71cVUTexXwNUCBGJY=
 X-Google-Smtp-Source: 
- ABdhPJxXMV/Bze0e3TMm8R1FhBn4crUSROBEohAquW2zkqBv2u6OUQrf5umn8eHI1/XajChePHdxKg==
-X-Received: by 2002:a17:902:e550:b0:15c:f4f2:814f with SMTP id
- n16-20020a170902e55000b0015cf4f2814fmr13841253plf.123.1651532595878;
-        Mon, 02 May 2022 16:03:15 -0700 (PDT)
+ ABdhPJwxKYyKA6kWkNm6Hn432VEE2uxFuqYoFnYB+Y9SPPPuSHZVQcLflN7+wi4m5ovdebe8QRF3uw==
+X-Received: by 2002:a65:6e0e:0:b0:399:26d7:a224 with SMTP id
+ bd14-20020a656e0e000000b0039926d7a224mr11576520pgb.437.1651532604871;
+        Mon, 02 May 2022 16:03:24 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- s7-20020a170902988700b0015eaa9aee50sm2002945plp.202.2022.05.02.16.03.14
+ s7-20020a170902988700b0015eaa9aee50sm2002945plp.202.2022.05.02.16.03.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 May 2022 16:03:15 -0700 (PDT)
+        Mon, 02 May 2022 16:03:23 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 4/9] cases/buildepoxy.py: fix typo
-Date: Mon,  2 May 2022 13:02:49 -1000
+Subject: [OE-core][dunfell 7/9] bitbake.conf: mark all directories as safe for
+ git to read
+Date: Mon,  2 May 2022 13:02:52 -1000
 Message-Id: 
- <20648dcc44213e9b9a089d72fbfae8e8c20f469d.1651531749.git.steve@sakoman.com>
+ <74229771436d2da0f2dbf821360e1c4ba82624e1.1651531749.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1651531749.git.steve@sakoman.com>
 References: <cover.1651531749.git.steve@sakoman.com>
@@ -67,34 +68,61 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 May 2022 23:03:19 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 02 May 2022 23:03:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165183
+ https://lists.openembedded.org/g/openembedded-core/message/165186
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Ross Burton <ross.burton@arm.com>
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Recent git releases containing [1] have an ownership check when opening
+repositories, and refuse to open a repository if it is owned by a
+different user.
+
+This breaks any use of git in do_install, as that is executed by the
+(fake) root user. Whilst not common, this does happen.
+
+Setting the git configuration safe.directories=* disables this check, so
+that git is usable in fakeroot tasks.  This can be set globally via the
+internal environment variable GIT_CONFIG_PARAMETERS, we can't use
+GIT_CONFIG_*_KEY/VALUE as that isn't present in all the releases which
+have the ownership check.
+
+We already set GIT_CEILING_DIRECTORIES to ensure that git doesn't
+recurse up out of the work directory, so this isn't a security issue.
+
+[1] https://github.com/git/git/commit/8959555cee7ec045958f9b6dd62e541affb7e7d9
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 3a9b6e71d1e7e8e2ebc0ed047841e36f09300387)
+(cherry picked from commit 8bed8e6993e7297bdcd68940aa0d47ef47120117)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/sdk/cases/buildepoxy.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/bitbake.conf | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/lib/oeqa/sdk/cases/buildepoxy.py b/meta/lib/oeqa/sdk/cases/buildepoxy.py
-index 385f8ccca8..f69f720cd6 100644
---- a/meta/lib/oeqa/sdk/cases/buildepoxy.py
-+++ b/meta/lib/oeqa/sdk/cases/buildepoxy.py
-@@ -17,7 +17,7 @@ class EpoxyTest(OESDKTestCase):
-     """
-     def setUp(self):
-         if not (self.tc.hasHostPackage("nativesdk-meson")):
--            raise unittest.SkipTest("GalculatorTest class: SDK doesn't contain Meson")
-+            raise unittest.SkipTest("EpoxyTest class: SDK doesn't contain Meson")
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 91f003d6dd..2b94e37861 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -726,10 +726,18 @@ export PKG_CONFIG_DISABLE_UNINSTALLED = "yes"
+ export PKG_CONFIG_SYSTEM_LIBRARY_PATH = "${base_libdir}:${libdir}"
+ export PKG_CONFIG_SYSTEM_INCLUDE_PATH = "${includedir}"
  
-     def test_epoxy(self):
-         with tempfile.TemporaryDirectory(prefix="epoxy", dir=self.tc.sdk_dir) as testdir:
++# Git configuration
++
+ # Don't allow git to chdir up past WORKDIR so that it doesn't detect the OE
+ # repository when building a recipe
+ export GIT_CEILING_DIRECTORIES = "${WORKDIR}"
+ 
++# Treat all directories are safe, as during fakeroot tasks git will run as
++# root so recent git releases (eg 2.30.3) will refuse to work on repositories. See
++# https://github.com/git/git/commit/8959555cee7ec045958f9b6dd62e541affb7e7d9 for
++# further details.
++export GIT_CONFIG_PARAMETERS="'safe.directory=*'"
++
+ ###
+ ### Config file processing
+ ###
 -- 
 2.25.1
 
