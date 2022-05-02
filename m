@@ -1,191 +1,134 @@
-Return-Path: <rahulchauhankitps@gmail.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3776CC433EF
-	for <webhook@archiver.kernel.org>; Mon,  2 May 2022 12:50:39 +0000 (UTC)
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
- [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web11.10015.1651495834600840933
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E8A5C433EF
+	for <webhook@archiver.kernel.org>; Mon,  2 May 2022 13:23:49 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+ [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web12.10343.1651497826550942960
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 May 2022 05:50:34 -0700
+ Mon, 02 May 2022 06:23:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Rao5BeNq;
- spf=pass (domain: gmail.com, ip: 209.85.215.176,
- mailfrom: rahulchauhankitps@gmail.com)
-Received: by mail-pg1-f176.google.com with SMTP id g3so11623446pgg.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=JsqnILMQ;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181,
+ mailfrom: rybczynska@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id x23so6995701pff.9
         for <openembedded-core@lists.openembedded.org>;
- Mon, 02 May 2022 05:50:34 -0700 (PDT)
+ Mon, 02 May 2022 06:23:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=+iKQgXO0iP9fpnmBXkIUObL9+czgpEpMto8PLoIymWk=;
-        b=Rao5BeNqjL1zKgOTYru0iCdMFYErG1hQ08mVrADZmTia5ZaKSNeuohK5dLEvRSxUAW
-         xDVkPbYP4eFqLInUJ5PnWYk4S2fYtvT2S56wz0XmyCx9Lh3dVAtDHziECmfpCArMrF/b
-         DYMPsdzfS9YG9QQ1MkAMNWZ4UzAbd4KS0rmlg4tVHlpRkbJ1XyQLCyl+3mRgwfqJYDFs
-         OTl+lpT3ZNGMAQvsTCYS93GC7ZAoyJ/2zRJX4niVoe97HILEn8sATnnqzigM8zrq8phr
-         iZezvZjEx907xaO1zKIy0fXQNLJpvgRUqozm7cX4iFnoA26IDnO7YydxTXSzJ5YKRLAD
-         LY/w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GwTfFbmv86/D/nZFKiOv4UGKvLw8CX6Re2ZaMOnETwI=;
+        b=JsqnILMQzQAUHWpXldOxT5CAb3KTnNfP10ha9YVCgUxZmElhxzgPGaYxrAkN6L8ju8
+         jx5HckkMjtKhS/MZZlxaQqr4f4vN0yu7TTjIhhYUTJK7gA8WDhKFBtQOi+Vy0gPj9Obw
+         uQb4+JLb3hfzycqVUvpDdLXvAiBztpaLwt17hrw39mgJvDvvHxDm9FX1W9YEFYdQm4gr
+         Tmo/UvuPeO/hO9SPCR9L74+aKtgrIxDNRSKL0kTqjerkduSd7tx38zuuRBeu9ZkKwDbz
+         kk3GA/A2XYJW+tOSmtabadGCfoe0DTKl/lulImqABbv2eQvOOXuO0vp7pOoz6/jp1Mgb
+         3hCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=+iKQgXO0iP9fpnmBXkIUObL9+czgpEpMto8PLoIymWk=;
-        b=Fg3rg+n1a4A0ETZQwjVK/FleoF52QpQzw6ZD1HrJBVfbUscScme/anLd6rGzUqLY1j
-         qOYopwYs2oI5pEvm6yrHdWqvCa4YK5GPTkIQAaPH/YkPl+h2ZZzn/3HD7l8KEpgF8TsG
-         r/oDMyjodBTTDHpE4sJpRYnZCRpKlZCaD7GXB0SFgDnIXeM0RtGIHRLraeDDT5nG1UzE
-         w3vJQ18FXKC97RdaPoBGTJ0hBMb8/Z5HyzjijxkgI3iBs+osxt0FlTlAXo6rXHY3Scmf
-         xNHgBx63yDP3CeEURbNn7VhlFKqrwgZqx99G0oPjQW9FBysXl1XvVTyQJBBKiimKnalu
-         8b9Q==
-X-Gm-Message-State: AOAM530tBhqEzpTd5k6kZuW/Ov8FzJnUkClJRKwntxGEtjI5vsROBZSr
-	+G3xzB3uv5bicI0+KfrKlPOfR9p2bEhkJw==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GwTfFbmv86/D/nZFKiOv4UGKvLw8CX6Re2ZaMOnETwI=;
+        b=6rMQ7GXPdC1hb1PtCui9JSPTYZRWQ1KhokT9IGim09EoMpU7SgNszIfnSds5KsSP1Y
+         gjvGp7vK4G1ULq2Ol4kMg1I/NLB+rBGghvHUzzMG5q4ZCRfQsin7PD8B+BgKJac5RCLh
+         EvgJZgq3+USo/8HGNs5PVZNfBo+0por0abbzykfc5GsNYbRKHQGqjo/VzEEH4XlzYIGe
+         THLBzxfSgbOz3FkP1ff9iLPOqRTBkizvx4ml1fsUTICAjaXRf2PYN2Zid3ytYLFsMAKR
+         V8CGPYYWSSNJVpt+XJIMkKRF25Tc71ghyQROvyMzgJQQXgTJyz0U7Pz28ugVvrDNsSn5
+         uoTA==
+X-Gm-Message-State: AOAM5333G/e/0eedYs0BLm1Xe1xPIpJRnw8nD7kPNSPHYPVEu5go3pcw
+	VITYvf6/kKJ/XQ6uXuY6K3b/q2F/H02iaIHjock=
 X-Google-Smtp-Source: 
- ABdhPJwzkrvJK7Y4XN1PeRBQNaTDTqutla75EJLVrJHo42teUSPxRI0NK6aCaWevwIxN1p9/O+sDng==
-X-Received: by 2002:aa7:8104:0:b0:50d:374b:4568 with SMTP id
- b4-20020aa78104000000b0050d374b4568mr11116570pfi.45.1651495833835;
-        Mon, 02 May 2022 05:50:33 -0700 (PDT)
-Received: from rahul.Optilink ([103.211.17.117])
-        by smtp.gmail.com with ESMTPSA id
- lw4-20020a17090b180400b001d7faf357b7sm21522226pjb.4.2022.05.02.05.50.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 May 2022 05:50:33 -0700 (PDT)
-From: Rahul Chauhan <rahulchauhankitps@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Rahul Chauhan <rahulchauhankitps@gmail.com>
-Subject: [PATCH 2/2] vim: Security Fix For CVE-2022-1420
-Date: Mon,  2 May 2022 18:20:12 +0530
-Message-Id: <20220502125012.11630-2-rahulchauhankitps@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220502125012.11630-1-rahulchauhankitps@gmail.com>
-References: <20220502125012.11630-1-rahulchauhankitps@gmail.com>
+ ABdhPJwfLWdpIOZ7/kGyX8+R6KJvCYRgP1W90sfgG7kOHFVTG/3F5IXlJDhB8HyfUrfjLAHiC66EgJXf/JilE+NR7Tc=
+X-Received: by 2002:a63:45:0:b0:3c2:3ed2:43c with SMTP id
+ 66-20020a630045000000b003c23ed2043cmr2356520pga.276.1651497825977;
+ Mon, 02 May 2022 06:23:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220429063226.22192-1-rybczynska@gmail.com>
+ <20220429063226.22192-2-rybczynska@gmail.com>
+ <CANp-EDZJRbjkUwF1368YCr2k2EyHr3-ynDNNArxkVB2kqf9sXw@mail.gmail.com>
+In-Reply-To: 
+ <CANp-EDZJRbjkUwF1368YCr2k2EyHr3-ynDNNArxkVB2kqf9sXw@mail.gmail.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Mon, 2 May 2022 15:23:34 +0200
+Message-ID: 
+ <CAApg2=T7xgAuY=NF7c7v2C17EhDfoEe2nEJBrW-M-N1c5n0X8g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] cve-update-db-native: allow an option to
+ force the CVE database update
+To: Ralph Siemsen <ralph.siemsen@linaro.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Ross Burton <ross.burton@arm.com>,
+ Marta Rybczynska <marta.rybczynska@huawei.com>
+Content-Type: multipart/alternative; boundary="00000000000043cadc05de074db9"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 May 2022 12:50:39 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 02 May 2022 13:23:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165166
+ https://lists.openembedded.org/g/openembedded-core/message/165167
 
-CVE: CVE-2022-1420
+--00000000000043cadc05de074db9
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Rahul Chauhan <rahulchauhankitps@gmail.com>
----
- .../vim/files/CVE-2022-1420.patch             | 93 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |  1 +
- 2 files changed, 94 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2022-1420.patch
+On Fri, Apr 29, 2022 at 5:53 PM Ralph Siemsen <ralph.siemsen@linaro.org>
+wrote:
 
-diff --git a/meta/recipes-support/vim/files/CVE-2022-1420.patch b/meta/recipes-support/vim/files/CVE-2022-1420.patch
-new file mode 100644
-index 0000000000..2c2e09a9d2
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2022-1420.patch
-@@ -0,0 +1,93 @@
-+From 6258e29cbdc55c9496baa23462ef77d79a4e08cf Mon Sep 17 00:00:00 2001
-+From: Bram Moolenaar <Bram@vim.org>
-+Date: Sun, 17 Apr 2022 15:06:35 +0100
-+Subject: [PATCH] patch 8.2.4774: crash when using a number for lambda name
-+
-+Problem:    Crash when using a number for lambda name.
-+Solution:   Check the type of the lambda reference.
-+
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/8b91e71441069b1dde9ac9ff9d9a829b1b4aecca]
-+CVE-2022-1420
-+
-+Signed-off-by: Rahul Chauhan <rahulchauhankitps@gmail.com>
-+---
-+ src/errors.h                |  4 ++++
-+ src/eval.c                  | 16 ++++++++++------
-+ src/testdir/test_lambda.vim |  4 ++++
-+ src/version.c               |  2 ++
-+ 4 files changed, 20 insertions(+), 6 deletions(-)
-+
-+diff --git a/src/errors.h b/src/errors.h
-+index 951acabb2..96bba755b 100644
-+--- a/src/errors.h
-++++ b/src/errors.h
-+@@ -3256,3 +3256,7 @@ EXTERN char e_compiling_closure_without_context_str[]
-+ EXTERN char e_using_type_not_in_script_context_str[]
-+ 	INIT(= N_("E1272: Using type not in a script context: %s"));
-+ #endif
-++#ifdef FEAT_EVAL
-++EXTERN char e_string_or_function_required_for_arrow_parens_expr[]
-++       INIT(= N_("E1275: String or function required for ->(expr)"));
-++#endif
-+diff --git a/src/eval.c b/src/eval.c
-+index 2cde64216..5d208a378 100644
-+--- a/src/eval.c
-++++ b/src/eval.c
-+@@ -4094,19 +4094,23 @@ eval_lambda(
-+ 	++*arg;
-+ 	ret = eval1(arg, rettv, evalarg);
-+ 	*arg = skipwhite_and_linebreak(*arg, evalarg);
-+-	if (**arg == ')')
-++	if (**arg != ')')
-+ 	{
-+-	    ++*arg;
-++	    emsg(_(e_missing_closing_paren));
-++	    return FAIL;
-+ 	}
-+-	else
-++	if (rettv->v_type != VAR_STRING && rettv->v_type != VAR_FUNC
-++					       && rettv->v_type != VAR_PARTIAL)
-+ 	{
-+-	    emsg(_(e_missing_closing_paren));
-+-	    ret = FAIL;
-++	    emsg(_(e_string_or_function_required_for_arrow_parens_expr));
-++	    return FAIL;
-+ 	}
-++	++*arg;
-+     }
-+     if (ret != OK)
-+ 	return FAIL;
-+-    else if (**arg != '(')
-++
-++    if (**arg != '(')
-+     {
-+ 	if (verbose)
-+ 	{
-+diff --git a/src/testdir/test_lambda.vim b/src/testdir/test_lambda.vim
-+index e6dcb6774..8d06e5973 100644
-+--- a/src/testdir/test_lambda.vim
-++++ b/src/testdir/test_lambda.vim
-+@@ -66,6 +66,10 @@ function Test_lambda_fails()
-+   echo assert_fails('echo 10->{a -> a + 2}', 'E107:')
-+ 
-+   call assert_fails('eval 0->(', "E110: Missing ')'")
-++  call assert_fails('eval 0->(3)()', "E1275:")
-++  call assert_fails('eval 0->([3])()', "E1275:")
-++  call assert_fails('eval 0->({"a": 3})()', "E1275:")
-++  call assert_fails('eval 0->(xxx)()', "E121:")
-+ endfunc
-+ 
-+ func Test_not_lamda()
-+diff --git a/src/version.c b/src/version.c
-+index 38c3e69b6..c7516e3a5 100644
-+--- a/src/version.c
-++++ b/src/version.c
-+@@ -750,6 +750,8 @@ static char *(features[]) =
-+ 
-+ static int included_patches[] =
-+ {   /* Add new patch number below this line */
-++/**/
-++    4774,
-+ /**/
-+     4763,
-+ /**/
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index c78e53007e..05891b07df 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -20,6 +20,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            file://racefix.patch \
-            file://CVE-2022-1381.patch \
-+           file://CVE-2022-1420.patch \
-            "
- 
- PV .= ".4681"
--- 
-2.17.1
+> Hi Marta,
+>
+> This explains why the CVE database update seemed to happen far more
+> frequently than it should. Thanks for digging into it.
+>
+> On Fri, Apr 29, 2022 at 2:32 AM Marta Rybczynska <rybczynska@gmail.com>
+> wrote:
+> >
+> > Add a new variable FORCE_CVE_DB_UPDATE allowing the user to force
+> > the database update, if the default update frequency is too low.
+>
+> Just an idea, maybe instead of a boolean, the variable could specify
+> the interval, eg:
+>
+> # Interval between CVE database updates, in seconds.
+> # Set to "0" to to force an update of the database.
+> CVE_DATABASE_UPDATE_INTERVAL ?= "24*60*60"
+>
+>
+This is a good idea, thank you Ralph, I like it. I'll be sending a v2
+shortly.
 
+Regards,
+Marta
+
+--00000000000043cadc05de074db9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 29, 2022 at 5:53 PM Ralph=
+ Siemsen &lt;<a href=3D"mailto:ralph.siemsen@linaro.org">ralph.siemsen@lina=
+ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">Hi Marta,<br>
+<br>
+This explains why the CVE database update seemed to happen far more<br>
+frequently than it should. Thanks for digging into it.<br>
+<br>
+On Fri, Apr 29, 2022 at 2:32 AM Marta Rybczynska &lt;<a href=3D"mailto:rybc=
+zynska@gmail.com" target=3D"_blank">rybczynska@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Add a new variable FORCE_CVE_DB_UPDATE allowing the user to force<br>
+&gt; the database update, if the default update frequency is too low.<br>
+<br>
+Just an idea, maybe instead of a boolean, the variable could specify<br>
+the interval, eg:<br>
+<br>
+# Interval between CVE database updates, in seconds.<br>
+# Set to &quot;0&quot; to to force an update of the database.<br>
+CVE_DATABASE_UPDATE_INTERVAL ?=3D &quot;24*60*60&quot;<br>
+<br></blockquote><div><br></div><div>This is a good idea, thank you Ralph, =
+I like it. I&#39;ll be sending a v2</div><div>shortly.</div><div><br></div>=
+<div>Regards,</div><div>Marta<br></div></div></div>
+
+--00000000000043cadc05de074db9--
 
