@@ -1,123 +1,99 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF00CC433FE
-	for <webhook@archiver.kernel.org>; Mon,  2 May 2022 14:25:59 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web11.11156.1651501558062035024
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC1C0C433EF
+	for <webhook@archiver.kernel.org>; Mon,  2 May 2022 19:09:37 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web12.1509.1651518571029853670
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 May 2022 07:25:58 -0700
+ Mon, 02 May 2022 12:09:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=HmJg+L9M;
- spf=pass (domain: gmail.com, ip: 209.85.218.42,
- mailfrom: rybczynska@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id k23so28117838ejd.3
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 02 May 2022 07:25:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=PlTmZn7Up68vcim6fuJYPl82KYqU1FXHmgggcZZcmQY=;
-        b=HmJg+L9MrG8DIGiO9ZVFWQoLuWfWcjLrSgu+k3ldnqx4ecT3gNR9EHj+UZnjg/B9z1
-         dComEe1nQprAPuepR1PGp+lp6z7Xrliu4JLgVSDb0UocTYwcEXgeU4nq7xweySJiagpv
-         KLzFxfdyfGo+Vk7l5e2KaBwU57JEXHS5rfKkUDqEe1okXGi6JGePJYF2MxGPXTMCYl6c
-         Z/As34oYwaa08QsYMbeJVksjIWuJDy66bk7LN1MnujqeSRxItzlbqyPHCSZ185a6NQJv
-         DvHZMOGUgReux9jrtOmzf7Skcvmcb+gP2klu+nnWp+dArrRqv3Yi4u5oZjX5E5cXgFed
-         JTeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PlTmZn7Up68vcim6fuJYPl82KYqU1FXHmgggcZZcmQY=;
-        b=iNwqRBp0lnb4WWJrGp7ZOiCGycvAldOxpIFBoG/oHtEw4VaZjqzaSowlr/1DvVXE+x
-         2SI+LnCZ08g18dkxChfDBQ3eJ3EmIMg733EtsrINwQad+WYPaBOjLGMVxe6ssO6R7fla
-         wCHvU2eWZBFvqYkw/8lVf8SwvVv9WxJ06FiomHvitBrUblQ45m1G0KdkItLOSyJklrhT
-         tk/VK2csTcALagA27r+7E8tB+rRLBljbZNVV8OAUhncprJ5euYyv5htgi38ZfCzDZVdI
-         m6+DgDX8OSJNex82e4hg1xYgRSo0avP9h1UaVqKyHd31JuRQiel9nxW/uITeMK+FGRAD
-         Vfnw==
-X-Gm-Message-State: AOAM533L5PArKqbAb7xm4eChD3EgIZeZ6nI5pdn89Tc4+gS5kZ3GzrMj
-	u7x/0zUPDCx5atJ33GB0cTcOz1b4ZgM=
-X-Google-Smtp-Source: 
- ABdhPJzJefmFJNbUbImbjekpCKSGNiGZiXWziguuHl6jj4yq9klbErmWD2smZngF2S4K77eRTqMGPQ==
-X-Received: by 2002:a17:907:6d87:b0:6f3:d7cd:7df6 with SMTP id
- sb7-20020a1709076d8700b006f3d7cd7df6mr11130513ejc.248.1651501556005;
-        Mon, 02 May 2022 07:25:56 -0700 (PDT)
-Received: from localhost.localdomain ([80.215.178.199])
-        by smtp.gmail.com with ESMTPSA id
- zp26-20020a17090684fa00b006f3ef214e62sm3634874ejb.200.2022.05.02.07.25.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 May 2022 07:25:55 -0700 (PDT)
-From: Marta Rybczynska <rybczynska@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	ross.burton@arm.com
-Cc: Marta Rybczynska <rybczynska@gmail.com>,
-	Marta Rybczynska <marta.rybczynska@huawei.com>
-Subject: [OE-core][PATCH v2 2/2] cve-update-db-native: let the user to drive
- the update interval
-Date: Mon,  2 May 2022 16:25:36 +0200
-Message-Id: <20220502142536.1654021-2-rybczynska@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20220502142536.1654021-1-rybczynska@gmail.com>
-References: <20220502142536.1654021-1-rybczynska@gmail.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=EWN7u36x;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198,
+ mailfrom: luca.ceresoli@bootlin.com)
+Received: (Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id B8641C0002;
+	Mon,  2 May 2022 19:09:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1651518569;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ah4iM9rOrdIAZ+Ibli3PEgQ39FNpJ9JiinWMxrQkxEI=;
+	b=EWN7u36xx/+g75OUo2ydkJFQrYovYc4TwelEJUQmTlliW/NxaaO1ABoaNbH2dTH9ovTBxJ
+	hwR2iEvO7NE0cQQjnCqe/DSxvNBvEYpXoKkjffBtElK7oT7uWkp5BMFVukVtEfD1HEpS/i
+	nEt0/WDebG1PFZ8klx2YNpadPp3NNWGssRQFL2VFz3uLKj1qrRAQFFao6Oe/9dsjdCpbVV
+	Cr5bfzcXLhFSyJBQaAhmxwSY9ZB9vOopeJnRu6X1uluBwi8PC3JWKyYsaU1tuZwN/CncH1
+	kTH4Sxro8Z+Bdxxx/gacy7NcPJvgrcoMB1spfp6QIDCXmHHaA7mu37feyVToeg==
+Date: Mon, 2 May 2022 21:09:27 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Claudius Heine" <ch@denx.de>
+Cc: openembedded-core@lists.openembedded.org, Stefan Herbrechtsmeier
+ <stefan.herbrechtsmeier@weidmueller.com>, Vyacheslav Yurkov
+ <uvv.mail@gmail.com>
+Subject: Re: [OE-core] [PATCH v2] classes: rootfs-postcommands: add skip
+ option to overlayfs_qa_check
+Message-ID: <20220502210927.1aad92b4@melee>
+In-Reply-To: <20220429081733.225481-1-ch@denx.de>
+References: <20220429081733.225481-1-ch@denx.de>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 May 2022 14:25:59 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 02 May 2022 19:09:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165170
+ https://lists.openembedded.org/g/openembedded-core/message/165171
 
-Add a new variable CVE_DB_UPDATE_INTERVAL allowing the user to set
-the database update interval.
- - a positive value sets an interval (in seconds)
- - a zero ("0") forces the database update
+Hi Claudius,
 
-Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
+Il giorno Fri, 29 Apr 2022 10:17:33 +0200
+"Claudius Heine" <ch@denx.de> ha scritto:
 
----
-Changes from v1:
-- allow to set the interval, not only force the update
----
- meta/recipes-core/meta/cve-update-db-native.bb | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+> The overlayfs_qa_check checks if the current root file system has a
+> mount configured for each overlayfs, when the overlayfs class is used.
+> 
+> However there are certain instances where this mount point is created
+> at runtime and not static in a fstab entry or systemd mount unit.
+> 
+> One such case would be if overlayfs-etc is used, where the device is
+> mounted in the preinit script and not via a mount unit or fstab entry.
+> 
+> However there are other possibilities for this as well, like startup
+> scripts that support a dynamic partition layout. For instance when
+> systemd-repart is used.
+> 
+> This adds the `OVERLAYFS_QA_SKIP` variable, which allows to define QA
+> skips via its flags. In principle it supports multiple QA skip flags
+> separated by whitespace, but only one (`mount-configured`) is
+> implemented here. To skip this QA check simply add `mount-configured`
+> to the flag of `OVERLAYFS_QA_SKIP` with the same name. For instance
+> if a overlayfs is configured as:
+> 
+> 	OVERLAYFS_MOUNT_POINT[data] = "/data"
+> 
+> Skipping this QA check can be done by setting:
+> 
+> 	OVERLAYFS_QA_SKIP[data] = "mount-configured"
+> 
+> Signed-off-by: Claudius Heine <ch@denx.de>
 
-diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index af39480dda..c8c1cbf115 100644
---- a/meta/recipes-core/meta/cve-update-db-native.bb
-+++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -13,6 +13,9 @@ deltask do_install
- deltask do_populate_sysroot
- 
- NVDCVE_URL ?= "https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-"
-+# CVE database update interval, in seconds. By default: once a day (24*60*60).
-+# Use 0 to force the update
-+CVE_DB_UPDATE_INTERVAL ?= "86400"
- 
- python () {
-     if not bb.data.inherits_class("cve-check", d):
-@@ -44,11 +47,16 @@ python do_fetch() {
-             os.remove(db_file)
- 
-     # The NVD database changes once a day, so no need to update more frequently
-+    # Allow the user to force-update
-     try:
-         import time
--        if time.time() - os.path.getmtime(db_file) < (24*60*60):
-+        update_interval = int(d.getVar("CVE_DB_UPDATE_INTERVAL"))
-+        if (update_interval < 0):
-+            update_interval = 0
-+        if time.time() - os.path.getmtime(db_file) < update_interval:
-             bb.debug(2, "Recently updated, skipping")
-             return
-+
-     except OSError:
-         pass
- 
+Failures appeared on the autobuilders with your patch applied:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/3530/steps/15/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/3530/steps/15/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/3470/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/3521/steps/15/logs/stdio
+
+Best regards,
 -- 
-2.33.0
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
