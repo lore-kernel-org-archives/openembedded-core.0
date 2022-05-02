@@ -1,134 +1,206 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <sakoman@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E8A5C433EF
-	for <webhook@archiver.kernel.org>; Mon,  2 May 2022 13:23:49 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
- [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web12.10343.1651497826550942960
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B62BAC433EF
+	for <webhook@archiver.kernel.org>; Mon,  2 May 2022 14:12:59 +0000 (UTC)
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com
+ [209.85.166.171])
+ by mx.groups.io with SMTP id smtpd.web09.11062.1651500773923903235
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 May 2022 06:23:46 -0700
+ Mon, 02 May 2022 07:12:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JsqnILMQ;
- spf=pass (domain: gmail.com, ip: 209.85.210.181,
- mailfrom: rybczynska@gmail.com)
-Received: by mail-pf1-f181.google.com with SMTP id x23so6995701pff.9
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=VgKPeoS6;
+ spf=pass (domain: gmail.com, ip: 209.85.166.171, mailfrom: sakoman@gmail.com)
+Received: by mail-il1-f171.google.com with SMTP id e1so7956834ile.2
         for <openembedded-core@lists.openembedded.org>;
- Mon, 02 May 2022 06:23:46 -0700 (PDT)
+ Mon, 02 May 2022 07:12:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GwTfFbmv86/D/nZFKiOv4UGKvLw8CX6Re2ZaMOnETwI=;
-        b=JsqnILMQzQAUHWpXldOxT5CAb3KTnNfP10ha9YVCgUxZmElhxzgPGaYxrAkN6L8ju8
-         jx5HckkMjtKhS/MZZlxaQqr4f4vN0yu7TTjIhhYUTJK7gA8WDhKFBtQOi+Vy0gPj9Obw
-         uQb4+JLb3hfzycqVUvpDdLXvAiBztpaLwt17hrw39mgJvDvvHxDm9FX1W9YEFYdQm4gr
-         Tmo/UvuPeO/hO9SPCR9L74+aKtgrIxDNRSKL0kTqjerkduSd7tx38zuuRBeu9ZkKwDbz
-         kk3GA/A2XYJW+tOSmtabadGCfoe0DTKl/lulImqABbv2eQvOOXuO0vp7pOoz6/jp1Mgb
-         3hCw==
+         :cc:content-transfer-encoding;
+        bh=MAJ1BsSgsmyd5aSNfpN1RhC7VyU7dhY8E93+8yhTyyk=;
+        b=VgKPeoS6PLEGvY46x6vSi/vM3tOq9fVo4tmhBIMvwXpHc8g2gl/bTj1AEgNvO26FOK
+         lIYpbQUaSZUxw0mdAeoSZ5xUiWbax8Lu7DLWaEoMhuIVAEuVwS7PFTWzebMsff2/A0Wh
+         kjd97wQP/lSWEmm6c8ttI7gJla2vMd4HnHJbbJADrb17MEf1BRLgDSw4P8AFN+sedQmw
+         A/I1MjHQ+44b84RwTdRZRlHGobf0EDsEdpjcRtPWNhsSQHZvXVrczvd547IkwtI5/c+W
+         5X15Lds7fPmqTmFg5tosvAWoX3UivpDCAJ3nGUt5B5fQyS9IvHb1K/pL3Qbs6P23dZEY
+         iLXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GwTfFbmv86/D/nZFKiOv4UGKvLw8CX6Re2ZaMOnETwI=;
-        b=6rMQ7GXPdC1hb1PtCui9JSPTYZRWQ1KhokT9IGim09EoMpU7SgNszIfnSds5KsSP1Y
-         gjvGp7vK4G1ULq2Ol4kMg1I/NLB+rBGghvHUzzMG5q4ZCRfQsin7PD8B+BgKJac5RCLh
-         EvgJZgq3+USo/8HGNs5PVZNfBo+0por0abbzykfc5GsNYbRKHQGqjo/VzEEH4XlzYIGe
-         THLBzxfSgbOz3FkP1ff9iLPOqRTBkizvx4ml1fsUTICAjaXRf2PYN2Zid3ytYLFsMAKR
-         V8CGPYYWSSNJVpt+XJIMkKRF25Tc71ghyQROvyMzgJQQXgTJyz0U7Pz28ugVvrDNsSn5
-         uoTA==
-X-Gm-Message-State: AOAM5333G/e/0eedYs0BLm1Xe1xPIpJRnw8nD7kPNSPHYPVEu5go3pcw
-	VITYvf6/kKJ/XQ6uXuY6K3b/q2F/H02iaIHjock=
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=MAJ1BsSgsmyd5aSNfpN1RhC7VyU7dhY8E93+8yhTyyk=;
+        b=Qoij70zxtv3yRz2/DAG1+qXWSVCvGZTgbQXU2nzsIUgZ4hF6aAPVLaWVTrPH28xpFi
+         vTlaZE97LGjP0j+a55hexzB4FuC+SwZ6gJMtET9uMjGYWjm+7JZ53txOXqeFfZ6NRetF
+         8goMoAIr+qF+WIxdQpHR6wPInk+yqAQHYU0Tvm5O+xpgeuM/SVCZCmq7eVH1/l0d7sGb
+         fG+6H1mq3I8RCYpD9QKXUkP/x70HGFe0yG3W63EET8iVsfUxK23XLQoUOz9gkizTUL6A
+         9IvKNbnzrBcmZgmmrbcC2ZwfK34DDFfiDqfrSvZ5337MtyyDC/crmWkXMehbuD3HU4QW
+         W4jw==
+X-Gm-Message-State: AOAM532ZIAE8JmuAt8DaRG2CCKHmo+BdRtalzgTAbzHAsHllYgZKwMqT
+	WfEMNutaiq2PnXUKEJ+pcvXPV8jN4EOAFm+h7iY=
 X-Google-Smtp-Source: 
- ABdhPJwfLWdpIOZ7/kGyX8+R6KJvCYRgP1W90sfgG7kOHFVTG/3F5IXlJDhB8HyfUrfjLAHiC66EgJXf/JilE+NR7Tc=
-X-Received: by 2002:a63:45:0:b0:3c2:3ed2:43c with SMTP id
- 66-20020a630045000000b003c23ed2043cmr2356520pga.276.1651497825977;
- Mon, 02 May 2022 06:23:45 -0700 (PDT)
+ ABdhPJyUOMIMaZWAz+cJXNcaxNVf7QcghClB3bPFeqTx0M4rfdILo+pX7tsl2ZQ3f9mn2lLBIs7FEpHe2RP/M6lavgM=
+X-Received: by 2002:a05:6e02:1d8d:b0:2cf:2112:2267 with SMTP id
+ h13-20020a056e021d8d00b002cf21122267mr912476ila.239.1651500773244; Mon, 02
+ May 2022 07:12:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220429063226.22192-1-rybczynska@gmail.com>
- <20220429063226.22192-2-rybczynska@gmail.com>
- <CANp-EDZJRbjkUwF1368YCr2k2EyHr3-ynDNNArxkVB2kqf9sXw@mail.gmail.com>
+References: <20220502074317.6470-1-davide.gardenal@huawei.com>
+ <CANPvuRk-V6T6m1xWgmw6JQu7QgV8AdeFPjj6Xe3UHRt-Wzsavw@mail.gmail.com>
 In-Reply-To: 
- <CANp-EDZJRbjkUwF1368YCr2k2EyHr3-ynDNNArxkVB2kqf9sXw@mail.gmail.com>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Mon, 2 May 2022 15:23:34 +0200
+ <CANPvuRk-V6T6m1xWgmw6JQu7QgV8AdeFPjj6Xe3UHRt-Wzsavw@mail.gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 2 May 2022 04:12:42 -1000
 Message-ID: 
- <CAApg2=T7xgAuY=NF7c7v2C17EhDfoEe2nEJBrW-M-N1c5n0X8g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] cve-update-db-native: allow an option to
- force the CVE database update
-To: Ralph Siemsen <ralph.siemsen@linaro.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Ross Burton <ross.burton@arm.com>,
- Marta Rybczynska <marta.rybczynska@huawei.com>
-Content-Type: multipart/alternative; boundary="00000000000043cadc05de074db9"
+ <CAGDS+n=UP35M_gxC_0c7Nvje7nrT3gaGN9JaAE_a=RPqCzqAow@mail.gmail.com>
+Subject: Re: [OE-core] [master][kirkstone][PATCH] cve-check: add JSON format
+ to summary output
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: Davide Gardenal <davidegarde2000@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	Davide Gardenal <davide.gardenal@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 May 2022 13:23:49 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 02 May 2022 14:12:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165167
+ https://lists.openembedded.org/g/openembedded-core/message/165168
 
---00000000000043cadc05de074db9
-Content-Type: text/plain; charset="UTF-8"
-
-On Fri, Apr 29, 2022 at 5:53 PM Ralph Siemsen <ralph.siemsen@linaro.org>
-wrote:
-
-> Hi Marta,
+On Sun, May 1, 2022 at 11:08 PM Jose Quaresma <quaresma.jose@gmail.com> wro=
+te:
 >
-> This explains why the CVE database update seemed to happen far more
-> frequently than it should. Thanks for digging into it.
+> Hi Davide,
 >
-> On Fri, Apr 29, 2022 at 2:32 AM Marta Rybczynska <rybczynska@gmail.com>
-> wrote:
-> >
-> > Add a new variable FORCE_CVE_DB_UPDATE allowing the user to force
-> > the database update, if the default update frequency is too low.
->
-> Just an idea, maybe instead of a boolean, the variable could specify
-> the interval, eg:
->
-> # Interval between CVE database updates, in seconds.
-> # Set to "0" to to force an update of the database.
-> CVE_DATABASE_UPDATE_INTERVAL ?= "24*60*60"
->
->
-This is a good idea, thank you Ralph, I like it. I'll be sending a v2
-shortly.
+> This patch needs to be sent first for the master branch and backported fo=
+r kirkstone only after that.
 
-Regards,
-Marta
+He's tagged [master] in the subject in addition to [kirkstone], so
+this is fine.  I appreciate the heads up that I should keep an eye out
+for the master commit.
 
---00000000000043cadc05de074db9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Steve
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 29, 2022 at 5:53 PM Ralph=
- Siemsen &lt;<a href=3D"mailto:ralph.siemsen@linaro.org">ralph.siemsen@lina=
-ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">Hi Marta,<br>
-<br>
-This explains why the CVE database update seemed to happen far more<br>
-frequently than it should. Thanks for digging into it.<br>
-<br>
-On Fri, Apr 29, 2022 at 2:32 AM Marta Rybczynska &lt;<a href=3D"mailto:rybc=
-zynska@gmail.com" target=3D"_blank">rybczynska@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Add a new variable FORCE_CVE_DB_UPDATE allowing the user to force<br>
-&gt; the database update, if the default update frequency is too low.<br>
-<br>
-Just an idea, maybe instead of a boolean, the variable could specify<br>
-the interval, eg:<br>
-<br>
-# Interval between CVE database updates, in seconds.<br>
-# Set to &quot;0&quot; to to force an update of the database.<br>
-CVE_DATABASE_UPDATE_INTERVAL ?=3D &quot;24*60*60&quot;<br>
-<br></blockquote><div><br></div><div>This is a good idea, thank you Ralph, =
-I like it. I&#39;ll be sending a v2</div><div>shortly.</div><div><br></div>=
-<div>Regards,</div><div>Marta<br></div></div></div>
-
---00000000000043cadc05de074db9--
+> Davide Gardenal <davidegarde2000@gmail.com> escreveu no dia segunda, 2/05=
+/2022 =C3=A0(s) 08:43:
+>>
+>> Create generate_json_report including all the code used to generate the =
+JSON
+>> manifest file.
+>> Add to cve_save_summary_handler the ability to create the summary in JSO=
+N format.
+>>
+>> Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
+>> ---
+>>  meta/classes/cve-check.bbclass | 50 +++++++++++++-------
+>>  1 file changed, 32 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbc=
+lass
+>> index 78516d0..64875d7 100644
+>> --- a/meta/classes/cve-check.bbclass
+>> +++ b/meta/classes/cve-check.bbclass
+>> @@ -79,6 +79,29 @@ CVE_CHECK_LAYER_INCLUDELIST ??=3D ""
+>>  # set to "alphabetical" for version using single alphabetical character=
+ as increment release
+>>  CVE_VERSION_SUFFIX ??=3D ""
+>>
+>> +def generate_json_report(out_path, link_path):
+>> +    if os.path.exists(d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")):
+>> +        import json
+>> +        from oe.cve_check import cve_check_merge_jsons
+>> +
+>> +        bb.note("Generating JSON CVE summary")
+>> +        index_file =3D d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")
+>> +        summary =3D {"version":"1", "package": []}
+>> +        with open(index_file) as f:
+>> +            filename =3D f.readline()
+>> +            while filename:
+>> +                with open(filename.rstrip()) as j:
+>> +                    data =3D json.load(j)
+>> +                    cve_check_merge_jsons(summary, data)
+>> +                filename =3D f.readline()
+>> +
+>> +        with open(out_path, "w") as f:
+>> +            json.dump(summary, f, indent=3D2)
+>> +
+>> +        if os.path.exists(os.path.realpath(link_path)):
+>> +            os.remove(link_path)
+>> +        os.symlink(os.path.basename(out_path), link_path)
+>> +
+>>  python cve_save_summary_handler () {
+>>      import shutil
+>>      import datetime
+>> @@ -101,6 +124,11 @@ python cve_save_summary_handler () {
+>>              if os.path.exists(os.path.realpath(cvefile_link)):
+>>                  os.remove(cvefile_link)
+>>              os.symlink(os.path.basename(cve_summary_file), cvefile_link=
+)
+>> +
+>> +        json_summary_link_name =3D os.path.join(cvelogpath, d.getVar("C=
+VE_CHECK_SUMMARY_FILE_NAME_JSON"))
+>> +        json_summary_name =3D os.path.join(cvelogpath, "%s-%s.json" % (=
+cve_summary_name, timestamp))
+>> +        generate_json_report(json_summary_name, json_summary_link_name)
+>> +        bb.plain("CVE report summary created at: %s" % json_summary_lin=
+k_name)
+>>  }
+>>
+>>  addhandler cve_save_summary_handler
+>> @@ -175,25 +203,11 @@ python cve_check_write_rootfs_manifest () {
+>>              os.symlink(os.path.basename(manifest_name), manifest_link)
+>>              bb.plain("Image CVE report stored in: %s" % manifest_name)
+>>
+>> -    if os.path.exists(d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")):
+>> -        import json
+>> +        link_path =3D os.path.join(deploy_dir, "%s.json" % link_name)
+>> +        manifest_path =3D d.getVar("CVE_CHECK_MANIFEST_JSON")
+>>          bb.note("Generating JSON CVE manifest")
+>> -        deploy_dir =3D d.getVar("DEPLOY_DIR_IMAGE")
+>> -        link_name =3D d.getVar("IMAGE_LINK_NAME")
+>> -        manifest_name =3D d.getVar("CVE_CHECK_MANIFEST_JSON")
+>> -        index_file =3D d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")
+>> -        manifest =3D {"version":"1", "package": []}
+>> -        with open(index_file) as f:
+>> -            filename =3D f.readline()
+>> -            while filename:
+>> -                with open(filename.rstrip()) as j:
+>> -                    data =3D json.load(j)
+>> -                    cve_check_merge_jsons(manifest, data)
+>> -                filename =3D f.readline()
+>> -
+>> -        with open(manifest_name, "w") as f:
+>> -            json.dump(manifest, f, indent=3D2)
+>> -        bb.plain("Image CVE report stored in: %s" % manifest_name)
+>> +        generate_json_report(json_summary_name, json_summary_link_name)
+>> +        bb.plain("Image CVE JSON report stored in: %s" % link_path)
+>>  }
+>>
+>>  ROOTFS_POSTPROCESS_COMMAND:prepend =3D "${@'cve_check_write_rootfs_mani=
+fest; ' if d.getVar('CVE_CHECK_CREATE_MANIFEST') =3D=3D '1' else ''}"
+>> --
+>> 2.32.0
+>>
+>>
+>>
+>>
+>
+>
+> --
+> Best regards,
+>
+> Jos=C3=A9 Quaresma
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#165162): https://lists.openembedded.org/g/openembedde=
+d-core/message/165162
+> Mute This Topic: https://lists.openembedded.org/mt/90830880/3617601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [sa=
+koman@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
