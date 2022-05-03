@@ -1,128 +1,150 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <wes@mitsi.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85B3DC433F5
-	for <webhook@archiver.kernel.org>; Tue,  3 May 2022 13:55:25 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web10.11389.1651586121008007445
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BA9EC433F5
+	for <webhook@archiver.kernel.org>; Tue,  3 May 2022 15:23:35 +0000 (UTC)
+Received: from pb-smtp1.pobox.com (pb-smtp1.pobox.com [64.147.108.70])
+ by mx.groups.io with SMTP id smtpd.web10.458.1651591405272759947
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 May 2022 06:55:21 -0700
+ Tue, 03 May 2022 08:23:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=NvAImIeR;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.48,
- mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f48.google.com with SMTP id l7so33642360ejn.2
+ dkim=fail reason="no key for verify" header.i=@mitsi.com header.s=mesmtp
+ header.b=HYUAQ78M;
+ spf=pass (domain: mitsi.com, ip: 64.147.108.70, mailfrom: wes@mitsi.com)
+Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
+	by pb-smtp1.pobox.com (Postfix) with ESMTP id A07E3110D16
+	for <openembedded-core@lists.openembedded.org>;
+ Tue,  3 May 2022 11:23:21 -0400 (EDT)
+	(envelope-from wes@mitsi.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=
+	mime-version:references:in-reply-to:from:date:message-id:subject
+	:to:cc:content-type:content-transfer-encoding; s=sasl; bh=kUgT07
+	ifQWNeRYbsMXIuirlmjeGoLZTLQjciLmwoSLQ=; b=NcjPo3Ry4OqIYrpoJrW70o
+	zjNDcL7Bsabdr9lgEbaVRsQXEDs+oe3B0qNnMxdgDURSfrr9HBVGe3U0dvzH6Ppi
+	ButFbLGOox18kCtniSKjUz3X/+bbrVxiK2pXzIHbnKhetJtARM1Aqv0EhTIiaQzb
+	OCsmb27USeUTUOiY4OoKM=
+Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
+	by pb-smtp1.pobox.com (Postfix) with ESMTP id 921FA110D14
+	for <openembedded-core@lists.openembedded.org>;
+ Tue,  3 May 2022 11:23:21 -0400 (EDT)
+	(envelope-from wes@mitsi.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=mitsi.com;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to:cc:content-type:content-transfer-encoding;
+ s=mesmtp; bh=kUgT07ifQWNeRYbsMXIuirlmjeGoLZTLQjciLmwoSLQ=;
+ b=HYUAQ78MIy5TccppmpG9fNyOES5NKhpfsoqEz2M6AYDC+rfvi0/ikZ5tqs/ETmgRj+JyCELHwKkc1ZRRT8wXod9De8OVouIA1laerfB6k1YvDTtESLran+kWZETrugggBzfFoMLH3XQrtGp9//GAJLssOsNTRq6TdSugVIlcyYw=
+Received: from mail-yb1-f177.google.com (unknown [209.85.219.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by pb-smtp1.pobox.com (Postfix) with ESMTPSA id 0494C110D11
+	for <openembedded-core@lists.openembedded.org>;
+ Tue,  3 May 2022 11:23:21 -0400 (EDT)
+	(envelope-from wes@mitsi.com)
+Received: by mail-yb1-f177.google.com with SMTP id f38so31707265ybi.3
         for <openembedded-core@lists.openembedded.org>;
- Tue, 03 May 2022 06:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=B8a96XxmiKQZb2uSjh6iqudHRv1okfzSHia1H6jdEJ4=;
-        b=NvAImIeR0MLsubrjdviK/pZX6KLpiCk4WDAU6LnprCNVP9WMCPq9k/HlCDCm8jHUhr
-         ULM/PX9MDB4YNhUAAl3+caz+Ngc2u5IclQYwFJHbP6mxddhYBcNOpe+kTMwCl8+3r/71
-         9TM2ZrvrTLPjZmGQZDAoCHnaM7X0ydWlalgUATZt6YA4MwScst4OhYpnM55krb8MyTWe
-         K+Sfn51ZCoTGuipUxahfcQBaj0e0wlo9J9l2pOfAT8xvglEpgwdh6fduo+mRAvBiKrYX
-         yRcxi4isZzWCii8g1zTL6zDc+idJPPAsKJHlQGakhpn+eC1wBtdxLP/DrN74VjH6sw2N
-         NWXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=B8a96XxmiKQZb2uSjh6iqudHRv1okfzSHia1H6jdEJ4=;
-        b=AAI6dNLZbwaGY8ZZAyTeCwjD/N9uGcwzKRtkpcTKBGqJxnY4sX2lNMBrNWZybIwIL2
-         d2YZxzLm8WiZ3Ie2jrzaetBhI2a2pOgtSgImHCKlyLr3EI6TEjzeLDG4csbxdEblAnsr
-         U/njynSBAe6xVtS6R5HwUUOAGfl69tXnIok45iRG5CIotUR3IJYG+9ua5UFaueWfxdpk
-         QIsEQ7ur2ZQ4p0pqdI/Xcu+k3A/yaXKt45ckoazIvlNADV7gcQ6vmPzjumv2ow/N40Wb
-         9yf/9m0H4alVHDhIQWHLcG3DQw2x9DgHB5kO6Ms6pHYRZJ904VycNVBYSzIt7RitRTpf
-         QnKw==
-X-Gm-Message-State: AOAM532GamG0eZXwuYuelG6S5QAOCYNHbiJLbAM+5tVYemw35Z2Nv+te
-	kuIJYUMZcXAsy1mA85XRS9vCSktDM43u/U+wW7GU5A==
+ Tue, 03 May 2022 08:23:20 -0700 (PDT)
+X-Gm-Message-State: AOAM531r+Lf4AZ8i0hN2/+AYCALLRPu2DFn8aH9Kn0xS1i0dEnnOZfER
+	kx/Zu1+G87bTL4IknV0E/Po1zs3ulJaMt5yWT7U=
 X-Google-Smtp-Source: 
- ABdhPJyfQR3LUY0GfuMwI3yeUnCMHKGT5xkD26lQIt2x27JjXobAXcNA30lKSCW/GWq2A2UP+njSTV0/+GVzXn7HgdY=
-X-Received: by 2002:a17:907:3f8b:b0:6e8:318d:1def with SMTP id
- hr11-20020a1709073f8b00b006e8318d1defmr16141625ejc.153.1651586119254; Tue, 03
- May 2022 06:55:19 -0700 (PDT)
+ ABdhPJyGbaPZGbmQkq1ZN4qjlJtKYwzuSM1RBZpTWXLxlPgDRgyt1fggLjgaXZ9EEp8VrxzrvlSwpHFATNCcQ1BXq1U=
+X-Received: by 2002:a25:3458:0:b0:649:b8e1:86e2 with SMTP id
+ b85-20020a253458000000b00649b8e186e2mr5180479yba.268.1651591400132; Tue, 03
+ May 2022 08:23:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1651531749.git.steve@sakoman.com>
- <214a2fe628801af3fde5b540c31f1c515f6c855f.1651531749.git.steve@sakoman.com>
- <e1dfa49e3a2b44b8af449ff171dfba9e@axis.com>
-In-Reply-To: <e1dfa49e3a2b44b8af449ff171dfba9e@axis.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 3 May 2022 03:55:07 -1000
+References: <20220502211001.4183095-1-wes@mitsi.com>
+ <20220502211001.4183095-2-wes@mitsi.com>
+ <CAPnigKkL5LeyUj5NGwb0iYOeEBGSvm0FAO25zmVD2G9KATEijg@mail.gmail.com>
+ <CANNYZj-19bZmShcS4ws_3hDKpxiir7-abo5M-_WEiEUUCCK25Q@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj-19bZmShcS4ws_3hDKpxiir7-abo5M-_WEiEUUCCK25Q@mail.gmail.com>
+From: Wes Malone <wes@mitsi.com>
+Date: Tue, 3 May 2022 10:22:53 -0500
+X-Gmail-Original-Message-ID: 
+ <CADqWEoSCJay3HL8iDU5yM4McJ1M7JLnfRJWFt7sm1kGQfuU_Fg@mail.gmail.com>
 Message-ID: 
- <CAOSpxdZvQTo6Kk2JM96ut7J7=9ST4w1=m2_spsdve0USAL-L3g@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 3/9] devshell.bbclass: Allow devshell &
- pydevshell to use the network
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
+ <CADqWEoSCJay3HL8iDU5yM4McJ1M7JLnfRJWFt7sm1kGQfuU_Fg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] rng-tools: disable libjitterentropy due to cpu
+ usage
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: wak@google.com, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Pobox-Relay-ID: 
+ F73B32E2-CAF4-11EC-A12E-5E84C8D8090B-78235051!pb-smtp1.pobox.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 May 2022 13:55:25 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 03 May 2022 15:23:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165202
+ https://lists.openembedded.org/g/openembedded-core/message/165204
 
-On Mon, May 2, 2022 at 9:52 PM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
+> Isn't this desirable if you don't have an hwrng?
+Perhaps what's needed then is a 'hwrng' in MACHINE_FEATURES?
+
+> Can=E2=80=99t rng-tools figure out the right sources at run time?
+rng-tools enables jitter by default if it's built in, even if hwrng is
+available. Maybe it's faster to do this on more powerful machines but
+it's disruptive to run the cpu at max for so long on my pi's.
+
+We could also disable it with the /etc/defaults file with `-x jitter`.
+
+
+On Mon, May 2, 2022 at 11:47 PM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
 >
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Steve Sakoman
-> > Sent: den 3 maj 2022 01:03
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core][dunfell 3/9] devshell.bbclass: Allow devshell &
-> > pydevshell to use the network
-> >
-> > From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> >
-> > Otherwise it will fail if using OE_TERMINAL = "xterm" with the not so
-> > helpful error:
-> >
-> >   xterm: Xt error: Can't open display: localhost:0.0
-> >
-> > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > (cherry picked from commit ba53fc3bcecfe32401471dc1008c7ead96504150)
-> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> > ---
-> >  meta/classes/devshell.bbclass | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
-> > index 76dd0b42ee..ad9f267848 100644
-> > --- a/meta/classes/devshell.bbclass
-> > +++ b/meta/classes/devshell.bbclass
-> > @@ -21,6 +21,7 @@ addtask devshell after do_patch
-> > do_prepare_recipe_sysroot
-> >  DEVSHELL_STARTDIR ?= "${S}"
-> >  do_devshell[dirs] = "${DEVSHELL_STARTDIR}"
-> >  do_devshell[nostamp] = "1"
-> > +do_devshell[network] = "1"
-> >
-> >  # devshell and fakeroot/pseudo need careful handling since only the final
-> >  # command should run under fakeroot emulation, any X connection should
-> > @@ -154,3 +155,4 @@ python do_devpyshell() {
-> >  addtask devpyshell after do_patch
-> >
-> >  do_devpyshell[nostamp] = "1"
-> > +do_devpyshell[network] = "1"
-> > --
-> > 2.25.1
+> Yes, I wonder why this needs to be disabled altogether at build time. Can=
+=E2=80=99t rng-tools figure out the right sources at run time?
 >
-> This shouldn't be needed for Dunfell, should it? I would assume the support
-> for blocking network operations per task hasn't been backported.
-
-Thanks so much for the review Peter!
-
-Clearly I haven't yet perfected my mode switching between kirkstone
-and dunfell :-(
-
-Steve
+> Alex
+>
+> On Mon 2. May 2022 at 23.33, William A. Kennington III via lists.openembe=
+dded.org <wak=3Dgoogle.com@lists.openembedded.org> wrote:
+>>
+>> Isn't this desirable if you don't have an hwrng? We want to generate
+>> entropy so we can perform cryptographic operations by default if we
+>> bring in rng-tools.
+>>
+>> On Mon, May 2, 2022 at 2:10 PM Wes Malone <wes@mitsi.com> wrote:
+>> >
+>> > After boot rngd maxes out the processor initializing JITTER entropy fo=
+r
+>> > some minutes. Here we disable libjitterentropy in favor of only using
+>> > the hardware random source via config.
+>> >
+>> > Signed-off-by: Wes Malone <wes@mitsi.com>
+>> > ---
+>> >  meta/recipes-support/rng-tools/rng-tools_6.15.bb | 1 -
+>> >  1 file changed, 1 deletion(-)
+>> >
+>> > diff --git a/meta/recipes-support/rng-tools/rng-tools_6.15.bb b/meta/r=
+ecipes-support/rng-tools/rng-tools_6.15.bb
+>> > index 0696351903..4eed060960 100644
+>> > --- a/meta/recipes-support/rng-tools/rng-tools_6.15.bb
+>> > +++ b/meta/recipes-support/rng-tools/rng-tools_6.15.bb
+>> > @@ -21,7 +21,6 @@ inherit autotools update-rc.d systemd pkgconfig
+>> >
+>> >  EXTRA_OECONF =3D "--without-rtlsdr"
+>> >
+>> > -PACKAGECONFIG ??=3D "libjitterentropy"
+>> >  PACKAGECONFIG:libc-musl =3D "libargp libjitterentropy"
+>> >
+>> >  PACKAGECONFIG[libargp] =3D "--with-libargp,--without-libargp,argp-sta=
+ndalone,"
+>> > --
+>> > 2.36.0
+>> >
+>> >
+>> >
+>> >
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#165177): https://lists.openembedded.org/g/openembedd=
+ed-core/message/165177
+>> Mute This Topic: https://lists.openembedded.org/mt/90845997/1686489
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [a=
+lex.kanavin@gmail.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
 
