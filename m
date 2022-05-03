@@ -2,137 +2,118 @@ Return-Path: <davidegarde2000@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C954CC433F5
-	for <webhook@archiver.kernel.org>; Tue,  3 May 2022 09:46:43 +0000 (UTC)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web11.9053.1651571194541615670
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8C04C433EF
+	for <webhook@archiver.kernel.org>; Tue,  3 May 2022 09:56:33 +0000 (UTC)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+ [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web11.9117.1651571792090896320
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 May 2022 02:46:34 -0700
+ Tue, 03 May 2022 02:56:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=eIEj+gHA;
- spf=pass (domain: gmail.com, ip: 209.85.218.50,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OiBcIQGo;
+ spf=pass (domain: gmail.com, ip: 209.85.208.52,
  mailfrom: davidegarde2000@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id i27so32369775ejd.9
+Received: by mail-ed1-f52.google.com with SMTP id k27so19252968edk.4
         for <openembedded-core@lists.openembedded.org>;
- Tue, 03 May 2022 02:46:34 -0700 (PDT)
+ Tue, 03 May 2022 02:56:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=idDMupC58PJxmXJyg2TW9VjbvVraRwYihpjwg2cDNBk=;
-        b=eIEj+gHAk1UoluKQqwni7LaYUvL9YG3FRZlGEOUOc5PWgR3KlpPjJvABs7jQYcCUWn
-         T8FjT0vCYl0RTlBYeDnm4kB5BKbyH/g2LuD4NPhfswKvXLf+tf2tiuNrG8X+hocqXQ6I
-         Ek4oju09iWB3q5DmhGNyE09NrWXsh3OXk+OqfqMCCaP1J72KRY6W5UY617+Jdih9IG2P
-         mZaYjcsSu0w8G9jmktOlmXCWeWNOyb21Xg8I8ADVzVfViO9IiujhuDTdlTG7sOxR0FO9
-         M5DTi+eO2ApkQzX9QhIX6wnJ4H1woqjL+BPjMV4YxhHVtY/EDcGCHTJTnmpLVCiAucWs
-         dY1g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IYdfPf6sewE+HjcudddHjZzri51e2U3hreoUY4G4qcU=;
+        b=OiBcIQGoYcxEO0U9fBNUGuE+90CnJiGrWpiVzmQJNhx5WoSDfcAis0LFlREBGEWvIQ
+         bt9afoyipzcK6TpmaxrVzXhh9YHHBcSvnyg4mjxJOc1ivi0qi9FvpeckhQfS1c9U72LV
+         1SfjKdDRinAFFSqsFiCRD5QuPM6jKl3UqbUKYo755HdhUiDA0NupB4LuxLD2ZwGf7pSV
+         UtrzkyQDlMM05vfvnNObK2GQrLIsXtTlLCsviMZRov3ehLK/HvBd7aurukxVmjpMfl/L
+         M3IIS990d4IVmUWNrL6OJmzGPG4WoULGHLNc7NJvJ8LZP7KKSBzoArwyZHmrCr+YeTEg
+         DI9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=idDMupC58PJxmXJyg2TW9VjbvVraRwYihpjwg2cDNBk=;
-        b=MQw3Jnq+pkkBi1p63F8ZCgF0N4zRdRYOyvDPHvTiCppb1KQyCPwZeXK/XrmGVdvZ6G
-         2z7XTVCgRbJMRyYxU7/yNQcgE3ZJJ2nfQix4U3QzbBV+HwHFEJY7v49ZitXGshJ3ylPS
-         XJ3psoheCVdNphxx3TTQtkpqrSXpus58OMcs8J3meqYZQdHNRkI1Wcj2bTkD9P+MuUzA
-         mUHmDCWcRtXCMl3rH3wFagqHWUg/9C4g8hQoJCEI+xsLur8xLlfDVsR4SbmLpcaVE+Iy
-         qdwFe0PNu2OBoO6YA1eaNl0GYeoJ7eSVrdUE+7nsxwVBsYVT3cqMC3OcnLhBLjSEX3ax
-         +qhg==
-X-Gm-Message-State: AOAM530F5crxG2FAYpdo1pzObTV3kiqgmoJq1NcvQQ+k8TP1xnum3Tuq
-	Yehj9scs1jUzmK9YTba+1xo=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IYdfPf6sewE+HjcudddHjZzri51e2U3hreoUY4G4qcU=;
+        b=2AF93woo1IJ+0Lh2f39Dgif+ymkLScGbKVTYp6cqc4qAViQtITLRNiRp/mUuHC7Byq
+         04/myyHknFyyNgYo2UHmJ2gF3YCJGEhHBKlETQAMKS2IqEY1AtkJWWYwrSyT1pdJNQwe
+         QAWNBvxzER5JHq+L4EhykOHK1THwme5hF8wDI6LJ2M79kBy8oIchYbExAQisy86ZdGcX
+         MlAE+JAotYAHuA759WLdsqknoAJ7Ous+EPkr0Ky9MxgCfxcVnBJnC02e0vJDgxhYCIZf
+         abRH+EVrAYP97z4ojMNets3gDwwBBRGRl/Jm4dM02N2xt61ScLGesUZxHqwk97PIEntH
+         PfRA==
+X-Gm-Message-State: AOAM5328+rp+Zly3YXobktG4TQpwrds6/v3MCueDrbeN2oTYe++Amllf
+	ZdXA3hcwIjnZKwodvTHVzH5UaDvqwn4=
 X-Google-Smtp-Source: 
- ABdhPJz7zUZ73yGixOtVtvWb6fgJlUlNqWqApYFN2nzd2/6fXSCW5w//beY9asd+zkECbN5gL0ihHQ==
-X-Received: by 2002:a17:907:3f13:b0:6f3:ad46:be1f with SMTP id
- hq19-20020a1709073f1300b006f3ad46be1fmr14663720ejc.627.1651571192924;
-        Tue, 03 May 2022 02:46:32 -0700 (PDT)
-Received: from smtpclient.apple (host-87-5-19-163.retail.telecomitalia.it.
- [87.5.19.163])
+ ABdhPJzdPScOB/TxgL5nqQEx2gYZgzct3TwXBY7zV8pQRtFnu/eVxqPKh6Pec7SY7MX7cYb23Ncu1w==
+X-Received: by 2002:aa7:c445:0:b0:425:d509:2113 with SMTP id
+ n5-20020aa7c445000000b00425d5092113mr17543473edr.12.1651571790249;
+        Tue, 03 May 2022 02:56:30 -0700 (PDT)
+Received: from tony3oo3-XPS-13-9370.home
+ (host-87-5-19-163.retail.telecomitalia.it. [87.5.19.163])
         by smtp.gmail.com with ESMTPSA id
- el8-20020a170907284800b006f3ef214e12sm4469112ejc.120.2022.05.03.02.46.32
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 03 May 2022 02:46:32 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
-Subject: Re: [OE-core] [master][kirkstone][PATCH] rootfs-postcommands: fix
- symlinks where link and output path are equal
+ er10-20020a170907738a00b006f4512e7bc8sm2031278ejc.60.2022.05.03.02.56.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 May 2022 02:56:29 -0700 (PDT)
 From: Davide Gardenal <davidegarde2000@gmail.com>
-In-Reply-To: <20220503114304.6e43082b@melee>
-Date: Tue, 3 May 2022 11:46:31 +0200
-Cc: openembedded-core@lists.openembedded.org,
- Davide Gardenal <davide.gardenal@huawei.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <C3C7402C-F0A4-4CB0-9C94-F849E3B1C65C@gmail.com>
-References: <20220503080309.9511-1-davide.gardenal@huawei.com>
- <20220503114304.6e43082b@melee>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: Apple Mail (2.3696.80.82.1.1)
+X-Google-Original-From: Davide Gardenal <davide.gardenal@huawei.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Davide Gardenal <davide.gardenal@huawei.com>
+Subject: [master][kirkstone][PATCH v2] rootfs-postcommands: fix symlinks where
+ link and output path are equal
+Date: Tue,  3 May 2022 11:56:27 +0200
+Message-Id: <20220503095627.12752-1-davide.gardenal@huawei.com>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 May 2022 09:46:43 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 03 May 2022 09:56:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165198
+ https://lists.openembedded.org/g/openembedded-core/message/165199
 
-Yes, I don=E2=80=99t know how this happened...
+When creating the manifest and the testdata.json links, if the link
+name is equal to the output name the link is not created, otherwise
+it is. This prevents a link-to-self in the first case.
 
-> Il giorno 3 mag 2022, alle ore 11:43, Luca Ceresoli =
-<luca.ceresoli@bootlin.com> ha scritto:
->=20
-> Hi Davide,
->=20
-> Il giorno Tue,  3 May 2022 10:03:09 +0200
-> "Davide Gardenal" <davidegarde2000@gmail.com> ha scritto:
->=20
->> When creating the manifest and the testdata.json links, if the link
->> name is equal to the output name the link is not created, otherwise
->> it is. This prevents a link-to-self in the first case.
->>=20
->> Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
->> ---
->> meta/classes/rootfs-postcommands.bbclass | 14 ++++++++------
->> 1 file changed, 8 insertions(+), 6 deletions(-)
->>=20
->> diff --git a/meta/classes/rootfs-postcommands.bbclass
->> b/meta/classes/rootfs-postcommands.bbclass index
->> 7b92df69c5..c949115647 100644 ---
->> a/meta/classes/rootfs-postcommands.bbclass +++
->> b/meta/classes/rootfs-postcommands.bbclass @@ -267,9 +267,10 @@
->> python write_image_manifest () {=20
->>     if os.path.exists(manifest_name) and link_name:
->>         manifest_link =3D deploy_dir + "/" + link_name + ".manifest"
->> -        if os.path.lexists(manifest_link):
->> -            os.remove(manifest_link)
->> -        os.symlink(os.path.basename(manifest_name), manifest_link)
->> +		if manifest_link !=3D manifest_name
->> +			if os.path.lexists(manifest_link):
->> +				os.remove(manifest_link)
->> +			os.symlink(os.path.basename(manifest_name),
->=20
-> This change is mixing tabs and spaces.
->=20
->> # Can be used to create /etc/timestamp during image construction to
->> give a reasonably @@ -339,9 +340,10 @@ python write_image_test_data()
->> {=20
->>     if os.path.exists(testdata_name) and link_name:
->>         testdata_link =3D os.path.join(deploy_dir, "%s.testdata.json"
->> % link_name)
->> -        if os.path.lexists(testdata_link):
->> -            os.remove(testdata_link)
->> -        os.symlink(os.path.basename(testdata_name), testdata_link)
->> +		if testdata_link !=3D testdata_name:
->> +			if os.path.lexists(testdata_link):
->> +				os.remove(testdata_link)
->> +			os.symlink(os.path.basename(testdata_name),
->=20
-> And this as well.
->=20
-> Can you send v2 with spaces-only indentation?
->=20
-> Best regards,
-> --=20
-> Luca Ceresoli, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
+---
+Updates:
+    - v2: change tabs into spaces
+---
+ meta/classes/rootfs-postcommands.bbclass | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index 7b92df69c5..2fa388ba95 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -267,9 +267,10 @@ python write_image_manifest () {
+ 
+     if os.path.exists(manifest_name) and link_name:
+         manifest_link = deploy_dir + "/" + link_name + ".manifest"
+-        if os.path.lexists(manifest_link):
+-            os.remove(manifest_link)
+-        os.symlink(os.path.basename(manifest_name), manifest_link)
++        if manifest_link != manifest_name
++            if os.path.lexists(manifest_link):
++                os.remove(manifest_link)
++            os.symlink(os.path.basename(manifest_name), manifest_link)
+ }
+ 
+ # Can be used to create /etc/timestamp during image construction to give a reasonably
+@@ -339,9 +340,10 @@ python write_image_test_data() {
+ 
+     if os.path.exists(testdata_name) and link_name:
+         testdata_link = os.path.join(deploy_dir, "%s.testdata.json" % link_name)
+-        if os.path.lexists(testdata_link):
+-            os.remove(testdata_link)
+-        os.symlink(os.path.basename(testdata_name), testdata_link)
++        if testdata_link != testdata_name:
++            if os.path.lexists(testdata_link):
++                os.remove(testdata_link)
++            os.symlink(os.path.basename(testdata_name), testdata_link)
+ }
+ write_image_test_data[vardepsexclude] += "TOPDIR"
+ 
+-- 
+2.32.0
 
 
