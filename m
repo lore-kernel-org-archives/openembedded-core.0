@@ -1,110 +1,211 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BFEFC433EF
-	for <webhook@archiver.kernel.org>; Mon,  2 May 2022 23:03:39 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web11.4337.1651532611775958138
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2469C433EF
+	for <webhook@archiver.kernel.org>; Tue,  3 May 2022 04:47:21 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web10.7270.1651553231181980528
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 May 2022 16:03:31 -0700
+ Mon, 02 May 2022 21:47:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=BoSp0Eb8;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43,
- mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id
- a15-20020a17090ad80f00b001dc2e23ad84so684295pjv.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=D+lA7sXO;
+ spf=pass (domain: gmail.com, ip: 209.85.167.41,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f41.google.com with SMTP id x17so28493972lfa.10
         for <openembedded-core@lists.openembedded.org>;
- Mon, 02 May 2022 16:03:31 -0700 (PDT)
+ Mon, 02 May 2022 21:47:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=03H1F4wiOOjegbDdGlQ6MFT6/kRYzd0pRB5obBMoQvY=;
-        b=BoSp0Eb8f5lz9qsDSg2Amia+a3FFjEJWKZD7480jZ7GzXBkSkD99A3swtipUFHb+Mm
-         3aWqOSSLxLhrPia59Ih8fBbxLffIzAz4Zmw9wdCpjS6564toaQSr6rVdsjwTTTX0IKO0
-         1HSADRt+OmqXLU/McHzEPvDdE3gss2tYpUGDUyPlKyfjCiNoQUXidwgv7X+aX+jxiuvV
-         Q++JYpAgLmgH4X8+ORrE7OUN1dSwUMHcjqyynPTBfoVnrcYkIbVjUwx/SCUbibbOiWAT
-         G2d2tx2fAZ7OBw1LLw0w75LplZbRn7voSkzVTJmHJdm5d/n8J/X74LF7fiL8R2R7+0xo
-         g5BA==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hqqphp4RMbAjIlZO9swEQon7zLKEjk6hoIvJ3ZzvMZw=;
+        b=D+lA7sXOXKjwdCp5R/LMMVv34pvmJBR4Xn6cIGE6YhaVxTdJhFAUuEjQbaATnMM92f
+         ulsiNLcrVHt+mYwx+wseMP+RbfDyCFkXDyl/h3XvrUZ/qVOMrmt6zXHotPbRRyLQ6bdr
+         EuMV3iyXrd64VJlqr2RdSz7522NIJJUzk6QVz/3Y1BRz8ad+1T22PlK1RR37g6teVJmN
+         0lmKrApOTlvuQBmdEWsF4eL9zIhxMMuq8sbBwAEeq8YtEZRz8QEZ9P9SliTHoyB09oTH
+         nsMYc1YrhqF/8CoKtqQdLDCqko9etZewSoKdYOMjbmd74Nu+voQBA1U78NyzSC6RkrdL
+         T36g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=03H1F4wiOOjegbDdGlQ6MFT6/kRYzd0pRB5obBMoQvY=;
-        b=a+2EmJYTXr0e8EcL+C1JSi1LcVNX9cQ9rRSIDo6ryAJYKqQqesuKc0/KmdW3HyGQgX
-         Fp6VWVZDbuG4AnFqWAruPO0SVsgAvpKIdI4r33HI+Ifci8cs29dw9fEv3EG1ZUyjznxC
-         JGqJuCjPTDSchSlExQdIt/8Vb9C5c0JrWLIaTrqYL+3XMAa/pdpTeTRi0w5SeCTns1ha
-         ZQWo/1LvRIIPWtXm0DMMcl6AMwTA9wBQQ5Zk/VQl7XgFwK6l2BZ6jdj1MlXfQX7z47ix
-         qgPGL6tdbuda6WzQZHg41xXH/SJEr+1uWKFPJCpCqi9YZDM5i+43j8E62EBAbs7TmxOP
-         21Zg==
-X-Gm-Message-State: AOAM533+/2Mi1aEMypo6pgfgWxcZfYCwR2/YqE8gtmCIWMxKBDexGxsL
-	GF2jFojYcN1TaTrdI/sLjUBSo0sIMHEahLNjf5A=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hqqphp4RMbAjIlZO9swEQon7zLKEjk6hoIvJ3ZzvMZw=;
+        b=VE5NcPo2kvvIdKm86GNony4ku674Lz0Vuh2idy8sg2VgXpvHiL4GIcZafLNLVDHW1o
+         r9COvceDWrikfkIhr8BwnWynAVtprntUlBSm6+7oTdylJHov8URRGRDhRXXhkalbYxpf
+         84RXjEbagXT8VjcrUVQnEtfm+S0o6JgLCSPAKyfT+pYk0y2ynnjwTZOIy3F+XSsPwSDA
+         lfjCqQiAuqjw5NrqYD91y9gugcmKkemJHW1WwOsTo0c0939rMh47F1IMUzS4yYrVTg9Q
+         Zd3RJRW5Ys3fUELSDZN25hRnNZ4bx06SlTEyHbdVlnNFOMHjSMZUaClU3sAJcZCfA8Sj
+         mkbw==
+X-Gm-Message-State: AOAM530xqJXFAcKSP9yk/0J/wVGbsdvCENDa2J9Qtiw3lwv2xiegWUOf
+	owBuoWIKdP9VluK1Em7bHAj1mfHru9dIbqLVYdo=
 X-Google-Smtp-Source: 
- ABdhPJxybsIQ3hx/sX3zYRKhuRxSpx3bIBjd9bkzAUCVEVXKe/g2Lp4qAFsxPFieibI+D4mFKgxecg==
-X-Received: by 2002:a17:903:244d:b0:15e:a3a2:5a75 with SMTP id
- l13-20020a170903244d00b0015ea3a25a75mr7527343pls.89.1651532610614;
-        Mon, 02 May 2022 16:03:30 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id
- s7-20020a170902988700b0015eaa9aee50sm2002945plp.202.2022.05.02.16.03.28
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 May 2022 16:03:29 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 9/9] uninative: Upgrade to 3.6 with gcc 12 support
-Date: Mon,  2 May 2022 13:02:54 -1000
-Message-Id: 
- <ccddad20ec7496333af15bdf7ceecf2b5c7b1738.1651531749.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1651531749.git.steve@sakoman.com>
-References: <cover.1651531749.git.steve@sakoman.com>
+ ABdhPJz/taqQhLXayh5Pa5YV1Bw7yLHcr1MDtd3IXVHjuYrbT7dMHB+gaS5L4u3nj9dwB/nwJFLMeGCop7hMYtvITFU=
+X-Received: by 2002:ac2:5b1e:0:b0:472:2c9f:5891 with SMTP id
+ v30-20020ac25b1e000000b004722c9f5891mr10390737lfn.534.1651553229301; Mon, 02
+ May 2022 21:47:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220502211001.4183095-1-wes@mitsi.com>
+ <20220502211001.4183095-2-wes@mitsi.com>
+ <CAPnigKkL5LeyUj5NGwb0iYOeEBGSvm0FAO25zmVD2G9KATEijg@mail.gmail.com>
+In-Reply-To: 
+ <CAPnigKkL5LeyUj5NGwb0iYOeEBGSvm0FAO25zmVD2G9KATEijg@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 3 May 2022 06:46:58 +0200
+Message-ID: 
+ <CANNYZj-19bZmShcS4ws_3hDKpxiir7-abo5M-_WEiEUUCCK25Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] rng-tools: disable libjitterentropy due to cpu
+ usage
+To: wak@google.com
+Cc: Wes Malone <wes@mitsi.com>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000008f6a6a05de14334a"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 May 2022 23:03:39 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 03 May 2022 04:47:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165188
+ https://lists.openembedded.org/g/openembedded-core/message/165189
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+--0000000000008f6a6a05de14334a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-There are reports of issues with the new libstdc++ from gcc 12. This upgrades
-to a gcc 12 version of uninative to allow builds on those systems. Gcc 12 isn't
-finalised so we may need to add a new version of this if/as appropriate when it
-is.
+Yes, I wonder why this needs to be disabled altogether at build time. Can=
+=E2=80=99t
+rng-tools figure out the right sources at run time?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e3da4da7e5da5bb9e1d360e2be2fdd5132e69320)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Alex
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index bfe05ce1eb..411fe45a24 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -7,9 +7,9 @@
- #
- 
- UNINATIVE_MAXGLIBCVERSION = "2.35"
--UNINATIVE_VERSION = "3.5"
-+UNINATIVE_VERSION = "3.6"
- 
- UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
--UNINATIVE_CHECKSUM[aarch64] ?= "6de0771bd21e0fcb5e80388e5b561a8023b24083bcbf46e056a089982aff75d7"
--UNINATIVE_CHECKSUM[i686] ?= "8c8745becbfa1c341bae839c7eab56ddf17ce36c303bcd73d3b2f2f788b631c2"
--UNINATIVE_CHECKSUM[x86_64] ?= "e8047a5748e6f266165da141eb6d08b23674f30e477b0e5505b6403d50fbc4b2"
-+UNINATIVE_CHECKSUM[aarch64] ?= "d64831cf2792c8e470c2e42230660e1a8e5de56a579cdd59978791f663c2f3ed"
-+UNINATIVE_CHECKSUM[i686] ?= "2f0ee9b66b1bb2c85e2b592fb3c9c7f5d77399fa638d74961330cdb8de34ca3b"
-+UNINATIVE_CHECKSUM[x86_64] ?= "9bfc4c970495b3716b2f9e52c4df9f968c02463a9a95000f6657fbc3fde1f098"
--- 
-2.25.1
+On Mon 2. May 2022 at 23.33, William A. Kennington III via
+lists.openembedded.org <wak=3Dgoogle.com@lists.openembedded.org> wrote:
 
+> Isn't this desirable if you don't have an hwrng? We want to generate
+> entropy so we can perform cryptographic operations by default if we
+> bring in rng-tools.
+>
+> On Mon, May 2, 2022 at 2:10 PM Wes Malone <wes@mitsi.com> wrote:
+> >
+> > After boot rngd maxes out the processor initializing JITTER entropy for
+> > some minutes. Here we disable libjitterentropy in favor of only using
+> > the hardware random source via config.
+> >
+> > Signed-off-by: Wes Malone <wes@mitsi.com>
+> > ---
+> >  meta/recipes-support/rng-tools/rng-tools_6.15.bb | 1 -
+> >  1 file changed, 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-support/rng-tools/rng-tools_6.15.bb
+> b/meta/recipes-support/rng-tools/rng-tools_6.15.bb
+> > index 0696351903..4eed060960 100644
+> > --- a/meta/recipes-support/rng-tools/rng-tools_6.15.bb
+> > +++ b/meta/recipes-support/rng-tools/rng-tools_6.15.bb
+> > @@ -21,7 +21,6 @@ inherit autotools update-rc.d systemd pkgconfig
+> >
+> >  EXTRA_OECONF =3D "--without-rtlsdr"
+> >
+> > -PACKAGECONFIG ??=3D "libjitterentropy"
+> >  PACKAGECONFIG:libc-musl =3D "libargp libjitterentropy"
+> >
+> >  PACKAGECONFIG[libargp] =3D
+> "--with-libargp,--without-libargp,argp-standalone,"
+> > --
+> > 2.36.0
+> >
+> >
+> >
+> >
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#165177):
+> https://lists.openembedded.org/g/openembedded-core/message/165177
+> Mute This Topic: https://lists.openembedded.org/mt/90845997/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--0000000000008f6a6a05de14334a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Yes, I wonder why this needs to be disabled altogether at=
+ build time. Can=E2=80=99t rng-tools figure out the right sources at run ti=
+me?</div><div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><=
+div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon 2. M=
+ay 2022 at 23.33, William A. Kennington III via <a href=3D"http://lists.ope=
+nembedded.org">lists.openembedded.org</a> &lt;wak=3D<a href=3D"mailto:googl=
+e.com@lists.openembedded.org">google.com@lists.openembedded.org</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;border=
+-left-color:rgb(204,204,204)">Isn&#39;t this desirable if you don&#39;t hav=
+e an hwrng? We want to generate<br>
+entropy so we can perform cryptographic operations by default if we<br>
+bring in rng-tools.<br>
+<br>
+On Mon, May 2, 2022 at 2:10 PM Wes Malone &lt;<a href=3D"mailto:wes@mitsi.c=
+om" target=3D"_blank">wes@mitsi.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; After boot rngd maxes out the processor initializing JITTER entropy fo=
+r<br>
+&gt; some minutes. Here we disable libjitterentropy in favor of only using<=
+br>
+&gt; the hardware random source via config.<br>
+&gt;<br>
+&gt; Signed-off-by: Wes Malone &lt;<a href=3D"mailto:wes@mitsi.com" target=
+=3D"_blank">wes@mitsi.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-support/rng-tools/<a href=3D"http://rng-tools_6.15.=
+bb" rel=3D"noreferrer" target=3D"_blank">rng-tools_6.15.bb</a> | 1 -<br>
+&gt;=C2=A0 1 file changed, 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-support/rng-tools/<a href=3D"http://rng-tool=
+s_6.15.bb" rel=3D"noreferrer" target=3D"_blank">rng-tools_6.15.bb</a> b/met=
+a/recipes-support/rng-tools/<a href=3D"http://rng-tools_6.15.bb" rel=3D"nor=
+eferrer" target=3D"_blank">rng-tools_6.15.bb</a><br>
+&gt; index 0696351903..4eed060960 100644<br>
+&gt; --- a/meta/recipes-support/rng-tools/<a href=3D"http://rng-tools_6.15.=
+bb" rel=3D"noreferrer" target=3D"_blank">rng-tools_6.15.bb</a><br>
+&gt; +++ b/meta/recipes-support/rng-tools/<a href=3D"http://rng-tools_6.15.=
+bb" rel=3D"noreferrer" target=3D"_blank">rng-tools_6.15.bb</a><br>
+&gt; @@ -21,7 +21,6 @@ inherit autotools update-rc.d systemd pkgconfig<br>
+&gt;<br>
+&gt;=C2=A0 EXTRA_OECONF =3D &quot;--without-rtlsdr&quot;<br>
+&gt;<br>
+&gt; -PACKAGECONFIG ??=3D &quot;libjitterentropy&quot;<br>
+&gt;=C2=A0 PACKAGECONFIG:libc-musl =3D &quot;libargp libjitterentropy&quot;=
+<br>
+&gt;<br>
+&gt;=C2=A0 PACKAGECONFIG[libargp] =3D &quot;--with-libargp,--without-libarg=
+p,argp-standalone,&quot;<br>
+&gt; --<br>
+&gt; 2.36.0<br>
+&gt;<br>
+&gt;<br>
+&gt; <br>
+&gt;<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#165177): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/165177" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/165177</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/90845997/1686=
+489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/90845997/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--0000000000008f6a6a05de14334a--
 
