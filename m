@@ -1,103 +1,108 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5670C433F5
-	for <webhook@archiver.kernel.org>; Wed,  4 May 2022 14:24:18 +0000 (UTC)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
- [209.85.219.172])
- by mx.groups.io with SMTP id smtpd.web12.11.1651674257730790499
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5421C433EF
+	for <webhook@archiver.kernel.org>; Wed,  4 May 2022 14:50:18 +0000 (UTC)
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com
+ [209.85.222.175])
+ by mx.groups.io with SMTP id smtpd.web09.412.1651675814665502430
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 May 2022 07:24:17 -0700
+ Wed, 04 May 2022 07:50:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jCBFMYj2;
- spf=pass (domain: gmail.com, ip: 209.85.219.172,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-yb1-f172.google.com with SMTP id r11so2634859ybg.6
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=c7ObumU8;
+ spf=pass (domain: gmail.com, ip: 209.85.222.175,
+ mailfrom: twoerner@gmail.com)
+Received: by mail-qk1-f175.google.com with SMTP id 126so1088484qkm.4
         for <openembedded-core@lists.openembedded.org>;
- Wed, 04 May 2022 07:24:17 -0700 (PDT)
+ Wed, 04 May 2022 07:50:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AxQee0ifQmA6GoAwFFjybhHHZMNuRrUA7wYV3nZAFBI=;
-        b=jCBFMYj2pn7Imx1GjwBrLau0xMW6o2KB2pDhk9lS97a6zHzqOyg9m56S2j+G11geHl
-         vnIZ+b0EW/HuyFotFc3dzBybt1Xt8jzHvHx5eA5iFs7nHngytiCmZ9H7tsJrIf1OGyBu
-         WlHtCGV4RXUgAXf0g992FXVaMXFzHnBwGQWGiPnSHUxVKhU18njIc7SMzxqUAWWBalaN
-         YnX9dXdnZ48ETjcCb6goH8mYGZ7LXBF6jTMFBZ1De/KsCDBL9/ivKvd3u7eY49fho5qs
-         e8wX9Dycpey33mAhFlcyoZzgbNuSTDynfbk3phymVhYxMzkchhsqyr7JVFoNUbDcyc9w
-         plkg==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YIWujSe2fj/dNX2jfc9XK5vqBL95RG5AzMRaUjQEboI=;
+        b=c7ObumU8XYSToyKDoP7QHjlabsRMmWKdHA9+TN6gVPXsc1FFvKjEsdtnIj9y6MPwM0
+         5KyvDnvMpZwR57g0X0OdHFst3v8N+b7q8m5tTlyVsITfGEeDJyE8DVjKzQiYCggL0PBz
+         9LFgldF6GeIbfZDivD5cezhumBAETRjiYpPNqLEMZkNphZXQhwgGzEfzgX3FJoG5zxwH
+         tXUtpRPGnXW2760ib43Vu2kGoA4ezFNOQkDY8aSXDp06rrf8cFFKOyqqoHTtyAffYLkt
+         WfApLqXFCTNUSP79TQHFoHjgbWI70ACBauVZPtB/tozdEEc+xItxSswZxDLTx2HmktUt
+         wClw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AxQee0ifQmA6GoAwFFjybhHHZMNuRrUA7wYV3nZAFBI=;
-        b=Lcl5r8510KIl0AgixyTFekqRrRMbJJEoqy1n7GXXe1YrrgpdP46Bb06D0+U8qzXfuZ
-         HTfRj8hQmCgdMXkpkRSa8Yq9uia6wmG6h7EQLlqk2UIYbBX7O3p4rgbSeKTexU75Tqn9
-         jcooSs9ACd3YgHLDPwPs+xvdd3Aancq38jGUbg297t+hYV4UobLyZAkQIOfNJIV3kTVU
-         ZnOynjyClxAdpkMv9HEHH76ClfpA6lI5qm3l+JydyyIL/gt73XH0KH2ClcaGi86hYOZB
-         DZCL6U6kRPqDLuFLCJbyzELiua2TGVHKhnJaipnAqRskV1Y7ByjoZm6lDTOCk3JxJrwI
-         QRlw==
-X-Gm-Message-State: AOAM533m9zYrJZDW+ZUtja6bX1abei8X7awdu0mvG8wFSrNmj0rrEZC8
-	bXVvwU4IBGI+a7yerT7GAvS4fjdgMjwvVQWhTAE=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YIWujSe2fj/dNX2jfc9XK5vqBL95RG5AzMRaUjQEboI=;
+        b=gfHCa0XZ6U21IV6zY8aJ2WFIO6xkAIwUJsMnoIi+kyKoppkYpHEPlP95eaqRpC/b2E
+         /xj9cjJyOVWA+g7BIweV4X6i2yRiNBL98w1YlI0BG3ciXVCK6YIXHTmXMwjEnc1Eqk+A
+         lmrtsAG/QSU/B4244QbQ79Pu03pyq4tPqZ3T3LXtjeLTTNdgtIzKysxO0hVA+BaehdYy
+         7nif2zgC8IsNI46G4RyBU62M7fiieJP6exfHF2/01rh2UNh1cztNAvrY7AMrZ5Z73/kb
+         FYHMhaLhPAm5Vn6n71oBV/cDJSVu2eetJCYNhFTzlItq/IyoDsGvbG34tGRJ5qw10CIg
+         v5mg==
+X-Gm-Message-State: AOAM532bMNUq9lPQLejgmhHnAliIBlA6x4yYgGg5kH9X1CQ6DDmplvOk
+	AAhaUfLdy1TtB52PJKFRlk5yYqu1PTY=
 X-Google-Smtp-Source: 
- ABdhPJzKlcV+QpTiyWddb73PBoez+u224mz6TGC7Ua+6cl5ylQhZPrnIcHSRO7aJDF5f846/NGnqdhmPuVf6d9aRexw=
-X-Received: by 2002:a25:3795:0:b0:648:fa25:5268 with SMTP id
- e143-20020a253795000000b00648fa255268mr18836263yba.153.1651674256898; Wed, 04
- May 2022 07:24:16 -0700 (PDT)
+ ABdhPJyNowh07yMahPgccFIXANAebPZMuqhfwluJOHVmmtDyNZHKGBHMSOpzpua3g46tl4SkXKWfCQ==
+X-Received: by 2002:a05:620a:4306:b0:67b:32f1:99c4 with SMTP id
+ u6-20020a05620a430600b0067b32f199c4mr15862890qko.776.1651675813414;
+        Wed, 04 May 2022 07:50:13 -0700 (PDT)
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca.
+ [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id
+ q25-20020ac84519000000b002f39b99f6c7sm7907438qtn.97.2022.05.04.07.50.12
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 May 2022 07:50:12 -0700 (PDT)
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] DISTRO_FEATURES: remove uclibc remnants
+Date: Wed,  4 May 2022 10:50:04 -0400
+Message-Id: <20220504145004.27768-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.36.0.rc2.17.g4027e30c53
 MIME-Version: 1.0
-References: <20220504140956.4373-1-jdmason@kudzu.us>
-In-Reply-To: <20220504140956.4373-1-jdmason@kudzu.us>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 4 May 2022 10:24:05 -0400
-Message-ID: 
- <CADkTA4M8bqvWeo7ghPF_rJjVOFGHxdvpkqtveAntW055p490vw@mail.gmail.com>
-Subject: Re: [PATCH] qemuarmv5: use arm-versatile-926ejs KMACHINE
-To: Jon Mason <jdmason@kudzu.us>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 May 2022 14:24:18 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 04 May 2022 14:50:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165221
+ https://lists.openembedded.org/g/openembedded-core/message/165222
 
-On Wed, May 4, 2022 at 10:09 AM Jon Mason <jdmason@kudzu.us> wrote:
->
-> Use the Arm Versatile 926 kernel configs to get this machine working
-> again.
->
+"argp" was used to tweak a uclibc feature. With uclibc's removal, this
+option to DISTRO_FEATURES is no longer required/used.
 
-Acked-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+---
+ meta/conf/distro/include/default-distrovars.inc | 2 +-
+ meta/conf/local.conf.sample.extended            | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-> Signed-off-by: Jon Mason <jdmason@kudzu.us>
-> ---
->  meta/conf/machine/qemuarmv5.conf | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/conf/machine/qemuarmv5.conf b/meta/conf/machine/qemuarmv5.conf
-> index 2dad504c9932..abdae5f36182 100644
-> --- a/meta/conf/machine/qemuarmv5.conf
-> +++ b/meta/conf/machine/qemuarmv5.conf
-> @@ -15,7 +15,7 @@ QB_MACHINE = "-machine versatilepb"
->  QB_KERNEL_CMDLINE_APPEND = "vmalloc=256"
->  QB_GRAPHICS = "-device virtio-gpu-pci"
->  QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
-> -PREFERRED_VERSION_linux-yocto ??= "5.15%"
->  QB_DTB = "${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
->
-> -KMACHINE:qemuarmv5 = "qemuarm"
-> +PREFERRED_VERSION_linux-yocto ??= "5.15%"
-> +KMACHINE:qemuarmv5 = "arm-versatile-926ejs"
-> --
-> 2.30.2
->
-
-
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index 3edba1b6d0..9f4617be01 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -16,7 +16,7 @@ DISTRO_FEATURES_DEFAULT:remove:riscv32 = "seccomp"
+ # seccomp is not yet ported to ARC
+ DISTRO_FEATURES_DEFAULT:remove:arc = "seccomp"
+ 
+-DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth debuginfod ext2 ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp"
++DISTRO_FEATURES_DEFAULT ?= "acl alsa bluetooth debuginfod ext2 ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat seccomp"
+ DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT}"
+ IMAGE_FEATURES ?= ""
+ 
+diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
+index 68f3a966cd..d24616c764 100644
+--- a/meta/conf/local.conf.sample.extended
++++ b/meta/conf/local.conf.sample.extended
+@@ -35,7 +35,7 @@
+ #DISTRO_FEATURES = "alsa bluetooth ext2 irda ipv4 ipv6 pcmcia usbgadget usbhost wifi nfs zeroconf pci"
+ 
+ # If you want to get an image based on directfb without x11, Please copy this variable to build/conf/local.conf
+-#DISTRO_FEATURES = "alsa argp bluetooth ext2 irda ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g directfb"
++#DISTRO_FEATURES = "alsa bluetooth ext2 irda ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g directfb"
+ 
+ # ENABLE_BINARY_LOCALE_GENERATION controls the generation of binary locale
+ # packages at build time using qemu-native. Disabling it (by setting it to 0)
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.36.0.rc2.17.g4027e30c53
+
 
