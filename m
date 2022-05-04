@@ -1,120 +1,136 @@
-Return-Path: <davidegarde2000@gmail.com>
+Return-Path: <jacob.kroon@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67CB8C433EF
-	for <webhook@archiver.kernel.org>; Wed,  4 May 2022 08:39:16 +0000 (UTC)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web10.4084.1651653551699689542
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6446EC433EF
+	for <webhook@archiver.kernel.org>; Wed,  4 May 2022 08:50:46 +0000 (UTC)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web08.4155.1651654236629545501
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 May 2022 01:39:12 -0700
+ Wed, 04 May 2022 01:50:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=a5msH+iM;
- spf=pass (domain: gmail.com, ip: 209.85.208.54,
- mailfrom: davidegarde2000@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id t5so878770edw.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=K7eZ/BRf;
+ spf=pass (domain: gmail.com, ip: 209.85.208.176,
+ mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lj1-f176.google.com with SMTP id c15so813302ljr.9
         for <openembedded-core@lists.openembedded.org>;
- Wed, 04 May 2022 01:39:11 -0700 (PDT)
+ Wed, 04 May 2022 01:50:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RcXPLRjlAs7ljROKcPjEvp5N2H2ozCTqeycGg1kBdr4=;
-        b=a5msH+iMP3W2dkvKAZcQaX7HPsp2FT00t6ynVUVngtdRm1M95ezQ3FIYl0efFjqSBv
-         gbR9N0UXh58u2x9mzES4RWsyA3Arm6Ns3QUUxNgDMyx8OSqY6A6gf8yMRPsR67tDdmAm
-         BdFdpYkd0TftHSTXH+KEjnsUn27uiBahWttF93lkitQdFiIYaBn5G28Ku8wyEQD3YlgN
-         lywDgka11Whfr7Wx1HsPPIUZ5XZ36k0cjf/zSa9xBa5c7glPlaGVJX1WeqtO86PwMij+
-         4OKBybgVhWY9+4Rk5sF28f5Q1NmDFJsN59yC7UsDfWxyOoApGGjbSYng/bNmlt5CAu9e
-         4I1w==
+        h=message-id:date:mime-version:user-agent:subject:content-language
+         :from:to:references:cc:in-reply-to:content-transfer-encoding;
+        bh=BsEBhF/tXZLbC+q9XSWPV6c8NQhFWiJKDA7o6KmR+sI=;
+        b=K7eZ/BRf8CsYBPbZSo65FUE57A4ddnxn6G/wHpFMzAl8uxQeBZhWpLaVbqxRf6gu1H
+         a4FzO5qyyrmDRE7Xs7UJnuD46KSI5WZWeJj3Fb9ZmY60nuLNk6XsQ14kc7erpHq+W0B/
+         9LUtfDCSD9bao+u2OYwiOq7bGsCAWhE3MrZLH94lqL6RgCcvaH2wbK3kLJvwz33nFQNz
+         sJmqGiqHt1iQHH+ggITmhFTGDLJJ44Aa84t1yySew5QW8uOO5ClcL9j3O6kN4vPrM/HX
+         yC3BwxWXlQm7RS6L0lYnOSWkcn5L74h/ebAuEK2Sr4LTP0xo6x17C0oSuziiPqnCYICa
+         46lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:from:to:references:cc:in-reply-to
          :content-transfer-encoding;
-        bh=RcXPLRjlAs7ljROKcPjEvp5N2H2ozCTqeycGg1kBdr4=;
-        b=uuSgMjGa18ZK3Ta6dRQQ0Grw1v3sFQTxaliElLG23TMKgpY9RUHkIJkB63sQZNrhHN
-         nSrivIw4mL0RbF6+oyL902pO8CGroadKDqmthe/WEmiy6Obam0g4q7bQAjIjdLryk/Lm
-         uzrW0Ern4JpmZJ2GMSqyGERP3G7oRjpoDDmYjlwp1yBnFSvKv7A0FhgtYBa3Ky8+bkcb
-         NczKhUas40YTf5lMtjhINg6GJMJVyrYb3vjK4xprt6f9IbcL/oPScdhK8dw+Ug2tqScH
-         qxLryzbU1+ZMQ38BfN2n15zQsOyPvGhDUZkwiNdqHOffmWh/hosQZltsgCC7QXc0whUK
-         gZIA==
-X-Gm-Message-State: AOAM533GWSg/kSZ06zG1zmkCIVUeY3qUxlwIOfSFapvkOJWL/+Jr5cnU
-	HjxmofkigyTZdz1onlHU9ttBgagEj7I=
+        bh=BsEBhF/tXZLbC+q9XSWPV6c8NQhFWiJKDA7o6KmR+sI=;
+        b=XEicC+cHOrO70eR2kbfecFiTcSn8Nv1CQTCHIHofmbEOJz0wKi/nx209WrDhCT9ioL
+         EP+/PlAsa12J4q527KRwzNeWH+Q68r5tHayzbIWvy/wAfY4FIXegSseQm6EuggkOnsXX
+         Ca9yhRjQnY1jh+GTP/IDndrH4MQexHisUO32JIeTs0XpTEJinRSazs71UZS4q1+6QmuW
+         0GiJAAymYHcKTYWeL0Fj0pdkJS4UI81wR161+HCDTTTkI4DlnVNBmMXTQX0UyNVkNIRd
+         G+9fFTuGh2vsuDm9iCOQK7K/wOp0dSxzjCDGsR40Kckl2UZTpw8fNV0Nh7+43NQCClgz
+         NnPQ==
+X-Gm-Message-State: AOAM5336TakmlP+7XHihDTLh5uTwq5wZ+LtE65ZpEXaiYLDpj9fR9fXQ
+	GRMBc23M1o5aXueLoJCsU38=
 X-Google-Smtp-Source: 
- ABdhPJy0LsV7SDNtXcfmCxWtgx+0yrgL7VwzEhOHZ9wS/7Q8ga7gDByShhHRlJS/Z9HGWL0PP7eH7Q==
-X-Received: by 2002:a05:6402:34c6:b0:427:c65d:c254 with SMTP id
- w6-20020a05640234c600b00427c65dc254mr14344257edc.88.1651653549786;
-        Wed, 04 May 2022 01:39:09 -0700 (PDT)
-Received: from tony3oo3-XPS-13-9370.home
- (host-87-5-19-163.retail.telecomitalia.it. [87.5.19.163])
+ ABdhPJz3C12DR0JEtsB1BSEGXn9mNvD8DkhCDGWe0wYA7u10cFfdEmra9Gt4G4b06G4Ewu/PyNIrNA==
+X-Received: by 2002:a05:651c:b26:b0:250:5a0f:66f3 with SMTP id
+ b38-20020a05651c0b2600b002505a0f66f3mr7162172ljr.132.1651654234231;
+        Wed, 04 May 2022 01:50:34 -0700 (PDT)
+Received: from [192.168.10.102] (89-253-118-72.customers.ownit.se.
+ [89.253.118.72])
         by smtp.gmail.com with ESMTPSA id
- el8-20020a170907284800b006f3ef214e14sm5463498ejc.122.2022.05.04.01.39.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 01:39:09 -0700 (PDT)
-From: Davide Gardenal <davidegarde2000@gmail.com>
-X-Google-Original-From: Davide Gardenal <davide.gardenal@huawei.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Davide Gardenal <davide.gardenal@huawei.com>
-Subject: [master][kirkstone][PATCH v3] rootfs-postcommands: fix symlinks where
- link and output path are equal
-Date: Wed,  4 May 2022 10:39:04 +0200
-Message-Id: <20220504083904.10018-1-davide.gardenal@huawei.com>
-X-Mailer: git-send-email 2.32.0
+ d27-20020ac2545b000000b0047255d210easm1147894lfn.25.2022.05.04.01.50.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 May 2022 01:50:33 -0700 (PDT)
+Message-ID: <5cfedc42-5db7-0a0f-9c68-0565682b14a8@gmail.com>
+Date: Wed, 4 May 2022 10:50:32 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [OE-core] [PATCH] image.bbclass: allow overriding dependency on
+ virtual/kernel:do_deploy
+Content-Language: en-US
+From: Jacob Kroon <jacob.kroon@gmail.com>
+To: Dmitry Baryshkov <dbaryshkov@gmail.com>,
+ openembedded-core@lists.openembedded.org
+References: <20220427073739.4015660-1-dmitry.baryshkov@linaro.org>
+ <98ed4653-93a0-2559-c6ab-4054b1c43be6@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ luca.ceresoli@bootlin.com
+In-Reply-To: <98ed4653-93a0-2559-c6ab-4054b1c43be6@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 May 2022 08:39:16 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 04 May 2022 08:50:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165215
+ https://lists.openembedded.org/g/openembedded-core/message/165216
 
-When creating the manifest and the testdata.json links, if the link
-name is equal to the output name the link is not created, otherwise
-it is. This prevents a link-to-self in the first case.
+Hi Dmitry,
 
-Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
----
-Updates:
-    - v2: change tabs into spaces
-    - v3: add missing ':' following an if statement
----
- meta/classes/rootfs-postcommands.bbclass | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+Do you want to send a patch for fixing this ? Otherwise I'll send a
+patch reverting the changes.
 
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index 7b92df69c5..2fa388ba95 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -267,9 +267,10 @@ python write_image_manifest () {
- 
-     if os.path.exists(manifest_name) and link_name:
-         manifest_link = deploy_dir + "/" + link_name + ".manifest"
--        if os.path.lexists(manifest_link):
--            os.remove(manifest_link)
--        os.symlink(os.path.basename(manifest_name), manifest_link)
-+        if manifest_link != manifest_name:
-+            if os.path.lexists(manifest_link):
-+                os.remove(manifest_link)
-+            os.symlink(os.path.basename(manifest_name), manifest_link)
- }
- 
- # Can be used to create /etc/timestamp during image construction to give a reasonably
-@@ -339,9 +340,10 @@ python write_image_test_data() {
- 
-     if os.path.exists(testdata_name) and link_name:
-         testdata_link = os.path.join(deploy_dir, "%s.testdata.json" % link_name)
--        if os.path.lexists(testdata_link):
--            os.remove(testdata_link)
--        os.symlink(os.path.basename(testdata_name), testdata_link)
-+        if testdata_link != testdata_name:
-+            if os.path.lexists(testdata_link):
-+                os.remove(testdata_link)
-+            os.symlink(os.path.basename(testdata_name), testdata_link)
- }
- write_image_test_data[vardepsexclude] += "TOPDIR"
- 
--- 
-2.32.0
+Jacob
 
+On 4/29/22 22:53, Jacob Kroon wrote:
+> On 4/27/22 09:37, Dmitry Baryshkov wrote:
+>> Since the commit fe26b2379ecd ("image.bbclass: Depend on
+>> virtual/kernel:do_deploy"), the image.bbclass made building images
+>> depend on virtual/kernel. For some images, including small initramfs,
+>> this is not the case. Allow overriding this dependency in case
+>> developers knows what they are doing.
+>>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>  meta/classes/image.bbclass | 7 ++++++-
+>>  1 file changed, 6 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+>> index 7f1f6f80a464..47776db2b0e6 100644
+>> --- a/meta/classes/image.bbclass
+>> +++ b/meta/classes/image.bbclass
+>> @@ -132,7 +132,12 @@ def rootfs_variables(d):
+>>  
+>>  do_rootfs[vardeps] += "${@rootfs_variables(d)}"
+>>  
+>> -do_build[depends] += "virtual/kernel:do_deploy"
+>> +# This is needed to have kernel image in DEPLOY_DIR.
+>> +# This follow many common usecases and user expectations.
+>> +# But if you are building an image which doesn't need the kernel image at all,
+>> +# you can unset this variable manually.
+>> +KERNELDEPLOYDEPEND ?= "virtual/kernel:do_deploy"
+>> +do_build[depends] += "${KERNELDEPMODDEPEND}"
+>>  
+> 
+> I saw this got merged to master.
+> 
+> The patch doesn't make sense.
+> 
+> It sets
+> 
+> KERNELDEPLOYDEPEND
+> 
+> then uses
+> 
+> KERNELDEPMODDEPEND
+> 
+> ?
+> 
+> And please make it readable by adding some underscores, like
+> 
+> KERNEL_DEPLOY_DEPEND
+> 
+> Jacob
 
