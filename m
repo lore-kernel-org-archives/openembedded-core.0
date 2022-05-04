@@ -1,535 +1,309 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <nicolas.dechesne@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C556C433F5
-	for <webhook@archiver.kernel.org>; Wed,  4 May 2022 00:01:22 +0000 (UTC)
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
- [209.85.160.182])
- by mx.groups.io with SMTP id smtpd.web11.800.1651622472132176649
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6BBEC433F5
+	for <webhook@archiver.kernel.org>; Wed,  4 May 2022 07:18:45 +0000 (UTC)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
+ [209.85.219.182])
+ by mx.groups.io with SMTP id smtpd.web08.3670.1651648717159195522
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 May 2022 17:01:12 -0700
+ Wed, 04 May 2022 00:18:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=MdbJ9DRq;
- spf=pass (domain: gmail.com, ip: 209.85.160.182,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f182.google.com with SMTP id x9so14792226qts.6
+ dkim=pass header.i=@linaro.org header.s=google header.b=OAN+sNcF;
+ spf=pass (domain: linaro.org, ip: 209.85.219.182,
+ mailfrom: nicolas.dechesne@linaro.org)
+Received: by mail-yb1-f182.google.com with SMTP id s30so932084ybi.8
         for <openembedded-core@lists.openembedded.org>;
- Tue, 03 May 2022 17:01:12 -0700 (PDT)
+ Wed, 04 May 2022 00:18:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=pZ0GEzI3tpeNhcMjHD1auxf0ugQTVk0uIosrnMiDzPo=;
-        b=MdbJ9DRqMLvGddUziIRU8wHi6AFalaXh65DQltlizr4aIsiMesISyrjQ4gCy4uU+C3
-         /BVfel2DGEGsYBfYoT+oGk6tAFlb9eeis8r8dJq9sj2o22eGQjNYc6t/bZiBIWd7nHLE
-         IfxObdQaAS7IhNZEFGSJo2tO2g3uxOaJBTsASqfiglh1D/fwfBMKrItcG6foDXbNKjqP
-         xBzewY3AlONOyrUIj5FMCREPdOG7p11LEhbjb5/xXJjcpaDZWjZMiX14KP/W40XLyB7r
-         3i1jN/jt5faljU45aeY33wuXps7Nu1EFvNIFALWbWq0oXRv6ojxZhr9vCM2dQf+NlAMK
-         v9yQ==
+        bh=BtZzH+IkMZUPjAZR8nlW+6ySrix2osvTPpHsRGf33i4=;
+        b=OAN+sNcFBxq+oB0h/P017fdOJpLny0moVc4/JH7se3l5xyhdQLeHm4Kz8Bbe98R3Jp
+         TZandVz9fCMWF3D31hjX2myv2v3KsopmVBAX2nVqWP5TclGWKyfQHbU/xRnWsssNksAi
+         FKzQ+NmzSmtXV3r8pe0iJBTn04rtQx0o6H0EFvJkiR2djWPNAqQ7Fh0TUHB5s01U5Vlk
+         d4zAaODbcxgAjSbvCTd4mdCsjF0s8fKT4zFO6YBPyhsIMw1vkae+B1GIt9cUEfpcAqNn
+         55vJTjxM1I7wggDpKnw1s3KecI52vd0sJ6a5QWUaUDNSbp5fkdZR02H0Ggwg8v+gsXnQ
+         DQ2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=pZ0GEzI3tpeNhcMjHD1auxf0ugQTVk0uIosrnMiDzPo=;
-        b=qpvl/fs8BzzDUGjpijdiA+O/gJ0MKFdi7RwObpW3BJkRn8ka6lDZqREdWvmHCDMkyO
-         TFz7TK6afAhAurx0SM8PiwmFmmHaSoB0oXFLFrjERk9STZ7Lim14iZVZ0vcToF1VDyYG
-         AYQM/9mU0YKiIRjldQhLUAfw0Yh4Y8NojxYqVvG5Mh50uDYbza4AnNaO6A/LrotKEzfl
-         QLMNdd8qNQGe5gg125+a+bAc2s9GHsgD6O2e0rVuP3HOWDLjy+QZGd3vqN6rvUO6qEcH
-         BkzwB9dwwl7cmpcyRkqTVP1pyaTAH+uiZROY+2QOw00DnsuaZI7gGBqlcB3YPtxQ/XRB
-         B/mA==
-X-Gm-Message-State: AOAM533QIlj1pjlndezN2XpVtJXKEyArXfg0XOrUE974lnLSHCxWbwdB
-	ssoAYZFb4yH3o1lDPWFoBypCwagIss5vPCc9LMo=
+        bh=BtZzH+IkMZUPjAZR8nlW+6ySrix2osvTPpHsRGf33i4=;
+        b=NVhFaUJlFyUhhVwpB010DxbxGWe2Yrt74C6egIC9ifkcY3FPn3NwqW4IKOrnZSAWId
+         ZjnLl7b/zO5Nj4059Xy+g4+C0FnRrJ3mgjp2+XsipRmBgK0jJKWRsOPG2DpJg8EF8kLq
+         Gfk/Jg7wGSG2auQgsYRRVruO6fjNxxUUYn+MccobKCpQIy69Rgofl5Hn1Ac2EjP2DEOl
+         KxBlz3QnMBNnI28YEQ6iRoqRoOK6FQ8uMlqJbe5hg4WyUkVTtHef6QzkMp+BPtHwSVB2
+         GxRnnyOJI85hrBE3wKZz2k52dAO7kp5ovSyiYfOj1njfhO6aL0+2Erj2HXVdLshkHVSr
+         bChQ==
+X-Gm-Message-State: AOAM531ajGXIbbYRFOQEoM/uDFIZtlbFK4Hqy6NGd5mXIo5gARUmrHeA
+	zQFjrB3u9g8VmXxBw8lUBDsMTLxO3o3eYDADG+fJAg==
 X-Google-Smtp-Source: 
- ABdhPJyHTrIl5+JzTyzQXUL2SscUe31pvcYsW4MeYDU3e3sBV7OkSr8pmn+DvyiyHSSD0qIwpR8DiUDT6PJUXpU3bPY=
-X-Received: by 2002:a05:622a:108:b0:2f3:b31b:b45f with SMTP id
- u8-20020a05622a010800b002f3b31bb45fmr3233495qtw.532.1651622470864; Tue, 03
- May 2022 17:01:10 -0700 (PDT)
+ ABdhPJxOmcmI9sz4OnVn4J6zN87j952UtwumiVZFmfXx2wKGjqkOoJy3yAq8R4cWIEC7q6/Bwe6MMJxwTbG/7Aej6a8=
+X-Received: by 2002:a05:6902:907:b0:649:59bc:c211 with SMTP id
+ bu7-20020a056902090700b0064959bcc211mr14285098ybb.171.1651648716203; Wed, 04
+ May 2022 00:18:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1651617090.git.steve@sakoman.com>
- <e3891bfd-95ec-15d5-0b11-36966cd3eaa7@gmail.com>
- <CAOSpxdYmHbwwUKJ0ED2uqqpomoVOT0wn39DzHZtYO7rSwBQoCg@mail.gmail.com>
+References: <cover.1651153370.git.bruce.ashfield@gmail.com>
+ <821e6cab4677b71af00197cf2be80680d57aa4ea.camel@linuxfoundation.org>
+ <16EA5E7263695663.11702@lists.openembedded.org>
+ <16EA76835C38B7CA.4798@lists.openembedded.org>
+ <16EA920E59E6B6F1.28542@lists.openembedded.org>
+ <CADkTA4M6NzCMVtEhiu+Hyaqp4gMZViP1XRH1qP1t2Ds3S6TL1w@mail.gmail.com>
+ <f52bff6a24a5c2a015ed595ab09da89b2e249e75.camel@linuxfoundation.org>
 In-Reply-To: 
- <CAOSpxdYmHbwwUKJ0ED2uqqpomoVOT0wn39DzHZtYO7rSwBQoCg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 3 May 2022 17:00:59 -0700
+ <f52bff6a24a5c2a015ed595ab09da89b2e249e75.camel@linuxfoundation.org>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Wed, 4 May 2022 09:18:25 +0200
 Message-ID: 
- <CAMKF1srN1p1K_O1j2+wRJr-u_ao2H=8fUO81w28rz3T5Q_vVnA@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone 00/34] Pull request (cover letter only)
-To: Steve Sakoman <steve@sakoman.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000add49f05de24522d"
+ <CAP71WjzwwV00BAeG6BtVD49fVrCe8rKvToEsKMi0hahxER4PVA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 00/15] kernel-yocto: consolidated pull request
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>,
+	Jon Mason <jdmason@kudzu.us>
+Content-Type: multipart/alternative; boundary="00000000000006005805de2a6f98"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 May 2022 00:01:22 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 04 May 2022 07:18:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165210
+ https://lists.openembedded.org/g/openembedded-core/message/165211
 
---000000000000add49f05de24522d
+--00000000000006005805de2a6f98
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, May 3, 2022 at 4:57 PM Steve Sakoman <steve@sakoman.com> wrote:
+hey Bruce,
 
-> On Tue, May 3, 2022 at 1:44 PM Khem Raj <raj.khem@gmail.com> wrote:
+On Sun, May 1, 2022 at 6:59 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Sat, 2022-04-30 at 17:35 -0400, Bruce Ashfield wrote:
+> > On Sat, Apr 30, 2022 at 12:26 AM Bruce Ashfield via
+> > lists.openembedded.org
+> > <bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
+> > >
+> > > On Fri, Apr 29, 2022 at 4:02 PM Bruce Ashfield via
+> > > lists.openembedded.org
+> > > <bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
+> > > >
+> > > > On Fri, Apr 29, 2022 at 8:41 AM Bruce Ashfield via
+> > > > lists.openembedded.org
+> > > > <bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
+> > > > >
+> > > > >
+> > > > > I'll see about running the strace locally today. Hopefully it pops
+> up
+> > > > > here so I can debug.
+> > > >
+> > > > FYI: I have the landlock test case passing here, there's just an
+> > > > output difference from the kernel. The test is passing.
+> > >
+> > > I have located the exact kernel commit that changed the output, hence
+> > > why the test is failing.
+> > >
+> > > strace upstream hasn't adjusted yet, so I'll spin up a patch, and get
+> > > send patches to the list over the weekend.
 > >
-> > can you pick
-> >
-> >
-> >
-> https://git.openembedded.org/openembedded-core/commit/?id=20e9917b8d40f576b3661bc29e13602a24e86b7b
+> > The two patches that fix the strace ptest fail, and qemuarm graphical
+> > boot are on the list.
 >
-> Yes, I've already got that in my patch set currently under test:
->
->
-> https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+> Thanks Bruce! I've queued it and started it running through testing.
 >
 
-Thanks Steve
+Since this patch, qemuarmv5 fails to build with:
+
+00:01:47 NOTE: Running task 899 of 5734
+(virtual:native:/home/tuxbake/oe/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:
+do_deploy_source_date_epoch)
+00:01:47 ERROR: linux-yocto-5.15.36+gitAUTOINC+fcf48627ea_ebfb1822e9-r0
+do_kernel_metadata: Could not locate BSP definition for qemuarm/standard
+and no defconfig was provided
+00:01:47 ERROR: linux-yocto-5.15.36+gitAUTOINC+fcf48627ea_ebfb1822e9-r0
+do_kernel_metadata:
+ExecutionError('/home/tuxbake/oe/build/tmp/work/qemuarmv5-poky-linux-gnueabi/linux-yocto/5.15.36+gitAUTOINC+fcf48627ea_ebfb1822e9-r0/temp/run.do_kernel_metadata.98856',
+1, None, None)
+00:01:47 ERROR: Logfile of failure stored in:
+/home/tuxbake/oe/build/tmp/work/qemuarmv5-poky-linux-gnueabi/linux-yocto/5.15.36+gitAUTOINC+fcf48627ea_ebfb1822e9-r0/temp/log.do_kernel_metadata.98856
+00:01:47 Log data follows:
+00:01:47 | DEBUG: Executing python function extend_recipe_sysroot
+00:01:47 | NOTE: Direct dependencies are
+['/home/tuxbake/oe/poky/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb:
+do_populate_sysroot']
+00:01:47 | NOTE: Installed into sysroot: []
+00:01:47 | NOTE: Skipping as already exists in sysroot:
+['kern-tools-native']
+00:01:47 | DEBUG: Python function extend_recipe_sysroot finished
+00:01:47 | DEBUG: Executing shell function do_kernel_metadata
+00:01:47 | NOTE: do_kernel_metadata: for summary/debug, set
+KCONF_AUDIT_LEVEL > 0
+00:01:47 | ERROR: Could not locate BSP definition for qemuarm/standard and
+no defconfig was provided
+00:01:47 | WARNING:
+/home/tuxbake/oe/build/tmp/work/qemuarmv5-poky-linux-gnueabi/linux-yocto/5.15.36+gitAUTOINC+fcf48627ea_ebfb1822e9-r0/temp/run.do_kernel_metadata.98856:404
+exit 1 from 'exit 1'
+00:01:47 | WARNING: Backtrace (BB generated script):
+00:01:47 | #1: bbfatal_log,
+/home/tuxbake/oe/build/tmp/work/qemuarmv5-poky-linux-gnueabi/linux-yocto/5.15.36+gitAUTOINC+fcf48627ea_ebfb1822e9-r0/temp/run.do_kernel_metadata.98856,
+line 404
+00:01:47 | #2: do_kernel_metadata,
+/home/tuxbake/oe/build/tmp/work/qemuarmv5-poky-linux-gnueabi/linux-yocto/5.15.36+gitAUTOINC+fcf48627ea_ebfb1822e9-r0/temp/run.do_kernel_metadata.98856,
+line 272
+00:01:47 | #3: main,
+/home/tuxbake/oe/build/tmp/work/qemuarmv5-poky-linux-gnueabi/linux-yocto/5.15.36+gitAUTOINC+fcf48627ea_ebfb1822e9-r0/temp/run.do_kernel_metadata.98856,
+line 435
+00:01:47 NOTE: recipe
+linux-yocto-5.15.36+gitAUTOINC+fcf48627ea_ebfb1822e9-r0: task
+do_kernel_metadata: Failed
+00:01:47 ERROR: Task
+(/home/tuxbake/oe/poky/meta/recipes-kernel/linux/linux-yocto_5.15.bb:do_kernel_metadata)
+failed with exit code '1'
+
+see full build log
+https://oebuilds.tuxbuild.com/28f9WxOsIhBeAgIbQH3DsCwyQCc/build-debug.log
 
 
-> Steve
+
+
+> Cheers,
 >
-> > On 5/3/22 15:33, Steve Sakoman wrote:
-> > > The following changes since commit
-> ca1c990df62f1b3d53b2114a387f192efe7e38e8:
-> > >
-> > >    ruby: upgrade 3.1.1 -> 3.1.2 (2022-04-28 17:07:01 +0100)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >    git://git.openembedded.org/openembedded-core-contrib
-> stable/kirkstone-next
-> > >
-> http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
-> > >
-> > > Alexander Kanavin (2):
-> > >    glib: upgrade 2.72.0 -> 2.72.1
-> > >    libxml2: update patch status
-> > >
-> > > Carlos Rafael Giani (2):
-> > >    gstreamer1.0-plugins-good: Fix libsoup dependency
-> > >    gstreamer1.0: Minor documentation addition
-> > >
-> > > Chen Qi (2):
-> > >    cases/buildepoxy.py: fix typo
-> > >    go.bbclass: disable the use of the default configuration file
-> > >
-> > > Davide Gardenal (1):
-> > >    create-spdx: delete virtual/kernel dependency to fix FreeRTOS build
-> > >
-> > > Dmitry Baryshkov (2):
-> > >    linux-firmware: correct license for ar3k firmware
-> > >    arch-armv8-2a.inc: fix a typo in TUNEVALID variable
-> > >
-> > > Henning Schild (1):
-> > >    wic: do not use PARTLABEL for msdos partition tables
-> > >
-> > > Khem Raj (7):
-> > >    seatd: Disable overflow warning as error on ppc64/musl
-> > >    musl: Fix build when usrmerge distro feature is enabled
-> > >    gcompat: Fix build when usrmerge distro feature is enabled
-> > >    libc-glibc: Use libxcrypt to provide virtual/crypt
-> > >    qemu.bbclass: Extend ppc/ppc64 extra options
-> > >    busybox: Use base_bindir instead of hardcoding /bin path
-> > >    util-linux: Create u-a symlink for findfs utility
-> > >
-> > > Naveen Saini (1):
-> > >    gstreamer1.0-plugins-bad: drop patch
-> > >
-> > > Nicolas Dechesne (1):
-> > >    sanity: skip make 4.2.1 warning for debian
-> > >
-> > > Paul Gortmaker (1):
-> > >    install/devshell: Introduce git intercept script due to fakeroot
-> > >      issues
-> > >
-> > > Peter Kjellerstedt (2):
-> > >    terminal.py: Restore error output from Terminal
-> > >    devshell.bbclass: Allow devshell & pydevshell to use the network
-> > >
-> > > Pgowda (1):
-> > >    glibc: ptest: Fix glibc-tests package issue
-> > >
-> > > Rahul Kumar (1):
-> > >    neard: Switch SRC_URI to git repo
-> > >
-> > > Richard Purdie (2):
-> > >    base: Drop git intercept
-> > >    staging: Ensure we filter out ourselves
-> > >
-> > > Ross Burton (5):
-> > >    e2fsprogs: fix CVE-2022-1304
-> > >    python3: ignore CVE-2015-20107
-> > >    cve_check: skip remote patches that haven't been fetched when
-> > >      searching for CVE tags
-> > >    subversion: upgrade to 1.14.2
-> > >    bitbake.conf: mark all directories as safe for git to read
-> > >
-> > > Russ Dill (2):
-> > >    package.bbclass: Prevent perform_packagecopy from removing
-> > >      /sysroot-only
-> > >    kernel-yocto.bbclass: Fixup do_kernel_configcheck usage of KMETA
-> > >
-> > > wangmy (1):
-> > >    apt: upgrade 2.4.4 -> 2.4.5
-> > >
-> > >   meta/classes/create-spdx.bbclass              |  2 -
-> > >   meta/classes/devshell.bbclass                 |  4 ++
-> > >   meta/classes/go.bbclass                       |  1 +
-> > >   meta/classes/kernel-yocto.bbclass             | 14 ++--
-> > >   meta/classes/package.bbclass                  |  8 +--
-> > >   meta/classes/qemu.bbclass                     |  6 +-
-> > >   meta/classes/sanity.bbclass                   |  2 +-
-> > >   meta/classes/staging.bbclass                  |  2 +-
-> > >   meta/conf/bitbake.conf                        |  8 +++
-> > >   meta/conf/distro/include/tclibc-glibc.inc     |  1 +
-> > >   .../machine/include/arm/arch-armv8-2a.inc     |  2 +-
-> > >   meta/lib/oe/cve_check.py                      |  5 +-
-> > >   meta/lib/oe/terminal.py                       |  3 +-
-> > >   meta/lib/oeqa/sdk/cases/buildepoxy.py         |  2 +-
-> > >   meta/recipes-connectivity/neard/neard_0.16.bb | 13 ++--
-> > >   meta/recipes-core/busybox/busybox.inc         |  2 +-
-> > >   ...s-for-typechecking-with-atomic-compa.patch | 64 -----------------
-> > >   ...variant-of-g_atomic_int_compare_and_.patch | 70 ------------------
-> > >   ...ble-more-tests-while-cross-compiling.patch | 32 ++++-----
-> > >   .../glib-2.0/glib-2.0/relocate-modules.patch  |  8 +--
-> > >   ...{glib-2.0_2.72.0.bb => glib-2.0_2.72.1.bb} |  4 +-
-> > >   meta/recipes-core/glibc/glibc-tests_2.35.bb   |  3 +-
-> > >   .../recipes-core/libxml/libxml2/runtest.patch |  4 +-
-> > >   meta/recipes-core/musl/gcompat_git.bb         |  8 +--
-> > >   meta/recipes-core/musl/musl_git.bb            |  6 +-
-> > >   meta/recipes-core/seatd/seatd_0.6.4.bb        |  3 +
-> > >   .../util-linux/util-linux_2.37.4.bb           |  1 +
-> > >   .../apt/{apt_2.4.4.bb => apt_2.4.5.bb}        |  2 +-
-> > >   .../e2fsprogs/e2fsprogs/extents.patch         | 56 +++++++++++++++
-> > >   .../e2fsprogs/e2fsprogs_1.46.5.bb             |  1 +
-> > >   .../recipes-devtools/python/python3_3.10.4.bb |  3 +
-> > >   .../subversion/subversion/disable_macos.patch | 71
-> -------------------
-> > >   ...version_1.14.1.bb => subversion_1.14.2.bb} |  3 +-
-> > >   .../linux-firmware/linux-firmware_20220411.bb |  4 +-
-> > >   .../0005-msdk-fix-includedir-path.patch       | 40 -----------
-> > >   .../gstreamer1.0-plugins-bad_1.20.1.bb        |  3 +-
-> > >   .../gstreamer1.0-plugins-base_1.20.1.bb       |  2 +
-> > >   .../gstreamer1.0-plugins-good_1.20.1.bb       |  7 +-
-> > >   scripts/git-intercept/git                     | 19 +++++
-> > >   scripts/lib/wic/plugins/imager/direct.py      |  2 +-
-> > >   40 files changed, 174 insertions(+), 317 deletions(-)
-> > >   delete mode 100644
-> meta/recipes-core/glib-2.0/glib-2.0/0001-tests-Add-C-tests-for-typechecking-with-atomic-compa.patch
-> > >   delete mode 100644
-> meta/recipes-core/glib-2.0/glib-2.0/0002-gatomic-Add-a-C-variant-of-g_atomic_int_compare_and_.patch
-> > >   rename meta/recipes-core/glib-2.0/{glib-2.0_2.72.0.bb =>
-> glib-2.0_2.72.1.bb} (90%)
-> > >   rename meta/recipes-devtools/apt/{apt_2.4.4.bb => apt_2.4.5.bb}
-> (97%)
-> > >   create mode 100644
-> meta/recipes-devtools/e2fsprogs/e2fsprogs/extents.patch
-> > >   delete mode 100644
-> meta/recipes-devtools/subversion/subversion/disable_macos.patch
-> > >   rename meta/recipes-devtools/subversion/{subversion_1.14.1.bb =>
-> subversion_1.14.2.bb} (96%)
-> > >   delete mode 100644
-> meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-msdk-fix-includedir-path.patch
-> > >   create mode 100755 scripts/git-intercept/git
-> > >
-> > >
-> > >
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > > Links: You receive all messages sent to this group.
-> > > View/Reply Online (#165207):
-> https://lists.openembedded.org/g/openembedded-core/message/165207
-> > > Mute This Topic: https://lists.openembedded.org/mt/90876532/1997914
-> > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
-> [raj.khem@gmail.com]
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > >
+> Richard
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#165076):
+> https://lists.openembedded.org/g/openembedded-core/message/165076
+> Mute This Topic: https://lists.openembedded.org/mt/90753174/1279857
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> nicolas.dechesne@linaro.org]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 >
 
---000000000000add49f05de24522d
+--00000000000006005805de2a6f98
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, May 3, 2022 at 4:57 PM Steve Sakoman &lt;<a href=3D=
-"mailto:steve@sakoman.com">steve@sakoman.com</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex">On Tue, May 3, 2022 at 1:44 PM Khem Raj &lt;<a hre=
-f=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt=
-; wrote:<br>
-&gt;<br>
-&gt; can you pick<br>
-&gt;<br>
-&gt;<br>
-&gt; <a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=
-=3D20e9917b8d40f576b3661bc29e13602a24e86b7b" rel=3D"noreferrer" target=3D"_=
-blank">https://git.openembedded.org/openembedded-core/commit/?id=3D20e9917b=
-8d40f576b3661bc29e13602a24e86b7b</a><br>
-<br>
-Yes, I&#39;ve already got that in my patch set currently under test:<br>
-<br>
-<a href=3D"https://git.openembedded.org/openembedded-core-contrib/log/?h=3D=
-stable/kirkstone-nut" rel=3D"noreferrer" target=3D"_blank">https://git.open=
-embedded.org/openembedded-core-contrib/log/?h=3Dstable/kirkstone-nut</a><br=
->
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks Steve=C2=
-=A0</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-Steve<br>
-<br>
-&gt; On 5/3/22 15:33, Steve Sakoman wrote:<br>
-&gt; &gt; The following changes since commit ca1c990df62f1b3d53b2114a387f19=
-2efe7e38e8:<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0 ruby: upgrade 3.1.1 -&gt; 3.1.2 (2022-04-28 17:07:01=
- +0100)<br>
-&gt; &gt;<br>
-&gt; &gt; are available in the Git repository at:<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0 git://<a href=3D"http://git.openembedded.org/openemb=
-edded-core-contrib" rel=3D"noreferrer" target=3D"_blank">git.openembedded.o=
-rg/openembedded-core-contrib</a> stable/kirkstone-next<br>
-&gt; &gt;=C2=A0 =C2=A0 <a href=3D"http://cgit.openembedded.org/openembedded=
--core-contrib/log/?h=3Dstable/kirkstone-next" rel=3D"noreferrer" target=3D"=
-_blank">http://cgit.openembedded.org/openembedded-core-contrib/log/?h=3Dsta=
-ble/kirkstone-next</a><br>
-&gt; &gt;<br>
-&gt; &gt; Alexander Kanavin (2):<br>
-&gt; &gt;=C2=A0 =C2=A0 glib: upgrade 2.72.0 -&gt; 2.72.1<br>
-&gt; &gt;=C2=A0 =C2=A0 libxml2: update patch status<br>
-&gt; &gt;<br>
-&gt; &gt; Carlos Rafael Giani (2):<br>
-&gt; &gt;=C2=A0 =C2=A0 gstreamer1.0-plugins-good: Fix libsoup dependency<br=
->
-&gt; &gt;=C2=A0 =C2=A0 gstreamer1.0: Minor documentation addition<br>
-&gt; &gt;<br>
-&gt; &gt; Chen Qi (2):<br>
-&gt; &gt;=C2=A0 =C2=A0 cases/buildepoxy.py: fix typo<br>
-&gt; &gt;=C2=A0 =C2=A0 go.bbclass: disable the use of the default configura=
-tion file<br>
-&gt; &gt;<br>
-&gt; &gt; Davide Gardenal (1):<br>
-&gt; &gt;=C2=A0 =C2=A0 create-spdx: delete virtual/kernel dependency to fix=
- FreeRTOS build<br>
-&gt; &gt;<br>
-&gt; &gt; Dmitry Baryshkov (2):<br>
-&gt; &gt;=C2=A0 =C2=A0 linux-firmware: correct license for ar3k firmware<br=
->
-&gt; &gt;=C2=A0 =C2=A0 arch-armv8-2a.inc: fix a typo in TUNEVALID variable<=
+<div dir=3D"ltr"><div dir=3D"ltr">hey Bruce,</div><br><div class=3D"gmail_q=
+uote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, May 1, 2022 at 6:59 AM =
+Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">ri=
+chard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">On Sat, 2022-04-30 at 17:35 -0400, Bruce A=
+shfield wrote:<br>
+&gt; On Sat, Apr 30, 2022 at 12:26 AM Bruce Ashfield via<br>
+&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D=
+"_blank">lists.openembedded.org</a><br>
+&gt; &lt;bruce.ashfield=3D<a href=3D"mailto:gmail.com@lists.openembedded.or=
+g" target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt; &gt; <br>
+&gt; &gt; On Fri, Apr 29, 2022 at 4:02 PM Bruce Ashfield via<br>
+&gt; &gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" targ=
+et=3D"_blank">lists.openembedded.org</a><br>
+&gt; &gt; &lt;bruce.ashfield=3D<a href=3D"mailto:gmail.com@lists.openembedd=
+ed.org" target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<b=
+r>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; On Fri, Apr 29, 2022 at 8:41 AM Bruce Ashfield via<br>
+&gt; &gt; &gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer"=
+ target=3D"_blank">lists.openembedded.org</a><br>
+&gt; &gt; &gt; &lt;bruce.ashfield=3D<a href=3D"mailto:gmail.com@lists.opene=
+mbedded.org" target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wro=
+te:<br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; I&#39;ll see about running the strace locally today. Ho=
+pefully it pops up<br>
+&gt; &gt; &gt; &gt; here so I can debug.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; FYI: I have the landlock test case passing here, there&#39;s=
+ just an<br>
+&gt; &gt; &gt; output difference from the kernel. The test is passing.<br>
+&gt; &gt; <br>
+&gt; &gt; I have located the exact kernel commit that changed the output, h=
+ence<br>
+&gt; &gt; why the test is failing.<br>
+&gt; &gt; <br>
+&gt; &gt; strace upstream hasn&#39;t adjusted yet, so I&#39;ll spin up a pa=
+tch, and get<br>
+&gt; &gt; send patches to the list over the weekend.<br>
+&gt; <br>
+&gt; The two patches that fix the strace ptest fail, and qemuarm graphical<=
 br>
-&gt; &gt;<br>
-&gt; &gt; Henning Schild (1):<br>
-&gt; &gt;=C2=A0 =C2=A0 wic: do not use PARTLABEL for msdos partition tables=
+&gt; boot are on the list.<br>
 <br>
-&gt; &gt;<br>
-&gt; &gt; Khem Raj (7):<br>
-&gt; &gt;=C2=A0 =C2=A0 seatd: Disable overflow warning as error on ppc64/mu=
-sl<br>
-&gt; &gt;=C2=A0 =C2=A0 musl: Fix build when usrmerge distro feature is enab=
-led<br>
-&gt; &gt;=C2=A0 =C2=A0 gcompat: Fix build when usrmerge distro feature is e=
-nabled<br>
-&gt; &gt;=C2=A0 =C2=A0 libc-glibc: Use libxcrypt to provide virtual/crypt<b=
-r>
-&gt; &gt;=C2=A0 =C2=A0 qemu.bbclass: Extend ppc/ppc64 extra options<br>
-&gt; &gt;=C2=A0 =C2=A0 busybox: Use base_bindir instead of hardcoding /bin =
-path<br>
-&gt; &gt;=C2=A0 =C2=A0 util-linux: Create u-a symlink for findfs utility<br=
->
-&gt; &gt;<br>
-&gt; &gt; Naveen Saini (1):<br>
-&gt; &gt;=C2=A0 =C2=A0 gstreamer1.0-plugins-bad: drop patch<br>
-&gt; &gt;<br>
-&gt; &gt; Nicolas Dechesne (1):<br>
-&gt; &gt;=C2=A0 =C2=A0 sanity: skip make 4.2.1 warning for debian<br>
-&gt; &gt;<br>
-&gt; &gt; Paul Gortmaker (1):<br>
-&gt; &gt;=C2=A0 =C2=A0 install/devshell: Introduce git intercept script due=
- to fakeroot<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 issues<br>
-&gt; &gt;<br>
-&gt; &gt; Peter Kjellerstedt (2):<br>
-&gt; &gt;=C2=A0 =C2=A0 terminal.py: Restore error output from Terminal<br>
-&gt; &gt;=C2=A0 =C2=A0 devshell.bbclass: Allow devshell &amp; pydevshell to=
- use the network<br>
-&gt; &gt;<br>
-&gt; &gt; Pgowda (1):<br>
-&gt; &gt;=C2=A0 =C2=A0 glibc: ptest: Fix glibc-tests package issue<br>
-&gt; &gt;<br>
-&gt; &gt; Rahul Kumar (1):<br>
-&gt; &gt;=C2=A0 =C2=A0 neard: Switch SRC_URI to git repo<br>
-&gt; &gt;<br>
-&gt; &gt; Richard Purdie (2):<br>
-&gt; &gt;=C2=A0 =C2=A0 base: Drop git intercept<br>
-&gt; &gt;=C2=A0 =C2=A0 staging: Ensure we filter out ourselves<br>
-&gt; &gt;<br>
-&gt; &gt; Ross Burton (5):<br>
-&gt; &gt;=C2=A0 =C2=A0 e2fsprogs: fix CVE-2022-1304<br>
-&gt; &gt;=C2=A0 =C2=A0 python3: ignore CVE-2015-20107<br>
-&gt; &gt;=C2=A0 =C2=A0 cve_check: skip remote patches that haven&#39;t been=
- fetched when<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 searching for CVE tags<br>
-&gt; &gt;=C2=A0 =C2=A0 subversion: upgrade to 1.14.2<br>
-&gt; &gt;=C2=A0 =C2=A0 bitbake.conf: mark all directories as safe for git t=
-o read<br>
-&gt; &gt;<br>
-&gt; &gt; Russ Dill (2):<br>
-&gt; &gt;=C2=A0 =C2=A0 package.bbclass: Prevent perform_packagecopy from re=
-moving<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 /sysroot-only<br>
-&gt; &gt;=C2=A0 =C2=A0 kernel-yocto.bbclass: Fixup do_kernel_configcheck us=
-age of KMETA<br>
-&gt; &gt;<br>
-&gt; &gt; wangmy (1):<br>
-&gt; &gt;=C2=A0 =C2=A0 apt: upgrade 2.4.4 -&gt; 2.4.5<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0meta/classes/create-spdx.bbclass=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 -<br>
-&gt; &gt;=C2=A0 =C2=A0meta/classes/devshell.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 4 ++<br>
-&gt; &gt;=C2=A0 =C2=A0meta/classes/go.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
-&gt; &gt;=C2=A0 =C2=A0meta/classes/kernel-yocto.bbclass=C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0| 14 ++--<br>
-&gt; &gt;=C2=A0 =C2=A0meta/classes/package.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 8 +--<br>
-&gt; &gt;=C2=A0 =C2=A0meta/classes/qemu.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 6 +-<br>
-&gt; &gt;=C2=A0 =C2=A0meta/classes/sanity.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +-<br>
-&gt; &gt;=C2=A0 =C2=A0meta/classes/staging.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
-&gt; &gt;=C2=A0 =C2=A0meta/conf/bitbake.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 8 +++<br>
-&gt; &gt;=C2=A0 =C2=A0meta/conf/distro/include/tclibc-glibc.inc=C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 1 +<br>
-&gt; &gt;=C2=A0 =C2=A0.../machine/include/arm/arch-armv8-2a.inc=C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 2 +-<br>
-&gt; &gt;=C2=A0 =C2=A0meta/lib/oe/cve_check.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 5 +-<br>
-&gt; &gt;=C2=A0 =C2=A0meta/lib/oe/terminal.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 3 +-<br>
-&gt; &gt;=C2=A0 =C2=A0meta/lib/oeqa/sdk/cases/buildepoxy.py=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +-<br>
-&gt; &gt;=C2=A0 =C2=A0meta/recipes-connectivity/neard/<a href=3D"http://nea=
-rd_0.16.bb" rel=3D"noreferrer" target=3D"_blank">neard_0.16.bb</a> | 13 ++-=
--<br>
-&gt; &gt;=C2=A0 =C2=A0meta/recipes-core/busybox/busybox.inc=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +-<br>
-&gt; &gt;=C2=A0 =C2=A0...s-for-typechecking-with-atomic-compa.patch | 64 --=
----------------<br>
-&gt; &gt;=C2=A0 =C2=A0...variant-of-g_atomic_int_compare_and_.patch | 70 --=
-----------------<br>
-&gt; &gt;=C2=A0 =C2=A0...ble-more-tests-while-cross-compiling.patch | 32 ++=
-++-----<br>
-&gt; &gt;=C2=A0 =C2=A0.../glib-2.0/glib-2.0/relocate-modules.patch=C2=A0 |=
-=C2=A0 8 +--<br>
-&gt; &gt;=C2=A0 =C2=A0...{<a href=3D"http://glib-2.0_2.72.0.bb" rel=3D"nore=
-ferrer" target=3D"_blank">glib-2.0_2.72.0.bb</a> =3D&gt; <a href=3D"http://=
-glib-2.0_2.72.1.bb" rel=3D"noreferrer" target=3D"_blank">glib-2.0_2.72.1.bb=
-</a>} |=C2=A0 4 +-<br>
-&gt; &gt;=C2=A0 =C2=A0meta/recipes-core/glibc/<a href=3D"http://glibc-tests=
-_2.35.bb" rel=3D"noreferrer" target=3D"_blank">glibc-tests_2.35.bb</a>=C2=
-=A0 =C2=A0|=C2=A0 3 +-<br>
-&gt; &gt;=C2=A0 =C2=A0.../recipes-core/libxml/libxml2/runtest.patch |=C2=A0=
- 4 +-<br>
-&gt; &gt;=C2=A0 =C2=A0meta/recipes-core/musl/<a href=3D"http://gcompat_git.=
-bb" rel=3D"noreferrer" target=3D"_blank">gcompat_git.bb</a>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 8 +--<br>
-&gt; &gt;=C2=A0 =C2=A0meta/recipes-core/musl/<a href=3D"http://musl_git.bb"=
- rel=3D"noreferrer" target=3D"_blank">musl_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 |=C2=A0 6 +-<br>
-&gt; &gt;=C2=A0 =C2=A0meta/recipes-core/seatd/<a href=3D"http://seatd_0.6.4=
-.bb" rel=3D"noreferrer" target=3D"_blank">seatd_0.6.4.bb</a>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 3 +<br>
-&gt; &gt;=C2=A0 =C2=A0.../util-linux/<a href=3D"http://util-linux_2.37.4.bb=
-" rel=3D"noreferrer" target=3D"_blank">util-linux_2.37.4.bb</a>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
-&gt; &gt;=C2=A0 =C2=A0.../apt/{<a href=3D"http://apt_2.4.4.bb" rel=3D"noref=
-errer" target=3D"_blank">apt_2.4.4.bb</a> =3D&gt; <a href=3D"http://apt_2.4=
-.5.bb" rel=3D"noreferrer" target=3D"_blank">apt_2.4.5.bb</a>}=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 2 +-<br>
-&gt; &gt;=C2=A0 =C2=A0.../e2fsprogs/e2fsprogs/extents.patch=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| 56 +++++++++++++++<br>
-&gt; &gt;=C2=A0 =C2=A0.../e2fsprogs/<a href=3D"http://e2fsprogs_1.46.5.bb" =
-rel=3D"noreferrer" target=3D"_blank">e2fsprogs_1.46.5.bb</a>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
-&gt; &gt;=C2=A0 =C2=A0.../recipes-devtools/python/<a href=3D"http://python3=
-_3.10.4.bb" rel=3D"noreferrer" target=3D"_blank">python3_3.10.4.bb</a> |=C2=
-=A0 3 +<br>
-&gt; &gt;=C2=A0 =C2=A0.../subversion/subversion/disable_macos.patch | 71 --=
------------------<br>
-&gt; &gt;=C2=A0 =C2=A0...<a href=3D"http://version_1.14.1.bb" rel=3D"norefe=
-rrer" target=3D"_blank">version_1.14.1.bb</a> =3D&gt; <a href=3D"http://sub=
-version_1.14.2.bb" rel=3D"noreferrer" target=3D"_blank">subversion_1.14.2.b=
-b</a>} |=C2=A0 3 +-<br>
-&gt; &gt;=C2=A0 =C2=A0.../linux-firmware/<a href=3D"http://linux-firmware_2=
-0220411.bb" rel=3D"noreferrer" target=3D"_blank">linux-firmware_20220411.bb=
-</a> |=C2=A0 4 +-<br>
-&gt; &gt;=C2=A0 =C2=A0.../0005-msdk-fix-includedir-path.patch=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0| 40 -----------<br>
-&gt; &gt;=C2=A0 =C2=A0.../<a href=3D"http://gstreamer1.0-plugins-bad_1.20.1=
-.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0-plugins-bad_1.20.1.b=
-b</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 +-<br>
-&gt; &gt;=C2=A0 =C2=A0.../<a href=3D"http://gstreamer1.0-plugins-base_1.20.=
-1.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0-plugins-base_1.20.1=
-.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +<br>
-&gt; &gt;=C2=A0 =C2=A0.../<a href=3D"http://gstreamer1.0-plugins-good_1.20.=
-1.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0-plugins-good_1.20.1=
-.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 7 +-<br>
-&gt; &gt;=C2=A0 =C2=A0scripts/git-intercept/git=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 19 +++++<br>
-&gt; &gt;=C2=A0 =C2=A0scripts/lib/wic/plugins/imager/direct.py=C2=A0 =C2=A0=
- =C2=A0 |=C2=A0 2 +-<br>
-&gt; &gt;=C2=A0 =C2=A040 files changed, 174 insertions(+), 317 deletions(-)=
+Thanks Bruce! I&#39;ve queued it and started it running through testing.<br=
+></blockquote><div><br></div><div>Since this patch, qemuarmv5 fails to buil=
+d with:</div><div><br></div><div>00:01:47 NOTE: Running task 899 of 5734 (v=
+irtual:native:/home/tuxbake/oe/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:d=
+o_deploy_source_date_epoch)<br>00:01:47 ERROR: linux-yocto-5.15.36+gitAUTOI=
+NC+fcf48627ea_ebfb1822e9-r0 do_kernel_metadata: Could not locate BSP defini=
+tion for qemuarm/standard and no defconfig was provided<br>00:01:47 ERROR: =
+linux-yocto-5.15.36+gitAUTOINC+fcf48627ea_ebfb1822e9-r0 do_kernel_metadata:=
+ ExecutionError(&#39;/home/tuxbake/oe/build/tmp/work/qemuarmv5-poky-linux-g=
+nueabi/linux-yocto/5.15.36+gitAUTOINC+fcf48627ea_ebfb1822e9-r0/temp/run.do_=
+kernel_metadata.98856&#39;, 1, None, None)<br>00:01:47 ERROR: Logfile of fa=
+ilure stored in: /home/tuxbake/oe/build/tmp/work/qemuarmv5-poky-linux-gnuea=
+bi/linux-yocto/5.15.36+gitAUTOINC+fcf48627ea_ebfb1822e9-r0/temp/log.do_kern=
+el_metadata.98856<br>00:01:47 Log data follows:<br>00:01:47 | DEBUG: Execut=
+ing python function extend_recipe_sysroot<br>00:01:47 | NOTE: Direct depend=
+encies are [&#39;/home/tuxbake/oe/poky/meta/recipes-kernel/kern-tools/kern-=
+tools-native_git.bb:do_populate_sysroot&#39;]<br>00:01:47 | NOTE: Installed=
+ into sysroot: []<br>00:01:47 | NOTE: Skipping as already exists in sysroot=
+: [&#39;kern-tools-native&#39;]<br>00:01:47 | DEBUG: Python function extend=
+_recipe_sysroot finished<br>00:01:47 | DEBUG: Executing shell function do_k=
+ernel_metadata<br>00:01:47 | NOTE: do_kernel_metadata: for summary/debug, s=
+et KCONF_AUDIT_LEVEL &gt; 0<br>00:01:47 | ERROR: Could not locate BSP defin=
+ition for qemuarm/standard and no defconfig was provided<br>00:01:47 | WARN=
+ING: /home/tuxbake/oe/build/tmp/work/qemuarmv5-poky-linux-gnueabi/linux-yoc=
+to/5.15.36+gitAUTOINC+fcf48627ea_ebfb1822e9-r0/temp/run.do_kernel_metadata.=
+98856:404 exit 1 from &#39;exit 1&#39;<br>00:01:47 | WARNING: Backtrace (BB=
+ generated script):<br>00:01:47 | 	#1: bbfatal_log, /home/tuxbake/oe/build/=
+tmp/work/qemuarmv5-poky-linux-gnueabi/linux-yocto/5.15.36+gitAUTOINC+fcf486=
+27ea_ebfb1822e9-r0/temp/run.do_kernel_metadata.98856, line 404<br>00:01:47 =
+| 	#2: do_kernel_metadata, /home/tuxbake/oe/build/tmp/work/qemuarmv5-poky-l=
+inux-gnueabi/linux-yocto/5.15.36+gitAUTOINC+fcf48627ea_ebfb1822e9-r0/temp/r=
+un.do_kernel_metadata.98856, line 272<br>00:01:47 | 	#3: main, /home/tuxbak=
+e/oe/build/tmp/work/qemuarmv5-poky-linux-gnueabi/linux-yocto/5.15.36+gitAUT=
+OINC+fcf48627ea_ebfb1822e9-r0/temp/run.do_kernel_metadata.98856, line 435<b=
+r>00:01:47 NOTE: recipe linux-yocto-5.15.36+gitAUTOINC+fcf48627ea_ebfb1822e=
+9-r0: task do_kernel_metadata: Failed<br>00:01:47 ERROR: Task (/home/tuxbak=
+e/oe/poky/meta/recipes-kernel/linux/linux-yocto_5.15.bb:do_kernel_metadata)=
+ failed with exit code &#39;1&#39;<br></div><div><br></div><div>see full bu=
+ild log<br></div><div><a href=3D"https://oebuilds.tuxbuild.com/28f9WxOsIhBe=
+AgIbQH3DsCwyQCc/build-debug.log">https://oebuilds.tuxbuild.com/28f9WxOsIhBe=
+AgIbQH3DsCwyQCc/build-debug.log</a><br></div><div><br></div><div><br></div>=
+<div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 <br>
-&gt; &gt;=C2=A0 =C2=A0delete mode 100644 meta/recipes-core/glib-2.0/glib-2.=
-0/0001-tests-Add-C-tests-for-typechecking-with-atomic-compa.patch<br>
-&gt; &gt;=C2=A0 =C2=A0delete mode 100644 meta/recipes-core/glib-2.0/glib-2.=
-0/0002-gatomic-Add-a-C-variant-of-g_atomic_int_compare_and_.patch<br>
-&gt; &gt;=C2=A0 =C2=A0rename meta/recipes-core/glib-2.0/{<a href=3D"http://=
-glib-2.0_2.72.0.bb" rel=3D"noreferrer" target=3D"_blank">glib-2.0_2.72.0.bb=
-</a> =3D&gt; <a href=3D"http://glib-2.0_2.72.1.bb" rel=3D"noreferrer" targe=
-t=3D"_blank">glib-2.0_2.72.1.bb</a>} (90%)<br>
-&gt; &gt;=C2=A0 =C2=A0rename meta/recipes-devtools/apt/{<a href=3D"http://a=
-pt_2.4.4.bb" rel=3D"noreferrer" target=3D"_blank">apt_2.4.4.bb</a> =3D&gt; =
-<a href=3D"http://apt_2.4.5.bb" rel=3D"noreferrer" target=3D"_blank">apt_2.=
-4.5.bb</a>} (97%)<br>
-&gt; &gt;=C2=A0 =C2=A0create mode 100644 meta/recipes-devtools/e2fsprogs/e2=
-fsprogs/extents.patch<br>
-&gt; &gt;=C2=A0 =C2=A0delete mode 100644 meta/recipes-devtools/subversion/s=
-ubversion/disable_macos.patch<br>
-&gt; &gt;=C2=A0 =C2=A0rename meta/recipes-devtools/subversion/{<a href=3D"h=
-ttp://subversion_1.14.1.bb" rel=3D"noreferrer" target=3D"_blank">subversion=
-_1.14.1.bb</a> =3D&gt; <a href=3D"http://subversion_1.14.2.bb" rel=3D"noref=
-errer" target=3D"_blank">subversion_1.14.2.bb</a>} (96%)<br>
-&gt; &gt;=C2=A0 =C2=A0delete mode 100644 meta/recipes-multimedia/gstreamer/=
-gstreamer1.0-plugins-bad/0005-msdk-fix-includedir-path.patch<br>
-&gt; &gt;=C2=A0 =C2=A0create mode 100755 scripts/git-intercept/git<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; &gt; Links: You receive all messages sent to this group.<br>
-&gt; &gt; View/Reply Online (#165207): <a href=3D"https://lists.openembedde=
-d.org/g/openembedded-core/message/165207" rel=3D"noreferrer" target=3D"_bla=
-nk">https://lists.openembedded.org/g/openembedded-core/message/165207</a><b=
-r>
-&gt; &gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/908=
-76532/1997914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembed=
-ded.org/mt/90876532/1997914</a><br>
-&gt; &gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.op=
-enembedded.org" target=3D"_blank">openembedded-core+owner@lists.openembedde=
-d.org</a><br>
-&gt; &gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembe=
-dded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openemb=
-edded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.c=
-om" target=3D"_blank">raj.khem@gmail.com</a>]<br>
-&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; &gt;<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#165076): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/165076" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/165076</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/90753174/1279=
+857" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/90753174/1279857</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:nicolas.dechesne@linaro.or=
+g" target=3D"_blank">nicolas.dechesne@linaro.org</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
 </blockquote></div></div>
 
---000000000000add49f05de24522d--
+--00000000000006005805de2a6f98--
 
