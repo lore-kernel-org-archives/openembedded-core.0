@@ -1,179 +1,106 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3FE9C433EF
-	for <webhook@archiver.kernel.org>; Wed,  4 May 2022 16:51:56 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web11.522.1651683114086914139
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE321C433F5
+	for <webhook@archiver.kernel.org>; Wed,  4 May 2022 20:47:19 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+ [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web11.2835.1651697232747280815
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 May 2022 09:51:54 -0700
+ Wed, 04 May 2022 13:47:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=bANtW8vs;
- spf=pass (domain: gmail.com, ip: 209.85.208.172,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id q14so2400289ljc.12
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DFfOcSA+;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id v11so2047095pff.6
         for <openembedded-core@lists.openembedded.org>;
- Wed, 04 May 2022 09:51:53 -0700 (PDT)
+ Wed, 04 May 2022 13:47:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xhr02YHa4BXiBNEMejxmSabc12iEns4t0jCxuYj3lC8=;
-        b=bANtW8vs5u9YPpeNnynUm1LiPEJb84qkWaRfFr8w5TYzVUWlEuxbbPbcNlIloBIVDb
-         W/1Dd3oB4u07eKoQsTmafuuxhGkiZ0ndNrBYPECxoCLdM5p1WAqFdgfgnxTzC/pyaHHo
-         TqrJnzCRGHmlrpE60DMcIqHdv11dcD+a1fNlMuVR7Q1mNiuH5axtC2eMWDbwPqglshwp
-         B3yH2bPwqIgEr92A2xBYj/Iml0BWxMrJrz4+ltxCRjx+QxCp6cnd+en3nGuKS24/B4IB
-         39Slrt3qIGW1milrT0uPDZKKFlk2SuBmhKJ5pOYMUCgLrPSfg7JyJA5u3At1Z/Rscopz
-         y+Qg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GOtyHMsb68W3szKMrHRPfgM2oO5++9vQwIzj2rrMY9I=;
+        b=DFfOcSA+0MNL1YvFKDZCc6kgmLnXDIcnBEzUT+YnhrS2UWGx3sZnF4I8SwvoS9uwnA
+         Z1MiTLbpqOpKSbTkXmJYGMsIIr2B82TJtHwysdLjeunuFqzUdtyMBEXdZ8HNjoafm222
+         GVedIPpqy+e5raYa3ktG60GPh7+7/CbyeJSDP93LM7AwSgUBrhcO5tksB/4Vej1kz9cp
+         GiKUp96VvurzaJ+LpzJoc+fzXpHNG1spwGGfNVl8jIH4/m10GTOAZb31+dIT16tL7cda
+         oGXSU6/2ymHkybLPYN/0r1n1Foe1Af/XeJp4Moe6kwkn/fnorlDR73MQpIMD4s67ooa8
+         HWGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xhr02YHa4BXiBNEMejxmSabc12iEns4t0jCxuYj3lC8=;
-        b=6zH8twCNi/4XHINOei4oXerDKqHAbpnut53Z89+8q5KT+DDY5eKdLi+b9g1yXB3V5l
-         tbV/pYyJFt4PZ7ZW5iIO5ZxVY7HkqYBYnVuNH/bQppMkMn7hKv0yeV2nd5BTNCwxQfnw
-         /EXln7CIcchEIm9IQDnkvaTOllDeHMXnqPycI0fBCKj0jqYVmTqnS9YMKZooSRXdp6Id
-         P1QO2A+L6Su0KO/yTB4bC0zOsdOK4EgG1ViXZKMduT/f0277EmcQdLAwufRmcF5CNjw3
-         q8d0iVJHVZBX1GymDMzpaF5+vIdJJDCbBowg96Z+r7k4CKG7ORxPIccGG/7dsBhGeDFG
-         UeIw==
-X-Gm-Message-State: AOAM533R3yQhyJ3szOXewVcr7mbqmz/mpqIVfjOdPW2ovHDyDM8YOJX/
-	2s+p3FSi7wCjFJYHiF/phdwiVia3djlc/Qyx6TU=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GOtyHMsb68W3szKMrHRPfgM2oO5++9vQwIzj2rrMY9I=;
+        b=Hy+gBewuMbu5Xlw4Aayy3rQ8wgWdG8bSLK/97KVFMJrknex2iNliDlJe+VZBDsdF+I
+         fh4w27HY6oKQBJ8OeHyHS4S0QUt+F6nHZw0sx0zfKVU0wjNQtWpLpw1Gw1Vv6Q8SYSZg
+         3j8Slf1NYpO0A1G7/IabM+N3BjR51cwwru2to+UdIgAjGSde0eFkBblwfkYmvizn3J1b
+         zZKKmiv8hFKrrKM4wbz+WrH6pmidvumPWFz/tKB7CaSjwgWT57Fhvka5JNMcj6bWSfqT
+         YwmBhNRjVCSBi9YtClKUyh6p5S31zvWh2pp2u1VaBSbOW6HHmlC84IPxnIakP58PMkb2
+         pb0A==
+X-Gm-Message-State: AOAM532tVQmjHuXTZ2NB6T/cPHfCjQRs1FoGI9Qun2+Z3KTTY4totoRF
+	HAUxZXLfvrMfL80sr4m2yCY5FlnMcuFfJw==
 X-Google-Smtp-Source: 
- ABdhPJyxohY/QiE8aUK/F79WYvmE4UKRIVcxSHemmwgWy2KAATkSUZw338fHKsZ6lVXh46NX9yWojQLVABkKKOMmy1g=
-X-Received: by 2002:a2e:824b:0:b0:24d:c247:c928 with SMTP id
- j11-20020a2e824b000000b0024dc247c928mr13380626ljh.68.1651683112083; Wed, 04
- May 2022 09:51:52 -0700 (PDT)
+ ABdhPJzKbQFx9WFOAfMvd4eIbnl9JfK6qqCOsUKQOgUv7x7/GvlYudcWTX/fC3WA0/2alX+/9P121Q==
+X-Received: by 2002:a65:6544:0:b0:3c1:afab:dba3 with SMTP id
+ a4-20020a656544000000b003c1afabdba3mr19189062pgw.557.1651697231631;
+        Wed, 04 May 2022 13:47:11 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::2ca3])
+        by smtp.gmail.com with ESMTPSA id
+ g5-20020a17090a7d0500b001d7faf357b7sm3792038pjl.4.2022.05.04.13.47.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 May 2022 13:47:11 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] musl: Upgrade to tip of trunk
+Date: Wed,  4 May 2022 13:47:09 -0700
+Message-Id: <20220504204709.2705089-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-References: <1649011392-28818-1-git-send-email-wangmy@fujitsu.com>
- <1649011392-28818-5-git-send-email-wangmy@fujitsu.com>
- <Yk2I88BgEuWXpapX@mail.local>
- <16EBF18662E1746B.16118@lists.openembedded.org>
-In-Reply-To: <16EBF18662E1746B.16118@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 4 May 2022 18:51:40 +0200
-Message-ID: 
- <CANNYZj9oYY8pjcyAyLPJJYpivUaxDpBOxGh79cu239s0uDNryg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] lttng-tools: upgrade 2.13.4 -> 2.13.6
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>,
-	Francis Deslauriers <francis.deslauriers@efficios.com>,
- wangmy <wangmy@fujitsu.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 May 2022 16:51:56 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 04 May 2022 20:47:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165225
+ https://lists.openembedded.org/g/openembedded-core/message/165226
 
-The issue was that we used a stripped binary where a non-stripped one
-is expected. I have corrected this, so the problem was on our side.
-Version update patch will be coming in a few.
+brings in pre-work for submitting rv32 port
 
-Alex
+* 6e9d2370 use __fstat instead of __fstatat with AT_EMPTY_PATH in __map_file
+* 05a55868 provide an internal namespace-safe __fstat
+* fb10dc28 only use fstatat and others legacy stat syscalls if they exist
+* 2b754a54 drop direct use of stat syscalls in internal __map_file
+* c9ba0769 provide an internal namespace-safe __fstatat
+* 7edbcbeb drop direct use of stat syscalls in fchmodat
+* 9a937495 drop use of stat operation in temporary file name generation
+* 12a757b3 only fallback to gettimeofday/settimeofday syscalls if they exist
+* 41149ea8 only use getrlimit/setrlimit syscalls if they exist
+* 8910efd0 don't remap internal-use syscall macros to nonexistent time32 syscalls
+* 03f71251 remove ARMSUBARCH relic from configure
+* 55b727d7 add missing POSIX confstr keys for pthread CFLAGS/LDFLAGS
+* 8cf87b30 fix incorrect parameter name in internal netlink.h RTA_OK macro
 
-On Wed, 4 May 2022 at 17:47, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
->
-> I have fixed the test_userspace_probe fails, and obtained slightly
-> more detailed logs for the test_callstack:
->
-> not ok 11 - Validate userspace callstack
-> FAIL: kernel/test_callstack 11 - Validate userspace callstack
-> #   Failed test 'Validate userspace callstack'
-> #   in ./kernel/test_callstack:test_user_callstack() at line 80.
-> # Kernel callstack test
->
-> Line 80 in ./tests/regression/kernel/test_callstack is:
->
->         "$BABELTRACE_BIN" "$TRACE_PATH" | grep $EVENT_NAME |
-> ./"$PARSE_CALLSTACK" --user "$TEST_APP_USERSPACE" $USER_CS_EXPECTED
->         ok $? "Validate userspace callstack"
->
-> I have obtained the failing TRACE_PATH output, and attached it to this
-> upstream bug:
-> https://bugs.lttng.org/issues/1353
->
-> To unblock the update I'll add a patch that disables the failing test.
->
-> Alex
->
->
-> On Wed, 6 Apr 2022 at 14:35, Alexandre Belloni via
-> lists.openembedded.org
-> <alexandre.belloni=bootlin.com@lists.openembedded.org> wrote:
-> >
-> > Hello,
-> >
-> > Last time I tried that, we got new ptest failures:
-> >
-> > {'lttng-tools': ['kernel/test_callstack_11_-_Validate_userspace_callstack',
-> >                  'kernel/test_userspace_probe_94_-_Enable_kernel_userspace_probe_event_for_session_test_userprobe_elf_cxx_function',
-> >                  'kernel/test_userspace_probe_95_-_Start_tracing_for_session_test_userprobe_elf_cxx_function',
-> >                  'kernel/test_userspace_probe_96_-_Stop_lttng_tracing_for_session_test_userprobe_elf_cxx_function',
-> >                  'kernel/test_userspace_probe_97_-_Validate_trace_for_event_userspace_probe_test_event',
-> >                  'kernel/test_userspace_probe_100_-_Enable_kernel_userspace_probe_event_for_session_test_userprobe_elf_cxx_method',
-> >                  'kernel/test_userspace_probe_101_-_Start_tracing_for_session_test_userprobe_elf_cxx_method',
-> >                  'kernel/test_userspace_probe_102_-_Stop_lttng_tracing_for_session_test_userprobe_elf_cxx_method',
-> >                  'kernel/test_userspace_probe_103_-_Validate_trace_for_event_userspace_probe_test_event']}
-> >
-> > Did you have a look at and fix those?
-> >
-> > On 04/04/2022 02:43:12+0800, wangmy wrote:
-> > > Changelog:
-> > > =========
-> > > Fix: hide symbols erroneously exported in 2.13.5
-> > >
-> > > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> > > ---
-> > >  .../lttng/{lttng-tools_2.13.4.bb => lttng-tools_2.13.6.bb}      | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >  rename meta/recipes-kernel/lttng/{lttng-tools_2.13.4.bb => lttng-tools_2.13.6.bb} (98%)
-> > >
-> > > diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb b/meta/recipes-kernel/lttng/lttng-tools_2.13.6.bb
-> > > similarity index 98%
-> > > rename from meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb
-> > > rename to meta/recipes-kernel/lttng/lttng-tools_2.13.6.bb
-> > > index 0ea4da05ce..d40d0a2dd0 100644
-> > > --- a/meta/recipes-kernel/lttng/lttng-tools_2.13.4.bb
-> > > +++ b/meta/recipes-kernel/lttng/lttng-tools_2.13.6.bb
-> > > @@ -39,7 +39,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
-> > >             file://disable-tests.patch \
-> > >             "
-> > >
-> > > -SRC_URI[sha256sum] = "565f3102410a53d484f4c8ff517978f1dc59f67f9d16f872f4357f3ca12200f6"
-> > > +SRC_URI[sha256sum] = "1d52d249437b3f7ba23a45a22c3e26dde006a5da10e96753952084a98e0523e3"
-> > >
-> > >  inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
-> > >
-> > > --
-> > > 2.25.1
-> > >
-> >
-> > >
-> > >
-> > >
-> >
-> >
-> > --
-> > Alexandre Belloni, co-owner and COO, Bootlin
-> > Embedded Linux and Kernel engineering
-> > https://bootlin.com
-> >
-> >
-> >
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#165223): https://lists.openembedded.org/g/openembedded-core/message/165223
-> Mute This Topic: https://lists.openembedded.org/mt/90287422/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/musl/musl_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 4b854013608..fde5fc0ccec 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -4,7 +4,7 @@
+ require musl.inc
+ inherit linuxloader
+ 
+-SRCREV = "7a43f6fea9081bdd53d8a11cef9e9fab0348c53d"
++SRCREV = "6e9d2370c7559af80b32a91f20898f41597e093b"
+ 
+ BASEVER = "1.2.3"
+ 
+-- 
+2.36.0
+
 
