@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A09BEC41535
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0963C3527C
 	for <webhook@archiver.kernel.org>; Thu,  5 May 2022 05:06:13 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web08.7297.1651727154549771697
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+ [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web11.7351.1651727164934262085
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 May 2022 22:06:10 -0700
+ Wed, 04 May 2022 22:06:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=elwOZ6mF;
- spf=pass (domain: gmail.com, ip: 209.85.218.42,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Y2Yjt/jJ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id n10so6556895ejk.5
+Received: by mail-ed1-f51.google.com with SMTP id y21so3913055edo.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 04 May 2022 22:06:09 -0700 (PDT)
+ Wed, 04 May 2022 22:06:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=zJsMrH6TZECtXDQeEBPb97C21nA75U1F4br/Bq44K3A=;
-        b=elwOZ6mF3HKFTT2I/AI6pFme5Fiu7haez5Wc26hk6m0PqA9PQWu3EYOPbGADxllt3h
-         G0mwkBZtVL4fD+iZ0th8DOxhyBZEtrFqB/ioYLNkdHVPO5UTYMyrQWzG0DoyUwegVYIV
-         aNDHRL5azrgneNfWNlw7y9JKIiODuTY92jBV26uppXcRvdH71PveOUbXy/jd7ZyIAuGN
-         TIZzH1znI7K37tu+2abRMBcUKswxoOcm0Nw1fyTTS6wvOi/4yLAPzCnpSb2JJPpefoot
-         /U/OQ3XVohq8UZMSJ8V1u4eFeE9vUfJ6F+j9W3atStvJQojgfgwdzfKLkTEGpfjQXvZn
-         /OXA==
+        bh=ovyAbs0NnSPlIxsfw65rpcl8kLKdc2oL5SGnVqb8z7U=;
+        b=Y2Yjt/jJJAsQxvvLHFPdBv+HAwAelDJq3PdAOnck/DA6DPQlgIb4PAq6g0b4xN3yyY
+         U3zBJnQ5RJtjSaavyEYdm5aSo2cams60DBk9rdMfimcfDgSOkDN9qM5UrvVToQ3xD2sY
+         GGdmV7yMwtK8H8UwUhpQGTfjRnGNT7UsZkF9Xnprb6Eu5cUrLoUeqAv/huBvw8AD6FpE
+         v15QHvl2VdXq36OnbllLVECQgtCrVyiFpFihlwEfi2lpJW2Tl7pXT/korlb6Vr8zkLoS
+         sTCT42kMYksWO7dAeYO3wMzPlFYaDP38RHumj4VL7l56lS1T9VXX2nkxkFJq9RAbrWUS
+         rdPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zJsMrH6TZECtXDQeEBPb97C21nA75U1F4br/Bq44K3A=;
-        b=u5Yk6BQnTPbyRa4xf+vzNh0LwSH7kUrIpAsiAMDrqj8Ai/iEVqCmVWr+py2iLl64l9
-         gx4tT/ifLEW3ST3JctlcUcPxOwl7FC5o+yk9xhMdZdokKgYVLWbXy75Zx50RMWMzWme5
-         frI/zlLuoHNNL62A9JWpkQ+x+qB0drDl1V6tyGkAw5+yRyHB8l+M2D6xy4eK/fc6Znoo
-         t1+6HpdBvpt+6q7fzfpw2WFBXEyxw4gHKT7N1R0kZt9cy1ZmLEAvQajWJsEByRnOKirQ
-         komD4JM5k6rmvtzyONyQhnsbQcTfAFFI+awGGwRPi2+4KW8xUBuvR0CPjQ42xRYyO8/U
-         hetQ==
-X-Gm-Message-State: AOAM530Ks87IDhCPZsUTzdF4emG52+PaAYdn1o/x30o9rJolRNfQJs3Z
-	PbUvlKNrV5e6am6iFMiLqDhaxkp3XhM=
+        bh=ovyAbs0NnSPlIxsfw65rpcl8kLKdc2oL5SGnVqb8z7U=;
+        b=tBJt3oC+ty6Y/6XXyexwC52o6sA+mnf61BXt8gWFa8+aW3M56moO0yXqn7EVOaPAzs
+         fMf00x+U1yUp+dU++h6DnaVen+cjJjoqwfbVs8XQRoMIKcJ6nkKq21IsD+6ufEgEUNI4
+         01/T+tD5uysLuWWWaOiX8PF3i/Kz0mi3W3l7+ggXCTrrzPVW2HEGWoHAsTQE1U97Ulep
+         MnVPkJTiINnJanmGrzjPPD6XUcHfcDfcoBBLuszKdaUHjZHR90P+N9k3H4S3sWg8Jsgk
+         iwq84+BN4PLNetuvGYLFHTFUM+JS63S0wNABQNXjitERRTnynwOkmL5MldKMY5Hyper6
+         WsPg==
+X-Gm-Message-State: AOAM531OlXiKMDhzbxAxcUKeAnYfaKaRPrqx6XL0eK/HVXhz2+nrqSo0
+	aspdV+7qSWHGahj7Weh06L2cZQXkX0s=
 X-Google-Smtp-Source: 
- ABdhPJz8mhhuVOOp0L/HVFlBGdtVWSx0eJ14qfwbnJnv860g1lCf73diuFPST9o33mk29qBCzUhX/Q==
-X-Received: by 2002:a17:907:a40f:b0:6f4:d2af:b720 with SMTP id
- sg15-20020a170907a40f00b006f4d2afb720mr5320589ejc.305.1651727169115;
-        Wed, 04 May 2022 22:06:09 -0700 (PDT)
+ ABdhPJw7hIZPjblNvTKxbyc5QZ12XXUm9EipU99QUtXPQ3hQmobOf9MZqJnYKN1nkXhrhPQOof+nZA==
+X-Received: by 2002:a05:6402:5c9:b0:420:aac6:257b with SMTP id
+ n9-20020a05640205c900b00420aac6257bmr27523448edx.128.1651727168129;
+        Wed, 04 May 2022 22:06:08 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- gg19-20020a170906899300b006f3ef214dfbsm313386ejc.97.2022.05.04.22.06.08
+ gg19-20020a170906899300b006f3ef214dfbsm313386ejc.97.2022.05.04.22.06.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 22:06:08 -0700 (PDT)
+        Wed, 04 May 2022 22:06:07 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 28/61] libx11: upgrade 1.7.5 -> 1.8
-Date: Thu,  5 May 2022 07:05:11 +0200
-Message-Id: <20220505050544.651895-28-alex@linutronix.de>
+Subject: [PATCH 27/61] libseccomp: upgrade 2.5.3 -> 2.5.4
+Date: Thu,  5 May 2022 07:05:10 +0200
+Message-Id: <20220505050544.651895-27-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220505050544.651895-1-alex@linutronix.de>
 References: <20220505050544.651895-1-alex@linutronix.de>
@@ -68,30 +68,36 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 05 May 2022 05:06:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165257
+ https://lists.openembedded.org/g/openembedded-core/message/165256
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../xorg-lib/{libx11_1.7.5.bb => libx11_1.8.bb}                 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libx11_1.7.5.bb => libx11_1.8.bb} (94%)
+ .../libseccomp/{libseccomp_2.5.3.bb => libseccomp_2.5.4.bb}   | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libseccomp/{libseccomp_2.5.3.bb => libseccomp_2.5.4.bb} (96%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.7.5.bb b/meta/recipes-graphics/xorg-lib/libx11_1.8.bb
-similarity index 94%
-rename from meta/recipes-graphics/xorg-lib/libx11_1.7.5.bb
-rename to meta/recipes-graphics/xorg-lib/libx11_1.8.bb
-index 2a6f66957c..6d5a8626d6 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.7.5.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.8.bb
-@@ -16,7 +16,7 @@ SRC_URI = "${XORG_MIRROR}/individual/lib/${XORG_PN}-${PV}.tar.xz"
+diff --git a/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb b/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb
+similarity index 96%
+rename from meta/recipes-support/libseccomp/libseccomp_2.5.3.bb
+rename to meta/recipes-support/libseccomp/libseccomp_2.5.4.bb
+index e6260a7754..c76f3c3573 100644
+--- a/meta/recipes-support/libseccomp/libseccomp_2.5.3.bb
++++ b/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;beginline=0;endline=1;md5=8eac08d22113880357c
  
- SRC_URI += "file://disable_tests.patch \
-            "
--SRC_URI[sha256sum] = "5a1847e2e2c248e1a203a24a1338a5586d6f48472eac58f6f08539110a965151"
-+SRC_URI[sha256sum] = "081bf42ebab023aa92cfdb20c7af8c5ae13d13e88a5e22f90f4453ef80bbdde4"
+ DEPENDS += "gperf-native"
  
- PROVIDES = "virtual/libx11"
+-SRCREV = "57357d2741a3b3d3e8425889a6b79a130e0fa2f3"
++SRCREV = "f33f95014b36f97b42f0c2290e96d5c31647ed10"
  
+ SRC_URI = "git://github.com/seccomp/libseccomp.git;branch=release-2.5;protocol=https \
+            file://run-ptest \
+@@ -51,4 +51,4 @@ FILES:${PN}-dbg += "${libdir}/${PN}/tests/.debug/* ${libdir}/${PN}/tools/.debug"
+ 
+ RDEPENDS:${PN}-ptest = "coreutils bash"
+ 
+-PV = "2.5.3"
++PV = "2.5.4"
 -- 
 2.30.2
 
