@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DCC8C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59D32C4167E
 	for <webhook@archiver.kernel.org>; Thu,  5 May 2022 05:06:03 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web11.7347.1651727156894581490
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
+ [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web11.7348.1651727160089829482
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 May 2022 22:05:57 -0700
+ Wed, 04 May 2022 22:06:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=KVXwb8dq;
- spf=pass (domain: gmail.com, ip: 209.85.208.45,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Cy88MRx7;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f45.google.com with SMTP id be20so3875053edb.12
+Received: by mail-ed1-f42.google.com with SMTP id ba17so3906828edb.5
         for <openembedded-core@lists.openembedded.org>;
- Wed, 04 May 2022 22:05:56 -0700 (PDT)
+ Wed, 04 May 2022 22:05:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=5vWymZ8UUMr/Qv9TXZnC/Hpc8CxTadjmknJ5RNAOPlQ=;
-        b=KVXwb8dqXzqOTDjOrMzGr3TeuUfsHqEchUfK//EUnMMirEuYIHfxRgU5oPh1FrjLyM
-         xAaAar5ikzRXL0jYxX/ONSSPLUC1jZJ1YBUMhWbVlnk9dWguOv9dy+Wy08rQvX8oS2Hr
-         STXB6ltu8RDYI1ANBQHTfcLqogwo8mTPWfDxTDRv0gsQU/5UlVYOf8lI9NU5tdhENKvq
-         JAXeqihTkWchC7p2VWkOt9+f5+OxFURFuW0i5uvjUnRVUvyInudoyJ5Rccqw3rz96Xv/
-         of6NgKQwfttz+paJRFx5aUDzZCFE1SFPGXFi0Meub/zxwsmbTlZ94Yu/yZL5xFpkLAt+
-         gUDQ==
+        bh=gSyhFDRVUjmz5MYV8AiY9izPSmMRr5BRI5+lZarmvoI=;
+        b=Cy88MRx7ytG85+CkXiMiiYBJLJtprkGDU5IKLpZeZByxldEBEYu81PW/u0C57QV0oS
+         owPNJMCq0X63iUxdMO+SP7xSnX6pq8pxlnnuHMWH8wfCPpPLxxfDZXpXcF4l/3Y9f5XY
+         Gn5TdohZ6yZIxy5sMPLooAHY8znwYRKJhLe0yXCspXMMwG8Kn3DH5F6WjVheZsaELU/g
+         FIN7B1KCpkwoMhI3dDovbPC6p04BdmFon3MSMF8BQnCr4K+xXKPn6zUQjrT+BtlhkzHn
+         OFQngOmRIubAU0e+1goTnJyNYHZgvOiPl3Hj6W2v7ckAmjyi04y7RH7DZpEPuncFMnf2
+         bykQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=5vWymZ8UUMr/Qv9TXZnC/Hpc8CxTadjmknJ5RNAOPlQ=;
-        b=3e7/G1vq63/3VR4c4iQCUJ+kRMnvUU72riwh2r7INh80Y76h645evmUuTFabMhio2f
-         auegSkQQ18Ow2OjiUHJfSQVMOBHVKXamwn7p3lYwiTMjt6z/aUoSI7u02vCEkT+xVi8W
-         pEK4ocTVBDjlwIZDabsssr7BmHsI3SrFWIOMf90fwH4kFqDhfqtW1WtcbGraxsrvjL7S
-         XJjLmpYiQE4NVGMFF8Rpv4+RLEywQve/HYDsPoejMtJosELw4V+YDd6zxs30b7EmfYMC
-         r1+F/4/La28oA0dPLVgKeG2XbPg2+HGwBj/BcC4cxL55AoVA4HWklOhIpQM5mUVUHyZv
-         7y+w==
-X-Gm-Message-State: AOAM530pOgCgFF6hODFqCSi2aFkU38L2VC6qbayXcBfSblR4N/925JU4
-	NQwyjGNCedbG2cFV6A5+Fg+IRG+xTP0=
+        bh=gSyhFDRVUjmz5MYV8AiY9izPSmMRr5BRI5+lZarmvoI=;
+        b=56D9Pab/69F2W8+kbXWsoRd8amyH0TDjWIlU8ozpuAFO4M40by5IALLhq+PRDXO+A4
+         ZzUzye6EtyHl0upqm3GU3xcOCdV53OqwYfJtouilAmMOJJzY80QiShvR7F1zFPr8Qqfl
+         37uHqthJNwk0vojiN5otKofDDO7LVsWSmMtvjr+5qkYDRzjHZg3JvfOlFkNLSePSjE6A
+         fE2G5IlcyN7KB+IEF/7uEqcRVgaTew3dnqORZA2AKjvDt1e5yaaYa3GhBn5lNzMrPVre
+         CeNDwvUxp0cFlTD4TWkPi0wbuH4+XrvuRiKWFXAVWltbS7GMpCR2DN4kPBPt10gwov4M
+         yXug==
+X-Gm-Message-State: AOAM532H8zzcQJTRpxm5UrderbFWH7aHBmDwyMf0lai957HDyV3E+Dxu
+	/bIFBj/iDcnZBhtt1pDYJyhuW2Bgi8U=
 X-Google-Smtp-Source: 
- ABdhPJwLBbJ5ceqYzxoiKp+0I2Dp0yKtMoAqKUHbZ0zH8oCxYzL30PzDvs1HAf4Aw4y79sR7uXYvIQ==
-X-Received: by 2002:aa7:c0c4:0:b0:425:c776:6f17 with SMTP id
- j4-20020aa7c0c4000000b00425c7766f17mr27212672edp.131.1651727155474;
-        Wed, 04 May 2022 22:05:55 -0700 (PDT)
+ ABdhPJzK5DKEBp9K76wuuAqDfSdIgTyrOkUrFvzDJBllSrOkPAkDA95VKadruJPNe0A71+a9T6EeBA==
+X-Received: by 2002:a05:6402:27cd:b0:427:bf42:44cb with SMTP id
+ c13-20020a05640227cd00b00427bf4244cbmr21269221ede.276.1651727158719;
+        Wed, 04 May 2022 22:05:58 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- gg19-20020a170906899300b006f3ef214dfbsm313386ejc.97.2022.05.04.22.05.54
+ gg19-20020a170906899300b006f3ef214dfbsm313386ejc.97.2022.05.04.22.05.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 22:05:55 -0700 (PDT)
+        Wed, 04 May 2022 22:05:58 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 11/61] python3-pygments: upgrade 2.11.2 -> 2.12.0
-Date: Thu,  5 May 2022 07:04:54 +0200
-Message-Id: <20220505050544.651895-11-alex@linutronix.de>
+Subject: [PATCH 15/61] cronie: upgrade 1.6.0 -> 1.6.1
+Date: Thu,  5 May 2022 07:04:58 +0200
+Message-Id: <20220505050544.651895-15-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220505050544.651895-1-alex@linutronix.de>
 References: <20220505050544.651895-1-alex@linutronix.de>
@@ -68,35 +68,30 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 05 May 2022 05:06:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165240
+ https://lists.openembedded.org/g/openembedded-core/message/165244
 
-License-Update: copyright years
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...{python3-pygments_2.11.2.bb => python3-pygments_2.12.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-pygments_2.11.2.bb => python3-pygments_2.12.0.bb} (69%)
+ .../cronie/{cronie_1.6.0.bb => cronie_1.6.1.bb}                 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/cronie/{cronie_1.6.0.bb => cronie_1.6.1.bb} (97%)
 
-diff --git a/meta/recipes-devtools/python/python3-pygments_2.11.2.bb b/meta/recipes-devtools/python/python3-pygments_2.12.0.bb
-similarity index 69%
-rename from meta/recipes-devtools/python/python3-pygments_2.11.2.bb
-rename to meta/recipes-devtools/python/python3-pygments_2.12.0.bb
-index 35d288c89e..b47e0aff67 100644
---- a/meta/recipes-devtools/python/python3-pygments_2.11.2.bb
-+++ b/meta/recipes-devtools/python/python3-pygments_2.12.0.bb
-@@ -2,10 +2,10 @@ SUMMARY = "Pygments is a syntax highlighting package written in Python."
- DESCRIPTION = "Pygments is a syntax highlighting package written in Python."
- HOMEPAGE = "http://pygments.org/"
- LICENSE = "BSD-2-Clause"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=98419e351433ac106a24e3ad435930bc"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=36a13c90514e2899f1eba7f41c3ee592"
+diff --git a/meta/recipes-extended/cronie/cronie_1.6.0.bb b/meta/recipes-extended/cronie/cronie_1.6.1.bb
+similarity index 97%
+rename from meta/recipes-extended/cronie/cronie_1.6.0.bb
+rename to meta/recipes-extended/cronie/cronie_1.6.1.bb
+index d2f08c9af0..6d150dd3c7 100644
+--- a/meta/recipes-extended/cronie/cronie_1.6.0.bb
++++ b/meta/recipes-extended/cronie/cronie_1.6.1.bb
+@@ -25,7 +25,7 @@ SRC_URI = "https://github.com/cronie-crond/cronie/releases/download/cronie-${PV}
+ PAM_SRC_URI = "file://crond_pam_config.patch"
+ PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
  
- inherit setuptools3
--SRC_URI[sha256sum] = "4e426f72023d88d03b2fa258de560726ce890ff3b630f88c21cbb8b2503b8c6a"
-+SRC_URI[sha256sum] = "5eb116118f9612ff1ee89ac96437bb6b49e8f04d8a13b514ba26f620208e26eb"
+-SRC_URI[sha256sum] = "3f7cc263d21838b53a9943eb2a26b862059e2ae36c3f11789ac33cd6818e3628"
++SRC_URI[sha256sum] = "2cd0f0dd1680e6b9c39bf1e3a5e7ad6df76aa940de1ee90a453633aa59984e62"
  
- DEPENDS += "\
-             ${PYTHON_PN} \
+ inherit autotools update-rc.d useradd systemd
+ 
 -- 
 2.30.2
 
