@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60294C4167D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 596C3C4321E
 	for <webhook@archiver.kernel.org>; Thu,  5 May 2022 05:06:03 +0000 (UTC)
 Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
  [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web12.7373.1651727158306038902
+ by mx.groups.io with SMTP id smtpd.web11.7346.1651727155417544331
  for <openembedded-core@lists.openembedded.org>;
  Wed, 04 May 2022 22:05:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CxgWQTFL;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fM9xlD9w;
  spf=pass (domain: gmail.com, ip: 209.85.208.46,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id g23so3887368edy.13
+Received: by mail-ed1-f46.google.com with SMTP id p18so3901289edr.7
         for <openembedded-core@lists.openembedded.org>;
  Wed, 04 May 2022 22:05:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Zpwl5Hid9CGQ1ZnOln/rmrV81IIrU8CNkLgQA0Ogdr0=;
-        b=CxgWQTFLqmvH7yfVurtnqKc3+6ULRG8zxjfBMms/YFzRKd+gtm8V8jMJRLTX+VUXPE
-         +2jhESDD5O/pqwmBQ+0pYASAX1z9DCetcFi3BVxThsVkLZe/L5+gRR8GqPQODBJd7+I1
-         mBQtrFpk3xs/ePA85AsH+H3+QJJhLDtBaNz45cX5O/iht3/NDJrqWB/J6WirMemej+T4
-         70NjqgLZHhXlEWSvPoLCpjvI7svg1nZVmHrZLmxHjP1OokoqK0LTxiz+LPjywpwgP+DY
-         pf/OwAB7n/mJik8YZ8fKeREDBCSgnLwxLh++/PhSH2ao+89+cgUJU33lyuSfZ1noNUeO
-         5zHA==
+        bh=TgHwx1jxWr/aZbncVhVJY+T+MyhiEI7F1+1Xi7JJgpo=;
+        b=fM9xlD9w6+2Efz8exX469am69AxteCjZcLrrKTDXJZp4SNj2u0OFfsxED4r6xpTYK3
+         rrjhNPsHqxAxTwR1IocnyqX/0028pQv3axMhYmnj3Pn3aT0xW+9gBsd/cwMI2jUSpJ6k
+         RBZPAp0b1ahwaui5TBJEyX3/ugBwELTIJQ14KHUSgEnbR5HuApj+2KhMXrmyEpSkgxEg
+         ZxCrEhHIH9++3wET35AA6A+WqMLqxPHZe6JSmK6bR2LOzo/zPWIeng695NvhjxJ8IsBi
+         fbMB1HrpCckQUZgNsHP6s1VvqCfMesuEYEqeX1qLSGxHqjLyoVVZFo6sU7LojmSa7AYQ
+         Qg6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Zpwl5Hid9CGQ1ZnOln/rmrV81IIrU8CNkLgQA0Ogdr0=;
-        b=LaWy4kYtfTAme0EaIRK3ivaJ/XWRCzVHD0lXppzTddfGNIR66nHWuJydUyGlQIhinl
-         L0OcIe+OarUUVE1+uOtzyb0oY6zl29d3Fk8+NL8U+Jj/R32UVWup//vDWhFpJULjBYhS
-         GTbdrAdP7zaK5i+sS9P0VNZRHzRX3l1PrHhXzwIp2AWIP4yfJpRcza4L7g67cwWU0x2j
-         Wpc8Nm/Gu84qizLf5GrUFtsSjhpRTNw5BOBp7c5MlH5mMfuG0/K4hVDGkLdSZ70qtSYh
-         I2SB5HtL5qCdhbJ2XIXm28MOl2gH3CNpffG4ISWXz0b2IiMDhQ/LNiaBMwy5r9MDcZkf
-         rCZg==
-X-Gm-Message-State: AOAM531iFXooUxzTSPoFAo9Y8m9N9J3f1ETbzsHAMYafJC5ZYYrhruQ0
-	5QPxpXKTP+DPIcICVIY0+sPYruNhC9Y=
+        bh=TgHwx1jxWr/aZbncVhVJY+T+MyhiEI7F1+1Xi7JJgpo=;
+        b=cJMIVTi0PYkBArbJUQZpwN7AcIBvGDRkJAIt561avsBnrKZIMsZe8nI8q9JgP+s4Qe
+         Vg6D+CqHPf1hsDqceThdfcZRIBVz23bR2TLFicV5sLv/dbcyVz7VVjxded/d5egJ0Tt4
+         e8TeDaUEbml+0JLI//hVuSNKyA9tadYRGt8ChiN4x9U4boXX+OjWIsV/hTKr4sg1DImC
+         MglkbNf61gjC7BNhXAE1WEqYBcppuQdsfO2A+OIVDXamU2adU8/mKFN2tV6KByTj6bYS
+         WVLy2ooRHQ3r0aCuAqCktv/fK5A+CE1LKrazTHTdT6fwWBlTcmVY/v2kBSQuxXTAqaFd
+         v0sA==
+X-Gm-Message-State: AOAM532UwaftQ3mfLZ4tBbkwAPPG1EQ54Hd9V7msFccn6/raVn16Fefz
+	jgApxP7iDL5XYduG5PpaBhYA9hA4WxM=
 X-Google-Smtp-Source: 
- ABdhPJwZeOQozbXAfoACo34CNWU17EDPPoU9Xk/TBAQFIkZwF6p08CgKR3b6gtuMfY3WTeRw5xIUsQ==
-X-Received: by 2002:a05:6402:84a:b0:423:fe99:8c53 with SMTP id
- b10-20020a056402084a00b00423fe998c53mr26946910edz.195.1651727156872;
-        Wed, 04 May 2022 22:05:56 -0700 (PDT)
+ ABdhPJz18ZDY46UYeq8npXFF1fTz3FUzveqtZZXmtFsyR8clwN8TcN7ZRn82+u2CJgOXuF542eSqkA==
+X-Received: by 2002:a05:6402:40d4:b0:427:de1e:6ce0 with SMTP id
+ z20-20020a05640240d400b00427de1e6ce0mr14260368edb.227.1651727157812;
+        Wed, 04 May 2022 22:05:57 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
  gg19-20020a170906899300b006f3ef214dfbsm313386ejc.97.2022.05.04.22.05.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 22:05:56 -0700 (PDT)
+        Wed, 04 May 2022 22:05:57 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 13/61] at-spi2-core: upgrade 2.44.0 -> 2.44.1
-Date: Thu,  5 May 2022 07:04:56 +0200
-Message-Id: <20220505050544.651895-13-alex@linutronix.de>
+Subject: [PATCH 14/61] bind: upgrade 9.18.1 -> 9.18.2
+Date: Thu,  5 May 2022 07:04:57 +0200
+Message-Id: <20220505050544.651895-14-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220505050544.651895-1-alex@linutronix.de>
 References: <20220505050544.651895-1-alex@linutronix.de>
@@ -68,83 +68,84 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 05 May 2022 05:06:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165242
+ https://lists.openembedded.org/g/openembedded-core/message/165243
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...-core_2.44.0.bb => at-spi2-core_2.44.1.bb} |  6 +--
- ...6a4c4491eea57d7b713bb4440f541584204b.patch | 40 -------------------
- 2 files changed, 2 insertions(+), 44 deletions(-)
- rename meta/recipes-support/atk/{at-spi2-core_2.44.0.bb => at-spi2-core_2.44.1.bb} (89%)
- delete mode 100644 meta/recipes-support/atk/files/08036a4c4491eea57d7b713bb4440f541584204b.patch
+ .../0001-avoid-start-failure-with-bind-user.patch               | 0
+ .../0001-named-lwresd-V-and-start-log-hide-build-options.patch  | 0
+ .../bind-ensure-searching-for-json-headers-searches-sysr.patch  | 0
+ .../bind/{bind-9.18.1 => bind-9.18.2}/bind9                     | 0
+ .../bind/{bind-9.18.1 => bind-9.18.2}/conf.patch                | 0
+ .../bind/{bind-9.18.1 => bind-9.18.2}/generate-rndc-key.sh      | 0
+ .../init.d-add-support-for-read-only-rootfs.patch               | 0
+ .../make-etc-initd-bind-stop-work.patch                         | 0
+ .../bind/{bind-9.18.1 => bind-9.18.2}/named.service             | 0
+ .../bind/{bind_9.18.1.bb => bind_9.18.2.bb}                     | 2 +-
+ 10 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/bind/{bind-9.18.1 => bind-9.18.2}/0001-avoid-start-failure-with-bind-user.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.1 => bind-9.18.2}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.1 => bind-9.18.2}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.1 => bind-9.18.2}/bind9 (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.1 => bind-9.18.2}/conf.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.1 => bind-9.18.2}/generate-rndc-key.sh (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.1 => bind-9.18.2}/init.d-add-support-for-read-only-rootfs.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.1 => bind-9.18.2}/make-etc-initd-bind-stop-work.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.1 => bind-9.18.2}/named.service (100%)
+ rename meta/recipes-connectivity/bind/{bind_9.18.1.bb => bind_9.18.2.bb} (98%)
 
-diff --git a/meta/recipes-support/atk/at-spi2-core_2.44.0.bb b/meta/recipes-support/atk/at-spi2-core_2.44.1.bb
-similarity index 89%
-rename from meta/recipes-support/atk/at-spi2-core_2.44.0.bb
-rename to meta/recipes-support/atk/at-spi2-core_2.44.1.bb
-index e276eb7b8e..95a6c619f0 100644
---- a/meta/recipes-support/atk/at-spi2-core_2.44.0.bb
-+++ b/meta/recipes-support/atk/at-spi2-core_2.44.1.bb
-@@ -9,11 +9,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.1/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.18.2/0001-avoid-start-failure-with-bind-user.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.1/0001-avoid-start-failure-with-bind-user.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.2/0001-avoid-start-failure-with-bind-user.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.1/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.18.2/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.1/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.2/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.1/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.18.2/bind-ensure-searching-for-json-headers-searches-sysr.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.1/bind-ensure-searching-for-json-headers-searches-sysr.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.2/bind-ensure-searching-for-json-headers-searches-sysr.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.1/bind9 b/meta/recipes-connectivity/bind/bind-9.18.2/bind9
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.1/bind9
+rename to meta/recipes-connectivity/bind/bind-9.18.2/bind9
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.1/conf.patch b/meta/recipes-connectivity/bind/bind-9.18.2/conf.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.1/conf.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.2/conf.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.1/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.18.2/generate-rndc-key.sh
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.1/generate-rndc-key.sh
+rename to meta/recipes-connectivity/bind/bind-9.18.2/generate-rndc-key.sh
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.1/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.18.2/init.d-add-support-for-read-only-rootfs.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.1/init.d-add-support-for-read-only-rootfs.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.2/init.d-add-support-for-read-only-rootfs.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.1/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.18.2/make-etc-initd-bind-stop-work.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.1/make-etc-initd-bind-stop-work.patch
+rename to meta/recipes-connectivity/bind/bind-9.18.2/make-etc-initd-bind-stop-work.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.18.1/named.service b/meta/recipes-connectivity/bind/bind-9.18.2/named.service
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.18.1/named.service
+rename to meta/recipes-connectivity/bind/bind-9.18.2/named.service
+diff --git a/meta/recipes-connectivity/bind/bind_9.18.1.bb b/meta/recipes-connectivity/bind/bind_9.18.2.bb
+similarity index 98%
+rename from meta/recipes-connectivity/bind/bind_9.18.1.bb
+rename to meta/recipes-connectivity/bind/bind_9.18.2.bb
+index 6aa832f8f5..1c77aceb9f 100644
+--- a/meta/recipes-connectivity/bind/bind_9.18.1.bb
++++ b/meta/recipes-connectivity/bind/bind_9.18.2.bb
+@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+            "
  
- MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+-SRC_URI[sha256sum] = "57c7afd871694d615cb4defb1c1bd6ed023350943d7458414db8d493ef560427"
++SRC_URI[sha256sum] = "2e4b38779bba0a23ee634fdf7c525fd9794c41d692bfd83cda25823a2a3ed969"
  
--SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
--           file://08036a4c4491eea57d7b713bb4440f541584204b.patch \
--          "
-+SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "7eee3cf285b089060fd6b6e51b3eb2cacf752cca3a082c7f4c2c5ab841e51353"
-+SRC_URI[sha256sum] = "4beb23270ba6cf7caf20b597354d75194d89afb69d2efcf15f4271688ba6f746"
- 
- X11DEPENDS = "virtual/libx11 libxi libxtst"
- 
-diff --git a/meta/recipes-support/atk/files/08036a4c4491eea57d7b713bb4440f541584204b.patch b/meta/recipes-support/atk/files/08036a4c4491eea57d7b713bb4440f541584204b.patch
-deleted file mode 100644
-index 0f002256c9..0000000000
---- a/meta/recipes-support/atk/files/08036a4c4491eea57d7b713bb4440f541584204b.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From 08036a4c4491eea57d7b713bb4440f541584204b Mon Sep 17 00:00:00 2001
--From: Mike Gorse <mgorse@suse.com>
--Date: Mon, 21 Mar 2022 10:19:03 -0500
--Subject: [PATCH] Fix build with X11 disabled
--
--Closes #51
--Upstream-Status: Backport
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- registryd/deviceeventcontroller.c | 8 ++++----
-- 1 file changed, 4 insertions(+), 4 deletions(-)
--
--diff --git a/registryd/deviceeventcontroller.c b/registryd/deviceeventcontroller.c
--index 8a321adc..3068ec4b 100644
----- a/registryd/deviceeventcontroller.c
--+++ b/registryd/deviceeventcontroller.c
--@@ -1720,16 +1720,16 @@ spi_dec_synth_keysym (SpiDEController *controller, long keysym)
-- 	if (synth_mods != modifiers) {
-- 		lock_mods = synth_mods & ~modifiers;
-- 		spi_dec_plat_lock_modifiers (controller, lock_mods);
---		if (modifiers & LockMask)
---			spi_dec_plat_unlock_modifiers (controller, LockMask);
--+		if (modifiers & SPI_KEYMASK_SHIFTLOCK)
--+			spi_dec_plat_unlock_modifiers (controller, SPI_KEYMASK_SHIFTLOCK);
-- 	}
-- 	spi_dec_plat_synth_keycode_press (controller, key_synth_code);
-- 	spi_dec_plat_synth_keycode_release (controller, key_synth_code);
-- 
-- 	if (synth_mods != modifiers) {
-- 		spi_dec_plat_unlock_modifiers (controller, lock_mods);
---		if (modifiers & LockMask)
---			spi_dec_plat_lock_modifiers (controller, LockMask);
--+		if (modifiers & SPI_KEYMASK_SHIFTLOCK)
--+			spi_dec_plat_lock_modifiers (controller, SPI_KEYMASK_SHIFTLOCK);
-- 	}
-- 	return TRUE;
-- }
---- 
--GitLab
--
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # follow the ESV versions divisible by 2
 -- 
 2.30.2
 
