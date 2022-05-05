@@ -2,101 +2,105 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32AD5C433EF
-	for <webhook@archiver.kernel.org>; Thu,  5 May 2022 19:39:10 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web11.942.1651779545512294726
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37CA8C433EF
+	for <webhook@archiver.kernel.org>; Thu,  5 May 2022 19:41:40 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web09.1033.1651779699067133229
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 May 2022 12:39:05 -0700
+ Thu, 05 May 2022 12:41:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Q+dP/sT+;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bE+4BZIY;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id v12so7363536wrv.10
+Received: by mail-wm1-f52.google.com with SMTP id p189so3251727wmp.3
         for <openembedded-core@lists.openembedded.org>;
- Thu, 05 May 2022 12:39:05 -0700 (PDT)
+ Thu, 05 May 2022 12:41:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=NPjcljQYPs61IZADgp5+gdZW/3Uo5j7rNEoNjnGs2c8=;
-        b=Q+dP/sT+uYb3Llpze7CkFfoZU0BeRsP8vVh3UyMkTSKv2o/dujQHLxt6JQO6qE5Jax
-         HhQlaeA3xK3wUpZ60bh2qUvWOBRTzTMz0Ozisn/VliAcOQR0CDlNtqYkQJwT9reawRlY
-         2UZD/sI7DJZxQXtX/TPrXT2fjYRaODyECo/X0=
+        bh=vfh37JfWG7rEKEDU1JR9ED7GNIHK1YWxMIMfg/FAg7c=;
+        b=bE+4BZIYfKtsroXZB+ivOVsEYCQq0sIOorDmGG3FDZGqPRqC8XSq7NDUDGUP8NKC9/
+         p+RDKjypyPBvYELQt4U6+JRuLj9OrdAtZ0nNLpogK81qZ3peuwpC2XaXo3IZV+zuAOPa
+         5NtCMbZfWUrUw3QZbJDKCnK68kcg08x8163As=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=NPjcljQYPs61IZADgp5+gdZW/3Uo5j7rNEoNjnGs2c8=;
-        b=K1sIlGJ5CoLWvkuwksTvoGttpJP2ikiUtdZ18XcPd7pADSYSVytvJBoiYbhJ16ZVK1
-         DUAsfvNXnPweSODUQOu1TXa9ho9t5lXnqoR/24Rpf4J/KhFGrKEi2rwiHgt51RdQxdlg
-         8v9eKBNHpf8NvW3zc3Rg9BJpyvZOYuXwuMRCJrfNXQEcrb6fsgGBX7Myv5bLoqLNqLVA
-         hYcaaVvq4TwfW4o9z06pDxw/N5bd9aC1z/fcbbCnFBgfbcILYGAdBJ4CoI6hk3KycQkK
-         TAnbBYIcVTdX31/q/sm4pt7FshTX+Ef2W6TOW037d+P7Vfam2SLSvigm4B3iSOeC1DVa
-         C1mg==
-X-Gm-Message-State: AOAM530koeDTiRr0Ryvej5NdPq+sqrwDug6hezzgH6TR/w9g2UWhfeqA
-	2cyFvV6dsBJNpsyemskXtdUjlRBDx6I4FQ==
+        bh=vfh37JfWG7rEKEDU1JR9ED7GNIHK1YWxMIMfg/FAg7c=;
+        b=7O8rJ8XVoYnLeN0L1/0997qkNCDqIfZsUIgUVdmDkDAhP2zmUcOBg2ePh0onuZlLC0
+         7JdzXUQjadeo+HCyJZcWLy8YOJovlh49NAmd2ZRRcSGd2SOHxRfCv2p+drAMejUAWugR
+         /uQu1zgEiL9oBLzbQpLufc1cCcPy+F5R9BvqSVNivYYR4Dxe7j6bgKATiuY/2ufu+29u
+         YnTIKiDwZaRilBZtsAN+CNgL0qUinmaj5b/Fy5WoV7iCU8BlqhcvmnknIiRgkCQSHgDz
+         /FfQK/EOb2kU12QpgxnRUfT8vefKFMNq7o7oIYKaGXSLL1SIYOiCAdvKrdTrkjYP6wzj
+         /5Nw==
+X-Gm-Message-State: AOAM530kXL7uAvdigCkrH0V5hYQ3BFtra6cYQXWjK6tBocY6HJa/r6nf
+	1Evz+Na1EJ+HcSRVDpy2tCjtpiETj5xA0Q==
 X-Google-Smtp-Source: 
- ABdhPJxCG5XnVOYv4eOM8tGiNE4eKTtHXKRCCCY6zMy3A4BtuQQnVRbZoU36R173BbbHjY/Dhb1qJQ==
-X-Received: by 2002:a5d:43ca:0:b0:20c:52ba:6a67 with SMTP id
- v10-20020a5d43ca000000b0020c52ba6a67mr22039843wrr.312.1651779543380;
-        Thu, 05 May 2022 12:39:03 -0700 (PDT)
+ ABdhPJwtrzuqfYiHdS45mza4FcWaU2d6WHcbj7FsgmigmjF3BXRgbntTzNJ3KgINZmCJZZYkvpkDww==
+X-Received: by 2002:a05:600c:3b15:b0:393:eb14:bb5 with SMTP id
+ m21-20020a05600c3b1500b00393eb140bb5mr6512771wms.129.1651779696594;
+        Thu, 05 May 2022 12:41:36 -0700 (PDT)
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:28a1:bf56:60b5:b14c])
         by smtp.gmail.com with ESMTPSA id
- g6-20020a1c4e06000000b00394708a3d7dsm1268755wmh.15.2022.05.05.12.39.02
+ c17-20020a7bc011000000b003942a244f40sm7165474wmb.25.2022.05.05.12.41.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 May 2022 12:39:02 -0700 (PDT)
+        Thu, 05 May 2022 12:41:36 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] cairo: Add missing GPLv3 license checksum entry
-Date: Thu,  5 May 2022 20:39:02 +0100
-Message-Id: <20220505193902.3111857-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH] libgcrypt: Drop GPLv3 license after upstream changes
+Date: Thu,  5 May 2022 20:41:35 +0100
+Message-Id: <20220505194135.3112104-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 May 2022 19:39:10 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 05 May 2022 19:41:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165309
+ https://lists.openembedded.org/g/openembedded-core/message/165310
 
-The trace tools are licensed under GPL-3.0-or-later but this wasn't
-listed in LIC_FILES_CHKSUM. Fix that.
+Upstream removed the GPLv3 component to the license here:
 
-Ultimately we could disable that license if the trace PACKAGECONFIG is
-disabled but I'll leave that to someone else if they're keen.
+https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=commit;h=fbb26c3ac514189f50a31f72dde2a02ef7b41f9f
+
+Update our metadata accordingly as there are now no GPLv3 components.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-graphics/cairo/cairo_1.16.0.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-index 0b5d1d548f6..67081bb8cb4 100644
---- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-@@ -18,7 +18,9 @@ LICENSE:${PN}-gobject = "MPL-1.1 | LGPL-2.1-only"
- LICENSE:${PN}-script-interpreter = "MPL-1.1 | LGPL-2.1-only"
- LICENSE:${PN}-perf-utils = "GPL-3.0-or-later"
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb
+index 251e0d0348a..bc41b026d66 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb
+@@ -7,10 +7,9 @@ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
+ SECTION = "libs"
  
--LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77 \
-+                    file://util/cairo-trace/COPYING-GPL-3;md5=d32239bcb673463ab874e80d47fae504"
-+
+ # helper program gcryptrnd and getrandom are under GPL, rest LGPL
+-LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later & GPL-3.0-or-later"
++LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later"
+ LICENSE:${PN} = "LGPL-2.1-or-later"
+ LICENSE:${PN}-dev = "GPL-2.0-or-later & LGPL-2.1-or-later"
+-LICENSE:dumpsexp-dev = "GPL-3.0-or-later"
  
- DEPENDS = "fontconfig glib-2.0 libpng pixman zlib"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff \
+@@ -52,9 +51,6 @@ do_install:append() {
+ 	install -m 0644 ${B}/src/libgcrypt.pc ${D}/${libdir}/pkgconfig/
+ }
  
-@@ -53,6 +55,7 @@ PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--disable-valgrind,valgrind"
- PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
- PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-glesv2,virtual/libgles2"
- PACKAGECONFIG[opengl] = "--enable-gl,--disable-gl,virtual/libgl"
-+# trace is under GPLv3
- PACKAGECONFIG[trace] = "--enable-trace,--disable-trace"
+-PACKAGES =+ "dumpsexp-dev"
+-
+-FILES:${PN}-dev += "${bindir}/hmac256"
+-FILES:dumpsexp-dev += "${bindir}/dumpsexp"
++FILES:${PN}-dev += "${bindir}/hmac256 ${bindir}/dumpsexp"
  
- EXTRA_OECONF += " \
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.32.0
 
