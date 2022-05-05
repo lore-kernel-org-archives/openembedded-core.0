@@ -2,63 +2,65 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 598B2C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ADFAC4332F
 	for <webhook@archiver.kernel.org>; Thu,  5 May 2022 05:05:53 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web11.7343.1651727149235458545
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web11.7344.1651727150812705581
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 May 2022 22:05:49 -0700
+ Wed, 04 May 2022 22:05:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Oma5Y4Mf;
- spf=pass (domain: gmail.com, ip: 209.85.218.47,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=f65kH8u/;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id z2so4973418ejj.3
+Received: by mail-ej1-f50.google.com with SMTP id dk23so6549474ejb.8
         for <openembedded-core@lists.openembedded.org>;
- Wed, 04 May 2022 22:05:49 -0700 (PDT)
+ Wed, 04 May 2022 22:05:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4wlp8GO3qhmf9t34FB67nN+np1mrReFE+aI2b9rURSw=;
-        b=Oma5Y4MfIwwtusdowsZVmkpmj8dtI0XRwU2FGfjnqCQVGhboOYFGtC9H80gN0NxxK8
-         g8yaUZhtG3VD+rcearABGNxGy8l9xnvVwDP8v5lTA8Ct3YDHDTx7Ab9RGGN4556RGIZU
-         NLw6LOhRrgPqOdI/15PdtvPGpOuM2u3FSBvFdU/36eGcZj7k9nq9z/V5va1qnFX1sjCV
-         GtKd0dcJV+fQ3NEAg0Ua2qkO64izZbssmSfBu0jJl1/XtViU+DujND8DhARICGkUErNY
-         NhcQ7BLgZvm6keSKTCRriUA9f13dFezjwbX8G+pKF4ryJ/bU29V1rND7IXvbeNNbAjr7
-         3UNA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=toyNDEdZ2cLOioJI1YkQgWGzkGKM9xUSrFY9pEYGAo0=;
+        b=f65kH8u/XZj0sD3Az0yUVRLXJGfYhTzmBC2nzsuZzN+6+URdmieL/DZ/d0jYuFRbAS
+         km9jDDx6yAz1DBDNZ3iZHst+BaVUmmETSVHFbpQrLZvfMdnEf5vV6HqctbC8NPK3Bswn
+         tmj1UQnn9MADOBt/hXYc/w/o8oEq7ypkzi/SdRKQKWogU5K/01W/znNRznkGI4K8+2LA
+         KSh2oCHIylIm0wEBhCJ/BGyxSJ1cC7bOJ3tIvJqaWkAQS18dBwO7G/VX+tcWfXDHidUI
+         2ZUrns7mVl2AfeVBZA+yli2QSH7L+vlvCFa23QtBCDm9GcwNVNlXLNVq0ucPSy3wsoUW
+         pNZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4wlp8GO3qhmf9t34FB67nN+np1mrReFE+aI2b9rURSw=;
-        b=K36tuwUJw7+U9znnsPXDjTi7CwqmtUbbK4PddHFpzWVEPD1yrwWaloFXyoLc9emGOk
-         1od3XxoUfXGaGGWv7fAYHSbM3kZ06JNM7hCGCkR4JnOyjmuuTv/8NZcBt9ZjFO9vFYJ7
-         Url+1EtHNoNRbXXztxKSzdDmHokhNIdcOlaHO2LJE1mNvLAKRpWpsuX2FWvUX0f3akvQ
-         V2GBaWppmQL2PQVG0HxJ83xhJcW3VgxLa7PiO+vfBaqc38W2I5qo/2IvtcjCyr6siyL7
-         mG4Mdyjl+fqSLjlSWLkd9GSBsGj7HENJPcCoXX9bPZID+GzOXIlwlqI3ZzNy5XS5P1l5
-         1MKg==
-X-Gm-Message-State: AOAM5311qCwqmzsBJDDg+H+v2ADQ52DmSoanZ1j7TYrMO1fRoR8R9DJe
-	qa/T+IeYTUfNiVC6sGA6g39rlYAZHoA=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=toyNDEdZ2cLOioJI1YkQgWGzkGKM9xUSrFY9pEYGAo0=;
+        b=Vc50Lgxsfe82RVIoa2oFPru4n6en7ZD/Vnfj9q+rbcKRphn2fwCezapyFBht8ghQsW
+         36/j+whqVgjVDDtsZgnMJjN9Izk+PFv2XcegKsrqVnSUP7NQwV061RyxLT3djiUhiIvi
+         smZeuyLkKcwYZhnPW0jVk76ILaKeeiAj7PF4NndZRaI6XnxvcUBFRiAEIj7CN9syRrSI
+         L4xGqiXSvfyOHcX2oalNdFJ/Y5mrsJKAoySAOB3fVT/YBvvH3kidfikMEY5l6e9JIF1s
+         6a4Je3hBVjlKYeczfRL0PHnueDhX5CyqDPo/BuGnyyqxoK2yorTH659/T4KMEsXkqfyL
+         +DyQ==
+X-Gm-Message-State: AOAM532bfQwsmZzOnjF+JA22kjGiQPQ4x5u8Xz+ENRrVFR7KE9ZUwiq3
+	TaiOc6gO0i31BkGfejAzGUTX0QaIlbc=
 X-Google-Smtp-Source: 
- ABdhPJx7RUNduDwoX16PSp8yW/HsK6ZDeouNxQ2KkIsvwg4GTDuv08Rp1tGHuuSpC4rOVwc3FCWtHA==
-X-Received: by 2002:a17:906:3918:b0:6e0:5bbd:bf33 with SMTP id
- f24-20020a170906391800b006e05bbdbf33mr23083279eje.764.1651727147695;
-        Wed, 04 May 2022 22:05:47 -0700 (PDT)
+ ABdhPJx8kFZ0sseKSmB5r6PgaOTgmTENyFp1UT/IlVJGcksJvQYZAfJxBGcFftxsO5JQ/jL+imVYCA==
+X-Received: by 2002:a17:906:9744:b0:6da:9e49:9fe3 with SMTP id
+ o4-20020a170906974400b006da9e499fe3mr24323628ejy.319.1651727149367;
+        Wed, 04 May 2022 22:05:49 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- gg19-20020a170906899300b006f3ef214dfbsm313386ejc.97.2022.05.04.22.05.46
+ gg19-20020a170906899300b006f3ef214dfbsm313386ejc.97.2022.05.04.22.05.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 22:05:47 -0700 (PDT)
+        Wed, 04 May 2022 22:05:48 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 01/61] sato: work around missing icons in adwaita 42.0
-Date: Thu,  5 May 2022 07:04:44 +0200
-Message-Id: <20220505050544.651895-1-alex@linutronix.de>
+Subject: [PATCH 03/61] python3-cryptography: upgrade 36.0.2 -> 37.0.1
+Date: Thu,  5 May 2022 07:04:46 +0200
+Message-Id: <20220505050544.651895-3-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220505050544.651895-1-alex@linutronix.de>
+References: <20220505050544.651895-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -66,221 +68,356 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 05 May 2022 05:05:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165230
+ https://lists.openembedded.org/g/openembedded-core/message/165231
 
-adwaita icon theme upstream has done significant trimming around app category icons
-(fullcolour versions gone completely, 'symbolic' b&w versions still around but marked
-as legacy). Going forward, apps would need to provide their own icons. Given that
-sato is likely to be deprecated in favour of wayland/weston rather soon, let's use
-the symbolic icons for now.
+Drop backported fix-leak-metric.patch.
 
-[YOCTO #14782]
+Adjust versions of crate components.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../gstreamer/gst-examples/gst-player.desktop |  2 +-
- ...sktop-update-icon-to-one-available-i.patch | 25 ++++++++++++++++++
- .../matchbox-config-gtk_0.2.bb                |  4 ++-
- ...ile.c-use-view-refresh-symbolic-icon.patch | 26 +++++++++++++++++++
- .../matchbox-desktop/matchbox-desktop_2.2.bb  |  1 +
- ...l.desktop-use-an-icon-available-in-a.patch | 25 ++++++++++++++++++
- .../matchbox-terminal_0.2.bb                  |  4 ++-
- meta/recipes-sato/puzzles/puzzles_git.bb      |  2 +-
- .../rxvt-unicode/rxvt-unicode/rxvt.desktop    |  2 +-
- .../shutdown-desktop/shutdown.desktop         |  2 +-
- 10 files changed, 87 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch
- create mode 100644 meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch
- create mode 100644 meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch
+ .../0001-Cargo.toml-specify-pem-version.patch |  12 +-
+ .../fix-leak-metric.patch                     |  36 -----
+ .../python/python3-cryptography_36.0.2.bb     | 123 ------------------
+ .../python/python3-cryptography_37.0.1.bb     | 118 +++++++++++++++++
+ 4 files changed, 123 insertions(+), 166 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-cryptography/fix-leak-metric.patch
+ delete mode 100644 meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+ create mode 100644 meta/recipes-devtools/python/python3-cryptography_37.0.1.bb
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop b/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop
-index 7ddd456a1e..a5df5c9c84 100644
---- a/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop
-@@ -1,7 +1,7 @@
- [Desktop Entry]
- Name=Media Player
- Comment=Basic media player
--Icon=multimedia-player
-+Icon=multimedia-player-symbolic
- TryExec=gtk-play
- Exec=gtk-play
- StartupNotify=true
-diff --git a/meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch b/meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch
+diff --git a/meta/recipes-devtools/python/python3-cryptography/0001-Cargo.toml-specify-pem-version.patch b/meta/recipes-devtools/python/python3-cryptography/0001-Cargo.toml-specify-pem-version.patch
+index d7ab757bb5..7266fd7bef 100644
+--- a/meta/recipes-devtools/python/python3-cryptography/0001-Cargo.toml-specify-pem-version.patch
++++ b/meta/recipes-devtools/python/python3-cryptography/0001-Cargo.toml-specify-pem-version.patch
+@@ -1,4 +1,4 @@
+-From ec8d3f3c61280c8140b34ed1479baef5e706f064 Mon Sep 17 00:00:00 2001
++From d41203b9b79f5edc2d33b0d62921822294dfaa6b Mon Sep 17 00:00:00 2001
+ From: Tim Orling <tim.orling@konsulko.com>
+ Date: Fri, 14 Jan 2022 22:02:25 -0800
+ Subject: [PATCH] Cargo.toml: specify pem version
+@@ -9,23 +9,21 @@ pem = { version: "1.0.2"}
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Tim Orling <tim.orling@konsulko.com>
++
+ ---
+  src/rust/Cargo.toml | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/src/rust/Cargo.toml b/src/rust/Cargo.toml
+-index 617167d0..174eaa80 100644
++index d17245d..f8f6416 100644
+ --- a/src/rust/Cargo.toml
+ +++ b/src/rust/Cargo.toml
+ @@ -9,7 +9,7 @@ publish = false
+  lazy_static = "1"
+- pyo3 = { version = "0.15.1" }
++ pyo3 = { version = "0.15.2" }
+  asn1 = { version = "0.8.7", default-features = false, features = ["derive"] }
+ -pem = "1.0"
+ +pem = { version = "1.0.2" }
+  chrono = { version = "0.4", default-features = false, features = ["alloc", "clock"] }
+- ouroboros = "0.13"
++ ouroboros = "0.15"
+  
+--- 
+-2.30.2
+-
+diff --git a/meta/recipes-devtools/python/python3-cryptography/fix-leak-metric.patch b/meta/recipes-devtools/python/python3-cryptography/fix-leak-metric.patch
+deleted file mode 100644
+index 904984f43d..0000000000
+--- a/meta/recipes-devtools/python/python3-cryptography/fix-leak-metric.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-Trigger hashlib initialisation so that the test_create_certificate_with_extensions
+-test doesn't fail.
+-
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+-
+-From dc989d563ab6a078651160e5e6d4ee3df8cb08d7 Mon Sep 17 00:00:00 2001
+-From: Alex Gaynor <alex.gaynor@gmail.com>
+-Date: Thu, 7 Apr 2022 03:15:09 -0400
+-Subject: [PATCH] Added Ubuntu Jammy to CI (#7047)
+-
+-* Added Ubuntu Jammy to CI
+-
+-* try thing
+----
+- .github/workflows/ci.yml                      | 1 +
+- docs/installation.rst                         | 2 +-
+- tests/hazmat/backends/test_openssl_memleak.py | 3 +++
+- 3 files changed, 5 insertions(+), 1 deletion(-)
+-
+-diff --git a/tests/hazmat/backends/test_openssl_memleak.py b/tests/hazmat/backends/test_openssl_memleak.py
+-index 835c9256a6..2605566bd5 100644
+---- a/tests/hazmat/backends/test_openssl_memleak.py
+-+++ b/tests/hazmat/backends/test_openssl_memleak.py
+-@@ -82,8 +82,11 @@ def free(ptr, path, line):
+-     assert result == 1
+- 
+-     # Trigger a bunch of initialization stuff.
+-+    import hashlib
+-     from cryptography.hazmat.backends.openssl.backend import backend
+- 
+-+    hashlib.sha256()
+-+
+-     start_heap = set(heap)
+- 
+-     try:
+diff --git a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+deleted file mode 100644
+index 9ef5ff39c8..0000000000
+--- a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
++++ /dev/null
+@@ -1,123 +0,0 @@
+-SUMMARY = "Provides cryptographic recipes and primitives to python developers"
+-HOMEPAGE = "https://cryptography.io/"
+-SECTION = "devel/python"
+-LICENSE = "( Apache-2.0 | BSD-3-Clause ) & PSF-2.0"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=bf405a8056a6647e7d077b0e7bc36aba \
+-                    file://LICENSE.APACHE;md5=4e168cce331e5c827d4c2b68a6200e1b \
+-                    file://LICENSE.BSD;md5=5ae30ba4123bc4f2fa49aa0b0dce887b \
+-                    file://LICENSE.PSF;md5=43c37d21e1dbad10cddcd150ba2c0595 \
+-                   "
+-LDSHARED += "-pthread"
+-
+-SRC_URI[sha256sum] = "70f8f4f7bb2ac9f340655cbac89d68c527af5bb4387522a8413e841e3e6628c9"
+-
+-SRC_URI += " \
+-    file://run-ptest \
+-    file://check-memfree.py \
+-    file://0001-Cargo.toml-specify-pem-version.patch \
+-    file://0002-Cargo.toml-edition-2018-2021.patch \
+-    file://fix-leak-metric.patch \
+-"
+-
+-inherit pypi python_setuptools3_rust
+-
+-DEPENDS += " \
+-    ${PYTHON_PN}-asn1crypto-native \
+-    ${PYTHON_PN}-cffi-native \
+-    ${PYTHON_PN}-setuptools-rust-native \
+-    ${PYTHON_PN}-six-native \
+-"
+-
+-SRC_URI += " \
+-    crate://crates.io/Inflector/0.11.4 \
+-    crate://crates.io/aliasable/0.1.3 \
+-    crate://crates.io/asn1/0.8.7 \
+-    crate://crates.io/asn1_derive/0.8.7 \
+-    crate://crates.io/autocfg/1.0.1 \
+-    crate://crates.io/base64/0.13.0 \
+-    crate://crates.io/bitflags/1.3.2 \
+-    crate://crates.io/cfg-if/1.0.0 \
+-    crate://crates.io/chrono/0.4.19 \
+-    crate://crates.io/indoc-impl/0.3.6 \
+-    crate://crates.io/indoc/0.3.6 \
+-    crate://crates.io/instant/0.1.12 \
+-    crate://crates.io/lazy_static/1.4.0 \
+-    crate://crates.io/libc/0.2.120 \
+-    crate://crates.io/lock_api/0.4.5 \
+-    crate://crates.io/num-integer/0.1.44 \
+-    crate://crates.io/num-traits/0.2.14 \
+-    crate://crates.io/once_cell/1.9.0 \
+-    crate://crates.io/ouroboros/0.13.0 \
+-    crate://crates.io/ouroboros_macro/0.13.0 \
+-    crate://crates.io/parking_lot/0.11.2 \
+-    crate://crates.io/parking_lot_core/0.8.5 \
+-    crate://crates.io/paste-impl/0.1.18 \
+-    crate://crates.io/paste/0.1.18 \
+-    crate://crates.io/pem/1.0.2 \
+-    crate://crates.io/proc-macro-error-attr/1.0.4 \
+-    crate://crates.io/proc-macro-error/1.0.4 \
+-    crate://crates.io/proc-macro-hack/0.5.19 \
+-    crate://crates.io/proc-macro2/1.0.36 \
+-    crate://crates.io/pyo3-build-config/0.15.1 \
+-    crate://crates.io/pyo3-macros-backend/0.15.1 \
+-    crate://crates.io/pyo3-macros/0.15.1 \
+-    crate://crates.io/pyo3/0.15.1 \
+-    crate://crates.io/quote/1.0.14 \
+-    crate://crates.io/redox_syscall/0.2.10 \
+-    crate://crates.io/scopeguard/1.1.0 \
+-    crate://crates.io/smallvec/1.7.0 \
+-    crate://crates.io/stable_deref_trait/1.2.0 \
+-    crate://crates.io/syn/1.0.85 \
+-    crate://crates.io/unicode-xid/0.2.2 \
+-    crate://crates.io/unindent/0.1.7 \
+-    crate://crates.io/version_check/0.9.4 \
+-    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
+-    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
+-    crate://crates.io/winapi/0.3.9 \
+-"
+-
+-RDEPENDS:${PN} += " \
+-    ${PYTHON_PN}-asn1crypto \
+-    ${PYTHON_PN}-cffi \
+-    ${PYTHON_PN}-idna \
+-    ${PYTHON_PN}-setuptools \
+-    ${PYTHON_PN}-six \
+-"
+-
+-RDEPENDS:${PN}:append:class-target = " \
+-    ${PYTHON_PN}-numbers \
+-    ${PYTHON_PN}-threading \
+-"
+-
+-RDEPENDS:${PN}-ptest += " \
+-    ${PYTHON_PN}-bcrypt \
+-    ${PYTHON_PN}-cryptography-vectors (= ${PV}) \
+-    ${PYTHON_PN}-hypothesis \
+-    ${PYTHON_PN}-iso8601 \
+-    ${PYTHON_PN}-pretend \
+-    ${PYTHON_PN}-psutil \
+-    ${PYTHON_PN}-pytest \
+-    ${PYTHON_PN}-pytest-subtests \
+-    ${PYTHON_PN}-pytz \
+-    ${PYTHON_PN}-tomli \
+-"
+-
+-inherit ptest
+-
+-do_install_ptest() {
+-    install -D ${WORKDIR}/check-memfree.py ${D}${PTEST_PATH}/
+-    install -d ${D}${PTEST_PATH}/tests
+-    cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
+-    install -d ${D}${PTEST_PATH}/tests/hazmat
+-    cp -rf ${S}/tests/hazmat/* ${D}${PTEST_PATH}/tests/hazmat/
+-    cp -r ${S}/pyproject.toml ${D}${PTEST_PATH}/
+-}
+-
+-FILES:${PN}-ptest += " \
+-    ${PTEST_PATH}/check-memfree.py \
+-"
+-FILES:${PN}-dbg += " \
+-    ${PYTHON_SITEPACKAGES_DIR}/${SRCNAME}/hazmat/bindings/.debug \
+-"
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-cryptography_37.0.1.bb b/meta/recipes-devtools/python/python3-cryptography_37.0.1.bb
 new file mode 100644
-index 0000000000..7e75fdab9a
+index 0000000000..1271954a08
 --- /dev/null
-+++ b/meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch
-@@ -0,0 +1,25 @@
-+From ab2c716bb0679a67dc6b0878ef750d3fdd29edb7 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Wed, 13 Apr 2022 22:19:11 +0200
-+Subject: [PATCH] mb-appearance.desktop: update icon to one available in
-+ adwaita 42.0
++++ b/meta/recipes-devtools/python/python3-cryptography_37.0.1.bb
+@@ -0,0 +1,118 @@
++SUMMARY = "Provides cryptographic recipes and primitives to python developers"
++HOMEPAGE = "https://cryptography.io/"
++SECTION = "devel/python"
++LICENSE = "( Apache-2.0 | BSD-3-Clause ) & PSF-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=bf405a8056a6647e7d077b0e7bc36aba \
++                    file://LICENSE.APACHE;md5=4e168cce331e5c827d4c2b68a6200e1b \
++                    file://LICENSE.BSD;md5=5ae30ba4123bc4f2fa49aa0b0dce887b \
++                    file://LICENSE.PSF;md5=43c37d21e1dbad10cddcd150ba2c0595 \
++                   "
++LDSHARED += "-pthread"
 +
-+Upstream-Status: Inappropriate [apps need their own icons as of 42.0]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ appearance/mb-appearance.desktop | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++SRC_URI[sha256sum] = "d610d0ee14dd9109006215c7c0de15eee91230b70a9bce2263461cf7c3720b83"
 +
-+diff --git a/appearance/mb-appearance.desktop b/appearance/mb-appearance.desktop
-+index 4db2bbc..cfa5142 100644
-+--- a/appearance/mb-appearance.desktop
-++++ b/appearance/mb-appearance.desktop
-+@@ -2,7 +2,7 @@
-+ Name=Appearance
-+ Comment=Change the appearance
-+ Exec=matchbox-appearance
-+-Icon=preferences-desktop-theme
-++Icon=preferences-desktop-appearance-symbolic
-+ Terminal=false
-+ Type=Application
-+ Categories=GTK;Settings;DesktopSettings;
-diff --git a/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb b/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
-index d951baf361..c91f9a7cc2 100644
---- a/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
-+++ b/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
-@@ -12,7 +12,9 @@ RDEPENDS:${PN} = "settings-daemon"
- # SRCREV tagged 0.2
- SRCREV = "ef2192ce98d9374ffdad5f78544c3f8f353c16aa"
- SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master \
--           file://no-handed.patch"
-+           file://no-handed.patch \
-+           file://0001-mb-appearance.desktop-update-icon-to-one-available-i.patch \
++SRC_URI += "file://run-ptest \
++           file://check-memfree.py \
++           file://0001-Cargo.toml-specify-pem-version.patch \
++           file://0002-Cargo.toml-edition-2018-2021.patch \
++           crate://crates.io/Inflector/0.11.4 \
++           crate://crates.io/aliasable/0.1.3 \
++           crate://crates.io/asn1/0.8.7 \
++           crate://crates.io/asn1_derive/0.8.7 \
++           crate://crates.io/autocfg/1.1.0 \
++           crate://crates.io/base64/0.13.0 \
++           crate://crates.io/bitflags/1.3.2 \
++           crate://crates.io/cfg-if/1.0.0 \
++           crate://crates.io/chrono/0.4.19 \
++           crate://crates.io/indoc-impl/0.3.6 \
++           crate://crates.io/indoc/0.3.6 \
++           crate://crates.io/instant/0.1.12 \
++           crate://crates.io/lazy_static/1.4.0 \
++           crate://crates.io/libc/0.2.124 \
++           crate://crates.io/lock_api/0.4.7 \
++           crate://crates.io/num-integer/0.1.44 \
++           crate://crates.io/num-traits/0.2.14 \
++           crate://crates.io/once_cell/1.10.0 \
++           crate://crates.io/ouroboros/0.15.0 \
++           crate://crates.io/ouroboros_macro/0.15.0 \
++           crate://crates.io/parking_lot/0.11.2 \
++           crate://crates.io/parking_lot_core/0.8.5 \
++           crate://crates.io/paste-impl/0.1.18 \
++           crate://crates.io/paste/0.1.18 \
++           crate://crates.io/pem/1.0.2 \
++           crate://crates.io/proc-macro-error-attr/1.0.4 \
++           crate://crates.io/proc-macro-error/1.0.4 \
++           crate://crates.io/proc-macro-hack/0.5.19 \
++           crate://crates.io/proc-macro2/1.0.37 \
++           crate://crates.io/pyo3-build-config/0.15.2 \
++           crate://crates.io/pyo3-macros-backend/0.15.2 \
++           crate://crates.io/pyo3-macros/0.15.2 \
++           crate://crates.io/pyo3/0.15.2 \
++           crate://crates.io/quote/1.0.18 \
++           crate://crates.io/redox_syscall/0.2.13 \
++           crate://crates.io/scopeguard/1.1.0 \
++           crate://crates.io/smallvec/1.8.0 \
++           crate://crates.io/stable_deref_trait/1.2.0 \
++           crate://crates.io/syn/1.0.91 \
++           crate://crates.io/unicode-xid/0.2.2 \
++           crate://crates.io/unindent/0.1.8 \
++           crate://crates.io/version_check/0.9.4 \
++           crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
++           crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
++           crate://crates.io/winapi/0.3.9 \
 +           "
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
- 
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch b/meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch
-new file mode 100644
-index 0000000000..7a4db83da2
---- /dev/null
-+++ b/meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch
-@@ -0,0 +1,26 @@
-+From 764201dff04a7ca1c3862357ea485a6fc624dd00 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Wed, 13 Apr 2022 22:01:30 +0200
-+Subject: [PATCH] taku-launcher-tile.c: use view-refresh-symbolic icon
 +
-+Plain view-refresh is no longer provided in latest adwaita icon theme.
++inherit pypi python_setuptools3_rust
 +
-+Upstream-Status: Inappropriate [apps need their own icons as of 42.0]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ libtaku/taku-launcher-tile.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++DEPENDS += " \
++    ${PYTHON_PN}-asn1crypto-native \
++    ${PYTHON_PN}-cffi-native \
++    ${PYTHON_PN}-setuptools-rust-native \
++    ${PYTHON_PN}-six-native \
++"
 +
-+diff --git a/libtaku/taku-launcher-tile.c b/libtaku/taku-launcher-tile.c
-+index e7f58f3..8bbf2f7 100644
-+--- a/libtaku/taku-launcher-tile.c
-++++ b/libtaku/taku-launcher-tile.c
-+@@ -185,7 +185,7 @@ taku_launcher_tile_new_from_item (TakuMenuItem *item)
-+   taku_icon_tile_set_secondary (TAKU_ICON_TILE (tile),
-+                                 taku_menu_item_get_description (item));
-+   taku_icon_tile_set_pixbuf (TAKU_ICON_TILE (tile),
-+-                             get_icon ("view-refresh", size));
-++                             get_icon ("view-refresh-symbolic", size));
-+ 
-+   /* Don't need to update the icon here, because we'll get a style-set signal
-+      when the widget is realised which will update the icon. */
-diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
-index b05a9c48ad..c306aba6ec 100644
---- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
-+++ b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
-@@ -15,6 +15,7 @@ SECTION = "x11/wm"
- SRCREV = "6bc67d09da4147e5552fe30011a05a2c59d2f777"
- SRC_URI = "git://git.yoctoproject.org/${BPN}-2;branch=master \
-            file://vfolders/ \
-+           file://0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch \
-            "
- 
- EXTRA_OECONF = "--enable-startup-notification --with-dbus"
-diff --git a/meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch b/meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch
-new file mode 100644
-index 0000000000..48987f9d31
---- /dev/null
-+++ b/meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch
-@@ -0,0 +1,25 @@
-+From ec16ba4a1cb0e4217910a1b36783f00828bb5dfc Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Wed, 13 Apr 2022 22:24:50 +0200
-+Subject: [PATCH] matchbox-terminal.desktop: use an icon available in adwaita
-+ 42.0
++RDEPENDS:${PN} += " \
++    ${PYTHON_PN}-asn1crypto \
++    ${PYTHON_PN}-cffi \
++    ${PYTHON_PN}-idna \
++    ${PYTHON_PN}-setuptools \
++    ${PYTHON_PN}-six \
++"
 +
-+Upstream-Status: Inappropriate [apps need their own icons as of 42.0]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ matchbox-terminal.desktop | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++RDEPENDS:${PN}:append:class-target = " \
++    ${PYTHON_PN}-numbers \
++    ${PYTHON_PN}-threading \
++"
 +
-+diff --git a/matchbox-terminal.desktop b/matchbox-terminal.desktop
-+index c84a24c..fedaf10 100644
-+--- a/matchbox-terminal.desktop
-++++ b/matchbox-terminal.desktop
-+@@ -3,7 +3,7 @@ Type=Application
-+ Name=Terminal
-+ Comment=When all else fails.
-+ Exec=matchbox-terminal
-+-Icon=utilities-terminal
-++Icon=utilities-terminal-symbolic
-+ Terminal=false
-+ Categories=GTK;Utility;
-+ StartupNotify=true
-diff --git a/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb b/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
-index 802ffa971b..048e247b89 100644
---- a/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
-+++ b/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
-@@ -11,7 +11,9 @@ SECTION = "x11/utils"
- 
- #SRCREV tagged 0.2
- SRCREV = "161276d0f5d1be8187010fd0d9581a6feca70ea5"
--SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master"
-+SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master \
-+           file://0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch \
-+           "
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
- 
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index 0104f2672a..6f038cc475 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -37,7 +37,7 @@ do_install:append () {
- [Desktop Entry]
- Name=$title
- Exec=${bindir}/$prog
--Icon=applications-games
-+Icon=applications-games-symbolic
- Terminal=false
- Type=Application
- Categories=Game;
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop
-index 6b7978afc9..84a8ba7dc5 100644
---- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop
-@@ -3,7 +3,7 @@ Version=1.0
- Name=Terminal
- Comment=A unicode capable rxvt clone
- Exec=rxvt
--Icon=utilities-terminal
-+Icon=utilities-terminal-symbolic
- Terminal=false
- Type=Application
- Categories=Utility;TerminalEmulator;
-diff --git a/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop b/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
-index 662659afc2..bc437ca2de 100644
---- a/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
-+++ b/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
-@@ -4,7 +4,7 @@ Type=Application
- Name=Shutdown
- Comment=Close down the machine safely
- Exec=poweroff
--Icon=system-shutdown
-+Icon=system-shutdown-symbolic
- Terminal=false
- Categories=Utility;
- StartupNotify=true
++RDEPENDS:${PN}-ptest += " \
++    ${PYTHON_PN}-bcrypt \
++    ${PYTHON_PN}-cryptography-vectors (= ${PV}) \
++    ${PYTHON_PN}-hypothesis \
++    ${PYTHON_PN}-iso8601 \
++    ${PYTHON_PN}-pretend \
++    ${PYTHON_PN}-psutil \
++    ${PYTHON_PN}-pytest \
++    ${PYTHON_PN}-pytest-subtests \
++    ${PYTHON_PN}-pytz \
++    ${PYTHON_PN}-tomli \
++"
++
++inherit ptest
++
++do_install_ptest() {
++    install -D ${WORKDIR}/check-memfree.py ${D}${PTEST_PATH}/
++    install -d ${D}${PTEST_PATH}/tests
++    cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
++    install -d ${D}${PTEST_PATH}/tests/hazmat
++    cp -rf ${S}/tests/hazmat/* ${D}${PTEST_PATH}/tests/hazmat/
++    cp -r ${S}/pyproject.toml ${D}${PTEST_PATH}/
++}
++
++FILES:${PN}-ptest += " \
++    ${PTEST_PATH}/check-memfree.py \
++"
++FILES:${PN}-dbg += " \
++    ${PYTHON_SITEPACKAGES_DIR}/${SRCNAME}/hazmat/bindings/.debug \
++"
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.30.2
 
