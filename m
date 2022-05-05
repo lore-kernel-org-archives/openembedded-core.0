@@ -2,65 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 691B2C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 598B2C433F5
 	for <webhook@archiver.kernel.org>; Thu,  5 May 2022 05:05:53 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web09.7215.1651727152275551165
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web11.7343.1651727149235458545
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 May 2022 22:05:52 -0700
+ Wed, 04 May 2022 22:05:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BZKvJOYd;
- spf=pass (domain: gmail.com, ip: 209.85.218.46,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Oma5Y4Mf;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id y3so6509065ejo.12
+Received: by mail-ej1-f47.google.com with SMTP id z2so4973418ejj.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 04 May 2022 22:05:52 -0700 (PDT)
+ Wed, 04 May 2022 22:05:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=F6VDRST/rOHB5GKL+bS6YbtjEO5uvlzxbKL9XddfDpo=;
-        b=BZKvJOYdIFVDlc2at4fnrH5SPSY6WnlAhOFLhV5/w2dZoGxsP3yTXHWo1WFdwcjY2X
-         0QeyyESU3QaInT008WX94UkHmlIk+qjGCVzgvYvyKKkIZBJ9//gx6bFazJnjUvO5uiF1
-         hMf31dyu0cOqif79F/VFfdl+1Hckdj6GsLza9jSI9XGfx8peOb/druHUCKV25UQydySU
-         YIKn8MHqVAMIJkk5cOSvP05NHmJlv3gBb0mV1wJUTZZEmbcbhheeip8gSerhDPCYKFHU
-         yNuNvhojT3bjmFz8oFIa5N43B5XpSyngxDekT5GtJNmL+ZNpaNlXsm82Xh++6UQoH338
-         s+bg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4wlp8GO3qhmf9t34FB67nN+np1mrReFE+aI2b9rURSw=;
+        b=Oma5Y4MfIwwtusdowsZVmkpmj8dtI0XRwU2FGfjnqCQVGhboOYFGtC9H80gN0NxxK8
+         g8yaUZhtG3VD+rcearABGNxGy8l9xnvVwDP8v5lTA8Ct3YDHDTx7Ab9RGGN4556RGIZU
+         NLw6LOhRrgPqOdI/15PdtvPGpOuM2u3FSBvFdU/36eGcZj7k9nq9z/V5va1qnFX1sjCV
+         GtKd0dcJV+fQ3NEAg0Ua2qkO64izZbssmSfBu0jJl1/XtViU+DujND8DhARICGkUErNY
+         NhcQ7BLgZvm6keSKTCRriUA9f13dFezjwbX8G+pKF4ryJ/bU29V1rND7IXvbeNNbAjr7
+         3UNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=F6VDRST/rOHB5GKL+bS6YbtjEO5uvlzxbKL9XddfDpo=;
-        b=LgOMupGxLGxj17rlHvMMwcrXjX3cKzz0G7fpu/CgoLfYJ8clJmZNtLhPcFAbRxbmjI
-         MztJWk8lJeS3n+z6WTm9IfvJUl8u5ZLKLWgre4fAS5oGBDjkRamanCXEhA9pIgmts+J6
-         XMsnnpVJXqNMZpnAg1J8rmzdbgG0HV6dj8neEWftqgmJgT8PhWXUb2z2Rv9ZLleChjRm
-         reeKwAhfMYGabUuzYDM7jb0xxyGgMI0UqiAoiOYMkMWLw96KLm/yopmsIxViaNTGhkCq
-         c0tahpw7dLb4ZxydYKUWbNM/LVoijLDvj8rD3ZEGN9ZASyiCFLX+GYjruV2uN9sYDoxo
-         qs5A==
-X-Gm-Message-State: AOAM532QbDyBypv0CKdMlKOoPLZFeG4crD6taLc/2flgG+9J7qSykZpl
-	v7cqbF5KEGZ5QJmve6+JqmbBzmiKvsA=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4wlp8GO3qhmf9t34FB67nN+np1mrReFE+aI2b9rURSw=;
+        b=K36tuwUJw7+U9znnsPXDjTi7CwqmtUbbK4PddHFpzWVEPD1yrwWaloFXyoLc9emGOk
+         1od3XxoUfXGaGGWv7fAYHSbM3kZ06JNM7hCGCkR4JnOyjmuuTv/8NZcBt9ZjFO9vFYJ7
+         Url+1EtHNoNRbXXztxKSzdDmHokhNIdcOlaHO2LJE1mNvLAKRpWpsuX2FWvUX0f3akvQ
+         V2GBaWppmQL2PQVG0HxJ83xhJcW3VgxLa7PiO+vfBaqc38W2I5qo/2IvtcjCyr6siyL7
+         mG4Mdyjl+fqSLjlSWLkd9GSBsGj7HENJPcCoXX9bPZID+GzOXIlwlqI3ZzNy5XS5P1l5
+         1MKg==
+X-Gm-Message-State: AOAM5311qCwqmzsBJDDg+H+v2ADQ52DmSoanZ1j7TYrMO1fRoR8R9DJe
+	qa/T+IeYTUfNiVC6sGA6g39rlYAZHoA=
 X-Google-Smtp-Source: 
- ABdhPJxuxlrOZRJ51nEi7zpIxi4kzyVEEuSQgpSdQZRTCvLw3I47E7E899KwkIdN55Tv0KEcHR4PRQ==
-X-Received: by 2002:a17:906:8585:b0:6f3:99f0:d061 with SMTP id
- v5-20020a170906858500b006f399f0d061mr23861921ejx.436.1651727150747;
-        Wed, 04 May 2022 22:05:50 -0700 (PDT)
+ ABdhPJx7RUNduDwoX16PSp8yW/HsK6ZDeouNxQ2KkIsvwg4GTDuv08Rp1tGHuuSpC4rOVwc3FCWtHA==
+X-Received: by 2002:a17:906:3918:b0:6e0:5bbd:bf33 with SMTP id
+ f24-20020a170906391800b006e05bbdbf33mr23083279eje.764.1651727147695;
+        Wed, 04 May 2022 22:05:47 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- gg19-20020a170906899300b006f3ef214dfbsm313386ejc.97.2022.05.04.22.05.50
+ gg19-20020a170906899300b006f3ef214dfbsm313386ejc.97.2022.05.04.22.05.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 22:05:50 -0700 (PDT)
+        Wed, 04 May 2022 22:05:47 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 05/61] vulkan: upgrade 1.3.204.1 -> 1.3.211.0
-Date: Thu,  5 May 2022 07:04:48 +0200
-Message-Id: <20220505050544.651895-5-alex@linutronix.de>
+Subject: [PATCH 01/61] sato: work around missing icons in adwaita 42.0
+Date: Thu,  5 May 2022 07:04:44 +0200
+Message-Id: <20220505050544.651895-1-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220505050544.651895-1-alex@linutronix.de>
-References: <20220505050544.651895-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -68,126 +66,221 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 05 May 2022 05:05:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165234
+ https://lists.openembedded.org/g/openembedded-core/message/165230
+
+adwaita icon theme upstream has done significant trimming around app category icons
+(fullcolour versions gone completely, 'symbolic' b&w versions still around but marked
+as legacy). Going forward, apps would need to provide their own icons. Given that
+sato is likely to be deprecated in favour of wayland/weston rather soon, let's use
+the symbolic icons for now.
+
+[YOCTO #14782]
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../glslang/{glslang_1.3.204.1.bb => glslang_1.3.211.0.bb}    | 2 +-
- ...{spirv-headers_1.3.204.1.bb => spirv-headers_1.3.211.0.bb} | 2 +-
- .../{spirv-tools_1.3.204.1.bb => spirv-tools_1.3.211.0.bb}    | 4 ++--
- ...ulkan-headers_1.3.204.1.bb => vulkan-headers_1.3.211.0.bb} | 2 +-
- ...{vulkan-loader_1.3.204.1.bb => vulkan-loader_1.3.211.0.bb} | 4 ++--
- .../{vulkan-tools_1.3.204.1.bb => vulkan-tools_1.3.211.0.bb}  | 4 ++--
- 6 files changed, 9 insertions(+), 9 deletions(-)
- rename meta/recipes-graphics/glslang/{glslang_1.3.204.1.bb => glslang_1.3.211.0.bb} (95%)
- rename meta/recipes-graphics/spir/{spirv-headers_1.3.204.1.bb => spirv-headers_1.3.211.0.bb} (92%)
- rename meta/recipes-graphics/spir/{spirv-tools_1.3.204.1.bb => spirv-tools_1.3.211.0.bb} (93%)
- rename meta/recipes-graphics/vulkan/{vulkan-headers_1.3.204.1.bb => vulkan-headers_1.3.211.0.bb} (93%)
- rename meta/recipes-graphics/vulkan/{vulkan-loader_1.3.204.1.bb => vulkan-loader_1.3.211.0.bb} (94%)
- rename meta/recipes-graphics/vulkan/{vulkan-tools_1.3.204.1.bb => vulkan-tools_1.3.211.0.bb} (93%)
+ .../gstreamer/gst-examples/gst-player.desktop |  2 +-
+ ...sktop-update-icon-to-one-available-i.patch | 25 ++++++++++++++++++
+ .../matchbox-config-gtk_0.2.bb                |  4 ++-
+ ...ile.c-use-view-refresh-symbolic-icon.patch | 26 +++++++++++++++++++
+ .../matchbox-desktop/matchbox-desktop_2.2.bb  |  1 +
+ ...l.desktop-use-an-icon-available-in-a.patch | 25 ++++++++++++++++++
+ .../matchbox-terminal_0.2.bb                  |  4 ++-
+ meta/recipes-sato/puzzles/puzzles_git.bb      |  2 +-
+ .../rxvt-unicode/rxvt-unicode/rxvt.desktop    |  2 +-
+ .../shutdown-desktop/shutdown.desktop         |  2 +-
+ 10 files changed, 87 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch
+ create mode 100644 meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch
+ create mode 100644 meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch
 
-diff --git a/meta/recipes-graphics/glslang/glslang_1.3.204.1.bb b/meta/recipes-graphics/glslang/glslang_1.3.211.0.bb
-similarity index 95%
-rename from meta/recipes-graphics/glslang/glslang_1.3.204.1.bb
-rename to meta/recipes-graphics/glslang/glslang_1.3.211.0.bb
-index 2af406212f..37dea07a8a 100644
---- a/meta/recipes-graphics/glslang/glslang_1.3.204.1.bb
-+++ b/meta/recipes-graphics/glslang/glslang_1.3.211.0.bb
-@@ -8,7 +8,7 @@ HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
- LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPL-3-with-bison-exception"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2a2b5acd7bc4844964cfda45fe807dc3"
- 
--SRCREV = "2742e959347ae2fac58acd0d022c92a0ff1f24bf"
-+SRCREV = "9bb8cfffb0eed010e07132282c41d73064a7a609"
- SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=master \
-            file://0001-generate-glslang-pkg-config.patch"
- PE = "1"
-diff --git a/meta/recipes-graphics/spir/spirv-headers_1.3.204.1.bb b/meta/recipes-graphics/spir/spirv-headers_1.3.211.0.bb
-similarity index 92%
-rename from meta/recipes-graphics/spir/spirv-headers_1.3.204.1.bb
-rename to meta/recipes-graphics/spir/spirv-headers_1.3.211.0.bb
-index 72416b441f..910ba668af 100644
---- a/meta/recipes-graphics/spir/spirv-headers_1.3.204.1.bb
-+++ b/meta/recipes-graphics/spir/spirv-headers_1.3.211.0.bb
-@@ -7,7 +7,7 @@ HOMEPAGE = "https://www.khronos.org/registry/spir-v"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c938b85bceb8fb26c1a807f28a52ae2d"
- 
--SRCREV = "b42ba6d92faf6b4938e6f22ddd186dbdacc98d78"
-+SRCREV = "4995a2f2723c401eb0ea3e10c81298906bf1422b"
- SRC_URI = "git://github.com/KhronosGroup/SPIRV-Headers;protocol=https;branch=master"
- PE = "1"
- UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
-diff --git a/meta/recipes-graphics/spir/spirv-tools_1.3.204.1.bb b/meta/recipes-graphics/spir/spirv-tools_1.3.211.0.bb
-similarity index 93%
-rename from meta/recipes-graphics/spir/spirv-tools_1.3.204.1.bb
-rename to meta/recipes-graphics/spir/spirv-tools_1.3.211.0.bb
-index 4c908d88c0..9804febbcd 100644
---- a/meta/recipes-graphics/spir/spirv-tools_1.3.204.1.bb
-+++ b/meta/recipes-graphics/spir/spirv-tools_1.3.211.0.bb
-@@ -7,8 +7,8 @@ SECTION = "graphics"
- LICENSE  = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
- 
--SRCREV = "45dd184c790d6bfc78a5a74a10c37e888b1823fa"
--SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=sdk-1.3.204;protocol=https"
-+SRCREV = "7826e1941eab1aa66fbe84c48b95921bff402a96"
-+SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=master;protocol=https"
- PE = "1"
- UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.3.204.1.bb b/meta/recipes-graphics/vulkan/vulkan-headers_1.3.211.0.bb
-similarity index 93%
-rename from meta/recipes-graphics/vulkan/vulkan-headers_1.3.204.1.bb
-rename to meta/recipes-graphics/vulkan/vulkan-headers_1.3.211.0.bb
-index 7397f40fb4..c74eb4cf5b 100644
---- a/meta/recipes-graphics/vulkan/vulkan-headers_1.3.204.1.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.3.211.0.bb
-@@ -11,7 +11,7 @@ LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
- SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=main;protocol=https"
- 
--SRCREV = "1dace16d8044758d32736eb59802d171970e9448"
-+SRCREV = "76f00ef6cbb1886eb1162d1fa39bee8b51e22ee8"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop b/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop
+index 7ddd456a1e..a5df5c9c84 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop
++++ b/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop
+@@ -1,7 +1,7 @@
+ [Desktop Entry]
+ Name=Media Player
+ Comment=Basic media player
+-Icon=multimedia-player
++Icon=multimedia-player-symbolic
+ TryExec=gtk-play
+ Exec=gtk-play
+ StartupNotify=true
+diff --git a/meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch b/meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch
+new file mode 100644
+index 0000000000..7e75fdab9a
+--- /dev/null
++++ b/meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch
+@@ -0,0 +1,25 @@
++From ab2c716bb0679a67dc6b0878ef750d3fdd29edb7 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Wed, 13 Apr 2022 22:19:11 +0200
++Subject: [PATCH] mb-appearance.desktop: update icon to one available in
++ adwaita 42.0
++
++Upstream-Status: Inappropriate [apps need their own icons as of 42.0]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ appearance/mb-appearance.desktop | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/appearance/mb-appearance.desktop b/appearance/mb-appearance.desktop
++index 4db2bbc..cfa5142 100644
++--- a/appearance/mb-appearance.desktop
+++++ b/appearance/mb-appearance.desktop
++@@ -2,7 +2,7 @@
++ Name=Appearance
++ Comment=Change the appearance
++ Exec=matchbox-appearance
++-Icon=preferences-desktop-theme
+++Icon=preferences-desktop-appearance-symbolic
++ Terminal=false
++ Type=Application
++ Categories=GTK;Settings;DesktopSettings;
+diff --git a/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb b/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
+index d951baf361..c91f9a7cc2 100644
+--- a/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
++++ b/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
+@@ -12,7 +12,9 @@ RDEPENDS:${PN} = "settings-daemon"
+ # SRCREV tagged 0.2
+ SRCREV = "ef2192ce98d9374ffdad5f78544c3f8f353c16aa"
+ SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master \
+-           file://no-handed.patch"
++           file://no-handed.patch \
++           file://0001-mb-appearance.desktop-update-icon-to-one-available-i.patch \
++           "
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
  
  S = "${WORKDIR}/git"
+diff --git a/meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch b/meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch
+new file mode 100644
+index 0000000000..7a4db83da2
+--- /dev/null
++++ b/meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch
+@@ -0,0 +1,26 @@
++From 764201dff04a7ca1c3862357ea485a6fc624dd00 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Wed, 13 Apr 2022 22:01:30 +0200
++Subject: [PATCH] taku-launcher-tile.c: use view-refresh-symbolic icon
++
++Plain view-refresh is no longer provided in latest adwaita icon theme.
++
++Upstream-Status: Inappropriate [apps need their own icons as of 42.0]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ libtaku/taku-launcher-tile.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/libtaku/taku-launcher-tile.c b/libtaku/taku-launcher-tile.c
++index e7f58f3..8bbf2f7 100644
++--- a/libtaku/taku-launcher-tile.c
+++++ b/libtaku/taku-launcher-tile.c
++@@ -185,7 +185,7 @@ taku_launcher_tile_new_from_item (TakuMenuItem *item)
++   taku_icon_tile_set_secondary (TAKU_ICON_TILE (tile),
++                                 taku_menu_item_get_description (item));
++   taku_icon_tile_set_pixbuf (TAKU_ICON_TILE (tile),
++-                             get_icon ("view-refresh", size));
+++                             get_icon ("view-refresh-symbolic", size));
++ 
++   /* Don't need to update the icon here, because we'll get a style-set signal
++      when the widget is realised which will update the icon. */
+diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
+index b05a9c48ad..c306aba6ec 100644
+--- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
++++ b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
+@@ -15,6 +15,7 @@ SECTION = "x11/wm"
+ SRCREV = "6bc67d09da4147e5552fe30011a05a2c59d2f777"
+ SRC_URI = "git://git.yoctoproject.org/${BPN}-2;branch=master \
+            file://vfolders/ \
++           file://0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch \
+            "
  
-diff --git a/meta/recipes-graphics/vulkan/vulkan-loader_1.3.204.1.bb b/meta/recipes-graphics/vulkan/vulkan-loader_1.3.211.0.bb
-similarity index 94%
-rename from meta/recipes-graphics/vulkan/vulkan-loader_1.3.204.1.bb
-rename to meta/recipes-graphics/vulkan/vulkan-loader_1.3.211.0.bb
-index 8924ca34a6..cb4932ef79 100644
---- a/meta/recipes-graphics/vulkan/vulkan-loader_1.3.204.1.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-loader_1.3.211.0.bb
-@@ -9,8 +9,8 @@ SECTION = "libs"
+ EXTRA_OECONF = "--enable-startup-notification --with-dbus"
+diff --git a/meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch b/meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch
+new file mode 100644
+index 0000000000..48987f9d31
+--- /dev/null
++++ b/meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch
+@@ -0,0 +1,25 @@
++From ec16ba4a1cb0e4217910a1b36783f00828bb5dfc Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Wed, 13 Apr 2022 22:24:50 +0200
++Subject: [PATCH] matchbox-terminal.desktop: use an icon available in adwaita
++ 42.0
++
++Upstream-Status: Inappropriate [apps need their own icons as of 42.0]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ matchbox-terminal.desktop | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/matchbox-terminal.desktop b/matchbox-terminal.desktop
++index c84a24c..fedaf10 100644
++--- a/matchbox-terminal.desktop
+++++ b/matchbox-terminal.desktop
++@@ -3,7 +3,7 @@ Type=Application
++ Name=Terminal
++ Comment=When all else fails.
++ Exec=matchbox-terminal
++-Icon=utilities-terminal
+++Icon=utilities-terminal-symbolic
++ Terminal=false
++ Categories=GTK;Utility;
++ StartupNotify=true
+diff --git a/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb b/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
+index 802ffa971b..048e247b89 100644
+--- a/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
++++ b/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
+@@ -11,7 +11,9 @@ SECTION = "x11/utils"
  
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7dbefed23242760aa3475ee42801c5ac"
--SRC_URI = "git://github.com/KhronosGroup/Vulkan-Loader.git;branch=sdk-1.3.204;protocol=https"
--SRCREV = "f3e995134211d3fd663febede48e740e44982e27"
-+SRC_URI = "git://github.com/KhronosGroup/Vulkan-Loader.git;branch=sdk-1.3.211;protocol=https"
-+SRCREV = "bfb419161602361626e40a7a3af0a63e06bcf204"
+ #SRCREV tagged 0.2
+ SRCREV = "161276d0f5d1be8187010fd0d9581a6feca70ea5"
+-SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master"
++SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master \
++           file://0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch \
++           "
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
  
  S = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-tools_1.3.204.1.bb b/meta/recipes-graphics/vulkan/vulkan-tools_1.3.211.0.bb
-similarity index 93%
-rename from meta/recipes-graphics/vulkan/vulkan-tools_1.3.204.1.bb
-rename to meta/recipes-graphics/vulkan/vulkan-tools_1.3.211.0.bb
-index ae062f3ee2..3cb4ccc23f 100644
---- a/meta/recipes-graphics/vulkan/vulkan-tools_1.3.204.1.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-tools_1.3.211.0.bb
-@@ -6,8 +6,8 @@ SECTION = "libs"
- 
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
--SRC_URI = "git://github.com/KhronosGroup/Vulkan-Tools.git;branch=sdk-1.3.204;protocol=https"
--SRCREV = "b9a87a24a814e443b1adfc5a6bc2e57243446f6c"
-+SRC_URI = "git://github.com/KhronosGroup/Vulkan-Tools.git;branch=sdk-1.3.211;protocol=https"
-+SRCREV = "4fdfd2b1187ab44f062d091ba3113c5e3eab5a1b"
- 
- S = "${WORKDIR}/git"
- 
+diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
+index 0104f2672a..6f038cc475 100644
+--- a/meta/recipes-sato/puzzles/puzzles_git.bb
++++ b/meta/recipes-sato/puzzles/puzzles_git.bb
+@@ -37,7 +37,7 @@ do_install:append () {
+ [Desktop Entry]
+ Name=$title
+ Exec=${bindir}/$prog
+-Icon=applications-games
++Icon=applications-games-symbolic
+ Terminal=false
+ Type=Application
+ Categories=Game;
+diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop
+index 6b7978afc9..84a8ba7dc5 100644
+--- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop
++++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop
+@@ -3,7 +3,7 @@ Version=1.0
+ Name=Terminal
+ Comment=A unicode capable rxvt clone
+ Exec=rxvt
+-Icon=utilities-terminal
++Icon=utilities-terminal-symbolic
+ Terminal=false
+ Type=Application
+ Categories=Utility;TerminalEmulator;
+diff --git a/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop b/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
+index 662659afc2..bc437ca2de 100644
+--- a/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
++++ b/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
+@@ -4,7 +4,7 @@ Type=Application
+ Name=Shutdown
+ Comment=Close down the machine safely
+ Exec=poweroff
+-Icon=system-shutdown
++Icon=system-shutdown-symbolic
+ Terminal=false
+ Categories=Utility;
+ StartupNotify=true
 -- 
 2.30.2
 
