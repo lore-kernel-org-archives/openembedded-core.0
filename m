@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CC3CC43219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B47DC41535
 	for <webhook@archiver.kernel.org>; Thu,  5 May 2022 05:06:03 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web10.7356.1651727157611693412
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web09.7216.1651727152914044293
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 May 2022 22:05:58 -0700
+ Wed, 04 May 2022 22:06:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QvJ2EnMp;
- spf=pass (domain: gmail.com, ip: 209.85.208.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Sm+WvwJz;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id g23so3887356edy.13
+Received: by mail-ej1-f52.google.com with SMTP id m20so6526859ejj.10
         for <openembedded-core@lists.openembedded.org>;
- Wed, 04 May 2022 22:05:57 -0700 (PDT)
+ Wed, 04 May 2022 22:06:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9OH4Y24qtv8AZjVzixNzSiwCoJkKPpzastnvATKuTbQ=;
-        b=QvJ2EnMpCuMBryBq9TQdcbeanEqvUP+Cqegy+/28H8wRRkDbKTXxA+SLKr45Wt9dUB
-         KsTrqcqooYvNTmQK8n3Ma+5ijSPcwO+O8sCgQ5UXRnaAxRrXFmWwNU81yx/crSdWPqk2
-         NC32RXgK4Dr7vv2N/2wEgJEVudtvTbujGtRv7UUdC441ytUNhbaNTvH4X0RD3OapWlEk
-         UJGJTqxghfM6YYkMaxpEja45CFZBGg/Arpo3QmLxZXKoxJyf78PkVZbyeNw6mTHqbPAn
-         xPj3bR24dqvt7/plbuxETcX3WQLTzueygCti3FX2M6U7Zy08EWjw8cLyMDKkr+RR0DD0
-         zT+A==
+        bh=sAcqKU5R+a/q9XLgpl/L535cuM4E+Q2JDqTEwNQI5ps=;
+        b=Sm+WvwJzyF7prMroTM2FHzN9qydXkk0Z1vwC/2ZrOXz6t1zBUd7Ufb2SFItb7q7w0V
+         M3CZEUuQFnsy/RmqLM8xKJ+dSS/4UV7+d9wN/QJJuOyBvCE+3D/dxMy4PP3vCREJA6H6
+         bQ3W8fF0hyRmmySW+n6R2omqQJclIAE6wAr0hSLYrVBfIqMc1Sn7TUTrw15iUbtCCCJE
+         qEEoIAhOPQNiVxaAqOEWC494KwehBmJd1rbHAh2WAdPWoyhYrU1fX2Qw7opWXB6XCxmv
+         hXgE31gwsF7NU00uAnrY/itWSwZMBqo4R4oXUhrC9grYTa0PuEdZlcIAMOy0XdbmUE7B
+         ySAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9OH4Y24qtv8AZjVzixNzSiwCoJkKPpzastnvATKuTbQ=;
-        b=0ga1P2fOQUJyq3xqOuzwYVI+mwTVUIca9DdSOk7aLTGov5DvUfL0gWCGbO/C+J1MQc
-         gUtPo2cdM2iFc/EEDDliFyb11ExgHmJnU7z9D4RbCEAmMYnXT7xLPXYNAfWu8eiu79VD
-         9HCGOalDQMkxeRqri6fMrJn0WTibsEsQsEcOaWcZaEs+53o1RcGxYkRVqfL7qa6o0+vV
-         bzfphL+wSurs+Bx5l4lSQ9qYD7fM+jyZS7E/R9oWlXwjI6C2E9z3/8/LuvBG8Pp6L3Zs
-         IosXtMGN3p4XQvJ6mcSx6SCPtZ7WQnnc6HGzpyAE0vJnY2sdXBiB1QBB3+ZdXnw1iuE3
-         YFPg==
-X-Gm-Message-State: AOAM533O1BT1w1Bm7vEOaZtIw0y983Aa/1jD+V/sFYKffq9kDYsPqBsb
-	6YTwruz2iz2L8V/oc0KXcvhJRaI7620=
+        bh=sAcqKU5R+a/q9XLgpl/L535cuM4E+Q2JDqTEwNQI5ps=;
+        b=GjDro2aIVhtBe7DVOICGNfoyQPu4APATXpFQ64p3Cw+FAL91XQZxYvGQKw4B6kfY2+
+         wvMs2i48JLRQyfU5DdwYBUn6GAfbCSHYO/KSTYIsD9KXZDRoHFVXR2xjoqHUN+qeSyf+
+         GuOuxkjWgpDK18w6Vxnhx/DvYHJMvjHHXXP0/XKUbRSyf8bwSMtQOwWhkZkoZol58qzL
+         nTPKFMrAxoB59jgkRJFXqQgpjCEp3yBEt24uTneO/bAJIw7rysR8a6kjEcbpsOecBtXt
+         qmwt4oDPuHHRc113ghABXwV54P0dIVgkW7BRG0ub8qFbegYqSzt0OsWxYQlsRUVKgFNo
+         EZgg==
+X-Gm-Message-State: AOAM531nIsBhCFMvbw+jz7oxH+Rx/A/0MHY69oTzrSDkEkgV0su6LuxC
+	JMujINCEMCP63wRe/2jp+/e5nT3TuRw=
 X-Google-Smtp-Source: 
- ABdhPJxcGG6Jx0f8G8d7mvuTnQjV1O1RdncTzdvlGHb0WdyQ0jPNvNDVQegr0NeYBWuogjdDR/nVOQ==
-X-Received: by 2002:a05:6402:1a34:b0:425:ca01:58ec with SMTP id
- be20-20020a0564021a3400b00425ca0158ecmr27657372edb.373.1651727156183;
-        Wed, 04 May 2022 22:05:56 -0700 (PDT)
+ ABdhPJzNmXlGuWe+1WtkiKAEim7Ve7tJiD+AvlNC+ooxOm9ndrxRHy+p9RPnn/AlyKnDrcGQt0bUGg==
+X-Received: by 2002:a17:907:6e15:b0:6f3:ec49:5441 with SMTP id
+ sd21-20020a1709076e1500b006f3ec495441mr24573654ejc.300.1651727161123;
+        Wed, 04 May 2022 22:06:01 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- gg19-20020a170906899300b006f3ef214dfbsm313386ejc.97.2022.05.04.22.05.55
+ gg19-20020a170906899300b006f3ef214dfbsm313386ejc.97.2022.05.04.22.06.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 22:05:55 -0700 (PDT)
+        Wed, 04 May 2022 22:06:00 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 12/61] adwaita-icon-theme: upgrade 41.0 -> 42.0
-Date: Thu,  5 May 2022 07:04:55 +0200
-Message-Id: <20220505050544.651895-12-alex@linutronix.de>
+Subject: [PATCH 18/61] ell: upgrade 0.49 -> 0.50
+Date: Thu,  5 May 2022 07:05:01 +0200
+Message-Id: <20220505050544.651895-18-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220505050544.651895-1-alex@linutronix.de>
 References: <20220505050544.651895-1-alex@linutronix.de>
@@ -68,154 +68,30 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 05 May 2022 05:06:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165241
+ https://lists.openembedded.org/g/openembedded-core/message/165247
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../0001-Don-t-use-AC_CANONICAL_HOST.patch    |  6 +-
- ...-installation-commands-as-shell-jobs.patch | 84 -------------------
- ...eme_41.0.bb => adwaita-icon-theme_42.0.bb} |  7 +-
- 3 files changed, 5 insertions(+), 92 deletions(-)
- delete mode 100644 meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
- rename meta/recipes-gnome/gnome/{adwaita-icon-theme_41.0.bb => adwaita-icon-theme_42.0.bb} (87%)
+ meta/recipes-core/ell/{ell_0.49.bb => ell_0.50.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/ell/{ell_0.49.bb => ell_0.50.bb} (89%)
 
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
-index 5afba3c644..56fd3daead 100644
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
-@@ -1,4 +1,4 @@
--From 63d97fefdbc90f5c68f67bdc30844776d9a1b720 Mon Sep 17 00:00:00 2001
-+From 985eda68d3303112791cf6858f6fef1a99288e8a Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Tue, 30 May 2017 14:55:49 +0300
- Subject: [PATCH] Don't use AC_CANONICAL_HOST
-@@ -14,12 +14,12 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-  1 file changed, 1 deletion(-)
+diff --git a/meta/recipes-core/ell/ell_0.49.bb b/meta/recipes-core/ell/ell_0.50.bb
+similarity index 89%
+rename from meta/recipes-core/ell/ell_0.49.bb
+rename to meta/recipes-core/ell/ell_0.50.bb
+index 9edd6fc92a..243ac01530 100644
+--- a/meta/recipes-core/ell/ell_0.49.bb
++++ b/meta/recipes-core/ell/ell_0.50.bb
+@@ -16,7 +16,7 @@ inherit autotools pkgconfig
  
- diff --git a/configure.ac b/configure.ac
--index f2659a5..1e8b016 100644
-+index 040975e..5f7b53a 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -3,7 +3,6 @@ AC_PREREQ(2.53)
-  
-- AC_INIT([adwaita-icon-theme], [41.0],
-+ AC_INIT([adwaita-icon-theme], [42.0],
-          [http://bugzilla.gnome.org/enter_bug.cgi?product=adwaita-icon-theme])
- -AC_CANONICAL_HOST
-  AC_CONFIG_MACRO_DIR([m4])
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
-deleted file mode 100644
-index a1d39cf558..0000000000
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
-+++ /dev/null
-@@ -1,84 +0,0 @@
--From 79da031e9811f3eef34b14cce419be93fea34319 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Tue, 13 Jun 2017 18:10:06 +0300
--Subject: [PATCH] Run installation commands as shell jobs
--
--This greatly speeds up installation time on multi-core systems.
--
--Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/adwaita-icon-theme/-/merge_requests/39]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
-----
-- src/fullcolor/Makefile.am |  5 +++--
-- src/spinner/Makefile.am   |  7 ++++---
-- src/symbolic/Makefile.am  | 11 ++++++-----
-- 3 files changed, 13 insertions(+), 10 deletions(-)
--
--diff --git a/src/fullcolor/Makefile.am b/src/fullcolor/Makefile.am
--index d73529b..b7d0808 100644
----- a/src/fullcolor/Makefile.am
--+++ b/src/fullcolor/Makefile.am
--@@ -9,9 +9,10 @@ install-data-local:
-- 		for file in `cd $(top_srcdir)/$(SVGOUTDIR)/$$size && find . -name "*.png"`; do \
-- 			context="`dirname $$file`"; \
-- 			$(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
---			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
--+			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
-- 		done; \
---	done;
--+	done; \
--+	wait
-- 
-- ## FIXME we should add a way to remove links generated by icon mapping
-- uninstall-local:
--diff --git a/src/spinner/Makefile.am b/src/spinner/Makefile.am
--index c14caf6..322dc0d 100644
----- a/src/spinner/Makefile.am
--+++ b/src/spinner/Makefile.am
--@@ -24,13 +24,14 @@ install-data-local:
-- 	      for file in `cd $(top_srcdir)/$(SVGOUTDIR)/$$size; find . -name "*.png"`; do \
-- 		      context="`dirname $$file`"; \
-- 		      $(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
---		      $(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
--+		      $(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
-- 	      done; \
-- 	for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32; find . -name "*.svg"`; do \
-- 		context="`dirname $$file`"; \
-- 		$(mkdir_p) $(DESTDIR)$(themedir)/scalable-up-to-32/$$context; \
---		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32/$$file $(DESTDIR)$(themedir)/scalable-up-to-32/$$file; \
---	done
--+		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32/$$file $(DESTDIR)$(themedir)/scalable-up-to-32/$$file & \
--+	done; \
--+	wait
-- 
-- uninstall-local:
-- 	      for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32; find . -name "*.svg"`; do \
--diff --git a/src/symbolic/Makefile.am b/src/symbolic/Makefile.am
--index 957c0ee..e1f8818 100644
----- a/src/symbolic/Makefile.am
--+++ b/src/symbolic/Makefile.am
--@@ -34,18 +34,19 @@ install-data-local:
-- 		for file in `cd $(top_srcdir)/$(SVGOUTDIR)/$$size; find . -name "*.png"`; do \
-- 			context="`dirname $$file`"; \
-- 			$(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
---			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
--+			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
-- 		done; \
---	done
--+	done; \
-- 	for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable; find . -name "*.svg"`; do \
-- 		context="`dirname $$file`"; \
-- 		$(mkdir_p) $(DESTDIR)$(themedir)/scalable/$$context; \
---		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $(DESTDIR)$(themedir)/scalable/$$file; \
--+		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $(DESTDIR)$(themedir)/scalable/$$file & \
-- 		for size in $(symbolic_encode_sizes); do \
-- 			$(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
---			$(GTK_ENCODE_SYMBOLIC_SVG) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $$size -o $(DESTDIR)$(themedir)/$$size/$$context; \
--+			$(GTK_ENCODE_SYMBOLIC_SVG) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $$size -o $(DESTDIR)$(themedir)/$$size/$$context & \
-- 		done \
---	done
--+	done; \
--+	wait
-- 
-- uninstall-local:
-- 	for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable; find . -name "*.svg"`; do \
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_41.0.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_42.0.bb
-similarity index 87%
-rename from meta/recipes-gnome/gnome/adwaita-icon-theme_41.0.bb
-rename to meta/recipes-gnome/gnome/adwaita-icon-theme_42.0.bb
-index 46f9f4772c..c4f3b1c999 100644
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme_41.0.bb
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_42.0.bb
-@@ -12,12 +12,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c84cac88e46fc07647ea07e6c24eeb7c \
+ SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz \
+            "
+-SRC_URI[sha256sum] = "a7ff8ecbc76b187d942dd22b61cb489711400897c790319ffb7e944791687c3f"
++SRC_URI[sha256sum] = "0fe51d51c6eddc2a2784092f1dfdd1143a5ef27f15c274ecfbadd680d3a72fd9"
  
- inherit allarch autotools pkgconfig gettext gtk-icon-cache gnomebase
- 
--SRC_URI += " \
--           file://0001-Don-t-use-AC_CANONICAL_HOST.patch \
--           file://0001-Run-installation-commands-as-shell-jobs.patch \
--           "
-+SRC_URI += " file://0001-Don-t-use-AC_CANONICAL_HOST.patch"
- 
--SRC_URI[archive.sha256sum] = "ef5339d8c35fcad5d10481b70480803f0fa20b3d3cbc339238fcaceeaee01eba"
-+SRC_URI[archive.sha256sum] = "5e85b5adc8dee666900fcaf271ba717f7dcb9d0a03d96dae08f9cbd27e18b1e0"
- 
- DEPENDS += "librsvg-native"
- 
+ do_configure:prepend () {
+     mkdir -p ${S}/build-aux
 -- 
 2.30.2
 
