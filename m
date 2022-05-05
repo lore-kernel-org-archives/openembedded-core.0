@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2CC6C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2CEEC433FE
 	for <webhook@archiver.kernel.org>; Thu,  5 May 2022 05:06:43 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web10.7366.1651727180277086270
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
+ [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web10.7357.1651727160845892830
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 May 2022 22:06:34 -0700
+ Wed, 04 May 2022 22:06:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CH7BE4x/;
- spf=pass (domain: gmail.com, ip: 209.85.208.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=iyR93JnU;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id g20so3894901edw.6
+Received: by mail-ej1-f51.google.com with SMTP id j6so6517393ejc.13
         for <openembedded-core@lists.openembedded.org>;
- Wed, 04 May 2022 22:06:33 -0700 (PDT)
+ Wed, 04 May 2022 22:06:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9+/8gk/IGBRS4NxxtSjEXnL5ebJFV7le+lHe8U5yWgE=;
-        b=CH7BE4x/m6FhqCDC33k0GX+gqzA2ulBj4c7rvQ7bKIWZb9OM5ajHxJSbStHfph3tPU
-         QghuExUDRsMjIL8E7KPvBlLDuUAOtDurXwlwpQtUUA8+2UgzL/4uy6sPAbe7sKRjeIrw
-         c4y9s/2vjVuFddShXOmeXtWdplO8iIH52iY+cqeZo2Ft8+V617b9HI2rDThwV5GrDsLQ
-         li3zHdMhtkqit1Vv8N9qwspCE3NQ/02B1DriHRNnxJdRBfe0BSlAVi3HQbpUczBwU2rV
-         0vAd/9xPh66bm4FqBcwl4vTi+QLcS6Da4LtPyfm606LK1n6rKfishN//0MofT1C6PudD
-         19Eg==
+        bh=sNu38hYCdhcGTOwOqs41F4XLI/pVjA6m9UqfqlfoB/o=;
+        b=iyR93JnUa7kQTviT/T+p9M2TEx/0eZuzLA5p88FJ3y49Kb5fFmmBxaXqdcLNjBo1sA
+         rfhrOkXHsQxLnqM+UrixmPKPxNXbbfJ7/2gNudS+x4Y0/HFlJjPh/gMLQ10lB+mGU4Xs
+         37BtXeyxRCFwGmhCCcn+QZDzt2n/RWmZDbHZI+eYWlSfQVDKAg8qvHKQzcBIMJ0v+V1l
+         b+Oir8kiY49k3o701ZvyM90HEp7sUks+VoOfRCg7aWYEivZVBIG9yrSDSObvVAcCBcqI
+         WswB8VQuKy1ZkyiLe1NVKrtVjbpZcuwCEWS8XOVgbUUbhc2uLnlUZkW9ufuctFIhujxi
+         +31Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9+/8gk/IGBRS4NxxtSjEXnL5ebJFV7le+lHe8U5yWgE=;
-        b=FSCBrRw9KUdAQbCvleYIuMiH5470qzp4GEvjAWMvIlroQkU5ffbAn65AClfjt3Bttf
-         2NHMVPmYdkwUQ1z2cYeX779tNVxYPKiGtZRZZqQ7g1wzpjcrawPkTL11sqF9y/VtPXHj
-         BFNevnXYNmmNyG+POLVa8IQGkMI9FGRBgvkdCBhOosQAc0ib1FFogrvKiRNcgBDqR9wH
-         y6SJx39Nx3BQgV7T5yWUcUk6jeWkUql7QP1ehUNcOig31uN2R6k2hK83GE8BJ+vyyTYV
-         1mIIQh56WOVKlTXlXA9escfQ/j+OicZJWa4DQdppzlPuExv1JTs5ZXkRl9+2Qp/dOVWV
-         MoHw==
-X-Gm-Message-State: AOAM531mY+BnRuZDD1yP8QO6azzUuyTG8xFRQAA1jaa9a13TuNtvAlNN
-	NdjfMzl2YJP8iAjU3KZsUAVDibgRcLU=
+        bh=sNu38hYCdhcGTOwOqs41F4XLI/pVjA6m9UqfqlfoB/o=;
+        b=6MieJ06DacQg3GooPtSSltj9HUSbV26LMjx8jV9gXpaPVlnCWahBQFrwTFc7v03q4y
+         YVMngwtAKrfr1PgkDK53rEDvP82aVbFDE4+JGdlDPT2v1m6j6wav/aqQ8paZyQzZwpgf
+         vffLhmxA5qXIPiRkR/blXwihpbyTFwFjoGf1tF1+oj/cYaCfpxSpHhBa6jdrcOM//az5
+         92iT2LKXfenbNIAbgWvbL3+Db/ZObc8IQWm/SRcApPuY8fbg7gxeN98lfRsfxIoZW7e7
+         6KF4BH9qNFaWHAbliWqSVQRaAmTsPxEQUZmS5Oba6itPjdL8MIXtwDOLfRJY0A4CoYp1
+         t58Q==
+X-Gm-Message-State: AOAM532MwdRBGuH42nSWq+/SL6ocUvRV9VzHej28p65acrjoqm1y9fdX
+	scqWYJ4XUmpeUJ/59Ig6C08HuD+q+zc=
 X-Google-Smtp-Source: 
- ABdhPJzTNYBBm3+jrVC3zcAe2V3rsMsIo+vgKmVQNUMV5K2aRHm/2sXbTktli6yHwr9HI95PqiwLXw==
-X-Received: by 2002:a05:6402:298b:b0:41d:675f:8b44 with SMTP id
- eq11-20020a056402298b00b0041d675f8b44mr27379826edb.377.1651727193539;
-        Wed, 04 May 2022 22:06:33 -0700 (PDT)
+ ABdhPJzk0aimKqQ4WWK62Gh0CsrvANX/8vmJnnKtRNpOOjj6cnmLu9MyT98YOeb/csmdryJzkaA9BQ==
+X-Received: by 2002:a17:906:4fc3:b0:6e0:66a5:d59c with SMTP id
+ i3-20020a1709064fc300b006e066a5d59cmr23763183ejw.131.1651727195552;
+        Wed, 04 May 2022 22:06:35 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- gg19-20020a170906899300b006f3ef214dfbsm313386ejc.97.2022.05.04.22.06.32
+ gg19-20020a170906899300b006f3ef214dfbsm313386ejc.97.2022.05.04.22.06.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 22:06:33 -0700 (PDT)
+        Wed, 04 May 2022 22:06:34 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 58/61] librsvg: update 2.54.0 -> 2.54.1
-Date: Thu,  5 May 2022 07:05:41 +0200
-Message-Id: <20220505050544.651895-58-alex@linutronix.de>
+Subject: [PATCH 60/61] gnupg: update 2.3.4 -> 2.3.6
+Date: Thu,  5 May 2022 07:05:43 +0200
+Message-Id: <20220505050544.651895-60-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220505050544.651895-1-alex@linutronix.de>
 References: <20220505050544.651895-1-alex@linutronix.de>
@@ -68,80 +68,180 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 05 May 2022 05:06:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165287
+ https://lists.openembedded.org/g/openembedded-core/message/165289
 
-Drop patch as issue addressed upstream.
-
-Restore doc generation, as it is now possible to disable/enable.
+Remove 0003-dirmngr-uses-libgpg-error.patch
+(upstream addressed the issue).
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../librsvg/librsvg/0001-Disable-docs.patch   | 24 -------------------
- .../{librsvg_2.54.0.bb => librsvg_2.54.1.bb}  |  9 +++----
- 2 files changed, 3 insertions(+), 30 deletions(-)
- delete mode 100644 meta/recipes-gnome/librsvg/librsvg/0001-Disable-docs.patch
- rename meta/recipes-gnome/librsvg/{librsvg_2.54.0.bb => librsvg_2.54.1.bb} (89%)
+ ...-a-custom-value-for-the-location-of-.patch |  6 ++--
+ .../0003-dirmngr-uses-libgpg-error.patch      | 29 -------------------
+ .../gnupg/gnupg/relocate.patch                | 18 ++++++------
+ .../gnupg/{gnupg_2.3.4.bb => gnupg_2.3.6.bb}  |  3 +-
+ 4 files changed, 13 insertions(+), 43 deletions(-)
+ delete mode 100644 meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
+ rename meta/recipes-support/gnupg/{gnupg_2.3.4.bb => gnupg_2.3.6.bb} (95%)
 
-diff --git a/meta/recipes-gnome/librsvg/librsvg/0001-Disable-docs.patch b/meta/recipes-gnome/librsvg/librsvg/0001-Disable-docs.patch
+diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+index b58fbfe6f5..c4ede9ea5e 100644
+--- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
++++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+@@ -1,4 +1,4 @@
+-From bdde1faa774753e29d582d79186e08a38597de9e Mon Sep 17 00:00:00 2001
++From 89b98553084fbefe1ef2c7cbff9e72cf43144c49 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 22 Jan 2018 18:00:21 +0200
+ Subject: [PATCH] configure.ac: use a custom value for the location of
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 5cdd316..e5f2d6a 100644
++index d86c60e..65c22b2 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1962,7 +1962,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
++@@ -1955,7 +1955,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
+  
+  AC_DEFINE_UNQUOTED(GPGTAR_NAME, "gpgtar", [The name of the gpgtar tool])
+  
+diff --git a/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch b/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
 deleted file mode 100644
-index 13d25d4f08..0000000000
---- a/meta/recipes-gnome/librsvg/librsvg/0001-Disable-docs.patch
+index b4106d3620..0000000000
+--- a/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
 +++ /dev/null
-@@ -1,24 +0,0 @@
--From e62887dfa36812d5b8bc1c2c2fec69ba985309d8 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Tue, 5 Apr 2022 09:21:14 +0200
--Subject: [PATCH] Disable docs
+@@ -1,29 +0,0 @@
+-From 9ace8f1b68ab708c44dce4c0152b975fbceb0398 Mon Sep 17 00:00:00 2001
+-From: Saul Wold <sgw@linux.intel.com>
+-Date: Wed, 16 Aug 2017 11:18:01 +0800
+-Subject: [PATCH] dirmngr uses libgpg error
 -
--Upstream has replaced gtk-doc with rst2man and gi-docgen in a way
--that is not possible to disable and requires g-i. There's a
--pull request to address this, until then let's patch it out:
--https://gitlab.gnome.org/GNOME/librsvg/-/merge_requests/687
+-Upstream-Status: Pending
+-Signed-off-by: Saul Wold <sgw@linux.intel.com>
 -
--Upstream-Status: Inappropriate [see above]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+-Rebase to 2.1.23
+-
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+-
 ----
+- dirmngr/Makefile.am | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--diff --git a/Makefile.am b/Makefile.am
--index e380bc9..5b3fbb5 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -1,4 +1,4 @@
---SUBDIRS = . gdk-pixbuf-loader tests doc win32
--+SUBDIRS = . gdk-pixbuf-loader tests win32
-- 
-- NULL =
-- 
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.54.0.bb b/meta/recipes-gnome/librsvg/librsvg_2.54.1.bb
-similarity index 89%
-rename from meta/recipes-gnome/librsvg/librsvg_2.54.0.bb
-rename to meta/recipes-gnome/librsvg/librsvg_2.54.1.bb
-index 96c54f16d6..7bad2ed816 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.54.0.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.54.1.bb
-@@ -11,19 +11,16 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
-                    "
+-diff --git a/dirmngr/Makefile.am b/dirmngr/Makefile.am
+-index 77ca3f5..1446775 100644
+---- a/dirmngr/Makefile.am
+-+++ b/dirmngr/Makefile.am
+-@@ -86,7 +86,7 @@ endif
+- dirmngr_LDADD = $(libcommonpth) \
+-         $(DNSLIBS) $(LIBASSUAN_LIBS) \
+- 	$(LIBGCRYPT_LIBS) $(KSBA_LIBS) $(NPTH_LIBS) \
+--	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV) $(NETLIBS)
+-+	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV) $(NETLIBS) $(GPG_ERROR_LIBS)
+- if USE_LDAP
+- dirmngr_LDADD += $(ldaplibs)
+- endif
+diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
+index 74f48e9582..43999b8a6d 100644
+--- a/meta/recipes-support/gnupg/gnupg/relocate.patch
++++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
+@@ -1,4 +1,4 @@
+-From 1e34e1d477f843c0ee2f1a3fddc20201f0233e81 Mon Sep 17 00:00:00 2001
++From 89ae4f03307104689e1857d9857d452af6b35ac4 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Wed, 19 Sep 2018 14:44:40 +0100
+ Subject: [PATCH] Allow the environment to override where gnupg looks for its
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 7 insertions(+), 7 deletions(-)
  
- SECTION = "x11/utils"
--# Note: docutils/gi-docgen should be made optional when upstream enables that
--# https://gitlab.gnome.org/GNOME/librsvg/-/merge_requests/687
--DEPENDS = "cairo gdk-pixbuf glib-2.0 libcroco libxml2 pango python3-docutils-native gi-docgen-native"
-+DEPENDS = "cairo gdk-pixbuf glib-2.0 libcroco libxml2 pango python3-docutils-native"
- BBCLASSEXTEND = "native nativesdk"
- 
--inherit gnomebase pixbufcache upstream-version-is-even gobject-introspection rust vala
-+inherit gnomebase pixbufcache upstream-version-is-even gobject-introspection rust vala gi-docgen
- 
- SRC_URI += "file://0001-Makefile.am-pass-rust-target-to-cargo-also-when-not-.patch \
-            file://0001-system-deps-src-lib.rs-do-not-probe-into-harcoded-li.patch \
--           file://0001-Disable-docs.patch \
+ diff --git a/common/homedir.c b/common/homedir.c
+-index 174d961..f4c25fb 100644
++index 260aeb2..1aeb08d 100644
+ --- a/common/homedir.c
+ +++ b/common/homedir.c
+-@@ -1161,7 +1161,7 @@ gnupg_socketdir (void)
++@@ -1143,7 +1143,7 @@ gnupg_socketdir (void)
+    if (!name)
+      {
+        unsigned int dummy;
+@@ -26,7 +26,7 @@ index 174d961..f4c25fb 100644
+        gpgrt_annotate_leaked_object (name);
+      }
+  
+-@@ -1193,7 +1193,7 @@ gnupg_sysconfdir (void)
++@@ -1175,7 +1175,7 @@ gnupg_sysconfdir (void)
+    if (dir)
+      return dir;
+    else
+@@ -35,7 +35,7 @@ index 174d961..f4c25fb 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1229,7 +1229,7 @@ gnupg_bindir (void)
++@@ -1211,7 +1211,7 @@ gnupg_bindir (void)
+        return name;
+      }
+    else
+@@ -44,7 +44,7 @@ index 174d961..f4c25fb 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1256,7 +1256,7 @@ gnupg_libexecdir (void)
++@@ -1238,7 +1238,7 @@ gnupg_libexecdir (void)
+        return name;
+      }
+    else
+@@ -53,7 +53,7 @@ index 174d961..f4c25fb 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1286,7 +1286,7 @@ gnupg_libdir (void)
++@@ -1268,7 +1268,7 @@ gnupg_libdir (void)
+        return name;
+      }
+    else
+@@ -62,7 +62,7 @@ index 174d961..f4c25fb 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1317,7 +1317,7 @@ gnupg_datadir (void)
++@@ -1299,7 +1299,7 @@ gnupg_datadir (void)
+        return name;
+      }
+    else
+@@ -71,7 +71,7 @@ index 174d961..f4c25fb 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1349,7 +1349,7 @@ gnupg_localedir (void)
++@@ -1331,7 +1331,7 @@ gnupg_localedir (void)
+        return name;
+      }
+    else
+diff --git a/meta/recipes-support/gnupg/gnupg_2.3.4.bb b/meta/recipes-support/gnupg/gnupg_2.3.6.bb
+similarity index 95%
+rename from meta/recipes-support/gnupg/gnupg_2.3.4.bb
+rename to meta/recipes-support/gnupg/gnupg_2.3.6.bb
+index d27bddb8bd..f35eb8c75a 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.3.4.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.3.6.bb
+@@ -16,7 +16,6 @@ inherit autotools gettext texinfo pkgconfig
+ UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
+ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://0002-use-pkgconfig-instead-of-npth-config.patch \
+-           file://0003-dirmngr-uses-libgpg-error.patch \
+            file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
+            file://0001-Woverride-init-is-not-needed-with-gcc-9.patch \
             "
+@@ -24,7 +23,7 @@ SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-
+                                 file://relocate.patch"
+ SRC_URI:append:class-nativesdk = " file://relocate.patch"
  
--SRC_URI[archive.sha256sum] = "baf8ebc147f146b4261bb3d0cd0fac944bf8dbb4b1f2347d23341f974dcc3085"
-+SRC_URI[archive.sha256sum] = "d5557efbdcc415a4180e1116b7f736cb711b253d110d95fa86ec830f70026625"
+-SRC_URI[sha256sum] = "f3468ecafb1d7f9ad7b51fd1db7aebf17ceb89d2efa8a05cf2f39b4d405402ae"
++SRC_URI[sha256sum] = "21f7fe2fc5c2f214184ab050977ec7a8e304e58bfae2ab098fec69f8fabda9c1"
  
- # librsvg is still autotools-based, but is calling cargo from its automake-driven makefiles
- # so we cannot use cargo class directly, but still need bits and pieces from it 
+ EXTRA_OECONF = "--disable-ldap \
+ 		--disable-ccid-driver \
 -- 
 2.30.2
 
