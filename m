@@ -2,66 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66CC4C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6785AC433FE
 	for <webhook@archiver.kernel.org>; Fri,  6 May 2022 06:42:05 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web12.6544.1651819322929852395
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web08.6683.1651819322379966724
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 May 2022 23:42:03 -0700
+ Thu, 05 May 2022 23:42:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=npQugALJ;
- spf=pass (domain: gmail.com, ip: 209.85.218.41,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fMsGqMDl;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id dk23so12624182ejb.8
+Received: by mail-ej1-f45.google.com with SMTP id m20so12596589ejj.10
         for <openembedded-core@lists.openembedded.org>;
  Thu, 05 May 2022 23:42:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=o8oNPAISlXpL3C2BgswleDXAizNs5qvnvoR+jHrVmSI=;
-        b=npQugALJzfqwVT638FqFEhXr/V3ko7Dx2yWISTy2me6VmQ24C489818AaJA1/OdCJ/
-         kPd7amoYpNSfdPNHe8i59MkfS6Zn3unSe7WKGFO6JfXocIWjV+fGPtUBvHmswk+yikZy
-         kAywa969/kFjgWsjzWd0AncV+8PbYrUvE7u2lpyd8WGQLfmViB5YhMyESE63TOiHXFMA
-         0KOVclDkDmt8B7tYYDJUBpdS2PDxORiYDmlaDixCbBUlRBjChusM0zvfN8pu7Tcfj8ab
-         c6TF5sGgDIWZSGDUt5OhrVU0q6nw9wH3XPbN1seTXF/5QFflhuhYOJpXlMlYX0hcfx1U
-         zbhg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WjyF0KnsGV9onrbGmtkJDVEGOFw2mAc0G5x20EIzClc=;
+        b=fMsGqMDlsGO1xJoFdtVIJrosVWjaZC0dKXRYZFf3lEwDIe7r0bqsPHKuaILTP7yBl8
+         G/o2XPfP+MC/7Jyje0pdCqAmNFpfRZ6SOR+li49+4wAiEg0gl+T7gSzPwO5OYlz8/WXS
+         /B2MdGkQ810pjPgAtm3DxJJyNu1A6MFqNV0rqyXGVnydEOhL2GRj1o5iWqEgI9aLndr4
+         0Otx65n0Ni3QGmdXirNkdPEUVUXd5dBrHDIjHoONiaLzHZmg7z/gDBTIaer4v+o7Q9ad
+         M3pnU0yol2Em2uTEV792lUeC2DxHP+GXqyl74bqfvPhP2OR+z+JQkD/GiLD4kQwWWcKT
+         uyKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=o8oNPAISlXpL3C2BgswleDXAizNs5qvnvoR+jHrVmSI=;
-        b=jFNqnwq19IW4ajQadhXLV9BBR2zU1nfZCfZXTLGj/yEOps4DBcyOlyMpX2qXSbvTI5
-         a1INAB8wXnFG732M2I0fQyrY5euyzJ0cRqhG4v+j1zvfe8t3f4QguG2EcNe1eJlxMFTh
-         mGFjfo9xi15VO9q8auTtC0WAKpbDUlC3AGvSjBvg3pBESHJKmSXgoLHFnLXCaC37Mz9R
-         L6vGaaVDCDSOGfmj8BaUjjX2rSi7mWQW+XOrW6jsnNZ793rNE5AkotHKJEf7Lu5+Uutd
-         ZBZ35YWi9HWsKs4HnPz5xM6Iv1wRJjEbYVmixCD1V0edy6MY5iB9efl2YUgRXgucDXEV
-         mSkA==
-X-Gm-Message-State: AOAM5312yW/hf/53yulQdntGTmRNP9jC+EXcL2X0W5sZO1FTprH5agoO
-	j5/z3DeCUZRP2aDr3d7tNXoKtfqqwFA=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WjyF0KnsGV9onrbGmtkJDVEGOFw2mAc0G5x20EIzClc=;
+        b=mnn3kcVqbte+lLA6GkQ3DqDwgNEjDwTJ0EYvisnegYuzDOJleP483ARztRfu1+1eKL
+         359Pv/zr+JXqjZRIOhH0uFWPREtbqy4axPEIxhAf4fbHLRgGEPRNeyfndK24t93qsW5b
+         VZcuIEc3YrcCsQ+AnNwsPFdOokal36ZP2mEyrnqwKjpxamXbPKW5MKuAx6NHmj0CYRRM
+         IFjwaZhQ9mu42NKVFxe7ceiIZ3TLh97VId3ebJt0R4BbD27iFpHjNKVWFaK9wi7A3eia
+         nqWc5EFsteiT28WbPp3QyZeBGaul5JlT32N04Ekr8R73CYkpwfRimg1RVG9XoAkTMv+D
+         PVhw==
+X-Gm-Message-State: AOAM5326hCiltIcyD70bbJffg1zt0/kWtKhM4lZJa+6t1ltFFjYfMPFP
+	aRP6t7NKd/qJ8NN0H4Ejuo5QCnxxlyY=
 X-Google-Smtp-Source: 
- ABdhPJwidJqF1SIPPVc/kfdHLDmRTmx+3B9fnBBtk4YCeCRl4w+1Ow2zy/kH7Jhr7BPXeqEy1zjJHg==
-X-Received: by 2002:a17:907:1b20:b0:6da:649b:d99e with SMTP id
- mp32-20020a1709071b2000b006da649bd99emr1588648ejc.712.1651819321398;
-        Thu, 05 May 2022 23:42:01 -0700 (PDT)
+ ABdhPJxa4miAtYy9EkGAri9N6jzcFjPM11GnVx7Wx1QpVOHCFqzcE76o/7YUBlK8rJYpI1MTwInNVQ==
+X-Received: by 2002:a17:907:7f1a:b0:6f4:6b52:adfd with SMTP id
+ qf26-20020a1709077f1a00b006f46b52adfdmr1581212ejc.203.1651819320648;
+        Thu, 05 May 2022 23:42:00 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- s19-20020aa7c553000000b0042617ba63c1sm1819560edr.75.2022.05.05.23.42.00
+ s19-20020aa7c553000000b0042617ba63c1sm1819560edr.75.2022.05.05.23.41.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 05 May 2022 23:42:00 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
-	Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 2/3] python3-setuptools: upgrade 59.5.0 -> 62.1.0
-Date: Fri,  6 May 2022 08:41:54 +0200
-Message-Id: <20220506064155.2106140-2-alex@linutronix.de>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 1/3] coreutils: update 9.0 -> 9.1
+Date: Fri,  6 May 2022 08:41:53 +0200
+Message-Id: <20220506064155.2106140-1-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220506064155.2106140-1-alex@linutronix.de>
-References: <20220506064155.2106140-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -69,133 +66,278 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 06 May 2022 06:42:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165320
+ https://lists.openembedded.org/g/openembedded-core/message/165319
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+Drop patches:
+fix-selinux-flask.patch
+(upstream fixed the issue)
 
-This was held by numpy rejecting setuptools >= 60.x,
-however they added a workaround in recent point releases
-and so the upgrade can proceed.
+e8b56ebd536e82b15542a00c888109471936bfda.patch
+(backport)
 
-Drop 0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch
-as changed code completely removed upstream.
+0001-uname-report-processor-and-hardware-correctly.patch
+(upstream explicitly marks the options as non-portable and unreliable[1];
+the patch is difficult to rebase, use case for oe unclear)
 
-Add a tomli build dependency to python3-setuptools-scm as new
-setuptools exposes:
+[1] https://git.savannah.gnu.org/gitweb/?p=coreutils.git;a=commitdiff;h=v8.24-7-g6d67649
 
-|   File "/srv/work/alex/poky/build-64-alt/tmp/work/x86_64-linux/python3-setuptools-scm-native/6.4.2-r0/setuptools_scm-6.4.2/src/setuptools_scm/config.py", line 59, in _lazy_tomli_load
-|     from tomli import loads
-| ModuleNotFoundError: No module named 'tomli'
-
+License-Update: copyright years
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...ly-do-not-fetch-code-by-easy_install.patch |  6 ++--
- .../python/python3-setuptools-scm_6.4.2.bb    |  2 ++
- ...nfig-append-STAGING_LIBDIR-python-sy.patch | 35 -------------------
- ...59.5.0.bb => python3-setuptools_62.1.0.bb} |  7 ++--
- 4 files changed, 7 insertions(+), 43 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch
- rename meta/recipes-devtools/python/{python3-setuptools_59.5.0.bb => python3-setuptools_62.1.0.bb} (87%)
+ ...ort-processor-and-hardware-correctly.patch | 64 -------------
+ ...6ebd536e82b15542a00c888109471936bfda.patch | 93 -------------------
+ .../coreutils/fix-selinux-flask.patch         | 37 --------
+ .../{coreutils_9.0.bb => coreutils_9.1.bb}    |  7 +-
+ 4 files changed, 2 insertions(+), 199 deletions(-)
+ delete mode 100644 meta/recipes-core/coreutils/coreutils/0001-uname-report-processor-and-hardware-correctly.patch
+ delete mode 100644 meta/recipes-core/coreutils/coreutils/e8b56ebd536e82b15542a00c888109471936bfda.patch
+ delete mode 100644 meta/recipes-core/coreutils/coreutils/fix-selinux-flask.patch
+ rename meta/recipes-core/coreutils/{coreutils_9.0.bb => coreutils_9.1.bb} (96%)
 
-diff --git a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-index 5e2ee454da..5bbf14fd38 100644
---- a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-+++ b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-@@ -1,4 +1,4 @@
--From da88c57fe03e4474ba20325edacf519e80c1d7a8 Mon Sep 17 00:00:00 2001
-+From d26d10b6142ac08fe1b878ebc8c2c93c9b6803ed Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Tue, 17 Jul 2018 10:13:38 +0800
- Subject: [PATCH] conditionally do not fetch code by easy_install
-@@ -15,10 +15,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  1 file changed, 5 insertions(+)
- 
- diff --git a/setuptools/command/easy_install.py b/setuptools/command/easy_install.py
--index fc848d0..c04a5de 100644
-+index 444d3b3..61e445a 100644
- --- a/setuptools/command/easy_install.py
- +++ b/setuptools/command/easy_install.py
--@@ -642,6 +642,11 @@ class easy_install(Command):
-+@@ -648,6 +648,11 @@ class easy_install(Command):
-              os.path.exists(tmpdir) and rmtree(tmpdir)
-  
-      def easy_install(self, spec, deps=False):
-diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_6.4.2.bb b/meta/recipes-devtools/python/python3-setuptools-scm_6.4.2.bb
-index e09c598bf5..9aaae071d3 100644
---- a/meta/recipes-devtools/python/python3-setuptools-scm_6.4.2.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools-scm_6.4.2.bb
-@@ -11,6 +11,8 @@ inherit pypi python_setuptools_build_meta
- 
- UPSTREAM_CHECK_REGEX = "setuptools_scm-(?P<pver>.*)\.tar"
- 
-+DEPENDS += "python3-tomli-native"
-+
- RDEPENDS:${PN} = "\
-     ${PYTHON_PN}-packaging \
-     ${PYTHON_PN}-pyparsing \
-diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch b/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch
+diff --git a/meta/recipes-core/coreutils/coreutils/0001-uname-report-processor-and-hardware-correctly.patch b/meta/recipes-core/coreutils/coreutils/0001-uname-report-processor-and-hardware-correctly.patch
 deleted file mode 100644
-index 3150187951..0000000000
---- a/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch
+index 3c43e1d5da..0000000000
+--- a/meta/recipes-core/coreutils/coreutils/0001-uname-report-processor-and-hardware-correctly.patch
 +++ /dev/null
-@@ -1,35 +0,0 @@
--From 1ff575308248b183639c8cb14afee7c8572bd2b8 Mon Sep 17 00:00:00 2001
--From: Tim Orling <timothy.t.orling@intel.com>
--Date: Wed, 20 Oct 2021 17:38:10 +0000
--Subject: [PATCH] _distutils/sysconfig: append
-- STAGING_LIBDIR/python-sysconfigdata to sys.path
+@@ -1,64 +0,0 @@
+-Upstream-Status: Denied
 -
--When python modules set SETUPTOOLS_USE_DISTULS='local', this uses the
--vendored _distutils in setuptools rather than distutils in the Standard
--Library. This is needed so that target configuration can be used with
--python3-setuptools-native.
+-Subject: uname: report processor and hardware correctly
 -
--Based on python3/0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch
--from Alex Kanavin <alex.kanavin@gmail.com>
+-This patch is rejected by coreutils upstream, but distros like debian and fedora
+-uses this patch to make `uname -i' and `uname -p' to not report 'unknown'.
 -
--Upstream-Status: Inappropriate [oe-specific]
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- src/uname.c | 18 ++++++++++++++++--
+- 1 file changed, 16 insertions(+), 2 deletions(-)
 -
--Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
+-diff --git a/src/uname.c b/src/uname.c
+-index 39bd28c..c84582d 100644
+---- a/src/uname.c
+-+++ b/src/uname.c
+-@@ -299,13 +299,19 @@ main (int argc, char **argv)
+- 
+-   if (toprint & PRINT_PROCESSOR)
+-     {
+--      char const *element = unknown;
+-+      char *element = unknown;
+- #if HAVE_SYSINFO && defined SI_ARCHITECTURE
+-       {
+-         static char processor[257];
+-         if (0 <= sysinfo (SI_ARCHITECTURE, processor, sizeof processor))
+-           element = processor;
+-       }
+-+#else
+-+      {
+-+	static struct utsname u;
+-+	uname(&u);
+-+	element = u.machine;
+-+      }
+- #endif
+- #ifdef UNAME_PROCESSOR
+-       if (element == unknown)
+-@@ -343,7 +349,7 @@ main (int argc, char **argv)
+- 
+-   if (toprint & PRINT_HARDWARE_PLATFORM)
+-     {
+--      char const *element = unknown;
+-+      char *element = unknown;
+- #if HAVE_SYSINFO && defined SI_PLATFORM
+-       {
+-         static char hardware_platform[257];
+-@@ -361,6 +367,14 @@ main (int argc, char **argv)
+-           if (sysctl (mib, 2, hardware_platform, &s, 0, 0) >= 0)
+-             element = hardware_platform;
+-         }
+-+#else
+-+      {
+-+	static struct utsname u;
+-+	uname(&u);
+-+	element = u.machine;
+-+	if(strlen(element)==4 && element[0]=='i' && element[2]=='8' && element[3]=='6')
+-+	  element[1]='3';
+-+      }
+- #endif
+-       if (! (toprint == UINT_MAX && element == unknown))
+-         print_element (element);
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-core/coreutils/coreutils/e8b56ebd536e82b15542a00c888109471936bfda.patch b/meta/recipes-core/coreutils/coreutils/e8b56ebd536e82b15542a00c888109471936bfda.patch
+deleted file mode 100644
+index d69ee95e4a..0000000000
+--- a/meta/recipes-core/coreutils/coreutils/e8b56ebd536e82b15542a00c888109471936bfda.patch
++++ /dev/null
+@@ -1,93 +0,0 @@
+-From e8b56ebd536e82b15542a00c888109471936bfda Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?P=C3=A1draig=20Brady?= <P@draigBrady.com>
+-Date: Fri, 24 Sep 2021 20:57:41 +0100
+-Subject: [PATCH] chmod: fix exit status when ignoring symlinks
+-
+-* src/chmod.c: Reorder enum so CH_NOT_APPLIED
+-can be treated as a non error.
+-* tests/chmod/ignore-symlink.sh: A new test.
+-* tests/local.mk: Reference the new test.
+-* NEWS: Mention the bug fix.
+-Fixes https://bugs.gnu.org/50784
+-
+-Upstream-Status: Backport
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- src/chmod.c                   |  4 ++--
+- tests/chmod/ignore-symlink.sh | 31 +++++++++++++++++++++++++++++++
+- tests/local.mk                |  1 +
+- 4 files changed, 40 insertions(+), 2 deletions(-)
+- create mode 100755 tests/chmod/ignore-symlink.sh
+-
+-diff --git a/src/chmod.c b/src/chmod.c
+-index 37b04f500..57ac47f33 100644
+---- a/src/chmod.c
+-+++ b/src/chmod.c
+-@@ -44,8 +44,8 @@ struct change_status
+-   enum
+-     {
+-       CH_NO_STAT,
+--      CH_NOT_APPLIED,
+-       CH_FAILED,
+-+      CH_NOT_APPLIED,
+-       CH_NO_CHANGE_REQUESTED,
+-       CH_SUCCEEDED
+-     }
+-@@ -322,7 +322,7 @@ process_file (FTS *fts, FTSENT *ent)
+-   if ( ! recurse)
+-     fts_set (fts, ent, FTS_SKIP);
+- 
+--  return CH_NO_CHANGE_REQUESTED <= ch.status;
+-+  return CH_NOT_APPLIED <= ch.status;
+- }
+- 
+- /* Recursively change the modes of the specified FILES (the last entry
+-diff --git a/tests/chmod/ignore-symlink.sh b/tests/chmod/ignore-symlink.sh
+-new file mode 100755
+-index 000000000..5ce3de816
+---- /dev/null
+-+++ b/tests/chmod/ignore-symlink.sh
+-@@ -0,0 +1,31 @@
+-+#!/bin/sh
+-+# Test for proper exit code of chmod on a processed symlink.
+-+
+-+# Copyright (C) 2021 Free Software Foundation, Inc.
+-+
+-+# This program is free software: you can redistribute it and/or modify
+-+# it under the terms of the GNU General Public License as published by
+-+# the Free Software Foundation, either version 3 of the License, or
+-+# (at your option) any later version.
+-+
+-+# This program is distributed in the hope that it will be useful,
+-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-+# GNU General Public License for more details.
+-+
+-+# You should have received a copy of the GNU General Public License
+-+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-+
+-+. "${srcdir=.}/tests/init.sh"; path_prepend_ ./src
+-+print_ver_ chmod
+-+
+-+mkdir dir || framework_failure_
+-+touch dir/f || framework_failure_
+-+ln -s f dir/l || framework_failure_
+-+
+-+# This operation ignores symlinks but should succeed.
+-+chmod u+w -R dir 2> out || fail=1
+-+
+-+compare /dev/null out || fail=1
+-+
+-+Exit $fail
+-diff --git a/tests/local.mk b/tests/local.mk
+-index 228d0e368..b5b893fb7 100644
+---- a/tests/local.mk
+-+++ b/tests/local.mk
+-@@ -456,6 +456,7 @@ all_tests =					\
+-   tests/chmod/c-option.sh			\
+-   tests/chmod/equal-x.sh			\
+-   tests/chmod/equals.sh				\
+-+  tests/chmod/ignore-symlink.sh			\
+-   tests/chmod/inaccessible.sh			\
+-   tests/chmod/octal.sh				\
+-   tests/chmod/setgid.sh				\
+diff --git a/meta/recipes-core/coreutils/coreutils/fix-selinux-flask.patch b/meta/recipes-core/coreutils/coreutils/fix-selinux-flask.patch
+deleted file mode 100644
+index 4f126ad67c..0000000000
+--- a/meta/recipes-core/coreutils/coreutils/fix-selinux-flask.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From b04363018b4b9b45fdf23384f30d02caa5564602 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Tue, 16 Sep 2014 01:59:08 -0700
+-Subject: [PATCH] gnulib-comp.m4: selinux/flask.h should respect to
+- with_selinux
+-
+-Fixed when build with meta-selinux even when --without-selinux:
+-runcon.c:49:28: fatal error: selinux/flask.h: No such file or directory
+- # include <selinux/flask.h>
+-                            ^
+-compilation terminated.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 -
 ----
-- setuptools/_distutils/sysconfig.py | 2 ++
-- 1 file changed, 2 insertions(+)
+- m4/gnulib-comp.m4 | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--diff --git a/setuptools/_distutils/sysconfig.py b/setuptools/_distutils/sysconfig.py
--index d36d94f..616eb91 100644
----- a/setuptools/_distutils/sysconfig.py
--+++ b/setuptools/_distutils/sysconfig.py
--@@ -484,6 +484,8 @@ def _init_posix():
--             multiarch=getattr(sys.implementation, '_multiarch', ''),
--         ),
--     )
--+    if 'STAGING_LIBDIR' in os.environ:
--+        sys.path.append(os.environ['STAGING_LIBDIR']+'/python-sysconfigdata')
--     try:
--         _temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
--     except ImportError:
-diff --git a/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb b/meta/recipes-devtools/python/python3-setuptools_62.1.0.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
-rename to meta/recipes-devtools/python/python3-setuptools_62.1.0.bb
-index f2810e18d3..420c73d45f 100644
---- a/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools_62.1.0.bb
-@@ -8,12 +8,9 @@ inherit pypi python_setuptools_build_meta
+-diff --git a/m4/gnulib-comp.m4 b/m4/gnulib-comp.m4
+-index 3857233..c01fb30 100644
+---- a/m4/gnulib-comp.m4
+-+++ b/m4/gnulib-comp.m4
+-@@ -1953,11 +1953,11 @@ AC_DEFUN([gl_INIT],
+-     AC_LIBOBJ([select])
+-   fi
+-   gl_SYS_SELECT_MODULE_INDICATOR([select])
+--  AC_CHECK_HEADERS([selinux/flask.h])
+-   gl_HEADERS_SELINUX_SELINUX_H
+-   gl_HEADERS_SELINUX_CONTEXT_H
+-   gl_HEADERS_SELINUX_LABEL_H
+-   if test "$with_selinux" != no && test "$ac_cv_header_selinux_selinux_h" = yes; then
+-+    AC_CHECK_HEADERS([selinux/flask.h])
+-     AC_LIBOBJ([getfilecon])
+-   fi
+-   gl_SERVENT
+diff --git a/meta/recipes-core/coreutils/coreutils_9.0.bb b/meta/recipes-core/coreutils/coreutils_9.1.bb
+similarity index 96%
+rename from meta/recipes-core/coreutils/coreutils_9.0.bb
+rename to meta/recipes-core/coreutils/coreutils_9.1.bb
+index e4a948c7e5..d57e147a7e 100644
+--- a/meta/recipes-core/coreutils/coreutils_9.0.bb
++++ b/meta/recipes-core/coreutils/coreutils_9.1.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "http://www.gnu.org/software/coreutils/"
+ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+ LICENSE = "GPL-3.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
+-                    file://src/ls.c;beginline=1;endline=15;md5=3b8fbaee597c8a9bb88d30840d53048c \
++                    file://src/ls.c;beginline=1;endline=15;md5=1fe89f62614b5e1f5475ec04d5899bc1 \
+                     "
+ DEPENDS = "gmp libcap"
+ DEPENDS:class-native = ""
+@@ -15,14 +15,11 @@ inherit autotools gettext texinfo
  
- SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
+ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+            file://remove-usr-local-lib-from-m4.patch \
+-           file://fix-selinux-flask.patch \
+-           file://0001-uname-report-processor-and-hardware-correctly.patch \
+            file://0001-local.mk-fix-cross-compiling-problem.patch \
+-           file://e8b56ebd536e82b15542a00c888109471936bfda.patch \
+            file://run-ptest \
+            "
  
--SRC_URI += "\
--    file://0001-change-shebang-to-python3.patch \
--    file://0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch \
--"
-+SRC_URI += "file://0001-change-shebang-to-python3.patch"
+-SRC_URI[sha256sum] = "ce30acdf4a41bc5bb30dd955e9eaa75fa216b4e3deb08889ed32433c7b3b97ce"
++SRC_URI[sha256sum] = "61a1f410d78ba7e7f37a5a4f50e6d1320aca33375484a3255eddf17a38580423"
  
--SRC_URI[sha256sum] = "d144f85102f999444d06f9c0e8c737fd0194f10f2f7e5fdb77573f6e2fa4fad0"
-+SRC_URI[sha256sum] = "47c7b0c0f8fc10eec4cf1e71c6fdadf8decaa74ffa087e68cd1c20db7ad6a592"
- 
- DEPENDS += "${PYTHON_PN}"
- 
+ # http://git.savannah.gnu.org/cgit/coreutils.git/commit/?id=v8.27-101-gf5d7c0842
+ # runcon is not really a sandbox command, use `runcon ... setsid ...` to avoid this particular issue.
 -- 
 2.30.2
 
