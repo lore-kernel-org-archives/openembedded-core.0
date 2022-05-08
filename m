@@ -2,58 +2,60 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1C73C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2A63C433EF
 	for <webhook@archiver.kernel.org>; Sun,  8 May 2022 12:39:35 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.20076.1652013572386207127
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web09.20232.1652013573001101393
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 May 2022 05:39:32 -0700
+ Sun, 08 May 2022 05:39:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Nys432JJ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cI8q4JM7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id q20so7002436wmq.1
+Received: by mail-wr1-f51.google.com with SMTP id t6so15994378wra.4
         for <openembedded-core@lists.openembedded.org>;
  Sun, 08 May 2022 05:39:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=s3mtCQ9IRYYdmxPL5Zl3Ufa5yUGsHaj5KuwgSBRBHJw=;
-        b=Nys432JJ+YfSiOw0T9ng5A4zBJ83sNl2k7GPFpE1HEmGd8Bz+ajaf6ct9jxAzu+mir
-         8rH1lPIDQvkV6nVW1N7DJ8iqmOh6V4BISpR7wsrJKkUORmsVzS8WlwZIZthMJx8HU8jO
-         NTVUHls621Jp6i49Rd3kYrPcF/PhmiqugkPIU=
+        bh=lQqIpDDpiJyCZEwSGsHTcNk7k3kuSiuWg+H9jVlljNA=;
+        b=cI8q4JM7j7jw2RZjnqgjSZpk3mvlWk+n0bGVNDvohIiy4CsyTOrEvoNufybaBIz7Nr
+         BYxckdBc1T0pm2xoVIAKLTAih6sy3FvfLyU7TE/tSt1jNjuuphcml59eS8Q3NfeJKJIU
+         qtN2sBJSn6sZqQy85Rn805ogkkR6sB60PBbMs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=s3mtCQ9IRYYdmxPL5Zl3Ufa5yUGsHaj5KuwgSBRBHJw=;
-        b=GBJfbfJl/xn7/y5/S1MV9lG01ndz4JqqiUraUYkfXtIbjOdr03qXVfrG4ZmCJEBLcK
-         oOUnU/5uUtddL80qgY4vp2mTVCXjMS1bODfa0tcYVKmYzo9lCGsXR99Ua5B8fqUf6/8T
-         FpqMHS/vfabizmLc+XR7SvXa+gIHKAcr93pKBXqkbHXDVVna0qTN9NrJJpWa8GjqD6lA
-         HznYSH6DSbG4DFB1UHYfLI0krCUIGPflIVmszWp4mDfu0raTfmGvY0J3MUdqMbMSjpNJ
-         dC5V6+CTgJbnhxQeOPIFu0pU5I/TL5s6vRvS9WNE653ptZc5fOtQQZ01c/XYcdZjVR07
-         wbxg==
-X-Gm-Message-State: AOAM530q16YCw/IsJw6+oPlw+ORL7gT7fB8VrGKn7JrOKw8WFX1uFaIP
-	V2oFlTtqvJmraphcCeVJDji7NYMEhhwZgHo1
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=lQqIpDDpiJyCZEwSGsHTcNk7k3kuSiuWg+H9jVlljNA=;
+        b=t/sAUIGZmHs65MjE+hhCJxaZFGI4i3CbqfCYyy9rX6neI0Et6Yd+3KeN2IxphiFXjS
+         oQBjRfbOaIL3dgJewmsXfLjwXCeL9ZFShpC+S7YYjfGtUYIlhwQa9nAc3zLpJepseS/f
+         sQGZUOL1fpMkH7cUk8+uTNFIfInKKbTysgRtYM7lv2AsL9vol/sV/sv1xYOyMhS8FFLa
+         Zj66sh5PJGwEwGVgGpcDkALDoYZjswBGw/jlfSwQoU1O40w9ORQGDJGFlJrjOIS4cJ0Z
+         9H6QdVr16xDlDKk5XG5178/iy9RO3mGvLrqMIOEsYXAQfhgLAZqX40d9/SFDCT4oFCY2
+         bNZA==
+X-Gm-Message-State: AOAM5336KYgX2V5un27VLcmyPpaDiU39RphysPj9Deqg69z36UYRH+Sv
+	3Sfc/vv60WGZmGhhxXb1yO3+i3WifCXDDiwk
 X-Google-Smtp-Source: 
- ABdhPJx4Gn9ASAIg+GBOYAoduCPcE/Di22CXVE21b6yLU1IE6f/mbsWflmy9LeWytMS+ynwioVH2WQ==
-X-Received: by 2002:a05:600c:19d1:b0:394:7661:6de9 with SMTP id
- u17-20020a05600c19d100b0039476616de9mr11644182wmq.76.1652013570409;
-        Sun, 08 May 2022 05:39:30 -0700 (PDT)
+ ABdhPJy2T95W0wdhPrVenMDyEMpDdQi9HtQ5dH2k6ME+H+qBm1gnFGitPynj5+01vL/8izyZPQZOwg==
+X-Received: by 2002:a5d:6a0f:0:b0:20a:ea3b:8d66 with SMTP id
+ m15-20020a5d6a0f000000b0020aea3b8d66mr9492306wru.596.1652013571017;
+        Sun, 08 May 2022 05:39:31 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:7637:badc:40a6:4c9c])
         by smtp.gmail.com with ESMTPSA id
- bw26-20020a0560001f9a00b0020ac8c19ecfsm8048472wrb.3.2022.05.08.05.39.29
+ bw26-20020a0560001f9a00b0020ac8c19ecfsm8048472wrb.3.2022.05.08.05.39.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 May 2022 05:39:29 -0700 (PDT)
+        Sun, 08 May 2022 05:39:30 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] package: Ensure we track whether PRSERV was active or not
-Date: Sun,  8 May 2022 13:39:28 +0100
-Message-Id: <20220508123929.159466-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] libgcrypt: Fix reproducibility issues in ptest
+Date: Sun,  8 May 2022 13:39:29 +0100
+Message-Id: <20220508123929.159466-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220508123929.159466-1-richard.purdie@linuxfoundation.org>
+References: <20220508123929.159466-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -61,38 +63,46 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 08 May 2022 12:39:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165372
+ https://lists.openembedded.org/g/openembedded-core/message/165373
 
-Currently the signatures for do_packagedata don't reflect whether PRServ
-was active or not. This means that if you have mxiing of PRServ usage and
-non PRServ usage against the same sstate cache it can rarely become
-corrupted with one referencing the other.
+The recent ptest addition was causing reproducibility tests to fail.
+Remove the problematic files as they clearly aren't needed on target
+to run the ptests. Hack the Makefile so that it doesn't try to rerun
+configure and similar.
 
-This likely doesn't happen in general but does on the autobuilder as PRServ
-is tested. Add in some variables to ensure the binary state of PRServ being
-enabled or disabled is tracked (but not the server value). We continue to
-assume one PRServ is used per sstate cache.
+Also add a missing dependency on make.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/package.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 44fbc32df6aa..62050a18b8d3 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -662,7 +662,10 @@ def runtime_mapping_rename (varname, pkg, d):
- # Used by do_packagedata (and possibly other routines post do_package)
- #
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb
+index f9dc52393f52..f7108013d349 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb
+@@ -17,7 +17,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     "
  
-+PRSERV_ACTIVE = "${@bool(d.getVar("PRSERV_HOST"))}"
-+PRSERV_ACTIVE[vardepvalue] = "${PRSERV_ACTIVE}"
- package_get_auto_pr[vardepsexclude] = "BB_TASKDEPDATA"
-+package_get_auto_pr[vardeps] += "PRSERV_ACTIVE"
- python package_get_auto_pr() {
-     import oe.prservice
+ DEPENDS = "libgpg-error"
+-RDEPENDS:${PN}-ptest = "bash"
++RDEPENDS:${PN}-ptest = "bash make"
  
+ UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
+ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
+@@ -60,6 +60,12 @@ do_install_ptest() {
+     cp -r --preserve=mode,links -v ${B} ${D}${PTEST_PATH}
+     rm ${D}${PTEST_PATH}/build/cipher/gost-s-box
+     rm ${D}${PTEST_PATH}/build/doc/yat2m
++    rm ${D}${PTEST_PATH}/build/libtool
++    rm ${D}${PTEST_PATH}/build/config.status
++    rm ${D}${PTEST_PATH}/build/config.log
++    rm ${D}${PTEST_PATH}/build/src/mpicalc
++    rm ${D}${PTEST_PATH}/${BP}/autom4te* -rf
++    sed -i -e 's/Makefile:.*/Makefile-disabled:/' ${D}${PTEST_PATH}/build/Makefile
+     find ${D}/${PTEST_PATH}/build -name "*.cmake" -or -name "Makefile" \
+     | xargs sed -e "s|${WORKDIR}|${PTEST_PATH}|g" -e "s|${WORKDIR}/recipe-sysroot-native||g" -i
+ }
 -- 
 2.34.1
 
