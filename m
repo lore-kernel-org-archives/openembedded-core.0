@@ -2,108 +2,107 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2A63C433EF
-	for <webhook@archiver.kernel.org>; Sun,  8 May 2022 12:39:35 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web09.20232.1652013573001101393
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFA98C433F5
+	for <webhook@archiver.kernel.org>; Sun,  8 May 2022 12:47:25 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.20127.1652014037888720885
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 May 2022 05:39:33 -0700
+ Sun, 08 May 2022 05:47:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cI8q4JM7;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hC15Cxnt;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id t6so15994378wra.4
+Received: by mail-wr1-f47.google.com with SMTP id w4so15968249wrg.12
         for <openembedded-core@lists.openembedded.org>;
- Sun, 08 May 2022 05:39:32 -0700 (PDT)
+ Sun, 08 May 2022 05:47:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=lQqIpDDpiJyCZEwSGsHTcNk7k3kuSiuWg+H9jVlljNA=;
-        b=cI8q4JM7j7jw2RZjnqgjSZpk3mvlWk+n0bGVNDvohIiy4CsyTOrEvoNufybaBIz7Nr
-         BYxckdBc1T0pm2xoVIAKLTAih6sy3FvfLyU7TE/tSt1jNjuuphcml59eS8Q3NfeJKJIU
-         qtN2sBJSn6sZqQy85Rn805ogkkR6sB60PBbMs=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=0Q5S6S+Bo97PUNju7ulFrYWrVkNKFW5yEkRzPY2yszg=;
+        b=hC15Cxnt9FiNJ9LS0NtoKRdA/fuAxOB9WLg9LU7N+6hAQQxuF/jbKaPG0Z1UxvL1l9
+         bkUJlKUbK5u+jdSuB1KSgdsO6waVt916S6nJuoK1ToFDeSQvuRRw1MY30VD2x53JYuwi
+         LpAEMc6QvDeBOs3GQf126CrMWXIk3aByT0x4g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=lQqIpDDpiJyCZEwSGsHTcNk7k3kuSiuWg+H9jVlljNA=;
-        b=t/sAUIGZmHs65MjE+hhCJxaZFGI4i3CbqfCYyy9rX6neI0Et6Yd+3KeN2IxphiFXjS
-         oQBjRfbOaIL3dgJewmsXfLjwXCeL9ZFShpC+S7YYjfGtUYIlhwQa9nAc3zLpJepseS/f
-         sQGZUOL1fpMkH7cUk8+uTNFIfInKKbTysgRtYM7lv2AsL9vol/sV/sv1xYOyMhS8FFLa
-         Zj66sh5PJGwEwGVgGpcDkALDoYZjswBGw/jlfSwQoU1O40w9ORQGDJGFlJrjOIS4cJ0Z
-         9H6QdVr16xDlDKk5XG5178/iy9RO3mGvLrqMIOEsYXAQfhgLAZqX40d9/SFDCT4oFCY2
-         bNZA==
-X-Gm-Message-State: AOAM5336KYgX2V5un27VLcmyPpaDiU39RphysPj9Deqg69z36UYRH+Sv
-	3Sfc/vv60WGZmGhhxXb1yO3+i3WifCXDDiwk
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=0Q5S6S+Bo97PUNju7ulFrYWrVkNKFW5yEkRzPY2yszg=;
+        b=bbGJF2xtedKyHEZlsBNrTcEK2kwxjdPoxTwdx9gh1FG1yvvFb/bZBBE94YMRcaqrWA
+         QOuSE4VQE11mRPm8HGKe1xfEWtX0ZU2p4hPUgvdDwvj6KmlrKcRCCmVy8DzL8M6gfGZk
+         4ljXTszjZSvAfXHfs4HKvkNDrFoyFTYYYfJsYoF+mx6pgL7mlMzxIKPquC5XvgZUOTQm
+         FUsD3lxADUX6cLkLUAQc+FIE61/V/AVJ1iFMPego7DTjsfXpxxm1HRlXw5hzj+kGNwmJ
+         EPF45owHf1wUNtYrgC7oSY7NC/ZC9TrFofSZdvUqeQimyRyP/H8kOZ+DLijUnXq1LNAa
+         ZyOA==
+X-Gm-Message-State: AOAM531GP3YaFPh8db5Az2Ae/wxjMU92tk2Q9XggVkMqA6Msw7qTMsTY
+	LZjwgkQdDeLtvvbwXESawyyFyQ==
 X-Google-Smtp-Source: 
- ABdhPJy2T95W0wdhPrVenMDyEMpDdQi9HtQ5dH2k6ME+H+qBm1gnFGitPynj5+01vL/8izyZPQZOwg==
-X-Received: by 2002:a5d:6a0f:0:b0:20a:ea3b:8d66 with SMTP id
- m15-20020a5d6a0f000000b0020aea3b8d66mr9492306wru.596.1652013571017;
-        Sun, 08 May 2022 05:39:31 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:7637:badc:40a6:4c9c])
+ ABdhPJzlf6/7ckJcW+VasfvNKObfCYHLYHQnCcYaYgPZyPZMtMcWf/2Ans94wX+uDpucJfQz7Tn+3Q==
+X-Received: by 2002:a5d:680f:0:b0:20a:d858:f703 with SMTP id
+ w15-20020a5d680f000000b0020ad858f703mr9835059wru.414.1652014036320;
+        Sun, 08 May 2022 05:47:16 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:cf4d:812e:ce2e:1ff8?
+ ([2001:8b0:aba:5f3c:cf4d:812e:ce2e:1ff8])
         by smtp.gmail.com with ESMTPSA id
- bw26-20020a0560001f9a00b0020ac8c19ecfsm8048472wrb.3.2022.05.08.05.39.30
-        for <openembedded-core@lists.openembedded.org>
+ h5-20020a1ccc05000000b003942a244f29sm14192669wmb.2.2022.05.08.05.47.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 May 2022 05:39:30 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] libgcrypt: Fix reproducibility issues in ptest
-Date: Sun,  8 May 2022 13:39:29 +0100
-Message-Id: <20220508123929.159466-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220508123929.159466-1-richard.purdie@linuxfoundation.org>
-References: <20220508123929.159466-1-richard.purdie@linuxfoundation.org>
+        Sun, 08 May 2022 05:47:15 -0700 (PDT)
+Message-ID: 
+ <8afbfd2d139a2d19752af376f3bbeae39f64029a.camel@linuxfoundation.org>
+Subject: Re: [OE-core][RFC Patch] Revert "kernel: make kernel-base recommend
+ kernel-image, not depend"
+From: richard.purdie@linuxfoundation.org
+To: Max Krummenacher <max.oss.09@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Cc: Ross Burton <ross@burtonini.com>, Max Krummenacher
+	 <max.krummenacher@toradex.com>
+Date: Sun, 08 May 2022 13:47:14 +0100
+In-Reply-To: <20220508110416.51510-1-max.oss.09@gmail.com>
+References: <20220508110416.51510-1-max.oss.09@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0-1ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 08 May 2022 12:39:35 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 08 May 2022 12:47:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165373
+ https://lists.openembedded.org/g/openembedded-core/message/165374
 
-The recent ptest addition was causing reproducibility tests to fail.
-Remove the problematic files as they clearly aren't needed on target
-to run the ptests. Hack the Makefile so that it doesn't try to rerun
-configure and similar.
+On Sun, 2022-05-08 at 13:04 +0200, Max Krummenacher wrote:
+> From: Max Krummenacher <max.krummenacher@toradex.com>
+>=20
+> This reverts commit 1c90b27d2c65cfb4f9debf0272820b6a95942f76. [2]
+>=20
+> To exclude the kernel image from the final rootfs the documentation [1]
+> suggest to override `RDEPENDS:${KERNEL_PACKAGE_NAME}-base`.
+> With the change to RRECOMMENDS all layers which followed that suggestion
+> now do get the kernel image as the override has no longer any effect.
+> (a affected machine: openembedded-core/meta/conf/machine/include/qemu.inc=
+)
+>=20
+> Is the use case described in the commit not solvable with less severe
+> side effects?
+>=20
+> [1] https://docs.yoctoproject.org/singleindex.html#how-do-i-install-not-i=
+nstall-the-kernel-image-on-the-root-filesystem
+> [2] https://git.openembedded.org/openembedded-core/commit/meta/classes/ke=
+rnel.bbclass?h=3Dmaster-next&id=3D1c90b27d2c65cfb4f9debf0272820b6a95942f76
+>=20
+> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+> ---
+>  meta/classes/kernel.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Also add a missing dependency on make.
+That patch did solve a real world issue and I'm not sure how else we're
+fix it. As such I think we'll need to update the documentation.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+We should be able to add some kind of warning to let BSPs know
+something needs updating too? Would that help?
 
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb
-index f9dc52393f52..f7108013d349 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.10.1.bb
-@@ -17,7 +17,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     "
- 
- DEPENDS = "libgpg-error"
--RDEPENDS:${PN}-ptest = "bash"
-+RDEPENDS:${PN}-ptest = "bash make"
- 
- UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
- SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
-@@ -60,6 +60,12 @@ do_install_ptest() {
-     cp -r --preserve=mode,links -v ${B} ${D}${PTEST_PATH}
-     rm ${D}${PTEST_PATH}/build/cipher/gost-s-box
-     rm ${D}${PTEST_PATH}/build/doc/yat2m
-+    rm ${D}${PTEST_PATH}/build/libtool
-+    rm ${D}${PTEST_PATH}/build/config.status
-+    rm ${D}${PTEST_PATH}/build/config.log
-+    rm ${D}${PTEST_PATH}/build/src/mpicalc
-+    rm ${D}${PTEST_PATH}/${BP}/autom4te* -rf
-+    sed -i -e 's/Makefile:.*/Makefile-disabled:/' ${D}${PTEST_PATH}/build/Makefile
-     find ${D}/${PTEST_PATH}/build -name "*.cmake" -or -name "Makefile" \
-     | xargs sed -e "s|${WORKDIR}|${PTEST_PATH}|g" -e "s|${WORKDIR}/recipe-sysroot-native||g" -i
- }
--- 
-2.34.1
+Cheers,
 
+Richard
 
