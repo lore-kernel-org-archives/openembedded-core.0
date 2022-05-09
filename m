@@ -1,191 +1,238 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <badganchipv@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7C6CC433F5
-	for <webhook@archiver.kernel.org>; Mon,  9 May 2022 05:03:11 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web11.28425.1652072581743650930
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0350CC433EF
+	for <webhook@archiver.kernel.org>; Mon,  9 May 2022 06:30:42 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web09.28894.1652077838404082132
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 May 2022 22:03:02 -0700
+ Sun, 08 May 2022 23:30:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BU1CnQDe;
- spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: uvv.mail@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id bu29so21866562lfb.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hUctDu8E;
+ spf=pass (domain: gmail.com, ip: 209.85.216.42,
+ mailfrom: badganchipv@gmail.com)
+Received: by mail-pj1-f42.google.com with SMTP id
+ cx11-20020a17090afd8b00b001d9fe5965b3so16148851pjb.3
         for <openembedded-core@lists.openembedded.org>;
- Sun, 08 May 2022 22:03:01 -0700 (PDT)
+ Sun, 08 May 2022 23:30:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=KSstAEuXI3l4Xgdw3pVQLxksrYoC+16jw5y7632ZUCk=;
-        b=BU1CnQDes1NC+H7vZ3jweCLgrJe2CbPg9pzgv1A8hcSpOk9uBhA5gkUu2MaI1wnaWq
-         s7JGGZ1gN4/mIJHbsDzFonyeyijihKT7rkhuj2BFngtvtoqkL6mEK0mf1K8r6DByrCBm
-         sZ7dXbJjr444EwB4AKAYDK5fxnZPMnYxJX1bPRjBSd9te/Qc2pr58fm126WNzG19NQ3r
-         N8OpxifGOL2OOkgFh25nhlS9tl1zWGomwYJ8l2NdKt+BcPGEUHl0eQw3hnrC+in3z68h
-         6WZkte7SNm4CUXlnukQuOY90NP6WBvMbXgYCa8/ZqtbF/pR0pvDanGCW2JQLajyneWsK
-         5mkw==
+        h=from:to:subject:date:message-id;
+        bh=9OYgZOUib9WIGnAi9X0mrkpjNtQc7I2nTEMfL3tFAkA=;
+        b=hUctDu8EFXlyrGrr1tj8YT6ulLAI/rIdHr9+yiUcq4q1ou2ATj4VT6ECnjlxM5E/FA
+         K/pdOpscMOCPg/8iyFw8phcsqlIzov5fsowc074b0+hsUPJiSAPsg8RerVNje3P0J71+
+         T1Li70R32FJIugzyBsEZye3gybVlo+0Xfoy4D5fpUa+swdEiGzZXU5pqzDSk3MJfWV4B
+         aCB1dE0iD6sX/D2C8TvoPcHhIIDsf1/TilNxwcEdQEmQap1vGJr05AP+d+nAHipXCl/w
+         wzUMuHZtL3EIXwdRP8mCrF/iRhzs/g8nMSOyODMg6qUt9G1rKZU4ZTwY/vYaGXmtKB7T
+         kO8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=KSstAEuXI3l4Xgdw3pVQLxksrYoC+16jw5y7632ZUCk=;
-        b=Ox0T+gvUc4PBNLo208Q060pQMIDBVPmNDkfT2csNEBD9bYcmG/qBTX3gTcF7babMq7
-         e20QC3j+YhkWExldWFUzWI5eOcKrFVuVXNBH4VMnhKbXnwtBQQbk1nCY+z5HffjvNxB3
-         bhLdtccD4fVbdcs0hFY0/7SmyTNU18hMvlcFmyKiP2qcdwPAEySex/CDJjD8HVxUGnKA
-         o4A0KWXE7qD7xvpy1dkeod6OV5sjcF0fKNGAoMiqQHaU7GJ4Z8HxyzriquMLSeT6rPPA
-         lslrT3zUWQjn6w3Lxe34EuYIba2TDsOaKFhJ1nGOHohtcvABtUHZejpwWNa5WtHc5+bz
-         4ftA==
-X-Gm-Message-State: AOAM531ElToDGQWzSKLC7cVEF3nuJdWabktDLjJfc7W/bYhpoqqek219
-	v6LehHhzDrL1xGBs7XBji7A=
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=9OYgZOUib9WIGnAi9X0mrkpjNtQc7I2nTEMfL3tFAkA=;
+        b=VCM95SwOTTepmR83UeaI4/B4qlDL0LjdfNmRXWDPAZZhc69QOHCkJnEfrUubMIvBI7
+         3X6+Ywvp4+e7QF1QtPBICtEeQ3RaE3sBk32rO0VNZ/aTfUTvR9UtMPFTNu72X81NaoHI
+         gWD3U7EQG8uKeixN9s4feaEoDRXMNyYC8LqG6qxBM5XSbYBRM1t31OM4Hh4Jw5bFXLcb
+         C+VLH6CuTzRh7uJREFDhUdi9H2OUM20DrmGS/n02z8kowDjCtR9NePLLtVfeU/EGND+k
+         rs5OvZyh/LAjJiKbcMQV9kwvdaV7el7ONezZwspjhHOwp9xvWfF6Z8qHzRToxDMObU6A
+         JwqA==
+X-Gm-Message-State: AOAM531v7OW9GxdJlDhyreXIzq+kp8C+1d+sc7RfrfQsMHt5Qr6VPOZc
+	I6AEHCjA7inO8cEMnQ3lXT0Bji6F5dQvNw==
 X-Google-Smtp-Source: 
- ABdhPJxeZnEn24vZEBc3uZ9LQtbZnSmjs91A+yUjHV277RjNzpKtvQlkNzVSyJFUFQ+El2k5alpX6Q==
-X-Received: by 2002:a05:6512:4003:b0:472:5d5d:fd0 with SMTP id
- br3-20020a056512400300b004725d5d0fd0mr11111014lfb.452.1652072579613;
-        Sun, 08 May 2022 22:02:59 -0700 (PDT)
-Received: from [10.133.224.58] ([185.253.97.14])
+ ABdhPJy0gmdwS9PjrJONFtY63LNghMCLCdeXpoUreQDQcGNPa//VaDJQQuwPf3oWVF84Fau/3OGcCw==
+X-Received: by 2002:a17:902:e84f:b0:15e:8edc:dec9 with SMTP id
+ t15-20020a170902e84f00b0015e8edcdec9mr14711481plg.78.1652077837713;
+        Sun, 08 May 2022 23:30:37 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2409:4042:2ea1:4baa:4dfb:c190:5e2a:472f])
         by smtp.gmail.com with ESMTPSA id
- bg26-20020a05651c0b9a00b0024f3d1daeb4sm1640629ljb.60.2022.05.08.22.02.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 May 2022 22:02:59 -0700 (PDT)
-Message-ID: <56080543-500f-0595-f254-9c24c6a1eff5@gmail.com>
-Date: Mon, 9 May 2022 07:02:57 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.9.0
-Subject: Re: [PATCH v3] classes: rootfs-postcommands: add skip option to
- overlayfs_qa_check
-Content-Language: en-US
-To: Claudius Heine <ch@denx.de>, openembedded-core@lists.openembedded.org
-Cc: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-References: <20220503082231.1971123-1-ch@denx.de>
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
-In-Reply-To: <20220503082231.1971123-1-ch@denx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ m1-20020a17090aab0100b001cd4989fecesm11603895pjq.26.2022.05.08.23.30.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 May 2022 23:30:37 -0700 (PDT)
+From: pawan <badganchipv@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	badganchipv@gmail.com
+Subject: [meta][dunfell][PATCH] fribidi: Add fix for CVE-2022-25308,
+ CVE-2022-25309 and CVE-2022-25310
+Date: Mon,  9 May 2022 12:00:22 +0530
+Message-Id: <20220509063022.12702-1-badganchipv@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 May 2022 05:03:11 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 09 May 2022 06:30:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165384
+ https://lists.openembedded.org/g/openembedded-core/message/165386
 
-On 03.05.2022 10:22, Claudius Heine wrote:
-> The overlayfs_qa_check checks if the current root file system has a
-> mount configured for each overlayfs, when the overlayfs class is used.
->
-> However there are certain instances where this mount point is created at
-> runtime and not static in a fstab entry or systemd mount unit.
->
-> One such case would be if overlayfs-etc is used, where the device is
-> mounted in the preinit script and not via a mount unit or fstab entry.
->
-> However there are other possibilities for this as well, like startup
-> scripts that support a dynamic partition layout. For instance when
-> systemd-repart is used.
->
-> This adds the `OVERLAYFS_QA_SKIP` variable, which allows to define QA
-> skips via its flags. In principle it supports multiple QA skip flags
-> separated by whitespace, but only one (`mount-configured`) is
-> implemented here. To skip this QA check simply add `mount-configured` to
-> the flag of `OVERLAYFS_QA_SKIP` with the same name. For instance if a
-> overlayfs is configured as:
->
-> 	OVERLAYFS_MOUNT_POINT[data] = "/data"
->
-> Skipping this QA check can be done by setting:
->
-> 	OVERLAYFS_QA_SKIP[data] = "mount-configured"
->
-> Also add a testcase and fix a typo (fstat -> fstab).
->
-> Signed-off-by: Claudius Heine <ch@denx.de>
-> ---
->
-> Changes from v2:
-> - Fix typo 'fstat' -> 'fstab' in testcase
-> - Add testcase for successful build when QA check is skipped.
->
-> Changes from v1:
-> - `getVarFag` -> `getVarFlag`
->
-> ---
->   meta/classes/rootfs-postcommands.bbclass  | 10 ++++++++--
->   meta/lib/oeqa/selftest/cases/overlayfs.py | 20 +++++++++++++++++++-
->   2 files changed, 27 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-> index 7b92df69c5..9b6824043c 100644
-> --- a/meta/classes/rootfs-postcommands.bbclass
-> +++ b/meta/classes/rootfs-postcommands.bbclass
-> @@ -398,6 +398,10 @@ python overlayfs_qa_check() {
->   
->       allUnitExist = True;
->       for mountPoint in overlayMountPoints:
-> +        qaSkip = (d.getVarFlag("OVERLAYFS_QA_SKIP", mountPoint) or "").split()
-> +        if "mount-configured" in qaSkip:
-> +            continue
-> +
->           mountPath = d.getVarFlag('OVERLAYFS_MOUNT_POINT', mountPoint)
->           if mountPath in fstabDevices:
->               continue
-> @@ -407,8 +411,10 @@ python overlayfs_qa_check() {
->                  for dirpath in searchpaths):
->               continue
->   
-> -        bb.warn('Mount path %s not found in fstat and unit %s not found '
-> -                'in systemd unit directories' % (mountPath, mountUnit))
-> +        bb.warn(f'Mount path {mountPath} not found in fstab and unit '
-> +                f'{mountUnit} not found in systemd unit directories.')
-> +        bb.warn(f'Skip this check by setting OVERLAYFS_QA_SKIP[{mountPoint}] = '
-> +                '"mount-configured"')
->           allUnitExist = False;
->   
->       if not allUnitExist:
-> diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py b/meta/lib/oeqa/selftest/cases/overlayfs.py
-> index 472746a64f..ce1d2f1ec3 100644
-> --- a/meta/lib/oeqa/selftest/cases/overlayfs.py
-> +++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
-> @@ -62,11 +62,29 @@ DISTRO_FEATURES += "systemd overlayfs"
->           self.add_overlay_conf_to_machine()
->   
->           res = bitbake('core-image-minimal', ignore_status=True)
-> -        line = getline(res, " Mount path /mnt/overlay not found in fstat and unit mnt-overlay.mount not found in systemd unit directories")
-> +        line = getline(res, " Mount path /mnt/overlay not found in fstab and unit mnt-overlay.mount not found in systemd unit directories")
->           self.assertTrue(line and line.startswith("WARNING:"), msg=res.output)
->           line = getline(res, "Not all mount paths and units are installed in the image")
->           self.assertTrue(line and line.startswith("ERROR:"), msg=res.output)
->   
-> +    def test_not_all_units_installed_but_qa_skipped(self):
-> +        """
-> +        Summary:   Test skipping the QA check
-> +        Expected:  Image is created successfully
-> +        Author:    Claudius Heine <ch@denx.de>
-> +        """
-> +
-> +        config = """
-> +IMAGE_INSTALL:append = " overlayfs-user"
-> +DISTRO_FEATURES += "systemd overlayfs"
-> +OVERLAYFS_QA_SKIP[mnt-overlay] = "mount-configured"
-> +"""
-> +
-> +        self.write_config(config)
-> +        self.add_overlay_conf_to_machine()
-> +
-> +        bitbake('core-image-minimal')
-> +
->       def test_mount_unit_not_set(self):
->           """
->           Summary:   Test whether mount unit was set properly
-Hi Claudius,
-Thanks a lot for the patch
+From: Pawan Badganchi <badganchipv@gmail.com>
 
-Could you please also extend the header of overlayfs.bbclass to describe 
-the use case? I will update the documentation accordingly after that.
+Add below patches to fix CVE-2022-25308, CVE-2022-25309 and CVE-2022-25310
 
-Thanks,
-Vyacheslav
+CVE-2022-25308.patch
+Link: https://github.com/fribidi/fribidi/commit/ad3a19e6372b1e667128ed1ea2f49919884587e1
+
+CVE-2022-25309.patch
+Link: https://github.com/fribidi/fribidi/commit/f22593b82b5d1668d1997dbccd10a9c31ffea3b3
+
+CVE-2022-25310.patch
+Link:https://github.com/fribidi/fribidi/commit/175850b03e1af251d705c1d04b2b9b3c1c06e48f
+
+Signed-off-by: Pawan Badganchi <badganchipv@gmail.com>
+---
+ .../fribidi/fribidi/CVE-2022-25308.patch      | 50 +++++++++++++++++++
+ .../fribidi/fribidi/CVE-2022-25309.patch      | 31 ++++++++++++
+ .../fribidi/fribidi/CVE-2022-25310.patch      | 30 +++++++++++
+ meta/recipes-support/fribidi/fribidi_1.0.9.bb |  3 ++
+ 4 files changed, 114 insertions(+)
+ create mode 100644 meta/recipes-support/fribidi/fribidi/CVE-2022-25308.patch
+ create mode 100644 meta/recipes-support/fribidi/fribidi/CVE-2022-25309.patch
+ create mode 100644 meta/recipes-support/fribidi/fribidi/CVE-2022-25310.patch
+
+diff --git a/meta/recipes-support/fribidi/fribidi/CVE-2022-25308.patch b/meta/recipes-support/fribidi/fribidi/CVE-2022-25308.patch
+new file mode 100644
+index 0000000000..8f2c2ade0e
+--- /dev/null
++++ b/meta/recipes-support/fribidi/fribidi/CVE-2022-25308.patch
+@@ -0,0 +1,50 @@
++From ad3a19e6372b1e667128ed1ea2f49919884587e1 Mon Sep 17 00:00:00 2001
++From: Akira TAGOH <akira@tagoh.org>
++Date: Thu, 17 Feb 2022 17:30:12 +0900
++Subject: [PATCH] Fix the stack buffer overflow issue
++
++strlen() could returns 0. Without a conditional check for len,
++accessing S_ pointer with len - 1 may causes a stack buffer overflow.
++
++AddressSanitizer reports this like:
++==1219243==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7ffdce043c1f at pc 0x000000403547 bp 0x7ffdce0
++43b30 sp 0x7ffdce043b28
++READ of size 1 at 0x7ffdce043c1f thread T0
++    #0 0x403546 in main ../bin/fribidi-main.c:393
++    #1 0x7f226804e58f in __libc_start_call_main (/lib64/libc.so.6+0x2d58f)
++    #2 0x7f226804e648 in __libc_start_main_impl (/lib64/libc.so.6+0x2d648)
++    #3 0x4036f4 in _start (/tmp/fribidi/build/bin/fribidi+0x4036f4)
++
++Address 0x7ffdce043c1f is located in stack of thread T0 at offset 63 in frame
++    #0 0x4022bf in main ../bin/fribidi-main.c:193
++
++  This frame has 5 object(s):
++    [32, 36) 'option_index' (line 233)
++    [48, 52) 'base' (line 386)
++    [64, 65064) 'S_' (line 375) <== Memory access at offset 63 underflows this variable
++    [65328, 130328) 'outstring' (line 385)
++    [130592, 390592) 'logical' (line 384)
++
++This fixes https://github.com/fribidi/fribidi/issues/181
++
++CVE: CVE-2022-25308
++Upstream-Status: Backport [https://github.com/fribidi/fribidi/commit/ad3a19e6372b1e667128ed1ea2f49919884587e1]
++Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
++
++---
++ bin/fribidi-main.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/bin/fribidi-main.c b/bin/fribidi-main.c
++index 3cf9fe1..3ae4fb6 100644
++--- a/bin/fribidi-main.c
+++++ b/bin/fribidi-main.c
++@@ -390,7 +390,7 @@ FRIBIDI_END_IGNORE_DEPRECATIONS
++ 	    S_[sizeof (S_) - 1] = 0;
++ 	    len = strlen (S_);
++ 	    /* chop */
++-	    if (S_[len - 1] == '\n')
+++	    if (len > 0 && S_[len - 1] == '\n')
++ 	      {
++ 		len--;
++ 		S_[len] = '\0';
+diff --git a/meta/recipes-support/fribidi/fribidi/CVE-2022-25309.patch b/meta/recipes-support/fribidi/fribidi/CVE-2022-25309.patch
+new file mode 100644
+index 0000000000..0efba3d05c
+--- /dev/null
++++ b/meta/recipes-support/fribidi/fribidi/CVE-2022-25309.patch
+@@ -0,0 +1,31 @@
++From f22593b82b5d1668d1997dbccd10a9c31ffea3b3 Mon Sep 17 00:00:00 2001
++From: Dov Grobgeld <dov.grobgeld@gmail.com>
++Date: Fri, 25 Mar 2022 09:09:49 +0300
++Subject: [PATCH] Protected against garbage in the CapRTL encoder
++
++CVE: CVE-2022-25309
++Upstream-Status: Backport [https://github.com/fribidi/fribidi/commit/f22593b82b5d1668d1997dbccd10a9c31ffea3b3]
++Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
++
++---
++ lib/fribidi-char-sets-cap-rtl.c | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/lib/fribidi-char-sets-cap-rtl.c b/lib/fribidi-char-sets-cap-rtl.c
++index b0c0e4a..f74e010 100644
++--- a/lib/fribidi-char-sets-cap-rtl.c
+++++ b/lib/fribidi-char-sets-cap-rtl.c
++@@ -232,7 +232,12 @@ fribidi_cap_rtl_to_unicode (
++ 	    }
++ 	}
++       else
++-	us[j++] = caprtl_to_unicode[(int) s[i]];
+++      {
+++        if ((int)s[i] < 0)
+++          us[j++] = '?';
+++        else
+++          us[j++] = caprtl_to_unicode[(int) s[i]];
+++      }
++     }
++ 
++   return j;
+diff --git a/meta/recipes-support/fribidi/fribidi/CVE-2022-25310.patch b/meta/recipes-support/fribidi/fribidi/CVE-2022-25310.patch
+new file mode 100644
+index 0000000000..d79a82d648
+--- /dev/null
++++ b/meta/recipes-support/fribidi/fribidi/CVE-2022-25310.patch
+@@ -0,0 +1,30 @@
++From 175850b03e1af251d705c1d04b2b9b3c1c06e48f Mon Sep 17 00:00:00 2001
++From: Akira TAGOH <akira@tagoh.org>
++Date: Thu, 17 Feb 2022 19:06:10 +0900
++Subject: [PATCH] Fix SEGV issue in fribidi_remove_bidi_marks
++
++Escape from fribidi_remove_bidi_marks() immediately if str is null.
++
++This fixes https://github.com/fribidi/fribidi/issues/183
++
++CVE: CVE-2022-25310
++Upstream-Status: Backport [https://github.com/fribidi/fribidi/commit/175850b03e1af251d705c1d04b2b9b3c1c06e48f]
++Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
++
++---
++ lib/fribidi.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/lib/fribidi.c b/lib/fribidi.c
++index f5da0da..70bdab2 100644
++--- a/lib/fribidi.c
+++++ b/lib/fribidi.c
++@@ -74,7 +74,7 @@ fribidi_remove_bidi_marks (
++   fribidi_boolean status = false;
++ 
++   if UNLIKELY
++-    (len == 0)
+++    (len == 0 || str == NULL)
++     {
++       status = true;
++       goto out;
+diff --git a/meta/recipes-support/fribidi/fribidi_1.0.9.bb b/meta/recipes-support/fribidi/fribidi_1.0.9.bb
+index ac9ef88e27..62b7d72812 100644
+--- a/meta/recipes-support/fribidi/fribidi_1.0.9.bb
++++ b/meta/recipes-support/fribidi/fribidi_1.0.9.bb
+@@ -10,6 +10,9 @@ LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
+ 
+ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar.xz \
++           file://CVE-2022-25308.patch \
++           file://CVE-2022-25309.patch \
++           file://CVE-2022-25310.patch \
+            "
+ SRC_URI[md5sum] = "1b767c259c3cd8e0c8496970f63c22dc"
+ SRC_URI[sha256sum] = "c5e47ea9026fb60da1944da9888b4e0a18854a0e2410bbfe7ad90a054d36e0c7"
+-- 
+2.17.1
+
 
