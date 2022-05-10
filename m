@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AA29C433EF
-	for <webhook@archiver.kernel.org>; Tue, 10 May 2022 14:40:15 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web11.10823.1652193610731584334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FC9AC433EF
+	for <webhook@archiver.kernel.org>; Tue, 10 May 2022 14:40:25 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web09.10881.1652193559123929739
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 May 2022 07:40:10 -0700
+ Tue, 10 May 2022 07:40:18 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=IvTw0cGs;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48,
+ header.b=Ms3pamCS;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id fv2so16053481pjb.4
+Received: by mail-pl1-f175.google.com with SMTP id d22so16900040plr.9
         for <openembedded-core@lists.openembedded.org>;
- Tue, 10 May 2022 07:40:10 -0700 (PDT)
+ Tue, 10 May 2022 07:40:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=dTndquuCrH4ol1IlnHK2Uglfj0SGBwVkWPPrKLJpoag=;
-        b=IvTw0cGs1KyCSkCY8ig7+oakt8SUJkYPtBTB2xbXYVjxedFXLdwtKnjvs6VAA2JpOp
-         iMyLdsCCcuGVKnPUriTjjeW97w3falvdX2jn9kmwZoG9rx7qU/0AI5wSqSjffaULqYUV
-         CyDmTg8ThYN05/czGHMGe0VF+z4Fy+q+xWpO2LQX7TNRzHd78TQujN4xoQuFen8vYKcl
-         MgN58VRp4m4/psxcZRo2YaMPzlz4xPTeZvLiv0bczfLPNFc2xoZr5WLhCWaLVqeJO/Uf
-         CqWHURbv/lro3Xf1hzwfZ81aiknYVjpgyL1Olabtn50qj3ySRASmhmJDOIlnKKJZNQCM
-         7vjw==
+        bh=G28c2MtQov7vpjkJmVWka9Ld+Nhwgmh5kd3nfnpeolM=;
+        b=Ms3pamCSK/OV2YxYXUYntcrBrZSHqICr61zS+WMV/JnwDOWV3aOokR/ITHgLu6JyBo
+         LQTtzc3gcg263oFDSQRPNwY8nune8H7xkI6tDUTY0Tizylu9Hzwa7mJPtJ9jX8UBBn5L
+         pT40HNHTDOC4Zm/VoPwBt8jGFfVVsUvIXTVFnqW3oHtyb8khXxeNpE6L3v/w/ZDRpV1b
+         /pifRA4owtvlBAr9TbRgSXkNUQT7+ntM0prC1slK2EFObHVKrvyNBC6WdfsfRkW6TJpZ
+         7aJA3jaPDz+ILqkYJRUEFQ/fVQW0BT0l9xTu5EnV3q87+o1eEBZ41qa4f8MHV38GUKEl
+         +PSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=dTndquuCrH4ol1IlnHK2Uglfj0SGBwVkWPPrKLJpoag=;
-        b=vF2PkB28XY8uIKmcLVFIzYD+VGE5EowImRakZO8zbHtfnolHe1u2WZBhajftqWZ3IG
-         dQzl9PM+lztdHBMP3RkB4W3gPFItPPO1ohNBL3iuqMb59TS5qA/X4YD3JyJFgpvl6vcJ
-         ZBmli7Cu+khXUX4EAFXxa2i3x3okf5e/liQWUxuSny8lhJBD9NjK1L4X5jXiwzry0kjV
-         m1XLhTMfYUY1ny30O58YEUsUzfY4MYOa3obOwbl3A6ox1MJ6aAp3NYvCPIDO2xt9KTAJ
-         l3bHfFbrcoFgrkyhoNPrvyoxV5LDKm9cs3c7kBF2Nn26VgbHXRVtCa5brTg5kLO1Kgh5
-         1LIA==
-X-Gm-Message-State: AOAM533tk0MaO82jSUjOsV/Oq547dpizyTaYosVF7DkXsHD4o/kIYwtL
-	no6mfNgyzPVta0hIsvYPwL+vSXWraZ2xfpBy
+        bh=G28c2MtQov7vpjkJmVWka9Ld+Nhwgmh5kd3nfnpeolM=;
+        b=c+NTrwa5J3kjoYfWISxLEdA2OK4ip5ydxb6hrQqvM6Gbj2OozBaNcS7VX6yWf9HWYH
+         wzcni6ftcHLJ5uG7OBWilxUO9GeBtTWmapLG7xOeUuSJhn75EqxPlHP1PNn68fuUDp0O
+         GyVUfo0Kq/7s4fJE6IBTkSJVtiMBI+MHWl1Qy7S8O3WLI5bZiy0rponCDSqiNsXpV4k6
+         wDRKrzCUajDTtuEn8KeKlq/MDGh5MYjpnhOoJDZZlAHKnGYVCEWfudvrKlLWkLlAZKpZ
+         H4x9teVj8UOYw+G0lf666MAdQeU0aexG4HPmSVYIIxZ3My5jeW9TyPZZFtMLMlDmYmKd
+         HDZQ==
+X-Gm-Message-State: AOAM531ZSzRP5L/bJIrYpcLvy3yh+ktF3Xsv/0EH9L1Efb8sll9QqEye
+	BkPQnH+vXjQbGu/7A8bBzEDBq5t/mdAE7nwT
 X-Google-Smtp-Source: 
- ABdhPJyk6cwl1vjkB6s+nwKEynjMf9YDjthAvRzD/0p/pGJ3oHRvMWyVOG//4/dg98aQpTm5OOST5w==
-X-Received: by 2002:a17:90a:f48e:b0:1dc:8ed1:f5ae with SMTP id
- bx14-20020a17090af48e00b001dc8ed1f5aemr324545pjb.182.1652193609550;
-        Tue, 10 May 2022 07:40:09 -0700 (PDT)
+ ABdhPJz8yVIZBIR5hIL17VyoStc6Dz2oEJYzoP8eFieDmdi/zNGZSL3q9C78cH1JTTYgQYxx5mIAyQ==
+X-Received: by 2002:a17:902:b682:b0:15d:29:9820 with SMTP id
+ c2-20020a170902b68200b0015d00299820mr20856168pls.134.1652193617618;
+        Tue, 10 May 2022 07:40:17 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- fv18-20020a17090b0e9200b001cd4989feb7sm1973161pjb.3.2022.05.10.07.40.08
+ fv18-20020a17090b0e9200b001cd4989feb7sm1973161pjb.3.2022.05.10.07.40.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 May 2022 07:40:08 -0700 (PDT)
+        Tue, 10 May 2022 07:40:16 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 37/40] scripts/git: Ensure we don't have circular
- references
-Date: Tue, 10 May 2022 04:37:16 -1000
+Subject: [OE-core][kirkstone 40/40] abi_version/sstate: Bump hashequiv and
+ sstate versions due to git changes
+Date: Tue, 10 May 2022 04:37:19 -1000
 Message-Id: 
- <b9dcaa76b3274ced1e4b9e2ca33f778e8cd50032.1652192957.git.steve@sakoman.com>
+ <69f2d0822462e77d09b4781dcec41a0747e4d387.1652192957.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1652192957.git.steve@sakoman.com>
 References: <cover.1652192957.git.steve@sakoman.com>
@@ -68,46 +68,47 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 May 2022 14:40:15 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 10 May 2022 14:40:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165454
+ https://lists.openembedded.org/g/openembedded-core/message/165457
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This is horrible but I'm running out of better ideas. We hit circular reference
-issues which we were trying to avoid in the core HOSTTOOLS code. When building
-the eSDK, there can be two copies of the script.
-
-Therefore assume git will never be in a directory called scripts. This
-fixes eSDK build failures.
+The autobuilder sstate was corrupted via incorrect equiavlences caused by
+the security fix to git and the poor interaction that had with SCM version
+checks under fakeroot/pseudo. Bump the versions to enable a clean slate
+to work off.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 27de610ac30d4c81352efc794df7e9b1060f7a68)
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 3b6672730372e130d4d72b683fc3150911964745)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/git | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ meta/classes/sstate.bbclass | 2 +-
+ meta/conf/abi_version.conf  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/git b/scripts/git
-index 8adf5c9ecb..644055e540 100755
---- a/scripts/git
-+++ b/scripts/git
-@@ -10,7 +10,14 @@ os.environ['PSEUDO_UNLOAD'] = '1'
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 1c0cae4893..3513269bca 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -1,4 +1,4 @@
+-SSTATE_VERSION = "8"
++SSTATE_VERSION = "10"
  
- # calculate path to the real 'git'
- path = os.environ['PATH']
--path = path.replace(os.path.dirname(sys.argv[0]), '')
-+# we need to remove our path but also any other copy of this script which
-+# may be present, e.g. eSDK.
-+replacements = [os.path.dirname(sys.argv[0])]
-+for p in path.split(":"):
-+    if p.endswith("/scripts"):
-+        replacements.append(p)
-+for r in replacements:
-+    path = path.replace(r, '/ignoreme')
- real_git = shutil.which('git', path=path)
+ SSTATE_ZSTD_CLEVEL ??= "8"
  
- if len(sys.argv) == 1:
+diff --git a/meta/conf/abi_version.conf b/meta/conf/abi_version.conf
+index 2a08b1208b..c716bd7feb 100644
+--- a/meta/conf/abi_version.conf
++++ b/meta/conf/abi_version.conf
+@@ -12,4 +12,4 @@ OELAYOUT_ABI = "15"
+ # a reset of the equivalence, for example when reproducibility issues break the
+ # existing match data. Distros can also append to this value for the same effect.
+ #
+-HASHEQUIV_HASH_VERSION  = "12"
++HASHEQUIV_HASH_VERSION  = "14"
 -- 
 2.25.1
 
