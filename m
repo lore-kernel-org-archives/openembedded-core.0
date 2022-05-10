@@ -1,111 +1,147 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA18EC433FE
-	for <webhook@archiver.kernel.org>; Tue, 10 May 2022 15:43:31 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
- [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web08.505.1652197410866640099
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0407CC433F5
+	for <webhook@archiver.kernel.org>; Tue, 10 May 2022 16:16:42 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web09.930.1652199395736821813
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 May 2022 08:43:31 -0700
+ Tue, 10 May 2022 09:16:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=eUFjaaWB;
- spf=pass (domain: linaro.org, ip: 209.85.208.180,
- mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lj1-f180.google.com with SMTP id b32so13091547ljf.1
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=UbhEcKY+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.50,
+ mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f50.google.com with SMTP id l18so33946754ejc.7
         for <openembedded-core@lists.openembedded.org>;
- Tue, 10 May 2022 08:43:30 -0700 (PDT)
+ Tue, 10 May 2022 09:16:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IvYoX9J0hj/BgkTcmljBRzWS/zZFWQuZUDMhWDmBnts=;
-        b=eUFjaaWBAQbe3HwuCwuWRojGOL4tkYwQn7C14b0CdnRu3kgC0ds4jsvWkx3AO0KZFh
-         Zwj805F8trvU8u/MapU6ETtKyY+iMTxjHEtwgpGsnmo16y7OSzmDqC9Vi/cPLUXRU+/0
-         HfwrFprhsrtLeETYjS3Y7A8zD5pv+QOibEORViXKIXJS4Er1VtAvnjoi3J+i7AHBTr5v
-         SKOUZ008u2MLMbl4GX/7UPUu7AfIvBEwX5dQNWCfCkCGeBscEFYBgnp4v41BWKA/8GRB
-         a25VgDhrBRRNgW4d2s7QZ1NWDngDa6Xq2O9C7TVf+Hblk7WYeeZm5RPqqHFAjmq13v7N
-         6r2g==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=ee4jGArwLwsZ9l3F+4sxNmhjLNMgr76SD9srJ9WcYoc=;
+        b=UbhEcKY+QZl579i6HAagRRu0w29+oS83s2H1M/7jSFYCy5dtPU9bx++p0X954heo0k
+         Pl/rZYwhTGyzLaqel7uh0RXjzR7fYIO/rEV/NuT/iYA3IyEJGXuG9PKI5Hn9Jx5b5MSx
+         MrQcSQKT1EteF3WDQz0kPEdyn70ncEdRmnvAOPgifzgYRbTmIoLX0RG0X3OmiDc0HuCj
+         7KZ4m3jn8WyuXNQXfrY5u3jyjf9SOr7/LgK9De/zlAbGj/uXtISdk5csWaHbQ5QHn2/c
+         hI+F65jO8MbKyrsqeDxEBYqWTQy22JTxP8aEXuTjO1jv02iHTMi+CgZDyERz6Nmh2NYX
+         QXNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IvYoX9J0hj/BgkTcmljBRzWS/zZFWQuZUDMhWDmBnts=;
-        b=ewMhkxQN3cf3/rDEOviksmmijYj6oQY6B+rhT3tZ1wUXpUcjk0V4d6MbJV+nGlODES
-         f9Sf3A6+dKNacBnkBGRCvAdwqtxFFi8MY8x13F3Wp/RuNk2GXf5sK6yU/StqI+vIXm7h
-         EEwv66HT0Rkb9xqcI8iurpjOqd3unjt9fJIY4h220mszKrEjtsJJvFGA/0jeni9WHOMm
-         JaQoSXRV+Dpq+xev9R+We7tTdPLNv4SnnhDNpT5z+TUGr1pJTcI0IoOHP5WuMT0bGPX4
-         xlDOo9cBMP8X0aW/VpMFABqLD2zVXK2WRwTydV9ZV4J8MxMRALPgXajCV+UVN4SOix8m
-         4AVA==
-X-Gm-Message-State: AOAM530x/xThp/gsU3xDblIDS6edcB01bauxjVDA8Lh1IRrIgSQE5Rc4
-	FwVgiTCX4VVP3g8bszeWgnYTJ7aug0bsHQ==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ee4jGArwLwsZ9l3F+4sxNmhjLNMgr76SD9srJ9WcYoc=;
+        b=Ck2NCwF4EuqxrdO7iV+Ngf9LzotjYXFD7JDct8hVun8tkGYU7P1rQ0hzlBjF5a4KXf
+         7qWNPkQeC7BTw1NPsbdLpd2nUAjCSC8+6fwoMIyLN5YPJP+GT+S0Ne76n4/g3qwIyyp/
+         QCTPCvU8tJXJgBeMe9qzLD8MNfd2lCJDmyKEgDvwC88CmamPFZVcfJvvdJL7MLpesQ0t
+         l5vE+SGtnayXwroRGlZ7ftB0hXcCbGlHirdQFKjD0zRTAy7LDtx+3lwFhAYbKjmiTpZl
+         rv2H6Tw8q6Mhw8zxk2kKI/bI8muqkD4J5IrnjwGAD5aAv6NGD/acOfpmFten6sG9oFk4
+         3i6Q==
+X-Gm-Message-State: AOAM531B7/C9GlY7BdxmiD79HtAwRdW03ttTD88XxCQy1CkFSjT6EivY
+	853wMuGbISNfxe670zplzhkkLTt9+ML9Z6ss4QZtOg==
 X-Google-Smtp-Source: 
- ABdhPJy2gAYQj7GPFdJevydI9nqhtpdyOk4Dg+rLWO8lDaZl3WeeQIYOOBt+mWgJ9R+ObQmgAJ+CRQ==
-X-Received: by 2002:a2e:5cc8:0:b0:24f:1616:7d67 with SMTP id
- q191-20020a2e5cc8000000b0024f16167d67mr14176027ljb.368.1652197408476;
-        Tue, 10 May 2022 08:43:28 -0700 (PDT)
-Received: from umbar.lan ([37.153.55.125])
-        by smtp.gmail.com with ESMTPSA id
- d14-20020a05651233ce00b0047255d21136sm2325964lfg.101.2022.05.10.08.43.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 May 2022 08:43:28 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Dmitry Baryshkov <dbaryshkov@gmail.com>
-Subject: [PATCH v2] image.bbclass: allow overriding dependency on
- virtual/kernel:do_deploy
-Date: Tue, 10 May 2022 18:43:27 +0300
-Message-Id: <20220510154327.2436624-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ ABdhPJyLUOPviSEDb6XaC75GcRjU6LuaUwXAOTdHFq05VgS+8EMQQXPSBx7YliyT9+6moc8vqxps2g/Jd9f8zGePpdw=
+X-Received: by 2002:a17:907:7f14:b0:6f4:2a57:e1df with SMTP id
+ qf20-20020a1709077f1400b006f42a57e1dfmr20472112ejc.18.1652199393932; Tue, 10
+ May 2022 09:16:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220509062438.12448-1-badganchipv@gmail.com>
+ <21438.1652195156118038664@lists.openembedded.org>
+In-Reply-To: <21438.1652195156118038664@lists.openembedded.org>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Tue, 10 May 2022 06:16:22 -1000
+Message-ID: 
+ <CAOSpxdZ38+0orzUyDtu+TOD9zWSC0d0SwALggH9gqpMSXfrFrA@mail.gmail.com>
+Subject: Re: [OE-core] [meta][dunfell][PATCH] libinput: Add fix for
+ CVE-2022-1215
+To: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 May 2022 15:43:31 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 10 May 2022 16:16:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165463
+ https://lists.openembedded.org/g/openembedded-core/message/165464
 
-From: Dmitry Baryshkov <dbaryshkov@gmail.com>
+On Tue, May 10, 2022 at 5:07 AM Ranjitsinh Rathod
+<ranjitsinhrathod1991@gmail.com> wrote:
 
-Since the commit fe26b2379ecd ("image.bbclass: Depend on
-virtual/kernel:do_deploy"), the image.bbclass made building images
-depend on virtual/kernel. For some images, including small initramfs,
-this is not the case. Allow overriding this dependency in case
-developers knows what they are doing.
+> It seems something is wrong with this patch and also in the patching tool=
+ within Yocto as well.
+>
+> When I apply this patch, it is getting applied cleanly, without any warni=
+ngs and/or patch-fuzz, which means the source code should reflect as per th=
+e patch.
+> But when I go to the source code on the path "build/tmp/work/<architectur=
+e>/libinput/1.15.2-r0/libinput-1.15.2" and see the file "src/evdev.c", it s=
+eems below two Hunk's are not getting reflected.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
+Yikes!  This is quite concerning.
 
-Changes since v1:
- - Use the same variable in both lines
- - Change the var name to KERNEL_DEPLOY_DEPEND as suggested in the
-   revert message.
+I can confirm that these two hunks are not being applied.  I also
+checked the hunks before and after these two and those seem to be
+applied correctly.
 
----
- meta/classes/image.bbclass | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Looking at your CVE patch, it does seem that there is an extra newline
+before these two hunks.  I tried removing the newline, but the 2 hunks
+are still not applied.
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 7f1f6f80a464..c4051961c030 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -132,7 +132,12 @@ def rootfs_variables(d):
- 
- do_rootfs[vardeps] += "${@rootfs_variables(d)}"
- 
--do_build[depends] += "virtual/kernel:do_deploy"
-+# This is needed to have kernel image in DEPLOY_DIR.
-+# This follow many common usecases and user expectations.
-+# But if you are building an image which doesn't need the kernel image at all,
-+# you can unset this variable manually.
-+KERNEL_DEPLOY_DEPEND ?= "virtual/kernel:do_deploy"
-+do_build[depends] += "${KERNEL_DEPLOY_DEPEND}"
- 
- 
- python () {
--- 
-2.30.2
+I then tried deliberately malforming the first of the hunks to see if
+it was just being ignored for some reason.  However, as expected the
+patch process failed at the malformed hunk, so this part of the patch
+is definitely being parsed.
 
+Will keep looking into this, but would appreciate help from any
+experts in the patching process!
+
+Steve
+
+>
+> @@ -2469,7 +2478,7 @@ evdev_device_get_output(struct evdev_device *device=
+)
+>  const char *
+>  evdev_device_get_sysname(struct evdev_device *device)
+>  {
+> - return udev_device_get_sysname(device->udev_device);
+> + return device->sysname;
+>  }
+>
+>  const char *
+> @@ -3066,6 +3075,8 @@ evdev_device_destroy(struct evdev_device *device)
+>   if (device->base.group)
+>   libinput_device_group_unref(device->base.group);
+>
+> + free(device->log_prefix_name);
+> + free(device->sysname);
+>   free(device->output_name);
+>   filter_destroy(device->pointer.filter);
+>   libinput_timer_destroy(&device->scroll.timer);
+>
+> Can you please check this from your end too? If this is the case, there i=
+s a serious issue where patching is failing silently which needs attention.
+>
+> As I have seen the patch in the testing branch "http://cgit.openembedded.=
+org/openembedded-core-contrib/commit/?h=3Dstable/dunfell-nut&id=3D6a31bfaee=
+4d715f31e69cea1eed05484d9d7a999" I considered to post this email as it seem=
+s you also did not get any warnings/error during the patching and even comp=
+ilation.
+>
+> Thanks,
+> Ranjitsinh Rathod
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#165459): https://lists.openembedded.org/g/openembedde=
+d-core/message/165459
+> Mute This Topic: https://lists.openembedded.org/mt/90983830/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
