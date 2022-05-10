@@ -1,220 +1,222 @@
-Return-Path: <jay.shen.teoh@intel.com>
+Return-Path: <ch@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9240C433FE
-	for <webhook@archiver.kernel.org>; Tue, 10 May 2022 04:14:00 +0000 (UTC)
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by mx.groups.io with SMTP id smtpd.web09.5717.1652156039420103544
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10C95C433EF
+	for <webhook@archiver.kernel.org>; Tue, 10 May 2022 07:06:32 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web12.6632.1652166384396478545
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 May 2022 21:13:59 -0700
+ Tue, 10 May 2022 00:06:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=R/uwq+0k;
- spf=pass (domain: intel.com, ip: 192.55.52.151,
- mailfrom: jay.shen.teoh@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652156039; x=1683692039;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=L5Y5qziyPm0r7Ls2IVR9INd3oX+zm16dHEsm2cbOuHs=;
-  b=R/uwq+0k+uPtxCWkkuINuZOm5pcN13rtxS1jmGIoDgBfYcCIWoL2Drvo
-   YUmIYTi2phe0bCu3YMckpJVuTS3D3tBDS4x6x/uGL7+z4j8Tow0zcJl+3
-   ObvPpHmJYUOFLNrdr50J3nZLWRZDpMo6xdDxDRkQcjUe9oeXSWCpg4eLS
-   vX6JpkzdfBZGcyMKe2ZNEaV9JTjidL3NoAC4VWrqOFUdsEXoQV7kMuK1d
-   WZbaMjhB2UwNOyrwxq9xPPGGgbtI65pLtncUnfSCYHnASQ6oL3QTnN7IJ
-   BntBWmYPfbnJ7QrZV7Tz1+Zw8kleKt2BjF7Q2YDk2nHyFG2s4npXxkQZi
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="249785758"
-X-IronPort-AV: E=Sophos;i="5.91,213,1647327600";
-   d="scan'208";a="249785758"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2022 21:13:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,213,1647327600";
-   d="scan'208";a="593258818"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
-  by orsmga008.jf.intel.com with ESMTP; 09 May 2022 21:13:58 -0700
-Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 9 May 2022 21:13:58 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Mon, 9 May 2022 21:13:58 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.173)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Mon, 9 May 2022 21:13:57 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=euu6bmkIcd/+OgZVNPRkP0CQTaB3UGdYiQpQhUUyRrtAOhJktunkXJCjNSigsh9L8zTbFrL2oJm1UeA77ECG1+/0ZG3LOkKrb1TkpjNlYekuxU0Ig7vn3orTBc/qiEDSIIr4kJJEa2PRJeAm75dlnQ7U/zdWBJvCcgYKGeHNWpSC3gaoCYPuHuAa5Beq6o3AtL3dXqLaLY/PZ4qZ2MAgXD5nPyajZIHq3wEX+c815bF3sS29CyWwy6egsndSWdnF5jCxvEpM2SZDV8cAdQ/Mm7ulferKpmGBclwLOWnq5+NdkQ+VO/vxhbjISedlPqjb+PnJ7LE4D6oy6Uy/JI2YsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N7vqc6zJ9o9J3cEiCg4ILhsSmNlsmsefHjMzMOEK4sA=;
- b=S5aB9hOoENNADZ4b4ESPDIkKMnXki1YM+2bdvZLtmY7s6fPdt9141w1/SkpxiypiETHm5Wu2aAfjUM8KuwG8mrkv6dqcDyYjsH5twVnQa8g8Wcyw2rAmUjVsmwyUnqlYxbWp746DUgHrOV2uGur4p3lRnDVWK/AD8o9SnEv8e7qboe9+cWjr/d4LIAZFWt+o62Lu9uSefrbAaQZT3Ybfr0yaVJvM7EXo0zn3kBY+KSrHnHO2KUozBG0MqPoSlbc9mK8RmkSebSPlpt1hY8dBEzZ828XOjsEGs4q2Ik1FX3E8r/E5KZiP94On8w07uf8zLmNsWCVjDy7g4Qmo/1saGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM5PR1101MB2348.namprd11.prod.outlook.com (2603:10b6:3:a8::16)
- by BL1PR11MB5352.namprd11.prod.outlook.com (2603:10b6:208:311::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.20; Tue, 10 May
- 2022 04:13:56 +0000
-Received: from DM5PR1101MB2348.namprd11.prod.outlook.com
- ([fe80::c8d8:e76d:b1a5:f26d]) by DM5PR1101MB2348.namprd11.prod.outlook.com
- ([fe80::c8d8:e76d:b1a5:f26d%11]) with mapi id 15.20.5227.023; Tue, 10 May
- 2022 04:13:56 +0000
-From: "Teoh, Jay Shen" <jay.shen.teoh@intel.com>
-To: Pokybuild User <pokybuild@yoctoproject.org>,
-	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>, OE-core
-	<openembedded-core@lists.openembedded.org>
-CC: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>
-Subject: RE: [yocto] QA notification for completed autobuilder build
- (yocto-3.4.4.rc1)
-Thread-Topic: [yocto] QA notification for completed autobuilder build
- (yocto-3.4.4.rc1)
-Thread-Index: AQHYX18zt7Y0tlm8VEuJFd6fXX7uGK0XiceA
-Date: Tue, 10 May 2022 04:13:56 +0000
-Message-ID: 
- <DM5PR1101MB234831B19074FF796016A2EFBBC99@DM5PR1101MB2348.namprd11.prod.outlook.com>
-References: 
- <010101808ce91651-962b6832-98c0-412d-b766-0b6f9cfbf3e0-000000@us-west-2.amazonses.com>
-In-Reply-To: 
- <010101808ce91651-962b6832-98c0-412d-b766-0b6f9cfbf3e0-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.6.401.20
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2726028b-0aad-48d6-69e1-08da323b8060
-x-ms-traffictypediagnostic: BL1PR11MB5352:EE_
-x-microsoft-antispam-prvs: 
- <BL1PR11MB5352168D663DB7D3F65ABDE5BBC99@BL1PR11MB5352.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- uNqseUHkJ0F7hrxQU2mHSGXLswlOJJhtykBQ+RR0wc2ev0AABer+OJFBt6V6GYETiYDxJ4i9Z0mdBMB3UeJ52BvC6wz5ZcGi+1EHMa2KjMWMvWfAdbwF0Ooee4k4s05inSbODvHt6RTUaHM0OVOIQqzwVDm6rFj+r6hMD2O2UPLgipE+bwIOd/bTUC3reMz2ChpjLAKsNAjOLmocSbQf/MhUMtxUQtLr9CtzJ4NS/GI7Pmak7uZzZpQC6bSAyYF0tHNGbx22At1hyTodwkaKLN/C+RrgTYemmwBu5d9SvEoZuvy8dkF/N3vN6pJ2EHIdUUtk5zftQ8cdvzCeQR1zrM9N2ZBaYzFSAsKlkKykRYB2JRtjwPNTlbe8By8ruZ8jcU9aFFs29CDt2Ixig7EmCMEPFp2tNQab5XSMiyyKWtmZoMHyVVl1coDqzLECOadcELd9TVK+yIbziiwquetpQsnThoQOLUm3w7BeGFaFZ9cNCWvFhrKglVOzjwvVbB5K0WGriqPx+Ijrs39BzHY7qHJsLDl3f+yYqj9hAfYHeLGexn4qbVRp2HhRgxz5rfJXuD8Hztm/nFoiK1XKVrHiyR31rEZvZ2Nta5MI7Jq5CpIFzk/Sx2MsZGrPjHFdktFwEy3WlPiW8OOfPZcJRuCPaAhn8swxAp84OF3um30hguyG5HoN/loBE74ZozscUaCwO3dHn0u5znCmJUxbawOqx2cMXDS71KRoZqaEE7cX3BnxyRme7aGwEtCDv/Mru2evCH40ORRRqy6yWO+8+/eG99RdHLOSNQIYX2Ym299r/ad57H3deL71stqPnkIC6vzX0tIIESewV0oE9PkSpO+ZHA==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR1101MB2348.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(71200400001)(66446008)(64756008)(6506007)(2906002)(76116006)(9686003)(8676002)(7696005)(4326008)(5660300002)(33656002)(86362001)(66556008)(66476007)(53546011)(55236004)(26005)(66946007)(966005)(508600001)(52536014)(55016003)(15650500001)(38100700002)(38070700005)(122000001)(110136005)(316002)(82960400001)(186003)(83380400001)(8936002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?fb9XxN9Gf5hWRTeLZx85zuCK2JE5uZvy5PWWuzOyrieJO2fXWFfL5hRHMINb?=
- =?us-ascii?Q?XHweF/jAcP7N9poe3Ua2Wy3BkG9IVOvDaOM4u4LXyeFlFT/0vD+CQV27Zgri?=
- =?us-ascii?Q?MMsIYhQiSaJp/CG2oIR6FpNdGotN3oz2FbUNxUhnte8QrPR63TTd0Bz39cRO?=
- =?us-ascii?Q?yb0YDxwwOwixFuAtJ1AvJgzd9OIOFcoSrrisLPuGY32ZlEOgtChnRoJNdJlM?=
- =?us-ascii?Q?3SMiNl43j6FMmQVobXrlzDRWAUsSLUY8LIG/2TcImurCcXTtrF/g1viOZ+Ke?=
- =?us-ascii?Q?bzE/PUoW+ekThsbQLSh1DMwEkh9iwjH5YFZgtgYwQtOzurUfbKZmK+yOTHXv?=
- =?us-ascii?Q?YMA2NuwxuVpsY+MPnKHYs8pAd/4WzDL60G0vPfGChz8K+SaS9EUQhPnixfiM?=
- =?us-ascii?Q?Ut/tKEmsPnpeLpK53rxdvgwP0Km2lX1w0sV7ZaAM2u7UDtY6LuAkWZI/4CZs?=
- =?us-ascii?Q?2kLn85UVLWoD2D6j6pDyiv79BJmXXcdQ/DLp9OKmc2xmsS0piYL12Kko47ph?=
- =?us-ascii?Q?krDuV0im8xZNS/NZTh69gSwQjZhsz8Rr+QfCsG8zqF8M6Ex12wHRCZxa4+o4?=
- =?us-ascii?Q?ckn6i8sF2XtxE9LW3l5n3h48WupSP0ksKgkCbKakyp03D46kFsom+9E2+DNx?=
- =?us-ascii?Q?4ZMf0u70LIq5xq3tPhdgvxNEzvMqos9F50f1OxWv3PSMfEcK6JBTgufEVOan?=
- =?us-ascii?Q?ZaRXc6nEI9kNGhndX1BwCBGK+m/gcHfZb7GEqcGsrYjBtK6wThr57nN2Fpdz?=
- =?us-ascii?Q?c1p6qBsqpLexWFqdcqQN+npR1ku0IQgN6F5E+5XLhuG5U8CYOpD8sB40HE7D?=
- =?us-ascii?Q?rrOR9p3ybc5szmZao22nXT100dI2nwq6FIV6PLHVb5UP+kQYQXTUrJOIP4xA?=
- =?us-ascii?Q?GU9y2hrUkGf2tyEs/UHkKLZ/X/bHw06wrHFuff91c+OkMIVy6ssAvCWydiPo?=
- =?us-ascii?Q?/yJ15wMz5uh82KW8hWqI5UW4CDEpg5JfB8N6tFuCMA7CtW2XxKIxIUKQx9PL?=
- =?us-ascii?Q?Fi2OTdlcjG3RGiGLYkT4r3jlQZZhs/zGn4zOBHFSLKCkB2smLg+jR3F6xLMu?=
- =?us-ascii?Q?G2ffIiJonDGXoNivaxQ7zw4D7I5nff6sYZVeZjUArSdiOhH/oMb6TXRCVJnE?=
- =?us-ascii?Q?XiE6iQb0aDXaKzGHo2PsoMOI6WTxLk0ZN+ng3D0bbEOSHRCYbS65FQ6lSEFt?=
- =?us-ascii?Q?Qe2G98wFBUCu23X79sIzNor9qWcxGDe17o/SPkgO4r8ihg6dZDCquQG6wcU+?=
- =?us-ascii?Q?B9c7wZKkYbQ04XKJJv/O0/DhRdPGO03TKtzAfHSL4Ljc+h+3WqFF6fXXEkkm?=
- =?us-ascii?Q?DMzwbiHrytjYDgBjdBL7pt0vorNyfrG2LUrQ39rNkRpz2h6UaEvN6MowEJws?=
- =?us-ascii?Q?2mBTGmnUBIMRCtnbhQf6F561eMtBqiYkQU1ZnCHHGIpx1kBhERO9rLSmpo/N?=
- =?us-ascii?Q?/mvgxdC/2wdwsLilurlwHrU1747J9HTADw4LoYLaOD0u5JjQNoNXZUUVTxFD?=
- =?us-ascii?Q?JBNaJHh8EOb0+GTyhZR/zkIzyxfk7mbp9qV1qqMG7csWZe72hb58eVzZYEsG?=
- =?us-ascii?Q?AowgqJ6LXbmOhGOTTgJPaYas6DohMi1QxrVNEKr9sF2Gl8G3D1gskZqxr/mX?=
- =?us-ascii?Q?K3KUGOUpnA7mCNLhxNbSNirn25zMtRlzbANaO1RsSJH5n6eeKQM6HOlYiEUN?=
- =?us-ascii?Q?NDvt8T3Hr5TeUsVplDag+zRTRcv8UGkXiXar4cEpLiD8+udbIRVMZpyn1J5r?=
- =?us-ascii?Q?XmP7xiQuhQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=fail reason="body hash did not verify" header.i=@denx.de
+ header.s=phobos-20191101 header.b=cR2H2u8I;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: ch@denx.de)
+Received: from [10.88.0.104]
+ (dslb-092-072-083-181.092.072.pools.vodafone-ip.de [92.72.83.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: ch@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 607FA83EC8;
+	Tue, 10 May 2022 09:06:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1652166381;
+	bh=n3dMgGYxINGtGcmN7IrLR4y6/Rm5iKf+GY3zof+qzX8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=cR2H2u8ImDJw2XacDe5VYA7IHys/69OTttS2iuZ7tw54apGlqbYwUVWE95fkwlUfP
+	 m/L/PCPZ8ECRzqMdvfbd7CpIF17Z3t0pjEEjuQa7vxbf4nn5KO+tBMmgUKB+ZBKoPi
+	 yhK990ZLL+eYZ30+4DuoSfJLWJXNhezvrSAQfruTrbwBNyfuhLqDQWmJ7C+eN2do+Y
+	 mYUw6GDXSMmAnMx26ClX94IfKdQ+i9A8Vsbw2p5CKi3xqrmIhErqesXDUkwvk5Sol+
+	 +UHfqgKbjBkrlxh/UFkh6wb7IMrz5c1acpTr418SooZWXSJupex7uWjGyGUC+w+WEN
+	 PNFJBzRNdA7tw==
+Message-ID: <b6e0493e-e21c-86e4-4f4b-e7398a0f7632@denx.de>
+Date: Tue, 10 May 2022 09:06:20 +0200
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: 
- DM5PR1101MB2348.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 2726028b-0aad-48d6-69e1-08da323b8060
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 May 2022 04:13:56.4139
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 
- AuxGs7zMMySJb/qDV8VCPt5xqJbiIFOk2WM+zHswxFnFMC2P5weN47Y7Csq7XLVzhJ2aMcsSQPlUWtn2gzRQrQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5352
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v3] classes: rootfs-postcommands: add skip option to
+ overlayfs_qa_check
+Content-Language: en-US
+To: Vyacheslav Yurkov <uvv.mail@gmail.com>,
+ openembedded-core@lists.openembedded.org
+Cc: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+References: <20220503082231.1971123-1-ch@denx.de>
+ <56080543-500f-0595-f254-9c24c6a1eff5@gmail.com>
+From: Claudius Heine <ch@denx.de>
+Organization: Denx Software Engineering
+In-Reply-To: <56080543-500f-0595-f254-9c24c6a1eff5@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 May 2022 04:14:00 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 10 May 2022 07:06:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165409
+ https://lists.openembedded.org/g/openembedded-core/message/165410
 
-Hi Everyone,
+On 2022-05-09 07:02, Vyacheslav Yurkov wrote:
+> On 03.05.2022 10:22, Claudius Heine wrote:
+>> The overlayfs_qa_check checks if the current root file system has a
+>> mount configured for each overlayfs, when the overlayfs class is used.
+>>
+>> However there are certain instances where this mount point is created =
+at
+>> runtime and not static in a fstab entry or systemd mount unit.
+>>
+>> One such case would be if overlayfs-etc is used, where the device is
+>> mounted in the preinit script and not via a mount unit or fstab entry.
+>>
+>> However there are other possibilities for this as well, like startup
+>> scripts that support a dynamic partition layout. For instance when
+>> systemd-repart is used.
+>>
+>> This adds the `OVERLAYFS_QA_SKIP` variable, which allows to define QA
+>> skips via its flags. In principle it supports multiple QA skip flags
+>> separated by whitespace, but only one (`mount-configured`) is
+>> implemented here. To skip this QA check simply add `mount-configured` =
+to
+>> the flag of `OVERLAYFS_QA_SKIP` with the same name. For instance if a
+>> overlayfs is configured as:
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0OVERLAYFS_MOUNT_POINT[data] =3D "/data"
+>>
+>> Skipping this QA check can be done by setting:
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0OVERLAYFS_QA_SKIP[data] =3D "mount-configured"
+>>
+>> Also add a testcase and fix a typo (fstat -> fstab).
+>>
+>> Signed-off-by: Claudius Heine <ch@denx.de>
+>> ---
+>>
+>> Changes from v2:
+>> - Fix typo 'fstat' -> 'fstab' in testcase
+>> - Add testcase for successful build when QA check is skipped.
+>>
+>> Changes from v1:
+>> - `getVarFag` -> `getVarFlag`
+>>
+>> ---
+>> =C2=A0 meta/classes/rootfs-postcommands.bbclass=C2=A0 | 10 ++++++++--
+>> =C2=A0 meta/lib/oeqa/selftest/cases/overlayfs.py | 20 ++++++++++++++++=
++++-
+>> =C2=A0 2 files changed, 27 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/classes/rootfs-postcommands.bbclass=20
+>> b/meta/classes/rootfs-postcommands.bbclass
+>> index 7b92df69c5..9b6824043c 100644
+>> --- a/meta/classes/rootfs-postcommands.bbclass
+>> +++ b/meta/classes/rootfs-postcommands.bbclass
+>> @@ -398,6 +398,10 @@ python overlayfs_qa_check() {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 allUnitExist =3D True;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for mountPoint in overlayMountPoints:
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qaSkip =3D (d.getVarFlag("=
+OVERLAYFS_QA_SKIP", mountPoint) or=20
+>> "").split()
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if "mount-configured" in q=
+aSkip:
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 co=
+ntinue
+>> +
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mountPath =3D d=
+.getVarFlag('OVERLAYFS_MOUNT_POINT', mountPoint)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if mountPath in=
+ fstabDevices:
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 continue
+>> @@ -407,8 +411,10 @@ python overlayfs_qa_check() {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 for dirpath in searchpaths):
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 continue
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.warn('Mount path %s not=
+ found in fstat and unit %s not=20
+>> found '
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 'in systemd unit directories' % (mountPath, mountUn=
+it))
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.warn(f'Mount path {moun=
+tPath} not found in fstab and unit '
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 f'{mountUnit} not found in systemd unit directories=
+.')
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.warn(f'Skip this check =
+by setting=20
+>> OVERLAYFS_QA_SKIP[{mountPoint}] =3D '
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 '"mount-configured"')
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 allUnitExist =3D=
+ False;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if not allUnitExist:
+>> diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py=20
+>> b/meta/lib/oeqa/selftest/cases/overlayfs.py
+>> index 472746a64f..ce1d2f1ec3 100644
+>> --- a/meta/lib/oeqa/selftest/cases/overlayfs.py
+>> +++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
+>> @@ -62,11 +62,29 @@ DISTRO_FEATURES +=3D "systemd overlayfs"
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.add_overla=
+y_conf_to_machine()
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 res =3D bitbake=
+('core-image-minimal', ignore_status=3DTrue)
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 line =3D getline(res, " Mo=
+unt path /mnt/overlay not found in=20
+>> fstat and unit mnt-overlay.mount not found in systemd unit directories=
+")
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 line =3D getline(res, " Mo=
+unt path /mnt/overlay not found in=20
+>> fstab and unit mnt-overlay.mount not found in systemd unit directories=
+")
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.assertTrue=
+(line and line.startswith("WARNING:"),=20
+>> msg=3Dres.output)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 line =3D getlin=
+e(res, "Not all mount paths and units are=20
+>> installed in the image")
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.assertTrue=
+(line and line.startswith("ERROR:"),=20
+>> msg=3Dres.output)
+>> +=C2=A0=C2=A0=C2=A0 def test_not_all_units_installed_but_qa_skipped(se=
+lf):
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Summary:=C2=A0=C2=A0 Test =
+skipping the QA check
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Expected:=C2=A0 Image is c=
+reated successfully
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Author:=C2=A0=C2=A0=C2=A0 =
+Claudius Heine <ch@denx.de>
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 config =3D """
+>> +IMAGE_INSTALL:append =3D " overlayfs-user"
+>> +DISTRO_FEATURES +=3D "systemd overlayfs"
+>> +OVERLAYFS_QA_SKIP[mnt-overlay] =3D "mount-configured"
+>> +"""
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.write_config(config)
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.add_overlay_conf_to_m=
+achine()
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bitbake('core-image-minima=
+l')
+>> +
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 def test_mount_unit_not_set(self):
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Summary:=C2=A0=C2=
+=A0 Test whether mount unit was set properly
+> Hi Claudius,
+> Thanks a lot for the patch
+>=20
+> Could you please also extend the header of overlayfs.bbclass to describ=
+e=20
+> the use case? I will update the documentation accordingly after that.
 
-This is the full report for yocto-3.4.4.rc1: =20
-https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
-h=3Dintel-yocto-testresults
+Hi Vyacheslav,
 
-=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
-No high milestone defects.
+sure. I will try to work that in.
 
-No new issue found.
-
-Thanks,
-Jay
-
-> -----Original Message-----
-> From: yocto@lists.yoctoproject.org <yocto@lists.yoctoproject.org> On Beha=
-lf
-> Of Pokybuild User
-> Sent: Wednesday, 4 May, 2022 10:32 AM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [yocto] QA notification for completed autobuilder build (yocto-
-> 3.4.4.rc1)
->=20
->=20
-> A build flagged for QA (yocto-3.4.4.rc1) was completed on the autobuilder
-> and is available at:
->=20
->=20
->     https://autobuilder.yocto.io/pub/releases/yocto-3.4.4.rc1
->=20
->=20
-> Build hash information:
->=20
-> bitbake: c2d8f9b2137bd4a98eb0f51519493131773e7517
-> meta-agl: 8543843eeb47fa9b45786d3e09bf497fcd5f95e0
-> meta-arm: 2623e69db362b357db45c343e6d504909552c2d5
-> meta-aws: c92344938ab4d37de8bd8b799186dbbe3019a069
-> meta-gplv2: f04e4369bf9dd3385165281b9fa2ed1043b0e400
-> meta-intel: daf5c125a744d45d8fa395b576147edd5a714f5c
-> meta-mingw: f5d761cbd5c957e4405c5d40b0c236d263c916a8
-> meta-openembedded: 9a0caf5b09e14a28a54c3f8524d97530aeb8152c
-> meta-virtualization: bd7511c53b921c9ce4ba2fdb42778ca194ebc3e8
-> oecore: 1a6f5e27249afb6fb4d47c523b62b5dd2482a69d
-> poky: 780eeec8851950ee6ac07a2a398ba937206bd2e4
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
+regards,
+Claudius
 
