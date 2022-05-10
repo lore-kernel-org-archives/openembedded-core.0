@@ -2,202 +2,119 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52A3BC433EF
-	for <webhook@archiver.kernel.org>; Tue, 10 May 2022 14:37:35 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web08.10720.1652193453519451649
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30AF6C433F5
+	for <webhook@archiver.kernel.org>; Tue, 10 May 2022 14:37:45 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web08.10723.1652193461434910399
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 May 2022 07:37:33 -0700
+ Tue, 10 May 2022 07:37:41 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=7vAAEp6g;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44,
+ header.b=J3XJc1Xs;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id e24so16054192pjt.2
+Received: by mail-pf1-f179.google.com with SMTP id p12so15132634pfn.0
         for <openembedded-core@lists.openembedded.org>;
- Tue, 10 May 2022 07:37:33 -0700 (PDT)
+ Tue, 10 May 2022 07:37:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=DLxHzmy8mosGOBN08UI5n04hAXXUBOuptYYOBnJMKXM=;
-        b=7vAAEp6gdW2JdpFw7JbWSJKxsWoBZVOoJfl0Svm82TLpUjeVdcRJtCpwkZ2wzALMD/
-         W90d1P2MDR9GvkRxnKHWT1smQJ4jg0lMw2t8OlgutbLXke0/482ygz0WYTh0avqYm+5g
-         by/UmvTLqLGq0w11dKUBQLIAA3pL0WpEXqeLMCGmiiN5Sp2K32nRt51YLBHpyIGx++VF
-         8xYnrPvUxTuBj+NyD8tFhCc+PdOyPEZoH6QciDGE43ThEzDTAAuLO1EMPECgjJaBYf2w
-         e++SKmy42RVEuoy2BfbsKpicRC6/Dcfj1LoawCa8iNEreAJfGr3pI68VuY5HoLtJZEiG
-         WaZA==
+        bh=w+OLhAVmZSh0QCKL+2po3lcJTnFT1nGbga6G9AsnaQA=;
+        b=J3XJc1XsHFgLHiXPxKowfWJ7vSBpTqrnWyS7mQ9T7qdzvtV2Wwf8QyvnkGY2oF3IAn
+         IgrW0L6Va9KGy2fi9YN+ErcuocRld6MwbioAxJEC6M5uexcpyBKbQanqEFUcMkBL1Ky4
+         1z7PVTimplH+Na5bYBD7McxmuPYgv+7iH9739HKUUs50V39GfTQaxdKH2ZaEmZon9ax0
+         LCFlzRx3Z27JX7IC6iqKTSuk+olAwXMpwtGmxXWwUw3aRwgxVifHJj/SFO9+XfzJ2y1a
+         rXqThUvspTqe2aQhD8IPWbXcswdVf2kt05oktwPm7/jZg+AItUUh79KFgyjzXgSkJNJs
+         swRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DLxHzmy8mosGOBN08UI5n04hAXXUBOuptYYOBnJMKXM=;
-        b=M+fgkdgVyX3aYiS/8QY0pE+IlhL8e4LJdqjJ80SOoRoepuFJuQeyVJn/gadm9xpWIx
-         VeXo7oN0Sw+GeTMs1FVTXF4ZT5Q8OWdhsJWHLnin/kjs7xizxatCTY9n50FrcBzkQ4xD
-         FO1IV9wDNEuF0QiZXlGX5FbR9bUS2Euv5+BtnREPjWyW+ZVhacstChUelSJzOXqdr0ey
-         vyqaaF/cQN7EM/qxR2L6cZpweH2fVO3SaKS0SSKTol/2ILgoFU+Y53jD2fwuUydpqp3b
-         zMH8x+h+iNUkhbx/qayVVzKyAnApYKABc7QwquSUpxKm0M3mzlyeSNKZ3LNQwvE/bIEX
-         R69w==
-X-Gm-Message-State: AOAM533CIBhNlel4QZkUKGZSdbiEU9tWn5W151hsfgazGndkiqIH1/Nq
-	3Pp2XR+l7A0JIC3Rr+9Mh4eNoUX4YeA4TVxO
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=w+OLhAVmZSh0QCKL+2po3lcJTnFT1nGbga6G9AsnaQA=;
+        b=GBEOyc++hYFL8GckVPDpIa8ww0j48ds65dcxMivxIoXGMCbZ27dWZ36rwUOxIPjAeB
+         SO3WCnOFJe34KRAl6eeKr28c+8rNyCawUZNU8r6XkZ0vTOLMrMrRRTvnNcjX5lG/Z7Kj
+         dW8EboZcWqfpAi4gXF74i770JbKKWMi+iSI70bc4w9GMpHccxHsE7iOqzAoVMBWvGrvi
+         se/lnV1mROX5qkBV2MiSrQq77pXOMEzL5eGhah3rokXmhBfkxyWPnO4U9gqXMEurIapj
+         +V8sGkFOroIhu70njA6RAzgEWMZuKa5nEKsXtvPnI9rVSQ3+f8e5Bg9u/qdvLI3zCx86
+         BkqQ==
+X-Gm-Message-State: AOAM53344r5dg2bnqVlTr27GMakcYp3qjkHzN4xE8LoJdRMazeXsIJf9
+	hYdFo8IdmKxE3cip2sSwpd4dQlzrWoJ4RzsN
 X-Google-Smtp-Source: 
- ABdhPJzfvsfPBYrTuwEl7nD0tGjQ2eIbJy9CbU+ARQd6pibKQmvUFnRpuNgCPXeA5QlphNX3pDegaw==
-X-Received: by 2002:a17:90a:a384:b0:1dc:a407:b5ac with SMTP id
- x4-20020a17090aa38400b001dca407b5acmr303508pjp.11.1652193451994;
-        Tue, 10 May 2022 07:37:31 -0700 (PDT)
+ ABdhPJxmx8PTvPnJsFRq7MKRbqWfFVBP8uMNBXdyUbToYkCyv5kTNt5KV7ZonDleMzFlcOfv+mejjQ==
+X-Received: by 2002:aa7:888c:0:b0:505:7832:98fc with SMTP id
+ z12-20020aa7888c000000b00505783298fcmr20414641pfe.0.1652193460202;
+        Tue, 10 May 2022 07:37:40 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- fv18-20020a17090b0e9200b001cd4989feb7sm1973161pjb.3.2022.05.10.07.37.30
+ fv18-20020a17090b0e9200b001cd4989feb7sm1973161pjb.3.2022.05.10.07.37.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 May 2022 07:37:30 -0700 (PDT)
+        Tue, 10 May 2022 07:37:39 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/40] Patch review
-Date: Tue, 10 May 2022 04:36:39 -1000
-Message-Id: <cover.1652192957.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 01/40] openssl: extract legacy provider module to
+ a separate package
+Date: Tue, 10 May 2022 04:36:40 -1000
+Message-Id: 
+ <f44368f58645715f210b46ca3f747d064b872b20.1652192957.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1652192957.git.steve@sakoman.com>
+References: <cover.1652192957.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 May 2022 14:37:35 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 10 May 2022 14:37:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165417
+ https://lists.openembedded.org/g/openembedded-core/message/165418
 
-Please review this set of patches for kirkstone and have comments back by
-end of day Thursday.
+From: Peter Marko <peter.marko@siemens.com>
 
-Passed a-full on autobuilder:
+This module contains legacy cipher suites from libcrypto.
+We should not need to include base package because we want
+  to use this part of libcrypto.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3642
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 1537ebc3f6ae2aec9a3864b03704ab4dbc0e971b)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-connectivity/openssl/openssl_3.0.2.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-except for a known intermittent issue on the qemumips-alt test, which
-passed on subsequent retest:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/102/builds/3028
-
-The following changes since commit 87d7383989a1ef6deaeff85739e622d8175ae9b6:
-
-  libxml2: update patch status (2022-04-29 05:27:54 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Bruce Ashfield (16):
-  linux-yocto/5.10: update to v5.10.110
-  linux-yocto/5.10: base: enable kernel crypto userspace API
-  linux-yocto/5.10: update to v5.10.112
-  linux-yocto/5.15: arm: poky-tiny cleanup and fixes
-  linux-yocto/5.15: update to v5.15.33
-  linux-yocto/5.15: base: enable kernel crypto userspace API
-  linux-yocto/5.15: kasan: fix BUG: sleeping function called from
-    invalid context
-  linux-yocto/5.15: fix ppc boot
-  linux-yocto/5.15: netfilter: conntrack: avoid useless indirection
-    during conntrack destruction
-  linux-yocto/5.15: update to v5.15.35
-  linux-yocto/5.15: Fix CVE-2022-28796
-  linux-yocto: enable powerpc debug fragment
-  linux-yocto/5.15: fix -standard kernel build issue
-  linux-yocto/5.15: update to v5.15.36
-  linux-yocto/5.15: fix qemuarm graphical boot
-  strace: fix ptest failure in landlock
-
-Chen Qi (1):
-  go-helloworld: remove unused GO_WORKDIR
-
-Davide Gardenal (3):
-  cve-check: add JSON format to summary output
-  cve-check: fix symlinks where link and output path are equal
-  rootfs-postcommands: fix symlinks where link and output path are equal
-
-Jon Mason (1):
-  poky-tiny: enable qemuarmv5/qemuarm64 and cleanups
-
-Justin Bronder (1):
-  pulseaudio: conditionally depend on alsa-plugins-pulseaudio-conf
-
-Khem Raj (3):
-  kmod: Enable xz support by default
-  qemu: Add packageconfig for libbpf support
-  linux-yocto: Enable powerpc-debug fragment for ppc64 LE
-
-Marta Rybczynska (2):
-  cve-update-db-native: update the CVE database once a day only
-  cve-update-db-native: let the user to drive the update interval
-
-Peter Marko (1):
-  openssl: extract legacy provider module to a separate package
-
-Portia (1):
-  volatile-binds: Change DefaultDependencies from false to no
-
-Richard Purdie (6):
-  lib/sstatesig: Fix find_siginfo to match sstate filename generation
-  base: Avoid circular references to our own scripts
-  scripts: Make git intercept global
-  scripts/git: Ensure we don't have circular references
-  package: Ensure we track whether PRSERV was active or not
-  abi_version/sstate: Bump hashequiv and sstate versions due to git
-    changes
-
-Robert Joslyn (1):
-  powerpc: Remove invalid GLIBC_EXTRA_OECONF
-
-Ross Burton (3):
-  cve-check: no need to depend on the fetch task
-  oeqa/selftest: add test for git working correctly inside pseudo
-  Revert "bitbake.conf: mark all directories as safe for git to read"
-
-Steve Sakoman (1):
-  scripts/contrib/oe-build-perf-report-email.py: remove obsolete check
-    for phantomjs and optipng
-
- .../git-submodule-test/git-submodule-test.bb  | 15 ++++
- meta/classes/base.bbclass                     |  4 ++
- meta/classes/cve-check.bbclass                | 72 ++++++++++++-------
- meta/classes/package.bbclass                  |  3 +
- meta/classes/rootfs-postcommands.bbclass      | 14 ++--
- meta/classes/sstate.bbclass                   |  2 +-
- meta/conf/abi_version.conf                    |  2 +-
- meta/conf/bitbake.conf                        |  8 ---
- .../machine/include/powerpc/tune-ppc603e.inc  |  3 -
- .../machine/include/powerpc/tune-ppc7400.inc  |  3 -
- .../include/powerpc/tune-ppce300c3.inc        |  3 -
- .../include/powerpc/tune-ppce500mc.inc        |  3 -
- .../machine/include/powerpc/tune-ppce5500.inc |  3 -
- .../machine/include/powerpc/tune-ppce6500.inc |  4 --
- meta/lib/oe/sstatesig.py                      |  4 +-
- meta/lib/oeqa/selftest/cases/git.py           | 15 ++++
- .../openssl/openssl_3.0.2.bb                  |  5 +-
- .../recipes-core/meta/cve-update-db-native.bb | 12 +++-
- .../files/volatile-binds.service.in           |  2 +-
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- ...0001-landlock-update-expected-string.patch | 67 +++++++++++++++++
- meta/recipes-devtools/strace/strace_5.16.bb   |  1 +
- .../go-examples/go-helloworld_0.1.bb          |  2 +-
- meta/recipes-kernel/kmod/kmod_29.bb           |  2 +-
- .../linux/linux-yocto-rt_5.10.bb              |  6 +-
- .../linux/linux-yocto-rt_5.15.bb              |  6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |  8 +--
- .../linux/linux-yocto-tiny_5.15.bb            | 10 ++-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb | 27 +++----
- meta/recipes-kernel/linux/linux-yocto_5.15.bb | 29 ++++----
- .../pulseaudio/pulseaudio.inc                 |  2 +-
- scripts/contrib/oe-build-perf-report-email.py | 13 ----
- scripts/{git-intercept => }/git               |  9 ++-
- 33 files changed, 233 insertions(+), 127 deletions(-)
- create mode 100644 meta/lib/oeqa/selftest/cases/git.py
- create mode 100644 meta/recipes-devtools/strace/strace/0001-landlock-update-expected-string.patch
- rename scripts/{git-intercept => }/git (52%)
-
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.2.bb b/meta/recipes-connectivity/openssl/openssl_3.0.2.bb
+index ff2a22c6c3..a809666aa7 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.0.2.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.0.2.bb
+@@ -224,7 +224,7 @@ do_install_ptest () {
+ # file to be installed for both the openssl-bin package and the libcrypto
+ # package since the openssl-bin package depends on the libcrypto package.
+ 
+-PACKAGES =+ "libcrypto libssl openssl-conf ${PN}-engines ${PN}-misc"
++PACKAGES =+ "libcrypto libssl openssl-conf ${PN}-engines ${PN}-misc ${PN}-ossl-module-legacy"
+ 
+ FILES:libcrypto = "${libdir}/libcrypto${SOLIBS}"
+ FILES:libssl = "${libdir}/libssl${SOLIBS}"
+@@ -235,12 +235,13 @@ FILES:${PN}-engines = "${libdir}/engines-3"
+ # ${prefix} comes from what we pass into --prefix at configure time (which is used for INSTALLTOP)
+ FILES:${PN}-engines:append:mingw32:class-nativesdk = " ${prefix}${libdir}/engines-3"
+ FILES:${PN}-misc = "${libdir}/ssl-3/misc ${bindir}/c_rehash"
++FILES:${PN}-ossl-module-legacy = "${libdir}/ossl-modules/legacy.so"
+ FILES:${PN} =+ "${libdir}/ssl-3/* ${libdir}/ossl-modules/"
+ FILES:${PN}:append:class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
+ 
+ CONFFILES:openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
+ 
+-RRECOMMENDS:libcrypto += "openssl-conf"
++RRECOMMENDS:libcrypto += "openssl-conf ${PN}-ossl-module-legacy"
+ RDEPENDS:${PN}-misc = "perl"
+ RDEPENDS:${PN}-ptest += "openssl-bin perl perl-modules bash sed"
+ 
 -- 
 2.25.1
 
