@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60CE0C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A34DC4332F
 	for <webhook@archiver.kernel.org>; Tue, 10 May 2022 14:40:15 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
- [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web09.10898.1652193608536365606
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web09.10901.1652193613416050972
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 May 2022 07:40:08 -0700
+ Tue, 10 May 2022 07:40:13 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=VkN9yugj;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.175,
+ header.b=JrCPUgJE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f175.google.com with SMTP id g184so12309103pgc.1
+Received: by mail-pl1-f179.google.com with SMTP id q4so14036634plr.11
         for <openembedded-core@lists.openembedded.org>;
- Tue, 10 May 2022 07:40:08 -0700 (PDT)
+ Tue, 10 May 2022 07:40:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=XpeDrsqeoC5HQePnlGWB7nV/exYG6V8WnCuYbJ2yf4Q=;
-        b=VkN9yugjeztDTz5ksU9aocAuYFRSmakq+RqLgELNth2JvAftc6ErkP6UZCvFXNDx9Z
-         WUUkF8axCIo90kh5Dth1v2FRYXchmNMBP+M0JJr6lGumtGKL5yZAOhPHtg33YV/dzdha
-         z10MApxFXZDYcVE650EbEaOlm7vgoiGB1smpbb2q9cu+p7GiVrct0stfldzcQ6DXnflO
-         4jChWm2V/i5e5SZJ0gtdq4hF0yltUC9MnA0TkPLdPu5PD/KSbWO0+qmW/10F4kw9mH5F
-         iLp1wm68URgu8t3HqsaF/XZSJsgl8q0eDPcFzWTfu3s8meTYWRIHuiuMgNkES4EzmmM2
-         eUgA==
+        bh=ymr6yRt7esAjjR+a7vfK5jMEh/BnA2+5RHiQG1xhNMM=;
+        b=JrCPUgJEHdDeRF2FYBwZnBJjLMMA5yXcRliUKgPRauqa/8pJebofb1+bRhi+f6fqUF
+         nIcLqhYKx/LcLrPxKNNJkagDa+vABiAmj4gZHXor7RrwJDNAoUdLJBus/cR/UkMGY2Jm
+         SYjAvNaf8K0lrQS8uxzsrnHldsQukVYpJm2DlS7K7hx2F+uqZe8jO0p+XKm/tWYXd4ak
+         r2Bu8GUdKthl2biMNzSOgh83PTcR8pbiU8zS0o0NK1HcXl9EIrtIDHotKSHl5inrIXHI
+         6i2cXNg733HcBlng2LAXUF8NO0/0wi/ceWMkJWRUPALThSghVToafXBmDk5vMnVdISEg
+         GuXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XpeDrsqeoC5HQePnlGWB7nV/exYG6V8WnCuYbJ2yf4Q=;
-        b=A3gHBFFVb23+cizC4uMEOTJI5zjpaS1jYIKqpqm58uGorLeBAt6qmhTQ0ZwYCU6NKD
-         hv3ckBZax96hrLZb7w/36UZTAlGlyBB+DXRL/oTTiIsxvDpVkQ8zsgiclCQlhOSzgqZD
-         mUQhvqONcTGUMCaENJAHG8/t9GvbWvygoewxlZE68K7s4Gym1fgywsPaijsNP73OQHWN
-         +ouKg7tDshhac2upOUXAwZPXnQVe2ND5AXLLoKPbVpzBsqZRWL4E/l77Ds1h0MdNNpsA
-         +Iv3ldaPAIVBLo/nLRQ8Ijd506BN7H15tn5JBTrNuQlTbkDwVaacn58Y/URuQhGAYGLN
-         6SRQ==
-X-Gm-Message-State: AOAM533/YKZOP5QK0yIBSgpSMUIh7O/oWXK4J0cUoup6EbsCSumP4TCB
-	NnsKG4Rmy/URu0iBRBtSLdK7sSW4nMgkjW0B
+        bh=ymr6yRt7esAjjR+a7vfK5jMEh/BnA2+5RHiQG1xhNMM=;
+        b=j4HKzZ/h8YBVqaOWlKtnyOAJ/UQdxAZ7YBlCWuVNoKZSTAM/IRTtR162q96sCTKyxj
+         8AaCeDbivfkOy1/qYs0hsR2u3ZbYDHmrp+Tpq/C1l4Ue25lA+tHNDLdbMyNgUZE0YEz8
+         eJ0kSIk/fVh5LDX02VfTzRtLqXL39X6JfoQgzdWbAoPFocIJHPM8DgUUr/dw6SqmpqDh
+         izcXh2ZhSKNGXICpGcpruerJ6EjGI1UEELeiDugNTfP7T3th+3EH+gsHuYWlL+8gvjxp
+         TMGAaf2nT84DUKRRo2hXP/+K+TrOCcIXoqXEycj54z2CuibM7vqIv+j6d9WxnlvV12V+
+         53dQ==
+X-Gm-Message-State: AOAM5330Mjf3tAQiIRAOTdSdKn12n0+skkUKndVH2N3xLDwWVoOHrxL6
+	NNgaTwTxSAWRxQ1j05CIxm92PeU6QZhoOs1C
 X-Google-Smtp-Source: 
- ABdhPJwou7sJi3CqJ7kt5SPpRNq6iAXkf6f21tIszMp9e4MftBLfzcUJknfXPfHeQJtKwN4BzYNj3w==
-X-Received: by 2002:a65:63d0:0:b0:3da:eacd:2033 with SMTP id
- n16-20020a6563d0000000b003daeacd2033mr3099643pgv.387.1652193607320;
-        Tue, 10 May 2022 07:40:07 -0700 (PDT)
+ ABdhPJyXAaj2Sgjvt7KOidcZ4M7CmXWAZljScUWqeeK2fPDbeHERolV0h4+zWKeHm2/WE8me8mpnkw==
+X-Received: by 2002:a17:90b:1809:b0:1dc:153e:5f66 with SMTP id
+ lw9-20020a17090b180900b001dc153e5f66mr319519pjb.7.1652193612260;
+        Tue, 10 May 2022 07:40:12 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- fv18-20020a17090b0e9200b001cd4989feb7sm1973161pjb.3.2022.05.10.07.40.05
+ fv18-20020a17090b0e9200b001cd4989feb7sm1973161pjb.3.2022.05.10.07.40.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 May 2022 07:40:06 -0700 (PDT)
+        Tue, 10 May 2022 07:40:11 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 36/40] scripts: Make git intercept global
-Date: Tue, 10 May 2022 04:37:15 -1000
+Subject: [OE-core][kirkstone 38/40] Revert "bitbake.conf: mark all directories
+ as safe for git to read"
+Date: Tue, 10 May 2022 04:37:17 -1000
 Message-Id: 
- <07f282fb94a5a7c0a3fad451c844e5b26074c744.1652192957.git.steve@sakoman.com>
+ <73087e3c4bf6792c37f0a9d8d006c09856d36b13.1652192957.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1652192957.git.steve@sakoman.com>
 References: <cover.1652192957.git.steve@sakoman.com>
@@ -69,31 +70,46 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 May 2022 14:40:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165453
+ https://lists.openembedded.org/g/openembedded-core/message/165455
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Ross Burton <ross.burton@arm.com>
 
-The previous minimially invasive git intercept simply isn't enough. For example,
-meson used in the igt-gpu-tools recipe hardcodes the path to git in the configure
-step so at install time, changing PATH has no effect.
+Turns out this doesn't actually work, as git doesn't respect the environment
+when reading the safe.directory configuration variable.
 
-There are lots of interesting things we could do to try and avoid problems but
-making the git intercept and dropping fakeroot privs for git global is probably
-the least worst solution at this point. It will add slight overhead to git calls
-but we don't make many so the overall impact is likely minimal.
+This reverts commit d4a5862ce8db97d26a3c32c4cffea3197c1defec.
 
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit af27c81eaf68ee681dcd9456a74cca6a9ab40bf6)
+(cherry picked from commit e28dd48ffb84c8bb4356d889b70a4b876c8bbaf3)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/{git-intercept => }/git | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename scripts/{git-intercept => }/git (100%)
+ meta/conf/bitbake.conf | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/scripts/git-intercept/git b/scripts/git
-similarity index 100%
-rename from scripts/git-intercept/git
-rename to scripts/git
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 1deba8d910..0e939aca4f 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -776,18 +776,10 @@ export PKG_CONFIG_DISABLE_UNINSTALLED = "yes"
+ export PKG_CONFIG_SYSTEM_LIBRARY_PATH = "${base_libdir}:${libdir}"
+ export PKG_CONFIG_SYSTEM_INCLUDE_PATH = "${includedir}"
+ 
+-# Git configuration
+-
+ # Don't allow git to chdir up past WORKDIR so that it doesn't detect the OE
+ # repository when building a recipe
+ export GIT_CEILING_DIRECTORIES = "${WORKDIR}"
+ 
+-# Treat all directories are safe, as during fakeroot tasks git will run as
+-# root so recent git releases (eg 2.30.3) will refuse to work on repositories. See
+-# https://github.com/git/git/commit/8959555cee7ec045958f9b6dd62e541affb7e7d9 for
+-# further details.
+-export GIT_CONFIG_PARAMETERS="'safe.directory=*'"
+-
+ ###
+ ### Config file processing
+ ###
 -- 
 2.25.1
 
