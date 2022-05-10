@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62BCAC433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6080DC433F5
 	for <webhook@archiver.kernel.org>; Tue, 10 May 2022 14:40:05 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web12.10783.1652193601627968110
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web11.10817.1652193598850686493
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 May 2022 07:40:01 -0700
+ Tue, 10 May 2022 07:39:58 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=7/9sf+SW;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170,
+ header.b=2pyZlOBm;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id x18so16927109plg.6
+Received: by mail-pl1-f177.google.com with SMTP id c11so16907384plg.13
         for <openembedded-core@lists.openembedded.org>;
- Tue, 10 May 2022 07:40:01 -0700 (PDT)
+ Tue, 10 May 2022 07:39:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=fS++2PDLDTQZ+8k3Jfzhi1uHiSRC/b+KnbCF7iB+e/8=;
-        b=7/9sf+SWFLH9f1K/XdiygGpXgZa8zUUDJlgZCIaKmYCuqvS20oCpZHFS9Imkpd9QKU
-         vn/hq+Fn0bqMf9rCPrqIlh8Mg+7voGUNswYV4fsA6IX4O4D1zeqbNS61dScGMAMaRGNw
-         MVpuZMKIBlu9oPB2kU5COlUBk/3t9NXFTEc+rmjgbkhyP3G/26eqeiBZqeEvWFdwM7nx
-         nwHaFvCy1/eCLqpSE5af/qfPW+wik/PrTNyugipujuqIyRZ/VFTjDfkY/LjT56Gc/uQL
-         q5Pi1MstLn+vyA+TPTWtsfTRPi/PUutWklGdJw6QG7aDYRQhpkv8o99Z0ZIMm2oMyl8l
-         J5gg==
+        bh=gLN/bLW3ZrBEAeZqvGuQzkcTsaoA8fI0eK1Gft+yCp8=;
+        b=2pyZlOBmBT+dY3okMDr9DJAvybupycBbMfpxIH17PUpS+BkvaQjk9pe9c4kigPxpj8
+         aa6nMax0JeO35+nsTmede8B7N1cXtTQE3evWkuG9Xo5vlewiE3thGD8veVMfuBp8Z4xi
+         Rvh9drqnWJzuVQsj9Z3j9tTW/J3T9I3WsWGXKjcp2dmQMwHY8qivr2mdANQQ6ZIUkwBz
+         IE5AdxJJK/6LGV9klNjCQoREvU7pAo2ZKZmuk9LdrLbtfOiTrXVjRkoS3/qD8CIPQ6lE
+         j/NIeKK1zOtkuXDU/N7riwl0O6ebPoq0FJgvGa3gjVKHCSSR077VpKnoF2Fcjcl7wnME
+         L9kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fS++2PDLDTQZ+8k3Jfzhi1uHiSRC/b+KnbCF7iB+e/8=;
-        b=hKuPv9pDOtQzIY7yJDu0XSJCh9/B1kTS1HtY/SOfXLY+InaFFdEdDskz+1c+SUxx/o
-         1pLLd5h9H/2LUMbkUYbpFlfor374C1qF4ONKC1klUAPViNY+k6wcrwVR3zvaxtUM6RwL
-         5Fl+csrQjrH1S4xz6retPyJyO5uYxG8Qn5Ia47ztHSgQuNMGgg+uKCMImR3y5ffGMdwC
-         pOTDuvt41c2E+Q/P9cEFWfjLAyj3p6TA6F/koTwCJi9AbKzMD2vhDjvtSWRBqshp7fgu
-         Nn6lI3YhNql77XE2RZz68PDNBSou3EcvVS1uw6s0DDqk7PjHhRA7gsZmsY4nMPP+dmpz
-         7yvw==
-X-Gm-Message-State: AOAM531zc8NMML2hAc6Xx7dQyh9fj6OjcNUx/KynVTMcjMEw6BshdAB3
-	zMnBpN/3GQ6TGcTIVSZHMNq1WYYBP7im7raV
+        bh=gLN/bLW3ZrBEAeZqvGuQzkcTsaoA8fI0eK1Gft+yCp8=;
+        b=KOBZoHNEW399DryrdsmT5WB/NmEX71v1KVFoKDJ1QkblrAKUoQ0EzjAEx+pVqOVXMA
+         +XMUU+rlJX3il9MtcrgVZ2PKEM5kHgMC4xWPBcxMCQ9rlX+Ee3A67eL+oM0q+tGXNS4l
+         37pMl6DGhMstOlSg0cfg11F3Q2G4bvkBgxG1+zd1BCvoChoWhzzSSCNmV6ZS63lb8miE
+         j8Jw+APPKGzxsVhX4UOY2LMVuZ9p38ECKSyG7c34GVMUZ/FKCu7x3ymPkJvFeE9jqSUW
+         Db+y42H/ns78Z2zsYQwRqIdEmxo8POLi2AzwSd/4dbEUaButZZD5OAUiKctVbEoyw4gT
+         gp+w==
+X-Gm-Message-State: AOAM530OIliv/GXCUD4O0sTTA77NIIG8vECLMXlG4VcZKWZ4FMylj1Em
+	ZwYqrnjdOkTRKgQMliW7c9df7IrUUmaeSUQH
 X-Google-Smtp-Source: 
- ABdhPJyA26YBQ6utyXBQ+WjpFJZ2hEnelp3AP5WQ3JUJnK7LVrE687LdlQPH1D3Cws0zjoi6VA/v1Q==
-X-Received: by 2002:a17:902:8644:b0:15a:3b4a:538a with SMTP id
- y4-20020a170902864400b0015a3b4a538amr21017029plt.146.1652193600129;
-        Tue, 10 May 2022 07:40:00 -0700 (PDT)
+ ABdhPJxxmzbpRU3dFQVLKAC5hkj/HzqUbcGSiVz4HUgBoxjqgelTfeH0A77Fsr2mt6+1WsX3Xan+Gg==
+X-Received: by 2002:a17:902:f60c:b0:156:82c9:e44b with SMTP id
+ n12-20020a170902f60c00b0015682c9e44bmr21111299plg.106.1652193597638;
+        Tue, 10 May 2022 07:39:57 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- fv18-20020a17090b0e9200b001cd4989feb7sm1973161pjb.3.2022.05.10.07.39.58
+ fv18-20020a17090b0e9200b001cd4989feb7sm1973161pjb.3.2022.05.10.07.39.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 May 2022 07:39:59 -0700 (PDT)
+        Tue, 10 May 2022 07:39:56 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 33/40] rootfs-postcommands: fix symlinks where
- link and output path are equal
-Date: Tue, 10 May 2022 04:37:12 -1000
+Subject: [OE-core][kirkstone 32/40] cve-check: fix symlinks where link and
+ output path are equal
+Date: Tue, 10 May 2022 04:37:11 -1000
 Message-Id: 
- <e69a1533dfb8ceb5b91610f2ab8b3da575fcc36e.1652192957.git.steve@sakoman.com>
+ <2fd7f3b7dc964b59b268dd4a34761f9f71f61c25.1652192957.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1652192957.git.steve@sakoman.com>
 References: <cover.1652192957.git.steve@sakoman.com>
@@ -70,55 +70,59 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 May 2022 14:40:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165450
+ https://lists.openembedded.org/g/openembedded-core/message/165449
 
 From: Davide Gardenal <davidegarde2000@gmail.com>
 
-When creating the manifest and the testdata.json links, if the link
-name is equal to the output name the link is not created, otherwise
-it is. This prevents a link-to-self in the first case.
+An if statement now checks if the link and output path are
+the same, if they are then the link is not created,
+otherwise it is.
 
 Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit bed63756c56f296ff3d5a7eef66e978bd19f1008)
+(cherry picked from commit 2f024c0236c4806f0e59e4ce51a42f6b80fdf1b3)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/rootfs-postcommands.bbclass | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ meta/classes/cve-check.bbclass | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index 7b92df69c5..63e716c955 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -267,9 +267,10 @@ python write_image_manifest () {
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index c74c717235..24ddb865ea 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -121,10 +121,11 @@ python cve_save_summary_handler () {
  
-     if os.path.exists(manifest_name) and link_name:
-         manifest_link = deploy_dir + "/" + link_name + ".manifest"
--        if os.path.lexists(manifest_link):
--            os.remove(manifest_link)
--        os.symlink(os.path.basename(manifest_name), manifest_link)
-+        if manifest_link != manifest_name:
-+            if os.path.lexists(manifest_link):
-+                os.remove(manifest_link)
-+            os.symlink(os.path.basename(manifest_name), manifest_link)
- }
+         if cve_summary_file and os.path.exists(cve_summary_file):
+             cvefile_link = os.path.join(cvelogpath, cve_summary_name)
+-
+-            if os.path.exists(os.path.realpath(cvefile_link)):
+-                os.remove(cvefile_link)
+-            os.symlink(os.path.basename(cve_summary_file), cvefile_link)
++            # if the paths are the same don't create the link
++            if cvefile_link != cve_summary_file:
++                if os.path.exists(os.path.realpath(cvefile_link)):
++                    os.remove(cvefile_link)
++                os.symlink(os.path.basename(cve_summary_file), cvefile_link)
  
- # Can be used to create /etc/timestamp during image construction to give a reasonably
-@@ -339,9 +340,10 @@ python write_image_test_data() {
+         json_summary_link_name = os.path.join(cvelogpath, d.getVar("CVE_CHECK_SUMMARY_FILE_NAME_JSON"))
+         json_summary_name = os.path.join(cvelogpath, "%s-%s.json" % (cve_summary_name, timestamp))
+@@ -198,10 +199,12 @@ python cve_check_write_rootfs_manifest () {
  
-     if os.path.exists(testdata_name) and link_name:
-         testdata_link = os.path.join(deploy_dir, "%s.testdata.json" % link_name)
--        if os.path.lexists(testdata_link):
--            os.remove(testdata_link)
--        os.symlink(os.path.basename(testdata_name), testdata_link)
-+        if testdata_link != testdata_name:
-+            if os.path.lexists(testdata_link):
-+                os.remove(testdata_link)
-+            os.symlink(os.path.basename(testdata_name), testdata_link)
- }
- write_image_test_data[vardepsexclude] += "TOPDIR"
+         if manifest_name and os.path.exists(manifest_name):
+             manifest_link = os.path.join(deploy_dir, "%s.cve" % link_name)
+-            # If we already have another manifest, update symlinks
+-            if os.path.exists(os.path.realpath(manifest_link)):
+-                os.remove(manifest_link)
+-            os.symlink(os.path.basename(manifest_name), manifest_link)
++            # if they are the same don't create the link
++            if manifest_link != manifest_name:
++                # If we already have another manifest, update symlinks
++                if os.path.exists(os.path.realpath(manifest_link)):
++                    os.remove(manifest_link)
++                os.symlink(os.path.basename(manifest_name), manifest_link)
+             bb.plain("Image CVE report stored in: %s" % manifest_name)
  
+         link_path = os.path.join(deploy_dir, "%s.json" % link_name)
 -- 
 2.25.1
 
