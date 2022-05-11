@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FCEAC433EF
-	for <webhook@archiver.kernel.org>; Wed, 11 May 2022 18:20:22 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web09.388.1652293213975340687
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BD81C433F5
+	for <webhook@archiver.kernel.org>; Wed, 11 May 2022 18:20:32 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web10.423.1652293203265242221
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 May 2022 11:20:14 -0700
+ Wed, 11 May 2022 11:20:26 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=7QcwZi8H;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176,
+ header.b=eJR39IOB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id v11so2680486pff.6
+Received: by mail-pl1-f170.google.com with SMTP id i17so2653366pla.10
         for <openembedded-core@lists.openembedded.org>;
- Wed, 11 May 2022 11:20:13 -0700 (PDT)
+ Wed, 11 May 2022 11:20:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=bhyZT/rfVdH1irvYTNnrL9I0h0s+F8RRHKR+Ow86ExA=;
-        b=7QcwZi8HRc1Kvxzwdf3VTZb8qJ8+bZWdwsgMKPWHkgzNkylaq8IdsK2Qf8ojFm1i2r
-         IaRmFYQQcRIoRHEPFm7NziJqUrBMPURfMsY6H8p9zLCgG+jrtoSvFScrWHkZPPjYhj0t
-         3BkCrk6RIGTSqErh21OeNeflHcmYOkPIy+PkBF8ILJDIsuIRLJIihYUsCSzDOSbU3yCO
-         mbBOVufu97gZAMqOGDtUORbzQnaQBOsfQ1V17GRASt6Dx/E/4V5h1B6kYAbyKDq8DPnE
-         cAMF2lG5qtg4vBt/23aDgcVlLmCO50YG4vK640AuS46P7XCnWbc236rAcOHDh1izf5kl
-         mEuw==
+        bh=XpeDrsqeoC5HQePnlGWB7nV/exYG6V8WnCuYbJ2yf4Q=;
+        b=eJR39IOB0xAwu9MMKiPgnTx4PBl3bTV41Nwrz4w4Y8eeHiB9wdreK8P6MOa1/MMtvs
+         3c3peNHjiF2nb0L/CB2SbaU8ysFi9p4QkpR2oFhiRU1SPIHXO8CrxriRzCD3RHlYOE6z
+         1OAgWw4xkZY0PrqeWQBfFJhkqJz5T/9KhGgeSrf1cLSVRRu5XUluenQc3XK70W3ALdLu
+         +8IThPWQnTSUOpCyfrHxZmzk5Vg9O/97UU9DNPNtQ953/BDURBspeeDWZwQGJr7U+XMp
+         6b2BL4VsbMZAIBqPhXU8/O5rMbBjhRj+mjX/nAMaZMsmdHezl8sNQvf+T5QkxVdrhN2u
+         /l9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=bhyZT/rfVdH1irvYTNnrL9I0h0s+F8RRHKR+Ow86ExA=;
-        b=MwS+dkGiqy6BtXhqwQ1n5r5WscJKF/wEUvQLqa0tzlKx8ZHtYAbxpUDi7/MdQpBajP
-         bBetjI7dQaOzhGoWNC2ud1938kphX2dSbDvVFIBPUjxp6hiSqhBALaXi81d2bkgX//gH
-         hpvm4m5PtD/oLwOLIDvJDetGwRurUNMuVjDV1WH131siBcvxqc/lnHXRGS1SPf6egDLh
-         nvF0VXifAKIZSZ/d8YhyqPFSXdZTzn/UHLwbBfb89Mmpijfx8VUyi5HR57mJAEXICzwB
-         bjyE7z+wWvyAH/7Fd2I5Ew1aJzc5b7PDhj7SG1qYwEHCtD9KkGHSSA6SBk+96DKggsVf
-         RIgQ==
-X-Gm-Message-State: AOAM533YrizL84YSViDE0mvFkkI/MJgcpt4WqPSSAea/rpbmjKINynIo
-	ZKBsgNIXKVJm8t+fyZHH2DT+JM0ADlJ/bn0z
+        bh=XpeDrsqeoC5HQePnlGWB7nV/exYG6V8WnCuYbJ2yf4Q=;
+        b=59jFSCP1NYEjeZArCfFFrkEmftlOjxTvlgMJzwbfJD1FtWIf0QhBMrgiOK47zMnFRr
+         5wcR5xPsDCMqISQLZ7lbFKP0sPsZdQPDd3uhoSgkdq9uOhsE9gcLXyj6crKu5acnz+a2
+         5WYXkGQTt1sQ3iU6fp4is62/kC2aP9vV1V+nOKYcGb9G4bsL/BrdeUiqixW1dIciZp21
+         XCVYOu06BugTdOzsHo99N9jnv7Xt804y3bSC9BNPSkH3acQ/BRMW+/pXY2+41qa0yqjg
+         sdXrIOCuZBNvaklnKEE4almdaF5O7y99DIRY9lD9n6CVyLMkyEE81V7zZjj8OdfMUqC/
+         f2IA==
+X-Gm-Message-State: AOAM531icrJMCchlAryhOXo1WBlDkJIrunawoE/GccClyfZg+IYOufOq
+	58Squm7bmCrua2WMJ7jpqK1eNUDETDCGd46v
 X-Google-Smtp-Source: 
- ABdhPJxjioavyPXNJCji15T6L4+DgvwW/BVYR0g76YOaUiSNCM+P0CFCeLqW/ARLsm8s0Y3QEENgiQ==
-X-Received: by 2002:a63:4a04:0:b0:3c5:e6c2:a111 with SMTP id
- x4-20020a634a04000000b003c5e6c2a111mr22489814pga.432.1652293212618;
-        Wed, 11 May 2022 11:20:12 -0700 (PDT)
+ ABdhPJy1chlhdVtwTQXqR5u14re/ibugh6gdLnT2404ia3sz/NIZAJJH+RkJ8RXHST5krgsFFlhEpA==
+X-Received: by 2002:a17:903:1104:b0:15f:bce:1a0c with SMTP id
+ n4-20020a170903110400b0015f0bce1a0cmr16807957plh.149.1652293225714;
+        Wed, 11 May 2022 11:20:25 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- i14-20020aa787ce000000b0050dc76281bbsm2126132pfo.149.2022.05.11.11.20.10
+ i14-20020aa787ce000000b0050dc76281bbsm2126132pfo.149.2022.05.11.11.20.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 May 2022 11:20:11 -0700 (PDT)
+        Wed, 11 May 2022 11:20:24 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/14] cve-check: add JSON format to summary output
-Date: Wed, 11 May 2022 08:19:27 -1000
+Subject: [OE-core][dunfell 13/14] scripts: Make git intercept global
+Date: Wed, 11 May 2022 08:19:32 -1000
 Message-Id: 
- <d8ef964ffeb92684d01d71c983af9dbb1e1b0c4f.1652292852.git.steve@sakoman.com>
+ <ce6e606ba8b975a33df2f3dc6104abed9cfa7a36.1652292852.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1652292852.git.steve@sakoman.com>
 References: <cover.1652292852.git.steve@sakoman.com>
@@ -67,101 +67,33 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 May 2022 18:20:22 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 11 May 2022 18:20:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165514
+ https://lists.openembedded.org/g/openembedded-core/message/165519
 
-From: Davide Gardenal <davidegarde2000@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Create generate_json_report including all the code used to generate the JSON
-manifest file.
-Add to cve_save_summary_handler the ability to create the summary in JSON format.
+The previous minimially invasive git intercept simply isn't enough. For example,
+meson used in the igt-gpu-tools recipe hardcodes the path to git in the configure
+step so at install time, changing PATH has no effect.
 
-Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-(cherry picked from commit f2987891d315466b7ef180ecce81d15320ce8487)
+There are lots of interesting things we could do to try and avoid problems but
+making the git intercept and dropping fakeroot privs for git global is probably
+the least worst solution at this point. It will add slight overhead to git calls
+but we don't make many so the overall impact is likely minimal.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit af27c81eaf68ee681dcd9456a74cca6a9ab40bf6)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/cve-check.bbclass | 51 ++++++++++++++++++++++------------
- 1 file changed, 33 insertions(+), 18 deletions(-)
+ scripts/{git-intercept => }/git | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename scripts/{git-intercept => }/git (100%)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 41b4eb2dbf..350ed8ec39 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -75,6 +75,30 @@ CVE_CHECK_LAYER_INCLUDELIST ??= ""
- # set to "alphabetical" for version using single alphabetical character as increment release
- CVE_VERSION_SUFFIX ??= ""
- 
-+def generate_json_report(out_path, link_path):
-+    if os.path.exists(d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")):
-+        import json
-+        from oe.cve_check import cve_check_merge_jsons
-+
-+        bb.note("Generating JSON CVE summary")
-+        index_file = d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")
-+        summary = {"version":"1", "package": []}
-+        with open(index_file) as f:
-+            filename = f.readline()
-+            while filename:
-+                with open(filename.rstrip()) as j:
-+                    data = json.load(j)
-+                    cve_check_merge_jsons(summary, data)
-+                filename = f.readline()
-+
-+        with open(out_path, "w") as f:
-+            json.dump(summary, f, indent=2)
-+
-+        if link_path != out_path:
-+            if os.path.exists(os.path.realpath(link_path)):
-+                os.remove(link_path)
-+            os.symlink(os.path.basename(out_path), link_path)
-+
- python cve_save_summary_handler () {
-     import shutil
-     import datetime
-@@ -97,6 +121,11 @@ python cve_save_summary_handler () {
-             if os.path.exists(os.path.realpath(cvefile_link)):
-                 os.remove(cvefile_link)
-             os.symlink(os.path.basename(cve_summary_file), cvefile_link)
-+
-+        json_summary_link_name = os.path.join(cvelogpath, d.getVar("CVE_CHECK_SUMMARY_FILE_NAME_JSON"))
-+        json_summary_name = os.path.join(cvelogpath, "%s-%s.json" % (cve_summary_name, timestamp))
-+        generate_json_report(json_summary_name, json_summary_link_name)
-+        bb.plain("CVE report summary created at: %s" % json_summary_link_name)
- }
- 
- addhandler cve_save_summary_handler
-@@ -170,25 +199,11 @@ python cve_check_write_rootfs_manifest () {
-             os.symlink(os.path.basename(manifest_name), manifest_link)
-             bb.plain("Image CVE report stored in: %s" % manifest_name)
- 
--    if os.path.exists(d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")):
--        import json
-+        link_path = os.path.join(deploy_dir, "%s.json" % link_name)
-+        manifest_path = d.getVar("CVE_CHECK_MANIFEST_JSON")
-         bb.note("Generating JSON CVE manifest")
--        deploy_dir = d.getVar("DEPLOY_DIR_IMAGE")
--        link_name = d.getVar("IMAGE_LINK_NAME")
--        manifest_name = d.getVar("CVE_CHECK_MANIFEST_JSON")
--        index_file = d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")
--        manifest = {"version":"1", "package": []}
--        with open(index_file) as f:
--            filename = f.readline()
--            while filename:
--                with open(filename.rstrip()) as j:
--                    data = json.load(j)
--                    cve_check_merge_jsons(manifest, data)
--                filename = f.readline()
--
--        with open(manifest_name, "w") as f:
--            json.dump(manifest, f, indent=2)
--        bb.plain("Image CVE report stored in: %s" % manifest_name)
-+        generate_json_report(json_summary_name, json_summary_link_name)
-+        bb.plain("Image CVE JSON report stored in: %s" % link_path)
- }
- 
- ROOTFS_POSTPROCESS_COMMAND_prepend = "${@'cve_check_write_rootfs_manifest; ' if d.getVar('CVE_CHECK_CREATE_MANIFEST') == '1' else ''}"
+diff --git a/scripts/git-intercept/git b/scripts/git
+similarity index 100%
+rename from scripts/git-intercept/git
+rename to scripts/git
 -- 
 2.25.1
 
