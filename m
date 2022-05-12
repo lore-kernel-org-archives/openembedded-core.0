@@ -1,666 +1,237 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <leimaohui@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41FEEC433EF
-	for <webhook@archiver.kernel.org>; Wed, 11 May 2022 22:06:08 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web11.346.1652306758202567962
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27ED2C433F5
+	for <webhook@archiver.kernel.org>; Thu, 12 May 2022 00:45:00 +0000 (UTC)
+Received: from esa5.fujitsucc.c3s2.iphmx.com (esa5.fujitsucc.c3s2.iphmx.com
+ [68.232.159.76])
+ by mx.groups.io with SMTP id smtpd.web09.1482.1652316293730609994
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 May 2022 15:05:58 -0700
+ Wed, 11 May 2022 17:44:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
- domain name (domain: windriver.com, ip: 147.11.3.146,
- mailfrom: joe.slater@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 24BM5pK7025625
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 11 May 2022 15:05:51 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 24BM5oWE007250
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 11 May 2022 15:05:51 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 11 May 2022 15:05:50 -0700
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Wed, 11 May 2022 15:05:50 -0700
-From: Joe Slater <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
-Subject: [hardknott][oe-core][PATCH 1/1] util-linux: fix two CVEs
-Date: Wed, 11 May 2022 15:05:50 -0700
-Message-ID: <20220511220550.20068-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.35.1
+ dkim=pass header.i=@fujitsu.com header.s=fj1 header.b=a9EyQrS3;
+ spf=neutral (domain: fujitsu.com, ip: 68.232.159.76,
+ mailfrom: leimaohui@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
+  t=1652316294; x=1683852294;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=YDt9jssAMfu0lT6VleurHpFcXA9/qJ0oNoHZnuDp9Zg=;
+  b=a9EyQrS3Q2Z8TRElIoQvBgPBZtoKFK6rl05SWoyqvC5s49aIUPZHHgux
+   ThKIcDfYfVp/ClEZdl9JRsanOnsjS4iCK0UgiwLEiIHNN1GI9g3CpnBoS
+   e70GVQ2mee0aR6nEhScum6N7T0ddBLIMoNTcjv+4xPjMON28JVB4/A6HY
+   JOkfbCm3DXnDWfvawyuIAqptBQD4BuUQ28f5zJqn+ZcCIiueZu4EGIZbF
+   i/e+L4kGXqwrXEBrCTPp/S1N9gQoik5qyX/M1koNc8G80LNAtYwcxGigw
+   zjlhc9DeQtljTvhA3iHFhdorfX2LYjjXqwxAKBzH1CRMil4p2y951IDRJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10344"; a="55725715"
+X-IronPort-AV: E=Sophos;i="5.91,218,1647270000";
+   d="scan'208";a="55725715"
+Received: from mail-os0jpn01lp2105.outbound.protection.outlook.com (HELO
+ JPN01-OS0-obe.outbound.protection.outlook.com) ([104.47.23.105])
+  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 May 2022 09:44:50 +0900
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ND0XNEpx+EJ7p4OrB7Xal3CXWyQzT+4IAx0/3qRAaK8beFUBmH9TXRWnqRb2IBL0TECaocUWeYev8xidjf1MCgnMwhKecHTz0nuYX9vkPC883kk4EGHRp5fZIqnfmv6otFWY4wdZSQXbENhGirlUDSv8+HuXeol1rcI7xwBbQj+OsWDWL04pfPgjg4qg3DEYLWm43wkkWK7aIsG5oE8+U1m4p1AVmaHYG04Ex65vhSevl+ZeDyqoBAhLCXaIgCSEfXkSRc+MlEjtaqW+MAyKsnJYpUIAXVS5scaRxzX5TQavSHJ3wMmSizjgKnvmrHDZUDQ1xYLUR7PZNWvDGlZGtQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YDt9jssAMfu0lT6VleurHpFcXA9/qJ0oNoHZnuDp9Zg=;
+ b=HGiRqtKgyHEiPRbswrvDwZQViqTcorwib4/ciVscQbmD8ZpohElwlNLDu9+k4Oh5+BcDMP7Ds7XBI9JUPL0chYOUPCbXqY7oNI3BoWlTM8TS55dGhrjrIfWizG6gzUmXG+d482xe325qGTJnOoliug5HgYK6l3IJtveact5UyL/N1qJWWvxYy+Gc5tf5XhWviM3aPe3grHX40kunPqzRN7ny6BICTLh9C6BVgV9jm3AHk1ABFPN5eQD5Hv6GcyQ2dmVLQpt256QrIIPduFWHxsJR6SNc80vynoLvAzIJqiUHFmW9gjGJ4Sb3tWpyKVVpHyKlypX5MWpFik+ZHv7kzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YDt9jssAMfu0lT6VleurHpFcXA9/qJ0oNoHZnuDp9Zg=;
+ b=bK/m4ov+ez985KjwxSoCMkbC1aoXBq4kGYoZg9iF6pKfTF8mTdRFNtfvQ16jzN3kIs3sTrOPpLExZPmWR7zOZ/FenlmKdmiF7D+gJKma3RYyol0oEmtWrUFE9vrysGgN9Egznc7qDG7aPkAAdEbhx/mqXXGwvwvuhmDibIUk5l4=
+Received: from OS0PR01MB6178.jpnprd01.prod.outlook.com (2603:1096:604:cd::13)
+ by TYAPR01MB5069.jpnprd01.prod.outlook.com (2603:1096:404:121::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5227.21; Thu, 12 May
+ 2022 00:44:47 +0000
+Received: from OS0PR01MB6178.jpnprd01.prod.outlook.com
+ ([fe80::a99b:c0f1:bfe7:8254]) by OS0PR01MB6178.jpnprd01.prod.outlook.com
+ ([fe80::a99b:c0f1:bfe7:8254%7]) with mapi id 15.20.5250.013; Thu, 12 May 2022
+ 00:44:47 +0000
+From: "leimaohui@fujitsu.com" <leimaohui@fujitsu.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: OE-core <openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH v2] gnutls: Added fips support option.
+Thread-Topic: [OE-core] [PATCH v2] gnutls: Added fips support option.
+Thread-Index: 
+ AQHYYPqy/ocPXdQui0OLuVvDKY1+Ca0RY4IAgAEiy4CAAIIIgIACu/kAgAB7qACAAQd0IIAB6a4AgAAl6/CAADXrAIAA40tg
+Date: Thu, 12 May 2022 00:44:46 +0000
+Message-ID: 
+ <OS0PR01MB6178B02EA52979A2E689CCF9A0CB9@OS0PR01MB6178.jpnprd01.prod.outlook.com>
+References: <1651808269-3775-1-git-send-email-leimaohui@fujitsu.com>
+ <CANNYZj96-SMiUCmTMhZ3uoLSHN8mH0js6e2k2JJQOW3Tp3MV5w@mail.gmail.com>
+ <OS0PR01MB6178F9B577423A035BD3CCDDA0C49@OS0PR01MB6178.jpnprd01.prod.outlook.com>
+ <CANNYZj_wg3r2smGwNVoN34L0ai-pPjPEfjg0P7LoQEirfL8rhQ@mail.gmail.com>
+ <OS0PR01MB61785EBD9D1441B3201AC1A2A0C69@OS0PR01MB6178.jpnprd01.prod.outlook.com>
+ <CANNYZj_K42tgo7kRVV4fOHkFXQBxEs86KdGBX_vbYsahip9FVg@mail.gmail.com>
+ <OS0PR01MB61786F05D3748BC41FBC3CDBA0C99@OS0PR01MB6178.jpnprd01.prod.outlook.com>
+ <CANNYZj9-xW5_mEh1UTyX_AJ=nVbsN4LOhTGjYGVRvZjLH7=skg@mail.gmail.com>
+ <OS0PR01MB6178F55D656ACB5989CB03D9A0C89@OS0PR01MB6178.jpnprd01.prod.outlook.com>
+ <CANNYZj87uzyMMsM32Y=_aiGagfm9ZG+yzcmLqRq1BMTXQm7VZA@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj87uzyMMsM32Y=_aiGagfm9ZG+yzcmLqRq1BMTXQm7VZA@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 15501b58-c964-4678-fc20-08da33b09d21
+x-ms-traffictypediagnostic: TYAPR01MB5069:EE_
+x-microsoft-antispam-prvs: 
+ <TYAPR01MB506997C50551D49C43DA35A2A0CB9@TYAPR01MB5069.jpnprd01.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ 4OgUJvDDWG0i7RrgffQuCiabY7dykrvNG3R4GuBmFAB6/FcyVmqkisBmnYEjAF29w3gBEiv0mndvNrboxghp+Uj5dlhxNAi5+oMdYK3JS7HqqzJwspK7AwEIx46egYUeneUV/GaihpbgHWVjQZHIqlxBrtt/fPUuTsHRW1NOnmimBcbzAeT/DYzCpttMN1hqy6rwjzDMuw51tOovYcI+XY/K42andevSxrsDr2sSUD7iohKFXd9YfbMBaSSEPlt+gwFhlEdMmXFVJb7M44C47VzA9deuhjTeq4se06GMWbJ8HkIZEc16dxd3EnZcnR0ONMy9q31UN7yJ4tas/0IxlHpmx87gbwB+Pf8HNT6as94YPXYm4jgFOTZxr1sK5JHzQql2oetkz+mLRkfrwPkzBdrJILScG16gpJrcveD0nobTyZY01gnkfFoqXVM0OjAEp0ZY/YHBAdIIdDFWlCnfq0pAWKDxMb4eFckYvxgrK4YqgDDQk4/qMivJ1Hr+s1QfmrhzrOX8I9ejDPA9QLSZr3sX/JNB689DacNJxmJvY0SDhZ99ipd5iXddzlRWeV0446WHGfCnVOhdkU+muUPSU5wXAUyZXKIUyWxGcOOGcJhkx6iACJLiWtGIU8SdMXes8E8qLThu6MxR3mc+vVMrf0FKeWXMvJ12nbKYujPVP+/ZzgVNUPwwybSHc2bS6pGmns23PeFyeK3nB/PHXwywTxG5JHsRhktT/ah/7MAd+wk=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB6178.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(53546011)(82960400001)(55016003)(83380400001)(85182001)(122000001)(52536014)(8936002)(33656002)(6916009)(8676002)(64756008)(76116006)(66446008)(66476007)(66946007)(66556008)(4326008)(38100700002)(38070700005)(26005)(71200400001)(9686003)(316002)(508600001)(2906002)(5660300002)(186003)(86362001)(6506007)(7696005)(21314003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?MkpSVjJkeDdKdERUOGV1Sy9DbHZSakxNS0ZLbmJQaGhVdW5oVmdTUG51OVVt?=
+ =?utf-8?B?cEE5MW5WUWpjcmdDemczS0lDUCtaSk5kOFhmOVJTdjVQYmxHTzd0S1lJa0VN?=
+ =?utf-8?B?QzdOK1ZwSWJaT29PbkJ5c3ozWmNsdlRvN1RuakhycjQzR3ZDYnFXMU5CYlp6?=
+ =?utf-8?B?emFNRjVIaVBMbndqVWVZbDBXMU50cmdqTjYrM3pHRENEY2xmb1c0TndQcm9o?=
+ =?utf-8?B?Q291eWxsNlN6ZTEwVGZQVlFnaTVwU0Y0cFVKMnB3UDhtSnZXMU1DK1Roc2pv?=
+ =?utf-8?B?QnQ2OVlOdUVVYTNMQ21vK1NRZk5zQW40Y3gwY0lxRmZpbGd0TDgwWFU5K3hr?=
+ =?utf-8?B?OHFOR0xpY1RnMXFyeDllUTUrdUk0ak1wNGd4OGsxTWMrS2JvVC9wQis5aWlv?=
+ =?utf-8?B?UGFPcGxvSzk1ZHNOVkVldGhsbno1SGJzQlBEZFd3MHhhWmxHWjZQRjFhZG5P?=
+ =?utf-8?B?clArUGgvdjM1MG5jRXZodjRNTmlVUlJEUWhxenpqcG9PdTkvRUVuNGpadFEv?=
+ =?utf-8?B?MVlodTZEV0ROVFNNc2FQMnB5RE9qc1NZK0Qvc2kzT0g5N2RjSUF6b0tiTmdx?=
+ =?utf-8?B?Vm0xc1VIVlZ4N3FkNDYzcHdMMlBSdThGQ0VvSmpjM2xxQ1ZNUEN3Q0h1MWIx?=
+ =?utf-8?B?NUF2UlpNK3V5ZCsyVG1tcitVU1haVXBLajRFY3M5eEVkUm56Kzg5QVlvd05u?=
+ =?utf-8?B?SUt1dVFIWHE2MUViemp5NzZwYzA1TW92UmRHdnZlTE1DbEo0U0hKRkxXbk5M?=
+ =?utf-8?B?blV6Y1NSeVNRaXZLOVl0UGFrejN5WDA2ZkYvVVpYdXhmTjhSU1dubzA3eUE2?=
+ =?utf-8?B?UTU4T2pQNVJPZkttNzBXWnhYMTZzYkJ0SVplSllNT1BRRVhOdytkc2swRzV0?=
+ =?utf-8?B?UnRSeVEya2ZkNHpoNEpxWXdNQ0xWbld6YXVyVGNsS2lTM3VCMHZ4SDd3MHVp?=
+ =?utf-8?B?bTN5SkZWSHFBbGFZalV3YjNvcWpKc1lvV1I3cmd2ek9ENmZWamY1ZlloblZn?=
+ =?utf-8?B?Z3JUTjVZVDN6cWFuVVhUT2M3Q1djWGdCWlZvZTFlVlI4anh1aklHN2FvNFhP?=
+ =?utf-8?B?OGMyVWNnMWZVd2I1YnFwakpXS1VTUHMrUnh4Rm40SDVKRXlnUjliSkF6d1Fp?=
+ =?utf-8?B?SFhLM0srZEIxM0dYSWd3MUxVd1FBd1QyclBtUkh3Vi9oT2p6ajdudEQza3gy?=
+ =?utf-8?B?bkx5d0xiTXV6YWI4Y0F3aTROZ2ZkY1dYQS9IdnIvVm02UGkyL0Vrc2hzMTc4?=
+ =?utf-8?B?bEdURXUya0xlMFJPb3FSWDR5YVhURTlVcGZOWW1Td2hrWEQyeUFhTWRxd3lw?=
+ =?utf-8?B?MGw5d25ONjE5OTdEZTdvUzgvUGFwaEpja0oyMG02RUR4VytONDlZbDkxeWlP?=
+ =?utf-8?B?bFNMV1BNUmVsUnhBMDRGcStMRXg3TitLTkczRlZYbHUycFczTVRSY1Q3STNM?=
+ =?utf-8?B?clBjZmE5Y3JsTEM0cVc1UE1aa3RUOWJtWjlaYXA1amlqcDZBbFlzYUpRaG9v?=
+ =?utf-8?B?bkJTNGNyMmhXNFFTZ20weTRqb2crZ0orQS9yeTZtYzJmMG90SUpKVm9oTWZZ?=
+ =?utf-8?B?QnltNUNDajBFdFJqbTd1ekFMak14RDZDbW5EKzNUc1FJcktNQWxHVUJ0NXBX?=
+ =?utf-8?B?eSszTkdhQ1BVZzZydm1tb1NCWXNtU0xsV3hJMWlUR1hDMWl5cFRiUkxkNUZE?=
+ =?utf-8?B?WjZyRjBRbjJibGQxdkFyTTNSZWhvMDhpeENSWDdvQ0dOempzNGJvalBIdjEw?=
+ =?utf-8?B?UHJ1ODZUTkRHQ0xORFY2cHVSRVd0V1F3ZkM5V21GdmxMRkNaSnZScGRuaVRq?=
+ =?utf-8?B?Z0VhSEVyZjlRYlpnalkrczNoRlh2ZmI4SWs1STJlSTNNQ3ZXWktXNFUzczds?=
+ =?utf-8?B?SVZEc0UwbldNNFl3UUxVa2tiYmdzcEpXWTRGeXFQMSs2RG1tQnN5dU9VOGtt?=
+ =?utf-8?B?N2I0bjVkVEd1cEFKZzl1NTlVMXhVNGs0WE9tQlAzOUVYSWYraVdiRjBqR1VN?=
+ =?utf-8?B?ODdKNmxDMGZ0ZnhFc1lrSWsxbXJ0YWh0Nm50dWpFbmJZR3RMdVlxY0NwQThF?=
+ =?utf-8?B?bXNOdmRsbU9ML1c2QUVXVVlMd0NkSDZuSWJVWVBqV1ZJUUh5MXpOYllJc253?=
+ =?utf-8?B?QituN3lvT2t1QkNZWUllVzZyYlZZL25lK0RrNWNmZndwdHBmU1RqbGQ3b25T?=
+ =?utf-8?B?ZGhoZGE5QzcwRUFxU1JET01iei9aYVpUV0NsL25QUXNZSVdtT3ZuWWxBOVdm?=
+ =?utf-8?B?ZHBxV1Mvdmx4SnA2RTN6bWpZOVRQN1BJRFpkSGcrZ0FZTjFGcFJxVWd2N0Jm?=
+ =?utf-8?B?VUJZSm1aM0tuSk4xOWJ2eHNiMjF1dDNmWEpESWpobnRQUndtVEMyQT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB6178.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 15501b58-c964-4678-fc20-08da33b09d21
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 May 2022 00:44:46.9544
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 
+ qCwCmE/RnYWZRRCcUfV1rO7zKyABKCJeLxlyUKyqDCOyrT1tgiT3ArwjIS4AuC3s9Jq9dggoH0yXdBFLELaYhg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5069
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 May 2022 22:06:08 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 12 May 2022 00:45:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165530
+ https://lists.openembedded.org/g/openembedded-core/message/165531
 
-Advance to 2.38 to fix CVE-2021-3995 and CVE-2021-3996
-by pulling that recipe from master.  The first version
-on master to fix these was 2.37.4.
-
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
----
- ...d_2.36.2.bb => util-linux-libuuid_2.38.bb} |   2 +-
- meta/recipes-core/util-linux/util-linux.inc   |  18 ++-
- ...-tags-add-use-system-commands-option.patch |  35 -----
- ...RA_LTLIBRARIES-instead-of-noinst_LTL.patch |  49 -------
- .../util-linux/CVE-2021-37600.patch           |  38 -----
- .../util-linux/avoid_parallel_tests.patch     |  27 ++--
- .../util-linux/util-linux/ptest.patch         |  15 +-
- .../util-linux/util-linux/run-ptest           |  24 +---
- ...til-linux_2.36.2.bb => util-linux_2.38.bb} | 130 ++++++++----------
- 9 files changed, 98 insertions(+), 240 deletions(-)
- rename meta/recipes-core/util-linux/{util-linux-libuuid_2.36.2.bb => util-linux-libuuid_2.38.bb} (95%)
- delete mode 100644 meta/recipes-core/util-linux/util-linux/0001-tabfiles-tags-add-use-system-commands-option.patch
- delete mode 100644 meta/recipes-core/util-linux/util-linux/Automake-use-EXTRA_LTLIBRARIES-instead-of-noinst_LTL.patch
- delete mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2021-37600.patch
- rename meta/recipes-core/util-linux/{util-linux_2.36.2.bb => util-linux_2.38.bb} (77%)
-
-diff --git a/meta/recipes-core/util-linux/util-linux-libuuid_2.36.2.bb b/meta/recipes-core/util-linux/util-linux-libuuid_2.38.bb
-similarity index 95%
-rename from meta/recipes-core/util-linux/util-linux-libuuid_2.36.2.bb
-rename to meta/recipes-core/util-linux/util-linux-libuuid_2.38.bb
-index 9612c491cd..5d759aed94 100644
---- a/meta/recipes-core/util-linux/util-linux-libuuid_2.36.2.bb
-+++ b/meta/recipes-core/util-linux/util-linux-libuuid_2.38.bb
-@@ -9,7 +9,7 @@ S = "${WORKDIR}/util-linux-${PV}"
- EXTRA_OECONF += "--disable-all-programs --enable-libuuid"
- LICENSE = "BSD-3-Clause"
- 
--do_install_append() {
-+do_install:append() {
- 	rm -rf ${D}${datadir} ${D}${bindir} ${D}${base_bindir} ${D}${sbindir} ${D}${base_sbindir} ${D}${exec_prefix}/sbin
- }
- 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 00b8777b8b..c9bddfb7a6 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -6,11 +6,11 @@ disk partitioning, kernel message management, filesystem creation, and system lo
- 
- SECTION = "base"
- 
--LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
--LICENSE_${PN}-libblkid = "LGPLv2.1+"
--LICENSE_${PN}-libfdisk = "LGPLv2.1+"
--LICENSE_${PN}-libmount = "LGPLv2.1+"
--LICENSE_${PN}-libsmartcols = "LGPLv2.1+"
-+LICENSE = "GPL-2.0-or-later & LGPL-2.1-or-later & BSD-3-Clause & BSD-4-Clause"
-+LICENSE:${PN}-libblkid = "LGPL-2.1-or-later"
-+LICENSE:${PN}-libfdisk = "LGPL-2.1-or-later"
-+LICENSE:${PN}-libmount = "LGPL-2.1-or-later"
-+LICENSE:${PN}-libsmartcols = "LGPL-2.1-or-later"
- 
- LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da \
-                     file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-@@ -25,7 +25,7 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da
-                     file://libsmartcols/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
- "
- 
--FILESEXTRAPATHS_prepend := "${THISDIR}/util-linux:"
-+FILESEXTRAPATHS:prepend := "${THISDIR}/util-linux:"
- MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-linux-${PV}.tar.xz \
-            file://configure-sbindir.patch \
-@@ -35,8 +35,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
-            file://run-ptest \
-            file://display_testname_for_subtest.patch \
-            file://avoid_parallel_tests.patch \
--           file://Automake-use-EXTRA_LTLIBRARIES-instead-of-noinst_LTL.patch \
--           file://CVE-2021-37600.patch \
--           file://0001-tabfiles-tags-add-use-system-commands-option.patch \
-            "
--SRC_URI[sha256sum] = "f7516ba9d8689343594356f0e5e1a5f0da34adfbc89023437735872bb5024c5f"
-+
-+SRC_URI[sha256sum] = "6d111cbe4d55b336db2f1fbeffbc65b89908704c01136371d32aa9bec373eb64"
-diff --git a/meta/recipes-core/util-linux/util-linux/0001-tabfiles-tags-add-use-system-commands-option.patch b/meta/recipes-core/util-linux/util-linux/0001-tabfiles-tags-add-use-system-commands-option.patch
-deleted file mode 100644
-index 9f5a3c2d02..0000000000
---- a/meta/recipes-core/util-linux/util-linux/0001-tabfiles-tags-add-use-system-commands-option.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From be3ecff8b1bc1de4d29ca6381ee9ab42e6c15947 Mon Sep 17 00:00:00 2001
--From: Mingli Yu <mingli.yu@windriver.com>
--Date: Fri, 12 Nov 2021 15:33:53 +0800
--Subject: [PATCH] tabfiles-tags: add use-system-commands option
--
--Pass --use-system-commands option to make blkid command available
--Fixes:
-- # ./ts/libmount/tabfiles-tags
-- [snip]
-- ./ts/libmount/../../functions.sh: line 652: /usr/lib64/util-linux/ptest/blkid: No such file or directory
-- FAILED (libmount/tabfiles-tags)'
--
--Upstream-Status: Inappropriate [configuration specific]
--
--Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-----
-- tests/ts/libmount/tabfiles-tags | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/tests/ts/libmount/tabfiles-tags b/tests/ts/libmount/tabfiles-tags
--index 69b06a9..17176ef 100755
----- a/tests/ts/libmount/tabfiles-tags
--+++ b/tests/ts/libmount/tabfiles-tags
--@@ -4,7 +4,7 @@ TS_TOPDIR="${0%/*}/../.."
-- TS_DESC="tags"
-- 
-- . $TS_TOPDIR/functions.sh
---ts_init "$*"
--+ts_init "$* --use-system-commands"
-- 
-- ts_skip_nonroot
-- 
---- 
--2.17.1
--
-diff --git a/meta/recipes-core/util-linux/util-linux/Automake-use-EXTRA_LTLIBRARIES-instead-of-noinst_LTL.patch b/meta/recipes-core/util-linux/util-linux/Automake-use-EXTRA_LTLIBRARIES-instead-of-noinst_LTL.patch
-deleted file mode 100644
-index 272518914e..0000000000
---- a/meta/recipes-core/util-linux/util-linux/Automake-use-EXTRA_LTLIBRARIES-instead-of-noinst_LTL.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--Author: Luca Boccassi <luca.boccassi@microsoft.com>
--Description: Automake: use EXTRA_LTLIBRARIES instead of noinst_LTLIBRARIES
-- noinst_LTLIBRARIES causes the libraries to be always built
-- unconditionally. EXTRA_LTLIBRARIES causes them to be built
-- only if other build target needs them.
-- In other words, avoid building libcommon.a and libtcolors.a
-- unless they are needed by another library/executable and
-- save some build time.
--Upstream-Status: backport, commit:c65953d72bbc7412f32e566d9fa6e780d84f0696
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -39,7 +39,7 @@ bashcompletiondir = @bashcompletiondir@
-- 
-- dist_noinst_HEADERS =
-- noinst_PROGRAMS =
---noinst_LTLIBRARIES =
--+EXTRA_LTLIBRARIES =
-- usrbin_exec_PROGRAMS =
-- usrsbin_exec_PROGRAMS =
-- dist_man_MANS =
--@@ -169,7 +169,7 @@ else
-- edit_cmd += -e 's|@vendordir[@]||g'
-- endif
-- 
---CLEANFILES += $(PATHFILES)
--+CLEANFILES += $(PATHFILES) $(EXTRA_LTLIBRARIES)
-- EXTRA_DIST += $(PATHFILES:=.in)
-- 
-- $(PATHFILES): Makefile
----- a/lib/Makemodule.am
--+++ b/lib/Makemodule.am
--@@ -9,7 +9,7 @@
-- # Note that you need "make install-strip" (or proper rpm / Debian build)
-- # to generate binaries with only relevant stuff.
-- #
---noinst_LTLIBRARIES += libcommon.la
--+EXTRA_LTLIBRARIES += libcommon.la
-- libcommon_la_CFLAGS = $(AM_CFLAGS)
-- libcommon_la_SOURCES = \
-- 	lib/blkdev.c \
--@@ -59,7 +59,7 @@ libcommon_la_SOURCES += lib/sysfs.c
-- endif
-- endif
-- 
---noinst_LTLIBRARIES += libtcolors.la
--+EXTRA_LTLIBRARIES += libtcolors.la
-- libtcolors_la_CFLAGS = $(AM_CFLAGS)
-- libtcolors_la_SOURCES = lib/colors.c lib/color-names.c include/colors.h include/color-names.h
-- libtcolors_la_LIBADD =
-diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2021-37600.patch b/meta/recipes-core/util-linux/util-linux/CVE-2021-37600.patch
-deleted file mode 100644
-index 11934eee8d..0000000000
---- a/meta/recipes-core/util-linux/util-linux/CVE-2021-37600.patch
-+++ /dev/null
-@@ -1,38 +0,0 @@
--From 1c9143d0c1f979c3daf10e1c37b5b1e916c22a1c Mon Sep 17 00:00:00 2001
--From: Karel Zak <kzak@redhat.com>
--Date: Tue, 27 Jul 2021 11:58:31 +0200
--Subject: [PATCH] sys-utils/ipcutils: be careful when call calloc() for uint64
-- nmembs
--
--Fix: https://github.com/karelzak/util-linux/issues/1395
--Signed-off-by: Karel Zak <kzak@redhat.com>
--
--CVE: CVE-2021-37600
--
--after version 2.37.1
--https://github.com/karelzak/util-linux.git 1c9143d0c1d...
--unmodified
--
--Upstream-Status: Backport
--
--Signed-off-by: Joe Slater <joe.slater@windriver.com>
-----
-- sys-utils/ipcutils.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/sys-utils/ipcutils.c b/sys-utils/ipcutils.c
--index e784c4d..18868cf 100644
----- a/sys-utils/ipcutils.c
--+++ b/sys-utils/ipcutils.c
--@@ -218,7 +218,7 @@ static void get_sem_elements(struct sem_data *p)
-- {
-- 	size_t i;
-- 
---	if (!p || !p->sem_nsems || p->sem_perm.id < 0)
--+	if (!p || !p->sem_nsems || p->sem_nsems > SIZE_MAX || p->sem_perm.id < 0)
-- 		return;
-- 
-- 	p->elements = xcalloc(p->sem_nsems, sizeof(struct sem_elem));
---- 
--2.7.4
--
-diff --git a/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch b/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch
-index 748b6ef096..f1cbdb3beb 100644
---- a/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch
-+++ b/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch
-@@ -1,20 +1,29 @@
-+From ee3c7812e1efa6719af68b994804f0e6caceabd8 Mon Sep 17 00:00:00 2001
-+From: Tudor Florea <tudor.florea@enea.com>
-+Date: Mon, 14 Jun 2021 14:00:31 +0200
-+Subject: [PATCH] util-linux: Add ptest
-+
- Ptest needs buildtest-TESTS and runtest-TESTS targets.
- serial-tests is required to generate those targets.
--Revert run.sh script accordingly to serialize running tests 
-+Revert run.sh script accordingly to serialize running tests
- 
- Signed-off-by: Tudor Florea  <tudor.florea@enea.com>
--Upstream-Status: Inappropriate 
-+Upstream-Status: Inappropriate
-+
-+---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
- 
--Index: util-linux-2.32/configure.ac
--===================================================================
----- util-linux-2.32.orig/configure.ac
--+++ util-linux-2.32/configure.ac
-+diff --git a/configure.ac b/configure.ac
-+index 5664f9f..075ef27 100644
-+--- a/configure.ac
-++++ b/configure.ac
- @@ -11,7 +11,7 @@ AC_CONFIG_MACRO_DIR([m4])
-  dnl AC_USE_SYSTEM_EXTENSIONS must be called before any macros that run
-- dnl the compiler (like AC_PROG_LIBTOOL) to avoid autoconf errors.
-+ dnl the compiler (like LT_INIT) to avoid autoconf errors.
-  AC_USE_SYSTEM_EXTENSIONS
---AM_INIT_AUTOMAKE([-Wall foreign 1.10 tar-pax no-dist-gzip dist-xz subdir-objects])
--+AM_INIT_AUTOMAKE([-Wall foreign 1.10 tar-pax no-dist-gzip dist-xz subdir-objects serial-tests])
-+-AM_INIT_AUTOMAKE([-Wall -Wno-portability foreign 1.10 tar-pax no-dist-gzip dist-xz subdir-objects])
-++AM_INIT_AUTOMAKE([-Wall -Wno-portability foreign 1.10 tar-pax no-dist-gzip dist-xz subdir-objects serial-tests])
-  
-  m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])],
-  			    [AC_SUBST([AM_DEFAULT_VERBOSITY], [1])])
-diff --git a/meta/recipes-core/util-linux/util-linux/ptest.patch b/meta/recipes-core/util-linux/util-linux/ptest.patch
-index 0537f7d856..ba2bd3f6ac 100644
---- a/meta/recipes-core/util-linux/util-linux/ptest.patch
-+++ b/meta/recipes-core/util-linux/util-linux/ptest.patch
-@@ -1,23 +1,24 @@
--Define TESTS variable
-+From af073c13ef184ca75811df688e0a0a25827b36c3 Mon Sep 17 00:00:00 2001
-+From: Tudor Florea <tudor.florea@enea.com>
-+Date: Thu, 3 Dec 2015 04:08:00 +0100
-+Subject: [PATCH] Define TESTS variable
- 
- Signed-off-by: Tudor Florea <tudor.florea@enea.com>
- Upstream-Status: Pending
-+
- ---
-  Makefile.am | 1 +
-  1 file changed, 1 insertion(+)
- 
- diff --git a/Makefile.am b/Makefile.am
--index bbaccb1..7d5a6bb 100644
-+index 886598d..1cf4346 100644
- --- a/Makefile.am
- +++ b/Makefile.am
--@@ -48,6 +48,7 @@ systemdsystemunit_DATA =
-+@@ -57,6 +57,7 @@ systemdsystemunit_DATA =
-  dist_bashcompletion_DATA =
-  check_PROGRAMS =
-  dist_check_SCRIPTS =
- +TESTS = $(check_PROGRAMS)
-  
-  PATHFILES =
-- 
---- 
--2.8.3
--
-+ ADOCFILES_COMMON =
-diff --git a/meta/recipes-core/util-linux/util-linux/run-ptest b/meta/recipes-core/util-linux/util-linux/run-ptest
-index e135ee583b..097107cd09 100644
---- a/meta/recipes-core/util-linux/util-linux/run-ptest
-+++ b/meta/recipes-core/util-linux/util-linux/run-ptest
-@@ -13,31 +13,15 @@ current_path=$(readlink -f $0)
- export bindir=$(dirname $current_path)
- export PATH=$bindir/bin:$PATH
- 
--cd tests || exit 1                                                          
-+# losetup tests will be skipped and/or fail otherwise
-+modprobe loop
- 
--comps=$(find ts/ -type f -perm -111 -regex ".*/[^\.~]*" |  sort)
--
--
--echo
--echo "-------------------- util-linux regression tests --------------------"
--echo
--echo "                    For development purpose only.                    "
--echo "                 Don't execute on production system!                 "
--echo
--
--res=0
--count=0
--for ts in $comps; 
--do 
--   $ts | sed -u '{        
-+./tests/run.sh --use-system-commands --parsable --show-diff | sed -u '{
-       s/^\(.*\):\(.*\) \.\.\. OK$/PASS: \1:\2/                              
-       s/^\(.*\):\(.*\) \.\.\. FAILED \(.*\)$/FAIL: \1:\2 \3/                
-       s/^\(.*\):\(.*\) \.\.\. SKIPPED \(.*\)$/SKIP: \1:\2 \3/               
--   }' 
--done
--
-+   }'
- 
- if [ "x$UDEV_PID" != "x" ]; then
-     /etc/init.d/udev start
- fi
--
-diff --git a/meta/recipes-core/util-linux/util-linux_2.36.2.bb b/meta/recipes-core/util-linux/util-linux_2.38.bb
-similarity index 77%
-rename from meta/recipes-core/util-linux/util-linux_2.36.2.bb
-rename to meta/recipes-core/util-linux/util-linux_2.38.bb
-index 5a28c093e9..9531bbde47 100644
---- a/meta/recipes-core/util-linux/util-linux_2.36.2.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.38.bb
-@@ -10,12 +10,12 @@ PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', '${PN}-pylibmou
- python util_linux_binpackages () {
-     def pkg_hook(f, pkg, file_regex, output_pattern, modulename):
-         pn = d.getVar('PN')
--        d.appendVar('RRECOMMENDS_%s' % pn, ' %s' % pkg)
-+        d.appendVar('RRECOMMENDS:%s' % pn, ' %s' % pkg)
- 
--        if d.getVar('ALTERNATIVE_' + pkg):
-+        if d.getVar('ALTERNATIVE:' + pkg):
-             return
-         if d.getVarFlag('ALTERNATIVE_LINK_NAME', modulename):
--            d.setVar('ALTERNATIVE_' + pkg, modulename)
-+            d.setVar('ALTERNATIVE:' + pkg, modulename)
- 
-     bindirs = sorted(list(set(d.expand("${base_sbindir} ${base_bindir} ${sbindir} ${bindir}").split())))
-     for dir in bindirs:
-@@ -37,13 +37,14 @@ python util_linux_binpackages () {
-                     continue
- 
-                 pkg = os.path.basename(os.readlink(file))
--                extras[pkg] = extras.get(pkg, '') + ' ' + file.replace(dvar, '', 1)
-+                extras.setdefault(pkg, [])
-+                extras[pkg].append(file.replace(dvar, '', 1))
- 
-     pn = d.getVar('PN')
-     for pkg, links in extras.items():
--        of = d.getVar('FILES_' + pn + '-' + pkg)
--        links = of + links
--        d.setVar('FILES_' + pn + '-' + pkg, links)
-+        of = d.getVar('FILES:' + pn + '-' + pkg)
-+        links = of + " " + " ".join(sorted(links))
-+        d.setVar('FILES:' + pn + '-' + pkg, links)
- }
- 
- # we must execute before update-alternatives PACKAGE_PREPROCESS_FUNCS
-@@ -63,7 +64,7 @@ PACKAGES_DYNAMIC = "^${PN}-.*"
- 
- CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=ms"
- UTIL_LINUX_LIBDIR = "${libdir}"
--UTIL_LINUX_LIBDIR_class-target = "${base_libdir}"
-+UTIL_LINUX_LIBDIR:class-target = "${base_libdir}"
- EXTRA_OECONF = "\
-     --enable-libuuid --enable-libblkid \
-     \
-@@ -71,7 +72,7 @@ EXTRA_OECONF = "\
-     --enable-mount --enable-partx --enable-raw --enable-rfkill \
-     --enable-unshare --enable-write \
-     \
--    --disable-bfs --disable-chfn-chsh --disable-login \
-+    --disable-bfs --disable-login \
-     --disable-makeinstall-chown --disable-minix --disable-newgrp \
-     --disable-use-tty-group --disable-vipw --disable-raw \
-     \
-@@ -81,17 +82,17 @@ EXTRA_OECONF = "\
-     --libdir='${UTIL_LINUX_LIBDIR}' \
- "
- 
--EXTRA_OECONF_append_class-target = " --enable-setpriv"
--EXTRA_OECONF_append_class-native = " --without-cap-ng --disable-setpriv"
--EXTRA_OECONF_append_class-nativesdk = " --without-cap-ng --disable-setpriv"
--EXTRA_OECONF_append = " --disable-hwclock-gplv3"
-+EXTRA_OECONF:append:class-target = " --enable-setpriv"
-+EXTRA_OECONF:append:class-native = " --without-cap-ng --disable-setpriv"
-+EXTRA_OECONF:append:class-nativesdk = " --without-cap-ng --disable-setpriv"
-+EXTRA_OECONF:append = " --disable-hwclock-gplv3"
- 
- # enable pcre2 for native/nativesdk to match host distros
- # this helps to keep same expectations when using the SDK or
- # build host versions during development
- #
- PACKAGECONFIG ?= "pcre2"
--PACKAGECONFIG_class-target ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
-+PACKAGECONFIG:class-target ?= "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'chfn-chsh pam', '', d)}"
- # inherit manpages requires this to be present, however util-linux does not have
- # configuration options, and installs manpages always
- PACKAGECONFIG[manpages] = ""
-@@ -105,51 +106,51 @@ PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
- # PCRE support in hardlink
- PACKAGECONFIG[pcre2] = ",,libpcre2"
- PACKAGECONFIG[cryptsetup] = "--with-cryptsetup,--without-cryptsetup,cryptsetup"
-+PACKAGECONFIG[chfn-chsh] = "--enable-chfn-chsh,--disable-chfn-chsh,"
- 
- EXTRA_OEMAKE = "ARCH=${TARGET_ARCH} CPU= CPUOPT= 'OPT=${CFLAGS}'"
- 
--ALLOW_EMPTY_${PN} = "1"
--FILES_${PN} = ""
--FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
--FILES_${PN}-dev += "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.la"
--FILES_${PN}-mount = "${sysconfdir}/default/mountall"
--FILES_${PN}-runuser = "${sysconfdir}/pam.d/runuser*"
--FILES_${PN}-su = "${sysconfdir}/pam.d/su-l"
--FILES_${PN}-uuidd = " \
-+ALLOW_EMPTY:${PN} = "1"
-+FILES:${PN} = ""
-+FILES:${PN}-doc += "${datadir}/getopt/getopt-*.*"
-+FILES:${PN}-dev += "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.la"
-+FILES:${PN}-mount = "${sysconfdir}/default/mountall"
-+FILES:${PN}-runuser = "${sysconfdir}/pam.d/runuser*"
-+FILES:${PN}-su = "${sysconfdir}/pam.d/su-l"
-+FILES:${PN}-uuidd = " \
-     /etc/tmpfiles.d/uuidd.conf \
-     /etc/default/volatiles/99_uuidd \
- "
--
--CONFFILES_${PN}-su = "${sysconfdir}/pam.d/su-l"
--FILES_${PN}-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so \
-+CONFFILES:${PN}-su = "${sysconfdir}/pam.d/su-l"
-+FILES:${PN}-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so \
-                           ${PYTHON_SITEPACKAGES_DIR}/libmount/__init__.* \
-                           ${PYTHON_SITEPACKAGES_DIR}/libmount/__pycache__/*"
- 
- # Util-linux' blkid replaces the e2fsprogs one
--RCONFLICTS_${PN}-blkid = "${MLPREFIX}e2fsprogs-blkid"
--RREPLACES_${PN}-blkid = "${MLPREFIX}e2fsprogs-blkid"
-+RCONFLICTS:${PN}-blkid = "${MLPREFIX}e2fsprogs-blkid"
-+RREPLACES:${PN}-blkid = "${MLPREFIX}e2fsprogs-blkid"
- 
--RRECOMMENDS_${PN}_class-native = ""
--RRECOMMENDS_${PN}_class-nativesdk = ""
--RDEPENDS_${PN}_class-native = ""
--RDEPENDS_${PN}_class-nativesdk = ""
-+RRECOMMENDS:${PN}:class-native = ""
-+RRECOMMENDS:${PN}:class-nativesdk = ""
-+RDEPENDS:${PN}:class-native = ""
-+RDEPENDS:${PN}:class-nativesdk = ""
- 
--RDEPENDS_${PN} += " util-linux-libuuid"
--RDEPENDS_${PN}-dev += " util-linux-libuuid-dev"
-+RDEPENDS:${PN} += " util-linux-libuuid"
-+RDEPENDS:${PN}-dev += " util-linux-libuuid-dev"
- 
--RPROVIDES_${PN}-dev = "${PN}-libblkid-dev ${PN}-libmount-dev"
-+RPROVIDES:${PN}-dev = "${PN}-libblkid-dev ${PN}-libmount-dev"
- 
--RDEPENDS_${PN}-bash-completion += "${PN}-lsblk"
--RDEPENDS_${PN}-ptest += "bash bc btrfs-tools coreutils e2fsprogs grep iproute2 kmod mdadm procps sed socat which xz"
--RRECOMMENDS_${PN}-ptest += "kernel-module-scsi-debug"
--RDEPENDS_${PN}-swaponoff = "${PN}-swapon ${PN}-swapoff"
--ALLOW_EMPTY_${PN}-swaponoff = "1"
-+RDEPENDS:${PN}-bash-completion += "${PN}-lsblk"
-+RDEPENDS:${PN}-ptest += "bash bc btrfs-tools coreutils e2fsprogs findutils grep iproute2 kmod mdadm procps sed socat which xz"
-+RRECOMMENDS:${PN}-ptest += "kernel-module-scsi-debug kernel-module-sd-mod kernel-module-loop kernel-module-algif-hash"
-+RDEPENDS:${PN}-swaponoff = "${PN}-swapon ${PN}-swapoff"
-+ALLOW_EMPTY:${PN}-swaponoff = "1"
- 
- #SYSTEMD_PACKAGES = "${PN}-uuidd ${PN}-fstrim"
--SYSTEMD_SERVICE_${PN}-uuidd = "uuidd.socket uuidd.service"
--SYSTEMD_AUTO_ENABLE_${PN}-uuidd = "disable"
--SYSTEMD_SERVICE_${PN}-fstrim = "fstrim.timer fstrim.service"
--SYSTEMD_AUTO_ENABLE_${PN}-fstrim = "disable"
-+SYSTEMD_SERVICE:${PN}-uuidd = "uuidd.socket uuidd.service"
-+SYSTEMD_AUTO_ENABLE:${PN}-uuidd = "disable"
-+SYSTEMD_SERVICE:${PN}-fstrim = "fstrim.timer fstrim.service"
-+SYSTEMD_AUTO_ENABLE:${PN}-fstrim = "disable"
- 
- pkg_postinst_${PN}-uuidd() {
- 	if [ -z "$D" ] && [ -e ${sysconfdir}/init.d/populate-volatile.sh ] ; then
-@@ -194,7 +195,7 @@ do_install () {
- 	rm -f ${D}${bindir}/chkdupexe
- }
- 
--do_install_append_class-target () {
-+do_install:append:class-target () {
- 	if [ "${@bb.utils.filter('PACKAGECONFIG', 'pam', d)}" ]; then
- 		install -d ${D}${sysconfdir}/pam.d
- 		install -m 0644 ${WORKDIR}/runuser.pamd ${D}${sysconfdir}/pam.d/runuser
-@@ -217,14 +218,14 @@ do_install_append_class-target () {
- }
- # nologin causes a conflict with shadow-native
- # kill causes a conflict with coreutils-native (if ${bindir}==${base_bindir})
--do_install_append_class-native () {
-+do_install:append:class-native () {
- 	rm -f ${D}${base_sbindir}/nologin
- 	rm -f ${D}${base_bindir}/kill
- }
- 
- # dm-verity support introduces a circular build dependency, so util-linux-libuuid is split out for target builds
- # Need to build libuuid for uuidgen, but then delete it and let the other recipe ship it
--do_install_append () {
-+do_install:append () {
- 	rm -rf ${D}${includedir}/uuid ${D}${libdir}/pkgconfig/uuid.pc ${D}${libdir}/libuuid* ${D}${base_libdir}/libuuid*
- }
- 
-@@ -233,24 +234,27 @@ ALTERNATIVE_PRIORITY = "80"
- ALTERNATIVE_LINK_NAME[blkid] = "${base_sbindir}/blkid"
- ALTERNATIVE_LINK_NAME[blockdev] = "${base_sbindir}/blockdev"
- ALTERNATIVE_LINK_NAME[cal] = "${bindir}/cal"
-+ALTERNATIVE_LINK_NAME[chfn] = "${bindir}/chfn"
-+ALTERNATIVE_LINK_NAME[chsh] = "${bindir}/chsh"
- ALTERNATIVE_LINK_NAME[chrt] = "${bindir}/chrt"
- ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
- ALTERNATIVE_LINK_NAME[eject] = "${bindir}/eject"
- ALTERNATIVE_LINK_NAME[fallocate] = "${bindir}/fallocate"
- ALTERNATIVE_LINK_NAME[fdisk] = "${base_sbindir}/fdisk"
-+ALTERNATIVE_LINK_NAME[findfs] = "${sbindir}/findfs"
- ALTERNATIVE_LINK_NAME[flock] = "${bindir}/flock"
- ALTERNATIVE_LINK_NAME[fsck] = "${base_sbindir}/fsck"
- ALTERNATIVE_LINK_NAME[fsfreeze] = "${sbindir}/fsfreeze"
- ALTERNATIVE_LINK_NAME[fstrim] = "${base_sbindir}/fstrim"
- ALTERNATIVE_LINK_NAME[getopt] = "${base_bindir}/getopt"
--ALTERNATIVE_${PN}-agetty = "getty"
-+ALTERNATIVE:${PN}-agetty = "getty"
- ALTERNATIVE_LINK_NAME[getty] = "${base_sbindir}/getty"
- ALTERNATIVE_TARGET[getty] = "${base_sbindir}/agetty"
- ALTERNATIVE_LINK_NAME[hexdump] = "${bindir}/hexdump"
- ALTERNATIVE_LINK_NAME[hwclock] = "${base_sbindir}/hwclock"
- ALTERNATIVE_LINK_NAME[ionice] = "${bindir}/ionice"
- ALTERNATIVE_LINK_NAME[kill] = "${base_bindir}/kill"
--ALTERNATIVE_${PN}-last = "last lastb"
-+ALTERNATIVE:${PN}-last = "last lastb"
- ALTERNATIVE_LINK_NAME[last] = "${bindir}/last"
- ALTERNATIVE_LINK_NAME[lastb] = "${bindir}/lastb"
- ALTERNATIVE_LINK_NAME[logger] = "${bindir}/logger"
-@@ -284,11 +288,11 @@ ALTERNATIVE_LINK_NAME[utmpdump] = "${bindir}/utmpdump"
- ALTERNATIVE_LINK_NAME[uuidgen] = "${bindir}/uuidgen"
- ALTERNATIVE_LINK_NAME[wall] = "${bindir}/wall"
- 
--ALTERNATIVE_${PN}-doc = "\
-+ALTERNATIVE:${PN}-doc = "\
- blkid.8 eject.1 findfs.8 fsck.8 kill.1 last.1 lastb.1 libblkid.3 logger.1 mesg.1 \
- mountpoint.1 nologin.8 rfkill.8 sulogin.8 utmpdump.1 uuid.3 wall.1\
- "
--ALTERNATIVE_${PN}-doc += "${@bb.utils.contains('PACKAGECONFIG', 'pam', 'su.1', '', d)}"
-+ALTERNATIVE:${PN}-doc += "${@bb.utils.contains('PACKAGECONFIG', 'pam', 'su.1', '', d)}"
- 
- ALTERNATIVE_LINK_NAME[blkid.8] = "${mandir}/man8/blkid.8"
- ALTERNATIVE_LINK_NAME[eject.1] = "${mandir}/man1/eject.1"
-@@ -310,7 +314,6 @@ ALTERNATIVE_LINK_NAME[utmpdump.1] = "${mandir}/man1/utmpdump.1"
- ALTERNATIVE_LINK_NAME[uuid.3] = "${mandir}/man3/uuid.3"
- ALTERNATIVE_LINK_NAME[wall.1] = "${mandir}/man1/wall.1"
- 
--
- BBCLASSEXTEND = "native nativesdk"
- 
- PTEST_BINDIR = "1"
-@@ -329,25 +332,10 @@ do_install_ptest() {
-     cp -pR ${S}/tests/ts ${D}${PTEST_PATH}/tests/
-     cp ${WORKDIR}/build/config.h ${D}${PTEST_PATH}
- 
--    # The original paths of executables to be tested point to a local folder containing
--    # the executables. We want to test the installed executables, not the local copies.
--    # So strip the paths, the executables will be located via "which"
--    sed  -i \
--         -e '/^TS_CMD/ s|$top_builddir/||g' \
--         -e '/^TS_HELPER/ s|$top_builddir|${PTEST_PATH}|g' \
--         ${D}${PTEST_PATH}/tests/commands.sh
--
--    # Change 'if [ ! -x "$1" ]' to 'if [ ! -x "`which $1 2>/dev/null`"]'
--    sed -i -e \
--        '/^\tif[[:space:]]\[[[:space:]]![[:space:]]-x[[:space:]]"$1"/s|$1|`which $1 2>/dev/null`|g' \
--         ${D}${PTEST_PATH}/tests/functions.sh
--
--    # Running "kill" without the the complete path would use the shell's built-in kill
--    sed -i -e \
--         '/^TS_CMD_KILL/ s|kill|${PTEST_PATH}/bin/kill|g' \
--         ${D}${PTEST_PATH}/tests/commands.sh
--
--
--    sed -i 's|@base_sbindir@|${base_sbindir}|g'       ${D}${PTEST_PATH}/run-ptest
-+    sed -i 's|@base_sbindir@|${base_sbindir}|g' ${D}${PTEST_PATH}/run-ptest
- 
-+    # chfn needs PAM
-+    if ! ${@bb.utils.contains('PACKAGECONFIG', 'pam', 'true', 'false', d)}; then
-+        rm -rf ${D}${PTEST_PATH}/tests/ts/chfn
-+    fi
- }
--- 
-2.35.1
-
+SGksIEFsZXgNCg0KPiA+IFNvLCBJJ2xsIHNlbmQgYSB2MyBwYXRjaCBpbiB0aGlzIHdheSwgaXMg
+aXQgb2s/DQo+IA0KPiBZZXMgcGxlYXNlLg0KDQpPSywgSSdsbCBzdWJtaXQgYSBWMyBwYXRjaCBs
+YXRlci4NCg0KVGhlIHJlYWwgcHJvYmxlbSBoZXJlIGlzIHRoYXQgZ251dGxzIHVwc3RyZWFtIGRp
+ZG4ndCBjb25zaWRlciBob3cgZmlwcw0KPiBidWlsZCBpcyBzdXBwb3NlZCB0byB3b3JrIGluIGNy
+b3NzLWNvbXBpbGF0aW9uLCBzbyB5b3Ugc2hvdWxkIGFsc28gZmlsZSBhIHRpY2tldA0KPiB3aXRo
+IHRoZW0gYW5kIGhvcGVmdWxseSBkaXNjdXNzIGhvdyB0aGUgcHJvYmxlbSBjYW4gYmUgcHJvcGVy
+bHkgc29sdmVkLg0KPiANCj4gVGhlcmUgYXJlIHR3byBvcHRpb25zOg0KPiAtIGRvIHdoYXQgeW91
+ciBwYXRjaCBkb2VzIGFuZCB1c2UgdGhlIG5lZWRlZCBiaW5hcnkgZnJvbSB0aGUgaG9zdCBzeXN0
+ZW0sDQo+IHN1YmplY3QgdG8gLi9jb25maWd1cmUgZmxhZy4NCj4gLSBidWlsZCB0aGUgbmVlZGVk
+IGJpbmFyeSB0d2ljZSwgZmlyc3QgZm9yIHRoZSBob3N0ICh1c2luZyBCVUlMRF9DQyksIHRoZW4g
+Zm9yIHRoZQ0KPiBjcm9zcy10YXJnZXQuDQoNClRoYW5rcyBmb3IgeW91ciBjb21tZW50IGFuZCBJ
+J2xsIHN1Ym1pdCBhIHF1ZXN0aW9uIHRvIGdudXRscyB1cHN0cmVhbS4NCg0KQmVzdCByZWdhcmRz
+DQpMZWkNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbGV4YW5kZXIg
+S2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4NCj4gU2VudDogV2VkbmVzZGF5LCBNYXkg
+MTEsIDIwMjIgNzowOSBQTQ0KPiBUbzogTGVpLCBNYW9odWkgPGxlaW1hb2h1aUBmdWppdHN1LmNv
+bT4NCj4gQ2M6IE9FLWNvcmUgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmc+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIHYyXSBnbnV0bHM6IEFkZGVkIGZp
+cHMgc3VwcG9ydCBvcHRpb24uDQo+IA0KPiBPbiBXZWQsIDExIE1heSAyMDIyIGF0IDEwOjE1LCBs
+ZWltYW9odWlAZnVqaXRzdS5jb20gPGxlaW1hb2h1aUBmdWppdHN1LmNvbT4NCj4gd3JvdGU6DQo+
+ID4gSSBnb3QgaXQuIEl0IHNlZW1zIGFuIHVudXN1YWwgbWV0aG9kIGJlY2F1c2UgdGhlcmUgaXMg
+bm8gcmVjaXBlIHVzaW5nIHRoaXMgd2F5DQo+IGluIC4NCj4gPiBJbiB0aGlzIHdheSwgaXQgbWVh
+bnMgdGhhdCBpZiB1c2VyIHdhbnQgdG8gZW5hYmxlIGZpcHMsIHRoZSBmb2xsb3dpbmcNCj4gUEFD
+S0FHRUNPTkZJRyBzaG91bGQgYmUgYWRkZWQgaW4gcmVjaXBlLg0KPiA+DQo+ID4gUEFDS0FHRUNP
+TkZJRzphcHBlbmQ6Y2xhc3MtdGFyZ2V0ID0gZmlwcw0KPiA+IFBBQ0tBR0VDT05GSUc6YXBwZW5k
+OmNsYXNzLW5hdGl2ZXNkayA9IGZpcHMNCj4gPiBQQUNLQUdFQ09ORklHOmFwcGVuZDpjbGFzcy10
+YXJnZXQgPSBmaXBzLW5hdGl2ZQ0KPiANCj4gWWVzLCB0aGlzIHNob3VsZCBiZSBmaW5lLiBZb3Ug
+Y2FuIGFkZCBhIGNvbW1lbnQgaW4gdGhlIHJlY2lwZSBleHBsYWluaW5nIGhvdyB0bw0KPiBkbyBp
+dC4NCj4gDQo+ID4gU28sIEknbGwgc2VuZCBhIHYzIHBhdGNoIGluIHRoaXMgd2F5LCBpcyBpdCBv
+az8NCj4gDQo+IFllcyBwbGVhc2UuIFRoZSByZWFsIHByb2JsZW0gaGVyZSBpcyB0aGF0IGdudXRs
+cyB1cHN0cmVhbSBkaWRuJ3QgY29uc2lkZXIgaG93IGZpcHMNCj4gYnVpbGQgaXMgc3VwcG9zZWQg
+dG8gd29yayBpbiBjcm9zcy1jb21waWxhdGlvbiwgc28geW91IHNob3VsZCBhbHNvIGZpbGUgYSB0
+aWNrZXQNCj4gd2l0aCB0aGVtIGFuZCBob3BlZnVsbHkgZGlzY3VzcyBob3cgdGhlIHByb2JsZW0g
+Y2FuIGJlIHByb3Blcmx5IHNvbHZlZC4NCj4gDQo+IFRoZXJlIGFyZSB0d28gb3B0aW9uczoNCj4g
+LSBkbyB3aGF0IHlvdXIgcGF0Y2ggZG9lcyBhbmQgdXNlIHRoZSBuZWVkZWQgYmluYXJ5IGZyb20g
+dGhlIGhvc3Qgc3lzdGVtLA0KPiBzdWJqZWN0IHRvIC4vY29uZmlndXJlIGZsYWcuDQo+IC0gYnVp
+bGQgdGhlIG5lZWRlZCBiaW5hcnkgdHdpY2UsIGZpcnN0IGZvciB0aGUgaG9zdCAodXNpbmcgQlVJ
+TERfQ0MpLCB0aGVuIGZvciB0aGUNCj4gY3Jvc3MtdGFyZ2V0Lg0KPiANCj4gQWxleA0KPiANCj4g
+DQo+ID4NCj4gPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPiBGcm9tOiBBbGV4
+YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4NCj4gPiA+IFNlbnQ6IFdlZG5l
+c2RheSwgTWF5IDExLCAyMDIyIDE6NDAgUE0NCj4gPiA+IFRvOiBMZWksIE1hb2h1aSA8bGVpbWFv
+aHVpQGZ1aml0c3UuY29tPg0KPiA+ID4gQ2M6IE9FLWNvcmUgPG9wZW5lbWJlZGRlZC1jb3JlQGxp
+c3RzLm9wZW5lbWJlZGRlZC5vcmc+DQo+ID4gPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRD
+SCB2Ml0gZ251dGxzOiBBZGRlZCBmaXBzIHN1cHBvcnQgb3B0aW9uLg0KPiA+ID4NCj4gPiA+IE9u
+IFR1ZSwgMTAgTWF5IDIwMjIgYXQgMDI6NTQsIGxlaW1hb2h1aUBmdWppdHN1LmNvbQ0KPiA+ID4g
+PGxlaW1hb2h1aUBmdWppdHN1LmNvbT4NCj4gPiA+IHdyb3RlOg0KPiA+ID4gPiBJJ20gYWZyYWlk
+IEknbSBub3QgcXVpdGUgd2l0aCB5b3UuIFNlYXJjaGVkIHBva3kgYnkgdGhlIGZvbGxvd2luZw0K
+PiA+ID4gPiBjb21tYW5kIGFuZA0KPiA+ID4gdGhlcmUgaXMgbm8gZXhhbXBsZSBhYm91dCBob3cg
+dG8gY29uZmlnIFBBQ0tBR0VDT05GSUdbeHh4XSBmb3INCj4gPiA+IHRhcmdldCBvciBuYXRpdmUg
+c2VwYXJhdGVseS4NCj4gPiA+ID4gVGhlIHJlc3VsdCBpcyBhbGwgYWJvdXQgaG93IHRvIGNvbmZp
+ZyBQQUNLQUdFQ09ORklHIGZvciB0YXJnZXQgb3IgbmF0aXZlLg0KPiA+ID4gPiAtLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4gPiA+ICQgZ3JlcCAtaXIgUEFDS0FH
+RUNPTkZJRyAqfGdyZXAgY2xhc3MtbmF0aXZlDQo+ID4gPiA+IG1ldGEvcmVjaXBlcy1zdXBwb3J0
+L2xpYmNhcC9saWJjYXBfMi42NC5iYjpQQUNLQUdFQ09ORklHOmNsYXNzLW5hdA0KPiA+ID4gPiBp
+dmUgPz89DQo+ID4gPiAiIg0KPiA+ID4gPiBtZXRhL3JlY2lwZXMtc3VwcG9ydC92aW0vdmltXzgu
+Mi5iYjpQQUNLQUdFQ09ORklHOmNsYXNzLW5hdGl2ZSA9ICIiDQo+ID4gPiA+IG1ldGEvcmVjaXBl
+cy1zdXBwb3J0L3NxbGl0ZS9zcWxpdGUzLmluYzpQQUNLQUdFQ09ORklHOmNsYXNzLW5hdGl2ZQ0K
+PiA+ID4gPiA/PSAiZnRzNA0KPiA+ID4gZnRzNSBydHJlZSBkeW5fZXh0Ig0KPiA+ID4gPiAuLi4u
+Li4NCj4gPiA+ID4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+
+ID4gPg0KPiA+ID4gPiBCdXQgSSB0aGluayB5b3UgbWVhbiBub3QgUEFDS0FHRUNPTkZJRyBidXQg
+UEFDS0FHRUNPTkZJR1tmaXBzXS4NCj4gPiA+ID4gRm9yDQo+ID4gPiBleGFtcGxlLCBpbiBsaWJj
+YXBfMi42NC5iYiBmaWxlOg0KPiA+ID4gPiAkIGNhdCBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJj
+YXAvbGliY2FwXzIuNjQuYmINCj4gPiA+ID4gLi4uLi4uDQo+ID4gPiA+IFBBQ0tBR0VDT05GSUcg
+Pz89ICJsaWJpZG4gICR7QGJiLnV0aWxzLmZpbHRlcignRElTVFJPX0ZFQVRVUkVTJywNCj4gPiA+
+ID4gJ3NlY2NvbXAnLCBkKX0gIiAgLy9ub3QgaGVyZSAuLi4uLi4NCj4gPiA+ID4gUEFDS0FHRUNP
+TkZJR1tmaXBzXSA9ICItLWVuYWJsZS1maXBzMTQwLW1vZGUNCj4gPiA+IC0td2l0aC1saWJkbC1w
+cmVmaXg9JHtTVEFHSU5HX0JBU0VMSUJESVJ9LC0tZGlzYWJsZS1maXBzMTQwLW1vZGUiDQo+IC8v
+WW91cg0KPiA+ID4gY29tbWVudCBtZWFucyBtb2RpZnkgaGVyZQ0KPiA+ID4gPiAuLi4uLi4uDQo+
+ID4gPiA+DQo+ID4gPiA+IERpZCBJIG1pc3VuZGVyc3RhbmQ/DQo+ID4gPg0KPiA+ID4gU29ycnks
+IGl0J3MgYWx3YXlzIGEgYml0IGNvbmZ1c2luZyB3aXRoIFBBQ0tBR0VDT05GSUcsIGFzIHRoZQ0K
+PiA+ID4ga2V5d29yZCBpcyB1c2VkIGZvciB0d28gZGlmZmVyZW50IHB1cnBvc2VzLg0KPiA+ID4N
+Cj4gPiA+IFdoYXQgSSBtZWFudCBpcyBzb21ldGhpbmcgbGlrZSB0aGlzOg0KPiA+ID4NCj4gPiA+
+IFBBQ0tBR0VDT05GSUcgPz89ICJmaXBzIg0KPiA+ID4gUEFDS0FHRUNPTkZJRzpjbGFzcy1uYXRp
+dmUgPz89ICJmaXBzLW5hdGl2ZSINCj4gPiA+DQo+ID4gPiBBbGV4DQo=
 
