@@ -1,145 +1,156 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <davidegarde2000@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16BA9C433EF
-	for <webhook@archiver.kernel.org>; Thu, 12 May 2022 10:34:03 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web09.2513.1652351640322211576
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF93CC433F5
+	for <webhook@archiver.kernel.org>; Thu, 12 May 2022 14:54:27 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web08.187.1652367265847212551
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 May 2022 03:34:00 -0700
+ Thu, 12 May 2022 07:54:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aAhE8aMM;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id x18so6686197wrc.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FpQdeo/T;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41,
+ mailfrom: davidegarde2000@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id m20so10716962ejj.10
         for <openembedded-core@lists.openembedded.org>;
- Thu, 12 May 2022 03:34:00 -0700 (PDT)
+ Thu, 12 May 2022 07:54:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=3spzMdnpSrVFn7RfRHk1txXMLZ7awyWH96lm1yRReag=;
-        b=aAhE8aMMBvx+w+E0DHs2CH64SZTFiUcZjUUwl1LFm3VlkAJp4F3K+rkYJZCvrWxzcB
-         PjTZf09ATZICdHHkKCOCddMKrvXoxHYhaGkcAwnKen0cJETNoyiWOkk9L2Ll4C8x0x1/
-         ZZraj3sJLQoK3zExLN0rzgc0lrD8x8Mhqg2F0=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eW/uSe4VoQ6QHWWvLo3aG/ISWdHnn2wKRLZQbOBhpvs=;
+        b=FpQdeo/Typo2HrtbTBtZO+1Czlud6pl0B7poR0+ISI29nR3uZVt8ezjnS1shnRMMVr
+         WdPmk/E9+AbdI46ZNCtuxbI6YumGu5OR7pexmwPfQOxL+C6C4E4LNIHPwrD1qe8mjg4g
+         Ga+jTdt0pXICn0bkvCt2hIb263pmqL0Iw+YKbdQxTFaWM68oTAdDxdS4WqXLmucmJU3e
+         XkU0IT4uoSLEs/FUk3cRmC1LLGvbp+JqoE/N63ycSxz4jOKgbQDvBs1StDANMFU9upxy
+         oUl/dr6ykVrf+Isq8Od6lP030u7VPQQXWix3AahneoW9sjhQd39mD855kt+q2do0Bcqi
+         M7/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=3spzMdnpSrVFn7RfRHk1txXMLZ7awyWH96lm1yRReag=;
-        b=4YF1jGufExDQbiHSjEVEoI1mH+pg4Ng9yBePNvsZy14XeCw3AzhDQc9z7kj3NuNCzw
-         nY/BF+23DlgbMd7XORqLlUK9mO+VdnhisBaHWvyOddNM8o73Oq6cNx6kzA34RSErZ83g
-         T8WX/03gswxQlFi27VhMi+qumzRsapjl1zqRlnvPKFlEiP+mxwdcNoLx1OcDhwjtw0I/
-         4Xbwj5E0Wb0D3lxgDRKNjHKIBTR7QPVnwXkrzFMKO/m9PAEWt+b3f8LeNaQuRCYO16gp
-         0Xxdlh/vl4mMplLKTU9uQV4LrSffsgAudsQJEw8eI9fp+cJlwV8N4f3//tX2p9897DYK
-         D4YA==
-X-Gm-Message-State: AOAM530mERW7afqfnsL+zDpO3BKE2l8G9u4xH5QkaUw4DJsntM7AAAYS
-	CXdsCy9dIHq+AzullVy5/f6N0g==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eW/uSe4VoQ6QHWWvLo3aG/ISWdHnn2wKRLZQbOBhpvs=;
+        b=pmeGPVzXXfar39X3NC2clrh49uyjQsv4WzBC34a6iP8oCQwR0kHDzlA6HWgGwGssak
+         xemPJ7vGr6bJx3YA7DfThY2rOFfEt/svS1FwKabvS9SMhxd9LhhNjBchVqt/mZbWiXSK
+         RCn7UE9VEJ0wV5di017k+LhnbpRThv5TttB8k2Sb96ngu7CX28EY5w0FvBX8pxD5mk0U
+         Kgq0N59yJgiuupkv7tHjHGJK4wN5P8B0kFVgWeE410GQNubsn0xv5Gt28pARZDNfr2RE
+         K83Cj4E9BAcPF9zLyO37deE4iAwQzlaOPXijhXWaqvqvwE9zdQvdRhfcL/7CGZoKbMI0
+         aDpg==
+X-Gm-Message-State: AOAM533k04rzQ1dB9hyGDu5nfP+MjnWT7LbwUJc9HeWTZMYzwc3/XkBC
+	BogjM4zrdsO6VgIkOxJES0gSYcafkhU=
 X-Google-Smtp-Source: 
- ABdhPJywT0TG5lrAWy2M3qS+qKdKJfjIhYWeR0VdEiXJcwybmNNVINJiu2Xer7d5pT3schuANbZ8yQ==
-X-Received: by 2002:a05:6000:188d:b0:20c:71e5:86d7 with SMTP id
- a13-20020a056000188d00b0020c71e586d7mr26602076wri.185.1652351638660;
-        Thu, 12 May 2022 03:33:58 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a764:742e:164b:b1fb?
- ([2001:8b0:aba:5f3c:a764:742e:164b:b1fb])
+ ABdhPJxD/T4pFyze0vlkHml5eac1YoOh8DlMR9a/MWXLhU9vwrKTBF2mBCDRTB2eqKskAp0v/w2iwQ==
+X-Received: by 2002:a17:907:7282:b0:6fa:9365:f922 with SMTP id
+ dt2-20020a170907728200b006fa9365f922mr286476ejc.262.1652367263952;
+        Thu, 12 May 2022 07:54:23 -0700 (PDT)
+Received: from tony3oo3-XPS-13-9370.home
+ (host-87-5-19-80.retail.telecomitalia.it. [87.5.19.80])
         by smtp.gmail.com with ESMTPSA id
- 4-20020a05600c02c400b003942a244edasm2204012wmn.31.2022.05.12.03.33.57
+ y20-20020aa7d514000000b0042617ba63basm2598530edq.68.2022.05.12.07.54.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 May 2022 03:33:57 -0700 (PDT)
-Message-ID: 
- <dbf5957af1a1afd39a90465b47eeae90fa6f350e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] eudev: create static nodes from modules
-From: richard.purdie@linuxfoundation.org
-To: Alex Kiernan <alex.kiernan@gmail.com>, Changqing Li
-	 <changqing.li@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 May 2022 11:33:47 +0100
-In-Reply-To: 
- <CAO5Uq5TO3gZQNkucAy9s8aiJ=0+nMJDe-zw=SBT+wOjbUQwniQ@mail.gmail.com>
-References: <20220512054303.429208-1-changqing.li@windriver.com>
-	 <CAO5Uq5TO3gZQNkucAy9s8aiJ=0+nMJDe-zw=SBT+wOjbUQwniQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0-1ubuntu1 
+        Thu, 12 May 2022 07:54:23 -0700 (PDT)
+From: Davide Gardenal <davidegarde2000@gmail.com>
+X-Google-Original-From: Davide Gardenal <davide.gardenal@huawei.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Davide Gardenal <davide.gardenal@huawei.com>
+Subject: [kirstone][PATCH] go: minor upgrade 1.17.8 -> 1.17.9
+Date: Thu, 12 May 2022 16:54:09 +0200
+Message-Id: <20220512145410.786397-1-davide.gardenal@huawei.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 May 2022 10:34:03 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 12 May 2022 14:54:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165539
+ https://lists.openembedded.org/g/openembedded-core/message/165540
 
-On Thu, 2022-05-12 at 08:45 +0100, Alex Kiernan wrote:
-> On Thu, May 12, 2022 at 6:43 AM Changqing Li <changqing.li@windriver.com>=
- wrote:
-> >=20
-> > From: Changqing Li <changqing.li@windriver.com>
-> >=20
-> > dev in modules.devname should be populated in /dev on boot.
-> > remove create static mode from udevd will make these devices
-> > cannot be populated. When use sysVinit, devices like /dev/net/tun
-> > will not be created.
-> >=20
-> > more info:
-> > udevd in systemd also remove create static mode in udevd, but using
-> > service kmod-static-nodes.service and
-> > systemd-tmpfiles-setup-dev.service in systemd to create these node, so
-> > systemd works well.
-> >=20
-> > Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> > ---
-> >  ...dev-create-static-nodes-from-modules.patch | 115 ++++++++++++++++++
-> >  meta/recipes-core/udev/eudev_3.2.11.bb        |   1 +
-> >  2 files changed, 116 insertions(+)
-> >  create mode 100644 meta/recipes-core/udev/eudev/0001-eudev-create-stat=
-ic-nodes-from-modules.patch
-> >=20
-> > diff --git a/meta/recipes-core/udev/eudev/0001-eudev-create-static-node=
-s-from-modules.patch b/meta/recipes-core/udev/eudev/0001-eudev-create-stati=
-c-nodes-from-modules.patch
-> > new file mode 100644
-> > index 0000000000..19611f4e89
-> > --- /dev/null
-> > +++ b/meta/recipes-core/udev/eudev/0001-eudev-create-static-nodes-from-=
-modules.patch
-> > @@ -0,0 +1,115 @@
-> > +From 573d6c4106d5b3828da43d2843c1d599ae3cd1cd Mon Sep 17 00:00:00 2001
-> > +From: Changqing Li <changqing.li@windriver.com>
-> > +Date: Tue, 10 May 2022 14:04:35 +0800
-> > +Subject: [PATCH] eudev: create static nodes from modules
-> > +
-> > +Revert commit <src/udev/udevd.c: remove create static nodes from modul=
-es>
-> > +https://gitweb.gentoo.org/proj/eudev.git/commit/?id=3D2b7abd5ec9cc47a8=
-b895df6db77fb1537c6f1a39
-> > +
-> > +Upstream-Status: Inappropriate [oe-specific]
-> > +
-> > +Upstream intentionally remove create static nodes from modules, it is
-> > +expected handled by tmpfiles services, refer [1].
-> > +[1] https://github.com/eudev-project/eudev/issues/229
-> > +
-> > +For yocto, when start with sysVinit, to enable systemd distro feature,
-> > +and install systemd-tmpfiles is not proper, so revert this commit.
-> > +
->=20
-> Reading the upstream issue, I'm not sure this really is an
-> "Inappropriate" upstream. eudev has dropped this commit, because you
-> can use systemd-tmpfiles ("as it works without systemd and can be
-> compiled individually" - presumably using our unsupported musl
-> patches...) or opentmpfiles (which is dead and points you back to
-> systemd-tmpfiles).
->=20
-> Feels like this is an engage with upstream rather than carry a patch
-> forever which just causes us to be perpetually divergent.
+This minor update include fixes to the following CVE
 
-I agree, this does sound like something we need to address to keep the
-project maintainable...
+CVE: CVE-2022-28327
 
-Cheers,
+Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
+---
+ meta/recipes-devtools/go/{go-1.17.8.inc => go-1.17.9.inc}     | 2 +-
+ ...{go-binary-native_1.17.8.bb => go-binary-native_1.17.9.bb} | 4 ++--
+ ...o-cross-canadian_1.17.8.bb => go-cross-canadian_1.17.9.bb} | 0
+ .../go/{go-cross_1.17.8.bb => go-cross_1.17.9.bb}             | 0
+ .../go/{go-crosssdk_1.17.8.bb => go-crosssdk_1.17.9.bb}       | 0
+ .../go/{go-native_1.17.8.bb => go-native_1.17.9.bb}           | 0
+ .../go/{go-runtime_1.17.8.bb => go-runtime_1.17.9.bb}         | 0
+ meta/recipes-devtools/go/{go_1.17.8.bb => go_1.17.9.bb}       | 0
+ 8 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.17.8.inc => go-1.17.9.inc} (92%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.17.8.bb => go-binary-native_1.17.9.bb} (83%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.17.8.bb => go-cross-canadian_1.17.9.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.17.8.bb => go-cross_1.17.9.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.17.8.bb => go-crosssdk_1.17.9.bb} (100%)
+ rename meta/recipes-devtools/go/{go-native_1.17.8.bb => go-native_1.17.9.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.17.8.bb => go-runtime_1.17.9.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.17.8.bb => go_1.17.9.bb} (100%)
 
-Richard
+diff --git a/meta/recipes-devtools/go/go-1.17.8.inc b/meta/recipes-devtools/go/go-1.17.9.inc
+similarity index 92%
+rename from meta/recipes-devtools/go/go-1.17.8.inc
+rename to meta/recipes-devtools/go/go-1.17.9.inc
+index 649c09ec1d..aa2630016b 100644
+--- a/meta/recipes-devtools/go/go-1.17.8.inc
++++ b/meta/recipes-devtools/go/go-1.17.9.inc
+@@ -17,7 +17,7 @@ SRC_URI += "\
+     file://0001-exec.go-do-not-write-linker-flags-into-buildids.patch \
+     file://0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
+ "
+-SRC_URI[main.sha256sum] = "2effcd898140da79a061f3784ca4f8d8b13d811fb2abe9dad2404442dabbdf7a"
++SRC_URI[main.sha256sum] = "763ad4bafb80a9204458c5fa2b8e7327fa971aee454252c0e362c11236156813"
+ 
+ # Upstream don't believe it is a signifiant real world issue and will only
+ # fix in 1.17 onwards where we can drop this.
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.17.8.bb b/meta/recipes-devtools/go/go-binary-native_1.17.9.bb
+similarity index 83%
+rename from meta/recipes-devtools/go/go-binary-native_1.17.8.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.17.9.bb
+index 1b85cd50d6..8a80fd1f69 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.17.8.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.17.9.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+ PROVIDES = "go-native"
+ 
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "980e65a863377e69fd9b67df9d8395fd8e93858e7a24c9f55803421e453f4f99"
+-SRC_URI[go_linux_arm64.sha256sum] = "57a9171682e297df1a5bd287be056ed0280195ad079af90af16dcad4f64710cb"
++SRC_URI[go_linux_amd64.sha256sum] = "9dacf782028fdfc79120576c872dee488b81257b1c48e9032d122cfdb379cca6"
++SRC_URI[go_linux_arm64.sha256sum] = "44dcdcd4f0fa6f83c15ef70b31580f1e3f95895c2f11a00e36c440c3554b6ad5"
+ 
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.17.8.bb b/meta/recipes-devtools/go/go-cross-canadian_1.17.9.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.17.8.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.17.9.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.17.8.bb b/meta/recipes-devtools/go/go-cross_1.17.9.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.17.8.bb
+rename to meta/recipes-devtools/go/go-cross_1.17.9.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.17.8.bb b/meta/recipes-devtools/go/go-crosssdk_1.17.9.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.17.8.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.17.9.bb
+diff --git a/meta/recipes-devtools/go/go-native_1.17.8.bb b/meta/recipes-devtools/go/go-native_1.17.9.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-native_1.17.8.bb
+rename to meta/recipes-devtools/go/go-native_1.17.9.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.17.8.bb b/meta/recipes-devtools/go/go-runtime_1.17.9.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.17.8.bb
+rename to meta/recipes-devtools/go/go-runtime_1.17.9.bb
+diff --git a/meta/recipes-devtools/go/go_1.17.8.bb b/meta/recipes-devtools/go/go_1.17.9.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.17.8.bb
+rename to meta/recipes-devtools/go/go_1.17.9.bb
+-- 
+2.32.0
+
 
