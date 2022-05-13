@@ -1,153 +1,158 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <ralph.siemsen@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2DB4C433EF
-	for <webhook@archiver.kernel.org>; Fri, 13 May 2022 17:50:28 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com
- [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.web12.499.1652464227288004626
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAB91C433F5
+	for <webhook@archiver.kernel.org>; Fri, 13 May 2022 17:59:08 +0000 (UTC)
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com
+ [209.85.217.52])
+ by mx.groups.io with SMTP id smtpd.web08.626.1652464743548211389
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 May 2022 10:50:27 -0700
+ Fri, 13 May 2022 10:59:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NP+loJ9D;
- spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f50.google.com with SMTP id jt15so7183470qvb.8
+ dkim=pass header.i=@linaro.org header.s=google header.b=LjSQ5UUE;
+ spf=pass (domain: linaro.org, ip: 209.85.217.52,
+ mailfrom: ralph.siemsen@linaro.org)
+Received: by mail-vs1-f52.google.com with SMTP id b7so4809766vsq.1
         for <openembedded-core@lists.openembedded.org>;
- Fri, 13 May 2022 10:50:27 -0700 (PDT)
+ Fri, 13 May 2022 10:59:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=nRjkw6uiWNIPr9kgX9w8xC7HBNZcc8miPFY490Syvxw=;
-        b=NP+loJ9DmwqISZVy2OUl5o+UBMy/rA20K4775pEu13R7OsQsjRcgV0GfnWDmBwf9b7
-         azkSPZQ7CfcNClA4L6DoLHiPzARC98A92tG9udq+3SdoKVexRl7CbWkehyP5za8i8cmN
-         bJRKO7+SXbE95jPr8h1JaGu/EK9YwL1UFvNfkkPZD7zQXs5gJB0+HplL2GNHlGnyfi3m
-         a0/R9Sld7aNfgOp8cTogUaMxvwkzx3nQS9Ofv9kM4aoume8g+LWwh2Nn8VJiegE45575
-         pciWTetKJIZwB3QqkxRR/u5NlBTflpBfVvIlgVZOgFmhjOHRXXy7bwSBVzJ310g7tr9Y
-         L06w==
+         :cc;
+        bh=oWfdJjRVKp/q0G13i6DorV3CgdDXswceIbZqYbsRclk=;
+        b=LjSQ5UUEyTeax9qqUJlU/o9Uh6Dw7vNZBB6StFMToyBrJdMJXb0WrsGWZECJ9qTZTa
+         MfaUQ3mnFP3VRQKOfjhD+jTLqN54PARYWK/xilaW9O725QCACSbCW7AYBjUuJQhkzc/h
+         IxoHxNOq6IS4aHPrEEN+rQqukBoDIYu2S4qFkze6wI7yjNNB+ZrEIjZiiq1gvBiWGXV8
+         48v+fWnFJ4LKGveDgsifNkj0cn68VGC280ZU4Ey4XvBzqzyQqhS7YxPodK0bVLSRAK/f
+         q4N9kmGerytNUSvCO0DHm2U6fQjT/MvyY+ZXB+7r9oKB89dL2KZ3mZrP+GehIGmN2FIR
+         DyYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=nRjkw6uiWNIPr9kgX9w8xC7HBNZcc8miPFY490Syvxw=;
-        b=OhQiGdZwnw72qxi1A9hdoRIsJqKNIg4gFuqygI+zcwI4oddT12UxjgDF6t11dmfZS5
-         pA7Wh/jh97+kXKA0UdQcFcDjM1sDkEvfrShe0YfoaVgN8byfDy2jj9QLJuViEB/2p/aT
-         93uCLsotHSuKyWlk3iLKd+J2Vh2l7xAhliu7QVz5kFAzP3yn/KDTmT67VBrRAKaffUsl
-         /4eC0eTuKllgp9dP6YfuMCQUn7l325btuNuEOgK9AE71uiWo5an/ckZFG2g4LpjawBgP
-         7uXKdi/+m+eJzewxMcFD94OrN5f61XwH5ml8/iH1HATQhpOpIB5xicQIg1TzQSwbBsXZ
-         0xJA==
-X-Gm-Message-State: AOAM5322hXjMd1x0zJfruQ7c/WzBtG9JGuGRdAF8SV0jZrL0bdqoaLZF
-	Vvl/X6Jv27Dzff2zQ34nQc9Q9ZkPwkItjSoJGac=
+         :message-id:subject:to:cc;
+        bh=oWfdJjRVKp/q0G13i6DorV3CgdDXswceIbZqYbsRclk=;
+        b=gCgVFeRhIrHGSZG2Yp3Fzejwytv/5Wd9BuR5ddRf7UdYF7xAEzOfmL8MZjMktAuNWw
+         ZBq+mlRuIHqLfZd2OxDdFum5W6IZ5ThoPeTdLTbPBN7sbsWNzI9uQId/ErjhztepxAZ0
+         86q+gy8Vy8a9Mm+t21boVN8Xy1RHKKBJ8ZITabdo6zEPj3fvc/FzKKKhg2O4tfE1Aggt
+         GgB4Sjyq2Wx1N+TBXKg542v3lWqiHfbHepIutt3Khqew9Xpa2H3tOAvZ+O3LoHHRqRgY
+         9H6luMevemQ1ZtzbRUfDhTRY+tBy7sYs68bG43XPbtlYFCMCM2dzhcjR6S2nbWFp5djU
+         SLZQ==
+X-Gm-Message-State: AOAM533GbBcPUCZcDPQvrZhp/a9Txbo388JGhqo4+58VwABUfRW5pvCs
+	lORWkPXoBYJZ6Df3uIHAA1TcpBChvNLxJaF8xcA8Qw==
 X-Google-Smtp-Source: 
- ABdhPJy9HtctzLRKwFgnpF5/Hq217bua33xjNUezgf6rTqLKteOjUwbxlIxijNzEBd7SMcNM7oadbXZKWfuhn1JfATY=
-X-Received: by 2002:ad4:5dca:0:b0:45a:c70d:294e with SMTP id
- m10-20020ad45dca000000b0045ac70d294emr5660154qvh.16.1652464226328; Fri, 13
- May 2022 10:50:26 -0700 (PDT)
+ ABdhPJzg2+1udLLLQC4SkdLU5OxcpM9j7895z6X+nzD8vSVOnuWLOKKENTZxbW4OFrv0glvxgmoo2WPhXY0TftYTgSw=
+X-Received: by 2002:a67:e00f:0:b0:335:8125:5f58 with SMTP id
+ c15-20020a67e00f000000b0033581255f58mr1425824vsl.73.1652464742555; Fri, 13
+ May 2022 10:59:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <16EEAE47FC3C363C.27599@lists.openembedded.org>
- <20220513153031.1032716-1-zboszor@pr.hu>
- <20220513153031.1032716-3-zboszor@pr.hu>
- <CANNYZj8iwdYLGZ++GXsg4hcwZF9kQORzWF3Bv9QRRiYOV-95vw@mail.gmail.com>
- <ec556aa3-fb74-47a7-94cf-63a27199ba7c@pr.hu>
-In-Reply-To: <ec556aa3-fb74-47a7-94cf-63a27199ba7c@pr.hu>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 13 May 2022 10:50:00 -0700
+References: <16E1308820A86BA0.5247@lists.openembedded.org>
+In-Reply-To: <16E1308820A86BA0.5247@lists.openembedded.org>
+From: Ralph Siemsen <ralph.siemsen@linaro.org>
+Date: Fri, 13 May 2022 13:58:51 -0400
 Message-ID: 
- <CAMKF1spxPjYSOXbYL-AMmyGRk38R6uS4q3FGpA4Nw0F6xgDbiQ@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe][PATCH v2 3/3] nodejs: Add /usr/lib/node ->
- node_modules symlink
-To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>,
-	=?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
+ <CANp-EDbQEeP6Nr6_rErDP6OghF63OREqty0f4ztKZbeHtSrgNw@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH] cve-check: ensure database is closed on
+ error
+To: ralph.siemsen@linaro.org
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 May 2022 17:50:28 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 13 May 2022 17:59:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165583
+ https://lists.openembedded.org/g/openembedded-core/message/165584
 
-On Fri, May 13, 2022 at 9:49 AM Zoltan Boszormenyi via
-lists.openembedded.org <zboszor=3Dpr.hu@lists.openembedded.org> wrote:
->
-> 2022. 05. 13. 17:42 keltez=C3=A9ssel, Alexander Kanavin =C3=ADrta:
-> > This needs to be sent to the openembedded-devel list.
->
-> Is it ok just to cc openembedded-devel? Because applying
-> this 3rd patch to meta-oe without applying the second to
-> oe-core will cause conflicts and has a high chance to be
-> rejected.
+Ping. Any thoughts on this change?
 
-get the oe-core things done first.
+Regards,
+Ralph
 
+On Wed, Mar 30, 2022 at 10:58 AM Ralph Siemsen via
+lists.openembedded.org
+<ralph.siemsen=linaro.org@lists.openembedded.org> wrote:
 >
-> >
-> > Alex
-> >
-> > On Fri, 13 May 2022 at 17:31, Zoltan Boszormenyi via
-> > lists.openembedded.org <zboszor=3Dpr.hu@lists.openembedded.org> wrote:
-> >>
-> >> From: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
-> >>
-> >> While /usr/lib/node_modules and all npm-related modules are
-> >> shipped in the npm subpackage, keep the symlink in the main
-> >> package because 3rd party modules that don't need npm are
-> >> also installed into /usr/lib/node_modules.
-> >>
-> >> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.c=
-om>
-> >> ---
-> >>   meta-oe/recipes-devtools/nodejs/nodejs_16.14.2.bb | 5 +++++
-> >>   1 file changed, 5 insertions(+)
-> >>
-> >> diff --git a/meta-oe/recipes-devtools/nodejs/nodejs_16.14.2.bb b/meta-=
-oe/recipes-devtools/nodejs/nodejs_16.14.2.bb
-> >> index 62188f94a..be68afd4c 100644
-> >> --- a/meta-oe/recipes-devtools/nodejs/nodejs_16.14.2.bb
-> >> +++ b/meta-oe/recipes-devtools/nodejs/nodejs_16.14.2.bb
-> >> @@ -159,6 +159,10 @@ do_compile () {
-> >>
-> >>   do_install () {
-> >>       oe_runmake install DESTDIR=3D${D}
-> >> +
-> >> +    # node(1) is using /usr/lib/node as default include directory and=
- npm(1) is
-> >> +    # using /usr/lib/node_modules as install directory. Let's make bo=
-th happy.
-> >> +    ln -fs node_modules ${D}/${nonarch_libdir}/node
-> >>   }
-> >>
-> >>   BINARIES =3D " \
-> >> @@ -176,6 +180,7 @@ do_install:append:class-native() {
-> >>   }
-> >>
-> >>   PACKAGES =3D+ "${PN}-npm"
-> >> +FILES:${PN} +=3D "${nonarch_libdir}/node"
-> >>   FILES:${PN}-npm =3D "${nonarch_libdir}/node_modules ${bindir}/npm ${=
-bindir}/npx"
-> >>   RDEPENDS:${PN}-npm =3D "bash python3-core python3-shell python3-date=
-time \
-> >>       python3-misc python3-multiprocessing"
-> >> --
-> >> 2.36.1
-> >>
-> >>
-> >>
-> >>
+> In case of an error during download or parse of NVD JSON files, the
+> previously opened sqlite3 database should be closed. Also any pending
+> transactions should be flushed using conn.commit(). Otherwise there can
+> be a "hot journal" left behind, which can cause a subsequent read-only
+> connection to fail.
+>
+> So instead of doing "return" to bail out early, instead "break" out of
+> the loop. The existing conn.commit() and conn.close() will be called.
+>
+> Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
+> ---
+>
+> I'm not entirely confident in this, would appreciate a review by folks
+> more knowledgeable with python and its sqlite3 binding.
+>
+> Some further backround information:
+> - occasionally the cve-check process fails with a traceback error of
+>   "attempt to write a readonly database" (see BZ #14110)
+> - the following commit was added to mitigate:
+>   440f07d211 cve-check: get_cve_info should open the database read-only
+> - but evidently the original error still occurs sometimes
+>
+> Current speculation is as follows:
+> - the database update fails for unrelated reason (network issue)
+> - this leaves the connection open, potentially with some updates
+>   queued (NVD data is fetched with a separate request for each year)
+> - if a subsequent read-only client tries to access the database, it
+>   can fail because there is a "hot journal" from the pending
+>   not-yet-committed changes, which cannot be processed since the
+>   connection is read-only [1]
+>
+> [1] https://stackoverflow.com/questions/30082008/attempt-to-write-a-readonly-database-but-im-not
+>
+> Therefore we should ensure to commit() and close() the database
+>   connection during NVD update, even when there are errors.
+>
+>  meta/recipes-core/meta/cve-update-db-native.bb | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+> index e5822cee58..19863c059d 100644
+> --- a/meta/recipes-core/meta/cve-update-db-native.bb
+> +++ b/meta/recipes-core/meta/cve-update-db-native.bb
+> @@ -75,7 +75,7 @@ python do_fetch() {
+>              except urllib.error.URLError as e:
+>                  cve_f.write('Warning: CVE db update error, Unable to fetch CVE data.\n\n')
+>                  bb.warn("Failed to fetch CVE data (%s)" % e.reason)
+> -                return
+> +                break
+>
+>              if response:
+>                  for l in response.read().decode("utf-8").splitlines():
+> @@ -85,7 +85,7 @@ python do_fetch() {
+>                          break
+>                  else:
+>                      bb.warn("Cannot parse CVE metadata, update failed")
+> -                    return
+> +                    break
+>
+>              # Compare with current db last modified date
+>              c.execute("select DATE from META where YEAR = ?", (year,))
+> @@ -104,7 +104,7 @@ python do_fetch() {
+>                  except urllib.error.URLError as e:
+>                      cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
+>                      bb.warn("Cannot parse CVE data (%s), update failed" % e.reason)
+> -                    return
+> +                    break
+>              else:
+>                  bb.debug(2, "Already up to date (last modified %s)" % last_modified)
+>              # Update success, set the date to cve_check file.
+> --
+> 2.25.1
 >
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#165580): https://lists.openembedded.org/g/openembedde=
-d-core/message/165580
-> Mute This Topic: https://lists.openembedded.org/mt/91083341/1997914
+> View/Reply Online (#163786): https://lists.openembedded.org/g/openembedded-core/message/163786
+> Mute This Topic: https://lists.openembedded.org/mt/90133195/3616981
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ralph.siemsen@linaro.org]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
 
