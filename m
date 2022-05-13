@@ -1,133 +1,126 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD195C433EF
-	for <webhook@archiver.kernel.org>; Fri, 13 May 2022 15:42:32 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web12.9963.1652456551185189532
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF6C8C433EF
+	for <webhook@archiver.kernel.org>; Fri, 13 May 2022 15:54:22 +0000 (UTC)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web08.10151.1652457250560631885
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 May 2022 08:42:31 -0700
+ Fri, 13 May 2022 08:54:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=BHgN6OXU;
- spf=pass (domain: gmail.com, ip: 209.85.167.41,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id d19so15199570lfj.4
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=Xz5LeP/K;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.54,
+ mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f54.google.com with SMTP id d6so10488977ede.8
         for <openembedded-core@lists.openembedded.org>;
- Fri, 13 May 2022 08:42:30 -0700 (PDT)
+ Fri, 13 May 2022 08:54:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=N3vz5bcEnn9gowGI/i5S6rU+Al/pqIdQJiZP5jc+1LU=;
-        b=BHgN6OXUeLyA/Ky9sp7v86A7WyH5QXXUDFvqQxQ97ovxlBWzx1o/aiIlENeoy+Y/+S
-         PwhD2oBZYi9Uv3TQMczXaFILNSTWX8ISS1/OvHaj6jpIzz3wRotTNLWxDBx8a9ckXauh
-         BqKq2KQ43s/cmcNLCgt0DlvDO3ekbUwGfwSrtguDYWsHUPd+Pxi/Nyv/g19jDAB//Wkj
-         pefielQHtl3y2YdWpPfy9/fUhhghacjmYkgdAZQ485YVWtcOxft+rfqzjR0vfIXTMWiH
-         ap4oQyUbsrPwa2uvV9NneNIV5HSzZcT1qZ0NXflJEOrtQxP5qijNlgRsf7CoMcjZ4wDy
-         gbZg==
+         :cc;
+        bh=7tQsZvftI/zWDk1UofKBW4Rqk4Fe9oem6IRJKd2i/f8=;
+        b=Xz5LeP/KJrD2LnCSauAQt3f0GsQ/TromdieVEQF3GftIg6c/sj1CCiiej4MQAiKFw0
+         mOMEBALFbQRf1eFSXOQ5hNrmdSqD9bQGWD2nRcbeAgvdt+nSWI8zryborSQCT/w+Su5t
+         LZcI7PH2DwEXN71kFZ4a6tfQQVI5HyBGgR+DHEywUuwBejP9Sm9Q195pYmAg3MvmDsjE
+         ekH+xzYUBtp15nhgWcUIDFKFvJ/jw+TX7bnhhj25TwUeb4LOlQmj+vQ7ydau49qyuRu5
+         cLc5JwFXZknKors3pJNsW28ACJ2ZnhMiuM7hjtN5C0MTi+q4DUeKR9BiZrdf9rxoENI6
+         zMow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=N3vz5bcEnn9gowGI/i5S6rU+Al/pqIdQJiZP5jc+1LU=;
-        b=vJzI+J4/X+PGcP92qISQkg/DwqG071ngKE0U9nTRtk1SZ8kSKEYDkq/uRgPwCpwqCm
-         p1XMeOchk9KEPk0YDjXIeKn2acI7wwc6zTu5UKI6qIcTYpoddAZ4NxvitAEo+36OVm1I
-         R7uc+w7SwCKM6fAwMMh8U2vsjFgCEcqXeSbI5D4ISndtK75PLgYV4s0Wc12j8opecqhq
-         T9LBH7I35hiOUsOt3NZnzhQqBSGUG3KA3rcC1ZvwCRXRFzGm8oHjhm+RZX9OUEMvRCbR
-         LHRd+tBraZ0bnfrWwT2SHvjRAHDGzGYuOpPP4xNyQlbsA/fn+l0ecknw0Xqvy34mRfWD
-         Xmww==
-X-Gm-Message-State: AOAM532BtiehD/WYpMesf1VHg/mtudeATYGcrZjpB7fhxBXyHQ9N9fak
-	YvK7/6K4UklQs5bCntG3ZZhJ+GrFuxXl9BhaqqU=
+         :message-id:subject:to:cc;
+        bh=7tQsZvftI/zWDk1UofKBW4Rqk4Fe9oem6IRJKd2i/f8=;
+        b=t+Xxgl/yXoJVwyMNjZ/y6sS7ssdK+QMv+Zyzjvwpw17k9HSlX8leSuJEqpkr1pxcKM
+         qc/mCOzwmQvVkUi0qJRyEbF12xYPwFYLbne3lYQjMizTLymDibdtjwO9BAgzshAmmODI
+         eDBLGeqGnXSbHd0pVxFd8fCOKFQ/9QqdoICf+BG7j0In9CbUl8+hk8UUHqOercPqCHSq
+         e6QGLUhHFy5sjLjMR5M/MS5Im9QRz7x0ufznLic2DWjbqftsDEVMXsQsCDIuQLT+OrzX
+         qpGnbScrYI9IJn7uSn6VHcsTM9M1d9NU40UBgfVWHvuQpw2nqeGkccB/7aY+UpnfE5oR
+         jGCg==
+X-Gm-Message-State: AOAM533qPtPSWU19g1mkhhOdR4ksuNSfDOrCK83VlwkZlynJalSs9HxT
+	YMoFp7Ejr5/KlZYrWWiGgPLnAAPmQvmuVOKm7kgHvA==
 X-Google-Smtp-Source: 
- ABdhPJwxh5Ce2PSn7Xik34Qpklshx+vsmz0DPNCu6BZUDCsOP7ODOrONpO5tuM/bM1s3f5OE71q4Cu8QQA+res6VCGM=
-X-Received: by 2002:a05:6512:3047:b0:473:cf43:6d8f with SMTP id
- b7-20020a056512304700b00473cf436d8fmr4028673lfb.380.1652456549237; Fri, 13
- May 2022 08:42:29 -0700 (PDT)
+ ABdhPJxODLe++rv4rkbHCXzZ2M1NYGbvngRZitT/DRUhrNvqnW+x1Oxy2BuBEFEA0jIckScheOWazVqTT7OQdkeyxYU=
+X-Received: by 2002:aa7:cacb:0:b0:428:b435:dc43 with SMTP id
+ l11-20020aa7cacb000000b00428b435dc43mr21362403edt.123.1652457248660; Fri, 13
+ May 2022 08:54:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <16EEAE47FC3C363C.27599@lists.openembedded.org>
- <20220513153031.1032716-1-zboszor@pr.hu>
- <20220513153031.1032716-3-zboszor@pr.hu>
-In-Reply-To: <20220513153031.1032716-3-zboszor@pr.hu>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 13 May 2022 17:42:18 +0200
+References: <20220513133521.904120-1-davide.gardenal@huawei.com>
+In-Reply-To: <20220513133521.904120-1-davide.gardenal@huawei.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 13 May 2022 05:53:57 -1000
 Message-ID: 
- <CANNYZj8iwdYLGZ++GXsg4hcwZF9kQORzWF3Bv9QRRiYOV-95vw@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe][PATCH v2 3/3] nodejs: Add /usr/lib/node ->
- node_modules symlink
-To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>,
-	=?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
+ <CAOSpxdZ4qjcbjsvB8v8P7YtUr=0HSxHnrcbxAkYZHkRVK9PGrg@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone][PATCH v2] openssl: minor security upgrade
+ 3.0.2 -> 3.0.3
+To: Davide Gardenal <davidegarde2000@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Davide Gardenal <davide.gardenal@huawei.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 May 2022 15:42:32 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 13 May 2022 15:54:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165576
+ https://lists.openembedded.org/g/openembedded-core/message/165577
 
-This needs to be sent to the openembedded-devel list.
-
-Alex
-
-On Fri, 13 May 2022 at 17:31, Zoltan Boszormenyi via
-lists.openembedded.org <zboszor=3Dpr.hu@lists.openembedded.org> wrote:
+On Fri, May 13, 2022 at 3:35 AM Davide Gardenal
+<davidegarde2000@gmail.com> wrote:
 >
-> From: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
+> This minor version include fixes for several CVEs
 >
-> While /usr/lib/node_modules and all npm-related modules are
-> shipped in the npm subpackage, keep the symlink in the main
-> package because 3rd party modules that don't need npm are
-> also installed into /usr/lib/node_modules.
+> CVE: CVE-2022-1292
+> CVE: CVE-2022-1343
+> CVE: CVE-2022-1434
+> CVE: CVE-2022-1473
 >
-> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
+> Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
 > ---
->  meta-oe/recipes-devtools/nodejs/nodejs_16.14.2.bb | 5 +++++
->  1 file changed, 5 insertions(+)
+> Updates:
+>     -v2 add kirkstone tag in the title
+
+Actually, since master is also at version 3.0.2 this patch will have
+to go to master first.  I'll then backport it.
+
+In cases like this you should probably tag [master][kirkstone] so
+Richard and I both take notice.
+
+Steve
+
+> ---
+>  .../openssl/{openssl_3.0.2.bb => openssl_3.0.3.bb}              | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-connectivity/openssl/{openssl_3.0.2.bb => openssl_3.0.3.bb} (99%)
 >
-> diff --git a/meta-oe/recipes-devtools/nodejs/nodejs_16.14.2.bb b/meta-oe/=
-recipes-devtools/nodejs/nodejs_16.14.2.bb
-> index 62188f94a..be68afd4c 100644
-> --- a/meta-oe/recipes-devtools/nodejs/nodejs_16.14.2.bb
-> +++ b/meta-oe/recipes-devtools/nodejs/nodejs_16.14.2.bb
-> @@ -159,6 +159,10 @@ do_compile () {
+> diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.2.bb b/meta/recipes-connectivity/openssl/openssl_3.0.3.bb
+> similarity index 99%
+> rename from meta/recipes-connectivity/openssl/openssl_3.0.2.bb
+> rename to meta/recipes-connectivity/openssl/openssl_3.0.3.bb
+> index a809666aa7..fd88ae807d 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_3.0.2.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_3.0.3.bb
+> @@ -18,7 +18,7 @@ SRC_URI:append:class-nativesdk = " \
+>             file://environment.d-openssl.sh \
+>             "
 >
->  do_install () {
->      oe_runmake install DESTDIR=3D${D}
-> +
-> +    # node(1) is using /usr/lib/node as default include directory and np=
-m(1) is
-> +    # using /usr/lib/node_modules as install directory. Let's make both =
-happy.
-> +    ln -fs node_modules ${D}/${nonarch_libdir}/node
->  }
+> -SRC_URI[sha256sum] = "98e91ccead4d4756ae3c9cde5e09191a8e586d9f4d50838e7ec09d6411dfdb63"
+> +SRC_URI[sha256sum] = "ee0078adcef1de5f003c62c80cc96527721609c6f3bb42b7795df31f8b558c0b"
 >
->  BINARIES =3D " \
-> @@ -176,6 +180,7 @@ do_install:append:class-native() {
->  }
->
->  PACKAGES =3D+ "${PN}-npm"
-> +FILES:${PN} +=3D "${nonarch_libdir}/node"
->  FILES:${PN}-npm =3D "${nonarch_libdir}/node_modules ${bindir}/npm ${bind=
-ir}/npx"
->  RDEPENDS:${PN}-npm =3D "bash python3-core python3-shell python3-datetime=
- \
->      python3-misc python3-multiprocessing"
+>  inherit lib_package multilib_header multilib_script ptest perlnative
+>  MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 > --
-> 2.36.1
+> 2.32.0
 >
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#165573): https://lists.openembedded.org/g/openembedde=
-d-core/message/165573
-> Mute This Topic: https://lists.openembedded.org/mt/91083341/1686489
+> View/Reply Online (#165563): https://lists.openembedded.org/g/openembedded-core/message/165563
+> Mute This Topic: https://lists.openembedded.org/mt/91080703/3620601
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
 
