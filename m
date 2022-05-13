@@ -1,89 +1,87 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <jiaqing.zhao@linux.intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4104C433EF
-	for <webhook@archiver.kernel.org>; Fri, 13 May 2022 09:32:29 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web10.6199.1652434346026776310
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC5E6C433EF
+	for <webhook@archiver.kernel.org>; Fri, 13 May 2022 09:40:49 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by mx.groups.io with SMTP id smtpd.web10.6252.1652434844592587848
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 May 2022 02:32:26 -0700
+ Fri, 13 May 2022 02:40:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YM4kX/C0;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id
- c190-20020a1c35c7000000b0038e37907b5bso6617644wma.0
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 13 May 2022 02:32:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=P2CAthtLNY672V1xmAkIiZ2kdkPI4okjgS7yCpjKwuI=;
-        b=YM4kX/C0zP5sN2iMcDU/KIDsVo/ZphnHIIP8LivInShbrMFpn7Ig7+FqkKhWUStTVb
-         hYcaaJpBQoLcP0jAPZ4iG2dOaXceW+yBffssL8hGDwV+gsYnAE6lOjgrp3nPJCRx6QX5
-         GSLEpb56ztv8Bj2b/h8vkJuGVuNETsljci8yU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=P2CAthtLNY672V1xmAkIiZ2kdkPI4okjgS7yCpjKwuI=;
-        b=TfkZrYGTaiXbzNXvidbajLHRhFRrm/5DTUXZZYdPyO7OKResqIlyn9TxC9gJ4Vw9Q7
-         bPViUafMaIkl4qPUtXJmGU63KdFYZ1vHq4uf1UTp89cCl2NzVl/dDBC8OCWpD3H6HtNg
-         Zpl+Jb8QteeexHKa59CTAqC8UkJqqpDtt7qiz7Q2XeI+BT5hdPeZADDjfSyV48xtLSAr
-         hqvNm+8Qp0Li128aD45IAKVc3qpS7dIxBQmjZOWGzMXU4k2aQ9wU/V9BH0yFzQOZruta
-         CkwMCQ9OdR6T+SzYCViq18vYtLhk9z0UUNw5LHzVI95qZS9LF0fy8glYRTnK2Ji1ileo
-         yPiA==
-X-Gm-Message-State: AOAM531F0P+JtXKb7vVFl8VoFlLVp1Nb1ulucXub7KBLCyzHb7/v4z/y
-	43S6uPpChc3arDFNPgh5zHMQsg==
-X-Google-Smtp-Source: 
- ABdhPJwBBdCo4Sqkic8HHcT+drklnAnGJfss+m61EN9eXKCHRfGeP0qjTmmOinhlYinu+h5dD/+t+w==
-X-Received: by 2002:a1c:7307:0:b0:394:5bfe:391d with SMTP id
- d7-20020a1c7307000000b003945bfe391dmr14054562wmb.17.1652434344383;
-        Fri, 13 May 2022 02:32:24 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a1e1:9ec5:5b27:abc8?
- ([2001:8b0:aba:5f3c:a1e1:9ec5:5b27:abc8])
-        by smtp.gmail.com with ESMTPSA id
- n6-20020a1c2706000000b003942a244ec0sm2284687wmn.5.2022.05.13.02.32.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 May 2022 02:32:23 -0700 (PDT)
-Message-ID: 
- <0fe8ccbbe8212d19ac1f076a48659559875d2104.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] qemuarmv5: use arm-versatile-926ejs KMACHINE
-From: richard.purdie@linuxfoundation.org
-To: Jon Mason <jdmason@kudzu.us>, Bruce Ashfield <bruce.ashfield@gmail.com>,
-  Steve Sakoman <steve@sakoman.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 May 2022 10:32:22 +0100
-In-Reply-To: 
- <CAPoiz9w-MAekBhBiDE_0Pm7bv9DxNhKXHZh5rYD3mjLYw-RDzA@mail.gmail.com>
-References: <20220504140956.4373-1-jdmason@kudzu.us>
-	 <CADkTA4M8bqvWeo7ghPF_rJjVOFGHxdvpkqtveAntW055p490vw@mail.gmail.com>
-	 <CAPoiz9w-MAekBhBiDE_0Pm7bv9DxNhKXHZh5rYD3mjLYw-RDzA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0-1ubuntu1 
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=joiVOCmG;
+ spf=none, err=permanent DNS error (domain: linux.intel.com,
+ ip: 192.55.52.115, mailfrom: jiaqing.zhao@linux.intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652434844; x=1683970844;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=IhZfbsTkcfFZTBqI1ZWlf9/pDHM+12tyNJP0folu3BE=;
+  b=joiVOCmGwjPeKeHZ9NDM2D95ZLlakmwgiIOuy2jfNVt9119FeaXHQWXv
+   Euhds//jEsIAbkg6NbNDBimYLGz6l+GeJVIIHNogKWZM5s23hjXVVL0l8
+   74H3za73DKER+sf0kZtYPk0O/lyWKZdA938D1bi1gPKHmL2iDW50uY8J5
+   oxL/UOtnVOL8iovn9lwQUKNUhbvjd9WKwce3xj1lAC2YmS7vyE8kOnWKt
+   gGznaUBdG9Z9o5wD+woyUV6MgD65jnxIOlr+tnO0zteMuMQH9j/eGY2KS
+   DrVJ2hqJXY8eL7kz0+H5/KcS7dftVa7CQC4JNYSeqfeQfjggwDeF9H+Uj
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10345"; a="270399117"
+X-IronPort-AV: E=Sophos;i="5.91,221,1647327600";
+   d="scan'208";a="270399117"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2022 02:40:44 -0700
+X-IronPort-AV: E=Sophos;i="5.91,221,1647327600";
+   d="scan'208";a="595144089"
+Received: from unknown (HELO jiaqingz-bmcdev-container.sh.intel.com)
+ ([10.239.138.232])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2022 02:40:42 -0700
+From: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Cc: davide.gardenal@huawei.com,
+	Jiaqing Zhao <jiaqing.zhao@linux.intel.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [kirkstone] [PATCH v3 1/3] sed: Specify shell for "nobody" user in
+ run-ptest
+Date: Fri, 13 May 2022 17:40:14 +0800
+Message-Id: <20220513094016.3345337-2-jiaqing.zhao@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220513094016.3345337-1-jiaqing.zhao@linux.intel.com>
+References: <20220513094016.3345337-1-jiaqing.zhao@linux.intel.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 May 2022 09:32:29 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 13 May 2022 09:40:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165547
+ https://lists.openembedded.org/g/openembedded-core/message/165549
 
-On Thu, 2022-05-12 at 22:15 -0400, Jon Mason wrote:
-> I think this needs to get pulled back to kirkstone, as I'm now seeing
-> ERROR: linux-yocto-5.15.36+gitAUTOINC+fcf48627ea_ebfb1822e9-r0
-> do_kernel_metadata: Could not locate BSP definition for
-> qemuarm/standard and no defconfig was provided
+ptest testsuite/panic-tests.sh of sed need to be run as a non-root user
+so that the expected "sed: couldn't open temporary file <filename>:
+Permission denied" error can be generated. After disabling default
+shell for "nobody", a shell needs to be specified for running ptest.
 
-You didn't cc Steve. Since I know things are nearly ready for a build
-I've taken this back to kirkstone since the other patches went in.
+Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit c6d7216772f76af4429fdaaca518858cf014293f)
+---
+ meta/recipes-extended/sed/sed/run-ptest | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
+diff --git a/meta/recipes-extended/sed/sed/run-ptest b/meta/recipes-extended/sed/sed/run-ptest
+index 993d7d5d75..0460c7961f 100644
+--- a/meta/recipes-extended/sed/sed/run-ptest
++++ b/meta/recipes-extended/sed/sed/run-ptest
+@@ -2,4 +2,4 @@
+ 
+ chown nobody testsuite
+ chown nobody ../ptest
+-su nobody -c "make test-suite.log"
++su nobody -s /bin/sh -c "make test-suite.log"
+-- 
+2.34.1
 
-Richard
 
