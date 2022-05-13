@@ -1,114 +1,143 @@
-Return-Path: <jdmason@kudzu.us>
+Return-Path: <sundeep.kokkonda@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 958B4C433F5
-	for <webhook@archiver.kernel.org>; Fri, 13 May 2022 02:16:06 +0000 (UTC)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
- [209.85.128.182])
- by mx.groups.io with SMTP id smtpd.web08.3617.1652408159914934254
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46C85C433F5
+	for <webhook@archiver.kernel.org>; Fri, 13 May 2022 05:59:58 +0000 (UTC)
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
+ by mx.groups.io with SMTP id smtpd.web08.5009.1652421589822522263
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 May 2022 19:16:00 -0700
+ Thu, 12 May 2022 22:59:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112
- header.b=vetjuTWM;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.128.182,
- mailfrom: jdmason@kudzu.us)
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-2fb965b34easo76572407b3.1
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 12 May 2022 19:15:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sFmXQrIxe2ddVHTtsLZ5B9Mndvy4HI1hqsmxXQz6XhA=;
-        b=vetjuTWMI+zKlP+S59AM5K7HYM13HBPWerzpgLFgcSgW3B7lHyYdpKP9sy7IoV4W9L
-         xLZMQChPosL1wSQ86owkzC3WLD67jP+UAg8FQ5DiviMASJouuhUyul6H0wGS6kKWd5nX
-         2mvLpFpS4SaQcwI3uUQzD7UGT3Rw2hfDLbK2ESUqd9rLdcJlsBsKKdw+O0zqHCN3MqKg
-         jy7jvXMw6bwYHjO/KawFXnhTU1+Wfb5q35bVv8FW7G4BzCNXl/i/Pype2Kp8CjdBeAud
-         WIlQeoatET3wuQbM76U/+Ihuv0d8KdG1IHIVsRSH8MCtjp0GikkadG/IqVPNbdGmgjnn
-         dk2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sFmXQrIxe2ddVHTtsLZ5B9Mndvy4HI1hqsmxXQz6XhA=;
-        b=xHieg9Nx51yGgkW8vh1v5jClijOYsyuvJPhuci6rOWTL/ICPwkNO6wWuAv178812o4
-         GiCfV0++oKf2ymZLJqBRri7IX/3iswasejU6Fl6W43MMY+qXCj0eV3ecD9S2xgtTD9kn
-         kSBGRtEoZ43fMXiGEuW8KEAG02VL4Z02gSgVULomVnnp+Nh5Cr1Wv/dTRNMrrAIX/qv9
-         HswyZPh6EGxM/6YDaA/PnVxz9Q7M/O3NoxZ+A51V6PJyF4YnOlg+Rkyq/K433+dN7OSd
-         333IjGXgMq0pgR74D49JgkN9RPoPqOfvIZz8aT8kGIgs65Gb3Hdk4rXEj09NS8OILX6V
-         fxSg==
-X-Gm-Message-State: AOAM532ihxGplrCHwEWok0tQC0PBzGgHY1LiFASySjAr9oZ/57WLReoT
-	r0uZ6q6CEAex7k3JXK8ELGrJJbeHDnStWYE9yk6Yvg==
-X-Google-Smtp-Source: 
- ABdhPJyyVus46Bz6MgS8MoxKGJHiDvnoAGd6TAMDP4tJICdzYjAEFpZGk/NrSZ46gYPBFEqhB/qP8UICoLV67wJJTLw=
-X-Received: by 2002:a0d:ea09:0:b0:2f7:d71e:d561 with SMTP id
- t9-20020a0dea09000000b002f7d71ed561mr3191031ywe.318.1652408159058; Thu, 12
- May 2022 19:15:59 -0700 (PDT)
+ dkim=missing;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
+ domain name (domain: windriver.com, ip: 147.11.3.146,
+ mailfrom: skokkond@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 24D5xkAW029415
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 12 May 2022 22:59:46 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Thu, 12 May 2022 22:59:45 -0700
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Thu, 12 May 2022 22:59:45 -0700
+Received: by ala-lpggp3.wrs.com (Postfix, from userid 22326)
+	id DCC6090056D; Thu, 12 May 2022 22:59:45 -0700 (PDT)
+From: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <rwmacleod@gmail.com>, <umesh.kalappa0@gmail.com>, <pgowda.cve@gmail.com>,
+        <shivams@gmail.com>, Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+Subject: [PATCH V4] meta: rust - Bug fix for target definitions returning
+ 'NoneType' for arm
+Date: Thu, 12 May 2022 22:59:23 -0700
+Message-ID: <20220513055923.170822-1-sundeep.kokkonda@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220504140956.4373-1-jdmason@kudzu.us>
- <CADkTA4M8bqvWeo7ghPF_rJjVOFGHxdvpkqtveAntW055p490vw@mail.gmail.com>
-In-Reply-To: 
- <CADkTA4M8bqvWeo7ghPF_rJjVOFGHxdvpkqtveAntW055p490vw@mail.gmail.com>
-From: Jon Mason <jdmason@kudzu.us>
-Date: Thu, 12 May 2022 22:15:48 -0400
-Message-ID: 
- <CAPoiz9w-MAekBhBiDE_0Pm7bv9DxNhKXHZh5rYD3mjLYw-RDzA@mail.gmail.com>
-Subject: Re: [PATCH] qemuarmv5: use arm-versatile-926ejs KMACHINE
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 May 2022 02:16:06 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 13 May 2022 05:59:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165543
+ https://lists.openembedded.org/g/openembedded-core/message/165544
 
-I think this needs to get pulled back to kirkstone, as I'm now seeing
-ERROR: linux-yocto-5.15.36+gitAUTOINC+fcf48627ea_ebfb1822e9-r0
-do_kernel_metadata: Could not locate BSP definition for
-qemuarm/standard and no defconfig was provided
+[Yocto bug #14742]
+The build shows below error while building for arm machines.
+Exception: TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+Detailed error info :
 
-On Wed, May 4, 2022 at 10:24 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
->
-> On Wed, May 4, 2022 at 10:09 AM Jon Mason <jdmason@kudzu.us> wrote:
-> >
-> > Use the Arm Versatile 926 kernel configs to get this machine working
-> > again.
-> >
->
-> Acked-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->
-> > Signed-off-by: Jon Mason <jdmason@kudzu.us>
-> > ---
-> >  meta/conf/machine/qemuarmv5.conf | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/conf/machine/qemuarmv5.conf b/meta/conf/machine/qemuarmv5.conf
-> > index 2dad504c9932..abdae5f36182 100644
-> > --- a/meta/conf/machine/qemuarmv5.conf
-> > +++ b/meta/conf/machine/qemuarmv5.conf
-> > @@ -15,7 +15,7 @@ QB_MACHINE = "-machine versatilepb"
-> >  QB_KERNEL_CMDLINE_APPEND = "vmalloc=256"
-> >  QB_GRAPHICS = "-device virtio-gpu-pci"
-> >  QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
-> > -PREFERRED_VERSION_linux-yocto ??= "5.15%"
-> >  QB_DTB = "${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
-> >
-> > -KMACHINE:qemuarmv5 = "qemuarm"
-> > +PREFERRED_VERSION_linux-yocto ??= "5.15%"
-> > +KMACHINE:qemuarmv5 = "arm-versatile-926ejs"
-> > --
-> > 2.30.2
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
+Steps to reproduce:
+1. Set MACHINE ?= "qemuarm" in local.conf & add 'TOOLCHAIN_HOST_TASK:append = " packagegroup-rust-cross-canadian-${MACHINE}"'
+2. bitbake core-image-minimal -cpopulate_sdk
+
+Complete Error:
+ERROR: rust-cross-canadian-arm-1.59.0-r0 do_rust_gen_targets: Error executing a python function in exec_func_python() autogenerated:
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:do_rust_gen_targets(d)
+     0003:
+File: '/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust-cross-canadian-common.inc', lineno: 31, function: do_rust_gen_targets
+     0027:
+     0028:LLVM_TARGET[x86_64] = "${RUST_HOST_SYS}"
+     0029:python do_rust_gen_targets () {
+     0030:    wd = d.getVar('WORKDIR') + '/targets/'
+ *** 0031:    rust_gen_target(d, 'TARGET', wd, d.getVar('TARGET_LLVM_FEATURES') or "", d.getVar('TARGET_LLVM_CPU'), d.getVar('TARGET_ARCH'))
+     0032:    rust_gen_target(d, 'HOST', wd, "", "generic", d.getVar('HOST_ARCH'))
+     0033:    rust_gen_target(d, 'BUILD', wd, "", "generic", d.getVar('BUILD_ARCH'))
+     0034:}
+     0035:
+File: '/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust-common.inc', lineno: 330, function: rust_gen_target
+     0326:    # build tspec
+     0327:    tspec = {}
+     0328:    tspec['llvm-target'] = d.getVarFlag('LLVM_TARGET', arch_abi)
+     0329:    tspec['data-layout'] = d.getVarFlag('DATA_LAYOUT', arch_abi)
+ *** 0330:    tspec['max-atomic-width'] = int(d.getVarFlag('MAX_ATOMIC_WIDTH', arch_abi))
+     0331:    tspec['target-pointer-width'] = d.getVarFlag('TARGET_POINTER_WIDTH', arch_abi)
+     0332:    tspec['target-c-int-width'] = d.getVarFlag('TARGET_C_INT_WIDTH', arch_abi)
+     0333:    tspec['target-endian'] = d.getVarFlag('TARGET_ENDIAN', arch_abi)
+     0334:    tspec['arch'] = arch_to_rust_target_arch(rust_arch)
+Exception: TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+
+Below are the local variables from rust_gen_target function for arm and aarch64 targets. Refer below, the tspec varibles for 'arm' generated with NoneType.
+(a) Locals at rust_gen_target for arm::
+tspec['data-layout'] =  None, Type of tspec['data-layout'] =  <class 'NoneType'>
+tspec['data-layout'] =  None, Type of tspec['data-layout'] =  <class 'NoneType'>
+DEBUG: Python function do_rust_gen_targets finished
+(b) Locals at rust_gen_target  for aarch64::
+tspec['data-layout'] =  aarch64-unknown-linux-gnu, Type of tspec['data-layout'] =  <class 'str'>
+tspec['max-atomic-width'] =  128, Type of tspec['max-atomic-width'] =  <class 'int'>
+
+Reason for changing arm-eabi to arm: The earlier changes introduced this bug, so reverting the change 'arm-eabi' to 'arm' fixed the issue.
+
+The 'rust_gen_targets' Task added with its dependent variable list.
+
+Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+---
+ meta/recipes-devtools/rust/rust-common.inc | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-devtools/rust/rust-common.inc
+index 310aecef22..984fe9099e 100644
+--- a/meta/recipes-devtools/rust/rust-common.inc
++++ b/meta/recipes-devtools/rust/rust-common.inc
+@@ -119,13 +119,13 @@ def llvm_features(d):
+ 
+ 
+ ## arm-unknown-linux-gnueabihf
+-DATA_LAYOUT[arm-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
+-LLVM_TARGET[arm-eabi] = "${RUST_TARGET_SYS}"
+-TARGET_ENDIAN[arm-eabi] = "little"
+-TARGET_POINTER_WIDTH[arm-eabi] = "32"
+-TARGET_C_INT_WIDTH[arm-eabi] = "32"
+-MAX_ATOMIC_WIDTH[arm-eabi] = "64"
+-FEATURES[arm-eabi] = "+v6,+vfp2"
++DATA_LAYOUT[arm] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
++LLVM_TARGET[arm] = "${RUST_TARGET_SYS}"
++TARGET_ENDIAN[arm] = "little"
++TARGET_POINTER_WIDTH[arm] = "32"
++TARGET_C_INT_WIDTH[arm] = "32"
++MAX_ATOMIC_WIDTH[arm] = "64"
++FEATURES[arm] = "+v6,+vfp2"
+ 
+ ## armv7-unknown-linux-gnueabihf
+ DATA_LAYOUT[armv7-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
+@@ -360,6 +360,8 @@ def rust_gen_target(d, thing, wd, features, cpu, arch, abi=""):
+     with open(wd + sys + '.json', 'w') as f:
+         json.dump(tspec, f, indent=4)
+ 
++do_rust_gen_targets[vardeps] += "DATA_LAYOUT LLVM_TARGET TARGET_ENDIAN TARGET_POINTER_WIDTH TARGET_C_INT_WIDTH MAX_ATOMIC_WIDTH FEATURES"
++
+ python do_rust_gen_targets () {
+     wd = d.getVar('WORKDIR') + '/targets/'
+     build_arch = d.getVar('BUILD_ARCH')
+-- 
+2.35.1
+
 
