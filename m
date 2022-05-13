@@ -1,470 +1,405 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D59AC433EF
-	for <webhook@archiver.kernel.org>; Thu, 12 May 2022 19:28:59 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web10.1715.1652383738684992285
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69716C433F5
+	for <webhook@archiver.kernel.org>; Fri, 13 May 2022 01:42:36 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
+ [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.3321.1652406149340310075
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 May 2022 12:28:58 -0700
+ Thu, 12 May 2022 18:42:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LY4hqx0k;
- spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f43.google.com with SMTP id
- t11-20020a17090ad50b00b001d95bf21996so8752818pju.2
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 12 May 2022 12:28:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gDpej21lh8WjydkNdSQ/pZONn32rBSzFWRMlABdnJ8c=;
-        b=LY4hqx0k6z1voKi0tKI/SaA4t2wYZElS0O46jfwUPlLiM0nE78OWtSku3Q8h6wZ572
-         pxINsq6z/aqsRqc7uxanFZMkHdBSzkeGLBDljKDEuszgNR31w+ti57iA//OuqsNdNs92
-         JpEqlYW8Dh8+5j1fFxXkggKasPh5Z068I2AUNN6e7c/7X3ua2ri8+zE/nwh5V70KepIZ
-         hgGjwJU4GmOPwGM13zkGIJsfwrw3uaHJ0CroNUN9uEkz2DsjOA/tjMW+x+vsiSLs3bZr
-         oZhUkXYRb8Nuc5Im7zCMSAxD7t74+0FhiZAMqcBJmV3Xp2LrH0DjNebORGPU+6dHd0zl
-         Z58Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gDpej21lh8WjydkNdSQ/pZONn32rBSzFWRMlABdnJ8c=;
-        b=6TxFh4teqgWmcSqu95ZB/c5St3Xlc5W0SicwX1feIyOukMCLEPzn+JHdsd4guxj93o
-         JMKU2oMVg4tKiSZY1KzElYqEXrb1eTR5xTlS8rcjFHswLU7Jif7m4MpGqyR8Gsds/a0K
-         eOe/NPiApTr9/egTGPP6wVKfMixrhZv9lswCUJ/l0mrepTEqYXTLM8UB0PMBmXzWE7UP
-         LsXolh1W6Kqkt7nrATK9/4mD6zCVphonzO2q7iP24VQm7YZ5L20A4fln7uGeArNO6lx8
-         B+hbPItT9suy+JJDdk0hOi7+NhRhcOODOtoIB/efzEH4a6bKTc07TOc9daxg+nMddUrE
-         gN/Q==
-X-Gm-Message-State: AOAM533TQSp/fybySiKRX/Gz4k+zUcH3Wwsh333jNGfyCgqNNK1OVotc
-	0ERp1QIwRXITkB/65Jziqk0PdRDrZkD++A==
-X-Google-Smtp-Source: 
- ABdhPJys1eZqP7m90p4P9UOZlLvth6GJ0p6Bc0mtdKRQGD3DTEvx66byfnjqxCQ4TjNgVBugYObz3Q==
-X-Received: by 2002:a17:902:b413:b0:15e:e6a8:b3e with SMTP id
- x19-20020a170902b41300b0015ee6a80b3emr1363135plr.24.1652383737364;
-        Thu, 12 May 2022 12:28:57 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::2ca3])
-        by smtp.gmail.com with ESMTPSA id
- p12-20020aa79e8c000000b0050dc76281desm170963pfq.184.2022.05.12.12.28.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 May 2022 12:28:56 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] gdb: Upgrade to 12.1
-Date: Thu, 12 May 2022 12:28:54 -0700
-Message-Id: <20220512192854.1538701-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.36.1
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=Z22TKHkV;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.166.238,
+ mailfrom: prvs=213232f529=changqing.li@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
+ 24D1gTqv014918
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 12 May 2022 18:42:29 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ mime-version; s=PPS06212021;
+ bh=kQC3DqNwCuPJ997fosPgJ4rC8pCl98cfvVG1Y7Ctr8I=;
+ b=Z22TKHkV+SQ0MXrfaQpo0OEwN7qCDGauaWFN13B+XAqESqzOE5kBIO3EyQaGQ2L3Bsez
+ sr74X6kxfHp/mcSnPhTQ/XDW6LPU0u3rAfjCGTdWHyOJcQjlMJbVVautCUHK4DANRPGF
+ 2Dqppikzt4acpmgZms+jIQ8SOudGmhibrdK2Qx2jezW0vTRgZgclMUUO4mlICLa0eIgL
+ 8fxeWJJuxPwe1UFNBj/Q970YK5oSU4aWI0jrfe2IB9yRYlGpbTLZrPITv2mJkh1t9FJ3
+ UILgQ5ADcVGy87SC6p55Qni3u/V+/ZKyGK6FCAvxZhMTRIWc5tkqkcyoAnouc1Bz2ZaN iw==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3fxde5kr9b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 12 May 2022 18:42:28 -0700
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 24D1gSHR014913
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 12 May 2022 18:42:28 -0700
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2171.outbound.protection.outlook.com [104.47.58.171])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3fxde5kr9a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 May 2022 18:42:28 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DU5zY3TeuFApmwk9sGj8fRTJ8/MnLEjC9F/2cxXhVqLtvOYVYBZzfvVtjYBncjDCE0/6bScOl0kOuQLl6I/xyA4X3mvgJYJpsc44W8BPP/j7m/NhKMnVtxsgYulQvt2Woaw0aMOfN8NIUKDybz2b9mitRRSvRs3UrOuIZuKHeQW3jxCM1m+JRX9OiZ3JIYLJtP8WxJEpzIKDZqJ5/HqD21pG/+0nSwym9yhxXSxx6ZZDYrUeHuXbGBjzUGu4TsOpLv8e+FVLsvbRcWLZB9SAvrXDqf/+J/RzVm3aR0Dd4Wred4OVOQY1TeytFwP956mK66MGP9CALMZqNOyoU92ncA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kQC3DqNwCuPJ997fosPgJ4rC8pCl98cfvVG1Y7Ctr8I=;
+ b=XqaNupQA549h4+HaPsytzeIwsbU6SvV8jsg2BzLGDjn9LasnpCL5KGSe49lTM1TSNgMvCCLiak2hRmr/M1aNLP6zdLncvpWJX+hay38WPMM/dthTIcIotoyReI/ocAu2WcKaZJ3xG0pSJnNUnP6F3BQyFGrZPLGPemk1l1iCWG+btF6yg0IP9OANJ2zjF2t+bzdzVa7s0q6lYsnSHYUIJKVp14dn1JYdL54exRO1NWvr2AGrQySx2khSPNXqtQk0hIuvzaZjtAT7+MpLVSlosYCTlKHoDgunrMz7OJEqeVC0NBr3K/W1hbjWanV+Xt8bPxfcoLNiq6kDqh7y05queA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SN6PR11MB2557.namprd11.prod.outlook.com (2603:10b6:805:56::33)
+ by CY4PR11MB1686.namprd11.prod.outlook.com (2603:10b6:903:30::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.14; Fri, 13 May
+ 2022 01:42:25 +0000
+Received: from SN6PR11MB2557.namprd11.prod.outlook.com
+ ([fe80::c103:34e:6b82:8f92]) by SN6PR11MB2557.namprd11.prod.outlook.com
+ ([fe80::c103:34e:6b82:8f92%4]) with mapi id 15.20.5250.013; Fri, 13 May 2022
+ 01:42:25 +0000
+From: "Li, Changqing" <Changqing.Li@windriver.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+        Alex Kiernan <alex.kiernan@gmail.com>
+CC: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] eudev: create static nodes from modules
+Thread-Topic: [OE-core] [PATCH] eudev: create static nodes from modules
+Thread-Index: AQHYZdRZqwkCY9rhpkqR+6R+bYoS160bC92AgAD6iqM=
+Date: Fri, 13 May 2022 01:42:25 +0000
+Message-ID: 
+ <SN6PR11MB25578B38EF44CB5A0D00A40782CA9@SN6PR11MB2557.namprd11.prod.outlook.com>
+References: <20220512054303.429208-1-changqing.li@windriver.com>
+	 <CAO5Uq5TO3gZQNkucAy9s8aiJ=0+nMJDe-zw=SBT+wOjbUQwniQ@mail.gmail.com>
+ <dbf5957af1a1afd39a90465b47eeae90fa6f350e.camel@linuxfoundation.org>
+In-Reply-To: 
+ <dbf5957af1a1afd39a90465b47eeae90fa6f350e.camel@linuxfoundation.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5be4da32-3f5e-4cfb-436d-08da3481d4e5
+x-ms-traffictypediagnostic: CY4PR11MB1686:EE_
+x-microsoft-antispam-prvs: 
+ <CY4PR11MB1686EA8D0941F1C21F69129582CA9@CY4PR11MB1686.namprd11.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ ZheQmsKuFFhR0QOczAhp6uprRPjVo1gx0yX4VURgol/1kDmQk4OMspCWe9chZHIl5fwVyowcLpXt4Mp/5NYpYvrzxsp/ZgI1bPAun69H5GcrLFfMS1maIpVKTaGi/M9/xToGBRSMisdKjCD5nUVSO+9VPrtRP+Rtbclrn5XIU4QCY9hKz42BzFl8dQERx8djXw1Og6UMlZdpLu3GyrsG7r/wCAkOBuM/kK8wa2LO6RnzwivtwJdkEitV9946QVE5CZMjEJJRcP8pyPuxMdULxVqeo6phkPFnBbhwrPzxJKoJyAk5dXSs0vj8kCVQQ3qdQkMgqpEkXZtqfxDbT/2sx8eonmutW7R7qd9cjk1rOI/ZBBnQUhc3pg81RkWBef4YJW2hT44Z8h1FHhwuAyLX8AQG8RDzEJwR0YgjcmS1gd+Rr74IIBMIy8Ww50foOwwcUG1O1MBWpNWPElpB2z04FBOCKKR6YxjFwqi4DAIVbulEe2zfWRKFJQWrQbIctLXj7cKylQRchlRO5oq3JAX6LOlkp7JQb2vnN86t0ST5jRFDWO5vBb+eS0wgXmyM8Miwbn2UUjTL5Lz3WvN68N4nkWg3zfB7QPw7KRwIGgZlEzYUtwB7CsC7ozx9o4a0J5QzJMBRHtlTkbJBbsvCi/iWkuVorPuzZ/583YT4zkiaq9QJw+BAAOeYhJWL90yQV10Piro30/z0b0ZxC5RyOqSD7Jo6ZNKe/DG4mLSTDRjEfD35pwRiuxLQGyaJ9uorLf0aMO519QUNuK0eFtT4nJf7yw==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2557.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(38100700002)(5660300002)(52536014)(38070700005)(2906002)(186003)(8936002)(71200400001)(86362001)(8676002)(76116006)(66946007)(66556008)(66476007)(4326008)(64756008)(66446008)(91956017)(966005)(6506007)(55016003)(508600001)(53546011)(19627405001)(7696005)(26005)(9686003)(110136005)(33656002)(122000001)(316002)(166002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?iso-8859-1?Q?rAy968empYPvb7oyUUeAu9iApoiUOEhuoXGExAjnQDI0mkX14BKJmUfipz?=
+ =?iso-8859-1?Q?wMTU0jdRpfN/hXVLrZ2gqWXbjsld83al3VpPyDLe4B3n+rxh83F+WsXtCb?=
+ =?iso-8859-1?Q?lfSOseKt8xPC2RBeE3oxw//xB0o8TcAKQy9ndKamkVw+zMUoiDQeI/jJFU?=
+ =?iso-8859-1?Q?Or8yZ0W0y0KcEEfYqDkv2JsMokK9l9K6GeG3qOxs2kEc8XNzneCBj38NBl?=
+ =?iso-8859-1?Q?VttfOjgl+mVakLPm9ZQwC+ETpNUCzKRoALKQX5hst+IlWl1igRVqjIJCsu?=
+ =?iso-8859-1?Q?0u3GX/HDOgBdck1lbJ9TecaDR8Ai/K6CBuDL3FoCtxKUC31F2UWTs7MZ2j?=
+ =?iso-8859-1?Q?+7EieoyeM6LWV+dbkRmBfHEq4PkmgAWoE4hO+k2YW4F7fypx5DFzKedEPR?=
+ =?iso-8859-1?Q?6D9QZ4UTYNeB5/6H8TTJKmZAONZdRopkbmaQvm3l0ShRlvW4NRcvREKpa/?=
+ =?iso-8859-1?Q?pZQ7IWuVz6BzpwTVgZdlbBDEMogaYHjjgqJQMU9lnAu+DnbTCCqIT0RXGc?=
+ =?iso-8859-1?Q?sPLV05yqjvbBIrkOkYOHN3WlMYoBOrIHBPKwBuU80YyPkJ7LJbPFknKTXt?=
+ =?iso-8859-1?Q?gVsXez9Kl0a9mcCulYB6j4Xd9rzJO37X5E+T/xogbkeHn0fDpN8Rv21Suh?=
+ =?iso-8859-1?Q?kUXBhkZTjJvzASiDotvGKk5SUdKFPi5Lb8vuKau/bkEw9Og/ijXynUEA1P?=
+ =?iso-8859-1?Q?+IOU0iFvtA5Z2mMQ8uq1TxfzB9NPQDAsNahST8uXdaFIxQ+5wmKRfOKQmo?=
+ =?iso-8859-1?Q?DWSgiE/ZFvz+kPTw7lMcnua108DU7kTgXASFAlYQpRZXUmrG1XhRCaVh45?=
+ =?iso-8859-1?Q?Tnk6YS1TIyEsYs6G6L03szi1AX50WdipE59KSRc4IBqXs2SAEiGQhQRrsN?=
+ =?iso-8859-1?Q?W2Yt326R1ubYlWGJN6ORjJOg+EkfqtTHEjJJLH5NLxEWB6ezwZytwAdKuW?=
+ =?iso-8859-1?Q?X7VyQVS6DAr+Exfkc2/hIPz51Oq7svXMvSK9+6FTrMdJOJpzwqjlDZcwIN?=
+ =?iso-8859-1?Q?9PW4G7yp84XEOco/H81/BV3i9BE5baTALBLQ4S3KREuubiVcqiJB/iFcIZ?=
+ =?iso-8859-1?Q?u7LGXjZtMwsfxPDuPo7UydAHzhCBftERZ0W/eRyW6tXV0dsbrXVdHXlJ55?=
+ =?iso-8859-1?Q?kPAXN81/iPq2XHHSSZsjIGhdUe8yfcBTyQZyjpcy9hSeeEAGoVs7y1PU+y?=
+ =?iso-8859-1?Q?1n/0TSP8L11P+qu42DkFVNakdhoGOUNbaxzB9Jfm0r4b5HenD1tuIiL20Q?=
+ =?iso-8859-1?Q?FnXoFg86/ZP8zFcS61O1TiN+hIiV/iDuIp4dd0hpGO9VXxTgDBjrZeKgm4?=
+ =?iso-8859-1?Q?LK9dX0/8TfPkRz8MRoeHGjJHsSuOqPzdzvR/oDLYQZCrD4uU65ADaxo5Zw?=
+ =?iso-8859-1?Q?i3FzWx/run79VlYRFK/OvwikTvdyUtTnXV2QrKVoPqpRjGW/IdvWj8Nob6?=
+ =?iso-8859-1?Q?IfOehK/DphWAgspicmi/Oyv3UYr6sSn6AtSDnhnsVpgIZ3EEFliLQ4dkjn?=
+ =?iso-8859-1?Q?hGrRT45Aw7NsatAg9+JK9k7Mdl5WXrJMfe+F7JpxFQWqQ3YV53X0es1LUX?=
+ =?iso-8859-1?Q?qSvJy6NUNmcNTkzC87lgcc55jwwYStNC3AJ8vdv9zsuFfou68HcM8AKAdo?=
+ =?iso-8859-1?Q?E0P24JzyCNx1w7e/dN/ngHpMNG4ZtNBMVG9V0B0iSAOENft+It++apOtUD?=
+ =?iso-8859-1?Q?Ki/pvyjigZLos9ccdetGVgoX6Qq6n3lCK00fc+SFnbQuU1F8/+T/lDO5uL?=
+ =?iso-8859-1?Q?5ReywbZsd0bkyXn8m1vtnIjZumi5a5NoIAfV4MqK9EV8k8+/bT/PTBf458?=
+ =?iso-8859-1?Q?q/rWgtWeMQ=3D=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_SN6PR11MB25578B38EF44CB5A0D00A40782CA9SN6PR11MB2557namp_"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2557.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 5be4da32-3f5e-4cfb-436d-08da3481d4e5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2022 01:42:25.3254
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 
+ PTfPxTTPMmOVecRmDafP83blRnlt5FhDzUaEHIrO5dS64Mxv8m5jVwUc7ZN6Xd84/DSQurkt7KDahNr1il8E9389yfgvsekV3ToTcgsE7Vw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR11MB1686
+X-Proofpoint-GUID: l-N19qlbkDhWrXViagKwSUi6FFG9aOqS
+X-Proofpoint-ORIG-GUID: Mlrp_Ik8H3IKfqDk8ppwr2AzeNaLgg5x
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-05-12_19,2022-05-12_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ phishscore=0 mlxscore=0 malwarescore=0 clxscore=1015 bulkscore=0
+ mlxlogscore=999 suspectscore=0 adultscore=0 impostorscore=0 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205130007
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 May 2022 19:28:59 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 13 May 2022 01:42:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165541
+ https://lists.openembedded.org/g/openembedded-core/message/165542
 
-Release Announcement [1] and Notes [2]
+--_000_SN6PR11MB25578B38EF44CB5A0D00A40782CA9SN6PR11MB2557namp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-[1] https://lists.gnu.org/archive/html/info-gnu/2022-05/msg00000.html
-[2] https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=blob_plain;f=gdb/NEWS;hb=gdb-12.1-release
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/distro/include/tcmode-default.inc        |  2 +-
- ...canadian_11.2.bb => gdb-cross-canadian_12.1.bb} |  0
- .../gdb/{gdb-cross_11.2.bb => gdb-cross_12.1.bb}   |  0
- meta/recipes-devtools/gdb/gdb.inc                  | 14 +++++++-------
- ...0001-make-man-install-relative-to-DESTDIR.patch | 10 +++++-----
- ...s-linux-nat-Define-_ABIO32-if-not-defined.patch |  8 ++++----
- ...Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch | 11 +++++------
- ...-libreadline.a-when-using-disable-static.patch} | 14 +++++++-------
- ...gidefs.h.patch => 0005-use-asm-sgidefs.h.patch} |  8 ++++----
- ...AGS.patch => 0006-Change-order-of-CFLAGS.patch} | 10 +++++-----
- ...> 0007-resolve-restrict-keyword-conflict.patch} |  6 +++---
- ...tch => 0008-Fix-invalid-sigprocmask-call.patch} |  8 ++++----
- ....patch => 0009-gdbserver-ctrl-c-handling.patch} | 10 +++++-----
- .../gdb/{gdb_11.2.bb => gdb_12.1.bb}               |  0
- 14 files changed, 50 insertions(+), 51 deletions(-)
- rename meta/recipes-devtools/gdb/{gdb-cross-canadian_11.2.bb => gdb-cross-canadian_12.1.bb} (100%)
- rename meta/recipes-devtools/gdb/{gdb-cross_11.2.bb => gdb-cross_12.1.bb} (100%)
- rename meta/recipes-devtools/gdb/gdb/{0005-Dont-disable-libreadline.a-when-using-disable-static.patch => 0004-Dont-disable-libreadline.a-when-using-disable-static.patch} (80%)
- rename meta/recipes-devtools/gdb/gdb/{0006-use-asm-sgidefs.h.patch => 0005-use-asm-sgidefs.h.patch} (84%)
- rename meta/recipes-devtools/gdb/gdb/{0007-Change-order-of-CFLAGS.patch => 0006-Change-order-of-CFLAGS.patch} (80%)
- rename meta/recipes-devtools/gdb/gdb/{0008-resolve-restrict-keyword-conflict.patch => 0007-resolve-restrict-keyword-conflict.patch} (93%)
- rename meta/recipes-devtools/gdb/gdb/{0009-Fix-invalid-sigprocmask-call.patch => 0008-Fix-invalid-sigprocmask-call.patch} (90%)
- rename meta/recipes-devtools/gdb/gdb/{0010-gdbserver-ctrl-c-handling.patch => 0009-gdbserver-ctrl-c-handling.patch} (82%)
- rename meta/recipes-devtools/gdb/{gdb_11.2.bb => gdb_12.1.bb} (100%)
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 9660f2804a7..1179ba172ff 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -19,7 +19,7 @@ PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
- GCCVERSION ?= "12.%"
- SDKGCCVERSION ?= "${GCCVERSION}"
- BINUVERSION ?= "2.38%"
--GDBVERSION ?= "11.%"
-+GDBVERSION ?= "12.%"
- GLIBCVERSION ?= "2.35"
- LINUXLIBCVERSION ?= "5.16%"
- QEMUVERSION ?= "7.0%"
-diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_11.2.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_12.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb-cross-canadian_11.2.bb
-rename to meta/recipes-devtools/gdb/gdb-cross-canadian_12.1.bb
-diff --git a/meta/recipes-devtools/gdb/gdb-cross_11.2.bb b/meta/recipes-devtools/gdb/gdb-cross_12.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb-cross_11.2.bb
-rename to meta/recipes-devtools/gdb/gdb-cross_12.1.bb
-diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
-index 649ee287276..3b569fd40e7 100644
---- a/meta/recipes-devtools/gdb/gdb.inc
-+++ b/meta/recipes-devtools/gdb/gdb.inc
-@@ -8,11 +8,11 @@ SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
-            file://0001-make-man-install-relative-to-DESTDIR.patch \
-            file://0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch \
-            file://0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch \
--           file://0005-Dont-disable-libreadline.a-when-using-disable-static.patch \
--           file://0006-use-asm-sgidefs.h.patch \
--           file://0007-Change-order-of-CFLAGS.patch \
--           file://0008-resolve-restrict-keyword-conflict.patch \
--           file://0009-Fix-invalid-sigprocmask-call.patch \
--           file://0010-gdbserver-ctrl-c-handling.patch \
-+           file://0004-Dont-disable-libreadline.a-when-using-disable-static.patch \
-+           file://0005-use-asm-sgidefs.h.patch \
-+           file://0006-Change-order-of-CFLAGS.patch \
-+           file://0007-resolve-restrict-keyword-conflict.patch \
-+           file://0008-Fix-invalid-sigprocmask-call.patch \
-+           file://0009-gdbserver-ctrl-c-handling.patch \
-            "
--SRC_URI[sha256sum] = "1497c36a71881b8671a9a84a0ee40faab788ca30d7ba19d8463c3cc787152e32"
-+SRC_URI[sha256sum] = "0e1793bf8f2b54d53f46dea84ccfd446f48f81b297b28c4f7fc017b818d69fed"
-diff --git a/meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-to-DESTDIR.patch b/meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-to-DESTDIR.patch
-index 824b96f6afe..16d6cf196fd 100644
---- a/meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-to-DESTDIR.patch
-+++ b/meta/recipes-devtools/gdb/gdb/0001-make-man-install-relative-to-DESTDIR.patch
-@@ -1,7 +1,7 @@
--From a6d3df9d84463ec500d9d01558ab8a17e824e9e5 Mon Sep 17 00:00:00 2001
-+From 8eca28eddcda4ce8a345ca031f43ff1ed6f37089 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 2 Mar 2015 02:27:55 +0000
--Subject: [PATCH 01/10] make man install relative to DESTDIR
-+Subject: [PATCH 1/9] make man install relative to DESTDIR
- 
- Upstream-Status: Pending
- 
-@@ -11,10 +11,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/sim/common/Make-common.in b/sim/common/Make-common.in
--index 8c2cacea1e5..4a52eef2203 100644
-+index 74e5dad3049..9e95c224ba4 100644
- --- a/sim/common/Make-common.in
- +++ b/sim/common/Make-common.in
--@@ -63,7 +63,7 @@ tooldir = $(libdir)/$(target_alias)
-+@@ -70,7 +70,7 @@ tooldir = $(libdir)/$(target_alias)
-  datadir = @datadir@
-  datarootdir = @datarootdir@
-  mandir = @mandir@
-@@ -24,5 +24,5 @@ index 8c2cacea1e5..4a52eef2203 100644
-  includedir = @includedir@
-  
- -- 
--2.33.1
-+2.36.1
- 
-diff --git a/meta/recipes-devtools/gdb/gdb/0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch b/meta/recipes-devtools/gdb/gdb/0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
-index 591c9bfa3f9..8d263de8963 100644
---- a/meta/recipes-devtools/gdb/gdb/0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
-+++ b/meta/recipes-devtools/gdb/gdb/0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch
-@@ -1,7 +1,7 @@
--From 7f1f25eaaace289bc33c5aaa1c5fe9e04e719651 Mon Sep 17 00:00:00 2001
-+From 37d3afd2eaa95c89ad7cb5d0079b017752e4d0ea Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 23 Mar 2016 06:30:09 +0000
--Subject: [PATCH 02/10] mips-linux-nat: Define _ABIO32 if not defined
-+Subject: [PATCH 2/9] mips-linux-nat: Define _ABIO32 if not defined
- 
- This helps building gdb on mips64 on musl, since
- musl does not provide sgidefs.h this define is
-@@ -16,7 +16,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 4 insertions(+)
- 
- diff --git a/gdb/mips-linux-nat.c b/gdb/mips-linux-nat.c
--index b21c7cb2ea6..6614b4de31e 100644
-+index 20e12b6889e..6adc61235aa 100644
- --- a/gdb/mips-linux-nat.c
- +++ b/gdb/mips-linux-nat.c
- @@ -41,6 +41,10 @@
-@@ -31,5 +31,5 @@ index b21c7cb2ea6..6614b4de31e 100644
-  class mips_linux_nat_target final : public linux_nat_trad_target
-  {
- -- 
--2.33.1
-+2.36.1
- 
-diff --git a/meta/recipes-devtools/gdb/gdb/0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch b/meta/recipes-devtools/gdb/gdb/0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
-index 09ea533b00d..7e09404bb05 100644
---- a/meta/recipes-devtools/gdb/gdb/0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
-+++ b/meta/recipes-devtools/gdb/gdb/0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch
-@@ -1,8 +1,7 @@
--From 0cb233ec3951582fa1a051a16bfd644ef4969df5 Mon Sep 17 00:00:00 2001
-+From e689eec672ee8c53b3adb2ade2b5deb9b7cd99d4 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sat, 30 Apr 2016 18:32:14 -0700
--Subject: [PATCH 03/10] ppc/ptrace: Define pt_regs uapi_pt_regs on !GLIBC
-- systems
-+Subject: [PATCH 3/9] ppc/ptrace: Define pt_regs uapi_pt_regs on !GLIBC systems
- 
- Upstream-Status: Pending
- 
-@@ -13,7 +12,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  2 files changed, 12 insertions(+)
- 
- diff --git a/gdb/nat/ppc-linux.h b/gdb/nat/ppc-linux.h
--index e712a9a5713..76bbcca0928 100644
-+index 1094f6b0be3..d8588a646c2 100644
- --- a/gdb/nat/ppc-linux.h
- +++ b/gdb/nat/ppc-linux.h
- @@ -18,7 +18,13 @@
-@@ -31,7 +30,7 @@ index e712a9a5713..76bbcca0928 100644
-  
-  /* This sometimes isn't defined.  */
- diff --git a/gdbserver/linux-ppc-low.cc b/gdbserver/linux-ppc-low.cc
--index db9a88219ea..151e4183bb1 100644
-+index 08824887003..69afbae5359 100644
- --- a/gdbserver/linux-ppc-low.cc
- +++ b/gdbserver/linux-ppc-low.cc
- @@ -23,7 +23,13 @@
-@@ -49,5 +48,5 @@ index db9a88219ea..151e4183bb1 100644
-  #include "arch/ppc-linux-common.h"
-  #include "arch/ppc-linux-tdesc.h"
- -- 
--2.33.1
-+2.36.1
- 
-diff --git a/meta/recipes-devtools/gdb/gdb/0005-Dont-disable-libreadline.a-when-using-disable-static.patch b/meta/recipes-devtools/gdb/gdb/0004-Dont-disable-libreadline.a-when-using-disable-static.patch
-similarity index 80%
-rename from meta/recipes-devtools/gdb/gdb/0005-Dont-disable-libreadline.a-when-using-disable-static.patch
-rename to meta/recipes-devtools/gdb/gdb/0004-Dont-disable-libreadline.a-when-using-disable-static.patch
-index 02ea30f9bf8..a1e85e91b33 100644
---- a/meta/recipes-devtools/gdb/gdb/0005-Dont-disable-libreadline.a-when-using-disable-static.patch
-+++ b/meta/recipes-devtools/gdb/gdb/0004-Dont-disable-libreadline.a-when-using-disable-static.patch
-@@ -1,7 +1,7 @@
--From e2efd044c479895767f1b929f5a54fa0c689f318 Mon Sep 17 00:00:00 2001
-+From 15ee6a626242efb8f367be49c13e00d0b72317f0 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sat, 30 Apr 2016 15:25:03 -0700
--Subject: [PATCH 05/10] Dont disable libreadline.a when using --disable-static
-+Subject: [PATCH 4/9] Dont disable libreadline.a when using --disable-static
- 
- If gdb is configured with --disable-static then this is dutifully passed to
- readline which then disables libreadline.a, which causes a problem when gdb
-@@ -19,10 +19,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  2 files changed, 3 insertions(+), 2 deletions(-)
- 
- diff --git a/Makefile.def b/Makefile.def
--index 5a460f1dbbc..77a702ac6d6 100644
-+index acdcd625ed6..78fc31e1199 100644
- --- a/Makefile.def
- +++ b/Makefile.def
--@@ -105,7 +105,8 @@ host_modules= { module= libiconv;
-+@@ -120,7 +120,8 @@ host_modules= { module= libiconv;
-  		missing= install-html;
-  		missing= install-info; };
-  host_modules= { module= m4; };
-@@ -33,10 +33,10 @@ index 5a460f1dbbc..77a702ac6d6 100644
-  host_modules= { module= sim; };
-  host_modules= { module= texinfo; no_install= true; };
- diff --git a/Makefile.in b/Makefile.in
--index 9b3a5d75735..98cbe844fca 100644
-+index 3aacd2daac9..aa58adada4a 100644
- --- a/Makefile.in
- +++ b/Makefile.in
--@@ -25607,7 +25607,7 @@ configure-readline:
-+@@ -32791,7 +32791,7 @@ configure-readline:
-  	  $$s/$$module_srcdir/configure \
-  	  --srcdir=$${topdir}/$$module_srcdir \
-  	  $(HOST_CONFIGARGS) --build=${build_alias} --host=${host_alias} \
-@@ -46,5 +46,5 @@ index 9b3a5d75735..98cbe844fca 100644
-  @endif readline
-  
- -- 
--2.33.1
-+2.36.1
- 
-diff --git a/meta/recipes-devtools/gdb/gdb/0006-use-asm-sgidefs.h.patch b/meta/recipes-devtools/gdb/gdb/0005-use-asm-sgidefs.h.patch
-similarity index 84%
-rename from meta/recipes-devtools/gdb/gdb/0006-use-asm-sgidefs.h.patch
-rename to meta/recipes-devtools/gdb/gdb/0005-use-asm-sgidefs.h.patch
-index ef271c45e29..242099b9b1e 100644
---- a/meta/recipes-devtools/gdb/gdb/0006-use-asm-sgidefs.h.patch
-+++ b/meta/recipes-devtools/gdb/gdb/0005-use-asm-sgidefs.h.patch
-@@ -1,7 +1,7 @@
--From 5077518c11e8d75e9bf65cdf9ca21c59564e1037 Mon Sep 17 00:00:00 2001
-+From 25a75aaf29791f4302f0e4452f7ebaf735d4f083 Mon Sep 17 00:00:00 2001
- From: Andre McCurdy <amccurdy@gmail.com>
- Date: Sat, 30 Apr 2016 15:29:06 -0700
--Subject: [PATCH 06/10] use <asm/sgidefs.h>
-+Subject: [PATCH 5/9] use <asm/sgidefs.h>
- 
- Build fix for MIPS with musl libc
- 
-@@ -19,7 +19,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/gdb/mips-linux-nat.c b/gdb/mips-linux-nat.c
--index 6614b4de31e..237eb6eb975 100644
-+index 6adc61235aa..afb40066744 100644
- --- a/gdb/mips-linux-nat.c
- +++ b/gdb/mips-linux-nat.c
- @@ -31,7 +31,7 @@
-@@ -32,5 +32,5 @@ index 6614b4de31e..237eb6eb975 100644
-  #include <asm/ptrace.h>
-  #include "inf-ptrace.h"
- -- 
--2.33.1
-+2.36.1
- 
-diff --git a/meta/recipes-devtools/gdb/gdb/0007-Change-order-of-CFLAGS.patch b/meta/recipes-devtools/gdb/gdb/0006-Change-order-of-CFLAGS.patch
-similarity index 80%
-rename from meta/recipes-devtools/gdb/gdb/0007-Change-order-of-CFLAGS.patch
-rename to meta/recipes-devtools/gdb/gdb/0006-Change-order-of-CFLAGS.patch
-index 40d12579c0e..58c9b1d0a78 100644
---- a/meta/recipes-devtools/gdb/gdb/0007-Change-order-of-CFLAGS.patch
-+++ b/meta/recipes-devtools/gdb/gdb/0006-Change-order-of-CFLAGS.patch
-@@ -1,7 +1,7 @@
--From 80080e6c8425ac51498f49c2063b960a08f9a27d Mon Sep 17 00:00:00 2001
-+From c0e7c34134aa1f9644075c596a2338a50d3d923e Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sat, 30 Apr 2016 15:35:39 -0700
--Subject: [PATCH 07/10] Change order of CFLAGS
-+Subject: [PATCH 6/9] Change order of CFLAGS
- 
- Lets us override Werror if need be
- 
-@@ -13,10 +13,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/gdbserver/Makefile.in b/gdbserver/Makefile.in
--index 12e9b2777ae..ad44fbc3309 100644
-+index 47648b8d962..5599779de57 100644
- --- a/gdbserver/Makefile.in
- +++ b/gdbserver/Makefile.in
--@@ -172,7 +172,7 @@ WIN32APILIBS = @WIN32APILIBS@
-+@@ -156,7 +156,7 @@ WIN32APILIBS = @WIN32APILIBS@
-  INTERNAL_CFLAGS_BASE = ${GLOBAL_CFLAGS} \
-  	${PROFILE_CFLAGS} ${INCLUDE_CFLAGS} ${CPPFLAGS} $(PTHREAD_CFLAGS)
-  INTERNAL_WARN_CFLAGS = ${INTERNAL_CFLAGS_BASE} $(WARN_CFLAGS)
-@@ -26,5 +26,5 @@ index 12e9b2777ae..ad44fbc3309 100644
-  # LDFLAGS is specifically reserved for setting from the command line
-  # when running make.
- -- 
--2.33.1
-+2.36.1
- 
-diff --git a/meta/recipes-devtools/gdb/gdb/0008-resolve-restrict-keyword-conflict.patch b/meta/recipes-devtools/gdb/gdb/0007-resolve-restrict-keyword-conflict.patch
-similarity index 93%
-rename from meta/recipes-devtools/gdb/gdb/0008-resolve-restrict-keyword-conflict.patch
-rename to meta/recipes-devtools/gdb/gdb/0007-resolve-restrict-keyword-conflict.patch
-index 9095f905828..bbd1f0b27f1 100644
---- a/meta/recipes-devtools/gdb/gdb/0008-resolve-restrict-keyword-conflict.patch
-+++ b/meta/recipes-devtools/gdb/gdb/0007-resolve-restrict-keyword-conflict.patch
-@@ -1,7 +1,7 @@
--From 4ee7e8afb9ff259e889ac938c673fda9ddc5e15a Mon Sep 17 00:00:00 2001
-+From 44fa1ecfbd8a5fe0cfea12a175fa041686842a0c Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Tue, 10 May 2016 08:47:05 -0700
--Subject: [PATCH 08/10] resolve restrict keyword conflict
-+Subject: [PATCH 7/9] resolve restrict keyword conflict
- 
- GCC detects that we call 'restrict' as param name in function
- signatures and complains since both params are called 'restrict'
-@@ -44,5 +44,5 @@ index 90a67d18426..664641a1fe8 100644
-  _GL_CXXALIASWARN (gettimeofday);
-  # if defined __cplusplus && defined GNULIB_NAMESPACE
- -- 
--2.33.1
-+2.36.1
- 
-diff --git a/meta/recipes-devtools/gdb/gdb/0009-Fix-invalid-sigprocmask-call.patch b/meta/recipes-devtools/gdb/gdb/0008-Fix-invalid-sigprocmask-call.patch
-similarity index 90%
-rename from meta/recipes-devtools/gdb/gdb/0009-Fix-invalid-sigprocmask-call.patch
-rename to meta/recipes-devtools/gdb/gdb/0008-Fix-invalid-sigprocmask-call.patch
-index 5b9d1cfaf93..ed1310ced28 100644
---- a/meta/recipes-devtools/gdb/gdb/0009-Fix-invalid-sigprocmask-call.patch
-+++ b/meta/recipes-devtools/gdb/gdb/0008-Fix-invalid-sigprocmask-call.patch
-@@ -1,7 +1,7 @@
--From 5740876d92ddb67b039d5fbcd1b71e6c58823c08 Mon Sep 17 00:00:00 2001
-+From 5bdd15553daef7370ca3c1f12d8f14247fdd4907 Mon Sep 17 00:00:00 2001
- From: Yousong Zhou <yszhou4tech@gmail.com>
- Date: Fri, 24 Mar 2017 10:36:03 +0800
--Subject: [PATCH 09/10] Fix invalid sigprocmask call
-+Subject: [PATCH 8/9] Fix invalid sigprocmask call
- MIME-Version: 1.0
- Content-Type: text/plain; charset=UTF-8
- Content-Transfer-Encoding: 8bit
-@@ -32,7 +32,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/gdbsupport/signals-state-save-restore.cc b/gdbsupport/signals-state-save-restore.cc
--index 95c156e5036..f4aa512d105 100644
-+index 92e799d3551..a4a0234272a 100644
- --- a/gdbsupport/signals-state-save-restore.cc
- +++ b/gdbsupport/signals-state-save-restore.cc
- @@ -38,7 +38,7 @@ save_original_signals_state (bool quiet)
-@@ -45,5 +45,5 @@ index 95c156e5036..f4aa512d105 100644
-      perror_with_name (("sigprocmask"));
-  
- -- 
--2.33.1
-+2.36.1
- 
-diff --git a/meta/recipes-devtools/gdb/gdb/0010-gdbserver-ctrl-c-handling.patch b/meta/recipes-devtools/gdb/gdb/0009-gdbserver-ctrl-c-handling.patch
-similarity index 82%
-rename from meta/recipes-devtools/gdb/gdb/0010-gdbserver-ctrl-c-handling.patch
-rename to meta/recipes-devtools/gdb/gdb/0009-gdbserver-ctrl-c-handling.patch
-index cb4744e5dda..f53d3bd1e54 100644
---- a/meta/recipes-devtools/gdb/gdb/0010-gdbserver-ctrl-c-handling.patch
-+++ b/meta/recipes-devtools/gdb/gdb/0009-gdbserver-ctrl-c-handling.patch
-@@ -1,7 +1,7 @@
--From d611a68f05c0c86af27bf6beae189a90a946e2e3 Mon Sep 17 00:00:00 2001
-+From bc3b1f6aacf2d8fe66b022fbfcf28cd82c76e52f Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 29 Nov 2018 18:00:23 -0800
--Subject: [PATCH 10/10] gdbserver ctrl-c handling
-+Subject: [PATCH 9/9] gdbserver ctrl-c handling
- 
- This problem was created by the upstream commit 78708b7c8c
- After applying the commit, it will send SIGINT to the process
-@@ -23,10 +23,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/gdbserver/linux-low.cc b/gdbserver/linux-low.cc
--index 5c6191d941c..7f7acf6700d 100644
-+index 7726a4a0c36..f750e074a03 100644
- --- a/gdbserver/linux-low.cc
- +++ b/gdbserver/linux-low.cc
--@@ -5733,7 +5733,7 @@ linux_process_target::request_interrupt ()
-+@@ -5496,7 +5496,7 @@ linux_process_target::request_interrupt ()
-  {
-    /* Send a SIGINT to the process group.  This acts just like the user
-       typed a ^C on the controlling terminal.  */
-@@ -36,5 +36,5 @@ index 5c6191d941c..7f7acf6700d 100644
-  
-  bool
- -- 
--2.33.1
-+2.36.1
- 
-diff --git a/meta/recipes-devtools/gdb/gdb_11.2.bb b/meta/recipes-devtools/gdb/gdb_12.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb_11.2.bb
-rename to meta/recipes-devtools/gdb/gdb_12.1.bb
--- 
-2.36.1
+________________________________
+From: richard.purdie@linuxfoundation.org <richard.purdie@linuxfoundation.or=
+g>
+Sent: Thursday, May 12, 2022 6:33 PM
+To: Alex Kiernan <alex.kiernan@gmail.com>; Li, Changqing <Changqing.Li@wind=
+river.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@list=
+s.openembedded.org>
+Subject: Re: [OE-core] [PATCH] eudev: create static nodes from modules
 
+[Please note: This e-mail is from an EXTERNAL e-mail address]
+
+On Thu, 2022-05-12 at 08:45 +0100, Alex Kiernan wrote:
+> On Thu, May 12, 2022 at 6:43 AM Changqing Li <changqing.li@windriver.com>=
+ wrote:
+> >
+> > From: Changqing Li <changqing.li@windriver.com>
+> >
+> > dev in modules.devname should be populated in /dev on boot.
+> > remove create static mode from udevd will make these devices
+> > cannot be populated. When use sysVinit, devices like /dev/net/tun
+> > will not be created.
+> >
+> > more info:
+> > udevd in systemd also remove create static mode in udevd, but using
+> > service kmod-static-nodes.service and
+> > systemd-tmpfiles-setup-dev.service in systemd to create these node, so
+> > systemd works well.
+> >
+> > Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> > ---
+> >  ...dev-create-static-nodes-from-modules.patch | 115 ++++++++++++++++++
+> >  meta/recipes-core/udev/eudev_3.2.11.bb        |   1 +
+> >  2 files changed, 116 insertions(+)
+> >  create mode 100644 meta/recipes-core/udev/eudev/0001-eudev-create-stat=
+ic-nodes-from-modules.patch
+> >
+> > diff --git a/meta/recipes-core/udev/eudev/0001-eudev-create-static-node=
+s-from-modules.patch b/meta/recipes-core/udev/eudev/0001-eudev-create-stati=
+c-nodes-from-modules.patch
+> > new file mode 100644
+> > index 0000000000..19611f4e89
+> > --- /dev/null
+> > +++ b/meta/recipes-core/udev/eudev/0001-eudev-create-static-nodes-from-=
+modules.patch
+> > @@ -0,0 +1,115 @@
+> > +From 573d6c4106d5b3828da43d2843c1d599ae3cd1cd Mon Sep 17 00:00:00 2001
+> > +From: Changqing Li <changqing.li@windriver.com>
+> > +Date: Tue, 10 May 2022 14:04:35 +0800
+> > +Subject: [PATCH] eudev: create static nodes from modules
+> > +
+> > +Revert commit <src/udev/udevd.c: remove create static nodes from modul=
+es>
+> > +https://gitweb.gentoo.org/proj/eudev.git/commit/?id=3D2b7abd5ec9cc47a8=
+b895df6db77fb1537c6f1a39
+> > +
+> > +Upstream-Status: Inappropriate [oe-specific]
+> > +
+> > +Upstream intentionally remove create static nodes from modules, it is
+> > +expected handled by tmpfiles services, refer [1].
+> > +[1] https://github.com/eudev-project/eudev/issues/229
+> > +
+> > +For yocto, when start with sysVinit, to enable systemd distro feature,
+> > +and install systemd-tmpfiles is not proper, so revert this commit.
+> > +
+>
+> Reading the upstream issue, I'm not sure this really is an
+> "Inappropriate" upstream. eudev has dropped this commit, because you
+> can use systemd-tmpfiles ("as it works without systemd and can be
+> compiled individually" - presumably using our unsupported musl
+> patches...) or opentmpfiles (which is dead and points you back to
+> systemd-tmpfiles).
+>
+> Feels like this is an engage with upstream rather than carry a patch
+> forever which just causes us to be perpetually divergent.
+
+I agree, this does sound like something we need to address to keep the
+project maintainable...
+
+I tried to suggest  upstream to add this back,  but  upstream seems prefer =
+to use tmpfile solution.
+
+Regrads
+Sandy
+
+
+Cheers,
+
+Richard
+
+--_000_SN6PR11MB25578B38EF44CB5A0D00A40782CA9SN6PR11MB2557namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<br>
+</div>
+<div id=3D"appendonsend"></div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" co=
+lor=3D"#000000" style=3D"font-size: 11pt;"><b>From:</b> richard.purdie@linu=
+xfoundation.org &lt;richard.purdie@linuxfoundation.org&gt;<br>
+<b>Sent:</b> Thursday, May 12, 2022 6:33 PM<br>
+<b>To:</b> Alex Kiernan &lt;alex.kiernan@gmail.com&gt;; Li, Changqing &lt;C=
+hangqing.Li@windriver.com&gt;<br>
+<b>Cc:</b> Patches and discussions about the oe-core layer &lt;openembedded=
+-core@lists.openembedded.org&gt;<br>
+<b>Subject:</b> Re: [OE-core] [PATCH] eudev: create static nodes from modul=
+es</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt"=
+>
+<div class=3D"PlainText elementToProof">[Please note: This e-mail is from a=
+n EXTERNAL e-mail address]<br>
+<br>
+On Thu, 2022-05-12 at 08:45 +0100, Alex Kiernan wrote:<br>
+&gt; On Thu, May 12, 2022 at 6:43 AM Changqing Li &lt;changqing.li@windrive=
+r.com&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; From: Changqing Li &lt;changqing.li@windriver.com&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; dev in modules.devname should be populated in /dev on boot.<br>
+&gt; &gt; remove create static mode from udevd will make these devices<br>
+&gt; &gt; cannot be populated. When use sysVinit, devices like /dev/net/tun=
+<br>
+&gt; &gt; will not be created.<br>
+&gt; &gt;<br>
+&gt; &gt; more info:<br>
+&gt; &gt; udevd in systemd also remove create static mode in udevd, but usi=
+ng<br>
+&gt; &gt; service kmod-static-nodes.service and<br>
+&gt; &gt; systemd-tmpfiles-setup-dev.service in systemd to create these nod=
+e, so<br>
+&gt; &gt; systemd works well.<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Changqing Li &lt;changqing.li@windriver.com&gt;<br=
+>
+&gt; &gt; ---<br>
+&gt; &gt;&nbsp; ...dev-create-static-nodes-from-modules.patch | 115 +++++++=
++++++++++++<br>
+&gt; &gt;&nbsp; meta/recipes-core/udev/eudev_3.2.11.bb&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 1 +<br>
+&gt; &gt;&nbsp; 2 files changed, 116 insertions(+)<br>
+&gt; &gt;&nbsp; create mode 100644 meta/recipes-core/udev/eudev/0001-eudev-=
+create-static-nodes-from-modules.patch<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/meta/recipes-core/udev/eudev/0001-eudev-create-stati=
+c-nodes-from-modules.patch b/meta/recipes-core/udev/eudev/0001-eudev-create=
+-static-nodes-from-modules.patch<br>
+&gt; &gt; new file mode 100644<br>
+&gt; &gt; index 0000000000..19611f4e89<br>
+&gt; &gt; --- /dev/null<br>
+&gt; &gt; +++ b/meta/recipes-core/udev/eudev/0001-eudev-create-static-nodes=
+-from-modules.patch<br>
+&gt; &gt; @@ -0,0 +1,115 @@<br>
+&gt; &gt; +From 573d6c4106d5b3828da43d2843c1d599ae3cd1cd Mon Sep 17 00:00:0=
+0 2001<br>
+&gt; &gt; +From: Changqing Li &lt;changqing.li@windriver.com&gt;<br>
+&gt; &gt; +Date: Tue, 10 May 2022 14:04:35 +0800<br>
+&gt; &gt; +Subject: [PATCH] eudev: create static nodes from modules<br>
+&gt; &gt; +<br>
+&gt; &gt; +Revert commit &lt;src/udev/udevd.c: remove create static nodes f=
+rom modules&gt;<br>
+&gt; &gt; +https://gitweb.gentoo.org/proj/eudev.git/commit/?id=3D2b7abd5ec9=
+cc47a8b895df6db77fb1537c6f1a39<br>
+&gt; &gt; +<br>
+&gt; &gt; +Upstream-Status: Inappropriate [oe-specific]<br>
+&gt; &gt; +<br>
+&gt; &gt; +Upstream intentionally remove create static nodes from modules, =
+it is<br>
+&gt; &gt; +expected handled by tmpfiles services, refer [1].<br>
+&gt; &gt; +[1] <a href=3D"https://github.com/eudev-project/eudev/issues/229=
+" data-auth=3D"NotApplicable">
+https://github.com/eudev-project/eudev/issues/229</a><br>
+&gt; &gt; +<br>
+&gt; &gt; +For yocto, when start with sysVinit, to enable systemd distro fe=
+ature,<br>
+&gt; &gt; +and install systemd-tmpfiles is not proper, so revert this commi=
+t.<br>
+&gt; &gt; +<br>
+&gt;<br>
+&gt; Reading the upstream issue, I'm not sure this really is an<br>
+&gt; &quot;Inappropriate&quot; upstream. eudev has dropped this commit, bec=
+ause you<br>
+&gt; can use systemd-tmpfiles (&quot;as it works without systemd and can be=
+<br>
+&gt; compiled individually&quot; - presumably using our unsupported musl<br=
+>
+&gt; patches...) or opentmpfiles (which is dead and points you back to<br>
+&gt; systemd-tmpfiles).<br>
+&gt;<br>
+&gt; Feels like this is an engage with upstream rather than carry a patch<b=
+r>
+&gt; forever which just causes us to be perpetually divergent.<br>
+<br>
+I agree, this does sound like something we need to address to keep the<br>
+project maintainable...</div>
+<div class=3D"PlainText elementToProof"><br>
+</div>
+<div class=3D"PlainText elementToProof">I tried to suggest&nbsp; upstream t=
+o add this back,&nbsp; but&nbsp; upstream seems prefer to use tmpfile solut=
+ion.</div>
+<div class=3D"PlainText elementToProof"><br>
+</div>
+<div class=3D"PlainText elementToProof">Regrads</div>
+<div class=3D"PlainText elementToProof">Sandy</div>
+<div class=3D"PlainText elementToProof"><br>
+</div>
+<div class=3D"PlainText elementToProof"><br>
+</div>
+<div class=3D"PlainText elementToProof">Cheers,<br>
+<br>
+Richard<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_SN6PR11MB25578B38EF44CB5A0D00A40782CA9SN6PR11MB2557namp_--
 
