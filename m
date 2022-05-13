@@ -1,9 +1,9 @@
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 From: "Zoltan Boszormenyi" <zboszor@pr.hu>
-Subject: [PATCH 1/2] npm.bbclass: Fix file permissions before opening it for writing
-Date: Fri, 13 May 2022 15:48:28 +0200
-Message-Id: <20220513134829.1895574-2-zboszor@pr.hu>
+Subject: [PATCH 2/2] staging.bbclass: Ignore installing multiple symlinks of the same name
+Date: Fri, 13 May 2022 15:48:29 +0200
+Message-Id: <20220513134829.1895574-3-zboszor@pr.hu>
 In-Reply-To: <20220513134829.1895574-1-zboszor@pr.hu>
 References: <20220513134829.1895574-1-zboszor@pr.hu>
 MIME-Version: 1.0
@@ -15,27 +15,41 @@ Cc: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>, =?UTF-8?q?
 
 From: Zoltán Böszörményi <zboszor@gmail.com>
 
-Some node module archives in npmjs.org contain wrong permissions.
-I found a case with package.json in the archive being r-xr-xr-x
-for which open(..., "w") fails. Set the manifest file permissions
-to 0666 just in case.
+Recipes using "inherit npm" install the same /usr/lib/node symlink
+that points to node_modules. When a recipe DEPENDS on multiple
+npm based recipe, do_prepare_recipe_sysroot() fails.
+
+Ignore this symlink in a way that the set of ignored symlinks
+can be extended later if needed.
 
 Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 ---
- meta/classes/npm.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/staging.bbclass | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-index ba50fcac20..7f52ec6061 100644
---- a/meta/classes/npm.bbclass
-+++ b/meta/classes/npm.bbclass
-@@ -202,6 +202,7 @@ python npm_do_configure() {
-         if has_shrinkwrap_file:
-             _update_manifest("devDependencies")
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 9fc8f4f283..f7b6056219 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -528,6 +528,7 @@ python extend_recipe_sysroot() {
  
-+    os.chmod(cached_manifest_file, 0o666)
-     with open(cached_manifest_file, "w") as f:
-         json.dump(cached_manifest, f, indent=2)
+             with open(manifest, "r") as f:
+                 manifests[dep] = manifest
++                ignored_dests = [ ''.join([d.getVar('nonarch_libdir'), '/node' ]) ]
+                 for l in f:
+                     l = l.strip()
+                     if l.endswith("/fixmepath"):
+@@ -545,7 +546,10 @@ python extend_recipe_sysroot() {
+                     hashname = targetdir + dest
+                     if not hashname.endswith("/"):
+                         if hashname in fileset:
+-                            bb.fatal("The file %s is installed by both %s and %s, aborting" % (dest, c, fileset[hashname]))
++                            if os.path.islink(hashname) and  dest in ignored_dests:
++                                bb.note("The symlink '%s' %s wants to install is already installed by %s, ignoring" % (dest, c, fileset[hashname]))
++                            else:
++                                bb.fatal("The file %s is installed by both %s and %s, aborting" % (dest, c, fileset[hashname]))
+                         else:
+                             fileset[hashname] = c
  
 -- 
 2.36.1
