@@ -1,452 +1,278 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4879C433EF
-	for <webhook@archiver.kernel.org>; Sat, 14 May 2022 21:15:04 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web11.10464.1652562897309316625
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF3A5C433EF
+	for <webhook@archiver.kernel.org>; Sat, 14 May 2022 21:31:04 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web08.10589.1652563863298462998
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 May 2022 14:14:59 -0700
+ Sat, 14 May 2022 14:31:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=Io7vvzMP;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gSy2I5RI;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id
+ v191-20020a1cacc8000000b00397001398c0so7886wme.5
+        for <openembedded-core@lists.openembedded.org>;
+ Sat, 14 May 2022 14:31:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1652562899;
-  x=1684098899;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=gKUfe9nzmY40FbLiM+7mPkLVZwon6ckdbWTKi9tiDo0=;
-  b=Io7vvzMPk5pV3LAA1XIhw/hihstQmewXCR+593cLL2wc0A4ADyD70Q3v
-   CI0GWf5gF+wr+KwGdt9D3wkeEBRWNy95QUyBkqxapeLkEpL3T5ePRj6bW
-   F+7/kN5sJWUug9g1dzxqKEH/oTuklPWdu9k3MKhFcOCIWwdA3Gzn/XRQ9
-   zRRb2R5SYR/tcBandtVsejjUEczxWBWWWbAqcbyV2KgXkjPxt2X7QNzta
-   FFINEgc1HAx6baD7l9/2YjJru24AVm6M0OS3+sNwtoon9Bnh2wfBQiu10
-   fOS1q3p5QcWr7kAQSKPc/azZak7rYedN4lHTfhnZzhvOwBfFI3bQetlpW
-   w==;
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 2/2] base-passwd: Update to 3.5.52
-Date: Sat, 14 May 2022 23:14:50 +0200
-Message-ID: <20220514211450.28115-2-pkj@axis.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20220514211450.28115-1-pkj@axis.com>
-References: <20220514211450.28115-1-pkj@axis.com>
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=CfI+aS6y4iMTulkDqQarRkebffB8tDxH/4QWxO6dzsQ=;
+        b=gSy2I5RIN5+q7pqm7nGjWciwJfmum2GUhqip3tK2kcsjG+v+pOve2sSYnom0zX1uAt
+         a54Ntt8HDwrRQrnpQTW1JJOoK0edRfG5880M/o6me2MEEkUUcDfTRX8V8IwE0/xaew1F
+         Bx2X8gbxfKiMHZw87dqfURHKdrOrnOaPZmQ2A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=CfI+aS6y4iMTulkDqQarRkebffB8tDxH/4QWxO6dzsQ=;
+        b=QNg4pVa6thyt2Mwdo4T5sFZDM9V9xobVB7K+ZeP2kAaT4VuPQarVm5tStthcFGiVlm
+         z7c4x5CRh4TbtzZlslwKpxbcARUH1XkDwe7hbgq2Fy3q4VL+r0SylnU2vwYClBJhqBaz
+         OQtx0HIp2GhfdgRpBfF2H9IZCqIJ2JwZ7KHaiPS1KFtbG1+BPrfEAO5781aK9B02bqm5
+         nq5JMa/aZLhpmebWgS45aRrj4y3KwY16e3K/NPiPCSNsJffTlFKdTp6ALPes+uXYEjCu
+         1V1fmEN+sfXbqXc1HMcCbNUBw1UT+zx+ao0ye5OcBm9EScjCTwA/Bke63UKYy1BhOj8X
+         PkTA==
+X-Gm-Message-State: AOAM530hbHBQ2uIOKJxDIVaUqB8dlvjWGDQE4Z4WBShcEILaqkrJR7ci
+	ktZ8xIVrGqKzu4mKR3K7df+rlg==
+X-Google-Smtp-Source: 
+ ABdhPJwjSMxMkKl1iwgE1pFCDv69RGbKa6uNrPtEMCEXyps7enSH5DAjr5I1el+51Moq+h0pTbqauQ==
+X-Received: by 2002:a05:600c:2258:b0:394:2045:bed with SMTP id
+ a24-20020a05600c225800b0039420450bedmr10351701wmm.174.1652563861753;
+        Sat, 14 May 2022 14:31:01 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:9136:b992:97dc:d32d?
+ ([2001:8b0:aba:5f3c:9136:b992:97dc:d32d])
+        by smtp.gmail.com with ESMTPSA id
+ p19-20020adf9d93000000b0020d048c75e0sm473129wre.112.2022.05.14.14.31.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 May 2022 14:31:01 -0700 (PDT)
+Message-ID: 
+ <c5c1d238df20f6563c9a4bc5c4e5794eda01bfec.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] ovmf: Fix native build with gcc-12
+From: richard.purdie@linuxfoundation.org
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Sat, 14 May 2022 22:31:00 +0100
+In-Reply-To: <16EEF7C2A0110441.10172@lists.openembedded.org>
+References: <20220513162244.577710-1-raj.khem@gmail.com>
+	 <16EEF7C2A0110441.10172@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0-1ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 14 May 2022 21:15:04 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 14 May 2022 21:31:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165594
+ https://lists.openembedded.org/g/openembedded-core/message/165595
 
-* Add a patch to allow the use of debconf to be disabled.
-* Replace 0007-Disable-generation-of-the-documentation.patch with a new
-  patch to disable the generation of the documentation using a
-  configuration option.
-* Replace 0006-Disable-shell-for-default-users.patch with a sed
-  expression that uses a variable, NOLOGIN, to specify what command to
-  use for users that are not expected to login. This allows to use some
-  other command than "nologin", e.g., "false". Also, by using
-  ${base_sbindir}, it adheres to usrmerge being configured.
+On Sat, 2022-05-14 at 13:15 +0100, Richard Purdie via
+lists.openembedded.org wrote:
+> On Fri, 2022-05-13 at 09:22 -0700, Khem Raj wrote:
+> > Host distros have started deploying gcc12 as well e.g. archlinux
+> > this build failure shows up which has been fixed upstream
+> >=20
+> > In function =E2=80=98GetAlignmentFromFile=E2=80=99,
+> >     inlined from =E2=80=98main=E2=80=99 at GenFfs.c:816:20:
+> > GenFfs.c:545:5: error: pointer =E2=80=98InFileHandle=E2=80=99 used afte=
+r =E2=80=98fclose=E2=80=99 [-Werror=3Duse-after-free]
+> >   545 |     Error(NULL, 0, 4001, "Resource", "memory cannot be allocate=
+d  of %s", InFileHandle);
+> >       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~
+> >=20
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  .../0001-BaseTools-fix-gcc12-warning-1.patch  | 51 +++++++++++++++++++
+> >  .../0001-BaseTools-fix-gcc12-warning.patch    | 49 ++++++++++++++++++
+> >  meta/recipes-core/ovmf/ovmf_git.bb            |  6 +++
+> >  3 files changed, 106 insertions(+)
+> >  create mode 100644 meta/recipes-core/ovmf/ovmf/0001-BaseTools-fix-gcc1=
+2-warning-1.patch
+> >  create mode 100644 meta/recipes-core/ovmf/ovmf/0001-BaseTools-fix-gcc1=
+2-warning.patch
+> >=20
+> > diff --git a/meta/recipes-core/ovmf/ovmf/0001-BaseTools-fix-gcc12-warni=
+ng-1.patch b/meta/recipes-core/ovmf/ovmf/0001-BaseTools-fix-gcc12-warning-1=
+.patch
+> > new file mode 100644
+> > index 00000000000..23366b4d078
+> > --- /dev/null
+> > +++ b/meta/recipes-core/ovmf/ovmf/0001-BaseTools-fix-gcc12-warning-1.pa=
+tch
+> > @@ -0,0 +1,51 @@
+> > +From b0a0b7b605aeb8106e7b50d1efeb746f401498cc Mon Sep 17 00:00:00 2001
+> > +From: Gerd Hoffmann <kraxel@redhat.com>
+> > +Date: Thu, 24 Mar 2022 20:04:35 +0800
+> > +Subject: [PATCH] BaseTools: fix gcc12 warning
+> > +
+> > +Sdk/C/LzmaEnc.c: In function ?LzmaEnc_CodeOneMemBlock?:
+> > +Sdk/C/LzmaEnc.c:2828:19: error: storing the address of local variable =
+?outStream? in ?*p.rc.outStream? [-Werror=3Ddangling-pointer=3D]
+> > + 2828 |   p->rc.outStream =3D &outStream.vt;
+> > +      |   ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+> > +Sdk/C/LzmaEnc.c:2811:28: note: ?outStream? declared here
+> > + 2811 |   CLzmaEnc_SeqOutStreamBuf outStream;
+> > +      |                            ^~~~~~~~~
+> > +Sdk/C/LzmaEnc.c:2811:28: note: ?pp? declared here
+> > +Sdk/C/LzmaEnc.c:2828:19: error: storing the address of local variable =
+?outStream? in ?*(CLzmaEnc *)pp.rc.outStream? [-Werror=3Ddangling-pointer=
+=3D]
+> > + 2828 |   p->rc.outStream =3D &outStream.vt;
+> > +      |   ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+> > +Sdk/C/LzmaEnc.c:2811:28: note: ?outStream? declared here
+> > + 2811 |   CLzmaEnc_SeqOutStreamBuf outStream;
+> > +      |                            ^~~~~~~~~
+> > +Sdk/C/LzmaEnc.c:2811:28: note: ?pp? declared here
+> > +cc1: all warnings being treated as errors
+> > +
+> > +Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/85=
+021f8cf22d1bd4114803c6c610dea5ef0059f1]
+> > +Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> > +Reviewed-by: Bob Feng <bob.c.feng@intel.com>
+> > +---
+> > + BaseTools/Source/C/LzmaCompress/Sdk/C/LzmaEnc.c | 3 ++-
+> > + 1 file changed, 2 insertions(+), 1 deletion(-)
+> > +
+> > +diff --git a/BaseTools/Source/C/LzmaCompress/Sdk/C/LzmaEnc.c b/BaseToo=
+ls/Source/C/LzmaCompress/Sdk/C/LzmaEnc.c
+> > +index 4e9b499f8d..4b9f5fa692 100644
+> > +--- a/BaseTools/Source/C/LzmaCompress/Sdk/C/LzmaEnc.c
+> > ++++ b/BaseTools/Source/C/LzmaCompress/Sdk/C/LzmaEnc.c
+> > +@@ -2825,12 +2825,13 @@ SRes LzmaEnc_CodeOneMemBlock(CLzmaEncHandle pp=
+, BoolInt reInit,
+> > +=20
+> > +   nowPos64 =3D p->nowPos64;
+> > +   RangeEnc_Init(&p->rc);
+> > +-  p->rc.outStream =3D &outStream.vt;
+> > +=20
+> > +   if (desiredPackSize =3D=3D 0)
+> > +     return SZ_ERROR_OUTPUT_EOF;
+> > +=20
+> > ++  p->rc.outStream =3D &outStream.vt;
+> > +   res =3D LzmaEnc_CodeOneBlock(p, desiredPackSize, *unpackSize);
+> > ++  p->rc.outStream =3D NULL;
+> > +=20
+> > +   *unpackSize =3D (UInt32)(p->nowPos64 - nowPos64);
+> > +   *destLen -=3D outStream.rem;
+> > +--=20
+> > +2.36.1
+> > +
+> > diff --git a/meta/recipes-core/ovmf/ovmf/0001-BaseTools-fix-gcc12-warni=
+ng.patch b/meta/recipes-core/ovmf/ovmf/0001-BaseTools-fix-gcc12-warning.pat=
+ch
+> > new file mode 100644
+> > index 00000000000..91c01647db2
+> > --- /dev/null
+> > +++ b/meta/recipes-core/ovmf/ovmf/0001-BaseTools-fix-gcc12-warning.patc=
+h
+> > @@ -0,0 +1,49 @@
+> > +From 2435c17e56652479315853cec5b91fb0ea0911a3 Mon Sep 17 00:00:00 2001
+> > +From: Gerd Hoffmann <kraxel@redhat.com>
+> > +Date: Thu, 24 Mar 2022 20:04:34 +0800
+> > +Subject: [PATCH] BaseTools: fix gcc12 warning
+> > +
+> > +GenFfs.c:545:5: error: pointer ?InFileHandle? used after ?fclose? [-We=
+rror=3Duse-after-free]
+> > +  545 |     Error(NULL, 0, 4001, "Resource", "memory cannot be allocat=
+ed  of %s", InFileHandle);
+> > +      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~
+> > +GenFfs.c:544:5: note: call to ?fclose? here
+> > +  544 |     fclose (InFileHandle);
+> > +      |     ^~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/7b=
+005f344e533cd913c3ca05b266f9872df886d1]
+> > +Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> > +Reviewed-by: Bob Feng <bob.c.feng@intel.com>
+> > +---
+> > + BaseTools/Source/C/GenFfs/GenFfs.c | 2 +-
+> > + BaseTools/Source/C/GenSec/GenSec.c | 2 +-
+> > + 2 files changed, 2 insertions(+), 2 deletions(-)
+> > +
+> > +diff --git a/BaseTools/Source/C/GenFfs/GenFfs.c b/BaseTools/Source/C/G=
+enFfs/GenFfs.c
+> > +index 949025c333..d78d62ab36 100644
+> > +--- a/BaseTools/Source/C/GenFfs/GenFfs.c
+> > ++++ b/BaseTools/Source/C/GenFfs/GenFfs.c
+> > +@@ -542,7 +542,7 @@ GetAlignmentFromFile(char *InFile, UINT32 *Alignme=
+nt)
+> > +   PeFileBuffer =3D (UINT8 *) malloc (PeFileSize);
+> > +   if (PeFileBuffer =3D=3D NULL) {
+> > +     fclose (InFileHandle);
+> > +-    Error(NULL, 0, 4001, "Resource", "memory cannot be allocated  of =
+%s", InFileHandle);
+> > ++    Error(NULL, 0, 4001, "Resource", "memory cannot be allocated for =
+%s", InFile);
+> > +     return EFI_OUT_OF_RESOURCES;
+> > +   }
+> > +   fread (PeFileBuffer, sizeof (UINT8), PeFileSize, InFileHandle);
+> > +diff --git a/BaseTools/Source/C/GenSec/GenSec.c b/BaseTools/Source/C/G=
+enSec/GenSec.c
+> > +index d54a4f9e0a..b1d05367ec 100644
+> > +--- a/BaseTools/Source/C/GenSec/GenSec.c
+> > ++++ b/BaseTools/Source/C/GenSec/GenSec.c
+> > +@@ -1062,7 +1062,7 @@ GetAlignmentFromFile(char *InFile, UINT32 *Align=
+ment)
+> > +   PeFileBuffer =3D (UINT8 *) malloc (PeFileSize);
+> > +   if (PeFileBuffer =3D=3D NULL) {
+> > +     fclose (InFileHandle);
+> > +-    Error(NULL, 0, 4001, "Resource", "memory cannot be allocated  of =
+%s", InFileHandle);
+> > ++    Error(NULL, 0, 4001, "Resource", "memory cannot be allocated for =
+%s", InFile);
+> > +     return EFI_OUT_OF_RESOURCES;
+> > +   }
+> > +   fread (PeFileBuffer, sizeof (UINT8), PeFileSize, InFileHandle);
+> > +--=20
+> > +2.36.1
+> > +
+> > diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovm=
+f/ovmf_git.bb
+> > index b15d40eac83..84e3360a3af 100644
+> > --- a/meta/recipes-core/ovmf/ovmf_git.bb
+> > +++ b/meta/recipes-core/ovmf/ovmf_git.bb
+> > @@ -15,12 +15,18 @@ PACKAGECONFIG +=3D "${@bb.utils.contains('MACHINE_F=
+EATURES', 'tpm2', 'tpm', '', d)
+> >  PACKAGECONFIG[secureboot] =3D ",,,"
+> >  PACKAGECONFIG[tpm] =3D "-D TPM_ENABLE=3DTRUE,-D TPM_ENABLE=3DFALSE,,"
+> > =20
+> > +# GCC12 trips on it
+> > +#see https://src.fedoraproject.org/rpms/edk2/blob/rawhide/f/0032-Baset=
+ools-turn-off-gcc12-warning.patch
+> > +BUILD_CFLAGS +=3D "-Wno-error=3Dstringop-overflow"
+> > +
+> >  SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=3Dmaster;pro=
+tocol=3Dhttps \
+> >             file://0001-ovmf-update-path-to-native-BaseTools.patch \
+> >             file://0002-BaseTools-makefile-adjust-to-build-in-under-bit=
+bake.patch \
+> >             file://0003-ovmf-Update-to-latest.patch \
+> >             file://0005-debug-prefix-map.patch \
+> >             file://0006-reproducible.patch \
+> > +           file://0001-BaseTools-fix-gcc12-warning.patch \
+> > +           file://0001-BaseTools-fix-gcc12-warning-1.patch \
+> >             "
+> > =20
+> >  PV =3D "edk2-stable202202"
+>=20
+> I think this may cause the efi failures in:
+>=20
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/3583/st=
+eps/14/logs/stdio
+>=20
+> (and all the other similar oe-selftest runs)
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- ...nstead-of-bin-bash-for-the-root-user.patch |   8 +-
- ...t-since-we-do-not-have-an-etc-shadow.patch |   8 +-
- ...0006-Disable-shell-for-default-users.patch |  54 --------
- ...ble-to-build-without-debconf-support.patch | 129 ++++++++++++++++++
- ...able-generation-of-the-documentation.patch |  32 -----
- ...-to-disable-the-generation-of-the-do.patch |  46 +++++++
- ...passwd_3.5.29.bb => base-passwd_3.5.52.bb} |  18 ++-
- 7 files changed, 194 insertions(+), 101 deletions(-)
- delete mode 100644 meta/recipes-core/base-passwd/base-passwd/0006-Disable-shell-for-default-users.patch
- create mode 100644 meta/recipes-core/base-passwd/base-passwd/0006-Make-it-possible-to-build-without-debconf-support.patch
- delete mode 100644 meta/recipes-core/base-passwd/base-passwd/0007-Disable-generation-of-the-documentation.patch
- create mode 100644 meta/recipes-core/base-passwd/base-passwd/0007-Make-it-possible-to-disable-the-generation-of-the-do.patch
- rename meta/recipes-core/base-passwd/{base-passwd_3.5.29.bb => base-passwd_3.5.52.bb} (89%)
+I'm going to retract that, further testing shows it is something else,
+still not sure what.
 
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch b/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch
-index ea0256684b..09f8cfea9c 100644
---- a/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch
-+++ b/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch
-@@ -12,12 +12,12 @@ Signed-off-by: Scott Garman <scott.a.garman@intel.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/passwd.master b/passwd.master
--index a01a6aa..b54ff51 100644
-+index 7cd4e24..041685a 100644
- --- a/passwd.master
- +++ b/passwd.master
- @@ -1,4 +1,4 @@
- -root:*:0:0:root:/root:/bin/bash
- +root:*:0:0:root:/root:/bin/sh
-- daemon:*:1:1:daemon:/usr/sbin:/bin/sh
-- bin:*:2:2:bin:/bin:/bin/sh
-- sys:*:3:3:sys:/dev:/bin/sh
-+ daemon:*:1:1:daemon:/usr/sbin:/usr/sbin/nologin
-+ bin:*:2:2:bin:/bin:/usr/sbin/nologin
-+ sys:*:3:3:sys:/dev:/usr/sbin/nologin
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch b/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch
-index 88cc5be66c..06222ab04c 100644
---- a/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch
-+++ b/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch
-@@ -10,12 +10,12 @@ Signed-off-by: Scott Garman <scott.a.garman@intel.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/passwd.master b/passwd.master
--index b54ff51..e1c32ff 100644
-+index 041685a..31a84d4 100644
- --- a/passwd.master
- +++ b/passwd.master
- @@ -1,4 +1,4 @@
- -root:*:0:0:root:/root:/bin/sh
- +root::0:0:root:/root:/bin/sh
-- daemon:*:1:1:daemon:/usr/sbin:/bin/sh
-- bin:*:2:2:bin:/bin:/bin/sh
-- sys:*:3:3:sys:/dev:/bin/sh
-+ daemon:*:1:1:daemon:/usr/sbin:/usr/sbin/nologin
-+ bin:*:2:2:bin:/bin:/usr/sbin/nologin
-+ sys:*:3:3:sys:/dev:/usr/sbin/nologin
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0006-Disable-shell-for-default-users.patch b/meta/recipes-core/base-passwd/base-passwd/0006-Disable-shell-for-default-users.patch
-deleted file mode 100644
-index 2bcb829d9c..0000000000
---- a/meta/recipes-core/base-passwd/base-passwd/0006-Disable-shell-for-default-users.patch
-+++ /dev/null
-@@ -1,54 +0,0 @@
--From f35eb24213475d3024ad45297fd855c6abfbbac0 Mon Sep 17 00:00:00 2001
--From: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
--Date: Mon, 18 Apr 2022 11:22:43 +0800
--Subject: [PATCH] Disable shell for default users
--
--Change the shell of all global static users other than root (which
--retains /bin/sh) and sync (as /bin/sync is rather harmless) to
--/sbin/nologin (as /usr/sbin/nologin does not exist in openembedded)
--
--Upstream-Status: Backport [https://launchpad.net/ubuntu/+source/base-passwd/3.5.30]
--Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
-----
-- passwd.master | 32 ++++++++++++++++----------------
-- 1 file changed, 16 insertions(+), 16 deletions(-)
--
--diff --git a/passwd.master b/passwd.master
--index e1c32ff..0cd5ffd 100644
----- a/passwd.master
--+++ b/passwd.master
--@@ -1,18 +1,18 @@
-- root::0:0:root:/root:/bin/sh
---daemon:*:1:1:daemon:/usr/sbin:/bin/sh
---bin:*:2:2:bin:/bin:/bin/sh
---sys:*:3:3:sys:/dev:/bin/sh
--+daemon:*:1:1:daemon:/usr/sbin:/sbin/nologin
--+bin:*:2:2:bin:/bin:/sbin/nologin
--+sys:*:3:3:sys:/dev:/sbin/nologin
-- sync:*:4:65534:sync:/bin:/bin/sync
---games:*:5:60:games:/usr/games:/bin/sh
---man:*:6:12:man:/var/cache/man:/bin/sh
---lp:*:7:7:lp:/var/spool/lpd:/bin/sh
---mail:*:8:8:mail:/var/mail:/bin/sh
---news:*:9:9:news:/var/spool/news:/bin/sh
---uucp:*:10:10:uucp:/var/spool/uucp:/bin/sh
---proxy:*:13:13:proxy:/bin:/bin/sh
---www-data:*:33:33:www-data:/var/www:/bin/sh
---backup:*:34:34:backup:/var/backups:/bin/sh
---list:*:38:38:Mailing List Manager:/var/list:/bin/sh
---irc:*:39:39:ircd:/var/run/ircd:/bin/sh
---gnats:*:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh
---nobody:*:65534:65534:nobody:/nonexistent:/bin/sh
--+games:*:5:60:games:/usr/games:/sbin/nologin
--+man:*:6:12:man:/var/cache/man:/sbin/nologin
--+lp:*:7:7:lp:/var/spool/lpd:/sbin/nologin
--+mail:*:8:8:mail:/var/mail:/sbin/nologin
--+news:*:9:9:news:/var/spool/news:/sbin/nologin
--+uucp:*:10:10:uucp:/var/spool/uucp:/sbin/nologin
--+proxy:*:13:13:proxy:/bin:/sbin/nologin
--+www-data:*:33:33:www-data:/var/www:/sbin/nologin
--+backup:*:34:34:backup:/var/backups:/sbin/nologin
--+list:*:38:38:Mailing List Manager:/var/list:/sbin/nologin
--+irc:*:39:39:ircd:/var/run/ircd:/sbin/nologin
--+gnats:*:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/sbin/nologin
--+nobody:*:65534:65534:nobody:/nonexistent:/sbin/nologin
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0006-Make-it-possible-to-build-without-debconf-support.patch b/meta/recipes-core/base-passwd/base-passwd/0006-Make-it-possible-to-build-without-debconf-support.patch
-new file mode 100644
-index 0000000000..61ed1641a1
---- /dev/null
-+++ b/meta/recipes-core/base-passwd/base-passwd/0006-Make-it-possible-to-build-without-debconf-support.patch
-@@ -0,0 +1,129 @@
-+From 236d6c8c0dd7e15d9a9795813b94bc87ce09eec5 Mon Sep 17 00:00:00 2001
-+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-+Date: Fri, 29 Apr 2022 19:32:29 +0200
-+Subject: [PATCH] Make it possible to build without debconf support
-+
-+Not all systems have the debconfclient library available.
-+
-+Upstream-Status: Submitted [https://salsa.debian.org/debian/base-passwd/-/merge_requests/11]
-+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-+---
-+ Makefile.am     |  1 -
-+ configure.ac    | 13 +++++++++++++
-+ update-passwd.c | 15 +++++++++++++++
-+ 3 files changed, 28 insertions(+), 1 deletion(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 223916f..4bdd769 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -3,7 +3,6 @@ SUBDIRS = doc man
-+ sbin_PROGRAMS = update-passwd
-+ 
-+ update_passwd_SOURCES = update-passwd.c
-+-update_passwd_LDADD = -ldebconfclient
-+ 
-+ pkgdata_DATA = passwd.master group.master
-+ 
-+diff --git a/configure.ac b/configure.ac
-+index 9d1ace5..1e35ad1 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -14,6 +14,19 @@ AC_SYS_LARGEFILE
-+ dnl Scan for things we need
-+ AC_CHECK_FUNCS([putgrent])
-+ 
-++dnl Check for debconf
-++AC_MSG_CHECKING([whether to enable debconf support])
-++AC_ARG_ENABLE([debconf],
-++  [AS_HELP_STRING([--disable-debconf], [disable support for debconf])],
-++  [],
-++  [enable_debconf=yes])
-++AC_MSG_RESULT($enable_debconf)
-++AS_IF([test "x$enable_debconf" != xno],
-++  [AC_CHECK_LIB([debconfclient], [debconfclient_new], [],
-++    [AC_MSG_ERROR(
-++      [debconf support not available (use --disable-debconf to disable)])])
-++   AC_DEFINE([HAVE_DEBCONF], [1], [Define if you have libdebconfclient])])
-++
-+ dnl Finally output everything
-+ AC_CONFIG_FILES([Makefile doc/Makefile man/Makefile])
-+ AC_OUTPUT
-+diff --git a/update-passwd.c b/update-passwd.c
-+index 3f3dffa..5b49740 100644
-+--- a/update-passwd.c
-++++ b/update-passwd.c
-+@@ -39,7 +39,9 @@
-+ #include <stdarg.h>
-+ #include <ctype.h>
-+ 
-++#ifdef HAVE_DEBCONF
-+ #include <cdebconf/debconfclient.h>
-++#endif
-+ 
-+ #define DEFAULT_PASSWD_MASTER	"/usr/share/base-passwd/passwd.master"
-+ #define DEFAULT_GROUP_MASTER	"/usr/share/base-passwd/group.master"
-+@@ -143,6 +145,7 @@ int		flag_debconf	= 0;
-+ const char*	user_domain	= DEFAULT_DEBCONF_DOMAIN;
-+ const char*	group_domain	= DEFAULT_DEBCONF_DOMAIN;
-+ 
-++#ifdef HAVE_DEBCONF
-+ struct debconfclient*	debconf	= NULL;
-+ 
-+ /* Abort the program if talking to debconf fails.  Use ret exactly once. */
-+@@ -162,6 +165,10 @@ struct debconfclient*	debconf	= NULL;
-+     DEBCONF_CHECK(debconf_register(debconf, (template), (question)))
-+ #define DEBCONF_SUBST(question, var, value) \
-+     DEBCONF_CHECK(debconf_subst(debconf, (question), (var), (value)))
-++#else
-++#define DEBCONF_REGISTER(template, question)
-++#define DEBCONF_SUBST(question, var, value)
-++#endif
-+ 
-+ 
-+ /* malloc() with out-of-memory checking.
-+@@ -621,6 +628,7 @@ void version() {
-+  * flag.  Aborts the problem on any failure.
-+  */
-+ int ask_debconf(const char* priority, const char* question) {
-++#ifdef HAVE_DEBCONF
-+     int		ret;
-+     const char*	response;
-+ 
-+@@ -640,6 +648,9 @@ int ask_debconf(const char* priority, const char* question) {
-+ 	return 1;
-+     else
-+ 	return 0;
-++#else
-++	return 0;
-++#endif
-+ }
-+ 
-+ 
-+@@ -1427,6 +1438,7 @@ int main(int argc, char** argv) {
-+     /* If DEBIAN_HAS_FRONTEND is set in the environment, we're running under
-+      * debconf.  Enable debconf prompting unless --dry-run was also given.
-+      */
-++#ifdef HAVE_DEBCONF
-+     if (getenv("DEBIAN_HAS_FRONTEND")!=NULL && !opt_dryrun) {
-+ 	debconf=debconfclient_new();
-+ 	if (debconf==NULL) {
-+@@ -1435,6 +1447,7 @@ int main(int argc, char** argv) {
-+ 	}
-+ 	flag_debconf=1;
-+     }
-++#endif
-+ 
-+     if (read_passwd(&master_accounts, master_passwd)!=0)
-+ 	return 2;
-+@@ -1480,8 +1493,10 @@ int main(int argc, char** argv) {
-+ 	if (!unlock_files())
-+ 	    return 5;
-+ 
-++#ifdef HAVE_DEBCONF
-+     if (debconf!=NULL)
-+ 	debconfclient_delete(debconf);
-++#endif
-+ 
-+     if (opt_dryrun)
-+ 	return flag_dirty;
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0007-Disable-generation-of-the-documentation.patch b/meta/recipes-core/base-passwd/base-passwd/0007-Disable-generation-of-the-documentation.patch
-deleted file mode 100644
-index 4a19f91c35..0000000000
---- a/meta/recipes-core/base-passwd/base-passwd/0007-Disable-generation-of-the-documentation.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From 7ccf8227cb10d78f1958a7a7feed75a390a6b133 Mon Sep 17 00:00:00 2001
--From: Saul Wold <sgw@linux.intel.com>
--Date: Fri, 29 Apr 2022 13:32:28 +0000
--Subject: [PATCH] Disable generation of the documentation
--
--It uses tools currently not supported by OE-Core. It uses sgmltools
--and po4a.
--
--Upstream-Status: Inappropriate [OE-Core specific]
--Signed-off-by: Saul Wold <sgw@linux.intel.com>
-----
-- Makefile.in | 3 ---
-- 1 file changed, 3 deletions(-)
--
--diff --git a/Makefile.in b/Makefile.in
--index 9ba097c..d3ea47c 100644
----- a/Makefile.in
--+++ b/Makefile.in
--@@ -25,13 +25,10 @@ gen_configure	= config.cache config.status config.log \
-- 		  confdefhs.h config.h Makefile
-- 
-- all: update-passwd
---	$(MAKE) -C doc all
---	$(MAKE) -C man all
-- 
-- install: all
-- 	mkdir -p $(DESTDIR)$(sbindir)
-- 	$(INSTALL) update-passwd $(DESTDIR)$(sbindir)/
---	$(MAKE) -C man install
-- 
-- update-passwd.o: version.h
-- 
-diff --git a/meta/recipes-core/base-passwd/base-passwd/0007-Make-it-possible-to-disable-the-generation-of-the-do.patch b/meta/recipes-core/base-passwd/base-passwd/0007-Make-it-possible-to-disable-the-generation-of-the-do.patch
-new file mode 100644
-index 0000000000..2bec065cdb
---- /dev/null
-+++ b/meta/recipes-core/base-passwd/base-passwd/0007-Make-it-possible-to-disable-the-generation-of-the-do.patch
-@@ -0,0 +1,46 @@
-+From 63e8270141a296843cfe1daba38e1969ac6d75ae Mon Sep 17 00:00:00 2001
-+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-+Date: Sat, 30 Apr 2022 00:35:34 +0200
-+Subject: [PATCH] Make it possible to disable the generation of the
-+ documentation
-+
-+Not all systems have docbook and po4a available.
-+
-+Upstream-Status: Submitted [https://salsa.debian.org/debian/base-passwd/-/merge_requests/11]
-+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-+---
-+ Makefile.am  | 2 ++
-+ configure.ac | 9 +++++++++
-+ 2 files changed, 11 insertions(+)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 4bdd769..97b4f42 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -1,4 +1,6 @@
-++if ENABLE_DOCS
-+ SUBDIRS = doc man
-++endif
-+ 
-+ sbin_PROGRAMS = update-passwd
-+ 
-+diff --git a/configure.ac b/configure.ac
-+index 1e35ad1..b98374e 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -27,6 +27,15 @@ AS_IF([test "x$enable_debconf" != xno],
-+       [debconf support not available (use --disable-debconf to disable)])])
-+    AC_DEFINE([HAVE_DEBCONF], [1], [Define if you have libdebconfclient])])
-+ 
-++dnl Check whether to build the documentation 
-++AC_MSG_CHECKING([whether to build the documentation])
-++AC_ARG_ENABLE([docs],
-++  [AC_HELP_STRING([--disable-docs], [do not build and install documentation])],
-++  [],
-++  [enable_docs=yes])
-++AC_MSG_RESULT($enable_docs)
-++AM_CONDITIONAL(ENABLE_DOCS, test "x$enable_docs" = xyes)
-++
-+ dnl Finally output everything
-+ AC_CONFIG_FILES([Makefile doc/Makefile man/Makefile])
-+ AC_OUTPUT
-diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb
-similarity index 89%
-rename from meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-rename to meta/recipes-core/base-passwd/base-passwd_3.5.52.bb
-index e561599136..f89752c077 100644
---- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-+++ b/meta/recipes-core/base-passwd/base-passwd_3.5.52.bb
-@@ -5,27 +5,30 @@ SECTION = "base"
- LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
- 
--RECIPE_NO_UPDATE_REASON = "Version 3.5.38 requires cdebconf for update-passwd utility"
--
--SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar.gz \
-+SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar.xz \
-            file://0001-Add-a-shutdown-group.patch \
-            file://0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch \
-            file://0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch \
-            file://0004-Add-an-input-group-for-the-dev-input-devices.patch \
-            file://0005-Add-kvm-group.patch \
--           file://0006-Disable-shell-for-default-users.patch \
--           file://0007-Disable-generation-of-the-documentation.patch \
-+           file://0006-Make-it-possible-to-build-without-debconf-support.patch \
-+           file://0007-Make-it-possible-to-disable-the-generation-of-the-do.patch \
-            "
- 
--SRC_URI[md5sum] = "6beccac48083fe8ae5048acd062e5421"
--SRC_URI[sha256sum] = "f0b66388b2c8e49c15692439d2bee63bcdd4bbbf7a782c7f64accc55986b6a36"
-+SRC_URI[sha256sum] = "5dfec6556b5a16ecf14dd3f7c95b591d929270289268123f31a3d6317f95ccea"
- 
- # the package is taken from launchpad; that source is static and goes stale
- # so we check the latest upstream from a directory that does get updated
- UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/b/base-passwd/"
- 
-+S = "${WORKDIR}/work"
-+
- inherit autotools
- 
-+EXTRA_OECONF += "--disable-debconf --disable-docs"
-+
-+NOLOGIN ?= "${base_sbindir}/nologin"
-+
- do_install () {
- 	install -d -m 755 ${D}${sbindir}
- 	install -o root -g root -p -m 755 ${B}/update-passwd ${D}${sbindir}/
-@@ -37,6 +40,7 @@ do_install () {
- 	install -d -m 755 ${D}${datadir}/base-passwd
- 	install -o root -g root -p -m 644 ${S}/passwd.master ${D}${datadir}/base-passwd/
- 	sed -i 's#:/root:#:${ROOT_HOME}:#' ${D}${datadir}/base-passwd/passwd.master
-+	sed -i 's#/usr/sbin/nologin#${NOLOGIN}#' ${D}${datadir}/base-passwd/passwd.master
- 	install -o root -g root -p -m 644 ${S}/group.master ${D}${datadir}/base-passwd/
- 
- 	install -d -m 755 ${D}${docdir}/${BPN}
+Cheers,
+
+Richard
+
+
 
