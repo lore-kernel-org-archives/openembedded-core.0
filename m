@@ -1,140 +1,410 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EB65C433F5
-	for <webhook@archiver.kernel.org>; Sat, 14 May 2022 14:22:42 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
- [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web10.6323.1652538154728358321
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5473C433FE
+	for <webhook@archiver.kernel.org>; Sat, 14 May 2022 21:15:04 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web11.10464.1652562897309316625
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 May 2022 07:22:35 -0700
+ Sat, 14 May 2022 14:14:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=LwS7rWdd;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.171,
- mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f171.google.com with SMTP id h186so7408518pgc.3
-        for <openembedded-core@lists.openembedded.org>;
- Sat, 14 May 2022 07:22:34 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=mIkDteiQ;
+ spf=pass (domain: axis.com, ip: 195.60.68.18,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sBwzMICbuw6A5QawPjIraiJiJNFAuctock7EyNQk20g=;
-        b=LwS7rWddmUOjiq8kMACZIfumN4M3NA8bHXp8qb7PIElE5XElFaASoMoW2RZSjmTmmo
-         yne0zmqfkpjXhLYC1NsHdGyLdB/2emGZVIfUd3oj6rZDaInIYeuTxlif9VgI5ifNi2NP
-         sb5vM47xZkXDCzlrTS+ATDkyTcYqkI/BIF7ukEkFlNonis1QiBqduBykd661HRc1TxH+
-         OaqIpn73Oy15dqcASqO2vlPJusIvUGyhX59lATYLYGT3mayVw1ZM7oMH1Sfo19h3qHHX
-         gUhJzdmRDaeYcvGN+b30oBRNlZ3qo2FwYaSpsA93oyHj+NuhjG95mVZEePoKREyvxGY4
-         XSmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sBwzMICbuw6A5QawPjIraiJiJNFAuctock7EyNQk20g=;
-        b=KG1H+PEJJcjIYLFka3kfGGn4UnKMj+62H8ou3SWBwq9tVdeOQWb2WHAMptPOJhvyCS
-         EWLhvv4RyVaCv7YU/A4Vw3uH47o3fjsG1rbo86xPcFORAliHfgrCpBt4DttcGnoNnWbk
-         4W4S/3cQajyTPBy4zJ2rhuHntM2A9wuKRWX0MCxU+ZcHYNXub2OPzmzXNEVknak0Vdmg
-         V3nVy+s6dAogY42bTz58EkLd/HIW/r2Abx0bUhd10Gsrr0gGiy0P3hbldHdGbYP2eJG6
-         LK6oGLEa9TkTKA8g/yDILLFqRfQHtImhK9puJfT7ZwnN23BBB3CmdfcGt63Ug1zPtySX
-         NVNA==
-X-Gm-Message-State: AOAM532lAtK/9Lr+HuADAwOpRPjvM+dYoe83+GSYqMdHsbhxRvoGZlMN
-	K1uw6XnGa4usmeOXGzc89SngsiMLYxcruakU
-X-Google-Smtp-Source: 
- ABdhPJxcDykCXtaHDr//V3TvGcnMKEygGq0kyrmQ494nqd4Bs7GkHfC+JvltqNgOFVJL1Wu3wNGmvw==
-X-Received: by 2002:a65:6e8b:0:b0:3ab:a3fb:e95a with SMTP id
- bm11-20020a656e8b000000b003aba3fbe95amr8075432pgb.433.1652538153204;
-        Sat, 14 May 2022 07:22:33 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id
- a10-20020a631a0a000000b003c6ab6ba06csm3465856pga.79.2022.05.14.07.22.31
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 May 2022 07:22:32 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/14] Pull request (cover letter only)
-Date: Sat, 14 May 2022 04:22:21 -1000
-Message-Id: <cover.1652538050.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
+  d=axis.com; q=dns/txt; s=axis-central1; t=1652562898;
+  x=1684098898;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=jSDnx5Ko9ug69fpk0fu1omE1Tmy1Hm/FBsSjkqmER5g=;
+  b=mIkDteiQCM9BWWGP55FXvI+7Dng0q2+R3mAi+1c/8egJwNS4SAfYIg1U
+   m6C8IWQ80i7Uo4we7BQWsEYhQRq9krh5OPjDbUHdbzy20AUIYm32OnPKB
+   Y4bEZY0KSgOCCNNMiIIAHqo9rKEMWm166Cu6ezCNqrQ3kP4YjQpjR8gM2
+   wfCRQVNY/qtgglJeuDgFFJl77+LZqObeyYkEYthx3FeQfZyph3O4Krmzf
+   yw1hudknVv64gxLtlCwktLCabYE5J3yy8wVsDSPEIZrQBLZyg+qql5G1X
+   X+3qo4b5J+lKuhOJXSRkVFDkfS+n4OR56BDzV5+purvkzDHXcPdVHjXSV
+   g==;
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 1/2] base-passwd: Regenerate the patches
+Date: Sat, 14 May 2022 23:14:49 +0200
+Message-ID: <20220514211450.28115-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 14 May 2022 14:22:42 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 14 May 2022 21:15:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165591
+ https://lists.openembedded.org/g/openembedded-core/message/165593
 
-The following changes since commit 7c0345ab1058a7e29d37f110923ecd368e102ed7:
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ .../0001-Add-a-shutdown-group.patch           | 26 +++++++++++++++
+ ...nstead-of-bin-bash-for-the-root-user.patch | 23 +++++++++++++
+ ...t-since-we-do-not-have-an-etc-shadow.patch | 21 ++++++++++++
+ ...nput-group-for-the-dev-input-devices.patch | 23 +++++++++++++
+ .../{kvm.patch => 0005-Add-kvm-group.patch}   |  2 +-
+ ...006-Disable-shell-for-default-users.patch} |  5 +--
+ ...able-generation-of-the-documentation.patch | 32 +++++++++++++++++++
+ .../base-passwd/add_shutdown.patch            | 19 -----------
+ .../base-passwd/disable-docs.patch            | 24 --------------
+ .../base-passwd/base-passwd/input.patch       | 22 -------------
+ .../base-passwd/base-passwd/nobash.patch      | 15 ---------
+ .../base-passwd/base-passwd/noshadow.patch    | 14 --------
+ .../base-passwd/base-passwd_3.5.29.bb         | 14 ++++----
+ 13 files changed, 134 insertions(+), 106 deletions(-)
+ create mode 100644 meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown-group.patch
+ create mode 100644 meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch
+ create mode 100644 meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch
+ create mode 100644 meta/recipes-core/base-passwd/base-passwd/0004-Add-an-input-group-for-the-dev-input-devices.patch
+ rename meta/recipes-core/base-passwd/base-passwd/{kvm.patch => 0005-Add-kvm-group.patch} (88%)
+ rename meta/recipes-core/base-passwd/base-passwd/{disable-shell.patch => 0006-Disable-shell-for-default-users.patch} (96%)
+ create mode 100644 meta/recipes-core/base-passwd/base-passwd/0007-Disable-generation-of-the-documentation.patch
+ delete mode 100644 meta/recipes-core/base-passwd/base-passwd/add_shutdown.patch
+ delete mode 100644 meta/recipes-core/base-passwd/base-passwd/disable-docs.patch
+ delete mode 100644 meta/recipes-core/base-passwd/base-passwd/input.patch
+ delete mode 100644 meta/recipes-core/base-passwd/base-passwd/nobash.patch
+ delete mode 100644 meta/recipes-core/base-passwd/base-passwd/noshadow.patch
 
-  uninative: Upgrade to 3.6 with gcc 12 support (2022-05-09 11:51:55 +0100)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-
-Bruce Ashfield (1):
-  linux-yocto/5.4: update to v5.4.192
-
-Davide Gardenal (3):
-  cve-check: add JSON format to summary output
-  cve-check: fix symlinks where link and output path are equal
-  rootfs-postcommands: fix symlinks where link and output path are equal
-
-Marta Rybczynska (2):
-  cve-update-db-native: update the CVE database once a day only
-  cve-update-db-native: let the user to drive the update interval
-
-Pawan Badganchi (2):
-  fribidi: Add fix for CVE-2022-25308, CVE-2022-25309 and CVE-2022-25310
-  libinput: Add fix for CVE-2022-1215
-
-Portia (1):
-  volatile-binds: Change DefaultDependencies from false to no
-
-Richard Purdie (3):
-  base: Avoid circular references to our own scripts
-  scripts: Make git intercept global
-  scripts/git: Ensure we don't have circular references
-
-Ross Burton (1):
-  cve-check: no need to depend on the fetch task
-
-Steve Sakoman (1):
-  busybox: fix CVE-2022-28391
-
- meta/classes/base.bbclass                     |   4 +
- meta/classes/cve-check.bbclass                |  72 ++--
- meta/classes/rootfs-postcommands.bbclass      |  14 +-
- ...tr-ensure-only-printable-characters-.patch |  38 ++
- ...e-all-printed-strings-with-printable.patch |  64 ++++
- meta/recipes-core/busybox/busybox_1.31.1.bb   |   2 +
- .../recipes-core/meta/cve-update-db-native.bb |  13 +-
- .../files/volatile-binds.service.in           |   2 +-
- .../wayland/libinput/CVE-2022-1215.patch      | 360 ++++++++++++++++++
- .../wayland/libinput_1.15.2.bb                |   1 +
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
- .../fribidi/fribidi/CVE-2022-25308.patch      |  50 +++
- .../fribidi/fribidi/CVE-2022-25309.patch      |  31 ++
- .../fribidi/fribidi/CVE-2022-25310.patch      |  30 ++
- meta/recipes-support/fribidi/fribidi_1.0.9.bb |   3 +
- scripts/{git-intercept => }/git               |   9 +-
- 18 files changed, 674 insertions(+), 55 deletions(-)
- create mode 100644 meta/recipes-core/busybox/busybox/0001-libbb-sockaddr2str-ensure-only-printable-characters-.patch
- create mode 100644 meta/recipes-core/busybox/busybox/0002-nslookup-sanitize-all-printed-strings-with-printable.patch
- create mode 100644 meta/recipes-graphics/wayland/libinput/CVE-2022-1215.patch
- create mode 100644 meta/recipes-support/fribidi/fribidi/CVE-2022-25308.patch
- create mode 100644 meta/recipes-support/fribidi/fribidi/CVE-2022-25309.patch
- create mode 100644 meta/recipes-support/fribidi/fribidi/CVE-2022-25310.patch
- rename scripts/{git-intercept => }/git (52%)
-
--- 
-2.25.1
-
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown-group.patch b/meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown-group.patch
+new file mode 100644
+index 0000000000..e50efc9623
+--- /dev/null
++++ b/meta/recipes-core/base-passwd/base-passwd/0001-Add-a-shutdown-group.patch
+@@ -0,0 +1,26 @@
++From 8f3ace87df3aaad85946c22cae240532ea3e73b8 Mon Sep 17 00:00:00 2001
++From: Saul Wold <sgw@linux.intel.com>
++Date: Fri, 29 Apr 2022 13:32:27 +0000
++Subject: [PATCH] Add a shutdown group
++
++We need to have a shutdown group to allow the shutdown icon to work
++correctly. Any users that want to use shutdown like the xuser should
++be added to this group.
++
++Upstream-Status: Inappropriate [Embedded]
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++---
++ group.master | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/group.master b/group.master
++index ad1dd2d..1b5e2fb 100644
++--- a/group.master
+++++ b/group.master
++@@ -35,5 +35,6 @@ sasl:*:45:
++ plugdev:*:46:
++ staff:*:50:
++ games:*:60:
+++shutdown:*:70:
++ users:*:100:
++ nogroup:*:65534:
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch b/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch
+new file mode 100644
+index 0000000000..ea0256684b
+--- /dev/null
++++ b/meta/recipes-core/base-passwd/base-passwd/0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch
+@@ -0,0 +1,23 @@
++From 4411fc0df77566d52bee11ec0bad4be30a96e99e Mon Sep 17 00:00:00 2001
++From: Scott Garman <scott.a.garman@intel.com>
++Date: Fri, 29 Apr 2022 13:32:27 +0000
++Subject: [PATCH] Use /bin/sh instead of /bin/bash for the root user
++
++/bin/bash may not be included in some images such as minimal.
++
++Upstream-Status: Inappropriate [configuration]
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++---
++ passwd.master | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/passwd.master b/passwd.master
++index a01a6aa..b54ff51 100644
++--- a/passwd.master
+++++ b/passwd.master
++@@ -1,4 +1,4 @@
++-root:*:0:0:root:/root:/bin/bash
+++root:*:0:0:root:/root:/bin/sh
++ daemon:*:1:1:daemon:/usr/sbin:/bin/sh
++ bin:*:2:2:bin:/bin:/bin/sh
++ sys:*:3:3:sys:/dev:/bin/sh
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch b/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch
+new file mode 100644
+index 0000000000..88cc5be66c
+--- /dev/null
++++ b/meta/recipes-core/base-passwd/base-passwd/0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch
+@@ -0,0 +1,21 @@
++From 13a1a284a134d18a454625a5b4485c0d99079ae9 Mon Sep 17 00:00:00 2001
++From: Scott Garman <scott.a.garman@intel.com>
++Date: Fri, 29 Apr 2022 13:32:28 +0000
++Subject: [PATCH] Remove "*" for root since we do not have an /etc/shadow
++
++Upstream-Status: Inappropriate [configuration]
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++---
++ passwd.master | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/passwd.master b/passwd.master
++index b54ff51..e1c32ff 100644
++--- a/passwd.master
+++++ b/passwd.master
++@@ -1,4 +1,4 @@
++-root:*:0:0:root:/root:/bin/sh
+++root::0:0:root:/root:/bin/sh
++ daemon:*:1:1:daemon:/usr/sbin:/bin/sh
++ bin:*:2:2:bin:/bin:/bin/sh
++ sys:*:3:3:sys:/dev:/bin/sh
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0004-Add-an-input-group-for-the-dev-input-devices.patch b/meta/recipes-core/base-passwd/base-passwd/0004-Add-an-input-group-for-the-dev-input-devices.patch
+new file mode 100644
+index 0000000000..394a0f01d3
+--- /dev/null
++++ b/meta/recipes-core/base-passwd/base-passwd/0004-Add-an-input-group-for-the-dev-input-devices.patch
+@@ -0,0 +1,23 @@
++From c5f012750f8102ff54af73ccc2d2b7bfa1f26db4 Mon Sep 17 00:00:00 2001
++From: Darren Hart <dvhart@linux.intel.com>
++Date: Fri, 29 Apr 2022 13:32:28 +0000
++Subject: [PATCH] Add an input group for the /dev/input/* devices
++
++Upstream-Status: Inappropriate [configuration]
++Signed-off-by: Darren Hart <dvhart@linux.intel.com>
++---
++ group.master | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/group.master b/group.master
++index 1b5e2fb..cea9d60 100644
++--- a/group.master
+++++ b/group.master
++@@ -12,6 +12,7 @@ uucp:*:10:
++ man:*:12:
++ proxy:*:13:
++ kmem:*:15:
+++input:*:19:
++ dialout:*:20:
++ fax:*:21:
++ voice:*:22:
+diff --git a/meta/recipes-core/base-passwd/base-passwd/kvm.patch b/meta/recipes-core/base-passwd/base-passwd/0005-Add-kvm-group.patch
+similarity index 88%
+rename from meta/recipes-core/base-passwd/base-passwd/kvm.patch
+rename to meta/recipes-core/base-passwd/base-passwd/0005-Add-kvm-group.patch
+index 113d5151e7..72e6ee333c 100644
+--- a/meta/recipes-core/base-passwd/base-passwd/kvm.patch
++++ b/meta/recipes-core/base-passwd/base-passwd/0005-Add-kvm-group.patch
+@@ -1,4 +1,4 @@
+-From 6355278b9f744291864c373a32a8da8f84aaaf37 Mon Sep 17 00:00:00 2001
++From 6cf19461fb31d7a7a3010629aae9aab49c26a01b Mon Sep 17 00:00:00 2001
+ From: Jacob Kroon <jacob.kroon@gmail.com>
+ Date: Wed, 30 Jan 2019 04:53:48 +0000
+ Subject: [PATCH] Add kvm group
+diff --git a/meta/recipes-core/base-passwd/base-passwd/disable-shell.patch b/meta/recipes-core/base-passwd/base-passwd/0006-Disable-shell-for-default-users.patch
+similarity index 96%
+rename from meta/recipes-core/base-passwd/base-passwd/disable-shell.patch
+rename to meta/recipes-core/base-passwd/base-passwd/0006-Disable-shell-for-default-users.patch
+index dddc93ca35..2bcb829d9c 100644
+--- a/meta/recipes-core/base-passwd/base-passwd/disable-shell.patch
++++ b/meta/recipes-core/base-passwd/base-passwd/0006-Disable-shell-for-default-users.patch
+@@ -1,4 +1,4 @@
+-From 91e0db96741359173ddf2be083aafcc1a3c32472 Mon Sep 17 00:00:00 2001
++From f35eb24213475d3024ad45297fd855c6abfbbac0 Mon Sep 17 00:00:00 2001
+ From: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+ Date: Mon, 18 Apr 2022 11:22:43 +0800
+ Subject: [PATCH] Disable shell for default users
+@@ -52,6 +52,3 @@ index e1c32ff..0cd5ffd 100644
+ +irc:*:39:39:ircd:/var/run/ircd:/sbin/nologin
+ +gnats:*:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/sbin/nologin
+ +nobody:*:65534:65534:nobody:/nonexistent:/sbin/nologin
+--- 
+-2.32.0
+-
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0007-Disable-generation-of-the-documentation.patch b/meta/recipes-core/base-passwd/base-passwd/0007-Disable-generation-of-the-documentation.patch
+new file mode 100644
+index 0000000000..4a19f91c35
+--- /dev/null
++++ b/meta/recipes-core/base-passwd/base-passwd/0007-Disable-generation-of-the-documentation.patch
+@@ -0,0 +1,32 @@
++From 7ccf8227cb10d78f1958a7a7feed75a390a6b133 Mon Sep 17 00:00:00 2001
++From: Saul Wold <sgw@linux.intel.com>
++Date: Fri, 29 Apr 2022 13:32:28 +0000
++Subject: [PATCH] Disable generation of the documentation
++
++It uses tools currently not supported by OE-Core. It uses sgmltools
++and po4a.
++
++Upstream-Status: Inappropriate [OE-Core specific]
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++---
++ Makefile.in | 3 ---
++ 1 file changed, 3 deletions(-)
++
++diff --git a/Makefile.in b/Makefile.in
++index 9ba097c..d3ea47c 100644
++--- a/Makefile.in
+++++ b/Makefile.in
++@@ -25,13 +25,10 @@ gen_configure	= config.cache config.status config.log \
++ 		  confdefhs.h config.h Makefile
++ 
++ all: update-passwd
++-	$(MAKE) -C doc all
++-	$(MAKE) -C man all
++ 
++ install: all
++ 	mkdir -p $(DESTDIR)$(sbindir)
++ 	$(INSTALL) update-passwd $(DESTDIR)$(sbindir)/
++-	$(MAKE) -C man install
++ 
++ update-passwd.o: version.h
++ 
+diff --git a/meta/recipes-core/base-passwd/base-passwd/add_shutdown.patch b/meta/recipes-core/base-passwd/base-passwd/add_shutdown.patch
+deleted file mode 100644
+index 5f357d8895..0000000000
+--- a/meta/recipes-core/base-passwd/base-passwd/add_shutdown.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-
+-We need to have a shutdown group to allow the shutdown icon
+-to work correctly. Any users that want to use shutdown like
+-the xuser should be added to this group.
+-
+-Upstream-Status: Inappropriate [Embedded]
+-
+-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+-Index: base-passwd-3.5.26/group.master
+-===================================================================
+---- base-passwd-3.5.26.orig/group.master
+-+++ base-passwd-3.5.26/group.master
+-@@ -36,5 +36,6 @@ sasl:*:45:
+- plugdev:*:46:
+- staff:*:50:
+- games:*:60:
+-+shutdown:*:70:
+- users:*:100:
+- nogroup:*:65534:
+diff --git a/meta/recipes-core/base-passwd/base-passwd/disable-docs.patch b/meta/recipes-core/base-passwd/base-passwd/disable-docs.patch
+deleted file mode 100644
+index 14c08b7484..0000000000
+--- a/meta/recipes-core/base-passwd/base-passwd/disable-docs.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
+-Disable documentation for now as it uses tools currently not supported
+-by OE-Core. It uses sgmltools and po4a.
+-
+-Upstream-Status: Inappropriate [OE-Core specific]
+-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+-
+-Index: base-passwd-3.5.28/Makefile.in
+-===================================================================
+---- base-passwd-3.5.28.orig/Makefile.in
+-+++ base-passwd-3.5.28/Makefile.in
+-@@ -25,13 +25,10 @@ gen_configure	= config.cache config.stat
+- 		  confdefhs.h config.h Makefile
+- 
+- all: update-passwd
+--	$(MAKE) -C doc all
+--	$(MAKE) -C man all
+- 
+- install: all
+- 	mkdir -p $(DESTDIR)$(sbindir)
+- 	$(INSTALL) update-passwd $(DESTDIR)$(sbindir)/
+--	$(MAKE) -C man install
+- 
+- update-passwd.o: version.h
+- 
+diff --git a/meta/recipes-core/base-passwd/base-passwd/input.patch b/meta/recipes-core/base-passwd/base-passwd/input.patch
+deleted file mode 100644
+index 3abbcad5d5..0000000000
+--- a/meta/recipes-core/base-passwd/base-passwd/input.patch
++++ /dev/null
+@@ -1,22 +0,0 @@
+-Add an input group for the /dev/input/* devices.
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+-
+----
+- group.master |    1 +
+- 1 file changed, 1 insertion(+)
+-
+-Index: base-passwd-3.5.26/group.master
+-===================================================================
+---- base-passwd-3.5.26.orig/group.master
+-+++ base-passwd-3.5.26/group.master
+-@@ -12,6 +12,7 @@ uucp:*:10:
+- man:*:12:
+- proxy:*:13:
+- kmem:*:15:
+-+input:*:19:
+- dialout:*:20:
+- fax:*:21:
+- voice:*:22:
+diff --git a/meta/recipes-core/base-passwd/base-passwd/nobash.patch b/meta/recipes-core/base-passwd/base-passwd/nobash.patch
+deleted file mode 100644
+index b5a692295b..0000000000
+--- a/meta/recipes-core/base-passwd/base-passwd/nobash.patch
++++ /dev/null
+@@ -1,15 +0,0 @@
+-use /bin/sh instead of /bin/bash, since the latter may not be included in
+-some images such as minimal
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+---- base-passwd/passwd.master~nobash
+-+++ base-passwd/passwd.master
+-@@ -1,4 +1,4 @@
+--root:*:0:0:root:/root:/bin/bash
+-+root:*:0:0:root:/root:/bin/sh
+- daemon:*:1:1:daemon:/usr/sbin:/bin/sh
+- bin:*:2:2:bin:/bin:/bin/sh
+- sys:*:3:3:sys:/dev:/bin/sh
+diff --git a/meta/recipes-core/base-passwd/base-passwd/noshadow.patch b/meta/recipes-core/base-passwd/base-passwd/noshadow.patch
+deleted file mode 100644
+index e27bf7d9be..0000000000
+--- a/meta/recipes-core/base-passwd/base-passwd/noshadow.patch
++++ /dev/null
+@@ -1,14 +0,0 @@
+-remove "*" for root since we don't have a /etc/shadow so far.
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+---- base-passwd/passwd.master~nobash
+-+++ base-passwd/passwd.master
+-@@ -1,4 +1,4 @@
+--root:*:0:0:root:/root:/bin/sh
+-+root::0:0:root:/root:/bin/sh
+- daemon:*:1:1:daemon:/usr/sbin:/bin/sh
+- bin:*:2:2:bin:/bin:/bin/sh
+- sys:*:3:3:sys:/dev:/bin/sh
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+index ef7792ae49..e561599136 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+@@ -8,13 +8,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
+ RECIPE_NO_UPDATE_REASON = "Version 3.5.38 requires cdebconf for update-passwd utility"
+ 
+ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar.gz \
+-           file://add_shutdown.patch \
+-           file://nobash.patch \
+-           file://noshadow.patch \
+-           file://input.patch \
+-           file://disable-docs.patch \
+-           file://kvm.patch \
+-           file://disable-shell.patch \
++           file://0001-Add-a-shutdown-group.patch \
++           file://0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch \
++           file://0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch \
++           file://0004-Add-an-input-group-for-the-dev-input-devices.patch \
++           file://0005-Add-kvm-group.patch \
++           file://0006-Disable-shell-for-default-users.patch \
++           file://0007-Disable-generation-of-the-documentation.patch \
+            "
+ 
+ SRC_URI[md5sum] = "6beccac48083fe8ae5048acd062e5421"
 
