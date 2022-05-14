@@ -2,64 +2,60 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E16CAC433F5
-	for <webhook@archiver.kernel.org>; Sat, 14 May 2022 07:17:19 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web12.3788.1652512617633008009
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E1B4C433EF
+	for <webhook@archiver.kernel.org>; Sat, 14 May 2022 12:15:31 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.5387.1652530527941734390
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 May 2022 00:16:58 -0700
+ Sat, 14 May 2022 05:15:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Tw9DLZ/A;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LE3slYLQ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id v12so13926495wrv.10
+Received: by mail-wr1-f42.google.com with SMTP id k30so1836802wrd.5
         for <openembedded-core@lists.openembedded.org>;
- Sat, 14 May 2022 00:16:57 -0700 (PDT)
+ Sat, 14 May 2022 05:15:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
+        h=message-id:subject:from:to:date:in-reply-to:references
          :content-transfer-encoding:user-agent:mime-version;
-        bh=VGRrY/lIndVXTnK6Imp/qKrKfw5ZnVihop1b/xB3xDI=;
-        b=Tw9DLZ/AkiNE7NHGN9fk/IuQ7sn5qBDTlLuWSuAQcM2kGpjZ8fqEuTd/9ewJQI4trt
-         FWaUhOn4Xc8EAqYoDEGTF9+9WUOmrNMPF630pwi/rVQBlDKNawoCKYfA0L2uSOunJkqK
-         3ho5+hVlR6v01VRu9VFT664PjRU2YICDChdic=
+        bh=/w52EOPu574EiNSUQWn5BNB7YTk0vqtsgqL5c2cS44s=;
+        b=LE3slYLQbOyppkHNxLF1Hce1bO6Fk3203iySWuUbAViainNsjXGCvbV5q84MOPmNC1
+         jo5oJH1dD/nnGfigWq33vbvZepZlmyMMCltBmkDbxQqJijYVpOdaGCB3V4JifoJONdpZ
+         51DWn6MwDIDK26ZT1n2M0g3P/EEVGH1DF3b8Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:content-transfer-encoding:user-agent:mime-version;
-        bh=VGRrY/lIndVXTnK6Imp/qKrKfw5ZnVihop1b/xB3xDI=;
-        b=f5mBIqgokTzqUoWOnPnyJ+HGKZo+jkWmn9C7sWstqbhDcS8cEoZM6tTNNzdouP/2Le
-         ih+rM4JR+I81jGYX5CokVuut9wlysOdSf2nn764rbKHQp/1NPBHQbZLPWMe0gtCNUIp6
-         hVdcp6HP4dX8dw98vkjaawsHVTrof0D8kmzLOqjc7/F9RF6QBwVGLs8eXksInHXd5PHa
-         qYJlWlmLODNqaTse1X4ZIrT7cgrPQQY6GmNGJd4gpMAbw2vQo9ynlIg3VYw2+UWaf1L5
-         NVsEKVCi8gbC41+mbQoHQxraKZNThGjbJLIKu8w681Cg/DYkzTfZIqzx7rUH69Whau+Z
-         q/9A==
-X-Gm-Message-State: AOAM532hUm0OG7nvikffwSCEvxWCn1jC1vnMD/VuwL4t+tO4PAQLApD4
-	nfj+dF2D57tVQc4mZ9PUQKZYOQ==
+        bh=/w52EOPu574EiNSUQWn5BNB7YTk0vqtsgqL5c2cS44s=;
+        b=r3Da7biNH8Ygmu6hmqHXSymU7RTUCjkyAs9GmZ27bi5XOVbeQ3ngxqtZVZdow7Ektg
+         P9ztBV6OBkWDdy5TBgFMQOtWo7sHPVVQZs5uCAp0PCvGS47oe7hd2TZPWsEI4a6ZgiiH
+         5buDJn1cenbFo9VEtNgcOTsm+KCxXfmBbqPSlX/Cd+yCrRSDClXCykUds579Za1nywhG
+         NDC69Q+pITjfvg/QVsJgeExKXurHSyfqEiKNRElOT2whZ3R3L0Wg33X46lFrM73pkpY+
+         evy6B26zh1qVJ8j33NcxCICGbney9Wg6Sg1AP41DNP8WoCpId0pMLdzTf9J41qc/UI8L
+         2T/Q==
+X-Gm-Message-State: AOAM532TGWqM2xLjQ/h67oFe9nG6+RqzuhjD7rvp67nLLbxU0k+jLhGS
+	Uk9dCzdE2I5w67R1eFimGNoRcA==
 X-Google-Smtp-Source: 
- ABdhPJxXi521+IvPRcniJw4FDzx+pdWsnHd0yWSIIZLI3zQFkYQVQOxAvD7btMtRZKoPuW+1gLxg5g==
-X-Received: by 2002:a5d:6d8c:0:b0:20c:599a:4f7e with SMTP id
- l12-20020a5d6d8c000000b0020c599a4f7emr6745982wrs.324.1652512615826;
-        Sat, 14 May 2022 00:16:55 -0700 (PDT)
+ ABdhPJyaPqxeN9tyMqy3zkdMfAdNbfnevmkTAGwXiy1WurL41DwVVwEwn+rUl74VtREUx6qD0GPlxQ==
+X-Received: by 2002:a5d:4fc7:0:b0:20c:dcd2:b088 with SMTP id
+ h7-20020a5d4fc7000000b0020cdcd2b088mr7530289wrw.54.1652530526315;
+        Sat, 14 May 2022 05:15:26 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:6860:c182:5cab:e7e9?
  ([2001:8b0:aba:5f3c:6860:c182:5cab:e7e9])
         by smtp.gmail.com with ESMTPSA id
- i8-20020a05600c354800b003945cdd0d55sm4601661wmq.26.2022.05.14.00.16.54
+ d16-20020adf9c90000000b0020c5253d8fasm4618261wre.70.2022.05.14.05.15.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 May 2022 00:16:55 -0700 (PDT)
+        Sat, 14 May 2022 05:15:25 -0700 (PDT)
 Message-ID: 
- <8c7e147c519b05f1983605f5c9ce522fcd12a2a4.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH V4] meta: rust - Bug fix for target
- definitions returning 'NoneType' for arm
+ <94a8a02f6d94d8d4871fae331a7383cda81ab3dc.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] ovmf: Fix native build with gcc-12
 From: richard.purdie@linuxfoundation.org
-To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Cc: rwmacleod@gmail.com, umesh.kalappa0@gmail.com, pgowda.cve@gmail.com,
-	shivams@gmail.com
-Date: Sat, 14 May 2022 08:16:52 +0100
-In-Reply-To: <20220513055923.170822-1-sundeep.kokkonda@gmail.com>
-References: <20220513055923.170822-1-sundeep.kokkonda@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Sat, 14 May 2022 13:15:23 +0100
+In-Reply-To: <20220513162244.577710-1-raj.khem@gmail.com>
+References: <20220513162244.577710-1-raj.khem@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.0-1ubuntu1 
@@ -67,160 +63,202 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 14 May 2022 07:17:19 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 14 May 2022 12:15:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165589
+ https://lists.openembedded.org/g/openembedded-core/message/165590
 
-On Thu, 2022-05-12 at 22:59 -0700, Sundeep KOKKONDA wrote:
-> [Yocto bug #14742]
-> The build shows below error while building for arm machines.
-> Exception: TypeError: int() argument must be a string, a bytes-like objec=
-t or a number, not 'NoneType'
-> Detailed error info :
+On Fri, 2022-05-13 at 09:22 -0700, Khem Raj wrote:
+> Host distros have started deploying gcc12 as well e.g. archlinux
+> this build failure shows up which has been fixed upstream
 >=20
-> Steps to reproduce:
-> 1. Set MACHINE ?=3D "qemuarm" in local.conf & add 'TOOLCHAIN_HOST_TASK:ap=
-pend =3D " packagegroup-rust-cross-canadian-${MACHINE}"'
-> 2. bitbake core-image-minimal -cpopulate_sdk
+> In function =E2=80=98GetAlignmentFromFile=E2=80=99,
+>     inlined from =E2=80=98main=E2=80=99 at GenFfs.c:816:20:
+> GenFfs.c:545:5: error: pointer =E2=80=98InFileHandle=E2=80=99 used after =
+=E2=80=98fclose=E2=80=99 [-Werror=3Duse-after-free]
+>   545 |     Error(NULL, 0, 4001, "Resource", "memory cannot be allocated =
+ of %s", InFileHandle);
+>       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~
 >=20
-> Complete Error:
-> ERROR: rust-cross-canadian-arm-1.59.0-r0 do_rust_gen_targets: Error execu=
-ting a python function in exec_func_python() autogenerated:
-> The stack trace of python calls that resulted in this exception/failure w=
-as:
-> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
->      0001:
->  *** 0002:do_rust_gen_targets(d)
->      0003:
-> File: '/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust-=
-cross-canadian-common.inc', lineno: 31, function: do_rust_gen_targets
->      0027:
->      0028:LLVM_TARGET[x86_64] =3D "${RUST_HOST_SYS}"
->      0029:python do_rust_gen_targets () {
->      0030:    wd =3D d.getVar('WORKDIR') + '/targets/'
->  *** 0031:    rust_gen_target(d, 'TARGET', wd, d.getVar('TARGET_LLVM_FEAT=
-URES') or "", d.getVar('TARGET_LLVM_CPU'), d.getVar('TARGET_ARCH'))
->      0032:    rust_gen_target(d, 'HOST', wd, "", "generic", d.getVar('HOS=
-T_ARCH'))
->      0033:    rust_gen_target(d, 'BUILD', wd, "", "generic", d.getVar('BU=
-ILD_ARCH'))
->      0034:}
->      0035:
-> File: '/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust-=
-common.inc', lineno: 330, function: rust_gen_target
->      0326:    # build tspec
->      0327:    tspec =3D {}
->      0328:    tspec['llvm-target'] =3D d.getVarFlag('LLVM_TARGET', arch_a=
-bi)
->      0329:    tspec['data-layout'] =3D d.getVarFlag('DATA_LAYOUT', arch_a=
-bi)
->  *** 0330:    tspec['max-atomic-width'] =3D int(d.getVarFlag('MAX_ATOMIC_=
-WIDTH', arch_abi))
->      0331:    tspec['target-pointer-width'] =3D d.getVarFlag('TARGET_POIN=
-TER_WIDTH', arch_abi)
->      0332:    tspec['target-c-int-width'] =3D d.getVarFlag('TARGET_C_INT_=
-WIDTH', arch_abi)
->      0333:    tspec['target-endian'] =3D d.getVarFlag('TARGET_ENDIAN', ar=
-ch_abi)
->      0334:    tspec['arch'] =3D arch_to_rust_target_arch(rust_arch)
-> Exception: TypeError: int() argument must be a string, a bytes-like objec=
-t or a number, not 'NoneType'
->=20
-> Below are the local variables from rust_gen_target function for arm and a=
-arch64 targets. Refer below, the tspec varibles for 'arm' generated with No=
-neType.
-> (a) Locals at rust_gen_target for arm::
-> tspec['data-layout'] =3D  None, Type of tspec['data-layout'] =3D  <class =
-'NoneType'>
-> tspec['data-layout'] =3D  None, Type of tspec['data-layout'] =3D  <class =
-'NoneType'>
-> DEBUG: Python function do_rust_gen_targets finished
-> (b) Locals at rust_gen_target  for aarch64::
-> tspec['data-layout'] =3D  aarch64-unknown-linux-gnu, Type of tspec['data-=
-layout'] =3D  <class 'str'>
-> tspec['max-atomic-width'] =3D  128, Type of tspec['max-atomic-width'] =3D=
-  <class 'int'>
->=20
-> Reason for changing arm-eabi to arm: The earlier changes introduced this =
-bug, so reverting the change 'arm-eabi' to 'arm' fixed the issue.
->=20
-> The 'rust_gen_targets' Task added with its dependent variable list.
->=20
-> Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
->  meta/recipes-devtools/rust/rust-common.inc | 16 +++++++++-------
->  1 file changed, 9 insertions(+), 7 deletions(-)
+>  .../0001-BaseTools-fix-gcc12-warning-1.patch  | 51 +++++++++++++++++++
+>  .../0001-BaseTools-fix-gcc12-warning.patch    | 49 ++++++++++++++++++
+>  meta/recipes-core/ovmf/ovmf_git.bb            |  6 +++
+>  3 files changed, 106 insertions(+)
+>  create mode 100644 meta/recipes-core/ovmf/ovmf/0001-BaseTools-fix-gcc12-=
+warning-1.patch
+>  create mode 100644 meta/recipes-core/ovmf/ovmf/0001-BaseTools-fix-gcc12-=
+warning.patch
 >=20
-> diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-de=
-vtools/rust/rust-common.inc
-> index 310aecef22..984fe9099e 100644
-> --- a/meta/recipes-devtools/rust/rust-common.inc
-> +++ b/meta/recipes-devtools/rust/rust-common.inc
-> @@ -119,13 +119,13 @@ def llvm_features(d):
-> =20
-> =20
->  ## arm-unknown-linux-gnueabihf
-> -DATA_LAYOUT[arm-eabi] =3D "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S=
-64"
-> -LLVM_TARGET[arm-eabi] =3D "${RUST_TARGET_SYS}"
-> -TARGET_ENDIAN[arm-eabi] =3D "little"
-> -TARGET_POINTER_WIDTH[arm-eabi] =3D "32"
-> -TARGET_C_INT_WIDTH[arm-eabi] =3D "32"
-> -MAX_ATOMIC_WIDTH[arm-eabi] =3D "64"
-> -FEATURES[arm-eabi] =3D "+v6,+vfp2"
-> +DATA_LAYOUT[arm] =3D "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
-> +LLVM_TARGET[arm] =3D "${RUST_TARGET_SYS}"
-> +TARGET_ENDIAN[arm] =3D "little"
-> +TARGET_POINTER_WIDTH[arm] =3D "32"
-> +TARGET_C_INT_WIDTH[arm] =3D "32"
-> +MAX_ATOMIC_WIDTH[arm] =3D "64"
-> +FEATURES[arm] =3D "+v6,+vfp2"
-> =20
->  ## armv7-unknown-linux-gnueabihf
->  DATA_LAYOUT[armv7-eabi] =3D "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32=
--S64"
-> @@ -360,6 +360,8 @@ def rust_gen_target(d, thing, wd, features, cpu, arch=
-, abi=3D""):
->      with open(wd + sys + '.json', 'w') as f:
->          json.dump(tspec, f, indent=3D4)
-> =20
-> +do_rust_gen_targets[vardeps] +=3D "DATA_LAYOUT LLVM_TARGET TARGET_ENDIAN=
- TARGET_POINTER_WIDTH TARGET_C_INT_WIDTH MAX_ATOMIC_WIDTH FEATURES"
+> diff --git a/meta/recipes-core/ovmf/ovmf/0001-BaseTools-fix-gcc12-warning=
+-1.patch b/meta/recipes-core/ovmf/ovmf/0001-BaseTools-fix-gcc12-warning-1.p=
+atch
+> new file mode 100644
+> index 00000000000..23366b4d078
+> --- /dev/null
+> +++ b/meta/recipes-core/ovmf/ovmf/0001-BaseTools-fix-gcc12-warning-1.patc=
+h
+> @@ -0,0 +1,51 @@
+> +From b0a0b7b605aeb8106e7b50d1efeb746f401498cc Mon Sep 17 00:00:00 2001
+> +From: Gerd Hoffmann <kraxel@redhat.com>
+> +Date: Thu, 24 Mar 2022 20:04:35 +0800
+> +Subject: [PATCH] BaseTools: fix gcc12 warning
 > +
->  python do_rust_gen_targets () {
->      wd =3D d.getVar('WORKDIR') + '/targets/'
->      build_arch =3D d.getVar('BUILD_ARCH')
+> +Sdk/C/LzmaEnc.c: In function ?LzmaEnc_CodeOneMemBlock?:
+> +Sdk/C/LzmaEnc.c:2828:19: error: storing the address of local variable ?o=
+utStream? in ?*p.rc.outStream? [-Werror=3Ddangling-pointer=3D]
+> + 2828 |   p->rc.outStream =3D &outStream.vt;
+> +      |   ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+> +Sdk/C/LzmaEnc.c:2811:28: note: ?outStream? declared here
+> + 2811 |   CLzmaEnc_SeqOutStreamBuf outStream;
+> +      |                            ^~~~~~~~~
+> +Sdk/C/LzmaEnc.c:2811:28: note: ?pp? declared here
+> +Sdk/C/LzmaEnc.c:2828:19: error: storing the address of local variable ?o=
+utStream? in ?*(CLzmaEnc *)pp.rc.outStream? [-Werror=3Ddangling-pointer=3D]
+> + 2828 |   p->rc.outStream =3D &outStream.vt;
+> +      |   ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+> +Sdk/C/LzmaEnc.c:2811:28: note: ?outStream? declared here
+> + 2811 |   CLzmaEnc_SeqOutStreamBuf outStream;
+> +      |                            ^~~~~~~~~
+> +Sdk/C/LzmaEnc.c:2811:28: note: ?pp? declared here
+> +cc1: all warnings being treated as errors
+> +
+> +Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/8502=
+1f8cf22d1bd4114803c6c610dea5ef0059f1]
+> +Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> +Reviewed-by: Bob Feng <bob.c.feng@intel.com>
+> +---
+> + BaseTools/Source/C/LzmaCompress/Sdk/C/LzmaEnc.c | 3 ++-
+> + 1 file changed, 2 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/BaseTools/Source/C/LzmaCompress/Sdk/C/LzmaEnc.c b/BaseTools=
+/Source/C/LzmaCompress/Sdk/C/LzmaEnc.c
+> +index 4e9b499f8d..4b9f5fa692 100644
+> +--- a/BaseTools/Source/C/LzmaCompress/Sdk/C/LzmaEnc.c
+> ++++ b/BaseTools/Source/C/LzmaCompress/Sdk/C/LzmaEnc.c
+> +@@ -2825,12 +2825,13 @@ SRes LzmaEnc_CodeOneMemBlock(CLzmaEncHandle pp, =
+BoolInt reInit,
+> +=20
+> +   nowPos64 =3D p->nowPos64;
+> +   RangeEnc_Init(&p->rc);
+> +-  p->rc.outStream =3D &outStream.vt;
+> +=20
+> +   if (desiredPackSize =3D=3D 0)
+> +     return SZ_ERROR_OUTPUT_EOF;
+> +=20
+> ++  p->rc.outStream =3D &outStream.vt;
+> +   res =3D LzmaEnc_CodeOneBlock(p, desiredPackSize, *unpackSize);
+> ++  p->rc.outStream =3D NULL;
+> +=20
+> +   *unpackSize =3D (UInt32)(p->nowPos64 - nowPos64);
+> +   *destLen -=3D outStream.rem;
+> +--=20
+> +2.36.1
+> +
+> diff --git a/meta/recipes-core/ovmf/ovmf/0001-BaseTools-fix-gcc12-warning=
+.patch b/meta/recipes-core/ovmf/ovmf/0001-BaseTools-fix-gcc12-warning.patch
+> new file mode 100644
+> index 00000000000..91c01647db2
+> --- /dev/null
+> +++ b/meta/recipes-core/ovmf/ovmf/0001-BaseTools-fix-gcc12-warning.patch
+> @@ -0,0 +1,49 @@
+> +From 2435c17e56652479315853cec5b91fb0ea0911a3 Mon Sep 17 00:00:00 2001
+> +From: Gerd Hoffmann <kraxel@redhat.com>
+> +Date: Thu, 24 Mar 2022 20:04:34 +0800
+> +Subject: [PATCH] BaseTools: fix gcc12 warning
+> +
+> +GenFfs.c:545:5: error: pointer ?InFileHandle? used after ?fclose? [-Werr=
+or=3Duse-after-free]
+> +  545 |     Error(NULL, 0, 4001, "Resource", "memory cannot be allocated=
+  of %s", InFileHandle);
+> +      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~
+> +GenFfs.c:544:5: note: call to ?fclose? here
+> +  544 |     fclose (InFileHandle);
+> +      |     ^~~~~~~~~~~~~~~~~~~~~
+> +
+> +Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/7b00=
+5f344e533cd913c3ca05b266f9872df886d1]
+> +Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> +Reviewed-by: Bob Feng <bob.c.feng@intel.com>
+> +---
+> + BaseTools/Source/C/GenFfs/GenFfs.c | 2 +-
+> + BaseTools/Source/C/GenSec/GenSec.c | 2 +-
+> + 2 files changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/BaseTools/Source/C/GenFfs/GenFfs.c b/BaseTools/Source/C/Gen=
+Ffs/GenFfs.c
+> +index 949025c333..d78d62ab36 100644
+> +--- a/BaseTools/Source/C/GenFfs/GenFfs.c
+> ++++ b/BaseTools/Source/C/GenFfs/GenFfs.c
+> +@@ -542,7 +542,7 @@ GetAlignmentFromFile(char *InFile, UINT32 *Alignment=
+)
+> +   PeFileBuffer =3D (UINT8 *) malloc (PeFileSize);
+> +   if (PeFileBuffer =3D=3D NULL) {
+> +     fclose (InFileHandle);
+> +-    Error(NULL, 0, 4001, "Resource", "memory cannot be allocated  of %s=
+", InFileHandle);
+> ++    Error(NULL, 0, 4001, "Resource", "memory cannot be allocated for %s=
+", InFile);
+> +     return EFI_OUT_OF_RESOURCES;
+> +   }
+> +   fread (PeFileBuffer, sizeof (UINT8), PeFileSize, InFileHandle);
+> +diff --git a/BaseTools/Source/C/GenSec/GenSec.c b/BaseTools/Source/C/Gen=
+Sec/GenSec.c
+> +index d54a4f9e0a..b1d05367ec 100644
+> +--- a/BaseTools/Source/C/GenSec/GenSec.c
+> ++++ b/BaseTools/Source/C/GenSec/GenSec.c
+> +@@ -1062,7 +1062,7 @@ GetAlignmentFromFile(char *InFile, UINT32 *Alignme=
+nt)
+> +   PeFileBuffer =3D (UINT8 *) malloc (PeFileSize);
+> +   if (PeFileBuffer =3D=3D NULL) {
+> +     fclose (InFileHandle);
+> +-    Error(NULL, 0, 4001, "Resource", "memory cannot be allocated  of %s=
+", InFileHandle);
+> ++    Error(NULL, 0, 4001, "Resource", "memory cannot be allocated for %s=
+", InFile);
+> +     return EFI_OUT_OF_RESOURCES;
+> +   }
+> +   fread (PeFileBuffer, sizeof (UINT8), PeFileSize, InFileHandle);
+> +--=20
+> +2.36.1
+> +
+> diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/=
+ovmf_git.bb
+> index b15d40eac83..84e3360a3af 100644
+> --- a/meta/recipes-core/ovmf/ovmf_git.bb
+> +++ b/meta/recipes-core/ovmf/ovmf_git.bb
+> @@ -15,12 +15,18 @@ PACKAGECONFIG +=3D "${@bb.utils.contains('MACHINE_FEA=
+TURES', 'tpm2', 'tpm', '', d)
+>  PACKAGECONFIG[secureboot] =3D ",,,"
+>  PACKAGECONFIG[tpm] =3D "-D TPM_ENABLE=3DTRUE,-D TPM_ENABLE=3DFALSE,,"
+> =20
+> +# GCC12 trips on it
+> +#see https://src.fedoraproject.org/rpms/edk2/blob/rawhide/f/0032-Basetoo=
+ls-turn-off-gcc12-warning.patch
+> +BUILD_CFLAGS +=3D "-Wno-error=3Dstringop-overflow"
+> +
+>  SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=3Dmaster;proto=
+col=3Dhttps \
+>             file://0001-ovmf-update-path-to-native-BaseTools.patch \
+>             file://0002-BaseTools-makefile-adjust-to-build-in-under-bitba=
+ke.patch \
+>             file://0003-ovmf-Update-to-latest.patch \
+>             file://0005-debug-prefix-map.patch \
+>             file://0006-reproducible.patch \
+> +           file://0001-BaseTools-fix-gcc12-warning.patch \
+> +           file://0001-BaseTools-fix-gcc12-warning-1.patch \
+>             "
+> =20
+>  PV =3D "edk2-stable202202"
 
-We need to split this into two. One patch to fix the determinism issue,
-the other to fix the arm bug.
+I think this may cause the efi failures in:
 
-The "good" news is that this patch now fails consistently on the
-autobuilder, for example:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/3522
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/3583/step=
+s/14/logs/stdio
 
-sstatetests.SStateTests.test_sstate_allarch_samesigs is failing which
-you can rerun with:
-
-oe-selftest -r sstatetests.SStateTests.test_sstate_allarch_samesigs
-
-Now it fails reliably, we need to work out why the arm change breaks
-that.
-
-If you split the patches into two we can likely merge the
-reproducibility one, then onwards with the arm issue.
-
-In case it isn't clear, the failing signatures are for adwaita-icon-
-theme which depends on librsvg-native which depends on rust-native.
-What this means is that the signature of rust-native is changing when
-MACHINE is changed in that test. This shouldn't happen. We already knew
-that from our other discussion but now we can prove it. It would be
-nice if a test showed us the native hash was changing and that is the
-other issue we discussed but one step at a time!
-
-To be clear, rust-native (and it's signature) should be independent of
-MACHINE so we need to fix that. This means that currently rust-native
-varies and rebuilds when you change MACHINE (after the dependency fix
-in this patch).
+(and all the other similar oe-selftest runs)
 
 Cheers,
 
