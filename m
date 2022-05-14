@@ -1,80 +1,229 @@
-Return-Path: <mingli.yu@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE161C433EF
-	for <webhook@archiver.kernel.org>; Sat, 14 May 2022 02:13:27 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web09.2047.1652494398213366748
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E16CAC433F5
+	for <webhook@archiver.kernel.org>; Sat, 14 May 2022 07:17:19 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web12.3788.1652512617633008009
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 May 2022 19:13:18 -0700
+ Sat, 14 May 2022 00:16:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
- domain name (domain: windriver.com, ip: 147.11.3.146,
- mailfrom: mingli.yu@windriver.com)
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 24E2DGso004176
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Fri, 13 May 2022 19:13:16 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Fri, 13 May 2022 19:13:16 -0700
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Fri, 13 May 2022 19:13:15 -0700
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] python3-cryptography: add python3-pytest-benchmark rdepends
-Date: Sat, 14 May 2022 10:13:15 +0800
-Message-ID: <20220514021315.308344-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Tw9DLZ/A;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id v12so13926495wrv.10
+        for <openembedded-core@lists.openembedded.org>;
+ Sat, 14 May 2022 00:16:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=VGRrY/lIndVXTnK6Imp/qKrKfw5ZnVihop1b/xB3xDI=;
+        b=Tw9DLZ/AkiNE7NHGN9fk/IuQ7sn5qBDTlLuWSuAQcM2kGpjZ8fqEuTd/9ewJQI4trt
+         FWaUhOn4Xc8EAqYoDEGTF9+9WUOmrNMPF630pwi/rVQBlDKNawoCKYfA0L2uSOunJkqK
+         3ho5+hVlR6v01VRu9VFT664PjRU2YICDChdic=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=VGRrY/lIndVXTnK6Imp/qKrKfw5ZnVihop1b/xB3xDI=;
+        b=f5mBIqgokTzqUoWOnPnyJ+HGKZo+jkWmn9C7sWstqbhDcS8cEoZM6tTNNzdouP/2Le
+         ih+rM4JR+I81jGYX5CokVuut9wlysOdSf2nn764rbKHQp/1NPBHQbZLPWMe0gtCNUIp6
+         hVdcp6HP4dX8dw98vkjaawsHVTrof0D8kmzLOqjc7/F9RF6QBwVGLs8eXksInHXd5PHa
+         qYJlWlmLODNqaTse1X4ZIrT7cgrPQQY6GmNGJd4gpMAbw2vQo9ynlIg3VYw2+UWaf1L5
+         NVsEKVCi8gbC41+mbQoHQxraKZNThGjbJLIKu8w681Cg/DYkzTfZIqzx7rUH69Whau+Z
+         q/9A==
+X-Gm-Message-State: AOAM532hUm0OG7nvikffwSCEvxWCn1jC1vnMD/VuwL4t+tO4PAQLApD4
+	nfj+dF2D57tVQc4mZ9PUQKZYOQ==
+X-Google-Smtp-Source: 
+ ABdhPJxXi521+IvPRcniJw4FDzx+pdWsnHd0yWSIIZLI3zQFkYQVQOxAvD7btMtRZKoPuW+1gLxg5g==
+X-Received: by 2002:a5d:6d8c:0:b0:20c:599a:4f7e with SMTP id
+ l12-20020a5d6d8c000000b0020c599a4f7emr6745982wrs.324.1652512615826;
+        Sat, 14 May 2022 00:16:55 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:6860:c182:5cab:e7e9?
+ ([2001:8b0:aba:5f3c:6860:c182:5cab:e7e9])
+        by smtp.gmail.com with ESMTPSA id
+ i8-20020a05600c354800b003945cdd0d55sm4601661wmq.26.2022.05.14.00.16.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 May 2022 00:16:55 -0700 (PDT)
+Message-ID: 
+ <8c7e147c519b05f1983605f5c9ce522fcd12a2a4.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH V4] meta: rust - Bug fix for target
+ definitions returning 'NoneType' for arm
+From: richard.purdie@linuxfoundation.org
+To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Cc: rwmacleod@gmail.com, umesh.kalappa0@gmail.com, pgowda.cve@gmail.com,
+	shivams@gmail.com
+Date: Sat, 14 May 2022 08:16:52 +0100
+In-Reply-To: <20220513055923.170822-1-sundeep.kokkonda@gmail.com>
+References: <20220513055923.170822-1-sundeep.kokkonda@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0-1ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 14 May 2022 02:13:27 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 14 May 2022 07:17:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165588
+ https://lists.openembedded.org/g/openembedded-core/message/165589
 
-From: Mingli Yu <mingli.yu@windriver.com>
+On Thu, 2022-05-12 at 22:59 -0700, Sundeep KOKKONDA wrote:
+> [Yocto bug #14742]
+> The build shows below error while building for arm machines.
+> Exception: TypeError: int() argument must be a string, a bytes-like objec=
+t or a number, not 'NoneType'
+> Detailed error info :
+>=20
+> Steps to reproduce:
+> 1. Set MACHINE ?=3D "qemuarm" in local.conf & add 'TOOLCHAIN_HOST_TASK:ap=
+pend =3D " packagegroup-rust-cross-canadian-${MACHINE}"'
+> 2. bitbake core-image-minimal -cpopulate_sdk
+>=20
+> Complete Error:
+> ERROR: rust-cross-canadian-arm-1.59.0-r0 do_rust_gen_targets: Error execu=
+ting a python function in exec_func_python() autogenerated:
+> The stack trace of python calls that resulted in this exception/failure w=
+as:
+> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+>      0001:
+>  *** 0002:do_rust_gen_targets(d)
+>      0003:
+> File: '/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust-=
+cross-canadian-common.inc', lineno: 31, function: do_rust_gen_targets
+>      0027:
+>      0028:LLVM_TARGET[x86_64] =3D "${RUST_HOST_SYS}"
+>      0029:python do_rust_gen_targets () {
+>      0030:    wd =3D d.getVar('WORKDIR') + '/targets/'
+>  *** 0031:    rust_gen_target(d, 'TARGET', wd, d.getVar('TARGET_LLVM_FEAT=
+URES') or "", d.getVar('TARGET_LLVM_CPU'), d.getVar('TARGET_ARCH'))
+>      0032:    rust_gen_target(d, 'HOST', wd, "", "generic", d.getVar('HOS=
+T_ARCH'))
+>      0033:    rust_gen_target(d, 'BUILD', wd, "", "generic", d.getVar('BU=
+ILD_ARCH'))
+>      0034:}
+>      0035:
+> File: '/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust-=
+common.inc', lineno: 330, function: rust_gen_target
+>      0326:    # build tspec
+>      0327:    tspec =3D {}
+>      0328:    tspec['llvm-target'] =3D d.getVarFlag('LLVM_TARGET', arch_a=
+bi)
+>      0329:    tspec['data-layout'] =3D d.getVarFlag('DATA_LAYOUT', arch_a=
+bi)
+>  *** 0330:    tspec['max-atomic-width'] =3D int(d.getVarFlag('MAX_ATOMIC_=
+WIDTH', arch_abi))
+>      0331:    tspec['target-pointer-width'] =3D d.getVarFlag('TARGET_POIN=
+TER_WIDTH', arch_abi)
+>      0332:    tspec['target-c-int-width'] =3D d.getVarFlag('TARGET_C_INT_=
+WIDTH', arch_abi)
+>      0333:    tspec['target-endian'] =3D d.getVarFlag('TARGET_ENDIAN', ar=
+ch_abi)
+>      0334:    tspec['arch'] =3D arch_to_rust_target_arch(rust_arch)
+> Exception: TypeError: int() argument must be a string, a bytes-like objec=
+t or a number, not 'NoneType'
+>=20
+> Below are the local variables from rust_gen_target function for arm and a=
+arch64 targets. Refer below, the tspec varibles for 'arm' generated with No=
+neType.
+> (a) Locals at rust_gen_target for arm::
+> tspec['data-layout'] =3D  None, Type of tspec['data-layout'] =3D  <class =
+'NoneType'>
+> tspec['data-layout'] =3D  None, Type of tspec['data-layout'] =3D  <class =
+'NoneType'>
+> DEBUG: Python function do_rust_gen_targets finished
+> (b) Locals at rust_gen_target  for aarch64::
+> tspec['data-layout'] =3D  aarch64-unknown-linux-gnu, Type of tspec['data-=
+layout'] =3D  <class 'str'>
+> tspec['max-atomic-width'] =3D  128, Type of tspec['max-atomic-width'] =3D=
+  <class 'int'>
+>=20
+> Reason for changing arm-eabi to arm: The earlier changes introduced this =
+bug, so reverting the change 'arm-eabi' to 'arm' fixed the issue.
+>=20
+> The 'rust_gen_targets' Task added with its dependent variable list.
+>=20
+> Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+> ---
+>  meta/recipes-devtools/rust/rust-common.inc | 16 +++++++++-------
+>  1 file changed, 9 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-de=
+vtools/rust/rust-common.inc
+> index 310aecef22..984fe9099e 100644
+> --- a/meta/recipes-devtools/rust/rust-common.inc
+> +++ b/meta/recipes-devtools/rust/rust-common.inc
+> @@ -119,13 +119,13 @@ def llvm_features(d):
+> =20
+> =20
+>  ## arm-unknown-linux-gnueabihf
+> -DATA_LAYOUT[arm-eabi] =3D "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S=
+64"
+> -LLVM_TARGET[arm-eabi] =3D "${RUST_TARGET_SYS}"
+> -TARGET_ENDIAN[arm-eabi] =3D "little"
+> -TARGET_POINTER_WIDTH[arm-eabi] =3D "32"
+> -TARGET_C_INT_WIDTH[arm-eabi] =3D "32"
+> -MAX_ATOMIC_WIDTH[arm-eabi] =3D "64"
+> -FEATURES[arm-eabi] =3D "+v6,+vfp2"
+> +DATA_LAYOUT[arm] =3D "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
+> +LLVM_TARGET[arm] =3D "${RUST_TARGET_SYS}"
+> +TARGET_ENDIAN[arm] =3D "little"
+> +TARGET_POINTER_WIDTH[arm] =3D "32"
+> +TARGET_C_INT_WIDTH[arm] =3D "32"
+> +MAX_ATOMIC_WIDTH[arm] =3D "64"
+> +FEATURES[arm] =3D "+v6,+vfp2"
+> =20
+>  ## armv7-unknown-linux-gnueabihf
+>  DATA_LAYOUT[armv7-eabi] =3D "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32=
+-S64"
+> @@ -360,6 +360,8 @@ def rust_gen_target(d, thing, wd, features, cpu, arch=
+, abi=3D""):
+>      with open(wd + sys + '.json', 'w') as f:
+>          json.dump(tspec, f, indent=3D4)
+> =20
+> +do_rust_gen_targets[vardeps] +=3D "DATA_LAYOUT LLVM_TARGET TARGET_ENDIAN=
+ TARGET_POINTER_WIDTH TARGET_C_INT_WIDTH MAX_ATOMIC_WIDTH FEATURES"
+> +
+>  python do_rust_gen_targets () {
+>      wd =3D d.getVar('WORKDIR') + '/targets/'
+>      build_arch =3D d.getVar('BUILD_ARCH')
 
-The new version introduced below change, so add python3-pytest-benchmark
-to rdepends to fix the gap.
-496703c8 Refs #7079 -- added basic scaffholding for benchmarks (#7087)
+We need to split this into two. One patch to fix the determinism issue,
+the other to fix the arm bug.
 
-Fixes:
-  # ./run-ptest
-  Free memory: 31.283 GB
-  ERROR: usage: pytest [options] [file_or_dir] [file_or_dir] [...]
-  pytest: error: unrecognized arguments: --benchmark-disable
-  inifile: /usr/lib/python3-cryptography/ptest/pyproject.toml
-  rootdir: /usr/lib/python3-cryptography/ptest
+The "good" news is that this patch now fails consistently on the
+autobuilder, for example:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/3522
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- meta/recipes-devtools/python/python3-cryptography_37.0.1.bb | 1 +
- 1 file changed, 1 insertion(+)
+sstatetests.SStateTests.test_sstate_allarch_samesigs is failing which
+you can rerun with:
 
-diff --git a/meta/recipes-devtools/python/python3-cryptography_37.0.1.bb b/meta/recipes-devtools/python/python3-cryptography_37.0.1.bb
-index 1271954a08..78faea5e22 100644
---- a/meta/recipes-devtools/python/python3-cryptography_37.0.1.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography_37.0.1.bb
-@@ -92,6 +92,7 @@ RDEPENDS:${PN}-ptest += " \
-     ${PYTHON_PN}-pretend \
-     ${PYTHON_PN}-psutil \
-     ${PYTHON_PN}-pytest \
-+    ${PYTHON_PN}-pytest-benchmark \
-     ${PYTHON_PN}-pytest-subtests \
-     ${PYTHON_PN}-pytz \
-     ${PYTHON_PN}-tomli \
--- 
-2.25.1
+oe-selftest -r sstatetests.SStateTests.test_sstate_allarch_samesigs
+
+Now it fails reliably, we need to work out why the arm change breaks
+that.
+
+If you split the patches into two we can likely merge the
+reproducibility one, then onwards with the arm issue.
+
+In case it isn't clear, the failing signatures are for adwaita-icon-
+theme which depends on librsvg-native which depends on rust-native.
+What this means is that the signature of rust-native is changing when
+MACHINE is changed in that test. This shouldn't happen. We already knew
+that from our other discussion but now we can prove it. It would be
+nice if a test showed us the native hash was changing and that is the
+other issue we discussed but one step at a time!
+
+To be clear, rust-native (and it's signature) should be independent of
+MACHINE so we need to fix that. This means that currently rust-native
+varies and rebuilds when you change MACHINE (after the dependency fix
+in this patch).
+
+Cheers,
+
+Richard
 
 
