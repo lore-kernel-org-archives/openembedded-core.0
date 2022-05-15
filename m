@@ -2,41 +2,41 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07D47C41535
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03F5BC3527A
 	for <webhook@archiver.kernel.org>; Sun, 15 May 2022 17:15:22 +0000 (UTC)
 Received: from a27-30.smtp-out.us-west-2.amazonses.com
  (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web12.19014.1652634913400654263
+ by mx.groups.io with SMTP id smtpd.web10.18724.1652634913234964414
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 May 2022 10:15:13 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Hipmb04Z;
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Ex4rPhjO;
  spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
- mailfrom: 01010180c8b786de-f94276c6-2c9b-49b9-8c9c-26930979fed2-000000@us-west-2.amazonses.com)
+ mailfrom: 01010180c8b7873a-b1d0f60b-c2e7-4f0f-b9a7-967929f224b5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1652634912;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=oPaL+xTOVzH+nVvYI9hvwiM2+bVXJVb0aDJ6W+3Acik=;
-	b=Hipmb04ZUZK96D7PPUu45ufZ+MmiwkZIV29QrkrQbutUqIsy30h2uqUYFzxVD0jJ
-	XEpyOVciJMkeLOO+V+Maf5zju6AbUaXnLxDH42HiosvI6KbpxwKY2A6bkmj8jsO0l0G
-	tAeUx6JxZ2R574TkEo7VOIRC/AxSmn5uqKoSuUm8=
+	bh=Enfa8AFtbPZKI9uESoupvt3pI/HYg3nPT7+68dfpFH0=;
+	b=Ex4rPhjOMDyJyLJ+9TZAmsWVG7woYDiOho10b8Q4vZK390IkNID2zsWRy1hqP1CI
+	uCoNJ2OWgOjXgAQ+kKZIKwylBSmAnqwrTXH4FHrX60+9NzWeaiUYeFkHxp+g4JcB1qI
+	vDXG3nxO/soZs2y2idNJHMUuiJkz0XWROMd57+P4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1652634912;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=oPaL+xTOVzH+nVvYI9hvwiM2+bVXJVb0aDJ6W+3Acik=;
-	b=L02ARkT/wqvZkGqYuRDpxQ0L0c2KxdaMuKwAKEjrHH7xsmf0elTWPo6lur1A9edZ
-	LX66NOt7gHxxsyxbL6xKV6E46rcP/p9DDTUirWY+mty0QsZ1cZLKbrwpzO6FEiAp1mK
-	AZPRiz+KbLPMjrzKnjng1LDgM+sWCOL2gg8lp9EI=
-Content-Type: multipart/mixed; boundary="===============5481240802457879190=="
+	bh=Enfa8AFtbPZKI9uESoupvt3pI/HYg3nPT7+68dfpFH0=;
+	b=UenHY4jAsWzJpB+CHcuelmbdhTAEf2UAG1/ZNTKywTfu816bTGi34JLurmleO318
+	gnW690t9YXBqeJCId05JZQ5YvTvNyANeyAHNwi+BP+qSq9inE+pAvaXNpxiO2bYpUOK
+	XciTpJEwFzHlRjmo7373uGQ3/6usK4EYsRM5QIXc=
+Content-Type: multipart/mixed; boundary="===============6884534286422787241=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-bcrypt: upgrading to 3.2.2 SUCCEEDED
+Subject: [AUH] python3-more-itertools: upgrading to 8.13.0 SUCCEEDED
 Message-ID: 
- <01010180c8b786de-f94276c6-2c9b-49b9-8c9c-26930979fed2-000000@us-west-2.amazonses.com>
+ <01010180c8b7873a-b1d0f60b-c2e7-4f0f-b9a7-967929f224b5-000000@us-west-2.amazonses.com>
 Date: Sun, 15 May 2022 17:15:12 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
@@ -46,9 +46,9 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 May 2022 17:15:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165617
+ https://lists.openembedded.org/g/openembedded-core/message/165616
 
---===============5481240802457879190==
+--===============6884534286422787241==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-bcrypt* to *3.2.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-more-itertools* to *8.13.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-bcrypt-upgrade-3.2.0-3.2.2.patch
+    - apply the patch: git am 0001-python3-more-itertools-upgrade-8.12.0-8.13.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,86 +75,129 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5481240802457879190==
+--===============6884534286422787241==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-bcrypt: PKGV changed from 3.2.0 [default] to 3.2.2 [default]
-packages/core2-32-poky-linux/python3-bcrypt: SRC_URI changed from "https://files.pythonhosted.org/packages/source/b/bcrypt/bcrypt-3.2.0.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/b/bcrypt/bcrypt-3.2.2.tar.gz file://run-ptest"
-packages/core2-32-poky-linux/python3-bcrypt: PV changed from "3.2.0" to "3.2.2"
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt-dbg: PKGV changed from 3.2.0 [default] to 3.2.2 [default]
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt-dbg: PV changed from "3.2.0" to "3.2.2"
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt-dev: PKGV changed from 3.2.0 [default] to 3.2.2 [default]
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt-dev: PV changed from "3.2.0" to "3.2.2"
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt-doc: PKGV changed from 3.2.0 [default] to 3.2.2 [default]
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt-doc: PV changed from "3.2.0" to "3.2.2"
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt-locale: PKGV changed from 3.2.0 [default] to 3.2.2 [default]
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt-locale: PV changed from "3.2.0" to "3.2.2"
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt-ptest: PKGV changed from 3.2.0 [default] to 3.2.2 [default]
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt-ptest: PKGSIZE changed from 16790 to 16572 (-1%)
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt-ptest: PV changed from "3.2.0" to "3.2.2"
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt-src: PKGV changed from 3.2.0 [default] to 3.2.2 [default]
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt-src: PKGSIZE changed from 99305 to 99458 (+0%)
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt-src: PV changed from "3.2.0" to "3.2.2"
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt-staticdev: PKGV changed from 3.2.0 [default] to 3.2.2 [default]
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt-staticdev: PV changed from "3.2.0" to "3.2.2"
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt: PKGV changed from 3.2.0 [default] to 3.2.2 [default]
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt: PKGSIZE changed from 76960 to 77658 (+1%)
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt: FILELIST: directory renamed /usr/lib/python3.10/site-packages/bcrypt-3.2.0.dist-info -> /usr/lib/python3.10/site-packages/bcrypt-3.2.2.dist-info, added "/usr/lib/python3.10/site-packages/bcrypt/_bcrypt.pyi"
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt: PV changed from "3.2.0" to "3.2.2"
-Changes to packages/core2-32-poky-linux/python3-bcrypt (sysroot):
-  /usr/lib/python3.10/site-packages/bcrypt-3.2.0.dist-info moved to /usr/lib/python3.10/site-packages/bcrypt-3.2.2.dist-info
-  /usr/lib/python3.10/site-packages/bcrypt/_bcrypt.pyi was added
+packages/core2-32-poky-linux/python3-more-itertools: PV changed from "8.12.0" to "8.13.0"
+packages/core2-32-poky-linux/python3-more-itertools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/m/more-itertools/more-itertools-8.12.0.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/m/more-itertools/more-itertools-8.13.0.tar.gz file://run-ptest"
+packages/core2-32-poky-linux/python3-more-itertools: PKGV changed from 8.12.0 [default] to 8.13.0 [default]
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-dbg: PV changed from "8.12.0" to "8.13.0"
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-dbg: PKGV changed from 8.12.0 [default] to 8.13.0 [default]
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-dev: PV changed from "8.12.0" to "8.13.0"
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-dev: PKGV changed from 8.12.0 [default] to 8.13.0 [default]
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-doc: PV changed from "8.12.0" to "8.13.0"
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-doc: PKGV changed from 8.12.0 [default] to 8.13.0 [default]
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-locale: PV changed from "8.12.0" to "8.13.0"
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-locale: PKGV changed from 8.12.0 [default] to 8.13.0 [default]
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-ptest: PV changed from "8.12.0" to "8.13.0"
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-ptest: PKGSIZE changed from 195812 to 199119 (+2%)
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-ptest: PKGV changed from 8.12.0 [default] to 8.13.0 [default]
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-src: PV changed from "8.12.0" to "8.13.0"
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-src: PKGV changed from 8.12.0 [default] to 8.13.0 [default]
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-staticdev: PV changed from "8.12.0" to "8.13.0"
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools-staticdev: PKGV changed from 8.12.0 [default] to 8.13.0 [default]
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools: PV changed from "8.12.0" to "8.13.0"
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools: FILELIST: directory renamed /usr/lib/python3.10/site-packages/more_itertools-8.12.0.dist-info -> /usr/lib/python3.10/site-packages/UNKNOWN-0.0.0.dist-info, removed all items "/usr/lib/python3.10/site-packages/more_itertools/more.pyi /usr/lib/python3.10/site-packages/more_itertools/recipes.py /usr/lib/python3.10/site-packages/more_itertools/recipes.pyi /usr/lib/python3.10/site-packages/more_itertools/__pycache__/__init__.cpython-310.pyc /usr/lib/python3.10/site-packages/more_itertools/__pycache__/recipes.cpython-310.pyc /usr/lib/python3.10/site-packages/more_itertools/__init__.pyi /usr/lib/python3.10/site-packages/more_itertools/__init__.py /usr/lib/python3.10/site-packages/more_itertools/py.typed /usr/lib/python3.10/site-packages/more_itertools/more.py /usr/lib/python3.10/site-packages/more_itertools/__pycache__/more.cpython-310.pyc"
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools: PKGSIZE changed from 360339 to 1768 (-100%)
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools: PKGV changed from 8.12.0 [default] to 8.13.0 [default]
+Changes to packages/core2-32-poky-linux/python3-more-itertools (sysroot):
+  /usr/lib/python3.10/site-packages/UNKNOWN-0.0.0.dist-info was added
+  /usr/lib/python3.10/site-packages/UNKNOWN-0.0.0.dist-info/LICENSE was added
+  /usr/lib/python3.10/site-packages/UNKNOWN-0.0.0.dist-info/METADATA was added
+  /usr/lib/python3.10/site-packages/UNKNOWN-0.0.0.dist-info/RECORD was added
+  /usr/lib/python3.10/site-packages/UNKNOWN-0.0.0.dist-info/top_level.txt was added
+  /usr/lib/python3.10/site-packages/UNKNOWN-0.0.0.dist-info/WHEEL was added
+  /usr/lib/python3.10/site-packages/more_itertools was removed
+  /usr/lib/python3.10/site-packages/more_itertools-8.12.0.dist-info was removed
+  /usr/lib/python3.10/site-packages/more_itertools-8.12.0.dist-info/LICENSE was removed
+  /usr/lib/python3.10/site-packages/more_itertools-8.12.0.dist-info/METADATA was removed
+  /usr/lib/python3.10/site-packages/more_itertools-8.12.0.dist-info/RECORD was removed
+  /usr/lib/python3.10/site-packages/more_itertools-8.12.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.10/site-packages/more_itertools-8.12.0.dist-info/WHEEL was removed
+  /usr/lib/python3.10/site-packages/more_itertools/__init__.py was removed
+  /usr/lib/python3.10/site-packages/more_itertools/__init__.pyi was removed
+  /usr/lib/python3.10/site-packages/more_itertools/more.py was removed
+  /usr/lib/python3.10/site-packages/more_itertools/more.pyi was removed
+  /usr/lib/python3.10/site-packages/more_itertools/__pycache__ was removed
+  /usr/lib/python3.10/site-packages/more_itertools/__pycache__/__init__.cpython-310.pyc was removed
+  /usr/lib/python3.10/site-packages/more_itertools/__pycache__/more.cpython-310.pyc was removed
+  /usr/lib/python3.10/site-packages/more_itertools/__pycache__/recipes.cpython-310.pyc was removed
+  /usr/lib/python3.10/site-packages/more_itertools/py.typed was removed
+  /usr/lib/python3.10/site-packages/more_itertools/recipes.py was removed
+  /usr/lib/python3.10/site-packages/more_itertools/recipes.pyi was removed
 
---===============5481240802457879190==
+--===============6884534286422787241==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/python3-bcrypt/python3-bcrypt: FILELIST: directory renamed /usr/lib/python3.10/site-packages/bcrypt-3.2.0.dist-info -> /usr/lib/python3.10/site-packages/bcrypt-3.2.2.dist-info, added "/usr/lib/python3.10/site-packages/bcrypt/_bcrypt.pyi"
-Changes to packages/core2-32-poky-linux/python3-bcrypt (sysroot):
-  /usr/lib/python3.10/site-packages/bcrypt-3.2.0.dist-info moved to /usr/lib/python3.10/site-packages/bcrypt-3.2.2.dist-info
-  /usr/lib/python3.10/site-packages/bcrypt/_bcrypt.pyi was added
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools: FILELIST: directory renamed /usr/lib/python3.10/site-packages/more_itertools-8.12.0.dist-info -> /usr/lib/python3.10/site-packages/UNKNOWN-0.0.0.dist-info, removed all items "/usr/lib/python3.10/site-packages/more_itertools/__pycache__/more.cpython-310.pyc /usr/lib/python3.10/site-packages/more_itertools/__init__.pyi /usr/lib/python3.10/site-packages/more_itertools/recipes.pyi /usr/lib/python3.10/site-packages/more_itertools/__pycache__/__init__.cpython-310.pyc /usr/lib/python3.10/site-packages/more_itertools/py.typed /usr/lib/python3.10/site-packages/more_itertools/__init__.py /usr/lib/python3.10/site-packages/more_itertools/__pycache__/recipes.cpython-310.pyc /usr/lib/python3.10/site-packages/more_itertools/more.py /usr/lib/python3.10/site-packages/more_itertools/more.pyi /usr/lib/python3.10/site-packages/more_itertools/recipes.py"
+packages/core2-32-poky-linux/python3-more-itertools/python3-more-itertools: PKGSIZE changed from 360339 to 1768 (-100%)
+Changes to packages/core2-32-poky-linux/python3-more-itertools (sysroot):
+  /usr/lib/python3.10/site-packages/UNKNOWN-0.0.0.dist-info was added
+  /usr/lib/python3.10/site-packages/UNKNOWN-0.0.0.dist-info/LICENSE was added
+  /usr/lib/python3.10/site-packages/UNKNOWN-0.0.0.dist-info/METADATA was added
+  /usr/lib/python3.10/site-packages/UNKNOWN-0.0.0.dist-info/RECORD was added
+  /usr/lib/python3.10/site-packages/UNKNOWN-0.0.0.dist-info/top_level.txt was added
+  /usr/lib/python3.10/site-packages/UNKNOWN-0.0.0.dist-info/WHEEL was added
+  /usr/lib/python3.10/site-packages/more_itertools was removed
+  /usr/lib/python3.10/site-packages/more_itertools-8.12.0.dist-info was removed
+  /usr/lib/python3.10/site-packages/more_itertools-8.12.0.dist-info/LICENSE was removed
+  /usr/lib/python3.10/site-packages/more_itertools-8.12.0.dist-info/METADATA was removed
+  /usr/lib/python3.10/site-packages/more_itertools-8.12.0.dist-info/RECORD was removed
+  /usr/lib/python3.10/site-packages/more_itertools-8.12.0.dist-info/top_level.txt was removed
+  /usr/lib/python3.10/site-packages/more_itertools-8.12.0.dist-info/WHEEL was removed
+  /usr/lib/python3.10/site-packages/more_itertools/__init__.py was removed
+  /usr/lib/python3.10/site-packages/more_itertools/__init__.pyi was removed
+  /usr/lib/python3.10/site-packages/more_itertools/more.py was removed
+  /usr/lib/python3.10/site-packages/more_itertools/more.pyi was removed
+  /usr/lib/python3.10/site-packages/more_itertools/__pycache__ was removed
+  /usr/lib/python3.10/site-packages/more_itertools/__pycache__/__init__.cpython-310.pyc was removed
+  /usr/lib/python3.10/site-packages/more_itertools/__pycache__/more.cpython-310.pyc was removed
+  /usr/lib/python3.10/site-packages/more_itertools/__pycache__/recipes.cpython-310.pyc was removed
+  /usr/lib/python3.10/site-packages/more_itertools/py.typed was removed
+  /usr/lib/python3.10/site-packages/more_itertools/recipes.py was removed
+  /usr/lib/python3.10/site-packages/more_itertools/recipes.pyi was removed
 
---===============5481240802457879190==
+--===============6884534286422787241==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-python3-bcrypt-upgrade-3.2.0-3.2.2.patch"
+ filename="0001-python3-more-itertools-upgrade-8.12.0-8.13.0.patch"
 
-From fae4f2554cd597854156e15c43fe208717ad22c2 Mon Sep 17 00:00:00 2001
+From 77a9c27e8fa81e1110113befd55ebb861a355194 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 May 2022 07:46:27 +0000
-Subject: [PATCH] python3-bcrypt: upgrade 3.2.0 -> 3.2.2
+Date: Sun, 15 May 2022 08:58:01 +0000
+Subject: [PATCH] python3-more-itertools: upgrade 8.12.0 -> 8.13.0
 
 ---
- .../{python3-bcrypt_3.2.0.bb => python3-bcrypt_3.2.2.bb}       | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-bcrypt_3.2.0.bb => python3-bcrypt_3.2.2.bb} (81%)
+ ...ore-itertools_8.12.0.bb => python3-more-itertools_8.13.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-more-itertools_8.12.0.bb => python3-more-itertools_8.13.0.bb} (86%)
 
-diff --git a/meta/recipes-devtools/python/python3-bcrypt_3.2.0.bb b/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb
-similarity index 81%
-rename from meta/recipes-devtools/python/python3-bcrypt_3.2.0.bb
-rename to meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb
-index 6a4d1aef5c..54070e4b9c 100644
---- a/meta/recipes-devtools/python/python3-bcrypt_3.2.0.bb
-+++ b/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb
-@@ -5,8 +5,7 @@ HOMEPAGE = "https://pypi.org/project/bcrypt/"
+diff --git a/meta/recipes-devtools/python/python3-more-itertools_8.12.0.bb b/meta/recipes-devtools/python/python3-more-itertools_8.13.0.bb
+similarity index 86%
+rename from meta/recipes-devtools/python/python3-more-itertools_8.12.0.bb
+rename to meta/recipes-devtools/python/python3-more-itertools_8.13.0.bb
+index c1e34b205d..0d6b87b905 100644
+--- a/meta/recipes-devtools/python/python3-more-itertools_8.12.0.bb
++++ b/meta/recipes-devtools/python/python3-more-itertools_8.13.0.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/erikrose/more-itertools"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3396ea30f9d21389d7857719816f83b5"
  
- DEPENDS += "${PYTHON_PN}-cffi-native"
+-SRC_URI[sha256sum] = "7dc6ad46f05f545f900dd59e8dfb4e84a4827b97b3cfecb175ea0c7d247f6064"
++SRC_URI[sha256sum] = "a42901a0a5b169d925f6f217cd5a190e32ef54360905b9c39ee7db5313bfec0f"
  
--SRC_URI[md5sum] = "fe31390dab603728f756cd3d6830c80a"
--SRC_URI[sha256sum] = "5b93c1726e50a93a033c36e5ca7fdcd29a5c7395af50a6892f5d9e7c6cfbfb29"
-+SRC_URI[sha256sum] = "433c410c2177057705da2a9f2cd01dd157493b2a7ac14c8593a16b3dab6b6bfb"
- 
- inherit pypi python_setuptools_build_meta ptest
+ inherit pypi setuptools3 ptest
  
 -- 
 2.31.1
 
 
---===============5481240802457879190==--
+--===============6884534286422787241==--
 
