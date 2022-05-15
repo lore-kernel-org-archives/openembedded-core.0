@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B2CCC47084
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59402C38A2E
 	for <webhook@archiver.kernel.org>; Sun, 15 May 2022 17:15:22 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com
- (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web12.19018.1652634914109047526
+Received: from a27-33.smtp-out.us-west-2.amazonses.com
+ (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.18728.1652634914171809414
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 May 2022 10:15:14 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=RjiXl0fC;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
- mailfrom: 01010180c8b78ab4-1c4526bb-74ab-4131-9967-d22651efe4e1-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=CA0+ZV/m;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
+ mailfrom: 01010180c8b7883d-57f95303-eb7b-49fe-bd0c-0831df9944f9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1652634913;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Mo2PjaAgWl+oygIyIg3Qze08UW4W+I6OVNvZYLMUxHo=;
-	b=RjiXl0fCUnGJCgLsfLaUaBbjmtGIqpJI+eF+oW7FfMXyKATAEx9zLC70VnciNbVv
-	Mx+p3zf7ZNyv0+Hwk0dLReURr90zWak3S80VeBiA4hZUhSK7wpD18pcqc+xp9GmtFqq
-	4VNfyECItBSgzY2GaNDANDjPgzod3OYvmP4eNcx8=
+	bh=4kJ2NDU88pmWyfVAtfX7/MXhVf66l9T88Na3Q6iNdes=;
+	b=CA0+ZV/mr6XTAroyepWI1Bjfbqe8L+bqz+zqOeTIN1AP8LkYeMJyCJRnBIlMDsNI
+	J8GMAnK4jMC/PxTSdXIAFBxJVEbOKSehZYYJxp4J57kujoUvU6ZnpXYZqrSdvAd8U1K
+	yvyG2HRVqeekziF3F8WeyxQvYSmqse6FYb3v635A=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1652634913;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Mo2PjaAgWl+oygIyIg3Qze08UW4W+I6OVNvZYLMUxHo=;
-	b=ImK1k81wLmEJgtx+a39hz2krDrzryJAK9WqtLRV3fqtaf5Mscp4dXy4nh6YVnYb/
-	ZVsjuOE78zHAmEutOoYtwyPBqGt8c533ZQhoPGfgxl/iR806ZVB6O8m13RkcKIIh2gb
-	DmeRSWC8BcL9cYBjhJinZ+KHahK8PkVmkclyGLg0=
-Content-Type: multipart/mixed; boundary="===============7999862339172271093=="
+	bh=4kJ2NDU88pmWyfVAtfX7/MXhVf66l9T88Na3Q6iNdes=;
+	b=ViDHDGqf8flikoLWov5N9YuoK7lPOIjQJn/dPxx+EFxGKfW7ZMzaOdxd6fTvHllj
+	uL6p+Wv0unutiNHcUx9cLGn9uHAxO99y96fiKgZDZjs0nRCBIUo9Ly3hJCCfUbHtaTS
+	5ESVHEz7HBgIzqoGwPtsM+B/e326iVslEPoscVGI=
+Content-Type: multipart/mixed; boundary="===============2447576228410363942=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Victor Kamensky <victor.kamensky7@gmail.com>
+To: Zang Ruochen <zangrc.fnst@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] systemtap-uprobes: upgrading to 4.7 FAILED
+Subject: [AUH] python3-pip: upgrading to 22.1 FAILED
 Message-ID: 
- <01010180c8b78ab4-1c4526bb-74ab-4131-9967-d22651efe4e1-000000@us-west-2.amazonses.com>
-Date: Sun, 15 May 2022 17:15:13 +0000
+ <01010180c8b7883d-57f95303-eb7b-49fe-bd0c-0831df9944f9-000000@us-west-2.amazonses.com>
+Date: Sun, 15 May 2022 17:15:12 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.05.15-54.240.27.192
+X-SES-Outgoing: 2022.05.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 May 2022 17:15:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165631
+ https://lists.openembedded.org/g/openembedded-core/message/165633
 
---===============7999862339172271093==
+--===============2447576228410363942==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,20 +56,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *systemtap-uprobes* to *4.7* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-pip* to *22.1* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe systemtap-uprobes failed.
+The following devtool command failed:  upgrade python3-pip -V 22.1
 NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
 WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
 Loaded 1642 entries from dependency cache.
 
 Summary: There was 1 WARNING message.
 WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -79,12 +78,12 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-2554d747fd9b9fc9576ff0b59b5b59f811409e17"
+DISTRO_VERSION       = "4.1+snapshot-46bd148897ec203cdd80f6f2ba36d66ed92aaf7b"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:2554d747fd9b9fc9576ff0b59b5b59f811409e17"
+meta-yocto-bsp       = "tmp-auh-upgrades:46bd148897ec203cdd80f6f2ba36d66ed92aaf7b"
 workspace            = "master:fea9e46d39ef43967aead86fa537bca449290253"
 
 Initialising tasks...done.
@@ -93,19 +92,57 @@ NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1642 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 885 .bb files complete (883 cached, 2 parsed). 1643 targets, 35 skipped, 0 masked, 0 errors.
+
+Summary: There was 1 WARNING message.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-46bd148897ec203cdd80f6f2ba36d66ed92aaf7b"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:46bd148897ec203cdd80f6f2ba36d66ed92aaf7b"
+workspace            = "master:fea9e46d39ef43967aead86fa537bca449290253"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  60% |#####################               | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Rebasing devtool onto 0c335a75a789ff44b514e567d458881e15cc283d
-WARNING: Command 'git rebase 0c335a75a789ff44b514e567d458881e15cc283d' failed:
-Auto-merging runtime/transport/transport.c
-CONFLICT (content): Merge conflict in runtime/transport/transport.c
-Auto-merging man/stap.1.in
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/systemtap-uprobes
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/systemtap-uprobes/systemtap-uprobes_git.bb
-
+INFO: Fetching https://files.pythonhosted.org/packages/source/p/pip/pip-22.1.tar.gz...
+INFO: Rebasing devtool onto 0cb65595a07fb87a3a3e3a86319e1d33c1f1e6c5
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 334, in <module>
+    ret = main()
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 321, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 568, in upgrade
+    new_licenses = _extract_licenses(srctree_s, (rd.getVar('LIC_FILES_CHKSUM') or ""))
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 469, in _extract_licenses
+    with open(os.path.join(srcpath, path), 'rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/python3-pip/src/pip/_vendor/distro.LICENSE'
 
 
 Please review the attached files for further information and build/update failures.
@@ -113,5 +150,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7999862339172271093==--
+--===============2447576228410363942==--
 
