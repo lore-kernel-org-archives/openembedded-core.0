@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FF3DC38A06
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36E02C38A2C
 	for <webhook@archiver.kernel.org>; Sun, 15 May 2022 17:15:22 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com
- (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web08.18887.1652634913677731025
+Received: from a27-45.smtp-out.us-west-2.amazonses.com
+ (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web12.19016.1652634913859628331
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 May 2022 10:15:13 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=L7Bh31GX;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
- mailfrom: 01010180c8b7891a-a7d7c2a3-9fe8-48cf-9e81-b3be0df8d81c-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Ya9iEg7T;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
+ mailfrom: 01010180c8b78908-a9a758af-7ec1-437f-ba52-dc5a0980d017-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1652634913;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Qhls7f9lfAfuvRCcGyWAVc8Hu8dbmeckQaEEcNarHh0=;
-	b=L7Bh31GXqS4q+AeySdcp8poAWiJ0fpagUyT0bOaLemZQ7WDOfX0s4/V8dOSC9TFl
-	4aDg/+NXzjlMD/F/mX0N92XUV8UgjCtBdAK3TjB+QgSDPQksAkiMjmfCuiPB0/g++60
-	RBsDe92ZEX1WbQ4y1OmADfFVVIxReUkqVCeChms8=
+	bh=3ykXmCEBmJR9AdSJp2GoBvwiBMLblVM+1T695s4Hdxo=;
+	b=Ya9iEg7TJS8RygicLIGJxOsG9px3TKSmKUxSUXiUpcnEz4BXUu+pqBfl7e8v5WWI
+	LQwdGfs1VnhgpycTWaEE1tYUpDjVNPtTLw99KNqIn69ZExz2KbTOecpGjzF4hyagaee
+	CE9DQ287MZowE8aWK6WE4BTgWaNou+lDT4uNwNSY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1652634913;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Qhls7f9lfAfuvRCcGyWAVc8Hu8dbmeckQaEEcNarHh0=;
-	b=kjqTFh/2FQG+oZc61hczYihj29POcQvxQVxptDYu5OcBWfZxUoRGR9UmXmLOf9xy
-	jK5iPKhrgYLBxvj/J1SrtPgVOVq5kn29UWmJzou4RP4AO+1HWpEcC4XbEkG1i3jl+JH
-	Y5/TQ34QKUl3gK+mw19IbO/dXmZtMMbdn9jb8Y10=
-Content-Type: multipart/mixed; boundary="===============5046895781116179504=="
+	bh=3ykXmCEBmJR9AdSJp2GoBvwiBMLblVM+1T695s4Hdxo=;
+	b=hSNp4kpb1lRZAmLeg33dNWN6o6M9f4yOy/ovEPUo+Z7yOhcdbg9YXTPK/gYRDNbb
+	ushTAYCsBgF2TZCuQcjuCq87vxbUjf+ZqNn+tIBJ0FzyGJ6r0gTR48xLqe7wpUxx+U7
+	f6/z67WfefKIQIZa8tfFp3KjIDICTepu3ewxIvaM=
+Content-Type: multipart/mixed; boundary="===============4866276914106602597=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pyparsing: upgrading to 3.0.9 SUCCEEDED
+Subject: [AUH] procps: upgrading to 4.0.0 FAILED
 Message-ID: 
- <01010180c8b7891a-a7d7c2a3-9fe8-48cf-9e81-b3be0df8d81c-000000@us-west-2.amazonses.com>
+ <01010180c8b78908-a9a758af-7ec1-437f-ba52-dc5a0980d017-000000@us-west-2.amazonses.com>
 Date: Sun, 15 May 2022 17:15:13 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.05.15-54.240.27.31
+X-SES-Outgoing: 2022.05.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 May 2022 17:15:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165625
+ https://lists.openembedded.org/g/openembedded-core/message/165626
 
---===============5046895781116179504==
+--===============4866276914106602597==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,100 +56,64 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pyparsing* to *3.0.9* has Succeeded.
+that the automatic attempt to upgrade the recipe *procps* to *4.0.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-pyparsing-upgrade-3.0.8-3.0.9.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe procps failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Previous bitbake instance shutting down?, waiting to retry...
+NOTE: Retrying server connection (#1)...
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1642 entries from dependency cache.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-b11eb5ed192041c95bc0fa13b6081a8b6b2ed4d1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:b11eb5ed192041c95bc0fa13b6081a8b6b2ed4d1"
+workspace            = "master:fea9e46d39ef43967aead86fa537bca449290253"
+
+Initialising tasks...done.
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+INFO: Extracting current version source...
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+INFO: Rebasing devtool onto 61825a5cc56b40c4afffd8c880b641210b05b3b7
+WARNING: Command 'git rebase 61825a5cc56b40c4afffd8c880b641210b05b3b7' failed:
+Auto-merging ps/output.c
+CONFLICT (content): Merge conflict in ps/output.c
+Auto-merging NEWS
+CONFLICT (content): Merge conflict in NEWS
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/procps
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/procps/procps_4.0.0.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============5046895781116179504==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-python3-pyparsing-upgrade-3.0.8-3.0.9.patch"
-
-From e4432bf2cd8fc1e56b39e4f422429114cccebc3f Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 May 2022 09:08:08 +0000
-Subject: [PATCH] python3-pyparsing: upgrade 3.0.8 -> 3.0.9
-
----
- .../{python3-pyparsing_3.0.8.bb => python3-pyparsing_3.0.9.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pyparsing_3.0.8.bb => python3-pyparsing_3.0.9.bb} (91%)
-
-diff --git a/meta/recipes-devtools/python/python3-pyparsing_3.0.8.bb b/meta/recipes-devtools/python/python3-pyparsing_3.0.9.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-pyparsing_3.0.8.bb
-rename to meta/recipes-devtools/python/python3-pyparsing_3.0.9.bb
-index 30be4bb87c..b858073c3b 100644
---- a/meta/recipes-devtools/python/python3-pyparsing_3.0.8.bb
-+++ b/meta/recipes-devtools/python/python3-pyparsing_3.0.9.bb
-@@ -10,7 +10,7 @@ BUGTRACKER = "https://github.com/pyparsing/pyparsing/issues"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=657a566233888513e1f07ba13e2f47f1"
- 
--SRC_URI[sha256sum] = "7bf433498c016c4314268d95df76c81b842a4cb2b276fa3312cfb1e1d85f6954"
-+SRC_URI[sha256sum] = "2b020ecf7d21b687f219b71ecad3631f644a47f01403fa1d1036b0c6416d70fb"
- 
- UPSTREAM_CHECK_REGEX = "pyparsing-(?P<pver>.*)\.tar"
- 
--- 
-2.31.1
-
-
---===============5046895781116179504==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/python3-pyparsing: PKGV changed from 3.0.8 [default] to 3.0.9 [default]
-packages/core2-32-poky-linux/python3-pyparsing: PV changed from "3.0.8" to "3.0.9"
-packages/core2-32-poky-linux/python3-pyparsing: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyparsing/pyparsing-3.0.8.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pyparsing/pyparsing-3.0.9.tar.gz"
-packages/core2-32-poky-linux/python3-pyparsing/python3-pyparsing-dbg: PKGV changed from 3.0.8 [default] to 3.0.9 [default]
-packages/core2-32-poky-linux/python3-pyparsing/python3-pyparsing-dbg: PV changed from "3.0.8" to "3.0.9"
-packages/core2-32-poky-linux/python3-pyparsing/python3-pyparsing-dev: PKGV changed from 3.0.8 [default] to 3.0.9 [default]
-packages/core2-32-poky-linux/python3-pyparsing/python3-pyparsing-dev: PV changed from "3.0.8" to "3.0.9"
-packages/core2-32-poky-linux/python3-pyparsing/python3-pyparsing-doc: PKGV changed from 3.0.8 [default] to 3.0.9 [default]
-packages/core2-32-poky-linux/python3-pyparsing/python3-pyparsing-doc: PV changed from "3.0.8" to "3.0.9"
-packages/core2-32-poky-linux/python3-pyparsing/python3-pyparsing-locale: PKGV changed from 3.0.8 [default] to 3.0.9 [default]
-packages/core2-32-poky-linux/python3-pyparsing/python3-pyparsing-locale: PV changed from "3.0.8" to "3.0.9"
-packages/core2-32-poky-linux/python3-pyparsing/python3-pyparsing-src: PKGV changed from 3.0.8 [default] to 3.0.9 [default]
-packages/core2-32-poky-linux/python3-pyparsing/python3-pyparsing-src: PV changed from "3.0.8" to "3.0.9"
-packages/core2-32-poky-linux/python3-pyparsing/python3-pyparsing-staticdev: PKGV changed from 3.0.8 [default] to 3.0.9 [default]
-packages/core2-32-poky-linux/python3-pyparsing/python3-pyparsing-staticdev: PV changed from "3.0.8" to "3.0.9"
-packages/core2-32-poky-linux/python3-pyparsing/python3-pyparsing: PKGV changed from 3.0.8 [default] to 3.0.9 [default]
-packages/core2-32-poky-linux/python3-pyparsing/python3-pyparsing: PV changed from "3.0.8" to "3.0.9"
-packages/core2-32-poky-linux/python3-pyparsing/python3-pyparsing: FILELIST: directory renamed /usr/lib/python3.10/site-packages/pyparsing-3.0.8.dist-info -> /usr/lib/python3.10/site-packages/pyparsing-3.0.9.dist-info, removed "/usr/lib/python3.10/site-packages/pyparsing/diagram/template.jinja2"
-packages/core2-32-poky-linux/python3-pyparsing/python3-pyparsing: PKGSIZE changed from 692336 to 693760 (+0%)
-Changes to packages/core2-32-poky-linux/python3-pyparsing (sysroot):
-  /usr/lib/python3.10/site-packages/pyparsing-3.0.8.dist-info moved to /usr/lib/python3.10/site-packages/pyparsing-3.0.9.dist-info
-  /usr/lib/python3.10/site-packages/pyparsing/diagram/template.jinja2 was removed
-
---===============5046895781116179504==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/python3-pyparsing/python3-pyparsing: FILELIST: directory renamed /usr/lib/python3.10/site-packages/pyparsing-3.0.8.dist-info -> /usr/lib/python3.10/site-packages/pyparsing-3.0.9.dist-info, removed "/usr/lib/python3.10/site-packages/pyparsing/diagram/template.jinja2"
-Changes to packages/core2-32-poky-linux/python3-pyparsing (sysroot):
-  /usr/lib/python3.10/site-packages/pyparsing-3.0.8.dist-info moved to /usr/lib/python3.10/site-packages/pyparsing-3.0.9.dist-info
-  /usr/lib/python3.10/site-packages/pyparsing/diagram/template.jinja2 was removed
-
---===============5046895781116179504==--
+--===============4866276914106602597==--
 
