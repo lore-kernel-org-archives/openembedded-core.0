@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59402C38A2E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7428FC47087
 	for <webhook@archiver.kernel.org>; Sun, 15 May 2022 17:15:22 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com
- (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.18728.1652634914171809414
+Received: from a27-23.smtp-out.us-west-2.amazonses.com
+ (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web09.19050.1652634914289905621
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 May 2022 10:15:14 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=CA0+ZV/m;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
- mailfrom: 01010180c8b7883d-57f95303-eb7b-49fe-bd0c-0831df9944f9-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=TMRbnDUt;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
+ mailfrom: 01010180c8b78a57-2f1c69ec-8f27-4b92-8ca7-3047b5987639-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1652634913;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=4kJ2NDU88pmWyfVAtfX7/MXhVf66l9T88Na3Q6iNdes=;
-	b=CA0+ZV/mr6XTAroyepWI1Bjfbqe8L+bqz+zqOeTIN1AP8LkYeMJyCJRnBIlMDsNI
-	J8GMAnK4jMC/PxTSdXIAFBxJVEbOKSehZYYJxp4J57kujoUvU6ZnpXYZqrSdvAd8U1K
-	yvyG2HRVqeekziF3F8WeyxQvYSmqse6FYb3v635A=
+	bh=2gRPgzk1CfoxShs4oI7Xpz0UIbyp3r1Xau3QLCpcVAQ=;
+	b=TMRbnDUtYt3u9vcOGPpoIRTrHSCi/VZovkAJ38iMWeH5mP9Ne8gHOrzhWf9dqe/n
+	uShcDS64GP96m9YTMjzm0H+62CBigO3pX/cozX62D0vBBjLqwwTbiNexFXH2yjsyIVs
+	RVJHgNnObT9NjnjtZ0vAuPWDJCPTnibWj52edxgE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1652634913;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=4kJ2NDU88pmWyfVAtfX7/MXhVf66l9T88Na3Q6iNdes=;
-	b=ViDHDGqf8flikoLWov5N9YuoK7lPOIjQJn/dPxx+EFxGKfW7ZMzaOdxd6fTvHllj
-	uL6p+Wv0unutiNHcUx9cLGn9uHAxO99y96fiKgZDZjs0nRCBIUo9Ly3hJCCfUbHtaTS
-	5ESVHEz7HBgIzqoGwPtsM+B/e326iVslEPoscVGI=
-Content-Type: multipart/mixed; boundary="===============2447576228410363942=="
+	bh=2gRPgzk1CfoxShs4oI7Xpz0UIbyp3r1Xau3QLCpcVAQ=;
+	b=eikkqQ6YEEZ+0JPq0NLD9sXFeS4V6ulJrlw4lZNflGTv4CYoncjCMVkZASZccKMf
+	IjPYTALQQQQQehe6JagMUKiidxKRBW9XgbSXYul+1OEfFvOmKnIxxGy6ctLw3Trr4yu
+	6P+mEVFswiqmted4Qi37sf1xpNNF9w5optXwVxhY=
+Content-Type: multipart/mixed; boundary="===============3669326735855870541=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Zang Ruochen <zangrc.fnst@fujitsu.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pip: upgrading to 22.1 FAILED
+Subject: [AUH] libnotify: upgrading to 0.7.12 SUCCEEDED
 Message-ID: 
- <01010180c8b7883d-57f95303-eb7b-49fe-bd0c-0831df9944f9-000000@us-west-2.amazonses.com>
-Date: Sun, 15 May 2022 17:15:12 +0000
+ <01010180c8b78a57-2f1c69ec-8f27-4b92-8ca7-3047b5987639-000000@us-west-2.amazonses.com>
+Date: Sun, 15 May 2022 17:15:13 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.05.15-54.240.27.33
+X-SES-Outgoing: 2022.05.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 May 2022 17:15:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165633
+ https://lists.openembedded.org/g/openembedded-core/message/165638
 
---===============2447576228410363942==
+--===============3669326735855870541==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,99 +56,86 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pip* to *22.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libnotify* to *0.7.12* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-libnotify-upgrade-0.7.11-0.7.12.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade python3-pip -V 22.1
-NOTE: Starting bitbake server...
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1642 entries from dependency cache.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-46bd148897ec203cdd80f6f2ba36d66ed92aaf7b"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:46bd148897ec203cdd80f6f2ba36d66ed92aaf7b"
-workspace            = "master:fea9e46d39ef43967aead86fa537bca449290253"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1642 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 885 .bb files complete (883 cached, 2 parsed). 1643 targets, 35 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-46bd148897ec203cdd80f6f2ba36d66ed92aaf7b"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:46bd148897ec203cdd80f6f2ba36d66ed92aaf7b"
-workspace            = "master:fea9e46d39ef43967aead86fa537bca449290253"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  60% |#####################               | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/p/pip/pip-22.1.tar.gz...
-INFO: Rebasing devtool onto 0cb65595a07fb87a3a3e3a86319e1d33c1f1e6c5
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 334, in <module>
-    ret = main()
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 321, in main
-    ret = args.func(args, config, basepath, workspace)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 568, in upgrade
-    new_licenses = _extract_licenses(srctree_s, (rd.getVar('LIC_FILES_CHKSUM') or ""))
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 469, in _extract_licenses
-    with open(os.path.join(srcpath, path), 'rb') as f:
-FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/python3-pip/src/pip/_vendor/distro.LICENSE'
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============2447576228410363942==--
+--===============3669326735855870541==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/libnotify: PKGV changed from 0.7.11 [default] to 0.7.12 [default]
+packages/core2-32-poky-linux/libnotify: SRC_URI changed from "https://download.gnome.org/sources//libnotify/0.7/libnotify-0.7.11.tar.xz;name=archive" to "https://download.gnome.org/sources//libnotify/0.7/libnotify-0.7.12.tar.xz;name=archive"
+packages/core2-32-poky-linux/libnotify: PV changed from "0.7.11" to "0.7.12"
+packages/core2-32-poky-linux/libnotify/libnotify-dbg: PKGSIZE changed from 93572 to 94144 (+1%)
+packages/core2-32-poky-linux/libnotify/libnotify-dbg: PKGV changed from 0.7.11 [default] to 0.7.12 [default]
+packages/core2-32-poky-linux/libnotify/libnotify-dbg: PV changed from "0.7.11" to "0.7.12"
+packages/core2-32-poky-linux/libnotify/libnotify-dev: PKGV changed from 0.7.11 [default] to 0.7.12 [default]
+packages/core2-32-poky-linux/libnotify/libnotify-dev: PV changed from "0.7.11" to "0.7.12"
+packages/core2-32-poky-linux/libnotify/libnotify-doc: PKGV changed from 0.7.11 [default] to 0.7.12 [default]
+packages/core2-32-poky-linux/libnotify/libnotify-doc: PV changed from "0.7.11" to "0.7.12"
+packages/core2-32-poky-linux/libnotify/libnotify-locale: PKGV changed from 0.7.11 [default] to 0.7.12 [default]
+packages/core2-32-poky-linux/libnotify/libnotify-locale: PV changed from "0.7.11" to "0.7.12"
+packages/core2-32-poky-linux/libnotify/libnotify-src: PKGSIZE changed from 100222 to 101234 (+1%)
+packages/core2-32-poky-linux/libnotify/libnotify-src: PKGV changed from 0.7.11 [default] to 0.7.12 [default]
+packages/core2-32-poky-linux/libnotify/libnotify-src: PV changed from "0.7.11" to "0.7.12"
+packages/core2-32-poky-linux/libnotify/libnotify-staticdev: PKGV changed from 0.7.11 [default] to 0.7.12 [default]
+packages/core2-32-poky-linux/libnotify/libnotify-staticdev: PV changed from "0.7.11" to "0.7.12"
+packages/core2-32-poky-linux/libnotify/libnotify: PKGV changed from 0.7.11 [default] to 0.7.12 [default]
+packages/core2-32-poky-linux/libnotify/libnotify: PV changed from "0.7.11" to "0.7.12"
+
+--===============3669326735855870541==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-libnotify-upgrade-0.7.11-0.7.12.patch"
+
+From 9cb4c973d04b1e10a934861550a3db0cdd1f635f Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sun, 15 May 2022 11:21:30 +0000
+Subject: [PATCH] libnotify: upgrade 0.7.11 -> 0.7.12
+
+---
+ .../libnotify/{libnotify_0.7.11.bb => libnotify_0.7.12.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/libnotify/{libnotify_0.7.11.bb => libnotify_0.7.12.bb} (93%)
+
+diff --git a/meta/recipes-gnome/libnotify/libnotify_0.7.11.bb b/meta/recipes-gnome/libnotify/libnotify_0.7.12.bb
+similarity index 93%
+rename from meta/recipes-gnome/libnotify/libnotify_0.7.11.bb
+rename to meta/recipes-gnome/libnotify/libnotify_0.7.12.bb
+index 54f3e2c9ba..21e737fd45 100644
+--- a/meta/recipes-gnome/libnotify/libnotify_0.7.11.bb
++++ b/meta/recipes-gnome/libnotify/libnotify_0.7.12.bb
+@@ -22,7 +22,7 @@ inherit gnomebase gtk-doc features_check gobject-introspection
+ # depends on gtk+3 if tests are enabled
+ ANY_OF_DISTRO_FEATURES = "${@bb.utils.contains('PACKAGECONFIG', 'tests', '${GTK3DISTROFEATURES}', '', d)}"
+ 
+-SRC_URI[archive.sha256sum] = "dd5682ec68220339e11c5159b7e012204a318dd1b3683a09c482ca421ab07375"
++SRC_URI[archive.sha256sum] = "744b2b37508135f8261b755a9debe6e09add421adc75bde930f6e198b70ab46e"
+ 
+ EXTRA_OEMESON = "-Dman=false"
+ 
+-- 
+2.31.1
+
+
+--===============3669326735855870541==--
 
