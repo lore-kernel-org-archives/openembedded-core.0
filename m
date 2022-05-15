@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24FA4C38A05
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E05CC38A2B
 	for <webhook@archiver.kernel.org>; Sun, 15 May 2022 17:15:22 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com
- (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web08.18886.1652634913627203930
+Received: from a27-191.smtp-out.us-west-2.amazonses.com
+ (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web09.19049.1652634914268937106
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 May 2022 10:15:13 -0700
+ Sun, 15 May 2022 10:15:14 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=RQhh1rZU;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29,
- mailfrom: 01010180c8b786f2-4931fcdd-cc1d-484f-b554-3360aea2af52-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=QveMtl69;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191,
+ mailfrom: 01010180c8b7869e-26376066-ff80-40d3-88d4-03a43387d3ad-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1652634912;
+	t=1652634913;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=rF5lDsMODHbMiy7JND5dYruiUGbqXHUl1w/r+zxvFhQ=;
-	b=RQhh1rZUuN51YyUl/PLts1BAW/Zii8MhDAbqKIXnErMf7nPP9bj9Gp3IDEMSwA13
-	uGXNYrgvW5HZ84pnysynXdC2KAenjqGtMspN3v8s30BHh4XJ6m0eZR5dq0mZmTfXO+F
-	bo0C4Z6nYNw+CM66MaUKgIo7LLxgg43STHW36ocw=
+	bh=9+8DgL2zpGJFDbemApTmA/PpMgmhnZGVj227vF2v/Lg=;
+	b=QveMtl69CcNklaJ54gDi08dyaSJwM4js6+lomdIvylFMXcPBKMxOcp7iPymv4XJ3
+	OVHXEufnegeMoiqaSeS6BdGACrEvhlMgt9/Hp+ldZTltAFGIrvrFywcqtvVs3rEdfOH
+	X3y51CKAsoiXvTTVCXuzk/5B6nOoxzjIV+QolpNc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1652634912;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1652634913;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=rF5lDsMODHbMiy7JND5dYruiUGbqXHUl1w/r+zxvFhQ=;
-	b=UHU3u04L0UtCU6mZWf39NU1H+BtyoWM5wqWFYxdmudYnDaIjIdEL2QtqBs8KtgZ8
-	Y4qiqYKG10Dv7Bl4JKeisEn/NzQDoPny/XkN4uo7vCMOgibDwBrRrDDH6njp6Kbav83
-	9dpQVHOwzs6N+s7JGBuSJr6HGhV5ntjATeZ4+JII=
-Content-Type: multipart/mixed; boundary="===============3636637085979421859=="
+	bh=9+8DgL2zpGJFDbemApTmA/PpMgmhnZGVj227vF2v/Lg=;
+	b=RJ/CStBSLw7y6ui6+RPsgsT30j8Yw8rpFQQxsMqv4KqnMn1gGzw7EEmuOX/vxH3d
+	TzXp4Jkrz8M4BlWE8vQ7byacHZOFPfsTWRPkM4rgJHWbBZ5deahSXRSwOkxiFZsygFU
+	qyuAa1rbUyJFlrauWNlwpCHE14wIOKyGdrYQgdh4=
+Content-Type: multipart/mixed; boundary="===============2660267083857391450=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] go: upgrading to 1.18.2 FAILED
+Subject: [AUH] python3-cryptography-vectors: upgrading to 37.0.2 SUCCEEDED
 Message-ID: 
- <01010180c8b786f2-4931fcdd-cc1d-484f-b554-3360aea2af52-000000@us-west-2.amazonses.com>
+ <01010180c8b7869e-26376066-ff80-40d3-88d4-03a43387d3ad-000000@us-west-2.amazonses.com>
 Date: Sun, 15 May 2022 17:15:12 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.05.15-54.240.27.29
+X-SES-Outgoing: 2022.05.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 May 2022 17:15:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165624
+ https://lists.openembedded.org/g/openembedded-core/message/165635
 
---===============3636637085979421859==
+--===============2660267083857391450==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,16 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *go* to *1.18.2* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *python3-cryptography-vectors* to *37.0.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-go-upgrade-1.18.1-1.18.2.patch
+    - apply the patch: git am 0001-python3-cryptography-vectors-upgrade-37.0.1-37.0.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -81,61 +75,76 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3636637085979421859==
+--===============2660267083857391450==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-cryptography-vectors: PKGV changed from 37.0.1 [default] to 37.0.2 [default]
+packages/core2-32-poky-linux/python3-cryptography-vectors: PV changed from "37.0.1" to "37.0.2"
+packages/core2-32-poky-linux/python3-cryptography-vectors: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/cryptography_vectors/cryptography_vectors-37.0.1.tar.gz" to "https://files.pythonhosted.org/packages/source/c/cryptography_vectors/cryptography_vectors-37.0.2.tar.gz"
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dbg: PKGV changed from 37.0.1 [default] to 37.0.2 [default]
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dbg: PV changed from "37.0.1" to "37.0.2"
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dev: PKGV changed from 37.0.1 [default] to 37.0.2 [default]
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dev: PV changed from "37.0.1" to "37.0.2"
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-doc: PKGV changed from 37.0.1 [default] to 37.0.2 [default]
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-doc: PV changed from "37.0.1" to "37.0.2"
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-locale: PKGV changed from 37.0.1 [default] to 37.0.2 [default]
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-locale: PV changed from "37.0.1" to "37.0.2"
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-src: PKGV changed from 37.0.1 [default] to 37.0.2 [default]
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-src: PV changed from "37.0.1" to "37.0.2"
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-staticdev: PKGV changed from 37.0.1 [default] to 37.0.2 [default]
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-staticdev: PV changed from "37.0.1" to "37.0.2"
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: PKGV changed from 37.0.1 [default] to 37.0.2 [default]
+packages/core2-32-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: PV changed from "37.0.1" to "37.0.2"
+Changes to packages/core2-32-poky-linux/python3-cryptography-vectors (sysroot):
+  /usr/lib/python3.10/site-packages/cryptography_vectors-37.0.1.dist-info moved to /usr/lib/python3.10/site-packages/cryptography_vectors-37.0.2.dist-info
+
+--===============2660267083857391450==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/python3-cryptography-vectors (sysroot):
+  /usr/lib/python3.10/site-packages/cryptography_vectors-37.0.1.dist-info moved to /usr/lib/python3.10/site-packages/cryptography_vectors-37.0.2.dist-info
+
+--===============2660267083857391450==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-go-upgrade-1.18.1-1.18.2.patch"
+ filename="0001-python3-cryptography-vectors-upgrade-37.0.1-37.0.2.patch"
 
-From d4ca04f9482ffeb57ea7b74282003743e85cbc9a Mon Sep 17 00:00:00 2001
+From 185e30325c61cd2c53f3cadb76b020646e640c48 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 May 2022 07:17:04 +0000
-Subject: [PATCH] go: upgrade 1.18.1 -> 1.18.2
+Date: Sun, 15 May 2022 08:29:38 +0000
+Subject: [PATCH] python3-cryptography-vectors: upgrade 37.0.1 -> 37.0.2
 
 ---
- meta/recipes-devtools/go/{go-1.18.1.inc => go-1.18.2.inc} | 2 +-
- meta/recipes-devtools/go/{go_1.18.1.bb => go_1.18.2.bb}   | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/go/{go-1.18.1.inc => go-1.18.2.inc} (88%)
- rename meta/recipes-devtools/go/{go_1.18.1.bb => go_1.18.2.bb} (100%)
+ ...vectors_37.0.1.bb => python3-cryptography-vectors_37.0.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-cryptography-vectors_37.0.1.bb => python3-cryptography-vectors_37.0.2.bb} (90%)
 
-diff --git a/meta/recipes-devtools/go/go-1.18.1.inc b/meta/recipes-devtools/go/go-1.18.2.inc
-similarity index 88%
-rename from meta/recipes-devtools/go/go-1.18.1.inc
-rename to meta/recipes-devtools/go/go-1.18.2.inc
-index 64426471df..8f4f47db9e 100644
---- a/meta/recipes-devtools/go/go-1.18.1.inc
-+++ b/meta/recipes-devtools/go/go-1.18.2.inc
-@@ -14,4 +14,4 @@ SRC_URI += "\
-     file://0001-exec.go-do-not-write-linker-flags-into-buildids.patch \
-     file://0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
- "
--SRC_URI[main.sha256sum] = "efd43e0f1402e083b73a03d444b7b6576bb4c539ac46208b63a916b69aca4088"
-+SRC_URI[main.sha256sum] = "2c44d03ea2c34092137ab919ba602f2c261a038d08eb468528a3f3a28e5667e2"
-diff --git a/meta/recipes-devtools/go/go_1.18.1.bb b/meta/recipes-devtools/go/go_1.18.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.18.1.bb
-rename to meta/recipes-devtools/go/go_1.18.2.bb
+diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.1.bb b/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.2.bb
+similarity index 90%
+rename from meta/recipes-devtools/python/python3-cryptography-vectors_37.0.1.bb
+rename to meta/recipes-devtools/python/python3-cryptography-vectors_37.0.2.bb
+index 98740ba95f..3dbdc8ce3e 100644
+--- a/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.1.bb
++++ b/meta/recipes-devtools/python/python3-cryptography-vectors_37.0.2.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c3617db4fb6fae01f1d253ab91511e4 \
+ # NOTE: Make sure to keep this recipe at the same version as python3-cryptography
+ #       Upgrade both recipes at the same time
+ 
+-SRC_URI[sha256sum] = "66c9a714232be730fe822bd7e4e9da6231ff9e537ee4feb0f092c06b8ea4d94a"
++SRC_URI[sha256sum] = "7c65d3de51756f418142df605417ec2c6e961c364f70cc8a103030889d5a3219"
+ 
+ PYPI_PACKAGE = "cryptography_vectors"
+ 
 -- 
 2.31.1
 
 
---===============3636637085979421859==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1642 entries from dependency cache.
-Parsing recipes...
-Summary: There was 1 WARNING message.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: ParseError at /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/go/go-native_1.18.1.bb:4: Could not include required file go-1.18.1.inc
-ERROR: Parsing halted due to errors, see error messages above
-
---===============3636637085979421859==--
+--===============2660267083857391450==--
 
