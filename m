@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D582EC4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B460EC433F5
 	for <webhook@archiver.kernel.org>; Sun, 15 May 2022 17:15:21 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com
- (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web08.18882.1652634912243368546
+Received: from a27-45.smtp-out.us-west-2.amazonses.com
+ (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.18723.1652634912674414110
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 May 2022 10:15:13 -0700
+ Sun, 15 May 2022 10:15:12 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=YWW47X+S;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
- mailfrom: 01010180c8b786af-04f54a0d-d007-41e5-8725-9a3870aa1bf3-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=PzL6vhFQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
+ mailfrom: 01010180c8b783b1-fe0b05bc-6786-4983-8ad0-ebc70f10347b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1652634912;
+	t=1652634911;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=RizNgcRBHoPSDI9p9fnSlC+zqDO6wHr24+LRauLJbTU=;
-	b=YWW47X+S1nl9zJ6FD/HTQqJ9Ccar8lTLQjpWMoTKfMmYzde44p8uYPV99ggMZEw2
-	jUZEYw/D+mL0tumqJlDYrzAVanf5MdtCUJa3MgyBcYlpXu57otsf2Ctb+5JsK0ToXS/
-	flaGNXwbc33bQ98KCn956HuU3ExkfgE4bakTP8w0=
+	bh=iAd4ydo2p2fhLbCpXpQTLpq1LGU56nWTodquTdPDvPQ=;
+	b=PzL6vhFQpxeiUic6oU+mvYCMCRbKLd8yFZeGMqgEwtEIZsX6ZFzgPwou4gVKvLyP
+	ovKB+z21caqEGX+xOtLTa3ctvafTgYi2HkeyzJKF0uOrMaS/ai9czaXyZj1yBCrP5JL
+	tLBcpuWUMxX3pwoiPLRRDkGQgiVXnKNCA3XlTl3U=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1652634912;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1652634911;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=RizNgcRBHoPSDI9p9fnSlC+zqDO6wHr24+LRauLJbTU=;
-	b=UuZnLhJMIr36S32oARvOvRJjRsjPrt7YuTlyCR7w87dH/iJUctCa6jv19mnxPsBd
-	r2NmX05leMUEa3P7E99nZGQN3d5KVpu+/5FKo0sJD/1lKO5Qmy5He7NbD4X2DUSSwAA
-	a5QIFdhXlknH2g5wXXa2cqUOoOtDtkjydokpn/Hc=
-Content-Type: multipart/mixed; boundary="===============9103394528052063463=="
+	bh=iAd4ydo2p2fhLbCpXpQTLpq1LGU56nWTodquTdPDvPQ=;
+	b=dnSuBMk+rkD1WNolSCsb8ehqVN/xhBgWc+LF947WfgmBnVjEmAqjp3vjMD4x0brK
+	/Lx+ILecgoXXmVMoxGYyU8wmGmNYLMyJQ+5+pMOeJX4/TBWW97glZLnmRKov72+OtIs
+	s0b7xjEVjG9SQkp5bcHvzawZiCdhmhrQxRUXP9l8=
+Content-Type: multipart/mixed; boundary="===============1644807549866973459=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.46.4 SUCCEEDED
+Subject: [AUH] mobile-broadband-provider-info: upgrading to 20220511 SUCCEEDED
 Message-ID: 
- <01010180c8b786af-04f54a0d-d007-41e5-8725-9a3870aa1bf3-000000@us-west-2.amazonses.com>
-Date: Sun, 15 May 2022 17:15:12 +0000
+ <01010180c8b783b1-fe0b05bc-6786-4983-8ad0-ebc70f10347b-000000@us-west-2.amazonses.com>
+Date: Sun, 15 May 2022 17:15:11 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.05.15-54.240.27.193
+X-SES-Outgoing: 2022.05.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 May 2022 17:15:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165611
+ https://lists.openembedded.org/g/openembedded-core/message/165608
 
---===============9103394528052063463==
+--===============1644807549866973459==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-hypothesis* to *6.46.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *mobile-broadband-provider-info* to *20220511* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.46.0-6.46.4.patch
+    - apply the patch: git am 0001-mobile-broadband-provider-info-upgrade-20220315-2022.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,79 +75,63 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============9103394528052063463==
+--===============1644807549866973459==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-hypothesis: PKGV changed from 6.46.0 [default] to 6.46.4 [default]
-packages/core2-32-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.46.0.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.46.4.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py"
-packages/core2-32-poky-linux/python3-hypothesis: PV changed from "6.46.0" to "6.46.4"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.46.0 [default] to 6.46.4 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.46.0" to "6.46.4"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.46.0 [default] to 6.46.4 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.46.0" to "6.46.4"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.46.0 [default] to 6.46.4 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.46.0" to "6.46.4"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.46.0 [default] to 6.46.4 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.46.0" to "6.46.4"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.46.0 [default] to 6.46.4 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.46.0" to "6.46.4"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.46.0 [default] to 6.46.4 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.46.0" to "6.46.4"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.46.0 [default] to 6.46.4 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.46.0" to "6.46.4"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.46.0 [default] to 6.46.4 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.46.0" to "6.46.4"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 2046008 to 2052129 (+0%)
-Changes to packages/core2-32-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.10/site-packages/hypothesis-6.46.0.dist-info moved to /usr/lib/python3.10/site-packages/hypothesis-6.46.4.dist-info
+packages/core2-32-poky-linux/mobile-broadband-provider-info: PKGV changed from 20220315 [default] to 20220511 [default]
+packages/core2-32-poky-linux/mobile-broadband-provider-info: PV changed from "20220315" to "20220511"
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-dbg: PKGV changed from 20220315 [default] to 20220511 [default]
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-dbg: PV changed from "20220315" to "20220511"
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-dev: PKGV changed from 20220315 [default] to 20220511 [default]
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-dev: PV changed from "20220315" to "20220511"
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-doc: PKGV changed from 20220315 [default] to 20220511 [default]
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-doc: PV changed from "20220315" to "20220511"
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-locale: PKGV changed from 20220315 [default] to 20220511 [default]
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-locale: PV changed from "20220315" to "20220511"
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-src: PKGV changed from 20220315 [default] to 20220511 [default]
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-src: PV changed from "20220315" to "20220511"
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-staticdev: PKGV changed from 20220315 [default] to 20220511 [default]
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-staticdev: PV changed from "20220315" to "20220511"
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info: PKGV changed from 20220315 [default] to 20220511 [default]
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info: PV changed from "20220315" to "20220511"
+packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info: PKGSIZE changed from 513413 to 517675 (+1%)
 
---===============9103394528052063463==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.10/site-packages/hypothesis-6.46.0.dist-info moved to /usr/lib/python3.10/site-packages/hypothesis-6.46.4.dist-info
-
---===============9103394528052063463==
+--===============1644807549866973459==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.46.0-6.46.4.patch"
+ filename="0001-mobile-broadband-provider-info-upgrade-20220315-2022.patch"
 
-From d2f65385a324b2aff575d0d8b8af3e4ba8036bbd Mon Sep 17 00:00:00 2001
+From 89d31a01eb9c2c3509baf08d9e328204fdb05751 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 May 2022 08:45:16 +0000
-Subject: [PATCH] python3-hypothesis: upgrade 6.46.0 -> 6.46.4
+Date: Sun, 15 May 2022 06:00:35 +0000
+Subject: [PATCH] mobile-broadband-provider-info: upgrade 20220315 -> 20220511
 
 ---
- ...ython3-hypothesis_6.46.0.bb => python3-hypothesis_6.46.4.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.46.0.bb => python3-hypothesis_6.46.4.bb} (91%)
+ .../mobile-broadband-provider-info_git.bb                     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.46.0.bb b/meta/recipes-devtools/python/python3-hypothesis_6.46.4.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.46.0.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.46.4.bb
-index fb58297c27..86d6793670 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.46.0.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.46.4.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+index 781b9216c5..e6f216e5cb 100644
+--- a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
++++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+@@ -5,8 +5,8 @@ SECTION = "network"
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=87964579b2a8ece4bc6744d2dc9a8b04"
  
--SRC_URI[sha256sum] = "349e4a94926c91377fa3806ff363c6b9b65f95bec67d146066a16610501bf067"
-+SRC_URI[sha256sum] = "f5c24a3d3f8a0d8de2dd33079bf1580a3cfbfe74763187d47570fc9beea84c9b"
+-SRCREV = "4cbb44a9fe26aa6f0b28beb79f9488b37c097b5e"
+-PV = "20220315"
++SRCREV = "3d5c8d0f7e0264768a2c000d0fd4b4d4a991e041"
++PV = "20220511"
+ PE = "1"
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+ SRC_URI = "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=https;branch=main"
 -- 
 2.31.1
 
 
---===============9103394528052063463==--
+--===============1644807549866973459==--
 
