@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EADBAC4167D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF6EBC4332F
 	for <webhook@archiver.kernel.org>; Sun, 15 May 2022 17:15:21 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com
- (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web12.19021.1652634914814696633
+Received: from a27-192.smtp-out.us-west-2.amazonses.com
+ (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web08.18883.1652634912472232990
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 May 2022 10:15:15 -0700
+ Sun, 15 May 2022 10:15:12 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=DEQn+L2/;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
- mailfrom: 01010180c8b78b9e-63de86e7-62c3-4a5f-bceb-d335fb00a85e-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=KNbP2tS2;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
+ mailfrom: 01010180c8b78249-6b4db853-83f0-4b03-aed5-d70d27cab76f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1652634914;
+	t=1652634911;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=aL9qKSDck3wUVcAxd6i4BY27b1OiGgwJg/gXdp8Axo0=;
-	b=DEQn+L2/m6Pq6A4wo53TqR+nMmA3JCJsmjgqgvjr+RNAURNQgozq4RNzqcDYU2Y2
-	lfjEkVTjrNUmUjqRioRs21QGEszDkacnZt9yfDWlpDOa/IrzNgA5FV1nmbeCp4k/YuJ
-	ozXGpQ0KHugpTqjjmlc8qptdaMztqQKFYM4zntsE=
+	bh=u4Kk2R34n1KJqBeIoOOB2sWZfk6krydSfqujnLzMnfA=;
+	b=KNbP2tS2Ica1AGYk07h6DNrFp0tHk/1FRRk1IJ5UnQTad8WodNrc6XRcxOu5QUun
+	FaSQQfAUAiSyPp0z4FoPPfdNWzcSrLuhOjjONfZIZ2P4qVjo0QfhZghkjs2/pWtwMYr
+	v/cKMx35vOiR0WpJO/eUJiabP63A1y0qaZzrBkEM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1652634914;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1652634911;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=aL9qKSDck3wUVcAxd6i4BY27b1OiGgwJg/gXdp8Axo0=;
-	b=c27Zt159z04HCykDNByGkis+jYvqfwhEqX4xWOLe+7ZTABWzBJ1sJmT4Lpr6ObCb
-	ysvV7iwr4roTCXYJRtAvfcfMPDtVjyYGLJ4e54IrGhPBgCI0CFZ8gIPJ62MmjOpXkvW
-	p2bHCEKWzu9qxLMPRwFWRfywMzS+bfEMvjNNMLts=
-Content-Type: multipart/mixed; boundary="===============0532210308657884316=="
+	bh=u4Kk2R34n1KJqBeIoOOB2sWZfk6krydSfqujnLzMnfA=;
+	b=JLBXAEsg7Qhd3vFdjUlX3YRBQQOjnEDP9CMpobFWeinNcMaLbAl4dQ9WdStkbr6x
+	oRZ2bIWmDL6q4ChVQ3cuqNFYDLJG5c7QN7FQjf/BGMGiDcvb1nh/f4KB5ifGqCnpeFv
+	Gt5R/zHtzvg3M8pt1X/dwlH9PXkgCiufW4rfccfs=
+Content-Type: multipart/mixed; boundary="===============7663765136157897926=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Marek Vasut <marek.vasut@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gst-devtools: upgrading to 1.20.2 SUCCEEDED
+Subject: [AUH] u-boot-tools: upgrading to 2022.04 FAILED
 Message-ID: 
- <01010180c8b78b9e-63de86e7-62c3-4a5f-bceb-d335fb00a85e-000000@us-west-2.amazonses.com>
-Date: Sun, 15 May 2022 17:15:13 +0000
+ <01010180c8b78249-6b4db853-83f0-4b03-aed5-d70d27cab76f-000000@us-west-2.amazonses.com>
+Date: Sun, 15 May 2022 17:15:11 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.05.15-54.240.27.45
+X-SES-Outgoing: 2022.05.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 May 2022 17:15:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165651
+ https://lists.openembedded.org/g/openembedded-core/message/165607
 
---===============0532210308657884316==
+--===============7663765136157897926==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gst-devtools* to *1.20.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *u-boot-tools* to *2022.04* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-gst-devtools-upgrade-1.20.1-1.20.2.patch
+    - apply the patch: git am 0001-u-boot-tools-upgrade-2022.01-2022.04.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,2671 +81,571 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0532210308657884316==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-dbg: PKGSIZE changed from 1962808 to 1962696 (-0%)
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-dbg: FILELIST: removed "/usr/lib/.debug/libgstvalidate-default-overrides-1.0.so.0.2001.0 /usr/lib/.debug/libgstvalidate-1.0.so.0.2001.0", added "/usr/lib/.debug/libgstvalidate-1.0.so.0.2002.0 /usr/lib/.debug/libgstvalidate-default-overrides-1.0.so.0.2002.0"
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-dbg: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-dbg: PV changed from "1.20.1" to "1.20.2"
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-dev: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-dev: PV changed from "1.20.1" to "1.20.2"
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-doc: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-doc: PV changed from "1.20.1" to "1.20.2"
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-locale: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-locale: PV changed from "1.20.1" to "1.20.2"
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-src: PKGSIZE changed from 887750 to 887784 (+0%)
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-src: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-src: PV changed from "1.20.1" to "1.20.2"
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-staticdev: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-staticdev: PV changed from "1.20.1" to "1.20.2"
-packages/core2-32-poky-linux/gst-devtools/gst-devtools: FILELIST: removed "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2001.0 /usr/lib/libgstvalidate-1.0.so.0.2001.0", added "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2002.0 /usr/lib/libgstvalidate-1.0.so.0.2002.0"
-packages/core2-32-poky-linux/gst-devtools/gst-devtools: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-32-poky-linux/gst-devtools/gst-devtools: PV changed from "1.20.1" to "1.20.2"
-packages/core2-32-poky-linux/gst-devtools: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-1.20.1.tar.xz file://0001-connect-has-a-different-signature-on-musl.patch" to "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-1.20.2.tar.xz file://0001-connect-has-a-different-signature-on-musl.patch"
-packages/core2-32-poky-linux/gst-devtools: PKGV changed from 1.20.1 [default] to 1.20.2 [default]
-packages/core2-32-poky-linux/gst-devtools: PV changed from "1.20.1" to "1.20.2"
-Changes to packages/core2-32-poky-linux/gst-devtools (sysroot):
-  /usr/lib/libgstvalidate-1.0.so.0 changed symlink target from libgstvalidate-1.0.so.0.2001.0 to libgstvalidate-1.0.so.0.2002.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0 changed symlink target from libgstvalidate-default-overrides-1.0.so.0.2001.0 to libgstvalidate-default-overrides-1.0.so.0.2002.0
-  /usr/lib/libgstvalidate-1.0.so.0.2001.0 moved to /usr/lib/libgstvalidate-1.0.so.0.2002.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2001.0 moved to /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2002.0
-
---===============0532210308657884316==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
-
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 884 .bb files complete (0 cached, 884 parsed). 1642 targets, 70 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the ppc7400 sysroot...done.
-Removing 1 recipes from the qemuppc sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "powerpc-poky-linux"
-MACHINE              = "qemuppc"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-2554d747fd9b9fc9576ff0b59b5b59f811409e17"
-TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:2554d747fd9b9fc9576ff0b59b5b59f811409e17"
-workspace            = "master:fea9e46d39ef43967aead86fa537bca449290253"
-
-Initialising tasks...done.
-Sstate summary: Wanted 52 Local 9 Mirrors 0 Missed 43 Current 469 (17% match, 91% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 471 of 521 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 472 of 521 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 516 of 521 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/iso-codes/iso-codes_4.9.0.bb:do_packagedata_setscene)
-NOTE: recipe iso-codes-4.9.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata_setscene: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/xcb-proto/1.14.1-r0/temp/log.do_packagedata_setscene.3301119
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 520 of 521 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_package_setscene)
-NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1250 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_fetch)
-NOTE: Running task 1401 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_fetch)
-NOTE: Running task 1404 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_write_config)
-NOTE: Running task 1409 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_fetch)
-NOTE: Running task 1444 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_write_config)
-NOTE: Running task 1469 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_fetch)
-NOTE: Running task 1470 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_fetch)
-NOTE: Running task 1471 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_fetch)
-NOTE: Running task 1472 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_fetch)
-NOTE: Running task 1473 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_fetch)
-NOTE: Running task 1487 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_fetch)
-NOTE: Running task 1516 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_fetch)
-NOTE: Running task 1519 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_write_config)
-NOTE: Running task 1553 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_write_config)
-NOTE: Running task 1574 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_write_config)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_fetch: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_fetch: Started
-NOTE: Running task 1605 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_unpack)
-NOTE: Running task 1606 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_write_config: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Started
-NOTE: recipe libogg-1.3.5-r0: task do_fetch: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_fetch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Started
-NOTE: Running task 1607 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_unpack)
-NOTE: Running task 1608 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_write_config: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_fetch: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_write_config: Started
-NOTE: recipe orc-0.4.32-r0: task do_write_config: Started
-NOTE: recipe orc-0.4.32-r0: task do_fetch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_fetch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1609 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_unpack)
-NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1610 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_unpack)
-NOTE: Running task 1611 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxv-1.0.11-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_write_config: Succeeded
-NOTE: Running task 1612 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_unpack)
-NOTE: Running task 1613 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1614 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_unpack)
-NOTE: Running task 1615 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_unpack)
-NOTE: Running task 1616 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_unpack)
-NOTE: Running task 1617 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_unpack)
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Succeeded
-NOTE: recipe orc-0.4.32-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_unpack: Started
-NOTE: recipe libogg-1.3.5-r0: task do_unpack: Started
-NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe orc-0.4.32-r0: task do_fetch: Succeeded
-NOTE: Running task 1618 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_unpack)
-NOTE: Running task 1619 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_unpack: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Started
-NOTE: recipe libxv-1.0.11-r0: task do_unpack: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_write_config: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_unpack: Started
-NOTE: recipe orc-0.4.32-r0: task do_unpack: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_unpack: Started
-NOTE: recipe orc-0.4.32-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxv-1.0.11-r0: task do_unpack: Succeeded
-NOTE: Running task 1620 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_patch)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_unpack: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_patch: Started
-NOTE: Running task 1621 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_patch)
-NOTE: recipe libogg-1.3.5-r0: task do_unpack: Succeeded
-NOTE: Running task 1622 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_patch)
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Succeeded
-NOTE: Running task 1623 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_patch)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1624 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_patch)
-NOTE: recipe xcb-proto-1.14.1-r0: task do_package_setscene: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_patch: Started
-NOTE: recipe libogg-1.3.5-r0: task do_patch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_patch: Started
-NOTE: recipe orc-0.4.32-r0: task do_unpack: Succeeded
-NOTE: Running task 1625 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_patch)
-NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Succeeded
-NOTE: Running task 1626 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_patch)
-NOTE: recipe xcb-proto-1.14.1-r0: task do_package_setscene: Succeeded
-NOTE: recipe orc-0.4.32-r0: task do_patch: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_unpack: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Started
-NOTE: Running task 1696 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata)
-NOTE: recipe iso-codes-4.9.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1714 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_prepare_recipe_sysroot)
-NOTE: Setscene tasks completed
-NOTE: Running task 1716 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_patch)
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata: Started
-NOTE: recipe libxv-1.0.11-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_patch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Succeeded
-NOTE: Running task 1719 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_patch)
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1720 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_patch)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_patch: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Succeeded
-NOTE: Running task 1721 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_deploy_source_date_epoch)
-NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_patch: Succeeded
-NOTE: Running task 1722 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1723 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_populate_lic)
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Succeeded
-NOTE: Running task 1724 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_lic: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxv-1.0.11-r0: task do_patch: Succeeded
-NOTE: Running task 1725 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_deploy_source_date_epoch)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_populate_lic unihash changed to fd8a58d586bb762e8602f6ce3caea443fe8f2b6f05fb1a12515862d04b96e95b
-NOTE: recipe libxv-1.0.11-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_patch: Succeeded
-NOTE: Running task 1756 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxv-1.0.11-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_patch: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_patch: Succeeded
-NOTE: Running task 1757 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_configure)
-NOTE: Running task 1758 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1759 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe orc-0.4.32-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe orc-0.4.32-r0: task do_patch: Succeeded
-NOTE: Running task 1760 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_deploy_source_date_epoch)
-NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxv-1.0.11-r0: task do_configure: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe orc-0.4.32-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1761 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_configure)
-NOTE: Running task 1762 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_configure)
-NOTE: recipe orc-0.4.32-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1763 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_configure)
-NOTE: recipe libogg-1.3.5-r0: task do_configure: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_configure: Started
-NOTE: recipe orc-0.4.32-r0: task do_configure: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Succeeded
-NOTE: Running task 1764 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1765 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_patch: Succeeded
-NOTE: Running task 1766 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1767 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_configure)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure: Started
-NOTE: recipe orc-0.4.32-r0: task do_configure: Succeeded
-NOTE: Running task 1768 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_compile)
-NOTE: recipe orc-0.4.32-r0: task do_compile: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Succeeded
-NOTE: Running task 1769 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1770 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Started
-NOTE: recipe orc-0.4.32-r0: task do_compile: Succeeded
-NOTE: Running task 1771 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_install)
-NOTE: recipe orc-0.4.32-r0: task do_install: Started
-NOTE: recipe orc-0.4.32-r0: task do_install: Succeeded
-NOTE: Running task 1772 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_populate_sysroot)
-NOTE: Running task 1773 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_package)
-NOTE: recipe orc-0.4.32-r0: task do_populate_sysroot: Started
-NOTE: recipe orc-0.4.32-r0: task do_package: Started
-NOTE: recipe orc-0.4.32-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe orc-0.4.32-r0: task do_package: Succeeded
-NOTE: Running task 1774 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_packagedata)
-NOTE: recipe orc-0.4.32-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure: Succeeded
-NOTE: Running task 1775 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_configure_ptest_base)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1776 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_compile)
-NOTE: recipe orc-0.4.32-r0: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile: Started
-NOTE: recipe libxv-1.0.11-r0: task do_configure: Succeeded
-NOTE: Running task 1777 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_compile)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_configure: Succeeded
-NOTE: Running task 1778 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_compile)
-NOTE: recipe libxv-1.0.11-r0: task do_compile: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_compile: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Succeeded
-NOTE: Running task 1779 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe libogg-1.3.5-r0: task do_configure: Succeeded
-NOTE: Running task 1780 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_compile)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1781 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install)
-NOTE: recipe libogg-1.3.5-r0: task do_compile: Started
-NOTE: recipe libxv-1.0.11-r0: task do_compile: Succeeded
-NOTE: Running task 1782 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_install)
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Started
-NOTE: recipe libxv-1.0.11-r0: task do_install: Started
-NOTE: recipe libxv-1.0.11-r0: task do_install: Succeeded
-NOTE: Running task 1783 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_populate_sysroot)
-NOTE: Running task 1784 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_package)
-NOTE: recipe libxv-1.0.11-r0: task do_populate_sysroot: Started
-NOTE: recipe libxv-1.0.11-r0: task do_package: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_compile: Succeeded
-NOTE: Running task 1785 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install_ptest_base)
-NOTE: Running task 1786 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_install)
-NOTE: recipe libogg-1.3.5-r0: task do_install: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1787 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_populate_sysroot)
-NOTE: recipe libxv-1.0.11-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1788 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_package)
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Started
-NOTE: recipe libogg-1.3.5-r0: task do_install: Succeeded
-NOTE: Running task 1789 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot)
-NOTE: Running task 1790 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_package)
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Started
-NOTE: recipe libogg-1.3.5-r0: task do_package: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1791 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1792 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1793 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_configure)
-NOTE: Running task 1794 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_configure)
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Started
-NOTE: recipe libxv-1.0.11-r0: task do_package: Succeeded
-NOTE: Running task 1795 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_packagedata)
-NOTE: recipe libxv-1.0.11-r0: task do_packagedata: Started
-NOTE: recipe libxv-1.0.11-r0: task do_packagedata: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_package: Succeeded
-NOTE: Running task 1796 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_packagedata)
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Started
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Succeeded
-NOTE: Running task 1797 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata)
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile: Succeeded
-NOTE: Running task 1798 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_compile_ptest_base)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1799 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_install)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install: Succeeded
-NOTE: Running task 1800 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_install_ptest_base)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1801 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_populate_sysroot)
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Succeeded
-NOTE: Running task 1802 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_package)
-NOTE: Running task 1803 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_compile)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_package: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_compile: Succeeded
-NOTE: Running task 1804 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_install)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_install: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Succeeded
-NOTE: Running task 1805 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_compile)
-NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Succeeded
-NOTE: Running task 1806 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_install)
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Succeeded
-NOTE: Running task 1807 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_install)
-NOTE: recipe libvorbis-1.3.7-r0: task do_install: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Succeeded
-NOTE: Running task 1808 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_populate_sysroot)
-NOTE: Running task 1809 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_package)
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_install: Succeeded
-NOTE: Running task 1810 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_populate_sysroot)
-NOTE: Running task 1811 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_package)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_populate_sysroot: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_package: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_install: Succeeded
-NOTE: Running task 1812 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot)
-NOTE: Running task 1813 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_package)
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1814 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Succeeded
-NOTE: Running task 1815 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_packagedata)
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_package: Succeeded
-NOTE: Running task 1816 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata)
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_package: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Succeeded
-NOTE: Running task 1817 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_packagedata)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_packagedata: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1818 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_package: Succeeded
-NOTE: Running task 1819 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_configure: Succeeded
-NOTE: Running task 1820 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_compile)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_compile: Succeeded
-NOTE: Running task 1821 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_install)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_install: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_install: Succeeded
-NOTE: Running task 1822 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_populate_sysroot)
-NOTE: Running task 1823 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_package)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_populate_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1824 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1825 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_configure)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_configure: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_configure: Succeeded
-NOTE: Running task 1826 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_compile)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_package: Succeeded
-NOTE: Running task 1827 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_packagedata: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_compile: Succeeded
-NOTE: Running task 1828 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_install)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_install: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_install: Succeeded
-NOTE: Running task 1829 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_package)
-NOTE: Running task 1830 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_populate_sysroot)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_sysroot: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package: Succeeded
-NOTE: Running task 1831 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_packagedata)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_packagedata: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 1832 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_package_write_rpm)
-NOTE: Running task 1833 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_package_qa)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_write_rpm: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_qa: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_qa: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1834 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_build)
-NOTE: Tasks Summary: Attempted 1834 tasks of which 1708 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-src went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-dbg went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-staticdev went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-dev went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-doc went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-locale went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package python-xcbgen went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============0532210308657884316==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/gst-devtools/gst-devtools: FILELIST: removed "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2001.0 /usr/lib/libgstvalidate-1.0.so.0.2001.0", added "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2002.0 /usr/lib/libgstvalidate-1.0.so.0.2002.0"
-Changes to packages/core2-32-poky-linux/gst-devtools (sysroot):
-  /usr/lib/libgstvalidate-1.0.so.0 changed symlink target from libgstvalidate-1.0.so.0.2001.0 to libgstvalidate-1.0.so.0.2002.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0 changed symlink target from libgstvalidate-default-overrides-1.0.so.0.2001.0 to libgstvalidate-default-overrides-1.0.so.0.2002.0
-  /usr/lib/libgstvalidate-1.0.so.0.2001.0 moved to /usr/lib/libgstvalidate-1.0.so.0.2002.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2001.0 moved to /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2002.0
-
---===============0532210308657884316==
+--===============7663765136157897926==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-gst-devtools-upgrade-1.20.1-1.20.2.patch"
+ filename="0001-u-boot-tools-upgrade-2022.01-2022.04.patch"
 
-From 32d6ea365214acbb728339529da0c33a8871cb0f Mon Sep 17 00:00:00 2001
+From ed83893c71a5db6ed7967883c739064d82d4b6b8 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 May 2022 14:27:25 +0000
-Subject: [PATCH] gst-devtools: upgrade 1.20.1 -> 1.20.2
+Date: Sun, 15 May 2022 05:53:35 +0000
+Subject: [PATCH] u-boot-tools: upgrade 2022.01 -> 2022.04
 
 ---
- .../{gst-devtools_1.20.1.bb => gst-devtools_1.20.2.bb}          | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.20.1.bb => gst-devtools_1.20.2.bb} (95%)
+ meta/recipes-bsp/u-boot/u-boot-common.inc                       | 2 +-
+ .../u-boot/{u-boot-tools_2022.01.bb => u-boot-tools_2022.04.bb} | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-tools_2022.01.bb => u-boot-tools_2022.04.bb} (98%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.1.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.20.1.bb
-rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb
-index ade7cb7dc3..4819a34b26 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
-            file://0001-connect-has-a-different-signature-on-musl.patch \
-            "
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index d366f10398..8fc33608d0 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -12,7 +12,7 @@ PE = "1"
  
--SRC_URI[sha256sum] = "81f1c7ef105b8bdb63412638952f6320723b3161c96a80f113b020e2de554b2b"
-+SRC_URI[sha256sum] = "b28dba953a92532208b30467ff91076295e266f65364b1b3482b4c4372d44b2a"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "d637294e264adfeb29f390dfc393106fd4d41b17"
++SRCREV = "e4b6ebd3de982ae7185dbf689a030e73fd06e0d2"
  
- DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
- RRECOMMENDS:${PN} = "git"
+ SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
+ 
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2022.01.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2022.04.bb
+similarity index 98%
+rename from meta/recipes-bsp/u-boot/u-boot-tools_2022.01.bb
+rename to meta/recipes-bsp/u-boot/u-boot-tools_2022.04.bb
+index 7eaf721ca8..ef386f76e6 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-tools_2022.01.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-tools_2022.04.bb
+@@ -1,2 +1,3 @@
+ require u-boot-common.inc
+ require u-boot-tools.inc
++
 -- 
 2.31.1
 
 
---===============0532210308657884316==
+--===============7663765136157897926==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
 WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 884 .bb files complete (0 cached, 884 parsed). 1643 targets, 50 skipped, 0 masked, 0 errors.
-Removing 98 recipes from the core2-32 sysroot...done.
-Removing 110 recipes from the qemux86 sysroot...done.
+Parsing of 884 .bb files complete (0 cached, 884 parsed). 1642 targets, 36 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.0.0"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux-musl"
+TARGET_SYS           = "i686-poky-linux"
 MACHINE              = "qemux86"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-2554d747fd9b9fc9576ff0b59b5b59f811409e17"
+DISTRO_VERSION       = "4.1+snapshot-fea9e46d39ef43967aead86fa537bca449290253"
 TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:2554d747fd9b9fc9576ff0b59b5b59f811409e17"
+meta-yocto-bsp       = "tmp-auh-upgrades:fea9e46d39ef43967aead86fa537bca449290253"
 workspace            = "master:fea9e46d39ef43967aead86fa537bca449290253"
 
 Initialising tasks...done.
-Sstate summary: Wanted 337 Local 294 Mirrors 0 Missed 43 Current 187 (87% match, 91% complete)
-Removing 2 stale sstate objects for arch x86_64...done.
+Sstate summary: Wanted 21 Local 14 Mirrors 0 Missed 7 Current 182 (66% match, 96% complete)
 NOTE: Executing Tasks
-NOTE: Running setscene task 188 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/git/git_2.36.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 204 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 205 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 213 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_2.1.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 214 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.50.7.bb:do_populate_sysroot_setscene)
-NOTE: Running task 740 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_fetch)
-NOTE: Running task 803 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_fetch)
-NOTE: Running task 804 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_write_config)
-NOTE: Running task 805 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_fetch)
-NOTE: Running task 806 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_write_config)
-NOTE: Running task 809 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_fetch)
-NOTE: Running task 810 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_fetch)
-NOTE: Running task 812 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_fetch)
-NOTE: Running task 813 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_fetch)
-NOTE: Running task 814 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_fetch)
-NOTE: Running task 822 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_fetch)
-NOTE: Running task 827 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_fetch)
-NOTE: Running task 840 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_write_config)
-NOTE: Running task 854 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_write_config)
-NOTE: Running task 856 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_write_config)
-NOTE: recipe libjpeg-turbo-1_2.1.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libjpeg-turbo-1_2.1.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe git-2.36.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe pango-1.50.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_fetch: Started
-NOTE: recipe libogg-1.3.5-r0: task do_fetch: Started
-NOTE: recipe pango-1.50.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Started
-NOTE: recipe orc-0.4.32-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_write_config: Started
-NOTE: recipe libxv-1.0.11-r0: task do_fetch: Started
-NOTE: recipe libogg-1.3.5-r0: task do_fetch: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_fetch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_fetch: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Succeeded
-NOTE: recipe orc-0.4.32-r0: task do_fetch: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_fetch: Started
-NOTE: recipe orc-0.4.32-r0: task do_write_config: Started
-NOTE: recipe libxv-1.0.11-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_fetch: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_fetch: Succeeded
-NOTE: Running task 858 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_unpack)
-NOTE: Running task 859 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_unpack)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_write_config: Started
-NOTE: Running task 860 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_unpack)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_fetch: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_write_config: Started
-NOTE: Running task 861 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_unpack)
-NOTE: Running task 862 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_unpack)
-NOTE: Running task 863 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_unpack)
-NOTE: Running task 864 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_unpack)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_fetch: Succeeded
-NOTE: Running task 865 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_unpack)
-NOTE: Running task 866 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_unpack)
-NOTE: Running task 867 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_unpack)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_write_config: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_write_config: Succeeded
-NOTE: recipe orc-0.4.32-r0: task do_write_config: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_write_config: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe git-2.36.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 239 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/git/git_2.36.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 240 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.34.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 241 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/findutils/findutils_4.9.0.bb:do_packagedata_setscene)
-NOTE: recipe pango-1.50.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libjpeg-turbo-1_2.1.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 245 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 246 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 247 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_packagedata_setscene)
-NOTE: recipe libogg-1.3.5-r0: task do_unpack: Started
-NOTE: recipe pango-1.50.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Started
-NOTE: Running setscene task 248 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 250 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 251 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.12.bb:do_populate_sysroot_setscene)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_unpack: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Started
-NOTE: recipe orc-0.4.32-r0: task do_unpack: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Started
-NOTE: recipe libxv-1.0.11-r0: task do_unpack: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_unpack: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_unpack: Started
-NOTE: recipe git-2.36.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe perl-5.34.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe findutils-4.9.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxft-1_2.3.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-4.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxv-1.0.11-r0: task do_unpack: Succeeded
-NOTE: recipe fribidi-1.0.12-r0: task do_packagedata_setscene: Started
-NOTE: Running task 878 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_patch)
-NOTE: recipe libxft-1_2.3.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe orc-0.4.32-r0: task do_unpack: Succeeded
-NOTE: recipe harfbuzz-4.2.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libogg-1.3.5-r0: task do_unpack: Succeeded
-NOTE: recipe fribidi-1.0.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 879 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_patch)
-NOTE: Running task 880 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_patch)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_unpack: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Succeeded
-NOTE: Running task 881 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_patch)
-NOTE: recipe git-2.36.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Succeeded
-NOTE: Running task 882 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_patch)
-NOTE: Running setscene task 254 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.83.0.bb:do_packagedata_setscene)
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Succeeded
-NOTE: recipe fribidi-1.0.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 887 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_patch)
-NOTE: recipe harfbuzz-4.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_unpack: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_patch: Started
-NOTE: Running setscene task 257 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 258 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 261 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_71.1.bb:do_packagedata_setscene)
-NOTE: Running task 888 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_patch)
-NOTE: Running task 889 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_patch)
-NOTE: recipe libxft-1_2.3.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_patch: Started
-NOTE: recipe orc-0.4.32-r0: task do_patch: Started
-NOTE: recipe harfbuzz-4.2.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe fribidi-1.0.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 263 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 264 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 267 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_71.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe orc-0.4.32-r0: task do_patch: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_patch: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_patch: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_patch: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Started
-NOTE: Running task 904 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_deploy_source_date_epoch)
-NOTE: Running task 905 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_deploy_source_date_epoch)
-NOTE: recipe findutils-4.9.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe curl-7.83.0-r0: task do_packagedata_setscene: Started
-NOTE: Running task 909 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_unpack: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Started
-NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe icu-71.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Started
-NOTE: Running task 911 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_patch)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_unpack: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata_setscene: Started
-NOTE: Running task 912 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_patch)
-NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe icu-71.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Succeeded
-NOTE: Running task 913 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_patch: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Succeeded
-NOTE: Running task 914 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_deploy_source_date_epoch)
-NOTE: Running task 915 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 916 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_populate_lic)
-NOTE: recipe curl-7.83.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running setscene task 271 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.2.bb:do_packagedata_setscene)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_patch: Succeeded
-NOTE: recipe orc-0.4.32-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 921 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxv-1.0.11-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gobject-introspection-1.72.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Succeeded
-NOTE: Running task 922 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe icu-71.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_patch: Started
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 277 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 278 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 279 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 280 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 281 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_packagedata_setscene)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_patch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gobject-introspection-1.72.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_lic: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running setscene task 283 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libidn2-2.3.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 285 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 286 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 287 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 288 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe icu-71.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Started
-NOTE: recipe orc-0.4.32-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe pixman-1_0.40.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsm-1_1.2.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe fontconfig-2.14.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.72.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe mesa-2_22.0.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe fontconfig-2.14.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libsm-1_1.2.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pixman-1_0.40.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-1_2.72.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_lic: Succeeded
-NOTE: recipe mesa-2_22.0.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_populate_lic unihash changed to fd8a58d586bb762e8602f6ce3caea443fe8f2b6f05fb1a12515862d04b96e95b
-NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_patch: Succeeded
-NOTE: Running task 936 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libidn2-2.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 292 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_packagedata_setscene)
-NOTE: recipe pixman-1_0.40.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 295 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_packagedata_setscene)
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe fontconfig-2.14.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 298 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.12.1.bb:do_packagedata_setscene)
-NOTE: recipe fontconfig-2.14.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 300 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.12.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_patch: Succeeded
-NOTE: recipe libsm-1_1.2.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 301 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_populate_sysroot_setscene)
-NOTE: Running task 949 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe pixman-1_0.40.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.72.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe mesa-2_22.0.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe mesa-2_22.0.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 305 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.110.bb:do_packagedata_setscene)
-NOTE: Running setscene task 306 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.110.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 308 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 309 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 310 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 311 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 312 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 313 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 314 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 315 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 316 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 317 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libunistring-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libice-1_1.0.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe freetype-2.12.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe freetype-2.12.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libice-1_1.0.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libdrm-2.4.110-r0: task do_packagedata_setscene: Started
-NOTE: recipe libdrm-2.4.110-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe wayland-1.20.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe wayland-1.20.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xrandr-1_1.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdamage-1_1.1.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe xrandr-1_1.5.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdamage-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxshmfence-1.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libunistring-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe freetype-2.12.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxshmfence-1.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 321 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_packagedata_setscene)
-NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libice-1_1.0.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe freetype-2.12.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libice-1_1.0.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 324 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_populate_sysroot_setscene)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe wayland-1.20.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xrandr-1_1.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 327 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.4.8.bb:do_packagedata_setscene)
-NOTE: recipe libxdamage-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 328 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 330 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.2.bb:do_packagedata_setscene)
-NOTE: recipe libxshmfence-1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 332 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_packagedata_setscene)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libdrm-2.4.110-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libdrm-2.4.110-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe wayland-1.20.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 334 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.4.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 335 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.14.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 339 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb:do_packagedata_setscene)
-NOTE: Running setscene task 340 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb:do_populate_sysroot_setscene)
-NOTE: recipe xrandr-1_1.5.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxdamage-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.72.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpng-1.6.37-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxshmfence-1.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 343 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 345 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 348 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.bb:do_packagedata_setscene)
-NOTE: Running setscene task 349 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 352 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_packagedata_setscene)
-NOTE: Running setscene task 353 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.4.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrandr-1_1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxfixes-1_6.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxml2-2.9.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.4.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpciaccess-0.16-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpciaccess-0.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxml2-2.9.14-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpng-1.6.37-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpcre-8.45-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre-8.45-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.38-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.38-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxrandr-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxfixes-1_6.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe expat-2.4.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpciaccess-0.16-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 359 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 360 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.10.bb:do_packagedata_setscene)
-NOTE: recipe libpciaccess-0.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxml2-2.9.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe expat-2.4.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 365 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.4.bb:do_packagedata_setscene)
-NOTE: recipe libxml2-2.9.14-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpcre-8.45-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 368 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 370 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 372 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.10.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-2.38-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpcre-8.45-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrender-1_0.9.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrender-1_0.9.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxext-1_1.3.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-3.10.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.10.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxext-1_1.3.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 376 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.bb:do_packagedata_setscene)
-NOTE: recipe libxext-1_1.3.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 377 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe libx11-1_1.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libx11-1_1.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libx11-1_1.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 381 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 382 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_packagedata_setscene)
-NOTE: recipe python3-3.10.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 384 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 385 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 386 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 387 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 388 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 389 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 390 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.3.bb:do_packagedata_setscene)
-NOTE: recipe python3-3.10.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 391 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 392 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 394 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 395 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 396 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 397 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 398 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-2.38-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 400 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.bb:do_packagedata_setscene)
-NOTE: Running setscene task 401 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 403 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 404 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 405 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 406 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 407 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 408 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libx11-1_1.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxcb-1.14-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 410 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 411 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe readline-8.1.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.0.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.2.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.38.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe readline-8.1.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.0.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.2.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.38.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.38-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxcb-1.14-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe readline-8.1.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 414 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3.bb:do_packagedata_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.4.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 416 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb:do_packagedata_setscene)
-NOTE: recipe sqlite3-3_3.38.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.38-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xz-5.2.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe readline-8.1.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 421 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe openssl-3.0.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxcb-1.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 427 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_packagedata_setscene)
-NOTE: recipe util-linux-libuuid-2.38-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 428 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 429 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 430 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 433 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xz-5.2.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.38.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe openssl-3.0.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxcb-1.14-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.3-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 443 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 444 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 446 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 447 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe ncurses-6.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtirpc-1.3.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtirpc-1.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ncurses-6.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 453 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 454 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_packagedata_setscene)
-NOTE: recipe ncurses-6.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/xcb-proto/1.14.1-r0/temp/log.do_packagedata_setscene.3397759
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 456 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_package_setscene)
-NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-macros-1_1.19.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe xorgproto-2022.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-macros-1_1.19.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xorgproto-2022.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 460 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 461 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 462 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 463 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 468 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 470 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe perl-5.34.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 472 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 473 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 475 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
-NOTE: Running setscene task 476 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
-NOTE: recipe cracklib-2.9.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cracklib-2.9.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-macros-1_1.19.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xorgproto-2022.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cracklib-2.9.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-macros-1_1.19.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xorgproto-2022.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cracklib-2.9.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 486 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_packagedata_setscene)
-NOTE: Running setscene task 487 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_populate_sysroot_setscene)
-NOTE: recipe zlib-1.2.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.2.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.2.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zlib-1.2.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xcb-proto-1.14.1-r0: task do_package_setscene: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 491 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 492 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-12.1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 494 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-runtime-12.1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 497 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.1.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-12.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-12.1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-12.1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 499 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-12.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 501 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-1.2.3+gitAUTOINC+6e9d2370c7-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-12.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.3+gitAUTOINC+6e9d2370c7-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 503 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 504 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 505 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-12.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 506 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-5.16-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.3+gitAUTOINC+6e9d2370c7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-5.16-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.3+gitAUTOINC+6e9d2370c7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 511 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 512 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 518 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-i686-12.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-i686-12.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 521 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 522 of 524 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.38.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-i686-2.38-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-i686-2.38-r0: task do_populate_sysroot_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1584 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata)
-NOTE: Running task 1589 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1632 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1655 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1679 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1680 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1681 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe orc-0.4.32-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxv-1.0.11-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1750 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_configure)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1773 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_configure)
-NOTE: recipe libxv-1.0.11-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1774 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_configure)
-NOTE: recipe libogg-1.3.5-r0: task do_configure: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_configure: Started
-NOTE: recipe orc-0.4.32-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1775 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_configure)
-NOTE: recipe libxv-1.0.11-r0: task do_configure: Started
-NOTE: recipe orc-0.4.32-r0: task do_configure: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1776 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_configure)
-NOTE: Running task 1777 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Started
-NOTE: recipe orc-0.4.32-r0: task do_configure: Succeeded
-NOTE: Running task 1778 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_compile)
-NOTE: recipe orc-0.4.32-r0: task do_compile: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Succeeded
-NOTE: Running task 1779 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1780 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Started
-NOTE: recipe orc-0.4.32-r0: task do_compile: Succeeded
-NOTE: Running task 1781 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_install)
-NOTE: recipe orc-0.4.32-r0: task do_install: Started
-NOTE: recipe orc-0.4.32-r0: task do_install: Succeeded
-NOTE: Running task 1782 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_populate_sysroot)
-NOTE: Running task 1783 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_package)
-NOTE: recipe orc-0.4.32-r0: task do_populate_sysroot: Started
-NOTE: recipe orc-0.4.32-r0: task do_package: Started
-NOTE: recipe orc-0.4.32-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure: Succeeded
-NOTE: Running task 1784 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_configure_ptest_base)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1785 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_compile)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile: Started
-NOTE: recipe orc-0.4.32-r0: task do_package: Succeeded
-NOTE: Running task 1786 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_packagedata)
-NOTE: recipe orc-0.4.32-r0: task do_packagedata: Started
-NOTE: recipe orc-0.4.32-r0: task do_packagedata: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Succeeded
-NOTE: Running task 1787 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1788 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install)
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Succeeded
-NOTE: Running task 1789 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install_ptest_base)
-NOTE: recipe libogg-1.3.5-r0: task do_configure: Succeeded
-NOTE: Running task 1790 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_compile)
-NOTE: recipe libogg-1.3.5-r0: task do_compile: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1791 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_populate_sysroot)
-NOTE: Running task 1792 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_package)
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_configure: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1793 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_compile)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_compile: Started
-NOTE: recipe libogg-1.3.5-r0: task do_compile: Succeeded
-NOTE: Running task 1794 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_install)
-NOTE: recipe libogg-1.3.5-r0: task do_install: Started
-NOTE: recipe libxv-1.0.11-r0: task do_configure: Succeeded
-NOTE: Running task 1795 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_compile)
-NOTE: recipe libxv-1.0.11-r0: task do_compile: Started
-NOTE: recipe libogg-1.3.5-r0: task do_install: Succeeded
-NOTE: Running task 1796 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot)
-NOTE: Running task 1797 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_package)
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Started
-NOTE: recipe libogg-1.3.5-r0: task do_package: Started
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_compile: Succeeded
-NOTE: Running task 1798 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1799 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1800 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_install)
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxv-1.0.11-r0: task do_install: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1801 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_configure)
-NOTE: Running task 1802 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_configure)
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Started
-NOTE: recipe libxv-1.0.11-r0: task do_install: Succeeded
-NOTE: Running task 1803 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_populate_sysroot)
-NOTE: Running task 1804 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_package)
-NOTE: recipe libxv-1.0.11-r0: task do_populate_sysroot: Started
-NOTE: recipe libxv-1.0.11-r0: task do_package: Started
-NOTE: recipe libxv-1.0.11-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_package: Succeeded
-NOTE: Running task 1805 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_packagedata)
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Started
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Succeeded
-NOTE: Running task 1806 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata)
-NOTE: recipe libxv-1.0.11-r0: task do_package: Succeeded
-NOTE: Running task 1807 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_packagedata)
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Started
-NOTE: recipe libxv-1.0.11-r0: task do_packagedata: Started
-NOTE: recipe libxv-1.0.11-r0: task do_packagedata: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Succeeded
-NOTE: Running task 1808 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_compile)
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile: Succeeded
-NOTE: Running task 1809 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_compile_ptest_base)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1810 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_install)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Succeeded
-NOTE: Running task 1811 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_compile)
-NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Succeeded
-NOTE: Running task 1812 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_install)
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install: Succeeded
-NOTE: Running task 1813 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_install_ptest_base)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Succeeded
-NOTE: Running task 1814 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_populate_sysroot)
-NOTE: Running task 1815 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_populate_sysroot)
-NOTE: Running task 1816 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_package)
-NOTE: Running task 1817 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_package)
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_package: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_compile: Succeeded
-NOTE: Running task 1818 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_install)
-NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Succeeded
-NOTE: Running task 1819 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_install)
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_install: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_install: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_install: Succeeded
-NOTE: Running task 1820 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot)
-NOTE: Running task 1821 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_package)
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_package: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_install: Succeeded
-NOTE: Running task 1822 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_populate_sysroot)
-NOTE: Running task 1823 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_package)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_populate_sysroot: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_package: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Succeeded
-NOTE: Running task 1824 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_packagedata)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1825 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1826 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_configure: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_package: Succeeded
-NOTE: Running task 1827 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata)
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_package: Succeeded
-NOTE: Running task 1828 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_packagedata)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_packagedata: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_package: Succeeded
-NOTE: Running task 1829 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_configure: Succeeded
-NOTE: Running task 1830 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_compile)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_compile: Succeeded
-NOTE: Running task 1831 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_install)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_install: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_install: Succeeded
-NOTE: Running task 1832 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_populate_sysroot)
-NOTE: Running task 1833 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_package)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_populate_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1834 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1835 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_configure)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_configure: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_configure: Succeeded
-NOTE: Running task 1836 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_compile)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_package: Succeeded
-NOTE: Running task 1837 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_packagedata: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_compile: Succeeded
-NOTE: Running task 1838 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_install)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_install: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_install: Succeeded
-NOTE: Running task 1839 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_package)
-NOTE: Running task 1840 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_populate_sysroot)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_sysroot: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package: Succeeded
-NOTE: Running task 1841 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_packagedata)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_packagedata: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 1842 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_package_write_rpm)
-NOTE: Running task 1843 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_package_qa)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_write_rpm: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_qa: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_qa: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1844 of 1844 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_build)
-NOTE: Tasks Summary: Attempted 1844 tasks of which 1718 didn't need to be rerun and all succeeded.
+NOTE: Running task 744 of 838 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2022.04.bb:do_fetch)
+NOTE: recipe u-boot-tools-1_2022.04-r0: task do_fetch: Started
+NOTE: recipe u-boot-tools-1_2022.04-r0: task do_fetch: Succeeded
+NOTE: Running task 825 of 838 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2022.04.bb:do_unpack)
+NOTE: Running task 826 of 838 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2022.04.bb:do_prepare_recipe_sysroot)
+NOTE: recipe u-boot-tools-1_2022.04-r0: task do_unpack: Started
+NOTE: recipe u-boot-tools-1_2022.04-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe u-boot-tools-1_2022.04-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe u-boot-tools-1_2022.04-r0: task do_unpack: Succeeded
+NOTE: Running task 827 of 838 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2022.04.bb:do_patch)
+NOTE: recipe u-boot-tools-1_2022.04-r0: task do_patch: Started
+NOTE: recipe u-boot-tools-1_2022.04-r0: task do_patch: Succeeded
+NOTE: Running task 828 of 838 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2022.04.bb:do_deploy_source_date_epoch)
+NOTE: Running task 829 of 838 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2022.04.bb:do_populate_lic)
+NOTE: recipe u-boot-tools-1_2022.04-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe u-boot-tools-1_2022.04-r0: task do_populate_lic: Started
+NOTE: recipe u-boot-tools-1_2022.04-r0: task do_populate_lic: Succeeded
+NOTE: recipe u-boot-tools-1_2022.04-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 830 of 838 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2022.04.bb:do_configure)
+NOTE: recipe u-boot-tools-1_2022.04-r0: task do_configure: Started
+NOTE: recipe u-boot-tools-1_2022.04-r0: task do_configure: Succeeded
+NOTE: Running task 831 of 838 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2022.04.bb:do_compile)
+NOTE: recipe u-boot-tools-1_2022.04-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: make -j 56 CROSS_COMPILE=i686-poky-linux- CC=i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/bu
+ ild/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now HOSTCC=gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/includ
+ e -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-t
+ ools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 STRIP=true V=1 -C /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git sandbox_defconfig O=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/build
+| make: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git'
+| make -C /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/build KBUILD_SRC=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git \
+| -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/Makefile sandbox_defconfig
+| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/build'
+| make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/Makefile.build obj=scripts/basic
+| ln -fsn /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git source
+| /bin/sh /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/mkmakefile /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git
+|   GEN     Makefile
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/basic/.fixdep.d -Iscripts/basic -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -o scripts/basic/fixdep /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/basic/fixdep.c
+| rm -f .tmp_quiet_recordmcount
+| make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/Makefile.build obj=scripts/kconfig sandbox_defconfig
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/kconfig/.conf.o.d -Iscripts/kconfig -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -c -o scripts/kconfig/conf.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/kconfig/conf.c
+|   bison -oscripts/kconfig/zconf.tab.c -t -l /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/kconfig/zconf.y
+|   flex -oscripts/kconfig/zconf.lex.c -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/kconfig/zconf.l
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/kconfig/.zconf.tab.o.d -Iscripts/kconfig -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/kconfig -c -o scripts/kconfig/zconf.tab.o scripts/kconfig/zconf.tab.c
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2   -o scripts/kconfig/conf scripts/kconfig/conf.o scripts/kconfig/zconf.tab.o
+| scripts/kconfig/conf  --defconfig=arch/../configs/sandbox_defconfig Kconfig
+| #
+| # configuration written to .config
+| #
+| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/build'
+| make: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git'
+| NOTE: make -j 56 CROSS_COMPILE=i686-poky-linux- CC=i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/bu
+ ild/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now HOSTCC=gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/includ
+ e -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-t
+ ools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 STRIP=true V=1 -C /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git cross_tools NO_SDL=1 O=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/build
+| make: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git'
+| make -C /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/build KBUILD_SRC=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git \
+| -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/Makefile cross_tools
+| make[1]: Entering directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/build'
+| make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/Makefile syncconfig
+| make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/Makefile.build obj=scripts/basic
+| ln -fsn /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git source
+| /bin/sh /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/mkmakefile /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git
+| rm -f .tmp_quiet_recordmcount
+|   GEN     Makefile
+| make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/Makefile.build obj=scripts/kconfig syncconfig
+| scripts/kconfig/conf  --syncconfig Kconfig
+| make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/Makefile.autoconf || \
+| 	{ rm -f include/config/auto.conf; false; }
+| set -e; mkdir -p include/; 	(echo "/* Automatically generated - do not edit */"; for i in $(echo "" | sed 's/,/ /g'); do echo \#define CONFIG_$i | sed '/=/ {s/=/	/;q; } ; { s/$/	1/; }'; done; echo \#define CONFIG_BOARDDIR board/sandbox; echo \#include \<config_uncmd_spl.h\>; echo \#include \<configs/"sandbox".h\>; echo \#include \<asm/config.h\>; echo \#include \<linux/kconfig.h\>; echo \#include \<config_fallbacks.h\>;) < /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/Makefile.autoconf > include/config.h.tmp; if [ -r include/config.h ] && cmp -s include/config.h include/config.h.tmp; then rm -f include/config.h.tmp; else : '  UPD     include/config.h'; mv -f include/config.h.tmp include/config.h; fi
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -E -Wall -Wstrict-prototypes -Wno-format-security -fno-builtin -ffreestanding -std=gnu11 -fshort-wchar -fno-strict-aliasing -fno-PIE -O2 -fno-stack-protector -fno-delete-null-pointer-checks -Wno-pointer-sign
+  -Wno-stringop-truncation -Wno-zero-length-bounds -Wno-array-bounds -Wno-stringop-overflow -Wno-maybe-uninitialized -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/= -g -fstack-usage -Wno-format-nonliteral -Wno-address-of-packed-member -Wno-unused-but-set-variable -Werror=date-time -Wno-packed-not-aligned -D__KERNEL__ -D__UBOOT__ -D__SANDBOX__ -U_FORTIFY_SOURCE -fPIC -DSANDBOX_NO_SDL -pipe -Iinclude  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include -include /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/linux/kconfig.h -nostdinc -isystem /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_20
+ 22.04-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../lib/i686-poky-linux/gcc/i686-poky-linux/12.1.0/include  -DDO_DEPS_ONLY -dM /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/common.h > u-boot.cfg.tmp && { grep 'define CONFIG_' u-boot.cfg.tmp | sed '/define CONFIG_IS_ENABLED(/d;/define CONFIG_IF_ENABLED_INT(/d;/define CONFIG_VAL(/d;' > u-boot.cfg; rm u-boot.cfg.tmp; } || { rm u-boot.cfg.tmp; false; }
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -x c -DDO_DEPS_ONLY -M -MP -Wall -Wstrict-prototypes -Wno-format-security -fno-builtin -ffreestanding -std=gnu11 -fshort-wchar -fno-strict-aliasing -fno-PIE -O2 -fno-stack-protector -fno-delete-null-pointer-
+ checks -Wno-pointer-sign -Wno-stringop-truncation -Wno-zero-length-bounds -Wno-array-bounds -Wno-stringop-overflow -Wno-maybe-uninitialized -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/= -g -fstack-usage -Wno-format-nonliteral -Wno-address-of-packed-member -Wno-unused-but-set-variable -Werror=date-time -Wno-packed-not-aligned -D__KERNEL__ -D__UBOOT__ -D__SANDBOX__ -U_FORTIFY_SOURCE -fPIC -DSANDBOX_NO_SDL -pipe -Iinclude  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include -include /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/linux/kconfig.h -nostdinc -isystem /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky
+ -linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../lib/i686-poky-linux/gcc/i686-poky-linux/12.1.0/include -MQ include/config/auto.conf /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/common.h > include/autoconf.mk.dep || { rm include/autoconf.mk.dep; false; }
+|   sed -n -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/scripts/define2mk.sed u-boot.cfg | while read line; do if [ -n "" ] || ! grep -q "${line%=*}=" include/config/auto.conf; then echo "$line"; fi; done > include/autoconf.mk
+| touch include/config/auto.conf
+| set -e; mkdir -p include/config/; 	echo "2022.04$(/bin/sh /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/setlocalversion /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git)" < include/config/auto.conf > include/config/uboot.release.tmp; if [ -r include/config/uboot.release ] && cmp -s include/config/uboot.release include/config/uboot.release.tmp; then rm -f include/config/uboot.release.tmp; else : '  UPD     include/config/uboot.release'; mv -f include/config/uboot.release.tmp include/config/uboot.release; fi
+| ln -fsn /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git source
+| set -e; mkdir -p include/generated/; 	(if test -n "${SOURCE_DATE_EPOCH}"; then SOURCE_DATE="@${SOURCE_DATE_EPOCH}"; DATE=""; for date in gdate date.gnu date; do ${date} -u -d "${SOURCE_DATE}" >/dev/null 2>&1 && DATE="${date}"; done; if test -n "${DATE}"; then LC_ALL=C ${DATE} -u -d "${SOURCE_DATE}" +'#define U_BOOT_DATE "%b %d %C%y"'; LC_ALL=C ${DATE} -u -d "${SOURCE_DATE}" +'#define U_BOOT_TIME "%T"'; LC_ALL=C ${DATE} -u -d "${SOURCE_DATE}" +'#define U_BOOT_TZ "%z"'; LC_ALL=C ${DATE} -u -d "${SOURCE_DATE}" +'#define U_BOOT_EPOCH %s'; else return 42; fi; else LC_ALL=C date +'#define U_BOOT_DATE "%b %d %C%y"'; LC_ALL=C date +'#define U_BOOT_TIME "%T"'; LC_ALL=C date +'#define U_BOOT_TZ "%z"'; LC_ALL=C date +'#define U_BOOT_EPOCH %s'; fi) < /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/Makefile > include/generated/timestamp_autogenerated.h.tmp; if [ -r include/generated/timestamp_autogenerated.h ] && cmp -s include/gener
+ ated/timestamp_autogenerated.h include/generated/timestamp_autogenerated.h.tmp; then rm -f include/generated/timestamp_autogenerated.h.tmp; else : '  UPD     include/generated/timestamp_autogenerated.h'; mv -f include/generated/timestamp_autogenerated.h.tmp include/generated/timestamp_autogenerated.h; fi
+| /bin/sh /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/mkmakefile /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git
+| set -e; mkdir -p include/generated/; 	(if test -n "${DEVICE_TREE}"; then echo \#define DEVICE_TREE \"\"; else echo \#define DEVICE_TREE CONFIG_DEFAULT_DEVICE_TREE; fi) < /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/Makefile > include/generated/dt.h.tmp; if [ -r include/generated/dt.h ] && cmp -s include/generated/dt.h include/generated/dt.h.tmp; then rm -f include/generated/dt.h.tmp; else : '  UPD     include/generated/dt.h'; mv -f include/generated/dt.h.tmp include/generated/dt.h; fi
+|   GEN     Makefile
+| make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/Makefile.build obj=scripts/basic
+|   if [ -f "/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/board/sandbox/sandbox.env" ]; then cat /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/board/sandbox/sandbox.env > include/generated/env.txt; elif [ -n "" ]; then echo "Missing file /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/board/sandbox/.env"; else touch include/generated/env.txt ; fi
+| rm -f .tmp_quiet_recordmcount
+|   if [ -s "/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/board/sandbox/sandbox.env" ]; then i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_202
+ 2.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -E -P  -O2 -pipe -g -feliminate-unused-debug-types -f
+ macro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -x assembler-with-cpp -D__ASSEMBLY__ -D__UBOOT_CONFIG__ -I . -I include -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -include linux/kconfig.h -include include/config.h -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32
+ -poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include include/generated/env.txt -o include/generated/env.in; else rm -f include/generated/env.in; touch include/generated/env.in ; fi
+| which: no dtc in (./scripts/dtc)
+| if test "./scripts/dtc/dtc" = "./scripts/dtc/dtc"; then \
+| 	make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/Makefile.build obj=scripts/dtc; \
+| else \
+| 	if ! ./scripts/dtc/dtc -v >/dev/null; then \
+| 		echo '*** Failed to check dtc version: ./scripts/dtc/dtc'; \
+| 		false; \
+| 	else \
+| 		if test "Error: Cannot find dtc: ./scripts/dtc/dtc" -lt 010406; then \
+| 			echo '*** Your dtc is too old, please upgrade to dtc 010406 or newer'; \
+| 			false; \
+| 		else \
+| 			if [ -n "" ]; then \
+| 				if ! echo "import libfdt" | python3 2>/dev/null; then \
+| 					echo '*** pylibfdt does not seem to be available with python3'; \
+| 					false; \
+| 				fi; \
+| 			fi; \
+| 		fi; \
+| 	fi; \
+| fi
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.dtc.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt -c -o scripts/dtc/dtc.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/dtc.c
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.flattree.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt -c -o scripts/dtc/flattree.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/flattree.c
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.fstree.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt -c -o scripts/dtc/fstree.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/fstree.c
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.data.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt -c -o scripts/dtc/data.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/data.c
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.livetree.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt -c -o scripts/dtc/livetree.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/livetree.c
+|   awk -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/env2string.awk include/generated/env.in >include/generated/environment.h
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.treesource.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt -c -o scripts/dtc/treesource.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/treesource.c
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.srcpos.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt -c -o scripts/dtc/srcpos.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/srcpos.c
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.checks.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt -c -o scripts/dtc/checks.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/checks.c
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.util.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt -c -o scripts/dtc/util.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/util.c
+|   flex -oscripts/dtc/dtc-lexer.lex.c -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/dtc-lexer.l
+|   bison -o/dev/null --defines=scripts/dtc/dtc-parser.tab.h -t -l /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/dtc-parser.y
+|   bison -oscripts/dtc/dtc-parser.tab.c -t -l /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/dtc-parser.y
+| if [ -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/.config -o -d /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/config ]; then \
+| 	echo >&2 "  /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git is not clean, please run 'make mrproper'"; \
+| 	echo >&2 "  in the '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git' directory.";\
+| 	/bin/false; \
+| fi;
+| set -e; mkdir -p include/generated/; 	(echo \#define PLAIN_VERSION \"2022.04\"; echo \#define U_BOOT_VERSION \"U-Boot \" PLAIN_VERSION; echo \#define U_BOOT_VERSION_NUM 2022; echo \#define U_BOOT_VERSION_NUM_PATCH $(echo 04 | sed -e "s/^0*//"); echo \#define CC_VERSION_STRING \"$(LC_ALL=C i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0     
+                  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-
+ poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now --version | head -n 1)\"; echo \#define LD_VERSION_STRING \"$(LC_ALL=C i686-poky-linux-ld.bfd --version | head -n 1)\"; ) < include/config/uboot.release > include/generated/version_autogenerated.h.tmp; if [ -r include/generated/version_autogenerated.h ] && cmp -s include/generated/version_autogenerated.h include/generated/version_autogenerated.h.tmp; then rm -f include/generated/version_autogenerated.h.tmp; else : '  UPD     include/generated/version_autogenerated.h'; mv -f include/generated/version_autogenerated.h.tmp include/generated/version_autogenerated.h; fi
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.dtc-parser.tab.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc -c -o scripts/dtc/dtc-parser.tab.o scripts/dtc/dtc-parser.tab.c
+| make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/Makefile.build obj=.
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/dtc/.dtc-lexer.lex.o.d -Iscripts/dtc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc -c -o scripts/dtc/dtc-lexer.lex.o scripts/dtc/dtc-lexer.lex.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,lib/.asm-offsets.s.d -nostdinc -isystem /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../l
+ ib/i686-poky-linux/gcc/i686-poky-linux/12.1.0/include -Iinclude  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include -include /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/linux/kconfig.h  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/. -I. -D__KERNEL__ -D__UBOOT__ -Wall -Wstrict-prototypes -Wno-format-security -fno-builtin -ffreestanding -std=gnu11 -fshort-wchar -fno-strict-aliasing -fno-PIE -Os -fstack-protector-strong -fno-delete-null-pointer-checks -Wno-pointer-sign -Wno-stringop-truncation -Wno-zero-length-bounds -Wno-array-bounds -Wno-stringop-overflow -Wno-maybe-uninitialized -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/bui
+ ld/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/= -g -fstack-usage -Wno-format-nonliteral -Wno-address-of-packed-member -Wno-unused-but-set-variable -Werror=date-time -Wno-packed-not-aligned -D__SANDBOX__ -U_FORTIFY_SOURCE -fPIC -DSANDBOX_NO_SDL -pipe -DDO_DEPS_ONLY    -DKBUILD_BASENAME='"asm_offsets"'  -DKBUILD_MODNAME='"asm_offsets"'  -fverbose-asm -S -o lib/asm-offsets.s /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/lib/asm-offsets.c
+| set -e; mkdir -p include/generated/; 	(set -e; echo "#ifndef __GENERIC_ASM_OFFSETS_H__"; echo "#define __GENERIC_ASM_OFFSETS_H__"; echo "/*"; echo " * DO NOT MODIFY."; echo " *"; echo " * This file was generated by Kbuild"; echo " */"; echo ""; sed -ne 	"s:[[:space:]]*\.ascii[[:space:]]*\"\(.*\)\":\1:; /^->/{s:->#\(.*\):/* \1 */:; s:^->\([^ ]*\) [\$#]*\([-0-9]*\) \(.*\):#define \1 \2 /* \3 */:; s:^->\([^ ]*\) [\$#]*\([^ ]*\) \(.*\):#define \1 \2 /* \3 */:; s:->::; p;}"; echo ""; echo "#endif" ) < lib/asm-offsets.s > include/generated/generic-asm-offsets.h.tmp; if [ -r include/generated/generic-asm-offsets.h ] && cmp -s include/generated/generic-asm-offsets.h include/generated/generic-asm-offsets.h.tmp; then rm -f include/generated/generic-asm-offsets.h.tmp; else : '  UPD     include/generated/generic-asm-offsets.h'; mv -f include/generated/generic-asm-offsets.h.tmp include/generated/generic-asm-offsets.h; fi
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2   -o scripts/dtc/dtc scripts/dtc/dtc.o scripts/dtc/flattree.o scripts/dtc/fstree.o scripts/dtc/data.o scripts/dtc/livetree.o scripts/dtc/treesource.o scripts/dtc/srcpos.o scripts/dtc/checks.o scripts/dtc/util.o scripts/dtc/dtc-lexer.lex.o scripts/dtc/dtc-parser.tab.o
+| make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/Makefile.build obj=scripts
+|   gcc  -isystem/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/include -O2 -pipe -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -L/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0
+ /recipe-sysroot-native/usr/lib                         -Wl,-rpath,/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -Wp,-MD,scripts/.bin2c.d -Iscripts -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -o scripts/bin2c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/bin2c.c
+| make -f /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/Makefile.build obj=tools
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.bmp_logo.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuild/
+ yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -pedantic -o tools/bmp_logo /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/bmp_logo.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.gen_eth_addr.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybu
+ ild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -pedantic -o tools/gen_eth_addr /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/gen_eth_addr.c
+|   echo "#include <../lib/crc8.c>" >tools/lib/crc8.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.gen_ethaddr_crc.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/p
+ okybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -pedantic -c -o tools/gen_ethaddr_crc.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/gen_ethaddr_crc.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.img2srec.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuild/
+ yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -pedantic -o tools/img2srec /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/img2srec.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.mkenvimage.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybu
+ ild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/mkenvimage.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/mkenvimage.c
+|   echo "#include <../lib/crc32.c>" >tools/lib/crc32.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.os_support.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybu
+ ild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/os_support.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/os_support.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.aisimage.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuil
+ d/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/aisimage.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/aisimage.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.atmelimage.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybu
+ ild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/atmelimage.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/atmelimage.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.fit_common.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybu
+ ild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/fit_common.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/fit_common.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.fit_image.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybui
+ ld/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -DMKIMAGE_DTC=\""dtc"\" -c -o tools/fit_image.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/fit_image.c
+|   echo "#include <../boot/image-fit.c>" >tools/boot/image-fit.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.image-host.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybu
+ ild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/image-host.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/image-host.c
+|   echo "#include <../boot/image-fit-sig.c>" >tools/boot/image-fit-sig.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.image-sig-host.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/po
+ kybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/image-sig-host.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/image-sig-host.c
+|   echo "#include <../boot/image-cipher.c>" >tools/boot/image-cipher.c
+|   echo "#include <../boot/fdt_region.c>" >tools/boot/fdt_region.c
+|   echo "#include <../boot/bootm.c>" >tools/boot/bootm.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/lib/.crc32.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybui
+ ld/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -pedantic -c -o tools/lib/crc32.o tools/lib/crc32.c
+|   echo "#include <../lib/fdtdec_common.c>" >tools/lib/fdtdec_common.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.default_image.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pok
+ ybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/default_image.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/default_image.c
+|   echo "#include <../lib/fdtdec.c>" >tools/lib/fdtdec.c
+|   echo "#include <../boot/image.c>" >tools/boot/image.c
+|   echo "#include <../boot/image-host.c>" >tools/boot/image-host.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.imagetool.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybui
+ ld/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/imagetool.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/imagetool.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.imximage.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuil
+ d/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/imximage.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/imximage.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.imx8image.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybui
+ ld/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/imx8image.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/imx8image.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.imx8mimage.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybu
+ ild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/imx8mimage.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/imx8mimage.c
+|   echo "#include <../lib/md5.c>" >tools/lib/md5.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.kwbimage.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuil
+ d/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/kwbimage.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/kwbimage.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.lpc32xximage.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/poky
+ build/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/lpc32xximage.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/lpc32xximage.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.mxsimage.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuil
+ d/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -DCONFIG_MXS -c -o tools/mxsimage.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/mxsimage.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.omapimage.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybui
+ ld/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/omapimage.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/omapimage.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.pblimage.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuil
+ d/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/pblimage.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/pblimage.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.pbl_crc32.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybui
+ ld/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/pbl_crc32.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/pbl_crc32.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.vybridimage.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokyb
+ uild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/vybridimage.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/vybridimage.c
+|   echo "#include <../lib/rc4.c>" >tools/lib/rc4.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.stm32image.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybu
+ ild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/stm32image.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/stm32image.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.rkcommon.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuil
+ d/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/rkcommon.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/rkcommon.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.rkimage.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/rkimage.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/rkimage.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.rksd.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuild/yo
+ cto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/rksd.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/rksd.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.rkspi.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuild/y
+ octo-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/rkspi.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/rkspi.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.socfpgaimage.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/poky
+ build/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/socfpgaimage.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/socfpgaimage.c
+|   echo "#include <../lib/crc16.c>" >tools/lib/crc16.c
+|   echo "#include <../lib/hash-checksum.c>" >tools/lib/hash-checksum.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.sunxi_egon.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybu
+ ild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/sunxi_egon.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/sunxi_egon.c
+|   echo "#include <../lib/sha1.c>" >tools/lib/sha1.c
+|   echo "#include <../lib/sha256.c>" >tools/lib/sha256.c
+|   echo "#include <../lib/sha512.c>" >tools/lib/sha512.c
+|   echo "#include <../common/hash.c>" >tools/common/hash.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.ublimage.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuil
+ d/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/ublimage.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/ublimage.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.zynqimage.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybui
+ ld/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/zynqimage.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/zynqimage.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.zynqmpimage.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokyb
+ uild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/zynqmpimage.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/zynqmpimage.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.zynqmpbif.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybui
+ ld/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/zynqmpbif.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/zynqmpbif.c
+|   echo "#include <../lib/fdt-libcrypto.c>" >tools/lib/fdt-libcrypto.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/libfdt/.fdt.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybu
+ ild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/libfdt/fdt.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/libfdt/fdt.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/libfdt/.fdt_ro.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pok
+ ybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/libfdt/fdt_ro.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/libfdt/fdt_ro.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/libfdt/.fdt_wip.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/po
+ kybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/libfdt/fdt_wip.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/libfdt/fdt_wip.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/libfdt/.fdt_sw.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pok
+ ybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/libfdt/fdt_sw.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/libfdt/fdt_sw.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/libfdt/.fdt_rw.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pok
+ ybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/libfdt/fdt_rw.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/libfdt/fdt_rw.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/libfdt/.fdt_strerror.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /ho
+ me/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/libfdt/fdt_strerror.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/libfdt/fdt_strerror.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/libfdt/.fdt_empty_tree.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /
+ home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/libfdt/fdt_empty_tree.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/libfdt/fdt_empty_tree.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/libfdt/.fdt_addresses.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /h
+ ome/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/libfdt/fdt_addresses.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/libfdt/fdt_addresses.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/libfdt/.fdt_overlay.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /hom
+ e/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/libfdt/fdt_overlay.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/libfdt/fdt_overlay.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.gpimage.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/gpimage.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/gpimage.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.gpimage-common.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/po
+ kybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/gpimage-common.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/gpimage-common.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.mtk_image.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybui
+ ld/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/mtk_image.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/mtk_image.c
+|   echo "#include <../lib/ecdsa/ecdsa-libcrypto.c>" >tools/lib/ecdsa/ecdsa-libcrypto.c
+|   echo "#include <../lib/rsa/rsa-sign.c>" >tools/lib/rsa/rsa-sign.c
+|   echo "#include <../lib/rsa/rsa-verify.c>" >tools/lib/rsa/rsa-verify.c
+|   echo "#include <../lib/rsa/rsa-mod-exp.c>" >tools/lib/rsa/rsa-mod-exp.c
+|   echo "#include <../lib/aes/aes-encrypt.c>" >tools/lib/aes/aes-encrypt.c
+|   echo "#include <../lib/aes/aes-decrypt.c>" >tools/lib/aes/aes-decrypt.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.dumpimage.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybui
+ ld/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/dumpimage.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/dumpimage.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/boot/.image-fit.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/po
+ kybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/boot/image-fit.o tools/boot/image-fit.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/boot/.image-fit-sig.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /hom
+ e/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/boot/image-fit-sig.o tools/boot/image-fit-sig.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/boot/.image-cipher.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home
+ /pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/boot/image-cipher.o tools/boot/image-cipher.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/boot/.fdt_region.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/p
+ okybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/boot/fdt_region.o tools/boot/fdt_region.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/boot/.bootm.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybu
+ ild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/boot/bootm.o tools/boot/bootm.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/lib/.fdtdec_common.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home
+ /pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/lib/fdtdec_common.o tools/lib/fdtdec_common.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/lib/.fdtdec.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybu
+ ild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/lib/fdtdec.o tools/lib/fdtdec.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/boot/.image.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybu
+ ild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/boot/image.o tools/boot/image.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/boot/.image-host.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/p
+ okybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/boot/image-host.o tools/boot/image-host.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/lib/.md5.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -pedantic -c -o tools/lib/md5.o tools/lib/md5.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/lib/.rc4.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/lib/rc4.o tools/lib/rc4.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/lib/.crc16.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybui
+ ld/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/lib/crc16.o tools/lib/crc16.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/lib/.hash-checksum.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home
+ /pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/lib/hash-checksum.o tools/lib/hash-checksum.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/lib/.sha1.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuil
+ d/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -pedantic -c -o tools/lib/sha1.o tools/lib/sha1.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/lib/.sha256.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybu
+ ild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -pedantic -c -o tools/lib/sha256.o tools/lib/sha256.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/lib/.sha512.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybu
+ ild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -pedantic -DCONFIG_SHA512 -DCONFIG_SHA384 -c -o tools/lib/sha512.o tools/lib/sha512.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/common/.hash.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokyb
+ uild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/common/hash.o tools/common/hash.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/lib/.fdt-libcrypto.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home
+ /pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/lib/fdt-libcrypto.o tools/lib/fdt-libcrypto.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/lib/ecdsa/.ecdsa-libcrypto.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -inclu
+ de /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/lib/ecdsa/ecdsa-libcrypto.o tools/lib/ecdsa/ecdsa-libcrypto.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/lib/rsa/.rsa-sign.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/
+ pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/lib/rsa/rsa-sign.o tools/lib/rsa/rsa-sign.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/lib/rsa/.rsa-verify.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /hom
+ e/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/lib/rsa/rsa-verify.o tools/lib/rsa/rsa-verify.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/lib/rsa/.rsa-mod-exp.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /ho
+ me/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/lib/rsa/rsa-mod-exp.o tools/lib/rsa/rsa-mod-exp.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/lib/aes/.aes-encrypt.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /ho
+ me/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/lib/aes/aes-encrypt.o tools/lib/aes/aes-encrypt.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/lib/aes/.aes-decrypt.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /ho
+ me/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/lib/aes/aes-decrypt.o tools/lib/aes/aes-decrypt.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.mkimage.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/mkimage.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/mkimage.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.fit_info.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuil
+ d/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/fit_info.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/fit_info.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.fit_check_sign.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/po
+ kybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/fit_check_sign.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/fit_check_sign.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.ifwitool.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuil
+ d/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/ifwitool.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/ifwitool.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.ncb.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuild/yocto
+ -worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -o tools/ncb /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/ncb.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.proftool.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuild/
+ yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -o tools/proftool /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/proftool.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.fdtgrep.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -c -o tools/fdtgrep.o /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/fdtgrep.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.spl_size_limit.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/poky
+ build/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -o tools/spl_size_limit /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/spl_size_limit.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.asn1_compiler.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokyb
+ uild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -idirafter /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -o tools/asn1_compiler /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/asn1_compiler.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/.mkeficapsule.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybu
+ ild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -o tools/mkeficapsule /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/mkeficapsule.c   -lgnutls -luuid
+| tools/bmp_logo --gen-info /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/logos/denx.bmp > include/bmp_logo.h
+| tools/bmp_logo --gen-bmp /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/logos/denx.bmp > include/bmp_logo_data.h
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wp,-MD,tools/lib/.crc8.o.d -Itools -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu11 -DCONFIG_FIT_SIGNATURE -DCONFIG_FIT_SIGNATURE_MAX_SIZE=0xffffffff -DCONFIG_FIT_CIPHER -include /home/pokybuil
+ d/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include/compiler.h -idirafterinclude -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/include -idirafter/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/arch/sandbox/include  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/scripts/dtc/libfdt  -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -D_GNU_SOURCE -pedantic -c -o tools/lib/crc8.o tools/lib/crc8.c
+|   i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-too
+ ls/1_2022.04-r0/recipe-sysroot-native=  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0=/usr/src/debug/u-boot-tools/1_2022.04-r0                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot=                      -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/recipe-sysroot-native=  -Wl,-z,relro,-z,now   -o tools/mkenvimage tools/mkenvimage.o tools/os_support.o tools/lib/crc32.o
+| /bin/sh: tools/bmp_logo: No such file or directory
+| make[2]: *** [/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/Makefile:310: include/bmp_logo_data.h] Error 127
+| make[2]: *** Deleting file 'include/bmp_logo_data.h'
+| make[2]: *** Waiting for unfinished jobs....
+| /bin/sh: tools/bmp_logo: No such file or directory
+| make[2]: *** [/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/Makefile:306: include/bmp_logo.h] Error 127
+| make[2]: *** Deleting file 'include/bmp_logo.h'
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/tools/mkeficapsule.c:18:10: fatal error: uuid/uuid.h: No such file or directory
+|    18 | #include <uuid/uuid.h>
+|       |          ^~~~~~~~~~~~~
+| compilation terminated.
+| make[2]: *** [scripts/Makefile.host:95: tools/mkeficapsule] Error 1
+| make[1]: *** [/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git/Makefile:1894: tools] Error 2
+| make[1]: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/build'
+| make: *** [Makefile:177: sub-make] Error 2
+| make: Leaving directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/git'
+| ERROR: oe_runmake failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/temp/run.do_compile.762907:190 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/temp/run.do_compile.762907, line 190
+| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/temp/run.do_compile.762907, line 174
+| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/temp/run.do_compile.762907, line 169
+| 	#4: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/temp/run.do_compile.762907, line 164
+| 	#5: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/temp/run.do_compile.762907, line 203
+NOTE: recipe u-boot-tools-1_2022.04-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 831 tasks of which 823 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
+NOTE: Writing buildhistory took: 1 seconds
 
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2022.04.bb:do_compile
 Summary: There was 1 WARNING message.
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
 /usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
   return f(*args, **kwds)
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-src went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-dbg went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-staticdev went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-dev went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-doc went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-locale went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package python-xcbgen went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: u-boot-tools-1_2022.04-r0 do_compile: oe_runmake failed
+ERROR: u-boot-tools-1_2022.04-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/temp/run.do_compile.762907', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/u-boot-tools/1_2022.04-r0/temp/log.do_compile.762907
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-bsp/u-boot/u-boot-tools_2022.04.bb:do_compile) failed with exit code '1'
 
---===============0532210308657884316==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
-
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 884 .bb files complete (0 cached, 884 parsed). 1642 targets, 63 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the mips32r2 sysroot...done.
-Removing 1 recipes from the qemumips sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "mips-poky-linux"
-MACHINE              = "qemumips"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-2554d747fd9b9fc9576ff0b59b5b59f811409e17"
-TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:2554d747fd9b9fc9576ff0b59b5b59f811409e17"
-workspace            = "master:fea9e46d39ef43967aead86fa537bca449290253"
-
-Initialising tasks...done.
-Sstate summary: Wanted 48 Local 9 Mirrors 0 Missed 39 Current 467 (18% match, 92% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 469 of 515 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 470 of 515 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 510 of 515 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/iso-codes/iso-codes_4.9.0.bb:do_packagedata_setscene)
-NOTE: Running task 1250 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_fetch)
-NOTE: recipe iso-codes-4.9.0-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1401 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_fetch)
-NOTE: Running task 1404 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_write_config)
-NOTE: Running task 1409 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_fetch)
-NOTE: Running task 1444 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_write_config)
-NOTE: Running task 1469 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_fetch)
-NOTE: Running task 1471 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_fetch)
-NOTE: Running task 1472 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_fetch)
-NOTE: Running task 1473 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_fetch)
-NOTE: Running task 1485 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_fetch)
-NOTE: Running task 1512 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_fetch)
-NOTE: Running task 1541 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_write_config)
-NOTE: Running task 1562 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_write_config)
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_fetch: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_fetch: Started
-NOTE: Running task 1593 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_unpack)
-NOTE: Running task 1594 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_write_config: Started
-NOTE: recipe libxv-1.0.11-r0: task do_fetch: Started
-NOTE: recipe libogg-1.3.5-r0: task do_fetch: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_fetch: Started
-NOTE: recipe libxv-1.0.11-r0: task do_fetch: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Succeeded
-NOTE: Running task 1595 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_unpack)
-NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Succeeded
-NOTE: Running task 1596 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1597 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_unpack)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_write_config: Started
-NOTE: Running task 1598 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_unpack)
-NOTE: Running task 1599 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_write_config: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_fetch: Started
-NOTE: Running task 1600 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_unpack)
-NOTE: Running task 1601 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_unpack)
-NOTE: Running task 1602 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_unpack)
-NOTE: Running task 1603 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_prepare_recipe_sysroot)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/xcb-proto/1.14.1-r0/temp/log.do_packagedata_setscene.3197771
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_fetch: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_write_config: Succeeded
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_write_config: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_write_config: Succeeded
-NOTE: Running setscene task 514 of 515 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_package_setscene)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_unpack: Started
-NOTE: recipe libogg-1.3.5-r0: task do_unpack: Started
-NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxv-1.0.11-r0: task do_unpack: Started
-NOTE: Running task 1604 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_unpack)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_unpack: Started
-NOTE: Running task 1605 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_unpack)
-NOTE: recipe libxv-1.0.11-r0: task do_unpack: Succeeded
-NOTE: Running task 1606 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_patch)
-NOTE: recipe libogg-1.3.5-r0: task do_unpack: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Succeeded
-NOTE: Running task 1607 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_patch)
-NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1608 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_patch)
-NOTE: Running task 1609 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_patch)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_unpack: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Succeeded
-NOTE: Running task 1610 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_patch)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1611 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_patch)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1612 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_patch)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_unpack: Started
-NOTE: recipe libxv-1.0.11-r0: task do_patch: Started
-NOTE: recipe libogg-1.3.5-r0: task do_patch: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_unpack: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_patch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Started
-NOTE: recipe libogg-1.3.5-r0: task do_patch: Succeeded
-NOTE: Running task 1613 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_deploy_source_date_epoch)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_patch: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_patch: Started
-NOTE: recipe libxv-1.0.11-r0: task do_patch: Succeeded
-NOTE: Running task 1614 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1615 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_deploy_source_date_epoch)
-NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Succeeded
-NOTE: Running task 1616 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_deploy_source_date_epoch)
-NOTE: recipe iso-codes-4.9.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_unpack: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Succeeded
-NOTE: Running task 1618 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_patch)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxv-1.0.11-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1619 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Succeeded
-NOTE: Running task 1620 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_patch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_unpack: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1621 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_patch)
-NOTE: Running task 1622 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_configure)
-NOTE: recipe libxv-1.0.11-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1623 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_configure)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_patch: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1624 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1625 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_populate_lic)
-NOTE: recipe libogg-1.3.5-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_patch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_patch: Succeeded
-NOTE: Running task 1626 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_configure: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_lic: Started
-NOTE: Running task 1627 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_lic: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_patch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_populate_lic unihash changed to fd8a58d586bb762e8602f6ce3caea443fe8f2b6f05fb1a12515862d04b96e95b
-NOTE: Running task 1628 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe xcb-proto-1.14.1-r0: task do_package_setscene: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1629 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1699 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1717 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_prepare_recipe_sysroot)
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata: Started
-NOTE: recipe libxv-1.0.11-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1750 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_configure)
-NOTE: recipe libxv-1.0.11-r0: task do_configure: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Succeeded
-NOTE: Running task 1751 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1752 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure: Succeeded
-NOTE: Running task 1753 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_configure_ptest_base)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1754 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_compile)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Succeeded
-NOTE: Running task 1755 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1756 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install)
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Succeeded
-NOTE: Running task 1757 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1758 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_populate_sysroot)
-NOTE: Running task 1759 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_package)
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_configure: Succeeded
-NOTE: Running task 1760 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_compile)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_compile: Started
-NOTE: recipe libogg-1.3.5-r0: task do_configure: Succeeded
-NOTE: Running task 1761 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_compile)
-NOTE: recipe libogg-1.3.5-r0: task do_compile: Started
-NOTE: recipe libxv-1.0.11-r0: task do_configure: Succeeded
-NOTE: Running task 1762 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_compile)
-NOTE: recipe libxv-1.0.11-r0: task do_compile: Started
-NOTE: recipe libogg-1.3.5-r0: task do_compile: Succeeded
-NOTE: Running task 1763 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_install)
-NOTE: recipe libogg-1.3.5-r0: task do_install: Started
-NOTE: recipe libxv-1.0.11-r0: task do_compile: Succeeded
-NOTE: Running task 1764 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_install)
-NOTE: recipe libxv-1.0.11-r0: task do_install: Started
-NOTE: recipe libogg-1.3.5-r0: task do_install: Succeeded
-NOTE: Running task 1765 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot)
-NOTE: Running task 1766 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_package)
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Started
-NOTE: recipe libogg-1.3.5-r0: task do_package: Started
-NOTE: recipe libxv-1.0.11-r0: task do_install: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Succeeded
-NOTE: Running task 1767 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_populate_sysroot)
-NOTE: Running task 1768 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_package)
-NOTE: Running task 1769 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata)
-NOTE: recipe libxv-1.0.11-r0: task do_populate_sysroot: Started
-NOTE: recipe libxv-1.0.11-r0: task do_package: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Started
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1770 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1771 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxv-1.0.11-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1772 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_configure)
-NOTE: Running task 1773 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_configure)
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_package: Succeeded
-NOTE: Running task 1774 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_packagedata)
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Started
-NOTE: recipe libxv-1.0.11-r0: task do_package: Succeeded
-NOTE: Running task 1775 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_packagedata)
-NOTE: recipe libxv-1.0.11-r0: task do_packagedata: Started
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile: Succeeded
-NOTE: Running task 1776 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_compile_ptest_base)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1777 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_install)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install: Succeeded
-NOTE: Running task 1778 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_install_ptest_base)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Succeeded
-NOTE: Running task 1779 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_populate_sysroot)
-NOTE: Running task 1780 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_compile)
-NOTE: Running task 1781 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_package)
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_populate_sysroot: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_compile: Succeeded
-NOTE: Running task 1782 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_install)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_install: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Succeeded
-NOTE: Running task 1783 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_compile)
-NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Succeeded
-NOTE: Running task 1784 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_install)
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_install: Succeeded
-NOTE: Running task 1785 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_populate_sysroot)
-NOTE: Running task 1786 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_package)
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Succeeded
-NOTE: Running task 1787 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_populate_sysroot)
-NOTE: Running task 1788 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_package)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_populate_sysroot: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_package: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1789 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_install)
-NOTE: recipe libvorbis-1.3.7-r0: task do_install: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_install: Succeeded
-NOTE: Running task 1790 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot)
-NOTE: Running task 1791 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_package)
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_package: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1792 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Succeeded
-NOTE: Running task 1793 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_package: Succeeded
-NOTE: Running task 1794 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_packagedata)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1795 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_configure: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_packagedata: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_package: Succeeded
-NOTE: Running task 1796 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata)
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_package: Succeeded
-NOTE: Running task 1797 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_configure: Succeeded
-NOTE: Running task 1798 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_compile)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_compile: Succeeded
-NOTE: Running task 1799 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_install)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_install: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_install: Succeeded
-NOTE: Running task 1800 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_populate_sysroot)
-NOTE: Running task 1801 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_package)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_populate_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1802 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1803 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_configure)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_configure: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_configure: Succeeded
-NOTE: Running task 1804 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_compile)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_package: Succeeded
-NOTE: Running task 1805 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_packagedata: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_compile: Succeeded
-NOTE: Running task 1806 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_install)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_install: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_install: Succeeded
-NOTE: Running task 1807 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_package)
-NOTE: Running task 1808 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_populate_sysroot)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_sysroot: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package: Succeeded
-NOTE: Running task 1809 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_packagedata)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_packagedata: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 1810 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_package_write_rpm)
-NOTE: Running task 1811 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_package_qa)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_write_rpm: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_qa: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_qa: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1812 of 1812 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_build)
-NOTE: Tasks Summary: Attempted 1812 tasks of which 1698 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-src went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-dbg went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-staticdev went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-dev went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-doc went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-locale went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package python-xcbgen went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============0532210308657884316==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1642 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 884 .bb files complete (883 cached, 1 parsed). 1642 targets, 35 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-2554d747fd9b9fc9576ff0b59b5b59f811409e17"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:2554d747fd9b9fc9576ff0b59b5b59f811409e17"
-workspace            = "master:fea9e46d39ef43967aead86fa537bca449290253"
-
-Initialising tasks...done.
-Sstate summary: Wanted 52 Local 9 Mirrors 0 Missed 43 Current 473 (17% match, 91% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 475 of 525 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 476 of 525 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 520 of 525 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/iso-codes/iso-codes_4.9.0.bb:do_packagedata_setscene)
-NOTE: Running task 1250 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_fetch)
-NOTE: recipe iso-codes-4.9.0-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1401 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_fetch)
-NOTE: Running task 1404 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_write_config)
-NOTE: Running task 1409 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_fetch)
-NOTE: Running task 1444 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_write_config)
-NOTE: Running task 1471 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_fetch)
-NOTE: Running task 1472 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_fetch)
-NOTE: Running task 1473 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_fetch)
-NOTE: Running task 1474 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_fetch)
-NOTE: Running task 1476 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_fetch)
-NOTE: Running task 1493 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_fetch)
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1522 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_fetch)
-NOTE: Running task 1540 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_write_config)
-NOTE: Running task 1571 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_write_config)
-NOTE: Running task 1592 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_write_config)
-NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_fetch: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_write_config: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Started
-NOTE: Running task 1623 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_unpack)
-NOTE: Running task 1624 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_fetch: Started
-NOTE: recipe libogg-1.3.5-r0: task do_fetch: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Succeeded
-NOTE: Running task 1625 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_unpack)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_fetch: Succeeded
-NOTE: recipe orc-0.4.32-r0: task do_fetch: Started
-NOTE: recipe libxv-1.0.11-r0: task do_fetch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/xcb-proto/1.14.1-r0/temp/log.do_packagedata_setscene.3075321
-NOTE: Running task 1626 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxv-1.0.11-r0: task do_fetch: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Succeeded
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 524 of 525 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_package_setscene)
-NOTE: recipe orc-0.4.32-r0: task do_fetch: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_fetch: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_fetch: Started
-NOTE: recipe orc-0.4.32-r0: task do_write_config: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_fetch: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_write_config: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_write_config: Started
-NOTE: Running task 1627 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_unpack)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_fetch: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Succeeded
-NOTE: recipe orc-0.4.32-r0: task do_write_config: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_unpack: Started
-NOTE: recipe libogg-1.3.5-r0: task do_unpack: Started
-NOTE: Running task 1628 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1629 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_unpack)
-NOTE: Running task 1630 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_unpack)
-NOTE: Running task 1631 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_unpack)
-NOTE: recipe libogg-1.3.5-r0: task do_unpack: Succeeded
-NOTE: Running task 1632 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_patch)
-NOTE: Running task 1633 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_unpack)
-NOTE: Running task 1634 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_unpack)
-NOTE: Running task 1635 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_unpack)
-NOTE: Running task 1636 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1637 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1638 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_unpack)
-NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_unpack: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_unpack: Started
-NOTE: recipe orc-0.4.32-r0: task do_unpack: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1639 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_patch)
-NOTE: recipe libogg-1.3.5-r0: task do_patch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Started
-NOTE: recipe libxv-1.0.11-r0: task do_unpack: Started
-NOTE: recipe iso-codes-4.9.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe orc-0.4.32-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_unpack: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_unpack: Started
-NOTE: recipe libogg-1.3.5-r0: task do_patch: Succeeded
-NOTE: Running task 1641 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxv-1.0.11-r0: task do_unpack: Succeeded
-NOTE: recipe orc-0.4.32-r0: task do_unpack: Succeeded
-NOTE: Running task 1642 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_patch)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_patch: Started
-NOTE: Running task 1643 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_patch)
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Succeeded
-NOTE: Running task 1644 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_patch)
-NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1645 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_patch)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_unpack: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_patch: Started
-NOTE: recipe orc-0.4.32-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1646 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_patch)
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1647 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_patch)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1648 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_patch)
-NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Started
-NOTE: recipe libxv-1.0.11-r0: task do_patch: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_patch: Started
-NOTE: Running task 1649 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_deploy_source_date_epoch)
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_patch: Started
-NOTE: recipe orc-0.4.32-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_unpack: Succeeded
-NOTE: recipe orc-0.4.32-r0: task do_patch: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1650 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1651 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_patch)
-NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Succeeded
-NOTE: Running task 1652 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_configure)
-NOTE: recipe libxv-1.0.11-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_patch: Succeeded
-NOTE: Running task 1653 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1654 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_patch: Succeeded
-NOTE: Running task 1655 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1656 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_populate_lic)
-NOTE: recipe orc-0.4.32-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_patch: Succeeded
-NOTE: Running task 1657 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_patch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_configure: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Succeeded
-NOTE: Running task 1658 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1659 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_lic: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxv-1.0.11-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe orc-0.4.32-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1660 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_configure)
-NOTE: recipe xcb-proto-1.14.1-r0: task do_package_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_lic: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_patch: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_populate_lic unihash changed to fd8a58d586bb762e8602f6ce3caea443fe8f2b6f05fb1a12515862d04b96e95b
-NOTE: Running task 1661 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1662 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_configure)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe orc-0.4.32-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1663 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_configure: Started
-NOTE: Running task 1664 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure)
-NOTE: recipe xcb-proto-1.14.1-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure: Started
-NOTE: Running task 1734 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata)
-NOTE: Running task 1752 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_prepare_recipe_sysroot)
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata: Started
-NOTE: recipe libxv-1.0.11-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 1755 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_configure)
-NOTE: recipe libxv-1.0.11-r0: task do_configure: Started
-NOTE: recipe orc-0.4.32-r0: task do_configure: Succeeded
-NOTE: Running task 1786 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_compile)
-NOTE: recipe orc-0.4.32-r0: task do_compile: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Succeeded
-NOTE: Running task 1787 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1788 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Started
-NOTE: recipe orc-0.4.32-r0: task do_compile: Succeeded
-NOTE: Running task 1789 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_install)
-NOTE: recipe orc-0.4.32-r0: task do_install: Started
-NOTE: recipe orc-0.4.32-r0: task do_install: Succeeded
-NOTE: Running task 1790 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_populate_sysroot)
-NOTE: Running task 1791 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_package)
-NOTE: recipe orc-0.4.32-r0: task do_populate_sysroot: Started
-NOTE: recipe orc-0.4.32-r0: task do_package: Started
-NOTE: recipe orc-0.4.32-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure: Succeeded
-NOTE: Running task 1792 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_configure_ptest_base)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1793 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_compile)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile: Started
-NOTE: recipe orc-0.4.32-r0: task do_package: Succeeded
-NOTE: Running task 1794 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_packagedata)
-NOTE: recipe orc-0.4.32-r0: task do_packagedata: Started
-NOTE: recipe orc-0.4.32-r0: task do_packagedata: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Succeeded
-NOTE: Running task 1795 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1796 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install)
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Succeeded
-NOTE: Running task 1797 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1798 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_populate_sysroot)
-NOTE: Running task 1799 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_package)
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_configure: Succeeded
-NOTE: Running task 1800 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_compile)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_configure: Succeeded
-NOTE: Running task 1801 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_compile)
-NOTE: recipe libogg-1.3.5-r0: task do_compile: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_compile: Started
-NOTE: recipe libogg-1.3.5-r0: task do_compile: Succeeded
-NOTE: Running task 1802 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_install)
-NOTE: recipe libogg-1.3.5-r0: task do_install: Started
-NOTE: recipe libxv-1.0.11-r0: task do_configure: Succeeded
-NOTE: Running task 1803 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_compile)
-NOTE: recipe libxv-1.0.11-r0: task do_compile: Started
-NOTE: recipe libogg-1.3.5-r0: task do_install: Succeeded
-NOTE: Running task 1804 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot)
-NOTE: Running task 1805 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_package)
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Started
-NOTE: recipe libogg-1.3.5-r0: task do_package: Started
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1806 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1807 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxv-1.0.11-r0: task do_compile: Succeeded
-NOTE: Running task 1808 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_install)
-NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1809 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_configure)
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1810 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_configure)
-NOTE: recipe libxv-1.0.11-r0: task do_install: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Started
-NOTE: recipe libxv-1.0.11-r0: task do_install: Succeeded
-NOTE: Running task 1811 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_populate_sysroot)
-NOTE: Running task 1812 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_package)
-NOTE: recipe libxv-1.0.11-r0: task do_populate_sysroot: Started
-NOTE: recipe libxv-1.0.11-r0: task do_package: Started
-NOTE: recipe libogg-1.3.5-r0: task do_package: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1813 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_packagedata)
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Started
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Succeeded
-NOTE: Running task 1814 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata)
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_package: Succeeded
-NOTE: Running task 1815 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_packagedata)
-NOTE: recipe libxv-1.0.11-r0: task do_packagedata: Started
-NOTE: recipe libxv-1.0.11-r0: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile: Succeeded
-NOTE: Running task 1816 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_compile_ptest_base)
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Succeeded
-NOTE: Running task 1817 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_compile)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1818 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_install)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_compile: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Succeeded
-NOTE: Running task 1819 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_install)
-NOTE: Running task 1820 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_compile)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install: Succeeded
-NOTE: Running task 1821 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_install_ptest_base)
-NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_install: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1822 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_populate_sysroot)
-NOTE: Running task 1823 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_package)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_populate_sysroot: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_package: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Succeeded
-NOTE: Running task 1824 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_install)
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_install: Succeeded
-NOTE: Running task 1825 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_populate_sysroot)
-NOTE: Running task 1826 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_package)
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Succeeded
-NOTE: Running task 1827 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_populate_sysroot)
-NOTE: Running task 1828 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_package)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_package: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Succeeded
-NOTE: Running task 1829 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_install)
-NOTE: recipe libvorbis-1.3.7-r0: task do_install: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_install: Succeeded
-NOTE: Running task 1830 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot)
-NOTE: Running task 1831 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_package)
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_package: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1832 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Succeeded
-NOTE: Running task 1833 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_packagedata)
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_package: Succeeded
-NOTE: Running task 1834 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_configure)
-NOTE: Running task 1835 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_packagedata)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_configure: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_packagedata: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_package: Succeeded
-NOTE: Running task 1836 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata)
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_package: Succeeded
-NOTE: Running task 1837 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_configure: Succeeded
-NOTE: Running task 1838 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_compile)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_compile: Succeeded
-NOTE: Running task 1839 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_install)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_install: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_install: Succeeded
-NOTE: Running task 1840 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_populate_sysroot)
-NOTE: Running task 1841 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_package)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_populate_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1842 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1843 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_configure)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_configure: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_configure: Succeeded
-NOTE: Running task 1844 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_compile)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_package: Succeeded
-NOTE: Running task 1845 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_packagedata: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_compile: Succeeded
-NOTE: Running task 1846 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_install)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_install: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_install: Succeeded
-NOTE: Running task 1847 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_package)
-NOTE: Running task 1848 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_populate_sysroot)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_sysroot: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package: Succeeded
-NOTE: Running task 1849 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_packagedata)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_packagedata: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 1850 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_package_write_rpm)
-NOTE: Running task 1851 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_package_qa)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_write_rpm: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_qa: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_qa: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1852 of 1852 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_build)
-NOTE: Tasks Summary: Attempted 1852 tasks of which 1726 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 31 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-src went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-dbg went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-staticdev went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-dev went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-doc went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-locale went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package python-xcbgen went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============0532210308657884316==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
-
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 884 .bb files complete (0 cached, 884 parsed). 1642 targets, 53 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the cortexa15t2hf-neon sysroot...done.
-Removing 1 recipes from the qemuarm sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-gnueabi"
-MACHINE              = "qemuarm"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-2554d747fd9b9fc9576ff0b59b5b59f811409e17"
-TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
-TARGET_FPU           = "hard"
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:2554d747fd9b9fc9576ff0b59b5b59f811409e17"
-workspace            = "master:fea9e46d39ef43967aead86fa537bca449290253"
-
-Initialising tasks...done.
-Sstate summary: Wanted 52 Local 9 Mirrors 0 Missed 43 Current 469 (17% match, 91% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 471 of 521 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 472 of 521 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 516 of 521 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/iso-codes/iso-codes_4.9.0.bb:do_packagedata_setscene)
-NOTE: Running task 1250 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_fetch)
-NOTE: Running task 1401 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_fetch)
-NOTE: Running task 1404 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_write_config)
-NOTE: Running task 1409 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_fetch)
-NOTE: Running task 1444 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_write_config)
-NOTE: Running task 1469 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_fetch)
-NOTE: Running task 1470 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_fetch)
-NOTE: Running task 1472 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_fetch)
-NOTE: Running task 1473 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_fetch)
-NOTE: Running task 1474 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_fetch)
-NOTE: Running task 1487 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_fetch)
-NOTE: Running task 1516 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_fetch)
-NOTE: Running task 1521 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_write_config)
-NOTE: Running task 1553 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_write_config)
-NOTE: Running task 1574 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_write_config)
-NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe iso-codes-4.9.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_fetch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_fetch: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_fetch: Started
-NOTE: recipe libogg-1.3.5-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_write_config: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_fetch: Started
-NOTE: recipe libxv-1.0.11-r0: task do_fetch: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_fetch: Succeeded
-NOTE: recipe orc-0.4.32-r0: task do_fetch: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1605 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_unpack)
-NOTE: Running task 1606 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_unpack)
-NOTE: Running task 1607 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libvorbis-1.3.7-r0: task do_fetch: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_fetch: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_fetch: Started
-NOTE: Running task 1608 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_unpack)
-NOTE: Running task 1609 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1610 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_unpack)
-NOTE: Running task 1611 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_prepare_recipe_sysroot)
-NOTE: recipe orc-0.4.32-r0: task do_fetch: Succeeded
-NOTE: recipe orc-0.4.32-r0: task do_write_config: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_write_config: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_write_config: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_fetch: Succeeded
-NOTE: Running task 1612 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_unpack)
-NOTE: Running task 1613 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_unpack)
-NOTE: Running task 1614 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_unpack)
-NOTE: Running task 1615 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_unpack)
-NOTE: Running task 1616 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_unpack)
-NOTE: Running task 1617 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1618 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_write_config: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_write_config: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Started
-NOTE: Running task 1619 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_unpack)
-NOTE: recipe orc-0.4.32-r0: task do_write_config: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/xcb-proto/1.14.1-r0/temp/log.do_packagedata_setscene.3136807
-NOTE: recipe gst-devtools-1.20.2-r0: task do_write_config: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_unpack: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_unpack: Started
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 520 of 521 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_package_setscene)
-NOTE: recipe xcb-proto-1.14.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_unpack: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Started
-NOTE: recipe orc-0.4.32-r0: task do_unpack: Started
-NOTE: recipe orc-0.4.32-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxv-1.0.11-r0: task do_unpack: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_unpack: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_unpack: Started
-NOTE: recipe libogg-1.3.5-r0: task do_unpack: Succeeded
-NOTE: Running task 1620 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_patch)
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_unpack: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_unpack: Succeeded
-NOTE: recipe orc-0.4.32-r0: task do_unpack: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_unpack: Succeeded
-NOTE: Running task 1621 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_patch)
-NOTE: Running task 1622 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_patch)
-NOTE: Running task 1623 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_patch)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_unpack: Succeeded
-NOTE: Running task 1624 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_patch)
-NOTE: Running task 1625 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_patch)
-NOTE: Running task 1626 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_patch)
-NOTE: Running task 1627 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_patch)
-NOTE: recipe libxv-1.0.11-r0: task do_patch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Started
-NOTE: recipe libogg-1.3.5-r0: task do_patch: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_patch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Started
-NOTE: recipe libogg-1.3.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe orc-0.4.32-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_unpack: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_patch: Started
-NOTE: recipe orc-0.4.32-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1628 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_patch)
-NOTE: recipe libogg-1.3.5-r0: task do_patch: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_patch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_unpack: Succeeded
-NOTE: recipe orc-0.4.32-r0: task do_patch: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_patch: Succeeded
-NOTE: Running task 1629 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_patch)
-NOTE: Running task 1630 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1631 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1632 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1633 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_patch: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxv-1.0.11-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe orc-0.4.32-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe iso-codes-4.9.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_patch: Succeeded
-NOTE: Running task 1635 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_patch: Succeeded
-NOTE: Running task 1636 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_deploy_source_date_epoch)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_patch: Succeeded
-NOTE: Running task 1637 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1638 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1639 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_populate_lic)
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxv-1.0.11-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1640 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_configure)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_lic: Started
-NOTE: recipe libogg-1.3.5-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1641 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_configure)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_configure: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_package_setscene: Started
-NOTE: recipe orc-0.4.32-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1642 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_configure)
-NOTE: recipe libogg-1.3.5-r0: task do_configure: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_populate_lic unihash changed to fd8a58d586bb762e8602f6ce3caea443fe8f2b6f05fb1a12515862d04b96e95b
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe orc-0.4.32-r0: task do_configure: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1643 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_package_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1713 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata)
-NOTE: Running task 1731 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_prepare_recipe_sysroot)
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_patch: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 1734 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxv-1.0.11-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1735 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_configure)
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_patch: Succeeded
-NOTE: Running task 1766 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1767 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_configure)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure: Started
-NOTE: recipe orc-0.4.32-r0: task do_configure: Succeeded
-NOTE: Running task 1768 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_compile)
-NOTE: recipe orc-0.4.32-r0: task do_compile: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Succeeded
-NOTE: Running task 1769 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1770 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Started
-NOTE: recipe orc-0.4.32-r0: task do_compile: Succeeded
-NOTE: Running task 1771 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_install)
-NOTE: recipe orc-0.4.32-r0: task do_install: Started
-NOTE: recipe orc-0.4.32-r0: task do_install: Succeeded
-NOTE: Running task 1772 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_populate_sysroot)
-NOTE: Running task 1773 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_package)
-NOTE: recipe orc-0.4.32-r0: task do_populate_sysroot: Started
-NOTE: recipe orc-0.4.32-r0: task do_package: Started
-NOTE: recipe orc-0.4.32-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Succeeded
-NOTE: Running task 1774 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1775 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure: Succeeded
-NOTE: Running task 1776 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_configure_ptest_base)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1777 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_compile)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Succeeded
-NOTE: Running task 1778 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe orc-0.4.32-r0: task do_package: Succeeded
-NOTE: Running task 1779 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_populate_sysroot)
-NOTE: Running task 1780 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_package)
-NOTE: Running task 1781 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.32.bb:do_packagedata)
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Started
-NOTE: recipe orc-0.4.32-r0: task do_packagedata: Started
-NOTE: recipe orc-0.4.32-r0: task do_packagedata: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_configure: Succeeded
-NOTE: Running task 1782 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_compile)
-NOTE: recipe libogg-1.3.5-r0: task do_compile: Started
-NOTE: recipe libxv-1.0.11-r0: task do_configure: Succeeded
-NOTE: Running task 1783 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_compile)
-NOTE: recipe libxv-1.0.11-r0: task do_compile: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_configure: Succeeded
-NOTE: Running task 1784 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_compile)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_compile: Started
-NOTE: recipe libogg-1.3.5-r0: task do_compile: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_compile: Succeeded
-NOTE: Running task 1785 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_install)
-NOTE: Running task 1786 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_install)
-NOTE: recipe libogg-1.3.5-r0: task do_install: Started
-NOTE: recipe libxv-1.0.11-r0: task do_install: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Succeeded
-NOTE: Running task 1787 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata)
-NOTE: recipe libogg-1.3.5-r0: task do_install: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_install: Succeeded
-NOTE: Running task 1788 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot)
-NOTE: Running task 1789 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_package)
-NOTE: Running task 1790 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_populate_sysroot)
-NOTE: Running task 1791 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_package)
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Started
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Started
-NOTE: recipe libogg-1.3.5-r0: task do_package: Started
-NOTE: recipe libxv-1.0.11-r0: task do_populate_sysroot: Started
-NOTE: recipe libxv-1.0.11-r0: task do_package: Started
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1792 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1793 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxv-1.0.11-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1794 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_configure)
-NOTE: Running task 1795 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_configure)
-NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Started
-NOTE: recipe libogg-1.3.5-r0: task do_package: Succeeded
-NOTE: Running task 1796 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_packagedata)
-NOTE: recipe libxv-1.0.11-r0: task do_package: Succeeded
-NOTE: Running task 1797 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb:do_packagedata)
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Started
-NOTE: recipe libxv-1.0.11-r0: task do_packagedata: Started
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata: Succeeded
-NOTE: recipe libxv-1.0.11-r0: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile: Succeeded
-NOTE: Running task 1798 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_compile_ptest_base)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1799 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_install)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install: Succeeded
-NOTE: Running task 1800 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_install_ptest_base)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1801 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_populate_sysroot)
-NOTE: Running task 1802 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_package)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_populate_sysroot: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libtheora-1.1.1-r1: task do_configure: Succeeded
-NOTE: Running task 1803 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_compile)
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_configure: Succeeded
-NOTE: Running task 1804 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_compile)
-NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_compile: Succeeded
-NOTE: Running task 1805 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_install)
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_install: Succeeded
-NOTE: Running task 1806 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_populate_sysroot)
-NOTE: Running task 1807 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_package)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_compile: Succeeded
-NOTE: Running task 1808 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_install)
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_install: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_compile: Succeeded
-NOTE: Running task 1809 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_install)
-NOTE: recipe libtheora-1.1.1-r1: task do_populate_sysroot: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_install: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_install: Succeeded
-NOTE: Running task 1810 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_populate_sysroot)
-NOTE: Running task 1811 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_package)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_install: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_package: Started
-NOTE: Running task 1812 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot)
-NOTE: Running task 1813 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_package)
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_package: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1814 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_package: Succeeded
-NOTE: Running task 1815 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_packagedata)
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Started
-NOTE: recipe libtheora-1.1.1-r1: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1816 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_configure: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_package: Succeeded
-NOTE: Running task 1817 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata)
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata: Succeeded
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_package: Succeeded
-NOTE: Running task 1818 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.6.1.bb:do_packagedata)
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_packagedata: Started
-NOTE: recipe alsa-lib-1.2.6.1-r0: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_package: Succeeded
-NOTE: Running task 1819 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-1.20.1-r0: task do_packagedata: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_configure: Succeeded
-NOTE: Running task 1820 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_compile)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_compile: Succeeded
-NOTE: Running task 1821 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_install)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_install: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_install: Succeeded
-NOTE: Running task 1822 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_populate_sysroot)
-NOTE: Running task 1823 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_package)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_populate_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 1824 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1825 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_configure)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_configure: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_configure: Succeeded
-NOTE: Running task 1826 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_compile)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_package: Succeeded
-NOTE: Running task 1827 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.20.1-r0: task do_packagedata: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_compile: Succeeded
-NOTE: Running task 1828 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_install)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_install: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_install: Succeeded
-NOTE: Running task 1829 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_package)
-NOTE: Running task 1830 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_populate_sysroot)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_sysroot: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package: Succeeded
-NOTE: Running task 1831 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_packagedata)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_packagedata: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 1832 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_package_write_rpm)
-NOTE: Running task 1833 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_package_qa)
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_write_rpm: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_qa: Started
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_qa: Succeeded
-NOTE: recipe gst-devtools-1.20.2-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1834 of 1834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb:do_build)
-NOTE: Tasks Summary: Attempted 1834 tasks of which 1708 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There was 1 WARNING message.
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-src went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-dbg went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-staticdev went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-dev went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-doc went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto-locale went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package xcb-proto went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: QA Issue: Package version for package python-xcbgen went backwards which would break package feeds (from 0:1.15-r0 to 0:1.14.1-r0) [version-going-backwards]
-ERROR: xcb-proto-1.14.1-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============0532210308657884316==--
+--===============7663765136157897926==--
 
