@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B460EC433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E373DC4167E
 	for <webhook@archiver.kernel.org>; Sun, 15 May 2022 17:15:21 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com
- (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.18723.1652634912674414110
+Received: from a27-192.smtp-out.us-west-2.amazonses.com
+ (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web08.18883.1652634912472232990
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 May 2022 10:15:12 -0700
+ Sun, 15 May 2022 10:15:13 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=PzL6vhFQ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
- mailfrom: 01010180c8b783b1-fe0b05bc-6786-4983-8ad0-ebc70f10347b-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=nkXWGDeh;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
+ mailfrom: 01010180c8b786fc-79e057fe-74cf-4b17-bed3-c1416f25d103-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1652634911;
+	t=1652634912;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=iAd4ydo2p2fhLbCpXpQTLpq1LGU56nWTodquTdPDvPQ=;
-	b=PzL6vhFQpxeiUic6oU+mvYCMCRbKLd8yFZeGMqgEwtEIZsX6ZFzgPwou4gVKvLyP
-	ovKB+z21caqEGX+xOtLTa3ctvafTgYi2HkeyzJKF0uOrMaS/ai9czaXyZj1yBCrP5JL
-	tLBcpuWUMxX3pwoiPLRRDkGQgiVXnKNCA3XlTl3U=
+	bh=K3Hf3jZkebACvALIJcQaHYFxXMs8JYZO43CmpFJTT6Q=;
+	b=nkXWGDehdFNrn3vWl8UEwJnz54fvpFBFkVwTuBQ9/UzqrCrbyVTF6QXovnEALtjc
+	xSi1tzbtZU2UgENUQWRS4PV4xCShz9V5atzcZo40/bm6qEr4VWmYqApQwy4AJunMmve
+	S8go3Uw60ltQaiZEJyfoKcOF5wyq8Vk3l4P50pEg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1652634911;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1652634912;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=iAd4ydo2p2fhLbCpXpQTLpq1LGU56nWTodquTdPDvPQ=;
-	b=dnSuBMk+rkD1WNolSCsb8ehqVN/xhBgWc+LF947WfgmBnVjEmAqjp3vjMD4x0brK
-	/Lx+ILecgoXXmVMoxGYyU8wmGmNYLMyJQ+5+pMOeJX4/TBWW97glZLnmRKov72+OtIs
-	s0b7xjEVjG9SQkp5bcHvzawZiCdhmhrQxRUXP9l8=
-Content-Type: multipart/mixed; boundary="===============1644807549866973459=="
+	bh=K3Hf3jZkebACvALIJcQaHYFxXMs8JYZO43CmpFJTT6Q=;
+	b=cupoJqUe2hqBDwqH/r8dLTGV/ojZM6bX9gY/sTbWSmxhV8oEWM6V038Fi1JqX1V5
+	B2aVQSyqxpbZEgMn/Cnm62Q3udVuiR+rU4oxf3zk9owdfSoIfjwhb3YK7BtjvFqIAJp
+	2DgGJRTmOI98BmW9CY0q2bV4DvSFKHA8FYYVl1p0=
+Content-Type: multipart/mixed; boundary="===============4740165615197761635=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Wang Mingyu <wangmy@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mobile-broadband-provider-info: upgrading to 20220511 SUCCEEDED
+Subject: [AUH] librepo: upgrading to 1.14.3 SUCCEEDED
 Message-ID: 
- <01010180c8b783b1-fe0b05bc-6786-4983-8ad0-ebc70f10347b-000000@us-west-2.amazonses.com>
-Date: Sun, 15 May 2022 17:15:11 +0000
+ <01010180c8b786fc-79e057fe-74cf-4b17-bed3-c1416f25d103-000000@us-west-2.amazonses.com>
+Date: Sun, 15 May 2022 17:15:12 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.05.15-54.240.27.45
+X-SES-Outgoing: 2022.05.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 May 2022 17:15:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165608
+ https://lists.openembedded.org/g/openembedded-core/message/165613
 
---===============1644807549866973459==
+--===============4740165615197761635==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mobile-broadband-provider-info* to *20220511* has Succeeded.
+that the automatic attempt to upgrade the recipe *librepo* to *1.14.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-mobile-broadband-provider-info-upgrade-20220315-2022.patch
+    - apply the patch: git am 0001-librepo-upgrade-1.14.2-1.14.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,63 +75,65 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============1644807549866973459==
+--===============4740165615197761635==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/mobile-broadband-provider-info: PKGV changed from 20220315 [default] to 20220511 [default]
-packages/core2-32-poky-linux/mobile-broadband-provider-info: PV changed from "20220315" to "20220511"
-packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-dbg: PKGV changed from 20220315 [default] to 20220511 [default]
-packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-dbg: PV changed from "20220315" to "20220511"
-packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-dev: PKGV changed from 20220315 [default] to 20220511 [default]
-packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-dev: PV changed from "20220315" to "20220511"
-packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-doc: PKGV changed from 20220315 [default] to 20220511 [default]
-packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-doc: PV changed from "20220315" to "20220511"
-packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-locale: PKGV changed from 20220315 [default] to 20220511 [default]
-packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-locale: PV changed from "20220315" to "20220511"
-packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-src: PKGV changed from 20220315 [default] to 20220511 [default]
-packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-src: PV changed from "20220315" to "20220511"
-packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-staticdev: PKGV changed from 20220315 [default] to 20220511 [default]
-packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info-staticdev: PV changed from "20220315" to "20220511"
-packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info: PKGV changed from 20220315 [default] to 20220511 [default]
-packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info: PV changed from "20220315" to "20220511"
-packages/core2-32-poky-linux/mobile-broadband-provider-info/mobile-broadband-provider-info: PKGSIZE changed from 513413 to 517675 (+1%)
+packages/core2-32-poky-linux/librepo: PKGV changed from 1.14.2 [default] to 1.14.3 [default]
+packages/core2-32-poky-linux/librepo: PV changed from "1.14.2" to "1.14.3"
+packages/core2-32-poky-linux/librepo/librepo-dbg: PKGV changed from 1.14.2 [default] to 1.14.3 [default]
+packages/core2-32-poky-linux/librepo/librepo-dbg: PV changed from "1.14.2" to "1.14.3"
+packages/core2-32-poky-linux/librepo/librepo-dev: PKGV changed from 1.14.2 [default] to 1.14.3 [default]
+packages/core2-32-poky-linux/librepo/librepo-dev: PV changed from "1.14.2" to "1.14.3"
+packages/core2-32-poky-linux/librepo/librepo-doc: PKGV changed from 1.14.2 [default] to 1.14.3 [default]
+packages/core2-32-poky-linux/librepo/librepo-doc: PV changed from "1.14.2" to "1.14.3"
+packages/core2-32-poky-linux/librepo/librepo-locale: PKGV changed from 1.14.2 [default] to 1.14.3 [default]
+packages/core2-32-poky-linux/librepo/librepo-locale: PV changed from "1.14.2" to "1.14.3"
+packages/core2-32-poky-linux/librepo/librepo-src: PKGV changed from 1.14.2 [default] to 1.14.3 [default]
+packages/core2-32-poky-linux/librepo/librepo-src: PKGSIZE changed from 705953 to 706181 (+0%)
+packages/core2-32-poky-linux/librepo/librepo-src: PV changed from "1.14.2" to "1.14.3"
+packages/core2-32-poky-linux/librepo/librepo-staticdev: PKGV changed from 1.14.2 [default] to 1.14.3 [default]
+packages/core2-32-poky-linux/librepo/librepo-staticdev: PV changed from "1.14.2" to "1.14.3"
+packages/core2-32-poky-linux/librepo/librepo: PKGV changed from 1.14.2 [default] to 1.14.3 [default]
+packages/core2-32-poky-linux/librepo/librepo: PV changed from "1.14.2" to "1.14.3"
 
---===============1644807549866973459==
+--===============4740165615197761635==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-mobile-broadband-provider-info-upgrade-20220315-2022.patch"
+ filename="0001-librepo-upgrade-1.14.2-1.14.3.patch"
 
-From 89d31a01eb9c2c3509baf08d9e328204fdb05751 Mon Sep 17 00:00:00 2001
+From 53ac1d6c8528a68b5614147c9eeec5ddce7aea42 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 May 2022 06:00:35 +0000
-Subject: [PATCH] mobile-broadband-provider-info: upgrade 20220315 -> 20220511
+Date: Sun, 15 May 2022 07:43:01 +0000
+Subject: [PATCH] librepo: upgrade 1.14.2 -> 1.14.3
 
 ---
- .../mobile-broadband-provider-info_git.bb                     | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../librepo/{librepo_1.14.2.bb => librepo_1.14.3.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/librepo/{librepo_1.14.2.bb => librepo_1.14.3.bb} (94%)
 
-diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-index 781b9216c5..e6f216e5cb 100644
---- a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-+++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-@@ -5,8 +5,8 @@ SECTION = "network"
- LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=87964579b2a8ece4bc6744d2dc9a8b04"
+diff --git a/meta/recipes-devtools/librepo/librepo_1.14.2.bb b/meta/recipes-devtools/librepo/librepo_1.14.3.bb
+similarity index 94%
+rename from meta/recipes-devtools/librepo/librepo_1.14.2.bb
+rename to meta/recipes-devtools/librepo/librepo_1.14.3.bb
+index 8dece946b4..2c8e592251 100644
+--- a/meta/recipes-devtools/librepo/librepo_1.14.2.bb
++++ b/meta/recipes-devtools/librepo/librepo_1.14.3.bb
+@@ -10,7 +10,7 @@ SRC_URI = "git://github.com/rpm-software-management/librepo.git;branch=master;pr
+            file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch \
+            "
  
--SRCREV = "4cbb44a9fe26aa6f0b28beb79f9488b37c097b5e"
--PV = "20220315"
-+SRCREV = "3d5c8d0f7e0264768a2c000d0fd4b4d4a991e041"
-+PV = "20220511"
- PE = "1"
+-SRCREV = "3b9a8d17188ba602d139f79b6e61305030f21109"
++SRCREV = "8fc7950795282d9c7c50071f45973006de5594ab"
  
- SRC_URI = "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=https;branch=main"
+ S = "${WORKDIR}/git"
+ 
 -- 
 2.31.1
 
 
---===============1644807549866973459==--
+--===============4740165615197761635==--
 
