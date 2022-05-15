@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36FF1C47082
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43FF6C38A2D
 	for <webhook@archiver.kernel.org>; Sun, 15 May 2022 17:15:22 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com
- (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.18949.1652634913862702861
+Received: from a27-30.smtp-out.us-west-2.amazonses.com
+ (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.18726.1652634914041348515
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 May 2022 10:15:14 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Hsio56Hh;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
- mailfrom: 01010180c8b78a22-439f7228-dad1-4c74-841c-e942be2092d0-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Nim2ydP0;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
+ mailfrom: 01010180c8b788cf-821bb1ff-c35c-4c95-928c-c46447264744-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1652634913;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Cfj+BRT3TslzaeMwoESk4pUm3ZMKqVCjcesaFL1m59w=;
-	b=Hsio56HhkOEg/S1KW3lvaefaZ6Njad11VPUqiCDzt4gGxfWRGl/d7XFnPZZ0qApt
-	PwNWwAAau7Lk+bDi/uJflTHRuzD0tCurFlfvEv9C2CsH9M/vaSTz7pl/eGwSyFK0Wog
-	O61ru3lwKzQyyUZ7YxHdaLiywmFDt4v/lYhdJ590=
+	bh=usXjhcyXCASEuuH5AS41fTl1RHQQfTmECrFaUhozvPE=;
+	b=Nim2ydP0rVIzgZLgAoz2jmGRvc1Te2Z6dfDFQ2p98gXF+hLpLb/gABx59YtYbjda
+	fRg2BymUUBoj7qe+xQ778KlWxWubIH311y05+KPOPiZd6PE+GzZeiuSbx+cqe8CUCGP
+	0CKLfO2qODMs/QVA+/ZcobJv5gLwbhGC9NOdQ1E0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1652634913;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Cfj+BRT3TslzaeMwoESk4pUm3ZMKqVCjcesaFL1m59w=;
-	b=jm8yMvPhpFV17eM/mU8XdFaUo/Jteeq5AbEIfewTpa1PgaCkPZbE7ftsOiA1/RES
-	nfNgRxfJb1SbJhAZba4IkB51/d1XMlZMoAjwhHN+oz3ckBokoL/7kQU4uDi1poDVJF9
-	2uQbmU/eQQoWS0VspaN+ndrRaOgAcP8PgGRHdP1c=
-Content-Type: multipart/mixed; boundary="===============0426344736683123178=="
+	bh=usXjhcyXCASEuuH5AS41fTl1RHQQfTmECrFaUhozvPE=;
+	b=Y4vbWYPrkzzFa+XyAGryrOucq5DcW/abgF5QIP3LCKp6wyDFvDlj8h3pfj1xnGUd
+	N2U7lx9eJZPyGx+IaSs841akMB7u2wEfTgsFCSYbjxcm/5sf3DLcDHUvdw35jP81aOp
+	8qUcb1D0H7Vl3VRH39xY/klqfyJaanBFWd2CrTiY=
+Content-Type: multipart/mixed; boundary="===============0143226088298373474=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] librsvg: upgrading to 2.54.3 SUCCEEDED
+Subject: [AUH] repo: upgrading to 2.25 SUCCEEDED
 Message-ID: 
- <01010180c8b78a22-439f7228-dad1-4c74-841c-e942be2092d0-000000@us-west-2.amazonses.com>
+ <01010180c8b788cf-821bb1ff-c35c-4c95-928c-c46447264744-000000@us-west-2.amazonses.com>
 Date: Sun, 15 May 2022 17:15:13 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.05.15-54.240.27.45
+X-SES-Outgoing: 2022.05.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 May 2022 17:15:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165627
+ https://lists.openembedded.org/g/openembedded-core/message/165629
 
---===============0426344736683123178==
+--===============0143226088298373474==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *librsvg* to *2.54.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *repo* to *2.25* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-librsvg-upgrade-2.54.1-2.54.3.patch
+    - apply the patch: git am 0001-repo-upgrade-2.24.1-2.25.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,71 +75,64 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0426344736683123178==
+--===============0143226088298373474==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/librsvg: SRC_URI changed from "https://download.gnome.org/sources//librsvg/2.54/librsvg-2.54.1.tar.xz;name=archive file://0001-Makefile.am-pass-rust-target-to-cargo-also-when-not-.patch file://0001-system-deps-src-lib.rs-do-not-probe-into-harcoded-li.patch" to "https://download.gnome.org/sources//librsvg/2.54/librsvg-2.54.3.tar.xz;name=archive file://0001-Makefile.am-pass-rust-target-to-cargo-also-when-not-.patch file://0001-system-deps-src-lib.rs-do-not-probe-into-harcoded-li.patch"
-packages/core2-32-poky-linux/librsvg: PKGV changed from 2.54.1 [default] to 2.54.3 [default]
-packages/core2-32-poky-linux/librsvg: PV changed from "2.54.1" to "2.54.3"
-packages/core2-32-poky-linux/librsvg/librsvg-dbg: PKGSIZE changed from 8046556 to 8046808 (+0%)
-packages/core2-32-poky-linux/librsvg/librsvg-dbg: PKGV changed from 2.54.1 [default] to 2.54.3 [default]
-packages/core2-32-poky-linux/librsvg/librsvg-dbg: PV changed from "2.54.1" to "2.54.3"
-packages/core2-32-poky-linux/librsvg/librsvg-dev: PKGV changed from 2.54.1 [default] to 2.54.3 [default]
-packages/core2-32-poky-linux/librsvg/librsvg-dev: PV changed from "2.54.1" to "2.54.3"
-packages/core2-32-poky-linux/librsvg/librsvg-doc: PKGV changed from 2.54.1 [default] to 2.54.3 [default]
-packages/core2-32-poky-linux/librsvg/librsvg-doc: PV changed from "2.54.1" to "2.54.3"
-packages/core2-32-poky-linux/librsvg/librsvg-gtk: PKGV changed from 2.54.1 [default] to 2.54.3 [default]
-packages/core2-32-poky-linux/librsvg/librsvg-gtk: PV changed from "2.54.1" to "2.54.3"
-packages/core2-32-poky-linux/librsvg/librsvg-locale: PKGV changed from 2.54.1 [default] to 2.54.3 [default]
-packages/core2-32-poky-linux/librsvg/librsvg-locale: PV changed from "2.54.1" to "2.54.3"
-packages/core2-32-poky-linux/librsvg/librsvg-src: PKGV changed from 2.54.1 [default] to 2.54.3 [default]
-packages/core2-32-poky-linux/librsvg/librsvg-src: PV changed from "2.54.1" to "2.54.3"
-packages/core2-32-poky-linux/librsvg/librsvg-staticdev: PKGV changed from 2.54.1 [default] to 2.54.3 [default]
-packages/core2-32-poky-linux/librsvg/librsvg-staticdev: PV changed from "2.54.1" to "2.54.3"
-packages/core2-32-poky-linux/librsvg/librsvg: PKGSIZE changed from 11849919 to 11878599 (+0%)
-packages/core2-32-poky-linux/librsvg/librsvg: PKGV changed from 2.54.1 [default] to 2.54.3 [default]
-packages/core2-32-poky-linux/librsvg/librsvg: PV changed from "2.54.1" to "2.54.3"
-packages/core2-32-poky-linux/librsvg/rsvg: PKGV changed from 2.54.1 [default] to 2.54.3 [default]
-packages/core2-32-poky-linux/librsvg/rsvg: PV changed from "2.54.1" to "2.54.3"
+packages/core2-32-poky-linux/repo: PV changed from "2.24.1" to "2.25"
+packages/core2-32-poky-linux/repo: PKGV changed from 2.24.1 [default] to 2.25 [default]
+packages/core2-32-poky-linux/repo/repo-dbg: PV changed from "2.24.1" to "2.25"
+packages/core2-32-poky-linux/repo/repo-dbg: PKGV changed from 2.24.1 [default] to 2.25 [default]
+packages/core2-32-poky-linux/repo/repo-dev: PV changed from "2.24.1" to "2.25"
+packages/core2-32-poky-linux/repo/repo-dev: PKGV changed from 2.24.1 [default] to 2.25 [default]
+packages/core2-32-poky-linux/repo/repo-doc: PV changed from "2.24.1" to "2.25"
+packages/core2-32-poky-linux/repo/repo-doc: PKGV changed from 2.24.1 [default] to 2.25 [default]
+packages/core2-32-poky-linux/repo/repo-locale: PV changed from "2.24.1" to "2.25"
+packages/core2-32-poky-linux/repo/repo-locale: PKGV changed from 2.24.1 [default] to 2.25 [default]
+packages/core2-32-poky-linux/repo/repo-src: PV changed from "2.24.1" to "2.25"
+packages/core2-32-poky-linux/repo/repo-src: PKGV changed from 2.24.1 [default] to 2.25 [default]
+packages/core2-32-poky-linux/repo/repo-staticdev: PV changed from "2.24.1" to "2.25"
+packages/core2-32-poky-linux/repo/repo-staticdev: PKGV changed from 2.24.1 [default] to 2.25 [default]
+packages/core2-32-poky-linux/repo/repo: PV changed from "2.24.1" to "2.25"
+packages/core2-32-poky-linux/repo/repo: PKGV changed from 2.24.1 [default] to 2.25 [default]
 
---===============0426344736683123178==
+--===============0143226088298373474==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-librsvg-upgrade-2.54.1-2.54.3.patch"
+ filename="0001-repo-upgrade-2.24.1-2.25.patch"
 
-From f7a72d7666f6a132bd28fbee16e8361669d7c6cf Mon Sep 17 00:00:00 2001
+From a671671b731c4c99fb033cc77961548c8d4c90f9 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 May 2022 11:50:22 +0000
-Subject: [PATCH] librsvg: upgrade 2.54.1 -> 2.54.3
+Date: Sun, 15 May 2022 09:19:02 +0000
+Subject: [PATCH] repo: upgrade 2.24.1 -> 2.25
 
 ---
- .../librsvg/{librsvg_2.54.1.bb => librsvg_2.54.3.bb}            | 2 +-
+ meta/recipes-devtools/repo/{repo_2.24.1.bb => repo_2.25.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/librsvg/{librsvg_2.54.1.bb => librsvg_2.54.3.bb} (96%)
+ rename meta/recipes-devtools/repo/{repo_2.24.1.bb => repo_2.25.bb} (95%)
 
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.54.1.bb b/meta/recipes-gnome/librsvg/librsvg_2.54.3.bb
-similarity index 96%
-rename from meta/recipes-gnome/librsvg/librsvg_2.54.1.bb
-rename to meta/recipes-gnome/librsvg/librsvg_2.54.3.bb
-index 7bad2ed816..958e80f00a 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.54.1.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.54.3.bb
-@@ -20,7 +20,7 @@ SRC_URI += "file://0001-Makefile.am-pass-rust-target-to-cargo-also-when-not-.pat
-            file://0001-system-deps-src-lib.rs-do-not-probe-into-harcoded-li.patch \
+diff --git a/meta/recipes-devtools/repo/repo_2.24.1.bb b/meta/recipes-devtools/repo/repo_2.25.bb
+similarity index 95%
+rename from meta/recipes-devtools/repo/repo_2.24.1.bb
+rename to meta/recipes-devtools/repo/repo_2.25.bb
+index f6e1ce730b..b7332515c8 100644
+--- a/meta/recipes-devtools/repo/repo_2.24.1.bb
++++ b/meta/recipes-devtools/repo/repo_2.25.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+ SRC_URI = "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main \
+            file://0001-python3-shebang.patch \
             "
+-SRCREV = "0de4fc3001b36db7e107e61586296ca25bbf6d6d"
++SRCREV = "501733c2abb1180679f25b2f78970d73a2f8d413"
  
--SRC_URI[archive.sha256sum] = "d5557efbdcc415a4180e1116b7f736cb711b253d110d95fa86ec830f70026625"
-+SRC_URI[archive.sha256sum] = "66158f2ef46dde260026846c4da102e4a9dd4e5293010f30949c6cc26dd6efe8"
+ MIRRORS += "git://gerrit.googlesource.com/git-repo.git git://github.com/GerritCodeReview/git-repo.git"
  
- # librsvg is still autotools-based, but is calling cargo from its automake-driven makefiles
- # so we cannot use cargo class directly, but still need bits and pieces from it 
 -- 
 2.31.1
 
 
---===============0426344736683123178==--
+--===============0143226088298373474==--
 
