@@ -1,260 +1,402 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <ranjitsinhrathod1991@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C56EC433FE
-	for <webhook@archiver.kernel.org>; Mon, 16 May 2022 13:25:51 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web11.28727.1652707541603970399
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25A2CC433F5
+	for <webhook@archiver.kernel.org>; Mon, 16 May 2022 13:40:31 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web12.28945.1652708426435903570
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 May 2022 06:25:42 -0700
+ Mon, 16 May 2022 06:40:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ma6Da6nM;
- spf=pass (domain: gmail.com, ip: 209.85.218.47,
- mailfrom: alex.kiernan@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id g6so28693752ejw.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=dEs64y1J;
+ spf=pass (domain: gmail.com, ip: 209.85.214.175,
+ mailfrom: ranjitsinhrathod1991@gmail.com)
+Received: by mail-pl1-f175.google.com with SMTP id i17so14438596pla.10
         for <openembedded-core@lists.openembedded.org>;
- Mon, 16 May 2022 06:25:41 -0700 (PDT)
+ Mon, 16 May 2022 06:40:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2kIqLhk/grpvfVs/nsK6INI9fnI6jI5fIqnud/yplwc=;
-        b=Ma6Da6nMp6ptaqq9X6KPLZTwFFHGm+rqdYkv3Jx55xhAvUEM2lm16oizMQ5UyWvQ1H
-         wD+XT7iX+4PO39b4QNjNN4nEEuF3ckco9Yhy1ewrNAjo3+TvZjesD4aHftpy2W1Ui++/
-         SVMKD3K4rJdik+++xjO8a3/uec0WLgZ+zQLrUtqDb0Y9iLXYYz4ze8P22cu8dUSZQOo1
-         KuV0evfh8iqyjdeiJK/jCrSjmFhOxHe3emkkvAxDxja7PQ59b7fCawBsdnKFznLGqe1q
-         TGs0i4+UAgQoK1zfd1Nr42Flz4z5qW/8sO8AJ8Is6BiKi6xNUHFnUwa2/zzxsVSAhpKD
-         g/tQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=zG8+TXAj7s4sVxxg50xjV1n1IJBLPEXEsXrPeNZ5xGE=;
+        b=dEs64y1JGm/ofs7Y97WOx1s0ZW7919bzU2v3zIDcg1wvbO98oSUPfG6wY3sdPC0UCG
+         hrQH8C9Sz/J7cVLp6ZHh9Tqzn87e3/ms99GgxapXMI3VQgDu1jE/t3wmnJuji2VyM/6N
+         hb1FpZkXplFgpQlMv1DNet6Qmy5sbes59354850CDFWAfRVcxyN1EJ8QS6sEkLinjkTX
+         ZAT9IsZFJ1D+/vzAS7AWsy0x/iqCn2gHDvlJCyVKrEySO3aUrxB9mXbTJq/QSEBGRYRn
+         t5B1R02d/XQkrVAyDD8EZEO4nnFz9SWI7B6RpuEHjsFeawfcJK7YTjjpMnW+l2fEd8Ba
+         RISA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2kIqLhk/grpvfVs/nsK6INI9fnI6jI5fIqnud/yplwc=;
-        b=0DlbbiUx6eW2UU4/nTBWGQ2vc+ngibv4mrggNIATIJUTRmNssvkeHyKdWydUstXZ5Q
-         lXLws+DYIP87RA+3TN4kURWpgLUSOm3rlvORFS5U+k/M81NOGeuRRZhwBW1KqAAVo3u+
-         izS8fef41MANUuUg31PjMz1xTF3nXjwxFwyDZ+DJxSu5PS84xt0/Wa0J/74srAh+baLh
-         GBqOmWcDFeM5KeoX//FRD8CHC+JZ/5cKewblsebgx4/4/z+9WEzHTd92G9cq3HSif9eg
-         Eyv8sO6UOdt+4++yXjT45XGrkjl6Vt1SrNeEWvHsIM38oz+w9cVHGwHBIKs5fypXZPWK
-         vQPQ==
-X-Gm-Message-State: AOAM530QxwI3j//bKO55NUwAyf5dui9Dz9tZQAOzLglxcTEFRHVXn1d0
-	jst/bevnYl6uTTV6C5U3xmPAjJIDDSIkaLXB9eY=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=zG8+TXAj7s4sVxxg50xjV1n1IJBLPEXEsXrPeNZ5xGE=;
+        b=Oms4XXCO+hXYA5+ykPrCbu+K0nlwl8JjSCeYIwAKd0K3rfPIi5riRRwKMfgBa+g1yt
+         TAx2N5TM5J4klSYpUbW4dpOrxsDVCbuTaUNZVVGJVpOcbKayYik53U1Mz5Bs9vu0iCXO
+         J7Xc80wHHxqwmK171da4VhIb/LUzFx6YfE0aD9ibV+aKuLJ8OZWNDgZH9lhA3arwXAoP
+         u2hSMXjGIj+x2OKEpgmeLwUIgjDfd+9j+cUZyluYoCvmY2796JBnGRadx3aRxppQvxH6
+         OW8sWcD3oMGHV4bvBft86Hh4srv4Xf5WL8/MZfst94x5Znce5CjLOnHe8uC2/ah+mlbr
+         YS4w==
+X-Gm-Message-State: AOAM5301I6VP0wE3HLJY+XEeCgOhe2ckUjUTGf7OnsQhh8cBBXbpiUtL
+	fUMp+CeJvpmVZ1JvXtXDKSua40hkmIY=
 X-Google-Smtp-Source: 
- ABdhPJzApwQ6D3y2ByfrgGdFM4CJmzUVmd1oeJ88K5EcfWRzfQccVfSva9TtjBw8e017b/6mMweBpweY8uEscjFvZPE=
-X-Received: by 2002:a17:907:8a24:b0:6f5:2d67:4829 with SMTP id
- sc36-20020a1709078a2400b006f52d674829mr15129422ejc.512.1652707540039; Mon, 16
- May 2022 06:25:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220512054303.429208-1-changqing.li@windriver.com>
- <CAO5Uq5TO3gZQNkucAy9s8aiJ=0+nMJDe-zw=SBT+wOjbUQwniQ@mail.gmail.com>
- <dbf5957af1a1afd39a90465b47eeae90fa6f350e.camel@linuxfoundation.org>
- <SN6PR11MB25578B38EF44CB5A0D00A40782CA9@SN6PR11MB2557.namprd11.prod.outlook.com>
- <CAO5Uq5Tyakm1_Q26j93ok83of5Uru-J07i4657fg58AYxBTaQw@mail.gmail.com>
- <SN6PR11MB255731C22AC93F566A3FEB6C82CF9@SN6PR11MB2557.namprd11.prod.outlook.com>
- <16EF875D3CF1EBA0.26893@lists.openembedded.org>
-In-Reply-To: <16EF875D3CF1EBA0.26893@lists.openembedded.org>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Mon, 16 May 2022 14:25:28 +0100
-Message-ID: 
- <CAO5Uq5Sffo9-v-L_ZUrL5fTTskjXjoOtmX-Bf5AddBV5R6FXYw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] eudev: create static nodes from modules
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Cc: "Li, Changqing" <Changqing.Li@windriver.com>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ ABdhPJzh33W+ODViR3Z8XWGrI39UC8KMU+SltW19qXIumLrrkBeJ6/mAvYMqUdLI7NtSeGZCY5C9Aw==
+X-Received: by 2002:a17:90a:170c:b0:1dc:20c4:6354 with SMTP id
+ z12-20020a17090a170c00b001dc20c46354mr19484637pjd.113.1652708425338;
+        Mon, 16 May 2022 06:40:25 -0700 (PDT)
+Received: from localhost.localdomain ([103.81.94.250])
+        by smtp.gmail.com with ESMTPSA id
+ t9-20020a1709027fc900b0015e8d4eb1e2sm6906053plb.44.2022.05.16.06.40.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 May 2022 06:40:24 -0700 (PDT)
+From: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
+Subject: [OE-Core][dunfell][PATCH] tiff: Add patches to fix multiple CVEs
+Date: Mon, 16 May 2022 19:09:56 +0530
+Message-Id: <20220516133956.1019-1-ranjitsinhrathod1991@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 May 2022 13:25:51 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 16 May 2022 13:40:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165683
+ https://lists.openembedded.org/g/openembedded-core/message/165684
 
-On Mon, May 16, 2022 at 9:07 AM Alex Kiernan via
-lists.openembedded.org <alex.kiernan=gmail.com@lists.openembedded.org>
-wrote:
->
-> Untested, but if its useful (I suspect cut & paste will have broken spaces):
->
-> diff --git a/meta/recipes-core/udev/eudev/init
-> b/meta/recipes-core/udev/eudev/init
-> index c60dbbf6d512..64cd0ea3ef39 100644
-> --- a/meta/recipes-core/udev/eudev/init
-> +++ b/meta/recipes-core/udev/eudev/init
-> @@ -23,6 +23,38 @@ kill_udevd () {
->      [ -n "$pid" ] && kill $pid
->  }
->
-> +make_static_nodes () {
-> +       kmod static-nodes --format=tmpfiles |
-> +       while read TTYPE TPATH TMODE TUSER TGROUP TAGE TARG; do
-> +       case "${TTYPE}" in
-> +       'd')
-> +               test -d "${TPATH}" || mkdir -p -m "${TMODE}" "${TPATH}"
-> +               ;;
-> +
-> +       'c!')
-> +               if [ ! -c "${TPATH}" ]; then
-> +                       old_ifs="${IFS}"
-> +                       IFS=:
-> +                       set -- ${TARG}
-> +                       IFS="${old_ifs}"
-> +                       mknod -m "${TMODE}" "${TPATH}" c "$@"
-> +               fi
-> +               ;;
-> +
-> +       *)
-> +               echo ERROR
-> +               exit 1
-> +               ;;
-> +       esac
-> +       if [ "${TUSER}" != "-" ]; then
-> +               chown "${TUSER}" "${TPATH}"
-> +       fi
-> +       if [ "${TGROUP}" != "-" ]; then
-> +               chown "${TGROUP}" "${TPATH}"
+From: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
 
-chgrp
+Add patches to fix below CVE issues
+CVE-2022-0865
+CVE-2022-0907
+CVE-2022-0908
+CVE-2022-0909
+CVE-2022-0924
 
-> +       fi
-> +       done
-> +}
-> +
->  case "$1" in
->    start)
->      export ACTION=add
-> @@ -51,6 +83,8 @@ case "$1" in
->      # make_extra_nodes
->      kill_udevd > "/dev/null" 2>&1
->
-> +    make_static_nodes
-> +
->      # trigger the sorted events
->      [ -e /proc/sys/kernel/hotplug ] && printf '\0\n' >/proc/sys/kernel/hotplug
->      @UDEVD@ -d
->
-> On Mon, May 16, 2022 at 6:35 AM Li, Changqing
-> <Changqing.Li@windriver.com> wrote:
-> >
-> >
-> >
-> > ________________________________
-> > From: Alex Kiernan <alex.kiernan@gmail.com>
-> > Sent: Sunday, May 15, 2022 10:59 PM
-> > To: Li, Changqing <Changqing.Li@windriver.com>
-> > Cc: richard.purdie@linuxfoundation.org <richard.purdie@linuxfoundation.org>; Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-> > Subject: Re: [OE-core] [PATCH] eudev: create static nodes from modules
-> >
-> > [Please note: This e-mail is from an EXTERNAL e-mail address]
-> >
-> > On Fri, May 13, 2022 at 2:42 AM Li, Changqing
-> > <Changqing.Li@windriver.com> wrote:
-> > >
-> > >
-> > >
-> > > ________________________________
-> > > From: richard.purdie@linuxfoundation.org <richard.purdie@linuxfoundation.org>
-> > > Sent: Thursday, May 12, 2022 6:33 PM
-> > > To: Alex Kiernan <alex.kiernan@gmail.com>; Li, Changqing <Changqing.Li@windriver.com>
-> > > Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-> > > Subject: Re: [OE-core] [PATCH] eudev: create static nodes from modules
-> > >
-> > > [Please note: This e-mail is from an EXTERNAL e-mail address]
-> > >
-> > > On Thu, 2022-05-12 at 08:45 +0100, Alex Kiernan wrote:
-> > > > On Thu, May 12, 2022 at 6:43 AM Changqing Li <changqing.li@windriver.com> wrote:
-> > > > >
-> > > > > From: Changqing Li <changqing.li@windriver.com>
-> > > > >
-> > > > > dev in modules.devname should be populated in /dev on boot.
-> > > > > remove create static mode from udevd will make these devices
-> > > > > cannot be populated. When use sysVinit, devices like /dev/net/tun
-> > > > > will not be created.
-> > > > >
-> > > > > more info:
-> > > > > udevd in systemd also remove create static mode in udevd, but using
-> > > > > service kmod-static-nodes.service and
-> > > > > systemd-tmpfiles-setup-dev.service in systemd to create these node, so
-> > > > > systemd works well.
-> > > > >
-> > > > > Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> > > > > ---
-> > > > >  ...dev-create-static-nodes-from-modules.patch | 115 ++++++++++++++++++
-> > > > >  meta/recipes-core/udev/eudev_3.2.11.bb        |   1 +
-> > > > >  2 files changed, 116 insertions(+)
-> > > > >  create mode 100644 meta/recipes-core/udev/eudev/0001-eudev-create-static-nodes-from-modules.patch
-> > > > >
-> > > > > diff --git a/meta/recipes-core/udev/eudev/0001-eudev-create-static-nodes-from-modules.patch b/meta/recipes-core/udev/eudev/0001-eudev-create-static-nodes-from-modules.patch
-> > > > > new file mode 100644
-> > > > > index 0000000000..19611f4e89
-> > > > > --- /dev/null
-> > > > > +++ b/meta/recipes-core/udev/eudev/0001-eudev-create-static-nodes-from-modules.patch
-> > > > > @@ -0,0 +1,115 @@
-> > > > > +From 573d6c4106d5b3828da43d2843c1d599ae3cd1cd Mon Sep 17 00:00:00 2001
-> > > > > +From: Changqing Li <changqing.li@windriver.com>
-> > > > > +Date: Tue, 10 May 2022 14:04:35 +0800
-> > > > > +Subject: [PATCH] eudev: create static nodes from modules
-> > > > > +
-> > > > > +Revert commit <src/udev/udevd.c: remove create static nodes from modules>
-> > > > > +https://gitweb.gentoo.org/proj/eudev.git/commit/?id=2b7abd5ec9cc47a8b895df6db77fb1537c6f1a39
-> > > > > +
-> > > > > +Upstream-Status: Inappropriate [oe-specific]
-> > > > > +
-> > > > > +Upstream intentionally remove create static nodes from modules, it is
-> > > > > +expected handled by tmpfiles services, refer [1].
-> > > > > +[1] https://github.com/eudev-project/eudev/issues/229
-> > > > > +
-> > > > > +For yocto, when start with sysVinit, to enable systemd distro feature,
-> > > > > +and install systemd-tmpfiles is not proper, so revert this commit.
-> > > > > +
-> > > >
-> > > > Reading the upstream issue, I'm not sure this really is an
-> > > > "Inappropriate" upstream. eudev has dropped this commit, because you
-> > > > can use systemd-tmpfiles ("as it works without systemd and can be
-> > > > compiled individually" - presumably using our unsupported musl
-> > > > patches...) or opentmpfiles (which is dead and points you back to
-> > > > systemd-tmpfiles).
-> > > >
-> > > > Feels like this is an engage with upstream rather than carry a patch
-> > > > forever which just causes us to be perpetually divergent.
-> > >
-> > > I agree, this does sound like something we need to address to keep the
-> > > project maintainable...
-> > >
-> > > I tried to suggest upstream to add this back,  but  upstream seems prefer to use tmpfile solution.
-> > >
-> >
-> > Given how limited the output format which static-nodes generates for
-> > tmpfiles is (just d and c! entries), parsing that output directly as
-> > part the eudev init script wouldn't be horrible. Or make kmod generate
-> > files in the format that volatiles expects? Though that would need
-> > populate-volatile extending to generate device nodes.
-> >
-> > Thanks, I will dig more about the tmpfile solution, and send a V2 patch.
-> >
-> > Regards
-> > Changqing
-> >
-> > --
-> > Alex Kiernan
->
->
->
-> --
-> Alex Kiernan
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#165667): https://lists.openembedded.org/g/openembedded-core/message/165667
-> Mute This Topic: https://lists.openembedded.org/mt/91052396/3618097
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kiernan@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
+Signed-off-by: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
+---
+ .../libtiff/files/CVE-2022-0865.patch         | 39 ++++++++
+ .../libtiff/files/CVE-2022-0907.patch         | 94 +++++++++++++++++++
+ .../libtiff/files/CVE-2022-0908.patch         | 34 +++++++
+ .../libtiff/files/CVE-2022-0909.patch         | 37 ++++++++
+ .../libtiff/files/CVE-2022-0924.patch         | 58 ++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |  5 +
+ 6 files changed, 267 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-0865.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-0907.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-0908.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-0909.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-0924.patch
 
-
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-0865.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-0865.patch
+new file mode 100644
+index 0000000000..e2d136f587
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2022-0865.patch
+@@ -0,0 +1,39 @@
++From a1c933dabd0e1c54a412f3f84ae0aa58115c6067 Mon Sep 17 00:00:00 2001
++From: Even Rouault <even.rouault@spatialys.com>
++Date: Thu, 24 Feb 2022 22:26:02 +0100
++Subject: [PATCH] tif_jbig.c: fix crash when reading a file with multiple IFD
++ in memory-mapped mode and when bit reversal is needed (fixes #385)
++
++CVE: CVE-2022-0865
++Upstream-Status: Backport [https://sources.debian.org/src/tiff/4.1.0+git191117-2%7Edeb10u4/debian/patches/CVE-2022-0865.patch/]
++Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
++Comment: No change in any hunk
++
++---
++ libtiff/tif_jbig.c | 10 ++++++++++
++ 1 file changed, 10 insertions(+)
++
++diff --git a/libtiff/tif_jbig.c b/libtiff/tif_jbig.c
++index 74086338..8bfa4cef 100644
++--- a/libtiff/tif_jbig.c
+++++ b/libtiff/tif_jbig.c
++@@ -208,6 +208,16 @@ int TIFFInitJBIG(TIFF* tif, int scheme)
++ 	 */
++ 	tif->tif_flags |= TIFF_NOBITREV;
++ 	tif->tif_flags &= ~TIFF_MAPPED;
+++	/* We may have read from a previous IFD and thus set TIFF_BUFFERMMAP and
+++	 * cleared TIFF_MYBUFFER. It is necessary to restore them to their initial
+++	 * value to be consistent with the state of a non-memory mapped file.
+++	 */
+++	if (tif->tif_flags&TIFF_BUFFERMMAP) {
+++		tif->tif_rawdata = NULL;
+++		tif->tif_rawdatasize = 0;
+++		tif->tif_flags &= ~TIFF_BUFFERMMAP;
+++		tif->tif_flags |= TIFF_MYBUFFER;
+++	}
++ 
++ 	/* Setup the function pointers for encode, decode, and cleanup. */
++ 	tif->tif_setupdecode = JBIGSetupDecode;
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-0907.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-0907.patch
+new file mode 100644
+index 0000000000..da3ead5481
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2022-0907.patch
+@@ -0,0 +1,94 @@
++From 40b00cfb32256d377608b4d4cd30fac338d0a0bc Mon Sep 17 00:00:00 2001
++From: Augustus <wangdw.augustus@qq.com>
++Date: Mon, 7 Mar 2022 18:21:49 +0800
++Subject: [PATCH] add checks for return value of limitMalloc (#392)
++
++CVE: CVE-2022-0907
++Upstream-Status: Backport [https://sources.debian.org/src/tiff/4.1.0+git191117-2%7Edeb10u4/debian/patches/CVE-2022-0907.patch/]
++Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
++Comment: No change in any hunk
++
++---
++ tools/tiffcrop.c | 33 +++++++++++++++++++++------------
++ 1 file changed, 21 insertions(+), 12 deletions(-)
++
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index f2e5474a..9b8acc7e 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -7337,7 +7337,11 @@ createImageSection(uint32_t sectsize, unsigned char **sect_buff_ptr)
++   if (!sect_buff)
++     {
++     sect_buff = (unsigned char *)_TIFFmalloc(sectsize);
++-    *sect_buff_ptr = sect_buff;
+++    if (!sect_buff)
+++    {
+++        TIFFError("createImageSection", "Unable to allocate/reallocate section buffer");
+++        return (-1);
+++    }
++     _TIFFmemset(sect_buff, 0, sectsize);
++     }
++   else
++@@ -7353,15 +7357,15 @@ createImageSection(uint32_t sectsize, unsigned char **sect_buff_ptr)
++       else
++         sect_buff = new_buff;
++ 
+++      if (!sect_buff)
+++      {
+++          TIFFError("createImageSection", "Unable to allocate/reallocate section buffer");
+++          return (-1);
+++      }
++       _TIFFmemset(sect_buff, 0, sectsize);
++       }
++     }
++ 
++-  if (!sect_buff)
++-    {
++-    TIFFError("createImageSection", "Unable to allocate/reallocate section buffer");
++-    return (-1);
++-    }
++   prev_sectsize = sectsize;
++   *sect_buff_ptr = sect_buff;
++ 
++@@ -7628,7 +7632,11 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
++   if (!crop_buff)
++     {
++     crop_buff = (unsigned char *)_TIFFmalloc(cropsize);
++-    *crop_buff_ptr = crop_buff;
+++    if (!crop_buff)
+++    {
+++        TIFFError("createCroppedImage", "Unable to allocate/reallocate crop buffer");
+++        return (-1);
+++    }
++     _TIFFmemset(crop_buff, 0, cropsize);
++     prev_cropsize = cropsize;
++     }
++@@ -7644,15 +7652,15 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
++         }
++       else
++         crop_buff = new_buff;
+++      if (!crop_buff)
+++      {
+++          TIFFError("createCroppedImage", "Unable to allocate/reallocate crop buffer");
+++          return (-1);
+++      }
++       _TIFFmemset(crop_buff, 0, cropsize);
++       }
++     }
++ 
++-  if (!crop_buff)
++-    {
++-    TIFFError("createCroppedImage", "Unable to allocate/reallocate crop buffer");
++-    return (-1);
++-    }
++   *crop_buff_ptr = crop_buff;
++ 
++   if (crop->crop_mode & CROP_INVERT)
++@@ -9211,3 +9219,4 @@ invertImage(uint16_t photometric, uint16_t spp, uint16_t bps, uint32_t width, ui
++  * fill-column: 78
++  * End:
++  */
+++
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-0908.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-0908.patch
+new file mode 100644
+index 0000000000..e65af6c600
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2022-0908.patch
+@@ -0,0 +1,34 @@
++From a95b799f65064e4ba2e2dfc206808f86faf93e85 Mon Sep 17 00:00:00 2001
++From: Even Rouault <even.rouault@spatialys.com>
++Date: Thu, 17 Feb 2022 15:28:43 +0100
++Subject: [PATCH] TIFFFetchNormalTag(): avoid calling memcpy() with a null
++ source pointer and size of zero (fixes #383)
++
++CVE: CVE-2022-0908
++Upstream-Status: Backport [https://sources.debian.org/src/tiff/4.1.0+git191117-2%7Edeb10u4/debian/patches/CVE-2022-0908.patch/]
++Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
++Comment: No change in any hunk
++
++---
++ libtiff/tif_dirread.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
++index 50ebf8ac..2ec44a4f 100644
++--- a/libtiff/tif_dirread.c
+++++ b/libtiff/tif_dirread.c
++@@ -5021,7 +5021,10 @@ TIFFFetchNormalTag(TIFF* tif, TIFFDirEntry* dp, int recover)
++ 								_TIFFfree(data);
++ 							return(0);
++ 						}
++-						_TIFFmemcpy(o,data,(uint32)dp->tdir_count);
+++						if (dp->tdir_count > 0 )
+++						{
+++							_TIFFmemcpy(o,data,(uint32)dp->tdir_count);
+++						}
++ 						o[(uint32)dp->tdir_count]=0;
++ 						if (data!=0)
++ 							_TIFFfree(data);
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-0909.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-0909.patch
+new file mode 100644
+index 0000000000..d487f1bd95
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2022-0909.patch
+@@ -0,0 +1,37 @@
++From 32ea0722ee68f503b7a3f9b2d557acb293fc8cde Mon Sep 17 00:00:00 2001
++From: 4ugustus <wangdw.augustus@qq.com>
++Date: Tue, 8 Mar 2022 16:22:04 +0000
++Subject: [PATCH] fix the FPE in tiffcrop (#393)
++
++CVE: CVE-2022-0909
++Upstream-Status: Backport [https://sources.debian.org/src/tiff/4.1.0+git191117-2%7Edeb10u4/debian/patches/CVE-2022-0909.patch/]
++Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
++Comment: No change in any hunk
++
++---
++ libtiff/tif_dir.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/libtiff/tif_dir.c b/libtiff/tif_dir.c
++index 57055ca9..59b346ca 100644
++--- a/libtiff/tif_dir.c
+++++ b/libtiff/tif_dir.c
++@@ -334,13 +334,13 @@ _TIFFVSetField(TIFF* tif, uint32_t tag, va_list ap)
++ 		break;
++ 	case TIFFTAG_XRESOLUTION:
++         dblval = va_arg(ap, double);
++-        if( dblval < 0 )
+++        if( dblval != dblval || dblval < 0 )
++             goto badvaluedouble;
++ 		td->td_xresolution = _TIFFClampDoubleToFloat( dblval );
++ 		break;
++ 	case TIFFTAG_YRESOLUTION:
++         dblval = va_arg(ap, double);
++-        if( dblval < 0 )
+++        if( dblval != dblval || dblval < 0 )
++             goto badvaluedouble;
++ 		td->td_yresolution = _TIFFClampDoubleToFloat( dblval );
++ 		break;
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-0924.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-0924.patch
+new file mode 100644
+index 0000000000..ddb035c972
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2022-0924.patch
+@@ -0,0 +1,58 @@
++From 88d79a45a31c74cba98c697892fed5f7db8b963a Mon Sep 17 00:00:00 2001
++From: 4ugustus <wangdw.augustus@qq.com>
++Date: Thu, 10 Mar 2022 08:48:00 +0000
++Subject: [PATCH] fix heap buffer overflow in tiffcp (#278)
++
++CVE: CVE-2022-0924
++Upstream-Status: Backport [https://sources.debian.org/src/tiff/4.1.0+git191117-2%7Edeb10u4/debian/patches/CVE-2022-0924.patch/]
++Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
++Comment: No change in any hunk
++
++---
++ tools/tiffcp.c | 17 ++++++++++++++++-
++ 1 file changed, 16 insertions(+), 1 deletion(-)
++
++diff --git a/tools/tiffcp.c b/tools/tiffcp.c
++index 224583e0..aa32b118 100644
++--- a/tools/tiffcp.c
+++++ b/tools/tiffcp.c
++@@ -1524,12 +1524,27 @@ DECLAREwriteFunc(writeBufferToSeparateSt
++ 	tdata_t obuf;
++ 	tstrip_t strip = 0;
++ 	tsample_t s;
+++	uint16 bps = 0, bytes_per_sample;
++ 
++ 	obuf = _TIFFmalloc(stripsize);
++ 	if (obuf == NULL)
++ 		return (0);
++ 	_TIFFmemset(obuf, 0, stripsize);
++ 	(void) TIFFGetFieldDefaulted(out, TIFFTAG_ROWSPERSTRIP, &rowsperstrip);
+++	(void) TIFFGetField(out, TIFFTAG_BITSPERSAMPLE, &bps);
+++	if( bps == 0 )
+++        {
+++            TIFFError(TIFFFileName(out), "Error, cannot read BitsPerSample");
+++            _TIFFfree(obuf);
+++            return 0;
+++        }
+++        if( (bps % 8) != 0 )
+++        {
+++            TIFFError(TIFFFileName(out), "Error, cannot handle BitsPerSample that is not a multiple of 8");
+++            _TIFFfree(obuf);
+++            return 0;
+++        }
+++	bytes_per_sample = bps/8;
++ 	for (s = 0; s < spp; s++) {
++ 		uint32 row;
++ 		for (row = 0; row < imagelength; row += rowsperstrip) {
++@@ -1539,7 +1539,7 @@ DECLAREwriteFunc(writeBufferToSeparateSt
++ 
++ 			cpContigBufToSeparateBuf(
++ 			    obuf, (uint8*) buf + row*rowsize + s,
++-			    nrows, imagewidth, 0, 0, spp, 1);
+++			    nrows, imagewidth, 0, 0, spp, bytes_per_sample);
++ 			if (TIFFWriteEncodedStrip(out, strip++, obuf, stripsize) < 0) {
++ 				TIFFError(TIFFFileName(out),
++ 				    "Error, can't write strip %u",
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+index e3ffb12f9e..75bc20de78 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+@@ -18,7 +18,12 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch \
+            file://561599c99f987dc32ae110370cfdd7df7975586b.patch \
+            file://eecb0712f4c3a5b449f70c57988260a667ddbdef.patch \
++           file://CVE-2022-0865.patch \
++           file://CVE-2022-0908.patch \
++           file://CVE-2022-0907.patch \
++           file://CVE-2022-0909.patch \
+            file://CVE-2022-0891.patch \
++           file://CVE-2022-0924.patch \
+           "
+ SRC_URI[md5sum] = "2165e7aba557463acc0664e71a3ed424"
+ SRC_URI[sha256sum] = "5d29f32517dadb6dbcd1255ea5bbc93a2b54b94fbf83653b4d65c7d6775b8634"
 -- 
-Alex Kiernan
+2.17.1
+
 
