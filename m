@@ -2,103 +2,167 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53104C433F5
-	for <webhook@archiver.kernel.org>; Mon, 16 May 2022 10:54:49 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web08.27204.1652698481130733197
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBFAEC433F5
+	for <webhook@archiver.kernel.org>; Mon, 16 May 2022 11:28:59 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.27390.1652700532836552093
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 May 2022 03:54:41 -0700
+ Mon, 16 May 2022 04:28:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YC5ogjgx;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UPlGi9w5;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id k126so8457853wme.2
+Received: by mail-wr1-f51.google.com with SMTP id h14so418191wrc.6
         for <openembedded-core@lists.openembedded.org>;
- Mon, 16 May 2022 03:54:40 -0700 (PDT)
+ Mon, 16 May 2022 04:28:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=tbxCU3w+IaYrgbDD1+BRkXCSx/hAFcoW00x1EzklDoM=;
-        b=YC5ogjgxDOidTS0SwjdRPf9z4XCv+G1kiJsR5quokPm/NTPJDsft9Uii90JI/M/fWh
-         veycurXpVgAfO8U5umW5oSyx3hyGqhXAAA4+VbAKXaNAurNZ2NdLpz1gyqG+nw7+T58N
-         ZdIKq/YwtSgepl0DS6mKw08XpgdihZI8b5md4=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/+pHH53lIw7MSriioi1b1BIG5VlIQqjCJOW4HoM2pGE=;
+        b=UPlGi9w549PmiStmftxqrMSJIf7B83HMBG3hg/nAa+BvKLco+ZTHTPR7mGQmOzlMhA
+         NhvJkWRzeOeE0ne6JAdyk83PBrjbi71m6CTKMg6dljX/E9nJAvoRBVrjUEXlONzuZ0lV
+         Q3PxaDln1MXENJrfe0KrHdrsRCgYkQkFTHrEY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=tbxCU3w+IaYrgbDD1+BRkXCSx/hAFcoW00x1EzklDoM=;
-        b=FGWoBEaP0aOHTpJUoOFtyorI/Yc1J/1GRX2aCTbejhNCQfZ26bApFLTWXJBIZKEuc2
-         9B0YHP5D4+UDJY5mmDLVeVuiTpqPWVCeVCGBWXPGuLJseCvXxXLWRuwq+kGKy3YYYJ8Q
-         msrSFWqLw/ebIQ4Y1myYyp7JDG/Bi06M9483rOZqqaNPCvfvP+EyN6idNV+fA7L0D8qw
-         gjJEogy3kHEnRsnQyiexlITkuFHftelmsd7caQiGU0PCYb4bJICaJ/ecyDX8udvh0RbA
-         jI58e89Av1ayTdJpQAXHfGkWKN/hzmHJdgLORxAo6JXTZprkYwmWjlHbJbEv/WQF9sr4
-         vSdA==
-X-Gm-Message-State: AOAM531Yv5zaOQ6N0IEQSJu7pii5JLdqyT3pElFwTB1fw5OajJDj7xtm
-	k3kvI5cQbWr0xGxed9bUNi/4vAcSy2d3vFze
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/+pHH53lIw7MSriioi1b1BIG5VlIQqjCJOW4HoM2pGE=;
+        b=H/xtqa8WPCj1EVDVC8uUNnkVR3ZFO+WMSryqCEeMd72jzePoSV0vC5gx7FSw1fLTMX
+         S+c0hbVQWuUxLrQYn/+ynAsysqWLjc3gYCYw9VQdYRw937tAwniWkq6HX8JwLEhgbz5d
+         Ce14AFkevtkgw1ZRVDb4rKSixb4FGda2CmE0H7E5IFafgPmSCpWKmkkk0EoMjF5FFUCJ
+         rKdhxwlxx9FjedzK9fQOGnpyMo7GwefyTTfr3W6N2tzTrHr3nEUJImQMdb/6TKmvowlU
+         6txlww16mzJQeXYJaQRfxBp1QS7gSo8hsSjzlCEVPAaj51px2ZvXsPH5mNa/D+lm8bxo
+         56Xw==
+X-Gm-Message-State: AOAM5311b4LYt4dihSgukV1M+wwESOhQYmotiDOg1brZfvWkCHwE1+44
+	D2+iSl673n5jO4yJO2vOGWx+4kmnbqaC94hu
 X-Google-Smtp-Source: 
- ABdhPJyWyO7SCteWlISQ9fkxEg0sRc0GqFSfGwQyruas1WpvriWEJ+y8lcjqnW984n5lNdcizeqARA==
-X-Received: by 2002:a05:600c:4349:b0:394:1702:6d65 with SMTP id
- r9-20020a05600c434900b0039417026d65mr26743666wme.4.1652698479519;
-        Mon, 16 May 2022 03:54:39 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:907b:5576:ab63:2b17?
- ([2001:8b0:aba:5f3c:907b:5576:ab63:2b17])
+ ABdhPJy/cxq/m3VvflHEq5rnSgdQpD5GRgjboIc3jRwftNFqwbTWZMhx/cv26cJABMN9Bx/XOGfI6w==
+X-Received: by 2002:a05:6000:1562:b0:20c:64fc:34f with SMTP id
+ 2-20020a056000156200b0020c64fc034fmr14065204wrz.132.1652700530789;
+        Mon, 16 May 2022 04:28:50 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:907b:5576:ab63:2b17])
         by smtp.gmail.com with ESMTPSA id
- l16-20020a1ced10000000b00396f8c79d22sm6084886wmh.11.2022.05.16.03.54.38
+ j15-20020adfa54f000000b0020d072f7f99sm3725492wrb.76.2022.05.16.04.28.50
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 May 2022 03:54:39 -0700 (PDT)
-Message-ID: 
- <4e640d6e43aae9a6be851539f6ddbb7882b82a62.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] squashfs-tools: always install prebuilt
- manpage
-From: richard.purdie@linuxfoundation.org
-To: Changqing Li <changqing.li@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 16 May 2022 11:54:37 +0100
-In-Reply-To: <20220516104207.1734099-1-changqing.li@windriver.com>
-References: <20220516104207.1734099-1-changqing.li@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0-1ubuntu1 
+        Mon, 16 May 2022 04:28:50 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] selftest/imagefeatures/overlayfs: Always append to
+ DISTRO_FEATURES
+Date: Mon, 16 May 2022 12:28:49 +0100
+Message-Id: <20220516112849.448882-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 May 2022 10:54:49 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 16 May 2022 11:28:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165675
+ https://lists.openembedded.org/g/openembedded-core/message/165676
 
-On Mon, 2022-05-16 at 18:42 +0800, Changqing Li wrote:
-> From: Changqing Li <changqing.li@windriver.com>
->=20
-> When other feature enabled, and involve help2man into squashfs-tools's
-> recipe-sysroot-native, install-manpages.sh will run target binary on
-> build host, eg: mksquashfs --help, which will cause error.
-> Eg:
->  ../squashfs-tools/mksquashfs: /lib/x86_64-linux-gnu/libc.so.6: version `=
-GLIBC_2.34' not found (required by ../squashfs-tools/mksquashfs)
-> > help2man: can't get `--help' info from /tmp/tmp.pEG5R8COVb/mksquashfs.s=
-h
-> > Try `--no-discard-stderr' if option outputs to stderr
-> > ./mksquashfs-manpage.sh: help2man returned error.  Aborting
-> > ../generate-manpages/install-manpages.sh: Failed to generate manpage.  =
-Aborting
->=20
-> Fixed by always install prebuilt manpage, avoid running target binary on
-> build host
->=20
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Using += unintentionally removes all over entries from DISTRO_FEATURES and
+this reduces sstate reusage on the autobuilder. Fix this to speed up builds.
 
-I'd much prefer not to carry a patch doing this. Which "other feature
-enabled" trigger this to happen?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/cases/imagefeatures.py |  2 +-
+ meta/lib/oeqa/selftest/cases/overlayfs.py     | 16 ++++++++--------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-We might want to talk to upstream about making this configurable rather
-than carrying a patch, or we make sure help2man is never accessible to
-this recipe in some other way.
-
-Cheers,
-
-Richard
+diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/selftest/cases/imagefeatures.py
+index 6b94ace4eba0..6d010b3e3a7e 100644
+--- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
++++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
+@@ -235,7 +235,7 @@ USERADD_GID_TABLES += "files/static-group"
+ DISTRO_FEATURES:append = " pam opengl wayland"
+ 
+ # Switch to systemd
+-DISTRO_FEATURES += "systemd"
++DISTRO_FEATURES:append = " systemd"
+ VIRTUAL-RUNTIME_init_manager = "systemd"
+ VIRTUAL-RUNTIME_initscripts = ""
+ VIRTUAL-RUNTIME_syslog = ""
+diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py b/meta/lib/oeqa/selftest/cases/overlayfs.py
+index ce1d2f1ec37c..96beb8b869bc 100644
+--- a/meta/lib/oeqa/selftest/cases/overlayfs.py
++++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
+@@ -55,7 +55,7 @@ inherit overlayfs
+ 
+         config = """
+ IMAGE_INSTALL:append = " overlayfs-user"
+-DISTRO_FEATURES += "systemd overlayfs"
++DISTRO_FEATURES:append = " systemd overlayfs"
+ """
+ 
+         self.write_config(config)
+@@ -94,7 +94,7 @@ OVERLAYFS_QA_SKIP[mnt-overlay] = "mount-configured"
+ 
+         config = """
+ IMAGE_INSTALL:append = " overlayfs-user"
+-DISTRO_FEATURES += "systemd overlayfs"
++DISTRO_FEATURES:append = " systemd overlayfs"
+ """
+ 
+         self.write_config(config)
+@@ -112,7 +112,7 @@ DISTRO_FEATURES += "systemd overlayfs"
+ 
+         config = """
+ IMAGE_INSTALL:append = " overlayfs-user"
+-DISTRO_FEATURES += "systemd overlayfs"
++DISTRO_FEATURES:append = " systemd overlayfs"
+ """
+ 
+         wrong_machine_config = """
+@@ -136,7 +136,7 @@ OVERLAYFS_MOUNT_POINT[usr-share-overlay] = "/usr/share/overlay"
+ 
+         config = """
+ IMAGE_INSTALL:append = " overlayfs-user systemd-machine-units"
+-DISTRO_FEATURES += "systemd overlayfs"
++DISTRO_FEATURES:append = " systemd overlayfs"
+ 
+ # Use systemd as init manager
+ VIRTUAL-RUNTIME_init_manager = "systemd"
+@@ -271,7 +271,7 @@ class OverlayFSEtcRunTimeTests(OESelftestTestCase):
+         """
+ 
+         configBase = """
+-DISTRO_FEATURES += "systemd"
++DISTRO_FEATURES:append = " systemd"
+ 
+ # Use systemd as init manager
+ VIRTUAL-RUNTIME_init_manager = "systemd"
+@@ -313,7 +313,7 @@ OVERLAYFS_ETC_DEVICE = "/dev/mmcblk0p1"
+         """
+ 
+         config = """
+-DISTRO_FEATURES += "systemd"
++DISTRO_FEATURES:append = " systemd"
+ 
+ # Use systemd as init manager
+ VIRTUAL-RUNTIME_init_manager = "systemd"
+@@ -349,7 +349,7 @@ INHERIT += "overlayfs-etc"
+         """
+ 
+         config = f"""
+-DISTRO_FEATURES += "systemd"
++DISTRO_FEATURES:append = " systemd"
+ 
+ # Use systemd as init manager
+ VIRTUAL-RUNTIME_init_manager = "systemd"
+@@ -391,7 +391,7 @@ OVERLAYFS_ETC_DEVICE = "/dev/sda3"
+         """
+ 
+         config = """
+-DISTRO_FEATURES += "systemd"
++DISTRO_FEATURES:append = " systemd"
+ 
+ # Use systemd as init manager
+ VIRTUAL-RUNTIME_init_manager = "systemd"
+-- 
+2.34.1
 
 
