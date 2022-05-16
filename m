@@ -1,90 +1,131 @@
-Return-Path: <trini@konsulko.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3B5AC433EF
-	for <webhook@archiver.kernel.org>; Mon, 16 May 2022 14:51:11 +0000 (UTC)
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
- [209.85.222.182])
- by mx.groups.io with SMTP id smtpd.web10.29656.1652712662723096836
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49649C433EF
+	for <webhook@archiver.kernel.org>; Mon, 16 May 2022 16:12:37 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.167.1652717554020775086
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 May 2022 07:51:02 -0700
+ Mon, 16 May 2022 09:12:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=sGRpcSRr;
- spf=pass (domain: konsulko.com, ip: 209.85.222.182,
- mailfrom: trini@konsulko.com)
-Received: by mail-qk1-f182.google.com with SMTP id v11so12419134qkf.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=TbsLwF6v;
+ spf=pass (domain: gmail.com, ip: 209.85.214.174,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f174.google.com with SMTP id i8so953072plr.13
         for <openembedded-core@lists.openembedded.org>;
- Mon, 16 May 2022 07:51:02 -0700 (PDT)
+ Mon, 16 May 2022 09:12:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=SVvZCl1kRn5GL4+xjgwkypVRI41Cxvx2Rny492OxCvY=;
-        b=sGRpcSRryFhXAbgpYnNUZ1qinisvkDTqBFuJU+zBKK9n9VrZ6bBPs5zzFCBnloHk25
-         cA+3i5xFF4lDLPH5BFUPKNAxHar5+elvvSC3kTi5DTgZRYsqA3dRNCv16HEB/6666dFl
-         dM6xdB9T/Exlh4roH2qoTVWVGFWm6DTGwwIxc=
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:organization:in-reply-to:content-transfer-encoding;
+        bh=SOyhBkU5hL0Z2q5Za1z6ZW91GAYgTtExzI7Be2DbXkM=;
+        b=TbsLwF6voh2hJ9e0vYwJtzTkFfX8+IHVWong1h6waU8eTLt9DY2DgK//Taz08LrPSh
+         VyJDGv07vCY5t210MER98hTm7Q+p6B9mcoK3slGL5L3yekHl+p+BYFgc6p//xtjBRZlf
+         XKWCiFalbSaEDeufYa6TFTT/bIhz+qi7Wpw4htgk5R3ObJ/O93OpRozXAtLy3r9r9yBc
+         oSkgdHP1iVlSvR33SfI1xCpRmS+p7GMOP3X3yYSc52coImW5s3sQhpYQiImSpta894pM
+         mmxIVrPWgtqVNToG1WZYemP/VW20EDs8D1cJ7mR7WpHqKUXpYU+KJEDStU7U3Hl0qcwZ
+         CL3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=SVvZCl1kRn5GL4+xjgwkypVRI41Cxvx2Rny492OxCvY=;
-        b=DK+Ajk87jS3li2sBrbkc/Eid71I7TuwKYJUu8S9GcPepd3RywISPoslQnlcc2Krig0
-         yhLos4biY/sNTcqPAx1GbU4dWKVwjWJZz/pZCLXsmw5yMAd+ArKe4wWdUsZIYpSJocl2
-         70Vk27Il0p5rGydK1KTusfzXD8rzMiCC17ihlmM7mFMFBVmm4YW5NJ3VL3y3ZFbFeso0
-         cWjtyJW56fPpd2/F8QQidsfSIC6xT0nJfFY88BcoQCIiIlZ6pxKyNn5aDWFRv7lgsUHk
-         we7c43sawe7paiqd2rgOgEpkjQEV+1DzBQ1jLoqZASs4bt1FtounF0kMgxTRI7/3s5SX
-         yqqA==
-X-Gm-Message-State: AOAM533LsOx3cdMXv7f0KthnQ8vrGWmCJUt0x8cIfE9SiXX+V/ArZ1/s
-	QGzK2cR7l5EzXkjk/os4tQm2mQ==
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=SOyhBkU5hL0Z2q5Za1z6ZW91GAYgTtExzI7Be2DbXkM=;
+        b=jbk0WRlTnOvlI2baD7LwgfIsyVkGDmhNigL2+HgWVdsJXXAg1D3GXtG3XN8aBshsP6
+         +lkQyH4ntwdUs1a5kuuSuLKvRFHUSfj2DTtuEUMFwaLg6QPb6rZ+phRIatgMrgIvP+WC
+         LUQXI936xonJILV6RyGLedZdz9OIXZhjfcttlqJHUcnJ8XEiKw4x53aXYPhPTP67kf0u
+         nzXaZhJmtxekUnqkqxG9e2enS8yLpF8/dXfRoS+C+vMXjo/TqVSaCOa7ELjpWmzjsGH6
+         hw4YL/VSj9vN5Y5Pr69+fK5CyJgDVSNpmOwGVZE54HCoN2jgF3tduUs9xBY885MXlSec
+         hxew==
+X-Gm-Message-State: AOAM533tNRMrRQ1cvgB5a5YOhjssXi8AS/Umc0vEZu1m4kHpcd/nspHl
+	AJ0pKbcs1N41ImdwON96t8fS1hi/SgxXRQ==
 X-Google-Smtp-Source: 
- ABdhPJyuRde62ZiY95lH9sETZn4JkRowoddOfAOB2VXgiVtsBVbQ+y3/Ig0+5U/tajoF5bydig+dGA==
-X-Received: by 2002:a05:620a:4015:b0:6a0:2b3e:7d45 with SMTP id
- h21-20020a05620a401500b006a02b3e7d45mr12513206qko.201.1652712661866;
-        Mon, 16 May 2022 07:51:01 -0700 (PDT)
-Received: from bill-the-cat
- (2603-6081-7b01-4500-3ccd-92b2-2517-a737.res6.spectrum.com.
- [2603:6081:7b01:4500:3ccd:92b2:2517:a737])
+ ABdhPJx3NEs062hwrr+iOP/KXcBBJxoMm2jNZ5LrysHWnt86rt8Q7tSto72PTV5RaNxor56xsBbraw==
+X-Received: by 2002:a17:90a:17a9:b0:1df:4826:5155 with SMTP id
+ q38-20020a17090a17a900b001df48265155mr7578691pja.201.1652717553095;
+        Mon, 16 May 2022 09:12:33 -0700 (PDT)
+Received: from ?IPV6:2601:646:9200:a0f0:c8de:10c7:fa38:24ed?
+ ([2601:646:9200:a0f0:c8de:10c7:fa38:24ed])
         by smtp.gmail.com with ESMTPSA id
- n13-20020ae9c30d000000b0069fc13ce1dbsm6122775qkg.12.2022.05.16.07.51.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 May 2022 07:51:01 -0700 (PDT)
-Date: Mon, 16 May 2022 10:50:59 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Marek Vasut <marek.vasut@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [AUH] u-boot-tools: upgrading to 2022.04 FAILED
-Message-ID: <20220516145059.GO3901321@bill-the-cat>
-References: 
- <01010180c8b78249-6b4db853-83f0-4b03-aed5-d70d27cab76f-000000@us-west-2.amazonses.com>
- <CANNYZj90hTOst=OQGfvKrJkv6THpTrLFRFBsKE+uQZgLUawvFw@mail.gmail.com>
+ x4-20020a62fb04000000b0050dc76281a9sm7054786pfm.131.2022.05.16.09.12.32
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 May 2022 09:12:32 -0700 (PDT)
+Message-ID: <f843ab80-94fb-a6d9-ef87-fc815baa2862@gmail.com>
+Date: Mon, 16 May 2022 09:12:31 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: 
- <CANNYZj90hTOst=OQGfvKrJkv6THpTrLFRFBsKE+uQZgLUawvFw@mail.gmail.com>
-X-Clacks-Overhead: GNU Terry Pratchett
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.0
+Subject: Re: [OE-core] [PATCH] binutils: Bump to latest 2.38 release branch
+Content-Language: en-US
+To: openembedded-core@lists.openembedded.org
+References: <20220516071118.496613-1-samuli.piippo@qt.io>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+In-Reply-To: <20220516071118.496613-1-samuli.piippo@qt.io>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 May 2022 14:51:11 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 16 May 2022 16:12:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165687
+ https://lists.openembedded.org/g/openembedded-core/message/165688
 
-On Mon, May 16, 2022 at 04:43:47PM +0200, Alexander Kanavin wrote:
 
-> On Sun, 15 May 2022 at 19:15, Auto Upgrade Helper <auh@yoctoproject.org> wrote:
-> > do_compile failed
+
+On 5/16/22 12:11 AM, Samuli Piippo wrote:
+> Fixes Qt build with GCC 12.1.
 > 
-> The u-boot update is held by
-> https://source.denx.de/u-boot/u-boot/-/issues/12
+> Brings following fixes
 > 
-> Please address :)
+>   * 3d549e5ccc0 PR29142, segv in ar with empty archive and libdeps specified
+>   * c473aa1b9d8 M68K: avoid quadratic slowdlow in label alignment check
+>   * 8d1187516e3 Adjust ld ctf test for 32-bit targets
+>   * 9c67f6382ac x86: Properly handle function pointer reference
+>   * 9a01457e02e s390: Add DT_JMPREL pointing to .rela.[i]plt with static-pie
+>   * 82a5bb730a1 s390: Avoid dynamic TLS relocs in PIE
+>   * d54081c642a LoongArch: Update ABI eflag in elf header.
+>   * fb4d148004f IBM zSystems: Add support for z16 as CPU name.
+>   * 975b5540232 libctf, ld: diagnose corrupted CTF header cth_strlen
+>   * 99852365513 dlltool: Use the output name as basis for deterministic temp prefixes
+>   * 210bf1d6225 Updated Serbian (for binutils/) and Russian (for gprof/) translations
+>   * fcf60fe8482 PR28959, obdump doesn't disassemble mftb instruction
+>   * e4a35c73196 PowerPC64 DT_RELR relative reloc addresses
+>   * 7183434818e Work around gcc-4 warnings in elf64-ppc.c
 
-I've followed up in the issue tracker (and figured out why I wasn't
-seeing new issues as they're filed).
+this looks ok. Out of curiousity which fix is particularly needed for QT
 
--- 
-Tom
+> 
+> Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
+> ---
+>   meta/recipes-devtools/binutils/binutils-2.38.inc | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
+> index 3544c0c7e7..dc0a2a4054 100644
+> --- a/meta/recipes-devtools/binutils/binutils-2.38.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
+> @@ -18,7 +18,7 @@ SRCBRANCH ?= "binutils-2_38-branch"
+>   
+>   UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
+>   
+> -SRCREV ?= "6938a3aca19044aeb9bc4b9564e04f9092a701ed"
+> +SRCREV ?= "134f17ef688ba4c72a6c4e57af7382882cc1a705"
+>   BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=${SRCBRANCH};protocol=git"
+>   SRC_URI = "\
+>        ${BINUTILS_GIT_URI} \
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#165664): https://lists.openembedded.org/g/openembedded-core/message/165664
+> Mute This Topic: https://lists.openembedded.org/mt/91134867/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
