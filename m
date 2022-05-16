@@ -1,260 +1,154 @@
-Return-Path: <davidegarde2000@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B051BC433FE
-	for <webhook@archiver.kernel.org>; Mon, 16 May 2022 09:50:18 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web11.26903.1652694609433258996
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D334CC433EF
+	for <webhook@archiver.kernel.org>; Mon, 16 May 2022 10:20:38 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.27108.1652696437716029783
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 May 2022 02:50:09 -0700
+ Mon, 16 May 2022 03:20:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=VI7UwFdc;
- spf=pass (domain: gmail.com, ip: 209.85.218.48,
- mailfrom: davidegarde2000@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id z2so27549148ejj.3
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ApdITs3L;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id w4so19799474wrg.12
         for <openembedded-core@lists.openembedded.org>;
- Mon, 16 May 2022 02:50:09 -0700 (PDT)
+ Mon, 16 May 2022 03:20:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=n6BfT0ZOY8sKC44vjWNl13o/oavXJFLWnt+YnrWwiUc=;
-        b=VI7UwFdc70HdgjlrI3sHfYx+2J3Xbrp7BddLKyP1pWp6c2vUp0Madsh2sQgMNkr4kK
-         7fnWacMidxSLr52GArYCxNLgkqKNziYfiM/L7nNrehU2jglJJlLN/mXK4OOcQGqPRYEu
-         x9dU1ohRqGQJUA3m/cERoZH04TMjiGhfYH5/ZbbbSU3z50pJCC7eE4AFWVe6q5t1bgVy
-         1ctdewT8VlCQ0mxBph0JO39uVS9Rp70NPE8V+9k31yt0h3BCbaXF0SjJswsRoEF1JzRb
-         q8GHt8W6wOSKIQjymeVCsjPlcApUsGF47Vsk/W+dr4ArEHQpcIN3bDLh3eAyZ2gqBh7z
-         svFg==
+        bh=VF0Q/aM6OY/uLd/4R+9qeI9LTwLSJ9yFQ0oWan04gSA=;
+        b=ApdITs3LeFr+AQYHdDIH7ynNGtKwJ1SqJCwCtaEHUg+TJfVxVgb+CDw2undJKvgy3r
+         fy71LJQkXBDlRfcN16uDBBwDJlAG98VYhQhkFc7sgfeptnhHvsC+D71L2V5yIE2/r/G7
+         9gxhRVna0fOIbYd7/sH95uXZOSajB60JKWd2A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=n6BfT0ZOY8sKC44vjWNl13o/oavXJFLWnt+YnrWwiUc=;
-        b=2XuYr5xarC+YeuQPEh2RhJ7+4q8ch0JSIzXt/KKwvCr/sJx3dTL8awvfSu9WKEyLkr
-         ixfzvo8Bm3oRaFV7UvpD1IK7sykfseRkOMynO18YllBaHyZ6+B/Zxyp9pLLArpk+yvyf
-         PqPrMtqvnZVCs+D+g3RWkJgXW6lnzfrAPFq5Xbz5Xen87pkfLpv6RypAqehX4C7qt4ji
-         1gnSxEmOZvlVBllA7seq1J4CGRlTnEJ1ALr7AQ9GTlzyJ7mgoFWu78HvU3kvil46AVAd
-         r+uP28y7+RV6v3LVRthHUzb4aioFQm25pI6Myzpuq0n7YT+hrXiBjSNQuHlyMJyLz84r
-         YraA==
-X-Gm-Message-State: AOAM532fA7JStMnLpeRa2S3V6oZm01upy5gE3ZqHeu0iC8PoDC178ARX
-	DKEAbhjLOQilsmsQz1zpmqMHzdAAr84=
+        bh=VF0Q/aM6OY/uLd/4R+9qeI9LTwLSJ9yFQ0oWan04gSA=;
+        b=kuZl6sPrc0C7Izw/BcyxjgTp/7w0sMhAH29nO5Z+DtfIcDGLdkXTK9Hp6fTJGTDQGZ
+         kOHcdNmbWCLjI7xbYCSiZHiryNF6cypVDugzN86r9F50BHVmBTRlaZZaGUWwPpG0KtKL
+         x9CYh0M5c5l3lWsnz6udbEMcPGEG+VJ/9/hDPut26Sl37Rgi5WlDJcN1wOXEW8gIF/Dm
+         AF0z8hcdDMxezxyT7Z4/x6di8+eyBpUB+jtiA4Muuajbf2K4FvZjvvg/KTLAZVxqKhBW
+         g4QF2IDj+IcnOLGHWznHUuv1X/o8eCYiQUhui1Mu2n7BHVN9arwhKpE3FnP/t0X5+V40
+         vcxA==
+X-Gm-Message-State: AOAM531nJPkBihgsm4jQgZGefA+f9w/HiJId0Iuf/X2R7/6si3qMFtWD
+	GTRyUp3D4p8TwilXkuE5zvz8QmzRFKVzjpxv
 X-Google-Smtp-Source: 
- ABdhPJzLhAvN+eoCh1JRvkyBJnLdI1V6eJ9hrleTwDihFqrZoW72OOyUSeY98h5zYnV1vtDxzdgC2g==
-X-Received: by 2002:a17:907:3e2a:b0:6f4:d700:2e65 with SMTP id
- hp42-20020a1709073e2a00b006f4d7002e65mr14782065ejc.624.1652694607462;
-        Mon, 16 May 2022 02:50:07 -0700 (PDT)
-Received: from tony3oo3-XPS-13-9370.home
- (host-87-5-19-80.retail.telecomitalia.it. [87.5.19.80])
+ ABdhPJxCL+rmm0oVLf6t+FTCEMm1A1/33xhtlncSyU7Q5XHM9MZOWh6SK0gvOq3iNcvZx4+UW7Dw2Q==
+X-Received: by 2002:a05:6000:16c6:b0:20c:f5f2:9b24 with SMTP id
+ h6-20020a05600016c600b0020cf5f29b24mr9955568wrf.523.1652696436029;
+        Mon, 16 May 2022 03:20:36 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:907b:5576:ab63:2b17])
         by smtp.gmail.com with ESMTPSA id
- y21-20020a056402171500b0042617ba639esm4950548edu.40.2022.05.16.02.50.06
+ d19-20020adf9b93000000b0020d03b5c33dsm4645895wrc.46.2022.05.16.03.20.35
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 May 2022 02:50:07 -0700 (PDT)
-From: Davide Gardenal <davidegarde2000@gmail.com>
-X-Google-Original-From: Davide Gardenal <davide.gardenal@huawei.com>
+        Mon, 16 May 2022 03:20:35 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Davide Gardenal <davide.gardenal@huawei.com>,
-	Jiaqing Zhao <jiaqing.zhao@linux.intel.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [kirkstone][PATCH] libxml2: Upgrade 2.9.13 -> 2.9.14
-Date: Mon, 16 May 2022 11:49:50 +0200
-Message-Id: <20220516094950.1033277-1-davide.gardenal@huawei.com>
-X-Mailer: git-send-email 2.32.0
+Subject: [PATCH] staging: Fix rare sysroot corruption issue
+Date: Mon, 16 May 2022 11:20:34 +0100
+Message-Id: <20220516102034.444690-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 May 2022 09:50:18 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 16 May 2022 10:20:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165671
+ https://lists.openembedded.org/g/openembedded-core/message/165672
 
-Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+We've seen failures on the autobuilder in oe-selftest where things which should
+be in the sysroot aren't. The exact steps to reproduce the exact failure are
+elusive and probably hash equivalance dependency but this set of steps does
+reproduce corruption which is probably of the same origin:
+
+Add DISTRO_FEATURES += "systemd"
+
+  bitbake dbus
+
+Remove DISTRO_FEATURES += "systemd"
+
+  bitbake dbus
+  bitbake dbus -c clean
+  bitbake dbus -c configure
+
+Add DISTRO_FEATURES += "systemd"
+
+  bitbake quilt-native
+  bitbake dbus -c populate_sysroot
+
+Remove DISTRO_FEATURES += "systemd"
+
+  bitbake dbus -c compile
+
+Where dbus will now fail as the compiler was no longer in the sysroot.
+
+This works by clearing x11 and other values out of DISTRO_FEATURES so the x11
+dependencies are removed from the sysroot. The configure stamp remains valid so
+when the original configuration is restored, it becomes valid again but a load
+of the sysroot disappeared and build failures result.
+
+Fix this by removing stamps when we remove things from the sysroot.
+
+Depends on a change to bitbake build.py to add the clean_stamp API.
+
+[YOCTO #14790]
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-Cherry-picked from master/c4ba21f4012e8859fc793bec7df76e56eb8058ec
-
-Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
 ---
- .../CVE-2022-23308-fix-regression.patch       | 99 -------------------
- .../libxml2/libxml-m4-use-pkgconfig.patch     | 21 ++--
- .../{libxml2_2.9.13.bb => libxml2_2.9.14.bb}  |  5 +-
- 3 files changed, 14 insertions(+), 111 deletions(-)
- delete mode 100644 meta/recipes-core/libxml/libxml2/CVE-2022-23308-fix-regression.patch
- rename meta/recipes-core/libxml/{libxml2_2.9.13.bb => libxml2_2.9.14.bb} (96%)
+ meta/classes/staging.bbclass | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2022-23308-fix-regression.patch b/meta/recipes-core/libxml/libxml2/CVE-2022-23308-fix-regression.patch
-deleted file mode 100644
-index e188914613..0000000000
---- a/meta/recipes-core/libxml/libxml2/CVE-2022-23308-fix-regression.patch
-+++ /dev/null
-@@ -1,99 +0,0 @@
--From 646fe48d1c8a74310c409ddf81fe7df6700052af Mon Sep 17 00:00:00 2001
--From: Nick Wellnhofer <wellnhofer@aevum.de>
--Date: Tue, 22 Feb 2022 11:51:08 +0100
--Subject: [PATCH] Fix --without-valid build
--
--Regressed in commit 652dd12a.
-----
-- valid.c | 58 ++++++++++++++++++++++++++++-----------------------------
-- 1 file changed, 29 insertions(+), 29 deletions(-)
-----
--
--From https://github.com/GNOME/libxml2.git
-- commit 646fe48d1c8a74310c409ddf81fe7df6700052af
--
--CVE: CVE-2022-23308
--Upstream-Status: Backport
--
--Signed-off-by: Joe Slater <joe.slater@windriver.com>
--
--
--diff --git a/valid.c b/valid.c
--index 8e596f1d..9684683a 100644
----- a/valid.c
--+++ b/valid.c
--@@ -479,35 +479,6 @@ nodeVPop(xmlValidCtxtPtr ctxt)
--     return (ret);
-- }
-- 
---/**
--- * xmlValidNormalizeString:
--- * @str: a string
--- *
--- * Normalize a string in-place.
--- */
---static void
---xmlValidNormalizeString(xmlChar *str) {
---    xmlChar *dst;
---    const xmlChar *src;
---
---    if (str == NULL)
---        return;
---    src = str;
---    dst = str;
---
---    while (*src == 0x20) src++;
---    while (*src != 0) {
---	if (*src == 0x20) {
---	    while (*src == 0x20) src++;
---	    if (*src != 0)
---		*dst++ = 0x20;
---	} else {
---	    *dst++ = *src++;
---	}
---    }
---    *dst = 0;
---}
---
-- #ifdef DEBUG_VALID_ALGO
-- static void
-- xmlValidPrintNode(xmlNodePtr cur) {
--@@ -2636,6 +2607,35 @@ xmlDumpNotationTable(xmlBufferPtr buf, xmlNotationTablePtr table) {
-- 	    (xmlDictOwns(dict, (const xmlChar *)(str)) == 0)))	\
-- 	    xmlFree((char *)(str));
-- 
--+/**
--+ * xmlValidNormalizeString:
--+ * @str: a string
--+ *
--+ * Normalize a string in-place.
--+ */
--+static void
--+xmlValidNormalizeString(xmlChar *str) {
--+    xmlChar *dst;
--+    const xmlChar *src;
--+
--+    if (str == NULL)
--+        return;
--+    src = str;
--+    dst = str;
--+
--+    while (*src == 0x20) src++;
--+    while (*src != 0) {
--+	if (*src == 0x20) {
--+	    while (*src == 0x20) src++;
--+	    if (*src != 0)
--+		*dst++ = 0x20;
--+	} else {
--+	    *dst++ = *src++;
--+	}
--+    }
--+    *dst = 0;
--+}
--+
-- static int
-- xmlIsStreaming(xmlValidCtxtPtr ctxt) {
--     xmlParserCtxtPtr pctxt;
---- 
--2.35.1
--
-diff --git a/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch b/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
-index d211f65da3..cc9da88a29 100644
---- a/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
-+++ b/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
-@@ -1,4 +1,4 @@
--From f57da62218cf72c1342da82abafdac6b0a2e4997 Mon Sep 17 00:00:00 2001
-+From 7196bce35954c4b46391cb0139aeb15ed628fa54 Mon Sep 17 00:00:00 2001
- From: Tony Tascioglu <tony.tascioglu@windriver.com>
- Date: Fri, 14 May 2021 11:50:35 -0400
- Subject: [PATCH] AM_PATH_XML2 uses xml-config which we disable through
-@@ -16,16 +16,18 @@ Rebase to 2.9.9
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 9fc8f4f2839b..8372a4574ace 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -404,7 +404,9 @@ python extend_recipe_sysroot() {
+     # All files that we're going to be installing, to find conflicts.
+     fileset = {}
  
- Updated to apply cleanly to v2.9.12
--
- Signed-off-by: Tony Tascioglu <tony.tascioglu@windriver.com>
++    invalidate_tasks = set()
+     for f in os.listdir(depdir):
++        removed = []
+         if not f.endswith(".complete"):
+             continue
+         f = depdir + "/" + f
+@@ -414,6 +416,28 @@ python extend_recipe_sysroot() {
+             sstate_clean_manifest(depdir + "/" + lnk, d, canrace=True, prefix=workdir)
+             os.unlink(f)
+             os.unlink(f.replace(".complete", ""))
++            removed.append(os.path.basename(f.replace(".complete", "")))
 +
-+Rebase to 2.9.14
-+Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
- ---
-- libxml.m4 | 190 ++----------------------------------------------------
-- 1 file changed, 5 insertions(+), 185 deletions(-)
-+ libxml.m4 | 189 ++----------------------------------------------------
-+ 1 file changed, 5 insertions(+), 184 deletions(-)
++        # If we've removed files from the sysroot above, the task that installed them may still
++        # have a stamp file present for the task. This is probably invalid right now but may become
++        # valid again if the user were to change configuration back for example. Since we've removed
++        # the files a task might need, remove the stamp file too to force it to rerun.
++        # YOCTO #14790
++        if removed:
++            for i in glob.glob(depdir + "/index.*"):
++                if i.endswith("." + mytaskname):
++                    continue
++                with open(i, "r") as f:
++                    for l in f:
++                        if l.startswith("TaskDeps:"):
++                            continue
++                        l = l.strip()
++                        if l in removed:
++                            invalidate_tasks.add(i.rsplit(".", 1)[1])
++                            break
++    for t in invalidate_tasks:
++        bb.note("Invalidating stamps for task %s" % t)
++        bb.build.clean_stamp(t, d)
  
--Index: libxml2-2.9.13/libxml.m4
--===================================================================
----- libxml2-2.9.13.orig/libxml.m4
--+++ libxml2-2.9.13/libxml.m4
-+diff --git a/libxml.m4 b/libxml.m4
-+index fc7790c..1c53585 100644
-+--- a/libxml.m4
-++++ b/libxml.m4
- @@ -1,191 +1,12 @@
- -# Configure paths for LIBXML2
- -# Simon Josefsson 2020-02-12
-@@ -223,3 +225,6 @@ Index: libxml2-2.9.13/libxml.m4
- -  AC_SUBST(XML_LIBS)
- -  rm -f conf.xmltest
-  ])
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.13.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-similarity index 96%
-rename from meta/recipes-core/libxml/libxml2_2.9.13.bb
-rename to meta/recipes-core/libxml/libxml2_2.9.14.bb
-index e361b53bfd..3081ebf92f 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.13.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
-@@ -23,11 +23,8 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;subdir=${BP};name=te
-            file://remove-fuzz-from-ptests.patch \
-            file://libxml-m4-use-pkgconfig.patch \
-            "
--# will be in v2.9.14
--#
--SRC_URI += "file://CVE-2022-23308-fix-regression.patch"
- 
--SRC_URI[archive.sha256sum] = "276130602d12fe484ecc03447ee5e759d0465558fbc9d6bd144e3745306ebf0e"
-+SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
- SRC_URI[testtar.sha256sum] = "96151685cec997e1f9f3387e3626d61e6284d4d6e66e0e440c209286c03e9cc7"
- 
- BINCONFIG = "${bindir}/xml2-config"
+     installed = []
+     for dep in configuredeps:
 -- 
-2.32.0
+2.34.1
 
 
