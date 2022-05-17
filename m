@@ -1,362 +1,108 @@
-Return-Path: <ernstp@gmail.com>
+Return-Path: <mingli.yu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A4B2C433F5
-	for <webhook@archiver.kernel.org>; Tue, 17 May 2022 07:56:01 +0000 (UTC)
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com
- [209.85.166.181])
- by mx.groups.io with SMTP id smtpd.web10.4478.1652774153324648482
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3000AC4332F
+	for <webhook@archiver.kernel.org>; Tue, 17 May 2022 08:16:51 +0000 (UTC)
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
+ by mx.groups.io with SMTP id smtpd.web09.4607.1652775410682549540
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 00:55:53 -0700
+ Tue, 17 May 2022 01:16:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FF4q4LH1;
- spf=pass (domain: gmail.com, ip: 209.85.166.181, mailfrom: ernstp@gmail.com)
-Received: by mail-il1-f181.google.com with SMTP id i15so2201424ilk.5
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 00:55:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=povlwlMbWHHB/8yEHM67jfHEUATGH+PSDwZzyCtygTQ=;
-        b=FF4q4LH1fL1jeWd6jDtfpO5UteWldi+vTJuSkHrttqBu5iIgsk4wrVHeZz2N1Uu9Pd
-         7xQ2M/KpWi3rYx2QlCu1Q1F74HPIp77jzHm7W7X/AFkGz4tqgnqIFnjS8F7z8eSJhPvB
-         F6D7gjY0usU8d9wSkaf06/Qx6r96DdJarmrp2dVIiYracm2++ZQycDykI3UIAUGxb4rp
-         2NXHGo3ab9qTUQuNZ8lztE43ApwLB+MsaHzCd+iRk2SYxAWU4PMFz9tEYPN2IQPmI6OB
-         ki6LuMml7gTlYFHLa1Nt6ZSxEitfTbOVUYG7zQ1B2mmvRworir8L6+5ug44tWDhRwAdr
-         AAEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=povlwlMbWHHB/8yEHM67jfHEUATGH+PSDwZzyCtygTQ=;
-        b=OCdsP3ckC+0Jk/WiDWpfCPGMMZU2xjUZW2bzudrPnpb//UU3pojM2ienHWMSagCyZx
-         lPBTvuzyuzzPlS94g/8b8ihvah9cGlKa/6dFeRlZ2lPG+2HGmql2ssbCA6X+A/piwcSs
-         ZAF9K6Xq+/UVJv3smHq4k71jO5KjI2rqFAHVnJO7sWhPEkHgY+9nLjRuXFhZChFTYY9D
-         pU+/aiHk6QiX67ZjQS8rnScMNRj7jocBZQOUDvTsK0wxxUNuJ4ZegatADnMDggOhT3Cg
-         m7wQ4/1RR8LMAQf4JoTa/bw6Ahc7lLXf4FJpfOqHeHXLOKfgxiXOhCuCu+JR/jptRzry
-         5qwA==
-X-Gm-Message-State: AOAM5310kp4xtj1fgaQJ1RsZnVFNF4QXon0YEOmjHvLzwGHWTfZBzXIs
-	5y9LNZ5IV/y2wxYq5vK5P7wN8oC9bdcIb3B8Fx4=
-X-Google-Smtp-Source: 
- ABdhPJxnT+4bSkHMVxL0yJcH1pgDUEY+5gGvra39YaWKgVPL2kTewGOjomOWkBlaivTLtkEBEwWaT2m+FSo2uL9ijn4=
-X-Received: by 2002:a05:6e02:1c81:b0:2d1:3971:9343 with SMTP id
- w1-20020a056e021c8100b002d139719343mr1138011ill.237.1652774152749; Tue, 17
- May 2022 00:55:52 -0700 (PDT)
+ dkim=missing;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
+ domain name (domain: windriver.com, ip: 147.11.3.146,
+ mailfrom: mingli.yu@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 24H8Gmwo031048
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 17 May 2022 01:16:48 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 17 May 2022 01:16:38 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Tue, 17 May 2022 01:16:37 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <luca.ceresoli@bootlin.com>
+Subject: [PATCH 4/7] python3-py-cpuinfo: move from meta-python
+Date: Tue, 17 May 2022 16:16:30 +0800
+Message-ID: <20220517081633.2992360-4-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220517081633.2992360-1-mingli.yu@windriver.com>
+References: <20220516104506.3d383183@melee>
+ <20220517081633.2992360-1-mingli.yu@windriver.com>
 MIME-Version: 1.0
-References: <20220517060115.1913044-1-rybczynska@gmail.com>
-In-Reply-To: <20220517060115.1913044-1-rybczynska@gmail.com>
-From: =?UTF-8?Q?Ernst_Sj=C3=B6strand?= <ernstp@gmail.com>
-Date: Tue, 17 May 2022 09:55:41 +0200
-Message-ID: 
- <CAD=4a=Wbmmui9iHMnYk4T9cutUnSmXXq_BBiaQcVmotY9CU_RQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] cve-check: Fix report generation
-To: Marta Rybczynska <rybczynska@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, alex.kiernan@gmail.com,
-	Marta Rybczynska <marta.rybczynska@huawei.com>
-Content-Type: multipart/alternative; boundary="00000000000044c6a205df30787a"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 May 2022 07:56:01 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 17 May 2022 08:16:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165711
+ https://lists.openembedded.org/g/openembedded-core/message/165713
 
---00000000000044c6a205df30787a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Reviewed-by: Ernst Sj=C3=B6strand <ernstp@gmail.com>
+Py-cpuinfo gets CPU info with pure Python. Py-cpuinfo should
+work without any extra programs or libraries, beyond what your
+OS provides. It does not require any compilation(C/C++, assembly,
+et cetera) to use. It works with Python 2 and 3.
 
-Den tis 17 maj 2022 kl 08:01 skrev Marta Rybczynska <rybczynska@gmail.com>:
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ .../python/python3-py-cpuinfo/run-ptest       |  3 +++
+ .../python/python3-py-cpuinfo_8.0.0.bb        | 27 +++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-py-cpuinfo/run-ptest
+ create mode 100644 meta/recipes-devtools/python/python3-py-cpuinfo_8.0.0.bb
 
-> The addition of summary output caused two issues: error when building
-> an image and the fact that JSON output was generated even when
-> CVE_CHECK_FORMAT_JSON.
->
-> When generating an image it caused an error like:
-> ERROR: core-image-minimal-1.0-r0 do_rootfs: Error executing a python
-> function in exec_func_python() autogenerated:
->
->   The stack trace of python calls that resulted in this exception/failure
-> was:
->   File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
->        0001:
->    *** 0002:cve_check_write_rootfs_manifest(d)
->        0003:
->   File: '/home/alexk/poky/meta/classes/cve-check.bbclass', lineno: 213,
-> function: cve_check_write_rootfs_manifest
->        0209:
->        0210:        link_path =3D os.path.join(deploy_dir, "%s.json" %
-> link_name)
->        0211:        manifest_path =3D d.getVar("CVE_CHECK_MANIFEST_JSON")
->        0212:        bb.note("Generating JSON CVE manifest")
->    *** 0213:        generate_json_report(json_summary_name,
-> json_summary_link_name)
->        0214:        bb.plain("Image CVE JSON report stored in: %s" %
-> link_path)
->        0215:}
->        0216:
->        0217:ROOTFS_POSTPROCESS_COMMAND:prepend =3D
-> "${@'cve_check_write_rootfs_manifest; ' if
-> d.getVar('CVE_CHECK_CREATE_MANIFEST') =3D=3D '1' else ''}"
->   Exception: NameError: name 'json_summary_name' is not defined
->
-> The fix is to pass the d variable to the pure python function
-> generate_json_report
-> to get correct values of variables and add conditions for the JSON
-> output where needed.
->
-> In addition clarify the message presenting the summary JSON file,
-> which isn't related to an image.
->
-> Uses partial fixes from Alex Kiernan, Ernst Sj=C3=B6strand (ernstp),
-> and Davide Gardenal.
->
-> Fixes: f2987891d315 ("cve-check: add JSON format to summary output")
->
-> Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
-> ---
->  meta/classes/cve-check.bbclass | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
->
-> diff --git a/meta/classes/cve-check.bbclass
-> b/meta/classes/cve-check.bbclass
-> index 24ddb865ea..7cd98ae462 100644
-> --- a/meta/classes/cve-check.bbclass
-> +++ b/meta/classes/cve-check.bbclass
-> @@ -79,7 +79,7 @@ CVE_CHECK_LAYER_INCLUDELIST ??=3D ""
->  # set to "alphabetical" for version using single alphabetical character
-> as increment release
->  CVE_VERSION_SUFFIX ??=3D ""
->
-> -def generate_json_report(out_path, link_path):
-> +def generate_json_report(d, out_path, link_path):
->      if os.path.exists(d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")):
->          import json
->          from oe.cve_check import cve_check_merge_jsons
-> @@ -127,10 +127,11 @@ python cve_save_summary_handler () {
->                      os.remove(cvefile_link)
->                  os.symlink(os.path.basename(cve_summary_file),
-> cvefile_link)
->
-> +    if d.getVar("CVE_CHECK_FORMAT_JSON") =3D=3D "1":
->          json_summary_link_name =3D os.path.join(cvelogpath,
-> d.getVar("CVE_CHECK_SUMMARY_FILE_NAME_JSON"))
->          json_summary_name =3D os.path.join(cvelogpath, "%s-%s.json" %
-> (cve_summary_name, timestamp))
-> -        generate_json_report(json_summary_name, json_summary_link_name)
-> -        bb.plain("CVE report summary created at: %s" %
-> json_summary_link_name)
-> +        generate_json_report(d, json_summary_name, json_summary_link_nam=
-e)
-> +        bb.plain("Complete CVE JSON report summary created at: %s" %
-> json_summary_link_name)
->  }
->
->  addhandler cve_save_summary_handler
-> @@ -207,11 +208,12 @@ python cve_check_write_rootfs_manifest () {
->                  os.symlink(os.path.basename(manifest_name), manifest_lin=
-k)
->              bb.plain("Image CVE report stored in: %s" % manifest_name)
->
-> -        link_path =3D os.path.join(deploy_dir, "%s.json" % link_name)
-> -        manifest_path =3D d.getVar("CVE_CHECK_MANIFEST_JSON")
-> -        bb.note("Generating JSON CVE manifest")
-> -        generate_json_report(json_summary_name, json_summary_link_name)
-> -        bb.plain("Image CVE JSON report stored in: %s" % link_path)
-> +        if d.getVar("CVE_CHECK_FORMAT_JSON") =3D=3D "1":
-> +            link_path =3D os.path.join(deploy_dir, "%s.json" % link_name=
-)
-> +            manifest_path =3D d.getVar("CVE_CHECK_MANIFEST_JSON")
-> +            bb.note("Generating JSON CVE manifest")
-> +            generate_json_report(d, manifest_path, link_path)
-> +            bb.plain("Image CVE JSON report stored in: %s" % link_path)
->  }
->
->  ROOTFS_POSTPROCESS_COMMAND:prepend =3D
-> "${@'cve_check_write_rootfs_manifest; ' if
-> d.getVar('CVE_CHECK_CREATE_MANIFEST') =3D=3D '1' else ''}"
-> --
-> 2.33.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#165707):
-> https://lists.openembedded.org/g/openembedded-core/message/165707
-> Mute This Topic: https://lists.openembedded.org/mt/91158052/4947266
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ernstp@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+diff --git a/meta/recipes-devtools/python/python3-py-cpuinfo/run-ptest b/meta/recipes-devtools/python/python3-py-cpuinfo/run-ptest
+new file mode 100644
+index 0000000000..b63c4de0d9
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-py-cpuinfo/run-ptest
+@@ -0,0 +1,3 @@
++#!/bin/sh
++
++pytest -o log_cli=true -o log_cli_level=INFO | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s: %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
+diff --git a/meta/recipes-devtools/python/python3-py-cpuinfo_8.0.0.bb b/meta/recipes-devtools/python/python3-py-cpuinfo_8.0.0.bb
+new file mode 100644
+index 0000000000..6de2f17459
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-py-cpuinfo_8.0.0.bb
+@@ -0,0 +1,27 @@
++# Copyright (C) 2021 Khem Raj <raj.khem@gmail.com>
++# Released under the MIT license (see COPYING.MIT for the terms)
++
++SUMMARY = "Get CPU info with pure Python 2 & 3"
++HOMEPAGE = "https://github.com/workhorsy/py-cpuinfo"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=b0b97c022f12b14d9e02de0b283ee9e9"
++
++SRC_URI[sha256sum] = "5f269be0e08e33fd959de96b34cd4aeeeacac014dd8305f70eb28d06de2345c5"
++
++inherit ptest pypi setuptools3
++
++SRC_URI += "file://run-ptest \
++           "
++
++do_install_ptest() {
++    install -d ${D}${PTEST_PATH}/tests
++    cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
++}
++
++RDEPENDS:${PN}-ptest += "\
++    python3-pytest \
++"
++
++RDEPENDS:${PN} += "python3-core python3-ctypes python3-datetime python3-json python3-io python3-mmap python3-multiprocessing python3-netclient python3-pickle python3-pprint python3-shell"
++
++BBCLASSEXTEND = "native nativesdk"
+-- 
+2.25.1
 
---00000000000044c6a205df30787a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:arial,he=
-lvetica,sans-serif"><span class=3D"gmail-il">Reviewed</span>-<span class=3D=
-"gmail-il">by</span>: Ernst Sj=C3=B6strand &lt;<a href=3D"mailto:ernstp@gma=
-il.com">ernstp@gmail.com</a>&gt;</div></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Den tis 17 maj 2022 kl 08:01 skrev Ma=
-rta Rybczynska &lt;<a href=3D"mailto:rybczynska@gmail.com">rybczynska@gmail=
-.com</a>&gt;:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Th=
-e addition of summary output caused two issues: error when building<br>
-an image and the fact that JSON output was generated even when<br>
-CVE_CHECK_FORMAT_JSON.<br>
-<br>
-When generating an image it caused an error like:<br>
-ERROR: core-image-minimal-1.0-r0 do_rootfs: Error executing a python functi=
-on in exec_func_python() autogenerated:<br>
-<br>
-=C2=A0 The stack trace of python calls that resulted in this exception/fail=
-ure was:<br>
-=C2=A0 File: &#39;exec_func_python() autogenerated&#39;, lineno: 2, functio=
-n: &lt;module&gt;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A00001:<br>
-=C2=A0 =C2=A0*** 0002:cve_check_write_rootfs_manifest(d)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A00003:<br>
-=C2=A0 File: &#39;/home/alexk/poky/meta/classes/cve-check.bbclass&#39;, lin=
-eno: 213, function: cve_check_write_rootfs_manifest<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A00209:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A00210:=C2=A0 =C2=A0 =C2=A0 =C2=A0 link_path =3D o=
-s.path.join(deploy_dir, &quot;%s.json&quot; % link_name)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A00211:=C2=A0 =C2=A0 =C2=A0 =C2=A0 manifest_path =
-=3D d.getVar(&quot;CVE_CHECK_MANIFEST_JSON&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A00212:=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.note(&quot;G=
-enerating JSON CVE manifest&quot;)<br>
-=C2=A0 =C2=A0*** 0213:=C2=A0 =C2=A0 =C2=A0 =C2=A0 generate_json_report(json=
-_summary_name, json_summary_link_name)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A00214:=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.plain(&quot;=
-Image CVE JSON report stored in: %s&quot; % link_path)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A00215:}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A00216:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A00217:ROOTFS_POSTPROCESS_COMMAND:prepend =3D &quo=
-t;${@&#39;cve_check_write_rootfs_manifest; &#39; if d.getVar(&#39;CVE_CHECK=
-_CREATE_MANIFEST&#39;) =3D=3D &#39;1&#39; else &#39;&#39;}&quot;<br>
-=C2=A0 Exception: NameError: name &#39;json_summary_name&#39; is not define=
-d<br>
-<br>
-The fix is to pass the d variable to the pure python function generate_json=
-_report<br>
-to get correct values of variables and add conditions for the JSON<br>
-output where needed.<br>
-<br>
-In addition clarify the message presenting the summary JSON file,<br>
-which isn&#39;t related to an image.<br>
-<br>
-Uses partial fixes from Alex Kiernan, Ernst Sj=C3=B6strand (ernstp),<br>
-and Davide Gardenal.<br>
-<br>
-Fixes: f2987891d315 (&quot;cve-check: add JSON format to summary output&quo=
-t;)<br>
-<br>
-Signed-off-by: Marta Rybczynska &lt;<a href=3D"mailto:marta.rybczynska@huaw=
-ei.com" target=3D"_blank">marta.rybczynska@huawei.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/cve-check.bbclass | 18 ++++++++++--------<br>
-=C2=A01 file changed, 10 insertions(+), 8 deletions(-)<br>
-<br>
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclas=
-s<br>
-index 24ddb865ea..7cd98ae462 100644<br>
---- a/meta/classes/cve-check.bbclass<br>
-+++ b/meta/classes/cve-check.bbclass<br>
-@@ -79,7 +79,7 @@ CVE_CHECK_LAYER_INCLUDELIST ??=3D &quot;&quot;<br>
-=C2=A0# set to &quot;alphabetical&quot; for version using single alphabetic=
-al character as increment release<br>
-=C2=A0CVE_VERSION_SUFFIX ??=3D &quot;&quot;<br>
-<br>
--def generate_json_report(out_path, link_path):<br>
-+def generate_json_report(d, out_path, link_path):<br>
-=C2=A0 =C2=A0 =C2=A0if os.path.exists(d.getVar(&quot;CVE_CHECK_SUMMARY_INDE=
-X_PATH&quot;)):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0import json<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from oe.cve_check import cve_check_merge_=
-jsons<br>
-@@ -127,10 +127,11 @@ python cve_save_summary_handler () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0os.remove(cvefile_link)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0os.symlink(os=
-.path.basename(cve_summary_file), cvefile_link)<br>
-<br>
-+=C2=A0 =C2=A0 if d.getVar(&quot;CVE_CHECK_FORMAT_JSON&quot;) =3D=3D &quot;=
-1&quot;:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0json_summary_link_name =3D os.path.join(c=
-velogpath, d.getVar(&quot;CVE_CHECK_SUMMARY_FILE_NAME_JSON&quot;))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0json_summary_name =3D os.path.join(cvelog=
-path, &quot;%s-%s.json&quot; % (cve_summary_name, timestamp))<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 generate_json_report(json_summary_name, json_s=
-ummary_link_name)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.plain(&quot;CVE report summary created at: =
-%s&quot; % json_summary_link_name)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 generate_json_report(d, json_summary_name, jso=
-n_summary_link_name)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.plain(&quot;Complete CVE JSON report summar=
-y created at: %s&quot; % json_summary_link_name)<br>
-=C2=A0}<br>
-<br>
-=C2=A0addhandler cve_save_summary_handler<br>
-@@ -207,11 +208,12 @@ python cve_check_write_rootfs_manifest () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0os.symlink(os=
-.path.basename(manifest_name), manifest_link)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.plain(&quot;Image CVE re=
-port stored in: %s&quot; % manifest_name)<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 link_path =3D os.path.join(deploy_dir, &quot;%=
-s.json&quot; % link_name)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 manifest_path =3D d.getVar(&quot;CVE_CHECK_MAN=
-IFEST_JSON&quot;)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.note(&quot;Generating JSON CVE manifest&quo=
-t;)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 generate_json_report(json_summary_name, json_s=
-ummary_link_name)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.plain(&quot;Image CVE JSON report stored in=
-: %s&quot; % link_path)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if d.getVar(&quot;CVE_CHECK_FORMAT_JSON&quot;)=
- =3D=3D &quot;1&quot;:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 link_path =3D os.path.join(deplo=
-y_dir, &quot;%s.json&quot; % link_name)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 manifest_path =3D d.getVar(&quot=
-;CVE_CHECK_MANIFEST_JSON&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.note(&quot;Generating JSON CV=
-E manifest&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 generate_json_report(d, manifest=
-_path, link_path)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.plain(&quot;Image CVE JSON re=
-port stored in: %s&quot; % link_path)<br>
-=C2=A0}<br>
-<br>
-=C2=A0ROOTFS_POSTPROCESS_COMMAND:prepend =3D &quot;${@&#39;cve_check_write_=
-rootfs_manifest; &#39; if d.getVar(&#39;CVE_CHECK_CREATE_MANIFEST&#39;) =3D=
-=3D &#39;1&#39; else &#39;&#39;}&quot;<br>
--- <br>
-2.33.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#165707): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/165707" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/165707</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/91158052/4947=
-266" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/91158052/4947266</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ernstp@gmail.com" target=
-=3D"_blank">ernstp@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---00000000000044c6a205df30787a--
 
