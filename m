@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61BECC4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54C43C433F5
 	for <webhook@archiver.kernel.org>; Tue, 17 May 2022 18:25:27 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web12.1090.1652811926802058993
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+ [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web10.1141.1652811923944404396
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 11:25:26 -0700
+ Tue, 17 May 2022 11:25:24 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=63/F113v;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182,
+ header.b=C/MOVkn4;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d17so18117605plg.0
+Received: by mail-pf1-f172.google.com with SMTP id w200so1745867pfc.10
         for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 11:25:26 -0700 (PDT)
+ Tue, 17 May 2022 11:25:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=iaKPdOqsVmEeMVlYEQeQi6jY4Lbez3dqwvahZTKS/6g=;
-        b=63/F113vi75mYsIfDV3p9btdcm/yrlSxnoQ+QDQwKQmIK/c6DbIByz5QUPpLPi+WUX
-         VBW8auX2lVibW1D6LbPeWGTsLqRpj1uGu9h/Uz0jdC2sTLHyU0URhAf+N3dlmQ+lWvD6
-         eb6IpwraVHS1kSdb/R2jlcEs/mCpq/3KOFwfwczKX4eCLGnrF4uSp23qjS0z7qTrhPJl
-         ULx2J6ppoJ9u8FHtsGQ6ESKbzufEAs+8mtlXRQIu+3dzl7p4JyZsh8ulNcB5Ux/kHNQ8
-         oQSdEI4pP1yIz5hZqdlPAAPc7yYlmjrGk1qVe5TS6+U5VNaaupe1VUWcrRsRwQBTMGi7
-         ECqA==
+        bh=Lg/FmkKR4sgsE0lL2VyrIdpSlPuU1i9e5RW5x1r1q+c=;
+        b=C/MOVkn4Q3Wc/LBsBEccI8sCAyrQtHo7tXEWRLFKCBNwP12zlLgctmoXSfkaRhygoz
+         Pimm4aWOgxnpp2yb0Qy71NBuZ2E5jLvZ0i7g3XVygdRF2Gmtr887QKYPefBsi5+OPWay
+         hR3dlgwAMFb9ZGQeOQj23/18pfO8USg9zcSFJPghJUaW0UWxxRVHD6dZ/QPCHR8/c+Bh
+         4U3nGEi/2NtTh2R8j6in5N8ibm/qh8xCZxZvGTS+czkSuGWjBNDIwgOs6J7PkZJzsEKD
+         fbBekRtrpKGPP/eCMnMy+ho5nm00W6gXtYcnI1PfAfkLBuaSDgDOqkaLLJZJQg9SBg3f
+         ooOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=iaKPdOqsVmEeMVlYEQeQi6jY4Lbez3dqwvahZTKS/6g=;
-        b=mQfGNVQCXtD1CTQkimnZCt11gHKbfD6irSy0aNes3XJwTUCiba+ApWbKnO7R92Q6ej
-         32TKZ/ZuYUHPVP/6T2WT+HjeYkTqDiotK76vU9mN++n1cZRvXEliAzcdkGfzsnAWfcd7
-         RSGCxqkty/j0DwLCFr9YqNKN8GL+BIcz5UBtRZBOq86IXbbFCB1liJNdI7Ae2XH/sRg7
-         ZdCkBZjqED1Kg5Bk4C2f4JSwieTMa0zzxnTMkw8fAW9jWfNxghz5N1qdjG/j0nGseWlB
-         gCIeogDKjd3MvXumdWxgR70s4/Hs7GuSqZWc3dI49MMwgrp43XVfbLbx444foTAfDbiD
-         3H+Q==
-X-Gm-Message-State: AOAM5319/0z3CsQuw1MJKZD1hhk3nbfMOdSgtjAgAkTHcBIVXUW+rvIT
-	4ZNGpkMvMpGOCMuOZGQW4GgxnHb+1703nn4x
+        bh=Lg/FmkKR4sgsE0lL2VyrIdpSlPuU1i9e5RW5x1r1q+c=;
+        b=tCp2mT5HbkengQTD/9/zZZ0Eg+byOfOtwZPLF/izQghNB6WQGX7nFC/NdXe80R+Y3g
+         6yWuZKgOMMfE4rWoEnCP4KXhqzCriRtUs+DqkA6givxjRhbBU1fhDQlQIZWDWqYhQmBZ
+         BIVROfsiglGZZ0K/J1Rgftih5gJcv9nBRX3gN8mIva0fax+6V6r1x7LYqDwBsEq7RikV
+         2kwUv//tbZBliOzfPxLc4DFH5ZhfuuviCUjTEEmV0acUxyms5y4zJczr4Ep6HCTfaBoC
+         RRKM9Y0cHl//9qdFPLFy2urfvmpOcNNX48myocFnF0S1eiyjAPPR+BaPQybPrhZNGG5C
+         Cf4g==
+X-Gm-Message-State: AOAM530ysdjpgQAusEiSExVZVmC/p3w6Z6T17XL5N5qHzEC2EgMR1E/l
+	XLMX7ag7FpY/fx2bYVTiD0//yhPvQ0kv9SFM
 X-Google-Smtp-Source: 
- ABdhPJy5xrvPRFVCJTJ46ywOynKYnsdynkXzkGP+VS/ovYjzAjJL/AmIpxpk9/JBx3GADHGv1sjIDw==
-X-Received: by 2002:a17:90b:1a86:b0:1dc:eae9:9b5b with SMTP id
- ng6-20020a17090b1a8600b001dceae99b5bmr26515417pjb.100.1652811925596;
-        Tue, 17 May 2022 11:25:25 -0700 (PDT)
+ ABdhPJypd9h3TQCAeV+HYTTqVdgz+LjLJ9GC4fnVg0M9vXWRN+jURbvCaYTmy9KhraJKD1XBWXr0EA==
+X-Received: by 2002:a05:6a00:10d0:b0:4f7:5af4:47b6 with SMTP id
+ d16-20020a056a0010d000b004f75af447b6mr23721150pfu.6.1652811922824;
+        Tue, 17 May 2022 11:25:22 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- f9-20020a170902684900b0015e8d4eb1d1sm9408188pln.27.2022.05.17.11.25.23
+ f9-20020a170902684900b0015e8d4eb1d1sm9408188pln.27.2022.05.17.11.25.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 May 2022 11:25:24 -0700 (PDT)
+        Tue, 17 May 2022 11:25:21 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 20/31] linux-firmware: replace mkdir by install
-Date: Tue, 17 May 2022 08:24:06 -1000
+Subject: [OE-core][kirkstone 19/31] vim: Upgrade 8.2.4681 -> 8.2.4912
+Date: Tue, 17 May 2022 08:24:05 -1000
 Message-Id: 
- <e16b9768a2e3eb931d11558f448149c16afa490b.1652811454.git.steve@sakoman.com>
+ <d1c0db32383812531b857729c585b3305e781cd9.1652811454.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1652811454.git.steve@sakoman.com>
 References: <cover.1652811454.git.steve@sakoman.com>
@@ -69,139 +69,34 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 17 May 2022 18:25:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165765
+ https://lists.openembedded.org/g/openembedded-core/message/165764
 
-From: Konrad Weihmann <kweihmann@outlook.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-if a setup is using RPM for packaging and there are multiple
-recipes that install to ${nonarch_base_libdir}/firmware by using
-install -d ${nonarch_base_libdir}/firmware, it will create installation
-clashes on image install, as linux-firmware in before this patch
-used mkdir -p, which creates different file mode bits (depending
-on the current user's settings).
+Includes fixes for CVE-2022-1381, CVE-2022-1420.
 
-In a particular example
-linux-fimware created /lib/firmware with 0600
-while other-firmware-package created it with 0644
-making the combination not installable by rpm backend
-
-Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 98bf3f427702687bf81ed759e7cde5d6d15e77eb)
+(cherry picked from commit 77d745bd49c979de987c75fd7a3af116e99db82b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...01-Makefile-replace-mkdir-by-install.patch | 84 +++++++++++++++++++
- .../linux-firmware/linux-firmware_20220411.bb |  5 +-
- 2 files changed, 88 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/linux-firmware/files/0001-Makefile-replace-mkdir-by-install.patch
+ meta/recipes-support/vim/vim.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/files/0001-Makefile-replace-mkdir-by-install.patch b/meta/recipes-kernel/linux-firmware/files/0001-Makefile-replace-mkdir-by-install.patch
-new file mode 100644
-index 0000000000..b1ac5a16ab
---- /dev/null
-+++ b/meta/recipes-kernel/linux-firmware/files/0001-Makefile-replace-mkdir-by-install.patch
-@@ -0,0 +1,84 @@
-+From 71514e74f35f2b51ca24062573d6d913525b30db Mon Sep 17 00:00:00 2001
-+From: Konrad Weihmann <kweihmann@outlook.com>
-+Date: Mon, 9 May 2022 12:57:57 +0200
-+Subject: [PATCH] Makefile: replace mkdir by install
-+
-+mkdir -p creates paths that are bound to user's settings and therefore
-+can lead to different file mode bits of the base paths accross different
-+machines.
-+Use install instead, as this tool is not prone to such behavior.
-+
-+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
-+Upstream-Status: Submitted [https://lore.kernel.org/linux-firmware/PR2PR09MB310088EA719E6D7CA5C268F1A8C69@PR2PR09MB3100.eurprd09.prod.outlook.com/]
-+---
-+ Makefile                      | 2 +-
-+ carl9170fw/toolchain/Makefile | 4 ++--
-+ copy-firmware.sh              | 6 +++---
-+ 3 files changed, 6 insertions(+), 6 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index e1c362f..83a0ec6 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -9,5 +9,5 @@ check:
-+ 	@./check_whence.py
-+ 
-+ install:
-+-	mkdir -p $(DESTDIR)$(FIRMWAREDIR)
-++	install -d $(DESTDIR)$(FIRMWAREDIR)
-+ 	./copy-firmware.sh $(DESTDIR)$(FIRMWAREDIR)
-+diff --git a/carl9170fw/toolchain/Makefile b/carl9170fw/toolchain/Makefile
-+index 2b25ffe..aaea8e8 100644
-+--- a/carl9170fw/toolchain/Makefile
-++++ b/carl9170fw/toolchain/Makefile
-+@@ -46,14 +46,14 @@ src/gcc-$(GCC_VER): src/$(GCC_TAR) src/newlib-$(NEWLIB_VER)
-+ 	ln -s $(BASEDIR)/src/newlib-$(NEWLIB_VER)/libgloss $@
-+ 
-+ binutils: src/binutils-$(BINUTILS_VER)
-+-	mkdir -p build/binutils
-++	install -d build/binutils
-+ 	cd build/binutils; \
-+ 	$(BASEDIR)/$</configure --target=sh-elf --prefix=$(BASEDIR)/inst; \
-+ 	$(MAKE) -j3; \
-+ 	$(MAKE) install
-+ 
-+ gcc: src/gcc-$(GCC_VER) binutils
-+-	mkdir -p build/gcc
-++	install -d build/gcc
-+ 	cd build/gcc; \
-+ 	$(BASEDIR)/$</configure --target=sh-elf --prefix=$(BASEDIR)/inst -enable-languages=c --without-pkgversion --with-newlib; \
-+ 	$(MAKE) -j3; \
-+diff --git a/copy-firmware.sh b/copy-firmware.sh
-+index 9b46b63..bbacb92 100755
-+--- a/copy-firmware.sh
-++++ b/copy-firmware.sh
-+@@ -34,7 +34,7 @@ done
-+ grep '^File:' WHENCE | sed -e's/^File: *//g' -e's/"//g' | while read f; do
-+     test -f "$f" || continue
-+     $verbose "copying file $f"
-+-    mkdir -p $destdir/$(dirname "$f")
-++    install -d $destdir/$(dirname "$f")
-+     cp -d "$f" $destdir/"$f"
-+ done
-+ 
-+@@ -42,7 +42,7 @@ grep -E '^Link:' WHENCE | sed -e's/^Link: *//g' -e's/-> //g' | while read f d; d
-+     if test -L "$f"; then
-+         test -f "$destdir/$f" && continue
-+         $verbose "copying link $f"
-+-        mkdir -p $destdir/$(dirname "$f")
-++        install -d $destdir/$(dirname "$f")
-+         cp -d "$f" $destdir/"$f"
-+ 
-+         if test "x$d" != "x"; then
-+@@ -63,7 +63,7 @@ grep -E '^Link:' WHENCE | sed -e's/^Link: *//g' -e's/-> //g' | while read f d; d
-+         fi
-+     else
-+         $verbose "creating link $f -> $d"
-+-        mkdir -p $destdir/$(dirname "$f")
-++        install -d $destdir/$(dirname "$f")
-+         ln -sf "$d" "$destdir/$f"
-+     fi
-+ done
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
-index 4a443d14d1..d396702690 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
-@@ -203,7 +203,10 @@ NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 21ff036cf4..c5922b7fcd 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -21,8 +21,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://racefix.patch \
+            "
  
- PE = "1"
+-PV .= ".4681"
+-SRCREV = "15f74fab653a784548d5d966644926b47ba2cfa7"
++PV .= ".4912"
++SRCREV = "a7583c42cd6b64fd276a5d7bb0db5ce7bfafa730"
  
--SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
-+SRC_URI = "\
-+  ${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz \
-+  file://0001-Makefile-replace-mkdir-by-install.patch \
-+"
- 
- SRC_URI[sha256sum] = "020b11f6412f4956f5a6f98de7d41867d2b30ea0ce81b1e2d206ec9840363849"
- 
+ # Remove when 8.3 is out
+ UPSTREAM_VERSION_UNKNOWN = "1"
 -- 
 2.25.1
 
