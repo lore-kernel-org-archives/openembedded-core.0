@@ -1,227 +1,136 @@
-Return-Path: <ranjitsinhrathod1991@gmail.com>
+Return-Path: <mingli.yu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5850C4332F
-	for <webhook@archiver.kernel.org>; Tue, 17 May 2022 09:44:41 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web09.5156.1652780673230950166
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EBDFC433EF
+	for <webhook@archiver.kernel.org>; Tue, 17 May 2022 10:22:22 +0000 (UTC)
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
+ by mx.groups.io with SMTP id smtpd.web12.5504.1652782940845964812
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 02:44:33 -0700
+ Tue, 17 May 2022 03:22:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=SZ5L9Xwo;
- spf=pass (domain: gmail.com, ip: 209.85.214.171,
- mailfrom: ranjitsinhrathod1991@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id d17so16882954plg.0
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 02:44:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=mermZrDijOCftfZuzEdEChaUQQQvupMj2V8SwDgac80=;
-        b=SZ5L9XwonwFMifEjKATiHdaV/6N2sQMCn6S+T3Yv98dJZQNR6AqO9RoRsSiykyVjR6
-         UHTPhLrpOTBu5pZp72Io2SpXwX/2A1AUnVQqfBIUwCkuBOV6iSfjAs7qVnqnYqduTTKF
-         04MjA6JVdixm4gwgIslT/qvFhT/FYVAb08EErjimIg1G3J3tgpTV212YU8rNW2zza4tc
-         SqpVv8/SK4j6PiwA5Crxbjf2S37IYfoiPJ7yyPLc2tPFnvg/Rl7xoT/ysh5FD8sZsiGE
-         /poZoiFrXJ0rvYbaAabzkYYpnbPB6Pw5RFY5sfkuKyQb9me/hCb1oQmGBQyRWqmkT7IG
-         K2JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=mermZrDijOCftfZuzEdEChaUQQQvupMj2V8SwDgac80=;
-        b=UTPAjd7saMNUL6l/lujPxznch8MIUd2kvW4liJPVXSGBj6CJHHMibgUYPn2CUiAWT6
-         UppemBoQuthOax0NY/elbf2PVEfwhA7xL2lWtoRzf5djSs4LbkffdFo2hbPElXEK0Uu9
-         TWXVxEjb4vUBKD7ZhmYT+Q86GkAcI9IwkdvItaVHANP5Ow/a988IKsHizYqmqZYHG+st
-         twJx0Ck9ipsI6bFXdasWIfVCKDfXSR9iggpJ1UYpUQisn9uC520Oil1/ClrXuAMvbiX0
-         dAvXXtihpG1sjgk2hrI2HvSdsC++y4TXRazGwH2uPfyt3Ntkn0qGhoHvzpoy/5sk38Ip
-         TbWg==
-X-Gm-Message-State: AOAM533x77aMbdIVvPcADP+lF9LhFutptVeUFJZ8iJdPuR7mfYvxe0YX
-	P9AknMEeq2jPdagpgBvgPFJYdEKa6Rw=
-X-Google-Smtp-Source: 
- ABdhPJzYlzkt/+f5hgrT7NtUBdGWTq4IlmIrDrC7/2fK+gic/fZNUm6mSBN2/CaAnBfrbHOoOWRfcQ==
-X-Received: by 2002:a17:90b:4b84:b0:1dc:93c0:ba01 with SMTP id
- lr4-20020a17090b4b8400b001dc93c0ba01mr35679867pjb.70.1652780672338;
-        Tue, 17 May 2022 02:44:32 -0700 (PDT)
-Received: from localhost.localdomain ([103.81.94.250])
-        by smtp.gmail.com with ESMTPSA id
- fh9-20020a17090b034900b001dc37aef4ffsm1210550pjb.48.2022.05.17.02.44.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 May 2022 02:44:31 -0700 (PDT)
-From: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-Subject: [OE-Core][dunfell][PATCH 1/2] freetype: Fix CVEs for freetype
-Date: Tue, 17 May 2022 15:14:11 +0530
-Message-Id: <20220517094412.20616-1-ranjitsinhrathod1991@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=missing;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
+ domain name (domain: windriver.com, ip: 147.11.3.146,
+ mailfrom: mingli.yu@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 24HAMHTD016382
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Tue, 17 May 2022 03:22:17 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 24HAMGLg027134
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 17 May 2022 03:22:17 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 17 May 2022 03:22:16 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Tue, 17 May 2022 03:22:15 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+        <richard.purdie@linuxfoundation.org>
+Subject: [PATCH v3] python3-cryptography: remove --benchmark-disable option
+Date: Tue, 17 May 2022 18:22:14 +0800
+Message-ID: <20220517102214.2413676-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: 
+ <d037486615787f0c2f53edf1d2e09688ee8a2e62.camel@linuxfoundation.org>
+References: 
+ <d037486615787f0c2f53edf1d2e09688ee8a2e62.camel@linuxfoundation.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 May 2022 09:44:41 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 17 May 2022 10:22:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165723
+ https://lists.openembedded.org/g/openembedded-core/message/165725
 
-From: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Apply below patches to fix the CVEs for freetype:
+The new version introduced below change, so remove the option
+to avoid python3-pytest-benchmark rdepends to fix the gap.
+496703c8 Refs #7079 -- added basic scaffholding for benchmarks (#7087)
 
-CVE-2022-27404.patch
-Link: https://gitlab.freedesktop.org/freetype/freetype/-/commit/53dfdcd8198d2b3201a23c4bad9190519ba918db.patch
+Fixes:
+  # ./run-ptest
+  Free memory: 31.283 GB
+  ERROR: usage: pytest [options] [file_or_dir] [file_or_dir] [...]
+  pytest: error: unrecognized arguments: --benchmark-disable
+  inifile: /usr/lib/python3-cryptography/ptest/pyproject.toml
+  rootdir: /usr/lib/python3-cryptography/ptest
 
-CVE-2022-27405.patch
-Link: https://gitlab.freedesktop.org/freetype/freetype/-/commit/22a0cccb4d9d002f33c1ba7a4b36812c7d4f46b5.patch
-
-CVE-2022-27406.patch
-Link: https://gitlab.freedesktop.org/freetype/freetype/-/commit/0c2bdb01a2e1d24a3e592377a6d0822856e10df2.patch
-
-Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-Signed-off-by: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- .../freetype/freetype/CVE-2022-27404.patch    | 33 ++++++++++++++++
- .../freetype/freetype/CVE-2022-27405.patch    | 38 +++++++++++++++++++
- .../freetype/freetype/CVE-2022-27406.patch    | 31 +++++++++++++++
- .../freetype/freetype_2.10.1.bb               |  3 ++
- 4 files changed, 105 insertions(+)
- create mode 100644 meta/recipes-graphics/freetype/freetype/CVE-2022-27404.patch
- create mode 100644 meta/recipes-graphics/freetype/freetype/CVE-2022-27405.patch
- create mode 100644 meta/recipes-graphics/freetype/freetype/CVE-2022-27406.patch
+ ...toml-remove-benchmark-disable-option.patch | 40 +++++++++++++++++++
+ .../python/python3-cryptography_37.0.1.bb     |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch
 
-diff --git a/meta/recipes-graphics/freetype/freetype/CVE-2022-27404.patch b/meta/recipes-graphics/freetype/freetype/CVE-2022-27404.patch
+diff --git a/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch b/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch
 new file mode 100644
-index 0000000000..e66400ddb1
+index 0000000000..481f595246
 --- /dev/null
-+++ b/meta/recipes-graphics/freetype/freetype/CVE-2022-27404.patch
-@@ -0,0 +1,33 @@
-+From 53dfdcd8198d2b3201a23c4bad9190519ba918db Mon Sep 17 00:00:00 2001
-+From: Werner Lemberg <wl@gnu.org>
-+Date: Thu, 17 Mar 2022 19:24:16 +0100
-+Subject: [PATCH] [sfnt] Avoid invalid face index.
++++ b/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch
+@@ -0,0 +1,40 @@
++From ce972ea92d724f232323a9a6265a8b44d913d4d8 Mon Sep 17 00:00:00 2001
++From: Mingli Yu <mingli.yu@windriver.com>
++Date: Tue, 17 May 2022 17:22:48 +0800
++Subject: [PATCH] pyproject.toml: remove --benchmark-disable option
 +
-+Fixes #1138.
++The new version introduced below change, so remove the option
++to avoid python3-pytest-benchmark rdepends to fix the gap.
++496703c8 Refs #7079 -- added basic scaffholding for benchmarks (#7087)
 +
-+* src/sfnt/sfobjs.c (sfnt_init_face), src/sfnt/sfwoff2.c (woff2_open_font):
-+Check `face_index` before decrementing.
++Fixes:
++  # ./run-ptest
++  Free memory: 31.283 GB
++  ERROR: usage: pytest [options] [file_or_dir] [file_or_dir] [...]
++  pytest: error: unrecognized arguments: --benchmark-disable
++  inifile: /usr/lib/python3-cryptography/ptest/pyproject.toml
++  rootdir: /usr/lib/python3-cryptography/ptest
 +
-+CVE: CVE-2022-27404
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/freetype/freetype/-/commit/53dfdcd8198d2b3201a23c4bad9190519ba918db.patch]
-+Comment: Removed second hunk as sfwoff2.c file is not part of current v2.10.1 code
-+Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
++Upstream-Status: Inappropriate [OE specific]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 +---
-+ src/sfnt/sfobjs.c  | 2 +-
++ pyproject.toml | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/src/sfnt/sfobjs.c b/src/sfnt/sfobjs.c
-+index f9d4d3858..9771c35df 100644
-+--- a/src/sfnt/sfobjs.c
-++++ b/src/sfnt/sfobjs.c
-+@@ -566,7 +566,7 @@
-+     face_index = FT_ABS( face_instance_index ) & 0xFFFF;
-+
-+     /* value -(N+1) requests information on index N */
-+-    if ( face_instance_index < 0 )
-++    if ( face_instance_index < 0 && face_index > 0 )
-+       face_index--;
-+
-+     if ( face_index >= face->ttc_header.count )
-+-- 
-+GitLab
-diff --git a/meta/recipes-graphics/freetype/freetype/CVE-2022-27405.patch b/meta/recipes-graphics/freetype/freetype/CVE-2022-27405.patch
-new file mode 100644
-index 0000000000..08fccd5a3b
---- /dev/null
-+++ b/meta/recipes-graphics/freetype/freetype/CVE-2022-27405.patch
-@@ -0,0 +1,38 @@
-+From 22a0cccb4d9d002f33c1ba7a4b36812c7d4f46b5 Mon Sep 17 00:00:00 2001
-+From: Werner Lemberg <wl@gnu.org>
-+Date: Sat, 19 Mar 2022 06:40:17 +0100
-+Subject: [PATCH] * src/base/ftobjs.c (ft_open_face_internal): Properly guard
-+ `face_index`.
-+We must ensure that the cast to `FT_Int` doesn't change the sign.
-+Fixes #1139.
-+
-+CVE: CVE-2022-27405
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/freetype/freetype/-/commit/22a0cccb4d9d002f33c1ba7a4b36812c7d4f46b5]
-+Comment: No Change in any hunk
-+Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-+---
-+ src/base/ftobjs.c | 9 +++++++++
-+ 1 file changed, 9 insertions(+)
-+
-+diff --git a/src/base/ftobjs.c b/src/base/ftobjs.c
-+index 2c0f0e6c9..10952a6c6 100644
-+--- a/src/base/ftobjs.c
-++++ b/src/base/ftobjs.c
-+@@ -2527,6 +2527,15 @@
-+ #endif
++diff --git a/pyproject.toml b/pyproject.toml
++index 4d58129..b011fca 100644
++--- a/pyproject.toml
+++++ b/pyproject.toml
++@@ -15,7 +15,7 @@ line-length = 79
++ target-version = ["py36"]
 + 
-+ 
-++    /* only use lower 31 bits together with sign bit */
-++    if ( face_index > 0 )
-++      face_index &= 0x7FFFFFFFL;
-++    else
-++    {
-++      face_index &= 0x7FFFFFFFL;
-++      face_index  = -face_index;
-++    }
-++
-+ #ifdef FT_DEBUG_LEVEL_TRACE
-+     FT_TRACE3(( "FT_Open_Face: " ));
-+     if ( face_index < 0 )
++ [tool.pytest.ini_options]
++-addopts = "-r s --capture=no --strict-markers --benchmark-disable"
+++addopts = "-r s --capture=no --strict-markers"
++ markers = [
++     "skip_fips: this test is not executed in FIPS mode",
++     "supported: parametrized test requiring only_if and skip_message",
 +-- 
-+GitLab
-diff --git a/meta/recipes-graphics/freetype/freetype/CVE-2022-27406.patch b/meta/recipes-graphics/freetype/freetype/CVE-2022-27406.patch
-new file mode 100644
-index 0000000000..4b5e629f30
---- /dev/null
-+++ b/meta/recipes-graphics/freetype/freetype/CVE-2022-27406.patch
-@@ -0,0 +1,31 @@
-+From 0c2bdb01a2e1d24a3e592377a6d0822856e10df2 Mon Sep 17 00:00:00 2001
-+From: Werner Lemberg <wl@gnu.org>
-+Date: Sat, 19 Mar 2022 09:37:28 +0100
-+Subject: [PATCH] * src/base/ftobjs.c (FT_Request_Size): Guard `face->size`.
++2.25.1
 +
-+Fixes #1140.
-+
-+CVE: CVE-2022-27406
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/freetype/freetype/-/commit/0c2bdb01a2e1d24a3e592377a6d0822856e10df2]
-+Comment: No Change in any hunk
-+Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-+---
-+ src/base/ftobjs.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/src/base/ftobjs.c b/src/base/ftobjs.c
-+index 6492a1517..282c9121a 100644
-+--- a/src/base/ftobjs.c
-++++ b/src/base/ftobjs.c
-+@@ -3409,6 +3409,9 @@
-+     if ( !face )
-+       return FT_THROW( Invalid_Face_Handle );
-+ 
-++    if ( !face->size )
-++      return FT_THROW( Invalid_Size_Handle );
-++
-+     if ( !req || req->width < 0 || req->height < 0 ||
-+          req->type >= FT_SIZE_REQUEST_TYPE_MAX )
-+       return FT_THROW( Invalid_Argument );
-+-- 
-+GitLab
-diff --git a/meta/recipes-graphics/freetype/freetype_2.10.1.bb b/meta/recipes-graphics/freetype/freetype_2.10.1.bb
-index 2d444bbf19..72001c529a 100644
---- a/meta/recipes-graphics/freetype/freetype_2.10.1.bb
-+++ b/meta/recipes-graphics/freetype/freetype_2.10.1.bb
-@@ -15,6 +15,9 @@ LIC_FILES_CHKSUM = "file://docs/LICENSE.TXT;md5=4af6221506f202774ef74f64932878a1
- SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BP}.tar.xz \
-            file://use-right-libtool.patch \
-            file://0001-sfnt-Fix-heap-buffer-overflow-59308.patch \
-+           file://CVE-2022-27404.patch \
-+           file://CVE-2022-27405.patch \
-+           file://CVE-2022-27406.patch \
-           "
- SRC_URI[md5sum] = "bd42e75127f8431923679480efb5ba8f"
- SRC_URI[sha256sum] = "16dbfa488a21fe827dc27eaf708f42f7aa3bb997d745d31a19781628c36ba26f"
+diff --git a/meta/recipes-devtools/python/python3-cryptography_37.0.1.bb b/meta/recipes-devtools/python/python3-cryptography_37.0.1.bb
+index 1271954a08..191ea29b9c 100644
+--- a/meta/recipes-devtools/python/python3-cryptography_37.0.1.bb
++++ b/meta/recipes-devtools/python/python3-cryptography_37.0.1.bb
+@@ -15,6 +15,7 @@ SRC_URI += "file://run-ptest \
+            file://check-memfree.py \
+            file://0001-Cargo.toml-specify-pem-version.patch \
+            file://0002-Cargo.toml-edition-2018-2021.patch \
++           file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
+            crate://crates.io/Inflector/0.11.4 \
+            crate://crates.io/aliasable/0.1.3 \
+            crate://crates.io/asn1/0.8.7 \
 -- 
-2.17.1
+2.25.1
 
 
