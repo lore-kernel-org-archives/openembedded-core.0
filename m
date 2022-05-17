@@ -2,9 +2,9 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 From: "Steve Sakoman" <steve@sakoman.com>
-Subject: [OE-core][kirkstone 05/31] qemu: backport patch for CVE-2021-4207
-Date: Tue, 17 May 2022 08:23:51 -1000
-Message-Id: <4150733448aee4c27340565a4f79c86d160b2b08.1652811454.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 08/31] mesa: upgrade 22.0.0 -> 22.0.2
+Date: Tue, 17 May 2022 08:23:54 -1000
+Message-Id: <34f6d4763fc3bad1382551fd863f96e556b5f6cc.1652811454.git.steve@sakoman.com>
 In-Reply-To: <cover.1652811454.git.steve@sakoman.com>
 References: <cover.1652811454.git.steve@sakoman.com>
 MIME-Version: 1.0
@@ -13,82 +13,70 @@ Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
 To: openembedded-core@lists.openembedded.org
 
-From: Davide Gardenal <davidegarde2000@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-CVE: CVE-2021-4207
+Mesa 22.0.1 is a bug fix release which fixes bugs found since the 22.0.0 release:
 
-Upstream fix:
-https://git.qemu.org/?p=qemu.git;a=commit;h=9569f5cb5b4bffa9d3ebc8ba7da1e03830a9a895
+freedreno: crash in PUBG
+MSVC: Build failure in libmesa_util when targeting x86 32-bit
+A crash in radeonsi driver
+freedreno: deqp cts fails
 
-Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
+Mesa 22.0.2 is a bug fix release which fixes bugs found since the 22.0.1 release:
+
+Vulkan::Calling vkWaitForFences Timeout
+Intel (CHT) - Uplink text rendering bugged out in Mesa 22.0
+gen9atom gpu hang on dEQP-VK.spirv_assembly.instruction.graphics.float16.arithmetic_1
+bad memory managment on panfrost RK3399 - cannot alocate more ram - fury unleashed
+Broken rendering in Ryujinx on Tigerlake
+intel: integer_mad_hi / integer_mad_sat / integer_mul_hi produce invalid results
+Textures colors distortion in “Black Geyser: Couriers of Darkness” with radeonsi
+ShaderStorageBlocksWriteAccess not set for spir-v shaders?
+radeonsi dEQP-GLES3.functional.buffer.map.write.explicit_flush.* flake crashes
+radv: nir validation error with invalid array access
+Intel Iris Xe Geometry Flickering/Assets Disappearing
+Rendering artifacts when playing Outer Wilds [Reproducible with latest ANV driver built from main]
+Vulkan wsi leaks vk_sync object on every wsi_AcquireNextImageKHR call
+panfrost(RK3399/T860): Emulationstation: broken, black or missing menus with v22.0.0
+Plasma/KDE settings menus disappear on daily build
+Square Artifacts Dragons Dogma
+r300: Anmesia the dark descent corruption
+Error compiling with LLVM-git/15
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit f3e9444968fd47b3c8e0b2ee7b1b17f43a6bd56b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-4207.patch             | 43 +++++++++++++++++++
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-4207.patch
+ .../mesa/{mesa-gl_22.0.0.bb => mesa-gl_22.0.2.bb}               | 0
+ meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
+ meta/recipes-graphics/mesa/{mesa_22.0.0.bb => mesa_22.0.2.bb}   | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_22.0.0.bb => mesa-gl_22.0.2.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_22.0.0.bb => mesa_22.0.2.bb} (100%)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index b7762f83a8..cc69eca9ae 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -34,6 +34,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0002-virtio-net-fix-map-leaking-on-error-during-receive.patch \
-            file://pvrdma.patch \
-            file://CVE-2021-4206.patch \
-+           file://CVE-2021-4207.patch \
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_22.0.0.bb b/meta/recipes-graphics/mesa/mesa-gl_22.0.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_22.0.0.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_22.0.2.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index e8c07a4563..f5a5c14e72 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -22,7 +22,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-util-format-Check-for-NEON-before-using-it.patch \
             "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-4207.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-4207.patch
-new file mode 100644
-index 0000000000..38f36abd9e
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-4207.patch
-@@ -0,0 +1,43 @@
-+From 9569f5cb5b4bffa9d3ebc8ba7da1e03830a9a895 Mon Sep 17 00:00:00 2001
-+From: Mauro Matteo Cascella <mcascell@redhat.com>
-+Date: Thu, 7 Apr 2022 10:11:06 +0200
-+Subject: [PATCH] display/qxl-render: fix race condition in qxl_cursor
-+ (CVE-2021-4207)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=utf8
-+Content-Transfer-Encoding: 8bit
-+
-+Avoid fetching 'width' and 'height' a second time to prevent possible
-+race condition. Refer to security advisory
-+https://starlabs.sg/advisories/22-4207/ for more information.
-+
-+Fixes: CVE-2021-4207
-+Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-+Reviewed-by: Marc-AndrÃ© Lureau <marcandre.lureau@redhat.com>
-+Message-Id: <20220407081106.343235-1-mcascell@redhat.com>
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+
-+Upstream-Status: Backport
-+https://git.qemu.org/?p=qemu.git;a=commit;h=9569f5cb5b4bffa9d3ebc8ba7da1e03830a9a895
-+
-+Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
-+---
-+ hw/display/qxl-render.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/hw/display/qxl-render.c b/hw/display/qxl-render.c
-+index d28849b..237ed29 100644
-+--- a/hw/display/qxl-render.c
-++++ b/hw/display/qxl-render.c
-+@@ -266,7 +266,7 @@ static QEMUCursor *qxl_cursor(PCIQXLDevice *qxl, QXLCursor *cursor,
-+         }
-+         break;
-+     case SPICE_CURSOR_TYPE_ALPHA:
-+-        size = sizeof(uint32_t) * cursor->header.width * cursor->header.height;
-++        size = sizeof(uint32_t) * c->width * c->height;
-+         qxl_unpack_chunks(c->data, size, qxl, &cursor->chunk, group_id);
-+         if (qxl->debug > 2) {
-+             cursor_print_ascii_art(c, "qxl/alpha");
-+-- 
-+1.8.3.1
-+
+-SRC_URI[sha256sum] = "e6c41928b5b9917485bd67cec22d15e62cad7a358bf4c711a647979987601250"
++SRC_URI[sha256sum] = "df4fa560dcce6680133067cd15b0505fc424ca703244ce9ab247c74d2fab6885"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_22.0.0.bb b/meta/recipes-graphics/mesa/mesa_22.0.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_22.0.0.bb
+rename to meta/recipes-graphics/mesa/mesa_22.0.2.bb
 -- 
 2.25.1
 
