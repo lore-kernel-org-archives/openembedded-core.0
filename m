@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DBD5C433F5
-	for <webhook@archiver.kernel.org>; Tue, 17 May 2022 18:25:47 +0000 (UTC)
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
- [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web12.1097.1652811944816896309
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53983C4332F
+	for <webhook@archiver.kernel.org>; Tue, 17 May 2022 18:25:57 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web08.1201.1652811947159833340
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 11:25:44 -0700
+ Tue, 17 May 2022 11:25:47 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=x9JSHHL+;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.170,
+ header.b=7sSsU030;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f170.google.com with SMTP id x12so17648256pgj.7
+Received: by mail-pl1-f173.google.com with SMTP id q4so18066249plr.11
         for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 11:25:44 -0700 (PDT)
+ Tue, 17 May 2022 11:25:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=doec5HGEYOcoM09kXisBkglZcHYwbQZEaVuRZG1L4xc=;
-        b=x9JSHHL+9cvbr0ccDF1qDMGIfilM0Klp0lZtnOWldVWZDVomjBOL8bnar5qnRGVuWA
-         XbPXVNnsNm1u/un3eHEi9Fd0Kf7GUSig0QXbyJu7ZNXKJjck/vKT/U0l2d4zc9EZmRQ/
-         qjiU2cKcakWgOeU27lzgIZBgLHd9C6HM3ubKD7DGd8yxpAbK3KaxvxN2YLxeVRlXiGuo
-         Buvh8RABv+LfZpj7Bart7CTvB3MO1TaWPnms/cWk9MvhLlVD/DtI34PYJRLwz/9zr6hu
-         RQshcyV02U7XvUY3bYs5+gyOKmzPGGzdB99cwapmPO9okDVxQRUm29ijpBCn485LUITz
-         Yv9w==
+        bh=Xyp0hU1EG4qUW8gKmnQYaw0CeoFYYwDELTpn3NJ3hwA=;
+        b=7sSsU030rO4yNZlJFkGfS/nfGyTuapeaBRt+Q+9IBFYV7cLv+O22vV81IRqShd1+hy
+         /Vuna0b8TNYd3V4p5CIH0zqguhyI6tNUmj03M3N78uChZA8gUr6F81Dl1UHWbZIa8+iZ
+         IPnrl3edQ4BMRfsgtFoPVvjyn1he8HXI4yG4ezvqSNb4Kl6QIKtkfN0h0M/oix20GcIz
+         1gykXsTfawp9py37UTSblwSN255fE8Nu7OqiCERJDq7DCTLHIGBADGq6wZr2lshSKUth
+         olmVPsPMkayvJHUYSRYZ8hqgO7RMyuMCL0DLGzWcGdnqKxGf40kyozbv9NfS98eoifyV
+         Rntw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=doec5HGEYOcoM09kXisBkglZcHYwbQZEaVuRZG1L4xc=;
-        b=x3b/6Cpi/v6seS8IQOs8HxkwAJYQOZiYpsj1SIv/Oog+kvBygP37ZAfsGSceGKK2dL
-         UnKdyP6x+hP1r0KBwAAVtw7gQyM9ENo2kpsd9x0IaRBIQvs2Hh1ZdXDU8uxSgDHGlgoy
-         AsHt6PtzTqVTe6E31ZJUdrqK68/hkd0h1YM1xgeE68kIYQb+zTu+uY+VjYJx/e5r5sRb
-         arGlpX2Wjo4uDG3oun0zmmKYjOPQyg/lfKujtykASTyhoG1xXux1Q2k1q1TvE8TEuXW0
-         MzLdRt/1so8H0KaM4MLrU+vzWE3/lXjF18Sg/LF6dk7KQwNV6qX0x0YhX6NdGdmGBFBn
-         LjCw==
-X-Gm-Message-State: AOAM532cFl9vcSB1zWctfG0h2mZqkCzvFUxCgksUPBUNJkEQv/x2cQR0
-	iv+KgpLFGHs+EdJAhpJVFAk+KsVj3NcFP9zl
+        bh=Xyp0hU1EG4qUW8gKmnQYaw0CeoFYYwDELTpn3NJ3hwA=;
+        b=u6b80SeX3Q8WXVYS2UafF9injQhAonRbzUHoiPAQ6eF9AwZfs05cqMSGn9BkJe6PiT
+         wt1LDWl8onPehkjRnI68YVLKKB0TxBJ/Ba3b6syHAivwGDsVLPV+K29yiZ+oe5w/WTw0
+         3c9AdRB9BfPId9j5q1cx4196xvKr6Gv1TUgapup7a4NKhwQ5wkhxid9v+t5DZXmqfZz4
+         erIh8w7bxsNbzvx7USCeKECuyGkgsVm6TM33O2A7vsrrp4rVOEnjSE3eqnpI6jQ21LkP
+         gacj4IgX2kRZCSqG6g9kq4WoHol1KSlzinMMbgCvDEu9L77w5Jmk0Aa285uMdgBYGl8a
+         WMAg==
+X-Gm-Message-State: AOAM5310fcUXM5L03Ix5Jgbb+rEUqYzIKyaPZ0l5h/pHuKlPWRdBIgU0
+	oBaiiBlY3oaWlbaw0TKl3XYRQAORUUVYzj+6
 X-Google-Smtp-Source: 
- ABdhPJxHLIPmsJuK7pVbG2CYg4P9KwPyp++LPK1VlOzBn+nhPYZ6b0fB3Am1DqY5BIBn/bI5ncA+Xg==
-X-Received: by 2002:a63:db17:0:b0:3c1:dc15:7a6e with SMTP id
- e23-20020a63db17000000b003c1dc157a6emr20941203pgg.107.1652811943597;
-        Tue, 17 May 2022 11:25:43 -0700 (PDT)
+ ABdhPJzR9gJptk1KHPJTVvtsIWPcTFLg5nuwqXdw+23XQ3rK/6a+L6AlfRf/tYvzOrWw0PuDBUjkNw==
+X-Received: by 2002:a17:90b:1b0d:b0:1dc:672e:c8c2 with SMTP id
+ nu13-20020a17090b1b0d00b001dc672ec8c2mr26561651pjb.96.1652811945963;
+        Tue, 17 May 2022 11:25:45 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- f9-20020a170902684900b0015e8d4eb1d1sm9408188pln.27.2022.05.17.11.25.42
+ f9-20020a170902684900b0015e8d4eb1d1sm9408188pln.27.2022.05.17.11.25.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 May 2022 11:25:42 -0700 (PDT)
+        Tue, 17 May 2022 11:25:45 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 27/31] image.bbclass: allow overriding dependency
- on virtual/kernel:do_deploy
-Date: Tue, 17 May 2022 08:24:13 -1000
+Subject: [OE-core][kirkstone 28/31] sanity: Don't warn about make 4.2.1 for
+ mint
+Date: Tue, 17 May 2022 08:24:14 -1000
 Message-Id: 
- <4caf244256e150fea19cd4f2ca04c13d95d49fee.1652811454.git.steve@sakoman.com>
+ <eeba7fdc2878b3c1e90c0babbcaf7711a2e42fc1.1652811454.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1652811454.git.steve@sakoman.com>
 References: <cover.1652811454.git.steve@sakoman.com>
@@ -68,45 +68,37 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 May 2022 18:25:47 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 17 May 2022 18:25:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165772
+ https://lists.openembedded.org/g/openembedded-core/message/165773
 
-From: Dmitry Baryshkov <dbaryshkov@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Since the commit fe26b2379ecd ("image.bbclass: Depend on
-virtual/kernel:do_deploy"), the image.bbclass made building images
-depend on virtual/kernel. For some images, including small initramfs,
-this is not the case. Allow overriding this dependency in case
-developers knows what they are doing.
+Whilst not a supported distro, we can exclude this from the warning as it
+is debian derived and doesn't have the issue.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 55875f68212657167ac6dc26f5fd93eac24b098e)
+(cherry picked from commit b561e40f906737eec81245c6a12e78501311f667)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/image.bbclass | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ meta/classes/sanity.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 7f1f6f80a4..2139a7e576 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -132,7 +132,12 @@ def rootfs_variables(d):
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index c72a7b3ed3..b416918013 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -470,7 +470,7 @@ def check_make_version(sanity_data):
  
- do_rootfs[vardeps] += "${@rootfs_variables(d)}"
- 
--do_build[depends] += "virtual/kernel:do_deploy"
-+# This is needed to have kernel image in DEPLOY_DIR.
-+# This follows many common usecases and user expectations.
-+# But if you are building an image which doesn't need the kernel image at all,
-+# you can unset this variable manually.
-+KERNEL_DEPLOY_DEPEND ?= "virtual/kernel:do_deploy"
-+do_build[depends] += "${KERNEL_DEPLOY_DEPEND}"
- 
- 
- python () {
+     if bb.utils.vercmp_string_op(version, "4.2.1", "=="):
+         distro = oe.lsb.distro_identifier()
+-        if "ubuntu" in distro or "debian" in distro:
++        if "ubuntu" in distro or "debian" in distro or "linuxmint" in distro:
+             return None
+         return "make version 4.2.1 is known to have issues on Centos/OpenSUSE and other non-Ubuntu systems. Please use a buildtools-make-tarball or a newer version of make.\n"
+     return None
 -- 
 2.25.1
 
