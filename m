@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5573AC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 539F4C433F5
 	for <webhook@archiver.kernel.org>; Tue, 17 May 2022 18:25:37 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
- [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web11.1214.1652811934553005054
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web12.1090.1652811926802058993
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 11:25:34 -0700
+ Tue, 17 May 2022 11:25:29 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=HbhPPh6i;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.174,
+ header.b=Y6tN7k1j;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.182,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f174.google.com with SMTP id v10so17631766pgl.11
+Received: by mail-pl1-f182.google.com with SMTP id d17so18117605plg.0
         for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 11:25:34 -0700 (PDT)
+ Tue, 17 May 2022 11:25:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=w0ThiyUREBWIxuRe+WQ+UlqJ5BEnEXiqMYpY8xlnfTU=;
-        b=HbhPPh6i5BzH9MH3J5iPlwG+WIaee6kWGUch2syoz4QalANY8AJdmOLdOr9CWXHCYg
-         P79XQHIc1KoqPo0F3xwra1Gzhw4jNyGp34rVOf7bZCJhqD5jcQ66rMTHB4PTDt2oZ/w5
-         osb+73lnNlSg6c2V8JtvyxCnJMVfS5Jr5X0eS/ga/Fl8AtH4XLuVgIEmnUdOploH0v2t
-         JsRNzlKpPcJrzPSty/jcqibI9x1WJKVxUBppeZoDMPE3e9xAF7g+VxtfSyog8W7ZOgj1
-         R2W7+0TA0WYBwoNfLpePP1mfsVYLD9FBW0RaHjQlceIeHuDVPi+mLaZQCdyJyfHjEi6H
-         3OLw==
+        bh=1yOzBo5yHZ10yG+SVHA8omhezJmXJdxmeBakqeK6FOU=;
+        b=Y6tN7k1jp2aAG8rNvk4UPyPVEmVYX77aVUNrx6taObJ6HM0QN70tWcSt1iZ/1QA5IO
+         OShue7t/0C4qXiDd/C55jdy29YD1a/h3YnQyRtiKKKaG279J3DD5biw/TKMTn3X3Yx3t
+         RSithDuD7/Jw0tAzOxC9MhQKc7usPnbwaNWAZ/oHMW3fkKS8Rj41jtqr4DWbnKPt1feb
+         wVzqyMBVXDx7UhWRaMl6+CM60UL2dBSgIcYMsiVK5qOsEiTRiCdFNw0cEOIFgq9hEAyp
+         ctTgpYd52X5gpYD3iolDhpfRQq1qU7LrptyM1MtKSWmoNfTKtZH3hP2mav/bBB/tzBYy
+         2g4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=w0ThiyUREBWIxuRe+WQ+UlqJ5BEnEXiqMYpY8xlnfTU=;
-        b=yH7Pl0tL3MV97dDeMVwysI5I6/vBM14YDd9EN16LKVlm0QMUGUlLZV4QEqPagEu3yL
-         y+kYmTlnW0SpNAlBcpB9WYuaFX1RwNKDbXcP8cGMlqBoz5nYDD3cW61wzhf2Xy+Puocz
-         1iFyMIer3jeRHNiJZm/aE//M/zjSr0luV94dJAThZLI57/9l2nJZKDZ3EDi6k34+db/P
-         ahSwiLpD5MWpqZZRoHc3Lss3tI1pwCLvpYEsbbM7B5AeQV9YllI0qy3PKVZzRWee4ASI
-         W1oZogsDbkrAU3R67NoSv/8F9Yc+lzVNkHkJ6QGwLticmeQ39o+z7lFvxt5zKJM3+BTI
-         5GbA==
-X-Gm-Message-State: AOAM532GCcd1lrMe4czCGRDAij6Nt+PMoEwt/Um4bwhNxfGg2mYCUcG9
-	Fhp24S8WVXAnFbhFuhWvO0Y1R3bhz+QL2VMH
+        bh=1yOzBo5yHZ10yG+SVHA8omhezJmXJdxmeBakqeK6FOU=;
+        b=E1b27Y4oARO0e6V3ra+XjUUZ+9dj2rr95qaVNqcv85ADK5APLkubsnQ9FK4mLYGc70
+         +JE9K8ObYtWItJPRql1mCvjpx1bZ13/MXVJpVYohoq6MRGUimXjgnVPdMfUGxCjpro5/
+         9PwTXiprbuHbQl7RHHntd/c3uvIltDmTrYqEVlMMOyhLYwaHG50COSubQHmSf+IdTPnS
+         FBwxKjlefVm13ZIPuXcFjcuUf/kxnnNpKtCDE+fOKyltQ3geFoSSrvDAxalk+9HXH/Y4
+         FlSUz2UyTXczl6XP7dCQvGrpRb6B4shYluyBJHjizqbOkBwuKdW1/5EpJarbkEf3Jlid
+         9uWw==
+X-Gm-Message-State: AOAM531g1s9ZvFGnX1uyNTzS/3v4tAfKZRmPFU0/3alFoo/MjGRuE+V7
+	nzbpqoxIjngLGQnFzGD+IkvfkOrOMn8/ajJW
 X-Google-Smtp-Source: 
- ABdhPJwfF4BaxHbCVDOm3CXC82F5+1XjUAZJTtuOKwLQZcFy/PxzEO1tp5uWffpywcPW0wrBoG016A==
-X-Received: by 2002:a63:d743:0:b0:3f5:f77a:a516 with SMTP id
- w3-20020a63d743000000b003f5f77aa516mr98598pgi.210.1652811933396;
-        Tue, 17 May 2022 11:25:33 -0700 (PDT)
+ ABdhPJy/ixMiUmki72HwE/E/MaBG7A3P4ZxOkGxStsa3zUPzC84mg5UQjOXkEt10Y/LwDYFiiqKPaQ==
+X-Received: by 2002:a17:90b:4c07:b0:1df:755e:e0df with SMTP id
+ na7-20020a17090b4c0700b001df755ee0dfmr8291075pjb.244.1652811928192;
+        Tue, 17 May 2022 11:25:28 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- f9-20020a170902684900b0015e8d4eb1d1sm9408188pln.27.2022.05.17.11.25.31
+ f9-20020a170902684900b0015e8d4eb1d1sm9408188pln.27.2022.05.17.11.25.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 May 2022 11:25:32 -0700 (PDT)
+        Tue, 17 May 2022 11:25:27 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 23/31] pypi.bbclass: Set CVE_PRODUCT to
- PYPI_PACKAGE
-Date: Tue, 17 May 2022 08:24:09 -1000
+Subject: [OE-core][kirkstone 21/31] linux-firmware: upgrade 20220411 ->
+ 20220509
+Date: Tue, 17 May 2022 08:24:07 -1000
 Message-Id: 
- <80a1de36bc86a864d52292ef9770b77480f3c67b.1652811454.git.steve@sakoman.com>
+ <9002274362b512142f66ea68ff9837a7dde8f830.1652811454.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1652811454.git.steve@sakoman.com>
 References: <cover.1652811454.git.steve@sakoman.com>
@@ -70,32 +70,46 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 17 May 2022 18:25:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165768
+ https://lists.openembedded.org/g/openembedded-core/message/165766
 
-From: Alex Kiernan <alex.kiernan@gmail.com>
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 
-The CVE product name for PyPI packages is (usually) the same as the PyPI
-package name (and not our recipe name), so use that as the default.
-
-Signed-off-by: Alex Kiernan <alexk@zuma.ai>
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+License-Update: additional files
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 61f6b0ad09bf87cdc2d3f08770b7c44cad1d0e58)
+(cherry picked from commit 85b1fef733683be09a1efdb2d8b8ffe543053ace)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/pypi.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ ...{linux-firmware_20220411.bb => linux-firmware_20220509.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220411.bb => linux-firmware_20220509.bb} (99%)
 
-diff --git a/meta/classes/pypi.bbclass b/meta/classes/pypi.bbclass
-index 9405d58601..5fa7b8a6ae 100644
---- a/meta/classes/pypi.bbclass
-+++ b/meta/classes/pypi.bbclass
-@@ -24,3 +24,5 @@ S = "${WORKDIR}/${PYPI_PACKAGE}-${PV}"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20220509.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20220509.bb
+index d396702690..87d2efef12 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20220411.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20220509.bb
+@@ -132,7 +132,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+-                    file://WHENCE;md5=4cf67d71a21887c682c3989a4318745e \
++                    file://WHENCE;md5=d3eb82686904888f8bbbe8d865371404 \
+                     "
  
- UPSTREAM_CHECK_URI ?= "https://pypi.org/project/${PYPI_PACKAGE}/"
- UPSTREAM_CHECK_REGEX ?= "/${PYPI_PACKAGE}/(?P<pver>(\d+[\.\-_]*)+)/"
-+
-+CVE_PRODUCT ?= "python:${PYPI_PACKAGE}"
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+@@ -208,7 +208,7 @@ SRC_URI = "\
+   file://0001-Makefile-replace-mkdir-by-install.patch \
+ "
+ 
+-SRC_URI[sha256sum] = "020b11f6412f4956f5a6f98de7d41867d2b30ea0ce81b1e2d206ec9840363849"
++SRC_URI[sha256sum] = "376e0b3d7b4f8aaa2abf7f5ab74803dcf14b06b94e3d841b1467cd9a2848255e"
+ 
+ inherit allarch
+ 
 -- 
 2.25.1
 
