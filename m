@@ -1,208 +1,101 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FD5EC433F5
-	for <webhook@archiver.kernel.org>; Tue, 17 May 2022 08:26:31 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web09.4666.1652775984118639307
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AFBAC433EF
+	for <webhook@archiver.kernel.org>; Tue, 17 May 2022 08:41:01 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web08.4849.1652776855881337862
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 01:26:24 -0700
+ Tue, 17 May 2022 01:40:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=HfPfG3fp;
- spf=pass (domain: gmail.com, ip: 209.85.218.47,
- mailfrom: alex.kiernan@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id z2so33196063ejj.3
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Nt+BA03S;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id g17so5553950wrb.11
         for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 01:26:23 -0700 (PDT)
+ Tue, 17 May 2022 01:40:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=iiNJt+3BLWVzI8siqrxWfThpUAnrnPpU9huQMaXM714=;
-        b=HfPfG3fp7latiYSWgKJvhXr7mkThudXSQuJ5Ym5M4LaGoojluszBQSd9W6G1RadMCq
-         C3GloVoP7LXiByI6FOm0eQvRwauSKZDzmFy5IR6EyT8Yu1Dhj7rf87LNsceBuuhPETw8
-         yaujtp+vo/bsV957FCwkbks/SNv4tv/Il7kAsesz0S/5OMs8w3srHhhKeJU/Gog02wFK
-         LFCBFjl2gSpk0O0PpNv9W1qQyjBi90grtY1hX99W9jafPnx6QsIYZhuNJBu+/2n4nsZn
-         r155YXda/uVWXxsXmrrxAhJRcqmYq2djsU6yAFz6DAYI/+np4pPkpt+UMGf0zJ8Con+k
-         SF/Q==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=U/daxpuYnf0Yk+2FW8lnfg7Hbw7Xxz+N4mu6kqgOICw=;
+        b=Nt+BA03S6ZvcD+ICiZx0fWW69Xq3EUxcwKnApbWLNdH/lqV3AGVmJD1yA1jbQObJkT
+         L9JRYVi9xAJ3kfqOkio5bImB1IS7qpnPKC3mnFFfUwSwiyLpurfVrRfrbVFydDLhN4d0
+         Q4jZ7rmbULE2Xh7zqYk+8qr2m4SxNLE2W4E9I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=iiNJt+3BLWVzI8siqrxWfThpUAnrnPpU9huQMaXM714=;
-        b=2j0DnvUpc1jpt2mwYNDVOkQSU4pu0up2HUOG6hRbIuWFPB06RHhu6Z7Ks6qXrrJbzO
-         FATz/iwEc2Sop2OYUTrA4QWHmmwFXJKuEfSLO8TjDEr15B+u6VbEiaRrJbvF/coEbdRm
-         o0bs/+KJhxjw77gMBZMk+AZKU4/zLcJNVjkx/RTGrLkmNI4bRlVVzsfTOaBKW6oWmXkl
-         hgUNrqyl6IdhJu3yQSpPMklAPKgS9lS2jT1dinC75sLwz6bY0bwM7x2vEg3fMX3cCW49
-         bL2jdvHEHBiWKTRkzCBlr4TV/doolgxSbeM7Q/RIySWMdgQGXI/lvjsQD4tBlOrUvyBU
-         s9CQ==
-X-Gm-Message-State: AOAM531dWgxRrAzDWmnxmBUJI9r5CCilRLWfeUdBJqTpuuDBiwOrK/is
-	wCKxPsrMD/N8X2HdijC8SI2Z50y4t+yIWcBgjRI=
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=U/daxpuYnf0Yk+2FW8lnfg7Hbw7Xxz+N4mu6kqgOICw=;
+        b=FeKzCxCnBGsQdZDb8vG/oAsGwETzL6naJChA7S1mkNCFT7pWycxAqgKfbKe5RIs2nz
+         ulRNVaMzBGjHsk4Yr+lD5IIgimH2xIpTAkN1GwmgqP5BvlvTDR8ieJ+PbirTc8Vc3VMl
+         juf1ylb5uJy+FtzW3RQQxT76PJ8B6O2NLye2hS7CvJ6xg9daAfWJ3+MrBZ6EOjpFjtRz
+         +v2xAarwxvOICyXmDHKjvJcZyG255t3jEII1RGs5p4Dx5lVp6J9P86vD7KyEXGio1wJy
+         uNMRzvJLQgdomSaRraooECm0NevKr/AxER9BmYEFPwhFKN3ztolt/xbLWPfcaP9N/Bwl
+         6RIA==
+X-Gm-Message-State: AOAM531uXyC77fHihBo4FStDfzhPE8kNgkYa7w2AQ6QutaAH3F3co6AE
+	IX/0dRlrLYDgB9CUBqQp09zE2Q==
 X-Google-Smtp-Source: 
- ABdhPJyyXINolLmLat/2VlRfohCfK+QCBoUMH3X/7EfNBgWn82covGZIeJgjGl+pKOK+G1zFgxSSsdckpjJHSu7zJvg=
-X-Received: by 2002:a17:906:c14b:b0:6f8:e6bb:f8d5 with SMTP id
- dp11-20020a170906c14b00b006f8e6bbf8d5mr18530777ejc.4.1652775982488; Tue, 17
- May 2022 01:26:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220517060115.1913044-1-rybczynska@gmail.com>
- <CAD=4a=Wbmmui9iHMnYk4T9cutUnSmXXq_BBiaQcVmotY9CU_RQ@mail.gmail.com>
-In-Reply-To: 
- <CAD=4a=Wbmmui9iHMnYk4T9cutUnSmXXq_BBiaQcVmotY9CU_RQ@mail.gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Tue, 17 May 2022 09:26:11 +0100
+ ABdhPJw9igdQqHaydJw1oh6NCkPoYqkYHI5b5kbI1yutb4tcqiIo/DtyZduCrm3WBHFqLexCQJIgEA==
+X-Received: by 2002:a5d:584a:0:b0:20c:5bad:11c1 with SMTP id
+ i10-20020a5d584a000000b0020c5bad11c1mr17829732wrf.62.1652776854365;
+        Tue, 17 May 2022 01:40:54 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:9c35:e819:58b3:2e94?
+ ([2001:8b0:aba:5f3c:9c35:e819:58b3:2e94])
+        by smtp.gmail.com with ESMTPSA id
+ l18-20020adfb112000000b0020c5253d8d3sm11474404wra.31.2022.05.17.01.40.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 May 2022 01:40:53 -0700 (PDT)
 Message-ID: 
- <CAO5Uq5QdkvN1tXf5uFZYeZyLoCrKoPVqTjmiG_0pdG2tJWWCmg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] cve-check: Fix report generation
-To: =?UTF-8?Q?Ernst_Sj=C3=B6strand?= <ernstp@gmail.com>
-Cc: Marta Rybczynska <rybczynska@gmail.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	Marta Rybczynska <marta.rybczynska@huawei.com>
+ <d037486615787f0c2f53edf1d2e09688ee8a2e62.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 1/7] python3-cryptography: add
+ python3-pytest-benchmark rdepends
+From: richard.purdie@linuxfoundation.org
+To: "Yu, Mingli" <mingli.yu@windriver.com>,
+	openembedded-core@lists.openembedded.org, luca.ceresoli@bootlin.com
+Date: Tue, 17 May 2022 09:40:51 +0100
+In-Reply-To: <20220517081633.2992360-1-mingli.yu@windriver.com>
+References: <20220516104506.3d383183@melee>
+	 <20220517081633.2992360-1-mingli.yu@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0-1ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 May 2022 08:26:31 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 17 May 2022 08:41:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165719
+ https://lists.openembedded.org/g/openembedded-core/message/165720
 
-Tested-by: Alex Kiernan <alex.kiernan@gmail.com>
+On Tue, 2022-05-17 at 16:16 +0800, Yu, Mingli wrote:
+> From: Mingli Yu <mingli.yu@windriver.com>
+>=20
+> The new version introduced below change, so add python3-pytest-benchmark
+> to rdepends to fix the gap.
+> 496703c8 Refs #7079 -- added basic scaffholding for benchmarks (#7087)
+>=20
+> Fixes:
+>   # ./run-ptest
+>   Free memory: 31.283 GB
+>   ERROR: usage: pytest [options] [file_or_dir] [file_or_dir] [...]
+>   pytest: error: unrecognized arguments: --benchmark-disable
+>   inifile: /usr/lib/python3-cryptography/ptest/pyproject.toml
+>   rootdir: /usr/lib/python3-cryptography/ptest
 
-On Tue, May 17, 2022 at 8:55 AM Ernst Sj=C3=B6strand <ernstp@gmail.com> wro=
-te:
->
-> Reviewed-by: Ernst Sj=C3=B6strand <ernstp@gmail.com>
->
-> Den tis 17 maj 2022 kl 08:01 skrev Marta Rybczynska <rybczynska@gmail.com=
->:
->>
->> The addition of summary output caused two issues: error when building
->> an image and the fact that JSON output was generated even when
->> CVE_CHECK_FORMAT_JSON.
->>
->> When generating an image it caused an error like:
->> ERROR: core-image-minimal-1.0-r0 do_rootfs: Error executing a python fun=
-ction in exec_func_python() autogenerated:
->>
->>   The stack trace of python calls that resulted in this exception/failur=
-e was:
->>   File: 'exec_func_python() autogenerated', lineno: 2, function: <module=
->
->>        0001:
->>    *** 0002:cve_check_write_rootfs_manifest(d)
->>        0003:
->>   File: '/home/alexk/poky/meta/classes/cve-check.bbclass', lineno: 213, =
-function: cve_check_write_rootfs_manifest
->>        0209:
->>        0210:        link_path =3D os.path.join(deploy_dir, "%s.json" % l=
-ink_name)
->>        0211:        manifest_path =3D d.getVar("CVE_CHECK_MANIFEST_JSON"=
-)
->>        0212:        bb.note("Generating JSON CVE manifest")
->>    *** 0213:        generate_json_report(json_summary_name, json_summary=
-_link_name)
->>        0214:        bb.plain("Image CVE JSON report stored in: %s" % lin=
-k_path)
->>        0215:}
->>        0216:
->>        0217:ROOTFS_POSTPROCESS_COMMAND:prepend =3D "${@'cve_check_write_=
-rootfs_manifest; ' if d.getVar('CVE_CHECK_CREATE_MANIFEST') =3D=3D '1' else=
- ''}"
->>   Exception: NameError: name 'json_summary_name' is not defined
->>
->> The fix is to pass the d variable to the pure python function generate_j=
-son_report
->> to get correct values of variables and add conditions for the JSON
->> output where needed.
->>
->> In addition clarify the message presenting the summary JSON file,
->> which isn't related to an image.
->>
->> Uses partial fixes from Alex Kiernan, Ernst Sj=C3=B6strand (ernstp),
->> and Davide Gardenal.
->>
->> Fixes: f2987891d315 ("cve-check: add JSON format to summary output")
->>
->> Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
->> ---
->>  meta/classes/cve-check.bbclass | 18 ++++++++++--------
->>  1 file changed, 10 insertions(+), 8 deletions(-)
->>
->> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbc=
-lass
->> index 24ddb865ea..7cd98ae462 100644
->> --- a/meta/classes/cve-check.bbclass
->> +++ b/meta/classes/cve-check.bbclass
->> @@ -79,7 +79,7 @@ CVE_CHECK_LAYER_INCLUDELIST ??=3D ""
->>  # set to "alphabetical" for version using single alphabetical character=
- as increment release
->>  CVE_VERSION_SUFFIX ??=3D ""
->>
->> -def generate_json_report(out_path, link_path):
->> +def generate_json_report(d, out_path, link_path):
->>      if os.path.exists(d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")):
->>          import json
->>          from oe.cve_check import cve_check_merge_jsons
->> @@ -127,10 +127,11 @@ python cve_save_summary_handler () {
->>                      os.remove(cvefile_link)
->>                  os.symlink(os.path.basename(cve_summary_file), cvefile_=
-link)
->>
->> +    if d.getVar("CVE_CHECK_FORMAT_JSON") =3D=3D "1":
->>          json_summary_link_name =3D os.path.join(cvelogpath, d.getVar("C=
-VE_CHECK_SUMMARY_FILE_NAME_JSON"))
->>          json_summary_name =3D os.path.join(cvelogpath, "%s-%s.json" % (=
-cve_summary_name, timestamp))
->> -        generate_json_report(json_summary_name, json_summary_link_name)
->> -        bb.plain("CVE report summary created at: %s" % json_summary_lin=
-k_name)
->> +        generate_json_report(d, json_summary_name, json_summary_link_na=
-me)
->> +        bb.plain("Complete CVE JSON report summary created at: %s" % js=
-on_summary_link_name)
->>  }
->>
->>  addhandler cve_save_summary_handler
->> @@ -207,11 +208,12 @@ python cve_check_write_rootfs_manifest () {
->>                  os.symlink(os.path.basename(manifest_name), manifest_li=
-nk)
->>              bb.plain("Image CVE report stored in: %s" % manifest_name)
->>
->> -        link_path =3D os.path.join(deploy_dir, "%s.json" % link_name)
->> -        manifest_path =3D d.getVar("CVE_CHECK_MANIFEST_JSON")
->> -        bb.note("Generating JSON CVE manifest")
->> -        generate_json_report(json_summary_name, json_summary_link_name)
->> -        bb.plain("Image CVE JSON report stored in: %s" % link_path)
->> +        if d.getVar("CVE_CHECK_FORMAT_JSON") =3D=3D "1":
->> +            link_path =3D os.path.join(deploy_dir, "%s.json" % link_nam=
-e)
->> +            manifest_path =3D d.getVar("CVE_CHECK_MANIFEST_JSON")
->> +            bb.note("Generating JSON CVE manifest")
->> +            generate_json_report(d, manifest_path, link_path)
->> +            bb.plain("Image CVE JSON report stored in: %s" % link_path)
->>  }
->>
->>  ROOTFS_POSTPROCESS_COMMAND:prepend =3D "${@'cve_check_write_rootfs_mani=
-fest; ' if d.getVar('CVE_CHECK_CREATE_MANIFEST') =3D=3D '1' else ''}"
->> --
->> 2.33.0
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#165707): https://lists.openembedded.org/g/openembedd=
-ed-core/message/165707
->> Mute This Topic: https://lists.openembedded.org/mt/91158052/4947266
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [e=
-rnstp@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
+It sounds like we're disabling the benchmarks anyway? :/
+
+Can we not avoid the dependencies some other way?
+
+The patch series as it stands won't build cleanly as there is no
+maintainers entry for the new recipes.
+
+Cheers,
+
+Richard
 
 
---=20
-Alex Kiernan
+
 
