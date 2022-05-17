@@ -2,9 +2,9 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 From: "Steve Sakoman" <steve@sakoman.com>
-Subject: [OE-core][kirkstone 08/31] mesa: upgrade 22.0.0 -> 22.0.2
-Date: Tue, 17 May 2022 08:23:54 -1000
-Message-Id: <34f6d4763fc3bad1382551fd863f96e556b5f6cc.1652811454.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 16/31] webkitgtk: upgrade 2.36.0 -> 2.36.1
+Date: Tue, 17 May 2022 08:24:02 -1000
+Message-Id: <cf336712afc3899ef45c7f2ef5f6b081223a1269.1652811454.git.steve@sakoman.com>
 In-Reply-To: <cover.1652811454.git.steve@sakoman.com>
 References: <cover.1652811454.git.steve@sakoman.com>
 MIME-Version: 1.0
@@ -15,68 +15,70 @@ To: openembedded-core@lists.openembedded.org
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Mesa 22.0.1 is a bug fix release which fixes bugs found since the 22.0.0 release:
+This is the first bug fix release in the stable 2.36 series.
 
-freedreno: crash in PUBG
-MSVC: Build failure in libmesa_util when targeting x86 32-bit
-A crash in radeonsi driver
-freedreno: deqp cts fails
+What’s new in the WebKitGTK 2.36.1 release?
 
-Mesa 22.0.2 is a bug fix release which fixes bugs found since the 22.0.1 release:
-
-Vulkan::Calling vkWaitForFences Timeout
-Intel (CHT) - Uplink text rendering bugged out in Mesa 22.0
-gen9atom gpu hang on dEQP-VK.spirv_assembly.instruction.graphics.float16.arithmetic_1
-bad memory managment on panfrost RK3399 - cannot alocate more ram - fury unleashed
-Broken rendering in Ryujinx on Tigerlake
-intel: integer_mad_hi / integer_mad_sat / integer_mul_hi produce invalid results
-Textures colors distortion in “Black Geyser: Couriers of Darkness” with radeonsi
-ShaderStorageBlocksWriteAccess not set for spir-v shaders?
-radeonsi dEQP-GLES3.functional.buffer.map.write.explicit_flush.* flake crashes
-radv: nir validation error with invalid array access
-Intel Iris Xe Geometry Flickering/Assets Disappearing
-Rendering artifacts when playing Outer Wilds [Reproducible with latest ANV driver built from main]
-Vulkan wsi leaks vk_sync object on every wsi_AcquireNextImageKHR call
-panfrost(RK3399/T860): Emulationstation: broken, black or missing menus with v22.0.0
-Plasma/KDE settings menus disappear on daily build
-Square Artifacts Dragons Dogma
-r300: Anmesia the dark descent corruption
-Error compiling with LLVM-git/15
+- Fix the build with accessibility disabled.
+- Fix several crashes and rendering issues.
+- Translation updates: Croatian.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f3e9444968fd47b3c8e0b2ee7b1b17f43a6bd56b)
+(cherry picked from commit 4ed608d33fe5f38bc172e0cc6d938ffab184a47a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../mesa/{mesa-gl_22.0.0.bb => mesa-gl_22.0.2.bb}               | 0
- meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
- meta/recipes-graphics/mesa/{mesa_22.0.0.bb => mesa_22.0.2.bb}   | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_22.0.0.bb => mesa-gl_22.0.2.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_22.0.0.bb => mesa_22.0.2.bb} (100%)
+ .../webkitgtk/add_missing_include.patch       | 19 -------------------
+ ...ebkitgtk_2.36.0.bb => webkitgtk_2.36.1.bb} |  3 +--
+ 2 files changed, 1 insertion(+), 21 deletions(-)
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/add_missing_include.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.36.0.bb => webkitgtk_2.36.1.bb} (98%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_22.0.0.bb b/meta/recipes-graphics/mesa/mesa-gl_22.0.2.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_22.0.0.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_22.0.2.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index e8c07a4563..f5a5c14e72 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -22,7 +22,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-util-format-Check-for-NEON-before-using-it.patch \
+diff --git a/meta/recipes-sato/webkit/webkitgtk/add_missing_include.patch b/meta/recipes-sato/webkit/webkitgtk/add_missing_include.patch
+deleted file mode 100644
+index 8f59db3130..0000000000
+--- a/meta/recipes-sato/webkit/webkitgtk/add_missing_include.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-Include locale.h for LC_MESSAGE definition
+-
+-This fixes build error
+-Source/WebCore/accessibility/atspi/AccessibilityRootAtspi.cpp:115:51: error: use of undeclared identifier 'LC_MESSAGES'
+-            return g_variant_new_string(setlocale(LC_MESSAGES, nullptr));
+-                                                  ^
+-Upstream-Status: Submitted [https://bugs.webkit.org/show_bug.cgi?id=239030]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+---- a/Source/WebCore/accessibility/atspi/AccessibilityRootAtspi.cpp
+-+++ b/Source/WebCore/accessibility/atspi/AccessibilityRootAtspi.cpp
+-@@ -30,6 +30,7 @@
+- #include "FrameView.h"
+- #include "Page.h"
+- #include <glib/gi18n-lib.h>
+-+#include <locale.h>
+- 
+- namespace WebCore {
+- 
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.0.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb
+similarity index 98%
+rename from meta/recipes-sato/webkit/webkitgtk_2.36.0.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.36.1.bb
+index db8a565511..65757c36a7 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.36.0.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb
+@@ -15,10 +15,9 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-Fix-build-without-opengl-or-es.patch \
+            file://reproducibility.patch \
+            file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch \
+-           file://add_missing_include.patch \
             "
  
--SRC_URI[sha256sum] = "e6c41928b5b9917485bd67cec22d15e62cad7a358bf4c711a647979987601250"
-+SRC_URI[sha256sum] = "df4fa560dcce6680133067cd15b0505fc424ca703244ce9ab247c74d2fab6885"
+-SRC_URI[sha256sum] = "b877cca1f105235f5dd57c7ac2b2c2be3c6b691ff444f93925c7254cf156c64d"
++SRC_URI[sha256sum] = "0149ea5fb1d20f2a9981677d45c952a047330001ea24a8dc29035239f12c0c8f"
  
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
  
-diff --git a/meta/recipes-graphics/mesa/mesa_22.0.0.bb b/meta/recipes-graphics/mesa/mesa_22.0.2.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_22.0.0.bb
-rename to meta/recipes-graphics/mesa/mesa_22.0.2.bb
 -- 
 2.25.1
 
