@@ -1,172 +1,208 @@
-Return-Path: <mingli.yu@windriver.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 430BFC4321E
-	for <webhook@archiver.kernel.org>; Tue, 17 May 2022 08:17:01 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web08.4715.1652775412324686588
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FD5EC433F5
+	for <webhook@archiver.kernel.org>; Tue, 17 May 2022 08:26:31 +0000 (UTC)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web09.4666.1652775984118639307
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 01:16:52 -0700
+ Tue, 17 May 2022 01:26:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
- domain name (domain: windriver.com, ip: 147.11.3.146,
- mailfrom: mingli.yu@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 24H8Gm07031049
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-	Tue, 17 May 2022 01:16:48 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 24H8Gb37011459
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 17 May 2022 01:16:42 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Tue, 17 May 2022 01:16:37 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 17 May 2022 01:16:37 -0700
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Tue, 17 May 2022 01:16:36 -0700
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <luca.ceresoli@bootlin.com>
-Subject: [PATCH 3/7] python3-aspectlib: move from meta-python
-Date: Tue, 17 May 2022 16:16:29 +0800
-Message-ID: <20220517081633.2992360-3-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220517081633.2992360-1-mingli.yu@windriver.com>
-References: <20220516104506.3d383183@melee>
- <20220517081633.2992360-1-mingli.yu@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=HfPfG3fp;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47,
+ mailfrom: alex.kiernan@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id z2so33196063ejj.3
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 17 May 2022 01:26:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=iiNJt+3BLWVzI8siqrxWfThpUAnrnPpU9huQMaXM714=;
+        b=HfPfG3fp7latiYSWgKJvhXr7mkThudXSQuJ5Ym5M4LaGoojluszBQSd9W6G1RadMCq
+         C3GloVoP7LXiByI6FOm0eQvRwauSKZDzmFy5IR6EyT8Yu1Dhj7rf87LNsceBuuhPETw8
+         yaujtp+vo/bsV957FCwkbks/SNv4tv/Il7kAsesz0S/5OMs8w3srHhhKeJU/Gog02wFK
+         LFCBFjl2gSpk0O0PpNv9W1qQyjBi90grtY1hX99W9jafPnx6QsIYZhuNJBu+/2n4nsZn
+         r155YXda/uVWXxsXmrrxAhJRcqmYq2djsU6yAFz6DAYI/+np4pPkpt+UMGf0zJ8Con+k
+         SF/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=iiNJt+3BLWVzI8siqrxWfThpUAnrnPpU9huQMaXM714=;
+        b=2j0DnvUpc1jpt2mwYNDVOkQSU4pu0up2HUOG6hRbIuWFPB06RHhu6Z7Ks6qXrrJbzO
+         FATz/iwEc2Sop2OYUTrA4QWHmmwFXJKuEfSLO8TjDEr15B+u6VbEiaRrJbvF/coEbdRm
+         o0bs/+KJhxjw77gMBZMk+AZKU4/zLcJNVjkx/RTGrLkmNI4bRlVVzsfTOaBKW6oWmXkl
+         hgUNrqyl6IdhJu3yQSpPMklAPKgS9lS2jT1dinC75sLwz6bY0bwM7x2vEg3fMX3cCW49
+         bL2jdvHEHBiWKTRkzCBlr4TV/doolgxSbeM7Q/RIySWMdgQGXI/lvjsQD4tBlOrUvyBU
+         s9CQ==
+X-Gm-Message-State: AOAM531dWgxRrAzDWmnxmBUJI9r5CCilRLWfeUdBJqTpuuDBiwOrK/is
+	wCKxPsrMD/N8X2HdijC8SI2Z50y4t+yIWcBgjRI=
+X-Google-Smtp-Source: 
+ ABdhPJyyXINolLmLat/2VlRfohCfK+QCBoUMH3X/7EfNBgWn82covGZIeJgjGl+pKOK+G1zFgxSSsdckpjJHSu7zJvg=
+X-Received: by 2002:a17:906:c14b:b0:6f8:e6bb:f8d5 with SMTP id
+ dp11-20020a170906c14b00b006f8e6bbf8d5mr18530777ejc.4.1652775982488; Tue, 17
+ May 2022 01:26:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <20220517060115.1913044-1-rybczynska@gmail.com>
+ <CAD=4a=Wbmmui9iHMnYk4T9cutUnSmXXq_BBiaQcVmotY9CU_RQ@mail.gmail.com>
+In-Reply-To: 
+ <CAD=4a=Wbmmui9iHMnYk4T9cutUnSmXXq_BBiaQcVmotY9CU_RQ@mail.gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Tue, 17 May 2022 09:26:11 +0100
+Message-ID: 
+ <CAO5Uq5QdkvN1tXf5uFZYeZyLoCrKoPVqTjmiG_0pdG2tJWWCmg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cve-check: Fix report generation
+To: =?UTF-8?Q?Ernst_Sj=C3=B6strand?= <ernstp@gmail.com>
+Cc: Marta Rybczynska <rybczynska@gmail.com>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Marta Rybczynska <marta.rybczynska@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 May 2022 08:17:01 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 17 May 2022 08:26:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165717
+ https://lists.openembedded.org/g/openembedded-core/message/165719
 
-From: Mingli Yu <mingli.yu@windriver.com>
+Tested-by: Alex Kiernan <alex.kiernan@gmail.com>
 
-aspectlib is an aspect-oriented programming, monkey-patch and
-decorators library. It is useful when changing behavior in
-existing code is desired. It includes tools for debugging and
-testing: simple mock/record and a complete capture/replay
-framework.
+On Tue, May 17, 2022 at 8:55 AM Ernst Sj=C3=B6strand <ernstp@gmail.com> wro=
+te:
+>
+> Reviewed-by: Ernst Sj=C3=B6strand <ernstp@gmail.com>
+>
+> Den tis 17 maj 2022 kl 08:01 skrev Marta Rybczynska <rybczynska@gmail.com=
+>:
+>>
+>> The addition of summary output caused two issues: error when building
+>> an image and the fact that JSON output was generated even when
+>> CVE_CHECK_FORMAT_JSON.
+>>
+>> When generating an image it caused an error like:
+>> ERROR: core-image-minimal-1.0-r0 do_rootfs: Error executing a python fun=
+ction in exec_func_python() autogenerated:
+>>
+>>   The stack trace of python calls that resulted in this exception/failur=
+e was:
+>>   File: 'exec_func_python() autogenerated', lineno: 2, function: <module=
+>
+>>        0001:
+>>    *** 0002:cve_check_write_rootfs_manifest(d)
+>>        0003:
+>>   File: '/home/alexk/poky/meta/classes/cve-check.bbclass', lineno: 213, =
+function: cve_check_write_rootfs_manifest
+>>        0209:
+>>        0210:        link_path =3D os.path.join(deploy_dir, "%s.json" % l=
+ink_name)
+>>        0211:        manifest_path =3D d.getVar("CVE_CHECK_MANIFEST_JSON"=
+)
+>>        0212:        bb.note("Generating JSON CVE manifest")
+>>    *** 0213:        generate_json_report(json_summary_name, json_summary=
+_link_name)
+>>        0214:        bb.plain("Image CVE JSON report stored in: %s" % lin=
+k_path)
+>>        0215:}
+>>        0216:
+>>        0217:ROOTFS_POSTPROCESS_COMMAND:prepend =3D "${@'cve_check_write_=
+rootfs_manifest; ' if d.getVar('CVE_CHECK_CREATE_MANIFEST') =3D=3D '1' else=
+ ''}"
+>>   Exception: NameError: name 'json_summary_name' is not defined
+>>
+>> The fix is to pass the d variable to the pure python function generate_j=
+son_report
+>> to get correct values of variables and add conditions for the JSON
+>> output where needed.
+>>
+>> In addition clarify the message presenting the summary JSON file,
+>> which isn't related to an image.
+>>
+>> Uses partial fixes from Alex Kiernan, Ernst Sj=C3=B6strand (ernstp),
+>> and Davide Gardenal.
+>>
+>> Fixes: f2987891d315 ("cve-check: add JSON format to summary output")
+>>
+>> Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
+>> ---
+>>  meta/classes/cve-check.bbclass | 18 ++++++++++--------
+>>  1 file changed, 10 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbc=
+lass
+>> index 24ddb865ea..7cd98ae462 100644
+>> --- a/meta/classes/cve-check.bbclass
+>> +++ b/meta/classes/cve-check.bbclass
+>> @@ -79,7 +79,7 @@ CVE_CHECK_LAYER_INCLUDELIST ??=3D ""
+>>  # set to "alphabetical" for version using single alphabetical character=
+ as increment release
+>>  CVE_VERSION_SUFFIX ??=3D ""
+>>
+>> -def generate_json_report(out_path, link_path):
+>> +def generate_json_report(d, out_path, link_path):
+>>      if os.path.exists(d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")):
+>>          import json
+>>          from oe.cve_check import cve_check_merge_jsons
+>> @@ -127,10 +127,11 @@ python cve_save_summary_handler () {
+>>                      os.remove(cvefile_link)
+>>                  os.symlink(os.path.basename(cve_summary_file), cvefile_=
+link)
+>>
+>> +    if d.getVar("CVE_CHECK_FORMAT_JSON") =3D=3D "1":
+>>          json_summary_link_name =3D os.path.join(cvelogpath, d.getVar("C=
+VE_CHECK_SUMMARY_FILE_NAME_JSON"))
+>>          json_summary_name =3D os.path.join(cvelogpath, "%s-%s.json" % (=
+cve_summary_name, timestamp))
+>> -        generate_json_report(json_summary_name, json_summary_link_name)
+>> -        bb.plain("CVE report summary created at: %s" % json_summary_lin=
+k_name)
+>> +        generate_json_report(d, json_summary_name, json_summary_link_na=
+me)
+>> +        bb.plain("Complete CVE JSON report summary created at: %s" % js=
+on_summary_link_name)
+>>  }
+>>
+>>  addhandler cve_save_summary_handler
+>> @@ -207,11 +208,12 @@ python cve_check_write_rootfs_manifest () {
+>>                  os.symlink(os.path.basename(manifest_name), manifest_li=
+nk)
+>>              bb.plain("Image CVE report stored in: %s" % manifest_name)
+>>
+>> -        link_path =3D os.path.join(deploy_dir, "%s.json" % link_name)
+>> -        manifest_path =3D d.getVar("CVE_CHECK_MANIFEST_JSON")
+>> -        bb.note("Generating JSON CVE manifest")
+>> -        generate_json_report(json_summary_name, json_summary_link_name)
+>> -        bb.plain("Image CVE JSON report stored in: %s" % link_path)
+>> +        if d.getVar("CVE_CHECK_FORMAT_JSON") =3D=3D "1":
+>> +            link_path =3D os.path.join(deploy_dir, "%s.json" % link_nam=
+e)
+>> +            manifest_path =3D d.getVar("CVE_CHECK_MANIFEST_JSON")
+>> +            bb.note("Generating JSON CVE manifest")
+>> +            generate_json_report(d, manifest_path, link_path)
+>> +            bb.plain("Image CVE JSON report stored in: %s" % link_path)
+>>  }
+>>
+>>  ROOTFS_POSTPROCESS_COMMAND:prepend =3D "${@'cve_check_write_rootfs_mani=
+fest; ' if d.getVar('CVE_CHECK_CREATE_MANIFEST') =3D=3D '1' else ''}"
+>> --
+>> 2.33.0
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#165707): https://lists.openembedded.org/g/openembedd=
+ed-core/message/165707
+>> Mute This Topic: https://lists.openembedded.org/mt/91158052/4947266
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [e=
+rnstp@gmail.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- ...ve-tornado-6-test-constraint.-Ref-15.patch | 45 +++++++++++++++++++
- .../python/python3-aspectlib/run-ptest        |  3 ++
- .../python/python3-aspectlib_1.5.2.bb         | 29 ++++++++++++
- 3 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-aspectlib/0001-Remove-tornado-6-test-constraint.-Ref-15.patch
- create mode 100644 meta/recipes-devtools/python/python3-aspectlib/run-ptest
- create mode 100644 meta/recipes-devtools/python/python3-aspectlib_1.5.2.bb
 
-diff --git a/meta/recipes-devtools/python/python3-aspectlib/0001-Remove-tornado-6-test-constraint.-Ref-15.patch b/meta/recipes-devtools/python/python3-aspectlib/0001-Remove-tornado-6-test-constraint.-Ref-15.patch
-new file mode 100644
-index 0000000000..174f088e9e
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-aspectlib/0001-Remove-tornado-6-test-constraint.-Ref-15.patch
-@@ -0,0 +1,45 @@
-+From d3ae6ac951cc5bbce29b9c987741e0a557c9b777 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Ionel=20Cristian=20M=C4=83rie=C8=99?= <contact@ionelmc.ro>
-+Date: Sun, 2 May 2021 09:50:43 +0300
-+Subject: [PATCH] Remove tornado<6 test constraint. Ref #15.
-+
-+Upstream-Status: Backport [https://github.com/ionelmc/python-aspectlib/commit/7dccb198dfb426f529b81a28a755f3c02f8b50cb]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ tests/test_integrations_py3.py | 5 ++++-
-+ tox.ini                        | 3 ++-
-+ 2 files changed, 6 insertions(+), 2 deletions(-)
-+
-+diff --git a/tests/test_integrations_py3.py b/tests/test_integrations_py3.py
-+index e025eac..596589d 100644
-+--- a/tests/test_integrations_py3.py
-++++ b/tests/test_integrations_py3.py
-+@@ -36,7 +36,10 @@ def test_decorate_tornado_coroutine():
-+     @gen.coroutine
-+     @debug.log(print_to=buf, module=False, stacktrace=2, result_repr=repr)
-+     def coro():
-+-        yield gen.Task(loop.add_timeout, timedelta(microseconds=10))
-++        if hasattr(gen, 'Task'):
-++            yield gen.Task(loop.add_timeout, timedelta(microseconds=10))
-++        else:
-++            yield gen.sleep(0.01)
-+         return "result"
-+ 
-+     loop = ioloop.IOLoop.current()
-+diff --git a/tox.ini b/tox.ini
-+index 8c607de..08c31b3 100644
-+--- a/tox.ini
-++++ b/tox.ini
-+@@ -55,7 +55,8 @@ deps =
-+     pytest-clarity
-+     pytest-cov
-+     pytest-travis-fold
-+-    tornado<6.0
-++    six
-++    tornado
-+ commands =
-+     {posargs:pytest --cov --cov-report=term-missing -vv --ignore=src}
-+ 
-+-- 
-+2.32.0
-+
-diff --git a/meta/recipes-devtools/python/python3-aspectlib/run-ptest b/meta/recipes-devtools/python/python3-aspectlib/run-ptest
-new file mode 100644
-index 0000000000..b63c4de0d9
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-aspectlib/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
-+
-+pytest -o log_cli=true -o log_cli_level=INFO | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s: %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
-diff --git a/meta/recipes-devtools/python/python3-aspectlib_1.5.2.bb b/meta/recipes-devtools/python/python3-aspectlib_1.5.2.bb
-new file mode 100644
-index 0000000000..0cbeca21c7
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-aspectlib_1.5.2.bb
-@@ -0,0 +1,29 @@
-+# Copyright (C) 2021 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
-+
-+SUMMARY = "``aspectlib`` is an aspect-oriented programming, monkey-patch and decorators library. It is useful when changing"
-+HOMEPAGE = "https://github.com/ionelmc/python-aspectlib"
-+LICENSE = "BSD-2-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=d58b3f20fd10347a9458b8a03793b62e"
-+
-+SRC_URI[sha256sum] = "d275ec82c4c2712e564bb760e4accff8f061f648e38774feabeb8b241cf3a4aa"
-+
-+inherit ptest pypi setuptools3
-+
-+SRC_URI += "file://run-ptest \
-+            file://0001-Remove-tornado-6-test-constraint.-Ref-15.patch \
-+           "
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tests
-+    cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
-+}
-+
-+RDEPENDS:${PN}-ptest += "\
-+    python3-tornado \
-+    python3-process-tests \
-+"
-+
-+RDEPENDS:${PN} += "python3-core python3-fields"
-+
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.25.1
-
+--=20
+Alex Kiernan
 
