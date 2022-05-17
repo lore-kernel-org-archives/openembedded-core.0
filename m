@@ -1,193 +1,142 @@
-Return-Path: <henning.schild@siemens.com>
+Return-Path: <tobiasschmidl@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C0A4C433EF
-	for <webhook@archiver.kernel.org>; Tue, 17 May 2022 18:31:57 +0000 (UTC)
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
- (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.78])
- by mx.groups.io with SMTP id smtpd.web10.1222.1652812312867036601
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 860A8C433EF
+	for <webhook@archiver.kernel.org>; Tue, 17 May 2022 18:48:37 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.58])
+ by mx.groups.io with SMTP id smtpd.web12.1364.1652813312231961770
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 11:31:53 -0700
+ Tue, 17 May 2022 11:48:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=rXZEWV9M;
- spf=pass (domain: siemens.com, ip: 40.107.8.78,
- mailfrom: henning.schild@siemens.com)
+ dkim=fail reason="body hash did not verify" header.i=@siemens.com
+ header.s=selector2 header.b=g6/YqLxz;
+ spf=pass (domain: siemens.com, ip: 40.107.21.58,
+ mailfrom: tobiasschmidl@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IHOl8PB/DLkfcHt6khIgljo7HOOw8oc15BEEY3uDvNingvF7HOaQq9p4THnSMwY4v3JWfSFPu6Ce9EZmtVm4eNv12IaM/bvuFUu2PaJ64H42LLtsASw1kAbdUQ0D+4roQt+Mq2hjpVXer1hzO8dtqWSuQ9Oxo8Y5NMgRIAx0Bh94s3UqaV1IkSKMtne7WQo/ufH9NCfCuvAR5wCj0x0CHwp+d056S2RF0TNo+DTmLpD72YgqSAfMZtaGHqyJJj3Eylf97pPqgP2da/Gk1RfZcJ21Svmbv9Nq7wKGzA7PLApGxEiHwbSYPj1ydVMenCMKY9/6DMD70adksIkS1FQutw==
+ b=NO8tXiufOSZkiGYQYf/+FxvteEMsR2pKi/CuPMxDMvfCWcKCfajAQPcLKZ5r08iC27GNNWI5Xz2WeLqDhYPQkNA4lmZaJW8k2syZDSJBS/rhxxJIXhC8MGC1rXl5PhBiVvyqHV8xeyhKvgi9Vt01T6s+hd4Z7IYSnX/hJAF8HsNFgPWAu2X2wWC8a/qizI+HGBwIOcpGkFW9zwOr2flrsLeSiQkD0UzkWIrNNDbmCXSjGweSI2P0G3KRbU8OzGSwv0peh367EFRgAHXlxgTLl0HlJVR2kU7KqBfNcKmvUIwkC3IrRPTja8ywLEkk2p7KKDUESyCTXgR9rSOMVBSz/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h6enGQ8WDGEnA6VzF46e/3eFmFGurkDokiRdUnuz/AI=;
- b=ho2WDSFGRlMFnygZDUctfk3MG7i7R9jRt96gARczHbBJHX0ZHFCDSPFkAiIlHtS1jw32kwN0h6bUSYE8nbdVZ1A63Yfe4vEG3Iz6Tq5Efw8RUK+nv/0n/OuDJEg1Kjy+7BN2RK3Mqw+9Pix1XkIVPIl1mT2dTMrZ9xSTyj8IU8SCa2+cLh9efncIKNv1ceoFZE7vLdvFE1sMhW3cANyRhIHD3Ni+kI/a83Sdwn3FNr4+8Nc4cpNgJF0slzGjGbmgteubNJ2/MR393L2pdfARONJXURtKeJ7wXN42aXk+PfkegCFoPFYwCmkAXbhqYZ75Npw6x7H9t1LGc+yYmFhYHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
+ bh=dFl9gabkw2qhHgdpuLqulg8pZNOQKffD5ZycZNYgarw=;
+ b=jqQcT6j/xbFrWHhgLObd4iiQSQOoBuEWJ2EU/vOHBRPATg2WKu1ogNhJxUGd10RWMKQB1CW/yUb3ocu2eXjX7CrlGZtuTQlohax7Zc502Ta5nqR6SC2gwKFk0AqCgFXxsQaU/HIqM/GCRjdlSX5jdJsPiWoJqlriu0aE4uEzEl/EgzsZeTmXIbVcCWwu3Tum41bugCEt/ew++OvzZa/Sl5y9rQrp2xx1dDVBW5L1BcSm8J1XwVxjqZbL+qKNcj636rM97MurwAIx3eiDauOQz9RnMtgZ3EmLDW1KHkY28IrMlNY1wvUG3TIjjhUqSl3JW2/SKPO9Eno4RTJr7iJMkA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 194.138.21.70) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=siemens.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=siemens.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h6enGQ8WDGEnA6VzF46e/3eFmFGurkDokiRdUnuz/AI=;
- b=rXZEWV9M9j/vzlXps5viQ85jQhwNYBeNnHeS9bTOIAQAyHQ3FylzrxKxGmiOXzUx3MrMHmlONKphk6oYt7gHK+fGQbAWBkocKPVlvGQvBGwbbgnuAdhJZKu9PFc6y9V1hwjf34AuP/gAuB7RgnupD8qooQr7D5/pocSRpMRM6cdNqTrBfmHnSUuFQBVcMKpKB37aYQlL76NmuqlV+R/pd3WP1CZ4auIBQzfCwK/5I0DO43nFozuTCO8t2ND4+U+7oNiiXXLiLtJurH4fKwXoLoxHD2H5s7WD4CNdbrbiVCF1Zky/q6iNK2HfBF2TcpVduEAaPzEbawCanrdlPTlzow==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:269::8)
- by AM5PR10MB1684.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:206:1c::23) with
+ bh=dFl9gabkw2qhHgdpuLqulg8pZNOQKffD5ZycZNYgarw=;
+ b=g6/YqLxzvuBux3yoCXh7+QEHd9k6ccmLPrEupmEm5VtF3UC+j/98y8AXI+qp4iLkgP+6oPAIEd+CxjFlMBBmEN+jSW58ch/2lTLFCrQCKPd0N9K/mbd3c1cv2LIYwJfVdXAGEhcjMwu5kzm7cIbbq3rutvRobEsx2yLkZgogjvXBUnNYeGUJHg03VVbkWxzkg8/+8wSPC7o3MlAnZu8uM0G/mXpVbjzDz4sgBCQLntOk1H4+A38OtZ/Nw8rpwSb8VNIjQdM36pXpcrTHMp7AUzb93QSrF41IC9V9a9Fph6RFHXTc15W9rRBnE4E27DcLdZTA3JoyxDlduy8ysL7vHg==
+Received: from DB6PR0301CA0012.eurprd03.prod.outlook.com (2603:10a6:4:3e::22)
+ by DB6PR10MB1623.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:6:38::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.14; Tue, 17 May
- 2022 18:31:49 +0000
-Received: from PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::ac31:609e:be08:9eee]) by PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::ac31:609e:be08:9eee%6]) with mapi id 15.20.5250.018; Tue, 17 May 2022
- 18:31:49 +0000
-Date: Tue, 17 May 2022 20:31:46 +0200
-From: Henning Schild <henning.schild@siemens.com>
-To: "Kanagarajan, Vijaikumar" <Vijaikumar_Kanagarajan@mentor.com>
-Cc: "Schmidl, Tobias (T CED SES-DE)" <tobiasschmidl@siemens.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>, "ch@denx.de" <ch@denx.de>
-Subject: Re: [PATCH v2] wic: added fspassno parameter to partition
-Message-ID: <20220517203146.5186f496@md1za8fc.ad001.siemens.net>
-In-Reply-To: <401b98473f564084a6da6a550cc95236@mentor.com>
-References: <20220513164044.4ad41b6b@md1za8fc.ad001.siemens.net>
-	<20220515063600.777146-1-Vijaikumar_Kanagarajan@mentor.com>
-	<09076afadfa0c49f65ea4d2d113fb9c6490f49ea.camel@siemens.com>
-	<401b98473f564084a6da6a550cc95236@mentor.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-pc-linux-gnu)
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS9PR06CA0777.eurprd06.prod.outlook.com
- (2603:10a6:20b:484::31) To PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:269::8)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.18; Tue, 17 May
+ 2022 18:48:29 +0000
+Received: from DB5EUR01FT080.eop-EUR01.prod.protection.outlook.com
+ (2603:10a6:4:3e:cafe::2f) by DB6PR0301CA0012.outlook.office365.com
+ (2603:10a6:4:3e::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.14 via Frontend
+ Transport; Tue, 17 May 2022 18:48:29 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.70)
+ smtp.mailfrom=siemens.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=siemens.com;
+Received-SPF: Pass (protection.outlook.com: domain of siemens.com designates
+ 194.138.21.70 as permitted sender) receiver=protection.outlook.com;
+ client-ip=194.138.21.70; helo=hybrid.siemens.com;
+Received: from hybrid.siemens.com (194.138.21.70) by
+ DB5EUR01FT080.mail.protection.outlook.com (10.152.5.234) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5250.13 via Frontend Transport; Tue, 17 May 2022 18:48:28 +0000
+Received: from DEMCHDC89XA.ad011.siemens.net (139.25.226.103) by
+ DEMCHDC9SJA.ad011.siemens.net (194.138.21.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.9; Tue, 17 May 2022 20:48:27 +0200
+Received: from wonse.fritz.box (167.87.0.197) by DEMCHDC89XA.ad011.siemens.net
+ (139.25.226.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2375.24; Tue, 17 May
+ 2022 20:48:27 +0200
+From: Tobias Schmidl <tobiasschmidl@siemens.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Tobias Schmidl <tobiasschmidl@siemens.com>
+Subject: [PATCH 0/1] wic/plugins/images/direct: Allow changes in fstab on
+ rootfs
+Date: Tue, 17 May 2022 20:48:15 +0200
+Message-ID: <20220517184816.1348026-1-tobiasschmidl@siemens.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [167.87.0.197]
+X-ClientProxiedBy: DEMCHDC89XA.ad011.siemens.net (139.25.226.103) To
+ DEMCHDC89XA.ad011.siemens.net (139.25.226.103)
+X-TM-AS-Product-Ver: SMEX-14.0.0.3080-8.6.1018-26680.007
+X-TM-AS-Result: No-10--11.774200-8.000000
+X-TMASE-MatchedRID: 5vV0XjnGfUl8J6cKGoYvWKwePkardoUbgJXstD6J/JHKE9oA9cXOzf6l
+	pfpte41hL6Rvb61UlO073eIwQ1PCRbM8BzDG7byxmw2Z4Qnk/ejRtBxlwMMWfKubsOtSWY2QgDL
+	qnrRlXrYr+IEOItdYE2rz/G/ZSbVq+gtHj7OwNO2BSJy8ngwKGYN7zb1h3cZkuJbek2V2M82ZPy
+	8TftSeppWGiurxGle2IDCCVYmXyuc=
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--11.774200-8.000000
+X-TMASE-Version: SMEX-14.0.0.3080-8.6.1018-26680.007
+X-TM-SNTS-SMTP: 
+ E5A3E7B676086DC182C9B282F8260CEED0656302426978B2C5FE37FA795554292000:8
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e9c1f21a-6d9b-476d-a0b8-08da38338175
-X-MS-TrafficTypeDiagnostic: AM5PR10MB1684:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8196aa1e-e6a1-4621-e7e7-08da3835d514
+X-MS-TrafficTypeDiagnostic: DB6PR10MB1623:EE_
 X-Microsoft-Antispam-PRVS: 
-	<AM5PR10MB1684474177A787B53E11FCEC85CE9@AM5PR10MB1684.EURPRD10.PROD.OUTLOOK.COM>
+	<DB6PR10MB1623EF31A564E95CB5293CB7A9CE9@DB6PR10MB1623.EURPRD10.PROD.OUTLOOK.COM>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	Kn/GYP2afgNLamuElyBKuBMy4r4fK06ksjSeds3gt1iuazKVI1K1NGXTaa/20XEIXNUvEX+sj+Xwcw/HfxA4vv9lV7JdqqSg7S2WXRvZPu1E4mZw5T8usMIrKogCy+Y6FWaDTK2ENreuOmNPqgBOhgwu6Rrmp+kSm7e3fYWXYPbEhr0R04t46lnKYnZHyFvj2KIAZxkBHVwUT48oH8oRN5H5vpJw6gY6fDphedPnHWSWK4i5r6MRmSzbYKAI656wjg6eF4J34FV+TpC63Md0JYMAyW+YXTmFmvLB4e3ql/3TjozTf+Kr7p7xwyglOLVhDCMgaFW/SVxvlxSgWmsTBNcMyUjnSRssbfYPmio9qYJXyldRnqTaMg1Q03eweLz6AjfmIs4rSki09ZI3XNJD5g3fnsCBVQc151FB6/v+BPC8lSnvXs7ZHsE4sDudn7xeX7pCaMF8ObBbfxiLP728EkJLs+zjygJflBCNohzkoz7bHQ6Si5410aOtuUtuIwR2Eq8u4nkZQvycSgi0uVfgMLCXqj8QWDi8sqbstSeMGlVXj2f9gPs0PLEEcKERMoTbv5OzoGbER8S3rtF1Vxlzs46e3RJIMk+HCfhA2DL4rM7O8pAxsh0j6o9xNA4xG8jPZPOyaS2nV7OYY8sGOQqPjw==
+	bziARNCCtjFjZxBcz4sA7gCI/14OzvcSqupSBk7FNr2slZ6AuJWbmE1NMJm/wsDETxem2R+ck97+VeRniaHyAVWgTij7xePTL8hjf4+fni44JaQ5EeR8+Jeth/ptCgIJ0Ft4TEjiY4VjpwzIecpPvD2hU/F3hkl9As+KzxGdkmJnDLiM9lORIKz2wk/ERJHRDDaCcVLpLMvVJj4FBOlcyfRap/JDPU2FQIantQ32IpmZy8x7lgqaSO/z6DJjSp8i00T/0Xfy/SBPV9rdmyQfyf7Y8BFOuwyHPuMH9wyXVzrglgmUXq8fJwW7WtTEzwxULnczsT+YqIQOg9PUOOUIdCdkosU3XgdxrL/RrZ1Sf9lwmlKho6BVVsARMQurD0YP8e2J6m5ycwWNr1cYv6HlqCUV61aXSyBkmRZH50aGhPUrSoh31e7dFtP0LnDja6vn3G9dlbmxPthwZ1imFPmbgOHEb4OO9UoikXy4aBibGyNlK1aLU8gxmqW41qfnel4lhXKvmDWOmSstYKP75TRfhpLcooNX+ysvWk1GcMcIM8fMQ+BDL1LMSIqTanHLBDaCTPLS5TetuzHAHjiOyKUMec4lRQhs3YxGeW0NbtkuP//kJlsVoEexnUFVTe75iDiDs+BHsETh9TW9ehtsBl9ePVOEt6qL+uT/ndCYNM1qRjWjqmi69OnpiG+dcqBKbit7
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(186003)(86362001)(4326008)(8936002)(6506007)(38100700002)(5660300002)(6486002)(44832011)(316002)(83380400001)(82960400001)(2906002)(66946007)(66556008)(66476007)(54906003)(53546011)(6916009)(8676002)(6666004)(1076003)(508600001)(6512007)(9686003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Tyvo0JjFrFbs/cFQqsrZHgWlgsLNJkclgJ1k5+/XEvoPrP0SYsatvJYq0LdF?=
- =?us-ascii?Q?AUH2AthKhhLWmaBDwHHazDnKwwxsJbcY1zCF6U/v+Nt9n8CcDsllQyAbvve0?=
- =?us-ascii?Q?IhQXujd0Vv7czEtX0JSfVEFvnRTzlf06DLLANZ8r/bQgl0iusgQhN8J43YlP?=
- =?us-ascii?Q?48yAQPfXZxN7xFs59l9WpxLF6brhm1wczraJWshCex39ov9seW7LmY/hT/zF?=
- =?us-ascii?Q?eMUxEtMtA4BMkUm2F3FqKIsC5nolidpfFY/PSzOjBKQwSUxm0AEHNDZK/XEP?=
- =?us-ascii?Q?AxL2tNIklX424eZTa+mqmSj704dx8wNw6PaSfcLImCnHzPTObn7WTkFDFbhg?=
- =?us-ascii?Q?WK4FYr+jac2glQ3mun8G/ndIIYg4+TDL0mzkj74hr/eP6d3Fg7XT00eD0DXE?=
- =?us-ascii?Q?k4owff+pp4ZJOzeD7JjiLGpgxHTyisfJ8XZ0UzO80/StQ6xLwb01RD9L+Tgq?=
- =?us-ascii?Q?ezPphN29HZISoD2sqdzrH+au9bCwyuLIxxv/UmApd1Fr/3+Sv9h1p0X7pIjo?=
- =?us-ascii?Q?f9qRuuaqYcrrSKqRNH0pnTG5zulyYNIcD5EgKbsttRqEfb1XtoH5mV+kkvvt?=
- =?us-ascii?Q?UtadSqm5MhXzJ1yu/RBsex3amnbDHHVdsP+w/cud2g6mZoiRQUC86aDX7a2U?=
- =?us-ascii?Q?snlUAagZQ/xRbzZUWPSa64CZ3MTu65F0Ozu+1t1dEbrFO4HD2Ygl0/OdJ7FA?=
- =?us-ascii?Q?rwBXwzAK7KM5TkTx2BnLA8N4rSKM9oB9fazGZ4h3fpVgkyHRueNDbsJedrX0?=
- =?us-ascii?Q?j4eUnmXp1hpklV3jf0/Kv2bdH/LzviBw2CcvW+kyAEyMYNknCCCjsyCAfTZo?=
- =?us-ascii?Q?XxMnXHu2LsU/3X+PXr2TSdUeHRI1/zo1hoF0WlfI06aBEQaAJer3X+T7bLsq?=
- =?us-ascii?Q?cfd6VeFoFwYqmYvgd30o2DyZJ0vOwwzY8aoRRewUFOmzlqEZWN7SgfSt0tmo?=
- =?us-ascii?Q?AWDqEYPZD+rMV0VxCVUBDVAwDwjCkmsBCtqjx1eKUYAVz7G8Jjhj7X/Oy4Eh?=
- =?us-ascii?Q?NFBkK16lmy6eh1fj0Aj52XPgma4zQVstDv3831MZYojNYFwypOtl4wioJyGR?=
- =?us-ascii?Q?OIiJkj2iBVHpBKPlxdf5pPYkhmc6c+HZW46DvmQ+N8rlo5Bal+LwtBQeumod?=
- =?us-ascii?Q?w7bGCCtpita6od+GY2bBKq+xQa3V8rN9Q0alpS3AV+EpARwV4prEwtNirkYq?=
- =?us-ascii?Q?U/LPb3VIdE0fivGRaRhF3T8Pm9agugPIPbphYb4GXq4g+0xX1wWBzMbKgUc4?=
- =?us-ascii?Q?xEHecdWv6M7k8Fdw/EKa8PBS4d+R0wJGxgesepQyQyTfCtU/BQ4gaSms497N?=
- =?us-ascii?Q?PE2XWxJpYKWs12JK03/3qMZSfTd9VaPEOy3rl922sI+8G5y9HOezB6C9MpZq?=
- =?us-ascii?Q?L94WCLoQ9AeHCfVZghHjkm8HJ+VkmKtfl0aTRSY5N00HBRqDysE+dCxwukJG?=
- =?us-ascii?Q?iRWLzLUpciFxEv0sNVEBxVt/PcrsWsZ7DL8WYVF/an2D63kiE3jr7PvQMmGJ?=
- =?us-ascii?Q?/rnHNUT9Idh3fsHiecNTDMIbjtEzt5xsKc7ycc6RMlvj0Uxk0/PiH2xPGHKC?=
- =?us-ascii?Q?GWB8TuS+/sMxEbgrl76S0q2Ft97Z7Pm5mdPVwbs04iZSTL3qGMBpzhO90Qsi?=
- =?us-ascii?Q?dQaVLxOAGUj6RqR8xgSaw809qEIJltVn38imAStubu2/I/055egfDgGZpYSg?=
- =?us-ascii?Q?/K0GYS1VtG7wOzZhCkiNGXL42BEblPEXwzbgc4qsfwKnAqY2QiWDvBqn7ZJ5?=
- =?us-ascii?Q?kCg2HYtddpdxyN49lVsj2yzQoZzC1pRW6YKrM2jd+hUGosbLNAF+CcU+OlZy?=
-X-MS-Exchange-AntiSpam-MessageData-1: IHOZ+ysTCXGapeNMfm4br7GAZuv2kwNjdXU=
+	CIP:194.138.21.70;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:hybrid.siemens.com;PTR:hybrid.siemens.com;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(36860700001)(8936002)(356005)(40460700003)(6666004)(70586007)(70206006)(1076003)(4744005)(107886003)(2906002)(186003)(336012)(47076005)(26005)(8676002)(82310400005)(83380400001)(316002)(6916009)(4326008)(36756003)(508600001)(16526019)(7596003)(7636003)(86362001)(82960400001)(5660300002)(2616005)(956004);DIR:OUT;SFP:1101;
 X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- e9c1f21a-6d9b-476d-a0b8-08da38338175
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5780.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2022 18:31:49.4365
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2022 18:48:28.5060
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 8196aa1e-e6a1-4621-e7e7-08da3835d514
 X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- bbYSX2nVJeomfQibkCe7gkH2ADLGrdjlbzpzC7CaqP/bwINi5DzrRWBLh4iBRA14+PGO2Cg3L3iyASFe5Gw2bymvocU1BYdLqXThjz0+JuQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR10MB1684
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
+ TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;Ip=[194.138.21.70];Helo=[hybrid.siemens.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5EUR01FT080.eop-EUR01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR10MB1623
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 May 2022 18:31:57 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 17 May 2022 18:48:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165777
+ https://lists.openembedded.org/g/openembedded-core/message/165779
 
-Am Tue, 17 May 2022 18:21:27 +0000
-schrieb "Kanagarajan, Vijaikumar" <Vijaikumar_Kanagarajan@mentor.com>:
+This patch removes the exclusion of `/` in the fstab update. This is
+useful for a lot of things, including but not limited to:
+- The setting of `fspassno`, proposed as "[PATCH v2] wic: added fspassno pa=
+rameter to partition"
+- The writing of `fsoptions`
 
-> > -----Original Message-----
-> > From: Schmidl, Tobias (T CED SES-DE) <tobiasschmidl@siemens.com>
-> > Sent: 17 May 2022 23:46
-> > To: openembedded-core@lists.openembedded.org; Kanagarajan,
-> > Vijaikumar <Vijaikumar_Kanagarajan@mentor.com>
-> > Cc: ch@denx.de; Schild, Henning (T CED SES-DE)
-> > <henning.schild@siemens.com>
-> > Subject: Re: [PATCH v2] wic: added fspassno parameter to partition
-> >   
-> Hi Tobias,
-> 
-> > Hi all,
-> > 
-> > On Sun, May 15, 2022 at 08:36 AM, Kanagarajan, Vijaikumar wrote:  
-> > >
-> > > From: Claudius Heine <ch@denx.de>
-> > >
-> > > The `fspassno` parameter allows to overwrite the value of the last
-> > > column (`fs_passno`) in the /etc/fstab of the target root file
-> > > system. This allows to have periodic file system checks.
-> > >  
-> > 
-> > I've found this to be ineffective for `/`, as the fstab update is
-> > explicitly omitted in
-> > `scripts/lib/wic/plugins/imager/direct.py:120`:  
-> 
-> I believe wic has changed much since the first appearance of this
-> patch.
+The latter is used for example for systemd-growfs:
 
-Yes, some bits have changed but i also do not recall all the details.
+```
+part / --fstype ext4 --fsoptions "defaults,x-systemd.growfs" --fspassno 1 -=
+-align 1024 --part-type 8304 --use-uuid
+```
 
-> > 
-> > ```
-> > for part in self.parts:
-> >     if not part.realnum or not part.mountpoint \
-> >        or part.mountpoint == "/" or not
-> > part.mountpoint.startswith('/'): ^^^^^^^^^^^^^^^^^^^^^^^^^
-> >         continue
-> > ```
-> > 
-> > I've created a patch, originally for different reasons, that will
-> > also address this issue.  
-> 
-> If you can send that, we can drop this patch in favour of it.
+Tobias Schmidl (1):
+  wic/plugins/images/direct: Allow changes in fstab on rootfs
 
-AFAIK Tobias will be aiming at allowing wic to create fstab lines for
-/, so it will not replace but instead boil down to merge order.
+ scripts/lib/wic/plugins/imager/direct.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I can only assume that / might for some people for sure be a prime
-target for --fspassno.
-
-regards,
-Henning
-
-> Thanks,
-> Vijai Kumar K
-> 
-> > 
-> > Kind regards,
-> > 
-> > Tobias  
-> 
+--=20
+2.36.1
 
 
