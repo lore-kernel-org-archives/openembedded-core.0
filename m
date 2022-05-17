@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58D22C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E33FC433F5
 	for <webhook@archiver.kernel.org>; Tue, 17 May 2022 18:25:07 +0000 (UTC)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web08.1173.1652811906112008958
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+ [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web08.1170.1652811900313843359
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 11:25:06 -0700
+ Tue, 17 May 2022 11:25:00 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=Nt/W3wpn;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.54,
+ header.b=gXTDpJY5;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.177,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f54.google.com with SMTP id
- oe17-20020a17090b395100b001df77d29587so3308947pjb.2
+Received: by mail-pg1-f177.google.com with SMTP id h186so3592pgc.3
         for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 11:25:06 -0700 (PDT)
+ Tue, 17 May 2022 11:25:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=wmLYAlXrDFhsF1bmMuCTHxx6oLc5V0Vqfg52G/30HWk=;
-        b=Nt/W3wpnc/XohwHGAAi+OHa3FemWBka+QJjPmhvH8Ck2JGEs/YSCQQELE/AchJw77+
-         inbc1B1eFLS5hPpeS1xmjfDeLBhSEVK5jaFQXAFKH8c4KKrAZaSSNXmhFvxjV3Z94l5C
-         +nNzsaxAafRtASUDkU5ZM0Tzej3bxdm1YZbkgdZAfnXXxavOjWmoKsqLCGlRKVZV2YCc
-         XBJBJJhRvQ/pIjwNyhwQkGDQHsv7g/hvmqBEd/y0NH1JWHw9w34CVDfNhKaym+5JCvuA
-         wxeD4uWzZ3R1EailGois3KdND0DFjzOKOf1/bzWFKSUVJtDew+K9bk7hukwhVKvRIAbE
-         yChA==
+        bh=4dWD0bFQOWxx46y8r6uWxstVDBaYsEWi1r9Alv1hS3w=;
+        b=gXTDpJY52Hq+nqevotbEwlOS3AwSj7GjmA6+vZf2GqdD/yAfBDribdU6x7dY7Fg5Bn
+         Y4ist2juCMeYC2CsVZ/pZdxHjQItjK0yXFDANYzTPwkS5L4L31KPhv7Ukt6qdb9mKo0+
+         H6zNFdAd1bVYk1DuYl9c4ZKGgXjsNoBCmfu0xqTVmz66AdRzLPkkzVzX8ZejX77VZzAM
+         MAH+JRU3N/5w5URqcNrVWzbaBZ68fuilfSjzv4JQjAMafsmAJdAx6z0/8tc6a+rehgRf
+         6AHTDbFuBco2kVxK+4fjWfqAAFWf7G4ekf/151tTpILr9KD3Jii3gv/UD8ton6NaZkZt
+         QOMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wmLYAlXrDFhsF1bmMuCTHxx6oLc5V0Vqfg52G/30HWk=;
-        b=RfMmR1Ps4pjnzh4T3wlhvs+6LyoBErimKUIXLWm38TG2K4SwvRfzrBqv9UlipZrIVs
-         g37P+UKTWpnjANafOgCndjqnVcgwSD4iO4GFSSVr4eGqvYHSL4aM8sT4J+2z0dJy5lUF
-         RoZ4HTSg6+G+qhHaKZx4SchxezRg2ZOqMYInRrONI4ZgrT0RoR72f6GVuF+jNQfRGXTR
-         Qkcx9NB7Pluep/WZ30Y7eZIMxdm5lEwEKUeJBFfu1EjUrlnaFtZkNg2LqDn+xMvttYIR
-         aeLXvV9E725Rt/0lWieNYsxIjpiWgKrxOGvpDW3Se0BXV/3o+AsjGljpDiW7A4x0hEYR
-         Iqvg==
-X-Gm-Message-State: AOAM530EgCpasDrCYQuHYrCHH9Dgls1m4WTm1AsWCe7IbFLXghWuaInS
-	nUDB6sM0e1sP7FAMYRJFNjPu6UAkuSvvHPqk
+        bh=4dWD0bFQOWxx46y8r6uWxstVDBaYsEWi1r9Alv1hS3w=;
+        b=HqY+FJVOyVyn5h/v2iJgNTcBBTHsAPV+4uDKaPcBTm4LPO0ULEIls67NEiLXvH2+kP
+         rX+erLgJdRoGc0e7WYMIc8vBNKCf1WC8fMzNZKyfw1YT4ATl+y7Q12oRmVJUP2NyRQOj
+         LDY5lPE1+UOv+tPk7kMpCUNJMflDfT5uxTiAuq9BS4uKpaW3W37w+KOpK8tOUpaAeqgP
+         W4Vg5ak4VmVxnvNlWocrGdcwfbc1Ad1Ia1xNyewBGY3hect4PmT1HuQsKvMe/y5jaEZc
+         gfXr9rUXvzfex1pYQLcsfhRTg/ME58vchqIiyHCWnNFZUOw5VbELjncWAPhjW23j4nxq
+         WYgg==
+X-Gm-Message-State: AOAM533haHJRDz8JEQb3LITgAkefDIS/EcSBP94ephc3+HUz9Asv1QlL
+	2U5AhXn2rgQ9T5Vjq7Rs+hA2EbKnfIy4N5NS
 X-Google-Smtp-Source: 
- ABdhPJzzldWEg4b22ueLCxENrJCs6iIltlczBrsvc/pMMqsb3vk6kDQY6kNdwHuIqp3BE8t6TQ/tlA==
-X-Received: by 2002:a17:902:f70c:b0:14e:f1a4:d894 with SMTP id
- h12-20020a170902f70c00b0014ef1a4d894mr23883064plo.65.1652811904722;
-        Tue, 17 May 2022 11:25:04 -0700 (PDT)
+ ABdhPJzB6IhRL5y6UVU8GGC44GJEdjeaDS9Vn2JPP2VDNRwMRnJhV+ePGlXKJUQZo4ojjiud4JTdhw==
+X-Received: by 2002:a63:c58:0:b0:3f5:cc48:c6ad with SMTP id
+ 24-20020a630c58000000b003f5cc48c6admr2909897pgm.467.1652811899085;
+        Tue, 17 May 2022 11:24:59 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- f9-20020a170902684900b0015e8d4eb1d1sm9408188pln.27.2022.05.17.11.25.02
+ f9-20020a170902684900b0015e8d4eb1d1sm9408188pln.27.2022.05.17.11.24.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 May 2022 11:25:03 -0700 (PDT)
+        Tue, 17 May 2022 11:24:57 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 12/31] ffmpeg: upgrade 5.0 -> 5.0.1
-Date: Tue, 17 May 2022 08:23:58 -1000
+Subject: [OE-core][kirkstone 10/31] cronie: upgrade 1.6.0 -> 1.6.1
+Date: Tue, 17 May 2022 08:23:56 -1000
 Message-Id: 
- <ccb87ec2f13b72c1f43a2ad96cd446533da4a666.1652811454.git.steve@sakoman.com>
+ <251a5ec8d9694caa9e35690198604f6ee4bad537.1652811454.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1652811454.git.steve@sakoman.com>
 References: <cover.1652811454.git.steve@sakoman.com>
@@ -70,96 +69,40 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 17 May 2022 18:25:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165757
+ https://lists.openembedded.org/g/openembedded-core/message/165755
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-version 5.0.1:
-- avcodec/exr: Avoid signed overflow in displayWindow
-- avcodec/diracdec: avoid signed integer overflow in global mv
-- avcodec/takdsp: Fix integer overflow in decorrelate_sf()
-- avcodec/apedec: fix a integer overflow in long_filter_high_3800()
-- avdevice/dshow: fix regression
-- avfilter/vf_subtitles: pass storage size to libass
-- avcodec/vp9_superframe_split_bsf: Don't read inexistent data
-- avcodec/vp9_superframe_split_bsf: Discard invalid zero-sized frames
-- avcodec/vp9_superframe_bsf: Check for existence of data before reading it
-- avcodec/vp9_raw_reorder_bsf: Check for existence of data before reading it
-- avformat/imf: fix packet pts, dts and muxing
-- avformat/imf: open resources only when first needed
-- avformat/imf: cosmetics
-- avformat/imf_cpl: do not use filesize when reading XML file
-- avformat/imfdec: Use proper logcontext
-- avformat/imfdec: do not use filesize when reading XML file
-- doc/utils: add missing 22.2 layout entry
-- avcodec/av1: only set the private context pix_fmt field if get_pixel_format() succeeds
-- avformat/aqtitledec: Skip unrepresentable durations
-- avformat/cafdec: Do not store empty keys in read_info_chunk()
-- avformat/mxfdec: Do not clear array in mxf_read_strong_ref_array() before writing
-- avformat/mxfdec: Check for avio_read() failure in mxf_read_strong_ref_array()
-- avformat/mxfdec: Check count in mxf_read_strong_ref_array()
-- avformat/hls: Check target_duration
-- avcodec/pixlet: Avoid signed integer overflow in scaling in filterfn()
-- avformat/matroskadec: Check pre_ns
-- avcodec/sonic: Use unsigned for predictor_k to avoid undefined behavior
-- avcodec/libuavs3d: Check ff_set_dimensions() for failure
-- avcodec/speexdec: Align some comments
-- avcodec/speexdec: Use correct doxygen comments
-- avcodec/mjpegbdec: Set buf_size
-- avformat/matroskadec: Use rounded down duration in get_cue_desc() check
-- avcodec/argo: Check packet size
-- avcodec/g729_parser: Check channels
-- avformat/avidec: Check height
-- avformat/rmdec: Better duplicate tags check
-- avformat/mov: Disallow empty sidx
-- avformat/argo_cvg:: Fix order of operations in error check in argo_cvg_write_trailer()
-- avformat/argo_asf: Fix order of operations in error check in argo_asf_write_trailer()
-- avcodec/movtextdec: add () to CMP() macro to avoid unexpected behavior
-- avformat/matroskadec: Check duration
-- avformat/mov: Corner case encryption error cleanup in mov_read_senc()
-- avcodec/jpeglsdec: Fix if( code style
-- avcodec/jpeglsdec: Check get_ur_golomb_jpegls() for error
-- avcodec/motion_est: fix indention of ff_get_best_fcode()
-- avcodec/motion_est: Fix xy indexing on range violation in ff_get_best_fcode()
-- avformat/hls: Use unsigned for iv computation
-- avcodec/jpeglsdec: Increase range for N in ls_get_code_runterm() by using unsigned
-- avformat/matroskadec: Check desc_bytes
-- avformat/utils: Fix invalid NULL pointer operation in ff_parse_key_value()
-- avformat/matroskadec: Fix infinite loop with bz decompression
-- avformat/utils: keep chapter monotonicity on chapter updates
-- avformat/mov: Check size before subtraction
-- avcodec/cfhd: Avoid signed integer overflow in coeff
-- avcodec/libdav1d: free the Dav1dData packet on dav1d_send_data() failure
-- avcodec/h264_parser: don't alter decoder private data
-- configure: link to libatomic when it's present
-- fate/ffmpeg: add missing samples dependency to fate-shortest
+Release 1.6.1
+
+crond: Fix regression of handling ranges (x-y) in crontab
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 90f35ceb209a51dfe0cd29e1d8646fcc501b7269)
+(cherry picked from commit 4bcd528050c01a1e7a3d1a847379833672900ad9)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ffmpeg/{ffmpeg_5.0.bb => ffmpeg_5.0.1.bb}                   | 2 +-
+ .../cronie/{cronie_1.6.0.bb => cronie_1.6.1.bb}                 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/ffmpeg/{ffmpeg_5.0.bb => ffmpeg_5.0.1.bb} (98%)
+ rename meta/recipes-extended/cronie/{cronie_1.6.0.bb => cronie_1.6.1.bb} (97%)
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-similarity index 98%
-rename from meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.bb
-rename to meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-index 96eef5e0fe..dd14f8df6f 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-@@ -25,7 +25,7 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://0001-libavutil-include-assembly-with-full-path-from-sourc.patch \
-            "
--SRC_URI[sha256sum] = "51e919f7d205062c0fd4fae6243a84850391115104ccf1efc451733bc0ac7298"
-+SRC_URI[sha256sum] = "ef2efae259ce80a240de48ec85ecb062cecca26e4352ffb3fda562c21a93007b"
+diff --git a/meta/recipes-extended/cronie/cronie_1.6.0.bb b/meta/recipes-extended/cronie/cronie_1.6.1.bb
+similarity index 97%
+rename from meta/recipes-extended/cronie/cronie_1.6.0.bb
+rename to meta/recipes-extended/cronie/cronie_1.6.1.bb
+index d2f08c9af0..6d150dd3c7 100644
+--- a/meta/recipes-extended/cronie/cronie_1.6.0.bb
++++ b/meta/recipes-extended/cronie/cronie_1.6.1.bb
+@@ -25,7 +25,7 @@ SRC_URI = "https://github.com/cronie-crond/cronie/releases/download/cronie-${PV}
+ PAM_SRC_URI = "file://crond_pam_config.patch"
+ PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
  
- # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
- ARM_INSTRUCTION_SET:armv4 = "arm"
+-SRC_URI[sha256sum] = "3f7cc263d21838b53a9943eb2a26b862059e2ae36c3f11789ac33cd6818e3628"
++SRC_URI[sha256sum] = "2cd0f0dd1680e6b9c39bf1e3a5e7ad6df76aa940de1ee90a453633aa59984e62"
+ 
+ inherit autotools update-rc.d useradd systemd
+ 
 -- 
 2.25.1
 
