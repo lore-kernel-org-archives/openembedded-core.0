@@ -1,103 +1,93 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B087C433F5
-	for <webhook@archiver.kernel.org>; Tue, 17 May 2022 17:34:27 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
- [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web09.503.1652808858706474660
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4719BC433EF
+	for <webhook@archiver.kernel.org>; Tue, 17 May 2022 17:53:47 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web08.779.1652810017802581868
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 10:34:19 -0700
+ Tue, 17 May 2022 10:53:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=KIqw396N;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.172,
- mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id 202so17517596pgc.9
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=S9LGfHkb;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id w4so25731103wrg.12
         for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 10:34:18 -0700 (PDT)
+ Tue, 17 May 2022 10:53:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=TpNqq9JFHR4lCxlXK0BZ2OeTBIFeb2viIWMtr6nvqOc=;
-        b=KIqw396NiidayjqlB5H9Twyhxs0km+U+eZCekMSj7Bu6kY6ovYtqVXDwBaYyE4/MOq
-         A2RVQy+wJwHNqkLpbCPtgNkycp3V2WayQZLsSk9MPJRpyadbtEqXQpqpTKn4oKThsPvW
-         Vt9iquLj3iWtkVTz0hjHX0SxIGnUa35Dsq/i5MG0Q0rccOTPjQO4vXWcOqE6DFBZ6Vnh
-         EP9jEwjKVcEWM/89eeC95+MSsrUPh/ZEWF8JX/bv3alICGVS3slN/Cg+IuCNwD9olMc1
-         4D6K4kVS/Wt6YxdLHY6eMvRG2T0K4J14y+xJ6A+g4RnW/yIuhvforSqBe5M8mws+vEIa
-         cgGQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=WRwMw81kYhyNHIwADgXlG5TbmxXXdVfEls+nyEVESow=;
+        b=S9LGfHkbLIvpava1HSzq6S1Oqssl12ZWyitWZdwD8bK5VOG92EGaMVXUsSb/A3xN/b
+         7plYM1lZskMdkxTWchPf164O+xpR1QRsyzsZNuXMxF9K3pkG7hlOi095FRMMyIh0E7iI
+         DMOG24XgzMQ/EgySqEX8vGC3zrXzOnCG320+Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=TpNqq9JFHR4lCxlXK0BZ2OeTBIFeb2viIWMtr6nvqOc=;
-        b=jgnuPfR6bX20Iw8jqvxS1pz9bcYOiBKXw89eXC4FRRt14FWO06ZKgumX7Ae8gdnBp2
-         Ql6ZEOMPkgUIPbXMLS2YKJ1IAmKWJwp5Z7AdL7y8tGw60ZpwNkPCHsTulSwwrZ3QxP2Z
-         rL7pyBIhgEQDy7zX1WJU/D+2j//IFueEHAOxYXNqtbo5PsCdMgoVfypqttdMgiHcna6k
-         qZdqMQyQhqb5IuGid/1en+UJTmuMQJD1HTMqasgKKfe9bti4e0W7rTGtQvBkhHx0CyC+
-         qyHKfzydnqHIQfGc82P/h0CeJPRYUPm0aTdFpH89mKG4VvS0+GadILA4dx01tqBbOMGv
-         SeJA==
-X-Gm-Message-State: AOAM530sRPj4VBQOXPB4QSOUnbYRMjypP5G34E4Cd/lCh7pfZc1pimsV
-	zY0rjC05xYVlfObEKoBBqHIFQV/nxF698Ymw
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=WRwMw81kYhyNHIwADgXlG5TbmxXXdVfEls+nyEVESow=;
+        b=ZdYFxKvS8ISSJlixBU5BrUkF8dcqfezYu8vXf5Osjz/8EWuQQV5tewQqnQTLgKYr+H
+         yriLf9fnLR2g75pgTtY1coNu53+63+LLg/tEHVfEUDu2xQRbuKIQLsoLEssHI6tE+NFn
+         kbtwTFOB0/QCQa3MNmdH0bX7ax7VsggtLj/dscTOpPguV0cvSba6Wzh4byWhmqd4W7tN
+         lR2AcIbj6CYuBCVOPAFmq2AqjqY2fjdyImmPfHLN9kChDWHdb//kcFOgyYrB50zkZo6F
+         ZdsZp7dk2CDUB4n1qYWlZRLOY6kCTT/aF9EhZ9laknEJoo8FVB6slKhSpR81SelC0F2c
+         J24Q==
+X-Gm-Message-State: AOAM532gJs7QjZKZbm5Y1MEqDrDLWJyywQ0tvvNJqNh8s12ywubuqEpY
+	5R7Z1CV14Igo+tIk9s4raGZtAg==
 X-Google-Smtp-Source: 
- ABdhPJyqjcbA90aUe/es3l2pc+KO1r9hgtqCue1w+vgBYyCqhQZivl6naBl0Y4ZcUX/wtyZWOf/EsA==
-X-Received: by 2002:a65:63d1:0:b0:3c6:25b2:22ba with SMTP id
- n17-20020a6563d1000000b003c625b222bamr19988712pgv.360.1652808857171;
-        Tue, 17 May 2022 10:34:17 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
+ ABdhPJwpNjYJwwGOl0/zkfDZ8Xojieu1Toy7OIXlokAvfovFY6QRahKza0V+IFY5xMSiE3j34sK3VQ==
+X-Received: by 2002:a5d:52ce:0:b0:20c:e030:b05a with SMTP id
+ r14-20020a5d52ce000000b0020ce030b05amr19051946wrv.174.1652810016223;
+        Tue, 17 May 2022 10:53:36 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f9c5:af58:f70a:331b?
+ ([2001:8b0:aba:5f3c:f9c5:af58:f70a:331b])
         by smtp.gmail.com with ESMTPSA id
- d13-20020a62f80d000000b0050dc762815asm13172pfh.52.2022.05.17.10.34.15
-        for <openembedded-core@lists.openembedded.org>
+ c13-20020adfa70d000000b0020c5253d8f7sm13086467wrd.67.2022.05.17.10.53.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 May 2022 10:34:15 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][master][kirkstone] python3: fix reproducibility issue with
- python3-core
-Date: Tue, 17 May 2022 07:34:07 -1000
-Message-Id: 
- <f883f32ac26d23a5fabb20544b6c8b9c824e4f11.1652808730.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1652808730.git.steve@sakoman.com>
-References: <cover.1652808730.git.steve@sakoman.com>
+        Tue, 17 May 2022 10:53:35 -0700 (PDT)
+Message-ID: 
+ <6b2639bff5af2a04e2c0a0c4da8567000c63d2db.camel@linuxfoundation.org>
+Subject: Re: [OE-core] convert-overrides.py
+From: richard.purdie@linuxfoundation.org
+To: oobitots@cisco.com, Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Tue, 17 May 2022 18:53:35 +0100
+In-Reply-To: 
+ <PH0PR11MB4902975CA8B2354DCB0E837ED7CE9@PH0PR11MB4902.namprd11.prod.outlook.com>
+References: 
+	<PH0PR11MB4902975CA8B2354DCB0E837ED7CE9@PH0PR11MB4902.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0-1ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 May 2022 17:34:27 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 17 May 2022 17:53:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165741
+ https://lists.openembedded.org/g/openembedded-core/message/165742
 
-traceback.cpython-310.pyc is non-deterministic due to 'frozenset'
-being written without strict ordering.  For now let's just not
-install the problematic file.
+On Tue, 2022-05-17 at 17:17 +0000, Oleksiy Obitotskyy via
+lists.openembedded.org wrote:
+> openembedded-core/scripts/contrib/convert-overrides.py missing conversion=
+s for architectures like i386, i586 and so on.
+> It leaves untouched something like: foo_i586 =3D "bar"
+> I'm not sure if it should be fixed for all existing iX86 sequence.
 
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-devtools/python/python3_3.10.4.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+The script wasn't perfect, it was trying to do a best effort. I think
+that there were a lot of i*86 entries that shouldn't be converted and
+so it was easier to handle those manually.
 
-diff --git a/meta/recipes-devtools/python/python3_3.10.4.bb b/meta/recipes-devtools/python/python3_3.10.4.bb
-index d678d55083..2ef320350e 100644
---- a/meta/recipes-devtools/python/python3_3.10.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.4.bb
-@@ -193,6 +193,11 @@ do_install:append() {
-         rm -f ${D}${libdir}/python${PYTHON_MAJMIN}/test/__pycache__/test_range.cpython*
-         rm -f ${D}${libdir}/python${PYTHON_MAJMIN}/test/__pycache__/test_xml_etree.cpython*
- 
-+        # Similar to the above, we're getting reproducibility issues with 
-+        # /usr/lib/python3.10/__pycache__/traceback.cpython-310.pyc
-+        # so remove it too
-+        rm -f ${D}${libdir}/python${PYTHON_MAJMIN}/__pycache__/traceback.cpython*
-+
-         # Remove the opt-1.pyc and opt-2.pyc files. They effectively waste space on embedded
-         # style targets as they're only used when python is called with the -O or -OO options
-         # which is rare.
--- 
-2.25.1
+Patches are welcome to improve it but we need to be careful it doesn't
+convert things it shouldn't.
+
+Cheers,
+
+Richard
+
+
 
 
