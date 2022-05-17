@@ -1,254 +1,362 @@
-Return-Path: <liu.ming50@gmail.com>
+Return-Path: <ernstp@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19F64C433EF
-	for <webhook@archiver.kernel.org>; Tue, 17 May 2022 07:38:11 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web11.4492.1652773084861877233
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A4B2C433F5
+	for <webhook@archiver.kernel.org>; Tue, 17 May 2022 07:56:01 +0000 (UTC)
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com
+ [209.85.166.181])
+ by mx.groups.io with SMTP id smtpd.web10.4478.1652774153324648482
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 00:38:04 -0700
+ Tue, 17 May 2022 00:55:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=GB52zw4T;
- spf=pass (domain: gmail.com, ip: 209.85.216.49,
- mailfrom: liu.ming50@gmail.com)
-Received: by mail-pj1-f49.google.com with SMTP id
- o13-20020a17090a9f8d00b001df3fc52ea7so1637229pjp.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FF4q4LH1;
+ spf=pass (domain: gmail.com, ip: 209.85.166.181, mailfrom: ernstp@gmail.com)
+Received: by mail-il1-f181.google.com with SMTP id i15so2201424ilk.5
         for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 00:38:04 -0700 (PDT)
+ Tue, 17 May 2022 00:55:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=K3kJJynxFOmsWzIk2Wdr+AGw2op9sV/CiZzYUdBphC0=;
-        b=GB52zw4TlsZMEcLC1g8HW6UzEXw22y2ks1erOWuoKJG6aS48zhW+wEVIsz+8K4jg7r
-         xmwwymC5hxmTpG+FqFvn4LE5uaVEqBBkSiS99eKVXZUzClj6tWJiEtc41mC5eJA4pUpI
-         osh1S9UxDuU+lHyOm7dKKUPlVI5nLp9W+oOlDrFQaIv+RovMZoFQuLwuLPxQdUFX5OV0
-         /WFgFc1iZn+jCKYbUCVzJRQoSj7RjCtZHuaEDvKqKqtD8LFf/YfF9yk5PSELM/f1su4m
-         YrjwDXagkDPeMerQEBHRwthL8hWhbj3mQhme7szlP2w1h+mpD/ABD6fnuZxMWBI6Zy5n
-         Bx/g==
+        bh=povlwlMbWHHB/8yEHM67jfHEUATGH+PSDwZzyCtygTQ=;
+        b=FF4q4LH1fL1jeWd6jDtfpO5UteWldi+vTJuSkHrttqBu5iIgsk4wrVHeZz2N1Uu9Pd
+         7xQ2M/KpWi3rYx2QlCu1Q1F74HPIp77jzHm7W7X/AFkGz4tqgnqIFnjS8F7z8eSJhPvB
+         F6D7gjY0usU8d9wSkaf06/Qx6r96DdJarmrp2dVIiYracm2++ZQycDykI3UIAUGxb4rp
+         2NXHGo3ab9qTUQuNZ8lztE43ApwLB+MsaHzCd+iRk2SYxAWU4PMFz9tEYPN2IQPmI6OB
+         ki6LuMml7gTlYFHLa1Nt6ZSxEitfTbOVUYG7zQ1B2mmvRworir8L6+5ug44tWDhRwAdr
+         AAEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=K3kJJynxFOmsWzIk2Wdr+AGw2op9sV/CiZzYUdBphC0=;
-        b=WwISRYikb8R4yAKxUplkzSpuERJ3iDf+f6J+yB1oOFR9K0+SCAdKyKf/ZN/evffiHX
-         iRrD6+Lc1USsGFnF86Cq+mDXxOCraiYxiK9qtWLBt2+JPi2+vi6lfONXO3ijp9yS4CdH
-         RLak9Fe+kFBVi7zwkw4BM8BUXaECAHiFnpNBLItZa6pKrXKPRycGM4u6KnG+VsSoIZYy
-         LhMkPUqMiX02lMzw9xtihyvByYbj65ZjZ20nmazFzbQ2H+o9E54Sxwa5G11qgW0pc8Ky
-         AhsgGp+CyUU1sMaxtrTbmns8FRqpiq//YxzVSdDyiMXhZrbyYjjFk8nCSF4wN5PIxUKn
-         zv9A==
-X-Gm-Message-State: AOAM530kIVZLlvd+gNWVmDcor9homOY+eMkbY6j5s63fpEFdpKqpjqon
-	cRqI/vGtRRUKBvD6YMlGgJN9G0Oj3q36MoHaT8U=
+        bh=povlwlMbWHHB/8yEHM67jfHEUATGH+PSDwZzyCtygTQ=;
+        b=OCdsP3ckC+0Jk/WiDWpfCPGMMZU2xjUZW2bzudrPnpb//UU3pojM2ienHWMSagCyZx
+         lPBTvuzyuzzPlS94g/8b8ihvah9cGlKa/6dFeRlZ2lPG+2HGmql2ssbCA6X+A/piwcSs
+         ZAF9K6Xq+/UVJv3smHq4k71jO5KjI2rqFAHVnJO7sWhPEkHgY+9nLjRuXFhZChFTYY9D
+         pU+/aiHk6QiX67ZjQS8rnScMNRj7jocBZQOUDvTsK0wxxUNuJ4ZegatADnMDggOhT3Cg
+         m7wQ4/1RR8LMAQf4JoTa/bw6Ahc7lLXf4FJpfOqHeHXLOKfgxiXOhCuCu+JR/jptRzry
+         5qwA==
+X-Gm-Message-State: AOAM5310kp4xtj1fgaQJ1RsZnVFNF4QXon0YEOmjHvLzwGHWTfZBzXIs
+	5y9LNZ5IV/y2wxYq5vK5P7wN8oC9bdcIb3B8Fx4=
 X-Google-Smtp-Source: 
- ABdhPJxPGRQe2VlxTHOXwxN6KYL/5BG/D68PvTWZfjIXzNvbhfSFQjO5s4RzgZGakALLIuS7AZIwkleeNepSstzXAW4=
-X-Received: by 2002:a17:903:234d:b0:161:994f:f850 with SMTP id
- c13-20020a170903234d00b00161994ff850mr4832515plh.47.1652773084163; Tue, 17
- May 2022 00:38:04 -0700 (PDT)
+ ABdhPJxnT+4bSkHMVxL0yJcH1pgDUEY+5gGvra39YaWKgVPL2kTewGOjomOWkBlaivTLtkEBEwWaT2m+FSo2uL9ijn4=
+X-Received: by 2002:a05:6e02:1c81:b0:2d1:3971:9343 with SMTP id
+ w1-20020a056e021c8100b002d139719343mr1138011ill.237.1652774152749; Tue, 17
+ May 2022 00:55:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220515124346.8095-1-liu.ming50@gmail.com>
- <20220515124346.8095-2-liu.ming50@gmail.com>
- <4b08ee55f793b321f6d23c207fdb4fb0802297ed.camel@linuxfoundation.org>
- <CALatG=6SEmPaOFecWLQ6_hj63VobektQ6tKHZ5MKYExhqEPfAg@mail.gmail.com>
- <CAOSpxdbUNU+QYFmT7CMWT64Q3Q3n+soenUHL2HHfoPr9e=YJ5Q@mail.gmail.com>
-In-Reply-To: 
- <CAOSpxdbUNU+QYFmT7CMWT64Q3Q3n+soenUHL2HHfoPr9e=YJ5Q@mail.gmail.com>
-From: Ming Liu <liu.ming50@gmail.com>
-Date: Tue, 17 May 2022 09:37:51 +0200
+References: <20220517060115.1913044-1-rybczynska@gmail.com>
+In-Reply-To: <20220517060115.1913044-1-rybczynska@gmail.com>
+From: =?UTF-8?Q?Ernst_Sj=C3=B6strand?= <ernstp@gmail.com>
+Date: Tue, 17 May 2022 09:55:41 +0200
 Message-ID: 
- <CALatG=5PTAt5cgv=EitRSsz81JHoMPCRvxLK3pYEK+U094ko5Q@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone] [PATCH 1/1] mmc-utils: upgrade to latest
- revision
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex.kanavin@gmail.com>,
- Alexander Kanavin <alex@linutronix.de>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>
-Content-Type: multipart/alternative; boundary="00000000000093747b05df30386c"
+ <CAD=4a=Wbmmui9iHMnYk4T9cutUnSmXXq_BBiaQcVmotY9CU_RQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cve-check: Fix report generation
+To: Marta Rybczynska <rybczynska@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, alex.kiernan@gmail.com,
+	Marta Rybczynska <marta.rybczynska@huawei.com>
+Content-Type: multipart/alternative; boundary="00000000000044c6a205df30787a"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 May 2022 07:38:11 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 17 May 2022 07:56:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165710
+ https://lists.openembedded.org/g/openembedded-core/message/165711
 
---00000000000093747b05df30386c
+--00000000000044c6a205df30787a
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Yes, this only occurs on 5.4 kernel, will CC to you next time for kirkstone
-patches.
+Reviewed-by: Ernst Sj=C3=B6strand <ernstp@gmail.com>
 
-//Ming Liu
+Den tis 17 maj 2022 kl 08:01 skrev Marta Rybczynska <rybczynska@gmail.com>:
 
-Steve Sakoman <steve@sakoman.com> =E6=96=BC 2022=E5=B9=B45=E6=9C=8816=E6=97=
-=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=884:29=E5=AF=AB=E9=81=93=EF=BC=9A
+> The addition of summary output caused two issues: error when building
+> an image and the fact that JSON output was generated even when
+> CVE_CHECK_FORMAT_JSON.
+>
+> When generating an image it caused an error like:
+> ERROR: core-image-minimal-1.0-r0 do_rootfs: Error executing a python
+> function in exec_func_python() autogenerated:
+>
+>   The stack trace of python calls that resulted in this exception/failure
+> was:
+>   File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+>        0001:
+>    *** 0002:cve_check_write_rootfs_manifest(d)
+>        0003:
+>   File: '/home/alexk/poky/meta/classes/cve-check.bbclass', lineno: 213,
+> function: cve_check_write_rootfs_manifest
+>        0209:
+>        0210:        link_path =3D os.path.join(deploy_dir, "%s.json" %
+> link_name)
+>        0211:        manifest_path =3D d.getVar("CVE_CHECK_MANIFEST_JSON")
+>        0212:        bb.note("Generating JSON CVE manifest")
+>    *** 0213:        generate_json_report(json_summary_name,
+> json_summary_link_name)
+>        0214:        bb.plain("Image CVE JSON report stored in: %s" %
+> link_path)
+>        0215:}
+>        0216:
+>        0217:ROOTFS_POSTPROCESS_COMMAND:prepend =3D
+> "${@'cve_check_write_rootfs_manifest; ' if
+> d.getVar('CVE_CHECK_CREATE_MANIFEST') =3D=3D '1' else ''}"
+>   Exception: NameError: name 'json_summary_name' is not defined
+>
+> The fix is to pass the d variable to the pure python function
+> generate_json_report
+> to get correct values of variables and add conditions for the JSON
+> output where needed.
+>
+> In addition clarify the message presenting the summary JSON file,
+> which isn't related to an image.
+>
+> Uses partial fixes from Alex Kiernan, Ernst Sj=C3=B6strand (ernstp),
+> and Davide Gardenal.
+>
+> Fixes: f2987891d315 ("cve-check: add JSON format to summary output")
+>
+> Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
+> ---
+>  meta/classes/cve-check.bbclass | 18 ++++++++++--------
+>  1 file changed, 10 insertions(+), 8 deletions(-)
+>
+> diff --git a/meta/classes/cve-check.bbclass
+> b/meta/classes/cve-check.bbclass
+> index 24ddb865ea..7cd98ae462 100644
+> --- a/meta/classes/cve-check.bbclass
+> +++ b/meta/classes/cve-check.bbclass
+> @@ -79,7 +79,7 @@ CVE_CHECK_LAYER_INCLUDELIST ??=3D ""
+>  # set to "alphabetical" for version using single alphabetical character
+> as increment release
+>  CVE_VERSION_SUFFIX ??=3D ""
+>
+> -def generate_json_report(out_path, link_path):
+> +def generate_json_report(d, out_path, link_path):
+>      if os.path.exists(d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")):
+>          import json
+>          from oe.cve_check import cve_check_merge_jsons
+> @@ -127,10 +127,11 @@ python cve_save_summary_handler () {
+>                      os.remove(cvefile_link)
+>                  os.symlink(os.path.basename(cve_summary_file),
+> cvefile_link)
+>
+> +    if d.getVar("CVE_CHECK_FORMAT_JSON") =3D=3D "1":
+>          json_summary_link_name =3D os.path.join(cvelogpath,
+> d.getVar("CVE_CHECK_SUMMARY_FILE_NAME_JSON"))
+>          json_summary_name =3D os.path.join(cvelogpath, "%s-%s.json" %
+> (cve_summary_name, timestamp))
+> -        generate_json_report(json_summary_name, json_summary_link_name)
+> -        bb.plain("CVE report summary created at: %s" %
+> json_summary_link_name)
+> +        generate_json_report(d, json_summary_name, json_summary_link_nam=
+e)
+> +        bb.plain("Complete CVE JSON report summary created at: %s" %
+> json_summary_link_name)
+>  }
+>
+>  addhandler cve_save_summary_handler
+> @@ -207,11 +208,12 @@ python cve_check_write_rootfs_manifest () {
+>                  os.symlink(os.path.basename(manifest_name), manifest_lin=
+k)
+>              bb.plain("Image CVE report stored in: %s" % manifest_name)
+>
+> -        link_path =3D os.path.join(deploy_dir, "%s.json" % link_name)
+> -        manifest_path =3D d.getVar("CVE_CHECK_MANIFEST_JSON")
+> -        bb.note("Generating JSON CVE manifest")
+> -        generate_json_report(json_summary_name, json_summary_link_name)
+> -        bb.plain("Image CVE JSON report stored in: %s" % link_path)
+> +        if d.getVar("CVE_CHECK_FORMAT_JSON") =3D=3D "1":
+> +            link_path =3D os.path.join(deploy_dir, "%s.json" % link_name=
+)
+> +            manifest_path =3D d.getVar("CVE_CHECK_MANIFEST_JSON")
+> +            bb.note("Generating JSON CVE manifest")
+> +            generate_json_report(d, manifest_path, link_path)
+> +            bb.plain("Image CVE JSON report stored in: %s" % link_path)
+>  }
+>
+>  ROOTFS_POSTPROCESS_COMMAND:prepend =3D
+> "${@'cve_check_write_rootfs_manifest; ' if
+> d.getVar('CVE_CHECK_CREATE_MANIFEST') =3D=3D '1' else ''}"
+> --
+> 2.33.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#165707):
+> https://lists.openembedded.org/g/openembedded-core/message/165707
+> Mute This Topic: https://lists.openembedded.org/mt/91158052/4947266
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ernstp@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-> On Sun, May 15, 2022 at 9:17 PM Ming Liu <liu.ming50@gmail.com> wrote:
->
-> > Our products are based on LTS kirkstone, we found a build issue of
-> mmc-utils, which has been fixed by
-> https://kernel.googlesource.com/pub/scm/utils/mmc/mmc-utils/+/0d493fb091b=
-592bde6004a618c28f1c3619af1a4
->
-> So this error only occurs if you are using a BSP with a 5.4 kernel?
-> That would explain why I don't see this in my testing, since it uses
-> only 5.10 and 5.15
->
-> BTW, for future kirkstone patches you should cc me instead of Richard
-> since I am the kirkstone maintainer.
->
-> > this uplift only involves in two commits including the above fix:
-> >
-> > ```
-> > b7e4d5a mmc-utils: Add General command CMD56 read support
-> > 0d493fb mmc-utils: Fix build error MMC_BLOCK_MAJOR undeclared
-> > ```
-> >
-> > considering kirkstone mmc-utils recipe fetches mmc-utils master branch
-> and does not stick to any release tag, so I think we can uplift mmc-utils
-> to the latest rather than backport that fix to kirkstone.
->
-> This seems reasonable to me. I will add this patch to my test queue
-> and edit the commit message to include the above information.
->
-> Steve
->
-> > <richard.purdie@linuxfoundation.org> =E6=96=BC 2022=E5=B9=B45=E6=9C=881=
-5=E6=97=A5 =E9=80=B1=E6=97=A5 =E4=B8=8B=E5=8D=8811:42=E5=AF=AB=E9=81=93=EF=
-=BC=9A
-> >>
-> >> On Sun, 2022-05-15 at 14:43 +0200, liu.ming50@gmail.com wrote:
-> >> > From: Alexander Kanavin <alex.kanavin@gmail.com>
-> >> >
-> >> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> >> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> >> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >> > (cherry picked from commit d98b06c9c6f480de1e5167bfe8392e39300fc02c)
-> >> > Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-> >> > ---
-> >> >  meta/recipes-devtools/mmc/mmc-utils_git.bb | 2 +-
-> >> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >> >
-> >>
-> >> Why does kirkstone need this though?
-> >>
-> >> Cheers,
-> >>
-> >> Richard
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#165665):
-> https://lists.openembedded.org/g/openembedded-core/message/165665
-> > Mute This Topic: https://lists.openembedded.org/mt/91117508/3620601
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> steve@sakoman.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
-
---00000000000093747b05df30386c
+--00000000000044c6a205df30787a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Yes, this only occurs on 5.4 kernel, will CC to you n=
-ext time for kirkstone patches.</div><div><br></div><div>//Ming Liu<br></di=
-v></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
-">Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.com">steve@sakoman.com<=
-/a>&gt; =E6=96=BC 2022=E5=B9=B45=E6=9C=8816=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=
-=B8=8B=E5=8D=884:29=E5=AF=AB=E9=81=93=EF=BC=9A<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">On Sun, May 15, 2022 at 9:17 PM Ming Liu &=
-lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_blank">liu.ming50@gma=
-il.com</a>&gt; wrote:<br>
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:arial,he=
+lvetica,sans-serif"><span class=3D"gmail-il">Reviewed</span>-<span class=3D=
+"gmail-il">by</span>: Ernst Sj=C3=B6strand &lt;<a href=3D"mailto:ernstp@gma=
+il.com">ernstp@gmail.com</a>&gt;</div></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Den tis 17 maj 2022 kl 08:01 skrev Ma=
+rta Rybczynska &lt;<a href=3D"mailto:rybczynska@gmail.com">rybczynska@gmail=
+.com</a>&gt;:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Th=
+e addition of summary output caused two issues: error when building<br>
+an image and the fact that JSON output was generated even when<br>
+CVE_CHECK_FORMAT_JSON.<br>
 <br>
-&gt; Our products are based on LTS kirkstone, we found a build issue of mmc=
--utils, which has been fixed by <a href=3D"https://kernel.googlesource.com/=
-pub/scm/utils/mmc/mmc-utils/+/0d493fb091b592bde6004a618c28f1c3619af1a4" rel=
-=3D"noreferrer" target=3D"_blank">https://kernel.googlesource.com/pub/scm/u=
-tils/mmc/mmc-utils/+/0d493fb091b592bde6004a618c28f1c3619af1a4</a><br>
+When generating an image it caused an error like:<br>
+ERROR: core-image-minimal-1.0-r0 do_rootfs: Error executing a python functi=
+on in exec_func_python() autogenerated:<br>
 <br>
-So this error only occurs if you are using a BSP with a 5.4 kernel?<br>
-That would explain why I don&#39;t see this in my testing, since it uses<br=
->
-only 5.10 and 5.15<br>
+=C2=A0 The stack trace of python calls that resulted in this exception/fail=
+ure was:<br>
+=C2=A0 File: &#39;exec_func_python() autogenerated&#39;, lineno: 2, functio=
+n: &lt;module&gt;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A00001:<br>
+=C2=A0 =C2=A0*** 0002:cve_check_write_rootfs_manifest(d)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A00003:<br>
+=C2=A0 File: &#39;/home/alexk/poky/meta/classes/cve-check.bbclass&#39;, lin=
+eno: 213, function: cve_check_write_rootfs_manifest<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A00209:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A00210:=C2=A0 =C2=A0 =C2=A0 =C2=A0 link_path =3D o=
+s.path.join(deploy_dir, &quot;%s.json&quot; % link_name)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A00211:=C2=A0 =C2=A0 =C2=A0 =C2=A0 manifest_path =
+=3D d.getVar(&quot;CVE_CHECK_MANIFEST_JSON&quot;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A00212:=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.note(&quot;G=
+enerating JSON CVE manifest&quot;)<br>
+=C2=A0 =C2=A0*** 0213:=C2=A0 =C2=A0 =C2=A0 =C2=A0 generate_json_report(json=
+_summary_name, json_summary_link_name)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A00214:=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.plain(&quot;=
+Image CVE JSON report stored in: %s&quot; % link_path)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A00215:}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A00216:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A00217:ROOTFS_POSTPROCESS_COMMAND:prepend =3D &quo=
+t;${@&#39;cve_check_write_rootfs_manifest; &#39; if d.getVar(&#39;CVE_CHECK=
+_CREATE_MANIFEST&#39;) =3D=3D &#39;1&#39; else &#39;&#39;}&quot;<br>
+=C2=A0 Exception: NameError: name &#39;json_summary_name&#39; is not define=
+d<br>
 <br>
-BTW, for future kirkstone patches you should cc me instead of Richard<br>
-since I am the kirkstone maintainer.<br>
+The fix is to pass the d variable to the pure python function generate_json=
+_report<br>
+to get correct values of variables and add conditions for the JSON<br>
+output where needed.<br>
 <br>
-&gt; this uplift only involves in two commits including the above fix:<br>
-&gt;<br>
-&gt; ```<br>
-&gt; b7e4d5a mmc-utils: Add General command CMD56 read support<br>
-&gt; 0d493fb mmc-utils: Fix build error MMC_BLOCK_MAJOR undeclared<br>
-&gt; ```<br>
-&gt;<br>
-&gt; considering kirkstone mmc-utils recipe fetches mmc-utils master branch=
- and does not stick to any release tag, so I think we can uplift mmc-utils =
-to the latest rather than backport that fix to kirkstone.<br>
+In addition clarify the message presenting the summary JSON file,<br>
+which isn&#39;t related to an image.<br>
 <br>
-This seems reasonable to me. I will add this patch to my test queue<br>
-and edit the commit message to include the above information.<br>
+Uses partial fixes from Alex Kiernan, Ernst Sj=C3=B6strand (ernstp),<br>
+and Davide Gardenal.<br>
 <br>
-Steve<br>
+Fixes: f2987891d315 (&quot;cve-check: add JSON format to summary output&quo=
+t;)<br>
 <br>
-&gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_b=
-lank">richard.purdie@linuxfoundation.org</a>&gt; =E6=96=BC 2022=E5=B9=B45=
-=E6=9C=8815=E6=97=A5 =E9=80=B1=E6=97=A5 =E4=B8=8B=E5=8D=8811:42=E5=AF=AB=E9=
-=81=93=EF=BC=9A<br>
-&gt;&gt;<br>
-&gt;&gt; On Sun, 2022-05-15 at 14:43 +0200, <a href=3D"mailto:liu.ming50@gm=
-ail.com" target=3D"_blank">liu.ming50@gmail.com</a> wrote:<br>
-&gt;&gt; &gt; From: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gm=
-ail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@l=
-inutronix.de" target=3D"_blank">alex@linutronix.de</a>&gt;<br>
-&gt;&gt; &gt; Signed-off-by: Luca Ceresoli &lt;<a href=3D"mailto:luca.ceres=
-oli@bootlin.com" target=3D"_blank">luca.ceresoli@bootlin.com</a>&gt;<br>
-&gt;&gt; &gt; Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.p=
-urdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation=
-.org</a>&gt;<br>
-&gt;&gt; &gt; (cherry picked from commit d98b06c9c6f480de1e5167bfe8392e3930=
-0fc02c)<br>
-&gt;&gt; &gt; Signed-off-by: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmai=
-l.com" target=3D"_blank">liu.ming50@gmail.com</a>&gt;<br>
-&gt;&gt; &gt; ---<br>
-&gt;&gt; &gt;=C2=A0 meta/recipes-devtools/mmc/<a href=3D"http://mmc-utils_g=
-it.bb" rel=3D"noreferrer" target=3D"_blank">mmc-utils_git.bb</a> | 2 +-<br>
-&gt;&gt; &gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;&gt; &gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Why does kirkstone need this though?<br>
-&gt;&gt;<br>
-&gt;&gt; Cheers,<br>
-&gt;&gt;<br>
-&gt;&gt; Richard<br>
-&gt;<br>
-&gt;<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#165665): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/165665" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://lists.openembedded.org/g/openembedded-core/message/165665</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/91117508=
-/3620601" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.o=
-rg/mt/91117508/3620601</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:steve@sakoman.com" ta=
-rget=3D"_blank">steve@sakoman.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
+Signed-off-by: Marta Rybczynska &lt;<a href=3D"mailto:marta.rybczynska@huaw=
+ei.com" target=3D"_blank">marta.rybczynska@huawei.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/cve-check.bbclass | 18 ++++++++++--------<br>
+=C2=A01 file changed, 10 insertions(+), 8 deletions(-)<br>
+<br>
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclas=
+s<br>
+index 24ddb865ea..7cd98ae462 100644<br>
+--- a/meta/classes/cve-check.bbclass<br>
++++ b/meta/classes/cve-check.bbclass<br>
+@@ -79,7 +79,7 @@ CVE_CHECK_LAYER_INCLUDELIST ??=3D &quot;&quot;<br>
+=C2=A0# set to &quot;alphabetical&quot; for version using single alphabetic=
+al character as increment release<br>
+=C2=A0CVE_VERSION_SUFFIX ??=3D &quot;&quot;<br>
+<br>
+-def generate_json_report(out_path, link_path):<br>
++def generate_json_report(d, out_path, link_path):<br>
+=C2=A0 =C2=A0 =C2=A0if os.path.exists(d.getVar(&quot;CVE_CHECK_SUMMARY_INDE=
+X_PATH&quot;)):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0import json<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from oe.cve_check import cve_check_merge_=
+jsons<br>
+@@ -127,10 +127,11 @@ python cve_save_summary_handler () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0os.remove(cvefile_link)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0os.symlink(os=
+.path.basename(cve_summary_file), cvefile_link)<br>
+<br>
++=C2=A0 =C2=A0 if d.getVar(&quot;CVE_CHECK_FORMAT_JSON&quot;) =3D=3D &quot;=
+1&quot;:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0json_summary_link_name =3D os.path.join(c=
+velogpath, d.getVar(&quot;CVE_CHECK_SUMMARY_FILE_NAME_JSON&quot;))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0json_summary_name =3D os.path.join(cvelog=
+path, &quot;%s-%s.json&quot; % (cve_summary_name, timestamp))<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 generate_json_report(json_summary_name, json_s=
+ummary_link_name)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.plain(&quot;CVE report summary created at: =
+%s&quot; % json_summary_link_name)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 generate_json_report(d, json_summary_name, jso=
+n_summary_link_name)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.plain(&quot;Complete CVE JSON report summar=
+y created at: %s&quot; % json_summary_link_name)<br>
+=C2=A0}<br>
+<br>
+=C2=A0addhandler cve_save_summary_handler<br>
+@@ -207,11 +208,12 @@ python cve_check_write_rootfs_manifest () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0os.symlink(os=
+.path.basename(manifest_name), manifest_link)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.plain(&quot;Image CVE re=
+port stored in: %s&quot; % manifest_name)<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 link_path =3D os.path.join(deploy_dir, &quot;%=
+s.json&quot; % link_name)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 manifest_path =3D d.getVar(&quot;CVE_CHECK_MAN=
+IFEST_JSON&quot;)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.note(&quot;Generating JSON CVE manifest&quo=
+t;)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 generate_json_report(json_summary_name, json_s=
+ummary_link_name)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.plain(&quot;Image CVE JSON report stored in=
+: %s&quot; % link_path)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if d.getVar(&quot;CVE_CHECK_FORMAT_JSON&quot;)=
+ =3D=3D &quot;1&quot;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 link_path =3D os.path.join(deplo=
+y_dir, &quot;%s.json&quot; % link_name)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 manifest_path =3D d.getVar(&quot=
+;CVE_CHECK_MANIFEST_JSON&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.note(&quot;Generating JSON CV=
+E manifest&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 generate_json_report(d, manifest=
+_path, link_path)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.plain(&quot;Image CVE JSON re=
+port stored in: %s&quot; % link_path)<br>
+=C2=A0}<br>
+<br>
+=C2=A0ROOTFS_POSTPROCESS_COMMAND:prepend =3D &quot;${@&#39;cve_check_write_=
+rootfs_manifest; &#39; if d.getVar(&#39;CVE_CHECK_CREATE_MANIFEST&#39;) =3D=
+=3D &#39;1&#39; else &#39;&#39;}&quot;<br>
+-- <br>
+2.33.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#165707): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/165707" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/165707</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/91158052/4947=
+266" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/91158052/4947266</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:ernstp@gmail.com" target=
+=3D"_blank">ernstp@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
 </blockquote></div>
 
---00000000000093747b05df30386c--
+--00000000000044c6a205df30787a--
 
