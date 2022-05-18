@@ -1,108 +1,74 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <mangodan2003@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD20BC433F5
-	for <webhook@archiver.kernel.org>; Wed, 18 May 2022 11:58:36 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web08.3905.1652875106748972491
- for <openembedded-core@lists.openembedded.org>;
- Wed, 18 May 2022 04:58:26 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pgPY6caV;
- spf=pass (domain: gmail.com, ip: 209.85.216.43,
- mailfrom: rybczynska@gmail.com)
-Received: by mail-pj1-f43.google.com with SMTP id
- oe17-20020a17090b395100b001df77d29587so5382816pjb.2
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 18 May 2022 04:58:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cF8wZYjj8UD3cxyDMxolnSfb/Uz+fnPJgR9e59Nq+rU=;
-        b=pgPY6caVCvOaxXlBxEed7XWP0V6xkJ5LBDaC/0Lc/dP93zt2QnvgRhnbwynRtyyYN4
-         4ezDe+eCyWL01Dah+X4fGyJ7oC6v4tlG4gKYh+F0ttLzpeYPxBZy4f03nOzuZDt6MniW
-         CTP4JlEwPQU379koZ4/b1jb3JBoxU/4APN++JbINzFE7nc5/0EYHNLnoH7uFcnUpzhVX
-         WNadZoDWQDQyPlX2wOSWBWypHzQmW6Mr3V17Cs5m6NhCmy4GHmAcZi2C662bU0MJHPIk
-         XX53Qx8AcupbHZoL2CeglUlkLTWQC4maYjHksn2SDZ0D1o+veHs+n8XnmqP6fO74LPUY
-         XU/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cF8wZYjj8UD3cxyDMxolnSfb/Uz+fnPJgR9e59Nq+rU=;
-        b=cpk+0lOITsrvPMZUJ8+I/U/n91FH4oHIeN7BRRd/gDKM6ejOLyyucjxBsfokyu0eJa
-         JGrMOx4tZ8YKBqXqyCRjGhh7p9L03ZEeJINsyuwDzVa2zNthrTBZO7Qm+GHzYTY0s3j2
-         Sr2VglEYXVdL28ZPaCxIDo6neBUImlLisC0+Td8KkhNELYRUc4RJqGVEc1xBwjKwM49+
-         nn9ruei346N3Xu5tOeB6BGm7VYIqWoV0BYQsyCtDdMUFuyvMDl3UzdHry6xPznUZ/HgW
-         ZZ4QClKymYKIf3Mnpm/8MicrwW12+LFCPd2vrdWOJWr8h9ByorM33AMFQCVF4jMBvzeR
-         CqUg==
-X-Gm-Message-State: AOAM532pf6aHYes0ba4GhuUaKcSlqnPcwgwEGL9Md0HoY10Fp6lp5aAW
-	FXdoYuYhVCuV+T6KJGgP7vqyxvpv55bmDideHwk=
-X-Google-Smtp-Source: 
- ABdhPJzhaBaq0B6YIvmuCDUCG+xXKTq5MEocLbbkA5q8SHSfknGFcCwuRKl4fkjEpL7NXBfYJwNVvzWeSHIQIW0Xdlo=
-X-Received: by 2002:a17:90b:33ce:b0:1dc:690e:acef with SMTP id
- lk14-20020a17090b33ce00b001dc690eacefmr40854001pjb.121.1652875106300; Wed, 18
- May 2022 04:58:26 -0700 (PDT)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6019C433EF
+	for <webhook@archiver.kernel.org>; Wed, 18 May 2022 12:02:06 +0000 (UTC)
+Subject: Wiki re submitting patches
+To: openembedded-core@lists.openembedded.org
+From: mangodan2003@gmail.com
+X-Originating-Location: Letchworth Garden City, England, GB (86.16.192.236)
+X-Originating-Platform: Linux Chrome 100
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-References: 
- <722011c32a289bb9945a491e1f9b9e290e62c3ea.camel@linuxfoundation.org>
- <13088.1652867175060959086@lists.openembedded.org>
- <e793362e2958aecec75daa66230558f7feb9add5.camel@linuxfoundation.org>
-In-Reply-To: 
- <e793362e2958aecec75daa66230558f7feb9add5.camel@linuxfoundation.org>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Wed, 18 May 2022 13:58:14 +0200
-Message-ID: 
- <CAApg2=ToM0QwDU8MkV-3FNHgTOuhtV6Az6E3uT2WyQigWnfTow@mail.gmail.com>
-Subject: Re: [OE-core] [poky][master][PATCH 1/3] cve_check.py: Add new method
- get_ignored_cves
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Akash Hadke <akash.hadke@kpit.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Date: Wed, 18 May 2022 05:01:57 -0700
+Message-ID: <6ldv.1652875317100283313.cW0Y@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="lAzUlDwMIs56bFaGQc2N"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 May 2022 11:58:36 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 18 May 2022 12:02:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165847
+ https://lists.openembedded.org/g/openembedded-core/message/165848
 
-On Wed, May 18, 2022 at 12:33 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2022-05-18 at 02:46 -0700, akash hadke via
-> lists.openembedded.org wrote:
-> > Hi Richard,
-> >
-> > I tried modifying the cve-check.bbclass but did not able to get the
-> > solution for disabling the NVD data, because when we inherit cve-
-> > check it executes the cve_check task that checks CVEs from NVD DB. So
-> > I am also not sure how to disable it hence I used the separate
-> > bbclass.
->
-> I guess the task dependencies are a bit of an issue there. There are
-> probably ways to make those configurable, it would just take a little
-> work.
->
-> I really do want to encourage us to work together on common cve tooling
-> rather than having several partial implementations so I can't take this
-> patch series.
->
+--lAzUlDwMIs56bFaGQc2N
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-I plan to cut those dependencies and make different stages optional.
-In my case the first use
-is to be able to run multiple cve-checks with the same database
-(guaranteed without updates)
-or run cve-check with some given known database (for testing).
-We can add an option to make the actual check with the database optional.
+Is this page still relevant?
 
-Exporting the data to the buildhistory looks like a useful thing to do, too.
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
 
-I can draft the split after YPS.
+I have just tried to submit a patch via both the email and git methods and =
+both fail. Google blocks the script when trying the email method saying it =
+is not secure and when trying the git method I get a timeout from the scrip=
+t for github, tho I can access github just fine in my browser.
 
-Kind regards,
-Marta
+dan@melon ~/workspace_ssd/kas/openembedded-core $./scripts/create-pull-requ=
+est -u git@github.com:mangodan2003/openembedded-core.git
+NOTE: Assuming remote branch 'gst-1.20.2', use -b to override.
+NOTE: Assuming local branch HEAD, use -l to override.
+fatal: unable to connect to github.com:
+github.com[0: 140.82.121.4]: errno=3DConnection timed out
+
+warn: No match for commit 38b9d17c45c15087d484559595b04c7b61fd8fbb found at=
+ git://github.com/mangodan2003/openembedded-core
+warn: Are you sure you pushed 'gst-1.20.2' there?
+ERROR: git request-pull reported an error
+
+--lAzUlDwMIs56bFaGQc2N
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Is this page still relevant?<br /><br /><a href=3D"https://www.openembedded=
+.org/wiki/How_to_submit_a_patch_to_OpenEmbedded" target=3D"_blank" rel=3D"n=
+oopener">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmb=
+edded</a><br /><br />I have just tried to submit a patch via both the email=
+ and git methods and both fail. Google blocks the script when trying the em=
+ail method saying it is not secure and when trying the git method I get a t=
+imeout from the script for github, tho I can access github just fine in my =
+browser.<br /><span style=3D"font-family: monospace;"><span style=3D"font-w=
+eight: bold; color: #54ff54;"><br />dan@melon</span><span style=3D"font-wei=
+ght: bold; color: #5454ff;"> ~/workspace_ssd/kas/openembedded-core $</span>=
+<span style=3D"color: #000000;"> ./scripts/create-pull-request -u git@githu=
+b.com:mangodan2003/openembedded-core.git &nbsp;</span><br />NOTE: Assuming =
+remote branch 'gst-1.20.2', use -b to override. <br />NOTE: Assuming local =
+branch HEAD, use -l to override. <br />fatal: unable to connect to github.c=
+om: <br />github.com[0: 140.82.121.4]: errno=3DConnection timed out <br /><=
+br />warn: No match for commit 38b9d17c45c15087d484559595b04c7b61fd8fbb fou=
+nd at git://github.com/mangodan2003/openembedded-core <br />warn: Are you s=
+ure you pushed 'gst-1.20.2' there? <br />ERROR: git request-pull reported a=
+n error<br /><br /></span>
+
+--lAzUlDwMIs56bFaGQc2N--
 
