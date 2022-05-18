@@ -2,63 +2,65 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D404AC4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D29A2C433EF
 	for <webhook@archiver.kernel.org>; Wed, 18 May 2022 10:58:55 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web09.3573.1652871530816043440
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
+ [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web10.3534.1652871532703452603
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 May 2022 03:58:51 -0700
+ Wed, 18 May 2022 03:58:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=MlP0boEy;
- spf=pass (domain: gmail.com, ip: 209.85.218.47,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=MD2ZXo6E;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id n13so1166743ejv.1
+Received: by mail-ej1-f43.google.com with SMTP id kq17so3054921ejb.4
         for <openembedded-core@lists.openembedded.org>;
- Wed, 18 May 2022 03:58:50 -0700 (PDT)
+ Wed, 18 May 2022 03:58:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4wlp8GO3qhmf9t34FB67nN+np1mrReFE+aI2b9rURSw=;
-        b=MlP0boEyoxmKJtwsFF/1uoL273vcaKBxtJ3cEcExyE9u/2iTT4N67SJ6/QIPhq57Pj
-         Ay8TtVPP5CC3akQc0PDMaiowdG/9JVuGQ+wxQ2psvFl+B4OIijR6EXoj95zNwPXK18vF
-         f76t2il2yqdwHtcrz8zC3sOvM+6C/M1egM0iKM262YUOxlXyd27lfmorYab/8/ezUTxg
-         TVhrEP1hT8hiA3lIh6FOTDZGv1c/H0kx5KOhU5VaZaOj00SQtm4DRiOaUhmcF28utZYU
-         r5bw5x0w3/u1pvfKvORPI+10+bJipWS2spo1XZl4ZtwsvG/lF7i0FpaZF28kcsyveiFd
-         cd4Q==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=7iPjvVBkxA680ag2bFZiQv0dtTJ8G47RSHlibrOxWUg=;
+        b=MD2ZXo6EMlUt0iHUyl/U2CdrW2WpkyCH0aFOvOzYBfs1FD4LFo6GYfouRGsmbsebJr
+         sb6/mbk+j+7KFZQ8qAdW2XqecleWMU0Rm6ZuppaFcQjbxzZAsgICpDhKgyGU3YcDVAIo
+         NOexIJACBORaJZPCTw5GwHfYnOg7EhM+eALPM4I2p5QDJL506STmO/UKmS/QetaQkTrG
+         8lsYOkPKq7SB/vB2xYkF3IbztFpC41ImFcI8PaHT2747Ikmay3X4o99TeF5Xb0Pe2uFB
+         sT7jhVtuda60ce8XfQj5ZnGzV+QP28k5A1/Ba/PSJ4hgTSXt68eMiSMnsFSqWKHeIk2l
+         VS6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4wlp8GO3qhmf9t34FB67nN+np1mrReFE+aI2b9rURSw=;
-        b=zXHZdiRP8DZlM7CvlVaH7mmMrefUeZXarKhmkPkZz6sotHp32+6/wcAJac5T0qNqFZ
-         oI+2ImjmrirTPXVlNxv+QyPiCKFF5ByFrIWK49R0VnZt9ytbAgTRyb7DFbNPjL9awvTe
-         svO2xARviV3C/MJnKWNDRrkqdMWQqcF2WWt0+ZA2CkFljhYSOUPmcznTJZLVuo5W+z2l
-         588X04qf65g+XzJOR6Q/HwzA/qxm6f5WpdqKWEddOgjeHhBsek7xqAR5TZC1D+fMRwEW
-         CnPBRleExN0UYtrv4xERsY7UC9Pyxt7LS9X7HF2peiRc9ObPdAszj4LTr2XEMqyM5Tmw
-         tIMA==
-X-Gm-Message-State: AOAM531DjFH4GhEDnAU9Skbos0GJfwk4+vDXcowu3fca02uX9O/rqfXF
-	1Ub5LqcS6sevIv77jRqpPi1dFZab8qo=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=7iPjvVBkxA680ag2bFZiQv0dtTJ8G47RSHlibrOxWUg=;
+        b=EzjYuBjA+pRAurTECflWitXPjxZL4kchMDhXUIFLenlh4jzBGGudhY5tNOwOoFie40
+         nQueklo/HiGcE/jo4y4irN50Mmj6EWQbN1QTk/7Vpq1y90gX4XFac3iNQ+J0K7503GKI
+         G1tt5WrkaZYmmyJIgAi+7o+5ZXl0loTcN2L85cOr5/CxeoyWBAAcl6MRg0uauDPaci7Q
+         QFkv1Eo4b3nsjEDPuHPY3iEpWqRUH3yIZX3WToVt2AfChVklR7+m574CvysvZ4LjGIGe
+         ra/EHlPpw5xzWfQeAWh4pZCHNCoxx1BkUGPZet5wJqGWL7Wl8o7FQseCcFp5kS7C0Ny+
+         gOWQ==
+X-Gm-Message-State: AOAM532ujLu5s9vi+TKMSBY9PbrlGvH9SgD6uJG0JaGJoGzGaSu0Hg54
+	7LD1ISg7Pv3QF5UCEM6vdIlJciIgteM=
 X-Google-Smtp-Source: 
- ABdhPJykNK+njELLsf87DGZK0tUkVnldZwivQV7ZaR05Kid/lrfvV1d13OcCkFocYnw1EWL0IBrfEw==
-X-Received: by 2002:a17:907:1b05:b0:6f0:18d8:7be0 with SMTP id
- mp5-20020a1709071b0500b006f018d87be0mr23444052ejc.561.1652871529083;
-        Wed, 18 May 2022 03:58:49 -0700 (PDT)
+ ABdhPJzBDKb0ksavR2s1PoOSWRl/SBXoAn6QaQneUoJWwffbA56kIrXdeWptwJPp6bHlN7kL/k0DAA==
+X-Received: by 2002:a17:906:854b:b0:6f4:58a7:5a07 with SMTP id
+ h11-20020a170906854b00b006f458a75a07mr23487642ejy.440.1652871530832;
+        Wed, 18 May 2022 03:58:50 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- qs24-20020a170906459800b006f3ef214da9sm861524ejc.15.2022.05.18.03.58.47
+ qs24-20020a170906459800b006f3ef214da9sm861524ejc.15.2022.05.18.03.58.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 May 2022 03:58:48 -0700 (PDT)
+        Wed, 18 May 2022 03:58:50 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 01/49] sato: work around missing icons in adwaita 42.0
-Date: Wed, 18 May 2022 12:57:55 +0200
-Message-Id: <20220518105843.3299331-1-alex@linutronix.de>
+Subject: [PATCH 03/49] python3-setuptools: upgrade 59.5.0 -> 62.3.1
+Date: Wed, 18 May 2022 12:57:57 +0200
+Message-Id: <20220518105843.3299331-3-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220518105843.3299331-1-alex@linutronix.de>
+References: <20220518105843.3299331-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -66,221 +68,203 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 May 2022 10:58:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165798
+ https://lists.openembedded.org/g/openembedded-core/message/165800
 
-adwaita icon theme upstream has done significant trimming around app category icons
-(fullcolour versions gone completely, 'symbolic' b&w versions still around but marked
-as legacy). Going forward, apps would need to provide their own icons. Given that
-sato is likely to be deprecated in favour of wayland/weston rather soon, let's use
-the symbolic icons for now.
+This was held by numpy rejecting setuptools >= 60.x,
+however it got a workaround in recent point releases
+and so the upgrade can proceed.
 
-[YOCTO #14782]
+Drop 0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch
+as changed code completely removed upstream.
+
+Replicate another distutils/sysconfig.py fix from python recipe via
+0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
+
+Add a tomli build dependency to python3-setuptools-scm as new
+setuptools exposes:
+
+|   File "/srv/work/alex/poky/build-64-alt/tmp/work/x86_64-linux/python3-setuptools-scm-native/6.4.2-r0/setuptools_scm-6.4.2/src/setuptools_scm/config.py", line 59, in _lazy_tomli_load
+|     from tomli import loads
+| ModuleNotFoundError: No module named 'tomli'
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../gstreamer/gst-examples/gst-player.desktop |  2 +-
- ...sktop-update-icon-to-one-available-i.patch | 25 ++++++++++++++++++
- .../matchbox-config-gtk_0.2.bb                |  4 ++-
- ...ile.c-use-view-refresh-symbolic-icon.patch | 26 +++++++++++++++++++
- .../matchbox-desktop/matchbox-desktop_2.2.bb  |  1 +
- ...l.desktop-use-an-icon-available-in-a.patch | 25 ++++++++++++++++++
- .../matchbox-terminal_0.2.bb                  |  4 ++-
- meta/recipes-sato/puzzles/puzzles_git.bb      |  2 +-
- .../rxvt-unicode/rxvt-unicode/rxvt.desktop    |  2 +-
- .../shutdown-desktop/shutdown.desktop         |  2 +-
- 10 files changed, 87 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch
- create mode 100644 meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch
- create mode 100644 meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch
+ ...ly-do-not-fetch-code-by-easy_install.patch |  6 +-
+ .../python/python3-setuptools-scm_6.4.2.bb    |  2 +
+ ...nfig-append-STAGING_LIBDIR-python-sy.patch | 35 -----------
+ ...nfig.py-make-it-possible-to-substite.patch | 60 +++++++++++++++++++
+ ...59.5.0.bb => python3-setuptools_62.3.1.bb} |  8 +--
+ 5 files changed, 68 insertions(+), 43 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch
+ create mode 100644 meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
+ rename meta/recipes-devtools/python/{python3-setuptools_59.5.0.bb => python3-setuptools_62.3.1.bb} (87%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop b/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop
-index 7ddd456a1e..a5df5c9c84 100644
---- a/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop
-@@ -1,7 +1,7 @@
- [Desktop Entry]
- Name=Media Player
- Comment=Basic media player
--Icon=multimedia-player
-+Icon=multimedia-player-symbolic
- TryExec=gtk-play
- Exec=gtk-play
- StartupNotify=true
-diff --git a/meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch b/meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch
-new file mode 100644
-index 0000000000..7e75fdab9a
---- /dev/null
-+++ b/meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch
-@@ -0,0 +1,25 @@
-+From ab2c716bb0679a67dc6b0878ef750d3fdd29edb7 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Wed, 13 Apr 2022 22:19:11 +0200
-+Subject: [PATCH] mb-appearance.desktop: update icon to one available in
-+ adwaita 42.0
-+
-+Upstream-Status: Inappropriate [apps need their own icons as of 42.0]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ appearance/mb-appearance.desktop | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/appearance/mb-appearance.desktop b/appearance/mb-appearance.desktop
-+index 4db2bbc..cfa5142 100644
-+--- a/appearance/mb-appearance.desktop
-++++ b/appearance/mb-appearance.desktop
-+@@ -2,7 +2,7 @@
-+ Name=Appearance
-+ Comment=Change the appearance
-+ Exec=matchbox-appearance
-+-Icon=preferences-desktop-theme
-++Icon=preferences-desktop-appearance-symbolic
-+ Terminal=false
-+ Type=Application
-+ Categories=GTK;Settings;DesktopSettings;
-diff --git a/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb b/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
-index d951baf361..c91f9a7cc2 100644
---- a/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
-+++ b/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
-@@ -12,7 +12,9 @@ RDEPENDS:${PN} = "settings-daemon"
- # SRCREV tagged 0.2
- SRCREV = "ef2192ce98d9374ffdad5f78544c3f8f353c16aa"
- SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master \
--           file://no-handed.patch"
-+           file://no-handed.patch \
-+           file://0001-mb-appearance.desktop-update-icon-to-one-available-i.patch \
-+           "
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+diff --git a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+index 5e2ee454da..a2b7a519af 100644
+--- a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
++++ b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+@@ -1,4 +1,4 @@
+-From da88c57fe03e4474ba20325edacf519e80c1d7a8 Mon Sep 17 00:00:00 2001
++From d1b4fa4a99774878035a0f664ec0d9686e7f0c89 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 17 Jul 2018 10:13:38 +0800
+ Subject: [PATCH] conditionally do not fetch code by easy_install
+@@ -15,10 +15,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 5 insertions(+)
  
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch b/meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch
+ diff --git a/setuptools/command/easy_install.py b/setuptools/command/easy_install.py
+-index fc848d0..c04a5de 100644
++index 444d3b3..61e445a 100644
+ --- a/setuptools/command/easy_install.py
+ +++ b/setuptools/command/easy_install.py
+-@@ -642,6 +642,11 @@ class easy_install(Command):
++@@ -648,6 +648,11 @@ class easy_install(Command):
+              os.path.exists(tmpdir) and rmtree(tmpdir)
+  
+      def easy_install(self, spec, deps=False):
+diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_6.4.2.bb b/meta/recipes-devtools/python/python3-setuptools-scm_6.4.2.bb
+index e09c598bf5..9aaae071d3 100644
+--- a/meta/recipes-devtools/python/python3-setuptools-scm_6.4.2.bb
++++ b/meta/recipes-devtools/python/python3-setuptools-scm_6.4.2.bb
+@@ -11,6 +11,8 @@ inherit pypi python_setuptools_build_meta
+ 
+ UPSTREAM_CHECK_REGEX = "setuptools_scm-(?P<pver>.*)\.tar"
+ 
++DEPENDS += "python3-tomli-native"
++
+ RDEPENDS:${PN} = "\
+     ${PYTHON_PN}-packaging \
+     ${PYTHON_PN}-pyparsing \
+diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch b/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch
+deleted file mode 100644
+index 3150187951..0000000000
+--- a/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From 1ff575308248b183639c8cb14afee7c8572bd2b8 Mon Sep 17 00:00:00 2001
+-From: Tim Orling <timothy.t.orling@intel.com>
+-Date: Wed, 20 Oct 2021 17:38:10 +0000
+-Subject: [PATCH] _distutils/sysconfig: append
+- STAGING_LIBDIR/python-sysconfigdata to sys.path
+-
+-When python modules set SETUPTOOLS_USE_DISTULS='local', this uses the
+-vendored _distutils in setuptools rather than distutils in the Standard
+-Library. This is needed so that target configuration can be used with
+-python3-setuptools-native.
+-
+-Based on python3/0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch
+-from Alex Kanavin <alex.kanavin@gmail.com>
+-
+-Upstream-Status: Inappropriate [oe-specific]
+-
+-Signed-off-by: Tim Orling <timothy.t.orling@intel.com>
+-
+----
+- setuptools/_distutils/sysconfig.py | 2 ++
+- 1 file changed, 2 insertions(+)
+-
+-diff --git a/setuptools/_distutils/sysconfig.py b/setuptools/_distutils/sysconfig.py
+-index d36d94f..616eb91 100644
+---- a/setuptools/_distutils/sysconfig.py
+-+++ b/setuptools/_distutils/sysconfig.py
+-@@ -484,6 +484,8 @@ def _init_posix():
+-             multiarch=getattr(sys.implementation, '_multiarch', ''),
+-         ),
+-     )
+-+    if 'STAGING_LIBDIR' in os.environ:
+-+        sys.path.append(os.environ['STAGING_LIBDIR']+'/python-sysconfigdata')
+-     try:
+-         _temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
+-     except ImportError:
+diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch b/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
 new file mode 100644
-index 0000000000..7a4db83da2
+index 0000000000..c1b3dd6a30
 --- /dev/null
-+++ b/meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch
-@@ -0,0 +1,26 @@
-+From 764201dff04a7ca1c3862357ea485a6fc624dd00 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
+@@ -0,0 +1,60 @@
++From 41f78746cbe88d263400ee948abef5b3f89cce29 Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex@linutronix.de>
-+Date: Wed, 13 Apr 2022 22:01:30 +0200
-+Subject: [PATCH] taku-launcher-tile.c: use view-refresh-symbolic icon
++Date: Wed, 11 May 2022 21:41:14 +0200
++Subject: [PATCH] _distutils/sysconfig.py: make it possible to substite the
++ prefix to target sysroot
 +
-+Plain view-refresh is no longer provided in latest adwaita icon theme.
++This is done by probing STAGING_INCDIR/STAGING_LIBDIRenv vars:
++not the most elegant solution, but distutils/sysconfig has been
++tweaked to do this for many, many year, and so it's easiest
++to replicate here as well, the original is
++meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch
 +
-+Upstream-Status: Inappropriate [apps need their own icons as of 42.0]
++I'm not sure exactly why setuptools now needs a copy, and what
++would happen to this module in light of distutils deprecation.
++
++Upstream-Status: Inappropriate [oe-core specific]
 +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 +---
-+ libtaku/taku-launcher-tile.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ setuptools/_distutils/sysconfig.py | 14 +++++++++++---
++ 1 file changed, 11 insertions(+), 3 deletions(-)
 +
-+diff --git a/libtaku/taku-launcher-tile.c b/libtaku/taku-launcher-tile.c
-+index e7f58f3..8bbf2f7 100644
-+--- a/libtaku/taku-launcher-tile.c
-++++ b/libtaku/taku-launcher-tile.c
-+@@ -185,7 +185,7 @@ taku_launcher_tile_new_from_item (TakuMenuItem *item)
-+   taku_icon_tile_set_secondary (TAKU_ICON_TILE (tile),
-+                                 taku_menu_item_get_description (item));
-+   taku_icon_tile_set_pixbuf (TAKU_ICON_TILE (tile),
-+-                             get_icon ("view-refresh", size));
-++                             get_icon ("view-refresh-symbolic", size));
++diff --git a/setuptools/_distutils/sysconfig.py b/setuptools/_distutils/sysconfig.py
++index 55a42e1..ead63b9 100644
++--- a/setuptools/_distutils/sysconfig.py
+++++ b/setuptools/_distutils/sysconfig.py
++@@ -102,7 +102,9 @@ def get_python_inc(plat_specific=0, prefix=None):
++     If 'prefix' is supplied, use it instead of sys.base_prefix or
++     sys.base_exec_prefix -- i.e., ignore 'plat_specific'.
++     """
++-    if prefix is None:
+++    if prefix is None and os.environ.get('STAGING_INCDIR', ""):
+++        prefix = os.environ['STAGING_INCDIR'].rstrip('include')
+++    elif prefix is None:
++         prefix = plat_specific and BASE_EXEC_PREFIX or BASE_PREFIX
++     if os.name == "posix":
++         if IS_PYPY and sys.version_info < (3, 8):
++@@ -167,7 +169,13 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
 + 
-+   /* Don't need to update the icon here, because we'll get a style-set signal
-+      when the widget is realised which will update the icon. */
-diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
-index b05a9c48ad..c306aba6ec 100644
---- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
-+++ b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
-@@ -15,6 +15,7 @@ SECTION = "x11/wm"
- SRCREV = "6bc67d09da4147e5552fe30011a05a2c59d2f777"
- SRC_URI = "git://git.yoctoproject.org/${BPN}-2;branch=master \
-            file://vfolders/ \
-+           file://0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch \
-            "
++     early_prefix = prefix
++ 
++-    if prefix is None:
+++    if os.environ.get('STAGING_LIBDIR', ""):
+++        lib_basename = os.environ['STAGING_LIBDIR'].split('/')[-1]
+++    else:
+++        lib_basename = "lib"
+++    if prefix is None and os.environ.get('STAGING_LIBDIR', ""):
+++        prefix = os.environ['STAGING_LIBDIR'].rstrip(lib_basename)
+++    elif prefix is None:
++         if standard_lib:
++             prefix = plat_specific and BASE_EXEC_PREFIX or BASE_PREFIX
++         else:
++@@ -182,7 +190,7 @@ def get_python_lib(plat_specific=0, standard_lib=0, prefix=None):
++             # Pure Python
++             libdir = "lib"
++         implementation = 'pypy' if IS_PYPY else 'python'
++-        libpython = os.path.join(prefix, libdir,
+++        libpython = os.path.join(prefix, lib_basename,
++                                  implementation + get_python_version())
++         return _posix_lib(standard_lib, libpython, early_prefix, prefix)
++     elif os.name == "nt":
+diff --git a/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb b/meta/recipes-devtools/python/python3-setuptools_62.3.1.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
+rename to meta/recipes-devtools/python/python3-setuptools_62.3.1.bb
+index f2810e18d3..c9367c180f 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_62.3.1.bb
+@@ -8,12 +8,10 @@ inherit pypi python_setuptools_build_meta
  
- EXTRA_OECONF = "--enable-startup-notification --with-dbus"
-diff --git a/meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch b/meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch
-new file mode 100644
-index 0000000000..48987f9d31
---- /dev/null
-+++ b/meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch
-@@ -0,0 +1,25 @@
-+From ec16ba4a1cb0e4217910a1b36783f00828bb5dfc Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Wed, 13 Apr 2022 22:24:50 +0200
-+Subject: [PATCH] matchbox-terminal.desktop: use an icon available in adwaita
-+ 42.0
-+
-+Upstream-Status: Inappropriate [apps need their own icons as of 42.0]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ matchbox-terminal.desktop | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/matchbox-terminal.desktop b/matchbox-terminal.desktop
-+index c84a24c..fedaf10 100644
-+--- a/matchbox-terminal.desktop
-++++ b/matchbox-terminal.desktop
-+@@ -3,7 +3,7 @@ Type=Application
-+ Name=Terminal
-+ Comment=When all else fails.
-+ Exec=matchbox-terminal
-+-Icon=utilities-terminal
-++Icon=utilities-terminal-symbolic
-+ Terminal=false
-+ Categories=GTK;Utility;
-+ StartupNotify=true
-diff --git a/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb b/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
-index 802ffa971b..048e247b89 100644
---- a/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
-+++ b/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
-@@ -11,7 +11,9 @@ SECTION = "x11/utils"
+ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
  
- #SRCREV tagged 0.2
- SRCREV = "161276d0f5d1be8187010fd0d9581a6feca70ea5"
--SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master"
-+SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master \
-+           file://0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch \
-+           "
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+-SRC_URI += "\
+-    file://0001-change-shebang-to-python3.patch \
+-    file://0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch \
+-"
++SRC_URI += "file://0001-change-shebang-to-python3.patch \
++            file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
  
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index 0104f2672a..6f038cc475 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -37,7 +37,7 @@ do_install:append () {
- [Desktop Entry]
- Name=$title
- Exec=${bindir}/$prog
--Icon=applications-games
-+Icon=applications-games-symbolic
- Terminal=false
- Type=Application
- Categories=Game;
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop
-index 6b7978afc9..84a8ba7dc5 100644
---- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop
-@@ -3,7 +3,7 @@ Version=1.0
- Name=Terminal
- Comment=A unicode capable rxvt clone
- Exec=rxvt
--Icon=utilities-terminal
-+Icon=utilities-terminal-symbolic
- Terminal=false
- Type=Application
- Categories=Utility;TerminalEmulator;
-diff --git a/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop b/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
-index 662659afc2..bc437ca2de 100644
---- a/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
-+++ b/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
-@@ -4,7 +4,7 @@ Type=Application
- Name=Shutdown
- Comment=Close down the machine safely
- Exec=poweroff
--Icon=system-shutdown
-+Icon=system-shutdown-symbolic
- Terminal=false
- Categories=Utility;
- StartupNotify=true
+-SRC_URI[sha256sum] = "d144f85102f999444d06f9c0e8c737fd0194f10f2f7e5fdb77573f6e2fa4fad0"
++SRC_URI[sha256sum] = "28c79c24d83c42a5e6d6cc711e5e9a6c1b89326229feaa5807fc277040658600"
+ 
+ DEPENDS += "${PYTHON_PN}"
+ 
 -- 
 2.30.2
 
