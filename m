@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8127C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA1C9C433EF
 	for <webhook@archiver.kernel.org>; Wed, 18 May 2022 02:31:02 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web08.330.1652841059887177632
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web08.333.1652841062160293073
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 19:31:00 -0700
+ Tue, 17 May 2022 19:31:02 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=QM/VFHu9;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44,
+ header.b=rXnfKXzN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id
- nr2-20020a17090b240200b001df2b1bfc40so4265803pjb.5
+Received: by mail-pj1-f52.google.com with SMTP id n10so635779pjh.5
         for <openembedded-core@lists.openembedded.org>;
- Tue, 17 May 2022 19:30:59 -0700 (PDT)
+ Tue, 17 May 2022 19:31:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=I/I8Bgtv4ZgFDTWbUvbXxw77Q2ZH/dYACXJD0FkEqBA=;
-        b=QM/VFHu9/1YagI/wb9V8/qL4SxfYTo6gJ3y1q2iDD4uKgsrgxnae/pTqm5g2RKtH8F
-         nP+Jrch3b3cV8Q2PjSX/ZqFvr069EoG9W6q0I7avPKXG0Ey15i3Jz5ri97UXDHAGvRes
-         lSdXI0vfWphseZKyPHQ/dBx3p46kf1SxwFydbj4ZDjNK+2sLm53xunaSr6uHH7tp6zGy
-         jy3LTh8cHpFXm46B7v6VU3614UWDs2c6oHvvS8mPaiEf48A1zms6pebrGbUO/Ex6YeI0
-         +VAiHEbRNmwSneeSUD9Faqh4sbhTS8BDn7ZMhP+bQpaxkKtS8B3ae2NnpUK/mp0N0m10
-         DEYA==
+        bh=HMVhZMaQj7Hu+GlKbx3M66HvBNYPuUvKeu4pse5eSHQ=;
+        b=rXnfKXzNO6rTPSLerzjG9QTCszInvWB/QKlmmqIsICgJPNOQxGUyzwsSNxfttMfl/L
+         CxoE8MdDQiI42I5utFp+mzlz4lI4I8yGJV1QYNC+jojH9bdZXTZmOf9aXcxS6nhY0MeF
+         50W9yFFr0YP9cAw3QPxJ6GswKdTFpiyTZnMssRhsS7wnqP4iz1nRMU0TqWRS8y9YcG4O
+         2iAH1qqPvlpWpGhGRbsmLnXIaw3B9RwUaaJATP7O1rvf1GkeRt4Aloe3e7sbEBks4fgY
+         JTHJf6EL8fovchv+Ewq8+C926nFAkLBfPyGlhjyfm9PXUoJ+iC+4Wh9s7DFqAa+dhifg
+         aMCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=I/I8Bgtv4ZgFDTWbUvbXxw77Q2ZH/dYACXJD0FkEqBA=;
-        b=awRNOXtYY1tFfmD3D4qzct2bK3K62OULqJIyOYjtM11aTOK32dwGxQ9sEdVLjfoQD2
-         cyGIhWiiMLMHr0oVugT3kMQui24Ss4ik3cItm7PjBEIUOaNcg4GlaTkpxjJt2B1/KbBo
-         /swU7daTPcCrOXJJBw0SOWWhgKVGEQE189+01UW+71yACuwmA+d5XNKwlDCWSaH6ee3w
-         DJv638fZhUl2a1mu8UKYByJ+W+BEUzr0DLorSAeO6vzFUECUxnV2yIvdAkgcGOtPAPGh
-         VXZ2C5ASdOdQzG3Irwn911ND7SOuZamsNiJ3SmWmWxNVA4eFSO8HQLS0q7HtZIvd4AFU
-         R0Pw==
-X-Gm-Message-State: AOAM533uyGpsYGAQiVAF8dlvd8PVY+ENKWOySyauNMLjAh3f+TgM9V5X
-	DyxECtkgbhj/FRGcZMnYHVw7k2JppeaZxJts
+        bh=HMVhZMaQj7Hu+GlKbx3M66HvBNYPuUvKeu4pse5eSHQ=;
+        b=Frb96F7okTkGN9n5sdoPtUugGAiL+qYNmFAyRaCdVuyXD6N+GJC3ntf6XI8PZGE4rm
+         hCDrCGzZzDPnseptJiFE95c6NaE5P3w5D473RE/L7M5DdmWGA5Qps1nbXoSNGg4cfzbe
+         KY/Ho1/6Wx4WRlxpnbZYwoU1De8tQyalqpeSGg/xVTdBZHaZUe9FFqS49tpQlbpDlj/b
+         VcxX0sUYDdIrOS3LNGmPC7GpIIChUYkSWpbdauM6M1F3ohwT82ov7F1A1HHHAANDvdck
+         zRzzQ4kPdwqUf6VtxcYtlQiD7nxTxvkrmb21BAGBdCsu12nRutKs8kJYo9f6dmqzVhJt
+         JeIg==
+X-Gm-Message-State: AOAM530ZmiNYECcnKIuQKI8JbTORKs/Yc6k1ytTZKJZxN+8b121Bp697
+	d4MrWnF7imAKcUuHGpVZK/cAmMpzvq49J5Jr
 X-Google-Smtp-Source: 
- ABdhPJwu6DROZPQClsjhofI92eD4n5DfqcI62oqu8aIYx+jBmjSHzery4r42Bhe2mAsFo1oswB+3JQ==
-X-Received: by 2002:a17:90b:1809:b0:1dc:1597:20c with SMTP id
- lw9-20020a17090b180900b001dc1597020cmr28110322pjb.36.1652841058228;
-        Tue, 17 May 2022 19:30:58 -0700 (PDT)
+ ABdhPJxdDgfp9n5BVtf9epfsy+sZHQf4RCEytyfE0esXW75hwG+bw1spgape6Viu2P0LvH8amXns9A==
+X-Received: by 2002:a17:90b:38d2:b0:1df:51e5:9a0b with SMTP id
+ nn18-20020a17090b38d200b001df51e59a0bmr14468488pjb.101.1652841060792;
+        Tue, 17 May 2022 19:31:00 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- p25-20020a62b819000000b00512ead539casm438926pfe.113.2022.05.17.19.30.56
+ p25-20020a62b819000000b00512ead539casm438926pfe.113.2022.05.17.19.30.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 May 2022 19:30:57 -0700 (PDT)
+        Tue, 17 May 2022 19:30:59 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 2/9] curl: Fix CVEs for curl
-Date: Tue, 17 May 2022 16:30:30 -1000
+Subject: [OE-core][dunfell 3/9] tiff: Add patches to fix multiple CVEs
+Date: Tue, 17 May 2022 16:30:31 -1000
 Message-Id: 
- <bbbd258a1c56d75ccb7e07ddc3bc1beb11d48a3a.1652840866.git.steve@sakoman.com>
+ <7c71434832caf6a15f8fb884d028a8c1bf4090a9.1652840866.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1652840866.git.steve@sakoman.com>
 References: <cover.1652840866.git.steve@sakoman.com>
@@ -70,366 +69,343 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 May 2022 02:31:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165784
+ https://lists.openembedded.org/g/openembedded-core/message/165785
 
-From: Sana Kazi <Sana.Kazi@kpit.com>
+From: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
 
-Fix below listed CVEs:
-CVE-2022-22576
-Link: https://github.com/curl/curl/commit/852aa5ad351ea53e5f01d2f44b5b4370c2bf5425.patch
+Add patches to fix below CVE issues
+CVE-2022-0865
+CVE-2022-0907
+CVE-2022-0908
+CVE-2022-0909
+CVE-2022-0924
 
-CVE-2022-27775
-Link: https://github.com/curl/curl/commit/058f98dc3fe595f21dc26a5b9b1699e519ba5705.patch
-
-CVE-2022-27776
-Link: https://github.com/curl/curl/commit/6e659993952aa5f90f48864be84a1bbb047fc258.patch
-
-Signed-off-by: Sana.Kazi <Sana.Kazi@kpit.com>
-Signed-off-by: Sana Kazi <sanakazisk19@gmail.com>
+Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
+Signed-off-by: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../curl/curl/CVE-2022-22576.patch            | 148 ++++++++++++++++++
- .../curl/curl/CVE-2022-27775.patch            |  39 +++++
- .../curl/curl/CVE-2022-27776.patch            | 114 ++++++++++++++
- meta/recipes-support/curl/curl_7.69.1.bb      |   3 +
- 4 files changed, 304 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-22576.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27775.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27776.patch
+ .../libtiff/files/CVE-2022-0865.patch         | 39 ++++++++
+ .../libtiff/files/CVE-2022-0907.patch         | 94 +++++++++++++++++++
+ .../libtiff/files/CVE-2022-0908.patch         | 34 +++++++
+ .../libtiff/files/CVE-2022-0909.patch         | 37 ++++++++
+ .../libtiff/files/CVE-2022-0924.patch         | 58 ++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |  5 +
+ 6 files changed, 267 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-0865.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-0907.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-0908.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-0909.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-0924.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2022-22576.patch b/meta/recipes-support/curl/curl/CVE-2022-22576.patch
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-0865.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-0865.patch
 new file mode 100644
-index 0000000000..13479e7f0e
+index 0000000000..e2d136f587
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2022-22576.patch
-@@ -0,0 +1,148 @@
-+From 852aa5ad351ea53e5f01d2f44b5b4370c2bf5425 Mon Sep 17 00:00:00 2001
-+From: Patrick Monnerat <patrick@monnerat.net>
-+Date: Mon, 25 Apr 2022 11:44:05 +0200
-+Subject: [PATCH] url: check sasl additional parameters for connection reuse.
-+
-+Also move static function safecmp() as non-static Curl_safecmp() since
-+its purpose is needed at several places.
-+
-+Bug: https://curl.se/docs/CVE-2022-22576.html
-+
-+CVE-2022-22576
-+
-+Closes #8746
-+---
-+ lib/strcase.c   | 10 ++++++++++
-+ lib/strcase.h   |  2 ++
-+ lib/url.c       | 13 ++++++++++++-
-+ lib/urldata.h   |  1 +
-+ lib/vtls/vtls.c | 21 ++++++---------------
-+ 5 files changed, 31 insertions(+), 16 deletions(-)
-+
-+CVE: CVE-2022-22576
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/852aa5ad351ea53e5f01d2f44b5b4370c2bf5425.patch]
-+Comment: Refreshed patch
-+Signed-off-by: Sana.Kazi <Sana.Kazi@kpit.com>
-+
-+diff --git a/lib/strcase.c b/lib/strcase.c
-+index dd46ca1ba0e5..692a3f14aee7 100644
-+--- a/lib/strcase.c
-++++ b/lib/strcase.c
-+@@ -251,6 +251,16 @@
-+   } while(*src++ && --n);
-+ }
-+ 
-++/* Compare case-sensitive NUL-terminated strings, taking care of possible
-++ * null pointers. Return true if arguments match.
-++ */
-++bool Curl_safecmp(char *a, char *b)
-++{
-++  if(a && b)
-++    return !strcmp(a, b);
-++  return !a && !b;
-++}
-++
-+ /* --- public functions --- */
-+ 
-+ int curl_strequal(const char *first, const char *second)
-+diff --git a/lib/strcase.h b/lib/strcase.h
-+index b234d3815220..2635f5117e99 100644
-+--- a/lib/strcase.h
-++++ b/lib/strcase.h
-+@@ -48,4 +48,6 @@
-+ void Curl_strntoupper(char *dest, const char *src, size_t n);
-+ void Curl_strntolower(char *dest, const char *src, size_t n);
-+ 
-++bool Curl_safecmp(char *a, char *b);
-++
-+ #endif /* HEADER_CURL_STRCASE_H */
-+diff --git a/lib/url.c b/lib/url.c
-+index 9a988b4d58d8..e1647b133854 100644
-+--- a/lib/url.c
-++++ b/lib/url.c
-+@@ -730,6 +730,7 @@
-+   Curl_safefree(conn->allocptr.host);
-+   Curl_safefree(conn->allocptr.cookiehost);
-+   Curl_safefree(conn->allocptr.rtsp_transport);
-++  Curl_safefree(conn->oauth_bearer);  
-+   Curl_safefree(conn->trailer);
-+   Curl_safefree(conn->host.rawalloc); /* host name buffer */
-+   Curl_safefree(conn->conn_to_host.rawalloc); /* host name buffer */
-+@@ -1251,7 +1252,9 @@
-+         /* This protocol requires credentials per connection,
-+            so verify that we're using the same name and password as well */
-+         if(strcmp(needle->user, check->user) ||
-+-           strcmp(needle->passwd, check->passwd)) {
-++           strcmp(needle->passwd, check->passwd) ||
-++           !Curl_safecmp(needle->sasl_authzid, check->sasl_authzid) ||
-++           !Curl_safecmp(needle->oauth_bearer, check->oauth_bearer)) {			
-+           /* one of them was different */
-+           continue;
-+         }
-+@@ -3392,6 +3395,14 @@
-+       result = CURLE_OUT_OF_MEMORY;
-+       goto out;
-+     }
-++  }
-++
-++  if(data->set.str[STRING_BEARER]) {
-++    conn->oauth_bearer = strdup(data->set.str[STRING_BEARER]);
-++    if(!conn->oauth_bearer) {
-++      result = CURLE_OUT_OF_MEMORY;
-++      goto out;
-++    }
-+   }
-+ 
-+ #ifdef USE_UNIX_SOCKETS
-+diff --git a/lib/urldata.h b/lib/urldata.h
-+index 07eb19b87034..1d89b8d7fa68 100644
-+--- a/lib/urldata.h
-++++ b/lib/urldata.h
-+@@ -949,6 +949,8 @@
-+ 
-+   char *sasl_authzid;     /* authorisation identity string, allocated */
-+ 
-++  char *oauth_bearer; /* OAUTH2 bearer, allocated */
-++
-+   int httpversion;        /* the HTTP version*10 reported by the server */
-+   int rtspversion;        /* the RTSP version*10 reported by the server */
-+ 
-+diff --git a/lib/vtls/vtls.c b/lib/vtls/vtls.c
-+index 03b85ba065e5..a40ac06f684f 100644
-+--- a/lib/vtls/vtls.c
-++++ b/lib/vtls/vtls.c
-+@@ -82,15 +82,6 @@
-+   else                                       \
-+     dest->var = NULL;
-+ 
-+-static bool safecmp(char *a, char *b)
-+-{
-+-  if(a && b)
-+-    return !strcmp(a, b);
-+-  else if(!a && !b)
-+-    return TRUE; /* match */
-+-  return FALSE; /* no match */
-+-}
-+-
-+ 
-+ bool
-+ Curl_ssl_config_matches(struct ssl_primary_config* data,
-+@@ -101,12 +101,12 @@
-+      (data->verifypeer == needle->verifypeer) &&
-+      (data->verifyhost == needle->verifyhost) &&
-+      (data->verifystatus == needle->verifystatus) &&
-+-     safecmp(data->CApath, needle->CApath) &&
-+-     safecmp(data->CAfile, needle->CAfile) &&
-+-     safecmp(data->issuercert, needle->issuercert) &&
-+-     safecmp(data->clientcert, needle->clientcert) &&
-+-     safecmp(data->random_file, needle->random_file) &&
-+-     safecmp(data->egdsocket, needle->egdsocket) &&
-++     Curl_safecmp(data->CApath, needle->CApath) &&
-++     Curl_safecmp(data->CAfile, needle->CAfile) &&
-++     Curl_safecmp(data->issuercert, needle->issuercert) &&
-++     Curl_safecmp(data->clientcert, needle->clientcert) &&
-++     Curl_safecmp(data->random_file, needle->random_file) &&
-++     Curl_safecmp(data->egdsocket, needle->egdsocket) &&     
-+      Curl_safe_strcasecompare(data->cipher_list, needle->cipher_list) &&
-+      Curl_safe_strcasecompare(data->cipher_list13, needle->cipher_list13) &&
-+      Curl_safe_strcasecompare(data->pinned_key, needle->pinned_key))
-diff --git a/meta/recipes-support/curl/curl/CVE-2022-27775.patch b/meta/recipes-support/curl/curl/CVE-2022-27775.patch
-new file mode 100644
-index 0000000000..b3fe7b4494
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2022-27775.patch
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2022-0865.patch
 @@ -0,0 +1,39 @@
-+From 058f98dc3fe595f21dc26a5b9b1699e519ba5705 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Mon, 25 Apr 2022 11:48:00 +0200
-+Subject: [PATCH] conncache: include the zone id in the "bundle" hashkey
++From a1c933dabd0e1c54a412f3f84ae0aa58115c6067 Mon Sep 17 00:00:00 2001
++From: Even Rouault <even.rouault@spatialys.com>
++Date: Thu, 24 Feb 2022 22:26:02 +0100
++Subject: [PATCH] tif_jbig.c: fix crash when reading a file with multiple IFD
++ in memory-mapped mode and when bit reversal is needed (fixes #385)
 +
-+Make connections to two separate IPv6 zone ids create separate
-+connections.
++CVE: CVE-2022-0865
++Upstream-Status: Backport [https://sources.debian.org/src/tiff/4.1.0+git191117-2%7Edeb10u4/debian/patches/CVE-2022-0865.patch/]
++Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
++Comment: No change in any hunk
 +
-+Reported-by: Harry Sintonen
-+Bug: https://curl.se/docs/CVE-2022-27775.html
-+Closes #8747
 +---
-+ lib/conncache.c | 8 ++++++--
-+ 1 file changed, 6 insertions(+), 2 deletions(-)
++ libtiff/tif_jbig.c | 10 ++++++++++
++ 1 file changed, 10 insertions(+)
 +
-+CVE: CVE-2022-27775
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/058f98dc3fe595f21dc26a5b9b1699e519ba5705.patch]
-+Comment: Refreshed patch
-+Signed-off-by: Sana.Kazi <Sana.Kazi@kpit.com>
++diff --git a/libtiff/tif_jbig.c b/libtiff/tif_jbig.c
++index 74086338..8bfa4cef 100644
++--- a/libtiff/tif_jbig.c
+++++ b/libtiff/tif_jbig.c
++@@ -208,6 +208,16 @@ int TIFFInitJBIG(TIFF* tif, int scheme)
++ 	 */
++ 	tif->tif_flags |= TIFF_NOBITREV;
++ 	tif->tif_flags &= ~TIFF_MAPPED;
+++	/* We may have read from a previous IFD and thus set TIFF_BUFFERMMAP and
+++	 * cleared TIFF_MYBUFFER. It is necessary to restore them to their initial
+++	 * value to be consistent with the state of a non-memory mapped file.
+++	 */
+++	if (tif->tif_flags&TIFF_BUFFERMMAP) {
+++		tif->tif_rawdata = NULL;
+++		tif->tif_rawdatasize = 0;
+++		tif->tif_flags &= ~TIFF_BUFFERMMAP;
+++		tif->tif_flags |= TIFF_MYBUFFER;
+++	}
++ 
++ 	/* Setup the function pointers for encode, decode, and cleanup. */
++ 	tif->tif_setupdecode = JBIGSetupDecode;
++-- 
++GitLab
 +
-+diff --git a/lib/conncache.c b/lib/conncache.c
-+index ec669b971dc3..8948b53fa500 100644
-+--- a/lib/conncache.c
-++++ b/lib/conncache.c
-+@@ -156,8 +156,12 @@
-+     /* report back which name we used */
-+     *hostp = hostname;
-+ 
-+-  /* put the number first so that the hostname gets cut off if too long */
-+-  msnprintf(buf, len, "%ld%s", port, hostname);
-++  /* put the numbers first so that the hostname gets cut off if too long */
-++#ifdef ENABLE_IPV6
-++  msnprintf(buf, len, "%u/%ld/%s", conn->scope_id, port, hostname);
-++#else
-++  msnprintf(buf, len, "%ld/%s", port, hostname);
-++#endif
-+ }
-+ 
-+ /* Returns number of connections currently held in the connection cache.
-diff --git a/meta/recipes-support/curl/curl/CVE-2022-27776.patch b/meta/recipes-support/curl/curl/CVE-2022-27776.patch
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-0907.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-0907.patch
 new file mode 100644
-index 0000000000..1a13df2d95
+index 0000000000..da3ead5481
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2022-27776.patch
-@@ -0,0 +1,114 @@
-+From 6e659993952aa5f90f48864be84a1bbb047fc258 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Mon, 25 Apr 2022 13:05:40 +0200
-+Subject: [PATCH] http: avoid auth/cookie on redirects same host diff port
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2022-0907.patch
+@@ -0,0 +1,94 @@
++From 40b00cfb32256d377608b4d4cd30fac338d0a0bc Mon Sep 17 00:00:00 2001
++From: Augustus <wangdw.augustus@qq.com>
++Date: Mon, 7 Mar 2022 18:21:49 +0800
++Subject: [PATCH] add checks for return value of limitMalloc (#392)
 +
-+CVE-2022-27776
++CVE: CVE-2022-0907
++Upstream-Status: Backport [https://sources.debian.org/src/tiff/4.1.0+git191117-2%7Edeb10u4/debian/patches/CVE-2022-0907.patch/]
++Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
++Comment: No change in any hunk
 +
-+Reported-by: Harry Sintonen
-+Bug: https://curl.se/docs/CVE-2022-27776.html
-+Closes #8749
 +---
-+ lib/http.c    | 34 ++++++++++++++++++++++------------
-+ lib/urldata.h | 16 +++++++++-------
-+ 2 files changed, 31 insertions(+), 19 deletions(-)
++ tools/tiffcrop.c | 33 +++++++++++++++++++++------------
++ 1 file changed, 21 insertions(+), 12 deletions(-)
 +
-+CVE: CVE-2022-27776
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/6e659993952aa5f90f48864be84a1bbb047fc258.patch]
-+Comment: Refreshed patch
-+Signed-off-by: Sana.Kazi <Sana.Kazi@kpit.com>
-+
-+diff --git a/lib/http.c b/lib/http.c
-+index ce79fc4e31c8..f0476f3b9272 100644
-+--- a/lib/http.c
-++++ b/lib/http.c
-+@@ -731,6 +731,21 @@
-+   return CURLE_OK;
-+ }
-+ 
-++/*
-++ * allow_auth_to_host() tells if autentication, cookies or other "sensitive
-++ * data" can (still) be sent to this host.
-++ */
-++static bool allow_auth_to_host(struct Curl_easy *data)
-++{
-++  struct connectdata *conn = data->conn;
-++  return (!data->state.this_is_a_follow ||
-++          data->set.allow_auth_to_other_hosts ||
-++          (data->state.first_host &&
-++           strcasecompare(data->state.first_host, conn->host.name) &&
-++           (data->state.first_remote_port == conn->remote_port) &&
-++           (data->state.first_remote_protocol == conn->handler->protocol)));
-++}
-++
-+ /**
-+  * Curl_http_output_auth() setups the authentication headers for the
-+  * host/proxy and the correct authentication
-+@@ -799,15 +799,12 @@
-+        with it */
-+     authproxy->done = TRUE;
-+ 
-+-  /* To prevent the user+password to get sent to other than the original
-+-     host due to a location-follow, we do some weirdo checks here */
-+-  if(!data->state.this_is_a_follow ||
-+-     conn->bits.netrc ||
-+-     !data->state.first_host ||
-+-     data->set.allow_auth_to_other_hosts ||
-+-     strcasecompare(data->state.first_host, conn->host.name)) {
-++  /* To prevent the user+password to get sent to other than the original host
-++     due to a location-follow */
-++  if(allow_auth_to_host(data)
-++     || conn->bits.netrc
-++    )
-+     result = output_auth_headers(conn, authhost, request, path, FALSE);
-+-  }
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index f2e5474a..9b8acc7e 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -7337,7 +7337,11 @@ createImageSection(uint32_t sectsize, unsigned char **sect_buff_ptr)
++   if (!sect_buff)
++     {
++     sect_buff = (unsigned char *)_TIFFmalloc(sectsize);
++-    *sect_buff_ptr = sect_buff;
+++    if (!sect_buff)
+++    {
+++        TIFFError("createImageSection", "Unable to allocate/reallocate section buffer");
+++        return (-1);
+++    }
++     _TIFFmemset(sect_buff, 0, sectsize);
++     }
 +   else
-+     authhost->done = TRUE;
++@@ -7353,15 +7357,15 @@ createImageSection(uint32_t sectsize, unsigned char **sect_buff_ptr)
++       else
++         sect_buff = new_buff;
 + 
-+@@ -1879,10 +1891,7 @@
-+                    checkprefix("Cookie:", compare)) &&
-+                   /* be careful of sending this potentially sensitive header to
-+                      other hosts */
-+-                  (data->state.this_is_a_follow &&
-+-                   data->state.first_host &&
-+-                   !data->set.allow_auth_to_other_hosts &&
-+-                   !strcasecompare(data->state.first_host, conn->host.name)))
-++                  !allow_auth_to_host(data))			  
-+             ;
-+           else {
-+             result = Curl_add_bufferf(&req_buffer, "%s\r\n", compare);
-+@@ -2065,6 +2074,7 @@
-+       return CURLE_OUT_OF_MEMORY;
+++      if (!sect_buff)
+++      {
+++          TIFFError("createImageSection", "Unable to allocate/reallocate section buffer");
+++          return (-1);
+++      }
++       _TIFFmemset(sect_buff, 0, sectsize);
++       }
++     }
 + 
-+     data->state.first_remote_port = conn->remote_port;
-++    data->state.first_remote_protocol = conn->handler->protocol;    
-+   }
++-  if (!sect_buff)
++-    {
++-    TIFFError("createImageSection", "Unable to allocate/reallocate section buffer");
++-    return (-1);
++-    }
++   prev_sectsize = sectsize;
++   *sect_buff_ptr = sect_buff;
 + 
-+   if((conn->handler->protocol&(PROTO_FAMILY_HTTP|CURLPROTO_FTP)) &&
-+diff --git a/lib/urldata.h b/lib/urldata.h
-+index 1d89b8d7fa68..ef2174d9e727 100644
-+--- a/lib/urldata.h
-++++ b/lib/urldata.h
-+@@ -1342,13 +1342,15 @@
-+   char *ulbuf; /* allocated upload buffer or NULL */
-+   curl_off_t current_speed;  /* the ProgressShow() function sets this,
-+                                 bytes / second */
-+-  char *first_host; /* host name of the first (not followed) request.
-+-                       if set, this should be the host name that we will
-+-                       sent authorization to, no else. Used to make Location:
-+-                       following not keep sending user+password... This is
-+-                       strdup() data.
-+-                    */
-+-  int first_remote_port; /* remote port of the first (not followed) request */
++@@ -7628,7 +7632,11 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
++   if (!crop_buff)
++     {
++     crop_buff = (unsigned char *)_TIFFmalloc(cropsize);
++-    *crop_buff_ptr = crop_buff;
+++    if (!crop_buff)
+++    {
+++        TIFFError("createCroppedImage", "Unable to allocate/reallocate crop buffer");
+++        return (-1);
+++    }
++     _TIFFmemset(crop_buff, 0, cropsize);
++     prev_cropsize = cropsize;
++     }
++@@ -7644,15 +7652,15 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
++         }
++       else
++         crop_buff = new_buff;
+++      if (!crop_buff)
+++      {
+++          TIFFError("createCroppedImage", "Unable to allocate/reallocate crop buffer");
+++          return (-1);
+++      }
++       _TIFFmemset(crop_buff, 0, cropsize);
++       }
++     }
++ 
++-  if (!crop_buff)
++-    {
++-    TIFFError("createCroppedImage", "Unable to allocate/reallocate crop buffer");
++-    return (-1);
++-    }
++   *crop_buff_ptr = crop_buff;
++ 
++   if (crop->crop_mode & CROP_INVERT)
++@@ -9211,3 +9219,4 @@ invertImage(uint16_t photometric, uint16_t spp, uint16_t bps, uint32_t width, ui
++  * fill-column: 78
++  * End:
++  */
 ++
-++  /* host name, port number and protocol of the first (not followed) request.
-++     if set, this should be the host name that we will sent authorization to,
-++     no else. Used to make Location: following not keep sending user+password.
-++     This is strdup()ed data. */
-++  char *first_host;
-++  int first_remote_port;
-++  unsigned int first_remote_protocol;
-++
-+   struct curl_ssl_session *session; /* array of 'max_ssl_sessions' size */
-+   long sessionage;                  /* number of the most recent session */
-+   unsigned int tempcount; /* number of entries in use in tempwrite, 0 - 3 */
-diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
-index bc1b993e9e..e850376ff8 100644
---- a/meta/recipes-support/curl/curl_7.69.1.bb
-+++ b/meta/recipes-support/curl/curl_7.69.1.bb
-@@ -25,6 +25,9 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://CVE-2021-22946-pre1.patch \
-            file://CVE-2021-22946.patch \
-            file://CVE-2021-22947.patch \
-+           file://CVE-2022-27776.patch \
-+           file://CVE-2022-27775.patch \
-+           file://CVE-2022-22576.patch \
- "
- 
- SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-0908.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-0908.patch
+new file mode 100644
+index 0000000000..e65af6c600
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2022-0908.patch
+@@ -0,0 +1,34 @@
++From a95b799f65064e4ba2e2dfc206808f86faf93e85 Mon Sep 17 00:00:00 2001
++From: Even Rouault <even.rouault@spatialys.com>
++Date: Thu, 17 Feb 2022 15:28:43 +0100
++Subject: [PATCH] TIFFFetchNormalTag(): avoid calling memcpy() with a null
++ source pointer and size of zero (fixes #383)
++
++CVE: CVE-2022-0908
++Upstream-Status: Backport [https://sources.debian.org/src/tiff/4.1.0+git191117-2%7Edeb10u4/debian/patches/CVE-2022-0908.patch/]
++Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
++Comment: No change in any hunk
++
++---
++ libtiff/tif_dirread.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
++index 50ebf8ac..2ec44a4f 100644
++--- a/libtiff/tif_dirread.c
+++++ b/libtiff/tif_dirread.c
++@@ -5021,7 +5021,10 @@ TIFFFetchNormalTag(TIFF* tif, TIFFDirEntry* dp, int recover)
++ 								_TIFFfree(data);
++ 							return(0);
++ 						}
++-						_TIFFmemcpy(o,data,(uint32)dp->tdir_count);
+++						if (dp->tdir_count > 0 )
+++						{
+++							_TIFFmemcpy(o,data,(uint32)dp->tdir_count);
+++						}
++ 						o[(uint32)dp->tdir_count]=0;
++ 						if (data!=0)
++ 							_TIFFfree(data);
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-0909.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-0909.patch
+new file mode 100644
+index 0000000000..d487f1bd95
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2022-0909.patch
+@@ -0,0 +1,37 @@
++From 32ea0722ee68f503b7a3f9b2d557acb293fc8cde Mon Sep 17 00:00:00 2001
++From: 4ugustus <wangdw.augustus@qq.com>
++Date: Tue, 8 Mar 2022 16:22:04 +0000
++Subject: [PATCH] fix the FPE in tiffcrop (#393)
++
++CVE: CVE-2022-0909
++Upstream-Status: Backport [https://sources.debian.org/src/tiff/4.1.0+git191117-2%7Edeb10u4/debian/patches/CVE-2022-0909.patch/]
++Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
++Comment: No change in any hunk
++
++---
++ libtiff/tif_dir.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/libtiff/tif_dir.c b/libtiff/tif_dir.c
++index 57055ca9..59b346ca 100644
++--- a/libtiff/tif_dir.c
+++++ b/libtiff/tif_dir.c
++@@ -334,13 +334,13 @@ _TIFFVSetField(TIFF* tif, uint32_t tag, va_list ap)
++ 		break;
++ 	case TIFFTAG_XRESOLUTION:
++         dblval = va_arg(ap, double);
++-        if( dblval < 0 )
+++        if( dblval != dblval || dblval < 0 )
++             goto badvaluedouble;
++ 		td->td_xresolution = _TIFFClampDoubleToFloat( dblval );
++ 		break;
++ 	case TIFFTAG_YRESOLUTION:
++         dblval = va_arg(ap, double);
++-        if( dblval < 0 )
+++        if( dblval != dblval || dblval < 0 )
++             goto badvaluedouble;
++ 		td->td_yresolution = _TIFFClampDoubleToFloat( dblval );
++ 		break;
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-0924.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-0924.patch
+new file mode 100644
+index 0000000000..ddb035c972
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2022-0924.patch
+@@ -0,0 +1,58 @@
++From 88d79a45a31c74cba98c697892fed5f7db8b963a Mon Sep 17 00:00:00 2001
++From: 4ugustus <wangdw.augustus@qq.com>
++Date: Thu, 10 Mar 2022 08:48:00 +0000
++Subject: [PATCH] fix heap buffer overflow in tiffcp (#278)
++
++CVE: CVE-2022-0924
++Upstream-Status: Backport [https://sources.debian.org/src/tiff/4.1.0+git191117-2%7Edeb10u4/debian/patches/CVE-2022-0924.patch/]
++Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
++Comment: No change in any hunk
++
++---
++ tools/tiffcp.c | 17 ++++++++++++++++-
++ 1 file changed, 16 insertions(+), 1 deletion(-)
++
++diff --git a/tools/tiffcp.c b/tools/tiffcp.c
++index 224583e0..aa32b118 100644
++--- a/tools/tiffcp.c
+++++ b/tools/tiffcp.c
++@@ -1524,12 +1524,27 @@ DECLAREwriteFunc(writeBufferToSeparateSt
++ 	tdata_t obuf;
++ 	tstrip_t strip = 0;
++ 	tsample_t s;
+++	uint16 bps = 0, bytes_per_sample;
++ 
++ 	obuf = _TIFFmalloc(stripsize);
++ 	if (obuf == NULL)
++ 		return (0);
++ 	_TIFFmemset(obuf, 0, stripsize);
++ 	(void) TIFFGetFieldDefaulted(out, TIFFTAG_ROWSPERSTRIP, &rowsperstrip);
+++	(void) TIFFGetField(out, TIFFTAG_BITSPERSAMPLE, &bps);
+++	if( bps == 0 )
+++        {
+++            TIFFError(TIFFFileName(out), "Error, cannot read BitsPerSample");
+++            _TIFFfree(obuf);
+++            return 0;
+++        }
+++        if( (bps % 8) != 0 )
+++        {
+++            TIFFError(TIFFFileName(out), "Error, cannot handle BitsPerSample that is not a multiple of 8");
+++            _TIFFfree(obuf);
+++            return 0;
+++        }
+++	bytes_per_sample = bps/8;
++ 	for (s = 0; s < spp; s++) {
++ 		uint32 row;
++ 		for (row = 0; row < imagelength; row += rowsperstrip) {
++@@ -1539,7 +1539,7 @@ DECLAREwriteFunc(writeBufferToSeparateSt
++ 
++ 			cpContigBufToSeparateBuf(
++ 			    obuf, (uint8*) buf + row*rowsize + s,
++-			    nrows, imagewidth, 0, 0, spp, 1);
+++			    nrows, imagewidth, 0, 0, spp, bytes_per_sample);
++ 			if (TIFFWriteEncodedStrip(out, strip++, obuf, stripsize) < 0) {
++ 				TIFFError(TIFFFileName(out),
++ 				    "Error, can't write strip %u",
++-- 
++GitLab
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+index e3ffb12f9e..75bc20de78 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+@@ -18,7 +18,12 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch \
+            file://561599c99f987dc32ae110370cfdd7df7975586b.patch \
+            file://eecb0712f4c3a5b449f70c57988260a667ddbdef.patch \
++           file://CVE-2022-0865.patch \
++           file://CVE-2022-0908.patch \
++           file://CVE-2022-0907.patch \
++           file://CVE-2022-0909.patch \
+            file://CVE-2022-0891.patch \
++           file://CVE-2022-0924.patch \
+           "
+ SRC_URI[md5sum] = "2165e7aba557463acc0664e71a3ed424"
+ SRC_URI[sha256sum] = "5d29f32517dadb6dbcd1255ea5bbc93a2b54b94fbf83653b4d65c7d6775b8634"
 -- 
 2.25.1
 
