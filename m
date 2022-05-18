@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5A74C43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5C79C433FE
 	for <webhook@archiver.kernel.org>; Wed, 18 May 2022 10:58:55 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
- [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web08.3405.1652871533876738192
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web09.3574.1652871531400334727
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 May 2022 03:58:54 -0700
+ Wed, 18 May 2022 03:58:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Nk30SJ0h;
- spf=pass (domain: gmail.com, ip: 209.85.218.54,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VLl+rrne;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id z2so3056964ejj.3
+Received: by mail-ej1-f46.google.com with SMTP id m20so3005604ejj.10
         for <openembedded-core@lists.openembedded.org>;
- Wed, 18 May 2022 03:58:53 -0700 (PDT)
+ Wed, 18 May 2022 03:58:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ePHila+e450ZlzuXH6R9vYvX3ll89ejEvebnLt7ZGR0=;
-        b=Nk30SJ0hcg2lR4CtsbQty/bzkOXTgyl0XiCvfLwKOOvl6psNWe9b0HRJ68KbyN49Ch
-         9joTVU/smvaFCMnNqhq6BnDqY2QT8b3zS0aN2GQsk7RXO1Z4ClXppRqqrJ7XfiELINHf
-         f+2XBRdufmBNKwe25HawjnizZPUZ3NhvSoHtw9QiysL/d0WShGWzjZp/v8UUfj06klmO
-         Vja7dvmhIVT2ZpawrJbiqnyROYgLIeTbmLSaqR/+ZpTYUE5kt3ScO0JrqVDmt6Aiz0gb
-         IrPNtF/sGWe8pCLvyIzUD9r+6w5+5qNehm6UzYNolHdrGQLoiFzOs1pT5teJMrAc32jB
-         VBRQ==
+        bh=9OH4Y24qtv8AZjVzixNzSiwCoJkKPpzastnvATKuTbQ=;
+        b=VLl+rrnenm2mUNgrOcSYFtcMjWu3brGocJeqDtB4Zl4sg1l/dJobDbtpdBqZIa30Ci
+         aVi8t5ZjeJZX0TaGaOYTV35s3rUePgxw1dvNKNJqjNt8s5Uq70rSgKreO1a2smlIgty+
+         1VOUnh2604SAvw7FJB1GQq+U3W2voF26EEWn8huElztQ3Op3ylEVdbh2coFXHmO7MrOw
+         tlObr9g8+BMwXTAKDhclqqQNYMU+gq+C4GhJ99Ddn3m31SKmnXLsOBPpfWP/Q4exj+Bp
+         ZCnWWvlK/eMaCT8xTQPcjIf6SxMb3+H+Iq8qfPBPIqFOqLGhni5lYhCe02Cn1QJJzpBu
+         89ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ePHila+e450ZlzuXH6R9vYvX3ll89ejEvebnLt7ZGR0=;
-        b=X/VWYcnwmZT4u8DHOh5+gzcMqNqRpKpIOlNUu/HUfpldSUp/e5kHTGn+TboSpkbV5Q
-         hzgsYUIYgDN7utAbqbiwT1KYhknH/+OLX9EE34PQQPCTVwUU8BDsdHz3c4EfSKmkcTdS
-         urrrfBkA4pFx1TzevME3/276zjDV04KRGulOWAJ775sjqVW8EI3Il6F3yYOA+Gmsq6oP
-         t8LNw//NOWGeGsGtaIXowcL3dYknxltvGJ3K8BDwQjR5Y3rlOvhPV/hrNVMLluBx8aML
-         zeuIDI3/j3QkmH/n7eYMJlObRvVPZrx0maYE3wSvnlR5D7bMCx/XePE65WJXM+SaBFMu
-         Bo3Q==
-X-Gm-Message-State: AOAM530zdy+e8Zf0RYQhbjp8ISsO0Km9e11tf12CUym638Jpwy8piOgO
-	wfDVCpHtBn60zytVegjaJyoby/Z6VWk=
+        bh=9OH4Y24qtv8AZjVzixNzSiwCoJkKPpzastnvATKuTbQ=;
+        b=WJwM8E4vBiZNj2ohJTZXtiqEauJO8BUvcxhss9Bcym2S7qm/0tdOk8nKDP5SevAOkE
+         bUJGczUX6AIfOIM8VsPoiT82mz1iXEXv+SO/jE9hh7vEHPT0e8FhNCrE0e0tF5c11Y1H
+         S/YPeQE5U09dUzEYTg6c/Dgg0mq9wHovsO67yvW3RlGoLLk0ZQl00JcCqRURiEI6WwPG
+         mRMcsNzbNGr7Kg3qnlKUIQtUY8pH/A7/MDcZEkwi8vgOdVT6yTk1/ta6lDMXRCsaAvRQ
+         5eC9qTvCyJxFNh5GFZFrsB2bFekfOU2sDLYF/Ut/wungMqSm+UjMwh+2UPKnysqHa3Ud
+         AWgQ==
+X-Gm-Message-State: AOAM530+gLbQoVAgL8SYdX/KB1XNIzhfF0BRGGoPkoWzBZL5SzpELGdz
+	MhbrAOmFlC/866Uy3vbf3+4dtppgWxE=
 X-Google-Smtp-Source: 
- ABdhPJy7T1APm1YxpSLysyYweJNyFIWwiVl9YHZlrRgqwMkemCGyH+8ESwQ2R4ZkbkPd3hnFUn1iLQ==
-X-Received: by 2002:a17:907:9720:b0:6f4:31d4:925f with SMTP id
- jg32-20020a170907972000b006f431d4925fmr23934238ejc.658.1652871532404;
-        Wed, 18 May 2022 03:58:52 -0700 (PDT)
+ ABdhPJwbSCfSbAjD59qcXO8D+GSA1mPA8vPkehsV6qV2JzZQ0GSQxZGE1qxR4O/siwX4EWWW0tME8A==
+X-Received: by 2002:a17:907:d91:b0:6f4:c817:d492 with SMTP id
+ go17-20020a1709070d9100b006f4c817d492mr24527079ejc.407.1652871530000;
+        Wed, 18 May 2022 03:58:50 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- qs24-20020a170906459800b006f3ef214da9sm861524ejc.15.2022.05.18.03.58.51
+ qs24-20020a170906459800b006f3ef214da9sm861524ejc.15.2022.05.18.03.58.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 May 2022 03:58:51 -0700 (PDT)
+        Wed, 18 May 2022 03:58:49 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 05/49] iptables: upgrade 1.8.7 -> 1.8.8
-Date: Wed, 18 May 2022 12:57:59 +0200
-Message-Id: <20220518105843.3299331-5-alex@linutronix.de>
+Subject: [PATCH 02/49] adwaita-icon-theme: upgrade 41.0 -> 42.0
+Date: Wed, 18 May 2022 12:57:56 +0200
+Message-Id: <20220518105843.3299331-2-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220518105843.3299331-1-alex@linutronix.de>
 References: <20220518105843.3299331-1-alex@linutronix.de>
@@ -68,140 +68,153 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 May 2022 10:58:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165802
+ https://lists.openembedded.org/g/openembedded-core/message/165799
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...ed.h-add-missing-sys.types.h-include.patch | 30 +++++++++++++++++++
- .../iptables/iptables/format-security.patch   | 30 +++++++++++++++++++
- .../{iptables_1.8.7.bb => iptables_1.8.8.bb}  | 11 +++++--
- 3 files changed, 69 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/iptables/iptables/0001-iptables-xshared.h-add-missing-sys.types.h-include.patch
- create mode 100644 meta/recipes-extended/iptables/iptables/format-security.patch
- rename meta/recipes-extended/iptables/{iptables_1.8.7.bb => iptables_1.8.8.bb} (90%)
+ .../0001-Don-t-use-AC_CANONICAL_HOST.patch    |  6 +-
+ ...-installation-commands-as-shell-jobs.patch | 84 -------------------
+ ...eme_41.0.bb => adwaita-icon-theme_42.0.bb} |  7 +-
+ 3 files changed, 5 insertions(+), 92 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
+ rename meta/recipes-gnome/gnome/{adwaita-icon-theme_41.0.bb => adwaita-icon-theme_42.0.bb} (87%)
 
-diff --git a/meta/recipes-extended/iptables/iptables/0001-iptables-xshared.h-add-missing-sys.types.h-include.patch b/meta/recipes-extended/iptables/iptables/0001-iptables-xshared.h-add-missing-sys.types.h-include.patch
-new file mode 100644
-index 0000000000..17dd032434
---- /dev/null
-+++ b/meta/recipes-extended/iptables/iptables/0001-iptables-xshared.h-add-missing-sys.types.h-include.patch
-@@ -0,0 +1,30 @@
-+From 796b8f6fc1e584c27c42ba302f623fd1c5aa0667 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Tue, 17 May 2022 10:56:59 +0200
-+Subject: [PATCH] iptables/xshared.h: add missing sys.types.h include
-+
-+This resolves the build error under musl:
-+
-+| ../../../../../../../workspace/sources/iptables/iptables/xshared.h:83:56: error: unknown type name 'u_int16_t'; did you mean 'uint16_t'?
-+|    83 | set_option(unsigned int *options, unsigned int option, u_int16_t *invflg,
-+|       |                                                        ^~~~~~~~~
-+|       |                                                        uint16_t
-+
-+Upstream-Status: Submitted [via email to phil@nwl.cc]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ iptables/xshared.h | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/iptables/xshared.h b/iptables/xshared.h
-+index 14568bb..73b1017 100644
-+--- a/iptables/xshared.h
-++++ b/iptables/xshared.h
-+@@ -6,6 +6,7 @@
-+ #include <stdint.h>
-+ #include <netinet/in.h>
-+ #include <net/if.h>
-++#include <sys/types.h>
-+ #include <linux/netfilter_arp/arp_tables.h>
-+ #include <linux/netfilter_ipv4/ip_tables.h>
-+ #include <linux/netfilter_ipv6/ip6_tables.h>
-diff --git a/meta/recipes-extended/iptables/iptables/format-security.patch b/meta/recipes-extended/iptables/iptables/format-security.patch
-new file mode 100644
-index 0000000000..be1e077b49
---- /dev/null
-+++ b/meta/recipes-extended/iptables/iptables/format-security.patch
-@@ -0,0 +1,30 @@
-+From b72eb12ea5a61df0655ad99d5048994e916be83a Mon Sep 17 00:00:00 2001
-+From: Phil Sutter <phil@nwl.cc>
-+Date: Fri, 13 May 2022 16:51:58 +0200
-+Subject: xshared: Fix build for -Werror=format-security
-+
-+Gcc complains about the omitted format string.
-+
-+Signed-off-by: Phil Sutter <phil@nwl.cc>
-+Upstream-Status: Backport
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ iptables/xshared.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/iptables/xshared.c b/iptables/xshared.c
-+index fae5ddd5..a8512d38 100644
-+--- a/iptables/xshared.c
-++++ b/iptables/xshared.c
-+@@ -1307,7 +1307,7 @@ static void check_empty_interface(struct xtables_args *args, const char *arg)
-+ 		return;
-+ 
-+ 	if (args->family != NFPROTO_ARP)
-+-		xtables_error(PARAMETER_PROBLEM, msg);
-++		xtables_error(PARAMETER_PROBLEM, "%s", msg);
-+ 
-+ 	fprintf(stderr, "%s", msg);
-+ }
-+-- 
-+cgit v1.2.3
-+
-diff --git a/meta/recipes-extended/iptables/iptables_1.8.7.bb b/meta/recipes-extended/iptables/iptables_1.8.8.bb
-similarity index 90%
-rename from meta/recipes-extended/iptables/iptables_1.8.7.bb
-rename to meta/recipes-extended/iptables/iptables_1.8.8.bb
-index 3b41882841..54d027220b 100644
---- a/meta/recipes-extended/iptables/iptables_1.8.7.bb
-+++ b/meta/recipes-extended/iptables/iptables_1.8.8.bb
-@@ -12,12 +12,14 @@ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
-            file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
-            file://0001-Makefile.am-do-not-install-etc-ethertypes.patch \
-            file://0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.patch \
-+           file://format-security.patch \
-            file://iptables.service \
-            file://iptables.rules \
-            file://ip6tables.service \
-            file://ip6tables.rules \
-+           file://0001-iptables-xshared.h-add-missing-sys.types.h-include.patch \
-            "
--SRC_URI[sha256sum] = "c109c96bb04998cd44156622d36f8e04b140701ec60531a10668cfdff5e8d8f0"
-+SRC_URI[sha256sum] = "71c75889dc710676631553eb1511da0177bbaaf1b551265b912d236c3f51859f"
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
+index 5afba3c644..56fd3daead 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
+@@ -1,4 +1,4 @@
+-From 63d97fefdbc90f5c68f67bdc30844776d9a1b720 Mon Sep 17 00:00:00 2001
++From 985eda68d3303112791cf6858f6fef1a99288e8a Mon Sep 17 00:00:00 2001
+ From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Date: Tue, 30 May 2017 14:55:49 +0300
+ Subject: [PATCH] Don't use AC_CANONICAL_HOST
+@@ -14,12 +14,12 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+  1 file changed, 1 deletion(-)
  
- SYSTEMD_SERVICE:${PN} = "\
-     iptables.service \
-@@ -28,6 +30,8 @@ inherit autotools pkgconfig systemd
+ diff --git a/configure.ac b/configure.ac
+-index f2659a5..1e8b016 100644
++index 040975e..5f7b53a 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -3,7 +3,6 @@ AC_PREREQ(2.53)
+  
+- AC_INIT([adwaita-icon-theme], [41.0],
++ AC_INIT([adwaita-icon-theme], [42.0],
+          [http://bugzilla.gnome.org/enter_bug.cgi?product=adwaita-icon-theme])
+ -AC_CANONICAL_HOST
+  AC_CONFIG_MACRO_DIR([m4])
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
+deleted file mode 100644
+index a1d39cf558..0000000000
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
++++ /dev/null
+@@ -1,84 +0,0 @@
+-From 79da031e9811f3eef34b14cce419be93fea34319 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Tue, 13 Jun 2017 18:10:06 +0300
+-Subject: [PATCH] Run installation commands as shell jobs
+-
+-This greatly speeds up installation time on multi-core systems.
+-
+-Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/adwaita-icon-theme/-/merge_requests/39]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+----
+- src/fullcolor/Makefile.am |  5 +++--
+- src/spinner/Makefile.am   |  7 ++++---
+- src/symbolic/Makefile.am  | 11 ++++++-----
+- 3 files changed, 13 insertions(+), 10 deletions(-)
+-
+-diff --git a/src/fullcolor/Makefile.am b/src/fullcolor/Makefile.am
+-index d73529b..b7d0808 100644
+---- a/src/fullcolor/Makefile.am
+-+++ b/src/fullcolor/Makefile.am
+-@@ -9,9 +9,10 @@ install-data-local:
+- 		for file in `cd $(top_srcdir)/$(SVGOUTDIR)/$$size && find . -name "*.png"`; do \
+- 			context="`dirname $$file`"; \
+- 			$(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
+--			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
+-+			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
+- 		done; \
+--	done;
+-+	done; \
+-+	wait
+- 
+- ## FIXME we should add a way to remove links generated by icon mapping
+- uninstall-local:
+-diff --git a/src/spinner/Makefile.am b/src/spinner/Makefile.am
+-index c14caf6..322dc0d 100644
+---- a/src/spinner/Makefile.am
+-+++ b/src/spinner/Makefile.am
+-@@ -24,13 +24,14 @@ install-data-local:
+- 	      for file in `cd $(top_srcdir)/$(SVGOUTDIR)/$$size; find . -name "*.png"`; do \
+- 		      context="`dirname $$file`"; \
+- 		      $(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
+--		      $(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
+-+		      $(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
+- 	      done; \
+- 	for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32; find . -name "*.svg"`; do \
+- 		context="`dirname $$file`"; \
+- 		$(mkdir_p) $(DESTDIR)$(themedir)/scalable-up-to-32/$$context; \
+--		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32/$$file $(DESTDIR)$(themedir)/scalable-up-to-32/$$file; \
+--	done
+-+		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32/$$file $(DESTDIR)$(themedir)/scalable-up-to-32/$$file & \
+-+	done; \
+-+	wait
+- 
+- uninstall-local:
+- 	      for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32; find . -name "*.svg"`; do \
+-diff --git a/src/symbolic/Makefile.am b/src/symbolic/Makefile.am
+-index 957c0ee..e1f8818 100644
+---- a/src/symbolic/Makefile.am
+-+++ b/src/symbolic/Makefile.am
+-@@ -34,18 +34,19 @@ install-data-local:
+- 		for file in `cd $(top_srcdir)/$(SVGOUTDIR)/$$size; find . -name "*.png"`; do \
+- 			context="`dirname $$file`"; \
+- 			$(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
+--			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
+-+			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
+- 		done; \
+--	done
+-+	done; \
+- 	for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable; find . -name "*.svg"`; do \
+- 		context="`dirname $$file`"; \
+- 		$(mkdir_p) $(DESTDIR)$(themedir)/scalable/$$context; \
+--		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $(DESTDIR)$(themedir)/scalable/$$file; \
+-+		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $(DESTDIR)$(themedir)/scalable/$$file & \
+- 		for size in $(symbolic_encode_sizes); do \
+- 			$(mkdir_p) $(DESTDIR)$(themedir)/$$size/$$context; \
+--			$(GTK_ENCODE_SYMBOLIC_SVG) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $$size -o $(DESTDIR)$(themedir)/$$size/$$context; \
+-+			$(GTK_ENCODE_SYMBOLIC_SVG) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $$size -o $(DESTDIR)$(themedir)/$$size/$$context & \
+- 		done \
+--	done
+-+	done; \
+-+	wait
+- 
+- uninstall-local:
+- 	for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable; find . -name "*.svg"`; do \
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_41.0.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_42.0.bb
+similarity index 87%
+rename from meta/recipes-gnome/gnome/adwaita-icon-theme_41.0.bb
+rename to meta/recipes-gnome/gnome/adwaita-icon-theme_42.0.bb
+index 46f9f4772c..c4f3b1c999 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme_41.0.bb
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_42.0.bb
+@@ -12,12 +12,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c84cac88e46fc07647ea07e6c24eeb7c \
  
- EXTRA_OECONF = "--with-kernel=${STAGING_INCDIR}"
+ inherit allarch autotools pkgconfig gettext gtk-icon-cache gnomebase
  
-+CFLAGS:append:libc-musl = " -D__UAPI_DEF_ETHHDR=0"
-+
- PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+-SRC_URI += " \
+-           file://0001-Don-t-use-AC_CANONICAL_HOST.patch \
+-           file://0001-Run-installation-commands-as-shell-jobs.patch \
+-           "
++SRC_URI += " file://0001-Don-t-use-AC_CANONICAL_HOST.patch"
  
-@@ -41,6 +45,9 @@ do_configure:prepend() {
-     # Remove some libtool m4 files
-     # Keep ax_check_linker_flags.m4 which belongs to autoconf-archive.
-     rm -f libtool.m4 lt~obsolete.m4 ltoptions.m4 ltsugar.m4 ltversion.m4
-+
-+    # Copy a header to fix out of tree builds
-+    cp -f ${S}/libiptc/linux_list.h ${S}/include/libiptc/
- }
+-SRC_URI[archive.sha256sum] = "ef5339d8c35fcad5d10481b70480803f0fa20b3d3cbc339238fcaceeaee01eba"
++SRC_URI[archive.sha256sum] = "5e85b5adc8dee666900fcaf271ba717f7dcb9d0a03d96dae08f9cbd27e18b1e0"
  
- IPTABLES_RULES_DIR ?= "${sysconfdir}/${BPN}"
-@@ -108,7 +115,7 @@ RDEPENDS:${PN}-apply = "${PN} bash"
- 
- # Include the symlinks as well in respective packages
- FILES:${PN}-module-xt-conntrack += "${libdir}/xtables/libxt_state.so"
--FILES:${PN}-module-xt-ct += "${libdir}/xtables/libxt_NOTRACK.so"
-+FILES:${PN}-module-xt-ct += "${libdir}/xtables/libxt_NOTRACK.so ${libdir}/xtables/libxt_REDIRECT.so"
- 
- ALLOW_EMPTY:${PN}-modules = "1"
+ DEPENDS += "librsvg-native"
  
 -- 
 2.30.2
