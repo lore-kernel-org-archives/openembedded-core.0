@@ -1,84 +1,78 @@
-Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Steve Sakoman" <steve@sakoman.com>
-Subject: [OE-core][kirkstone 16/31] webkitgtk: upgrade 2.36.0 -> 2.36.1
-Date: Tue, 17 May 2022 08:24:02 -1000
-Message-Id: <cf336712afc3899ef45c7f2ef5f6b081223a1269.1652811454.git.steve@sakoman.com>
-In-Reply-To: <cover.1652811454.git.steve@sakoman.com>
-References: <cover.1652811454.git.steve@sakoman.com>
+From: "Zoltan Boszormenyi" <zboszor@pr.hu>
+Subject: [PATCH] python3-setuptools: Fix building python modules using cython
+Date: Wed, 18 May 2022 09:15:25 +0200
+Message-Id: <20220518071525.4169607-1-zboszor@pr.hu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
 To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Zoltán Böszörményi <zboszor@gmail.com>
 
-This is the first bug fix release in the stable 2.36 series.
+The function _is_gcc() was not taking a machine triplet into
+account. Also handle clang and clang++ because they also
+want the rpath option via -Wl,-R instead of just -R.
 
-What’s new in the WebKitGTK 2.36.1 release?
-
-- Fix the build with accessibility disabled.
-- Fix several crashes and rendering issues.
-- Translation updates: Croatian.
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4ed608d33fe5f38bc172e0cc6d938ffab184a47a)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 ---
- .../webkitgtk/add_missing_include.patch       | 19 -------------------
- ...ebkitgtk_2.36.0.bb => webkitgtk_2.36.1.bb} |  3 +--
- 2 files changed, 1 insertion(+), 21 deletions(-)
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/add_missing_include.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.36.0.bb => webkitgtk_2.36.1.bb} (98%)
+ ...cross-compiler-prefixes-and-handle-c.patch | 31 +++++++++++++++++++
+ .../python/python3-setuptools_59.5.0.bb       |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-setuptools/0001-Fix-_is_gcc-for-cross-compiler-prefixes-and-handle-c.patch
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/add_missing_include.patch b/meta/recipes-sato/webkit/webkitgtk/add_missing_include.patch
-deleted file mode 100644
-index 8f59db3130..0000000000
---- a/meta/recipes-sato/webkit/webkitgtk/add_missing_include.patch
-+++ /dev/null
-@@ -1,19 +0,0 @@
--Include locale.h for LC_MESSAGE definition
--
--This fixes build error
--Source/WebCore/accessibility/atspi/AccessibilityRootAtspi.cpp:115:51: error: use of undeclared identifier 'LC_MESSAGES'
--            return g_variant_new_string(setlocale(LC_MESSAGES, nullptr));
--                                                  ^
--Upstream-Status: Submitted [https://bugs.webkit.org/show_bug.cgi?id=239030]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
----- a/Source/WebCore/accessibility/atspi/AccessibilityRootAtspi.cpp
--+++ b/Source/WebCore/accessibility/atspi/AccessibilityRootAtspi.cpp
--@@ -30,6 +30,7 @@
-- #include "FrameView.h"
-- #include "Page.h"
-- #include <glib/gi18n-lib.h>
--+#include <locale.h>
-- 
-- namespace WebCore {
-- 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.0.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb
-similarity index 98%
-rename from meta/recipes-sato/webkit/webkitgtk_2.36.0.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.36.1.bb
-index db8a565511..65757c36a7 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.36.0.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.36.1.bb
-@@ -15,10 +15,9 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-Fix-build-without-opengl-or-es.patch \
-            file://reproducibility.patch \
-            file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch \
--           file://add_missing_include.patch \
-            "
+diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-Fix-_is_gcc-for-cross-compiler-prefixes-and-handle-c.patch b/meta/recipes-devtools/python/python3-setuptools/0001-Fix-_is_gcc-for-cross-compiler-prefixes-and-handle-c.patch
+new file mode 100644
+index 0000000000..7f91d8e6cd
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-setuptools/0001-Fix-_is_gcc-for-cross-compiler-prefixes-and-handle-c.patch
+@@ -0,0 +1,31 @@
++From 695800847eb519209c2b45e26fd65d3117a4efcd Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?=
++ <zboszor@gmail.com>
++Date: Wed, 18 May 2022 06:51:22 +0200
++Subject: [PATCH] Fix _is_gcc() for cross-compiler prefixes and handle
++ clang and clang++
++
++Upstream-Status: Submitted [https://github.com/pypa/setuptools/pull/3326]
++
++Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
++---
++ setuptools/_distutils/unixccompiler.py | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/setuptools/_distutils/unixccompiler.py b/setuptools/_distutils/unixccompiler.py
++index 715408f5..3a4d642e 100644
++--- a/setuptools/_distutils/unixccompiler.py
+++++ b/setuptools/_distutils/unixccompiler.py
++@@ -260,7 +260,8 @@ class UnixCCompiler(CCompiler):
++         return "-L" + dir
++ 
++     def _is_gcc(self, compiler_name):
++-        return "gcc" in compiler_name or "g++" in compiler_name
+++        cnpat = re.compile('.*(gcc|g\+\+|clang|clang\+\+)$')
+++        return not (cnpat.match(compiler_name) is None)
++ 
++     def runtime_library_dir_option(self, dir):
++         # XXX Hackish, at the very least.  See Python bug #445902:
++-- 
++2.36.1
++
+diff --git a/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb b/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
+index f2810e18d3..20ecf5223d 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_59.5.0.bb
+@@ -11,6 +11,7 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
+ SRC_URI += "\
+     file://0001-change-shebang-to-python3.patch \
+     file://0001-_distutils-sysconfig-append-STAGING_LIBDIR-python-sy.patch \
++    file://0001-Fix-_is_gcc-for-cross-compiler-prefixes-and-handle-c.patch \
+ "
  
--SRC_URI[sha256sum] = "b877cca1f105235f5dd57c7ac2b2c2be3c6b691ff444f93925c7254cf156c64d"
-+SRC_URI[sha256sum] = "0149ea5fb1d20f2a9981677d45c952a047330001ea24a8dc29035239f12c0c8f"
- 
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
- 
+ SRC_URI[sha256sum] = "d144f85102f999444d06f9c0e8c737fd0194f10f2f7e5fdb77573f6e2fa4fad0"
 -- 
-2.25.1
+2.36.1
 
