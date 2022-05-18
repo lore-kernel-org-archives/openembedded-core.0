@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F664C43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 512F6C4167D
 	for <webhook@archiver.kernel.org>; Wed, 18 May 2022 10:59:26 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
- [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web08.3405.1652871533876738192
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web10.3546.1652871565007118720
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 May 2022 03:59:20 -0700
+ Wed, 18 May 2022 03:59:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=EgBAdvU+;
- spf=pass (domain: gmail.com, ip: 209.85.218.54,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ngvm5Zfa;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id z2so3056964ejj.3
+Received: by mail-ej1-f47.google.com with SMTP id i19so2995527eja.11
         for <openembedded-core@lists.openembedded.org>;
- Wed, 18 May 2022 03:59:20 -0700 (PDT)
+ Wed, 18 May 2022 03:59:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=e/spZuUwi4W/BQtbiSvwmVobdttomIWPqHVBZzw1+2w=;
-        b=EgBAdvU+UD7Lk4h2fRSbkZxAkpXcBmkCpSYm7CrgFcp2HnBRMstxxG2y6aefVtcvQ0
-         RaPOlo3xHYM4CViAt/7YxDPae1r5gthG6LrTZ61AuKxTp8OJVdcGtd2BbR4RlJtavBUT
-         BXB7FRfB7/kYC2WmwXFFq1tUnyOxeUAIXc2zRXvJ18KADW6O3wSJX+mK/Ivfdo5PJk9Z
-         a0BqNx/pm/XYO1XUgpwyGBFpj4tZVMZZhgfN84HshdWqyehq35PYwTa3B8e9IjXviDsD
-         /jjvgFoQZQ07Ia3UQyi29PmWVq0HkW/Wf9incKk5SPd21BrJmBWC6QHZslwmFlizXrhG
-         6MXQ==
+        bh=yeNOd/UFhHH4+LSoovGqoQHUvk9KTkBpWq7xfEm+W38=;
+        b=ngvm5ZfaUx42rg7RRc3LQW+qSr6HEDNLHn6G1dGDttHU3wgkYN9stbcbpgmnJXhljH
+         jhhwuOBebhH/e5/ExleGr15i1ogQXHq8TA+3TXlN+zgQVUD4qUTBVPMPvUYju+JAyycc
+         lAGMSVKrkg2oDBV2tQ+DbtAhrIWonFFYrOXt2NwcchApUwiilOfmF7Z37fk/pEueBikB
+         IZY18fgXs67xo11xnwxPw8UxnRFETGMA83YfyvsostgauIgjBCpeLS9/Ge3VnQvlyCT5
+         cMCM4YrBWawUgZi7MNeWoA4gfNbPAmhXTT5ubqr2BaL5QM3U+Iu8YrDL28JGmOzVyskW
+         yw1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=e/spZuUwi4W/BQtbiSvwmVobdttomIWPqHVBZzw1+2w=;
-        b=pcEofWDo54/FR0EGbsfJ/FLMOmENm+qPUC3yEnYQejVTmnm08bKOFELIjWP7OjYU17
-         CnV4UnKNxJMgWh3xRH+wzg4ISe9suNiTQmf6fLU6ZltIFM1K4kXTETlcfFacnzZDhD44
-         Vn/V1hBwLjZVhk3jaWwOdOxnP/dKA5rnJr+1Oj9ONYn34gDnB/jWM6wHFB3ZsvDxqW9M
-         dj6E1AfJuZn1bjLJGZAL9AwkCJ0wIcFzFAAU7PsebI/gruBRP5Dnbsd9ompNMDyLd9U9
-         RD1FoJyqwRNkBR9X38npyLGwtA1vDnjZdSUFop18KlGKsxh2PfGsU/g9y0qi/gCJ1qor
-         ZjlQ==
-X-Gm-Message-State: AOAM530ku5tRPFxElrNb+BmXr37WDSKClFzxuRhFWKUD9LSLkxlzj09m
-	pBv6iTWlj9KbXTTZ+7DtZzjm46bkzLs=
+        bh=yeNOd/UFhHH4+LSoovGqoQHUvk9KTkBpWq7xfEm+W38=;
+        b=WOS8hy2M9lPUeZ/2DQWf65RLYoIuf4Q9XpMOMVXCTMe98YgCWcTCiR531zShNSryH7
+         2KcEYKzSuSWa8PU9Z4FWQ7HIdjf9JE3C87a5yAyAXhbcyhOe0ufLHPWRmRfgJYFiHXLJ
+         dRi9omr8psb9d7237R7OqukdQ/sUDhg6YT5JyxHDoNFF7X0hwOLtZ1wspz0usAw3SPFT
+         KDYWejPpMstFG3wGN4IBmvxzgExR4nh7jxwaA97YnOkJky0HE2JUTePY51a/GGHTKU47
+         d0UbhyPTSqYkcwNcBY7LF0MG0F4kgbXkaBc7ji50VgxNaqpM9VEQBBx0C2LRzONRhADr
+         xcGg==
+X-Gm-Message-State: AOAM532hgCrvdwvCVYtZrfLpnjIcpdVQaizvZ4bPYDOGtRgVDxYsjBwL
+	eyhOD/kxekgqwuQT3MJFM90OIUfPN+M=
 X-Google-Smtp-Source: 
- ABdhPJyaFmTiWFcxhSKIIkdbX1AVlCiG1whf95PVyJ8gli+lQrTkFWg0Pa4zTkRUUnN6tKZ4LKAE1g==
-X-Received: by 2002:a17:907:2cc7:b0:6fa:88cf:c31a with SMTP id
- hg7-20020a1709072cc700b006fa88cfc31amr23241252ejc.471.1652871559890;
-        Wed, 18 May 2022 03:59:19 -0700 (PDT)
+ ABdhPJzTmgKNAqJsC/yPtSZH+PAw+5SyVF7YC0XSNPw871gj1RL1+XN4LAEZXHYo/3FZGHgttfehNQ==
+X-Received: by 2002:a17:907:6e28:b0:6f4:6428:6ee8 with SMTP id
+ sd40-20020a1709076e2800b006f464286ee8mr22647718ejc.608.1652871563623;
+        Wed, 18 May 2022 03:59:23 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- qs24-20020a170906459800b006f3ef214da9sm861524ejc.15.2022.05.18.03.59.18
+ qs24-20020a170906459800b006f3ef214da9sm861524ejc.15.2022.05.18.03.59.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 May 2022 03:59:19 -0700 (PDT)
+        Wed, 18 May 2022 03:59:23 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 32/49] mesa: upgrade 22.0.2 -> 22.0.3
-Date: Wed, 18 May 2022 12:58:26 +0200
-Message-Id: <20220518105843.3299331-32-alex@linutronix.de>
+Subject: [PATCH 36/49] python3-bcrypt: upgrade 3.2.0 -> 3.2.2
+Date: Wed, 18 May 2022 12:58:30 +0200
+Message-Id: <20220518105843.3299331-36-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220518105843.3299331-1-alex@linutronix.de>
 References: <20220518105843.3299331-1-alex@linutronix.de>
@@ -68,38 +68,31 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 May 2022 10:59:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165829
+ https://lists.openembedded.org/g/openembedded-core/message/165833
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../mesa/{mesa-gl_22.0.2.bb => mesa-gl_22.0.3.bb}               | 0
- meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
- meta/recipes-graphics/mesa/{mesa_22.0.2.bb => mesa_22.0.3.bb}   | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_22.0.2.bb => mesa-gl_22.0.3.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_22.0.2.bb => mesa_22.0.3.bb} (100%)
+ .../{python3-bcrypt_3.2.0.bb => python3-bcrypt_3.2.2.bb}       | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-bcrypt_3.2.0.bb => python3-bcrypt_3.2.2.bb} (81%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_22.0.2.bb b/meta/recipes-graphics/mesa/mesa-gl_22.0.3.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_22.0.2.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_22.0.3.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index d3571467b9..6f2fd62020 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -22,7 +22,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-util-format-Check-for-NEON-before-using-it.patch \
-            "
+diff --git a/meta/recipes-devtools/python/python3-bcrypt_3.2.0.bb b/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb
+similarity index 81%
+rename from meta/recipes-devtools/python/python3-bcrypt_3.2.0.bb
+rename to meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb
+index 6a4d1aef5c..54070e4b9c 100644
+--- a/meta/recipes-devtools/python/python3-bcrypt_3.2.0.bb
++++ b/meta/recipes-devtools/python/python3-bcrypt_3.2.2.bb
+@@ -5,8 +5,7 @@ HOMEPAGE = "https://pypi.org/project/bcrypt/"
  
--SRC_URI[sha256sum] = "df4fa560dcce6680133067cd15b0505fc424ca703244ce9ab247c74d2fab6885"
-+SRC_URI[sha256sum] = "9f2b30f5276a9abaf71aafc6979685e2636189de1a87aea2c9e69744a6d0ebb9"
+ DEPENDS += "${PYTHON_PN}-cffi-native"
  
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+-SRC_URI[md5sum] = "fe31390dab603728f756cd3d6830c80a"
+-SRC_URI[sha256sum] = "5b93c1726e50a93a033c36e5ca7fdcd29a5c7395af50a6892f5d9e7c6cfbfb29"
++SRC_URI[sha256sum] = "433c410c2177057705da2a9f2cd01dd157493b2a7ac14c8593a16b3dab6b6bfb"
  
-diff --git a/meta/recipes-graphics/mesa/mesa_22.0.2.bb b/meta/recipes-graphics/mesa/mesa_22.0.3.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_22.0.2.bb
-rename to meta/recipes-graphics/mesa/mesa_22.0.3.bb
+ inherit pypi python_setuptools_build_meta ptest
+ 
 -- 
 2.30.2
 
