@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22234C43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14F07C4332F
 	for <webhook@archiver.kernel.org>; Wed, 18 May 2022 10:59:16 +0000 (UTC)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web11.3488.1652871538844667500
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+ [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web09.3577.1652871540591041818
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 May 2022 03:59:09 -0700
+ Wed, 18 May 2022 03:59:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=mKvebgAy;
- spf=pass (domain: gmail.com, ip: 209.85.208.47,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Y1kuJyYC;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id er5so2440169edb.12
+Received: by mail-ed1-f51.google.com with SMTP id n23so2553534edy.0
         for <openembedded-core@lists.openembedded.org>;
- Wed, 18 May 2022 03:59:08 -0700 (PDT)
+ Wed, 18 May 2022 03:59:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1rLieyHStQRMYgpDUSVCZ0DSql+k2uXr7DOs54j7JfQ=;
-        b=mKvebgAyp3V/Z/q3u1k3QHkcODZotivImRkMz60PWCoRceCWM3/K+Zc5d5fjqNzXrT
-         iPWeZmkWreGpPRGQwuuag6lsOLs2iNvaX+IykGwEdIqADzf2aMLFMfvkYVAuae8kXICB
-         BXZJe9N6Z4g2uQpgOr+BOgvb1MP9ooAr6gFrxjR70mnRh4WZk/tYlOI2sKtRmAb5VWAM
-         rE6B+gm+ig7olWBgSPPacpdRRJYTHt95o72z2TeYXmuR4jl3EytXkRN0IxKHNp/wWjdp
-         rKTwJmWzZLVapwcJxxtVr6gH33Ym1ylW7dzfsO5FAVbCf1LWGiI5wj0gd4trqUkl2ale
-         gCpg==
+        bh=TYF7nbInCWBlFbcfe1q/7pCeWYyXbAziQ14H939icH0=;
+        b=Y1kuJyYCFnYvPYnqNA4oU0a3JOky/5Ody6g8v1onB8LHGPy9I/WA+J0dRKN9m1hC+S
+         zM9H5OUMC4Q/hOmJRQytLhSrD3iowmRlcLwNSN1UDLiklNw6ipM5sfc510ucAL0IQOzd
+         TteKw+CeDx9KAGMp2wzEOMxBgzVbqnvKj74t8gzPKOOBRSDoFnPq/qB4KqO3PrmhXPmH
+         v2MVYmzrK5wBvV3VBxqVnrTyaAASfSxPe9CROLMefbAD+E4UZhu3O21aEF8XpZfUDIOl
+         yktgN+FKrCc8LuU7AA51WKXSiW4IpUIoj3Swy25m/HcHYOB5DuPsjszK3pDHenMFePeM
+         MK4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1rLieyHStQRMYgpDUSVCZ0DSql+k2uXr7DOs54j7JfQ=;
-        b=kZkVacHWVds32kp9LmA8lEu5yTdY3p1sah6lo/vW8JMDjLBH0lvVotX+/Vd39RahwX
-         2xO5+1vYx/JFP8ToZYx5oepjxSW3FIYaok8UgcJhiBj7rl/g3zjSHH+TS9JY/dgFsfaF
-         DXRbr0PncQWO8pdg0nHmN/JA3iK2oxxnl3tDRjMxdpE0Kx5PiqPlcw4nwvUJcuyl0jq4
-         jYf+BUSxxC5zYDusyQLxAYv+lL/vaMMYK3lQAak+nvyIoeBTCIE8UZYLcc6BriaFa+s8
-         wvNjvETH6P1UYhwwAdPbrCUYuOGnMqme83Dt7nnxUWbzA9CcWoQj1lrArlpw1DO7wc4e
-         Oz5A==
-X-Gm-Message-State: AOAM531bEgCb4NCbG359wu17wPip2RVdZXMPGAldmJaSylNHzRSngw9m
-	0d4iIXiLyVf45u1MoIqf1bbm7vRigWU=
+        bh=TYF7nbInCWBlFbcfe1q/7pCeWYyXbAziQ14H939icH0=;
+        b=i39Jgdtb9xEbzlzIdjp+90LClQf2NwlNXd7UJN+N+Uq6ktYiaudbW63oG0fezx/h0i
+         vXrY6ffyWtLpZbPODuXg/w2nLiW8UYrmTn+S3Y8Z49p3qAx/rjJMAv812/8CbNghsXz8
+         8zfpOWDHjFqNXKyA3RuCFOdwNm45ETqKg0DY9jqpbD7IJYUctBvglq//8G+IfAMnLRWd
+         LXjLY5Y2nI5fMsotcC/o/8QET9H40jbiWMLgD53wUQCXRA3l5sELzr/atR4hbQpZBNEv
+         i1vjD1N+VIrVy2ew8e+XzJVWLou2q85gPiuHDvzf0LY36McHpKfp6QOIfHRUE5avYSV2
+         79eg==
+X-Gm-Message-State: AOAM5330mdPadgHm+GpdmYA+PSmQ8ec3NpCEEaHcmjVkeAvjRtQUnbuS
+	BZI+3nL4bbb3MAbyl+OkGAetKDgsgmg=
 X-Google-Smtp-Source: 
- ABdhPJyDtSbKdok4ogCOCZN2Dphh+M3wQ4VXJh9txNLGdh5eJxa0nZAqrpa4pBGEzoxso69b+t+T8w==
-X-Received: by 2002:a05:6402:613:b0:42a:b5be:6c40 with SMTP id
- n19-20020a056402061300b0042ab5be6c40mr14422315edv.254.1652871548271;
-        Wed, 18 May 2022 03:59:08 -0700 (PDT)
+ ABdhPJzKmvr2MzMaI+c/E5W1+AQ1gEYwUVukynZZaNrRUVfNQYwQJHm//ATF7+6JobaO3rmdd4RRyg==
+X-Received: by 2002:aa7:d486:0:b0:42a:b40a:beee with SMTP id
+ b6-20020aa7d486000000b0042ab40abeeemr14837269edr.281.1652871554730;
+        Wed, 18 May 2022 03:59:14 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- qs24-20020a170906459800b006f3ef214da9sm861524ejc.15.2022.05.18.03.59.07
+ qs24-20020a170906459800b006f3ef214da9sm861524ejc.15.2022.05.18.03.59.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 May 2022 03:59:07 -0700 (PDT)
+        Wed, 18 May 2022 03:59:14 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 21/49] gstreamer1.0-plugins-base: upgrade 1.20.1 -> 1.20.2
-Date: Wed, 18 May 2022 12:58:15 +0200
-Message-Id: <20220518105843.3299331-21-alex@linutronix.de>
+Subject: [PATCH 27/49] gstreamer1.0-vaapi: upgrade 1.20.1 -> 1.20.2
+Date: Wed, 18 May 2022 12:58:21 +0200
+Message-Id: <20220518105843.3299331-27-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220518105843.3299331-1-alex@linutronix.de>
 References: <20220518105843.3299331-1-alex@linutronix.de>
@@ -68,30 +68,30 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 May 2022 10:59:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165818
+ https://lists.openembedded.org/g/openembedded-core/message/165824
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...ugins-base_1.20.1.bb => gstreamer1.0-plugins-base_1.20.2.bb} | 2 +-
+ ...streamer1.0-vaapi_1.20.1.bb => gstreamer1.0-vaapi_1.20.2.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.20.1.bb => gstreamer1.0-plugins-base_1.20.2.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.20.1.bb => gstreamer1.0-vaapi_1.20.2.bb} (95%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.2.bb
-similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.2.bb
-index 0953261a98..e47851700a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.2.bb
-@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
-            "
--SRC_URI[sha256sum] = "96d8a6413ba9394fbec1217aeef63741a729d476a505a797c1d5337d8fa7c204"
-+SRC_URI[sha256sum] = "ab0656f2ad4d38292a803e0cb4ca090943a9b43c8063f650b4d3e3606c317f17"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.2.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.1.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.2.bb
+index 48b571f563..40dc21cf45 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.2.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
  
- S = "${WORKDIR}/gst-plugins-base-${PV}"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
  
+-SRC_URI[sha256sum] = "87fbf6c537af9079c99a9aefe951da119e16e5bcc9cc8614f5035f062bf21137"
++SRC_URI[sha256sum] = "30126ab6e3105dab8da76bd9951a68886149bcd70c7fee0bac68de564de41d3d"
+ 
+ S = "${WORKDIR}/${REALPN}-${PV}"
+ DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
 -- 
 2.30.2
 
