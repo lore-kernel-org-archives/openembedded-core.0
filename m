@@ -1,70 +1,84 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C33F8C433F5
-	for <webhook@archiver.kernel.org>; Wed, 18 May 2022 15:12:57 +0000 (UTC)
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net
- [217.70.178.232])
- by mx.groups.io with SMTP id smtpd.web08.6161.1652886772178793100
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD17CC433F5
+	for <webhook@archiver.kernel.org>; Wed, 18 May 2022 15:33:37 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web12.6502.1652888017064239950
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 May 2022 08:12:52 -0700
+ Wed, 18 May 2022 08:33:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=h7+HiV6p;
- spf=pass (domain: bootlin.com, ip: 217.70.178.232,
- mailfrom: luca.ceresoli@bootlin.com)
-Received: (Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 513FF200004;
-	Wed, 18 May 2022 15:12:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1652886769;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ksql7pyhzhJjsJgIG94BIFMsfSDqXd1ic2YPQaXA3no=;
-	b=h7+HiV6pLrxG7Pky1uFnU1+w+NJ7vioSjHzFRb68bjroOpda42eJVF7d3y87gY7Egqdk31
-	OY5CUsxBI1DzWXCKNdlg5Wn5sXnyg8P7XPfi0RBddv+bszHkw0xMJ/BMHpFh9X2niColbX
-	M1D1DE+OAV1Pu+K3Ql60Sa5l+ZSy0Gc7lpDjGhlww6ZkP8Ytd+3M37zZgAji2LHH++xFD+
-	DPkeU6mFTmMhwWyCUuEJrWZw5Wu/7ZV1XK+thdTOrQ0czolhS8WJ/+Yd6KzUAfHA2raVEa
-	OFiaphgX3VyeGn9KdeIwZEQ6r8SO2jLx2nlFzyxhLyajrMSYyjHwvsiGzNRd4Q==
-Date: Wed, 18 May 2022 17:12:47 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "mangodan2003" <mangodan2003@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] gstreamer: updated to 1.20.2 bug fix release
-Message-ID: <20220518171247.2a7d0ab5@melee>
-In-Reply-To: <20220518123723.134317-1-mangodan2003@gmail.com>
-References: <20220518123723.134317-1-mangodan2003@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bW56bqUT;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178,
+ mailfrom: rybczynska@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id d22so2107675plr.9
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 18 May 2022 08:33:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=O8FwdtL4Mw6mBg9JAb4xNZvqnmNofs2M5LmKrl0rSr4=;
+        b=bW56bqUTjErnnGgnaiOZl1/Ko3VTPMXp5DR5JJeC2V+knzgdz1Njqi9aFsxPmr2eOu
+         jY1AB6WZBp3SSp0gcQtQAwULDIfJeBFizU0tyEAhslvttLOUh7laaWovbcGk1SDB43nS
+         lJPMV31XNQBP6flbemicNzAgyMUKroZv29jVj3N8IukEIDDzvzzS35DglxpWBoqwEt7y
+         UejuQbOA3huv8rjhU+14P49ii1KzluiCUEy4hf3/ppDvdfuC/aUUKTjnZL4Uwx6e7QM3
+         qw6NZrvBQYkNDp9a46iA9CC4VtkjGOmggABLJqbsM8iI4J3dLganSb3ybyy4Kc6wpk7Y
+         zpBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=O8FwdtL4Mw6mBg9JAb4xNZvqnmNofs2M5LmKrl0rSr4=;
+        b=8JnJGxjMaUHI4ghYu1d0cRGHdfBgNIq1xt04tm/BDILMnNx6lbq/osLb7U3KHIUjGT
+         9ujPquqHJT7F/GhUnqw1MXQYcDSniAIBNRST5PyW9vOnoqeSUzYt1vxYxOaczJ58MCpN
+         V6uioNHJXfoMV90FQLQhO3ctAdvBHrIKJuNujpAZRaXwFXD6fnjtTGG3+9itv7Zuv/UW
+         /0caEoXp44Ir/i5Hzw9CadFcSlojt6QCYKaircHmeS3aPOQ1ni6iW5SjFQV0tzXabyZh
+         deDaJNfUY8nKAU3F4VzTR5kzZxRYVxbAAft3xCaYn0yJJAG48oWJxCXd1W0fEeTIxtD4
+         O9Vw==
+X-Gm-Message-State: AOAM533bLQo5LYKCwW+RgzA5tYDprVpWNOU+ZOOSTa3M65HoVbdFeAww
+	YZJ45AjO8O+UZRTopjl6IDpVbP5fb3tCXOoEg3nerwLi
+X-Google-Smtp-Source: 
+ ABdhPJyBgnvDGYnkIDa+hgSbQ0abIzw+FoBqYhzg0ThFVnNm/yHsPcEGwun88YfKcwVF20UAdzm9LjCsqzxyzlQOMaM=
+X-Received: by 2002:a17:903:244d:b0:15e:a3a2:5a6f with SMTP id
+ l13-20020a170903244d00b0015ea3a25a6fmr273364pls.72.1652888016339; Wed, 18 May
+ 2022 08:33:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20220517060115.1913044-1-rybczynska@gmail.com>
+In-Reply-To: <20220517060115.1913044-1-rybczynska@gmail.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Wed, 18 May 2022 17:33:24 +0200
+Message-ID: 
+ <CAApg2=TCj4KCSuw0Qt=x=SoUkeR=vW_wuGhz7HFJEB+PXaFe6A@mail.gmail.com>
+Subject: Re: [PATCH] cve-check: Fix report generation
+To: OE-core <openembedded-core@lists.openembedded.org>,
+	Steve Sakoman <steve@sakoman.com>
+Cc: Alex Kiernan <alex.kiernan@gmail.com>,
+ Marta Rybczynska <marta.rybczynska@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 May 2022 15:12:57 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 18 May 2022 15:33:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165855
+ https://lists.openembedded.org/g/openembedded-core/message/165856
 
-Hi mangodan2003,
+On Tue, May 17, 2022 at 8:01 AM Marta Rybczynska <rybczynska@gmail.com> wrote:
+>
+> The addition of summary output caused two issues: error when building
+> an image and the fact that JSON output was generated even when
+> CVE_CHECK_FORMAT_JSON.
+>
+> When generating an image it caused an error like:
+> ERROR: core-image-minimal-1.0-r0 do_rootfs: Error executing a python function in exec_func_python() autogenerated:
 
-Il giorno Wed, 18 May 2022 13:37:23 +0100
-"mangodan2003" <mangodan2003@gmail.com> ha scritto:
+Hello Steve,
+Would you pick this one for dunfell too? The bug affects dunfell too
+;( Or do you prefer me to do a resend
+a well-applying patch?
 
-> The second 1.20 bug-fix release (1.20.2) was released on 2 May 2022.
-> This release only contains bugfixes and it should be safe to update
-> from 1.20.x.
-> 
-> Signed-off-by: mangodan2003 <mangodan2003@gmail.com>
-
-Alexander Kanavin sent a series of patches doing the same upgrades as
-you did, and I already have those in my testing branch, so I'm not
-taking this one.
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Kind regards,
+Marta
 
