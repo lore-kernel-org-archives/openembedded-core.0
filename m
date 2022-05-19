@@ -1,128 +1,142 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6799CC433FE
-	for <webhook@archiver.kernel.org>; Thu, 19 May 2022 16:46:40 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web11.10077.1652978794344024702
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 679E3C433EF
+	for <webhook@archiver.kernel.org>; Thu, 19 May 2022 19:30:07 +0000 (UTC)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
+ [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web08.6.1652988603260414269
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 May 2022 09:46:34 -0700
+ Thu, 19 May 2022 12:30:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=KwIQLn1C;
- spf=pass (domain: gmail.com, ip: 209.85.208.182,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f182.google.com with SMTP id m6so6941634ljb.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=g/DPSSpT;
+ spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f43.google.com with SMTP id
+ z7-20020a17090abd8700b001df78c7c209so9625430pjr.1
         for <openembedded-core@lists.openembedded.org>;
- Thu, 19 May 2022 09:46:34 -0700 (PDT)
+ Thu, 19 May 2022 12:30:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rkYTP8HXK7MvZuqXNlaulVjlFh5lcWuxb+6TQovW+L8=;
-        b=KwIQLn1Cm8VGsUqDVyzwKu/UyVQMzYw4hC4SojQOlvdDS7Bj42eaLKSvSlPegFrUUW
-         N53FaKGiwmu/vI7BBYDsm59jnxde2WCSmG01O3DVJaqhShfnp3Ay+UVGIbQkoMqgh7BX
-         sWGN1hag4gEDTI402Pmcmbm1nVs8fvsMWj9fmlcsZyGuGo9uLCtyX6piuRzjzy3hoP6V
-         JQiJymPCngay7pcuNvm9/pOKZWglBOFbZO8flvWJWKBSuaRQUfjw4SXX8rW/4QbzldrN
-         jYK+yMTaNZ/iTNXHtZpc6HCQ/V8AdKI7pQBUHi1uWExIVJ+BjSUKpKnBG+OmUz3jdKMv
-         7xPQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=pJepCDDjH75/uWHDDivMzZDUOrrWvtTRC/L2uATjKKA=;
+        b=g/DPSSpTCKdAVp4JCe7L/G0JTMdpSGMWP5f9yhas00TcYOWNfURHdDPb3qtVu3t4yw
+         qLYtRdpaOdJe/hyEc+SwJI7TPT5Wlb4aPIbTVyDJS1nLx2ve+TwRkHgVlGDCa+DD2f+r
+         SkOVIriryqI3/lB1KLkvhp0Dv7RXMEvagxoL14TSr0MrlzTFiK2/8hAY35El5FmF+emV
+         0Zd1w5aSA934Y8Pblgxv4RJ0YdU1Pt9l90DE8U2THUF/LkBAxq/bvgSZKlKeUreJYMVS
+         q4lIALaSiQPoJdVFesXGu9DrRtY/aAUgKRkXPZklv6Ozqc9gb3G7A5BVjTLQdLfEnXt8
+         QncA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rkYTP8HXK7MvZuqXNlaulVjlFh5lcWuxb+6TQovW+L8=;
-        b=vQr1blcGRjVity+UoZ7KVFMysGiqCiCEs+b/398SgRwJJ28LXYcIZ7b8BgFQ1AnXSj
-         4Ss+yVG33cb7ottMNkchKG+/u++PcInWSmht8DwKzQrBesrN85FuAspXoD4bZvTjh1Wv
-         E/eGQjAXfPUjWNviPB0JQyXMGMmgdZPJ4fQD7+bWIs2jZb2wFAYcGlhQTAE9bMDXLP4e
-         oaw4FBQ5kvWD6kFZZTqmdJp0nr57gHmA+MlLw7m54+bd/rZZ6C9W6gHn8Sh8zrdMVFXT
-         psHnR5unA8PDDk/GIEL0WNdf1LUyCTZ3KDQ4I/N3wejZUGeMDlWBLH+DLq6nyacYkWBx
-         U/fQ==
-X-Gm-Message-State: AOAM531kULxNqJHFhX6pdDLuHvPQN/pgDihTlYBJMPaW+Jhyr4iPRiUw
-	za3weyQ6y8IbdoKrKVz6b4XhSbQ8O4LQSVIZyNo=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=pJepCDDjH75/uWHDDivMzZDUOrrWvtTRC/L2uATjKKA=;
+        b=Z2KryQtI7H1ka0qf08DkSAps54wXtBL0lSsW13aCwXG4CYfXW9gGiQqjlytPVmNnKB
+         t3ZWSeGjoKJ8Bup2TJl8kb0KBRxLJtW2BOMaSCxGT1SBQ3BaKQ4PEQjAWUrcYQsUqR9R
+         k0/dGgUK718ZDrWbO7f1wb2zBb3B7PWm1X+fWCD2IVJslD3HKzWTNQOtaqY5TfNpsrvZ
+         kowsZQZ6i7gKmD1/ZfOpP4+R2SWD/tem2JR+sXU0q/2TH09nlDDsAPpqR2VdF620EwGq
+         zpip2Fmklp1biPnjNegYEULEq2RrxMyyvMddiiNzbpV3L80VKjxek+cbJBhCORX/MEqf
+         6QoQ==
+X-Gm-Message-State: AOAM5330iL39DZyMRUw5YChafC+1fkZt5BhIygYziSV84YHYuW/zfH6t
+	i9zwGm8rKZtGKDb2tE5hba5O4mYNUnYVkQ==
 X-Google-Smtp-Source: 
- ABdhPJxl2qGXm8h1pYW+4HLdMj6LonTjzanJdKvuLQEypiA4JMQ375fgzF3nK7AlLM7JHjYBSHbqS73bnKFqYT2EGmw=
-X-Received: by 2002:a2e:a486:0:b0:24f:fd5:cdb7 with SMTP id
- h6-20020a2ea486000000b0024f0fd5cdb7mr3034445lji.109.1652978792526; Thu, 19
- May 2022 09:46:32 -0700 (PDT)
+ ABdhPJzfj2UBvYPq5JHHR9uvTYVB8jwgaCW0lNkN9sQOF0Td8A+vvGNa791+gya2NwXeffC5k59dug==
+X-Received: by 2002:a17:902:7890:b0:161:572a:2494 with SMTP id
+ q16-20020a170902789000b00161572a2494mr5770175pll.123.1652988602423;
+        Thu, 19 May 2022 12:30:02 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::2ca3])
+        by smtp.gmail.com with ESMTPSA id
+ f62-20020a17090a704400b001dcf49d92a1sm177894pjk.28.2022.05.19.12.30.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 May 2022 12:30:02 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 3/3] systemd: Drop
+ 0016-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch
+Date: Thu, 19 May 2022 12:29:57 -0700
+Message-Id: <20220519192957.1129486-3-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220519192957.1129486-1-raj.khem@gmail.com>
+References: <20220519192957.1129486-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-References: <20220519064312.391164-1-f_l_k@t-online.de>
- <20220519184315.1e91b017@melee>
-In-Reply-To: <20220519184315.1e91b017@melee>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 19 May 2022 18:46:20 +0200
-Message-ID: 
- <CANNYZj8xWvRMVGjo1qaV0Gah0U9a42SqyFf=C9bZ64DTh8qZuQ@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe][RFC PATCH 1/2] libdecor: initial add recipe
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Markus Volk <f_l_k@t-online.de>,
- OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 May 2022 16:46:40 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 19 May 2022 19:30:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165904
+ https://lists.openembedded.org/g/openembedded-core/message/165907
 
-Also, does this need to be in core (as opposed to meta-oe)? Why?
+This patch was effectively needed when usng gold linker but it has been
+fixed in binutils [1], it was seen in systemd as well [2]
 
-Alex
+This however, should not happen with latest binutils and systemd has
+already reverted the fix since it was a tool error
 
-On Thu, 19 May 2022 at 18:43, Luca Ceresoli via lists.openembedded.org
-<luca.ceresoli=bootlin.com@lists.openembedded.org> wrote:
->
-> Hi Markus,
->
-> Il giorno Thu, 19 May 2022 08:43:11 +0200
-> "Markus Volk" <f_l_k@t-online.de> ha scritto:
->
-> > libdecor is a client-side decoration library for Wayland clients. It
-> > is used by libsdl2 for window decoration and is required to provide
-> > decoration for shells that use client-side decoration such as
-> > gnome-shell or weston.
-> >
-> > Signed-off-by: Markus Volk <f_l_k@t-online.de>
->
-> I'm afraid we're having an issue with this patch as well:
->
-> AssertionError:
-> The following recipes do not have a maintainer assigned to them. Please
-> add an entry to meta/conf/distro/include/maintainers.inc file. libdecor
-> (/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/recipes-graphics/libdecor/libdecor_0.1.0.bb)
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/3547/steps/14/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/3604/steps/15/logs/stdio
->
-> And also this warning:
->
-> WARNING: Nothing RPROVIDES 'nativesdk-libdecor' (but
-> virtual:nativesdk:/home/pokybuild/yocto-worker/build-appliance/build/meta/recipes-graphics/libdecor/libdecor_0.1.0.bb
-> RDEPENDS on or otherwise requires it) No eligible RPROVIDERs exist for
-> 'nativesdk-libdecor' NOTE: Runtime target 'nativesdk-libdecor' is
-> unbuildable, removing... Missing or unbuildable dependency chain was:
-> ['nativesdk-libdecor'] WARNING: Nothing RPROVIDES
-> 'nativesdk-libdecor-dev' (but
-> virtual:nativesdk:/home/pokybuild/yocto-worker/build-appliance/build/meta/recipes-graphics/libdecor/libdecor_0.1.0.bb
-> RDEPENDS on or otherwise requires it) No eligible RPROVIDERs exist for
-> 'nativesdk-libdecor-dev' NOTE: Runtime target 'nativesdk-libdecor-dev'
-> is unbuildable, removing... Missing or unbuildable dependency chain
-> was: ['nativesdk-libdecor-dev']
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/5543/steps/12/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/4571/steps/12/logs/stdio
->
-> --
-> Luca Ceresoli, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#165903): https://lists.openembedded.org/g/openembedded-core/message/165903
-> Mute This Topic: https://lists.openembedded.org/mt/91203655/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+[1] https://sourceware.org/bugzilla/show_bug.cgi?id=18548
+[2] https://github.com/systemd/systemd/issues/234
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...S_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch | 33 -------------------
+ meta/recipes-core/systemd/systemd_250.5.bb    |  1 -
+ 2 files changed, 34 deletions(-)
+ delete mode 100644 meta/recipes-core/systemd/systemd/0016-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch
+
+diff --git a/meta/recipes-core/systemd/systemd/0016-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch b/meta/recipes-core/systemd/systemd/0016-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch
+deleted file mode 100644
+index f4066d7e4fd..00000000000
+--- a/meta/recipes-core/systemd/systemd/0016-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From d8bf23d7a698bd3253b0cfba24bd8afd0886d82d Mon Sep 17 00:00:00 2001
+-From: Chen Qi <Qi.Chen@windriver.com>
+-Date: Mon, 25 Feb 2019 15:18:00 +0800
+-Subject: [PATCH] Hide __start_BUS_ERROR_MAP and __stop_BUS_ERROR_MAP
+-
+-for currently unknown reasons they get exported to the shared libries
+-even without being listed in the sym file
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-[Rebased for v241]
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+-
+----
+- src/libsystemd/sd-bus/bus-error.c | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/src/libsystemd/sd-bus/bus-error.c b/src/libsystemd/sd-bus/bus-error.c
+-index 61928f4bf3..79b698b092 100644
+---- a/src/libsystemd/sd-bus/bus-error.c
+-+++ b/src/libsystemd/sd-bus/bus-error.c
+-@@ -55,8 +55,8 @@ BUS_ERROR_MAP_ELF_REGISTER const sd_bus_error_map bus_standard_errors[] = {
+- };
+- 
+- /* GCC maps this magically to the beginning and end of the BUS_ERROR_MAP section */
+--extern const sd_bus_error_map __start_SYSTEMD_BUS_ERROR_MAP[];
+--extern const sd_bus_error_map __stop_SYSTEMD_BUS_ERROR_MAP[];
+-+extern const sd_bus_error_map __start_SYSTEMD_BUS_ERROR_MAP[] _hidden_;
+-+extern const sd_bus_error_map __stop_SYSTEMD_BUS_ERROR_MAP[] _hidden_;
+- 
+- /* Additional maps registered with sd_bus_error_add_map() are in this
+-  * NULL terminated array */
+diff --git a/meta/recipes-core/systemd/systemd_250.5.bb b/meta/recipes-core/systemd/systemd_250.5.bb
+index 2f5b9d1367e..c121fb763e8 100644
+--- a/meta/recipes-core/systemd/systemd_250.5.bb
++++ b/meta/recipes-core/systemd/systemd_250.5.bb
+@@ -44,7 +44,6 @@ SRC_URI_MUSL = "\
+                file://0013-Define-glibc-compatible-basename-for-non-glibc-syste.patch \
+                file://0014-Do-not-disable-buffering-when-writing-to-oom_score_a.patch \
+                file://0015-distinguish-XSI-compliant-strerror_r-from-GNU-specif.patch \
+-               file://0016-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch \
+                file://0018-avoid-redefinition-of-prctl_mm_map-structure.patch \
+                file://0021-test-json.c-define-M_PIl.patch \
+                file://0022-do-not-disable-buffer-in-writing-files.patch \
+-- 
+2.36.1
+
 
