@@ -1,149 +1,92 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F26ADC433F5
-	for <webhook@archiver.kernel.org>; Thu, 19 May 2022 08:57:07 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web10.5381.1652950626002748584
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 424C8C4332F
+	for <webhook@archiver.kernel.org>; Thu, 19 May 2022 10:06:28 +0000 (UTC)
+Received: from smtpout.cvg.de (smtpout.cvg.de [87.128.211.67])
+ by mx.groups.io with SMTP id smtpd.web11.5730.1652954775949905931
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 May 2022 01:57:06 -0700
+ Thu, 19 May 2022 03:06:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
- domain name (domain: windriver.com, ip: 147.11.3.146,
- mailfrom: changqing.li@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 24J8v0Np002714
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-	Thu, 19 May 2022 01:57:01 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 24J8v0Z2011711
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 19 May 2022 01:57:00 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 19 May 2022 01:57:00 -0700
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Thu, 19 May 2022 01:56:59 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <alex.kiernan@gmail.com>,
-        <richard.purdie@linuxfoundation.org>
-Subject: [PATCH] eudev: create static-nodes in init script
-Date: Thu, 19 May 2022 16:56:58 +0800
-Message-ID: <20220519085658.3796309-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@sigma-chemnitz.de header.s=v2022040800 header.b=XjFjjULR;
+ spf=pass (domain: sigma-chemnitz.de, ip: 87.128.211.67,
+ mailfrom: enrico.scholz@sigma-chemnitz.de)
+Received: from mail-mta-2.intern.sigma-chemnitz.de
+ (mail-mta-2.intern.sigma-chemnitz.de [192.168.12.70])
+	by mail-out-2.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTPS id
+ 24JA6Dn7621385
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 19 May 2022 12:06:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2022040800; t=1652954773;
+	bh=VmwgavAtPRYHUT/zyI/ocYsOHhOAATi0Dqy7gsgrQj0=; l=753;
+	h=From:To:Cc:Subject:Date;
+	b=XjFjjULR7nti0XFeFQhWF9J7G7KPPSPHzczCqYeusm996UCz10lZ4biCm14bfiBpx
+	 8GPRzH3WR4qdloQVU7GY/UCEa0ptvNY4/tce2q4M6jxOrNVenL2bCkvPVpGNtR+sba
+	 YBEC7FT3UMiNj7dQI11scNnMJOfKH1MJtsUpkCsv+cdHUeLh+02RlYDt2bGcV9SUm2
+	 FXUCgTNg44pH1UyGVnLZFHdCDZpUmVD6iJyqJfstW5VlcmN963OY5a+hp2+emy5rBA
+	 RT/+foJHFPimhzBBQXLXimGHV0bmSGf166fN8zRKBRzmmdfgOUwFO9dOlhb//33gvj
+	 7JTmgSTVRbsxw==
+Received: from reddoxx.intern.sigma-chemnitz.de (reddoxx.sigma.local
+ [192.168.16.32])
+	by mail-mta-2.intern.sigma-chemnitz.de (8.16.1/8.16.1) with ESMTP id
+ 24JA68N7791536
+	for <openembedded-core@lists.openembedded.org> from
+ enrico.scholz@sigma-chemnitz.de; Thu, 19 May 2022 12:06:08 +0200
+Received: from mail-msa-3.intern.sigma-chemnitz.de ( [192.168.12.73]) by
+ reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 75B1C2CAE53; Thu, 19 May 2022 12:06:06 +0200
+Received: from ensc-pc.intern.sigma-chemnitz.de
+ (ensc-pc.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-3.intern.sigma-chemnitz.de (8.15.2/8.15.2) with ESMTPS id
+ 24JA66tN856492
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Thu, 19 May 2022 12:06:06 +0200
+Received: from ensc by ensc-pc.intern.sigma-chemnitz.de with local (Exim 4.95)
+	(envelope-from <ensc@sigma-chemnitz.de>)
+	id 1nrd2k-004ImB-Fm;
+	Thu, 19 May 2022 12:06:06 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: [PATCH 0/6] npm.bbclass: work with nodejs 16
+Date: Thu, 19 May 2022 12:05:50 +0200
+Message-Id: <cover.1652954597.git.enrico.scholz@sigma-chemnitz.de>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 May 2022 08:57:07 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 19 May 2022 10:06:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165871
+ https://lists.openembedded.org/g/openembedded-core/message/165878
 
-From: Changqing Li <changqing.li@windriver.com>
+nodejs 16 changed internal caching significantly which breaks the
+existing npm.bblcass.
 
-dev in modules.devname should be populated in /dev on boot.  remove
-create static mode from udevd will make these devices cannot be
-populated. Since commit [1], when use sysVinit, devices like
-/dev/net/tun will not be created.
+Simulate parts of the npm registry and cache data in the way as
+expected.
 
-more info:
-udevd in systemd also remove create static mode in udevd, but using
-service kmod-static-nodes.service and systemd-tmpfiles-setup-dev.service
-in systemd to create these node, so systemd works well.
+This patchset requires an additional one in the oe-meta layer.
 
-For sysV, parse kmod static-nodes and generate the device nodes in init
+Enrico Scholz (6):
+  npm: replace 'npm pack' call by 'tar czf'
+  npm: return content of 'package.json' in 'npm_pack'
+  npm: take 'version' directly from 'package.json'
+  npm: disable 'audit' + 'fund'
+  lib:npm_registry: initial checkin
+  npm: use npm_registry to cache package
 
-[1] https://gitweb.gentoo.org/proj/eudev.git/commit/?id=2b7abd5ec9cc47a8b895df6db77fb1537c6f1a39
+ meta/classes/npm.bbclass    |  65 +++++++++-----
+ meta/lib/oe/npm_registry.py | 169 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 213 insertions(+), 21 deletions(-)
+ create mode 100644 meta/lib/oe/npm_registry.py
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- meta/recipes-core/udev/eudev/init      | 36 ++++++++++++++++++++++++++
- meta/recipes-core/udev/eudev_3.2.11.bb |  2 ++
- 2 files changed, 38 insertions(+)
-
-diff --git a/meta/recipes-core/udev/eudev/init b/meta/recipes-core/udev/eudev/init
-index c60dbbf6d5..5c2fb4a9fb 100644
---- a/meta/recipes-core/udev/eudev/init
-+++ b/meta/recipes-core/udev/eudev/init
-@@ -23,6 +23,41 @@ kill_udevd () {
-     [ -n "$pid" ] && kill $pid
- }
- 
-+make_static_nodes () {
-+    [ -e /lib/modules/$(uname -r)/modules.devname ] || return 0
-+    [ -x @KMOD@ ] || return 0
-+
-+    kmod static-nodes --format=tmpfiles --output=/proc/self/fd/1 |
-+    while read TTYPE TPATH TMODE TUSER TGROUP TAGE TARG; do
-+    case "${TTYPE}" in
-+    'd')
-+            test -d "${TPATH}" || mkdir -p -m "${TMODE}" "${TPATH}"
-+            ;;
-+
-+    'c!')
-+            if [ ! -c "${TPATH}" ]; then
-+                    old_ifs="${IFS}"
-+                    IFS=:
-+                    set -- ${TARG}
-+                    IFS="${old_ifs}"
-+                    mknod -m "${TMODE}" "${TPATH}" c "$@"
-+            fi
-+            ;;
-+
-+    *)
-+            echo ERROR
-+            exit 1
-+            ;;
-+    esac
-+    if [ "${TUSER}" != "-" ]; then
-+            chown "${TUSER}" "${TPATH}"
-+    fi
-+    if [ "${TGROUP}" != "-" ]; then
-+            chgrp "${TGROUP}" "${TPATH}"
-+    fi
-+    done
-+}
-+
- case "$1" in
-   start)
-     export ACTION=add
-@@ -51,6 +86,7 @@ case "$1" in
-     # make_extra_nodes
-     kill_udevd > "/dev/null" 2>&1
- 
-+    make_static_nodes
-     # trigger the sorted events
-     [ -e /proc/sys/kernel/hotplug ] && printf '\0\n' >/proc/sys/kernel/hotplug
-     @UDEVD@ -d
-diff --git a/meta/recipes-core/udev/eudev_3.2.11.bb b/meta/recipes-core/udev/eudev_3.2.11.bb
-index 841039f6d7..e4f78c2b0c 100644
---- a/meta/recipes-core/udev/eudev_3.2.11.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.11.bb
-@@ -41,6 +41,7 @@ do_install:append() {
- 	install -d ${D}${sysconfdir}/init.d
- 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/udev
- 	sed -i s%@UDEVD@%${base_sbindir}/udevd% ${D}${sysconfdir}/init.d/udev
-+	sed -i s%@KMOD@%${base_sbindir}/kmod% ${D}${sysconfdir}/init.d/udev
- 
- 	install -d ${D}${sysconfdir}/udev/rules.d
- 	install -m 0644 ${WORKDIR}/local.rules ${D}${sysconfdir}/udev/rules.d/local.rules
-@@ -73,6 +74,7 @@ FILES:libudev = "${base_libdir}/libudev.so.*"
- FILES:eudev-hwdb = "${sysconfdir}/udev/hwdb.d"
- 
- RDEPENDS:eudev-hwdb += "eudev"
-+RDEPENDS:eudev += "kmod"
- 
- RPROVIDES:${PN} = "hotplug udev"
- RPROVIDES:eudev-hwdb += "udev-hwdb"
 -- 
-2.25.1
+2.36.1
 
 
