@@ -1,158 +1,147 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <chanho61.park@samsung.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11DEBC433EF
-	for <webhook@archiver.kernel.org>; Thu, 19 May 2022 06:43:37 +0000 (UTC)
-Received: from mailout10.t-online.de (mailout10.t-online.de [194.25.134.21])
- by mx.groups.io with SMTP id smtpd.web08.4508.1652942610947179060
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA9E9C4332F
+	for <webhook@archiver.kernel.org>; Thu, 19 May 2022 08:28:27 +0000 (UTC)
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+ by mx.groups.io with SMTP id smtpd.web10.5202.1652948903905510834
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 May 2022 23:43:31 -0700
+ Thu, 19 May 2022 01:28:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.21,
- mailfrom: f_l_k@t-online.de)
-Received: from fwd78.dcpf.telekom.de (fwd78.aul.t-online.de [10.223.144.104])
-	by mailout10.t-online.de (Postfix) with SMTP id 1EC145565
+ dkim=fail reason="body hash did not verify" header.i=@samsung.com
+ header.s=mail20170921 header.b=Gi7BhImP;
+ spf=pass (domain: samsung.com, ip: 203.254.224.34,
+ mailfrom: chanho61.park@samsung.com)
+Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id
+ 20220519082821epoutp0469fe70a45590e31cf00dcee032fbac2f~wdESRQvqn0294002940epoutp04j
 	for <openembedded-core@lists.openembedded.org>;
- Thu, 19 May 2022 08:43:29 +0200 (CEST)
-Received: from flk-MS-7C91.fritz.box ([84.154.174.3]) by fwd78.t-online.de
-	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
-	esmtp id 1nrZsd-1Vrj4k0; Thu, 19 May 2022 08:43:27 +0200
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Markus Volk <f_l_k@t-online.de>
-Subject: [meta-oe][RFC PATCH 2/2] libsdl2: rework and cleanup
-Date: Thu, 19 May 2022 08:43:12 +0200
-Message-Id: <20220519064312.391164-2-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220519064312.391164-1-f_l_k@t-online.de>
-References: <20220519064312.391164-1-f_l_k@t-online.de>
+ Thu, 19 May 2022 08:28:21 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
+ 20220519082821epoutp0469fe70a45590e31cf00dcee032fbac2f~wdESRQvqn0294002940epoutp04j
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1652948901;
+	bh=ZPL7pF1aUYyJzRiatC/FC9aFmDHt+My8v9qfnsMmeuw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Gi7BhImPIm8KVSzHVZ1MapZ2ouF0boANBrN3WVOjWR7if3aFnYevH2CRkUESGXHOq
+	 oRQcJH2/zaqb4TNVlNqaHY2XNozQE5Y3OO+cLvAbABmAiOXv7KuhjYnRo0yLZkEbgT
+	 y1+cLWVDiWMWNYr/cPgvDzi6VGrG93tL5fYZEA7c=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas2p3.samsung.com (KnoxPortal) with ESMTP id
+	20220519082820epcas2p312f73318559645d4229d4fb47459243f~wdER6ZKmj0362203622epcas2p3p;
+	Thu, 19 May 2022 08:28:20 +0000 (GMT)
+Received: from epsmges2p4.samsung.com (unknown [182.195.36.91]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4L3jfq1kl9z4x9QM; Thu, 19 May
+	2022 08:28:19 +0000 (GMT)
+Received: from epcas2p3.samsung.com ( [182.195.41.55]) by
+	epsmges2p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+	ED.14.09694.D9FF5826; Thu, 19 May 2022 17:28:13 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas2p3.samsung.com (KnoxPortal) with ESMTPA id
+	20220519082813epcas2p39cf1b2a4d20c8c7c8c0ae48955a50ac8~wdELW0ghl0198001980epcas2p3X;
+	Thu, 19 May 2022 08:28:13 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20220519082813epsmtrp1d86bbf26ae127166dff9f102a5b8599b~wdELVW8h12068320683epsmtrp1d;
+	Thu, 19 May 2022 08:28:13 +0000 (GMT)
+X-AuditID: b6c32a48-495ff700000025de-59-6285ff9debd9
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+	24.67.08924.D9FF5826; Thu, 19 May 2022 17:28:13 +0900 (KST)
+Received: from localhost.localdomain (unknown [10.229.9.51]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20220519082813epsmtip1f9340eadb1e8e67bf04dd000826b2c47~wdELIY7O_0421604216epsmtip1N;
+	Thu, 19 May 2022 08:28:13 +0000 (GMT)
+From: Chanho Park <chanho61.park@samsung.com>
+To: openembedded-devel@lists.openembedded.org, Richard Purdie
+	<richard.purdie@linuxfoundation.org>, Randy MacLeod
+	<Randy.MacLeod@windriver.com>, openembedded-core@lists.openembedded.org
+Cc: Chanho Park <chanho61.park@samsung.com>
+Subject: [PATCH 2/2] cargo_common.bbclass: enable bitbake vendoring for
+ externalsrc
+Date: Thu, 19 May 2022 17:29:01 +0900
+Message-Id: <20220519082901.148142-3-chanho61.park@samsung.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220519082901.148142-1-chanho61.park@samsung.com>
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1652942607-0000AD4E-8ED9F5E3/0/0 CLEAN NORMAL
-X-TOI-MSGID: 86aa04a5-02c2-433d-9a35-036d7c68781f
+X-Brightmail-Tracker: 
+ H4sIAAAAAAAAA+NgFvrFKsWRmVeSWpSXmKPExsWy7bCmue7c/61JBrffmllc3q9tcefnO3aL
+	i4eXMlv8+DuB1eLHs4msDqwe++euYfc4t3EFo0ffllWMHuu3bGUKYInKtslITUxJLVJIzUvO
+	T8nMS7dV8g6Od443NTMw1DW0tDBXUshLzE21VXLxCdB1y8wB2qukUJaYUwoUCkgsLlbSt7Mp
+	yi8tSVXIyC8usVVKLUjJKTAv0CtOzC0uzUvXy0stsTI0MDAyBSpMyM643NvMWLCcveL5g+cs
+	DYyT2boYOTgkBEwk3izn6GLk4hAS2MEo0f5oKTuE84lR4vTqXywQzmdGifs3bzHBdNzcyQ8R
+	38UosfnoJUYI5yOjxLm/34CKODnYBHQltjx/BZYQEdjLKHF33jVWkASzgLZE5+cp7CC2sECo
+	xNN/LxhBprIIqEpcbwoDCfMK2Ets27qYGcSWEJCX2DC/F8zmFHCQuHrlFAtEjaDEyZlPWCBG
+	yks0b53NDLJLQuAau8TF3afYIS51kbiywgFijrDEq+Nb2CFsKYmX/W1QdrHE0lmfmCB6Gxgl
+	Lm/7xQaRMJaY9awd7DZmAU2J9bv0IUYqSxy5BbWWT6Lj8F+oTbwSHW1CEI3qEge2T2eBsGUl
+	uud8ZoWwPSS2bu0Eh46QwGRGid3b4yYwKsxC8swsJM/MQti7gJF5FaNYakFxbnpqsVGBCTx6
+	k/NzNzGCE6GWxw7G2W8/6B1iZOJgPMQowcGsJMLLmNuSJMSbklhZlVqUH19UmpNafIjRFBjS
+	E5mlRJPzgak4ryTe0MTSwMTMzNDcyNTAXEmc1ytlQ6KQQHpiSWp2ampBahFMHxMHp1QD06Sf
+	wb63qtSrnZxurY3UeT37sMZ2Pff//qUi4fIWop8mBasbZeYvLppxsa8h37jl4O2w6bH+MuI6
+	ptMv1/keXzgt4f+EYxwRYTZ/Is9MWB/a+mjnFA2RbzH/hZZkFj3nnGK21vVopeWVDBHjPzvL
+	ZBa6zVee/UzAd8uyNu2odTdet+t6ec8JOcC/dtsd/8aEZO01b/T/X3K1eZjbpq7+IbkkbYfP
+	conZqo5T2UoevtW+JRRV9G1bgNsTXrv2lp2iaud/3E5pdDit7ZQzh6n75/arS889zu2fMfnX
+	t2W3eKyPlZtI5rGkMy3cvfLhe4VU8VDVHYc4bomcc/lif2vWonOfHreI6Wv4Fks/ztwXrcRS
+	nJFoqMVcVJwIAC0uUPMNBAAA
+X-Brightmail-Tracker: 
+ H4sIAAAAAAAAA+NgFtrGLMWRmVeSWpSXmKPExsWy7bCSnO7c/61JBld3KFpc3q9tcefnO3aL
+	i4eXMlv8+DuB1eLHs4msDqwe++euYfc4t3EFo0ffllWMHuu3bGUKYInisklJzcksSy3St0vg
+	yrjc28xYsJy94vmD5ywNjJPZuhg5OCQETCRu7uTvYuTiEBLYwSixaMNjpi5GTqC4rMSzdzvY
+	IWxhifstR1ghit4zSjw7e40ZJMEmoCux5fkrRhBbRGA/o8T5GekgNrOAtkTn5ylgzcICwRKn
+	rrYxgixjEVCVuN4UBhLmFbCX2LZ1MTPEfHmJDfN7wWxOAQeJq1dOsYDYQkA1K28uZIaoF5Q4
+	OfMJC8R4eYnmrbOZJzAKzEKSmoUktYCRaRWjZGpBcW56brFhgVFearlecWJucWleul5yfu4m
+	RnDQamntYNyz6oPeIUYmDsZDjBIczEoivIy5LUlCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeS90
+	nYwXEkhPLEnNTk0tSC2CyTJxcEo1MNmnyqQatl8IzOX04+P+mrbowxUXtxVnb98xqX0mbc++
+	aPFzz85nTC2fLyxatvtb2Ja761halq9/WLHWv/rYirZj3gyKtnuWX3jI2VKr2HV00q3OfSsf
+	mF76y3Ty4EJf3btr/O6yvdzcdbQlUHYz29GZIu/1jUU0r09vbTBUtNkXrrq8xfnPmeq5KeJR
+	i/vvsUdmzLCwffNJ9U1P/A7nh5vy0zc4vOU+NJfn6MSQq7rZKbOrZ+a/7Lz197f8jc7FRhPO
+	7Qztzun8tOnqnaQSNfbSNWFW1uUXYzurDr12T7GbKZcqFi7gEZc7KXAK/yZ/zzRDpo5SZiPH
+	bcd5xB8FPfPmXNe4webckXltwhPWT1ZiKc5INNRiLipOBADc7t6ZyQIAAA==
+X-CMS-MailID: 20220519082813epcas2p39cf1b2a4d20c8c7c8c0ae48955a50ac8
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220519082813epcas2p39cf1b2a4d20c8c7c8c0ae48955a50ac8
+References: <20220519082901.148142-1-chanho61.park@samsung.com>
+	<CGME20220519082813epcas2p39cf1b2a4d20c8c7c8c0ae48955a50ac8@epcas2p3.samsung.com>
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 May 2022 06:43:37 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 19 May 2022 08:28:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165866
+ https://lists.openembedded.org/g/openembedded-core/message/165870
 
-- add libusb dependency because libsdl2 is looking for it
-- remove xvm and xinerama since support has been dropped in sdl code
-- allow native build for libxkbcommon and xkeyboard-config to allow
-  alignment of native/target build
-- align native and target build
-- add PACKAGECONFIG options for pipewire and libdecor
+To support crate:// fetcher on externalsrc, we need to remove "-z
+${EXTERNALSRC} check of bitbake vendoring. It is possible to disable
+vendoring by CARGO_DISABLE_BITBAKE_VENDORING =3D "1" if externalsrc-ed
+project does not want to enablt it.
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+Signed-off-by: Chanho Park <chanho61.park@samsung.com>
 ---
- meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb | 17 ++++++++---------
- .../xorg-lib/libxkbcommon_1.4.0.bb              |  2 ++
- .../xorg-lib/xkeyboard-config_2.35.1.bb         |  2 ++
- 3 files changed, 12 insertions(+), 9 deletions(-)
+ meta/classes/cargo_common.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb b/meta/recip=
-es-graphics/libsdl2/libsdl2_2.0.22.bb
-index 7678319770..a6550c3175 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb
-@@ -21,6 +21,8 @@ LIC_FILES_CHKSUM:append =3D " ${@bb.utils.contains('PAC=
-KAGECONFIG', 'arm-neon', 'f
+diff --git a/meta/classes/cargo_common.bbclass b/meta/classes/cargo_commo=
+n.bbclass
+index 90fad7541530..39f32829fd44 100644
+--- a/meta/classes/cargo_common.bbclass
++++ b/meta/classes/cargo_common.bbclass
+@@ -45,7 +45,7 @@ cargo_common_do_configure () {
+ 	directory =3D "${CARGO_VENDORING_DIRECTORY}"
+ 	EOF
 =20
- PROVIDES =3D "virtual/libsdl2"
+-	if [ -z "${EXTERNALSRC}" ] && [ ${CARGO_DISABLE_BITBAKE_VENDORING} =3D =
+"0" ]; then
++	if [ ${CARGO_DISABLE_BITBAKE_VENDORING} =3D "0" ]; then
+ 		cat <<- EOF >> ${CARGO_HOME}/config
 =20
-+DEPENDS =3D "libusb"
-+
- SRC_URI =3D "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
-            file://0001-video-restore-ability-to-disable-fb-accel-via-hin=
-t.patch \
-            "
-@@ -43,9 +45,7 @@ EXTRA_OECMAKE =3D "-DSDL_OSS=3DOFF -DSDL_ESD=3DOFF -DSD=
-L_ARTS=3DOFF \
-                  -DSDL_PTHREADS=3DON \
-                  -DSDL_RPATH=3DOFF \
-                  -DSDL_SNDIO=3DOFF \
--                 -DSDL_X11_XVM=3DOFF \
-                  -DSDL_X11_XCURSOR=3DOFF \
--                 -DSDL_X11_XINERAMA=3DOFF \
-                  -DSDL_X11_XDBE=3DOFF \
-                  -DSDL_X11_XFIXES=3DOFF \
-                  -DSDL_X11_XINPUT=3DOFF \
-@@ -55,24 +55,23 @@ EXTRA_OECMAKE =3D "-DSDL_OSS=3DOFF -DSDL_ESD=3DOFF -D=
-SDL_ARTS=3DOFF \
- "
-=20
- # opengl packageconfig factored out to make it easy for distros
--# and BSP layers to pick either (desktop) opengl, gles2, or no GL
--PACKAGECONFIG_GL ?=3D "${@bb.utils.filter('DISTRO_FEATURES', 'opengl', d=
-)}"
-+# and BSP layers to pick either (desktop) opengl, gles, or no GL
-+PACKAGECONFIG_GL ?=3D "${@bb.utils.filter('DISTRO_FEATURES', 'opengl gle=
-s', d)}"
-=20
--PACKAGECONFIG:class-native =3D "x11 ${PACKAGECONFIG_GL}"
--PACKAGECONFIG:class-nativesdk =3D "${@bb.utils.filter('DISTRO_FEATURES',=
- 'x11', d)} ${PACKAGECONFIG_GL}"
- PACKAGECONFIG ??=3D " \
-     ${PACKAGECONFIG_GL} \
--    ${@bb.utils.filter('DISTRO_FEATURES', 'alsa directfb pulseaudio x11'=
-, d)} \
--    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland gles2', =
-'', d)} \
-+    ${@bb.utils.filter('DISTRO_FEATURES', 'alsa directfb pulseaudio pipe=
-wire x11 wayland', d)} \
-     ${@bb.utils.contains("TUNE_FEATURES", "neon","arm-neon","",d)} \
- "
- PACKAGECONFIG[alsa]       =3D "-DSDL_ALSA=3DON,-DSDL_ALSA=3DOFF,alsa-lib=
-,"
- PACKAGECONFIG[arm-neon]   =3D "-DSDL_ARMNEON=3DON,-DSDL_ARMNEON=3DOFF"
- PACKAGECONFIG[directfb]   =3D "-DSDL_DIRECTFB=3DON,-DSDL_DIRECTFB=3DOFF,=
-directfb,directfb"
--PACKAGECONFIG[gles2]      =3D "-DSDL_OPENGLES=3DON,-DSDL_OPENGLES=3DOFF,=
-virtual/libgles2"
-+PACKAGECONFIG[gles]       =3D "-DSDL_OPENGLES=3DON,-DSDL_OPENGLES=3DOFF,=
-virtual/libgles2"
- PACKAGECONFIG[jack]       =3D "-DSDL_JACK=3DON,-DSDL_JACK=3DOFF,jack"
- PACKAGECONFIG[kmsdrm]     =3D "-DSDL_KMSDRM=3DON,-DSDL_KMSDRM=3DOFF,libd=
-rm virtual/libgbm"
-+PACKAGECONFIG[libdecor]   =3D "-DSDL_WAYLAND_LIBDECOR=3DON,-DSDL_WAYLAND=
-_LIBDECOR=3DOFF,libdecor,libdecor"
- PACKAGECONFIG[opengl]     =3D "-DSDL_OPENGL=3DON,-DSDL_OPENGL=3DOFF,virt=
-ual/egl"
-+PACKAGECONFIG[pipewire]   =3D "-DSDL_PIPEWIRE=3DON,-DSDL_PIPEWIRE=3DOFF,=
-pipewire"
- PACKAGECONFIG[pulseaudio] =3D "-DSDL_PULSEAUDIO=3DON,-DSDL_PULSEAUDIO=3D=
-OFF,pulseaudio"
- PACKAGECONFIG[wayland]    =3D "-DSDL_WAYLAND=3DON,-DSDL_WAYLAND=3DOFF,wa=
-yland-native wayland wayland-protocols libxkbcommon"
- PACKAGECONFIG[x11]        =3D "-DSDL_X11=3DON,-DSDL_X11=3DOFF,virtual/li=
-bx11 libxext libxrandr libxrender"
-diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.0.bb b/meta/=
-recipes-graphics/xorg-lib/libxkbcommon_1.4.0.bb
-index 34652e9c4e..9840b0797b 100644
---- a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.0.bb
-@@ -34,3 +34,5 @@ python populate_packages:prepend () {
- # Fix a following runtime error:
- # xkbcommon: ERROR: couldn't find a Compose file for locale "C"
- RDEPENDS:${PN} =3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'libx=
-11-locale', 'libx11-compose-data', d)}"
-+
-+BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.35.1.bb b/=
-meta/recipes-graphics/xorg-lib/xkeyboard-config_2.35.1.bb
-index 5215131e3e..46c73879e6 100644
---- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.35.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.35.1.bb
-@@ -28,3 +28,5 @@ do_install:append () {
-     install -d ${D}${datadir}/X11/xkb/compiled
-     cd ${D}${datadir}/X11/xkb/rules && ln -sf base xorg
- }
-+
-+BBCLASSEXTEND =3D "native nativesdk"
+ 		[source.crates-io]
 --=20
-2.25.1
+2.36.1
 
 
