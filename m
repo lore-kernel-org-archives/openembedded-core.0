@@ -2,42 +2,42 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72EE2C433F5
-	for <webhook@archiver.kernel.org>; Fri, 20 May 2022 12:52:32 +0000 (UTC)
-Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
- by mx.groups.io with SMTP id smtpd.web08.8295.1653051147658574710
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81C28C433F5
+	for <webhook@archiver.kernel.org>; Fri, 20 May 2022 12:55:12 +0000 (UTC)
+Received: from mailout09.t-online.de (mailout09.t-online.de [194.25.134.84])
+ by mx.groups.io with SMTP id smtpd.web08.8320.1653051307712213086
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 May 2022 05:52:28 -0700
+ Fri, 20 May 2022 05:55:08 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.80,
+ spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.84,
  mailfrom: f_l_k@t-online.de)
-Received: from fwd70.dcpf.telekom.de (fwd70.aul.t-online.de [10.223.144.96])
-	by mailout01.t-online.de (Postfix) with SMTP id 558766046
+Received: from fwd77.dcpf.telekom.de (fwd77.aul.t-online.de [10.223.144.103])
+	by mailout09.t-online.de (Postfix) with SMTP id 644011C89C
 	for <openembedded-core@lists.openembedded.org>;
- Fri, 20 May 2022 14:52:25 +0200 (CEST)
-Received: from localhost.localdomain ([84.154.173.254]) by fwd70.t-online.de
+ Fri, 20 May 2022 14:54:35 +0200 (CEST)
+Received: from localhost.localdomain ([84.154.173.254]) by fwd77.t-online.de
 	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
-	esmtp id 1ns27C-3jcP5e0; Fri, 20 May 2022 14:52:22 +0200
+	esmtp id 1ns29K-3AtqF90; Fri, 20 May 2022 14:54:34 +0200
 From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Markus Volk <f_l_k@t-online.de>
-Subject: [oe-core][RFC PATCHv2 2/2] libsdl2: rework and cleanup
-Date: Fri, 20 May 2022 14:52:07 +0200
-Message-Id: <20220520125207.4115296-2-f_l_k@t-online.de>
+Subject: [oe-core][RFC PATCHv3 3/3] libsdl2: rework and cleanup
+Date: Fri, 20 May 2022 14:54:19 +0200
+Message-Id: <20220520125419.4115417-3-f_l_k@t-online.de>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220520125207.4115296-1-f_l_k@t-online.de>
-References: <20220520125207.4115296-1-f_l_k@t-online.de>
+In-Reply-To: <20220520125419.4115417-1-f_l_k@t-online.de>
+References: <20220520125419.4115417-1-f_l_k@t-online.de>
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1653051142-00004E7B-A059B176/0/0 CLEAN NORMAL
-X-TOI-MSGID: 68ff74b3-38b6-4c37-ba65-90a176d20524
+X-TOI-EXPURGATEID: 150726::1653051274-0001606D-35206E04/0/0 CLEAN NORMAL
+X-TOI-MSGID: 1ff34bcd-796f-4e59-8cf4-fb845534f037
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 May 2022 12:52:32 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 20 May 2022 12:55:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165936
+ https://lists.openembedded.org/g/openembedded-core/message/165937
 
 - add libusb PACKAGECONFIG because libsdl2 is looking for it
 - remove xvm and xinerama since support has been dropped in sdl code
