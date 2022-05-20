@@ -1,281 +1,211 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20011C433EF
-	for <webhook@archiver.kernel.org>; Fri, 20 May 2022 15:33:55 +0000 (UTC)
-Received: from mailout05.t-online.de (mailout05.t-online.de [194.25.134.82])
- by mx.groups.io with SMTP id smtpd.web09.313.1653060830712652818
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ADCCC433FE
+	for <webhook@archiver.kernel.org>; Fri, 20 May 2022 15:39:55 +0000 (UTC)
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com
+ [209.85.166.42])
+ by mx.groups.io with SMTP id smtpd.web11.412.1653061185490987928
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 May 2022 08:33:51 -0700
+ Fri, 20 May 2022 08:39:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.82,
- mailfrom: f_l_k@t-online.de)
-Received: from fwd76.dcpf.telekom.de (fwd76.aul.t-online.de [10.223.144.102])
-	by mailout05.t-online.de (Postfix) with SMTP id 7568E1F6C7
-	for <openembedded-core@lists.openembedded.org>;
- Fri, 20 May 2022 17:33:48 +0200 (CEST)
-Received: from localhost.localdomain ([84.154.173.254]) by fwd76.t-online.de
-	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
-	esmtp id 1ns4dQ-2nWgV70; Fri, 20 May 2022 17:33:48 +0200
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Markus Volk <f_l_k@t-online.de>
-Subject: [oe-core][RFC PATCHv4] allow to build more native packages
-Date: Fri, 20 May 2022 17:33:35 +0200
-Message-Id: <20220520153335.4116391-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SVVJGQl+;
+ spf=pass (domain: gmail.com, ip: 209.85.166.42, mailfrom: raj.khem@gmail.com)
+Received: by mail-io1-f42.google.com with SMTP id q203so9157821iod.0
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 20 May 2022 08:39:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=K94XhCUXuIOF5WY+IXyXEgCiYStE8/ZLsnKH4en1Pn4=;
+        b=SVVJGQl+9KPUAQbY0kTJL1EbdJXZU1oGnhXv0tX3Ye4/e+GKg9CViLMixJxq3CzdBP
+         KqMOGE0r5MojUw4Fxiit9gcPivbmj4/RiKyaSSyQjScIVlrJaT5N1IkRqxchkRIsw59d
+         M37NSpF6aNV7VdibxDNEA68j1uEbyr3Ywgg6vHQ/QsEe/fyKhz1RibdKhAFWBoMIPDLD
+         sZc3FaI4AS/wiJwm4L50d2CCPKIDaZctaBEPK9DHT+cO29rRkUUp37ZBcAVNS/pKHkDv
+         4xcxhulrC4Fonq4sqWPo6wzIzhZA/JzQFMKt7Puluwi4315fYqgO9hJpa4XFpjNUAqjl
+         xmvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=K94XhCUXuIOF5WY+IXyXEgCiYStE8/ZLsnKH4en1Pn4=;
+        b=DSnmZIHzo6ACVvB1Qs7hhWEKt2qnxk5VM2fCQNQ7MD/Zk7DIcVGWcBt30pFdUa9NyW
+         Q9l+Ej/AJHocBjtOXw23psbTTj3rZDcnHi3gi9Q5O1KrsbVuukj0QQVR4nIAvO4NVhjO
+         qtz4aqV+6T6kOOnYPWMHYLeLnRuDsUvdwreNxOWDq81pJKeNv2d5FWkd1vCLbr2XnJG0
+         wyw14poarWzm0O1b5AH2u4UaX/QjudRRHuGHmi8FV5+S1x2BkXOjoEevYkLd8udsBc0j
+         ssXG2+I2H2IyIJJNEjlkDz1GaEUtlKblWygB5MQ+97VNl7VSwC5a4iUU38OJa1QPV7Kf
+         2CLg==
+X-Gm-Message-State: AOAM530k9bu7PdwPqVqZiqZ2oWi+hwRpLadq2KSk0FKsPGbBjz9s0iXU
+	PDdtnvV8umA457TIKkQZg/rQbYqzgFz5mP+6VT2jphh6y0w=
+X-Google-Smtp-Source: 
+ ABdhPJwQ3roLi7hDfLH4+I+//IGBns0Res4ylifZTpLf3hyHwVTTm9YOs5wuB5s3F6OeVlOcc6qgZJFvCMLMHsRRa2M=
+X-Received: by 2002:ac8:5bc7:0:b0:2f9:14ee:885e with SMTP id
+ b7-20020ac85bc7000000b002f914ee885emr5659939qtb.532.1653061174102; Fri, 20
+ May 2022 08:39:34 -0700 (PDT)
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1653060828-0001619A-3AFDCB5B/0/0 CLEAN NORMAL
-X-TOI-MSGID: 98dda5ee-f307-4225-8000-fdac949c7b37
+References: <20220516224921.37639-1-raj.khem@gmail.com>
+ <CAOSpxdaCj5mEPSRzauErNiQ_VP0RmVgiLVscuO4hnM4zG=8FXg@mail.gmail.com>
+In-Reply-To: 
+ <CAOSpxdaCj5mEPSRzauErNiQ_VP0RmVgiLVscuO4hnM4zG=8FXg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 20 May 2022 08:39:08 -0700
+Message-ID: 
+ <CAMKF1sqR9QOniH9vpneH=Raadp6CDEirxAs5zSUNGG6J7+WGGQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] musl-locales: Switch SRC_URI to new location
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 May 2022 15:33:55 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 20 May 2022 15:39:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165943
+ https://lists.openembedded.org/g/openembedded-core/message/165944
 
-basically this would fix build for pipewire-native, libpam-native and ope=
-nssh-native.
-Hopefully without breaking things ;)
+On Fri, May 20, 2022 at 7:50 AM Steve Sakoman <steve@sakoman.com> wrote:
+>
+> On Mon, May 16, 2022 at 12:49 PM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > Original repository has been less maintained and thusly adelie linux
+> > community has picked up the package and started to maintain it also
+> > applied long standing bug fixes.
+> >
+> > Now we use new fork by Ad=C3=A9lie Linux, which includes more supported
+> > locales.
+>
+> Is this suitable/safe for kirkstone?
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- .../openssh/openssh_9.0p1.bb                  |  2 +-
- meta/recipes-core/udev/eudev_3.2.11.bb        |  2 ++
- meta/recipes-extended/pam/libpam_1.5.2.bb     | 24 +++++++++++--------
- .../recipes-graphics/xorg-lib/libxv_1.0.11.bb |  1 +
- meta/recipes-multimedia/flac/flac_1.3.4.bb    |  1 +
- .../gstreamer1.0-plugins-base_1.20.1.bb       |  2 ++
- .../gstreamer/gstreamer1.0_1.20.1.bb          |  2 ++
- .../recipes-multimedia/libogg/libogg_1.3.5.bb |  2 ++
- .../libsamplerate/libsamplerate0_0.2.2.bb     |  2 ++
- .../libsndfile/libsndfile1_1.1.0.bb           |  2 ++
- .../libtheora/libtheora_1.1.1.bb              |  2 ++
- .../libvorbis/libvorbis_1.3.7.bb              |  2 ++
- .../iso-codes/iso-codes_4.9.0.bb              |  2 ++
- 13 files changed, 35 insertions(+), 11 deletions(-)
+yes it is.
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.0p1.bb b/meta/re=
-cipes-connectivity/openssh/openssh_9.0p1.bb
-index b63ea2b137..d2cf8a6cf8 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.0p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.0p1.bb
-@@ -180,4 +180,4 @@ ALTERNATIVE_PRIORITY =3D "90"
- ALTERNATIVE:${PN}-scp =3D "scp"
- ALTERNATIVE:${PN}-ssh =3D "ssh"
-=20
--BBCLASSEXTEND +=3D "nativesdk"
-+BBCLASSEXTEND +=3D "native nativesdk"
-diff --git a/meta/recipes-core/udev/eudev_3.2.11.bb b/meta/recipes-core/u=
-dev/eudev_3.2.11.bb
-index 841039f6d7..2c1c59b993 100644
---- a/meta/recipes-core/udev/eudev_3.2.11.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.11.bb
-@@ -89,3 +89,5 @@ pkg_postinst:eudev-hwdb () {
- pkg_prerm:eudev-hwdb () {
-         rm -f $D${sysconfdir}/udev/hwdb.bin
- }
-+
-+BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-extended/pam/libpam_1.5.2.bb b/meta/recipes-ext=
-ended/pam/libpam_1.5.2.bb
-index 081986ef43..1b0bb0d51c 100644
---- a/meta/recipes-extended/pam/libpam_1.5.2.bb
-+++ b/meta/recipes-extended/pam/libpam_1.5.2.bb
-@@ -54,7 +54,7 @@ FILES:${PN}-dev +=3D "${base_libdir}/security/*.la ${ba=
-se_libdir}/*.la ${base_libd
- FILES:${PN}-runtime =3D "${sysconfdir} ${sbindir} ${systemd_system_unitd=
-ir}"
- FILES:${PN}-xtests =3D "${datadir}/Linux-PAM/xtests"
-=20
--PACKAGES_DYNAMIC +=3D "^${MLPREFIX}pam-plugin-.*"
-+PACKAGES_DYNAMIC:class-target +=3D "^${MLPREFIX}pam-plugin-.*"
-=20
- def get_multilib_bit(d):
-     baselib =3D d.getVar('baselib') or ''
-@@ -65,23 +65,24 @@ libpam_suffix =3D "suffix${@get_multilib_bit(d)}"
- RPROVIDES:${PN} +=3D "${PN}-${libpam_suffix}"
- RPROVIDES:${PN}-runtime +=3D "${PN}-runtime-${libpam_suffix}"
-=20
--RDEPENDS:${PN}-runtime =3D "${PN}-${libpam_suffix} \
-+RDEPENDS:${PN}-xtests =3D "bash coreutils"
-+
-+RRECOMMENDS:${PN}-runtime =3D "${PN}-${libpam_suffix} \
-+    ${PN}-runtime-${libpam_suffix} \
-     ${MLPREFIX}pam-plugin-deny-${libpam_suffix} \
-     ${MLPREFIX}pam-plugin-permit-${libpam_suffix} \
-     ${MLPREFIX}pam-plugin-warn-${libpam_suffix} \
-     ${MLPREFIX}pam-plugin-unix-${libpam_suffix} \
-     "
--RDEPENDS:${PN}-xtests =3D "${PN}-${libpam_suffix} \
-+RRECOMMENDS:${PN}-xtests =3D "${PN}-${libpam_suffix} \
-     ${MLPREFIX}pam-plugin-access-${libpam_suffix} \
-     ${MLPREFIX}pam-plugin-debug-${libpam_suffix} \
-     ${MLPREFIX}pam-plugin-pwhistory-${libpam_suffix} \
-     ${MLPREFIX}pam-plugin-succeed-if-${libpam_suffix} \
-     ${MLPREFIX}pam-plugin-time-${libpam_suffix} \
--    bash coreutils"
-+    "
-=20
--# FIXME: Native suffix breaks here, disable it for now
--RRECOMMENDS:${PN} =3D "${PN}-runtime-${libpam_suffix}"
--RRECOMMENDS:${PN}:class-native =3D ""
-+RRECOMMENDS:${PN} =3D "${PN}-runtime"
-=20
- python populate_packages:prepend () {
-     def pam_plugin_hook(file, pkg, pattern, format, basename):
-@@ -148,6 +149,9 @@ do_install() {
- 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)};=
- then
- 		echo "session optional pam_systemd.so" >> ${D}${sysconfdir}/pam.d/comm=
-on-session
- 	fi
-+}
-+
-+do_install:append:class-target() {
- 	if ${@bb.utils.contains('DISTRO_FEATURES','usrmerge','false','true',d)}=
-; then
- 		install -d ${D}/${libdir}/
- 		mv ${D}/${base_libdir}/pkgconfig ${D}/${libdir}/
-@@ -169,9 +173,7 @@ pkg_postinst:${PN}() {
- }
-=20
- inherit features_check
--REQUIRED_DISTRO_FEATURES =3D "pam"
--
--BBCLASSEXTEND =3D "nativesdk native"
-+REQUIRED_DISTRO_FEATURES:class-target =3D "pam"
-=20
- CONFFILES:${PN}-runtime +=3D "${sysconfdir}/pam.d/common-session"
- CONFFILES:${PN}-runtime +=3D "${sysconfdir}/pam.d/common-auth"
-@@ -183,3 +185,5 @@ CONFFILES:${PN}-runtime +=3D "${sysconfdir}/security/=
-limits.conf"
- UPSTREAM_CHECK_URI =3D "https://github.com/linux-pam/linux-pam/releases"
-=20
- CVE_PRODUCT =3D "linux-pam"
-+
-+BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb b/meta/recipe=
-s-graphics/xorg-lib/libxv_1.0.11.bb
-index 3c8bf08153..0eb8f97181 100644
---- a/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb
-@@ -17,3 +17,4 @@ XORG_PN =3D "libXv"
- SRC_URI[md5sum] =3D "210b6ef30dda2256d54763136faa37b9"
- SRC_URI[sha256sum] =3D "d26c13eac99ac4504c532e8e76a1c8e4bd526471eb8a0a4f=
-f2a88db60cb0b088"
-=20
-+BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-multimedia/flac/flac_1.3.4.bb b/meta/recipes-mu=
-ltimedia/flac/flac_1.3.4.bb
-index 012da0a0a0..e177c90b0a 100644
---- a/meta/recipes-multimedia/flac/flac_1.3.4.bb
-+++ b/meta/recipes-multimedia/flac/flac_1.3.4.bb
-@@ -43,3 +43,4 @@ FILES:libflac++ =3D "${libdir}/libFLAC++.so.*"
- FILES:liboggflac =3D "${libdir}/libOggFLAC.so.*"
- FILES:liboggflac++ =3D "${libdir}/libOggFLAC++.so.*"
-=20
-+BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_=
-1.20.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1=
-.20.1.bb
-index 0953261a98..b52a80d3e1 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.=
-bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.1.=
-bb
-@@ -92,3 +92,5 @@ def get_opengl_cmdline_list(switch_name, options, d):
-         return ''
-=20
- CVE_PRODUCT +=3D "gst-plugins-base"
-+
-+BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb b/m=
-eta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb
-index 81b94928d9..fa5ec44a23 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.1.bb
-@@ -71,3 +71,5 @@ FILES:${PN}-dbg +=3D "${datadir}/gdb ${datadir}/gstream=
-er-1.0/gdb"
- CVE_PRODUCT =3D "gstreamer"
-=20
- PTEST_BUILD_HOST_FILES =3D ""
-+
-+BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-multimedia/libogg/libogg_1.3.5.bb b/meta/recipe=
-s-multimedia/libogg/libogg_1.3.5.bb
-index b4f02e404c..87362cb6cf 100644
---- a/meta/recipes-multimedia/libogg/libogg_1.3.5.bb
-+++ b/meta/recipes-multimedia/libogg/libogg_1.3.5.bb
-@@ -15,3 +15,5 @@ SRC_URI[md5sum] =3D "3178c98341559657a15b185bf5d700a5"
- SRC_URI[sha256sum] =3D "c4d91be36fc8e54deae7575241e03f4211eb102afb3fc077=
-5fbbc1b740016705"
-=20
- inherit autotools pkgconfig
-+
-+BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.2.2.b=
-b b/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.2.2.bb
-index ed2b6437dd..2ddbd411ee 100644
---- a/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.2.2.bb
-+++ b/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.2.2.bb
-@@ -24,3 +24,5 @@ inherit autotools pkgconfig
- # normal builds. It should be safe to ignore these, but explicitly disab=
-ling
- # them adds some extra certainty that builds are deterministic.
- EXTRA_OECONF =3D "--disable-fftw --disable-alsa"
-+
-+BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.1.0.bb b/me=
-ta/recipes-multimedia/libsndfile/libsndfile1_1.1.0.bb
-index 70626b3c16..85c11c7ca9 100644
---- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.1.0.bb
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.1.0.bb
-@@ -30,3 +30,5 @@ inherit autotools lib_package pkgconfig multilib_header
- do_install:append() {
-     oe_multilib_header sndfile.h
- }
-+
-+BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb b/meta/=
-recipes-multimedia/libtheora/libtheora_1.1.1.bb
-index 178e1a9240..45b5f5c358 100644
---- a/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb
-+++ b/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb
-@@ -20,3 +20,5 @@ UPSTREAM_CHECK_REGEX =3D "libtheora-(?P<pver>\d+(\.\d)+=
-)\.(tar\.gz|tgz)"
- inherit autotools pkgconfig
-=20
- EXTRA_OECONF =3D "--disable-examples"
-+
-+BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb b/meta/=
-recipes-multimedia/libvorbis/libvorbis_1.3.7.bb
-index 023bce0abe..9b7e2d8ad6 100644
---- a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb
-+++ b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb
-@@ -17,3 +17,5 @@ SRC_URI[md5sum] =3D "50902641d358135f06a8392e61c9ac77"
- SRC_URI[sha256sum] =3D "b33cc4934322bcbf6efcbacf49e3ca01aadbea4114ec9589=
-d1b1e9d20f72954b"
-=20
- inherit autotools pkgconfig
-+
-+BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-support/iso-codes/iso-codes_4.9.0.bb b/meta/rec=
-ipes-support/iso-codes/iso-codes_4.9.0.bb
-index f51edf09a4..f69e67961d 100644
---- a/meta/recipes-support/iso-codes/iso-codes_4.9.0.bb
-+++ b/meta/recipes-support/iso-codes/iso-codes_4.9.0.bb
-@@ -20,3 +20,5 @@ S =3D "${WORKDIR}/git"
- inherit allarch autotools
-=20
- FILES:${PN} +=3D "${datadir}/xml/"
-+
-+BBCLASSEXTEND =3D "native nativesdk"
---=20
-2.25.1
-
+>
+> Steve
+>
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/recipes-core/musl/musl-locales_git.bb | 21 +++++++++++++++------
+> >  1 file changed, 15 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/meta/recipes-core/musl/musl-locales_git.bb b/meta/recipes-=
+core/musl/musl-locales_git.bb
+> > index 40b20e250d2..92532237e03 100644
+> > --- a/meta/recipes-core/musl/musl-locales_git.bb
+> > +++ b/meta/recipes-core/musl/musl-locales_git.bb
+> > @@ -2,15 +2,15 @@
+> >  # Released under the MIT license (see COPYING.MIT for the terms)
+> >  #
+> >  SUMMARY =3D "Locales support for musl"
+> > -HOMEPAGE =3D "https://gitlab.com/rilian-la-te/musl-locales"
+> > +HOMEPAGE =3D "https://git.adelielinux.org/adelie/musl-locales/-/wikis/=
+home"
+> >  LICENSE =3D "MIT & LGPL-3.0-or-later"
+> >  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dcf5713fba707073020b1db2acaa=
+73e78 \
+> >                      file://LICENSE.MIT;md5=3Da4f1c6864a83ddf4b754cdab7=
+d593523"
+> >
+> > -SRC_URI =3D "git://gitlab.com/rilian-la-te/musl-locales;protocol=3Dhtt=
+ps;branch=3Dmaster"
+> > +SRC_URI =3D "git://git.adelielinux.org/adelie/musl-locales;protocol=3D=
+https;branch=3Dmain"
+> >
+> >  PV =3D "1.0+git${SRCPV}"
+> > -SRCREV =3D "1101fb2bcdd189cd9415b8bd1c775eb43527d25c"
+> > +SRCREV =3D "cac3dcdccd1d0c08d17f4919d862737d64b76f79"
+> >
+> >  S =3D "${WORKDIR}/git"
+> >
+> > @@ -28,46 +28,55 @@ python () {
+> >
+> >  # only locale binaries are under GPL-3.0-or-later others are MIT
+> >  LICENSE:${PN} =3D "LGPL-3.0-or-later"
+> > -LICENSE:locale-base-ch-de =3D "MIT"
+> > +LICENSE:locale-base-cs-cz =3D "MIT"
+> >  LICENSE:locale-base-de-ch =3D "MIT"
+> >  LICENSE:locale-base-de-de =3D "MIT"
+> >  LICENSE:locale-base-en-gb =3D "MIT"
+> >  LICENSE:locale-base-en-us =3D "MIT"
+> >  LICENSE:locale-base-es-es =3D "MIT"
+> > +LICENSE:locale-base-fi-fi =3D "MIT"
+> >  LICENSE:locale-base-fr-fr =3D "MIT"
+> >  LICENSE:locale-base-it-it =3D "MIT"
+> >  LICENSE:locale-base-nb-no =3D "MIT"
+> >  LICENSE:locale-base-nl-nl =3D "MIT"
+> >  LICENSE:locale-base-pt-br =3D "MIT"
+> > +LICENSE:locale-base-pt-pt =3D "MIT"
+> >  LICENSE:locale-base-ru-ru =3D "MIT"
+> > +LICENSE:locale-base-sr-rs =3D "MIT"
+> >  LICENSE:locale-base-sv-se =3D "MIT"
+> >
+> > -PACKAGES =3D+ "locale-base-ch-de \
+> > +PACKAGES =3D+ "locale-base-cs-cz \
+> >               locale-base-de-ch \
+> >               locale-base-de-de \
+> >               locale-base-en-gb \
+> >               locale-base-en-us \
+> >               locale-base-es-es \
+> > +             locale-base-fi-fi \
+> >               locale-base-fr-fr \
+> >               locale-base-it-it \
+> >               locale-base-nb-no \
+> >               locale-base-nl-nl \
+> >               locale-base-pt-br \
+> > +             locale-base-pt-pt \
+> >               locale-base-ru-ru \
+> > +             locale-base-sr-rs \
+> >               locale-base-sv-se \
+> >               "
+> > -FILES:locale-base-ch-de +=3D "${datadir}/i18n/locales/musl/ch_DE.UTF-8=
+"
+> > +FILES:locale-base-cs-cz +=3D "${datadir}/i18n/locales/musl/cs_CZ.UTF-8=
+"
+> >  FILES:locale-base-de-ch +=3D "${datadir}/i18n/locales/musl/de_CH.UTF-8=
+"
+> >  FILES:locale-base-de-de +=3D "${datadir}/i18n/locales/musl/de_DE.UTF-8=
+"
+> >  FILES:locale-base-en-gb +=3D "${datadir}/i18n/locales/musl/en_GB.UTF-8=
+"
+> >  FILES:locale-base-en-us +=3D "${datadir}/i18n/locales/musl/en_US.UTF-8=
+"
+> >  FILES:locale-base-es-es +=3D "${datadir}/i18n/locales/musl/es_ES.UTF-8=
+"
+> > +FILES:locale-base-fi-fi +=3D "${datadir}/i18n/locales/musl/fi_FI.UTF-8=
+"
+> >  FILES:locale-base-fr-fr +=3D "${datadir}/i18n/locales/musl/fr_FR.UTF-8=
+"
+> >  FILES:locale-base-it-it +=3D "${datadir}/i18n/locales/musl/it_IT.UTF-8=
+"
+> >  FILES:locale-base-nb-no +=3D "${datadir}/i18n/locales/musl/nb_NO.UTF-8=
+"
+> >  FILES:locale-base-nl-nl +=3D "${datadir}/i18n/locales/musl/nl_NL.UTF-8=
+"
+> >  FILES:locale-base-pt-br +=3D "${datadir}/i18n/locales/musl/pt_BR.UTF-8=
+"
+> > +FILES:locale-base-pt-pt +=3D "${datadir}/i18n/locales/musl/pt_PT.UTF-8=
+"
+> >  FILES:locale-base-ru-ru +=3D "${datadir}/i18n/locales/musl/ru_RU.UTF-8=
+"
+> > +FILES:locale-base-sr-rs +=3D "${datadir}/i18n/locales/musl/sr_RS.UTF-8=
+"
+> >  FILES:locale-base-sv-se +=3D "${datadir}/i18n/locales/musl/sv_SE.UTF-8=
+"
+> >
+> >  UPSTREAM_CHECK_COMMITS =3D "1"
+> > --
+> > 2.36.1
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#165700): https://lists.openembedded.org/g/openembed=
+ded-core/message/165700
+> > Mute This Topic: https://lists.openembedded.org/mt/91152448/3620601
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+steve@sakoman.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
 
