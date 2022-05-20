@@ -2,100 +2,187 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1590AC433EF
-	for <webhook@archiver.kernel.org>; Fri, 20 May 2022 14:36:23 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web11.9489.1653057381589381524
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14C1EC433EF
+	for <webhook@archiver.kernel.org>; Fri, 20 May 2022 14:50:33 +0000 (UTC)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web10.9735.1653058225755434905
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 May 2022 07:36:22 -0700
+ Fri, 20 May 2022 07:50:26 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=UvtRHzvR;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.44,
+ header.b=ePhl2kox;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.46,
  mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f44.google.com with SMTP id n13so14100573ejv.1
+Received: by mail-ed1-f46.google.com with SMTP id c12so11075031eds.10
         for <openembedded-core@lists.openembedded.org>;
- Fri, 20 May 2022 07:36:21 -0700 (PDT)
+ Fri, 20 May 2022 07:50:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jy9SLchAaXzEYPyumqup4h87ikY+5rlZx73MhRzO8RA=;
-        b=UvtRHzvRn/B6xLqAs2bCMxZofhAM1bzftIbcms72VJ2oOpkYWbt0noFhYnhUGvYGVW
-         6aW/JgCv7/1iErq+9E4E92BXPOCewd9o2JcznlqY42AkXrAEbv3lbZwZY4xf2RAH6v9i
-         qPzpleUQD9oy8ebQMlp2j5mU6cm48ipmSuIQtJu1IxZQySzmPiTvoU80P1bFiOGl0JWL
-         RJP4mC9bjCj3uMTiiKSKNY2MHWZH4RqOy97IAmUoKCc/q7dypywk0ybshibiq36CNh+1
-         mO9M//VjkrwL2xMK6CiQkLtcKhuOKLeGckfIhKLrfrLQZnVZlJQtn7I8vyQg6xd/vubA
-         +cLw==
+         :cc:content-transfer-encoding;
+        bh=t/pl7LAE+Pp4SYwM3ujRnuwGM+GsxAi9dVaEZ2EMebc=;
+        b=ePhl2koxDxIyRzmz19q185HgEV3qMndtL/+CJweuuYrcRT+3Vubi3ZNjsibLrB4iyA
+         ITOFEcmIRCUM0OS3JDuTz5B2T9FM8yjT9RiP9DFSsXnuTaRZSh0UIPX5DAcEes9dy7Yb
+         niHznVurSy+qVWbzCxH8duZ0bYFicYNsa4xZBjZqOaRuTF7aZAJvn1P0QHpMeUodsDfp
+         hjpCGob4wfOFxNiV0MZ3AGfWtSJFcuTDaDq+Ui6ymF2DlAhOUq4jRRlf1LHAwp+V8RbW
+         iI7onWqerMXJZr/nzItLbtVj5SRgGVhGSp90TAWwF6JrHGI38thOOipWrKVCN6G6Fgx7
+         OIeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jy9SLchAaXzEYPyumqup4h87ikY+5rlZx73MhRzO8RA=;
-        b=gpMm5hvMspFKHtu3PuV5LkGK9cSMvFCE/UJKDB4Pld/icpUS9cbMw2QI9YBTWPM655
-         QbH2PhGOcwKIjrwC03nipo3cu0GTIoIQ1o+B/weJ1haxKdAmZyB+AyP9S5qRjKkPM9Pq
-         yr2MmFuT2jmoK63R//PDxBWK99NE3ODD7tCn4LW0soRmLjEN4uI+9d0gz9F670U1M6dl
-         8TVdNNs5u7M9cR3Iy5CzW9MPe+o4UZDOTgK2HctZtX0Y4zWONzZI/YqswXpvPL1nnjPx
-         Eq5I04iO3tkfRxEXLU+P8/+wl+sRjfhIu4cAwt7JJDgqrRfEIPy3vfh6HKMFA9gSbapk
-         QDdw==
-X-Gm-Message-State: AOAM532BzUJa1+FNh2+UmBaglMbva3MNeEXzGSRz56y6s198qIhKLPet
-	9yH+qL7fZWAKfsgYbUYFJtoiKmWWewAkXKhUYO4D5Q==
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=t/pl7LAE+Pp4SYwM3ujRnuwGM+GsxAi9dVaEZ2EMebc=;
+        b=RYFlCEVIPLtxs2jS4FmyCDfzPYsj7Huyv6+z2I6BGxvzYmxe/10CQXW8tac+na+6C/
+         iTodi6owRnCU9Xlz+Buv2+sByVK+fYixlLKgXyd64C768F9/kkMy7MHGKToSuhDjlpvG
+         N+X0S9PVIacMKe7fDwFIv6car5nwMayJBrpVfF8BFhb6dSjvfy2biDfjdRSkZjkbnCbV
+         /4Xp+JhwxBSJ4UpM7grv2m1MCPRJ19pIWM1FngZ8Jcvh9GSY3f0dI3+t8IQ+Da1czSK1
+         XPHKvgdXxXRumLrjSD4YyABofhG0C6lzpVOMNpg3gbe3BQL4uvBlI41GHMzntu4mLt26
+         10Bw==
+X-Gm-Message-State: AOAM533DLUYzXJRJHDu36htKlAjEZ2Kb2gpkKZJDcfGOtG92sVzGvC8x
+	a7KkqiqDu5FEhk4MTb1RyM2T3MIgKsWxvjJtkY+PQg==
 X-Google-Smtp-Source: 
- ABdhPJw50B5cezpM1m5ad/bCEnUs9l1nsv+fVISTxpbIkbAhfUe2x6CbIGSbgTO4JdRFDhR4JNfdtAVr20iwvqQ+Als=
-X-Received: by 2002:a17:906:478c:b0:6f4:e6c6:526f with SMTP id
- cw12-20020a170906478c00b006f4e6c6526fmr9330811ejc.41.1653057379540; Fri, 20
- May 2022 07:36:19 -0700 (PDT)
+ ABdhPJxhVGkbkYiNhQ53BGElpABMIHYVFQy1IUexvTTjXlHMNB7UDuqsddjDHmnYWGIHqmuBB9flDS82ZzuVyR27a0Q=
+X-Received: by 2002:aa7:ccc8:0:b0:42a:a827:ae74 with SMTP id
+ y8-20020aa7ccc8000000b0042aa827ae74mr11183993edt.330.1653058223892; Fri, 20
+ May 2022 07:50:23 -0700 (PDT)
 MIME-Version: 1.0
-References: 
- <CAOSpxdZ7Nqe8XKFRgrNXp3Sx_LgajemLg3QNyTxf0vSHfcLcrA@mail.gmail.com>
- <2277.1653048267139448562@lists.openembedded.org>
-In-Reply-To: <2277.1653048267139448562@lists.openembedded.org>
+References: <20220516224921.37639-1-raj.khem@gmail.com>
+In-Reply-To: <20220516224921.37639-1-raj.khem@gmail.com>
 From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 20 May 2022 04:36:08 -1000
+Date: Fri, 20 May 2022 04:50:12 -1000
 Message-ID: 
- <CAOSpxdap4dyvj-uwiurSs+ZG3o+iZfe_Ya0a+h3SUncEe-skfw@mail.gmail.com>
-Subject: Re: [OE-core] [meta][dunfell][PATCH] libinput: Add fix for
- CVE-2022-1215
-To: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
+ <CAOSpxdaCj5mEPSRzauErNiQ_VP0RmVgiLVscuO4hnM4zG=8FXg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] musl-locales: Switch SRC_URI to new location
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 May 2022 14:36:23 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 20 May 2022 14:50:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165940
+ https://lists.openembedded.org/g/openembedded-core/message/165941
 
-On Fri, May 20, 2022 at 2:04 AM Ranjitsinh Rathod
-<ranjitsinhrathod1991@gmail.com> wrote:
+On Mon, May 16, 2022 at 12:49 PM Khem Raj <raj.khem@gmail.com> wrote:
 >
-> On Tue, May 10, 2022 at 10:50 AM, Steve Sakoman wrote:
+> Original repository has been less maintained and thusly adelie linux
+> community has picked up the package and started to maintain it also
+> applied long standing bug fixes.
 >
-> Extra newline above silently inhibits application of the following two hunks!
->
-> Hi Steve,
->
-> Can we raise a bug in the Yocto for this? Because it seems a serious issue where the patch is actually not applied and bitbake not giving any warning/error for this.
-> Mostly if sometimes it should fail with the do_compilation only, but sometimes if the dependency is not with do_compile it will not fail which happened in this case.
->
-> I think we should file a bug for this and some expert in patching tool should take a look at that.
->
-> Richard, Steve: Suggestions, please.
+> Now we use new fork by Ad=C3=A9lie Linux, which includes more supported
+> locales.
 
-This particular case is a troublesome one, because technically that is
-a well formed patch -- the new line causes the following lines to be
-interpreted as a patch footer.
-
-I tried a couple of patch checkers and they did not indicate an error
-with your patch. So I am not sure how one would test for this without
-generating a lot of false positives on patch footers.
-
-So I think that the real lesson here is to not hand edit a patch
-without really carefully verifying that it does exactly as intended.
-It is much safer to use something like git format-patch to generate
-the patch. Yes, more work, but the odds of a malformed patch are
-astronomically lower!
+Is this suitable/safe for kirkstone?
 
 Steve
+
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-core/musl/musl-locales_git.bb | 21 +++++++++++++++------
+>  1 file changed, 15 insertions(+), 6 deletions(-)
+>
+> diff --git a/meta/recipes-core/musl/musl-locales_git.bb b/meta/recipes-co=
+re/musl/musl-locales_git.bb
+> index 40b20e250d2..92532237e03 100644
+> --- a/meta/recipes-core/musl/musl-locales_git.bb
+> +++ b/meta/recipes-core/musl/musl-locales_git.bb
+> @@ -2,15 +2,15 @@
+>  # Released under the MIT license (see COPYING.MIT for the terms)
+>  #
+>  SUMMARY =3D "Locales support for musl"
+> -HOMEPAGE =3D "https://gitlab.com/rilian-la-te/musl-locales"
+> +HOMEPAGE =3D "https://git.adelielinux.org/adelie/musl-locales/-/wikis/ho=
+me"
+>  LICENSE =3D "MIT & LGPL-3.0-or-later"
+>  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dcf5713fba707073020b1db2acaa73=
+e78 \
+>                      file://LICENSE.MIT;md5=3Da4f1c6864a83ddf4b754cdab7d5=
+93523"
+>
+> -SRC_URI =3D "git://gitlab.com/rilian-la-te/musl-locales;protocol=3Dhttps=
+;branch=3Dmaster"
+> +SRC_URI =3D "git://git.adelielinux.org/adelie/musl-locales;protocol=3Dht=
+tps;branch=3Dmain"
+>
+>  PV =3D "1.0+git${SRCPV}"
+> -SRCREV =3D "1101fb2bcdd189cd9415b8bd1c775eb43527d25c"
+> +SRCREV =3D "cac3dcdccd1d0c08d17f4919d862737d64b76f79"
+>
+>  S =3D "${WORKDIR}/git"
+>
+> @@ -28,46 +28,55 @@ python () {
+>
+>  # only locale binaries are under GPL-3.0-or-later others are MIT
+>  LICENSE:${PN} =3D "LGPL-3.0-or-later"
+> -LICENSE:locale-base-ch-de =3D "MIT"
+> +LICENSE:locale-base-cs-cz =3D "MIT"
+>  LICENSE:locale-base-de-ch =3D "MIT"
+>  LICENSE:locale-base-de-de =3D "MIT"
+>  LICENSE:locale-base-en-gb =3D "MIT"
+>  LICENSE:locale-base-en-us =3D "MIT"
+>  LICENSE:locale-base-es-es =3D "MIT"
+> +LICENSE:locale-base-fi-fi =3D "MIT"
+>  LICENSE:locale-base-fr-fr =3D "MIT"
+>  LICENSE:locale-base-it-it =3D "MIT"
+>  LICENSE:locale-base-nb-no =3D "MIT"
+>  LICENSE:locale-base-nl-nl =3D "MIT"
+>  LICENSE:locale-base-pt-br =3D "MIT"
+> +LICENSE:locale-base-pt-pt =3D "MIT"
+>  LICENSE:locale-base-ru-ru =3D "MIT"
+> +LICENSE:locale-base-sr-rs =3D "MIT"
+>  LICENSE:locale-base-sv-se =3D "MIT"
+>
+> -PACKAGES =3D+ "locale-base-ch-de \
+> +PACKAGES =3D+ "locale-base-cs-cz \
+>               locale-base-de-ch \
+>               locale-base-de-de \
+>               locale-base-en-gb \
+>               locale-base-en-us \
+>               locale-base-es-es \
+> +             locale-base-fi-fi \
+>               locale-base-fr-fr \
+>               locale-base-it-it \
+>               locale-base-nb-no \
+>               locale-base-nl-nl \
+>               locale-base-pt-br \
+> +             locale-base-pt-pt \
+>               locale-base-ru-ru \
+> +             locale-base-sr-rs \
+>               locale-base-sv-se \
+>               "
+> -FILES:locale-base-ch-de +=3D "${datadir}/i18n/locales/musl/ch_DE.UTF-8"
+> +FILES:locale-base-cs-cz +=3D "${datadir}/i18n/locales/musl/cs_CZ.UTF-8"
+>  FILES:locale-base-de-ch +=3D "${datadir}/i18n/locales/musl/de_CH.UTF-8"
+>  FILES:locale-base-de-de +=3D "${datadir}/i18n/locales/musl/de_DE.UTF-8"
+>  FILES:locale-base-en-gb +=3D "${datadir}/i18n/locales/musl/en_GB.UTF-8"
+>  FILES:locale-base-en-us +=3D "${datadir}/i18n/locales/musl/en_US.UTF-8"
+>  FILES:locale-base-es-es +=3D "${datadir}/i18n/locales/musl/es_ES.UTF-8"
+> +FILES:locale-base-fi-fi +=3D "${datadir}/i18n/locales/musl/fi_FI.UTF-8"
+>  FILES:locale-base-fr-fr +=3D "${datadir}/i18n/locales/musl/fr_FR.UTF-8"
+>  FILES:locale-base-it-it +=3D "${datadir}/i18n/locales/musl/it_IT.UTF-8"
+>  FILES:locale-base-nb-no +=3D "${datadir}/i18n/locales/musl/nb_NO.UTF-8"
+>  FILES:locale-base-nl-nl +=3D "${datadir}/i18n/locales/musl/nl_NL.UTF-8"
+>  FILES:locale-base-pt-br +=3D "${datadir}/i18n/locales/musl/pt_BR.UTF-8"
+> +FILES:locale-base-pt-pt +=3D "${datadir}/i18n/locales/musl/pt_PT.UTF-8"
+>  FILES:locale-base-ru-ru +=3D "${datadir}/i18n/locales/musl/ru_RU.UTF-8"
+> +FILES:locale-base-sr-rs +=3D "${datadir}/i18n/locales/musl/sr_RS.UTF-8"
+>  FILES:locale-base-sv-se +=3D "${datadir}/i18n/locales/musl/sv_SE.UTF-8"
+>
+>  UPSTREAM_CHECK_COMMITS =3D "1"
+> --
+> 2.36.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#165700): https://lists.openembedded.org/g/openembedde=
+d-core/message/165700
+> Mute This Topic: https://lists.openembedded.org/mt/91152448/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
