@@ -2,63 +2,62 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BAD5C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0F17C433EF
 	for <webhook@archiver.kernel.org>; Fri, 20 May 2022 19:47:39 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web08.1943.1653076051465882817
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web08.1942.1653076050670331095
  for <openembedded-core@lists.openembedded.org>;
  Fri, 20 May 2022 12:47:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=b0n58ML6;
- spf=pass (domain: gmail.com, ip: 209.85.208.53,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=qWqNab2I;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52,
  mailfrom: alex.kiernan@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id i40so12031113eda.7
+Received: by mail-ej1-f52.google.com with SMTP id f21so3783673ejh.11
         for <openembedded-core@lists.openembedded.org>;
- Fri, 20 May 2022 12:47:31 -0700 (PDT)
+ Fri, 20 May 2022 12:47:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=51Jj94NqtrZBhyefsv6evOl+jWjL9MQaD9swyVGc4JU=;
-        b=b0n58ML6NPi++2zIoXKOxIrjHtucAmskXU/H8qfIirja2MNOVCp3X+7CE0fk8kBjt6
-         zF1nMSfYELvMCZv3i5R56hk2/kCzOp/iQAkowEAjJtnApWJSb3nHJuVG4ZiBmZ1lCn57
-         XlzfKPk+UUaJ2QvX6uswV8rN6dTtQLzD60PvmxR4I35ebR5O2AUxLg/EHVwfRilEywBB
-         vhGsSWYeE6+LyF8egtVmlA7N6I5fDNOJWS8LV6w5HpUAMj0I/A3+A772EenpSdEv6ATS
-         4Vil5unfShr7H71z2jJv4AB8FnADB2/YNp0b8ew32lvxWP/Uv6xZluUzytVgzexUWJSj
-         O42Q==
+        bh=WyWcKFVlwtR1eEw3cYe62+MDFnmK620CUtZX4dteoB0=;
+        b=qWqNab2IvuBueFDV4qD2c4cFIZMrcagXHZ1fj77URqRXkGgb7H9xzLWPdrIOcMK4rP
+         7p7XomJnPLYuon3wre22QAyM4w3eUSrgDgfoVSZOcjZBbFxv70CtG0tBn1cTDpFCxoGj
+         01F2XPpRAEV6SFZM8Dno1T0FPIhP7Vsm2PCt5fmSGYqQJ8Veljm2+tXGSGvW8EBp1wym
+         Yt6nat40SrTeCyhwycizTEyz3mXZNffggjyFS+9Rj4A8LXpxixw4NDkhoOQ/aO2vdpoT
+         bzmi3zs3HaU+F39rtmCMmOgd8DMve8V63/TZM1RMyC6Zjqb+m1eHtCe+JZRaexse351Y
+         uAtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=51Jj94NqtrZBhyefsv6evOl+jWjL9MQaD9swyVGc4JU=;
-        b=QlfG2KLc0J8+tl3wkHzXvB3YAI3AfHLdHTy2MaRTatfzXxTZ8NPORniwfnp8/+dYK5
-         8czLQheq/2Hla3gHpegdUPF47M6/pYVnMjPCe5IZr5Q+/mfXIocq+DNDN33yiAILJd2S
-         Rul+36KryEFDTpZDDsM39IyN7CWnD47sGuQBp2YeqoEj/Kqcpvy2j5pdkvlfIJGgOPpQ
-         o/4R5jzhTpxbU16pPosYh3hO73WUj2QryFvsBuaS4KPwJwt+mle366fypUreJD3s/YAT
-         NuJ6N7XlQHUJ7sWQw7//cMlN1Du/j7Tmd6tMR7Knf58bal3gJbgyRUQZnOPLhu9kzxRR
-         QN5g==
-X-Gm-Message-State: AOAM532jY9wh8+nkQsWHi/lvjzyIh8UFSBInUY/tEPxrCX3tS7i1BEWy
-	EbDd8yC0BMnTjTMk1x9OzmVeldwuhGw=
+        bh=WyWcKFVlwtR1eEw3cYe62+MDFnmK620CUtZX4dteoB0=;
+        b=69Hc/SOloq4pjCdjDmWABD+92gJYg3tLVJZTBS7Y+lf9JT943WRgvk1zKAZ2pLlCfN
+         d98NA33BjC3f5Id9vOlU46JPc3440kqL5oXD63PUdbSBi0lTgxAnaUdoS3be2Q3/qQSN
+         REQmmmBoM4mGbIv+xZoq36pVlxy2ynhh3I76Yy6+7LVlEuxZD+HTBDbYAsrroST/CyDa
+         pfhn2HX5tNmt3xF7XrINGg1ZR8V0WTT4WRRWV0j8MK6It/UOLXFyei7D7EkiFQtxBtOQ
+         yFUv4RYkP3EJYVQhoIpghJv1xDznYGJK293TE7BeHyARcz2r4fanUb45G6tGjYwuJX+O
+         /gew==
+X-Gm-Message-State: AOAM532hbQT3/m3raD14i/CysOn/AM/CbrHivP39p8WxnFt/Lr00oCJj
+	3cFEuV1KCuW4Rahas8BPUO9P3X9VI/A=
 X-Google-Smtp-Source: 
- ABdhPJwgglievgdCYSNvU/2gsblolguKTrhLwYA5FCdBINB7u/IAmS5PaFlI3iDq/CpsC1L7+uNGbg==
-X-Received: by 2002:aa7:dd48:0:b0:42a:f46f:6b0d with SMTP id
- o8-20020aa7dd48000000b0042af46f6b0dmr12134854edw.406.1653076049905;
+ ABdhPJyrIenGnyqRmrkeffPHB06MGWIxSe3lyFKuOElEJtcOwSQpDMY3e0sNa+kzB+cXRJrvN86m4w==
+X-Received: by 2002:a17:907:a40e:b0:6fd:c29b:e0b3 with SMTP id
+ sg14-20020a170907a40e00b006fdc29be0b3mr9623926ejc.542.1653076049141;
         Fri, 20 May 2022 12:47:29 -0700 (PDT)
 Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
  [91.135.6.246])
         by smtp.gmail.com with ESMTPSA id
- n24-20020a056402515800b0042ad0358c8bsm4732528edd.38.2022.05.20.12.47.29
+ n24-20020a056402515800b0042ad0358c8bsm4732528edd.38.2022.05.20.12.47.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 May 2022 12:47:29 -0700 (PDT)
+        Fri, 20 May 2022 12:47:28 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alex Kiernan <alex.kiernan@gmail.com>,
 	Alex Kiernan <alex.kiernan@zuma.ai>
-Subject: [OE-Core][PATCH v2 3/3] eudev: Use PACKAGE_BEFORE_PN/${PN},
- clean up spaces
-Date: Fri, 20 May 2022 20:47:19 +0100
-Message-Id: <20220520194719.4727-3-alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH v2 2/3] eudev: Cleanup redundant configuration
+Date: Fri, 20 May 2022 20:47:18 +0100
+Message-Id: <20220520194719.4727-2-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220520194719.4727-1-alex.kiernan@gmail.com>
 References: <20220520194719.4727-1-alex.kiernan@gmail.com>
@@ -69,62 +68,44 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 20 May 2022 19:47:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165949
+ https://lists.openembedded.org/g/openembedded-core/message/165948
 
-Use PACKAGE_BEFORE_PN for packages which need to capture files early,
-switch to idiomatic ${PN} for additional packages. Swap spaces for tabs
-in shell functions.
+hid2hci moved to bluez4 in 2011. The FILES changes for ${PN} and
+${PN}-dev only added existing defaults into the set.
 
 Signed-off-by: Alex Kiernan <alex.kiernan@zuma.ai>
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- meta/recipes-core/udev/eudev_3.2.11.bb | 25 ++++++++++++-------------
- 1 file changed, 12 insertions(+), 13 deletions(-)
+ meta/recipes-core/udev/eudev_3.2.11.bb | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
 diff --git a/meta/recipes-core/udev/eudev_3.2.11.bb b/meta/recipes-core/udev/eudev_3.2.11.bb
-index 1b6705ba3058..2d4c44b1dd7f 100644
+index a841a6a86cc1..1b6705ba3058 100644
 --- a/meta/recipes-core/udev/eudev_3.2.11.bb
 +++ b/meta/recipes-core/udev/eudev_3.2.11.bb
-@@ -62,27 +62,26 @@ do_install:prepend:class-target () {
- INITSCRIPT_NAME = "udev"
- INITSCRIPT_PARAMS = "start 04 S ."
+@@ -51,9 +51,6 @@ do_install:append() {
  
--PACKAGES =+ "libudev"
--PACKAGES =+ "eudev-hwdb"
-+PACKAGE_BEFORE_PN = "libudev ${PN}-hwdb"
+ 	# Use classic network interface naming scheme
+ 	touch ${D}${sysconfdir}/udev/rules.d/80-net-name-slot.rules
+-
+-	# hid2hci has moved to bluez4. removed in udev as of version 169
+-	rm -f ${D}${base_libdir}/udev/hid2hci
+ }
  
- FILES:${PN} += "${nonarch_base_libdir}/udev"
+ do_install:prepend:class-target () {
+@@ -68,11 +65,7 @@ INITSCRIPT_PARAMS = "start 04 S ."
+ PACKAGES =+ "libudev"
+ PACKAGES =+ "eudev-hwdb"
+ 
+-FILES:${PN} += "${libexecdir} ${nonarch_base_libdir}/udev ${bindir}/udevadm"
+-FILES:${PN}-dev = "${datadir}/pkgconfig/udev.pc \
+-                   ${includedir}/libudev.h ${libdir}/libudev.so \
+-                   ${includedir}/udev.h ${libdir}/libudev.la \
+-                   ${libdir}/libudev.a ${libdir}/pkgconfig/libudev.pc"
++FILES:${PN} += "${nonarch_base_libdir}/udev"
  FILES:libudev = "${base_libdir}/libudev.so.*"
--FILES:eudev-hwdb = "${sysconfdir}/udev/hwdb.d"
-+FILES:${PN}-hwdb = "${sysconfdir}/udev/hwdb.d"
+ FILES:eudev-hwdb = "${sysconfdir}/udev/hwdb.d"
  
--RDEPENDS:eudev-hwdb += "eudev"
-+RDEPENDS:${PN}-hwdb += "${PN}"
- 
- RPROVIDES:${PN} = "hotplug udev"
--RPROVIDES:eudev-hwdb += "udev-hwdb"
-+RPROVIDES:${PN}-hwdb += "udev-hwdb"
- 
- PACKAGE_WRITE_DEPS += "qemu-native"
--pkg_postinst:eudev-hwdb () {
--    if test -n "$D"; then
--        $INTERCEPT_DIR/postinst_intercept update_udev_hwdb ${PKG} mlprefix=${MLPREFIX} binprefix=${MLPREFIX}
--    else
--        udevadm hwdb --update
--    fi
-+pkg_postinst:${PN}-hwdb () {
-+	if test -n "$D"; then
-+		$INTERCEPT_DIR/postinst_intercept update_udev_hwdb ${PKG} mlprefix=${MLPREFIX} binprefix=${MLPREFIX}
-+	else
-+		udevadm hwdb --update
-+	fi
- }
- 
--pkg_prerm:eudev-hwdb () {
--        rm -f $D${sysconfdir}/udev/hwdb.bin
-+pkg_prerm:${PN}-hwdb () {
-+	rm -f $D${sysconfdir}/udev/hwdb.bin
- }
 -- 
 2.35.1
 
