@@ -1,133 +1,81 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33376C433EF
-	for <webhook@archiver.kernel.org>; Sat, 21 May 2022 08:25:39 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web08.3708.1653121529052053149
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52206C433F5
+	for <webhook@archiver.kernel.org>; Sat, 21 May 2022 08:33:59 +0000 (UTC)
+Received: from mailout12.t-online.de (mailout12.t-online.de [194.25.134.22])
+ by mx.groups.io with SMTP id smtpd.web10.3687.1653122034338075754
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 May 2022 01:25:29 -0700
+ Sat, 21 May 2022 01:33:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QwRM/65j;
- spf=pass (domain: gmail.com, ip: 209.85.208.49,
- mailfrom: alex.kiernan@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id j28so13184325eda.13
-        for <openembedded-core@lists.openembedded.org>;
- Sat, 21 May 2022 01:25:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=phNmHp35O5+gEr/lehdoqC6jKfN3i9aZNrLpTCq0V34=;
-        b=QwRM/65jUQbyEs+A8YOnUN4KoBm90R8l1+uQ+9rS7j4nnihprBFSbfZ/4tddj7evw8
-         tPHjxEPo6sUUTuCwbwfmIJpexnC1xfAzEGY6lQVnS64qmAOan9amf/Fhr6aLhBgPsr4F
-         w3jTnlA6qg2jL0v+BpVnNoBSoLqCp9t3p3y13ov/vk3bWL9xS8PZQcbA0blCmaIF/i/V
-         KZNrTybYBYvscPFskmyaBNz2xv+dDlWQTa59gQ+19TYrp/UApV2vyKN6INnAeVXtVyHu
-         J7Y+G1l5SqPjirxUrXlmgHYJFBYN0KRNaOwZq69z5cjbFSBHRbj2OSEwy8NzUkX0Eobb
-         RfLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=phNmHp35O5+gEr/lehdoqC6jKfN3i9aZNrLpTCq0V34=;
-        b=rbJHL22B4pRkafWWnNeh4fYrqnGcrjv/zkUnz0aXggZOs063ffdstcDgZvPnJELbgg
-         aD3U+1gFKkPSPV4M7hRbbOjgKyNqVaGuMvUqsRac/6+1Qds73mtr3H+6cm5cJQ5v+N+W
-         IkdD61dQDUmIITmWYTPCzMjCXmwLmdnOIrJosgRtkf5IB1VYBC69rd7FpY28vErpIeL4
-         VQIwpQcEFM59/K79LOdf67ifdVBRBK4ez4bb9tbw78WfO+ysEvkS1f45pSaWAWZkNKQ3
-         uGuEKE1QYz+V6cTF1LEHWkr+MSUHycdfk2lGg7z809VFRJVQ2bj3yBwkEVpjwzGmmX53
-         btgg==
-X-Gm-Message-State: AOAM532EhCLB6Dfr87/M/oO7aMvVUd6y6Hr19KFkvtp3/SJ0pRg83SsI
-	bjopFS32/x0o9Y5O/ZL5AlbDuv4iYwY=
-X-Google-Smtp-Source: 
- ABdhPJzJWnv3hOW7lSBuId+o1/02YF9MWj/WuYFdRm9fyjjQoL8/CR3btuf36m85GCRFf/nOIbUJ0Q==
-X-Received: by 2002:a05:6402:176b:b0:42a:a828:5d79 with SMTP id
- da11-20020a056402176b00b0042aa8285d79mr14961717edb.272.1653121527474;
-        Sat, 21 May 2022 01:25:27 -0700 (PDT)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
- [91.135.6.246])
-        by smtp.gmail.com with ESMTPSA id
- v21-20020a17090651d500b006f3ef214e2asm4101438ejk.144.2022.05.21.01.25.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 May 2022 01:25:26 -0700 (PDT)
-From: Alex Kiernan <alex.kiernan@gmail.com>
+ dkim=missing;
+ spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.22,
+ mailfrom: f_l_k@t-online.de)
+Received: from fwd78.dcpf.telekom.de (fwd78.aul.t-online.de [10.223.144.104])
+	by mailout12.t-online.de (Postfix) with SMTP id 72F691A26E
+	for <openembedded-core@lists.openembedded.org>;
+ Sat, 21 May 2022 10:33:52 +0200 (CEST)
+Received: from localhost.localdomain ([84.163.39.7]) by fwd78.t-online.de
+	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+	esmtp id 1nsKYY-0rLUG10; Sat, 21 May 2022 10:33:50 +0200
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alex.kiernan@gmail.com>,
-	Alex Kiernan <alexk@zuma.ai>
-Subject: [OE-Core][PATCH v4 3/3] eudev: Use PACKAGE_BEFORE_PN/${PN},
- clean up spaces
-Date: Sat, 21 May 2022 09:25:20 +0100
-Message-Id: <20220521082520.5473-3-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220521082520.5473-1-alex.kiernan@gmail.com>
-References: <20220521082520.5473-1-alex.kiernan@gmail.com>
+Cc: Markus Volk <f_l_k@t-online.de>
+Subject: [oe-core][PATCH] libsdl2: add PACKAGECONFIG for libusb1 and remove
+ obsolete options
+Date: Sat, 21 May 2022 10:33:34 +0200
+Message-Id: <20220521083334.4316-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1653122030-0000AD4E-EF4B0EFF/0/0 CLEAN NORMAL
+X-TOI-MSGID: bb4e618d-3df3-43ab-887c-1e1ea4f8cc7a
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 21 May 2022 08:25:39 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 21 May 2022 08:33:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165958
+ https://lists.openembedded.org/g/openembedded-core/message/165959
 
-Use PACKAGE_BEFORE_PN for packages which need to capture files early,
-switch to idiomatic ${PN} for additional packages. Swap spaces for tabs
-in shell functions.
-
-Signed-off-by: Alex Kiernan <alexk@zuma.ai>
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Support for XVM and Xinerama has been removed
 ---
- meta/recipes-core/udev/eudev_3.2.11.bb | 27 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 14 deletions(-)
+ meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/udev/eudev_3.2.11.bb b/meta/recipes-core/udev/eudev_3.2.11.bb
-index 7f190e7323bc..bc2c77de898c 100644
---- a/meta/recipes-core/udev/eudev_3.2.11.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.11.bb
-@@ -63,28 +63,27 @@ do_install:prepend:class-target () {
- INITSCRIPT_NAME = "udev"
- INITSCRIPT_PARAMS = "start 04 S ."
- 
--PACKAGES =+ "libudev"
--PACKAGES =+ "eudev-hwdb"
-+PACKAGE_BEFORE_PN = "libudev ${PN}-hwdb"
- 
- FILES:${PN} += "${nonarch_base_libdir}/udev"
- FILES:libudev = "${base_libdir}/libudev.so.*"
--FILES:eudev-hwdb = "${sysconfdir}/udev/hwdb.d"
-+FILES:${PN}-hwdb = "${sysconfdir}/udev/hwdb.d"
- 
--RDEPENDS:eudev-hwdb += "eudev"
--RDEPENDS:eudev += "kmod"
-+RDEPENDS:${PN}-hwdb += "eudev"
-+RDEPENDS:${PN} += "kmod"
- 
- RPROVIDES:${PN} = "hotplug udev"
--RPROVIDES:eudev-hwdb += "udev-hwdb"
-+RPROVIDES:${PN}-hwdb += "udev-hwdb"
- 
- PACKAGE_WRITE_DEPS += "qemu-native"
--pkg_postinst:eudev-hwdb () {
--    if test -n "$D"; then
--        $INTERCEPT_DIR/postinst_intercept update_udev_hwdb ${PKG} mlprefix=${MLPREFIX} binprefix=${MLPREFIX}
--    else
--        udevadm hwdb --update
--    fi
-+pkg_postinst:${PN}-hwdb () {
-+	if test -n "$D"; then
-+		$INTERCEPT_DIR/postinst_intercept update_udev_hwdb ${PKG} mlprefix=${MLPREFIX} binprefix=${MLPREFIX}
-+	else
-+		udevadm hwdb --update
-+	fi
- }
- 
--pkg_prerm:eudev-hwdb () {
--        rm -f $D${sysconfdir}/udev/hwdb.bin
-+pkg_prerm:${PN}-hwdb () {
-+	rm -f $D${sysconfdir}/udev/hwdb.bin
- }
--- 
-2.35.1
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb b/meta/recip=
+es-graphics/libsdl2/libsdl2_2.0.22.bb
+index 7678319770..b112d63784 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb
+@@ -43,9 +43,7 @@ EXTRA_OECMAKE =3D "-DSDL_OSS=3DOFF -DSDL_ESD=3DOFF -DSD=
+L_ARTS=3DOFF \
+                  -DSDL_PTHREADS=3DON \
+                  -DSDL_RPATH=3DOFF \
+                  -DSDL_SNDIO=3DOFF \
+-                 -DSDL_X11_XVM=3DOFF \
+                  -DSDL_X11_XCURSOR=3DOFF \
+-                 -DSDL_X11_XINERAMA=3DOFF \
+                  -DSDL_X11_XDBE=3DOFF \
+                  -DSDL_X11_XFIXES=3DOFF \
+                  -DSDL_X11_XINPUT=3DOFF \
+@@ -72,6 +70,9 @@ PACKAGECONFIG[directfb]   =3D "-DSDL_DIRECTFB=3DON,-DSD=
+L_DIRECTFB=3DOFF,directfb,direc
+ PACKAGECONFIG[gles2]      =3D "-DSDL_OPENGLES=3DON,-DSDL_OPENGLES=3DOFF,=
+virtual/libgles2"
+ PACKAGECONFIG[jack]       =3D "-DSDL_JACK=3DON,-DSDL_JACK=3DOFF,jack"
+ PACKAGECONFIG[kmsdrm]     =3D "-DSDL_KMSDRM=3DON,-DSDL_KMSDRM=3DOFF,libd=
+rm virtual/libgbm"
++# The hidraw support doesn't catch Xbox, PS4 and Nintendo controllers,
++#  so we'll just use libusb when it's available.
++PACKAGECONFIG[libusb] =3D ",,libusb1"
+ PACKAGECONFIG[opengl]     =3D "-DSDL_OPENGL=3DON,-DSDL_OPENGL=3DOFF,virt=
+ual/egl"
+ PACKAGECONFIG[pulseaudio] =3D "-DSDL_PULSEAUDIO=3DON,-DSDL_PULSEAUDIO=3D=
+OFF,pulseaudio"
+ PACKAGECONFIG[wayland]    =3D "-DSDL_WAYLAND=3DON,-DSDL_WAYLAND=3DOFF,wa=
+yland-native wayland wayland-protocols libxkbcommon"
+--=20
+2.25.1
 
 
