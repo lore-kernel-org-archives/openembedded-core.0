@@ -1,139 +1,94 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E24F2C433F5
-	for <webhook@archiver.kernel.org>; Sat, 21 May 2022 20:02:32 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web09.9446.1653163345256542759
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60208C433EF
+	for <webhook@archiver.kernel.org>; Sat, 21 May 2022 21:25:43 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web10.9829.1653168333928779861
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 May 2022 13:02:25 -0700
+ Sat, 21 May 2022 14:25:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=A/MKdSJU;
- spf=pass (domain: gmail.com, ip: 209.85.167.51,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id p4so18071445lfg.4
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SY9sNUoE;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id t6so15813915wra.4
         for <openembedded-core@lists.openembedded.org>;
- Sat, 21 May 2022 13:02:25 -0700 (PDT)
+ Sat, 21 May 2022 14:25:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QmENiX987i7BVG37LQTHq+hjruIxUQyOYMorlJXYFmA=;
-        b=A/MKdSJUKOGgdTpzjRAIZAnHBklv4MhL8xo1jPzqXMC628BnIMI8WoUVw/bJcwnr4M
-         L066tdSgVpXzobVQxuF0U7HDHmy6B+StqoNPJsr9jOTv/WqAN/yWf7VKw9MhxwQdv7hs
-         nkdAtg69VpVXoxZuOpozWJRXEz8p6uEEBLhtRl2a+ibCQa1UfO31JDMR5KmiiV67ghAL
-         eBjYJduhRuug5f9mnSPSSqL2BpFEngdtoLiCVNYO2NcVLSQpN1QAMUL0e2dJ+Q3sY2AK
-         YQhD5ztK4Du1AFarkb2ztokmT3C1EUbj+8KadVOO+J/OTe3UeZ4me9gFi+5S+JnU/lqU
-         kxAA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=u0P5gnRq3itBxDTl8a5/PeNHL2ykVfXwmkoDCDKSI3o=;
+        b=SY9sNUoEoyaOvZT9+VSxcaUsN6YTSQ28e/EwhoX9sd2D9o+cEpy1ftxJMCWb4GVMVj
+         fjQTyrsL+peUsNTF/mQx9U5DFu4y8v6VgDu1NPH7Pjg0yKLtGp+Osl7mfvEQ77j1JueW
+         7UILdeBzENKTYxiBA8T65RN362QdjKbU9Y10I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QmENiX987i7BVG37LQTHq+hjruIxUQyOYMorlJXYFmA=;
-        b=Tf/pBe3HyIrnNMnNKmmKiy0gI6Y8kxsjD835nbQRgbfI+v11TZtflaHlvLFImamP+k
-         g2jo/OWafE/elVUTJPtWbuUgcRHt0yr2WQebqzu8PCjFROGayoNNJbZyjflYZctiI20K
-         +ApCKUazBdnJ9LvxQFyL0lWETvHfAwNANs5e351cu8cOycynKUTxhYJMH5FGXXQudOOo
-         ceT8cETCyISDRg7lgP05UNHgMMLTrKGPjOQjeC98GZeFX7WVd5W1qzMzlFQF+3hKjRDB
-         q/q1C3m7fcC22s9Ur47WY1VHKBJU/mciZUptxwfkUygSDCojxyEwpmwQdHXnSS10jduo
-         U7LA==
-X-Gm-Message-State: AOAM5319SecZrH/6kcHcbe7xkXYA1p/Z5PoU4fQcalMbrtgM/cYnd7VE
-	dRZyA5MehbZ53EuWFSxUPQFW47k+N8TaoM5FqsQ=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=u0P5gnRq3itBxDTl8a5/PeNHL2ykVfXwmkoDCDKSI3o=;
+        b=d/1Qh6pqtKKmF1ffxtHHWRirmRWYOe57kR/GM1YqW3Jp04La0HUsTSgufdRZuOGljU
+         r77lNIo/khf292Q4UjD3oAU4mbHvwkXJb+c4NvhEEyRcqCMw1D+vmz/UFtTul7HpLfc/
+         ROoRqqHRJDlrYejfnhRsrf3620zfTuWa5SV7kl0K7HeAoo8LUrVxZGVVvy7BMXMygVFk
+         IDKxqK0zm7/0yQuhNRV9by7w4kzfR+vkCGMV8G5RTVdGVbv5do5CqzwwnkiqlHu3fIcL
+         RZe/u7M+5QlWr4odfGoyf9j6Hpo5ECNuUs1LvpL5g8/65j+ZQ5ETm3Uz069/mvCK8jvB
+         NWbA==
+X-Gm-Message-State: AOAM53273dle6FV+b+QFjkZMg46N0K3PnEY+aHTGuiGUy55fHFXiyVvq
+	nILmp/zCTo7kSIHLfE+zVpFDWQ==
 X-Google-Smtp-Source: 
- ABdhPJzMjFtFoZ1hyTfyvs7Nmx26rqJrzJMo5BXXaip+oZ6aF19bMGQHvRMLMjRfn0vP9qUBkIlxOV17qxGMSo6njso=
-X-Received: by 2002:ac2:4c42:0:b0:471:a8e2:198e with SMTP id
- o2-20020ac24c42000000b00471a8e2198emr11028258lfk.673.1653163343080; Sat, 21
- May 2022 13:02:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <L6Uf.1653156831053364784.vSAI@lists.openembedded.org>
-In-Reply-To: <L6Uf.1653156831053364784.vSAI@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 21 May 2022 22:02:12 +0200
+ ABdhPJz1U5/CqZX7MldtW7nKTSkiD7E0sm0NPVcK+NLD9smeBN1GptrmuZVwm4YHsSIaCLCAuCmHVQ==
+X-Received: by 2002:a5d:5887:0:b0:20c:83c9:b72 with SMTP id
+ n7-20020a5d5887000000b0020c83c90b72mr13087092wrf.588.1653168332389;
+        Sat, 21 May 2022 14:25:32 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a337:fcd8:5dd9:46df?
+ ([2001:8b0:aba:5f3c:a337:fcd8:5dd9:46df])
+        by smtp.gmail.com with ESMTPSA id
+ p17-20020adf9591000000b0020fd392df33sm451771wrp.29.2022.05.21.14.25.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 May 2022 14:25:31 -0700 (PDT)
 Message-ID: 
- <CANNYZj-Fv9gAeKdZgQ5ev393NYYKdZRN7TTPdf4A-aSzELJ9iw@mail.gmail.com>
-Subject: Re: [OE-core] wic - Plans for support F2FS file system type for the
- partition?
-To: Livius <egyszeregy@freemail.hu>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000d1f19e05df8b15bc"
+ <4bbc8472ffac36701ccc5d89dd100c6bf524acad.camel@linuxfoundation.org>
+Subject: Re: [OE-Core][PATCH v4 1/3] eudev: Convert dependencies to
+ PACKAGECONFIG
+From: richard.purdie@linuxfoundation.org
+To: Alex Kiernan <alex.kiernan@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Cc: Alex Kiernan <alexk@zuma.ai>
+Date: Sat, 21 May 2022 22:25:30 +0100
+In-Reply-To: <20220521082520.5473-1-alex.kiernan@gmail.com>
+References: <20220521082520.5473-1-alex.kiernan@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0-1ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 21 May 2022 20:02:32 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 21 May 2022 21:25:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165965
+ https://lists.openembedded.org/g/openembedded-core/message/165966
 
---000000000000d1f19e05df8b15bc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Sat, 2022-05-21 at 09:25 +0100, Alex Kiernan wrote:
+> GObject support was dropped in 252150e181c5 ("src/gudev: remove Gobject
+> libudev support."), drop all g-i-r support which appears to be dead
+> upstream.
+>=20
+> Fill out PACKAGECONFIG options.
+>=20
+> Signed-off-by: Alex Kiernan <alexk@zuma.ai>
+> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> ---
+>  ...uild-Remove-dead-g-i-r-configuration.patch | 155 ++++++++++++++++++
+>  meta/recipes-core/udev/eudev_3.2.11.bb        |   8 +-
+>  2 files changed, 161 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-core/udev/eudev/0001-build-Remove-dead-g=
+-i-r-configuration.patch
 
-If you can add support for it and send patches, that would be most welcome.
-We don=E2=80=99t have a magic team of developers that take feature requests=
- and
-implement them.
+Thanks, removing dependencies like this does help the build a lot!
 
-Alex
+Cheers,
 
-On Sat 21. May 2022 at 20.13, Livius <egyszeregy@freemail.hu> wrote:
-
-> In OpenEmbedded Kickstart Reference manual
-> <https://docs.yoctoproject.org/ref-manual/kickstart.html> there are no
-> any support for F2FS filesystem <https://en.wikipedia.org/wiki/F2FS> in
-> *--fstype* options. Could you support it and plan to implement? It seems
-> to me this file system type can be the best for eMMC and SD cards and it =
-is
-> fully supported in Linux for rootfs, nowadays.
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#165964):
-> https://lists.openembedded.org/g/openembedded-core/message/165964
-> Mute This Topic: https://lists.openembedded.org/mt/91256476/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---000000000000d1f19e05df8b15bc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">If you can add support for it and send patches, that woul=
-d be most welcome. We don=E2=80=99t have a magic team of developers that ta=
-ke feature requests and implement them.</div><div dir=3D"auto"><br></div><d=
-iv dir=3D"auto">Alex</div><div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Sat 21. May 2022 at 20.13, Livius &lt;<a href=
-=3D"mailto:egyszeregy@freemail.hu">egyszeregy@freemail.hu</a>&gt; wrote:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-=
-color:rgb(204,204,204)">In <a href=3D"https://docs.yoctoproject.org/ref-man=
-ual/kickstart.html" rel=3D"noopener" target=3D"_blank">OpenEmbedded Kicksta=
-rt Reference manual</a> there are no any support for <a href=3D"https://en.=
-wikipedia.org/wiki/F2FS" rel=3D"noopener" target=3D"_blank">F2FS filesystem=
-</a> in <em>--fstype</em> options. Could you support it and plan to impleme=
-nt? It seems to me this file system type can be the best for eMMC and SD ca=
-rds and it is fully supported in Linux for rootfs, nowadays.
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#165964): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/165964" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/165964</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/91256476/1686=
-489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/91256476/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000d1f19e05df8b15bc--
+Richard
 
