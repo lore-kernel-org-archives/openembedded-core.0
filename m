@@ -2,15 +2,15 @@ Return-Path: <jiaqing.zhao@linux.intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE0A8C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE8D9C43217
 	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 02:20:41 +0000 (UTC)
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by mx.groups.io with SMTP id smtpd.web09.23310.1653272438143063161
+ by mx.groups.io with SMTP id smtpd.web08.23143.1653272436943032120
  for <openembedded-core@lists.openembedded.org>;
  Sun, 22 May 2022 19:20:38 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=g6XgYgSf;
+ header.b=EDhaj60b;
  spf=none, err=permanent DNS error (domain: linux.intel.com,
  ip: 134.134.136.20, mailfrom: jiaqing.zhao@linux.intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
@@ -18,33 +18,33 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   t=1653272438; x=1684808438;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=1Fr5b8/Suyn0/937eu2VY6LIojYFKkTWGjlzaJ2X25s=;
-  b=g6XgYgSfbaI0ih2kvw9ZAFTVNkKiUw7nFWkA8PFtubGQ3dO19LF6WS4w
-   9bpnPxwIVa20JaJNGdahtk9HJziVAGClGJ2BdSS1BDuS5GzlyYWq/edtZ
-   oIv8ozB98Okn/zqDZcnnr181tk7DO0o3QqZ8LgIIrIkxfFKghUPXBOy2E
-   6FeqeT6C9PoFaBLg7P+6yW8BEk1PnJQsAy5WmPXWzQZE6pwBrqbM+W4/+
-   600zGeZ7Su7WxVB53oHAFkMQo3RvkWXlyVbgQA4ufgPhU7RT0TzufVDRv
-   HxzX5os1KOZWAhfT7mXhHzwB6gTKNSe/4Vbs9GXWVJWDBwCgJ0/pVYDLT
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10355"; a="260680215"
+  bh=QXZuAO+jHMzWiHUir5KHsEBufR8jNILqQGi/zYFe4YI=;
+  b=EDhaj60bC/PlWAWfFsdcOWBIdubEC3DOjISq7Q15hSLf/w/oSJBlQacY
+   gRR6pCOS+h8mRFa5Ba1//5CVj0xZfhgouH4JGDhpyQSZL0VJRISDws4Vk
+   1S+vOM8GVG5y0y8S3uyenA9nd1T71uMeiNnmWN0BEn6RQ5VCGEbMbuv2f
+   0wmGohXpW+KAkJmn0XkHmsosMpITSFJR3UaI+2GF0cRDbKCn+6iLeD4zl
+   Ccl7pi7Vk+OZuQxqvEHyaFNphCC+9xYRJXWucdRzt3ry3slcrxXFc9quZ
+   m6f8/+V/LaH/E+q4pAOaftWijMftBGHUpJaBk92b5QgrUFyc6gaKP6NM9
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10355"; a="260680222"
 X-IronPort-AV: E=Sophos;i="5.91,245,1647327600";
-   d="scan'208";a="260680215"
+   d="scan'208";a="260680222"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
   by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 May 2022 19:20:33 -0700
+ 22 May 2022 19:20:35 -0700
 X-IronPort-AV: E=Sophos;i="5.91,245,1647327600";
-   d="scan'208";a="600397357"
+   d="scan'208";a="600397360"
 Received: from unknown (HELO jiaqingz-bmcdev-container.sh.intel.com)
  ([10.239.138.232])
   by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 May 2022 19:20:33 -0700
+ 22 May 2022 19:20:34 -0700
 From: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
-Subject: [oe-core] [PATCH v2 1/4] systemd: Drop
- 0001-test-parse-argument-Include-signal.h.patch
-Date: Mon, 23 May 2022 10:20:11 +0800
-Message-Id: <20220523022014.1203675-2-jiaqing.zhao@linux.intel.com>
+Subject: [oe-core] [PATCH v2 2/4] systemd: Remove __compare_fn_t type in
+ musl-specific patch
+Date: Mon, 23 May 2022 10:20:12 +0800
+Message-Id: <20220523022014.1203675-3-jiaqing.zhao@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220523022014.1203675-1-jiaqing.zhao@linux.intel.com>
 References: <20220523022014.1203675-1-jiaqing.zhao@linux.intel.com>
@@ -55,63 +55,175 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 02:20:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165989
+ https://lists.openembedded.org/g/openembedded-core/message/165990
 
-This patch has already been upstreamed in commit systemd/850f0008bff7
-("test-parse-argument: Include signal.h") since v249 stable release.
+Since systemd v250, commit d8f16737005e ("sort-util: avoid using
+glibc's internal __compar_d_fn_t type"), __compare_fn_t type is no
+longer used. This patch removes that type in the musl-specific patch.
 
 Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
 ---
- ...test-parse-argument-Include-signal.h.patch | 27 -------------------
- meta/recipes-core/systemd/systemd_250.5.bb    |  1 -
- 2 files changed, 28 deletions(-)
- delete mode 100644 meta/recipes-core/systemd/systemd/0001-test-parse-argument-Include-signal.h.patch
+ ...-missing_type.h-add-comparison_fn_t.patch} | 44 ++++++-------------
+ ...missing.h-check-for-missing-strndupa.patch | 14 +++---
+ meta/recipes-core/systemd/systemd_250.5.bb    |  2 +-
+ 3 files changed, 22 insertions(+), 38 deletions(-)
+ rename meta/recipes-core/systemd/systemd/{0003-missing_type.h-add-__compare_fn_t-and-comparison_fn_.patch => 0003-missing_type.h-add-comparison_fn_t.patch} (61%)
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-test-parse-argument-Include-signal.h.patch b/meta/recipes-core/systemd/systemd/0001-test-parse-argument-Include-signal.h.patch
-deleted file mode 100644
-index 898e8af904..0000000000
---- a/meta/recipes-core/systemd/systemd/0001-test-parse-argument-Include-signal.h.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--From 93c7e482d39cf7765974b3c729d29c1b120a60e3 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 24 May 2021 18:26:27 -0700
--Subject: [PATCH] test-parse-argument: Include signal.h
+diff --git a/meta/recipes-core/systemd/systemd/0003-missing_type.h-add-__compare_fn_t-and-comparison_fn_.patch b/meta/recipes-core/systemd/systemd/0003-missing_type.h-add-comparison_fn_t.patch
+similarity index 61%
+rename from meta/recipes-core/systemd/systemd/0003-missing_type.h-add-__compare_fn_t-and-comparison_fn_.patch
+rename to meta/recipes-core/systemd/systemd/0003-missing_type.h-add-comparison_fn_t.patch
+index dfe4164900..c28c8381e8 100644
+--- a/meta/recipes-core/systemd/systemd/0003-missing_type.h-add-__compare_fn_t-and-comparison_fn_.patch
++++ b/meta/recipes-core/systemd/systemd/0003-missing_type.h-add-comparison_fn_t.patch
+@@ -1,13 +1,9 @@
+-From a4f51ef07375466f79cb148ff1178ed11f808f0a Mon Sep 17 00:00:00 2001
++From 5513b918d02900a3a78fd0e0300a118b163edfef Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Mon, 25 Feb 2019 13:55:12 +0800
+-Subject: [PATCH] missing_type.h: add __compare_fn_t and comparison_fn_t
++Subject: [PATCH] missing_type.h: add comparison_fn_t
+ 
+-Make it work with musl where comparison_fn_t and __compare_fn_t
+-is not provided.
 -
--Fixes
--src/test/test-parse-argument.c:49:29: error: use of undeclared identifier 'SIGABRT'
+-Revisit this when upgrading to 251+ systemd since systemd does not need
+-__compare_fn_t anymore
++Make it work with musl where comparison_fn_t and is not provided.
+ 
+ Upstream-Status: Inappropriate [musl specific]
+ 
+@@ -16,19 +12,19 @@ Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+ [Rebased for v242]
+ Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
 -
--Upstream-Status: Submitted [https://github.com/systemd/systemd/pull/19718]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-----
-- src/test/test-parse-argument.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/src/test/test-parse-argument.c b/src/test/test-parse-argument.c
--index cf3d54288a..15104e5282 100644
----- a/src/test/test-parse-argument.c
--+++ b/src/test/test-parse-argument.c
--@@ -5,6 +5,7 @@
-- #include "parse-argument.h"
-- #include "stdio-util.h"
-- #include "tests.h"
--+#include <signal.h>
++[Rebased for v250, Drop __compare_fn_t]
++Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+ ---
+- src/basic/missing_type.h            | 9 +++++++++
++ src/basic/missing_type.h            | 4 ++++
+  src/basic/sort-util.h               | 1 +
+- src/core/kmod-setup.c               | 1 +
+  src/libsystemd/sd-journal/catalog.c | 1 +
+- 4 files changed, 12 insertions(+)
++ 3 files changed, 6 insertions(+)
+ 
+ diff --git a/src/basic/missing_type.h b/src/basic/missing_type.h
+-index f6233090a9..aeaf6ad5ec 100644
++index f6233090a9..6c0456349d 100644
+ --- a/src/basic/missing_type.h
+ +++ b/src/basic/missing_type.h
+-@@ -10,3 +10,12 @@
++@@ -10,3 +10,7 @@
+  #if !HAVE_CHAR16_T
+  #define char16_t uint16_t
+  #endif
+@@ -36,13 +32,8 @@ index f6233090a9..aeaf6ad5ec 100644
+ +#ifndef __GLIBC__
+ +typedef int (*comparison_fn_t)(const void *, const void *);
+ +#endif
+-+
+-+#ifndef __COMPAR_FN_T
+-+#define __COMPAR_FN_T
+-+typedef int (*__compar_fn_t)(const void *, const void *);
+-+#endif
+ diff --git a/src/basic/sort-util.h b/src/basic/sort-util.h
+-index cb448df109..fd738a65ab 100644
++index 02a6784d99..0b33c83d59 100644
+ --- a/src/basic/sort-util.h
+ +++ b/src/basic/sort-util.h
+ @@ -4,6 +4,7 @@
+@@ -53,18 +44,6 @@ index cb448df109..fd738a65ab 100644
+  
+  /* This is the same as glibc's internal __compar_d_fn_t type. glibc exports a public comparison_fn_t, for the
+   * external type __compar_fn_t, but doesn't do anything similar for __compar_d_fn_t. Let's hence do that
+-diff --git a/src/core/kmod-setup.c b/src/core/kmod-setup.c
+-index d054668b8e..d3bf55acbe 100644
+---- a/src/core/kmod-setup.c
+-+++ b/src/core/kmod-setup.c
+-@@ -10,6 +10,7 @@
+- #include "macro.h"
+- #include "recurse-dir.h"
+- #include "string-util.h"
+-+#include "missing_type.h"
 - 
-- TEST(parse_json_argument) {
--         JsonFormatFlags flags = JSON_FORMAT_PRETTY;
+- #if HAVE_KMOD
+- #include "module-util.h"
+ diff --git a/src/libsystemd/sd-journal/catalog.c b/src/libsystemd/sd-journal/catalog.c
+ index 8fc87b131a..36a6efdbd8 100644
+ --- a/src/libsystemd/sd-journal/catalog.c
+@@ -77,3 +56,6 @@ index 8fc87b131a..36a6efdbd8 100644
+  
+  const char * const catalog_file_dirs[] = {
+          "/usr/local/lib/systemd/catalog/",
++-- 
++2.34.1
++
+diff --git a/meta/recipes-core/systemd/systemd/0005-src-basic-missing.h-check-for-missing-strndupa.patch b/meta/recipes-core/systemd/systemd/0005-src-basic-missing.h-check-for-missing-strndupa.patch
+index 4b1fac06b5..680930ca3c 100644
+--- a/meta/recipes-core/systemd/systemd/0005-src-basic-missing.h-check-for-missing-strndupa.patch
++++ b/meta/recipes-core/systemd/systemd/0005-src-basic-missing.h-check-for-missing-strndupa.patch
+@@ -1,4 +1,4 @@
+-From 55d48dd81e57add5b2d4b5a7d697c575a0f37ef5 Mon Sep 17 00:00:00 2001
++From 106b7bd7186c9d6c1dcd72bd4ca6457d3fa72d0b Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Mon, 25 Feb 2019 14:18:21 +0800
+ Subject: [PATCH] src/basic/missing.h: check for missing strndupa
+@@ -17,7 +17,6 @@ Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+ [rebased for systemd 244]
+ [Rebased for v247]
+ Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+-
+ ---
+  meson.build                                |  1 +
+  src/backlight/backlight.c                  |  1 +
+@@ -74,7 +73,7 @@ Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+  52 files changed, 63 insertions(+)
+ 
+ diff --git a/meson.build b/meson.build
+-index ae53345260..8c8a6c9bdf 100644
++index cb9936ee8b..7ab201c6d9 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -507,6 +507,7 @@ foreach ident : ['secure_getenv', '__secure_getenv']
+@@ -310,13 +309,13 @@ index 0b20d386d3..fccfb9268c 100644
+  #define IDLE_TIMEOUT_USEC (5*USEC_PER_SEC)
+  #define IDLE_TIMEOUT2_USEC (1*USEC_PER_SEC)
+ diff --git a/src/core/kmod-setup.c b/src/core/kmod-setup.c
+-index d3bf55acbe..63dd807b8a 100644
++index d054668b8e..9b4caa7651 100644
+ --- a/src/core/kmod-setup.c
+ +++ b/src/core/kmod-setup.c
+-@@ -11,6 +11,7 @@
++@@ -10,6 +10,7 @@
++ #include "macro.h"
+  #include "recurse-dir.h"
+  #include "string-util.h"
+- #include "missing_type.h"
+ +#include "missing_stdlib.h"
+  
+  #if HAVE_KMOD
+@@ -705,3 +704,6 @@ index 1a384d6b38..0089833e3f 100644
+  
+  #define RULES_DIRS (const char* const*) CONF_PATHS_STRV("udev/rules.d")
+  
++-- 
++2.34.1
++
 diff --git a/meta/recipes-core/systemd/systemd_250.5.bb b/meta/recipes-core/systemd/systemd_250.5.bb
-index c121fb763e..aca140d4d4 100644
+index aca140d4d4..6d6b3f2ded 100644
 --- a/meta/recipes-core/systemd/systemd_250.5.bb
 +++ b/meta/recipes-core/systemd/systemd_250.5.bb
-@@ -24,7 +24,6 @@ SRC_URI += "file://touchscreen.rules \
-            file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
-            file://0003-implment-systemd-sysv-install-for-OE.patch \
-            file://0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch \
--           file://0001-test-parse-argument-Include-signal.h.patch \
-            file://0001-resolve-Use-sockaddr-pointer-type-for-bind.patch \
-            "
- 
+@@ -31,7 +31,7 @@ SRC_URI += "file://touchscreen.rules \
+ SRC_URI:append:libc-musl = " ${SRC_URI_MUSL}"
+ SRC_URI_MUSL = "\
+                file://0002-don-t-use-glibc-specific-qsort_r.patch \
+-               file://0003-missing_type.h-add-__compare_fn_t-and-comparison_fn_.patch \
++               file://0003-missing_type.h-add-comparison_fn_t.patch \
+                file://0004-add-fallback-parse_printf_format-implementation.patch \
+                file://0005-src-basic-missing.h-check-for-missing-strndupa.patch \
+                file://0007-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch \
 -- 
 2.34.1
 
