@@ -2,89 +2,94 @@ Return-Path: <flowergom@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BB90C433F5
-	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 15:29:25 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web10.28817.1653319756527385486
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B471C433F5
+	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 15:31:15 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web08.29081.1653319869559130924
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 08:29:16 -0700
+ Mon, 23 May 2022 08:31:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NRqpZtxY;
- spf=pass (domain: gmail.com, ip: 209.85.221.44,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=GcdlPJ7m;
+ spf=pass (domain: gmail.com, ip: 209.85.221.47,
  mailfrom: flowergom@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id e2so10283816wrc.1
+Received: by mail-wr1-f47.google.com with SMTP id t6so21920424wra.4
         for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 08:29:16 -0700 (PDT)
+ Mon, 23 May 2022 08:31:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=kV/vyeaG4ybnatbgMnJglr3jl5/GXroVcdKCFaLywdU=;
-        b=NRqpZtxYz0bFJLN+wmbCiXxYUE01fsTUOqwUMllw3tr80RqNRYhFCi1JyE1lTfLsxc
-         QcHRIHkKsRqEyQ5B5chDwPZ+vDWC8OzYpkb043xpkUkVdHqVfG46Z4i69pVQSEg0baZG
-         TCAbnq+dg+tH8WWPwcOagC75hrU1cHn35c04JMYWImnJh/If+xIPXZIJ53YMl8X8t4R+
-         VnzE+Ldnlmq+LgC+fwyz595Lw0Dv/9isOunGWgPuLOVcSs4XQXG+fpJnj5iAA3icyYG7
-         1SYnEKfACRysyJHN2ELlEwYJKuV6dxM0hP1c9NkDRHIzbAZX2d6mvuT6zuG2CTAnEfam
-         IBPA==
+        bh=rKfR8mPvOkTrDGEJFCHF1pyLRCFipa8wP9srJep+Uck=;
+        b=GcdlPJ7mTQmMqgqEmGFfjY8IFh8JtlLQdfBPdrEdn0gZvUJwBIUYc4Lnv+H9MQuUPd
+         d8fClvoRdy0wSRGOi/rwi/OdchF730L7GuniVHeWzjkxf0QbpGW0fhyiOqe1UvqnM5BN
+         K5JTW0BbmUZ3aRTfu0Iv7ke6hb1GCkYn2P1IlObHMhDbi8W5GeNusVI0UjDT6W3U1pa7
+         Ma8gEcOhiV7RS70tHpZovvaY4jPWLHV2p6sXxwjTUkgjt8r/WuOfier1or82ygfy7O5I
+         i4LB7H13vwyXDlo49PqlW4BixTj7djTWNjoqRW/A2GuSEZ1LPRlBip8y0XcI7oKJsKgx
+         s9JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=kV/vyeaG4ybnatbgMnJglr3jl5/GXroVcdKCFaLywdU=;
-        b=PszMKhaAz4Yjp7iM2dVr1K50I9skPHKlyj+HpBB80AJArRvwvx26sSxX3oOp84C98h
-         Exkql8YDlJic/emJAFjNG37LN1nfdHSZuChqCQWvjQT359PDLaE+PyTgJmBYzbTLoF/b
-         tbl5iUvy4cURw0kh5oRya4MfUsu+m3MOVrCdOFRQDCeeNxOWuYdtEZRzI8x8qrljRjoa
-         vbM7xSURaPv40yPzgiFvtfZsg0YoWLegBfahgreH/BWWbqAJTaY2AdWJ193svozMV3De
-         WxNfXMHYZt5UWaIV07tZ5qzDd9Vnqf/miM72F9Z/vBC1voL5+vYZon15cBEsXlnz1KV4
-         h7YQ==
-X-Gm-Message-State: AOAM530xEdBY5fnVpAfAcoYMQOFRuq7z24DTzid4moBgq3J0X51qL7Me
-	YAYLC3hZOKyaqGUGyz/c7PA5rhTk4UCoP3RYr/I=
+        bh=rKfR8mPvOkTrDGEJFCHF1pyLRCFipa8wP9srJep+Uck=;
+        b=xE7Q8r+bCQExG/O8i/t7kSXmf2e8bPMuy3OorK78ZQzdSEQ874Xe01bEZxClL/fdnL
+         aDYMvTwOmLV63EX/xaLtbbps3CLfYhJ5WKwrK6CNoP0oRHiidK/afx4oIGGMMNNuOR6w
+         FIEmbKSp30hQE7mFadtYL1Kdt4pgbpRvVjBHg1yArPP7RyK+3nPpd1zPzXgHITZNVQUc
+         TEYUJiMiki7zD1aXmxC4zT7K//XT8VR220cP8rYXvVBgP33MFVGzV9hdQlm4/elYkNpi
+         +e/lpX59g1mt3VElsDDovNQI4QimISQX53cceBlFcXnirZeSyZMYcqBguCNW6C0KH1G9
+         UY1w==
+X-Gm-Message-State: AOAM533LSf767bgBkaVQwayxtfGRVGPvr368q4Bzbh3uHUU4FiqoWFNT
+	/ZDtOxsB8SulPuXDAD5vXiYciW2OKftNStZUDmY=
 X-Google-Smtp-Source: 
- ABdhPJzgzra9v1/NhF4dCihSZiGVIzHjPw7mCNZSrXmxK7n0OLLzmc46nI8F3QV75rPSFeQh8NKw9Q==
-X-Received: by 2002:adf:f803:0:b0:20d:3a1:3c31 with SMTP id
- s3-20020adff803000000b0020d03a13c31mr19640176wrp.565.1653319754554;
-        Mon, 23 May 2022 08:29:14 -0700 (PDT)
+ ABdhPJxOpYekCG1bBM03bOrF5fzp4z4JRy8f/pGgtgWztyXfKXnhJDNBCmymZZhYNkIhTodDuJNy3w==
+X-Received: by 2002:a5d:6989:0:b0:20d:b25:f5 with SMTP id
+ g9-20020a5d6989000000b0020d0b2500f5mr19098027wru.616.1653319867676;
+        Mon, 23 May 2022 08:31:07 -0700 (PDT)
 Received: from localhost.localdomain ([141.113.66.35])
         by smtp.gmail.com with ESMTPSA id
- d10-20020adfc80a000000b0020fded972c0sm3959661wrh.45.2022.05.23.08.29.13
+ c2-20020adfc6c2000000b0020c5253d8desm5016958wrh.42.2022.05.23.08.31.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 May 2022 08:29:13 -0700 (PDT)
+        Mon, 23 May 2022 08:31:07 -0700 (PDT)
 From: Minjae Kim <flowergom@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Minjae Kim <flowergom@gmail.com>
-Subject: [dunfell][PATCH 1/2] ncurses: add libncurses5 to RPROVIDES
-Date: Mon, 23 May 2022 17:29:04 +0200
-Message-Id: <20220523152905.52130-1-flowergom@gmail.com>
+Subject: [dunfell][PATCH] libdrm: add libdrm-{nouveau,radeon,intel} to
+ RPROVIDES
+Date: Mon, 23 May 2022 17:30:55 +0200
+Message-Id: <20220523153055.79333-1-flowergom@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 15:29:25 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 15:31:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166036
+ https://lists.openembedded.org/g/openembedded-core/message/166037
 
-The libncurses5 is generated by ncurse recipe.
-To use this library as a dependency in another component,
+The libdrm-{nouveau,radeon,intel} are generated by libdrm recipe.
+To use these libraries as a dependency in another component,
 It should be explicitly added as RPROVIDES.
 
 Signed-off-by:Minjae Kim <flowergom@gmail.com>
 ---
- meta/recipes-core/ncurses/ncurses.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-graphics/drm/libdrm_2.4.101.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index ee0b15ecf0..6f97b496c3 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -324,3 +324,5 @@ RRECOMMENDS_${PN}-libtinfo = "${PN}-terminfo-base"
- # each recipe specific sysroot. We can live without this, particularly
- # as many recipes may have native and target copies.
- SYSROOT_DIRS_remove = "${datadir}"
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.101.bb b/meta/recipes-graphics/drm/libdrm_2.4.101.bb
+index 8ec566faa9..4f3e767af0 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.101.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.101.bb
+@@ -57,3 +57,9 @@ FILES_${PN}-amdgpu = "${libdir}/libdrm_amdgpu.so.* ${datadir}/${PN}/amdgpu.ids"
+ FILES_${PN}-etnaviv = "${libdir}/libdrm_etnaviv.so.*"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 +
-+RPROVIDES_${PN} += "libncurses5"
++RPROVIDES_${PN} += " \
++    libdrm-nouveau \
++    libdrm-radeon \
++    libdrm-intel \
++"
 -- 
 2.25.1
 
