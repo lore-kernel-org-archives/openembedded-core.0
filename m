@@ -1,182 +1,161 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <jiaqing.zhao@linux.intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F264EC433F5
-	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 14:00:54 +0000 (UTC)
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com
- [209.85.160.41])
- by mx.groups.io with SMTP id smtpd.web10.27624.1653314453300847101
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38268C433F5
+	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 14:21:25 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by mx.groups.io with SMTP id smtpd.web08.28112.1653315677086938740
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 07:00:53 -0700
+ Mon, 23 May 2022 07:21:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=rzTCUwEB;
- spf=softfail (domain: sakoman.com, ip: 209.85.160.41,
- mailfrom: steve@sakoman.com)
-Received: by mail-oa1-f41.google.com with SMTP id
- 586e51a60fabf-f1eafa567cso15144760fac.8
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 07:00:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=bBIq7CqWrzdVIC8FH5Elp5+/Q2+rZQx412xvJYJuTuc=;
-        b=rzTCUwEBzEo9YTZksOvivXNiMRWeK3xbDkbUVNxWi4JJi/fV4LvFaIlUDy1Fd8FAtU
-         DN1Kffq8a1AMjrkhe1lntSuoHlvF3vdZFeppmG8xi+M+2gw/1jiXdXwxN+UmNIG5pLqK
-         LF0QBM6Nsw2K8cUzihty3eLZ1ID1vnx1HLMlXdwHuD3vg8Iw43wpKJT8qyYaSIJQ+O7Y
-         ynQDC60NRQmvnd/uPisaoMon3Ju1aGc5QeM3/q0gAW2x0l+DAzpuqeorf0A+GQx+jT1o
-         FlSug/bI4iMrJRlJlFwuOndk0zeLt4n8wFfrY8T2Ge60KV1nnwChgWrW3Img9JfSfHAi
-         pEWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=bBIq7CqWrzdVIC8FH5Elp5+/Q2+rZQx412xvJYJuTuc=;
-        b=nP9+BXnLsRWJtneVDpCu8edjPKqkeP1L7uOvVUBVUzRMTVSa/a8MD72qGbE8qK5KJq
-         Y4So+vAoN0VOPFVoxpYAlWM5nTtRiSYNWN7ZS0/azUEpaB1r17JudEC0dfxsS+7YGnIa
-         P4MI+Az6S4+3XEB/dvZM0RVqaIuEQYaFo9WpCEkIGfkeq+wTH0jsRcz6G/7gB/mWha7h
-         /HETTCT5htBLaUEG9qMBRJePDY9imFuxXBAC+BZ7tvY+6XRtn2F1rDHzgbnalSvb/fng
-         9ECVSVJHSrrKmCFyzlpmWVPtsY7qlQskD06f+KiaaX3+9jZGyNWodJELJe/6BExE8+u7
-         Zdqg==
-X-Gm-Message-State: AOAM532XL9pDHiixP8euRnSTong9ZSZm9ZuNKtIacH3xazDHpmIIf6yp
-	C+P6LpvBsvrBuLAXFdCEmxP3zbyHOTpKQDub
-X-Google-Smtp-Source: 
- ABdhPJxduLlEMAty78aSygyp/4WptHZ7dRN/arHDDZIlCozmR5rxLfte+FK9k62hMnhW6O4vkRYjxQ==
-X-Received: by 2002:a17:90b:4b88:b0:1df:a87c:f741 with SMTP id
- lr8-20020a17090b4b8800b001dfa87cf741mr26376328pjb.110.1653314441133;
-        Mon, 23 May 2022 07:00:41 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id
- m10-20020a637d4a000000b003c14af505fcsm4778952pgn.20.2022.05.23.07.00.37
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 May 2022 07:00:39 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 9/9] selftest/imagefeatures/overlayfs: Always
- append to DISTRO_FEATURES
-Date: Mon, 23 May 2022 03:59:48 -1000
-Message-Id: 
- <d3beac233558242ab6895e9ba8536a6df9df8eb3.1653313955.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1653313955.git.steve@sakoman.com>
-References: <cover.1653313955.git.steve@sakoman.com>
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=BqHcbDwy;
+ spf=none, err=permanent DNS error (domain: linux.intel.com,
+ ip: 134.134.136.65, mailfrom: jiaqing.zhao@linux.intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1653315677; x=1684851677;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=dajUFeQ/pgyOmxlVdgKz3V5JWkPRE48OflUhRoUFTn0=;
+  b=BqHcbDwycorBql2HEqobyUle1j7KVR8oaFjG6t3UhLe5aAzNXKIISQ5u
+   3LWB/6Dqm2p7CaGFpGLP9eTTxkSqdo2iys3lelUFYIdu47hmXnnB/1t37
+   AlAGON4DLIi5b2Tb1OkaxsFFZAO52jGFZF/ifZVy4l91IdpwRnb+Z+l19
+   8S8y7CbDHUAoMt+OBWpZqz0mM/cvUwdv5XQOYG5iF/RJYNIQg/8rF8LPv
+   eUGOnLd2KI4ID/yReFUMZ6owmsvHCBFKfpvPfFq5O9yBzV0WDtL2Av69x
+   +JJzaf6FQ2CtFNnX1PR+M9vVOUvf3bcCyHtr3R/fFg+iluqpgwDuDs/F2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="273228672"
+X-IronPort-AV: E=Sophos;i="5.91,246,1647327600";
+   d="scan'208";a="273228672"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2022 07:21:15 -0700
+X-IronPort-AV: E=Sophos;i="5.91,246,1647327600";
+   d="scan'208";a="600674415"
+Received: from jiaqingz-mobl.ccr.corp.intel.com (HELO [10.249.171.16])
+ ([10.249.171.16])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2022 07:21:14 -0700
+Message-ID: <37b2c6e6-6f5a-ea40-2349-b03f1d5599d1@linux.intel.com>
+Date: Mon, 23 May 2022 22:21:12 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [oe-core] [PATCH] systemd: Correct
+ 0001-pass-correct-parameters-to-getdents64.patch
+Content-Language: en-US
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+References: <20220523133419.2216713-1-jiaqing.zhao@linux.intel.com>
+ <CANNYZj-Mvf2vCdMQipyhPxnfBxB-rLniGBhckkj8ELOc+ZvLQA@mail.gmail.com>
+From: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+In-Reply-To: 
+ <CANNYZj-Mvf2vCdMQipyhPxnfBxB-rLniGBhckkj8ELOc+ZvLQA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 14:00:54 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 14:21:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166032
+ https://lists.openembedded.org/g/openembedded-core/message/166033
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+It's an musl-specific issue I believe.
 
-Using += unintentionally removes all other entries from DISTRO_FEATURES
-if DISTRO_FEATURES was set by ?= such as by poky.conf. This reduces
-sstate reusage on the autobuilder. Fix this to speed up builds.
+man page defines it as [1]
+	ssize_t getdents64(int fd, void *dirp, size_t count)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 124b82c32c4545bb216a8249954817f692f9795a)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/lib/oeqa/selftest/cases/imagefeatures.py |  2 +-
- meta/lib/oeqa/selftest/cases/overlayfs.py     | 16 ++++++++--------
- 2 files changed, 9 insertions(+), 9 deletions(-)
+But in musl, it's an alias of getdents [2]
+	int getdents(int fd, struct dirent *buf, size_t len)
 
-diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-index 6b94ace4eb..6d010b3e3a 100644
---- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
-+++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-@@ -235,7 +235,7 @@ USERADD_GID_TABLES += "files/static-group"
- DISTRO_FEATURES:append = " pam opengl wayland"
- 
- # Switch to systemd
--DISTRO_FEATURES += "systemd"
-+DISTRO_FEATURES:append = " systemd"
- VIRTUAL-RUNTIME_init_manager = "systemd"
- VIRTUAL-RUNTIME_initscripts = ""
- VIRTUAL-RUNTIME_syslog = ""
-diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py b/meta/lib/oeqa/selftest/cases/overlayfs.py
-index ce1d2f1ec3..96beb8b869 100644
---- a/meta/lib/oeqa/selftest/cases/overlayfs.py
-+++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
-@@ -55,7 +55,7 @@ inherit overlayfs
- 
-         config = """
- IMAGE_INSTALL:append = " overlayfs-user"
--DISTRO_FEATURES += "systemd overlayfs"
-+DISTRO_FEATURES:append = " systemd overlayfs"
- """
- 
-         self.write_config(config)
-@@ -94,7 +94,7 @@ OVERLAYFS_QA_SKIP[mnt-overlay] = "mount-configured"
- 
-         config = """
- IMAGE_INSTALL:append = " overlayfs-user"
--DISTRO_FEATURES += "systemd overlayfs"
-+DISTRO_FEATURES:append = " systemd overlayfs"
- """
- 
-         self.write_config(config)
-@@ -112,7 +112,7 @@ DISTRO_FEATURES += "systemd overlayfs"
- 
-         config = """
- IMAGE_INSTALL:append = " overlayfs-user"
--DISTRO_FEATURES += "systemd overlayfs"
-+DISTRO_FEATURES:append = " systemd overlayfs"
- """
- 
-         wrong_machine_config = """
-@@ -136,7 +136,7 @@ OVERLAYFS_MOUNT_POINT[usr-share-overlay] = "/usr/share/overlay"
- 
-         config = """
- IMAGE_INSTALL:append = " overlayfs-user systemd-machine-units"
--DISTRO_FEATURES += "systemd overlayfs"
-+DISTRO_FEATURES:append = " systemd overlayfs"
- 
- # Use systemd as init manager
- VIRTUAL-RUNTIME_init_manager = "systemd"
-@@ -271,7 +271,7 @@ class OverlayFSEtcRunTimeTests(OESelftestTestCase):
-         """
- 
-         configBase = """
--DISTRO_FEATURES += "systemd"
-+DISTRO_FEATURES:append = " systemd"
- 
- # Use systemd as init manager
- VIRTUAL-RUNTIME_init_manager = "systemd"
-@@ -313,7 +313,7 @@ OVERLAYFS_ETC_DEVICE = "/dev/mmcblk0p1"
-         """
- 
-         config = """
--DISTRO_FEATURES += "systemd"
-+DISTRO_FEATURES:append = " systemd"
- 
- # Use systemd as init manager
- VIRTUAL-RUNTIME_init_manager = "systemd"
-@@ -349,7 +349,7 @@ INHERIT += "overlayfs-etc"
-         """
- 
-         config = f"""
--DISTRO_FEATURES += "systemd"
-+DISTRO_FEATURES:append = " systemd"
- 
- # Use systemd as init manager
- VIRTUAL-RUNTIME_init_manager = "systemd"
-@@ -391,7 +391,7 @@ OVERLAYFS_ETC_DEVICE = "/dev/sda3"
-         """
- 
-         config = """
--DISTRO_FEATURES += "systemd"
-+DISTRO_FEATURES:append = " systemd"
- 
- # Use systemd as init manager
- VIRTUAL-RUNTIME_init_manager = "systemd"
--- 
-2.25.1
+Shall we report to musl instead of systemd?
 
+[1] https://man7.org/linux/man-pages/man2/getdents.2.html
+[2] https://elixir.bootlin.com/musl/v1.2.3/source/src/linux/getdents.c
+
+On 2022-05-23 21:59, Alexander Kanavin wrote:
+> Inappropriate still means the issue needs to be reported to upstream,
+> can you do this please?
+> 
+> Alex
+> 
+> On Mon, 23 May 2022 at 15:34, Jiaqing Zhao <jiaqing.zhao@linux.intel.com> wrote:
+>>
+>> Current patch removes the uint8_t* cast in src/basic/recurse-dir.c:57
+>> to fix musl build, but it changes the value here as pointer arithmetic
+>> is type-depended in C. This patch corrects the behavior by adding an
+>> extra cast to struct dirent*.
+>>
+>> Also changes the patch's Upstream-Status to Inappropriate as it's musl-
+>> specific.
+>>
+>> Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+>> ---
+>>  ...0001-pass-correct-parameters-to-getdents64.patch | 13 ++++++++-----
+>>  1 file changed, 8 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch b/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch
+>> index 028f50b243..9ebff9825a 100644
+>> --- a/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch
+>> +++ b/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch
+>> @@ -1,4 +1,4 @@
+>> -From 8c8899b4641125cfe8e7baee32e5c5f452545d2c Mon Sep 17 00:00:00 2001
+>> +From dab02796780f00d689cc1c7a0ba81abe7c5f28d0 Mon Sep 17 00:00:00 2001
+>>  From: Khem Raj <raj.khem@gmail.com>
+>>  Date: Fri, 21 Jan 2022 15:15:11 -0800
+>>  Subject: [PATCH] pass correct parameters to getdents64
+>> @@ -12,16 +12,16 @@ Fixes
+>>          n = getdents64(fd, &buffer, sizeof(buffer));
+>>                             ^~~~~~~
+>>
+>> -Upstream-Status: Pending
+>> +Upstream-Status: Inappropriate [musl specific]
+>>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> -
+>> +Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+>>  ---
+>>   src/basic/recurse-dir.c | 2 +-
+>>   src/basic/stat-util.c   | 2 +-
+>>   2 files changed, 2 insertions(+), 2 deletions(-)
+>>
+>>  diff --git a/src/basic/recurse-dir.c b/src/basic/recurse-dir.c
+>> -index efa1797b7b..797285e3be 100644
+>> +index efa1797b7b..03ff10ebe9 100644
+>>  --- a/src/basic/recurse-dir.c
+>>  +++ b/src/basic/recurse-dir.c
+>>  @@ -54,7 +54,7 @@ int readdir_all(int dir_fd,
+>> @@ -29,7 +29,7 @@ index efa1797b7b..797285e3be 100644
+>>                   assert(bs > de->buffer_size);
+>>
+>>  -                n = getdents64(dir_fd, (uint8_t*) de->buffer + de->buffer_size, bs - de->buffer_size);
+>> -+                n = getdents64(dir_fd, de->buffer + de->buffer_size, bs - de->buffer_size);
+>> ++                n = getdents64(dir_fd, (struct dirent*)((uint8_t*) de->buffer + de->buffer_size), bs - de->buffer_size);
+>>                   if (n < 0)
+>>                           return -errno;
+>>                   if (n == 0)
+>> @@ -46,3 +46,6 @@ index c2269844f8..7cd6c7fa42 100644
+>>           if (n < 0)
+>>                   return -errno;
+>>
+>> +--
+>> +2.34.1
+>> +
+>> --
+>> 2.34.1
+>>
+>>
+>>
+>>
+>>
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#166023): https://lists.openembedded.org/g/openembedded-core/message/166023
+>> Mute This Topic: https://lists.openembedded.org/mt/91288052/6787970
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [jiaqing.zhao@linux.intel.com]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
 
