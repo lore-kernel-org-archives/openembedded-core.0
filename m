@@ -1,184 +1,136 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ceggers@arri.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CBC3C433F5
-	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 07:10:23 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web10.24473.1653289817323721938
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 303A8C433F5
+	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 07:23:53 +0000 (UTC)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com
+ (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.91])
+ by mx.groups.io with SMTP id smtpd.web12.24798.1653290623828033094
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 00:10:17 -0700
+ Mon, 23 May 2022 00:23:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CHmaqOCr;
- spf=pass (domain: gmail.com, ip: 209.85.167.49,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id u23so23982073lfc.1
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 00:10:17 -0700 (PDT)
+ dkim=pass header.i=@arrigroup.onmicrosoft.com
+ header.s=selector1-arrigroup-onmicrosoft-com header.b=Z3UI2AzG;
+ spf=pass (domain: arri.de, ip: 40.107.7.91, mailfrom: ceggers@arri.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mpAbwiSpBUJJi6vbPN0oToHj8Q/dsiWn6BRyiwc+CoiK9nH6Su3rUL323MrTnopJyn5q2oDPrbz39ZuX664B7+IX2YVRr8bcrf1utURGWlLzAmpTELFNkkQ+bjZnzoCdGtTx0ei0HSb46v85JFJFO0hTj5pT6UYcded5irXKVZk/kHlCYua3Rq3O46NRTUxWFxw3GxErsdpb5WYyD3rpznBnRxS2+fH2XHBIvLr8ZN+80xCZp4UJN+QxtzPP/WgzhqyOByAw8YgtEqKi/6/bJS+KE3RQyjUWkqJOkWfX8d05yITelC0ajD0tI7bV2mP+kzC4iV56SUNfLigpyrT9FQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JfeNjzlC+A61ghkr4fdHPY6s93VZ8LCpDN1/LKW7uJI=;
+ b=KA0URqIaQzh8SIjE9c4OFrC48wRiXWVuQyy+iwHM1mZG1+Lm9xU+wb2zArFwxO2mYK+PQEeAkBuFzJsSFGXDS5+hPnTzsA82fcaY5n23lH+jM+fjALqkG0Wy+ytAmD9zqvPZS0i8yBQykYNvMW0zw/Q4wnh8GDTl+NX2uWwUgH6AdyfowznVpkQhBGxtiD+H72hWQBqkTeXGe9Rfb398I6VHxjre2JFPPd1W2Vd3clHD9cSDJKCG6jonGf4LPZFN6FWZng8i7O0BIND6e/2epMqEPtDLJddDwW0euSYobP+aW0rmREOhOyU8Fh97NPXUeO+LQBFS57Ndk7udGdDZwQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 217.111.95.7) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arri.de;
+ dmarc=none action=none header.from=arri.de; dkim=none (message not signed);
+ arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iXJgzSfGZOnPGYiWJJLju1nHuDhkEMLJ6mYDB/us7mk=;
-        b=CHmaqOCrFbcb3q8lmXLtPKrX93//u4cGOEenCVUnu9PdLJjwQOy+aiYMTrjUG1Cn8Y
-         bfjxdeeMWsw4Wvgqb0cQ5DyJe+y9e7S/WcNmI0h61YTQDKsEnAmw3knXJkpbuPvPFbXu
-         B//ztIt5N/Y86lxPiTusyMM0nSynvM6mGh43T0hvhJR4XSWPmf+jsSxnt8WLxS/anOfT
-         F0DINhxT3NrMVGoPQz7PzVH313McKDI52YaJX4+qAu+iiQekH5mRjWo1wD3jJsd0+H8a
-         Ncp+Fum5FS7yAb8ZMp0ndi0MxD/eTzizmLXenCxGr4NM3fvnKJkEYd6tdULHaepwaM7g
-         n+1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iXJgzSfGZOnPGYiWJJLju1nHuDhkEMLJ6mYDB/us7mk=;
-        b=qWifucb+rAJI7IOBCD3Lwje5kfPZgPdTUMfSJ1BH/WChsAkzEqqm2IX2ufjVgpmD8U
-         NlIjIOFXXzfeV2QvJeJiEOad4A5ygjwwOhDfYzTtzIzKEuCiJCmdUPFN1C+A/TieAphF
-         1eh9c/ly+d9qcPFOayjafRyqvhgu+E6P+XhOFE2YrkH5TG23uKX+Td+WMQCN3l5xGu+W
-         rWo++eCZo+KcOXMkstZdnEQAy/LZ2cbUtvph9Hr5f3OAKwpUe7Zr/DoaUzaxvLwTweMZ
-         xinJ+25dd2oWDl9ptaQwjsetfwM0sWNas8hC5/TQfuxgDAPWt+muvjEBCo33BYE48RfI
-         +yEg==
-X-Gm-Message-State: AOAM530clf41DEg1JTlUSP1jvOxbQ9mRwChHOP60yUNo2Zz7UtumWXtY
-	VcJ+FC9fOFrdaFuw6xEAv3UwSCSKH1jKyNJttIE=
-X-Google-Smtp-Source: 
- ABdhPJyAAG9xdlZSgg91GzO4X2dkqMLg1WMVK4AbUW5jfibvJcE7l0fuP2UxMB2hNQSX+uDfYMPx0vC2N3az3ygkKZU=
-X-Received: by 2002:a05:6512:407:b0:477:b6c6:caff with SMTP id
- u7-20020a056512040700b00477b6c6caffmr14896265lfk.665.1653289815460; Mon, 23
- May 2022 00:10:15 -0700 (PDT)
+ d=arrigroup.onmicrosoft.com; s=selector1-arrigroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JfeNjzlC+A61ghkr4fdHPY6s93VZ8LCpDN1/LKW7uJI=;
+ b=Z3UI2AzGMWkP5HWz2Q3qIztsW8gOGdpLBZn4gpWudXWiUEzpjKiRqM3YnZPUGtCeOtMoYTL4Jw3lr5pEvgmZ7L294OOr1HtEV4UUTeJh/jvwMSFuWiFiFoZi6Zk+HMLvnEmOd+xlNftozD80WIyMWLnQZu8avkckMfprLZfDcwA=
+Received: from AM6PR01CA0043.eurprd01.prod.exchangelabs.com
+ (2603:10a6:20b:e0::20) by DB9PR07MB7820.eurprd07.prod.outlook.com
+ (2603:10a6:10:2a3::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.7; Mon, 23 May
+ 2022 07:23:39 +0000
+Received: from VE1EUR02FT082.eop-EUR02.prod.protection.outlook.com
+ (2603:10a6:20b:e0:cafe::a2) by AM6PR01CA0043.outlook.office365.com
+ (2603:10a6:20b:e0::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.14 via Frontend
+ Transport; Mon, 23 May 2022 07:23:39 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 217.111.95.7)
+ smtp.mailfrom=arri.de; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arri.de;
+Received-SPF: Fail (protection.outlook.com: domain of arri.de does not
+ designate 217.111.95.7 as permitted sender) receiver=protection.outlook.com;
+ client-ip=217.111.95.7; helo=mta.arri.de;
+Received: from mta.arri.de (217.111.95.7) by
+ VE1EUR02FT082.mail.protection.outlook.com (10.152.13.247) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5273.14 via Frontend Transport; Mon, 23 May 2022 07:23:39 +0000
+Received: from dhcp-192-168-0-35.wgnetz.xx (192.168.55.146) by mta.arri.de
+ (10.10.18.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 23 May
+ 2022 09:23:38 +0200
+From: Christian Eggers <ceggers@arri.de>
+To: <openembedded-core@lists.openembedded.org>, Stefan Herbrechtsmeier
+	<stefan@herbrechtsmeier.net>
+CC: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: Re: [OE-core] [PATCH 0/6] npm.bbclass: work with nodejs 16
+Date: Mon, 23 May 2022 09:23:37 +0200
+Message-ID: <12007121.O9o76ZdvQC@dhcp-192-168-0-35.wgnetz.xx>
+Organization: Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+In-Reply-To: <cover.1652954597.git.enrico.scholz@sigma-chemnitz.de>
+References: <cover.1652954597.git.enrico.scholz@sigma-chemnitz.de>
 MIME-Version: 1.0
-References: <1653288813-3748-1-git-send-email-leimaohui@fujitsu.com>
-In-Reply-To: <1653288813-3748-1-git-send-email-leimaohui@fujitsu.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 23 May 2022 09:10:04 +0200
-Message-ID: 
- <CANNYZj_f-wQqQ=mXHFwY57qjvvo6JXE73X2gyk7v-GjQAkHuTg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] gnutls: Added fips option.
-To: leimaohui <leimaohui@fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [192.168.55.146]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3cdf7066-4898-45e6-ad0a-08da3c8d2850
+X-MS-TrafficTypeDiagnostic: DB9PR07MB7820:EE_
+X-Microsoft-Antispam-PRVS: 
+	<DB9PR07MB7820377610C4DBE29CE5BB92BFD49@DB9PR07MB7820.eurprd07.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	+DKFbO7x8LxqvqpamfDQzZVXcPSbemW7hREWg09J8dKDoA92KKZ4lU2oLXc3M6DuLbkebMn5xH0sUjZSVy3LL1csW4Y7ep7w120jyBdxsmk5I/ziE6iQX75kQIj7esrszjvxj0x1qPBcdrfi7fgwNoWUZSztACKUsxouQmXBmIyXtxfrpkbL68+e5RtZr/eqpDei3CEXtvVEhRggOd4OGiob5JiCOucUfJy4pSnxTroTO3JtML+M2cDHIPgP0TVdvmDUviIlMmGGEZvcXiaqxYp32XVTxPcT8Loh3ROV42vlgkyk26tbiZyPqZZwR0sdfmxMQTcHG4mitNmu/VIWhS6jKQZW3axzVFclZGJHKa6skVLzKjAUA9v5q2zgp0cAc05ba2zacoKqMQZW4TEAry8DFhXlZeKeWosmm6r2YYOMS9VrxL+qBB9Jo/Zoq2ECATmncrh7+zCoKMm58MO7hBqAWSc37BxFrt39liuFgx+j1XyXDly3fvl4FzKefW/u/YbEAyK5uL8yAsKfQQrWG3gYyBB6Ztzxqdwfb2jsTDgdqWeb5GWhaV9SgwnVK3qgO65nwxVg7Br0WEgd6+JJEHWIMtLHjvK89/jTRLJgpQydxAKdax7KMCsTOHFX9p9vAhDJcrS6g72/efu7KvHVh65MyRjZTKkgmHBstOujwfyGaOhZBe4v6LDMDZyLucDJylsyjo03APk2xgQsV9NAX4SOKJwPUcB+f2f+l4caduDwHgG7Fdh3IdA8sDyqzZGUBDWK9/XeYiOYuaTHcVPMf1Klyc5c7HHfXkKi2VJexVwNSWB/BqtMW4fuAASKu0oX
+X-Forefront-Antispam-Report: 
+	CIP:217.111.95.7;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mta.arri.de;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(46966006)(36840700001)(356005)(36916002)(82310400005)(2906002)(36860700001)(81166007)(55016003)(7696005)(70586007)(70206006)(966005)(316002)(4326008)(86362001)(16526019)(508600001)(186003)(8936002)(8676002)(5660300002)(26005)(336012)(83380400001)(110136005)(426003)(47076005)(9686003)(39026012)(36900700001)(102196002);DIR:OUT;SFP:1102;
+X-OriginatorOrg: arri.de
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2022 07:23:39.0248
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 3cdf7066-4898-45e6-ad0a-08da3c8d2850
+X-MS-Exchange-CrossTenant-Id: e6a73a5a-614d-4c51-b3e3-53b660a9433a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
+ TenantId=e6a73a5a-614d-4c51-b3e3-53b660a9433a;Ip=[217.111.95.7];Helo=[mta.arri.de]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	VE1EUR02FT082.eop-EUR02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR07MB7820
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 07:10:23 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 07:23:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165998
+ https://lists.openembedded.org/g/openembedded-core/message/165999
 
-Has the issue been raised with upstream? Would be good to include a
-link to that into the patch: any new 'inappropriate' patch is a
-support burden.
+This seems to solve my problem with the quicktype recipe [1]. Thank
+you very much for working in this.
 
-Alex
+[1] https://lore.kernel.org/all/CANNYZj-V8O1-USTdtOYKi5hB80QjxQZH2d2=YbJ-4Y2sm5BjoA@mail.gmail.com/T/
 
-On Mon, 23 May 2022 at 08:53, leimaohui <leimaohui@fujitsu.com> wrote:
->
-> - Added a patch to avoid excute fipshmac command. Because *.hmac
-> file should be created on target instead of on build environment.
-> - Added pkg_postinst_ontarget to make sure necessary files are
-> created on target.
->
-> Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
-> ---
->  ...ile-should-be-excuted-in-target-envi.patch | 28 +++++++++++++++++++
->  meta/recipes-support/gnutls/gnutls_3.7.5.bb   | 24 +++++++++++++++-
->  2 files changed, 51 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch
->
-> diff --git a/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch b/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch
-> new file mode 100644
-> index 0000000000..7a0e2fd474
-> --- /dev/null
-> +++ b/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch
-> @@ -0,0 +1,28 @@
-> +From b729a356538d499fe25e82bfc78ea663bdaca0a8 Mon Sep 17 00:00:00 2001
-> +From: Lei Maohui <leimaohui@fujitsu.com>
-> +Date: Mon, 23 May 2022 10:44:43 +0900
-> +Subject: [PATCH] Creating .hmac file should be excuted in target environment,
-> + so deleted it from build process.
-> +
-> +Upstream-Status: Inappropriate [Embedded]
-> +Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
-> +---
-> + lib/Makefile.am | 3 +--
-> + 1 file changed, 1 insertion(+), 2 deletions(-)
-> +
-> +diff --git a/lib/Makefile.am b/lib/Makefile.am
-> +index 0b43ef9..cf263f0 100644
-> +--- a/lib/Makefile.am
-> ++++ b/lib/Makefile.am
-> +@@ -206,8 +206,7 @@ hmac_files = .libs/.gnutls.hmac
-> +
-> + all-local: $(hmac_files)
-> +
-> +-.libs/.gnutls.hmac: libgnutls.la fipshmac
-> +-      $(AM_V_GEN) $(builddir)/fipshmac > $@-t && mv $@-t $@
-> ++.libs/.gnutls.hmac:
-> +
-> + CLEANFILES = $(hmac_files)
-> + endif
-> +--
-> +2.25.1
-> diff --git a/meta/recipes-support/gnutls/gnutls_3.7.5.bb b/meta/recipes-support/gnutls/gnutls_3.7.5.bb
-> index 5feedb7fdc..b796494b8d 100644
-> --- a/meta/recipes-support/gnutls/gnutls_3.7.5.bb
-> +++ b/meta/recipes-support/gnutls/gnutls_3.7.5.bb
-> @@ -21,6 +21,7 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
->
->  SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz \
->             file://arm_eabi.patch \
-> +           file://0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch \
->             "
->
->  SRC_URI[sha256sum] = "1f85028475b4f255cc5b480af0c37e61eab43024c1507c8b75d6be506c0553ad"
-> @@ -36,6 +37,7 @@ PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn2"
->  PACKAGECONFIG[libtasn1] = "--with-included-libtasn1=no,--with-included-libtasn1,libtasn1"
->  PACKAGECONFIG[p11-kit] = "--with-p11-kit,--without-p11-kit,p11-kit"
->  PACKAGECONFIG[tpm] = "--with-tpm,--without-tpm,trousers"
-> +PACKAGECONFIG[fips] = "--enable-fips140-mode --with-libdl-prefix=${STAGING_BASELIBDIR}"
->
->  EXTRA_OECONF = " \
->      --enable-doc \
-> @@ -59,10 +61,30 @@ do_configure:prepend() {
->         done
->  }
->
-> -PACKAGES =+ "${PN}-openssl ${PN}-xx"
-> +do_install:append:class-target() {
-> +        if ${@bb.utils.contains('PACKAGECONFIG', 'fips', 'true', 'false', d)}; then
-> +          install -d ${D}${bindir}/bin
-> +          install -m 0755 ${B}/lib/.libs/fipshmac ${D}/${bindir}/
-> +        fi
-> +}
-> +
-> +PACKAGES =+ "${PN}-openssl ${PN}-xx ${PN}-fips"
->
->  FILES:${PN}-dev += "${bindir}/gnutls-cli-debug"
->  FILES:${PN}-openssl = "${libdir}/libgnutls-openssl.so.*"
->  FILES:${PN}-xx = "${libdir}/libgnutlsxx.so.*"
-> +FILES:${PN}-fips = "${bindir}/fipshmac"
->
->  BBCLASSEXTEND = "native nativesdk"
-> +
-> +pkg_postinst_ontarget:${PN}-fips () {
-> +    if test -x ${bindir}/fipshmac
-> +    then
-> +        mkdir ${sysconfdir}/gnutls
-> +        touch ${sysconfdir}/gnutls/config
-> +        ${bindir}/fipshmac ${libdir}/libgnutls.so.30.*.* > ${libdir}/.libgnutls.so.30.hmac
-> +        ${bindir}/fipshmac ${libdir}/libnettle.so.8.* > ${libdir}/.libnettle.so.8.hmac
-> +        ${bindir}/fipshmac ${libdir}/libgmp.so.10.*.* > ${libdir}/.libgmp.so.10.hmac
-> +        ${bindir}/fipshmac ${libdir}/libhogweed.so.6.* > ${libdir}/.libhogweed.so.6.hmac
-> +    fi
-> +}
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#165996): https://lists.openembedded.org/g/openembedded-core/message/165996
-> Mute This Topic: https://lists.openembedded.org/mt/91283368/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+
+On Thursday, 19 May 2022, 12:05:50 CEST, Enrico Scholz via lists.openembedded.org wrote:
+> nodejs 16 changed internal caching significantly which breaks the
+> existing npm.bblcass.
+> 
+> Simulate parts of the npm registry and cache data in the way as
+> expected.
+> 
+> This patchset requires an additional one in the oe-meta layer.
+> 
+> Enrico Scholz (6):
+>   npm: replace 'npm pack' call by 'tar czf'
+>   npm: return content of 'package.json' in 'npm_pack'
+>   npm: take 'version' directly from 'package.json'
+>   npm: disable 'audit' + 'fund'
+>   lib:npm_registry: initial checkin
+>   npm: use npm_registry to cache package
+> 
+>  meta/classes/npm.bbclass    |  65 +++++++++-----
+>  meta/lib/oe/npm_registry.py | 169 ++++++++++++++++++++++++++++++++++++
+>  2 files changed, 213 insertions(+), 21 deletions(-)
+>  create mode 100644 meta/lib/oe/npm_registry.py
+> 
+> 
+
+
+
+
 
