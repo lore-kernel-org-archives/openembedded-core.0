@@ -1,85 +1,184 @@
+Return-Path: <rak3033@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <2b054824-457e-74e2-ac5b-ddb4d2124d33@linux.intel.com>
-Date: Mon, 23 May 2022 10:21:44 +0800
+From: rak3033@gmail.com
+Subject: [meta-oe][dunfell][PATCH] curl: Add fix for CVE-2022-27781 CVE-2022-27782
+Date: Mon, 23 May 2022 13:40:41 +0530
+Message-Id: <20220523081041.5680-1-rak3033@gmail.com>
 MIME-Version: 1.0
-Subject: Re: [oe-core] [PATCH 0/4] systemd: Update patches
-References: <20220522173145.1015305-1-jiaqing.zhao@linux.intel.com>
- <CAMKF1sqhrZsABy8fkWRopzMSKipc7uV-guRazjShBnLwN9iwfw@mail.gmail.com>
-From: "Jiaqing Zhao" <jiaqing.zhao@linux.intel.com>
-In-Reply-To: <CAMKF1sqhrZsABy8fkWRopzMSKipc7uV-guRazjShBnLwN9iwfw@mail.gmail.com>
-Content-Language: en-US
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+To: openembedded-core@lists.openembedded.org, rak3033@gmail.com
+Cc: riyaza1@kpit.com, Ranjitsinh.Rathod@kpit.com
 
-Hi, Raj
+Add patches for CVE issues: CVE-2022-27781 CVE-2022-27782
 
-The patchset I sent is based on 2b9bb4c07d where your patches has already been merged.
+CVE-2022-27781
+Link: [https://github.com/curl/curl/commit/5c7da89d404bf59c8dd82a001119a16d18365917]
 
-I also checked the git log
+CVE-2022-27782
+Link: [https://github.com/curl/curl/commit/1645e9b44505abd5cbaf65da5282c3f33b5924a5]
 
-$ git log --oneline | grep systemd
-7d5c480d2b systemd: Fix path returned in sd_path_lookup()
-3fd081967d systemd: Drop 0002-don-t-use-glibc-specific-qsort_r.patch
-c6d3f721a4 systemd: Remove __compare_fn_t type in musl-specific patch
-66361f908e systemd: Drop 0001-test-parse-argument-Include-signal.h.patch
-↑ My patches
-↓ Your patches
-2cdfc505ce systemd: Update patch status
-e57707e820 systemd: Drop 0016-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch
-433d51c384 systemd: Document future actions needed for set of musl patches
-216fe2b8e5 systemd: Drop redundant musl patches
+Signed-off-by: Riyaz Ahmed Khan <rak3033@gmail.com>
+---
+ .../curl/curl/CVE-2022-27781.patch            | 50 +++++++++++++
+ .../curl/curl/CVE-2022-27782.patch            | 75 +++++++++++++++++++
+ meta/recipes-support/curl/curl_7.69.1.bb      |  2 +
+ 3 files changed, 127 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27781.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27782.patch
 
-In your commit 216fe2b8e5, you removed 0017-missing_type.h-add-__compar_d_fn_t-definition.patch
-for __compar_d_fn_t, but there is another one (possibly duplicate) named
-0003-missing_type.h-add-__compare_fn_t-and-comparison_fn_.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2022-27781.patch b/meta/recipes-support/curl/curl/CVE-2022-27781.patch
+new file mode 100644
+index 0000000000..70e75ead4f
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2022-27781.patch
+@@ -0,0 +1,50 @@
++From 5c7da89d404bf59c8dd82a001119a16d18365917 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Mon, 9 May 2022 10:07:15 +0200
++Subject: [PATCH] nss: return error if seemingly stuck in a cert loop
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++CVE-2022-27781
++
++Reported-by: Florian Kohnhäuser
++Bug: https://curl.se/docs/CVE-2022-27781.html
++Closes #8822
++
++CVE: CVE-2022-27781
++
++Upstream-Status: Backport [https://github.com/curl/curl/commit/5c7da89d404bf59c8dd82a001119a16d18365917]
++
++Signed-off-by: Riyaz Ahmed Khan <Riyaz.Khan@kpit.com>
++
++---
++ lib/vtls/nss.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
++
++diff --git a/lib/vtls/nss.c b/lib/vtls/nss.c
++index 5b7de9f81895..569c0628feb5 100644
++--- a/lib/vtls/nss.c
+++++ b/lib/vtls/nss.c
++@@ -950,6 +950,9 @@
++   PR_Free(common_name);
++ }
++
+++/* A number of certs that will never occur in a real server handshake */
+++#define TOO_MANY_CERTS 300
+++
++ static CURLcode display_conn_info(struct connectdata *conn, PRFileDesc *sock)
++ {
++   CURLcode result = CURLE_OK;
++@@ -1018,6 +1021,11 @@ static CURLcode display_conn_info(struct Curl_easy *data, PRFileDesc *sock)
++         cert2 = CERT_FindCertIssuer(cert, now, certUsageSSLCA);
++         while(cert2) {
++           i++;
+++          if(i >= TOO_MANY_CERTS) {
+++            CERT_DestroyCertificate(cert2);
+++            failf(data, "certificate loop");
+++            return CURLE_SSL_CERTPROBLEM;
+++          }
++           if(cert2->isRoot) {
++             CERT_DestroyCertificate(cert2);
++             break;
+diff --git a/meta/recipes-support/curl/curl/CVE-2022-27782.patch b/meta/recipes-support/curl/curl/CVE-2022-27782.patch
+new file mode 100644
+index 0000000000..f171f978d7
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2022-27782.patch
+@@ -0,0 +1,75 @@
++From 1645e9b44505abd5cbaf65da5282c3f33b5924a5 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Mon, 9 May 2022 23:13:53 +0200
++Subject: [PATCH] url: check SSH config match on connection reuse
++
++CVE-2022-27782
++
++Reported-by: Harry Sintonen
++Bug: https://curl.se/docs/CVE-2022-27782.html
++Closes #8825
++
++CVE: CVE-2022-27782
++
++Upstream-Status: Backport [https://github.com/curl/curl/commit/1645e9b44505abd5cbaf65da5282c3f33b5924a5]
++
++Signed-off-by: Riyaz Ahmed Khan <Riyaz.Khan@kpit.com>
++
++---
++ lib/url.c      | 11 +++++++++++
++ lib/vssh/ssh.h |  6 +++---
++ 2 files changed, 14 insertions(+), 3 deletions(-)
++
++diff --git a/lib/url.c b/lib/url.c
++index cf14a333ac69..6b31d4b1315d 100644
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -1100,6 +1100,12 @@ static void prune_dead_connections(struct Curl_easy *data)
++   }
++ }
++ 
+++static bool ssh_config_matches(struct connectdata *one,
+++                               struct connectdata *two)
+++{
+++  return (Curl_safecmp(one->proto.sshc.rsa, two->proto.sshc.rsa) &&
+++          Curl_safecmp(one->proto.sshc.rsa_pub, two->proto.sshc.rsa_pub));
+++}
++ /*
++  * Given one filled in connection struct (named needle), this function should
++  * detect if there already is one that has all the significant details
++@@ -1260,6 +1260,11 @@
++         }
++       }
++
+++      if(get_protocol_family(needle->handler) == PROTO_FAMILY_SSH) {
+++        if(!ssh_config_matches(needle, check))
+++          continue;
+++      }
+++
++       if(!needle->bits.httpproxy || (needle->handler->flags&PROTOPT_SSL) ||
++          needle->bits.tunnel_proxy) {
++         /* The requested connection does not use a HTTP proxy or it uses SSL or
++diff --git a/lib/vssh/ssh.h b/lib/vssh/ssh.h
++index 7972081ec610..30d82e57648e 100644
++--- a/lib/vssh/ssh.h
+++++ b/lib/vssh/ssh.h
++@@ -7,7 +7,7 @@
++  *                            | (__| |_| |  _ <| |___
++  *                             \___|\___/|_| \_\_____|
++  *
++- * Copyright (C) 1998 - 2020, Daniel Stenberg, <daniel@haxx.se>, et al.
+++ * Copyright (C) 1998 - 2022, Daniel Stenberg, <daniel@haxx.se>, et al.
++  *
++  * This software is licensed as described in the file COPYING, which
++  * you should have received as part of this distribution. The terms
++@@ -131,8 +131,8 @@ struct ssh_conn {
++ 
++   /* common */
++   const char *passphrase;     /* pass-phrase to use */
++-  char *rsa_pub;              /* path name */
++-  char *rsa;                  /* path name */
+++  char *rsa_pub;              /* strdup'ed public key file */
+++  char *rsa;                  /* strdup'ed private key file */
++   bool authed;                /* the connection has been authenticated fine */
++   bool acceptfail;            /* used by the SFTP_QUOTE (continue if
++                                  quote command fails) */
+diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
+index e850376ff8..602caf97ab 100644
+--- a/meta/recipes-support/curl/curl_7.69.1.bb
++++ b/meta/recipes-support/curl/curl_7.69.1.bb
+@@ -28,6 +28,8 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://CVE-2022-27776.patch \
+            file://CVE-2022-27775.patch \
+            file://CVE-2022-22576.patch \
++           file://CVE-2022-27781.patch \
++           file://CVE-2022-27782.patch \
+ "
+ 
+ SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
+-- 
+2.17.1
 
-Though I send out patchset v2, it only improves the description.
-
-Jiaqing
-
-On 2022-05-23 08:17, Khem Raj wrote:
-> I have sent patches to remove the obsolete patches few days ago some
-> of which are listed here. Please rebase your patch on top of master
-> and resend rebased patchset
-> 
-> On Sun, May 22, 2022 at 10:32 AM Jiaqing Zhao
-> <jiaqing.zhao@linux.intel.com> wrote:
->>
->> This patchset updates the existing systemd patches, these patches are
->> upstreamed, no longer needed or fix needed. Update these patches before
->> bumping to v251.
->>
->> Jiaqing Zhao (4):
->>   systemd: Drop 0001-test-parse-argument-Include-signal.h.patch
->>   systemd: Remove __compare_fn_t type in musl-specific patch
->>   systemd: Drop 0002-don-t-use-glibc-specific-qsort_r.patch
->>   systemd: Fix path returned in sd_path_lookup()
->>
->>  ...sysctl.d-binfmt.d-modules-load.d-to-.patch |  73 ++++++++
->>  ...se-ROOTPREFIX-without-suffixed-slash.patch |  42 -----
->>  ...test-parse-argument-Include-signal.h.patch |  27 ---
->>  ...002-don-t-use-glibc-specific-qsort_r.patch | 163 ------------------
->>  ...-missing_type.h-add-comparison_fn_t.patch} |  44 ++---
->>  ...missing.h-check-for-missing-strndupa.patch |  14 +-
->>  meta/recipes-core/systemd/systemd_250.5.bb    |   6 +-
->>  7 files changed, 96 insertions(+), 273 deletions(-)
->>  create mode 100644 meta/recipes-core/systemd/systemd/0001-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch
->>  delete mode 100644 meta/recipes-core/systemd/systemd/0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch
->>  delete mode 100644 meta/recipes-core/systemd/systemd/0001-test-parse-argument-Include-signal.h.patch
->>  delete mode 100644 meta/recipes-core/systemd/systemd/0002-don-t-use-glibc-specific-qsort_r.patch
->>  rename meta/recipes-core/systemd/systemd/{0003-missing_type.h-add-__compare_fn_t-and-comparison_fn_.patch => 0003-missing_type.h-add-comparison_fn_t.patch} (61%)
->>
->> --
->> 2.34.1
->>
->>
->>
->>
->>
->>
->> 
->>
