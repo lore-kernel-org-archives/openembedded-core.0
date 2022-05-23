@@ -1,112 +1,120 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <jiaqing.zhao@linux.intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB4F9C433EF
-	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 13:03:34 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.26878.1653311008292222524
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D63FC433F5
+	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 13:34:35 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by mx.groups.io with SMTP id smtpd.web08.27509.1653312873897339945
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 06:03:28 -0700
+ Mon, 23 May 2022 06:34:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Pu1a0RFp;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id
- n124-20020a1c2782000000b003972dfca96cso6732579wmn.4
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 06:03:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=DMD0HSnlvGvB0qxecieNqrXXwVSWGcAwmOcWjgBUrrI=;
-        b=Pu1a0RFpAICguTnHCoav59UO2Pl++fUKy6wRMTyrsy1VqTu7aWtQxNiYsCJe9c+ljU
-         d4YgABDLkAuECtnbsUsqXORiXzRmYzV1/Saq/HrtTZ6LJHN4L3jbKMCyzqH8C2gXdiex
-         zWnKcIjA5FTOmGOvBvJXflMEq4fJByz3HTWJ4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=DMD0HSnlvGvB0qxecieNqrXXwVSWGcAwmOcWjgBUrrI=;
-        b=YXGAuEtCmFVlV2yt9vE7pcFtIeHIKFZg4F36rNIvH0tVl9dLzR9OtApbh8EHm9xBVF
-         SwFl32TiyJMKV+iD4HTa/wLc61VDLPQMKVV0YyUbbRj82KeM/4LhVozTU502kYmLiFYU
-         QfhJc+6A7katuIPhWaJPa2SuM4cOwqhhRZ7wN6grA/KsWXjw5qLQZIOrh1rHwAACmMnY
-         bdBkqe7Cf1GYW+gRVQ2Czc5lTOsh4Y0A2ggxLb6rdSMYbVB3Oc0nk5I4u2gKiGTfb7FA
-         rtfKzp4QjzUl1dBcZ+J6bquCusnXtx8uY9R1O4NMajkyEPJRoojvQ6JOI7fngvOggW+G
-         BYmg==
-X-Gm-Message-State: AOAM533nVVCvyvCDKzNm3uKQvTtvuwTYg+jTvazKY6wgNKOK4FICt+m2
-	PaVYjQeg3FmGWDzPt7n39Nt5WA==
-X-Google-Smtp-Source: 
- ABdhPJw/nSbiEu012ALdF0n0XVes6ybxSVJRFENTrb8GHNCtu59L65doAUf4c9rIQirTI6Z2agHunA==
-X-Received: by 2002:a05:600c:1c22:b0:397:4ca9:fa69 with SMTP id
- j34-20020a05600c1c2200b003974ca9fa69mr3885531wms.2.1653311006300;
-        Mon, 23 May 2022 06:03:26 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:2491:f5e:6dc4:bd24?
- ([2001:8b0:aba:5f3c:2491:f5e:6dc4:bd24])
-        by smtp.gmail.com with ESMTPSA id
- b13-20020adfc74d000000b0020d012692dbsm4483908wrh.18.2022.05.23.06.03.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 May 2022 06:03:25 -0700 (PDT)
-Message-ID: 
- <a99237d81aa73024f6982c34e9d9e1ff74ac7e0d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] local.conf.sample: mention other QEMU targets
- in OE
-From: richard.purdie@linuxfoundation.org
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
-	 <openembedded-core@lists.openembedded.org>
-Date: Mon, 23 May 2022 14:03:22 +0100
-In-Reply-To: <a22fea43-b04b-6b2a-91a3-225718da358@crashcourse.ca>
-References: <a22fea43-b04b-6b2a-91a3-225718da358@crashcourse.ca>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0-1ubuntu1 
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=EwMJRFTC;
+ spf=none, err=permanent DNS error (domain: linux.intel.com,
+ ip: 134.134.136.65, mailfrom: jiaqing.zhao@linux.intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1653312873; x=1684848873;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=j3brNuCLLxR0cXZuqCoVI+Mn/mkI0jXQawcBxjfOKY0=;
+  b=EwMJRFTCYKcqgY3LMb/R4SS/N2Djf69l/1Wbq3a1uskGRdy5UrLcfL6O
+   +vO/QNPGSnTwx9C7TA+LkJWcFqEEzYlnzvNJCzhmFpZk3nhFf7GjmaFcJ
+   xSauuZ5skpC/OP5fbAnY5sZMCfp+YIukpkXfxTZPdrdsFOzkIG6xdZWk9
+   WlVcZwkSK7ZtRFvlLBHvKWOK/8JJw75XZ+T0jUqbZYgLihWlWRRysOHil
+   HZFlgeqZ/xlAuPTpDVSx3vITe623tMj42wXsua36OM09tGppdwa+I5/8E
+   b7ODpRXDAsaScyd0dO9oRLGjU/BM5c2Sy7ExuZxYk+aUydYqlOCl3t3ur
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10355"; a="273214712"
+X-IronPort-AV: E=Sophos;i="5.91,246,1647327600";
+   d="scan'208";a="273214712"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2022 06:34:33 -0700
+X-IronPort-AV: E=Sophos;i="5.91,246,1647327600";
+   d="scan'208";a="600652597"
+Received: from unknown (HELO jiaqingz-bmcdev-container.sh.intel.com)
+ ([10.239.138.232])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 May 2022 06:34:32 -0700
+From: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+Subject: [oe-core] [PATCH] systemd: Correct
+ 0001-pass-correct-parameters-to-getdents64.patch
+Date: Mon, 23 May 2022 21:34:19 +0800
+Message-Id: <20220523133419.2216713-1-jiaqing.zhao@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 13:03:34 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 13:34:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166020
+ https://lists.openembedded.org/g/openembedded-core/message/166021
 
-On Thu, 2022-05-12 at 04:38 -0400, Robert P. J. Day wrote:
-> Mention that there are other QEMU targets available in the OE layer,
-> and leave it for the reader to check them out.
->=20
-> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
->=20
-> ---
->=20
->   i think this is the happy medium between not saying anything about
-> the additional QEMU machines, and promoting them to full equality with
-> the other layers -- just let the reader know where they can examine
-> them.
->=20
-> diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-> index c05691de58..c28ff62468 100644
-> --- a/meta/conf/local.conf.sample
-> +++ b/meta/conf/local.conf.sample
-> @@ -29,7 +29,11 @@
->  # This sets the default machine to be qemux86-64 if no other machine is =
-selected:
->  MACHINE ??=3D "qemux86-64"
->=20
-> -#
-> +# Note that the openembedded-core layer defines a few more QEMU targets =
-that
-> +# are not listed here as they are not tested as robustly as the above, b=
-ut they
-> +# are still available for the adventurous; see the full list at:
-> +# https://git.openembedded.org/openembedded-core/tree/meta/conf/machine
-> +
+Current patch removes the uint8_t* cast in src/basic/recurse-dir.c:57
+to fix musl build, but it changes the value here as pointer arithmetic
+is type-depended in C. This patch corrects the behavior by adding an
+extra cast to struct dirent*.
 
-I don't mind adding a note about this but wouldn't it be better to
-suggest the user look at the meta/conf/machine directory rather than a
-web url since they might not actually be online?
+Also changes the patch's Upstream-Status to Inappropriate as it's musl-
+specific.
 
-Cheers,
+Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+---
+ ...0001-pass-correct-parameters-to-getdents64.patch | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-Richard
+diff --git a/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch b/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch
+index 028f50b243..9ebff9825a 100644
+--- a/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch
++++ b/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch
+@@ -1,4 +1,4 @@
+-From 8c8899b4641125cfe8e7baee32e5c5f452545d2c Mon Sep 17 00:00:00 2001
++From dab02796780f00d689cc1c7a0ba81abe7c5f28d0 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 21 Jan 2022 15:15:11 -0800
+ Subject: [PATCH] pass correct parameters to getdents64
+@@ -12,16 +12,16 @@ Fixes
+         n = getdents64(fd, &buffer, sizeof(buffer));
+                            ^~~~~~~
+ 
+-Upstream-Status: Pending
++Upstream-Status: Inappropriate [musl specific]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
++Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+ ---
+  src/basic/recurse-dir.c | 2 +-
+  src/basic/stat-util.c   | 2 +-
+  2 files changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/src/basic/recurse-dir.c b/src/basic/recurse-dir.c
+-index efa1797b7b..797285e3be 100644
++index efa1797b7b..03ff10ebe9 100644
+ --- a/src/basic/recurse-dir.c
+ +++ b/src/basic/recurse-dir.c
+ @@ -54,7 +54,7 @@ int readdir_all(int dir_fd,
+@@ -29,7 +29,7 @@ index efa1797b7b..797285e3be 100644
+                  assert(bs > de->buffer_size);
+  
+ -                n = getdents64(dir_fd, (uint8_t*) de->buffer + de->buffer_size, bs - de->buffer_size);
+-+                n = getdents64(dir_fd, de->buffer + de->buffer_size, bs - de->buffer_size);
+++                n = getdents64(dir_fd, (struct dirent*)((uint8_t*) de->buffer + de->buffer_size), bs - de->buffer_size);
+                  if (n < 0)
+                          return -errno;
+                  if (n == 0)
+@@ -46,3 +46,6 @@ index c2269844f8..7cd6c7fa42 100644
+          if (n < 0)
+                  return -errno;
+  
++-- 
++2.34.1
++
+-- 
+2.34.1
 
 
