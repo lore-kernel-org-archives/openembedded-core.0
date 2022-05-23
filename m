@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDA8DC433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F20CAC4332F
 	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 14:00:34 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web09.28090.1653314429378976634
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web12.27901.1653314421269082582
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 07:00:29 -0700
+ Mon, 23 May 2022 07:00:32 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=l4lSbOUL;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.174,
+ header.b=UOCO5LOI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f174.google.com with SMTP id z25so1083965pfr.1
+Received: by mail-pg1-f182.google.com with SMTP id g184so13772795pgc.1
         for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 07:00:29 -0700 (PDT)
+ Mon, 23 May 2022 07:00:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=NTUknsKScsUUsML4ZJ/g5VdSrE16JIaxLKsuecDNLsc=;
-        b=l4lSbOULnTKZP6a84wVpiY2JSJRgMNTqDUWfixVK8Mundi1acb85UP4mN4lxvnsjsg
-         TrkPAnTZPD2FWw4JBH8PWAiMhtS0vQGEVgJJGWjYifT8vp9yVDSfLeruB4Hq7rUsysew
-         NBlbH6IFHz8696XmnbRZTNWAkwXD4ioWHIap8XauCf1OBFEbzix73ALnCbxlF+qAmAXU
-         qxP5URhEln1jQw299x4z0sDyIOD5iTHxn6bwKngOWywkzHLQucQ58f3RNiL89457n6ap
-         BK88ipdoU4SpFTYehr9/ASiTDqGy1lRhEdNxwPnnLRfnXYczEtcBxUEg8f/C1D0dOnp0
-         o0SQ==
+        bh=PUeRVe1wGCzVNo2OzeM1GczPeLXvUEDSM1PocY4hr/Q=;
+        b=UOCO5LOI9r1lV+9G2XA6yFZtIGubm8d/Yn2LCbDLaiTbETOOsCp2QfwCsjUpPWEuTR
+         3C8/XaxL+bZUG3MkQ2DGZkpPHG9M3GGvbCHYX8MI65ckIoxxNwpo9BzjEgXLLWl+7QCS
+         6v2LHPIapyx+Ba84+I8tQeM5vKpIMIQrXGcTikdANMYOXLdXZMN0/++ar/FJCkryenl6
+         vOCJ3EmXo1bS+wlBxp01pnK/qnOZNt70Zr14JyTUF2OrxHwNmzwiofGyuTzBFJWKR4Hp
+         VyZKDO5itAFFjNwyI1vggKVNfcsq6e9j79D+1ToJMUYk5sXl0DxRn1H17uh9tGOZjfZr
+         6Uyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=NTUknsKScsUUsML4ZJ/g5VdSrE16JIaxLKsuecDNLsc=;
-        b=f4cpdV+joglhAW6lOyMYJAP/tVAPSlo/Ol/Qu22heVCZxv/HXY9V49YvOLmagr8K9V
-         6PxUjWo7ED3/+MPA9Tm7jQ/81dn9Tal0TNffq+StHqrxiGwcghKStQPq+CKs1BidJS/i
-         TQ1yry69FR3FHmxGoh1NyvWe31W9GOZjt8ygLcVI2ultymB6oZF68XESTr7oRC/Xx+F9
-         q4gDVy5dcD21+XwsIjfO7YHH0UE1+lNyk14Uqdqi6VmcumotgU3IghgX3MOQpp9zSYHJ
-         836/3e8wsrUBM0kEGp6qkzJdbJlboTFeve33uY1rLqu/vkfaKv2wl8s3c2Y/Yvce9WFA
-         X5KQ==
-X-Gm-Message-State: AOAM533mztdqIPN9KHnmjcnI34jRHGq7obDu6tmYDPaMVG5sHRFQSRLt
-	s7GQWk95dFz85fuBZBlk5GwQkEP08mQKbhWf
+        bh=PUeRVe1wGCzVNo2OzeM1GczPeLXvUEDSM1PocY4hr/Q=;
+        b=5Qj06Lviru58KSRHQ0tl8CqslWrj5pnUG/flREDw0PRNB+yHd2OggrMnDRWIsKkjKS
+         iFwsqFtYJZdkqiHzGe6GpVQpKumrP6PLQoBWNaRUWn+QHHozjwrM/cBhRweYGiVinwGZ
+         vhCEvpjY2IP28j0N/NVLrdC4kMsluv+99VsBGQmcZWMQ5ViNm4F5NPGme8e2WwzjDd7C
+         orqmO43WI1Va0ULduZC2xUi5Hr/UKamoeQ8CBXxFLKxSKCB08v3sXr022tjvf/Kfn+wi
+         t3nMGPtERwf+cbv0JIFrS7/u7zbZSSl961JXI3YYwZheaesZf5auAUTub+QnjwxOw/ug
+         lcDw==
+X-Gm-Message-State: AOAM530h5b+yNxJcN87u45RJWwvqSNMhI9EtVZ0R5h+WU9HSKj1E+3Zh
+	CqyVHLEHCJvrKoEjb1muUV9mI0Mb4lBrksNZ
 X-Google-Smtp-Source: 
- ABdhPJysq/5oU7OZy9goUhHoZo9B22zivzD23bRf14fkaU1hOpTpTS+R6y9DvJdJhCUDSjbTT7WsJg==
-X-Received: by 2002:a63:f653:0:b0:3fa:ac4:d910 with SMTP id
- u19-20020a63f653000000b003fa0ac4d910mr8643923pgj.407.1653314428105;
-        Mon, 23 May 2022 07:00:28 -0700 (PDT)
+ ABdhPJwO2+icwJhTOn0WKIf9CvbpEjtdODGajvQ/S8BNguCjzhtBWBlR2kpjiM7yw8P16FXQH75w9Q==
+X-Received: by 2002:a05:6a00:1952:b0:518:9fbd:ff7a with SMTP id
+ s18-20020a056a00195200b005189fbdff7amr5300957pfk.77.1653314431505;
+        Mon, 23 May 2022 07:00:31 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- m10-20020a637d4a000000b003c14af505fcsm4778952pgn.20.2022.05.23.07.00.24
+ m10-20020a637d4a000000b003c14af505fcsm4778952pgn.20.2022.05.23.07.00.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 May 2022 07:00:26 -0700 (PDT)
+        Mon, 23 May 2022 07:00:29 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 5/9] librepo: upgrade 1.14.2 -> 1.14.3
-Date: Mon, 23 May 2022 03:59:44 -1000
+Subject: [OE-core][kirkstone 6/9] binutils: Bump to latest 2.38 release branch
+Date: Mon, 23 May 2022 03:59:45 -1000
 Message-Id: 
- <cd16ecd4412708731968b25585d85217fa83858b.1653313955.git.steve@sakoman.com>
+ <cefc45625535972d20b252ed0a2f497dff7d5fe5.1653313955.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1653313955.git.steve@sakoman.com>
 References: <cover.1653313955.git.steve@sakoman.com>
@@ -69,43 +69,51 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 14:00:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166028
+ https://lists.openembedded.org/g/openembedded-core/message/166029
 
-From: wangmy <wangmy@fujitsu.com>
+From: Samuli Piippo <samuli.piippo@gmail.com>
 
-Minor bug fix release with a single commit:
+Fixes Qt build with GCC 12.1.
 
-Make error messages about repodata and rpm mismatch more user friendly
+Brings following fixes
 
-This should help users to recognize the error is not on dnf side but
-instead on the server (in the repository).
+ * 3d549e5ccc0 PR29142, segv in ar with empty archive and libdeps specified
+ * c473aa1b9d8 M68K: avoid quadratic slowdlow in label alignment check
+ * 8d1187516e3 Adjust ld ctf test for 32-bit targets
+ * 9c67f6382ac x86: Properly handle function pointer reference
+ * 9a01457e02e s390: Add DT_JMPREL pointing to .rela.[i]plt with static-pie
+ * 82a5bb730a1 s390: Avoid dynamic TLS relocs in PIE
+ * d54081c642a LoongArch: Update ABI eflag in elf header.
+ * fb4d148004f IBM zSystems: Add support for z16 as CPU name.
+ * 975b5540232 libctf, ld: diagnose corrupted CTF header cth_strlen
+ * 99852365513 dlltool: Use the output name as basis for deterministic temp prefixes
+ * 210bf1d6225 Updated Serbian (for binutils/) and Russian (for gprof/) translations
+ * fcf60fe8482 PR28959, obdump doesn't disassemble mftb instruction
+ * e4a35c73196 PowerPC64 DT_RELR relative reloc addresses
+ * 7183434818e Work around gcc-4 warnings in elf64-ppc.c
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2b41ae2900dc308e005d3f0e8a4d3912be35bc01)
+(cherry picked from commit c007a7251e697836a29bd1aebe49d4f2433a5e6e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../librepo/{librepo_1.14.2.bb => librepo_1.14.3.bb}            | 2 +-
+ meta/recipes-devtools/binutils/binutils-2.38.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/librepo/{librepo_1.14.2.bb => librepo_1.14.3.bb} (94%)
 
-diff --git a/meta/recipes-devtools/librepo/librepo_1.14.2.bb b/meta/recipes-devtools/librepo/librepo_1.14.3.bb
-similarity index 94%
-rename from meta/recipes-devtools/librepo/librepo_1.14.2.bb
-rename to meta/recipes-devtools/librepo/librepo_1.14.3.bb
-index 8dece946b4..2c8e592251 100644
---- a/meta/recipes-devtools/librepo/librepo_1.14.2.bb
-+++ b/meta/recipes-devtools/librepo/librepo_1.14.3.bb
-@@ -10,7 +10,7 @@ SRC_URI = "git://github.com/rpm-software-management/librepo.git;branch=master;pr
-            file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch \
-            "
+diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
+index 3544c0c7e7..dc0a2a4054 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.38.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
+@@ -18,7 +18,7 @@ SRCBRANCH ?= "binutils-2_38-branch"
  
--SRCREV = "3b9a8d17188ba602d139f79b6e61305030f21109"
-+SRCREV = "8fc7950795282d9c7c50071f45973006de5594ab"
+ UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
  
- S = "${WORKDIR}/git"
- 
+-SRCREV ?= "6938a3aca19044aeb9bc4b9564e04f9092a701ed"
++SRCREV ?= "134f17ef688ba4c72a6c4e57af7382882cc1a705"
+ BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=${SRCBRANCH};protocol=git"
+ SRC_URI = "\
+      ${BINUTILS_GIT_URI} \
 -- 
 2.25.1
 
