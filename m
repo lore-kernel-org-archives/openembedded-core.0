@@ -1,145 +1,155 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B50CC4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B4DEC433FE
 	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 14:00:15 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web11.27915.1653314409966419941
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web08.27824.1653314408396164525
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 07:00:10 -0700
+ Mon, 23 May 2022 07:00:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CupAsEhY;
- spf=pass (domain: gmail.com, ip: 209.85.167.53,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id w14so25686777lfl.13
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=3DLBOufz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id w3so6548639plp.13
         for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 07:00:09 -0700 (PDT)
+ Mon, 23 May 2022 07:00:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=saQ8pFjR87HkXRygqExVeHbeoHMeba4wfzgWnsw4EMM=;
-        b=CupAsEhY6NuDMlQP+3/WZebabhqT0RcyWLmnLamibq70hgKZUzLznXcBSyXG8+oSro
-         k0sRfwJA6XuHsQN9mjUUJNis1AlOFZaTKiQklN2FIw3idrWdMU89LYCL3ihSSdLadf24
-         3+xO0+kxjYM06GsPJuRWRFIOl6zAeMkJTGVPdySpgJEmPshblLoF409I+VkCgHA3ChJs
-         s70Rwu0oy4vuPizrIcWYj70BtD4WL1c5HziWy8WW9pIOaiOoBJESTU0nkFBLRhZjyGoo
-         B5r+j8CW0nwO9jPmGs8NF8cuyja7N6BT/oAz1ga7a++h3855OHNAgyvLNhsqSY2oFvS6
-         MEPA==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zV5jYCS6Y7m5GaHZr2NlyZZS95oAP5tf2naqvMxPpoo=;
+        b=3DLBOufzIpc2mcf40qjpy3B6EUG4le93+fKn83HvRy4NtRMBFHseVMSiNcYD9H68NU
+         T6SQ/RcjAfqY39nfeB8n4k8StR/SIwum0+1qufyt9rytmbdbNQromFsmlYHHE8J8x0b6
+         SOO1tG+j00eodE/8OSspilhMarB3M0J1yk6QUuwVg6jLaJT5/u08rzOEA7S7LI8VhA1c
+         HlDRGxSBFbtOFQL+CwNUdTSMmQUezvE4lQAXcigFfS/4/zp7MIaxcayVgjbO3qcpNtkl
+         R8HFxFytNwYkNe8T0s+1OsqDS9vNMBbDSK8Mld5tJpxaMzno98FbwQq5SZkce4UvAszp
+         m6sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=saQ8pFjR87HkXRygqExVeHbeoHMeba4wfzgWnsw4EMM=;
-        b=ai3TNEgS6aYvl3Biu1lnF3GJTM79iTyD+qhZOG2ZiaWgKRkcmKHTjcmW3IXuUliet7
-         T3Btxa09SIPVB7ZP41hVb6UXeOt9qXvhmhN8+w3zbYOqaSgK4Wl79lHW+/l5lv/sFvZc
-         idLrKY6W4e7UQ4ow5sP3mPIu1ThToWb+ZCSuenkrJzHhwyaDyErr65Ye7fLRnQc4gTvb
-         RRL3nHr6IogZfbYPXa2u7ENr9EAOoluvSXg6gZp5bIfCen930j2cD03ojHUkagOdTIxI
-         tD5LSpJQVLgkL4Mupq19ZrLBIiV16BUAt69LXOHvPe/cGqB9nvTdp3Yx6VFi+ZyF4zbC
-         Nv+w==
-X-Gm-Message-State: AOAM531s1RX8vg5bUCrrk+1F14dlZun5BU3kcaMRiPXOYY0B9fhpOBDK
-	7Vvmfeh+fTc8ydD2//e9+zk80+IsATXAIxWqsAo=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zV5jYCS6Y7m5GaHZr2NlyZZS95oAP5tf2naqvMxPpoo=;
+        b=yy8+2zWtYXszgg0NkIueNdtfZaCYSPh6yjBKujkOpKcwGvOrM6OuSQNyH3X+wid/B2
+         u6MPNX8mlinlvIM6dcoT9Dq1Lrr5rcNdODqCL2O8aJs9dEYaUcCjjSM8g2AHRiQ5eNi7
+         lNKgPQDD5r6t1qScE7SrnoAUv19xtXZnWjuI/2a7IRnVSf1i0vTuEh2ETwZTRj3Bv79k
+         lTM7TYaSmwP/yrt07lDD8pTz+gQySz20+Ixj5s73cIZ+Iz4S4ONFHmSwabygDIPC43Yi
+         v1PcoXIKCK3loDH1IZRVR+WOLVvsBKBStZn1GEqrpAvNXp/eltI9CucJYCUNi20X4P2l
+         AOtg==
+X-Gm-Message-State: AOAM530aERcJhdXvrtnzHCXz3K06tDHsrZTqtWSOyi+9zelGSndOHwt/
+	cW63npnRl3ifESVWRXQFeNPlFPGY560dF7yQ
 X-Google-Smtp-Source: 
- ABdhPJzn0y/KZtBHct2LqVl/UCKNRNEDLB/ULAtOkGHIAzMSF+wvd2u1r7oGlEMNelNEe0Zx925m2L84MfMk+geTP+o=
-X-Received: by 2002:a05:6512:304c:b0:478:67d5:6982 with SMTP id
- b12-20020a056512304c00b0047867d56982mr6919460lfb.380.1653314408125; Mon, 23
- May 2022 07:00:08 -0700 (PDT)
+ ABdhPJwOp8kqVYoAQzh1AFZ2uaEz/8XLhdTvK0hZWC0hEWPTdn+VYJzlXNeoK6ZvN64kEUZhNk/YIQ==
+X-Received: by 2002:a17:90b:3c50:b0:1df:7b1f:8b79 with SMTP id
+ pm16-20020a17090b3c5000b001df7b1f8b79mr26718496pjb.71.1653314406519;
+        Mon, 23 May 2022 07:00:06 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id
+ m10-20020a637d4a000000b003c14af505fcsm4778952pgn.20.2022.05.23.07.00.04
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 May 2022 07:00:05 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 0/9] Patch review
+Date: Mon, 23 May 2022 03:59:39 -1000
+Message-Id: <cover.1653313955.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220523133419.2216713-1-jiaqing.zhao@linux.intel.com>
-In-Reply-To: <20220523133419.2216713-1-jiaqing.zhao@linux.intel.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 23 May 2022 15:59:56 +0200
-Message-ID: 
- <CANNYZj-Mvf2vCdMQipyhPxnfBxB-rLniGBhckkj8ELOc+ZvLQA@mail.gmail.com>
-Subject: Re: [oe-core] [PATCH] systemd: Correct
- 0001-pass-correct-parameters-to-getdents64.patch
-To: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 14:00:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166023
+ https://lists.openembedded.org/g/openembedded-core/message/166022
 
-Inappropriate still means the issue needs to be reported to upstream,
-can you do this please?
+Please review this set of patches for kirkstone and have comments back by end
+of day Wednesday.
 
-Alex
+Passed a-full on autobuilder:
 
-On Mon, 23 May 2022 at 15:34, Jiaqing Zhao <jiaqing.zhao@linux.intel.com> wrote:
->
-> Current patch removes the uint8_t* cast in src/basic/recurse-dir.c:57
-> to fix musl build, but it changes the value here as pointer arithmetic
-> is type-depended in C. This patch corrects the behavior by adding an
-> extra cast to struct dirent*.
->
-> Also changes the patch's Upstream-Status to Inappropriate as it's musl-
-> specific.
->
-> Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
-> ---
->  ...0001-pass-correct-parameters-to-getdents64.patch | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch b/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch
-> index 028f50b243..9ebff9825a 100644
-> --- a/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch
-> +++ b/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch
-> @@ -1,4 +1,4 @@
-> -From 8c8899b4641125cfe8e7baee32e5c5f452545d2c Mon Sep 17 00:00:00 2001
-> +From dab02796780f00d689cc1c7a0ba81abe7c5f28d0 Mon Sep 17 00:00:00 2001
->  From: Khem Raj <raj.khem@gmail.com>
->  Date: Fri, 21 Jan 2022 15:15:11 -0800
->  Subject: [PATCH] pass correct parameters to getdents64
-> @@ -12,16 +12,16 @@ Fixes
->          n = getdents64(fd, &buffer, sizeof(buffer));
->                             ^~~~~~~
->
-> -Upstream-Status: Pending
-> +Upstream-Status: Inappropriate [musl specific]
->  Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -
-> +Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
->  ---
->   src/basic/recurse-dir.c | 2 +-
->   src/basic/stat-util.c   | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
->
->  diff --git a/src/basic/recurse-dir.c b/src/basic/recurse-dir.c
-> -index efa1797b7b..797285e3be 100644
-> +index efa1797b7b..03ff10ebe9 100644
->  --- a/src/basic/recurse-dir.c
->  +++ b/src/basic/recurse-dir.c
->  @@ -54,7 +54,7 @@ int readdir_all(int dir_fd,
-> @@ -29,7 +29,7 @@ index efa1797b7b..797285e3be 100644
->                   assert(bs > de->buffer_size);
->
->  -                n = getdents64(dir_fd, (uint8_t*) de->buffer + de->buffer_size, bs - de->buffer_size);
-> -+                n = getdents64(dir_fd, de->buffer + de->buffer_size, bs - de->buffer_size);
-> ++                n = getdents64(dir_fd, (struct dirent*)((uint8_t*) de->buffer + de->buffer_size), bs - de->buffer_size);
->                   if (n < 0)
->                           return -errno;
->                   if (n == 0)
-> @@ -46,3 +46,6 @@ index c2269844f8..7cd6c7fa42 100644
->           if (n < 0)
->                   return -errno;
->
-> +--
-> +2.34.1
-> +
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#166021): https://lists.openembedded.org/g/openembedded-core/message/166021
-> Mute This Topic: https://lists.openembedded.org/mt/91288052/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3692
+
+The following changes since commit ec9e9497730f0a9c8ad3d696c8cdcec06267aacf:
+
+  base-passwd: Disable shell for default users (2022-05-16 13:59:44 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Alexander Kanavin (1):
+  mmc-utils: upgrade to latest revision
+
+Claudius Heine (1):
+  classes: rootfs-postcommands: add skip option to overlayfs_qa_check
+
+Marta Rybczynska (1):
+  cve-check: Fix report generation
+
+Richard Purdie (2):
+  staging: Fix rare sysroot corruption issue
+  selftest/imagefeatures/overlayfs: Always append to DISTRO_FEATURES
+
+Robert Joslyn (1):
+  curl: Backport CVE fixes
+
+Samuli Piippo (1):
+  binutils: Bump to latest 2.38 release branch
+
+Steve Sakoman (1):
+  python3: fix reproducibility issue with python3-core
+
+wangmy (1):
+  librepo: upgrade 1.14.2 -> 1.14.3
+
+ meta/classes/cve-check.bbclass                |  18 +-
+ meta/classes/rootfs-postcommands.bbclass      |  10 +-
+ meta/classes/staging.bbclass                  |  24 +
+ meta/lib/oeqa/selftest/cases/imagefeatures.py |   2 +-
+ meta/lib/oeqa/selftest/cases/overlayfs.py     |  36 +-
+ .../binutils/binutils-2.38.inc                |   2 +-
+ .../{librepo_1.14.2.bb => librepo_1.14.3.bb}  |   2 +-
+ meta/recipes-devtools/mmc/mmc-utils_git.bb    |   2 +-
+ .../recipes-devtools/python/python3_3.10.4.bb |   5 +
+ .../curl/curl/CVE-2022-22576.patch            | 145 ++++++
+ .../curl/curl/CVE-2022-27774-1.patch          |  45 ++
+ .../curl/curl/CVE-2022-27774-2.patch          |  80 +++
+ .../curl/curl/CVE-2022-27774-3.patch          |  83 ++++
+ .../curl/curl/CVE-2022-27774-4.patch          |  35 ++
+ .../curl/curl/CVE-2022-27775.patch            |  37 ++
+ .../curl/curl/CVE-2022-27776.patch            | 115 +++++
+ .../curl/curl/CVE-2022-27779.patch            |  42 ++
+ .../curl/curl/CVE-2022-27780.patch            |  33 ++
+ .../curl/curl/CVE-2022-27781.patch            |  43 ++
+ .../curl/curl/CVE-2022-27782-1.patch          | 458 ++++++++++++++++++
+ .../curl/curl/CVE-2022-27782-2.patch          |  71 +++
+ .../curl/curl/CVE-2022-30115.patch            |  82 ++++
+ meta/recipes-support/curl/curl_7.82.0.bb      |  16 +-
+ 23 files changed, 1362 insertions(+), 24 deletions(-)
+ rename meta/recipes-devtools/librepo/{librepo_1.14.2.bb => librepo_1.14.3.bb} (94%)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-22576.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27774-1.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27774-2.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27774-3.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27774-4.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27775.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27776.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27779.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27780.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27781.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27782-1.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27782-2.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-30115.patch
+
+-- 
+2.25.1
+
 
