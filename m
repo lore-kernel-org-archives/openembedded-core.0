@@ -1,136 +1,94 @@
-Return-Path: <ceggers@arri.de>
+Return-Path: <raphael.teller@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 303A8C433F5
-	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 07:23:53 +0000 (UTC)
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.91])
- by mx.groups.io with SMTP id smtpd.web12.24798.1653290623828033094
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AF4AC433F5
+	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 08:11:33 +0000 (UTC)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web12.25057.1653293485690865398
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 00:23:46 -0700
+ Mon, 23 May 2022 01:11:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arrigroup.onmicrosoft.com
- header.s=selector1-arrigroup-onmicrosoft-com header.b=Z3UI2AzG;
- spf=pass (domain: arri.de, ip: 40.107.7.91, mailfrom: ceggers@arri.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mpAbwiSpBUJJi6vbPN0oToHj8Q/dsiWn6BRyiwc+CoiK9nH6Su3rUL323MrTnopJyn5q2oDPrbz39ZuX664B7+IX2YVRr8bcrf1utURGWlLzAmpTELFNkkQ+bjZnzoCdGtTx0ei0HSb46v85JFJFO0hTj5pT6UYcded5irXKVZk/kHlCYua3Rq3O46NRTUxWFxw3GxErsdpb5WYyD3rpznBnRxS2+fH2XHBIvLr8ZN+80xCZp4UJN+QxtzPP/WgzhqyOByAw8YgtEqKi/6/bJS+KE3RQyjUWkqJOkWfX8d05yITelC0ajD0tI7bV2mP+kzC4iV56SUNfLigpyrT9FQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JfeNjzlC+A61ghkr4fdHPY6s93VZ8LCpDN1/LKW7uJI=;
- b=KA0URqIaQzh8SIjE9c4OFrC48wRiXWVuQyy+iwHM1mZG1+Lm9xU+wb2zArFwxO2mYK+PQEeAkBuFzJsSFGXDS5+hPnTzsA82fcaY5n23lH+jM+fjALqkG0Wy+ytAmD9zqvPZS0i8yBQykYNvMW0zw/Q4wnh8GDTl+NX2uWwUgH6AdyfowznVpkQhBGxtiD+H72hWQBqkTeXGe9Rfb398I6VHxjre2JFPPd1W2Vd3clHD9cSDJKCG6jonGf4LPZFN6FWZng8i7O0BIND6e/2epMqEPtDLJddDwW0euSYobP+aW0rmREOhOyU8Fh97NPXUeO+LQBFS57Ndk7udGdDZwQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 217.111.95.7) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arri.de;
- dmarc=none action=none header.from=arri.de; dkim=none (message not signed);
- arc=none
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DqlRTat7;
+ spf=pass (domain: gmail.com, ip: 209.85.167.54,
+ mailfrom: raphael.teller@gmail.com)
+Received: by mail-lf1-f54.google.com with SMTP id u30so24174750lfm.9
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 23 May 2022 01:11:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=arrigroup.onmicrosoft.com; s=selector1-arrigroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JfeNjzlC+A61ghkr4fdHPY6s93VZ8LCpDN1/LKW7uJI=;
- b=Z3UI2AzGMWkP5HWz2Q3qIztsW8gOGdpLBZn4gpWudXWiUEzpjKiRqM3YnZPUGtCeOtMoYTL4Jw3lr5pEvgmZ7L294OOr1HtEV4UUTeJh/jvwMSFuWiFiFoZi6Zk+HMLvnEmOd+xlNftozD80WIyMWLnQZu8avkckMfprLZfDcwA=
-Received: from AM6PR01CA0043.eurprd01.prod.exchangelabs.com
- (2603:10a6:20b:e0::20) by DB9PR07MB7820.eurprd07.prod.outlook.com
- (2603:10a6:10:2a3::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.7; Mon, 23 May
- 2022 07:23:39 +0000
-Received: from VE1EUR02FT082.eop-EUR02.prod.protection.outlook.com
- (2603:10a6:20b:e0:cafe::a2) by AM6PR01CA0043.outlook.office365.com
- (2603:10a6:20b:e0::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.14 via Frontend
- Transport; Mon, 23 May 2022 07:23:39 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 217.111.95.7)
- smtp.mailfrom=arri.de; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arri.de;
-Received-SPF: Fail (protection.outlook.com: domain of arri.de does not
- designate 217.111.95.7 as permitted sender) receiver=protection.outlook.com;
- client-ip=217.111.95.7; helo=mta.arri.de;
-Received: from mta.arri.de (217.111.95.7) by
- VE1EUR02FT082.mail.protection.outlook.com (10.152.13.247) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5273.14 via Frontend Transport; Mon, 23 May 2022 07:23:39 +0000
-Received: from dhcp-192-168-0-35.wgnetz.xx (192.168.55.146) by mta.arri.de
- (10.10.18.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 23 May
- 2022 09:23:38 +0200
-From: Christian Eggers <ceggers@arri.de>
-To: <openembedded-core@lists.openembedded.org>, Stefan Herbrechtsmeier
-	<stefan@herbrechtsmeier.net>
-CC: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: Re: [OE-core] [PATCH 0/6] npm.bbclass: work with nodejs 16
-Date: Mon, 23 May 2022 09:23:37 +0200
-Message-ID: <12007121.O9o76ZdvQC@dhcp-192-168-0-35.wgnetz.xx>
-Organization: Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
-In-Reply-To: <cover.1652954597.git.enrico.scholz@sigma-chemnitz.de>
-References: <cover.1652954597.git.enrico.scholz@sigma-chemnitz.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [192.168.55.146]
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3cdf7066-4898-45e6-ad0a-08da3c8d2850
-X-MS-TrafficTypeDiagnostic: DB9PR07MB7820:EE_
-X-Microsoft-Antispam-PRVS: 
-	<DB9PR07MB7820377610C4DBE29CE5BB92BFD49@DB9PR07MB7820.eurprd07.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	+DKFbO7x8LxqvqpamfDQzZVXcPSbemW7hREWg09J8dKDoA92KKZ4lU2oLXc3M6DuLbkebMn5xH0sUjZSVy3LL1csW4Y7ep7w120jyBdxsmk5I/ziE6iQX75kQIj7esrszjvxj0x1qPBcdrfi7fgwNoWUZSztACKUsxouQmXBmIyXtxfrpkbL68+e5RtZr/eqpDei3CEXtvVEhRggOd4OGiob5JiCOucUfJy4pSnxTroTO3JtML+M2cDHIPgP0TVdvmDUviIlMmGGEZvcXiaqxYp32XVTxPcT8Loh3ROV42vlgkyk26tbiZyPqZZwR0sdfmxMQTcHG4mitNmu/VIWhS6jKQZW3axzVFclZGJHKa6skVLzKjAUA9v5q2zgp0cAc05ba2zacoKqMQZW4TEAry8DFhXlZeKeWosmm6r2YYOMS9VrxL+qBB9Jo/Zoq2ECATmncrh7+zCoKMm58MO7hBqAWSc37BxFrt39liuFgx+j1XyXDly3fvl4FzKefW/u/YbEAyK5uL8yAsKfQQrWG3gYyBB6Ztzxqdwfb2jsTDgdqWeb5GWhaV9SgwnVK3qgO65nwxVg7Br0WEgd6+JJEHWIMtLHjvK89/jTRLJgpQydxAKdax7KMCsTOHFX9p9vAhDJcrS6g72/efu7KvHVh65MyRjZTKkgmHBstOujwfyGaOhZBe4v6LDMDZyLucDJylsyjo03APk2xgQsV9NAX4SOKJwPUcB+f2f+l4caduDwHgG7Fdh3IdA8sDyqzZGUBDWK9/XeYiOYuaTHcVPMf1Klyc5c7HHfXkKi2VJexVwNSWB/BqtMW4fuAASKu0oX
-X-Forefront-Antispam-Report: 
-	CIP:217.111.95.7;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mta.arri.de;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(46966006)(36840700001)(356005)(36916002)(82310400005)(2906002)(36860700001)(81166007)(55016003)(7696005)(70586007)(70206006)(966005)(316002)(4326008)(86362001)(16526019)(508600001)(186003)(8936002)(8676002)(5660300002)(26005)(336012)(83380400001)(110136005)(426003)(47076005)(9686003)(39026012)(36900700001)(102196002);DIR:OUT;SFP:1102;
-X-OriginatorOrg: arri.de
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2022 07:23:39.0248
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 3cdf7066-4898-45e6-ad0a-08da3c8d2850
-X-MS-Exchange-CrossTenant-Id: e6a73a5a-614d-4c51-b3e3-53b660a9433a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
- TenantId=e6a73a5a-614d-4c51-b3e3-53b660a9433a;Ip=[217.111.95.7];Helo=[mta.arri.de]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	VE1EUR02FT082.eop-EUR02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR07MB7820
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=u75rZaXoROIcGhs2BKDYphc8ftSyXkDBCvvPPgBGux4=;
+        b=DqlRTat7EE0EaRfi79k6Gx4RO7H87uLPwUnn+MwWIymEjbmFrPiNanKuioyFSXOBkV
+         qPQZylcQEVzfywoEukdqTARco0ONOmbcbPlaqOiINZoNMO5QQsJK7pwbdyPsg1WLdNBt
+         3hyIroSWmAd2W9NjXjMbtXHMNpyqirdy9unoy3jSsmRg7q7Pq6Rc0y/YPXkj+olWOHwj
+         At0Tz0JMhjgEDBV5e0BGl9/6Yae9dL0pOzhMz/BwOxu0sR7q9wjgmFICG4P0sHr9fkgr
+         dFPuUORuiczZrfU03K1vEd7DGOjet54PJDxlsJKpEPB2ZxbpRlM8A0M6ohoVafQgoqA5
+         q5mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=u75rZaXoROIcGhs2BKDYphc8ftSyXkDBCvvPPgBGux4=;
+        b=DD4DZ8VeVSXSVr6ISKqEaz+xAOhNgsEIN+kJX+JdTyhF8AVU/ViADKugsBtx27a9+J
+         EFv3sKk20im/ET06xiOqpqzjffyPh46o0zNDwFgRA1L/tH2+pMVGWMXnwcUB8GNzvPcK
+         SiykLExV2/8dS6R+fi7JEgT6XsXGKjYkwKTFdgo2BRy5SuM/9rQcVWnaD0cyZhVJuuO4
+         qHDfbGbi5b42yn8iyUwMKwmoV6cG26Ddk7WbRr4HKKyccStTGoRwyxHWcGi8dWJIPv3E
+         3kpUdgI+sZnX5c/M5E21+ATFID9TRWvVzC00jS/SRCBMFXcFi0fL8kQsfEwPyW0o178q
+         jdYg==
+X-Gm-Message-State: AOAM530tedIVsmPZiha02rJeBDbXXRyc0pobz7DJ5npxbLPDJ98zZyTq
+	rNSSgqYbt9svXdLNjFy7X83lwe01vVsSSi2+
+X-Google-Smtp-Source: 
+ ABdhPJxntsVMJpUi88YbJFu4aG7+J5FP/4982PNRWmH//v3a4CyGUySVkPH/RIP6qlKChiA6L6qloA==
+X-Received: by 2002:a05:6512:3341:b0:44a:eb29:c59c with SMTP id
+ y1-20020a056512334100b0044aeb29c59cmr15465002lfd.596.1653293483366;
+        Mon, 23 May 2022 01:11:23 -0700 (PDT)
+Received: from localhost.localdomain (h-158-174-92-135.A1301.priv.bahnhof.se.
+ [158.174.92.135])
+        by smtp.gmail.com with ESMTPSA id
+ j20-20020a2e6e14000000b0024f3d1daedesm1621906ljc.102.2022.05.23.01.11.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 May 2022 01:11:22 -0700 (PDT)
+From: Raphael Teller <raphael.teller@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Raphael Teller <raphael.teller@se.com>
+Subject: [PATCH] kernel.bbclass: Do not overwrite recipe's custom postinst
+Date: Mon, 23 May 2022 10:10:44 +0200
+Message-Id: <20220523081044.7312-1-raphael.teller@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 07:23:53 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 08:11:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165999
+ https://lists.openembedded.org/g/openembedded-core/message/166001
 
-This seems to solve my problem with the quicktype recipe [1]. Thank
-you very much for working in this.
+From: Raphael Teller <raphael.teller@se.com>
 
-[1] https://lore.kernel.org/all/CANNYZj-V8O1-USTdtOYKi5hB80QjxQZH2d2=YbJ-4Y2sm5BjoA@mail.gmail.com/T/
+Allow recipe to set a custom postinst for kernel image.
+Use prependVar in order to allow custom postinst to be
+ran after default postinst, potentially modifying the
+installed file/symlink.
 
+Signed-off-by: Raphael Teller <raphael.teller@se.com>
+---
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Thursday, 19 May 2022, 12:05:50 CEST, Enrico Scholz via lists.openembedded.org wrote:
-> nodejs 16 changed internal caching significantly which breaks the
-> existing npm.bblcass.
-> 
-> Simulate parts of the npm registry and cache data in the way as
-> expected.
-> 
-> This patchset requires an additional one in the oe-meta layer.
-> 
-> Enrico Scholz (6):
->   npm: replace 'npm pack' call by 'tar czf'
->   npm: return content of 'package.json' in 'npm_pack'
->   npm: take 'version' directly from 'package.json'
->   npm: disable 'audit' + 'fund'
->   lib:npm_registry: initial checkin
->   npm: use npm_registry to cache package
-> 
->  meta/classes/npm.bbclass    |  65 +++++++++-----
->  meta/lib/oe/npm_registry.py | 169 ++++++++++++++++++++++++++++++++++++
->  2 files changed, 213 insertions(+), 21 deletions(-)
->  create mode 100644 meta/lib/oe/npm_registry.py
-> 
-> 
-
-
-
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 83785c3b5b..5d2f17c3be 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -110,7 +110,7 @@ python __anonymous () {
+ 
+         d.setVar('PKG:%s-image-%s' % (kname,typelower), '%s-image-%s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
+         d.setVar('ALLOW_EMPTY:%s-image-%s' % (kname, typelower), '1')
+-        d.setVar('pkg_postinst:%s-image-%s' % (kname,typelower), """set +e
++        d.prependVar('pkg_postinst:%s-image-%s' % (kname,typelower), """set +e
+ if [ -n "$D" ]; then
+     ln -sf %s-${KERNEL_VERSION} $D/${KERNEL_IMAGEDEST}/%s > /dev/null 2>&1
+ else
+-- 
+2.17.1
 
 
