@@ -1,101 +1,110 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1885C433EF
-	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 21:57:52 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web11.2259.1653343064159670014
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A782C433F5
+	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 23:18:23 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web09.3065.1653347893908420028
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 14:57:45 -0700
+ Mon, 23 May 2022 16:18:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com
- header.s=axis-central1 header.b=ADnHbKFw;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=U5HJmHzO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.50,
+ mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f50.google.com with SMTP id ee42so327002edb.1
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 23 May 2022 16:18:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1653343064;
-  x=1684879064;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Ywjk5+SqDMiGVbp1FQaBZf0yel3hIAHwg5xbGf8DrNU=;
-  b=ADnHbKFwLHWZAD6UvNcWySJkn5TADTs4IuA109E55u3rcr6/wS6wi2Au
-   9FGfaPAjF1LlWyLXiAjD+X88nrutYRV3NFkLzhktjGUpS623yFm+zonK7
-   7lj+3CKVgggD4Wht1GXu270W/Z70iyX5KuAy3uwvxzTX46mQnDrXWJRtn
-   UwDQcHsbZvoNi+JOk8meFY8P4gmlRj+C3CjkYZUHeVhTymD0xjul+EHRB
-   I+cVRDdSsUVJfmCJn1dsLFV/P4oPM9nIKLOwNTpYduGzfvOu3qW+jtOZb
-   1J6tyrqKYWJLgRzdVAQYFtMkOhAmvVzOQ9psF0m6Lb4s4WggSDnmIqvyU
-   w==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Steve Sakoman <steve@sakoman.com>
-CC: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [master][kirkstone][PATCH] license_image.bbclass: Make
- QA errors fail the build
-Thread-Topic: [OE-core] [master][kirkstone][PATCH] license_image.bbclass: Make
- QA errors fail the build
-Thread-Index: AQHYWyZkvfyrxJY3Xk+PG76v/9wJD60GipNggCae4/A=
-Date: Mon, 23 May 2022 21:57:41 +0000
-Message-ID: <9323e409d22b4c56a8e8a0456cc1e27f@axis.com>
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HK2BVfjudACxqi4Bc9aEbUxuxoRAmd1FMBeOIEeE7y4=;
+        b=U5HJmHzOAurkiIT1H3o2iMQHbwTptV/ZN1eYtUUy9M/ecaVvo8+sfhBNNOEs9aR56E
+         y/XZDW6El8ews9Isg/WpCvlZKCcfMa8sRAxFawYDU5IW2kEw1AM2F9BAt1LqcDSXFbig
+         tjkmI5XLHPRY+0dQtGasby9aOkNzkDYoYws99Y6cLn0AC0h+6m1T3qDGfIr8siq6SXuq
+         J8mmsInRVpbKfQ5JUwcDQl9NcV5YkatEyA59KisOJEyVHgtSv3hvuKBLTbsDsSpRsoLo
+         Nn+I77hr4CeSEXW0WlFGST0Cnw9TVgOXoxTMD0IQ1IUIESfiD88Bra4GrjHuHoB+bbAi
+         1THg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HK2BVfjudACxqi4Bc9aEbUxuxoRAmd1FMBeOIEeE7y4=;
+        b=s+1gtUVhcoDmja/0oUol5iEPKPcxroMJNToHv1YnohcJWq55xsOAv84o1h+IPLZ/HA
+         5DhRelpeJhlOHGDlVabEswOHqZLZ/8QB7gkIj5h6/VkYcUEaoL3YwITFyV6Y+bjxi4og
+         beWIkW/BIka8Cj9txtY7P/do/5wb3fumYjI/iU7QAy4j+hNH7hT4TdZuujBkFBPAFo01
+         P6hVwqBRpBizO3XqNqJPybtCH0byfEqT1I/DAENfnM70+cZDguW2GccgnKbws8+SnxGT
+         MJ+ubId5fJVuVCoLIhCx6OoCpzrnfdeJe/r0tlC4LMkSYcU5sDKHJIBgqTO6H6kP2DEz
+         m6bQ==
+X-Gm-Message-State: AOAM533deHJ0OnSevqrGJ0mK8o0NbsSVxzsrzCtsXk06aY2R/wN2sfzZ
+	ai9cv4flCM6Y8z1w2V/Pb/NLjJkY2G2GzHtcxbPYwA==
+X-Google-Smtp-Source: 
+ ABdhPJzbmaZM7HilQQCGbny6nuubX+AUs1haZM4Te/XJ1g09QNKfG2tYSwDvsfT9l6pX+2pSh853d5GWgeBZ9SrG6js=
+X-Received: by 2002:a05:6402:d5f:b0:42a:bf12:c42d with SMTP id
+ ec31-20020a0564020d5f00b0042abf12c42dmr26652209edb.316.1653347892173; Mon, 23
+ May 2022 16:18:12 -0700 (PDT)
+MIME-Version: 1.0
 References: <20220421211146.19368-1-pkj@axis.com>
  <CAGDS+nke8qEOh8XX5x9Jej7x57DjDuW5s=hyd8U099-Ez6A3Yg@mail.gmail.com>
  <16EA4FAF914EDF73.11702@lists.openembedded.org>
-In-Reply-To: <16EA4FAF914EDF73.11702@lists.openembedded.org>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
+ <9323e409d22b4c56a8e8a0456cc1e27f@axis.com>
+In-Reply-To: <9323e409d22b4c56a8e8a0456cc1e27f@axis.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 23 May 2022 13:18:00 -1000
+Message-ID: 
+ <CAOSpxdaBtgA6YLwkR3V2PtXmN-1N0QdGRkZh6epkhNSFu-ZV+A@mail.gmail.com>
+Subject: Re: [OE-core] [master][kirkstone][PATCH] license_image.bbclass: Make
+ QA errors fail the build
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 21:57:52 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 23:18:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166041
+ https://lists.openembedded.org/g/openembedded-core/message/166042
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFBldGVyIEtqZWxsZXJzdGVkdA0KPiBTZW50OiBkZW4g
-MjkgYXByaWwgMjAyMiAxMDoxMA0KPiBUbzogU3RldmUgU2Frb21hbiA8c3RldmVAc2Frb21hbi5j
-b20+DQo+IENjOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXll
-ciA8b3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQo+IFN1Ympl
-Y3Q6IFJlOiBbT0UtY29yZV0gW21hc3Rlcl1ba2lya3N0b25lXVtQQVRDSF0gbGljZW5zZV9pbWFn
-ZS5iYmNsYXNzOg0KPiBNYWtlIFFBIGVycm9ycyBmYWlsIHRoZSBidWlsZA0KPiANCj4gPiAtLS0t
-LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+IEZyb206IFN0ZXZlIFNha29tYW4gPHN0ZXZlQHNh
-a29tYW4uY29tPg0KPiA+IFNlbnQ6IGRlbiAyOCBhcHJpbCAyMDIyIDE5OjM2DQo+ID4gVG86IFBl
-dGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KPiA+IENjOiBQ
-YXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllciA8b3BlbmVtYmVk
-ZGVkLQ0KPiA+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NCj4gPiBTdWJqZWN0OiBSZTog
-W09FLWNvcmVdIFttYXN0ZXJdW2tpcmtzdG9uZV1bUEFUQ0hdIGxpY2Vuc2VfaW1hZ2UuYmJjbGFz
-czoNCj4gPiBNYWtlIFFBIGVycm9ycyBmYWlsIHRoZSBidWlsZA0KPiA+DQo+ID4gSSBoYXZlbid0
-IHNlZW4gdGhpcyBwYXRjaCBoaXQgbWFzdGVyIG9yIG1hc3Rlci1uZXh0IHlldC4gIFdlcmUgdGhl
-cmUNCj4gPiBpc3N1ZXMgd2l0aCBpdD8NCj4gPg0KPiA+IEp1c3Qgd2FudCB0byBtYWtlIHN1cmUg
-SSBkb24ndCBtaXNzIGFueXRoaW5nIHJlcXVlc3RlZCBmb3Iga2lya3N0b25lLg0KPiA+DQo+ID4g
-U3RldmUNCj4gDQo+IEl0IGlzIGluIG1hc3Rlci1uZXh0IG5vdyBzbyBJIGFzc3VtZSBpdCB3aWxs
-IG1ha2UgaXQgdG8gbWFzdGVyIHNvb24uDQo+IA0KPiAvL1BldGVyDQoNCkkgZ3Vlc3MgeW91IG1p
-c3NlZCBpdCBzaW5jZSBpdCBkaWRuJ3QgbWFrZSA0LjAuMS4uLiA7KQ0KDQovL1BldGVyDQoNCj4g
-PiBPbiBUaHUsIEFwciAyMSwgMjAyMiBhdCAxMToxMSBBTSBQZXRlciBLamVsbGVyc3RlZHQgPHBl
-dGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4gd3JvdGU6DQo+ID4gPg0KPiA+ID4gSWYsIGUuZy4s
-IGxpY2Vuc2UtZmlsZS1taXNzaW5nIGlzIGFkZGVkIHRvIEVSUk9SX1FBLCB0aGVuIHRoZSBidWls
-ZA0KPiA+ID4gc2hvdWxkIGZhaWwgaWYgYW55IGxpY2Vuc2VzIGFyZSBtaXNzaW5nLg0KPiA+ID4N
-Cj4gPiA+IFNpZ25lZC1vZmYtYnk6IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0
-ZWR0QGF4aXMuY29tPg0KPiA+ID4gLS0tDQo+ID4gPiAgbWV0YS9jbGFzc2VzL2xpY2Vuc2VfaW1h
-Z2UuYmJjbGFzcyB8IDIgKysNCj4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCsp
-DQo+ID4gPg0KPiA+ID4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9saWNlbnNlX2ltYWdlLmJi
-Y2xhc3MgYi9tZXRhL2NsYXNzZXMvbGljZW5zZV9pbWFnZS5iYmNsYXNzDQo+ID4gPiBpbmRleCA3
-ZTFkMGUwOGE5Li4zMjEzZWE3NThlIDEwMDY0NA0KPiA+ID4gLS0tIGEvbWV0YS9jbGFzc2VzL2xp
-Y2Vuc2VfaW1hZ2UuYmJjbGFzcw0KPiA+ID4gKysrIGIvbWV0YS9jbGFzc2VzL2xpY2Vuc2VfaW1h
-Z2UuYmJjbGFzcw0KPiA+ID4gQEAgLTEwNCw2ICsxMDQsOCBAQCBkZWYgd3JpdGVfbGljZW5zZV9m
-aWxlcyhkLCBsaWNlbnNlX21hbmlmZXN0LCBwa2dfZGljLCByb290ZnM9VHJ1ZSk6DQo+ID4gPiAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIlRoZSBsaWNlbnNlIGxpc3Rl
-ZCAlcyB3YXMgbm90IGluIHRoZSAiXA0KPiA+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICJsaWNlbnNlcyBjb2xsZWN0ZWQgZm9yIHJlY2lwZSAlcyINCj4gPiA+ICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAlIChsaWMsIHBrZ19kaWNbcGtn
-XVsiUE4iXSksIGQpDQo+ID4gPiArICAgIG9lLnFhLmV4aXRfaWZfZXJyb3JzKGQpDQo+ID4gPiAr
-DQo+ID4gPiAgICAgICMgVHdvIG9wdGlvbnMgaGVyZToNCj4gPiA+ICAgICAgIyAtIEp1c3QgY29w
-eSB0aGUgbWFuaWZlc3QNCj4gPiA+ICAgICAgIyAtIENvcHkgdGhlIG1hbmlmZXN0IGFuZCB0aGUg
-bGljZW5zZSBkaXJlY3Rvcmllcw0KDQo=
+On Mon, May 23, 2022 at 11:57 AM Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+>
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-
+> > core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+> > Sent: den 29 april 2022 10:10
+> > To: Steve Sakoman <steve@sakoman.com>
+> > Cc: Patches and discussions about the oe-core layer <openembedded-
+> > core@lists.openembedded.org>
+> > Subject: Re: [OE-core] [master][kirkstone][PATCH] license_image.bbclass:
+> > Make QA errors fail the build
+> >
+> > > -----Original Message-----
+> > > From: Steve Sakoman <steve@sakoman.com>
+> > > Sent: den 28 april 2022 19:36
+> > > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > > Cc: Patches and discussions about the oe-core layer <openembedded-
+> > > core@lists.openembedded.org>
+> > > Subject: Re: [OE-core] [master][kirkstone][PATCH] license_image.bbclass:
+> > > Make QA errors fail the build
+> > >
+> > > I haven't seen this patch hit master or master-next yet.  Were there
+> > > issues with it?
+> > >
+> > > Just want to make sure I don't miss anything requested for kirkstone.
+> > >
+> > > Steve
+> >
+> > It is in master-next now so I assume it will make it to master soon.
+> >
+> > //Peter
+>
+> I guess you missed it since it didn't make 4.0.1... ;)
+
+I've got it now!  Thanks for the reminder.
+
+Steve
 
