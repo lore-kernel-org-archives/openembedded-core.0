@@ -1,65 +1,67 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84A82C433F5
-	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 12:15:04 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.26802.1653308094692575972
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A51C3C433F5
+	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 12:33:14 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web12.26905.1653309187908824102
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 05:14:55 -0700
+ Mon, 23 May 2022 05:33:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 19E641063;
-	Mon, 23 May 2022 05:14:54 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com
- (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A6EE33F70D;
-	Mon, 23 May 2022 05:14:53 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH] tiff: mark CVE-2022-1622 and CVE-2022-1623 as invalid
-Date: Mon, 23 May 2022 13:14:50 +0100
-Message-Id: <20220523121450.2619221-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=jzeQmEaV;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195,
+ mailfrom: luca.ceresoli@bootlin.com)
+Received: (Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 8A56D6000E;
+	Mon, 23 May 2022 12:33:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1653309186;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ORMCI6r/gj0LAYc6ILZRplqrh4KcT0V5mq/q+hWOhpo=;
+	b=jzeQmEaVdsbb5WKvtmmCuGVEz9AVBAYQEvcwNXl7KLvK8PkxWorFrrdWp96RtGVebmbZZn
+	9hACdJZnN8nKACdeptf0MWUQStrP9LJ1K28TChNk11Ud8d9daySQb7En6QDwvH4JXn5U5i
+	ySpD9wtguieUC0Gs8I1ee0hTYKtYx0TGpG4Vc9/EpayFSsllsghvgECz5u4csnfpa+iXT0
+	cV+ETvVFMPwr284KT1h7jxfJWoJBOACSBSNn88aS19fVawhP4befGUTXNzD3V87HY+ho6U
+	wIBBSHyKtirHKjWXDcl+/Ao2jM74wBNHPRhv5DZBbSEcChuERAVIDepI0BuyaA==
+Date: Mon, 23 May 2022 14:33:03 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Markus Volk" <f_l_k@t-online.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe-core][RFC PATCHv5 5/5] libsdl2: add PACKAGECONFIG options
+Message-ID: <20220523143303.6cbab8c9@melee>
+In-Reply-To: <20220522084752.1855131-5-f_l_k@t-online.de>
+References: <20220522084752.1855131-1-f_l_k@t-online.de>
+	<20220522084752.1855131-5-f_l_k@t-online.de>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 12:15:04 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 12:33:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166010
+ https://lists.openembedded.org/g/openembedded-core/message/166011
 
-These issues only affect libtiff post-4.3.0 but before 4.4.0, caused by
-3079627e and fixed by b4e79bfa.
+Hi Markus,
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb | 3 +++
- 1 file changed, 3 insertions(+)
+Il giorno Sun, 22 May 2022 10:47:52 +0200
+"Markus Volk" <f_l_k@t-online.de> ha scritto:
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes=
--multimedia/libtiff/tiff_4.3.0.bb
-index 9c9108a6afd..c5e964ec8c1 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-@@ -28,6 +28,9 @@ UPSTREAM_CHECK_REGEX =3D "tiff-(?P<pver>\d+(\.\d+)+).ta=
-r"
- # Tested with check from https://security-tracker.debian.org/tracker/CVE=
--2015-7313
- # and 4.3.0 doesn't have the issue
- CVE_CHECK_IGNORE +=3D "CVE-2015-7313"
-+# These issues only affect libtiff post-4.3.0 but before 4.4.0,
-+# caused by 3079627e and fixed by b4e79bfa.
-+CVE_CHECK_IGNORE +=3D "CVE-2022-1622 CVE-2022-1623"
-=20
- inherit autotools multilib_header
-=20
---=20
-2.25.1
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
 
+This patch does not apply, it is conflicting with a previous patch
+from you that is on master. Can you rebase and resend?
+
+Thanks.
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
