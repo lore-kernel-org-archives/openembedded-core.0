@@ -1,235 +1,113 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9652C433F5
-	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 09:22:13 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web11.25594.1653297723289908469
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56194C433EF
+	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 11:24:54 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web08.26289.1653305086880785756
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 02:22:03 -0700
+ Mon, 23 May 2022 04:24:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QXZI3/9V;
- spf=pass (domain: gmail.com, ip: 209.85.208.181,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f181.google.com with SMTP id a23so16426264ljd.9
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SRnIUpAV;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49,
+ mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f49.google.com with SMTP id r23so20918265wrr.2
         for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 02:22:03 -0700 (PDT)
+ Mon, 23 May 2022 04:24:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eaykth/7i7PRULfU6JTU3DTCb8DEgWo0kK3qXknhws0=;
-        b=QXZI3/9Vc7vVkvT3UTwJXn1U4RFkuAQpHyS6kFDHtKCdZL1fHhoUUCRZBAvjF+jyMS
-         nFbJ1u+NniGYcBWijq9jdxbBbJRP2eu/SQqOQfv5SiOKi0xXkY4ZxTDHDS/SxEQabnhM
-         3A1oHQiWtaAmQTEYbjHDPX6pYtkZpdEjnXwOjU64pZvgTGKXxTg8Fb4kdGYpcgf0T/n6
-         AoJoArkD6Pa8J1bEbZSWi8zW5OuCpqVytKWmFeHv4uXjyT7B3yGOVOX5DcXf79j4lOCI
-         tobmfadXjuIGmmsws8KdEbB4i/pNe2CO1rhAVkgK4iA6lK1H0h4tEQEsDQM3ys5cPmH7
-         oAbQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XCiTBm6ms3kAaqw8I+yjRmIKZwyPzxDbhICsk6iB1rE=;
+        b=SRnIUpAVesOGAlr/cRldoSG6vbNfRJ73JdvAwDSG8WqEI4NXtMM8a6wAoQC4LOjrm7
+         sCQGMusOwCm8ry5rYSzYZkVcStWlhPGzi4W4ybikBLT+gcXa7uKoqb1xyfvQ3Kncc3wg
+         JhE8Bxi6IbR/CTx6tQI9+BLF6QbzjCybb2IzZZ8rUhuonxTCwwxeBQjRteI2HHR5MqM6
+         Xka0XYlUFKDOY87Fy3ylAPZBCqo+lkRyPgi2U+ldzM8F/6RZpnH9RfpBRKBDiPX9IQf6
+         iOfTUNyaFbRDfQfcL90XgaVxbj0qaE8kuZ/t+ddVa9vaqP21wqyJetuexPYAxfHgRlth
+         93jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eaykth/7i7PRULfU6JTU3DTCb8DEgWo0kK3qXknhws0=;
-        b=jnXKOcjlz1PWgLyXzucYqIfgzTA04EP+mKJnbXJi1Bv/HqXJ7HMQhrlI+1ZuteFUMM
-         5xjoyU+q2d2DdkDBCmspYIAZOA4LWVmJt+t/RfYQ3hdmaqZUFZRvKrRfpKNhuoeWC5Uf
-         5x3LYiZa+9lYFq2CAv/pkqQOHh6KoPPVe6Sr4XokAh3LMw14lHi4j9Sg52z5q+Hh29gr
-         RhM+A5NoC5HcjdIr2JEh6sH0S9sRR/02zydfpd1vZ91LkZg7UzCLqQyrVB66wnWLY6W7
-         AsMMqRwC9FY++01hxbmRFg2G0sqANyLEbZ12+wn5QPdeMFooZ2q6GEkbBZOKIVWWVTHc
-         bg6w==
-X-Gm-Message-State: AOAM532gBDmxQ+rqEmXuuBg1MvDrTswek/uJx91us8nnA+XxnkbaE82s
-	LR6w537zhm6OKGw86SH8UvrpSMhPQxHLkE/YHms=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XCiTBm6ms3kAaqw8I+yjRmIKZwyPzxDbhICsk6iB1rE=;
+        b=AjNPr/x7POrnEmd9Kvy/QrsEIxFe4+wxZkzCUC/TIaj+mbY5gSnZ7T0/fjx3OjHu/k
+         FgNNKzIxhm4IXObGQA8F34NoKaT0Tw3OO4qK7ebj0+VQaggh8e3+U5AFjA6HERygqKSj
+         ToYJ7WKjk2ifIseLY8RMAp/CTTcxudT8HdgG875edls8lbzihHBwOgmNGxcnPsyULWOY
+         tm+OlaAE0holpDxPPIMu1HBppTW/IDCqXrniAoyn6MGuzJHRkI2GfjYE/v5Ueb78n2sR
+         hzDgFe4HahtW5NwICWoXWHoNXX8r4iEA3vC4md2cKgxezBB1fmDS30pIs1mdS7HdvcX0
+         1iJA==
+X-Gm-Message-State: AOAM530EoQ2npSSsWFlqpp6KFUT75O+mned5rQ1TXKAlYeSIHQcveS3r
+	pzLpufw7V9m05aa9oEmfRl+YtQ3jGqk=
 X-Google-Smtp-Source: 
- ABdhPJxDseYGc0l6DuhlP6/BJAjwkvp5CIKfbN7YCtDyrZoTV57TB80mrfasJIurDvAAiZUgAf5KvO1NU3JrnaEqcTM=
-X-Received: by 2002:a2e:9810:0:b0:253:eceb:2001 with SMTP id
- a16-20020a2e9810000000b00253eceb2001mr1859151ljj.109.1653297721255; Mon, 23
- May 2022 02:22:01 -0700 (PDT)
+ ABdhPJyJnqg/9XavJc/Y14XlL4sYNxB/tLBxvaznYJ1UPhQeKg1V/Zz5lyt++iQVtavAnwk8vznCpw==
+X-Received: by 2002:a05:6000:15c5:b0:20c:ff53:e24a with SMTP id
+ y5-20020a05600015c500b0020cff53e24amr19214484wry.396.1653305085293;
+        Mon, 23 May 2022 04:24:45 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id
+ p6-20020a05600c358600b0039726cd3ae5sm10879883wmq.3.2022.05.23.04.24.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 May 2022 04:24:44 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [RFC][PATCH] glibc-common.inc: add BSD-4-Clause-UC, BSD-3-Clause,
+ ISC to LICENSE
+Date: Mon, 23 May 2022 13:24:33 +0200
+Message-Id: <20220523112433.383046-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <1653288813-3748-1-git-send-email-leimaohui@fujitsu.com>
- <CANNYZj_f-wQqQ=mXHFwY57qjvvo6JXE73X2gyk7v-GjQAkHuTg@mail.gmail.com>
- <OS0PR01MB6178939BA9278DC29B898EAFA0D49@OS0PR01MB6178.jpnprd01.prod.outlook.com>
-In-Reply-To: 
- <OS0PR01MB6178939BA9278DC29B898EAFA0D49@OS0PR01MB6178.jpnprd01.prod.outlook.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 23 May 2022 11:21:49 +0200
-Message-ID: 
- <CANNYZj9pJJ_KydmkPbFeWd55P4pc4JeTzwD-x3QBTEW8eFbvSw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] gnutls: Added fips option.
-To: "leimaohui@fujitsu.com" <leimaohui@fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 09:22:13 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 11:24:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166004
+ https://lists.openembedded.org/g/openembedded-core/message/166005
 
-Thanks; can you resend the change with the link in the patch file just
-above the Upstream-Status line?
+* the main motivation is to get rid of this bbappend from 2014:
+  https://github.com/openwebos/meta-webos/commit/8eb313e4303defbe495cf7f91974799046975fca
+  which unfortunately doesn't explain which files under BSD license are included
+  in which package and also uses ambiguous 'BSD' license which was
+  removed from oe-core's common-licenses in:
+  https://git.openembedded.org/openembedded-core/commit/?h=kirkstone&id=14d4c007c49652d836d325a12bdbcd3bfa42e6d5
 
-Alex
+* COPYING mentions only GPL-2.0-only & LGPL-2.1-only as our LICENSE variable says,
+, but the LICENSES files lists various licenses with various Copyright
+  holders, the ones I was able to figure out where:
+  BSD-4-Clause-UC (but with 3rd clause explicitly removed)
+  ISC
+  BSD-3-Clause (with Intel Corportion copyright)
+  BSD-3-Clause (with Oracle America copyright)
+  which have just small formatting changes compared to corresponding
+  license in common-licenses, but there are couple more, should we
+  list them all (and create new common-licenses if needed)?
 
-On Mon, 23 May 2022 at 10:11, leimaohui@fujitsu.com
-<leimaohui@fujitsu.com> wrote:
->
-> Hi, Alex
->
-> > Has the issue been raised with upstream? Would be good to include a link to that
-> > into the patch: any new 'inappropriate' patch is a support burden.
->
-> I know, and I has submitted this issue:
-> https://gitlab.com/gnutls/gnutls/-/issues/1373
->
-> Best regards
-> Lei
->
-> > -----Original Message-----
-> > From: Alexander Kanavin <alex.kanavin@gmail.com>
-> > Sent: Monday, May 23, 2022 3:10 PM
-> > To: Lei, Maohui <leimaohui@fujitsu.com>
-> > Cc: OE-core <openembedded-core@lists.openembedded.org>
-> > Subject: Re: [OE-core] [PATCH v3] gnutls: Added fips option.
-> >
-> > Has the issue been raised with upstream? Would be good to include a link to that
-> > into the patch: any new 'inappropriate' patch is a support burden.
-> >
-> > Alex
-> >
-> > On Mon, 23 May 2022 at 08:53, leimaohui <leimaohui@fujitsu.com> wrote:
-> > >
-> > > - Added a patch to avoid excute fipshmac command. Because *.hmac file
-> > > should be created on target instead of on build environment.
-> > > - Added pkg_postinst_ontarget to make sure necessary files are created
-> > > on target.
-> > >
-> > > Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
-> > > ---
-> > >  ...ile-should-be-excuted-in-target-envi.patch | 28 +++++++++++++++++++
-> > >  meta/recipes-support/gnutls/gnutls_3.7.5.bb   | 24 +++++++++++++++-
-> > >  2 files changed, 51 insertions(+), 1 deletion(-)  create mode 100644
-> > > meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-be-
-> > > excuted-in-target-envi.patch
-> > >
-> > > diff --git
-> > > a/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-b
-> > > e-excuted-in-target-envi.patch
-> > > b/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-b
-> > > e-excuted-in-target-envi.patch
-> > > new file mode 100644
-> > > index 0000000000..7a0e2fd474
-> > > --- /dev/null
-> > > +++ b/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-shou
-> > > +++ ld-be-excuted-in-target-envi.patch
-> > > @@ -0,0 +1,28 @@
-> > > +From b729a356538d499fe25e82bfc78ea663bdaca0a8 Mon Sep 17 00:00:00
-> > > +2001
-> > > +From: Lei Maohui <leimaohui@fujitsu.com>
-> > > +Date: Mon, 23 May 2022 10:44:43 +0900
-> > > +Subject: [PATCH] Creating .hmac file should be excuted in target
-> > > +environment,  so deleted it from build process.
-> > > +
-> > > +Upstream-Status: Inappropriate [Embedded]
-> > > +Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
-> > > +---
-> > > + lib/Makefile.am | 3 +--
-> > > + 1 file changed, 1 insertion(+), 2 deletions(-)
-> > > +
-> > > +diff --git a/lib/Makefile.am b/lib/Makefile.am index 0b43ef9..cf263f0
-> > > +100644
-> > > +--- a/lib/Makefile.am
-> > > ++++ b/lib/Makefile.am
-> > > +@@ -206,8 +206,7 @@ hmac_files = .libs/.gnutls.hmac
-> > > +
-> > > + all-local: $(hmac_files)
-> > > +
-> > > +-.libs/.gnutls.hmac: libgnutls.la fipshmac
-> > > +-      $(AM_V_GEN) $(builddir)/fipshmac > $@-t && mv $@-t $@
-> > > ++.libs/.gnutls.hmac:
-> > > +
-> > > + CLEANFILES = $(hmac_files)
-> > > + endif
-> > > +--
-> > > +2.25.1
-> > > diff --git a/meta/recipes-support/gnutls/gnutls_3.7.5.bb
-> > > b/meta/recipes-support/gnutls/gnutls_3.7.5.bb
-> > > index 5feedb7fdc..b796494b8d 100644
-> > > --- a/meta/recipes-support/gnutls/gnutls_3.7.5.bb
-> > > +++ b/meta/recipes-support/gnutls/gnutls_3.7.5.bb
-> > > @@ -21,6 +21,7 @@ SHRT_VER =
-> > "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
-> > >
-> > >  SRC_URI =
-> > "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz \
-> > >             file://arm_eabi.patch \
-> > > +
-> > > + file://0001-Creating-.hmac-file-should-be-excuted-in-target-envi.pat
-> > > + ch \
-> > >             "
-> > >
-> > >  SRC_URI[sha256sum] =
-> > "1f85028475b4f255cc5b480af0c37e61eab43024c1507c8b75d6be506c0553ad"
-> > > @@ -36,6 +37,7 @@ PACKAGECONFIG[libidn] =
-> > "--with-idn,--without-idn,libidn2"
-> > >  PACKAGECONFIG[libtasn1] =
-> > "--with-included-libtasn1=no,--with-included-libtasn1,libtasn1"
-> > >  PACKAGECONFIG[p11-kit] = "--with-p11-kit,--without-p11-kit,p11-kit"
-> > >  PACKAGECONFIG[tpm] = "--with-tpm,--without-tpm,trousers"
-> > > +PACKAGECONFIG[fips] = "--enable-fips140-mode
-> > --with-libdl-prefix=${STAGING_BASELIBDIR}"
-> > >
-> > >  EXTRA_OECONF = " \
-> > >      --enable-doc \
-> > > @@ -59,10 +61,30 @@ do_configure:prepend() {
-> > >         done
-> > >  }
-> > >
-> > > -PACKAGES =+ "${PN}-openssl ${PN}-xx"
-> > > +do_install:append:class-target() {
-> > > +        if ${@bb.utils.contains('PACKAGECONFIG', 'fips', 'true', 'false', d)};
-> > then
-> > > +          install -d ${D}${bindir}/bin
-> > > +          install -m 0755 ${B}/lib/.libs/fipshmac ${D}/${bindir}/
-> > > +        fi
-> > > +}
-> > > +
-> > > +PACKAGES =+ "${PN}-openssl ${PN}-xx ${PN}-fips"
-> > >
-> > >  FILES:${PN}-dev += "${bindir}/gnutls-cli-debug"
-> > >  FILES:${PN}-openssl = "${libdir}/libgnutls-openssl.so.*"
-> > >  FILES:${PN}-xx = "${libdir}/libgnutlsxx.so.*"
-> > > +FILES:${PN}-fips = "${bindir}/fipshmac"
-> > >
-> > >  BBCLASSEXTEND = "native nativesdk"
-> > > +
-> > > +pkg_postinst_ontarget:${PN}-fips () {
-> > > +    if test -x ${bindir}/fipshmac
-> > > +    then
-> > > +        mkdir ${sysconfdir}/gnutls
-> > > +        touch ${sysconfdir}/gnutls/config
-> > > +        ${bindir}/fipshmac ${libdir}/libgnutls.so.30.*.* >
-> > ${libdir}/.libgnutls.so.30.hmac
-> > > +        ${bindir}/fipshmac ${libdir}/libnettle.so.8.* >
-> > ${libdir}/.libnettle.so.8.hmac
-> > > +        ${bindir}/fipshmac ${libdir}/libgmp.so.10.*.* >
-> > ${libdir}/.libgmp.so.10.hmac
-> > > +        ${bindir}/fipshmac ${libdir}/libhogweed.so.6.* >
-> > ${libdir}/.libhogweed.so.6.hmac
-> > > +    fi
-> > > +}
-> > > --
-> > > 2.25.1
-> > >
-> > >
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > > Links: You receive all messages sent to this group.
-> > > View/Reply Online (#165996):
-> > > https://lists.openembedded.org/g/openembedded-core/message/165996
-> > > Mute This Topic: https://lists.openembedded.org/mt/91283368/1686489
-> > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
-> > > [alex.kanavin@gmail.com]
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > >
+* there were only 7 changes in LICENSES file since 2002:
+  https://sourceware.org/git/?p=glibc.git;a=history;f=LICENSES;h=530893b1dc9ea00755603c68fb36bd4fc38a7be8;hb=HEAD
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-core/glibc/glibc-common.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/glibc/glibc-common.inc b/meta/recipes-core/glibc/glibc-common.inc
+index 90a6a534f3..7e3dc3b816 100644
+--- a/meta/recipes-core/glibc/glibc-common.inc
++++ b/meta/recipes-core/glibc/glibc-common.inc
+@@ -2,7 +2,7 @@ SUMMARY = "GLIBC (GNU C Library)"
+ DESCRIPTION = "The GNU C Library is used as the system C library in most systems with the Linux kernel."
+ HOMEPAGE = "http://www.gnu.org/software/libc/libc.html"
+ SECTION = "libs"
+-LICENSE = "GPL-2.0-only & LGPL-2.1-only"
++LICENSE = "GPL-2.0-only & LGPL-2.1-only & BSD-4-Clause-UC & BSD-3-Clause & ISC"
+ 
+ LIC_FILES_CHKSUM ?= "file://LICENSES;md5=1541fd8f5e8f1579512bf05f533371ba \
+       file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-- 
+2.35.1
+
 
