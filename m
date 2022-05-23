@@ -2,153 +2,105 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B4DEC433FE
-	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 14:00:15 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web08.27824.1653314408396164525
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED78DC433F5
+	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 14:00:24 +0000 (UTC)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web12.27901.1653314421269082582
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 07:00:08 -0700
+ Mon, 23 May 2022 07:00:21 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=3DLBOufz;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179,
+ header.b=Hp7ExQBH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id w3so6548639plp.13
+Received: by mail-pg1-f182.google.com with SMTP id g184so13772795pgc.1
         for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 07:00:08 -0700 (PDT)
+ Mon, 23 May 2022 07:00:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=zV5jYCS6Y7m5GaHZr2NlyZZS95oAP5tf2naqvMxPpoo=;
-        b=3DLBOufzIpc2mcf40qjpy3B6EUG4le93+fKn83HvRy4NtRMBFHseVMSiNcYD9H68NU
-         T6SQ/RcjAfqY39nfeB8n4k8StR/SIwum0+1qufyt9rytmbdbNQromFsmlYHHE8J8x0b6
-         SOO1tG+j00eodE/8OSspilhMarB3M0J1yk6QUuwVg6jLaJT5/u08rzOEA7S7LI8VhA1c
-         HlDRGxSBFbtOFQL+CwNUdTSMmQUezvE4lQAXcigFfS/4/zp7MIaxcayVgjbO3qcpNtkl
-         R8HFxFytNwYkNe8T0s+1OsqDS9vNMBbDSK8Mld5tJpxaMzno98FbwQq5SZkce4UvAszp
-         m6sQ==
+        bh=jAZaNgVqtN0iUeCSfveAUf/MTVG880buJ1GgedkJCuo=;
+        b=Hp7ExQBHB4KdPb7rd1UIaGQt75ZYpOmNO+ykGHPaecWwhcqgfdhLMAsRfu9HEtO8VJ
+         X0aAa/nT3/7CpMfzAqOOpamrz4E4pR4iAiiwltb36i35r/+iNTZMC1ICpP1XLI7+He45
+         qzpxFHw48NFtvSlORp/6gJLV8f8gtvL4r73ixyLDtrQ7mFEQqTL5szei1UAaNsDXdqf/
+         73PVzFnWPbGx3CkMv7YouCT5n+2ztBB/M1xRSJpdn/0qD6hrdpf5WuPOxFOpLBzqAEo0
+         EZha+781Td4hOLEqpH1lq0j+sBzgUlJJKePRKO78XDV3rfqCYaHwPXeHCTG00lq+tjGU
+         3jpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zV5jYCS6Y7m5GaHZr2NlyZZS95oAP5tf2naqvMxPpoo=;
-        b=yy8+2zWtYXszgg0NkIueNdtfZaCYSPh6yjBKujkOpKcwGvOrM6OuSQNyH3X+wid/B2
-         u6MPNX8mlinlvIM6dcoT9Dq1Lrr5rcNdODqCL2O8aJs9dEYaUcCjjSM8g2AHRiQ5eNi7
-         lNKgPQDD5r6t1qScE7SrnoAUv19xtXZnWjuI/2a7IRnVSf1i0vTuEh2ETwZTRj3Bv79k
-         lTM7TYaSmwP/yrt07lDD8pTz+gQySz20+Ixj5s73cIZ+Iz4S4ONFHmSwabygDIPC43Yi
-         v1PcoXIKCK3loDH1IZRVR+WOLVvsBKBStZn1GEqrpAvNXp/eltI9CucJYCUNi20X4P2l
-         AOtg==
-X-Gm-Message-State: AOAM530aERcJhdXvrtnzHCXz3K06tDHsrZTqtWSOyi+9zelGSndOHwt/
-	cW63npnRl3ifESVWRXQFeNPlFPGY560dF7yQ
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=jAZaNgVqtN0iUeCSfveAUf/MTVG880buJ1GgedkJCuo=;
+        b=z3tjQBZRLg5LbOecteOSErGKwwEA2GuhZ44j8+Cse+2uASJdrkeJuT/CCROrywFQ6b
+         Bs7owt5HoZ/JVVX+2qqaFN05VQMeVdqknE5t2WLYTVxuAEclPpgiYDzTSJRqrzaR2rU0
+         JEafoaumO3eTnMos8fEa//h+oZExUXeR8Xui0ww5gC3Q7Pl3raxOUccRcz9EvIhTU/P9
+         42vuvEHJ7grnwY8HamLGi1p79NR1g8BtTnyePcI1/eYCXLh8X2v4BdaiGCOdDOncSdhm
+         0p0nhz7FGq1qNqccRkwvJWYsnb5liPY0NHHQIE9diX4Rtvrguq/0JZx6k6eremIDztfP
+         jy5g==
+X-Gm-Message-State: AOAM532k5voxs7XcW7M4Ec0+nkceGVYCOaOBFyvnrY2SdWvAGb3L/ISY
+	afbVB31Q73kBYnlqmsisj60gPIS0RAw4yzcp
 X-Google-Smtp-Source: 
- ABdhPJwOp8kqVYoAQzh1AFZ2uaEz/8XLhdTvK0hZWC0hEWPTdn+VYJzlXNeoK6ZvN64kEUZhNk/YIQ==
-X-Received: by 2002:a17:90b:3c50:b0:1df:7b1f:8b79 with SMTP id
- pm16-20020a17090b3c5000b001df7b1f8b79mr26718496pjb.71.1653314406519;
-        Mon, 23 May 2022 07:00:06 -0700 (PDT)
+ ABdhPJwAUQLHgR7koSu5fBVwmDyqVBQA+yRPml82qPV1ZHqtv/+TZLQdHiVAYDN01hXPzz+9HNZ1CQ==
+X-Received: by 2002:a05:6a00:1385:b0:50a:9768:9eca with SMTP id
+ t5-20020a056a00138500b0050a97689ecamr23831204pfg.43.1653314419870;
+        Mon, 23 May 2022 07:00:19 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- m10-20020a637d4a000000b003c14af505fcsm4778952pgn.20.2022.05.23.07.00.04
+ m10-20020a637d4a000000b003c14af505fcsm4778952pgn.20.2022.05.23.07.00.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 May 2022 07:00:05 -0700 (PDT)
+        Mon, 23 May 2022 07:00:18 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 0/9] Patch review
-Date: Mon, 23 May 2022 03:59:39 -1000
-Message-Id: <cover.1653313955.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 3/9] python3: fix reproducibility issue with
+ python3-core
+Date: Mon, 23 May 2022 03:59:42 -1000
+Message-Id: 
+ <00b62965bd4c9eb6fd8c016f83126da2a107a5c5.1653313955.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1653313955.git.steve@sakoman.com>
+References: <cover.1653313955.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 14:00:15 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 14:00:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166022
+ https://lists.openembedded.org/g/openembedded-core/message/166026
 
-Please review this set of patches for kirkstone and have comments back by end
-of day Wednesday.
+traceback.cpython-310.pyc is non-deterministic due to 'frozenset'
+being written without strict ordering.  For now let's just not
+install the problematic file.
 
-Passed a-full on autobuilder:
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 4b1f0f7542abcb8606688c974695a6c8a142e7a2)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-devtools/python/python3_3.10.4.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3692
-
-The following changes since commit ec9e9497730f0a9c8ad3d696c8cdcec06267aacf:
-
-  base-passwd: Disable shell for default users (2022-05-16 13:59:44 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Alexander Kanavin (1):
-  mmc-utils: upgrade to latest revision
-
-Claudius Heine (1):
-  classes: rootfs-postcommands: add skip option to overlayfs_qa_check
-
-Marta Rybczynska (1):
-  cve-check: Fix report generation
-
-Richard Purdie (2):
-  staging: Fix rare sysroot corruption issue
-  selftest/imagefeatures/overlayfs: Always append to DISTRO_FEATURES
-
-Robert Joslyn (1):
-  curl: Backport CVE fixes
-
-Samuli Piippo (1):
-  binutils: Bump to latest 2.38 release branch
-
-Steve Sakoman (1):
-  python3: fix reproducibility issue with python3-core
-
-wangmy (1):
-  librepo: upgrade 1.14.2 -> 1.14.3
-
- meta/classes/cve-check.bbclass                |  18 +-
- meta/classes/rootfs-postcommands.bbclass      |  10 +-
- meta/classes/staging.bbclass                  |  24 +
- meta/lib/oeqa/selftest/cases/imagefeatures.py |   2 +-
- meta/lib/oeqa/selftest/cases/overlayfs.py     |  36 +-
- .../binutils/binutils-2.38.inc                |   2 +-
- .../{librepo_1.14.2.bb => librepo_1.14.3.bb}  |   2 +-
- meta/recipes-devtools/mmc/mmc-utils_git.bb    |   2 +-
- .../recipes-devtools/python/python3_3.10.4.bb |   5 +
- .../curl/curl/CVE-2022-22576.patch            | 145 ++++++
- .../curl/curl/CVE-2022-27774-1.patch          |  45 ++
- .../curl/curl/CVE-2022-27774-2.patch          |  80 +++
- .../curl/curl/CVE-2022-27774-3.patch          |  83 ++++
- .../curl/curl/CVE-2022-27774-4.patch          |  35 ++
- .../curl/curl/CVE-2022-27775.patch            |  37 ++
- .../curl/curl/CVE-2022-27776.patch            | 115 +++++
- .../curl/curl/CVE-2022-27779.patch            |  42 ++
- .../curl/curl/CVE-2022-27780.patch            |  33 ++
- .../curl/curl/CVE-2022-27781.patch            |  43 ++
- .../curl/curl/CVE-2022-27782-1.patch          | 458 ++++++++++++++++++
- .../curl/curl/CVE-2022-27782-2.patch          |  71 +++
- .../curl/curl/CVE-2022-30115.patch            |  82 ++++
- meta/recipes-support/curl/curl_7.82.0.bb      |  16 +-
- 23 files changed, 1362 insertions(+), 24 deletions(-)
- rename meta/recipes-devtools/librepo/{librepo_1.14.2.bb => librepo_1.14.3.bb} (94%)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-22576.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27774-1.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27774-2.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27774-3.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27774-4.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27775.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27776.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27779.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27780.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27781.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27782-1.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27782-2.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-30115.patch
-
+diff --git a/meta/recipes-devtools/python/python3_3.10.4.bb b/meta/recipes-devtools/python/python3_3.10.4.bb
+index d678d55083..2ef320350e 100644
+--- a/meta/recipes-devtools/python/python3_3.10.4.bb
++++ b/meta/recipes-devtools/python/python3_3.10.4.bb
+@@ -193,6 +193,11 @@ do_install:append() {
+         rm -f ${D}${libdir}/python${PYTHON_MAJMIN}/test/__pycache__/test_range.cpython*
+         rm -f ${D}${libdir}/python${PYTHON_MAJMIN}/test/__pycache__/test_xml_etree.cpython*
+ 
++        # Similar to the above, we're getting reproducibility issues with 
++        # /usr/lib/python3.10/__pycache__/traceback.cpython-310.pyc
++        # so remove it too
++        rm -f ${D}${libdir}/python${PYTHON_MAJMIN}/__pycache__/traceback.cpython*
++
+         # Remove the opt-1.pyc and opt-2.pyc files. They effectively waste space on embedded
+         # style targets as they're only used when python is called with the -O or -OO options
+         # which is rare.
 -- 
 2.25.1
 
