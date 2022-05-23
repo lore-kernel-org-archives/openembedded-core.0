@@ -1,70 +1,91 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <flowergom@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84084C433F5
-	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 15:26:55 +0000 (UTC)
-Received: from mailout07.t-online.de (mailout07.t-online.de [194.25.134.83])
- by mx.groups.io with SMTP id smtpd.web08.29017.1653319608676323558
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BB90C433F5
+	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 15:29:25 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.28817.1653319756527385486
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 08:26:49 -0700
+ Mon, 23 May 2022 08:29:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.83,
- mailfrom: f_l_k@t-online.de)
-Received: from fwd79.dcpf.telekom.de (fwd79.aul.t-online.de [10.223.144.105])
-	by mailout07.t-online.de (Postfix) with SMTP id A90FA4639;
-	Mon, 23 May 2022 17:26:46 +0200 (CEST)
-Received: from [192.168.178.83] ([79.219.229.214]) by fwd79.t-online.de
-	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
-	esmtp id 1nt9xG-3wKmJ70; Mon, 23 May 2022 17:26:46 +0200
-Message-ID: <87d4367a-e93e-5a8c-a636-200e987792c9@t-online.de>
-Date: Mon, 23 May 2022 17:26:45 +0200
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=NRqpZtxY;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44,
+ mailfrom: flowergom@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id e2so10283816wrc.1
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 23 May 2022 08:29:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kV/vyeaG4ybnatbgMnJglr3jl5/GXroVcdKCFaLywdU=;
+        b=NRqpZtxYz0bFJLN+wmbCiXxYUE01fsTUOqwUMllw3tr80RqNRYhFCi1JyE1lTfLsxc
+         QcHRIHkKsRqEyQ5B5chDwPZ+vDWC8OzYpkb043xpkUkVdHqVfG46Z4i69pVQSEg0baZG
+         TCAbnq+dg+tH8WWPwcOagC75hrU1cHn35c04JMYWImnJh/If+xIPXZIJ53YMl8X8t4R+
+         VnzE+Ldnlmq+LgC+fwyz595Lw0Dv/9isOunGWgPuLOVcSs4XQXG+fpJnj5iAA3icyYG7
+         1SYnEKfACRysyJHN2ELlEwYJKuV6dxM0hP1c9NkDRHIzbAZX2d6mvuT6zuG2CTAnEfam
+         IBPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kV/vyeaG4ybnatbgMnJglr3jl5/GXroVcdKCFaLywdU=;
+        b=PszMKhaAz4Yjp7iM2dVr1K50I9skPHKlyj+HpBB80AJArRvwvx26sSxX3oOp84C98h
+         Exkql8YDlJic/emJAFjNG37LN1nfdHSZuChqCQWvjQT359PDLaE+PyTgJmBYzbTLoF/b
+         tbl5iUvy4cURw0kh5oRya4MfUsu+m3MOVrCdOFRQDCeeNxOWuYdtEZRzI8x8qrljRjoa
+         vbM7xSURaPv40yPzgiFvtfZsg0YoWLegBfahgreH/BWWbqAJTaY2AdWJ193svozMV3De
+         WxNfXMHYZt5UWaIV07tZ5qzDd9Vnqf/miM72F9Z/vBC1voL5+vYZon15cBEsXlnz1KV4
+         h7YQ==
+X-Gm-Message-State: AOAM530xEdBY5fnVpAfAcoYMQOFRuq7z24DTzid4moBgq3J0X51qL7Me
+	YAYLC3hZOKyaqGUGyz/c7PA5rhTk4UCoP3RYr/I=
+X-Google-Smtp-Source: 
+ ABdhPJzgzra9v1/NhF4dCihSZiGVIzHjPw7mCNZSrXmxK7n0OLLzmc46nI8F3QV75rPSFeQh8NKw9Q==
+X-Received: by 2002:adf:f803:0:b0:20d:3a1:3c31 with SMTP id
+ s3-20020adff803000000b0020d03a13c31mr19640176wrp.565.1653319754554;
+        Mon, 23 May 2022 08:29:14 -0700 (PDT)
+Received: from localhost.localdomain ([141.113.66.35])
+        by smtp.gmail.com with ESMTPSA id
+ d10-20020adfc80a000000b0020fded972c0sm3959661wrh.45.2022.05.23.08.29.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 May 2022 08:29:13 -0700 (PDT)
+From: Minjae Kim <flowergom@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Minjae Kim <flowergom@gmail.com>
+Subject: [dunfell][PATCH 1/2] ncurses: add libncurses5 to RPROVIDES
+Date: Mon, 23 May 2022 17:29:04 +0200
+Message-Id: <20220523152905.52130-1-flowergom@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [OE-core] [meta-oe][RFC PATCH 1/2] libdecor: initial add recipe
-Content-Language: en-US
-To: richard.purdie@linuxfoundation.org,
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-References: <20220519064312.391164-1-f_l_k@t-online.de>
- <20220519184315.1e91b017@melee>
- <70887c7d-4063-93d5-025f-46c4a17e5940@t-online.de>
- <31d4ac7f1c8db63e0bcc2028c787dc59e30a2781.camel@linuxfoundation.org>
- <1286dfdb-a0ac-67a7-a026-f95da89c35da@t-online.de>
- <f304f84a8bb4bd353898d54cf1378b5c0084498e.camel@linuxfoundation.org>
- <080bfcd8-afeb-39a6-6215-88ed6261cd8e@t-online.de>
- <67fe6127ff98d96cfd225500535c88d2fe8e945b.camel@linuxfoundation.org>
-From: Markus Volk <f_l_k@t-online.de>
-In-Reply-To: 
- <67fe6127ff98d96cfd225500535c88d2fe8e945b.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TOI-EXPURGATEID: 150726::1653319606-00010BFA-9F985F66/0/0 CLEAN NORMAL
-X-TOI-MSGID: 31f18b64-79b4-4b63-a8e5-190c175da0ea
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 15:26:55 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 15:29:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166035
+ https://lists.openembedded.org/g/openembedded-core/message/166036
 
+The libncurses5 is generated by ncurse recipe.
+To use this library as a dependency in another component,
+It should be explicitly added as RPROVIDES.
 
-Am 22.05.22 um 14:12 schrieb richard.purdie@linuxfoundation.org:
-> I'd be interested to know what kind of aborts as that shouldn't have
-> happened. I'd be interested to understand what broke as it shouldn't
-> have done and none of our testing has shown it.
->
-> Cheers,
->
-> Richard
->
-All-clear for the master branch. All of my issues seem to have been 
-homemade. After cleaning tmp and doing a clean rebuild, i didn't have 
-any build issues anymore.
+Signed-off-by:Minjae Kim <flowergom@gmail.com>
+---
+ meta/recipes-core/ncurses/ncurses.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Markus
-
+diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+index ee0b15ecf0..6f97b496c3 100644
+--- a/meta/recipes-core/ncurses/ncurses.inc
++++ b/meta/recipes-core/ncurses/ncurses.inc
+@@ -324,3 +324,5 @@ RRECOMMENDS_${PN}-libtinfo = "${PN}-terminfo-base"
+ # each recipe specific sysroot. We can live without this, particularly
+ # as many recipes may have native and target copies.
+ SYSROOT_DIRS_remove = "${datadir}"
++
++RPROVIDES_${PN} += "libncurses5"
+-- 
+2.25.1
 
 
