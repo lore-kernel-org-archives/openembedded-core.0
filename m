@@ -2,72 +2,72 @@ Return-Path: <leimaohui@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19209C433EF
-	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 06:54:03 +0000 (UTC)
-Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
- [195.245.231.4])
- by mx.groups.io with SMTP id smtpd.web12.24621.1653288834667386097
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 332AFC433EF
+	for <webhook@archiver.kernel.org>; Mon, 23 May 2022 07:04:53 +0000 (UTC)
+Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com
+ [85.158.142.1])
+ by mx.groups.io with SMTP id smtpd.web12.24697.1653289483527033615
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 May 2022 23:53:55 -0700
+ Mon, 23 May 2022 00:04:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=wjlf59CN;
- spf=pass (domain: fujitsu.com, ip: 195.245.231.4,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=jA6oTT+m;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.1,
  mailfrom: leimaohui@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1653288832; i=@fujitsu.com;
-	bh=QTOsiKxwqt6YrxgpO2oXuAwKbhwUPNI7Q69+E+bnmyg=;
+	s=170520fj; t=1653289481; i=@fujitsu.com;
+	bh=9brvb7HGrYibwduENVT53/j/2Do5N6/P9cE5eTTPna8=;
 	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=wjlf59CNDYDJF5d4fRT6uMIHffZw/GIab/DMAe8IKWIu7/J2aMpOnaL4zK/1yIxJ6
-	 3S4I0cH1eFdyo8zQF/01dJ/Djn6cpNir3YPvpWR/1Pqcn4VyXd6GxjarH6dP9cOQ/k
-	 dCoUKVadwDHPwzV3uVLUlFpSjloJ2UYpfSstJt4z6Ys/Ap3dZnmbIGVifnmU7Q2Xba
-	 L0WGJC7otN1Z+7Xsyl40JmEHj5EMumxapqm5FyEg6sDP9boR8jyG8MxKtz4yjwcx0m
-	 w+pBU67mOpxHXQzc4oZrScEViFNZ98NXPDD52Tb2NEPpx++bCYV5DDukfQjM8koQg+
-	 usuTUwJVU5uqw==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLIsWRWlGSWpSXmKPExsViZ8MxSbdBvzv
-  JYMNLCYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPPi9ssBVfkKw5+3sDcwPhcuouRi0NI4DGj
-  xKJVO1ggnPNMEvva/jF1MXICOXsZJR5NlAGx2QQ0JHZPvczcxcjBISKgJ3H1nyhImFlATeLoy
-  5/MILawgIXE+sM72EFsFgFViaW9a8HG8Aq4SLzoOwFmSwgoSEx5+J4ZIi4ocXLmExaIORISB1
-  +8YIaoUZJ4e2kPI4RdIfH68CWouJrE1XObmCcw8s9C0j4LSfsCRqZVjFZJRZnpGSW5iZk5uoY
-  GBrqGhqa6xua6hpZ6iVW6iXqppbrlqcUlukZ6ieXFeqnFxXrFlbnJOSl6eaklmxiBIZlSrCq8
-  g7Fj5U+9Q4ySHExKoryJEt1JQnxJ+SmVGYnFGfFFpTmpxYcYZTg4lCR4vXSBcoJFqempFWmZO
-  cD4gElLcPAoifCq6QGleYsLEnOLM9MhUqcYdTmuXrmyl1mIJS8/L1VKnHePMlCRAEhRRmke3A
-  hYrF5ilJUS5mVkYGAQ4ilILcrNLEGVf8UozsGoJMy7DeQSnsy8ErhNr4COYAI6oleiE+SIkkS
-  ElFQDU2HilHep1+4c/3SJd0PRgld/7uXmHbph+v9C127paWL7b/dr6z6sEPUsFK0J6jsimz9B
-  K2fXop7HPf57Sna/2nm3Pzd2m8zOjodeO7nn9f+XbDuy/XzMmd8sdyJaVKpeXzdxZK2KiTZLq
-  1yVsNWr+PqLPXczfb9/k+dY8/CL872FKgbL3HYUHn2h7Xvz/uu+GbcseqImxLMEVU1MZIgKOH
-  fSwK9VyWllregkjiM3Hj8T5+Stj52b/z+uwXCXJxv7sgnMbI5HJmzXnSYceyVRas251n73STw
-  2Jae3t8790nCnJa7l5GVjUc9yc3G+VzMZJm6dmVGytcpd2SlmSeW0o/4fjx5c/034TaBDOMsb
-  ViWW4oxEQy3mouJEAAYlqlRQAwAA
+	b=jA6oTT+mrjuhpLA65BJozC3Mgn/XjvLOwBafptxCv60ycbAnilE/19sjcxtn8J8v4
+	 v1dw4z9dW9TUlFBUOmhiITMLx3hEd8b0LoeKKSeKpnCrmzUmDygCh+yiPyW027BRyp
+	 gougQxFjMATJKwSkG4sP8Gm3bbYidjd/7p2zHB3vQ9iWq1WaqsTMaKAgYwuWH1YpZC
+	 PCWnUgUyH6/2ZDm1wL5umvCsBLdNSTXO/wWzOzOG5DWy4ZSWYLEbqpl0CFejbO1D+l
+	 4Nh+piE4PegpqY2V3OlKJtxmOaM35sfLc7wscvXvyooYLVidwIBRIocrr5ahjDfLyO
+	 fLqrYJ0Ct2Y+g==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCIsWRWlGSWpSXmKPExsViZ8MxSZfDqDv
+  JYFGbicWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmvHtyU+WgiNsFbtbLjA1MD5h7WLk4hASeMwo
+  cXRRLxOEc55JomnzP6jMXkaJF9MmMHcxcnKwCWhI7J56Gcjm4BAR0JO4+k8UJMwsoCZx9OVPs
+  BJhAXeJf+83MoHYLAKqEh++LGUBsXkFXCT2LbkDViMhoCAx5eF7Zoi4oMTJmU9YIOZISBx88Q
+  KqRkni7aU9jBB2hcTrw5eg4moSV89tYp7AyD8LSfssJO0LGJlWMdokFWWmZ5TkJmbm6BoaGOg
+  aGprqWprpGhob6SVW6SbqpZbq5uUXlWToGuollhfrpRYX6xVX5ibnpOjlpZZsYgQGZkpxQssO
+  xtv7fukdYpTkYFIS5U2U6E4S4kvKT6nMSCzOiC8qzUktPsQow8GhJMHrpQuUEyxKTU+tSMvMA
+  UYJTFqCg0dJhFdNDyjNW1yQmFucmQ6ROsWoKCXOu9EAKCEAksgozYNrg0XmJUZZKWFeRgYGBi
+  GegtSi3MwSVPlXjOIcjErCvJ0gU3gy80rgpr8CWswEtLhXohNkcUkiQkqqgUlmf5rOqcKnBXb
+  ZG3z4LibWsN+otf6pk24fULPPRWGL0e89DO8XuF84b6/c2JSd/fdqv/bbN1qedadnRV1uPBr4
+  SfaES/2ZUzMyr3VtaMhVbWg2L7j3Z65pxJx5D/M45Y+dX2K7s2qJ+BSRZMMD3a/fdwdOUI60L
+  FjcN39O/EMRr6W/+t6t0WnvOBj8fputyruImQaOXOe2vKt3nMfxxt78dJuo4Aqh9mfvrzdGBT
+  1Sq02yspFIeyluPfXUk7OyAX8fBLHaXrhfXcqr8rB8Ree0By+an+v/eL55QfuxhQpFtmdL3nX
+  wXtwfbduUpbZN7p9nmXTkRO4dfz6+FHy5cFt8UB7X9lmvRZwcDJ5e71FiKc5INNRiLipOBADO
+  A7aDRwMAAA==
 X-Env-Sender: leimaohui@fujitsu.com
-X-Msg-Ref: server-21.tower-565.messagelabs.com!1653288832!207046!1
+X-Msg-Ref: server-11.tower-745.messagelabs.com!1653289480!2618!1
 X-Originating-IP: [62.60.8.146]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.86.4; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 17500 invoked from network); 23 May 2022 06:53:52 -0000
+Received: (qmail 19318 invoked from network); 23 May 2022 07:04:40 -0000
 Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-21.tower-565.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 23 May 2022 06:53:52 -0000
+  by server-11.tower-745.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 23 May 2022 07:04:40 -0000
 Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 0E94110034F
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 4415A1000FD
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 07:53:52 +0100 (BST)
+ Mon, 23 May 2022 08:04:40 +0100 (BST)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id EC088100331
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 37C381000FB
 	for <openembedded-core@lists.openembedded.org>;
- Mon, 23 May 2022 07:53:51 +0100 (BST)
+ Mon, 23 May 2022 08:04:40 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.227) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Mon, 23 May 2022 07:53:47 +0100
+ (TLS) id 15.0.1497.32; Mon, 23 May 2022 08:04:35 +0100
 From: Lei Maohui <leimaohui@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Lei Maohui <leimaohui@fujitsu.com>
-Subject: [OE-core] [PATCH v3] gnutls: Added fips option.
-Date: Mon, 23 May 2022 14:53:33 +0800
-Message-ID: <1653288813-3748-1-git-send-email-leimaohui@fujitsu.com>
+Subject: [PATCH] cve-check.bbclass: Added do_populate_sdk[recrdeptask].
+Date: Mon, 23 May 2022 15:04:25 +0800
+Message-ID: <1653289465-4176-1-git-send-email-leimaohui@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -78,109 +78,30 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 06:54:03 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 23 May 2022 07:04:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/165996
+ https://lists.openembedded.org/g/openembedded-core/message/165997
 
-- Added a patch to avoid excute fipshmac command. Because *.hmac
-file should be created on target instead of on build environment.
-- Added pkg_postinst_ontarget to make sure necessary files are
-created on target.
+As product, sdk should do cve check as well as rootfs.
 
 Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
 ---
- ...ile-should-be-excuted-in-target-envi.patch | 28 +++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.7.5.bb   | 24 +++++++++++++++-
- 2 files changed, 51 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch
+ meta/classes/cve-check.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch b/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch
-new file mode 100644
-index 0000000000..7a0e2fd474
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch
-@@ -0,0 +1,28 @@
-+From b729a356538d499fe25e82bfc78ea663bdaca0a8 Mon Sep 17 00:00:00 2001
-+From: Lei Maohui <leimaohui@fujitsu.com>
-+Date: Mon, 23 May 2022 10:44:43 +0900
-+Subject: [PATCH] Creating .hmac file should be excuted in target environment,
-+ so deleted it from build process.
-+
-+Upstream-Status: Inappropriate [Embedded]
-+Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
-+---
-+ lib/Makefile.am | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/lib/Makefile.am b/lib/Makefile.am
-+index 0b43ef9..cf263f0 100644
-+--- a/lib/Makefile.am
-++++ b/lib/Makefile.am
-+@@ -206,8 +206,7 @@ hmac_files = .libs/.gnutls.hmac
-+
-+ all-local: $(hmac_files)
-+
-+-.libs/.gnutls.hmac: libgnutls.la fipshmac
-+-	$(AM_V_GEN) $(builddir)/fipshmac > $@-t && mv $@-t $@
-++.libs/.gnutls.hmac:
-+
-+ CLEANFILES = $(hmac_files)
-+ endif
-+--
-+2.25.1
-diff --git a/meta/recipes-support/gnutls/gnutls_3.7.5.bb b/meta/recipes-support/gnutls/gnutls_3.7.5.bb
-index 5feedb7fdc..b796494b8d 100644
---- a/meta/recipes-support/gnutls/gnutls_3.7.5.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.7.5.bb
-@@ -21,6 +21,7 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 7cd98ae..3729d9c 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -218,6 +218,7 @@ python cve_check_write_rootfs_manifest () {
  
- SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz \
-            file://arm_eabi.patch \
-+           file://0001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch \
-            "
+ ROOTFS_POSTPROCESS_COMMAND:prepend = "${@'cve_check_write_rootfs_manifest; ' if d.getVar('CVE_CHECK_CREATE_MANIFEST') == '1' else ''}"
+ do_rootfs[recrdeptask] += "${@'do_cve_check' if d.getVar('CVE_CHECK_CREATE_MANIFEST') == '1' else ''}"
++do_populate_sdk[recrdeptask] += "${@'do_cve_check' if d.getVar('CVE_CHECK_CREATE_MANIFEST') == '1' else ''}"
  
- SRC_URI[sha256sum] = "1f85028475b4f255cc5b480af0c37e61eab43024c1507c8b75d6be506c0553ad"
-@@ -36,6 +37,7 @@ PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn2"
- PACKAGECONFIG[libtasn1] = "--with-included-libtasn1=no,--with-included-libtasn1,libtasn1"
- PACKAGECONFIG[p11-kit] = "--with-p11-kit,--without-p11-kit,p11-kit"
- PACKAGECONFIG[tpm] = "--with-tpm,--without-tpm,trousers"
-+PACKAGECONFIG[fips] = "--enable-fips140-mode --with-libdl-prefix=${STAGING_BASELIBDIR}"
- 
- EXTRA_OECONF = " \
-     --enable-doc \
-@@ -59,10 +61,30 @@ do_configure:prepend() {
- 	done
- }
- 
--PACKAGES =+ "${PN}-openssl ${PN}-xx"
-+do_install:append:class-target() {
-+        if ${@bb.utils.contains('PACKAGECONFIG', 'fips', 'true', 'false', d)}; then
-+          install -d ${D}${bindir}/bin
-+          install -m 0755 ${B}/lib/.libs/fipshmac ${D}/${bindir}/
-+        fi
-+}
-+
-+PACKAGES =+ "${PN}-openssl ${PN}-xx ${PN}-fips"
- 
- FILES:${PN}-dev += "${bindir}/gnutls-cli-debug"
- FILES:${PN}-openssl = "${libdir}/libgnutls-openssl.so.*"
- FILES:${PN}-xx = "${libdir}/libgnutlsxx.so.*"
-+FILES:${PN}-fips = "${bindir}/fipshmac"
- 
- BBCLASSEXTEND = "native nativesdk"
-+
-+pkg_postinst_ontarget:${PN}-fips () {
-+    if test -x ${bindir}/fipshmac
-+    then
-+        mkdir ${sysconfdir}/gnutls
-+        touch ${sysconfdir}/gnutls/config
-+        ${bindir}/fipshmac ${libdir}/libgnutls.so.30.*.* > ${libdir}/.libgnutls.so.30.hmac
-+        ${bindir}/fipshmac ${libdir}/libnettle.so.8.* > ${libdir}/.libnettle.so.8.hmac
-+        ${bindir}/fipshmac ${libdir}/libgmp.so.10.*.* > ${libdir}/.libgmp.so.10.hmac
-+        ${bindir}/fipshmac ${libdir}/libhogweed.so.6.* > ${libdir}/.libhogweed.so.6.hmac
-+    fi
-+}
+ def check_cves(d, patched_cves):
+     """
 -- 
-2.25.1
+1.8.3.1
 
 
