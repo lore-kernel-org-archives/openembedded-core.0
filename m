@@ -1,71 +1,95 @@
-Return-Path: <sundeep.kokkonda@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45B58C433EF
-	for <webhook@archiver.kernel.org>; Tue, 24 May 2022 10:22:06 +0000 (UTC)
-Subject: Re: [PATCH V4] meta: rust - Bug fix for target definitions returning
- 'NoneType' for arm
-To: openembedded-core@lists.openembedded.org
-From: "Sundeep KOKKONDA" <sundeep.kokkonda@gmail.com>
-X-Originating-Location: Belgaum, Karnataka, IN (103.197.112.156)
-X-Originating-Platform: Windows Chrome 101
-User-Agent: GROUPS.IO Web Poster
-MIME-Version: 1.0
-Date: Tue, 24 May 2022 03:21:58 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7593EC433F5
+	for <webhook@archiver.kernel.org>; Tue, 24 May 2022 11:04:36 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.8006.1653390265782514614
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 24 May 2022 04:04:26 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eryoqOZe;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id u27so24350766wru.8
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 24 May 2022 04:04:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=lGt42rVG2/jG30jjs4CDnxOE9n+JCKHy9AYiJHag7S4=;
+        b=eryoqOZe4Iin0dwQkpBOmt+kh24GBeev7Vu9ivX6EiqM2tT7s7pzuDywWiSwZmDThx
+         PFLjE7UUtkUef6iAjjIG2VbSULH84Zr+caTrwSO2jxLNq6cyOpmMJXjuyD0YEtOWPFAC
+         N2L4dws7OHwywDMQ3PfTiM7pGA6B3IAMOcXZo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=lGt42rVG2/jG30jjs4CDnxOE9n+JCKHy9AYiJHag7S4=;
+        b=wVQ462N1ok6UizHR9cTZeBS1PrLi6Z9Od39qr+GbgoEp2e4I+tvpobBVfoVtY6m9lv
+         OyVsazSsuf5n9K0oTk0f/pn5IDOKD6L87SCdj1riMv7CyUIxLVuZ2HleoMOl6I4UWkTX
+         qmG6k/GfO4FbhARvOPdLWOYNlfgx5ozg2TZqKzzYT/rqgSteOZoMdpeIz0XBefzrzuir
+         me/g2o7clhBL2qwhLqCpNAsEQ+LmXTSYX5qpK/Rt3cRgKf3I7eED4lY/yd8bm2vYh+y+
+         yxqXFGROnDXQaQ308jLc+LyBQkgZVOYgZosDQXBbnWzlNycwfBdyTrY/yeX3CQInHLjU
+         +aTA==
+X-Gm-Message-State: AOAM531PM7+pmqrnfHJO6QMOuytbAldNABpO5el4FDiVB5ZP5jDmJnHn
+	+KxyrlP7Dsgj85YMK3CZu8CaMw==
+X-Google-Smtp-Source: 
+ ABdhPJyi3MXWyqGr6PKk85DEkusxCvDtw0EkTcUhKTY7pp3phAhT1SvhJ95nWpf5CCOURwZz0TYnpw==
+X-Received: by 2002:a5d:560e:0:b0:20c:fe12:af47 with SMTP id
+ l14-20020a5d560e000000b0020cfe12af47mr22628243wrv.478.1653390264278;
+        Tue, 24 May 2022 04:04:24 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:6777:760f:4de3:e746?
+ ([2001:8b0:aba:5f3c:6777:760f:4de3:e746])
+        by smtp.gmail.com with ESMTPSA id
+ e8-20020adfa448000000b0020c5253d8e5sm12791101wra.49.2022.05.24.04.04.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 May 2022 04:04:23 -0700 (PDT)
+Message-ID: 
+ <3206ab3223db09451e03becdf55d972789105e18.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH V4] meta: rust - Bug fix for target
+ definitions returning 'NoneType' for arm
+From: richard.purdie@linuxfoundation.org
+To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 24 May 2022 12:04:20 +0100
+In-Reply-To: <10389.1653387718015832235@lists.openembedded.org>
 References: 
- <b7357d18166022d50cb688d03bf076bd39d79fb6.camel@linuxfoundation.org>
-In-Reply-To: 
- <b7357d18166022d50cb688d03bf076bd39d79fb6.camel@linuxfoundation.org>
-Message-ID: <10389.1653387718015832235@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="dkgGT3qzMjwrz60rMyhL"
+	<b7357d18166022d50cb688d03bf076bd39d79fb6.camel@linuxfoundation.org>
+	 <10389.1653387718015832235@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0-1ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 May 2022 10:22:06 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 24 May 2022 11:04:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166054
+ https://lists.openembedded.org/g/openembedded-core/message/166055
 
---dkgGT3qzMjwrz60rMyhL
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2022-05-24 at 03:21 -0700, Sundeep KOKKONDA wrote:
+> Hello Richard,
+>=20
+> The patch you sent in=C2=A0rust-common.bbclass fixing the 'oe-selftest -r
+> sstatetests.SStateTests.test_sstate_allarch_samesigs' test issue but
+> the regression test shows that the
+> 'sstatetests.SStateTests.test_sstate_32_64_same_hash' is getting
+> failed. So, I think this change is not correct. With this patch, the
+> diffsigs shows 'rust-native' sigdata is changed based on the changed
+> value for RUST_TARGET_SYS variable (in x86_64 :: x86_64-unknown-
+> linux-gnu & in i686 :: i686-unknown-linux-gnu). I tried several
+> attempts to fix it but nothing worked out yet.
 
-Hello Richard,
+You should have seen a further couple of patches which fixed other
+issues and with current master, the issues should be resolved?
 
-The patch you sent in rust-common.bbclass fixing the ' oe-selftest -r sstat=
-etests.SStateTests.test_sstate_allarch_samesigs' test issue but the regress=
-ion test shows that the 'sstatetests.SStateTests.test_sstate_32_64_same_has=
-h' is getting failed. So, I think this change is not correct. With this pat=
-ch, the diffsigs shows 'rust-native' sigdata is changed based on the change=
-d value for RUST_TARGET_SYS variable (in x86_64 :: x86_64-unknown-linux-gnu=
- & in i686 :: i686-unknown-linux-gnu). I tried several attempts to fix it b=
-ut nothing worked out yet.
+Cheers,
 
-@Alex.
-Did you get sometime to look into this 'arm' issue introduced with your com=
-mit?
+Richard
 
-Thanks,
-Sundeep K.
 
---dkgGT3qzMjwrz60rMyhL
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hello Richard,<br /><br />The patch you sent in&nbsp;<em><span style=3D"whi=
-te-space: pre-wrap;">rust-common.bbclass </span></em><span style=3D"white-s=
-pace: pre-wrap;">fixing the '</span><span style=3D"white-space: pre-wrap;">=
-oe-selftest -r </span><span style=3D"white-space: pre-wrap;">sstatetests.SS=
-tateTests.test_sstate_allarch_samesigs' test issue but the regression test =
-shows that the 'sstatetests.SStateTests.test_sstate_32_64_same_hash' is get=
-ting failed. So, I think this change is not correct. With this patch, the d=
-iffsigs shows 'rust-native' sigdata is changed based on the changed value f=
-or RUST_TARGET_SYS variable (in x86_64 :: x86_64-unknown-linux-gnu &amp; in=
- i686 :: i686-unknown-linux-gnu). I tried several attempts to fix it but no=
-thing worked out yet.<br /><br /><br /></span>@Alex.<br />Did you get somet=
-ime to look into this 'arm' issue introduced with your commit?<br /><br /><=
-br /><br /><span style=3D"white-space: pre-wrap;">Thanks,</span><br /><span=
- style=3D"white-space: pre-wrap;">Sundeep K.</span>
-
---dkgGT3qzMjwrz60rMyhL--
 
