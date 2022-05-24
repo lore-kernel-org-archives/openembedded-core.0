@@ -1,61 +1,58 @@
-Return-Path: <egyszeregy@freemail.hu>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81304C433EF
-	for <webhook@archiver.kernel.org>; Tue, 24 May 2022 11:17:26 +0000 (UTC)
-Subject: Forced password change in first login
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6B25C433FE
+	for <webhook@archiver.kernel.org>; Tue, 24 May 2022 11:44:56 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web09.8179.1653392692349170568
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 24 May 2022 04:44:52 -0700
+Authentication-Results: mx.groups.io;
+ dkim=missing;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9C2631FB;
+	Tue, 24 May 2022 04:44:51 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com
+ (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9338F3F73D;
+	Tue, 24 May 2022 04:44:50 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-From: "Livius" <egyszeregy@freemail.hu>
-X-Originating-Location: =?utf-8?q?Stuttgart=2C_Baden-W=C3=BCrttemberg=2C_DE_?=
- =?utf-8?q?=28194=2E39=2E218=2E10=29?=
-X-Originating-Platform: Windows Chrome 101
-User-Agent: GROUPS.IO Web Poster
+Cc: nd@arm.com
+Subject: [PATCH 2/2] python3-pluggy: add BBCLASSEXTEND for native/nativesdk
+Date: Tue, 24 May 2022 12:44:42 +0100
+Message-Id: <20220524114442.1166085-2-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220524114442.1166085-1-ross.burton@arm.com>
+References: <20220524114442.1166085-1-ross.burton@arm.com>
 MIME-Version: 1.0
-Date: Tue, 24 May 2022 04:17:24 -0700
-Message-ID: <IkQF.1653391044347982572.4xC9@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="S5w5PUIt7oQXmihMUkI3"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 May 2022 11:17:26 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 24 May 2022 11:44:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166056
+ https://lists.openembedded.org/g/openembedded-core/message/166059
 
---S5w5PUIt7oQXmihMUkI3
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-devtools/python/python3-pluggy_1.0.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Hi!
+diff --git a/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb b/meta/=
+recipes-devtools/python/python3-pluggy_1.0.0.bb
+index 3f2895a061b..2935acf95fa 100644
+--- a/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb
++++ b/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb
+@@ -24,3 +24,5 @@ do_install_ptest() {
+ 	install -d ${D}${PTEST_PATH}/testing
+ 	cp -rf ${S}/testing/* ${D}${PTEST_PATH}/testing/
+ }
++
++BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.25.1
 
-In extrausers.bbclass ( https://github.com/openembedded/openembedded-core/b=
-lob/honister/meta/classes/extrausers.bbclass ) there is a quite new=C2=A0pa=
-sswd-expire ( https://www.mail-archive.com/yocto@lists.yoctoproject.org/msg=
-05373.html ) to force password change on first login. I am using honister r=
-elease now, my experience is that my root user has always an expired passwo=
-rd in default and i need to change it in every first login of my flashed im=
-age,=C2=A0even though I pre-configured my root password by usermod -p <hash=
-_pass> and i am not using new passwd-expire command.
-
-Can i disable that new method somehow to be avoid to change password in fir=
-st login?
-
---S5w5PUIt7oQXmihMUkI3
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<p>Hi!<br /><br />In&nbsp;<a href=3D"https://github.com/openembedded/openem=
-bedded-core/blob/honister/meta/classes/extrausers.bbclass" target=3D"_blank=
-" rel=3D"noopener">extrausers.bbclass</a> there is a quite <a href=3D"https=
-://www.mail-archive.com/yocto@lists.yoctoproject.org/msg05373.html" target=
-=3D"_blank" rel=3D"noopener">new&nbsp;passwd-expire</a>&nbsp;to force passw=
-ord change on first login. I am using honister release now, my experience i=
-s that my root user has always an expired password in default and i need to=
- change it in every first login of my flashed image,&nbsp;even though I pre=
--configured my root password by&nbsp;<em>usermod -p &lt;hash_pass&gt;</em>&=
-nbsp;and i am not using new&nbsp;<em>passwd-expire</em> command.</p>
-<p>Can i disable that new method somehow to be avoid to change password in =
-first login?</p>
-
---S5w5PUIt7oQXmihMUkI3--
 
