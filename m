@@ -1,66 +1,121 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10A92C433EF
-	for <webhook@archiver.kernel.org>; Tue, 24 May 2022 15:50:38 +0000 (UTC)
-Received: from mailout03.t-online.de (mailout03.t-online.de [194.25.134.81])
- by mx.groups.io with SMTP id smtpd.web10.11090.1653407432127169937
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56217C433EF
+	for <webhook@archiver.kernel.org>; Tue, 24 May 2022 16:46:58 +0000 (UTC)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web12.11913.1653410814053149523
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 May 2022 08:50:32 -0700
+ Tue, 24 May 2022 09:46:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.81,
- mailfrom: f_l_k@t-online.de)
-Received: from fwd81.dcpf.telekom.de (fwd81.aul.t-online.de [10.223.144.107])
-	by mailout03.t-online.de (Postfix) with SMTP id 2858557C5
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 24 May 2022 17:50:30 +0200 (CEST)
-Received: from localhost.localdomain ([79.219.234.203]) by fwd81.t-online.de
-	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
-	esmtp id 1ntWnk-4acAU50; Tue, 24 May 2022 17:50:28 +0200
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Markus Volk <f_l_k@t-online.de>
-Subject: [oe-core][PATCHv2] libva-initial: unbreak do_populate_sdk
-Date: Tue, 24 May 2022 17:50:21 +0200
-Message-Id: <20220524155021.416611-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=ulMb4syP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.47,
+ mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f47.google.com with SMTP id q15so679538edb.11
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 24 May 2022 09:46:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BkXaI8C8c01RCO5eweWvKRfQY3AZ97QsBmydMaJodsM=;
+        b=ulMb4syPWGNnDsaO/ItGsjph127cJE+g746q+zKS8lazrXXazHomTBMsfd+KAFyDmt
+         yJ3GpQiB3YFbz5p+sImEgsozp8BVsuJeyJjPEFIDHpNPnJRNZpbv00lQ5p5+l3n8uBER
+         D7VUnNTie2+hLlseH8FjkXLnhJA4X9Zl1qsxL7rWQ8F77WAWk0GwjbGDV/GoqwRaxlAZ
+         OlHje9knug0AKjrao4lOxXtSX1cgOP7ckNePM9pHvGZph8U3WJAh274zDCuBMM2bJQfE
+         GrHWXNPTGkoSKghzLGuSIcfmXLc5YZowZOlTtuRToSANMGn+DnfP0lhXGeI3wpI9qpRx
+         W89Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BkXaI8C8c01RCO5eweWvKRfQY3AZ97QsBmydMaJodsM=;
+        b=b6MNxcHID/OQIpZC6T9bRGjP9f4HvqR4NcC8fV1SIE9qnANAgPEAUCxecnCbOQ+ZE/
+         mzE82RrnoKkNTU35gHfBO4OkOV3y55zsI+rSn7yi5fC5x7HgAnF+OGyAEhKvFE2arth+
+         e1i/jxOdtXOqPG1AwxMmHkWdK1nZfD63SjcUEe+F9JYkzAgkITbgxJiPDwGz+FX5uaQH
+         PLBJ0d4R+isJRfJ8/W89qIrEMgJVx8FqcwNOA3YWSH389croIsyytnhXofu+GwQYp8iZ
+         wC6qk4MFCbFq6cA9ikRynYW7vQkf36pMEyDEA05W688Nx62fpFStrkOtvD/lFTTty2Cx
+         TF7Q==
+X-Gm-Message-State: AOAM5303uQXBB1tIkbrVRmmd+i0j6U1GcgJVAcOiug9gvHBIQDnSM/Qn
+	YeWlQp2ffhNBPme9c56zXTVR59AC4boH7M8E15Pj/Q==
+X-Google-Smtp-Source: 
+ ABdhPJw7btXPtLbvP/K5OE2RvXqWr+Z+yXbz0d4Uo4cikNGEArG4hf2yrH4s+03w0TJ2LZhk0k1y3XTj09kOXPbMX+Y=
+X-Received: by 2002:a05:6402:5409:b0:42a:a643:4eb8 with SMTP id
+ ev9-20020a056402540900b0042aa6434eb8mr30586600edb.71.1653410812354; Tue, 24
+ May 2022 09:46:52 -0700 (PDT)
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1653407428-0000BD0E-065A5B79/0/0 CLEAN NORMAL
-X-TOI-MSGID: 514895a8-c3d9-49c2-8ae4-7db0d9ec1387
-Content-Transfer-Encoding: quoted-printable
+References: <20220523152905.52130-1-flowergom@gmail.com>
+In-Reply-To: <20220523152905.52130-1-flowergom@gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Tue, 24 May 2022 06:46:40 -1000
+Message-ID: 
+ <CAOSpxdb=NmwBEYQCbNO3GCtqQCoKh4e2cLpAj47_15AzaHeonw@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCH 1/2] ncurses: add libncurses5 to
+ RPROVIDES
+To: Minjae Kim <flowergom@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 May 2022 15:50:38 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 24 May 2022 16:46:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166080
+ https://lists.openembedded.org/g/openembedded-core/message/166081
 
-Error:
- Problem: package libva-dev-2.14.0-r0.corei7_64 requires libva-initial-de=
-v, but none of the providers can be installed
-  - conflicting requests
-  - nothing provides libva-initial =3D 2.14.0-r0 needed by libva-initial-=
-dev-2.14.0-r0.corei7_64
-(try to add '--skip-broken' to skip uninstallable packages)
+On Mon, May 23, 2022 at 5:29 AM Minjae Kim <flowergom@gmail.com> wrote:
+>
+> The libncurses5 is generated by ncurse recipe.
+> To use this library as a dependency in another component,
+> It should be explicitly added as RPROVIDES.
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- meta/recipes-graphics/libva/libva-initial_2.14.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+This seems to be breaking the pkgman-non-rpm test on the autobuilder
+with the following error:
 
-diff --git a/meta/recipes-graphics/libva/libva-initial_2.14.0.bb b/meta/r=
-ecipes-graphics/libva/libva-initial_2.14.0.bb
-index 453096822f..b234797efb 100644
---- a/meta/recipes-graphics/libva/libva-initial_2.14.0.bb
-+++ b/meta/recipes-graphics/libva/libva-initial_2.14.0.bb
-@@ -6,3 +6,4 @@ do_install:append () {
- 	rm -f ${D}${libdir}/*.so*
- }
-=20
-+RDEPENDS:${PN}-dev =3D ""
---=20
-2.25.1
+WARNING: core-image-sato-dev-1.0-r0 do_rootfs: Unable to install
+packages. <command listing deleted for brevity>  returned 1:
+Collected errors:
+* Solver encountered 1 problem(s):
+* Problem 1/1:
+* - package ncurses-dev-6.2-r0.core2-32 requires ncurses-libpanel, but
+none of the providers can be installed
+*
+* Solution 1:
+* - do not ask to install a package providing ncurses-dev
 
+Links to logs for two failed builds:
+
+https://errors.yoctoproject.org/Errors/Details/657166/
+https://errors.yoctoproject.org/Errors/Details/657170/
+
+Steve
+> Signed-off-by:Minjae Kim <flowergom@gmail.com>
+> ---
+>  meta/recipes-core/ncurses/ncurses.inc | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+> index ee0b15ecf0..6f97b496c3 100644
+> --- a/meta/recipes-core/ncurses/ncurses.inc
+> +++ b/meta/recipes-core/ncurses/ncurses.inc
+> @@ -324,3 +324,5 @@ RRECOMMENDS_${PN}-libtinfo = "${PN}-terminfo-base"
+>  # each recipe specific sysroot. We can live without this, particularly
+>  # as many recipes may have native and target copies.
+>  SYSROOT_DIRS_remove = "${datadir}"
+> +
+> +RPROVIDES_${PN} += "libncurses5"
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#166036): https://lists.openembedded.org/g/openembedded-core/message/166036
+> Mute This Topic: https://lists.openembedded.org/mt/91291108/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
