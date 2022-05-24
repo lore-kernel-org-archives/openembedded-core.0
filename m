@@ -1,191 +1,113 @@
-Return-Path: <jiaqing.zhao@linux.intel.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CBDFC433F5
-	for <webhook@archiver.kernel.org>; Tue, 24 May 2022 08:16:05 +0000 (UTC)
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by mx.groups.io with SMTP id smtpd.web11.6998.1653380157685273108
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A46EC433FE
+	for <webhook@archiver.kernel.org>; Tue, 24 May 2022 08:34:25 +0000 (UTC)
+Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com
+ [85.158.142.2])
+ by mx.groups.io with SMTP id smtpd.web08.7039.1653381262342730638
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 May 2022 01:15:58 -0700
+ Tue, 24 May 2022 01:34:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=RonqYVk3;
- spf=none, err=permanent DNS error (domain: linux.intel.com,
- ip: 192.55.52.151, mailfrom: jiaqing.zhao@linux.intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653380157; x=1684916157;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=i7sPzOueqo4PJFqF42iGjgJx74XMq8XhuXwJ6fhRwUs=;
-  b=RonqYVk3sr/aH7uTPgLYPANePwnGMKaLrslRN58XosIRk14ajAZs/fR7
-   xP5Z29ObawxW6vEtszEYcBYj4xY0GhM/HIYHEwMgbaY8+UEIB/XcFzxYG
-   HCQDcJr/KUqLjQ5VEbo/dVvIs9Z4RZJBe/s/0jxfBtItdhmR98bXsndmb
-   FTQbn+NN+z2wQ6koqZITZydtWtlLzG1r3Hra9pv72oJjZEggdEMe5eECH
-   yxRxnSUbzee8OyF2hglejRBzpEToZ+4/CtEJWSU3rzhWAQEwjSw/6nfsx
-   0Zf4635zrlyhwiZpNalUxKi6RitjP6c0STN8Z45oMxRtOC4i9v1uS2Xe4
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10356"; a="253965494"
-X-IronPort-AV: E=Sophos;i="5.91,248,1647327600";
-   d="scan'208";a="253965494"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2022 01:15:57 -0700
-X-IronPort-AV: E=Sophos;i="5.91,248,1647327600";
-   d="scan'208";a="548366352"
-Received: from jiaqingz-mobl.ccr.corp.intel.com (HELO [10.249.169.113])
- ([10.249.169.113])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 May 2022 01:15:55 -0700
-Message-ID: <f59521ec-2108-1b2a-c1d4-9a5ea76b62b6@linux.intel.com>
-Date: Tue, 24 May 2022 16:15:53 +0800
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=md922t2y;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.2,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1653381260; i=@fujitsu.com;
+	bh=Cf1Ntx4fSNgk9L/o6BND+EQ6+G/3tcQNuZA7wYBijBs=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=md922t2y51Jj7HCQJbXfgOQ7PcDQSxP8bBDwgU6i8kDf+LW76JHf3gAhhWOhQdyPy
+	 nKFC16YCp2efajrwoFGWJDuI3HKDEXze8IP0CePobf0+DI4Ww20ElPyXUz13TXg3ko
+	 /nxLtsf315Xj7MzyVlygn6gJwZ9S98LoaPJaE0PruKgCiVyrqAXkgQD9G2YRs7niEP
+	 9HWMLLR1/nf4cVpC7SbNGdwXkAGO9psTLxv4NZYySHsc9lzl5Ny6aL/S00EOnhX1rr
+	 JL1ejRAyQ/uRQ9C6P/hagFE6mFq9C3HgmKHI8WLi8nsJQqZG5SFNDL1bBRHAeszj8R
+	 8Q3BjphW0C/Zw==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrLIsWRWlGSWpSXmKPExsViZ8ORqNs9oyf
+  JYO0OM4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePqs72MBS/YK2bPXsrcwDiVvYuRi0NI4DGj
+  xPb+g8wQznkmiee7mlkgnD2MEp+mHwNyODnYBNQkpt+6wdrFyMEhIqAncfWfKEiYWUBF4sXvH
+  nYQW1jASeLa5r9g5SwCqhJXn8xhArF5BRwl5qy9DxaXEFCQmPLwPTOIzQlUv+z0MUYQWwioZs
+  ryiewQ9YISJ2c+YYGYLyFx8MULZoheRYnZl5uh5lRIzJixjQ3CVpO4em4T8wRGwVlI2mchaV/
+  AyLSK0TapKDM9oyQ3MTNH19DAQNfQ0BRCW5rrJVbpJuqllurm5ReVZOga6iWWF+ulFhfrFVfm
+  Juek6OWllmxiBIZySnHK0R2Mx/b90jvEKMnBpCTKm9HSkyTEl5SfUpmRWJwRX1Sak1p8iFGGg
+  0NJgje7HSgnWJSanlqRlpkDjCuYtAQHj5IIb/t0oDRvcUFibnFmOkTqFKOilDhvF0hCACSRUZ
+  oH1waL5UuMslLCvIwMDAxCPAWpRbmZJajyrxjFORiVhHmjQKbwZOaVwE1/BbSYCWhxr0QnyOK
+  SRISUVAOT5dxH/PbmJ68dvNWrzZeoNvnLnaszmbqL2kIWvDS5tqG9PtqklDNp9mfte9U84fd3
+  tKV0xLzTOBA+8VPBFsf4pZ7dSdUmlctUsq0dnjzUZw4+rLnlVCl30yRTlvOT1lrXq8pez1PPi
+  eLeeeLD4TuMrMbXNNl+bPtx78P7wCS+gj+WGm5rs60tei91Zb0vZ5Aw+/tvHdfbyzf7Ctxev+
+  kqXuYnL8z19McJxc1Lvjst3HJRefKir07vvpsfaPnDYKzG96j5zEuDm08qV/sW8+St6pKQu57
+  inq5aukKtgS+V51r+29CidWUORUxX7wSr7GS9ai5Qneuw+2yplMOfTQv/zmUvn7ledbGI4RUe
+  WX0lluKMREMt5qLiRABIfnIWYAMAAA==
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-3.tower-745.messagelabs.com!1653381259!8505!1
+X-Originating-IP: [62.60.8.97]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.86.4; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 3778 invoked from network); 24 May 2022 08:34:19 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+  by server-3.tower-745.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 24 May 2022 08:34:19 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id E9E6110018E
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 24 May 2022 09:34:18 +0100 (BST)
+Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id A9F03100191
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 24 May 2022 09:34:18 +0100 (BST)
+Received: from localhost.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.32; Tue, 24 May 2022 09:34:09 +0100
+From: Wang Mingyu <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [PATCH] [OE-core] [PATCH] ninja: upgrade 1.10.2 -> 1.11.0
+Date: Tue, 24 May 2022 16:33:45 +0800
+Message-ID: <1653381225-6080-4-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1653381225-6080-1-git-send-email-wangmy@fujitsu.com>
+References: <1653381225-6080-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [oe-core] [PATCH] systemd: Correct
- 0001-pass-correct-parameters-to-getdents64.patch
-Content-Language: en-US
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
- OE-core <openembedded-core@lists.openembedded.org>
-References: <20220523133419.2216713-1-jiaqing.zhao@linux.intel.com>
- <CANNYZj-Mvf2vCdMQipyhPxnfBxB-rLniGBhckkj8ELOc+ZvLQA@mail.gmail.com>
- <37b2c6e6-6f5a-ea40-2349-b03f1d5599d1@linux.intel.com>
- <CAMKF1spzgWPD0HZLR9sbtffgF0WFD64VMjGmEzB9UQ4Tgu=JeQ@mail.gmail.com>
-From: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
-In-Reply-To: 
- <CAMKF1spzgWPD0HZLR9sbtffgF0WFD64VMjGmEzB9UQ4Tgu=JeQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 May 2022 08:16:05 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 24 May 2022 08:34:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166049
+ https://lists.openembedded.org/g/openembedded-core/message/166052
 
-On 2022-05-24 00:22, Khem Raj wrote:
-> On Mon, May 23, 2022 at 7:21 AM Jiaqing Zhao
-> <jiaqing.zhao@linux.intel.com> wrote:
->>
->> It's an musl-specific issue I believe.
->>
->> man page defines it as [1]
->>         ssize_t getdents64(int fd, void *dirp, size_t count)
->>
->> But in musl, it's an alias of getdents [2]
->>         int getdents(int fd, struct dirent *buf, size_t len)
->>
->> Shall we report to musl instead of systemd?
->>
->> [1] https://man7.org/linux/man-pages/man2/getdents.2.html
->> [2] https://elixir.bootlin.com/musl/v1.2.3/source/src/linux/getdents.c
->>
-> 
-> I think it is worth reporting at both places.
-> 
-> Here the data buffer is filled with packed dirent
-> structures, not regular dirent structure, therefore a void* argument
-> like glibc is doing
-> probably makes more sense. But we have to reason it with musl community as well.
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ .../recipes-devtools/ninja/{ninja_1.10.2.bb => ninja_1.11.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/ninja/{ninja_1.10.2.bb => ninja_1.11.0.bb} (94%)
 
-May I ask where the packed dirent structure is defined? I cannot find it.
-On my setup, both glibc and musl are not defining packed dirent.
+diff --git a/meta/recipes-devtools/ninja/ninja_1.10.2.bb b/meta/recipes-devtools/ninja/ninja_1.11.0.bb
+similarity index 94%
+rename from meta/recipes-devtools/ninja/ninja_1.10.2.bb
+rename to meta/recipes-devtools/ninja/ninja_1.11.0.bb
+index 7270321d6e..4ec361cc1a 100644
+--- a/meta/recipes-devtools/ninja/ninja_1.10.2.bb
++++ b/meta/recipes-devtools/ninja/ninja_1.11.0.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a81586a64ad4e476c791cda7e2f2c52e"
+ 
+ DEPENDS = "re2c-native ninja-native"
+ 
+-SRCREV = "e72d1d581c945c158ed68d9bc48911063022a2c6"
++SRCREV = "51edeeb063a82693573db43782d9e3733b2840e4"
+ 
+ SRC_URI = "git://github.com/ninja-build/ninja.git;branch=release;protocol=https"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
+-- 
+2.25.1
 
-I think the code in systemd is correct, but the getdents64 in musl does
-not meet the standard.
-
-I've submitted a musl patch at https://www.openwall.com/lists/musl/2022/05/24/3
-
->> On 2022-05-23 21:59, Alexander Kanavin wrote:
->>> Inappropriate still means the issue needs to be reported to upstream,
->>> can you do this please?
->>>
->>> Alex
->>>
->>> On Mon, 23 May 2022 at 15:34, Jiaqing Zhao <jiaqing.zhao@linux.intel.com> wrote:
->>>>
->>>> Current patch removes the uint8_t* cast in src/basic/recurse-dir.c:57
->>>> to fix musl build, but it changes the value here as pointer arithmetic
->>>> is type-depended in C. This patch corrects the behavior by adding an
->>>> extra cast to struct dirent*.
->>>>
->>>> Also changes the patch's Upstream-Status to Inappropriate as it's musl-
->>>> specific.
->>>>
->>>> Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
->>>> ---
->>>>  ...0001-pass-correct-parameters-to-getdents64.patch | 13 ++++++++-----
->>>>  1 file changed, 8 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch b/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch
->>>> index 028f50b243..9ebff9825a 100644
->>>> --- a/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch
->>>> +++ b/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch
->>>> @@ -1,4 +1,4 @@
->>>> -From 8c8899b4641125cfe8e7baee32e5c5f452545d2c Mon Sep 17 00:00:00 2001
->>>> +From dab02796780f00d689cc1c7a0ba81abe7c5f28d0 Mon Sep 17 00:00:00 2001
->>>>  From: Khem Raj <raj.khem@gmail.com>
->>>>  Date: Fri, 21 Jan 2022 15:15:11 -0800
->>>>  Subject: [PATCH] pass correct parameters to getdents64
->>>> @@ -12,16 +12,16 @@ Fixes
->>>>          n = getdents64(fd, &buffer, sizeof(buffer));
->>>>                             ^~~~~~~
->>>>
->>>> -Upstream-Status: Pending
->>>> +Upstream-Status: Inappropriate [musl specific]
->>>>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>>> -
->>>> +Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
->>>>  ---
->>>>   src/basic/recurse-dir.c | 2 +-
->>>>   src/basic/stat-util.c   | 2 +-
->>>>   2 files changed, 2 insertions(+), 2 deletions(-)
->>>>
->>>>  diff --git a/src/basic/recurse-dir.c b/src/basic/recurse-dir.c
->>>> -index efa1797b7b..797285e3be 100644
->>>> +index efa1797b7b..03ff10ebe9 100644
->>>>  --- a/src/basic/recurse-dir.c
->>>>  +++ b/src/basic/recurse-dir.c
->>>>  @@ -54,7 +54,7 @@ int readdir_all(int dir_fd,
->>>> @@ -29,7 +29,7 @@ index efa1797b7b..797285e3be 100644
->>>>                   assert(bs > de->buffer_size);
->>>>
->>>>  -                n = getdents64(dir_fd, (uint8_t*) de->buffer + de->buffer_size, bs - de->buffer_size);
->>>> -+                n = getdents64(dir_fd, de->buffer + de->buffer_size, bs - de->buffer_size);
->>>> ++                n = getdents64(dir_fd, (struct dirent*)((uint8_t*) de->buffer + de->buffer_size), bs - de->buffer_size);
->>>>                   if (n < 0)
->>>>                           return -errno;
->>>>                   if (n == 0)
->>>> @@ -46,3 +46,6 @@ index c2269844f8..7cd6c7fa42 100644
->>>>           if (n < 0)
->>>>                   return -errno;
->>>>
->>>> +--
->>>> +2.34.1
->>>> +
->>>> --
->>>> 2.34.1
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>>>
->>
->>
->>
->>
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#166039): https://lists.openembedded.org/g/openembedded-core/message/166039
->> Mute This Topic: https://lists.openembedded.org/mt/91288052/6787970
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [jiaqing.zhao@linux.intel.com]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
 
