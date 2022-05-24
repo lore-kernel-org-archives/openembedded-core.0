@@ -1,121 +1,94 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56217C433EF
-	for <webhook@archiver.kernel.org>; Tue, 24 May 2022 16:46:58 +0000 (UTC)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web12.11913.1653410814053149523
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74AEBC433EF
+	for <webhook@archiver.kernel.org>; Tue, 24 May 2022 17:18:18 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web10.12135.1653412694684123773
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 May 2022 09:46:54 -0700
+ Tue, 24 May 2022 10:18:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=ulMb4syP;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.47,
- mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f47.google.com with SMTP id q15so679538edb.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QPu0o5/M;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id y13so35970964eje.2
         for <openembedded-core@lists.openembedded.org>;
- Tue, 24 May 2022 09:46:53 -0700 (PDT)
+ Tue, 24 May 2022 10:18:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BkXaI8C8c01RCO5eweWvKRfQY3AZ97QsBmydMaJodsM=;
-        b=ulMb4syPWGNnDsaO/ItGsjph127cJE+g746q+zKS8lazrXXazHomTBMsfd+KAFyDmt
-         yJ3GpQiB3YFbz5p+sImEgsozp8BVsuJeyJjPEFIDHpNPnJRNZpbv00lQ5p5+l3n8uBER
-         D7VUnNTie2+hLlseH8FjkXLnhJA4X9Zl1qsxL7rWQ8F77WAWk0GwjbGDV/GoqwRaxlAZ
-         OlHje9knug0AKjrao4lOxXtSX1cgOP7ckNePM9pHvGZph8U3WJAh274zDCuBMM2bJQfE
-         GrHWXNPTGkoSKghzLGuSIcfmXLc5YZowZOlTtuRToSANMGn+DnfP0lhXGeI3wpI9qpRx
-         W89Q==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=9JEM8PQXC+auSmWfnwTpWepO9ElJt7hRolZRLOL0Gmg=;
+        b=QPu0o5/MekJ5b/E0jyw6a4K70Wael5+V78yKJ1B36Q7gnKMAQTEIdmf38cunH4Mvwn
+         DnOChpUZ5MNRZEbZ5dt7sH949VgGdBFNmi3IWjg4bs/NMYJ4L2QxvVG7OLzaiHr2G1Z5
+         TNVG1FNqBExrnvTyl3iA4oB2Dink0umx8lUAxddsQS8FaHFZi8kiUi8sM+XWsGbvdULh
+         NoU8ma5mHP7v5VTZZirvQsj+IPOHFBeF/YxqJpl/6z7MCOy8D/fptbyi48Stanr7sOqa
+         5jGuTDvTT3Hqu26LZ5RsbeJ4i3ZfXXTmyImEYj0p+gKxE1/ZNvv1F1tUHgOWdhyFkrxz
+         Pm0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BkXaI8C8c01RCO5eweWvKRfQY3AZ97QsBmydMaJodsM=;
-        b=b6MNxcHID/OQIpZC6T9bRGjP9f4HvqR4NcC8fV1SIE9qnANAgPEAUCxecnCbOQ+ZE/
-         mzE82RrnoKkNTU35gHfBO4OkOV3y55zsI+rSn7yi5fC5x7HgAnF+OGyAEhKvFE2arth+
-         e1i/jxOdtXOqPG1AwxMmHkWdK1nZfD63SjcUEe+F9JYkzAgkITbgxJiPDwGz+FX5uaQH
-         PLBJ0d4R+isJRfJ8/W89qIrEMgJVx8FqcwNOA3YWSH389croIsyytnhXofu+GwQYp8iZ
-         wC6qk4MFCbFq6cA9ikRynYW7vQkf36pMEyDEA05W688Nx62fpFStrkOtvD/lFTTty2Cx
-         TF7Q==
-X-Gm-Message-State: AOAM5303uQXBB1tIkbrVRmmd+i0j6U1GcgJVAcOiug9gvHBIQDnSM/Qn
-	YeWlQp2ffhNBPme9c56zXTVR59AC4boH7M8E15Pj/Q==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=9JEM8PQXC+auSmWfnwTpWepO9ElJt7hRolZRLOL0Gmg=;
+        b=F6+CtuM/NyCQzmwy8xxs8Knx6b1pA4awNnDJw/XJ9QxDbxCAvsvruh+n7WgjwSTuys
+         NC7i+N4NvNImrF2mywn27mhjHU81ZLTLtQSyLvU/7iMKQOGm33Jj/9kKDrRLpqRItpUV
+         kfGlpVqVkcegoiSSjPEWI39dYXewjequvF+vnjdkn9BaPBrCuct+EqXeg4eVVUUkz3P7
+         VuCclaEQwQk/d4LzxnVBdUhLg8sDtytTLyXXNnF98BiHShgpr7IfV+PcOSmnZYo+KOqI
+         sA4nxrboT1beGvhWvEw5hBJqXrBWw2GOj10Aqlx5EaYMV+6iuPRIO2mXbDmzigAV3Z+2
+         F4TQ==
+X-Gm-Message-State: AOAM532EqkG8qVxXxk2TvgBGUEQ1/Onq/BTEskpllNT1YzaULtMzT56G
+	v6lYM+VW0gkhzYXySxpLD7FgMFv5s00=
 X-Google-Smtp-Source: 
- ABdhPJw7btXPtLbvP/K5OE2RvXqWr+Z+yXbz0d4Uo4cikNGEArG4hf2yrH4s+03w0TJ2LZhk0k1y3XTj09kOXPbMX+Y=
-X-Received: by 2002:a05:6402:5409:b0:42a:a643:4eb8 with SMTP id
- ev9-20020a056402540900b0042aa6434eb8mr30586600edb.71.1653410812354; Tue, 24
- May 2022 09:46:52 -0700 (PDT)
+ ABdhPJwKf5l+CMhnfzTMRrXl7c/uwnr2FtiSfHW5gwzhqil5mI4Pwa0SHb9j54Gh8lMab8UHZ6moug==
+X-Received: by 2002:a17:906:1f52:b0:6f4:ebc2:da82 with SMTP id
+ d18-20020a1709061f5200b006f4ebc2da82mr26047063ejk.176.1653412693302;
+        Tue, 24 May 2022 10:18:13 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de.
+ (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
+        by smtp.gmail.com with ESMTPSA id
+ s7-20020a056402164700b0042617ba63b3sm9775578edx.61.2022.05.24.10.18.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 May 2022 10:18:12 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 2/3] bash: submit patch upstream
+Date: Tue, 24 May 2022 19:18:06 +0200
+Message-Id: <20220524171807.4029924-2-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220524171807.4029924-1-alex@linutronix.de>
+References: <20220524171807.4029924-1-alex@linutronix.de>
 MIME-Version: 1.0
-References: <20220523152905.52130-1-flowergom@gmail.com>
-In-Reply-To: <20220523152905.52130-1-flowergom@gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 24 May 2022 06:46:40 -1000
-Message-ID: 
- <CAOSpxdb=NmwBEYQCbNO3GCtqQCoKh4e2cLpAj47_15AzaHeonw@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH 1/2] ncurses: add libncurses5 to
- RPROVIDES
-To: Minjae Kim <flowergom@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 May 2022 16:46:58 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 24 May 2022 17:18:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166081
+ https://lists.openembedded.org/g/openembedded-core/message/166083
 
-On Mon, May 23, 2022 at 5:29 AM Minjae Kim <flowergom@gmail.com> wrote:
->
-> The libncurses5 is generated by ncurse recipe.
-> To use this library as a dependency in another component,
-> It should be explicitly added as RPROVIDES.
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/recipes-extended/bash/bash/makerace2.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This seems to be breaking the pkgman-non-rpm test on the autobuilder
-with the following error:
+diff --git a/meta/recipes-extended/bash/bash/makerace2.patch b/meta/recipes-extended/bash/bash/makerace2.patch
+index 43cdd04157..abb51a5086 100644
+--- a/meta/recipes-extended/bash/bash/makerace2.patch
++++ b/meta/recipes-extended/bash/bash/makerace2.patch
+@@ -11,7 +11,7 @@ moved or are being rewritten.
+ 
+ See [YOCTO #14227]
+ 
+-Upstream-Status: Pending
++Upstream-Status: Submitted [https://savannah.gnu.org/patch/index.php?10210]
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ 
+ Index: bash-5.1.8/builtins/Makefile.in
+-- 
+2.30.2
 
-WARNING: core-image-sato-dev-1.0-r0 do_rootfs: Unable to install
-packages. <command listing deleted for brevity>  returned 1:
-Collected errors:
-* Solver encountered 1 problem(s):
-* Problem 1/1:
-* - package ncurses-dev-6.2-r0.core2-32 requires ncurses-libpanel, but
-none of the providers can be installed
-*
-* Solution 1:
-* - do not ask to install a package providing ncurses-dev
-
-Links to logs for two failed builds:
-
-https://errors.yoctoproject.org/Errors/Details/657166/
-https://errors.yoctoproject.org/Errors/Details/657170/
-
-Steve
-> Signed-off-by:Minjae Kim <flowergom@gmail.com>
-> ---
->  meta/recipes-core/ncurses/ncurses.inc | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-> index ee0b15ecf0..6f97b496c3 100644
-> --- a/meta/recipes-core/ncurses/ncurses.inc
-> +++ b/meta/recipes-core/ncurses/ncurses.inc
-> @@ -324,3 +324,5 @@ RRECOMMENDS_${PN}-libtinfo = "${PN}-terminfo-base"
->  # each recipe specific sysroot. We can live without this, particularly
->  # as many recipes may have native and target copies.
->  SYSROOT_DIRS_remove = "${datadir}"
-> +
-> +RPROVIDES_${PN} += "libncurses5"
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#166036): https://lists.openembedded.org/g/openembedded-core/message/166036
-> Mute This Topic: https://lists.openembedded.org/mt/91291108/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
 
