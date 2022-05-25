@@ -1,113 +1,161 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D849C433FE
-	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 06:46:24 +0000 (UTC)
-Received: from mail3.bemta32.messagelabs.com (mail3.bemta32.messagelabs.com
- [195.245.230.18])
- by mx.groups.io with SMTP id smtpd.web12.3868.1653461174052894137
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2961C433F5
+	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 07:57:54 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web11.4189.1653465473682361784
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 May 2022 23:46:14 -0700
+ Wed, 25 May 2022 00:57:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=W5Qh0v6R;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.18,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1653461172; i=@fujitsu.com;
-	bh=8g8PEnk+x5rrim5DwzIeKzboFTMNVy4eNk6AhZBvj0s=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=W5Qh0v6RbLDZEJYp0XDEWiSpXvSW8+w62Q+FwdGun9l/tVWRbf3oiQsgNvcE+hpZZ
-	 54nIUnInzg0AAXX3s5oNbfH77/gQBqjxi7O9+kVpoQQPMjM8E8WXs3Ps4aOkLoeLgo
-	 ftgkXCitWH2x1ZfWYk3522a64a2QtfkhoFmeWt3EpGlpMD7Cc7Xg0lJMOaWF0SCMKQ
-	 +XqcQN37j1I9h3jsqXaRwnbHy5nS8aHEiGR/U+XOQRsDjb/3ugubvk3CWl5avM+k7y
-	 4xu22IC6umoPpgFFV/O46C2BUzpXGx5eYQ0QLr+PfeA5KozZnC1vCPeEgl2LE6FIRl
-	 BmuY0tnbMAXvA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGIsWRWlGSWpSXmKPExsViZ8ORqLv5Qm+
-  SwZbtahZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa0bLkqusBXs4K2a/ucDcwHiSo4uRi0NI4DGj
-  xMsn09ghnPNMEg0ty5ghnD2MEv2z9wBlODnYBNQkpt+6wdrFyMEhIqAncfWfKEiYWUBF4sXvH
-  rASYQEnie5JzUwgNouAqsTZjy8YQWxeoPjPD/eYQWwJAQWJKQ/fg9mcAs4Sr3a+ZgWxhYBq3p
-  +/wwZRLyhxcuYTFoj5EhIHX7yA6lWUmH25mQXCrpCYMWMbG4StJnH13CbmCYyCs5C0z0LSvoC
-  RaRWjVVJRZnpGSW5iZo6uoYGBrqGhqS6QNDXRS6zSTdRLLdUtTy0u0TXUSywv1kstLtYrrsxN
-  zknRy0st2cQIDOKUYoZZOxhn9f3UO8QoycGkJMp7YkNvkhBfUn5KZUZicUZ8UWlOavEhRhkOD
-  iUJ3uTzQDnBotT01Iq0zBxgRMGkJTh4lER4f4CkeYsLEnOLM9MhUqcYdTmOff2+n1mIJS8/L1
-  VKnPcbSJEASFFGaR7cCFh0X2KUlRLmZWRgYBDiKUgtys0sQZV/xSjOwagkzMsCTBVCPJl5JXC
-  bXgEdwQR0RD4v2BEliQgpqQamvJjtB6bqum6c+l6sXTPr0MQ5iTwM4bNyyjV/zXjNGM15xHzj
-  8YvXl2abat29YrhT1ivc3/iHoLVnNW+iRUqQ1krGePX++ZnnQi+qPF4e3vGobxenMI8gf5rEh
-  mMXBZ7N1VgidTz4RlJoYNmFk/LetVdOek3tyj/AJX7u66pXx023M73jelzLdr5n7hwPeT81kz
-  OWCh9iXFI6JnZ0fzSWn9hjclHovlsjq/2WJSUTLB8dsPBbw3HerL/kj3iZlHK1W/5m4YAJutn
-  FG4OULKe8XC5xKZvlEtPtUn97R5mKrsV8SrfFf+YVbp92RV1FMO+B4v7QA6ea/zmaFgYLOEiy
-  rOj+asFev1Zk7sLnW5RYijMSDbWYi4oTAZLymkppAwAA
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-24.tower-585.messagelabs.com!1653461171!331308!1
-X-Originating-IP: [62.60.8.97]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.86.4; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 31450 invoked from network); 25 May 2022 06:46:11 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-24.tower-585.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 25 May 2022 06:46:11 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id F2BD510019A
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 25 May 2022 07:46:10 +0100 (BST)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id CABD910004E
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 25 May 2022 07:46:10 +0100 (BST)
-Received: from localhost.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Wed, 25 May 2022 07:45:49 +0100
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-numpy: upgrade 1.22.3 -> 1.22.4
-Date: Wed, 25 May 2022 14:45:31 +0800
-Message-ID: <1653461133-12463-2-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1653461133-12463-1-git-send-email-wangmy@fujitsu.com>
-References: <1653461133-12463-1-git-send-email-wangmy@fujitsu.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=FZ9fiLHX;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201,
+ mailfrom: luca.ceresoli@bootlin.com)
+Received: (Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 910411BF207;
+	Wed, 25 May 2022 07:57:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1653465471;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PexEKvDBMXLOEbWQucTdq5qVCb9y+hKh7fDMyypz/3M=;
+	b=FZ9fiLHX0WY4XosKUCxCxjeVWgaGQT/MZeoVTl7VWEMVjLGL/vRYe8vFBewFSAVnc3e59t
+	SflExrt9m3L1f2tYYxK6Zlo0S1qeWDLiPfBUqXIMfqirYoJbvq/s7RAAxyKKMSrnis3ldR
+	JFqzXj5CBPlg6+j4ntxTO/V8JUNHcSOepumm8MNuwzXZX9ZrJMYl3mOQtQMcsaiVZyAeoa
+	kxWhi/lLfpY7PtcCOS0GxNqVa3EgI1EH/u4GscZsr4ftPezyMc7rxbe69xPLq9vkN7Tb3A
+	bsHTaLK/VmbPM2dSX40Bd02YCu8DaEdI4BL3X3ZHyukwNh9sfHG7urD50BAaKQ==
+Date: Wed, 25 May 2022 09:57:48 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Pgowda" <pgowda.cve@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+ richard.purdie@linuxfoundation.org, rwmacleod@gmail.com,
+ alex.kanavin@gmail.com, vinay.m.engg@gmail.com
+Subject: Re: [OE-core] [PATCH v6] Rust Oe-Selftest implementation
+Message-ID: <20220525095748.4e0c522c@melee>
+In-Reply-To: <20220525043258.8949-1-pgowda.cve@gmail.com>
+References: <20220524225603.50d60963@melee>
+	<20220525043258.8949-1-pgowda.cve@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 May 2022 06:46:24 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 25 May 2022 07:57:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166102
+ https://lists.openembedded.org/g/openembedded-core/message/166104
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../python/{python3-numpy_1.22.3.bb => python3-numpy_1.22.4.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-numpy_1.22.3.bb => python3-numpy_1.22.4.bb} (96%)
+Pgowda,
 
-diff --git a/meta/recipes-devtools/python/python3-numpy_1.22.3.bb b/meta/recipes-devtools/python/python3-numpy_1.22.4.bb
-similarity index 96%
-rename from meta/recipes-devtools/python/python3-numpy_1.22.3.bb
-rename to meta/recipes-devtools/python/python3-numpy_1.22.4.bb
-index b5b1c4e714..7aa473a7e9 100644
---- a/meta/recipes-devtools/python/python3-numpy_1.22.3.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_1.22.4.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${S
-            file://0001-numpy-core-Define-RISCV-32-support.patch \
-            file://run-ptest \
-            "
--SRC_URI[sha256sum] = "a906c0b4301a3d62ccf66d058fe779a65c1c34f6719ef2058f96e1856f48bca5"
-+SRC_URI[sha256sum] = "b4308198d0e41efaa108e57d69973398439c7299a9d551680cdd603cf6d20709"
- 
- UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+Il giorno Tue, 24 May 2022 21:32:58 -0700
+"Pgowda" <pgowda.cve@gmail.com> ha scritto:
+
+> The patch implements Rust testing framework similar to other selftest,
+> specifically the gcc selftest in OE. It uses the client and server
+> based method to test the binaries for cross-target on the image.
+> The test framework is a wrapper around the Rust build system as ./x.py
+> test.
+> It tests many functionalities of Rust distribution like tools,
+> documentation, libraries, packages, tools, Cargo, Crater etc.
+> Please refer the following link for detailed description of Rust
+> testing:-
+> https://rustc-dev-guide.rust-lang.org/tests/intro.html#tool-tests
+> 
+> To support the rust tests in oe-core, the following functions were
+> added:-
+> setup_cargo_environment(): Build bootstrap and some early stage tools.
+> do_rust_setup_snapshot(): Install the snapshot version of rust
+> binaries. do_configure(): To generate config.toml
+> do_compile(): To build "remote-test-server" for qemu target image.
+> 
+> Approximate Number of Tests Run in the Rust Testsuite :- 18000
+> Approximate Number of Tests that FAIL in bitbake environment :-
+> 100-150 Normally majority of the testcases are present in major
+> folder "test/" It contributes to more than 80% of the testcases
+> present in Rust test framework. These tests pass as expected on any
+> Rust versions without much fuss. The tests that fail are of less
+> important and contribute to less than 2% of the total testcases.
+> These minor tests are observed to work on some versions and fail on
+> others. They have to be added, ignored or excluded for different
+> versions as per the behavior. These tests have been ignored or
+> excluded in the Rust selftest environment to generate success of
+> completing the testsuite.
+> 
+> These tests work in parallel mode even in the skipped test mode as
+> expected. Although the patch to disable tests is large, it is very
+> simple in that it only disables tests. When updating to a newer
+> version of Rust, the patch can usually be ported in a day.
+> 
+> Signed-off-by: pgowda <pgowda.cve@gmail.com>
+> Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+> ---
+>  meta/conf/distro/include/maintainers.inc      |   1 +
+>  meta/lib/oeqa/selftest/cases/rust.py          |  57 +++
+>  meta/recipes-devtools/rust/rust-common.inc    |   1 -
+>  meta/recipes-devtools/rust/rust-testsuite.inc | 163 +++++++
+>  .../rust-testsuite/rust-oe-selftest.patch     | 417
+> ++++++++++++++++++ .../rust/rust-testsuite_1.60.0.bb             |
+> 3 + 6 files changed, 641 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/lib/oeqa/selftest/cases/rust.py
+>  create mode 100644 meta/recipes-devtools/rust/rust-testsuite.inc
+>  create mode 100644
+> meta/recipes-devtools/rust/rust-testsuite/rust-oe-selftest.patch
+> create mode 100644 meta/recipes-devtools/rust/rust-testsuite_1.60.0.bb
+> 
+> diff --git a/meta/conf/distro/include/maintainers.inc
+> b/meta/conf/distro/include/maintainers.inc index
+> 3990d1d507..cecb02b1c6 100644 ---
+> a/meta/conf/distro/include/maintainers.inc +++
+> b/meta/conf/distro/include/maintainers.inc @@ -719,6 +719,7 @@
+> RECIPE_MAINTAINER:pn-rust-crosssdk-${SDK_ARCH}-glibc = "Randy MacLeod
+> <Randy.Mac
+> RECIPE_MAINTAINER:pn-rust-cross-canadian-${TRANSLATED_TARGET_ARCH} =
+> "Randy MacLeod <Randy.MacLeod@windriver.com>"
+> RECIPE_MAINTAINER:pn-rust-hello-world = "Randy MacLeod
+> <Randy.MacLeod@windriver.com>" RECIPE_MAINTAINER:pn-rust-llvm =
+> "Randy MacLeod <Randy.MacLeod@windriver.com>"
+> +RECIPE_MAINTAINER:pn-rust-testsuite = "Randy MacLeod
+> <Randy.MacLeod@windriver.com>"
+> RECIPE_MAINTAINER:pn-rust-tools-cross-canadian-${TRANSLATED_TARGET_ARCH}
+> = "Randy MacLeod <Randy.MacLeod@windriver.com>"
+> RECIPE_MAINTAINER:pn-rxvt-unicode = "Unassigned
+> <unassigned@yoctoproject.org>" RECIPE_MAINTAINER:pn-sato-screenshot =
+> "Ross Burton <ross.burton@arm.com>" diff --git
+> a/meta/lib/oeqa/selftest/cases/rust.py
+> b/meta/lib/oeqa/selftest/cases/rust.py new file mode 100644 index
+> 0000000000..a37e3e37c5 --- /dev/null +++
+> b/meta/lib/oeqa/selftest/cases/rust.py @@ -0,0 +1,57 @@ +#
+> SPDX-License-Identifier: MIT +import os +import subprocess +from
+> oeqa.core.decorator import OETestTag +from oeqa.core.case import
+> OEPTestResultTestCase +from oeqa.selftest.case import
+> OESelftestTestCase +from oeqa.utils.commands import runCmd, bitbake,
+> get_bb_var, get_bb_vars, runqemu, Command +from oeqa.utils.sshcontrol
+> import SSHControl + +# Total time taken for testing is of about 2hr
+> 20min, with PARALLEL_MAKE set to 40 number of jobs. +class
+> RustSelfTestBase(OESelftestTestCase, OEPTestResultTestCase): +
+> +       def run_check_emulated(self, *args, **kwargs):
+> +               # build remote-test-server before image build
+
+Weird indentation here, 7 spaces for level 1, 15 for level 2... v5 had
+a much cleaner tab-based indentation. Is it possible that you
+manipulated the patch manually? It's a bad idea, I hurt myself a few
+times when I used to do that! :) I recommend using plain 'git
+format-patch' / 'git send-email'.
+
+You should resend with a 4-spaces indentation, which is the Python
+standard. However I'm taking the patch anyway for testing, so it's
+more efficient if you just wait for the test results before resending,
+so you can also include any bugfixes (if needed) in your next iteration.
+
+Thanks!
 -- 
-2.25.1
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
