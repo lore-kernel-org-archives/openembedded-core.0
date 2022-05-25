@@ -1,150 +1,254 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BE1BC433EF
-	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 18:58:38 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web09.10846.1653505113637551692
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C1DBC433EF
+	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 19:43:38 +0000 (UTC)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
+ [209.85.219.172])
+ by mx.groups.io with SMTP id smtpd.web09.11391.1653507809208041089
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 May 2022 11:58:34 -0700
+ Wed, 25 May 2022 12:43:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LD42fc99;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id e28so30731396wra.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=mqyHCuyd;
+ spf=pass (domain: gmail.com, ip: 209.85.219.172,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-yb1-f172.google.com with SMTP id v26so9723245ybd.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 25 May 2022 11:58:33 -0700 (PDT)
+ Wed, 25 May 2022 12:43:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=1DN6/fWg8yAGuCN2bLSVK+b8bBTloloqqiLJrZvCceA=;
-        b=LD42fc994inH0vPZ2JkhEb0lqSEhV123tK73QYqzAYKLnLIBJCWGRvyetrq3pM+zRG
-         kOXNvIfvObxlE5NKfcsx/YBWrwxOzgicftHJZJj+ZrMXYhowqQsN058EjSeczwZgP65a
-         8dotR4JzC5ygTRT8KisxgSmJxWx+rSWzK0IS4=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GNjHQzujbr4YTFRU9uslDUkBqYLGxItcaMBMoPfJyTw=;
+        b=mqyHCuydVsjjVDqzImF3TJctFHCmtYHys5NBmLtwA0RWOO9JqhQiZfDNi+ifdb+Onx
+         icRoIvUXGt67MJbEznCJD45b3zgnahV+PWoCbcfWFoJ4oeOjP5cWzk0dpF760MsINSJJ
+         nZ1F7DViQTxRuvK06QbIKVS5rxLsyG173SW+peVNwUFvUCP3PkvD4pWaXB2lD7llhmqj
+         A5goFla/6EXhCBl3XJiIrP14eszfs3RUEcBmnL9xqpAvQ+iUtVtf8Ug4vZfJ6qD3H5CO
+         PaTOe125jPIRmqTuIlhkGmO85D0pOSvXKxwS7N2C1KrizE4AKEohv1kOf43+Xf69n1it
+         6kXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=1DN6/fWg8yAGuCN2bLSVK+b8bBTloloqqiLJrZvCceA=;
-        b=zKkhRW4o5TwqH+qy39XUh13yzs60QPj2nCLFUMdqL1xPdlHiy9nhYmazRYdILd3ECK
-         bXsku3d9vVcRvE3n3JKPa1qkmJVONJ6Z+kqisJWVS8v0KDFJkK/dJdzKs3NtwzsmacrO
-         /EGr+JUmLA/d+YR7SbyEbmNTjUO1wwXR3CydTiELNnPQsGYxCWMNWj4870gw42vTn8BB
-         Bw+7QBb1APjz/y6JQ2VXsy5mbHmSX4Kxfh0JtgWFiWkKeazPDozKWvjkAIS+VZKswfEc
-         zjxFmsFpBG2DZ9YFLCejxLx2x8Lp40inA0/BjSapUuuiNAjGB4DHverrFbbQL9nE3o3E
-         aYxA==
-X-Gm-Message-State: AOAM530pZN70h6LYN03nTe92ZuUL4eig6AgbSsaO3f3wLcME4RAIkM8Z
-	aBiBAFm2NLeYW4COQTc8Ewdu6w==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GNjHQzujbr4YTFRU9uslDUkBqYLGxItcaMBMoPfJyTw=;
+        b=GcgqXrTsZgEJ/9JoeHa3dsN+mvUu00vjy+2NI4lgtytcPTHstntjLMZ31krbAu1YHb
+         r2ofOhei+ro9Meou5g7HRJmgSNNlPxn1TePVlMigxUNvaEcJdakVd9tlAoHKseBirhgf
+         kGMM+Wgk3JKg58jcaSX41SwyxXwGao/KmIVMUFCABpj5fa1MrsfqIKo85bXT2/wpBQnR
+         rKTPM7it/XvDBWfBxUJ5zxJUgfrjDQ/B1s6FS9/gSDqCwhoyapRFvOEJFF7HJUTy6Mf+
+         3l3s1IDJgOQMYr+LwZxn8GQ+DxsVsFAeq0bAOeksIgNDNVSkdFrmBly+FIDFAbOpQZQE
+         JT5Q==
+X-Gm-Message-State: AOAM531VZda2WjHkJpsVSKrfsm+uX2HzyCLgZAsh0nNKwGJiTB50i8cd
+	5yBBMAqO3Qj8ofOEnLLdzVRHsQCd7cFqLl/iBoQ=
 X-Google-Smtp-Source: 
- ABdhPJwiXaQVOuse9l4ra9hYCwv0Rw+ldOar+IaQbkFNk+J9fDKgW+QuU4NG3c2AQczxesejJqBDmg==
-X-Received: by 2002:a5d:4d06:0:b0:210:b6:7af0 with SMTP id
- z6-20020a5d4d06000000b0021000b67af0mr3305224wrt.258.1653505112093;
-        Wed, 25 May 2022 11:58:32 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:5808:e02b:90d6:3f52?
- ([2001:8b0:aba:5f3c:5808:e02b:90d6:3f52])
-        by smtp.gmail.com with ESMTPSA id
- m23-20020a05600c3b1700b0039749256d74sm3172387wms.2.2022.05.25.11.58.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 May 2022 11:58:31 -0700 (PDT)
-Message-ID: 
- <c015ab079801775fe75fc8b255c6d66172473393.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] go.bbclass: fix path to linker in native
- Go builds
-From: richard.purdie@linuxfoundation.org
-To: Dmitry Baryshkov <dbaryshkov@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Cc: dmitry.baryshkov@linaro.org
-Date: Wed, 25 May 2022 19:58:30 +0100
-In-Reply-To: <20220525175627.829194-1-dmitry.baryshkov@linaro.org>
-References: <20220525175627.829194-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0-1ubuntu1 
+ ABdhPJyAFeSSQ/uHAwmT6co6HCEfvwVKvTChjqOnJTHJWCI80M8v62qG3z7FGFvRCUkcMUAquwPY155EUviMaZoxlFs=
+X-Received: by 2002:a05:6902:2c6:b0:64f:5b77:6869 with SMTP id
+ w6-20020a05690202c600b0064f5b776869mr27000628ybh.494.1653507808223; Wed, 25
+ May 2022 12:43:28 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220525184852.3999906-1-Martin.Jansa@gmail.com>
+ <20220525184852.3999906-2-Martin.Jansa@gmail.com>
+In-Reply-To: <20220525184852.3999906-2-Martin.Jansa@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 25 May 2022 12:43:02 -0700
+Message-ID: 
+ <CAMKF1soDveFJZnqf2jBXT4YJGED=KuB_HrFFgVGDdWGGxrFgVw@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone][PATCH 2/2] gcc: backport fix for PR96204
+To: Martin Jansa <Martin.Jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	Steve Sakoman <steve@sakoman.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 May 2022 18:58:38 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 25 May 2022 19:43:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166167
+ https://lists.openembedded.org/g/openembedded-core/message/166168
 
-On Wed, 2022-05-25 at 20:56 +0300, Dmitry Baryshkov wrote:
-> Building native Go tools results in the tool pointing to the wrong
-> location of dynamic linker (see below). The linker is looked up in the
-> temporary dir, which can be removed if rm_work is inherited. This
-> results in being unable to execute the program with the 'No such file or
-> directory' error. Override linker specificiation for native recipes (and
-> let Go build environment to pick up a correct one on it's own).
->=20
-> Without this patch:
->=20
-> $ ldd tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/g=
-o-md2man
-> 	linux-vdso.so.1 (0x00007ffe945ec000)
-> 	libc.so.6 =3D> /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3a7490e000)
-> 	/home/lumag/Projects/RPB/build-rpb/tmp-rpb-glibc/work/x86_64-linux/go-md=
-2man-native/1.0.10+gitAUTOINC+f79a8a8ca6-r0/recipe-sysroot-native/usr/lib/l=
-d-linux-x86-64.so.2 =3D> /lib64/ld-linux-x86-64.so.2 (0x00007f3a74d13000)
-> $ tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md=
-2man  --help
-> -bash: tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/=
-go-md2man: No such file or directory
->=20
-> With the patch
->=20
-> $ ldd tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/g=
-o-md2man
-> 	linux-vdso.so.1 (0x00007ffd19dbf000)
-> 	libc.so.6 =3D> /lib/x86_64-linux-gnu/libc.so.6 (0x00007f2d44181000)
-> 	/lib64/ld-linux-x86-64.so.2 (0x00007f2d44586000)
-> $ tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md=
-2man  --help
-> Usage of tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bi=
-n/go-md2man:
->   -in string
-> 	Path to file to be processed (default: stdin)
->   -out string
-> 	Path to output processed file (default: stdout)
->=20
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Can you also ask gcc bugzilla for gcc-11 backport ? so we get it into 11.4
+
+On Wed, May 25, 2022 at 11:49 AM Martin Jansa <Martin.Jansa@gmail.com> wrote:
+>
+> * https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96204
+> * with gcc-11 I'm seeing some components failing with:
+>
+>   lib32-recipe-sysroot/usr/include/gtest/gtest-printers.h:290:36: error: no matching function for call to 'testing::internal::internal_stream_operator_without_lexical_name_lookup::StreamPrinter::PrintValue(const bluetooth::Uuid&, std::nullptr_t)'
+>   290 |     T, decltype(Printer::PrintValue(std::declval<const T&>(), nullptr)),
+>       |                 ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   ...
+>   lib32-recipe-sysroot/usr/include/gtest/gtest-printers.h:212:33: error: no match for 'operator<<' (operand types are 'std::basic_ostream<char>' and 'const bluetooth::Uuid')
+>   211 |             typename = decltype(std::declval<std::ostream&>()
+>       |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   212 |                                 << std::declval<const T&>())>
+>       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   ...
+>   lib32-recipe-sysroot/usr/include/c++/12.0.0/ostream:747:5: error: no type named 'type' in 'struct std::enable_if<false, void>'
+>
+>   which built fine with gcc-10 and builds fine again with gcc-12,
+>   this backported patch fixes it for gcc-11 as well
+>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 > ---
-> Changes since v1:
->  - Explicitly use UNINATIVE_LOADER if uninative is enabled. This is not
->    required (as the binaries will be patches anyway), but makes things
->    more obvious.
-> ---
->  meta/classes/go.bbclass | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-> index 1a9a0bc1d426..da3cab5da5bf 100644
-> --- a/meta/classes/go.bbclass
-> +++ b/meta/classes/go.bbclass
-> @@ -45,7 +45,9 @@ GO_LINKMODE ?=3D ""
->  GO_LINKMODE:class-nativesdk =3D "--linkmode=3Dexternal"
->  GO_LINKMODE:class-native =3D "--linkmode=3Dexternal"
->  GO_EXTRA_LDFLAGS ?=3D ""
-> -GO_LDFLAGS ?=3D '-ldflags=3D"${GO_RPATH} ${GO_LINKMODE} -I ${@get_linuxl=
-oader(d)} ${GO_EXTRA_LDFLAGS} -extldflags '${GO_EXTLDFLAGS}'"'
-> +GO_LINUXLOADER ?=3D "-I ${@get_linuxloader(d)}"
-> +GO_LINUXLOADER:class-native =3D "${@ "-I " + d.getVar('UNINATIVE_LOADER'=
-) if bb.data.inherits_class('uninative', d) else '' }"
-> +GO_LDFLAGS ?=3D '-ldflags=3D"${GO_RPATH} ${GO_LINKMODE} ${GO_LINUXLOADER=
-} ${GO_EXTRA_LDFLAGS} -extldflags '${GO_EXTLDFLAGS}'"'
-
-This will result in taskhash changes between uninative and non-
-uninative builds and I suspect will trip up some of the selftests as a
-result.
-
-I think your original patch is ok, we just need to mention it is for
-the non-uninative case in the commit message as that explains why
-people haven't seen some of the issues. That did confuse me initially!
-
-Cheers,
-
-Richard
-
-
+>  meta/recipes-devtools/gcc/gcc-11.3.inc        |   1 +
+>  ...during-partial-spec-matching-PR96204.patch | 126 ++++++++++++++++++
+>  2 files changed, 127 insertions(+)
+>  create mode 100644 meta/recipes-devtools/gcc/gcc/0030-c-access-scope-during-partial-spec-matching-PR96204.patch
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-11.3.inc b/meta/recipes-devtools/gcc/gcc-11.3.inc
+> index b1ef9d25af..ac2bafde7a 100644
+> --- a/meta/recipes-devtools/gcc/gcc-11.3.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-11.3.inc
+> @@ -59,6 +59,7 @@ SRC_URI = "\
+>             file://0027-libatomic-Do-not-enforce-march-on-aarch64.patch \
+>             file://0028-debug-101473-apply-debug-prefix-maps-before-checksum.patch \
+>             file://0029-Fix-install-path-of-linux64.h.patch \
+> +           file://0030-c-access-scope-during-partial-spec-matching-PR96204.patch \
+>             \
+>             file://0001-CVE-2021-42574.patch \
+>             file://0002-CVE-2021-42574.patch \
+> diff --git a/meta/recipes-devtools/gcc/gcc/0030-c-access-scope-during-partial-spec-matching-PR96204.patch b/meta/recipes-devtools/gcc/gcc/0030-c-access-scope-during-partial-spec-matching-PR96204.patch
+> new file mode 100644
+> index 0000000000..9d80c875f0
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc/0030-c-access-scope-during-partial-spec-matching-PR96204.patch
+> @@ -0,0 +1,126 @@
+> +From 9f26e34a5a9614a5b66f146752ecef9ea67b3e2d Mon Sep 17 00:00:00 2001
+> +From: Patrick Palka <ppalka@redhat.com>
+> +Date: Sat, 26 Jun 2021 11:05:54 -0400
+> +Subject: [PATCH] c++: access scope during partial spec matching [PR96204]
+> +
+> +Here, when determining whether the partial specialization matches
+> +has_type_member<Child>, we do so from the scope of where the template-id
+> +appears rather than from the scope of the specialization, and this
+> +causes us to select the partial specialization (since Child::type is
+> +accessible from Parent).  When we later instantiate this partial
+> +specialization, we've entered the scope of the specialization and so
+> +substitution into e.g. the DECL_CONTEXT of has_type_member::value fails
+> +with access errors since the friend declaration that we relied on to
+> +choose the partial specialization no longer applies.
+> +
+> +It seems the appropriate access scope from which to perform partial
+> +specialization matching is the specialization itself (similar to how
+> +we check access of base-clauses), which is what this patch implements.
+> +
+> +       PR c++/96204
+> +
+> +gcc/cp/ChangeLog:
+> +
+> +       * pt.c (instantiate_class_template_1): Enter the scope of the
+> +       type when calling most_specialized_partial_spec.
+> +
+> +gcc/testsuite/ChangeLog:
+> +
+> +       * g++.dg/template/access40.C: New test.
+> +       * g++.dg/template/access40a.C: New test.
+> +
+> +Upstream-Status: Backport [12.1 https://github.com/gcc-mirror/gcc/commit/9f26e34a5a9614a5b66f146752ecef9ea67b3e2d]
+> +
+> +---
+> + gcc/cp/pt.c                               |  5 +++-
+> + gcc/testsuite/g++.dg/template/access40.C  | 28 +++++++++++++++++++++++
+> + gcc/testsuite/g++.dg/template/access40a.C | 28 +++++++++++++++++++++++
+> + 3 files changed, 60 insertions(+), 1 deletion(-)
+> + create mode 100644 gcc/testsuite/g++.dg/template/access40.C
+> + create mode 100644 gcc/testsuite/g++.dg/template/access40a.C
+> +
+> +diff --git a/gcc/cp/pt.c b/gcc/cp/pt.c
+> +index e5a2a2cd525..f2039e09cd7 100644
+> +--- a/gcc/cp/pt.c
+> ++++ b/gcc/cp/pt.c
+> +@@ -11769,8 +11769,11 @@ instantiate_class_template_1 (tree type)
+> +   deferring_access_check_sentinel acs (dk_no_deferred);
+> +
+> +   /* Determine what specialization of the original template to
+> +-     instantiate.  */
+> ++     instantiate; do this relative to the scope of the class for
+> ++     sake of access checking.  */
+> ++  push_nested_class (type);
+> +   t = most_specialized_partial_spec (type, tf_warning_or_error);
+> ++  pop_nested_class ();
+> +   if (t == error_mark_node)
+> +     return error_mark_node;
+> +   else if (t)
+> +diff --git a/gcc/testsuite/g++.dg/template/access40.C b/gcc/testsuite/g++.dg/template/access40.C
+> +new file mode 100644
+> +index 00000000000..d035e99e462
+> +--- /dev/null
+> ++++ b/gcc/testsuite/g++.dg/template/access40.C
+> +@@ -0,0 +1,28 @@
+> ++// PR c++/96204
+> ++
+> ++template<class, class = void>
+> ++struct has_type_member {
+> ++  static const bool value = false;
+> ++};
+> ++
+> ++template<class T>
+> ++struct has_type_member<T, typename T::type> {
+> ++  static const bool value = true;
+> ++};
+> ++
+> ++struct Parent;
+> ++
+> ++struct Child {
+> ++private:
+> ++  friend struct Parent;
+> ++  typedef void type;
+> ++};
+> ++
+> ++struct Parent {
+> ++  static void f() {
+> ++    // The partial specialization does not match despite Child::type
+> ++    // being accessible from the current scope.
+> ++    extern int x[1];
+> ++    extern int x[!has_type_member<Child>::value];
+> ++  }
+> ++};
+> +diff --git a/gcc/testsuite/g++.dg/template/access40a.C b/gcc/testsuite/g++.dg/template/access40a.C
+> +new file mode 100644
+> +index 00000000000..94025c513b7
+> +--- /dev/null
+> ++++ b/gcc/testsuite/g++.dg/template/access40a.C
+> +@@ -0,0 +1,28 @@
+> ++// PR c++/96204
+> ++
+> ++template<class, class = void>
+> ++struct has_type_member {
+> ++  static const bool value = false;
+> ++};
+> ++
+> ++template<class T>
+> ++struct has_type_member<T, typename T::type> {
+> ++  static const bool value = true;
+> ++};
+> ++
+> ++struct Parent;
+> ++
+> ++struct Child {
+> ++private:
+> ++  friend struct has_type_member<Child>;
+> ++  typedef void type;
+> ++};
+> ++
+> ++struct Parent {
+> ++  static void f() {
+> ++    // The partial specialization matches because has_type_member<Child>
+> ++    // is a friend of Child.
+> ++    extern int x[1];
+> ++    extern int x[has_type_member<Child>::value];
+> ++  }
+> ++};
+> --
+> 2.35.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#166166): https://lists.openembedded.org/g/openembedded-core/message/166166
+> Mute This Topic: https://lists.openembedded.org/mt/91339758/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
