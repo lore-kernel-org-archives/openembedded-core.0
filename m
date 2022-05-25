@@ -1,191 +1,96 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99D49C433F5
-	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 13:55:36 +0000 (UTC)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com
- [209.85.128.177])
- by mx.groups.io with SMTP id smtpd.web11.7063.1653486927225420451
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91BE8C433EF
+	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 14:01:46 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+ [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web11.7147.1653487301675955504
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 May 2022 06:55:27 -0700
+ Wed, 25 May 2022 07:01:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=K6iBH3J0;
- spf=pass (domain: gmail.com, ip: 209.85.128.177,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-yw1-f177.google.com with SMTP id
- 00721157ae682-2f83983782fso215474327b3.6
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=vMgS0tb7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.50,
+ mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f50.google.com with SMTP id t26so2068594edt.0
         for <openembedded-core@lists.openembedded.org>;
- Wed, 25 May 2022 06:55:27 -0700 (PDT)
+ Wed, 25 May 2022 07:01:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=qkYksmlBEV+Mqf1gphy8LSX/0NjTDKb3wU8NoGCdv/c=;
-        b=K6iBH3J0wezuaEebrm57pSrozCWwgRKYSUyoF3h4TkQ9zJRHxaAPwXDrq6v9osoVHA
-         qwXefw6wole4dZZVJZRpq7Kb+zOsPChbbuj/O4W8rNUDXTYL2BBeXlFPS+z0AwbqOxuB
-         eZV2H5fHm6uJitGRiNwu8xFNdEJFugLbLNkxNBl/4w0z2qNiRRbWOAC6tIrMXmKUfVin
-         r/JHorfqobsT/6rwUx0AVVFURr4tVKi2P0KzptCLTw6ZO/883lfSq80KvLHQCYuaxbuY
-         QIQ4uF96gpB6PyR/Og1SPQvAmt4NSUMZNav7VhsUO7BKqgkjcCBZp5Pvr90HRaWnU0oA
-         ZG7A==
+         :cc;
+        bh=HhKT0tsmC/9ZH4JUofbu6gxyRci4xK55Od7ZNVPytdY=;
+        b=vMgS0tb7yKAl/k3uYrj/XGkuh9bwLOQIzQkx9gyTKvDssW+tGRUuc3RzoV8pgOHLA6
+         rEMv26B5ODGUa+GhUyeGeMKHxxaAl4uIWhX9h2neREYo90ekDVyI5tiCb72PSiQGJUuQ
+         exzYnKaN0oVfrqkLkTSYbw0UORGff8/N+Agyil6u3acEgDR1yndpeKBSmEwJwSA8L3dI
+         zNpkHtMp8VzFGQ9znU1bTAXIY1OVEnzFJA1TNnNZ7Z7Nviu1O7jw3lULhivSpUQjbDhO
+         Qp8x7c7+eEhjMGuLfPz6Y4dapbDeaBQIViP6DqlcaMKFKnp04zegxFM2G07/JtVJSRJF
+         vKUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=qkYksmlBEV+Mqf1gphy8LSX/0NjTDKb3wU8NoGCdv/c=;
-        b=HOazDdH/9ExPAvV9NsDZWB9jSXolMYUgSag2XaB7QLOpNJBv60yDU15ZysnkEAut7Y
-         sYMfgmqUcRp19gqPsTuvmx/PsRlUtUyvSLh26EcVIdL9XJEL37YcN3vR17E+rv5N14wM
-         NZ1BKLDxpyxIqNc+8YtVrrNdY8+HbGhNW1DK2t5AqTHBtDAKwSqQiQR9Gp4xmr6vn657
-         5e574VU0u5MqE9mwCkF1TyRrIraMhnmGdHfRVBnk1XVn3jQrtJqQqgvKiXQjK+y0GeIF
-         Lj/5OCjFPueanRSB13d7KZtAMK8pOf4b63obEC+BX+OqdWToSiHjIsdNGPwxKkI5quFg
-         o7rQ==
-X-Gm-Message-State: AOAM531JB5AVxLC+CQ7d5XjzqIhPNfc/BALt9aQr+SpdwEW+Z3nFBeIZ
-	MrPF8qcKR8q1X1/Tbh7e8t5114JASaLelP+qqoY=
+         :message-id:subject:to:cc;
+        bh=HhKT0tsmC/9ZH4JUofbu6gxyRci4xK55Od7ZNVPytdY=;
+        b=Pqb1SQD6ZQUB1STuIj3iVsaNV0TkgOy62IOLf4StMUjq8zIIyG0vKQjiiScwLdaibB
+         DSrve5YgJR3jDFqGHi2hqQyEqCrDNwiydEA8xodSjDKWKoFDLCIXAhyH7aR0VcmHPRed
+         QngANf4z3E4CTFRezrYtzAPiv7KiMMZq10kPqnm0QfDtDBeNG7BCqgRW2p+3YfQn3gzu
+         LNtumfMwvIpOMv1ricyyFHbQcj3h9kA9DfzxHtxRP+execmxbFeuFGTRKA2E+P5HjDDX
+         CMIIP2fVtaaL6rxg3JLdiF/j7q2qmtlzjLR4RcWGhb5UZPUJPiT9uPKqdqnudC9EPrg4
+         5DxA==
+X-Gm-Message-State: AOAM533MgvSxoA1n1Oza1kw9Om00v5MKdxL1Vs8J8/g/srWl8R86ra1p
+	VODPVvx4NJ5cUcXhndTaMxWiIiu+4V+H4hgXYrJ+5w==
 X-Google-Smtp-Source: 
- ABdhPJyeo3uegSDFNbMRNHPSSYiC40FSRFt9UVbKmWXQhK3M8zAM9Pa0LEFYRSjClbQL1MkJhsShwRlmGlYx9okjLow=
-X-Received: by 2002:a0d:f406:0:b0:2f4:e5c2:90f0 with SMTP id
- d6-20020a0df406000000b002f4e5c290f0mr33812012ywf.407.1653486926365; Wed, 25
- May 2022 06:55:26 -0700 (PDT)
+ ABdhPJy0lPZglEe73T81ao1Jk9WIVyDHx7wL2XmNCVsDdpLkqgiJqyTJbi2CnrFSX8S+sNLgQ5ZmJBOwN53uNKgZXSM=
+X-Received: by 2002:a05:6402:5409:b0:42a:a643:4eb8 with SMTP id
+ ev9-20020a056402540900b0042aa6434eb8mr35348675edb.71.1653487299916; Wed, 25
+ May 2022 07:01:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220524152401.1663317-1-ross.burton@arm.com>
- <20220524152401.1663317-9-ross.burton@arm.com>
- <20220525100322.1a50d726@melee>
- <9BB79F38-1612-4383-BAE2-DD4FD065476B@arm.com>
- <CADkTA4M_j9rPa+FscV93XZgDvs_HpQaXg_SFZAD2yW9Ldf=ihg@mail.gmail.com>
- <PA4PR08MB7411343691EFAFDEA1EEE9C7E8D69@PA4PR08MB7411.eurprd08.prod.outlook.com>
+References: <20220524130724.15435-1-mikko.rapeli@bmw.de>
+ <CAApg2=RDpk2JJZR+sFDQcDh6xuknt3UqSuDxNAmG55fw54PPHg@mail.gmail.com>
 In-Reply-To: 
- <PA4PR08MB7411343691EFAFDEA1EEE9C7E8D69@PA4PR08MB7411.eurprd08.prod.outlook.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 25 May 2022 09:55:15 -0400
+ <CAApg2=RDpk2JJZR+sFDQcDh6xuknt3UqSuDxNAmG55fw54PPHg@mail.gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Wed, 25 May 2022 04:01:27 -1000
 Message-ID: 
- <CADkTA4OAQkOiV44gR+rdurZQb7U+qPaUGO5ZYZwYU72agSPqsQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 9/9] lzo: remove recipe from oe-core
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	"openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>, nd <nd@arm.com>
+ <CAOSpxdagdx+eJ8M3xuHY1EW30bTTuJhFVUtmsdA9WYoxvpBKZA@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCH] cve-check: Fix report generation
+To: Marta Rybczynska <rybczynska@gmail.com>
+Cc: Mikko Rapeli <mikko.rapeli@bmw.de>,
+ OE-core <openembedded-core@lists.openembedded.org>,
+	Marta Rybczynska <marta.rybczynska@huawei.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 May 2022 13:55:36 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 25 May 2022 14:01:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166124
+ https://lists.openembedded.org/g/openembedded-core/message/166125
 
-On Wed, May 25, 2022 at 9:46 AM Ross Burton <Ross.Burton@arm.com> wrote:
+On Tue, May 24, 2022 at 11:38 PM Marta Rybczynska <rybczynska@gmail.com> wrote:
 >
-> Yes, it mainly blew up because the tested oe-core branch had the removal =
-of lzo but meta-oe didn=E2=80=99t have the addition.
->
->
->
-> Would you like a resend of the xen patch to add an option, but leave it a=
-s enabled?  Or will you merge this patch which disables lzo?
->
->
-
-
-The patch is fine as-is. If someone needs it on by default, they can
-scream and send a patch to change that status :) It will still be
-available, so they can easily carry bbappend with a packageconfig.
-
-Bruce
-
-
-
->
-> Ross
->
->
->
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> Date: Wednesday, 25 May 2022 at 13:59
-> To: Ross Burton <Ross.Burton@arm.com>
-> Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, openembedded-core@lists.op=
-enembedded.org <openembedded-core@lists.openembedded.org>, nd <nd@arm.com>
-> Subject: Re: [OE-core] [PATCH 9/9] lzo: remove recipe from oe-core
->
->
->
->
->
-> On Wed, May 25, 2022 at 7:26 AM Ross Burton <Ross.Burton@arm.com> wrote:
->
-> On 25 May 2022, at 09:03, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote=
-:
+> On Tue, May 24, 2022 at 3:07 PM Mikko Rapeli <mikko.rapeli@bmw.de> wrote:
 > >
-> > Hi Ross, Bruce,
+> > From: Mikko Rapeli <mikko.rapeli@bmw.de>
 > >
-> > Il giorno Tue, 24 May 2022 16:24:01 +0100
-> > "Ross Burton" <ross.burton@arm.com> ha scritto:
+> > From: Marta Rybczynska <rybczynska@gmail.com>
 > >
-> >> LZO is a fairly archaic compression format that hasn't been updated
-> >> since 2017.  It's now unused by anything else in oe-core, so remove
-> >> the recipes.
-> >>
-> >> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > The addition of summary output caused two issues: error when building
+> > an image and the fact that JSON output was generated even when
+> > CVE_CHECK_FORMAT_JSON.
 > >
-> > I love removals of archaic features...
-> >
-> > ...and how they make things explode :-)
-> >
-> > stdio: ERROR: Nothing PROVIDES 'lzo' (but
-> > /home/pokybuild/yocto-worker/meta-virt/build/meta-virtualization/recipe=
-s-extended/xen/xen_4.16.bb,
-> > /home/pokybuild/yocto-worker/meta-virt/build/meta-virtualization/recipe=
-s-extended/xen/xen-tools_4.16.bb
-> > DEPENDS on or otherwise requires it)
 >
-> I=E2=80=99ve also just sent a RFC patch for xen to disable LZO entirely, =
-but I=E2=80=99ll leave that up to Bruce to decide.  If lzo is removed from =
-core it will be added to meta-oe, so xen will continue to build either way.
->
->
->
-> right.
->
->
->
-> We'll keep it as optional.
->
->
->
-> But isn't this just a timing issue for the failure ? Or are we missing a =
-dependency in meta-virt on where this landed in meta-oe ? We definitely hav=
-e meta-oe dependencies in meta-virt, so the AB should already have those in=
- place .. so this must have only blown up because it hasn't landed in meta-=
-oe yet (nor should it probably have, as this is a test of the removal in OE=
-core) .
->
->
->
-> Either way, I'll merge the meta-virt, make-it-optional patch shortly and =
-this should be good to go.
->
->
->
-> Bruce
->
->
->
->
->
-> Ross
->
->
->
->
-> --
->
-> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
-e at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
+> Hello Mikko,
+> This patch has been already picked up by Steve. We're waiting for
+> the final review now. It should land in dunfell (very) soon.
 
+Actually it landed yesterday:
 
+https://git.yoctoproject.org/poky/commit/?h=dunfell&id=232b5533de22bba7a747f73f684d609e217531f9
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+I'll be sending the pull request containing the kirkstone version later today.
+
+Steve
 
