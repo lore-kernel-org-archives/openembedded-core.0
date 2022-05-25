@@ -1,120 +1,121 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD502C433F5
-	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 14:52:26 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web10.7795.1653490345179645348
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D562C433EF
+	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 16:20:47 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web11.8952.1653495641383803742
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 May 2022 07:52:25 -0700
+ Wed, 25 May 2022 09:20:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=IyhRul+q;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.53,
- mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f53.google.com with SMTP id h11so26209476eda.8
+ dkim=pass header.i=@linaro.org header.s=google header.b=ztl3IqN1;
+ spf=pass (domain: linaro.org, ip: 209.85.167.47,
+ mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lf1-f47.google.com with SMTP id p22so36777325lfo.10
         for <openembedded-core@lists.openembedded.org>;
- Wed, 25 May 2022 07:52:24 -0700 (PDT)
+ Wed, 25 May 2022 09:20:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BoA5TSkb9v9445bfht7qWAAtMYHwclw7d0iAb+owjDU=;
-        b=IyhRul+qihlOQ+5Nc0zTvyZgzWHFze/wqLFW1/rrI3ynYO4z6QEWNXmigvLY8i0iFa
-         Ck1hgTT4Y+v/hTcNAMkNZj4TUdTBBSFs9pJG4ePDYfncUZ8xcrnAK3wwhS5VZQ5XxVWi
-         q1jSR+zbCHW5/s64hgbXMAXQTYuK0ZpYdoxR9zkdNb0yAMS1zkfGX0RVGXXf/Y2oTSAz
-         h1o2pgu/0mHjiRRlWnrdDKFFVq6AKhHHC3y1fuEFBluPBH8/vfBQZe4CVK8mzyu2wNom
-         jvX/4E7tUCD20ayplG+wTeodi6YxDWx+91PAwrtSrZEsCH9AKe1LbBVc7BzcU8HRZhSi
-         a45g==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o8l7cHGbyl3ByleJwCLY1/IxBEhY/LgSCBXehEw+PV0=;
+        b=ztl3IqN1ISklfB4E8B+9k0jrCieZOQudxMvMCpRAWi5kk5Q83mHlaXxvXugM8+ZbOv
+         /VjgqIr2cTVwqr/jW8rgc906MTNmtpBKLgl14rNgOJv35NTr25VWCtRGpxfBN8LEYeuL
+         iC0cJLEqQnYSGwIbwCpf+hT8/84UYEc0O4pXonYUDkBr1S735sOLz8rHnRnlzQFzuxXT
+         Fjwj+HuQ10uw7TIumjQVPAltl0LUMSyRCrjCBVR1Os1ND8F1vzorKYvo31sVH7PYP6eQ
+         uUAGMw8AvP6gyd5Cue2InhIUU601X/2j/hvcLJjN/4PovnuLLd3Ih5cgYpQcHbsu6GSc
+         myZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BoA5TSkb9v9445bfht7qWAAtMYHwclw7d0iAb+owjDU=;
-        b=cF/RlmzHaA/T5jnXI7iY63AAXozn3Oi83AdCMwc/FNSRlcji/jtRL9FQXW9JmcN+T0
-         ppPsvGNa5vj7+RIuw32WT8neAlUaRnCCloKjklsuj+t1F1TvlvecFKBM713Vto9Zx+mS
-         Yk2fN8AIbtCkD6OdF8BbNysnEQpQHBeLf7MmEX7GRCe2hIHi7gA467PVcjR92PdNNxhu
-         9uR4UX2l6LOGp1w+PJzwUhakaxasZuaHIcGMem0n7bbTu0MzwQ/WZeqQr1oI9vX3qqAL
-         UCV2oMdf0cxz/TwRbVXTJ/46TbTaaP3309F28L8TEN8frYj/Iak4m5stQISmdoXzA8Vm
-         G62g==
-X-Gm-Message-State: AOAM5326nXSh4334HsGUzt2/PFnGjFnlBMaMzejaNbLPVV9HZMabcP9+
-	1G9O1wgP4vGiaa65CIwoaD7/TuHD4crAteBD45YanA==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o8l7cHGbyl3ByleJwCLY1/IxBEhY/LgSCBXehEw+PV0=;
+        b=VntHu+CEwQ5mCVBdShBnwYIz2juPFVo91GAI5j0WGJS57mPUXe40h1EnjWL5hGwqIZ
+         e88mhNBS4mkclldJAmuAveP5IBnEisMBJXuI3cxazfa2pHKneHd+SBxuqdtUE9yKM1ee
+         Qv5CE9uhPobDFmWp3hdU1/ZC0zGhpyKY9/5QL+iNzOzvmEtYuFQDJXA7Sr+m/viSmEox
+         G///8kKYhdU3xEekI89QvWSK5S7TsNHw2obAFBvJMUGuafh9aUG7gX7zioWIPd+CkxHd
+         W5SS3J7SleLqZ7fpcZ4M8CEIxzpldxZn9ZMuxOgRyJdFaJrvDwk0NMha10rqQQcx/wHG
+         1m1g==
+X-Gm-Message-State: AOAM531bDdPjn0Y0wr5nGASm3qBWaBBstJVCtUNIjklfv2B5g68quaHN
+	JtnOrLyhuS6bRxcsalLGZ9YonJ6fG4NPOg==
 X-Google-Smtp-Source: 
- ABdhPJyVky3+3RWy4hbsgQC7jdLOjlPWBWlU9KM6GO3xw17X6DiXu3QMy8Fx3BwwtI8IhrYKd+QCCud5qcKetC9FetQ=
-X-Received: by 2002:aa7:dd4e:0:b0:42b:7dbb:3a5b with SMTP id
- o14-20020aa7dd4e000000b0042b7dbb3a5bmr10728145edw.203.1653490343614; Wed, 25
- May 2022 07:52:23 -0700 (PDT)
+ ABdhPJwD6kTziF15RqqoNI39bmreDxWxXhNZweXN1tuMZ4DrL3ZHVtp1HQFObIHX8Kr4l0UTE7Y4IA==
+X-Received: by 2002:a05:6512:10d5:b0:478:96b8:305d with SMTP id
+ k21-20020a05651210d500b0047896b8305dmr5165874lfg.155.1653495639041;
+        Wed, 25 May 2022 09:20:39 -0700 (PDT)
+Received: from umbar.lan ([37.153.55.125])
+        by smtp.gmail.com with ESMTPSA id
+ v15-20020ac25b0f000000b0047811cd9930sm2853003lfn.124.2022.05.25.09.20.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 May 2022 09:20:38 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: dmitry.baryshkov@linaro.org
+Subject: [PATCH] go.bbclass: fix path to linker in native Go builds
+Date: Wed, 25 May 2022 19:20:35 +0300
+Message-Id: <20220525162035.808477-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <cover.1653489126.git.steve@sakoman.com>
- <761f050783a445a6b900024a4e10a3c414bd504b.1653489126.git.steve@sakoman.com>
- <CA+chaQe3NUAjz4Uy-2p7K5AWxP2Bm-SPAgQ9+_ZML1=WZG8XnA@mail.gmail.com>
-In-Reply-To: 
- <CA+chaQe3NUAjz4Uy-2p7K5AWxP2Bm-SPAgQ9+_ZML1=WZG8XnA@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 25 May 2022 04:52:12 -1000
-Message-ID: 
- <CAOSpxdZGuoG7qbkpv2yBvJ4fxTvN_taLGAz49Ut4mYGvxqAJmQ@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 4/4] libdrm: add libdrm-{nouveau,radeon,intel}
- to RPROVIDES
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 May 2022 14:52:26 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 25 May 2022 16:20:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166152
+ https://lists.openembedded.org/g/openembedded-core/message/166153
 
-On Wed, May 25, 2022 at 4:41 AM Martin Jansa <martin.jansa@gmail.com> wrote:
->
-> Why should ${PN} rprovide these when they are packaged in separate packages as ${PN}-nouveau ${PN}-intel ${PN}-radeon?
+Building native Go tools results in the tool pointing to the wrong
+location of dynamic linker (see below). The linker is looked up in the
+temporary dir, which can be removed if rm_work is inherited. This
+results in being unable to execute the program with the 'No such file or
+directory' error. Override linker specificiation for native recipes (and
+let Go build environment to pick up a correct one on it's own).
 
-Good question!  Sorry I didn't catch this earlier.  I'll drop this
-patch from the pull request. Thanks for reviewing.
+Without this patch:
 
-Steve
+$ ldd tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md2man
+	linux-vdso.so.1 (0x00007ffe945ec000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3a7490e000)
+	/home/lumag/Projects/RPB/build-rpb/tmp-rpb-glibc/work/x86_64-linux/go-md2man-native/1.0.10+gitAUTOINC+f79a8a8ca6-r0/recipe-sysroot-native/usr/lib/ld-linux-x86-64.so.2 => /lib64/ld-linux-x86-64.so.2 (0x00007f3a74d13000)
+$ tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md2man  --help
+-bash: tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md2man: No such file or directory
 
-> On Wed, May 25, 2022 at 4:36 PM Steve Sakoman <steve@sakoman.com> wrote:
->>
->> From: Minjae Kim <flowergom@gmail.com>
->>
->> The libdrm-{nouveau,radeon,intel} are generated by libdrm recipe.
->> To use these libraries as a dependency in another component,
->> It should be explicitly added as RPROVIDES.
->>
->> Signed-off-by:Minjae Kim <flowergom@gmail.com>
->> Signed-off-by: Steve Sakoman <steve@sakoman.com>
->> ---
->>  meta/recipes-graphics/drm/libdrm_2.4.101.bb | 6 ++++++
->>  1 file changed, 6 insertions(+)
->>
->> diff --git a/meta/recipes-graphics/drm/libdrm_2.4.101.bb b/meta/recipes-graphics/drm/libdrm_2.4.101.bb
->> index 8ec566faa9..4f3e767af0 100644
->> --- a/meta/recipes-graphics/drm/libdrm_2.4.101.bb
->> +++ b/meta/recipes-graphics/drm/libdrm_2.4.101.bb
->> @@ -57,3 +57,9 @@ FILES_${PN}-amdgpu = "${libdir}/libdrm_amdgpu.so.* ${datadir}/${PN}/amdgpu.ids"
->>  FILES_${PN}-etnaviv = "${libdir}/libdrm_etnaviv.so.*"
->>
->>  BBCLASSEXTEND = "native nativesdk"
->> +
->> +RPROVIDES_${PN} += " \
->> +    libdrm-nouveau \
->> +    libdrm-radeon \
->> +    libdrm-intel \
->> +"
->> --
->> 2.25.1
->>
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#166150): https://lists.openembedded.org/g/openembedded-core/message/166150
->> Mute This Topic: https://lists.openembedded.org/mt/91334283/3617156
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [Martin.Jansa@gmail.com]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
+With the patch
+
+$ ldd tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md2man
+	linux-vdso.so.1 (0x00007ffd19dbf000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f2d44181000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007f2d44586000)
+$ tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md2man  --help
+Usage of tmp-rpb-glibc/sysroots-components/x86_64/go-md2man-native/usr/bin/go-md2man:
+  -in string
+	Path to file to be processed (default: stdin)
+  -out string
+	Path to output processed file (default: stdout)
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ meta/classes/go.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+index 1a9a0bc1d426..df088c7590b7 100644
+--- a/meta/classes/go.bbclass
++++ b/meta/classes/go.bbclass
+@@ -45,7 +45,9 @@ GO_LINKMODE ?= ""
+ GO_LINKMODE:class-nativesdk = "--linkmode=external"
+ GO_LINKMODE:class-native = "--linkmode=external"
+ GO_EXTRA_LDFLAGS ?= ""
+-GO_LDFLAGS ?= '-ldflags="${GO_RPATH} ${GO_LINKMODE} -I ${@get_linuxloader(d)} ${GO_EXTRA_LDFLAGS} -extldflags '${GO_EXTLDFLAGS}'"'
++GO_LINUXLOADER ?= "-I ${@get_linuxloader(d)}"
++GO_LINUXLOADER:class-native = ""
++GO_LDFLAGS ?= '-ldflags="${GO_RPATH} ${GO_LINKMODE} ${GO_LINUXLOADER} ${GO_EXTRA_LDFLAGS} -extldflags '${GO_EXTLDFLAGS}'"'
+ export GOBUILDFLAGS ?= "-v ${GO_LDFLAGS} -trimpath"
+ export GOPATH_OMIT_IN_ACTIONID ?= "1"
+ export GOPTESTBUILDFLAGS ?= "${GOBUILDFLAGS} -c"
+-- 
+2.30.2
+
 
