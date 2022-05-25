@@ -1,191 +1,120 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C654DC433F5
-	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 14:41:26 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web08.7683.1653489685934514483
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD502C433F5
+	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 14:52:26 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web10.7795.1653490345179645348
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 May 2022 07:41:26 -0700
+ Wed, 25 May 2022 07:52:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=GC9HNURG;
- spf=pass (domain: gmail.com, ip: 209.85.221.42,
- mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id l30so1847540wrb.8
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=IyhRul+q;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.53,
+ mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f53.google.com with SMTP id h11so26209476eda.8
         for <openembedded-core@lists.openembedded.org>;
- Wed, 25 May 2022 07:41:25 -0700 (PDT)
+ Wed, 25 May 2022 07:52:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=bk+UhuykAMTYE2kR+7NmNSdaKjUapKxj+I2UY/r3lv0=;
-        b=GC9HNURGg7HVmv+T4/Hte8MDDLDpb1KADx0tuKoAKQYN1ppPqcAyEpfM17y9C1BuXP
-         Mpnua6QzJCVH7HqVnuIKUZzOP9w9kC3D6XoNp73xx2yhndaYgdSF3v/1TcQ0nKzZusoN
-         4PgdSnY7tmfTNddtdxjT6qy9RBAJ1G3FB/uxDnnieNt1/LJ5FrFxuXEROdO35sCgvFWd
-         vPI+6m4/WRvEoWG9UprqNSij7OYVa1ghno9YNKWevFZjhi62jWX3df3NUWuF6UzCs+7z
-         X8npQCZxbvHy6twagF9sibyUX8odQqULIYOGeKTFA5lH50RR+pVhMFjkzeZr3Au8VEZ3
-         80Vg==
+        bh=BoA5TSkb9v9445bfht7qWAAtMYHwclw7d0iAb+owjDU=;
+        b=IyhRul+qihlOQ+5Nc0zTvyZgzWHFze/wqLFW1/rrI3ynYO4z6QEWNXmigvLY8i0iFa
+         Ck1hgTT4Y+v/hTcNAMkNZj4TUdTBBSFs9pJG4ePDYfncUZ8xcrnAK3wwhS5VZQ5XxVWi
+         q1jSR+zbCHW5/s64hgbXMAXQTYuK0ZpYdoxR9zkdNb0yAMS1zkfGX0RVGXXf/Y2oTSAz
+         h1o2pgu/0mHjiRRlWnrdDKFFVq6AKhHHC3y1fuEFBluPBH8/vfBQZe4CVK8mzyu2wNom
+         jvX/4E7tUCD20ayplG+wTeodi6YxDWx+91PAwrtSrZEsCH9AKe1LbBVc7BzcU8HRZhSi
+         a45g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=bk+UhuykAMTYE2kR+7NmNSdaKjUapKxj+I2UY/r3lv0=;
-        b=FouT5oA+Km/4txSSGiM+5NUmdqa6WfTnvgAYxYG3waYXdxOhCBriAaQggS0ZngKb2t
-         /XGI1x8ZUSBD9gfcIpGwDSwBvO3flOsq+UA7RVIoiuL2estdmaVvsGVMVIB+8VplY64N
-         +/S/gQ0Drbm++lkFJ621H3a8RhITGzrdzzUPNlRCUnNSI3Kqa1HXvQH3uNp26lUtx6vV
-         l6ioNScoSicxKhn6LQnJitN+5iCnmbpp8AVAhg9sEOrhHFLQYDtP5/uWbFJKJqIOFv/2
-         UKqDrbAjOlF3wa1+5yGVem0dXIte3PNrip3P/ePe+9zc1kPZOMZD7vjvpB4tolXSz/RR
-         0R0w==
-X-Gm-Message-State: AOAM532HQZPHaoV7L7oE82OrCSrWckr8JKEIAc3ZXcncj5o7Hp4PCKSx
-	mlzXG3WmyKileJEp2jqpAYCGbfwQNDlManjG3rE=
+        bh=BoA5TSkb9v9445bfht7qWAAtMYHwclw7d0iAb+owjDU=;
+        b=cF/RlmzHaA/T5jnXI7iY63AAXozn3Oi83AdCMwc/FNSRlcji/jtRL9FQXW9JmcN+T0
+         ppPsvGNa5vj7+RIuw32WT8neAlUaRnCCloKjklsuj+t1F1TvlvecFKBM713Vto9Zx+mS
+         Yk2fN8AIbtCkD6OdF8BbNysnEQpQHBeLf7MmEX7GRCe2hIHi7gA467PVcjR92PdNNxhu
+         9uR4UX2l6LOGp1w+PJzwUhakaxasZuaHIcGMem0n7bbTu0MzwQ/WZeqQr1oI9vX3qqAL
+         UCV2oMdf0cxz/TwRbVXTJ/46TbTaaP3309F28L8TEN8frYj/Iak4m5stQISmdoXzA8Vm
+         G62g==
+X-Gm-Message-State: AOAM5326nXSh4334HsGUzt2/PFnGjFnlBMaMzejaNbLPVV9HZMabcP9+
+	1G9O1wgP4vGiaa65CIwoaD7/TuHD4crAteBD45YanA==
 X-Google-Smtp-Source: 
- ABdhPJyNX/r6YHgnBHngtzBksoadS2HGILJbK8zMnn+C9j1vUuuw2i01jx9l9m2gvn9/xoZPWA2SOB/ciLRUd49xqRg=
-X-Received: by 2002:adf:ee43:0:b0:20e:607c:6943 with SMTP id
- w3-20020adfee43000000b0020e607c6943mr28641590wro.407.1653489684338; Wed, 25
- May 2022 07:41:24 -0700 (PDT)
+ ABdhPJyVky3+3RWy4hbsgQC7jdLOjlPWBWlU9KM6GO3xw17X6DiXu3QMy8Fx3BwwtI8IhrYKd+QCCud5qcKetC9FetQ=
+X-Received: by 2002:aa7:dd4e:0:b0:42b:7dbb:3a5b with SMTP id
+ o14-20020aa7dd4e000000b0042b7dbb3a5bmr10728145edw.203.1653490343614; Wed, 25
+ May 2022 07:52:23 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1653489126.git.steve@sakoman.com>
  <761f050783a445a6b900024a4e10a3c414bd504b.1653489126.git.steve@sakoman.com>
-In-Reply-To: 
- <761f050783a445a6b900024a4e10a3c414bd504b.1653489126.git.steve@sakoman.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 25 May 2022 16:41:03 +0200
-Message-ID: 
  <CA+chaQe3NUAjz4Uy-2p7K5AWxP2Bm-SPAgQ9+_ZML1=WZG8XnA@mail.gmail.com>
+In-Reply-To: 
+ <CA+chaQe3NUAjz4Uy-2p7K5AWxP2Bm-SPAgQ9+_ZML1=WZG8XnA@mail.gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Wed, 25 May 2022 04:52:12 -1000
+Message-ID: 
+ <CAOSpxdZGuoG7qbkpv2yBvJ4fxTvN_taLGAz49Ut4mYGvxqAJmQ@mail.gmail.com>
 Subject: Re: [OE-core][dunfell 4/4] libdrm: add libdrm-{nouveau,radeon,intel}
  to RPROVIDES
-To: Steve Sakoman <steve@sakoman.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000465bc905dfd711ca"
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 May 2022 14:41:26 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 25 May 2022 14:52:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166151
+ https://lists.openembedded.org/g/openembedded-core/message/166152
 
---000000000000465bc905dfd711ca
-Content-Type: text/plain; charset="UTF-8"
+On Wed, May 25, 2022 at 4:41 AM Martin Jansa <martin.jansa@gmail.com> wrote:
+>
+> Why should ${PN} rprovide these when they are packaged in separate packages as ${PN}-nouveau ${PN}-intel ${PN}-radeon?
 
-Why should ${PN} rprovide these when they are packaged in separate packages
-as ${PN}-nouveau ${PN}-intel ${PN}-radeon?
+Good question!  Sorry I didn't catch this earlier.  I'll drop this
+patch from the pull request. Thanks for reviewing.
 
-On Wed, May 25, 2022 at 4:36 PM Steve Sakoman <steve@sakoman.com> wrote:
+Steve
 
-> From: Minjae Kim <flowergom@gmail.com>
->
-> The libdrm-{nouveau,radeon,intel} are generated by libdrm recipe.
-> To use these libraries as a dependency in another component,
-> It should be explicitly added as RPROVIDES.
->
-> Signed-off-by:Minjae Kim <flowergom@gmail.com>
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> ---
->  meta/recipes-graphics/drm/libdrm_2.4.101.bb | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/meta/recipes-graphics/drm/libdrm_2.4.101.bb
-> b/meta/recipes-graphics/drm/libdrm_2.4.101.bb
-> index 8ec566faa9..4f3e767af0 100644
-> --- a/meta/recipes-graphics/drm/libdrm_2.4.101.bb
-> +++ b/meta/recipes-graphics/drm/libdrm_2.4.101.bb
-> @@ -57,3 +57,9 @@ FILES_${PN}-amdgpu = "${libdir}/libdrm_amdgpu.so.*
-> ${datadir}/${PN}/amdgpu.ids"
->  FILES_${PN}-etnaviv = "${libdir}/libdrm_etnaviv.so.*"
->
->  BBCLASSEXTEND = "native nativesdk"
-> +
-> +RPROVIDES_${PN} += " \
-> +    libdrm-nouveau \
-> +    libdrm-radeon \
-> +    libdrm-intel \
-> +"
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#166150):
-> https://lists.openembedded.org/g/openembedded-core/message/166150
-> Mute This Topic: https://lists.openembedded.org/mt/91334283/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> Martin.Jansa@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---000000000000465bc905dfd711ca
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Why should ${PN} rprovide these when they are packaged in =
-separate packages as ${PN}-nouveau=C2=A0${PN}-intel=C2=A0${PN}-radeon?</div=
-><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On We=
-d, May 25, 2022 at 4:36 PM Steve Sakoman &lt;<a href=3D"mailto:steve@sakoma=
-n.com">steve@sakoman.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">From: Minjae Kim &lt;<a href=3D"mailto:flowergom@gm=
-ail.com" target=3D"_blank">flowergom@gmail.com</a>&gt;<br>
-<br>
-The libdrm-{nouveau,radeon,intel} are generated by libdrm recipe.<br>
-To use these libraries as a dependency in another component,<br>
-It should be explicitly added as RPROVIDES.<br>
-<br>
-Signed-off-by:Minjae Kim &lt;<a href=3D"mailto:flowergom@gmail.com" target=
-=3D"_blank">flowergom@gmail.com</a>&gt;<br>
-Signed-off-by: Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.com" targe=
-t=3D"_blank">steve@sakoman.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-graphics/drm/<a href=3D"http://libdrm_2.4.101.bb" rel=3D=
-"noreferrer" target=3D"_blank">libdrm_2.4.101.bb</a> | 6 ++++++<br>
-=C2=A01 file changed, 6 insertions(+)<br>
-<br>
-diff --git a/meta/recipes-graphics/drm/<a href=3D"http://libdrm_2.4.101.bb"=
- rel=3D"noreferrer" target=3D"_blank">libdrm_2.4.101.bb</a> b/meta/recipes-=
-graphics/drm/<a href=3D"http://libdrm_2.4.101.bb" rel=3D"noreferrer" target=
-=3D"_blank">libdrm_2.4.101.bb</a><br>
-index 8ec566faa9..4f3e767af0 100644<br>
---- a/meta/recipes-graphics/drm/<a href=3D"http://libdrm_2.4.101.bb" rel=3D=
-"noreferrer" target=3D"_blank">libdrm_2.4.101.bb</a><br>
-+++ b/meta/recipes-graphics/drm/<a href=3D"http://libdrm_2.4.101.bb" rel=3D=
-"noreferrer" target=3D"_blank">libdrm_2.4.101.bb</a><br>
-@@ -57,3 +57,9 @@ FILES_${PN}-amdgpu =3D &quot;${libdir}/libdrm_amdgpu.so.*=
- ${datadir}/${PN}/amdgpu.ids&quot;<br>
-=C2=A0FILES_${PN}-etnaviv =3D &quot;${libdir}/libdrm_etnaviv.so.*&quot;<br>
-<br>
-=C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
-+<br>
-+RPROVIDES_${PN} +=3D &quot; \<br>
-+=C2=A0 =C2=A0 libdrm-nouveau \<br>
-+=C2=A0 =C2=A0 libdrm-radeon \<br>
-+=C2=A0 =C2=A0 libdrm-intel \<br>
-+&quot;<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#166150): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/166150" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/166150</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/91334283/3617=
-156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/91334283/3617156</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
-rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000465bc905dfd711ca--
+> On Wed, May 25, 2022 at 4:36 PM Steve Sakoman <steve@sakoman.com> wrote:
+>>
+>> From: Minjae Kim <flowergom@gmail.com>
+>>
+>> The libdrm-{nouveau,radeon,intel} are generated by libdrm recipe.
+>> To use these libraries as a dependency in another component,
+>> It should be explicitly added as RPROVIDES.
+>>
+>> Signed-off-by:Minjae Kim <flowergom@gmail.com>
+>> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+>> ---
+>>  meta/recipes-graphics/drm/libdrm_2.4.101.bb | 6 ++++++
+>>  1 file changed, 6 insertions(+)
+>>
+>> diff --git a/meta/recipes-graphics/drm/libdrm_2.4.101.bb b/meta/recipes-graphics/drm/libdrm_2.4.101.bb
+>> index 8ec566faa9..4f3e767af0 100644
+>> --- a/meta/recipes-graphics/drm/libdrm_2.4.101.bb
+>> +++ b/meta/recipes-graphics/drm/libdrm_2.4.101.bb
+>> @@ -57,3 +57,9 @@ FILES_${PN}-amdgpu = "${libdir}/libdrm_amdgpu.so.* ${datadir}/${PN}/amdgpu.ids"
+>>  FILES_${PN}-etnaviv = "${libdir}/libdrm_etnaviv.so.*"
+>>
+>>  BBCLASSEXTEND = "native nativesdk"
+>> +
+>> +RPROVIDES_${PN} += " \
+>> +    libdrm-nouveau \
+>> +    libdrm-radeon \
+>> +    libdrm-intel \
+>> +"
+>> --
+>> 2.25.1
+>>
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#166150): https://lists.openembedded.org/g/openembedded-core/message/166150
+>> Mute This Topic: https://lists.openembedded.org/mt/91334283/3617156
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [Martin.Jansa@gmail.com]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
 
