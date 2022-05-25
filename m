@@ -2,64 +2,67 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B722DC433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDFBCC433EF
 	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 14:36:36 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web09.7490.1653489386530371110
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web09.7491.1653489393222113283
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 May 2022 07:36:26 -0700
+ Wed, 25 May 2022 07:36:33 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=iTa3Nnfk;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.41,
+ header.b=D+mTkFyf;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f41.google.com with SMTP id
- o10-20020a17090a4e8a00b001df2fcdc165so1850772pjh.0
+Received: by mail-pl1-f171.google.com with SMTP id a13so8220933plh.6
         for <openembedded-core@lists.openembedded.org>;
- Wed, 25 May 2022 07:36:26 -0700 (PDT)
+ Wed, 25 May 2022 07:36:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=5BbwIHWQsZDaMPM6PHs6i5I4soxu7oWVzxdJ7i+RAU0=;
-        b=iTa3NnfkRnZp7nDe/MHxHSm4zZmb6/NGH+M0DxtD8RwNr5yu+UKoGLQsaBXLQzmx/C
-         KVqaiFJQPz4/xwpVt5Eqo3EKdC5qoN+08bD7eaZmKjGKXCq59cMRrw+ldkV9AaNzY6EZ
-         w9xh8dOLWVPNZzfRBIBPw1Ei29SE2vXLzbNczPGA/IPF2QUpyis93MBZdAkLyYKiLalS
-         x8KWaYmYz3wKDcJINc3jK+a/M0blrvRbTcnMgpDXxlFNkW/IHivgo/f9JsUJvKwBPej0
-         0C24v9/Jo4TMJKau/KC1CzQLPjK0yI4PqYwr4r6/ptN4mQ9FEmr21JG19ToEnvWhQ3il
-         5hiw==
+        bh=GOKFpJfGpVb0D8zOa2xO4guyQePTR7l4qBIyyR3Vr4A=;
+        b=D+mTkFyfmo5nTB41Nx5If+miOcByNcIy792VK/U05OZQLsTMDCtJCQoq8DRts9Ypbd
+         9fSBSJECRmh8Sou9SO1Yxs+4xMYWP9NxcT9qTktyNMktMIbM2BS8CqWSJKVTcYQcqtVX
+         m/2znje0zbBkSO8G/Hn2cx+73K430fRHpIH/Y/P1rQ/JpTnKfpVrP+xT1NL42VAlAr8W
+         FQP2OU9Ugjhy50zBuOaWx5/lqwu1XHX3jgnp/CqgJMsa+36UqsWH/JPA2YY7RaPWXSs9
+         cLCYzwzcHgmcfcx2A7Kb9M4IfcF1fyy+EDLEds/8TNBEJkJBCAqz96B4A5sXAOUcV9KV
+         vUPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5BbwIHWQsZDaMPM6PHs6i5I4soxu7oWVzxdJ7i+RAU0=;
-        b=fIdfKEqoCsRr1eIwUnIdMtY6znpeZ/haqPPu60+cAbcFDe6q4uAwiq7C/AoBA//9iC
-         /BIuXVdWWwgiDJpN04Dm2SBCgolKBirCZwMM1BXIJAleMWY/yuoO2r9tNnxQ6abDWxPS
-         TPdKp7RjbxHsQFn+NHoiKIw3SYEYfS/5bnll7Olv4a9PJ2kiYhVx4sFJUdZ683ar19gM
-         s01g5MlcNZMHDSQcuF8R4mKLW7GEik51J2SSA3ozBrHG10Pk0Vp6vinOgNvUfisy9l8f
-         6eZX1kudu8QFy253XreUxMEEBsM3tuL0JvjwFfTiJ5aPv28Mxc+Rp4Xjf7cHz5hAZC3j
-         H4YA==
-X-Gm-Message-State: AOAM530afDuK6CN1b9//2gDROvMLZQ2T3WC0PA9+SAhXZLWa9wXhbjjZ
-	36l2V/T/Br6oTqyJh3DUg92we08jHV3nRlXZ
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=GOKFpJfGpVb0D8zOa2xO4guyQePTR7l4qBIyyR3Vr4A=;
+        b=l5jJE7OEo9AKmyHq/Dqy7sGH0u2RXYWa6KRyXjdbFNWP8Lxv8XRJMfjt/lK7SN2lU7
+         hu7T6nadQyavWj4uXSDHA0jV3ka+SMT1NkKdJX9leDgps88tNVkbLf5Ltm8r4lZ1JcSB
+         ELXGCGlXy4lEkGw+Be/unDeoYkQRnsKKUqPDKKB51hh/KbHGCrM459/8+QWn+xdm/AEQ
+         IIGTsVk1rOqVrp7pYW/Uxo6T/ZGZtdgZooqO29tyZ8/bWRKibhnU6oWcy+tiSP4V2U3P
+         iUCjIOOgDNcXPS2+VA4Szu0MhbgDg8jZp6M4yF1cw36lxuXM71BXRMMs1fLCrekVikyL
+         Qqpw==
+X-Gm-Message-State: AOAM532YzoX7sSrTF/dUHcJhlo72lDYByBy6/fDHzHvHiem8ZxZhEkYI
+	wa8G38/77nRX2WPsTxQlzMnGlUfNKJFSvL2L
 X-Google-Smtp-Source: 
- ABdhPJxcfbFic2or11m19KfbKKDx+/BJnFXNxNGj9QjwvecVsQbQYZIFBsZ+0XKPAdCdQfw/zfBndg==
-X-Received: by 2002:a17:90a:684f:b0:1e0:8e34:5dc2 with SMTP id
- e15-20020a17090a684f00b001e08e345dc2mr7427743pjm.104.1653489385262;
-        Wed, 25 May 2022 07:36:25 -0700 (PDT)
+ ABdhPJzz/8qXBPoKx2ATK9yRSCoFc3xy8dzfMqTJEynNSi1fGb00DNVl6Tk9nHTjXtjjbAtKIfXRSg==
+X-Received: by 2002:a17:90b:1a81:b0:1e0:3314:2447 with SMTP id
+ ng1-20020a17090b1a8100b001e033142447mr10588366pjb.121.1653489392129;
+        Wed, 25 May 2022 07:36:32 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- h6-20020a170902f70600b0015eb200cc00sm9399287plo.138.2022.05.25.07.36.23
+ h6-20020a170902f70600b0015eb200cc00sm9399287plo.138.2022.05.25.07.36.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 May 2022 07:36:24 -0700 (PDT)
+        Wed, 25 May 2022 07:36:31 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/4] Patch review
-Date: Wed, 25 May 2022 04:36:08 -1000
-Message-Id: <cover.1653489126.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 2/4] mobile-broadband-provider-info: upgrade
+ 20220315 -> 20220511
+Date: Wed, 25 May 2022 04:36:10 -1000
+Message-Id: 
+ <9d5b4fdc7ce0458577af5a16b6d7277e3d812e36.1653489126.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1653489126.git.steve@sakoman.com>
+References: <cover.1653489126.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -67,43 +70,34 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 25 May 2022 14:36:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166146
+ https://lists.openembedded.org/g/openembedded-core/message/166148
 
-Please review this set of patches for dunfell and have comments back by end
-of day Friday.
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Passed a-full on autobuilder:
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit f14c8094e7a049ac1b04c45b76855d0503559932)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../mobile-broadband-provider-info_git.bb                     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3702
-The following changes since commit 665f981fccbb09d51349c4bd4cfe4ca91001e3bd:
-
-  cve-check: Fix report generation (2022-05-18 05:41:41 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Alexander Kanavin (1):
-  mobile-broadband-provider-info: upgrade 20220315 -> 20220511
-
-Hitendra Prajapati (1):
-  pcre2: CVE-2022-1586 Out-of-bounds read
-
-Minjae Kim (1):
-  libdrm: add libdrm-{nouveau,radeon,intel} to RPROVIDES
-
-Ross Burton (1):
-  oeqa/selftest/cve_check: add tests for recipe and image reports
-
- meta/lib/oeqa/selftest/cases/cve_check.py     | 77 ++++++++++++++++++-
- .../mobile-broadband-provider-info_git.bb     |  4 +-
- meta/recipes-graphics/drm/libdrm_2.4.101.bb   |  6 ++
- .../libpcre/libpcre2/CVE-2022-1586.patch      | 59 ++++++++++++++
- .../recipes-support/libpcre/libpcre2_10.34.bb |  1 +
- 5 files changed, 144 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2022-1586.patch
-
+diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+index 781b9216c5..e6f216e5cb 100644
+--- a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
++++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+@@ -5,8 +5,8 @@ SECTION = "network"
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=87964579b2a8ece4bc6744d2dc9a8b04"
+ 
+-SRCREV = "4cbb44a9fe26aa6f0b28beb79f9488b37c097b5e"
+-PV = "20220315"
++SRCREV = "3d5c8d0f7e0264768a2c000d0fd4b4d4a991e041"
++PV = "20220511"
+ PE = "1"
+ 
+ SRC_URI = "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=https;branch=main"
 -- 
 2.25.1
 
