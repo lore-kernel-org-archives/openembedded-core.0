@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B40FC433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B8C8C433FE
 	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 14:30:46 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web10.7523.1653489037776535097
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web12.7512.1653489045272559097
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 May 2022 07:30:37 -0700
+ Wed, 25 May 2022 07:30:45 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=TPEosnzA;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.170,
+ header.b=m9/JOFhi;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f170.google.com with SMTP id z25so6683549pfr.1
+Received: by mail-pf1-f171.google.com with SMTP id i18so1785589pfk.7
         for <openembedded-core@lists.openembedded.org>;
- Wed, 25 May 2022 07:30:37 -0700 (PDT)
+ Wed, 25 May 2022 07:30:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=+Jf7Q1pl1l596DmjnJw/8BJmqqKwukh5g8F+xVdareU=;
-        b=TPEosnzAbBOAj3UDxCU0iWCemQ1gTWeXyyx061i/im6uQ6lTpEdpLYZXkKgYPx6N7B
-         +7emt6WXDnG0C6pmC6eM6DT/YPoy9rzddXIMAooE0IL6TviqAvr8J9z2zggGe0An4dkH
-         J/c1MzP7tF7f6KizjGyq5kBgHSq8w2zPxfc8Qo0NS1GtnAYZ9IQJJx45LNeye5GantZc
-         ehO9CDCXoEsEOPYdEMNPZNtIO0jpKNWUyeDa1AThtH6hiCB70cUsnT1ZIcItWAT94GCm
-         svnFCkGUocobQEPiWGQebOlgjOMR6Nk0iQt3bANAh4PHI5CfMxpi88VuwCIioN1lhu3s
-         5rRw==
+        bh=GOKFpJfGpVb0D8zOa2xO4guyQePTR7l4qBIyyR3Vr4A=;
+        b=m9/JOFhiwQUxg8175jr1ql+LL3D+6O32DRxX749O9DtxJBRs9s1Ur3NzbOredwQTa8
+         43++FF9MjwyPBBzdF7dvTd+GKWW8cy6DfsO1qg2jlI94EQOynBFO+hltsKR3lSUSE5tQ
+         bWCrOTbRo/nAeGHFS6q+VwZWjX2MkO/eKH9bWbvmGhNkZmr7TST324MWf7BjAHqbs6tg
+         2NHr/HrsTGPVIVG9vFwNAVgnp2vzQ+yw9wOttGE4tcCFNJVqhsocEYaOZLK+pYXdL8x0
+         g1ga141Hjb3jGXdnuyLssXr3sto8BaTnNMLoFcIffGNEmvbgWu4tDt/t4d4SqIjXXp7e
+         4L+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+Jf7Q1pl1l596DmjnJw/8BJmqqKwukh5g8F+xVdareU=;
-        b=Gdy7o7pky3qEArtzqDY3NBQ/PBGXrG/d+Ym/A5zjx7joWMm2jL9udVZKE0NboKDLIs
-         MpBedWKhnQ0itDD5XpT4dAYyiqnbvXQsq9r1Hgfydl9EFyA+VKJQGmuA9pJSnp8Ok5zw
-         O7RJqPLsqlDgUC0oJNphfdGPD9+B6EIoqhqEB3XCMBP6b9o28SYWgdBlY8a3+nygB9Gi
-         w7qUN3CC1/lo/BOtjm6iPvN+9psUqav9YMKuNvGB2TL7ZxQWxSDw3XwcltgLwR4uZgfZ
-         2u57a4RtUhUnyljDnOZJNOfWxvtGL25cwiALehFN5pK3To6/iPNuHxQS+czjrzgMPtwk
-         kxYw==
-X-Gm-Message-State: AOAM532QToiSM3ilWeUV+v2ech7B6ET81EVD+pOD/AY+07ebUaXABQPc
-	lE7ddgAANWa9/kbKX2a7OV0ZasHEo2CoJOcW
+        bh=GOKFpJfGpVb0D8zOa2xO4guyQePTR7l4qBIyyR3Vr4A=;
+        b=q3h1iMHJ5IogeVLCQyd5BmL2bUBw5x9XUBrrBfN5Q5QMgUEp4hlM1k92CrisDWEjxB
+         /qZFK1unp6nRO0QdrJp43TBOOa/v4mr7HPNSkO0s/W90x7BFadIhjKUZPwaI/uYhL6Zw
+         r+v/XOEIIROWX79RLSzdFsPxPeX5t17OwVWJmb/rCbc8CjEFgPn0cd92VNmJ2SOcPr4U
+         b8MrM5nupEq810Jw/ujWjtBMX57I1/iPgIM3qgu/DXn0lSgx5M29vmRheDPSGKBygkU0
+         ad4dhQsshGCpiXXmvTmDS+cEPdTAagrkF0jKy4FIRoebcm0v/aKt6VWvDhbHMB7ibKgz
+         +9Eg==
+X-Gm-Message-State: AOAM532PVuQdU43MeZiyTnRkivILERMMSjZOik4u+kcnsxROe9H3aegI
+	xqSmmHlVOCXd2nV7J9HQ8VLX69glAKp7B62E
 X-Google-Smtp-Source: 
- ABdhPJzVbjpkmQluKJ00FzrTeY9rbJu8WcwquF7LnvY8RUnT64OadTEkMi2idAmKaj0CkmVTNpAjTw==
-X-Received: by 2002:a63:904b:0:b0:3f8:4814:ecb4 with SMTP id
- a72-20020a63904b000000b003f84814ecb4mr22832641pge.257.1653489036664;
-        Wed, 25 May 2022 07:30:36 -0700 (PDT)
+ ABdhPJx5CRhRjN53eVXiuBWkxRy+1yLU436x6u1zTXeYQyN9pnfHlNzIgjHNt1rB9bjVByWkmMZxNA==
+X-Received: by 2002:a05:6a00:230d:b0:4f6:ec4f:35ff with SMTP id
+ h13-20020a056a00230d00b004f6ec4f35ffmr33888095pfh.53.1653489044043;
+        Wed, 25 May 2022 07:30:44 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- a8-20020a656408000000b003db141a5f26sm8553837pgv.1.2022.05.25.07.30.35
+ a8-20020a656408000000b003db141a5f26sm8553837pgv.1.2022.05.25.07.30.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 May 2022 07:30:36 -0700 (PDT)
+        Wed, 25 May 2022 07:30:43 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 14/19] gstreamer1.0-vaapi: upgrade 1.20.1 ->
- 1.20.2
-Date: Wed, 25 May 2022 04:29:42 -1000
+Subject: [OE-core][kirkstone 17/19] mobile-broadband-provider-info: upgrade
+ 20220315 -> 20220511
+Date: Wed, 25 May 2022 04:29:45 -1000
 Message-Id: 
- <5b2f2ff633fcb5742ebaf309d86bba70c3eab398.1653488418.git.steve@sakoman.com>
+ <bbfce5f1c2ec4cb22efdffb1be41d147f4fe1467.1653488418.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1653488418.git.steve@sakoman.com>
 References: <cover.1653488418.git.steve@sakoman.com>
@@ -70,38 +70,34 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 25 May 2022 14:30:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166140
+ https://lists.openembedded.org/g/openembedded-core/message/166143
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-
-No changes in vaapi between 1.20.1 -> 1.20.2
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 423d901d58e7f14d65b657d2cc61245ed9210daa)
+(cherry picked from commit f14c8094e7a049ac1b04c45b76855d0503559932)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...streamer1.0-vaapi_1.20.1.bb => gstreamer1.0-vaapi_1.20.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.20.1.bb => gstreamer1.0-vaapi_1.20.2.bb} (95%)
+ .../mobile-broadband-provider-info_git.bb                     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.2.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.1.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.2.bb
-index 48b571f563..40dc21cf45 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.2.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+index 781b9216c5..e6f216e5cb 100644
+--- a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
++++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+@@ -5,8 +5,8 @@ SECTION = "network"
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=87964579b2a8ece4bc6744d2dc9a8b04"
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
+-SRCREV = "4cbb44a9fe26aa6f0b28beb79f9488b37c097b5e"
+-PV = "20220315"
++SRCREV = "3d5c8d0f7e0264768a2c000d0fd4b4d4a991e041"
++PV = "20220511"
+ PE = "1"
  
--SRC_URI[sha256sum] = "87fbf6c537af9079c99a9aefe951da119e16e5bcc9cc8614f5035f062bf21137"
-+SRC_URI[sha256sum] = "30126ab6e3105dab8da76bd9951a68886149bcd70c7fee0bac68de564de41d3d"
- 
- S = "${WORKDIR}/${REALPN}-${PV}"
- DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
+ SRC_URI = "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=https;branch=main"
 -- 
 2.25.1
 
