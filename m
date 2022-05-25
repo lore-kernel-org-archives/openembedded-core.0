@@ -2,83 +2,86 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68593C433F5
-	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 09:38:15 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web08.4866.1653471493919027329
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55F20C433FE
+	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 09:42:25 +0000 (UTC)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+ [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web12.4842.1653471743926734486
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 May 2022 02:38:14 -0700
+ Wed, 25 May 2022 02:42:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=g/uzhTke;
- spf=pass (domain: gmail.com, ip: 209.85.214.180,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BLdYEfE3;
+ spf=pass (domain: gmail.com, ip: 209.85.215.170,
  mailfrom: rybczynska@gmail.com)
-Received: by mail-pl1-f180.google.com with SMTP id a17so2032073plb.4
+Received: by mail-pg1-f170.google.com with SMTP id a38so15607644pgl.9
         for <openembedded-core@lists.openembedded.org>;
- Wed, 25 May 2022 02:38:13 -0700 (PDT)
+ Wed, 25 May 2022 02:42:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ARBjgJCX7Ie87zGTlqgpuAWQC4S1sW34P+zYeVpeGnU=;
-        b=g/uzhTkeBFM+bnvmHOLQMFX1vf6I2I5DlWz1jwuNefNitcJZtWNHaQmPvZx6yiD3EX
-         n8cwusp2gHIXHbhnHFslyFOR7vYmxWS49Xd4kT9Flx19DdYGDq+JiHwZjWmwwU55tnAY
-         KtULwhUK+a0jGjysBQ2M1nujIF/R4nG/oym0NlcyXgU30Tier5gbFZcK0Bg0QAFlrZSe
-         Y4YsR9pzxj60JxhR9hz1PRiVGlAbMqyRD5eYPn0XBebJONiAe5gJbpsWqIIz0cyduFFR
-         ke+UhYYOUFhmzz5ea9axzpCSO9Rwzug/GIgioIqmCWgDe7Lm4GnhTLpPZnz65buKm7dD
-         68yA==
+         :cc:content-transfer-encoding;
+        bh=F0J3xRmV3vVnfoACDFDEbCoquS1U/Cx8yuiJMa23ptc=;
+        b=BLdYEfE3bNPjPo6Q2CDJfxfSFm45Nr9XKxQ9gACx+yoBQD7dMCWl38lNgcuusGezXY
+         cuVJQNE0vwDteRAET08ShVh5smiie+GR9OZOTKUhTF9uKFh/dQPkPx7rq8tzVDLek4I/
+         YgUO4HnaWVKWdGEI7L5XFQ290/bpvj2bbE2DGOuco7Yh4RhArFKJU0rtKQc/qWpKKG8c
+         GALaXPG1zQ1eYbanrAo7OsTXQqBxmeMjjq5n/IaQ+cVUIUa+jJUYQYmyDCaNXZZfRMiG
+         yKNZBF02yiqiu5wSS7Ag6/3kiaprrShP4JdP/b1UIpDEJNOGP+M/jLR0/IRRNG2thObG
+         Crsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ARBjgJCX7Ie87zGTlqgpuAWQC4S1sW34P+zYeVpeGnU=;
-        b=6tGgppwLQfbbe0oK4SNU6XkhA5Mhliu/KukFwmLeOW164/QMVor/r3mM5h9TxCGCNo
-         nn2ocCuCnHqGrIxpSPb0mqKCMHRz5q0k3UTxOHKZhNeZFPyPaLrOZzSSETvbDAtvevvo
-         gJpGwrrT4ncdFm6oRIM+MZSBTwudczzwNVmQQ85aUAGk7GwteV1XqYmgghTrJbHoqnTa
-         1BmYNkaR8U2OxDN6CfKy6jKy/O8QHudNnwjnYgURgOCt1OcrU318EgNrPPE4MmiRTtoe
-         OqiBhURo9W3JcRJuTv/stX6rqM+U7c3ThH1SmWgeNKWadL67NXlwI/49q2G1/WAFlPfV
-         DCmA==
-X-Gm-Message-State: AOAM533O4q7+z7NeoDbgbD2J0hh+xgP04woKykZRkGnWOL6HMtC8rySt
-	SUmNOrlAxukEd4TSpVjp8oR4gKo9IZ6RqsyYqbE=
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=F0J3xRmV3vVnfoACDFDEbCoquS1U/Cx8yuiJMa23ptc=;
+        b=lJto52nizWmVZ5hfrdNfKc/G6I1Gi3hblOEJ13P3kYagFnxcCJMz+FbNod1N7ottSr
+         C6kMIyGJCL7BfKaBLahIbBt858xf0omoOy1oXXs+sR8FD/MYHeM2TBMirzzjBn+MYDbZ
+         OyaaVqRcBPmp2wzn2QbHoFt1sImSBXHui7ozm4ho6CX9mE1hJNvTcY4qUXlH7P/BYyJv
+         1+rQNDGKKnkRbfdqEAx0sfc9wYRx1WXLGsuL3dss2n+K0E8vIJv+mrOxUht3K5XlWntq
+         2ucPysDglaZqjvy8vIOGNXEvb17np4fRk3G5Nw/RIY8lEb25Dr7plGIDyKFOOMC8tRdn
+         P+YQ==
+X-Gm-Message-State: AOAM532xPhiS9qor9F2Rb4jz13zOTbM4zVRCoOUPzxZzrJ/557sfxQ7F
+	25Wa8ADA9W+fvpYzTrDLVBfKma8YqjoH6ttiSX6sXdDP
 X-Google-Smtp-Source: 
- ABdhPJxd504MFoTRxuAR/SrwxjSQfu/MN9tv8OB6RJn7IqSSp+N64Hadu2F/c+Q3IWIvV16cF7gygKLNms4Q6VfxFEg=
-X-Received: by 2002:a17:902:cf4a:b0:161:64f4:52d8 with SMTP id
- e10-20020a170902cf4a00b0016164f452d8mr31393615plg.83.1653471493312; Wed, 25
- May 2022 02:38:13 -0700 (PDT)
+ ABdhPJzERIPjWCnsLjSKZTjdHEdEHG99eae/GUY+R/9P84b6wi5YgYc676RaR9Lc3NNZ8rx0il9bU17/Kx1/w+nPLrk=
+X-Received: by 2002:a65:6b8e:0:b0:39d:6761:300f with SMTP id
+ d14-20020a656b8e000000b0039d6761300fmr28634322pgw.42.1653471743479; Wed, 25
+ May 2022 02:42:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220524130724.15435-1-mikko.rapeli@bmw.de>
-In-Reply-To: <20220524130724.15435-1-mikko.rapeli@bmw.de>
+References: <20220524115021.38862-1-ernstp@gmail.com>
+ <20220524115021.38862-2-ernstp@gmail.com>
+In-Reply-To: <20220524115021.38862-2-ernstp@gmail.com>
 From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Wed, 25 May 2022 11:38:01 +0200
+Date: Wed, 25 May 2022 11:42:12 +0200
 Message-ID: 
- <CAApg2=RDpk2JJZR+sFDQcDh6xuknt3UqSuDxNAmG55fw54PPHg@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH] cve-check: Fix report generation
-To: Mikko Rapeli <mikko.rapeli@bmw.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Marta Rybczynska <marta.rybczynska@huawei.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
+ <CAApg2=SOhYpjtM+cM-QwLfmuHXH=afPHrVABE3K590_nqKdODQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] cve-check: Only include installed packages
+ for rootfs manifest
+To: =?UTF-8?Q?Ernst_Sj=C3=B6strand?= <ernstp@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 May 2022 09:38:15 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 25 May 2022 09:42:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166110
+ https://lists.openembedded.org/g/openembedded-core/message/166111
 
-On Tue, May 24, 2022 at 3:07 PM Mikko Rapeli <mikko.rapeli@bmw.de> wrote:
+On Tue, May 24, 2022 at 1:50 PM Ernst Sj=C3=B6strand <ernstp@gmail.com> wro=
+te:
 >
-> From: Mikko Rapeli <mikko.rapeli@bmw.de>
+> Before this the rootfs manifest and the summary were identical.
+> We should separate the summary and rootfs manifest more clearly,
+> now the summary is for all CVEs and the rootfs manifest is only for
+> things in that image. This is even more useful if you build multiple
+> images.
 >
-> From: Marta Rybczynska <rybczynska@gmail.com>
->
-> The addition of summary output caused two issues: error when building
-> an image and the fact that JSON output was generated even when
-> CVE_CHECK_FORMAT_JSON.
->
+> Signed-off-by: Ernst Sj=C3=B6strand <ernstp@gmail.com>
 
-Hello Mikko,
-This patch has been already picked up by Steve. We're waiting for
-the final review now. It should land in dunfell (very) soon.
+> +    for pkg in list(image_list_installed_packages(d)):
+
+Thank you for submitting a new version of this patch. The references
+posted on IRC suggested that using this way may cause us to skip
+packages that should be included. Or I did misunderstand?
 
 Kind regards,
 Marta
