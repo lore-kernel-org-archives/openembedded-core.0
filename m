@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DAE6C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BCE6C433FE
 	for <webhook@archiver.kernel.org>; Wed, 25 May 2022 14:30:26 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web10.7518.1653489018593534624
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+ [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web09.7399.1653489025435641127
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 May 2022 07:30:18 -0700
+ Wed, 25 May 2022 07:30:25 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=PATPTvqz;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.41,
+ header.b=N9hIuDR7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f41.google.com with SMTP id
- x2-20020a17090a1f8200b001e07a64c461so1798696pja.4
+Received: by mail-pf1-f173.google.com with SMTP id bo5so19381005pfb.4
         for <openembedded-core@lists.openembedded.org>;
- Wed, 25 May 2022 07:30:18 -0700 (PDT)
+ Wed, 25 May 2022 07:30:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=ScUm7isKKO9ZBU1qdcgZx+fNK+hc5jecSezMZpzD2VY=;
-        b=PATPTvqzL7Y/R8yHvXjCSM/aqfeH9z0iKjMxmDbxMfn8r6SQrQighwGEoBbW22ScKo
-         Uv+XHVG5uXzqichxeSpb0cbB1OwQptBIBbtrd0+xM/GcPtvybzYaHiVzUO7K6+4CCCp6
-         9CJgD8OzQcbIkh+r4xK6+akflBALsMy+/5S2De/82cTkWpUhq1s+apTgvw2MNo/8uCcq
-         jH7fHOslY4lTQIXu18Wa5sHULSBNgFiaSZ1haaSMq2h9p4daWGVXujDf9apuAolCWSXr
-         oQ0xTsDfQuCvdeS75MEcNRAxLmIq/OQCrwhSxOGOFGHRdwrluUApJEqB8+ZGZgb3olzj
-         s1CQ==
+        bh=aN3c8nxonOF3NMWBYWl5ZKpb79t7SswHFBLPCHQ+ZqU=;
+        b=N9hIuDR7lUW/91xvLH9uyKxqxZFF2RSuv3usZezMyGCNpuNrv3lnJZrW0kOofHTtGH
+         reBbpw7iS0CXXsmDxf4yOyRuWF8uaMZUrUA8a01+8r0svXsW/+AW8O0S79OtVOwDK/V/
+         iiDNmhZXb6ZcuDlWWD3nA6fhNCI5ST7z8dtULLzwMC8kEX+XjPcUCmkSdrV4V+EHWg76
+         GFfpLfkI4Y+PIkKay4iPwTcXYJIVEXcIG6Ml73COLDIXgzmOfGxiB02tukw5UAUFXXx1
+         d9zJyscQNc6mDxAWBf8iS7zKwbV0QZedp/WOYB7N6eT1EQ48YRumLpxl4llpA+Ncc0m+
+         m+Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ScUm7isKKO9ZBU1qdcgZx+fNK+hc5jecSezMZpzD2VY=;
-        b=vSswaRbdG38zjoEL2LN8QDIeVsw0hn8UNTbx9+I4I9XWJUyukXwRYCsEogzo/OKT7Y
-         HBycGMZLty6LQdIeDerYQg/noP4nKbXintR1Hd0tIymOHA2chxjwfUdQzIjykDGqtSQe
-         Q9jF8xPxwaMVtAsVrbJq9YdhT8SVtkhue4z5LXd2jCvGUGX4o16X6HJAmCA8uHGylxtt
-         n4hLbEDB6uz9pH+EUBvpajFETONIrw9Wa58TsW5HX8ofxV4f1FWSDlo8GYsh9lSvhfqr
-         5mXL7t43X57j0JsbvOkimB0TRpUYwgdqExrvw7lRP7hxGYnELuPBegCBukQpChwHriIW
-         j87Q==
-X-Gm-Message-State: AOAM531xgUl5dBAkE4pmAjjc86A6lbKiiLTGp8hRH2HGk5m7EpBv6EJa
-	OK+DxW1pSLxAIlP7UftbjotCcK6MRtCQadxx
+        bh=aN3c8nxonOF3NMWBYWl5ZKpb79t7SswHFBLPCHQ+ZqU=;
+        b=RFLXM4qN+kbSgoTuU4SwsRxf0Z5qGwLUOhBKDBce/AX+3QGFS4sufyn7qcCGZLP9s+
+         jwiuCt99qIL7IyfJoJARN5C8yRrRmD0TqCpzVpIVO+KGu9/N5aUTENmwhA+oYUO0mz12
+         XRzHdTFFiEEdFem7Ek3/d5gs4g+wScxNh7oDYhse1ISX88GWph5FvUhQHz1UsGmPaIW7
+         sF78POGphHy8lHeDYWQ2oXWrAW+ZACmU6lPG9TLw/cOWyj7IgEJzH5AZD7rEwBHLgM1g
+         RqW3xVfbJqrxBLt11XhgOi4hos1mWx2l6fdh0wccnaXiUneycSQS3gsbE+WZ711I89f4
+         /O4A==
+X-Gm-Message-State: AOAM531k3SgMbyboOpAMpRuIcuUoDAEHgxnpKtsMRsO344RbsGoHKtRF
+	xNO7Lej66vEwTzKrSxAWcj0Tp9+prMa7q7OF
 X-Google-Smtp-Source: 
- ABdhPJzf15Lf+75PY3lzYN03yeZdwNhGvTxvWODDXo0GYgl7ISlhIZ08xbzPGKHmP2zIRNJ5549/iw==
-X-Received: by 2002:a17:902:e749:b0:163:59da:56f0 with SMTP id
- p9-20020a170902e74900b0016359da56f0mr3462978plf.116.1653489017357;
-        Wed, 25 May 2022 07:30:17 -0700 (PDT)
+ ABdhPJwFeyD2s+ZVEZAY85e7zfYIAu7RB0Z+WaOc9gyvm7GzrsITM0dsIrUW47lZyhV4inipizj8qA==
+X-Received: by 2002:a63:488:0:b0:3f5:e6da:4619 with SMTP id
+ 130-20020a630488000000b003f5e6da4619mr28722100pge.6.1653489024173;
+        Wed, 25 May 2022 07:30:24 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- a8-20020a656408000000b003db141a5f26sm8553837pgv.1.2022.05.25.07.30.16
+ a8-20020a656408000000b003db141a5f26sm8553837pgv.1.2022.05.25.07.30.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 May 2022 07:30:16 -0700 (PDT)
+        Wed, 25 May 2022 07:30:23 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 06/19] gstreamer1.0-omx: upgrade 1.20.1 -> 1.20.2
-Date: Wed, 25 May 2022 04:29:34 -1000
+Subject: [OE-core][kirkstone 09/19] gstreamer1.0-plugins-good: upgrade 1.20.1
+ -> 1.20.2
+Date: Wed, 25 May 2022 04:29:37 -1000
 Message-Id: 
- <2f8bf9e800e5fa893c89cd4d8b9a63f02db842b1.1653488418.git.steve@sakoman.com>
+ <9472f0fe643c34a70139fd3967564a7e6cc0ded0.1653488418.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1653488418.git.steve@sakoman.com>
 References: <cover.1653488418.git.steve@sakoman.com>
@@ -70,37 +70,49 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 25 May 2022 14:30:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166132
+ https://lists.openembedded.org/g/openembedded-core/message/166135
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-No changes in omx from 1.20.1 -> 1.20.2
+Bug fix release:
+
+deinterlace: silence unused-but-set werror from imported code
+qtdemux: fix leak of channel_mapping
+rtpopusdepay: missing sprop-stereo should not assume mono
+rtpjitterbuffer: Fix invalid memory access in rtp_jitter_buffer_pop()
+rtpptdemux: fix leak of caps when ignoring a pt
+rtpredenc: quieten warning about ignoring header extensions
+soup: Fix pre-processor macros in souploader for libsoup-3.0
+twcc: Note that twcc-stats packet loss counts reordering as loss + add some logging
+video4linux2: Manual backports for RPi users
+wavparse: handle URI query in any parse state, fixing audio track selection issue in GES
+wavparse: Unset DISCONT buffer flag for divided into multiple buffers in push mode
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2f9b5b0d8274b5a4990c93edb30c3170de3f87a4)
+(cherry picked from commit 3594cbc054d0f0eb3342282f8100a0285fc9d1fd)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../{gstreamer1.0-omx_1.20.1.bb => gstreamer1.0-omx_1.20.2.bb}  | 2 +-
+ ...ugins-good_1.20.1.bb => gstreamer1.0-plugins-good_1.20.2.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.20.1.bb => gstreamer1.0-omx_1.20.2.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.20.1.bb => gstreamer1.0-plugins-good_1.20.2.bb} (97%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.2.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.1.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.2.bb
-index 835f9a31fd..c4f5d719bb 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.2.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.2.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.1.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.2.bb
+index 1f61d9a10e..6c52fb35b9 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.2.bb
+@@ -8,7 +8,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-go
+            file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
+            "
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "3c66876f821d507bcdbebffb08b4f31a322727d6753f65a0f02c905ecb7084aa"
++SRC_URI[sha256sum] = "83589007bf002b8f9ef627718f308c16d83351905f0db8e85c3060f304143aae"
  
--SRC_URI[sha256sum] = "86b52e30ebd0f59fcb5cf81a163211975f73ef32e5a6782562804646316bcd7c"
-+SRC_URI[sha256sum] = "7efed7cc5b0acf9a669e38c5360a7892430a4e86c858daac6faa1ade2b151668"
- 
- S = "${WORKDIR}/gst-omx-${PV}"
+ S = "${WORKDIR}/gst-plugins-good-${PV}"
  
 -- 
 2.25.1
