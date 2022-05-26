@@ -1,93 +1,62 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09C42C433F5
-	for <webhook@archiver.kernel.org>; Thu, 26 May 2022 15:47:34 +0000 (UTC)
-Received: from cpanel8.indieserve.net (cpanel8.indieserve.net [199.212.143.3])
- by mx.groups.io with SMTP id smtpd.web09.21523.1653580045352096506
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52AA6C433EF
+	for <webhook@archiver.kernel.org>; Thu, 26 May 2022 17:10:14 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.22513.1653585008349200418
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 May 2022 08:47:25 -0700
+ Thu, 26 May 2022 10:10:08 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.3, mailfrom: rpjday@crashcourse.ca)
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com
- ([174.114.102.5]:36180 helo=fedora)
-	by cpanel8.indieserve.net with esmtpsa  (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1nuFhq-0006Av-Sz;
-	Thu, 26 May 2022 11:47:23 -0400
-Date: Thu, 26 May 2022 11:47:19 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: richard.purdie@linuxfoundation.org
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] what happens if an included layer contains a
- "conf/site.conf" file?
-In-Reply-To: 
- <c9ea61e7ac51107d85aa28a94256e52f5d3517d4.camel@linuxfoundation.org>
-Message-ID: <d9b85298-c787-2e68-4553-8fd0fea24a60@crashcourse.ca>
-References: <c57d1851-ceac-65bb-d35a-4d9c86989ec1@crashcourse.ca>
- <c9ea61e7ac51107d85aa28a94256e52f5d3517d4.camel@linuxfoundation.org>
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DCE0E1688;
+	Thu, 26 May 2022 10:10:07 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com
+ (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 706CE3F66F;
+	Thu, 26 May 2022 10:10:07 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: nd@arm.com
+Subject: [RFC PATCH 01/10] python3-pluggy: add BBCLASSEXTEND for
+ native/nativesdk
+Date: Thu, 26 May 2022 18:09:52 +0100
+Message-Id: <20220526171001.4074388-2-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220526171001.4074388-1-ross.burton@arm.com>
+References: <20220526171001.4074388-1-ross.burton@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel8.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel8.indieserve.net: authenticated_id:
- rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel8.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 May 2022 15:47:34 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 26 May 2022 17:10:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166185
+ https://lists.openembedded.org/g/openembedded-core/message/166186
 
-On Thu, 26 May 2022, richard.purdie@linuxfoundation.org wrote:
+This is a dependency of Hatchling, another Python build tool, so we need
+it natively.
 
-> On Thu, 2022-05-26 at 10:51 -0400, Robert P. J. Day wrote:
-> >   still trying to isolate some weirdness from this morning, but i'm
-> > playing with a vendor's amazingly convoluted BSP which wraps a bunch
-> > of thud-generation layers in some shell scripts.
-> >
-> >   long story short: given some gcc-generated compiler errors, i added
-> > a site.conf file under conf/ in the build directory, and included in
-> > it a single CFLAGS-related no-error setting.
-> >
-> >   suddenly, i began getting a slew of recipe parse errors from the
-> > fetch step, complaining about failure to parse numerous SRC_URI
-> > values, all of which started with a variable that represented the top
-> > level URL for the source. suspecting that the variable in question was
-> > somehow undefined, i set it explicitly in my new site.conf, which
-> > solved *those* parse errors but displayed more based on a *different*
-> > leading variable. so i fixed that and etc, etc, etc.
-> >
-> >   i was baffled as to where these variables should have been set, and
-> > how they must have been set all this time until recently, until i
-> > tracked down an obscure layer that was being pulled in, which provided
-> > a site.conf file that defined those variables.
-> >
-> >   which inspires me to ask -- is there a priority to including the
-> > file "site.conf" such that it will be pulled in from a layer unless
-> > there's an overriding version of that file in the build directory?
-> > i've never run across this before.
->
-> It works just like any other conf file. The first one found in BBPATH
-> wins.
->
-> Layers should not have site.conf files in them.
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-devtools/python/python3-pluggy_1.0.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-  that's what i wanted to hear -- that i should not have had to debug
-someone sneaking a site.conf into a single layer mixed in with 40
-other layers. thanks.
+diff --git a/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb b/meta/=
+recipes-devtools/python/python3-pluggy_1.0.0.bb
+index 3f2895a061b..2935acf95fa 100644
+--- a/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb
++++ b/meta/recipes-devtools/python/python3-pluggy_1.0.0.bb
+@@ -24,3 +24,5 @@ do_install_ptest() {
+ 	install -d ${D}${PTEST_PATH}/testing
+ 	cp -rf ${S}/testing/* ${D}${PTEST_PATH}/testing/
+ }
++
++BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.25.1
 
-rday
 
