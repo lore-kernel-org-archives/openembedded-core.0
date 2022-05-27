@@ -1,120 +1,136 @@
-Return-Path: <kristian.amlie@northern.tech>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2582C433F5
-	for <webhook@archiver.kernel.org>; Fri, 27 May 2022 14:34:59 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web11.4352.1653662092478332524
- for <Openembedded-core@lists.openembedded.org>;
- Fri, 27 May 2022 07:34:53 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17167C4332F
+	for <webhook@archiver.kernel.org>; Fri, 27 May 2022 16:08:30 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.5505.1653667709071056408
+ for <openembedded-core@lists.openembedded.org>;
+ Fri, 27 May 2022 09:08:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@northern.tech header.s=google header.b=BnU+H3US;
- spf=pass (domain: northern.tech, ip: 209.85.167.41,
- mailfrom: kristian.amlie@northern.tech)
-Received: by mail-lf1-f41.google.com with SMTP id c19so7205722lfv.5
-        for <Openembedded-core@lists.openembedded.org>;
- Fri, 27 May 2022 07:34:52 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=REmgn74r;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id k5so174458wrd.5
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 27 May 2022 09:08:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=northern.tech; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=zC0FSxKpLoe/OXKoGtYlADScSGk50YeMee0bEQXkC4Q=;
-        b=BnU+H3USMqUcvaZMyebgmmWgWFoZT7EFXoqBpIGjwcKxcS34lZxddVZkM/rX3llu9x
-         1xNwKbJDgDFoHtmM9zjuKa2JKV5bKzlLeVxtfJ6KjQ0oBgDYBPm38xrqOxI7P3N5AsCX
-         C/015rXs3ARlX6U+McPUCmvHNxNLIA631kFzxthl2naNXH7C3nIGWIbE4BMrWxqKl+wz
-         bfs3KaRTTtEtCJlKxnEd1VqEFV5yn5Jed1uKnXscAit3rL4geAlcoOuT7/QzJqoK7kw9
-         c3VkZOwT49mGuCj1EH/eLolCrZ7uehmia84kPNFOA3BFZr9eJEyf7vTnis6vSzoevusP
-         xFRg==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=yxZ6uTqE9M1oqOGMljjFo58GbzTMfYVPd52q+pePgxw=;
+        b=REmgn74rDMBgjd8pnzpToZc3SFG5RNYQs8UC85sJnfDKth6EGryjaTqkzUDgwiGQ7c
+         tCNS2RA7sLjWe+0XfjBqmw5EnaqSqCGOuxKa/Xf04TC2wuqLiElztnyep3AjdG/V4qHO
+         XiqU5D7ZIbSLMWh+eAjKKt2IzQJrS8lwXKYDk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=zC0FSxKpLoe/OXKoGtYlADScSGk50YeMee0bEQXkC4Q=;
-        b=fueRLHiSUyRKStEs6tH1aL/dMY6Y6EFTFFjNCDZGTTZXe8QCOV1rmSE6CplX3bYldp
-         XfYVmxKKtllAV46nrjk4i/rh9TBBqXDCPqK6qCogYQIevzdF3jVU87KqS8ISdo41dYnG
-         Io1db7jpe4tQvzku70at9yrGB4oNmexcYQ1p/xE5FFKQwkWAFKpZWekrdaKDWwLmI2Ip
-         72aGuj5Gxzcwn4yQKDMQOzeTB6ZIO/I5Vx3PPAaQYIHcVi4yccomt/nurg3Fg7nMZgpm
-         LngBqM+yP1Lc8UO4NS+peFTa5FAbzad3Oxs+BwSUm3/YYhQFxSnVonFtI5SXg8g629MF
-         AmNw==
-X-Gm-Message-State: AOAM533ooLpA6BzFQPpIQ5SLJPwT2xj8FLGXLQOvrPO4Xpcx/TgaxDys
-	gzaYSdDH6sGE/0iW/HH3k9pecw==
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=yxZ6uTqE9M1oqOGMljjFo58GbzTMfYVPd52q+pePgxw=;
+        b=HfLsGXSptMQygkOfd28fNtoQZL29HHxpun5XeNwAn2QFmSByDcFO2K23OihcPROLwM
+         K+WxsxiBsPPjqm9eMiiSecxc6GwuvjTJGcIWogrP0HDCTxcs6iKJTZo3JlEr2daNIhOH
+         zDFNAToXB0Cn8AJ0Xo/iTCWvLjSAxquYk0mfNAh6pNbvhpDzEhSWno9Lxr8x9LHWks6v
+         bs4Ee6fIygOIRRe4y1PXH7y9gw7oG4MRS9xdTL4BKorY5rG5hs7DXzzkCPc321OASn/y
+         NO7FM8EcvI3rdZFrsk+MwLPTt95NgU5VXBABpor0THL6zQ/ayWR7698hId2v4WGdP/gg
+         YpaA==
+X-Gm-Message-State: AOAM531ApgfB4R3MDLwbUV/+UdjeLzqdmfKS1jTEzp1j32YJf8X6hPei
+	hdu1gLtxFoNse7++OXqxfLV+yoiSjesWZnc2
 X-Google-Smtp-Source: 
- ABdhPJyAHCYvpN9abnsKK5BbhT0B6y7pJ+fd/HBicVNv+TufVJIV0z7XLVAWQDI9f33+/9w0DBkryQ==
-X-Received: by 2002:a05:6512:1509:b0:443:e7fa:1c68 with SMTP id
- bq9-20020a056512150900b00443e7fa1c68mr29736662lfb.58.1653662090472;
-        Fri, 27 May 2022 07:34:50 -0700 (PDT)
-Received: from [10.180.37.36] ([45.153.104.1])
-        by smtp.googlemail.com with ESMTPSA id
- d13-20020a19384d000000b0047255d2118fsm893873lfj.190.2022.05.27.07.34.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 May 2022 07:34:49 -0700 (PDT)
-Message-ID: <f9566951-ab8e-10fd-5611-029e5b7a2685@northern.tech>
-Date: Fri, 27 May 2022 16:34:49 +0200
+ ABdhPJy1m8wosxH0eNoLbf7AjkzGa44mH3dvNycafWZZZNQ+LQuyzjEYGAWPsCCOlH/Ysf3uSVTM9w==
+X-Received: by 2002:adf:cd87:0:b0:20f:e5fd:d265 with SMTP id
+ q7-20020adfcd87000000b0020fe5fdd265mr19808530wrj.196.1653667707151;
+        Fri, 27 May 2022 09:08:27 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:6a82:36c1:b105:e682])
+        by smtp.gmail.com with ESMTPSA id
+ t1-20020adfe101000000b0020d110bc39esm2089189wrz.64.2022.05.27.09.08.26
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 May 2022 09:08:26 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/2] python3: Ensure stale empty python module directories
+ don't break the build
+Date: Fri, 27 May 2022 17:08:25 +0100
+Message-Id: <20220527160825.461505-2-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220527160825.461505-1-richard.purdie@linuxfoundation.org>
+References: <20220527160825.461505-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [OE-core] externalsrc wiping out external source directory
-Content-Language: en-US
-To: richard.purdie@linuxfoundation.org,
- OE-core <Openembedded-core@lists.openembedded.org>
-References: <f3eb760d-07f2-b5ca-a425-fc1166be8064@northern.tech>
- <01c18d2c70290294a649df5c8e044b9d680ebf82.camel@linuxfoundation.org>
-From: Kristian Amlie <kristian.amlie@northern.tech>
-In-Reply-To: 
- <01c18d2c70290294a649df5c8e044b9d680ebf82.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 May 2022 14:34:59 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 27 May 2022 16:08:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166210
+ https://lists.openembedded.org/g/openembedded-core/message/166211
 
-On 27/05/2022 16:19, richard.purdie@linuxfoundation.org wrote:
-> On Fri, 2022-05-27 at 14:07 +0200, Kristian Amlie via
-> lists.openembedded.org wrote:
->> Hey all,
->>
->> I have a problem on kirkstone where using the "externalsrc" class wipes
->> out the directory mentioned in EXTERNALSRC, in other words my personal
->> development repository.
->>
->> I have traced it down to the "do_unpack[cleandirs]" variable flag. This
->> flag is supposed to be removed here [1] when using "externalsrc", and
->> indeed I have verified that this is the case. But when the function is
->> about to be executed, the "cleandirs" variable flag has somehow been
->> restored [2]. This causes the directory to be removed after all, despite
->> the attempt at avoiding it.
->>
->> At this point I'm a bit lost, I don't really know what happens between
->> those two steps. Does anyone have any idea what might be happening? It
->> sounds like a pretty serious bug to me, wiping out things in the home
->> directory of the user.
->>
->> [1]
->> https://git.yoctoproject.org/poky/tree/meta/classes/externalsrc.bbclass?h=kirkstone#n93
->> [2]
->> https://git.yoctoproject.org/poky/tree/bitbake/lib/bb/build.py?h=kirkstone#n191
-> 
-> That certainly isn't supposed to happen. As you say, the code is
-> supposed to disable that and isn't behaving as intended. It is hard to
-> say more though.
-> 
-> Is there a test case you can share with us so we can reproduce the
-> issue? Without some way to replicate of more details of the environment
-> this occurred in, debugging it will be very hard.
+There are two issues inside importlib. Firstly, the modules are accessed in
+on disk order. This means behaviour seen on one system might not reproduce
+on another and is a real headache.
 
-Hehe, I suspected that would be the answer. I'll try to come up with 
-something, but it might take a day or two. This is in our quite complex 
-build farm setup, so I'll have to pry out the specific part which causes 
-the problem.
+Secondly, empty directories left behind by previous modules might be looked
+at. This has caused a long string of different issues for us.
 
-To be continued.
+As a result, patch this to a behaviour which works for us. Upstream discussion
+can follow later, this is breaking builds for too many people to leave unpatched.
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../python3/deterministic_imports.patch       | 29 +++++++++++++++++++
+ .../recipes-devtools/python/python3_3.10.4.bb |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/deterministic_imports.patch
+
+diff --git a/meta/recipes-devtools/python/python3/deterministic_imports.patch b/meta/recipes-devtools/python/python3/deterministic_imports.patch
+new file mode 100644
+index 00000000000..53cd9fac91b
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/deterministic_imports.patch
+@@ -0,0 +1,29 @@
++There are two issues here. Firstly, the modules are accessed in on disk order. This
++means behaviour seen on one system might not reproduce on another and is a real headache.
++
++Secondly, empty directories left behind by previous modules might be looked at. This
++has caused a long string of different issues for us.
++
++As a result, patch this to a behaviour which works for us.
++
++Upstream-Status: Pending [need to talk to upstream to see if they'll take one or both fixes]
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++
++
++Index: Python-3.10.4/Lib/importlib/metadata/__init__.py
++===================================================================
++--- Python-3.10.4.orig/Lib/importlib/metadata/__init__.py
+++++ Python-3.10.4/Lib/importlib/metadata/__init__.py
++@@ -819,7 +819,11 @@ class Lookup:
++         self.infos = FreezableDefaultDict(list)
++         self.eggs = FreezableDefaultDict(list)
++ 
++-        for child in path.children():
+++        for child in sorted(path.children()):
+++            childpath = pathlib.Path(path.root, child)
+++            if childpath.is_dir() and not any(childpath.iterdir()):
+++                # Empty directories aren't interesting
+++                continue
++             low = child.lower()
++             if low.endswith((".dist-info", ".egg-info")):
++                 # rpartition is faster than splitext and suitable for this purpose.
+diff --git a/meta/recipes-devtools/python/python3_3.10.4.bb b/meta/recipes-devtools/python/python3_3.10.4.bb
+index 9f1b96b5192..6bd3a6aba84 100644
+--- a/meta/recipes-devtools/python/python3_3.10.4.bb
++++ b/meta/recipes-devtools/python/python3_3.10.4.bb
+@@ -33,6 +33,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-sysconfig.py-use-platlibdir-also-for-purelib.patch \
+            file://0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch \
+            file://0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch \
++           file://deterministic_imports.patch \
+            "
+ 
+ SRC_URI:append:class-native = " \
 -- 
-Kristian
+2.34.1
+
 
