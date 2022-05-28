@@ -1,224 +1,161 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <akuster@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Subject: [PATCH 51/61] elfutils: update 0.186 -> 0.187
-Date: Thu,  5 May 2022 07:05:34 +0200
-Message-Id: <20220505050544.651895-51-alex@linutronix.de>
-In-Reply-To: <20220505050544.651895-1-alex@linutronix.de>
-References: <20220505050544.651895-1-alex@linutronix.de>
+Message-ID: <339ded2d-6648-0016-50cd-0f2769792f00@mvista.com>
+Date: Sat, 28 May 2022 11:07:00 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Subject: Re: [OE-core] [PATCH] tiff: Add jbig PACKAGECONFIG and clarify CVE-2022-1210
+References: <20220528100501.508207-1-richard.purdie@linuxfoundation.org>
+From: "Armin Kuster" <akuster@mvista.com>
+In-Reply-To: <20220528100501.508207-1-richard.purdie@linuxfoundation.org>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="0000000000003452af05e0164a7f"
 List-id: <openembedded-core.lists.openembedded.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core@lists.openembedded.org
 
-Drop backports.
+--0000000000003452af05e0164a7f
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
 
-License-Update: copyright years, copyright holders
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- .../{elfutils_0.186.bb => elfutils_0.187.bb}  |  6 +--
- ...infod-client.c-use-long-for-cache-ti.patch | 45 ----------------
- ...ompilation-on-platforms-without-erro.patch | 54 -------------------
- .../elfutils/files/0003-musl-utils.patch      |  8 +--
- .../0015-config-eu.am-do-not-use-Werror.patch |  2 +-
- 5 files changed, 7 insertions(+), 108 deletions(-)
- rename meta/recipes-devtools/elfutils/{elfutils_0.186.bb => elfutils_0.187.bb} (96%)
- delete mode 100644 meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-use-long-for-cache-ti.patch
- delete mode 100644 meta/recipes-devtools/elfutils/files/0001-debuginfod-fix-compilation-on-platforms-without-erro.patch
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.186.bb b/meta/recipes-devtools/elfutils/elfutils_0.187.bb
-similarity index 96%
-rename from meta/recipes-devtools/elfutils/elfutils_0.186.bb
-rename to meta/recipes-devtools/elfutils/elfutils_0.187.bb
-index 46ee40cce6..d20220e433 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.186.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.187.bb
-@@ -4,7 +4,7 @@ DESCRIPTION = "elfutils is a collection of utilities and libraries to read, crea
- SECTION = "base"
- LICENSE = "GPL-2.0-only & GPL-2.0-or-later & LGPL-3.0-or-later & GPL-3.0-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
--                    file://debuginfod/debuginfod-client.c;endline=27;md5=d2adfd8f5347d4c96e3c280393ce66da \
-+                    file://debuginfod/debuginfod-client.c;endline=28;md5=f0a7c3170776866ee94e8f9225a6ad79 \
-                     "
- DEPENDS = "zlib virtual/libintl"
- DEPENDS:append:libc-musl = " argp-standalone fts musl-obstack "
-@@ -21,14 +21,12 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://run-ptest \
-            file://ptest.patch \
-            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
--           file://0001-debuginfod-fix-compilation-on-platforms-without-erro.patch \
--           file://0001-debuginfod-debuginfod-client.c-use-long-for-cache-ti.patch \
-            "
- SRC_URI:append:libc-musl = " \
-            file://0003-musl-utils.patch \
-            file://0015-config-eu.am-do-not-use-Werror.patch \
-            "
--SRC_URI[sha256sum] = "7f6fb9149b1673d38d9178a0d3e0fb8a1ec4f53a9f4c2ff89469609879641177"
-+SRC_URI[sha256sum] = "e70b0dfbe610f90c4d1fe0d71af142a4e25c3c4ef9ebab8d2d72b65159d454c8"
- 
- inherit autotools gettext ptest pkgconfig
- PTEST_ENABLED:libc-musl = "0"
-diff --git a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-use-long-for-cache-ti.patch b/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-use-long-for-cache-ti.patch
-deleted file mode 100644
-index 089f1a2210..0000000000
---- a/meta/recipes-devtools/elfutils/files/0001-debuginfod-debuginfod-client.c-use-long-for-cache-ti.patch
-+++ /dev/null
-@@ -1,45 +0,0 @@
--From a0852044907110479d0fb212dda2c5e45af2d3aa Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Thu, 9 Dec 2021 10:43:06 +0100
--Subject: [PATCH] debuginfod/debuginfod-client.c: use long for cache time
-- configurations
--
--time_t is platform dependent and some of architectures e.g.
--x32, riscv32, arc use 64bit time_t even while they are 32bit
--architectures, therefore directly using integer printf formats will not
--work portably.
--
--Use a plain long everywhere as the intervals are small enough
--that it will not be problematic.
--
--Upstream-Status: Submitted [via email to mark@klomp.org,elfutils-devel@sourceware.org]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- debuginfod/debuginfod-client.c | 6 +++---
-- 1 file changed, 3 insertions(+), 3 deletions(-)
--
--diff --git a/debuginfod/debuginfod-client.c b/debuginfod/debuginfod-client.c
--index c875ee6..11e0fd5 100644
----- a/debuginfod/debuginfod-client.c
--+++ b/debuginfod/debuginfod-client.c
--@@ -134,17 +134,17 @@ struct debuginfod_client
--    how frequently the cache should be cleaned. The file's st_mtime represents
--    the time of last cleaning.  */
-- static const char *cache_clean_interval_filename = "cache_clean_interval_s";
---static const time_t cache_clean_default_interval_s = 86400; /* 1 day */
--+static const long cache_clean_default_interval_s = 86400; /* 1 day */
-- 
-- /* The cache_miss_default_s within the debuginfod cache specifies how
--    frequently the 000-permision file should be released.*/
---static const time_t cache_miss_default_s = 600; /* 10 min */
--+static const long cache_miss_default_s = 600; /* 10 min */
-- static const char *cache_miss_filename = "cache_miss_s";
-- 
-- /* The cache_max_unused_age_s file within the debuginfod cache specifies the
--    the maximum time since last access that a file will remain in the cache.  */
-- static const char *cache_max_unused_age_filename = "max_unused_age_s";
---static const time_t cache_default_max_unused_age_s = 604800; /* 1 week */
--+static const long cache_default_max_unused_age_s = 604800; /* 1 week */
-- 
-- /* Location of the cache of files downloaded from debuginfods.
--    The default parent directory is $HOME, or '/' if $HOME doesn't exist.  */
-diff --git a/meta/recipes-devtools/elfutils/files/0001-debuginfod-fix-compilation-on-platforms-without-erro.patch b/meta/recipes-devtools/elfutils/files/0001-debuginfod-fix-compilation-on-platforms-without-erro.patch
-deleted file mode 100644
-index e80d96aaca..0000000000
---- a/meta/recipes-devtools/elfutils/files/0001-debuginfod-fix-compilation-on-platforms-without-erro.patch
-+++ /dev/null
-@@ -1,54 +0,0 @@
--From 99617d7ab5b01c322b0f27d4aa0dd91c61793a5e Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?=C3=89rico=20Nogueira?= <erico.erc@gmail.com>
--Date: Wed, 10 Nov 2021 21:17:48 -0300
--Subject: [PATCH] debuginfod: fix compilation on platforms without <error.h>
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--"system.h" only declares the error() function, so it needs to be in an
--'extern "C"' block, otherwise linking fails.
--
--Since we are here, use quotes for "system.h" header, since it's a local
--header, not a system one.
--
--Upstream-Status: Backport [https://sourceware.org/git/?p=elfutils.git;a=commit;h=90b9e91b961b794a4e58ab76d9191a5e7343584e]
--Signed-off-by: Érico Nogueira <erico.erc@gmail.com>
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- debuginfod/ChangeLog      | 4 ++++
-- debuginfod/debuginfod.cxx | 2 +-
-- 2 files changed, 5 insertions(+), 1 deletion(-)
--
--diff --git a/debuginfod/ChangeLog b/debuginfod/ChangeLog
--index f06d3ee..822bd63 100644
----- a/debuginfod/ChangeLog
--+++ b/debuginfod/ChangeLog
--@@ -1,3 +1,7 @@
--+2021-11-10  Érico N. Rolim  <erico.erc@gmail.com>
--+
--+	* debuginfod.cxx: include "system.h" under 'extern "C"' block.
--+
-- 2021-11-05  Frank Ch. Eigler  <fche@redhat.com>
-- 
-- 	PR28430
--diff --git a/debuginfod/debuginfod.cxx b/debuginfod/debuginfod.cxx
--index 521cb52..764e7b9 100644
----- a/debuginfod/debuginfod.cxx
--+++ b/debuginfod/debuginfod.cxx
--@@ -33,11 +33,11 @@
-- 
-- extern "C" {
-- #include "printversion.h"
--+#include "system.h"
-- }
-- 
-- #include "debuginfod.h"
-- #include <dwarf.h>
---#include <system.h>
-- 
-- #include <argp.h>
-- #ifdef __GNUC__
---- 
--2.20.1
--
-diff --git a/meta/recipes-devtools/elfutils/files/0003-musl-utils.patch b/meta/recipes-devtools/elfutils/files/0003-musl-utils.patch
-index cbc9fce790..1c7cde6d7d 100644
---- a/meta/recipes-devtools/elfutils/files/0003-musl-utils.patch
-+++ b/meta/recipes-devtools/elfutils/files/0003-musl-utils.patch
-@@ -1,4 +1,4 @@
--From 8b48c580bae0b0ffc773b0b829c50d33a907853c Mon Sep 17 00:00:00 2001
-+From 81da32c3404b58cbad7b3af00854e0cf2dc3dbf1 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Fri, 23 Aug 2019 10:19:48 +0800
- Subject: [PATCH] musl-utils
-@@ -39,7 +39,7 @@ index e117166..8326f6c 100644
-  /* State of -D/-U flags.  */
-  extern bool arlib_deterministic_output;
- diff --git a/src/elfcompress.c b/src/elfcompress.c
--index 2c6d91b..608646e 100644
-+index 92f2fac..0b037a5 100644
- --- a/src/elfcompress.c
- +++ b/src/elfcompress.c
- @@ -37,6 +37,13 @@
-@@ -57,7 +57,7 @@ index 2c6d91b..608646e 100644
-  ARGP_PROGRAM_VERSION_HOOK_DEF = print_version;
-  
- diff --git a/src/strip.c b/src/strip.c
--index d5b753d..d6e1b64 100644
-+index 30a1f9d..e89a7f0 100644
- --- a/src/strip.c
- +++ b/src/strip.c
- @@ -46,6 +46,13 @@
-@@ -75,7 +75,7 @@ index d5b753d..d6e1b64 100644
-  
-  /* Name and version of program.  */
- diff --git a/src/unstrip.c b/src/unstrip.c
--index aacc9aa..5e71290 100644
-+index 3472637..40c73f3 100644
- --- a/src/unstrip.c
- +++ b/src/unstrip.c
- @@ -52,6 +52,15 @@
-diff --git a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-index 9952070939..a7715587db 100644
---- a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-+++ b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
-@@ -1,4 +1,4 @@
--From 5e39da062929a60a07ddfc8b6d435ea65ea3e31f Mon Sep 17 00:00:00 2001
-+From ff6ab57ba5dd37947ef1ffe5de7af5dbebfeb4e9 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 22 Jun 2020 21:35:16 +0000
- Subject: [PATCH] config/eu.am: do not use -Werror
--- 
-2.30.2
 
+On 5/28/22 03:05, Richard Purdie wrote:
+> We never depended upon libjbig so this was never present. Add the
+> PACKAGECONFIG to make this explict.
+>
+> CVE-2022-1210 is an issue in libjbig so we don't have a problem there,
+> mark as such.
+
+But what if I am a user or have a customer that needs that enabled? Now 
+that issue is masked if I run the CVE checking tools , I will have a 
+false sense of security.
+
+I understand that Redhat or Suse can make statements like that  as they 
+provide install-able  binaries but for a Project that starts from build 
+your own DISTRO, should the community take on this responsibility?
+
+- armin
+
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>   meta/recipes-multimedia/libtiff/tiff_4.3.0.bb | 4 ++++
+>   1 file changed, 4 insertions(+)
+>
+> diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+> index c5e964ec8c1..7a5e4816a6e 100644
+> --- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+> +++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+> @@ -32,6 +32,9 @@ CVE_CHECK_IGNORE += "CVE-2015-7313"
+>   # caused by 3079627e and fixed by b4e79bfa.
+>   CVE_CHECK_IGNORE += "CVE-2022-1622 CVE-2022-1623"
+>   
+> +# Issue is in jbig which we don't enable
+> +CVE_CHECK_IGNORE += "CVE-2022-1210"
+> +
+>   inherit autotools multilib_header
+>   
+>   CACHED_CONFIGUREVARS = "ax_cv_check_gl_libgl=no"
+> @@ -40,6 +43,7 @@ PACKAGECONFIG ?= "cxx jpeg zlib lzma \
+>                     strip-chopping extrasample-as-alpha check-ycbcr-subsampling"
+>   
+>   PACKAGECONFIG[cxx] = "--enable-cxx,--disable-cxx,,"
+> +PACKAGECONFIG[jbig] = "--enable-jbig,--disable-jbig,jbig,"
+>   PACKAGECONFIG[jpeg] = "--enable-jpeg,--disable-jpeg,jpeg,"
+>   PACKAGECONFIG[zlib] = "--enable-zlib,--disable-zlib,zlib,"
+>   PACKAGECONFIG[lzma] = "--enable-lzma,--disable-lzma,xz,"
+>
+> 
+>
+
+
+--0000000000003452af05e0164a7f
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIIR4QYJKoZIhvcNAQcCoIIR0jCCEc4CAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+gg8qMIIGTjCCBTagAwIBAgIQBK55YGZmkBq5xX+mbFvczTANBgkqhkiG9w0BAQsFADBlMQswCQYD
+VQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3d3cuZGlnaWNlcnQuY29t
+MSQwIgYDVQQDExtEaWdpQ2VydCBBc3N1cmVkIElEIFJvb3QgQ0EwHhcNMTMxMTA1MTIwMDAwWhcN
+MjgxMTA1MTIwMDAwWjBlMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYD
+VQQLExB3d3cuZGlnaWNlcnQuY29tMSQwIgYDVQQDExtEaWdpQ2VydCBTSEEyIEFzc3VyZWQgSUQg
+Q0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDc+BEjP2q178AneRstBYeiEEMx3w7U
+FRtPd6Qizj6McPC+B47dJyq8AR22LArK3WlYH0HtagUf2mN4WR4iLCv4un7JNTtW8R98Qn4lsCMZ
+xkU41z1E+SB8YK4csFoYBL6PO/ep8JSapgxjSbZBF1NAMr1P5lB6UB8lRejxia/N/17/UPPwFxH/
+vcWJ9b1iudj7jkUEhW2ZzcVITf0mqwI2Reo2119q4hqCQQrc6dn1kReOxiGtODwT5h5/ZpzVTdlG
+2vbPUqd9OyTDtMFRNcab69TvfuR7A+FEvXoLN+BPy4KKDXEY5KbgiSwb87JzPMGwkp4Yfb2rfcV9
+CKEswp9zAgMBAAGjggL4MIIC9DASBgNVHRMBAf8ECDAGAQH/AgEAMA4GA1UdDwEB/wQEAwIBhjA0
+BggrBgEFBQcBAQQoMCYwJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTCBgQYD
+VR0fBHoweDA6oDigNoY0aHR0cDovL2NybDQuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZElE
+Um9vdENBLmNybDA6oDigNoY0aHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJl
+ZElEUm9vdENBLmNybDAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwggGzBgNVHSAEggGq
+MIIBpjCCAaIGCmCGSAGG/WwAAgQwggGSMCgGCCsGAQUFBwIBFhxodHRwczovL3d3dy5kaWdpY2Vy
+dC5jb20vQ1BTMIIBZAYIKwYBBQUHAgIwggFWHoIBUgBBAG4AeQAgAHUAcwBlACAAbwBmACAAdABo
+AGkAcwAgAEMAZQByAHQAaQBmAGkAYwBhAHQAZQAgAGMAbwBuAHMAdABpAHQAdQB0AGUAcwAgAGEA
+YwBjAGUAcAB0AGEAbgBjAGUAIABvAGYAIAB0AGgAZQAgAEQAaQBnAGkAQwBlAHIAdAAgAEMAUAAv
+AEMAUABTACAAYQBuAGQAIAB0AGgAZQAgAFIAZQBsAHkAaQBuAGcAIABQAGEAcgB0AHkAIABBAGcA
+cgBlAGUAbQBlAG4AdAAgAHcAaABpAGMAaAAgAGwAaQBtAGkAdAAgAGwAaQBhAGIAaQBsAGkAdAB5
+ACAAYQBuAGQAIABhAHIAZQAgAGkAbgBjAG8AcgBwAG8AcgBhAHQAZQBkACAAaABlAHIAZQBpAG4A
+IABiAHkAIAByAGUAZgBlAHIAZQBuAGMAZQAuMB0GA1UdDgQWBBTnAiOAAE/Y17yUC9k/dDlJMjyK
+eTAfBgNVHSMEGDAWgBRF66Kv9JLLgjEtUYunpyGd823IDzANBgkqhkiG9w0BAQsFAAOCAQEATtSJ
+J7n9HYd3fg8oBZDxCi/JOz69k5yQxq/6kVGHMlRr6MrBcVFcmY61+uBiGZmmB5p8Eyfb5QKihBLZ
+FfYKRFfENI9tcx861qABPd7jguRFa7LrJf2AXh05kL5bQvbOkWDj+aBWDEgQzjNoe82Tq/Bqy09Y
+D7l7XRsEgZ6nIuJXSSfukpMIvmkIUwI6Ll3IGfRQgE4C2bBdkbSTh/mWloFVQI5m7YLYuyhf7Uxh
+7QZYKBlTEUS8RyApsgRs2IlUmTt122d4LB6SeMZVPVgSETJuvUMMTTTbe8ZC2+y+q5thTAaS447f
+ISpQVwTAYKI11SSeZjcJSc/V+GWz4OJuwjCCA7cwggKfoAMCAQICEAzn4OUX2Eb+j+Vg/BvwMDkw
+DQYJKoZIhvcNAQEFBQAwZTELMAkGA1UEBhMCVVMxFTATBgNVBAoTDERpZ2lDZXJ0IEluYzEZMBcG
+A1UECxMQd3d3LmRpZ2ljZXJ0LmNvbTEkMCIGA1UEAxMbRGlnaUNlcnQgQXNzdXJlZCBJRCBSb290
+IENBMB4XDTA2MTExMDAwMDAwMFoXDTMxMTExMDAwMDAwMFowZTELMAkGA1UEBhMCVVMxFTATBgNV
+BAoTDERpZ2lDZXJ0IEluYzEZMBcGA1UECxMQd3d3LmRpZ2ljZXJ0LmNvbTEkMCIGA1UEAxMbRGln
+aUNlcnQgQXNzdXJlZCBJRCBSb290IENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA
+rQ4VzuRDgFyxh/O3YPlxEqWu3CaUiKr0zvUgOShYYAz4gNqpFZUyYTy1sSiEiorcnwoMgxd6j5Cs
+iud5U1wxhCr2D5gyNnbM3t08qKLvavsh8lJh358g1x/isdn+GGTSEltf+VgYNbxHzaE2+Wt/1LA4
+PsEbw4wz2dgvGP4oD7Ong9bDbkTAYTWWFv5ZnIt2bdfxoksNK/8LctqeYNCOkDXGeFWHIKHP5W0K
+yEl8MZgzbCLph9AyWqK6E4IR7TkXnZk6cqHm+qTZ1Rcxda6FfSKuPwFGhvYoecix2uRXF8R+HA6w
+tJKmVrO9spftqqfwt8WoP5UW0P+hlusIXxh3TwIDAQABo2MwYTAOBgNVHQ8BAf8EBAMCAYYwDwYD
+VR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUReuir/SSy4IxLVGLp6chnfNtyA8wHwYDVR0jBBgwFoAU
+Reuir/SSy4IxLVGLp6chnfNtyA8wDQYJKoZIhvcNAQEFBQADggEBAKIOvN/i7fDjcnN6ZJS/93Jm
+2DLkQnVirofr8tXZ3lazn8zOFCi5DZdgXBJMWOTTPYNJRViXNWkaqEfqVsZ5qxLYZ4GE338JPJTm
+uCYsIL09syiJ91//IuKXhB/pZe+H4N/BZ0mzXeuyCSrrJu14vn0/K/O3JjVtX4kBtklbnwEFm6s9
+JcHMtn/C8W+GxvpkaOuBLZTrQrf6jB7dYvG+UGe3bL3z8R9rDDYHFn83fKlbbXrxEkZgg9cnBL5L
+zpe+w2cqaBHfgOcMM2a/Ew0UbvN/H2MQHvqNGyVtbI+lt2EBsdKjJqEQcZ2t4sP5w5lRtysHCM4u
+5lCyp/oKRS+i8PIwggUZMIIEAaADAgECAhABmeiIGxb92d1jHUeNPLJ7MA0GCSqGSIb3DQEBCwUA
+MGUxCzAJBgNVBAYTAlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdp
+Y2VydC5jb20xJDAiBgNVBAMTG0RpZ2lDZXJ0IFNIQTIgQXNzdXJlZCBJRCBDQTAeFw0yMTEwMjkw
+MDAwMDBaFw0yMzEwMjcyMzU5NTlaMEAxGzAZBgNVBAMMEmFrdXN0ZXJAbXZpc3RhLmNvbTEhMB8G
+CSqGSIb3DQEJARYSYWt1c3RlckBtdmlzdGEuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB
+CgKCAQEA60Rtp117FyjzKFRYeZrx5QdhlSA7VUEQxYtnCtN656+u6Vjq/R0I4KAIMaAEOlS3Purp
+DrHBMf1gqCKZHdzCkmj5L8GtBkB6yT1NoJnBTH83TgLbRFPB3WnTFmWTSnBkFyyrkoc8JKIzu/p0
+CM/+pHHH9IR5lmzdraoKnHx9ZUwaNltEPZpDWo7zxqQXS+uToztNNuhYPOZhMQmGBVOzczliElcm
++DOgmn89Va8QVYqzPglbvjsYSIk2kzaKVffLxyY2p0yvWY8w7CAEYk2gLfPuZiqIdXGYmEyKH86H
+27AP1uMrYQjEw1R9VY4JrpDLehuUs/RGYWyMAjfo1NDh0QIDAQABo4IB6DCCAeQwHwYDVR0jBBgw
+FoAU5wIjgABP2Ne8lAvZP3Q5STI8inkwHQYDVR0OBBYEFL0akMb3LmLy7bKAAO6QDtKy8WI7MAwG
+A1UdEwEB/wQCMAAwHQYDVR0RBBYwFIESYWt1c3RlckBtdmlzdGEuY29tMA4GA1UdDwEB/wQEAwIF
+oDAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIwQwYDVR0gBDwwOjA4BgpghkgBhv1sBAEB
+MCowKAYIKwYBBQUHAgEWHGh0dHBzOi8vd3d3LmRpZ2ljZXJ0LmNvbS9DUFMwgYUGA1UdHwR+MHww
+PKA6oDiGNmh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydFNIQTJBc3N1cmVkSURDQS0x
+LmNybDA8oDqgOIY2aHR0cDovL2NybDQuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0U0hBMkFzc3VyZWRJ
+RENBLTEuY3JsMHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNl
+cnQuY29tMEMGCCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRT
+SEEyQXNzdXJlZElEQ0EuY3J0MA0GCSqGSIb3DQEBCwUAA4IBAQCUY9qc+vTg/KOKUB9htYLvs1km
+5XF3yyLnIoMBvbmx4zatz0YddFP7UT0esHLGDEW2suAlq44A6SRd2fTUe0tyjGAxsblGwxKp0ypw
+p6xjYeJAkp0nEemsYGxGSOf1HP9BIT1bFT9CHHCoX26wxtf7RF2fePncJ4wPBxFzJdecBcKgL8uN
+yQnDtPyJ0DC4bVz9Z67nEFJcFTyrzbvo4sk9A8QKYANnjmCYPSEIlis8o7zERwxC/xNTgzAXzlDS
+8mJM7ja9otySdENt1tyty90IOWryaSvfeHDffO0YCDvbAVCcisvjni5esAu0sDrJr+ODF4laEVBF
+z4PNrDvNN2gGMYICezCCAncCAQEweTBlMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQg
+SW5jMRkwFwYDVQQLExB3d3cuZGlnaWNlcnQuY29tMSQwIgYDVQQDExtEaWdpQ2VydCBTSEEyIEFz
+c3VyZWQgSUQgQ0ECEAGZ6IgbFv3Z3WMdR408snswDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcN
+AQkEMSIEINOTq1khCcRqk9G6abEBHy0nTZJ35+qAE/dqpxzMlgXwMBgGCSqGSIb3DQEJAzELBgkq
+hkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIyMDUyODE4MDcwMlowaQYJKoZIhvcNAQkPMVwwWjAL
+BglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG
+9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQC1S2WvWMQy
+EU2cD4I+u3/FpFSbHJcjTJTe0SyDyghtGv5OvvhFLnUY7oDR2uAaj41x69XIDh0has8y4enrDVR2
+WlnZ4H8zE+A8XqsiVJ1Jp+w01LYp39MNdBg9orz7jmnft/sXtotNRDaB/S1tKFIzFO8Tllm9ou7T
+FUCj3miO5TbhWV8fYbCgoiuPCZIJ+zYxkWdbI4lX4AH4rWY3YjgSJvXwAUOZUdIMxkPu4W3qhGq3
+L1g3w32rWkwIe4aUzkaCuTIjWCf3Xn0LKKM7d5lABIITHjxvn4PJLk/5ley3NNTo5sgegfh5kupv
+bCtbTqimHZD8y7p+axmAe3SeOaSW
+
+--0000000000003452af05e0164a7f--
