@@ -1,133 +1,104 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 735BDC433EF
-	for <webhook@archiver.kernel.org>; Sat, 28 May 2022 09:57:25 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
- [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web11.13474.1653731842683085705
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A07D0C433EF
+	for <webhook@archiver.kernel.org>; Sat, 28 May 2022 10:05:16 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web08.13486.1653732304869301488
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 May 2022 02:57:23 -0700
+ Sat, 28 May 2022 03:05:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=lkjuxOR+;
- spf=pass (domain: gmail.com, ip: 209.85.218.52,
- mailfrom: alex.kiernan@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id q21so12793418ejm.1
+ dkim=fail reason="no key for verify" header.i=@linuxfoundation.org
+ header.s=google header.b=QPhqx2bl;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id
+ v4-20020a1cac04000000b00397001398c0so5811661wme.5
         for <openembedded-core@lists.openembedded.org>;
- Sat, 28 May 2022 02:57:22 -0700 (PDT)
+ Sat, 28 May 2022 03:05:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GBuFohmlO8nY6F2sovEvHnnnQMMroBTHftGafyjWerk=;
-        b=lkjuxOR+evn4pkXn56b6t2cs8/lwS1ERW4M7OeoBKjuIaGjffgToMiRXFfq/uonx4Z
-         G8YYW98dVlgSFvCFVGBWzR761c6kyKwfUuY9Zy5sEftGC9jAtw4iPAUJD6K2HmOAV92E
-         NNq/RZKXdyt4PEhZnp1RuBfSf/5TYsn9TISXin1tk51Rpn+5y9Dd8w8Zvj8mciK0gfqi
-         TzT7/IdmKVzZ4pbjYz/SPkXwk3eTZhA7nL6ip0i724M/ucKn0zrCecbOpJKDlVRY/Sn1
-         jA+m2OzlQQeW4VUVCQidV6CaUnieRI+muQMt2tgjZh5yIIUlA5IjFM8tK9qXAaJMcs18
-         5PyA==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AHuK/H71cPb75F6QDLgwvtg323gh1Z89ynloeK46VLo=;
+        b=QPhqx2blmDbmsiVStNeyjH6sX0UcbW2WPjgTmF5gMrrwvH2Q/eAsqV/rNZzMXhSNbK
+         sX2Ss2y5jzSN+Emn87TOdGj2QSRuS7Fg/yVqVAuUmPSidRFjcBpJjGOYo5cWmDEfZezD
+         IwuiTF6h6z4oc55wrCPo68bL3f9sBnjYmFMH8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GBuFohmlO8nY6F2sovEvHnnnQMMroBTHftGafyjWerk=;
-        b=hup4fjDSjgpPrKPmpaoKKq1PKIboStmE3A4n7U43QbTT8KLHAbjIHepEMbDS/G67dP
-         snSOvJV1z1Gh1Ldca9kWqSPNmIwJzLf/wQKNa8jpDLTK+kGiAyKjExjsD3oC5QYzU/8W
-         nhGffvAf1kprbJsjCHAY+lXvlxQKoD3qAy+FHaXbkJ5MySpfH/iDyh/lMYacWko3/gH0
-         7g7+BaN1UTB7zZ+p3zLTNwjZSsgmXUnMtA8p7lXelWupv7gFxiy/PeWJSTpAIs66xMpU
-         ka/8VorY2knScxVIz8xpq0z9phcunXXHHNL4dKXDh3hPyG1Jdvq51gfjTSBk4PQ4UoIG
-         rQCw==
-X-Gm-Message-State: AOAM533BmSRa72t0cXB8NVLYJVNsBznBYUxEYVjf+iC6bwOifps0Lc6k
-	u19ZmuDswVCV3mVE1fkQO6KNfjMm09hBf5XdiXk=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AHuK/H71cPb75F6QDLgwvtg323gh1Z89ynloeK46VLo=;
+        b=6n7p/NfrfKFB1Sx9gnoh0VK9mRbDZF12HUxjxJ913A38BDU7ftMihBcMzDqJ1DxWi/
+         e4IKx46YBwetROvaqJORcQ3/yX/d014e4L2RHWp69F1DY/QEDwj5HNisfYZDDIGe1L2X
+         MPlO7bDsY5pRVazPzVLvRLjvfhfJb9A3HbeoJIMwoDuN8PUj+nqGjmd03V89ojiiIgmt
+         aG+waUPBj6U6dedqiYCtAdxfpLFcZHXGdyg+42GGnJDA4dmSw4UzIo9HtQRCPHqmel2f
+         SXf7T6ZBtLhNZ/kNzzWL+pSbxcoQ8LxdpktRRQC4HTkRPd0V8kTAHi8oYxeO4Imkspf4
+         lfAw==
+X-Gm-Message-State: AOAM533R2F8j9rqBqlq64CHD/upBqC6qRxMLHSUbcxQBkPcxtKfzkAKP
+	uIMIYRI97ZIvf74yKQIypBkNyOS9MG78UkL3
 X-Google-Smtp-Source: 
- ABdhPJxzMhzhCHEQ5FHQ2xnH6Jpeuph3veaerRpy4yiVuV8DlHnSDfHJDI817JaRc7++B1/3ekQT6fX+py2Xtg94RnM=
-X-Received: by 2002:a17:906:a10e:b0:6f3:e70b:b572 with SMTP id
- t14-20020a170906a10e00b006f3e70bb572mr40232232ejy.546.1653731841076; Sat, 28
- May 2022 02:57:21 -0700 (PDT)
+ ABdhPJybawWJE1OOstuYUitcrJqnrvgQWq1LroAjZtHpxmBKNyMlzhsdBIv4nWFEDUx6ii/XgFiJQw==
+X-Received: by 2002:a7b:ca46:0:b0:397:7c5c:b962 with SMTP id
+ m6-20020a7bca46000000b003977c5cb962mr10284106wml.139.1653732302924;
+        Sat, 28 May 2022 03:05:02 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:41b6:b722:6b4c:6704])
+        by smtp.gmail.com with ESMTPSA id
+ i11-20020a5d584b000000b0020d106c0386sm3791350wrf.89.2022.05.28.03.05.01
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 May 2022 03:05:02 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] tiff: Add jbig PACKAGECONFIG and clarify CVE-2022-1210
+Date: Sat, 28 May 2022 11:05:01 +0100
+Message-Id: <20220528100501.508207-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: 
- <OS0PR01MB61783B64BAF9C5AE3BE85331A0D89@OS0PR01MB6178.jpnprd01.prod.outlook.com>
- <CANNYZj8LKgJA5vheJz-fMO_7ySbgPenzGMH58zSZSCMLCm50mA@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj8LKgJA5vheJz-fMO_7ySbgPenzGMH58zSZSCMLCm50mA@mail.gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Sat, 28 May 2022 10:57:09 +0100
-Message-ID: 
- <CAO5Uq5SfVGqyu-+-Nnxn4hFSaZDBtA2qhUo+TQ89CjxgvYU-cA@mail.gmail.com>
-Subject: Re: [OE-core] DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
- doesn't work.
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: leimaohui <leimaohui@fujitsu.com>,
-	"openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 28 May 2022 09:57:25 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 28 May 2022 10:05:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166224
+ https://lists.openembedded.org/g/openembedded-core/message/166225
 
-I suspect it's that you can't set it in local.conf now:
+We never depended upon libjbig so this was never present. Add the
+PACKAGECONFIG to make this explict.
 
-# $INIT_MANAGER [3 operations]
-#   set /home/alexk/poky/build/conf/local.conf:291
-#     "systemd"
-#   set /home/alexk/poky/meta-poky/conf/distro/poky.conf:70
-#     "sysvinit"
-#   set /home/alexk/poky/meta/conf/distro/defaultsetup.conf:20
-#     [_defaultval] "none"
-# pre-expansion value:
-#   "sysvinit"
-INIT_MANAGER="sysvinit"
+CVE-2022-1210 is an issue in libjbig so we don't have a problem there,
+mark as such.
 
-On Fri, May 27, 2022 at 8:11 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Can you explain the use case please? If you just want to use systemd,
-> set INIT_MANAGER = "systemd".
->
-> Alex
->
-> On Fri, 27 May 2022 at 02:39, leimaohui <leimaohui@fujitsu.com> wrote:
-> >
-> > Hi, all
-> >
-> > Because the following patch, "DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"" doesn't work anymore. I have to " DISTRO_FEATURES:remove = "sysvinit" " instead to disable sysvinit.
-> > But I'm not very clear if there is difference between "DISTRO_FEATURES_BACKFILL_CONSIDERED" and " DISTRO_FEATURES:remove " for my image. Can anybody tell me?
-> > --------------------------------------
-> > commit a6ebbe3a10ff76386dde03ddaa7097bdb2f5d9a5
-> > Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > Date:   Wed Apr 13 18:41:39 2022 +0100
-> >
-> >     poky: Use INIT_MANAGER in main distro config
-> >
-> >     Just to keep things standard and clear, use the new INIT_MANAGER variable
-> >     in the main distro config. This matches the default config with the addition
-> >     of some DISTRO_FEATURES tweaks.
-> >     ......
-> >     BB_HASHSERVE ??= "auto"
-> >     +
-> >     +INIT_MANAGER = "sysvinit"
-> > --------------------------------------
-> >
-> > Best regards
-> > Lei
-> >
-> >
-> >
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#166217): https://lists.openembedded.org/g/openembedded-core/message/166217
-> Mute This Topic: https://lists.openembedded.org/mt/91367188/3618097
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kiernan@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+index c5e964ec8c1..7a5e4816a6e 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+@@ -32,6 +32,9 @@ CVE_CHECK_IGNORE += "CVE-2015-7313"
+ # caused by 3079627e and fixed by b4e79bfa.
+ CVE_CHECK_IGNORE += "CVE-2022-1622 CVE-2022-1623"
+ 
++# Issue is in jbig which we don't enable
++CVE_CHECK_IGNORE += "CVE-2022-1210"
++
+ inherit autotools multilib_header
+ 
+ CACHED_CONFIGUREVARS = "ax_cv_check_gl_libgl=no"
+@@ -40,6 +43,7 @@ PACKAGECONFIG ?= "cxx jpeg zlib lzma \
+                   strip-chopping extrasample-as-alpha check-ycbcr-subsampling"
+ 
+ PACKAGECONFIG[cxx] = "--enable-cxx,--disable-cxx,,"
++PACKAGECONFIG[jbig] = "--enable-jbig,--disable-jbig,jbig,"
+ PACKAGECONFIG[jpeg] = "--enable-jpeg,--disable-jpeg,jpeg,"
+ PACKAGECONFIG[zlib] = "--enable-zlib,--disable-zlib,zlib,"
+ PACKAGECONFIG[lzma] = "--enable-lzma,--disable-lzma,xz,"
 -- 
-Alex Kiernan
+2.34.1
+
 
