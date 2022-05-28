@@ -1,92 +1,133 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B15BC433F5
-	for <webhook@archiver.kernel.org>; Sat, 28 May 2022 09:44:55 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web09.13431.1653731092992223889
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 735BDC433EF
+	for <webhook@archiver.kernel.org>; Sat, 28 May 2022 09:57:25 +0000 (UTC)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web11.13474.1653731842683085705
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 May 2022 02:44:53 -0700
+ Sat, 28 May 2022 02:57:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ETbo/c3U;
- spf=none, err=permanent DNS error (domain: linuxfoundation.org,
- ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id e2so8713081wrc.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=lkjuxOR+;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52,
+ mailfrom: alex.kiernan@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id q21so12793418ejm.1
         for <openembedded-core@lists.openembedded.org>;
- Sat, 28 May 2022 02:44:52 -0700 (PDT)
+ Sat, 28 May 2022 02:57:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4llCqCAGzhJn3r1wx70u+XnBP69B78oLB7NWBUWt4dA=;
-        b=ETbo/c3Ur+OCiZ3y03DOhr3p/L4YmKdbMF7kqVPTfhAPRL0VyGCuHepNy0YyBh6RGV
-         BQYk/lVWWoHwcQOr7mT1ZbkHwGqay2DMZ7XRhmjhDF0IXRcNY6QjyMZl/LGH4fzKlAIj
-         z9IeJxhUxErvUY6u6r2XfhmiyJpcFB7MhDOPs=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GBuFohmlO8nY6F2sovEvHnnnQMMroBTHftGafyjWerk=;
+        b=lkjuxOR+evn4pkXn56b6t2cs8/lwS1ERW4M7OeoBKjuIaGjffgToMiRXFfq/uonx4Z
+         G8YYW98dVlgSFvCFVGBWzR761c6kyKwfUuY9Zy5sEftGC9jAtw4iPAUJD6K2HmOAV92E
+         NNq/RZKXdyt4PEhZnp1RuBfSf/5TYsn9TISXin1tk51Rpn+5y9Dd8w8Zvj8mciK0gfqi
+         TzT7/IdmKVzZ4pbjYz/SPkXwk3eTZhA7nL6ip0i724M/ucKn0zrCecbOpJKDlVRY/Sn1
+         jA+m2OzlQQeW4VUVCQidV6CaUnieRI+muQMt2tgjZh5yIIUlA5IjFM8tK9qXAaJMcs18
+         5PyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4llCqCAGzhJn3r1wx70u+XnBP69B78oLB7NWBUWt4dA=;
-        b=t8Gc8qaoy85ENcpRR4dn3rs1thA95lve2RZipyNJuJyRdEiEiZLOXTJ5Lz0DIs/+oD
-         UiivibZVHDidA34dKSr2gYLI1k0GuPgwgU+Oh9i7rA1DeyJ26+hUZsGcx+mSUElB8q8a
-         PCbdSOfbyXS3Hz84e3OMpZdpM3+kpgm98tZQ5pkb2fiOyIh6ML+8iVGFNSSW65aV0snJ
-         Che8AXxFu85KeOScK8nfAjJLjdjybS7Sa+fAyJ4gGlHUa7IN/SnfHrs2vInvUtMKNk6r
-         tgqprqzizoz4PDGqmfoR6z73IygPRXngLyMclsep/2SiKXqEVrZnoTfCbTGX5FZnwyVH
-         wLbQ==
-X-Gm-Message-State: AOAM530ZvCZ+YAbd9Kpu7Q0JDM5yB53Mp9ePoyEMpkZv2QwZ6WLhvmjr
-	cYJMEGuzQWvkBBSnC/wHZlkMaVUt/TPEhpLk
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GBuFohmlO8nY6F2sovEvHnnnQMMroBTHftGafyjWerk=;
+        b=hup4fjDSjgpPrKPmpaoKKq1PKIboStmE3A4n7U43QbTT8KLHAbjIHepEMbDS/G67dP
+         snSOvJV1z1Gh1Ldca9kWqSPNmIwJzLf/wQKNa8jpDLTK+kGiAyKjExjsD3oC5QYzU/8W
+         nhGffvAf1kprbJsjCHAY+lXvlxQKoD3qAy+FHaXbkJ5MySpfH/iDyh/lMYacWko3/gH0
+         7g7+BaN1UTB7zZ+p3zLTNwjZSsgmXUnMtA8p7lXelWupv7gFxiy/PeWJSTpAIs66xMpU
+         ka/8VorY2knScxVIz8xpq0z9phcunXXHHNL4dKXDh3hPyG1Jdvq51gfjTSBk4PQ4UoIG
+         rQCw==
+X-Gm-Message-State: AOAM533BmSRa72t0cXB8NVLYJVNsBznBYUxEYVjf+iC6bwOifps0Lc6k
+	u19ZmuDswVCV3mVE1fkQO6KNfjMm09hBf5XdiXk=
 X-Google-Smtp-Source: 
- ABdhPJz3yoGt1Xph7V0dB2sEW01zBRyaLlP8oEltwif+4wuDj+Xr7ze7koAMZ63fZu/qUOXq3qfgYQ==
-X-Received: by 2002:a05:6000:2a2:b0:20f:d7ca:476 with SMTP id
- l2-20020a05600002a200b0020fd7ca0476mr24939543wry.501.1653731090524;
-        Sat, 28 May 2022 02:44:50 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:41b6:b722:6b4c:6704])
-        by smtp.gmail.com with ESMTPSA id
- s5-20020a05600c384500b0039750c29cf7sm4535159wmr.40.2022.05.28.02.44.49
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 May 2022 02:44:50 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] vim: Upgrade 8.2.4912 -> 8.2.5034 to fix 9 CVEs
-Date: Sat, 28 May 2022 10:44:49 +0100
-Message-Id: <20220528094449.504831-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
+ ABdhPJxzMhzhCHEQ5FHQ2xnH6Jpeuph3veaerRpy4yiVuV8DlHnSDfHJDI817JaRc7++B1/3ekQT6fX+py2Xtg94RnM=
+X-Received: by 2002:a17:906:a10e:b0:6f3:e70b:b572 with SMTP id
+ t14-20020a170906a10e00b006f3e70bb572mr40232232ejy.546.1653731841076; Sat, 28
+ May 2022 02:57:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: 
+ <OS0PR01MB61783B64BAF9C5AE3BE85331A0D89@OS0PR01MB6178.jpnprd01.prod.outlook.com>
+ <CANNYZj8LKgJA5vheJz-fMO_7ySbgPenzGMH58zSZSCMLCm50mA@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj8LKgJA5vheJz-fMO_7ySbgPenzGMH58zSZSCMLCm50mA@mail.gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Sat, 28 May 2022 10:57:09 +0100
+Message-ID: 
+ <CAO5Uq5SfVGqyu-+-Nnxn4hFSaZDBtA2qhUo+TQ89CjxgvYU-cA@mail.gmail.com>
+Subject: Re: [OE-core] DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
+ doesn't work.
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: leimaohui <leimaohui@fujitsu.com>,
+	"openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 28 May 2022 09:44:55 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 28 May 2022 09:57:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166223
+ https://lists.openembedded.org/g/openembedded-core/message/166224
 
-Address CVE-2022-1621, CVE-2022-1629, CVE-2022-1674, CVE-2022-1733, CVE-2022-1735
-CVE-2022-1769, CVE-2022-1771, CVE-2022-1785, CVE-2022-1796
+I suspect it's that you can't set it in local.conf now:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+# $INIT_MANAGER [3 operations]
+#   set /home/alexk/poky/build/conf/local.conf:291
+#     "systemd"
+#   set /home/alexk/poky/meta-poky/conf/distro/poky.conf:70
+#     "sysvinit"
+#   set /home/alexk/poky/meta/conf/distro/defaultsetup.conf:20
+#     [_defaultval] "none"
+# pre-expansion value:
+#   "sysvinit"
+INIT_MANAGER="sysvinit"
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index c5922b7fcd7..b22e8016abb 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -21,8 +21,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://racefix.patch \
-            "
- 
--PV .= ".4912"
--SRCREV = "a7583c42cd6b64fd276a5d7bb0db5ce7bfafa730"
-+PV .= ".5034"
-+SRCREV = "5a6ec10cc80ab02eeff644ab19b82312630ea855"
- 
- # Remove when 8.3 is out
- UPSTREAM_VERSION_UNKNOWN = "1"
+On Fri, May 27, 2022 at 8:11 PM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> Can you explain the use case please? If you just want to use systemd,
+> set INIT_MANAGER = "systemd".
+>
+> Alex
+>
+> On Fri, 27 May 2022 at 02:39, leimaohui <leimaohui@fujitsu.com> wrote:
+> >
+> > Hi, all
+> >
+> > Because the following patch, "DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"" doesn't work anymore. I have to " DISTRO_FEATURES:remove = "sysvinit" " instead to disable sysvinit.
+> > But I'm not very clear if there is difference between "DISTRO_FEATURES_BACKFILL_CONSIDERED" and " DISTRO_FEATURES:remove " for my image. Can anybody tell me?
+> > --------------------------------------
+> > commit a6ebbe3a10ff76386dde03ddaa7097bdb2f5d9a5
+> > Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > Date:   Wed Apr 13 18:41:39 2022 +0100
+> >
+> >     poky: Use INIT_MANAGER in main distro config
+> >
+> >     Just to keep things standard and clear, use the new INIT_MANAGER variable
+> >     in the main distro config. This matches the default config with the addition
+> >     of some DISTRO_FEATURES tweaks.
+> >     ......
+> >     BB_HASHSERVE ??= "auto"
+> >     +
+> >     +INIT_MANAGER = "sysvinit"
+> > --------------------------------------
+> >
+> > Best regards
+> > Lei
+> >
+> >
+> >
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#166217): https://lists.openembedded.org/g/openembedded-core/message/166217
+> Mute This Topic: https://lists.openembedded.org/mt/91367188/3618097
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kiernan@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+
+
 -- 
-2.34.1
-
+Alex Kiernan
 
