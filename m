@@ -2,102 +2,91 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A07D0C433EF
-	for <webhook@archiver.kernel.org>; Sat, 28 May 2022 10:05:16 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web08.13486.1653732304869301488
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B11DC433EF
+	for <webhook@archiver.kernel.org>; Sat, 28 May 2022 10:17:05 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web09.13595.1653733020798096102
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 May 2022 03:05:05 -0700
+ Sat, 28 May 2022 03:17:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="no key for verify" header.i=@linuxfoundation.org
- header.s=google header.b=QPhqx2bl;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MLCZrD4T;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id
- v4-20020a1cac04000000b00397001398c0so5811661wme.5
+Received: by mail-wm1-f45.google.com with SMTP id
+ v4-20020a1cac04000000b00397001398c0so5820984wme.5
         for <openembedded-core@lists.openembedded.org>;
- Sat, 28 May 2022 03:05:04 -0700 (PDT)
+ Sat, 28 May 2022 03:17:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=AHuK/H71cPb75F6QDLgwvtg323gh1Z89ynloeK46VLo=;
-        b=QPhqx2blmDbmsiVStNeyjH6sX0UcbW2WPjgTmF5gMrrwvH2Q/eAsqV/rNZzMXhSNbK
-         sX2Ss2y5jzSN+Emn87TOdGj2QSRuS7Fg/yVqVAuUmPSidRFjcBpJjGOYo5cWmDEfZezD
-         IwuiTF6h6z4oc55wrCPo68bL3f9sBnjYmFMH8=
+        bh=TYgKoWVtlEZNz4HvLANgUAa3TmrrK0F2tkgnX8eSKMY=;
+        b=MLCZrD4TuYJAPVjylgXWNR8iQc2EeJyGAB6WRKoaWVmN/29xjDK99nwhIy5HnFwssb
+         tperO6hL2PEA7TVyCicEmO0V4sRJSiwXdWL2t/mh9m4624WWVJ+cfZY0dvMIg1IAlwXz
+         HJ/wdxPKLd+WKqaf+0VN7REJsGpQVEqbnUWzg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=AHuK/H71cPb75F6QDLgwvtg323gh1Z89ynloeK46VLo=;
-        b=6n7p/NfrfKFB1Sx9gnoh0VK9mRbDZF12HUxjxJ913A38BDU7ftMihBcMzDqJ1DxWi/
-         e4IKx46YBwetROvaqJORcQ3/yX/d014e4L2RHWp69F1DY/QEDwj5HNisfYZDDIGe1L2X
-         MPlO7bDsY5pRVazPzVLvRLjvfhfJb9A3HbeoJIMwoDuN8PUj+nqGjmd03V89ojiiIgmt
-         aG+waUPBj6U6dedqiYCtAdxfpLFcZHXGdyg+42GGnJDA4dmSw4UzIo9HtQRCPHqmel2f
-         SXf7T6ZBtLhNZ/kNzzWL+pSbxcoQ8LxdpktRRQC4HTkRPd0V8kTAHi8oYxeO4Imkspf4
-         lfAw==
-X-Gm-Message-State: AOAM533R2F8j9rqBqlq64CHD/upBqC6qRxMLHSUbcxQBkPcxtKfzkAKP
-	uIMIYRI97ZIvf74yKQIypBkNyOS9MG78UkL3
+        bh=TYgKoWVtlEZNz4HvLANgUAa3TmrrK0F2tkgnX8eSKMY=;
+        b=6fBMEP9ec5Yfx2e9BxUIG4HwlmAKVDsZva06R93dHPwM1F26wlts77ijwddnqyGV37
+         Fn/k+yZCzcZ5ZMfizsTi4hw0dDJ3Z0tRz+b0xjPojvMVZyVXPL+WnHjhDtXwThUqU3IR
+         KVQamdChCMf3mB6vQyWZMnS3T0hj3CWfOGsZrWJes5Yil6PIooFsymsembxebKOxGqmw
+         NUsWJSRLdC2hS32BhzLXim2LinFpRQerC1SEwGoa5CGSezftjSx/POl436P6cPppcMkw
+         5cQKZx569QOWUyGSM9A37WFpBHGMAbwNknyGVQkEmDP6+vknhefchXiiDVu563hRxEKn
+         yhOg==
+X-Gm-Message-State: AOAM5324FxjeRcRS9TiDnObJphwEAP+MQkwbGygyPS8aHJTvWpVbLCGT
+	dkbiiP19ZaP9o1FHrUoq8z2VpC+ENaCEOf7Y
 X-Google-Smtp-Source: 
- ABdhPJybawWJE1OOstuYUitcrJqnrvgQWq1LroAjZtHpxmBKNyMlzhsdBIv4nWFEDUx6ii/XgFiJQw==
-X-Received: by 2002:a7b:ca46:0:b0:397:7c5c:b962 with SMTP id
- m6-20020a7bca46000000b003977c5cb962mr10284106wml.139.1653732302924;
-        Sat, 28 May 2022 03:05:02 -0700 (PDT)
+ ABdhPJzFDA3NwWAJH3zUNVAWhp+FTa//cU0asquq08yCz4duL2LQMxhkuEO0Qql53FEWV08ifOQQTA==
+X-Received: by 2002:a7b:c14a:0:b0:397:8672:61a3 with SMTP id
+ z10-20020a7bc14a000000b00397867261a3mr8162728wmi.136.1653733018851;
+        Sat, 28 May 2022 03:16:58 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:41b6:b722:6b4c:6704])
         by smtp.gmail.com with ESMTPSA id
- i11-20020a5d584b000000b0020d106c0386sm3791350wrf.89.2022.05.28.03.05.01
+ t22-20020a1c7716000000b0039749bab534sm12865038wmi.1.2022.05.28.03.16.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 May 2022 03:05:02 -0700 (PDT)
+        Sat, 28 May 2022 03:16:58 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] tiff: Add jbig PACKAGECONFIG and clarify CVE-2022-1210
-Date: Sat, 28 May 2022 11:05:01 +0100
-Message-Id: <20220528100501.508207-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH] libxslt: Mark CVE-2022-29824 as not applying
+Date: Sat, 28 May 2022 11:16:57 +0100
+Message-Id: <20220528101657.508831-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 28 May 2022 10:05:16 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 28 May 2022 10:17:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166225
+ https://lists.openembedded.org/g/openembedded-core/message/166226
 
-We never depended upon libjbig so this was never present. Add the
-PACKAGECONFIG to make this explict.
-
-CVE-2022-1210 is an issue in libjbig so we don't have a problem there,
-mark as such.
+We have libxml2 2.9.14 and we don't link statically against libxml2 anyway
+so the CVE doesn't apply to libxslt.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb | 4 ++++
+ meta/recipes-support/libxslt/libxslt_1.1.35.bb | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-index c5e964ec8c1..7a5e4816a6e 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-@@ -32,6 +32,9 @@ CVE_CHECK_IGNORE += "CVE-2015-7313"
- # caused by 3079627e and fixed by b4e79bfa.
- CVE_CHECK_IGNORE += "CVE-2022-1622 CVE-2022-1623"
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.35.bb b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
+index 51cfb2e2811..2fd777766cc 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.35.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
+@@ -19,6 +19,10 @@ SRC_URI[sha256sum] = "8247f33e9a872c6ac859aa45018bc4c4d00b97e2feac9eebc10c93ce1f
  
-+# Issue is in jbig which we don't enable
-+CVE_CHECK_IGNORE += "CVE-2022-1210"
+ UPSTREAM_CHECK_REGEX = "libxslt-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
++# We have libxml2 2.9.14 and we don't link statically with it anyway
++# so this isn't an issue.
++CVE_CHECK_IGNORE += "CVE-2022-29824"
 +
- inherit autotools multilib_header
+ S = "${WORKDIR}/libxslt-${PV}"
  
- CACHED_CONFIGUREVARS = "ax_cv_check_gl_libgl=no"
-@@ -40,6 +43,7 @@ PACKAGECONFIG ?= "cxx jpeg zlib lzma \
-                   strip-chopping extrasample-as-alpha check-ycbcr-subsampling"
- 
- PACKAGECONFIG[cxx] = "--enable-cxx,--disable-cxx,,"
-+PACKAGECONFIG[jbig] = "--enable-jbig,--disable-jbig,jbig,"
- PACKAGECONFIG[jpeg] = "--enable-jpeg,--disable-jpeg,jpeg,"
- PACKAGECONFIG[zlib] = "--enable-zlib,--disable-zlib,zlib,"
- PACKAGECONFIG[lzma] = "--enable-lzma,--disable-lzma,xz,"
+ BINCONFIG = "${bindir}/xslt-config"
 -- 
 2.34.1
 
