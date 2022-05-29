@@ -1,109 +1,189 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B8BDC433F5
-	for <webhook@archiver.kernel.org>; Sun, 29 May 2022 13:33:13 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web10.25106.1653831192883952520
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 582E6C433F5
+	for <webhook@archiver.kernel.org>; Sun, 29 May 2022 16:16:04 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.26488.1653840954971852287
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 May 2022 06:33:13 -0700
+ Sun, 29 May 2022 09:15:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=DmTXTq6X;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176,
- mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id g67so324005pfb.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=gO7M83b5;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44,
+ mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id q21so591858wra.2
         for <openembedded-core@lists.openembedded.org>;
- Sun, 29 May 2022 06:33:12 -0700 (PDT)
+ Sun, 29 May 2022 09:15:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:from:to:message-id:date;
-        bh=ZUdUtmniVGHPkPTSQb/awzo0NiHfiRmmoBU72Fo6deE=;
-        b=DmTXTq6XePp9uzzUWReolsqIFGkQ9OnwoRJzMtqax+Wro9WAei5MHoQaOHQSjsEcxJ
-         Ky6j9TsKIheDo2Mejl6K9fdbQV7jG7SDX5d+mpOVzFl3XvFZ5LYA1LiUFnN59UbscdNf
-         PbwsjgWkv+UIUCmWfBB9rIja97QoEKbddqYhULaNbGOJ66F49VxnA5kcujjj2CcZpcAR
-         byTjZLpfd9N+jMCbjF9j+EzEymDtzbFca5zirj17vw3qhTuucg8tL0Hhny9wbVWRoJXH
-         KIQNGuSKCRuhbW9fD9hvAa4qu4fI3qoBG7+z3xyYarsxgwn2G6xTTIjk49ct/CrjW7BJ
-         NSKA==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=I2N571neOFKpa3yhkHwcPZ/NL2JOuAo26tawjiTohRQ=;
+        b=gO7M83b5wmsNqQz5zHxCgdGh1g8/JJlEw3mDNOklaxZrIKBXeAibCSWI+Kon1xSEBX
+         utHBEs6LE6nRH521058PctE2kRxFUk3s1ura+mdIhBSzxn0G9s4u0rI/W2VmGPp8SOSF
+         QPnS3blGD6txr37OuNBA28D9Zket1jE4Bf6Bq9sToGFAlkOyCl9f2uPX1ey03wCpLzrj
+         5SZSn27m1ICy38/3qDbgucjJZKcfzDUh15SVvd/a8Tbclg3XRmSGR6TG0kV8Ewn7AnkI
+         PTdMP9P4jJwwm4P+Klgdlfnaln/dmQxvls5HhaOzgDbwfkjiLhAdHXk87WJ8x09Oe+Ig
+         /fkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=ZUdUtmniVGHPkPTSQb/awzo0NiHfiRmmoBU72Fo6deE=;
-        b=xKKQYr/g0qII6sqCqIYsE8S+QpmxKG6T9h2r7Z4QiwGE5x1KbFcude/ozit9s5Tdys
-         kuAPy4LoHanmtK2vwsZzNDCTmeukk/WFCMyUKMQLlQpXO8bRZmlD2pg58FeTiM8lp0x1
-         Is44O8brxvvdu5ZdQD4o/SbjAc2NAk1nCRM0/mMs0iA4NVD9iLtfq6GRWK4qS6c9yNcB
-         4J2X9gMPOPwr+7cJqTSU3wploTZf9M9SBpOTwFli+1QglDc7or7R2+UTkMzw3ExYTEfH
-         b+NxkfQCmoa7lvccqNWV7txOY7IzYVVzgq38nOPLtxyvP0hAF/9ntua6czAYY2ibMqOM
-         fBEQ==
-X-Gm-Message-State: AOAM533C7oVTjhbWu7S9/vfcim+Vv0r0QulO3tStT3rTRZFbwPqIMDND
-	LWTQCP+WO5TMV+4gYMK+2h0qwuN4kTEV2Zz5
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=I2N571neOFKpa3yhkHwcPZ/NL2JOuAo26tawjiTohRQ=;
+        b=wu1s4E5KzOGgxEaPJPeuSJ73t4Q8Y5k/m+3Fi0f2cyotW5yahHilCN+xgLj0HuuGIG
+         YuSKcO4m5uaXwSLz/Z4K+7UV/1f+GLhMb9lELdkVTexLaU3fqCSNUgIKkuATuw6FUZu+
+         2fkIIsG6rs80wfxm+GFjRFqE4WTzTVOhBfHXmW/Kq8dmwTBELgeQ3GFBRdVrulxlqySb
+         rgxpZV+EN445V45iXkUAspofu+r63M/39jJwVH5Gic1qdrU94CaAG5kbLnA2LnfaqNJ4
+         tXbs1VMnOAFNYk8rW+l1h7jdQBN79KQK6EG4iXmvXRdqj8uttoEie0iyOQJz7TJAF6YF
+         hL7g==
+X-Gm-Message-State: AOAM533iNzKcdQSOv9+jvo4wCzGp0z0/PPVLswaYJPaqdG7aT9Uz/5sf
+	vU+GlHHOEYUuYaNM0KD+GYiDYRteQeJ+ZjDCSGM=
 X-Google-Smtp-Source: 
- ABdhPJxKIk9y9LMBfkSNH1A6o9Ihi3yjHcHnctefxik8qzlIStuMmG4fr8UU55aXb3+AD063h4JiFg==
-X-Received: by 2002:a62:e90e:0:b0:51b:3f85:c97c with SMTP id
- j14-20020a62e90e000000b0051b3f85c97cmr3825107pfh.86.1653831191607;
-        Sun, 29 May 2022 06:33:11 -0700 (PDT)
-Received: from nuc.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id
- b10-20020a1709027e0a00b0015e8d4eb2c2sm7136080plm.268.2022.05.29.06.33.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 May 2022 06:33:10 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id AB7B89626F3; Sun, 29 May 2022 03:33:08 -1000 (HST)
-Subject: OE-core CVE metrics for kirkstone on Sun 29 May 2022 03:30:01 AM HST
-FROM: steve@sakoman.com
-To: 
- <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20220529133308.AB7B89626F3@nuc.router0800d9.com>
-Date: Sun, 29 May 2022 03:33:08 -1000 (HST)
+ ABdhPJwFInHVuffQt4r2yT6cvAYTojegSyq4Als4RkuAmQ18E1L4IjUt03FCMWsYE33Fh4FsF309IEFR3OWbMcvQJWM=
+X-Received: by 2002:a5d:59af:0:b0:20f:d6e8:a5e with SMTP id
+ p15-20020a5d59af000000b0020fd6e80a5emr28651905wrr.507.1653840953148; Sun, 29
+ May 2022 09:15:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220529095251.11410-1-flowergom@gmail.com>
+In-Reply-To: <20220529095251.11410-1-flowergom@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Sun, 29 May 2022 18:15:41 +0200
+Message-ID: 
+ <CA+chaQcUFmncNdMoq_uvJhGqxErhw-P-JQ37Ffv=+mN=tVia4w@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCHv2] libdrm: add
+ libdrm-{nouveau,radeon,intel}
+ to RPROVIDES
+To: Minjae Kim <flowergom@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000087091205e028da5c"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 29 May 2022 13:33:13 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 29 May 2022 16:16:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166239
+ https://lists.openembedded.org/g/openembedded-core/message/166240
 
-Branch: kirkstone
+--00000000000087091205e028da5c
+Content-Type: text/plain; charset="UTF-8"
 
-New this week: 8 CVEs
-CVE-2022-1587 (CVSS3: 9.1 CRITICAL): libpcre2:libpcre2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1587 *
-CVE-2022-1674 (CVSS3: 5.5 MEDIUM): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1674 *
-CVE-2022-1733 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1733 *
-CVE-2022-1735 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1735 *
-CVE-2022-1769 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1769 *
-CVE-2022-1771 (CVSS3: 5.5 MEDIUM): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1771 *
-CVE-2022-1785 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1785 *
-CVE-2022-1796 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1796 *
+I'm sorry, but this still doesn't make much sense to me. RPROVIDES doesn't
+help with build time dependency and if something has runtime dependency
+explicitly on libdrm-nouveau, then using libdrm as suitable provider
+doesn't seem right, what exactly is the usecase for this, isn't it just
+hiding the issue somewhere else?
 
-Removed this week: 4 CVEs
-CVE-2022-1622 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1622 *
-CVE-2022-1623 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1623 *
-CVE-2022-24675 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-24675 *
-CVE-2022-28327 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-28327 *
+On Sun, May 29, 2022 at 11:53 AM Minjae Kim <flowergom@gmail.com> wrote:
 
-Full list:  Found 20 unpatched CVEs
-CVE-2019-12067 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
-CVE-2020-18974 (CVSS3: 3.3 LOW): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
-CVE-2021-20255 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
-CVE-2021-3611 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3611 *
-CVE-2021-3750 (CVSS3: 8.2 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3750 *
-CVE-2022-0529 (CVSS3: 5.5 MEDIUM): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0529 *
-CVE-2022-0530 (CVSS3: 5.5 MEDIUM): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0530 *
-CVE-2022-1210 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1210 *
-CVE-2022-1587 (CVSS3: 9.1 CRITICAL): libpcre2:libpcre2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1587 *
-CVE-2022-1621 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1621 *
-CVE-2022-1629 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1629 *
-CVE-2022-1674 (CVSS3: 5.5 MEDIUM): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1674 *
-CVE-2022-1733 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1733 *
-CVE-2022-1735 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1735 *
-CVE-2022-1769 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1769 *
-CVE-2022-1771 (CVSS3: 5.5 MEDIUM): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1771 *
-CVE-2022-1785 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1785 *
-CVE-2022-1796 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1796 *
-CVE-2022-29458 (CVSS3: 7.1 HIGH): ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-29458 *
-CVE-2022-29824 (CVSS3: 6.5 MEDIUM): libxslt:libxslt-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-29824 *
+> The libdrm-{nouveau,radeon,intel} are generated by libdrm recipe.
+> To use these libraries as a dependency in another component,
+> It should be explicitly added as RPROVIDES.
+>
+> Signed-off-by:Minjae Kim <flowergom@gmail.com>
+> ---
+>  meta/recipes-graphics/drm/libdrm_2.4.101.bb | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/meta/recipes-graphics/drm/libdrm_2.4.101.bb
+> b/meta/recipes-graphics/drm/libdrm_2.4.101.bb
+> index 8ec566faa9..75efabf918 100644
+> --- a/meta/recipes-graphics/drm/libdrm_2.4.101.bb
+> +++ b/meta/recipes-graphics/drm/libdrm_2.4.101.bb
+> @@ -57,3 +57,9 @@ FILES_${PN}-amdgpu = "${libdir}/libdrm_amdgpu.so.*
+> ${datadir}/${PN}/amdgpu.ids"
+>  FILES_${PN}-etnaviv = "${libdir}/libdrm_etnaviv.so.*"
+>
+>  BBCLASSEXTEND = "native nativesdk"
+> +
+> +RPROVIDES_${PN} += " \
+> +    ${PN}-nouveau \
+> +    ${PN}-radeon \
+> +    ${PN}-intel \
+> +"
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#166231):
+> https://lists.openembedded.org/g/openembedded-core/message/166231
+> Mute This Topic: https://lists.openembedded.org/mt/91408949/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> Martin.Jansa@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
 
+--00000000000087091205e028da5c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I&#39;m sorry, but this still doesn&#39;t make much sense =
+to me. RPROVIDES doesn&#39;t help with build time dependency and if somethi=
+ng has runtime dependency explicitly on libdrm-nouveau, then using libdrm a=
+s suitable provider doesn&#39;t seem right, what exactly is the usecase for=
+ this, isn&#39;t it just hiding the issue somewhere else?</div><br><div cla=
+ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, May 29, 20=
+22 at 11:53 AM Minjae Kim &lt;<a href=3D"mailto:flowergom@gmail.com">flower=
+gom@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">The libdrm-{nouveau,radeon,intel} are generated by libdrm reci=
+pe.<br>
+To use these libraries as a dependency in another component,<br>
+It should be explicitly added as RPROVIDES.<br>
+<br>
+Signed-off-by:Minjae Kim &lt;<a href=3D"mailto:flowergom@gmail.com" target=
+=3D"_blank">flowergom@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-graphics/drm/<a href=3D"http://libdrm_2.4.101.bb" rel=3D=
+"noreferrer" target=3D"_blank">libdrm_2.4.101.bb</a> | 6 ++++++<br>
+=C2=A01 file changed, 6 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-graphics/drm/<a href=3D"http://libdrm_2.4.101.bb"=
+ rel=3D"noreferrer" target=3D"_blank">libdrm_2.4.101.bb</a> b/meta/recipes-=
+graphics/drm/<a href=3D"http://libdrm_2.4.101.bb" rel=3D"noreferrer" target=
+=3D"_blank">libdrm_2.4.101.bb</a><br>
+index 8ec566faa9..75efabf918 100644<br>
+--- a/meta/recipes-graphics/drm/<a href=3D"http://libdrm_2.4.101.bb" rel=3D=
+"noreferrer" target=3D"_blank">libdrm_2.4.101.bb</a><br>
++++ b/meta/recipes-graphics/drm/<a href=3D"http://libdrm_2.4.101.bb" rel=3D=
+"noreferrer" target=3D"_blank">libdrm_2.4.101.bb</a><br>
+@@ -57,3 +57,9 @@ FILES_${PN}-amdgpu =3D &quot;${libdir}/libdrm_amdgpu.so.*=
+ ${datadir}/${PN}/amdgpu.ids&quot;<br>
+=C2=A0FILES_${PN}-etnaviv =3D &quot;${libdir}/libdrm_etnaviv.so.*&quot;<br>
+<br>
+=C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
++<br>
++RPROVIDES_${PN} +=3D &quot; \<br>
++=C2=A0 =C2=A0 ${PN}-nouveau \<br>
++=C2=A0 =C2=A0 ${PN}-radeon \<br>
++=C2=A0 =C2=A0 ${PN}-intel \<br>
++&quot;<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#166231): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/166231" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/166231</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/91408949/3617=
+156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/91408949/3617156</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
+rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--00000000000087091205e028da5c--
 
