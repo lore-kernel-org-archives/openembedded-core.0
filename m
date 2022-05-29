@@ -1,89 +1,119 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2552DC433EF
-	for <webhook@archiver.kernel.org>; Sun, 29 May 2022 12:02:43 +0000 (UTC)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
- [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web08.24428.1653825757760522403
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38CFBC433EF
+	for <webhook@archiver.kernel.org>; Sun, 29 May 2022 12:20:13 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web12.24754.1653826804254070422
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 May 2022 05:02:38 -0700
+ Sun, 29 May 2022 05:20:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=WujGOuIA;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.169,
- mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f169.google.com with SMTP id e66so7797613pgc.8
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=W8A+HSVO;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id
+ r9-20020a1c4409000000b00397345f2c6fso1410624wma.4
         for <openembedded-core@lists.openembedded.org>;
- Sun, 29 May 2022 05:02:37 -0700 (PDT)
+ Sun, 29 May 2022 05:20:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:from:to:message-id:date;
-        bh=7GWAMIyVD0AVRxeUjC97Y5EeA4OfANbvG02sdFotz7w=;
-        b=WujGOuIA1eKEYym9+ZSoIQVaCJucMzic67hkqJn5IcaBLq4JW3cklipdyMCpjZTD8D
-         eiYhk16WcMuJ2vF6zwhiv55qSUJcLxz1gzKckN1fvAnJIATGjjd46x2MgCTuWDS4GkzK
-         IsX1Dh2z7UN9XxItVtChZA1DTc5jseyO7SGhx3nALKF6X7paIQa4adngXdHpEWRp4vaq
-         K3SZwAv5yLi/vDCJO8obvkbMLZJYmOAphSXoIPARG7Fo54JhOElR8D2IJUp9JWeQF8XR
-         2sCV1PLdFNsCDrUIKCb4silt7vV/1+zsBljJIMoEPB5rBTKljYRH/1DTUbA5SbBZMrlC
-         ZC6A==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=8p4cs5xq5lLArE00W62aEYhgwF9txeqY2p8aueKaspA=;
+        b=W8A+HSVOjPcagvuBavqKOJasok9r2WgZyMcI4e0t0u5YcVq365pceFlsfbxfuJ6n3l
+         McTFBh8fHGy3+5GZa23H5Bhd0/zWhzr5lGTxBqGW59+ywKokRYvSCMj/J/BJv87zeMtF
+         l4UuKLI9UC1tpDa+Hben8mwv9pjjsfHr1d/Ao=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=7GWAMIyVD0AVRxeUjC97Y5EeA4OfANbvG02sdFotz7w=;
-        b=kt3biC/bl8kfwhfZGgi0P7cgHhL3kemtl3cXvwGQG3IQmkiZPOA8xcb9Dr8LcxxINB
-         OA6AiiA+I5JRQbiHUmYImRHWq5qrjfsOYvTVaFxvPz9YuCy/LuhKqiyAXWUC49XCi6cv
-         bndKs6cpItTFv0Ravm51/CI4d7o01KDpZY3sIWv2OUykmk3/9p++0Sg/kfJSEN5V0ndo
-         iYjlkJbB5dCcjLThAVH2y/aED1WmYv4ARQim6oDAPg8E7LLK5gm7GTb78vzOVQIjhNd2
-         V2kbYMKbC+JGmYNNoEAe09kyvMQ+oRcbxiQKsy9Vq5FmA8l+8+Q+gu4/xyNW+1vkZ3l2
-         kHbw==
-X-Gm-Message-State: AOAM5318riECXGWVE8R9ZWQuxubqPg3n0JcosETWekEtlGXUpUwiP6Co
-	G9iy7M2q+WfmBR15HW6pRrjZwVh9Cs4ThRP2
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=8p4cs5xq5lLArE00W62aEYhgwF9txeqY2p8aueKaspA=;
+        b=MJD/XSrAReIifXerYKNyvi/9jiBSoMprKMh6Iu6qoYV43Agj3SV7B2/c39osI1Hjew
+         SohyS8dbOq/RpktVXD8d0UPVugHjif7VevoqbCf5SjNmk53hjap6r3QjblH/3HdXNIhz
+         +Z8nlOgIQY3vpEUkNpasT5q7XpyypETaLvL77nXWyoWUCgqDa+oSX+Inl9KMJK85Ed3Q
+         4vI3Lnpwfd9q+FiU3gBaXlWBoCw7lyWCMideDEhfYq5K9qPNW5jRTK0CMTdr5hx6WE78
+         L2zvcS63CrfCUHPIBML5B6G5Li9EioeZOFi4MAVz4i0q+/j2H/Ib6RG8QSk31Aui8KG8
+         TD1A==
+X-Gm-Message-State: AOAM532512CxXlPs07Xtyy4RPmJ9lT+8Eb0b0/ottKoOxO0gK6C2yyZ7
+	EqoTaMlekS61FhbU7BE1yTGt8jWipXMvIWEn
 X-Google-Smtp-Source: 
- ABdhPJzgYHqFJ+D9lzoHdpAfGZs+p3CQdPtvX+js23WePWIXl3purP6UOUhA0/qxOKO0/p7hBzKmjA==
-X-Received: by 2002:a05:6a00:2408:b0:4f7:a8cb:9b63 with SMTP id
- z8-20020a056a00240800b004f7a8cb9b63mr53029738pfh.33.1653825756055;
-        Sun, 29 May 2022 05:02:36 -0700 (PDT)
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
- [66.91.142.162])
+ ABdhPJwII5HkZB1XyVZBnWf9cz1zoGpttUtjW2U4mUxLvrxNENGU7a7XtlrROpVShD8jNubvSJafkA==
+X-Received: by 2002:a05:600c:1906:b0:397:84aa:5598 with SMTP id
+ j6-20020a05600c190600b0039784aa5598mr13150374wmq.81.1653826802248;
+        Sun, 29 May 2022 05:20:02 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:4777:d166:870b:18dd?
+ ([2001:8b0:aba:5f3c:4777:d166:870b:18dd])
         by smtp.gmail.com with ESMTPSA id
- c1-20020a63ef41000000b003c14af505f8sm6515839pgk.16.2022.05.29.05.02.34
+ p11-20020a5d4e0b000000b00210320d9fbfsm998791wrt.18.2022.05.29.05.20.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 May 2022 05:02:34 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id DC8419626F3; Sun, 29 May 2022 02:02:32 -1000 (HST)
-Subject: OE-core CVE metrics for master on Sun 29 May 2022 02:00:01 AM HST
-FROM: steve@sakoman.com
-To: 
- <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20220529120232.DC8419626F3@nuc.router0800d9.com>
-Date: Sun, 29 May 2022 02:02:32 -1000 (HST)
+        Sun, 29 May 2022 05:20:01 -0700 (PDT)
+Message-ID: 
+ <5d74fc8ce5e01b47368103c7cb017a1d016e6e20.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] oeqa/selftest/bbtests: Add taskexp_tty UI test
+From: richard.purdie@linuxfoundation.org
+To: openembedded-core@lists.openembedded.org
+Cc: David Reyna <david.reyna@windriver.com>
+Date: Sun, 29 May 2022 13:20:01 +0100
+In-Reply-To: <16F38C7CB923A434.32574@lists.openembedded.org>
+References: <16F38C7CB923A434.32574@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0-1ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 29 May 2022 12:02:43 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 29 May 2022 12:20:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166234
+ https://lists.openembedded.org/g/openembedded-core/message/166235
 
-Branch: master
+Hi David,
 
-New this week: 0 CVEs
+On Sun, 2022-05-29 at 11:25 +0100, Richard Purdie via
+lists.openembedded.org wrote:
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/lib/oeqa/selftest/cases/bbtests.py | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/self=
+test/cases/bbtests.py
+> index cfac7afcf49..d222f0fb297 100644
+> --- a/meta/lib/oeqa/selftest/cases/bbtests.py
+> +++ b/meta/lib/oeqa/selftest/cases/bbtests.py
+> @@ -205,6 +205,11 @@ SSTATE_DIR =3D \"${TOPDIR}/download-selftest\"
+>          result =3D runCmd('bitbake -R conf/postfile.conf -e | grep TEST_=
+POSTFILE=3D')
+>          self.assertIn('postfile', result.output)
+> =20
+> +    def test_taskexp_tty(self):
+> +        cmd =3D 'bitbake -g -u taskexp_tty zlib acl'
+> +        result =3D runCmd(cmd)
+> +        self.assertEqual(0, result.status, "Command %s didn't run as exp=
+ected. %s" % (cmd, result.output))
+> +
+>      def test_checkuri(self):
+>          result =3D runCmd('bitbake -c checkuri m4')
+>          self.assertEqual(0, result.status, msg =3D "\"checkuri\" task wa=
+s not executed. bitbake output: %s" % result.output)
 
-Removed this week: 6 CVEs
-CVE-2022-1210 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1210 *
-CVE-2022-1621 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1621 *
-CVE-2022-1622 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1622 *
-CVE-2022-1623 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1623 *
-CVE-2022-1629 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1629 *
-CVE-2022-29824 (CVSS3: 6.5 MEDIUM): libxslt:libxslt-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-29824 *
 
-Full list:  Found 6 unpatched CVEs
-CVE-2019-12067 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
-CVE-2020-18974 (CVSS3: 3.3 LOW): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
-CVE-2021-20255 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
-CVE-2022-0529 (CVSS3: 5.5 MEDIUM): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0529 *
-CVE-2022-0530 (CVSS3: 5.5 MEDIUM): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0530 *
-CVE-2022-29458 (CVSS3: 7.1 HIGH): ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-29458 *
+Thanks for the updated bitbake patch. Since I wanted to ensure there
+weren't regressions in the future I coded this test into OE-Core to
+ensure it was being tested on a regular and ongoing basis.
+Unfortunately it failed on the autobuilders:
 
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/3646/step=
+s/15/logs/stdio
+
+Does that error make any sense to you?
+
+For reference I've not tested locally myself yet, I just coded the test
+in to see how things went on the infrastructure.
+
+Cheers,
+
+Richard
 
