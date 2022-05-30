@@ -1,267 +1,137 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <ranjitsinhrathod1991@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 777A4C433EF
-	for <webhook@archiver.kernel.org>; Mon, 30 May 2022 06:41:28 +0000 (UTC)
-Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
- [195.245.231.1])
- by mx.groups.io with SMTP id smtpd.web11.33672.1653892883522843511
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF0B2C433EF
+	for <webhook@archiver.kernel.org>; Mon, 30 May 2022 07:16:18 +0000 (UTC)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web12.34161.1653894971779801528
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 May 2022 23:41:24 -0700
+ Mon, 30 May 2022 00:16:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=AmqMc3QZ;
- spf=pass (domain: fujitsu.com, ip: 195.245.231.1,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1653892881; i=@fujitsu.com;
-	bh=bJGXk+WIk/ZQ+RfEeHBzE9htg9doj59Hd+6BYiQv0aE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=AmqMc3QZ/GnCAK4/7cz4nG/+tzuDiYN0NmqLbgXF1ZMz5xJdSOIsmBD927hXomzXz
-	 7DrSnFjLbrWaGKD+n96hLaffBycNqNxx9YNCLyclAiwxUtU+EtQvCd4zs/ZrBuUFCt
-	 kSVghXvj7PGQTZ1QbQmYDoWYD9aorFVDpPZq9PpC4hD1Ybi8awmpVqDvmNx+Ak7ab3
-	 O/yXC84mhynjcIFMxAttxokNWqa6updMLTmO/0grf1lW8qwRUFaxi80rBBDLJIXa2B
-	 3lu3D8VjOo9P9Xgd4eRoIsAQ0jGQc5x/0ynyWISkcyELs4xZeT04JfyO0l9mDnwUS3
-	 vb/EZmJX+9y4w==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJIsWRWlGSWpSXmKPExsViZ8OxWVcwfUq
-  SwZtXmhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bU55fZCo4YVUx+0MPYwHhIp4uRi0NI4AGj
-  xM5bp5khnDNMEqs2TGOCcPYwSkw/3MPWxcjJwSagJjH91g3WLkYODhEBPYmr/0RBwswCKhIvf
-  vewg9jCAnYSlz9MYAGxWQRUJT4cO8EMYvMKOElMbHjICGJLCChITHn4HizOKeAsse/wBTBbCK
-  hm4b3PUPWCEidnPmGBmC8hcfDFC2aIXkWJ2ZebWSDsCokZM7axQdhqElfPbWKewCg4C0n7LCT
-  tCxiZVjFaJxVlpmeU5CZm5ugaGhjoGhqa6hqb6xqaGeklVukm6qWW6panFpfoArnlxXqpxcV6
-  xZW5yTkpenmpJZsYgWGcUqy6aAfj/lU/9Q4xSnIwKYnynlWdnCTEl5SfUpmRWJwRX1Sak1p8i
-  FGGg0NJgjc+eUqSkGBRanpqRVpmDjCmYNISHDxKIrxLEoDSvMUFibnFmekQqVOM9hwf/1zcy8
-  yxc8tlIDl19r/9zBzLQaQQS15+XqqUOO/5RKA2AZC2jNI8uKGwFHCJUVZKmJeRgYFBiKcgtSg
-  3swRV/hWjOAejkjDvrVSgKTyZeSVwu18BncUEdBY300SQs0oSEVJSDUwrK2z+HdU1Y7S+FZyQ
-  uaJe+c2/WZamcjMbk5Xmi5y7Mfd89pPI44fXVf++OVHI2lt9/kc2k5MmlnvLhM7tv9h/zr7Ur
-  6zu5MFO/zotVcu7v7YceFBvLdLP9IfR/PyyE3+83UNcOLat2uQya214ZYn7nMtzHeoUptU4Bk
-  2MTs9q7S45uUrL5QWjDuPDGU/T5+XJ/+zJceqpXHlA+pxzlr9WhPGb9oI/SoLFezYtZJswUyG
-  ItXa69YofGx6JPj58kecQ06Hle/q7osM3XPm+X8ZhRu6tb13LPyoyz351x7QozNh+ucW9xoTn
-  6TyaCop+9r+myTyq02SLDBN+UGxtIpfwr1jw2OK+qc7/3lr0dyixFGckGmoxFxUnAgCqpAKif
-  AMAAA==
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-2.tower-548.messagelabs.com!1653892881!17101!1
-X-Originating-IP: [62.60.8.179]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.86.7; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 5547 invoked from network); 30 May 2022 06:41:21 -0000
-Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
-  by server-2.tower-548.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 30 May 2022 06:41:21 -0000
-Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id 308D6813
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 30 May 2022 07:41:21 +0100 (BST)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id 067EC80B
-	for <openembedded-core@lists.openembedded.org>;
- Mon, 30 May 2022 07:41:21 +0100 (BST)
-Received: from localhost.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Mon, 30 May 2022 07:41:10 +0100
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] btrfs-tools: upgrade 5.16.2 -> 5.18
-Date: Mon, 30 May 2022 14:40:48 +0800
-Message-ID: <1653892850-23554-2-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1653892850-23554-1-git-send-email-wangmy@fujitsu.com>
-References: <1653892850-23554-1-git-send-email-wangmy@fujitsu.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=I3UkfoWi;
+ spf=pass (domain: gmail.com, ip: 209.85.216.51,
+ mailfrom: ranjitsinhrathod1991@gmail.com)
+Received: by mail-pj1-f51.google.com with SMTP id n10so10190156pjh.5
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 30 May 2022 00:16:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=WRxt6qKupPKzmjopqMmxqGdGH1tihMslq4nL6+HIBy0=;
+        b=I3UkfoWi9HEuooCrl2J1r+4JMFZ48pLs1CW7KNGBByYYpuDyULpqdb0y69laIHwH9F
+         fZiLBSkOjNyYcmytM11Sw5QmFb0fu5LNhUHdtykaCum788kcM0prNRpPpjJcMCzfygxb
+         sQ20bUAXn+ScBrqCzd6Y8SzrVsXS+4/LHGyG9Gl19tRyzGE53krZmMuTm7Ym9MATnD6Q
+         14Th8dthKDyu5tsn/Fn+EQDonaFlBJ+Fkk9HNKo/PBHqcu/5oJSVTgtAQ/dnuzn1dUuP
+         u49H3P5HJapoSZpzU57zWI6zvQhcTDWDB1MsdFD42OvJsofuElzNdDS9aK8cRIuZJNZO
+         pJSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=WRxt6qKupPKzmjopqMmxqGdGH1tihMslq4nL6+HIBy0=;
+        b=yHb328HnzIpN5EedcP8mofpbU/vF3DmLZUkCCVE55knPAi+OCJCv3QzhYYgL2NzpbT
+         tI0aMzV6/H+5D9qQAb+i+NhhJkckJuqZqMlMrRw57VgELx2vlynXRn8gM5k4vlHswl4M
+         NV3Zac8rTbg956+j0YXQ4iLZE4cGF9hZI2zV3BZAZtiiqOjC5x+pBkJMdZY69QRv1FOK
+         be2NVCH3ky1RhkhKQVxqR6rd9wYx6KCdzBZevDsX77A7GCrRwoxDn25XN4lT5M93Lpif
+         0E6V8Fe49+fkHY+Wb+pAw8vJqaAF4p2V3A2aaHhDS8IHsW/rAvKRViEdzY7S3t5bc2iv
+         2X1Q==
+X-Gm-Message-State: AOAM530iLfUSP5jJW8xPqtx8UGVsUpYlxIPfOmy5RFrMkYaTxoMI4zV+
+	O5N2ElDNkOpsSV6g69WiDXU8wublqpk=
+X-Google-Smtp-Source: 
+ ABdhPJxfmMHnrbySR68IorFFkG15rpBB5baoJI9UfDjtV0Z0xifZyIHQ/3TTS0z2dAjGjjvvH5sC4g==
+X-Received: by 2002:a17:902:cf4b:b0:163:bfed:8af1 with SMTP id
+ e11-20020a170902cf4b00b00163bfed8af1mr7988917plg.68.1653894970708;
+        Mon, 30 May 2022 00:16:10 -0700 (PDT)
+Received: from localhost.localdomain ([103.238.105.13])
+        by smtp.gmail.com with ESMTPSA id
+ j4-20020a170902da8400b0015ed003552fsm8401650plx.293.2022.05.30.00.16.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 May 2022 00:16:09 -0700 (PDT)
+From: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
+Subject: [OE-Core][dunfell][PATCH] libsdl2: Add fix for CVE-2021-33657
+Date: Mon, 30 May 2022 12:45:29 +0530
+Message-Id: <20220530071529.7663-1-ranjitsinhrathod1991@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 May 2022 06:41:28 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 30 May 2022 07:16:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166266
+ https://lists.openembedded.org/g/openembedded-core/message/166270
 
-lzo-option.patch
-removed since it's included in 5.18.
+From: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
 
-Changelog:
-==========
-fixes:
-    dump-tree: don't print traling zeros in checksums
-    recognize paused balance as exclusive operation state, allow to start device add
-    convert: properly initialize target filesystem label
-    mkfs: don't create free space bitmaps for empty filesystem
-restore: make lzo support build-time configurable, print supported compression in help text
-update kernel-lib sources
-other:
-    documentation updates, finish conversion to RST, CHANGES and INSTALL could be included into RST
-    fix build detection of experimental mode
-    new tests
+Add patch to fix CVE-2021-33657 issue for libsdl2
+Link: https://security-tracker.debian.org/tracker/CVE-2021-33657
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
+Signed-off-by: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
 ---
- .../btrfs-tools/btrfs-tools/lzo-option.patch  | 126 ------------------
- ...fs-tools_5.16.2.bb => btrfs-tools_5.18.bb} |   3 +-
- 2 files changed, 1 insertion(+), 128 deletions(-)
- delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/lzo-option.patch
- rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_5.16.2.bb => btrfs-tools_5.18.bb} (96%)
+ .../libsdl2/libsdl2/CVE-2021-33657.patch      | 38 +++++++++++++++++++
+ .../libsdl2/libsdl2_2.0.12.bb                 |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/CVE-2021-33657.patch
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/lzo-option.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/lzo-option.patch
-deleted file mode 100644
-index f4278a5c5d..0000000000
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/lzo-option.patch
-+++ /dev/null
-@@ -1,126 +0,0 @@
--Upstream-Status: Backport [https://github.com/kdave/btrfs-progs/commit/73545c1fe6304f08ab306b76d2bcacaf22a5e99a]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--From 4f4eafe8ebcc86f84f6c85a5c5814c430d8f190c Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@arm.com>
--Date: Tue, 24 May 2022 13:44:29 +0100
--Subject: [PATCH] btrfs-progs: add option to disable LZO support
--
--LZO as a compression format is pretty archaic these days, there are
--better algorithsm in all metrics for compression and decompression, and
--lzo hasn't had a new release since 2017.
--
--Add an option to disable LZO (defaulting to enabled), and respect it in
--cmds/restore.c.
--
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- Makefile        |  2 +-
-- Makefile.inc.in |  1 +
-- cmds/restore.c  |  7 +++++++
-- configure.ac    | 30 ++++++++++++++++++++----------
-- 4 files changed, 29 insertions(+), 11 deletions(-)
--
--diff --git a/Makefile b/Makefile
--index af4908f9..0e8e05f3 100644
----- a/Makefile
--+++ b/Makefile
--@@ -335,7 +335,7 @@ endif
-- btrfs_convert_cflags = -DBTRFSCONVERT_EXT2=$(BTRFSCONVERT_EXT2)
-- btrfs_convert_cflags += -DBTRFSCONVERT_REISERFS=$(BTRFSCONVERT_REISERFS)
-- btrfs_fragments_libs = -lgd -lpng -ljpeg -lfreetype
---cmds_restore_cflags = -DBTRFSRESTORE_ZSTD=$(BTRFSRESTORE_ZSTD)
--+cmds_restore_cflags = -DBTRFSRESTORE_LZO=$(BTRFSRESTORE_LZO) -DBTRFSRESTORE_ZSTD=$(BTRFSRESTORE_ZSTD)
-- 
-- ifeq ($(CRYPTOPROVIDER_BUILTIN),1)
-- CRYPTO_OBJECTS = crypto/sha224-256.o crypto/blake2b-ref.o
--diff --git a/Makefile.inc.in b/Makefile.inc.in
--index c995aef9..385b7ae1 100644
----- a/Makefile.inc.in
--+++ b/Makefile.inc.in
--@@ -16,6 +16,7 @@ BUILD_PROGRAMS = @BUILD_PROGRAMS@
-- BUILD_SHARED_LIBRARIES = @BUILD_SHARED_LIBRARIES@
-- BUILD_STATIC_LIBRARIES = @BUILD_STATIC_LIBRARIES@
-- BTRFSCONVERT_EXT2 = @BTRFSCONVERT_EXT2@
--+BTRFSRESTORE_LZO = @BTRFSRESTORE_LZO@
-- BTRFSCONVERT_REISERFS = @BTRFSCONVERT_REISERFS@
-- BTRFSRESTORE_ZSTD = @BTRFSRESTORE_ZSTD@
-- PYTHON_BINDINGS = @PYTHON_BINDINGS@
--diff --git a/cmds/restore.c b/cmds/restore.c
--index 5923d571..4dd79fce 100644
----- a/cmds/restore.c
--+++ b/cmds/restore.c
--@@ -25,8 +25,10 @@
-- #include <fcntl.h>
-- #include <sys/stat.h>
-- #include <sys/types.h>
--+#if BTRFSRESTORE_LZO
-- #include <lzo/lzoconf.h>
-- #include <lzo/lzo1x.h>
--+#endif
-- #include <zlib.h>
-- #if BTRFSRESTORE_ZSTD
-- #include <zstd.h>
--@@ -98,6 +100,10 @@ static inline size_t read_compress_length(unsigned char *buf)
-- static int decompress_lzo(struct btrfs_root *root, unsigned char *inbuf,
-- 			char *outbuf, u64 compress_len, u64 *decompress_len)
-- {
--+#if !BTRFSRESTORE_LZO
--+	error("btrfs not compiled with lzo support");
--+	return -1;
--+#else
-- 	size_t new_len;
-- 	size_t in_len;
-- 	size_t out_len = 0;
--@@ -156,6 +162,7 @@ static int decompress_lzo(struct btrfs_root *root, unsigned char *inbuf,
-- 	*decompress_len = out_len;
-- 
-- 	return 0;
--+#endif
-- }
-- 
-- static int decompress_zstd(const char *inbuf, char *outbuf, u64 compress_len,
--diff --git a/configure.ac b/configure.ac
--index d907636b..c1ad2c22 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -372,16 +372,26 @@ if ${PKG_CONFIG} udev --atleast-version 190; then
-- fi
-- AC_SUBST(UDEVDIR)
-- 
---dnl lzo library does not provide pkg-config, let use classic way
---AC_CHECK_LIB([lzo2], [lzo_version], [
---	LZO2_LIBS="-llzo2"
---	LZO2_CFLAGS=""
---	LZO2_LIBS_STATIC="-llzo2"],[
---	AC_MSG_ERROR([cannot find lzo2 library])
---])
---AC_SUBST([LZO2_LIBS])
---AC_SUBST([LZO2_LIBS_STATIC])
---AC_SUBST([LZO2_CFLAGS])
--+AC_ARG_ENABLE([lzo],
--+	AS_HELP_STRING([--disable-lzo], [build without lzo support]),
--+	[], [enable_lzo=yes]
--+)
--+
--+if test "x$enable_lzo" = xyes; then
--+	dnl lzo library does not provide pkg-config, let use classic way
--+	AC_CHECK_LIB([lzo2], [lzo_version], [
--+		LZO2_LIBS="-llzo2"
--+		LZO2_CFLAGS=""
--+		LZO2_LIBS_STATIC="-llzo2"],[
--+		AC_MSG_ERROR([cannot find lzo2 library])
--+	])
--+	AC_SUBST([LZO2_LIBS])
--+	AC_SUBST([LZO2_LIBS_STATIC])
--+	AC_SUBST([LZO2_CFLAGS])
--+fi
--+
--+AS_IF([test "x$enable_lzo" = xyes], [BTRFSRESTORE_LZO=1], [BTRFSRESTORE_LZO=0])
--+AC_SUBST(BTRFSRESTORE_LZO)
-- 
-- dnl call PKG_INSTALLDIR from pkg.m4 to set pkgconfigdir
-- m4_ifdef([PKG_INSTALLDIR], [PKG_INSTALLDIR], [AC_MSG_ERROR([please install pkgconf])])
---- 
--2.25.1
--
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.16.2.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.18.bb
-similarity index 96%
-rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_5.16.2.bb
-rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_5.18.bb
-index 88b5c6259c..b83b4cd1b8 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.16.2.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.18.bb
-@@ -17,9 +17,8 @@ DEPENDS = "util-linux zlib"
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2/CVE-2021-33657.patch b/meta/recipes-graphics/libsdl2/libsdl2/CVE-2021-33657.patch
+new file mode 100644
+index 0000000000..a4ed7ab8e6
+--- /dev/null
++++ b/meta/recipes-graphics/libsdl2/libsdl2/CVE-2021-33657.patch
+@@ -0,0 +1,38 @@
++From 8c91cf7dba5193f5ce12d06db1336515851c9ee9 Mon Sep 17 00:00:00 2001
++From: Sam Lantinga <slouken@libsdl.org>
++Date: Tue, 30 Nov 2021 12:36:46 -0800
++Subject: [PATCH] Always create a full 256-entry map in case color values are
++ out of range
++
++Fixes https://github.com/libsdl-org/SDL/issues/5042
++
++CVE: CVE-2021-33657
++Upstream-Status: Backport [https://github.com/libsdl-org/SDL/commit/8c91cf7dba5193f5ce12d06db1336515851c9ee9.patch]
++Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
++
++---
++ src/video/SDL_pixels.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/video/SDL_pixels.c b/src/video/SDL_pixels.c
++index ac04533c5d5..9bb02f771d0 100644
++--- a/src/video/SDL_pixels.c
+++++ b/src/video/SDL_pixels.c
++@@ -947,7 +947,7 @@ Map1to1(SDL_Palette * src, SDL_Palette * dst, int *identical)
++         }
++         *identical = 0;
++     }
++-    map = (Uint8 *) SDL_malloc(src->ncolors);
+++    map = (Uint8 *) SDL_calloc(256, sizeof(Uint8));
++     if (map == NULL) {
++         SDL_OutOfMemory();
++         return (NULL);
++@@ -971,7 +971,7 @@ Map1toN(SDL_PixelFormat * src, Uint8 Rmod, Uint8 Gmod, Uint8 Bmod, Uint8 Amod,
++     SDL_Palette *pal = src->palette;
++ 
++     bpp = ((dst->BytesPerPixel == 3) ? 4 : dst->BytesPerPixel);
++-    map = (Uint8 *) SDL_malloc(pal->ncolors * bpp);
+++    map = (Uint8 *) SDL_calloc(256, bpp);
++     if (map == NULL) {
++         SDL_OutOfMemory();
++         return (NULL);
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
+index 8e77c18f2d..44d36fca22 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
+@@ -21,6 +21,7 @@ SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
+            file://directfb-spurious-curly-brace-missing-e.patch \
+            file://directfb-renderfillrect-fix.patch \
+            file://CVE-2020-14409-14410.patch \
++           file://CVE-2021-33657.patch \
+ "
  
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master \
-            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
--           file://lzo-option.patch \
-            "
--SRCREV = "31458c9c81935abbed010221261897273a98d2c1"
-+SRCREV = "f9e303584272b81b05b926a0cc9010f43af12a03"
- S = "${WORKDIR}/git"
- 
- PACKAGECONFIG ??= " \
+ S = "${WORKDIR}/SDL2-${PV}"
 -- 
-2.25.1
+2.17.1
 
 
