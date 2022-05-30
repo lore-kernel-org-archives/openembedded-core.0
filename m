@@ -2,52 +2,48 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66030C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 645C0C433F5
 	for <webhook@archiver.kernel.org>; Mon, 30 May 2022 02:36:17 +0000 (UTC)
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by mx.groups.io with SMTP id smtpd.web11.31654.1653878172131745638
+ by mx.groups.io with SMTP id smtpd.web11.31651.1653878168927618706
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 May 2022 19:36:15 -0700
+ Sun, 29 May 2022 19:36:09 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=A+w0iws8;
+ header.b=GPNDHRV0;
  spf=pass (domain: intel.com, ip: 134.134.136.65,
  mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653878175; x=1685414175;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=Ni80yvfeW4KYS7w7q6TVcVGVQ7XQZ5qm6Cvqmns+FWk=;
-  b=A+w0iws8nmjRNbeSLzqjlHgN2hAZWR3ZCZMsYgpO7z8m/bTctppwNObF
-   g7/Ecocw1qyEQHfuAMv/sqBcPQQavRZAxFjvMUDXrRVDlZ3wRRuy3LllF
-   8586pNxrElQ8b9Ynid3JtLhFr+CjcdXdvosHSmzUDQL58cCQCIqiGCldk
-   LnaUzq2uCYoIOEu+Vv0KRrd8sWMsd9vVMSpnqfljlTiUrfQEBbxEUdVqU
-   Wnr58Ecb5P0pxgY4WNecruFSr1fxzRsMTqSgNtHIljX0brIlzvK04DTc7
-   TB1TImHOUMh3awOXQZy+vuTLzqh1r/RlBCrJmGzmtaQ+PDKfgpne+xWWR
+  t=1653878169; x=1685414169;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Wk+UIwIkMF+EoQ2dV0oh4MKD+bJcxGPEEhAIYu9u2PI=;
+  b=GPNDHRV0QSAFdDi66miTbwvtYQRkjX9lU0+BOWA7riEa8yZHeIS8EHD/
+   cEWC7Xe/ES39OFEgav7pkxi6lg+hdxHD+bqirTSe6SJkOqCke5PGNIZ6i
+   neXPYIjnssUJj0g0COYfsnd0b9sdFJmwcW5AmrCj1OoU5g3pm9nssfh14
+   2a1XQe+E7/XLfkzGHAhsfl8yusi3i2zAmaEMZXxVAjxyJB2jppaW0Bzcr
+   /QNfEJ+sfXJhYeS10oArdny1ERwQ7VRkHoZUboyhK4ZszuO94QzMSON5K
+   mhpeCwGWpDE/lrSyKX8CJzDwUThqcolWn7LQel9c5Ni38AaoeSP8XQlpJ
    A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10362"; a="274876435"
+X-IronPort-AV: E=McAfee;i="6400,9594,10362"; a="274876408"
 X-IronPort-AV: E=Sophos;i="5.91,261,1647327600";
-   d="scan'208";a="274876435"
+   d="scan'208";a="274876408"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2022 19:36:15 -0700
+ 29 May 2022 19:36:07 -0700
 X-IronPort-AV: E=Sophos;i="5.91,261,1647327600";
-   d="scan'208";a="666313543"
+   d="scan'208";a="666313484"
 Received: from jngkeatx-mobl.gar.corp.intel.com (HELO
  anmitta2-mobl3.intel.com) ([10.215.254.254])
   by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2022 19:36:14 -0700
+ 29 May 2022 19:36:06 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 05/12] linux-yocto/5.10: base: enable kernel crypto
- userspace API
-Date: Mon, 30 May 2022 10:35:55 +0800
-Message-Id: 
- <34cd4341833a130e7e468876b5ece1ac10da8632.1653877872.git.anuj.mittal@intel.com>
+Subject: [honister][PATCH 00/12] Patch review
+Date: Mon, 30 May 2022 10:35:50 +0800
+Message-Id: <cover.1653877872.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.35.3
-In-Reply-To: <cover.1653877872.git.anuj.mittal@intel.com>
-References: <cover.1653877872.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -55,64 +51,65 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 30 May 2022 02:36:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166249
+ https://lists.openembedded.org/g/openembedded-core/message/166244
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Next set of changes for honister. Please review. 
 
-Integrating the following commit(s) to linux-yocto/.:
+No problems seen while testing:
 
-    bddb0e4921f base.cfg: enable kernel crypto userspace API
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3722
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a08c1c7dba66a1d12e029906d86f4f84e9166232)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+Thanks,
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-index b8a280a615..9731a738b3 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-@@ -12,7 +12,7 @@ python () {
- }
- 
- SRCREV_machine ?= "c11f8738640c3c52f4ffc2adf9aa8f6c097e4a4e"
--SRCREV_meta ?= "0959fd4d1eeb5312233be7a3c1f9a97104163f90"
-+SRCREV_meta ?= "bddb0e4921f541bafa595986f16cff5390d01f40"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-index bafa486d23..f75c0d70d2 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine:qemuarm ?= "3851408a9f5d9d4531f29340056a1089debd5b58"
- SRCREV_machine ?= "0a47fd76cb0f7e22d47afcb88bf884c750ba5d92"
--SRCREV_meta ?= "0959fd4d1eeb5312233be7a3c1f9a97104163f90"
-+SRCREV_meta ?= "bddb0e4921f541bafa595986f16cff5390d01f40"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.10.bb b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-index 72293768dd..a7485be1de 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-@@ -23,7 +23,7 @@ SRCREV_machine:qemux86 ?= "a275cd6839513c72ceae989a575b6accbb262016"
- SRCREV_machine:qemux86-64 ?= "a275cd6839513c72ceae989a575b6accbb262016"
- SRCREV_machine:qemumips64 ?= "36a2d17167ee66a2feda5fb1efee0a2ee2dc4740"
- SRCREV_machine ?= "a275cd6839513c72ceae989a575b6accbb262016"
--SRCREV_meta ?= "0959fd4d1eeb5312233be7a3c1f9a97104163f90"
-+SRCREV_meta ?= "bddb0e4921f541bafa595986f16cff5390d01f40"
- 
- # remap qemuarm to qemuarma15 for the 5.8 kernel
- # KMACHINE:qemuarm ?= "qemuarma15"
+Anuj
+
+The following changes since commit e0d5d93a18d1682f3393fc10133f08009f008601:
+
+  perf: sort-pmuevents: allow for additional type qualifiers and storage class (2022-05-10 21:44:32 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib anujm/honister
+
+Bruce Ashfield (6):
+  linux-yocto/5.10: features/security: Move x86_64 configs to separate
+    file
+  linux-yocto/5.10: update to v5.10.110
+  linux-yocto/5.10: base: enable kernel crypto userspace API
+  linux-yocto/5.10: update to v5.10.112
+  linux-yocto: enable powerpc debug fragment
+  linux-yocto/5.10: update to v5.10.113
+
+Dmitry Baryshkov (1):
+  linux-firmware: upgrade 20220411 -> 20220509
+
+Felix Moessbauer (1):
+  wic/plugins/rootfs: Fix permissions when splitting rootfs folders
+    across partitions
+
+Khem Raj (1):
+  linux-yocto: Enable powerpc-debug fragment for ppc64 LE
+
+Ovidiu Panait (1):
+  openssl: upgrade 1.1.1l -> 1.1.1n
+
+Ranjitsinh Rathod (1):
+  openssl: Minor security upgrade 1.1.1n to 1.1.1o
+
+Richard Purdie (1):
+  vim: Upgrade 8.2.4681 -> 8.2.4912
+
+ .../{openssl_1.1.1l.bb => openssl_1.1.1o.bb}  |  3 ++-
+ ...20220411.bb => linux-firmware_20220509.bb} |  4 +--
+ .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 +++---
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 27 ++++++++++---------
+ meta/recipes-support/vim/vim.inc              |  4 +--
+ scripts/lib/wic/plugins/source/rootfs.py      |  5 +++-
+ 7 files changed, 32 insertions(+), 25 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.1l.bb => openssl_1.1.1o.bb} (98%)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220411.bb => linux-firmware_20220509.bb} (99%)
+
 -- 
 2.35.3
 
