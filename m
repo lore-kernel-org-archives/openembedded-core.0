@@ -1,145 +1,227 @@
-Return-Path: <rasmus.villemoes@prevas.dk>
+Return-Path: <simone.weiss@elektrobit.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69358C433FE
-	for <webhook@archiver.kernel.org>; Mon, 30 May 2022 09:19:59 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.123])
- by mx.groups.io with SMTP id smtpd.web11.34826.1653902393574349642
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77B6FC433EF
+	for <webhook@archiver.kernel.org>; Mon, 30 May 2022 09:36:29 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.68])
+ by mx.groups.io with SMTP id smtpd.web09.34957.1653903386117464280
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 May 2022 02:19:55 -0700
+ Mon, 30 May 2022 02:36:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@prevas.dk header.s=selector1 header.b=C02325aQ;
- spf=pass (domain: prevas.dk, ip: 40.107.20.123,
- mailfrom: rasmus.villemoes@prevas.dk)
+ dkim=fail reason="body hash did not verify"
+ header.i=@elektrobit.onmicrosoft.com
+ header.s=selector2-elektrobit-onmicrosoft-com header.b=owWaDIzh;
+ spf=pass (domain: elektrobit.com, ip: 40.107.223.68,
+ mailfrom: simone.weiss@elektrobit.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=gVJyq66KCUNuJ4bq1pQEpDSenZ5dBsBaK8S9SUAv8I4sKE4faJDRIYp72ZEuK0FAWIi8PiW/uD4D0a/7C6Ij8CSlVR3G9graIVG6pXWrKwgxmhhrPexoe+CgqIBs40Y+WH3ifcOlIgfcj3e9qCJIgXiWsFpQ4l9g+2YhYOv2vXKHg4bEOpddsy7LYdBZLAwAsZFfxz7FTIGT3olBDtamX+ED5+d3kGn14ZqmPW/FYvXbMDLzITdmkPOpK4zH+C6LZJa6C5xoCKbBJ6F5GQdkx+XqMLPHcN5/5sElqjQdbTk6H0VfZwI2z4pHtHlA/pP4vg6JQOtcouBLK55Ig6PvUQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0pYmV2mUbBwUdIdTFKl7wOuJk4Rxog+CwF3w/zC3tbs=;
+ b=kKxL6xLvDUhyERew+ujI8Dwimc7S7oNuZRyjpbW1RvCzafhnTRLJLCZFU3SCMKFFyzzccV8ZFuh0cPlOdfWbtWYv+gkQNCnbLvfK1QtlfnPH+Ritf1PwrCY+DPHhbC0gy9D7iXmBfForNhKzHdFuS/HEYuU9PPLvCcxyH+L+/6BisMAzjlE2VmF7L3PB5Kyc7QVLfRnnZZCh6V0YobgTNrJlrQVuU55o7v3jECXIU2D8Up/E2p6tXnBgbAvRu5zFP/L6SiXLWAl+e+xF7zxiUkkforl8HzbH2za9P75AvkzQya0d9+nGR2PFjUvpSZcP2sa5xQpM2O3M9GRGUnD7Mw==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=softfail (sender ip
+ is 4.79.107.243) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=elektrobit.com; dmarc=fail (p=none sp=none pct=100) action=none
+ header.from=elektrobit.com; dkim=pass (signature was verified)
+ header.d=elektrobit.onmicrosoft.com; arc=pass (0 oda=0 ltdi=1)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=elektrobit.onmicrosoft.com; s=selector2-elektrobit-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0pYmV2mUbBwUdIdTFKl7wOuJk4Rxog+CwF3w/zC3tbs=;
+ b=owWaDIzh+sJzaVN9GJbb91V1SdhgR/UgRF0gKxEZ+ivE8DH5ZZwC02+o+ebzEuLeLVDeVwFo3jWM0Iufmyzaxo2dLAkb7UvwgXJ6OPnV34ztICrTeZQsoASRCdg3jI3WdCoUZwfXSe4JcmQRzUyy+NJEWHddBNxKusrEF79UfCg=
+Received: from DM5PR17CA0051.namprd17.prod.outlook.com (2603:10b6:3:13f::13)
+ by PH0PR08MB7018.namprd08.prod.outlook.com (2603:10b6:510:99::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13; Mon, 30 May
+ 2022 09:36:24 +0000
+Received: from DM6NAM12FT033.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:3:13f:cafe::53) by DM5PR17CA0051.outlook.office365.com
+ (2603:10b6:3:13f::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.19 via Frontend
+ Transport; Mon, 30 May 2022 09:36:24 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 4.79.107.243)
+ smtp.mailfrom=elektrobit.com; dkim=pass (signature was verified)
+ header.d=elektrobit.onmicrosoft.com;dmarc=fail action=none
+ header.from=elektrobit.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ elektrobit.com discourages use of 4.79.107.243 as permitted sender)
+Received: from usbth1es003.ebgroup.elektrobit.com (4.79.107.243) by
+ DM6NAM12FT033.mail.protection.outlook.com (10.13.179.14) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5314.6 via Frontend Transport; Mon, 30 May 2022 09:36:23 +0000
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2103.outbound.protection.outlook.com [104.47.70.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by usbth1es003.ebgroup.elektrobit.com (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 30 May 2022 02:36:22 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lr5eyb/Td9/AqCVX1bM0QCrz7dtqwRTGHWnxF1u01UwG8GAOLcwG0qIthmynOgsXwilaIWsU6e0HWbEq3YOA5MAKI0gR1BYd+YOO3jt5+shtwmfPUjT7MYypkaZ8aW3+ngiVJhv4d6vUDwcjrKmuOfjASb7NkdojigMgcWy/Qs72PJSMcmU8SoS1QwbBiQoEKXmDM01OsQhjzQMV+HLlofOHdQfTtG+WdMysOKfgKHGfwhLoXI8cws8rJterdnUSJLvVZ7hhif2AmWqeAb63ZrORotZ40dcJSAW/AjkmL64BJ8oHiNGSQt3S4HEAPMpup63OmKDorDG7yzxOwNNfSg==
+ b=IhIktFu8gDJ0b2oeb2+VcsPd7aBFIgYx4MtpcZ8m1XiRgjaEXS1OuLsAi/pkeNwk3oRJZAEEEb0AVspx8D9uZFVolpsUzVuHO+fHLGq01rt6cPOxckXs5bLSn09gsfLp1PDR/K+WAp4Next+P0DxVu5QQBFiXF/8NqmChJpD2w6KaEeOPuJ9l5Q4gX3yysCbAG+IX/bFSz0IA66wXUhHfIxFVEWiYStURrI/qlEzoMLyLnL4z5GJFmKnvUIw7DOsFYsInOXoI9ehTaTWeI9d7/7Y0j0P+e52HCTLyOyi4qtbyMmVvb/EeS4cbh3GvIY+AsJ4UXS1KlJMJjyJhwAllg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NpTLHjrJe1qOp2nic0E88mYNENctv6AaM29hzJnN7L4=;
- b=nYvQwvz2cK3uy4GPZVHiHaP5uRRrDzD0io42AqwEmFJ4+e6ickZoEjver5ijhWDx6zU9YgjB+baieY8STOub23tDGwcDxf3NLvinQFbHgt54MDK20uhV0LZ19wVjLtofiXGeuKUZYQ7Pf3fdUVAx+wg4P25CBf+lofj5SUvXDJcBskVe1rrZ4483Zd03bid5eZdb6x8co2vlw7Ejp0mSKQQwcyRd0xVv5wfCkHw7FC49uyqiEUUYGkHfh4fcycV1w2oPuIceR4gj88ensg7eiSoyigjUraumBd9n0EUANej8GN1tLh/Uq5ss1ANbixXWcFR8zt1TD0p2TjWY9O/JxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
- dkim=pass header.d=prevas.dk; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
- s=selector1;
+ bh=0pYmV2mUbBwUdIdTFKl7wOuJk4Rxog+CwF3w/zC3tbs=;
+ b=gdI4Y9pMzqdB818Xu6q9QCGZc9byiVgzEyE3XOJEFo5C5iEngUT2nZ4Dc2dpdy+XS1ZQtLSUX0JCicW+GZeGetbp7Pp2KGt4AQXiQp3M6q35eWOvD1T+UPTTC0ObRJHlNhjfb2WDHRz7+TckmyFDf6KMd9J6H7lmx6fmZltRwalKE5T2vf5qKhee6D8wSrUZr0dcWSaxrmbLZl/LXLs7m4eyuaf25briOxbrz6HWJg17G0VGzsYyyhtJrULuEG7czJ1RRj9kUuGneHTAGiMbN58jF+OLbSrSVQ1LHmJBaiTtz27GVleojsr66UfonWbHFPun9HawapoSj81vN3NNzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
+ is 213.95.148.172) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=elektrobit.com; dmarc=temperror action=none
+ header.from=elektrobit.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=elektrobit.onmicrosoft.com; s=selector2-elektrobit-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NpTLHjrJe1qOp2nic0E88mYNENctv6AaM29hzJnN7L4=;
- b=C02325aQ8Gmh/c/8yXI3vkHn7uBZzuhhRNDqXvukOq7lafNzUZKlobcLycY2cr4ovJ/Zo7r1P1obYpOgRWTYQ5T/ZNl8C+KrxyOzQq+RxzBtC9Ep3rTsVDCW8bSr9RrVWZwlQWFOcu/hr66JprVTvXLkLOj4kW5fsW3rtlvxuNE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=prevas.dk;
-Received: from DU0PR10MB5266.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:34a::22)
- by DB9PR10MB4794.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:255::8) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=0pYmV2mUbBwUdIdTFKl7wOuJk4Rxog+CwF3w/zC3tbs=;
+ b=owWaDIzh+sJzaVN9GJbb91V1SdhgR/UgRF0gKxEZ+ivE8DH5ZZwC02+o+ebzEuLeLVDeVwFo3jWM0Iufmyzaxo2dLAkb7UvwgXJ6OPnV34ztICrTeZQsoASRCdg3jI3WdCoUZwfXSe4JcmQRzUyy+NJEWHddBNxKusrEF79UfCg=
+Received: from BN6PR1701CA0010.namprd17.prod.outlook.com
+ (2603:10b6:405:15::20) by DM6PR08MB6218.namprd08.prod.outlook.com
+ (2603:10b6:5:1ed::16) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13; Mon, 30 May
- 2022 09:19:50 +0000
-Received: from DU0PR10MB5266.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::edf8:6e1a:8d97:57ee]) by DU0PR10MB5266.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::edf8:6e1a:8d97:57ee%5]) with mapi id 15.20.5293.019; Mon, 30 May 2022
- 09:19:50 +0000
-Message-ID: <0fa72c6b-ba25-ff9e-8b8b-b9a854587ff9@prevas.dk>
-Date: Mon, 30 May 2022 11:19:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Content-Language: en-US
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Subject: Should BB_DEFAULT_UMASK be set with ?=
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: GV3P280CA0041.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:9::19) To DU0PR10MB5266.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:10:34a::22)
+ 2022 09:36:19 +0000
+Received: from BN8NAM12FT005.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:405:15:cafe::4) by BN6PR1701CA0010.outlook.office365.com
+ (2603:10b6:405:15::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.19 via Frontend
+ Transport; Mon, 30 May 2022 09:36:19 +0000
+X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is
+ 213.95.148.172) smtp.mailfrom=elektrobit.com; dkim=none (message not signed)
+ header.d=none;dmarc=temperror action=none header.from=elektrobit.com;
+Received-SPF: TempError (protection.outlook.com: error in processing during
+ lookup of elektrobit.com: DNS Timeout)
+Received: from denue6es011.ebgroup.elektrobit.com (213.95.148.172) by
+ BN8NAM12FT005.mail.protection.outlook.com (10.13.182.167) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5314.6 via Frontend Transport; Mon, 30 May 2022 09:36:18 +0000
+Received: from denue6es011.ebgroup.elektrobit.com (10.243.160.101) by
+ denue6es011.ebgroup.elektrobit.com (10.243.160.101) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Mon, 30 May 2022 11:36:13 +0200
+Received: from del01461.ebgroup.elektrobit.com (10.243.54.74) by
+ denue6es011.ebgroup.elektrobit.com (10.243.160.101) with Microsoft SMTP
+ Server id 15.1.2308.20 via Frontend Transport; Mon, 30 May 2022 11:36:13
+ +0200
+From: Simone Weiss <simone.weiss@elektrobit.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Simone Weiss <simone.weiss@elektrobit.com>, Kai Tomerius
+	<kai.tomerius@elektrobit.com>
+Subject: [PATCH] json-c: Add ptest for json-c
+Date: Mon, 30 May 2022 11:36:09 +0200
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9c6b2120-6205-4b10-808e-08da421d8c23
-X-MS-TrafficTypeDiagnostic: DB9PR10MB4794:EE_
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Message-ID: 
+ <36681a90-b7d3-4332-8860-b24dd9b7a35d@denue6es011.ebgroup.elektrobit.com>
+X-EOPAttributedMessage: 1
+X-MS-Office365-Filtering-Correlation-Id: a5f3a5a3-1311-43c7-4fa6-08da421fdc71
+X-MS-TrafficTypeDiagnostic: 
+	DM6PR08MB6218:EE_|DM6NAM12FT033:EE_|PH0PR08MB7018:EE_
 X-Microsoft-Antispam-PRVS: 
-	<DB9PR10MB4794D344E15B313B7E644D6793DD9@DB9PR10MB4794.EURPRD10.PROD.OUTLOOK.COM>
+	<PH0PR08MB70180B22529DD68A598577FAE2DD9@PH0PR08MB7018.namprd08.prod.outlook.com>
+X-SM-outgoing: yes
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ RJdqM4LNX9hwdkxbcam0zsrxRvA8Js5p9WFVfvQPM8hkeyQ00At19KmLB1pJfZ9qb1FtJjYgM/XBdGR82dRjLperTCk6Pk7rlJv7x+QkynrvyN49XCcdetadJTNP/GuJXpyM+S1baatJ1O/9gh4kcuHRXo3CmEklVr1RvRImuZ9iHSfhmc4SjlHxHZs/atDoHwqoF8yPL73T6yf9sTkzNq7cNjwx5xMumqESPh/rwzLkiyL6kAl5A7CAY0qdBXVtaIriRLEm4jbUl7YlN98IaUDzoybPPwatySV2p/MLZD2640BWU642MY9fYjI92dUCq1yOAf3+zltjxBAHtSiCoETXSvnvmfGeNOdEKD6Tl+66DiAwuhvlv3irMrH262ILJ6MC0vkEfZusEXxqC4HhM58BP+A2jMUGpqv+tQfHSbOp35vA6lxUknD6sJ9D8zmzg1DvkUgC6QUsQgzHYu6bEc2MUmWr1wsH1nWBigulstyd1Ob+G8MlqaEhWAbku4+f20+LyANfFkHUkTZaUsKNPn9TGIJwkuGQ+gr9550vUFY8nhMmVajxrGNqMxXMi1VvBfex5koeDtAUY+9Ass/t29mxyGAxYiwj3PGnUFrMx55NB2wrucd6dtpY2RRmqgXBn4akN+IXRdtQEVYtWig4vertJwvWJEp9yvgbKxQRqWdNOGofn7ziTeCmSMnK/FB6HhMMwoiJrP93R/QjLnMXrKksiFqetc5QGlQxJYWhGI6TQa6XFjbW0I0NbnTK8PHU
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:213.95.148.172;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:denue6es011.ebgroup.elektrobit.com;PTR:eth1-fw1-nbg6.eb.noris.de;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(83380400001)(63370400001)(508600001)(6916009)(54906003)(316002)(966005)(63350400001)(40460700003)(426003)(336012)(31686004)(70586007)(70206006)(4326008)(31696002)(8676002)(47076005)(8936002)(86362001)(186003)(107886003)(44832011)(82310400005)(36860700001)(6666004)(81166007)(356005)(2906002)(26005)(5660300002);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR08MB6218
+X-SM-smarthost: [elektrobit-com.mail.protection.outlook.com]
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DM6NAM12FT033.eop-nam12.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	a1d2022a-2dee-4baf-6617-08da421fd97b
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	XHBmYkuHyy59eMf+4hBNeLU3hAIQz9ntsfhNrNarPU/H+uhs0M5m909TXAEPKk/IOjoJExsAG2Ef7Q1EuxVTIa2Tqug8ZAfQX89rgb9BcWqfJPtiAlC1ePniuxIV9zBQXVEhRGtfg47yA9nWaJCgSule5pRDiuf4wL3NEMMuZ49fQj136xCQm9tovBPSw+/RdLxFqhfEMw5ZIPha4ZpwE3ObDH9sNWIxLVxtAW4ZuzsIy5QlI3NCc+4M6DBDIfHwhugJpxf3wcZY92oefzn9V3UDzUoEpQb61qF6LpyOUyUHUpB9z3Ez9MmE7n6BbkyiBz5YNmo9prUebbQAqiFsQoU+MLKXKr0Oj8ZkEpMomcotiPf7tFYRw17Fv0t0jO8yP4XnJlfZ2pUP1xVl/ZLK3Shjudq1XKI/VfXHAgaIS0I/DB55U1RytAb3PSXuyZ6BaJnnJqP5NkgLGtp6KW2bTSpwxMdhcPGKboggMUWoPj4BUL8f+25qxG4N3HZmxhf3+f3VFsjHOslmkIktMnsi9Z4eRYJwLilRqdJv62qc3EuiZhNwBZbVbZiYzpW5FoPF4gE10p4nmEw0Y5888SWTwHrEFQ8hliqZa4XlnSCY0rN1MIutCTVF9o7NCxn/IlG/jN4JBzYzm+J/wVx9oRu9TfvVf7PvMoCTK7dAugFMFZ2RIUKVs37hYfTGFCUJhhDW0seYL6qAHhLj5jFahaFqfWu2uKoWPXqNF3IEGxVuY50JVDJ3nE3cfYy7Ks0welBnmI4DK9+6i0l7C8WEs5IVSA==
+	/lMK0arKGiQbs+Gkk0fmRju8QgbQ01whG39X53ch4TWlmiqj1tPvKFGwuvd+6uSjpbY4TwIWP6bF0IlI7H1ES2piMauTdXIAUgjANqhMfQK0vD1eegPpEKJNZp1s6qpZroawPO7YFKZ/Ii8d6bV6uF3sMjRlkiEe18+aexKiGIGyIjIq/vRzPqUwf6a/uAE7wNTF612E6+khuzMTB61gkslvrurBAzA6YrheYdZeNXGx7MRB3+GTE/fxkDFXMI+28cz+C1+IE0w0fkY1s6n7YGbnafrSlu6Oqq72ZE0ADBZvOOK3FIr6xapYqK1jDBRohub2MG3DYlAtQSr8iytDFTXae7lWNvdx+CHfN/16q35eOVMedL4D6nE0xXElkxclZlZXyDD74LCn4XP0r+jVbE+8xhr3lqSmkLlTe0k+XcN1GWHCvWlBOtRnm09raY250GS/qlvt1Hf9CeizMHOE/2qEHdyyOmZULPmbUnZnI3QpgvGTJN7QjnAdKGH42xZPXtHC2OIn0fhWHmVHjS42q6rTbmCyfv4zRFvrCRqWRX7wWnfA0ctKQVReEjSZHuRrD5IY1m+fp++7AeBYkSTyecJJJ4MM1sdJS1DwXcmqah7wrnhcHUl+W9jk6jlI/KvYKI6OV/mx6qkKtCrYlwvsxUXZ349uCjSNj0Uf7Qj9wPRVEz5S1RXu9IWd4px+mvP4DbKA2/mHAjwwophw+NSCdo4uhldPk6cg+LFqcWEv7Fd4NbbyLmPHJV/RwL9r+NmjlaNWMOaQqXLSIMu0SdiGapuQMYdrJ1r7axq4xfipDPs=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR10MB5266.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230001)(366004)(8936002)(31686004)(8976002)(36756003)(6512007)(6666004)(316002)(6486002)(6916009)(508600001)(6506007)(52116002)(26005)(31696002)(2616005)(8676002)(86362001)(186003)(66476007)(66556008)(66946007)(44832011)(38350700002)(38100700002)(4744005)(5660300002)(2906002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?Q2RaRXRGYjRmK3hVUzB1MVJoMzNyNnVYdTFFci9vaGFSVnU4VnkyL0MyTHVN?=
- =?utf-8?B?UFA2cjRwWE4ySmpGS2pzbkpJcDF6dEU0OUNqSGpGTThKRWZNd3EyUzhWU3Iy?=
- =?utf-8?B?UkhJaE5sekt2TCttbEx2Ty81NWw3aldkTTFndnBDeWRYbk5pVDRBNktZN0VQ?=
- =?utf-8?B?bDZqZkV2UDdPK2FKUi9JWnFBeVc3R25UU1NuR2RuY2RxbloyQUZOWWRVS2lH?=
- =?utf-8?B?dmR2OG9XUTUyS1QvRXk1YnphUE5udWxiZHJRdXArR2tRUEFNSjhHbzB6WVdC?=
- =?utf-8?B?dmJaZW9uMmtITStvaWhpcnJHRlNUbElOZSt6dDk4VFBXVmEwcjNBUzNUclhX?=
- =?utf-8?B?cGExQVNvYXNIUkNQWHd0S09xRWhEMkNxNlB0WmZZdWs4SDBNa3dMc0UyRFdB?=
- =?utf-8?B?bGxiYlpidEFCWHRtMWg4WmdYRTNuZ3JPOWowQWRRUVZOOFpVWTQ2dXFNRnZL?=
- =?utf-8?B?M0FNT0xNaTJScVl5cTAzdVdlRHR3MWs5SkV5cVFWdC9VeWFpTEtUSzZDd01H?=
- =?utf-8?B?ZExsRm14YzlsTmxnMzhObVU0NjQ5NXhmRWN0REwydm94YmI2QzBZVDJ2VDBU?=
- =?utf-8?B?OCtXUTVpSGhrNldDMWRkaGZYTWVFanpFa2xiTWRiVGMrQnIyT2dFVnJYS084?=
- =?utf-8?B?aDYzeXArQ0tSaUl1SVFLRGtsZ2hYMUdTZnh2YXZkNVFwanpZSkJ0SlBQK2xp?=
- =?utf-8?B?ayt1a2pCNEVBS0lwUDZvSjB4TWxIRU95ZWNTRDJVK2tqWVo4S2dlSHhkeVpu?=
- =?utf-8?B?aXd3OS91b3hLWDlETTVEMFVST0FJUktqTldLZWtNUWswZUNpc2xrVitGVVAv?=
- =?utf-8?B?cUk0R1FOUHFJd2xKU2lYUVZleExpV3dyZkI5Y0ZXa3NWSHp0djZNd1JNUmRX?=
- =?utf-8?B?ZXRxclVvS2lxczFZanI4Ri96ZjhLdWQ1Q2xaVmRVeVcrRS9xMEFYYVo0QkpM?=
- =?utf-8?B?MnA5ZFpGY0FQbHFHWUVZMmZIM3Z3S0lRM013dkw2TFc5elhrWW9keFlOSjli?=
- =?utf-8?B?VmlON0JuMnhMVEhwbjM2NXAwOWdvRkF4cTU5b1dZYW1aNHo0YTZsVFlOajVp?=
- =?utf-8?B?T1ZuUmg4a1RidkpROHdBTnNGVVMrOWI4L0ZibXdCZ0NEN25sazUrcXJKaU9p?=
- =?utf-8?B?cjJvcTdqVmZreVRnVHNKaXBBNDBCYVNyVE5sVkVlek1vQmRkS3RsaXFsckw5?=
- =?utf-8?B?b3oyOGx1YVJGMm9ranRpMkRQYTlkVWxWZHR1eFFMK3haZ1JXaDA3RDNKM0pp?=
- =?utf-8?B?NE5DWitaS1JmeC90UU9lcFZDNlFGT21tYVA0cTQ0cm1uN0VnUk1rR1BVYk9G?=
- =?utf-8?B?RkVDVXZZOC9tMUhkMVpOUmZmMWV4NVpCREtpVWt0Q0FRaVg4UFZUVm0vekY5?=
- =?utf-8?B?QUxERisyUE13T2J1L2V3SmFIR25NNEZ5OG4vNFFva3JGR0hzNmI2RCtEMDVV?=
- =?utf-8?B?RFJVcVRTV2dzMjE2YmxQNXB0dWY5QmdtZ20xcjRGdzJEdWRnUFlyQkhHQmJo?=
- =?utf-8?B?aitOSjNwczRsWHc4c0pJcG9LVG9HMlFaeUtuZHhwSmZEYzdsYlp0ZWlmSkE1?=
- =?utf-8?B?TmI0bnRsMEJEcHFDK2MwcjlCU3dmWmtncjBZZENnM1BvbDFIRFUrODhyQUZr?=
- =?utf-8?B?bU9lQU5EdFh1VmF2dnFrNmxTOWxGVUZmR3hnenRDVXpEU2lWMTE3dVM4T1F6?=
- =?utf-8?B?WmJjbGNoeWYrTWt0UXdBd09RTUdGNHV4T1c1bHFudWRqS0dEN0Jra1dCTzdK?=
- =?utf-8?B?RlYzanp3VmNtVlRzZm80Z3NJZDVBNVdocXNnQ3BJQmZOdXMxb2pOemtBTlJm?=
- =?utf-8?B?dVVQa1lWNlRzaytTeU9sdGJpLzJSSkliWnh3ZVJaQlpXU1E3OTZyQTRFb3Vr?=
- =?utf-8?B?WXNxQ1B0NGdLQU5KK1RueTBLN1J4bzN5Z1l4N0F5RTdpZ1J5YkdiMlA3Zm1L?=
- =?utf-8?B?MXFvd2o4MmRheEMwSDJJQmJyalg3TzllME4vTHNYb0Znb0hSVDYrcVk3VGVT?=
- =?utf-8?B?RHJkYWZrY2JlNm9GN01pVlZCQmg5MkdkWW9PRTRJRnY1anhOSTRsSTBlOWJx?=
- =?utf-8?B?aXkwaVhqZDRCY0xFcjVHajhwZmluOUszd2tHMmVCUXVtR1VhcVVqNnkyTmo2?=
- =?utf-8?B?UU84a0NBL05WUllqSDR0TFY0WFhiZEdjbk12RklmZEhDbFRGTStJb1ZCVC9a?=
- =?utf-8?B?TUR2SHRmaW1SZWtTcEliTkZLeFdscHJNeVlJRmN6VjBOS1RPZW5NMitnelI1?=
- =?utf-8?B?MGR0TmY4aFBicVQ3Y2c2Y295YWJhbkgybEJVS0g4ZFlybStvNGVpYnpEaWZ1?=
- =?utf-8?B?cE8xZm55WEVwS2hsbEx3SHFxeWFVc0MwQjN3dHRtMVlRQU9RS0JMN05rOWo5?=
- =?utf-8?Q?5K2Idwy4snl+7uYE=3D?=
-X-OriginatorOrg: prevas.dk
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 9c6b2120-6205-4b10-808e-08da421d8c23
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR10MB5266.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2022 09:19:50.0842
+	CIP:4.79.107.243;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:usbth1es003.ebgroup.elektrobit.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(40470700004)(46966006)(36840700001)(8936002)(26005)(8676002)(86362001)(83380400001)(31696002)(4326008)(6666004)(70586007)(107886003)(70206006)(336012)(426003)(47076005)(186003)(44832011)(2906002)(508600001)(81166007)(5660300002)(40460700003)(31686004)(54906003)(316002)(966005)(6916009)(82310400005)(36860700001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: elektrobit.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2022 09:36:23.2742
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- tXxLinIlv6yf3dbJ9MAVKl7aRVA3oKKnqXqw0HuXRehpsU9sOz4z11OUV0oGLA5hf8vTxtv5FmDcipOosADJIO1XMHnLaEcaZYAUE8Ei6E4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB4794
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ a5f3a5a3-1311-43c7-4fa6-08da421fdc71
+X-MS-Exchange-CrossTenant-Id: e764c36b-012e-4216-910d-8fd16283182d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
+ TenantId=e764c36b-012e-4216-910d-8fd16283182d;Ip=[4.79.107.243];Helo=[usbth1es003.ebgroup.elektrobit.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DM6NAM12FT033.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR08MB7018
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 May 2022 09:19:59 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 30 May 2022 09:36:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166274
+ https://lists.openembedded.org/g/openembedded-core/message/166275
 
-Hi,
+Also add a script for executing the ptests. All tests were sucessful on a t=
+rial
+run.
 
-Suppose I want to define BB_DEFAULT_UMASK in site.conf or local.conf (I
-do have a use case for setting it to 002). But bitbake.conf includes
-those files before it then goes on to use an unconditional assignment
+Signed-off-by: Simone Wei=C3=9F <simone.weiss@elektrobit.com>
+Signed-off-by: Kai Tomerius <kai.tomerius@elektrobit.com>
+---
+ meta/conf/distro/include/ptest-packagelists.inc |  1 +
+ meta/recipes-devtools/json-c/json-c_0.16.bb     | 15 +++++++++++++--
+ 2 files changed, 14 insertions(+), 2 deletions(-)
 
-BB_DEFAULT_UMASK = "022"
-
-So how/where is one supposed to be able to set BB_DEFAULT_UMASK? Should
-the assignment in bitbake.conf be ?= or perhaps ??= instead? Or should
-the assigment instead be moved above the inclusion of the user's
-configuration files?
-
-Rasmus
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
+stro/include/ptest-packagelists.inc
+index a1ead90649..0bfcb60c76 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -22,6 +22,7 @@ PTESTS_FAST =3D "\
+     gettext-ptest \
+     glib-networking-ptest \
+     gzip-ptest \
++    json-c-ptest \
+     json-glib-ptest \
+     libconvert-asn1-perl-ptest \
+     liberror-perl-ptest \
+diff --git a/meta/recipes-devtools/json-c/json-c_0.16.bb b/meta/recipes-dev=
+tools/json-c/json-c_0.16.bb
+index fdec5ec9af..3fa5ce2c49 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.16.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.16.bb
+@@ -4,7 +4,10 @@ HOMEPAGE =3D "https://github.com/json-c/json-c/wiki"
+ LICENSE =3D "MIT"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dde54b60fbbc35123ba193fea8ee216f=
+2"
+=20
+-SRC_URI =3D "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.g=
+z"
++SRC_URI =3D " \
++    https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
++    file://run-ptest \
++"
+=20
+ SRC_URI[sha256sum] =3D "8e45ac8f96ec7791eaf3bb7ee50e9c2100bbbc87b8d0f1d030=
+c5ba8a0288d96b"
+=20
+@@ -13,6 +16,14 @@ UPSTREAM_CHECK_REGEX =3D "json-c-(?P<pver>\d+(\.\d+)+)-\=
+d+"
+=20
+ RPROVIDES:${PN} =3D "libjson"
+=20
+-inherit cmake
++inherit cmake ptest
++
++do_install_ptest() {
++    cp -r ${B}/tests ${D}/${PTEST_PATH}
++    cp -r ${S}/tests/*.test ${D}/${PTEST_PATH}/tests
++    cp -r ${S}/tests/*.expected ${D}/${PTEST_PATH}/tests
++    cp -r ${S}/tests/test-defs.sh ${D}/${PTEST_PATH}/tests
++    cp -r ${S}/tests/valid*json ${D}/${PTEST_PATH}/tests
++}
+=20
+ BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.17.1
 
 
