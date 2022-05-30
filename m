@@ -2,97 +2,84 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6005CC433EF
-	for <webhook@archiver.kernel.org>; Mon, 30 May 2022 16:08:11 +0000 (UTC)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.web08.38413.1653926888065436630
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F09DC433EF
+	for <webhook@archiver.kernel.org>; Mon, 30 May 2022 16:16:41 +0000 (UTC)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web09.38618.1653927399199527285
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 May 2022 09:08:08 -0700
+ Mon, 30 May 2022 09:16:39 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=cUKQbX0V;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.42,
+ header.b=RsodD+OF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.46,
  mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f42.google.com with SMTP id er5so14128199edb.12
+Received: by mail-ej1-f46.google.com with SMTP id f9so21842061ejc.0
         for <openembedded-core@lists.openembedded.org>;
- Mon, 30 May 2022 09:08:07 -0700 (PDT)
+ Mon, 30 May 2022 09:16:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=bU8EbcEnUj1JpLY7UGYySsy1HgUicZQkJEk18ATMn1E=;
-        b=cUKQbX0VWNXT3T6NVTjpWSEK+UL6V5WuGetrpnRScgmiW/fzWZe4u2eJUZFkRTtMeR
-         /0c7/qt8ZfxWa1vs7uq3AUeFrPMl5GerGM04HCYKDVSLf3n72tYPQ2PKE1otCQNQqP29
-         3r9VCsfoDrXlOI5FlXppJ3Ozqs4DYQPdNWnBqWBv8KHg2Jjb3sqGXL7uIg5+WgS4VGmi
-         BNzvE0zJ6gxq0dGdM16WKT5Gr51jomDITJu9zBWFv9E71BNnn5W74uHk3STOCxpaX5xX
-         OPcQYZdiwU1o7T/RkL3EVKnrt1Gn/TE49oSZd4M2jOK1CPw+yKADuIJzKaacLnhEJPsy
-         H/7Q==
+        bh=jHowBbgv7KP/P1QgvZZUGp35zcjO1AamhwESWM+1W+0=;
+        b=RsodD+OFFE40YkPKjzrnUPhAgxQUptc+Uz/gsafjNcuO53DdK83oUNbsT9H1CMSWgW
+         Z3A7aSlZ4xBgJf9+C2g4Oh0eEvKzpvz3rwVv43B0bh/83qP9Yeu2Wo5NZM4NBWTD7SKR
+         QKw1N2qEQCNc8sXkXW5qGVG+ROKmF8RGHTIlfAdrrFsYdctXFFOqE7kYU/qIHSm3P6CG
+         ohwmQuKFxGgKKhmY6DFCmEhfz1EnaJOs+vkO2p6fuBxsE5RC2a7LLp7HLySfJ0VcpaIz
+         MvlHwCclz3yTpVar1IJneH9B972VBxsHC69kbqviT/95c2eV7pBpCsOdu+WjLmqHkA29
+         V0gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=bU8EbcEnUj1JpLY7UGYySsy1HgUicZQkJEk18ATMn1E=;
-        b=N/0vM0bl2dxWtR0PerDvuTX6s/c6/jCZl+hDYLdNt8y1g2V8bAP5d0d1B2QXNoUjla
-         IT1d3bdSUD3q82t4yi86KuxoCycAujj9IdfEKPZA/T9S3+4gBsgol/0U1qONiLE8e7Zl
-         2gUBfNFC7DhB2dr6pUqca7dC770O/y5BFcjGPXuZVSwH1XbLutdTL14SfKN0dA8Lhuus
-         45Cf+ee6VTHUZE3/2d0BxfI0V1Uzu2lN9AtqfDreMKdyJNjRk1bomVF0GP74TBkk0ixO
-         g4D3zcVwaDMPuxuUk3vU/eFkVU2XSOl5It7DSx7rN1Ac5oklO5Xlte89k9kUddtYaj70
-         7lqg==
-X-Gm-Message-State: AOAM530+a+tPeF+Dmu6kElaFnBZ3gnx9yzzIyvGj3xteIz+sI0K91Ojd
-	4ufyVGcq3Y3QK+SBfSaCs4Wyh/VI7QUDmSH0uFfksA==
+        bh=jHowBbgv7KP/P1QgvZZUGp35zcjO1AamhwESWM+1W+0=;
+        b=oO0T51EbaH6K3/+Vtvn1qs44M55IYkJoeyp1sVUnmrKgf7QA51QUzST6VabwwzYcDp
+         w0m4YMju7d0zP30PCfBLErvo20J7KDdPzl4URUttknMvId4MFmZv5qJxXck4ylcSZaIU
+         +Qy1KgywPuInQAokwtSPCoBMCkjOmtOgJJwR51j6z0RRcEX6tLOCE5rk7TRu8N5oNCyT
+         6ASr1ykiz8+i6CNqmb4PJiMx8SJgVbf7tkAsTzWe9RNHs7Qyyz7J9WVdk+P5iiqQFwVA
+         k7kKWPT0EQKmlHob+XMgz2BMP7EqaLXU0cJ0Uz0GGBuERTxGEvrPbK06M1iSQOk4jaH3
+         wWwQ==
+X-Gm-Message-State: AOAM532K7883gzR8qdxElpDEZYAf2dovx/Oigz+b+SGa/5vo35NLN2xb
+	blMwFrxYJ1s0VEaBCaby3hUHe05ga7ahhvjLxRyDPg==
 X-Google-Smtp-Source: 
- ABdhPJyaISXllOXSzZnDkZLU1ozPxUvs3lGMwGXSQgZBRSBiiu9Fb57wdGn1mI6wBA3hF5zRT7ORANdxY+Rh6qZ4vck=
-X-Received: by 2002:a05:6402:5409:b0:42a:a643:4eb8 with SMTP id
- ev9-20020a056402540900b0042aa6434eb8mr60599022edb.71.1653926886277; Mon, 30
- May 2022 09:08:06 -0700 (PDT)
+ ABdhPJxtdKW1NXqfQ/laJJkq4mGK3JS8fZFxueOsX2M1WsZluF0OM3urHTegyqplZOthMoOG+MkeS0cbGM1Q8faKfNc=
+X-Received: by 2002:a17:907:1621:b0:6fe:fc8f:21f1 with SMTP id
+ hb33-20020a170907162100b006fefc8f21f1mr30583963ejc.359.1653927397665; Mon, 30
+ May 2022 09:16:37 -0700 (PDT)
 MIME-Version: 1.0
-References: 
- <CAGDS+n=zq+79_JrEC_s-X_f9BEMYXWsyZZrogUk1Z+iLjPvgKQ@mail.gmail.com>
- <10230.1653926289490240388@lists.openembedded.org>
-In-Reply-To: <10230.1653926289490240388@lists.openembedded.org>
+References: <20220523081041.5680-1-rak3033@gmail.com>
+ <953.1653909572199421376@lists.openembedded.org>
+In-Reply-To: <953.1653909572199421376@lists.openembedded.org>
 From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 30 May 2022 06:07:54 -1000
+Date: Mon, 30 May 2022 06:16:26 -1000
 Message-ID: 
- <CAOSpxdbhaQueM4fm0+_m_7K7+TB5M84GkjAOkUeabkNX3LmP7Q@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] libpcre2: upgrade 10.39 -> 10.40
-To: Davide Gardenal <davidegarde2000@gmail.com>
+ <CAOSpxdbRH0_9jmge91F7fSwJ1OE3G0D5BPUeneORVr5DekhRYg@mail.gmail.com>
+Subject: Re: [OE-core] [meta-oe][dunfell][PATCH] curl: Add fix for
+ CVE-2022-27781 CVE-2022-27782
+To: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 May 2022 16:08:11 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 30 May 2022 16:16:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166291
+ https://lists.openembedded.org/g/openembedded-core/message/166292
 
-On Mon, May 30, 2022 at 5:58 AM Davide Gardenal
-<davidegarde2000@gmail.com> wrote:
+On Mon, May 30, 2022 at 1:19 AM Ranjitsinh Rathod
+<ranjitsinhrathod1991@gmail.com> wrote:
 >
-> On Mon, May 30, 2022 at 08:49 AM, Steve Sakoman wrote:
+> Hi Riyaz,
 >
-> Delete CVE-2022-1586.patch, wrong CVE code (patch included in 10.40).
->
-> CVE: CVE-2022-1587
->
-> If this is the case then you should submit a patch for master to
-> correct this. If people agree that the version bump is suitable for
-> LTS I would then take the upgrade patch from master along with your
-> patch to fix the CVE confusion.
->
-> Do you mean for kirkstone? Because master doesn't have that patch.
+> You have used the wrong label meta-oe while sending this patch.
 
-My bad! Juggling three branches and looked at the wrong one :-(
+Indeed, I missed it due to the wrong tag!
 
-> Also if this update is a problem I can just rename the patch so that cve-check can work properly.
+> Steve, Can you please take this or do you want us to send it again?
 
-Yes, could you fix the CVE namning issue in kirkstone with a separate
-patch, and then resubmit the version bump patch based on this change?
+I've got it now, no need to resend.
 
-I'll definitely take the CVE naming fix, and if there are no
-objections to the version bump I'll take that one too.
-
-Thanks again!
+Thank you,
 
 Steve
 
