@@ -1,172 +1,98 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <ranjitsinhrathod1991@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 075A8C433F5
-	for <webhook@archiver.kernel.org>; Mon, 30 May 2022 08:11:49 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web12.34543.1653898305517804981
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51A05C433F5
+	for <webhook@archiver.kernel.org>; Mon, 30 May 2022 09:02:49 +0000 (UTC)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
+ [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web11.34718.1653901361142069465
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 May 2022 01:11:45 -0700
+ Mon, 30 May 2022 02:02:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=eb9ESzVQ;
- spf=pass (domain: gmail.com, ip: 209.85.128.47,
- mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id
- m32-20020a05600c3b2000b0039756bb41f2so5941377wms.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=RJCkH6/z;
+ spf=pass (domain: gmail.com, ip: 209.85.215.178,
+ mailfrom: ranjitsinhrathod1991@gmail.com)
+Received: by mail-pg1-f178.google.com with SMTP id q123so4569837pgq.6
         for <openembedded-core@lists.openembedded.org>;
- Mon, 30 May 2022 01:11:45 -0700 (PDT)
+ Mon, 30 May 2022 02:02:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6LeOCiUXaegj/dN+5whof8LgSO7X+1CUse+9YWoYtWw=;
-        b=eb9ESzVQzF5NEYB0rtDs4OWkoGnq+MNqEL758Jy2fTOlo1rvDwwmJwde2F0216Aq5o
-         4X9EW114XAW49J+7/+Dy5Qf/89Lfl4KONvs1VGc5Xxy6nuTzzz+i+7vHYZbtY84NaIkL
-         ePjqLmd6mOOVjkV965lSpIh3fchkJQiOd48CVDfgX4BO768N8JpAWfigLO+u+CD2RxkK
-         b2K9dfxRXEJFs5jl7b4kVg5RXXTAAwyKydbH2XilvwnvKG0395tuzplsUbowVgwTSw2V
-         Vp6sCpgQQIy+KnallxquCCagtdL2VnQjPsvzeRpRAWU46nGyKBKWihR8gkJm8aVSxRSc
-         yJMA==
+        h=from:to:cc:subject:date:message-id;
+        bh=jpjmSQWdR1qLeD8wrz9ktkYVIHDALjihl/6dNxeZ1bo=;
+        b=RJCkH6/zmv7zv7IwVxpjP9s4d0/UpMyUEF9p09oHB1uQY2rxQCZppbvlNbHfRDfh8a
+         pVUWXCuZz2h1+C1OVlo+QJyyxaRDJ1jDXWgmeZAdluooAfVKwWgrpIVdG064MNQ/61Jk
+         QDLLJFHnTni4d38ipWmihhuWZdpGalEILsRPaZFy9QAuFq0dASSzHPaH/Ce8wzUPzE8m
+         bK0dlTrz9ayXzuEYi53WAqv6n2DvmkLH4dt7iSx/seiGX6P84uosNAIRhqH3HN9ekyZP
+         jPjWPjkhgq6hNs+nZT/Pk25V2yaI3h4aF+NxYVTaJ6U7kdsgDPBb9mGnplm8G3IW1rck
+         6K/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6LeOCiUXaegj/dN+5whof8LgSO7X+1CUse+9YWoYtWw=;
-        b=sNXkQn67ZmQFEGi/lLwkP9BUBiQVAXAWGx0IKgyEWd1/cjTZlnNhSi7eHHl9JBj62T
-         L8fvBRCYRHyzb5fmj4XCMe1pVvFuCjA9hLQy4F9XgIZIP9LRBTiVWHftuz5cMTo0IIT3
-         5TzxNVMl2e6RUzzKzpn5vCbwENRIzv0QWsadOwh4WUjoBj5uLFsMfSf22deGz+d8CmPx
-         VNOh0yNXZnQzKv01bw4KgkIQPdZW1jDDBS2BlIcObzEr+sc5s3vqXEm22/hE3xXYbyiF
-         s+x/k/4mBtzyj9ovaGv4UekNEU7ITLjxykP3WMHhz8J2WroCHSB/yOQkwLUYWHU7F8cy
-         +cDw==
-X-Gm-Message-State: AOAM533C5brcGBWaLfxIKD9VcLGBicE+5SXEh1DIiG1vd/J3wltkb3Ji
-	cEstJSEgdsoP/NPXJIkSIOzUg2wFw1agDBtwMwk=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=jpjmSQWdR1qLeD8wrz9ktkYVIHDALjihl/6dNxeZ1bo=;
+        b=gF2LUmVTt8NlSKYop8kBfAHKv4IKqK21NLbNC1bj6R2GQWGsBGbzhvYEn3YVnZcsXB
+         Xlvap3lSpmTbHfos9+AV5xw2o/e9UGrv4gW1luTdMpzkkbyI9uByI+EEnv+gJjQiLHGI
+         fFx8lStYTFFZXjcmG7Ch9MHTsKIBVdCkZludfjKs/NAbmLDPF6Htp8fTD4tXwA/OA6Ko
+         1cw4HoMGJRitDqBQCLg+iyvdP+j+H7yDrx72h4CvQJPAdc5nkzJYztK7zAKpq0f7TKKT
+         0vwzMBAhvq0xhZ/HAdYHiIg8spgP22VbBXmKSh1F29NoAGkHPmN+ToHVkkjcZ4g9XBUz
+         f8Cg==
+X-Gm-Message-State: AOAM532kB2aedFZLFU2lRbSOveOAMHFh2dEiwyNJ8zzx9SJYxPr12cc/
+	/bxqP88vTIFObXfqfH9NoaL5IK2hQzE=
 X-Google-Smtp-Source: 
- ABdhPJxAs24OcvAToTVDqYZHKzgo6wpbx+ySmvCRwykly5XFmrKbiQtbfXsxDUYd9CeG9NGsC6/xyqxuXsaTlxjRcak=
-X-Received: by 2002:a7b:c109:0:b0:397:43ef:b66f with SMTP id
- w9-20020a7bc109000000b0039743efb66fmr17521768wmi.44.1653898303741; Mon, 30
- May 2022 01:11:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220529095251.11410-1-flowergom@gmail.com>
- <953.1653896858036338969@lists.openembedded.org>
-In-Reply-To: <953.1653896858036338969@lists.openembedded.org>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 30 May 2022 10:11:03 +0200
-Message-ID: 
- <CA+chaQdF7SGpot+EcJfHF7NYhxQjg_PF9JZ5QjNfe4szCu8uZA@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCHv2] libdrm: add
- libdrm-{nouveau,radeon,intel}
- to RPROVIDES
-To: Minjae Kim <flowergom@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000e3a3fd05e03634c3"
+ ABdhPJzvCg08yyKFxdLwVfh2fYzDHDduPl4S+FAOXHz/pJ15F6gNcGgrb6Q/4absuyZ886S3/fIUOw==
+X-Received: by 2002:a65:5cc2:0:b0:3fc:20d2:30ed with SMTP id
+ b2-20020a655cc2000000b003fc20d230edmr2937674pgt.158.1653901360227;
+        Mon, 30 May 2022 02:02:40 -0700 (PDT)
+Received: from localhost.localdomain ([103.238.105.13])
+        by smtp.gmail.com with ESMTPSA id
+ 10-20020aa7924a000000b00518950bfc82sm4983899pfp.10.2022.05.30.02.02.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 May 2022 02:02:39 -0700 (PDT)
+From: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-Core][kirkstone][PATCH] libxslt: Mark CVE-2022-29824 as not
+ applying
+Date: Mon, 30 May 2022 14:32:06 +0530
+Message-Id: <20220530090206.27402-1-ranjitsinhrathod1991@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 May 2022 08:11:49 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 30 May 2022 09:02:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166272
+ https://lists.openembedded.org/g/openembedded-core/message/166273
 
---000000000000e3a3fd05e03634c3
-Content-Type: text/plain; charset="UTF-8"
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-I don't think you're hiding something, I just don't understand this
-use-case.
+We have libxml2 2.9.14 and we don't link statically against libxml2 anyway
+so the CVE doesn't apply to libxslt.
 
-libdrm-nouveau rprovides libdrm-nouveau, any package with runtime
-dependency dnf should be able to install and pull libdrm-nouveau package
-(_not_ libdrm package) to satisfy that dependency.
+(From OE-Core rev: c6315d8a2a1429a0fb7563b1d6352ceee7bc222c)
 
-Why doesn't this work for libdrm in your case? Do you have libdrm-nouveau
-package created and nouveau packaged inside?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit ad63694e6df4f284879f7220962a821f97928eb0)
+Signed-off-by: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
+---
+ meta/recipes-support/libxslt/libxslt_1.1.35.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Cheers,
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.35.bb b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
+index 51cfb2e281..2fd777766c 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.35.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
+@@ -19,6 +19,10 @@ SRC_URI[sha256sum] = "8247f33e9a872c6ac859aa45018bc4c4d00b97e2feac9eebc10c93ce1f
+ 
+ UPSTREAM_CHECK_REGEX = "libxslt-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
++# We have libxml2 2.9.14 and we don't link statically with it anyway
++# so this isn't an issue.
++CVE_CHECK_IGNORE += "CVE-2022-29824"
++
+ S = "${WORKDIR}/libxslt-${PV}"
+ 
+ BINCONFIG = "${bindir}/xslt-config"
+-- 
+2.17.1
 
-On Mon, May 30, 2022 at 9:47 AM Minjae Kim <flowergom@gmail.com> wrote:
-
-> @Martin,
-> I don't know why you think I'm hiding something.
-> I will use this when installing the rpm package using the dnf tool on the
-> target image such as qemu or raspberrypi.
->
-> For example,
-> There is component A.
-> It needs libdrm-{nouveau,radeon,intel} packages to work properly.
-> When this A component rpm package is installed using dnf tool on the
-> actual target image,
-> the libdrm-{nouveau,radeon,intel} packages cannot install at once if the
-> component A had a libdrm as rdepends.
->
-> However, If component A has libdrm-{nouveau,radeon,intel} as rdepends,
-> When these A component packages are installed using dnf, these packages
-> can also be installed at the same time.
->
-> Because libdrm-{nouveau,radeon,intel} is not provided as RPROVIDES, these
-> packages cannot be used as rdepends directly.
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#166271):
-> https://lists.openembedded.org/g/openembedded-core/message/166271
-> Mute This Topic: https://lists.openembedded.org/mt/91408949/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> Martin.Jansa@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---000000000000e3a3fd05e03634c3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I don&#39;t think you&#39;re hiding something, I just don&=
-#39;t understand this use-case.<div><br></div><div>libdrm-nouveau rprovides=
- libdrm-nouveau, any package with runtime dependency dnf should be able to =
-install and pull libdrm-nouveau package (_not_ libdrm package) to satisfy t=
-hat dependency.</div><div><br></div><div>Why doesn&#39;t this work for libd=
-rm in your case? Do you have libdrm-nouveau package created and nouveau pac=
-kaged inside?</div><div><br></div><div>Cheers,</div></div><br><div class=3D=
-"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 30, 2022 at=
- 9:47 AM Minjae Kim &lt;<a href=3D"mailto:flowergom@gmail.com">flowergom@gm=
-ail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex"><div>@Martin,</div>
-<div>I don&#39;t know why you think I&#39;m hiding something.</div>
-<div>I will use this when installing the rpm package using the dnf tool on =
-the target image such as qemu or raspberrypi.<br><br>For example,</div>
-<div>There is component A. <br>It needs libdrm-{nouveau,radeon,intel} packa=
-ges to work properly.</div>
-<div>When this A component rpm package is installed using dnf tool on the a=
-ctual target image,=C2=A0</div>
-<div>the libdrm-{nouveau,radeon,intel} packages cannot install at once if t=
-he component A had a libdrm as rdepends.</div>
-<div>=C2=A0</div>
-<div>However, If component A has libdrm-{nouveau,radeon,intel} as rdepends,=
-</div>
-<div>When these A component packages are installed using dnf, these package=
-s can also be installed at the same time.<br><br>Because libdrm-{nouveau,ra=
-deon,intel} is not provided as RPROVIDES, these packages cannot be used as =
-rdepends directly.</div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#166271): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/166271" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/166271</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/91408949/3617=
-156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/91408949/3617156</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
-rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000e3a3fd05e03634c3--
 
