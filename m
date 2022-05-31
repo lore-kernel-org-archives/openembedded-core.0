@@ -1,90 +1,84 @@
-Return-Path: <marcel@ziswiler.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C6CC433F5
-	for <webhook@archiver.kernel.org>; Tue, 31 May 2022 16:14:48 +0000 (UTC)
-Received: from mout.perfora.net (mout.perfora.net [74.208.4.197])
- by mx.groups.io with SMTP id smtpd.web08.51490.1654013683831654371
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4C04C433F5
+	for <webhook@archiver.kernel.org>; Tue, 31 May 2022 16:38:58 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web12.52156.1654015131710288855
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 09:14:44 -0700
+ Tue, 31 May 2022 09:38:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=permanent DNS error (domain: ziswiler.com, ip: 74.208.4.197,
- mailfrom: marcel@ziswiler.com)
-Received: from toolbox.toradex.int ([31.10.206.125]) by mrelay.perfora.net
- (mreueus002 [74.208.5.2]) with ESMTPSA (Nemesis) id 0LvlwQ-1nk76338vc-017SUC;
- Tue, 31 May 2022 18:14:40 +0200
-From: Marcel Ziswiler <marcel@ziswiler.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Marcel Ziswiler <marcel.ziswiler@toradex.com>
-Subject: [oe-core][PATCH v1] gstreamer1.0-plugins-bad: add avtp packageconfig
-Date: Tue, 31 May 2022 18:14:33 +0200
-Message-Id: <20220531161433.684189-1-marcel@ziswiler.com>
-X-Mailer: git-send-email 2.36.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NKDOsjjj;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id
+ f23-20020a7bcc17000000b003972dda143eso1563923wmh.3
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 31 May 2022 09:38:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=dkp+WytHhz9wwdO4abZanJ3KoUKV6qbBn0GDoZ6/eBg=;
+        b=NKDOsjjj+zlMF0s6r6WuSDkG7o4sNYx7qjR2FgD8dUeAbtT/DAOlYeRSvD6Ddtu+y7
+         5j7yZH6hsR6URgJxzi7ahc3WQJ/KGUCLQW24/G8i692fEQ/6zgL5YFLyh/B/rhxazsC5
+         614jlHXy9Yq91cKmhFjRFp+wsi1LHoF6zAymM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=dkp+WytHhz9wwdO4abZanJ3KoUKV6qbBn0GDoZ6/eBg=;
+        b=a3A1bIbky4NXO4awJwdJHEplLaVZyPPiSv2VkoOKJoe/CdNAEPvFTJ2XfBOxuL/aIf
+         df82h2HYfcFWLl3QEKqOJZ7p9488QSagi3Hw+FKAr5cROglbzrrX/6Q6Tix/XthpSJua
+         LlzAJoYcg/e9B4S+QRpegIIxe2tyCg6OBTN+SBYM+47kcJCvwmH9Z/0RkzK6Rfwhl20u
+         1ivjHk0Jz8qVEonaFc1T8FsDmYEnOFs2EejJM3dGNIu0ZRdlAJvY9O4D2hS9rhXPfvQp
+         ea9UYck+qSKVqjMfO8M5r+PZg9jz5/b/S1zwTj7Tuk5Yrjxc6Lzm3cCX+koU6X8ntFhO
+         1I3w==
+X-Gm-Message-State: AOAM533QEOGGafOC+kpE/Cn60ErNzottBPQZuRL8Ld7P4IBkf4FVHcsl
+	GGKTRo2i+4AI5wgehuQGHOR4cg==
+X-Google-Smtp-Source: 
+ ABdhPJxFiY1bCU3ia+TKoRcdPcbGHQLt3c3f8PctON3XW+hDd9sQw5bGeA0NeaTRH7lrCoXQbiDydQ==
+X-Received: by 2002:a05:600c:1d03:b0:397:5f4b:2e46 with SMTP id
+ l3-20020a05600c1d0300b003975f4b2e46mr24417327wms.121.1654015130088;
+        Tue, 31 May 2022 09:38:50 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:d16:2159:4370:b82e?
+ ([2001:8b0:aba:5f3c:d16:2159:4370:b82e])
+        by smtp.gmail.com with ESMTPSA id
+ 26-20020a05600c029a00b0039bc95cf4b2sm2575510wmk.11.2022.05.31.09.38.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 May 2022 09:38:49 -0700 (PDT)
+Message-ID: 
+ <2466db8789991de49e05649d678f677e331009c4.camel@linuxfoundation.org>
+Subject: Re: [oe-core][PATCHv2] libva-initial: unbreak do_populate_sdk
+From: richard.purdie@linuxfoundation.org
+To: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
+Date: Tue, 31 May 2022 17:38:48 +0100
+In-Reply-To: <4e844184-370f-77a4-2500-a4fd9367496d@t-online.de>
+References: <20220524155021.416611-1-f_l_k@t-online.de>
+	 <ca1c9481a03622d6dc3136db5f59c8602b0722dd.camel@linuxfoundation.org>
+	 <4e844184-370f-77a4-2500-a4fd9367496d@t-online.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:mPglcQF28DZQ5A2F5gScIFNNIbSUOVKQNGjO4QKYkKXuAd0+FKP
- sGTJF/5hY1r8WpXsNxHs5y5W++3D44K5OJ48TAdt0RiKWjt59koYEtRywk5Y2+CsaW3DtRN
- r8Y3pMvIpCoEk2qrwAOXEhS5IV8iIlioZHBK1da4+YsVyGgB8EbJ/oMWfg9tCzwZBsb1+5Y
- nLy9+A2AbBh8WUtvjAG5g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:diSuYu0203k=:Fehm6xKMzyygoBveG+Dbrs
- thg3QyZ78lofRAQIaTCyUD3h7jc1Y0x45N+K8C59F9gjt+0yMF7a7GoQeelXAUUzoAf0OxCpH
- Wo+iwUFKH7cDytsUxzVUx233ECtSjegIGLE6ckG6g0G8X9tPi05qMC1XnmuT8+HhJ7YYOi4J7
- SE11F2f6K9APmjnBKJ1sajBe08rSXwu00q+ZSqCzIuD4tE2yRi70Wa52aJB1JG/vI9PXYxXXO
- +fZo5m/u/SCEvZ/ud+vJ9ZNUXRbPyXp9siLohzqVmdAWHd0H7xLAheO+7KDLvVPxQg3I0ZTHn
- wMmszi3C0dYA+aXpHb2mawtsHTY9w9UDVGglnqwUWHRkLT0/OAoEfVlU+2B+N3l7oF7jP8s5T
- QiNaZA6vTvydC73PcVFXr4tgjtyN8ID7/I42rKS8/2kdXFw6jMfHKLO/yPQ95NtgSrpOt97eV
- n30IiHk1Vgwy/ysk2PHtOiUeX9BJlYeWGt1c9kgOkz1vhgGP1UROFZe7A+oFinUtfm8y9FiFg
- tMrHWBRPc7ehlerpXOdmdUfPLkNHIPTGDoYvp5UOJyhnquwEUl2CvjveP9XhdmFClzXeccJVZ
- HbP8TOqzf4ReotWkbohx9hFoXF+D+a+601BgB3OcNJFAraRnjf8Dr9REKM+7ObggBjmmorkGt
- Z/1q98ny48XC9sxzN865iQGTLKAB8YxipI1iZzn6RZy1H3UNAyjrGpRR65zgdaCfa0eJOeqOI
- MAeAdX6uc8vvktsLCQI7d6ZWxjope+J5BSkRow==
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 May 2022 16:14:48 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 31 May 2022 16:38:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166322
+ https://lists.openembedded.org/g/openembedded-core/message/166323
 
-From: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+On Tue, 2022-05-31 at 17:02 +0200, Markus Volk wrote:
+> For my build libva-initial is empty but libva-initial-dev contains=20
+> headers and .pc files
 
-Add avtp resp. libavtp PACKAGECONFIG. This allows building them
-GStreamer Audio Video Transport Protocol (AVTP) Plugins.
+That doesn't change my view that it shouldn't create any packages at
+all though!
 
-Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+Cheers,
 
----
-End-to-end tested on Verdin iMX8M Plus.
-Will talk about it at the Embedded World Conference in the TSN & Linux
-track next month [1].
-
-[1] https://events.weka-fachmedien.de/embedded-world-conference/program/
-
- .../gstreamer/gstreamer1.0-plugins-bad_1.20.2.bb                | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.2.bb
-index bb33e3822e..53c78d4366 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.2.bb
-@@ -35,6 +35,7 @@ PACKAGECONFIG ??= " \
- 
- PACKAGECONFIG[aom]             = "-Daom=enabled,-Daom=disabled,aom"
- PACKAGECONFIG[assrender]       = "-Dassrender=enabled,-Dassrender=disabled,libass"
-+PACKAGECONFIG[avtp]            = "-Davtp=enabled,-Davtp=disabled,libavtp"
- PACKAGECONFIG[bluez]           = "-Dbluez=enabled,-Dbluez=disabled,bluez5"
- PACKAGECONFIG[bz2]             = "-Dbz2=enabled,-Dbz2=disabled,bzip2"
- PACKAGECONFIG[closedcaption]   = "-Dclosedcaption=enabled,-Dclosedcaption=disabled,pango cairo"
-@@ -112,7 +113,6 @@ EXTRA_OEMESON += " \
-     -Dandroidmedia=disabled \
-     -Dapplemedia=disabled \
-     -Dasio=disabled \
--    -Davtp=disabled \
-     -Dbs2b=disabled \
-     -Dchromaprint=disabled \
-     -Dd3dvideosink=disabled \
--- 
-2.36.1
+Richard
 
 
