@@ -1,134 +1,98 @@
-Return-Path: <thakur.virendra1810@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6866AC433F5
-	for <webhook@archiver.kernel.org>; Tue, 31 May 2022 12:25:47 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web11.48722.1653999942247648107
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84474C433EF
+	for <webhook@archiver.kernel.org>; Tue, 31 May 2022 12:49:47 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web10.48764.1654001385987139254
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 05:25:42 -0700
+ Tue, 31 May 2022 05:49:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=A4eIgKhh;
- spf=pass (domain: gmail.com, ip: 209.85.210.182,
- mailfrom: thakur.virendra1810@gmail.com)
-Received: by mail-pf1-f182.google.com with SMTP id u2so2115027pfc.2
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WQleODtz;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id
+ r123-20020a1c2b81000000b0039c1439c33cso1133630wmr.5
         for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 05:25:42 -0700 (PDT)
+ Tue, 31 May 2022 05:49:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=kPQVq9YTu38C7Hx8GcXHQAUgrTzXTgCjpbrGi5io9GM=;
-        b=A4eIgKhhOACoI85jresvrHUMXAc9FMF90/uQX5bPCuSZgwxZhDCkEw/D7DivUNoyq8
-         +iPkmskwh4IH+d/FoPAJQ9c4DJM1lEVJCTV9nmR+cwARRKTlF8bCebHFhAYDFuMUX/tz
-         E16pYbyCO/7Vzg4rZ9JrRquVl8jS+5vQ8Uz9JvpE4SkbL72qdUbrvPm4DQXgjpD+ohtX
-         PEaeRNU/57B636+3Cs6+e2GxfSTa9EgoT5/J4lWQqU5CglZ6w/ZvAa0ZNYqrckejO7Vh
-         6qQcT4CsLz6VKslf+xD3bUcYCBj2Si0obOqrPD6RFZvavrwteLFwDdjsKKs21Q1ECbcp
-         hUbg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=xjZWDLArtP+LVd3HQkKVp/jVPwRfu8B6B8gdCQ/RQFg=;
+        b=WQleODtzNujgvjThcJqJEgAqetBDDIv3GQk9+jKnMfFfIhN0w4/cs08invf8KtDJqV
+         sCpolksaNTfIEXXvpOckuNVloroSZl4IMio0+hYRxIWe9df/nPAmeTERQigbVNXAMUnc
+         B3+cI7OtM5jXsBp1WFskNpAb/5fLapKboZ14g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=kPQVq9YTu38C7Hx8GcXHQAUgrTzXTgCjpbrGi5io9GM=;
-        b=gO8BXe5rAwPH22d76jr83SF47NdOcAqgOgne3dBUqaXdgDh9nILTACkk0sniQ9Lpw+
-         Q7Ma98nBMxx8Ecv5aWMqQY/W/cAKQOmpI9MBS6zVeAdr5Vb1j/31t71k8qBamXuZ25ju
-         TBhSAGyqTP6jUfD/sCK1/2g8rLDpIP3uMX9+lThpISPRAW/Sr2NoHsMTtltCW9pgqE3y
-         zb3PI0yABL5hSst8oizNiuON8NSb4rapyTDxAT2VY0g9tBBPDiqJSLCC5MK+RjmJyojS
-         ycvdkbUauKzu0AIUphD3/YzfbhS53czeAQwEoWG5cvSS+f8qZnUmBC5SCm+HTqvgyt0T
-         4H3w==
-X-Gm-Message-State: AOAM530c869ZAACFn7UDFYFiTHn0IKTRde9JUcg1z+bHIe2SqYRBdk+y
-	XB6CouuT4Rl4/Qq3h3MLpGTYZTFBj+b8oA==
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=xjZWDLArtP+LVd3HQkKVp/jVPwRfu8B6B8gdCQ/RQFg=;
+        b=bimLqSjk3LaM9CwXijQBiUC7O9oh5JERX+0Ye0ieNoMRGxeWR1Y+r3s3wcGqRz2HVr
+         JCEAI/eomLDelidz2VQh87Ax9pEdMrnaOPwjBzzV73gpeKMwUYj5f1oAZIrWJ4WH8UeJ
+         zT4yisXuRR6wZ2euKVZ55v+sp0GjGCdHnn8gX0NGjL/h0M66cu0x8jJ3SvJIaBBfRX05
+         Hrvztpad7woyRS375b4VrznAkpIXLnf7XQuBWsCUBiDga5tvXDD+qsioFebaCm0ePYAv
+         UOK5eYpHCd3i+MYZm5ucGKtawCTWkbxAyCR3+JH9YNBlhWNflgzHrIDIxvsfWoWL7GhT
+         f0tQ==
+X-Gm-Message-State: AOAM533lVG2Et21UnioCKrfOb8FFr90SDn+aP/jgIbFYat6BlI3B5qCU
+	WqSOMq6c9UjXRuWarLUAAp6xtg==
 X-Google-Smtp-Source: 
- ABdhPJx1+U1Y8De2WBW5lUaxt6rDgS3H0QpeWOMGfS6uvp6yK+WED6hAybwkUq9RU1tKZ9yoTN9w8Q==
-X-Received: by 2002:a05:6a00:3023:b0:518:4721:13c6 with SMTP id
- ay35-20020a056a00302300b00518472113c6mr57525191pfb.34.1653999941462;
-        Tue, 31 May 2022 05:25:41 -0700 (PDT)
-Received: from localhost.localdomain ([182.70.14.64])
+ ABdhPJz9fP3/XPIVQdj+e1vGqGEuBHQ3+N7Uc2GJRiShMxr+0zW78bs8CaBANqKh/lNpIunTk8XWeg==
+X-Received: by 2002:a05:600c:1547:b0:394:882a:3b5 with SMTP id
+ f7-20020a05600c154700b00394882a03b5mr23633479wmg.97.1654001384448;
+        Tue, 31 May 2022 05:49:44 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:d16:2159:4370:b82e?
+ ([2001:8b0:aba:5f3c:d16:2159:4370:b82e])
         by smtp.gmail.com with ESMTPSA id
- y22-20020aa78556000000b0051b915c1a47sm1304017pfn.113.2022.05.31.05.25.39
+ h205-20020a1c21d6000000b0039740903c39sm2020384wmh.7.2022.05.31.05.49.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 May 2022 05:25:41 -0700 (PDT)
-From: virendra thakur <thakur.virendra1810@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com,
-	Virendra Thakur <virendra.thakur@kpit.com>
-Subject: [meta][dunfell][PATCH] ffmpeg: Fix for CVE-2022-1475
-Date: Tue, 31 May 2022 17:55:27 +0530
-Message-Id: <20220531122527.21223-1-thakur.virendra1810@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Tue, 31 May 2022 05:49:43 -0700 (PDT)
+Message-ID: 
+ <facb4fed242ccf7370e8b370ca3b83096e4a90f2.camel@linuxfoundation.org>
+Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 29 May
+ 2022 02:00:01 AM HST
+From: richard.purdie@linuxfoundation.org
+To: Steve Sakoman <steve@sakoman.com>,
+	openembedded-core@lists.openembedded.org,
+	yocto-security@lists.yoctoproject.org
+Date: Tue, 31 May 2022 13:49:43 +0100
+In-Reply-To: <20220529120232.DC8419626F3@nuc.router0800d9.com>
+References: <20220529120232.DC8419626F3@nuc.router0800d9.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 May 2022 12:25:47 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 31 May 2022 12:49:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166308
+ https://lists.openembedded.org/g/openembedded-core/message/166309
 
-From: Virendra Thakur <virendra.thakur@kpit.com>
+On Sun, 2022-05-29 at 02:02 -1000, Steve Sakoman wrote:
+> Full list:  Found 6 unpatched CVEs
+> CVE-2019-12067 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native h=
+ttps://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2019-12067 *
+> CVE-2020-18974 (CVSS3: 3.3 LOW): nasm:nasm-native https://web.nvd.nist.go=
+v/view/vuln/detail?vulnId=3DCVE-2020-18974 *
+> CVE-2021-20255 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native h=
+ttps://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2021-20255 *
+> CVE-2022-0529 (CVSS3: 5.5 MEDIUM): unzip:unzip-native https://web.nvd.nis=
+t.gov/view/vuln/detail?vulnId=3DCVE-2022-0529 *
+> CVE-2022-0530 (CVSS3: 5.5 MEDIUM): unzip:unzip-native https://web.nvd.nis=
+t.gov/view/vuln/detail?vulnId=3DCVE-2022-0530 *
 
-Add patch to fix CVE-2022-1475
+For CVE-2022-0530 I noticed discussion of:
 
-Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
----
- .../ffmpeg/ffmpeg/CVE-2022-1475.patch         | 36 +++++++++++++++++++
- .../recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-1475.patch
+https://bugs.debian.org/cgi-bin/bugreport.cgi?att=3D1;bug=3D1010355;filenam=
+e=3DCVE-2022-0530.patch;msg=3D20
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-1475.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-1475.patch
-new file mode 100644
-index 0000000000..bd8a08a216
---- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-1475.patch
-@@ -0,0 +1,36 @@
-+From: Michael Niedermayer <michael@niedermayer.cc>
-+Date: Sun, 27 Feb 2022 14:43:04 +0100
-+Subject: [PATCH] avcodec/g729_parser: Check channels
-+
-+Fixes: signed integer overflow: 10 * 808464428 cannot be represented in type 'int'
-+Fixes: assertion failure
-+Fixes: ticket9651
-+
-+Reviewed-by: Paul B Mahol <onemda@gmail.com>
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-+(cherry picked from commit 757da974b21833529cc41bdcc9684c29660cdfa8)
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-+
-+CVE: CVE-2022-1475
-+Upstream-Status: Backport [https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=e9e2ddbc6c78cc18b76093617f82c920e58a8d1f]
-+Comment: Patch is refreshed as per ffmpeg codebase
-+Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
-+
-+---
-+ libavcodec/g729_parser.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+Index: ffmpeg-4.2.2/libavcodec/g729_parser.c
-+===================================================================
-+--- a/libavcodec/g729_parser.c
-++++ b/libavcodec/g729_parser.c
-+@@ -48,6 +48,9 @@ static int g729_parse(AVCodecParserConte
-+         av_assert1(avctx->codec_id == AV_CODEC_ID_G729);
-+         /* FIXME: replace this heuristic block_size with more precise estimate */
-+         s->block_size = (avctx->bit_rate < 8000) ? G729D_6K4_BLOCK_SIZE : G729_8K_BLOCK_SIZE;
-++        // channels > 2 is invalid, we pass the packet on unchanged
-++        if (avctx->channels > 2)
-++            s->block_size = 0;
-+         s->block_size *= avctx->channels;
-+         s->duration   = avctx->frame_size;
-+     }
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
-index 1d6f2e528b..cbfdbf0563 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
-@@ -29,6 +29,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://0001-libavutil-include-assembly-with-full-path-from-sourc.patch \
-            file://CVE-2021-3566.patch \
-            file://CVE-2021-38291.patch \
-+           file://CVE-2022-1475.patch \
-           "
- SRC_URI[md5sum] = "348956fc2faa57a2f79bbb84ded9fbc3"
- SRC_URI[sha256sum] = "cb754255ab0ee2ea5f66f8850e1bd6ad5cac1cd855d0a2f4990fb8c668b0d29c"
--- 
-2.17.1
+Not sure if someone wants to test that?
+
+Cheers,
+
+Richard
 
 
