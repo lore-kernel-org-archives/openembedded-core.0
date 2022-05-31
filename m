@@ -2,108 +2,93 @@ Return-Path: <marcel@ziswiler.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1263C433FE
-	for <webhook@archiver.kernel.org>; Tue, 31 May 2022 21:32:25 +0000 (UTC)
-Received: from mout.perfora.net (mout.perfora.net [74.208.4.196])
- by mx.groups.io with SMTP id smtpd.web08.502.1654032737789065809
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1ADCC433EF
+	for <webhook@archiver.kernel.org>; Tue, 31 May 2022 21:36:35 +0000 (UTC)
+Received: from mout.perfora.net (mout.perfora.net [74.208.4.194])
+ by mx.groups.io with SMTP id smtpd.web11.540.1654032991344672611
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 14:32:17 -0700
+ Tue, 31 May 2022 14:36:31 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=none, err=permanent DNS error (domain: ziswiler.com, ip: 74.208.4.196,
+ spf=none, err=permanent DNS error (domain: ziswiler.com, ip: 74.208.4.194,
  mailfrom: marcel@ziswiler.com)
 Received: from toolbox.int.toradex.com ([81.221.243.92]) by mrelay.perfora.net
- (mreueus004 [74.208.5.2]) with ESMTPSA (Nemesis) id 1MJVcC-1oG0hf3Gfo-00JraT;
- Tue, 31 May 2022 23:32:12 +0200
+ (mreueus003 [74.208.5.2]) with ESMTPSA (Nemesis) id 0MRF0r-1oNTQi38IB-00Uboh;
+ Tue, 31 May 2022 23:36:28 +0200
 From: Marcel Ziswiler <marcel@ziswiler.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Bergin <peter@berginkonsult.se>,
-	Marcel Ziswiler <marcel.ziswiler@toradex.com>
-Subject: [oe-core][PATCH v3 2/2] libavtp: add recipe to be able to use aaf
- config for alsa-plugins
-Date: Tue, 31 May 2022 23:32:06 +0200
-Message-Id: <20220531213206.7119-2-marcel@ziswiler.com>
+Cc: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+Subject: [oe-core][PATCH v2] gstreamer1.0-plugins-bad: add libavtp
+ packageconfig
+Date: Tue, 31 May 2022 23:36:24 +0200
+Message-Id: <20220531213624.7414-1-marcel@ziswiler.com>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220531213206.7119-1-marcel@ziswiler.com>
-References: <20220531213206.7119-1-marcel@ziswiler.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:LsWRt4M9M5Ca2vllVk8rzWBOwluSQKKz8+drjsHTIgkpVkLbMWQ
- 3aAMakJnYBNUoCv3LsbLKG/1846wsB8p8SkR4Byb1eFxNomG8k2/nHUELIOGMfrJe0a4O3H
- bBZ2UB9p3i4nzhSz9p/Nw45hsCKZdog9NzGotL76FG8zYNdyD6Ed/RN9Px7jcz+ZsSck1As
- J3kC1YnAAUNGGt3xs0rUw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:96jkWVGs+Cw=:EEYK7d8hUfRm/wJqWcBtb/
- i3f/H70E8ozfFzk2OLokLnEvjGSNQWehnaPx5YTjxLbvmfeVl5wu1Afla5lAruzf5Bn/hUCfN
- vhxmI7mIFdt6oK/7Xec+nhRxOTPl1TAX89AHYclMRpMf7B5PbHQegybERVFCRf+au/NvWt5Zn
- 5/+PK8VvJRT/cj2wsHRo3RHkyEdLDvSvD5ObjLyf9vZ6sNLaLbFN/Vhg2x6KOi5E4o1lApAzW
- QnxtmaC/9MA4G5BwrYCEoT0FObiQlUcSMUCARckoYg3KxKnv06azvGEK2re2B/J43G48zTDhv
- lD3lJcoeBxZZENQ4ed856/jHk04AzqhYKx8gXLFF8cTVV5ogriw5onJDxx/DXW7qfy2SW9X6K
- DS3PCagJRsXYQucREnqIcVq+xh7C9sl2lEoycKK8altwT77VzBDXLAZkrggcoVXW3+1Kp5yJN
- XYQKYK7P5l/ODs+kYgOWcCFZ9H2DDSNByObZJtlQFnZMt9mT9G2Y8X975Qmg2yTTR45z/80Gi
- d4gFzALb9M+MH0rPQHIrwffnk3fk+UYqGQNFUHsH4qYaqfeqYCdI0zDbcIwuZj6vvpMmB0E+c
- Y7BaxJi4tbboQnYIgvCW6fTLhRGDHQNc6R+E8ikVmt5mpPoJJ8jH+Vck5gt34dW2G5Z3z3cwV
- nUQ8l9DWaqQf3g7TeCGTptdQRRyKpSBstScIjY/Kq6ry3Us43q5da3ntEo2xp0df/RolxWYDz
- BRFX7xpxld1PwDtsoVVA3aRBdN7bkdY5q8DsTA==
+X-Provags-ID: V03:K1:QHFXUwUI18XRzAPiWz9iTogBnfX2U9+Ct+LjxX6x6g+M7usv2pD
+ fx1+FbOH2EcD684oeklPrBNQe8hk5CXRjNbl6yTrB0DwTNdhSgrxWAlNCHufGCiljTtnSrw
+ IeQilCgz/DYThbRqlZBw3dToCBHc3zJ44TCnUkSL9trrjvdNt0NkbQh/OouCGmlJZyOYGNs
+ mA7fUGYyhhiNssoioF5eQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:l9tetYidxAw=:F45+jU9Db4CtJW5UgZY4nI
+ pOPaiREr77V58IoHSgtIJVHZY9/FtORNuR9CV6aVEKYxz2xsMDVImns8S25BZmOyMdvenWsFE
+ RNmOuaXEg1GlfMEwLPiyJp8nHzzmGd5/gc+Y9V1vDOFDjTLDpTx+lUG7oPfxxs74EW+AwMFmE
+ QeDMt8Gu0XrMO0peZku2qLdvVUH/LSohzUATI9EN+MTz+27/zDfE56/hoGVmOipNMhl18emcj
+ 6vKuliiJIwMrLi/ZYC0HPJMzF+t6ka5b5b4ToCVw1wtKUt7z4dGgoGSofgSUH1rIX8ja7v8JD
+ EejWEieRBPiFTzAGmb4caO0+NhGsXINT00kJfzS+MQ4q20+7cNj6gFw4YqHfUulhjrZDmO/3v
+ 2gL348ndB615s0GmZLVSEL6hkhjzqfKmAEKHfu5TMJ1NadNaKt/97an/Z5nOXj89jJ2u8DbJF
+ nvU8v+yQIBabXlQGJyQT0Z2FC+DILEA/xWWRO3RUM1huMjqahnf6qXTHIEOB9AqyPkYlSv61B
+ xkTLzIGzkSE/xpqKTN+PL52AeCLHQyDeXly0jOc9OGBMg0mGE+bW4R2uA9cNfF2DvsLZ4Ybdw
+ VeZaYbZ85Vz/Ms/verob+1Nm6YsJT1zimHr/Q7b8dXgKZI5x/2CDvhAWgvJ0KbVTI/+BnS3DM
+ lL9jg3wKGetFdwP8c5ZGqHSkKJC+m9Q6ziB0KPpvE5PNAAPM2uoRKgAK29snalOy1g8NMIiGh
+ 4blWyhSg3+88OyfRWdGpeC1pKzdr1bJKp/0pyQ==
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 May 2022 21:32:25 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 31 May 2022 21:36:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166338
+ https://lists.openembedded.org/g/openembedded-core/message/166339
 
-From: Peter Bergin <peter@berginkonsult.se>
+From: Marcel Ziswiler <marcel.ziswiler@toradex.com>
 
-In order to enable configuration option aaf (AVTP Audio Format)
-used for AVB the library libavtp is a dependency but no recipe for
-this library was present. aaf support for alsa-plugins was
-introduced in ddf5421331180bc45697511b44cdd4a4e6dda6ff.
+Add avtp resp. libavtp PACKAGECONFIG. This allows building them
+GStreamer Audio Video Transport Protocol (AVTP) Plugins which rely on
+Avnu's libavtp.
 
-Signed-off-by: Peter Bergin <peter@berginkonsult.se>
 Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
 
 ---
-Resurrect from mailing list [1] as this is still not upstream.
 End-to-end tested on Verdin iMX8M Plus.
 Will talk about it at the Embedded World Conference in the TSN & Linux
-track next month [2].
+track next month [1].
 
-[1] https://lore.kernel.org/all/20210604090216.553285-1-peter@berginkonsult.se/
-[2] https://events.weka-fachmedien.de/embedded-world-conference/program/
-
-Changes in v3:
-- Rename recipe to officially released PV of 0.2.0.
-- Drop PROVIDES of avtp which just works around alsa-plugins refering to
-  it as such instead of libavtp. Will update PACKAGECONFIG in
-  alsa-plugins instead.
+[1] https://events.weka-fachmedien.de/embedded-world-conference/program/
 
 Changes in v2:
-- Updated SRC_URI specifying mandatory protocol as https.
-- Updated SRCREV to latest.
+- Rename avtp to libavtp in the subject to make this more clear.
 
- meta/recipes-multimedia/libavtp/libavtp_0.2.0.bb | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
- create mode 100644 meta/recipes-multimedia/libavtp/libavtp_0.2.0.bb
+ .../gstreamer/gstreamer1.0-plugins-bad_1.20.2.bb                | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/libavtp/libavtp_0.2.0.bb b/meta/recipes-multimedia/libavtp/libavtp_0.2.0.bb
-new file mode 100644
-index 0000000000..563debde3c
---- /dev/null
-+++ b/meta/recipes-multimedia/libavtp/libavtp_0.2.0.bb
-@@ -0,0 +1,14 @@
-+DESCRIPTION = "Open source implementation of Audio Video Transport Protocol (AVTP) \
-+               specified in IEEE 1722-2016 spec."
-+HOMEPAGE = "https://github.com/Avnu/libavtp"
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=7fcb4331e23e45e171cd5693c1ff7d3e"
-+
-+SRC_URI = "git://github.com/Avnu/libavtp.git;branch=v${PV};protocol=https;nobranch=1"
-+SRCREV = "3599a5bf2d18fc3ae89b64f208d8380e6ee3a866"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit meson pkgconfig
-+
-+EXTRA_OEMESON = "-Dtests=disabled"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.2.bb
+index bb33e3822e..53c78d4366 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.2.bb
+@@ -35,6 +35,7 @@ PACKAGECONFIG ??= " \
+ 
+ PACKAGECONFIG[aom]             = "-Daom=enabled,-Daom=disabled,aom"
+ PACKAGECONFIG[assrender]       = "-Dassrender=enabled,-Dassrender=disabled,libass"
++PACKAGECONFIG[avtp]            = "-Davtp=enabled,-Davtp=disabled,libavtp"
+ PACKAGECONFIG[bluez]           = "-Dbluez=enabled,-Dbluez=disabled,bluez5"
+ PACKAGECONFIG[bz2]             = "-Dbz2=enabled,-Dbz2=disabled,bzip2"
+ PACKAGECONFIG[closedcaption]   = "-Dclosedcaption=enabled,-Dclosedcaption=disabled,pango cairo"
+@@ -112,7 +113,6 @@ EXTRA_OEMESON += " \
+     -Dandroidmedia=disabled \
+     -Dapplemedia=disabled \
+     -Dasio=disabled \
+-    -Davtp=disabled \
+     -Dbs2b=disabled \
+     -Dchromaprint=disabled \
+     -Dd3dvideosink=disabled \
 -- 
 2.36.1
 
