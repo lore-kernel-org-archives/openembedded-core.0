@@ -1,243 +1,321 @@
-Return-Path: <MSFT.DanTran@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCCA6C433F5
-	for <webhook@archiver.kernel.org>; Tue, 31 May 2022 17:15:29 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web11.396.1654017326127273597
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67B66C433EF
+	for <webhook@archiver.kernel.org>; Tue, 31 May 2022 19:01:40 +0000 (UTC)
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+ [209.85.160.174])
+ by mx.groups.io with SMTP id smtpd.web09.1818.1654023690364985563
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 10:15:26 -0700
+ Tue, 31 May 2022 12:01:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=oIYWVw1c;
- spf=pass (domain: gmail.com, ip: 209.85.216.41,
- mailfrom: msft.dantran@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id e24so5632695pjt.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=WbCvi967;
+ spf=pass (domain: gmail.com, ip: 209.85.160.174,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f174.google.com with SMTP id ew15so3229320qtb.2
         for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 10:15:26 -0700 (PDT)
+ Tue, 31 May 2022 12:01:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gSN89/5h7kRIvea6Gt5ZnbQYpYO0VaaT23T1FHUXW8Q=;
-        b=oIYWVw1cXl0yOU3fLJW2fps/1yQwGvyrZebOB2T+CXybYg1K9+91PbtA2Y/3Q0xWrk
-         mqWuiIVNCD9RNDp0Ou6FP2BuCwAouHHp6CxKH+e5GgdrrICJ2CiQcCWaxWp9DmkDCAEN
-         A6UvJE0jMjVyI9Z+I1V+Vsmwd9JpFuLsbpQXwkGlAOJ2P7K5xdfHl9cDPS8ZLMZ1C6+t
-         utDmluVAjs+G25+UyPU9ujTqUxiIQ4pm2GoS6Nnq8GEmpCcbOkRJ7078u0MTeyd0jHfV
-         V2YgdybIPN6ObM2jh3wJ/BJZJ/nUShJne8BLfm5k5hEgNuLz5iY8wALwlx8Ge+9kMII5
-         +G4Q==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AKzzopMkwvmbwMNEg9M3Nw44ScXKeapXBjL6fFCIsM0=;
+        b=WbCvi967xEfanaXpMKyBdIXtXh8oMCMwajYtXXoRj9joDCeCpF+jREix/+jHl6Nx4v
+         oZzNW5EaVXYOZQwzTXtBPk9GLEN8NItjy88Xjjpv5cXNUn9y38NIT89XTJDUd4p3lThS
+         vIP44+5wQp7cAJTJIcJfY8Hh7GmjVMYnxznM2JjPGHbAu5XQS0lDef5aiKTXWwrd5Zso
+         3jTtPNfm4CuT4Ul9AJz3S+spAxP/7T00DxYa+r10j/BSjeb+1Do13aIFa639wmRhLEJb
+         1t1xGAbr5MqEj+LN8LnjnbBJ/IiQBqfAAgfKGXWG1udLs6eN4JNZPwmbJ70fbXW3a6hr
+         yscQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gSN89/5h7kRIvea6Gt5ZnbQYpYO0VaaT23T1FHUXW8Q=;
-        b=AgiJA2UM5EYOjRo7Ws/KSCwAeZtvB3ugrmw3OthlIEMFgWhvIzuiluaxSLEGwTXawo
-         LyyT2LOlludp7FJf+LLBOcal+Uj8cp6wCt+gK9ChuU+JPyyaOuQPMhTSeDmPifkjf7mM
-         c+7pfbdFjxXR9PSxYxr3W9+d66yDeotMbBRnTfQ30R8epCDxsUclLn3ZLLOCpFZJT35G
-         NK10q16o5EUOo51vxpVTx26p6KJVG+xBxzpOCql245z8pHlP/9MLAFez+mk0WeDZtWQS
-         UQGLkeYGWU/xunRXSahC9uEUThLNOVjeYjz1Re6Ga4qAx0Ke+ejCEJ28kqOKV5uF8GBw
-         IxTQ==
-X-Gm-Message-State: AOAM530YwSSIEwonTrR/rlNMVLucqvQo0jKmVkIJ0VgzmZNI7M0ifgdh
-	et/Vu2q6iQ3SCCvpUZ0nOB4G+I+PaJB/FQ==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AKzzopMkwvmbwMNEg9M3Nw44ScXKeapXBjL6fFCIsM0=;
+        b=k5Aa5kwvdaEIoutbFF1Uh4FAUumVDJ3EV4iH8zv1v1z+7PK2yZhDxhfjNtVhUaveCm
+         OmKwH8h+oJ/lAc4YcDVxSNxzzcBz2gYmXWpuCbYtFE5RbSDbxQkwdoeM/Q5TiAlvbOdH
+         eNXTRAmYLy+I+PtvnXKVh43EoAXPZqCscMHM88L+d8h6XDuA584k+CqHCmDepsuVlb7X
+         DszGWNno3KA+sCnCvJj38gSJfBCfU2TPGWGNaH2Sit9tF1si6lfOc5CvGM/rtkuhR4V4
+         PDPTCPgo7mo7RPe4v6r2z4n0/b0zN41ZubatjRd9td2g1ufOiGtzwCFS12jj+82y3ICv
+         MmXg==
+X-Gm-Message-State: AOAM5332dzhazYz22eGXKiGKZBHPc65lAzmgyCI6FAdAFf4EPwtPm8Tw
+	YU4QbQcB82gvmofaSDYY6TIVKPMr7xfDJ26eC54=
 X-Google-Smtp-Source: 
- ABdhPJyNNlenmBAEgaSxYqlnBEFKekS5+LTuruD6hyqCNnHn5SU8+v2r/h/2tD5VnX47/qV2zFhCNA==
-X-Received: by 2002:a17:903:240e:b0:163:e057:6cf9 with SMTP id
- e14-20020a170903240e00b00163e0576cf9mr10519072plo.29.1654017325152;
-        Tue, 31 May 2022 10:15:25 -0700 (PDT)
-Received: from DAN-TRAN.redmond.corp.microsoft.com
- ([2601:601:502:122b:540b:7ae5:4c1a:25fd])
-        by smtp.gmail.com with ESMTPSA id
- cd21-20020a056a00421500b0050dc7628175sm10763127pfb.79.2022.05.31.10.15.24
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 31 May 2022 10:15:24 -0700 (PDT)
-From: Dan Tran <msft.dantran@gmail.com>
-X-Google-Original-From: Dan Tran <dantran@microsoft.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Dan Tran <dantran@microsoft.com>,
-	Gustavo Lima Chaves <gustavo.chaves@microsoft.com>
-Subject: [oe-core][dunfell][PATCH] ncurses: Fix CVE-2022-29458
-Date: Tue, 31 May 2022 10:15:17 -0700
-Message-Id: <20220531171517.27876-1-dantran@microsoft.com>
-X-Mailer: git-send-email 2.22.0.vfs.1.1.57.gbaf16c8
+ ABdhPJzJ5oEYW0/tikx+FdkjpCPOfkUTSrr345aHIvGtfkg+cyH5H9TI9WpovWHuzh0jQJYEbjALL9R54CLSF5FSPnA=
+X-Received: by 2002:ac8:5a86:0:b0:303:fba5:ed5e with SMTP id
+ c6-20020ac85a86000000b00303fba5ed5emr9668416qtc.330.1654023689018; Tue, 31
+ May 2022 12:01:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220531155704.682685-1-marcel@ziswiler.com>
+ <CAMKF1so133M+wX7a8QPBLoyYsyz7R7SS4fOJJY9ZRRp=q=Gm7g@mail.gmail.com>
+ <7d8e033f-0066-a403-f084-988bec763a75@berginkonsult.se>
+In-Reply-To: <7d8e033f-0066-a403-f084-988bec763a75@berginkonsult.se>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 31 May 2022 12:01:18 -0700
+Message-ID: 
+ <CAMKF1srYNVRO51=-Q0HQFpTmrQT_031nJiUjNd2z3C==dw=TkA@mail.gmail.com>
+Subject: Re: [oe-core][PATCH v2] libavtp: add recipe to be able to use aaf
+ config for alsa-plugins
+To: Peter Bergin <peter@berginkonsult.se>
+Cc: Marcel Ziswiler <marcel@ziswiler.com>,
+ Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000006f1f8605e05366e5"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 May 2022 17:15:29 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 31 May 2022 19:01:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166325
+ https://lists.openembedded.org/g/openembedded-core/message/166327
 
-ncurses 6.3 before patch 20220416 has an out-of-bounds read and
-segmentation violation in convert_strings in tinfo/read_entry.c in the
-terminfo library.
+--0000000000006f1f8605e05366e5
+Content-Type: text/plain; charset="UTF-8"
 
-Backported from the link below, extracting only the relevant changes.
-https://github.com/ThomasDickey/ncurses-snapshots/commit/9d1d651878d4bf0695872a64cc65ba0acb825f36
+Maybe call the recipe avtp
 
-Signed-off-by: Gustavo Lima Chaves <gustavo.chaves@microsoft.com>
-Signed-off-by: Dan Tran <dantran@microsoft.com>
----
- .../ncurses/files/CVE-2022-29458.patch        | 135 ++++++++++++++++++
- meta/recipes-core/ncurses/ncurses_6.2.bb      |   1 +
- 2 files changed, 136 insertions(+)
- create mode 100644 meta/recipes-core/ncurses/files/CVE-2022-29458.patch
+On Tue, May 31, 2022 at 11:36 AM Peter Bergin <peter@berginkonsult.se>
+wrote:
 
-diff --git a/meta/recipes-core/ncurses/files/CVE-2022-29458.patch b/meta/recipes-core/ncurses/files/CVE-2022-29458.patch
-new file mode 100644
-index 0000000000..eb1b7c96f9
---- /dev/null
-+++ b/meta/recipes-core/ncurses/files/CVE-2022-29458.patch
-@@ -0,0 +1,135 @@
-+From 5f40697e37e195069f55528fc7a1d77e619ad104 Mon Sep 17 00:00:00 2001
-+From: Dan Tran <dantran@microsoft.com>
-+Date: Fri, 13 May 2022 13:28:41 -0700
-+Subject: [PATCH] ncurses 6.3 before patch 20220416 has an out-of-bounds read
-+ and segmentation violation in convert_strings in tinfo/read_entry.c in the
-+ terminfo library.
-+
-+CVE: CVE-2022-29458
-+Upstream-Status: Backport
-+[https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1009870]
-+
-+Signed-off-by: Gustavo Lima Chaves <gustavo.chaves@microsoft.com>
-+Signed-off-by: Dan Tran <dantran@microsoft.com>
-+---
-+ ncurses/tinfo/alloc_entry.c | 14 ++++++--------
-+ ncurses/tinfo/read_entry.c  | 25 +++++++++++++++++++------
-+ 2 files changed, 25 insertions(+), 14 deletions(-)
-+
-+diff --git a/ncurses/tinfo/alloc_entry.c b/ncurses/tinfo/alloc_entry.c
-+index 4bf7d6c8..b49ad6aa 100644
-+--- a/ncurses/tinfo/alloc_entry.c
-++++ b/ncurses/tinfo/alloc_entry.c
-+@@ -48,13 +48,11 @@
-+ 
-+ #include <tic.h>
-+ 
-+-MODULE_ID("$Id: alloc_entry.c,v 1.64 2020/02/02 23:34:34 tom Exp $")
-++MODULE_ID("$Id: alloc_entry.c,v 1.69 2022/04/16 22:46:53 tom Exp $")
-+ 
-+ #define ABSENT_OFFSET    -1
-+ #define CANCELLED_OFFSET -2
-+ 
-+-#define MAX_STRTAB	4096	/* documented maximum entry size */
-+-
-+ static char *stringbuf;		/* buffer for string capabilities */
-+ static size_t next_free;	/* next free character in stringbuf */
-+ 
-+@@ -71,8 +69,8 @@ _nc_init_entry(ENTRY * const tp)
-+     }
-+ #endif
-+ 
-+-    if (stringbuf == 0)
-+-	TYPE_MALLOC(char, (size_t) MAX_STRTAB, stringbuf);
-++    if (stringbuf == NULL)
-++	TYPE_MALLOC(char, (size_t) MAX_ENTRY_SIZE, stringbuf);
-+ 
-+     next_free = 0;
-+ 
-+@@ -108,11 +106,11 @@ _nc_save_str(const char *const string)
-+ 	 * Cheat a little by making an empty string point to the end of the
-+ 	 * previous string.
-+ 	 */
-+-	if (next_free < MAX_STRTAB) {
-++	if (next_free < MAX_ENTRY_SIZE) {
-+ 	    result = (stringbuf + next_free - 1);
-+ 	}
-+-    } else if (next_free + len < MAX_STRTAB) {
-+-	_nc_STRCPY(&stringbuf[next_free], string, MAX_STRTAB);
-++    } else if (next_free + len < MAX_ENTRY_SIZE) {
-++	_nc_STRCPY(&stringbuf[next_free], string, MAX_ENTRY_SIZE);
-+ 	DEBUG(7, ("Saved string %s", _nc_visbuf(string)));
-+ 	DEBUG(7, ("at location %d", (int) next_free));
-+ 	next_free += len;
-+diff --git a/ncurses/tinfo/read_entry.c b/ncurses/tinfo/read_entry.c
-+index 5b570b0f..23c2cebc 100644
-+--- a/ncurses/tinfo/read_entry.c
-++++ b/ncurses/tinfo/read_entry.c
-+@@ -1,5 +1,5 @@
-+ /****************************************************************************
-+- * Copyright 2018-2019,2020 Thomas E. Dickey                                *
-++ * Copyright 2018-2021,2022 Thomas E. Dickey                                *
-+  * Copyright 1998-2016,2017 Free Software Foundation, Inc.                  *
-+  *                                                                          *
-+  * Permission is hereby granted, free of charge, to any person obtaining a  *
-+@@ -42,7 +42,7 @@
-+ 
-+ #include <tic.h>
-+ 
-+-MODULE_ID("$Id: read_entry.c,v 1.157 2020/02/02 23:34:34 tom Exp $")
-++MODULE_ID("$Id: read_entry.c,v 1.162 2022/04/16 21:00:00 tom Exp $")
-+ 
-+ #define TYPE_CALLOC(type,elts) typeCalloc(type, (unsigned)(elts))
-+ 
-+@@ -145,6 +145,7 @@ convert_strings(char *buf, char **Strings, int count, int size, char *table)
-+ {
-+     int i;
-+     char *p;
-++    bool corrupt = FALSE;
-+ 
-+     for (i = 0; i < count; i++) {
-+ 	if (IS_NEG1(buf + 2 * i)) {
-+@@ -154,8 +155,20 @@ convert_strings(char *buf, char **Strings, int count, int size, char *table)
-+ 	} else if (MyNumber(buf + 2 * i) > size) {
-+ 	    Strings[i] = ABSENT_STRING;
-+ 	} else {
-+-	    Strings[i] = (MyNumber(buf + 2 * i) + table);
-+-	    TR(TRACE_DATABASE, ("Strings[%d] = %s", i, _nc_visbuf(Strings[i])));
-++	    int nn = MyNumber(buf + 2 * i);
-++	    if (nn >= 0 && nn < size) {
-++		Strings[i] = (nn + table);
-++		TR(TRACE_DATABASE, ("Strings[%d] = %s", i,
-++				    _nc_visbuf(Strings[i])));
-++	    } else {
-++		if (!corrupt) {
-++		    corrupt = TRUE;
-++		    TR(TRACE_DATABASE,
-++		       ("ignore out-of-range index %d to Strings[]", nn));
-++		    _nc_warning("corrupt data found in convert_strings");
-++		}
-++		Strings[i] = ABSENT_STRING;
-++	    }
-+ 	}
-+ 
-+ 	/* make sure all strings are NUL terminated */
-+@@ -776,7 +789,7 @@ _nc_read_tic_entry(char *filename,
-+ 	 * looking for compiled (binary) terminfo data.
-+ 	 *
-+ 	 * cgetent uses a two-level lookup.  On the first it uses the given
-+-	 * name to return a record containing only the aliases for an entry. 
-++	 * name to return a record containing only the aliases for an entry.
-+ 	 * On the second (using that list of aliases as a key), it returns the
-+ 	 * content of the terminal description.  We expect second lookup to
-+ 	 * return data beginning with the same set of aliases.
-+@@ -833,7 +846,7 @@ _nc_read_tic_entry(char *filename,
-+ #endif /* NCURSES_USE_DATABASE */
-+ 
-+ /*
-+- * Find and read the compiled entry for a given terminal type, if it exists. 
-++ * Find and read the compiled entry for a given terminal type, if it exists.
-+  * We take pains here to make sure no combination of environment variables and
-+  * terminal type name can be used to overrun the file buffer.
-+  */
-+-- 
-+2.36.1
-+
-diff --git a/meta/recipes-core/ncurses/ncurses_6.2.bb b/meta/recipes-core/ncurses/ncurses_6.2.bb
-index 700464f70b..451bfbcb5d 100644
---- a/meta/recipes-core/ncurses/ncurses_6.2.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.2.bb
-@@ -4,6 +4,7 @@ SRC_URI += "file://0001-tic-hang.patch \
-            file://0002-configure-reproducible.patch \
-            file://0003-gen-pkgconfig.in-Do-not-include-LDFLAGS-in-generated.patch \
-            file://CVE-2021-39537.patch \
-+           file://CVE-2022-29458.patch \
-            "
- # commit id corresponds to the revision in package version
- SRCREV = "a669013cd5e9d6434e5301348ea51baf306c93c4"
--- 
-2.22.0.vfs.1.1.57.gbaf16c8
+> Hi,
+>
+> thanks Marcel for bumping this patch again!
+>
+> On 2022-05-31 18:38, Khem Raj wrote:
+> > On Tue, May 31, 2022 at 8:57 AM Marcel Ziswiler <marcel@ziswiler.com>
+> wrote:
+> >> From: Peter Bergin <peter@berginkonsult.se>
+> >>
+> >> In order to enable configuration option aaf (AVTP Audio Format)
+> >> used for AVB the library libavtp is a dependency but no recipe for
+> >> this library was present. aaf support for alsa-plugins was
+> >> introduced in ddf5421331180bc45697511b44cdd4a4e6dda6ff.
+> >>
+> >> Signed-off-by: Peter Bergin <peter@berginkonsult.se>
+> >> Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+> >>
+> >> ---
+> >> Resurrect from mailing list [1] as this is still not upstream.
+> >> End-to-end tested on Verdin iMX8M Plus.
+> >> Will talk about it at the Embedded World in the TSN & Linux track next
+> >> month [2].
+> >>
+> >> [1]
+> https://lore.kernel.org/all/20210604090216.553285-1-peter@berginkonsult.se/
+> >> [2]
+> https://events.weka-fachmedien.de/embedded-world-conference/program/
+> >>
+> >> Changes in v2:
+> >> - Updated SRC_URI specifying mandatory protocol as https.
+> >> - Updated SRCREV to latest.
+> >>
+> >>   meta/recipes-multimedia/libavtp/libavtp_git.bb | 16 ++++++++++++++++
+> > There was a 0.2.0 release
+> https://github.com/Avnu/libavtp/releases/tag/v0.2.0
+> > so I wonder if we should use the release tagged SRC_URI and call the PV
+> = 0.2.0
+> This tag was set after I sent my initial patch. I think this is a good
+> thing to do.
+> >
+> >>   1 file changed, 16 insertions(+)
+> >>   create mode 100644 meta/recipes-multimedia/libavtp/libavtp_git.bb
+> >>
+> >> diff --git a/meta/recipes-multimedia/libavtp/libavtp_git.bb
+> b/meta/recipes-multimedia/libavtp/libavtp_git.bb
+> >> new file mode 100644
+> >> index 0000000000..aefbee56ea
+> >> --- /dev/null
+> >> +++ b/meta/recipes-multimedia/libavtp/libavtp_git.bb
+> >> @@ -0,0 +1,16 @@
+> >> +DESCRIPTION = "Open source implementation of Audio Video Transport
+> Protocol (AVTP) \
+> >> +               specified in IEEE 1722-2016 spec."
+> >> +HOMEPAGE = "https://github.com/Avnu/libavtp"
+> >> +LICENSE = "BSD-3-Clause"
+> >> +LIC_FILES_CHKSUM =
+> "file://LICENSE;md5=7fcb4331e23e45e171cd5693c1ff7d3e"
+> >> +
+> >> +PROVIDES = "avtp"
+> > why is this provides needed ?
+>
+> It is because recipe meta/recipes-multimedia/alsa/alsa-plugins_1.2.6.bb
+> has this PACKAGECONFIG:
+>
+>    PACKAGECONFIG[aaf] = "--enable-aaf,--disable-aaf,avtp"
+>
+> So either this PROVIDES or also change PACKAGECONFIG for alsa-plugins?
+>
+> /Peter
+>
+> >> +
+> >> +SRC_URI = "git://
+> github.com/Avnu/libavtp.git;branch=master;protocol=https"
+> >> +SRCREV = "3599a5bf2d18fc3ae89b64f208d8380e6ee3a866"
+> >> +
+> >> +S = "${WORKDIR}/git"
+> >> +
+> >> +inherit meson pkgconfig
+> >> +
+> >> +EXTRA_OEMESON = "-Dtests=disabled"
+> >> --
+> >> 2.36.1
+> >>
+> >>
+> >>
+> >>
+> >>
+> >> -=-=-=-=-=-=-=-=-=-=-=-
+> >> Links: You receive all messages sent to this group.
+> >> View/Reply Online (#166324):
+> https://lists.openembedded.org/g/openembedded-core/message/166324
+> >> Mute This Topic: https://lists.openembedded.org/mt/91454504/3617552
+> >> Group Owner: openembedded-core+owner@lists.openembedded.org
+> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> peter@berginkonsult.se]
+> >> -=-=-=-=-=-=-=-=-=-=-=-
+> >>
+>
 
+--0000000000006f1f8605e05366e5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Maybe call the recipe avtp=C2=A0</div><div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, May 31, 2022=
+ at 11:36 AM Peter Bergin &lt;<a href=3D"mailto:peter@berginkonsult.se">pet=
+er@berginkonsult.se</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+Hi,<br>
+<br>
+thanks Marcel for bumping this patch again!<br>
+<br>
+On 2022-05-31 18:38, Khem Raj wrote:<br>
+&gt; On Tue, May 31, 2022 at 8:57 AM Marcel Ziswiler &lt;<a href=3D"mailto:=
+marcel@ziswiler.com" target=3D"_blank">marcel@ziswiler.com</a>&gt; wrote:<b=
+r>
+&gt;&gt; From: Peter Bergin &lt;<a href=3D"mailto:peter@berginkonsult.se" t=
+arget=3D"_blank">peter@berginkonsult.se</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; In order to enable configuration option aaf (AVTP Audio Format)<br=
+>
+&gt;&gt; used for AVB the library libavtp is a dependency but no recipe for=
+<br>
+&gt;&gt; this library was present. aaf support for alsa-plugins was<br>
+&gt;&gt; introduced in ddf5421331180bc45697511b44cdd4a4e6dda6ff.<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Peter Bergin &lt;<a href=3D"mailto:peter@berginkons=
+ult.se" target=3D"_blank">peter@berginkonsult.se</a>&gt;<br>
+&gt;&gt; Signed-off-by: Marcel Ziswiler &lt;<a href=3D"mailto:marcel.ziswil=
+er@toradex.com" target=3D"_blank">marcel.ziswiler@toradex.com</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt; Resurrect from mailing list [1] as this is still not upstream.<br>
+&gt;&gt; End-to-end tested on Verdin iMX8M Plus.<br>
+&gt;&gt; Will talk about it at the Embedded World in the TSN &amp; Linux tr=
+ack next<br>
+&gt;&gt; month [2].<br>
+&gt;&gt;<br>
+&gt;&gt; [1] <a href=3D"https://lore.kernel.org/all/20210604090216.553285-1=
+-peter@berginkonsult.se/" rel=3D"noreferrer" target=3D"_blank">https://lore=
+.kernel.org/all/20210604090216.553285-1-peter@berginkonsult.se/</a><br>
+&gt;&gt; [2] <a href=3D"https://events.weka-fachmedien.de/embedded-world-co=
+nference/program/" rel=3D"noreferrer" target=3D"_blank">https://events.weka=
+-fachmedien.de/embedded-world-conference/program/</a><br>
+&gt;&gt;<br>
+&gt;&gt; Changes in v2:<br>
+&gt;&gt; - Updated SRC_URI specifying mandatory protocol as https.<br>
+&gt;&gt; - Updated SRCREV to latest.<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0meta/recipes-multimedia/libavtp/<a href=3D"http://liba=
+vtp_git.bb" rel=3D"noreferrer" target=3D"_blank">libavtp_git.bb</a> | 16 ++=
+++++++++++++++<br>
+&gt; There was a 0.2.0 release <a href=3D"https://github.com/Avnu/libavtp/r=
+eleases/tag/v0.2.0" rel=3D"noreferrer" target=3D"_blank">https://github.com=
+/Avnu/libavtp/releases/tag/v0.2.0</a><br>
+&gt; so I wonder if we should use the release tagged SRC_URI and call the P=
+V =3D 0.2.0<br>
+This tag was set after I sent my initial patch. I think this is a good <br>
+thing to do.<br>
+&gt;<br>
+&gt;&gt;=C2=A0 =C2=A01 file changed, 16 insertions(+)<br>
+&gt;&gt;=C2=A0 =C2=A0create mode 100644 meta/recipes-multimedia/libavtp/<a =
+href=3D"http://libavtp_git.bb" rel=3D"noreferrer" target=3D"_blank">libavtp=
+_git.bb</a><br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/meta/recipes-multimedia/libavtp/<a href=3D"http://lib=
+avtp_git.bb" rel=3D"noreferrer" target=3D"_blank">libavtp_git.bb</a> b/meta=
+/recipes-multimedia/libavtp/<a href=3D"http://libavtp_git.bb" rel=3D"norefe=
+rrer" target=3D"_blank">libavtp_git.bb</a><br>
+&gt;&gt; new file mode 100644<br>
+&gt;&gt; index 0000000000..aefbee56ea<br>
+&gt;&gt; --- /dev/null<br>
+&gt;&gt; +++ b/meta/recipes-multimedia/libavtp/<a href=3D"http://libavtp_gi=
+t.bb" rel=3D"noreferrer" target=3D"_blank">libavtp_git.bb</a><br>
+&gt;&gt; @@ -0,0 +1,16 @@<br>
+&gt;&gt; +DESCRIPTION =3D &quot;Open source implementation of Audio Video T=
+ransport Protocol (AVTP) \<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0specified =
+in IEEE 1722-2016 spec.&quot;<br>
+&gt;&gt; +HOMEPAGE =3D &quot;<a href=3D"https://github.com/Avnu/libavtp" re=
+l=3D"noreferrer" target=3D"_blank">https://github.com/Avnu/libavtp</a>&quot=
+;<br>
+&gt;&gt; +LICENSE =3D &quot;BSD-3-Clause&quot;<br>
+&gt;&gt; +LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D7fcb4331e23e45e17=
+1cd5693c1ff7d3e&quot;<br>
+&gt;&gt; +<br>
+&gt;&gt; +PROVIDES =3D &quot;avtp&quot;<br>
+&gt; why is this provides needed ?<br>
+<br>
+It is because recipe meta/recipes-multimedia/alsa/<a href=3D"http://alsa-pl=
+ugins_1.2.6.bb" rel=3D"noreferrer" target=3D"_blank">alsa-plugins_1.2.6.bb<=
+/a> <br>
+has this PACKAGECONFIG:<br>
+<br>
+=C2=A0=C2=A0 PACKAGECONFIG[aaf] =3D &quot;--enable-aaf,--disable-aaf,avtp&q=
+uot;<br>
+<br>
+So either this PROVIDES or also change PACKAGECONFIG for alsa-plugins?<br>
+<br>
+/Peter<br>
+<br>
+&gt;&gt; +<br>
+&gt;&gt; +SRC_URI =3D &quot;git://<a href=3D"http://github.com/Avnu/libavtp=
+.git;branch=3Dmaster;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank"=
+>github.com/Avnu/libavtp.git;branch=3Dmaster;protocol=3Dhttps</a>&quot;<br>
+&gt;&gt; +SRCREV =3D &quot;3599a5bf2d18fc3ae89b64f208d8380e6ee3a866&quot;<b=
+r>
+&gt;&gt; +<br>
+&gt;&gt; +S =3D &quot;${WORKDIR}/git&quot;<br>
+&gt;&gt; +<br>
+&gt;&gt; +inherit meson pkgconfig<br>
+&gt;&gt; +<br>
+&gt;&gt; +EXTRA_OEMESON =3D &quot;-Dtests=3Ddisabled&quot;<br>
+&gt;&gt; --<br>
+&gt;&gt; 2.36.1<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;&gt; Links: You receive all messages sent to this group.<br>
+&gt;&gt; View/Reply Online (#166324): <a href=3D"https://lists.openembedded=
+.org/g/openembedded-core/message/166324" rel=3D"noreferrer" target=3D"_blan=
+k">https://lists.openembedded.org/g/openembedded-core/message/166324</a><br=
+>
+&gt;&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/9145=
+4504/3617552" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedd=
+ed.org/mt/91454504/3617552</a><br>
+&gt;&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.ope=
+nembedded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded=
+.org</a><br>
+&gt;&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembed=
+ded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembe=
+dded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:peter@berginkonsu=
+lt.se" target=3D"_blank">peter@berginkonsult.se</a>]<br>
+&gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;&gt;<br>
+</blockquote></div></div>
+
+--0000000000006f1f8605e05366e5--
 
