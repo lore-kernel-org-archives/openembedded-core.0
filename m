@@ -1,153 +1,97 @@
-Return-Path: <akuster@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <8b96627d-1760-3239-c178-c19b7bed2a23@mvista.com>
-Date: Tue, 31 May 2022 07:10:33 -0700
+Message-ID: <7d8e033f-0066-a403-f084-988bec763a75@berginkonsult.se>
+Date: Tue, 31 May 2022 20:36:32 +0200
 MIME-Version: 1.0
-Subject: Re: [OE-core] [PATCH] tiff: Add jbig PACKAGECONFIG and clarify CVE-2022-1210
-References: <20220528100501.508207-1-richard.purdie@linuxfoundation.org>
- <339ded2d-6648-0016-50cd-0f2769792f00@mvista.com>
- <db6f07a51d626042cff279bdd7119ca920d2d6d3.camel@linuxfoundation.org>
-From: "Armin Kuster" <akuster@mvista.com>
-In-Reply-To: <db6f07a51d626042cff279bdd7119ca920d2d6d3.camel@linuxfoundation.org>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000dbf9f405e04f5d13"
-List-id: <openembedded-core.lists.openembedded.org>
-To: richard.purdie@linuxfoundation.org, openembedded-core@lists.openembedded.org
-
---000000000000dbf9f405e04f5d13
+Subject: Re: [oe-core][PATCH v2] libavtp: add recipe to be able to use aaf config for alsa-plugins
+References: <20220531155704.682685-1-marcel@ziswiler.com>
+ <CAMKF1so133M+wX7a8QPBLoyYsyz7R7SS4fOJJY9ZRRp=q=Gm7g@mail.gmail.com>
+From: "Peter Bergin" <peter@berginkonsult.se>
+In-Reply-To: <CAMKF1so133M+wX7a8QPBLoyYsyz7R7SS4fOJJY9ZRRp=q=Gm7g@mail.gmail.com>
 Content-Language: en-US
 Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Transfer-Encoding: 8bit
+List-id: <openembedded-core.lists.openembedded.org>
+To: Khem Raj <raj.khem@gmail.com>, Marcel Ziswiler <marcel@ziswiler.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Marcel Ziswiler <marcel.ziswiler@toradex.com>
 
+Hi,
 
+thanks Marcel for bumping this patch again!
 
-On 5/28/22 12:43, richard.purdie@linuxfoundation.org wrote:
-> On Sat, 2022-05-28 at 11:07 -0700, akuster wrote:
->> On 5/28/22 03:05, Richard Purdie wrote:
->>> We never depended upon libjbig so this was never present. Add the
->>> PACKAGECONFIG to make this explict.
->>>
->>> CVE-2022-1210 is an issue in libjbig so we don't have a problem there,
->>> mark as such.
->> But what if I am a user or have a customer that needs that enabled? Now
->> that issue is masked if I run the CVE checking tools , I will have a
->> false sense of security.
+On 2022-05-31 18:38, Khem Raj wrote:
+> On Tue, May 31, 2022 at 8:57 AM Marcel Ziswiler <marcel@ziswiler.com> wrote:
+>> From: Peter Bergin <peter@berginkonsult.se>
 >>
->> I understand that Redhat or Suse can make statements like that  as they
->> provide install-able  binaries but for a Project that starts from build
->> your own DISTRO, should the community take on this responsibility?
-> This is the same as any of the other decisions we make for
-> CVE_CHECK_IGNORE. If you bbappend and/or change the configs of recipes,
-> you need to do some further due diligence.
+>> In order to enable configuration option aaf (AVTP Audio Format)
+>> used for AVB the library libavtp is a dependency but no recipe for
+>> this library was present. aaf support for alsa-plugins was
+>> introduced in ddf5421331180bc45697511b44cdd4a4e6dda6ff.
+>>
+>> Signed-off-by: Peter Bergin <peter@berginkonsult.se>
+>> Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+>>
+>> ---
+>> Resurrect from mailing list [1] as this is still not upstream.
+>> End-to-end tested on Verdin iMX8M Plus.
+>> Will talk about it at the Embedded World in the TSN & Linux track next
+>> month [2].
+>>
+>> [1] https://lore.kernel.org/all/20210604090216.553285-1-peter@berginkonsult.se/
+>> [2] https://events.weka-fachmedien.de/embedded-world-conference/program/
+>>
+>> Changes in v2:
+>> - Updated SRC_URI specifying mandatory protocol as https.
+>> - Updated SRCREV to latest.
+>>
+>>   meta/recipes-multimedia/libavtp/libavtp_git.bb | 16 ++++++++++++++++
+> There was a 0.2.0 release https://github.com/Avnu/libavtp/releases/tag/v0.2.0
+> so I wonder if we should use the release tagged SRC_URI and call the PV = 0.2.0
+This tag was set after I sent my initial patch. I think this is a good 
+thing to do.
 >
-> The fact there isn't a PACKAGECONFIG for it at least suggests it isn't
-> being used.
-Maybe.
->
-> What is the alternative? We just list this as unpatched for OE-Core and
-> let everyone have to look it up for themselves?
+>>   1 file changed, 16 insertions(+)
+>>   create mode 100644 meta/recipes-multimedia/libavtp/libavtp_git.bb
+>>
+>> diff --git a/meta/recipes-multimedia/libavtp/libavtp_git.bb b/meta/recipes-multimedia/libavtp/libavtp_git.bb
+>> new file mode 100644
+>> index 0000000000..aefbee56ea
+>> --- /dev/null
+>> +++ b/meta/recipes-multimedia/libavtp/libavtp_git.bb
+>> @@ -0,0 +1,16 @@
+>> +DESCRIPTION = "Open source implementation of Audio Video Transport Protocol (AVTP) \
+>> +               specified in IEEE 1722-2016 spec."
+>> +HOMEPAGE = "https://github.com/Avnu/libavtp"
+>> +LICENSE = "BSD-3-Clause"
+>> +LIC_FILES_CHKSUM = "file://LICENSE;md5=7fcb4331e23e45e171cd5693c1ff7d3e"
+>> +
+>> +PROVIDES = "avtp"
+> why is this provides needed ?
 
-The first two ideas that come to mind are:
-1) Make the PACKAGECONFIG = CVE # and a note in the recipe to provide a 
-clue.
-2) Create some sort of frame work to warn if that pkg config is enabled.
+It is because recipe meta/recipes-multimedia/alsa/alsa-plugins_1.2.6.bb 
+has this PACKAGECONFIG:
 
-- armin
->
-> Cheers,
->
-> Richard
->
->
+   PACKAGECONFIG[aaf] = "--enable-aaf,--disable-aaf,avtp"
 
+So either this PROVIDES or also change PACKAGECONFIG for alsa-plugins?
 
---000000000000dbf9f405e04f5d13
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+/Peter
 
-MIIR4QYJKoZIhvcNAQcCoIIR0jCCEc4CAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-gg8qMIIGTjCCBTagAwIBAgIQBK55YGZmkBq5xX+mbFvczTANBgkqhkiG9w0BAQsFADBlMQswCQYD
-VQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3d3cuZGlnaWNlcnQuY29t
-MSQwIgYDVQQDExtEaWdpQ2VydCBBc3N1cmVkIElEIFJvb3QgQ0EwHhcNMTMxMTA1MTIwMDAwWhcN
-MjgxMTA1MTIwMDAwWjBlMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYD
-VQQLExB3d3cuZGlnaWNlcnQuY29tMSQwIgYDVQQDExtEaWdpQ2VydCBTSEEyIEFzc3VyZWQgSUQg
-Q0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDc+BEjP2q178AneRstBYeiEEMx3w7U
-FRtPd6Qizj6McPC+B47dJyq8AR22LArK3WlYH0HtagUf2mN4WR4iLCv4un7JNTtW8R98Qn4lsCMZ
-xkU41z1E+SB8YK4csFoYBL6PO/ep8JSapgxjSbZBF1NAMr1P5lB6UB8lRejxia/N/17/UPPwFxH/
-vcWJ9b1iudj7jkUEhW2ZzcVITf0mqwI2Reo2119q4hqCQQrc6dn1kReOxiGtODwT5h5/ZpzVTdlG
-2vbPUqd9OyTDtMFRNcab69TvfuR7A+FEvXoLN+BPy4KKDXEY5KbgiSwb87JzPMGwkp4Yfb2rfcV9
-CKEswp9zAgMBAAGjggL4MIIC9DASBgNVHRMBAf8ECDAGAQH/AgEAMA4GA1UdDwEB/wQEAwIBhjA0
-BggrBgEFBQcBAQQoMCYwJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTCBgQYD
-VR0fBHoweDA6oDigNoY0aHR0cDovL2NybDQuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZElE
-Um9vdENBLmNybDA6oDigNoY0aHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJl
-ZElEUm9vdENBLmNybDAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwggGzBgNVHSAEggGq
-MIIBpjCCAaIGCmCGSAGG/WwAAgQwggGSMCgGCCsGAQUFBwIBFhxodHRwczovL3d3dy5kaWdpY2Vy
-dC5jb20vQ1BTMIIBZAYIKwYBBQUHAgIwggFWHoIBUgBBAG4AeQAgAHUAcwBlACAAbwBmACAAdABo
-AGkAcwAgAEMAZQByAHQAaQBmAGkAYwBhAHQAZQAgAGMAbwBuAHMAdABpAHQAdQB0AGUAcwAgAGEA
-YwBjAGUAcAB0AGEAbgBjAGUAIABvAGYAIAB0AGgAZQAgAEQAaQBnAGkAQwBlAHIAdAAgAEMAUAAv
-AEMAUABTACAAYQBuAGQAIAB0AGgAZQAgAFIAZQBsAHkAaQBuAGcAIABQAGEAcgB0AHkAIABBAGcA
-cgBlAGUAbQBlAG4AdAAgAHcAaABpAGMAaAAgAGwAaQBtAGkAdAAgAGwAaQBhAGIAaQBsAGkAdAB5
-ACAAYQBuAGQAIABhAHIAZQAgAGkAbgBjAG8AcgBwAG8AcgBhAHQAZQBkACAAaABlAHIAZQBpAG4A
-IABiAHkAIAByAGUAZgBlAHIAZQBuAGMAZQAuMB0GA1UdDgQWBBTnAiOAAE/Y17yUC9k/dDlJMjyK
-eTAfBgNVHSMEGDAWgBRF66Kv9JLLgjEtUYunpyGd823IDzANBgkqhkiG9w0BAQsFAAOCAQEATtSJ
-J7n9HYd3fg8oBZDxCi/JOz69k5yQxq/6kVGHMlRr6MrBcVFcmY61+uBiGZmmB5p8Eyfb5QKihBLZ
-FfYKRFfENI9tcx861qABPd7jguRFa7LrJf2AXh05kL5bQvbOkWDj+aBWDEgQzjNoe82Tq/Bqy09Y
-D7l7XRsEgZ6nIuJXSSfukpMIvmkIUwI6Ll3IGfRQgE4C2bBdkbSTh/mWloFVQI5m7YLYuyhf7Uxh
-7QZYKBlTEUS8RyApsgRs2IlUmTt122d4LB6SeMZVPVgSETJuvUMMTTTbe8ZC2+y+q5thTAaS447f
-ISpQVwTAYKI11SSeZjcJSc/V+GWz4OJuwjCCA7cwggKfoAMCAQICEAzn4OUX2Eb+j+Vg/BvwMDkw
-DQYJKoZIhvcNAQEFBQAwZTELMAkGA1UEBhMCVVMxFTATBgNVBAoTDERpZ2lDZXJ0IEluYzEZMBcG
-A1UECxMQd3d3LmRpZ2ljZXJ0LmNvbTEkMCIGA1UEAxMbRGlnaUNlcnQgQXNzdXJlZCBJRCBSb290
-IENBMB4XDTA2MTExMDAwMDAwMFoXDTMxMTExMDAwMDAwMFowZTELMAkGA1UEBhMCVVMxFTATBgNV
-BAoTDERpZ2lDZXJ0IEluYzEZMBcGA1UECxMQd3d3LmRpZ2ljZXJ0LmNvbTEkMCIGA1UEAxMbRGln
-aUNlcnQgQXNzdXJlZCBJRCBSb290IENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA
-rQ4VzuRDgFyxh/O3YPlxEqWu3CaUiKr0zvUgOShYYAz4gNqpFZUyYTy1sSiEiorcnwoMgxd6j5Cs
-iud5U1wxhCr2D5gyNnbM3t08qKLvavsh8lJh358g1x/isdn+GGTSEltf+VgYNbxHzaE2+Wt/1LA4
-PsEbw4wz2dgvGP4oD7Ong9bDbkTAYTWWFv5ZnIt2bdfxoksNK/8LctqeYNCOkDXGeFWHIKHP5W0K
-yEl8MZgzbCLph9AyWqK6E4IR7TkXnZk6cqHm+qTZ1Rcxda6FfSKuPwFGhvYoecix2uRXF8R+HA6w
-tJKmVrO9spftqqfwt8WoP5UW0P+hlusIXxh3TwIDAQABo2MwYTAOBgNVHQ8BAf8EBAMCAYYwDwYD
-VR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUReuir/SSy4IxLVGLp6chnfNtyA8wHwYDVR0jBBgwFoAU
-Reuir/SSy4IxLVGLp6chnfNtyA8wDQYJKoZIhvcNAQEFBQADggEBAKIOvN/i7fDjcnN6ZJS/93Jm
-2DLkQnVirofr8tXZ3lazn8zOFCi5DZdgXBJMWOTTPYNJRViXNWkaqEfqVsZ5qxLYZ4GE338JPJTm
-uCYsIL09syiJ91//IuKXhB/pZe+H4N/BZ0mzXeuyCSrrJu14vn0/K/O3JjVtX4kBtklbnwEFm6s9
-JcHMtn/C8W+GxvpkaOuBLZTrQrf6jB7dYvG+UGe3bL3z8R9rDDYHFn83fKlbbXrxEkZgg9cnBL5L
-zpe+w2cqaBHfgOcMM2a/Ew0UbvN/H2MQHvqNGyVtbI+lt2EBsdKjJqEQcZ2t4sP5w5lRtysHCM4u
-5lCyp/oKRS+i8PIwggUZMIIEAaADAgECAhABmeiIGxb92d1jHUeNPLJ7MA0GCSqGSIb3DQEBCwUA
-MGUxCzAJBgNVBAYTAlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdp
-Y2VydC5jb20xJDAiBgNVBAMTG0RpZ2lDZXJ0IFNIQTIgQXNzdXJlZCBJRCBDQTAeFw0yMTEwMjkw
-MDAwMDBaFw0yMzEwMjcyMzU5NTlaMEAxGzAZBgNVBAMMEmFrdXN0ZXJAbXZpc3RhLmNvbTEhMB8G
-CSqGSIb3DQEJARYSYWt1c3RlckBtdmlzdGEuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB
-CgKCAQEA60Rtp117FyjzKFRYeZrx5QdhlSA7VUEQxYtnCtN656+u6Vjq/R0I4KAIMaAEOlS3Purp
-DrHBMf1gqCKZHdzCkmj5L8GtBkB6yT1NoJnBTH83TgLbRFPB3WnTFmWTSnBkFyyrkoc8JKIzu/p0
-CM/+pHHH9IR5lmzdraoKnHx9ZUwaNltEPZpDWo7zxqQXS+uToztNNuhYPOZhMQmGBVOzczliElcm
-+DOgmn89Va8QVYqzPglbvjsYSIk2kzaKVffLxyY2p0yvWY8w7CAEYk2gLfPuZiqIdXGYmEyKH86H
-27AP1uMrYQjEw1R9VY4JrpDLehuUs/RGYWyMAjfo1NDh0QIDAQABo4IB6DCCAeQwHwYDVR0jBBgw
-FoAU5wIjgABP2Ne8lAvZP3Q5STI8inkwHQYDVR0OBBYEFL0akMb3LmLy7bKAAO6QDtKy8WI7MAwG
-A1UdEwEB/wQCMAAwHQYDVR0RBBYwFIESYWt1c3RlckBtdmlzdGEuY29tMA4GA1UdDwEB/wQEAwIF
-oDAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIwQwYDVR0gBDwwOjA4BgpghkgBhv1sBAEB
-MCowKAYIKwYBBQUHAgEWHGh0dHBzOi8vd3d3LmRpZ2ljZXJ0LmNvbS9DUFMwgYUGA1UdHwR+MHww
-PKA6oDiGNmh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydFNIQTJBc3N1cmVkSURDQS0x
-LmNybDA8oDqgOIY2aHR0cDovL2NybDQuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0U0hBMkFzc3VyZWRJ
-RENBLTEuY3JsMHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNl
-cnQuY29tMEMGCCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRT
-SEEyQXNzdXJlZElEQ0EuY3J0MA0GCSqGSIb3DQEBCwUAA4IBAQCUY9qc+vTg/KOKUB9htYLvs1km
-5XF3yyLnIoMBvbmx4zatz0YddFP7UT0esHLGDEW2suAlq44A6SRd2fTUe0tyjGAxsblGwxKp0ypw
-p6xjYeJAkp0nEemsYGxGSOf1HP9BIT1bFT9CHHCoX26wxtf7RF2fePncJ4wPBxFzJdecBcKgL8uN
-yQnDtPyJ0DC4bVz9Z67nEFJcFTyrzbvo4sk9A8QKYANnjmCYPSEIlis8o7zERwxC/xNTgzAXzlDS
-8mJM7ja9otySdENt1tyty90IOWryaSvfeHDffO0YCDvbAVCcisvjni5esAu0sDrJr+ODF4laEVBF
-z4PNrDvNN2gGMYICezCCAncCAQEweTBlMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQg
-SW5jMRkwFwYDVQQLExB3d3cuZGlnaWNlcnQuY29tMSQwIgYDVQQDExtEaWdpQ2VydCBTSEEyIEFz
-c3VyZWQgSUQgQ0ECEAGZ6IgbFv3Z3WMdR408snswDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcN
-AQkEMSIEICmrfdnXgvUKtzaNg7OgK2zpW7SBoCQpYmxj/Sq/UP+VMBgGCSqGSIb3DQEJAzELBgkq
-hkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIyMDUzMTE0MTI0NVowaQYJKoZIhvcNAQkPMVwwWjAL
-BglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG
-9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQCZ/cuPhAas
-c5zuQ0sNezhdfQmng5rNpzS1p9juHn5z9FtHEDgTmCBDyncGTtMQZ8Lo1LgqP7/5D0zkR3kjLlbT
-GX8rcFmMz0/nSqRaU4S8tC7JR8ZbOQRM4B10AQw3fnStaFoqOErSo/sflI+kxly9b+xGS+4tLtyD
-uVMiPfRsSdPSpnJYcbEKp1bpp+Y0jB3wmBzCiyaS7TiI9AcXWR6n5t8BQpWGkDYSs0R5mdht6oEr
-/QtK8Q7z1Q5C3/pjjVNMh7IqS/vxsCw1+GMluY35VVowEh9hNESVg7VbCK8vSwtBWeE8QpQkDqJ7
-uNFizdzTXAQkd+m7vA0mdUipL3cd
-
---000000000000dbf9f405e04f5d13--
+>> +
+>> +SRC_URI = "git://github.com/Avnu/libavtp.git;branch=master;protocol=https"
+>> +SRCREV = "3599a5bf2d18fc3ae89b64f208d8380e6ee3a866"
+>> +
+>> +S = "${WORKDIR}/git"
+>> +
+>> +inherit meson pkgconfig
+>> +
+>> +EXTRA_OEMESON = "-Dtests=disabled"
+>> --
+>> 2.36.1
+>>
+>>
+>>
+>>
+>>
+>> 
+>>
