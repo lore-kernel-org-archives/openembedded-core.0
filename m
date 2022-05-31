@@ -2,242 +2,185 @@ Return-Path: <sakib.sajal@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A5A3C433F5
-	for <webhook@archiver.kernel.org>; Tue, 31 May 2022 22:08:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48439C433FE
+	for <webhook@archiver.kernel.org>; Tue, 31 May 2022 22:08:31 +0000 (UTC)
 Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web08.65.1654034898571061173
+ by mx.groups.io with SMTP id smtpd.web10.77.1654034901260966945
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 15:08:19 -0700
+ Tue, 31 May 2022 15:08:21 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=permerror,
  err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
  domain name (domain: windriver.com, ip: 147.11.3.146,
  mailfrom: sakib.sajal@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 24VM8KAU012192
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 31 May 2022 15:08:20 -0700
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
  [147.11.82.252])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 24VM8CXe012183
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 24VM8KeA011464
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 15:08:17 -0700
+ Tue, 31 May 2022 15:08:20 -0700 (PDT)
 Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Tue, 31 May 2022 15:08:12 -0700
+ 15.1.2242.12; Tue, 31 May 2022 15:08:20 -0700
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 31 May 2022 15:08:11 -0700
+ 15.1.2308.27; Tue, 31 May 2022 15:08:19 -0700
 Received: from yow-lpggp3.wrs.com (128.224.137.13) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Tue, 31 May 2022 15:08:11 -0700
+ 15.1.2242.12 via Frontend Transport; Tue, 31 May 2022 15:08:19 -0700
 From: Sakib Sajal <sakib.sajal@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/4] qemu: fix CVE-2021-4145
-Date: Tue, 31 May 2022 18:08:04 -0400
-Message-ID: <20220531220807.8032-1-sakib.sajal@windriver.com>
+Subject: [PATCH 4/4] qemu: fix CVE-2021-4206
+Date: Tue, 31 May 2022 18:08:07 -0400
+Message-ID: <20220531220807.8032-4-sakib.sajal@windriver.com>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20220531220807.8032-1-sakib.sajal@windriver.com>
+References: <20220531220807.8032-1-sakib.sajal@windriver.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.wrs.com id
+ 24VM8KAU012192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 May 2022 22:08:21 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 31 May 2022 22:08:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166340
+ https://lists.openembedded.org/g/openembedded-core/message/166343
 
-Fix for CVE-2021-4145, commit 66fed30c9c, fixes another commit:
-   d44dae1a7c ("block/mirror: fix active mirror dead-lock in mirror_wait_on_conflicts")
-Hence, backport both the patches to resolve the CVE.
+Backport fix to resolve CVE-2021-4206:
+   fa892e9abb ui/cursor: fix integer overflow in cursor_alloc (CVE-2021-4=
+206)
 
 Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  2 +
- .../qemu/qemu/CVE-2021-4145_1.patch           | 67 +++++++++++++++
- .../qemu/qemu/CVE-2021-4145_2.patch           | 85 +++++++++++++++++++
- 3 files changed, 154 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-4145_1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-4145_2.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2021-4206.patch             | 89 +++++++++++++++++++
+ 2 files changed, 90 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-4206.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 568ef1be94..aa372810ce 100644
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
+qemu/qemu.inc
+index 898377d11b..b6595a7731 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -75,6 +75,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-3930.patch \
-            file://CVE-2021-20196_1.patch \
-            file://CVE-2021-20196_2.patch \
-+           file://CVE-2021-4145_1.patch \
-+           file://CVE-2021-4145_2.patch \
+@@ -81,6 +81,7 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar=
+.xz \
+            file://CVE-2021-3750_2.patch \
+            file://CVE-2021-3750_3.patch \
+            file://CVE-2022-26353.patch \
++           file://CVE-2021-4206.patch \
             "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-4145_1.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-4145_1.patch
+ UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+=20
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-4206.patch b/meta/r=
+ecipes-devtools/qemu/qemu/CVE-2021-4206.patch
 new file mode 100644
-index 0000000000..02eae727d5
+index 0000000000..bc76d3a206
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-4145_1.patch
-@@ -0,0 +1,67 @@
-+From 59fe260a352156261ad0d89be446e5dd0ac96de3 Mon Sep 17 00:00:00 2001
-+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-+Date: Sat, 3 Jul 2021 00:16:36 +0300
-+Subject: [PATCH 1/2] block/mirror: fix active mirror dead-lock in
-+ mirror_wait_on_conflicts
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-4206.patch
+@@ -0,0 +1,89 @@
++From 1ed7525cc9d9a98ef126e9803b09f50aa9f2e3bf Mon Sep 17 00:00:00 2001
++From: Mauro Matteo Cascella <mcascell@redhat.com>
++Date: Thu, 7 Apr 2022 10:17:12 +0200
++Subject: [PATCH] ui/cursor: fix integer overflow in cursor_alloc
++ (CVE-2021-4206)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
 +
-+It's possible that requests start to wait each other in
-+mirror_wait_on_conflicts(). To avoid it let's use same technique as in
-+block/io.c in bdrv_wait_serialising_requests_locked() /
-+bdrv_find_conflicting_request(): don't wait on intersecting request if
-+it is already waiting for some other request.
++Prevent potential integer overflow by limiting 'width' and 'height' to
++512x512. Also change 'datasize' type to size_t. Refer to security
++advisory https://starlabs.sg/advisories/22-4206/ for more information.
 +
-+For details of the dead-lock look at testIntersectingActiveIO()
-+test-case which we actually fixing now.
++Fixes: CVE-2021-4206
++Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
++Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
++Message-Id: <20220407081712.345609-1-mcascell@redhat.com>
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 +
-+Fixes: d06107ade0ce74dc39739bac80de84b51ec18546
-+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-+Message-Id: <20210702211636.228981-4-vsementsov@virtuozzo.com>
-+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-+
-+CVE: CVE-2021-4145
-+Upstream-Status: Backport [d44dae1a7cf782ec9235746ebb0e6c1a20dd7288]
++CVE: CVE-2021-4206
++Upstream-Status: Backport [fa892e9abb728e76afcf27323ab29c57fb0fe7aa]
 +
 +Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 +---
-+ block/mirror.c         | 12 ++++++++++++
-+ tests/qemu-iotests/151 |  0
-+ 2 files changed, 12 insertions(+)
-+ mode change 100755 => 100644 tests/qemu-iotests/151
++ hw/display/qxl-render.c | 7 +++++++
++ hw/display/vmware_vga.c | 2 ++
++ ui/cursor.c             | 8 +++++++-
++ 3 files changed, 16 insertions(+), 1 deletion(-)
 +
-+diff --git a/block/mirror.c b/block/mirror.c
-+index 8e1ad6ece..fab008568 100644
-+--- a/block/mirror.c
-++++ b/block/mirror.c
-+@@ -106,6 +106,7 @@ struct MirrorOp {
-+     bool is_in_flight;
-+     CoQueue waiting_requests;
-+     Coroutine *co;
-++    MirrorOp *waiting_for_op;
-+ 
-+     QTAILQ_ENTRY(MirrorOp) next;
-+ };
-+@@ -158,7 +159,18 @@ static void coroutine_fn mirror_wait_on_conflicts(MirrorOp *self,
-+             if (ranges_overlap(self_start_chunk, self_nb_chunks,
-+                                op_start_chunk, op_nb_chunks))
-+             {
-++                /*
-++                 * If the operation is already (indirectly) waiting for us, or
-++                 * will wait for us as soon as it wakes up, then just go on
-++                 * (instead of producing a deadlock in the former case).
-++                 */
-++                if (op->waiting_for_op) {
-++                    continue;
-++                }
++diff --git a/hw/display/qxl-render.c b/hw/display/qxl-render.c
++index 3ce2e57b8..c2ecef706 100644
++--- a/hw/display/qxl-render.c
+++++ b/hw/display/qxl-render.c
++@@ -246,6 +246,13 @@ static QEMUCursor *qxl_cursor(PCIQXLDevice *qxl, QX=
+LCursor *cursor,
++     size_t size;
++=20
++     c =3D cursor_alloc(cursor->header.width, cursor->header.height);
 ++
-++                self->waiting_for_op = op;
-+                 qemu_co_queue_wait(&op->waiting_requests, NULL);
-++                self->waiting_for_op = NULL;
-+                 break;
-+             }
-+         }
-+diff --git a/tests/qemu-iotests/151 b/tests/qemu-iotests/151
-+old mode 100755
-+new mode 100644
-+-- 
+++    if (!c) {
+++        qxl_set_guest_bug(qxl, "%s: cursor %ux%u alloc error", __func__=
+,
+++                cursor->header.width, cursor->header.height);
+++        goto fail;
+++    }
+++
++     c->hot_x =3D cursor->header.hot_spot_x;
++     c->hot_y =3D cursor->header.hot_spot_y;
++     switch (cursor->header.type) {
++diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
++index bef0d7d69..e30dbdcb3 100644
++--- a/hw/display/vmware_vga.c
+++++ b/hw/display/vmware_vga.c
++@@ -510,6 +510,8 @@ static inline void vmsvga_cursor_define(struct vmsvg=
+a_state_s *s,
++     int i, pixels;
++=20
++     qc =3D cursor_alloc(c->width, c->height);
+++    assert(qc !=3D NULL);
+++
++     qc->hot_x =3D c->hot_x;
++     qc->hot_y =3D c->hot_y;
++     switch (c->bpp) {
++diff --git a/ui/cursor.c b/ui/cursor.c
++index 1d62ddd4d..835f0802f 100644
++--- a/ui/cursor.c
+++++ b/ui/cursor.c
++@@ -46,6 +46,8 @@ static QEMUCursor *cursor_parse_xpm(const char *xpm[])
++=20
++     /* parse pixel data */
++     c =3D cursor_alloc(width, height);
+++    assert(c !=3D NULL);
+++
++     for (pixel =3D 0, y =3D 0; y < height; y++, line++) {
++         for (x =3D 0; x < height; x++, pixel++) {
++             idx =3D xpm[line][x];
++@@ -91,7 +93,11 @@ QEMUCursor *cursor_builtin_left_ptr(void)
++ QEMUCursor *cursor_alloc(int width, int height)
++ {
++     QEMUCursor *c;
++-    int datasize =3D width * height * sizeof(uint32_t);
+++    size_t datasize =3D width * height * sizeof(uint32_t);
+++
+++    if (width > 512 || height > 512) {
+++        return NULL;
+++    }
++=20
++     c =3D g_malloc0(sizeof(QEMUCursor) + datasize);
++     c->width  =3D width;
++--=20
 +2.33.0
 +
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-4145_2.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-4145_2.patch
-new file mode 100644
-index 0000000000..891664375c
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-4145_2.patch
-@@ -0,0 +1,85 @@
-+From 09036c63a4a498d65de0d035211b01f0482e3533 Mon Sep 17 00:00:00 2001
-+From: Stefano Garzarella <sgarzare@redhat.com>
-+Date: Fri, 10 Sep 2021 14:45:33 +0200
-+Subject: [PATCH 2/2] block/mirror: fix NULL pointer dereference in
-+ mirror_wait_on_conflicts()
-+
-+In mirror_iteration() we call mirror_wait_on_conflicts() with
-+`self` parameter set to NULL.
-+
-+Starting from commit d44dae1a7c we dereference `self` pointer in
-+mirror_wait_on_conflicts() without checks if it is not NULL.
-+
-+Backtrace:
-+  Program terminated with signal SIGSEGV, Segmentation fault.
-+  #0  mirror_wait_on_conflicts (self=0x0, s=<optimized out>, offset=<optimized out>, bytes=<optimized out>)
-+      at ../block/mirror.c:172
-+  172	                self->waiting_for_op = op;
-+  [Current thread is 1 (Thread 0x7f0908931ec0 (LWP 380249))]
-+  (gdb) bt
-+  #0  mirror_wait_on_conflicts (self=0x0, s=<optimized out>, offset=<optimized out>, bytes=<optimized out>)
-+      at ../block/mirror.c:172
-+  #1  0x00005610c5d9d631 in mirror_run (job=0x5610c76a2c00, errp=<optimized out>) at ../block/mirror.c:491
-+  #2  0x00005610c5d58726 in job_co_entry (opaque=0x5610c76a2c00) at ../job.c:917
-+  #3  0x00005610c5f046c6 in coroutine_trampoline (i0=<optimized out>, i1=<optimized out>)
-+      at ../util/coroutine-ucontext.c:173
-+  #4  0x00007f0909975820 in ?? () at ../sysdeps/unix/sysv/linux/x86_64/__start_context.S:91
-+      from /usr/lib64/libc.so.6
-+
-+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2001404
-+Fixes: d44dae1a7c ("block/mirror: fix active mirror dead-lock in mirror_wait_on_conflicts")
-+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-+Message-Id: <20210910124533.288318-1-sgarzare@redhat.com>
-+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-+Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-+
-+CVE: CVE-2021-4145
-+Upstream-Status: Backport [66fed30c9cd11854fc878a4eceb507e915d7c9cd]
-+
-+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-+---
-+ block/mirror.c | 25 ++++++++++++++++---------
-+ 1 file changed, 16 insertions(+), 9 deletions(-)
-+
-+diff --git a/block/mirror.c b/block/mirror.c
-+index fab008568..ca0be146f 100644
-+--- a/block/mirror.c
-++++ b/block/mirror.c
-+@@ -159,18 +159,25 @@ static void coroutine_fn mirror_wait_on_conflicts(MirrorOp *self,
-+             if (ranges_overlap(self_start_chunk, self_nb_chunks,
-+                                op_start_chunk, op_nb_chunks))
-+             {
-+-                /*
-+-                 * If the operation is already (indirectly) waiting for us, or
-+-                 * will wait for us as soon as it wakes up, then just go on
-+-                 * (instead of producing a deadlock in the former case).
-+-                 */
-+-                if (op->waiting_for_op) {
-+-                    continue;
-++                if (self) {
-++                    /*
-++                     * If the operation is already (indirectly) waiting for us,
-++                     * or will wait for us as soon as it wakes up, then just go
-++                     * on (instead of producing a deadlock in the former case).
-++                     */
-++                    if (op->waiting_for_op) {
-++                        continue;
-++                    }
-++
-++                    self->waiting_for_op = op;
-+                 }
-+ 
-+-                self->waiting_for_op = op;
-+                 qemu_co_queue_wait(&op->waiting_requests, NULL);
-+-                self->waiting_for_op = NULL;
-++
-++                if (self) {
-++                    self->waiting_for_op = NULL;
-++                }
-++
-+                 break;
-+             }
-+         }
-+-- 
-+2.33.0
-+
--- 
+--=20
 2.33.0
 
 
