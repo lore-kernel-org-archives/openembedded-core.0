@@ -2,379 +2,238 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF257C433F5
-	for <webhook@archiver.kernel.org>; Tue, 31 May 2022 21:00:55 +0000 (UTC)
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
- [209.85.222.177])
- by mx.groups.io with SMTP id smtpd.web11.169.1654030847351515602
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD935C433F5
+	for <webhook@archiver.kernel.org>; Tue, 31 May 2022 21:06:55 +0000 (UTC)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
+ [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.web09.245.1654031206253518406
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 14:00:47 -0700
+ Tue, 31 May 2022 14:06:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=oiVCJ2K7;
- spf=pass (domain: gmail.com, ip: 209.85.222.177,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f177.google.com with SMTP id 190so14071038qkj.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FutFueo8;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id r1so25354qvz.8
         for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 14:00:47 -0700 (PDT)
+ Tue, 31 May 2022 14:06:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=BqVcQOxKT0txUGJb/9tNtmpPnABMTJs0ZDiMIKxZAaA=;
-        b=oiVCJ2K7bjXF8XbZ5xKVHy7eJpZfYtk/2OJCv5htnFfEo+vQXRR7+8iH7eCIaKsAE+
-         l8tIsP+9DCIyQgyKtpvpzqGu7h2YU3HmY66hdAly3Bz6PyEnjvRGkvBcYEdXKvT9A+nn
-         V7SkhAXSx+qYfNavKaJUSjP++cNHCV78yslbpZvtWiKkBH7j4DIZqBiCXjZpft0E+iph
-         kMYBUfGToLifFlPJ8EDp5v552HThZHqU02K/Cr04egJNk0dmsjlNmi4l4Y6VYvMF1suA
-         i0ZoxfdVcvXK23Rrhd5MdxWTZhfSC9QLFQgaOW3lOJY1rC0gCOAAqbgxhtF19ucJl11E
-         nQBA==
+        bh=UFC85Qh7V4ayh1nUL+brJN7lW5rCnsCX6Dm2ZFc0a/o=;
+        b=FutFueo8Nr9cDCOtkFGUFZ3Hfyj4GYq4c7RXQOmUBw1TdId6W0evcEffEaT0BSZCJO
+         7tnh4flXQ/dJeEZf/I1nS/Emu5x6GoE8jbRQLyNJDfccRfOkMrBO+iRRIYNZpu33SPfw
+         +blDHm5r0DkF7GKoUWFMtC4NqH3NfLWG+UW7UgrZiZKmoU6mWg6IfmsKjARb8S0LVKXL
+         xef04dPP/B09O5K563zzidfiQmcQ7HMFtqHGzzQtcXkHY58cz2cdA/IPex+48PtVpNke
+         gXLNAErGO7vVUeTiMIUO2TRsv77/cXS8bvHpjoq6+aOYOa4AsGxkTPoiha8vxhYy3fYS
+         +6Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=BqVcQOxKT0txUGJb/9tNtmpPnABMTJs0ZDiMIKxZAaA=;
-        b=ShGc9CgGxVrL8RKZIu3Ke3YRUE9pX4ts0tdT5r6T8wU0EXqCJ5SWWKoF0idpunbqne
-         WP9VTob1PJpnpBsfhaK6gEfcUL5huWAfQdAaQnoquXyfp8lRFgRfdksKaJurWoZKnG7y
-         065UClCJwkP2tH6xhoIpOOp/ettWjgZEjLzXB/+IFdnVKpHwZ7jpU6rLXj92E0A1uNZI
-         pBHugLutdzfJf5LLzRRw/8NX6RCJYYNkc1PuQ4E96LXCEZM0cJ3wtastlFIY2CmlwLIT
-         F/4S2cqhwg09fnmHvMB69l/jvFEOgKgopZmB1+bOyoafT5Qe2J1NMBAZVxSohVi1lxcb
-         uZFQ==
-X-Gm-Message-State: AOAM5320cTsA47nongtacrsXmhtdGwXiaP1zcDheFfLKLbi5+MQtT1pt
-	IsgKpy9xBkUh5eLLH65RlQXMHNaVphDr/SLLvdnqXuam
+        bh=UFC85Qh7V4ayh1nUL+brJN7lW5rCnsCX6Dm2ZFc0a/o=;
+        b=28YmGYNV7N7dhQtyd70UM0sBYlPLii4wZuNo9PVMzEe2pam70PIeLM+3TQcpUAl0bm
+         9KUbxahQFqBWyfNnOdwAql/gD8ZHaZuJg2JXPFxQcnAkIXn2cNmi0tYp+sGXR44QvKLw
+         29g+3YiqGhMCAdk7/lwtZb+dlTWv6PCFCZgJcVus8o2+JR5k8OKjb5lMW2I1bpt8NCvA
+         /kpdGijqSm1zgBo/k5/k3OdOAko7N6kpm9x9wdjs9URSBMgczLdmQiBCUA+rldqmkVcu
+         OiEnRvgiVQbYK9E4IBYokTd6aO9AepOUtwi52XXvcOoY/o1ywASiSxvy8fBhcNpkH49J
+         1A6A==
+X-Gm-Message-State: AOAM533pnAaTU5BU1SnNAKXQr6xZm+ZkGppG3heJhObddWmVZVDPVUNI
+	bc73NdwNSgl+GTlGCATAwoDu+EPZPtH1utRqqU8=
 X-Google-Smtp-Source: 
- ABdhPJxIHonllFLD/HT7rISbTsaHZnjT0akVX9ER5S/YylpBiDez/+tTRVmnbE9PlRsFmXZDZhvPIMbJLL7tUlCMa/8=
-X-Received: by 2002:a37:660a:0:b0:6a3:4868:c730 with SMTP id
- a10-20020a37660a000000b006a34868c730mr39076268qkc.180.1654030846347; Tue, 31
- May 2022 14:00:46 -0700 (PDT)
+ ABdhPJyDWKuONeHRKPFcgSTkbD/tXre8WXUgbJya6nzB4KLGNvp6Bu8tQow4/4haoxp/wGo3zJTpOmWq1HmIhPMEYy4=
+X-Received: by 2002:a05:6214:4118:b0:462:e0c:897f with SMTP id
+ kc24-20020a056214411800b004620e0c897fmr48715412qvb.63.1654031205276; Tue, 31
+ May 2022 14:06:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220531155704.682685-1-marcel@ziswiler.com>
- <CAMKF1so133M+wX7a8QPBLoyYsyz7R7SS4fOJJY9ZRRp=q=Gm7g@mail.gmail.com>
- <7d8e033f-0066-a403-f084-988bec763a75@berginkonsult.se>
- <CAMKF1srYNVRO51=-Q0HQFpTmrQT_031nJiUjNd2z3C==dw=TkA@mail.gmail.com>
- <b9bc356c93da33d186fdff9bc52594f5f3f0c164.camel@toradex.com>
-In-Reply-To: <b9bc356c93da33d186fdff9bc52594f5f3f0c164.camel@toradex.com>
+References: <20220531190620.186764-1-f_l_k@t-online.de>
+ <20220531190620.186764-4-f_l_k@t-online.de>
+ <ee7da03f7988fdfb22e800182644de692adfa59c.camel@linuxfoundation.org>
+In-Reply-To: 
+ <ee7da03f7988fdfb22e800182644de692adfa59c.camel@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 31 May 2022 14:00:35 -0700
+Date: Tue, 31 May 2022 14:06:34 -0700
 Message-ID: 
- <CAMKF1sovAcX5=tqV0vn7eBpq1cgV0z8gXNURX3sCWr20TcuGbw@mail.gmail.com>
-Subject: Re: [oe-core][PATCH v2] libavtp: add recipe to be able to use aaf
- config for alsa-plugins
-To: Marcel Ziswiler <marcel.ziswiler@toradex.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>,
-	"peter@berginkonsult.se" <peter@berginkonsult.se>
-Content-Type: multipart/alternative; boundary="0000000000000b500705e05511b3"
+ <CAMKF1sq7VsrFzzG=USH4vrivmVeFsk_QqaCNEXiVKDZp-7g6bA@mail.gmail.com>
+Subject: Re: [oe-core][PATCH 4/4] libsdl2: dont mix opengl and gles backends
+ for wayland
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000701f2805e055260e"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 May 2022 21:00:55 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 31 May 2022 21:06:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166334
+ https://lists.openembedded.org/g/openembedded-core/message/166335
 
---0000000000000b500705e05511b3
+--000000000000701f2805e055260e
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 31, 2022 at 1:14 PM Marcel Ziswiler <marcel.ziswiler@toradex.co=
-m>
-wrote:
+On Tue, May 31, 2022 at 1:54 PM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-> On Tue, 2022-05-31 at 12:01 -0700, Khem Raj wrote:
-> > Maybe call the recipe avtp
+> On Tue, 2022-05-31 at 21:06 +0200, Markus Volk wrote:
+> > This fixes "Could not initialize egl display" in libsdl2 apps for
+> > wayland without DISTRO_FEATURE x11
+> >
+> > Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> > ---
+> >  meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb | 8 +++++---
+> >  1 file changed, 5 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb
+> b/meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb
+> > index 8519e7f732..e057b5cbbc 100644
+> > --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb
+> > +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.22.bb
+> > @@ -56,14 +56,16 @@ EXTRA_OECMAKE = "-DSDL_OSS=OFF -DSDL_ESD=OFF
+> -DSDL_ARTS=OFF \
+> >
+> >  # opengl packageconfig factored out to make it easy for distros
+> >  # and BSP layers to pick either (desktop) opengl, gles2, or no GL
+> > -PACKAGECONFIG_GL ?= "${@bb.utils.filter('DISTRO_FEATURES', 'opengl',
+> d)}"
+> > +PACKAGECONFIG_GL ?= " \
+> > +    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '',
+> d)} \
+> > +    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland opengl', 'gles2',
+> '', d)} \
+> > +"
+> >
+> >  PACKAGECONFIG:class-native = "x11 ${PACKAGECONFIG_GL}"
+> >  PACKAGECONFIG:class-nativesdk = "${@bb.utils.filter('DISTRO_FEATURES',
+> 'x11', d)} ${PACKAGECONFIG_GL}"
+> >  PACKAGECONFIG ??= " \
+> >      ${PACKAGECONFIG_GL} \
+> > -    ${@bb.utils.filter('DISTRO_FEATURES', 'alsa directfb pulseaudio
+> x11', d)} \
+> > -    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland gles2',
+> '', d)} \
+> > +    ${@bb.utils.filter('DISTRO_FEATURES', 'alsa directfb pulseaudio x11
+> wayland', d)} \
+> >      ${@bb.utils.contains("TUNE_FEATURES", "neon","arm-neon","",d)} \
+> >  "
+> >  PACKAGECONFIG[alsa]       = "-DSDL_ALSA=ON,-DSDL_ALSA=OFF,alsa-lib,"
 >
-> No, here I disagree. As mentioned before the project and everything is
-> really called libavtp everywhere. So I
-> think the better solution is to consistently use libavtp in
-> openembedded-core everywhere as well.
+> If you have opengl, x11 and wayland in DISTRO_FEATURES, does that cause
+> an issue? It would seem to change the config?
 
 
-That=E2=80=99s fine with me I don=E2=80=99t have hard stand on the name cha=
-nging existing
-packageconfog can be a change for someone who might be using it already but
-that=E2=80=99s fine we have warnings in place to address these
+Right I think wayland + gles + no x11 is a config of its own
+It should check that
 
 >
 >
+> Cheers,
 >
-> > On Tue, May 31, 2022 at 11:36 AM Peter Bergin <peter@berginkonsult.se>
-> wrote:
-> > > Hi,
-> > >
-> > > thanks Marcel for bumping this patch again!
-> > >
-> > > On 2022-05-31 18:38, Khem Raj wrote:
-> > > > On Tue, May 31, 2022 at 8:57 AM Marcel Ziswiler <marcel@ziswiler.co=
-m>
-> wrote:
-> > > > > From: Peter Bergin <peter@berginkonsult.se>
-> > > > >
-> > > > > In order to enable configuration option aaf (AVTP Audio Format)
-> > > > > used for AVB the library libavtp is a dependency but no recipe fo=
-r
-> > > > > this library was present. aaf support for alsa-plugins was
-> > > > > introduced in ddf5421331180bc45697511b44cdd4a4e6dda6ff.
-> > > > >
-> > > > > Signed-off-by: Peter Bergin <peter@berginkonsult.se>
-> > > > > Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
-> > > > >
-> > > > > ---
-> > > > > Resurrect from mailing list [1] as this is still not upstream.
-> > > > > End-to-end tested on Verdin iMX8M Plus.
-> > > > > Will talk about it at the Embedded World in the TSN & Linux track
-> next
-> > > > > month [2].
-> > > > >
-> > > > > [1]
-> https://lore.kernel.org/all/20210604090216.553285-1-peter@berginkonsult.s=
-e/
-> > > > > [2]
-> https://events.weka-fachmedien.de/embedded-world-conference/program/
-> > > > >
-> > > > > Changes in v2:
-> > > > > - Updated SRC_URI specifying mandatory protocol as https.
-> > > > > - Updated SRCREV to latest.
-> > > > >
-> > > > >    meta/recipes-multimedia/libavtp/libavtp_git.bb | 16
-> ++++++++++++++++
-> > > > There was a 0.2.0 release
-> https://github.com/Avnu/libavtp/releases/tag/v0.2.0
-> > > > so I wonder if we should use the release tagged SRC_URI and call th=
-e
-> PV =3D 0.2.0
-> > > This tag was set after I sent my initial patch. I think this is a goo=
-d
-> > > thing to do.
-> > > >
-> > > > >    1 file changed, 16 insertions(+)
-> > > > >    create mode 100644 meta/recipes-multimedia/libavtp/
-> libavtp_git.bb
-> > > > >
-> > > > > diff --git a/meta/recipes-multimedia/libavtp/libavtp_git.bb
-> b/meta/recipes-
-> > > > > multimedia/libavtp/libavtp_git.bb
-> > > > > new file mode 100644
-> > > > > index 0000000000..aefbee56ea
-> > > > > --- /dev/null
-> > > > > +++ b/meta/recipes-multimedia/libavtp/libavtp_git.bb
-> > > > > @@ -0,0 +1,16 @@
-> > > > > +DESCRIPTION =3D "Open source implementation of Audio Video
-> Transport Protocol (AVTP) \
-> > > > > +               specified in IEEE 1722-2016 spec."
-> > > > > +HOMEPAGE =3D "https://github.com/Avnu/libavtp"
-> > > > > +LICENSE =3D "BSD-3-Clause"
-> > > > > +LIC_FILES_CHKSUM =3D
-> "file://LICENSE;md5=3D7fcb4331e23e45e171cd5693c1ff7d3e"
-> > > > > +
-> > > > > +PROVIDES =3D "avtp"
-> > > > why is this provides needed ?
-> > >
-> > > It is because recipe meta/recipes-multimedia/alsa/
-> alsa-plugins_1.2.6.bb
-> > > has this PACKAGECONFIG:
-> > >
-> > >    PACKAGECONFIG[aaf] =3D "--enable-aaf,--disable-aaf,avtp"
-> > >
-> > > So either this PROVIDES or also change PACKAGECONFIG for alsa-plugins=
-?
-> > >
-> > > /Peter
-> > >
-> > > > > +
-> > > > > +SRC_URI =3D "git://
-> github.com/Avnu/libavtp.git;branch=3Dmaster;protocol=3Dhttps"
-> > > > > +SRCREV =3D "3599a5bf2d18fc3ae89b64f208d8380e6ee3a866"
-> > > > > +
-> > > > > +S =3D "${WORKDIR}/git"
-> > > > > +
-> > > > > +inherit meson pkgconfig
-> > > > > +
-> > > > > +EXTRA_OEMESON =3D "-Dtests=3Ddisabled"
-> > > > > --
-> > > > > 2.36.1
-> > > > >
-> > > > >
-> > > > >
-> > > > >
-> > > > >
-> > > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > > > > Links: You receive all messages sent to this group.
-> > > > > View/Reply Online (#166324):
-> https://lists.openembedded.org/g/openembedded-core/message/166324
-> > > > > Mute This Topic:
-> https://lists.openembedded.org/mt/91454504/3617552
-> > > > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > > > Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub [
-> peter@berginkonsult.se]
-> > > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Richard
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#166333):
+> https://lists.openembedded.org/g/openembedded-core/message/166333
+> Mute This Topic: https://lists.openembedded.org/mt/91458802/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 >
 
---0000000000000b500705e05511b3
+--000000000000701f2805e055260e
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, May 31, 2022 at 1:14 PM Marcel Ziswiler &lt;<a href=
-=3D"mailto:marcel.ziswiler@toradex.com">marcel.ziswiler@toradex.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex">On Tue, 2022-05-31 at 12:01=
- -0700, Khem Raj wrote:<br>
-&gt; Maybe call the recipe avtp<br>
+=3D"gmail_attr">On Tue, May 31, 2022 at 1:54 PM Richard Purdie &lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
+on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Tue, 2022-=
+05-31 at 21:06 +0200, Markus Volk wrote:<br>
+&gt; This fixes &quot;Could not initialize egl display&quot; in libsdl2 app=
+s for<br>
+&gt; wayland without DISTRO_FEATURE x11<br>
+&gt; <br>
+&gt; Signed-off-by: Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de" ta=
+rget=3D"_blank">f_l_k@t-online.de</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2.0.22.b=
+b" rel=3D"noreferrer" target=3D"_blank">libsdl2_2.0.22.bb</a> | 8 +++++---<=
+br>
+&gt;=C2=A0 1 file changed, 5 insertions(+), 3 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2=
+.0.22.bb" rel=3D"noreferrer" target=3D"_blank">libsdl2_2.0.22.bb</a> b/meta=
+/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2.0.22.bb" rel=3D"noref=
+errer" target=3D"_blank">libsdl2_2.0.22.bb</a><br>
+&gt; index 8519e7f732..e057b5cbbc 100644<br>
+&gt; --- a/meta/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2.0.22.b=
+b" rel=3D"noreferrer" target=3D"_blank">libsdl2_2.0.22.bb</a><br>
+&gt; +++ b/meta/recipes-graphics/libsdl2/<a href=3D"http://libsdl2_2.0.22.b=
+b" rel=3D"noreferrer" target=3D"_blank">libsdl2_2.0.22.bb</a><br>
+&gt; @@ -56,14 +56,16 @@ EXTRA_OECMAKE =3D &quot;-DSDL_OSS=3DOFF -DSDL_ESD=
+=3DOFF -DSDL_ARTS=3DOFF \<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 # opengl packageconfig factored out to make it easy for distros<=
+br>
+&gt;=C2=A0 # and BSP layers to pick either (desktop) opengl, gles2, or no G=
+L<br>
+&gt; -PACKAGECONFIG_GL ?=3D &quot;${@bb.utils.filter(&#39;DISTRO_FEATURES&#=
+39;, &#39;opengl&#39;, d)}&quot;<br>
+&gt; +PACKAGECONFIG_GL ?=3D &quot; \<br>
+&gt; +=C2=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;x1=
+1 opengl&#39;, &#39;opengl&#39;, &#39;&#39;, d)} \<br>
+&gt; +=C2=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;wa=
+yland opengl&#39;, &#39;gles2&#39;, &#39;&#39;, d)} \<br>
+&gt; +&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 PACKAGECONFIG:class-native =3D &quot;x11 ${PACKAGECONFIG_GL}&quo=
+t;<br>
+&gt;=C2=A0 PACKAGECONFIG:class-nativesdk =3D &quot;${@bb.utils.filter(&#39;=
+DISTRO_FEATURES&#39;, &#39;x11&#39;, d)} ${PACKAGECONFIG_GL}&quot;<br>
+&gt;=C2=A0 PACKAGECONFIG ??=3D &quot; \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ${PACKAGECONFIG_GL} \<br>
+&gt; -=C2=A0 =C2=A0 ${@bb.utils.filter(&#39;DISTRO_FEATURES&#39;, &#39;alsa=
+ directfb pulseaudio x11&#39;, d)} \<br>
+&gt; -=C2=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;wa=
+yland&#39;, &#39;wayland gles2&#39;, &#39;&#39;, d)} \<br>
+&gt; +=C2=A0 =C2=A0 ${@bb.utils.filter(&#39;DISTRO_FEATURES&#39;, &#39;alsa=
+ directfb pulseaudio x11 wayland&#39;, d)} \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ${@bb.utils.contains(&quot;TUNE_FEATURES&quot;, &q=
+uot;neon&quot;,&quot;arm-neon&quot;,&quot;&quot;,d)} \<br>
+&gt;=C2=A0 &quot;<br>
+&gt;=C2=A0 PACKAGECONFIG[alsa]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;-DSDL_AL=
+SA=3DON,-DSDL_ALSA=3DOFF,alsa-lib,&quot;<br>
 <br>
-No, here I disagree. As mentioned before the project and everything is real=
-ly called libavtp everywhere. So I<br>
-think the better solution is to consistently use libavtp in openembedded-co=
-re everywhere as well.</blockquote><div dir=3D"auto"><br></div><div dir=3D"=
-auto">That=E2=80=99s fine with me I don=E2=80=99t have hard stand on the na=
-me changing existing packageconfog can be a change for someone who might be=
- using it already but that=E2=80=99s fine we have warnings in place to addr=
-ess these=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
+If you have opengl, x11 and wayland in DISTRO_FEATURES, does that cause<br>
+an issue? It would seem to change the config?</blockquote><div dir=3D"auto"=
+><br></div><div dir=3D"auto">Right I think wayland + gles + no x11 is a con=
+fig of its own</div><div dir=3D"auto">It should check that</div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
+d;padding-left:1ex" dir=3D"auto"><br>
 <br>
+Cheers,<br>
 <br>
-&gt; On Tue, May 31, 2022 at 11:36 AM Peter Bergin &lt;<a href=3D"mailto:pe=
-ter@berginkonsult.se" target=3D"_blank">peter@berginkonsult.se</a>&gt; wrot=
-e:<br>
-&gt; &gt; Hi,<br>
-&gt; &gt; <br>
-&gt; &gt; thanks Marcel for bumping this patch again!<br>
-&gt; &gt; <br>
-&gt; &gt; On 2022-05-31 18:38, Khem Raj wrote:<br>
-&gt; &gt; &gt; On Tue, May 31, 2022 at 8:57 AM Marcel Ziswiler &lt;<a href=
-=3D"mailto:marcel@ziswiler.com" target=3D"_blank">marcel@ziswiler.com</a>&g=
-t; wrote:<br>
-&gt; &gt; &gt; &gt; From: Peter Bergin &lt;<a href=3D"mailto:peter@berginko=
-nsult.se" target=3D"_blank">peter@berginkonsult.se</a>&gt;<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; In order to enable configuration option aaf (AVTP Audio=
- Format)<br>
-&gt; &gt; &gt; &gt; used for AVB the library libavtp is a dependency but no=
- recipe for<br>
-&gt; &gt; &gt; &gt; this library was present. aaf support for alsa-plugins =
-was<br>
-&gt; &gt; &gt; &gt; introduced in ddf5421331180bc45697511b44cdd4a4e6dda6ff.=
+Richard<br>
 <br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; Signed-off-by: Peter Bergin &lt;<a href=3D"mailto:peter=
-@berginkonsult.se" target=3D"_blank">peter@berginkonsult.se</a>&gt;<br>
-&gt; &gt; &gt; &gt; Signed-off-by: Marcel Ziswiler &lt;<a href=3D"mailto:ma=
-rcel.ziswiler@toradex.com" target=3D"_blank">marcel.ziswiler@toradex.com</a=
->&gt;<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; ---<br>
-&gt; &gt; &gt; &gt; Resurrect from mailing list [1] as this is still not up=
-stream.<br>
-&gt; &gt; &gt; &gt; End-to-end tested on Verdin iMX8M Plus.<br>
-&gt; &gt; &gt; &gt; Will talk about it at the Embedded World in the TSN &am=
-p; Linux track next<br>
-&gt; &gt; &gt; &gt; month [2].<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; [1] <a href=3D"https://lore.kernel.org/all/202106040902=
-16.553285-1-peter@berginkonsult.se/" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://lore.kernel.org/all/20210604090216.553285-1-peter@berginkonsult.se/<=
-/a><br>
-&gt; &gt; &gt; &gt; [2] <a href=3D"https://events.weka-fachmedien.de/embedd=
-ed-world-conference/program/" rel=3D"noreferrer" target=3D"_blank">https://=
-events.weka-fachmedien.de/embedded-world-conference/program/</a><br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; Changes in v2:<br>
-&gt; &gt; &gt; &gt; - Updated SRC_URI specifying mandatory protocol as http=
-s.<br>
-&gt; &gt; &gt; &gt; - Updated SRCREV to latest.<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0meta/recipes-multimedia/libavtp/<a href=3D=
-"http://libavtp_git.bb" rel=3D"noreferrer" target=3D"_blank">libavtp_git.bb=
-</a> | 16 ++++++++++++++++<br>
-&gt; &gt; &gt; There was a 0.2.0 release <a href=3D"https://github.com/Avnu=
-/libavtp/releases/tag/v0.2.0" rel=3D"noreferrer" target=3D"_blank">https://=
-github.com/Avnu/libavtp/releases/tag/v0.2.0</a><br>
-&gt; &gt; &gt; so I wonder if we should use the release tagged SRC_URI and =
-call the PV =3D 0.2.0<br>
-&gt; &gt; This tag was set after I sent my initial patch. I think this is a=
- good <br>
-&gt; &gt; thing to do.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A01 file changed, 16 insertions(+)<br>
-&gt; &gt; &gt; &gt; =C2=A0 =C2=A0create mode 100644 meta/recipes-multimedia=
-/libavtp/<a href=3D"http://libavtp_git.bb" rel=3D"noreferrer" target=3D"_bl=
-ank">libavtp_git.bb</a><br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; diff --git a/meta/recipes-multimedia/libavtp/<a href=3D=
-"http://libavtp_git.bb" rel=3D"noreferrer" target=3D"_blank">libavtp_git.bb=
-</a> b/meta/recipes-<br>
-&gt; &gt; &gt; &gt; multimedia/libavtp/<a href=3D"http://libavtp_git.bb" re=
-l=3D"noreferrer" target=3D"_blank">libavtp_git.bb</a><br>
-&gt; &gt; &gt; &gt; new file mode 100644<br>
-&gt; &gt; &gt; &gt; index 0000000000..aefbee56ea<br>
-&gt; &gt; &gt; &gt; --- /dev/null<br>
-&gt; &gt; &gt; &gt; +++ b/meta/recipes-multimedia/libavtp/<a href=3D"http:/=
-/libavtp_git.bb" rel=3D"noreferrer" target=3D"_blank">libavtp_git.bb</a><br=
->
-&gt; &gt; &gt; &gt; @@ -0,0 +1,16 @@<br>
-&gt; &gt; &gt; &gt; +DESCRIPTION =3D &quot;Open source implementation of Au=
-dio Video Transport Protocol (AVTP) \<br>
-&gt; &gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0specified in IEEE 1722-2016 spec.&quot;<br>
-&gt; &gt; &gt; &gt; +HOMEPAGE =3D &quot;<a href=3D"https://github.com/Avnu/=
-libavtp" rel=3D"noreferrer" target=3D"_blank">https://github.com/Avnu/libav=
-tp</a>&quot;<br>
-&gt; &gt; &gt; &gt; +LICENSE =3D &quot;BSD-3-Clause&quot;<br>
-&gt; &gt; &gt; &gt; +LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D7fcb43=
-31e23e45e171cd5693c1ff7d3e&quot;<br>
-&gt; &gt; &gt; &gt; +<br>
-&gt; &gt; &gt; &gt; +PROVIDES =3D &quot;avtp&quot;<br>
-&gt; &gt; &gt; why is this provides needed ?<br>
-&gt; &gt; <br>
-&gt; &gt; It is because recipe meta/recipes-multimedia/alsa/<a href=3D"http=
-://alsa-plugins_1.2.6.bb" rel=3D"noreferrer" target=3D"_blank">alsa-plugins=
-_1.2.6.bb</a> <br>
-&gt; &gt; has this PACKAGECONFIG:<br>
-&gt; &gt; <br>
-&gt; &gt; =C2=A0=C2=A0 PACKAGECONFIG[aaf] =3D &quot;--enable-aaf,--disable-=
-aaf,avtp&quot;<br>
-&gt; &gt; <br>
-&gt; &gt; So either this PROVIDES or also change PACKAGECONFIG for alsa-plu=
-gins?<br>
-&gt; &gt; <br>
-&gt; &gt; /Peter<br>
-&gt; &gt; <br>
-&gt; &gt; &gt; &gt; +<br>
-&gt; &gt; &gt; &gt; +SRC_URI =3D &quot;git://<a href=3D"http://github.com/A=
-vnu/libavtp.git;branch=3Dmaster;protocol=3Dhttps" rel=3D"noreferrer" target=
-=3D"_blank">github.com/Avnu/libavtp.git;branch=3Dmaster;protocol=3Dhttps</a=
->&quot;<br>
-&gt; &gt; &gt; &gt; +SRCREV =3D &quot;3599a5bf2d18fc3ae89b64f208d8380e6ee3a=
-866&quot;<br>
-&gt; &gt; &gt; &gt; +<br>
-&gt; &gt; &gt; &gt; +S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt; &gt; &gt; &gt; +<br>
-&gt; &gt; &gt; &gt; +inherit meson pkgconfig<br>
-&gt; &gt; &gt; &gt; +<br>
-&gt; &gt; &gt; &gt; +EXTRA_OEMESON =3D &quot;-Dtests=3Ddisabled&quot;<br>
-&gt; &gt; &gt; &gt; --<br>
-&gt; &gt; &gt; &gt; 2.36.1<br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; <br>
-&gt; &gt; &gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; &gt; &gt; &gt; Links: You receive all messages sent to this group.<br>
-&gt; &gt; &gt; &gt; View/Reply Online (#166324): <a href=3D"https://lists.o=
-penembedded.org/g/openembedded-core/message/166324" rel=3D"noreferrer" targ=
-et=3D"_blank">https://lists.openembedded.org/g/openembedded-core/message/16=
-6324</a><br>
-&gt; &gt; &gt; &gt; Mute This Topic: <a href=3D"https://lists.openembedded.=
-org/mt/91454504/3617552" rel=3D"noreferrer" target=3D"_blank">https://lists=
-.openembedded.org/mt/91454504/3617552</a><br>
-&gt; &gt; &gt; &gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowne=
-r@lists.openembedded.org" target=3D"_blank">openembedded-core+owner@lists.o=
-penembedded.org</a><br>
-&gt; &gt; &gt; &gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/=
-g/openembedded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lis=
-ts.openembedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:peter@=
-berginkonsult.se" target=3D"_blank">peter@berginkonsult.se</a>]<br>
-&gt; &gt; &gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#166333): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/166333" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/166333</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/91458802/1997=
+914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/91458802/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
 </blockquote></div></div>
 
---0000000000000b500705e05511b3--
+--000000000000701f2805e055260e--
 
