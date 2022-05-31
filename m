@@ -1,116 +1,111 @@
-Return-Path: <davidegarde2000@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B1B7C433EF
-	for <webhook@archiver.kernel.org>; Tue, 31 May 2022 14:16:58 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web12.50265.1654006611579038829
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A548C433EF
+	for <webhook@archiver.kernel.org>; Tue, 31 May 2022 14:21:48 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web08.49991.1654006904848805513
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 07:16:51 -0700
+ Tue, 31 May 2022 07:21:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pEzPsHBS;
- spf=pass (domain: gmail.com, ip: 209.85.218.44,
- mailfrom: davidegarde2000@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id f21so26857389ejh.11
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=B+7Hbx5+;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id x17so9851713wrg.6
         for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 07:16:51 -0700 (PDT)
+ Tue, 31 May 2022 07:21:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1CUfdjjnut2KGEd1CYWt8hdaRz+lKsDIkeYS6X3qH4U=;
-        b=pEzPsHBS67qhI96UTgVfUxiWs7jLLZak4zU4VNzrfy2hIvd0pk/Ijoy2EosiQtpwg6
-         IPL/0NwjctQMmR6XKMR3wYCFaDNaTn7WVwudnjeYvPJV+j0c0mtz7hLj+uRm3wPjdgjk
-         498nvQRvrp3NQX+SVxpr9ubtQ57jm63KYu4oweancvuinu5N4bM8oTLSoCuUOlmStdMx
-         PZtBGnku4ZAU3HvrDV9YMfD3h+dJeuE45XcsqhxY5KwJ0aW53JKuwMPf/aR5NooFLTYt
-         pA4LqLMig3nM+jwGOjxjYmOdH5rlz6ijN5EHFYqEWczKEkWLkFGDaT0vO/85dp7K8yTV
-         isYQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=0KWz6UW/yF2RCVNUONqM6c5cPYNaxEckhBcyV4kLeyk=;
+        b=B+7Hbx5++BFz59HMMmkmirx64SLF48YdOxJ8GZXjBU9aPs7GW9O0aPLBM8IDoyhv6c
+         dlP1JMw76yqtewV0PdFzrrKjaPFswrV+BGrnEL+yAA55UBg8bjeB8zlBweJbvdT6/yYu
+         mWjyl4JK9hpS19mFXHaYbxl/M3M6CSZLWjbbk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1CUfdjjnut2KGEd1CYWt8hdaRz+lKsDIkeYS6X3qH4U=;
-        b=ClC7atnfbK97PQIspxshEPeX8sita0vuez7uDMt9YbeQqmgFg1xUgljT1pwFhPBHKW
-         3/E9yT+4yCdCaTrzB136oTvksXBbRuQNsC522Vtr57PtxuzK6PFsPQrP8RFVZ22Mc5Rl
-         o45cMDMWfdBQ7B1SH7N11aVnVpyM8/c52j4kbcFLPLMWN/hmXjdnITiWJ2l0qLYNWoXZ
-         gClkw3WMLn5bg8YE1MBCE4qbKACxJumPYB9Mi98XplgKEFAZABJeYvEWmo/md9ks9Gfc
-         nkXVi/g24b3eYLmlKUfYMw+ll4jFL42JhW9ukmhwhiYEyTIYvvI9PjAxKzzvegMvLJCo
-         JoTw==
-X-Gm-Message-State: AOAM5309FeRl5gEH7W8CYHBDCfylwoSAX2EZimnJSxUvRLWM6CjY6hz/
-	kd0vKfi6CDezUuvGlYJa9A89hgikXFk=
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=0KWz6UW/yF2RCVNUONqM6c5cPYNaxEckhBcyV4kLeyk=;
+        b=ikbJDr2oFu4dT7QtZSib/1wvvmY/JkKWqPKUHva8pcvqRGV2hMRK7AWWHyNBUmY8Ve
+         ElWILuSeaKTcSU0Ydoit0wPinlqZ4NcMmukk2TpETkapWI//h/ca+I4J2X1qZctHrvHy
+         7j2MeXhlksjsduooMJI2K/X3p/CvSHbgBA2xh2VD0goD19IgPGTQcLIWKB0+bJCLkeqI
+         KXVNYxISGPzH4k3Z+TZICfVfjh0N0NyhHJIxnErBM78DbWTWhgxO1I4LmZWJeqPDtxWv
+         7hx2Saqn4FFk13MD6alMQEOLwz7h5O4iC/USV56c13rXuAO9Bvb4nQhNPrbtDlpN/bjq
+         05wg==
+X-Gm-Message-State: AOAM532XKFJ/RFpcjYilOQth02sc1lBau5IP7HTzETQl1iAfx6NDFT9Q
+	mm+QpOwOAOP4u4D9+aPq2kGeK3JRJCIgFLG/
 X-Google-Smtp-Source: 
- ABdhPJy6DxY/4ya2uwjOCx92tTQE5fzUfxv03FYlZQu6zBMJEBJR/jcx+TZMci75USyONOhjMUJuXQ==
-X-Received: by 2002:a17:906:7944:b0:6da:b834:2f3e with SMTP id
- l4-20020a170906794400b006dab8342f3emr54408762ejo.353.1654006609568;
-        Tue, 31 May 2022 07:16:49 -0700 (PDT)
-Received: from tony3oo3-XPS-13-9370.home
- (host-87-12-122-122.business.telecomitalia.it. [87.12.122.122])
+ ABdhPJym6bIlK6Mben8RITa76ISI06v0ggJ16temOycePAywnlLIjzO0sIqzsjQoUOyqb9eVunKB1A==
+X-Received: by 2002:a5d:624e:0:b0:210:a42:f29d with SMTP id
+ m14-20020a5d624e000000b002100a42f29dmr22050905wrv.615.1654006903276;
+        Tue, 31 May 2022 07:21:43 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:d16:2159:4370:b82e?
+ ([2001:8b0:aba:5f3c:d16:2159:4370:b82e])
         by smtp.gmail.com with ESMTPSA id
- bo17-20020a170906d05100b006fe98fb9523sm5030254ejb.129.2022.05.31.07.16.48
+ 2-20020a056000154200b0020e615bab7bsm12037607wry.7.2022.05.31.07.21.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 May 2022 07:16:49 -0700 (PDT)
-From: Davide Gardenal <davidegarde2000@gmail.com>
-X-Google-Original-From: Davide Gardenal <davide.gardenal@huawei.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Davide Gardenal <davide.gardenal@huawei.com>
-Subject: [master][kirkstone][PATCH] ncurses: update to patchlevel 20220423
-Date: Tue, 31 May 2022 16:16:45 +0200
-Message-Id: <20220531141645.3401821-1-davide.gardenal@huawei.com>
-X-Mailer: git-send-email 2.32.0
+        Tue, 31 May 2022 07:21:42 -0700 (PDT)
+Message-ID: 
+ <116102a880d732f3ea406a61fc77d44f66aa9d02.camel@linuxfoundation.org>
+Subject: Re: [oe-core][PATCH 1/2] nghttp2: unbreak do_populate_sdk
+From: richard.purdie@linuxfoundation.org
+To: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
+Date: Tue, 31 May 2022 15:21:42 +0100
+In-Reply-To: <20220524144924.252281-1-f_l_k@t-online.de>
+References: <20220524144924.252281-1-f_l_k@t-online.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 May 2022 14:16:58 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 31 May 2022 14:21:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166312
+ https://lists.openembedded.org/g/openembedded-core/message/166313
 
-CVE: CVE-2022-29458
+On Tue, 2022-05-24 at 16:49 +0200, Markus Volk wrote:
+> Error:
+>  Problem 1: package nghttp2-dev-1.47.0-r0.corei7_64 requires nghttp2 =3D =
+1.47.0-r0, but none of the providers can be installed
+>   - conflicting requests
+>   - nothing provides nghttp2-client >=3D 1.47.0 needed by nghttp2-1.47.0-=
+r0.corei7_64
+>   - nothing provides nghttp2-server >=3D 1.47.0 needed by nghttp2-1.47.0-=
+r0.corei7_64
+>=20
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> ---
+>  meta/recipes-support/nghttp2/nghttp2_1.47.0.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-support/nghttp2/nghttp2_1.47.0.bb b/meta/recipe=
+s-support/nghttp2/nghttp2_1.47.0.bb
+> index 58ce08084d..051a6e4ecb 100644
+> --- a/meta/recipes-support/nghttp2/nghttp2_1.47.0.bb
+> +++ b/meta/recipes-support/nghttp2/nghttp2_1.47.0.bb
+> @@ -21,7 +21,7 @@ EXTRA_OECMAKE =3D "-DENABLE_EXAMPLES=3DOFF -DENABLE_APP=
+=3DOFF -DENABLE_HPACK_TOOLS=3DOFF
+> =20
+>  PACKAGES =3D+ "lib${BPN} ${PN}-client ${PN}-proxy ${PN}-server"
+> =20
+> -RDEPENDS:${PN} =3D "${PN}-client (>=3D ${PV}) ${PN}-proxy (>=3D ${PV}) $=
+{PN}-server (>=3D ${PV})"
+> +RRECOMMENDS:${PN} =3D "${PN}-client (>=3D ${PV}) ${PN}-proxy (>=3D ${PV}=
+) ${PN}-server (>=3D ${PV})"
+>  RDEPENDS:${PN}:class-native =3D ""
+>  RDEPENDS:${PN}-proxy =3D "openssl python3-core python3-io python3-shell"
+> =20
 
-Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
----
- meta/recipes-core/ncurses/ncurses.inc                         | 2 +-
- .../ncurses/{ncurses_6.3.bb => ncurses_6.3+20220423.bb}       | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-core/ncurses/{ncurses_6.3.bb => ncurses_6.3+20220423.bb} (77%)
+I'm not sure this is correct as if the dependencies are incorrect we
+shouldn't be making then RRECOMMENDS? What is the real issue here?
 
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index 7a7c7dd227..1abcfae1fe 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -2,7 +2,7 @@ SUMMARY = "The New Curses library"
- DESCRIPTION = "SVr4 and XSI-Curses compatible curses library and terminfo tools including tic, infocmp, captoinfo. Supports color, multiple highlights, forms-drawing characters, and automatic recognition of keypad and function-key sequences. Extensions include resizable windows and mouse support on both xterm and Linux console using the gpm library."
- HOMEPAGE = "http://www.gnu.org/software/ncurses/ncurses.html"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=9529289636145d1bf093c96af067695a;endline=27"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=c5a4600fdef86384c41ca33ecc70a4b8;endline=27"
- SECTION = "libs"
- DEPENDS = "ncurses-native"
- DEPENDS:class-native = ""
-diff --git a/meta/recipes-core/ncurses/ncurses_6.3.bb b/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
-similarity index 77%
-rename from meta/recipes-core/ncurses/ncurses_6.3.bb
-rename to meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
-index f0256dad22..f67a3f5bf4 100644
---- a/meta/recipes-core/ncurses/ncurses_6.3.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
-@@ -5,10 +5,10 @@ SRC_URI += "file://0001-tic-hang.patch \
-            file://0003-gen-pkgconfig.in-Do-not-include-LDFLAGS-in-generated.patch \
-            "
- # commit id corresponds to the revision in package version
--SRCREV = "51d0fd9cc3edb975f04224f29f777f8f448e8ced"
-+SRCREV = "a0bc708bc6954b5d3c0a38d92b683c3ec3135260"
- S = "${WORKDIR}/git"
- EXTRA_OECONF += "--with-abi-version=5"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)$"
- 
- # This is needed when using patchlevel versions like 6.1+20181013
--#CVE_VERSION = "${@d.getVar("PV").split('+')[0]}.${@d.getVar("PV").split('+')[1]}"
-+CVE_VERSION = "${@d.getVar("PV").split('+')[0]}.${@d.getVar("PV").split('+')[1]}"
--- 
-2.32.0
+Cheers,
+
+Richard
+
 
 
