@@ -1,76 +1,68 @@
 Return-Path: <akuster@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <339ded2d-6648-0016-50cd-0f2769792f00@mvista.com>
-Date: Sat, 28 May 2022 11:07:00 -0700
+Message-ID: <8b96627d-1760-3239-c178-c19b7bed2a23@mvista.com>
+Date: Tue, 31 May 2022 07:10:33 -0700
 MIME-Version: 1.0
 Subject: Re: [OE-core] [PATCH] tiff: Add jbig PACKAGECONFIG and clarify CVE-2022-1210
 References: <20220528100501.508207-1-richard.purdie@linuxfoundation.org>
+ <339ded2d-6648-0016-50cd-0f2769792f00@mvista.com>
+ <db6f07a51d626042cff279bdd7119ca920d2d6d3.camel@linuxfoundation.org>
 From: "Armin Kuster" <akuster@mvista.com>
-In-Reply-To: <20220528100501.508207-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <db6f07a51d626042cff279bdd7119ca920d2d6d3.camel@linuxfoundation.org>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000003452af05e0164a7f"
+	boundary="000000000000dbf9f405e04f5d13"
 List-id: <openembedded-core.lists.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core@lists.openembedded.org
+To: richard.purdie@linuxfoundation.org, openembedded-core@lists.openembedded.org
 
---0000000000003452af05e0164a7f
+--000000000000dbf9f405e04f5d13
 Content-Language: en-US
 Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Transfer-Encoding: 8bit
 
 
 
-On 5/28/22 03:05, Richard Purdie wrote:
-> We never depended upon libjbig so this was never present. Add the
-> PACKAGECONFIG to make this explict.
+On 5/28/22 12:43, richard.purdie@linuxfoundation.org wrote:
+> On Sat, 2022-05-28 at 11:07 -0700, akuster wrote:
+>> On 5/28/22 03:05, Richard Purdie wrote:
+>>> We never depended upon libjbig so this was never present. Add the
+>>> PACKAGECONFIG to make this explict.
+>>>
+>>> CVE-2022-1210 is an issue in libjbig so we don't have a problem there,
+>>> mark as such.
+>> But what if I am a user or have a customer that needs that enabled? Now
+>> that issue is masked if I run the CVE checking tools , I will have a
+>> false sense of security.
+>>
+>> I understand that Redhat or Suse can make statements like that  as they
+>> provide install-able  binaries but for a Project that starts from build
+>> your own DISTRO, should the community take on this responsibility?
+> This is the same as any of the other decisions we make for
+> CVE_CHECK_IGNORE. If you bbappend and/or change the configs of recipes,
+> you need to do some further due diligence.
 >
-> CVE-2022-1210 is an issue in libjbig so we don't have a problem there,
-> mark as such.
+> The fact there isn't a PACKAGECONFIG for it at least suggests it isn't
+> being used.
+Maybe.
+>
+> What is the alternative? We just list this as unpatched for OE-Core and
+> let everyone have to look it up for themselves?
 
-But what if I am a user or have a customer that needs that enabled? Now 
-that issue is masked if I run the CVE checking tools , I will have a 
-false sense of security.
-
-I understand that Redhat or Suse can make statements like that  as they 
-provide install-able  binaries but for a Project that starts from build 
-your own DISTRO, should the community take on this responsibility?
+The first two ideas that come to mind are:
+1) Make the PACKAGECONFIG = CVE # and a note in the recipe to provide a 
+clue.
+2) Create some sort of frame work to warn if that pkg config is enabled.
 
 - armin
-
 >
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->   meta/recipes-multimedia/libtiff/tiff_4.3.0.bb | 4 ++++
->   1 file changed, 4 insertions(+)
+> Cheers,
 >
-> diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-> index c5e964ec8c1..7a5e4816a6e 100644
-> --- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-> +++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-> @@ -32,6 +32,9 @@ CVE_CHECK_IGNORE += "CVE-2015-7313"
->   # caused by 3079627e and fixed by b4e79bfa.
->   CVE_CHECK_IGNORE += "CVE-2022-1622 CVE-2022-1623"
->   
-> +# Issue is in jbig which we don't enable
-> +CVE_CHECK_IGNORE += "CVE-2022-1210"
-> +
->   inherit autotools multilib_header
->   
->   CACHED_CONFIGUREVARS = "ax_cv_check_gl_libgl=no"
-> @@ -40,6 +43,7 @@ PACKAGECONFIG ?= "cxx jpeg zlib lzma \
->                     strip-chopping extrasample-as-alpha check-ycbcr-subsampling"
->   
->   PACKAGECONFIG[cxx] = "--enable-cxx,--disable-cxx,,"
-> +PACKAGECONFIG[jbig] = "--enable-jbig,--disable-jbig,jbig,"
->   PACKAGECONFIG[jpeg] = "--enable-jpeg,--disable-jpeg,jpeg,"
->   PACKAGECONFIG[zlib] = "--enable-zlib,--disable-zlib,zlib,"
->   PACKAGECONFIG[lzma] = "--enable-lzma,--disable-lzma,xz,"
+> Richard
 >
-> 
 >
 
 
---0000000000003452af05e0164a7f
+--000000000000dbf9f405e04f5d13
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -148,14 +140,14 @@ yQnDtPyJ0DC4bVz9Z67nEFJcFTyrzbvo4sk9A8QKYANnjmCYPSEIlis8o7zERwxC/xNTgzAXzlDS
 z4PNrDvNN2gGMYICezCCAncCAQEweTBlMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQg
 SW5jMRkwFwYDVQQLExB3d3cuZGlnaWNlcnQuY29tMSQwIgYDVQQDExtEaWdpQ2VydCBTSEEyIEFz
 c3VyZWQgSUQgQ0ECEAGZ6IgbFv3Z3WMdR408snswDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcN
-AQkEMSIEINOTq1khCcRqk9G6abEBHy0nTZJ35+qAE/dqpxzMlgXwMBgGCSqGSIb3DQEJAzELBgkq
-hkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIyMDUyODE4MDcwMlowaQYJKoZIhvcNAQkPMVwwWjAL
+AQkEMSIEICmrfdnXgvUKtzaNg7OgK2zpW7SBoCQpYmxj/Sq/UP+VMBgGCSqGSIb3DQEJAzELBgkq
+hkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIyMDUzMTE0MTI0NVowaQYJKoZIhvcNAQkPMVwwWjAL
 BglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG
-9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQC1S2WvWMQy
-EU2cD4I+u3/FpFSbHJcjTJTe0SyDyghtGv5OvvhFLnUY7oDR2uAaj41x69XIDh0has8y4enrDVR2
-WlnZ4H8zE+A8XqsiVJ1Jp+w01LYp39MNdBg9orz7jmnft/sXtotNRDaB/S1tKFIzFO8Tllm9ou7T
-FUCj3miO5TbhWV8fYbCgoiuPCZIJ+zYxkWdbI4lX4AH4rWY3YjgSJvXwAUOZUdIMxkPu4W3qhGq3
-L1g3w32rWkwIe4aUzkaCuTIjWCf3Xn0LKKM7d5lABIITHjxvn4PJLk/5ley3NNTo5sgegfh5kupv
-bCtbTqimHZD8y7p+axmAe3SeOaSW
+9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQCZ/cuPhAas
+c5zuQ0sNezhdfQmng5rNpzS1p9juHn5z9FtHEDgTmCBDyncGTtMQZ8Lo1LgqP7/5D0zkR3kjLlbT
+GX8rcFmMz0/nSqRaU4S8tC7JR8ZbOQRM4B10AQw3fnStaFoqOErSo/sflI+kxly9b+xGS+4tLtyD
+uVMiPfRsSdPSpnJYcbEKp1bpp+Y0jB3wmBzCiyaS7TiI9AcXWR6n5t8BQpWGkDYSs0R5mdht6oEr
+/QtK8Q7z1Q5C3/pjjVNMh7IqS/vxsCw1+GMluY35VVowEh9hNESVg7VbCK8vSwtBWeE8QpQkDqJ7
+uNFizdzTXAQkd+m7vA0mdUipL3cd
 
---0000000000003452af05e0164a7f--
+--000000000000dbf9f405e04f5d13--
