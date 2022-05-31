@@ -1,177 +1,116 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <davidegarde2000@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0315C433EF
-	for <webhook@archiver.kernel.org>; Tue, 31 May 2022 13:05:37 +0000 (UTC)
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net
- [217.70.178.232])
- by mx.groups.io with SMTP id smtpd.web11.49100.1654002334193617443
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B1B7C433EF
+	for <webhook@archiver.kernel.org>; Tue, 31 May 2022 14:16:58 +0000 (UTC)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web12.50265.1654006611579038829
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 06:05:34 -0700
+ Tue, 31 May 2022 07:16:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=RlCiy6Cf;
- spf=pass (domain: bootlin.com, ip: 217.70.178.232,
- mailfrom: luca.ceresoli@bootlin.com)
-Received: (Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 6F0AF20000A;
-	Tue, 31 May 2022 13:05:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1654002332;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eOhKNE8xSy/rXOY7DnO9CRuAbvy65CQ7vzfd6WybyNk=;
-	b=RlCiy6CfT4zN68bZk34trYZVHGPVEcJAqOXFsGAsRm+xHZdLE4Z2iFIuFAX3+AYnKNc0pL
-	NHvUm8OMGuMaiNa7DtIjl0IR598fS6aRmnXMq/mw3KZi8jJPXFpzXl/Z18UDnfRy2UsPo/
-	03omuPVdv0hZ/oELZDgFaEZmWPZBkCTq0Slxvee2DA2F4c0aRtvILdxr1mAAiYvJ9eLP3o
-	iPGTinwt/q0mlBOA0FA9CL27UyiWnyMOAti5USdZsoVm/UtfaQVNRLvBGGSe5MWRHMSkTi
-	+OviZcp5VtItmxosHy67GKkW+kXD4igvjiPRTz+/1j8BxEYIctO6g+mG6HhqAA==
-Date: Tue, 31 May 2022 15:05:29 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Luca Ceresoli via lists.openembedded.org"
- <luca.ceresoli=bootlin.com@lists.openembedded.org>
-Cc: luca.ceresoli@bootlin.com, "Pgowda" <pgowda.cve@gmail.com>,
- openembedded-core@lists.openembedded.org,
- richard.purdie@linuxfoundation.org, rwmacleod@gmail.com,
- alex.kanavin@gmail.com, vinay.m.engg@gmail.com
-Subject: Re: [OE-core] [PATCH v6] Rust Oe-Selftest implementation
-Message-ID: <20220531150529.705390b9@melee>
-In-Reply-To: <16F24A16BC7F056F.12338@lists.openembedded.org>
-References: <20220524225603.50d60963@melee>
-	<20220525043258.8949-1-pgowda.cve@gmail.com>
-	<16F24A16BC7F056F.12338@lists.openembedded.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=pEzPsHBS;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44,
+ mailfrom: davidegarde2000@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id f21so26857389ejh.11
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 31 May 2022 07:16:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1CUfdjjnut2KGEd1CYWt8hdaRz+lKsDIkeYS6X3qH4U=;
+        b=pEzPsHBS67qhI96UTgVfUxiWs7jLLZak4zU4VNzrfy2hIvd0pk/Ijoy2EosiQtpwg6
+         IPL/0NwjctQMmR6XKMR3wYCFaDNaTn7WVwudnjeYvPJV+j0c0mtz7hLj+uRm3wPjdgjk
+         498nvQRvrp3NQX+SVxpr9ubtQ57jm63KYu4oweancvuinu5N4bM8oTLSoCuUOlmStdMx
+         PZtBGnku4ZAU3HvrDV9YMfD3h+dJeuE45XcsqhxY5KwJ0aW53JKuwMPf/aR5NooFLTYt
+         pA4LqLMig3nM+jwGOjxjYmOdH5rlz6ijN5EHFYqEWczKEkWLkFGDaT0vO/85dp7K8yTV
+         isYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1CUfdjjnut2KGEd1CYWt8hdaRz+lKsDIkeYS6X3qH4U=;
+        b=ClC7atnfbK97PQIspxshEPeX8sita0vuez7uDMt9YbeQqmgFg1xUgljT1pwFhPBHKW
+         3/E9yT+4yCdCaTrzB136oTvksXBbRuQNsC522Vtr57PtxuzK6PFsPQrP8RFVZ22Mc5Rl
+         o45cMDMWfdBQ7B1SH7N11aVnVpyM8/c52j4kbcFLPLMWN/hmXjdnITiWJ2l0qLYNWoXZ
+         gClkw3WMLn5bg8YE1MBCE4qbKACxJumPYB9Mi98XplgKEFAZABJeYvEWmo/md9ks9Gfc
+         nkXVi/g24b3eYLmlKUfYMw+ll4jFL42JhW9ukmhwhiYEyTIYvvI9PjAxKzzvegMvLJCo
+         JoTw==
+X-Gm-Message-State: AOAM5309FeRl5gEH7W8CYHBDCfylwoSAX2EZimnJSxUvRLWM6CjY6hz/
+	kd0vKfi6CDezUuvGlYJa9A89hgikXFk=
+X-Google-Smtp-Source: 
+ ABdhPJy6DxY/4ya2uwjOCx92tTQE5fzUfxv03FYlZQu6zBMJEBJR/jcx+TZMci75USyONOhjMUJuXQ==
+X-Received: by 2002:a17:906:7944:b0:6da:b834:2f3e with SMTP id
+ l4-20020a170906794400b006dab8342f3emr54408762ejo.353.1654006609568;
+        Tue, 31 May 2022 07:16:49 -0700 (PDT)
+Received: from tony3oo3-XPS-13-9370.home
+ (host-87-12-122-122.business.telecomitalia.it. [87.12.122.122])
+        by smtp.gmail.com with ESMTPSA id
+ bo17-20020a170906d05100b006fe98fb9523sm5030254ejb.129.2022.05.31.07.16.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 May 2022 07:16:49 -0700 (PDT)
+From: Davide Gardenal <davidegarde2000@gmail.com>
+X-Google-Original-From: Davide Gardenal <davide.gardenal@huawei.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Davide Gardenal <davide.gardenal@huawei.com>
+Subject: [master][kirkstone][PATCH] ncurses: update to patchlevel 20220423
+Date: Tue, 31 May 2022 16:16:45 +0200
+Message-Id: <20220531141645.3401821-1-davide.gardenal@huawei.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 May 2022 13:05:37 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 31 May 2022 14:16:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166310
+ https://lists.openembedded.org/g/openembedded-core/message/166312
 
-Hi Pgowda,
+CVE: CVE-2022-29458
 
-Il giorno Wed, 25 May 2022 09:57:48 +0200
-"Luca Ceresoli via lists.openembedded.org"
-<luca.ceresoli=bootlin.com@lists.openembedded.org> ha scritto:
+Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
+---
+ meta/recipes-core/ncurses/ncurses.inc                         | 2 +-
+ .../ncurses/{ncurses_6.3.bb => ncurses_6.3+20220423.bb}       | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-core/ncurses/{ncurses_6.3.bb => ncurses_6.3+20220423.bb} (77%)
 
-> Pgowda,
-> 
-> Il giorno Tue, 24 May 2022 21:32:58 -0700
-> "Pgowda" <pgowda.cve@gmail.com> ha scritto:
-> 
-> > The patch implements Rust testing framework similar to other selftest,
-> > specifically the gcc selftest in OE. It uses the client and server
-> > based method to test the binaries for cross-target on the image.
-> > The test framework is a wrapper around the Rust build system as ./x.py
-> > test.
-> > It tests many functionalities of Rust distribution like tools,
-> > documentation, libraries, packages, tools, Cargo, Crater etc.
-> > Please refer the following link for detailed description of Rust
-> > testing:-
-> > https://rustc-dev-guide.rust-lang.org/tests/intro.html#tool-tests
-> > 
-> > To support the rust tests in oe-core, the following functions were
-> > added:-
-> > setup_cargo_environment(): Build bootstrap and some early stage tools.
-> > do_rust_setup_snapshot(): Install the snapshot version of rust
-> > binaries. do_configure(): To generate config.toml
-> > do_compile(): To build "remote-test-server" for qemu target image.
-> > 
-> > Approximate Number of Tests Run in the Rust Testsuite :- 18000
-> > Approximate Number of Tests that FAIL in bitbake environment :-
-> > 100-150 Normally majority of the testcases are present in major
-> > folder "test/" It contributes to more than 80% of the testcases
-> > present in Rust test framework. These tests pass as expected on any
-> > Rust versions without much fuss. The tests that fail are of less
-> > important and contribute to less than 2% of the total testcases.
-> > These minor tests are observed to work on some versions and fail on
-> > others. They have to be added, ignored or excluded for different
-> > versions as per the behavior. These tests have been ignored or
-> > excluded in the Rust selftest environment to generate success of
-> > completing the testsuite.
-> > 
-> > These tests work in parallel mode even in the skipped test mode as
-> > expected. Although the patch to disable tests is large, it is very
-> > simple in that it only disables tests. When updating to a newer
-> > version of Rust, the patch can usually be ported in a day.
-> > 
-> > Signed-off-by: pgowda <pgowda.cve@gmail.com>
-> > Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
-> > ---
-> >  meta/conf/distro/include/maintainers.inc      |   1 +
-> >  meta/lib/oeqa/selftest/cases/rust.py          |  57 +++
-> >  meta/recipes-devtools/rust/rust-common.inc    |   1 -
-> >  meta/recipes-devtools/rust/rust-testsuite.inc | 163 +++++++
-> >  .../rust-testsuite/rust-oe-selftest.patch     | 417
-> > ++++++++++++++++++ .../rust/rust-testsuite_1.60.0.bb             |
-> > 3 + 6 files changed, 641 insertions(+), 1 deletion(-)
-> >  create mode 100644 meta/lib/oeqa/selftest/cases/rust.py
-> >  create mode 100644 meta/recipes-devtools/rust/rust-testsuite.inc
-> >  create mode 100644
-> > meta/recipes-devtools/rust/rust-testsuite/rust-oe-selftest.patch
-> > create mode 100644 meta/recipes-devtools/rust/rust-testsuite_1.60.0.bb
-> > 
-> > diff --git a/meta/conf/distro/include/maintainers.inc
-> > b/meta/conf/distro/include/maintainers.inc index
-> > 3990d1d507..cecb02b1c6 100644 ---
-> > a/meta/conf/distro/include/maintainers.inc +++
-> > b/meta/conf/distro/include/maintainers.inc @@ -719,6 +719,7 @@
-> > RECIPE_MAINTAINER:pn-rust-crosssdk-${SDK_ARCH}-glibc = "Randy MacLeod
-> > <Randy.Mac
-> > RECIPE_MAINTAINER:pn-rust-cross-canadian-${TRANSLATED_TARGET_ARCH} =
-> > "Randy MacLeod <Randy.MacLeod@windriver.com>"
-> > RECIPE_MAINTAINER:pn-rust-hello-world = "Randy MacLeod
-> > <Randy.MacLeod@windriver.com>" RECIPE_MAINTAINER:pn-rust-llvm =
-> > "Randy MacLeod <Randy.MacLeod@windriver.com>"
-> > +RECIPE_MAINTAINER:pn-rust-testsuite = "Randy MacLeod
-> > <Randy.MacLeod@windriver.com>"
-> > RECIPE_MAINTAINER:pn-rust-tools-cross-canadian-${TRANSLATED_TARGET_ARCH}
-> > = "Randy MacLeod <Randy.MacLeod@windriver.com>"
-> > RECIPE_MAINTAINER:pn-rxvt-unicode = "Unassigned
-> > <unassigned@yoctoproject.org>" RECIPE_MAINTAINER:pn-sato-screenshot =
-> > "Ross Burton <ross.burton@arm.com>" diff --git
-> > a/meta/lib/oeqa/selftest/cases/rust.py
-> > b/meta/lib/oeqa/selftest/cases/rust.py new file mode 100644 index
-> > 0000000000..a37e3e37c5 --- /dev/null +++
-> > b/meta/lib/oeqa/selftest/cases/rust.py @@ -0,0 +1,57 @@ +#
-> > SPDX-License-Identifier: MIT +import os +import subprocess +from
-> > oeqa.core.decorator import OETestTag +from oeqa.core.case import
-> > OEPTestResultTestCase +from oeqa.selftest.case import
-> > OESelftestTestCase +from oeqa.utils.commands import runCmd, bitbake,
-> > get_bb_var, get_bb_vars, runqemu, Command +from oeqa.utils.sshcontrol
-> > import SSHControl + +# Total time taken for testing is of about 2hr
-> > 20min, with PARALLEL_MAKE set to 40 number of jobs. +class
-> > RustSelfTestBase(OESelftestTestCase, OEPTestResultTestCase): +
-> > +       def run_check_emulated(self, *args, **kwargs):
-> > +               # build remote-test-server before image build  
-> 
-> Weird indentation here, 7 spaces for level 1, 15 for level 2... v5 had
-> a much cleaner tab-based indentation. Is it possible that you
-> manipulated the patch manually? It's a bad idea, I hurt myself a few
-> times when I used to do that! :) I recommend using plain 'git
-> format-patch' / 'git send-email'.
-> 
-> You should resend with a 4-spaces indentation, which is the Python
-> standard. However I'm taking the patch anyway for testing, so it's
-> more efficient if you just wait for the test results before resending,
-> so you can also include any bugfixes (if needed) in your next iteration.
-
-In addition to the above comments, this patch is causing intermittent
-failures, as noted on this bug:
-
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=14818
-
-So far it has failed only when building on CentOS and Fedora hosts.
-Hopefully this will help you reproduce and fix the problem.
-
+diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+index 7a7c7dd227..1abcfae1fe 100644
+--- a/meta/recipes-core/ncurses/ncurses.inc
++++ b/meta/recipes-core/ncurses/ncurses.inc
+@@ -2,7 +2,7 @@ SUMMARY = "The New Curses library"
+ DESCRIPTION = "SVr4 and XSI-Curses compatible curses library and terminfo tools including tic, infocmp, captoinfo. Supports color, multiple highlights, forms-drawing characters, and automatic recognition of keypad and function-key sequences. Extensions include resizable windows and mouse support on both xterm and Linux console using the gpm library."
+ HOMEPAGE = "http://www.gnu.org/software/ncurses/ncurses.html"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=9529289636145d1bf093c96af067695a;endline=27"
++LIC_FILES_CHKSUM = "file://COPYING;md5=c5a4600fdef86384c41ca33ecc70a4b8;endline=27"
+ SECTION = "libs"
+ DEPENDS = "ncurses-native"
+ DEPENDS:class-native = ""
+diff --git a/meta/recipes-core/ncurses/ncurses_6.3.bb b/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
+similarity index 77%
+rename from meta/recipes-core/ncurses/ncurses_6.3.bb
+rename to meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
+index f0256dad22..f67a3f5bf4 100644
+--- a/meta/recipes-core/ncurses/ncurses_6.3.bb
++++ b/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
+@@ -5,10 +5,10 @@ SRC_URI += "file://0001-tic-hang.patch \
+            file://0003-gen-pkgconfig.in-Do-not-include-LDFLAGS-in-generated.patch \
+            "
+ # commit id corresponds to the revision in package version
+-SRCREV = "51d0fd9cc3edb975f04224f29f777f8f448e8ced"
++SRCREV = "a0bc708bc6954b5d3c0a38d92b683c3ec3135260"
+ S = "${WORKDIR}/git"
+ EXTRA_OECONF += "--with-abi-version=5"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)$"
+ 
+ # This is needed when using patchlevel versions like 6.1+20181013
+-#CVE_VERSION = "${@d.getVar("PV").split('+')[0]}.${@d.getVar("PV").split('+')[1]}"
++CVE_VERSION = "${@d.getVar("PV").split('+')[0]}.${@d.getVar("PV").split('+')[1]}"
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.32.0
+
 
