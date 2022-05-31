@@ -1,98 +1,177 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84474C433EF
-	for <webhook@archiver.kernel.org>; Tue, 31 May 2022 12:49:47 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.48764.1654001385987139254
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0315C433EF
+	for <webhook@archiver.kernel.org>; Tue, 31 May 2022 13:05:37 +0000 (UTC)
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net
+ [217.70.178.232])
+ by mx.groups.io with SMTP id smtpd.web11.49100.1654002334193617443
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 05:49:46 -0700
+ Tue, 31 May 2022 06:05:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WQleODtz;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id
- r123-20020a1c2b81000000b0039c1439c33cso1133630wmr.5
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 05:49:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=xjZWDLArtP+LVd3HQkKVp/jVPwRfu8B6B8gdCQ/RQFg=;
-        b=WQleODtzNujgvjThcJqJEgAqetBDDIv3GQk9+jKnMfFfIhN0w4/cs08invf8KtDJqV
-         sCpolksaNTfIEXXvpOckuNVloroSZl4IMio0+hYRxIWe9df/nPAmeTERQigbVNXAMUnc
-         B3+cI7OtM5jXsBp1WFskNpAb/5fLapKboZ14g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=xjZWDLArtP+LVd3HQkKVp/jVPwRfu8B6B8gdCQ/RQFg=;
-        b=bimLqSjk3LaM9CwXijQBiUC7O9oh5JERX+0Ye0ieNoMRGxeWR1Y+r3s3wcGqRz2HVr
-         JCEAI/eomLDelidz2VQh87Ax9pEdMrnaOPwjBzzV73gpeKMwUYj5f1oAZIrWJ4WH8UeJ
-         zT4yisXuRR6wZ2euKVZ55v+sp0GjGCdHnn8gX0NGjL/h0M66cu0x8jJ3SvJIaBBfRX05
-         Hrvztpad7woyRS375b4VrznAkpIXLnf7XQuBWsCUBiDga5tvXDD+qsioFebaCm0ePYAv
-         UOK5eYpHCd3i+MYZm5ucGKtawCTWkbxAyCR3+JH9YNBlhWNflgzHrIDIxvsfWoWL7GhT
-         f0tQ==
-X-Gm-Message-State: AOAM533lVG2Et21UnioCKrfOb8FFr90SDn+aP/jgIbFYat6BlI3B5qCU
-	WqSOMq6c9UjXRuWarLUAAp6xtg==
-X-Google-Smtp-Source: 
- ABdhPJz9fP3/XPIVQdj+e1vGqGEuBHQ3+N7Uc2GJRiShMxr+0zW78bs8CaBANqKh/lNpIunTk8XWeg==
-X-Received: by 2002:a05:600c:1547:b0:394:882a:3b5 with SMTP id
- f7-20020a05600c154700b00394882a03b5mr23633479wmg.97.1654001384448;
-        Tue, 31 May 2022 05:49:44 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:d16:2159:4370:b82e?
- ([2001:8b0:aba:5f3c:d16:2159:4370:b82e])
-        by smtp.gmail.com with ESMTPSA id
- h205-20020a1c21d6000000b0039740903c39sm2020384wmh.7.2022.05.31.05.49.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 May 2022 05:49:43 -0700 (PDT)
-Message-ID: 
- <facb4fed242ccf7370e8b370ca3b83096e4a90f2.camel@linuxfoundation.org>
-Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 29 May
- 2022 02:00:01 AM HST
-From: richard.purdie@linuxfoundation.org
-To: Steve Sakoman <steve@sakoman.com>,
-	openembedded-core@lists.openembedded.org,
-	yocto-security@lists.yoctoproject.org
-Date: Tue, 31 May 2022 13:49:43 +0100
-In-Reply-To: <20220529120232.DC8419626F3@nuc.router0800d9.com>
-References: <20220529120232.DC8419626F3@nuc.router0800d9.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=RlCiy6Cf;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.232,
+ mailfrom: luca.ceresoli@bootlin.com)
+Received: (Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 6F0AF20000A;
+	Tue, 31 May 2022 13:05:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1654002332;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eOhKNE8xSy/rXOY7DnO9CRuAbvy65CQ7vzfd6WybyNk=;
+	b=RlCiy6CfT4zN68bZk34trYZVHGPVEcJAqOXFsGAsRm+xHZdLE4Z2iFIuFAX3+AYnKNc0pL
+	NHvUm8OMGuMaiNa7DtIjl0IR598fS6aRmnXMq/mw3KZi8jJPXFpzXl/Z18UDnfRy2UsPo/
+	03omuPVdv0hZ/oELZDgFaEZmWPZBkCTq0Slxvee2DA2F4c0aRtvILdxr1mAAiYvJ9eLP3o
+	iPGTinwt/q0mlBOA0FA9CL27UyiWnyMOAti5USdZsoVm/UtfaQVNRLvBGGSe5MWRHMSkTi
+	+OviZcp5VtItmxosHy67GKkW+kXD4igvjiPRTz+/1j8BxEYIctO6g+mG6HhqAA==
+Date: Tue, 31 May 2022 15:05:29 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Luca Ceresoli via lists.openembedded.org"
+ <luca.ceresoli=bootlin.com@lists.openembedded.org>
+Cc: luca.ceresoli@bootlin.com, "Pgowda" <pgowda.cve@gmail.com>,
+ openembedded-core@lists.openembedded.org,
+ richard.purdie@linuxfoundation.org, rwmacleod@gmail.com,
+ alex.kanavin@gmail.com, vinay.m.engg@gmail.com
+Subject: Re: [OE-core] [PATCH v6] Rust Oe-Selftest implementation
+Message-ID: <20220531150529.705390b9@melee>
+In-Reply-To: <16F24A16BC7F056F.12338@lists.openembedded.org>
+References: <20220524225603.50d60963@melee>
+	<20220525043258.8949-1-pgowda.cve@gmail.com>
+	<16F24A16BC7F056F.12338@lists.openembedded.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 May 2022 12:49:47 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 31 May 2022 13:05:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166309
+ https://lists.openembedded.org/g/openembedded-core/message/166310
 
-On Sun, 2022-05-29 at 02:02 -1000, Steve Sakoman wrote:
-> Full list:  Found 6 unpatched CVEs
-> CVE-2019-12067 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native h=
-ttps://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2019-12067 *
-> CVE-2020-18974 (CVSS3: 3.3 LOW): nasm:nasm-native https://web.nvd.nist.go=
-v/view/vuln/detail?vulnId=3DCVE-2020-18974 *
-> CVE-2021-20255 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native h=
-ttps://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2021-20255 *
-> CVE-2022-0529 (CVSS3: 5.5 MEDIUM): unzip:unzip-native https://web.nvd.nis=
-t.gov/view/vuln/detail?vulnId=3DCVE-2022-0529 *
-> CVE-2022-0530 (CVSS3: 5.5 MEDIUM): unzip:unzip-native https://web.nvd.nis=
-t.gov/view/vuln/detail?vulnId=3DCVE-2022-0530 *
+Hi Pgowda,
 
-For CVE-2022-0530 I noticed discussion of:
+Il giorno Wed, 25 May 2022 09:57:48 +0200
+"Luca Ceresoli via lists.openembedded.org"
+<luca.ceresoli=bootlin.com@lists.openembedded.org> ha scritto:
 
-https://bugs.debian.org/cgi-bin/bugreport.cgi?att=3D1;bug=3D1010355;filenam=
-e=3DCVE-2022-0530.patch;msg=3D20
+> Pgowda,
+> 
+> Il giorno Tue, 24 May 2022 21:32:58 -0700
+> "Pgowda" <pgowda.cve@gmail.com> ha scritto:
+> 
+> > The patch implements Rust testing framework similar to other selftest,
+> > specifically the gcc selftest in OE. It uses the client and server
+> > based method to test the binaries for cross-target on the image.
+> > The test framework is a wrapper around the Rust build system as ./x.py
+> > test.
+> > It tests many functionalities of Rust distribution like tools,
+> > documentation, libraries, packages, tools, Cargo, Crater etc.
+> > Please refer the following link for detailed description of Rust
+> > testing:-
+> > https://rustc-dev-guide.rust-lang.org/tests/intro.html#tool-tests
+> > 
+> > To support the rust tests in oe-core, the following functions were
+> > added:-
+> > setup_cargo_environment(): Build bootstrap and some early stage tools.
+> > do_rust_setup_snapshot(): Install the snapshot version of rust
+> > binaries. do_configure(): To generate config.toml
+> > do_compile(): To build "remote-test-server" for qemu target image.
+> > 
+> > Approximate Number of Tests Run in the Rust Testsuite :- 18000
+> > Approximate Number of Tests that FAIL in bitbake environment :-
+> > 100-150 Normally majority of the testcases are present in major
+> > folder "test/" It contributes to more than 80% of the testcases
+> > present in Rust test framework. These tests pass as expected on any
+> > Rust versions without much fuss. The tests that fail are of less
+> > important and contribute to less than 2% of the total testcases.
+> > These minor tests are observed to work on some versions and fail on
+> > others. They have to be added, ignored or excluded for different
+> > versions as per the behavior. These tests have been ignored or
+> > excluded in the Rust selftest environment to generate success of
+> > completing the testsuite.
+> > 
+> > These tests work in parallel mode even in the skipped test mode as
+> > expected. Although the patch to disable tests is large, it is very
+> > simple in that it only disables tests. When updating to a newer
+> > version of Rust, the patch can usually be ported in a day.
+> > 
+> > Signed-off-by: pgowda <pgowda.cve@gmail.com>
+> > Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+> > ---
+> >  meta/conf/distro/include/maintainers.inc      |   1 +
+> >  meta/lib/oeqa/selftest/cases/rust.py          |  57 +++
+> >  meta/recipes-devtools/rust/rust-common.inc    |   1 -
+> >  meta/recipes-devtools/rust/rust-testsuite.inc | 163 +++++++
+> >  .../rust-testsuite/rust-oe-selftest.patch     | 417
+> > ++++++++++++++++++ .../rust/rust-testsuite_1.60.0.bb             |
+> > 3 + 6 files changed, 641 insertions(+), 1 deletion(-)
+> >  create mode 100644 meta/lib/oeqa/selftest/cases/rust.py
+> >  create mode 100644 meta/recipes-devtools/rust/rust-testsuite.inc
+> >  create mode 100644
+> > meta/recipes-devtools/rust/rust-testsuite/rust-oe-selftest.patch
+> > create mode 100644 meta/recipes-devtools/rust/rust-testsuite_1.60.0.bb
+> > 
+> > diff --git a/meta/conf/distro/include/maintainers.inc
+> > b/meta/conf/distro/include/maintainers.inc index
+> > 3990d1d507..cecb02b1c6 100644 ---
+> > a/meta/conf/distro/include/maintainers.inc +++
+> > b/meta/conf/distro/include/maintainers.inc @@ -719,6 +719,7 @@
+> > RECIPE_MAINTAINER:pn-rust-crosssdk-${SDK_ARCH}-glibc = "Randy MacLeod
+> > <Randy.Mac
+> > RECIPE_MAINTAINER:pn-rust-cross-canadian-${TRANSLATED_TARGET_ARCH} =
+> > "Randy MacLeod <Randy.MacLeod@windriver.com>"
+> > RECIPE_MAINTAINER:pn-rust-hello-world = "Randy MacLeod
+> > <Randy.MacLeod@windriver.com>" RECIPE_MAINTAINER:pn-rust-llvm =
+> > "Randy MacLeod <Randy.MacLeod@windriver.com>"
+> > +RECIPE_MAINTAINER:pn-rust-testsuite = "Randy MacLeod
+> > <Randy.MacLeod@windriver.com>"
+> > RECIPE_MAINTAINER:pn-rust-tools-cross-canadian-${TRANSLATED_TARGET_ARCH}
+> > = "Randy MacLeod <Randy.MacLeod@windriver.com>"
+> > RECIPE_MAINTAINER:pn-rxvt-unicode = "Unassigned
+> > <unassigned@yoctoproject.org>" RECIPE_MAINTAINER:pn-sato-screenshot =
+> > "Ross Burton <ross.burton@arm.com>" diff --git
+> > a/meta/lib/oeqa/selftest/cases/rust.py
+> > b/meta/lib/oeqa/selftest/cases/rust.py new file mode 100644 index
+> > 0000000000..a37e3e37c5 --- /dev/null +++
+> > b/meta/lib/oeqa/selftest/cases/rust.py @@ -0,0 +1,57 @@ +#
+> > SPDX-License-Identifier: MIT +import os +import subprocess +from
+> > oeqa.core.decorator import OETestTag +from oeqa.core.case import
+> > OEPTestResultTestCase +from oeqa.selftest.case import
+> > OESelftestTestCase +from oeqa.utils.commands import runCmd, bitbake,
+> > get_bb_var, get_bb_vars, runqemu, Command +from oeqa.utils.sshcontrol
+> > import SSHControl + +# Total time taken for testing is of about 2hr
+> > 20min, with PARALLEL_MAKE set to 40 number of jobs. +class
+> > RustSelfTestBase(OESelftestTestCase, OEPTestResultTestCase): +
+> > +       def run_check_emulated(self, *args, **kwargs):
+> > +               # build remote-test-server before image build  
+> 
+> Weird indentation here, 7 spaces for level 1, 15 for level 2... v5 had
+> a much cleaner tab-based indentation. Is it possible that you
+> manipulated the patch manually? It's a bad idea, I hurt myself a few
+> times when I used to do that! :) I recommend using plain 'git
+> format-patch' / 'git send-email'.
+> 
+> You should resend with a 4-spaces indentation, which is the Python
+> standard. However I'm taking the patch anyway for testing, so it's
+> more efficient if you just wait for the test results before resending,
+> so you can also include any bugfixes (if needed) in your next iteration.
 
-Not sure if someone wants to test that?
+In addition to the above comments, this patch is causing intermittent
+failures, as noted on this bug:
 
-Cheers,
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=14818
 
-Richard
+So far it has failed only when building on CentOS and Fedora hosts.
+Hopefully this will help you reproduce and fix the problem.
 
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
