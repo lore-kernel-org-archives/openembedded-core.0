@@ -3,8 +3,8 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 From: "Riyaz Ahmed Khan" <rak3033@gmail.com>
 Subject: [OE-core][dunfell][PATCH v2] curl: Add fix for CVE-2022-27781 CVE-2022-27782
-Date: Wed,  1 Jun 2022 14:11:18 +0530
-Message-Id: <20220601084118.26285-1-rak3033@gmail.com>
+Date: Wed,  1 Jun 2022 14:30:44 +0530
+Message-Id: <20220601090044.28212-1-rak3033@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -22,7 +22,6 @@ Link: [https://github.com/curl/curl/commit/5c7da89d404bf59c8dd82a001119a16d18365
 CVE-2022-27782
 Link: [https://github.com/curl/curl/commit/1645e9b44505abd5cbaf65da5282c3f33b5924a5]
 
-Change-Id: I6ebe14ff8caf809f8332bb785b159090f5046896
 Signed-off-by: Riyaz Khan <Riyaz.Khan@kpit.com>
 ---
  .../curl/curl/CVE-2022-27781.patch            | 50 +++++++++++++
