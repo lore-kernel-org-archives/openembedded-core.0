@@ -1,186 +1,113 @@
-Return-Path: <sakib.sajal@windriver.com>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48439C433FE
-	for <webhook@archiver.kernel.org>; Tue, 31 May 2022 22:08:31 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
- by mx.groups.io with SMTP id smtpd.web10.77.1654034901260966945
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8711C433EF
+	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 02:09:32 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by mx.groups.io with SMTP id smtpd.web08.2429.1654049367139762903
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 15:08:21 -0700
+ Tue, 31 May 2022 19:09:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
- domain name (domain: windriver.com, ip: 147.11.3.146,
- mailfrom: sakib.sajal@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 24VM8KAU012192
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 15:08:20 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 24VM8KeA011464
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 15:08:20 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Tue, 31 May 2022 15:08:20 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 31 May 2022 15:08:19 -0700
-Received: from yow-lpggp3.wrs.com (128.224.137.13) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Tue, 31 May 2022 15:08:19 -0700
-From: Sakib Sajal <sakib.sajal@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 4/4] qemu: fix CVE-2021-4206
-Date: Tue, 31 May 2022 18:08:07 -0400
-Message-ID: <20220531220807.8032-4-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20220531220807.8032-1-sakib.sajal@windriver.com>
-References: <20220531220807.8032-1-sakib.sajal@windriver.com>
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=VJjrDR2k;
+ spf=pass (domain: intel.com, ip: 134.134.136.20,
+ mailfrom: anuj.mittal@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654049367; x=1685585367;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=oQa2MMJiDxlYbqfyjSPTX9Zhq2woWyuqWLuqVA9iv2w=;
+  b=VJjrDR2kWmbmIuTYHzg2u/IbGckCYiKvs8+OMFX2uXCvl61uYbOcIA7p
+   hK5DjbPELm7cl0D7v08uVrDYUPROTvChsbouYNwdg7uTBferLTOf/tHpn
+   iv8A4I8xADc2SG32yqFo9K/tn27ZGItfYkiDgWFmmvOyoMhLq7E5FmJIg
+   99iTsJKNfu3TLVsZrjTdgSIvkUtsb9Q9LFeLKimmmebggHHeEjZ2qK8jR
+   24I5QxLa77FO7bzjw+lwjHA08Vg6QqDa/gPEHdqKaUkZy6CmbEStjpdu5
+   j+hUKVTZMlbF4hNrfFYo+BH7TEbIcy3KF5fjFlOlNgYE3IDtrTr9rXN8A
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10364"; a="263081171"
+X-IronPort-AV: E=Sophos;i="5.91,266,1647327600";
+   d="scan'208";a="263081171"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2022 19:09:26 -0700
+X-IronPort-AV: E=Sophos;i="5.91,266,1647327600";
+   d="scan'208";a="823540489"
+Received: from rpuvenes-mobl1.gar.corp.intel.com (HELO
+ anmitta2-mobl3.intel.com) ([10.215.250.27])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 May 2022 19:09:25 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [honister][PATCH 00/12] Pull request (cover letter only)
+Date: Wed,  1 Jun 2022 10:09:19 +0800
+Message-Id: <cover.1654049055.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.wrs.com id
- 24VM8KAU012192
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 May 2022 22:08:31 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 02:09:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166343
+ https://lists.openembedded.org/g/openembedded-core/message/166344
 
-Backport fix to resolve CVE-2021-4206:
-   fa892e9abb ui/cursor: fix integer overflow in cursor_alloc (CVE-2021-4=
-206)
+The branch has reached EOL and will not be actively maintained after
+this merge.
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-4206.patch             | 89 +++++++++++++++++++
- 2 files changed, 90 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-4206.patch
+Thanks,
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
-qemu/qemu.inc
-index 898377d11b..b6595a7731 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -81,6 +81,7 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar=
-.xz \
-            file://CVE-2021-3750_2.patch \
-            file://CVE-2021-3750_3.patch \
-            file://CVE-2022-26353.patch \
-+           file://CVE-2021-4206.patch \
-            "
- UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
-=20
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-4206.patch b/meta/r=
-ecipes-devtools/qemu/qemu/CVE-2021-4206.patch
-new file mode 100644
-index 0000000000..bc76d3a206
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-4206.patch
-@@ -0,0 +1,89 @@
-+From 1ed7525cc9d9a98ef126e9803b09f50aa9f2e3bf Mon Sep 17 00:00:00 2001
-+From: Mauro Matteo Cascella <mcascell@redhat.com>
-+Date: Thu, 7 Apr 2022 10:17:12 +0200
-+Subject: [PATCH] ui/cursor: fix integer overflow in cursor_alloc
-+ (CVE-2021-4206)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Prevent potential integer overflow by limiting 'width' and 'height' to
-+512x512. Also change 'datasize' type to size_t. Refer to security
-+advisory https://starlabs.sg/advisories/22-4206/ for more information.
-+
-+Fixes: CVE-2021-4206
-+Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-+Message-Id: <20220407081712.345609-1-mcascell@redhat.com>
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+
-+CVE: CVE-2021-4206
-+Upstream-Status: Backport [fa892e9abb728e76afcf27323ab29c57fb0fe7aa]
-+
-+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-+---
-+ hw/display/qxl-render.c | 7 +++++++
-+ hw/display/vmware_vga.c | 2 ++
-+ ui/cursor.c             | 8 +++++++-
-+ 3 files changed, 16 insertions(+), 1 deletion(-)
-+
-+diff --git a/hw/display/qxl-render.c b/hw/display/qxl-render.c
-+index 3ce2e57b8..c2ecef706 100644
-+--- a/hw/display/qxl-render.c
-++++ b/hw/display/qxl-render.c
-+@@ -246,6 +246,13 @@ static QEMUCursor *qxl_cursor(PCIQXLDevice *qxl, QX=
-LCursor *cursor,
-+     size_t size;
-+=20
-+     c =3D cursor_alloc(cursor->header.width, cursor->header.height);
-++
-++    if (!c) {
-++        qxl_set_guest_bug(qxl, "%s: cursor %ux%u alloc error", __func__=
-,
-++                cursor->header.width, cursor->header.height);
-++        goto fail;
-++    }
-++
-+     c->hot_x =3D cursor->header.hot_spot_x;
-+     c->hot_y =3D cursor->header.hot_spot_y;
-+     switch (cursor->header.type) {
-+diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
-+index bef0d7d69..e30dbdcb3 100644
-+--- a/hw/display/vmware_vga.c
-++++ b/hw/display/vmware_vga.c
-+@@ -510,6 +510,8 @@ static inline void vmsvga_cursor_define(struct vmsvg=
-a_state_s *s,
-+     int i, pixels;
-+=20
-+     qc =3D cursor_alloc(c->width, c->height);
-++    assert(qc !=3D NULL);
-++
-+     qc->hot_x =3D c->hot_x;
-+     qc->hot_y =3D c->hot_y;
-+     switch (c->bpp) {
-+diff --git a/ui/cursor.c b/ui/cursor.c
-+index 1d62ddd4d..835f0802f 100644
-+--- a/ui/cursor.c
-++++ b/ui/cursor.c
-+@@ -46,6 +46,8 @@ static QEMUCursor *cursor_parse_xpm(const char *xpm[])
-+=20
-+     /* parse pixel data */
-+     c =3D cursor_alloc(width, height);
-++    assert(c !=3D NULL);
-++
-+     for (pixel =3D 0, y =3D 0; y < height; y++, line++) {
-+         for (x =3D 0; x < height; x++, pixel++) {
-+             idx =3D xpm[line][x];
-+@@ -91,7 +93,11 @@ QEMUCursor *cursor_builtin_left_ptr(void)
-+ QEMUCursor *cursor_alloc(int width, int height)
-+ {
-+     QEMUCursor *c;
-+-    int datasize =3D width * height * sizeof(uint32_t);
-++    size_t datasize =3D width * height * sizeof(uint32_t);
-++
-++    if (width > 512 || height > 512) {
-++        return NULL;
-++    }
-+=20
-+     c =3D g_malloc0(sizeof(QEMUCursor) + datasize);
-+     c->width  =3D width;
-+--=20
-+2.33.0
-+
---=20
-2.33.0
+Anuj
+
+The following changes since commit e0d5d93a18d1682f3393fc10133f08009f008601:
+
+  perf: sort-pmuevents: allow for additional type qualifiers and storage class (2022-05-10 21:44:32 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib stable/honister-next
+
+Bruce Ashfield (6):
+  linux-yocto/5.10: features/security: Move x86_64 configs to separate
+    file
+  linux-yocto/5.10: update to v5.10.110
+  linux-yocto/5.10: base: enable kernel crypto userspace API
+  linux-yocto/5.10: update to v5.10.112
+  linux-yocto: enable powerpc debug fragment
+  linux-yocto/5.10: update to v5.10.113
+
+Dmitry Baryshkov (1):
+  linux-firmware: upgrade 20220411 -> 20220509
+
+Felix Moessbauer (1):
+  wic/plugins/rootfs: Fix permissions when splitting rootfs folders
+    across partitions
+
+Khem Raj (1):
+  linux-yocto: Enable powerpc-debug fragment for ppc64 LE
+
+Ovidiu Panait (1):
+  openssl: upgrade 1.1.1l -> 1.1.1n
+
+Ranjitsinh Rathod (1):
+  openssl: Minor security upgrade 1.1.1n to 1.1.1o
+
+Richard Purdie (1):
+  vim: Upgrade 8.2.4681 -> 8.2.4912
+
+ .../{openssl_1.1.1l.bb => openssl_1.1.1o.bb}  |  3 ++-
+ ...20220411.bb => linux-firmware_20220509.bb} |  4 +--
+ .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 +++---
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 27 ++++++++++---------
+ meta/recipes-support/vim/vim.inc              |  4 +--
+ scripts/lib/wic/plugins/source/rootfs.py      |  5 +++-
+ 7 files changed, 32 insertions(+), 25 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.1l.bb => openssl_1.1.1o.bb} (98%)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220411.bb => linux-firmware_20220509.bb} (99%)
+
+-- 
+2.35.3
 
 
