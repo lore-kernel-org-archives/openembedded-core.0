@@ -2,53 +2,52 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 149FFCCA478
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21E79CCA477
 	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 16:18:48 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com
- (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web09.625.1654100325022922648
+Received: from a27-191.smtp-out.us-west-2.amazonses.com
+ (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.621.1654100324878668034
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 Jun 2022 09:18:45 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=FICFlqb5;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
- mailfrom: 01010181200fef9a-8189bda0-09db-47b1-a495-3b8a2ba8f0cb-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=I1w11U/t;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191,
+ mailfrom: 01010181200fef18-f435dfb6-5651-492d-bb75-acc368a734f7-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1654100324;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=DtsgnBvMUSI30jl9VH6PFvtAMMrQ2LTFDR5VLWVylkk=;
-	b=FICFlqb50GHFuHr6pJMi1Sq1+RHW1ep/syY3lLTui8k+a2IRPzplsCEjHFCASC4E
-	VyG/Ug55Oym4cHkiwjMhnVGB92p275EG3jDj0vbN1GGCwXKrCbq3siCVDgBkiXDRerT
-	3hJys7tZgSGbjGHV+JBR8dXP4bQAZZaxMufg0WDY=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=pHpV9m/r3qTVJYxk/XUBaqCE1xb3Xq1nsr+/Yf0l1hY=;
+	b=I1w11U/tfREbj9bPs1TnwBnh+jJMx4wX2AdHN/xS6+9HEEUrl1O7kkS7XevtnT0a
+	wd9rskcBlWxhEaD0xx8HN4OMQ2SJuLw1LF4hBqWKLxyWlNNjScrDrjYVWj7vioJ8cf1
+	X1+EfQZrEdCyZtQCkTThqyZZtJUcvMY4Zzr8HI4I=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1654100324;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=DtsgnBvMUSI30jl9VH6PFvtAMMrQ2LTFDR5VLWVylkk=;
-	b=iS38FiKOn26jkp9805wA5AnaNxH2cpCHYtSOqV++W84wjfAvn6bv9W2Szs9/GZKU
-	zg2xNtk++b1IXI2GCLoxLMvF2EMUE5ci+ILqKGrcw9XuSYc5dAIdekKFSD18ZS5Pads
-	C7RjJ2zmbf5DTqNab5VtFsFvIFYp0/b21CgEK0Bs=
-Content-Type: multipart/mixed; boundary="===============3229820262515162427=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=pHpV9m/r3qTVJYxk/XUBaqCE1xb3Xq1nsr+/Yf0l1hY=;
+	b=OzUzJCBBYgSnjSi3156jxvXSODq0xuN6dFcOIvzyUT8OuuKU68RVJYMTujc200hg
+	QAsqjFG3ArUWHrSZWd6TwUuJlMdXqUWlOAlRyu8BGmUKT/9em4asSPIycUNeBPc2loU
+	lXZF7d0Lk039rJZ/u+G+lqhktlOm9xifNqxmkSYM=
+Content-Type: multipart/mixed; boundary="===============5893015406004753389=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] tiff: upgrading to 4.4.0 FAILED
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] pulseaudio: upgrading to 16.0 FAILED
 Message-ID: 
- <01010181200fef9a-8189bda0-09db-47b1-a495-3b8a2ba8f0cb-000000@us-west-2.amazonses.com>
+ <01010181200fef18-f435dfb6-5651-492d-bb75-acc368a734f7-000000@us-west-2.amazonses.com>
 Date: Wed, 1 Jun 2022 16:18:44 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.06.01-54.240.27.31
+X-SES-Outgoing: 2022.06.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 16:18:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166430
+ https://lists.openembedded.org/g/openembedded-core/message/166428
 
---===============3229820262515162427==
+--===============5893015406004753389==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,11 +55,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *tiff* to *4.4.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *pulseaudio* to *16.0* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe tiff failed.
+Running 'devtool upgrade' for recipe pulseaudio failed.
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
@@ -88,9 +87,9 @@ meta-yocto-bsp       = "tmp-auh-upgrades:42cb37a941790a20c198fc2d9ca1561deb9a37f
 workspace            = "master:95066dde6861ee08fdb505ab3e0422156cc24fae"
 
 Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 19 (100% match, 100% complete)
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 21 (100% match, 100% complete)
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
@@ -118,28 +117,28 @@ meta-yocto-bsp       = "tmp-auh-upgrades:42cb37a941790a20c198fc2d9ca1561deb9a37f
 workspace            = "master:95066dde6861ee08fdb505ab3e0422156cc24fae"
 
 Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 17 (100% match, 100% complete)
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  95% |##################################  | ETA:  0:00:00
+Adding changed files:  53% |###################                 | ETA:  0:00:00
 Adding changed files: 100% |####################################| Time: 0:00:00
 INFO: Extracting current version source...
+INFO: Adding local source files to srctree...
 INFO: Extracting upgraded version source...
-INFO: Fetching http://download.osgeo.org/libtiff/tiff-4.4.0.tar.gz...
-INFO: Rebasing devtool onto c5144393c4a6dca08231b705c9d90c9a276e488e
-WARNING: Command 'git rebase c5144393c4a6dca08231b705c9d90c9a276e488e' failed:
-Auto-merging tools/tiffcrop.c
-CONFLICT (content): Merge conflict in tools/tiffcrop.c
+INFO: Fetching http://freedesktop.org/software/pulseaudio/releases/pulseaudio-16.0.tar.xz...
+INFO: Rebasing devtool onto f8cc45f5977d951bd45fa62accd282f4ed1175ae
+WARNING: Command 'git rebase f8cc45f5977d951bd45fa62accd282f4ed1175ae' failed:
+Auto-merging meson.build
+CONFLICT (content): Merge conflict in meson.build
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/tiff
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/tiff/tiff_4.4.0.bb
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/pulseaudio
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/pulseaudio/pulseaudio_16.0.bb
 
 
 
@@ -148,5 +147,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3229820262515162427==--
+--===============5893015406004753389==--
 
