@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAD05CCA497
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC600CCA48F
 	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 16:18:48 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com
- (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.670.1654100323363572556
+Received: from a27-45.smtp-out.us-west-2.amazonses.com
+ (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web12.613.1654100322706388306
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jun 2022 09:18:43 -0700
+ Wed, 01 Jun 2022 09:18:44 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=IgqSImn0;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191,
- mailfrom: 01010181200fe831-07442718-f7b7-495d-be45-ffd2d8ceaa43-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=DpujbdFr;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
+ mailfrom: 01010181200fec93-2abce4ac-3ed8-402a-8127-c076f733d788-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1654100322;
+	t=1654100323;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=z6fcH9RC/AKE5kyH8KN4fsNTM2wVDWRb1o2Ll3GuTbM=;
-	b=IgqSImn0egZhtBwwZdfQow++dHkX9pNmlMv0aeB2uGQXVT36lRsRzytinYVP+2M4
-	iH/zjXmZ3MBTrCeJ7PwkY6ABdNVhLcMsXOlAnJxR/U3wYiuyW4nicNZ2llaRmHETpNd
-	/S7tB+aToFdJ2FfTDqFZ1GdcOXW6YNvAmcX3LjGg=
+	bh=5/brL99St6zW6eIDRfnv6WFWLt00JS636oJOJ5KKaS0=;
+	b=DpujbdFrbFmvJLXGER7ghguSoM/bx3vxvtBHSz5vdJVX4XvA/lTUi5wrmOST12zi
+	1KU5wBzZA8/7gme0/3bR0VUO0daRIeivHq1l7YjIx48Y5228cbxqEhG9iKf/1JnGrNn
+	xEAwsqnRFFXc4vigUlGNDm/pMxElkYaVQJl3ARYQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1654100322;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1654100323;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=z6fcH9RC/AKE5kyH8KN4fsNTM2wVDWRb1o2Ll3GuTbM=;
-	b=A4VC80juheyNmmxpzlHhkXavORyRSvqnDMR48p0izbPBiozsqCnOE407YR3Im9N2
-	vA/MgHPEWbbSPJULl7h0oZYJGdIyTV/OMwNFbFBfgGaw/VMdbwwIpcWSdLCnXYHaX2d
-	UJpW/8mMwWU9V+PhFcUKxCjZcQ9WcdGOsyL4F/GU=
-Content-Type: multipart/mixed; boundary="===============9067095156242833683=="
+	bh=5/brL99St6zW6eIDRfnv6WFWLt00JS636oJOJ5KKaS0=;
+	b=ZLc95UxKl39UZkgAqJyZSFq1zYZlW/q1oo5FLVAv+G0mLt4kUxEDvNyGMM+qH36X
+	C7I+BN3IWbao6Fq/gZhkuMm8z6KzbHf5KdtmdFR81bsvgY29y9YAm37TKb+9P6zWC7V
+	RvXpagHmYijuoMPcRcfr5LNYpEGEFotXyEtGpnEM=
+Content-Type: multipart/mixed; boundary="===============8232340343557193036=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Randy MacLeod <Randy.MacLeod@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] systemd: upgrading to 251.1 FAILED
+Subject: [AUH] rust-llvm: upgrading to 1.61.0 FAILED
 Message-ID: 
- <01010181200fe831-07442718-f7b7-495d-be45-ffd2d8ceaa43-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Jun 2022 16:18:42 +0000
+ <01010181200fec93-2abce4ac-3ed8-402a-8127-c076f733d788-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Jun 2022 16:18:43 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.06.01-54.240.27.191
+X-SES-Outgoing: 2022.06.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 16:18:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166397
+ https://lists.openembedded.org/g/openembedded-core/message/166404
 
---===============9067095156242833683==
+--===============8232340343557193036==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,62 +56,67 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *systemd* to *251.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *rust-llvm* to *1.61.0* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe systemd failed.
+The following devtool command failed:  finish -f rust-llvm /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust
 NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
 WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
-Loaded 1642 entries from dependency cache.
+Loaded 1643 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 884 .bb files complete (883 cached, 1 parsed). 1644 targets, 35 skipped, 0 masked, 0 errors.
 
 Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-NOTE: Resolving any missing task queue dependencies
 
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-780a5b66a51cab425a5cabb48f9d07672f1841bf"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:780a5b66a51cab425a5cabb48f9d07672f1841bf"
-workspace            = "master:95066dde6861ee08fdb505ab3e0422156cc24fae"
+ERROR: Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 162, in wrapped
+    return func(fn, *args)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 187, in parse_config_file
+    return bb.parse.handle(fn, data, include)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 107, in handle
+    return h['handle'](fn, data, include)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 118, in handle
+    abs_fn = resolve_file(fn, data)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 133, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found" % fn)
+FileNotFoundError: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf not found
 
-Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Rebasing devtool onto dcda9f3d078709b26a6612a9581795e64b27b509
-WARNING: Command 'git rebase dcda9f3d078709b26a6612a9581795e64b27b509' failed:
-Auto-merging src/boot/efi/boot.c
-CONFLICT (content): Merge conflict in src/boot/efi/boot.c
+ERROR: Unable to parse /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf not found
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 162, in wrapped
+    return func(fn, *args)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 187, in parse_config_file
+    return bb.parse.handle(fn, data, include)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 107, in handle
+    return h['handle'](fn, data, include)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 118, in handle
+    abs_fn = resolve_file(fn, data)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 133, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found" % fn)
+FileNotFoundError: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf not found
 
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-libc-musl onto dcda9f3d078709b26a6612a9581795e64b27b509
-WARNING: Command 'git rebase dcda9f3d078709b26a6612a9581795e64b27b509' failed:
-Auto-merging src/boot/efi/boot.c
-CONFLICT (content): Merge conflict in src/boot/efi/boot.c
+During handling of the above exception, another exception occurred:
 
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/systemd
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/systemd/systemd_251.1.bb
-
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 334, in <module>
+    ret = main()
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 321, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/standard.py", line 2108, in finish
+    updated, appendfile, removed = _update_recipe(args.recipename, workspace, rd, args.mode, appendlayerdir, wildcard_version=True, no_remove=False, no_report_remove=removing_original, initial_rev=args.initial_rev, dry_run_outdir=dry_run_outdir, no_overrides=args.no_overrides, force_patch_refresh=args.force_patch_refresh)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/standard.py", line 1814, in _update_recipe
+    updated, appendf, removed = _update_recipe_patch(recipename, workspace, srctree, crd, appendlayerdir, wildcard_version, no_remove, no_report_remove, initial_rev, dry_run_outdir, force_patch_refresh)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/standard.py", line 1671, in _update_recipe_patch
+    redirect_output=dry_run_outdir)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/recipeutils.py", line 705, in bbappend_recipe
+    appendpath, pathok = get_bbappend_path(rd, destlayerdir, wildcardver)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/recipeutils.py", line 632, in get_bbappend_path
+    confdata = bb.cookerdata.parse_config_file(destlayerconf, confdata)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 167, in wrapped
+    raise bb.BBHandledException()
+bb.BBHandledException
 
 
 Please review the attached files for further information and build/update failures.
@@ -119,5 +124,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============9067095156242833683==--
+--===============8232340343557193036==--
 
