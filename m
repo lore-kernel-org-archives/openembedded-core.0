@@ -2,144 +2,140 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B8BDC433EF
-	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 07:24:44 +0000 (UTC)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by mx.groups.io with SMTP id smtpd.web08.4659.1654068279450730744
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66B21C433EF
+	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 07:30:44 +0000 (UTC)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+ [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web08.4687.1654068637609788221
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jun 2022 00:24:39 -0700
+ Wed, 01 Jun 2022 00:30:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=UQeXjZA/;
- spf=pass (domain: gmail.com, ip: 209.85.208.176,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=N2k2UjKe;
+ spf=pass (domain: gmail.com, ip: 209.85.208.173,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f176.google.com with SMTP id z13so999124ljn.11
+Received: by mail-lj1-f173.google.com with SMTP id g12so1038443lja.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jun 2022 00:24:39 -0700 (PDT)
+ Wed, 01 Jun 2022 00:30:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=e0diocxVkVQ+uxQQjb1lCHqFKUXJlvoIMZB5Jntnhfc=;
-        b=UQeXjZA/eI/1WVOeEZaiHWov7UC8hIa6CmrvLQAlb/MRyVhhIlWULYqiqZIJDnjhiA
-         DZN0PDx1Z19dvacQlzUggbMVfODv1Yo0iynggOvY01wrLKvObmL33qWVFjv1sRGvy39o
-         ZiP4VMi7fhI9dT3G05ru6x2QacnNl41p9NKhJl6IIjj3Apj2yXkYUZSF76ah0HgoVlPa
-         UuEJKKvOMm4PI3CZOmshRlK6OV1rhgN5SbQl4WTfpKQrcOeHf4Kq/fNVC22gwMMmiXa1
-         x6gu6HLLnk1MYntbVHwN4r/T/jcpnYZE4l/Baypj9U0OlQhkV28CZG8ymiJNSnKo71J9
-         b3+A==
+         :cc;
+        bh=e2+/2RseB9RNT4uoLvcN/GHJ6Wbm3rTST8AB4Xmts4g=;
+        b=N2k2UjKe8a5hGvI+cha9MTV2TyP1q/lbg7jeXG3IB2miKty2tOSl+f/hrz+pV6RVze
+         A74mPEeuFaqOyGahZ93gJ22ffXhbIyOZsaB6WKmqPTcWCyPxnlHivh2tXS45P+74zED0
+         J9l4F1GK5UFSzw06gRx3Kuw9jLRQv4bIn5WoJpbadaUioSEP2pxFA2rG3UQdOt+8U7Ai
+         uuMxhRMOhkykMR2TP3N8MFxyPKHJT/59S2qgZm+pN0aejOu2a2sYQ2NpJxdWKlCtnDIs
+         jARtRm4Qi+QzUlxcMl7xoSMQ93IGPtAFPsCmpr+X6MWmgsgeAUplOa1ZH/oBKSsLiuee
+         C7LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=e0diocxVkVQ+uxQQjb1lCHqFKUXJlvoIMZB5Jntnhfc=;
-        b=nUWiXaXOs7XfTTgRJ3hbMBsUDXlOhnxMz6DZGyJRBC+ccSOWCwgnuQ3dRbzu462xxR
-         /BvDSPNagpN4XevChYxA7s3PtAdAdjNttRTv7MpixXZhy3Rw3dt/bIqbh6Vg6DiS6r+7
-         tGvhrZ4BgB/o/SCfLNwZ/JaLlhl0Enybpmj961cWKzd1408MFGyBN5jKnoBYinQLSHUn
-         H2kQcMgzE+mcQVzExs9+0UME1iefnsCHYK2chX74HypNGf7ovcEkpNIl9DKIQoV9k+ml
-         DySkl1Rpr3U6buxXicmHFoMQmWAFhzGKwslpTy/K5UzHDJQWzuNj39AIpHQbQvvpcIqI
-         38Cw==
-X-Gm-Message-State: AOAM531e7xswQdC4aaFwD6hcBnxCmJCHxHuK7o1EuY+du+mT50BioO8A
-	oxZmBbu9a9hERx/2Ztxm4WG7LTgUfccaYrk55Xs=
+         :message-id:subject:to:cc;
+        bh=e2+/2RseB9RNT4uoLvcN/GHJ6Wbm3rTST8AB4Xmts4g=;
+        b=pWvEUWlxce7zrXEThBdlqVcJ3l3QIUxTUzH+0F2sIIxWcvIMgwCHL0OoQ/HXQphIlO
+         GMAOzPFGAvN6TjjuQ2FRmYMiOHx3Bu4nhLrTMhV0ZYUD3hdSrJM/5e8r2pkk84IYIxHF
+         MSMZjywS6AX7XApfrxZXzgixYtTZq4RprNYrl5Dvs9LtvIOyzxrbr79TbwkqUk8G72wY
+         NiZOC71xCgEYApAbnBg48cClJ39OIjqhOonySVX+upU/DT7dg5kj+BJmfzQKFpHL+DSZ
+         dSAPCr9wbolt53dpUqbVaQb6b+8lkqlbkDBLar4uN/J8Vde7mUySPDRZ22pkMS0KOwB9
+         qjbQ==
+X-Gm-Message-State: AOAM532iMY/7sbUbJFPGhfhzuXvQArzQC+Pq2O9ubau2cx6giU8U6NM8
+	40AA89ibUE4SQg11osWpl7m2GjhUAWKNF8M6gAU=
 X-Google-Smtp-Source: 
- ABdhPJxVbvAntG2jItWix3PG8+SjgpgDmQS1Qj/d3uMt955DG0TN5gG5icYvpOpstl9kjELpjvTZog3kh15iBJOTLUI=
+ ABdhPJwXrp2ivdhmypZs0uhGWM15YRJubUqEShVKFXFAdi0mxdysX6tYf1qbUiqWZb9Ey206uZa/Fgd0ADb4HVJpr08=
 X-Received: by 2002:a2e:97c7:0:b0:255:69f4:b9eb with SMTP id
- m7-20020a2e97c7000000b0025569f4b9ebmr1490048ljj.109.1654068277581; Wed, 01
- Jun 2022 00:24:37 -0700 (PDT)
+ m7-20020a2e97c7000000b0025569f4b9ebmr1500975ljj.109.1654068635781; Wed, 01
+ Jun 2022 00:30:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220531141645.3401821-1-davide.gardenal@huawei.com>
-In-Reply-To: <20220531141645.3401821-1-davide.gardenal@huawei.com>
+References: <20220531213206.7119-1-marcel@ziswiler.com>
+ <20220531213206.7119-2-marcel@ziswiler.com>
+In-Reply-To: <20220531213206.7119-2-marcel@ziswiler.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 1 Jun 2022 09:24:25 +0200
+Date: Wed, 1 Jun 2022 09:30:24 +0200
 Message-ID: 
- <CANNYZj-r853z=4LHDusy0QrQi73AfwrMe_DoF2hwqjEsZpkFJA@mail.gmail.com>
-Subject: Re: [OE-core] [master][kirkstone][PATCH] ncurses: update to
- patchlevel 20220423
-To: Davide Gardenal <davidegarde2000@gmail.com>
+ <CANNYZj8xMEOqAPXBuP4oPonqDsJWUK8G6ExRwmT=7zkTQJp1rg@mail.gmail.com>
+Subject: Re: [oe-core][PATCH v3 2/2] libavtp: add recipe to be able to use aaf
+ config for alsa-plugins
+To: Marcel Ziswiler <marcel@ziswiler.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Davide Gardenal <davide.gardenal@huawei.com>
+	Peter Bergin <peter@berginkonsult.se>,
+ Marcel Ziswiler <marcel.ziswiler@toradex.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 07:24:44 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 07:30:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166357
+ https://lists.openembedded.org/g/openembedded-core/message/166358
 
-This is effectively updating to a development snapshot, would it be
-better to backport just the CVE fix like was just sent for dunfell?
+This should go to meta-oe I think. Does it have to be in core, and if so why?
 
 Alex
 
-On Tue, 31 May 2022 at 16:16, Davide Gardenal <davidegarde2000@gmail.com> w=
-rote:
+On Tue, 31 May 2022 at 23:32, Marcel Ziswiler <marcel@ziswiler.com> wrote:
 >
-> CVE: CVE-2022-29458
+> From: Peter Bergin <peter@berginkonsult.se>
 >
-> Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
+> In order to enable configuration option aaf (AVTP Audio Format)
+> used for AVB the library libavtp is a dependency but no recipe for
+> this library was present. aaf support for alsa-plugins was
+> introduced in ddf5421331180bc45697511b44cdd4a4e6dda6ff.
+>
+> Signed-off-by: Peter Bergin <peter@berginkonsult.se>
+> Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+>
 > ---
->  meta/recipes-core/ncurses/ncurses.inc                         | 2 +-
->  .../ncurses/{ncurses_6.3.bb =3D> ncurses_6.3+20220423.bb}       | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
->  rename meta/recipes-core/ncurses/{ncurses_6.3.bb =3D> ncurses_6.3+202204=
-23.bb} (77%)
+> Resurrect from mailing list [1] as this is still not upstream.
+> End-to-end tested on Verdin iMX8M Plus.
+> Will talk about it at the Embedded World Conference in the TSN & Linux
+> track next month [2].
 >
-> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/nc=
-urses/ncurses.inc
-> index 7a7c7dd227..1abcfae1fe 100644
-> --- a/meta/recipes-core/ncurses/ncurses.inc
-> +++ b/meta/recipes-core/ncurses/ncurses.inc
-> @@ -2,7 +2,7 @@ SUMMARY =3D "The New Curses library"
->  DESCRIPTION =3D "SVr4 and XSI-Curses compatible curses library and termi=
-nfo tools including tic, infocmp, captoinfo. Supports color, multiple highl=
-ights, forms-drawing characters, and automatic recognition of keypad and fu=
-nction-key sequences. Extensions include resizable windows and mouse suppor=
-t on both xterm and Linux console using the gpm library."
->  HOMEPAGE =3D "http://www.gnu.org/software/ncurses/ncurses.html"
->  LICENSE =3D "MIT"
-> -LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D9529289636145d1bf093c96af0676=
-95a;endline=3D27"
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dc5a4600fdef86384c41ca33ecc70a=
-4b8;endline=3D27"
->  SECTION =3D "libs"
->  DEPENDS =3D "ncurses-native"
->  DEPENDS:class-native =3D ""
-> diff --git a/meta/recipes-core/ncurses/ncurses_6.3.bb b/meta/recipes-core=
-/ncurses/ncurses_6.3+20220423.bb
-> similarity index 77%
-> rename from meta/recipes-core/ncurses/ncurses_6.3.bb
-> rename to meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
-> index f0256dad22..f67a3f5bf4 100644
-> --- a/meta/recipes-core/ncurses/ncurses_6.3.bb
-> +++ b/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
-> @@ -5,10 +5,10 @@ SRC_URI +=3D "file://0001-tic-hang.patch \
->             file://0003-gen-pkgconfig.in-Do-not-include-LDFLAGS-in-genera=
-ted.patch \
->             "
->  # commit id corresponds to the revision in package version
-> -SRCREV =3D "51d0fd9cc3edb975f04224f29f777f8f448e8ced"
-> +SRCREV =3D "a0bc708bc6954b5d3c0a38d92b683c3ec3135260"
->  S =3D "${WORKDIR}/git"
->  EXTRA_OECONF +=3D "--with-abi-version=3D5"
->  UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>\d+(\.\d+)+)$"
+> [1] https://lore.kernel.org/all/20210604090216.553285-1-peter@berginkonsult.se/
+> [2] https://events.weka-fachmedien.de/embedded-world-conference/program/
 >
->  # This is needed when using patchlevel versions like 6.1+20181013
-> -#CVE_VERSION =3D "${@d.getVar("PV").split('+')[0]}.${@d.getVar("PV").spl=
-it('+')[1]}"
-> +CVE_VERSION =3D "${@d.getVar("PV").split('+')[0]}.${@d.getVar("PV").spli=
-t('+')[1]}"
+> Changes in v3:
+> - Rename recipe to officially released PV of 0.2.0.
+> - Drop PROVIDES of avtp which just works around alsa-plugins refering to
+>   it as such instead of libavtp. Will update PACKAGECONFIG in
+>   alsa-plugins instead.
+>
+> Changes in v2:
+> - Updated SRC_URI specifying mandatory protocol as https.
+> - Updated SRCREV to latest.
+>
+>  meta/recipes-multimedia/libavtp/libavtp_0.2.0.bb | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>  create mode 100644 meta/recipes-multimedia/libavtp/libavtp_0.2.0.bb
+>
+> diff --git a/meta/recipes-multimedia/libavtp/libavtp_0.2.0.bb b/meta/recipes-multimedia/libavtp/libavtp_0.2.0.bb
+> new file mode 100644
+> index 0000000000..563debde3c
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/libavtp/libavtp_0.2.0.bb
+> @@ -0,0 +1,14 @@
+> +DESCRIPTION = "Open source implementation of Audio Video Transport Protocol (AVTP) \
+> +               specified in IEEE 1722-2016 spec."
+> +HOMEPAGE = "https://github.com/Avnu/libavtp"
+> +LICENSE = "BSD-3-Clause"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=7fcb4331e23e45e171cd5693c1ff7d3e"
+> +
+> +SRC_URI = "git://github.com/Avnu/libavtp.git;branch=v${PV};protocol=https;nobranch=1"
+> +SRCREV = "3599a5bf2d18fc3ae89b64f208d8380e6ee3a866"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +inherit meson pkgconfig
+> +
+> +EXTRA_OEMESON = "-Dtests=disabled"
 > --
-> 2.32.0
+> 2.36.1
 >
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#166312): https://lists.openembedded.org/g/openembedde=
-d-core/message/166312
-> Mute This Topic: https://lists.openembedded.org/mt/91451965/1686489
+> View/Reply Online (#166338): https://lists.openembedded.org/g/openembedded-core/message/166338
+> Mute This Topic: https://lists.openembedded.org/mt/91462033/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
 
