@@ -2,145 +2,127 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EE28CCA480
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58246CCA47D
 	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 16:18:48 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com
- (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.676.1654100324759836512
+Received: from a27-29.smtp-out.us-west-2.amazonses.com
+ (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web09.618.1654100323104782820
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 Jun 2022 09:18:44 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=MBiIRosz;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
- mailfrom: 01010181200fee28-ab4f8099-03c8-4f44-866b-5fd2ba6e6952-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=lnV0EXDt;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29,
+ mailfrom: 01010181200feffe-872295b9-a18d-42fa-85b8-35c8459a957d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1654100324;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=VWzGbYk4QvuAxFnzgEOymzDvhdwXs8XVitQVg0DKM3U=;
-	b=MBiIRoszckla714EzimPQOlCEOooc7OHRElXuXOy6xZgBK1Rv1NZLPsHC8QEnOuh
-	f+cNcx/+ObS9U3riHOyl4ogJQpFyLs6rlcVRosKPAxhxG/v6JsprBtHzZZfAnJCH1zV
-	YyEyjG2jufDyDmrnJzoE6vhvGwY/NYdTLK/heLGU=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=r0qmPlROIeunNBG3latOFSqAcGxcYqlq7KprWLq72SI=;
+	b=lnV0EXDtHHJpyVfhLJ7Y+NiyKn0xrsG/21riTZxJ+2fXHdS/qT6NfVKNPHdvDXqT
+	wKunvX+1c8d4OZ4LfzICPAc1A0dY4vnRWOT/hX8ARqU6/cQ62QkfxHZWClOp3wFFCrC
+	hEnB/W7JXnsIgvoUgcm5aduRPTi+3TuycXGwrAVc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1654100324;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=VWzGbYk4QvuAxFnzgEOymzDvhdwXs8XVitQVg0DKM3U=;
-	b=CPCdbhohOhG2WDGa7GmAjX2Ao/xc5Kp+QUlQZCxgGvawHARF+whXdbZa+RexQ/4o
-	730Dg249b4kw+5+auPx1QHQszoPEq7K+qyYgBYPviW+FNXbDtTHajzdWu95W/cQ/Ytr
-	xYhQMksUOLsAI1TeUmZoWblWRHfNdZg4U+fzhoiE=
-Content-Type: multipart/mixed; boundary="===============4559438006362300835=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=r0qmPlROIeunNBG3latOFSqAcGxcYqlq7KprWLq72SI=;
+	b=a/z9CFcp2Ab+xzN/yUoVxzhNqmiL+we+un5IGIWKQDvSi8MM6/zjyRDUy2GGvk76
+	p67pjon0Y+rxqos9sIU1jlh4rRofmvr814tlLQWi2qNg2jC+rWzigtLSi1RkWu/Kaa+
+	HdcKoQVzTdO1WCmWvhso3zRexUb9Zq33PuUnsLco=
+Content-Type: multipart/mixed; boundary="===============8225006079716085791=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] wayland: upgrading to 1.20.91 FAILED
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] Upgrade status: 2022-06-01
 Message-ID: 
- <01010181200fee28-ab4f8099-03c8-4f44-866b-5fd2ba6e6952-000000@us-west-2.amazonses.com>
+ <01010181200feffe-872295b9-a18d-42fa-85b8-35c8459a957d-000000@us-west-2.amazonses.com>
 Date: Wed, 1 Jun 2022 16:18:44 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.06.01-54.240.27.31
+X-SES-Outgoing: 2022.06.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 16:18:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166422
+ https://lists.openembedded.org/g/openembedded-core/message/166423
 
---===============4559438006362300835==
+--===============8225006079716085791==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
-Hello,
+Recipe upgrade statistics:
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *wayland* to *1.20.91* has Failed (devtool error).
+    * Succeeded: 20
+        glib-2.0, 2.72.2, Anuj Mittal <anuj.mittal@intel.com>
+        dnf, 4.13.0, Alexander Kanavin <alex.kanavin@gmail.com>
+        python3-dtschema, 2022.5, Bruce Ashfield <bruce.ashfield@gmail.com>
+        python3-numpy, 1.22.4, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+        python3-pip, 22.1.2, Zang Ruochen <zangrc.fnst@fujitsu.com>
+        python3-sphinx, 5.0.0, Tim Orling <tim.orling@konsulko.com>
+        sysklogd, 2.4.0, Chen Qi <Qi.Chen@windriver.com>
+        sysstat, 12.6.0, Chen Qi <Qi.Chen@windriver.com>
+        adwaita-icon-theme, 42.0, Ross Burton <ross.burton@arm.com>
+        gtk+3, 3.24.34, Ross Burton <ross.burton@arm.com>
+        harfbuzz, 4.3.0, Anuj Mittal <anuj.mittal@intel.com>
+        mesa, 22.1.0, Otavio Salvador <otavio.salvador@ossystems.com.br>
+        piglit, 1.0-new-commits-available, Ross Burton <ross.burton@arm.com>
+        libxkbcommon, 1.4.1, Unassigned <unassigned@yoctoproject.org>
+        xwayland, 22.1.2, Unassigned <unassigned@yoctoproject.org>
+        alsa-lib, 1.2.7, Michael Opdenacker <michael.opdenacker@bootlin.com>
+        alsa-ucm-conf, 1.2.7, Michael Opdenacker <michael.opdenacker@bootlin.com>
+        webkitgtk, 2.36.3, Alexander Kanavin <alex.kanavin@gmail.com>
+        diffoscope, 214, Joshua Watt <JPEWhacker@gmail.com>
+        gnutls, 3.7.6, Unassigned <unassigned@yoctoproject.org>
+    * Failed(do_compile): 5
+        ovmf, edk2-stable202205, Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+        cmake, 3.23.2, Pascal Bach <pascal.bach@siemens.com>
+        perl, 5.36.0, Alexander Kanavin <alex.kanavin@gmail.com>
+        ltp, 20220527, Yi Zhao <yi.zhao@windriver.com>
+        alsa-utils, 1.2.7, Michael Opdenacker <michael.opdenacker@bootlin.com>
+    * Failed (devtool error): 13
+        seatd, 0.7.0, Alexander Kanavin <alex.kanavin@gmail.com>
+        systemd-boot, 251.1, Chen Qi <Qi.Chen@windriver.com>
+        systemd, 251.1, Chen Qi <Qi.Chen@windriver.com>
+        btrfs-tools, 5.18, Wang Mingyu <wangmy@fujitsu.com>
+        gnu-config, 20220516-new-commits-available, Robert Yang <liezhi.yang@windriver.com>
+        llvm, 14.0.4, Khem Raj <raj.khem@gmail.com>
+        python3-psutil, 5.9.1, Tim Orling <tim.orling@konsulko.com>
+        libstd-rs, 1.61.0, Randy MacLeod <Randy.MacLeod@windriver.com>
+        rust-llvm, 1.61.0, Randy MacLeod <Randy.MacLeod@windriver.com>
+        procps, 4.0.0, Alexander Kanavin <alex.kanavin@gmail.com>
+        wayland, 1.20.91, Denys Dmytriyenko <denis@denix.org>
+        tiff, 4.4.0, Alexander Kanavin <alex.kanavin@gmail.com>
+        pulseaudio, 16.0, Unassigned <unassigned@yoctoproject.org>
+    * Failed(other errors): 2
+        cargo, 1.61.0, Randy MacLeod <Randy.MacLeod@windriver.com>
+        vulkan-samples, git-new-commits-available, Ross Burton <ross.burton@arm.com>
 
-Detailed error information:
+    TOTAL: attempted=40 succeeded=20(50.00%) failed=20(50.00%)
 
-The following devtool command failed:  upgrade wayland -V 1.20.91
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1642 entries from dependency cache.
+Recipe upgrade statistics per Maintainer:
 
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+    Michael Opdenacker <michael.opdenacker: attempted=3 succeeded=2(66.67%) failed=1(33.33%)
+    Randy MacLeod <Randy.MacLeod: attempted=3 succeeded=0(0.00%) failed=3(100.00%)
+    Tim Orling <tim.orling: attempted=2 succeeded=1(50.00%) failed=1(50.00%)
+    Yi Zhao <yi.zhao: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
+    Otavio Salvador <otavio.salvador: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
+    Robert Yang <liezhi.yang: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
+    Unassigned <unassigned: attempted=4 succeeded=3(75.00%) failed=1(25.00%)
+    Ross Burton <ross.burton: attempted=4 succeeded=3(75.00%) failed=1(25.00%)
+    Bruce Ashfield <bruce.ashfield: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
+    Zang Ruochen <zangrc.fnst: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
+    Joshua Watt <JPEWhacker: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
+    Pascal Bach <pascal.bach: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
+    Anuj Mittal <anuj.mittal: attempted=2 succeeded=2(100.00%) failed=0(0.00%)
+    Ricardo Neri <ricardo.neri-calderon: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
+    Alexander Kanavin <alex.kanavin: attempted=6 succeeded=2(33.33%) failed=4(66.67%)
+    Wang Mingyu <wangmy: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
+    Oleksandr Kravchuk <open.source: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
+    Khem Raj <raj.khem: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
+    Denys Dmytriyenko <denis: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
+    Chen Qi <Qi.Chen: attempted=4 succeeded=2(50.00%) failed=2(50.00%)
 
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-3e89c670531fda61c286f0b29d32af99bf47858c"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:3e89c670531fda61c286f0b29d32af99bf47858c"
-workspace            = "master:95066dde6861ee08fdb505ab3e0422156cc24fae"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 21 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1642 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 884 .bb files complete (882 cached, 2 parsed). 1643 targets, 35 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-3e89c670531fda61c286f0b29d32af99bf47858c"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:3e89c670531fda61c286f0b29d32af99bf47858c"
-workspace            = "master:95066dde6861ee08fdb505ab3e0422156cc24fae"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 17 (100% match, 100% complete)
-NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://wayland.freedesktop.org/releases/wayland-1.20.91.tar.xz, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 82 tasks of which 81 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-INFO: Extracting current version source...
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://wayland.freedesktop.org/releases/wayland-1.20.91.tar.xz...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-bhtqkk5n/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-bhtqkk5n/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-bhtqkk5n/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-bhtqkk5n/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-bhtqkk5n/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-bhtq
- kk5n/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://wayland.freedesktop.org/releases/wayland-1.20.91.tar.xz' --progress=dot -v failed with exit code 8, no output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://wayland.freedesktop.org/releases/wayland-1.20.91.tar.xz')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-bhtqkk5n/work/temp/log.do_fetch.3283210
-ERROR: Failed to fetch URL https://wayland.freedesktop.org/releases/wayland-1.20.91.tar.xz
-
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
---===============4559438006362300835==--
+--===============8225006079716085791==--
 
