@@ -2,53 +2,54 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6BF2CCA492
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E17BDCCA496
 	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 16:18:48 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com
- (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.616.1654100323854989287
+Received: from a27-191.smtp-out.us-west-2.amazonses.com
+ (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web12.615.1654100323787427613
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jun 2022 09:18:44 -0700
+ Wed, 01 Jun 2022 09:18:43 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=V7JfS3B5;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
- mailfrom: 01010181200feacd-4006c0ac-b745-4599-9798-cc147f2ef12f-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Ub7blpf5;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191,
+ mailfrom: 01010181200fea97-cd05c694-1fa3-410b-8a8d-ce8841a86b64-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1654100323;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=BZf6Nbl+hdeMaSdFEHww6xaL0SkO+8uNkzzP6nUh6Is=;
-	b=V7JfS3B5N6YOn5KlIn0RZxH9xDE5Al4R1PUIC61E4ncSJhV44SKFb3BV5y6kjRMX
-	GxzzPwywn3E2zf8ejVxXPN0Lg0SD+LZORDQJHMFbYaE+kczbpAxMnfxMLAWyegGhvgI
-	Sx2C7A51pfDNh8K+HqmVCoXGQ0BvPineYEqlECNQ=
+	bh=/ZORcqlkwETDv0xa1zuLw0S9Z4FNsivxqGjJEOCjY1E=;
+	b=Ub7blpf5LY/LdXan0WWcDEmjzDFEaKOrBbavLYDYDcgy8tT5FngudTe7dFSPD6kC
+	jyiMhI7oV7B/f54ZvvVq/iWTjNbQd1Qf83f83QeD0whoib3ghA2yffUtaW2yNZMOd3g
+	PCRL82fb4uRiSeXiLKeLdA/zPaAGPKzs6cj9dkvM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1654100323;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=BZf6Nbl+hdeMaSdFEHww6xaL0SkO+8uNkzzP6nUh6Is=;
-	b=kTsocrNHwQA++3evuV33VUVkMe4HHF4+lIx3ga64tUTB7ojTBEAFFknhiu1+EOBt
-	TeG5mudMHULL1cxP63VSYFo2IJmBsT0r4wKadpDLQRbikd1NtotlFKCECSm1AajPr4L
-	8jIy9XkkC7s3kFugnvXV80FTIQnHuHyd/V2EQbbI=
-Content-Type: multipart/mixed; boundary="===============8867414549656975814=="
+	bh=/ZORcqlkwETDv0xa1zuLw0S9Z4FNsivxqGjJEOCjY1E=;
+	b=IyP6Bahn+NnJYxbGKhiejifsETx73FJzO1LOQaX2oQACutmvd4TqJrk9y1VyHYHS
+	g62NlIkqSoDGmFX0xt9XjDkviyiXu3q8hmMQ/n2cfTk9zQA6XwoszMaVu3ujXW3xqyX
+	cYCLZYmQ3LM2j+4nGigWAyE1ZzibkhxecsSME8DY=
+Content-Type: multipart/mixed; boundary="===============0554338217779270110=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-numpy: upgrading to 1.22.4 SUCCEEDED
+Subject: [AUH] gnu-config: upgrading to
+ 02ba26b218d3d3db6c56e014655faf463cefa983 FAILED
 Message-ID: 
- <01010181200feacd-4006c0ac-b745-4599-9798-cc147f2ef12f-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Jun 2022 16:18:43 +0000
+ <01010181200fea97-cd05c694-1fa3-410b-8a8d-ce8841a86b64-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Jun 2022 16:18:42 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.06.01-54.240.27.45
+X-SES-Outgoing: 2022.06.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 16:18:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166401
+ https://lists.openembedded.org/g/openembedded-core/message/166400
 
---===============8867414549656975814==
+--===============0554338217779270110==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,101 +57,61 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-numpy* to *1.22.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *gnu-config* to *02ba26b218d3d3db6c56e014655faf463cefa983* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-numpy-upgrade-1.22.3-1.22.4.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade gnu-config -S 02ba26b218d3d3db6c56e014655faf463cefa983
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1642 entries from dependency cache.
+
+Summary: There was 1 WARNING message.
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-693b7126fbef93868d315ed8a4aaa4f4f192378e"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:693b7126fbef93868d315ed8a4aaa4f4f192378e"
+workspace            = "master:95066dde6861ee08fdb505ab3e0422156cc24fae"
+
+Initialising tasks...done.
+Sstate summary: Wanted 8 Local 0 Mirrors 0 Missed 8 Current 12 (0% match, 60% complete)
+Removing 6 stale sstate objects for arch x86_64...done.
+NOTE: Executing Tasks
+WARNING: Failed to find a git repository in WORKDIR: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-wwp2vgcj/workdir
+WARNING: gnu-config: the directory ${WORKDIR}/git (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-wwp2vgcj/workdir/git) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+WARNING: No source unpacked to S - either the gnu-config recipe doesn't use any source or the correct source directory could not be determined
+NOTE: Tasks Summary: Attempted 56 tasks of which 51 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+INFO: Extracting current version source...
+ERROR: Bitbake Fetcher Error: FetchError('Fetch command export PSEUDO_DISABLED=1; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/native-intercept:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-wwp2vgcj/workdir/recipe-sysroot-native/usr/bin/x86_64-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-wwp2vgcj/workdir/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-wwp2vgcj/workdir/recipe-sysroot-native/usr/sbin:/home/pokybuild/
+ yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-wwp2vgcj/workdir/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-wwp2vgcj/workdir/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-wwp2vgcj/workdir/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; git -c core.fsyncobjectfiles=0 -c gc.autoDetach=false -c core.pager=cat clone -n -s /home/pokybuild/yocto-worker/auh/build/build/build/downloads/git2/git.savannah.gnu.org.git.config.git/ /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0
+ /devtooltmp-wwp2vgcj/workdir/git/ failed with exit code 128, output:\nfatal: destination path \'/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-wwp2vgcj/workdir/git\' already exists and is not an empty directory.\n', None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-wwp2vgcj/temp/log.do_unpack.4093579
+ERROR: Extracting source for gnu-config failed
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============8867414549656975814==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/python3-numpy: PV changed from "1.22.3" to "1.22.4"
-packages/core2-32-poky-linux/python3-numpy: SRC_URI changed from "https://github.com/numpy/numpy/releases/download/v1.22.3/numpy-1.22.3.tar.gz file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch file://0001-numpy-core-Define-RISCV-32-support.patch file://run-ptest" to "https://github.com/numpy/numpy/releases/download/v1.22.4/numpy-1.22.4.tar.gz file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch file://0001-numpy-core-Define-RISCV-32-support.patch file://run-ptest"
-packages/core2-32-poky-linux/python3-numpy: PKGV changed from 1.22.3 [default] to 1.22.4 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-dbg: PKGSIZE changed from 30772680 to 30773484 (+0%)
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-dbg: PV changed from "1.22.3" to "1.22.4"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-dbg: PKGV changed from 1.22.3 [default] to 1.22.4 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-dev: PV changed from "1.22.3" to "1.22.4"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-dev: PKGV changed from 1.22.3 [default] to 1.22.4 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-doc: PV changed from "1.22.3" to "1.22.4"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-doc: PKGV changed from 1.22.3 [default] to 1.22.4 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-locale: PV changed from "1.22.3" to "1.22.4"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-locale: PKGV changed from 1.22.3 [default] to 1.22.4 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-ptest: PV changed from "1.22.3" to "1.22.4"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-ptest: PKGV changed from 1.22.3 [default] to 1.22.4 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-src: PKGSIZE changed from 18538049 to 18539381 (+0%)
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-src: PV changed from "1.22.3" to "1.22.4"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-src: PKGV changed from 1.22.3 [default] to 1.22.4 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-staticdev: PKGSIZE changed from 260590 to 260622 (+0%)
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-staticdev: PV changed from "1.22.3" to "1.22.4"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy-staticdev: PKGV changed from 1.22.3 [default] to 1.22.4 [default]
-packages/core2-32-poky-linux/python3-numpy/python3-numpy: PKGSIZE changed from 33116355 to 33126764 (+0%)
-packages/core2-32-poky-linux/python3-numpy/python3-numpy: PV changed from "1.22.3" to "1.22.4"
-packages/core2-32-poky-linux/python3-numpy/python3-numpy: PKGV changed from 1.22.3 [default] to 1.22.4 [default]
-Changes to packages/core2-32-poky-linux/python3-numpy (sysroot):
-  /usr/lib/python3.10/site-packages/numpy-1.22.3.dist-info moved to /usr/lib/python3.10/site-packages/numpy-1.22.4.dist-info
-
---===============8867414549656975814==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/python3-numpy (sysroot):
-  /usr/lib/python3.10/site-packages/numpy-1.22.3.dist-info moved to /usr/lib/python3.10/site-packages/numpy-1.22.4.dist-info
-
---===============8867414549656975814==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-python3-numpy-upgrade-1.22.3-1.22.4.patch"
-
-From 72720f573d2ec532cafe9a071c793232449b446d Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Jun 2022 08:32:42 +0000
-Subject: [PATCH] python3-numpy: upgrade 1.22.3 -> 1.22.4
-
----
- .../python/{python3-numpy_1.22.3.bb => python3-numpy_1.22.4.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-numpy_1.22.3.bb => python3-numpy_1.22.4.bb} (96%)
-
-diff --git a/meta/recipes-devtools/python/python3-numpy_1.22.3.bb b/meta/recipes-devtools/python/python3-numpy_1.22.4.bb
-similarity index 96%
-rename from meta/recipes-devtools/python/python3-numpy_1.22.3.bb
-rename to meta/recipes-devtools/python/python3-numpy_1.22.4.bb
-index b5b1c4e714..7aa473a7e9 100644
---- a/meta/recipes-devtools/python/python3-numpy_1.22.3.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_1.22.4.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${S
-            file://0001-numpy-core-Define-RISCV-32-support.patch \
-            file://run-ptest \
-            "
--SRC_URI[sha256sum] = "a906c0b4301a3d62ccf66d058fe779a65c1c34f6719ef2058f96e1856f48bca5"
-+SRC_URI[sha256sum] = "b4308198d0e41efaa108e57d69973398439c7299a9d551680cdd603cf6d20709"
- 
- UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
--- 
-2.31.1
-
-
---===============8867414549656975814==--
+--===============0554338217779270110==--
 
