@@ -1,113 +1,128 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <sakib.sajal@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8711C433EF
-	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 02:09:32 +0000 (UTC)
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by mx.groups.io with SMTP id smtpd.web08.2429.1654049367139762903
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5895DC433FE
+	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 03:51:43 +0000 (UTC)
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.3.146])
+ by mx.groups.io with SMTP id smtpd.web11.3470.1654055493726193204
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 19:09:28 -0700
+ Tue, 31 May 2022 20:51:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=VJjrDR2k;
- spf=pass (domain: intel.com, ip: 134.134.136.20,
- mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654049367; x=1685585367;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=oQa2MMJiDxlYbqfyjSPTX9Zhq2woWyuqWLuqVA9iv2w=;
-  b=VJjrDR2kWmbmIuTYHzg2u/IbGckCYiKvs8+OMFX2uXCvl61uYbOcIA7p
-   hK5DjbPELm7cl0D7v08uVrDYUPROTvChsbouYNwdg7uTBferLTOf/tHpn
-   iv8A4I8xADc2SG32yqFo9K/tn27ZGItfYkiDgWFmmvOyoMhLq7E5FmJIg
-   99iTsJKNfu3TLVsZrjTdgSIvkUtsb9Q9LFeLKimmmebggHHeEjZ2qK8jR
-   24I5QxLa77FO7bzjw+lwjHA08Vg6QqDa/gPEHdqKaUkZy6CmbEStjpdu5
-   j+hUKVTZMlbF4hNrfFYo+BH7TEbIcy3KF5fjFlOlNgYE3IDtrTr9rXN8A
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10364"; a="263081171"
-X-IronPort-AV: E=Sophos;i="5.91,266,1647327600";
-   d="scan'208";a="263081171"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 May 2022 19:09:26 -0700
-X-IronPort-AV: E=Sophos;i="5.91,266,1647327600";
-   d="scan'208";a="823540489"
-Received: from rpuvenes-mobl1.gar.corp.intel.com (HELO
- anmitta2-mobl3.intel.com) ([10.215.250.27])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 May 2022 19:09:25 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [honister][PATCH 00/12] Pull request (cover letter only)
-Date: Wed,  1 Jun 2022 10:09:19 +0800
-Message-Id: <cover.1654049055.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.35.3
+ dkim=missing;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
+ domain name (domain: windriver.com, ip: 147.11.3.146,
+ mailfrom: sakib.sajal@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 2513pXkh009014
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 31 May 2022 20:51:33 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 2513pWCg000954
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 31 May 2022 20:51:33 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 31 May 2022 20:51:32 -0700
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Tue, 31 May 2022 20:51:32 -0700
+From: Sakib Sajal <sakib.sajal@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][hardknott][PATCH 3/4] qemu: fix CVE-2022-26353
+Date: Tue, 31 May 2022 23:51:24 -0400
+Message-ID: <20220601035125.17565-3-sakib.sajal@windriver.com>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20220601035125.17565-1-sakib.sajal@windriver.com>
+References: <20220601035125.17565-1-sakib.sajal@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 02:09:32 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 03:51:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166344
+ https://lists.openembedded.org/g/openembedded-core/message/166347
 
-The branch has reached EOL and will not be actively maintained after
-this merge.
+Backport fix to resolve CVE-2022-26353:
+   abe300d9d8 virtio-net: fix map leaking on error during receive
 
-Thanks,
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2022-26353.patch            | 44 +++++++++++++++++++
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-26353.patch
 
-Anuj
-
-The following changes since commit e0d5d93a18d1682f3393fc10133f08009f008601:
-
-  perf: sort-pmuevents: allow for additional type qualifiers and storage class (2022-05-10 21:44:32 +0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib stable/honister-next
-
-Bruce Ashfield (6):
-  linux-yocto/5.10: features/security: Move x86_64 configs to separate
-    file
-  linux-yocto/5.10: update to v5.10.110
-  linux-yocto/5.10: base: enable kernel crypto userspace API
-  linux-yocto/5.10: update to v5.10.112
-  linux-yocto: enable powerpc debug fragment
-  linux-yocto/5.10: update to v5.10.113
-
-Dmitry Baryshkov (1):
-  linux-firmware: upgrade 20220411 -> 20220509
-
-Felix Moessbauer (1):
-  wic/plugins/rootfs: Fix permissions when splitting rootfs folders
-    across partitions
-
-Khem Raj (1):
-  linux-yocto: Enable powerpc-debug fragment for ppc64 LE
-
-Ovidiu Panait (1):
-  openssl: upgrade 1.1.1l -> 1.1.1n
-
-Ranjitsinh Rathod (1):
-  openssl: Minor security upgrade 1.1.1n to 1.1.1o
-
-Richard Purdie (1):
-  vim: Upgrade 8.2.4681 -> 8.2.4912
-
- .../{openssl_1.1.1l.bb => openssl_1.1.1o.bb}  |  3 ++-
- ...20220411.bb => linux-firmware_20220509.bb} |  4 +--
- .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
- .../linux/linux-yocto-tiny_5.10.bb            |  8 +++---
- meta/recipes-kernel/linux/linux-yocto_5.10.bb | 27 ++++++++++---------
- meta/recipes-support/vim/vim.inc              |  4 +--
- scripts/lib/wic/plugins/source/rootfs.py      |  5 +++-
- 7 files changed, 32 insertions(+), 25 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1l.bb => openssl_1.1.1o.bb} (98%)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220411.bb => linux-firmware_20220509.bb} (99%)
-
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 5605ece5bb..898377d11b 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -80,6 +80,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2021-3750_1.patch \
+            file://CVE-2021-3750_2.patch \
+            file://CVE-2021-3750_3.patch \
++           file://CVE-2022-26353.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2022-26353.patch b/meta/recipes-devtools/qemu/qemu/CVE-2022-26353.patch
+new file mode 100644
+index 0000000000..e76444b9fe
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2022-26353.patch
+@@ -0,0 +1,44 @@
++From 2263354a272db3e520687af31675684c9c705456 Mon Sep 17 00:00:00 2001
++From: Jason Wang <jasowang@redhat.com>
++Date: Tue, 8 Mar 2022 10:42:51 +0800
++Subject: [PATCH] virtio-net: fix map leaking on error during receive
++
++Commit bedd7e93d0196 ("virtio-net: fix use after unmap/free for sg")
++tries to fix the use after free of the sg by caching the virtqueue
++elements in an array and unmap them at once after receiving the
++packets, But it forgot to unmap the cached elements on error which
++will lead to leaking of mapping and other unexpected results.
++
++Fixing this by detaching the cached elements on error. This addresses
++CVE-2022-26353.
++
++Reported-by: Victor Tom <vv474172261@gmail.com>
++Cc: qemu-stable@nongnu.org
++Fixes: CVE-2022-26353
++Fixes: bedd7e93d0196 ("virtio-net: fix use after unmap/free for sg")
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Signed-off-by: Jason Wang <jasowang@redhat.com>
++
++CVE: CVE-2022-26353
++Upstream-Status: Backport [abe300d9d894f7138e1af7c8e9c88c04bfe98b37]
++
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ hw/net/virtio-net.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
++index df1d30e2c..a351d16b5 100644
++--- a/hw/net/virtio-net.c
+++++ b/hw/net/virtio-net.c
++@@ -1795,6 +1795,7 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
++ 
++ err:
++     for (j = 0; j < i; j++) {
+++        virtqueue_detach_element(q->rx_vq, elems[j], lens[j]);
++         g_free(elems[j]);
++     }
++ 
++-- 
++2.33.0
++
 -- 
-2.35.3
+2.33.0
 
 
