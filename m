@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BB09CCA47C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C387CCA47E
 	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 16:18:48 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com
- (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.620.1654100324694521573
+Received: from a27-193.smtp-out.us-west-2.amazonses.com
+ (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web12.618.1654100324745240259
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 Jun 2022 09:18:44 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=H0+WY7RK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
- mailfrom: 01010181200fed40-c7a6dda9-6bd1-4818-a2d7-c33f21549ab1-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Qddjgswz;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
+ mailfrom: 01010181200fed45-a9905269-e61c-461c-bae6-8de1947d9ce7-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1654100324;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Nm3Mj6jM0RuNAgikIc4ShhDfVd/RVQsg3BHZU+pvngo=;
-	b=H0+WY7RKgzezxYbmYcnsfPx1kpjQzc65ydpwVuHjosiELa+weUsBHiHO7xWxJlSX
-	4k1W7SNRZKYZFwFftd5ZwVoQj8HCA5NIbfX6+lUA7DeTHO5Z6eeLk0M5KhsJ9brOQyt
-	d346GrSi96fp0Qtf6mOHUVZWsYPUQmtAlAzZP1pQ=
+	bh=zVYU2CLRooHiW4tl+hYrBvNSNm1yDez/Z+KjM+08Zfo=;
+	b=QddjgswzX3h+v8CzPKE4l7OFkIYqFTq107k7R1nWIQcNbtusTDouiXWo9mJCxGPI
+	u++T4aifsMTkkpwHPJuAvYjUAkQRrlugVXOGbRXB9kDQ++rzmV/0cLk2pInpZ9/c+sh
+	TNWWbZwNFXocy9+RtEcsC+Kr56NzBNwC4U1kVyHs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1654100324;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Nm3Mj6jM0RuNAgikIc4ShhDfVd/RVQsg3BHZU+pvngo=;
-	b=EbORwIUzMaVjs/4qtyF36iUNTIPy7Wh/5mjIAzdVkZ9JxbA5+W5k+cXtfxrjOIPa
-	p+viPKuO3AWOOHOAc1yg9E4lvw1bf543vuZbco88x6Y0ok5EnqFrG80R/GWPzAQ9j4X
-	JzxtGhN7whR6JpR/cDbucN9K6/O9tLbWIxz6CpI8=
-Content-Type: multipart/mixed; boundary="===============1014995176236038660=="
+	bh=zVYU2CLRooHiW4tl+hYrBvNSNm1yDez/Z+KjM+08Zfo=;
+	b=dINboVo+XvTdg2HsH4IsPUGNvD+N+WTVeTzjp80XZ4kMiFcjf7yD3vZat24MPqNI
+	XMTFy1mBiPF6sfL8o2eFx16fwcwLql3LfDfLFfePk/SjczcIhoHw85CuGfG4iTdn8D1
+	SgXuwsjc5GTFj/jQKxwJWFMMzllok1PRanxxYZYs=
+Content-Type: multipart/mixed; boundary="===============8903457210600281867=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] harfbuzz: upgrading to 4.3.0 SUCCEEDED
+Subject: [AUH] gtk+3: upgrading to 3.24.34 SUCCEEDED
 Message-ID: 
- <01010181200fed40-c7a6dda9-6bd1-4818-a2d7-c33f21549ab1-000000@us-west-2.amazonses.com>
+ <01010181200fed45-a9905269-e61c-461c-bae6-8de1947d9ce7-000000@us-west-2.amazonses.com>
 Date: Wed, 1 Jun 2022 16:18:43 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.06.01-54.240.27.31
+X-SES-Outgoing: 2022.06.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 16:18:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166425
+ https://lists.openembedded.org/g/openembedded-core/message/166424
 
---===============1014995176236038660==
+--===============8903457210600281867==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *harfbuzz* to *4.3.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *gtk+3* to *3.24.34* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-harfbuzz-upgrade-4.2.1-4.3.0.patch
+    - apply the patch: git am 0001-gtk-3-upgrade-3.24.33-3.24.34.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,55 +75,317 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============1014995176236038660==
+--===============8903457210600281867==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-bin: PV changed from "4.2.1" to "4.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-bin: PKGV changed from 4.2.1 [default] to 4.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-dbg: PV changed from "4.2.1" to "4.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-dbg: PKGV changed from 4.2.1 [default] to 4.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-dbg: FILELIST: removed "/usr/lib/.debug/libharfbuzz-subset.so.0.40201.0 /usr/lib/.debug/libharfbuzz.so.0.40201.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.40201.0 /usr/lib/.debug/libharfbuzz-icu.so.0.40201.0", added "/usr/lib/.debug/libharfbuzz-gobject.so.0.40300.0 /usr/lib/.debug/libharfbuzz-icu.so.0.40300.0 /usr/lib/.debug/libharfbuzz-subset.so.0.40300.0 /usr/lib/.debug/libharfbuzz.so.0.40300.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-dbg: PKGSIZE changed from 37864836 to 37749864 (-0%)
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-dev: PV changed from "4.2.1" to "4.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-dev: PKGV changed from 4.2.1 [default] to 4.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-dev: PKGSIZE changed from 1441023 to 1442288 (+0%)
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-doc: PV changed from "4.2.1" to "4.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-doc: PKGV changed from 4.2.1 [default] to 4.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu-dev: PV changed from "4.2.1" to "4.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu-dev: PKGV changed from 4.2.1 [default] to 4.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu: PV changed from "4.2.1" to "4.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu: PKGV changed from 4.2.1 [default] to 4.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.40201.0", added "/usr/lib/libharfbuzz-icu.so.0.40300.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-locale: PV changed from "4.2.1" to "4.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-locale: PKGV changed from 4.2.1 [default] to 4.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-src: PV changed from "4.2.1" to "4.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-src: PKGV changed from 4.2.1 [default] to 4.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-src: PKGSIZE changed from 4004069 to 4048390 (+1%)
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-staticdev: PV changed from "4.2.1" to "4.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-staticdev: PKGV changed from 4.2.1 [default] to 4.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-subset: PV changed from "4.2.1" to "4.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-subset: PKGV changed from 4.2.1 [default] to 4.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.40201.0", added "/usr/lib/libharfbuzz-subset.so.0.40300.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-subset: PKGSIZE changed from 1054023 to 1000775 (-5%)
-packages/core2-32-poky-linux/harfbuzz/harfbuzz: PV changed from "4.2.1" to "4.3.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz: PKGV changed from 4.2.1 [default] to 4.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz-gobject.so.0.40201.0 /usr/lib/libharfbuzz.so.0.40201.0", added "/usr/lib/libharfbuzz-gobject.so.0.40300.0 /usr/lib/libharfbuzz.so.0.40300.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz: PKGSIZE changed from 1410112 to 1389740 (-1%)
-packages/core2-32-poky-linux/harfbuzz: PV changed from "4.2.1" to "4.3.0"
-packages/core2-32-poky-linux/harfbuzz: PKGV changed from 4.2.1 [default] to 4.3.0 [default]
-packages/core2-32-poky-linux/harfbuzz: SRC_URI changed from "https://github.com/harfbuzz/harfbuzz/releases/download/4.2.1/harfbuzz-4.2.1.tar.xz" to "https://github.com/harfbuzz/harfbuzz/releases/download/4.3.0/harfbuzz-4.3.0.tar.xz"
-Changes to packages/core2-32-poky-linux/harfbuzz (sysroot):
-  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.40201.0 to libharfbuzz-gobject.so.0.40300.0
-  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.40201.0 to libharfbuzz-icu.so.0.40300.0
-  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.40201.0 to libharfbuzz.so.0.40300.0
-  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.40201.0 to libharfbuzz-subset.so.0.40300.0
-  /usr/lib/libharfbuzz-gobject.so.0.40201.0 moved to /usr/lib/libharfbuzz-gobject.so.0.40300.0
-  /usr/lib/libharfbuzz-icu.so.0.40201.0 moved to /usr/lib/libharfbuzz-icu.so.0.40300.0
-  /usr/lib/libharfbuzz.so.0.40201.0 moved to /usr/lib/libharfbuzz.so.0.40300.0
-  /usr/lib/libharfbuzz-subset.so.0.40201.0 moved to /usr/lib/libharfbuzz-subset.so.0.40300.0
+packages/core2-32-poky-linux/gtk+3/gtk+3-dbg: FILELIST: removed "/usr/lib/.debug/libgdk-3.so.0.2404.29 /usr/lib/.debug/libgtk-3.so.0.2404.29", added "/usr/lib/.debug/libgdk-3.so.0.2404.30 /usr/lib/.debug/libgtk-3.so.0.2404.30"
+packages/core2-32-poky-linux/gtk+3/gtk+3-dbg: PKGSIZE changed from 22120656 to 22121016 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-dbg: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-dbg: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-demo: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-demo: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-dev: PKGSIZE changed from 14501460 to 14501473 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-dev: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-dev: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-doc: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-doc: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-af: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-af: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-am: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-am: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-an: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-an: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ang: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ang: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ar: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ar: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-as: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-as: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ast: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ast: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-az-ir: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-az-ir: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-az: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-az: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-be+latin: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-be+latin: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-be: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-be: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-bg: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-bg: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-bn-in: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-bn-in: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-bn: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-bn: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-br: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-br: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-bs: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-bs: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ca+valencia: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ca+valencia: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ca: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ca: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ckb: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ckb: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-crh: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-crh: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-cs: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-cs: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-cy: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-cy: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-da: PKGSIZE changed from 307596 to 307681 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-da: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-da: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-de: PKGSIZE changed from 322374 to 322618 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-de: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-de: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-dz: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-dz: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-el: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-el: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-en+shaw: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-en+shaw: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-en-ca: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-en-ca: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-en-gb: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-en-gb: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-en: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-en: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-eo: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-eo: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-es: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-es: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-et: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-et: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-eu: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-eu: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-fa: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-fa: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-fi: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-fi: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-fr: PKGSIZE changed from 336906 to 336621 (-0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-fr: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-fr: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-fur: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-fur: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ga: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ga: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-gd: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-gd: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-gl: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-gl: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-gu: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-gu: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-he: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-he: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-hi: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-hi: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-hr: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-hr: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-hu: PKGSIZE changed from 321754 to 321879 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-hu: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-hu: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-hy: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-hy: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ia: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ia: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-id: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-id: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-io: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-io: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-is: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-is: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-it: PKGSIZE changed from 323184 to 323278 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-it: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-it: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ja: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ja: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ka: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ka: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-kg: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-kg: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-kk: PKGSIZE changed from 149242 to 149373 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-kk: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-kk: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-km: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-km: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-kn: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-kn: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ko: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ko: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ku: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ku: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ky: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ky: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-lg: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-lg: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-li: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-li: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-lt: PKGSIZE changed from 314573 to 314135 (-0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-lt: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-lt: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-lv: PKGSIZE changed from 312741 to 312830 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-lv: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-lv: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mai: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mai: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mi: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mi: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mk: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mk: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ml: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ml: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mn: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mn: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mr: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-mr: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ms: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ms: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-my: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-my: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nb: PKGSIZE changed from 231536 to 231410 (-0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nb: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nb: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nds: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nds: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ne: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ne: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nl: PKGSIZE changed from 314820 to 315272 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nl: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nl: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nn: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nn: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nso: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-nso: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-oc: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-oc: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-or: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-or: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-pa: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-pa: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-pl: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-pl: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ps: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ps: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-pt-br: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-pt-br: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-pt: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-pt: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ro: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ro: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ru: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ru: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-rw: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-rw: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-si: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-si: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sk: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sk: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sl: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sl: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sq: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sq: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sr+ije: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sr+ije: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sr+latin: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sr+latin: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sr: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sr: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sv: PKGSIZE changed from 311509 to 311513 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sv: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-sv: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ta: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ta: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-te: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-te: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-tg: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-tg: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-th: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-th: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-tk: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-tk: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-tr: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-tr: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-tt: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-tt: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ug: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ug: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-uk: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-uk: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ur: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-ur: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-uz+cyrillic: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-uz+cyrillic: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-uz: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-uz: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-vi: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-vi: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-wa: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-wa: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-xh: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-xh: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-yi: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-yi: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-zh-cn: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-zh-cn: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-zh-hk: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-zh-hk: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-zh-tw: PKGSIZE changed from 293050 to 293138 (+0%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-zh-tw: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-locale-zh-tw: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-src: PKGSIZE changed from 54423216 to 54049550 (-1%)
+packages/core2-32-poky-linux/gtk+3/gtk+3-src: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-src: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3-staticdev: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3-staticdev: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk+3: FILELIST: removed "/usr/lib/libgdk-3.so.0.2404.29 /usr/lib/libgtk-3.so.0.2404.29", added "/usr/lib/libgtk-3.so.0.2404.30 /usr/lib/libgdk-3.so.0.2404.30"
+packages/core2-32-poky-linux/gtk+3/gtk+3: PKGSIZE changed from 11831792 to 11926000 (+1%)
+packages/core2-32-poky-linux/gtk+3/gtk+3: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk+3: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-am-et: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-am-et: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-cedilla: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-cedilla: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-cyrillic-translit: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-cyrillic-translit: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-inuktitut: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-inuktitut: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-ipa: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-ipa: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-multipress: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-multipress: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-thai: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-thai: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-ti-er: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-ti-er: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-ti-et: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-ti-et: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-viqr: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-viqr: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-wayland: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-wayland: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-waylandgtk: PKGSIZE changed from 17812 to 21908 (+23%)
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-waylandgtk: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-waylandgtk: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-xim: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-xim: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-printbackend-file: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk3-printbackend-file: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3/gtk3-printbackend-lpr: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3/gtk3-printbackend-lpr: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+packages/core2-32-poky-linux/gtk+3: SRC_URI changed from "http://ftp.gnome.org/pub/gnome/sources/gtk+/3.24/gtk+-3.24.33.tar.xz file://0002-Do-not-try-to-initialize-GL-without-libGL.patch file://0003-Add-disable-opengl-configure-option.patch file://link_fribidi.patch" to "http://ftp.gnome.org/pub/gnome/sources/gtk+/3.24/gtk+-3.24.34.tar.xz file://0002-Do-not-try-to-initialize-GL-without-libGL.patch file://0003-Add-disable-opengl-configure-option.patch file://link_fribidi.patch"
+packages/core2-32-poky-linux/gtk+3: PV changed from "3.24.33" to "3.24.34"
+packages/core2-32-poky-linux/gtk+3: PKGV changed from 3.24.33 [default] to 3.24.34 [default]
+Changes to packages/core2-32-poky-linux/gtk+3 (sysroot):
+  /usr/lib/libgdk-3.so.0 changed symlink target from libgdk-3.so.0.2404.29 to libgdk-3.so.0.2404.30
+  /usr/lib/libgdk-3.so changed symlink target from libgdk-3.so.0.2404.29 to libgdk-3.so.0.2404.30
+  /usr/lib/libgtk-3.so.0 changed symlink target from libgtk-3.so.0.2404.29 to libgtk-3.so.0.2404.30
+  /usr/lib/libgtk-3.so changed symlink target from libgtk-3.so.0.2404.29 to libgtk-3.so.0.2404.30
+  /usr/lib/libgdk-3.so.0.2404.29 moved to /usr/lib/libgdk-3.so.0.2404.30
+  /usr/lib/libgtk-3.so.0.2404.29 moved to /usr/lib/libgtk-3.so.0.2404.30
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1477,25 +1739,29 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoffout.h was removed
+Changes to packages/x86_64-linux/gtk+3-native (sysroot):
+  /usr/lib/libgdk-3.so.0 changed symlink target from libgdk-3.so.0.2404.29 to libgdk-3.so.0.2404.30
+  /usr/lib/libgdk-3.so changed symlink target from libgdk-3.so.0.2404.29 to libgdk-3.so.0.2404.30
+  /usr/lib/libgtk-3.so.0 changed symlink target from libgtk-3.so.0.2404.29 to libgtk-3.so.0.2404.30
+  /usr/lib/libgtk-3.so changed symlink target from libgtk-3.so.0.2404.29 to libgtk-3.so.0.2404.30
+  /usr/lib/libgdk-3.so.0.2404.29 moved to /usr/lib/libgdk-3.so.0.2404.30
+  /usr/lib/libgtk-3.so.0.2404.29 moved to /usr/lib/libgtk-3.so.0.2404.30
 
---===============1014995176236038660==
+--===============8903457210600281867==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.40201.0", added "/usr/lib/libharfbuzz-icu.so.0.40300.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.40201.0", added "/usr/lib/libharfbuzz-subset.so.0.40300.0"
-packages/core2-32-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz.so.0.40201.0 /usr/lib/libharfbuzz-gobject.so.0.40201.0", added "/usr/lib/libharfbuzz.so.0.40300.0 /usr/lib/libharfbuzz-gobject.so.0.40300.0"
-Changes to packages/core2-32-poky-linux/harfbuzz (sysroot):
-  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.40201.0 to libharfbuzz-gobject.so.0.40300.0
-  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.40201.0 to libharfbuzz-icu.so.0.40300.0
-  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.40201.0 to libharfbuzz.so.0.40300.0
-  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.40201.0 to libharfbuzz-subset.so.0.40300.0
-  /usr/lib/libharfbuzz-gobject.so.0.40201.0 moved to /usr/lib/libharfbuzz-gobject.so.0.40300.0
-  /usr/lib/libharfbuzz-icu.so.0.40201.0 moved to /usr/lib/libharfbuzz-icu.so.0.40300.0
-  /usr/lib/libharfbuzz.so.0.40201.0 moved to /usr/lib/libharfbuzz.so.0.40300.0
-  /usr/lib/libharfbuzz-subset.so.0.40201.0 moved to /usr/lib/libharfbuzz-subset.so.0.40300.0
+packages/core2-32-poky-linux/gtk+3/gtk+3: FILELIST: removed "/usr/lib/libgtk-3.so.0.2404.29 /usr/lib/libgdk-3.so.0.2404.29", added "/usr/lib/libgtk-3.so.0.2404.30 /usr/lib/libgdk-3.so.0.2404.30"
+packages/core2-32-poky-linux/gtk+3/gtk3-immodule-waylandgtk: PKGSIZE changed from 17812 to 21908 (+23%)
+Changes to packages/core2-32-poky-linux/gtk+3 (sysroot):
+  /usr/lib/libgdk-3.so.0 changed symlink target from libgdk-3.so.0.2404.29 to libgdk-3.so.0.2404.30
+  /usr/lib/libgdk-3.so changed symlink target from libgdk-3.so.0.2404.29 to libgdk-3.so.0.2404.30
+  /usr/lib/libgtk-3.so.0 changed symlink target from libgtk-3.so.0.2404.29 to libgtk-3.so.0.2404.30
+  /usr/lib/libgtk-3.so changed symlink target from libgtk-3.so.0.2404.29 to libgtk-3.so.0.2404.30
+  /usr/lib/libgdk-3.so.0.2404.29 moved to /usr/lib/libgdk-3.so.0.2404.30
+  /usr/lib/libgtk-3.so.0.2404.29 moved to /usr/lib/libgtk-3.so.0.2404.30
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2849,42 +3115,49 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoffout.h was removed
+Changes to packages/x86_64-linux/gtk+3-native (sysroot):
+  /usr/lib/libgdk-3.so.0 changed symlink target from libgdk-3.so.0.2404.29 to libgdk-3.so.0.2404.30
+  /usr/lib/libgdk-3.so changed symlink target from libgdk-3.so.0.2404.29 to libgdk-3.so.0.2404.30
+  /usr/lib/libgtk-3.so.0 changed symlink target from libgtk-3.so.0.2404.29 to libgtk-3.so.0.2404.30
+  /usr/lib/libgtk-3.so changed symlink target from libgtk-3.so.0.2404.29 to libgtk-3.so.0.2404.30
+  /usr/lib/libgdk-3.so.0.2404.29 moved to /usr/lib/libgdk-3.so.0.2404.30
+  /usr/lib/libgtk-3.so.0.2404.29 moved to /usr/lib/libgtk-3.so.0.2404.30
 
---===============1014995176236038660==
+--===============8903457210600281867==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-harfbuzz-upgrade-4.2.1-4.3.0.patch"
+ filename="0001-gtk-3-upgrade-3.24.33-3.24.34.patch"
 
-From 5734240a481d018fa5dd60ea002a77b74db22b60 Mon Sep 17 00:00:00 2001
+From 24b64827291c24b83263559cb6cd323d643be09d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Jun 2022 12:20:42 +0000
-Subject: [PATCH] harfbuzz: upgrade 4.2.1 -> 4.3.0
+Date: Wed, 1 Jun 2022 12:08:13 +0000
+Subject: [PATCH] gtk+3: upgrade 3.24.33 -> 3.24.34
 
 ---
- .../harfbuzz/{harfbuzz_4.2.1.bb => harfbuzz_4.3.0.bb}           | 2 +-
+ meta/recipes-gnome/gtk+/{gtk+3_3.24.33.bb => gtk+3_3.24.34.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_4.2.1.bb => harfbuzz_4.3.0.bb} (95%)
+ rename meta/recipes-gnome/gtk+/{gtk+3_3.24.33.bb => gtk+3_3.24.34.bb} (89%)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_4.3.0.bb
-similarity index 95%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_4.2.1.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_4.3.0.bb
-index 05d5aefd87..909b8c57d9 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_4.2.1.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_4.3.0.bb
-@@ -12,7 +12,7 @@ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
- UPSTREAM_CHECK_REGEX = "harfbuzz-(?P<pver>\d+(\.\d+)+).tar"
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.33.bb b/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb
+similarity index 89%
+rename from meta/recipes-gnome/gtk+/gtk+3_3.24.33.bb
+rename to meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb
+index fb9e29dd8c..f862e143d4 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.24.33.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb
+@@ -7,7 +7,7 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
+            file://0003-Add-disable-opengl-configure-option.patch \
+            file://link_fribidi.patch \
+            "
+-SRC_URI[sha256sum] = "588b06522e25d1579e989b6f9d8a1bdbf2fe13cde01a04e904ff346a225e7801"
++SRC_URI[sha256sum] = "dbc69f90ddc821b8d1441f00374dc1da4323a2eafa9078e61edbe5eeefa852ec"
  
- SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "bd17916513829aeff961359a5ccebba6de2f4bf37a91faee3ac29c120e3d7ee1"
-+SRC_URI[sha256sum] = "a49628f4c4c8e6d8df95ef44935a93446cf2e46366915b0e3ca30df21fffb530"
- 
- inherit meson pkgconfig lib_package gtk-doc gobject-introspection
+ S = "${WORKDIR}/gtk+-${PV}"
  
 -- 
 2.31.1
 
 
---===============1014995176236038660==--
+--===============8903457210600281867==--
 
