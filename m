@@ -1,158 +1,120 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <marcel@ziswiler.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7367C433EF
-	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 08:23:14 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web08.5010.1654071787347513019
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9F41C433FE
+	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 08:32:54 +0000 (UTC)
+Received: from mout.perfora.net (mout.perfora.net [74.208.4.197])
+ by mx.groups.io with SMTP id smtpd.web10.5085.1654072372581104659
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jun 2022 01:23:07 -0700
+ Wed, 01 Jun 2022 01:32:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=phE6qvqZ;
- spf=pass (domain: gmail.com, ip: 209.85.167.45,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id l30so1503496lfj.3
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jun 2022 01:23:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=F9JwxUTmzmjUGU5OpHxqZHWZX/SxexWmZp1nMOO0uiQ=;
-        b=phE6qvqZzUYNu4PKS6htAQYAGe97/J7xr+8whpodynvfLc6U5DUlH/IEUePAYlGUie
-         iulTaV3j3eA/QgWRycV1GIFnbIGsPwdDHNNz31PJUbUcQvcWt/QxW+yRwS9NXYEtjFhj
-         9cINkgndhiMl6ygInEaPuCxaraQ94SRMBDt5s/KIEJPOenQRowX/ez5a7JVXTgbhzNDY
-         Oq890ULJ3edqSXt6917/1xUbNROLNx3hH4uGeP+DN8WJOxIzPpntP3XA+XUBHN4H3wbE
-         8V78P1/DrWwXOWlm6ObzOjfepLOjM8CL2xGEzTgL/r4s6z8qZJwu0oTzeu0TRzm7husQ
-         pvTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=F9JwxUTmzmjUGU5OpHxqZHWZX/SxexWmZp1nMOO0uiQ=;
-        b=51eTcSVi0cbeUK3fWxMJVfMIBA+ubzzlKO+xy0T0/1Be8jaSLph14rfAV2FB7Wtc+b
-         +M7UguqsFPgoeJ7yKl1OCU2rr1adwF+MSei3Xd3qHsEjxCTyRmIAL+Z9Ar0xLyhUy2dR
-         MEXK9qLacazBGZNOv1Ppo9j5Ul9ovdBFR5Soi+ASmyGWvTFZDltRSjyvZwZ96qsBhb/M
-         dXaxZalVhoHqbTmR1FsXE+sWJJXiPuSFpQmz98IcQ+l+1NUrqHNO6Oluf6nBog+YINoB
-         o7fybkBOLGCUTjeUTdGQSpfieRaYFSXHKLYFg2NGCsEgEMlkCEj4C5+M9VrsiZ+GEmsQ
-         tTKw==
-X-Gm-Message-State: AOAM5312Tgg9bkLJwTlq9p8MIGMk3h847LWDS+8yO9CVCCFpMK+lsOKc
-	GV6zcJZwnCr7Rx4z4tZgVjIY1eJOX3Ukq4FYFOQ=
-X-Google-Smtp-Source: 
- ABdhPJw6nNelzhKk6R9IDoqkcC5Sp/JUj+iQb10bodsPWhYKnKAYoXU+0wkZF8hNVyZCHNjCoryGJWaTWSQph3vRS1I=
-X-Received: by 2002:a05:6512:304c:b0:478:67d5:6982 with SMTP id
- b12-20020a056512304c00b0047867d56982mr38435872lfb.380.1654071785580; Wed, 01
- Jun 2022 01:23:05 -0700 (PDT)
-MIME-Version: 1.0
+ dkim=missing;
+ spf=none, err=permanent DNS error (domain: ziswiler.com, ip: 74.208.4.197,
+ mailfrom: marcel@ziswiler.com)
+Received: from [10.10.1.194] ([81.221.243.92]) by mrelay.perfora.net
+ (mreueus003 [74.208.5.2]) with ESMTPSA (Nemesis) id 0MVw6g-1oKZpG0wps-00X4Hn;
+ Wed, 01 Jun 2022 10:32:46 +0200
+Message-ID: <7ac20da267c772c462028483d5ff451d8dd39373.camel@ziswiler.com>
+Subject: Re: [oe-core][PATCH v3 2/2] libavtp: add recipe to be able to use
+ aaf config for alsa-plugins
+From: Marcel Ziswiler <marcel@ziswiler.com>
+To: Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+	openembedded-core@lists.openembedded.org
+Cc: Peter Bergin <peter@berginkonsult.se>
+Date: Wed, 01 Jun 2022 10:32:43 +0200
+In-Reply-To: <b252408c-60b7-62aa-10b8-860ab0ed0a5b@theobroma-systems.com>
 References: <20220531213206.7119-1-marcel@ziswiler.com>
- <20220531213206.7119-2-marcel@ziswiler.com>
- <CANNYZj8xMEOqAPXBuP4oPonqDsJWUK8G6ExRwmT=7zkTQJp1rg@mail.gmail.com>
- <ab46486dd45aaedcfd1d00817e403572ef0b64d9.camel@ziswiler.com>
-In-Reply-To: <ab46486dd45aaedcfd1d00817e403572ef0b64d9.camel@ziswiler.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 1 Jun 2022 10:22:54 +0200
-Message-ID: 
- <CANNYZj8QZH-PyopuyQ8oo8mL7K96Jh=3-659zL=B+LvT8HWAug@mail.gmail.com>
-Subject: Re: [oe-core][PATCH v3 2/2] libavtp: add recipe to be able to use aaf
- config for alsa-plugins
-To: Marcel Ziswiler <marcel@ziswiler.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Peter Bergin <peter@berginkonsult.se>
+	 <20220531213206.7119-2-marcel@ziswiler.com>
+	 <b252408c-60b7-62aa-10b8-860ab0ed0a5b@theobroma-systems.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.2 (by Flathub.org)) 
+MIME-Version: 1.0
+X-Provags-ID: V03:K1:8rypyPD5i6L6s3uqK2TOOPc9jEPYUWc009PBcQAM3xNd3+V8VGR
+ NyBzz8T5sDmnKWn0dAC+fAEfu8Q/Zq4eNiBJSeYEiOEUcEGoDlOGPVfIuEyUXzFZKHBFoPU
+ g2uVowO37fqhxFIFVCrKqgGD3LTbecUk795jW2MZA1SFOvZ5UAoAnf0QA3X4vIKRorMzE5u
+ XnAbZmmHOEEA+LBhJa8fw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:dwC8qp/IGXM=:MVS5HpFK8foSyJUhm5wTe+
+ +Gl2d+FynQQnlnI+xN2XJYcbW4ARRDBMGqx3LcQ1+t8gXwmoaswNzcE8O3CWcY3Vl8+zLDj/2
+ Kjuj+ZiTZJ+99Vl06bMqNqDPpEHdS1nMjVHgY6uQHnrK3bD9+q1JfoMKQj4fvCnvzW83mX8E/
+ J7vFccz8DbLoPc1zrRmX7cCK/FUG0o4SpHQrrpseHCYaTnzmhrrLZT+NLi1sCXMnhAN5dLS9D
+ uZ0GQKGnCnpPE7lABOk7Dv5EG/xnu63OV5xhAFtKCGwDjIQK9Jzl4AkpBHjgdjPcjSr7TGnex
+ QplpurkodIR1VCQHORpoJUQMjujQDXpIUcCNcBf7qqrvl2AiGWVxnDCRICQdxZEhY4dXC9A7A
+ RwPx/dmfB/0/gPFmN1d6+VUjw7R6hC4tyeBshvY//B3p+wSbfy8UXo7Em9i6kvoxVryAPUpuf
+ eHyS55VLcDfZxQfBkr1QO2trrupiDo6cTc6d3Z6qQUOmP3djZ/nYwZir0oewEhk3XsgevFobq
+ uyYkPf2uttgqWPQ3oiu1NLi5xQnq/6fBiyNQPiFKPb+0oInNGiHDbWNyqFuMu94GoL5VZMAwi
+ QNAH7L8Hu/FlSp3xzhYMUzznjut8e2fbCDINGQhRn3f7eJWVh2xY1LIGhxAYdOXgy4LqrAlSj
+ o4hXy2LeAfx1sLhJKaFUU0LzFuwI/FHgZynWCu8R/Fs02/62pY6KshRFZeu/NFFhq4ZuSw7UW
+ ddEm+4bh3rOaCpwaOpMY9IgCR+2dLjYgRitDag==
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 08:23:14 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 08:32:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166364
+ https://lists.openembedded.org/g/openembedded-core/message/166365
 
-As long as the dependency is optional and controlled via PACKAGECONFIG
-and off by default, the recipe does not have to be in core, and we
-have plenty of examples of similar arrangements.
+Hi Quentin
 
-Alex
+On Wed, 2022-06-01 at 10:13 +0200, Quentin Schulz wrote:
+> Marcel, Peter,
+>=20
+> On 5/31/22 23:32, Marcel Ziswiler wrote:
+> > From: Peter Bergin <peter@berginkonsult.se>
+> >=20
 
-On Wed, 1 Jun 2022 at 10:05, Marcel Ziswiler <marcel@ziswiler.com> wrote:
->
-> On Wed, 2022-06-01 at 09:30 +0200, Alexander Kanavin wrote:
-> > This should go to meta-oe I think. Does it have to be in core, and if so why?
->
-> Good question. However, alsa-plugins (and gstreamer1.0-plugins-bad for that matter) also live there and may
-> depend on it.
->
-> > Alex
->
-> Cheers
->
-> Marcel
->
-> > On Tue, 31 May 2022 at 23:32, Marcel Ziswiler <marcel@ziswiler.com> wrote:
-> > >
-> > > From: Peter Bergin <peter@berginkonsult.se>
-> > >
-> > > In order to enable configuration option aaf (AVTP Audio Format)
-> > > used for AVB the library libavtp is a dependency but no recipe for
-> > > this library was present. aaf support for alsa-plugins was
-> > > introduced in ddf5421331180bc45697511b44cdd4a4e6dda6ff.
-> > >
-> > > Signed-off-by: Peter Bergin <peter@berginkonsult.se>
-> > > Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
-> > >
-> > > ---
-> > > Resurrect from mailing list [1] as this is still not upstream.
-> > > End-to-end tested on Verdin iMX8M Plus.
-> > > Will talk about it at the Embedded World Conference in the TSN & Linux
-> > > track next month [2].
-> > >
-> > > [1] https://lore.kernel.org/all/20210604090216.553285-1-peter@berginkonsult.se/
-> > > [2] https://events.weka-fachmedien.de/embedded-world-conference/program/
-> > >
-> > > Changes in v3:
-> > > - Rename recipe to officially released PV of 0.2.0.
-> > > - Drop PROVIDES of avtp which just works around alsa-plugins refering to
-> > >   it as such instead of libavtp. Will update PACKAGECONFIG in
-> > >   alsa-plugins instead.
-> > >
-> > > Changes in v2:
-> > > - Updated SRC_URI specifying mandatory protocol as https.
-> > > - Updated SRCREV to latest.
-> > >
-> > >  meta/recipes-multimedia/libavtp/libavtp_0.2.0.bb | 14 ++++++++++++++
-> > >  1 file changed, 14 insertions(+)
-> > >  create mode 100644 meta/recipes-multimedia/libavtp/libavtp_0.2.0.bb
-> > >
-> > > diff --git a/meta/recipes-multimedia/libavtp/libavtp_0.2.0.bb b/meta/recipes-
-> > > multimedia/libavtp/libavtp_0.2.0.bb
-> > > new file mode 100644
-> > > index 0000000000..563debde3c
-> > > --- /dev/null
-> > > +++ b/meta/recipes-multimedia/libavtp/libavtp_0.2.0.bb
-> > > @@ -0,0 +1,14 @@
-> > > +DESCRIPTION = "Open source implementation of Audio Video Transport Protocol (AVTP) \
-> > > +               specified in IEEE 1722-2016 spec."
-> > > +HOMEPAGE = "https://github.com/Avnu/libavtp"
-> > > +LICENSE = "BSD-3-Clause"
-> > > +LIC_FILES_CHKSUM = "file://LICENSE;md5=7fcb4331e23e45e171cd5693c1ff7d3e"
-> > > +
-> > > +SRC_URI = "git://github.com/Avnu/libavtp.git;branch=v${PV};protocol=https;nobranch=1"
-> > > +SRCREV = "3599a5bf2d18fc3ae89b64f208d8380e6ee3a866"
-> > > +
-> > > +S = "${WORKDIR}/git"
-> > > +
-> > > +inherit meson pkgconfig
-> > > +
-> > > +EXTRA_OEMESON = "-Dtests=disabled"
-> > > --
-> > > 2.36.1
-> > >
-> > >
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > > Links: You receive all messages sent to this group.
-> > > View/Reply Online (#166338): https://lists.openembedded.org/g/openembedded-core/message/166338
-> > > Mute This Topic: https://lists.openembedded.org/mt/91462033/1686489
-> > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> > > -=-=-=-=-=-=-=-=-=-=-=-
+[snip]
+
+> > +
+> > +SRC_URI =3D "git://github.com/Avnu/libavtp.git;branch=3Dv${PV};protoco=
+l=3Dhttps;nobranch=3D1"
+>=20
+> We don't have a single recipe with nobranch set in poky, so I think we=
+=20
+> should keep it this way. I assume this was needed because, there's no=20
+> ${PV} branch available in the git repo (it's a tag).
+>=20
+> Technically, ${PV} is a tag on github and not a branch. We don't have a=
+=20
+> single recipe with tag set in poky, so I think we also should keep it=20
+> this way (tag=3D requires network to check that the tag hasn't moved=20
+> between builds).
+
+Well, remember. It wasn't me suggesting the use of PV. However, at least at=
+ first it really sounded like a
+sensible goal.
+
+> What I've seen some recipes do instead is to use github archives. See:
+> https://git.yoctoproject.org/poky/tree/meta/recipes-support/re2c/re2c_3.0=
+.bb
+
+I have been there before, but, unfortunately, Avnu's libavtp on github only=
+ uses=C2=A0their archive [1] and not some
+other download facility whose use is also discouraged as per [2].
+
+I mean I guess I could just rename the recipe and otherwise keep relying on=
+ git with a hash but that also does
+not seem like a really good option (e.g. keeping PV and hash in sync and/or=
+ even checking on this would be a
+completely manual task). Not sure. I hope somebody more experienced might p=
+resent the golden trick to this
+dilemma. Thanks!
+
+[1] https://github.com/Avnu/libavtp/archive/refs/tags/v0.2.0.tar.gz
+[2] https://git.yoctoproject.org/poky/tree/scripts/lib/recipetool/create.py=
+#n430
+
+> Re: alsa-plugins which may require it in a PACKAGECONFIG option, it's=20
+> not really a reason for inclusion if not enabled by default. Otherwise=
+=20
+> we would have one big layer only with all possible optional dependencies=
+=20
+> and their possible optional dependencies, etc...
+>=20
+> Cheers,
+> Quentin
+
+Cheers
+
+Marcel
 
