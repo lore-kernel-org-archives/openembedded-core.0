@@ -2,82 +2,76 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDD12C433EF
-	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 05:54:33 +0000 (UTC)
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
- [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web11.4248.1654062871436160994
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2820DC433EF
+	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 06:37:04 +0000 (UTC)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web11.4507.1654065420356649775
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 22:54:31 -0700
+ Tue, 31 May 2022 23:37:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=bvq4QHWi;
- spf=pass (domain: mvista.com, ip: 209.85.215.179,
+ dkim=pass header.i=@mvista.com header.s=google header.b=jqZrg11c;
+ spf=pass (domain: mvista.com, ip: 209.85.216.52,
  mailfrom: hprajapati@mvista.com)
-Received: by mail-pg1-f179.google.com with SMTP id e66so923943pgc.8
+Received: by mail-pj1-f52.google.com with SMTP id cx11so1114069pjb.1
         for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 22:54:31 -0700 (PDT)
+ Tue, 31 May 2022 23:37:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=mvista.com; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=+6BvFlqgVt19US/Y+BL3JeznIIb7HAl6ibayI5zvkUA=;
-        b=bvq4QHWiTCRf7W2qud1uFc16n4P3UT+E7XOuxcancEa7h6YrRN9DWqIYJFwX62bp+F
-         XdS9JbsNbDrlO9yht2j7sK+Qc3wfwx0IDLa7Ik/8cAwwZgkHEkSammj+NAzVBSYu1LN5
-         ZR2i4cP1FeA1v6Fsn5bUuOofFNneE6OfXo2+M=
+        bh=ONo4pMkZIj6vVrbC2EOGpb99NC+Mo3MnKRO1k3HnD1M=;
+        b=jqZrg11cwyobNh3z997cGQY+RFhB7pHQmhB+YYbADj3yGiNHjchD/DaanZyR5VTRD6
+         kyF2cRKei6DaL3mLpnvQx3BNmtBsUc73s2trvato+mSx/XtFNegIoe0GJdoDkfU6kagJ
+         sI9pgpLvRTlJWJKUPS5+H6sUy3rWVBOwpnfEU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=+6BvFlqgVt19US/Y+BL3JeznIIb7HAl6ibayI5zvkUA=;
-        b=GXWig+Cd1H9CkvHugAIOJRvc73OqNf6G+ijkta44wqnYxkZ5bAOqW95viuWBeGfudC
-         xYy13ZeZZfO5IkQYSqC35AKGd0UHkHqaJcJFng0J9oaVPQNZiyDT7dBA1H9Q5T7+qNOF
-         EnrxwIl9ZO3+xF+VCAFmFVR0zTu5ytbOflzoaKyhk5LqRyur84R1eBphW9ENJ49tnL/Z
-         brBKZmt2SPKpuHEkHSxyLRo9XETWDAxvXdRSFzSlobsEIo7yUl6XsZF2gHUXJhArDYRf
-         p2aBh6ZksIjus8GmPrQr/koB6Qi0ib5J9Ei6XaGaWjchnHhJ0hxK//wiDoR83pzE8atF
-         e1Eg==
-X-Gm-Message-State: AOAM530r5006c9pt2cUB/pTEr31nFf53y74qPIz+YCH9glJgYQ1Nuz3b
-	AUrypWUKRDFQlFR1F5IDAkXpAbhbxGHGHbYO
+        bh=ONo4pMkZIj6vVrbC2EOGpb99NC+Mo3MnKRO1k3HnD1M=;
+        b=PPIv/Jq32cb0kw7MkJtrhdtjqlw+m/dGA6rH6UG4ojD+DVAKyqQBRxmrlnn+kRHGui
+         BOJHtvukc0Ns+I8adMZcvCYqbSIVVaEBUdl2sCIP+X7CQQXCKSb2PW46b2jQ4LHS5ho0
+         vVUWTR2sW1lOtlB3HAmMznjbXW/b9BzegWUyQPMv6JyP3IQfzopzsYWJCdl2hektLzBb
+         i15hFl2NbClSWuEZOtRMKD/Ww/2b7qoaeyejprI7D62g8IQBDtYts5hYBqqzzDyggbxu
+         HMUSdPJR7ajqFVF/Yf5/ELgM3iWXU408kPNzvLu+wDNKaxRTrMmR3OwC+uFCZdxMXoqs
+         OnDA==
+X-Gm-Message-State: AOAM532HkEntAOQXab7wLyK1bAG1wJx0IHxOCZGeDt6bckzXpwnPV7L3
+	LqjqSSQx4c8DNcfkEx/BRjkY09NqGhe4QC27
 X-Google-Smtp-Source: 
- ABdhPJyjiZnJbgJRr7/LFVexjoqc86lSMr+/0/RHg0ESJTkTWQevv5rouY5631eTUkqZvbOZRaGYpQ==
-X-Received: by 2002:aa7:8d0f:0:b0:518:d867:bae8 with SMTP id
- j15-20020aa78d0f000000b00518d867bae8mr37265928pfe.13.1654062870283;
-        Tue, 31 May 2022 22:54:30 -0700 (PDT)
-Received: from MVIN00024 ([43.249.234.240])
+ ABdhPJw9/lwapqBBEzwGZbV9JTJocJ/d+9wDvFHHN25VfD4xtHD7BlHAYacHMB1QLoA167YIOQhhJg==
+X-Received: by 2002:a17:90b:4a4c:b0:1e4:da3a:9b07 with SMTP id
+ lb12-20020a17090b4a4c00b001e4da3a9b07mr2553684pjb.242.1654065419232;
+        Tue, 31 May 2022 23:36:59 -0700 (PDT)
+Received: from MVIN00024 ([150.129.170.164])
         by smtp.gmail.com with ESMTPSA id
- n16-20020aa78a50000000b0051812f8faa3sm459685pfa.184.2022.05.31.22.54.27
+ p6-20020a170902780600b0016358598ed7sm621712pll.167.2022.05.31.23.36.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 May 2022 22:54:29 -0700 (PDT)
+        Tue, 31 May 2022 23:36:58 -0700 (PDT)
 Received: by MVIN00024 (sSMTP sendmail emulation);
- Wed, 01 Jun 2022 11:24:25 +0530
+ Wed, 01 Jun 2022 12:06:53 +0530
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [dunfell][PATCH] pcre2: CVE-2022-1587 Out-of-bounds read
-Date: Wed,  1 Jun 2022 11:24:23 +0530
-Message-Id: <20220601055423.9648-1-hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] pcre2: CVE-2022-1587 Out-of-bounds read
+Date: Wed,  1 Jun 2022 12:06:50 +0530
+Message-Id: <20220601063650.13396-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 05:54:33 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 06:37:04 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166352
+ https://lists.openembedded.org/g/openembedded-core/message/166353
 
-Source:  https://github.com/PCRE2Project/pcre2
-MR: 118031
-Type: Security Fix
-Disposition: Backport from https://github.com/PCRE2Project/pcre2/commit/03654e751e7f0700693526b67dfcadda6b42c9d0
-ChangeID: 8d5e1357918894374e3379daf1d1a6873c7b9bf3
-Description:
-
+Backport from https://github.com/PCRE2Project/pcre2/commit/03654e751e7f0700693526b67dfcadda6b42c9d0
 CVE-2022-1587  pcre2: Out-of-bounds read in get_recurse_data_length in pcre2_jit_compile.c.
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
  .../libpcre/libpcre2/CVE-2022-1587.patch      | 659 ++++++++++++++++++
- .../recipes-support/libpcre/libpcre2_10.34.bb |   1 +
+ .../recipes-support/libpcre/libpcre2_10.39.bb |   1 +
  2 files changed, 660 insertions(+)
  create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2022-1587.patch
 
@@ -746,18 +740,18 @@ index 0000000000..1c3f5f1d3d
 +-- 
 +2.25.1
 +
-diff --git a/meta/recipes-support/libpcre/libpcre2_10.34.bb b/meta/recipes-support/libpcre/libpcre2_10.34.bb
-index 213b946a54..254badf6f6 100644
---- a/meta/recipes-support/libpcre/libpcre2_10.34.bb
-+++ b/meta/recipes-support/libpcre/libpcre2_10.34.bb
-@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=b1588d3bb4cb0e1f5a597d908f8c5b37"
- SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/pcre2-${PV}.tar.bz2 \
-            file://pcre-cross.patch \
-            file://CVE-2022-1586.patch \
-+	    file://CVE-2022-1587.patch \
- "
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.39.bb b/meta/recipes-support/libpcre/libpcre2_10.39.bb
+index 36c51d700a..9e293b9d4e 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.39.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.39.bb
+@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=43cfa999260dd853cd6cb174dc396f3d"
  
- SRC_URI[md5sum] = "d280b62ded13f9ccf2fac16ee5286366"
+ SRC_URI = "https://github.com/PhilipHazel/pcre2/releases/download/pcre2-${PV}/pcre2-${PV}.tar.bz2 \
+            file://CVE-2022-1586.patch \
++           file://CVE-2022-1587.patch \
+ "
+ UPSTREAM_CHECK_URI = "https://github.com/PhilipHazel/pcre2/releases"
+ 
 -- 
 2.25.1
 
