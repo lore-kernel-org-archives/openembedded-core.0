@@ -1,108 +1,112 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <jpuhlman@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 866B3C433EF
-	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 22:15:16 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.4402.1654121713282187140
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 931F1C433EF
+	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 22:27:56 +0000 (UTC)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
+ [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.web08.4515.1654122473170402779
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jun 2022 15:15:13 -0700
+ Wed, 01 Jun 2022 15:27:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Mn1mWirU;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id
- m32-20020a05600c3b2000b0039756bb41f2so1824729wms.3
+ dkim=pass header.i=@mvista.com header.s=google header.b=MCWAn65h;
+ spf=pass (domain: mvista.com, ip: 209.85.219.44,
+ mailfrom: jpuhlman@mvista.com)
+Received: by mail-qv1-f44.google.com with SMTP id c12so2472238qvr.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jun 2022 15:15:13 -0700 (PDT)
+ Wed, 01 Jun 2022 15:27:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=Et5F59DznywION2LHjpzEKIXaWVJb7nODV/XdiyV97k=;
-        b=Mn1mWirU/skeZPXUzM4YyM7NV3/qKUSB733PFQjfS78DU9TA0Y+80ux3CUgIRHyNnT
-         +OE4VaSm+BLKc/MPZ3+p4GJz3ER5n63bO7AL6kqPf53svswkVpyEpQf77RK49jHdsERa
-         tQehYK8xdtXtiSSbXA2DHZ+szz0qTPGfeeb5E=
+        d=mvista.com; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=sYaXKxnLd8GRMyvgubv7zviMCcfMM1OSTMdMJTkAY0A=;
+        b=MCWAn65h3iqvlpC/4dlHy/zxx+lO97AK3xam0esBBn1dm/dqG6BPPK4timcqVn0Qi1
+         WtgmUQFnpC2VMsVWgGsS97TNlO/7YDGRUxXFPCwCvzxdomWZJ+BwW9aW9iuKJ3HD6Xme
+         9cRX6CByqSnHPjRy3Xy5UmR5ToEwITF0UvyVg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=Et5F59DznywION2LHjpzEKIXaWVJb7nODV/XdiyV97k=;
-        b=ROyDG3MNk2AnFY44cgCSauaKGuwvKullJJBgrQMbgMDTX7Gzpt3fZSbQemaxkRQF/p
-         mR4I7FLGXJe35Y/hzwLlh7zmR8SKe7TFhqtvcpwMCF+WLQMIV5+rhSePGMXKm6vn0dK0
-         LaJHPAkHwybS1RC8s6ho6QH1iKGQOp4poPDU9hWqlveXZjzpPG+Lrp15WCtoDElZP4hr
-         pYlhh5wPHaVb/UZ5mIrgeYs6mwvazEXkreZR8t5Qx/QAKw+OHQZ1ZJwdSH80DbgcINoc
-         fyEwi8G6Mfh6ym5Bp1yPMVojWVgVAGF3zyxipj6zH/CyBAf2IZcaFTcZqi7mfNmfodOD
-         MgGw==
-X-Gm-Message-State: AOAM530JHTsL/RT39vGbLHqbxISK9VOn4k0kRKvM65atQCgYKGqNcljO
-	l+NgbsEqhz/NSw7YaMzvn2y5Cw==
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=sYaXKxnLd8GRMyvgubv7zviMCcfMM1OSTMdMJTkAY0A=;
+        b=bBulpKVE7kB0wssIamV/anlWcgf2m6mr0y9WXb3Y3Kp7THkcY4O4366IJGw/3ciED8
+         F8uyXgpoIF1ndUuqbrplG7V9IwpzFl7dgUPmaYqRf9y0hyeZQ0AZBwdVR9VzYo2VpcOr
+         afN+LQ0VBpaAXLOHvUa9utiq1M7lYmWxlxWgtTsHmiM7DPSx48UozSTJZiU8UBRfV2dT
+         K+jZCzu3vh+VBOSvjhBdtzM4uHICaKws4iTzZfeFrxeKI2TfGFCrbpSzy19W/wQJ2haC
+         sLLA8wh5DfLpGmx1G3kk4UUhUe32EQ6+e5Yhj2VWkxQ1VY6eY1VnLXLRBTuaqS8V9Z0J
+         B6qg==
+X-Gm-Message-State: AOAM533ekpOdDjErW6z/KYpcYxBOjCAnh7jxtMQHwcZC7Z2ec4khYTWP
+	MU5LAdnLOjB16ASpkvvG/+d97w==
 X-Google-Smtp-Source: 
- ABdhPJwv0jkTBl7c5OFTOMlkhV3li0+/ZVWCar+n9wXNdpr5aeEEfA6V0W6pI/Y6Iom6yOeiNM5YHA==
-X-Received: by 2002:a05:600c:3646:b0:397:326d:eac7 with SMTP id
- y6-20020a05600c364600b00397326deac7mr1307767wmq.43.1654121711538;
-        Wed, 01 Jun 2022 15:15:11 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:31df:3763:186e:409f?
- ([2001:8b0:aba:5f3c:31df:3763:186e:409f])
+ ABdhPJyvxDCe/+hhwT5jhZwHAvFRv7xtyJO3wxuIIDZWBnxuwdG7EtBfICFFF7naINcTnTZ9WBeQQw==
+X-Received: by 2002:a05:6214:27eb:b0:45a:b022:c97d with SMTP id
+ jt11-20020a05621427eb00b0045ab022c97dmr56450758qvb.24.1654122472206;
+        Wed, 01 Jun 2022 15:27:52 -0700 (PDT)
+Received: from [192.168.1.34] (99-14-97-149.lightspeed.frokca.sbcglobal.net.
+ [99.14.97.149])
         by smtp.gmail.com with ESMTPSA id
- t67-20020a1c4646000000b003942a244f33sm6566972wma.12.2022.06.01.15.15.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jun 2022 15:15:10 -0700 (PDT)
-Message-ID: 
- <17046dccfb415c1afa9851ab45b90fe04114798a.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [kirkstone][PATCH] gcc: depend on zstd-native
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jeremy Puhlman <jpuhlman@mvista.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 01 Jun 2022 23:15:10 +0100
-In-Reply-To: <20220601205504.3464879-1-jpuhlman@mvista.com>
-References: <20220601205504.3464879-1-jpuhlman@mvista.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ p2-20020a37bf02000000b0069fc13ce24asm2002752qkf.123.2022.06.01.15.27.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Jun 2022 15:27:51 -0700 (PDT)
+Message-ID: <b282c6d5-454c-43ed-e9b2-3737a8120558@mvista.com>
+Date: Wed, 1 Jun 2022 15:27:51 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [OE-core] [kirkstone][PATCH] gcc: depend on zstd-native
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20220601205504.3464879-1-jpuhlman@mvista.com>
+ <17046dccfb415c1afa9851ab45b90fe04114798a.camel@linuxfoundation.org>
+From: Jeremy Puhlman <jpuhlman@mvista.com>
+In-Reply-To: 
+ <17046dccfb415c1afa9851ab45b90fe04114798a.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 22:15:16 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 22:27:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166443
+ https://lists.openembedded.org/g/openembedded-core/message/166444
 
-On Wed, 2022-06-01 at 16:55 -0400, Jeremy Puhlman wrote:
-> Sharing sstate cache binaries between two systems, one with libzstd insta=
-lled
-> and the other without, leads to various gcc components being linked again=
-st
-> the system libzstd and failing to run on the system with out it installed=
-.
->=20
-> Make zstd-native from our system available.
->=20
-> Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-11.2.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-devtools/gcc/gcc-11.2.inc b/meta/recipes-devtoo=
-ls/gcc/gcc-11.2.inc
-> index 68e0d203fc..e2a28468f5 100644
-> --- a/meta/recipes-devtools/gcc/gcc-11.2.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-11.2.inc
-> @@ -11,7 +11,7 @@ BINV =3D "11.2.0"
->  FILESEXTRAPATHS =3D. "${FILE_DIRNAME}/gcc:${FILE_DIRNAME}/gcc/backport:"
-> =20
->  DEPENDS =3D+ "mpfr gmp libmpc zlib flex-native"
-> -NATIVEDEPS =3D "mpfr-native gmp-native libmpc-native zlib-native flex-na=
-tive"
-> +NATIVEDEPS =3D "mpfr-native gmp-native libmpc-native zlib-native flex-na=
-tive zstd-native"
-> =20
->  LICENSE =3D "GPL-3.0-with-GCC-exception & GPL-3.0-only"
 
-Does master have that issue?
 
-Cheers,
+On 6/1/2022 3:15 PM, Richard Purdie wrote:
+> On Wed, 2022-06-01 at 16:55 -0400, Jeremy Puhlman wrote:
+>> Sharing sstate cache binaries between two systems, one with libzstd installed
+>> and the other without, leads to various gcc components being linked against
+>> the system libzstd and failing to run on the system with out it installed.
+>>
+>> Make zstd-native from our system available.
+>>
+>> Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+>> ---
+>>   meta/recipes-devtools/gcc/gcc-11.2.inc | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-devtools/gcc/gcc-11.2.inc b/meta/recipes-devtools/gcc/gcc-11.2.inc
+>> index 68e0d203fc..e2a28468f5 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-11.2.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-11.2.inc
+>> @@ -11,7 +11,7 @@ BINV = "11.2.0"
+>>   FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc:${FILE_DIRNAME}/gcc/backport:"
+>>   
+>>   DEPENDS =+ "mpfr gmp libmpc zlib flex-native"
+>> -NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native flex-native"
+>> +NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native flex-native zstd-native"
+>>   
+>>   LICENSE = "GPL-3.0-with-GCC-exception & GPL-3.0-only"
+> Does master have that issue?
+>
+> Cheers,
+>
+> Richard
 
-Richard
+I would would be really surprised if it didn't, since it appears gcc is 
+explicilty decidding to use the library if it is there. The patch 
+cherry-picks with
+name fuzzing so if we want to start it there, I can resubmit on master.
 
