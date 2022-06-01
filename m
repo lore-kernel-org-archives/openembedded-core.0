@@ -2,164 +2,762 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0B7AC433EF
-	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 05:34:13 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web10.4044.1654061648322665089
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDD12C433EF
+	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 05:54:33 +0000 (UTC)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
+ [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web11.4248.1654062871436160994
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 22:34:08 -0700
+ Tue, 31 May 2022 22:54:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=JYCti/bx;
- spf=pass (domain: mvista.com, ip: 209.85.216.48,
+ dkim=pass header.i=@mvista.com header.s=google header.b=bvq4QHWi;
+ spf=pass (domain: mvista.com, ip: 209.85.215.179,
  mailfrom: hprajapati@mvista.com)
-Received: by mail-pj1-f48.google.com with SMTP id
- gc3-20020a17090b310300b001e33092c737so1011563pjb.3
+Received: by mail-pg1-f179.google.com with SMTP id e66so923943pgc.8
         for <openembedded-core@lists.openembedded.org>;
- Tue, 31 May 2022 22:34:08 -0700 (PDT)
+ Tue, 31 May 2022 22:54:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=mvista.com; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=GCzpOfqz6SHXI4L15gocPbex29TfxuiTuquB5uPZNS0=;
-        b=JYCti/bxyeZuQXHavqklb9u2KuC5cSJPbvVhfdNCFUN7XUrMyBtIMLtls/w9+TB4ru
-         hnEI1KP0oDljyG/UL/qbaDS5MU0dzXhjogLKyl1Ea6iJwzecvsb464csCgcRherhmh++
-         UJcEONAzbUXc/cmOeDiuApZobSEYMxiUnQMbo=
+        bh=+6BvFlqgVt19US/Y+BL3JeznIIb7HAl6ibayI5zvkUA=;
+        b=bvq4QHWiTCRf7W2qud1uFc16n4P3UT+E7XOuxcancEa7h6YrRN9DWqIYJFwX62bp+F
+         XdS9JbsNbDrlO9yht2j7sK+Qc3wfwx0IDLa7Ik/8cAwwZgkHEkSammj+NAzVBSYu1LN5
+         ZR2i4cP1FeA1v6Fsn5bUuOofFNneE6OfXo2+M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=GCzpOfqz6SHXI4L15gocPbex29TfxuiTuquB5uPZNS0=;
-        b=DsqBSs3ZvXDzZTKEPBf00r54kGxQ9KCwYz84cqeLBl5todI2vFON+NuHVlXYr1xTkY
-         Z8LH3xZmy7bjeB4f9r1JkyTphWk3Sp3+QeEvLZhEUyTUN92HAFfUK4m1E82UXLbCgdWx
-         gRCL429ZheHJ/prgxw4nTWj82bUlMZZiQLlCwBeVw2azrX5mWjcBsezovYjO4tJ+JTy0
-         a2BSOWSMW1sfnVI59/And6exsV9NkYFXKTMbGAJdB30rDXfj/EpnIak/mBC4ilTXwbrr
-         NZCCU/0mplKeX1f6vYET72EpOc6IAPXVV1gjS+ZZZoepJo8yU1t9f/kj1JkiLson6aKq
-         TOOA==
-X-Gm-Message-State: AOAM53308IM2Uc1572FvwJK+GJR3Bs+7iKhFntk4RLeJpEAFHuH/IuUj
-	ByhqiZSeag6YGPWKvFuJFMK3AmkRny/vT2lt
+        bh=+6BvFlqgVt19US/Y+BL3JeznIIb7HAl6ibayI5zvkUA=;
+        b=GXWig+Cd1H9CkvHugAIOJRvc73OqNf6G+ijkta44wqnYxkZ5bAOqW95viuWBeGfudC
+         xYy13ZeZZfO5IkQYSqC35AKGd0UHkHqaJcJFng0J9oaVPQNZiyDT7dBA1H9Q5T7+qNOF
+         EnrxwIl9ZO3+xF+VCAFmFVR0zTu5ytbOflzoaKyhk5LqRyur84R1eBphW9ENJ49tnL/Z
+         brBKZmt2SPKpuHEkHSxyLRo9XETWDAxvXdRSFzSlobsEIo7yUl6XsZF2gHUXJhArDYRf
+         p2aBh6ZksIjus8GmPrQr/koB6Qi0ib5J9Ei6XaGaWjchnHhJ0hxK//wiDoR83pzE8atF
+         e1Eg==
+X-Gm-Message-State: AOAM530r5006c9pt2cUB/pTEr31nFf53y74qPIz+YCH9glJgYQ1Nuz3b
+	AUrypWUKRDFQlFR1F5IDAkXpAbhbxGHGHbYO
 X-Google-Smtp-Source: 
- ABdhPJxG9BI5Cx/itMLAH7tIlAq2WRG4XGp4l47KxUYf3QpNHXBpUsSQMQLjiOM65B1UZWlgXhoBVw==
-X-Received: by 2002:a17:903:189:b0:163:6c22:8c9b with SMTP id
- z9-20020a170903018900b001636c228c9bmr32709196plg.95.1654061647589;
-        Tue, 31 May 2022 22:34:07 -0700 (PDT)
+ ABdhPJyjiZnJbgJRr7/LFVexjoqc86lSMr+/0/RHg0ESJTkTWQevv5rouY5631eTUkqZvbOZRaGYpQ==
+X-Received: by 2002:aa7:8d0f:0:b0:518:d867:bae8 with SMTP id
+ j15-20020aa78d0f000000b00518d867bae8mr37265928pfe.13.1654062870283;
+        Tue, 31 May 2022 22:54:30 -0700 (PDT)
 Received: from MVIN00024 ([43.249.234.240])
         by smtp.gmail.com with ESMTPSA id
- f17-20020a170902f39100b00163fd24ca8csm493994ple.119.2022.05.31.22.34.05
+ n16-20020aa78a50000000b0051812f8faa3sm459685pfa.184.2022.05.31.22.54.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 May 2022 22:34:07 -0700 (PDT)
+        Tue, 31 May 2022 22:54:29 -0700 (PDT)
 Received: by MVIN00024 (sSMTP sendmail emulation);
- Wed, 01 Jun 2022 11:04:02 +0530
+ Wed, 01 Jun 2022 11:24:25 +0530
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [dunfell][PATCH] e2fsprogs: CVE-2022-1304 out-of-bounds read/write
- via crafted filesystem
-Date: Wed,  1 Jun 2022 11:04:01 +0530
-Message-Id: <20220601053401.8651-1-hprajapati@mvista.com>
+Subject: [dunfell][PATCH] pcre2: CVE-2022-1587 Out-of-bounds read
+Date: Wed,  1 Jun 2022 11:24:23 +0530
+Message-Id: <20220601055423.9648-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 05:34:13 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 05:54:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166351
+ https://lists.openembedded.org/g/openembedded-core/message/166352
 
-Source: https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git
-MR: 117430
+Source:  https://github.com/PCRE2Project/pcre2
+MR: 118031
 Type: Security Fix
-Disposition: Backport from https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/commit/?h=maint&id=ab51d587bb9b229b1fade1afd02e1574c1ba5c76
-ChangeID: e6db00c6e8375a2e869fd2e4ead61ca9149eb8fa
+Disposition: Backport from https://github.com/PCRE2Project/pcre2/commit/03654e751e7f0700693526b67dfcadda6b42c9d0
+ChangeID: 8d5e1357918894374e3379daf1d1a6873c7b9bf3
 Description:
-          CVE-2022-1304 e2fsprogs: out-of-bounds read/write via crafted filesystem.
+
+CVE-2022-1587  pcre2: Out-of-bounds read in get_recurse_data_length in pcre2_jit_compile.c.
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- .../e2fsprogs/e2fsprogs/CVE-2022-1304.patch   | 60 +++++++++++++++++++
- .../e2fsprogs/e2fsprogs_1.45.7.bb             |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2022-1304.patch
+ .../libpcre/libpcre2/CVE-2022-1587.patch      | 659 ++++++++++++++++++
+ .../recipes-support/libpcre/libpcre2_10.34.bb |   1 +
+ 2 files changed, 660 insertions(+)
+ create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2022-1587.patch
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2022-1304.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2022-1304.patch
+diff --git a/meta/recipes-support/libpcre/libpcre2/CVE-2022-1587.patch b/meta/recipes-support/libpcre/libpcre2/CVE-2022-1587.patch
 new file mode 100644
-index 0000000000..74737abda7
+index 0000000000..1c3f5f1d3d
 --- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2022-1304.patch
-@@ -0,0 +1,60 @@
-+From a66071ed6a0d1fa666d22dcb78fa6fcb3bf22df3 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/libpcre/libpcre2/CVE-2022-1587.patch
+@@ -0,0 +1,659 @@
++From aa5aac0d209e3debf80fc2db924d9401fc50454b Mon Sep 17 00:00:00 2001
 +From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Fri, 27 May 2022 14:01:50 +0530
-+Subject: [PATCH] CVE-2022-1304
++Date: Mon, 23 May 2022 14:11:11 +0530
++Subject: [PATCH] CVE-2022-1587
 +
-+Upstream-Status: Backport from https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/commit/?h=maint&id=ab51d587bb9b229b1fade1afd02e1574c1ba5c76
-+
-+libext2fs: add sanity check to extent manipulation
-+It is possible to have a corrupted extent tree in such a way that a leaf
-+node contains zero extents in it. Currently if that happens and we try
-+to traverse the tree we can end up accessing wrong data, or possibly
-+even uninitialized memory. Make sure we don't do that.
-+
-+Additionally make sure that we have a sane number of bytes passed to
-+memmove() in ext2fs_extent_delete().
-+
-+Note that e2fsck is currently unable to spot and fix such corruption in
-+pass1.
-+
-+Signed-off-by: Lukas Czerner <lczerner@redhat.com>
-+Reported-by: Nils Bars <nils_bars@t-online.de>
-+Addresses: https://bugzilla.redhat.com/show_bug.cgi?id=2068113
-+Addresses: CVE-2022-1304
-+Addresses-Debian-Bug: #1010263
-+Signed-off-by: Theodore Ts'o <tytso@mit.edu>
++Upstream-Status: Backport from https://github.com/PCRE2Project/pcre2/commit/03654e751e7f0700693526b67dfcadda6b42c9d0
 +
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ lib/ext2fs/extent.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
++ ChangeLog               |   3 +
++ src/pcre2_jit_compile.c | 290 ++++++++++++++++++++++++++--------------
++ src/pcre2_jit_test.c    |   1 +
++ 3 files changed, 194 insertions(+), 100 deletions(-)
 +
-+diff --git a/lib/ext2fs/extent.c b/lib/ext2fs/extent.c
-+index ac3dbfec9..a1b1905cd 100644
-+--- a/lib/ext2fs/extent.c
-++++ b/lib/ext2fs/extent.c
-+@@ -495,6 +495,10 @@ retry:
-+ 			ext2fs_le16_to_cpu(eh->eh_entries);
-+ 		newpath->max_entries = ext2fs_le16_to_cpu(eh->eh_max);
++diff --git a/ChangeLog b/ChangeLog
++index b5d72dc..de82de9 100644
++--- a/ChangeLog
+++++ b/ChangeLog
++@@ -4,6 +4,9 @@ Change Log for PCRE2
++ 23. Fixed a unicode properrty matching issue in JIT. The character was not
++ fully read in caseless matching.
 + 
-++		/* Make sure there is at least one extent present */
-++		if (newpath->left <= 0)
-++			return EXT2_ET_EXTENT_NO_DOWN;
+++24. Fixed an issue affecting recursions in JIT caused by duplicated data
+++transfers.
 ++
-+ 		if (path->left > 0) {
-+ 			ix++;
-+ 			newpath->end_blk = ext2fs_le32_to_cpu(ix->ei_block);
-+@@ -1630,6 +1634,10 @@ errcode_t ext2fs_extent_delete(ext2_extent_handle_t handle, int flags)
 + 
-+ 	cp = path->curr;
++ Version 10.34 21-November-2019
++ ------------------------------
++diff --git a/src/pcre2_jit_compile.c b/src/pcre2_jit_compile.c
++index 5d43865..493c96d 100644
++--- a/src/pcre2_jit_compile.c
+++++ b/src/pcre2_jit_compile.c
++@@ -407,6 +407,9 @@ typedef struct compiler_common {
++   /* Locals used by fast fail optimization. */
++   sljit_s32 fast_fail_start_ptr;
++   sljit_s32 fast_fail_end_ptr;
+++  /* Variables used by recursive call generator. */
+++  sljit_s32 recurse_bitset_size;
+++  uint8_t *recurse_bitset;
 + 
-++	/* Sanity check before memmove() */
-++	if (path->left < 0)
-++		return EXT2_ET_EXTENT_LEAF_BAD;
++   /* Flipped and lower case tables. */
++   const sljit_u8 *fcc;
++@@ -2109,19 +2112,39 @@ for (i = 0; i < RECURSE_TMP_REG_COUNT; i++)
++ 
++ #undef RECURSE_TMP_REG_COUNT
++ 
+++static BOOL recurse_check_bit(compiler_common *common, sljit_sw bit_index)
+++{
+++uint8_t *byte;
+++uint8_t mask;
 ++
-+ 	if (path->left) {
-+ 		memmove(cp, cp + sizeof(struct ext3_extent_idx),
-+ 			path->left * sizeof(struct ext3_extent_idx));
+++SLJIT_ASSERT((bit_index & (sizeof(sljit_sw) - 1)) == 0);
+++
+++bit_index >>= SLJIT_WORD_SHIFT;
+++
+++mask = 1 << (bit_index & 0x7);
+++byte = common->recurse_bitset + (bit_index >> 3);
+++
+++if (*byte & mask)
+++  return FALSE;
+++
+++*byte |= mask;
+++return TRUE;
+++}
+++
++ static int get_recurse_data_length(compiler_common *common, PCRE2_SPTR cc, PCRE2_SPTR ccend,
++   BOOL *needs_control_head, BOOL *has_quit, BOOL *has_accept)
++ {
++ int length = 1;
++-int size;
+++int size, offset;
++ PCRE2_SPTR alternative;
++ BOOL quit_found = FALSE;
++ BOOL accept_found = FALSE;
++ BOOL setsom_found = FALSE;
++ BOOL setmark_found = FALSE;
++-BOOL capture_last_found = FALSE;
++ BOOL control_head_found = FALSE;
++ 
+++memset(common->recurse_bitset, 0, common->recurse_bitset_size);
+++
++ #if defined DEBUG_FORCE_CONTROL_HEAD && DEBUG_FORCE_CONTROL_HEAD
++ SLJIT_ASSERT(common->control_head_ptr != 0);
++ control_head_found = TRUE;
++@@ -2144,15 +2167,17 @@ while (cc < ccend)
++       setsom_found = TRUE;
++     if (common->mark_ptr != 0)
++       setmark_found = TRUE;
++-    if (common->capture_last_ptr != 0)
++-      capture_last_found = TRUE;
+++    if (common->capture_last_ptr != 0 && recurse_check_bit(common, common->capture_last_ptr))
+++      length++;
++     cc += 1 + LINK_SIZE;
++     break;
++ 
++     case OP_KET:
++-    if (PRIVATE_DATA(cc) != 0)
+++    offset = PRIVATE_DATA(cc);
+++    if (offset != 0)
++       {
++-      length++;
+++      if (recurse_check_bit(common, offset))
+++        length++;
++       SLJIT_ASSERT(PRIVATE_DATA(cc + 1) != 0);
++       cc += PRIVATE_DATA(cc + 1);
++       }
++@@ -2169,39 +2194,55 @@ while (cc < ccend)
++     case OP_SBRA:
++     case OP_SBRAPOS:
++     case OP_SCOND:
++-    length++;
++     SLJIT_ASSERT(PRIVATE_DATA(cc) != 0);
+++    if (recurse_check_bit(common, PRIVATE_DATA(cc)))
+++      length++;
++     cc += 1 + LINK_SIZE;
++     break;
++ 
++     case OP_CBRA:
++     case OP_SCBRA:
++-    length += 2;
++-    if (common->capture_last_ptr != 0)
++-      capture_last_found = TRUE;
++-    if (common->optimized_cbracket[GET2(cc, 1 + LINK_SIZE)] == 0)
+++    offset = GET2(cc, 1 + LINK_SIZE);
+++    if (recurse_check_bit(common, OVECTOR(offset << 1)))
+++      {
+++      SLJIT_ASSERT(recurse_check_bit(common, OVECTOR((offset << 1) + 1)));
+++      length += 2;
+++      }
+++    if (common->optimized_cbracket[offset] == 0 && recurse_check_bit(common, OVECTOR_PRIV(offset)))
+++      length++;
+++    if (common->capture_last_ptr != 0 && recurse_check_bit(common, common->capture_last_ptr))
++       length++;
++     cc += 1 + LINK_SIZE + IMM2_SIZE;
++     break;
++ 
++     case OP_CBRAPOS:
++     case OP_SCBRAPOS:
++-    length += 2 + 2;
++-    if (common->capture_last_ptr != 0)
++-      capture_last_found = TRUE;
+++    offset = GET2(cc, 1 + LINK_SIZE);
+++    if (recurse_check_bit(common, OVECTOR(offset << 1)))
+++      {
+++      SLJIT_ASSERT(recurse_check_bit(common, OVECTOR((offset << 1) + 1)));
+++      length += 2;
+++      }
+++    if (recurse_check_bit(common, OVECTOR_PRIV(offset)))
+++      length++;
+++    if (recurse_check_bit(common, PRIVATE_DATA(cc)))
+++      length++;
+++    if (common->capture_last_ptr != 0 && recurse_check_bit(common, common->capture_last_ptr))
+++      length++;
++     cc += 1 + LINK_SIZE + IMM2_SIZE;
++     break;
++ 
++     case OP_COND:
++     /* Might be a hidden SCOND. */
++     alternative = cc + GET(cc, 1);
++-    if (*alternative == OP_KETRMAX || *alternative == OP_KETRMIN)
+++    if ((*alternative == OP_KETRMAX || *alternative == OP_KETRMIN) && recurse_check_bit(common, PRIVATE_DATA(cc)))
++       length++;
++     cc += 1 + LINK_SIZE;
++     break;
++ 
++     CASE_ITERATOR_PRIVATE_DATA_1
++-    if (PRIVATE_DATA(cc) != 0)
+++    offset = PRIVATE_DATA(cc);
+++    if (offset != 0 && recurse_check_bit(common, offset))
++       length++;
++     cc += 2;
++ #ifdef SUPPORT_UNICODE
++@@ -2210,8 +2251,12 @@ while (cc < ccend)
++     break;
++ 
++     CASE_ITERATOR_PRIVATE_DATA_2A
++-    if (PRIVATE_DATA(cc) != 0)
+++    offset = PRIVATE_DATA(cc);
+++    if (offset != 0 && recurse_check_bit(common, offset))
+++      {
+++      SLJIT_ASSERT(recurse_check_bit(common, offset + sizeof(sljit_sw)));
++       length += 2;
+++      }
++     cc += 2;
++ #ifdef SUPPORT_UNICODE
++     if (common->utf && HAS_EXTRALEN(cc[-1])) cc += GET_EXTRALEN(cc[-1]);
++@@ -2219,8 +2264,12 @@ while (cc < ccend)
++     break;
++ 
++     CASE_ITERATOR_PRIVATE_DATA_2B
++-    if (PRIVATE_DATA(cc) != 0)
+++    offset = PRIVATE_DATA(cc);
+++    if (offset != 0 && recurse_check_bit(common, offset))
+++      {
+++      SLJIT_ASSERT(recurse_check_bit(common, offset + sizeof(sljit_sw)));
++       length += 2;
+++      }
++     cc += 2 + IMM2_SIZE;
++ #ifdef SUPPORT_UNICODE
++     if (common->utf && HAS_EXTRALEN(cc[-1])) cc += GET_EXTRALEN(cc[-1]);
++@@ -2228,20 +2277,29 @@ while (cc < ccend)
++     break;
++ 
++     CASE_ITERATOR_TYPE_PRIVATE_DATA_1
++-    if (PRIVATE_DATA(cc) != 0)
+++    offset = PRIVATE_DATA(cc);
+++    if (offset != 0 && recurse_check_bit(common, offset))
++       length++;
++     cc += 1;
++     break;
++ 
++     CASE_ITERATOR_TYPE_PRIVATE_DATA_2A
++-    if (PRIVATE_DATA(cc) != 0)
+++    offset = PRIVATE_DATA(cc);
+++    if (offset != 0 && recurse_check_bit(common, offset))
+++      {
+++      SLJIT_ASSERT(recurse_check_bit(common, offset + sizeof(sljit_sw)));
++       length += 2;
+++      }
++     cc += 1;
++     break;
++ 
++     CASE_ITERATOR_TYPE_PRIVATE_DATA_2B
++-    if (PRIVATE_DATA(cc) != 0)
+++    offset = PRIVATE_DATA(cc);
+++    if (offset != 0 && recurse_check_bit(common, offset))
+++      {
+++      SLJIT_ASSERT(recurse_check_bit(common, offset + sizeof(sljit_sw)));
++       length += 2;
+++      }
++     cc += 1 + IMM2_SIZE;
++     break;
++ 
++@@ -2253,7 +2311,9 @@ while (cc < ccend)
++ #else
++     size = 1 + 32 / (int)sizeof(PCRE2_UCHAR);
++ #endif
++-    if (PRIVATE_DATA(cc) != 0)
+++
+++    offset = PRIVATE_DATA(cc);
+++    if (offset != 0 && recurse_check_bit(common, offset))
++       length += get_class_iterator_size(cc + size);
++     cc += size;
++     break;
++@@ -2288,8 +2348,7 @@ while (cc < ccend)
++     case OP_THEN:
++     SLJIT_ASSERT(common->control_head_ptr != 0);
++     quit_found = TRUE;
++-    if (!control_head_found)
++-      control_head_found = TRUE;
+++    control_head_found = TRUE;
++     cc++;
++     break;
++ 
++@@ -2309,8 +2368,6 @@ SLJIT_ASSERT(cc == ccend);
++ 
++ if (control_head_found)
++   length++;
++-if (capture_last_found)
++-  length++;
++ if (quit_found)
++   {
++   if (setsom_found)
++@@ -2343,14 +2400,12 @@ sljit_sw shared_srcw[3];
++ sljit_sw kept_shared_srcw[2];
++ int private_count, shared_count, kept_shared_count;
++ int from_sp, base_reg, offset, i;
++-BOOL setsom_found = FALSE;
++-BOOL setmark_found = FALSE;
++-BOOL capture_last_found = FALSE;
++-BOOL control_head_found = FALSE;
+++
+++memset(common->recurse_bitset, 0, common->recurse_bitset_size);
++ 
++ #if defined DEBUG_FORCE_CONTROL_HEAD && DEBUG_FORCE_CONTROL_HEAD
++ SLJIT_ASSERT(common->control_head_ptr != 0);
++-control_head_found = TRUE;
+++recurse_check_bit(common, common->control_head_ptr);
++ #endif
++ 
++ switch (type)
++@@ -2438,11 +2493,10 @@ while (cc < ccend)
++     {
++     case OP_SET_SOM:
++     SLJIT_ASSERT(common->has_set_som);
++-    if (has_quit && !setsom_found)
+++    if (has_quit && recurse_check_bit(common, OVECTOR(0)))
++       {
++       kept_shared_srcw[0] = OVECTOR(0);
++       kept_shared_count = 1;
++-      setsom_found = TRUE;
++       }
++     cc += 1;
++     break;
++@@ -2450,33 +2504,31 @@ while (cc < ccend)
++     case OP_RECURSE:
++     if (has_quit)
++       {
++-      if (common->has_set_som && !setsom_found)
+++      if (common->has_set_som && recurse_check_bit(common, OVECTOR(0)))
++         {
++         kept_shared_srcw[0] = OVECTOR(0);
++         kept_shared_count = 1;
++-        setsom_found = TRUE;
++         }
++-      if (common->mark_ptr != 0 && !setmark_found)
+++      if (common->mark_ptr != 0 && recurse_check_bit(common, common->mark_ptr))
++         {
++         kept_shared_srcw[kept_shared_count] = common->mark_ptr;
++         kept_shared_count++;
++-        setmark_found = TRUE;
++         }
++       }
++-    if (common->capture_last_ptr != 0 && !capture_last_found)
+++    if (common->capture_last_ptr != 0 && recurse_check_bit(common, common->capture_last_ptr))
++       {
++       shared_srcw[0] = common->capture_last_ptr;
++       shared_count = 1;
++-      capture_last_found = TRUE;
++       }
++     cc += 1 + LINK_SIZE;
++     break;
++ 
++     case OP_KET:
++-    if (PRIVATE_DATA(cc) != 0)
+++    private_srcw[0] = PRIVATE_DATA(cc);
+++    if (private_srcw[0] != 0)
++       {
++-      private_count = 1;
++-      private_srcw[0] = PRIVATE_DATA(cc);
+++      if (recurse_check_bit(common, private_srcw[0]))
+++        private_count = 1;
++       SLJIT_ASSERT(PRIVATE_DATA(cc + 1) != 0);
++       cc += PRIVATE_DATA(cc + 1);
++       }
++@@ -2493,50 +2545,66 @@ while (cc < ccend)
++     case OP_SBRA:
++     case OP_SBRAPOS:
++     case OP_SCOND:
++-    private_count = 1;
++     private_srcw[0] = PRIVATE_DATA(cc);
+++    if (recurse_check_bit(common, private_srcw[0]))
+++      private_count = 1;
++     cc += 1 + LINK_SIZE;
++     break;
++ 
++     case OP_CBRA:
++     case OP_SCBRA:
++-    offset = (GET2(cc, 1 + LINK_SIZE)) << 1;
++-    shared_srcw[0] = OVECTOR(offset);
++-    shared_srcw[1] = OVECTOR(offset + 1);
++-    shared_count = 2;
+++    offset = GET2(cc, 1 + LINK_SIZE);
+++    shared_srcw[0] = OVECTOR(offset << 1);
+++    if (recurse_check_bit(common, shared_srcw[0]))
+++      {
+++      shared_srcw[1] = shared_srcw[0] + sizeof(sljit_sw);
+++      SLJIT_ASSERT(recurse_check_bit(common, shared_srcw[1]));
+++      shared_count = 2;
+++      }
++ 
++-    if (common->capture_last_ptr != 0 && !capture_last_found)
+++    if (common->capture_last_ptr != 0 && recurse_check_bit(common, common->capture_last_ptr))
++       {
++-      shared_srcw[2] = common->capture_last_ptr;
++-      shared_count = 3;
++-      capture_last_found = TRUE;
+++      shared_srcw[shared_count] = common->capture_last_ptr;
+++      shared_count++;
++       }
++ 
++-    if (common->optimized_cbracket[GET2(cc, 1 + LINK_SIZE)] == 0)
+++    if (common->optimized_cbracket[offset] == 0)
++       {
++-      private_count = 1;
++-      private_srcw[0] = OVECTOR_PRIV(GET2(cc, 1 + LINK_SIZE));
+++      private_srcw[0] = OVECTOR_PRIV(offset);
+++      if (recurse_check_bit(common, private_srcw[0]))
+++        private_count = 1;
++       }
+++
++     cc += 1 + LINK_SIZE + IMM2_SIZE;
++     break;
++ 
++     case OP_CBRAPOS:
++     case OP_SCBRAPOS:
++-    offset = (GET2(cc, 1 + LINK_SIZE)) << 1;
++-    shared_srcw[0] = OVECTOR(offset);
++-    shared_srcw[1] = OVECTOR(offset + 1);
++-    shared_count = 2;
+++    offset = GET2(cc, 1 + LINK_SIZE);
+++    shared_srcw[0] = OVECTOR(offset << 1);
+++    if (recurse_check_bit(common, shared_srcw[0]))
+++      {
+++      shared_srcw[1] = shared_srcw[0] + sizeof(sljit_sw);
+++      SLJIT_ASSERT(recurse_check_bit(common, shared_srcw[1]));
+++      shared_count = 2;
+++      }
++ 
++-    if (common->capture_last_ptr != 0 && !capture_last_found)
+++    if (common->capture_last_ptr != 0 && recurse_check_bit(common, common->capture_last_ptr))
++       {
++-      shared_srcw[2] = common->capture_last_ptr;
++-      shared_count = 3;
++-      capture_last_found = TRUE;
+++      shared_srcw[shared_count] = common->capture_last_ptr;
+++      shared_count++;
++       }
++ 
++-    private_count = 2;
++     private_srcw[0] = PRIVATE_DATA(cc);
++-    private_srcw[1] = OVECTOR_PRIV(GET2(cc, 1 + LINK_SIZE));
+++    if (recurse_check_bit(common, private_srcw[0]))
+++      private_count = 1;
+++
+++    offset = OVECTOR_PRIV(offset);
+++    if (recurse_check_bit(common, offset))
+++      {
+++      private_srcw[private_count] = offset;
+++      private_count++;
+++      }
++     cc += 1 + LINK_SIZE + IMM2_SIZE;
++     break;
++ 
++@@ -2545,18 +2613,17 @@ while (cc < ccend)
++     alternative = cc + GET(cc, 1);
++     if (*alternative == OP_KETRMAX || *alternative == OP_KETRMIN)
++       {
++-      private_count = 1;
++       private_srcw[0] = PRIVATE_DATA(cc);
+++      if (recurse_check_bit(common, private_srcw[0]))
+++        private_count = 1;
++       }
++     cc += 1 + LINK_SIZE;
++     break;
++ 
++     CASE_ITERATOR_PRIVATE_DATA_1
++-    if (PRIVATE_DATA(cc))
++-      {
+++    private_srcw[0] = PRIVATE_DATA(cc);
+++    if (private_srcw[0] != 0 && recurse_check_bit(common, private_srcw[0]))
++       private_count = 1;
++-      private_srcw[0] = PRIVATE_DATA(cc);
++-      }
++     cc += 2;
++ #ifdef SUPPORT_UNICODE
++     if (common->utf && HAS_EXTRALEN(cc[-1])) cc += GET_EXTRALEN(cc[-1]);
++@@ -2564,11 +2631,12 @@ while (cc < ccend)
++     break;
++ 
++     CASE_ITERATOR_PRIVATE_DATA_2A
++-    if (PRIVATE_DATA(cc))
+++    private_srcw[0] = PRIVATE_DATA(cc);
+++    if (private_srcw[0] != 0 && recurse_check_bit(common, private_srcw[0]))
++       {
++       private_count = 2;
++-      private_srcw[0] = PRIVATE_DATA(cc);
++-      private_srcw[1] = PRIVATE_DATA(cc) + sizeof(sljit_sw);
+++      private_srcw[1] = private_srcw[0] + sizeof(sljit_sw);
+++      SLJIT_ASSERT(recurse_check_bit(common, private_srcw[1]));
++       }
++     cc += 2;
++ #ifdef SUPPORT_UNICODE
++@@ -2577,11 +2645,12 @@ while (cc < ccend)
++     break;
++ 
++     CASE_ITERATOR_PRIVATE_DATA_2B
++-    if (PRIVATE_DATA(cc))
+++    private_srcw[0] = PRIVATE_DATA(cc);
+++    if (private_srcw[0] != 0 && recurse_check_bit(common, private_srcw[0]))
++       {
++       private_count = 2;
++-      private_srcw[0] = PRIVATE_DATA(cc);
++-      private_srcw[1] = PRIVATE_DATA(cc) + sizeof(sljit_sw);
+++      private_srcw[1] = private_srcw[0] + sizeof(sljit_sw);
+++      SLJIT_ASSERT(recurse_check_bit(common, private_srcw[1]));
++       }
++     cc += 2 + IMM2_SIZE;
++ #ifdef SUPPORT_UNICODE
++@@ -2590,30 +2659,30 @@ while (cc < ccend)
++     break;
++ 
++     CASE_ITERATOR_TYPE_PRIVATE_DATA_1
++-    if (PRIVATE_DATA(cc))
++-      {
+++    private_srcw[0] = PRIVATE_DATA(cc);
+++    if (private_srcw[0] != 0 && recurse_check_bit(common, private_srcw[0]))
++       private_count = 1;
++-      private_srcw[0] = PRIVATE_DATA(cc);
++-      }
++     cc += 1;
++     break;
++ 
++     CASE_ITERATOR_TYPE_PRIVATE_DATA_2A
++-    if (PRIVATE_DATA(cc))
+++    private_srcw[0] = PRIVATE_DATA(cc);
+++    if (private_srcw[0] != 0 && recurse_check_bit(common, private_srcw[0]))
++       {
++       private_count = 2;
++-      private_srcw[0] = PRIVATE_DATA(cc);
++       private_srcw[1] = private_srcw[0] + sizeof(sljit_sw);
+++      SLJIT_ASSERT(recurse_check_bit(common, private_srcw[1]));
++       }
++     cc += 1;
++     break;
++ 
++     CASE_ITERATOR_TYPE_PRIVATE_DATA_2B
++-    if (PRIVATE_DATA(cc))
+++    private_srcw[0] = PRIVATE_DATA(cc);
+++    if (private_srcw[0] != 0 && recurse_check_bit(common, private_srcw[0]))
++       {
++       private_count = 2;
++-      private_srcw[0] = PRIVATE_DATA(cc);
++       private_srcw[1] = private_srcw[0] + sizeof(sljit_sw);
+++      SLJIT_ASSERT(recurse_check_bit(common, private_srcw[1]));
++       }
++     cc += 1 + IMM2_SIZE;
++     break;
++@@ -2630,14 +2699,17 @@ while (cc < ccend)
++       switch(get_class_iterator_size(cc + i))
++         {
++         case 1:
++-        private_count = 1;
++         private_srcw[0] = PRIVATE_DATA(cc);
++         break;
++ 
++         case 2:
++-        private_count = 2;
++         private_srcw[0] = PRIVATE_DATA(cc);
++-        private_srcw[1] = private_srcw[0] + sizeof(sljit_sw);
+++        if (recurse_check_bit(common, private_srcw[0]))
+++          {
+++          private_count = 2;
+++          private_srcw[1] = private_srcw[0] + sizeof(sljit_sw);
+++          SLJIT_ASSERT(recurse_check_bit(common, private_srcw[1]));
+++          }
++         break;
++ 
++         default:
++@@ -2652,28 +2724,25 @@ while (cc < ccend)
++     case OP_PRUNE_ARG:
++     case OP_THEN_ARG:
++     SLJIT_ASSERT(common->mark_ptr != 0);
++-    if (has_quit && !setmark_found)
+++    if (has_quit && recurse_check_bit(common, common->mark_ptr))
++       {
++       kept_shared_srcw[0] = common->mark_ptr;
++       kept_shared_count = 1;
++-      setmark_found = TRUE;
++       }
++-    if (common->control_head_ptr != 0 && !control_head_found)
+++    if (common->control_head_ptr != 0 && recurse_check_bit(common, common->control_head_ptr))
++       {
++       shared_srcw[0] = common->control_head_ptr;
++       shared_count = 1;
++-      control_head_found = TRUE;
++       }
++     cc += 1 + 2 + cc[1];
++     break;
++ 
++     case OP_THEN:
++     SLJIT_ASSERT(common->control_head_ptr != 0);
++-    if (!control_head_found)
+++    if (recurse_check_bit(common, common->control_head_ptr))
++       {
++       shared_srcw[0] = common->control_head_ptr;
++       shared_count = 1;
++-      control_head_found = TRUE;
++       }
++     cc++;
++     break;
++@@ -2681,7 +2750,7 @@ while (cc < ccend)
++     default:
++     cc = next_opcode(common, cc);
++     SLJIT_ASSERT(cc != NULL);
++-    break;
+++    continue;
++     }
++ 
++   if (type != recurse_copy_shared_to_global && type != recurse_copy_kept_shared_to_global)
++@@ -13262,7 +13331,7 @@ SLJIT_ASSERT(!(common->req_char_ptr != 0 && common->start_used_ptr != 0));
++ common->cbra_ptr = OVECTOR_START + (re->top_bracket + 1) * 2 * sizeof(sljit_sw);
++ 
++ total_length = ccend - common->start;
++-common->private_data_ptrs = (sljit_s32 *)SLJIT_MALLOC(total_length * (sizeof(sljit_s32) + (common->has_then ? 1 : 0)), allocator_data);
+++common->private_data_ptrs = (sljit_s32*)SLJIT_MALLOC(total_length * (sizeof(sljit_s32) + (common->has_then ? 1 : 0)), allocator_data);
++ if (!common->private_data_ptrs)
++   {
++   SLJIT_FREE(common->optimized_cbracket, allocator_data);
++@@ -13304,6 +13373,7 @@ if (!compiler)
++ common->compiler = compiler;
++ 
++ /* Main pcre_jit_exec entry. */
+++LJIT_ASSERT((private_data_size & (sizeof(sljit_sw) - 1)) == 0);
++ sljit_emit_enter(compiler, 0, SLJIT_ARG1(SW), 5, 5, 0, 0, private_data_size);
++ 
++ /* Register init. */
++@@ -13524,20 +13594,40 @@ common->fast_fail_end_ptr = 0;
++ common->currententry = common->entries;
++ common->local_quit_available = TRUE;
++ quit_label = common->quit_label;
++-while (common->currententry != NULL)
+++if (common->currententry != NULL)
++   {
++-  /* Might add new entries. */
++-  compile_recurse(common);
++-  if (SLJIT_UNLIKELY(sljit_get_compiler_error(compiler)))
+++  /* A free bit for each private data. */
+++  common->recurse_bitset_size = ((private_data_size / (int)sizeof(sljit_sw)) + 7) >> 3;
+++  SLJIT_ASSERT(common->recurse_bitset_size > 0);
+++  common->recurse_bitset = (sljit_u8*)SLJIT_MALLOC(common->recurse_bitset_size, allocator_data);;
+++
+++  if (common->recurse_bitset != NULL)
+++    {
+++    do
+++      {
+++      /* Might add new entries. */
+++      compile_recurse(common);
+++      if (SLJIT_UNLIKELY(sljit_get_compiler_error(compiler)))
+++        break;
+++      flush_stubs(common);
+++      common->currententry = common->currententry->next;
+++      }
+++    while (common->currententry != NULL);
+++
+++    SLJIT_FREE(common->recurse_bitset, allocator_data);
+++    }
+++
+++  if (common->currententry != NULL)
++     {
+++    /* The common->recurse_bitset has been freed. */
+++    SLJIT_ASSERT(sljit_get_compiler_error(compiler) || common->recurse_bitset == NULL);
+++
++     sljit_free_compiler(compiler);
++     SLJIT_FREE(common->optimized_cbracket, allocator_data);
++     SLJIT_FREE(common->private_data_ptrs, allocator_data);
++     PRIV(jit_free_rodata)(common->read_only_data_head, allocator_data);
++     return PCRE2_ERROR_NOMEMORY;
++     }
++-  flush_stubs(common);
++-  common->currententry = common->currententry->next;
++   }
++ common->local_quit_available = FALSE;
++ common->quit_label = quit_label;
++diff --git a/src/pcre2_jit_test.c b/src/pcre2_jit_test.c
++index 9df87fd..2f84834 100644
++--- a/src/pcre2_jit_test.c
+++++ b/src/pcre2_jit_test.c
++@@ -746,6 +746,7 @@ static struct regression_test_case regression_test_cases[] = {
++ 	{ MU, A, 0, 0, "((?(R)a|(?1)){1,3}?)M", "aaaM" },
++ 	{ MU, A, 0, 0, "((.)(?:.|\\2(?1))){0}#(?1)#", "#aabbccdde# #aabbccddee#" },
++ 	{ MU, A, 0, 0, "((.)(?:\\2|\\2{4}b)){0}#(?:(?1))+#", "#aaaab# #aaaaab#" },
+++	{ MU, A, 0, 0 | F_NOMATCH, "(?1)$((.|\\2xx){1,2})", "abc" },
++ 
++ 	/* 16 bit specific tests. */
++ 	{ CM, A, 0, 0 | F_FORCECONV, "\xc3\xa1", "\xc3\x81\xc3\xa1" },
 +-- 
 +2.25.1
 +
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.7.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.7.bb
-index 3bc530e02b..3e6faf4cb8 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.7.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.7.bb
-@@ -6,6 +6,7 @@ SRC_URI += "file://remove.ldconfig.call.patch \
-            file://mkdir_p.patch \
-            file://0001-configure.ac-correct-AM_GNU_GETTEXT.patch \
-            file://0001-intl-do-not-try-to-use-gettext-defines-that-no-longe.patch \
-+           file://CVE-2022-1304.patch \
-            "
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.34.bb b/meta/recipes-support/libpcre/libpcre2_10.34.bb
+index 213b946a54..254badf6f6 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.34.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.34.bb
+@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=b1588d3bb4cb0e1f5a597d908f8c5b37"
+ SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/pcre2-${PV}.tar.bz2 \
+            file://pcre-cross.patch \
+            file://CVE-2022-1586.patch \
++	    file://CVE-2022-1587.patch \
+ "
  
- SRC_URI_append_class-native = " file://e2fsprogs-fix-missing-check-for-permission-denied.patch \
+ SRC_URI[md5sum] = "d280b62ded13f9ccf2fac16ee5286366"
 -- 
 2.25.1
 
