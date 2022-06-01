@@ -1,105 +1,121 @@
-Return-Path: <omkarpatil10.93@gmail.com>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57064C433EF
-	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 10:53:35 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web10.5968.1654080804111698858
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82659C433FE
+	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 11:08:35 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web08.6061.1654081705355691334
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jun 2022 03:53:28 -0700
+ Wed, 01 Jun 2022 04:08:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=qwSr1jeZ;
- spf=pass (domain: gmail.com, ip: 209.85.216.47,
- mailfrom: omkarpatil10.93@gmail.com)
-Received: by mail-pj1-f47.google.com with SMTP id
- d12-20020a17090abf8c00b001e2eb431ce4so1717784pjs.1
+ dkim=pass header.i=@linaro.org header.s=google header.b=BNl5xTGc;
+ spf=pass (domain: linaro.org, ip: 209.85.167.50,
+ mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lf1-f50.google.com with SMTP id j10so2107238lfe.12
         for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jun 2022 03:53:28 -0700 (PDT)
+ Wed, 01 Jun 2022 04:08:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=H9mK3HhfQZVXt5Noxn3bjUZm5RRfN+RNu8vJJkNzHv0=;
-        b=qwSr1jeZDDR8qKi2PciSo5ZcOPMgt5OO9oWFRLheBbYFos/ZLxC4DA8pSF5scy/f2D
-         W5/zD+hK/CMJWdX4BTfm6Uw8zUzllg1cmjFqb4Y/VfM8Saqsn1bA/4UZIWcAqJVnF/K9
-         IwkQojkAbXlJ3CvNY/rv2n7u0ucMICRlSXO83I4fHxOHzLyMRsGICYdYT7wXmn5qbpH1
-         UWaxtVjMCaTqam7qDrC8arMG8A3s4ocCJMZ94fjlW8yCXbCnWY6X2CJvsU/+BMUu/LqI
-         6JLHYbSC55j0gmOdYonTNh5JmcF29XZwP7LfoRGdBJ9rWmr+k51s/lBYoPE7GDlypVKn
-         jd2A==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UUWd8rOWqb81NcxYp17fcPZqUvaSNeji96cwDYQ3qzg=;
+        b=BNl5xTGcYqHOZkLIRPeqTHS7T5xBXr97KCF/9rluVpb8ytImQAnvD6/IE3j62aecFn
+         EVTbGD+NVfMvADsVufv9UcQjvDn9iFDmNATCIZvBA4I+roE77+bjV5nTZGWlvv/PU95s
+         0vkFT4lwtmlfOS9wb9C2oQ7nAfi8QaK5BdH0/3FW6HTt01I/A0v7xwP7Hpzr0lW+mInv
+         qNGleu05wvHGa/bQMjIXD/lZ4egEZR+u07O6SUy5MoDpFYvMjaptAP4TiGg8cvQXjft3
+         y5EDdE5Y1x2xjQEiNtaDehJNFktDT2OZilfdnMRKkY4B1WEIaHm79WsMGckzbBeHpf6o
+         +7Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=H9mK3HhfQZVXt5Noxn3bjUZm5RRfN+RNu8vJJkNzHv0=;
-        b=jxH5WjfC80riFfjSz88Go6aDoF5Z2HnfVFZQAsO8PmMrlJ3YH9WvDPsqW/urJc0RNJ
-         ettEc4V4x9+Zd/DzqOMYbNgQVFu/Dg43JmbsXaIo+HNNfGsV2q0XZJaCWlispabRSVnb
-         RnJPijrVJ7ImpVHH7wKKEKEyCmkQqh+0Y47d/52HC1B4SVQJRUpjDMu/+Blkk1rLEmff
-         aOul2XGjoedAfFmxNsvmb1mojcE2pZDXxAcmBYVBbU+gIHVVn7y8wJyQ2FweHeFg5bMr
-         y6Z8I7HTLTkUW+wumQTKUqNSzD8D0fZUTafmeRLPJE1EV5U+QsZQ0gUx3HmUNWbVGfEZ
-         QJfQ==
-X-Gm-Message-State: AOAM532bRwhgGgVDjferUvWO5XC7UTRo0s5qeVVoUO3jha7WMgFcDQh8
-	l9K91+NoS++N5QSiYWoS7M1U5rXzx+L+3w==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UUWd8rOWqb81NcxYp17fcPZqUvaSNeji96cwDYQ3qzg=;
+        b=VGv44jxADg1P+HmzRi9tbGaQ5tezuFPhLg/YEl3urpIAB3/8/keLt6Yb34lXWl0isS
+         yfCiKftUqO/GS+73Oqdxbh6/Dw6Tr/0na/STTGEJw7auHjLYNjxJRnrZPzV6D3Lh3I00
+         gV9h1/LyXT3az+BODGrHoK62+kX5dT3IJXu71SZsncq3aDwf4c6l1cpw+Ynw8HTh+qkz
+         GAGI+sIYtXjBF+eCjUIDyIgj2jQA0h8GOGoqqmKw0EEoGjhl7ysBg8krrzD/YWvvSc4V
+         +OFrHee4jueOi5Z1VVLwPQ0Enq1oTB8+GkmWK2XlGbarSoaIs8LllUEBN3edxMciW7bH
+         8U/g==
+X-Gm-Message-State: AOAM532HwIiL4LAiv6lBOVDl2I63g18yXH7WcTZEJKfmRp2aBjbwvMBL
+	WoFL83jJXPbUYQclCvO6hFqikgnbHWxURg==
 X-Google-Smtp-Source: 
- ABdhPJw7d3Uavp0dkB9MM8nGzH2I8YkPalA+73pb1HRV0lNmkB6wcG4LV9fk+uwCv8/559uTryXeug==
-X-Received: by 2002:a17:90b:1c10:b0:1df:f814:6beb with SMTP id
- oc16-20020a17090b1c1000b001dff8146bebmr33358897pjb.0.1654080807982;
-        Wed, 01 Jun 2022 03:53:27 -0700 (PDT)
-Received: from localhost.localdomain
- ([2409:4042:4ccf:3fbd:a915:cbcd:1d5b:5016])
+ ABdhPJyt0N++Frfl+4iHcVlN1HjdrDg6icwGShU+FAzK/a0AClk18DSmMgUNqEePQutVO2d5p5ii1Q==
+X-Received: by 2002:a05:6512:2309:b0:478:b60b:5cf9 with SMTP id
+ o9-20020a056512230900b00478b60b5cf9mr21767561lfu.143.1654081702933;
+        Wed, 01 Jun 2022 04:08:22 -0700 (PDT)
+Received: from umbar.lan ([37.153.55.125])
         by smtp.gmail.com with ESMTPSA id
- q19-20020a635c13000000b003c14af50623sm1074166pgb.59.2022.06.01.03.53.25
+ s7-20020a2e98c7000000b00253b5bb829esm258591ljj.98.2022.06.01.04.08.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jun 2022 03:53:27 -0700 (PDT)
-From: Omkar Patil <omkarpatil10.93@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	omkar.patil@kpit.com
-Cc: ranjitsinh.rathod@kpit.com,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [OE-core][dunfell][PATCH 2/2] libxslt: Mark CVE-2022-29824 as not
- applying
-Date: Wed,  1 Jun 2022 16:23:12 +0530
-Message-Id: <20220601105312.29861-2-omkarpatil10.93@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220601105312.29861-1-omkarpatil10.93@gmail.com>
-References: <20220601105312.29861-1-omkarpatil10.93@gmail.com>
+        Wed, 01 Jun 2022 04:08:22 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: dmitry.baryshkov@linaro.org
+Subject: [PATCH] linux-firmware: add support for building snapshots
+Date: Wed,  1 Jun 2022 14:08:16 +0300
+Message-Id: <20220601110816.3224662-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 10:53:35 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 11:08:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166373
+ https://lists.openembedded.org/g/openembedded-core/message/166374
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+In some cases it is useful to be able to test the snapshot of
+linux-firmware (e.g. to test if the updated firmware works on the
+particular hardware). Allow building the linux-firmware snapshots.
 
-We have libxml2 2.9.14 and we don't link statically against libxml2 anyway
-so the CVE doesn't apply to libxslt.
+To switch to the most recent branch, add the following lines to the
+local.conf file:
 
-(From OE-Core rev: c6315d8a2a1429a0fb7563b1d6352ceee7bc222c)
+PREFERRED_VERSION_linux-firmware = "1:20220509+git%"
+SRCREV:class-devupstream = "${AUTOREV}"
+WHENCE_CHKSUM:class-devupstream:pn-linux-firmware = "4288aad55d189fa225d492526b8406d5"
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ad63694e6df4f284879f7220962a821f97928eb0)
-Signed-off-by: Omkar Patil <omkarpatil10.93@gmail.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- meta/recipes-support/libxslt/libxslt_1.1.35.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../linux-firmware/linux-firmware_20220509.bb             | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.35.bb b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
-index 0f25043743..47a38deb13 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.35.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
-@@ -19,6 +19,10 @@ SRC_URI[sha256sum] = "8247f33e9a872c6ac859aa45018bc4c4d00b97e2feac9eebc10c93ce1f
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20220509.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20220509.bb
+index 6e328e57260a..10a7036a1938 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20220509.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20220509.bb
+@@ -69,6 +69,7 @@ LICENSE = "\
+     & WHENCE \
+ "
  
- UPSTREAM_CHECK_REGEX = "libxslt-(?P<pver>\d+(\.\d+)+)\.tar"
++WHENCE_CHKSUM = "d3eb82686904888f8bbbe8d865371404"
+ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728 \
+                     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
+@@ -132,7 +133,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+-                    file://WHENCE;md5=d3eb82686904888f8bbbe8d865371404 \
++                    file://WHENCE;md5=${WHENCE_CHKSUM} \
+                     "
  
-+# We have libxml2 2.9.14 and we don't link statically with it anyway
-+# so this isn't an issue.
-+CVE_CHECK_WHITELIST += "CVE-2022-29824"
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+@@ -208,6 +209,11 @@ SRC_URI = "\
+   file://0001-Makefile-replace-mkdir-by-install.patch \
+ "
+ 
++BBCLASSEXTEND = "devupstream:target"
++SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git;protocol=https;branch=main"
++# Pin this to the 20220509 release, override this in local.conf
++SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
 +
- S = "${WORKDIR}/libxslt-${PV}"
+ SRC_URI[sha256sum] = "376e0b3d7b4f8aaa2abf7f5ab74803dcf14b06b94e3d841b1467cd9a2848255e"
  
- BINCONFIG = "${bindir}/xslt-config"
+ inherit allarch
 -- 
-2.17.1
+2.30.2
 
 
