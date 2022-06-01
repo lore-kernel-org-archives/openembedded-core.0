@@ -2,41 +2,40 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AA43CCA47A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BB7DCCA47F
 	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 16:18:48 +0000 (UTC)
 Received: from a27-192.smtp-out.us-west-2.amazonses.com
  (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web08.657.1654100323818224796
+ by mx.groups.io with SMTP id smtpd.web10.675.1654100324730325327
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 Jun 2022 09:18:44 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=mWciCgS4;
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=nmU+sKuo;
  spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
- mailfrom: 01010181200fef78-aa0f73d8-c3fd-46c0-a2e0-f93b49e4652f-000000@us-west-2.amazonses.com)
+ mailfrom: 01010181200feeb4-43175eab-5ec4-4a6f-96ce-bf6795b2c166-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1654100324;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=V8uNRvJ4uRRftliX5cXmtir7qgT0MADvrhePNG2ZN6w=;
-	b=mWciCgS4tD3utRn1HjKdncsv3bDlTsLfo+WLu6DaEY5BBji3Fc1h/2DqKa+Gf8Yw
-	tvrSRZ0dvbHMRC4QLuqRnh4aiFE6ow/ubRGhftRhaBAld3tG3+1PtEEpMpA3//RMn/I
-	WkBOxFT8maUvpCKxySJOaG/Nel7qVp5NXMT7ZNPE=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=BvsaFk1El0Bkk7O1Eqo3/6qo5K4lL+8TEK809lI4EVk=;
+	b=nmU+sKuoSGEVB7Oo2vXsasdapZZw5B5+/9WAgxxge8+J2mTpZAROKnDshN4XrX7W
+	U51+w+rBioPlpgMlA8aaZqyyKJWbBLCBf8y/YUvdRDSPUKHtemtZkr0PegAfk4KrQvn
+	GlZ3hym6aV/jAZws7+Xa+gGnn7lngi8AnIHvjfU4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1654100324;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=V8uNRvJ4uRRftliX5cXmtir7qgT0MADvrhePNG2ZN6w=;
-	b=NSzAV2n4CnYwauJL+gZRVilZuDnVYljczd4vzfwvK0IQiTfW0o7vbI83k91DM3VT
-	kMm47Iph/g2N4sfNASTmfxXpcxnPIyA1Kr+kVnn6IxedI6T4+x/KWWfIWBY43XgjNQ+
-	Q4j7UgkXyuJimhnuO6zI0ukqV+zBQ2ZhM0bG5ykM=
-Content-Type: multipart/mixed; boundary="===============1758453561194449557=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=BvsaFk1El0Bkk7O1Eqo3/6qo5K4lL+8TEK809lI4EVk=;
+	b=EBjGsC1uoB4eEYLJb0Sv2GEWqLwSFaqV3mFhVxRdyE+7ysmpfpYsZB4CiEYj19go
+	ydKnIeM/KBxdTvpQx/1Q8SIgBih7NuJ2l2vI6N6OVAhfsHnRHPKrW1oifpMw0FlNsgG
+	v1soOFkTp1036cJMIaDdgHzYP30nqEE4C7b4ZVDA=
+Content-Type: multipart/mixed; boundary="===============6251910403494656588=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Joshua Watt <JPEWhacker@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] diffoscope: upgrading to 214 SUCCEEDED
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] xwayland: upgrading to 22.1.2 SUCCEEDED
 Message-ID: 
- <01010181200fef78-aa0f73d8-c3fd-46c0-a2e0-f93b49e4652f-000000@us-west-2.amazonses.com>
+ <01010181200feeb4-43175eab-5ec4-4a6f-96ce-bf6795b2c166-000000@us-west-2.amazonses.com>
 Date: Wed, 1 Jun 2022 16:18:44 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
@@ -46,9 +45,9 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 16:18:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166426
+ https://lists.openembedded.org/g/openembedded-core/message/166420
 
---===============1758453561194449557==
+--===============6251910403494656588==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +55,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *diffoscope* to *214* has Succeeded.
+that the automatic attempt to upgrade the recipe *xwayland* to *22.1.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-diffoscope-upgrade-212-214.patch
+    - apply the patch: git am 0001-xwayland-upgrade-22.1.1-22.1.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,98 +74,67 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============1758453561194449557==
+--===============6251910403494656588==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-diffoscope-upgrade-212-214.patch"
+ filename="0001-xwayland-upgrade-22.1.1-22.1.2.patch"
 
-From a8dcb424f2f453b7b61d8d2f650abc1d1ee92429 Mon Sep 17 00:00:00 2001
+From ac0e83127e6ab847f2cb7d5fbccb647dcc7e9369 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Jun 2022 15:56:43 +0000
-Subject: [PATCH] diffoscope: upgrade 212 -> 214
+Date: Wed, 1 Jun 2022 14:20:53 +0000
+Subject: [PATCH] xwayland: upgrade 22.1.1 -> 22.1.2
 
 ---
- .../diffoscope/{diffoscope_212.bb => diffoscope_214.bb}         | 2 +-
+ .../xwayland/{xwayland_22.1.1.bb => xwayland_22.1.2.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/diffoscope/{diffoscope_212.bb => diffoscope_214.bb} (92%)
+ rename meta/recipes-graphics/xwayland/{xwayland_22.1.1.bb => xwayland_22.1.2.bb} (95%)
 
-diff --git a/meta/recipes-support/diffoscope/diffoscope_212.bb b/meta/recipes-support/diffoscope/diffoscope_214.bb
-similarity index 92%
-rename from meta/recipes-support/diffoscope/diffoscope_212.bb
-rename to meta/recipes-support/diffoscope/diffoscope_214.bb
-index 41f896d74f..7327407162 100644
---- a/meta/recipes-support/diffoscope/diffoscope_212.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_214.bb
-@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
+diff --git a/meta/recipes-graphics/xwayland/xwayland_22.1.1.bb b/meta/recipes-graphics/xwayland/xwayland_22.1.2.bb
+similarity index 95%
+rename from meta/recipes-graphics/xwayland/xwayland_22.1.1.bb
+rename to meta/recipes-graphics/xwayland/xwayland_22.1.2.bb
+index b512b9932d..8c52613109 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_22.1.1.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_22.1.2.bb
+@@ -10,7 +10,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
  
- inherit pypi setuptools3
+ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "f5d0e0ba37e19bb87c62f61da5970bd204939f2120620964bed4cc8495baa657"
++SRC_URI[sha256sum] = "743c4d56cfc0818755e2281d625d51860b41a473c641e179649a4f41776d1fca"
  
--SRC_URI[sha256sum] = "744260ccf2bb869c58c50dfab68957dd494b12e446520993d0925b2394ea1db7"
-+SRC_URI[sha256sum] = "d670774498667be9dde75b14d94f57526834fc6b1d6aff89f6c68570a2246b03"
- 
- RDEPENDS:${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic python3-rpm"
+ UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
  
 -- 
 2.31.1
 
 
---===============1758453561194449557==
+--===============6251910403494656588==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PV changed from "212" to "214"
-packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PKGV changed from 212 [default] to 214 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PV changed from "212" to "214"
-packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PKGV changed from 212 [default] to 214 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PV changed from "212" to "214"
-packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PKGV changed from 212 [default] to 214 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PV changed from "212" to "214"
-packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PKGV changed from 212 [default] to 214 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-src: PV changed from "212" to "214"
-packages/core2-32-poky-linux/diffoscope/diffoscope-src: PKGV changed from 212 [default] to 214 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PV changed from "212" to "214"
-packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PKGV changed from 212 [default] to 214 [default]
-packages/core2-32-poky-linux/diffoscope/diffoscope: PKGSIZE changed from 1054847 to 1055982 (+0%)
-packages/core2-32-poky-linux/diffoscope/diffoscope: PV changed from "212" to "214"
-packages/core2-32-poky-linux/diffoscope/diffoscope: PKGV changed from 212 [default] to 214 [default]
-packages/core2-32-poky-linux/diffoscope: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-212.tar.gz" to "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-214.tar.gz"
-packages/core2-32-poky-linux/diffoscope: PV changed from "212" to "214"
-packages/core2-32-poky-linux/diffoscope: PKGV changed from 212 [default] to 214 [default]
-Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.10/site-packages/diffoscope-212.dist-info moved to /usr/lib/python3.10/site-packages/diffoscope-214.dist-info
+packages/core2-32-poky-linux/xwayland: SRC_URI changed from "https://www.x.org/archive/individual/xserver/xwayland-22.1.1.tar.xz" to "https://www.x.org/archive/individual/xserver/xwayland-22.1.2.tar.xz"
+packages/core2-32-poky-linux/xwayland: PV changed from "22.1.1" to "22.1.2"
+packages/core2-32-poky-linux/xwayland: PKGV changed from 22.1.1 [default] to 22.1.2 [default]
+packages/core2-32-poky-linux/xwayland/xwayland-dbg: PV changed from "22.1.1" to "22.1.2"
+packages/core2-32-poky-linux/xwayland/xwayland-dbg: PKGV changed from 22.1.1 [default] to 22.1.2 [default]
+packages/core2-32-poky-linux/xwayland/xwayland-dbg: PKGSIZE changed from 10261796 to 10262620 (+0%)
+packages/core2-32-poky-linux/xwayland/xwayland-dev: PV changed from "22.1.1" to "22.1.2"
+packages/core2-32-poky-linux/xwayland/xwayland-dev: PKGV changed from 22.1.1 [default] to 22.1.2 [default]
+packages/core2-32-poky-linux/xwayland/xwayland-doc: PV changed from "22.1.1" to "22.1.2"
+packages/core2-32-poky-linux/xwayland/xwayland-doc: PKGV changed from 22.1.1 [default] to 22.1.2 [default]
+packages/core2-32-poky-linux/xwayland/xwayland-locale: PV changed from "22.1.1" to "22.1.2"
+packages/core2-32-poky-linux/xwayland/xwayland-locale: PKGV changed from 22.1.1 [default] to 22.1.2 [default]
+packages/core2-32-poky-linux/xwayland/xwayland-src: PV changed from "22.1.1" to "22.1.2"
+packages/core2-32-poky-linux/xwayland/xwayland-src: PKGV changed from 22.1.1 [default] to 22.1.2 [default]
+packages/core2-32-poky-linux/xwayland/xwayland-src: PKGSIZE changed from 8589131 to 8590421 (+0%)
+packages/core2-32-poky-linux/xwayland/xwayland-staticdev: PV changed from "22.1.1" to "22.1.2"
+packages/core2-32-poky-linux/xwayland/xwayland-staticdev: PKGV changed from 22.1.1 [default] to 22.1.2 [default]
+packages/core2-32-poky-linux/xwayland/xwayland: PV changed from "22.1.1" to "22.1.2"
+packages/core2-32-poky-linux/xwayland/xwayland: PKGV changed from 22.1.1 [default] to 22.1.2 [default]
 
---===============1758453561194449557==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.10/site-packages/diffoscope-212.dist-info moved to /usr/lib/python3.10/site-packages/diffoscope-214.dist-info
-
---===============1758453561194449557==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
-
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 883 .bb files complete (0 cached, 883 parsed). 1643 targets, 49 skipped, 0 masked, 0 errors.
-Removing 100 recipes from the core2-32 sysroot...done.
-Removing 120 recipes from the qemux86 sysroot...done.
-
-Summary: There was 1 WARNING message.
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: Nothing PROVIDES 'diffoscope'
-diffoscope was skipped: incompatible with host i686-poky-linux-musl (not in COMPATIBLE_HOST)
-
---===============1758453561194449557==--
+--===============6251910403494656588==--
 
