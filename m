@@ -1,121 +1,88 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <marcel@ziswiler.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82659C433FE
-	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 11:08:35 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web08.6061.1654081705355691334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C254BC433F5
+	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 11:48:25 +0000 (UTC)
+Received: from mout.perfora.net (mout.perfora.net [74.208.4.194])
+ by mx.groups.io with SMTP id smtpd.web11.6561.1654084103880986562
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jun 2022 04:08:25 -0700
+ Wed, 01 Jun 2022 04:48:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=BNl5xTGc;
- spf=pass (domain: linaro.org, ip: 209.85.167.50,
- mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lf1-f50.google.com with SMTP id j10so2107238lfe.12
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jun 2022 04:08:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UUWd8rOWqb81NcxYp17fcPZqUvaSNeji96cwDYQ3qzg=;
-        b=BNl5xTGcYqHOZkLIRPeqTHS7T5xBXr97KCF/9rluVpb8ytImQAnvD6/IE3j62aecFn
-         EVTbGD+NVfMvADsVufv9UcQjvDn9iFDmNATCIZvBA4I+roE77+bjV5nTZGWlvv/PU95s
-         0vkFT4lwtmlfOS9wb9C2oQ7nAfi8QaK5BdH0/3FW6HTt01I/A0v7xwP7Hpzr0lW+mInv
-         qNGleu05wvHGa/bQMjIXD/lZ4egEZR+u07O6SUy5MoDpFYvMjaptAP4TiGg8cvQXjft3
-         y5EDdE5Y1x2xjQEiNtaDehJNFktDT2OZilfdnMRKkY4B1WEIaHm79WsMGckzbBeHpf6o
-         +7Og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UUWd8rOWqb81NcxYp17fcPZqUvaSNeji96cwDYQ3qzg=;
-        b=VGv44jxADg1P+HmzRi9tbGaQ5tezuFPhLg/YEl3urpIAB3/8/keLt6Yb34lXWl0isS
-         yfCiKftUqO/GS+73Oqdxbh6/Dw6Tr/0na/STTGEJw7auHjLYNjxJRnrZPzV6D3Lh3I00
-         gV9h1/LyXT3az+BODGrHoK62+kX5dT3IJXu71SZsncq3aDwf4c6l1cpw+Ynw8HTh+qkz
-         GAGI+sIYtXjBF+eCjUIDyIgj2jQA0h8GOGoqqmKw0EEoGjhl7ysBg8krrzD/YWvvSc4V
-         +OFrHee4jueOi5Z1VVLwPQ0Enq1oTB8+GkmWK2XlGbarSoaIs8LllUEBN3edxMciW7bH
-         8U/g==
-X-Gm-Message-State: AOAM532HwIiL4LAiv6lBOVDl2I63g18yXH7WcTZEJKfmRp2aBjbwvMBL
-	WoFL83jJXPbUYQclCvO6hFqikgnbHWxURg==
-X-Google-Smtp-Source: 
- ABdhPJyt0N++Frfl+4iHcVlN1HjdrDg6icwGShU+FAzK/a0AClk18DSmMgUNqEePQutVO2d5p5ii1Q==
-X-Received: by 2002:a05:6512:2309:b0:478:b60b:5cf9 with SMTP id
- o9-20020a056512230900b00478b60b5cf9mr21767561lfu.143.1654081702933;
-        Wed, 01 Jun 2022 04:08:22 -0700 (PDT)
-Received: from umbar.lan ([37.153.55.125])
-        by smtp.gmail.com with ESMTPSA id
- s7-20020a2e98c7000000b00253b5bb829esm258591ljj.98.2022.06.01.04.08.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jun 2022 04:08:22 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: dmitry.baryshkov@linaro.org
-Subject: [PATCH] linux-firmware: add support for building snapshots
-Date: Wed,  1 Jun 2022 14:08:16 +0300
-Message-Id: <20220601110816.3224662-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ dkim=missing;
+ spf=none, err=permanent DNS error (domain: ziswiler.com, ip: 74.208.4.194,
+ mailfrom: marcel@ziswiler.com)
+Received: from [10.10.1.194] ([81.221.243.92]) by mrelay.perfora.net
+ (mreueus003 [74.208.5.2]) with ESMTPSA (Nemesis) id 0M55Wy-1naywG24vG-00zI3k;
+ Wed, 01 Jun 2022 13:48:18 +0200
+Message-ID: <d5813d390095db53d46f4177873035f3ac8bc9ba.camel@ziswiler.com>
+Subject: Re: [oe-core][PATCH v3 2/2] libavtp: add recipe to be able to use
+ aaf config for alsa-plugins
+From: Marcel Ziswiler <marcel@ziswiler.com>
+To: Peter Bergin <peter@berginkonsult.se>, Alexander Kanavin
+	 <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 01 Jun 2022 13:48:16 +0200
+In-Reply-To: <0e25e13f-2370-993b-a7dd-3780f056cd58@berginkonsult.se>
+References: <20220531213206.7119-1-marcel@ziswiler.com>
+	 <20220531213206.7119-2-marcel@ziswiler.com>
+	 <CANNYZj8xMEOqAPXBuP4oPonqDsJWUK8G6ExRwmT=7zkTQJp1rg@mail.gmail.com>
+	 <ab46486dd45aaedcfd1d00817e403572ef0b64d9.camel@ziswiler.com>
+	 <CANNYZj8QZH-PyopuyQ8oo8mL7K96Jh=3-659zL=B+LvT8HWAug@mail.gmail.com>
+	 <b448e78d04ef6dda6cfb2b974b5b5b7f8b7c3981.camel@ziswiler.com>
+	 <CANNYZj_+wqbxXbyQ17a=eZJKhq9hjzpXMCO019iAwNXgvs5RBw@mail.gmail.com>
+	 <0e25e13f-2370-993b-a7dd-3780f056cd58@berginkonsult.se>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.2 (by Flathub.org)) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:XVAiwgwXKICoiacHDsUh0LNrS6VyiZv2LkHI5PXjuDDlj3bWsdR
+ rnKGRqv7o7L6zgI2/Opu9SBtY95/J4PLBrhWdNWXXn2+o5+3if+SedGhs1R/xF6ZvMKV+Ky
+ tnPCcBwaNxXhYOoeLbmZwQWz4lcJ56yBbv4dVuseIxDmq2GQ3tfiGDzSlSHAROmD6tP5iOw
+ 9+GmwI78StbO9CAC/CQLw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:nd90+Ak3QdU=:loXXtcGllWAI4STZonSACo
+ V2T78YBXypbU3DO4UaZz0YSvzjel0T2xoPGJ+VHHafV4NqRcG4VxFyPtvuNIHsc6Pk56+Nf8c
+ pn3/IhjqhwOHLGZjuoQcU6on0VSR/+X21GkZivyEs6Vs/uWE0M9cjsv9iZg5uAptyIft3ZcF4
+ lUcRMP3RzDDjtw+cjNWzrs0mj8Jc8yxBLTKgZyK+xnysy5SrPHkWcGjkDLLUWHszw7fGP84jH
+ DteYc22EdQYWxz1CeB2h217wrXNz0sRR9/K9mWa6YFD8duZ92pUVacjzWhHsjHcpqcQGm7PGr
+ 8fc7Jl1n3cRlsiIfFw47OyETRZpMv1S4BB5immlCbJM44K+UhzDxGSrm0+p9E3S/7zFQ3C837
+ Ur2RS2If10fj5YW/3s3BPzZ6OHNUVAfU2c9Zgnp0MqYFWIfL3SAObcOwEuQWyoqHZET9NOGfH
+ FTE2Y4eooUiuxnk7KowzR30Amoq3EmCJ3b219d01lJx3bF/sbMMM0YKdYiZYC1RyUW3Yj9Rmn
+ QFCzKC5TkWUknDonFPveQxnzupQVQp41qFYUlYEtWyhJy/IAeB5smU+TWM+hd/goZhoOHLg31
+ +07r6wXgM2cNnCn8whzGmnW4HZ++5A2+YN+mDqxkGESCE5CG4XTL5P0PY7yeX2DefYuJMpZaj
+ qduhai5TN+FvSPHbblTlBeaC+ObF73HtxDyE+u/2o467QhVYVkJB7dXUVS41451Ce2izCJO67
+ gUbQbwf092SHgzSYbsUTyEehiKUYKWwDzM5k6w==
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 11:08:35 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 11:48:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166374
+ https://lists.openembedded.org/g/openembedded-core/message/166375
 
-In some cases it is useful to be able to test the snapshot of
-linux-firmware (e.g. to test if the updated firmware works on the
-particular hardware). Allow building the linux-firmware snapshots.
+On Wed, 2022-06-01 at 12:52 +0200, Peter Bergin wrote:
+> On 2022-06-01 11:43, Alexander Kanavin wrote:
+> > I'm not sure what the dilemma is, inspecting the repo shows that
+> > there's a standard 0.2.0 tag pointing to a commit in the master
+> > branch. You can look at pretty much any other recipe fetching from
+> > git.
+> > https://github.com/Avnu/libavtp/tags
+> >=20
+> Agree.
 
-To switch to the most recent branch, add the following lines to the
-local.conf file:
+I also fully agree. Sorry for my confusion in this regard.
 
-PREFERRED_VERSION_linux-firmware = "1:20220509+git%"
-SRCREV:class-devupstream = "${AUTOREV}"
-WHENCE_CHKSUM:class-devupstream:pn-linux-firmware = "4288aad55d189fa225d492526b8406d5"
+> My suggestion for solution is 'SRC_URI=3D-...;branch=3Dmaster...' +=20
+> 'SRCREV=3D<sha-sum of tag 0.2.0>' and rename recipe to libavtp_0.2.0.bb. =
+I=20
+> don't know if that is against any style guide or rules?
+>=20
+> And also fine with a move to meta-openembedded.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../linux-firmware/linux-firmware_20220509.bb             | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Sure, let me do that. Thanks!
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20220509.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20220509.bb
-index 6e328e57260a..10a7036a1938 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20220509.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20220509.bb
-@@ -69,6 +69,7 @@ LICENSE = "\
-     & WHENCE \
- "
- 
-+WHENCE_CHKSUM = "d3eb82686904888f8bbbe8d865371404"
- LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728 \
-                     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
-@@ -132,7 +133,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--                    file://WHENCE;md5=d3eb82686904888f8bbbe8d865371404 \
-+                    file://WHENCE;md5=${WHENCE_CHKSUM} \
-                     "
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -208,6 +209,11 @@ SRC_URI = "\
-   file://0001-Makefile-replace-mkdir-by-install.patch \
- "
- 
-+BBCLASSEXTEND = "devupstream:target"
-+SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git;protocol=https;branch=main"
-+# Pin this to the 20220509 release, override this in local.conf
-+SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
-+
- SRC_URI[sha256sum] = "376e0b3d7b4f8aaa2abf7f5ab74803dcf14b06b94e3d841b1467cd9a2848255e"
- 
- inherit allarch
--- 
-2.30.2
+> /Peter
 
+Cheers
+
+Marcel
 
