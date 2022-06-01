@@ -2,52 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABA97CCA48A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF4F5CCA48E
 	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 16:18:48 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com
- (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web12.617.1654100324464266128
+Received: from a27-192.smtp-out.us-west-2.amazonses.com
+ (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.671.1654100324053003540
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 Jun 2022 09:18:44 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=g8qMucWn;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
- mailfrom: 01010181200fee30-8f39a951-8191-4879-b151-3bb555369890-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=KGFc6+mk;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
+ mailfrom: 01010181200feb1e-be1e5f17-deb4-42db-96ef-a905aa3f0251-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1654100324;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=9ToLPCcffyEP0CKb7VD+UqCUAk8li2B1nyrClEWx+nI=;
-	b=g8qMucWnNyrsFpbKT3xOrS/oahqjB05pCZDeYz0gqn9EnuBlOkYdwRDXelir64tJ
-	MqUwzwc8tSMGyN6S47eipftwc6l8sVKiYkMUr+U70v1CKkH1LM5lw01HlpS+hS2cF9F
-	vAAxkkPiTxH4zJ7/MlaYHK6YRzsElMdRbv+EXMs0=
+	t=1654100323;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=9oi4aEAFguY4tjCLP6/m4gmPoDvW9mWUvRV40diceY4=;
+	b=KGFc6+mkuyLXR8Qu/pgWikMKgMX4KGXoWr80NRg2p573ESEJbVCBNP+h2ossUyPs
+	tgFmoIP6DEiGOU/ZxJo742y9scjAQY4E07Q3XTkWF790Lz0agDammQypb7RUdbNJkvY
+	bSl3ErwLrWN0pPfzZnpoSBPj/Smm3k6s1CWHrCvs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1654100324;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=9ToLPCcffyEP0CKb7VD+UqCUAk8li2B1nyrClEWx+nI=;
-	b=boBkH69ZM6eeP6ftev7D+/9qbIBGK9v2fK74hzgx6xZ7PhABklWkJYy0D1Lk1jZB
-	vg9L2+3uRdvJOUuj23a4YyGAkpIQmzdoAcztphygWk3+DRXQJ81Q6xwVRRvOcFs0Q/i
-	4S+TgL7Ivc2ohbjSpEoSwgB+GmvyubvZYyB2qErE=
-Content-Type: multipart/mixed; boundary="===============5537571725300450249=="
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1654100323;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=9oi4aEAFguY4tjCLP6/m4gmPoDvW9mWUvRV40diceY4=;
+	b=g9Muudav/kp0QgG1obwLKHyh5QtDhFnpYVZLmoKGHYwk2hV3op5XpziJ2sKO3hav
+	RGWdextBq1OOLsWCpyab/aMH/ADvIAk5qPOydk2yzbvLr9OrZjaBHkFPJjv314Q2cjU
+	4q11GNeNUByWDU/Qqpilt9GN2fODTysT7L/ioM7g=
+Content-Type: multipart/mixed; boundary="===============1093016478079830226=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxkbcommon: upgrading to 1.4.1 SUCCEEDED
+To: Zang Ruochen <zangrc.fnst@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-pip: upgrading to 22.1.2 SUCCEEDED
 Message-ID: 
- <01010181200fee30-8f39a951-8191-4879-b151-3bb555369890-000000@us-west-2.amazonses.com>
+ <01010181200feb1e-be1e5f17-deb4-42db-96ef-a905aa3f0251-000000@us-west-2.amazonses.com>
 Date: Wed, 1 Jun 2022 16:18:43 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.06.01-54.240.27.30
+X-SES-Outgoing: 2022.06.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 16:18:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166412
+ https://lists.openembedded.org/g/openembedded-core/message/166407
 
---===============5537571725300450249==
+--===============1093016478079830226==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -55,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxkbcommon* to *1.4.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-pip* to *22.1.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxkbcommon-upgrade-1.4.0-1.4.1.patch
+    - apply the patch: git am 0001-python3-pip-upgrade-22.1.1-22.1.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -74,74 +75,77 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5537571725300450249==
+--===============1093016478079830226==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libxkbcommon: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
-packages/core2-32-poky-linux/libxkbcommon: SRC_URI changed from "http://xkbcommon.org/download/libxkbcommon-1.4.0.tar.xz" to "http://xkbcommon.org/download/libxkbcommon-1.4.1.tar.xz"
-packages/core2-32-poky-linux/libxkbcommon: PV changed from "1.4.0" to "1.4.1"
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dbg: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dbg: PV changed from "1.4.0" to "1.4.1"
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dbg: PKGSIZE changed from 919148 to 919228 (+0%)
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dev: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dev: PV changed from "1.4.0" to "1.4.1"
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-dev: PKGSIZE changed from 354865 to 354882 (+0%)
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-doc: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-doc: PV changed from "1.4.0" to "1.4.1"
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-locale: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-locale: PV changed from "1.4.0" to "1.4.1"
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-src: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-src: PV changed from "1.4.0" to "1.4.1"
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-src: PKGSIZE changed from 1475990 to 1476588 (+0%)
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-staticdev: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-staticdev: PV changed from "1.4.0" to "1.4.1"
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-x11: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon-x11: PV changed from "1.4.0" to "1.4.1"
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
-packages/core2-32-poky-linux/libxkbcommon/libxkbcommon: PV changed from "1.4.0" to "1.4.1"
-packages/core2-32-poky-linux/libxkbcommon/libxkbregistry: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
-packages/core2-32-poky-linux/libxkbcommon/libxkbregistry: PV changed from "1.4.0" to "1.4.1"
-packages/core2-32-poky-linux/libxkbcommon/xkbcli: PKGV changed from 1.4.0 [default] to 1.4.1 [default]
-packages/core2-32-poky-linux/libxkbcommon/xkbcli: PV changed from "1.4.0" to "1.4.1"
+packages/core2-32-poky-linux/python3-pip: PKGV changed from 22.1.1 [default] to 22.1.2 [default]
+packages/core2-32-poky-linux/python3-pip: PV changed from "22.1.1" to "22.1.2"
+packages/core2-32-poky-linux/python3-pip: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pip/pip-22.1.1.tar.gz file://0001-change-shebang-to-python3.patch file://no_shebang_mangling.patch file://reproducible.patch" to "https://files.pythonhosted.org/packages/source/p/pip/pip-22.1.2.tar.gz file://0001-change-shebang-to-python3.patch file://no_shebang_mangling.patch file://reproducible.patch"
+packages/core2-32-poky-linux/python3-pip/python3-pip-dbg: PKGV changed from 22.1.1 [default] to 22.1.2 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip-dbg: PV changed from "22.1.1" to "22.1.2"
+packages/core2-32-poky-linux/python3-pip/python3-pip-dev: PKGV changed from 22.1.1 [default] to 22.1.2 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip-dev: PV changed from "22.1.1" to "22.1.2"
+packages/core2-32-poky-linux/python3-pip/python3-pip-doc: PKGV changed from 22.1.1 [default] to 22.1.2 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip-doc: PV changed from "22.1.1" to "22.1.2"
+packages/core2-32-poky-linux/python3-pip/python3-pip-locale: PKGV changed from 22.1.1 [default] to 22.1.2 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip-locale: PV changed from "22.1.1" to "22.1.2"
+packages/core2-32-poky-linux/python3-pip/python3-pip-src: PKGV changed from 22.1.1 [default] to 22.1.2 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip-src: PV changed from "22.1.1" to "22.1.2"
+packages/core2-32-poky-linux/python3-pip/python3-pip-staticdev: PKGV changed from 22.1.1 [default] to 22.1.2 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip-staticdev: PV changed from "22.1.1" to "22.1.2"
+packages/core2-32-poky-linux/python3-pip/python3-pip: PKGSIZE changed from 12541127 to 12541218 (+0%)
+packages/core2-32-poky-linux/python3-pip/python3-pip: PKGV changed from 22.1.1 [default] to 22.1.2 [default]
+packages/core2-32-poky-linux/python3-pip/python3-pip: PV changed from "22.1.1" to "22.1.2"
+Changes to packages/core2-32-poky-linux/python3-pip (sysroot):
+  /usr/lib/python3.10/site-packages/pip-22.1.1.dist-info moved to /usr/lib/python3.10/site-packages/pip-22.1.2.dist-info
 
---===============5537571725300450249==
+--===============1093016478079830226==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/python3-pip (sysroot):
+  /usr/lib/python3.10/site-packages/pip-22.1.1.dist-info moved to /usr/lib/python3.10/site-packages/pip-22.1.2.dist-info
+
+--===============1093016478079830226==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-libxkbcommon-upgrade-1.4.0-1.4.1.patch"
+ filename="0001-python3-pip-upgrade-22.1.1-22.1.2.patch"
 
-From 6843e45b2556d8a0c94a6ed0b99756c8590b8b2a Mon Sep 17 00:00:00 2001
+From 47677497b7b53111c1b028ad3359b52255a86bfc Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Jun 2022 14:13:06 +0000
-Subject: [PATCH] libxkbcommon: upgrade 1.4.0 -> 1.4.1
+Date: Wed, 1 Jun 2022 08:39:31 +0000
+Subject: [PATCH] python3-pip: upgrade 22.1.1 -> 22.1.2
 
 ---
- .../xorg-lib/{libxkbcommon_1.4.0.bb => libxkbcommon_1.4.1.bb}   | 2 +-
+ .../python/{python3-pip_22.1.1.bb => python3-pip_22.1.2.bb}     | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxkbcommon_1.4.0.bb => libxkbcommon_1.4.1.bb} (94%)
+ rename meta/recipes-devtools/python/{python3-pip_22.1.1.bb => python3-pip_22.1.2.bb} (97%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.0.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb
-similarity index 94%
-rename from meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.0.bb
-rename to meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb
-index 34652e9c4e..89093e6786 100644
---- a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb
-@@ -9,7 +9,7 @@ DEPENDS = "flex-native bison-native"
+diff --git a/meta/recipes-devtools/python/python3-pip_22.1.1.bb b/meta/recipes-devtools/python/python3-pip_22.1.2.bb
+similarity index 97%
+rename from meta/recipes-devtools/python/python3-pip_22.1.1.bb
+rename to meta/recipes-devtools/python/python3-pip_22.1.2.bb
+index ad239e952a..0573db603d 100644
+--- a/meta/recipes-devtools/python/python3-pip_22.1.1.bb
++++ b/meta/recipes-devtools/python/python3-pip_22.1.2.bb
+@@ -37,7 +37,7 @@ SRC_URI += "file://0001-change-shebang-to-python3.patch"
+ SRC_URI += "file://no_shebang_mangling.patch"
+ SRC_URI += "file://reproducible.patch"
  
- SRC_URI = "http://xkbcommon.org/download/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "8dfb15d8a1c3d3085a4cbe11f29e19527dfaf2ba99354326fd62cec013eaee81"
++SRC_URI[sha256sum] = "6d55b27e10f506312894a87ccc59f280136bad9061719fac9101bdad5a6bce69"
  
--SRC_URI[sha256sum] = "106cec5263f9100a7e79b5f7220f889bc78e7d7ffc55d2b6fdb1efefb8024031"
-+SRC_URI[sha256sum] = "943c07a1e2198026d8102b17270a1f406e4d3d6bbc4ae105b9e1b82d7d136b39"
- 
- UPSTREAM_CHECK_URI = "http://xkbcommon.org/"
- 
+ do_install:append() {
+     rm -f ${D}/${bindir}/pip
 -- 
 2.31.1
 
 
---===============5537571725300450249==--
+--===============1093016478079830226==--
 
