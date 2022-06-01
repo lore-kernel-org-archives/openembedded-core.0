@@ -2,53 +2,54 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBC7ECCA499
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7353FCCA481
 	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 16:18:48 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com
- (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web09.619.1654100323612782572
+Received: from a27-45.smtp-out.us-west-2.amazonses.com
+ (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.616.1654100323854989287
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jun 2022 09:18:43 -0700
+ Wed, 01 Jun 2022 09:18:44 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=JDCJwYv2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
- mailfrom: 01010181200fe8b5-be25b7ee-d6c7-48f1-bc0b-2dd004f067b8-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Uv7heh8R;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
+ mailfrom: 01010181200fee08-29e398b3-86eb-458f-8e3b-090ed5b423f0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1654100322;
+	t=1654100324;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=gQ5Nc6cxX8v+izMr+a38pzx/g0FpUj535cMmWlCiiyM=;
-	b=JDCJwYv2KK9/TMYYvAjmgyQ0S7YGRCzLnhk+lPdbWTwVw/mCV4ivsTa5LUIgO/t4
-	0WuaXR5cZKKwxsW1ZI5+CkhxcdnIgfgEnGqw6mI2O8wfmssyrtdinTltyzeOJ4Pdr/I
-	ULwkjyxY1nSbBytlxkcOh6rd1Rrc9xDxvo2v+PN0=
+	bh=QPjIFE3eaEy3uUcqQo3WOyfvdbyw+z9tHL5k6v2ZKK4=;
+	b=Uv7heh8RaPq4D3G8/GWVfNwPXRF7IqDftZ5I0b97vvxLhCfyYfOVu+UsmZBcx2Jo
+	96Q7AiKEEffIyZrZoCe0vQMd7ByWO1yhRWTaC3QjqRDvXOPqzJoNivKNYNRWiWrgban
+	zNT3v189lHg0T8wiIH+iR820r2btZ34W7V0PC+RM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1654100322;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1654100324;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=gQ5Nc6cxX8v+izMr+a38pzx/g0FpUj535cMmWlCiiyM=;
-	b=WSDUKbWIH3ZQg+7C6rvJcULozNPJaaXN2TB4JvEppm30yeVoenIe72FhEenkH2Aw
-	bG2qnY6L9Vm/EEI+qFuVb32GdMV3wT4rQJ3L052YC31pXApx4OJUS+co45+M/IJj6j3
-	MZCTeWwaW/6DuVuPyE7RlKgn5iI6n2yWq6vtMyc4=
-Content-Type: multipart/mixed; boundary="===============1097802830769835020=="
+	bh=QPjIFE3eaEy3uUcqQo3WOyfvdbyw+z9tHL5k6v2ZKK4=;
+	b=aKat9x0fuODlAAc6azRqTfY1Jj3XzFIzeTH0e+sa/3HKMpebg6QGamakeaLQYxDh
+	jTZa/wkTirpcFVDoOCnqLDLEv06bmvo3NeKZ/gT9krAckQ+uGR49Lu9bNSEjOutaefU
+	naBASlXQN3ovTUGWII81EzQYGLqglLNhQ5E+xMos=
+Content-Type: multipart/mixed; boundary="===============2249933854796429385=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] cargo: upgrading to 1.61.0 FAILED
+Subject: [AUH] piglit: upgrading to a1a1824b38f1d7bfe851633db416c6bed84ba557
+ SUCCEEDED
 Message-ID: 
- <01010181200fe8b5-be25b7ee-d6c7-48f1-bc0b-2dd004f067b8-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Jun 2022 16:18:42 +0000
+ <01010181200fee08-29e398b3-86eb-458f-8e3b-090ed5b423f0-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Jun 2022 16:18:43 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.06.01-54.240.27.31
+X-SES-Outgoing: 2022.06.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 16:18:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166399
+ https://lists.openembedded.org/g/openembedded-core/message/166421
 
---===============1097802830769835020==
+--===============2249933854796429385==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,847 +57,2543 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *cargo* to *1.61.0* has Failed(other errors).
+that the automatic attempt to upgrade the recipe *piglit* to *a1a1824b38f1d7bfe851633db416c6bed84ba557* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-piglit-upgrade-to-latest-revision.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-'MACHINE=qemux86 bitbake cargo' failed
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1642 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-780a5b66a51cab425a5cabb48f9d07672f1841bf"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:780a5b66a51cab425a5cabb48f9d07672f1841bf"
-workspace            = "master:95066dde6861ee08fdb505ab3e0422156cc24fae"
-
-Initialising tasks...done.
-Sstate summary: Wanted 47 Local 19 Mirrors 0 Missed 28 Current 164 (40% match, 86% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 532 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_fetch)
-NOTE: Running task 616 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_fetch)
-NOTE: Running task 672 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_fetch)
-NOTE: Running task 677 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_fetch)
-NOTE: Running task 678 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_fetch)
-NOTE: Running task 679 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_fetch)
-NOTE: Running task 680 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_fetch)
-NOTE: Running task 700 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_fetch)
-NOTE: Running task 711 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_fetch)
-NOTE: Running task 750 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_populate_sysroot)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_fetch: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_fetch: Started
-NOTE: recipe ca-certificates-20211016-r0: task do_populate_sysroot: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_fetch: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_fetch: Started
-NOTE: recipe cargo-1.60.0-r0: task do_fetch: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_fetch: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_fetch: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_fetch: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_fetch: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_fetch: Succeeded
-NOTE: Running task 760 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_unpack)
-NOTE: Running task 761 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_prepare_recipe_sysroot)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_unpack: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe ca-certificates-20211016-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe ca-certificates-native-20211016-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe ca-certificates-native-20211016-r0: task do_unpack: Succeeded
-NOTE: Running task 762 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_patch)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_patch: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_patch: Succeeded
-NOTE: Running task 763 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_deploy_source_date_epoch)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 764 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_configure)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_configure: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_configure: Succeeded
-NOTE: Running task 765 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_compile)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_compile: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_compile: Succeeded
-NOTE: Running task 766 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_install)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_install: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_fetch: Succeeded
-NOTE: recipe libstd-rs-1.60.0-r0: task do_fetch: Succeeded
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_fetch: Succeeded
-NOTE: Running task 767 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_unpack)
-NOTE: Running task 768 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 769 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_unpack)
-NOTE: Running task 770 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_unpack)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_unpack: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_unpack: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_unpack: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_fetch: Succeeded
-NOTE: recipe libssh2-1.10.0-r0: task do_fetch: Succeeded
-NOTE: Running task 771 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_unpack)
-NOTE: Running task 772 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_unpack)
-NOTE: Running task 773 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 774 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libssh2-1.10.0-r0: task do_unpack: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_unpack: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_unpack: Succeeded
-NOTE: Running task 775 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_patch)
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libssh2-native-1.10.0-r0: task do_unpack: Succeeded
-NOTE: Running task 776 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_patch)
-NOTE: recipe libssh2-1.10.0-r0: task do_patch: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_patch: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libssh2-1.10.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libssh2-1.10.0-r0: task do_patch: Succeeded
-NOTE: recipe libssh2-native-1.10.0-r0: task do_patch: Succeeded
-NOTE: Running task 777 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 778 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libssh2-1.10.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_install: Succeeded
-NOTE: recipe libssh2-native-1.10.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 779 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_populate_sysroot)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_populate_sysroot: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 780 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_configure)
-NOTE: recipe libssh2-native-1.10.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 781 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_configure)
-NOTE: recipe libssh2-1.10.0-r0: task do_configure: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_configure: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe rust-native-1.60.0-r0: task do_fetch: Succeeded
-NOTE: recipe cargo-native-1.60.0-r0: task do_fetch: Succeeded
-NOTE: recipe cargo-1.60.0-r0: task do_fetch: Succeeded
-NOTE: Running task 782 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_unpack)
-NOTE: Running task 783 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_unpack)
-NOTE: Running task 784 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_unpack)
-NOTE: recipe rust-native-1.60.0-r0: task do_unpack: Started
-NOTE: recipe cargo-1.60.0-r0: task do_unpack: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_unpack: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_configure: Succeeded
-NOTE: Running task 785 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_compile)
-NOTE: recipe libssh2-native-1.10.0-r0: task do_compile: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_unpack: Succeeded
-NOTE: Running task 786 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_patch)
-NOTE: Running task 787 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_rust_setup_snapshot)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_patch: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_rust_setup_snapshot: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_rust_setup_snapshot: Succeeded
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_patch: Succeeded
-NOTE: Running task 788 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 789 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_rust_gen_targets)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_rust_gen_targets: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_rust_gen_targets: Succeeded
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libssh2-1.10.0-r0: task do_configure: Succeeded
-NOTE: Running task 790 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_configure_ptest_base)
-NOTE: recipe libssh2-1.10.0-r0: task do_configure_ptest_base: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 791 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_compile)
-NOTE: recipe libssh2-1.10.0-r0: task do_compile: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_compile: Succeeded
-NOTE: Running task 792 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_install)
-NOTE: recipe libssh2-native-1.10.0-r0: task do_install: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_install: Succeeded
-NOTE: Running task 793 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_populate_sysroot)
-NOTE: recipe libssh2-native-1.10.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libssh2-1.10.0-r0: task do_compile: Succeeded
-NOTE: Running task 794 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_compile_ptest_base)
-NOTE: recipe libssh2-1.10.0-r0: task do_compile_ptest_base: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 795 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_install)
-NOTE: recipe libssh2-1.10.0-r0: task do_install: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_install: Succeeded
-NOTE: Running task 796 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_install_ptest_base)
-NOTE: recipe libssh2-1.10.0-r0: task do_install_ptest_base: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 797 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_populate_sysroot)
-NOTE: Running task 798 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_package)
-NOTE: recipe libssh2-1.10.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_package: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libssh2-1.10.0-r0: task do_package: Succeeded
-NOTE: Running task 799 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_packagedata)
-NOTE: recipe libssh2-1.10.0-r0: task do_packagedata: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_packagedata: Succeeded
-NOTE: recipe libstd-rs-1.60.0-r0: task do_unpack: Succeeded
-NOTE: Running task 800 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_patch)
-NOTE: recipe libstd-rs-1.60.0-r0: task do_patch: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_patch: Succeeded
-NOTE: Running task 801 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libstd-rs-1.60.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_unpack: Succeeded
-NOTE: Running task 802 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_patch)
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_patch: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_patch: Succeeded
-NOTE: Running task 803 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_generate_toolchain_file)
-NOTE: Running task 804 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 805 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_configure)
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_configure: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_configure: Succeeded
-NOTE: Running task 806 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_compile)
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_compile: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_unpack: Succeeded
-NOTE: Running task 807 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_patch)
-NOTE: Running task 808 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_rust_setup_snapshot)
-NOTE: recipe rust-native-1.60.0-r0: task do_patch: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_rust_setup_snapshot: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_patch: Succeeded
-NOTE: Running task 809 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 810 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_rust_gen_targets)
-NOTE: recipe rust-native-1.60.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_rust_gen_targets: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_rust_gen_targets: Succeeded
-NOTE: recipe rust-native-1.60.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe rust-native-1.60.0-r0: task do_rust_setup_snapshot: Succeeded
-NOTE: recipe cargo-native-1.60.0-r0: task do_unpack: Succeeded
-NOTE: Running task 811 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_patch)
-NOTE: Running task 812 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_cargo_setup_snapshot)
-NOTE: recipe cargo-native-1.60.0-r0: task do_patch: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_cargo_setup_snapshot: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_patch: Succeeded
-NOTE: Running task 813 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe cargo-native-1.60.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe cargo-native-1.60.0-r0: task do_cargo_setup_snapshot: Succeeded
-NOTE: recipe cargo-1.60.0-r0: task do_unpack: Succeeded
-NOTE: Running task 814 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_patch)
-NOTE: Running task 815 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_cargo_setup_snapshot)
-NOTE: recipe cargo-1.60.0-r0: task do_cargo_setup_snapshot: Started
-NOTE: recipe cargo-1.60.0-r0: task do_patch: Started
-NOTE: recipe cargo-1.60.0-r0: task do_patch: Succeeded
-NOTE: Running task 816 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 817 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_populate_lic)
-NOTE: recipe cargo-1.60.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe cargo-1.60.0-r0: task do_populate_lic: Started
-NOTE: recipe cargo-1.60.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe cargo-1.60.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe cargo-1.60.0-r0: task do_cargo_setup_snapshot: Succeeded
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_compile: Succeeded
-NOTE: Running task 818 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_install)
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_install: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_install: Succeeded
-NOTE: Running task 819 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_populate_sysroot)
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_populate_sysroot: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 820 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe rust-native-1.60.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 821 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_rust_create_wrappers)
-NOTE: recipe rust-native-1.60.0-r0: task do_rust_create_wrappers: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_rust_create_wrappers: Succeeded
-NOTE: Running task 822 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_configure)
-NOTE: recipe rust-native-1.60.0-r0: task do_configure: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_configure: Succeeded
-NOTE: Running task 823 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_compile)
-NOTE: recipe rust-native-1.60.0-r0: task do_compile: Started
-Bitbake still alive (no events for 600s). Active tasks:
-virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_compile
-NOTE: recipe rust-native-1.60.0-r0: task do_compile: Succeeded
-NOTE: Running task 824 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_install)
-NOTE: recipe rust-native-1.60.0-r0: task do_install: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_install: Succeeded
-NOTE: Running task 825 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_populate_sysroot)
-NOTE: recipe rust-native-1.60.0-r0: task do_populate_sysroot: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 826 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 827 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 828 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_rust_create_wrappers)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 829 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_rust_create_wrappers)
-NOTE: recipe cargo-native-1.60.0-r0: task do_rust_create_wrappers: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_rust_create_wrappers: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_rust_create_wrappers: Succeeded
-NOTE: Running task 830 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_configure)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_rust_create_wrappers: Succeeded
-NOTE: Running task 831 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_configure)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_configure: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_configure: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_configure: Succeeded
-NOTE: Running task 832 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_compile)
-NOTE: recipe cargo-native-1.60.0-r0: task do_configure: Succeeded
-NOTE: Running task 833 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_compile)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_compile: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_compile: Succeeded
-NOTE: Running task 834 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_install)
-NOTE: recipe cargo-native-1.60.0-r0: task do_compile: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_install: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_install: Succeeded
-NOTE: Running task 835 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_populate_sysroot)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_populate_sysroot: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe cargo-native-1.60.0-r0: task do_compile: Succeeded
-NOTE: Running task 836 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_install)
-NOTE: recipe cargo-native-1.60.0-r0: task do_install: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_install: Succeeded
-NOTE: Running task 837 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_populate_sysroot)
-NOTE: recipe cargo-native-1.60.0-r0: task do_populate_sysroot: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 838 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libstd-rs-1.60.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 839 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_rust_create_wrappers)
-NOTE: recipe libstd-rs-1.60.0-r0: task do_rust_create_wrappers: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_rust_create_wrappers: Succeeded
-NOTE: Running task 840 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_configure)
-NOTE: recipe libstd-rs-1.60.0-r0: task do_configure: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_configure: Succeeded
-NOTE: Running task 841 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_compile)
-NOTE: recipe libstd-rs-1.60.0-r0: task do_compile: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_compile: Succeeded
-NOTE: Running task 842 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_install)
-NOTE: recipe libstd-rs-1.60.0-r0: task do_install: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_install: Succeeded
-NOTE: Running task 843 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_populate_sysroot)
-NOTE: Running task 844 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_package)
-NOTE: recipe libstd-rs-1.60.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_package: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 845 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe cargo-1.60.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe cargo-1.60.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 846 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_rust_create_wrappers)
-NOTE: recipe cargo-1.60.0-r0: task do_rust_create_wrappers: Started
-NOTE: recipe cargo-1.60.0-r0: task do_rust_create_wrappers: Succeeded
-NOTE: Running task 847 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_configure)
-NOTE: recipe cargo-1.60.0-r0: task do_configure: Started
-NOTE: recipe cargo-1.60.0-r0: task do_configure: Succeeded
-NOTE: Running task 848 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_compile)
-NOTE: recipe cargo-1.60.0-r0: task do_compile: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_package: Succeeded
-NOTE: Running task 849 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_packagedata)
-NOTE: recipe libstd-rs-1.60.0-r0: task do_packagedata: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_packagedata: Succeeded
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| NOTE: cargo = /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot-native/usr/bin/cargo
-| Usage: which [options] [--] COMMAND [...]
-| Write the full path of COMMAND(s) to standard output.
-| 
-|   --version, -[vV] Print version and exit successfully.
-|   --help,          Print this help and exit successfully.
-|   --skip-dot       Skip directories in PATH that start with a dot.
-|   --skip-tilde     Skip directories in PATH that start with a tilde.
-|   --show-dot       Don't expand a dot to current directory in output.
-|   --show-tilde     Output a tilde for HOME directory for non-root.
-|   --tty-only       Stop processing options on the right if not on tty.
-|   --all, -a        Print all matches in PATH, not just the first
-|   --read-alias, -i Read list of aliases from stdin.
-|   --skip-alias     Ignore option --read-alias; don't read stdin.
-|   --read-functions Read shell functions from stdin.
-|   --skip-functions Ignore option --read-functions; don't read stdin.
-| 
-| Recommended use is to write the output of (alias; declare -f) to standard
-| input, so that which can show aliases and shell functions. See which(1) for
-| examples.
-| 
-| If the options --read-alias and/or --read-functions are specified then the
-| output can be a full alias or function definition, optionally followed by
-| the full path of each command used inside of those.
-| 
-| Report bugs to <which-bugs@gnu.org>.
-| NOTE: rustc =
-| NOTE: cargo build -v --target i686-poky-linux --release --manifest-path=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/src/tools/cargo//Cargo.toml
-|    Compiling libc v0.2.116
-|    Compiling pkg-config v0.3.18
-|    Compiling autocfg v1.0.0
-|    Compiling proc-macro2 v1.0.30
-|    Compiling syn v1.0.80
-|    Compiling unicode-xid v0.2.2
-|    Compiling cfg-if v1.0.0
-|    Compiling serde_derive v1.0.125
-|    Compiling serde v1.0.125
-|    Compiling memchr v2.4.1
-|    Compiling cfg-if v0.1.10
-|    Compiling log v0.4.14
-|    Compiling crc32fast v1.2.0
-|    Compiling bitflags v1.2.1
-|    Compiling matches v0.1.8
-|    Compiling tinyvec v0.3.4
-|    Compiling getrandom v0.2.0
-|    Compiling getrandom v0.1.14
-|    Compiling ryu v1.0.5
-|    Compiling percent-encoding v2.1.0
-|    Compiling lazy_static v1.4.0
-|    Compiling once_cell v1.7.2
-|    Compiling serde_json v1.0.59
-|    Compiling regex-automata v0.1.10
-|    Compiling anyhow v1.0.51
-|    Compiling typenum v1.12.0
-|    Compiling itoa v0.4.6
-|    Compiling openssl v0.10.35
-|    Compiling ppv-lite86 v0.2.8
-|    Compiling regex-syntax v0.6.25
-|    Compiling openssl-probe v0.1.2
-|    Compiling crossbeam-utils v0.8.6
-|    Compiling foreign-types-shared v0.1.1
-|    Compiling curl v0.4.41
-|    Compiling hashbrown v0.11.2
-|    Compiling byteorder v1.3.4
-|    Compiling version_check v0.9.3
-|    Compiling same-file v1.0.6
-|    Compiling remove_dir_all v0.5.3
-|    Compiling utf8parse v0.1.1
-|    Compiling either v1.6.0
-|    Compiling hex v0.3.2
-|    Compiling bytes v1.0.1
-|    Compiling semver v1.0.3
-|    Compiling termcolor v1.1.2
-|    Compiling fnv v1.0.7
-|    Compiling shell-escape v0.1.5
-|    Compiling hex v0.4.2
-|    Compiling strsim v0.10.0
-|    Compiling smallvec v1.7.0
-|    Compiling humantime v2.0.1
-|    Compiling textwrap v0.15.0
-|    Compiling bytesize v1.0.1
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/libc-0.2.116/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="align"' --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=d037728999df84bc -C extra-filename=-d037728999df84bc --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/libc-d037728999df84bc -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name pkg_config /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/pkg-config/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off -C metadata=9f248601c7e1ade4 -C extra-filename=-9f248601c7e1ade4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name autocfg /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/autocfg-1.0.0/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off -C metadata=a666cdefedf9bb83 -C extra-filename=-a666cdefedf9bb83 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/proc-macro2-1.0.30/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="proc-macro"' -C metadata=c7041dc8a252118e -C extra-filename=-c7041dc8a252118e --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/proc-macro2-c7041dc8a252118e -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name unicode_xid /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/unicode-xid/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' -C metadata=3f9e964215576218 -C extra-filename=-3f9e964215576218 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/syn-1.0.80/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="clone-impls"' --cfg 'feature="default"' --cfg 'feature="derive"' --cfg 'feature="extra-traits"' --cfg 'feature="fold"' --cfg 'feature="full"' --cfg 'feature="parsing"' --cfg 'feature="printing"' --cfg 'feature="proc-macro"' --cfg 'feature="quote"' --cfg 'feature="visit"' --cfg 'feature="visit-mut"' -C metadata=6a0f819028b1c653 -C extra-filename=-6a0f819028b1c653 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/syn-6a0f819028b1c653 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/carg
- o/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name cfg_if --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/cfg-if/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=29fa95b255c53b46 -C extra-filename=-29fa95b255c53b46 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target
- /release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/serde_derive-1.0.125/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' -C metadata=ee131b2a4944cc28 -C extra-filename=-ee131b2a4944cc28 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/serde_derive-ee131b2a4944cc28 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/serde-1.0.125/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="derive"' --cfg 'feature="serde_derive"' --cfg 'feature="std"' -C metadata=78961b5ccb83a023 -C extra-filename=-78961b5ccb83a023 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/serde-78961b5ccb83a023 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/memchr/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="std"' --cfg 'feature="use_std"' -C metadata=6b3ec43a6d9a9cb0 -C extra-filename=-6b3ec43a6d9a9cb0 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/memchr-6b3ec43a6d9a9cb0 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name cfg_if --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/cfg-if-0.1.10/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=4900f7cf59ef11c1 -C extra-filename=-4900f7cf59ef11c1 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build
- /target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/log/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="std"' -C metadata=1b10c698a9cc2495 -C extra-filename=-1b10c698a9cc2495 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/log-1b10c698a9cc2495 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/crc32fast-1.2.0/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=755dcb0dae2632e2 -C extra-filename=-755dcb0dae2632e2 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/crc32fast-755dcb0dae2632e2 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/bitflags-1.2.1/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' -C metadata=9a9704b3d5d185d4 -C extra-filename=-9a9704b3d5d185d4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/bitflags-9a9704b3d5d185d4 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name matches /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/matches-0.1.8/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=b68992495516de2b -C extra-filename=-b68992495516de2b --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/de
- ps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/getrandom/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="std"' -C metadata=95a3fd6e3b653e7b -C extra-filename=-95a3fd6e3b653e7b --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/getrandom-95a3fd6e3b653e7b -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name tinyvec --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/tinyvec-0.3.4/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="alloc"' --cfg 'feature="default"' -C metadata=7f7e748cb20fa42e -C extra-filename=-7f7e748cb20fa42e --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build
- /tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/getrandom-0.1.14/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="std"' -C metadata=fc52d8ce22410bec -C extra-filename=-fc52d8ce22410bec --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/getrandom-fc52d8ce22410bec -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/ryu-1.0.5/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off -C metadata=c5c5bd6e45ecc53f -C extra-filename=-c5c5bd6e45ecc53f --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/ryu-c5c5bd6e45ecc53f -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name percent_encoding /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/percent-encoding/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=380d06c9601be706 -C extra-filename=-380d06c9601be706 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/targe
- t/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name lazy_static /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/lazy_static/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=ff72ab8946451d6b -C extra-filename=-ff72ab8946451d6b --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/rele
- ase/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name once_cell --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/once_cell-1.7.2/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="alloc"' --cfg 'feature="default"' --cfg 'feature="race"' --cfg 'feature="std"' -C metadata=60318161937ecfd3 -C extra-filename=-60318161937ecfd3 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/
- home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: target json file contains unused fields: has-elf-tls
-| 
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/serde_json-1.0.59/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="raw_value"' --cfg 'feature="std"' --cfg 'feature="unbounded_depth"' -C metadata=97d385e59c2f8c78 -C extra-filename=-97d385e59c2f8c78 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/serde_json-97d385e59c2f8c78 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name regex_automata /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/regex-automata/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=d2ca31bc372c9b31 -C extra-filename=-d2ca31bc372c9b31 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/targe
- t/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/anyhow-1.0.51/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=8015a808b39c99a1 -C extra-filename=-8015a808b39c99a1 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/anyhow-8015a808b39c99a1 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_main /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/typenum/build/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off -C metadata=3e1dc6e6a667c567 -C extra-filename=-3e1dc6e6a667c567 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/typenum-3e1dc6e6a667c567 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name cfg_if --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/cfg-if/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off -C metadata=5783836431f5a2ee -C extra-filename=-5783836431f5a2ee --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name itoa /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/itoa-0.4.6/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=ed32eb9fc94ad2fc -C extra-filename=-ed32eb9fc94ad2fc --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps
-  --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/openssl/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off -C metadata=d6369cd612110d48 -C extra-filename=-d6369cd612110d48 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/openssl-d6369cd612110d48 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name unicode_xid /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/unicode-xid/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' -C metadata=eaec642dc4bd613a -C extra-filename=-eaec642dc4bd613a --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1
- .60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name ppv_lite86 --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/ppv-lite86/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="simd"' --cfg 'feature="std"' -C metadata=8255f1ed3d790c8d -C extra-filename=-8255f1ed3d790c8d --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/
- work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name regex_syntax --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/regex-syntax/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="unicode"' --cfg 'feature="unicode-age"' --cfg 'feature="unicode-bool"' --cfg 'feature="unicode-case"' --cfg 'feature="unicode-gencat"' --cfg 'feature="unicode-perl"' --cfg 'feature="unicode-script"' --cfg 'feature="unicode-segment"' -C metadata=0415a41f2f314fbd -C extra-filename=-0415a41f2f314fbd --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/targ
- et-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name openssl_probe /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/openssl-probe/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=bb8f2735b3a73ce7 -C extra-filename=-bb8f2735b3a73ce7 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/
- release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name cfg_if --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/cfg-if-0.1.10/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off -C metadata=7efe5c704a5b4c0c -C extra-filename=-7efe5c704a5b4c0c --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/crossbeam-utils-0.8.6/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="lazy_static"' --cfg 'feature="nightly"' --cfg 'feature="std"' -C metadata=f686239c1b98207b -C extra-filename=-f686239c1b98207b --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/crossbeam-utils-f686239c1b98207b -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow
- `
-|      Running `rustc --crate-name foreign_types_shared /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/foreign-types-shared/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=8fc5c57fa84b14ba -C extra-filename=-8fc5c57fa84b14ba --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0
- /build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/curl/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="http2"' --cfg 'feature="openssl-probe"' --cfg 'feature="openssl-sys"' --cfg 'feature="ssl"' -C metadata=e47b08211d6e96ed -C extra-filename=-e47b08211d6e96ed --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/curl-e47b08211d6e96ed -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints all
- ow`
-| warning: `cfg-if` (lib) generated 2 warnings (2 duplicates)
-|      Running `rustc --crate-name hashbrown --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/hashbrown-0.11.2/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="raw"' -C metadata=d6e1633a7bf826d6 -C extra-filename=-d6e1633a7bf826d6 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky
- -linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/byteorder/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=66cd7d61679bded3 -C extra-filename=-66cd7d61679bded3 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/byteorder-66cd7d61679bded3 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-| warning: `cfg-if` (lib) generated 2 warnings (2 duplicates)
-|      Running `rustc --crate-name version_check /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/version_check-0.9.3/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off -C metadata=e813155548dc5b00 -C extra-filename=-e813155548dc5b00 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name same_file --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/same-file/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=615d1abc5c1fcf5f -C extra-filename=-615d1abc5c1fcf5f --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/
- target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `matches` (lib) generated 2 warnings (2 duplicates)
-|      Running `rustc --crate-name remove_dir_all /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/remove_dir_all/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=81778ea11a419fef -C extra-filename=-81778ea11a419fef --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/targe
- t/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name utf8parse /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/utf8parse/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=d00f5561878f6567 -C extra-filename=-d00f5561878f6567 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/
- deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name either /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/either-1.6.0/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=4845b6dccc565436 -C extra-filename=-4845b6dccc565436 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/
- deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name hex /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/hex-0.3.2/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=10e93aa2c9438aa4 -C extra-filename=-10e93aa2c9438aa4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -
- -cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name bytes --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/bytes/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=379ae072c0f9335e -C extra-filename=-379ae072c0f9335e --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/co
- re2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/semver-1.0.3/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="serde"' --cfg 'feature="std"' -C metadata=68ad495f8520f732 -C extra-filename=-68ad495f8520f732 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/semver-68ad495f8520f732 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name termcolor --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/termcolor/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=4ea5a1ff7d9838e3 -C extra-filename=-4ea5a1ff7d9838e3 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/
- target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name fnv /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/fnv/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=663a85e922c67990 -C extra-filename=-663a85e922c67990 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo
- /1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name shell_escape /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/shell-escape/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=13a6a7d877a3064b -C extra-filename=-13a6a7d877a3064b --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/re
- lease/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name hex --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/hex/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=a63d5a1cde7dce26 -C extra-filename=-a63d5a1cde7dce26 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
- 32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name strsim /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/strsim/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=0aac8a4a71ccd55b -C extra-filename=-0aac8a4a71ccd55b --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -
- -cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `cfg-if` (lib) generated 2 warnings (2 duplicates)
-|      Running `rustc --crate-name smallvec --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/smallvec-1.7.0/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="may_dangle"' --cfg 'feature="union"' -C metadata=0fef2638061246ad -C extra-filename=-0fef2638061246ad --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/
- build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name humantime --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/humantime/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=df585607570a3e49 -C extra-filename=-df585607570a3e49 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/
- target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name textwrap --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/textwrap/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=a800b29e33890cd4 -C extra-filename=-a800b29e33890cd4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/ta
- rget/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|    Compiling unicode-width v0.1.8
-|    Compiling glob v0.3.0
-|    Compiling home v0.5.3
-|    Compiling lazycell v1.3.0
-| warning: `lazy_static` (lib) generated 2 warnings (2 duplicates)
-|      Running `rustc --crate-name bytesize /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/bytesize/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=d5389d800f541ea6 -C extra-filename=-d5389d800f541ea6 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/de
- ps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `foreign-types-shared` (lib) generated 2 warnings (2 duplicates)
-| warning: `remove_dir_all` (lib) generated 2 warnings (2 duplicates)
-|      Running `rustc --crate-name unicode_width /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/unicode-width/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' -C metadata=7de6775a7b7190ea -C extra-filename=-7de6775a7b7190ea --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/car
- go/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name glob /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/glob/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=d3cb4ef7dc439063 -C extra-filename=-d3cb4ef7dc439063 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap
- -lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name home --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/home/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=c1f87d091ad7570c -C extra-filename=-c1f87d091ad7570c --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/rel
- ease/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|    Compiling unicode-bidi v0.3.4
-|    Compiling foreign-types v0.3.2
-| warning: `unicode-xid` (lib) generated 2 warnings (2 duplicates)
-|      Running `rustc --crate-name lazycell /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/lazycell/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=52626c4239ca1c57 -C extra-filename=-52626c4239ca1c57 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/de
- ps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `cfg-if` (lib) generated 2 warnings (2 duplicates)
-|      Running `rustc --crate-name unicode_bidi /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/unicode-bidi-0.3.4/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' -C metadata=ee455bf9cad83a5f -C extra-filename=-ee455bf9cad83a5f --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux
- /cargo/1.60.0-r0/build/target/release/deps --extern matches=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libmatches-b68992495516de2b.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name foreign_types /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/foreign-types/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=f8a48c9aefd3cd98 -C extra-filename=-f8a48c9aefd3cd98 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/
- release/deps --extern foreign_types_shared=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libforeign_types_shared-8fc5c57fa84b14ba.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|     Building [>                          ] 9/193: tinyvec, serde_derive(bui...
-| warning: `fnv` (lib) generated 2 warnings (2 duplicates)
-|    Compiling vte v0.3.3
-|     Building [>                         ] 10/193: tinyvec, serde_derive(bui...
-|      Running `rustc --crate-name vte /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/vte/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=945a3faeb00cb7ee -C extra-filename=-945a3faeb00cb7ee --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --exter
- n utf8parse=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libutf8parse-d00f5561878f6567.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `foreign-types` (lib) generated 2 warnings (2 duplicates)
-|    Compiling form_urlencoded v1.0.1
-|     Building [>                         ] 11/193: tinyvec, serde_derive(bui...
-|      Running `rustc --crate-name form_urlencoded --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/form_urlencoded/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=44e5599920f690fd -C extra-filename=-44e5599920f690fd --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60
- .0-r0/build/target/release/deps --extern matches=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libmatches-b68992495516de2b.rmeta --extern percent_encoding=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libpercent_encoding-380d06c9601be706.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `utf8parse` (lib) generated 2 warnings (2 duplicates)
-|    Compiling walkdir v2.3.1
-|     Building [>                         ] 12/193: tinyvec, serde_derive(bui...
-|      Running `rustc --crate-name walkdir --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/walkdir-2.3.1/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=64c69649462a9329 -C extra-filename=-64c69649462a9329 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/buil
- d/target/release/deps --extern same_file=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libsame_file-615d1abc5c1fcf5f.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `unicode-xid` (lib) generated 2 warnings (2 duplicates)
-|     Building [>                         ] 13/193: tinyvec, serde_derive(bui...
-| warning: `itoa` (lib) generated 2 warnings (2 duplicates)
-|     Building [>                         ] 14/193: tinyvec, serde_derive(bui...
-| warning: `either` (lib) generated 2 warnings (2 duplicates)
-|    Compiling itertools v0.10.1
-|     Building [=>                        ] 15/193: tinyvec, serde_derive(bui...
-|      Running `rustc --crate-name itertools --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/itertools-0.10.1/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="use_alloc"' --cfg 'feature="use_std"' -C metadata=9a32e2cc2b5c3a5b -C extra-filename=-9a32e2cc2b5c3a5b --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild
- /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern either=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libeither-4845b6dccc565436.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `unicode-width` (lib) generated 2 warnings (2 duplicates)
-|     Building [=>                        ] 16/193: tinyvec, serde_derive(bui...
-| warning: `lazycell` (lib) generated 2 warnings (2 duplicates)
-|    Compiling thread_local v1.1.4
-|     Building [=>                        ] 17/193: tinyvec, thread_local, se...
-|      Running `rustc --crate-name thread_local --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/thread_local/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=34d1eb15d5445b36 -C extra-filename=-34d1eb15d5445b36 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/
- build/target/release/deps --extern once_cell=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libonce_cell-60318161937ecfd3.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|    Compiling strip-ansi-escapes v0.1.0
-|      Running `rustc --crate-name strip_ansi_escapes /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/strip-ansi-escapes/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=5e57f24b78b29687 -C extra-filename=-5e57f24b78b29687 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/bui
- ld/target/release/deps --extern vte=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libvte-945a3faeb00cb7ee.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `vte` (lib) generated 2 warnings (2 duplicates)
-|     Building [=>                        ] 18/193: tinyvec, thread_local, se...
-| warning: `bytesize` (lib) generated 2 warnings (2 duplicates)
-|     Building [=>                        ] 19/193: tinyvec, thread_local, se...
-| warning: `log` (build script) generated 2 warnings (2 duplicates)
-|     Building [=>                        ] 20/193: tinyvec, thread_local, se...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/log-1b10c698a9cc2495/build-script-build`
-| warning: `same-file` (lib) generated 2 warnings (2 duplicates)
-|     Building [=>                        ] 21/193: tinyvec, thread_local, se...
-| warning: `strip-ansi-escapes` (lib) generated 2 warnings (2 duplicates)
-|     Building [=>                        ] 22/193: tinyvec, thread_local, se...
-|     Building [==>                       ] 23/193: tinyvec, thread_local, se...
-|      Running `rustc --crate-name log /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/log/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="std"' -C metadata=b0ad077105aca28a -C extra-filename=-b0ad077105aca28a --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/targe
- t/release/deps --extern cfg_if=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libcfg_if-29fa95b255c53b46.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg atomic_cas --cfg has_atomics`
-| warning: `getrandom` (build script) generated 2 warnings (2 duplicates)
-| warning: `crossbeam-utils` (build script) generated 2 warnings (2 duplicates)
-|     Building [==>                       ] 25/193: crossbeam-utils(build), t...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/crossbeam-utils-f686239c1b98207b/build-script-build`
-| warning: `curl` (build script) generated 2 warnings (2 duplicates)
-|     Building [==>                       ] 26/193: crossbeam-utils(build), t...
-| warning: `getrandom` (build script) generated 2 warnings (2 duplicates)
-|     Building [==>                       ] 27/193: crossbeam-utils(build), t...
-|     Building [==>                       ] 28/193: tinyvec, thread_local, se...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/getrandom-95a3fd6e3b653e7b/build-script-build`
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/getrandom-fc52d8ce22410bec/build-script-build`
-| warning: `openssl` (build script) generated 2 warnings (2 duplicates)
-|     Building [==>                       ] 29/193: tinyvec, thread_local, se...
-|     Building [===>                      ] 30/193: tinyvec, thread_local, se...
-|     Building [===>                      ] 31/193: tinyvec, thread_local, se...
-|      Running `rustc --crate-name crossbeam_utils --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/crossbeam-utils-0.8.6/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="lazy_static"' --cfg 'feature="nightly"' --cfg 'feature="std"' -C metadata=a44adad03a56c4f4 -C extra-filename=-a44adad03a56c4f4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release
- /deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern cfg_if=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libcfg_if-29fa95b255c53b46.rmeta --extern lazy_static=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/liblazy_static-ff72ab8946451d6b.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `once_cell` (lib) generated 2 warnings (2 duplicates)
-|     Building [===>                      ] 32/193: tinyvec, thread_local, se...
-| warning: `memchr` (build script) generated 2 warnings (2 duplicates)
-|     Building [===>                      ] 33/193: tinyvec, thread_local, se...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/memchr-6b3ec43a6d9a9cb0/build-script-build`
-|     Building [===>                      ] 34/193: tinyvec, thread_local, se...
-|      Running `rustc --crate-name memchr --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/memchr/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' --cfg 'feature="use_std"' -C metadata=e187ebb0ca7a2308 -C extra-filename=-e187ebb0ca7a2308 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/b
- uild/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg memchr_runtime_simd --cfg memchr_runtime_sse2 --cfg memchr_runtime_sse42 --cfg memchr_runtime_avx`
-| warning: `smallvec` (lib) generated 2 warnings (2 duplicates)
-|     Building [===>                      ] 35/193: tinyvec, thread_local, se...
-| warning: `home` (lib) generated 2 warnings (2 duplicates)
-|     Building [===>                      ] 36/193: tinyvec, thread_local, se...
-| warning: `serde_json` (build script) generated 2 warnings (2 duplicates)
-|     Building [===>                      ] 37/193: tinyvec, thread_local, se...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/serde_json-97d385e59c2f8c78/build-script-build`
-| warning: `serde_derive` (build script) generated 2 warnings (2 duplicates)
-|     Building [====>                     ] 38/193: tinyvec, thread_local, se...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/serde_derive-ee131b2a4944cc28/build-script-build`
-| warning: `crc32fast` (build script) generated 2 warnings (2 duplicates)
-|    Compiling unicode-normalization v0.1.13
-|     Building [====>                     ] 39/193: tinyvec, thread_local, se...
-|      Running `rustc --crate-name unicode_normalization --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/unicode-normalization-0.1.13/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=0b0fe5300faee195 -C extra-filename=-0b0fe5300faee195 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-w
- orker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern tinyvec=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libtinyvec-7f7e748cb20fa42e.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `shell-escape` (lib) generated 2 warnings (2 duplicates)
-|     Building [====>                     ] 40/193: tinyvec, thread_local, se...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/crc32fast-755dcb0dae2632e2/build-script-build`
-| warning: `libc` (build script) generated 2 warnings (2 duplicates)
-| warning: `tinyvec` (lib) generated 2 warnings (2 duplicates)
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/crc32fast-755dcb0dae2632e2/build-script-build`
-|     Building [====>                     ] 42/193: thread_local, libc(build)...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/libc-d037728999df84bc/build-script-build`
-| warning: `serde` (build script) generated 2 warnings (2 duplicates)
-| warning: `bitflags` (build script) generated 2 warnings (2 duplicates)
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/libc-d037728999df84bc/build-script-build`
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/serde-78961b5ccb83a023/build-script-build`
-|     Building [=====>                    ] 45/193: serde(build), thread_loca...
-|     Building [=====>                    ] 46/193: serde(build), thread_loca...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/bitflags-9a9704b3d5d185d4/build-script-build`
-| warning: `autocfg` (lib) generated 2 warnings (2 duplicates)
-|    Compiling indexmap v1.8.0
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/indexmap/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="std"' -C metadata=c69f29aba0cbf335 -C extra-filename=-c69f29aba0cbf335 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/indexmap-c69f29aba0cbf335 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern autocfg=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/
- target/release/deps/libautocfg-a666cdefedf9bb83.rlib --cap-lints allow`
-|     Building [=====>                    ] 48/193: serde(build), thread_loca...
-|     Building [=====>                    ] 49/193: serde(build), thread_loca...
-|      Running `rustc --crate-name libc /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/libc-0.2.116/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="align"' --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=b5c6f9f754570794 -C extra-filename=-b5c6f9f754570794 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/bu
- ild/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg freebsd11 --cfg libc_priv_mod_use --cfg libc_union --cfg libc_const_size_of --cfg libc_align --cfg libc_core_cvoid --cfg libc_packedN --cfg libc_cfg_target_vendor --cfg libc_non_exhaustive --cfg libc_ptr_addr_of`
-|      Running `rustc --crate-name libc /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/libc-0.2.116/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="align"' --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=d2149737eee1e377 -C extra-filename=-d2149737eee1e377 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow --cfg freebsd11 --cfg libc_priv_mod_use --cfg libc_union --cfg libc_const_size_of --cfg libc
- _align --cfg libc_core_cvoid --cfg libc_packedN --cfg libc_cfg_target_vendor --cfg libc_non_exhaustive --cfg libc_ptr_addr_of`
-|     Building [=====>                    ] 51/193: thread_local, libc, index...
-|      Running `rustc --crate-name crc32fast /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/crc32fast-1.2.0/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=8b9fadbf9c017e21 -C extra-filename=-8b9fadbf9c017e21 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern cfg_if=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/r
- elease/deps/libcfg_if-7efe5c704a5b4c0c.rmeta --cap-lints allow --cfg crc32fast_stdarchx86`
-|     Building [======>                   ] 52/193: thread_local, libc, index...
-| warning: `anyhow` (build script) generated 2 warnings (2 duplicates)
-|     Building [======>                   ] 53/193: thread_local, libc, index...
-| warning: `percent-encoding` (lib) generated 2 warnings (2 duplicates)
-|     Building [======>                   ] 54/193: thread_local, libc, index...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/anyhow-8015a808b39c99a1/build-script-build`
-|     Building [======>                   ] 55/193: thread_local, libc, index...
-| warning: `regex-automata` (lib) generated 2 warnings (2 duplicates)
-|     Building [======>                   ] 56/193: thread_local, libc, index...
-|      Running `rustc --crate-name crc32fast /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/crc32fast-1.2.0/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=a8c38a92a83090ad -C extra-filename=-a8c38a92a83090ad --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cor
- e2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern cfg_if=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libcfg_if-4900f7cf59ef11c1.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg crc32fast_stdarchx86`
-|      Running `rustc --crate-name bitflags /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/bitflags-1.2.1/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' -C metadata=1e47f9ec202d41f4 -C extra-filename=-1e47f9ec202d41f4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1
- .60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg bitflags_const_fn`
-| warning: `syn` (build script) generated 2 warnings (2 duplicates)
-|     Building [======>                   ] 57/193: thread_local, libc, index...
-| warning: `openssl-probe` (lib) generated 2 warnings (2 duplicates)
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/syn-6a0f819028b1c653/build-script-build`
-| warning: `proc-macro2` (build script) generated 2 warnings (1 duplicate)
-|     Building [======>                   ] 59/193: thread_local, libc, index...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/proc-macro2-c7041dc8a252118e/build-script-build`
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/syn-6a0f819028b1c653/build-script-build`
-|     Building [=======>                  ] 60/193: thread_local, libc, index...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/proc-macro2-c7041dc8a252118e/build-script-build`
-|     Building [=======>                  ] 61/193: proc-macro2, thread_local...
-|      Running `rustc --crate-name proc_macro2 --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/proc-macro2-1.0.30/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="proc-macro"' -C metadata=85bd5a2e99bc024c -C extra-filename=-85bd5a2e99bc024c --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern unicode_xid=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linu
- x/cargo/1.60.0-r0/build/target/release/deps/libunicode_xid-3f9e964215576218.rmeta --cap-lints allow --cfg lexerror_display --cfg hygiene --cfg literal_from_str --cfg is_available --cfg use_proc_macro --cfg wrap_proc_macro`
-| warning: `ryu` (build script) generated 2 warnings (2 duplicates)
-|     Building [=======>                  ] 62/193: proc-macro2, thread_local...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/ryu-c5c5bd6e45ecc53f/build-script-build`
-|     Building [=======>                  ] 63/193: proc-macro2, thread_local...
-| warning: `version_check` (lib) generated 2 warnings (2 duplicates)
-|    Compiling im-rc v15.0.0
-|     Building [=======>                  ] 64/193: proc-macro2, thread_local...
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/im-rc/./build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off -C metadata=066fdb9c891d98e4 -C extra-filename=-066fdb9c891d98e4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/im-rc-066fdb9c891d98e4 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern version_check=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps/
- libversion_check-e813155548dc5b00.rlib --cap-lints allow`
-| warning: `semver` (build script) generated 2 warnings (2 duplicates)
-|     Building [=======>                  ] 65/193: proc-macro2, thread_local...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/semver-68ad495f8520f732/build-script-build`
-|     Building [=======>                  ] 66/193: proc-macro2, thread_local...
-|      Running `rustc --crate-name proc_macro2 --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/proc-macro2-1.0.30/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="proc-macro"' -C metadata=ab4e3de8a9f45def -C extra-filename=-ab4e3de8a9f45def --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/bui
- ld/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern unicode_xid=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libunicode_xid-eaec642dc4bd613a.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg lexerror_display --cfg hygiene --cfg literal_from_str --cfg is_available --cfg use_proc_macro --cfg wrap_proc_macro`
-| warning: `ppv-lite86` (lib) generated 2 warnings (2 duplicates)
-|     Building [========>                 ] 67/193: proc-macro2, thread_local...
-|     Building [========>                 ] 68/193: proc-macro2, thread_local...
-|      Running `rustc --crate-name ryu --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/ryu-1.0.5/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=00bb36583e45bfad -C extra-filename=-00bb36583e45bfad --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target
- /release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg integer128 --cfg maybe_uninit`
-| warning: `bitflags` (lib) generated 2 warnings (2 duplicates)
-|     Building [========>                 ] 69/193: proc-macro2, thread_local...
-|     Building [========>                 ] 70/193: proc-macro2, thread_local...
-|     Building [========>                 ] 71/193: proc-macro2, thread_local...
-|      Running `rustc --crate-name anyhow --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/anyhow-1.0.51/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=09a02b10607afeab -C extra-filename=-09a02b10607afeab --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tm
- p/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg backtrace`
-| warning: `form_urlencoded` (lib) generated 2 warnings (2 duplicates)
-|     Building [========>                 ] 72/193: proc-macro2, thread_local...
-| error[E0463]: can't find crate for `proc_macro`
-|    --> /usr/src/debug/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/proc-macro2-1.0.30/src/lib.rs:102:1
-|     |
-| 102 | extern crate proc_macro;
-|     | ^^^^^^^^^^^^^^^^^^^^^^^^ can't find crate
-| 
-| warning: `humantime` (lib) generated 2 warnings (2 duplicates)
-|     Building [========>                 ] 73/193: proc-macro2, thread_local...
-| warning: `hex` (lib) generated 2 warnings (2 duplicates)
-|     Building [========>                 ] 74/193: proc-macro2, thread_local...
-| warning: `indexmap` (build script) generated 2 warnings (2 duplicates)
-|     Building [=========>                ] 75/193: proc-macro2, thread_local...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/indexmap-c69f29aba0cbf335/build-script-build`
-| warning: `byteorder` (build script) generated 2 warnings (2 duplicates)
-| warning: `thread_local` (lib) generated 2 warnings (2 duplicates)
-|     Building [=========>                ] 77/193: proc-macro2, libc, crossb...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/byteorder-66cd7d61679bded3/build-script-build`
-| warning: `crc32fast` (lib) generated 2 warnings (2 duplicates)
-|     Building [=========>                ] 78/193: proc-macro2, libc, crossb...
-|     Building [=========>                ] 79/193: proc-macro2, libc, crossb...
-|      Running `rustc --crate-name byteorder /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/byteorder/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=290629f661eb93c6 -C extra-filename=-290629f661eb93c6 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-
- poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg byteorder_i128`
-| warning: `pkg-config` (lib) generated 2 warnings (2 duplicates)
-|     Building [=========>                ] 80/193: proc-macro2, libc, crossb...
-| warning: `crc32fast` (lib) generated 2 warnings (2 duplicates)
-|     Building [=========>                ] 81/193: proc-macro2, libc, crossb...
-|     Building [==========>               ] 82/193: proc-macro2, libc, crossb...
-|    Compiling aho-corasick v0.7.18
-|      Running `rustc --crate-name aho_corasick --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/aho-corasick/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=603e98512388496b -C extra-filename=-603e98512388496b --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern memchr=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libmemchr-e187ebb0ca7a2308.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|    Compiling bstr v0.2.13
-|    Compiling os_str_bytes v6.0.0
-|      Running `rustc --crate-name os_str_bytes --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/os_str_bytes/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="memchr"' --cfg 'feature="raw_os_str"' -C metadata=cfeeb06c7b273864 -C extra-filename=-cfeeb06c7b273864 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/
- yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern memchr=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libmemchr-e187ebb0ca7a2308.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|    Compiling combine v4.6.3
-|      Running `rustc --crate-name combine --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/combine/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="alloc"' --cfg 'feature="bytes"' --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=6ab7a2038bf45795 -C extra-filename=-6ab7a2038bf45795 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/poky
- build/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern bytes=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libbytes-379ae072c0f9335e.rmeta --extern memchr=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libmemchr-e187ebb0ca7a2308.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name bstr /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/bstr/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="lazy_static"' --cfg 'feature="regex-automata"' --cfg 'feature="std"' --cfg 'feature="unicode"' -C metadata=67a1e7ba4fd5deff -C extra-filename=-67a1e7ba4fd5deff --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L d
- ependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern lazy_static=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/liblazy_static-ff72ab8946451d6b.rmeta --extern memchr=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libmemchr-e187ebb0ca7a2308.rmeta --extern regex_automata=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libregex_automata-d2ca31bc372c9b31.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/ca
- rgo/1.60.0-r0`
-| warning: `im-rc` (build script) generated 2 warnings (2 duplicates)
-|     Building [==========>               ] 83/193: proc-macro2, libc, crossb...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/im-rc-066fdb9c891d98e4/build-script-build`
-|     Building [==========>               ] 83/193: proc-macro2, libc, indexm...
-|      Running `rustc --crate-name indexmap --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/indexmap/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="std"' -C metadata=6d105da5d546b068 -C extra-filename=-6d105da5d546b068 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/ca
- rgo/1.60.0-r0/build/target/release/deps --extern hashbrown=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libhashbrown-d6e1633a7bf826d6.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg has_std --cfg rustc_1_51`
-|     Building [==========>               ] 84/193: proc-macro2, libc, indexm...
-| warning: `typenum` (build script) generated 2 warnings (2 duplicates)
-|     Building [==========>               ] 85/193: proc-macro2, libc, indexm...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/typenum-3e1dc6e6a667c567/build-script-main`
-| warning: `log` (lib) generated 2 warnings (2 duplicates)
-|     Building [==========>               ] 86/193: proc-macro2, libc, indexm...
-| warning: `hashbrown` (lib) generated 2 warnings (2 duplicates)
-|     Building [==========>               ] 87/193: proc-macro2, libc, indexm...
-| warning: `textwrap` (lib) generated 2 warnings (2 duplicates)
-|     Building [==========>               ] 88/193: proc-macro2, libc, indexm...
-| warning: `ryu` (lib) generated 2 warnings (2 duplicates)
-|     Building [==========>               ] 89/193: proc-macro2, libc, indexm...
-| For more information about this error, try `rustc --explain E0463`.
-| warning: `proc-macro2` (lib) generated 2 warnings (2 duplicates)
-| error: could not compile `proc-macro2` due to previous error; 2 warnings emitted
-| 
-| Caused by:
-|   process didn't exit successfully: `rustc --crate-name proc_macro2 --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/proc-macro2-1.0.30/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="proc-macro"' -C metadata=ab4e3de8a9f45def -C extra-filename=-ab4e3de8a9f45def --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybui
- ld/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern unicode_xid=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libunicode_xid-eaec642dc4bd613a.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg lexerror_display --cfg hygiene --cfg literal_from_str --cfg is_available --cfg use_proc_macro --cfg wrap_proc_macro` (exit status: 1)
-| warning: build failed, waiting for other jobs to finish...
-|     Building [===========>              ] 90/193: proc-macro2, libc, indexm...
-|     Building [===========>              ] 91/193: proc-macro2, libc, indexm...
-| warning: `termcolor` (lib) generated 2 warnings (2 duplicates)
-|     Building [===========>              ] 92/193: proc-macro2, libc, indexm...
-| warning: `hex` (lib) generated 2 warnings (2 duplicates)
-|     Building [===========>              ] 93/193: proc-macro2, libc, indexm...
-| warning: `strsim` (lib) generated 2 warnings (2 duplicates)
-|     Building [===========>              ] 94/193: proc-macro2, libc, indexm...
-| warning: `walkdir` (lib) generated 2 warnings (2 duplicates)
-|     Building [===========>              ] 95/193: proc-macro2, libc, indexm...
-| warning: `bytes` (lib) generated 2 warnings (2 duplicates)
-|     Building [===========>              ] 96/193: proc-macro2, libc, indexm...
-| warning: `byteorder` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>             ] 97/193: proc-macro2, libc, indexm...
-| warning: `os_str_bytes` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>             ] 98/193: proc-macro2, libc, indexm...
-| warning: `crossbeam-utils` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>             ] 99/193: proc-macro2, libc, indexm...
-| warning: `unicode-bidi` (lib) generated 2 warnings (2 duplicates)
-|     Building [===========>             ] 100/193: proc-macro2, libc, indexm...
-| warning: `anyhow` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>            ] 101/193: proc-macro2, libc, indexm...
-| warning: `proc-macro2` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>            ] 102/193: libc, indexmap, memchr, a...
-| warning: `memchr` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>            ] 103/193: libc, indexmap, aho-coras...
-| warning: `glob` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>            ] 104/193: libc, indexmap, aho-coras...
-| warning: `indexmap` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>            ] 105/193: libc, aho-corasick, unico...
-| warning: `libc` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>            ] 106/193: aho-corasick, unicode-nor...
-| warning: `unicode-normalization` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>            ] 107/193: aho-corasick, regex-synta...
-| warning: `libc` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>            ] 108/193: aho-corasick, regex-synta...
-| warning: `bstr` (lib) generated 2 warnings (2 duplicates)
-|     Building [=============>           ] 109/193: aho-corasick, regex-synta...
-| warning: `aho-corasick` (lib) generated 2 warnings (2 duplicates)
-|     Building [=============>           ] 110/193: regex-syntax, combine, it...
-| warning: `itertools` (lib) generated 2 warnings (2 duplicates)
-|     Building [=============>           ] 111/193: regex-syntax, combine
-| warning: `regex-syntax` (lib) generated 2 warnings (2 duplicates)
-|     Building [=============>           ] 112/193: combine
-| warning: `combine` (lib) generated 2 warnings (2 duplicates)
-| error: build failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/temp/run.do_compile.2590110:176 exit 101 from '"cargo" build -v --target i686-poky-linux --release --manifest-path=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/src/tools/cargo//Cargo.toml "$@"'
-| WARNING: Backtrace (BB generated script):
-| 	#1: oe_cargo_build, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/temp/run.do_compile.2590110, line 176
-| 	#2: cargo_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/temp/run.do_compile.2590110, line 166
-| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/temp/run.do_compile.2590110, line 160
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/temp/run.do_compile.2590110, line 208
-NOTE: recipe cargo-1.60.0-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 849 tasks of which 749 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_compile
-Summary: There was 1 WARNING message.
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: cargo-1.60.0-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/temp/run.do_compile.2590110', 101, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/temp/log.do_compile.2590110
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_compile) failed with exit code '1'
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============1097802830769835020==--
+--===============2249933854796429385==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-piglit-upgrade-to-latest-revision.patch"
+
+From da3d1f92d1616edf35b09a92ef5dc436f2f07e1f Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 1 Jun 2022 14:07:15 +0000
+Subject: [PATCH] piglit: upgrade to latest revision
+
+---
+ meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index 28f76fed37..08f664ca61 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -14,7 +14,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
+            "
+ UPSTREAM_CHECK_COMMITS = "1"
+ 
+-SRCREV = "65892137809f7d0d4d7d65dd84af59902b3e7f1e"
++SRCREV = "a1a1824b38f1d7bfe851633db416c6bed84ba557"
+ # (when PV goes above 1.0 remove the trailing r)
+ PV = "1.0+gitr${SRCPV}"
+ 
+-- 
+2.31.1
+
+
+--===============2249933854796429385==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 883 .bb files complete (0 cached, 883 parsed). 1642 targets, 70 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "powerpc-poky-linux"
+MACHINE              = "qemuppc"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-a961af59372c3ae87ef21849933fb3aa5f341c9c"
+TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:a961af59372c3ae87ef21849933fb3aa5f341c9c"
+workspace            = "master:95066dde6861ee08fdb505ab3e0422156cc24fae"
+
+Initialising tasks...done.
+Sstate summary: Wanted 53 Local 12 Mirrors 0 Missed 41 Current 512 (22% match, 92% complete)
+Removing 3 stale sstate objects for arch qemuppc...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 545 of 565 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 547 of 565 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe mesa-2_22.0.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe mesa-2_22.0.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mesa-2_22.0.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1408 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_fetch)
+NOTE: Running task 1454 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_fetch)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/mesa/2_22.0.3-r0/temp/log.do_packagedata_setscene.2920231
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 564 of 565 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_package_setscene)
+NOTE: recipe libglu-2_9.0.2-r0: task do_fetch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_fetch: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1494 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_unpack)
+NOTE: Running task 1511 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_fetch)
+NOTE: Running task 1513 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_fetch)
+NOTE: Running task 1516 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_unpack)
+NOTE: Running task 1534 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: Running task 1584 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_fetch)
+NOTE: Running task 1597 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_fetch)
+NOTE: Running task 1636 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1671 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_write_config)
+NOTE: Running task 1675 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_fetch)
+NOTE: Running task 1676 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_fetch)
+NOTE: recipe libglu-2_9.0.2-r0: task do_unpack: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_fetch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Started
+NOTE: recipe waffle-1.7.0-r0: task do_fetch: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_fetch: Succeeded
+NOTE: recipe glew-2.2.0-r0: task do_fetch: Started
+NOTE: Running task 1800 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_unpack)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_fetch: Started
+NOTE: recipe glew-2.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1854 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_unpack)
+NOTE: Running task 1881 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package_write_rpm)
+NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_fetch: Started
+NOTE: recipe waffle-1.7.0-r0: task do_fetch: Succeeded
+NOTE: recipe mesa-demos-8.4.0-r0: task do_fetch: Started
+NOTE: recipe waffle-1.7.0-r0: task do_write_config: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1882 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_patch)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_fetch: Succeeded
+NOTE: recipe mesa-demos-8.4.0-r0: task do_fetch: Succeeded
+NOTE: recipe libxmu-1_1.1.3-r0: task do_unpack: Started
+NOTE: recipe waffle-1.7.0-r0: task do_write_config: Succeeded
+NOTE: recipe glew-2.2.0-r0: task do_unpack: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Succeeded
+NOTE: recipe libxmu-1_1.1.3-r0: task do_unpack: Succeeded
+NOTE: Running task 1883 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_patch)
+NOTE: Running task 1884 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_unpack)
+NOTE: recipe glew-2.2.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1885 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_patch)
+NOTE: Running task 1886 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_unpack)
+NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1887 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_patch)
+NOTE: Running task 1888 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_unpack)
+NOTE: Running task 1889 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_unpack)
+NOTE: Running task 1890 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_patch: Started
+NOTE: recipe glew-2.2.0-r0: task do_patch: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_patch: Started
+NOTE: recipe waffle-1.7.0-r0: task do_unpack: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_unpack: Started
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_unpack: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mesa-2_22.0.3-r0: task do_package_setscene: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_unpack: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_unpack: Succeeded
+NOTE: recipe libxmu-1_1.1.3-r0: task do_patch: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_patch: Succeeded
+NOTE: Running task 1893 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_patch)
+NOTE: Running task 1894 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Succeeded
+NOTE: Running task 1895 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1896 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-mako-1.2.0-r0: task do_patch: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe glew-2.2.0-r0: task do_patch: Succeeded
+NOTE: Running task 1897 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: recipe glew-2.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1898 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: recipe waffle-1.7.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1899 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: Running task 1900 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_patch)
+NOTE: recipe libglu-2_9.0.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxmu-1_1.1.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1901 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_configure)
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_patch: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_patch: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1902 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Started
+NOTE: recipe glew-2.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe waffle-1.7.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Succeeded
+NOTE: Running task 1903 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe waffle-1.7.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to e82d54167de6cd911b786b0426fa4bccc1e380bc20788e2233d6300b4af50fa7
+NOTE: Running task 1909 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_configure)
+NOTE: recipe mesa-2_22.0.3-r0: task do_package_setscene: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_configure: Started
+NOTE: Setscene tasks completed
+NOTE: Running task 1921 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_packagedata)
+NOTE: recipe waffle-1.7.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1922 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1923 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-mako-1.2.0-r0: task do_configure: Succeeded
+NOTE: Running task 1924 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_compile)
+NOTE: recipe libglu-2_9.0.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mesa-2_22.0.3-r0: task do_packagedata: Started
+NOTE: recipe waffle-1.7.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_unpack: Succeeded
+NOTE: Running task 1925 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_patch)
+NOTE: recipe python3-mako-1.2.0-r0: task do_compile: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_patch: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: Running task 1926 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1927 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_patch)
+NOTE: recipe mesa-2_22.0.3-r0: task do_packagedata: Succeeded
+NOTE: recipe mesa-demos-8.4.0-r0: task do_patch: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_patch: Succeeded
+NOTE: Running task 1928 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1929 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_generate_toolchain_file)
+NOTE: Running task 1930 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_lic)
+NOTE: recipe libglu-2_9.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: Running task 1931 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_configure)
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 1b54e8aa8aee5d3ea5b54e008297ee7bbf3b94e85d7a3a78822315f8cc4766e6
+NOTE: Running task 1934 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.16.bb:do_package_write_rpm)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_lic: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_generate_toolchain_file: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_configure: Started
+NOTE: recipe bash-5.1.16-r0: task do_package_write_rpm: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_lic unihash changed to 14b9a3bea08b17d728499d376c1a689cb3e4811e8aff2bdc8adcf0ce69c823bd
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1935 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_configure)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_patch: Succeeded
+NOTE: Running task 1936 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe waffle-1.7.0-r0: task do_configure: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_compile: Succeeded
+NOTE: Running task 1937 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_install)
+NOTE: recipe python3-mako-1.2.0-r0: task do_install: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_install: Succeeded
+NOTE: Running task 1938 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_package)
+NOTE: recipe waffle-1.7.0-r0: task do_configure: Succeeded
+NOTE: Running task 1939 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_compile)
+NOTE: recipe python3-mako-1.2.0-r0: task do_package: Started
+NOTE: recipe waffle-1.7.0-r0: task do_compile: Started
+NOTE: recipe bash-5.1.16-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_compile: Succeeded
+NOTE: Running task 1940 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_install)
+NOTE: recipe waffle-1.7.0-r0: task do_install: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_package: Succeeded
+NOTE: Running task 1941 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_packagedata)
+NOTE: recipe python3-mako-1.2.0-r0: task do_packagedata: Started
+NOTE: recipe waffle-1.7.0-r0: task do_install: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1942 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_package)
+NOTE: Running task 1943 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_populate_sysroot)
+NOTE: Running task 1944 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_package_write_rpm)
+NOTE: recipe waffle-1.7.0-r0: task do_populate_sysroot: Started
+NOTE: recipe waffle-1.7.0-r0: task do_package: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_package_write_rpm: Started
+NOTE: recipe waffle-1.7.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_package: Succeeded
+NOTE: Running task 1945 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_packagedata)
+NOTE: recipe waffle-1.7.0-r0: task do_packagedata: Started
+NOTE: recipe waffle-1.7.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1946 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_package_write_rpm)
+NOTE: recipe waffle-1.7.0-r0: task do_package_write_rpm: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_configure: Succeeded
+NOTE: Running task 1947 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_compile)
+NOTE: recipe waffle-1.7.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_compile: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_compile: Succeeded
+NOTE: Running task 1948 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_install)
+NOTE: recipe libglu-2_9.0.2-r0: task do_install: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Succeeded
+NOTE: Running task 1949 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_compile)
+NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_install: Succeeded
+NOTE: Running task 1950 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_populate_sysroot)
+NOTE: Running task 1951 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_package)
+NOTE: recipe libglu-2_9.0.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_package: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1952 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Succeeded
+NOTE: Running task 1953 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_install)
+NOTE: recipe libxt-1_1.2.1-r0: task do_install: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1954 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_configure)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_configure: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_install: Succeeded
+NOTE: Running task 1955 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_populate_sysroot)
+NOTE: Running task 1956 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package)
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_package: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_package: Succeeded
+NOTE: Running task 1957 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_packagedata)
+NOTE: recipe libglu-2_9.0.2-r0: task do_packagedata: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1958 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_packagedata: Succeeded
+NOTE: recipe libxmu-1_1.1.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1959 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_configure)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_configure: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_package: Succeeded
+NOTE: Running task 1960 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_packagedata)
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_configure: Succeeded
+NOTE: Running task 1961 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_compile)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_compile: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_configure: Succeeded
+NOTE: Running task 1962 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_compile)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_compile: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_compile: Succeeded
+NOTE: Running task 1963 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_install)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_install: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_install: Succeeded
+NOTE: Running task 1964 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_populate_sysroot)
+NOTE: Running task 1965 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_package)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_populate_sysroot: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_package: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1966 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe glew-2.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glew-2.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1967 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_configure)
+NOTE: recipe glew-2.2.0-r0: task do_configure: Started
+NOTE: recipe glew-2.2.0-r0: task do_configure: Succeeded
+NOTE: Running task 1968 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_compile)
+NOTE: recipe glew-2.2.0-r0: task do_compile: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_package: Succeeded
+NOTE: Running task 1969 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_packagedata)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_packagedata: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_packagedata: Succeeded
+NOTE: recipe glew-2.2.0-r0: task do_compile: Succeeded
+NOTE: Running task 1970 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_install)
+NOTE: recipe glew-2.2.0-r0: task do_install: Started
+NOTE: recipe glew-2.2.0-r0: task do_install: Succeeded
+NOTE: Running task 1971 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_package)
+NOTE: Running task 1972 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_populate_sysroot)
+NOTE: recipe glew-2.2.0-r0: task do_package: Started
+NOTE: recipe glew-2.2.0-r0: task do_populate_sysroot: Started
+NOTE: recipe glew-2.2.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1973 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1974 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_configure)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_configure: Started
+NOTE: recipe glew-2.2.0-r0: task do_package: Succeeded
+NOTE: Running task 1975 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_packagedata)
+NOTE: recipe glew-2.2.0-r0: task do_packagedata: Started
+NOTE: recipe glew-2.2.0-r0: task do_packagedata: Succeeded
+NOTE: recipe mesa-demos-8.4.0-r0: task do_configure: Succeeded
+NOTE: Running task 1976 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_compile)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_compile: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_compile: Succeeded
+NOTE: Running task 1977 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_install)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_install: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_install: Succeeded
+NOTE: Running task 1978 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_package)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package: Succeeded
+NOTE: Running task 1979 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_packagedata)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_packagedata: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1980 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_package_write_rpm)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package_write_rpm: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_compile: Succeeded
+NOTE: Running task 1981 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_install)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_install: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_install: Succeeded
+NOTE: Running task 1982 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_package)
+NOTE: Running task 1983 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_sysroot)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_sysroot: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package: Succeeded
+NOTE: Running task 1984 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_packagedata)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_packagedata: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_packagedata: Succeeded
+NOTE: Running task 1985 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_package_write_rpm)
+NOTE: Running task 1986 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_package_qa)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_write_rpm: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_qa: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_qa: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1987 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_build)
+NOTE: Tasks Summary: Attempted 1987 tasks of which 1885 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 31 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-src went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dbg went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-megadriver went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vulkan-drivers went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vdpau-drivers went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-staticdev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-doc went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-locale went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============2249933854796429385==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/piglit: PKGV changed from 1.0+gitrAUTOINC+6589213780 [default] to 1.0+gitrAUTOINC+a1a1824b38 [default]
+packages/core2-32-poky-linux/piglit: PV changed from "1.0+gitrAUTOINC+6589213780" to "1.0+gitrAUTOINC+a1a1824b38"
+packages/core2-32-poky-linux/piglit/piglit-bash-completion: PKGV changed from 1.0+gitr0+6589213780 to 1.0+gitr0+a1a1824b38
+packages/core2-32-poky-linux/piglit/piglit-bash-completion: PV changed from "1.0+gitrAUTOINC+6589213780" to "1.0+gitrAUTOINC+a1a1824b38"
+packages/core2-32-poky-linux/piglit/piglit-dbg: PKGV changed from 1.0+gitr0+6589213780 to 1.0+gitr0+a1a1824b38
+packages/core2-32-poky-linux/piglit/piglit-dbg: PV changed from "1.0+gitrAUTOINC+6589213780" to "1.0+gitrAUTOINC+a1a1824b38"
+packages/core2-32-poky-linux/piglit/piglit-dev: PKGV changed from 1.0+gitr0+6589213780 to 1.0+gitr0+a1a1824b38
+packages/core2-32-poky-linux/piglit/piglit-dev: PV changed from "1.0+gitrAUTOINC+6589213780" to "1.0+gitrAUTOINC+a1a1824b38"
+packages/core2-32-poky-linux/piglit/piglit-doc: PKGV changed from 1.0+gitr0+6589213780 to 1.0+gitr0+a1a1824b38
+packages/core2-32-poky-linux/piglit/piglit-doc: PV changed from "1.0+gitrAUTOINC+6589213780" to "1.0+gitrAUTOINC+a1a1824b38"
+packages/core2-32-poky-linux/piglit/piglit-locale: PKGV changed from 1.0+gitr0+6589213780 to 1.0+gitr0+a1a1824b38
+packages/core2-32-poky-linux/piglit/piglit-locale: PV changed from "1.0+gitrAUTOINC+6589213780" to "1.0+gitrAUTOINC+a1a1824b38"
+packages/core2-32-poky-linux/piglit/piglit-src: PKGV changed from 1.0+gitr0+6589213780 to 1.0+gitr0+a1a1824b38
+packages/core2-32-poky-linux/piglit/piglit-src: PV changed from "1.0+gitrAUTOINC+6589213780" to "1.0+gitrAUTOINC+a1a1824b38"
+packages/core2-32-poky-linux/piglit/piglit-staticdev: PKGV changed from 1.0+gitr0+6589213780 to 1.0+gitr0+a1a1824b38
+packages/core2-32-poky-linux/piglit/piglit-staticdev: PV changed from "1.0+gitrAUTOINC+6589213780" to "1.0+gitrAUTOINC+a1a1824b38"
+packages/core2-32-poky-linux/piglit/piglit: PKGV changed from 1.0+gitr0+6589213780 to 1.0+gitr0+a1a1824b38
+packages/core2-32-poky-linux/piglit/piglit: PKGSIZE changed from 2042453456 to 2042452974 (-0%)
+packages/core2-32-poky-linux/piglit/piglit: PV changed from "1.0+gitrAUTOINC+6589213780" to "1.0+gitrAUTOINC+a1a1824b38"
+
+--===============2249933854796429385==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/piglit/piglit-bash-completion: PKGV changed from 1.0+gitr0+6589213780 to 1.0+gitr0+a1a1824b38
+packages/core2-32-poky-linux/piglit/piglit-dbg: PKGV changed from 1.0+gitr0+6589213780 to 1.0+gitr0+a1a1824b38
+packages/core2-32-poky-linux/piglit/piglit-dev: PKGV changed from 1.0+gitr0+6589213780 to 1.0+gitr0+a1a1824b38
+packages/core2-32-poky-linux/piglit/piglit-doc: PKGV changed from 1.0+gitr0+6589213780 to 1.0+gitr0+a1a1824b38
+packages/core2-32-poky-linux/piglit/piglit-locale: PKGV changed from 1.0+gitr0+6589213780 to 1.0+gitr0+a1a1824b38
+packages/core2-32-poky-linux/piglit/piglit-src: PKGV changed from 1.0+gitr0+6589213780 to 1.0+gitr0+a1a1824b38
+packages/core2-32-poky-linux/piglit/piglit-staticdev: PKGV changed from 1.0+gitr0+6589213780 to 1.0+gitr0+a1a1824b38
+packages/core2-32-poky-linux/piglit/piglit: PKGV changed from 1.0+gitr0+6589213780 to 1.0+gitr0+a1a1824b38
+
+--===============2249933854796429385==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 883 .bb files complete (0 cached, 883 parsed). 1642 targets, 63 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the mips32r2 sysroot...done.
+Removing 1 recipes from the qemumips sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "mips-poky-linux"
+MACHINE              = "qemumips"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-a961af59372c3ae87ef21849933fb3aa5f341c9c"
+TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:a961af59372c3ae87ef21849933fb3aa5f341c9c"
+workspace            = "master:95066dde6861ee08fdb505ab3e0422156cc24fae"
+
+Initialising tasks...done.
+Sstate summary: Wanted 52 Local 11 Mirrors 0 Missed 41 Current 509 (21% match, 92% complete)
+Removing 3 stale sstate objects for arch qemumips...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 542 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 544 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe mesa-2_22.0.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe mesa-2_22.0.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1399 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_fetch)
+NOTE: Running task 1444 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_fetch)
+NOTE: Running task 1500 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_fetch)
+NOTE: Running task 1501 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_fetch)
+NOTE: Running task 1521 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe libglu-2_9.0.2-r0: task do_fetch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_fetch: Succeeded
+NOTE: recipe mesa-2_22.0.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe libxmu-1_1.1.3-r0: task do_fetch: Started
+NOTE: recipe waffle-1.7.0-r0: task do_fetch: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_fetch: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1523 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_unpack)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/mesa/2_22.0.3-r0/temp/log.do_packagedata_setscene.2795691
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 560 of 561 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_package_setscene)
+NOTE: Running task 1524 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_unpack)
+NOTE: Running task 1569 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_unpack)
+NOTE: Running task 1570 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_unpack)
+NOTE: Running task 1575 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_fetch)
+NOTE: Running task 1588 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_fetch)
+NOTE: Running task 1626 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1661 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_write_config)
+NOTE: Running task 1664 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_fetch)
+NOTE: Running task 1665 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_fetch)
+NOTE: recipe libglu-2_9.0.2-r0: task do_unpack: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Started
+NOTE: recipe waffle-1.7.0-r0: task do_unpack: Started
+NOTE: Running task 1867 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package_write_rpm)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_fetch: Started
+NOTE: recipe glew-2.2.0-r0: task do_fetch: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_unpack: Started
+NOTE: recipe glew-2.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_unpack: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_fetch: Started
+NOTE: recipe waffle-1.7.0-r0: task do_write_config: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_fetch: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_fetch: Succeeded
+NOTE: Running task 1869 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_patch)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_fetch: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_write_config: Succeeded
+NOTE: recipe libxmu-1_1.1.3-r0: task do_unpack: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1870 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_patch)
+NOTE: Running task 1871 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_patch)
+NOTE: recipe waffle-1.7.0-r0: task do_unpack: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1872 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_patch)
+NOTE: Running task 1873 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_unpack)
+NOTE: Running task 1874 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_unpack)
+NOTE: Running task 1875 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_unpack)
+NOTE: Running task 1876 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_unpack)
+NOTE: Running task 1877 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libglu-2_9.0.2-r0: task do_patch: Started
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_patch: Started
+NOTE: recipe glew-2.2.0-r0: task do_unpack: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_unpack: Started
+NOTE: recipe waffle-1.7.0-r0: task do_patch: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_unpack: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_unpack: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mesa-2_22.0.3-r0: task do_package_setscene: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1879 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_patch)
+NOTE: recipe libglu-2_9.0.2-r0: task do_patch: Succeeded
+NOTE: Running task 1880 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_patch: Succeeded
+NOTE: Running task 1881 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Succeeded
+NOTE: recipe glew-2.2.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1882 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1883 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_patch)
+NOTE: recipe python3-mako-1.2.0-r0: task do_patch: Started
+NOTE: recipe waffle-1.7.0-r0: task do_patch: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1884 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe glew-2.2.0-r0: task do_patch: Started
+NOTE: recipe waffle-1.7.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: recipe libxmu-1_1.1.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1885 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: recipe libglu-2_9.0.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1886 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1887 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_configure)
+NOTE: recipe python3-mako-1.2.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1888 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
+NOTE: recipe waffle-1.7.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe glew-2.2.0-r0: task do_patch: Succeeded
+NOTE: Running task 1889 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-mako-1.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Started
+NOTE: recipe glew-2.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1890 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_configure)
+NOTE: recipe glew-2.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_configure: Started
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 4ab42ede2677cce4212c466b3ef30574fd6175351b72ab958f0221ab510b8ca7
+NOTE: recipe python3-mako-1.2.0-r0: task do_configure: Succeeded
+NOTE: Running task 1896 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_compile)
+NOTE: recipe mesa-2_22.0.3-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_unpack: Succeeded
+NOTE: Running task 1908 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_packagedata)
+NOTE: Running task 1909 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1910 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_patch)
+NOTE: Running task 1911 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-mako-1.2.0-r0: task do_compile: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_patch: Started
+NOTE: recipe mesa-2_22.0.3-r0: task do_packagedata: Started
+NOTE: recipe waffle-1.7.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: Running task 1912 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1913 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_patch)
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_patch: Succeeded
+NOTE: Running task 1914 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1915 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_generate_toolchain_file)
+NOTE: Running task 1916 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_lic)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_patch: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_generate_toolchain_file: Started
+NOTE: Running task 1917 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_configure)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_lic: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe mesa-2_22.0.3-r0: task do_packagedata: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_configure: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 79d1bd3af41b691337b63d14f116451371696bde00710abdb7b8f2249dbf033a
+NOTE: Running task 1920 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.16.bb:do_package_write_rpm)
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_lic unihash changed to 14b9a3bea08b17d728499d376c1a689cb3e4811e8aff2bdc8adcf0ce69c823bd
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe bash-5.1.16-r0: task do_package_write_rpm: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_patch: Succeeded
+NOTE: Running task 1921 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe waffle-1.7.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1922 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_configure)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe waffle-1.7.0-r0: task do_configure: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_compile: Succeeded
+NOTE: Running task 1923 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_install)
+NOTE: recipe python3-mako-1.2.0-r0: task do_install: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_install: Succeeded
+NOTE: Running task 1924 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_package)
+NOTE: recipe python3-mako-1.2.0-r0: task do_package: Started
+NOTE: recipe waffle-1.7.0-r0: task do_configure: Succeeded
+NOTE: Running task 1925 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_compile)
+NOTE: recipe waffle-1.7.0-r0: task do_compile: Started
+NOTE: recipe bash-5.1.16-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_compile: Succeeded
+NOTE: Running task 1926 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_install)
+NOTE: recipe waffle-1.7.0-r0: task do_install: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_package: Succeeded
+NOTE: Running task 1927 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_packagedata)
+NOTE: recipe python3-mako-1.2.0-r0: task do_packagedata: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1928 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_package_write_rpm)
+NOTE: recipe python3-mako-1.2.0-r0: task do_package_write_rpm: Started
+NOTE: recipe waffle-1.7.0-r0: task do_install: Succeeded
+NOTE: Running task 1929 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_package)
+NOTE: Running task 1930 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_populate_sysroot)
+NOTE: recipe waffle-1.7.0-r0: task do_populate_sysroot: Started
+NOTE: recipe waffle-1.7.0-r0: task do_package: Started
+NOTE: recipe waffle-1.7.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_package: Succeeded
+NOTE: Running task 1931 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_packagedata)
+NOTE: recipe waffle-1.7.0-r0: task do_packagedata: Started
+NOTE: recipe waffle-1.7.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1932 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_package_write_rpm)
+NOTE: recipe waffle-1.7.0-r0: task do_package_write_rpm: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_configure: Succeeded
+NOTE: Running task 1933 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_compile)
+NOTE: recipe libglu-2_9.0.2-r0: task do_compile: Started
+NOTE: recipe waffle-1.7.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_compile: Succeeded
+NOTE: Running task 1934 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_install)
+NOTE: recipe libglu-2_9.0.2-r0: task do_install: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Succeeded
+NOTE: Running task 1935 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_compile)
+NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_install: Succeeded
+NOTE: Running task 1936 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_populate_sysroot)
+NOTE: Running task 1937 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_package)
+NOTE: recipe libglu-2_9.0.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_package: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1938 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Succeeded
+NOTE: Running task 1939 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_install)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1940 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_configure)
+NOTE: recipe libxt-1_1.2.1-r0: task do_install: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_configure: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_install: Succeeded
+NOTE: Running task 1941 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_populate_sysroot)
+NOTE: Running task 1942 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package)
+NOTE: recipe libglu-2_9.0.2-r0: task do_package: Succeeded
+NOTE: Running task 1943 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_packagedata)
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_package: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_packagedata: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_packagedata: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1944 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1945 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_configure)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_configure: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_package: Succeeded
+NOTE: Running task 1946 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_packagedata)
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_configure: Succeeded
+NOTE: Running task 1947 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_compile)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_compile: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_configure: Succeeded
+NOTE: Running task 1948 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_compile)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_compile: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_compile: Succeeded
+NOTE: Running task 1949 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_install)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_install: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_install: Succeeded
+NOTE: Running task 1950 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_populate_sysroot)
+NOTE: Running task 1951 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_package)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_populate_sysroot: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_package: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1952 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe glew-2.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glew-2.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1953 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_configure)
+NOTE: recipe glew-2.2.0-r0: task do_configure: Started
+NOTE: recipe glew-2.2.0-r0: task do_configure: Succeeded
+NOTE: Running task 1954 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_compile)
+NOTE: recipe glew-2.2.0-r0: task do_compile: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_package: Succeeded
+NOTE: Running task 1955 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_packagedata)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_packagedata: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_packagedata: Succeeded
+NOTE: recipe glew-2.2.0-r0: task do_compile: Succeeded
+NOTE: Running task 1956 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_install)
+NOTE: recipe glew-2.2.0-r0: task do_install: Started
+NOTE: recipe glew-2.2.0-r0: task do_install: Succeeded
+NOTE: Running task 1957 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_package)
+NOTE: Running task 1958 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_populate_sysroot)
+NOTE: recipe glew-2.2.0-r0: task do_package: Started
+NOTE: recipe glew-2.2.0-r0: task do_populate_sysroot: Started
+NOTE: recipe glew-2.2.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1959 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1960 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_configure)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_configure: Started
+NOTE: recipe glew-2.2.0-r0: task do_package: Succeeded
+NOTE: Running task 1961 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_packagedata)
+NOTE: recipe glew-2.2.0-r0: task do_packagedata: Started
+NOTE: recipe glew-2.2.0-r0: task do_packagedata: Succeeded
+NOTE: recipe mesa-demos-8.4.0-r0: task do_configure: Succeeded
+NOTE: Running task 1962 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_compile)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_compile: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_compile: Succeeded
+NOTE: Running task 1963 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_install)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_install: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_install: Succeeded
+NOTE: Running task 1964 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_package)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package: Succeeded
+NOTE: Running task 1965 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_packagedata)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_packagedata: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1966 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_package_write_rpm)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package_write_rpm: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_compile: Succeeded
+NOTE: Running task 1967 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_install)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_install: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_install: Succeeded
+NOTE: Running task 1968 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_package)
+NOTE: Running task 1969 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_sysroot)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_sysroot: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package: Succeeded
+NOTE: Running task 1970 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_packagedata)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_packagedata: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_packagedata: Succeeded
+NOTE: Running task 1971 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_package_write_rpm)
+NOTE: Running task 1972 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_package_qa)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_write_rpm: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_qa: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_qa: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1973 of 1973 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_build)
+NOTE: Tasks Summary: Attempted 1973 tasks of which 1871 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 31 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-src went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dbg went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-megadriver went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vulkan-drivers went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vdpau-drivers went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-staticdev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-doc went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-locale went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============2249933854796429385==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1642 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 883 .bb files complete (882 cached, 1 parsed). 1642 targets, 35 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-a961af59372c3ae87ef21849933fb3aa5f341c9c"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:a961af59372c3ae87ef21849933fb3aa5f341c9c"
+workspace            = "master:95066dde6861ee08fdb505ab3e0422156cc24fae"
+
+Initialising tasks...done.
+Sstate summary: Wanted 51 Local 11 Mirrors 0 Missed 40 Current 514 (21% match, 92% complete)
+Removing 3 stale sstate objects for arch qemux86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 546 of 565 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 548 of 565 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe mesa-2_22.0.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe mesa-2_22.0.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mesa-2_22.0.3-r0: task do_populate_sysroot_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/mesa/2_22.0.3-r0/temp/log.do_packagedata_setscene.2538616
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 564 of 565 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_package_setscene)
+NOTE: Running task 1408 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_fetch)
+NOTE: Running task 1454 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_fetch)
+NOTE: Running task 1510 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_fetch)
+NOTE: Running task 1511 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_fetch)
+NOTE: Running task 1531 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: Running task 1582 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_fetch)
+NOTE: Running task 1595 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_fetch)
+NOTE: Running task 1668 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_write_config)
+NOTE: Running task 1671 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_fetch)
+NOTE: Running task 1673 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_fetch)
+NOTE: recipe libglu-2_9.0.2-r0: task do_fetch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_fetch: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_fetch: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_fetch: Started
+NOTE: Running task 1875 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_unpack)
+NOTE: Running task 1877 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package_write_rpm)
+NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe glew-2.2.0-r0: task do_fetch: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_fetch: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_fetch: Succeeded
+NOTE: recipe glew-2.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe mesa-demos-8.4.0-r0: task do_fetch: Started
+NOTE: Running task 1878 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_unpack)
+NOTE: recipe python3-mako-1.2.0-r0: task do_fetch: Started
+NOTE: recipe waffle-1.7.0-r0: task do_write_config: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1879 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_unpack)
+NOTE: Running task 1880 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_unpack)
+NOTE: Running task 1881 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_fetch: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_unpack: Started
+NOTE: recipe waffle-1.7.0-r0: task do_write_config: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1882 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_patch)
+NOTE: Running task 1883 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_unpack)
+NOTE: Running task 1884 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_unpack)
+NOTE: Running task 1885 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_unpack)
+NOTE: Running task 1886 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_unpack)
+NOTE: Running task 1887 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_unpack: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_unpack: Started
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_patch: Started
+NOTE: recipe glew-2.2.0-r0: task do_unpack: Started
+NOTE: recipe waffle-1.7.0-r0: task do_unpack: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_unpack: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_unpack: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Started
+NOTE: recipe mesa-2_22.0.3-r0: task do_package_setscene: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1890 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_patch)
+NOTE: recipe libglu-2_9.0.2-r0: task do_patch: Succeeded
+NOTE: recipe libxmu-1_1.1.3-r0: task do_unpack: Succeeded
+NOTE: Running task 1891 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1892 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_patch)
+NOTE: recipe glew-2.2.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_patch: Started
+NOTE: Running task 1893 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_patch)
+NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1894 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_patch)
+NOTE: recipe libglu-2_9.0.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_patch: Started
+NOTE: recipe glew-2.2.0-r0: task do_patch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_patch: Succeeded
+NOTE: Running task 1895 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe waffle-1.7.0-r0: task do_unpack: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: Running task 1896 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_patch)
+NOTE: recipe libglu-2_9.0.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1897 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1898 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe waffle-1.7.0-r0: task do_patch: Started
+NOTE: recipe glew-2.2.0-r0: task do_patch: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
+NOTE: Running task 1899 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe glew-2.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxmu-1_1.1.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_patch: Succeeded
+NOTE: Running task 1900 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1901 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1902 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe waffle-1.7.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe glew-2.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to b0c61aea22dce8f624b85304ab204c1e9684ae296da75745f49b90a50579929e
+NOTE: recipe waffle-1.7.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1908 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_configure)
+NOTE: recipe python3-mako-1.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1909 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_configure)
+NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_unpack: Succeeded
+NOTE: Running task 1910 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_patch)
+NOTE: recipe python3-mako-1.2.0-r0: task do_configure: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_patch: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_configure: Succeeded
+NOTE: Running task 1911 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_compile)
+NOTE: recipe mesa-2_22.0.3-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1923 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_packagedata)
+NOTE: recipe python3-mako-1.2.0-r0: task do_compile: Started
+NOTE: Running task 1924 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: Running task 1925 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1926 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe mesa-2_22.0.3-r0: task do_packagedata: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe waffle-1.7.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_patch: Succeeded
+NOTE: Running task 1927 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1928 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_generate_toolchain_file)
+NOTE: Running task 1929 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_lic)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_lic: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_generate_toolchain_file: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe mesa-demos-8.4.0-r0: task do_unpack: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: Running task 1930 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_patch)
+NOTE: recipe mesa-2_22.0.3-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 56fac8ee0c7d26483246c4fcb01cc0878f40f2b7f8798514e2447802eab20187
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_lic unihash changed to 14b9a3bea08b17d728499d376c1a689cb3e4811e8aff2bdc8adcf0ce69c823bd
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe mesa-demos-8.4.0-r0: task do_patch: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1934 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_configure)
+NOTE: recipe libglu-2_9.0.2-r0: task do_configure: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_patch: Succeeded
+NOTE: Running task 1935 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe waffle-1.7.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1936 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_configure)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe waffle-1.7.0-r0: task do_configure: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_compile: Succeeded
+NOTE: Running task 1937 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_install)
+NOTE: recipe python3-mako-1.2.0-r0: task do_install: Started
+NOTE: recipe waffle-1.7.0-r0: task do_configure: Succeeded
+NOTE: Running task 1938 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_compile)
+NOTE: recipe waffle-1.7.0-r0: task do_compile: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_install: Succeeded
+NOTE: Running task 1939 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_package)
+NOTE: recipe python3-mako-1.2.0-r0: task do_package: Started
+NOTE: recipe waffle-1.7.0-r0: task do_compile: Succeeded
+NOTE: Running task 1940 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_install)
+NOTE: recipe waffle-1.7.0-r0: task do_install: Started
+NOTE: recipe waffle-1.7.0-r0: task do_install: Succeeded
+NOTE: Running task 1941 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_package)
+NOTE: Running task 1942 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_populate_sysroot)
+NOTE: recipe waffle-1.7.0-r0: task do_package: Started
+NOTE: recipe waffle-1.7.0-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_package: Succeeded
+NOTE: Running task 1943 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_packagedata)
+NOTE: recipe python3-mako-1.2.0-r0: task do_packagedata: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_packagedata: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1944 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_package_write_rpm)
+NOTE: recipe python3-mako-1.2.0-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_configure: Succeeded
+NOTE: Running task 1945 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_compile)
+NOTE: recipe libglu-2_9.0.2-r0: task do_compile: Started
+NOTE: recipe waffle-1.7.0-r0: task do_package: Succeeded
+NOTE: Running task 1946 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_packagedata)
+NOTE: recipe waffle-1.7.0-r0: task do_packagedata: Started
+NOTE: recipe waffle-1.7.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1947 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_package_write_rpm)
+NOTE: recipe waffle-1.7.0-r0: task do_package_write_rpm: Started
+NOTE: recipe waffle-1.7.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_compile: Succeeded
+NOTE: Running task 1948 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_install)
+NOTE: recipe libglu-2_9.0.2-r0: task do_install: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_install: Succeeded
+NOTE: Running task 1949 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_populate_sysroot)
+NOTE: Running task 1950 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_package)
+NOTE: recipe libglu-2_9.0.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_package: Started
+NOTE: Running task 1951 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_compile)
+NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1952 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1953 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_configure)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_configure: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Succeeded
+NOTE: Running task 1954 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_install)
+NOTE: recipe libxt-1_1.2.1-r0: task do_install: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_package: Succeeded
+NOTE: Running task 1955 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_packagedata)
+NOTE: recipe libglu-2_9.0.2-r0: task do_packagedata: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_install: Succeeded
+NOTE: Running task 1956 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_populate_sysroot)
+NOTE: Running task 1957 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package)
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_package: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_packagedata: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1958 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1959 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_configure)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_configure: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_package: Succeeded
+NOTE: Running task 1960 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_packagedata)
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_configure: Succeeded
+NOTE: Running task 1961 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_compile)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_compile: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_configure: Succeeded
+NOTE: Running task 1962 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_compile)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_compile: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_compile: Succeeded
+NOTE: Running task 1963 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_install)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_install: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_install: Succeeded
+NOTE: Running task 1964 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_populate_sysroot)
+NOTE: Running task 1965 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_package)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_populate_sysroot: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_package: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1966 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe glew-2.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glew-2.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1967 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_configure)
+NOTE: recipe glew-2.2.0-r0: task do_configure: Started
+NOTE: recipe glew-2.2.0-r0: task do_configure: Succeeded
+NOTE: Running task 1968 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_compile)
+NOTE: recipe glew-2.2.0-r0: task do_compile: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_package: Succeeded
+NOTE: Running task 1969 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_packagedata)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_packagedata: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_packagedata: Succeeded
+NOTE: recipe glew-2.2.0-r0: task do_compile: Succeeded
+NOTE: Running task 1970 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_install)
+NOTE: recipe glew-2.2.0-r0: task do_install: Started
+NOTE: recipe glew-2.2.0-r0: task do_install: Succeeded
+NOTE: Running task 1971 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_package)
+NOTE: Running task 1972 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_populate_sysroot)
+NOTE: recipe glew-2.2.0-r0: task do_package: Started
+NOTE: recipe glew-2.2.0-r0: task do_populate_sysroot: Started
+NOTE: recipe glew-2.2.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1973 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1974 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_configure)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_configure: Started
+NOTE: recipe glew-2.2.0-r0: task do_package: Succeeded
+NOTE: Running task 1975 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_packagedata)
+NOTE: recipe glew-2.2.0-r0: task do_packagedata: Started
+NOTE: recipe glew-2.2.0-r0: task do_packagedata: Succeeded
+NOTE: recipe mesa-demos-8.4.0-r0: task do_configure: Succeeded
+NOTE: Running task 1976 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_compile)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_compile: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_compile: Succeeded
+NOTE: Running task 1977 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_install)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_install: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_install: Succeeded
+NOTE: Running task 1978 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_package)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package: Succeeded
+NOTE: Running task 1979 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_packagedata)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_packagedata: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1980 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_package_write_rpm)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package_write_rpm: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_compile: Succeeded
+NOTE: Running task 1981 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_install)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_install: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_install: Succeeded
+NOTE: Running task 1982 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_package)
+NOTE: Running task 1983 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_sysroot)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_sysroot: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package: Succeeded
+NOTE: Running task 1984 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_packagedata)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_packagedata: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_packagedata: Succeeded
+NOTE: Running task 1985 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_package_write_rpm)
+NOTE: Running task 1986 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_package_qa)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_write_rpm: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_qa: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_qa: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1987 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_build)
+NOTE: Tasks Summary: Attempted 1987 tasks of which 1886 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 31 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-src went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dbg went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-megadriver went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vulkan-drivers went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vdpau-drivers went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-staticdev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-doc went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-locale went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============2249933854796429385==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 883 .bb files complete (0 cached, 883 parsed). 1643 targets, 49 skipped, 0 masked, 0 errors.
+Removing 77 recipes from the core2-32 sysroot...done.
+Removing 86 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux-musl"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-a961af59372c3ae87ef21849933fb3aa5f341c9c"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:a961af59372c3ae87ef21849933fb3aa5f341c9c"
+workspace            = "master:95066dde6861ee08fdb505ab3e0422156cc24fae"
+
+Initialising tasks...done.
+Sstate summary: Wanted 341 Local 293 Mirrors 0 Missed 48 Current 194 (85% match, 91% complete)
+Removing 2 stale sstate objects for arch x86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 197 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-markupsafe_2.1.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 198 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pygments_2.12.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 200 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.4.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 204 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 205 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 206 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.34.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 207 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.11.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 214 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 217 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.12.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 218 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.12.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 238 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 239 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 242 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 244 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 246 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 247 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 248 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 249 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 256 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.bb:do_packagedata_setscene)
+NOTE: Running setscene task 257 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 259 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 260 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 266 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_package_write_rpm_setscene)
+NOTE: Running task 745 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_29.bb:do_fetch)
+NOTE: Running task 776 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_fetch)
+NOTE: Running task 777 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.11.bb:do_fetch)
+NOTE: Running task 782 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_fetch)
+NOTE: Running task 786 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_fetch)
+NOTE: Running task 787 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_fetch)
+NOTE: Running task 801 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_fetch)
+NOTE: Running task 802 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_fetch)
+NOTE: Running task 813 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_write_config)
+NOTE: Running task 815 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_fetch)
+NOTE: Running task 816 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_fetch)
+NOTE: recipe python3-pygments-2.12.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-markupsafe-2.1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe make-4.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe freetype-2.12.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot_setscene: Started
+NOTE: recipe freetype-2.12.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Started
+NOTE: recipe perl-5.34.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-4.11.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxkbcommon-1.4.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxkbcommon-1.4.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libsm-1_1.2.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bash-completion-2.11-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe mesa-2_22.0.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe eudev-3.2.11-r0: task do_fetch: Started
+NOTE: recipe kmod-29-r0: task do_fetch: Started
+NOTE: recipe util-linux-2.38-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.10.4-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libsm-1_1.2.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxi-1_1.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_fetch: Started
+NOTE: recipe util-linux-2.38-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxi-1_1.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Started
+NOTE: recipe base-files-3.0.14-r89: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running task 880 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_fetch: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_fetch: Started
+NOTE: recipe mesa-2_22.0.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe glew-2.2.0-r0: task do_fetch: Started
+NOTE: Running task 881 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_unpack)
+NOTE: Running task 882 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_unpack)
+NOTE: recipe libglu-2_9.0.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_fetch: Started
+NOTE: recipe waffle-1.7.0-r0: task do_fetch: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_fetch: Started
+NOTE: recipe waffle-1.7.0-r0: task do_write_config: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_fetch: Started
+NOTE: Running task 883 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_unpack)
+NOTE: recipe glew-2.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pygments-2.12.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe kmod-29-r0: task do_fetch: Succeeded
+NOTE: Running task 884 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_unpack)
+NOTE: recipe python3-markupsafe-2.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe freetype-2.12.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 274 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package_setscene)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_fetch: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_fetch: Started
+NOTE: recipe freetype-2.12.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r155: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_fetch: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_fetch: Succeeded
+NOTE: recipe libxmu-1_1.1.3-r0: task do_unpack: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Started
+NOTE: recipe waffle-1.7.0-r0: task do_write_config: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_fetch: Succeeded
+NOTE: recipe libsm-1_1.2.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxkbcommon-1.4.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 277 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_packagedata_setscene)
+NOTE: recipe glew-2.2.0-r0: task do_unpack: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_unpack: Started
+NOTE: recipe libsm-1_1.2.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxi-1_1.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxi-1_1.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe mesa-2_22.0.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxkbcommon-1.4.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-2.38-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-3.10.4-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 281 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_packagedata_setscene)
+NOTE: Running setscene task 282 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 283 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 284 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.16.bb:do_packagedata_setscene)
+NOTE: Running setscene task 285 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.8.bb:do_packagedata_setscene)
+NOTE: recipe libglu-2_9.0.2-r0: task do_unpack: Succeeded
+NOTE: Running setscene task 286 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 292 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.35.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 293 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.35.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 294 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.37.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 295 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_packagedata_setscene)
+NOTE: Running task 889 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_29.bb:do_unpack)
+NOTE: Running task 893 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_patch)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_unpack: Succeeded
+NOTE: Running task 901 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_unpack)
+NOTE: recipe make-4.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 910 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_unpack)
+NOTE: Running task 912 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_patch)
+NOTE: Running task 921 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_unpack)
+NOTE: Running task 922 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_unpack)
+NOTE: Running task 926 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
+NOTE: Running task 931 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
+NOTE: recipe glew-2.2.0-r0: task do_unpack: Succeeded
+NOTE: recipe shadow-4.11.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/mesa/2_22.0.3-r0/temp/log.do_packagedata_setscene.3095008
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 300 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_package_setscene)
+NOTE: Running task 933 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_patch)
+NOTE: Running task 934 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_patch)
+NOTE: recipe libpng-1.6.37-r0: task do_packagedata_setscene: Started
+NOTE: recipe libice-1_1.0.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe libice-1_1.0.10-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Started
+NOTE: recipe bash-5.1.16-r0: task do_packagedata_setscene: Started
+NOTE: recipe sed-4.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe xkeyboard-config-2.35.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe coreutils-9.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe xkeyboard-config-2.35.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_patch: Started
+NOTE: recipe base-files-3.0.14-r89: task do_unpack: Started
+NOTE: recipe kmod-29-r0: task do_unpack: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_unpack: Started
+NOTE: recipe waffle-1.7.0-r0: task do_unpack: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_patch: Started
+NOTE: recipe base-files-3.0.14-r89: task do_prepare_recipe_sysroot: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_unpack: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_unpack: Started
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe glew-2.2.0-r0: task do_patch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_unpack: Succeeded
+NOTE: Running task 939 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_patch)
+NOTE: recipe libice-1_1.0.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxmu-1_1.1.3-r0: task do_patch: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_patch: Succeeded
+NOTE: recipe libpng-1.6.37-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 944 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe bash-5.1.16-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 945 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe libice-1_1.0.10-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 305 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.16.bb:do_package_setscene)
+NOTE: recipe libpng-1.6.37-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_unpack: Succeeded
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xkeyboard-config-2.35.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 957 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
+NOTE: recipe python3-mako-1.2.0-r0: task do_patch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Succeeded
+NOTE: recipe libxmu-1_1.1.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 959 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libglu-2_9.0.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe base-files-3.0.14-r89: task do_patch: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_patch: Succeeded
+NOTE: recipe sed-4.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-2.38-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 314 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 315 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 316 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 317 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
+NOTE: Running task 968 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe glew-2.2.0-r0: task do_patch: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xkeyboard-config-2.35.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 974 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe base-files-3.0.14-r89: task do_patch: Succeeded
+NOTE: Running task 976 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
+NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe waffle-1.7.0-r0: task do_unpack: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe coreutils-9.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running setscene task 322 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 324 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 326 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.64.bb:do_packagedata_setscene)
+NOTE: Running task 980 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_patch)
+NOTE: recipe libglu-2_9.0.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe glew-2.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe kmod-29-r0: task do_unpack: Succeeded
+NOTE: Running task 982 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_29.bb:do_patch)
+NOTE: recipe base-files-3.0.14-r89: task do_configure: Started
+NOTE: recipe libcap-2.64-r0: task do_packagedata_setscene: Started
+NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe waffle-1.7.0-r0: task do_patch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_configure: Succeeded
+NOTE: recipe eudev-3.2.11-r0: task do_fetch: Succeeded
+NOTE: Running task 983 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.11.bb:do_unpack)
+NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 984 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
+NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe kmod-29-r0: task do_patch: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe glew-2.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libcap-2.64-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_compile: Started
+NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe eudev-3.2.11-r0: task do_unpack: Started
+NOTE: Running setscene task 335 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 336 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-six-1.16.0-r0: task do_package_setscene: Started
+NOTE: recipe bash-5.1.16-r0: task do_package_setscene: Started
+NOTE: recipe waffle-1.7.0-r0: task do_patch: Succeeded
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_compile: Succeeded
+NOTE: Running task 1001 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_deploy_source_date_epoch)
+NOTE: Running setscene task 340 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
+NOTE: Running task 1006 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe mesa-2_22.0.3-r0: task do_package_setscene: Started
+NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe eudev-3.2.11-r0: task do_unpack: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1007 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.11.bb:do_patch)
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe kmod-29-r0: task do_patch: Succeeded
+NOTE: Running task 1008 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_29.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-six-1.16.0-r0: task do_package_setscene: Succeeded
+NOTE: recipe eudev-3.2.11-r0: task do_patch: Started
+NOTE: Running setscene task 342 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe kmod-29-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe eudev-3.2.11-r0: task do_patch: Succeeded
+NOTE: Running task 1013 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.11.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-six-1.16.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe kmod-29-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_unpack: Succeeded
+NOTE: recipe eudev-3.2.11-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1018 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe bash-5.1.16-r0: task do_package_setscene: Succeeded
+NOTE: Running task 1019 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_patch)
+NOTE: Running setscene task 345 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.16.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_patch: Started
+NOTE: recipe bash-5.1.16-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe eudev-3.2.11-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe bash-5.1.16-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe mesa-demos-8.4.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1024 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_patch)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_patch: Started
+NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 347 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 348 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 349 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 350 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_patch: Succeeded
+NOTE: Running task 1029 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1030 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_generate_toolchain_file)
+NOTE: Running task 1031 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_lic)
+NOTE: recipe cracklib-2.9.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe cracklib-2.9.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_generate_toolchain_file: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_lic: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe cracklib-2.9.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_lic: Succeeded
+NOTE: recipe mesa-2_22.0.3-r0: task do_package_setscene: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_lic unihash changed to 14b9a3bea08b17d728499d376c1a689cb3e4811e8aff2bdc8adcf0ce69c823bd
+NOTE: Running setscene task 354 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.110.bb:do_packagedata_setscene)
+NOTE: Running setscene task 355 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.110.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 357 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 358 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 359 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 360 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 361 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 362 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 363 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 364 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 365 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 366 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe cracklib-2.9.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xrandr-1_1.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libdrm-2.4.110-r0: task do_packagedata_setscene: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_patch: Succeeded
+NOTE: recipe libdrm-2.4.110-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xrandr-1_1.5.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe wayland-1.20.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdamage-1_1.1.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe wayland-1.20.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdamage-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1045 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxshmfence-1.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxshmfence-1.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xrandr-1_1.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 370 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.2.bb:do_packagedata_setscene)
+NOTE: recipe wayland-1.20.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxshmfence-1.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 372 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.4.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 373 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.14.bb:do_packagedata_setscene)
+NOTE: Running setscene task 375 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_packagedata_setscene)
+NOTE: recipe xrandr-1_1.5.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe wayland-1.20.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 378 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libdrm-2.4.110-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 379 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.4.8.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxxf86vm-1_1.1.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 380 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.14.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 383 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxshmfence-1.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libdrm-2.4.110-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 389 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb:do_packagedata_setscene)
+NOTE: Running setscene task 390 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.16.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxrandr-1_1.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.4.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxml2-2.9.14-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe expat-2.4.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxml2-2.9.14-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpciaccess-0.16-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpciaccess-0.16-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrandr-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 392 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 393 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.10.bb:do_packagedata_setscene)
+NOTE: recipe expat-2.4.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpciaccess-0.16-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxml2-2.9.14-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 398 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.4.bb:do_packagedata_setscene)
+NOTE: recipe libpciaccess-0.16-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxml2-2.9.14-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe expat-2.4.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 402 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.10.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 403 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 406 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.10.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxext-1_1.3.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxrender-1_0.9.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxext-1_1.3.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrender-1_0.9.10-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxrender-1_0.9.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 409 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.bb:do_packagedata_setscene)
+NOTE: recipe python3-3.10.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.10.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: recipe libx11-1_1.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe perl-5.34.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.10-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 412 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1105 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe libx11-1_1.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe libx11-1_1.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 416 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata_setscene)
+NOTE: Running setscene task 417 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_packagedata_setscene)
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Started
+NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libx11-1_1.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 419 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 420 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-3.10.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 422 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 423 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 424 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.bb:do_packagedata_setscene)
+NOTE: Running setscene task 425 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_packagedata_setscene)
+NOTE: Running setscene task 426 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 427 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 428 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 429 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: Running setscene task 430 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 431 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.5.bb:do_packagedata_setscene)
+NOTE: recipe python3-3.10.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: Running setscene task 432 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 433 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.1.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 434 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 435 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 437 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 438 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 439 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 440 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 441 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 442 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.38.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 5e235ef605e849b9e3390b401e97e2494932de8e374032ed4d9ccbf36bcba727
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.2.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe readline-8.1.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.0.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.2.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.38.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.38-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 445 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 446 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 447 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 448 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.bb:do_packagedata_setscene)
+NOTE: recipe openssl-3.0.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.2.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.2.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe readline-8.1.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sqlite3-3_3.38.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xtrans-1_1.4.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe xcb-proto-1.15-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 449 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 450 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 452 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 453 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-linux-libuuid-2.38-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe readline-8.1.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.2.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 457 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 461 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb:do_packagedata_setscene)
+NOTE: recipe sqlite3-3_3.38.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.38-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xz-5.2.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xz-5.2.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.0.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe zlib-1.2.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xcb-proto-1.15-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe sqlite3-3_3.38.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 473 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe openssl-3.0.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe readline-8.1.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtirpc-1.3.2-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 477 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xcb-proto-1.15-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ncurses-6.3-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 483 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 484 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_packagedata_setscene)
+NOTE: recipe libtirpc-1.3.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-macros-1_1.19.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpthread-stubs-0.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xcb-proto-1.15-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 490 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 491 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe ncurses-6.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 493 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
+NOTE: recipe libtirpc-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe xorgproto-2022.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-macros-1_1.19.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-macros-1_1.19.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xorgproto-2022.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 498 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-macros-1_1.19.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 499 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe xorgproto-2022.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 503 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.1.bb:do_packagedata_setscene)
+NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gcc-runtime-12.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 505 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-runtime-12.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 508 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.1.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-12.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-12.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-12.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 510 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-12.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 512 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-1.2.3+gitAUTOINC+6e9d2370c7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-12.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.3+gitAUTOINC+6e9d2370c7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 514 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 515 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 516 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-12.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 517 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-libc-headers-5.16-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.3+gitAUTOINC+6e9d2370c7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-5.16-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-1.2.3+gitAUTOINC+6e9d2370c7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 522 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 523 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 529 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-i686-12.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-i686-12.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 532 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 533 of 535 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.38.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-i686-2.38-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe binutils-cross-i686-2.38-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1641 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_packagedata)
+NOTE: Running task 1642 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_29.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1650 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1661 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1746 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1805 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package_write_rpm)
+NOTE: Running task 1806 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.16.bb:do_package_write_rpm)
+NOTE: recipe kmod-29-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mesa-2_22.0.3-r0: task do_packagedata: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Started
+NOTE: recipe bash-5.1.16-r0: task do_package_write_rpm: Started
+NOTE: recipe kmod-29-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1809 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_29.bb:do_configure)
+NOTE: Running task 1810 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_configure)
+NOTE: recipe mesa-2_22.0.3-r0: task do_packagedata: Succeeded
+NOTE: recipe kmod-29-r0: task do_configure: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1811 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_configure)
+NOTE: Running task 1812 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_configure)
+NOTE: recipe python3-mako-1.2.0-r0: task do_configure: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_configure: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_configure: Succeeded
+NOTE: Running task 1813 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_compile)
+NOTE: recipe python3-mako-1.2.0-r0: task do_compile: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe bash-5.1.16-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_compile: Succeeded
+NOTE: Running task 1814 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_install)
+NOTE: recipe python3-mako-1.2.0-r0: task do_install: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_install: Succeeded
+NOTE: Running task 1815 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_package)
+NOTE: recipe python3-mako-1.2.0-r0: task do_package: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_package: Succeeded
+NOTE: Running task 1816 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_packagedata)
+NOTE: recipe python3-mako-1.2.0-r0: task do_packagedata: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1817 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_package_write_rpm)
+NOTE: recipe python3-mako-1.2.0-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_configure: Succeeded
+NOTE: Running task 1818 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_compile)
+NOTE: recipe libglu-2_9.0.2-r0: task do_compile: Started
+NOTE: recipe kmod-29-r0: task do_configure: Succeeded
+NOTE: Running task 1819 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_29.bb:do_compile)
+NOTE: recipe kmod-29-r0: task do_compile: Started
+NOTE: recipe kmod-29-r0: task do_compile: Succeeded
+NOTE: Running task 1820 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_29.bb:do_install)
+NOTE: recipe kmod-29-r0: task do_install: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_compile: Succeeded
+NOTE: Running task 1821 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_install)
+NOTE: recipe kmod-29-r0: task do_install: Succeeded
+NOTE: Running task 1822 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_29.bb:do_populate_sysroot)
+NOTE: Running task 1823 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_29.bb:do_package)
+NOTE: recipe libglu-2_9.0.2-r0: task do_install: Started
+NOTE: recipe kmod-29-r0: task do_populate_sysroot: Started
+NOTE: recipe kmod-29-r0: task do_package: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_install: Succeeded
+NOTE: Running task 1824 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_populate_sysroot)
+NOTE: Running task 1825 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_package)
+NOTE: recipe kmod-29-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1826 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.11.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libglu-2_9.0.2-r0: task do_populate_sysroot: Started
+NOTE: recipe eudev-3.2.11-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_package: Started
+NOTE: recipe eudev-3.2.11-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1827 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.11.bb:do_configure)
+NOTE: recipe libglu-2_9.0.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe eudev-3.2.11-r0: task do_configure: Started
+NOTE: recipe kmod-29-r0: task do_package: Succeeded
+NOTE: Running task 1828 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_29.bb:do_packagedata)
+NOTE: recipe kmod-29-r0: task do_packagedata: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Succeeded
+NOTE: Running task 1829 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_compile)
+NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Started
+NOTE: recipe kmod-29-r0: task do_packagedata: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_package: Succeeded
+NOTE: Running task 1830 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_packagedata)
+NOTE: recipe libglu-2_9.0.2-r0: task do_packagedata: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Succeeded
+NOTE: Running task 1831 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_install)
+NOTE: recipe libglu-2_9.0.2-r0: task do_packagedata: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_install: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_install: Succeeded
+NOTE: Running task 1832 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_populate_sysroot)
+NOTE: Running task 1833 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package)
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_package: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1834 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1835 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_configure)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_configure: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_package: Succeeded
+NOTE: Running task 1836 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_packagedata)
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Succeeded
+NOTE: recipe eudev-3.2.11-r0: task do_configure: Succeeded
+NOTE: Running task 1837 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.11.bb:do_compile)
+NOTE: recipe eudev-3.2.11-r0: task do_compile: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_configure: Succeeded
+NOTE: Running task 1838 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_compile)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_compile: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_compile: Succeeded
+NOTE: Running task 1839 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_install)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_install: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_install: Succeeded
+NOTE: Running task 1840 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_populate_sysroot)
+NOTE: Running task 1841 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_package)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_populate_sysroot: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_package: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1842 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe eudev-3.2.11-r0: task do_compile: Succeeded
+NOTE: Running task 1843 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.11.bb:do_install)
+NOTE: recipe glew-2.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe eudev-3.2.11-r0: task do_install: Started
+NOTE: recipe glew-2.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1844 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_configure)
+NOTE: recipe glew-2.2.0-r0: task do_configure: Started
+NOTE: recipe glew-2.2.0-r0: task do_configure: Succeeded
+NOTE: Running task 1845 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_compile)
+NOTE: recipe glew-2.2.0-r0: task do_compile: Started
+NOTE: recipe eudev-3.2.11-r0: task do_install: Succeeded
+NOTE: Running task 1846 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.11.bb:do_populate_sysroot)
+NOTE: Running task 1847 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.11.bb:do_package)
+NOTE: recipe eudev-3.2.11-r0: task do_populate_sysroot: Started
+NOTE: recipe eudev-3.2.11-r0: task do_package: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_package: Succeeded
+NOTE: recipe eudev-3.2.11-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1848 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1849 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_packagedata)
+NOTE: recipe waffle-1.7.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_packagedata: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_packagedata: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1850 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_configure)
+NOTE: recipe waffle-1.7.0-r0: task do_configure: Started
+NOTE: recipe eudev-3.2.11-r0: task do_package: Succeeded
+NOTE: Running task 1851 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/udev/eudev_3.2.11.bb:do_packagedata)
+NOTE: recipe eudev-3.2.11-r0: task do_packagedata: Started
+NOTE: recipe eudev-3.2.11-r0: task do_packagedata: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_configure: Succeeded
+NOTE: Running task 1852 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_compile)
+NOTE: recipe waffle-1.7.0-r0: task do_compile: Started
+NOTE: recipe waffle-1.7.0-r0: task do_compile: Succeeded
+NOTE: Running task 1853 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_install)
+NOTE: recipe waffle-1.7.0-r0: task do_install: Started
+NOTE: recipe waffle-1.7.0-r0: task do_install: Succeeded
+NOTE: Running task 1854 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_package)
+NOTE: Running task 1855 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_populate_sysroot)
+NOTE: recipe waffle-1.7.0-r0: task do_package: Started
+NOTE: recipe waffle-1.7.0-r0: task do_populate_sysroot: Started
+NOTE: recipe waffle-1.7.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1856 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1857 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_configure)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_configure: Started
+NOTE: recipe waffle-1.7.0-r0: task do_package: Succeeded
+NOTE: Running task 1858 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_packagedata)
+NOTE: recipe waffle-1.7.0-r0: task do_packagedata: Started
+NOTE: recipe waffle-1.7.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1859 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_package_write_rpm)
+NOTE: recipe waffle-1.7.0-r0: task do_package_write_rpm: Started
+NOTE: recipe glew-2.2.0-r0: task do_compile: Succeeded
+NOTE: Running task 1860 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_install)
+NOTE: recipe glew-2.2.0-r0: task do_install: Started
+NOTE: recipe waffle-1.7.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe glew-2.2.0-r0: task do_install: Succeeded
+NOTE: Running task 1861 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_package)
+NOTE: Running task 1862 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_populate_sysroot)
+NOTE: recipe glew-2.2.0-r0: task do_populate_sysroot: Started
+NOTE: recipe glew-2.2.0-r0: task do_package: Started
+NOTE: recipe glew-2.2.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1863 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1864 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_configure)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_configure: Started
+NOTE: recipe glew-2.2.0-r0: task do_package: Succeeded
+NOTE: Running task 1865 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_packagedata)
+NOTE: recipe glew-2.2.0-r0: task do_packagedata: Started
+NOTE: recipe glew-2.2.0-r0: task do_packagedata: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_configure: Succeeded
+NOTE: Running task 1866 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_compile)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_compile: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_configure: Succeeded
+NOTE: Running task 1867 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_compile)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_compile: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_compile: Succeeded
+NOTE: Running task 1868 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_install)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_install: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_install: Succeeded
+NOTE: Running task 1869 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_package)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package: Succeeded
+NOTE: Running task 1870 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_packagedata)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_packagedata: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1871 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_package_write_rpm)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package_write_rpm: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_compile: Succeeded
+NOTE: Running task 1872 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_install)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_install: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_install: Succeeded
+NOTE: Running task 1873 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_package)
+NOTE: Running task 1874 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_sysroot)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_sysroot: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package: Succeeded
+NOTE: Running task 1875 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_packagedata)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_packagedata: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_packagedata: Succeeded
+NOTE: Running task 1876 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_package_write_rpm)
+NOTE: Running task 1877 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_package_qa)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_write_rpm: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_qa: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_qa: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1878 of 1878 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_build)
+NOTE: Tasks Summary: Attempted 1878 tasks of which 1749 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 31 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-src went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dbg went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-megadriver went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vulkan-drivers went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vdpau-drivers went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-staticdev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-doc went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-locale went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============2249933854796429385==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 883 .bb files complete (0 cached, 883 parsed). 1642 targets, 53 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the cortexa15t2hf-neon sysroot...done.
+Removing 1 recipes from the qemuarm sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-gnueabi"
+MACHINE              = "qemuarm"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-a961af59372c3ae87ef21849933fb3aa5f341c9c"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+TARGET_FPU           = "hard"
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:a961af59372c3ae87ef21849933fb3aa5f341c9c"
+workspace            = "master:95066dde6861ee08fdb505ab3e0422156cc24fae"
+
+Initialising tasks...done.
+Sstate summary: Wanted 52 Local 11 Mirrors 0 Missed 41 Current 513 (21% match, 92% complete)
+Removing 3 stale sstate objects for arch qemuarm...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 546 of 565 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 548 of 565 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe mesa-2_22.0.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe mesa-2_22.0.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1407 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_fetch)
+NOTE: Running task 1454 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_fetch)
+NOTE: Running task 1510 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_fetch)
+NOTE: Running task 1512 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_fetch)
+NOTE: Running task 1531 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_fetch: Started
+NOTE: recipe mesa-2_22.0.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxmu-1_1.1.3-r0: task do_fetch: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_fetch: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_fetch: Succeeded
+NOTE: recipe libxmu-1_1.1.3-r0: task do_fetch: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1533 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_unpack)
+NOTE: Running task 1534 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_unpack)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/mesa/2_22.0.3-r0/temp/log.do_packagedata_setscene.2687278
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 564 of 565 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_package_setscene)
+NOTE: Running task 1580 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_unpack)
+NOTE: Running task 1582 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_unpack)
+NOTE: Running task 1586 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_fetch)
+NOTE: Running task 1599 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_fetch)
+NOTE: Running task 1638 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1673 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_write_config)
+NOTE: Running task 1676 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_fetch)
+NOTE: Running task 1677 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_fetch)
+NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_unpack: Started
+NOTE: recipe glew-2.2.0-r0: task do_fetch: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_unpack: Started
+NOTE: recipe waffle-1.7.0-r0: task do_unpack: Started
+NOTE: recipe glew-2.2.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1881 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_package_write_rpm)
+NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_fetch: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_unpack: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_write_config: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_fetch: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_fetch: Started
+NOTE: Running task 1882 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_patch)
+NOTE: recipe python3-mako-1.2.0-r0: task do_fetch: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_unpack: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_fetch: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_write_config: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_fetch: Succeeded
+NOTE: Running task 1883 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_patch)
+NOTE: Running task 1884 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_unpack)
+NOTE: Running task 1885 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_unpack)
+NOTE: Running task 1886 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_unpack)
+NOTE: Running task 1887 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_unpack)
+NOTE: Running task 1888 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxt-1_1.2.1-r0: task do_unpack: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_unpack: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1889 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_patch)
+NOTE: Running task 1890 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_patch)
+NOTE: recipe libglu-2_9.0.2-r0: task do_patch: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_patch: Started
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_unpack: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_unpack: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_unpack: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Started
+NOTE: recipe glew-2.2.0-r0: task do_unpack: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1893 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_patch)
+NOTE: recipe libglu-2_9.0.2-r0: task do_patch: Succeeded
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_patch: Succeeded
+NOTE: Running task 1894 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe waffle-1.7.0-r0: task do_patch: Started
+NOTE: Running task 1895 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe mesa-2_22.0.3-r0: task do_package_setscene: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_patch: Succeeded
+NOTE: Running task 1896 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-mako-1.2.0-r0: task do_patch: Started
+NOTE: recipe glew-2.2.0-r0: task do_unpack: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1897 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_patch)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe waffle-1.7.0-r0: task do_patch: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 1898 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe glew-2.2.0-r0: task do_patch: Started
+NOTE: recipe waffle-1.7.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1899 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1900 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe libxt-1_1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1901 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1902 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_configure)
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe waffle-1.7.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Started
+NOTE: recipe glew-2.2.0-r0: task do_patch: Succeeded
+NOTE: Running task 1903 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe glew-2.2.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-six-1.16.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1904 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_configure)
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 3000313df6bda1abdc7383cb1934a1e02bdc4614c2c371572e118046c755cd76
+NOTE: recipe python3-mako-1.2.0-r0: task do_configure: Started
+NOTE: recipe glew-2.2.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_unpack: Succeeded
+NOTE: Running task 1910 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_patch)
+NOTE: recipe python3-mako-1.2.0-r0: task do_configure: Succeeded
+NOTE: Running task 1911 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_compile)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_patch: Started
+NOTE: recipe mesa-2_22.0.3-r0: task do_package_setscene: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_compile: Started
+NOTE: Setscene tasks completed
+NOTE: Running task 1923 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_22.0.3.bb:do_packagedata)
+NOTE: Running task 1924 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1925 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe mesa-2_22.0.3-r0: task do_packagedata: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe waffle-1.7.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_patch: Succeeded
+NOTE: Running task 1926 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1927 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_generate_toolchain_file)
+NOTE: Running task 1928 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_lic)
+NOTE: Running task 1929 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1930 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_patch)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_lic: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_generate_toolchain_file: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe mesa-demos-8.4.0-r0: task do_patch: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_lic unihash changed to 14b9a3bea08b17d728499d376c1a689cb3e4811e8aff2bdc8adcf0ce69c823bd
+NOTE: recipe libglu-2_9.0.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1931 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_configure)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe mesa-2_22.0.3-r0: task do_packagedata: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to e8d93026dbeccfd3e4330a21e6653ae4d7cd62eb97959ec91da1f8f8ed8d1b0d
+NOTE: Running task 1934 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.16.bb:do_package_write_rpm)
+NOTE: recipe libglu-2_9.0.2-r0: task do_configure: Started
+NOTE: recipe bash-5.1.16-r0: task do_package_write_rpm: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_patch: Succeeded
+NOTE: Running task 1935 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe waffle-1.7.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1936 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_configure)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe waffle-1.7.0-r0: task do_configure: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_compile: Succeeded
+NOTE: Running task 1937 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_install)
+NOTE: recipe python3-mako-1.2.0-r0: task do_install: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_install: Succeeded
+NOTE: Running task 1938 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_package)
+NOTE: recipe python3-mako-1.2.0-r0: task do_package: Started
+NOTE: recipe waffle-1.7.0-r0: task do_configure: Succeeded
+NOTE: Running task 1939 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_compile)
+NOTE: recipe waffle-1.7.0-r0: task do_compile: Started
+NOTE: recipe bash-5.1.16-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_compile: Succeeded
+NOTE: Running task 1940 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_install)
+NOTE: recipe waffle-1.7.0-r0: task do_install: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_package: Succeeded
+NOTE: Running task 1941 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_packagedata)
+NOTE: recipe python3-mako-1.2.0-r0: task do_packagedata: Started
+NOTE: recipe python3-mako-1.2.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1942 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-mako_1.2.0.bb:do_package_write_rpm)
+NOTE: recipe waffle-1.7.0-r0: task do_install: Succeeded
+NOTE: Running task 1943 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_package)
+NOTE: Running task 1944 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_populate_sysroot)
+NOTE: recipe python3-mako-1.2.0-r0: task do_package_write_rpm: Started
+NOTE: recipe waffle-1.7.0-r0: task do_populate_sysroot: Started
+NOTE: recipe waffle-1.7.0-r0: task do_package: Started
+NOTE: recipe waffle-1.7.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-mako-1.2.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe waffle-1.7.0-r0: task do_package: Succeeded
+NOTE: Running task 1945 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_packagedata)
+NOTE: recipe waffle-1.7.0-r0: task do_packagedata: Started
+NOTE: recipe waffle-1.7.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1946 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.0.bb:do_package_write_rpm)
+NOTE: recipe waffle-1.7.0-r0: task do_package_write_rpm: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_configure: Succeeded
+NOTE: Running task 1947 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_compile)
+NOTE: recipe libglu-2_9.0.2-r0: task do_compile: Started
+NOTE: recipe waffle-1.7.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_compile: Succeeded
+NOTE: Running task 1948 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_install)
+NOTE: recipe libglu-2_9.0.2-r0: task do_install: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_configure: Succeeded
+NOTE: Running task 1949 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_compile)
+NOTE: recipe libglu-2_9.0.2-r0: task do_install: Succeeded
+NOTE: Running task 1950 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_populate_sysroot)
+NOTE: Running task 1951 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_package)
+NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_populate_sysroot: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_package: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1952 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1953 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_configure)
+NOTE: recipe libxt-1_1.2.1-r0: task do_compile: Succeeded
+NOTE: Running task 1954 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_install)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_configure: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_install: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_package: Succeeded
+NOTE: Running task 1955 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.2.bb:do_packagedata)
+NOTE: recipe libxt-1_1.2.1-r0: task do_install: Succeeded
+NOTE: recipe libglu-2_9.0.2-r0: task do_packagedata: Started
+NOTE: Running task 1956 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_populate_sysroot)
+NOTE: Running task 1957 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_package)
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_package: Started
+NOTE: recipe libglu-2_9.0.2-r0: task do_packagedata: Succeeded
+NOTE: recipe libxt-1_1.2.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1958 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1959 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_configure)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_configure: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_package: Succeeded
+NOTE: Running task 1960 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxt_1.2.1.bb:do_packagedata)
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Started
+NOTE: recipe libxt-1_1.2.1-r0: task do_packagedata: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_configure: Succeeded
+NOTE: Running task 1961 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_compile)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_compile: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_configure: Succeeded
+NOTE: Running task 1962 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_compile)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_compile: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_compile: Succeeded
+NOTE: Running task 1963 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_install)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_install: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_install: Succeeded
+NOTE: Running task 1964 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_populate_sysroot)
+NOTE: Running task 1965 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_package)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_populate_sysroot: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_package: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1966 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe glew-2.2.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glew-2.2.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1967 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_configure)
+NOTE: recipe glew-2.2.0-r0: task do_configure: Started
+NOTE: recipe glew-2.2.0-r0: task do_configure: Succeeded
+NOTE: Running task 1968 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_compile)
+NOTE: recipe glew-2.2.0-r0: task do_compile: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_package: Succeeded
+NOTE: Running task 1969 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb:do_packagedata)
+NOTE: recipe libxmu-1_1.1.3-r0: task do_packagedata: Started
+NOTE: recipe libxmu-1_1.1.3-r0: task do_packagedata: Succeeded
+NOTE: recipe glew-2.2.0-r0: task do_compile: Succeeded
+NOTE: Running task 1970 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_install)
+NOTE: recipe glew-2.2.0-r0: task do_install: Started
+NOTE: recipe glew-2.2.0-r0: task do_install: Succeeded
+NOTE: Running task 1971 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_package)
+NOTE: Running task 1972 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_populate_sysroot)
+NOTE: recipe glew-2.2.0-r0: task do_populate_sysroot: Started
+NOTE: recipe glew-2.2.0-r0: task do_package: Started
+NOTE: recipe glew-2.2.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1973 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1974 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_configure)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_configure: Started
+NOTE: recipe glew-2.2.0-r0: task do_package: Succeeded
+NOTE: Running task 1975 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/glew/glew_2.2.0.bb:do_packagedata)
+NOTE: recipe glew-2.2.0-r0: task do_packagedata: Started
+NOTE: recipe glew-2.2.0-r0: task do_packagedata: Succeeded
+NOTE: recipe mesa-demos-8.4.0-r0: task do_configure: Succeeded
+NOTE: Running task 1976 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_compile)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_compile: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_compile: Succeeded
+NOTE: Running task 1977 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_install)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_install: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_install: Succeeded
+NOTE: Running task 1978 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_package)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package: Succeeded
+NOTE: Running task 1979 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_packagedata)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_packagedata: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 1980 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb:do_package_write_rpm)
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package_write_rpm: Started
+NOTE: recipe mesa-demos-8.4.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_compile: Succeeded
+NOTE: Running task 1981 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_install)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_install: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_install: Succeeded
+NOTE: Running task 1982 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_package)
+NOTE: Running task 1983 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_sysroot)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_sysroot: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package: Succeeded
+NOTE: Running task 1984 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_packagedata)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_packagedata: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_packagedata: Succeeded
+NOTE: Running task 1985 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_package_write_rpm)
+NOTE: Running task 1986 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_package_qa)
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_write_rpm: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_qa: Started
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_qa: Succeeded
+NOTE: recipe piglit-1.0+gitrAUTOINC+a1a1824b38-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1987 of 1987 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/piglit/piglit_git.bb:do_build)
+NOTE: Tasks Summary: Attempted 1987 tasks of which 1885 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 5 seconds
+
+Summary: There was 1 WARNING message.
+Summary: There were 31 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-src went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dbg went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libegl-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libosmesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgl-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libglapi-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgbm-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles1-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles2-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libgles3-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libopencl-mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxatracker-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-megadriver went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vulkan-drivers went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-vdpau-drivers went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-staticdev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-dev went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-doc went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa-locale went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: QA Issue: Package version for package mesa went backwards which would break package feeds (from 2:22.1.0-r0 to 2:22.0.3-r0) [version-going-backwards]
+ERROR: mesa-2_22.0.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============2249933854796429385==--
 
