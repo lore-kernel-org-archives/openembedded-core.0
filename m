@@ -1,95 +1,143 @@
-Return-Path: <jpuhlman@mvista.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85D27C433EF
-	for <webhook@archiver.kernel.org>; Wed,  1 Jun 2022 23:02:26 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
- [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web11.314.1654124540430137704
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ED48C433EF
+	for <webhook@archiver.kernel.org>; Thu,  2 Jun 2022 02:31:27 +0000 (UTC)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
+ [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web09.2154.1654137085621337047
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jun 2022 16:02:21 -0700
+ Wed, 01 Jun 2022 19:31:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=bS+qM0Fw;
- spf=pass (domain: mvista.com, ip: 209.85.215.182,
- mailfrom: jpuhlman@mvista.com)
-Received: by mail-pg1-f182.google.com with SMTP id r71so3228228pgr.0
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=BReDtikE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.179,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f179.google.com with SMTP id d129so3536308pgc.9
         for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Jun 2022 16:02:20 -0700 (PDT)
+ Wed, 01 Jun 2022 19:31:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=QolVIzy929IMxYYFxgncpxzG6w0CKwzlCQgG2dgb0JU=;
-        b=bS+qM0Fw84HSTbPjgR1WJrOaToVxJn8Pmar92/8CVSkJ9G3xN4+w5cZx1qFS4XsTJG
-         y73I/QDFIgbpzRvmvGPvWljcPDVhxkmuzR3nj8kOiYcrHJc18vJnFy0NQLWdHnRtsn7X
-         b6iy5bcBQ7xV49nCcUydI3EABJ62spREByQxM=
+        bh=piQylXKEF/pxGqjWS+j4nHrsEz6dMIosI+45ppmV7HI=;
+        b=BReDtikEXcBat2q+buPC75riEeG5kgquMnEdfem6vtWnFVc4rZGzXx5dC08dJYz+wa
+         4EIBntLTu+7EygD3f6K6R70G54QLFa6zHJ9MG+CzTrPj2AzCe21lNFXNACLjk211fXwK
+         cbnW+ZLzyTsnN/ZKqRrGLqqi9gmVoA36BRczLJP7OdWktCk8TrYz8x7PPeWc5dEGj3In
+         BZVND+TkNaO/f1QzLE5J4xJBRa0+wQd3CgSiFgMBJ5+WzZRNoCistyYst89q6ioG3xZI
+         S7MIuBu7wHO/JLmmogIG2l+AHcmuPXjukylkqJDUxajqDfvZJjU5wvtQNmBeYs50u3cd
+         n6Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QolVIzy929IMxYYFxgncpxzG6w0CKwzlCQgG2dgb0JU=;
-        b=gMz/lUUwI8vkHBU5RGi/AZlru+lHxezeIs61grjLkJSz8nx1huK9X/0AXdaFPaKuK2
-         EN3qsNtuRsGKyhkxUHHtotUeKVLp7FsTTXMukOhkrXooq3Yjke34eNNxSyCnIRrt4k8f
-         4FNJiECltuDlqu5vJRU4HFS/QDzk+t3dp6YiOJ1AVDdXe7hSF+eF1kUQgH7cPlFoorNY
-         awNRTUDPWn1vx/m7M/M1fJrzajOtEfeEdfWmPn9fgyGlEofKjqQrK5qnEV9G2DM9hODh
-         0WwOLbUBf9+3NBtz/+hYpTCvEg3qoef6PdvUfs7Kgnfm9fco/Yj8wS8U0PmLrk85Yb4B
-         UWSQ==
-X-Gm-Message-State: AOAM530jF34IeZ55xzHCE6UmpfgRocs1mHjpBETC2srv2DJEO0o1P4ck
-	2A5YeqNneUsJ8zkZjTj3prR53vRmbm8vuQ==
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=piQylXKEF/pxGqjWS+j4nHrsEz6dMIosI+45ppmV7HI=;
+        b=11QP7n/9dKvsdVlUwXneZTS4Nixk5kIE0AfYwvYDv3lKwsoxuBurF2Wefe15qD88CH
+         jH+1kYKPBRmIuQlds1iIIQh9+KV8Kx8tJoabvY6f10Jz3bSmh3Ill4C1rGTXhTmrMFEV
+         8cc6ykrRz5BwZTVJe5LloUj6xQ50svEdHvr2hEp6nXY5zyvm4K+Pz1O/T7v06OYoZOT1
+         2mWGXWMMfqQFnPBVmNFpTuAIAX5jTot9ye1XgFey0skuGe8fRuAZTML1W2Spt1lu79EQ
+         FkXHYOSj/UFJiOr387ZV4d5MW2hW3vGdXKoMlAn3fyXGfgBhWRnviGz1FRh1TXebTSOp
+         sOgQ==
+X-Gm-Message-State: AOAM533A1hD21oYk9zUfSQLHYsJNPsaXXHOoeo/Uvn0yP0wj5rMee5Zy
+	sFk30kL1xqKE3KMFwiRE6MJsbCBONeNAbgxk
 X-Google-Smtp-Source: 
- ABdhPJxS3FquHOTWPDjHGRkyBcGFi1gcYzxgY7J6VNiaDGEURU/v4uz56BUBTHsG1d7F4E5Tmd9tIQ==
-X-Received: by 2002:a63:cf51:0:b0:3fc:b9f1:2882 with SMTP id
- b17-20020a63cf51000000b003fcb9f12882mr1458436pgj.431.1654124539714;
-        Wed, 01 Jun 2022 16:02:19 -0700 (PDT)
-Received: from red (99-14-97-149.lightspeed.frokca.sbcglobal.net.
- [99.14.97.149])
+ ABdhPJzrkF2wDg1JImVxkKTjujx9Pv1ld3m02QIoal2ikX9+9XA8BAO+9cJaujaWhMXHa7L4qrEn0g==
+X-Received: by 2002:a05:6a00:cc:b0:518:1348:8dc2 with SMTP id
+ e12-20020a056a0000cc00b0051813488dc2mr2685130pfj.52.1654137084343;
+        Wed, 01 Jun 2022 19:31:24 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- f8-20020a056a001ac800b0051b516fd1dcsm2169356pfv.91.2022.06.01.16.02.17
+ j23-20020a63ec17000000b003fc37053c82sm1990447pgh.12.2022.06.01.19.31.22
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jun 2022 16:02:19 -0700 (PDT)
-Received: by red (sSMTP sendmail emulation); Wed, 01 Jun 2022 19:02:16 -0400
-From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+        Wed, 01 Jun 2022 19:31:23 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
-Subject: [PATCH] gcc: depend on zstd-native
-Date: Wed,  1 Jun 2022 19:02:15 -0400
-Message-Id: <20220601230215.280708-1-jpuhlman@mvista.com>
-X-Mailer: git-send-email 2.31.1
+Subject: [OE-core][dunfell 04/11] ffmpeg: Fix for CVE-2022-1475
+Date: Wed,  1 Jun 2022 16:30:44 -1000
+Message-Id: 
+ <2a97ba89f236b751b333622fbbc14180e9b72245.1654136888.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1654136888.git.steve@sakoman.com>
+References: <cover.1654136888.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Jun 2022 23:02:26 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Jun 2022 02:31:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166446
+ https://lists.openembedded.org/g/openembedded-core/message/166452
 
-Sharing sstate cache binaries between two systems, one with libzstd installed
-and the other without, leads to various gcc components being linked against
-the system libzstd and failing to run on the system with out it installed.
+From: Virendra Thakur <virendra.thakur@kpit.com>
 
-Make zstd-native from our system available.
+Add patch to fix CVE-2022-1475
 
-Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/gcc/gcc-12.1.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../ffmpeg/ffmpeg/CVE-2022-1475.patch         | 36 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-1475.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-12.1.inc b/meta/recipes-devtools/gcc/gcc-12.1.inc
-index c8c4ae93e1..250b587e78 100644
---- a/meta/recipes-devtools/gcc/gcc-12.1.inc
-+++ b/meta/recipes-devtools/gcc/gcc-12.1.inc
-@@ -11,7 +11,7 @@ BINV = "12.1.0"
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc:${FILE_DIRNAME}/gcc/backport:"
- 
- DEPENDS =+ "mpfr gmp libmpc zlib flex-native"
--NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native flex-native"
-+NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native flex-native zstd-native"
- 
- LICENSE = "GPL-3.0-with-GCC-exception & GPL-3.0-only"
- 
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-1475.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-1475.patch
+new file mode 100644
+index 0000000000..bd8a08a216
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2022-1475.patch
+@@ -0,0 +1,36 @@
++From: Michael Niedermayer <michael@niedermayer.cc>
++Date: Sun, 27 Feb 2022 14:43:04 +0100
++Subject: [PATCH] avcodec/g729_parser: Check channels
++
++Fixes: signed integer overflow: 10 * 808464428 cannot be represented in type 'int'
++Fixes: assertion failure
++Fixes: ticket9651
++
++Reviewed-by: Paul B Mahol <onemda@gmail.com>
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++(cherry picked from commit 757da974b21833529cc41bdcc9684c29660cdfa8)
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++
++CVE: CVE-2022-1475
++Upstream-Status: Backport [https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=e9e2ddbc6c78cc18b76093617f82c920e58a8d1f]
++Comment: Patch is refreshed as per ffmpeg codebase
++Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
++
++---
++ libavcodec/g729_parser.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++Index: ffmpeg-4.2.2/libavcodec/g729_parser.c
++===================================================================
++--- a/libavcodec/g729_parser.c
+++++ b/libavcodec/g729_parser.c
++@@ -48,6 +48,9 @@ static int g729_parse(AVCodecParserConte
++         av_assert1(avctx->codec_id == AV_CODEC_ID_G729);
++         /* FIXME: replace this heuristic block_size with more precise estimate */
++         s->block_size = (avctx->bit_rate < 8000) ? G729D_6K4_BLOCK_SIZE : G729_8K_BLOCK_SIZE;
+++        // channels > 2 is invalid, we pass the packet on unchanged
+++        if (avctx->channels > 2)
+++            s->block_size = 0;
++         s->block_size *= avctx->channels;
++         s->duration   = avctx->frame_size;
++     }
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
+index 1d6f2e528b..cbfdbf0563 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
+@@ -29,6 +29,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://0001-libavutil-include-assembly-with-full-path-from-sourc.patch \
+            file://CVE-2021-3566.patch \
+            file://CVE-2021-38291.patch \
++           file://CVE-2022-1475.patch \
+           "
+ SRC_URI[md5sum] = "348956fc2faa57a2f79bbb84ded9fbc3"
+ SRC_URI[sha256sum] = "cb754255ab0ee2ea5f66f8850e1bd6ad5cac1cd855d0a2f4990fb8c668b0d29c"
 -- 
-2.31.1
+2.25.1
 
 
