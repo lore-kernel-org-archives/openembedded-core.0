@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAF7AC3F2D4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E071AC43334
 	for <webhook@archiver.kernel.org>; Thu,  2 Jun 2022 16:53:03 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
- [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web12.1570.1654188778563560505
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web12.1571.1654188781214858912
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jun 2022 09:52:58 -0700
+ Thu, 02 Jun 2022 09:53:03 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=Ie14yXIj;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172,
+ header.b=oM3AZMXA;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.169,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id g205so5201960pfb.11
+Received: by mail-pg1-f169.google.com with SMTP id e66so5214264pgc.8
         for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jun 2022 09:52:58 -0700 (PDT)
+ Thu, 02 Jun 2022 09:53:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=bUAjnzBPC+PRQHQC4mMFWZZuziiWrZHhm5J8dJdphFw=;
-        b=Ie14yXIjluCLYqDkUqm2MBVMRDNj1VBmiti5qrqbtkCr1fz3iq4ux9Xe+p+2Pic5aq
-         LYZyr5wS7GQ/90SjArBAkQG1VxidOmUTtvhRhrYqZ8kgTk0ln2H9liwdmu3EVQg7codZ
-         +dturNofE1T6EoBsKJpYrOlsnjVVdVb2NM8R/GijPNcgLGRUHDZkBErT6V+y+S3jsQHq
-         aF2u6SimH8uKzaVqrSJq22Wf1VrYtN1Y+SYsKlvBhAinBRQxbz4UJRbWnAVUniw28JWD
-         /tyQ4vs47gmFj2kWDXCFiKfIMncmW8Y3PbBR7p+ZgPvfVcqrCFEDGpcxaF8l7S7fhimq
-         tJmw==
+        bh=VkbN5rB+tnd1I5hVr9BTZbGy1c+22guOXSzDuhvo5s4=;
+        b=oM3AZMXAGePILmIj4/h4xgiPwObBdLMwvD+HI8EDMEHaIPSiW7lhEnvmNd42BWtmMW
+         oIOF3HklMzcgsCYxC4BvwWM3cRzXZ44weEKpkJ/eGm7SgqQjzAl+P4Tyzal9ojBMwB62
+         dPfaefTfjJTgocQgw9bvBgYUj7hZ08mPFFumxj/6SJ0vpDmF4niEqu7EHivinWYo7gBt
+         UkJTbq8LBlXdgoJxtEJs3zw2dUNaht33CznQ28A4sFpWvRKSKR+vdfkAvrGMnEmmzrQ1
+         3Z8ZmKm1u5ff0QvHnGQkR0GwMIEexyVk5h2TUZABHSL1GWPbQCqFxfMB3VXDcDE+ZFHv
+         p1GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=bUAjnzBPC+PRQHQC4mMFWZZuziiWrZHhm5J8dJdphFw=;
-        b=r9KEc2Pf155ziheBeKjsPLS3uO29F4/8AawqImU22dIHgZRIbCvox4wqF2XiPuTFl4
-         JraNcQ/SsSaSqdn8gfMjp9ZWSdD7gvRgPJt4cwieLRzZ7q2yxx2JEUPf3YwCXOGJxH5n
-         KeYBXTzjQptHvy6cWSJ7dUWmiaEmB5czCTZvUYosZTnlswVemaF7h2+61bzn2l8xLei+
-         kJJlwxNPFSLNtDjgPvhneejK6Jak0ymUNrCswtqof36yRkiMf7e90vwz+ZJ4Vikpn67k
-         olFqxpU4byJogxD7NKs1BYSETlqNZeHT9U8JYBH8FAHy2ecx1FZUrxo5W1Y+oTjtCM5o
-         MuoA==
-X-Gm-Message-State: AOAM5328BUrsJc8+FETQrw+aP5M+rqiWyIC30p6U42laechu/1LFkB83
-	vnioNsdVVTAF4CnqhRl0mg4jWs5QU8qCi0bQ
+        bh=VkbN5rB+tnd1I5hVr9BTZbGy1c+22guOXSzDuhvo5s4=;
+        b=tk4Br9oAMPq0tBc1dUX5jdu7iISQOGGChZDR15SCxdXkeQQx/WRwZ5CyLyR6ww955a
+         tipJdu+m0IgTsH1aiHFgw5cH4HMeqWpDysINEp7FNb07SzvtTe+tRlGkmkVMH61pZISl
+         QZF4nRb/eAbhk4OigxW3GE4nwj0MOkx0O2BuiTbTaZfFP0/Q3eyIW8CB73nSwS3cMDWg
+         FW7HBdIZ+XRna+lXIIZzu/QvjfetQm2Li0rkpBbqg5dAnehqTpPvpC0or+sjXL9dJqIa
+         cuPY8XoU5qp79PXCvG0TTcinUT++MgLCudi/an6lmh/4gnaT4uymPUm2wusBKAh2nZKb
+         gzug==
+X-Gm-Message-State: AOAM532WSWXeYN5UcA5zPXwAQ2eaBB7oP567MnZ3MRCjmMmcVc3HU0KE
+	hH3CS5n11LQpP/84F5rCMmb0jLmAkdl7e+Sb
 X-Google-Smtp-Source: 
- ABdhPJxPQ1DlJLVzj46EJ/5JBjfoUqOAaygovMbmJKQ7VFdpq8ssjQI9zEfCNJBECvrGrX7wwU/ASA==
-X-Received: by 2002:a05:6a00:a04:b0:51b:6ea0:43ca with SMTP id
- p4-20020a056a000a0400b0051b6ea043camr5936580pfh.78.1654188777429;
-        Thu, 02 Jun 2022 09:52:57 -0700 (PDT)
+ ABdhPJzDHxDVy9r/C2voHtkjXjaItNur3S8YMUG2XnyZZTfgGHYq14pKO+zNFDJRQGiWTemC5pxE+g==
+X-Received: by 2002:a05:6a00:1487:b0:518:b952:889b with SMTP id
+ v7-20020a056a00148700b00518b952889bmr6064126pfu.43.1654188782292;
+        Thu, 02 Jun 2022 09:53:02 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- i188-20020a626dc5000000b0050dc762815asm3782233pfc.52.2022.06.02.09.52.55
+ i188-20020a626dc5000000b0050dc762815asm3782233pfc.52.2022.06.02.09.53.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jun 2022 09:52:56 -0700 (PDT)
+        Thu, 02 Jun 2022 09:53:01 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 19/26] pciutils: avoid lspci conflict with
- busybox
-Date: Thu,  2 Jun 2022 06:51:51 -1000
+Subject: [OE-core][kirkstone 21/26] rust-common: Fix sstate signatures between
+ arm hf and non-hf
+Date: Thu,  2 Jun 2022 06:51:53 -1000
 Message-Id: 
- <bbb7dcb461c09409b556571cf645bcadf12f397c.1654188574.git.steve@sakoman.com>
+ <424b81ae680057a8c285157ea081f167381b6c62.1654188574.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1654188574.git.steve@sakoman.com>
 References: <cover.1654188574.git.steve@sakoman.com>
@@ -70,55 +70,51 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 02 Jun 2022 16:53:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166496
+ https://lists.openembedded.org/g/openembedded-core/message/166498
 
-From: Naveen Saini <naveen.kumar.saini@intel.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-if virtualization is enabled as DISTRO_FEATURES, then meta-virtualization layer
-enables CONFIG_LSPCI=y for busybox, which in result have conflicts with pciutils
+Building with MACHINE=qemuarm and MACHINE=qemux86-64 causes rust-native
+to rebuild. The reason is all the ingredients into the RUST_*_SYS
+variables are being tracked but that doesn't really make sense in this
+case:
 
-update-alternatives: Error: not linking ..core-image-base/1.0-r0/rootfs/usr/bin/lspci
-to /bin/busybox.nosuid since
-..core-image-base/1.0-r0/rootfs/usr/bin/lspci exists and is not a link
+$ bitbake-diffsigs tmp/stamps/x86_64-linux/rust-native/1.60.0-r0.do_rust_gen_targets.sigdata.63* tmp/stamps/x86_64-linux/rust-native/1.60.0-r0.do_rust_gen_targets.sigdata.34*
+NOTE: Starting bitbake server...
+basehash changed from 860b8f11b10182dc5b2737f62cdb697477f714adb63eeb4d4b932d67cac8eec2 to 9379e8b9df9696e8056fec7d1534661f34dda073f6d816e241b09a2dff76ae2d
+Variable rust_base_triple value changed:
+@@ -36,4 +36,4 @@
 
-So marking it as ALTERNATIVE with ALTERNATIVE_PRIORITY set to 100
+ # In some cases uname and the toolchain differ on their idea of the arch name
+-TUNE_FEATURES{callconvention-hard} = Set
++TUNE_FEATURES{callconvention-hard} = Unset
 
-Ref:
-https://git.yoctoproject.org/poky/commit/meta/recipes-bsp/pciutils?id=a81af375dfc51446b21548dce2afa6a77bc02df3
-https://github.com/pciutils/pciutils/commit/0b307156c92f61c1a02d232f4c6ed17e888de9a9
-https://git.yoctoproject.org/meta-virtualization/tree/recipes-core/busybox/busybox/lspci.cfg
-https://git.yoctoproject.org/meta-virtualization/tree/recipes-core/busybox/busybox_virtualization.inc#n4
-https://git.yoctoproject.org/meta-virtualization/tree/recipes-core/busybox/busybox_%25.bbappend#n1
+Switch to using the final variable value for sstate signature purposes
+which avoids this issue.
 
-Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 257e7620a79ea50c0c59746ff9a3817d43411e39)
+(cherry picked from commit 38b61aeaf877f6a34c3c0060c175119975ebd782)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-bsp/pciutils/pciutils_3.7.0.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/classes/rust-common.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-bsp/pciutils/pciutils_3.7.0.bb b/meta/recipes-bsp/pciutils/pciutils_3.7.0.bb
-index 7d1740f665..311e57a98b 100644
---- a/meta/recipes-bsp/pciutils/pciutils_3.7.0.bb
-+++ b/meta/recipes-bsp/pciutils/pciutils_3.7.0.bb
-@@ -13,7 +13,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/utils/pciutils/pciutils-${PV}.tar.xz \
+diff --git a/meta/classes/rust-common.bbclass b/meta/classes/rust-common.bbclass
+index 02a538258a..cb811ac5da 100644
+--- a/meta/classes/rust-common.bbclass
++++ b/meta/classes/rust-common.bbclass
+@@ -117,8 +117,11 @@ RUST_BUILD_ARCH = "${@oe.rust.arch_to_rust_arch(d.getVar('BUILD_ARCH'))}"
+ # its likely best to not use the triple suffix due to potential confusion.
  
- SRC_URI[sha256sum] = "9d40b97be8b6a2cdf96aead5a61881d1f7e4e0da9544a9bac4fba1ae9dcd40eb"
+ RUST_BUILD_SYS = "${@rust_base_triple(d, 'BUILD')}"
++RUST_BUILD_SYS[vardepvalue] = "${RUST_BUILD_SYS}"
+ RUST_HOST_SYS = "${@rust_base_triple(d, 'HOST')}"
++RUST_HOST_SYS[vardepvalue] = "${RUST_HOST_SYS}"
+ RUST_TARGET_SYS = "${@rust_base_triple(d, 'TARGET')}"
++RUST_TARGET_SYS[vardepvalue] = "${RUST_TARGET_SYS}"
  
--inherit multilib_header pkgconfig
-+inherit multilib_header pkgconfig update-alternatives
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'hwdb', '', d)}"
- PACKAGECONFIG[hwdb] = "HWDB=yes,HWDB=no,udev"
-@@ -57,3 +57,6 @@ FILES:libpci = "${libdir}/libpci.so.*"
- SUMMARY:${PN}-ids = "PCI utilities - device ID database"
- DESCRIPTION:${PN}-ids = "Package providing the PCI device ID database for pciutils."
- RDEPENDS:${PN} += "${PN}-ids"
-+
-+ALTERNATIVE:${PN} = "lspci"
-+ALTERNATIVE_PRIORITY = "100"
+ # wrappers to get around the fact that Rust needs a single
+ # binary but Yocto's compiler and linker commands have
 -- 
 2.25.1
 
