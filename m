@@ -1,110 +1,105 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1256C43334
-	for <webhook@archiver.kernel.org>; Thu,  2 Jun 2022 16:16:23 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.1033.1654186575934961637
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA1A0CCA478
+	for <webhook@archiver.kernel.org>; Thu,  2 Jun 2022 16:52:23 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+ [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web09.1516.1654188740346702782
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jun 2022 09:16:16 -0700
+ Thu, 02 Jun 2022 09:52:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MNL55gvs;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id o9so2833337wmd.0
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=IvxKkB1C;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f172.google.com with SMTP id e11so5220085pfj.5
         for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jun 2022 09:16:15 -0700 (PDT)
+ Thu, 02 Jun 2022 09:52:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=7Ija/LSdAIcSpdCkoNtG6GXoD+Fd8q6fEqCdKltfKGY=;
-        b=MNL55gvsa+Xrepf92tZEsu8X1bFCb3NxnAGm6YFeoMY8WRvq2/sf3MeMjdEah3k/tw
-         e3mbk0RLjRnpx7M85EEtwnfk2Wt2t++y2K6Mj1GJObUNCUEdLt7M87V7z903b4u9hvDu
-         kfK3u4hMZAd6iyq1tKYKRkZe+/1b3TNJSxj+A=
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=nlNnEJDPJeQ4+5kxOXAkyprb6MSAAEWdZfk4l6FOxLw=;
+        b=IvxKkB1ChDYc73chhn1SvmQ8S4aXQItp5ar1e/a0g13z+y98XsM00MZQ/q3OjP/PFf
+         ZzMUTnwCLwxlxXp9yR/0bc/0puzrqEkw0FCZgU5850B2BvusVWsQuihi3AWSiJNmeT1H
+         gy/C0jgnVJ53Oa+c21IW+aXwpDd7yBQPjjJ41jugCJ0nP+z+F+X5tVi+UO0EqUbfJWd/
+         EXA4R4hnlckKjQaiTKA3DVI4g7NKMKhYmC/3C1OOpeXkjq0PRUHpN/XxwItWNyuPjKIV
+         4oZUr5UMdMJCewAUFAfFLVSGxzR0c+4Qx1W9T/eA7qZyB7psJC5lEEoH4fxSCa+OQOcW
+         xrtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=7Ija/LSdAIcSpdCkoNtG6GXoD+Fd8q6fEqCdKltfKGY=;
-        b=NBuGJ+XmUyda630BJ5E6QN3vAK9RohUuJyH9cO0WqjloIJp+p20bJETLB8JKPgSJ/7
-         h0I7THSppbehlC/HT7ddl7QavMWmDmmgh3RrXvOS7/oQ/HenyYQeTxqUNN4pEo6kV81P
-         S8bFO1zpaHjFZCUM0+8oV7bYLe3ZA42HGuFoGKk9t30FQf/qpvNDazQSCocdOe6BvS7l
-         T7lKv/4gAvimY48erPHBPwVJebz3IrGn42hz+8x+zejIDqoiL/QBUJd9+9tNF418DGzl
-         SCznvadj0qS5Uhot4VAczIy2KqxkQD4Y+wXSBRvEzcTZSqdHQMTmO1UimtK0Z7oIufbI
-         jHWA==
-X-Gm-Message-State: AOAM53359lR85S0uY/upKtjHZhTnAMHleC6P6zKIVMIVM17yjMqNuFUs
-	J282H6jS09K8XUlV795fzIv3CoDWvp62VMLX
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=nlNnEJDPJeQ4+5kxOXAkyprb6MSAAEWdZfk4l6FOxLw=;
+        b=T/JQDj3VVkUXCx4W3xAXpvDJx0H6MwSVYeovbLD2CxJ5W0I80Vr9C/mDetIifq6Gla
+         /P3c9dXaEW0KMGOWcWCtQc0duMG36rgJERl/USV067a/o3GEW0mwnpY7s7W2rwCpiCdo
+         fMscuHfIA9V1P1RwVnynoJ6uREffHdIaYur7K/UCFmFQb+aOOvTBKuH30E8dcG8aIIZI
+         kPA8hpWPwr+xnB+9QrRjBkWmwnpjvXxsKc9M0XI0bQTwEj8+F3AguFrdOmTgtPIo9p9u
+         Cj1ySqP4FVU4gw5XQ+y4EhdkT1j4cAvuxpC9QkV7g353XnRr1FHdMoHA5bJN1ogN1N7K
+         98jw==
+X-Gm-Message-State: AOAM532M3rE34J4G8Bgr3mv3eGJ9tVyI06+EFPU9MbSErnadncBKHCe3
+	iu0PcUlVE3777msPYosCOIq7YJjz+sypZN1L
 X-Google-Smtp-Source: 
- ABdhPJymVD0ePCLCMseNysiD8qcmEXK3fdssANQH9yrQdF7l5WZPvCNqmb2oiTjK7ih0f/05WhY/XQ==
-X-Received: by 2002:a05:600c:4e88:b0:394:8835:2220 with SMTP id
- f8-20020a05600c4e8800b0039488352220mr4633007wmq.140.1654186574354;
-        Thu, 02 Jun 2022 09:16:14 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:171c:95a:9d1d:26d3?
- ([2001:8b0:aba:5f3c:171c:95a:9d1d:26d3])
+ ABdhPJw+ta4P0jjHRXypi9lQe1mX2GY5apqsEUH3ecIRv06CgHE4wXlYIy7kMFvG8jWLvUpCJ0nW5w==
+X-Received: by 2002:a63:1950:0:b0:3fc:652b:f8c9 with SMTP id
+ 16-20020a631950000000b003fc652bf8c9mr5010486pgz.339.1654188739149;
+        Thu, 02 Jun 2022 09:52:19 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- r12-20020a05600c2c4c00b0039750c29cf7sm5514595wmg.40.2022.06.02.09.16.13
+ i188-20020a626dc5000000b0050dc762815asm3782233pfc.52.2022.06.02.09.52.17
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jun 2022 09:16:13 -0700 (PDT)
-Message-ID: 
- <ed46ed5cfe8204530a7e4e24c1a8f098a5b00424.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] perl: Fix build with gcc-12
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Yu, Mingli" <mingli.yu@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 02 Jun 2022 17:16:13 +0100
-In-Reply-To: <16F4D9D44BEAC048.30120@lists.openembedded.org>
-References: <20220602054640.3543512-1-mingli.yu@windriver.com>
-	 <16F4D9D44BEAC048.30120@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+        Thu, 02 Jun 2022 09:52:18 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 03/26] libxslt: Mark CVE-2022-29824 as not
+ applying
+Date: Thu,  2 Jun 2022 06:51:35 -1000
+Message-Id: 
+ <82f4186ec0b16d4c1d9a8612fc3b6c6701fee8ea.1654188574.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1654188574.git.steve@sakoman.com>
+References: <cover.1654188574.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Jun 2022 16:16:23 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Jun 2022 16:52:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166476
+ https://lists.openembedded.org/g/openembedded-core/message/166480
 
-On Thu, 2022-06-02 at 17:14 +0100, Richard Purdie via
-lists.openembedded.org wrote:
-> On Thu, 2022-06-02 at 13:46 +0800, Yu, Mingli wrote:
-> > From: Mingli Yu <mingli.yu@windriver.com>
-> >=20
-> > Fix the build failure when debug build is enabled.
-> > Add DEBUG_BUILD =3D "1" in conf/local.conf.
-> >  $ bitbake perl
-> >   | In function 'dynprep',
-> >     inlined from 'S_sortsv_flags_impl' at pp_sort.c:358:20,
-> >     inlined from 'sortsv_amagic_i_ncmp' at pp_sort.c:572:5:
-> >   |  pp_sort.c:1232:1: error: inlining failed in call to 'always_inline=
-' 'S_amagic_i_ncmp': function not considered for inlining
-> >   | 1232 | S_amagic_i_ncmp(pTHX_ SV *const a, SV *const b)
-> >=20
-> > Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> > ---
-> >  .../files/0001-Fix-build-with-gcc-12.patch    | 143 ++++++++++++++++++
-> >  meta/recipes-devtools/perl/perl_5.34.1.bb     |   1 +
-> >  2 files changed, 144 insertions(+)
-> >  create mode 100644 meta/recipes-devtools/perl/files/0001-Fix-build-wit=
-h-gcc-12.patch
->=20
-> Dropping this as is seems to break things:
->=20
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/5315/st=
-eps/11/logs/stdio
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Looking further this may be a repeat of:
+We have libxml2 2.9.14 and we don't link statically against libxml2 anyway
+so the CVE doesn't apply to libxslt.
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14096
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit c6315d8a2a1429a0fb7563b1d6352ceee7bc222c)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-support/libxslt/libxslt_1.1.35.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-but nobody seems able to work that one out :(
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.35.bb b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
+index 51cfb2e281..2fd777766c 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.35.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
+@@ -19,6 +19,10 @@ SRC_URI[sha256sum] = "8247f33e9a872c6ac859aa45018bc4c4d00b97e2feac9eebc10c93ce1f
+ 
+ UPSTREAM_CHECK_REGEX = "libxslt-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
++# We have libxml2 2.9.14 and we don't link statically with it anyway
++# so this isn't an issue.
++CVE_CHECK_IGNORE += "CVE-2022-29824"
++
+ S = "${WORKDIR}/libxslt-${PV}"
+ 
+ BINCONFIG = "${bindir}/xslt-config"
+-- 
+2.25.1
 
 
