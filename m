@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA1A0CCA478
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7024CCA47A
 	for <webhook@archiver.kernel.org>; Thu,  2 Jun 2022 16:52:23 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
- [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web09.1516.1654188740346702782
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web08.1495.1654188737673130248
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jun 2022 09:52:20 -0700
+ Thu, 02 Jun 2022 09:52:17 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=IvxKkB1C;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172,
+ header.b=J90tqtOo;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id e11so5220085pfj.5
+Received: by mail-pl1-f181.google.com with SMTP id u18so4993748plb.3
         for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jun 2022 09:52:20 -0700 (PDT)
+ Thu, 02 Jun 2022 09:52:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=nlNnEJDPJeQ4+5kxOXAkyprb6MSAAEWdZfk4l6FOxLw=;
-        b=IvxKkB1ChDYc73chhn1SvmQ8S4aXQItp5ar1e/a0g13z+y98XsM00MZQ/q3OjP/PFf
-         ZzMUTnwCLwxlxXp9yR/0bc/0puzrqEkw0FCZgU5850B2BvusVWsQuihi3AWSiJNmeT1H
-         gy/C0jgnVJ53Oa+c21IW+aXwpDd7yBQPjjJ41jugCJ0nP+z+F+X5tVi+UO0EqUbfJWd/
-         EXA4R4hnlckKjQaiTKA3DVI4g7NKMKhYmC/3C1OOpeXkjq0PRUHpN/XxwItWNyuPjKIV
-         4oZUr5UMdMJCewAUFAfFLVSGxzR0c+4Qx1W9T/eA7qZyB7psJC5lEEoH4fxSCa+OQOcW
-         xrtQ==
+        bh=qf4rcbrJUdD39vLOE3SO0se0ION5yXH8zoN9IayrSkA=;
+        b=J90tqtOouspmzDIujl2YCmLgMjJSRVIB7cs0i2opP27DSRki7l3DwbmP3Ez8JPv50H
+         jIVWSyKFJ51wBfJz0I/qcNgk+KRrc7o+sSLbIsKX0IVn5sUSrQd3eFGXZv9LL1KmLON5
+         Fc8/80N68RM2wt5OtRvUH8QVpkhTt8FJuuNIlYPbWTUez0kl5VVHVoJHgfyfyDloYrzd
+         VWMWxT3yJGVB+IqCsDEDDZ7vfNS7Yvzj2VM19+I462JQY0Utrg450PuwdyyYKPhQiWVI
+         YggYlOG+Oprf6bnGEaNvALtIWVE/YO/pG4eXp6joBcchwRIBeXKsAA0KFuFTOS8Rmw7X
+         KJpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=nlNnEJDPJeQ4+5kxOXAkyprb6MSAAEWdZfk4l6FOxLw=;
-        b=T/JQDj3VVkUXCx4W3xAXpvDJx0H6MwSVYeovbLD2CxJ5W0I80Vr9C/mDetIifq6Gla
-         /P3c9dXaEW0KMGOWcWCtQc0duMG36rgJERl/USV067a/o3GEW0mwnpY7s7W2rwCpiCdo
-         fMscuHfIA9V1P1RwVnynoJ6uREffHdIaYur7K/UCFmFQb+aOOvTBKuH30E8dcG8aIIZI
-         kPA8hpWPwr+xnB+9QrRjBkWmwnpjvXxsKc9M0XI0bQTwEj8+F3AguFrdOmTgtPIo9p9u
-         Cj1ySqP4FVU4gw5XQ+y4EhdkT1j4cAvuxpC9QkV7g353XnRr1FHdMoHA5bJN1ogN1N7K
-         98jw==
-X-Gm-Message-State: AOAM532M3rE34J4G8Bgr3mv3eGJ9tVyI06+EFPU9MbSErnadncBKHCe3
-	iu0PcUlVE3777msPYosCOIq7YJjz+sypZN1L
+        bh=qf4rcbrJUdD39vLOE3SO0se0ION5yXH8zoN9IayrSkA=;
+        b=rVKLCjyhlvlRegjLddlc67Ley1QxsmrTHVKUTIFyqen+XZ+e5wQ77yHSIrbUBA040r
+         LeMwpegHfgY0WQCMOTkr2+ttYnSx2jiIDtdMmxjTejubTHgBgwHqMa+83SRepABvxLyB
+         5uCPoD77uVnrDet78TZf4p5itgr2xhGp2hQW43wV+UgXEeVEuclJvzHqIWyVx/xK6e75
+         aIQ5Hw+cv1j6niG2vC/syOIYT8+r9BoyfIGFtxz5pizytCBLpTbgTOe5uU4/PNEwz7NJ
+         3iZUdC0gx2sMGuBdfmMKEn0nZhzaq/EzmA0h5NvL/Ubej8xLlbRUtUGs5h11LFyeidIO
+         bM0Q==
+X-Gm-Message-State: AOAM532pXoRPv91hFLafRMmV58erpgDL4ihpHqK47w5hegNLaHCq3PQc
+	q6ErMTRanMEEAwHqNzzoyXcPiur35dP3WGWR
 X-Google-Smtp-Source: 
- ABdhPJw+ta4P0jjHRXypi9lQe1mX2GY5apqsEUH3ecIRv06CgHE4wXlYIy7kMFvG8jWLvUpCJ0nW5w==
-X-Received: by 2002:a63:1950:0:b0:3fc:652b:f8c9 with SMTP id
- 16-20020a631950000000b003fc652bf8c9mr5010486pgz.339.1654188739149;
-        Thu, 02 Jun 2022 09:52:19 -0700 (PDT)
+ ABdhPJzkhiYd4wArMf8Gvo6PSD8BQsN++056htFcrySH8Pg7Cur5idv1teyRfdyfKek48uiZ/L5LoA==
+X-Received: by 2002:a17:90a:780d:b0:1df:959:235a with SMTP id
+ w13-20020a17090a780d00b001df0959235amr6272930pjk.92.1654188736470;
+        Thu, 02 Jun 2022 09:52:16 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- i188-20020a626dc5000000b0050dc762815asm3782233pfc.52.2022.06.02.09.52.17
+ i188-20020a626dc5000000b0050dc762815asm3782233pfc.52.2022.06.02.09.52.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jun 2022 09:52:18 -0700 (PDT)
+        Thu, 02 Jun 2022 09:52:15 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 03/26] libxslt: Mark CVE-2022-29824 as not
- applying
-Date: Thu,  2 Jun 2022 06:51:35 -1000
+Subject: [OE-core][kirkstone 02/26] tiff: Add jbig PACKAGECONFIG and clarify
+ CVE-2022-1210
+Date: Thu,  2 Jun 2022 06:51:34 -1000
 Message-Id: 
- <82f4186ec0b16d4c1d9a8612fc3b6c6701fee8ea.1654188574.git.steve@sakoman.com>
+ <95f1c5d0bb7bc7cae2715d0c9b569fa369a64575.1654188574.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1654188574.git.steve@sakoman.com>
 References: <cover.1654188574.git.steve@sakoman.com>
@@ -70,35 +70,45 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 02 Jun 2022 16:52:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166480
+ https://lists.openembedded.org/g/openembedded-core/message/166479
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-We have libxml2 2.9.14 and we don't link statically against libxml2 anyway
-so the CVE doesn't apply to libxslt.
+We never depended upon libjbig so this was never present. Add the
+PACKAGECONFIG to make this explict.
+
+CVE-2022-1210 is an issue in libjbig so we don't have a problem there,
+mark as such.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c6315d8a2a1429a0fb7563b1d6352ceee7bc222c)
+(cherry picked from commit 34e6a19f2430ee2fd0fec4bec1891e898a0d9766)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/libxslt/libxslt_1.1.35.bb | 4 ++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.35.bb b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
-index 51cfb2e281..2fd777766c 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.35.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.35.bb
-@@ -19,6 +19,10 @@ SRC_URI[sha256sum] = "8247f33e9a872c6ac859aa45018bc4c4d00b97e2feac9eebc10c93ce1f
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+index c5e964ec8c..7a5e4816a6 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+@@ -32,6 +32,9 @@ CVE_CHECK_IGNORE += "CVE-2015-7313"
+ # caused by 3079627e and fixed by b4e79bfa.
+ CVE_CHECK_IGNORE += "CVE-2022-1622 CVE-2022-1623"
  
- UPSTREAM_CHECK_REGEX = "libxslt-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-+# We have libxml2 2.9.14 and we don't link statically with it anyway
-+# so this isn't an issue.
-+CVE_CHECK_IGNORE += "CVE-2022-29824"
++# Issue is in jbig which we don't enable
++CVE_CHECK_IGNORE += "CVE-2022-1210"
 +
- S = "${WORKDIR}/libxslt-${PV}"
+ inherit autotools multilib_header
  
- BINCONFIG = "${bindir}/xslt-config"
+ CACHED_CONFIGUREVARS = "ax_cv_check_gl_libgl=no"
+@@ -40,6 +43,7 @@ PACKAGECONFIG ?= "cxx jpeg zlib lzma \
+                   strip-chopping extrasample-as-alpha check-ycbcr-subsampling"
+ 
+ PACKAGECONFIG[cxx] = "--enable-cxx,--disable-cxx,,"
++PACKAGECONFIG[jbig] = "--enable-jbig,--disable-jbig,jbig,"
+ PACKAGECONFIG[jpeg] = "--enable-jpeg,--disable-jpeg,jpeg,"
+ PACKAGECONFIG[zlib] = "--enable-zlib,--disable-zlib,zlib,"
+ PACKAGECONFIG[lzma] = "--enable-lzma,--disable-lzma,xz,"
 -- 
 2.25.1
 
