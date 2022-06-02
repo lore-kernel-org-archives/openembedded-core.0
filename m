@@ -1,197 +1,191 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <sean.anderson@seco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08898C43334
-	for <webhook@archiver.kernel.org>; Thu,  2 Jun 2022 14:20:31 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web12.7024.1654179628591481020
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7225FC43334
+	for <webhook@archiver.kernel.org>; Thu,  2 Jun 2022 14:53:23 +0000 (UTC)
+Received: from EUR02-VE1-obe.outbound.protection.outlook.com
+ (EUR02-VE1-obe.outbound.protection.outlook.com [40.107.2.50])
+ by mx.groups.io with SMTP id smtpd.web09.6.1654181590911532086
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jun 2022 07:20:29 -0700
+ Thu, 02 Jun 2022 07:53:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=TDGi2QKH;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.45,
- mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f45.google.com with SMTP id h19so6513094edj.0
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jun 2022 07:20:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IapkJ3AlYeOIT2lwIlQjhNah4HfGtQi9jMBn/S+fyb4=;
-        b=TDGi2QKHwBVwW18ExEV1RJTwRsRGlBKb1wLhm/BAztT+LCKTArqhK3oBZnb7PpHyYj
-         umZbvywZI+VUJo8/LIE7LDNwYcjZeK4fUQytc5ANCMpE14HGcjaVTJaYrNHu/2LievVF
-         lVN06kdS9TtrrR+5gTIvBq1ahvKmuUexGb2ZqdToPaezl0g/VFCRpb2wqFvWt86bW1ot
-         5qqQrp7AYKvH0eVOp2ooARJPIjFg8WSHvc/xtpoNjOqUaMSwVWp3ZEkJ05w7KPBiy440
-         OcljA/F2tyhidpbG0uwkmxPBjc1NizTBOQDFhpX9X93urQiZEHdjrPZerApLSLCVTQSB
-         BTfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IapkJ3AlYeOIT2lwIlQjhNah4HfGtQi9jMBn/S+fyb4=;
-        b=k8739iiYYG2Xdkm7YW3prr6hMnaBAiqu/Q4rBKUnX606Uh7ay2G5TgHy5Vef81hAVQ
-         Cdu6yokiOfXGjoIulqgKB+Voo/V1IDv77OENeHzD1yXVwFLVheumAHfwL1EGWaaU9oyu
-         AUgRHsogniTHwq6Mo0ZBLxPqeUibMl0PzYz4VMfUaVYSM3fLGLl6m3sWmC5f9/teyo3/
-         l++eWhzuNSLoCDpru8XKMqjgdOVb8efXiIQlwpAE2tPmgz3KpUhb1WNgfW8CpIuBKkPc
-         CWTVhJa3NbU96+J4KfTGbOwkdvPHSNbHPr4loyNET9KKpU2ZUlwBe4PYINdQVQoqeN6r
-         0G4Q==
-X-Gm-Message-State: AOAM533RlSLgN31FDZHYqMDaXzm8OX5VEPP6AbuRT1jKMzN0MnNaD3eW
-	WKhroVrmQojIuXHxo03W36bbwqHG3kTlivnDFVqh4g==
-X-Google-Smtp-Source: 
- ABdhPJwYsiuCjA4FjgBBuTMy7p+UDf7dJE2r4/7mGdCnhdUy/1tNSoDzF7hKIo5FgS16e5A/E3uqh+/NTWqArNskzMw=
-X-Received: by 2002:aa7:dd4e:0:b0:42b:7dbb:3a5b with SMTP id
- o14-20020aa7dd4e000000b0042b7dbb3a5bmr5657016edw.203.1654179626733; Thu, 02
- Jun 2022 07:20:26 -0700 (PDT)
+ dkim=pass header.i=@seco.com header.s=selector1 header.b=2vH/fHfP;
+ spf=pass (domain: seco.com, ip: 40.107.2.50,
+ mailfrom: sean.anderson@seco.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lMLNGztEBTyuj+qV82PhC6cy8B4PdXg/NVEN31ggTr8v2qlaoDTp3gm2bZFSajsy+D/F8umnCDu/tC2YBMLBcHPWtJ0pvsvCDPU/DmYP3qeou/orVLXEzjC2+AcSGbCyKK1/TnAVCnhFRddrVTO8XthIy/FDNoA1sp4a2Mf8XrmXTbEhNSPgOKdJR+THA0fea+dQhCdbfbxbmuQCX/KKEGp9WDMfZSL2syy3Gy76Sq3gHNkm9YbhwnaT3o8N0Y44s0WKM8JMPbzrYiHzPD8ZkzL23e2u8OCLBVQ3BruDvl4l9zWcEFNP3H/UOzeuAUYt0JmxV5n38yQPUL1kbv0nzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KEvy/GJEdBLjeCiAojiJ3iXOKJFtbhxqtkWc7BOFWaM=;
+ b=QoARW4ztbO4dqZTDS1Y/XqhLrVVhdLQLzO5WVqTMAhOhpIOmJLlhWilPA7f7sR6+x8nTNXhDiASThWXmj+wgrnqSJwJJNAqeteWdwb340ksBxxDeDNqWNoTeaiKaqh/LFTE1cEh7UpggJMmQkP82JiV8HC3RPJU1xt9h86xN9w+BhMMjQcR+bSS4/LJKnnKSlq4JBaKeXrTQIHGWtMOQW/oKpks+dz1jwCsPJzhEYWEAgQKOb2kXnC4PshV9qUCOzSeaofYAJRii6ZwUMJpGe4aNhMLy8itO3TTaZ7m7F6GkiBw2lHlE74YkSqYWq851jSOR7t3Lm8iHUoNKKpA3Gg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
+ dkim=pass header.d=seco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KEvy/GJEdBLjeCiAojiJ3iXOKJFtbhxqtkWc7BOFWaM=;
+ b=2vH/fHfPDr4DmcCOU+6CZdv5ZiOJam3cJzhcDqLa1Xy6lMrDubpBckye8hP5umkf1yWuo3yaMZC3lAWwvv5v8214dnp9VqqRcsptqlQQzGpoy6FRMZpaNi8uHwQfPK5lAsPbemnDF3pzkCyDDhV/FwVjrreVs8+URUOvuM6dnBZcagwS2SMNPTW9B7c7rEBSRISizBB40biZ3xF25MtxuNIcDGsDjyVy3XJcbow8oLyluEMLR8OkBZArT8MSncPNqMGWBmzz5FO8TIyVvf2Ku9sMZo7x9Fql4rGKh0nfq/uNy3ikQzi+jIrVhWII8/h/t5LynZZBYPWKSYGYIQ2/Mg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=seco.com;
+Received: from DB7PR03MB4972.eurprd03.prod.outlook.com (2603:10a6:10:7d::22)
+ by AM6PR03MB3736.eurprd03.prod.outlook.com (2603:10a6:209:2d::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.13; Thu, 2 Jun
+ 2022 14:53:05 +0000
+Received: from DB7PR03MB4972.eurprd03.prod.outlook.com
+ ([fe80::757e:b75f:3449:45b1]) by DB7PR03MB4972.eurprd03.prod.outlook.com
+ ([fe80::757e:b75f:3449:45b1%6]) with mapi id 15.20.5314.013; Thu, 2 Jun 2022
+ 14:53:05 +0000
+From: Sean Anderson <sean.anderson@seco.com>
+Subject: Re: [OE-core] [PATCH] rootfs.py: find .ko.zst kernel modules
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org,
+ Christophe Chapuis <chris.chapuis@gmail.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Martin Jansa <Martin.Jansa@gmail.com>
+References: <20220531151052.3667079-1-sean.anderson@seco.com>
+ <20220601091310.5c35a235@melee>
+Message-ID: <98b3c9ff-790c-8432-59a7-9371312a1901@seco.com>
+Date: Thu, 2 Jun 2022 10:52:59 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20220601091310.5c35a235@melee>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BL1PR13CA0100.namprd13.prod.outlook.com
+ (2603:10b6:208:2b9::15) To DB7PR03MB4972.eurprd03.prod.outlook.com
+ (2603:10a6:10:7d::22)
 MIME-Version: 1.0
-References: <20220525184852.3999906-1-Martin.Jansa@gmail.com>
- <CAOSpxdY=WZZfZNAEYQRyVG_jmE0=0_6xAH9fDCALMDjm=K9k6g@mail.gmail.com>
- <CA+chaQfSE-oiUxdSJxqCT-GjUP_KGA4dOvcD49xPqwez=ohhFg@mail.gmail.com>
- <CAOSpxdYXrnJRdc_NghthSexaq_R10h0=JBTfqPTP3TR7PbwGLA@mail.gmail.com>
- <3aea71febbe02c97dabec307ace0c4389d45d913.camel@linuxfoundation.org>
- <CAOSpxdYO+QJV64ugouK+Yw8M3VNKv=War5MQRo3JfT6EY8uLjQ@mail.gmail.com>
- <537cde730f1ed3450554e504141612d854ca4766.camel@linuxfoundation.org>
- <CAOSpxdZByfRQ6OiWXWO2HQwmPUiRAihs06JVTGr-rJnzK21iuw@mail.gmail.com>
- <8c0a4c49572770c7164bc3822acef773e7b382f0.camel@linuxfoundation.org>
-In-Reply-To: 
- <8c0a4c49572770c7164bc3822acef773e7b382f0.camel@linuxfoundation.org>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Thu, 2 Jun 2022 04:20:14 -1000
-Message-ID: 
- <CAOSpxdaD41ACXyyqJf6jaG4T7q=_TeHAW=af22Lf=d3irOoLTQ@mail.gmail.com>
-Subject: Re: [kirkstone][PATCH 1/2] gcc: Upgrade to 11.3 release
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Martin Jansa <martin.jansa@gmail.com>,
- openembedded-core@lists.openembedded.org,
-	Khem Raj <raj.khem@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 96bc4863-27ea-4185-44b6-08da44a7997f
+X-MS-TrafficTypeDiagnostic: AM6PR03MB3736:EE_
+X-Microsoft-Antispam-PRVS: 
+	<AM6PR03MB37361C407D0FE7ECB68381D596DE9@AM6PR03MB3736.eurprd03.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	O1+4DmJnO0E1umSeBbp0gqgNowAOxgeMmYeZJ/eyK383+XOmzRSlmH/50RZje6KUYGWk3q5xDaqyD0XntdMU8msYIyTWJKko11XZZ3oo4TiWztDXCIVl3YgWThY8cnmRMFCZVNjedv26dyHlwuj5NxIWK6vjCHjBH/owc4Ed7+cWp/OTuwDPjJsLl7wKecOiaXMkJgr03g9fPL8UaNZxWywmcM2iwf6eT1vASCIkWp0YKjii0pcKn1b+JCtaQhJwyM7NKMH/3JgNf2XXJojsTwOVWvSTwTvolCzXcOkl17KYThYMiUamht9TX8sFsWPNFjy5XwPDwOr7lTG1fKfciOlqh6ewSbKm9a1YkZ52NV9rCXoN4K/QpPLYh5inRePlHmbdh5fC+CCDlGOXvoArETbwFMdzNCBhQDD0mpcx7b8CF5gG+7OAEzeG+o90k4pUyqwKwCzPuPEaG8PeA7yqvMj/DBmrP6Y7S1iM1EHjlSd4mAv3hIszhEV8mZzimHNxlFx9jVFlaBCAXbe28x4bMqBxHy923UnE5RIJv+z7Ik+Usc8Z0WLpBajFdo0wetri+jCci/mb4U7mAF8Yxy5NsWAFdGsDAuuYncaWDF1Q2k0I1k/ajZp/hGdK7mgizmjGGmAZamV4iyPBoSaQ63My41Q0UXi1wki+os19JDTAEeEjISnec6Eque/S6xgBTI51RYRpsmb2tulZZlagUkMmvB2Mq6uDVEJK/YM6bLYdIk/36IyUULIXlrhJc4g9t+/bujrx43Tnc3C5LnMPwnwHxFDjOYzHCtIXg2AkxNqT+EA=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR03MB4972.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(316002)(54906003)(6916009)(38350700002)(38100700002)(8936002)(31686004)(8676002)(4326008)(66476007)(66556008)(2906002)(44832011)(5660300002)(6512007)(26005)(52116002)(31696002)(53546011)(86362001)(6506007)(6666004)(83380400001)(2616005)(66946007)(186003)(966005)(6486002)(45080400002)(508600001)(36756003)(142923001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?L1FpbC9BU2dGTTNybHpvRVNBUkVub3l6aWlWVzBoSzQ0dkVmMlhxb3BNZ2Fx?=
+ =?utf-8?B?b05VUlUrOFduNTVjNkxqS0VSK3YrMWVQelFrb3pWRGx4U1BtaUtQV1BVM2dG?=
+ =?utf-8?B?YTJzSzNoaVFXTDY4WUpDN2JtdFFPRm50YVlUYUtaQVplMGpaRjd1THNvQ3dL?=
+ =?utf-8?B?THVXQWlhbjQ5d2IyNnJneEY1d05uNnMrY2FWWFRMQkZ3KzZiZnd0SFZMZS9p?=
+ =?utf-8?B?TnZQVVN2T0ZwSkJ0UmMwcWR6bzhSWmZHUzF6cG9INVBKcW52T0RYdkhUQjF0?=
+ =?utf-8?B?V3ZXeTlWVjhmSzNGYkt6Vm9BbHJQelhBV0RNT3dxTlVnaFZvUW1JdldqaGhQ?=
+ =?utf-8?B?QmxnazVwYnRjMDlSd1llTHRPbm5TWDMwTXdkdUdERXVWdnVrK1gvMTNhRlVl?=
+ =?utf-8?B?U1FHWURTai9lNHpKMlV2T1A4SzE0Smlsc3A3Z3dnbjFQaGJNYitzR3lNNFMy?=
+ =?utf-8?B?ckZBMDBBdXNZME1Xdy9iNHZFUDJHNk1jUmF6OUg0UXVYaEZCWEU2am1XcEtv?=
+ =?utf-8?B?NVEzUG8zaVlyeE9WY2pDaHVYL1pDaFNaUk5vRXMzUTFvclgvTGhHRXA3MzZW?=
+ =?utf-8?B?a3VIL1FPdlBBZzZqak1vZjhKblJNejlkK1ZKQ3hueFh3QW1kSWQ5Rko3WGR4?=
+ =?utf-8?B?SUZNK0hzUzZldWFzaktIYWpGRXFUOHIxMFFJOWUzYXZKQTBGQnh5RnptclVF?=
+ =?utf-8?B?YTlXWTlndXE3ckFWT2lEbFhNeUxQbFMwT0tRY0hncmlOcmhUVk9XZDRaaWR4?=
+ =?utf-8?B?R1d2a3JKOEEzZkxPWmpETXZyQTZZd3oyT01QVkF2SVhLeW8vNzJOUDVUOVEr?=
+ =?utf-8?B?V3JGb3hrcTBaYXRoK0o1K1ltV1FoOUJHQzN1Z2hwcnBsUy9id1pEbzRLTFE0?=
+ =?utf-8?B?WUEwTDlRZ3pYbU44NlBmcFRWWEpKYVdIc0s5dDJqcjU3SlhpUWFkZ1dBQkFi?=
+ =?utf-8?B?Y2NXT2ZpdU52N3UxRGNiRTg0TnM0eklRVHFsRVNnRmIwYktXTWhJREwvVXVM?=
+ =?utf-8?B?UExPY1haV3lkdi9tc2pMNGJ3amM5eExMcFR6dTFXWldFSWhkWkl3ZUgyWUYy?=
+ =?utf-8?B?Y3pHaWw2cE9WTVZWbStEZjN6R1Byc1oxUkc5eDk4OW1rSTZRVXM5Y0svL2xx?=
+ =?utf-8?B?T1F4SGw0ZE9PNVY4eGlFanNxVXIzR2lhN1BRZ1BGTWdDRUF3ZEkxeHZFZjRV?=
+ =?utf-8?B?WkdDS1N1TCtkeEdkbHN2QzErY09FTHVCSG9WcWRNR3VITWVJd0lJN1VOWVRr?=
+ =?utf-8?B?NHlnK2ljdXZHWkltVVIzcnVzTi95aXZBcmRzNzJScmdDWlp6d2Zjam1pY0tp?=
+ =?utf-8?B?V2dvNlZpL0dTbGNBc3RDVVdOWHYraHI4YmMrR015NSsrMEl4TktEaXZkU1dM?=
+ =?utf-8?B?MjY1SFYvNk1IRnZSb3dvL01GZjdrQ3N1MWVuSkRNVHZyMVB5ZUQ1VkNreDh3?=
+ =?utf-8?B?Z0ZuMjg3QWE1OEdQZG5zdFRQczNSWVhvditLcE45QUh2QTJPMnhyNjdyMjVT?=
+ =?utf-8?B?ZkR2OWNQWkdOd0t4M0c1OFdjYmgweXNrdGVsQklKRU5FbVIyWVpudnAxeGZC?=
+ =?utf-8?B?MU1uZ2RXQy9oNFoxZDJCVlhvSWsveEF4Z0NjN1NzTlNDdjRKV2luOU9mMFVO?=
+ =?utf-8?B?YXhQazZmMWkrd0ZyVjZPVUNXQjduK1Z1SXE5TGlldXN0RmlrZ1BSc0V0b2I5?=
+ =?utf-8?B?UGtoSmhMK3hrRmVKQzBibHNNUzlJQjRtRncrNzcxM2tTUkdWR1k3ck9laVRE?=
+ =?utf-8?B?SEpSelo2aTZaWXVTZ3h2Y0pzV2R0Z3lWWGU5SFRZWjJFNnB3YTh0a2Nkb3Zk?=
+ =?utf-8?B?ZVB4MnVFRE1jM1RHNkRNWGRyUjN5ZlVxcFdrL2VvQy9vd2hMZWE4enprRDIx?=
+ =?utf-8?B?VVFxczMzLzNTQUpWckl4YjJDWWFhY01jRjFIWWFZaEVBdWFVTTZkSDNhSjVS?=
+ =?utf-8?B?MnRUN0tNUUExcDhOSFdvNFB0enoyL0U4bm1PT2xuc2NEMjNMS0tpOVJ3THND?=
+ =?utf-8?B?dmtxWkpYcVpPUThGTTVYQld4R1lxdHVCU0l5T1pIb0dHV1dET0lqOUpVQWw3?=
+ =?utf-8?B?YytVTFFWVUdENTRydkYwa2diTlNFdHhMYnpvbEZvbmRKUEM1ZDVJRnFlOWRp?=
+ =?utf-8?B?NUJ6VG1GSjlaZ1QyNzUrREg1V0RnNGl2L3krYXNyM0s2VVhQcFN1RWJMTTJ2?=
+ =?utf-8?B?QlI1WEY0R0V1ckpxTDYzNENDNGk1amJBS002c3Z0UGtram02KzVIKzdpaW93?=
+ =?utf-8?B?a2JiZkw4MFFMMUxkTkpXeGc4dTBNb0QvTUl2MkRaVW9xWjJHVi91V0dBTDJY?=
+ =?utf-8?B?TWk4ekM5cnk2R2E0emdXZmZxNHVXRURmVHVzTHF1Nm9tb0N6amh4UWp1c2xu?=
+ =?utf-8?Q?ah+mh85DZ9SvZJaQ=3D?=
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 96bc4863-27ea-4185-44b6-08da44a7997f
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR03MB4972.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2022 14:53:05.3234
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ WhASA8B3+Hc6VJDagsyrnO0ysIxYtqmk3Qt0/Tca8XZOgRjp7Ha7llsxMFjwAvwbo81l+000oHyghmIIw8wSjA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR03MB3736
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Jun 2022 14:20:31 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Jun 2022 14:53:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166472
+ https://lists.openembedded.org/g/openembedded-core/message/166473
 
-On Wed, Jun 1, 2022 at 10:16 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2022-06-01 at 07:01 -1000, Steve Sakoman wrote:
-> > On Wed, Jun 1, 2022 at 6:32 AM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >
-> > > On Wed, 2022-06-01 at 06:21 -1000, Steve Sakoman wrote:
-> > > > On Wed, Jun 1, 2022 at 6:10 AM Richard Purdie
-> > > > <richard.purdie@linuxfoundation.org> wrote:
-> > > > >
-> > > > > On Wed, 2022-06-01 at 05:29 -1000, Steve Sakoman wrote:
-> > > > >
-> > > > >
-> > > > > Keep in mind that the test uses sstate to compare against so even that
-> > > > > isn't a guarantee of identifying the issue.
-> > > > >
-> > > > > Did you try the strings comparison I suggested? Do you have the file
-> > > > > section tables comparison (diff) I could look at?
-> > > >
-> > > > Are you referring to the section header info from objdump -h ?
-> > > >
-> > > > If so I've attached the a/b info, they are quite compact.
-> > >
-> > > Yes, I couldn't remember the option to objdump offhand. The diff looks
-> > > like:
-> > >
-> > > --- /tmp/headersa.txt   2022-06-01 17:22:57.272277627 +0100
-> > > +++ /tmp/headersb.txt   2022-06-01 17:22:43.972218408 +0100
-> > > @@ -1,5 +1,5 @@
-> > >
-> > > -a/usr/lib/libwebkit2gtk-4.0.so.37.56.5:     file format elf64-x86-64
-> > > +b/usr/lib/libwebkit2gtk-4.0.so.37.56.5:     file format elf64-x86-64
-> > >
-> > >  Sections:
-> > >  Idx Name          Size      VMA               LMA               File off  Algn
-> > > @@ -63,15 +63,15 @@
-> > >                    CONTENTS, READONLY, DEBUGGING, OCTETS
-> > >   29 .debug_abbrev 00c6ce64  0000000000000000  0000000000000000  921c9968  2**0
-> > >                    CONTENTS, READONLY, DEBUGGING, OCTETS
-> > > - 30 .debug_line   09025ee1  0000000000000000  0000000000000000  92e367cc  2**0
-> > > + 30 .debug_line   09025ede  0000000000000000  0000000000000000  92e367cc  2**0
-> > >                    CONTENTS, READONLY, DEBUGGING, OCTETS
-> > > - 31 .debug_str    1820ba50  0000000000000000  0000000000000000  9be5c6ad  2**0
-> > > + 31 .debug_str    1820ba50  0000000000000000  0000000000000000  9be5c6aa  2**0
-> > >                    CONTENTS, READONLY, DEBUGGING, OCTETS
-> > > - 32 .debug_line_str 0005d9f4  0000000000000000  0000000000000000  b40680fd  2**0
-> > > + 32 .debug_line_str 0005d9f4  0000000000000000  0000000000000000  b40680fa  2**0
-> > >                    CONTENTS, READONLY, DEBUGGING, OCTETS
-> > > - 33 .debug_loclists 13d74aa2  0000000000000000  0000000000000000  b40c5af1  2**0
-> > > + 33 .debug_loclists 13d74aa0  0000000000000000  0000000000000000  b40c5aee  2**0
-> > >                    CONTENTS, READONLY, DEBUGGING, OCTETS
-> > > - 34 .debug_rnglists 034c6c08  0000000000000000  0000000000000000  c7e3a593  2**0
-> > > + 34 .debug_rnglists 034c6bf6  0000000000000000  0000000000000000  c7e3a58e  2**0
-> > >                    CONTENTS, READONLY, DEBUGGING, OCTETS
-> > > - 35 .gnu_debuglink 00000024  0000000000000000  0000000000000000  cb30119c  2**2
-> > > + 35 .gnu_debuglink 00000024  0000000000000000  0000000000000000  cb301184  2**2
-> > >                    CONTENTS, READONLY
-> > >
-> > > I'm a bit puzzled since usually the debug symbols are moved off to the
-> > > -dbg package and yet they seem combined here with the library. What the
-> > > above seems to say is that the debug_line, loclists and rnglists
-> > > sections changed size, the rest changed offset (and we ignore
-> > > gnu_debuglink since that is a checksum which would depend on the other
-> > > bits).
-> > >
-> > > That would imply that some piece of code used to compile webkit has
-> > > different line numbering on one system compared to another but
-> > > generates identical code. You should be able to parse the debuginfo to
-> > > get a filename and linenumber out of it but I can't remember how, I
-> > > think I learnt to read dwarfish last time I did this :/.
-> >
-> > I did a dump of the debug sections with objdump -g and got absolutely
-> > huge output files that crashed all of the diff programs I tried.
-> >
-> > I guess the next step is to split those files into smaller chunks and
-> > diff those :-(
-> >
-> > Have I mentioned how much I hate webkit-gtk?
->
-> Steve ran readelf against them and found there were some differences
-> with the _ZZN7WebCore11CSSProperty symbol. A grep on a build directory
-> shows:
->
-> tmp/work/core2-64-poky-linux/webkitgtk/2.36.1-r0$ grep WebCore11CSSProperty build webkitgtk-2.36.1 -R
-> grep: build/lib/libWebCoreGTK.a: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/unified-sources/UnifiedSource-2f84417a-14.cpp.o: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/unified-sources/UnifiedSource-2f84417a-17.cpp.o: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/unified-sources/UnifiedSource-84c9f43f-5.cpp.o: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/unified-sources/UnifiedSource-26ec8d00-4.cpp.o: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/unified-sources/UnifiedSource-2f84417a-7.cpp.o: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/unified-sources/UnifiedSource-950a39b6-5.cpp.o: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/unified-sources/UnifiedSource-a6b8b600-2.cpp.o: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/unified-sources/UnifiedSource-26ec8d00-2.cpp.o: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/unified-sources/UnifiedSource-8feba646-7.cpp.o: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/unified-sources/UnifiedSource-26ec8d00-5.cpp.o: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/unified-sources/UnifiedSource-043dd90b-14.cpp.o: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/unified-sources/UnifiedSource-950a39b6-14.cpp.o: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/unified-sources/UnifiedSource-2f84417a-16.cpp.o: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/unified-sources/UnifiedSource-2f84417a-10.cpp.o: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/unified-sources/UnifiedSource-950a39b6-7.cpp.o: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/unified-sources/UnifiedSource-2f84417a-1.cpp.o: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/unified-sources/UnifiedSource-26ec8d00-3.cpp.o: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/unified-sources/UnifiedSource-043dd90b-22.cpp.o: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/unified-sources/UnifiedSource-f34946be-2.cpp.o: binary file matches
-> grep: build/Source/WebCore/CMakeFiles/WebCore.dir/__/__/WebCore/DerivedSources/CSSPropertyNames.cpp.o: binary file matches
-> grep: build/Source/WebKit/CMakeFiles/WebKit.dir/__/__/DerivedSources/WebKit/unified-sources/UnifiedSource-50d0d8dd-6.cpp.o.d: No such file or directory
->
-> which fills me with dread since I worry it may be changing the output
-> depending on the order it is linking these in. Just a guess but...
+Hi Luca,
 
-And of course now I'm not able to get this to reproduce.  I tried
-twice in the hopes of grabbing the source trees from A/B builds so I
-could compare them, but no joy.
+On 6/1/22 3:13 AM, Luca Ceresoli wrote:
+> [You don't often get email from luca.ceresoli@bootlin.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification.]
+> 
+> Hi Sean,
+> 
+> Il giorno Tue, 31 May 2022 11:10:52 -0400
+> "Sean Anderson via lists.openembedded.org"
+> <sean.anderson=seco.com@lists.openembedded.org> ha scritto:
+> 
+> As you can see from the above line, your e-mails appear as coming from
+> an inappropriate address. This is not your fault, it's a mangling done
+> by mail servers, but it makes applying patches more complex.
+> 
+> It should be easy to fix, at least enough to allow patches to apply
+> properly, by setting the sendemail.from parameter in your git config.
+> This should force outgoing patches to start with a 'From:' line in the
+> body, and that one is used by git am to take the correct commit author
+> e-mail.
+> 
+> Can you please try that before sending another patch?
+> 
+> Thank you!
 
-I'm beginning to suspect that this really isn't related to the gcc
-11.3 version bump.
+I believe the From header is being modified by the openembedded mailing
+list. On my local email client I see the correct From. Further, git
+send-email reports the correct From as well:
 
-Steve
+> Server: smtp.office365.com
+> MAIL FROM:<sean.anderson@seco.com>
+> RCPT TO:<openembedded-core@lists.openembedded.org>
+> RCPT TO:<chris.chapuis@gmail.com>
+> RCPT TO:<richard.purdie@linuxfoundation.org>
+> RCPT TO:<Martin.Jansa@gmail.com>
+> RCPT TO:<sean.anderson@seco.com>
+> From: Sean Anderson <sean.anderson@seco.com>
+> To: openembedded-core@lists.openembedded.org
+> Cc: Christophe Chapuis <chris.chapuis@gmail.com>,
+> 	Richard Purdie <richard.purdie@linuxfoundation.org>,
+> 	Martin Jansa <Martin.Jansa@gmail.com>,
+> 	Sean Anderson <sean.anderson@seco.com>
+> Subject: [PATCH] rootfs.py: find .ko.zst kernel modules
+> Date: Tue, 31 May 2022 11:10:52 -0400
+> Message-Id: <20220531151052.3667079-1-sean.anderson@seco.com>
+> X-Mailer: git-send-email 2.35.1.1320.gc452695387.dirty
+> MIME-Version: 1.0
+> Content-Transfer-Encoding: 8bit
+> 
+> Result: 250
+
+I suggest contacting the mailing list admin if you aren't happy with
+this behavior.
+
+--Sean
 
