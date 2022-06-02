@@ -1,107 +1,98 @@
-Return-Path: <marcel@ziswiler.com>
+Return-Path: <anolgajbhiye99@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4BCBC43334
-	for <webhook@archiver.kernel.org>; Thu,  2 Jun 2022 09:48:29 +0000 (UTC)
-Received: from mout.perfora.net (mout.perfora.net [74.208.4.196])
- by mx.groups.io with SMTP id smtpd.web09.4723.1654163303654719920
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56A82C433EF
+	for <webhook@archiver.kernel.org>; Thu,  2 Jun 2022 12:21:00 +0000 (UTC)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+ [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web12.5726.1654172454033890413
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jun 2022 02:48:23 -0700
+ Thu, 02 Jun 2022 05:20:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=permanent DNS error (domain: ziswiler.com, ip: 74.208.4.196,
- mailfrom: marcel@ziswiler.com)
-Received: from toolbox.int.toradex.com ([81.221.243.92]) by mrelay.perfora.net
- (mreueus004 [74.208.5.2]) with ESMTPSA (Nemesis) id 1N2ma8-1nmlph1ZYi-0133lY;
- Thu, 02 Jun 2022 11:48:13 +0200
-From: Marcel Ziswiler <marcel@ziswiler.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Max Krummenacher <max.oss.09@gmail.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Peter Bergin <peter@berginkonsult.se>,
-	Alexander Kanavin <alex.kanavin@gmail.com>,
-	Quentin Schulz <quentin.schulz@theobroma-systems.com>,
-	Marcel Ziswiler <marcel.ziswiler@toradex.com>
-Subject: [oe-core][PATCH v4] alsa-plugins: fix libavtp vs. avtp packageconfig
-Date: Thu,  2 Jun 2022 11:48:09 +0200
-Message-Id: <20220602094809.303981-1-marcel@ziswiler.com>
-X-Mailer: git-send-email 2.36.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:v2gt6jMT5hprM4U33m/dcdKyRbZIs6u4NDE1LTvouKWRk5Is0gc
- TWU7/fEGhUazlvbNs5Uwx0/0fkd/8FwH/EzKKWd8NXwYM+QKcCgSz3FJhHbrjCoAPFLR7QU
- la1XdrjX9K7zYK47vrywvnztO9tx9xHJ1fGDoI9Mdiq+HfUUI8dz6W7ui6tTfTKSB9l/A6E
- fbAPJsdcH1IlAqLylxOlA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:w+pTsE28IBE=:IrCye/cdnNV6Dg6H17JIz8
- +1f9uhXSz3uWjcNFH/NFyhQZWTFJnClp/jawZX6gta7/+S1BDBbtPlkIBTDjw6DoeuI2LVcMq
- 7xfs7juKSUSCras4F0yO/HA57umdI4XTpaqTBlMKUaaaZo/8vClcQsMonhFTDfGn22wOr+CMS
- Fa9By1PoE+q6WrsTmDZt9yf//JTTjKP1XH9HNEXg1a6ckUxoUtnBFsPlylMU7ob4EOKWz7wkH
- XHUaimydplJYM+XIkpXIkf61PgDHWyPxCIXEFBzQv+VWVd7HWEHtOnUk+lYSTsIvt8sptrlU7
- O1ww0KjC5bKFL6exIS6jEuXnBYe90m9Dn6fk4UNSIpHsvgHO6yNitntS1qFVpD5X2N72WymFK
- AuSJYglWXP86FIMp67wjBQJinyb107FSFkAv9VgOQnaiMCNPqqZjnFdWC2B8vwm3pcFPBzCyl
- jySnZGtEpjYSwxPZyyK7Xefoi7tTwWNiAAFgS3VLeY4Q6j2LyN2cVcUkajE+AXWfR/UWjrPQw
- NX65unKKcBEbW5Ib1Nswi1Q+yByg4TVxcAkBqx7KK5mVH+p372idEPVvyszZxbGxboVdsCGNC
- fdpVlt7YpzWy3kR7BK9rnq/fYk7B+JdibU149vjzOUySTFvna64Xob/fM7gxuMK7xcziN4Nw3
- qBeUc+HIJib+YGBTypjIS2zyehdirJ1QrdEU2kjWBJKZoPgHL+z7caeP/jXwHG7jSC9hDvp10
- VFjeDNFfW27zKfJrxr24gOGnlK0Qh6dVRHeVnSFBqtNVGvnpigzooTDb+XE=
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Cr2g5Mu6;
+ spf=pass (domain: gmail.com, ip: 209.85.210.180,
+ mailfrom: anolgajbhiye99@gmail.com)
+Received: by mail-pf1-f180.google.com with SMTP id 187so4614395pfu.9
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 02 Jun 2022 05:20:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=VBoCx5dQZP5+hh/3rm/dDjYjblqsNwiJXnudEnK4j1c=;
+        b=Cr2g5Mu6D37O18Yfrvb3wOnx9SXLgww0/JVSSUW8GJTbE93/Uld/KOSxPjl+rYVP9a
+         oIq8+PghvO24CYhKe1sYNv+Q5C8XW7Ga/2wwN7jFFKes9CflkQJOyk8Rs0nPrf63eNjo
+         SeRWgM1rOOt9sC21RlCX89bpCymvOLsHtsPYUYhn58jkR8lFURhAkbXf//W4S4Vci7lg
+         Q2jRCmb5uCrk0uHjgKWDdVq1rPmXSINLk4wkGSzEQxTc5oMHrykU15gNexO+58fFdjSo
+         Je4vrztEFVx3tvAdSdTnwcy2m9XFf/nlQdpWy77b0QMe259XX/OSZBuIimzulsg4RYSP
+         NHKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=VBoCx5dQZP5+hh/3rm/dDjYjblqsNwiJXnudEnK4j1c=;
+        b=ceu2yGVWmHtnXLh3d9jZwuT6DO2eA6gw5SoptCEJiNLdZIhv2lgZZAm/tCGwAqG42Q
+         FbDs5DD9dEV/bOCJq1sum5eVdBDs51AA7SHBRb1t/78wA6TVYBdlRJIt3BivGUwaTYWX
+         n40S47vxYSbFUa7BUvJvl/VoV8dms6OTw5nKRseHQsp/6PFCSB4Zk4/P1sq4rxtAX9eb
+         fgOjA+WD3BHbDJa8gi/HYeobBqhPOUWl90RSkJRr8/KOPGQHRdj5gbWWXRULbD+rHsz+
+         0p/PFqL37qGpldU6sIed8gtZD3WstLDB42IoAZ4CBrZgPFKLfI7hmRqLWFa2lHQX52Ta
+         WrRA==
+X-Gm-Message-State: AOAM531Lvgo+EmEzt5WPWj2NqJ6EDLMvRXA2vTBxK2Uf/klzo2rZjjhI
+	Tzb2WQchFwb4el/JhTGNVQmy1QLXZIxf+IR9
+X-Google-Smtp-Source: 
+ ABdhPJz6YvMw+POvs8322btks2mLczPNP5NJOhkA8y7Uhvrh31NTUYJaP1YcUOJqQ0Ivx/6EBdemTw==
+X-Received: by 2002:a65:6e9b:0:b0:3fc:587a:6dcd with SMTP id
+ bm27-20020a656e9b000000b003fc587a6dcdmr3990709pgb.200.1654172453269;
+        Thu, 02 Jun 2022 05:20:53 -0700 (PDT)
+Received: from localhost.localdomain ([160.238.79.63])
+        by smtp.gmail.com with ESMTPSA id
+ ij4-20020a170902ab4400b0016632179ec8sm2561324plb.219.2022.06.02.05.20.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jun 2022 05:20:52 -0700 (PDT)
+From: Amol Gajbhiye <anolgajbhiye99@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	amol.gajbhiye@kpit.com
+Cc: ranjitsinh.rathod@kpit.com,
+	Virendra Thakur <virendra.thakur@kpit.com>
+Subject: [OE-core][dunfell][PATCH] systemd: Whitelist CVE-2018-21029
+Date: Thu,  2 Jun 2022 17:50:05 +0530
+Message-Id: <20220602122005.17173-1-anolgajbhiye99@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Jun 2022 09:48:29 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Jun 2022 12:21:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166469
+ https://lists.openembedded.org/g/openembedded-core/message/166470
 
-From: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+From: Virendra Thakur <virendra.thakur@kpit.com>
 
-Fix PACKAGECONFIG to refer to libavtp instead of avtp as this is what
-the project and everything is really called everywhere.
+The fix for this CVE-2018-21029 is already available in our code base.
 
-Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
+Reference:
+https://github.com/systemd/systemd-stable/commit/38e053c58fa139e0f546f327b5d8ce3db7cf1647
 
+https://github.com/systemd/systemd-stable/commit/7f2f4faced3fda47e6b76ab73cde747cc20cf8b8
+
+Signed-off-by: Virendra Thakur <virendra.thakur@kpit.com>
 ---
-Resurrect from mailing list [1] as this is still not upstream.
-End-to-end tested on Verdin iMX8M Plus.
-Will talk about it at the Embedded World Conference in the TSN & Linux
-track later this month [2].
+ meta/recipes-core/systemd/systemd_244.5.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-[1] https://lore.kernel.org/all/20210604090216.553285-1-peter@berginkonsult.se/
-[2] https://events.weka-fachmedien.de/embedded-world-conference/program/
-[3] https://lore.kernel.org/all/20220602094056.303118-1-marcel@ziswiler.com/
-
-Changes in v4:
-- Dropped libavtp recipe. Will add it to meta-openembedded instead [3].
-
-Changes in v3:
-- New patch.
-[libavtp]
-- Rename recipe to officially released PV of 0.2.0.
-- Drop PROVIDES of avtp which just works around alsa-plugins refering to
-  it as such instead of libavtp. Will update PACKAGECONFIG in
-  alsa-plugins instead.
-
-Changes in v2:
-[libavtp]
-- Updated SRC_URI specifying mandatory protocol as https.
-- Updated SRCREV to latest.
-
- meta/recipes-multimedia/alsa/alsa-plugins_1.2.6.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-multimedia/alsa/alsa-plugins_1.2.6.bb b/meta/recipes-multimedia/alsa/alsa-plugins_1.2.6.bb
-index c435f61d4c..560fd80f0b 100644
---- a/meta/recipes-multimedia/alsa/alsa-plugins_1.2.6.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-plugins_1.2.6.bb
-@@ -34,7 +34,7 @@ PACKAGECONFIG ??= "\
-         speexdsp \
-         ${@bb.utils.filter('DISTRO_FEATURES', 'pulseaudio', d)} \
- "
--PACKAGECONFIG[aaf] = "--enable-aaf,--disable-aaf,avtp"
-+PACKAGECONFIG[aaf] = "--enable-aaf,--disable-aaf,libavtp"
- PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack"
- PACKAGECONFIG[libav] = "--enable-libav,--disable-libav,libav"
- PACKAGECONFIG[maemo-plugin] = "--enable-maemo-plugin,--disable-maemo-plugin"
+diff --git a/meta/recipes-core/systemd/systemd_244.5.bb b/meta/recipes-core/systemd/systemd_244.5.bb
+index a648272bc0..711d23a26e 100644
+--- a/meta/recipes-core/systemd/systemd_244.5.bb
++++ b/meta/recipes-core/systemd/systemd_244.5.bb
+@@ -65,6 +65,9 @@ SRC_URI_MUSL = "\
+ # already applied in 244.5
+ CVE_CHECK_WHITELIST += "CVE-2020-13776"
+ 
++# Whitelist the CVE because cve patch is already present
++CVE_CHECK_WHITELIST += "CVE-2018-21029"
++
+ PAM_PLUGINS = " \
+     pam-plugin-unix \
+     pam-plugin-loginuid \
 -- 
-2.36.1
+2.17.1
 
 
