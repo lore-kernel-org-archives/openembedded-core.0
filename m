@@ -2,10 +2,9 @@ Return-Path: <egyszeregy@freemail.hu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7D4AC43334
-	for <webhook@archiver.kernel.org>; Fri,  3 Jun 2022 21:42:25 +0000 (UTC)
-Subject: Re: [PATCH 1/1] extrausers: Add ability to force password change on
- first login
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8D27C43334
+	for <webhook@archiver.kernel.org>; Fri,  3 Jun 2022 21:45:15 +0000 (UTC)
+Subject: Re: Forced password change in first login
 To: openembedded-core@lists.openembedded.org
 From: "Livius" <egyszeregy@freemail.hu>
 X-Originating-Location: =?utf-8?q?Fegyvernek=2C_J=C3=A1sz-Nagykun-Szolnok=2C?=
@@ -13,19 +12,19 @@ X-Originating-Location: =?utf-8?q?Fegyvernek=2C_J=C3=A1sz-Nagykun-Szolnok=2C?=
 X-Originating-Platform: Windows Chrome 102
 User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Date: Fri, 03 Jun 2022 14:42:22 -0700
-References: <10389.1653424622995356371@lists.openembedded.org>
-In-Reply-To: <10389.1653424622995356371@lists.openembedded.org>
-Message-ID: <24337.1654292542607389609@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="LICo01xDKT5hNMOeLykc"
+Date: Fri, 03 Jun 2022 14:45:12 -0700
+References: <IkQF.1653391044347982572.4xC9@lists.openembedded.org>
+In-Reply-To: <IkQF.1653391044347982572.4xC9@lists.openembedded.org>
+Message-ID: <11484.1654292712146430411@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="98pSkTMgl8RAmr1761ZR"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Jun 2022 21:42:25 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Jun 2022 21:45:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166529
+ https://lists.openembedded.org/g/openembedded-core/message/166530
 
---LICo01xDKT5hNMOeLykc
+--98pSkTMgl8RAmr1761ZR
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -37,17 +36,17 @@ Please fix it in Yocto manual ( https://docs.yoctoproject.org/singleindex.h=
 tml#term-EXTRA_USERS_PARAMS ). When i set it to generate=C2=A0sha512crypt h=
 ash it works fine, there are no any change request on first login.
 
---LICo01xDKT5hNMOeLykc
+--98pSkTMgl8RAmr1761ZR
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
 <p>Finaly, i found the problem and i could solve it. SHA-256 is too weak to=
  make a password hash, this is why on first login we need to change passwor=
 d always.</p>
-<p>Please fix it in <a href=3D"https://docs.yoctoproject.org/singleindex.ht=
-ml#term-EXTRA_USERS_PARAMS" target=3D"_blank" rel=3D"noopener">Yocto manual=
-</a>. When i set it to generate&nbsp;sha512crypt hash it works fine, there =
-are no any change request on first login.</p>
+<p>Please fix it in&nbsp;<a href=3D"https://docs.yoctoproject.org/singleind=
+ex.html#term-EXTRA_USERS_PARAMS" target=3D"_blank" rel=3D"nofollow noopener=
+">Yocto manual</a>. When i set it to generate&nbsp;sha512crypt hash it work=
+s fine, there are no any change request on first login.</p>
 
---LICo01xDKT5hNMOeLykc--
+--98pSkTMgl8RAmr1761ZR--
 
