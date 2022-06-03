@@ -1,184 +1,159 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <pavel@zhukoff.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 835D3C433EF
-	for <webhook@archiver.kernel.org>; Fri,  3 Jun 2022 06:44:35 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.4509.1654238671368107425
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB7F2C433EF
+	for <webhook@archiver.kernel.org>; Fri,  3 Jun 2022 07:04:45 +0000 (UTC)
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by mx.groups.io with SMTP id smtpd.web11.4607.1654239881701623388
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jun 2022 23:44:31 -0700
+ Fri, 03 Jun 2022 00:04:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=o/ZwOuFz;
- spf=pass (domain: gmail.com, ip: 209.85.221.45,
- mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id u3so9158380wrg.3
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Jun 2022 23:44:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=M24uq53zgLLizDOKuZHevP0+6rXR/jM5WhH0/K9gTO8=;
-        b=o/ZwOuFzDkSQdrbBnkAkTfl6376iYRbonh9vY+kDJ/7XlrWGhywTTnILozRQ4n5B1l
-         sF6tWxXBevEOXn3UUZuNNOqe+v/INpmzHplXax7JfBBl/lrKlatEcOEnWIcN87v9uWYW
-         zv2rZ4jInWskvsZJVxirv0atKkx/ElPJkSJIwYMgufiRKhip9n7jAzTd/qgSr0IpWULZ
-         Bg1/oPoXVTGSgyA28PE/ERIiUrel9plSK0w+hINyoZoBFJswnMQ6RFPUeUzxYqZVu1f3
-         K5Y1OO4Wd+LZFuEoBmoLZ1izEO2PXT1DvuTvo6S0T8Deab84RhDgQpaNVkdemRIpxWsq
-         68Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=M24uq53zgLLizDOKuZHevP0+6rXR/jM5WhH0/K9gTO8=;
-        b=NyFrk2rld1bW5x4toUUkg+U+SKZo6uhHA7Hr3wkakhjmY4A+nTRu0hgW7DtV7KivFo
-         s1IR0aWOZ0n6tHemA93PpA77JR5bY8iQWsYVtJlRKStom/+3wsqVlye8dhchfe3kR1QL
-         JjBymLnr9B4XvHyMSOclN0wVZrDQ2YelOhxUiNtO/4dxMnduiJgS0Vh8a9Ov2eQq46Iq
-         7xqQYXPmekh187ExAVr/wKuQK7p+KjMQLnYAeZkEaLpDv0+Igwan7PAJOiKlwuplTliY
-         69fYGz6yjMcijiB4hU7dBZfPFGucKzmMJHmTbny3f4xsViWgHXroF6k0YF0dv2E7tHWI
-         Ty7w==
-X-Gm-Message-State: AOAM530yVXB/qU/SLJbAS/qGmSiLE7XZIgpd56MpzKqum2vH4DKG+Nht
-	viCn46hPd+isAy4LCotdZVeq2KXlPjyzFKnHcGA=
-X-Google-Smtp-Source: 
- ABdhPJzuwtrYw+OcODKqMnlA2saOqniBXjt8+do9wSg8SkfdOSAWYpV5osJlRnXCpWWr7W0XjxDr1PhZjQiV1AZCnQ4=
-X-Received: by 2002:a5d:6c64:0:b0:20f:f413:8af8 with SMTP id
- r4-20020a5d6c64000000b0020ff4138af8mr6564189wrz.129.1654238669767; Thu, 02
- Jun 2022 23:44:29 -0700 (PDT)
-MIME-Version: 1.0
+ dkim=fail reason="signature has expired" header.i=@zhukoff.net header.s=fm1
+ header.b=f2An/mty;
+ spf=pass (domain: zhukoff.net, ip: 64.147.123.20,
+ mailfrom: pavel@zhukoff.net)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id 4A99F32002D8;
+	Fri,  3 Jun 2022 03:04:40 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Fri, 03 Jun 2022 03:04:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
+	cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:reply-to:sender
+	:subject:subject:to:to; s=fm1; t=1654239879; x=1654326279; bh=lY
+	04aRQICI5XbknnS/jErGQD74fOjc/5gLO5znILUT8=; b=f2An/mtyIcYLuJMmHl
+	Z5fGY77BoJD/pMe7JddC3GPS4618wf9WkN4soXDmOd00+Ecw35Bia2yq8BbHe2X+
+	oRLBFAd4CqsDjgy1GVYAdzv5hJJhhGEdONHtoF9SmkhDwyX09+eCQ6n6z34MBasY
+	/h8pNNVbFr7WML5H/owPuQPVcCi8WceZhMhVbXzoosb57M7JnYtGDhGhFKj+bSRu
+	iutlsg+YBfIS9fBR8px3a72iVTTpClAzRvrsMCPbSyMK/eB3x+1ODK4RmmrPAPfs
+	lxno0vh83MepJQDsriS7qLN5/YaUiR0gCJS+dZgNkQzj1nyFti29iQhMC0zXN0NA
+	Y6JA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1654239879; x=1654326279; bh=lY04aRQICI5Xb
+	knnS/jErGQD74fOjc/5gLO5znILUT8=; b=Sy8tXpvCkkOkTVSv7bKbKl9BFyE4m
+	h7WHPDo7aRQFqMp6I5aNG2XcnBoljmvR6YYArnQ5ONmEhBRHzUTGvLDFB2sdhiwH
+	GRpnfRHld+jlvc0L1hvRydzuT/x5v8YAIQmEGbIMqx3zR4Jg6GeRvwJ6c9ep7VVY
+	G77G/gIW5c9W6PMSSwxPiYA8q1fO/oe/Y5lBH8zI+g8Ad1AxGC45WVtsUpZWvNZR
+	kLWIC8m2QEWDFryoKw5qaUJd7hnGDuJndfqORVvRoccO0cA8k5i89L5TC/j02fwx
+	ECgAK41rbKzTexPCCaT2izwLHkKUZu+6GFZuWRl5Z02j0OIXMwzNwW61Q==
+X-ME-Sender: <xms:h7KZYs9Jyi4WptyGgTVB9SiKPGGq1jSlSBsiEGUIL332pBqepA_S5g>
+    <xme:h7KZYkuDO39KdzmjoO4HqfiK13ZJ4U4AELDt9uf1Twxfuk3aY0kf0Ye5jl1_fgY6U
+    wv8Gddl8TokqcGRYyw>
+X-ME-Received: 
+ <xmr:h7KZYiCh0K7T3RoNl_d8pJI49nYARx7nxs9GEKI84qEpd1ta51sCP9ECtHmAz2Sd4sV8tjA>
+X-ME-Proxy-Cause: 
+ gggruggvucftvghtrhhoucdtuddrgedvfedrleehgdduudefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfhgfhffvvefuffhrjgfkgggtsehttdertddtredtnecuhfhrohhmpefrrghv
+    vghlucgkhhhukhhovhcuoehprghvvghlseiihhhukhhofhhfrdhnvghtqeenucggtffrrg
+    htthgvrhhnpeektdeugeehudeukeekueevheelvdffkeeuhedtgfetvdetfeelleegkeeg
+    geeugeenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgnecuvehluhhsth
+    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgrvhgvlhesiihhuhhk
+    ohhffhdrnhgvth
+X-ME-Proxy: <xmx:h7KZYsfG-m34aVIEkuENAI90BNA008ZIERZ0s-EyJ_dTOMrAnqlNOw>
+    <xmx:h7KZYhMxFTBOov6u6EfOoepPTS8L1cyjqbPECuZXpGhl1N8QYNvC3Q>
+    <xmx:h7KZYmmTh7uIVhUtugJMOXRwyM43-tYBZ3U8JRz0I4C__EnO_666Bg>
+    <xmx:h7KZYv1D4110S264ywzapIMF1yQ_RLCrKKd54sZMrid2j5J-NSDa9Q>
+Feedback-ID: ib94946c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 3 Jun 2022 03:04:38 -0400 (EDT)
 References: <20220603064121.7395-1-pavel@zhukoff.net>
-In-Reply-To: <20220603064121.7395-1-pavel@zhukoff.net>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 3 Jun 2022 08:44:18 +0200
-Message-ID: 
  <CA+chaQdbUFZ3KgZsgFJCa7ZRMku8wkj6+Ddnaj06nEFTMPyxPw@mail.gmail.com>
+User-agent: mu4e 1.6.10; emacs 28.1
+From: Pavel Zhukov <pavel@zhukoff.net>
+To: Martin Jansa <Martin.Jansa@gmail.com>
+Cc: Pavel Zhukov <pavel.zhukov@huawei.com>,
+ openembedded-core@lists.openembedded.org
 Subject: Re: [OE-core] [PATCH] bitbake.conf: Make TCLIBC and TCMODE lazy
  assigned
-To: Pavel Zhukov <pavel@zhukoff.net>
-Cc: openembedded-core@lists.openembedded.org,
-	Pavel Zhukov <pavel.zhukov@huawei.com>
-Content-Type: multipart/alternative; boundary="00000000000049089305e0857489"
+Date: Fri, 03 Jun 2022 08:52:06 +0200
+Reply-To: pavel@zhukoff.net
+In-reply-to: 
+ <CA+chaQdbUFZ3KgZsgFJCa7ZRMku8wkj6+Ddnaj06nEFTMPyxPw@mail.gmail.com>
+Message-ID: <87wndyfcss.fsf@gentoo.zhukoff.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Jun 2022 06:44:35 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Jun 2022 07:04:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166510
+ https://lists.openembedded.org/g/openembedded-core/message/166511
 
---00000000000049089305e0857489
-Content-Type: text/plain; charset="UTF-8"
 
-You can always override it from local.conf with an override, right? That
-always worked for me and I don't see why this change is needed.
+An example we have right now:
 
-On Fri, Jun 3, 2022 at 8:42 AM Pavel Zhukov <pavel@zhukoff.net> wrote:
+bitbake.conf: TCLIBC ?= "glibc"
+linux-distro.conf: TCLIBC = "musl"
 
-> This allows two level of overriding (distro level and local.conf/shell
-> variable). Previous settings blocked shell variables overring
-> if it was overriden on distro level.
+TCLIBC="glibc" bitbake -e distro-image-base => TCLIBC == "musl" which
+confuses users a lot (and it was not working this way in dunfell).
+Same applies to if TCLIBC="glibc" is in conf/local.conf then musl is used.
+
+With linux-distro.conf : TCLIBC ?= "musl" image is build with "glibc"
+which is not that we want.
+
+With suggested changes:
+
+bitbake.conf: TCLIBC ??= "glibc"
+linux-distro.conf: TCLIBC ?= "musl"
+
+TCLIBC="glibc" bitbake -e distro-image-base => TCLIBC == "glibc"
+bitbake -e distro-image-base => TCLIBC == "musl"
+
+If distro maintainers wants they can set to TCLIBC = "<implementation>"
+and disable overriding explicitly. 
+
+Do I miss something? 
+
+"Martin Jansa" <Martin.Jansa@gmail.com> writes:
+
+> You can always override it from local.conf with an override, right? That always worked for me and I don't see why this change is needed.
 >
-> Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
-> ---
->  meta/conf/bitbake.conf | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> On Fri, Jun 3, 2022 at 8:42 AM Pavel Zhukov <pavel@zhukoff.net> wrote:
 >
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 0e939aca4f..2a3cf6f8aa 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -386,8 +386,8 @@ FILESYSTEM_PERMS_TABLES ?= "${@'files/fs-perms.txt' if
-> oe.types.boolean(d.getVar
->  # General work and output directories for the build system.
->  ##################################################################
+>  This allows two level of overriding (distro level and local.conf/shell
+>  variable). Previous settings blocked shell variables overring
+>  if it was overriden on distro level.
 >
-> -TCMODE ?= "default"
-> -TCLIBC ?= "glibc"
-> +TCMODE ??= "default"
-> +TCLIBC ??= "glibc"
->  TMPDIR ?= "${TOPDIR}/tmp"
+>  Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
+>  ---
+>   meta/conf/bitbake.conf | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 >
->  CACHE = "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['', '/' +
-> str(d.getVar('MACHINE'))][bool(d.getVar('MACHINE'))]}${@['', '/' +
-> str(d.getVar('SDKMACHINE'))][bool(d.getVar('SDKMACHINE'))]}"
-> --
-> 2.35.1
+>  diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>  index 0e939aca4f..2a3cf6f8aa 100644
+>  --- a/meta/conf/bitbake.conf
+>  +++ b/meta/conf/bitbake.conf
+>  @@ -386,8 +386,8 @@ FILESYSTEM_PERMS_TABLES ?= "${@'files/fs-perms.txt' if oe.types.boolean(d.getVar
+>   # General work and output directories for the build system.
+>   ##################################################################
+>
+>  -TCMODE ?= "default"
+>  -TCLIBC ?= "glibc"
+>  +TCMODE ??= "default"
+>  +TCLIBC ??= "glibc"
+>   TMPDIR ?= "${TOPDIR}/tmp"
+>
+>   CACHE = "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['', '/' + str(d.getVar('MACHINE'))][bool(d.getVar('MACHINE'))]}${@['', '/' + str(d.getVar
+>  ('SDKMACHINE'))][bool(d.getVar('SDKMACHINE'))]}"
+>  -- 
+>  2.35.1
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#166509):
-> https://lists.openembedded.org/g/openembedded-core/message/166509
-> Mute This Topic: https://lists.openembedded.org/mt/91516557/3617156
+> View/Reply Online (#166510): https://lists.openembedded.org/g/openembedded-core/message/166510
+> Mute This Topic: https://lists.openembedded.org/mt/91516557/6390638
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> Martin.Jansa@gmail.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [pavel@zhukoff.net]
 > -=-=-=-=-=-=-=-=-=-=-=-
->
->
 
---00000000000049089305e0857489
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">You can always override it from local.conf with an overrid=
-e, right? That always worked for me and I don&#39;t see why this change is =
-needed.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Fri, Jun 3, 2022 at 8:42 AM Pavel Zhukov &lt;<a href=3D"mailto:pa=
-vel@zhukoff.net">pavel@zhukoff.net</a>&gt; wrote:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">This allows two level of overriding (dist=
-ro level and local.conf/shell<br>
-variable). Previous settings blocked shell variables overring<br>
-if it was overriden on distro level.<br>
-<br>
-Signed-off-by: Pavel Zhukov &lt;<a href=3D"mailto:pavel.zhukov@huawei.com" =
-target=3D"_blank">pavel.zhukov@huawei.com</a>&gt;<br>
----<br>
-=C2=A0meta/conf/bitbake.conf | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br>
-index 0e939aca4f..2a3cf6f8aa 100644<br>
---- a/meta/conf/bitbake.conf<br>
-+++ b/meta/conf/bitbake.conf<br>
-@@ -386,8 +386,8 @@ FILESYSTEM_PERMS_TABLES ?=3D &quot;${@&#39;files/fs-per=
-ms.txt&#39; if oe.types.boolean(d.getVar<br>
-=C2=A0# General work and output directories for the build system.<br>
-=C2=A0##################################################################<br=
->
-<br>
--TCMODE ?=3D &quot;default&quot;<br>
--TCLIBC ?=3D &quot;glibc&quot;<br>
-+TCMODE ??=3D &quot;default&quot;<br>
-+TCLIBC ??=3D &quot;glibc&quot;<br>
-=C2=A0TMPDIR ?=3D &quot;${TOPDIR}/tmp&quot;<br>
-<br>
-=C2=A0CACHE =3D &quot;${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@[&#39;&#39;, &#=
-39;/&#39; + str(d.getVar(&#39;MACHINE&#39;))][bool(d.getVar(&#39;MACHINE&#3=
-9;))]}${@[&#39;&#39;, &#39;/&#39; + str(d.getVar(&#39;SDKMACHINE&#39;))][bo=
-ol(d.getVar(&#39;SDKMACHINE&#39;))]}&quot;<br>
--- <br>
-2.35.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#166509): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/166509" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/166509</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/91516557/3617=
-156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/91516557/3617156</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
-rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---00000000000049089305e0857489--
 
