@@ -1,130 +1,301 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <omkarpatil10.93@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BF5BC43334
-	for <webhook@archiver.kernel.org>; Fri,  3 Jun 2022 12:17:27 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web10.6569.1654258638475878692
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA668C433EF
+	for <webhook@archiver.kernel.org>; Fri,  3 Jun 2022 12:18:06 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web10.6574.1654258685166019463
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jun 2022 05:17:18 -0700
+ Fri, 03 Jun 2022 05:18:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=EcB1sLNg;
- spf=pass (domain: gmail.com, ip: 209.85.221.44,
- mailfrom: rybczynska@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id u3so10189246wrg.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=epO45MqK;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46,
+ mailfrom: omkarpatil10.93@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id
+ d12-20020a17090abf8c00b001e2eb431ce4so7080820pjs.1
         for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jun 2022 05:17:18 -0700 (PDT)
+ Fri, 03 Jun 2022 05:18:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MA5Xmb/fJIohoOgJowXzrAVdFKzDjtBenjg6jJeWvDU=;
-        b=EcB1sLNgy0vHalM+oOzlqpmT5Hc0hWUK15u0ooyN8u5CSxLCFFcxWYVQX0WlsyOGy/
-         ncllO3E+DDYjIGwINDTki/skE/FyE8CnYr3Fid3pebUqYT4ZmlpnWpVwYrjXjeRjQcXi
-         JLmj633tPLwDwdRPfzVh8aeBCjhmsG5vcvD5buSx7uJdsUygcoOkJNgdUKk98ZIwfRLy
-         v8xe6NFzg6WI7qTDEVsRMa1b2cWcELK4RizulMmrELByTP5En3k9dvQ36RmP93dPHXGC
-         ZLH8zZ+dR7EX17zWJeDIsifN9S6DUFL3rrDzjzykrhsZZ7LO0QMmi1+Mgd3RsCN9Q/QX
-         meXA==
+        h=from:to:cc:subject:date:message-id;
+        bh=7K/tMlim/fkgJlruhLrGK1ERWcTWoJfnC3ZBsEctNeU=;
+        b=epO45MqK946DmVzQsGyx/FJkgu5ig7uE7cq51SraGV3rlFXqqavY/PHErTBHDfHGi0
+         Yvy8F4svbrDMWpxvpMuZd5UVlSur0At9cIs1Ny2UMWyS6E2TA8onE/bS8WygBEL/zcn9
+         50dxUBVo4M09ZXKBYNCL+RYD/8ey7U3HgKMyYf+irZn7PVa+WEH31hJKusyzfJbO/Oz1
+         31f+M21gWiEdJBeUTCDTR9gOkXeXi6ZHozAkYoMReNkDdWuzaRx+HXHlFDV7ry4zf4v5
+         y3nsgPAGz7+AKOp0YXJejrTjJ33D6iebJC0tJinqYrnbT9Vv4kEu9wr+b0TmDudVw3C4
+         udLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MA5Xmb/fJIohoOgJowXzrAVdFKzDjtBenjg6jJeWvDU=;
-        b=Kz6HFuHLt3SgxnBPVzztPBy/p/Tqy+/kieDnVNVTDQ9eewcQlLrrbuPvbLYVYL3LHQ
-         pIxhGD4GVCRJMo+cVPWISV0HXJr65e26BHHDNq2FT0OiATXioRv82aGC7t3K/Djk/Eem
-         eqZEPjP4wiVxR9wdSWQZGJJtpFW7zqUIs9vin79OROZRG12c46Odmy2pAyv0FguBbgBL
-         vAg73y54rbFyDoPj48291/FsoG4+ytXfpx57Lk33NGGAGiyoDbP7CnH9/M2sAre08qT0
-         2fb/zGkKf5V6v+zna9oGbbbcfc9fCvVxdM8ia9xKp3CC9em8PEkHzHG0Kvmpf477bsbb
-         OMlA==
-X-Gm-Message-State: AOAM533Oitn10xWNKLuOPhKJeHxhi09E2NCgT3Gir7ZGjeQrPQ0aJVbv
-	l0qtXACsSrOMvU/Wu+qCrin/tDHX+yA=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=7K/tMlim/fkgJlruhLrGK1ERWcTWoJfnC3ZBsEctNeU=;
+        b=XZraO5dNnuohpdftcBFsmXifY0ZG1fCqomcjVYeKRBNHIHvCTKZJ/jHVp1MjUP3Bd+
+         Xj6CjnkR8SNUt98IjBH0hELSahz9jrXn9zGSsEo/5P+jWFVDJw4hj652+Im2g4ed06pS
+         wH5xKOtEfvw55siOYNmgC/2Hy06lKHKh68B3mi/vuzOMAneM+Y3X6KihH0lYm2NK18/H
+         79xR47UTaoqAz3sso8beO7vx4clQWsTUe39l+1sNtOCIa28GX2DEav3WzaWv42kzSO6E
+         AVGqHoq3U0oBZLtfHvoD+eBn+Iy+0SgpH+SUmvA/nRskRBhE7pIcnQ7+5pPNt7QMbhby
+         NV5Q==
+X-Gm-Message-State: AOAM533gk36avVXpqpRk17SUP9tU9kEzAvvo25NE8YzmbgXdV5NtYR68
+	UcAWPzc3t9IIZZydVVf8QaVvNeaY5/U=
 X-Google-Smtp-Source: 
- ABdhPJwON1xxce39Wy0stLrAS/2yniXBlotbsYLMnR20pcay/RytEKzGwhVD2Ll0CC1zT6aEkAPkJQ==
-X-Received: by 2002:adf:ea82:0:b0:213:bbe1:ba4e with SMTP id
- s2-20020adfea82000000b00213bbe1ba4emr2589795wrm.387.1654258636353;
-        Fri, 03 Jun 2022 05:17:16 -0700 (PDT)
-Received: from localhost.localdomain ([80.215.210.162])
+ ABdhPJylilGXQs0KNmLROwqeBFZoXFIZNveKDSvz+aNG93lRtH+HiXQN+eJ3+ZcHdW9FrPvVQ92XLA==
+X-Received: by 2002:a17:902:e54a:b0:166:50b6:a08b with SMTP id
+ n10-20020a170902e54a00b0016650b6a08bmr5251475plf.90.1654258684184;
+        Fri, 03 Jun 2022 05:18:04 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2409:4042:4e8c:4a84:cd17:5023:cf84:4172])
         by smtp.gmail.com with ESMTPSA id
- a21-20020a05600c349500b003958af7d0c8sm8284542wmq.45.2022.06.03.05.17.15
+ y2-20020a170902ed4200b0016392bd5060sm5247887plb.142.2022.06.03.05.18.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jun 2022 05:17:15 -0700 (PDT)
-From: Marta Rybczynska <rybczynska@gmail.com>
+        Fri, 03 Jun 2022 05:18:03 -0700 (PDT)
+From: Omkar Patil <omkarpatil10.93@gmail.com>
 To: openembedded-core@lists.openembedded.org,
-	ernstp@gmail.com
-Cc: Marta Rybczynska <rybczynska@gmail.com>,
-	Marta Rybczynska <marta.rybczynska@huawei.com>
-Subject: [PATCH] cve-check: write empty fragment files in the text mode
-Date: Fri,  3 Jun 2022 14:17:10 +0200
-Message-Id: <20220603121710.2443242-1-rybczynska@gmail.com>
-X-Mailer: git-send-email 2.33.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+	omkar.patil@kpit.com
+Cc: ranjitsinh.rathod@kpit.com
+Subject: [OE-core][dunfell][PATCH 1/2] libxslt: Fix CVE-2021-30560
+Date: Fri,  3 Jun 2022 17:47:49 +0530
+Message-Id: <20220603121750.30519-1-omkarpatil10.93@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Jun 2022 12:17:27 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Jun 2022 12:18:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166517
+ https://lists.openembedded.org/g/openembedded-core/message/166518
 
-In the cve-check text mode output, we didn't write fragment
-files if there are no CVEs (if CVE_CHECK_REPORT_PATCHED is 1),
-or no unpached CVEs otherwise.
+From: omkar patil <omkar.patil@kpit.com>
 
-However, in a system after multiple builds,
-cve_check_write_rootfs_manifest might find older files and use
-them as current, what leads to incorrect reporting.
+CVE: CVE-2021-30560
 
-Fix it by always writing a fragment file, even if empty.
-
-Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
+Signed-off-by: omkar patil <omkar.patil@kpit.com>
 ---
- meta/classes/cve-check.bbclass | 27 +++++++++++++--------------
- 1 file changed, 13 insertions(+), 14 deletions(-)
+ .../libxslt/libxslt/CVE-2021-30560.patch      | 201 ++++++++++++++++++
+ .../recipes-support/libxslt/libxslt_1.1.34.bb |   1 +
+ 2 files changed, 202 insertions(+)
+ create mode 100644 meta/recipes-support/libxslt/libxslt/CVE-2021-30560.patch
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index c80a365819..0579d882db 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -440,23 +440,22 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
-     if unpatched_cves and d.getVar("CVE_CHECK_SHOW_WARNINGS") == "1":
-         bb.warn("Found unpatched CVE (%s), for more information check %s" % (" ".join(unpatched_cves),cve_file))
+diff --git a/meta/recipes-support/libxslt/libxslt/CVE-2021-30560.patch b/meta/recipes-support/libxslt/libxslt/CVE-2021-30560.patch
+new file mode 100644
+index 0000000000..614047ea7a
+--- /dev/null
++++ b/meta/recipes-support/libxslt/libxslt/CVE-2021-30560.patch
+@@ -0,0 +1,201 @@
++From 50f9c9cd3b7dfe9b3c8c795247752d1fdcadcac8 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Sat, 12 Jun 2021 20:02:53 +0200
++Subject: [PATCH] Fix use-after-free in xsltApplyTemplates
++
++xsltApplyTemplates without a select expression could delete nodes in
++the source document.
++
++1. Text nodes with strippable whitespace
++
++Whitespace from input documents is already stripped, so there's no
++need to strip it again. Under certain circumstances, xsltApplyTemplates
++could be fooled into deleting text nodes that are still referenced,
++resulting in a use-after-free.
++
++2. The DTD
++
++The DTD was only unlinked, but there's no good reason to do this just
++now. Maybe it was meant as a micro-optimization.
++
++3. Unknown nodes
++
++Useless and dangerous as well, especially with XInclude nodes.
++See https://gitlab.gnome.org/GNOME/libxml2/-/issues/268
++
++Simply stop trying to uselessly delete nodes when applying a template.
++This part of the code is probably a leftover from a time where
++xsltApplyStripSpaces wasn't implemented yet. Also note that
++xsltApplyTemplates with a select expression never tried to delete
++nodes.
++
++Also stop xsltDefaultProcessOneNode from deleting nodes for the same
++reasons.
++
++This fixes CVE-2021-30560.
++
++CVE: CVE-2021-30560
++Upstream-Status: Backport [https://github.com/GNOME/libxslt/commit/50f9c9cd3b7dfe9b3c8c795247752d1fdcadcac8.patch]
++Comment: No change in any hunk
++Signed-off-by: Omkar Patil <Omkar.Patil@kpit.com>
++
++---
++ libxslt/transform.c | 119 +++-----------------------------------------
++ 1 file changed, 7 insertions(+), 112 deletions(-)
++
++diff --git a/libxslt/transform.c b/libxslt/transform.c
++index 04522154..3aba354f 100644
++--- a/libxslt/transform.c
+++++ b/libxslt/transform.c
++@@ -1895,7 +1895,7 @@ static void
++ xsltDefaultProcessOneNode(xsltTransformContextPtr ctxt, xmlNodePtr node,
++ 			  xsltStackElemPtr params) {
++     xmlNodePtr copy;
++-    xmlNodePtr delete = NULL, cur;
+++    xmlNodePtr cur;
++     int nbchild = 0, oldSize;
++     int childno = 0, oldPos;
++     xsltTemplatePtr template;
++@@ -1968,54 +1968,13 @@ xsltDefaultProcessOneNode(xsltTransformContextPtr ctxt, xmlNodePtr node,
++ 	    return;
++     }
++     /*
++-     * Handling of Elements: first pass, cleanup and counting
+++     * Handling of Elements: first pass, counting
++      */
++     cur = node->children;
++     while (cur != NULL) {
++-	switch (cur->type) {
++-	    case XML_TEXT_NODE:
++-	    case XML_CDATA_SECTION_NODE:
++-	    case XML_DOCUMENT_NODE:
++-	    case XML_HTML_DOCUMENT_NODE:
++-	    case XML_ELEMENT_NODE:
++-	    case XML_PI_NODE:
++-	    case XML_COMMENT_NODE:
++-		nbchild++;
++-		break;
++-            case XML_DTD_NODE:
++-		/* Unlink the DTD, it's still reachable using doc->intSubset */
++-		if (cur->next != NULL)
++-		    cur->next->prev = cur->prev;
++-		if (cur->prev != NULL)
++-		    cur->prev->next = cur->next;
++-		break;
++-	    default:
++-#ifdef WITH_XSLT_DEBUG_PROCESS
++-		XSLT_TRACE(ctxt,XSLT_TRACE_PROCESS_NODE,xsltGenericDebug(xsltGenericDebugContext,
++-		 "xsltDefaultProcessOneNode: skipping node type %d\n",
++-		                 cur->type));
++-#endif
++-		delete = cur;
++-	}
+++	if (IS_XSLT_REAL_NODE(cur))
+++	    nbchild++;
++ 	cur = cur->next;
++-	if (delete != NULL) {
++-#ifdef WITH_XSLT_DEBUG_PROCESS
++-	    XSLT_TRACE(ctxt,XSLT_TRACE_PROCESS_NODE,xsltGenericDebug(xsltGenericDebugContext,
++-		 "xsltDefaultProcessOneNode: removing ignorable blank node\n"));
++-#endif
++-	    xmlUnlinkNode(delete);
++-	    xmlFreeNode(delete);
++-	    delete = NULL;
++-	}
++-    }
++-    if (delete != NULL) {
++-#ifdef WITH_XSLT_DEBUG_PROCESS
++-	XSLT_TRACE(ctxt,XSLT_TRACE_PROCESS_NODE,xsltGenericDebug(xsltGenericDebugContext,
++-	     "xsltDefaultProcessOneNode: removing ignorable blank node\n"));
++-#endif
++-	xmlUnlinkNode(delete);
++-	xmlFreeNode(delete);
++-	delete = NULL;
++     }
++ 
++     /*
++@@ -4864,7 +4823,7 @@ xsltApplyTemplates(xsltTransformContextPtr ctxt, xmlNodePtr node,
++     xsltStylePreCompPtr comp = (xsltStylePreCompPtr) castedComp;
++ #endif
++     int i;
++-    xmlNodePtr cur, delNode = NULL, oldContextNode;
+++    xmlNodePtr cur, oldContextNode;
++     xmlNodeSetPtr list = NULL, oldList;
++     xsltStackElemPtr withParams = NULL;
++     int oldXPProximityPosition, oldXPContextSize;
++@@ -4998,73 +4957,9 @@ xsltApplyTemplates(xsltTransformContextPtr ctxt, xmlNodePtr node,
++ 	else
++ 	    cur = NULL;
++ 	while (cur != NULL) {
++-	    switch (cur->type) {
++-		case XML_TEXT_NODE:
++-		    if ((IS_BLANK_NODE(cur)) &&
++-			(cur->parent != NULL) &&
++-			(cur->parent->type == XML_ELEMENT_NODE) &&
++-			(ctxt->style->stripSpaces != NULL)) {
++-			const xmlChar *val;
++-
++-			if (cur->parent->ns != NULL) {
++-			    val = (const xmlChar *)
++-				  xmlHashLookup2(ctxt->style->stripSpaces,
++-						 cur->parent->name,
++-						 cur->parent->ns->href);
++-			    if (val == NULL) {
++-				val = (const xmlChar *)
++-				  xmlHashLookup2(ctxt->style->stripSpaces,
++-						 BAD_CAST "*",
++-						 cur->parent->ns->href);
++-			    }
++-			} else {
++-			    val = (const xmlChar *)
++-				  xmlHashLookup2(ctxt->style->stripSpaces,
++-						 cur->parent->name, NULL);
++-			}
++-			if ((val != NULL) &&
++-			    (xmlStrEqual(val, (xmlChar *) "strip"))) {
++-			    delNode = cur;
++-			    break;
++-			}
++-		    }
++-		    /* Intentional fall-through */
++-		case XML_ELEMENT_NODE:
++-		case XML_DOCUMENT_NODE:
++-		case XML_HTML_DOCUMENT_NODE:
++-		case XML_CDATA_SECTION_NODE:
++-		case XML_PI_NODE:
++-		case XML_COMMENT_NODE:
++-		    xmlXPathNodeSetAddUnique(list, cur);
++-		    break;
++-		case XML_DTD_NODE:
++-		    /* Unlink the DTD, it's still reachable
++-		     * using doc->intSubset */
++-		    if (cur->next != NULL)
++-			cur->next->prev = cur->prev;
++-		    if (cur->prev != NULL)
++-			cur->prev->next = cur->next;
++-		    break;
++-		case XML_NAMESPACE_DECL:
++-		    break;
++-		default:
++-#ifdef WITH_XSLT_DEBUG_PROCESS
++-		    XSLT_TRACE(ctxt,XSLT_TRACE_APPLY_TEMPLATES,xsltGenericDebug(xsltGenericDebugContext,
++-		     "xsltApplyTemplates: skipping cur type %d\n",
++-				     cur->type));
++-#endif
++-		    delNode = cur;
++-	    }
+++            if (IS_XSLT_REAL_NODE(cur))
+++		xmlXPathNodeSetAddUnique(list, cur);
++ 	    cur = cur->next;
++-	    if (delNode != NULL) {
++-#ifdef WITH_XSLT_DEBUG_PROCESS
++-		XSLT_TRACE(ctxt,XSLT_TRACE_APPLY_TEMPLATES,xsltGenericDebug(xsltGenericDebugContext,
++-		     "xsltApplyTemplates: removing ignorable blank cur\n"));
++-#endif
++-		xmlUnlinkNode(delNode);
++-		xmlFreeNode(delNode);
++-		delNode = NULL;
++-	    }
++ 	}
++     }
++ 
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.34.bb b/meta/recipes-support/libxslt/libxslt_1.1.34.bb
+index 63cce6fe06..62afec5755 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.34.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.34.bb
+@@ -14,6 +14,7 @@ SECTION = "libs"
+ DEPENDS = "libxml2"
  
--    if write_string:
--        with open(cve_file, "w") as f:
--            bb.note("Writing file %s with CVE information" % cve_file)
--            f.write(write_string)
-+    with open(cve_file, "w") as f:
-+        bb.note("Writing file %s with CVE information" % cve_file)
-+        f.write(write_string)
+ SRC_URI = "http://xmlsoft.org/sources/libxslt-${PV}.tar.gz \
++           file://CVE-2021-30560.patch \
+           "
  
--        if d.getVar("CVE_CHECK_COPY_FILES") == "1":
--            deploy_file = d.getVar("CVE_CHECK_RECIPE_FILE")
--            bb.utils.mkdirhier(os.path.dirname(deploy_file))
--            with open(deploy_file, "w") as f:
--                f.write(write_string)
-+    if d.getVar("CVE_CHECK_COPY_FILES") == "1":
-+        deploy_file = d.getVar("CVE_CHECK_RECIPE_FILE")
-+        bb.utils.mkdirhier(os.path.dirname(deploy_file))
-+        with open(deploy_file, "w") as f:
-+            f.write(write_string)
- 
--        if d.getVar("CVE_CHECK_CREATE_MANIFEST") == "1":
--            cvelogpath = d.getVar("CVE_CHECK_SUMMARY_DIR")
--            bb.utils.mkdirhier(cvelogpath)
-+    if d.getVar("CVE_CHECK_CREATE_MANIFEST") == "1":
-+        cvelogpath = d.getVar("CVE_CHECK_SUMMARY_DIR")
-+        bb.utils.mkdirhier(cvelogpath)
- 
--            with open(d.getVar("CVE_CHECK_TMP_FILE"), "a") as f:
--                f.write("%s" % write_string)
-+        with open(d.getVar("CVE_CHECK_TMP_FILE"), "a") as f:
-+            f.write("%s" % write_string)
- 
- def cve_check_write_json_output(d, output, direct_file, deploy_file, manifest_file):
-     """
+ SRC_URI[md5sum] = "db8765c8d076f1b6caafd9f2542a304a"
 -- 
-2.33.0
+2.17.1
 
 
