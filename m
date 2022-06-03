@@ -1,105 +1,250 @@
-Return-Path: <omkarpatil10.93@gmail.com>
+Return-Path: <pgowda.cve@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E470DC433EF
-	for <webhook@archiver.kernel.org>; Fri,  3 Jun 2022 12:18:16 +0000 (UTC)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
- [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web11.6498.1654258692722554478
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55B0FC43334
+	for <webhook@archiver.kernel.org>; Fri,  3 Jun 2022 13:07:27 +0000 (UTC)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com
+ [209.85.217.48])
+ by mx.groups.io with SMTP id smtpd.web10.7025.1654261639673890116
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jun 2022 05:18:12 -0700
+ Fri, 03 Jun 2022 06:07:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=IV9rabrR;
- spf=pass (domain: gmail.com, ip: 209.85.215.177,
- mailfrom: omkarpatil10.93@gmail.com)
-Received: by mail-pg1-f177.google.com with SMTP id u4so4124611pgk.11
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Jun 2022 05:18:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QYsIlkv/;
+ spf=pass (domain: gmail.com, ip: 209.85.217.48,
+ mailfrom: pgowda.cve@gmail.com)
+Received: by mail-vs1-f48.google.com with SMTP id 63so7285872vsx.5;
+        Fri, 03 Jun 2022 06:07:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=eiFf6Ajm0P636+DMOpvLbl+iEtS8/I74+N3I03uMj9c=;
-        b=IV9rabrRa3qlkmpIlbTEEwLkzZmPEJ9cPDKtCWOOYZTUmKzPzUzD/E6MdbEd+HKXS+
-         PF/hQ6Eyx7MBQeUBc6u1eRERub+GF/vkHyoKxlTAssAgKS9sufIqd4Ez0fncPpzYMuLd
-         LFFSomQ+gV0adMKJPNgHFXiXsoVbFWRj9QnzI74LlyKoODkYe0Dr7dVZm0qq9SqBdDJV
-         Yr7yho2I7gd80BCOfwzHe7Am4m70Qknv6zJOjMpq9u6ReXRP+XPMwEKoP0B+CBXPUTHU
-         ERxYrekDXaDxssbctWDr5SSv3JC8IyLx3eC5Ori1WWgUDC9MR0VCt08nGOkWoKiu4dCO
-         5e6A==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MIBdBTnqVV6Ono7OOkuF8ahKYOiAMjpbRWkJFwukVkU=;
+        b=QYsIlkv/1V8mxGY7Sa7cOBX0a1sh8zbzBXpTDo1d8chLiv2fCZkE0uNmGQ7QS4J6f+
+         gN7Chy0D2ORYMYcR1WRhXkTEuC2uL9G/YjzQI3kgfmuZfoLw1kYKAddJUvxcknrJGCl2
+         XiizPjYVyEV7USm8abj49DmPigIdBWCUJBuS1eOVxZbeEsGErKGHMUihQFlBB2uGE/5L
+         JkNP1LepeUVdY7Fg96s6nQENnfhPxkyns92fgdDIObprSIl2q47iQKRwcWF2QXjFAZjb
+         SWOikbm6nkvw5IuCICoOMHkitjdnQ8hhhjWmM8nZQsQYYPwznbgA5VDlDr1RRNYQ0ZS7
+         4uzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=eiFf6Ajm0P636+DMOpvLbl+iEtS8/I74+N3I03uMj9c=;
-        b=7kdK4+L1eC0eNgbnP6ONVezmZ5QhxBgjsQrItydEPEyvpRXeOs3dvSFzbQ1CEfUqRn
-         QCMsWSKx/tPd3Uya810GMw3fwioi0ksOCN9ukg6zixazmkgTEWWcyfrwZ1DL//HUn2oq
-         UY5hs/lg2zo8CRNWlmEfoJ03RhLbLGAviCH2EtK/oYBGlFZIVUGz13s/VV/4zcyVYkP6
-         k73Egrn4fMNvl4vXnZP+EtvSiUjDJVwpw0uiHS1RlWaA3fh+5WHb/PCIpM9LsJxWEuOC
-         wEYoGFRiaWKCP4ev1vmBIPZI8rwy3BmTCmEC7PkE8jiKt7ysooiLDFoUX4axeDgwsrsR
-         gULw==
-X-Gm-Message-State: AOAM5324WKZBOEsKbVefQJYS5n+4gCsOVNs8ZJuZ+X9dYWzH347n3s7t
-	p/MDbaflFnILf5uiB3fOjhH5hV8QOS0=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MIBdBTnqVV6Ono7OOkuF8ahKYOiAMjpbRWkJFwukVkU=;
+        b=B96nZY4CCRVTiWX3MPMokyRY9p26SZ0/R/9GeD/COuOAqdviqd929zmUYO4y2egCpZ
+         VdKrzPoh8cZ3nRx7EPe1UvZcqK7n2ADlxq8K2lB7jw+AzdhmHJ8pCBUjA6z3HUD3BsXu
+         8w7YDjWrPDBpjeRZ4egJFFqxjeuvwQkyZSFM9ff2E3Cbl2ivEH8FEqhuGCD3h/6sr/Nm
+         oNz0+dTdT+3FREAsXxjGX4tew2WihSpkqxUvUJ5B3MAzRqN7QAb34c9Xc0//Oyor71An
+         5QPZAT2mfzvl56gmUuL9dmBGM3MxfU25XneKCgSM4b79uSw7Pr1UUUPkAZXQXLLq8vIw
+         ojfA==
+X-Gm-Message-State: AOAM53395VkL2OJJDvRZuinbZ4+SjXeX8Kb3EceSRMoY+DgG7/sZVwuW
+	PRn9I7GnFsshGFSFA82nLKtpZguvaC7zxo3777E=
 X-Google-Smtp-Source: 
- ABdhPJwpv892CxpAumu56Wjt9YmLU6oqzuChnVJPg8AP+S3Rsl7voa7SF5An6wEoFeofRyO/MmT4vA==
-X-Received: by 2002:a63:e5d:0:b0:3aa:3c53:537e with SMTP id
- 29-20020a630e5d000000b003aa3c53537emr8742091pgo.622.1654258691927;
-        Fri, 03 Jun 2022 05:18:11 -0700 (PDT)
-Received: from localhost.localdomain
- ([2409:4042:4e8c:4a84:cd17:5023:cf84:4172])
-        by smtp.gmail.com with ESMTPSA id
- y2-20020a170902ed4200b0016392bd5060sm5247887plb.142.2022.06.03.05.18.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jun 2022 05:18:11 -0700 (PDT)
-From: Omkar Patil <omkarpatil10.93@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	omkar.patil@kpit.com
-Cc: ranjitsinh.rathod@kpit.com,
+ ABdhPJyMbXKsxntTVNKPNwzCGlFUGWrBuxv2sM1/EiB67x4a8opvLAV3/8+9Cw0xTzAC5YxWvfW7JPrqNxenJ9N93X4=
+X-Received: by 2002:a05:6102:3562:b0:34b:9e99:1bfa with SMTP id
+ bh2-20020a056102356200b0034b9e991bfamr75147vsb.51.1654261638764; Fri, 03 Jun
+ 2022 06:07:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220524225603.50d60963@melee>
+ <20220525043258.8949-1-pgowda.cve@gmail.com>
+ <16F24A16BC7F056F.12338@lists.openembedded.org>
+ <20220531150529.705390b9@melee>
+In-Reply-To: <20220531150529.705390b9@melee>
+From: pgowda cve <pgowda.cve@gmail.com>
+Date: Fri, 3 Jun 2022 18:37:07 +0530
+Message-ID: 
+ <CALY4986aY-X5V2-fcOU+3bovF=kB9t7Uvrh8b_rcqH-pQE9J-w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v6] Rust Oe-Selftest implementation
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: "Luca Ceresoli via lists.openembedded.org"
+ <luca.ceresoli=bootlin.com@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Omkar Patil <Omkar.Patil@kpit.com>
-Subject: [OE-core][dunfell][PATCH 2/2] libxslt: Mark CVE-2022-29824 as not
- applying
-Date: Fri,  3 Jun 2022 17:47:50 +0530
-Message-Id: <20220603121750.30519-2-omkarpatil10.93@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220603121750.30519-1-omkarpatil10.93@gmail.com>
-References: <20220603121750.30519-1-omkarpatil10.93@gmail.com>
+ Randy MacLeod <rwmacleod@gmail.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>,
+ Vinay Kumar <vinay.m.engg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Jun 2022 12:18:16 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Jun 2022 13:07:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166519
+ https://lists.openembedded.org/g/openembedded-core/message/166520
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Hi Luca,
 
-We have libxml2 2.9.10 and we don't link statically against libxml2 anyway
-so the CVE doesn't apply to libxslt.
+Regarding the issue
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=14818
 
-(From OE-Core rev: c6315d8a2a1429a0fb7563b1d6352ceee7bc222c)
+I ran the Oe-Selftest for Rust as well as completed packages and did
+not come across any issues.
+a@yow-fedora-builder1 build]$ uname -a
+Linux yow-fedora-builder1 5.16.18-200.fc35.x86_64 #1 SMP PREEMPT Mon
+Mar 28 14:10:07 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
 
-Signed-off-by: Omkar Patil <Omkar.Patil@kpit.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ad63694e6df4f284879f7220962a821f97928eb0)
----
- meta/recipes-support/libxslt/libxslt_1.1.34.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+The log of tests can be seen as follows:-
+The command used to run the test was as mentioned in the Bugzilla.
+oe-selftest -a -t machine -t toolchain-system -j 15
 
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.34.bb b/meta/recipes-support/libxslt/libxslt_1.1.34.bb
-index 62afec5755..4755677bec 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.34.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.34.bb
-@@ -22,6 +22,10 @@ SRC_URI[sha256sum] = "98b1bd46d6792925ad2dfe9a87452ea2adebf69dcb9919ffd55bf926a7
- 
- UPSTREAM_CHECK_REGEX = "libxslt-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-+# We have libxml2 2.9.10 and we don't link statically with it anyway
-+# so this isn't an issue.
-+CVE_CHECK_WHITELIST += "CVE-2022-29824"
-+
- S = "${WORKDIR}/libxslt-${PV}"
- 
- BINCONFIG = "${bindir}/xslt-config"
--- 
-2.17.1
+test_libatomic: PASSED (113.76s)
+2022-06-03 08:39:19,084 - oe-selftest - INFO - RESULTS -
+gcc.GccLibGompSelfTestSystemEmulated.test_libgomp: PASSED (637.21s)
+2022-06-03 08:39:19,084 - oe-selftest - INFO - RESULTS -
+gcc.GccLibItmSelfTestSystemEmulated.test_libitm: PASSED (133.31s)
+2022-06-03 08:39:19,084 - oe-selftest - INFO - RESULTS -
+gcc.GccLibStdCxxSelfTestSystemEmulated.test_libstdcxx: PASSED
+(2546.63s)
+2022-06-03 08:39:19,084 - oe-selftest - INFO - RESULTS -
+gcc.GxxCrossSelfTestSystemEmulated.test_cross_gxx: PASSED (744.56s)
+2022-06-03 08:39:19,084 - oe-selftest - INFO - RESULTS -
+glibc.GlibcSelfTestSystemEmulated.test_glibc: PASSED (1101.43s)
+2022-06-03 08:39:19,085 - oe-selftest - INFO - RESULTS -
+meta_ide.MetaIDE.test_meta_ide_can_build_cpio_project: PASSED (54.33s)
+2022-06-03 08:39:19,085 - oe-selftest - INFO - RESULTS -
+meta_ide.MetaIDE.test_meta_ide_can_compile_c_program: PASSED (0.19s)
+2022-06-03 08:39:19,085 - oe-selftest - INFO - RESULTS -
+meta_ide.MetaIDE.test_meta_ide_had_installed_meta_ide_support: PASSED
+(0.01s)
+2022-06-03 08:39:19,085 - oe-selftest - INFO - RESULTS -
+runqemu.QemuTest.test_qemu_can_shutdown: PASSED (45.98s)
+2022-06-03 08:39:19,085 - oe-selftest - INFO - RESULTS -
+rust.RustSelfTestSystemEmulated.test_rust: PASSED (8381.70s)
+2022-06-03 08:39:19,085 - oe-selftest - INFO - RESULTS -
+gcc.GccLibSspSelfTestSystemEmulated.test_libssp: SKIPPED (3.92s)
+2022-06-03 08:39:22,336 - oe-selftest - INFO - SUMMARY:
+2022-06-03 08:39:22,336 - oe-selftest - INFO - oe-selftest () - Ran 16
+tests in 19613.479s
+2022-06-03 08:39:22,336 - oe-selftest - INFO - oe-selftest - OK - All
+required tests passed (successes=15, skipped=1, failures=0, errors=0)
 
+I also ran the Rust Oe-Selftest individually and did not find any issues.
+Can you please share the environment file so that I can reproduce and
+fix the issue?
+
+Thanks,
+Pgowda
+
+On Tue, May 31, 2022 at 6:35 PM Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+>
+> Hi Pgowda,
+>
+> Il giorno Wed, 25 May 2022 09:57:48 +0200
+> "Luca Ceresoli via lists.openembedded.org"
+> <luca.ceresoli=bootlin.com@lists.openembedded.org> ha scritto:
+>
+> > Pgowda,
+> >
+> > Il giorno Tue, 24 May 2022 21:32:58 -0700
+> > "Pgowda" <pgowda.cve@gmail.com> ha scritto:
+> >
+> > > The patch implements Rust testing framework similar to other selftest,
+> > > specifically the gcc selftest in OE. It uses the client and server
+> > > based method to test the binaries for cross-target on the image.
+> > > The test framework is a wrapper around the Rust build system as ./x.py
+> > > test.
+> > > It tests many functionalities of Rust distribution like tools,
+> > > documentation, libraries, packages, tools, Cargo, Crater etc.
+> > > Please refer the following link for detailed description of Rust
+> > > testing:-
+> > > https://rustc-dev-guide.rust-lang.org/tests/intro.html#tool-tests
+> > >
+> > > To support the rust tests in oe-core, the following functions were
+> > > added:-
+> > > setup_cargo_environment(): Build bootstrap and some early stage tools.
+> > > do_rust_setup_snapshot(): Install the snapshot version of rust
+> > > binaries. do_configure(): To generate config.toml
+> > > do_compile(): To build "remote-test-server" for qemu target image.
+> > >
+> > > Approximate Number of Tests Run in the Rust Testsuite :- 18000
+> > > Approximate Number of Tests that FAIL in bitbake environment :-
+> > > 100-150 Normally majority of the testcases are present in major
+> > > folder "test/" It contributes to more than 80% of the testcases
+> > > present in Rust test framework. These tests pass as expected on any
+> > > Rust versions without much fuss. The tests that fail are of less
+> > > important and contribute to less than 2% of the total testcases.
+> > > These minor tests are observed to work on some versions and fail on
+> > > others. They have to be added, ignored or excluded for different
+> > > versions as per the behavior. These tests have been ignored or
+> > > excluded in the Rust selftest environment to generate success of
+> > > completing the testsuite.
+> > >
+> > > These tests work in parallel mode even in the skipped test mode as
+> > > expected. Although the patch to disable tests is large, it is very
+> > > simple in that it only disables tests. When updating to a newer
+> > > version of Rust, the patch can usually be ported in a day.
+> > >
+> > > Signed-off-by: pgowda <pgowda.cve@gmail.com>
+> > > Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
+> > > ---
+> > >  meta/conf/distro/include/maintainers.inc      |   1 +
+> > >  meta/lib/oeqa/selftest/cases/rust.py          |  57 +++
+> > >  meta/recipes-devtools/rust/rust-common.inc    |   1 -
+> > >  meta/recipes-devtools/rust/rust-testsuite.inc | 163 +++++++
+> > >  .../rust-testsuite/rust-oe-selftest.patch     | 417
+> > > ++++++++++++++++++ .../rust/rust-testsuite_1.60.0.bb             |
+> > > 3 + 6 files changed, 641 insertions(+), 1 deletion(-)
+> > >  create mode 100644 meta/lib/oeqa/selftest/cases/rust.py
+> > >  create mode 100644 meta/recipes-devtools/rust/rust-testsuite.inc
+> > >  create mode 100644
+> > > meta/recipes-devtools/rust/rust-testsuite/rust-oe-selftest.patch
+> > > create mode 100644 meta/recipes-devtools/rust/rust-testsuite_1.60.0.bb
+> > >
+> > > diff --git a/meta/conf/distro/include/maintainers.inc
+> > > b/meta/conf/distro/include/maintainers.inc index
+> > > 3990d1d507..cecb02b1c6 100644 ---
+> > > a/meta/conf/distro/include/maintainers.inc +++
+> > > b/meta/conf/distro/include/maintainers.inc @@ -719,6 +719,7 @@
+> > > RECIPE_MAINTAINER:pn-rust-crosssdk-${SDK_ARCH}-glibc = "Randy MacLeod
+> > > <Randy.Mac
+> > > RECIPE_MAINTAINER:pn-rust-cross-canadian-${TRANSLATED_TARGET_ARCH} =
+> > > "Randy MacLeod <Randy.MacLeod@windriver.com>"
+> > > RECIPE_MAINTAINER:pn-rust-hello-world = "Randy MacLeod
+> > > <Randy.MacLeod@windriver.com>" RECIPE_MAINTAINER:pn-rust-llvm =
+> > > "Randy MacLeod <Randy.MacLeod@windriver.com>"
+> > > +RECIPE_MAINTAINER:pn-rust-testsuite = "Randy MacLeod
+> > > <Randy.MacLeod@windriver.com>"
+> > > RECIPE_MAINTAINER:pn-rust-tools-cross-canadian-${TRANSLATED_TARGET_ARCH}
+> > > = "Randy MacLeod <Randy.MacLeod@windriver.com>"
+> > > RECIPE_MAINTAINER:pn-rxvt-unicode = "Unassigned
+> > > <unassigned@yoctoproject.org>" RECIPE_MAINTAINER:pn-sato-screenshot =
+> > > "Ross Burton <ross.burton@arm.com>" diff --git
+> > > a/meta/lib/oeqa/selftest/cases/rust.py
+> > > b/meta/lib/oeqa/selftest/cases/rust.py new file mode 100644 index
+> > > 0000000000..a37e3e37c5 --- /dev/null +++
+> > > b/meta/lib/oeqa/selftest/cases/rust.py @@ -0,0 +1,57 @@ +#
+> > > SPDX-License-Identifier: MIT +import os +import subprocess +from
+> > > oeqa.core.decorator import OETestTag +from oeqa.core.case import
+> > > OEPTestResultTestCase +from oeqa.selftest.case import
+> > > OESelftestTestCase +from oeqa.utils.commands import runCmd, bitbake,
+> > > get_bb_var, get_bb_vars, runqemu, Command +from oeqa.utils.sshcontrol
+> > > import SSHControl + +# Total time taken for testing is of about 2hr
+> > > 20min, with PARALLEL_MAKE set to 40 number of jobs. +class
+> > > RustSelfTestBase(OESelftestTestCase, OEPTestResultTestCase): +
+> > > +       def run_check_emulated(self, *args, **kwargs):
+> > > +               # build remote-test-server before image build
+> >
+> > Weird indentation here, 7 spaces for level 1, 15 for level 2... v5 had
+> > a much cleaner tab-based indentation. Is it possible that you
+> > manipulated the patch manually? It's a bad idea, I hurt myself a few
+> > times when I used to do that! :) I recommend using plain 'git
+> > format-patch' / 'git send-email'.
+> >
+> > You should resend with a 4-spaces indentation, which is the Python
+> > standard. However I'm taking the patch anyway for testing, so it's
+> > more efficient if you just wait for the test results before resending,
+> > so you can also include any bugfixes (if needed) in your next iteration.
+>
+> In addition to the above comments, this patch is causing intermittent
+> failures, as noted on this bug:
+>
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=14818
+>
+> So far it has failed only when building on CentOS and Fedora hosts.
+> Hopefully this will help you reproduce and fix the problem.
+>
+> --
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
