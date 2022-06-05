@@ -1,83 +1,60 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <robert.joslyn@redrectangle.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 427A2C43334
-	for <webhook@archiver.kernel.org>; Sun,  5 Jun 2022 18:47:39 +0000 (UTC)
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
- [209.85.160.176])
- by mx.groups.io with SMTP id smtpd.web09.23405.1654454848882557204
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27378C43334
+	for <webhook@archiver.kernel.org>; Sun,  5 Jun 2022 21:48:40 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web08.25152.1654465718119016345
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jun 2022 11:47:29 -0700
+ Sun, 05 Jun 2022 14:48:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=jemVG6qp;
- spf=pass (domain: linaro.org, ip: 209.85.160.176,
- mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-qt1-f176.google.com with SMTP id hh4so9105602qtb.10
-        for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Jun 2022 11:47:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=g9cyzRdg3A/6L/BQeQrAKZp9Tuvw4eBBnCE9aZx47Bo=;
-        b=jemVG6qpI0tEWDXSMFMb3IBbf7f3lyo84X2foWBYdk4eQZ0GnOhcQwjywWma60Tb01
-         uQIKWed8FaQieTUO8FRTJzfDc9RCp70Nth1DxfGRLAq0cujvxuFVV9ZN6m0ozMbB+g/c
-         12CRxDezT3bCaOC2qXAQ9M37y+OdafFi8yATmI1nVWaiRAUm+NqEsgWKR0qKiBlIxnvc
-         BEPjBkz9r57SGKjRefDyjU6Cg63lIQY0J+K6gTMXTsyq4cS0F/gryBIcVaRzjIJBggZV
-         uqN91uo6sJQmfq8K0hcqace50eTEkqJG5JW8pWocLE0L9n5CRRdySQuMFBvfV2+q3Yuo
-         m1SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=g9cyzRdg3A/6L/BQeQrAKZp9Tuvw4eBBnCE9aZx47Bo=;
-        b=QL4vWRWuNM3XBuvM7BePyOnrlMKJdZ9qHyeZqUS58EJAOZbCeMrgDgFKZP7Z0IYvsl
-         2wIeH66gmHHmYDzkRR9x5YyYqRT2fe8EnSz1eZkgOOvKgccc1wT/4pr54ewgLvk85uuV
-         oLK4g9OA3sxorR39B/6iZ0hH/V9SScWO9DDAfX4MoVSehXbMHxnrJP7WyElpTJWVp13H
-         gFnTsAllQaYTz7T2pLFEOoquh/KuT5YA5tJ02ieWUa9mHuQeBj4ioZg6adQYB8QcfLLi
-         H6D8xTkVXDPNJGseSf0EFvJpznY1szRLSaWJTE+2HcYj6oAxCFPuOUu1SxNQGdc6AfNA
-         RVxQ==
-X-Gm-Message-State: AOAM533x4mMPZ0sFjAUcN+prq+yg334SAt60vvSBCxLRiwtzvaB7ZUa9
-	gJ2j2r/xumQ9mPCdbbiJ32FZNN1LlSqv8BgjTaI8h9tLLMiNzA==
-X-Google-Smtp-Source: 
- ABdhPJwI+iVcdLw8VL8eJ7GF/zM9KbpJ7SDAkM0uIIql23mQ2YQ9y4eO7E2HWK8UXuaGlRDTnfzNgeP1r4ul3/Ofkf4=
-X-Received: by 2002:a05:622a:4e:b0:301:8a1f:b89b with SMTP id
- y14-20020a05622a004e00b003018a1fb89bmr15761631qtw.62.1654454847774; Sun, 05
- Jun 2022 11:47:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220530170213.1562720-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220530170213.1562720-1-dmitry.baryshkov@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 5 Jun 2022 21:47:16 +0300
-Message-ID: 
- <CAA8EJpoDyNDPz2GqYmqtvJZX3L71h8Gnn9Ofsse3jKVfhaWrbw@mail.gmail.com>
-Subject: Re: [kirkstone][PATCH 0/2] linux-firmware: pull two patches from
- master
+ dkim=missing;
+ spf=none, err=permanent DNS error (domain: redrectangle.org,
+ ip: 217.70.183.200, mailfrom: robert.joslyn@redrectangle.org)
+Received: (Authenticated sender: robert.joslyn@redrectangle.org)
+	by mail.gandi.net (Postfix) with ESMTPSA id 02EFE20005;
+	Sun,  5 Jun 2022 21:48:35 +0000 (UTC)
+From: Robert Joslyn <robert.joslyn@redrectangle.org>
 To: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Cc: Robert Joslyn <robert.joslyn@redrectangle.org>
+Subject: [dunfell][PATCH 2/2] curl: Fix CVE_CHECK_WHITELIST typo
+Date: Sun,  5 Jun 2022 14:47:34 -0700
+Message-Id: <20220605214734.2872063-2-robert.joslyn@redrectangle.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220605214734.2872063-1-robert.joslyn@redrectangle.org>
+References: <20220605214734.2872063-1-robert.joslyn@redrectangle.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 Jun 2022 18:47:39 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 05 Jun 2022 21:48:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166581
+ https://lists.openembedded.org/g/openembedded-core/message/166583
 
-On Mon, 30 May 2022 at 20:02, Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
-> This pull request cherry picks two commits from master branch to split
-> several packages that are usable on Qualcomm platforms. Allow using them
-> directly rather than installing huge linux-firmware package.
->
-> Dmitry Baryshkov (2):
->   linux-firmware: package new Qualcomm firmware
->   linux-firmware: split ath3k firmware
->
->  .../linux-firmware/linux-firmware_20220509.bb | 19 ++++++++++++++++---
->  1 file changed, 16 insertions(+), 3 deletions(-)
+Fix typo to properly whitelist CVE-2021-22945.
 
-Gracious ping.
+Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
+---
+ meta/recipes-support/curl/curl_7.69.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
+index b53b00cc38..5a597a7dd9 100644
+--- a/meta/recipes-support/curl/curl_7.69.1.bb
++++ b/meta/recipes-support/curl/curl_7.69.1.bb
+@@ -42,7 +42,7 @@ SRC_URI[sha256sum] = "2ff5e5bd507adf6aa88ff4bbafd4c7af464867ffb688be93b9930717a5
+ 
+ # Curl has used many names over the years...
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
+-CVE_CHECK_WHITELIST = "CVE-2021-22922 CVE-2021-22923 CVE-2021-22926 CVE-22945"
++CVE_CHECK_WHITELIST = "CVE-2021-22922 CVE-2021-22923 CVE-2021-22926 CVE-2021-22945"
+ 
+ # As per link https://security-tracker.debian.org/tracker/CVE-2021-22897
+ # and https://ubuntu.com/security/CVE-2021-22897
 -- 
-With best wishes
-Dmitry
+2.35.1
+
 
