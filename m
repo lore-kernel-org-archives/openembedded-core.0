@@ -2,62 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41C64CCA483
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41525CCA47F
 	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 12:01:44 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web08.31123.1654516896874581292
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.30981.1654516900561492149
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 05:01:41 -0700
+ Mon, 06 Jun 2022 05:01:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ErAEbfO5;
- spf=pass (domain: gmail.com, ip: 209.85.221.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jAjdyCaC;
+ spf=pass (domain: gmail.com, ip: 209.85.128.53,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id k19so19542506wrd.8
+Received: by mail-wm1-f53.google.com with SMTP id
+ 67-20020a1c1946000000b00397382b44f4so7812650wmz.2
         for <openembedded-core@lists.openembedded.org>;
  Mon, 06 Jun 2022 05:01:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=GRScUJdaj72u5QgA7AAbG8n2nhEkAS3CeGodh5Xv/Ss=;
-        b=ErAEbfO5+6skeHzldfughfvZx3oMu0RV+DPgw4gh93zR0wIn7nJVvkqjW6plSqu7Ah
-         8xg6PO6bOzNdX5TaHHCUfb/lL9j+zb/hnHjINJ49CQr7BPCeXo7rlXqx6zWvbjZW0dLp
-         CGCV/kb7VdmEMprVilLBkS/8xGn+4b4S4pkJVc0NLRB9Nun8173AhvMfWOV8YzQtiQIk
-         UpV9axPEykBEpIBUAff4L1S9fn1VU3tXP7F2/FdE/WZx7Y/h0yIYitwg0/xiqXSeuBxF
-         T8Fc7oUVGuthmBBVMMupFW0Sdu3ImD8hFcXpQwe1daEJa5KVRc5nQbquYkrSn7PSc4lP
-         bSWg==
+        bh=fpodBt9ueEMCA7cY9VkUzUbbKH1qSAzEepVyl19qZ4M=;
+        b=jAjdyCaCDd4kRcfgJbz1ONSbUf0511wwqBw6g1LQJ1+goExsroV9oXKGEIzplKRluY
+         jrTwHitBaC3LGnkVlTSdyrcW/CWf6Aguz55Ju2wulQzcy/ebaO4m6sMwV2keYOjIJ+7t
+         624kJmUegVSlBeKDb4Kj7yejLiVg+erwrSXXFcNY8XDn4rhrGklH/zE/0gW2mRCWEvoH
+         Tlr2EIvMGjtQQXIA3zlTwX8FpclafjMPq1ZdSCReuM3WQRUka8zOnBPdVviTaMAfHeC8
+         C5m/8HUVSY2iTIgTyMODYJBIyAHpV6F/q/X9WWBOe312Qnnxr3vPfBAyg7dlmva64ctC
+         bWyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=GRScUJdaj72u5QgA7AAbG8n2nhEkAS3CeGodh5Xv/Ss=;
-        b=sqPPakkidm2VzXdAuTmTyh/UyoBWX/KtnJTzq5fTRrDCIVCH0nbYovJNEwgy/WNmML
-         dxoVuLQTl/6B6JjUSWuOL8/eFntBb9R4uWFjfVSRLaMCcS1VWyNgzlL4hiz8xo1wwOhJ
-         BmZYRr3FPQS76VUKMP0oURYJ67uYzkB3hQ34qeM/79rg3zI0rbIXGO/OnRFCniOailW8
-         MzZbxey1xO6ikD/act0NM9h4tMrYLNd1CXBEMLfrU3u2rJ7biDa0Kys9RXmgynGRgZfy
-         PWJoKTIbW+cXPV+CTUVAvkRt3Qyjdum+y3YpDvnNSF2AGmFKwgUg9XggrjaTecqarJJB
-         8YOw==
-X-Gm-Message-State: AOAM531mfW0SMwIrM6fn2vpARCtNQzhstzePu/Tqfif+mGS14P7Ee/80
-	CenFk0L2+FG1Zw9I8iBnVmOdcz1QiJDvTA==
+        bh=fpodBt9ueEMCA7cY9VkUzUbbKH1qSAzEepVyl19qZ4M=;
+        b=kIePEfNWe1oyvah9Gq0YMykcNonssjv8aDuOW9jHRaBGk7tsAh++kwIPu8TDq/hShi
+         by0nEbAOmxsU/jX6JYgRbQAKYed4GMW5HI7/1MKc1v+fylTxmgyjOGkREu7EguT01zQI
+         utz70565eDAc2C2RAVYhRDPpTIpHbVSZp/ocL59orAgjC3nq/MLzEIrIjfC4aTq5/uvo
+         Hp4srpMFtrC7MiWVxOfzskkFbb0HkuuIVlG3mwnZ8qRxvuwyvXy7DpRzrxzlX4Bm3bRG
+         UnkYdsWLlhOxxAqsg75wGAdOAkHaU/BJmB81+vQVY6bG4O8iBhZTQichnfNMwlTG6RyC
+         OwLA==
+X-Gm-Message-State: AOAM5318sKD+tKDJaWfDzWB0h9+Md8pVlsx/QfIpgJg6aJdLOlcC3It4
+	su0tn9/m0kNbkc57tag4xcwLsI8RxmUXcQ==
 X-Google-Smtp-Source: 
- ABdhPJwpj3sRysucdI5XoHBwXnoYi3hdQ2/GGwl826H4vgA1N4Hqx37ODahbKLPZClvWhKCqQPjoww==
-X-Received: by 2002:a5d:64c7:0:b0:216:5021:687f with SMTP id
- f7-20020a5d64c7000000b002165021687fmr11414127wri.295.1654516899818;
-        Mon, 06 Jun 2022 05:01:39 -0700 (PDT)
+ ABdhPJz6M0nTMtoJbOiIei2WQlqqkWh0cuB34iqiusvdc9BGLLiyC6QCUk6AI1mlb4H6wZdZ+Z/8Rw==
+X-Received: by 2002:a7b:cb4b:0:b0:39c:49dd:b2cc with SMTP id
+ v11-20020a7bcb4b000000b0039c49ddb2ccmr9154845wmj.123.1654516898995;
+        Mon, 06 Jun 2022 05:01:38 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- f12-20020a5d4dcc000000b002100316b126sm15526455wru.6.2022.06.06.05.01.39
+ f12-20020a5d4dcc000000b002100316b126sm15526455wru.6.2022.06.06.05.01.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 05:01:39 -0700 (PDT)
+        Mon, 06 Jun 2022 05:01:38 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 11/21] tiff: update 4.3.0 -> 4.4.0
-Date: Mon,  6 Jun 2022 14:01:16 +0200
-Message-Id: <20220606120126.3381438-11-alex@linutronix.de>
+Subject: [PATCH 10/21] python3-psutil: update 5.9.0 -> 5.9.1
+Date: Mon,  6 Jun 2022 14:01:15 +0200
+Message-Id: <20220606120126.3381438-10-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220606120126.3381438-1-alex@linutronix.de>
 References: <20220606120126.3381438-1-alex@linutronix.de>
@@ -68,699 +69,245 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 12:01:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166604
+ https://lists.openembedded.org/g/openembedded-core/message/166603
 
-Drop all CVE backports.
+Drop the patch, as we do not actually have ptests for
+the module, and the patch submitted upstream differs
+significantly, so it makes no sense to rebase
+the in-layer version.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...rash-when-reading-a-file-with-multip.patch |  38 ---
- ...al-buffer-overflow-for-ASCII-tags-wh.patch |  43 ----
- ...ue-380-and-382-heap-buffer-overflow-.patch | 219 ------------------
- ...-for-return-value-of-limitMalloc-392.patch |  93 --------
- ...ag-avoid-calling-memcpy-with-a-null-.patch |  33 ---
- .../0005-fix-the-FPE-in-tiffcrop-393.patch    |  36 ---
- ...x-heap-buffer-overflow-in-tiffcp-278.patch |  57 -----
- ...99c99f987dc32ae110370cfdd7df7975586b.patch |  30 ---
- ...0712f4c3a5b449f70c57988260a667ddbdef.patch |  32 ---
- .../libtiff/{tiff_4.3.0.bb => tiff_4.4.0.bb}  |  16 +-
- 10 files changed, 3 insertions(+), 594 deletions(-)
- delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0001-tif_jbig.c-fix-crash-when-reading-a-file-with-multip.patch
- delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch
- delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0002-tiffcrop-fix-issue-380-and-382-heap-buffer-overflow-.patch
- delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0003-add-checks-for-return-value-of-limitMalloc-392.patch
- delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0004-TIFFFetchNormalTag-avoid-calling-memcpy-with-a-null-.patch
- delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0005-fix-the-FPE-in-tiffcrop-393.patch
- delete mode 100644 meta/recipes-multimedia/libtiff/tiff/0006-fix-heap-buffer-overflow-in-tiffcp-278.patch
- delete mode 100644 meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch
- delete mode 100644 meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch
- rename meta/recipes-multimedia/libtiff/{tiff_4.3.0.bb => tiff_4.4.0.bb} (74%)
+ .../0001-fix-failure-test-cases.patch         | 197 ------------------
+ ...sutil_5.9.0.bb => python3-psutil_5.9.1.bb} |   4 +-
+ 2 files changed, 1 insertion(+), 200 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-psutil/0001-fix-failure-test-cases.patch
+ rename meta/recipes-devtools/python/{python3-psutil_5.9.0.bb => python3-psutil_5.9.1.bb} (81%)
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/0001-tif_jbig.c-fix-crash-when-reading-a-file-with-multip.patch b/meta/recipes-multimedia/libtiff/tiff/0001-tif_jbig.c-fix-crash-when-reading-a-file-with-multip.patch
+diff --git a/meta/recipes-devtools/python/python3-psutil/0001-fix-failure-test-cases.patch b/meta/recipes-devtools/python/python3-psutil/0001-fix-failure-test-cases.patch
 deleted file mode 100644
-index f1a4ab4251..0000000000
---- a/meta/recipes-multimedia/libtiff/tiff/0001-tif_jbig.c-fix-crash-when-reading-a-file-with-multip.patch
+index 99bfccca3f..0000000000
+--- a/meta/recipes-devtools/python/python3-psutil/0001-fix-failure-test-cases.patch
 +++ /dev/null
-@@ -1,38 +0,0 @@
--CVE: CVE-2022-0865
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
+@@ -1,197 +0,0 @@
+-From 8b4e38958ff8bdbb3ece4796bfa2d3b6f7536f71 Mon Sep 17 00:00:00 2001
+-From: Changqing Li <changqing.li@windriver.com>
+-Date: Wed, 23 Feb 2022 11:54:40 +0800
+-Subject: [PATCH] fix failure test cases
 -
--From 88da11ae3c4db527cb870fb1017456cc8fbac2e7 Mon Sep 17 00:00:00 2001
--From: Even Rouault <even.rouault@spatialys.com>
--Date: Thu, 24 Feb 2022 22:26:02 +0100
--Subject: [PATCH 1/6] tif_jbig.c: fix crash when reading a file with multiple
-- IFD in memory-mapped mode and when bit reversal is needed (fixes #385)
+-The test cases is not robust enough. skip some cases that is
+-not suitable for all conditions.
 -
+-* test_io_counters failed when kernel config CONFIG_TASKSTATS
+-  and CONFIG_TASK_IO_ACCOUNTING are not enable in OE 
+-* test_setup_script failed since oe don't install setup.py
+-* test_used failed since oe use git source for free, so the version
+-  is 3.3.17-dirty
+-* test_weird_environ failed since gcc not installed
+-* test_debug failed since it is designed to run when PSUTIL_DEBUG is set
+-* test_against_findmnt/test_comparisons/test_disk_partitions_mocked/
+-  test_disk_partitions is not suitable for Linux nfs boot
+-
+-Upstream-Status: Submitted [https://github.com/giampaolo/psutil/pull/2097]
+-
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ----
-- libtiff/tif_jbig.c | 10 ++++++++++
-- 1 file changed, 10 insertions(+)
+- psutil/tests/test_contracts.py | 1 +
+- psutil/tests/test_linux.py     | 8 ++++++--
+- psutil/tests/test_misc.py      | 4 ++++
+- psutil/tests/test_process.py   | 5 +++++
+- psutil/tests/test_system.py    | 1 +
+- psutil/tests/test_unicode.py   | 4 +++-
+- 6 files changed, 20 insertions(+), 3 deletions(-)
 -
--diff --git a/libtiff/tif_jbig.c b/libtiff/tif_jbig.c
--index 74086338..8bfa4cef 100644
----- a/libtiff/tif_jbig.c
--+++ b/libtiff/tif_jbig.c
--@@ -209,6 +209,16 @@ int TIFFInitJBIG(TIFF* tif, int scheme)
-- 	 */
-- 	tif->tif_flags |= TIFF_NOBITREV;
-- 	tif->tif_flags &= ~TIFF_MAPPED;
--+	/* We may have read from a previous IFD and thus set TIFF_BUFFERMMAP and
--+	 * cleared TIFF_MYBUFFER. It is necessary to restore them to their initial
--+	 * value to be consistent with the state of a non-memory mapped file.
--+	 */
--+	if (tif->tif_flags&TIFF_BUFFERMMAP) {
--+		tif->tif_rawdata = NULL;
--+		tif->tif_rawdatasize = 0;
--+		tif->tif_flags &= ~TIFF_BUFFERMMAP;
--+		tif->tif_flags |= TIFF_MYBUFFER;
--+	}
+-diff --git a/psutil/tests/test_contracts.py b/psutil/tests/test_contracts.py
+-index 7401cc1..bf0fca0 100755
+---- a/psutil/tests/test_contracts.py
+-+++ b/psutil/tests/test_contracts.py
+-@@ -172,6 +172,7 @@ class TestAvailProcessAPIs(PsutilTestCase):
+-     def test_rlimit(self):
+-         self.assertEqual(hasattr(psutil.Process, "rlimit"), LINUX or FREEBSD)
 - 
-- 	/* Setup the function pointers for encode, decode, and cleanup. */
-- 	tif->tif_setupdecode = JBIGSetupDecode;
---- 
--2.25.1
--
-diff --git a/meta/recipes-multimedia/libtiff/tiff/0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch b/meta/recipes-multimedia/libtiff/tiff/0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch
-deleted file mode 100644
-index 72776f09ba..0000000000
---- a/meta/recipes-multimedia/libtiff/tiff/0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--CVE: CVE-2022-22844
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--From b12a0326e6064b6e0b051d1184a219877472f69b Mon Sep 17 00:00:00 2001
--From: 4ugustus <wangdw.augustus@qq.com>
--Date: Tue, 25 Jan 2022 16:25:28 +0000
--Subject: [PATCH] tiffset: fix global-buffer-overflow for ASCII tags where
-- count is required (fixes #355)
--
-----
-- tools/tiffset.c | 16 +++++++++++++---
-- 1 file changed, 13 insertions(+), 3 deletions(-)
--
--diff --git a/tools/tiffset.c b/tools/tiffset.c
--index 8c9e23c5..e7a88c09 100644
----- a/tools/tiffset.c
--+++ b/tools/tiffset.c
--@@ -146,9 +146,19 @@ main(int argc, char* argv[])
+-+    @unittest.skip("broken on OE since kernel config maye not be enabled")
+-     def test_io_counters(self):
+-         hasit = hasattr(psutil.Process, "io_counters")
+-         self.assertEqual(hasit, False if MACOS or SUNOS else True)
+-diff --git a/psutil/tests/test_linux.py b/psutil/tests/test_linux.py
+-index 20e28d2..66b6dda 100755
+---- a/psutil/tests/test_linux.py
+-+++ b/psutil/tests/test_linux.py
+-@@ -196,8 +196,9 @@ def get_free_version_info():
+-     out = sh(["free", "-V"]).strip()
+-     if 'UNKNOWN' in out:
+-         raise unittest.SkipTest("can't determine free version")
+--    return tuple(map(int, out.split()[-1].split('.')))
+--
+-+    vlist = out.split()[-1].split('.')
+-+    vlist[:] = [n.split('-')[0] for n in vlist]
+-+    return tuple(map(int, vlist))
 - 
--             arg_index++;
--             if (TIFFFieldDataType(fip) == TIFF_ASCII) {
---                if (TIFFSetField(tiff, TIFFFieldTag(fip), argv[arg_index]) != 1)
---                    fprintf( stderr, "Failed to set %s=%s\n",
---                             TIFFFieldName(fip), argv[arg_index] );
--+                if(TIFFFieldPassCount( fip )) {
--+                    size_t len;
--+                    len = strlen(argv[arg_index]) + 1;
--+                    if (len > UINT16_MAX || TIFFSetField(tiff, TIFFFieldTag(fip),
--+                            (uint16_t)len, argv[arg_index]) != 1)
--+                        fprintf( stderr, "Failed to set %s=%s\n",
--+                            TIFFFieldName(fip), argv[arg_index] );
--+                } else {
--+                    if (TIFFSetField(tiff, TIFFFieldTag(fip),
--+                            argv[arg_index]) != 1)
--+                        fprintf( stderr, "Failed to set %s=%s\n",
--+                            TIFFFieldName(fip), argv[arg_index] );
--+                }
--             } else if (TIFFFieldWriteCount(fip) > 0
-- 		       || TIFFFieldWriteCount(fip) == TIFF_VARIABLE) {
--                 int     ret = 1;
---- 
--2.25.1
-diff --git a/meta/recipes-multimedia/libtiff/tiff/0002-tiffcrop-fix-issue-380-and-382-heap-buffer-overflow-.patch b/meta/recipes-multimedia/libtiff/tiff/0002-tiffcrop-fix-issue-380-and-382-heap-buffer-overflow-.patch
-deleted file mode 100644
-index 812ffb232d..0000000000
---- a/meta/recipes-multimedia/libtiff/tiff/0002-tiffcrop-fix-issue-380-and-382-heap-buffer-overflow-.patch
-+++ /dev/null
-@@ -1,219 +0,0 @@
--CVE: CVE-2022-0891
--CVE: CVE-2022-1056
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--From e46b49e60fddb2e924302fb1751f79eb9cfb2253 Mon Sep 17 00:00:00 2001
--From: Su Laus <sulau@freenet.de>
--Date: Tue, 8 Mar 2022 17:02:44 +0000
--Subject: [PATCH 2/6] tiffcrop: fix issue #380 and #382 heap buffer overflow in
-- extractImageSection
--
-----
-- tools/tiffcrop.c | 92 +++++++++++++++++++-----------------------------
-- 1 file changed, 36 insertions(+), 56 deletions(-)
--
--diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
--index b85c2ce7..302a7e91 100644
----- a/tools/tiffcrop.c
--+++ b/tools/tiffcrop.c
--@@ -105,8 +105,8 @@
--  *                of messages to monitor progress without enabling dump logs.
--  */
+- @contextlib.contextmanager
+- def mock_open_content(for_path, content):
+-@@ -1289,6 +1290,7 @@ class TestRootFsDeviceFinder(PsutilTestCase):
+-         finder.ask_sys_class_block()
 - 
---static   char tiffcrop_version_id[] = "2.4";
---static   char tiffcrop_rev_date[] = "12-13-2010";
--+static   char tiffcrop_version_id[] = "2.4.1";
--+static   char tiffcrop_rev_date[] = "03-03-2010";
+-     @unittest.skipIf(GITHUB_ACTIONS, "unsupported on GITHUB_ACTIONS")
+-+    @unittest.skip("Broken for oe")
+-     def test_comparisons(self):
+-         finder = RootFsDeviceFinder()
+-         self.assertIsNotNone(finder.find())
+-@@ -1311,11 +1313,13 @@ class TestRootFsDeviceFinder(PsutilTestCase):
 - 
-- #include "tif_config.h"
-- #include "libport.h"
--@@ -6710,10 +6710,10 @@ extractImageSection(struct image_data *image, struct pageseg *section,
-- #ifdef DEVELMODE
--   uint32_t    img_length;
-- #endif
---  uint32_t    j, shift1, shift2, trailing_bits;
--+  uint32_t    j, shift1, trailing_bits;
--   uint32_t    row, first_row, last_row, first_col, last_col;
--   uint32_t    src_offset, dst_offset, row_offset, col_offset;
---  uint32_t    offset1, offset2, full_bytes;
--+  uint32_t    offset1, full_bytes;
--   uint32_t    sect_width;
-- #ifdef DEVELMODE
--   uint32_t    sect_length;
--@@ -6723,7 +6723,6 @@ extractImageSection(struct image_data *image, struct pageseg *section,
-- #ifdef DEVELMODE
--   int      k;
--   unsigned char bitset;
---  static char *bitarray = NULL;
-- #endif
+-     @unittest.skipIf(not which("findmnt"), "findmnt utility not available")
+-     @unittest.skipIf(GITHUB_ACTIONS, "unsupported on GITHUB_ACTIONS")
+-+    @unittest.skip("Broken for oe")
+-     def test_against_findmnt(self):
+-         psutil_value = RootFsDeviceFinder().find()
+-         findmnt_value = sh("findmnt -o SOURCE -rn /")
+-         self.assertEqual(psutil_value, findmnt_value)
 - 
--   img_width = image->width;
--@@ -6741,17 +6740,12 @@ extractImageSection(struct image_data *image, struct pageseg *section,
--   dst_offset = 0;
+-+    @unittest.skip("Broken for oe")
+-     def test_disk_partitions_mocked(self):
+-         with mock.patch(
+-                 'psutil._pslinux.cext.disk_partitions',
+-diff --git a/psutil/tests/test_misc.py b/psutil/tests/test_misc.py
+-index d946eb6..121004a 100755
+---- a/psutil/tests/test_misc.py
+-+++ b/psutil/tests/test_misc.py
+-@@ -54,6 +54,8 @@ from psutil.tests import unittest
+- # ===================================================================
 - 
-- #ifdef DEVELMODE
---  if (bitarray == NULL)
---    {
---    if ((bitarray = (char *)malloc(img_width)) == NULL)
---      {
---      TIFFError ("", "DEBUG: Unable to allocate debugging bitarray");
---      return (-1);
---      }
---    }
--+  char bitarray[39];
-- #endif
 - 
---  /* rows, columns, width, length are expressed in pixels */
--+  /* rows, columns, width, length are expressed in pixels
--+   * first_row, last_row, .. are index into image array starting at 0 to width-1,
--+   * last_col shall be also extracted.  */
--   first_row = section->y1;
--   last_row  = section->y2;
--   first_col = section->x1;
--@@ -6761,9 +6755,14 @@ extractImageSection(struct image_data *image, struct pageseg *section,
-- #ifdef DEVELMODE
--   sect_length = last_row - first_row + 1;
-- #endif
---  img_rowsize = ((img_width * bps + 7) / 8) * spp;
---  full_bytes = (sect_width * spp * bps) / 8;   /* number of COMPLETE bytes per row in section */
---  trailing_bits = (sect_width * bps) % 8;
--+    /* The read function loadImage() used copy separate plane data into a buffer as interleaved
--+     * samples rather than separate planes so the same logic works to extract regions
--+     * regardless of the way the data are organized in the input file.
--+     * Furthermore, bytes and bits are arranged in buffer according to COMPRESSION=1 and FILLORDER=1 
--+     */
--+    img_rowsize = (((img_width * spp * bps) + 7) / 8);    /* row size in full bytes of source image */
--+    full_bytes = (sect_width * spp * bps) / 8;            /* number of COMPLETE bytes per row in section */
--+    trailing_bits = (sect_width * spp * bps) % 8;         /* trailing bits within the last byte of destination buffer */
-- 
-- #ifdef DEVELMODE
--     TIFFError ("", "First row: %"PRIu32", last row: %"PRIu32", First col: %"PRIu32", last col: %"PRIu32"\n",
--@@ -6776,10 +6775,9 @@ extractImageSection(struct image_data *image, struct pageseg *section,
-- 
--   if ((bps % 8) == 0)
--     {
---    col_offset = first_col * spp * bps / 8;
--+    col_offset = (first_col * spp * bps) / 8;
--     for (row = first_row; row <= last_row; row++)
--       {
---      /* row_offset = row * img_width * spp * bps / 8; */
--       row_offset = row * img_rowsize;
--       src_offset = row_offset + col_offset;
-- 
--@@ -6792,14 +6790,12 @@ extractImageSection(struct image_data *image, struct pageseg *section,
--     }
--   else
--     { /* bps != 8 */
---    shift1  = spp * ((first_col * bps) % 8);
---    shift2  = spp * ((last_col * bps) % 8);
--+    shift1 = ((first_col * spp * bps) % 8);           /* shift1 = bits to skip in the first byte of source buffer*/
--     for (row = first_row; row <= last_row; row++)
--       {
--       /* pull out the first byte */
--       row_offset = row * img_rowsize;
---      offset1 = row_offset + (first_col * bps / 8);
---      offset2 = row_offset + (last_col * bps / 8);
--+      offset1 = row_offset + ((first_col * spp * bps) / 8);   /* offset1 = offset into source of byte with first bits to be extracted */
-- 
-- #ifdef DEVELMODE
--       for (j = 0, k = 7; j < 8; j++, k--)
--@@ -6811,12 +6807,12 @@ extractImageSection(struct image_data *image, struct pageseg *section,
--       sprintf(&bitarray[9], " ");
--       for (j = 10, k = 7; j < 18; j++, k--)
--         {
---        bitset = *(src_buff + offset2) & (((unsigned char)1 << k)) ? 1 : 0;
--+        bitset = *(src_buff + offset1 + full_bytes) & (((unsigned char)1 << k)) ? 1 : 0;
--         sprintf(&bitarray[j], (bitset) ? "1" : "0");
--         }
--       bitarray[18] = '\0';
---      TIFFError ("", "Row: %3d Offset1: %"PRIu32",  Shift1: %"PRIu32",    Offset2: %"PRIu32",  Shift2:  %"PRIu32"\n", 
---                 row, offset1, shift1, offset2, shift2); 
--+      TIFFError ("", "Row: %3d Offset1: %"PRIu32",  Shift1: %"PRIu32",    Offset2: %"PRIu32",  Trailing_bits:  %"PRIu32"\n", 
--+                 row, offset1, shift1, offset1+full_bytes, trailing_bits); 
-- #endif
-- 
--       bytebuff1 = bytebuff2 = 0;
--@@ -6840,11 +6836,12 @@ extractImageSection(struct image_data *image, struct pageseg *section,
-- 
--         if (trailing_bits != 0)
--           {
---	  bytebuff2 = src_buff[offset2] & ((unsigned char)255 << (7 - shift2));
--+      /* Only copy higher bits of samples and mask lower bits of not wanted column samples to zero */
--+	  bytebuff2 = src_buff[offset1 + full_bytes] & ((unsigned char)255 << (8 - trailing_bits));
--           sect_buff[dst_offset] = bytebuff2;
-- #ifdef DEVELMODE
-- 	  TIFFError ("", "        Trailing bits src offset:  %8"PRIu32", Dst offset: %8"PRIu32"\n",
---                              offset2, dst_offset); 
--+          offset1 + full_bytes, dst_offset);
--           for (j = 30, k = 7; j < 38; j++, k--)
--             {
--             bitset = *(sect_buff + dst_offset) & (((unsigned char)1 << k)) ? 1 : 0;
--@@ -6863,8 +6860,10 @@ extractImageSection(struct image_data *image, struct pageseg *section,
-- #endif
--         for (j = 0; j <= full_bytes; j++) 
--           {
---	  bytebuff1 = src_buff[offset1 + j] & ((unsigned char)255 >> shift1);
---	  bytebuff2 = src_buff[offset1 + j + 1] & ((unsigned char)255 << (7 - shift1));
--+          /* Skip the first shift1 bits and shift the source up by shift1 bits before save to destination.*/
--+          /* Attention: src_buff size needs to be some bytes larger than image size, because could read behind image here. */
--+          bytebuff1 = src_buff[offset1 + j] & ((unsigned char)255 >> shift1);
--+          bytebuff2 = src_buff[offset1 + j + 1] & ((unsigned char)255 << (8 - shift1));
--           sect_buff[dst_offset + j] = (bytebuff1 << shift1) | (bytebuff2 >> (8 - shift1));
--           }
-- #ifdef DEVELMODE
--@@ -6880,36 +6879,17 @@ extractImageSection(struct image_data *image, struct pageseg *section,
-- #endif
--         dst_offset += full_bytes;
-- 
--+        /* Copy the trailing_bits for the last byte in the destination buffer. 
--+           Could come from one ore two bytes of the source buffer. */
--         if (trailing_bits != 0)
--           {
-- #ifdef DEVELMODE
---	    TIFFError ("", "        Trailing bits   src offset: %8"PRIu32", Dst offset: %8"PRIu32"\n", offset1 + full_bytes, dst_offset);
---#endif
---	  if (shift2 > shift1)
---            {
---	    bytebuff1 = src_buff[offset1 + full_bytes] & ((unsigned char)255 << (7 - shift2));
---            bytebuff2 = bytebuff1 & ((unsigned char)255 << shift1);
---            sect_buff[dst_offset] = bytebuff2;
---#ifdef DEVELMODE
---	    TIFFError ("", "        Shift2 > Shift1\n"); 
--+          TIFFError("", "        Trailing bits %4"PRIu32"   src offset: %8"PRIu32", Dst offset: %8"PRIu32"\n", trailing_bits, offset1 + full_bytes, dst_offset);
-- #endif
--+          /* More than necessary bits are already copied into last destination buffer, 
--+           * only masking of last byte in destination buffer is necessary.*/ 
--+          sect_buff[dst_offset] &= ((uint8_t)0xFF << (8 - trailing_bits));
--             }
---          else
---            {
---	    if (shift2 < shift1)
---              {
---              bytebuff2 = ((unsigned char)255 << (shift1 - shift2 - 1));
---	      sect_buff[dst_offset] &= bytebuff2;
---#ifdef DEVELMODE
---	      TIFFError ("", "        Shift2 < Shift1\n"); 
---#endif
---              }
---#ifdef DEVELMODE
---            else
---	      TIFFError ("", "        Shift2 == Shift1\n"); 
---#endif
---            }
---	  }
-- #ifdef DEVELMODE
-- 	  sprintf(&bitarray[28], " ");
-- 	  sprintf(&bitarray[29], " ");
--@@ -7062,7 +7042,7 @@ writeImageSections(TIFF *in, TIFF *out, struct image_data *image,
--     width  = sections[i].x2 - sections[i].x1 + 1;
--     length = sections[i].y2 - sections[i].y1 + 1;
--     sectsize = (uint32_t)
---	    ceil((width * image->bps + 7) / (double)8) * image->spp * length;
--+	    ceil((width * image->bps * image->spp + 7) / (double)8) * length;
--     /* allocate a buffer if we don't have one already */
--     if (createImageSection(sectsize, sect_buff_ptr))
--       {
---- 
--2.25.1
--
-diff --git a/meta/recipes-multimedia/libtiff/tiff/0003-add-checks-for-return-value-of-limitMalloc-392.patch b/meta/recipes-multimedia/libtiff/tiff/0003-add-checks-for-return-value-of-limitMalloc-392.patch
-deleted file mode 100644
-index a0b856b9e1..0000000000
---- a/meta/recipes-multimedia/libtiff/tiff/0003-add-checks-for-return-value-of-limitMalloc-392.patch
-+++ /dev/null
-@@ -1,93 +0,0 @@
--CVE: CVE-2022-0907
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--From a139191cc86f4dc44c74a0f22928e0fb38ed2485 Mon Sep 17 00:00:00 2001
--From: Augustus <wangdw.augustus@qq.com>
--Date: Mon, 7 Mar 2022 18:21:49 +0800
--Subject: [PATCH 3/6] add checks for return value of limitMalloc (#392)
--
-----
-- tools/tiffcrop.c | 33 +++++++++++++++++++++------------
-- 1 file changed, 21 insertions(+), 12 deletions(-)
--
--diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
--index 302a7e91..e407bf51 100644
----- a/tools/tiffcrop.c
--+++ b/tools/tiffcrop.c
--@@ -7357,7 +7357,11 @@ createImageSection(uint32_t sectsize, unsigned char **sect_buff_ptr)
--   if (!sect_buff)
--     {
--     sect_buff = (unsigned char *)limitMalloc(sectsize);
---    *sect_buff_ptr = sect_buff;
--+    if (!sect_buff)
--+    {
--+        TIFFError("createImageSection", "Unable to allocate/reallocate section buffer");
--+        return (-1);
--+    }
--     _TIFFmemset(sect_buff, 0, sectsize);
--     }
--   else
--@@ -7373,15 +7377,15 @@ createImageSection(uint32_t sectsize, unsigned char **sect_buff_ptr)
--       else
--         sect_buff = new_buff;
-- 
--+      if (!sect_buff)
--+      {
--+          TIFFError("createImageSection", "Unable to allocate/reallocate section buffer");
--+          return (-1);
--+      }
--       _TIFFmemset(sect_buff, 0, sectsize);
--       }
--     }
-- 
---  if (!sect_buff)
---    {
---    TIFFError("createImageSection", "Unable to allocate/reallocate section buffer");
---    return (-1);
---    }
--   prev_sectsize = sectsize;
--   *sect_buff_ptr = sect_buff;
-- 
--@@ -7648,7 +7652,11 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
--   if (!crop_buff)
--     {
--     crop_buff = (unsigned char *)limitMalloc(cropsize);
---    *crop_buff_ptr = crop_buff;
--+    if (!crop_buff)
--+    {
--+        TIFFError("createCroppedImage", "Unable to allocate/reallocate crop buffer");
--+        return (-1);
--+    }
--     _TIFFmemset(crop_buff, 0, cropsize);
--     prev_cropsize = cropsize;
--     }
--@@ -7664,15 +7672,15 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
--         }
--       else
--         crop_buff = new_buff;
--+      if (!crop_buff)
--+      {
--+          TIFFError("createCroppedImage", "Unable to allocate/reallocate crop buffer");
--+          return (-1);
--+      }
--       _TIFFmemset(crop_buff, 0, cropsize);
--       }
--     }
-- 
---  if (!crop_buff)
---    {
---    TIFFError("createCroppedImage", "Unable to allocate/reallocate crop buffer");
---    return (-1);
---    }
--   *crop_buff_ptr = crop_buff;
-- 
--   if (crop->crop_mode & CROP_INVERT)
--@@ -9231,3 +9239,4 @@ invertImage(uint16_t photometric, uint16_t spp, uint16_t bps, uint32_t width, ui
--  * fill-column: 78
--  * End:
--  */
+-+PSUTIL_DEBUG = bool(os.getenv('PSUTIL_DEBUG', 0))
 -+
---- 
--2.25.1
--
-diff --git a/meta/recipes-multimedia/libtiff/tiff/0004-TIFFFetchNormalTag-avoid-calling-memcpy-with-a-null-.patch b/meta/recipes-multimedia/libtiff/tiff/0004-TIFFFetchNormalTag-avoid-calling-memcpy-with-a-null-.patch
-deleted file mode 100644
-index 719dabaecc..0000000000
---- a/meta/recipes-multimedia/libtiff/tiff/0004-TIFFFetchNormalTag-avoid-calling-memcpy-with-a-null-.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--CVE: CVE-2022-0908
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--From ef5a0bf271823df168642444d051528a68205cb0 Mon Sep 17 00:00:00 2001
--From: Even Rouault <even.rouault@spatialys.com>
--Date: Thu, 17 Feb 2022 15:28:43 +0100
--Subject: [PATCH 4/6] TIFFFetchNormalTag(): avoid calling memcpy() with a null
-- source pointer and size of zero (fixes #383)
--
-----
-- libtiff/tif_dirread.c | 5 ++++-
-- 1 file changed, 4 insertions(+), 1 deletion(-)
--
--diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
--index d84147a0..4e8ce729 100644
----- a/libtiff/tif_dirread.c
--+++ b/libtiff/tif_dirread.c
--@@ -5079,7 +5079,10 @@ TIFFFetchNormalTag(TIFF* tif, TIFFDirEntry* dp, int recover)
-- 								_TIFFfree(data);
-- 							return(0);
-- 						}
---						_TIFFmemcpy(o,data,(uint32_t)dp->tdir_count);
--+						if (dp->tdir_count > 0 )
--+						{
--+							_TIFFmemcpy(o,data,(uint32_t)dp->tdir_count);
--+						}
-- 						o[(uint32_t)dp->tdir_count]=0;
-- 						if (data!=0)
-- 							_TIFFfree(data);
---- 
--2.25.1
--
-diff --git a/meta/recipes-multimedia/libtiff/tiff/0005-fix-the-FPE-in-tiffcrop-393.patch b/meta/recipes-multimedia/libtiff/tiff/0005-fix-the-FPE-in-tiffcrop-393.patch
-deleted file mode 100644
-index 64dbe9ef92..0000000000
---- a/meta/recipes-multimedia/libtiff/tiff/0005-fix-the-FPE-in-tiffcrop-393.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--CVE: CVE-2022-0909
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--From 4768355a074d562177e0a8b551c561d1af7eb74a Mon Sep 17 00:00:00 2001
--From: 4ugustus <wangdw.augustus@qq.com>
--Date: Tue, 8 Mar 2022 16:22:04 +0000
--Subject: [PATCH 5/6] fix the FPE in tiffcrop (#393)
--
-----
-- libtiff/tif_dir.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/libtiff/tif_dir.c b/libtiff/tif_dir.c
--index a6c254fc..77da6ea4 100644
----- a/libtiff/tif_dir.c
--+++ b/libtiff/tif_dir.c
--@@ -335,13 +335,13 @@ _TIFFVSetField(TIFF* tif, uint32_t tag, va_list ap)
-- 		break;
-- 	case TIFFTAG_XRESOLUTION:
--         dblval = va_arg(ap, double);
---        if( dblval < 0 )
--+        if( dblval != dblval || dblval < 0 )
--             goto badvaluedouble;
-- 		td->td_xresolution = _TIFFClampDoubleToFloat( dblval );
-- 		break;
-- 	case TIFFTAG_YRESOLUTION:
--         dblval = va_arg(ap, double);
---        if( dblval < 0 )
--+        if( dblval != dblval || dblval < 0 )
--             goto badvaluedouble;
-- 		td->td_yresolution = _TIFFClampDoubleToFloat( dblval );
-- 		break;
---- 
--2.25.1
--
-diff --git a/meta/recipes-multimedia/libtiff/tiff/0006-fix-heap-buffer-overflow-in-tiffcp-278.patch b/meta/recipes-multimedia/libtiff/tiff/0006-fix-heap-buffer-overflow-in-tiffcp-278.patch
-deleted file mode 100644
-index afd5e59960..0000000000
---- a/meta/recipes-multimedia/libtiff/tiff/0006-fix-heap-buffer-overflow-in-tiffcp-278.patch
-+++ /dev/null
-@@ -1,57 +0,0 @@
--CVE: CVE-2022-0924
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--From 1074b9691322b1e3671cd8ea0b6b3509d08978fb Mon Sep 17 00:00:00 2001
--From: 4ugustus <wangdw.augustus@qq.com>
--Date: Thu, 10 Mar 2022 08:48:00 +0000
--Subject: [PATCH 6/6] fix heap buffer overflow in tiffcp (#278)
--
-----
-- tools/tiffcp.c | 17 ++++++++++++++++-
-- 1 file changed, 16 insertions(+), 1 deletion(-)
--
--diff --git a/tools/tiffcp.c b/tools/tiffcp.c
--index 1f889516..552d8fad 100644
----- a/tools/tiffcp.c
--+++ b/tools/tiffcp.c
--@@ -1661,12 +1661,27 @@ DECLAREwriteFunc(writeBufferToSeparateStrips)
-- 	tdata_t obuf;
-- 	tstrip_t strip = 0;
-- 	tsample_t s;
--+	uint16_t bps = 0, bytes_per_sample;
+- class TestMisc(PsutilTestCase):
 - 
-- 	obuf = limitMalloc(stripsize);
-- 	if (obuf == NULL)
-- 		return (0);
-- 	_TIFFmemset(obuf, 0, stripsize);
-- 	(void) TIFFGetFieldDefaulted(out, TIFFTAG_ROWSPERSTRIP, &rowsperstrip);
--+	(void) TIFFGetField(out, TIFFTAG_BITSPERSAMPLE, &bps);
--+	if( bps == 0 )
--+        {
--+            TIFFError(TIFFFileName(out), "Error, cannot read BitsPerSample");
--+            _TIFFfree(obuf);
--+            return 0;
--+        }
--+        if( (bps % 8) != 0 )
--+        {
--+            TIFFError(TIFFFileName(out), "Error, cannot handle BitsPerSample that is not a multiple of 8");
--+            _TIFFfree(obuf);
--+            return 0;
--+        }
--+	bytes_per_sample = bps/8;
-- 	for (s = 0; s < spp; s++) {
-- 		uint32_t row;
-- 		for (row = 0; row < imagelength; row += rowsperstrip) {
--@@ -1676,7 +1691,7 @@ DECLAREwriteFunc(writeBufferToSeparateStrips)
+-     def test_process__repr__(self, func=repr):
+-@@ -368,6 +370,7 @@ class TestMisc(PsutilTestCase):
 - 
-- 			cpContigBufToSeparateBuf(
-- 			    obuf, (uint8_t*) buf + row * rowsize + s,
---			    nrows, imagewidth, 0, 0, spp, 1);
--+			    nrows, imagewidth, 0, 0, spp, bytes_per_sample);
-- 			if (TIFFWriteEncodedStrip(out, strip++, obuf, stripsize) < 0) {
-- 				TIFFError(TIFFFileName(out),
-- 				    "Error, can't write strip %"PRIu32,
+-     # XXX: https://github.com/pypa/setuptools/pull/2896
+-     @unittest.skipIf(APPVEYOR, "temporarily disabled due to setuptools bug")
+-+    @unittest.skip("OE run this test outof source tree")
+-     def test_setup_script(self):
+-         setup_py = os.path.join(ROOT_DIR, 'setup.py')
+-         if CI_TESTING and not os.path.exists(setup_py):
+-@@ -401,6 +404,7 @@ class TestMisc(PsutilTestCase):
+-                 reload_module(psutil)
+-             self.assertIn("version conflict", str(cm.exception).lower())
+- 
+-+    @unittest.skipIf(not PSUTIL_DEBUG, "env PSUTIL_DEBUG not set")
+-     def test_debug(self):
+-         if PY3:
+-             from io import StringIO
+-diff --git a/psutil/tests/test_process.py b/psutil/tests/test_process.py
+-index c9059e3..a34ba3d 100755
+---- a/psutil/tests/test_process.py
+-+++ b/psutil/tests/test_process.py
+-@@ -36,6 +36,7 @@ from psutil._compat import PY3
+- from psutil._compat import FileNotFoundError
+- from psutil._compat import long
+- from psutil._compat import super
+-+from psutil._compat import which
+- from psutil.tests import APPVEYOR
+- from psutil.tests import CI_TESTING
+- from psutil.tests import GITHUB_ACTIONS
+-@@ -726,6 +727,7 @@ class TestProcess(PsutilTestCase):
+-             self.assertEqual(' '.join(p.cmdline()), ' '.join(cmdline))
+- 
+-     @unittest.skipIf(PYPY, "broken on PYPY")
+-+    @unittest.skipIf(not which("gcc"), "gcc not installed")
+-     def test_long_cmdline(self):
+-         testfn = self.get_testfn()
+-         create_exe(testfn)
+-@@ -740,6 +742,7 @@ class TestProcess(PsutilTestCase):
+-         assert pyexe.startswith(name), (pyexe, name)
+- 
+-     @unittest.skipIf(PYPY, "unreliable on PYPY")
+-+    @unittest.skipIf(not which("gcc"), "gcc not installed")
+-     def test_long_name(self):
+-         testfn = self.get_testfn(suffix="0123456789" * 2)
+-         create_exe(testfn)
+-@@ -750,6 +753,7 @@ class TestProcess(PsutilTestCase):
+-     @unittest.skipIf(SUNOS, "broken on SUNOS")
+-     @unittest.skipIf(AIX, "broken on AIX")
+-     @unittest.skipIf(PYPY, "broken on PYPY")
+-+    @unittest.skipIf(not which("gcc"), "gcc not installed")
+-     def test_prog_w_funky_name(self):
+-         # Test that name(), exe() and cmdline() correctly handle programs
+-         # with funky chars such as spaces and ")", see:
+-@@ -1408,6 +1412,7 @@ class TestProcess(PsutilTestCase):
+- 
+-     @unittest.skipIf(not HAS_ENVIRON, "not supported")
+-     @unittest.skipIf(not POSIX, "POSIX only")
+-+    @unittest.skipIf(not which("gcc"), "gcc not installed")
+-     def test_weird_environ(self):
+-         # environment variables can contain values without an equals sign
+-         code = textwrap.dedent("""
+-diff --git a/psutil/tests/test_system.py b/psutil/tests/test_system.py
+-index db2cb34..5ee519f 100755
+---- a/psutil/tests/test_system.py
+-+++ b/psutil/tests/test_system.py
+-@@ -580,6 +580,7 @@ class TestDiskAPIs(PsutilTestCase):
+-     def test_disk_usage_bytes(self):
+-         psutil.disk_usage(b'.')
+- 
+-+    @unittest.skip("Broken for oe")
+-     def test_disk_partitions(self):
+-         def check_ntuple(nt):
+-             self.assertIsInstance(nt.device, str)
+-diff --git a/psutil/tests/test_unicode.py b/psutil/tests/test_unicode.py
+-index e635726..7ba5b0f 100755
+---- a/psutil/tests/test_unicode.py
+-+++ b/psutil/tests/test_unicode.py
+-@@ -86,6 +86,7 @@ from psutil import POSIX
+- from psutil import WINDOWS
+- from psutil._compat import PY3
+- from psutil._compat import u
+-+from psutil._compat import which
+- from psutil.tests import APPVEYOR
+- from psutil.tests import ASCII_FS
+- from psutil.tests import CI_TESTING
+-@@ -156,7 +157,7 @@ def try_unicode(suffix):
+- # FS APIs
+- # ===================================================================
+- 
+--
+-+@unittest.skipIf(not which("gcc"), "gcc not installed")
+- class BaseUnicodeTest(PsutilTestCase):
+-     funky_suffix = None
+- 
+-@@ -169,6 +170,7 @@ class BaseUnicodeTest(PsutilTestCase):
+- @serialrun
+- @unittest.skipIf(ASCII_FS, "ASCII fs")
+- @unittest.skipIf(PYPY and not PY3, "too much trouble on PYPY2")
+-+@unittest.skipIf(not which("gcc"), "gcc not installed")
+- class TestFSAPIs(BaseUnicodeTest):
+-     """Test FS APIs with a funky, valid, UTF8 path name."""
+- 
 --- 
 -2.25.1
 -
-diff --git a/meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch b/meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch
-deleted file mode 100644
-index 0b41dde606..0000000000
---- a/meta/recipes-multimedia/libtiff/tiff/561599c99f987dc32ae110370cfdd7df7975586b.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From 561599c99f987dc32ae110370cfdd7df7975586b Mon Sep 17 00:00:00 2001
--From: Even Rouault <even.rouault@spatialys.com>
--Date: Sat, 5 Feb 2022 20:36:41 +0100
--Subject: [PATCH] TIFFReadDirectory(): avoid calling memcpy() with a null
-- source pointer and size of zero (fixes #362)
--
--Upstream-Status: Backport
--CVE: CVE-2022-0562
--
-----
-- libtiff/tif_dirread.c | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
--
--diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
--index 2bbc4585..23194ced 100644
----- a/libtiff/tif_dirread.c
--+++ b/libtiff/tif_dirread.c
--@@ -4177,7 +4177,8 @@ TIFFReadDirectory(TIFF* tif)
--                     goto bad;
--                 }
-- 
---                memcpy(new_sampleinfo, tif->tif_dir.td_sampleinfo, old_extrasamples * sizeof(uint16_t));
--+                if (old_extrasamples > 0)
--+                    memcpy(new_sampleinfo, tif->tif_dir.td_sampleinfo, old_extrasamples * sizeof(uint16_t));
--                 _TIFFsetShortArray(&tif->tif_dir.td_sampleinfo, new_sampleinfo, tif->tif_dir.td_extrasamples);
--                 _TIFFfree(new_sampleinfo);
--         }
---- 
--GitLab
--
-diff --git a/meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch b/meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch
-deleted file mode 100644
-index 74f9649fdf..0000000000
---- a/meta/recipes-multimedia/libtiff/tiff/eecb0712f4c3a5b449f70c57988260a667ddbdef.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From eecb0712f4c3a5b449f70c57988260a667ddbdef Mon Sep 17 00:00:00 2001
--From: Even Rouault <even.rouault@spatialys.com>
--Date: Sun, 6 Feb 2022 13:08:38 +0100
--Subject: [PATCH] TIFFFetchStripThing(): avoid calling memcpy() with a null
-- source pointer and size of zero (fixes #362)
--
--Upstream-Status: Backport
--CVE: CVE-2022-0561
--
-----
-- libtiff/tif_dirread.c | 5 +++--
-- 1 file changed, 3 insertions(+), 2 deletions(-)
--
--diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
--index 23194ced..50ebf8ac 100644
----- a/libtiff/tif_dirread.c
--+++ b/libtiff/tif_dirread.c
--@@ -5777,8 +5777,9 @@ TIFFFetchStripThing(TIFF* tif, TIFFDirEntry* dir, uint32_t nstrips, uint64_t** l
-- 			_TIFFfree(data);
-- 			return(0);
-- 		}
---                _TIFFmemcpy(resizeddata,data, (uint32_t)dir->tdir_count * sizeof(uint64_t));
---                _TIFFmemset(resizeddata+(uint32_t)dir->tdir_count, 0, (nstrips - (uint32_t)dir->tdir_count) * sizeof(uint64_t));
--+		if( dir->tdir_count )
--+			_TIFFmemcpy(resizeddata,data, (uint32_t)dir->tdir_count * sizeof(uint64_t));
--+		_TIFFmemset(resizeddata+(uint32_t)dir->tdir_count, 0, (nstrips - (uint32_t)dir->tdir_count) * sizeof(uint64_t));
-- 		_TIFFfree(data);
-- 		data=resizeddata;
-- 	}
---- 
--GitLab
--
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
-similarity index 74%
-rename from meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-rename to meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
-index 7a5e4816a6..c82965ffa1 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.4.0.bb
-@@ -8,19 +8,9 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=34da3db46fab7501992f9615d7e158cf"
+diff --git a/meta/recipes-devtools/python/python3-psutil_5.9.0.bb b/meta/recipes-devtools/python/python3-psutil_5.9.1.bb
+similarity index 81%
+rename from meta/recipes-devtools/python/python3-psutil_5.9.0.bb
+rename to meta/recipes-devtools/python/python3-psutil_5.9.1.bb
+index df304f01e6..04b6fb02de 100644
+--- a/meta/recipes-devtools/python/python3-psutil_5.9.0.bb
++++ b/meta/recipes-devtools/python/python3-psutil_5.9.1.bb
+@@ -3,12 +3,10 @@ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=e35fd9f271d19d5f742f20a9d1f8bb8b"
+ HOMEPAGE = "https://pypi.org/project/psutil/"
  
- CVE_PRODUCT = "libtiff"
+-SRC_URI[sha256sum] = "869842dbd66bb80c3217158e629d6fceaecc3a3166d3d1faee515b05dd26ca25"
++SRC_URI[sha256sum] = "57f1819b5d9e95cdfb0c881a8a5b7d542ed0b7c522d575706a80bedc848c8954"
  
--SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
--           file://0001-tiffset-fix-global-buffer-overflow-for-ASCII-tags-wh.patch \
--           file://561599c99f987dc32ae110370cfdd7df7975586b.patch \
--           file://eecb0712f4c3a5b449f70c57988260a667ddbdef.patch \
--           file://0001-tif_jbig.c-fix-crash-when-reading-a-file-with-multip.patch \
--           file://0002-tiffcrop-fix-issue-380-and-382-heap-buffer-overflow-.patch \
--           file://0003-add-checks-for-return-value-of-limitMalloc-392.patch \
--           file://0004-TIFFFetchNormalTag-avoid-calling-memcpy-with-a-null-.patch \
--           file://0005-fix-the-FPE-in-tiffcrop-393.patch \
--           file://0006-fix-heap-buffer-overflow-in-tiffcp-278.patch \
--           "
+ inherit pypi setuptools3
+ 
+-SRC_URI += "file://0001-fix-failure-test-cases.patch"
 -
--SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
-+SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz"
-+
-+SRC_URI[sha256sum] = "917223b37538959aca3b790d2d73aa6e626b688e02dcda272aec24c2f498abed"
+ PACKAGES =+ "${PN}-tests"
  
- # exclude betas
- UPSTREAM_CHECK_REGEX = "tiff-(?P<pver>\d+(\.\d+)+).tar"
+ FILES:${PN}-tests += " \
 -- 
 2.30.2
 
