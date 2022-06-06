@@ -2,62 +2,64 @@ Return-Path: <brgl@bgdev.pl>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AA12C433EF
-	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 13:27:05 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.31855.1654522023429176187
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCD95C433EF
+	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 13:27:14 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web08.31951.1654522022546251968
  for <openembedded-core@lists.openembedded.org>;
  Mon, 06 Jun 2022 06:27:03 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@bgdev-pl.20210112.gappssmtp.com header.s=20210112
- header.b=kaoGj302;
- spf=none, err=SPF record not found (domain: bgdev.pl, ip: 209.85.221.47,
+ header.b=rnTzH2ys;
+ spf=none, err=SPF record not found (domain: bgdev.pl, ip: 209.85.128.49,
  mailfrom: brgl@bgdev.pl)
-Received: by mail-wr1-f47.google.com with SMTP id k16so19876825wrg.7
+Received: by mail-wm1-f49.google.com with SMTP id
+ i17-20020a7bc951000000b0039c4760ec3fso1820295wml.0
         for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 06:27:03 -0700 (PDT)
+ Mon, 06 Jun 2022 06:27:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jiXPpcNKFPbbidOMNLV1fhkMDO3CXFycp5b/F3HjoPc=;
-        b=kaoGj302Plmf6EHuYmaH7+HiKx7bGcBWjAe2py0+JMae5ZMRh9MlB9+4cGpTwnJHSV
-         Wr04pECkWjdpixwL9Yk0mR+Dng1wAqMotZ+Kaf2Vbor7P4APICQV6XmsUMCZyQhUCiXn
-         qKUlWECQHlfMOpve0wpLO1IaZn6fvR2uS9OlvMIQwblH6TPZPyM16DIF43KveR3ksqkb
-         5Jswj05GsQi2fKdLWnL2t6xl+xKeuJE8/ULsmZ6Y4p0x4YRtqRbmD1619O5HkmIQQMoN
-         rd+xcG4oEDZlqxJIhzBCQO5s+4ow81ZuPlbrgvfmSlycek08NEnh2dQBq8oNTRfEcA5Z
-         mKFA==
+        bh=y/xxl9me4PL+Xx+UQAZZBFFnnRWsO0308iqICbs7dFY=;
+        b=rnTzH2ys15Jxj1pwPxRPqa4vPa5fL7EFDZtlPiwMXloN0it9pP4xOL6mZfi6YcmqAi
+         D6hkyT1tJL6WIxpLOlS/W8i7UyKxJFXqP3ysBaZuCibVNcWOzWFtEsu82ElPUz3TpFdE
+         LsNudbYj7nqjDNB2/WqAevVSnbR6RPw66LYfySDgSv2yKILZoPFliSbSMLY7+G8sSHoy
+         BrZBCL9YVbahHHSGKBgKUjmvKtL5/1jHlwKUZ9d148a86psFOaXdQxCL0JGP9X7b/i9+
+         uAdsYnu0WVeA9xbr56fM6ILbUnuGIBfQmB8O+D3MPLVgBscQ/J0WQmLC4GRrfIsjF3ZM
+         QuiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jiXPpcNKFPbbidOMNLV1fhkMDO3CXFycp5b/F3HjoPc=;
-        b=R/RIhcVnPHlm6y+sQDdv606fK3wfDAPMReth/5Lv1OLMSvl4iZZk8x2uhVkpURRmjL
-         jM6qxISSXOITP5QykjVzC2RHv+9q9O1TvUzTica4gIdSTHqZN3BH7tXi4h/Fn0HjfvVF
-         YOrUQ40w/AcEwSSObhlxaFziNTA5SlB9/fz0aFpBt0tdneJtAFkkwBo42o/OPTM3rb1U
-         upK/Eu79o+W5faq5Bub9wN+uJiEbbxKKBXHqEM7YKE5kEB8sjsHYQ3of3qqIIGf3fwlh
-         vaeVkzqGViUWgT9biv3ULUINmb2vIVbkgFCy98ysWsZAvTdP2VU2LSEKpAS3kBXyZAbH
-         tnyg==
-X-Gm-Message-State: AOAM533eMdV2xJJL3S0+FdW++fPpTNuIhOZvVi3BuoPYoGy/j81XPBf6
-	JSXrqkqkQSva+xweyaxujmRFZbjSyadotQ==
+        bh=y/xxl9me4PL+Xx+UQAZZBFFnnRWsO0308iqICbs7dFY=;
+        b=r624hIRIHwPM0cLRkg6nnpWv6ymSIOeCsSh+ViYIjh0QjrTqIye0bca/ioSnFIc9Ed
+         2ojhjS6HoaqrQPUrbmUjou1PNV+gQNbpdqqzUtqqaoB2pJ1B5J1L8+lOPxBP7Zp9BKfi
+         0XVBVnie5BJyfB8BO1cQ7NPRzHtAvL2zyIFQpe/EkIt4va5XcrUneRCD9qrDMUYXf5CP
+         fUiJtaR90EHnLSXHwLDHGAnY2Ba1dky6MxaRtbhP6CYShGP9qA6Mx3WQ8F2OPLyUERMX
+         gMmsa26WSfdVvQzZLmyJBC0nglxO4TvmGL0YS3vpzwF5kIEIiZP8njBZhSYG6m4bWCD6
+         5TXQ==
+X-Gm-Message-State: AOAM532tNksU1VJ+MvLyBGvLQ43RYG8lmULzYQOeX2a9/NLTyzT0AKFa
+	UMmBogcGFlLO0Ygfd9HWvYYHCg==
 X-Google-Smtp-Source: 
- ABdhPJxk+FlHjaTKe4qAQfr3wCovU88QJU35kW0TOJd/U2PrAuJTxj3FPvgaxHKhsEk3FVYpjjTENA==
-X-Received: by 2002:a05:6000:1f12:b0:216:642e:e2f2 with SMTP id
- bv18-20020a0560001f1200b00216642ee2f2mr11092240wrb.414.1654522021864;
+ ABdhPJxIJpUcgW3nOeI71fqEZk/YN0lKd/UUfkckFgwZQyuIEqT2wJvg4Rt1zUaoHJCWCus3Wv6Qxg==
+X-Received: by 2002:a05:600c:4e16:b0:397:6d34:76a4 with SMTP id
+ b22-20020a05600c4e1600b003976d3476a4mr23141071wmq.0.1654522021089;
         Mon, 06 Jun 2022 06:27:01 -0700 (PDT)
 Received: from brgl-uxlite.home ([2a01:cb1d:334:ac00:46fe:49d5:2ab9:ca49])
         by smtp.gmail.com with ESMTPSA id
- k1-20020a1ca101000000b0039c4ff5e0a7sm2840911wme.38.2022.06.06.06.27.01
+ k1-20020a1ca101000000b0039c4ff5e0a7sm2840911wme.38.2022.06.06.06.27.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 06:27:01 -0700 (PDT)
+        Mon, 06 Jun 2022 06:27:00 -0700 (PDT)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
 To: Khem Raj <raj.khem@gmail.com>,
 	openembedded-core@lists.openembedded.org
 Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: [OE-core][PATCH 4/4] gstreamer1.0-plugins-rs: new package
-Date: Mon,  6 Jun 2022 15:26:53 +0200
-Message-Id: <20220606132653.60232-5-brgl@bgdev.pl>
+Subject: [OE-core][PATCH 3/4] cargo: pass PACKAGECONFIG_CONFARGS to cargo
+ build
+Date: Mon,  6 Jun 2022 15:26:52 +0200
+Message-Id: <20220606132653.60232-4-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220606132653.60232-1-brgl@bgdev.pl>
 References: <20220606132653.60232-1-brgl@bgdev.pl>
@@ -66,489 +68,31 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 13:27:05 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 13:27:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166631
+ https://lists.openembedded.org/g/openembedded-core/message/166630
 
-This adds a recipe for gstreamer plugins written in Rust.
+In order to allow rust packages to define PACKAGECONFIG options, append
+the contents of PACKAGECONFIG_CONFARGS to the build command.
 
 Signed-off-by: Bartosz Golaszewski <brgl@bgdev.pl>
 ---
- .../gstreamer1.0-plugins-rs_0.8.4.bb          | 465 ++++++++++++++++++
- 1 file changed, 465 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs_0.8.4.bb
+ meta/classes/cargo.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs_0.8.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs_0.8.4.bb
-new file mode 100644
-index 0000000000..0b299e0257
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs_0.8.4.bb
-@@ -0,0 +1,465 @@
-+SUMMARY = "Various GStreamer plugins and elements written in the Rust programming language."
-+LICENSE = "Apache-2.0 & MIT & LGPL-2.1-only"
-+LIC_FILES_CHKSUM = " \
-+    file://LICENSE-APACHE;md5=1836efb2eb779966696f473ee8540542 \
-+    file://LICENSE-MIT;md5=b377b220f43d747efdec40d69fcaa69d \
-+    file://LICENSE-LGPLv2;md5=4fbd65380cdd255951079008b364516c \
-+"
-+
-+SRC_URI = " \
-+    git://gitlab.freedesktop.org/gstreamer/gst-plugins-rs.git;protocol=https;branch=0.8;name=default \
-+    gitsm://gitlab.freedesktop.org/gstreamer/gstreamer-rs.git;protocol=https;branch=0.18;name=gstreamer-rs;destsuffix=cargo_home/git/db/gstreamer-rs-79e52a2d27eb91a3 \
-+    git://github.com/gtk-rs/gtk-rs-core.git;protocol=https;branch=0.15;name=gtk-rs-core;destsuffix=cargo_home/git/db/gtk-rs-core-7be42ca38bd6361c \
-+    git://github.com/gtk-rs/gtk3-rs;protocol=https;branch=0.15;name=gtk3-rs;destsuffix=cargo_home/git/db/gtk3-rs-a818089b55180ee1 \
-+    git://github.com/rust-av/ffv1.git;protocol=https;branch=master;name=ffv1;destsuffix=cargo_home/git/db/ffv1-08f2e3b26709fb34 \
-+    git://github.com/rust-av/flavors;protocol=https;branch=master;name=flavors;destsuffix=cargo_home/git/db/flavors-0f978a4d88ad8592 \
-+    git://github.com/gtk-rs/gtk4-rs;protocol=https;branch=0.4;name=gtk4-rs;destsuffix=cargo_home/git/db/gtk4-rs-e74ad56283dfeb5e \
-+    crate://crates.io/adler/1.0.2 \
-+    crate://crates.io/adler32/1.2.0 \
-+    crate://crates.io/aes/0.6.0 \
-+    crate://crates.io/aes-ctr/0.6.0 \
-+    crate://crates.io/aes-soft/0.6.4 \
-+    crate://crates.io/aesni/0.10.0 \
-+    crate://crates.io/aho-corasick/0.7.18 \
-+    crate://crates.io/ansi_term/0.12.1 \
-+    crate://crates.io/anyhow/1.0.57 \
-+    crate://crates.io/arbitrary/0.4.7 \
-+    crate://crates.io/arg_enum_proc_macro/0.3.2 \
-+    crate://crates.io/array-init/2.0.0 \
-+    crate://crates.io/arrayvec/0.7.2 \
-+    crate://crates.io/async-compression/0.3.12 \
-+    crate://crates.io/async-task/4.2.0 \
-+    crate://crates.io/async-trait/0.1.53 \
-+    crate://crates.io/async-tungstenite/0.17.2 \
-+    crate://crates.io/atomic_refcell/0.1.8 \
-+    crate://crates.io/atty/0.2.14 \
-+    crate://crates.io/autocfg/1.1.0 \
-+    crate://crates.io/backoff/0.4.0 \
-+    crate://crates.io/base-x/0.2.10 \
-+    crate://crates.io/base32/0.4.0 \
-+    crate://crates.io/base64/0.13.0 \
-+    crate://crates.io/bincode/1.3.3 \
-+    crate://crates.io/bindgen/0.59.2 \
-+    crate://crates.io/bitflags/1.3.2 \
-+    crate://crates.io/bitstream-io/1.3.0 \
-+    crate://crates.io/block-buffer/0.9.0 \
-+    crate://crates.io/block-buffer/0.10.2 \
-+    crate://crates.io/build_const/0.2.2 \
-+    crate://crates.io/bumpalo/3.9.1 \
-+    crate://crates.io/byte-slice-cast/1.2.1 \
-+    crate://crates.io/bytemuck/1.9.1 \
-+    crate://crates.io/byteorder/1.4.3 \
-+    crate://crates.io/bytes/1.1.0 \
-+    crate://crates.io/cache-padded/1.2.0 \
-+    crate://crates.io/cc/1.0.73 \
-+    crate://crates.io/cdg/0.1.0 \
-+    crate://crates.io/cdg_renderer/0.7.0 \
-+    crate://crates.io/cexpr/0.6.0 \
-+    crate://crates.io/cfg-expr/0.7.4 \
-+    crate://crates.io/cfg-expr/0.10.2 \
-+    crate://crates.io/cfg-if/0.1.10 \
-+    crate://crates.io/cfg-if/1.0.0 \
-+    crate://crates.io/chrono/0.4.19 \
-+    crate://crates.io/cipher/0.2.5 \
-+    crate://crates.io/clang-sys/1.3.1 \
-+    crate://crates.io/clap/2.34.0 \
-+    crate://crates.io/clap/3.1.12 \
-+    crate://crates.io/clap_derive/3.1.7 \
-+    crate://crates.io/clap_lex/0.1.1 \
-+    crate://crates.io/claxon/0.4.3 \
-+    crate://crates.io/color_quant/1.1.0 \
-+    crate://crates.io/concurrent-queue/1.2.2 \
-+    crate://crates.io/const_fn/0.4.9 \
-+    crate://crates.io/cookie/0.15.1 \
-+    crate://crates.io/cookie_store/0.15.1 \
-+    crate://crates.io/core-foundation/0.9.3 \
-+    crate://crates.io/core-foundation-sys/0.8.3 \
-+    crate://crates.io/cpufeatures/0.2.2 \
-+    crate://crates.io/crc/1.8.1 \
-+    crate://crates.io/crc/3.0.0 \
-+    crate://crates.io/crc-catalog/2.1.0 \
-+    crate://crates.io/crc32fast/1.3.2 \
-+    crate://crates.io/crossbeam-channel/0.5.4 \
-+    crate://crates.io/crossbeam-deque/0.8.1 \
-+    crate://crates.io/crossbeam-epoch/0.9.8 \
-+    crate://crates.io/crossbeam-utils/0.8.8 \
-+    crate://crates.io/crypto-common/0.1.3 \
-+    crate://crates.io/crypto-mac/0.11.1 \
-+    crate://crates.io/csound/0.1.8 \
-+    crate://crates.io/csound-sys/0.1.2 \
-+    crate://crates.io/ctor/0.1.22 \
-+    crate://crates.io/ctr/0.6.0 \
-+    crate://crates.io/dasp_frame/0.11.0 \
-+    crate://crates.io/dasp_sample/0.11.0 \
-+    crate://crates.io/dav1d/0.7.0 \
-+    crate://crates.io/dav1d-sys/0.4.0 \
-+    crate://crates.io/deflate/1.0.0 \
-+    crate://crates.io/diff/0.1.12 \
-+    crate://crates.io/digest/0.9.0 \
-+    crate://crates.io/digest/0.10.3 \
-+    crate://crates.io/dirs-next/2.0.0 \
-+    crate://crates.io/dirs-sys-next/0.1.2 \
-+    crate://crates.io/discard/1.0.4 \
-+    crate://crates.io/ebur128/0.1.6 \
-+    crate://crates.io/ed25519/1.4.1 \
-+    crate://crates.io/either/1.6.1 \
-+    crate://crates.io/encoding_rs/0.8.31 \
-+    crate://crates.io/env_logger/0.8.4 \
-+    crate://crates.io/env_logger/0.9.0 \
-+    crate://crates.io/fastrand/1.7.0 \
-+    crate://crates.io/field-offset/0.3.4 \
-+    crate://crates.io/flate2/1.0.23 \
-+    crate://crates.io/fnv/1.0.7 \
-+    crate://crates.io/foreign-types/0.3.2 \
-+    crate://crates.io/foreign-types-shared/0.1.1 \
-+    crate://crates.io/form_urlencoded/1.0.1 \
-+    crate://crates.io/fragile/1.2.0 \
-+    crate://crates.io/fst/0.4.7 \
-+    crate://crates.io/futures/0.3.21 \
-+    crate://crates.io/futures-channel/0.3.21 \
-+    crate://crates.io/futures-core/0.3.21 \
-+    crate://crates.io/futures-executor/0.3.21 \
-+    crate://crates.io/futures-io/0.3.21 \
-+    crate://crates.io/futures-macro/0.3.21 \
-+    crate://crates.io/futures-sink/0.3.21 \
-+    crate://crates.io/futures-task/0.3.21 \
-+    crate://crates.io/futures-util/0.3.21 \
-+    crate://crates.io/generic-array/0.14.5 \
-+    crate://crates.io/getopts/0.2.21 \
-+    crate://crates.io/getrandom/0.2.6 \
-+    crate://crates.io/gif/0.11.3 \
-+    crate://crates.io/glob/0.3.0 \
-+    crate://crates.io/h2/0.3.13 \
-+    crate://crates.io/hashbrown/0.11.2 \
-+    crate://crates.io/headers/0.3.7 \
-+    crate://crates.io/headers-core/0.2.0 \
-+    crate://crates.io/heck/0.3.3 \
-+    crate://crates.io/heck/0.4.0 \
-+    crate://crates.io/hermit-abi/0.1.19 \
-+    crate://crates.io/hex/0.4.3 \
-+    crate://crates.io/hmac/0.11.0 \
-+    crate://crates.io/hostname/0.3.1 \
-+    crate://crates.io/hrtf/0.8.0 \
-+    crate://crates.io/http/0.2.6 \
-+    crate://crates.io/http-body/0.4.4 \
-+    crate://crates.io/httparse/1.7.0 \
-+    crate://crates.io/httpdate/1.0.2 \
-+    crate://crates.io/humantime/2.1.0 \
-+    crate://crates.io/hyper/0.14.18 \
-+    crate://crates.io/hyper-proxy/0.9.1 \
-+    crate://crates.io/hyper-tls/0.5.0 \
-+    crate://crates.io/hyphenation/0.8.4 \
-+    crate://crates.io/hyphenation_commons/0.8.4 \
-+    crate://crates.io/idna/0.2.3 \
-+    crate://crates.io/if-addrs/0.6.7 \
-+    crate://crates.io/if-addrs-sys/0.3.2 \
-+    crate://crates.io/image/0.24.1 \
-+    crate://crates.io/indexmap/1.8.1 \
-+    crate://crates.io/instant/0.1.12 \
-+    crate://crates.io/interpolate_name/0.2.3 \
-+    crate://crates.io/ipnet/2.5.0 \
-+    crate://crates.io/itertools/0.10.3 \
-+    crate://crates.io/itoa/1.0.1 \
-+    crate://crates.io/jobserver/0.1.24 \
-+    crate://crates.io/js-sys/0.3.57 \
-+    crate://crates.io/lazy_static/1.4.0 \
-+    crate://crates.io/lazycell/1.3.0 \
-+    crate://crates.io/lewton/0.10.2 \
-+    crate://crates.io/libc/0.2.124 \
-+    crate://crates.io/libfuzzer-sys/0.3.5 \
-+    crate://crates.io/libloading/0.7.3 \
-+    crate://crates.io/libm/0.2.2 \
-+    crate://crates.io/libmdns/0.6.2 \
-+    crate://crates.io/librespot/0.3.1 \
-+    crate://crates.io/librespot-audio/0.3.1 \
-+    crate://crates.io/librespot-connect/0.3.1 \
-+    crate://crates.io/librespot-core/0.3.1 \
-+    crate://crates.io/librespot-discovery/0.3.1 \
-+    crate://crates.io/librespot-metadata/0.3.1 \
-+    crate://crates.io/librespot-playback/0.3.1 \
-+    crate://crates.io/librespot-protocol/0.3.1 \
-+    crate://crates.io/libsodium-sys/0.2.7 \
-+    crate://crates.io/libwebp-sys2/0.1.2 \
-+    crate://crates.io/lock_api/0.4.7 \
-+    crate://crates.io/log/0.4.16 \
-+    crate://crates.io/m3u8-rs/4.0.0 \
-+    crate://crates.io/match_cfg/0.1.0 \
-+    crate://crates.io/matches/0.1.9 \
-+    crate://crates.io/md-5/0.9.1 \
-+    crate://crates.io/memchr/2.4.1 \
-+    crate://crates.io/memoffset/0.6.5 \
-+    crate://crates.io/mime/0.3.16 \
-+    crate://crates.io/minimal-lexical/0.2.1 \
-+    crate://crates.io/miniz_oxide/0.5.1 \
-+    crate://crates.io/mio/0.8.2 \
-+    crate://crates.io/miow/0.3.7 \
-+    crate://crates.io/more-asserts/0.2.2 \
-+    crate://crates.io/muldiv/1.0.0 \
-+    crate://crates.io/multimap/0.8.3 \
-+    crate://crates.io/nasm-rs/0.2.4 \
-+    crate://crates.io/native-tls/0.2.10 \
-+    crate://crates.io/nnnoiseless/0.4.0 \
-+    crate://crates.io/nom/7.1.1 \
-+    crate://crates.io/noop_proc_macro/0.3.0 \
-+    crate://crates.io/ntapi/0.3.7 \
-+    crate://crates.io/num-bigint/0.4.3 \
-+    crate://crates.io/num-complex/0.4.0 \
-+    crate://crates.io/num-derive/0.3.3 \
-+    crate://crates.io/num-integer/0.1.44 \
-+    crate://crates.io/num-iter/0.1.42 \
-+    crate://crates.io/num-rational/0.4.0 \
-+    crate://crates.io/num-traits/0.2.14 \
-+    crate://crates.io/num_cpus/1.13.1 \
-+    crate://crates.io/ogg/0.8.0 \
-+    crate://crates.io/once_cell/1.10.0 \
-+    crate://crates.io/opaque-debug/0.3.0 \
-+    crate://crates.io/openssl/0.10.38 \
-+    crate://crates.io/openssl-probe/0.1.5 \
-+    crate://crates.io/openssl-sys/0.9.72 \
-+    crate://crates.io/option-operations/0.4.0 \
-+    crate://crates.io/os_str_bytes/6.0.0 \
-+    crate://crates.io/output_vt100/0.1.3 \
-+    crate://crates.io/parking_lot/0.12.0 \
-+    crate://crates.io/parking_lot_core/0.9.2 \
-+    crate://crates.io/paste/1.0.7 \
-+    crate://crates.io/pbkdf2/0.8.0 \
-+    crate://crates.io/peeking_take_while/0.1.2 \
-+    crate://crates.io/percent-encoding/2.1.0 \
-+    crate://crates.io/pest/2.1.3 \
-+    crate://crates.io/pin-project-lite/0.2.8 \
-+    crate://crates.io/pin-utils/0.1.0 \
-+    crate://crates.io/pkg-config/0.3.25 \
-+    crate://crates.io/png/0.17.5 \
-+    crate://crates.io/pocket-resources/0.3.2 \
-+    crate://crates.io/polling/2.2.0 \
-+    crate://crates.io/ppv-lite86/0.2.16 \
-+    crate://crates.io/pretty-hex/0.3.0 \
-+    crate://crates.io/pretty_assertions/1.2.1 \
-+    crate://crates.io/primal-check/0.3.1 \
-+    crate://crates.io/priority-queue/1.2.1 \
-+    crate://crates.io/proc-macro-crate/1.1.3 \
-+    crate://crates.io/proc-macro-error/1.0.4 \
-+    crate://crates.io/proc-macro-error-attr/1.0.4 \
-+    crate://crates.io/proc-macro-hack/0.5.19 \
-+    crate://crates.io/proc-macro2/1.0.37 \
-+    crate://crates.io/protobuf/2.27.1 \
-+    crate://crates.io/protobuf-codegen/2.27.1 \
-+    crate://crates.io/protobuf-codegen-pure/2.27.1 \
-+    crate://crates.io/psl-types/2.0.10 \
-+    crate://crates.io/publicsuffix/2.1.1 \
-+    crate://crates.io/quick-xml/0.22.0 \
-+    crate://crates.io/quote/1.0.18 \
-+    crate://crates.io/rand/0.8.5 \
-+    crate://crates.io/rand_chacha/0.3.1 \
-+    crate://crates.io/rand_core/0.6.3 \
-+    crate://crates.io/rand_distr/0.4.3 \
-+    crate://crates.io/rav1e/0.5.1 \
-+    crate://crates.io/rayon/1.5.2 \
-+    crate://crates.io/rayon-core/1.9.2 \
-+    crate://crates.io/realfft/2.0.1 \
-+    crate://crates.io/redox_syscall/0.2.13 \
-+    crate://crates.io/redox_users/0.4.3 \
-+    crate://crates.io/regex/1.5.5 \
-+    crate://crates.io/regex-syntax/0.6.25 \
-+    crate://crates.io/remove_dir_all/0.5.3 \
-+    crate://crates.io/reqwest/0.11.10 \
-+    crate://crates.io/rpassword/5.0.1 \
-+    crate://crates.io/rubato/0.10.1 \
-+    crate://crates.io/rusoto_core/0.48.0 \
-+    crate://crates.io/rusoto_credential/0.48.0 \
-+    crate://crates.io/rusoto_s3/0.48.0 \
-+    crate://crates.io/rusoto_signature/0.48.0 \
-+    crate://crates.io/rust_hawktracer/0.7.0 \
-+    crate://crates.io/rust_hawktracer_normal_macro/0.4.1 \
-+    crate://crates.io/rust_hawktracer_proc_macro/0.4.1 \
-+    crate://crates.io/rustc-hash/1.1.0 \
-+    crate://crates.io/rustc_version/0.2.3 \
-+    crate://crates.io/rustc_version/0.3.3 \
-+    crate://crates.io/rustc_version/0.4.0 \
-+    crate://crates.io/rustfft/6.0.1 \
-+    crate://crates.io/ryu/1.0.9 \
-+    crate://crates.io/same-file/1.0.6 \
-+    crate://crates.io/schannel/0.1.19 \
-+    crate://crates.io/scopeguard/1.1.0 \
-+    crate://crates.io/security-framework/2.6.1 \
-+    crate://crates.io/security-framework-sys/2.6.1 \
-+    crate://crates.io/semver/0.9.0 \
-+    crate://crates.io/semver/0.11.0 \
-+    crate://crates.io/semver/1.0.7 \
-+    crate://crates.io/semver-parser/0.7.0 \
-+    crate://crates.io/semver-parser/0.10.2 \
-+    crate://crates.io/serde/1.0.136 \
-+    crate://crates.io/serde_bytes/0.11.5 \
-+    crate://crates.io/serde_derive/1.0.136 \
-+    crate://crates.io/serde_json/1.0.79 \
-+    crate://crates.io/serde_urlencoded/0.7.1 \
-+    crate://crates.io/sha-1/0.9.8 \
-+    crate://crates.io/sha-1/0.10.0 \
-+    crate://crates.io/sha1/0.6.1 \
-+    crate://crates.io/sha1_smol/1.0.0 \
-+    crate://crates.io/sha2/0.9.9 \
-+    crate://crates.io/shannon/0.2.0 \
-+    crate://crates.io/shell-words/1.1.0 \
-+    crate://crates.io/shlex/1.1.0 \
-+    crate://crates.io/signal-hook-registry/1.4.0 \
-+    crate://crates.io/signature/1.5.0 \
-+    crate://crates.io/simd_helpers/0.1.0 \
-+    crate://crates.io/slab/0.4.6 \
-+    crate://crates.io/smallvec/1.8.0 \
-+    crate://crates.io/smawk/0.3.1 \
-+    crate://crates.io/socket2/0.4.4 \
-+    crate://crates.io/sodiumoxide/0.2.7 \
-+    crate://crates.io/standback/0.2.17 \
-+    crate://crates.io/stdweb/0.4.20 \
-+    crate://crates.io/stdweb-derive/0.5.3 \
-+    crate://crates.io/stdweb-internal-macros/0.2.9 \
-+    crate://crates.io/stdweb-internal-runtime/0.1.5 \
-+    crate://crates.io/strength_reduce/0.2.3 \
-+    crate://crates.io/strsim/0.8.0 \
-+    crate://crates.io/strsim/0.10.0 \
-+    crate://crates.io/structopt/0.3.26 \
-+    crate://crates.io/structopt-derive/0.4.18 \
-+    crate://crates.io/strum/0.21.0 \
-+    crate://crates.io/strum_macros/0.21.1 \
-+    crate://crates.io/subtle/2.4.1 \
-+    crate://crates.io/syn/1.0.91 \
-+    crate://crates.io/synstructure/0.12.6 \
-+    crate://crates.io/system-deps/3.1.2 \
-+    crate://crates.io/system-deps/6.0.2 \
-+    crate://crates.io/tempfile/3.3.0 \
-+    crate://crates.io/termcolor/1.1.3 \
-+    crate://crates.io/textwrap/0.11.0 \
-+    crate://crates.io/textwrap/0.15.0 \
-+    crate://crates.io/thiserror/1.0.30 \
-+    crate://crates.io/thiserror-impl/1.0.30 \
-+    crate://crates.io/time/0.1.43 \
-+    crate://crates.io/time/0.2.27 \
-+    crate://crates.io/time-macros/0.1.1 \
-+    crate://crates.io/time-macros-impl/0.1.2 \
-+    crate://crates.io/tinyvec/1.6.0 \
-+    crate://crates.io/tinyvec_macros/0.1.0 \
-+    crate://crates.io/tokio/1.17.0 \
-+    crate://crates.io/tokio-macros/1.7.0 \
-+    crate://crates.io/tokio-native-tls/0.3.0 \
-+    crate://crates.io/tokio-stream/0.1.8 \
-+    crate://crates.io/tokio-util/0.6.9 \
-+    crate://crates.io/tokio-util/0.7.1 \
-+    crate://crates.io/toml/0.5.9 \
-+    crate://crates.io/tower-service/0.3.1 \
-+    crate://crates.io/tracing/0.1.34 \
-+    crate://crates.io/tracing-attributes/0.1.20 \
-+    crate://crates.io/tracing-core/0.1.26 \
-+    crate://crates.io/transpose/0.2.1 \
-+    crate://crates.io/try-lock/0.2.3 \
-+    crate://crates.io/tungstenite/0.17.2 \
-+    crate://crates.io/typenum/1.15.0 \
-+    crate://crates.io/ucd-trie/0.1.3 \
-+    crate://crates.io/unicode-bidi/0.3.7 \
-+    crate://crates.io/unicode-linebreak/0.1.2 \
-+    crate://crates.io/unicode-normalization/0.1.19 \
-+    crate://crates.io/unicode-segmentation/1.9.0 \
-+    crate://crates.io/unicode-width/0.1.9 \
-+    crate://crates.io/unicode-xid/0.2.2 \
-+    crate://crates.io/url/2.2.2 \
-+    crate://crates.io/utf-8/0.7.6 \
-+    crate://crates.io/uuid/0.8.2 \
-+    crate://crates.io/uuid/1.0.0 \
-+    crate://crates.io/v_frame/0.2.5 \
-+    crate://crates.io/va_list/0.1.4 \
-+    crate://crates.io/vcpkg/0.2.15 \
-+    crate://crates.io/vec_map/0.8.2 \
-+    crate://crates.io/vergen/3.2.0 \
-+    crate://crates.io/version-compare/0.0.11 \
-+    crate://crates.io/version-compare/0.1.0 \
-+    crate://crates.io/version_check/0.9.4 \
-+    crate://crates.io/waker-fn/1.1.0 \
-+    crate://crates.io/walkdir/2.3.2 \
-+    crate://crates.io/want/0.3.0 \
-+    crate://crates.io/wasi/0.10.2+wasi-snapshot-preview1 \
-+    crate://crates.io/wasi/0.11.0+wasi-snapshot-preview1 \
-+    crate://crates.io/wasm-bindgen/0.2.80 \
-+    crate://crates.io/wasm-bindgen-backend/0.2.80 \
-+    crate://crates.io/wasm-bindgen-futures/0.4.30 \
-+    crate://crates.io/wasm-bindgen-macro/0.2.80 \
-+    crate://crates.io/wasm-bindgen-macro-support/0.2.80 \
-+    crate://crates.io/wasm-bindgen-shared/0.2.80 \
-+    crate://crates.io/web-sys/0.3.57 \
-+    crate://crates.io/weezl/0.1.6 \
-+    crate://crates.io/wepoll-ffi/0.1.2 \
-+    crate://crates.io/which/4.2.5 \
-+    crate://crates.io/winapi/0.3.9 \
-+    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
-+    crate://crates.io/winapi-util/0.1.5 \
-+    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
-+    crate://crates.io/windows-sys/0.34.0 \
-+    crate://crates.io/windows_aarch64_msvc/0.34.0 \
-+    crate://crates.io/windows_i686_gnu/0.34.0 \
-+    crate://crates.io/windows_i686_msvc/0.34.0 \
-+    crate://crates.io/windows_x86_64_gnu/0.34.0 \
-+    crate://crates.io/windows_x86_64_msvc/0.34.0 \
-+    crate://crates.io/winreg/0.10.1 \
-+    crate://crates.io/xml-rs/0.8.4 \
-+    crate://crates.io/zerocopy/0.3.0 \
-+    crate://crates.io/zerocopy-derive/0.2.0 \
-+    crate://crates.io/zeroize/1.5.4 \
-+"
-+
-+SRCREV_FORMAT = "default_gstreamer-rs_gtk-rs-core_gtk3-rs_ffv1_flavors_gtk4-rs"
-+
-+SRCREV_default = "18c9bd0355e0fc1ab20072d805807112945ad5bb"
-+SRCREV_gstreamer-rs = "9ee22baa07d2c4e67742baeafb2be49e1db9befe"
-+SRCREV_gtk-rs-core = "59eea5774c06bfd323e9298240f615ad2f7ced9e"
-+SRCREV_gtk3-rs = "51df5c22fbe02ec57c5052a3e5a91cc9671a0e83"
-+SRCREV_ffv1 = "2afb025a327173ce891954c052e804d0f880368a"
-+SRCREV_flavors = "c48542aef94b7da36d6f306f4016bee9c79e09ba"
-+SRCREV_gtk4-rs = "36aa4108f8e221536e194f62d8ee3be8ea6191f0"
-+
-+S = "${WORKDIR}/git"
-+
-+PACKAGECONFIG[file] = "-p gst-plugin-file"
-+PACKAGECONFIG[fmp4] = "-p gst-plugin-fmp4"
-+PACKAGECONFIG[sodium] = "-p gst-plugin-sodium"
-+PACKAGECONFIG[threadshare] = "-p gst-plugin-threadshare"
-+PACKAGECONFIG[hlssink3] = "-p gst-plugin-hlssink3"
-+PACKAGECONFIG[reqwest] = "-p gst-plugin-reqwest"
-+PACKAGECONFIG[rusoto] = "-p gst-plugin-rusoto"
-+PACKAGECONFIG[audiofx] = "-p gst-plugin-audiofx"
-+PACKAGECONFIG[claxon] = "-p gst-plugin-claxon"
-+PACKAGECONFIG[lewton] = "-p gst-plugin-lewton"
-+PACKAGECONFIG[spotify] = "-p gst-plugin-spotify"
-+PACKAGECONFIG[cdg] = "-p gst-plugin-cdg"
-+PACKAGECONFIG[closedcaption] = "-p gst-plugin-closedcaption"
-+PACKAGECONFIG[ffv1] = "-p gst-plugin-ffv1"
-+PACKAGECONFIG[flavors] = "-p gst-plugin-flavors"
-+PACKAGECONFIG[gif] = "-p gst-plugin-gif"
-+PACKAGECONFIG[hsv] = "-p gst-plugin-hsv"
-+PACKAGECONFIG[png] = "-p gst-plugin-rspng"
-+PACKAGECONFIG[rav1e] = "-p gst-plugin-rav1e"
-+PACKAGECONFIG[videofx] = "-p gst-plugin-videofx"
-+PACKAGECONFIG[webp] = "-p gst-plugin-webp"
-+PACKAGECONFIG[ahead] = "-p gst-plugin-textahead"
-+PACKAGECONFIG[json] = "-p gst-plugin-json"
-+PACKAGECONFIG[regex] = "-p gst-plugin-regex"
-+PACKAGECONFIG[wrap] = "-p gst-plugin-textwrap"
-+PACKAGECONFIG[fallbackswitch] = "-p gst-plugin-fallbackswitch"
-+PACKAGECONFIG[togglerecord] = "-p gst-plugin-togglerecord"
-+
-+PACKAGECONFIG ??= " \
-+    file fmp4 sodium threadshare hlssink3 reqwest rusoto audiofx claxon \
-+    lewton spotify cdg closedcaption ffv1 flavors gif hsv png rav1e \
-+    videofx webp ahead json regex wrap fallbackswitch togglerecord \
-+"
-+
-+inherit cargo pkgconfig
-+
-+DEPENDS = " \
-+    gstreamer1.0 \
-+    gstreamer1.0-plugins-good \
-+"
-+
-+do_install:append() {
-+    mkdir -p ${D}${libdir}/gstreamer-1.0
-+    mv ${D}${libdir}/rust/*.so ${D}${libdir}/gstreamer-1.0/
-+}
-+
-+FILES:${PN} += "${libdir}/gstreamer-1.0/*"
+diff --git a/meta/classes/cargo.bbclass b/meta/classes/cargo.bbclass
+index 7cfd4a2666..2a62fda4a3 100644
+--- a/meta/classes/cargo.bbclass
++++ b/meta/classes/cargo.bbclass
+@@ -44,7 +44,7 @@ oe_cargo_build () {
+ 	bbnote "cargo = $(which ${CARGO})"
+ 	bbnote "rustc = $(which ${RUSTC})"
+ 	bbnote "${CARGO} build ${CARGO_BUILD_FLAGS} $@"
+-	"${CARGO}" build ${CARGO_BUILD_FLAGS} "$@"
++	"${CARGO}" build ${CARGO_BUILD_FLAGS} ${PACKAGECONFIG_CONFARGS} "$@"
+ }
+ 
+ do_compile[progress] = "outof:\s+(\d+)/(\d+)"
 -- 
 2.34.1
 
