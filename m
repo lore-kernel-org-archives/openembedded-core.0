@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72D22CCA481
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 771D1C433EF
 	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 12:01:54 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.31067.1654516906654903212
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web09.31135.1654516905940517049
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 05:01:47 -0700
+ Mon, 06 Jun 2022 05:01:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=hTZAQc+0;
- spf=pass (domain: gmail.com, ip: 209.85.221.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=LXKCeD7F;
+ spf=pass (domain: gmail.com, ip: 209.85.221.47,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id p10so19549890wrg.12
+Received: by mail-wr1-f47.google.com with SMTP id a15so11033541wrh.2
         for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 05:01:46 -0700 (PDT)
+ Mon, 06 Jun 2022 05:01:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=60NLNuD+oId00XF/smJzULO4DFEtndCZELVE7v0SpsM=;
-        b=hTZAQc+0o3Ji+iqgwJHhGXtIDEPYPitKM4eCCUyZqcxvWJuU6fdmxIrXLVG5bxDsbF
-         I70zatEoU388/jLSu0wrd6uZw5AGh/coiY0wZX1x1Br7BDRJc24sNMIHM6kvICgatobD
-         7eGcoO6XPPUGmn3NA5mBlpa1lNxYS31ngrDoG0vFAhi9FaA+WllLIP9comVZ3J71qDl1
-         ccEMMg9nKFct2fqWfJ2D6XcS3nymt15UeuK7yMoEm+NpfMxNe1FxazHmbIwLB9pa6NNv
-         W58Bw/epoXkHD+HNFU0tqE44oYJtiYWqFb5sBncssPe/mg/v5CUzFuPjbVp59WnnHwbi
-         PQdA==
+        bh=RojXnKoDB9ACYSwBFxX6VTJBBdd3t1UNaxVOJJPM+3I=;
+        b=LXKCeD7F9oFtB5NzIPBBsxnxeB0jPjjux9t9CxtqgmeUcD4yxdSzKWfB62uJinXTmB
+         dsda3UDhjz2rSqwGhzzRittkJktHhXN62WP8bqz5b2BA0WjyF1CnY2eErgE2cFmzQYAz
+         /hGNGubG5XP7shcnmG66CidW4v58tDZpU6M7asHD19LzOb5aj5Xirw2IUMd5N+YPJvmO
+         QtyCkp8+l0tO4dQPsUZa4lMNUBe/2STXQSnpwcDevzMJPyA4wPDF+5odpq35SPBAmG+i
+         gJgjvzLM+/mjM5KaHTAFqtZiGNXiyFvfIb2Q1AH63AaRi4WIfbPO1GH/ANdo6t61DvJD
+         YSXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=60NLNuD+oId00XF/smJzULO4DFEtndCZELVE7v0SpsM=;
-        b=aDYkEd/fmTGDUAwRX20WhTOtTveXPAcWZaARdBg+YIR5rHO2R2mxGB37b4M1Zpteu2
-         xYuujPRC/wogHFAvU+62RhpnfNHKG8doE2EklPqAV4H/7fK+642HjN7vjJQXIgamIntL
-         XECp40U/32mpGkCyc+cdzQ40Ec55BIs/iI1s+Dy0aNskCiYXgjSY8qbuhqDeTfvA9heX
-         tMccROGfzmlAWcTpK/aBw5l7tZioHLHmFoQJGPF1pPeV5ySs5S0haAwDcAlC4K3larGC
-         cCqO6tnoeO63KpNK/cl9Cq2L2zVygJl9H3nP1recD92gWjIIaIqvTRBnTBEsWBYTYmL1
-         8sSg==
-X-Gm-Message-State: AOAM5311cdORmIL341VMHC5NcpR/5qFDIB1VKXi/c3OqQa/cgXJ3h6d5
-	qAt0SMPt3As9E9BaB4eTJmepsWkyOcv8uA==
+        bh=RojXnKoDB9ACYSwBFxX6VTJBBdd3t1UNaxVOJJPM+3I=;
+        b=BpgWFr0NiEu8nnoHl7cuXKZQzmoykzPcrQhiwCoMBTLBD16RuBe8RbcQrB+COoqU3E
+         APDGa+kk0Vr5XStt8bo6Be4Q4+5KoX6cj+5AMYpsxIUSeLwiHXKaOjj09UFw9usiD2+4
+         iPyrR8TOMyUlaJDXXXXvTh6tSeFZN5+2MUFHQ5kI4qC59vR1sH8/o6Iopf/AyOrY/yR1
+         AHjg/6wFjhNxGF1NYfbNBeEFJk/6Byzacj9Fqsc2bQDUuD9ZhEcuJ92+PDHq5IrtH+jF
+         ojtVDp6DpK3APzu5z3fiWRBErr7eN22oYpFSBkHBtf69PPIKqNyFS+1B4GdOUwnijEBM
+         Oipg==
+X-Gm-Message-State: AOAM531wQEY7QBlAmoTVwp9mBeMtNtPQVHTNxyd9ZiUSnOh22u9mC1NH
+	krLjI3l4nocX/6zZ7dcA3gCdVI5a/n8zUw==
 X-Google-Smtp-Source: 
- ABdhPJwN1ikDBy7kRo+WiAICNfTcsk4ANLU3pdHVxqu6igun/I6kpnMXRuSdEedzlNCn8JcL62K7QA==
-X-Received: by 2002:adf:f842:0:b0:213:5c4b:981d with SMTP id
- d2-20020adff842000000b002135c4b981dmr19865170wrq.694.1654516905220;
-        Mon, 06 Jun 2022 05:01:45 -0700 (PDT)
+ ABdhPJxrKQf1nbIRUHaxpmQiHHC5Bez5NZHDTImq2qGTvEUz4KDCLjTPr7xK1dectHgVni+kTXeoCw==
+X-Received: by 2002:adf:fec3:0:b0:216:ea3d:b118 with SMTP id
+ q3-20020adffec3000000b00216ea3db118mr9676299wrs.517.1654516904521;
+        Mon, 06 Jun 2022 05:01:44 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- f12-20020a5d4dcc000000b002100316b126sm15526455wru.6.2022.06.06.05.01.44
+ f12-20020a5d4dcc000000b002100316b126sm15526455wru.6.2022.06.06.05.01.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 06 Jun 2022 05:01:44 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 18/21] perl: update 5.34.1 -> 5.36.0
-Date: Mon,  6 Jun 2022 14:01:23 +0200
-Message-Id: <20220606120126.3381438-18-alex@linutronix.de>
+Subject: [PATCH 17/21] ltp: upgrade 20220121 -> 20220527
+Date: Mon,  6 Jun 2022 14:01:22 +0200
+Message-Id: <20220606120126.3381438-17-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220606120126.3381438-1-alex@linutronix.de>
 References: <20220606120126.3381438-1-alex@linutronix.de>
@@ -68,260 +68,84 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 12:01:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166612
+ https://lists.openembedded.org/g/openembedded-core/message/166610
+
+Disable stack protection as newly added kvm tests won't build with it.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../{perlcross_1.3.7.bb => perlcross_1.4.bb}  |  2 +-
- .../perl/files/perl-configpm-switch.patch     |  2 +-
- .../perl/files/perl-dynloader.patch           |  2 +-
- .../perl/files/perl-rdepends.txt              | 49 ++++++++++++-------
- .../perl/{perl_5.34.1.bb => perl_5.36.0.bb}   |  2 +-
- 5 files changed, 35 insertions(+), 22 deletions(-)
- rename meta/recipes-devtools/perl-cross/{perlcross_1.3.7.bb => perlcross_1.4.bb} (92%)
- rename meta/recipes-devtools/perl/{perl_5.34.1.bb => perl_5.36.0.bb} (99%)
+ meta/conf/distro/include/security_flags.inc   |  1 +
+ ...sh-sort-filelist-for-reproducibility.patch | 28 -------------------
+ .../ltp/{ltp_20220121.bb => ltp_20220527.bb}  |  3 +-
+ 3 files changed, 2 insertions(+), 30 deletions(-)
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0001-metadata-parse.sh-sort-filelist-for-reproducibility.patch
+ rename meta/recipes-extended/ltp/{ltp_20220121.bb => ltp_20220527.bb} (97%)
 
-diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.3.7.bb b/meta/recipes-devtools/perl-cross/perlcross_1.4.bb
-similarity index 92%
-rename from meta/recipes-devtools/perl-cross/perlcross_1.3.7.bb
-rename to meta/recipes-devtools/perl-cross/perlcross_1.4.bb
-index 99a9ca1027..1329306b0e 100644
---- a/meta/recipes-devtools/perl-cross/perlcross_1.3.7.bb
-+++ b/meta/recipes-devtools/perl-cross/perlcross_1.4.bb
-@@ -18,7 +18,7 @@ SRC_URI = "https://github.com/arsv/perl-cross/releases/download/${PV}/perl-cross
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 8374cb8544..2972f05b4e 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -61,6 +61,7 @@ TARGET_LDFLAGS:append:class-cross-canadian = " ${SECURITY_LDFLAGS}"
+ SECURITY_STACK_PROTECTOR:pn-gcc-runtime = ""
+ SECURITY_STACK_PROTECTOR:pn-glibc = ""
+ SECURITY_STACK_PROTECTOR:pn-glibc-testsuite = ""
++SECURITY_STACK_PROTECTOR:pn-ltp = ""
+ # All xorg module drivers need to be linked this way as well and are
+ # handled in recipes-graphics/xorg-driver/xorg-driver-common.inc
+ SECURITY_LDFLAGS:pn-xserver-xorg = "${SECURITY_X_LDFLAGS}"
+diff --git a/meta/recipes-extended/ltp/ltp/0001-metadata-parse.sh-sort-filelist-for-reproducibility.patch b/meta/recipes-extended/ltp/ltp/0001-metadata-parse.sh-sort-filelist-for-reproducibility.patch
+deleted file mode 100644
+index e8d9f212a9..0000000000
+--- a/meta/recipes-extended/ltp/ltp/0001-metadata-parse.sh-sort-filelist-for-reproducibility.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From 4aad23f208cc7725cd61bbe5aaadb9994c794cd0 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Wed, 26 Jan 2022 20:58:46 +0100
+-Subject: [PATCH] metadata/parse.sh: sort filelist for reproducibility
+-
+-find does not guarantee the order of the files.
+-
+-Upstream-Status: Submitted [https://github.com/linux-test-project/ltp/pull/907]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- metadata/parse.sh | 2 +-
+-
+-diff --git a/metadata/parse.sh b/metadata/parse.sh
+-index b43d024c68..1811665bfe 100755
+---- a/metadata/parse.sh
+-+++ b/metadata/parse.sh
+-@@ -29,7 +29,7 @@ echo ' "tests": {'
+- 
+- first=1
+- 
+--for test in `find testcases/ -name '*.c'`; do
+-+for test in `find testcases/ -name '*.c'|sort`; do
+- 	a=$($top_builddir/metadata/metaparse -Iinclude -Itestcases/kernel/syscalls/utils/ "$test")
+- 	if [ -n "$a" ]; then
+- 		if [ -z "$first" ]; then
+--- 
+-2.20.1
+-
+diff --git a/meta/recipes-extended/ltp/ltp_20220121.bb b/meta/recipes-extended/ltp/ltp_20220527.bb
+similarity index 97%
+rename from meta/recipes-extended/ltp/ltp_20220121.bb
+rename to meta/recipes-extended/ltp/ltp_20220527.bb
+index 8a13dcf9d0..b136c83860 100644
+--- a/meta/recipes-extended/ltp/ltp_20220121.bb
++++ b/meta/recipes-extended/ltp/ltp_20220527.bb
+@@ -22,11 +22,10 @@ CFLAGS:append:x86-64 = " -fomit-frame-pointer"
+ 
+ CFLAGS:append:powerpc64 = " -D__SANE_USERSPACE_TYPES__"
+ CFLAGS:append:mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
+-SRCREV = "b0561ad8d9ee9fe1244b5385e941eb65a21e91a1"
++SRCREV = "6f88e0f6f1d6eb12c48c902f50f47ecbd3b0f18a"
+ 
+ SRC_URI = "git://github.com/linux-test-project/ltp.git;branch=master;protocol=https \
+            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
+-           file://0001-metadata-parse.sh-sort-filelist-for-reproducibility.patch \
+            file://disable_hanging_tests.patch \
             "
- UPSTREAM_CHECK_URI = "https://github.com/arsv/perl-cross/releases/"
- 
--SRC_URI[perl-cross.sha256sum] = "77f13ca84a63025053852331b72d4046c1f90ded98bd45ccedea738621907335"
-+SRC_URI[perl-cross.sha256sum] = "be9d9f9f7148edff7a2f9695ba3cb7e3975eff6b25a9a81dd311725fd757aa91"
- 
- S = "${WORKDIR}/perl-cross-${PV}"
- 
-diff --git a/meta/recipes-devtools/perl/files/perl-configpm-switch.patch b/meta/recipes-devtools/perl/files/perl-configpm-switch.patch
-index 15189a0c04..f80de88974 100644
---- a/meta/recipes-devtools/perl/files/perl-configpm-switch.patch
-+++ b/meta/recipes-devtools/perl/files/perl-configpm-switch.patch
-@@ -1,4 +1,4 @@
--From 1f7cc5db2ca549c37c6a7923368e1a0104f31b99 Mon Sep 17 00:00:00 2001
-+From 055d4c31f41611b7d7fb6b0e38b3818a053de38d Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Sun, 27 May 2007 21:04:11 +0000
- Subject: [PATCH] perl: 5.8.7 -> 5.8.8 (from OE)
-diff --git a/meta/recipes-devtools/perl/files/perl-dynloader.patch b/meta/recipes-devtools/perl/files/perl-dynloader.patch
-index b49e6e4066..887f7c0f7f 100644
---- a/meta/recipes-devtools/perl/files/perl-dynloader.patch
-+++ b/meta/recipes-devtools/perl/files/perl-dynloader.patch
-@@ -22,7 +22,7 @@ Index: perl-5.24.1/dist/XSLoader/XSLoader_pm.PL
- +        my $hostlib = $ENV{PERLHOSTLIB};
- +        my $hostarchlib = $ENV{PERLHOSTARCHLIB};
- +        print STDERR "*** Module name IN: $modlibname\n";
--+        ($p1, $p2, $p3, $p4, $p5, $p6, $p7) = $modlibname =~ m/(^(.*lib\w*\/)?)((perl5\/[0-9\.]*\/)?)(([^\/]*)\/)?(.*)$/;
-++        my ($p1, $p2, $p3, $p4, $p5, $p6, $p7) = $modlibname =~ m/(^(.*lib\w*\/)?)((perl5\/[0-9\.]*\/)?)(([^\/]*)\/)?(.*)$/;
- +        print STDERR "*** p1: $p1  p3: $p3  p5: $p5 p7: $p7\n";
- +        if ( $p1 ne "" ) {
- +            $modlibname = $hostlib.$p7;
-diff --git a/meta/recipes-devtools/perl/files/perl-rdepends.txt b/meta/recipes-devtools/perl/files/perl-rdepends.txt
-index 74c24c3bb5..e5f45bf291 100644
---- a/meta/recipes-devtools/perl/files/perl-rdepends.txt
-+++ b/meta/recipes-devtools/perl/files/perl-rdepends.txt
-@@ -131,28 +131,23 @@ RDEPENDS:perl-module-b-concise += "perl-module-strict"
- RDEPENDS:perl-module-b-concise += "perl-module-warnings"
- RDEPENDS:perl-module-benchmark += "perl-module-exporter"
- RDEPENDS:perl-module-benchmark += "perl-module-strict"
-+RDEPENDS:perl-module-bigfloat += "perl-module-constant"
-+RDEPENDS:perl-module-bigfloat += "perl-module-exporter"
-+RDEPENDS:perl-module-bigfloat += "perl-module-overload"
-+RDEPENDS:perl-module-bigfloat += "perl-module-strict"
-+RDEPENDS:perl-module-bigfloat += "perl-module-warnings"
- RDEPENDS:perl-module-bigint += "perl-module-constant"
- RDEPENDS:perl-module-bigint += "perl-module-exporter"
--RDEPENDS:perl-module-bigint += "perl-module-math-bigint"
--RDEPENDS:perl-module-bigint += "perl-module-math-bigint-trace"
- RDEPENDS:perl-module-bigint += "perl-module-overload"
- RDEPENDS:perl-module-bigint += "perl-module-strict"
- RDEPENDS:perl-module-bigint += "perl-module-warnings"
--RDEPENDS:perl-module-bignum += "perl-module-bigint"
-+RDEPENDS:perl-module-bignum += "perl-module-constant"
- RDEPENDS:perl-module-bignum += "perl-module-exporter"
--RDEPENDS:perl-module-bignum += "perl-module-math-bigfloat"
--RDEPENDS:perl-module-bignum += "perl-module-math-bigfloat-trace"
--RDEPENDS:perl-module-bignum += "perl-module-math-bigint"
--RDEPENDS:perl-module-bignum += "perl-module-math-bigint-trace"
- RDEPENDS:perl-module-bignum += "perl-module-overload"
- RDEPENDS:perl-module-bignum += "perl-module-strict"
- RDEPENDS:perl-module-bignum += "perl-module-warnings"
--RDEPENDS:perl-module-bigrat += "perl-module-bigint"
-+RDEPENDS:perl-module-bigrat += "perl-module-constant"
- RDEPENDS:perl-module-bigrat += "perl-module-exporter"
--RDEPENDS:perl-module-bigrat += "perl-module-math-bigfloat"
--RDEPENDS:perl-module-bigrat += "perl-module-math-bigint"
--RDEPENDS:perl-module-bigrat += "perl-module-math-bigint-trace"
--RDEPENDS:perl-module-bigrat += "perl-module-math-bigrat"
- RDEPENDS:perl-module-bigrat += "perl-module-overload"
- RDEPENDS:perl-module-bigrat += "perl-module-strict"
- RDEPENDS:perl-module-bigrat += "perl-module-warnings"
-@@ -166,6 +161,8 @@ RDEPENDS:perl-module-b-showlex += "perl-module-strict"
- RDEPENDS:perl-module-b-terse += "perl-module-b"
- RDEPENDS:perl-module-b-terse += "perl-module-b-concise"
- RDEPENDS:perl-module-b-terse += "perl-module-strict"
-+RDEPENDS:perl-module-builtin += "perl-module-strict"
-+RDEPENDS:perl-module-builtin += "perl-module-warnings"
- RDEPENDS:perl-module-b-xref += "perl-module-b"
- RDEPENDS:perl-module-b-xref += "perl-module-config"
- RDEPENDS:perl-module-b-xref += "perl-module-strict"
-@@ -257,7 +254,6 @@ RDEPENDS:perl-module-cwd += "perl-module-errno"
- RDEPENDS:perl-module-cwd += "perl-module-exporter"
- RDEPENDS:perl-module-cwd += "perl-module-strict"
- RDEPENDS:perl-module-cwd += "perl-module-xsloader"
--RDEPENDS:perl-module-data-dumper += "perl-module-config"
- RDEPENDS:perl-module-data-dumper += "perl-module-constant"
- RDEPENDS:perl-module-data-dumper += "perl-module-exporter"
- RDEPENDS:perl-module-data-dumper += "perl-module-strict"
-@@ -313,6 +309,8 @@ RDEPENDS:perl-module-digest-sha += "perl-module-vars"
- RDEPENDS:perl-module-digest-sha += "perl-module-warnings"
- RDEPENDS:perl-module-digest-sha += "perl-module-xsloader"
- RDEPENDS:perl-module-dynaloader += "perl-module-config"
-+RDEPENDS:perl-module-dynaloader += "perl-module-strict"
-+RDEPENDS:perl-module-dynaloader += "perl-module-vars"
- RDEPENDS:perl-module-encode-alias += "perl-module-constant"
- RDEPENDS:perl-module-encode-alias += "perl-module-encode"
- RDEPENDS:perl-module-encode-alias += "perl-module-exporter"
-@@ -796,11 +794,12 @@ RDEPENDS:perl-module-file-basename += "perl-module-warnings"
- RDEPENDS:perl-module-filecache += "perl-module-parent"
- RDEPENDS:perl-module-filecache += "perl-module-strict"
- RDEPENDS:perl-module-file-compare += "perl-module-exporter"
--RDEPENDS:perl-module-file-compare += "perl-module-strict"
- RDEPENDS:perl-module-file-compare += "perl-module-warnings"
-+RDEPENDS:perl-module-file-copy += "perl-module-builtin"
- RDEPENDS:perl-module-file-copy += "perl-module-config"
- RDEPENDS:perl-module-file-copy += "perl-module-exporter"
- RDEPENDS:perl-module-file-copy += "perl-module-file-basename"
-+RDEPENDS:perl-module-file-copy += "perl-module-overload"
- RDEPENDS:perl-module-file-copy += "perl-module-strict"
- RDEPENDS:perl-module-file-copy += "perl-module-warnings"
- RDEPENDS:perl-module-file-dosglob += "perl-module-strict"
-@@ -887,10 +886,12 @@ RDEPENDS:perl-module-getopt-long += "perl-module-warnings"
- RDEPENDS:perl-module-getopt-std += "perl-module-exporter"
- RDEPENDS:perl-module-getopt-std += "perl-module-strict"
- RDEPENDS:perl-module-getopt-std += "perl-module-warnings"
-+RDEPENDS:perl-module-hash-util-fieldhash += "perl-module-builtin"
- RDEPENDS:perl-module-hash-util-fieldhash += "perl-module-exporter"
- RDEPENDS:perl-module-hash-util-fieldhash += "perl-module-strict"
- RDEPENDS:perl-module-hash-util-fieldhash += "perl-module-warnings"
- RDEPENDS:perl-module-hash-util-fieldhash += "perl-module-xsloader"
-+RDEPENDS:perl-module-hash-util += "perl-module-builtin"
- RDEPENDS:perl-module-hash-util += "perl-module-exporter"
- RDEPENDS:perl-module-hash-util += "perl-module-hash-util-fieldhash"
- RDEPENDS:perl-module-hash-util += "perl-module-strict"
-@@ -1258,6 +1259,7 @@ RDEPENDS:perl-module-math-bigint-calc += "perl-module-integer"
- RDEPENDS:perl-module-math-bigint-calc += "perl-module-math-bigint-lib"
- RDEPENDS:perl-module-math-bigint-calc += "perl-module-strict"
- RDEPENDS:perl-module-math-bigint-calc += "perl-module-warnings"
-+RDEPENDS:perl-module-math-bigint-fastcalc += "perl-module-config"
- RDEPENDS:perl-module-math-bigint-fastcalc += "perl-module-math-bigint-calc"
- RDEPENDS:perl-module-math-bigint-fastcalc += "perl-module-strict"
- RDEPENDS:perl-module-math-bigint-fastcalc += "perl-module-warnings"
-@@ -1278,9 +1280,15 @@ RDEPENDS:perl-module-math-bigint-trace += "perl-module-strict"
- RDEPENDS:perl-module-math-bigint-trace += "perl-module-warnings"
- RDEPENDS:perl-module-math-bigrat += "perl-module-math-bigfloat"
- RDEPENDS:perl-module-math-bigrat += "perl-module-math-bigint"
-+RDEPENDS:perl-module-math-bigrat += "perl-module-math-complex"
- RDEPENDS:perl-module-math-bigrat += "perl-module-overload"
- RDEPENDS:perl-module-math-bigrat += "perl-module-strict"
- RDEPENDS:perl-module-math-bigrat += "perl-module-warnings"
-+RDEPENDS:perl-module-math-bigrat-trace += "perl-module-exporter"
-+RDEPENDS:perl-module-math-bigrat-trace += "perl-module-math-bigrat"
-+RDEPENDS:perl-module-math-bigrat-trace += "perl-module-overload"
-+RDEPENDS:perl-module-math-bigrat-trace += "perl-module-strict"
-+RDEPENDS:perl-module-math-bigrat-trace += "perl-module-warnings"
- RDEPENDS:perl-module-math-complex += "perl-module-config"
- RDEPENDS:perl-module-math-complex += "perl-module-exporter"
- RDEPENDS:perl-module-math-complex += "perl-module-overload"
-@@ -1665,6 +1673,7 @@ RDEPENDS:perl-module-socket += "perl-module-strict"
- RDEPENDS:perl-module-socket += "perl-module-warnings-register"
- RDEPENDS:perl-module-socket += "perl-module-xsloader"
- RDEPENDS:perl-module-sort += "perl-module-strict"
-+RDEPENDS:perl-module-sort += "perl-module-warnings"
- RDEPENDS:perl-module-storable += "perl-module-exporter"
- RDEPENDS:perl-module-storable += "perl-module-io-file"
- RDEPENDS:perl-module-subs += "perl-module-strict"
-@@ -1697,6 +1706,7 @@ RDEPENDS:perl-module-tap-base += "perl-module-constant"
- RDEPENDS:perl-module-tap-base += "perl-module-strict"
- RDEPENDS:perl-module-tap-base += "perl-module-warnings"
- RDEPENDS:perl-module-tap-formatter-base += "perl-module-base"
-+RDEPENDS:perl-module-tap-formatter-base += "perl-module-config"
- RDEPENDS:perl-module-tap-formatter-base += "perl-module-posix"
- RDEPENDS:perl-module-tap-formatter-base += "perl-module-strict"
- RDEPENDS:perl-module-tap-formatter-base += "perl-module-tap-formatter-color"
-@@ -1770,6 +1780,7 @@ RDEPENDS:perl-module-tap-parser-iterator-stream += "perl-module-strict"
- RDEPENDS:perl-module-tap-parser-iterator-stream += "perl-module-warnings"
- RDEPENDS:perl-module-tap-parser-multiplexer += "perl-module-base"
- RDEPENDS:perl-module-tap-parser-multiplexer += "perl-module-constant"
-+RDEPENDS:perl-module-tap-parser-multiplexer += "perl-module-errno"
- RDEPENDS:perl-module-tap-parser-multiplexer += "perl-module-io-select"
- RDEPENDS:perl-module-tap-parser-multiplexer += "perl-module-strict"
- RDEPENDS:perl-module-tap-parser-multiplexer += "perl-module-warnings"
-@@ -1947,6 +1958,7 @@ RDEPENDS:perl-module-test2-api += "perl-module-test2-hub-interceptor-terminator"
- RDEPENDS:perl-module-test2-api += "perl-module-test2-hub-subtest"
- RDEPENDS:perl-module-test2-api += "perl-module-test2-util"
- RDEPENDS:perl-module-test2-api += "perl-module-test2-util-trace"
-+RDEPENDS:perl-module-test2-api += "perl-module-time-hires"
- RDEPENDS:perl-module-test2-api += "perl-module-warnings"
- RDEPENDS:perl-module-test2-api-stack += "perl-module-strict"
- RDEPENDS:perl-module-test2-api-stack += "perl-module-test2-api"
-@@ -2197,14 +2209,11 @@ RDEPENDS:perl-module-text-balanced += "perl-module-strict"
- RDEPENDS:perl-module-text-balanced += "perl-module-vars"
- RDEPENDS:perl-module-text-parsewords += "perl-module-exporter"
- RDEPENDS:perl-module-text-parsewords += "perl-module-strict"
--RDEPENDS:perl-module-text-tabs += "perl-module-exporter"
-+RDEPENDS:perl-module-text-parsewords += "perl-module-warnings"
- RDEPENDS:perl-module-text-tabs += "perl-module-strict"
--RDEPENDS:perl-module-text-tabs += "perl-module-vars"
--RDEPENDS:perl-module-text-wrap += "perl-module-exporter"
- RDEPENDS:perl-module-text-wrap += "perl-module-re"
- RDEPENDS:perl-module-text-wrap += "perl-module-strict"
- RDEPENDS:perl-module-text-wrap += "perl-module-text-tabs"
--RDEPENDS:perl-module-text-wrap += "perl-module-vars"
- RDEPENDS:perl-module-text-wrap += "perl-module-warnings-register"
- RDEPENDS:perl-module-thread += "perl-module-config"
- RDEPENDS:perl-module-thread += "perl-module-exporter"
-@@ -2246,6 +2255,8 @@ RDEPENDS:perl-module-tie-scalar += "perl-module-warnings-register"
- RDEPENDS:perl-module-tie-stdhandle += "perl-module-strict"
- RDEPENDS:perl-module-tie-stdhandle += "perl-module-tie-handle"
- RDEPENDS:perl-module-tie-substrhash += "perl-module-integer"
-+RDEPENDS:perl-module-tie-substrhash += "perl-module-strict"
-+RDEPENDS:perl-module-tie-substrhash += "perl-module-warnings"
- RDEPENDS:perl-module-time-gmtime += "perl-module-exporter"
- RDEPENDS:perl-module-time-gmtime += "perl-module-strict"
- RDEPENDS:perl-module-time-gmtime += "perl-module-time-tm"
-@@ -2295,6 +2306,7 @@ RDEPENDS:perl-module-unicode-collate += "perl-module-constant"
- RDEPENDS:perl-module-unicode-collate += "perl-module-strict"
- RDEPENDS:perl-module-unicode-collate += "perl-module-warnings"
- RDEPENDS:perl-module-unicode-collate += "perl-module-xsloader"
-+RDEPENDS:perl-module-unicode-normalize += "perl-module-bytes"
- RDEPENDS:perl-module-unicode-normalize += "perl-module-exporter"
- RDEPENDS:perl-module-unicode-normalize += "perl-module-strict"
- RDEPENDS:perl-module-unicode-normalize += "perl-module-warnings"
-@@ -2323,3 +2335,4 @@ RDEPENDS:perl-module-version += "perl-module-version-regex"
- RDEPENDS:perl-module-version += "perl-module-warnings-register"
- RDEPENDS:perl-module-version-regex += "perl-module-strict"
- RDEPENDS:perl-module-xsloader += "perl-module-dynaloader"
-+RDEPENDS:perl-module-xsloader += "perl-module-strict"
-diff --git a/meta/recipes-devtools/perl/perl_5.34.1.bb b/meta/recipes-devtools/perl/perl_5.36.0.bb
-similarity index 99%
-rename from meta/recipes-devtools/perl/perl_5.34.1.bb
-rename to meta/recipes-devtools/perl/perl_5.36.0.bb
-index 4b9d2e2c50..9f7ce15f84 100644
---- a/meta/recipes-devtools/perl/perl_5.34.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.36.0.bb
-@@ -26,7 +26,7 @@ SRC_URI:append:class-target = " \
-            file://encodefix.patch \
- "
- 
--SRC_URI[perl.sha256sum] = "357951a491b0ba1ce3611263922feec78ccd581dddc24a446b033e25acf242a1"
-+SRC_URI[perl.sha256sum] = "e26085af8ac396f62add8a533c3a0ea8c8497d836f0689347ac5abd7b7a4e00a"
- 
- S = "${WORKDIR}/perl-${PV}"
  
 -- 
 2.30.2
