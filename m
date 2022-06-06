@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67D8AC43334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68285CCA473
 	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 12:01:54 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.30983.1654516908115467788
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web11.30984.1654516909299934436
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 05:01:48 -0700
+ Mon, 06 Jun 2022 05:01:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=q0kjOblo;
- spf=pass (domain: gmail.com, ip: 209.85.128.44,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=AtUCI84O;
+ spf=pass (domain: gmail.com, ip: 209.85.221.53,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id z9so772803wmf.3
+Received: by mail-wr1-f53.google.com with SMTP id t13so19560240wrg.9
         for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 05:01:47 -0700 (PDT)
+ Mon, 06 Jun 2022 05:01:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3Kvw3hoWdqfPJ6z1TQnE5GlNA1FNMgsk4uvk5Rfa/1s=;
-        b=q0kjOblo6OZAQMAcl7oVI8RfGJhCFwA14wi/C3Q8rMeu2rGchfe1dQgCDHku2g1MMk
-         vizmVeMiFQmbYuTXstUpB8u0STTfJGNAJNkziMo9SD4/9m+hssQMxPsq8s2syPbEvqPO
-         8RZ+fKmXHVH3hQl4tlPq7vUI0MNBuODIjyoSf6IKsABS/fEKR4IMXZrXOno2mWK4OyYv
-         KtmJ30hZ/btc4GviG/+BCWvr2NtgEOZmHoR/z7SIMHS4zuKZD39z5yzlsZRYrrrAfAOK
-         rd3pchbU9njZph7U/kRliBKCgcJJlw9gyto1NDbttSsSJtmYVQDeL2J0sH6tvE0WFh7l
-         w61A==
+        bh=cZzngFStWJ8LCzzc3CMAzyfWxtqAkqzdYqGjni7MWz8=;
+        b=AtUCI84OYa28ZLRvN04h2C+Re7iYrexJagXLkxzLFR7D6mMsdOHWLyLRNDtX9ocgvl
+         YW8wjBtLlDiVp7lWLrAx7NqXTxgD2Tqrw/1dy26VZYhoIXrNfnXZ/FJ/gFZ+UWVzG+HV
+         zeas8i11VD8J+dJP1qMY4ratKbHo3B9s9mKRBgFl7xKHo3aINjfJHrYFxgtCMozhb4cj
+         g9oMke8TuxLVI/GdbB34nS9k8zK64sUtVJnrnAlSwJl19aB+Pecf+8P56IXJmdx/cwc4
+         yOHNgmTrc7z3BxooC4Jm592qurezbhFumMxjHhyprwYWdfKZnjhqTsSP2jB09y75mVh+
+         KCqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3Kvw3hoWdqfPJ6z1TQnE5GlNA1FNMgsk4uvk5Rfa/1s=;
-        b=8Di2XZEiwAnzFylgP0BNuw6K0qNju1MXq4IovMKpuR7y8gJB5HaH9zFRdBmjH5MgLU
-         VFieVyowYpVGrDmbxE7L/EEwS1biJ1t8+iWaS24qxRPTWX+MsOi3oxQoAVIpnvOZo3SA
-         WVDqrmLMMTGat2hKrIfzS+oSMz2ILu3HgTKKO1Yi0I7yVhuqGMrey/C2YtTw7ts1JSef
-         dT7lQqr/Ip/PYQoxSCbSTpNDdU00HhLVviTO3W6tLtAe8mSmUi1tcEmwXP+WlDZ1BEFT
-         d/pTF7t85Vm+bnq5khs72InAYsWo9Dj9poLB/UoePmgdljWhgkV0bCOTEq0cjk+eDOMi
-         B86Q==
-X-Gm-Message-State: AOAM5326Z2TJ8xt8NfUGylSMnqHSxWSvQcg3eK7zB4YcWAddtFjKZNdi
-	9mWeQ+M13Pym1yD3WaBtXr5eh1fpvScJyw==
+        bh=cZzngFStWJ8LCzzc3CMAzyfWxtqAkqzdYqGjni7MWz8=;
+        b=ZpiMyp8HXHAlsTflxCUx4rX9F5FgaFVxPmSlww9lzoPkEzWDn1S8QMM3FQkCzD3dPw
+         /xMFW3xXboDVq875mJ9mAJxlOHXRH+f5Y7cCoDeRQaMWmG5QmTC1IBMuaEpJQBA/H9dH
+         WsXj6uHQIDDf4pOl6Hz9W2Fe7q/T63jN/W0MlCMCCRBlkQ7k7kDhtzMNY8FhIXQUJL6A
+         dLBSxcwIOA65NOGAPaKloAxX3A58PL2iv3ddZ3iJfPjYZFDWxmAXaPFVCuRLG2E4yd2W
+         GSl1buXvRT9fAY+X9zoW3oevuKTzHROg34WfZsoyytuaYgeALE7oqHuqqjL+a60o+Fgo
+         tcPQ==
+X-Gm-Message-State: AOAM530EjIT2N2xlronCw3ZEOir+HBUZzsg2eY5EN2c++F5wJspswpQr
+	7688qpcOzAfB3imCHWoUdS45ZDGbKwPBxQ==
 X-Google-Smtp-Source: 
- ABdhPJxKMFyr536YsimSb5Bp7jw8TMHsgb09NGNEAeN1bASy/vqtbQ1nTD/TueZrkWdeYoyNFjSJUg==
-X-Received: by 2002:a05:600c:2e47:b0:39c:37f5:cd74 with SMTP id
- q7-20020a05600c2e4700b0039c37f5cd74mr18556834wmf.32.1654516906665;
-        Mon, 06 Jun 2022 05:01:46 -0700 (PDT)
+ ABdhPJy+Jv//71Yyn45TRbHQ0PtEFh7Jtp99Gsn4LMectJd4cbfrrMrQZtp0zvs5NtefZQRlD7B33Q==
+X-Received: by 2002:adf:dc51:0:b0:210:21ea:8840 with SMTP id
+ m17-20020adfdc51000000b0021021ea8840mr21351831wrj.664.1654516907539;
+        Mon, 06 Jun 2022 05:01:47 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
  f12-20020a5d4dcc000000b002100316b126sm15526455wru.6.2022.06.06.05.01.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 05:01:46 -0700 (PDT)
+        Mon, 06 Jun 2022 05:01:47 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 20/21] perl: clean prior to build
-Date: Mon,  6 Jun 2022 14:01:25 +0200
-Message-Id: <20220606120126.3381438-20-alex@linutronix.de>
+Subject: [PATCH 21/21] perl: enable _GNU_SOURCE define via d_gnulibc
+Date: Mon,  6 Jun 2022 14:01:26 +0200
+Message-Id: <20220606120126.3381438-21-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220606120126.3381438-1-alex@linutronix.de>
 References: <20220606120126.3381438-1-alex@linutronix.de>
@@ -68,112 +68,31 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 12:01:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166613
+ https://lists.openembedded.org/g/openembedded-core/message/166614
 
-Otherwise, when running configure/make on a previously built tree,
-makefiles generated by makemaker may detect that 'configuration has changed',
-followed by self-deletion, self-regeneration, requesting the user to
-re-run make and exit 1. And therefore do_compile goes kaboom.
+This is needed to properly support memmem() and friends under musl
+as musl guards the declarations with _GNU_SOURCE define, and if the
+declarations are not present, gcc will issue warnings and generate
+assembly that assumes the functions return int (instead of e.g.
+void*), with catastrophic consequences at runtime.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...ctly-list-modules-when-cleaning-them.patch | 24 ++++++++++++++++
- ...file-do-not-clean-config.h-xconfig.h.patch | 28 +++++++++++++++++++
- .../perl-cross/perlcross_1.4.bb               |  2 ++
- meta/recipes-devtools/perl/perl_5.36.0.bb     |  1 +
- 4 files changed, 55 insertions(+)
- create mode 100644 meta/recipes-devtools/perl-cross/files/0001-Makefile-correctly-list-modules-when-cleaning-them.patch
- create mode 100644 meta/recipes-devtools/perl-cross/files/0001-Makefile-do-not-clean-config.h-xconfig.h.patch
+ meta/recipes-devtools/perl/perl_5.36.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/perl-cross/files/0001-Makefile-correctly-list-modules-when-cleaning-them.patch b/meta/recipes-devtools/perl-cross/files/0001-Makefile-correctly-list-modules-when-cleaning-them.patch
-new file mode 100644
-index 0000000000..80388fa9b0
---- /dev/null
-+++ b/meta/recipes-devtools/perl-cross/files/0001-Makefile-correctly-list-modules-when-cleaning-them.patch
-@@ -0,0 +1,24 @@
-+From 7b8d819e012c24df228a313beb86e1942611c904 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Sat, 4 Jun 2022 13:00:12 +0200
-+Subject: [PATCH] Makefile: correctly list modules when cleaning them
-+
-+Upstream-Status: Submitted [https://github.com/arsv/perl-cross/pull/133]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ Makefile | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 6b35fb0..9ef9324 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -462,7 +462,7 @@ clean-subdirs:
-+ 
-+ # assuming modules w/o Makefiles were never built and need no cleaning
-+ clean-modules: config.h
-+-	@for i in $(modules disabled); do \
-++	@for i in $(modules) $(disabled); do \
-+ 		test -f $$i/Makefile && \
-+ 		touch $$i/Makefile && \
-+ 		$(MAKE) -C $$i clean \
-diff --git a/meta/recipes-devtools/perl-cross/files/0001-Makefile-do-not-clean-config.h-xconfig.h.patch b/meta/recipes-devtools/perl-cross/files/0001-Makefile-do-not-clean-config.h-xconfig.h.patch
-new file mode 100644
-index 0000000000..cbb935c71b
---- /dev/null
-+++ b/meta/recipes-devtools/perl-cross/files/0001-Makefile-do-not-clean-config.h-xconfig.h.patch
-@@ -0,0 +1,28 @@
-+From ade4a70308d3b9d79cc3db841c0f60385780fe1a Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Sat, 4 Jun 2022 13:45:20 +0200
-+Subject: [PATCH] Makefile: do not clean config.h/xconfig.h
-+
-+These are generated by ./configure and not by make.
-+
-+Upstream-Status: Submitted [https://github.com/arsv/perl-cross/pull/134]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ Makefile | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 9ef9324..3de2c2e 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -473,7 +473,6 @@ clean-generated-files:
-+ 	-rm -f uudmap.h opmini.c generate_uudmap$X bitcount.h $(CONFIGPM)
-+ 	-rm -f git_version.h lib/re.pm lib/Config_git.pl
-+ 	-rm -f perlmini.c perlmain.c
-+-	-rm -f config.h xconfig.h
-+ 	-rm -f pod/perlmodlib.pod
-+ 	-rm -f ext.libs static.list
-+ 	-rm -f $(patsubst %,%/ppport.h,$(mkppport_lst))
-+-- 
-+2.30.2
-+
-diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.4.bb b/meta/recipes-devtools/perl-cross/perlcross_1.4.bb
-index 1329306b0e..2704976e17 100644
---- a/meta/recipes-devtools/perl-cross/perlcross_1.4.bb
-+++ b/meta/recipes-devtools/perl-cross/perlcross_1.4.bb
-@@ -15,6 +15,8 @@ SRC_URI = "https://github.com/arsv/perl-cross/releases/download/${PV}/perl-cross
-            file://0001-perl-cross-add-LDFLAGS-when-linking-libperl.patch \
-            file://determinism.patch \
-            file://0001-Makefile-check-the-file-if-patched-or-not.patch \
-+           file://0001-Makefile-correctly-list-modules-when-cleaning-them.patch \
-+           file://0001-Makefile-do-not-clean-config.h-xconfig.h.patch \
-            "
- UPSTREAM_CHECK_URI = "https://github.com/arsv/perl-cross/releases/"
- 
 diff --git a/meta/recipes-devtools/perl/perl_5.36.0.bb b/meta/recipes-devtools/perl/perl_5.36.0.bb
-index 838ad0b75a..cb82cad36c 100644
+index cb82cad36c..60785c72a5 100644
 --- a/meta/recipes-devtools/perl/perl_5.36.0.bb
 +++ b/meta/recipes-devtools/perl/perl_5.36.0.bb
-@@ -111,6 +111,7 @@ print(datetime.fromtimestamp($SOURCE_DATE_EPOCH, timezone.utc).strftime('%a %b %
-             ")"
-         echo "#define PERL_BUILD_DATE \"$PERL_BUILD_DATE\"" >> config.h
-     fi
-+    oe_runmake clean
- }
+@@ -59,6 +59,7 @@ do_configure:class-target() {
+     -Dlibpth='${libdir} ${base_libdir}' \
+     -Dglibpth='${libdir} ${base_libdir}' \
+     -Alddlflags=' ${LDFLAGS}' \
++    -Dd_gnulibc=define \
+     ${PACKAGECONFIG_CONFARGS}
  
- do_compile() {
+     #perl.c uses an ARCHLIB_EXP define to generate compile-time code that
 -- 
 2.30.2
 
