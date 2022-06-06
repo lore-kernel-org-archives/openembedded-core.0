@@ -2,65 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A3C2C433EF
-	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 14:39:05 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web08.32823.1654526345060074496
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63CADC43334
+	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 14:39:15 +0000 (UTC)
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+ [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web10.32827.1654526350547988315
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 07:39:05 -0700
+ Mon, 06 Jun 2022 07:39:10 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=WsB1g7Tx;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45,
+ header.b=rl7ynGzj;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.181,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id
- k5-20020a17090a404500b001e8875e6242so1969103pjg.5
+Received: by mail-pg1-f181.google.com with SMTP id r71so13101703pgr.0
         for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 07:39:05 -0700 (PDT)
+ Mon, 06 Jun 2022 07:39:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=zjxsh8ECpL4XqWfu0dR3V7Cyds/HOyEO+p5e2M39nw4=;
-        b=WsB1g7Txb37lzuojzPT2CGuGGqjD90fKiGiq1CkM1s3z8vxzOkmz/tyftDK7QIjebN
-         RsBru+BLVJnutpn0CeejazsdpBpJh3m1iuB72QzcQON3BP9gnauaCb4mhreryaWODQlW
-         L/OL61T2012NxUIrM8IQAufPiQVyTvTKRnMjeCNS3iPRt0o4rZq+CQKYfzrFWPJs7asN
-         clHhfyu/w1sr16KdmhFb4YboEKX8lAcy2tXtalqUVkMhvsAotYzPg8ZoAIzYjIHFjvSy
-         KoGI4b0/ZlAzIvbEUeuYCs4qPanI1lmm5JkjvZnDlL4NWolkHb8Xqh28YI1jjANlLnDS
-         8x8Q==
+        bh=aJ1yLLJ92tqSnx9rWIRrFltwlNxZGMUKwQ2fGpeb/tc=;
+        b=rl7ynGzjzJ+4+ljaIAprlV3okSG7sU8ZFZZYfY61OdrmYJiRWWU5IwXhYlpl6abPj4
+         neFkHVyGMPpKGQifoI9AW9Jlpols9n6C28Ik7qSIPReYsO6QUALiuW3HAClZ3bdMc0ls
+         CnWYidQk6/mUaPfIKXzLnMA+4ugeS6w81AX80meBnFsBchhsPSUDLEl02fd55HT7g4hY
+         ihnMdYekjp6v9X2HBvi91VDU8qctOmKIV+bPtur9Iyn0T+tJDWbRP8nZcWqh79gNGIi+
+         WbIVV1A6SRDKicGrjVTDNQP23ZRrVskfTWeVul2Sr/IQOStZ35N4dVjr/yB9Iw8XcIsE
+         V+Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zjxsh8ECpL4XqWfu0dR3V7Cyds/HOyEO+p5e2M39nw4=;
-        b=NSOcYCiXBA+GfFe+1HPz0twaHxchl7rR5FTxc8Q+Gfx1oEMZ6BFurc2ID4Ytory/UK
-         nVaGkiczCs8sktlxtloB1XwA3nmzHOnYKX4wQX/MqmS9U8yGkZm1AWVGWovbibDn1ltj
-         LdhG8yiRO2Q9wp+CAiQLlawO/xgd4/Qyu5iz2GK9/MA4IA+Hzqt3Vn6sD6seNHi91jXv
-         mRTW35A4G4yrHNXEqkOxlUZGQu6/YckWRH9CbN4bB+A7YcgddpNUu3+EpOG4cpf7d+c9
-         dFcrsksCrMIyi2/AjWHNOYrinTm2R0X7oNKxFu4DQMIYLIjTxKZQu50c5Q2uKpnv/qAj
-         7gVQ==
-X-Gm-Message-State: AOAM530o28mOYzDZoMl2W2T17mH/+xKO2Nvm+OuYn1xIEqcIo8BupUlA
-	GpaBxqxSzRbfx3EsatDykd2ZGU2TIJEV4e6K
+        bh=aJ1yLLJ92tqSnx9rWIRrFltwlNxZGMUKwQ2fGpeb/tc=;
+        b=o0A20J3LQqvQJvUQUiARM76XB6iO6YWVR334u5lAo9zKDpYsuU/57s7sAm6Ggsurvc
+         jLOlBA5Ogd3ii+SdbTRoDwop4TIXvcBnwZ9PxhsOoiP9RuSr9XkSVWWZ87MJOjnIX1db
+         COfA6eJXeCyS9g8GPAUoPUpm8nh311R5PsBtzNQ/sisaLnZAw3/hK8VWJmZgK1jDezqx
+         LXwDb1jnyuYjS4AsJmL7ZUWvepTHvi8fAUNY3ZFeY314eOXDzId4PZrnmh6xV8LdBcXZ
+         1WWVRibGlMu5oP7oANjEXHo2orjPUXAutgA8FNJmzt5prrAHpPEz3HKCw9pxln0zSu+4
+         VG2A==
+X-Gm-Message-State: AOAM530KPfsVfCc48eiKzFGmLBEJP3oiR1ibmHg9yvyJcvA5A1IfYSgx
+	HUMezkQGXa8c4kQyP/I8NFjx+jNaxbFpBnhO
 X-Google-Smtp-Source: 
- ABdhPJxVX17AmBqKsehsnZ8yzsopYYUfXilXpB7edkl5Utw7WT4KK64EYv77tfTHMFe++J/y3wOt9w==
-X-Received: by 2002:a17:90a:d01:b0:1e0:2e32:8650 with SMTP id
- t1-20020a17090a0d0100b001e02e328650mr26556566pja.156.1654526344005;
-        Mon, 06 Jun 2022 07:39:04 -0700 (PDT)
+ ABdhPJyGDbPwlBaWd7GuL4kuQxKx6vRWLUMiX2ZR/r7RH8JEtd4xAHnSPsxu/S+Fm2YdScF15mg7iw==
+X-Received: by 2002:a63:305:0:b0:3fc:7f18:8d7 with SMTP id
+ 5-20020a630305000000b003fc7f1808d7mr21256906pgd.186.1654526349531;
+        Mon, 06 Jun 2022 07:39:09 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- a5-20020a1709027d8500b0015ea3a491a1sm10544112plm.191.2022.06.06.07.39.02
+ a5-20020a1709027d8500b0015ea3a491a1sm10544112plm.191.2022.06.06.07.39.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 07:39:03 -0700 (PDT)
+        Mon, 06 Jun 2022 07:39:08 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 06/13] systemd: Remove __compare_fn_t type in
- musl-specific patch
-Date: Mon,  6 Jun 2022 04:38:24 -1000
+Subject: [OE-core][kirkstone 08/13] systemd: Correct path returned in
+ sd_path_lookup()
+Date: Mon,  6 Jun 2022 04:38:26 -1000
 Message-Id: 
- <2b09a567117be0c048ac9a1c27cfae8cc1418b66.1654526060.git.steve@sakoman.com>
+ <4851c836529a47210934d865ed6bdc724ed50a2f.1654526060.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1654526060.git.steve@sakoman.com>
 References: <cover.1654526060.git.steve@sakoman.com>
@@ -69,182 +68,171 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 14:39:05 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 14:39:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166639
+ https://lists.openembedded.org/g/openembedded-core/message/166641
 
 From: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
 
-Since systemd v250, commit d8f16737005e ("sort-util: avoid using
-glibc's internal __compar_d_fn_t type"), __compare_fn_t type is no
-longer used. This patch removes that type in the musl-specific patch.
+In oe-core, sysusers.d/sysctl.d/binfmt.d/modules-load.d are still kept
+under /usr/lib instead of /lib changed in systemd v246. This patch
+corrects the SD_PATH_{SYSUSERS,SYSCTL,BINFMT,MODULES_LOAD} returned
+in sd_path_lookup() back to the /usr/lib ones.
+
+Also updates the patch description and upstream status.
 
 Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-(cherry picked from commit 89c8a3f96dfeb444213fd6c523e1495c49065ccc)
+(cherry picked from commit 8d913ab6db3ae4b2786a64a086d519a40dcb8c4d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...-missing_type.h-add-comparison_fn_t.patch} | 44 ++++++-------------
- ...missing.h-check-for-missing-strndupa.patch | 14 +++---
+ ...sysctl.d-binfmt.d-modules-load.d-to-.patch | 73 +++++++++++++++++++
+ ...se-ROOTPREFIX-without-suffixed-slash.patch | 42 -----------
  meta/recipes-core/systemd/systemd_250.5.bb    |  2 +-
- 3 files changed, 22 insertions(+), 38 deletions(-)
- rename meta/recipes-core/systemd/systemd/{0003-missing_type.h-add-__compare_fn_t-and-comparison_fn_.patch => 0003-missing_type.h-add-comparison_fn_t.patch} (61%)
+ 3 files changed, 74 insertions(+), 43 deletions(-)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch
 
-diff --git a/meta/recipes-core/systemd/systemd/0003-missing_type.h-add-__compare_fn_t-and-comparison_fn_.patch b/meta/recipes-core/systemd/systemd/0003-missing_type.h-add-comparison_fn_t.patch
-similarity index 61%
-rename from meta/recipes-core/systemd/systemd/0003-missing_type.h-add-__compare_fn_t-and-comparison_fn_.patch
-rename to meta/recipes-core/systemd/systemd/0003-missing_type.h-add-comparison_fn_t.patch
-index dfe4164900..c28c8381e8 100644
---- a/meta/recipes-core/systemd/systemd/0003-missing_type.h-add-__compare_fn_t-and-comparison_fn_.patch
-+++ b/meta/recipes-core/systemd/systemd/0003-missing_type.h-add-comparison_fn_t.patch
-@@ -1,13 +1,9 @@
--From a4f51ef07375466f79cb148ff1178ed11f808f0a Mon Sep 17 00:00:00 2001
-+From 5513b918d02900a3a78fd0e0300a118b163edfef Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Mon, 25 Feb 2019 13:55:12 +0800
--Subject: [PATCH] missing_type.h: add __compare_fn_t and comparison_fn_t
-+Subject: [PATCH] missing_type.h: add comparison_fn_t
- 
--Make it work with musl where comparison_fn_t and __compare_fn_t
--is not provided.
--
--Revisit this when upgrading to 251+ systemd since systemd does not need
--__compare_fn_t anymore
-+Make it work with musl where comparison_fn_t and is not provided.
- 
- Upstream-Status: Inappropriate [musl specific]
- 
-@@ -16,19 +12,19 @@ Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
- Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
- [Rebased for v242]
- Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
--
-+[Rebased for v250, Drop __compare_fn_t]
+diff --git a/meta/recipes-core/systemd/systemd/0001-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch b/meta/recipes-core/systemd/systemd/0001-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch
+new file mode 100644
+index 0000000000..31efc4cc4b
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch
+@@ -0,0 +1,73 @@
++From beb0219b71510bc63aed81d2a970a04349d6c616 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 29 Sep 2020 18:01:41 -0700
++Subject: [PATCH] Move sysusers.d/sysctl.d/binfmt.d/modules-load.d to /usr
++
++These directories are moved to /lib since systemd v246, commit
++4a56315a990b ("path: use ROOTPREFIX properly"), but in oe-core/yocto,
++the old /usr/lib is still being used.
++
++Upstream-Status: Inappropriate (OE-specific)
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
- ---
-- src/basic/missing_type.h            | 9 +++++++++
-+ src/basic/missing_type.h            | 4 ++++
-  src/basic/sort-util.h               | 1 +
-- src/core/kmod-setup.c               | 1 +
-  src/libsystemd/sd-journal/catalog.c | 1 +
-- 4 files changed, 12 insertions(+)
-+ 3 files changed, 6 insertions(+)
- 
- diff --git a/src/basic/missing_type.h b/src/basic/missing_type.h
--index f6233090a9..aeaf6ad5ec 100644
-+index f6233090a9..6c0456349d 100644
- --- a/src/basic/missing_type.h
- +++ b/src/basic/missing_type.h
--@@ -10,3 +10,12 @@
-+@@ -10,3 +10,7 @@
-  #if !HAVE_CHAR16_T
-  #define char16_t uint16_t
-  #endif
-@@ -36,13 +32,8 @@ index f6233090a9..aeaf6ad5ec 100644
- +#ifndef __GLIBC__
- +typedef int (*comparison_fn_t)(const void *, const void *);
- +#endif
--+
--+#ifndef __COMPAR_FN_T
--+#define __COMPAR_FN_T
--+typedef int (*__compar_fn_t)(const void *, const void *);
--+#endif
- diff --git a/src/basic/sort-util.h b/src/basic/sort-util.h
--index cb448df109..fd738a65ab 100644
-+index 02a6784d99..0b33c83d59 100644
- --- a/src/basic/sort-util.h
- +++ b/src/basic/sort-util.h
- @@ -4,6 +4,7 @@
-@@ -53,18 +44,6 @@ index cb448df109..fd738a65ab 100644
-  
-  /* This is the same as glibc's internal __compar_d_fn_t type. glibc exports a public comparison_fn_t, for the
-   * external type __compar_fn_t, but doesn't do anything similar for __compar_d_fn_t. Let's hence do that
--diff --git a/src/core/kmod-setup.c b/src/core/kmod-setup.c
--index d054668b8e..d3bf55acbe 100644
----- a/src/core/kmod-setup.c
--+++ b/src/core/kmod-setup.c
--@@ -10,6 +10,7 @@
-- #include "macro.h"
-- #include "recurse-dir.h"
-- #include "string-util.h"
--+#include "missing_type.h"
-- 
-- #if HAVE_KMOD
-- #include "module-util.h"
- diff --git a/src/libsystemd/sd-journal/catalog.c b/src/libsystemd/sd-journal/catalog.c
- index 8fc87b131a..36a6efdbd8 100644
- --- a/src/libsystemd/sd-journal/catalog.c
-@@ -77,3 +56,6 @@ index 8fc87b131a..36a6efdbd8 100644
-  
-  const char * const catalog_file_dirs[] = {
-          "/usr/local/lib/systemd/catalog/",
++---
++ src/core/systemd.pc.in           | 8 ++++----
++ src/libsystemd/sd-path/sd-path.c | 8 ++++----
++ 2 files changed, 8 insertions(+), 8 deletions(-)
++
++diff --git a/src/core/systemd.pc.in b/src/core/systemd.pc.in
++index fc0f8c34fa..65996bbed8 100644
++--- a/src/core/systemd.pc.in
+++++ b/src/core/systemd.pc.in
++@@ -65,16 +65,16 @@ systemdshutdowndir=${systemd_shutdown_dir}
++ tmpfiles_dir=${prefix}/lib/tmpfiles.d
++ tmpfilesdir=${tmpfiles_dir}
++ 
++-sysusers_dir=${rootprefix}/lib/sysusers.d
+++sysusers_dir=${prefix}/lib/sysusers.d
++ sysusersdir=${sysusers_dir}
++ 
++-sysctl_dir=${rootprefix}/lib/sysctl.d
+++sysctl_dir=${prefix}/lib/sysctl.d
++ sysctldir=${sysctl_dir}
++ 
++-binfmt_dir=${rootprefix}/lib/binfmt.d
+++binfmt_dir=${prefix}/lib/binfmt.d
++ binfmtdir=${binfmt_dir}
++ 
++-modules_load_dir=${rootprefix}/lib/modules-load.d
+++modules_load_dir=${prefix}/lib/modules-load.d
++ modulesloaddir=${modules_load_dir}
++ 
++ catalog_dir=${prefix}/lib/systemd/catalog
++diff --git a/src/libsystemd/sd-path/sd-path.c b/src/libsystemd/sd-path/sd-path.c
++index ff1e0d5f8e..19a001f47e 100644
++--- a/src/libsystemd/sd-path/sd-path.c
+++++ b/src/libsystemd/sd-path/sd-path.c
++@@ -362,19 +362,19 @@ static int get_path(uint64_t type, char **buffer, const char **ret) {
++                 return 0;
++ 
++         case SD_PATH_SYSUSERS:
++-                *ret = ROOTPREFIX_NOSLASH "/lib/sysusers.d";
+++                *ret = "/usr/lib/sysusers.d";
++                 return 0;
++ 
++         case SD_PATH_SYSCTL:
++-                *ret = ROOTPREFIX_NOSLASH "/lib/sysctl.d";
+++                *ret = "/usr/lib/sysctl.d";
++                 return 0;
++ 
++         case SD_PATH_BINFMT:
++-                *ret = ROOTPREFIX_NOSLASH "/lib/binfmt.d";
+++                *ret = "/usr/lib/binfmt.d";
++                 return 0;
++ 
++         case SD_PATH_MODULES_LOAD:
++-                *ret = ROOTPREFIX_NOSLASH "/lib/modules-load.d";
+++                *ret = "/usr/lib/modules-load.d";
++                 return 0;
++ 
++         case SD_PATH_CATALOG:
 +-- 
 +2.34.1
 +
-diff --git a/meta/recipes-core/systemd/systemd/0005-src-basic-missing.h-check-for-missing-strndupa.patch b/meta/recipes-core/systemd/systemd/0005-src-basic-missing.h-check-for-missing-strndupa.patch
-index 4b1fac06b5..680930ca3c 100644
---- a/meta/recipes-core/systemd/systemd/0005-src-basic-missing.h-check-for-missing-strndupa.patch
-+++ b/meta/recipes-core/systemd/systemd/0005-src-basic-missing.h-check-for-missing-strndupa.patch
-@@ -1,4 +1,4 @@
--From 55d48dd81e57add5b2d4b5a7d697c575a0f37ef5 Mon Sep 17 00:00:00 2001
-+From 106b7bd7186c9d6c1dcd72bd4ca6457d3fa72d0b Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Mon, 25 Feb 2019 14:18:21 +0800
- Subject: [PATCH] src/basic/missing.h: check for missing strndupa
-@@ -17,7 +17,6 @@ Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
- [rebased for systemd 244]
- [Rebased for v247]
- Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+diff --git a/meta/recipes-core/systemd/systemd/0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch b/meta/recipes-core/systemd/systemd/0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch
+deleted file mode 100644
+index 752824688f..0000000000
+--- a/meta/recipes-core/systemd/systemd/0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-From 58860e0f248576a80ff2af256ba42713c186ae93 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Tue, 29 Sep 2020 18:01:41 -0700
+-Subject: [PATCH] systemd.pc.in: use ROOTPREFIX without suffixed slash
 -
- ---
-  meson.build                                |  1 +
-  src/backlight/backlight.c                  |  1 +
-@@ -74,7 +73,7 @@ Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-  52 files changed, 63 insertions(+)
- 
- diff --git a/meson.build b/meson.build
--index ae53345260..8c8a6c9bdf 100644
-+index cb9936ee8b..7ab201c6d9 100644
- --- a/meson.build
- +++ b/meson.build
- @@ -507,6 +507,7 @@ foreach ident : ['secure_getenv', '__secure_getenv']
-@@ -310,13 +309,13 @@ index 0b20d386d3..fccfb9268c 100644
-  #define IDLE_TIMEOUT_USEC (5*USEC_PER_SEC)
-  #define IDLE_TIMEOUT2_USEC (1*USEC_PER_SEC)
- diff --git a/src/core/kmod-setup.c b/src/core/kmod-setup.c
--index d3bf55acbe..63dd807b8a 100644
-+index d054668b8e..9b4caa7651 100644
- --- a/src/core/kmod-setup.c
- +++ b/src/core/kmod-setup.c
--@@ -11,6 +11,7 @@
-+@@ -10,6 +10,7 @@
-+ #include "macro.h"
-  #include "recurse-dir.h"
-  #include "string-util.h"
-- #include "missing_type.h"
- +#include "missing_stdlib.h"
-  
-  #if HAVE_KMOD
-@@ -705,3 +704,6 @@ index 1a384d6b38..0089833e3f 100644
-  
-  #define RULES_DIRS (const char* const*) CONF_PATHS_STRV("udev/rules.d")
-  
-+-- 
-+2.34.1
-+
+-This complements the commit
+-https://github.com/poettering/systemd/commit/b612c26ceb9f56af0271fc9f07c1724d2d260a8a
+-
+-Upstream-Status: Pending
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- src/core/systemd.pc.in | 8 ++++----
+- 1 file changed, 4 insertions(+), 4 deletions(-)
+-
+-diff --git a/src/core/systemd.pc.in b/src/core/systemd.pc.in
+-index b5cc8f9..21dbf30 100644
+---- a/src/core/systemd.pc.in
+-+++ b/src/core/systemd.pc.in
+-@@ -65,16 +65,16 @@ systemdshutdowndir=${systemd_shutdown_dir}
+- tmpfiles_dir=${prefix}/lib/tmpfiles.d
+- tmpfilesdir=${tmpfiles_dir}
+- 
+--sysusers_dir=${rootprefix}/lib/sysusers.d
+-+sysusers_dir=${prefix}/lib/sysusers.d
+- sysusersdir=${sysusers_dir}
+- 
+--sysctl_dir=${rootprefix}/lib/sysctl.d
+-+sysctl_dir=${prefix}/lib/sysctl.d
+- sysctldir=${sysctl_dir}
+- 
+--binfmt_dir=${rootprefix}/lib/binfmt.d
+-+binfmt_dir=${prefix}/lib/binfmt.d
+- binfmtdir=${binfmt_dir}
+- 
+--modules_load_dir=${rootprefix}/lib/modules-load.d
+-+modules_load_dir=${prefix}/lib/modules-load.d
+- modulesloaddir=${modules_load_dir}
+- 
+- catalog_dir=${prefix}/lib/systemd/catalog
+--- 
+-2.25.1
+-
 diff --git a/meta/recipes-core/systemd/systemd_250.5.bb b/meta/recipes-core/systemd/systemd_250.5.bb
-index aca140d4d4..6d6b3f2ded 100644
+index 81fe0c88e0..006b2f86ea 100644
 --- a/meta/recipes-core/systemd/systemd_250.5.bb
 +++ b/meta/recipes-core/systemd/systemd_250.5.bb
-@@ -31,7 +31,7 @@ SRC_URI += "file://touchscreen.rules \
- SRC_URI:append:libc-musl = " ${SRC_URI_MUSL}"
- SRC_URI_MUSL = "\
-                file://0002-don-t-use-glibc-specific-qsort_r.patch \
--               file://0003-missing_type.h-add-__compare_fn_t-and-comparison_fn_.patch \
-+               file://0003-missing_type.h-add-comparison_fn_t.patch \
-                file://0004-add-fallback-parse_printf_format-implementation.patch \
-                file://0005-src-basic-missing.h-check-for-missing-strndupa.patch \
-                file://0007-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch \
+@@ -23,7 +23,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://systemd-pager.sh \
+            file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
+            file://0003-implment-systemd-sysv-install-for-OE.patch \
+-           file://0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch \
++           file://0001-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch \
+            file://0001-resolve-Use-sockaddr-pointer-type-for-bind.patch \
+            "
+ 
 -- 
 2.25.1
 
