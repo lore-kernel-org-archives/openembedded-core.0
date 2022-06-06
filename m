@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68985C3F2D4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67D8AC43334
 	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 12:01:54 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web12.30986.1654516893735839745
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.30983.1654516908115467788
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 05:01:44 -0700
+ Mon, 06 Jun 2022 05:01:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=hlXOAwJQ;
- spf=pass (domain: gmail.com, ip: 209.85.221.41,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=q0kjOblo;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id x17so19559575wrg.6
+Received: by mail-wm1-f44.google.com with SMTP id z9so772803wmf.3
         for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 05:01:44 -0700 (PDT)
+ Mon, 06 Jun 2022 05:01:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=2gw+9/K+dpnOkR+jTTM1NF9iGQYOUamnTG4/FnkDL98=;
-        b=hlXOAwJQWeJFW7pulWpuzJy9UARIpohQIe1BMY5sq4IiVa1qhY8Ot3ugC0sRSAR1eS
-         MaF2t+OZz79p0ebA7FqlHToN5pYJ7HcrqjfxtWDDPgBw45brvh2Vw5B07SB/7QhEsbX3
-         Fuf23nWfjDg+TTefb/rN+9vEUmGVCnIBW/jf8llNi9VDRLQV06W0UBkkcnvZik1c7DEC
-         Vl/K3zXW6j/DSG2BZD/OGf9uhTxgyP6mxM4r/t+keWsKdz0xuiZDdvGWOuUsAeiLS8p6
-         cQi3kQ87AHv62/y3n083v+7VyxXSxQZT3mQo+eyu+Zz7p0q4Nk7iDLyhtBjGBKva59+s
-         GCMg==
+        bh=3Kvw3hoWdqfPJ6z1TQnE5GlNA1FNMgsk4uvk5Rfa/1s=;
+        b=q0kjOblo6OZAQMAcl7oVI8RfGJhCFwA14wi/C3Q8rMeu2rGchfe1dQgCDHku2g1MMk
+         vizmVeMiFQmbYuTXstUpB8u0STTfJGNAJNkziMo9SD4/9m+hssQMxPsq8s2syPbEvqPO
+         8RZ+fKmXHVH3hQl4tlPq7vUI0MNBuODIjyoSf6IKsABS/fEKR4IMXZrXOno2mWK4OyYv
+         KtmJ30hZ/btc4GviG/+BCWvr2NtgEOZmHoR/z7SIMHS4zuKZD39z5yzlsZRYrrrAfAOK
+         rd3pchbU9njZph7U/kRliBKCgcJJlw9gyto1NDbttSsSJtmYVQDeL2J0sH6tvE0WFh7l
+         w61A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=2gw+9/K+dpnOkR+jTTM1NF9iGQYOUamnTG4/FnkDL98=;
-        b=ORRT/SUWbdTYVxExRJ62L6Xv4b1Iedw0KSC4n1LWPyUMi8wpwtIKySrzYyaldiqQAg
-         ZSzSDb7SybCw1XhwQLDpzJNUbujBGEdD1oegtfuB0CO6nj1Mf1x2iRo9nrEKnR1ZGlaB
-         DfDKXtMX5kP3Y4pPhWDx/E2RUiwKc49Ml+zHb5s2R7vSCrr28qmxnh361cQVpIxbaaJq
-         0vOzQ6JanzsJ5gYii4HyRgNgIyNEelto5YXjH4YD7X6Vfey3vdP65emtqNrGAav+scaU
-         me9+sD64ze1wzVvKXaMZy3CfC3UEPS83SbYthnAYk8lU4fektV97V6J/Jm1Th5t3f++P
-         UP9g==
-X-Gm-Message-State: AOAM5325eBnFHNXNDrEyLuIAubMi1xbFqiMW8REJHVZqbnEDrLsIaput
-	e6jzJYyUoij+3t+e2WiKoem5waJ/7DhCXg==
+        bh=3Kvw3hoWdqfPJ6z1TQnE5GlNA1FNMgsk4uvk5Rfa/1s=;
+        b=8Di2XZEiwAnzFylgP0BNuw6K0qNju1MXq4IovMKpuR7y8gJB5HaH9zFRdBmjH5MgLU
+         VFieVyowYpVGrDmbxE7L/EEwS1biJ1t8+iWaS24qxRPTWX+MsOi3oxQoAVIpnvOZo3SA
+         WVDqrmLMMTGat2hKrIfzS+oSMz2ILu3HgTKKO1Yi0I7yVhuqGMrey/C2YtTw7ts1JSef
+         dT7lQqr/Ip/PYQoxSCbSTpNDdU00HhLVviTO3W6tLtAe8mSmUi1tcEmwXP+WlDZ1BEFT
+         d/pTF7t85Vm+bnq5khs72InAYsWo9Dj9poLB/UoePmgdljWhgkV0bCOTEq0cjk+eDOMi
+         B86Q==
+X-Gm-Message-State: AOAM5326Z2TJ8xt8NfUGylSMnqHSxWSvQcg3eK7zB4YcWAddtFjKZNdi
+	9mWeQ+M13Pym1yD3WaBtXr5eh1fpvScJyw==
 X-Google-Smtp-Source: 
- ABdhPJwzTutXKJsz/M3NSrlV5KAt8wdOgwQElQMZDNBGaAcLc/zdzg1cYVQYC5tW1IWN3y/SeTVvzA==
-X-Received: by 2002:a5d:4a4c:0:b0:210:27dd:e57 with SMTP id
- v12-20020a5d4a4c000000b0021027dd0e57mr20753328wrs.655.1654516903778;
-        Mon, 06 Jun 2022 05:01:43 -0700 (PDT)
+ ABdhPJxKMFyr536YsimSb5Bp7jw8TMHsgb09NGNEAeN1bASy/vqtbQ1nTD/TueZrkWdeYoyNFjSJUg==
+X-Received: by 2002:a05:600c:2e47:b0:39c:37f5:cd74 with SMTP id
+ q7-20020a05600c2e4700b0039c37f5cd74mr18556834wmf.32.1654516906665;
+        Mon, 06 Jun 2022 05:01:46 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- f12-20020a5d4dcc000000b002100316b126sm15526455wru.6.2022.06.06.05.01.43
+ f12-20020a5d4dcc000000b002100316b126sm15526455wru.6.2022.06.06.05.01.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 05:01:43 -0700 (PDT)
+        Mon, 06 Jun 2022 05:01:46 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 16/21] cmake: update 3.23.1 -> 3.23.2
-Date: Mon,  6 Jun 2022 14:01:21 +0200
-Message-Id: <20220606120126.3381438-16-alex@linutronix.de>
+Subject: [PATCH 20/21] perl: clean prior to build
+Date: Mon,  6 Jun 2022 14:01:25 +0200
+Message-Id: <20220606120126.3381438-20-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220606120126.3381438-1-alex@linutronix.de>
 References: <20220606120126.3381438-1-alex@linutronix.de>
@@ -68,38 +68,112 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 12:01:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166608
+ https://lists.openembedded.org/g/openembedded-core/message/166613
+
+Otherwise, when running configure/make on a previously built tree,
+makefiles generated by makemaker may detect that 'configuration has changed',
+followed by self-deletion, self-regeneration, requesting the user to
+re-run make and exit 1. And therefore do_compile goes kaboom.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../cmake/{cmake-native_3.23.1.bb => cmake-native_3.23.2.bb}    | 0
- meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
- .../recipes-devtools/cmake/{cmake_3.23.1.bb => cmake_3.23.2.bb} | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.23.1.bb => cmake-native_3.23.2.bb} (100%)
- rename meta/recipes-devtools/cmake/{cmake_3.23.1.bb => cmake_3.23.2.bb} (100%)
+ ...ctly-list-modules-when-cleaning-them.patch | 24 ++++++++++++++++
+ ...file-do-not-clean-config.h-xconfig.h.patch | 28 +++++++++++++++++++
+ .../perl-cross/perlcross_1.4.bb               |  2 ++
+ meta/recipes-devtools/perl/perl_5.36.0.bb     |  1 +
+ 4 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl-cross/files/0001-Makefile-correctly-list-modules-when-cleaning-them.patch
+ create mode 100644 meta/recipes-devtools/perl-cross/files/0001-Makefile-do-not-clean-config.h-xconfig.h.patch
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.23.1.bb b/meta/recipes-devtools/cmake/cmake-native_3.23.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_3.23.1.bb
-rename to meta/recipes-devtools/cmake/cmake-native_3.23.2.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index 934d577acf..4a6884e871 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -21,7 +21,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
- "
+diff --git a/meta/recipes-devtools/perl-cross/files/0001-Makefile-correctly-list-modules-when-cleaning-them.patch b/meta/recipes-devtools/perl-cross/files/0001-Makefile-correctly-list-modules-when-cleaning-them.patch
+new file mode 100644
+index 0000000000..80388fa9b0
+--- /dev/null
++++ b/meta/recipes-devtools/perl-cross/files/0001-Makefile-correctly-list-modules-when-cleaning-them.patch
+@@ -0,0 +1,24 @@
++From 7b8d819e012c24df228a313beb86e1942611c904 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Sat, 4 Jun 2022 13:00:12 +0200
++Subject: [PATCH] Makefile: correctly list modules when cleaning them
++
++Upstream-Status: Submitted [https://github.com/arsv/perl-cross/pull/133]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ Makefile | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Makefile b/Makefile
++index 6b35fb0..9ef9324 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -462,7 +462,7 @@ clean-subdirs:
++ 
++ # assuming modules w/o Makefiles were never built and need no cleaning
++ clean-modules: config.h
++-	@for i in $(modules disabled); do \
+++	@for i in $(modules) $(disabled); do \
++ 		test -f $$i/Makefile && \
++ 		touch $$i/Makefile && \
++ 		$(MAKE) -C $$i clean \
+diff --git a/meta/recipes-devtools/perl-cross/files/0001-Makefile-do-not-clean-config.h-xconfig.h.patch b/meta/recipes-devtools/perl-cross/files/0001-Makefile-do-not-clean-config.h-xconfig.h.patch
+new file mode 100644
+index 0000000000..cbb935c71b
+--- /dev/null
++++ b/meta/recipes-devtools/perl-cross/files/0001-Makefile-do-not-clean-config.h-xconfig.h.patch
+@@ -0,0 +1,28 @@
++From ade4a70308d3b9d79cc3db841c0f60385780fe1a Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Sat, 4 Jun 2022 13:45:20 +0200
++Subject: [PATCH] Makefile: do not clean config.h/xconfig.h
++
++These are generated by ./configure and not by make.
++
++Upstream-Status: Submitted [https://github.com/arsv/perl-cross/pull/134]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ Makefile | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/Makefile b/Makefile
++index 9ef9324..3de2c2e 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -473,7 +473,6 @@ clean-generated-files:
++ 	-rm -f uudmap.h opmini.c generate_uudmap$X bitcount.h $(CONFIGPM)
++ 	-rm -f git_version.h lib/re.pm lib/Config_git.pl
++ 	-rm -f perlmini.c perlmain.c
++-	-rm -f config.h xconfig.h
++ 	-rm -f pod/perlmodlib.pod
++ 	-rm -f ext.libs static.list
++ 	-rm -f $(patsubst %,%/ppport.h,$(mkppport_lst))
++-- 
++2.30.2
++
+diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.4.bb b/meta/recipes-devtools/perl-cross/perlcross_1.4.bb
+index 1329306b0e..2704976e17 100644
+--- a/meta/recipes-devtools/perl-cross/perlcross_1.4.bb
++++ b/meta/recipes-devtools/perl-cross/perlcross_1.4.bb
+@@ -15,6 +15,8 @@ SRC_URI = "https://github.com/arsv/perl-cross/releases/download/${PV}/perl-cross
+            file://0001-perl-cross-add-LDFLAGS-when-linking-libperl.patch \
+            file://determinism.patch \
+            file://0001-Makefile-check-the-file-if-patched-or-not.patch \
++           file://0001-Makefile-correctly-list-modules-when-cleaning-them.patch \
++           file://0001-Makefile-do-not-clean-config.h-xconfig.h.patch \
+            "
+ UPSTREAM_CHECK_URI = "https://github.com/arsv/perl-cross/releases/"
  
--SRC_URI[sha256sum] = "33fd10a8ec687a4d0d5b42473f10459bb92b3ae7def2b745dc10b192760869f3"
-+SRC_URI[sha256sum] = "f316b40053466f9a416adf981efda41b160ca859e97f6a484b447ea299ff26aa"
+diff --git a/meta/recipes-devtools/perl/perl_5.36.0.bb b/meta/recipes-devtools/perl/perl_5.36.0.bb
+index 838ad0b75a..cb82cad36c 100644
+--- a/meta/recipes-devtools/perl/perl_5.36.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.36.0.bb
+@@ -111,6 +111,7 @@ print(datetime.fromtimestamp($SOURCE_DATE_EPOCH, timezone.utc).strftime('%a %b %
+             ")"
+         echo "#define PERL_BUILD_DATE \"$PERL_BUILD_DATE\"" >> config.h
+     fi
++    oe_runmake clean
+ }
  
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/cmake/cmake_3.23.1.bb b/meta/recipes-devtools/cmake/cmake_3.23.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_3.23.1.bb
-rename to meta/recipes-devtools/cmake/cmake_3.23.2.bb
+ do_compile() {
 -- 
 2.30.2
 
