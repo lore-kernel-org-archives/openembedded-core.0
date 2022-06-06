@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62BA6CCA473
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F52BCCA481
 	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 14:39:05 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web09.32821.1654526336879000736
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
+ [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web10.32817.1654526334092913265
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 07:38:57 -0700
+ Mon, 06 Jun 2022 07:38:59 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=yCrDbtYE;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170,
+ header.b=Vadi13Br;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.178,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d22so12242951plr.9
+Received: by mail-pg1-f178.google.com with SMTP id d129so13047473pgc.9
         for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 07:38:56 -0700 (PDT)
+ Mon, 06 Jun 2022 07:38:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=976X42LxbSydfTIiyhHGLBB72C4ZGtfkTLUss341mbM=;
-        b=yCrDbtYETZee1wVZsPphhoEOAKeK7MOVW0X+VUmFVMAhmZdTKf7/WbxR6+shIKJLXY
-         /I7oX/oXAigkyyUEeM9+KfO2CHUvkiv15NdiGKKAGEEdxEBesvmib+KAb1GgzpzdWOhz
-         B34bMd5z3dsLLGohotCKnD9XuH9sUYVaY5Ja6/YZTbsmhBQ0GuVPwtQShajNqJTEVxjU
-         RVQNgorwwFouB5jj7yhRmD6bKgRcYjuUvhiOQV1EYnNlen0PeBKNiN20yqqEQWHg3Rjv
-         lpQ46qZpR/2K8X24Wjs1ufMuk+kRUYDbWMW1QKRXnqiFBHbwmaVJZe1ygYXOS3h8PIbn
-         bNRA==
+        bh=fZSaPmhm08ZXUBnvAlddUjXPOGdK4wfbx6/k2n1q7IE=;
+        b=Vadi13Br1tlRs2zK+QtSBnmUV7bg1z+D2EVMChUmRTAVlq87koav5s1yXMAzOE17Q+
+         R1TBeONVUCkA9+hcHNeULRZhQVD4JSNRzYvHaSeqCISbFRSvF0fek9MSYI6XwCgBd+WZ
+         wd4k2xoRC3VpFV7b+sPhS8dVfKkal2qEylYfm9UOVxmhrEVIqjeMSUIXH3Jx6zUgNTlC
+         3879HVXrbK2/L8n4+JQlMohguWK/RZ9+ZHDlEztgQKEMB0n6sAOdssFcmDL2X4ap+qMp
+         vhNhbDsChSh+KZaLCdI1qgpQL8SehT3gY/FH7ep7E6L6HD4RqnkPLKN/lR5hhqPV/hvq
+         CQow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=976X42LxbSydfTIiyhHGLBB72C4ZGtfkTLUss341mbM=;
-        b=7lSueOtN5S0Jk7eAnxA+AD73gv6IwoD4M7ihnsROxoIsmJ5hYkpt98mH/qY3q6KM33
-         rz1oq8Nx5Plw3ng2My+6DXHXG5gNM7+5Q/+mDsDy8CztArudoKvUQCT1dJVBv5wbS1xW
-         bVUxvd0WqT3UvCt3kiGB+koFsNxPWRm60aYWvulciETOJlDALVvXGnZxnBVGWaZfef3K
-         pWERogucIdBICVqYVFz+D87TONmJ4oSHKS7nNbBTUzBW3mCNu7BG+piouEcyEQ7zlI9r
-         xDfrHvAeI3C5modMA25+uRzoqRapB0q88y708SduAFgVHHFQEQQYOwYG8NQl83fKNiWO
-         QCRw==
-X-Gm-Message-State: AOAM533pNHh4WOYssD2yumX+tSYxQXlS/4RZsHlw41cUF//rC54Po4dJ
-	etLIaB7WWCxi4d29fa8HiiPKu8w0VmgkIS78
+        bh=fZSaPmhm08ZXUBnvAlddUjXPOGdK4wfbx6/k2n1q7IE=;
+        b=HyyqRGovET3XmAojbKF4AwB29GzhHX4n2LKOXx4xks/zgegWTHGx9XFeJS/7eqlxpp
+         PydFtVRhzYgME8869myPUBZwwfEwPTvjcpayxqcnWc0uXaIfsTMawROAVHOARpq0hST2
+         Lbll0PT0rqZBXg7gsBrQLsO8ZOu2lYGvjExLaQH7ill9BIHB7GkDIMpZVD3msNZWzbPP
+         UHzk7Uwk0cZbdqOUMYadK5dAwmdzJwlQNDzwA2gL2SZ7Vv0ZBjPTIBndejl5cPHSoBB0
+         SWsZvKEAIXDhjkTwaFOpvXqkvk1nfgcHMFym6Ii/TI7M/rx+vMt8IJGupD06EueVvFBx
+         6kaw==
+X-Gm-Message-State: AOAM5328QuTh/mPHeHv4pcHS68YOfr5J177vrqQJkj70MZ6ajuVoWhhl
+	nb9Ivy2Wr49qwJdYh0nMJ2120PQKNbwAgUnZ
 X-Google-Smtp-Source: 
- ABdhPJybS5kJXlwSE9ly1KYscpX2tPgd1lcI+3EBcD2UScfqDsj2C3OzgwpLhnOvAd1Cf5Op5wLaxw==
-X-Received: by 2002:a17:90a:448e:b0:1e0:901b:1b3f with SMTP id
- t14-20020a17090a448e00b001e0901b1b3fmr27245938pjg.95.1654526335568;
-        Mon, 06 Jun 2022 07:38:55 -0700 (PDT)
+ ABdhPJz699IMsDQpkdUmgFoGNUUg0/qevKc4f5QNRN6QeV031ZDL00G8UCq9ODV4ld4ACZIV9q97ew==
+X-Received: by 2002:a65:580f:0:b0:3fc:ffa7:9a66 with SMTP id
+ g15-20020a65580f000000b003fcffa79a66mr17700931pgr.332.1654526338423;
+        Mon, 06 Jun 2022 07:38:58 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- a5-20020a1709027d8500b0015ea3a491a1sm10544112plm.191.2022.06.06.07.38.54
+ a5-20020a1709027d8500b0015ea3a491a1sm10544112plm.191.2022.06.06.07.38.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 07:38:54 -0700 (PDT)
+        Mon, 06 Jun 2022 07:38:57 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 03/13] systemd: Drop
- 0016-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch
-Date: Mon,  6 Jun 2022 04:38:21 -1000
+Subject: [OE-core][kirkstone 04/13] systemd: Update patch status
+Date: Mon,  6 Jun 2022 04:38:22 -1000
 Message-Id: 
- <afedd8aad2e4c6759bda6002f6af4c2378d15a03.1654526060.git.steve@sakoman.com>
+ <06c8bdec050e791b7eb4be0f13b8e91fdc193253.1654526060.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1654526060.git.steve@sakoman.com>
 References: <cover.1654526060.git.steve@sakoman.com>
@@ -70,81 +69,32 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 14:39:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166636
+ https://lists.openembedded.org/g/openembedded-core/message/166637
 
 From: Khem Raj <raj.khem@gmail.com>
-
-This patch was effectively needed when usng gold linker but it has been
-fixed in binutils [1], it was seen in systemd as well [2]
-
-This however, should not happen with latest binutils and systemd has
-already reverted the fix since it was a tool error
-
-[1] https://sourceware.org/bugzilla/show_bug.cgi?id=18548
-[2] https://github.com/systemd/systemd/issues/234
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e57707e820f548b3ad940ee6de9e45b4de869565)
+(cherry picked from commit 2cdfc505ce4e00ae9b4abd962c60c9fec6c3db6c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...S_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch | 33 -------------------
- meta/recipes-core/systemd/systemd_250.5.bb    |  1 -
- 2 files changed, 34 deletions(-)
- delete mode 100644 meta/recipes-core/systemd/systemd/0016-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch
+ .../systemd/systemd/0002-Add-sys-stat.h-for-S_IFDIR.patch       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd/0016-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch b/meta/recipes-core/systemd/systemd/0016-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch
-deleted file mode 100644
-index f4066d7e4f..0000000000
---- a/meta/recipes-core/systemd/systemd/0016-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From d8bf23d7a698bd3253b0cfba24bd8afd0886d82d Mon Sep 17 00:00:00 2001
--From: Chen Qi <Qi.Chen@windriver.com>
--Date: Mon, 25 Feb 2019 15:18:00 +0800
--Subject: [PATCH] Hide __start_BUS_ERROR_MAP and __stop_BUS_ERROR_MAP
--
--for currently unknown reasons they get exported to the shared libries
--even without being listed in the sym file
--
+diff --git a/meta/recipes-core/systemd/systemd/0002-Add-sys-stat.h-for-S_IFDIR.patch b/meta/recipes-core/systemd/systemd/0002-Add-sys-stat.h-for-S_IFDIR.patch
+index 15413d7a0b..8cf0546450 100644
+--- a/meta/recipes-core/systemd/systemd/0002-Add-sys-stat.h-for-S_IFDIR.patch
++++ b/meta/recipes-core/systemd/systemd/0002-Add-sys-stat.h-for-S_IFDIR.patch
+@@ -6,7 +6,7 @@ Subject: [PATCH] Add sys/stat.h for S_IFDIR
+ ../git/src/shared/mkdir-label.c:13:61: error: use of undeclared identifier 'S_IFDIR'
+         r = mac_selinux_create_file_prepare_at(dirfd, path, S_IFDIR);
+ 
 -Upstream-Status: Pending
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--[Rebased for v241]
--Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
--
-----
-- src/libsystemd/sd-bus/bus-error.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/src/libsystemd/sd-bus/bus-error.c b/src/libsystemd/sd-bus/bus-error.c
--index 61928f4bf3..79b698b092 100644
----- a/src/libsystemd/sd-bus/bus-error.c
--+++ b/src/libsystemd/sd-bus/bus-error.c
--@@ -55,8 +55,8 @@ BUS_ERROR_MAP_ELF_REGISTER const sd_bus_error_map bus_standard_errors[] = {
-- };
-- 
-- /* GCC maps this magically to the beginning and end of the BUS_ERROR_MAP section */
---extern const sd_bus_error_map __start_SYSTEMD_BUS_ERROR_MAP[];
---extern const sd_bus_error_map __stop_SYSTEMD_BUS_ERROR_MAP[];
--+extern const sd_bus_error_map __start_SYSTEMD_BUS_ERROR_MAP[] _hidden_;
--+extern const sd_bus_error_map __stop_SYSTEMD_BUS_ERROR_MAP[] _hidden_;
-- 
-- /* Additional maps registered with sd_bus_error_add_map() are in this
--  * NULL terminated array */
-diff --git a/meta/recipes-core/systemd/systemd_250.5.bb b/meta/recipes-core/systemd/systemd_250.5.bb
-index 2f5b9d1367..c121fb763e 100644
---- a/meta/recipes-core/systemd/systemd_250.5.bb
-+++ b/meta/recipes-core/systemd/systemd_250.5.bb
-@@ -44,7 +44,6 @@ SRC_URI_MUSL = "\
-                file://0013-Define-glibc-compatible-basename-for-non-glibc-syste.patch \
-                file://0014-Do-not-disable-buffering-when-writing-to-oom_score_a.patch \
-                file://0015-distinguish-XSI-compliant-strerror_r-from-GNU-specif.patch \
--               file://0016-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch \
-                file://0018-avoid-redefinition-of-prctl_mm_map-structure.patch \
-                file://0021-test-json.c-define-M_PIl.patch \
-                file://0022-do-not-disable-buffer-in-writing-files.patch \
++Upstream-Status: Submitted [https://github.com/systemd/systemd/pull/23441]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ 
+ ---
 -- 
 2.25.1
 
