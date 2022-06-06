@@ -1,153 +1,139 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 771D1C433EF
-	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 12:01:54 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web09.31135.1654516905940517049
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A26ACCCA47F
+	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 12:26:14 +0000 (UTC)
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
+ [195.245.231.4])
+ by mx.groups.io with SMTP id smtpd.web11.31196.1654518373025064677
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 05:01:46 -0700
+ Mon, 06 Jun 2022 05:26:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LXKCeD7F;
- spf=pass (domain: gmail.com, ip: 209.85.221.47,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id a15so11033541wrh.2
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 05:01:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=RojXnKoDB9ACYSwBFxX6VTJBBdd3t1UNaxVOJJPM+3I=;
-        b=LXKCeD7F9oFtB5NzIPBBsxnxeB0jPjjux9t9CxtqgmeUcD4yxdSzKWfB62uJinXTmB
-         dsda3UDhjz2rSqwGhzzRittkJktHhXN62WP8bqz5b2BA0WjyF1CnY2eErgE2cFmzQYAz
-         /hGNGubG5XP7shcnmG66CidW4v58tDZpU6M7asHD19LzOb5aj5Xirw2IUMd5N+YPJvmO
-         QtyCkp8+l0tO4dQPsUZa4lMNUBe/2STXQSnpwcDevzMJPyA4wPDF+5odpq35SPBAmG+i
-         gJgjvzLM+/mjM5KaHTAFqtZiGNXiyFvfIb2Q1AH63AaRi4WIfbPO1GH/ANdo6t61DvJD
-         YSXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=RojXnKoDB9ACYSwBFxX6VTJBBdd3t1UNaxVOJJPM+3I=;
-        b=BpgWFr0NiEu8nnoHl7cuXKZQzmoykzPcrQhiwCoMBTLBD16RuBe8RbcQrB+COoqU3E
-         APDGa+kk0Vr5XStt8bo6Be4Q4+5KoX6cj+5AMYpsxIUSeLwiHXKaOjj09UFw9usiD2+4
-         iPyrR8TOMyUlaJDXXXXvTh6tSeFZN5+2MUFHQ5kI4qC59vR1sH8/o6Iopf/AyOrY/yR1
-         AHjg/6wFjhNxGF1NYfbNBeEFJk/6Byzacj9Fqsc2bQDUuD9ZhEcuJ92+PDHq5IrtH+jF
-         ojtVDp6DpK3APzu5z3fiWRBErr7eN22oYpFSBkHBtf69PPIKqNyFS+1B4GdOUwnijEBM
-         Oipg==
-X-Gm-Message-State: AOAM531wQEY7QBlAmoTVwp9mBeMtNtPQVHTNxyd9ZiUSnOh22u9mC1NH
-	krLjI3l4nocX/6zZ7dcA3gCdVI5a/n8zUw==
-X-Google-Smtp-Source: 
- ABdhPJxrKQf1nbIRUHaxpmQiHHC5Bez5NZHDTImq2qGTvEUz4KDCLjTPr7xK1dectHgVni+kTXeoCw==
-X-Received: by 2002:adf:fec3:0:b0:216:ea3d:b118 with SMTP id
- q3-20020adffec3000000b00216ea3db118mr9676299wrs.517.1654516904521;
-        Mon, 06 Jun 2022 05:01:44 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de.
- (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
-        by smtp.gmail.com with ESMTPSA id
- f12-20020a5d4dcc000000b002100316b126sm15526455wru.6.2022.06.06.05.01.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 05:01:44 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 17/21] ltp: upgrade 20220121 -> 20220527
-Date: Mon,  6 Jun 2022 14:01:22 +0200
-Message-Id: <20220606120126.3381438-17-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220606120126.3381438-1-alex@linutronix.de>
-References: <20220606120126.3381438-1-alex@linutronix.de>
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=Gt/Ylixl;
+ spf=pass (domain: fujitsu.com, ip: 195.245.231.4,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1654518371; i=@fujitsu.com;
+	bh=aK5Z8I5Wced2nQfwXaim/jzX3UQGUlpCBV0/PEQVtxY=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=Gt/Ylixlh42Oeg9pe1gtui+w4bFygdmZpiQ3Tq4w/m37hvE/esr+fcgWtpcS/tOaq
+	 UzP+Bp8Ox0x46n/kkNmwJyM2LgE600hZRfjltoRPcp3068eIkca5sBiyOTFcEFMLS0
+	 aXZgLj1S07Y649pNEyNGOsoC/RUsBAPxcKAQZZXNUu7wpPWtYS7/9+yPiImTSu7YFZ
+	 wncCpcc1oBeFASrUKBYjNCoIKndCeDD0njemQpI5SPBfe5SzNvzWQ03hg84dIaXmlN
+	 txYfZTGUrXNJ3XMijxb8CGcb7Nxnp4tl6tMi0FCuV5Vwq+Efg+HaO++pc63JLfIp9b
+	 p26XZva4z4ceA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrBIsWRWlGSWpSXmKPExsViZ8ORqJv8aW6
+  SwZEZzBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bWzWeZCuYIVuzqrG1gXMXfxcjFISTwmFHi
+  QPsSdgjnPJPE0t0vWCGc3YwSr270MnUxcnKwCahJTL91AyjBwSEioCdx9Z8oSJhZQEXixe8ed
+  hBbWMBaYuG2K8wgNgtQfOLyfSwgNq+Ao8Tt6UdZQWwJAQWJKQ/fg9VwCjhJHF3yHcwWAqrZ1H
+  wGql5Q4uTMJywQ8yUkDr54wQzRqygx+3IzC4RdITFjxjY2CFtN4uq5TcwTGAVnIWmfhaR9ASP
+  TKkbrpKLM9IyS3MTMHF1DAwNdQ0NTXWMjINNEL7FKN1EvtVS3PLW4RNdIL7G8WC+1uFivuDI3
+  OSdFLy+1ZBMjMIhTihUydjB+X/lT7xCjJAeTkiiv/bW5SUJ8SfkplRmJxRnxRaU5qcWHGGU4O
+  JQkeOs+AOUEi1LTUyvSMnOAEQWTluDgURLhtX4HlOYtLkjMLc5Mh0idYrTnuHrlyl5mjqmz/+
+  1n5lgOJmd+bTvALMSSl5+XKiXOexxkqgBIW0ZpHtxQWAK4xCgrJczLyMDAIMRTkFqUm1mCKv+
+  KUZyDUUmY9wHIFJ7MvBK43a+AzmICOsvnwRyQs0oSEVJSDUwcP9doNRyMFC7TuTtTVnvK1rOR
+  uzj9lsh43Prhwi3mvPfOMf2VNvIRwmVs+9+xT/8Y4GB79qbVV/EsL0fuJ4Y/KlpFc6tyw+tXF
+  v9VbtgoJcnBlxsRYLKnhOHnY6m07s8foyc9fuNglrb+ZqF2xpHcjMrPuY2PUjv8bkzq6LWcaH
+  ctm+tSwZend24Wnd+eckjZ+4/7rZ4Qqzu7Kvhehv/YPucN45OWc3tqH3zet3lPeLRoHH+lrM+
+  VwO1bTm/i37xR0OtphNauqg3ewj6TdIJu/XlVuqsslqFUftrxXLuLfAsbL1/583+ywTUG5+68
+  smzFPQzcLGwqMhObRO+0LWzcYSWdNvXhZqsf19LctymxFGckGmoxFxUnAgDuzcPUewMAAA==
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-11.tower-571.messagelabs.com!1654518370!412186!1
+X-Originating-IP: [62.60.8.97]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.86.7; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 17732 invoked from network); 6 Jun 2022 12:26:11 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+  by server-11.tower-571.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 6 Jun 2022 12:26:11 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 9DAD0100184
+	for <openembedded-core@lists.openembedded.org>;
+ Mon,  6 Jun 2022 13:26:10 +0100 (BST)
+Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 7F4B4100194
+	for <openembedded-core@lists.openembedded.org>;
+ Mon,  6 Jun 2022 13:26:10 +0100 (BST)
+Received: from localhost.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.32; Mon, 6 Jun 2022 13:26:05 +0100
+From: Wang Mingyu <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] mtools: upgrade 4.0.39 -> 4.0.40
+Date: Mon, 6 Jun 2022 20:25:37 +0800
+Message-ID: <1654518337-9206-5-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1654518337-9206-1-git-send-email-wangmy@fujitsu.com>
+References: <1654518337-9206-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 12:01:54 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 12:26:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166610
+ https://lists.openembedded.org/g/openembedded-core/message/166616
 
-Disable stack protection as newly added kvm tests won't build with it.
+Refresh disable-hardcoded-configs.patch for new version.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/conf/distro/include/security_flags.inc   |  1 +
- ...sh-sort-filelist-for-reproducibility.patch | 28 -------------------
- .../ltp/{ltp_20220121.bb => ltp_20220527.bb}  |  3 +-
- 3 files changed, 2 insertions(+), 30 deletions(-)
- delete mode 100644 meta/recipes-extended/ltp/ltp/0001-metadata-parse.sh-sort-filelist-for-reproducibility.patch
- rename meta/recipes-extended/ltp/{ltp_20220121.bb => ltp_20220527.bb} (97%)
+ .../mtools/mtools/disable-hardcoded-configs.patch           | 6 +++---
+ .../mtools/{mtools_4.0.39.bb => mtools_4.0.40.bb}           | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/mtools/{mtools_4.0.39.bb => mtools_4.0.40.bb} (93%)
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 8374cb8544..2972f05b4e 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -61,6 +61,7 @@ TARGET_LDFLAGS:append:class-cross-canadian = " ${SECURITY_LDFLAGS}"
- SECURITY_STACK_PROTECTOR:pn-gcc-runtime = ""
- SECURITY_STACK_PROTECTOR:pn-glibc = ""
- SECURITY_STACK_PROTECTOR:pn-glibc-testsuite = ""
-+SECURITY_STACK_PROTECTOR:pn-ltp = ""
- # All xorg module drivers need to be linked this way as well and are
- # handled in recipes-graphics/xorg-driver/xorg-driver-common.inc
- SECURITY_LDFLAGS:pn-xserver-xorg = "${SECURITY_X_LDFLAGS}"
-diff --git a/meta/recipes-extended/ltp/ltp/0001-metadata-parse.sh-sort-filelist-for-reproducibility.patch b/meta/recipes-extended/ltp/ltp/0001-metadata-parse.sh-sort-filelist-for-reproducibility.patch
-deleted file mode 100644
-index e8d9f212a9..0000000000
---- a/meta/recipes-extended/ltp/ltp/0001-metadata-parse.sh-sort-filelist-for-reproducibility.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From 4aad23f208cc7725cd61bbe5aaadb9994c794cd0 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Wed, 26 Jan 2022 20:58:46 +0100
--Subject: [PATCH] metadata/parse.sh: sort filelist for reproducibility
--
--find does not guarantee the order of the files.
--
--Upstream-Status: Submitted [https://github.com/linux-test-project/ltp/pull/907]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- metadata/parse.sh | 2 +-
--
--diff --git a/metadata/parse.sh b/metadata/parse.sh
--index b43d024c68..1811665bfe 100755
----- a/metadata/parse.sh
--+++ b/metadata/parse.sh
--@@ -29,7 +29,7 @@ echo ' "tests": {'
-- 
-- first=1
-- 
---for test in `find testcases/ -name '*.c'`; do
--+for test in `find testcases/ -name '*.c'|sort`; do
-- 	a=$($top_builddir/metadata/metaparse -Iinclude -Itestcases/kernel/syscalls/utils/ "$test")
-- 	if [ -n "$a" ]; then
-- 		if [ -z "$first" ]; then
---- 
--2.20.1
--
-diff --git a/meta/recipes-extended/ltp/ltp_20220121.bb b/meta/recipes-extended/ltp/ltp_20220527.bb
-similarity index 97%
-rename from meta/recipes-extended/ltp/ltp_20220121.bb
-rename to meta/recipes-extended/ltp/ltp_20220527.bb
-index 8a13dcf9d0..b136c83860 100644
---- a/meta/recipes-extended/ltp/ltp_20220121.bb
-+++ b/meta/recipes-extended/ltp/ltp_20220527.bb
-@@ -22,11 +22,10 @@ CFLAGS:append:x86-64 = " -fomit-frame-pointer"
+diff --git a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
+index 25ee2b74b5..8f46174a5b 100644
+--- a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
++++ b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
+@@ -1,4 +1,4 @@
+-From 142f40b80ea908831ef7a4d694cec6a5985a0724 Mon Sep 17 00:00:00 2001
++From 3a05dc2c0acff1713dd44cef5e9f328f0706eb3e Mon Sep 17 00:00:00 2001
+ From: Ed Bartosh <ed.bartosh@linux.intel.com>
+ Date: Tue, 13 Jun 2017 14:55:52 +0300
+ Subject: [PATCH] Disabled reading host configs.
+@@ -12,10 +12,10 @@ Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+  1 file changed, 8 deletions(-)
  
- CFLAGS:append:powerpc64 = " -D__SANE_USERSPACE_TYPES__"
- CFLAGS:append:mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
--SRCREV = "b0561ad8d9ee9fe1244b5385e941eb65a21e91a1"
-+SRCREV = "6f88e0f6f1d6eb12c48c902f50f47ecbd3b0f18a"
+ diff --git a/config.c b/config.c
+-index 173eae0..0654cc1 100644
++index 630f99d..07dbf53 100644
+ --- a/config.c
+ +++ b/config.c
+-@@ -836,14 +836,6 @@ void read_config(void)
++@@ -834,14 +834,6 @@ void read_config(void)
+  	memcpy(devices, const_devices,
+  	       nr_const_devices*sizeof(struct device));
+  
+diff --git a/meta/recipes-devtools/mtools/mtools_4.0.39.bb b/meta/recipes-devtools/mtools/mtools_4.0.40.bb
+similarity index 93%
+rename from meta/recipes-devtools/mtools/mtools_4.0.39.bb
+rename to meta/recipes-devtools/mtools/mtools_4.0.40.bb
+index 564ef02aee..200c7c7681 100644
+--- a/meta/recipes-devtools/mtools/mtools_4.0.39.bb
++++ b/meta/recipes-devtools/mtools/mtools_4.0.40.bb
+@@ -24,7 +24,7 @@ RRECOMMENDS:${PN}:libc-glibc = "\
+ 	glibc-gconv-ibm866 \
+ 	glibc-gconv-ibm869 \
+ 	"
+-SRC_URI[sha256sum] = "397f1e2b7b7a2a270eb7970fa363e445f956926ec51e8170c3869da85b0987bd"
++SRC_URI[sha256sum] = "a22fca42354011dd2293a7f51f228b46ebbd802e7740b0975912afecb79d5df4"
  
- SRC_URI = "git://github.com/linux-test-project/ltp.git;branch=master;protocol=https \
-            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
--           file://0001-metadata-parse.sh-sort-filelist-for-reproducibility.patch \
-            file://disable_hanging_tests.patch \
-            "
- 
+ SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
+            file://mtools-makeinfo.patch \
 -- 
-2.30.2
+2.25.1
 
 
