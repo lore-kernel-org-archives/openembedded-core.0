@@ -1,149 +1,186 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <liu.ming50@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A671C43334
-	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 08:51:53 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web08.29762.1654505511306409064
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69F86C433EF
+	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 09:33:23 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
+ [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web10.30011.1654508001630546626
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 01:51:51 -0700
+ Mon, 06 Jun 2022 02:33:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=A6nIsi/N;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id p10so18893044wrg.12
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bkUqOE28;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42,
+ mailfrom: liu.ming50@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id c2so17977332edf.5
         for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 01:51:50 -0700 (PDT)
+ Mon, 06 Jun 2022 02:33:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=QvLshZ1pLo89gsZs7UTYc2filYmeD0Lr+jB0OEmSrtQ=;
-        b=A6nIsi/NPE0g6l9jc3QxZ2nWNf77arCrT7F886RpWwYbYGjR/N8ZdZiRqVmqxYmRLz
-         7cjUWukKYPB/kstYhrJnoLGH7K8izp6YK8468+Sw6rT4Kb2gTWtnySA2U7yYspsdlHiA
-         fAzMW20nOg9F95mdOmxy3OgqchoqlSGp9mc1U=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1E/47OM9bJ6NQbt23ei6qKU7PVv/HVGvy5uOA+X9ofI=;
+        b=bkUqOE28IH7Zr+P+vAT7QOodccMfKkhyPjRwOrVFmNet0g0J82EbRUeQa6VTHktNBi
+         rwMAJzMuGX/F9XTeZcfA8OH84jcNsu4eXouyDIJRMmlyuhajkt39REB0nL6xM7/iOEWG
+         +9Y+/rP4uSMyPYyWMl+SanoMIXcEzPUbDGg8NsDLROdSKz7sgVwO02HBKGYXcbZs543Y
+         +OG5GN9+gdvRkwPCTWWUvmyDPg4WoXt0wLxbopEVInPKely0woUL5SlNNmLEnTGQ4BSz
+         c0UhVm/mY3U/dCmjzZhcUEVv1nVKjOL19L3wRHEiRO4HX/NLvFcVIrURS0SjDr/SW941
+         b7ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=QvLshZ1pLo89gsZs7UTYc2filYmeD0Lr+jB0OEmSrtQ=;
-        b=JdB+fRNpVJYbxaYBAXFOrW7AR83bOxVveDOop6VeXu4WUlIly6/TouvYGq5sjHPFtl
-         qsRMl0fGj3G0ZKBRQ7VgP/XAITBkk1QpkBd8vsH0wP5SFWY7zvfeW9l5suD29maDDkp8
-         0auL/u4XmdLqz1MoC8r2jF9rQcHQ8FEtWtA93iotsbqmjO6B83CJFgyv023se3gVHzPH
-         9j7vK0E60jMJLd3NfvnicIut4n0NtuV7Yy+xG623Qsb5DMxbiKTClHX5oqdQuHfUJcZk
-         PRwqYqkwmZAxSHgj8QA5gUXwzYQet8IibpQ02RgJV+AO6u3E+JN+Tf+NLv9ZaSDT/Q+j
-         oCSA==
-X-Gm-Message-State: AOAM531VlvsC0c99HGr+ODowzLmj2mj2CShIGAUq139WA73+hwtLsNAV
-	JC39C6TS/3qfEi4q0gCl7E8ygQ==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1E/47OM9bJ6NQbt23ei6qKU7PVv/HVGvy5uOA+X9ofI=;
+        b=KAl0CkSrcCgMsobE+cFI3c7Dz6CVowxFWKa85d6HPY9fu7Lc4jiSMHOgC9BIdv3ZPL
+         nhu65cCpS/1STI+MZzUqSsVF6T414l97ALMkrvLwcLd52MBhgiN0//+hMd+gX9CVFPwA
+         dKh4dlrjKkpKe0tLt4YQfVZ7pGvtQDkb2IjkSyzB/piwyjRVnMXMSk1QTTbfY0Qw1CTv
+         Ib9xC1pizWmE9/sZ/NG0yC5IG1WtD6UGLBHjKS7ELX1l2hN1M3Q0tAiP4KIz8/jIZHu9
+         uZ9luZ++mzJDEUNvJJsPmgKXt76Xzay1ygNGMubDsNHNfMdWslCBbAb0cBUGySgWJLYb
+         FH3Q==
+X-Gm-Message-State: AOAM532VnyeYojJM+11xXH5i4RJkP/n1mmLO+xiN/KtB2JQSZZTVrhjQ
+	GKjGtRZtdQGbvbwnBlI5wkH2l187qvQ=
 X-Google-Smtp-Source: 
- ABdhPJxUWzDD4Ux9OhQaoZMh+0Vj1L5FaLxF4Xe2D5RZf2ERX9A8syR3GOwrqlJnXu6yPQBYjTCXkA==
-X-Received: by 2002:a5d:47a5:0:b0:210:2b96:a952 with SMTP id
- 5-20020a5d47a5000000b002102b96a952mr20627761wrb.248.1654505509537;
-        Mon, 06 Jun 2022 01:51:49 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:22ca:1a07:c46c:a885?
- ([2001:8b0:aba:5f3c:22ca:1a07:c46c:a885])
+ ABdhPJwVjqte1mUaI37j1NbycIHXmcm/HtF5CCyxueqJ/OA/0vqAiGS73W+Ig1wJG5tm/6hu3Uy4DA==
+X-Received: by 2002:a05:6402:249e:b0:42d:bb88:865b with SMTP id
+ q30-20020a056402249e00b0042dbb88865bmr16323432eda.141.1654507999319;
+        Mon, 06 Jun 2022 02:33:19 -0700 (PDT)
+Received: from peterliu-Precision-7530.emea.group.atlascopco.com
+ ([2a00:801:230:9439:9cc8:c7ab:ede:1498])
         by smtp.gmail.com with ESMTPSA id
- b8-20020a056000054800b002137b2a233fsm14120678wrf.36.2022.06.06.01.51.48
+ q24-20020aa7d458000000b0042aad9edc9bsm8363891edr.71.2022.06.06.02.33.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 01:51:49 -0700 (PDT)
-Message-ID: 
- <a3fa5681be1c935b9137ad5c1a8de1c311d0c346.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v6] Rust Oe-Selftest implementation
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: pgowda cve <pgowda.cve@gmail.com>, Luca Ceresoli
- <luca.ceresoli@bootlin.com>
-Cc: "Luca Ceresoli via lists.openembedded.org"
- <luca.ceresoli=bootlin.com@lists.openembedded.org>, Patches and discussions
- about the oe-core layer <openembedded-core@lists.openembedded.org>, Randy
- MacLeod <rwmacleod@gmail.com>, Alexander Kanavin <alex.kanavin@gmail.com>,
- Vinay Kumar <vinay.m.engg@gmail.com>
-Date: Mon, 06 Jun 2022 09:51:48 +0100
-In-Reply-To: 
- <CALY4986aY-X5V2-fcOU+3bovF=kB9t7Uvrh8b_rcqH-pQE9J-w@mail.gmail.com>
-References: <20220524225603.50d60963@melee>
-	 <20220525043258.8949-1-pgowda.cve@gmail.com>
-	 <16F24A16BC7F056F.12338@lists.openembedded.org>
-	 <20220531150529.705390b9@melee>
-	 <CALY4986aY-X5V2-fcOU+3bovF=kB9t7Uvrh8b_rcqH-pQE9J-w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+        Mon, 06 Jun 2022 02:33:18 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [OE-core] [PATCH] udev-extraconf: let automount base directory
+ configurable
+Date: Mon,  6 Jun 2022 11:33:14 +0200
+Message-Id: <20220606093314.23402-1-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 08:51:53 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 09:33:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166587
+ https://lists.openembedded.org/g/openembedded-core/message/166588
 
-On Fri, 2022-06-03 at 18:37 +0530, pgowda cve wrote:
-> Hi Luca,
->=20
-> Regarding the issue
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14818
->=20
-> I ran the Oe-Selftest for Rust as well as completed packages and did
-> not come across any issues.
-> a@yow-fedora-builder1 build]$ uname -a
-> Linux yow-fedora-builder1 5.16.18-200.fc35.x86_64 #1 SMP PREEMPT Mon
-> Mar 28 14:10:07 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
->=20
-> The log of tests can be seen as follows:-
-> The command used to run the test was as mentioned in the Bugzilla.
-> oe-selftest -a -t machine -t toolchain-system -j 15
->=20
-> test_libatomic: PASSED (113.76s)
-> 2022-06-03 08:39:19,084 - oe-selftest - INFO - RESULTS -
-> gcc.GccLibGompSelfTestSystemEmulated.test_libgomp: PASSED (637.21s)
-> 2022-06-03 08:39:19,084 - oe-selftest - INFO - RESULTS -
-> gcc.GccLibItmSelfTestSystemEmulated.test_libitm: PASSED (133.31s)
-> 2022-06-03 08:39:19,084 - oe-selftest - INFO - RESULTS -
-> gcc.GccLibStdCxxSelfTestSystemEmulated.test_libstdcxx: PASSED
-> (2546.63s)
-> 2022-06-03 08:39:19,084 - oe-selftest - INFO - RESULTS -
-> gcc.GxxCrossSelfTestSystemEmulated.test_cross_gxx: PASSED (744.56s)
-> 2022-06-03 08:39:19,084 - oe-selftest - INFO - RESULTS -
-> glibc.GlibcSelfTestSystemEmulated.test_glibc: PASSED (1101.43s)
-> 2022-06-03 08:39:19,085 - oe-selftest - INFO - RESULTS -
-> meta_ide.MetaIDE.test_meta_ide_can_build_cpio_project: PASSED (54.33s)
-> 2022-06-03 08:39:19,085 - oe-selftest - INFO - RESULTS -
-> meta_ide.MetaIDE.test_meta_ide_can_compile_c_program: PASSED (0.19s)
-> 2022-06-03 08:39:19,085 - oe-selftest - INFO - RESULTS -
-> meta_ide.MetaIDE.test_meta_ide_had_installed_meta_ide_support: PASSED
-> (0.01s)
-> 2022-06-03 08:39:19,085 - oe-selftest - INFO - RESULTS -
-> runqemu.QemuTest.test_qemu_can_shutdown: PASSED (45.98s)
-> 2022-06-03 08:39:19,085 - oe-selftest - INFO - RESULTS -
-> rust.RustSelfTestSystemEmulated.test_rust: PASSED (8381.70s)
-> 2022-06-03 08:39:19,085 - oe-selftest - INFO - RESULTS -
-> gcc.GccLibSspSelfTestSystemEmulated.test_libssp: SKIPPED (3.92s)
-> 2022-06-03 08:39:22,336 - oe-selftest - INFO - SUMMARY:
-> 2022-06-03 08:39:22,336 - oe-selftest - INFO - oe-selftest () - Ran 16
-> tests in 19613.479s
-> 2022-06-03 08:39:22,336 - oe-selftest - INFO - oe-selftest - OK - All
-> required tests passed (successes=3D15, skipped=3D1, failures=3D0, errors=
-=3D0)
->=20
-> I also ran the Rust Oe-Selftest individually and did not find any issues.
-> Can you please share the environment file so that I can reproduce and
-> fix the issue?
+From: Ming Liu <liu.ming50@gmail.com>
 
-There isn't any magic environment we can share here I'm afraid. We
-don't know why it happens on some autobuilder workers and not on
-others, this is something we need to investigate and fix. This is one
-of the challenges of these "intermittent" issues.
+Dont hard-code automount base directory to '/run/media', introduce a
+variable MOUNT_BASE to let it configurable, like in udisks2 the mount
+base is also configurable by setting option: --enable-fhs-media.
 
-The errors seem to relate to zlib so it may be worth looking at whether
-host headers influence the rust build and those may be causing some
-kind of determinism issue. You may have to build the binaries one a
-system with the headers, then run them on a system without for example.
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ .../recipes-core/udev/udev-extraconf/mount.sh | 25 ++++++++++---------
+ meta/recipes-core/udev/udev-extraconf_1.1.bb  |  2 ++
+ 2 files changed, 15 insertions(+), 12 deletions(-)
 
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+index 5ba66e98e2..c8b773bc07 100644
+--- a/meta/recipes-core/udev/udev-extraconf/mount.sh
++++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+@@ -6,6 +6,7 @@
+ 
+ BASE_INIT="`readlink -f "@base_sbindir@/init"`"
+ INIT_SYSTEMD="@systemd_unitdir@/systemd"
++MOUNT_BASE="@MOUNT_BASE@"
+ 
+ if [ "x$BASE_INIT" = "x$INIT_SYSTEMD" ];then
+     # systemd as init uses systemd-mount to mount block devices
+@@ -40,7 +41,7 @@ automount_systemd() {
+ 
+     # Skip already mounted partitions
+     if [ -f /run/systemd/transient/run-media-$name.mount ]; then
+-        logger "mount.sh/automount" "/run/media/$name already mounted"
++        logger "mount.sh/automount" "$MOUNT_BASE/$name already mounted"
+         return
+     fi
+ 
+@@ -53,7 +54,7 @@ automount_systemd() {
+         grep "^[[:space:]]*$tmp" /etc/fstab && return
+     done
+ 
+-    [ -d "/run/media/$name" ] || mkdir -p "/run/media/$name"
++    [ -d "$MOUNT_BASE/$name" ] || mkdir -p "$MOUNT_BASE/$name"
+ 
+     MOUNT="$MOUNT -o silent"
+ 
+@@ -70,12 +71,12 @@ automount_systemd() {
+         ;;
+     esac
+ 
+-    if ! $MOUNT --no-block -t auto $DEVNAME "/run/media/$name"
++    if ! $MOUNT --no-block -t auto $DEVNAME "$MOUNT_BASE/$name"
+     then
+-        #logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/run/media/$name\" failed!"
+-        rm_dir "/run/media/$name"
++        #logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"$MOUNT_BASE/$name\" failed!"
++        rm_dir "$MOUNT_BASE/$name"
+     else
+-        logger "mount.sh/automount" "Auto-mount of [/run/media/$name] successful"
++        logger "mount.sh/automount" "Auto-mount of [$MOUNT_BASE/$name] successful"
+         touch "/tmp/.automount-$name"
+     fi
+ }
+@@ -93,7 +94,7 @@ automount() {
+ 	# configured in fstab
+ 	grep -q "^$DEVNAME " /proc/mounts && return
+ 
+-	! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
++	! test -d "$MOUNT_BASE/$name" && mkdir -p "$MOUNT_BASE/$name"
+ 	# Silent util-linux's version of mounting auto
+ 	if [ "x`readlink $MOUNT`" = "x/bin/mount.util-linux" ] ;
+ 	then
+@@ -113,12 +114,12 @@ automount() {
+ 		;;
+ 	esac
+ 
+-	if ! $MOUNT -t auto $DEVNAME "/run/media/$name"
++	if ! $MOUNT -t auto $DEVNAME "$MOUNT_BASE/$name"
+ 	then
+-		#logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/run/media/$name\" failed!"
+-		rm_dir "/run/media/$name"
++		#logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"$MOUNT_BASE/$name\" failed!"
++		rm_dir "$MOUNT_BASE/$name"
+ 	else
+-		logger "mount.sh/automount" "Auto-mount of [/run/media/$name] successful"
++		logger "mount.sh/automount" "Auto-mount of [$MOUNT_BASE/$name] successful"
+ 		touch "/tmp/.automount-$name"
+ 	fi
+ }
+@@ -157,5 +158,5 @@ if [ "$ACTION" = "remove" ] || [ "$ACTION" = "change" ] && [ -x "$UMOUNT" ] && [
+ 
+     # Remove empty directories from auto-mounter
+     name="`basename "$DEVNAME"`"
+-    test -e "/tmp/.automount-$name" && rm_dir "/run/media/$name"
++    test -e "/tmp/.automount-$name" && rm_dir "$MOUNT_BASE/$name"
+ fi
+diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+index 7da04379c0..2b908ac05b 100644
+--- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
++++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+@@ -15,6 +15,7 @@ SRC_URI = " \
+ 
+ S = "${WORKDIR}"
+ 
++MOUNT_BASE = "/run/media"
+ 
+ do_install() {
+     install -d ${D}${sysconfdir}/udev/rules.d
+@@ -31,6 +32,7 @@ do_install() {
+     install -m 0755 ${WORKDIR}/mount.sh ${D}${sysconfdir}/udev/scripts/mount.sh
+     sed -i 's|@systemd_unitdir@|${systemd_unitdir}|g' ${D}${sysconfdir}/udev/scripts/mount.sh
+     sed -i 's|@base_sbindir@|${base_sbindir}|g' ${D}${sysconfdir}/udev/scripts/mount.sh
++    sed -i 's|@MOUNT_BASE@|${MOUNT_BASE}|g' ${D}${sysconfdir}/udev/scripts/mount.sh
+ 
+     install -m 0755 ${WORKDIR}/network.sh ${D}${sysconfdir}/udev/scripts
+ }
+-- 
+2.25.1
 
 
