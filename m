@@ -2,75 +2,77 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B44C7C43334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B64F8CCA473
 	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 12:27:44 +0000 (UTC)
-Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
- [195.245.231.1])
- by mx.groups.io with SMTP id smtpd.web09.31380.1654518455274884667
+Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com
+ [85.158.142.1])
+ by mx.groups.io with SMTP id smtpd.web11.31207.1654518455852727827
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 05:27:35 -0700
+ Mon, 06 Jun 2022 05:27:36 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="body hash did not verify" header.i=@fujitsu.com
- header.s=170520fj header.b=cOyOPYJx;
- spf=pass (domain: fujitsu.com, ip: 195.245.231.1,
+ header.s=170520fj header.b=Htma1dYP;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.1,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
 	s=170520fj; t=1654518453; i=@fujitsu.com;
-	bh=q4p3zOfuI9vk+jCozgx1qk5ST6T11fN7er4w280SRqE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	b=cOyOPYJxKrdn9Sl4SlC1wDBTXbXhbrRuwtSM2vsRoyEVollsrvsS3DZmpl2UIfIXE
-	 xBiBiHSWU5dIJZSEGqZhV1RnkYQSLFnl6bZwjf03LUapBaKf+oskgbyCLgyIUzC9zV
-	 7TmJJETczmlWbKQqj9EJ8/KOgJsg6Z4Aj2x9+Ux4nTIBmkGWjJUy7Pb8NNfLBF6utX
-	 o74yw4m7Hh43nJRK+fPnu744YDhLLWxayYUfyh6iH1uVBd65CGl1YHj91VX/0GgaIE
-	 FLOr/8Xrek3MoKl5PpfXIvgeC4lOsqK5s8nw6MDneW6OdqrKMF6ppKzHpHoWZNvW2s
-	 DnSStco5rX85g==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrOIsWRWlGSWpSXmKPExsViZ8ORpLv109w
-  kg6lfOCzu/HzH7sDocW7jCsYAxijWzLyk/IoE1ozNG/+xFDyVrVj++zJrA+MqyS5GLg4hgYeM
-  ErMmHmaDcM4ySew7eZMJwtnNKPGk8z9QhpODTUBNYvqtG6xdjBwcIgJ6Elf/iYKEmQVUJF787
-  mEHsYUFzCWOzH4HVs4CFN/T38MIYvMKOEq8friNFcSWEFCQmPLwPTNEXFDi5MwnLBBzNCVat/
-  9mh7DlJZq3zmaGqFeUmH25mQXCrpCYMWMbG4StJnH13CbmCYwCs5CMmoVk1CwkoxYwMq9itE4
-  qykzPKMlNzMzRNTQw0DU0NNU1ttQ1MjTWS6zSTdRLLdUtTy0u0TXSSywv1kstLtYrrsxNzknR
-  y0st2cQIDOOUYvWrOxg3r/qpd4hRkoNJSZTX/trcJCG+pPyUyozE4oz4otKc1OJDjDIcHEoSv
-  HUfgHKCRanpqRVpmTnAmIJJS3DwKInwWr8DSvMWFyTmFmemQ6ROMepyzPzadoBZiCUvPy9VSp
-  z3OMgMAZCijNI8uBGw+L7EKCslzMvIwMAgxFOQWpSbWYIq/4pRnINRSZj3AcgUnsy8ErhNr4C
-  OYAI6wufBHJAjShIRUlINTLOOTnpjtrE8RcST9TZLy9LqxmpdDteQPYKnez8fSldYcdHXY9ON
-  tsXZuf/Me7ZaqPTvZSxy0d/i9pwvxDXkiL8wc+Yfzq23M399OMY6V3S/ao7x8krDiDOl5V/nz
-  ueS+fX0mViiRPKl0hPfTXf8PPmgZGV/bHvMYpN3z+utbf/OCM5etmfBepMD7R1vcy0Kj7zefX
-  /T77mzxVRPzT77q3ov84INVpd/nXx9xI9FXShz+ZcN0VkFxp3VHikLT7N7fF2veGb9lnRZHYE
-  Dgq0ZT1/9CuJctUva6MCc502FBxTaeC9PPrxg/t31DFv+nCr04V1rbZ6y50gmJ+OTnDdedtrr
-  l8dceZx/4vPMGUkz99grsRRnJBpqMRcVJwIApsm1S2oDAAA=
+	bh=4kL4IIf2EdpFLXGjllTrW4m9DLIPZsgJAq31RemLTDY=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	b=Htma1dYPnHFtriC28QlBW0Dn4sq60X2puGKS7lpVDQEqCoBD2ipD/P8GQSTR4TGiu
+	 Jp2LUIYMDx98FyK/e8PJN8YxsGnmea9ylwOEsAXC6cOD0xHLm2WmMf/TQsO5idFtVZ
+	 UzVEuysO4Lo5xVOYwxtyJDqCT0Urpd0ipZqryR1N/hSX/hjsmcMudmaOYJgqv2UWtF
+	 IZji4Eqo/UVzzyUv9eB/3BLb+uLWg1C967kyjCly1f+JUlIzadXWE1JQ0bpBKrf28l
+	 x8P2dOWk3+MyEkltTexle1sN6suis4vFlBuBXKt7x8mffybIFOUmlQdPEA50xKlnOB
+	 c1bPP1klkPjlw==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrAIsWRWlGSWpSXmKPExsViZ8ORpLv109w
+  kgyXdUhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8anl+sZC2YLVfQcnMrawHiav4uRi0NI4CGj
+  xJRvt1khnLNMEvcaG9kgnN2MErsb5zB3MXJysAmoSUy/dQOoioNDREBP4uo/UZAws4CKxIvfP
+  ewgtrCAmcTDE/NZQGwWoPicg1PAWnkFHCUu/eoHi0sIKEhMefgeLM4p4CTxed1VVhBbCKimad
+  JVJoh6QYmTM5+wQMzXlGjd/psdwpaXaN46mxlijqLE7MvNUDMrJGbM2MYGYatJXD23iXkCo9A
+  sJKNmIRk1C8moBYzMqxhtkooy0zNKchMzc3QNDQx0DQ1NgbSxroWJXmKVbqJeaqluXn5RSYau
+  oV5iebFeanGxXnFlbnJOil5easkmRmDgpxSnh+xgPLPvl94hRkkOJiVRXvtrc5OE+JLyUyozE
+  osz4otKc1KLDzHKcHAoSfDWfQDKCRalpqdWpGXmAKMQJi3BwaMkwmv9DijNW1yQmFucmQ6ROs
+  WoyzHza9sBZiGWvPy8VClx3uMgMwRAijJK8+BGwBLCJUZZKWFeRgYGBiGegtSi3MwSVPlXjOI
+  cjErCvA9ApvBk5pXAbXoFdAQT0BE+D+aAHFGSiJCSamCSbT30ZtoBYcW50oc/Tu/3LzgS5mph
+  0O0aZO0dLXWA8+Uhgc2HzjZ/OxK1bKlGef2bKs1nASvj5ksWtYr9lJ/7dH/Vtx9v+CtO2B/N+
+  x3Oa5b9ONf2X2LjnIMdvNZLqp6+X7ZCj++LkUJP6QLxb6wCKvGfBPfeYTvPd2qJ96odcjLvOu
+  cdPr/y5NSujKDgF+FTwq1keG6FSSoff71M0edu8TmLPI8JVT/5eXasqXs58eGjYv01ZmUSUx/
+  Lihm0r/Z5anN61SsGXfugJ6t4p9Zsk1rJxfBgnvscu61MbxJvMaz9wbVH/0xyqlXUdIn1FQ9i
+  84y0z8/f55A9rWbtoeKFr1wvhn7gtzXamVk4fckHJZbijERDLeai4kQA15fOroMDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-10.tower-548.messagelabs.com!1654518452!98887!1
+X-Msg-Ref: server-16.tower-745.messagelabs.com!1654518453!629146!1
 X-Originating-IP: [62.60.8.98]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.86.7; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 5972 invoked from network); 6 Jun 2022 12:27:33 -0000
+Received: (qmail 24090 invoked from network); 6 Jun 2022 12:27:33 -0000
 Received: from unknown (HELO n03ukasimr03.n03.fujitsu.local) (62.60.8.98)
-  by server-10.tower-548.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+  by server-16.tower-745.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
  encrypted SMTP; 6 Jun 2022 12:27:33 -0000
 Received: from n03ukasimr03.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTP id C294F8B8B
+	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTP id D48EB8B65
 	for <openembedded-core@lists.openembedded.org>;
  Mon,  6 Jun 2022 13:27:32 +0100 (BST)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTPS id B4B418B6E
+	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTPS id B5D028B7D
 	for <openembedded-core@lists.openembedded.org>;
  Mon,  6 Jun 2022 13:27:32 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Mon, 6 Jun 2022 13:27:26 +0100
+ (TLS) id 15.0.1497.32; Mon, 6 Jun 2022 13:27:28 +0100
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] nettle: upgrade 3.7.3 -> 3.8
-Date: Mon, 6 Jun 2022 20:27:10 +0800
-Message-ID: <1654518434-9263-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] kbd: upgrade 2.4.0 -> 2.5.0
+Date: Mon, 6 Jun 2022 20:27:11 +0800
+Message-ID: <1654518434-9263-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1654518434-9263-1-git-send-email-wangmy@fujitsu.com>
+References: <1654518434-9263-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -83,113 +85,76 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 12:27:44 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166620
+ https://lists.openembedded.org/g/openembedded-core/message/166622
+
+License-Update: Remove extra spaces.
 
 Changelog:
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-This release includes a couple of new features, and many
-performance improvements. It adds assembly code for two more
-architectures: ARM64 and S390x.
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+libkfont:
+---------
+    Make libkfont public library.
+    Add kfont_free().
+    Initialize kfont_context->options.
+    =D0=A2ake the verbose parameter into account when logging messages.
 
-The new version is intended to be fully source and binary
-compatible with Nettle-3.6. The shared library names are
-libnettle.so.8.5 and libhogweed.so.6.5, with sonames
-libnettle.so.8 and libhogweed.so.6.
+libkeymap:
+---------
+    Better error message on unsupported unicode value.
 
-New features:
---------------
-* AES keywrap (RFC 3394), contributed by Nicolas Mora.
+setvtrgb:
+--------
+    Add hexadecimal file support.
 
-* SM3 hash function, contributed by Tianjia Zhang.
+keymaps:
+-------
+    fa.map: drop high codepoint character that chokes loadkeys.
+    i386/neo/3l.map: Add 3l keymap.
+    i386/neo: use Delete instead of Backspace.
+    i386/qwerty/ie.map: Add Irish keyboard map.
+    i386/qwerty/it.map: Add braces to IT keyboard map.
+    pine/en.map: Keymap for PinePhone keyboard.
+    pt-latin1.map: Add Euro at Portuguese keyboards.
 
-* New functions cbc_aes128_encrypt, cbc_aes192_encrypt,
-  cbc_aes256_encrypt.
+docs:
+------
+    Fix typos.
 
-  On processors where AES is fast enough, e.g., x86_64 with
-  aesni instructions, the overhead of using Nettle's general
-  cbc_encrypt can be significant. The new functions can be
-  implemented in assembly, to do multiple blocks with reduced
-  per-block overhead.
-
-  Note that there's no corresponding new decrypt functions,
-  since the general cbc_decrypt doesn't suffer from the same
-  performance problem.
-
-Bug fixes:
--------------
-* Fix fat builds for x86_64 windows, these appear to never
-  have worked.
-
-Optimizations:
-----------------
-* New ARM64 implementation of AES, GCM, Chacha, SHA1 and
-  SHA256, for processors supporting crypto extensions. Great
-  speedups, and fat builds are supported. Contributed by
-  Mamone Tarsha.
-
-* New s390x implementation of AES, GCM, Chacha, memxor, SHA1,
-  SHA256, SHA512 and SHA3. Great speedups, and fat builds are
-  supported. Contributed by Mamone Tarsha.
-
-* New PPC64 assembly for ecc modulo/redc operations,
-  contributed by Amitay Isaacs, Martin Schwenke and Alastair
-  D=C2=B4Silva.
-
-* The x86_64 AES implementation using aesni instructions has
-  been reorganized with one separate function per key size,
-  each interleaving the processing of two blocks at a time
-  (when the caller processes multiple blocks with each call).
-  This gives a modest performance improvement on some
-  processors.
-
-* Rewritten and faster x86_64 poly1305 assembly.
-
-Known issues:
--------------
-* Nettle's testsuite doesn't work out-of-the-box on recent
-  MacOS, due to /bin/sh discarding the DYLD_LIBRARY_PATH
-  environment variable. Nettle's test scripts handle this in
-  some cases, but currently fails the test cases that are
-  themselves written as /bin/sh scripts. As a workaround, use
-
-  make check EMULATOR=3D'env DYLD_LIBRARY_PATH=3D$(TEST_SHLIB_DIR)'
-
-Miscellaneous:
---------------
-* Updated manual to current makeinfo conventions, with no
-  explicit node pointers. Generate pdf version with texi2pdf,
-  to get working hyper links.
-
-* Added square root functions for NIST ecc curves, as a
-  preparation for supporting compact point representation.
-
-* Reworked internal GCM/ghash interfaces, simplifying assembly
-  implementations. Deleted unused GCM C implementation
-  variants with less than 8-bit lookup table.
-
+po:
+-------
+    Update translations (from translationproject.org).
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-support/nettle/{nettle_3.7.3.bb =3D> nettle_3.8.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/nettle/{nettle_3.7.3.bb =3D> nettle_3.8.bb} (96%)
+ meta/recipes-core/kbd/{kbd_2.4.0.bb =3D> kbd_2.5.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/kbd/{kbd_2.4.0.bb =3D> kbd_2.5.0.bb} (90%)
 
-diff --git a/meta/recipes-support/nettle/nettle_3.7.3.bb b/meta/recipes-support/nettle/nettle_3.8.bb
-similarity index 96%
-rename from meta/recipes-support/nettle/nettle_3.7.3.bb
-rename to meta/recipes-support/nettle/nettle_3.8.bb
-index 889dc74667..0d6562dbce 100644
---- a/meta/recipes-support/nettle/nettle_3.7.3.bb
-+++ b/meta/recipes-support/nettle/nettle_3.8.bb
-@@ -24,7 +24,7 @@ SRC_URI:append:class-target =3D "\
-             file://dlopen-test.patch \
-             "
+diff --git a/meta/recipes-core/kbd/kbd_2.4.0.bb b/meta/recipes-core/kbd/kbd_2.5.0.bb
+similarity index 90%
+rename from meta/recipes-core/kbd/kbd_2.4.0.bb
+rename to meta/recipes-core/kbd/kbd_2.5.0.bb
+index 4b23f1a89d..c0317a5d84 100644
+--- a/meta/recipes-core/kbd/kbd_2.4.0.bb
++++ b/meta/recipes-core/kbd/kbd_2.5.0.bb
+@@ -3,7 +3,7 @@ HOMEPAGE =3D "http://www.kbd-project.org/"
+ DESCRIPTION =3D "The kbd project contains tools for managing Linux console (Linux console, virtual terminals, keyboard, etc.) =E2=80=93 mainly, what they do is loading console fonts and keyboard maps."
+ # everything minus console-fonts is GPL-2.0-or-later
+ LICENSE =3D "GPL-2.0-or-later"
+-LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D892f569a555ba9c07a568a7c0c4fa63a"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4263"
  
--SRC_URI[sha256sum] =3D "661f5eb03f048a3b924c3a8ad2515d4068e40f67e774e8a26827658007e3bcf0"
-+SRC_URI[sha256sum] =3D "7576c68481c198f644b08c160d1a4850ba9449e308069455b5213319f234e8e6"
+ inherit autotools gettext pkgconfig
  
- UPSTREAM_CHECK_REGEX =3D "nettle-(=3FP<pver>\d+(\.\d+)+)\.tar"
+@@ -16,7 +16,7 @@ RCONFLICTS:${PN} =3D "console-tools"
+ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/${BPN}/${BP}.tar.xz \
+            "
  
+-SRC_URI[sha256sum] =3D "55f0740458cfd3a84e775e50d7e8b92dc01846db1edad8e2411ccc293ece9b9f"
++SRC_URI[sha256sum] =3D "ad95964a4dede55f9239dd63b455fa4498cf3db3a0075ccd1d65a9f0e622a0fd"
+ 
+ PACKAGECONFIG =3F=3D "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)} \
+                   "
 -- 
 2.25.1
 
