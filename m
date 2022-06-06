@@ -1,102 +1,106 @@
-Return-Path: <davidegarde2000@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF8A3C43334
-	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 10:51:53 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web11.30455.1654512712613175429
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA0BBC43334
+	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 11:30:13 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web11.30727.1654515013012768374
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 03:51:53 -0700
+ Mon, 06 Jun 2022 04:30:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=HjCXFIwy;
- spf=pass (domain: gmail.com, ip: 209.85.208.45,
- mailfrom: davidegarde2000@gmail.com)
-Received: by mail-ed1-f45.google.com with SMTP id h19so18286674edj.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cAijGuK6;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id q15so11409102wrc.11
         for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 03:51:52 -0700 (PDT)
+ Mon, 06 Jun 2022 04:30:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7TXjx7X1FEpv/HOmTNVpe20riURhzMepic1ftcdSke8=;
-        b=HjCXFIwybGKdso5WFGTTpUchMl6RmETwxC3/4rPUZ1TmlF1qt9u4x8HyCsjDqWj7RT
-         nrNoOXdaClviH8vxKHL2UClhOADP90KlihxLU7kLgVXtvzMbqFHGJ/7wlXGtUraKc36p
-         s+orpTTae1Qhc/yBirElmC0l4SzcjHq8bkVCb9k/AnadVUCYEUr4EPS1DsvH1MCL9e06
-         DFnk/cKwWge2eNF7GMzQaFAa+tyrwFB2v9l6IgR0+M098kGELMdS4psivb7zo+iGG7u9
-         d0zRbl+ae2BfIaIRI3kxfTXMRyn5BSTDc06hJSXkcWnYYzHduAWwtsoVfZ6cHxROhDP7
-         Mleg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=19amwONrF81SRhG1uWMd98FKoh1SY19ArGTCMffeTUQ=;
+        b=cAijGuK6QFhjSsTMuiKgW0yxrihZuKRIHpXQOMp8i5B1UMu0aZ0idFHaA1Rlu2xubt
+         1d2rq2wigKIMhi0xirf9ZmH3QA93ItnKx/6/1ezyzdEFjXYNxAGYlhZlWtLZufNSvTz2
+         i0ZW8yvcl0dB47cwOaDHTWReX5n9kycjIPzYE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7TXjx7X1FEpv/HOmTNVpe20riURhzMepic1ftcdSke8=;
-        b=IxwN1fQohDbtKoBcooQ0VxLPrB9Q+gdUu8dLZR+tKHrTsem9C9wtR9or1RRIv4zacR
-         7UMZaozfgKhEDlviHe2m/NcTFGKqbqlvH36ZVX6KvYlDc+PkfnqisLzd+jbTqgHVLgDK
-         ZZrwavJ8pZeuC8nbXuuTw/RDemvFWGhWXld13+TAbDsUT5IFg+pVO3KzUy/ZxbCwurjG
-         pKQ0AA1iR3CFD102WH0IH2JUUvuiQDrK2VZ8uBJ/DRrFZIk3ED5WXZeWgYIZ1Pavo8GH
-         aP0Csf0C2+oB2tN3PCACRyordl6By330i8SLRa1d1a0uXokWKWyrQL4FSDMq33lVRjPf
-         wT7Q==
-X-Gm-Message-State: AOAM5321JnSdWCR7rWio3I3N3jlAsSu2HPvZUB4zu+xbg4inthWZ9wUX
-	wl0C7smG85sd5K3C8sbriFcAiZxo1Xs=
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=19amwONrF81SRhG1uWMd98FKoh1SY19ArGTCMffeTUQ=;
+        b=0X5PyQigmwIvDLcUVtVIE1NtK2OrW0qrOSPmE6UMexsovm6/2WZuU+mnvabGRJ2A/2
+         XJ1KynkyAOkX7ZZYnFkFvW5pehVqpgo44OdHd4ej4z/+EUySxjIL+U6H3OgcbPSp2v+k
+         sX60A0Wbz85VSr7ez+7PR2YnILTce6IRjfnsD1AX0cjFNIax1lvMdjatMYToC2SoclX2
+         tTHwuC2xCOK3r6mYdxZ056vpz+6abzbehvw96tXK/bkJ5BSjvAZQm5OJo1hONe5h5F+Y
+         sO7yP33Sz/hLNQ5Sq1/asxNgRLPSr6JWNAI9tvMEz1+wtHfDga6+91cwCwZ3ynmmTKK+
+         Be0w==
+X-Gm-Message-State: AOAM532JVtesF/99XWsSX9gXhOkoDY5tFV/1gOEpdq5OsjRbCFKd1VW+
+	/tLSe3R1xkPJ9auyGUISKrL7Dw==
 X-Google-Smtp-Source: 
- ABdhPJyB34AT7QH+raX8jL0q3DYZh/g8i2c592P0JlRuriUd5OPuhkfzld7QivRBVUT3+aayf3N4mA==
-X-Received: by 2002:a05:6402:5114:b0:42f:b5f3:1f96 with SMTP id
- m20-20020a056402511400b0042fb5f31f96mr14525184edd.260.1654512710571;
-        Mon, 06 Jun 2022 03:51:50 -0700 (PDT)
-Received: from tony3oo3-XPS-13-9370.home
- (host-87-12-122-122.business.telecomitalia.it. [87.12.122.122])
+ ABdhPJwiSkU7x9k3Ld7G8pmejN4IMFASLbzZBySYrmgIHjquamuObRN5IWzeXUxnIk7rVZSASl35dg==
+X-Received: by 2002:adf:e944:0:b0:210:30cf:6e42 with SMTP id
+ m4-20020adfe944000000b0021030cf6e42mr21204663wrn.258.1654515011360;
+        Mon, 06 Jun 2022 04:30:11 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:22ca:1a07:c46c:a885?
+ ([2001:8b0:aba:5f3c:22ca:1a07:c46c:a885])
         by smtp.gmail.com with ESMTPSA id
- b23-20020a17090630d700b0070e1adff390sm4124475ejb.34.2022.06.06.03.51.49
+ h12-20020a05600c2cac00b0039749256d74sm21870694wmc.2.2022.06.06.04.30.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 03:51:50 -0700 (PDT)
-From: Davide Gardenal <davidegarde2000@gmail.com>
-X-Google-Original-From: Davide Gardenal <davide.gardenal@huawei.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Davide Gardenal <davide.gardenal@huawei.com>
-Subject: [master][kirkstone][PATCH] baremetal-image: fix broken symlink in
- do_rootfs
-Date: Mon,  6 Jun 2022 12:51:42 +0200
-Message-Id: <20220606105142.995335-1-davide.gardenal@huawei.com>
-X-Mailer: git-send-email 2.32.0
+        Mon, 06 Jun 2022 04:30:10 -0700 (PDT)
+Message-ID: 
+ <9dac6561419afa5777a01d1acbad52a623296d4f.camel@linuxfoundation.org>
+Subject: Re: [oe-core][PATCHv2 4/6] libsdl2: dont mix opengl and gles
+ backends for wayland
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
+Date: Mon, 06 Jun 2022 12:30:10 +0100
+In-Reply-To: <d5887223-b996-cd38-3fd2-b2e04d51ff90@t-online.de>
+References: <20220604053028.4682-1-f_l_k@t-online.de>
+	 <20220604053028.4682-4-f_l_k@t-online.de>
+	 <d82cc562394b4cd74a3fedc53e6b41f7bb053f81.camel@linuxfoundation.org>
+	 <d5887223-b996-cd38-3fd2-b2e04d51ff90@t-online.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 10:51:53 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 11:30:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166592
+ https://lists.openembedded.org/g/openembedded-core/message/166593
 
-If IMAGE_LINK_NAME and IMAGE_MANIFEST are equal
-don't create a link otherwise it will create it
-to itself.
+On Sat, 2022-06-04 at 18:25 +0200, Markus Volk wrote:
 
-Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
----
- meta/classes/baremetal-image.bbclass | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+> Am 04.06.22 um 15:27 schrieb Richard Purdie:
+> > I think this is breaking mingw builds:
+> >=20
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/5320
+> >=20
+> >=20
+> Could it be that we need to add a wayland exception here as well, since=
+=20
+> xorgproto can now be built for wayland?
+>=20
+> https://git.yoctoproject.org/meta-mingw/tree/recipes-graphics/libsdl2/lib=
+sdl2_%25.bbappend?h=3Dmaster-next#n4
 
-diff --git a/meta/classes/baremetal-image.bbclass b/meta/classes/baremetal-image.bbclass
-index 81f5e5e93d..cb9e250350 100644
---- a/meta/classes/baremetal-image.bbclass
-+++ b/meta/classes/baremetal-image.bbclass
-@@ -47,9 +47,10 @@ python do_rootfs(){
-     Path(manifest_name).touch()
-     if os.path.exists(manifest_name) and link_name:
-         manifest_link = deploy_dir + "/" + link_name + ".manifest"
--        if os.path.lexists(manifest_link):
--            os.remove(manifest_link)
--        os.symlink(os.path.basename(manifest_name), manifest_link)
-+        if manifest_link != manifest_name:
-+            if os.path.lexists(manifest_link):
-+                os.remove(manifest_link)
-+            os.symlink(os.path.basename(manifest_name), manifest_link)
-     # A lot of postprocess commands assume the existence of rootfs/etc
-     sysconfdir = d.getVar("IMAGE_ROOTFS") + d.getVar('sysconfdir')
-     bb.utils.mkdirhier(sysconfdir)
--- 
-2.32.0
+No, that isn't the issue.
 
+The challenge is you've changed the configuration and dependencies of
+libsdl and these new dependencies don't build on mingw. We need to
+correct either the configuration of mingw buildss (wrt
+DISTRO_FEATURES), or rethink the issues at hand here.
+
+I share Ross' concern about the x11 distro feature effectively becoming
+meaningless. Pure wayland shouldn't be needing these things and there
+is something else not quite right here. We do need to step back, state
+which problem we're trying to solve and then look at the issues in
+doing that. The patches in this series say a lot about what they do but
+not why.
+
+Cheers,
+
+Richard
 
