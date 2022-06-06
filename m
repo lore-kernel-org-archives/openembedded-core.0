@@ -1,130 +1,92 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <brgl@bgdev.pl>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1827C433EF
-	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 12:58:14 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web09.31658.1654520290059409929
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C251CCA481
+	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 13:27:05 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web09.31971.1654522020574478787
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 05:58:10 -0700
+ Mon, 06 Jun 2022 06:27:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hXDtzEil;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id x17so19760917wrg.6
+ dkim=pass header.i=@bgdev-pl.20210112.gappssmtp.com header.s=20210112
+ header.b=jv+aoxSD;
+ spf=none, err=SPF record not found (domain: bgdev.pl, ip: 209.85.221.44,
+ mailfrom: brgl@bgdev.pl)
+Received: by mail-wr1-f44.google.com with SMTP id q7so19871546wrg.5
         for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 05:58:09 -0700 (PDT)
+ Mon, 06 Jun 2022 06:27:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=otvtB2EpOYGJwAjknNNY6+XMuLUIN18PR9km807HYJM=;
-        b=hXDtzEilB2/E5DcPAhP1c6LbQMde+0n/2qnDTlDn+EXYDH8SucP26dF2ZZ829WbMi7
-         0eoWuwGbNWpkpuJOFNI6Vm9y92FmuGYIdxUY9J2Xmqor2QoY00Z/fuut4eOOEC6YeI6b
-         EB+WWvY4p6OAiC9BxlD4QPkcJgvxi43smas1w=
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zOAdcHcBcZcTFWVKc5XkwPoL+ufptJL4Mp0A1Niefu4=;
+        b=jv+aoxSDR+tCi780mTKHPkuL6G5Aoss70wo255BWaGSzvX3pK7MbjunJW6d7Tof1yq
+         ayPcA+9Q7+kB+zqcc+Vp8Lt8ZQ2YglaTFoRkpUiaXLuL22pP8iJ5U9xI8paJbLqSXcdX
+         vYrzibCjuifuIzKG6UVcGtL6wEaHBqDouEUYnx2DknYTqeOpBwAItwY6d/2dEp7oaOmX
+         wYmXJEi3DABG+omiimKK+NsW5IBfo7W1LLMUTgzJ8tNozTjd16H8zO5GAExp5AvJSAEb
+         jqJuCIgv8vqpjjs7dRWOef2uM5vVrCYxuN2hBRa43YOOl9P2PnUKSzKoLDMGPcRdlNKL
+         uVnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=otvtB2EpOYGJwAjknNNY6+XMuLUIN18PR9km807HYJM=;
-        b=Wkzb38QCtw83qGpILTKQAVXzhHQZAIWhnIsRaGPmZBAOFKYNRsangCQq1F7d+Ld0/q
-         tJHhNyjFxbGkR5vMaa0WioHgi5VmUT9Ox9+ZOYacXXYmxKDoIVUQia1fQCjXncz/wgch
-         BIAfMWxaC75v8ilcApCyCYwzDB83DRSLK57Tja8/LoV2M+ac7K7p7Wr0bQKQWwisctDc
-         Tg0trVSeb96eSP5DK/ajeg29FZaq+iR3fpJ4wC65/TP9zAGqaNURW/sWC+wq5OR3Sp19
-         2ltyPcAD8EGkjolkjzpT1F/yZcojT6Hrx53+GAYrbKjlTlhQWuI3ifB2ujTfJgPDc2ag
-         qZdQ==
-X-Gm-Message-State: AOAM530biFPCuFa93+RlTJEE8EDE8v+drE/YHY4fRlqfAI6giUw+yhe+
-	J5uwGEtbMz9Bsc+7ZgbtBlV+hg==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zOAdcHcBcZcTFWVKc5XkwPoL+ufptJL4Mp0A1Niefu4=;
+        b=U1aASdGZQ6h+35t5PoDxYVGOpZz7BrOWvRqqsw24addPsIzN8jhxHHR1Bxk9NVZF8O
+         cUpgWtISOilYmgCyy3jGgAppUye8Nl4CdQRs17ONwmg4eg8Zb1GdOYDmM08Oe19kuMJD
+         4pHm/CWTvYfrpAEtPrYITstZ5gXrOrVkazpQ1DanUVdC0B2dT1PEEWkAwhX8dM92XsmR
+         hegHXZgoz1Hhqv3B/ZoNyFFO8uT/F16qKmtCHUQxRvEzyIUL/7lwYz7AaJdvbior3pxx
+         +52GyGq4xd+vkJsSl/Yrew4hW5JUmRlUdnwGGZFChuxn02Y3Z7kD8AemIkXmWfeOpgDr
+         0nww==
+X-Gm-Message-State: AOAM531uqD49tnE3svy62FLmBfDcGU5+UJ67FA4ZZXarxWCDT3cw/CUN
+	cPhtN+ivXRB+oQq2XSl+UI3Hew==
 X-Google-Smtp-Source: 
- ABdhPJx+xO2gOBYKoiYVTXvL8HN3FogPYGfJbbK6eM4r4xVWsa0JjV587nx0NnzH1vuWSltu0EBxCg==
-X-Received: by 2002:a5d:6d0d:0:b0:218:45b1:ef1f with SMTP id
- e13-20020a5d6d0d000000b0021845b1ef1fmr2290809wrq.558.1654520288381;
-        Mon, 06 Jun 2022 05:58:08 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:22ca:1a07:c46c:a885?
- ([2001:8b0:aba:5f3c:22ca:1a07:c46c:a885])
+ ABdhPJxNCINJXJsKf+lvXByL955JQ7qLGSG3U/xHnFr0tQXIrf3zHStYShpJQ0sHZuAWFAuh9Oc/KQ==
+X-Received: by 2002:adf:e181:0:b0:213:bbe1:ba66 with SMTP id
+ az1-20020adfe181000000b00213bbe1ba66mr15068370wrb.325.1654522018552;
+        Mon, 06 Jun 2022 06:26:58 -0700 (PDT)
+Received: from brgl-uxlite.home ([2a01:cb1d:334:ac00:46fe:49d5:2ab9:ca49])
         by smtp.gmail.com with ESMTPSA id
- n6-20020a05600c4f8600b0039b006bd6d9sm23580371wmq.6.2022.06.06.05.58.07
+ k1-20020a1ca101000000b0039c4ff5e0a7sm2840911wme.38.2022.06.06.06.26.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 05:58:07 -0700 (PDT)
-Message-ID: 
- <0fe1a1e3769bd501474f3e1174345c26f338a510.camel@linuxfoundation.org>
-Subject: Re: [oe-core][PATCHv2 4/6] libsdl2: dont mix opengl and gles
- backends for wayland
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
-Date: Mon, 06 Jun 2022 13:58:06 +0100
-In-Reply-To: <af22fea5-01ac-7eb6-271c-487a86e23758@t-online.de>
-References: <20220604053028.4682-1-f_l_k@t-online.de>
-	 <20220604053028.4682-4-f_l_k@t-online.de>
-	 <d82cc562394b4cd74a3fedc53e6b41f7bb053f81.camel@linuxfoundation.org>
-	 <d5887223-b996-cd38-3fd2-b2e04d51ff90@t-online.de>
-	 <9dac6561419afa5777a01d1acbad52a623296d4f.camel@linuxfoundation.org>
-	 <af22fea5-01ac-7eb6-271c-487a86e23758@t-online.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+        Mon, 06 Jun 2022 06:26:58 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Khem Raj <raj.khem@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: [OE-core][PATCH 0/4] cargo: improve the build process and add a new
+ recipe
+Date: Mon,  6 Jun 2022 15:26:49 +0200
+Message-Id: <20220606132653.60232-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 12:58:14 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 13:27:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166626
+ https://lists.openembedded.org/g/openembedded-core/message/166627
 
-On Mon, 2022-06-06 at 14:50 +0200, Markus Volk wrote:
-> I've read the error report for mingw build and did some tests yesterday.
->=20
-> Added meta-mingw to bblayers.conf and this to local.conf
->=20
-> SDKMACHINE=3D"x86_64-mingw32"
-> DISTRO_FEATURES:remove =3D "x11"
->=20
-> and then did 'bitbake core-image-minimal -c do_populate_sdk'
->=20
-> This lead to the expected error message
->=20
-> > Checking whether type "fd_set" has member "fds_bits" : NO
-> > Checking whether type "fd_set" has member "__fds_bits" : NO
-> >=20
-> > ../xorgproto-2022.1/include/X11/meson.build:19:4: ERROR: Problem=20
-> encountered: Your fd_set is too weird.
-> >=20
-> > A full log can be found at=20
-> /home/flk/build/poky/build/tmp/work/x86_64-nativesdk-mingw32-w64-mingw32/=
-nativesdk-xorgproto/2022.1-r0/build/meson-logs/meson-log.txt
-> > ERROR: meson failed
->=20
-> I was able to fix this by changing the libsdl2.bbappend in meta-mingw=20
-> like this:
->=20
-> PACKAGECONFIG:remove:mingw32:class-nativesdk =3D "x11 opengl gles2"
->=20
-> Like this libsdl2 doesn't try to build in gl for wayland either and my=
-=20
-> build succeeded.
->=20
-> I sent a patch to openembedded-devel for this yesterday.
+This series contains some improvements to the cargo build and adds a new
+recipe for gstreamer plugins written in rust.
 
-Thanks, I've merged that so we don't run into that in future.
+Bartosz Golaszewski (4):
+  cargo: don't update git submodules in --offline mode
+  cargo: run in --offline mode
+  cargo: pass PACKAGECONFIG_CONFARGS to cargo build
+  gstreamer1.0-plugins-rs: new package
 
-> In general, I think it's a matter of perspective. The current state=20
-> forces me to request x11 globally and thus prevents me from deciding=20
-> within recipes what to do for wayland and what to do for x11=20
-> DISTRO_FEATURE. They always have to come in pairs. I thought that from=
-=20
-> wayland's point of view it would be ok to include and use x11, although=
-=20
-> it should not be done by default. I understand your concerns about=20
-> losing the clean line when mixing x11/Wayland, and it was just an idea.=
-=20
-> If you don't like it, I have no problem with it.
+ meta/classes/cargo.bbclass                    |   4 +-
+ meta/recipes-devtools/cargo/cargo.inc         |   2 +-
+ ...-t-update-submodules-in-offline-mode.patch |  32 ++
+ .../gstreamer1.0-plugins-rs_0.8.4.bb          | 465 ++++++++++++++++++
+ 4 files changed, 500 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/cargo/cargo/0001-git-don-t-update-submodules-in-offline-mode.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs_0.8.4.bb
 
-I think keeping the "clean" line with x11 is necessary at this point.
-
-Cheers,
-
-Richard
+-- 
+2.34.1
 
 
