@@ -1,205 +1,131 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mingli.yu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB9C4C43334
-	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 10:33:03 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.30320.1654511576258549909
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B823AC433EF
+	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 10:51:23 +0000 (UTC)
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web10.30510.1654512673352306412
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 03:32:56 -0700
+ Mon, 06 Jun 2022 03:51:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MzbjSC37;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id
- i17-20020a7bc951000000b0039c4760ec3fso1597683wml.0
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 03:32:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=5H7UovwW5NMElNIb3sb7Z9o8wA15Ofnbv8EdnmfouzA=;
-        b=MzbjSC37U+Z/l1akqVOWHLjQcyjtVHe6c06rCX05ZaJRaeIUWsKYTcDIRjo8k/qen0
-         9cA6rEdqC1MKS6Ykt0Qyv9cRGAbdLblmU8p/JZvHfV1TuVqoPDrgmJz0vO9GoJrPJd8s
-         3lMQxyRxOemdP44AbdYga+OtQjilBXeXV0BNI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=5H7UovwW5NMElNIb3sb7Z9o8wA15Ofnbv8EdnmfouzA=;
-        b=v5eJoigbP6nRugAwsB9meQeyGBwpRFrArt65iBlp7GFR8iEiBfyD5it5H29B64QRJz
-         8zy4OfVKfLweqoCDo4MfIDtmThsNhFVc+DNWToDOO7q/hi2c/45za/KrfQ364RPIK1tr
-         evThdhasQaZ2ztDYaKofLUbVXURm4yGBLR2ep8luogAJOAsoYLe7hShFzarnv+Vj8EkN
-         4fSms6yZhh+x6wL5XbpYZHZo+X7WqiXkQWEM0nLXh5y/msFzyPbGYg0XaO926Y/sHgaW
-         FJVS+CEHuTYyUsPUiuk7d1g2eD+FDA8FmiBPGh3OGZuIyHmqjG4B9gGa4XXJ7L7mEZIZ
-         +DDQ==
-X-Gm-Message-State: AOAM531hIAkAb8sJI527gGCLrK6qI1gxiAIbjzF0BH55S8Zqz+tgiE9z
-	ANWs5liB2XBcbDkd32GcjsBSSQ==
-X-Google-Smtp-Source: 
- ABdhPJy8PzdH+BawJikt7bO8k3WtQzxAwAsm8pZxgytoYyoOYb9tmsSl4i9KGmg5vQ/j85oIZjDXBA==
-X-Received: by 2002:a05:600c:5008:b0:39c:54a7:5664 with SMTP id
- n8-20020a05600c500800b0039c54a75664mr1729585wmr.35.1654511574645;
-        Mon, 06 Jun 2022 03:32:54 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:22ca:1a07:c46c:a885?
- ([2001:8b0:aba:5f3c:22ca:1a07:c46c:a885])
-        by smtp.gmail.com with ESMTPSA id
- v190-20020a1cacc7000000b003975c7058bfsm17115797wme.12.2022.06.06.03.32.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 03:32:53 -0700 (PDT)
-Message-ID: 
- <c1fd78ea1ca0c875aade6fe0abbb4e36577b5ca2.camel@linuxfoundation.org>
-Subject: Re: [swat] [OE-core] perl makefile race - any make experts who can
- help?
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jacob Kroon <jacob.kroon@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>, Alexander Kanavin
- <alex.kanavin@gmail.com>,  Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Randy MacLeod
- <randy.macleod@windriver.com>, openembedded-core
- <openembedded-core@lists.openembedded.org>, swat@lists.yoctoproject.org
-Date: Mon, 06 Jun 2022 11:32:53 +0100
-In-Reply-To: 
- <CAPbeDCnsxHsV=CKv7AVhNuvDn9QcORBQhx-DoQ4B9D-Qm+g3Kg@mail.gmail.com>
-References: 
-	<8f3b92e25906a33c828d61941d45a26448ace79f.camel@linuxfoundation.org>
-	 <CANNYZj_+jtBR77R8pFONWjOCG31AhsSCHA98MLBV4tY7qvSpkw@mail.gmail.com>
-	 <16F56B1475C84995.11448@lists.yoctoproject.org>
-	 <061c22b495d0d2b5830332c5258c82ee30aa67fa.camel@linuxfoundation.org>
-	 <CAMKF1sr+1oX4KbvHEUMnifKOEdjzbWiJPOThOwnLoeYrK9QS0g@mail.gmail.com>
-	 <45cc4ad9-f7bc-e0ff-9252-512bb2d3d55e@gmail.com>
-	 <2b098a7b1940704e69d5dca8e5df3db1fa185819.camel@linuxfoundation.org>
-	 <CAPbeDCnsxHsV=CKv7AVhNuvDn9QcORBQhx-DoQ4B9D-Qm+g3Kg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ dkim=missing;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
+ domain name (domain: windriver.com, ip: 147.11.146.13,
+ mailfrom: mingli.yu@windriver.com)
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 256Ap1Dk017507
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 6 Jun 2022 03:51:01 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 6 Jun 2022 03:51:00 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Mon, 6 Jun 2022 03:50:59 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] ccache: Fix build with gcc-12
+Date: Mon, 6 Jun 2022 18:50:59 +0800
+Message-ID: <20220606105059.1261415-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 10:33:03 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 10:51:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166590
+ https://lists.openembedded.org/g/openembedded-core/message/166591
 
-On Sun, 2022-06-05 at 04:26 +0200, Jacob Kroon wrote:
-> On Sat, 4 Jun 2022, 19:40 Richard Purdie,
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Sat, 2022-06-04 at 17:12 +0200, Jacob Kroon wrote:
-> > > On 6/4/22 16:55, Khem Raj wrote:
-> > > >=20
-> > > >=20
-> > > > On Sat, Jun 4, 2022 at 6:23 AM Richard Purdie=20
-> > > > <richard.purdie@linuxfoundation.org=20
-> > > > <mailto:richard.purdie@linuxfoundation.org>> wrote:
-> > > >=20
-> > > > =C2=A0 =C2=A0 =C2=A0On Sat, 2022-06-04 at 13:36 +0100, Richard Purd=
-ie via
-> > > > =C2=A0 =C2=A0 =C2=A0lists.yoctoproject.org <http://lists.yoctoproje=
-ct.org>
-> > > > wrote:
-> > > > =C2=A0 =C2=A0 =C2=A0 > On Sat, 2022-06-04 at 13:51 +0200, Alexander=
- Kanavin
-> > > > wrote:
-> > > > =C2=A0 =C2=A0 =C2=A0 > > Here's something I didn't think of before.=
- Has this
-> > > > occurred
-> > > > =C2=A0 =C2=A0 =C2=A0anywhere
-> > > > =C2=A0 =C2=A0 =C2=A0 > > else except Ubuntu 18.04?
-> > > > =C2=A0 =C2=A0 =C2=A0 >
-> > > > =C2=A0 =C2=A0 =C2=A0 > https://bugzilla.yoctoproject.org/show_bug.c=
-gi?id=3D14096
-> > > > =C2=A0 =C2=A0 =C2=A0<https://bugzilla.yoctoproject.org/show_bug.cgi=
-?id=3D14096>
-> > > > =C2=A0 =C2=A0 =C2=A0 >
-> > > > =C2=A0 =C2=A0 =C2=A0 > I'm struggling to get the data out from the =
-old builds,
-> > > > one mentions
-> > > > =C2=A0 =C2=A0 =C2=A0 > ubuntu1604, there is an ubuntu1804 on both x=
-86 and arm
-> > > > hosts.
-> > > > =C2=A0 =C2=A0 =C2=A0 >
-> > > > =C2=A0 =C2=A0 =C2=A0 > It is possible this is an ubuntu specific ma=
-ke issue or
-> > > > a make bug.
-> > > >=20
-> > > > =C2=A0 =C2=A0 =C2=A0Ubuntu 18.04 uses make 4.1 which is old (Oct 20=
-14).
-> > > >=20
-> > > > =C2=A0 =C2=A0 =C2=A0I noticed these patches from 2016:
-> > > >=20
-> > > > =C2=A0 =C2=A0
-> > > > =C2=A0https://git.savannah.gnu.org/cgit/make.git/commit/?id=3D9bb99=
-4e8
-> > > > 319c2b153cd3d6d61e2c2882895e7c3a
-> > > > =C2=A0 =C2=A0
-> > > > =C2=A0<https://git.savannah.gnu.org/cgit/make.git/commit/?id=3D9bb9=
-94e
-> > > > 8319c2b153cd3d6d61e2c2882895e7c3a>
-> > > > =C2=A0 =C2=A0
-> > > > =C2=A0https://git.savannah.gnu.org/cgit/make.git/commit/?id=3D47624=
-80a
-> > > > e9cb8df4878286411f178d32db14eff0
-> > > > =C2=A0 =C2=A0
-> > > > =C2=A0<https://git.savannah.gnu.org/cgit/make.git/commit/?id=3D4762=
-480
-> > > > ae9cb8df4878286411f178d32db14eff0>
-> > > >=20
-> > > > =C2=A0 =C2=A0 =C2=A0I think we may want to mandate a modern make fo=
-r both this
-> > > > class of
-> > > > =C2=A0 =C2=A0 =C2=A0issues and also perhaps for better loadavg supp=
-ort to keep
-> > > > load under
-> > > > =C2=A0 =C2=A0 =C2=A0control on the autobuilders.
-> > > >=20
-> > > > =C2=A0 =C2=A0 =C2=A0I'm torn, on the one hand we need to test the d=
-istros
-> > > > people use, on
-> > > > =C2=A0 =C2=A0 =C2=A0the other we do need to remove sources of inter=
-mittent
-> > > > issues. I think
-> > > > =C2=A0 =C2=A0 =C2=A0this bug must be some issue with make itself.
-> > > >=20
-> > > > =C2=A0 =C2=A0 =C2=A0Adding a make-native dependency to perl would "=
-hurt"
-> > > > people on modern
-> > > > =C2=A0 =C2=A0 =C2=A0distros...
-> > > >=20
-> > > >=20
-> > > > Make perhaps does not have many complex dependency needs so it
-> > > > might not=20
-> > > > be as bad
-> > > >=20
-> > >=20
-> > > My master build is already building make-native due to a
-> > > dependency from=20
-> > > glibc, since 2018:
-> > >=20
-> > > https://git.openembedded.org/openembedded-core/commit/?id=3D0cd89e4af=
-625941f8ab8c033f72f900a2979b304
-> > >=20
-> > > Don't know if that dependency is still valid though.
-> >=20
-> > It is a fair point. We may as well add it to perl/perl-native.
-> > Centos7
-> > still has make 3.82 but I think we now already require buildtools
-> > tarball there so we could probably drop the glibc dependency on
-> > make-
-> > native now.
->=20
->=20
-> Would it be a bad idea to add make-native to DEPENDS depending on
-> whether the host version of make is new enough or not ? Would it
-> break sstate cache reuse in some way ?=C2=A0
+From: Mingli Yu <mingli.yu@windriver.com>
 
-We can't have a conditional dependency like that, the task checksums as
-implemented today wouldn't work and it would break ssttate reuse.
+Fix the build failure when debug build is enabled.
+Add DEBUG_BUILD = "1" in conf/local.conf.
+ $ bitbake ccache
+ | /buildarea/tmp/work/core2-64-poky-linux/ccache/4.6.1-r0/ccache-4.6.1/src/third_party/xxhash.h:3932:1: error: inlining failed in call to 'always_inline' 'XXH3_accumulate_512_sse2': function not considered for inlining
+ 3932 | XXH3_accumulate_512_sse2( void* XXH_RESTRICT acc,
+      | ^~~~~~~~~~~~~~~~~~~~~~~~
+ /buildarea/tmp/work/core2-64-poky-linux/ccache/4.6.1-r0/ccache-4.6.1/src/third_party/xxhash.h:4369:9: note: called from here
+ 4369 |         f_acc512(acc,
+      |         ^~~~~~~~~~~~~
+ 4370 |                  in,
+      |                  ~~~
+ 4371 |                  secret + n*XXH_SECRET_CONSUME_RATE);
 
-Cheers,
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ meta/recipes-devtools/ccache/ccache_4.6.1.bb  |  4 +-
+ .../0001-xxhash.h-Fix-build-with-gcc-12.patch | 39 +++++++++++++++++++
+ 2 files changed, 42 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/ccache/files/0001-xxhash.h-Fix-build-with-gcc-12.patch
 
-Richard
-
+diff --git a/meta/recipes-devtools/ccache/ccache_4.6.1.bb b/meta/recipes-devtools/ccache/ccache_4.6.1.bb
+index 418d1070cd..0d6471ddbc 100644
+--- a/meta/recipes-devtools/ccache/ccache_4.6.1.bb
++++ b/meta/recipes-devtools/ccache/ccache_4.6.1.bb
+@@ -11,7 +11,9 @@ LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=7a19377a02749d8a1281ed608169b0ee"
+ 
+ DEPENDS = "zstd"
+ 
+-SRC_URI = "https://github.com/ccache/ccache/releases/download/v${PV}/${BP}.tar.gz"
++SRC_URI = "https://github.com/ccache/ccache/releases/download/v${PV}/${BP}.tar.gz \
++           file://0001-xxhash.h-Fix-build-with-gcc-12.patch \
++"
+ SRC_URI[sha256sum] = "59b28a57c3a45e48d6049001999c9f94cd4d3e9b0196994bed9a6a7437ffa3bc"
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/ccache/ccache/releases/"
+diff --git a/meta/recipes-devtools/ccache/files/0001-xxhash.h-Fix-build-with-gcc-12.patch b/meta/recipes-devtools/ccache/files/0001-xxhash.h-Fix-build-with-gcc-12.patch
+new file mode 100644
+index 0000000000..4c2623e69d
+--- /dev/null
++++ b/meta/recipes-devtools/ccache/files/0001-xxhash.h-Fix-build-with-gcc-12.patch
+@@ -0,0 +1,39 @@
++From cfde5ba7d10ae1e9d0c259dd1e7027e9bad8f83c Mon Sep 17 00:00:00 2001
++From: Mingli Yu <mingli.yu@windriver.com>
++Date: Mon, 6 Jun 2022 17:53:20 +0800
++Subject: [PATCH] xxhash.h: Fix build with gcc-12
++
++Remove inline attribute to fix below build failure:
++  | /buildarea/tmp/work/core2-64-poky-linux/ccache/4.6.1-r0/ccache-4.6.1/src/third_party/xxhash.h:3932:1: error: inlining failed in call to 'always_inline' 'XXH3_accumulate_512_sse2': function not considered for inlining
++  3932 | XXH3_accumulate_512_sse2( void* XXH_RESTRICT acc,
++       | ^~~~~~~~~~~~~~~~~~~~~~~~
++  /buildarea/tmp/work/core2-64-poky-linux/ccache/4.6.1-r0/ccache-4.6.1/src/third_party/xxhash.h:4369:9: note: called from here
++  4369 |         f_acc512(acc,
++       |         ^~~~~~~~~~~~~
++  4370 |                  in,
++       |                  ~~~
++  4371 |                  secret + n*XXH_SECRET_CONSUME_RATE);
++
++Upstream-Status: Submitted [https://github.com/ccache/ccache/pull/1089]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ src/third_party/xxhash.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/third_party/xxhash.h b/src/third_party/xxhash.h
++index 08ab794..c754e99 100644
++--- a/src/third_party/xxhash.h
+++++ b/src/third_party/xxhash.h
++@@ -1501,7 +1501,7 @@ static void* XXH_memcpy(void* dest, const void* src, size_t size)
++ #  define XXH_NO_INLINE static
++ /* enable inlining hints */
++ #elif defined(__GNUC__) || defined(__clang__)
++-#  define XXH_FORCE_INLINE static __inline__ __attribute__((always_inline, unused))
+++#  define XXH_FORCE_INLINE static
++ #  define XXH_NO_INLINE static __attribute__((noinline))
++ #elif defined(_MSC_VER)  /* Visual Studio */
++ #  define XXH_FORCE_INLINE static __forceinline
++-- 
++2.25.1
++
+-- 
+2.25.1
 
 
