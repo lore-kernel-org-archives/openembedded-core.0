@@ -1,194 +1,120 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <jiaqing.zhao@linux.intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05021C433EF
-	for <webhook@archiver.kernel.org>; Mon,  6 Jun 2022 19:07:06 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web11.2391.1654542417917788068
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 405ABC43334
+	for <webhook@archiver.kernel.org>; Tue,  7 Jun 2022 02:50:18 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by mx.groups.io with SMTP id smtpd.web10.7317.1654570208770827571
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 12:06:58 -0700
+ Mon, 06 Jun 2022 19:50:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=KIlUe2V7;
- spf=pass (domain: gmail.com, ip: 209.85.208.170,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id b12so5797973ljq.3
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Jun 2022 12:06:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=m4l32eEesE2+HSNZgaHAINVaO7k/bpqcY1mKe8cDnlg=;
-        b=KIlUe2V76GuPoVDuZzKdtbS10qplrPOuEjkPzeOPq0yJ+tXYcKLRowlzzUGpqfCtem
-         tOcj/pF7i+ds77AZxnv3W9YuSgfudoS/faQo7KY62bugM5gcKdHjJ8B1vRNIICo8Sh0J
-         T/6tYCqb5zZ7Cz5AYH7NKyMvyzqw0n59yLtjyCa+egwno87ET0BL45jK2V9ga4YT4fLO
-         Qg+4rqH8Lmj/3+u04muMKZJvyNG8XmaN4kIvvR5Uh6r31+sIOycDa8HZiEbjIQb0lmGy
-         3E97y73BTrvEO5CiOOF7I9kumGne+daAOdIMIF/8g7n/rBBoZ128+954tFf2kZl643xO
-         laOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=m4l32eEesE2+HSNZgaHAINVaO7k/bpqcY1mKe8cDnlg=;
-        b=AVtrr9UlO3YEmdrrzf4ZbYdppvU3HCOXIFzHRUIGXH5hAV2wwOAikAl6J5mGqN6d/4
-         yznIR2bZcFapUaUmWyk/JeB3Hh09VroFxOxBuOM9Fyer43vsw1uOz94/XXvsynLcZXc2
-         ejVfLdrfJpd1JKSLt6r2F8nXXuz2JWRztUlEB262vLEDWQzuz4SIfWiLlKJKip7XXfsH
-         6Jeezb9ymSYol9/BscTvgMWBd3PoW8UkbvP28didKmzYtsmFF3TT/xJmlmltUccrkncG
-         gnSaWQMV/yoOBUQn3RVWQnCi7+m70tEfd3viCkvx7x5FkwVVBMJBvx7uvhVF7jM88uT5
-         H0Nw==
-X-Gm-Message-State: AOAM533CoOM6C2RRn7VFtmraGopOAWPG5fgfFq6SsPkdYc8ovjk7OLMh
-	/09DKHUTX32ZEDNdbQiHjogRZWiPTSljMg9G5pY=
-X-Google-Smtp-Source: 
- ABdhPJyAsOcNFUo3vSerw2lEPa7QJps4Rutahjvkt0RTKiUFzz81XlPPrGedtu35Cjggx2qCnrh6drxgDRyWbZnsvOc=
-X-Received: by 2002:a2e:2ac1:0:b0:255:6d35:6726 with SMTP id
- q184-20020a2e2ac1000000b002556d356726mr14811691ljq.41.1654542415557; Mon, 06
- Jun 2022 12:06:55 -0700 (PDT)
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=bCNWHsQD;
+ spf=none, err=permanent DNS error (domain: linux.intel.com,
+ ip: 134.134.136.65, mailfrom: jiaqing.zhao@linux.intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654570208; x=1686106208;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=j3brNuCLLxR0cXZuqCoVI+Mn/mkI0jXQawcBxjfOKY0=;
+  b=bCNWHsQD9+SVw+t0iHwy1mQtsbBnvvp0zmVxSxz6kOv4g6bc3nCE21Gl
+   rxuuKsEXMmZiBu9yO6HM3Vfuf27wYSTRH9FIzFEzPGp8EMzs47P9RKER4
+   mQr8kjvtp9pGIDlwFCkq1MDhF/QmjmMZKlulOXG6O64HrqO4hxsxeo0+T
+   +dIm4ptkVEkQkoyoIUN9FJveQUS08htnFZdGav/rDJZ43LgajBsTQFE+Z
+   LxDjIOJ4tXhW4uak/J0V2QDFHV240pAQJAyfgoqcGVU1efQrKSf89EC5R
+   t3xwqfaNrfOMzntL7QbHvf+SF6CKLmigyGIHCeIQ7W+v+TBrmi8I0+XiJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10370"; a="277283455"
+X-IronPort-AV: E=Sophos;i="5.91,282,1647327600";
+   d="scan'208";a="277283455"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2022 19:50:02 -0700
+X-IronPort-AV: E=Sophos;i="5.91,282,1647327600";
+   d="scan'208";a="635903513"
+Received: from unknown (HELO jiaqingz-bmcdev-container.sh.intel.com)
+ ([10.239.138.232])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2022 19:49:59 -0700
+From: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+Subject: [oe-core] [PATCH v2] systemd: Correct
+ 0001-pass-correct-parameters-to-getdents64.patch
+Date: Tue,  7 Jun 2022 10:49:23 +0800
+Message-Id: <20220607024923.3980139-1-jiaqing.zhao@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220606141056.2054477-1-jan.vermaete@gmail.com>
- <CANNYZj8FfTTwMqh8Ct59pUT=RkXNnmKPH_0hwQCw-DL-V_JnXw@mail.gmail.com>
- <CABF_=yhapjOuwHqaYeVQG8cpDbWXs-vMXBudV61x3Xu5Qi0PNg@mail.gmail.com>
-In-Reply-To: 
- <CABF_=yhapjOuwHqaYeVQG8cpDbWXs-vMXBudV61x3Xu5Qi0PNg@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 6 Jun 2022 21:06:44 +0200
-Message-ID: 
- <CANNYZj_2yBr=pHHHOy3SfVZ=5_YX+QEU9OmdNCknFXmWu0xssg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] zstd: added compression and decompression as
- packageconfig
-To: jan vermaete <jan.vermaete@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Jun 2022 19:07:06 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Jun 2022 02:50:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166655
+ https://lists.openembedded.org/g/openembedded-core/message/166657
 
-I don't mind the option itself, the problem is that it needs to be in
-its own commit and not squashed with compression/decompression options
-into a single change. Or you need to say 'added
-compression/decompression/pzstd as PACKAGECONFIG options' and add to
-the commit message too.
+Current patch removes the uint8_t* cast in src/basic/recurse-dir.c:57
+to fix musl build, but it changes the value here as pointer arithmetic
+is type-depended in C. This patch corrects the behavior by adding an
+extra cast to struct dirent*.
 
-Alex
+Also changes the patch's Upstream-Status to Inappropriate as it's musl-
+specific.
 
-On Mon, 6 Jun 2022 at 20:38, jan vermaete <jan.vermaete@gmail.com> wrote:
->
-> Hi Alexander,
->
-> As far as I know, pzstd is used in the scripting of Yocto/OE.  Or at leas=
-t it's useful to have it there.
-> So having it at native it a kind of must.
->
-> But for target, it's best to have it as an option for those who have to h=
-ave it tiny.
->
-> Is this info added to the commit message enough?
-> Or is PACKAGECONFIG not the correct way to create this option.  After all=
-, it's not an option for the configure stage but for the compile stage.
->
-> br
->
-> On Mon, Jun 6, 2022 at 5:25 PM Alexander Kanavin <alex.kanavin@gmail.com>=
- wrote:
->>
->> pzstd changes need to be either explained or split into a separate patch=
-.
->>
->> Alex
->>
->> On Mon, 6 Jun 2022 at 16:11, Jan Vermaete <jan.vermaete@gmail.com> wrote=
-:
->> >
->> > The default is the same as before.
->> > So both target and native can do compression and decompression.
->> >
->> > Native will probably always needed both.  E.g. to create rpm packages.
->> > Target could have enough with decompression only.  E.g. for OTA system=
-s.
->> >
->> > The difference between default and decompression only:
->> >   packages/cortexa72-poky-linux/zstd/libzstd: PKGSIZE changed from 661=
-912 to 210776 (-68%)
->> >   packages/cortexa72-poky-linux/zstd/zstd: PKGSIZE changed from 143083=
-9 to 785007 (-45%)
->> >
->> > Signed-off-by: Jan Vermaete <jan.vermaete@gmail.com>
->> > ---
->> >  meta/recipes-extended/zstd/zstd_1.5.2.bb | 15 ++++++++++++---
->> >  1 file changed, 12 insertions(+), 3 deletions(-)
->> >
->> > diff --git a/meta/recipes-extended/zstd/zstd_1.5.2.bb b/meta/recipes-e=
-xtended/zstd/zstd_1.5.2.bb
->> > index 3887f31ecf..924e7db7f7 100644
->> > --- a/meta/recipes-extended/zstd/zstd_1.5.2.bb
->> > +++ b/meta/recipes-extended/zstd/zstd_1.5.2.bb
->> > @@ -18,22 +18,31 @@ CVE_PRODUCT =3D "zstandard"
->> >
->> >  S =3D "${WORKDIR}/git"
->> >
->> > -PACKAGECONFIG ??=3D ""
->> > +PACKAGECONFIG:class-native ??=3D "compression decompression pzstd"
->> > +PACKAGECONFIG:class-target ??=3D "compression decompression pzstd"
->> > +PACKAGECONFIG[compression] =3D "ZSTD_LIB_COMPRESSION=3D1,ZSTD_LIB_COM=
-PRESSION=3D0"
->> > +PACKAGECONFIG[decompression] =3D "ZSTD_LIB_DECOMPRESSION=3D1,ZSTD_LIB=
-_DECOMPRESSION=3D0"
->> >  PACKAGECONFIG[lz4] =3D "HAVE_LZ4=3D1,HAVE_LZ4=3D0,lz4"
->> >  PACKAGECONFIG[lzma] =3D "HAVE_LZMA=3D1,HAVE_LZMA=3D0,xz"
->> > +PACKAGECONFIG[pzstd] =3D ""
->> >  PACKAGECONFIG[zlib] =3D "HAVE_ZLIB=3D1,HAVE_ZLIB=3D0,zlib"
->> >
->> > +
->> >  # See programs/README.md for how to use this
->> >  ZSTD_LEGACY_SUPPORT ??=3D "4"
->> >
->> >  do_compile () {
->> >      oe_runmake ${PACKAGECONFIG_CONFARGS} ZSTD_LEGACY_SUPPORT=3D${ZSTD=
-_LEGACY_SUPPORT}
->> > -    oe_runmake ${PACKAGECONFIG_CONFARGS} ZSTD_LEGACY_SUPPORT=3D${ZSTD=
-_LEGACY_SUPPORT} -C contrib/pzstd
->> > +    if ${@bb.utils.contains('PACKAGECONFIG', 'pzstd', 'true', 'false'=
-, d)}; then
->> > +        oe_runmake ${PACKAGECONFIG_CONFARGS} ZSTD_LEGACY_SUPPORT=3D${=
-ZSTD_LEGACY_SUPPORT} -C contrib/pzstd
->> > +    fi
->> >  }
->> >
->> >  do_install () {
->> >      oe_runmake install 'DESTDIR=3D${D}'
->> > -    oe_runmake install 'DESTDIR=3D${D}' PREFIX=3D${prefix} -C contrib=
-/pzstd
->> > +    if ${@bb.utils.contains('PACKAGECONFIG', 'pzstd', 'true', 'false'=
-, d)}; then
->> > +        oe_runmake install 'DESTDIR=3D${D}' PREFIX=3D${prefix} -C con=
-trib/pzstd
->> > +    fi
->> >  }
->> >
->> >  PACKAGE_BEFORE_PN =3D "libzstd"
->> > --
->> > 2.25.1
->> >
->> >
->> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> > Links: You receive all messages sent to this group.
->> > View/Reply Online (#166632): https://lists.openembedded.org/g/openembe=
-dded-core/message/166632
->> > Mute This Topic: https://lists.openembedded.org/mt/91577767/1686489
->> > Group Owner: openembedded-core+owner@lists.openembedded.org
->> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
-[alex.kanavin@gmail.com]
->> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> >
->
->
->
-> --
-> Jan Vermaete
-> =E2=80=9CSuccess is a self-correcting phenomenom.=E2=80=9D -- Gary Hamel
+Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+---
+ ...0001-pass-correct-parameters-to-getdents64.patch | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch b/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch
+index 028f50b243..9ebff9825a 100644
+--- a/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch
++++ b/meta/recipes-core/systemd/systemd/0001-pass-correct-parameters-to-getdents64.patch
+@@ -1,4 +1,4 @@
+-From 8c8899b4641125cfe8e7baee32e5c5f452545d2c Mon Sep 17 00:00:00 2001
++From dab02796780f00d689cc1c7a0ba81abe7c5f28d0 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 21 Jan 2022 15:15:11 -0800
+ Subject: [PATCH] pass correct parameters to getdents64
+@@ -12,16 +12,16 @@ Fixes
+         n = getdents64(fd, &buffer, sizeof(buffer));
+                            ^~~~~~~
+ 
+-Upstream-Status: Pending
++Upstream-Status: Inappropriate [musl specific]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
++Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+ ---
+  src/basic/recurse-dir.c | 2 +-
+  src/basic/stat-util.c   | 2 +-
+  2 files changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/src/basic/recurse-dir.c b/src/basic/recurse-dir.c
+-index efa1797b7b..797285e3be 100644
++index efa1797b7b..03ff10ebe9 100644
+ --- a/src/basic/recurse-dir.c
+ +++ b/src/basic/recurse-dir.c
+ @@ -54,7 +54,7 @@ int readdir_all(int dir_fd,
+@@ -29,7 +29,7 @@ index efa1797b7b..797285e3be 100644
+                  assert(bs > de->buffer_size);
+  
+ -                n = getdents64(dir_fd, (uint8_t*) de->buffer + de->buffer_size, bs - de->buffer_size);
+-+                n = getdents64(dir_fd, de->buffer + de->buffer_size, bs - de->buffer_size);
+++                n = getdents64(dir_fd, (struct dirent*)((uint8_t*) de->buffer + de->buffer_size), bs - de->buffer_size);
+                  if (n < 0)
+                          return -errno;
+                  if (n == 0)
+@@ -46,3 +46,6 @@ index c2269844f8..7cd6c7fa42 100644
+          if (n < 0)
+                  return -errno;
+  
++-- 
++2.34.1
++
+-- 
+2.34.1
+
 
