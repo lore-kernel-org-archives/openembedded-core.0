@@ -2,60 +2,60 @@ Return-Path: <ptsneves@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E00EDC43334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2098CCA47C
 	for <webhook@archiver.kernel.org>; Tue,  7 Jun 2022 15:11:51 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web11.13500.1654614705467326818
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web11.13499.1654614702373657478
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jun 2022 08:11:45 -0700
+ Tue, 07 Jun 2022 08:11:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=WDOEIeoU;
- spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: ptsneves@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id be31so28828392lfb.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=OVkt1bAo;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: ptsneves@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id w20so7160059lfa.11
         for <openembedded-core@lists.openembedded.org>;
  Tue, 07 Jun 2022 08:11:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=uAMPa++ia1KnffFugYvd8o2vuvtd+oNHzbTD5UJLnpo=;
-        b=WDOEIeoUAH4O0v6chDLp94tMmcG0OK9/6fGzRfagdqnPfzI4bt9/FJL6e1TmAmV50m
-         qDoa81O94aB1gWzxfeuI4J9g+n0LQ+1sAJXGwHNbTl8S0aQeSoIg/n5y2dflcYvNBTw1
-         vFQHfWwnEdvDEIvjSmaKvTnGDpe9TWxdp0IVVinlNZ73SlVchJyrOAklXTDttaIDetYu
-         6z50Fn47I/BfueqvGj8XU4AlHgnKYgQosSBbUMiCkm49P+5d18KZaxYmH0myvVpfucx8
-         w3JTBq8G4qp79qyJhdc+zIMg9jnTju/Lndp/bcLD+3eft2vkg4/lnHZbm40vlLf2HDwh
-         O80w==
+        bh=L214Ml3yzg5bNWzkvsSdrl1/Ke3TbE7wfxjnrdmaebs=;
+        b=OVkt1bAozN1A68huMJBCod+aS6p9cE7mTjuG1eAiAP7Z+VvSeJ2zOlk7/wHddIXhh/
+         WG+JCiofNeABvoGKt96YB3MnrYSg3sJFhATyS/XN6Lsbw2uovjFISEWv8U5iurJqqw7w
+         jurnULKTHN8gF5tB/tO+hG5+TMyXANIdCL0fNE87fJU3tefV9ZwmXDwJcsUh4+0rO8sH
+         a+7JynBQX4sv599mej/0Elxtu9MsPX1GZRhyAIG6Mk6Oswcm4zQ8KfdNkhfqbmV1mcuj
+         uaQlvcYjQvH1wm1VJW9UtVAe91ytzvn/gu7UlhxinifSHH4aVtFZPnshaFbhmpoO7dwk
+         ndrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=uAMPa++ia1KnffFugYvd8o2vuvtd+oNHzbTD5UJLnpo=;
-        b=RUce+azxopVQTR0KHkXUJkiQdqy7ES7zIrv/FLSb8QvO9dqsK2aGCtenJ5e+7g7hfm
-         B1o9Gd8BR2E/9/l8Ju8vLeOd8mrQcYKYuaoI07i9sRuU+20W01lHqXOv+46GTDZAK7Pi
-         G0JkFZWomBChmDiTGPx7aq5ZSxd/N2tY4I0r6Af8asmEK2uZMW1PeSn8wWh8fjV+VZ7e
-         o7gMNXEhfxTvKemvcNE0ve3HKAuRzWU+0mKJWisE5hYyKrpeVSHwLioypRarAm7NXQiB
-         NNUENG4xdnhMH83aC9GmzaV2Cj+svfIGi4po+PUqa/W9cayqYWlvvIQvmAlnc+hq/4c5
-         rayg==
-X-Gm-Message-State: AOAM530j4K/yGEHI32KfAXwJoSDKYUh3xDcbQY9nMuLAz1yzymuLCwdH
-	cvgM0uflZZyG1Lw/YVQVieWTjpF0bg==
+        bh=L214Ml3yzg5bNWzkvsSdrl1/Ke3TbE7wfxjnrdmaebs=;
+        b=c7RD5XIGDvJKO/AMEVs351vlYtW1EF/ySPxdg3QtiupFxaA+b0aCxN8p+iW9SL9IkX
+         N2zx3E+S/IZsySX6DybFiX+pt+1X5j18/h7fJmOj6CXmsNd5UeRfWqOVw0PS1V6Vxx0u
+         a0GCG4PjuYekAAT4UbHa1X4wJ8bEEifOgdTEQ5KSy6+Hlhk+35wtaiOthcVtE3iCHzxk
+         jA+U//a0ob6dG9W7CPCss/uqZnJ9gRLMCZRL83DlhPDBdyiUIPrdz2mppMA/KX8JNumK
+         eigC50z9jZFbPkoOH5oYy1CLOeWv5/bCF5AyDtrx3qRVckfukoLyCkOKh28pYClhBKcG
+         rb3w==
+X-Gm-Message-State: AOAM531SgfdV4AATJC1ASTCpKCrPuzJE1RAI9T3Rib2Q2bRXtbgyXdJl
+	BGs6M0/NPQVWOsETCi5bBcf8zH0+uw==
 X-Google-Smtp-Source: 
- ABdhPJyIRzKagE1OpExVNaWvIle3lhsuFjMrEwjXmtmuzIPfgRggv+bOk2ndj4NVq8ptK4FsyA6bVQ==
-X-Received: by 2002:a05:6512:234f:b0:479:100e:1ce9 with SMTP id
- p15-20020a056512234f00b00479100e1ce9mr17215700lfu.192.1654614703725;
-        Tue, 07 Jun 2022 08:11:43 -0700 (PDT)
+ ABdhPJws4Tt+L33g+vPHD/9ltmcRdihF3hOX6gGoEkOQ+oWlur4cCpq4vKQTbZtukGaoPHaIb26vag==
+X-Received: by 2002:a05:6512:3284:b0:479:d2:4792 with SMTP id
+ p4-20020a056512328400b0047900d24792mr21435450lfe.357.1654614705414;
+        Tue, 07 Jun 2022 08:11:45 -0700 (PDT)
 Received: from pneves-XPS-15-9550.sigma.local
  (85-128-83-172.static.ip.netia.com.pl. [85.128.83.172])
         by smtp.gmail.com with ESMTPSA id
- i8-20020a05651c120800b002556e0248dbsm2831089lja.124.2022.06.07.08.11.42
+ i8-20020a05651c120800b002556e0248dbsm2831089lja.124.2022.06.07.08.11.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jun 2022 08:11:43 -0700 (PDT)
+        Tue, 07 Jun 2022 08:11:44 -0700 (PDT)
 From: Paulo Neves <ptsneves@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Paulo Neves <ptsneves@gmail.com>
-Subject: [PATCH v2 4/5] oeqa/selftest: Add test for shebang overflow
-Date: Tue,  7 Jun 2022 17:11:22 +0200
-Message-Id: <20220607151123.3588947-4-ptsneves@gmail.com>
+Subject: [PATCH v2 5/5] oeqa/selftest: Test staged .la and .pc files
+Date: Tue,  7 Jun 2022 17:11:23 +0200
+Message-Id: <20220607151123.3588947-5-ptsneves@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220607151123.3588947-1-ptsneves@gmail.com>
 References: <20220606155807.1414519-1-ptsneves@gmail.com>
@@ -67,56 +67,101 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 07 Jun 2022 15:11:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166673
+ https://lists.openembedded.org/g/openembedded-core/message/166674
 
-Make sure we do not stage any executable with a bigger shebang
-than 128. Fixes [1]
-
-[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=11053
+These files are checked by qa_check_staged but there was no
+test cases for whether the tests actually worked. Now there
+are.
 
 Signed-off-by: Paulo Neves <ptsneves@gmail.com>
 ---
- .../sysroot-test/sysroot-shebang-test_1.0.bb         | 12 ++++++++++++
- meta/lib/oeqa/selftest/cases/sysroot.py              | 10 ++++++++++
- 2 files changed, 22 insertions(+)
- create mode 100644 meta-selftest/recipes-test/sysroot-test/sysroot-shebang-test_1.0.bb
+ .../sysroot-test/sysroot-la-test_1.0.bb       | 16 ++++++++++
+ .../sysroot-test/sysroot-pc-test_1.0.bb       | 12 +++++++
+ meta/lib/oeqa/selftest/cases/sysroot.py       | 32 +++++++++++++++++++
+ 3 files changed, 60 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/sysroot-test/sysroot-la-test_1.0.bb
+ create mode 100644 meta-selftest/recipes-test/sysroot-test/sysroot-pc-test_1.0.bb
 
-diff --git a/meta-selftest/recipes-test/sysroot-test/sysroot-shebang-test_1.0.bb b/meta-selftest/recipes-test/sysroot-test/sysroot-shebang-test_1.0.bb
+diff --git a/meta-selftest/recipes-test/sysroot-test/sysroot-la-test_1.0.bb b/meta-selftest/recipes-test/sysroot-test/sysroot-la-test_1.0.bb
 new file mode 100644
-index 0000000000..6c834be897
+index 0000000000..21f06782fb
 --- /dev/null
-+++ b/meta-selftest/recipes-test/sysroot-test/sysroot-shebang-test_1.0.bb
-@@ -0,0 +1,12 @@
-+SUMMARY = "Check that shebang does not exceed 128 characters"
++++ b/meta-selftest/recipes-test/sysroot-test/sysroot-la-test_1.0.bb
+@@ -0,0 +1,16 @@
++SUMMARY = "Produce a broken la file"
 +LICENSE = "CLOSED"
 +INHIBIT_DEFAULT_DEPS = "1"
 +
 +EXCLUDE_FROM_WORLD = "1"
++
++# remove-libtool.bbclass is inherited by default and removes all
++# .la files which for this test we specifically do not want.
++REMOVE_LIBTOOL_LA = "0"
++
 +do_install() {
-+    install -d ${D}${bindir}
-+    echo '#!BiM3cnVd1Amtv6PG+FynrQiVMbZnX5ELgF21q3EkuB+44JEGWtq8TvBJ7EGidfVs3eR3wVOUbLnjYDlKUWcm7YC/ute7f+KDHbwxziRUSUBZAUqgjiQdfQ0HnxajI0ozbM863E9JV9k13yZKYfh9/zR77Y6Dl4Dd3zOWS75LSpkAXV' > ${D}${bindir}/max-shebang
-+    chmod 755 ${D}${bindir}/max-shebang
++    install -d ${D}${libdir}/test/
++    echo '${WORKDIR}' > ${D}${libdir}/test/la-test.la
 +}
 +
-+BBCLASSEXTEND = "native"
++BBCLASSEXTEND += "native"
+diff --git a/meta-selftest/recipes-test/sysroot-test/sysroot-pc-test_1.0.bb b/meta-selftest/recipes-test/sysroot-test/sysroot-pc-test_1.0.bb
+new file mode 100644
+index 0000000000..e748310fc4
+--- /dev/null
++++ b/meta-selftest/recipes-test/sysroot-test/sysroot-pc-test_1.0.bb
+@@ -0,0 +1,12 @@
++SUMMARY = "Produce a broken pc file"
++LICENSE = "CLOSED"
++INHIBIT_DEFAULT_DEPS = "1"
++
++EXCLUDE_FROM_WORLD = "1"
++
++do_install() {
++    install -d ${D}${libdir}/test/
++    echo '${WORKDIR}' > ${D}${libdir}/test/test.pc
++}
++
++BBCLASSEXTEND += "native"
 diff --git a/meta/lib/oeqa/selftest/cases/sysroot.py b/meta/lib/oeqa/selftest/cases/sysroot.py
-index 315d1a61c2..9457f1e3ac 100644
+index 9457f1e3ac..588fc8c713 100644
 --- a/meta/lib/oeqa/selftest/cases/sysroot.py
 +++ b/meta/lib/oeqa/selftest/cases/sysroot.py
-@@ -35,3 +35,13 @@ TESTSTRING:pn-sysroot-test-arch1 = "%s"
- TESTSTRING:pn-sysroot-test-arch2 = "%s"
- """ % (uuid1, uuid2))
-         bitbake("sysroot-test")
+@@ -45,3 +45,35 @@ TESTSTRING:pn-sysroot-test-arch2 = "%s"
+         expected = "maximum shebang size exceeded, the maximum size is 128. [shebang-size]"
+         res = bitbake("sysroot-shebang-test-native -c populate_sysroot", ignore_status=True)
+         self.assertTrue(expected in res.output, msg=res.output)
 +
-+    def test_sysroot_max_shebang(self):
++    def test_sysroot_la(self):
 +        """
-+        Summary:   Check max shebang triggers. To confirm [YOCTO #11053] is closed.
-+        Expected:  Fail when a shebang bigger than the max shebang-size is reached.
++        Summary:   Check that workdir paths are not contained in .la files.
++        Expected:  Fail when a workdir path is found in the file content.
 +        Author:    Paulo Neves <ptsneves@gmail.com>
 +        """
-+        expected = "maximum shebang size exceeded, the maximum size is 128. [shebang-size]"
-+        res = bitbake("sysroot-shebang-test-native -c populate_sysroot", ignore_status=True)
++        expected = "la-test.la failed sanity test (workdir) in path"
++
++        res = bitbake("sysroot-la-test -c populate_sysroot", ignore_status=True)
 +        self.assertTrue(expected in res.output, msg=res.output)
++        self.assertTrue('[la]' in res.output, msg=res.output)
++
++        res = bitbake("sysroot-la-test-native -c populate_sysroot", ignore_status=True)
++        self.assertTrue(expected in res.output, msg=res.output)
++        self.assertTrue('[la]' in res.output, msg=res.output)
++
++    def test_sysroot_pkgconfig(self):
++        """
++        Summary:   Check that tmpdir paths are not contained in .pc files.
++        Expected:  Fail when a tmpdir path is found in the file content.
++        Author:    Paulo Neves <ptsneves@gmail.com>
++        """
++        expected = "test.pc failed sanity test (tmpdir) in path"
++
++        res = bitbake("sysroot-pc-test -c populate_sysroot", ignore_status=True)
++        self.assertTrue('[pkgconfig]' in res.output, msg=res.output)
++        self.assertTrue(expected in res.output, msg=res.output)
++
++        res = bitbake("sysroot-pc-test-native -c populate_sysroot", ignore_status=True)
++        self.assertTrue(expected in res.output, msg=res.output)
++        self.assertTrue('[pkgconfig]' in res.output, msg=res.output)
 -- 
 2.25.1
 
