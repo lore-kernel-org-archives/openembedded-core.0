@@ -2,35 +2,35 @@ Return-Path: <claussen.j@eppendorf.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAE8CC433EF
-	for <webhook@archiver.kernel.org>; Tue,  7 Jun 2022 11:56:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E147C433EF
+	for <webhook@archiver.kernel.org>; Tue,  7 Jun 2022 12:36:31 +0000 (UTC)
 Received: from smail-epp.dts-security.de (smail-epp.dts-security.de
  [81.89.246.136])
- by mx.groups.io with SMTP id smtpd.web12.11552.1654602983739931106
+ by mx.groups.io with SMTP id smtpd.web12.11951.1654605381296003881
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jun 2022 04:56:25 -0700
+ Tue, 07 Jun 2022 05:36:22 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="body hash did not verify"
  header.i=@eppendorfaghamburg.onmicrosoft.com
- header.s=selector1-eppendorfaghamburg-onmicrosoft-com header.b=hNusDL3h;
+ header.s=selector1-eppendorfaghamburg-onmicrosoft-com header.b=PWIKp2zO;
  spf=pass (domain: eppendorf.de, ip: 81.89.246.136,
  mailfrom: claussen.j@eppendorf.de)
 Received: from pps.filterd (smail-epp.dts-security.de [127.0.0.1])
-	by smail-epp.dts-security.de (8.16.1.2/8.16.1.2) with SMTP id 257BsbHR032393
+	by smail-epp.dts-security.de (8.16.1.2/8.16.1.2) with SMTP id 257CEgsc007621
 	for <openembedded-core@lists.openembedded.org>;
- Tue, 7 Jun 2022 13:56:20 +0200
-Received: from mail-hh-05.emea.epglobal.org ([172.16.0.5])
-	by smail-epp.dts-security.de with ESMTP id 3ggfhw05gs-1
+ Tue, 7 Jun 2022 14:36:19 +0200
+Received: from mail-hh-06.emea.epglobal.org ([172.16.0.5])
+	by smail-epp.dts-security.de with ESMTP id 3ggfhw0de9-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Jun 2022 13:56:20 +0200
+ Tue, 07 Jun 2022 14:36:18 +0200
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lZzixWGjouja6eC8kfWHu0u/wEPkdx/cFAAAshlwE6agprypw0tbYyYrJXm03+3Fh4EzMMMAVsrkmzQx1DPJmwCrHf2ZO+fzmX7mgJov5SZ4ak6FuYXqWMM7kVOj66lxtDX1/k4+SV5RxzhhNPLarHS7rchpBoZXgtGiXhG3YW/fRn8NXawPINmkQLDFSMZ01QNUq8R7g+ZzNKrzRV+RkdGYOuNYpd2CXlTCxU7eIr5KxMUxrhZZ3690BDfn5JIlb744HEzBBhmD/BwJc90Ea5MoNVgAFSLI4oQGyqm4Be3Mn5T0aBrKNcE3mevkf3n3hNKVbmfbAOIzEMx6cmJ18Q==
+ b=iL8g1z0QZpVG027Jdc4BxE8szGm3hZP/ss1jzY2HqL7JWAIz72hQUh78ZLkX2pwi6LJgmVUJohlgdIw549dEF7lPhmSsGHIuXBvhvx6JYK2R5SzykMkjVQfKTVpqw9Ysz+aL1sVcoIlfhILEtMxjn30rrPgJlh81eOdFgyK2cQIi+YB6iCshBDHzE/Ag9weJCTx3Leg2JiVa0nXp1jc/Sw3DafWOKuO71kDkRfE26L3hEjvsQx4NpeplUdwsIei0twSfahZzbLsLf9i4fZxXIOdYTKMJv8bx+8Z2Qh2SdDbZBKBZaAaM9JbUlaaBMGqwWpwQ+d8se93p6X6JHQ4wHA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oXAeYb3NgZ7GxNJVF/3MaFlSFaViB6vB4GidiQWBcUE=;
- b=L4OvjFQfH+nA8fCL/Ffopnq/khux53uydFM9iPRpPe0fo4C375aAbbcTTpVX9pn3UcbHLXmn1oqN67ypf01Ol9sc84J3oNQXE7F1r9MsYR6aReuwebT7YuEJGbGu8eFqvsqB7TittmtXaF2a2i7mkR0jKpbg2ZhoVQ7OqDec3YB0XC+RrNVAvzqa36eizWp3yr09vjZKCU7LnIIxnRY/5I1F+APxBQp/UxY5d/0aC9oGlnQaEsvbtdSPTzYylVwyMiy1CLWBl9l+4RUXUEUDBnDxLAbAJOCatpyjRIRjXTMxZQhckMLkecjGWgaiKOWQ3bMCuGPhRlZXJZourEK+Qw==
+ bh=SQ37qZoJsDriNm1Pm+MomD6KHvHBFoH6i3k/7AU7+8w=;
+ b=bjPw2yDkxGzM0IM4xf8q+ADRHJbsR1+Jq8v9Pym0Kv6tluSleTbmi8B2n+JyTeXMdYxqP+w+kMVeSRcot9JBGv+/Li1/nNan5xBrSg3msNXCnbt5vPvuGGdkanriRx4OWcRbYnGx9ZaBfyosdyeqYIxDDPG8g2cnuSj3cZjBbvuhgXH2IHbcjsTNiuhTU37k0YGX2sRSlVzJXVR8oaK7rN7bB4xvTj9ek2gNnpikNsoOMOIAeKCvX6BKC3s6iy/gFnjkX+wpsQR5te6mrvJXrEDU/hiaIUPIq1Xvscq6L+PxpBokMtYxQiYGxIfQJwmgso8+L3t0umddewP8nvqpaA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=eppendorf.de; dmarc=pass action=none header.from=eppendorf.de;
  dkim=pass header.d=eppendorf.de; arc=none
@@ -38,107 +38,125 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=eppendorfAGHamburg.onmicrosoft.com;
  s=selector1-eppendorfAGHamburg-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oXAeYb3NgZ7GxNJVF/3MaFlSFaViB6vB4GidiQWBcUE=;
- b=hNusDL3hXHIhm6yxRjJ8ActV4oOXGnEAHnVRVo9VIFvJt6MD6QTWuOVYJO7jLobBOkPamI8oM6EHHVNeXOlWxrR9Z5jJoEa0BjJqSR3A2AAj4E89pPKgd0tG7stCm6ZewBMQtYCgKEAcKdjqI53BwXU8ybDfKP9qXGrfz7fNqrI=
+ bh=SQ37qZoJsDriNm1Pm+MomD6KHvHBFoH6i3k/7AU7+8w=;
+ b=PWIKp2zOo1tmPkn4L6FFhUePQ8AQEjxgWWj7xzBOiqNrd5Uj41a68uy+0/z0L9ggaT65PrhW3e2octKTRIOGz7lENZkkZRFiRBquFYXwZBzUD5AJifOtNEApQniErYISrDyjfMYeiVOKbHlHry99XWEmlt/3o1yS+3zKbH5cLlk=
 From: Jan Claussen <Claussen.J@eppendorf.de>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: 0001-dropbear-Allow-root-login-fix.patch
-Thread-Topic: 0001-dropbear-Allow-root-login-fix.patch
-Thread-Index: AQHYemVuw/N91tNR806RriU7tQIvqw==
-Date: Tue, 7 Jun 2022 11:56:18 +0000
+Subject: dropbear: Allow root login fix
+Thread-Topic: dropbear: Allow root login fix
+Thread-Index: AQHYemsIDb3JzmKqoUuBi9Y5n1bkDw==
+Date: Tue, 7 Jun 2022 12:36:15 +0000
 Message-ID: 
- <AS8PR02MB83920BF4108BDFCB2FCE492EF0A59@AS8PR02MB8392.eurprd02.prod.outlook.com>
+ <AS8PR02MB8392C950253DEB9B054726B9F0A59@AS8PR02MB8392.eurprd02.prod.outlook.com>
 Accept-Language: de-DE, en-US
 Content-Language: de-DE
-X-MS-Has-Attach: yes
+X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-suggested_attachment_session_id: c835574f-b4f0-7669-a27d-f383e2e46db8
+suggested_attachment_session_id: 5eb3c621-c119-b61f-aac4-d61190f984b2
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5aa5fbce-d770-4276-9179-08da487cbb4f
-x-ms-traffictypediagnostic: DB6PR02MB2981:EE_
+x-ms-office365-filtering-correlation-id: 0f042048-12f1-4543-db72-08da48825082
+x-ms-traffictypediagnostic: DB7PR02MB4043:EE_
 x-microsoft-antispam-prvs: 
- <DB6PR02MB2981F0BCFC24B777883E3865F0A59@DB6PR02MB2981.eurprd02.prod.outlook.com>
+ <DB7PR02MB40437367FF5E4CD4CE29A7A0F0A59@DB7PR02MB4043.eurprd02.prod.outlook.com>
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info: 
- b4bruxvEuGBzLX82t2QWafQKjQbHscbbhdSEHotvuqpuAxNMtLc/ICnVIU96u1GZgUugGP2SUYDWfl1pVwfy+CYVeTWlwjDNBpdVgEmHkHnRqhVMMg7mVAupnJhd7seXalvlNVgVWfegwgCw5zEKtDQq/Ovgu0/+Sai4oMxbp0kT5s3LvueZYfuARVkHvvAvvIvEL7jkplI7NV09BHPC+KxFATG4blfwX4EHyZijMESxirdGwfShLDXPNV7CobcVbp+T4l3BIAENYf3aYKbv902bVZuEegxhZs23vsywX2Ztw1AHooHNR+qdbn++/5W2pgNJkn8fBj7jzLwz8N7qOBP5FZlZ3HspnJJzXBPiHWqMBQcb2q7x2RN/Z5uo+yupKIdkb0nMng0V6Ik6FniL5dBloIj8rZYUmd4SEMTfXd47m5LfTOFPCQZIpGFOjOz2F++nJp5DiEYg5j06xOYbOMMnHzXaL9mWRBfWBM3k9FGbKo/XYO5ssue6FHvME/yr5YTYfW7L6+XHm4ah0yc1yB1rAcZTUOO8EvreMrWHXgo+2UPIV0JOie3Su9DmiOQAl71n/pdL4QLKiWNilM3QH/kJ42ejCzJkilrtoKUj6bvHPiiucwBiUu9hUwQwcA2YODXrWSq/aYKh1zZpqG414QPHNttSr/QSNBM2WW0XgVo0WTE8BhtnXUkVf66ZQMs0
+ ultN/1oEEW7jWGs/VEa2RLAtN2aYplIDzInHaRLcAr3uK/XRvJi1+9cAfzMX6i++Gg5iFpMqYMHxjmXkMq9rKNg5ynDj1TX8gFKzf4+CvkJx9fZvXFILs+IQueI1TTvcdNhAPbvbvc5yIkF4Xgz/oBL0QgYgruzRLyzdG/CmSedKK1EV83j6ALxiYNLq0kbixo3jGW+zNoRUhcFsY0F1DZ5patmO5uSzJV+4je5g4rB/ESrD1m7ltE/7Er8WQ0CA4MmJNohMxVWHmYr7CH0N+rI44bvkyBrw6gKQkP7r/UUeTlt1uFa9S5qcC3qcbqDhvlEu+Osem+bHPDdFBq3BeinOpq1JvlL8s+GbUjhz8rLtX2a4s+95pIMzGEniLsIS3rDdF3kpvltdTBl61A2QugiwLdqUeNejbaVk3fhiE96c3krhdqQBshrF3BhbrZvWkC4pUZx3pp1UgNp0AGE2zRewps3SOY2MK1k4g7dqeM63p8gvcqxZH3t5r8yvJMAPFBXJTTPVpLYJfMXu8Pfu+xXKw9jNKpcdtLH4FdyuNJnxv0vzV+s8GVLIQWWAZhGpw2oOGmmzCHWuHKgsQre3sLVr3WwM+UQ2u6Aq/mYJZQz8QR+GUpdh9/5oCv08NXDPztjg2mdmRWErBBaUWFBT67XL625kMBSS9A4wo2hYrKoLiG46v2I74rEFb0/sgwixQxTcXoYMMe/o120FBtoDww==
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR02MB8392.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(2906002)(508600001)(86362001)(38070700005)(122000001)(26005)(9686003)(8936002)(55016003)(52536014)(38100700002)(83380400001)(5660300002)(64756008)(66476007)(8676002)(33656002)(66946007)(76116006)(19627405001)(99936003)(316002)(6916009)(6506007)(7696005)(186003)(558084003)(71200400001)(66446008)(66556008);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR02MB8392.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(66476007)(66556008)(66946007)(66446008)(64756008)(52536014)(76116006)(5660300002)(38070700005)(8676002)(38100700002)(6916009)(316002)(4744005)(2906002)(7696005)(83380400001)(122000001)(9686003)(55016003)(33656002)(186003)(8936002)(86362001)(19627405001)(26005)(71200400001)(6506007)(508600001);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?iso-8859-1?Q?Jndvk4o0thDJ8MNSJf015HuWMSM1GZJfmmS3QSKXqbNUdWCOXEGuNtnRML?=
- =?iso-8859-1?Q?kJ14nEso6fka9uWkvPW1iUorAEUJ03V4imG5+Nc/4NSkIwkVGRDcKqkmr2?=
- =?iso-8859-1?Q?F4C5Qw8jPfNAJaMTe8lAW7pshmoaqKr5n95tk/KykUSXE9gX8ttFKX0o6w?=
- =?iso-8859-1?Q?iWSICmd4Z9mESu0VQwBIFEoMfKlzJvPg3nMAzUVdR2NzgYtFCPEsxDKW71?=
- =?iso-8859-1?Q?c1Qfe8gA7qLcQfeVtQsVcJoqSUAUcbszutmkyvPj4eOZZ7wCKeqGydAW3m?=
- =?iso-8859-1?Q?zB9XMuuNtYyzRD06xuX5cFPZURImXU9av8EqhpAisOoioIAf0+IzI+m8Gt?=
- =?iso-8859-1?Q?YKQ4BCrfZHWP6LjPMjlexWHKtcUDYe3mSiuFSSjMGNlXDsemx716WGTDnj?=
- =?iso-8859-1?Q?mwDRgrV2MI237yPedbm56nVAxtc9EQMZpseMxfVHDh+mJL6V2T/x6T1uuS?=
- =?iso-8859-1?Q?Z5CHUhrz9hhEet1E2O69Z9YFO79QSXk+OWqQTh/9Zc/GyUEIVVwckuicyw?=
- =?iso-8859-1?Q?R25pYFDi3ZvTxU3bnOpGrdVC14kJCpU0A6PY2CMGfzqPHyHrzc/CDcA1Oa?=
- =?iso-8859-1?Q?7tIxY2EH/xC7wqrLhLSZzB8PjnZCv8gt7vujJYYkL7JZRwgjQ5YSpK1Rmf?=
- =?iso-8859-1?Q?jSs/u6TsIAXNhRVRHvZHI08pjsZudAD0N7fWzlf6KTHa75+ErVdupXXH9J?=
- =?iso-8859-1?Q?sxFdfhKLDHf+y2KyjIFJXNlRxNbdXqfLmJjtc3Nye9BS0r5Rb2l+UynCfS?=
- =?iso-8859-1?Q?Kkft09wLKZXaFQz6XIjkMFn7BRw5pLU2fHe7mudD8pNztVHCk66qdntCIf?=
- =?iso-8859-1?Q?pNODXDucFmET1Og30NSs9V3atHxAlDkzZHCveZtNr7KFglWHMmYAXS7MMW?=
- =?iso-8859-1?Q?X6vTi/gnuIi3715APVB0Lsy2Iu2GarkTxVODcQcAKmqZqJB5PzDzuv8dSQ?=
- =?iso-8859-1?Q?RmSlD1DYwuPjGMyFyVL1m5M4X7M4Y2mM17xFbKfEGA1IT5+hvv8o4ozqgk?=
- =?iso-8859-1?Q?U6iPqRhwUf+tRa5xBSyUN4xwzizh+K+5GezldboC24KHHUweSnx1LOJEGu?=
- =?iso-8859-1?Q?/wFsOE/Megq9VOg6+zva5oUg9BkY4VIAtuQRb7NNdTH83YaZwC5GOnpxC8?=
- =?iso-8859-1?Q?M5LT7NOycY762eZkUz4DCOETpmwL9ek63jbseyzB6gCTjnBHn9mxBDB98F?=
- =?iso-8859-1?Q?/rmwAT1h2o53pQcFUF5Rr4ev3RPsWtqiwl/rMpvXBNCEDxmzzUaazQRyMT?=
- =?iso-8859-1?Q?YS+Dk+VymAuxlJRaHXGVX6R6M75MD+KSev3g2QsVNxl1q/J7pWmjQGOZhu?=
- =?iso-8859-1?Q?eihk93EzRv8H9Mc/r2IIf7fZYvUeRyKy29i8h5+QDFLaj7c7lV71LQaION?=
- =?iso-8859-1?Q?HAiARwR/AsEXSw/17jDv94xteuitbiEHQ/5fCSkF2vL2Lak8wgroeZZOCC?=
- =?iso-8859-1?Q?8V4PAm/isStfX+h6WjECgRgpanHHihjCzqGGHXp6halpTXKl5NP6EMN1bp?=
- =?iso-8859-1?Q?q9aa/MnFFdDJq5E3pvfBk1q9yZ3LLmwI3uCkkKBLt4CIumHQQhZ9cyu8XF?=
- =?iso-8859-1?Q?OuA5TkGUPW6vkWuHgGsBkGUvGAQNDBLgrVk/7xN7Pmvuor5CtekP9vO0Fx?=
- =?iso-8859-1?Q?UCpGWhbJENKdBcFgg4fOY4ylki0PQo4Q1SFVT0Cj4OUzkfmt4rwSsxRJMS?=
- =?iso-8859-1?Q?5tSqeXbUI94V/s5HOjvYQmo6Lf/VpnCPZ/XtSaYtA86QlqyigQLNAlCjat?=
- =?iso-8859-1?Q?Z7seUYwk1/oVDiCMfVub2299HHtP5QxkMocwF7cGbfWuULgdEAvGEIp4OL?=
- =?iso-8859-1?Q?HpKZ4ScL1A=3D=3D?=
-Content-Type: multipart/mixed;
-	boundary="_004_AS8PR02MB83920BF4108BDFCB2FCE492EF0A59AS8PR02MB8392eurp_"
+ =?iso-8859-1?Q?p25TrT+sAq1UImtbyrycUmxfuMV28MlHB33pO/+iQmsMQ/hiY8/AxLalhn?=
+ =?iso-8859-1?Q?8eDKeMNGW1WBBHOdSeUC9MkVqVJZW8vhz6aJM3gIrJr0JYmpj+t4dy5F0C?=
+ =?iso-8859-1?Q?x0QzlbAu06jpMxGQ/eDBL2VW088WOpPHlXHrcfAG+69GIKm4F9jbVwjKXT?=
+ =?iso-8859-1?Q?ZBXfUDCVebqz3S0m9ZBsmvbimyUarmx2EHaVOkAgn4oMb6rhWBnJKzQJV7?=
+ =?iso-8859-1?Q?QU1wtLjxstTOwhn8f42NAsfO1Fr7nn5ZrIIPMK59/xV3e8dpxsl89URm3X?=
+ =?iso-8859-1?Q?ZRPByxTop3zrPQU1RLaF8gt0HSbuYX8bnda7AwtA+B50EYgYoX7ktCT8Tf?=
+ =?iso-8859-1?Q?P0IL5tR2IbDHizqYVHUwqWs//zaAyMUjfUPjsZbLqr+rf8CUR3L485IAD2?=
+ =?iso-8859-1?Q?dvAgxZZ57I4o6RRmn5iWswTcXiJKGfNfxAh40jp27b6WSVm2tAcsYpfNZT?=
+ =?iso-8859-1?Q?on4oxP44XYvTbD5yXaHioVjH3hbxbxpO/3yGD9OWhypOGVds8Xv2M0TydN?=
+ =?iso-8859-1?Q?a59ox1M1e/BkM2UENLGrOlQwBKB/fyH21nHwx9svWBvj8/N/Rqfgyli0IL?=
+ =?iso-8859-1?Q?5jA9XcHldO1bYpI+V3PRWcEkHDgEfH/LgNp761G17cSERPPgmMMGYOFBb+?=
+ =?iso-8859-1?Q?Xxix9PFfvemVU3XuT26aONxKAwWRaFW5Mxlqagaj8QRpri3HHBAXTNB2on?=
+ =?iso-8859-1?Q?yr8lH/y6FGm/DQrLK0NAH58qxY2dQPT/cXmV/yxxK1E3w1Fs5TQFL07t04?=
+ =?iso-8859-1?Q?ZZ4/zqeuZEt7p5fhGjiXKnCEJEahjbsSaSuNrkL7Jl5RBQvvUVyP+jmSAP?=
+ =?iso-8859-1?Q?ROZJTw9HLW9h0RbNOf1amv1sAiC2tmjRmSG8evO5QqxJAuXeEg9nFKCRNw?=
+ =?iso-8859-1?Q?ajdk01IZtKyZ26HtYB1wJ8wOisntlfpZQLy15OcoVYdsY9sZTGJMTrGN84?=
+ =?iso-8859-1?Q?5ed5qRHPwmVdNe+WjpK0bltICHJUlkl9EjPErlVY3xa+OiSbjd1YEjvKoN?=
+ =?iso-8859-1?Q?TZAu7me6Dyq0wR9ioqzkrnvrykp5WIkvJEgsH1GS5ouQiWLcXJlb7p4NpL?=
+ =?iso-8859-1?Q?B3Zdt5YuYXGix7+r5ZiI1i9Ehbtde99qeZhYHLDded/oviSEmhIEczFAfm?=
+ =?iso-8859-1?Q?E91RAYsrC1dDleZDp+GaRK9/xhZrOuw/s1eWVFAZRs8nJRlJncdVPTmZul?=
+ =?iso-8859-1?Q?gA6KSutY/e0hp6rd/8pL6Kk1F7ORQVaYbljUtSpEVG0gf2f/UcUcF3BaJ/?=
+ =?iso-8859-1?Q?hNg9O7hmaCVc/E9KEq70awnUv+Kc/+T2H8ZJIdOkZq5ZKZ4OaFziteg5mB?=
+ =?iso-8859-1?Q?DXvYAUO9KlyMHNfCIBaiOEsmWo1CvsM8qzs7w0agp/WasV/YcyZ4VdDbIe?=
+ =?iso-8859-1?Q?v65w0yW2KwU2CSuAtJ9nZO1JLx7obyCsvr27Q3DuipWCBWhWwWfjNz9iMC?=
+ =?iso-8859-1?Q?x7bdVHZwo6C3BystXbxy4c7Fc/3h2Bee+OisEsfc9vLNTzztXxSo2oKDle?=
+ =?iso-8859-1?Q?JaKLZ3c5s+bfJYk4APjMsAxRD9MBZvGj7tzTk9ADi8Novf/e3+7KpkXY6I?=
+ =?iso-8859-1?Q?XEQNRJaYffBZn41x63r6Qh9PM2gpq77l7yGzF2pRoC/ELZfGZsqVVyihE8?=
+ =?iso-8859-1?Q?dnbVYdDy9m5DwEdBmrqDdM362Cw3pwnWGGfCOdgwp36Q0TBkVmyrNz69eG?=
+ =?iso-8859-1?Q?qUiA6ai0g7G8N1pLJQOTCvJ36jsPThckgYEBx2NxdfQuZuqgZcTU1toSFp?=
+ =?iso-8859-1?Q?6k6L+kq+GMjfxLOwnUDsIyenJ4EvHLL33QqvSXMkVgDqe+vu4CWeI7iCci?=
+ =?iso-8859-1?Q?LZpbRKRLbA=3D=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_AS8PR02MB8392C950253DEB9B054726B9F0A59AS8PR02MB8392eurp_"
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: AS8PR02MB8392.eurprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 5aa5fbce-d770-4276-9179-08da487cbb4f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2022 11:56:18.1576
+ 0f042048-12f1-4543-db72-08da48825082
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2022 12:36:15.9891
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 30d50150-9a5a-43db-b809-ff90d7ab4fd6
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
 X-MS-Exchange-CrossTenant-userprincipalname: 
- CSQME2TNHEIs84CggfwoKoDqw8RK0TtQ3QfEfkVBFQ/O8Zdp0+kAwjsO1llvtvFCN1xmcem37wD2rSjgtGL3SQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR02MB2981
+ tAvAKo+auQN/AA3y/tS3vGt4G4Amck1tU8SgDEsI6fepr8G4dAjqqlItM661bnc3ntTzU4sjv+laTIAIirTY0A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR02MB4043
 X-OriginatorOrg: eppendorf.de
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.874
  definitions=2022-06-07_04:2022-06-07,2022-06-07 signatures=0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Jun 2022 11:56:30 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Jun 2022 12:36:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166659
+ https://lists.openembedded.org/g/openembedded-core/message/166660
 
---_004_AS8PR02MB83920BF4108BDFCB2FCE492EF0A59AS8PR02MB8392eurp_
-Content-Type: multipart/alternative;
-	boundary="_000_AS8PR02MB83920BF4108BDFCB2FCE492EF0A59AS8PR02MB8392eurp_"
-
---_000_AS8PR02MB83920BF4108BDFCB2FCE492EF0A59AS8PR02MB8392eurp_
+--_000_AS8PR02MB8392C950253DEB9B054726B9F0A59AS8PR02MB8392eurp_
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-
-    dropbear: Allow root login fix
 
     This enables root login when either "allow-root-login" or "debug-tweaks=
 "
     were set in EXTRA_IMAGE_FEATURES.
 
     Signed-off-by: Jan Claussen <claussen.j@eppendorf.de>
+
+diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dr=
+opbear/dropbear.inc
+index 78f9f9adbd..e545c425ab 100644
+--- a/meta/recipes-core/dropbear/dropbear.inc
++++ b/meta/recipes-core/dropbear/dropbear.inc
+@@ -105,6 +105,13 @@ do_install() {
+  -e 's,@BINDIR@,${bindir},g' \
+  -e 's,@SBINDIR@,${sbindir},g' \
+  ${D}${systemd_system_unitdir}/dropbear.socket ${D}${systemd_system_unitdi=
+r}/*.service
++
++    # Enable root login for dropbear when debug-tweaks or allow-root-login=
+ are set
++    if [ "${@bb.utils.filter('EXTRA_IMAGE_FEATURES', 'debug-tweaks', d)}" =
+\
++         || "${@bb.utils.filter('EXTRA_IMAGE_FEATURES', 'allow-root-login'=
+, d)}" ]; then
++            sed -i 's/-w//g' ${D}/etc/default/dropbear
++    fi
++
+ }
+
+ inherit update-alternatives
 ________________________________
 This email including its attachments is intended for the person or entity o=
 nly to which it is addressed. It may contain confidential and/or privileged=
@@ -173,7 +191,7 @@ Privacy information according to Articles 13 and 14 GDPR can be found here:=
 <http://www.eppendorf.com/gdpr>
 ________________________________
 
---_000_AS8PR02MB83920BF4108BDFCB2FCE492EF0A59AS8PR02MB8392eurp_
+--_000_AS8PR02MB8392C950253DEB9B054726B9F0A59AS8PR02MB8392eurp_
 Content-Type: text/html; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
@@ -187,14 +205,41 @@ ttom:0;} </style>
 <body dir=3D"ltr">
 <div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
 : 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
-<div>&nbsp; &nbsp; dropbear: Allow root login fix</div>
-<div>&nbsp; &nbsp; </div>
-<div>&nbsp; &nbsp; This enables root login when either &quot;allow-root-log=
-in&quot; or &quot;debug-tweaks&quot;</div>
+&nbsp; &nbsp; This enables root login when either &quot;allow-root-login&qu=
+ot; or &quot;debug-tweaks&quot;
 <div>&nbsp; &nbsp; were set in EXTRA_IMAGE_FEATURES.</div>
-<div>&nbsp; &nbsp; </div>
-&nbsp; &nbsp; Signed-off-by: Jan Claussen &lt;claussen.j@eppendorf.de&gt;</=
-div>
+<div><br>
+</div>
+<div>&nbsp; &nbsp; Signed-off-by: Jan Claussen &lt;claussen.j@eppendorf.de&=
+gt;</div>
+<div><br>
+</div>
+<div>diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-co=
+re/dropbear/dropbear.inc</div>
+<div>index 78f9f9adbd..e545c425ab 100644</div>
+<div>--- a/meta/recipes-core/dropbear/dropbear.inc</div>
+<div>&#43;&#43;&#43; b/meta/recipes-core/dropbear/dropbear.inc</div>
+<div>@@ -105,6 &#43;105,13 @@ do_install() {</div>
+<div>&nbsp; -e 's,@BINDIR@,${bindir},g' \</div>
+<div>&nbsp; -e 's,@SBINDIR@,${sbindir},g' \</div>
+<div>&nbsp; ${D}${systemd_system_unitdir}/dropbear.socket ${D}${systemd_sys=
+tem_unitdir}/*.service</div>
+<div>&#43;</div>
+<div>&#43; &nbsp; &nbsp;# Enable root login for dropbear when debug-tweaks =
+or allow-root-login are set</div>
+<div>&#43; &nbsp; &nbsp;if [ &quot;${@bb.utils.filter('EXTRA_IMAGE_FEATURES=
+', 'debug-tweaks', d)}&quot; \</div>
+<div>&#43; &nbsp; &nbsp; &nbsp; &nbsp; || &quot;${@bb.utils.filter('EXTRA_I=
+MAGE_FEATURES', 'allow-root-login', d)}&quot; ]; then</div>
+<div>&#43; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;sed -i 's/-w//g' ${D}/e=
+tc/default/dropbear</div>
+<div>&#43; &nbsp; &nbsp;fi</div>
+<div>&#43;</div>
+<div>&nbsp;}</div>
+<div><br>
+</div>
+&nbsp;inherit update-alternatives<br>
+</div>
 <span style=3D"font-size:8.0pt;font-family:Arial;color:#000000">
 <hr>
 This email including its attachments is intended for the person or entity o=
@@ -235,37 +280,5 @@ www.eppendorf.com/gdpr <br>
 </body>
 </html>
 
---_000_AS8PR02MB83920BF4108BDFCB2FCE492EF0A59AS8PR02MB8392eurp_--
-
---_004_AS8PR02MB83920BF4108BDFCB2FCE492EF0A59AS8PR02MB8392eurp_
-Content-Type: text/x-patch; name="0001-dropbear-Allow-root-login-fix.patch"
-Content-Description: 0001-dropbear-Allow-root-login-fix.patch
-Content-Disposition: attachment;
-	filename="0001-dropbear-Allow-root-login-fix.patch"; size=1113;
-	creation-date="Tue, 07 Jun 2022 11:55:09 GMT";
-	modification-date="Tue, 07 Jun 2022 11:55:37 GMT"
-Content-Transfer-Encoding: base64
-
-Y29tbWl0IGM3NjQwNjQ4NTc4ZTVmYzNiN2U1ODllM2YxYjQyMGE0N2YxMjZhZWUKQXV0aG9yOiBK
-YW4gQ2xhdXNzZW4gPGNsYXVzc2VuLmpAZXBwZW5kb3JmLmRlPgpEYXRlOiAgIFR1ZSBKdW4gNyAx
-MzozNDo0MSAyMDIyICswMjAwCgogICAgZHJvcGJlYXI6IEFsbG93IHJvb3QgbG9naW4gZml4Cgog
-ICAgVGhpcyBlbmFibGVzIHJvb3QgbG9naW4gd2hlbiBlaXRoZXIgImFsbG93LXJvb3QtbG9naW4i
-IG9yICJkZWJ1Zy10d2Vha3MiCiAgICB3ZXJlIHNldCBpbiBFWFRSQV9JTUFHRV9GRUFUVVJFUy4K
-CiAgICBTaWduZWQtb2ZmLWJ5OiBKYW4gQ2xhdXNzZW4gPGNsYXVzc2VuLmpAZXBwZW5kb3JmLmRl
-PgoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2Ryb3BiZWFyL2Ryb3BiZWFyLmluYyBi
-L21ldGEvcmVjaXBlcy1jb3JlL2Ryb3BiZWFyL2Ryb3BiZWFyLmluYwppbmRleCA3OGY5ZjlhZGJk
-Li5lNTQ1YzQyNWFiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9kcm9wYmVhci9kcm9w
-YmVhci5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZHJvcGJlYXIvZHJvcGJlYXIuaW5jCkBA
-IC0xMDUsNiArMTA1LDEzIEBAIGRvX2luc3RhbGwoKSB7CiAJCS1lICdzLEBCSU5ESVJALCR7Ymlu
-ZGlyfSxnJyBcCiAJCS1lICdzLEBTQklORElSQCwke3NiaW5kaXJ9LGcnIFwKIAkJJHtEfSR7c3lz
-dGVtZF9zeXN0ZW1fdW5pdGRpcn0vZHJvcGJlYXIuc29ja2V0ICR7RH0ke3N5c3RlbWRfc3lzdGVt
-X3VuaXRkaXJ9Lyouc2VydmljZQorCisgICAgIyBFbmFibGUgcm9vdCBsb2dpbiBmb3IgZHJvcGJl
-YXIgd2hlbiBkZWJ1Zy10d2Vha3Mgb3IgYWxsb3ctcm9vdC1sb2dpbiBhcmUgc2V0CisgICAgaWYg
-WyAiJHtAYmIudXRpbHMuZmlsdGVyKCdFWFRSQV9JTUFHRV9GRUFUVVJFUycsICdkZWJ1Zy10d2Vh
-a3MnLCBkKX0iIFwKKyAgICAgICAgIHx8ICIke0BiYi51dGlscy5maWx0ZXIoJ0VYVFJBX0lNQUdF
-X0ZFQVRVUkVTJywgJ2FsbG93LXJvb3QtbG9naW4nLCBkKX0iIF07IHRoZW4KKyAgICAgICAgICAg
-IHNlZCAtaSAncy8tdy8vZycgJHtEfS9ldGMvZGVmYXVsdC9kcm9wYmVhcgorICAgIGZpCisKIH0K
-CiBpbmhlcml0IHVwZGF0ZS1hbHRlcm5hdGl2ZXMK
-
---_004_AS8PR02MB83920BF4108BDFCB2FCE492EF0A59AS8PR02MB8392eurp_--
+--_000_AS8PR02MB8392C950253DEB9B054726B9F0A59AS8PR02MB8392eurp_--
 
