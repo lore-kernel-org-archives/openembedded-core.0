@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3191ECCA47B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DA3CCCA47E
 	for <webhook@archiver.kernel.org>; Wed,  8 Jun 2022 14:40:29 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
- [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web09.7313.1654699224628944417
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web12.7283.1654699222504648117
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jun 2022 07:40:24 -0700
+ Wed, 08 Jun 2022 07:40:22 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=idh8vDLA;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181,
+ header.b=Xjk5YSDB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.169,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id u2so18531516pfc.2
+Received: by mail-pg1-f169.google.com with SMTP id g186so10194863pgc.1
         for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jun 2022 07:40:24 -0700 (PDT)
+ Wed, 08 Jun 2022 07:40:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=65nrhbu6a1KFVgN7Y5JG/h1/IiTKfGK6ZzfXH/jPV4Q=;
-        b=idh8vDLAeo/a7KPbq2pcQghEBtkUTYdDJyPwTk05oIVq6Aukzrh/iCFOisrnK3rBnM
-         LjRfz6GJBJunnwb1qA5B1kI8QsPOvhZf3yVbjIyXnoxOTKcAZYrnWFL18w/v2Wj3ELeQ
-         8ljqIO990C52tTJfSnoo+9bFMbTZdoF8tSWWhKH/3hocAeKIc9pUsdhVv4+BxHrGOQ9F
-         Hwb46XMfNGvurgM9UYyR/wDEh3ewgp+6DZvQRaNI6TEMlK7SmWRAiAongyvlgpY/ZYgz
-         NtwaV6+GXs1kLSdbr6exTU04zBOYilMjtobhoC8t+TWmnqIpfu2wGuwrlyZpbyMzQ0xZ
-         snyw==
+        bh=R6Aa/EmHgICQcRHyFtzR0757QCGmW7KDSKC4os3+dQs=;
+        b=Xjk5YSDB/PfxSFariPmraXn+GHEiLWgHkTFUMmcftl2qU8t4RkLSO0YJa2iAuUS+GE
+         Dr7OlmHVltpnLlel0LZ0uqaT6o6dDVd4MnuaXBAZWeVOsYKZtetF0e7HN3ZdjJ/LaL/q
+         Q1EYZ5VfRHeD5CfUv979tWfERxdjEHG4TmRoMqkM23Vz0G0R2Rr3VBn2kGl0yRaJ6hzJ
+         7ZljwtFce0wtRGl8i6uMuA4ZUYCOmOgMiyNGpzZSRE19AVTBObTMp5TJfuuaGgeGmu2O
+         W2qgex885sehQetbR0q3mqOOCzgN4LLb/mCrWBnD0TjojoKzpS7x7yxLe5AXlIoRium0
+         Q88Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=65nrhbu6a1KFVgN7Y5JG/h1/IiTKfGK6ZzfXH/jPV4Q=;
-        b=zzOYCYxvJwOF+cOOQrUJMbQtlM4sJPOW/la86x/i7lSKyKRUm0XfxpPUdlf7Sa/3Or
-         uR+2627z2f2upMbQ3T1j/qrC6Sw/OmPH1qabNAXLUqk28WzDBIl31lNME2fpXjEtpPSw
-         qlLSlTlAuqDqGqeoumE16kzp8gNSpiQpQbJo2kMXqAeEYsr3J0rb/gb9wMnQlgZiiMhI
-         TCb06IVEqaMeaXl9HnZl5q5eliyr12vF0fyGSKJdjj3yFCNlKkX8ms7yxp/Buz/LkpDv
-         9+RB7f9r+Gr/drTS3bQabV6TgOxLvIs2T2y+h+tuD1u4hRecMqR9YwQ+PLGKS1/E2dCP
-         xudw==
-X-Gm-Message-State: AOAM530H0RStJbhK0ooI/OSklpz2mGNRxewXSrXQzDWu0DCWgb7zVd/f
-	YSt/qfygbAxPTZUNCgbnfQyDz85H16qccHU5
+        bh=R6Aa/EmHgICQcRHyFtzR0757QCGmW7KDSKC4os3+dQs=;
+        b=Fl1by1j3/bAgr5+52lWelqg3qS74JC2wnONHA9DltTGoQKhsdo0l3roGoZuZWUYZNk
+         cBu1B4fyBlASHPcPKXQlejyMMlutL0CbT1y/npwpgX2Cn2RJ00Ek1YEGSseskdtbidkH
+         zPtetWNhOIGYDhe1wJci7D4m0kZvu/KeSR+LEYexcer7X+B/B48zbYW/r7tqn8Z1SN05
+         l8PWeIcXsK5xCOWKWaxP6mW7nWaFPgeFStHugHUvus/hcXmegbh8sWrPHAO4rhXGF5Yp
+         g9/x6eOw9ui+e++j6gBS+xTtCgZRoGX9yp8w1g/yo4Te+mDapDvWy+GZo6AcZ96LjRZH
+         1VDQ==
+X-Gm-Message-State: AOAM533cFAyKJ55Xw4nUzkXiiz28bYxnOzUk+lWFy003MN4zEeytPlXz
+	SlCNaMfEQPpXxcNTeEexCNMa4b34tJCQ06Nk
 X-Google-Smtp-Source: 
- ABdhPJyn6Kp8lHoIBwoUAcjWpdyhK2drxOQOdJINIfz4ekmc7HuLcVgkGSx0fm7kPD4yBWFts/J7BQ==
-X-Received: by 2002:a05:6a00:1ad4:b0:51c:7852:2bd1 with SMTP id
- f20-20020a056a001ad400b0051c78522bd1mr797426pfv.2.1654699223578;
-        Wed, 08 Jun 2022 07:40:23 -0700 (PDT)
+ ABdhPJz6PYOuvByaFASG2euuqo70wY5feQoqOJztcB1aw0QKMai+KzhiMbUIA931Pjruo3bz4zphaQ==
+X-Received: by 2002:a63:2bc4:0:b0:3fa:cc63:415e with SMTP id
+ r187-20020a632bc4000000b003facc63415emr30353540pgr.465.1654699221440;
+        Wed, 08 Jun 2022 07:40:21 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- i4-20020aa787c4000000b0051bc581b62asm12945213pfo.121.2022.06.08.07.40.22
+ i4-20020aa787c4000000b0051bc581b62asm12945213pfo.121.2022.06.08.07.40.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jun 2022 07:40:22 -0700 (PDT)
+        Wed, 08 Jun 2022 07:40:20 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 12/22] linux-firmware: split ath3k firmware
-Date: Wed,  8 Jun 2022 04:39:25 -1000
+Subject: [OE-core][kirkstone 11/22] linux-firmware: package new Qualcomm
+ firmware
+Date: Wed,  8 Jun 2022 04:39:24 -1000
 Message-Id: 
- <324e4f598c0e59ba2376d5fd76068eedac17b0d3.1654698895.git.steve@sakoman.com>
+ <99c0d4b8f91c647f53b778a1802b856a64617a40.1654698895.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1654698895.git.steve@sakoman.com>
 References: <cover.1654698895.git.steve@sakoman.com>
@@ -69,53 +70,71 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Jun 2022 14:40:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166723
+ https://lists.openembedded.org/g/openembedded-core/message/166722
 
 From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 
-Atheros AR3011 Bluetooth devices require special ath3k-1.fw firmware
-file. Package it separately from the main linux-firmware package to
-allow deploying this firmware on embedded devices.
+Create separate packages with firmware files for APQ8096 SoC and for
+Adreno 2xx/4xx. Include A330 firmware into the 3xx package.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-(cherry picked from commit a12a5606f4c7003d9a90c493380c656ee557dea5)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 1a0cb8f9131d1f238dc150e583a7ff816645765f)
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../linux-firmware/linux-firmware_20220509.bb               | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ .../linux-firmware/linux-firmware_20220509.bb       | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20220509.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20220509.bb
-index 7da5eca893..6e328e5726 100644
+index 87d2efef12..7da5eca893 100644
 --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20220509.bb
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20220509.bb
-@@ -270,7 +270,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-bcm4373 \
-              ${PN}-bcm43xx \
-              ${PN}-bcm43xx-hdr \
--             ${PN}-atheros-license ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k \
-+             ${PN}-atheros-license ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k ${PN}-ath3k \
-              ${PN}-gplv2-license ${PN}-carl9170 \
-              ${PN}-ar3k-license ${PN}-ar3k ${PN}-ath10k-license ${PN}-ath10k ${PN}-ath11k ${PN}-qca \
-              \
-@@ -320,6 +320,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
- 
- # For atheros
- LICENSE:${PN}-ar9170 = "Firmware-atheros_firmware"
-+LICENSE:${PN}-ath3k = "Firmware-atheros_firmware"
- LICENSE:${PN}-ath6k = "Firmware-atheros_firmware"
- LICENSE:${PN}-ath9k = "Firmware-atheros_firmware"
- LICENSE:${PN}-atheros-license = "Firmware-atheros_firmware"
-@@ -328,6 +329,9 @@ FILES:${PN}-atheros-license = "${nonarch_base_libdir}/firmware/LICENCE.atheros_f
- FILES:${PN}-ar9170 = " \
-   ${nonarch_base_libdir}/firmware/ar9170*.fw \
- "
-+FILES:${PN}-ath3k = " \
-+  ${nonarch_base_libdir}/firmware/ath3k*fw \
-+"
- FILES:${PN}-ath6k = " \
-   ${nonarch_base_libdir}/firmware/ath6k \
- "
+@@ -307,8 +307,9 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-qcom-license \
+              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 ${PN}-qcom-venus-5.2 ${PN}-qcom-venus-5.4 \
+              ${PN}-qcom-vpu-1.0 ${PN}-qcom-vpu-2.0 \
+-             ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 \
++             ${PN}-qcom-adreno-a2xx ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a4xx ${PN}-qcom-adreno-a530 \
+              ${PN}-qcom-adreno-a630 ${PN}-qcom-adreno-a650 ${PN}-qcom-adreno-a660 \
++             ${PN}-qcom-apq8096-audio ${PN}-qcom-apq8096-modem \
+              ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \
+              ${PN}-qcom-sm8250-audio ${PN}-qcom-sm8250-compute \
+              ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
+@@ -961,11 +962,15 @@ FILES:${PN}-qcom-venus-5.2 = "${nonarch_base_libdir}/firmware/qcom/venus-5.2/*"
+ FILES:${PN}-qcom-venus-5.4 = "${nonarch_base_libdir}/firmware/qcom/venus-5.4/*"
+ FILES:${PN}-qcom-vpu-1.0 = "${nonarch_base_libdir}/firmware/qcom/vpu-1.0/*"
+ FILES:${PN}-qcom-vpu-2.0 = "${nonarch_base_libdir}/firmware/qcom/vpu-2.0/*"
+-FILES:${PN}-qcom-adreno-a3xx = "${nonarch_base_libdir}/firmware/qcom/a300_*.fw ${nonarch_base_libdir}/firmware/a300_*.fw"
++FILES:${PN}-qcom-adreno-a2xx = "${nonarch_base_libdir}/firmware/qcom/leia_*.fw"
++FILES:${PN}-qcom-adreno-a3xx = "${nonarch_base_libdir}/firmware/qcom/a3*_*.fw ${nonarch_base_libdir}/firmware/a300_*.fw"
++FILES:${PN}-qcom-adreno-a4xx = "${nonarch_base_libdir}/firmware/qcom/a4*_*.fw"
+ FILES:${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.*"
+ FILES:${PN}-qcom-adreno-a630 = "${nonarch_base_libdir}/firmware/qcom/a630*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/a630*.*"
+ FILES:${PN}-qcom-adreno-a650 = "${nonarch_base_libdir}/firmware/qcom/a650*.* ${nonarch_base_libdir}/firmware/qcom/sm8250/a650*.*"
+ FILES:${PN}-qcom-adreno-a660 = "${nonarch_base_libdir}/firmware/qcom/a660*.*"
++FILES:${PN}-qcom-apq8096-audio = "${nonarch_base_libdir}/firmware/qcom/apq8096/adsp*.*"
++FILES:${PN}-qcom-apq8096-modem = "${nonarch_base_libdir}/firmware/qcom/apq8096/mba.mbn ${nonarch_base_libdir}/firmware/qcom/apq8096/modem*.* ${nonarch_base_libdir}/firmware/qcom/apq8096/wlanmdsp.mbn"
+ FILES:${PN}-qcom-sdm845-audio = "${nonarch_base_libdir}/firmware/qcom/sdm845/adsp*.*"
+ FILES:${PN}-qcom-sdm845-compute = "${nonarch_base_libdir}/firmware/qcom/sdm845/cdsp*.*"
+ FILES:${PN}-qcom-sdm845-modem = "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/wlanmdsp.mbn"
+@@ -977,11 +982,15 @@ RDEPENDS:${PN}-qcom-venus-5.2 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-venus-5.4 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-vpu-1.0 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-vpu-2.0 = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-adreno-a2xx = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-a3xx = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-adreno-a4xx = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-a530 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-a630 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-a650 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-a660 = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-apq8096-audio = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-apq8096-modem = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sdm845-audio = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sdm845-compute = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
 -- 
 2.25.1
 
