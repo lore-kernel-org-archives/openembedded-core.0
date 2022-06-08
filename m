@@ -2,54 +2,54 @@ Return-Path: <chris.laplante@agilent.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A706C433EF
-	for <webhook@archiver.kernel.org>; Wed,  8 Jun 2022 17:41:37 +0000 (UTC)
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.83])
- by mx.groups.io with SMTP id smtpd.web08.394.1654710091512570670
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B9DAC43334
+	for <webhook@archiver.kernel.org>; Wed,  8 Jun 2022 19:03:47 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (NAM12-MW2-obe.outbound.protection.outlook.com [40.107.244.68])
+ by mx.groups.io with SMTP id smtpd.web12.1387.1654715017687122946
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jun 2022 10:41:31 -0700
+ Wed, 08 Jun 2022 12:03:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@agilent.com header.s=selector1 header.b=0RKhiPs0;
+ dkim=pass header.i=@agilent.com header.s=selector1 header.b=MKGACvjx;
  spf=permerror,
  err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}:
- invalid domain name (domain: agilent.com, ip: 40.107.243.83,
+ invalid domain name (domain: agilent.com, ip: 40.107.244.68,
  mailfrom: chris.laplante@agilent.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E63NUtQ6T6Liax7eAcdlnwF+ZG20vYOcWrVCixK5c/ycmer3VJrMsm7agNbNZGY/0gIkfGsKnFNU3RIrbZJ2A4IfWzbhOwnC6dr7ENpTvm6iYef4oEadJzKhm0/ZSsVdURL/M0VwlodQuFrhUWxgCiXFmui+Zcr/RT+82B1IbV9vUSHf91wZLI4K6UFg6c9go79LEed/5jKAnvrfB9sVph3y9rK1Db4jDP/SsXqOklYhjkGDJIOZQu0zxP9ve6/33C+j/MHTznq36NyD580HYfVvXLhLFZ61TA5oeMHQBTb7BorPgRpSYMnU/ZpGzew7/ysi4PLK721DrbwqsaNcyQ==
+ b=P4c/70myzo9o1hHRatJ89XmTMh6PwmS/njqedLN7TtOYzgI0YDbwpVMxLkDXFDJHRhbL2GvHtpJnFYX1RidMIRKDiImzUdlsInPGQbhZxuqZLI0gyMJ8m6olMpJFPN8cePGtveclycg5wOZHSwGgdLOZUG2VU3HUb7Gq9NCpBAW11IwQ0rgC3okUi6hyMttcm7v7s/IYEsomky3FTvxTpAklDBRA5RRRSzw67vt4pJpsDzzjALUfCfTAUXOwCd3Bn12DRxYslFbGlSo0V8dE2pk+QSqOYw1uNNwdPURNJk47RMpQjK1LfcOZoplNshcy4+fRG1uB/NMQ82rHTuXutw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VLXfo3Yw2C/0j66wzaDAZwC/1C8z9v0u2Tauigh+35Y=;
- b=K1negkrf94u5C9LB9aoDQZBf5ztFvyhAJQgr0YAJiJQIKujuJ6rqQ1NPqGAlwXxtlZ34s0/KLsZa9mHuy5QrV4f8At6peLLjXr71NSxFYVJz7u+dLpjUhCId1IYXvlxUUyFXlLZdqi70DA7Jf+YiRMrjEsnBQKd7jjHU/Yv7/M2BfuXknOaJ7jzL1SypB9HmhWvecl70EMl//iMXh13ehUY9dA72cJACu6ZZ8EBdBcIzReIQYIC32AyUqAcQTdNdbo8VO3ZWyI+AFjcMYzyoLEUp53wTn178khDg8fd01XNzOdiCHDvIq6NPehOX+nwoF0GZpT7lEaJh/+DtEdhGWA==
+ bh=UW8Xk5IlEiZ5Ciz96vb2em2SzLBulXAVf0sPFhcRbdg=;
+ b=oYjwVpDMRK8gq3cCdvmGjcftM5XchqrZGG6UKGY4VhY1msy8bXYMdtjrFNsHj+oZWEbv6NziOIJi64eLvkxSiPDdopQP4rVP6SiBooejsbfR4y4L+vSiUxEKJ0bAT2gC1QZ0qtns+T1zhuQsmvvwjXmcqa/nQXG0MAFM19BaG9RduntUSk7u8ytJ5oDlqJ+erZpoxgikxp1AgWQQ3JzxxTExS1v9y+/iyEQcqO5hieGeYgbbnMgJR8zZZi+AyqpRIWXNZcFlIwjF4dDIVMr/TEH4OZON/BODh1EwbN3vs+XMUslSIM230zTW6zT9S3HXFsTiTfJcBFQZZtsiXcNu2Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=agilent.com; dmarc=pass action=none header.from=agilent.com;
  dkim=pass header.d=agilent.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VLXfo3Yw2C/0j66wzaDAZwC/1C8z9v0u2Tauigh+35Y=;
- b=0RKhiPs0KL75tVhHEJA1geubG6JTKLC3txqV7ym1vmy/Nrl9xYjg59f50r+5DCW+ZzSk9EirZsH2o+MrwdnqUh6Hnre+uQzKYB36pu6EDQRJZHspLxsFIHV1AEcTelOeobsyGFg6ReCDmR53MOOzCQuUQmXuzVMnpIBNpjtR/ehWl6g3JyljB0Em2fbluVXwIKbGXWLNC8AkN4icY7dcb0DzwtBEZ8FXQpVau+8t+u1vjhkH+oOT/tW7ABP8TkuUyVKZ9gWRFftrVzBccV/bZ5UvNsR1V6f3FvyHwbTOtO7Srfn9ys0N3nDMwGA2SfXxwrACYeOE/Xrnk5v6woZ9rw==
+ bh=UW8Xk5IlEiZ5Ciz96vb2em2SzLBulXAVf0sPFhcRbdg=;
+ b=MKGACvjxpSpvkSY8XUPCV0PDdusOuHpuQ1/LThtsY70VC8i6EkNf20AjpyZM+SiunqCrqaMdieHi//e+3AgoG8UK3xclGrqAJhk73eWy9lTDmUUV8bFTbFecKf31aceBA0r0t/F3RXSJx9E8VC8dwLttYX/srNvFSHKDdWoqf9dTdfw2TICr/mLv708famHxdVBT28GxMV25tXlppW8D30nF8DR3xLt+2B/6jGfZWbgKZbUdWDGcyuu/IZs5row+f3Y724ap1p/OLBZaD0JyIoVh6NaUL4GsD0Alr+t5bs+cm0KXfHrNtY76tczK9ap7duCenl0nG2d1KdIYDlx3yQ==
 Received: from DM8PR12MB5430.namprd12.prod.outlook.com (2603:10b6:8:28::6) by
- BL1PR12MB5237.namprd12.prod.outlook.com (2603:10b6:208:30b::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.12; Wed, 8 Jun
- 2022 17:41:29 +0000
+ DM6PR12MB3241.namprd12.prod.outlook.com (2603:10b6:5:186::25) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5332.12; Wed, 8 Jun 2022 19:03:35 +0000
 Received: from DM8PR12MB5430.namprd12.prod.outlook.com
  ([fe80::7db6:3628:91df:cad3]) by DM8PR12MB5430.namprd12.prod.outlook.com
  ([fe80::7db6:3628:91df:cad3%8]) with mapi id 15.20.5314.019; Wed, 8 Jun 2022
- 17:41:29 +0000
+ 19:03:35 +0000
 From: "chris.laplante@agilent.com" <chris.laplante@agilent.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: RE: How to use devicetree.bbclass?
-Thread-Topic: How to use devicetree.bbclass?
-Thread-Index: Adh7SztOnSa/Oc7uS5K+Ag6Q3y6TcwAE5OqA
-Date: Wed, 8 Jun 2022 17:41:29 +0000
+Subject: RE: [OE-core] How to use devicetree.bbclass?
+Thread-Topic: [OE-core] How to use devicetree.bbclass?
+Thread-Index: Adh7SztOnSa/Oc7uS5K+Ag6Q3y6TcwAE5OqAAAKxYcA=
+Date: Wed, 8 Jun 2022 19:03:34 +0000
 Message-ID: 
- <DM8PR12MB5430E0D38DFDA6F21DDD8FE78BA49@DM8PR12MB5430.namprd12.prod.outlook.com>
+ <DM8PR12MB543030ED4EBC51CE622A41578BA49@DM8PR12MB5430.namprd12.prod.outlook.com>
 References: <16F6AEAD4EA350FD.31089@lists.openembedded.org>
-In-Reply-To: <16F6AEAD4EA350FD.31089@lists.openembedded.org>
+ <16F6B60FD253F3FE.12817@lists.openembedded.org>
+In-Reply-To: <16F6B60FD253F3FE.12817@lists.openembedded.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -57,73 +57,73 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=agilent.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: dc08a63d-a1f7-4005-80f7-08da49761eb1
-x-ms-traffictypediagnostic: BL1PR12MB5237:EE_
+x-ms-office365-filtering-correlation-id: f89e315b-e22e-4b43-cd3a-08da49819678
+x-ms-traffictypediagnostic: DM6PR12MB3241:EE_
 x-microsoft-antispam-prvs: 
- <BL1PR12MB5237C6349C7DAF500C2CA6C48BA49@BL1PR12MB5237.namprd12.prod.outlook.com>
+ <DM6PR12MB3241F1A79E65B423878271578BA49@DM6PR12MB3241.namprd12.prod.outlook.com>
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info: 
- Uos+p832fXED4/t8UIaueKZXLhkn23XT3HftDgBpJ99O30QKv+73m439ON7rqvlbLmIPNtic/JTEqoPmPGiSK9I9evEil1CsvPZL70GP+w8IhH2VwKsrfM0mP+rDnxWPOmY6X/F/aRDMJsukey335xrEr2z7sRuP0goJZUEL5vh6fZdOrEhEZzx5wlrtm4Tgeq+lovvXX9TtDwU7ikAHO2kP1kFEBlu7Z2GRYQ+Dgdw0F3pJncC9tKGX+4kCVSvwepTGqVNrXAniqDEkZyweDu8rVBJIaju7ixwTHyp+DzujHPrC/KKji7m1IanBsxDAvJwNjeBSsDAIPRYxmpF7jDF8aJ3B+K3LgNk6CPHGIaJox7cwbJNkncZSjGavhmRKL6VIDQ6P679d0hZZ9ObOmqGFz+nn6za5WRG+tv7W7+20bs4Lnlxwfgt5noXMSYDWVp3aCB2L1azDqzp5oJZ57SPhnpPMhVmqQ8hqKYnxy3zjX3U/HQfRKuf40beaTArCMbnGjrQrVLUKqtz0qUITjmk1DcpKQFZsfsrbuSy/E79dC4cIkVYrIJ9iS5rEhxxvv7ts2Ca8P8PsJV1o5UujCQeh25ZICMQ2BzezarugLtv0xMpzXa2epA8zRy0hZJze5lo7X3iE31pFpd/ZMiTKjXJ78tgdIySxXWIP7IR72LAz25j8o0ufjYLcaKENdj46TTlwt94VewgMxxhmsmwgZQ==
+ 6jXdlgMFn9UxLe5tLninofFC3lf3kzzMmV4Xo4laYb74zIS4QTmjvtmcpwieVGIxcS02ah62FQEF30wEvkhMN4358QzlMNQ26e58NMLdJddLgfupcp8CaSfN+ce9twErQtJ5aAEMfA6j2xypjvcsAJzpcxlkN5mWSFbjwD3333Va5Uqq9kH7GKP6yd7l/nIufqD1C1UW8GTCmyiPSuWMhbPyzvEVCVWd+CJfge1ls5wkLYtnfhFcUSg71n/MAooBydKZikzVqrycwCoZ8gPZQ60qyfaeAZC8SRLQDW2LW3+zIBZL9eNkANWD/itl7Nm8tK8TN/PVL9s6574r4sSoBV+ns6pLASZRGK14bZMuiF9O4UcX+Ss2Qiom+ugBqQWXtdKjevMHsJIv1RaGuwlS5JHXSXYurM4RcH9kwTdqIs4ezcTJKt3mkYDUm08q35gc6pGmKjXV+QD+5AJuHTjazHLk3U3JE5B53Qx23l7bHI3igst+ofX957Yz+eqHf4yxz5QSBkPzQWH5/qPYGkiNv/SGYsWngMWW+jVg4t/J/tAOJq2Wbp2gc/IHuveSKhOQDcTzIS38qAtuHKpyhxTRUBBo+BZVjKmXBailXptVBdPEWaJxHJE293yRZ3grnwud+cqyCwiyuoIEvm4qg2IKl8NKsf48LhPiD2wfr7XEXPaNSmThTmbghXy614eJs2iauE+0ANOz7QLfLA9yxhV8sw==
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR12MB5430.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(29502001)(5660300002)(66476007)(76116006)(4744005)(66946007)(8676002)(52536014)(71200400001)(122000001)(83380400001)(66556008)(9686003)(26005)(7696005)(508600001)(6916009)(33656002)(38100700002)(64756008)(66446008)(316002)(8936002)(186003)(38070700005)(2906002)(6506007)(86362001)(55016003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR12MB5430.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(29502001)(83380400001)(508600001)(966005)(71200400001)(316002)(2906002)(33656002)(86362001)(6916009)(38070700005)(9686003)(26005)(52536014)(122000001)(7696005)(6506007)(55016003)(38100700002)(186003)(30864003)(76116006)(8936002)(66476007)(66446008)(64756008)(66556008)(5660300002)(8676002)(66946007);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?LAbOWy+0ESxbzHcz5iH5ZRLcjQnLn89SdoQwST++qrZ+CEwC9OLGeDNtql11?=
- =?us-ascii?Q?IvhL4EOWUr0d5r1bfGA7OWuFfPD++C5HvHaX37Pqb4MbwrWjvd1Xs6K3X36k?=
- =?us-ascii?Q?m2J2nxJ3Fhq9uwmVdEGjlOdK7HfvTEqW72zyu9vL6eoO4eKXIsaBhMJwMfXa?=
- =?us-ascii?Q?KSZQEjKjBRY791emFwUIZt++GYDdQrVCFVbJHkbzG/Siy2mJZZBRwwXzIsup?=
- =?us-ascii?Q?2n6J/vSY5KN3xlgfThvovZt9BQVHAX5SBBFNOOkIa6KIm40hHkhrMcm5btvC?=
- =?us-ascii?Q?ZYEKhCgAjzz5+XXRBheBeu9OjV0MyEW64dteQPw3W+jYrLRctke/doRh3M8S?=
- =?us-ascii?Q?pV8JSSgoY4rXkVV7JGg5SJWJX1AzMuot1K6TVeJFFcoWyGTDyar/T0AVE1Mj?=
- =?us-ascii?Q?7XEUnJFwGZcTrYV+LPH+NXcwdiEHKcm8yin531n7GmFvcK3vMCChsz4gq8Q5?=
- =?us-ascii?Q?QNExAFWXet5e5aCChdJhMcg7BsvSh5iCG93Fb3XBdx3ar8iozD2hx6HSj3l+?=
- =?us-ascii?Q?khA2hK+wnoNUrFCwXfG13rp/U9+3Ra9vu/AvMKyaUp8n8Dy4HT8B4QbrRD6a?=
- =?us-ascii?Q?QFy1DaIn/5itWDVr1ovP/ThWA/g4MRfScwQZrjSk/RFrlGwgFijFQ4TdcFes?=
- =?us-ascii?Q?VHt6CjHMtDpRTJy5amKup+655PNvmsElmDF1yecC8hQJVfTr6pTm84GHJ67c?=
- =?us-ascii?Q?5Qt1FGe0K35QNeXe3olOEfkvGtZqepEkC7asHGvl89BjQzoNFPIhDznN108r?=
- =?us-ascii?Q?UAhqcUblv5Uvcv1MXOYU5axeEG3lylxaOqTBz2fPUyWzBIDqgfJeCBkuIiQj?=
- =?us-ascii?Q?Ml8w1Bi9PpR+WCS2hp5BLI83fTGTCrUA3b0pz6e/bTY4ko9DbM4Av41tga4J?=
- =?us-ascii?Q?fyxEn+YyBgDDvC/wMlSeVvbMmkvKdAscFL3rMGJ4JUqr8Ly5ETj+hnpBmur0?=
- =?us-ascii?Q?NTyED7Fc0qDBge31ImkBXSQ5MXdCdyr7wXM+W45kAi9Fk2+g/1MJYd4vL0ba?=
- =?us-ascii?Q?ZK41dl+HUMvgRRhNS5CAAfANC3AcQM9wtRUJUXTbagJW50ZerhVXoSVYEIq7?=
- =?us-ascii?Q?pvnuckHjYTh3OWTO67CFMMayQ5bzGCdhBkNdsWuxKHOIqu/0CPYWNTrPSjkQ?=
- =?us-ascii?Q?Tm8aKXZ6/RAGcT2VU5dsUa5YdBxw3jGXRD/VGNCBq3Lr7zbFfRwE03aH2tV4?=
- =?us-ascii?Q?gRWt8Yhv2dBc800ImwAMRvr9sp7aJFRLw1ELNw0xpW6m3bUX1pipybXkM2nr?=
- =?us-ascii?Q?SZPd0hLIfM0tzWC4b+BwpQ+h+sFGHV9guTdVfgI+MwwX3kd0Wpbuzo8bUTnG?=
- =?us-ascii?Q?XbGLzA0IC1sOHsHUYh7/59FnjYXPEobETNAEUCR4268xat8C+wx4AnKRlciN?=
- =?us-ascii?Q?ik6cRLAIAXXeI/hd2TgZQ5GyzL/PkcdEpg8+vE3YMijmjJtuI6qgKBgE0+I6?=
- =?us-ascii?Q?aX8gDsHRyN0d552B+U3UuTxZWi4kPfpvdehtJ/X6xZNqiWaJtmLJ9Ib+BEZg?=
- =?us-ascii?Q?xy2pqZjOSBn6fP6/zQ6Q4x28GiKu/PYM3O229ozJ+H1Dz/ylalDNK4TwYAlv?=
- =?us-ascii?Q?yWk2wBB0AaXbpHM9OYAmbmK2s3PQAtebpFuybwXaBiI65VHbHqPRbrbPeow+?=
- =?us-ascii?Q?gHBMc0OWQh94MfN23KQpI63czOnVIv5+HvcUUIF1bVjVqgTHFZTifr8ZHp39?=
- =?us-ascii?Q?kQ3ZfeNWMfwba0DKc815SBGEiTD9fEYbRr25D3O00FDSduH37eRDraQ6f4BG?=
- =?us-ascii?Q?YC/zzgrPNA=3D=3D?=
+ =?us-ascii?Q?eYGHqYU83ZK6vwnZIYNAC65n0aYjFhFPT6fk89piURhcBO0aNg2nJvE6pEs0?=
+ =?us-ascii?Q?uNFFVxysPVuZBrPXWOYnDuoPS3ahOj83+ph8g5FumdiLgm1GxME4dau99jCo?=
+ =?us-ascii?Q?aZB+rg7XXyY++GqLobCXKroeVX59BJdRNPJTKfKrYJMA8o3XH984oCBT4oxS?=
+ =?us-ascii?Q?5nowQVjgAHv3AyPiUUO/aN55J6FD4LhWpRzVU+6zDpdtms/U00634KUrNZTo?=
+ =?us-ascii?Q?UzPVQwc72kPfifNYjWF7Y+NXaabebn5fP8Fv2b4dZqkN7+8e98q2QwTQqSue?=
+ =?us-ascii?Q?UMJiISHmQjDZ9NjLJo2FGxKeocGcI/1LJKr65S9ToqLDufxHFjBxTL7dYtyS?=
+ =?us-ascii?Q?ObniHHI0ygZrIFHXmYNA5HYsY1u1dvfkDhrMG5KvK28CE6hM+4xck7CzcetK?=
+ =?us-ascii?Q?argU53kWu+YLbZUVT7JBjqDHNIwwOUaWRe+Rb01fZ0gs/NR5Ko0lSBJMZOh1?=
+ =?us-ascii?Q?RbtkLDq6JzBQ+eHiXQcGZEnAh9+n52G0Byy9FKD3LDcdbVC6c8iIEHCk/3bx?=
+ =?us-ascii?Q?lRRIequNdbW7sLoVt0rJJ1b3D/myFgmjlWq4TPCaphCgqYGuGZOL8xLEJtUe?=
+ =?us-ascii?Q?6EFuGl9g1PRod+aWvFfSKAt0w2wF3eBpRpnXLadM+IOHS50lgjZVw7xCZ9u0?=
+ =?us-ascii?Q?6O1A+fa5KyTpVUkf2IjBpDl10h9D8fcfaew/SiMPOoisKcciK957Pknxv/si?=
+ =?us-ascii?Q?/tjwkX0GX+074VoSTfRjE/lpvHMzW6Wix54NW81Qsru/8efnepnLcDpSZN48?=
+ =?us-ascii?Q?lwS3Eg/vLm84bj7g0vne7brbgN2qVhpR02/+4Ev1zFQz5SuTYbGGVDd3Oub6?=
+ =?us-ascii?Q?VXwxcRbw8ZkeA5pLFCV/b/OviA7tF+Iv8uxUOoI2BGEAMfcBdEvM+IfHemyx?=
+ =?us-ascii?Q?QgyKjCrfCUJZfs4XrihGjjkQYq1em9QRegBKgGOStHvk0ZgRLswvG4RXwLz4?=
+ =?us-ascii?Q?ZJd9IXgsQ4B8kZxbVDQ0mt7eBwbcQBXMQpu/9q0TRiAz9ItTgae98E7BsoFS?=
+ =?us-ascii?Q?KP+9zoPEFw04N00y0z0S48xMM2C4Y7ZYPb/SrtMTMU8ntqAQovobUZJKH0oX?=
+ =?us-ascii?Q?kZQKWx7IDHVcKxWw9Ba3kwDdRNPs2nni2LPDEq2XI3Jv6QngJVVW0nrnnV2g?=
+ =?us-ascii?Q?J7AT+L7zAomUAGT76ZSScy9BXk2IuYEW8+TAM0pEWZcznY/tBgf5AdKEBDUO?=
+ =?us-ascii?Q?eNmPS7hGZXCHcC8cDZLNr6bigWYnBcVs7ltNi8b/ztOn8U8NX9TMvfYr01b7?=
+ =?us-ascii?Q?b5LhHLGX60O85QQk40iNf/29HsotdtdGF37zNZxwJpRGvyi0rKcjg1NIxEqS?=
+ =?us-ascii?Q?fOwcxYCHOibM8XT0s2zA8cYruDHa4H9JbDmbgFCTTRZZ2kLy2nuVd14dZpn1?=
+ =?us-ascii?Q?Ohnlt41bLnPe6eykf55gm7ael1CwTF4ZzhKbysBWs6kWvwz/TJEUKYypz8GO?=
+ =?us-ascii?Q?Mzdmi+rWlQrNm0VZx8pqsJ86TaCQpm9pyiGaWP8u0twCL7Aglr/XhbFLt4oi?=
+ =?us-ascii?Q?GEn7bqdXkTpJbj10yUSHPMESB2c/gSKrd0hp1F2gad+2mMGSa3CqS/9AFAw0?=
+ =?us-ascii?Q?48DsnUYnnokD1arnc1d1qtAJ95Y4DSOiBwEob17H1wbCCn6fVcFGFeso9Iei?=
+ =?us-ascii?Q?ZvnuOymux4PjXP/SoIYKVe3lk4IpQNAgGgNuBo+UFiuWHqypqi7YNITGlTq6?=
+ =?us-ascii?Q?tpJNLFVDN0rFKxvo+/KPjB+tUY+ln+VBz0CKp3FXNNV+m7+N4/CPqSQeziws?=
+ =?us-ascii?Q?mJqZe42e8w=3D=3D?=
 Content-Type: multipart/alternative;
-	boundary="_000_DM8PR12MB5430E0D38DFDA6F21DDD8FE78BA49DM8PR12MB5430namp_"
+	boundary="_000_DM8PR12MB543030ED4EBC51CE622A41578BA49DM8PR12MB5430namp_"
 MIME-Version: 1.0
 X-OriginatorOrg: agilent.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DM8PR12MB5430.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- dc08a63d-a1f7-4005-80f7-08da49761eb1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jun 2022 17:41:29.6108
+ f89e315b-e22e-4b43-cd3a-08da49819678
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jun 2022 19:03:34.9829
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
 X-MS-Exchange-CrossTenant-userprincipalname: 
- CT8O2yWRsbYI1wBhh9KIOU2pkpbad2ni/rFGctWZ0SATVk6cAcE7F+bHQOlxozvqvlQTBKghDyBnuf0Qlcuk4a5yiTKzfxUlzjPxGtk8mZ8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5237
+ 0PrxVS4Ney0g5EBmfWmkyoXPNfNdNDUd4v0JrjpUCS8TiHcN0s7E8VWAtMmf5bDwxc31VmMXTITE/8wEh1AlQPNkYBg3Fkcncp5cm94pr0A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3241
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Jun 2022 17:41:37 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Jun 2022 19:03:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166754
+ https://lists.openembedded.org/g/openembedded-core/message/166755
 
---_000_DM8PR12MB5430E0D38DFDA6F21DDD8FE78BA49DM8PR12MB5430namp_
+--_000_DM8PR12MB543030ED4EBC51CE622A41578BA49DM8PR12MB5430namp_
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
@@ -144,91 +144,113 @@ What I'm leaning towards now is creating a bbappend for the kernel recipe t=
 hat just installs the generated device tree into arch/arm/boot/dts. But if =
 anyone has a better way I'd be glad to hear it.
 
+I've done a little more experimenting and I think I understand now. Please =
+someone correct me if I'm wrong.
+
+If you want an in-tree (kernel source tree, that is) device tree, you set K=
+ERNEL_DEVICETREE. AFAICT the device tree doesn't actually get baked into th=
+e kernel. Rather, it is exported alongside the kernel to be picked up by a =
+fitImage, for example.
+
+If you want an out-of-tree device tree, you can write a recipe that inherit=
+s devicetree.bbclass (if you want to use the device tree compiler), or I su=
+ppose you could write a recipe that just deploys a pre-built .dtb in a simi=
+lar way to how devicetree.bbclass does. Either way, you *don't* set KERNEL_=
+DEVICETREE. Then the fitimage process will pick up the .dtb.
+
+In my case, I'm creating a fitimage without an initramfs. It's just the ker=
+nel and dtb. This is done by adding this to my MACHINE conf:
+
+KERNEL_CLASSES +=3D "kernel-fitimage"
+KERNEL_IMAGETYPES +=3D "fitImage"
+
+You also need to tell the kernel-fitimage.bbclass where to get the dtb from=
+, which is done somewhat indirectly by setting a preferred provider:
+
+PREFERRED_PROVIDER_virtual/dtb =3D "my-device-tree"
+
+
+
 Thanks,
 Chris
 
---_000_DM8PR12MB5430E0D38DFDA6F21DDD8FE78BA49DM8PR12MB5430namp_
+
+--_000_DM8PR12MB543030ED4EBC51CE622A41578BA49DM8PR12MB5430namp_
 Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
+<html>
 <head>
 <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle19
-	{mso-style-type:personal-reply;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
+<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
+<!-- converted from rtf -->
+<style><!-- .EmailQuote { margin-left: 1pt; padding-left: 4pt; border-left:=
+ #800000 2px solid; } --></style>
 </head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
-break-word">
-<div class=3D"WordSection1">
-<div style=3D"border:none;border-left:solid blue 1.5pt;padding:0in 0in 0in =
-4.0pt">
-<div>
-<p class=3D"MsoNormal">We&#8217;re using honister. We have a recipe that ge=
-nerates a device tree using devicetree.bbclass. It doesn&#8217;t do anythin=
-g special:<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp; SRC_URI =3D <a href=3D"file://sys=
-tem-top.dts">file://system-top.dts</a><o:p></o:p></p>
-<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp; DT_INCLUDE:append =3D &quot; ${TH=
-ISDIR}/files&quot;<o:p></o:p></p>
-<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp; COMPATIBLE_MACHINE:zynq =3D &quot=
-;zynq&quot;<o:p></o:p></p>
-<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp; inherit devicetree<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">It&#8217;s unclear to me how this is actually suppos=
-ed to work, however. There are no examples of using the class in poky or me=
-ta-openembedded that I can find.<o:p></o:p></p>
+<body>
+<font face=3D"Calibri" size=3D"2"><span style=3D"font-size:11pt;">
+<div>We&#8217;re using honister. We have a recipe that generates a device t=
+ree using devicetree.bbclass. It doesn&#8217;t do anything special:</div>
+<div>&nbsp;</div>
+<div>&nbsp;&nbsp;&nbsp; SRC_URI =3D <a href=3D"file://system-top.dts"><font=
+ color=3D"#0563C1"><u>file://system-top.dts</u></font></a></div>
+<div>&nbsp;&nbsp;&nbsp; DT_INCLUDE:append =3D &quot; ${THISDIR}/files&quot;=
 </div>
-</div>
-<p class=3D"MsoNormal"><br>
+<div>&nbsp;&nbsp;&nbsp; COMPATIBLE_MACHINE:zynq =3D &quot;zynq&quot;</div>
+<div>&nbsp;&nbsp;&nbsp; inherit devicetree</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>It&#8217;s unclear to me how this is actually supposed to work, howeve=
+r. There are no examples of using the class in poky or meta-openembedded th=
+at I can find.</div>
+<div><br>
+
 What I&#8217;m leaning towards now is creating a bbappend for the kernel re=
 cipe that just installs the generated device tree into arch/arm/boot/dts. B=
-ut if anyone has a better way I&#8217;d be glad to hear it.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
-<p class=3D"MsoNormal">Chris<o:p></o:p></p>
-</div>
+ut if anyone has a better way I&#8217;d be glad to hear it.</div>
+<div>&nbsp;</div>
+<div><font face=3D"Calibri">I&#8217;ve done a little more experimenting and=
+ I think I understand now. Please someone correct me if I&#8217;m wrong.</f=
+ont></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">If you want an in-tree (kernel source tree, tha=
+t is) device tree, you set KERNEL_DEVICETREE. AFAICT the device tree doesn&=
+#8217;t actually get baked into the kernel. Rather, it is exported alongsid=
+e the kernel to be picked up by a fitImage,
+for example. </font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">If you want an out-of-tree device tree, you can=
+ write a recipe that inherits devicetree.bbclass (if you want to use the de=
+vice tree compiler), or I suppose you could write a recipe that just deploy=
+s a pre-built .dtb in a similar way
+to how devicetree.bbclass does. Either way, you *don&#8217;t* set KERNEL_DE=
+VICETREE. Then the fitimage process will pick up the .dtb.</font></div>
+<div>&nbsp;</div>
+<div><font face=3D"Calibri">In my case, I&#8217;m creating a fitimage witho=
+ut an initramfs. It&#8217;s just the kernel and dtb. This is done by adding=
+ this to my MACHINE conf:</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">KERNEL_CLASSES +=3D &quot;kernel-fitimage&quot;=
+</font></div>
+<div><font face=3D"Calibri">KERNEL_IMAGETYPES +=3D &quot;fitImage&quot;</fo=
+nt></div>
+<div>&nbsp;</div>
+<div><font face=3D"Calibri">You also need to tell the kernel-fitimage.bbcla=
+ss where to get the dtb from, which is done somewhat indirectly by setting =
+a preferred provider:</font></div>
+<div><font face=3D"Calibri">&nbsp;</font></div>
+<div><font face=3D"Calibri">PREFERRED_PROVIDER_virtual/dtb =3D &quot;my-dev=
+ice-tree&quot;</font></div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div><font face=3D"Calibri">Thanks,</font></div>
+<div><font face=3D"Calibri">Chris</font></div>
+<div>&nbsp;</div>
+</span></font>
 </body>
 </html>
 
---_000_DM8PR12MB5430E0D38DFDA6F21DDD8FE78BA49DM8PR12MB5430namp_--
+--_000_DM8PR12MB543030ED4EBC51CE622A41578BA49DM8PR12MB5430namp_--
 
