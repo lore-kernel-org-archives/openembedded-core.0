@@ -2,156 +2,158 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51CDECCA47B
-	for <webhook@archiver.kernel.org>; Wed,  8 Jun 2022 14:46:59 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web09.7416.1654699614795971898
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AADCCCA47B
+	for <webhook@archiver.kernel.org>; Wed,  8 Jun 2022 14:47:09 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web12.7372.1654699619214661460
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jun 2022 07:46:54 -0700
+ Wed, 08 Jun 2022 07:46:59 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=tc8oKZs9;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.42,
+ header.b=7EStGASB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f42.google.com with SMTP id j7so18779643pjn.4
+Received: by mail-pl1-f169.google.com with SMTP id o6so12749431plg.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jun 2022 07:46:54 -0700 (PDT)
+ Wed, 08 Jun 2022 07:46:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=d5cHBdEYsmIgSZXi024UYqUwvhy2yJcfs/Z79BucayU=;
-        b=tc8oKZs9JX3NmQZnfJX8/O89qYLgOb+B0d+OxrUBWR+ERtFeZlNm6VDfmgkvGgh/ui
-         TOTRvctBad/czxBMIuqIlc59+Px4oHIDur56PNily1CLq/r+zjQ+3gjyVrzEUvV0Bxi6
-         eNuUoy2iw7+/C5ewVC7/FMYV0ExX97uWnUxaxxsMFDj71qrtZuZt6NvCq/j99Vus5urQ
-         iLA41MUXrZCwVkQNnarskzQM7/vpEkA8WkvDWgzRUl9YwDUwrMsrzUinrAOihen6uFpH
-         sscOqS+el1Wo0Gwll3WrXjHOaSLDwRNEDgPcF1Ju1pmMWSzBFh3aCM3DIUqLoi5U0UaI
-         eQkg==
+        bh=zHQnLX1DUNMMb0k6iVZIOhfu1BvPY/Kd+yXzmfUvrps=;
+        b=7EStGASBaMWASlQ8CjRynkGvDRqwcOPUFoVyeaX6Sq+LxS/8lA4bVAY5YpLJuM7h2F
+         6LNCRqCicTnBNe4SfiooYOgbQimZpWncPrRdckPzGNzdD54Ya8MDj2CdR86FKTGnr0UZ
+         tALdPuBnQGH3lBlWNdoM1IC5489i7nVXMbELfbYZBHD/8371RUU+WLFECrk+0frYR5vx
+         0680YdUGn7yGlJ9xZKSZncHMBa944554ASsHc4ax1CB89Dr8N32JgxLqxviEegIO5eda
+         sp4KxCC+74tsNSkOHH4X71sy9mdq6fL3AKvHNsjyrD03AhvUPEMrfQRkkvR+2g57FD4+
+         +3nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=d5cHBdEYsmIgSZXi024UYqUwvhy2yJcfs/Z79BucayU=;
-        b=5NRrFEYcKqCPBKu8DeS9HAmZc04PdfLMxOr6fKiHMYeDnaAbdKVEHuMtrJz4z1JQ+V
-         fM1F0zSSdZgJwxKzP7ZZujD0TofBom+7ki/cDwozoKSruZhFXUaUmuZ6z7tAXEddap8T
-         PHGpfCHAygvBfBE+ezu0p7aSkkXnCBCd5nJPLUzaReYkvn77ViZRAzpDqsWaR+u6EEYO
-         oGSYKNrXqgKEw6d2huWBMv5OVSWhhC65Rk6TnDSltPkS9rxIeUhF88u0vPMZjvKzV6GK
-         9A3CmQvyADwQ8neRQ01M3pupEQTNnobE72nT1nMmjdjBREhFjTpDZKMIEPjcCiIE6N5s
-         abxQ==
-X-Gm-Message-State: AOAM5318VIb6is9BpPAHAQr4jmIvrGPAV8Tb0/9XjkMJTuK0D9jVC+q+
-	aqT3+yfg7MZvwhMDEfQF20S/z1xmKtOlvPpG
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=zHQnLX1DUNMMb0k6iVZIOhfu1BvPY/Kd+yXzmfUvrps=;
+        b=KBhJsbRmo2Pcdjs42eHAwBDCiemnX46At7UiqH/2/cyiCmRlaxYG31eQPKL1Q4QA+N
+         iG1qcnvZ79/rYq8jBAk60e3KNpfs1lJO8vMx9gGKa9BBE6kCOM9EGIZXd3y0lEJQprzj
+         4jJPGXJjh4i2j4Naw59mf1S+gh1729B3eog5lZeoC8bQhS+ybo7peStniuG2q2Mbznli
+         r3AOtJBkXex/aUWmz3U29OFCzxvh7MhDIDSx/lrZXon4HOsb89qp/JbUnYHRttHCTT30
+         w18pDJUlGbGG816NrXPzByQ/CTo5+eZO8mCqoBWqsqXrNpw+WwnfEizJTsSQLQKYBFnA
+         EhEg==
+X-Gm-Message-State: AOAM531Gg6R6IAs2s6DYz3WSH8K7APbojvVPR2uKZ7JmF9GE9lUZh82L
+	P/K2jRM3TjiJKSQkB2pch0qjhzeOExwYWJTB
 X-Google-Smtp-Source: 
- ABdhPJzw+vi1RI4iKJ5UsG9WbTVNZPTLcOfTGJvcYPo/g2vrlM51OIXg6FUR8YzYfAZKvgIvBnPW9A==
-X-Received: by 2002:a17:903:1013:b0:163:e8b9:2429 with SMTP id
- a19-20020a170903101300b00163e8b92429mr34732118plb.74.1654699613628;
-        Wed, 08 Jun 2022 07:46:53 -0700 (PDT)
+ ABdhPJwL/qI28c1YKCOxGxNHhf2o9drzKGICh84AWnPCEnMZaMSoZqJiAwjNghxOhLXhOB4S8HBUzg==
+X-Received: by 2002:a17:902:ea53:b0:15b:1bb8:ac9e with SMTP id
+ r19-20020a170902ea5300b0015b1bb8ac9emr33678996plg.45.1654699618156;
+        Wed, 08 Jun 2022 07:46:58 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- bg13-20020a17090b0d8d00b001e08461ceaesm16709701pjb.37.2022.06.08.07.46.52
+ bg13-20020a17090b0d8d00b001e08461ceaesm16709701pjb.37.2022.06.08.07.46.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jun 2022 07:46:52 -0700 (PDT)
+        Wed, 08 Jun 2022 07:46:57 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/14] Patch review
-Date: Wed,  8 Jun 2022 04:46:24 -1000
-Message-Id: <cover.1654699348.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/14] Revert "openssl: Backport fix for ptest cert
+ expiry"
+Date: Wed,  8 Jun 2022 04:46:25 -1000
+Message-Id: 
+ <68c97aa9e0da2799fa58de945a59b6768a5a7235.1654699348.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1654699348.git.steve@sakoman.com>
+References: <cover.1654699348.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Jun 2022 14:46:59 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Jun 2022 14:47:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166735
+ https://lists.openembedded.org/g/openembedded-core/message/166736
 
-Please review this set of patches for dunfell and have comments back by
-end of day Friday.
+Version 1.1.1 requires additional changes
 
-Passed a-full on autobuilder:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3760
-
-The following changes since commit 4051d1a3aa5f70da96c381f9dea5f52cd9306939:
-
-  openssl: Backport fix for ptest cert expiry (2022-06-07 11:33:46 +0100)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Bruce Ashfield (1):
-  linux-yocto/5.4: update to v5.4.196
-
-Hitendra Prajapati (2):
-  e2fsprogs: CVE-2022-1304 out-of-bounds read/write via crafted
-    filesystem
-  pcre2: CVE-2022-1587 Out-of-bounds read
-
-Marta Rybczynska (4):
-  cve-check: move update_symlinks to a library
-  cve-check: write empty fragment files in the text mode
-  cve-check: add coverage statistics on recipes with/without CVEs
-  cve-update-db-native: make it possible to disable database updates
-
-Richard Purdie (1):
-  libxslt: Mark CVE-2022-29824 as not applying
-
-Robert Joslyn (2):
-  curl: Backport CVE fixes
-  curl: Fix CVE_CHECK_WHITELIST typo
-
-Steve Sakoman (3):
-  Revert "openssl: Backport fix for ptest cert expiry"
-  openssl: backport fix for ptest certificate expiration
-  openssl: update the epoch time for ct_test ptest
-
-omkar patil (1):
-  libxslt: Fix CVE-2021-30560
-
- meta/classes/cve-check.bbclass                |  86 ++-
- meta/lib/oe/cve_check.py                      |  10 +
- ...5d82489b3ec09ccc772dfcee14fef0e8e908.patch | 192 +++++
- ...ea88c3888cc5cb3ebc94ffcef706c68bc1d2.patch |  55 --
- ...611887cfac633aacc052b2e71a7f195418b8.patch |  29 +
- .../openssl/openssl_1.1.1o.bb                 |   3 +-
- .../recipes-core/meta/cve-update-db-native.bb |   6 +-
- .../e2fsprogs/e2fsprogs/CVE-2022-1304.patch   |  42 ++
- .../e2fsprogs/e2fsprogs_1.45.7.bb             |   1 +
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
- .../curl/curl/CVE-2022-27774-1.patch          |  45 ++
- .../curl/curl/CVE-2022-27774-2.patch          |  80 +++
- .../curl/curl/CVE-2022-27774-3.patch          |  83 +++
- .../curl/curl/CVE-2022-27774-4.patch          |  35 +
- .../curl/curl/CVE-2022-27781.patch            |  46 ++
- .../curl/curl/CVE-2022-27782-1.patch          | 363 ++++++++++
- .../curl/curl/CVE-2022-27782-2.patch          |  71 ++
- meta/recipes-support/curl/curl_7.69.1.bb      |   9 +-
- .../libpcre/libpcre2/CVE-2022-1587.patch      | 660 ++++++++++++++++++
- .../recipes-support/libpcre/libpcre2_10.34.bb |   1 +
- .../libxslt/libxslt/CVE-2021-30560.patch      | 201 ++++++
- .../recipes-support/libxslt/libxslt_1.1.34.bb |   5 +
- 24 files changed, 1949 insertions(+), 110 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/73db5d82489b3ec09ccc772dfcee14fef0e8e908.patch
+This reverts commit 4051d1a3aa5f70da96c381f9dea5f52cd9306939.
+---
+ ...ea88c3888cc5cb3ebc94ffcef706c68bc1d2.patch | 55 -------------------
+ .../openssl/openssl_1.1.1o.bb                 |  1 -
+ 2 files changed, 56 deletions(-)
  delete mode 100644 meta/recipes-connectivity/openssl/openssl/770aea88c3888cc5cb3ebc94ffcef706c68bc1d2.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/b7ce611887cfac633aacc052b2e71a7f195418b8.patch
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2022-1304.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27774-1.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27774-2.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27774-3.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27774-4.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27781.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27782-1.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-27782-2.patch
- create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2022-1587.patch
- create mode 100644 meta/recipes-support/libxslt/libxslt/CVE-2021-30560.patch
 
+diff --git a/meta/recipes-connectivity/openssl/openssl/770aea88c3888cc5cb3ebc94ffcef706c68bc1d2.patch b/meta/recipes-connectivity/openssl/openssl/770aea88c3888cc5cb3ebc94ffcef706c68bc1d2.patch
+deleted file mode 100644
+index 0249d4181b..0000000000
+--- a/meta/recipes-connectivity/openssl/openssl/770aea88c3888cc5cb3ebc94ffcef706c68bc1d2.patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-From 770aea88c3888cc5cb3ebc94ffcef706c68bc1d2 Mon Sep 17 00:00:00 2001
+-From: Tomas Mraz <tomas@openssl.org>
+-Date: Wed, 1 Jun 2022 12:06:33 +0200
+-Subject: [PATCH] Update expired SCT issuer certificate
+-
+-Fixes #15179
+-
+-Reviewed-by: Matt Caswell <matt@openssl.org>
+-Reviewed-by: Dmitry Belyavskiy <beldmit@gmail.com>
+-(Merged from https://github.com/openssl/openssl/pull/18444)
+-
+-Upstream-Status: Backport
+-[Fixes ptest failures in OE-Core]
+----
+- test/certs/embeddedSCTs1_issuer.pem | 30 ++++++++++++++---------------
+- 1 file changed, 15 insertions(+), 15 deletions(-)
+-
+-diff --git a/test/certs/embeddedSCTs1_issuer.pem b/test/certs/embeddedSCTs1_issuer.pem
+-index 1fa449d5a098..6aa9455f09ed 100644
+---- a/test/certs/embeddedSCTs1_issuer.pem
+-+++ b/test/certs/embeddedSCTs1_issuer.pem
+-@@ -1,18 +1,18 @@
+- -----BEGIN CERTIFICATE-----
+--MIIC0DCCAjmgAwIBAgIBADANBgkqhkiG9w0BAQUFADBVMQswCQYDVQQGEwJHQjEk
+-+MIIC0jCCAjugAwIBAgIBADANBgkqhkiG9w0BAQsFADBVMQswCQYDVQQGEwJHQjEk
+- MCIGA1UEChMbQ2VydGlmaWNhdGUgVHJhbnNwYXJlbmN5IENBMQ4wDAYDVQQIEwVX
+--YWxlczEQMA4GA1UEBxMHRXJ3IFdlbjAeFw0xMjA2MDEwMDAwMDBaFw0yMjA2MDEw
+--MDAwMDBaMFUxCzAJBgNVBAYTAkdCMSQwIgYDVQQKExtDZXJ0aWZpY2F0ZSBUcmFu
+--c3BhcmVuY3kgQ0ExDjAMBgNVBAgTBVdhbGVzMRAwDgYDVQQHEwdFcncgV2VuMIGf
+--MA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDVimhTYhCicRmTbneDIRgcKkATxtB7
+--jHbrkVfT0PtLO1FuzsvRyY2RxS90P6tjXVUJnNE6uvMa5UFEJFGnTHgW8iQ8+EjP
+--KDHM5nugSlojgZ88ujfmJNnDvbKZuDnd/iYx0ss6hPx7srXFL8/BT/9Ab1zURmnL
+--svfP34b7arnRsQIDAQABo4GvMIGsMB0GA1UdDgQWBBRfnYgNyHPmVNT4DdjmsMEk
+--tEfDVTB9BgNVHSMEdjB0gBRfnYgNyHPmVNT4DdjmsMEktEfDVaFZpFcwVTELMAkG
+--A1UEBhMCR0IxJDAiBgNVBAoTG0NlcnRpZmljYXRlIFRyYW5zcGFyZW5jeSBDQTEO
+--MAwGA1UECBMFV2FsZXMxEDAOBgNVBAcTB0VydyBXZW6CAQAwDAYDVR0TBAUwAwEB
+--/zANBgkqhkiG9w0BAQUFAAOBgQAGCMxKbWTyIF4UbASydvkrDvqUpdryOvw4BmBt
+--OZDQoeojPUApV2lGOwRmYef6HReZFSCa6i4Kd1F2QRIn18ADB8dHDmFYT9czQiRy
+--f1HWkLxHqd81TbD26yWVXeGJPE3VICskovPkQNJ0tU4b03YmnKliibduyqQQkOFP
+--OwqULg==
+-+YWxlczEQMA4GA1UEBxMHRXJ3IFdlbjAgFw0yMjA2MDExMDM4MDJaGA8yMTIyMDUw
+-+ODEwMzgwMlowVTELMAkGA1UEBhMCR0IxJDAiBgNVBAoTG0NlcnRpZmljYXRlIFRy
+-+YW5zcGFyZW5jeSBDQTEOMAwGA1UECBMFV2FsZXMxEDAOBgNVBAcTB0VydyBXZW4w
+-+gZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBANWKaFNiEKJxGZNud4MhGBwqQBPG
+-+0HuMduuRV9PQ+0s7UW7Oy9HJjZHFL3Q/q2NdVQmc0Tq68xrlQUQkUadMeBbyJDz4
+-+SM8oMczme6BKWiOBnzy6N+Yk2cO9spm4Od3+JjHSyzqE/HuytcUvz8FP/0BvXNRG
+-+acuy98/fhvtqudGxAgMBAAGjga8wgawwHQYDVR0OBBYEFF+diA3Ic+ZU1PgN2Oaw
+-+wSS0R8NVMH0GA1UdIwR2MHSAFF+diA3Ic+ZU1PgN2OawwSS0R8NVoVmkVzBVMQsw
+-+CQYDVQQGEwJHQjEkMCIGA1UEChMbQ2VydGlmaWNhdGUgVHJhbnNwYXJlbmN5IENB
+-+MQ4wDAYDVQQIEwVXYWxlczEQMA4GA1UEBxMHRXJ3IFdlboIBADAMBgNVHRMEBTAD
+-+AQH/MA0GCSqGSIb3DQEBCwUAA4GBAD0aYh9OkFYfXV7kBfhrtD0PJG2U47OV/1qq
+-++uFpqB0S1WO06eJT0pzYf1ebUcxjBkajbJZm/FHT85VthZ1lFHsky87aFD8XlJCo
+-+2IOhKOkvvWKPUdFLoO/ZVXqEVKkcsS1eXK1glFvb07eJZya3JVG0KdMhV2YoDg6c
+-+Doud4XrO
+- -----END CERTIFICATE-----
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1o.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1o.bb
+index b3dceb659b..c9cfc759c9 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1o.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1o.bb
+@@ -18,7 +18,6 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://afalg.patch \
+            file://reproducible.patch \
+            file://reproducibility.patch \
+-           file://770aea88c3888cc5cb3ebc94ffcef706c68bc1d2.patch \
+            "
+ 
+ SRC_URI_append_class-nativesdk = " \
 -- 
 2.25.1
 
