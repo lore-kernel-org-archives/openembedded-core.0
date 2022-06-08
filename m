@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FB10CCA494
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 525F2CCA488
 	for <webhook@archiver.kernel.org>; Wed,  8 Jun 2022 14:47:29 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web12.7381.1654699648789379991
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web10.7349.1654699642777087844
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jun 2022 07:47:28 -0700
+ Wed, 08 Jun 2022 07:47:22 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=SckR3U9r;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49,
+ header.b=vvlS7g6u;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id a10so18781230pju.3
+Received: by mail-pl1-f180.google.com with SMTP id u18so17847679plb.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jun 2022 07:47:28 -0700 (PDT)
+ Wed, 08 Jun 2022 07:47:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=Rwp8nfudl04hX2UK9Zsn5hTcgV+9qkDe6MeF+pArDao=;
-        b=SckR3U9rZ2WmG8lka4Hc5FgUD68gf36Pkd6frXMXD6mV0Bf7ktR+CmLDhLO/roQwWO
-         FDKnZZCCKEvHpn7aVf0kyHQY6e8n9CbHdc8SHX2keppOisozXWngrFqsNiNSlK7uNRqd
-         FsiFhj3zmobADAJabUqVBzE0oaBSefEgc+Nc4NqPehe5AAK9yKsG+9+Ip5zYfMlB+fk+
-         SnaArHbqNY90UPOpocrX56LKjFmmro+wAY3oo2e+RafCgn3PM+nmKOUIy7T4n9kdHToH
-         yE/umY3gVHZxpo93tsvH3jegDGGgppGdI353u8Fpwkiy1N1G6J+jFAQ6OI0Fr13SIE2x
-         uqmw==
+        bh=9mKgTL4yjdggRrEpTBxop92doshNHE1p9HjJLDjCdRo=;
+        b=vvlS7g6ubpwumaXfFIB7lhqgQJeXZNSfeCmm4WaanelnVYaTcWS0puxldecS9ZzMY9
+         XgbNNq2Xy5CIvuzaZ+XMrGZ4qDEDsnKHLKOBOElp5UzrOGqJryEocljvxy1LSNJBt1Km
+         404rz4J2gXJGHlQVpwJmTi69hQLYWoDt8cOyzLZVoTxVEV0VBTkrwsSv3iHPO/vqUoIa
+         f9csKKm5rjEOC9jVGeUfjSXp7plvtMCVDrfwqFiLsAZtH/HeUrj9TQw+JItOyqFlweaq
+         6lFSQXIVC6Ar+J/7v+vhIcnjqM67w0PnE21ddYe3OtlgPThoBAu5jOZ+NgqPb4JJ7gb7
+         jxsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Rwp8nfudl04hX2UK9Zsn5hTcgV+9qkDe6MeF+pArDao=;
-        b=mWpgjIjb0tzASM200JwOF9SyxppXZaPnH0Ykmm7gBydAYyWxWMwD6ljm2s4BHpSBMk
-         kSo6WyNoJHAqB2sPDY08tb2RixtyDKo9PohoRv+i2ErQRvikkF0NiR4u3f+Ny4HLuuI+
-         YQmExg8aGeYVw5Nn34GBZopJ9W5TzY/XtwJwSBQ/n4BxVEzRBKaVY96OknSDE1RjLwBc
-         1Hy7iD8nccf+gXa98AhQIWqtRgfwaLCHkxuq1PoySbGuJZtNd03yYMbQgzzBMQ+L6OMw
-         r1pBk74KmStUwTgpxuduXHTgwHwPK1iqR9EAmU2pk86cZdzJosxwrwE6lfMdwldZnnof
-         32Dw==
-X-Gm-Message-State: AOAM530TEV8J233n9YQtySPBrr56jmdwDKd2ECdHpZ4nYAtsVP7uslKZ
-	w2C03TMMaullLEXEv/2gIPElL+dddDdfe8OF
+        bh=9mKgTL4yjdggRrEpTBxop92doshNHE1p9HjJLDjCdRo=;
+        b=KyofvSE9hf3140/dgEqJ4BYb6j7F2vBUucEejyQHqoPjgVqJ4FheAP0MIGXtGaG4xE
+         5M66Wrvf7R6Q/0U7abV3qaVLTqZWn2mNWOLBaUo5HhIhVII15FQ0KLpPu8aF+W2zVeqc
+         oWQv0N6g892+ROCj0NcLWccvKcg2topFTdHyXI9HaD3Gs2xP9n40GhLFJaId1VsC1Z2X
+         UhLaS8x1OLQd6Fz8Kt519soWa48OuxluWCSX4RDtMGDwjuVk3CEmyXzD1VTK999K1QhQ
+         Xj+JDGgQPnrksLomhdqcXMQGJZ6ktWIon+pIxzc6zqw6koVm/TmPMQ7yute1MT6U+2Wv
+         DDjA==
+X-Gm-Message-State: AOAM532cF3zqa73g6HP06hKeES/JbqgQoZSxF1CILxYOcfJyrCGujpSk
+	UJIMbpCPaTfdn2vScq6Drt9Jpa2f/4BaeKOb
 X-Google-Smtp-Source: 
- ABdhPJy3V+6rohjmPJ9EFa9Tbt/1tb8LayhTuCZ/lCbjs+sauFQdeqUbhDO1wdMi326cFwsnTt2A/A==
-X-Received: by 2002:a17:90a:2e87:b0:1e8:895c:e543 with SMTP id
- r7-20020a17090a2e8700b001e8895ce543mr15856478pjd.100.1654699647436;
-        Wed, 08 Jun 2022 07:47:27 -0700 (PDT)
+ ABdhPJy6ew32sY69WGtUkWa8fOtKWTwurEy+WbZdmuyBpRHCBCpvryMUwaKNXWiM3/6gLuWRfbFQBA==
+X-Received: by 2002:a17:902:e88e:b0:163:ee82:ffb with SMTP id
+ w14-20020a170902e88e00b00163ee820ffbmr35239302plg.142.1654699641770;
+        Wed, 08 Jun 2022 07:47:21 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- bg13-20020a17090b0d8d00b001e08461ceaesm16709701pjb.37.2022.06.08.07.47.25
+ bg13-20020a17090b0d8d00b001e08461ceaesm16709701pjb.37.2022.06.08.07.47.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jun 2022 07:47:26 -0700 (PDT)
+        Wed, 08 Jun 2022 07:47:21 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 12/14] cve-check: add coverage statistics on
- recipes with/without CVEs
-Date: Wed,  8 Jun 2022 04:46:36 -1000
+Subject: [OE-core][dunfell 10/14] cve-check: move update_symlinks to a library
+Date: Wed,  8 Jun 2022 04:46:34 -1000
 Message-Id: 
- <c63d06becc340270573bdef2630749db1f5230d4.1654699348.git.steve@sakoman.com>
+ <c8a0e7ecee15985f7eed10ce9c86c48a77c5b7c5.1654699348.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1654699348.git.steve@sakoman.com>
 References: <cover.1654699348.git.steve@sakoman.com>
@@ -70,185 +69,78 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Jun 2022 14:47:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166747
+ https://lists.openembedded.org/g/openembedded-core/message/166745
 
 From: Marta Rybczynska <rybczynska@gmail.com>
 
-Until now the CVE checker was giving information about CVEs found for
-a product (or more products) contained in a recipe. However, there was
-no easy way to find out which products or recipes have no CVEs. Having
-no reported CVEs might mean there are simply none, but can also mean
-a product name (CPE) mismatch.
-
-This patch adds CVE_CHECK_COVERAGE option enabling a new type of
-statistics. Then we use the new JSON format to report the information.
-The legacy text mode report does not contain it.
-
-This option is expected to help with an identification of recipes with
-mismatched CPEs, issues in the database and more.
-
-This work is based on [1], but adding the JSON format makes it easier
-to implement, without additional result files.
-
-[1] https://lists.openembedded.org/g/openembedded-core/message/159873
+Move the function to a library, it could be useful in other places.
 
 Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit d1849a1facd64fa0bcf8336a0ed5fbf71b2e3cb5)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit debd37abcdde8788761ebdb4a05bc61f7394cbb8)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/cve-check.bbclass | 48 ++++++++++++++++++++++++++--------
- 1 file changed, 37 insertions(+), 11 deletions(-)
+ meta/classes/cve-check.bbclass | 11 +++--------
+ meta/lib/oe/cve_check.py       | 10 ++++++++++
+ 2 files changed, 13 insertions(+), 8 deletions(-)
 
 diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 48f75456f2..894cebaaa4 100644
+index 0111ec6ba8..2ab1720dc3 100644
 --- a/meta/classes/cve-check.bbclass
 +++ b/meta/classes/cve-check.bbclass
-@@ -56,6 +56,9 @@ CVE_CHECK_FORMAT_TEXT ??= "1"
- # Provide JSON output - disabled by default for backward compatibility
- CVE_CHECK_FORMAT_JSON ??= "0"
+@@ -76,16 +76,10 @@ CVE_CHECK_LAYER_INCLUDELIST ??= ""
+ # set to "alphabetical" for version using single alphabetical character as increment release
+ CVE_VERSION_SUFFIX ??= ""
  
-+# Check for packages without CVEs (no issues or missing product name)
-+CVE_CHECK_COVERAGE ??= "1"
-+
- # Whitelist for packages (PN)
- CVE_CHECK_PN_WHITELIST ?= ""
- 
-@@ -137,10 +140,10 @@ python do_cve_check () {
-             patched_cves = get_patches_cves(d)
-         except FileNotFoundError:
-             bb.fatal("Failure in searching patches")
--        whitelisted, patched, unpatched = check_cves(d, patched_cves)
--        if patched or unpatched:
-+        whitelisted, patched, unpatched, status = check_cves(d, patched_cves)
-+        if patched or unpatched or (d.getVar("CVE_CHECK_COVERAGE") == "1" and status):
-             cve_data = get_cve_info(d, patched + unpatched)
--            cve_write_data(d, patched, unpatched, whitelisted, cve_data)
-+            cve_write_data(d, patched, unpatched, whitelisted, cve_data, status)
-     else:
-         bb.note("No CVE database found, skipping CVE check")
- 
-@@ -312,17 +315,19 @@ def check_cves(d, patched_cves):
-     suffix = d.getVar("CVE_VERSION_SUFFIX")
- 
-     cves_unpatched = []
-+    cves_status = []
-+    cves_in_recipe = False
-     # CVE_PRODUCT can contain more than one product (eg. curl/libcurl)
-     products = d.getVar("CVE_PRODUCT").split()
-     # If this has been unset then we're not scanning for CVEs here (for example, image recipes)
-     if not products:
--        return ([], [], [])
-+        return ([], [], [], [])
-     pv = d.getVar("CVE_VERSION").split("+git")[0]
- 
-     # If the recipe has been whitelisted we return empty lists
-     if pn in d.getVar("CVE_CHECK_PN_WHITELIST").split():
-         bb.note("Recipe has been whitelisted, skipping check")
--        return ([], [], [])
-+        return ([], [], [], [])
- 
-     cve_whitelist = d.getVar("CVE_CHECK_WHITELIST").split()
- 
-@@ -332,6 +337,7 @@ def check_cves(d, patched_cves):
- 
-     # For each of the known product names (e.g. curl has CPEs using curl and libcurl)...
-     for product in products:
-+        cves_in_product = False
-         if ":" in product:
-             vendor, product = product.split(":", 1)
-         else:
-@@ -349,6 +355,11 @@ def check_cves(d, patched_cves):
-             elif cve in patched_cves:
-                 bb.note("%s has been patched" % (cve))
-                 continue
-+            # Write status once only for each product
-+            if not cves_in_product:
-+                cves_status.append([product, True])
-+                cves_in_product = True
-+                cves_in_recipe = True
- 
-             vulnerable = False
-             for row in conn.execute("SELECT * FROM PRODUCTS WHERE ID IS ? AND PRODUCT IS ? AND VENDOR LIKE ?", (cve, product, vendor)):
-@@ -395,9 +406,13 @@ def check_cves(d, patched_cves):
-                 # TODO: not patched but not vulnerable
-                 patched_cves.add(cve)
- 
-+        if not cves_in_product:
-+            bb.note("No CVE records found for product %s, pn %s" % (product, pn))
-+            cves_status.append([product, False])
-+
-     conn.close()
- 
--    return (list(cve_whitelist), list(patched_cves), cves_unpatched)
-+    return (list(cve_whitelist), list(patched_cves), cves_unpatched, cves_status)
- 
- def get_cve_info(d, cves):
-     """
-@@ -428,7 +443,6 @@ def cve_write_data_text(d, patched, unpatched, whitelisted, cve_data):
-     CVE manifest if enabled.
-     """
- 
+-def update_symlinks(target_path, link_path):
+-    if link_path != target_path and os.path.exists(target_path):
+-        if os.path.exists(os.path.realpath(link_path)):
+-            os.remove(link_path)
+-        os.symlink(os.path.basename(target_path), link_path)
 -
-     cve_file = d.getVar("CVE_CHECK_LOG")
-     fdir_name  = d.getVar("FILE_DIRNAME")
-     layer = fdir_name.split("/")[-3]
-@@ -442,6 +456,10 @@ def cve_write_data_text(d, patched, unpatched, whitelisted, cve_data):
-     if include_layers and layer not in include_layers:
-         return
+ def generate_json_report(d, out_path, link_path):
+     if os.path.exists(d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")):
+         import json
+-        from oe.cve_check import cve_check_merge_jsons
++        from oe.cve_check import cve_check_merge_jsons, update_symlinks
  
-+    # Early exit, the text format does not report packages without CVEs
-+    if not patched+unpatched:
-+        return
+         bb.note("Generating JSON CVE summary")
+         index_file = d.getVar("CVE_CHECK_SUMMARY_INDEX_PATH")
+@@ -106,6 +100,7 @@ def generate_json_report(d, out_path, link_path):
+ python cve_save_summary_handler () {
+     import shutil
+     import datetime
++    from oe.cve_check import update_symlinks
+ 
+     cve_tmp_file = d.getVar("CVE_CHECK_TMP_FILE")
+ 
+@@ -174,7 +169,7 @@ python cve_check_write_rootfs_manifest () {
+     import shutil
+     import json
+     from oe.rootfs import image_list_installed_packages
+-    from oe.cve_check import cve_check_merge_jsons
++    from oe.cve_check import cve_check_merge_jsons, update_symlinks
+ 
+     if d.getVar("CVE_CHECK_COPY_FILES") == "1":
+         deploy_file = d.getVar("CVE_CHECK_RECIPE_FILE")
+diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
+index 1d3c775bbe..b17390de90 100644
+--- a/meta/lib/oe/cve_check.py
++++ b/meta/lib/oe/cve_check.py
+@@ -79,3 +79,13 @@ def cve_check_merge_jsons(output, data):
+             return
+ 
+     output["package"].append(data["package"][0])
 +
-     nvd_link = "https://nvd.nist.gov/vuln/detail/"
-     write_string = ""
-     unpatched_cves = []
-@@ -518,7 +536,7 @@ def cve_check_write_json_output(d, output, direct_file, deploy_file, manifest_fi
-         with open(index_path, "a+") as f:
-             f.write("%s\n" % fragment_path)
- 
--def cve_write_data_json(d, patched, unpatched, ignored, cve_data):
-+def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
-     """
-     Prepare CVE data for the JSON format, then write it.
-     """
-@@ -540,11 +558,19 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data):
- 
-     unpatched_cves = []
- 
-+    product_data = []
-+    for s in cve_status:
-+        p = {"product": s[0], "cvesInRecord": "Yes"}
-+        if s[1] == False:
-+            p["cvesInRecord"] = "No"
-+        product_data.append(p)
-+
-     package_version = "%s%s" % (d.getVar("EXTENDPE"), d.getVar("PV"))
-     package_data = {
-         "name" : d.getVar("PN"),
-         "layer" : layer,
--        "version" : package_version
-+        "version" : package_version,
-+        "products": product_data
-     }
-     cve_list = []
- 
-@@ -583,7 +609,7 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data):
- 
-     cve_check_write_json_output(d, output, direct_file, deploy_file, manifest_file)
- 
--def cve_write_data(d, patched, unpatched, ignored, cve_data):
-+def cve_write_data(d, patched, unpatched, ignored, cve_data, status):
-     """
-     Write CVE data in each enabled format.
-     """
-@@ -591,4 +617,4 @@ def cve_write_data(d, patched, unpatched, ignored, cve_data):
-     if d.getVar("CVE_CHECK_FORMAT_TEXT") == "1":
-         cve_write_data_text(d, patched, unpatched, ignored, cve_data)
-     if d.getVar("CVE_CHECK_FORMAT_JSON") == "1":
--        cve_write_data_json(d, patched, unpatched, ignored, cve_data)
-+        cve_write_data_json(d, patched, unpatched, ignored, cve_data, status)
++def update_symlinks(target_path, link_path):
++    """
++    Update a symbolic link link_path to point to target_path.
++    Remove the link and recreate it if exist and is different.
++    """
++    if link_path != target_path and os.path.exists(target_path):
++        if os.path.exists(os.path.realpath(link_path)):
++            os.remove(link_path)
++        os.symlink(os.path.basename(target_path), link_path)
 -- 
 2.25.1
 
