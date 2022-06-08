@@ -1,41 +1,68 @@
-Return-Path: <ptsneves@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <ab765489-b1e6-686a-7465-a1bed8c96392@gmail.com>
-Date: Wed, 15 Jun 2022 13:09:42 +0200
+From: "Steve Sakoman" <steve@sakoman.com>
+Subject: [OE-core][kirkstone 09/22] gtk+3: upgrade 3.24.33 -> 3.24.34
+Date: Wed,  8 Jun 2022 04:39:22 -1000
+Message-Id: <daf12b551c7bb43c5a3245e8d90ab7908b5fecf8.1654698895.git.steve@sakoman.com>
+In-Reply-To: <cover.1654698895.git.steve@sakoman.com>
+References: <cover.1654698895.git.steve@sakoman.com>
 MIME-Version: 1.0
-Subject: Re: [OE-core] [PATCH 1/3] insane.bbclass: Make do_qa_staging check shebangs
-References: <20220606155807.1414519-1-ptsneves@gmail.com>
- <66A02BB7-DFB2-4BB0-819C-E0F18BA82628@arm.com>
- <13D51D5A-188C-45B9-94E6-32B0F1BECC8E@arm.com>
-From: "Paulo Neves" <ptsneves@gmail.com>
-In-Reply-To: <13D51D5A-188C-45B9-94E6-32B0F1BECC8E@arm.com>
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+To: openembedded-core@lists.openembedded.org
 
-:)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-The function should probably be refactored so it does not imply it is 
-only useful for packaging.
+Overview of Changes in GTK+ 3.24.34, 05-18-2022
+===============================================
+* Include legacy hicolor icons
+* Fix the build with gcc 12
+* MacOS:
+ - Restore QUARTZ_RELOCATION support
+* X11:
+ - Trap errors when getting output properties
+* Wayland:
+ - Ignore empty preedit updates This fixes a problem with
+   textview scrolling
+* Translation updates
+ Danish
+ Dutch
+ French
+ German
+ Hungarian
+ Italian
+ Kazakh
+ Latvian
+ Lithuanian
+ Norwegian Bokmål
+ Swedish
 
-Paulo Neves
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit a652d392a47aa7c0652aac941fb7d550aea192ae)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-gnome/gtk+/{gtk+3_3.24.33.bb => gtk+3_3.24.34.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/gtk+/{gtk+3_3.24.33.bb => gtk+3_3.24.34.bb} (89%)
 
-On 6/15/22 13:08, Ross Burton wrote:
-> Never mind, can’t read :)
->
->> On 15 Jun 2022, at 12:07, Ross Burton <Ross.Burton@arm.com> wrote:
->>
->>> +            if not skip_shebang_size:
->>> +                errors = {}
->>> +                package_qa_check_shebang_size(path, "", d, None, errors)
->>> +                for e in errors:
->>> +                    oe.qa.handle_error(e, errors[e], d)
->> Where is package_qa_check_shebang_size() defined?
->>
->> Ross
-> IMPORTANT NOTICE: The contents of this email and any attachments are confidential and may also be privileged. If you are not the intended recipient, please notify the sender immediately and do not disclose the contents to any other person, use it for any purpose, or store or copy the information in any medium. Thank you.
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.33.bb b/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb
+similarity index 89%
+rename from meta/recipes-gnome/gtk+/gtk+3_3.24.33.bb
+rename to meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb
+index fb9e29dd8c..f862e143d4 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.24.33.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.34.bb
+@@ -7,7 +7,7 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
+            file://0003-Add-disable-opengl-configure-option.patch \
+            file://link_fribidi.patch \
+            "
+-SRC_URI[sha256sum] = "588b06522e25d1579e989b6f9d8a1bdbf2fe13cde01a04e904ff346a225e7801"
++SRC_URI[sha256sum] = "dbc69f90ddc821b8d1441f00374dc1da4323a2eafa9078e61edbe5eeefa852ec"
+ 
+ S = "${WORKDIR}/gtk+-${PV}"
+ 
+-- 
+2.25.1
 
