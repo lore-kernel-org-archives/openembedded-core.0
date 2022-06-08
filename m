@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CCCFCCA494
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 469B9CCA493
 	for <webhook@archiver.kernel.org>; Wed,  8 Jun 2022 14:47:19 +0000 (UTC)
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
- [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web10.7345.1654699631869222125
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+ [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web10.7344.1654699629448227143
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jun 2022 07:47:11 -0700
+ Wed, 08 Jun 2022 07:47:09 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=w37zaoPW;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.181,
+ header.b=D41EN4z9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f181.google.com with SMTP id h192so12306334pgc.4
+Received: by mail-pf1-f173.google.com with SMTP id x4so9968905pfj.10
         for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jun 2022 07:47:11 -0700 (PDT)
+ Wed, 08 Jun 2022 07:47:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=y9eQOrmckH2oUNRgeODfkGJpeh/vknftrhqQqZ3vBw4=;
-        b=w37zaoPWTElVftTRBt+6TCe+7eG4zoBzQY6elcdmnqvqu/A/zSQVW6X737xIKvxY8O
-         ohRn8ZXUtG7dj/5fgv6fFemykgZsGRV2yzzksBY/L0OjzcmFJLTOXRyloNnP7qANi85c
-         vrmRZTS3D/8jJg5ckoR4kcL+DfxulU/S1xNuZ8xAyyKrZvaCpAaBO1Qarc2NVsNTZWqz
-         3CXdydUE/VH2QJvp3c2x/za0zHJrtLGUTwbTUDVDzD80EAlUR8iAIkRSGcgSoy5GkUuA
-         JxCLFk5PVQ0lRkxphcYmbOoh30uADokFZPDIbcL9rRWBR5psguFB3mOhER2EiOk1Uwn9
-         f3Pw==
+        bh=b4NN8quFasAxmnsTtTHin/sYpsdX0g7tyeYubs/jqn0=;
+        b=D41EN4z9QmHMr0cYkr64L02g+Mdr6xi1vxyj1DgUj3wAayR2RThmfjuGE2EeRmgTHw
+         mDI/aeNKgSJx48cUjHRr9iCCbCYon/NNdk15KrmowyhZi+rdcjhfD0+SXt61/4yF3dq/
+         J5zeyEQUbLZlg13IsH2stq0OPjamwnymVom23/91pwvOPOPZQAFqa1giAypJpyTw8inn
+         AOYLoW3aBYulh4SRLV0mDmlVI2Tl03Crp65SeO2+NaY2LOOtNUkuXD0Wh148xJh1i/O2
+         yR2oJU/JGQ39sjpqh05EG8lUsqsb84odGlDk7CTgpp8yamaB6pPanJ8A6svcPVlCu9UJ
+         6yBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=y9eQOrmckH2oUNRgeODfkGJpeh/vknftrhqQqZ3vBw4=;
-        b=aWHk1YzukJ665yrA6G2kMN8SkHW6kBJUMrRiM8bkoaaM+55MLTrw4G6U4XCTEAENO+
-         OJJvmUbLi6h6f30bfGln+Hb8n0vONf3sOUWpwyIV2KkROT3gacdef1hk6963QCMEpwUj
-         NS3gAHthBLE24dQ0zvw+jppMgXL5zE1oEpcmxiBPg1o6hllF3rHVylsGr55XSVpKxTfg
-         kZzTlQOxySfV1ruoEFEEZNuERivV4vMqWEaayWakFNFLu3cpR+ofb5Ie5IQJWquF8WeN
-         1GzO6uSRbrIzjCfFQMm1u2D1Shjxlnns0NOWyZZufVOzxmcnJMkQFocm2HalGrY86z2L
-         Czlw==
-X-Gm-Message-State: AOAM531LQPW9dKITfJygN5es3eWUgxpTBrzym+krAqTqZN9OcX/VfHvw
-	bQwzUSp4bUJ50g4j7WeCRZRR/PJD2opJPpwk
+        bh=b4NN8quFasAxmnsTtTHin/sYpsdX0g7tyeYubs/jqn0=;
+        b=AS6uZf80c+lcfgZEO8BZ46ZdXQfyEA99Ek+29Q9zG4+/BOTYptwboimGO0ULZO8+Ln
+         ZCBEeH5sLUXwUbG3oZflB1ALKFVNz6NYKkH/QB11Xv32L7W6f/etgvJtcJZDGoQ+tth/
+         mNpiE7u3C9mrYdjwCxRchyTYp0NyU+LVAmyawd71RTf9te4NsYnZkviVk031ZE2wljdl
+         stRZJ0TgO0L/YLvaVbICnNNR43++4uq52QEzvw0CPL8wPhzkZNwKLz1iZtrx0YZkDJeA
+         4Vo9gXpTM5RTHgQ3tWO0q7jGyXqGV81fKQSjnqFFtbQFuD7/ZTCxehx0j7m5GCQ91sJ6
+         KTeg==
+X-Gm-Message-State: AOAM531ng2PeEdtxpg4IbAphp0aTbCtNd8AnjRfjDUngM6fWfI/kqYh3
+	PWvCT30IwYKm1MY2YNlfR2Eo34K6IC2QRSI9
 X-Google-Smtp-Source: 
- ABdhPJzc+enV7MlNeScXD7R43tixHgkoxalKXsKh8F6WPhhgDY4B90uaTrj5FFXMkjK3tzLbu8NdSQ==
-X-Received: by 2002:a63:2a0d:0:b0:3ab:392c:f45c with SMTP id
- q13-20020a632a0d000000b003ab392cf45cmr30575303pgq.575.1654699630729;
-        Wed, 08 Jun 2022 07:47:10 -0700 (PDT)
+ ABdhPJzRy6v4cR1GC2+pSQ01/x8C2Ckz2BgGi5TmRhTmc8kiTqj3wgOnIiq+1wHUQRuPNfAT9Tazmw==
+X-Received: by 2002:aa7:9217:0:b0:518:367d:fa85 with SMTP id
+ 23-20020aa79217000000b00518367dfa85mr101400765pfo.9.1654699628128;
+        Wed, 08 Jun 2022 07:47:08 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- bg13-20020a17090b0d8d00b001e08461ceaesm16709701pjb.37.2022.06.08.07.47.09
+ bg13-20020a17090b0d8d00b001e08461ceaesm16709701pjb.37.2022.06.08.07.47.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jun 2022 07:47:10 -0700 (PDT)
+        Wed, 08 Jun 2022 07:47:07 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 06/14] libxslt: Fix CVE-2021-30560
-Date: Wed,  8 Jun 2022 04:46:30 -1000
+Subject: [OE-core][dunfell 05/14] pcre2: CVE-2022-1587 Out-of-bounds read
+Date: Wed,  8 Jun 2022 04:46:29 -1000
 Message-Id: 
- <3e01aa47b85ebeba26443fc3293c341b5ef72817.1654699348.git.steve@sakoman.com>
+ <46323b9e0f44f58f6aae242ebf5a0101d8c36654.1654699348.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1654699348.git.steve@sakoman.com>
 References: <cover.1654699348.git.steve@sakoman.com>
@@ -69,239 +69,703 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Jun 2022 14:47:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166741
+ https://lists.openembedded.org/g/openembedded-core/message/166740
 
-From: omkar patil <omkar.patil@kpit.com>
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-CVE: CVE-2021-30560
-
-Signed-off-by: omkar patil <omkar.patil@kpit.com>
+Source:  https://github.com/PCRE2Project/pcre2
+MR: 118031
+Type: Security Fix
+Disposition: Backport from https://github.com/PCRE2Project/pcre2/commit/03654e751e7f0700693526b67dfcadda6b42c9d0
+ChangeID: 8fbc562b3e6b6a3674f435f6527a62afc67ef933
+Description:
+	CVE-2022-1587  pcre2: Out-of-bounds read in get_recurse_data_length in pcre2_jit_compile.c.
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libxslt/libxslt/CVE-2021-30560.patch      | 201 ++++++++++++++++++
- .../recipes-support/libxslt/libxslt_1.1.34.bb |   1 +
- 2 files changed, 202 insertions(+)
- create mode 100644 meta/recipes-support/libxslt/libxslt/CVE-2021-30560.patch
+ .../libpcre/libpcre2/CVE-2022-1587.patch      | 660 ++++++++++++++++++
+ .../recipes-support/libpcre/libpcre2_10.34.bb |   1 +
+ 2 files changed, 661 insertions(+)
+ create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2022-1587.patch
 
-diff --git a/meta/recipes-support/libxslt/libxslt/CVE-2021-30560.patch b/meta/recipes-support/libxslt/libxslt/CVE-2021-30560.patch
+diff --git a/meta/recipes-support/libpcre/libpcre2/CVE-2022-1587.patch b/meta/recipes-support/libpcre/libpcre2/CVE-2022-1587.patch
 new file mode 100644
-index 0000000000..614047ea7a
+index 0000000000..70f9f9f079
 --- /dev/null
-+++ b/meta/recipes-support/libxslt/libxslt/CVE-2021-30560.patch
-@@ -0,0 +1,201 @@
-+From 50f9c9cd3b7dfe9b3c8c795247752d1fdcadcac8 Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Sat, 12 Jun 2021 20:02:53 +0200
-+Subject: [PATCH] Fix use-after-free in xsltApplyTemplates
++++ b/meta/recipes-support/libpcre/libpcre2/CVE-2022-1587.patch
+@@ -0,0 +1,660 @@
++From aa5aac0d209e3debf80fc2db924d9401fc50454b Mon Sep 17 00:00:00 2001
++From: Hitendra Prajapati <hprajapati@mvista.com>
++Date: Mon, 23 May 2022 14:11:11 +0530
++Subject: [PATCH] CVE-2022-1587
 +
-+xsltApplyTemplates without a select expression could delete nodes in
-+the source document.
-+
-+1. Text nodes with strippable whitespace
-+
-+Whitespace from input documents is already stripped, so there's no
-+need to strip it again. Under certain circumstances, xsltApplyTemplates
-+could be fooled into deleting text nodes that are still referenced,
-+resulting in a use-after-free.
-+
-+2. The DTD
-+
-+The DTD was only unlinked, but there's no good reason to do this just
-+now. Maybe it was meant as a micro-optimization.
-+
-+3. Unknown nodes
-+
-+Useless and dangerous as well, especially with XInclude nodes.
-+See https://gitlab.gnome.org/GNOME/libxml2/-/issues/268
-+
-+Simply stop trying to uselessly delete nodes when applying a template.
-+This part of the code is probably a leftover from a time where
-+xsltApplyStripSpaces wasn't implemented yet. Also note that
-+xsltApplyTemplates with a select expression never tried to delete
-+nodes.
-+
-+Also stop xsltDefaultProcessOneNode from deleting nodes for the same
-+reasons.
-+
-+This fixes CVE-2021-30560.
-+
-+CVE: CVE-2021-30560
-+Upstream-Status: Backport [https://github.com/GNOME/libxslt/commit/50f9c9cd3b7dfe9b3c8c795247752d1fdcadcac8.patch]
-+Comment: No change in any hunk
-+Signed-off-by: Omkar Patil <Omkar.Patil@kpit.com>
++Upstream-Status: Backport [https://github.com/PCRE2Project/pcre2/commit/03654e751e7f0700693526b67dfcadda6b42c9d0]
++CVE: CVE-2022-1587
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +
 +---
-+ libxslt/transform.c | 119 +++-----------------------------------------
-+ 1 file changed, 7 insertions(+), 112 deletions(-)
++ ChangeLog               |   3 +
++ src/pcre2_jit_compile.c | 290 ++++++++++++++++++++++++++--------------
++ src/pcre2_jit_test.c    |   1 +
++ 3 files changed, 194 insertions(+), 100 deletions(-)
 +
-+diff --git a/libxslt/transform.c b/libxslt/transform.c
-+index 04522154..3aba354f 100644
-+--- a/libxslt/transform.c
-++++ b/libxslt/transform.c
-+@@ -1895,7 +1895,7 @@ static void
-+ xsltDefaultProcessOneNode(xsltTransformContextPtr ctxt, xmlNodePtr node,
-+ 			  xsltStackElemPtr params) {
-+     xmlNodePtr copy;
-+-    xmlNodePtr delete = NULL, cur;
-++    xmlNodePtr cur;
-+     int nbchild = 0, oldSize;
-+     int childno = 0, oldPos;
-+     xsltTemplatePtr template;
-+@@ -1968,54 +1968,13 @@ xsltDefaultProcessOneNode(xsltTransformContextPtr ctxt, xmlNodePtr node,
-+ 	    return;
-+     }
-+     /*
-+-     * Handling of Elements: first pass, cleanup and counting
-++     * Handling of Elements: first pass, counting
-+      */
-+     cur = node->children;
-+     while (cur != NULL) {
-+-	switch (cur->type) {
-+-	    case XML_TEXT_NODE:
-+-	    case XML_CDATA_SECTION_NODE:
-+-	    case XML_DOCUMENT_NODE:
-+-	    case XML_HTML_DOCUMENT_NODE:
-+-	    case XML_ELEMENT_NODE:
-+-	    case XML_PI_NODE:
-+-	    case XML_COMMENT_NODE:
-+-		nbchild++;
-+-		break;
-+-            case XML_DTD_NODE:
-+-		/* Unlink the DTD, it's still reachable using doc->intSubset */
-+-		if (cur->next != NULL)
-+-		    cur->next->prev = cur->prev;
-+-		if (cur->prev != NULL)
-+-		    cur->prev->next = cur->next;
-+-		break;
-+-	    default:
-+-#ifdef WITH_XSLT_DEBUG_PROCESS
-+-		XSLT_TRACE(ctxt,XSLT_TRACE_PROCESS_NODE,xsltGenericDebug(xsltGenericDebugContext,
-+-		 "xsltDefaultProcessOneNode: skipping node type %d\n",
-+-		                 cur->type));
-+-#endif
-+-		delete = cur;
-+-	}
-++	if (IS_XSLT_REAL_NODE(cur))
-++	    nbchild++;
-+ 	cur = cur->next;
-+-	if (delete != NULL) {
-+-#ifdef WITH_XSLT_DEBUG_PROCESS
-+-	    XSLT_TRACE(ctxt,XSLT_TRACE_PROCESS_NODE,xsltGenericDebug(xsltGenericDebugContext,
-+-		 "xsltDefaultProcessOneNode: removing ignorable blank node\n"));
-+-#endif
-+-	    xmlUnlinkNode(delete);
-+-	    xmlFreeNode(delete);
-+-	    delete = NULL;
-+-	}
-+-    }
-+-    if (delete != NULL) {
-+-#ifdef WITH_XSLT_DEBUG_PROCESS
-+-	XSLT_TRACE(ctxt,XSLT_TRACE_PROCESS_NODE,xsltGenericDebug(xsltGenericDebugContext,
-+-	     "xsltDefaultProcessOneNode: removing ignorable blank node\n"));
-+-#endif
-+-	xmlUnlinkNode(delete);
-+-	xmlFreeNode(delete);
-+-	delete = NULL;
-+     }
++diff --git a/ChangeLog b/ChangeLog
++index b5d72dc..de82de9 100644
++--- a/ChangeLog
+++++ b/ChangeLog
++@@ -4,6 +4,9 @@ Change Log for PCRE2
++ 23. Fixed a unicode properrty matching issue in JIT. The character was not
++ fully read in caseless matching.
 + 
-+     /*
-+@@ -4864,7 +4823,7 @@ xsltApplyTemplates(xsltTransformContextPtr ctxt, xmlNodePtr node,
-+     xsltStylePreCompPtr comp = (xsltStylePreCompPtr) castedComp;
+++24. Fixed an issue affecting recursions in JIT caused by duplicated data
+++transfers.
+++
++ 
++ Version 10.34 21-November-2019
++ ------------------------------
++diff --git a/src/pcre2_jit_compile.c b/src/pcre2_jit_compile.c
++index 5d43865..493c96d 100644
++--- a/src/pcre2_jit_compile.c
+++++ b/src/pcre2_jit_compile.c
++@@ -407,6 +407,9 @@ typedef struct compiler_common {
++   /* Locals used by fast fail optimization. */
++   sljit_s32 fast_fail_start_ptr;
++   sljit_s32 fast_fail_end_ptr;
+++  /* Variables used by recursive call generator. */
+++  sljit_s32 recurse_bitset_size;
+++  uint8_t *recurse_bitset;
++ 
++   /* Flipped and lower case tables. */
++   const sljit_u8 *fcc;
++@@ -2109,19 +2112,39 @@ for (i = 0; i < RECURSE_TMP_REG_COUNT; i++)
++ 
++ #undef RECURSE_TMP_REG_COUNT
++ 
+++static BOOL recurse_check_bit(compiler_common *common, sljit_sw bit_index)
+++{
+++uint8_t *byte;
+++uint8_t mask;
+++
+++SLJIT_ASSERT((bit_index & (sizeof(sljit_sw) - 1)) == 0);
+++
+++bit_index >>= SLJIT_WORD_SHIFT;
+++
+++mask = 1 << (bit_index & 0x7);
+++byte = common->recurse_bitset + (bit_index >> 3);
+++
+++if (*byte & mask)
+++  return FALSE;
+++
+++*byte |= mask;
+++return TRUE;
+++}
+++
++ static int get_recurse_data_length(compiler_common *common, PCRE2_SPTR cc, PCRE2_SPTR ccend,
++   BOOL *needs_control_head, BOOL *has_quit, BOOL *has_accept)
++ {
++ int length = 1;
++-int size;
+++int size, offset;
++ PCRE2_SPTR alternative;
++ BOOL quit_found = FALSE;
++ BOOL accept_found = FALSE;
++ BOOL setsom_found = FALSE;
++ BOOL setmark_found = FALSE;
++-BOOL capture_last_found = FALSE;
++ BOOL control_head_found = FALSE;
++ 
+++memset(common->recurse_bitset, 0, common->recurse_bitset_size);
+++
++ #if defined DEBUG_FORCE_CONTROL_HEAD && DEBUG_FORCE_CONTROL_HEAD
++ SLJIT_ASSERT(common->control_head_ptr != 0);
++ control_head_found = TRUE;
++@@ -2144,15 +2167,17 @@ while (cc < ccend)
++       setsom_found = TRUE;
++     if (common->mark_ptr != 0)
++       setmark_found = TRUE;
++-    if (common->capture_last_ptr != 0)
++-      capture_last_found = TRUE;
+++    if (common->capture_last_ptr != 0 && recurse_check_bit(common, common->capture_last_ptr))
+++      length++;
++     cc += 1 + LINK_SIZE;
++     break;
++ 
++     case OP_KET:
++-    if (PRIVATE_DATA(cc) != 0)
+++    offset = PRIVATE_DATA(cc);
+++    if (offset != 0)
++       {
++-      length++;
+++      if (recurse_check_bit(common, offset))
+++        length++;
++       SLJIT_ASSERT(PRIVATE_DATA(cc + 1) != 0);
++       cc += PRIVATE_DATA(cc + 1);
++       }
++@@ -2169,39 +2194,55 @@ while (cc < ccend)
++     case OP_SBRA:
++     case OP_SBRAPOS:
++     case OP_SCOND:
++-    length++;
++     SLJIT_ASSERT(PRIVATE_DATA(cc) != 0);
+++    if (recurse_check_bit(common, PRIVATE_DATA(cc)))
+++      length++;
++     cc += 1 + LINK_SIZE;
++     break;
++ 
++     case OP_CBRA:
++     case OP_SCBRA:
++-    length += 2;
++-    if (common->capture_last_ptr != 0)
++-      capture_last_found = TRUE;
++-    if (common->optimized_cbracket[GET2(cc, 1 + LINK_SIZE)] == 0)
+++    offset = GET2(cc, 1 + LINK_SIZE);
+++    if (recurse_check_bit(common, OVECTOR(offset << 1)))
+++      {
+++      SLJIT_ASSERT(recurse_check_bit(common, OVECTOR((offset << 1) + 1)));
+++      length += 2;
+++      }
+++    if (common->optimized_cbracket[offset] == 0 && recurse_check_bit(common, OVECTOR_PRIV(offset)))
+++      length++;
+++    if (common->capture_last_ptr != 0 && recurse_check_bit(common, common->capture_last_ptr))
++       length++;
++     cc += 1 + LINK_SIZE + IMM2_SIZE;
++     break;
++ 
++     case OP_CBRAPOS:
++     case OP_SCBRAPOS:
++-    length += 2 + 2;
++-    if (common->capture_last_ptr != 0)
++-      capture_last_found = TRUE;
+++    offset = GET2(cc, 1 + LINK_SIZE);
+++    if (recurse_check_bit(common, OVECTOR(offset << 1)))
+++      {
+++      SLJIT_ASSERT(recurse_check_bit(common, OVECTOR((offset << 1) + 1)));
+++      length += 2;
+++      }
+++    if (recurse_check_bit(common, OVECTOR_PRIV(offset)))
+++      length++;
+++    if (recurse_check_bit(common, PRIVATE_DATA(cc)))
+++      length++;
+++    if (common->capture_last_ptr != 0 && recurse_check_bit(common, common->capture_last_ptr))
+++      length++;
++     cc += 1 + LINK_SIZE + IMM2_SIZE;
++     break;
++ 
++     case OP_COND:
++     /* Might be a hidden SCOND. */
++     alternative = cc + GET(cc, 1);
++-    if (*alternative == OP_KETRMAX || *alternative == OP_KETRMIN)
+++    if ((*alternative == OP_KETRMAX || *alternative == OP_KETRMIN) && recurse_check_bit(common, PRIVATE_DATA(cc)))
++       length++;
++     cc += 1 + LINK_SIZE;
++     break;
++ 
++     CASE_ITERATOR_PRIVATE_DATA_1
++-    if (PRIVATE_DATA(cc) != 0)
+++    offset = PRIVATE_DATA(cc);
+++    if (offset != 0 && recurse_check_bit(common, offset))
++       length++;
++     cc += 2;
++ #ifdef SUPPORT_UNICODE
++@@ -2210,8 +2251,12 @@ while (cc < ccend)
++     break;
++ 
++     CASE_ITERATOR_PRIVATE_DATA_2A
++-    if (PRIVATE_DATA(cc) != 0)
+++    offset = PRIVATE_DATA(cc);
+++    if (offset != 0 && recurse_check_bit(common, offset))
+++      {
+++      SLJIT_ASSERT(recurse_check_bit(common, offset + sizeof(sljit_sw)));
++       length += 2;
+++      }
++     cc += 2;
++ #ifdef SUPPORT_UNICODE
++     if (common->utf && HAS_EXTRALEN(cc[-1])) cc += GET_EXTRALEN(cc[-1]);
++@@ -2219,8 +2264,12 @@ while (cc < ccend)
++     break;
++ 
++     CASE_ITERATOR_PRIVATE_DATA_2B
++-    if (PRIVATE_DATA(cc) != 0)
+++    offset = PRIVATE_DATA(cc);
+++    if (offset != 0 && recurse_check_bit(common, offset))
+++      {
+++      SLJIT_ASSERT(recurse_check_bit(common, offset + sizeof(sljit_sw)));
++       length += 2;
+++      }
++     cc += 2 + IMM2_SIZE;
++ #ifdef SUPPORT_UNICODE
++     if (common->utf && HAS_EXTRALEN(cc[-1])) cc += GET_EXTRALEN(cc[-1]);
++@@ -2228,20 +2277,29 @@ while (cc < ccend)
++     break;
++ 
++     CASE_ITERATOR_TYPE_PRIVATE_DATA_1
++-    if (PRIVATE_DATA(cc) != 0)
+++    offset = PRIVATE_DATA(cc);
+++    if (offset != 0 && recurse_check_bit(common, offset))
++       length++;
++     cc += 1;
++     break;
++ 
++     CASE_ITERATOR_TYPE_PRIVATE_DATA_2A
++-    if (PRIVATE_DATA(cc) != 0)
+++    offset = PRIVATE_DATA(cc);
+++    if (offset != 0 && recurse_check_bit(common, offset))
+++      {
+++      SLJIT_ASSERT(recurse_check_bit(common, offset + sizeof(sljit_sw)));
++       length += 2;
+++      }
++     cc += 1;
++     break;
++ 
++     CASE_ITERATOR_TYPE_PRIVATE_DATA_2B
++-    if (PRIVATE_DATA(cc) != 0)
+++    offset = PRIVATE_DATA(cc);
+++    if (offset != 0 && recurse_check_bit(common, offset))
+++      {
+++      SLJIT_ASSERT(recurse_check_bit(common, offset + sizeof(sljit_sw)));
++       length += 2;
+++      }
++     cc += 1 + IMM2_SIZE;
++     break;
++ 
++@@ -2253,7 +2311,9 @@ while (cc < ccend)
++ #else
++     size = 1 + 32 / (int)sizeof(PCRE2_UCHAR);
 + #endif
-+     int i;
-+-    xmlNodePtr cur, delNode = NULL, oldContextNode;
-++    xmlNodePtr cur, oldContextNode;
-+     xmlNodeSetPtr list = NULL, oldList;
-+     xsltStackElemPtr withParams = NULL;
-+     int oldXPProximityPosition, oldXPContextSize;
-+@@ -4998,73 +4957,9 @@ xsltApplyTemplates(xsltTransformContextPtr ctxt, xmlNodePtr node,
-+ 	else
-+ 	    cur = NULL;
-+ 	while (cur != NULL) {
-+-	    switch (cur->type) {
-+-		case XML_TEXT_NODE:
-+-		    if ((IS_BLANK_NODE(cur)) &&
-+-			(cur->parent != NULL) &&
-+-			(cur->parent->type == XML_ELEMENT_NODE) &&
-+-			(ctxt->style->stripSpaces != NULL)) {
-+-			const xmlChar *val;
-+-
-+-			if (cur->parent->ns != NULL) {
-+-			    val = (const xmlChar *)
-+-				  xmlHashLookup2(ctxt->style->stripSpaces,
-+-						 cur->parent->name,
-+-						 cur->parent->ns->href);
-+-			    if (val == NULL) {
-+-				val = (const xmlChar *)
-+-				  xmlHashLookup2(ctxt->style->stripSpaces,
-+-						 BAD_CAST "*",
-+-						 cur->parent->ns->href);
-+-			    }
-+-			} else {
-+-			    val = (const xmlChar *)
-+-				  xmlHashLookup2(ctxt->style->stripSpaces,
-+-						 cur->parent->name, NULL);
-+-			}
-+-			if ((val != NULL) &&
-+-			    (xmlStrEqual(val, (xmlChar *) "strip"))) {
-+-			    delNode = cur;
-+-			    break;
-+-			}
-+-		    }
-+-		    /* Intentional fall-through */
-+-		case XML_ELEMENT_NODE:
-+-		case XML_DOCUMENT_NODE:
-+-		case XML_HTML_DOCUMENT_NODE:
-+-		case XML_CDATA_SECTION_NODE:
-+-		case XML_PI_NODE:
-+-		case XML_COMMENT_NODE:
-+-		    xmlXPathNodeSetAddUnique(list, cur);
-+-		    break;
-+-		case XML_DTD_NODE:
-+-		    /* Unlink the DTD, it's still reachable
-+-		     * using doc->intSubset */
-+-		    if (cur->next != NULL)
-+-			cur->next->prev = cur->prev;
-+-		    if (cur->prev != NULL)
-+-			cur->prev->next = cur->next;
-+-		    break;
-+-		case XML_NAMESPACE_DECL:
-+-		    break;
-+-		default:
-+-#ifdef WITH_XSLT_DEBUG_PROCESS
-+-		    XSLT_TRACE(ctxt,XSLT_TRACE_APPLY_TEMPLATES,xsltGenericDebug(xsltGenericDebugContext,
-+-		     "xsltApplyTemplates: skipping cur type %d\n",
-+-				     cur->type));
-+-#endif
-+-		    delNode = cur;
-+-	    }
-++            if (IS_XSLT_REAL_NODE(cur))
-++		xmlXPathNodeSetAddUnique(list, cur);
-+ 	    cur = cur->next;
-+-	    if (delNode != NULL) {
-+-#ifdef WITH_XSLT_DEBUG_PROCESS
-+-		XSLT_TRACE(ctxt,XSLT_TRACE_APPLY_TEMPLATES,xsltGenericDebug(xsltGenericDebugContext,
-+-		     "xsltApplyTemplates: removing ignorable blank cur\n"));
-+-#endif
-+-		xmlUnlinkNode(delNode);
-+-		xmlFreeNode(delNode);
-+-		delNode = NULL;
-+-	    }
-+ 	}
++-    if (PRIVATE_DATA(cc) != 0)
+++
+++    offset = PRIVATE_DATA(cc);
+++    if (offset != 0 && recurse_check_bit(common, offset))
++       length += get_class_iterator_size(cc + size);
++     cc += size;
++     break;
++@@ -2288,8 +2348,7 @@ while (cc < ccend)
++     case OP_THEN:
++     SLJIT_ASSERT(common->control_head_ptr != 0);
++     quit_found = TRUE;
++-    if (!control_head_found)
++-      control_head_found = TRUE;
+++    control_head_found = TRUE;
++     cc++;
++     break;
++ 
++@@ -2309,8 +2368,6 @@ SLJIT_ASSERT(cc == ccend);
++ 
++ if (control_head_found)
++   length++;
++-if (capture_last_found)
++-  length++;
++ if (quit_found)
++   {
++   if (setsom_found)
++@@ -2343,14 +2400,12 @@ sljit_sw shared_srcw[3];
++ sljit_sw kept_shared_srcw[2];
++ int private_count, shared_count, kept_shared_count;
++ int from_sp, base_reg, offset, i;
++-BOOL setsom_found = FALSE;
++-BOOL setmark_found = FALSE;
++-BOOL capture_last_found = FALSE;
++-BOOL control_head_found = FALSE;
+++
+++memset(common->recurse_bitset, 0, common->recurse_bitset_size);
++ 
++ #if defined DEBUG_FORCE_CONTROL_HEAD && DEBUG_FORCE_CONTROL_HEAD
++ SLJIT_ASSERT(common->control_head_ptr != 0);
++-control_head_found = TRUE;
+++recurse_check_bit(common, common->control_head_ptr);
++ #endif
++ 
++ switch (type)
++@@ -2438,11 +2493,10 @@ while (cc < ccend)
++     {
++     case OP_SET_SOM:
++     SLJIT_ASSERT(common->has_set_som);
++-    if (has_quit && !setsom_found)
+++    if (has_quit && recurse_check_bit(common, OVECTOR(0)))
++       {
++       kept_shared_srcw[0] = OVECTOR(0);
++       kept_shared_count = 1;
++-      setsom_found = TRUE;
++       }
++     cc += 1;
++     break;
++@@ -2450,33 +2504,31 @@ while (cc < ccend)
++     case OP_RECURSE:
++     if (has_quit)
++       {
++-      if (common->has_set_som && !setsom_found)
+++      if (common->has_set_som && recurse_check_bit(common, OVECTOR(0)))
++         {
++         kept_shared_srcw[0] = OVECTOR(0);
++         kept_shared_count = 1;
++-        setsom_found = TRUE;
++         }
++-      if (common->mark_ptr != 0 && !setmark_found)
+++      if (common->mark_ptr != 0 && recurse_check_bit(common, common->mark_ptr))
++         {
++         kept_shared_srcw[kept_shared_count] = common->mark_ptr;
++         kept_shared_count++;
++-        setmark_found = TRUE;
++         }
++       }
++-    if (common->capture_last_ptr != 0 && !capture_last_found)
+++    if (common->capture_last_ptr != 0 && recurse_check_bit(common, common->capture_last_ptr))
++       {
++       shared_srcw[0] = common->capture_last_ptr;
++       shared_count = 1;
++-      capture_last_found = TRUE;
++       }
++     cc += 1 + LINK_SIZE;
++     break;
++ 
++     case OP_KET:
++-    if (PRIVATE_DATA(cc) != 0)
+++    private_srcw[0] = PRIVATE_DATA(cc);
+++    if (private_srcw[0] != 0)
++       {
++-      private_count = 1;
++-      private_srcw[0] = PRIVATE_DATA(cc);
+++      if (recurse_check_bit(common, private_srcw[0]))
+++        private_count = 1;
++       SLJIT_ASSERT(PRIVATE_DATA(cc + 1) != 0);
++       cc += PRIVATE_DATA(cc + 1);
++       }
++@@ -2493,50 +2545,66 @@ while (cc < ccend)
++     case OP_SBRA:
++     case OP_SBRAPOS:
++     case OP_SCOND:
++-    private_count = 1;
++     private_srcw[0] = PRIVATE_DATA(cc);
+++    if (recurse_check_bit(common, private_srcw[0]))
+++      private_count = 1;
++     cc += 1 + LINK_SIZE;
++     break;
++ 
++     case OP_CBRA:
++     case OP_SCBRA:
++-    offset = (GET2(cc, 1 + LINK_SIZE)) << 1;
++-    shared_srcw[0] = OVECTOR(offset);
++-    shared_srcw[1] = OVECTOR(offset + 1);
++-    shared_count = 2;
+++    offset = GET2(cc, 1 + LINK_SIZE);
+++    shared_srcw[0] = OVECTOR(offset << 1);
+++    if (recurse_check_bit(common, shared_srcw[0]))
+++      {
+++      shared_srcw[1] = shared_srcw[0] + sizeof(sljit_sw);
+++      SLJIT_ASSERT(recurse_check_bit(common, shared_srcw[1]));
+++      shared_count = 2;
+++      }
++ 
++-    if (common->capture_last_ptr != 0 && !capture_last_found)
+++    if (common->capture_last_ptr != 0 && recurse_check_bit(common, common->capture_last_ptr))
++       {
++-      shared_srcw[2] = common->capture_last_ptr;
++-      shared_count = 3;
++-      capture_last_found = TRUE;
+++      shared_srcw[shared_count] = common->capture_last_ptr;
+++      shared_count++;
++       }
++ 
++-    if (common->optimized_cbracket[GET2(cc, 1 + LINK_SIZE)] == 0)
+++    if (common->optimized_cbracket[offset] == 0)
++       {
++-      private_count = 1;
++-      private_srcw[0] = OVECTOR_PRIV(GET2(cc, 1 + LINK_SIZE));
+++      private_srcw[0] = OVECTOR_PRIV(offset);
+++      if (recurse_check_bit(common, private_srcw[0]))
+++        private_count = 1;
++       }
+++
++     cc += 1 + LINK_SIZE + IMM2_SIZE;
++     break;
++ 
++     case OP_CBRAPOS:
++     case OP_SCBRAPOS:
++-    offset = (GET2(cc, 1 + LINK_SIZE)) << 1;
++-    shared_srcw[0] = OVECTOR(offset);
++-    shared_srcw[1] = OVECTOR(offset + 1);
++-    shared_count = 2;
+++    offset = GET2(cc, 1 + LINK_SIZE);
+++    shared_srcw[0] = OVECTOR(offset << 1);
+++    if (recurse_check_bit(common, shared_srcw[0]))
+++      {
+++      shared_srcw[1] = shared_srcw[0] + sizeof(sljit_sw);
+++      SLJIT_ASSERT(recurse_check_bit(common, shared_srcw[1]));
+++      shared_count = 2;
+++      }
++ 
++-    if (common->capture_last_ptr != 0 && !capture_last_found)
+++    if (common->capture_last_ptr != 0 && recurse_check_bit(common, common->capture_last_ptr))
++       {
++-      shared_srcw[2] = common->capture_last_ptr;
++-      shared_count = 3;
++-      capture_last_found = TRUE;
+++      shared_srcw[shared_count] = common->capture_last_ptr;
+++      shared_count++;
++       }
++ 
++-    private_count = 2;
++     private_srcw[0] = PRIVATE_DATA(cc);
++-    private_srcw[1] = OVECTOR_PRIV(GET2(cc, 1 + LINK_SIZE));
+++    if (recurse_check_bit(common, private_srcw[0]))
+++      private_count = 1;
+++
+++    offset = OVECTOR_PRIV(offset);
+++    if (recurse_check_bit(common, offset))
+++      {
+++      private_srcw[private_count] = offset;
+++      private_count++;
+++      }
++     cc += 1 + LINK_SIZE + IMM2_SIZE;
++     break;
++ 
++@@ -2545,18 +2613,17 @@ while (cc < ccend)
++     alternative = cc + GET(cc, 1);
++     if (*alternative == OP_KETRMAX || *alternative == OP_KETRMIN)
++       {
++-      private_count = 1;
++       private_srcw[0] = PRIVATE_DATA(cc);
+++      if (recurse_check_bit(common, private_srcw[0]))
+++        private_count = 1;
++       }
++     cc += 1 + LINK_SIZE;
++     break;
++ 
++     CASE_ITERATOR_PRIVATE_DATA_1
++-    if (PRIVATE_DATA(cc))
++-      {
+++    private_srcw[0] = PRIVATE_DATA(cc);
+++    if (private_srcw[0] != 0 && recurse_check_bit(common, private_srcw[0]))
++       private_count = 1;
++-      private_srcw[0] = PRIVATE_DATA(cc);
++-      }
++     cc += 2;
++ #ifdef SUPPORT_UNICODE
++     if (common->utf && HAS_EXTRALEN(cc[-1])) cc += GET_EXTRALEN(cc[-1]);
++@@ -2564,11 +2631,12 @@ while (cc < ccend)
++     break;
++ 
++     CASE_ITERATOR_PRIVATE_DATA_2A
++-    if (PRIVATE_DATA(cc))
+++    private_srcw[0] = PRIVATE_DATA(cc);
+++    if (private_srcw[0] != 0 && recurse_check_bit(common, private_srcw[0]))
++       {
++       private_count = 2;
++-      private_srcw[0] = PRIVATE_DATA(cc);
++-      private_srcw[1] = PRIVATE_DATA(cc) + sizeof(sljit_sw);
+++      private_srcw[1] = private_srcw[0] + sizeof(sljit_sw);
+++      SLJIT_ASSERT(recurse_check_bit(common, private_srcw[1]));
++       }
++     cc += 2;
++ #ifdef SUPPORT_UNICODE
++@@ -2577,11 +2645,12 @@ while (cc < ccend)
++     break;
++ 
++     CASE_ITERATOR_PRIVATE_DATA_2B
++-    if (PRIVATE_DATA(cc))
+++    private_srcw[0] = PRIVATE_DATA(cc);
+++    if (private_srcw[0] != 0 && recurse_check_bit(common, private_srcw[0]))
++       {
++       private_count = 2;
++-      private_srcw[0] = PRIVATE_DATA(cc);
++-      private_srcw[1] = PRIVATE_DATA(cc) + sizeof(sljit_sw);
+++      private_srcw[1] = private_srcw[0] + sizeof(sljit_sw);
+++      SLJIT_ASSERT(recurse_check_bit(common, private_srcw[1]));
++       }
++     cc += 2 + IMM2_SIZE;
++ #ifdef SUPPORT_UNICODE
++@@ -2590,30 +2659,30 @@ while (cc < ccend)
++     break;
++ 
++     CASE_ITERATOR_TYPE_PRIVATE_DATA_1
++-    if (PRIVATE_DATA(cc))
++-      {
+++    private_srcw[0] = PRIVATE_DATA(cc);
+++    if (private_srcw[0] != 0 && recurse_check_bit(common, private_srcw[0]))
++       private_count = 1;
++-      private_srcw[0] = PRIVATE_DATA(cc);
++-      }
++     cc += 1;
++     break;
++ 
++     CASE_ITERATOR_TYPE_PRIVATE_DATA_2A
++-    if (PRIVATE_DATA(cc))
+++    private_srcw[0] = PRIVATE_DATA(cc);
+++    if (private_srcw[0] != 0 && recurse_check_bit(common, private_srcw[0]))
++       {
++       private_count = 2;
++-      private_srcw[0] = PRIVATE_DATA(cc);
++       private_srcw[1] = private_srcw[0] + sizeof(sljit_sw);
+++      SLJIT_ASSERT(recurse_check_bit(common, private_srcw[1]));
++       }
++     cc += 1;
++     break;
++ 
++     CASE_ITERATOR_TYPE_PRIVATE_DATA_2B
++-    if (PRIVATE_DATA(cc))
+++    private_srcw[0] = PRIVATE_DATA(cc);
+++    if (private_srcw[0] != 0 && recurse_check_bit(common, private_srcw[0]))
++       {
++       private_count = 2;
++-      private_srcw[0] = PRIVATE_DATA(cc);
++       private_srcw[1] = private_srcw[0] + sizeof(sljit_sw);
+++      SLJIT_ASSERT(recurse_check_bit(common, private_srcw[1]));
++       }
++     cc += 1 + IMM2_SIZE;
++     break;
++@@ -2630,14 +2699,17 @@ while (cc < ccend)
++       switch(get_class_iterator_size(cc + i))
++         {
++         case 1:
++-        private_count = 1;
++         private_srcw[0] = PRIVATE_DATA(cc);
++         break;
++ 
++         case 2:
++-        private_count = 2;
++         private_srcw[0] = PRIVATE_DATA(cc);
++-        private_srcw[1] = private_srcw[0] + sizeof(sljit_sw);
+++        if (recurse_check_bit(common, private_srcw[0]))
+++          {
+++          private_count = 2;
+++          private_srcw[1] = private_srcw[0] + sizeof(sljit_sw);
+++          SLJIT_ASSERT(recurse_check_bit(common, private_srcw[1]));
+++          }
++         break;
++ 
++         default:
++@@ -2652,28 +2724,25 @@ while (cc < ccend)
++     case OP_PRUNE_ARG:
++     case OP_THEN_ARG:
++     SLJIT_ASSERT(common->mark_ptr != 0);
++-    if (has_quit && !setmark_found)
+++    if (has_quit && recurse_check_bit(common, common->mark_ptr))
++       {
++       kept_shared_srcw[0] = common->mark_ptr;
++       kept_shared_count = 1;
++-      setmark_found = TRUE;
++       }
++-    if (common->control_head_ptr != 0 && !control_head_found)
+++    if (common->control_head_ptr != 0 && recurse_check_bit(common, common->control_head_ptr))
++       {
++       shared_srcw[0] = common->control_head_ptr;
++       shared_count = 1;
++-      control_head_found = TRUE;
++       }
++     cc += 1 + 2 + cc[1];
++     break;
++ 
++     case OP_THEN:
++     SLJIT_ASSERT(common->control_head_ptr != 0);
++-    if (!control_head_found)
+++    if (recurse_check_bit(common, common->control_head_ptr))
++       {
++       shared_srcw[0] = common->control_head_ptr;
++       shared_count = 1;
++-      control_head_found = TRUE;
++       }
++     cc++;
++     break;
++@@ -2681,7 +2750,7 @@ while (cc < ccend)
++     default:
++     cc = next_opcode(common, cc);
++     SLJIT_ASSERT(cc != NULL);
++-    break;
+++    continue;
 +     }
 + 
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.34.bb b/meta/recipes-support/libxslt/libxslt_1.1.34.bb
-index 63cce6fe06..62afec5755 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.34.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.34.bb
-@@ -14,6 +14,7 @@ SECTION = "libs"
- DEPENDS = "libxml2"
++   if (type != recurse_copy_shared_to_global && type != recurse_copy_kept_shared_to_global)
++@@ -13262,7 +13331,7 @@ SLJIT_ASSERT(!(common->req_char_ptr != 0 && common->start_used_ptr != 0));
++ common->cbra_ptr = OVECTOR_START + (re->top_bracket + 1) * 2 * sizeof(sljit_sw);
++ 
++ total_length = ccend - common->start;
++-common->private_data_ptrs = (sljit_s32 *)SLJIT_MALLOC(total_length * (sizeof(sljit_s32) + (common->has_then ? 1 : 0)), allocator_data);
+++common->private_data_ptrs = (sljit_s32*)SLJIT_MALLOC(total_length * (sizeof(sljit_s32) + (common->has_then ? 1 : 0)), allocator_data);
++ if (!common->private_data_ptrs)
++   {
++   SLJIT_FREE(common->optimized_cbracket, allocator_data);
++@@ -13304,6 +13373,7 @@ if (!compiler)
++ common->compiler = compiler;
++ 
++ /* Main pcre_jit_exec entry. */
+++LJIT_ASSERT((private_data_size & (sizeof(sljit_sw) - 1)) == 0);
++ sljit_emit_enter(compiler, 0, SLJIT_ARG1(SW), 5, 5, 0, 0, private_data_size);
++ 
++ /* Register init. */
++@@ -13524,20 +13594,40 @@ common->fast_fail_end_ptr = 0;
++ common->currententry = common->entries;
++ common->local_quit_available = TRUE;
++ quit_label = common->quit_label;
++-while (common->currententry != NULL)
+++if (common->currententry != NULL)
++   {
++-  /* Might add new entries. */
++-  compile_recurse(common);
++-  if (SLJIT_UNLIKELY(sljit_get_compiler_error(compiler)))
+++  /* A free bit for each private data. */
+++  common->recurse_bitset_size = ((private_data_size / (int)sizeof(sljit_sw)) + 7) >> 3;
+++  SLJIT_ASSERT(common->recurse_bitset_size > 0);
+++  common->recurse_bitset = (sljit_u8*)SLJIT_MALLOC(common->recurse_bitset_size, allocator_data);;
+++
+++  if (common->recurse_bitset != NULL)
+++    {
+++    do
+++      {
+++      /* Might add new entries. */
+++      compile_recurse(common);
+++      if (SLJIT_UNLIKELY(sljit_get_compiler_error(compiler)))
+++        break;
+++      flush_stubs(common);
+++      common->currententry = common->currententry->next;
+++      }
+++    while (common->currententry != NULL);
+++
+++    SLJIT_FREE(common->recurse_bitset, allocator_data);
+++    }
+++
+++  if (common->currententry != NULL)
++     {
+++    /* The common->recurse_bitset has been freed. */
+++    SLJIT_ASSERT(sljit_get_compiler_error(compiler) || common->recurse_bitset == NULL);
+++
++     sljit_free_compiler(compiler);
++     SLJIT_FREE(common->optimized_cbracket, allocator_data);
++     SLJIT_FREE(common->private_data_ptrs, allocator_data);
++     PRIV(jit_free_rodata)(common->read_only_data_head, allocator_data);
++     return PCRE2_ERROR_NOMEMORY;
++     }
++-  flush_stubs(common);
++-  common->currententry = common->currententry->next;
++   }
++ common->local_quit_available = FALSE;
++ common->quit_label = quit_label;
++diff --git a/src/pcre2_jit_test.c b/src/pcre2_jit_test.c
++index 9df87fd..2f84834 100644
++--- a/src/pcre2_jit_test.c
+++++ b/src/pcre2_jit_test.c
++@@ -746,6 +746,7 @@ static struct regression_test_case regression_test_cases[] = {
++ 	{ MU, A, 0, 0, "((?(R)a|(?1)){1,3}?)M", "aaaM" },
++ 	{ MU, A, 0, 0, "((.)(?:.|\\2(?1))){0}#(?1)#", "#aabbccdde# #aabbccddee#" },
++ 	{ MU, A, 0, 0, "((.)(?:\\2|\\2{4}b)){0}#(?:(?1))+#", "#aaaab# #aaaaab#" },
+++	{ MU, A, 0, 0 | F_NOMATCH, "(?1)$((.|\\2xx){1,2})", "abc" },
++ 
++ 	/* 16 bit specific tests. */
++ 	{ CM, A, 0, 0 | F_FORCECONV, "\xc3\xa1", "\xc3\x81\xc3\xa1" },
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.34.bb b/meta/recipes-support/libpcre/libpcre2_10.34.bb
+index 213b946a54..254badf6f6 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.34.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.34.bb
+@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=b1588d3bb4cb0e1f5a597d908f8c5b37"
+ SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/pcre2-${PV}.tar.bz2 \
+            file://pcre-cross.patch \
+            file://CVE-2022-1586.patch \
++	    file://CVE-2022-1587.patch \
+ "
  
- SRC_URI = "http://xmlsoft.org/sources/libxslt-${PV}.tar.gz \
-+           file://CVE-2021-30560.patch \
-           "
- 
- SRC_URI[md5sum] = "db8765c8d076f1b6caafd9f2542a304a"
+ SRC_URI[md5sum] = "d280b62ded13f9ccf2fac16ee5286366"
 -- 
 2.25.1
 
