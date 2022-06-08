@@ -1,91 +1,137 @@
-Return-Path: <brgl@bgdev.pl>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 532C8C43334
-	for <webhook@archiver.kernel.org>; Wed,  8 Jun 2022 14:35:39 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web11.7163.1654698933198134179
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46827C43334
+	for <webhook@archiver.kernel.org>; Wed,  8 Jun 2022 14:40:09 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web10.7233.1654699208210141816
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jun 2022 07:35:33 -0700
+ Wed, 08 Jun 2022 07:40:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bgdev-pl.20210112.gappssmtp.com header.s=20210112
- header.b=XwiOt6ss;
- spf=none, err=SPF record not found (domain: bgdev.pl, ip: 209.85.218.42,
- mailfrom: brgl@bgdev.pl)
-Received: by mail-ej1-f42.google.com with SMTP id u12so41890679eja.8
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=g2QFbMSh;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f48.google.com with SMTP id
+ w13-20020a17090a780d00b001e8961b355dso6791891pjk.5
         for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Jun 2022 07:35:32 -0700 (PDT)
+ Wed, 08 Jun 2022 07:40:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=z3jjqZXK7c/1AJSZaXwWkz6SzN46gAoMLvG1cwki15U=;
-        b=XwiOt6ssF8OiSji6lLSTiKnJpxjtsZiSyyFEGMNwyRKZzgXS/+Vi00fvCU5xaAxUlx
-         145sHsJpfvFwpMOYnKMM15N9lGAdSKBdU1NFyL1Ve0JGcSsdfsY2wBoescb5MlpsXvS1
-         dTORORV4H2gJSBPdIwQYxW5ab43rdGC5XAYQvQW6LrjuGXOKcHtfH7DekKtaoWesgS5Z
-         zbZkLGAsmAOVZguN3SOEaRPYF2Ut9MAVHQH/PvPmoPspRsC595MY9Un92k2bwbal4aMz
-         jAqzbX/GeH/X/5l7njC8eSvsMKo6p733vJRN37DBLjq6/TRqlidSX4gdr/fK81DYUcuH
-         geWQ==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=u7NUnP8We+3eYdLOhAzgBKX5kAziLKKHvx4nWuc05nw=;
+        b=g2QFbMShNLOjAgVI3iI06TSuUeHQpuBBNOKoD0pFams9wliJJh5rn4KLvMWc2eN8JZ
+         obgczxR9lUXsoJqdueRu9XrNnfuK2nGjTu3c9lZbU6uxfLtjcIgNwi52TnS5Zks7dRdI
+         tMAuM2pgsqLI5/iOTX5KLn6vM/99Zlym9S6fMPVnXHd3Hcrx8VN8YvJYdg6+SJ27zgCq
+         4VBgOAgcNyYUCpXURc/we5snDPM2ocgZStlwtnRKVPL8++uHB4spVeAD1+9hA02QgJ4O
+         cDcC8nUZGJ2a8g+auv7EJ0d3C5GsjIMbTETWWtiEgl9Mfv+dpuHu45wNDDEofVLmMdN2
+         PvzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=z3jjqZXK7c/1AJSZaXwWkz6SzN46gAoMLvG1cwki15U=;
-        b=Rq55tkEqvPxgTIRT3MBDH6D72+hUoMSdwbiYgDeFyleHwTa+RUCZDTtVH6wo1ySuKU
-         iWfJPBRu/IjJ4aN10BFAx5LCFcCleOuXhweLPnMZir7jWaRuIl5hWDCP1CLf8G6nMlFl
-         5TB1PMbEo7VzTENBbAq8i09YjiNa7VNVDTQ/c3VGx4UXqEcHGucUT6+ThK5BKjaJ0tFI
-         MooISSXwNvDcyAVUVyP/erQa96JeImGeybsGWNIKcpnwdCUL/X3F3y/SF8Qz2HQ4BSrY
-         JAYgvXWuVMPHyE4kHlpDNyBW5Xv2Aa2y6fAb+jlFRxjHqRJA4O2Y+85V3Qt8OJwPqRpc
-         MqOQ==
-X-Gm-Message-State: AOAM533isDb5Kj3RHq2+CQ8dbnbOW7ApS2TC2rofeZiYz0NZCNL1oQb3
-	3afPUngredZoUzBaLVAjbWaMVnhZ9PeC7HclVer3wQ==
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=u7NUnP8We+3eYdLOhAzgBKX5kAziLKKHvx4nWuc05nw=;
+        b=71vzPmUir+TPCAjlVoEtdaAuS1GnqQEa0Qlt3RkJgdDR0kbmu8bTZsyJIkgj/XdAqi
+         N3s36iKV9eVzaz3J+hqMFE67cQ/CiaYU4svKPa8LeE+6btHxsIM439hcNgpIVfTUus0n
+         HLvE/k5K1gdiPqX+fX9dYV7naQ/D7clQTd6cdlXIFY+jqubMKAjmgcBjmrpx5+yW6DmR
+         jQsGp9D9e4ef38ikVq7bM37nl/FHi0pbC1hDTZP+M/dC5jXE5kBytP4LnLCvGlAmchAu
+         v1VJN12p9zZEUeL+IKQAe41JVcaX3o/GpXxHonIrJU0zZwxakTQMeiJIMYo07ua7q7I5
+         ur4Q==
+X-Gm-Message-State: AOAM533zEAuyYSxTaE89u3HC2iF/Eyb9OFABbfAOxoXQAB6BaPAj7XCw
+	/yHZce4AFj4NGjkxTQETzaeNrUoIujTqoqzB
 X-Google-Smtp-Source: 
- ABdhPJzuda21YA/Q2mafR5cd2gstVyTnpdrviuaVDWd5G4DinXpDk86VzCcNMiV1lP/M4zC+1ziSNFRRPqOzziSoDG4=
-X-Received: by 2002:a17:907:92c:b0:710:786a:470f with SMTP id
- au12-20020a170907092c00b00710786a470fmr22721077ejc.736.1654698931100; Wed, 08
- Jun 2022 07:35:31 -0700 (PDT)
+ ABdhPJxIwZq2UII5VrG6iGF7WcTPRiFrwb6uTWoeFEN/OszJWIvVe4MA0RK8xeslrEfIUtLaeMxVWQ==
+X-Received: by 2002:a17:903:2308:b0:167:7030:6847 with SMTP id
+ d8-20020a170903230800b0016770306847mr18666829plh.122.1654699206998;
+        Wed, 08 Jun 2022 07:40:06 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id
+ i4-20020aa787c4000000b0051bc581b62asm12945213pfo.121.2022.06.08.07.40.05
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jun 2022 07:40:06 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 05/22] cups: upgrade 2.4.1 -> 2.4.2
+Date: Wed,  8 Jun 2022 04:39:18 -1000
+Message-Id: 
+ <af7048c4b7daabc237b1b8f2982d67cb1fd88b4c.1654698895.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1654698895.git.steve@sakoman.com>
+References: <cover.1654698895.git.steve@sakoman.com>
 MIME-Version: 1.0
-References: 
- <CAMRc=Meo0zQbMsG_feDcPXwruGkphWEePspjUMOMBD3t+8tiGQ@mail.gmail.com>
- <581f3396-dbef-0360-dd61-fb1ba387d30c@windriver.com>
-In-Reply-To: <581f3396-dbef-0360-dd61-fb1ba387d30c@windriver.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 8 Jun 2022 16:35:20 +0200
-Message-ID: 
- <CAMRc=MewokSYOKHBcGtW88snonNUh-OSu3HZdcYvDYZyf1bUwQ@mail.gmail.com>
-Subject: Re: [OE-core] Rust recipe fails to build project on kirkstone but
- works on dunfell
-To: Randy MacLeod <randy.macleod@windriver.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	"Gowda, Naveen" <naveen.gowda@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Jun 2022 14:35:39 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Jun 2022 14:40:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166710
+ https://lists.openembedded.org/g/openembedded-core/message/166716
 
-On Wed, Jun 8, 2022 at 3:21 AM Randy MacLeod
-<randy.macleod@windriver.com> wrote:
->
+From: wangmy <wangmy@fujitsu.com>
 
-[snip]
+Changelog:
+==========
+- Fixed certificate strings comparison for Local authorization (CVE-2022-26691)
+- The cupsFileOpen function no longer opens files for append in read-write
+  mode (Issue #291)
+- The cupsd daemon removed processing temporary queue (Issue #364)
+- Fixed delay in IPP backend if GNUTLS is used and endpoint doesn't confirm
+  closing the connection (Issue #365)
+- Fixed conditional jump based on uninitialized value in cups/ppd.c (Issue #329)
+- Fixed CSS related issues in CUPS Web UI (Issue #344)
+- Fixed copyright in CUPS Web UI trailer template (Issue #346)
+- mDNS hostname in device uri is not resolved when installaling a permanent
+- IPP Everywhere queue (Issues #340, #343)
+- The lpstat command now reports when the scheduler is not running
+  (Issue #352)
+- Updated the man pages concerning the -h option (Issue #357)
+- Re-added LibreSSL/OpenSSL support (Issue #362)
+- Updated the Solaris smf service file (Issue #368)
+- Fixed a regression in lpoptions option support (Issue #370)
+- The scheduler now regenerates the PPD cache information after changing the
+  "cupsd.conf" file (Issue #371)
+- Updated the scheduler to set "auth-info-required" to "username,password" if a
+  backend reports it needs authentication info but doesn't set a method for
+  authentication (Issue #373)
+- Updated the configure script to look for the OpenSSL library the old way if
+  pkg-config is not available (Issue #375)
+- Fixed the prototype for the httpWriteResponse function (Issue #380)
+- Brought back minimal AIX support (Issue #389)
+  cupsGetResponse did not always set the last error.
+- Fixed a number of old references to the Apple CUPS web page.
+- Restored the default/generic printer icon file for the web interface.
+- Removed old stylesheet classes that are no longer used by the web
+  interface.
 
->
-> Naveen or I will take a look at some point and at least let you know if
-> we can reproduce the error.
-> Can you try using the master branch to use rust_1.60 ?
-> I doubt it will help but it might be easy to check.
->
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 6f4131e73553f47709e19871c23a411275ab3857)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-extended/cups/{cups_2.4.1.bb => cups_2.4.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/cups/{cups_2.4.1.bb => cups_2.4.2.bb} (51%)
 
-Actually, the reason seems to be with outdated packages. I updated my
-recipe to a newer version and hit a bunch of different issues but they
-seem to be in cargo and not in oe-core (for reference:
-https://github.com/rust-lang/cargo/pull/10730).
+diff --git a/meta/recipes-extended/cups/cups_2.4.1.bb b/meta/recipes-extended/cups/cups_2.4.2.bb
+similarity index 51%
+rename from meta/recipes-extended/cups/cups_2.4.1.bb
+rename to meta/recipes-extended/cups/cups_2.4.2.bb
+index 27c88f82c7..f5ca749bac 100644
+--- a/meta/recipes-extended/cups/cups_2.4.1.bb
++++ b/meta/recipes-extended/cups/cups_2.4.2.bb
+@@ -2,4 +2,4 @@ require cups.inc
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+ 
+-SRC_URI[sha256sum] = "c7339f75f8d4f2dec50c673341a45fc06b6885bb6d4366d6bf59a4e6c10ae178"
++SRC_URI[sha256sum] = "f03ccb40b087d1e30940a40e0141dcbba263f39974c20eb9f2521066c9c6c908"
+-- 
+2.25.1
 
-Bart
 
