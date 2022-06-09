@@ -1,425 +1,353 @@
-Return-Path: <davidegarde2000@gmail.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21CFEC43334
-	for <webhook@archiver.kernel.org>; Thu,  9 Jun 2022 07:35:51 +0000 (UTC)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web12.7666.1654760143704857604
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F1DCC433EF
+	for <webhook@archiver.kernel.org>; Thu,  9 Jun 2022 07:44:51 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.7876.1654760681022610154
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jun 2022 00:35:44 -0700
+ Thu, 09 Jun 2022 00:44:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=lo/CtJno;
- spf=pass (domain: gmail.com, ip: 209.85.208.48,
- mailfrom: davidegarde2000@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id 25so29757645edw.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DEa0OIgf;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46,
+ mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id a10so9469444wmj.5
         for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jun 2022 00:35:43 -0700 (PDT)
+ Thu, 09 Jun 2022 00:44:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=fwpaCTwa2DL/8b7bnQKR6G8WxPY91K4P+vI+QiV7CHg=;
-        b=lo/CtJnoBBu2kNwyBkr+AeBbLItANjZiq2gfrpu4DiTI0i0hzgS2a5nSkNITcjkKc3
-         bJY4sblF5sqVDu0CXLIhP10ogAGIaG3aQv90NOcASE30J/+9ZiSNfwkIoc2DImWx+x6+
-         ydbqzim8tb4Xz5+/aRzHP69dMtS5hFN96Fhlcq5fxrJEjuz+sYHUB6QyESLmdLMG4KJV
-         ch1QLG8aptPocKNmWEiKo9YabnS3XT8iU8ma5elMztYzV4E26yFMqd57Rs0raGC+YGP7
-         sqEk/tjAbHXwZyjyH1rnfO+3CbIcAK53LWgrwpoGVIhhsz7xvCPYrT2jZrDpNkTkfuJC
-         K+tQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zVC7CfAZE2/cjGBpd+wFcuwgz1LLsMhOvITj106Vo9I=;
+        b=DEa0OIgf9/+4X0cMP67vYU2RhXcowAKZPz6v37j6tnqLJkMDbNKYaLE6MRJor/lX0b
+         qbIuRTzl/eovc35N4Fbx+KhxPTegyA/PN1tV7lohU7o60E7r7guRtdOvk0y4FO9i40Hf
+         62Mod2Gm2NXdubCo2JmcxhdbN7JKCBJ2LhJ7H4dkPrCnw5eHvXDNy/D6vc7JvJWZ7GdD
+         1hd/SOclkPuQdak/+PaSlPfEiPMWEmeg0raPsKfKvFDoqffSs5wz+Kw/UWbVoOcrnpeq
+         YQlf2xeMmVjFK6gtY0FpAw22sepP7arZ8O2IKXv1h4xd6x/mn7vCQtLH7IiEaVCk97Ij
+         B9Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=fwpaCTwa2DL/8b7bnQKR6G8WxPY91K4P+vI+QiV7CHg=;
-        b=TkQQXb63Bmqba/CnvOysQsvhoAjLsKUMXRTVF8y6/DHvf6ClVp00krL9CNVrpyQ1k1
-         S4fM2OwD+UoM0AG4e0TOt3bE8OgeSQFTOSz8YpAXYXgWcJVlaU29g9oF2BoQE/KADKxA
-         CpNbTdzDMxTNw1ODcATH2iiOfnPD38ihxXop83WbhUzobWWrufcDn5nDkMrxmC9JRTPi
-         jur9rL/UqOnIUI0gYI5pZR4C8EYTuYqjPPIZ2V52wbhaN6gvd+8R89s0OBhGl71MbcUW
-         PtaB1+ZvIkUD7rJwtW6xy/P6s4CrswBv1D10/FNs9Ug64W5gwIbHwSLK5HZC0FmlKZrr
-         xJow==
-X-Gm-Message-State: AOAM531bjWhp3c8/7ASxI9TL5AchHg/vraJhDg+c1WCQt8d3AVCRvJPS
-	2mPR7UjSrGXWPLcD3tWRLcT2UAWm7QHSfA==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zVC7CfAZE2/cjGBpd+wFcuwgz1LLsMhOvITj106Vo9I=;
+        b=JGjJpDMayS/S7KLzkP8itGZHzc3tnKg6Tp+u2gdZj6gR46PF75mhIAa3j6ri+qmg60
+         k0ZoBa9H/yKNsexLb9UAypWhIzMsDSZk4UXbXRbNqDgfMS0a17XYYWN7sNJ7FSqwj/ii
+         ovi9VUqFtw0vdwpeq0JQdoFhYxXdxLH0yKdJ2kGEs5SY5/h262gmjLHZK0qbzgc8Xe7P
+         T72GLwk1loB5NUW2ugLV1oIinjN+7ncjA4bFB8LZQm0p09U0mU0FealAXfUH9zae2J4j
+         wbbci0ESQu/A5N9F+m+962ixim1FzUBvJYqiD0QFq8PXudwUmu4vwO0FeiAAIqnB3W9X
+         I6Sg==
+X-Gm-Message-State: AOAM531WMbzoJNV3FTpVYflSyMEEbtXjQ4bHuVBN9azY+k5XFyflWnMY
+	gYcdG9IPUpyYtFdOMBPU+PsVJx5j0jAraazehuM=
 X-Google-Smtp-Source: 
- ABdhPJynzGyRXEsq1hwQ6waItQPdaQKXq1HbKfy1xGgJWvHx71GQKH1nfaSVcJi20aht6pDD1ZBnpQ==
-X-Received: by 2002:a05:6402:358a:b0:431:20d5:f4ad with SMTP id
- y10-20020a056402358a00b0043120d5f4admr29776868edc.375.1654760141575;
-        Thu, 09 Jun 2022 00:35:41 -0700 (PDT)
-Received: from smtpclient.apple (host-87-12-122-122.business.telecomitalia.it.
- [87.12.122.122])
-        by smtp.gmail.com with ESMTPSA id
- cz20-20020a0564021cb400b0042dd85bd23bsm13816590edb.55.2022.06.09.00.35.40
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 09 Jun 2022 00:35:40 -0700 (PDT)
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_AA69E845-0FD0-4A5A-8C27-5623A440AF21";
-	protocol="application/pkcs7-signature";
-	micalg=sha-256
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.100.31\))
-Subject: Re: [master][kirkstone][PATCH] efivar: add musl libc compatibility
-From: Davide Gardenal <davidegarde2000@gmail.com>
-In-Reply-To: <20220524080400.293037-1-davide.gardenal@huawei.com>
-Date: Thu, 9 Jun 2022 09:35:39 +0200
-Cc: Davide Gardenal <davide.gardenal@huawei.com>,
- Steve Sakoman <steve@sakoman.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <9BCBF4D7-5669-4BFF-B5BB-4F24139D1C40@gmail.com>
-References: <20220524080400.293037-1-davide.gardenal@huawei.com>
-To: openembedded-core@lists.openembedded.org
-X-Mailer: Apple Mail (2.3696.100.31)
+ ABdhPJy75IDGj8QHYn47yTGeJE/ui/8sWFQzf4Rpm6mgf83NRoGO3DDVuKDEGuVWcR6ACH7vy48QXo1Q61odUuuCKbE=
+X-Received: by 2002:a7b:c057:0:b0:39c:4579:42e1 with SMTP id
+ u23-20020a7bc057000000b0039c457942e1mr1953388wmc.102.1654760679417; Thu, 09
+ Jun 2022 00:44:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220606120126.3381438-1-alex@linutronix.de>
+ <20220606120126.3381438-17-alex@linutronix.de>
+In-Reply-To: <20220606120126.3381438-17-alex@linutronix.de>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 9 Jun 2022 09:44:28 +0200
+Message-ID: 
+ <CA+chaQehacw0h3EOX4Onqce3uuxFFa8WY6srzh8cUfom65cMRQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 17/21] ltp: upgrade 20220121 -> 20220527
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: multipart/alternative; boundary="0000000000007c2a3e05e0fefedd"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Jun 2022 07:35:51 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Jun 2022 07:44:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166760
+ https://lists.openembedded.org/g/openembedded-core/message/166761
 
+--0000000000007c2a3e05e0fefedd
+Content-Type: text/plain; charset="UTF-8"
 
---Apple-Mail=_AA69E845-0FD0-4A5A-8C27-5623A440AF21
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+This seems to be causing:
+http://errors.yoctoproject.org/Errors/Details/657959/
+when ld-is-gold is used.
 
-Greetings,
+Added in upstream commit:
+  commit 3fce2064b54843218d085aae326c8f7ecf3a8c41
+  Author: Martin Doucha <mdoucha@suse.cz>
+  Date:   Thu Apr 21 14:33:50 2022 +0200
 
-I=E2=80=99m here to flag that this patch has not yet landed to =
-kirkstone-nut, is there any reason why?
+    KVM test infrastructure
 
-Davide
+https://github.com/linux-test-project/ltp/commit/3fce2064b54843218d085aae326c8f7ecf3a8c41#diff-39268f0855c634ca48c8993fcd2c95b12a65b79e8d9fa5ccd6b0f5a8785c0dd6R36
 
-> Il giorno 24 mag 2022, alle ore 10:04, Davide Gardenal =
-<davidegarde2000@gmail.com> ha scritto:
->=20
-> Backport patch to get efivar working with musl.
->=20
-> Upstream issue:
-> https://github.com/rhboot/efivar/issues/202
->=20
-> After commit meta-oe/1582f81805ee3114bc1a44bd5cf52d21f96702ca
-> fwupd gives an error when trying to build with musl because
-> efivar is not compatible. This fixes the issue.
->=20
-> Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
+On Mon, Jun 6, 2022 at 2:02 PM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
+
+> Disable stack protection as newly added kvm tests won't build with it.
+>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 > ---
-> .../efisecdb-fix-build-with-musl-libc.patch   | 184 ++++++++++++++++++
-> meta/recipes-bsp/efivar/efivar_38.bb          |   3 +-
-> 2 files changed, 185 insertions(+), 2 deletions(-)
-> create mode 100644 =
-meta/recipes-bsp/efivar/efivar/efisecdb-fix-build-with-musl-libc.patch
->=20
-> diff --git =
-a/meta/recipes-bsp/efivar/efivar/efisecdb-fix-build-with-musl-libc.patch =
-b/meta/recipes-bsp/efivar/efivar/efisecdb-fix-build-with-musl-libc.patch
-> new file mode 100644
-> index 0000000000..ec5b285a06
-> --- /dev/null
-> +++ =
-b/meta/recipes-bsp/efivar/efivar/efisecdb-fix-build-with-musl-libc.patch
-> @@ -0,0 +1,184 @@
-> +=46rom cece3ffd5be2f8641eb694513f2b73e5eb97ffd3 Mon Sep 17 00:00:00 =
-2001
-> +From: Natanael Copa <ncopa@alpinelinux.org>
-> +Date: Fri, 28 Jan 2022 12:13:30 +0100
-> +Subject: [PATCH] efisecdb: fix build with musl libc
-> +
-> +Refactor code to use POSIX atexit(3) instead of the GNU specific
-> +on_exit(3).
-> +
-> +Resolves: #197
-> +Resolves: #202
-> +Signed-off-by: Natanael Copa <ncopa@alpinelinux.org>
-> +
-> +Upstream-Status: Backport
-> =
-+https://github.com/rhboot/efivar/commit/cece3ffd5be2f8641eb694513f2b73e5e=
-b97ffd3
-> +
-> +Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
-> +---
-> + src/compiler.h |  2 --
-> + src/efisecdb.c | 68 =
-+++++++++++++++++++-------------------------------
-> + 2 files changed, 26 insertions(+), 44 deletions(-)
-> +
-> +diff --git a/src/compiler.h b/src/compiler.h
-> +index e2f18f0b..d95fb014 100644
-> +--- a/src/compiler.h
-> ++++ b/src/compiler.h
-> +@@ -7,8 +7,6 @@
-> + #ifndef COMPILER_H_
-> + #define COMPILER_H_
-> +=20
-> +-#include <sys/cdefs.h>
-> +-
-> + /* GCC version checking borrowed from glibc. */
-> + #if defined(__GNUC__) && defined(__GNUC_MINOR__)
-> + #  define GNUC_PREREQ(maj,min) \
-> +diff --git a/src/efisecdb.c b/src/efisecdb.c
-> +index f8823737..6bd5ad90 100644
-> +--- a/src/efisecdb.c
-> ++++ b/src/efisecdb.c
-> +@@ -25,6 +25,10 @@
-> + extern char *optarg;
-> + extern int optind, opterr, optopt;
-> +=20
-> ++static efi_secdb_t *secdb =3D NULL;
-> ++static list_t infiles;
-> ++static list_t actions;
-> ++
-> + struct hash_param {
-> + 	char *name;
-> + 	efi_secdb_type_t algorithm;
-> +@@ -187,12 +191,11 @@ add_action(list_t *list, action_type_t =
-action_type, const efi_guid_t *owner,
-> + }
-> +=20
-> + static void
-> +-free_actions(int status UNUSED, void *actionsp)
-> ++free_actions(void)
-> + {
-> +-	list_t *actions =3D (list_t *)actionsp;
-> + 	list_t *pos, *tmp;
-> +=20
-> +-	for_each_action_safe(pos, tmp, actions) {
-> ++	for_each_action_safe(pos, tmp, &actions) {
-> + 		action_t *action =3D list_entry(pos, action_t, list);
-> +=20
-> + 		list_del(&action->list);
-> +@@ -202,12 +205,11 @@ free_actions(int status UNUSED, void *actionsp)
-> + }
-> +=20
-> + static void
-> +-free_infiles(int status UNUSED, void *infilesp)
-> ++free_infiles(void)
-> + {
-> +-	list_t *infiles =3D (list_t *)infilesp;
-> + 	list_t *pos, *tmp;
-> +=20
-> +-	for_each_ptr_safe(pos, tmp, infiles) {
-> ++	for_each_ptr_safe(pos, tmp, &infiles) {
-> + 		ptrlist_t *entry =3D list_entry(pos, ptrlist_t, list);
-> +=20
-> + 		list_del(&entry->list);
-> +@@ -216,27 +218,12 @@ free_infiles(int status UNUSED, void *infilesp)
-> + }
-> +=20
-> + static void
-> +-maybe_free_secdb(int status UNUSED, void *voidp)
-> ++maybe_free_secdb(void)
-> + {
-> +-	efi_secdb_t **secdbp =3D (efi_secdb_t **)voidp;
-> +-
-> +-	if (secdbp =3D=3D NULL || *secdbp =3D=3D NULL)
-> ++	if (secdb =3D=3D NULL)
-> + 		return;
-> +=20
-> +-	efi_secdb_free(*secdbp);
-> +-}
-> +-
-> +-static void
-> +-maybe_do_unlink(int status, void *filep)
-> +-{
-> +-	char **file =3D (char **)filep;
-> +-
-> +-	if (status =3D=3D 0)
-> +-		return;
-> +-	if (file =3D=3D NULL || *file =3D=3D NULL)
-> +-		return;
-> +-
-> +-	unlink(*file);
-> ++	efi_secdb_free(secdb);
-> + }
-> +=20
-> + static void
-> +@@ -323,15 +310,6 @@ parse_input_files(list_t *infiles, char =
-**outfile, efi_secdb_t **secdb,
-> + 	return status;
-> + }
-> +=20
-> +-/*
-> +- * These need to be static globals so that they're not on main's =
-stack when
-> +- * on_exit() fires.
-> +- */
-> +-static efi_secdb_t *secdb =3D NULL;
-> +-static list_t infiles;
-> +-static list_t actions;
-> +-static char *outfile =3D NULL;
-> +-
-> + int
-> + main(int argc, char *argv[])
-> + {
-> +@@ -351,6 +329,7 @@ main(int argc, char *argv[])
-> + 	bool do_sort_data =3D false;
-> + 	bool sort_descending =3D false;
-> + 	int status =3D 0;
-> ++	char *outfile =3D NULL;
-> +=20
-> + 	const char sopts[] =3D ":aAc:dfg:h:i:Lo:rs:t:v?";
-> + 	const struct option lopts[] =3D {
-> +@@ -376,10 +355,9 @@ main(int argc, char *argv[])
-> + 	INIT_LIST_HEAD(&infiles);
-> + 	INIT_LIST_HEAD(&actions);
-> +=20
-> +-	on_exit(free_actions, &actions);
-> +-	on_exit(free_infiles, &infiles);
-> +-	on_exit(maybe_free_secdb, &secdb);
-> +-	on_exit(maybe_do_unlink, &outfile);
-> ++	atexit(free_actions);
-> ++	atexit(free_infiles);
-> ++	atexit(maybe_free_secdb);
-> +=20
-> + 	/*
-> + 	 * parse the command line.
-> +@@ -587,24 +565,30 @@ main(int argc, char *argv[])
-> + 	outfd =3D open(outfile, flags, 0600);
-> + 	if (outfd < 0) {
-> + 		char *tmpoutfile =3D outfile;
-> +-		if (errno =3D=3D EEXIST)
-> +-			outfile =3D NULL;
-> ++		if (errno !=3D EEXIST)
-> ++			unlink(outfile);
-> + 		err(1, "could not open \"%s\"", tmpoutfile);
-> + 	}
-> +=20
-> + 	rc =3D ftruncate(outfd, 0);
-> +-	if (rc < 0)
-> ++	if (rc < 0) {
-> ++		unlink(outfile);
-> + 		err(1, "could not truncate output file \"%s\"", =
-outfile);
-> ++	}
-> +=20
-> + 	void *output;
-> + 	size_t size =3D 0;
-> + 	rc =3D efi_secdb_realize(secdb, &output, &size);
-> +-	if (rc < 0)
-> ++	if (rc < 0) {
-> ++		unlink(outfile);
-> + 		secdb_err(1, "could not realize signature list");
-> ++	}
-> +=20
-> + 	rc =3D write(outfd, output, size);
-> +-	if (rc < 0)
-> ++	if (rc < 0) {
-> ++		unlink(outfile);
-> + 		err(1, "could not write signature list");
-> ++	}
-> +=20
-> + 	close(outfd);
-> + 	xfree(output);
-> diff --git a/meta/recipes-bsp/efivar/efivar_38.bb =
-b/meta/recipes-bsp/efivar/efivar_38.bb
-> index 68c4b4b914..53fe20a95b 100644
-> --- a/meta/recipes-bsp/efivar/efivar_38.bb
-> +++ b/meta/recipes-bsp/efivar/efivar_38.bb
-> @@ -10,6 +10,7 @@ COMPATIBLE_HOST =3D =
-"(i.86|x86_64|arm|aarch64).*-linux"
-> SRC_URI =3D =
-"git://github.com/rhinstaller/efivar.git;branch=3Dmain;protocol=3Dhttps =
-\
->            file://0001-docs-do-not-build-efisecdb-manpage.patch \
->            =
-file://0001-src-Makefile-build-util.c-separately-for-makeguids.patch \
-> +           file://efisecdb-fix-build-with-musl-libc.patch \
->            "
-> SRCREV =3D "1753149d4176ebfb2b135ac0aaf79340bf0e7a93"
->=20
-> @@ -36,5 +37,3 @@ BBCLASSEXTEND =3D "native"
-> RRECOMMENDS:${PN}:class-target =3D "kernel-module-efivarfs"
->=20
-> CLEANBROKEN =3D "1"
-> -# https://github.com/rhboot/efivar/issues/202
-> -COMPATIBLE_HOST:libc-musl =3D 'null'
-> --=20
-> 2.32.0
->=20
+>  meta/conf/distro/include/security_flags.inc   |  1 +
+>  ...sh-sort-filelist-for-reproducibility.patch | 28 -------------------
+>  .../ltp/{ltp_20220121.bb => ltp_20220527.bb}  |  3 +-
+>  3 files changed, 2 insertions(+), 30 deletions(-)
+>  delete mode 100644
+> meta/recipes-extended/ltp/ltp/0001-metadata-parse.sh-sort-filelist-for-reproducibility.patch
+>  rename meta/recipes-extended/ltp/{ltp_20220121.bb => ltp_20220527.bb}
+> (97%)
+>
+> diff --git a/meta/conf/distro/include/security_flags.inc
+> b/meta/conf/distro/include/security_flags.inc
+> index 8374cb8544..2972f05b4e 100644
+> --- a/meta/conf/distro/include/security_flags.inc
+> +++ b/meta/conf/distro/include/security_flags.inc
+> @@ -61,6 +61,7 @@ TARGET_LDFLAGS:append:class-cross-canadian = "
+> ${SECURITY_LDFLAGS}"
+>  SECURITY_STACK_PROTECTOR:pn-gcc-runtime = ""
+>  SECURITY_STACK_PROTECTOR:pn-glibc = ""
+>  SECURITY_STACK_PROTECTOR:pn-glibc-testsuite = ""
+> +SECURITY_STACK_PROTECTOR:pn-ltp = ""
+>  # All xorg module drivers need to be linked this way as well and are
+>  # handled in recipes-graphics/xorg-driver/xorg-driver-common.inc
+>  SECURITY_LDFLAGS:pn-xserver-xorg = "${SECURITY_X_LDFLAGS}"
+> diff --git
+> a/meta/recipes-extended/ltp/ltp/0001-metadata-parse.sh-sort-filelist-for-reproducibility.patch
+> b/meta/recipes-extended/ltp/ltp/0001-metadata-parse.sh-sort-filelist-for-reproducibility.patch
+> deleted file mode 100644
+> index e8d9f212a9..0000000000
+> ---
+> a/meta/recipes-extended/ltp/ltp/0001-metadata-parse.sh-sort-filelist-for-reproducibility.patch
+> +++ /dev/null
+> @@ -1,28 +0,0 @@
+> -From 4aad23f208cc7725cd61bbe5aaadb9994c794cd0 Mon Sep 17 00:00:00 2001
+> -From: Alexander Kanavin <alex@linutronix.de>
+> -Date: Wed, 26 Jan 2022 20:58:46 +0100
+> -Subject: [PATCH] metadata/parse.sh: sort filelist for reproducibility
+> -
+> -find does not guarantee the order of the files.
+> -
+> -Upstream-Status: Submitted [
+> https://github.com/linux-test-project/ltp/pull/907]
+> -Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ----
+> - metadata/parse.sh | 2 +-
+> -
+> -diff --git a/metadata/parse.sh b/metadata/parse.sh
+> -index b43d024c68..1811665bfe 100755
+> ---- a/metadata/parse.sh
+> -+++ b/metadata/parse.sh
+> -@@ -29,7 +29,7 @@ echo ' "tests": {'
+> -
+> - first=1
+> -
+> --for test in `find testcases/ -name '*.c'`; do
+> -+for test in `find testcases/ -name '*.c'|sort`; do
+> -       a=$($top_builddir/metadata/metaparse -Iinclude
+> -Itestcases/kernel/syscalls/utils/ "$test")
+> -       if [ -n "$a" ]; then
+> -               if [ -z "$first" ]; then
+> ---
+> -2.20.1
+> -
+> diff --git a/meta/recipes-extended/ltp/ltp_20220121.bb
+> b/meta/recipes-extended/ltp/ltp_20220527.bb
+> similarity index 97%
+> rename from meta/recipes-extended/ltp/ltp_20220121.bb
+> rename to meta/recipes-extended/ltp/ltp_20220527.bb
+> index 8a13dcf9d0..b136c83860 100644
+> --- a/meta/recipes-extended/ltp/ltp_20220121.bb
+> +++ b/meta/recipes-extended/ltp/ltp_20220527.bb
+> @@ -22,11 +22,10 @@ CFLAGS:append:x86-64 = " -fomit-frame-pointer"
+>
+>  CFLAGS:append:powerpc64 = " -D__SANE_USERSPACE_TYPES__"
+>  CFLAGS:append:mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
+> -SRCREV = "b0561ad8d9ee9fe1244b5385e941eb65a21e91a1"
+> +SRCREV = "6f88e0f6f1d6eb12c48c902f50f47ecbd3b0f18a"
+>
+>  SRC_URI = "git://
+> github.com/linux-test-project/ltp.git;branch=master;protocol=https \
+>             file://0001-Remove-OOM-tests-from-runtest-mm.patch \
+> -
+>  file://0001-metadata-parse.sh-sort-filelist-for-reproducibility.patch \
+>             file://disable_hanging_tests.patch \
+>             "
+>
+> --
+> 2.30.2
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#166610):
+> https://lists.openembedded.org/g/openembedded-core/message/166610
+> Mute This Topic: https://lists.openembedded.org/mt/91575165/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> Martin.Jansa@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
 
+--0000000000007c2a3e05e0fefedd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---Apple-Mail=_AA69E845-0FD0-4A5A-8C27-5623A440AF21
-Content-Disposition: attachment;
-	filename=smime.p7s
-Content-Type: application/pkcs7-signature;
-	name=smime.p7s
-Content-Transfer-Encoding: base64
+<div dir=3D"ltr">This seems to be causing:<div><a href=3D"http://errors.yoc=
+toproject.org/Errors/Details/657959/">http://errors.yoctoproject.org/Errors=
+/Details/657959/</a><br></div><div>when ld-is-gold is used.</div><div><br><=
+/div><div>Added in upstream commit:</div><div>=C2=A0 commit 3fce2064b548432=
+18d085aae326c8f7ecf3a8c41<br>=C2=A0 Author: Martin Doucha &lt;<a href=3D"ma=
+ilto:mdoucha@suse.cz">mdoucha@suse.cz</a>&gt;<br>=C2=A0 Date: =C2=A0 Thu Ap=
+r 21 14:33:50 2022 +0200<br><br>=C2=A0 =C2=A0 KVM test infrastructure<br></=
+div><div><br></div><div><a href=3D"https://github.com/linux-test-project/lt=
+p/commit/3fce2064b54843218d085aae326c8f7ecf3a8c41#diff-39268f0855c634ca48c8=
+993fcd2c95b12a65b79e8d9fa5ccd6b0f5a8785c0dd6R36">https://github.com/linux-t=
+est-project/ltp/commit/3fce2064b54843218d085aae326c8f7ecf3a8c41#diff-39268f=
+0855c634ca48c8993fcd2c95b12a65b79e8d9fa5ccd6b0f5a8785c0dd6R36</a><br></div>=
+</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=
+On Mon, Jun 6, 2022 at 2:02 PM Alexander Kanavin &lt;<a href=3D"mailto:alex=
+.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">Disable stack protection as newly=
+ added kvm tests won&#39;t build with it.<br>
+<br>
+Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de" =
+target=3D"_blank">alex@linutronix.de</a>&gt;<br>
+---<br>
+=C2=A0meta/conf/distro/include/security_flags.inc=C2=A0 =C2=A0|=C2=A0 1 +<b=
+r>
+=C2=A0...sh-sort-filelist-for-reproducibility.patch | 28 ------------------=
+-<br>
+=C2=A0.../ltp/{<a href=3D"http://ltp_20220121.bb" rel=3D"noreferrer" target=
+=3D"_blank">ltp_20220121.bb</a> =3D&gt; <a href=3D"http://ltp_20220527.bb" =
+rel=3D"noreferrer" target=3D"_blank">ltp_20220527.bb</a>}=C2=A0 |=C2=A0 3 +=
+-<br>
+=C2=A03 files changed, 2 insertions(+), 30 deletions(-)<br>
+=C2=A0delete mode 100644 meta/recipes-extended/ltp/ltp/0001-metadata-parse.=
+sh-sort-filelist-for-reproducibility.patch<br>
+=C2=A0rename meta/recipes-extended/ltp/{<a href=3D"http://ltp_20220121.bb" =
+rel=3D"noreferrer" target=3D"_blank">ltp_20220121.bb</a> =3D&gt; <a href=3D=
+"http://ltp_20220527.bb" rel=3D"noreferrer" target=3D"_blank">ltp_20220527.=
+bb</a>} (97%)<br>
+<br>
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro=
+/include/security_flags.inc<br>
+index 8374cb8544..2972f05b4e 100644<br>
+--- a/meta/conf/distro/include/security_flags.inc<br>
++++ b/meta/conf/distro/include/security_flags.inc<br>
+@@ -61,6 +61,7 @@ TARGET_LDFLAGS:append:class-cross-canadian =3D &quot; ${S=
+ECURITY_LDFLAGS}&quot;<br>
+=C2=A0SECURITY_STACK_PROTECTOR:pn-gcc-runtime =3D &quot;&quot;<br>
+=C2=A0SECURITY_STACK_PROTECTOR:pn-glibc =3D &quot;&quot;<br>
+=C2=A0SECURITY_STACK_PROTECTOR:pn-glibc-testsuite =3D &quot;&quot;<br>
++SECURITY_STACK_PROTECTOR:pn-ltp =3D &quot;&quot;<br>
+=C2=A0# All xorg module drivers need to be linked this way as well and are<=
+br>
+=C2=A0# handled in recipes-graphics/xorg-driver/xorg-driver-common.inc<br>
+=C2=A0SECURITY_LDFLAGS:pn-xserver-xorg =3D &quot;${SECURITY_X_LDFLAGS}&quot=
+;<br>
+diff --git a/meta/recipes-extended/ltp/ltp/0001-metadata-parse.sh-sort-file=
+list-for-reproducibility.patch b/meta/recipes-extended/ltp/ltp/0001-metadat=
+a-parse.sh-sort-filelist-for-reproducibility.patch<br>
+deleted file mode 100644<br>
+index e8d9f212a9..0000000000<br>
+--- a/meta/recipes-extended/ltp/ltp/0001-metadata-parse.sh-sort-filelist-fo=
+r-reproducibility.patch<br>
++++ /dev/null<br>
+@@ -1,28 +0,0 @@<br>
+-From 4aad23f208cc7725cd61bbe5aaadb9994c794cd0 Mon Sep 17 00:00:00 2001<br>
+-From: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de" target=
+=3D"_blank">alex@linutronix.de</a>&gt;<br>
+-Date: Wed, 26 Jan 2022 20:58:46 +0100<br>
+-Subject: [PATCH] metadata/parse.sh: sort filelist for reproducibility<br>
+-<br>
+-find does not guarantee the order of the files.<br>
+-<br>
+-Upstream-Status: Submitted [<a href=3D"https://github.com/linux-test-proje=
+ct/ltp/pull/907" rel=3D"noreferrer" target=3D"_blank">https://github.com/li=
+nux-test-project/ltp/pull/907</a>]<br>
+-Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de"=
+ target=3D"_blank">alex@linutronix.de</a>&gt;<br>
+----<br>
+- metadata/parse.sh | 2 +-<br>
+-<br>
+-diff --git a/metadata/parse.sh b/metadata/parse.sh<br>
+-index b43d024c68..1811665bfe 100755<br>
+---- a/metadata/parse.sh<br>
+-+++ b/metadata/parse.sh<br>
+-@@ -29,7 +29,7 @@ echo &#39; &quot;tests&quot;: {&#39;<br>
+- <br>
+- first=3D1<br>
+- <br>
+--for test in `find testcases/ -name &#39;*.c&#39;`; do<br>
+-+for test in `find testcases/ -name &#39;*.c&#39;|sort`; do<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0a=3D$($top_builddir/metadata/metaparse -Iinclud=
+e -Itestcases/kernel/syscalls/utils/ &quot;$test&quot;)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -n &quot;$a&quot; ]; then<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -z &quot;$firs=
+t&quot; ]; then<br>
+--- <br>
+-2.20.1<br>
+-<br>
+diff --git a/meta/recipes-extended/ltp/<a href=3D"http://ltp_20220121.bb" r=
+el=3D"noreferrer" target=3D"_blank">ltp_20220121.bb</a> b/meta/recipes-exte=
+nded/ltp/<a href=3D"http://ltp_20220527.bb" rel=3D"noreferrer" target=3D"_b=
+lank">ltp_20220527.bb</a><br>
+similarity index 97%<br>
+rename from meta/recipes-extended/ltp/<a href=3D"http://ltp_20220121.bb" re=
+l=3D"noreferrer" target=3D"_blank">ltp_20220121.bb</a><br>
+rename to meta/recipes-extended/ltp/<a href=3D"http://ltp_20220527.bb" rel=
+=3D"noreferrer" target=3D"_blank">ltp_20220527.bb</a><br>
+index 8a13dcf9d0..b136c83860 100644<br>
+--- a/meta/recipes-extended/ltp/<a href=3D"http://ltp_20220121.bb" rel=3D"n=
+oreferrer" target=3D"_blank">ltp_20220121.bb</a><br>
++++ b/meta/recipes-extended/ltp/<a href=3D"http://ltp_20220527.bb" rel=3D"n=
+oreferrer" target=3D"_blank">ltp_20220527.bb</a><br>
+@@ -22,11 +22,10 @@ CFLAGS:append:x86-64 =3D &quot; -fomit-frame-pointer&qu=
+ot;<br>
+<br>
+=C2=A0CFLAGS:append:powerpc64 =3D &quot; -D__SANE_USERSPACE_TYPES__&quot;<b=
+r>
+=C2=A0CFLAGS:append:mipsarchn64 =3D &quot; -D__SANE_USERSPACE_TYPES__&quot;=
+<br>
+-SRCREV =3D &quot;b0561ad8d9ee9fe1244b5385e941eb65a21e91a1&quot;<br>
++SRCREV =3D &quot;6f88e0f6f1d6eb12c48c902f50f47ecbd3b0f18a&quot;<br>
+<br>
+=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://github.com/linux-test-proje=
+ct/ltp.git;branch=3Dmaster;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_=
+blank">github.com/linux-test-project/ltp.git;branch=3Dmaster;protocol=3Dhtt=
+ps</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Remove-OOM-tests-from=
+-runtest-mm.patch \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-metadata-parse.sh-sor=
+t-filelist-for-reproducibility.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://disable_hanging_tests.patc=
+h \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+-- <br>
+2.30.2<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#166610): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/166610" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/166610</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/91575165/3617=
+156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/91575165/3617156</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
+rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCDWEw
-ggXsMIID1KADAgECAhAZua6DiHKYOdyCpz+O9+pLMA0GCSqGSIb3DQEBCwUAMIGBMQswCQYDVQQG
-EwJJVDEQMA4GA1UECAwHQmVyZ2FtbzEZMBcGA1UEBwwQUG9udGUgU2FuIFBpZXRybzEXMBUGA1UE
-CgwOQWN0YWxpcyBTLnAuQS4xLDAqBgNVBAMMI0FjdGFsaXMgQ2xpZW50IEF1dGhlbnRpY2F0aW9u
-IENBIEczMB4XDTIxMDcwOTA4NDU0N1oXDTIyMDcwOTA4NDU0N1owJDEiMCAGA1UEAwwZZGF2aWRl
-Z2FyZGUyMDAwQGdtYWlsLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAPOY6kcH
-hhZIySmCFFosOe+SfI1xlKqhPlhXcx0EKmMYhQvI05SqOyJlvqOsouJffsGs/RQCjo4n+XiqlVbM
-xAb4uLe8hQmTfNoDU8OOmod3SMANu5AshWZpvrS4lXR/RcF5bLmlOvr3NA0L0uivdfnZzuJxByZ4
-VxTfp01c4KYxwR+OoSsRiJ73Bur9040YVA68PaMLaqGRPFhNBpWtjbUByv2prunNH2/ffam+2cF9
-NMsWMA3bIj3jOjeiLlaFgA+s6T5qVAzP2u4iK+SkgBr2Y2SHZCaRWjL5kFySsw35iSYyh5rVN9iW
-0RpRI57TY+x9bZhIDdjuk6QWEHJN1MMCAwEAAaOCAbowggG2MAwGA1UdEwEB/wQCMAAwHwYDVR0j
-BBgwFoAUvpepqoS/gL8QU30JMvnhLjIbz3cwfgYIKwYBBQUHAQEEcjBwMDsGCCsGAQUFBzAChi9o
-dHRwOi8vY2FjZXJ0LmFjdGFsaXMuaXQvY2VydHMvYWN0YWxpcy1hdXRjbGlnMzAxBggrBgEFBQcw
-AYYlaHR0cDovL29jc3AwOS5hY3RhbGlzLml0L1ZBL0FVVEhDTC1HMzAkBgNVHREEHTAbgRlkYXZp
-ZGVnYXJkZTIwMDBAZ21haWwuY29tMEcGA1UdIARAMD4wPAYGK4EfARgBMDIwMAYIKwYBBQUHAgEW
-JGh0dHBzOi8vd3d3LmFjdGFsaXMuaXQvYXJlYS1kb3dubG9hZDAdBgNVHSUEFjAUBggrBgEFBQcD
-AgYIKwYBBQUHAwQwSAYDVR0fBEEwPzA9oDugOYY3aHR0cDovL2NybDA5LmFjdGFsaXMuaXQvUmVw
-b3NpdG9yeS9BVVRIQ0wtRzMvZ2V0TGFzdENSTDAdBgNVHQ4EFgQUiqeY/IEM07oIVIos/ACCcr6P
-njQwDgYDVR0PAQH/BAQDAgWgMA0GCSqGSIb3DQEBCwUAA4ICAQByXme/hneEsW30qwk9NtxPo0jU
-XVCtXGFS8vxZbtyzIQCK/3mJYzkAYQndhqz0s7RP3l+J9MkDXp01vVJurlMcgRCmIDEo2NOak/D1
-kNj4qNk8QMJmb+E+VKlB4dW9+vghAO1AQb16C5lGQ9QWW+g4cGk58+IXR58kYJe3e4Os1NNZbC1O
-8vPo4coKAWlJrABqDmfqMz2WJhjV9xlRZNf7jii1I+qLOScc+l4tIPmBj1NRt4JRmEKrzVG80NHv
-vl1Wwb2DcFV/SHWvZ25SZSmzkNiU/KKuFjQcJYxRl03sbBULug6kN5G19vFsv3ci9bM8FtVCMvb4
-Mi0c+rsaJFNwh0M/cVdCAY6qvBEB2haT4+YMAGR7MAnAw3YPt8MIOf83dcSC4st6KKni6M6SQbcp
-C0QLSnsmTPcUu6ORkcf+OPPa4caPuCwyrXje2GUsCk3u49k5PQTuTB7Ax4UYhFRkBYl0Lq/pwHUE
-ewMztjvdnwEvhmKVAH0pcu0hXqMowR6Xn+oOKgaxkP57RrfF06fCLIGJgIeuPO1VT26SCYV0zkZW
-OnGXp1BebVCkxeMe5BFtsRCzDlJc+qDSQhbDhTgxSN4OXcZZGSi2a3eFsW+yexIYBGPGhMrzhOk/
-k37cYmTEZRztTrFhb/3OhSAIodd191esnTBcWbanuKWWQ2RXxjCCB20wggVVoAMCAQICEBcQPt49
-ihy1ygZRk+fKQ2swDQYJKoZIhvcNAQELBQAwazELMAkGA1UEBhMCSVQxDjAMBgNVBAcMBU1pbGFu
-MSMwIQYDVQQKDBpBY3RhbGlzIFMucC5BLi8wMzM1ODUyMDk2NzEnMCUGA1UEAwweQWN0YWxpcyBB
-dXRoZW50aWNhdGlvbiBSb290IENBMB4XDTIwMDcwNjA4NDU0N1oXDTMwMDkyMjExMjIwMlowgYEx
-CzAJBgNVBAYTAklUMRAwDgYDVQQIDAdCZXJnYW1vMRkwFwYDVQQHDBBQb250ZSBTYW4gUGlldHJv
-MRcwFQYDVQQKDA5BY3RhbGlzIFMucC5BLjEsMCoGA1UEAwwjQWN0YWxpcyBDbGllbnQgQXV0aGVu
-dGljYXRpb24gQ0EgRzMwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDt5oeWocGktu3C
-QlX3Pw8PImBfE+CmQ4iGSZF5HBsvGlAP3EYB7va6OobMUWHvxA+ACHEpWq0YfNh6rRUlULOGcIpE
-FtVf4nAiEvdQtiFQBmtWJSn3naoMHqpMvmwZ4lL0Xr1U9JHmTqkU3DuYcNNO3S+hYWDZpWQbeSGi
-bNVeiJ4kY6JDh0fvqloK1BsuS3n2OgArPYGfAYtDjCvT2d+6Ym3kArHZjEcrZeBI+yVVnjPwbTSC
-Kax8DtS2NP/CJ6RjpnRvuSwusRy84OdwdB71VKs1EDXj1ITcCWRZpkz+OhV6L8Zh+P0rmOSJF6Kd
-HiaozfncURx4s54GFJNRGkx1DnCxcuL0NJMYG42/hrDYOjNv+oGWSEZO/CT3aaLSMB5wTbZKfcD1
-R+tTanXD+5Gz5Mi15DTE7QH8naZjZxqqhyxL1KyuIgaVDxvQtPSjo5vTsoa09rn+Ui8ybHnvYO/a
-/68OIQIHLGbUd2COnwm0TiZ3Jg/oYGxwnJPvU1nDXNcecWTIJvFF5qD2ppJH3HgJVVePUEOY1E4K
-p3k0B8hdRdhMV5n+O6RCKCTFcZaESF8sELgdrqnCLPP1+rX7DA8pxZoX0/9Jk64EOsbfQyLIJlrr
-ob2YS0Xlku6HisZ8qrHLhnkzF5y7O34xmatIp8oZ5c54QP+K5flnTYzWjuIxLwIDAQABo4IB9DCC
-AfAwDwYDVR0TAQH/BAUwAwEB/zAfBgNVHSMEGDAWgBRS2Ig6yJ94Zu2J83s4cJTJAgI20DBBBggr
-BgEFBQcBAQQ1MDMwMQYIKwYBBQUHMAGGJWh0dHA6Ly9vY3NwMDUuYWN0YWxpcy5pdC9WQS9BVVRI
-LVJPT1QwRQYDVR0gBD4wPDA6BgRVHSAAMDIwMAYIKwYBBQUHAgEWJGh0dHBzOi8vd3d3LmFjdGFs
-aXMuaXQvYXJlYS1kb3dubG9hZDAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgeMGA1Ud
-HwSB2zCB2DCBlqCBk6CBkIaBjWxkYXA6Ly9sZGFwMDUuYWN0YWxpcy5pdC9jbiUzZEFjdGFsaXMl
-MjBBdXRoZW50aWNhdGlvbiUyMFJvb3QlMjBDQSxvJTNkQWN0YWxpcyUyMFMucC5BLiUyZjAzMzU4
-NTIwOTY3LGMlM2RJVD9jZXJ0aWZpY2F0ZVJldm9jYXRpb25MaXN0O2JpbmFyeTA9oDugOYY3aHR0
-cDovL2NybDA1LmFjdGFsaXMuaXQvUmVwb3NpdG9yeS9BVVRILVJPT1QvZ2V0TGFzdENSTDAdBgNV
-HQ4EFgQUvpepqoS/gL8QU30JMvnhLjIbz3cwDgYDVR0PAQH/BAQDAgEGMA0GCSqGSIb3DQEBCwUA
-A4ICAQAmm+cbWQ10sxID6edV94SAhc1CwzthHFfHpuYS30gisWUfWpgp43Dg1XzG2in3VGV7XrzC
-CGZh4JM/XQWp+4oxmyV42Qjz9vc8GRksgo6X2nYObPYZzQjda9wxsCB38i4G3H33w8lf9sFvl0xm
-4ZXZ2s2bF/PdqvrK0ZgvF51+MoIPnli/wJBw3p72xbk5Sb1MneSO3tZ293WFzDmz7tuGU0PfytYU
-kG7O6annGqbU1I6CA6QVKUqeFLPodSODAFqJ3pimKD0vX9MuuSa0QinH7CkiPtZMD0mpwwzIsnSs
-3qOOl60tIZQOTc0I6lCe1LLhrz7Q75J6nNL9N5zVwZ1I3o2Lb8Dt7BA13VFuZvZIzapUGV83R7pm
-SVaj1Bik1nJ/R393e6mwppsT140KDVLh4Oenywmp2VpBDuEj9RgICAO0sibv8n379LbO7ARa0kw9
-y9pggFzN2PAX25b7w0n9m78kpv3z3vW65rs6wl7E8VEHNfv8+cnb81dxN3C51KElz+l31zchFTur
-D5HFEpyEhzO/fMS5AkweRJIzwozxNs7OL/S/SVTpJLJL1ukZ1lnHHX0d3xCzRy/5HqfK3uiG22LP
-B5+RjNDobPAjAz2BKMfkF/+v0pzn8mqqkopQaJzEAbLbMpgQYHRCjvrUxxwjJyUFb2Z+40UNtMF4
-MTK7zTGCA4UwggOBAgEBMIGWMIGBMQswCQYDVQQGEwJJVDEQMA4GA1UECAwHQmVyZ2FtbzEZMBcG
-A1UEBwwQUG9udGUgU2FuIFBpZXRybzEXMBUGA1UECgwOQWN0YWxpcyBTLnAuQS4xLDAqBgNVBAMM
-I0FjdGFsaXMgQ2xpZW50IEF1dGhlbnRpY2F0aW9uIENBIEczAhAZua6DiHKYOdyCpz+O9+pLMA0G
-CWCGSAFlAwQCAQUAoIIBvzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEP
-Fw0yMjA2MDkwNzM1MzlaMC8GCSqGSIb3DQEJBDEiBCCO5Gqww948X7rBquIA4DsM+BtTa08NkwsZ
-1cEhHjTRxjCBpwYJKwYBBAGCNxAEMYGZMIGWMIGBMQswCQYDVQQGEwJJVDEQMA4GA1UECAwHQmVy
-Z2FtbzEZMBcGA1UEBwwQUG9udGUgU2FuIFBpZXRybzEXMBUGA1UECgwOQWN0YWxpcyBTLnAuQS4x
-LDAqBgNVBAMMI0FjdGFsaXMgQ2xpZW50IEF1dGhlbnRpY2F0aW9uIENBIEczAhAZua6DiHKYOdyC
-pz+O9+pLMIGpBgsqhkiG9w0BCRACCzGBmaCBljCBgTELMAkGA1UEBhMCSVQxEDAOBgNVBAgMB0Jl
-cmdhbW8xGTAXBgNVBAcMEFBvbnRlIFNhbiBQaWV0cm8xFzAVBgNVBAoMDkFjdGFsaXMgUy5wLkEu
-MSwwKgYDVQQDDCNBY3RhbGlzIENsaWVudCBBdXRoZW50aWNhdGlvbiBDQSBHMwIQGbmug4hymDnc
-gqc/jvfqSzANBgkqhkiG9w0BAQsFAASCAQDUju3dQSE414j+JAXfAdzR66z8OBTyROEJyMoz95ZY
-oEs9PdBBd6gaA2NKPGYMCvZVFR7prHiA6UBBCELl88uImZWflVJ5qVXaFoJ4eOiTcxdwTEWtukoD
-ShEX62e3/CUp7uGxDNHuXslbAvMyqUBaRydfUF3u2QKFBqJJpggxfbQGYLwNaLEDjuIVo5NelpLl
-K+oy3nA6DSHXwfmYxVsDuBpR334b/ZV3H+VExHMexRafILsOZKaecSLVi0Gmr6FS9jvGAwMf6y14
-z7Ta4QG31pQWQwyfqluEY3xnYlBdMIwfvXa6QPfTItGOSLHk/i8tK01TAq5qmqQSXYLkEy4jAAAA
-AAAA
---Apple-Mail=_AA69E845-0FD0-4A5A-8C27-5623A440AF21--
+--0000000000007c2a3e05e0fefedd--
 
