@@ -1,111 +1,111 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92014C43334
-	for <webhook@archiver.kernel.org>; Thu,  9 Jun 2022 09:42:21 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.8569.1654767732535555269
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C918DC43334
+	for <webhook@archiver.kernel.org>; Thu,  9 Jun 2022 10:01:11 +0000 (UTC)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+ [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web08.9407.1654768866812888834
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jun 2022 02:42:12 -0700
+ Thu, 09 Jun 2022 03:01:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Thm5Y/en;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id x17so31606698wrg.6
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Wn9NUndD;
+ spf=pass (domain: gmail.com, ip: 209.85.208.173,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f173.google.com with SMTP id b12so14577892ljq.3
         for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jun 2022 02:42:12 -0700 (PDT)
+ Thu, 09 Jun 2022 03:01:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sGYAXAGqAls8lQekdG/uxfX5p6qN1YfWgzjL0G1u36k=;
-        b=Thm5Y/envV2xHJDgSeFWMeDqMdHBp6JmpjDmQgtX6FccVEjGt0Y/dwp+YcD1zO3Adg
-         x4PhPbbDhOZtSL0DJgAyfkJ8citOajV/Fng6iPmGlEOCPo6lFJAuy8PA6Y7a5HHiw9oN
-         bqcgwsEMOcc0MH1vIzFjb9GAOGso6oU7KbTdQ=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CdgxyiZ/5pZvnEcmbqQlEzpe3386otygYhB1/FUC5DI=;
+        b=Wn9NUndD2lGLkwLzJuIsHPcxWpDeQ2/PBO0KSQMp4E+kFeVfzKkakS9Urmbri6yVsD
+         SyRm7VAKQGULg57D+q+Zk/Yq9p/X7q3SpVXxAyt7ZluK0pApORt0Ba1QNBICseHmSrBV
+         gXhVaINb+31nNJP1wP5m0gg3n2wSbtzy3nl+WpBxPVAHLhAdBMr/ndiOjpsSGq9y3WV6
+         ndcrqhrduWWndQWIdr8Gvk+fOcu9N0OUyrfoHqDAy1VELSqq3G24TWy3muJLEiO4R+uW
+         qXw9wtUVdxxNQ+5GJmR+Hh7HJloFmAPj8Ad3hWmA2OBnsAmR3PtxYeP2nrL8qpkx+YAU
+         7iuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sGYAXAGqAls8lQekdG/uxfX5p6qN1YfWgzjL0G1u36k=;
-        b=7W1XHdwXdzC0dAxyz4KtQ1aY6PqZJ+nqA+6fWUj9La3OFOk+hcz1+bhct97P1QbBIg
-         0W5IQfZ6LOxb0uKSmWJ0QbPds1HJxAlZqfCOk0QFNdvfAjS8lIyiabF8t+rSi/Z99M8I
-         GeiMa2fko897asKvfhHHz6zf7SbYdPABBj2p3xfD3BXpT5QV6iVP9lgo7KB6PhvCf8XE
-         +YmfXNqXELY0M11JpVbRUXNdq36c3WHu2xcdnQXYaS2Nu4EXxftdEJfcT6dMxH+wYVp4
-         WkqZQTXev+HETa7M/DkFOX2c/RrA4KVyClCTuI9bdLilIMM/a+6kIOJjXe6R/ofwcyRO
-         af0g==
-X-Gm-Message-State: AOAM5324724mA9Il4nymedq+uSZyZuMC3Qdx9CcxrquZgmKtANpwUL1I
-	YAS8h6IrwExoL8OQ1om1S77NYrpJPL1Ljw==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CdgxyiZ/5pZvnEcmbqQlEzpe3386otygYhB1/FUC5DI=;
+        b=FCMMl6qx2fW/CA+T/+HmUgVF3hor+ntmsKD3e9RNe97ePzzFyr3JwAtXdzEtokVPpr
+         NCgN3N1wgq28bBXnyaxSpuuDJwkBeiEqAiLBCbmRE1eLU5mr9eW+H6yuueKLewUNEtlg
+         jdqG0CKegTVIeSIgm9w3oXK1rV45O8F7dROAF49d2lI3Iyl4Ig6DmWjUlOPyoWy6c1ku
+         c//DSI7t1t4FNKEpEz7kSYXeXOwUr9w1owLhoXAZRgonxHwqwTkFSz7l66FOfMfonjoj
+         r+XMYyu/HWsco+aus7fAbFWRhijzwArpcXyXGNpBCCLBNRSVe5idC4V73mKLQ1Ubspbm
+         TVZw==
+X-Gm-Message-State: AOAM532jAhe9Qyy63xyRjMgKBy8TBS1xl6yHaPL531Do6SMyDyn+Zq1t
+	GwwTLJG9e9hkP6hHra084iW1WAJZF5PxSrQk59U=
 X-Google-Smtp-Source: 
- ABdhPJwkXt4j9D7iOb5ZyvV7aNsMmH36Ny4tHWtgHohEuXvUlqk1gaQ3vY/Ov1r9L3r3ILFq2euomA==
-X-Received: by 2002:a5d:64c2:0:b0:20f:cc15:3563 with SMTP id
- f2-20020a5d64c2000000b0020fcc153563mr37259003wri.388.1654767730611;
-        Thu, 09 Jun 2022 02:42:10 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:2888:8172:672a:5175])
-        by smtp.gmail.com with ESMTPSA id
- l14-20020a05600c2cce00b0039751bb8c62sm33918031wmc.24.2022.06.09.02.42.10
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jun 2022 02:42:10 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] selftest/multiconfig: Test that multiconfigs in separate
- layers works
-Date: Thu,  9 Jun 2022 10:42:09 +0100
-Message-Id: <20220609094209.41221-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
+ ABdhPJyZ7CsJtabaUTNe96qIj6rhYWPuJMNo6IqvuDwwfZRvtV+b5IPP+s3n3Unn7g434hxmXFEmhcAkiEapFi6hXDU=
+X-Received: by 2002:a2e:97c7:0:b0:255:69f4:b9eb with SMTP id
+ m7-20020a2e97c7000000b0025569f4b9ebmr22577928ljj.109.1654768864669; Thu, 09
+ Jun 2022 03:01:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1654518434-9263-1-git-send-email-wangmy@fujitsu.com>
+ <1654518434-9263-3-git-send-email-wangmy@fujitsu.com>
+ <20220607124056.78bad3b5@booty>
+In-Reply-To: <20220607124056.78bad3b5@booty>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 9 Jun 2022 12:00:53 +0200
+Message-ID: 
+ <CANNYZj-a4m6fq1LoUSYvPF0FXzZowAvS-+WdZt-y9hb=AwAYUQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] mesa: upgrade 22.0.3 -> 22.1.1
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: wangmy <wangmy@fujitsu.com>,
+ OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Jun 2022 09:42:21 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Jun 2022 10:01:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166767
+ https://lists.openembedded.org/g/openembedded-core/message/166768
 
-We should test that mutliconfigs from a layer work, not just build/conf.
-This adds such a test.
+I have looked into this and submitted a patch upstream for this:
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/16942
 
-[YOCTO #13566]
+Let's defer the update until upstream addresses this one way or another.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta-selftest/conf/multiconfig/muslmc.conf  |  2 ++
- meta/lib/oeqa/selftest/cases/multiconfig.py | 13 +++++++++++++
- 2 files changed, 15 insertions(+)
- create mode 100644 meta-selftest/conf/multiconfig/muslmc.conf
+Alex
 
-diff --git a/meta-selftest/conf/multiconfig/muslmc.conf b/meta-selftest/conf/multiconfig/muslmc.conf
-new file mode 100644
-index 00000000000..043cd1ccc3b
---- /dev/null
-+++ b/meta-selftest/conf/multiconfig/muslmc.conf
-@@ -0,0 +1,2 @@
-+TCLIBC = "musl"
-+TMPDIR = "${TOPDIR}/tmp-mc-musl"
-diff --git a/meta/lib/oeqa/selftest/cases/multiconfig.py b/meta/lib/oeqa/selftest/cases/multiconfig.py
-index baae9b456f5..83cbd1345da 100644
---- a/meta/lib/oeqa/selftest/cases/multiconfig.py
-+++ b/meta/lib/oeqa/selftest/cases/multiconfig.py
-@@ -70,3 +70,16 @@ TMPDIR = "${TOPDIR}/tmp-mc-tiny"
- 
-         result = bitbake('mc:test:multiconfig-test-parse -c showvar')
-         self.assertIn('MCTESTVAR=test2', result.output.splitlines())
-+
-+    def test_multiconfig_inlayer(self):
-+        """
-+        Test that a multiconfig from meta-selftest works.
-+        """
-+
-+        config = """
-+BBMULTICONFIG = "muslmc"
-+"""
-+        self.write_config(config)
-+
-+        # Build a core-image-minimal, only dry run needed to check config is present
-+        bitbake('mc:muslmc:bash -n')
--- 
-2.34.1
-
+On Tue, 7 Jun 2022 at 12:41, Luca Ceresoli via lists.openembedded.org
+<luca.ceresoli=bootlin.com@lists.openembedded.org> wrote:
+>
+> Hi wangmy,
+>
+> On Mon, 6 Jun 2022 20:27:12 +0800
+> "wangmy" <wangmy@fujitsu.com> wrote:
+>
+> > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+>
+> There are lots of failures when testing with this patch applied:
+>
+>   (EE) AIGLX error: Calling driver entry point failed
+>
+> Here are some logs:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/73/builds/5275/steps/12/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/5318/steps/13/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/5291/steps/13/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/5338/steps/19/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/109/builds/4202/steps/13/logs/stdio
+>
+> --
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#166658): https://lists.openembedded.org/g/openembedded-core/message/166658
+> Mute This Topic: https://lists.openembedded.org/mt/91575609/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
