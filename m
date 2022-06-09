@@ -1,122 +1,209 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3494C433EF
-	for <webhook@archiver.kernel.org>; Thu,  9 Jun 2022 16:21:03 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.15609.1654791661203349067
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89755C433EF
+	for <webhook@archiver.kernel.org>; Thu,  9 Jun 2022 16:32:53 +0000 (UTC)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web10.15718.1654792366412771917
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jun 2022 09:21:01 -0700
+ Thu, 09 Jun 2022 09:32:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VuthPihd;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id p10so33098539wrg.12
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bqhPyeDR;
+ spf=pass (domain: gmail.com, ip: 209.85.167.54,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-lf1-f54.google.com with SMTP id c2so19407895lfk.0
         for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jun 2022 09:21:00 -0700 (PDT)
+ Thu, 09 Jun 2022 09:32:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=dOgVWJy+1AA/ozGZjNkreLTRFnWetOTA3/16Z1h2eQk=;
-        b=VuthPihdaGApSakrjcjOtpTkt3sAvEBCycVUO27lzRtegDtvhUNeOO4BZEpOZ9bNXd
-         M52yyeUWm5ZMPhXGkxRct8bL/wYgNiuMALbpwXlY/GK/RwvJA3UuYthqcN9xejq/2UOq
-         f3FsMiIla9tn1LzvJ8V1kejJEGeX0tnHTXCXw=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=iI8fsIKL2WhqzJuU6CrWLU1cqDsc/0wWepEp26kfFBI=;
+        b=bqhPyeDRf1MSxwstuMuSlRa7LyslkkdzAlKpQ0LtWY0fnHKsy6/4CSP0a8yxClc/2L
+         2Yhls5SKnIdUqNBKcEKesEKa7YSotSVfICuuc91krZQGvnrAdLblRNcZBCeWiX+pdeey
+         Anc2wqxim99xA++v1VMsWgb7ftgytFi+OW7TL+aUMZSKRVPM4XOVOw8NJGa6vayqUtD+
+         TlkWzL2UWM/i2sWok6P2Wktj6M/1r3bhkmPbQkURYGdupla2AAeksTNWyahJlgGnBMtl
+         1AYIDlpseLeCu5thJgO97KaEKb37yBewlQviZdjjXBp529bhX45SkRhbH0k9IDi5jDVs
+         JyxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=dOgVWJy+1AA/ozGZjNkreLTRFnWetOTA3/16Z1h2eQk=;
-        b=UJhZ87Wg4GSyCRS6PThV1K2I0lHxkRCqSE0o3EPYmv9Ddrf7E0npwcqj4RUs0AnccO
-         zQx1J/9AdnlUGoMla6fRNdFMvPlFJWuITe1GUvt12yOuZr+VGt9r7iIsZdfJRwA6UgM3
-         TH61JMvShDjVzesRKKrchp3U2tFsKbhcGaxLYMX+PuJ+6/be08Kmu31uIsggpMH9sX7O
-         qoGO0s8qOcxta9FI3mN+TP4hVQsM4JxKHtJaM1UW13QoA37My+0F/KrYT553QIQuIUgK
-         0+kJcqr+f8VwZC9c89BeV3R4SQ/ThsIlLbvxmWmahmhfpl22RlSQtFyql00JPoOGDyE9
-         zr4A==
-X-Gm-Message-State: AOAM530wYV4uCTw+2GlPPpHdediDu6I+FmfCprqm6xm6zFdgRTkJQAS6
-	8YqY8r6VETh+CJ35UjGmm9YFtw==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=iI8fsIKL2WhqzJuU6CrWLU1cqDsc/0wWepEp26kfFBI=;
+        b=m7x/tc+A0+GmCKmp/TS2vsmturEEMD3/UyAQ3NE0pENqScEbLMSB6dClCbJr2hGnIJ
+         gRpcrIRZxylHujxPu4vgWQVvcy2Bsq59gks9nt6G8loyMQvdMG2BZGGMiy0W3+gY2FJ6
+         Vk5yyCFUP/0j/2lkaAitfxUnqlVBaFUccX1sOMj6qiMiRMTUxmoxFhfgePL6DpYkLcpn
+         WACN7YSIyzg5Yz9ISjewWPtRajD8JL2O8SoMo9oFs/zAnnlaJbFiDv4QtoHFH/GUUv+w
+         A1NgA/O9h9ZKIycKoQggGJqX8dbTNDp+rL7gBgO3OzzH/fSDxd29xxoBu0bjd24elRUb
+         xMWw==
+X-Gm-Message-State: AOAM5331MSY3xzTlwFJcvq7QYDYeF0iQNBvegWZivEuCRnbpHiY/vVHT
+	HYVXzB0WWKBFtVUZo0JBoz1uJpbCUejLuU2lsfw=
 X-Google-Smtp-Source: 
- ABdhPJyv/X5fXisBs+VIBeTvIezZjBWXE/95prS9VHVgkgm4Nf6HR2SHd+FMqauDZbR/tRuiopbzig==
-X-Received: by 2002:a05:6000:1861:b0:216:4519:18a1 with SMTP id
- d1-20020a056000186100b00216451918a1mr29065570wri.293.1654791659519;
-        Thu, 09 Jun 2022 09:20:59 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:2888:8172:672a:5175?
- ([2001:8b0:aba:5f3c:2888:8172:672a:5175])
-        by smtp.gmail.com with ESMTPSA id
- m189-20020a1c26c6000000b0039c6ce32a2dsm2614942wmm.33.2022.06.09.09.20.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jun 2022 09:20:58 -0700 (PDT)
-Message-ID: 
- <f5cea24f326b0450d8c5ae14a1edb8a10b2526d1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 18/21] perl: update 5.34.1 -> 5.36.0
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <Martin.Jansa@gmail.com>, Alexander Kanavin
-	 <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Alexander Kanavin
-	 <alex@linutronix.de>
-Date: Thu, 09 Jun 2022 17:20:58 +0100
-In-Reply-To: 
- <CA+chaQfAtrfQttR6rEVgMCV7CrXzRDUyVcW=ujFSc9uic-3CFQ@mail.gmail.com>
-References: <20220606120126.3381438-1-alex@linutronix.de>
-	 <20220606120126.3381438-18-alex@linutronix.de>
-	 <CA+chaQfAtrfQttR6rEVgMCV7CrXzRDUyVcW=ujFSc9uic-3CFQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ ABdhPJzBnfS7VViXkQ4CKkuOribH+puq1yw2iB3WTQKJOZBrunAH90ZQ+vgN3QC+5f6az7RttYW/Foy6c1jRF7wuVe8=
+X-Received: by 2002:ac2:5f48:0:b0:478:f230:52a5 with SMTP id
+ 8-20020ac25f48000000b00478f23052a5mr23154519lfz.218.1654792364312; Thu, 09
+ Jun 2022 09:32:44 -0700 (PDT)
 MIME-Version: 1.0
+References: <16F2EF8478B405CE.32574@lists.openembedded.org>
+In-Reply-To: <16F2EF8478B405CE.32574@lists.openembedded.org>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Thu, 9 Jun 2022 17:32:33 +0100
+Message-ID: 
+ <CANPvuRkcx87YVWAuyuki7-YuMbaeYZjj=3A6qWbZD11p3fs50w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] archiver: exit to avoid race conditions
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Jose Quaresma <jose.quaresma@foundries.io>
+Content-Type: multipart/alternative; boundary="0000000000000d4d7005e1065f01"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Jun 2022 16:21:03 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Jun 2022 16:32:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166782
+ https://lists.openembedded.org/g/openembedded-core/message/166783
 
-On Thu, 2022-06-09 at 14:44 +0200, Martin Jansa wrote:
-> On Mon, Jun 6, 2022 at 2:02 PM Alexander Kanavin <alex.kanavin@gmail.com>=
- wrote:
-> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> > ---
-> > =C2=A0.../{perlcross_1.3.7.bb =3D> perlcross_1.4.bb}=C2=A0 |=C2=A0 2 +-
-> > =C2=A0.../perl/files/perl-configpm-switch.patch=C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 2 +-
-> > =C2=A0.../perl/files/perl-dynloader.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 2 +-
-> > =C2=A0.../perl/files/perl-rdepends.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 | 49 ++++++++++++-------
-> > =C2=A0.../perl/{perl_5.34.1.bb =3D> perl_5.36.0.bb}=C2=A0 =C2=A0|=C2=A0=
- 2 +-
-> > =C2=A05 files changed, 35 insertions(+), 22 deletions(-)
-> > =C2=A0rename meta/recipes-devtools/perl-cross/{perlcross_1.3.7.bb =3D> =
-perlcross_1.4.bb} (92%)
-> > =C2=A0rename meta/recipes-devtools/perl/{perl_5.34.1.bb =3D> perl_5.36.=
-0.bb} (99%)
-> >=20
->=20
->=20
-> Have anyone else seen perl.do_install getting stuck with this new shiny v=
-ersion as well?
->=20
-> =C2=A0690770 martin =C2=A0 =C2=A0 =C2=A020 =C2=A0 0 10020 =C2=A03700 =C2=
-=A03196 S =C2=A0 0.0 =C2=A00.0 =C2=A00:00.00 =E2=94=82 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0=E2=94=94=E2=94=80 /bin/sh /OE/build/poky/build-st/tmp/work/x86_64-l=
-inux/perl-native/5.36.0-r0/temp/run.do_install.690768
-> =C2=A0690771 martin =C2=A0 =C2=A0 =C2=A020 =C2=A0 0 99860 =C2=A01948 =C2=
-=A01364 S =C2=A0 0.0 =C2=A00.0 =C2=A00:00.00 =E2=94=82 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =E2=94=94=E2=94=80 make -j 40 DESTDIR=3D/OE/build/poky/build=
--st/tmp/work/x86_64-linux/perl-native/5.36.0-r0/image install
-> =C2=A0690816 martin =C2=A0 =C2=A0 =C2=A020 =C2=A0 0 =C2=A0 99M =C2=A03340=
- =C2=A01428 R 102.1 =C2=A00.0 =C2=A03h06:44 =E2=94=82 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0=E2=94=94=E2=94=80 make install.man=C2=A0
+--0000000000000d4d7005e1065f01
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I've seen perl and the kernel hang in make for some versions, I did try
-and put a warning about the known Fedora issue. Was this with the
-recent make-native dependency added? If so that would indicate it is
-potentially a bug in the current make version :(
+Hi,
 
-Cheers,
+Instead of failing make it more resilient for when used with multiconfig
+sharing the same TMPDIR.
+I will send a v3
 
-Richard
+Jose
 
+Jose Quaresma via lists.openembedded.org <quaresma.jose=3D
+gmail.com@lists.openembedded.org> escreveu no dia sexta, 27/05/2022 =C3=A0(=
+s)
+11:29:
+
+> The archiver doesn't support using multiconfig sharing the same TMPDIR
+> so rise an error when we have something that shouldn't exist.
+>
+> When in the multiconfig and using the same TMPDIR: the two machines can
+> make
+> the same copy at the same time to the same destination, which will not
+> work.
+>
+> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> ---
+>
+>  v2: replace "bb.error" with "bb.fatal"
+>
+>  meta/classes/archiver.bbclass | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclas=
+s
+> index c19c770d11..87c0f90252 100644
+> --- a/meta/classes/archiver.bbclass
+> +++ b/meta/classes/archiver.bbclass
+> @@ -486,6 +486,8 @@ python do_unpack_and_patch() {
+>      if d.getVarFlag('ARCHIVER_MODE', 'diff') =3D=3D '1':
+>          src =3D d.getVar('S').rstrip('/')
+>          src_orig =3D '%s.orig' % src
+> +        if os.path.isdir(src_orig):
+> +            bb.fatal("A previous copy of the original source already
+> exist '%s'" % src_orig)
+>          oe.path.copytree(src, src_orig)
+>
+>      if bb.data.inherits_class('dos2unix', d):
+> --
+> 2.36.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#166207):
+> https://lists.openembedded.org/g/openembedded-core/message/166207
+> Mute This Topic: https://lists.openembedded.org/mt/91373641/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--0000000000000d4d7005e1065f01
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi,</div><div><br></div><div>Instead of failing make =
+it more resilient for when used with multiconfig sharing the same TMPDIR.<b=
+r>I will send a v3</div><div><br></div><div>Jose</div><br><div class=3D"gma=
+il_quote"><div dir=3D"ltr" class=3D"gmail_attr">Jose Quaresma via <a href=
+=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;quaresma.=
+jose=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists.=
+openembedded.org</a>&gt; escreveu no dia sexta, 27/05/2022 =C3=A0(s) 11:29:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The archiver do=
+esn&#39;t support using multiconfig sharing the same TMPDIR<br>
+so rise an error when we have something that shouldn&#39;t exist.<br>
+<br>
+When in the multiconfig and using the same TMPDIR: the two machines can mak=
+e<br>
+the same copy at the same time to the same destination, which will not work=
+.<br>
+<br>
+Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@foundries.=
+io" target=3D"_blank">jose.quaresma@foundries.io</a>&gt;<br>
+---<br>
+<br>
+=C2=A0v2: replace &quot;bb.error&quot; with &quot;bb.fatal&quot;<br>
+<br>
+=C2=A0meta/classes/archiver.bbclass | 2 ++<br>
+=C2=A01 file changed, 2 insertions(+)<br>
+<br>
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass<=
+br>
+index c19c770d11..87c0f90252 100644<br>
+--- a/meta/classes/archiver.bbclass<br>
++++ b/meta/classes/archiver.bbclass<br>
+@@ -486,6 +486,8 @@ python do_unpack_and_patch() {<br>
+=C2=A0 =C2=A0 =C2=A0if d.getVarFlag(&#39;ARCHIVER_MODE&#39;, &#39;diff&#39;=
+) =3D=3D &#39;1&#39;:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0src =3D d.getVar(&#39;S&#39;).rstrip(&#39=
+;/&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0src_orig =3D &#39;%s.orig&#39; % src<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if os.path.isdir(src_orig):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;A previous copy o=
+f the original source already exist &#39;%s&#39;&quot; % src_orig)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe.path.copytree(src, src_orig)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if bb.data.inherits_class(&#39;dos2unix&#39;, d):<br>
+-- <br>
+2.36.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#166207): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/166207" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/166207</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/91373641/5052=
+612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/91373641/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
+ Quaresma</div></div></div></div>
+
+--0000000000000d4d7005e1065f01--
 
