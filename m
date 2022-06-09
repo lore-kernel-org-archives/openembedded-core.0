@@ -1,132 +1,107 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2801C43334
-	for <webhook@archiver.kernel.org>; Thu,  9 Jun 2022 13:03:52 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web10.12861.1654779822945377891
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1A03C433EF
+	for <webhook@archiver.kernel.org>; Thu,  9 Jun 2022 13:19:32 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web12.12915.1654780767891536699
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jun 2022 06:03:43 -0700
+ Thu, 09 Jun 2022 06:19:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JvCCCSqd;
- spf=pass (domain: gmail.com, ip: 209.85.218.48,
- mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id g25so847856ejh.9
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=pKik7tqN;
+ spf=pass (domain: gmail.com, ip: 209.85.214.173,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pl1-f173.google.com with SMTP id f9so9765623plg.0
         for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jun 2022 06:03:42 -0700 (PDT)
+ Thu, 09 Jun 2022 06:19:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yVpGk+9r5u0QBQP04u7ZfZURkAsnrEGxcoli/ksHVaI=;
-        b=JvCCCSqdlpnYVKpbdrVlVT8Ws4KeKJBb9tVAxK3VIAc+V6lM2GCAMIF/GdbO3AA7IN
-         UKUgleF2ffk+KqsU//UYJQxwNE0JKfglpTWIq3W8nP/9bhbVMehaMJlKncPOzIB+0PGV
-         c5Cx4XtdEG9YmKrnSCkaaBs4qmTY+76IWIDmcjkhL6hnenCN05JSeEd+82XwaVfI4K5r
-         7qcuHCDmTBgez2zFO+3zO8MsheWgK2xIsKXNqz2NbnZ6xPoOIe8XhEg48i3VhQQGPZQl
-         LdXDU34kr/Zx0Rcbn8fhDqhkSMPMSOoRNNSLdmk+7EIYyGPtxUGLAfagQ+ecPtLfImfa
-         UZuQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3/V4KhXU/uNGS49Qv+lR5J+IWTKH6Tk5v1zJITIv9Wo=;
+        b=pKik7tqNHkj8EgjmH3LewFOWr1WmWxSCBwoMsdrbKqW1gspQuyxkuGS/M3kJyriwTT
+         gwnjscVLi7BH6Y1y6XOS4VJCnW5bj+LJCDa5w3+VF9anS84LrjPmV8aH8Eq8iyOwtCFT
+         3+X/IK6i1k8NgqcDIFRe+7QjnM7aPedhlI5nyV9ExP1tarRHp6VCScgTOqZLhbdn28wZ
+         biFyJDWWGYOz6N9pdjaFxNj/pnUUZK6ofvAuykNT0ft8kHtn/dpbmUbxOVvQ1otccYpR
+         9eTexV9Od6nZy2Kfbe+dFMzLbgwCUAUU2llbk7/fq/RCyen2vROZxvakgGtULTwCCS61
+         cX5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yVpGk+9r5u0QBQP04u7ZfZURkAsnrEGxcoli/ksHVaI=;
-        b=DIsVH1UlpKWeuDbmLlseRXeLZnKSzp1n22eTixsW9auf/jd4wxb1mFKAnFS0Zge6Aa
-         NtzpqvBULwBEg2axDP498N1NW2BVnXVkTTCh/lC6R6Y7z3CSvCMKcUArbAJW5QtG3c3t
-         VFZLGvzN85MjrrwLZbLReMGwveIPbS2xFBIhoTEAMqgnkW3/Z9xG8OUSkHKhAGXgkLgV
-         K/GTnM5FVvLqW9svuWMx17L9kAWJ8J2RDbXztNRWmGWM72Q+mUyEe5VyZhHpao5LJgof
-         lWRmpHoCRF4/sGsi/MzDbK5U14L0sWpYGmqgccMl3WonpmHk/PTODhKDMUKBPRj/f2NK
-         6A5Q==
-X-Gm-Message-State: AOAM532AroX//bB/AZ6hDDLzd70I8XpF7dSnFu29rk2e/jCMG+O2CVTy
-	hd0NgmjoKvHnxlbX1nhebZ0KmEaUS0g=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3/V4KhXU/uNGS49Qv+lR5J+IWTKH6Tk5v1zJITIv9Wo=;
+        b=ya8zCBQn2csKRDjI/CmduM7kx5MhoqAyikKI/uExK0kD7JtvKzXCs2E1kBTDUm4z4d
+         QVB9kMiPn/dq8fIiwFK3a41bUDQ20rn+XL67odI/APsSLfcHL5DhwAS1Z3MXVv/14y9v
+         O4w4mB8w5hoyqqJb7LL0RBQcs3BATU6+gBm03wYXASm/o9C3RcUjEKPp7+IK9r9OspFk
+         pay4PZHEdw0asNX0XfqpBGEbApWeGz/j2s91KB9VXgJsIb6Sjt1OB0MZChDa1G0Te9ra
+         Kf7TePqlk6WLj+RPWx7U6tP0LE5IWJtDNz2LCT0o8Uos8JM9A5BQWAoHCA1CXuXfeL85
+         HVJA==
+X-Gm-Message-State: AOAM531dShXAcy/gZcfPRlGY+mrgpqyH4wUZkrNI1+0XJVfNhpOHfBdM
+	//+Cx8S/HU33+8B7C0ojwC9vpk1NDzEieQeGmV4=
 X-Google-Smtp-Source: 
- ABdhPJwCTTNERz6aDQ0S7uDcP616Dvot9QccfY0vZ6V7m4DeaxDK2PvL28TLTb0TP//oaQXRZ7b0sQ==
-X-Received: by 2002:a17:907:3da3:b0:711:ca9a:ae23 with SMTP id
- he35-20020a1709073da300b00711ca9aae23mr19976853ejc.709.1654779821214;
-        Thu, 09 Jun 2022 06:03:41 -0700 (PDT)
-Received: from localhost ([109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id
- w21-20020aa7d295000000b0042dd482d0c4sm14167079edq.80.2022.06.09.06.03.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jun 2022 06:03:40 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCHv2] systemd: Fix build without utmp
-Date: Thu,  9 Jun 2022 15:03:35 +0200
-Message-Id: <20220609130335.3380293-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ ABdhPJyE2w+vDlDeRuDQhnMLuh1VhzYXwXuUgjB0PaLIhOxWM1uhrjfkvpuct1g8RmskysTQlmlEgw/x2NQLe7kLCdY=
+X-Received: by 2002:a17:90b:20b:b0:1e3:290c:c2ad with SMTP id
+ fy11-20020a17090b020b00b001e3290cc2admr3424815pjb.163.1654780767314; Thu, 09
+ Jun 2022 06:19:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <G2T5.1654777311637536028.utTo@lists.openembedded.org>
+In-Reply-To: <G2T5.1654777311637536028.utTo@lists.openembedded.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 9 Jun 2022 09:19:15 -0400
+Message-ID: 
+ <CADkTA4MLbAu5srK1cNMHTyGSq+A3=SN5375DMkdg9wi_Aq3c9Q@mail.gmail.com>
+Subject: Re: [OE-core] Objcopy --add-gnu-debuglink call removes kernel module
+ signature
+To: sartre.l@email.ecagroup.com, Saul Wold <Saul.Wold@windriver.com>,
+	Joshua Watt <jpewhacker@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Jun 2022 13:03:52 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Jun 2022 13:19:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166779
+ https://lists.openembedded.org/g/openembedded-core/message/166780
 
-* backport the fix for regression in v251.2
+On Thu, Jun 9, 2022 at 8:21 AM <sartre.l@email.ecagroup.com> wrote:
+>
+> Hello,
+>
+> I've noticed that on kirkstone branch, the call to objcopy --add-gnu-debuglink, made by splitdebuginfo() function, on a signed kernel module is removing the signature.
+> An easy fix is to set  INHIBIT_PACKAGE_DEBUG_SPLIT to "1" in the kernel recipe, this way kernel module signatures are not removed.
+> Maybe I can submitt this simple fix to meta-security layer.
+> But maybe it is better to handle it in oe-core as it was done in runstrip() function in lib/oe/package.py, there is already a is_kernel_module_signed() helper that detect if a kernel module is signed or not.
+> What do you think?
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- ...red-utmp-wtmp-fix-build-without-utmp.patch | 32 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_251.2.bb    |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-shared-utmp-wtmp-fix-build-without-utmp.patch
+It would be worth checking with Saul/Joshua to make sure that SBOM or
+licensing isn't hooked into the debug split packages. I vaguely recall
+Saul requiring the debug split, or at least debug info, to track down
+the kernel source for a given module, so that it could be part of
+SBOM.
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-shared-utmp-wtmp-fix-build-without-utmp.patch b/meta/recipes-core/systemd/systemd/0001-shared-utmp-wtmp-fix-build-without-utmp.patch
-new file mode 100644
-index 0000000000..2bb9565bf2
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-shared-utmp-wtmp-fix-build-without-utmp.patch
-@@ -0,0 +1,32 @@
-+From d6e2c2d34d336398f5948a8b731fefff3dc0ff12 Mon Sep 17 00:00:00 2001
-+From: Christian Hesse <mail@eworm.de>
-+Date: Thu, 2 Jun 2022 20:49:46 +0200
-+Subject: [PATCH] shared/utmp-wtmp: fix build without utmp
-+
-+Commit 16618332388442f2f1c3e52b0a9fde00121564a3 changed a function to
-+add an extra argument. The data types used when building without utmp
-+missed the change.
-+
-+Upstream-Status: Backport [d6e2c2d34d336398f5948a8b731fefff3dc0ff12]
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+
-+---
-+ src/shared/utmp-wtmp.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/shared/utmp-wtmp.h b/src/shared/utmp-wtmp.h
-+index 36e4203b4f..188d011fdd 100644
-+--- a/src/shared/utmp-wtmp.h
-++++ b/src/shared/utmp-wtmp.h
-+@@ -59,7 +59,7 @@ static inline int utmp_wall(
-+                 const char *message,
-+                 const char *username,
-+                 const char *origin_tty,
-+-                bool (*match_tty)(const char *tty, void *userdata),
-++                bool (*match_tty)(const char *tty, bool is_local, void *userdata),
-+                 void *userdata) {
-+         return 0;
-+ }
-+-- 
-+2.36.1
-+
-diff --git a/meta/recipes-core/systemd/systemd_251.2.bb b/meta/recipes-core/systemd/systemd_251.2.bb
-index 80f80849d0..8370bec0ca 100644
---- a/meta/recipes-core/systemd/systemd_251.2.bb
-+++ b/meta/recipes-core/systemd/systemd_251.2.bb
-@@ -24,6 +24,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
-            file://0003-implment-systemd-sysv-install-for-OE.patch \
-            file://0001-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch \
-+           file://0001-shared-utmp-wtmp-fix-build-without-utmp.patch \
-            "
- 
- # patches needed by musl
--- 
-2.35.1
+Anything we did for this signed issue, would have be be sure to not break that.
 
+Bruce
+
+>
+> Regards
+> --
+> Leo
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#166776): https://lists.openembedded.org/g/openembedded-core/message/166776
+> Mute This Topic: https://lists.openembedded.org/mt/91643928/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+
+
+--
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
