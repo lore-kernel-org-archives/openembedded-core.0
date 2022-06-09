@@ -2,78 +2,118 @@ Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8D96C433EF
-	for <webhook@archiver.kernel.org>; Thu,  9 Jun 2022 13:03:12 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
- [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web11.12953.1654779786709070478
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2801C43334
+	for <webhook@archiver.kernel.org>; Thu,  9 Jun 2022 13:03:52 +0000 (UTC)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web10.12861.1654779822945377891
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jun 2022 06:03:07 -0700
+ Thu, 09 Jun 2022 06:03:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=AHYVOqHh;
- spf=pass (domain: gmail.com, ip: 209.85.218.52,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=JvCCCSqd;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48,
  mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id s12so40129894ejx.3
+Received: by mail-ej1-f48.google.com with SMTP id g25so847856ejh.9
         for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jun 2022 06:03:06 -0700 (PDT)
+ Thu, 09 Jun 2022 06:03:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=NL43bjS8g3m7hy68p07sA6F9BnwhYHRXLusGClP2arY=;
-        b=AHYVOqHhK0jF5Fb0qmQSTtl0VRotcHpfWQQvmi9EGUhU/ry57FnVupGo6pf/hYjpH4
-         2ftCaKkN3BzdVWt/qD7O8IjxlgzwffP5eEF4ernElUIC0Q/bvcsZzU7fUVlpKj/12B67
-         Cp2Y3kUBBf4savAbFqn2CgEQpLzX0sKrt8unuD9Je2UuB7xm8Q1PDwqyObj8WaNGoJ7J
-         NMV3qJliI1YV4CAsYOty2QKL+jFOB9zdf4xGASc6W67iqWhulbJ6teniU5jnRrGrz6IO
-         0meA4JDpUXGmBHP/aJqPNyGgghqInO2B45O3eV1iVcn566spXjzUHph42rDHK2Pd32hn
-         GyPw==
+        bh=yVpGk+9r5u0QBQP04u7ZfZURkAsnrEGxcoli/ksHVaI=;
+        b=JvCCCSqdlpnYVKpbdrVlVT8Ws4KeKJBb9tVAxK3VIAc+V6lM2GCAMIF/GdbO3AA7IN
+         UKUgleF2ffk+KqsU//UYJQxwNE0JKfglpTWIq3W8nP/9bhbVMehaMJlKncPOzIB+0PGV
+         c5Cx4XtdEG9YmKrnSCkaaBs4qmTY+76IWIDmcjkhL6hnenCN05JSeEd+82XwaVfI4K5r
+         7qcuHCDmTBgez2zFO+3zO8MsheWgK2xIsKXNqz2NbnZ6xPoOIe8XhEg48i3VhQQGPZQl
+         LdXDU34kr/Zx0Rcbn8fhDqhkSMPMSOoRNNSLdmk+7EIYyGPtxUGLAfagQ+ecPtLfImfa
+         UZuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=NL43bjS8g3m7hy68p07sA6F9BnwhYHRXLusGClP2arY=;
-        b=E+0q5w6QxVIhPXkx+mAQm6O7Zb/n1FGzDCvR65XE3XFwZwHPXz4E7LLY2stcMMaTY9
-         MN5ZU+MbdRTqLHUPaB4jlY9pHPfKkKQtoCh80A0aE5OXALaBZTXvaNwSrAjR6OksbVbc
-         eoJJoFtTSc7qHAXf+PSsdHmqYnxshwb+8iUdGd2Hq668e4Esx0GNkcEscZiaPL305qzA
-         I4MnE+jAZvoVqkCYUFU5jmg/xSwpcqDpSQj38N6RJS1W0KW2CXScRujAnT9SH4p65Ti+
-         wENKgC8LoWqvtB4yJLfy1M1se8851v4GlbXNz9I3fipOqW83ld4Ql0uZaVpQmE2QIBdo
-         XzGQ==
-X-Gm-Message-State: AOAM531tSlH1lhyHm3+J7YfWdsZMvRx9uLuoRpmyKTY9AZUTXbPsdGZg
-	RFkjlIZBAQPDl20L3MPUh2RBNVWR41s=
+        bh=yVpGk+9r5u0QBQP04u7ZfZURkAsnrEGxcoli/ksHVaI=;
+        b=DIsVH1UlpKWeuDbmLlseRXeLZnKSzp1n22eTixsW9auf/jd4wxb1mFKAnFS0Zge6Aa
+         NtzpqvBULwBEg2axDP498N1NW2BVnXVkTTCh/lC6R6Y7z3CSvCMKcUArbAJW5QtG3c3t
+         VFZLGvzN85MjrrwLZbLReMGwveIPbS2xFBIhoTEAMqgnkW3/Z9xG8OUSkHKhAGXgkLgV
+         K/GTnM5FVvLqW9svuWMx17L9kAWJ8J2RDbXztNRWmGWM72Q+mUyEe5VyZhHpao5LJgof
+         lWRmpHoCRF4/sGsi/MzDbK5U14L0sWpYGmqgccMl3WonpmHk/PTODhKDMUKBPRj/f2NK
+         6A5Q==
+X-Gm-Message-State: AOAM532AroX//bB/AZ6hDDLzd70I8XpF7dSnFu29rk2e/jCMG+O2CVTy
+	hd0NgmjoKvHnxlbX1nhebZ0KmEaUS0g=
 X-Google-Smtp-Source: 
- ABdhPJxZuEznF/xCnu8dJmn0qxc8QMbu7wMMbJUEQORGJPKXiItLk3A3CwmA1by7R5tb/YXULG6VFQ==
-X-Received: by 2002:a17:907:d24:b0:712:1142:88c7 with SMTP id
- gn36-20020a1709070d2400b00712114288c7mr1178090ejc.435.1654779783845;
-        Thu, 09 Jun 2022 06:03:03 -0700 (PDT)
+ ABdhPJwCTTNERz6aDQ0S7uDcP616Dvot9QccfY0vZ6V7m4DeaxDK2PvL28TLTb0TP//oaQXRZ7b0sQ==
+X-Received: by 2002:a17:907:3da3:b0:711:ca9a:ae23 with SMTP id
+ he35-20020a1709073da300b00711ca9aae23mr19976853ejc.709.1654779821214;
+        Thu, 09 Jun 2022 06:03:41 -0700 (PDT)
 Received: from localhost ([109.238.218.228])
         by smtp.gmail.com with ESMTPSA id
- n24-20020a1709062bd800b006fee28d459csm10893953ejg.224.2022.06.09.06.03.02
+ w21-20020aa7d295000000b0042dd482d0c4sm14167079edq.80.2022.06.09.06.03.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jun 2022 06:03:03 -0700 (PDT)
+        Thu, 09 Jun 2022 06:03:40 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] systemd: Fix build without utmp
-Date: Thu,  9 Jun 2022 15:02:58 +0200
-Message-Id: <20220609130258.3316501-1-Martin.Jansa@gmail.com>
+Subject: [PATCHv2] systemd: Fix build without utmp
+Date: Thu,  9 Jun 2022 15:03:35 +0200
+Message-Id: <20220609130335.3380293-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Jun 2022 13:03:12 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Jun 2022 13:03:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166778
+ https://lists.openembedded.org/g/openembedded-core/message/166779
 
 * backport the fix for regression in v251.2
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-core/systemd/systemd_251.2.bb | 1 +
- 1 file changed, 1 insertion(+)
+ ...red-utmp-wtmp-fix-build-without-utmp.patch | 32 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_251.2.bb    |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-shared-utmp-wtmp-fix-build-without-utmp.patch
 
+diff --git a/meta/recipes-core/systemd/systemd/0001-shared-utmp-wtmp-fix-build-without-utmp.patch b/meta/recipes-core/systemd/systemd/0001-shared-utmp-wtmp-fix-build-without-utmp.patch
+new file mode 100644
+index 0000000000..2bb9565bf2
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-shared-utmp-wtmp-fix-build-without-utmp.patch
+@@ -0,0 +1,32 @@
++From d6e2c2d34d336398f5948a8b731fefff3dc0ff12 Mon Sep 17 00:00:00 2001
++From: Christian Hesse <mail@eworm.de>
++Date: Thu, 2 Jun 2022 20:49:46 +0200
++Subject: [PATCH] shared/utmp-wtmp: fix build without utmp
++
++Commit 16618332388442f2f1c3e52b0a9fde00121564a3 changed a function to
++add an extra argument. The data types used when building without utmp
++missed the change.
++
++Upstream-Status: Backport [d6e2c2d34d336398f5948a8b731fefff3dc0ff12]
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++
++---
++ src/shared/utmp-wtmp.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/shared/utmp-wtmp.h b/src/shared/utmp-wtmp.h
++index 36e4203b4f..188d011fdd 100644
++--- a/src/shared/utmp-wtmp.h
+++++ b/src/shared/utmp-wtmp.h
++@@ -59,7 +59,7 @@ static inline int utmp_wall(
++                 const char *message,
++                 const char *username,
++                 const char *origin_tty,
++-                bool (*match_tty)(const char *tty, void *userdata),
+++                bool (*match_tty)(const char *tty, bool is_local, void *userdata),
++                 void *userdata) {
++         return 0;
++ }
++-- 
++2.36.1
++
 diff --git a/meta/recipes-core/systemd/systemd_251.2.bb b/meta/recipes-core/systemd/systemd_251.2.bb
 index 80f80849d0..8370bec0ca 100644
 --- a/meta/recipes-core/systemd/systemd_251.2.bb
