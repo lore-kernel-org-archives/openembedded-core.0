@@ -2,168 +2,89 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5E10C433EF
-	for <webhook@archiver.kernel.org>; Thu,  9 Jun 2022 16:40:33 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web12.15633.1654792826367754934
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA801C433EF
+	for <webhook@archiver.kernel.org>; Thu,  9 Jun 2022 16:42:33 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web11.15921.1654792944993664223
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jun 2022 09:40:26 -0700
+ Thu, 09 Jun 2022 09:42:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=n0Gl9YEV;
- spf=pass (domain: gmail.com, ip: 209.85.221.46,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Vg1JfMWW;
+ spf=pass (domain: gmail.com, ip: 209.85.221.53,
  mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id o8so5333244wro.3
+Received: by mail-wr1-f53.google.com with SMTP id q15so25137720wrc.11
         for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jun 2022 09:40:26 -0700 (PDT)
+ Thu, 09 Jun 2022 09:42:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=mvu98GYBIR5U4q883cFb4modVv9O2OUqes/yFNCksX0=;
-        b=n0Gl9YEVicpS6U7ozHC4jisfaWVHMgnlOMujC1GblrRMnirWYm0Z5hgccKxwxZlziA
-         ztMAt/+4XAlAuAQVXNZ5VpnKzoY3lbdF978TdBCXNSeXh89kM6+DffkhrpMnwFUtZY20
-         6N8Ndp3enE5Kd0a8uq74mgh7CvlPUWmjtJ8pQbaaPouAPz/IUSKaFQpCZa5kpzx/h27a
-         btJlKZ42d8JoxqNGN5lT3l1UdwDGOJRytUKXAW1rwxNDwcyDqB+EbsMReVqpZHgcAyBN
-         9D8fOdqpHBUg7D3fXoaluyZ+ZTo48rPqbpaiLJAAgJ97biVQtU5P41FK08bnMrLl9SH1
-         TXng==
+        bh=1X4xM3JOlAhDfNSOTET4P13PKW2y3f1ofOXxxgYyYlo=;
+        b=Vg1JfMWWsIV2N2R83i2hcfR/oEEfAm/FAG1JDuS9TPkfbOhFkszbCpxaJpVBcNV3e9
+         yWSpHkFtvO/6BofgJqbxidQaa17jRSVYo+qu3ZNbe5JGt2vgZXt6XI2yVf1z8Gcb2poT
+         JXfERxMFT1b0tS8nc4XgjJIVBIhK+lFbDdvpNGTMgqwfv9Ncgi99ioeTIX0mPu3Q0tYn
+         nat0G+GXuERcPKCRSBTPyMpIQTLfT8jMFRaRahKGTNoaTTVKdn2Lhqutvy3WsbZ7myVx
+         q5iMtmIMJc04i4moM+DYwDPRVsWIce69ntEWdtxS+/c7rAXy9jf7DgVlJ+rT3aAOhpAR
+         F0lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=mvu98GYBIR5U4q883cFb4modVv9O2OUqes/yFNCksX0=;
-        b=AzgkCMCNgfZbAVDX779CinlyPR6Qjm2praTRJC0DyMO43rL8CZSDm4ehY6gv45jTwD
-         nRJKScio8DrKhmI9UWAcGUCh1KqVKYQpZ/0qGY53B1oAm0r7xnBzSGYWhQ07CjEQ1AuX
-         hG+PWr3CrN3kR/f3LUeKzDHWo/tAvksTv6DHHqPaRd8HDNUW2Egeg7demAmFOKerwIBf
-         2MAag3dsn1xinY47XjVGbPW8USZfVaTCGfcuuC8xn2SBw65XPaDDWmplsjsSLPsQd0UK
-         vm9/bnRhTaey/7OYIjl0BqU6fHjRFJpFOucKSGNjKL9EaKWlBhAbxGkHzrEZLcdR7CtP
-         ++Ww==
-X-Gm-Message-State: AOAM533ykmF6S0P73/J1fQbBwCXgbmsT9K5b08Zu+bs4wOexeLSOavRm
-	7Oy/mhqZw6UiEomQ4vRk+WBnBgQN/mc=
+        bh=1X4xM3JOlAhDfNSOTET4P13PKW2y3f1ofOXxxgYyYlo=;
+        b=od2ZwfboLp7FCLLPki2uV8vBrHEmKAxKbCIoNrIDfQkXKpcSOM3kMXokvKZGbV0P63
+         EYTBzqdQ7DfssN4smEj8xs9x9GNyR7/4cJLV5baSL2nfnIgMcRXCLIdeer9AJpzHdxTA
+         ic6/dXiuTkDTdO++7Jq58QHBQ1FyP2sosMrkyjC6zFdMraYi6R41rjctdiTQgdfz6sTr
+         a468llPYpSCuoiZETelANeCYtTCWuwhC8ek/tyO51TAbdBLHokp0Kq4/Z3vMENeO9MO2
+         iRh503AkPjT+Ph+2CNcK5HK8pLkYvooQKGYK0rJsaRiZx5Y5jXdqK/Z1ybXPU+HgaCM1
+         F8QQ==
+X-Gm-Message-State: AOAM532cG4Oz+iETDfXa3g0DXq8zmrrS5k1KpANNpXLu4CfBzcOfgeWN
+	FHMbKQzaqQ5fAAh/t/De0VQo4DWSr+c=
 X-Google-Smtp-Source: 
- ABdhPJyWh2pMdZHpoYrQn59/SwZFPGVJONOTcnMFImrnGi7mYr1yb3pkhyl7kdMbSjInUJ3LjGOQGA==
-X-Received: by 2002:adf:e4cd:0:b0:213:b580:6e9f with SMTP id
- v13-20020adfe4cd000000b00213b5806e9fmr36087454wrm.285.1654792824254;
-        Thu, 09 Jun 2022 09:40:24 -0700 (PDT)
+ ABdhPJw7CcbsUvKK4Ts/Wsy3w33b2g85gIEjYPR6YaVeOO4hn4snez9CO6y3DvNkCafnVWBlzaMjbQ==
+X-Received: by 2002:a05:6000:716:b0:213:b7d1:adeb with SMTP id
+ bs22-20020a056000071600b00213b7d1adebmr34813095wrb.337.1654792943255;
+        Thu, 09 Jun 2022 09:42:23 -0700 (PDT)
 Received: from fio.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
         by smtp.gmail.com with ESMTPSA id
- q66-20020a1c4345000000b0039c463e909asm18758133wma.18.2022.06.09.09.40.23
+ o17-20020a5d6711000000b00218453adaefsm10931799wru.101.2022.06.09.09.42.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jun 2022 09:40:23 -0700 (PDT)
+        Thu, 09 Jun 2022 09:42:22 -0700 (PDT)
 From: Jose Quaresma <quaresma.jose@gmail.com>
 X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [PATCH v3] archiver: avoid race conditions when using multiconfig and
- sharing the same TMPDIR
-Date: Thu,  9 Jun 2022 17:39:08 +0100
-Message-Id: <20220609163907.40205-1-jose.quaresma@foundries.io>
+Subject: [PATCH] archiver: use bb.note instead of echo
+Date: Thu,  9 Jun 2022 17:42:07 +0100
+Message-Id: <20220609164207.40515-1-jose.quaresma@foundries.io>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Jun 2022 16:40:33 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Jun 2022 16:42:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166784
-
-The archiver doesn't support using multiconfig sharing the same TMPDIR.
-When in the multiconfig and using the same TMPDIR: the two machines can make
-the same copy at the same time to the same destination, which will not work.
-
-This issiue can be replicated with meta-ti layer:
-|# use a multiconfig machine
-|MACHINE = "am64xx-evm"
-|# archive sources for target recipes in conf/local.conf
-|INHERIT += "archiver"
-|COPYLEFT_RECIPE_TYPES = "target"
-|ARCHIVER_MODE[src] = "original"
-|ARCHIVER_MODE[diff] = "1"
-|# and run bitbake with:
-|bitbake mc:k3r5:gcc-source-11.2.0 gcc-source-11.2.0 -c do_unpack_and_patch -f
-
-Fixes the following:
-|ERROR: mc:k3r5:gcc-source-11.2.0-11.2.0-r0 do_unpack_and_patch: Error executing a python function in exec_func_python() autogenerated:
-|
-|The stack trace of python calls that resulted in this exception/failure was:
-|File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-|     0001:
-| *** 0002:do_unpack_and_patch(d)
-|     0003:
-|File: '/build/conf/../../layers/openembedded-core/meta/classes/archiver.bbclass', lineno: 489, function: do_unpack_and_patch
-|     0485:    # Save the original source for creating the patches
-|     0486:    if d.getVarFlag('ARCHIVER_MODE', 'diff') == '1':
-|     0487:        src = d.getVar('S').rstrip('/')
-|     0488:        src_orig = '%s.orig' % src
-| *** 0489:        oe.path.copytree(src, src_orig)
-|     0490:
-|     0491:    if bb.data.inherits_class('dos2unix', d):
-|     0492:        bb.build.exec_func('do_convert_crlf_to_lf', d)
-|     0493:
-|File: '/build/conf/../../layers/openembedded-core/meta/lib/oe/path.py', lineno: 94, function: copytree
-|     0090:    # This way we also preserve hardlinks between files in the tree.
-|     0091:
-|     0092:    bb.utils.mkdirhier(dst)
-|     0093:    cmd = "tar --xattrs --xattrs-include='*' -cf - -S -C %s -p . | tar --xattrs --xattrs-include='*' -xf - -C %s" % (src, dst)
-| *** 0094:    subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-|     0095:
-|     0096:def copyhardlinktree(src, dst):
-|     0097:    """Make a tree of hard links when possible, otherwise copy."""
-|     0098:    bb.utils.mkdirhier(dst)
-|File: '/usr/lib/python3.10/subprocess.py', lineno: 420, function: check_output
-|     0416:        else:
-|     0417:            empty = b''
-|     0418:        kwargs['input'] = empty
-|     0419:
-| *** 0420:    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
-|     0421:               **kwargs).stdout
-|     0422:
-|     0423:
-|     0424:class CompletedProcess(object):
-|File: '/usr/lib/python3.10/subprocess.py', lineno: 524, function: run
-|     0520:            # We don't call process.wait() as .__exit__ does that for us.
-|     0521:            raise
-|     0522:        retcode = process.poll()
-|     0523:        if check and retcode:
-| *** 0524:            raise CalledProcessError(retcode, process.args,
-|     0525:                                     output=stdout, stderr=stderr)
-|     0526:    return CompletedProcess(process.args, retcode, stdout, stderr)
-|     0527:
-|     0528:
-|Exception: subprocess.CalledProcessError: Command 'tar --xattrs --xattrs-include='*' -cf - -S -C /build/tmp-lmp/work-shared/gcc-11.2.0-r0/gcc-11.2.0 -p . | tar --xattrs --xattrs-include='*' |-xf - -C /build/tmp-lmp/work-shared/gcc-11.2.0-r0/gcc-11.2.0.orig' returned non-zero exit status 2.
-|
-|Subprocess output:
-|tar: ./gcc/config/moxie/predicates.md: file changed as we read it
-|tar: ./patches: Cannot stat: No such file or directory
-|tar: Exiting with failure status due to previous errors
-|
-|ERROR: Logfile of failure stored in: /build/tmp-lmp/work-shared/gcc-11.2.0-r0/temp/log.do_unpack_and_patch.291906
-|ERROR: Task (mc:k3r5:/build/conf/../../layers/openembedded-core/meta/recipes-devtools/gcc/gcc-source_11.2.bb:do_unpack_and_patch) failed with exit code '1'
+ https://lists.openembedded.org/g/openembedded-core/message/166785
 
 Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 ---
-
- v2: replace "bb.error" with "bb.fatal"
- v3: instead of failing make it more resilient
-
- meta/classes/archiver.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/archiver.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index c19c770d11..b1d7aa0247 100644
+index b1d7aa0247..938f8ffa00 100644
 --- a/meta/classes/archiver.bbclass
 +++ b/meta/classes/archiver.bbclass
-@@ -485,7 +485,8 @@ python do_unpack_and_patch() {
-     # Save the original source for creating the patches
-     if d.getVarFlag('ARCHIVER_MODE', 'diff') == '1':
-         src = d.getVar('S').rstrip('/')
--        src_orig = '%s.orig' % src
-+        # append machine name to avoid races in multiconfig when using the same TMPDIR
-+        src_orig = '%s.orig.%s' % (src, d.getVar('MACHINE'))
-         oe.path.copytree(src, src_orig)
+@@ -580,7 +580,7 @@ python do_dumpdata () {
  
-     if bb.data.inherits_class('dos2unix', d):
+ SSTATETASKS += "do_deploy_archives"
+ do_deploy_archives () {
+-    echo "Deploying source archive files from ${ARCHIVER_TOPDIR} to ${DEPLOY_DIR_SRC}."
++    bbnote "Deploying source archive files from ${ARCHIVER_TOPDIR} to ${DEPLOY_DIR_SRC}."
+ }
+ python do_deploy_archives_setscene () {
+     sstate_setscene(d)
 -- 
 2.36.1
 
