@@ -2,62 +2,62 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC21DC43334
-	for <webhook@archiver.kernel.org>; Fri, 10 Jun 2022 10:33:28 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web09.25531.1654857200349643179
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBAC4C43334
+	for <webhook@archiver.kernel.org>; Fri, 10 Jun 2022 10:43:28 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.25590.1654857806949883524
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jun 2022 03:33:20 -0700
+ Fri, 10 Jun 2022 03:43:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=apABJuKq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UBq0W639;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id
- x6-20020a1c7c06000000b003972dfca96cso854060wmc.4
+Received: by mail-wm1-f49.google.com with SMTP id
+ i131-20020a1c3b89000000b0039c6fd897b4so453266wma.4
         for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jun 2022 03:33:20 -0700 (PDT)
+ Fri, 10 Jun 2022 03:43:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :content-transfer-encoding:user-agent:mime-version;
-        bh=r8JtBzBrsYIJLeJxEdKc5qDSXpFk8U22/s2cC5p553I=;
-        b=apABJuKqGmSJ1TteRTgt+H6ztuwzote46d+OvcHlVk/eX9Le0qVCq1Hck8azdPfial
-         FqhR0lVZLywOGl5lz41iwr9+lqVqWgtrkHJvJciG1TvrD7IxZiBsS3X7qvIkuePsPUHM
-         ZGPhoR82NtGz42pIG2S2bYpinNCtTbz7e4PSA=
+        bh=TNs9vBeX8Lg8zkvwGppz/AQ3S3+V5ysxxlQXz0nmHYU=;
+        b=UBq0W639WAca8w9ejH9lMpdGeR66JaLWRRlKh15aPI1LCNIgCouWNf6DzuDhAOGJqT
+         fLeEOEj0C0AoyeioubRNe+MPc3IPYKCmwnIHCVl5P717rCk81nOSI8wpTx3Stuw/d3kc
+         m13zRF7xsK3BDfRh/Z2f4d+XyhpYkBhDbggCQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:content-transfer-encoding:user-agent:mime-version;
-        bh=r8JtBzBrsYIJLeJxEdKc5qDSXpFk8U22/s2cC5p553I=;
-        b=isNm4WVnQz/Z8XzuqwdYZJHEcXKTW5zhXxjMLRlWKK2kWjrq1y0FTz+dZVGHGnLnga
-         zNZmrywIp0juxLHzVoPvVxvq3Cu25zNDGSkUUUzN+sg5d2gi5eJKEx4DNOx9Uii6KSVC
-         R63m4BLfVikCwqMggBQLQ2RxMjXUycak4rYbxoZhPL4rf8IK1tw9ePh/0IRn30+RvhC0
-         Gzu0h6BcmZR6BQDoPquRxTgIthqTJYiu/x58e4+0j04qU5KqfNb6GRzAqSmvFzB8qJk1
-         BSIy0wpwHOT42hhPdCjn0ktfiOULiyhqFBjgNlF/ZcKd1rXTzVqK4EKYTkZmIPdz5l3r
-         O2nw==
-X-Gm-Message-State: AOAM531//1gEkvgepoL3Ay1qfusPG/JeBmWppbLyAIuXBiR4PVNt0+4m
-	NgZyFnBUtjhxAtpeozuGmDZLKw==
+        bh=TNs9vBeX8Lg8zkvwGppz/AQ3S3+V5ysxxlQXz0nmHYU=;
+        b=x3jrrcoeHINLI3qnFDdpgtRVCtfgnfFVDuIy+H6DbzWFh0q5+X8S+hANDxkhgzdMda
+         kEQrOVA1/V+1KXUWPfVsp8OcLbVupe8qdHfya4q8Y3387jzh7gikWn80GAr3jzY6jmrr
+         k9gBnc6ErhXBt4qXc9ePVpgpMvR5254171DGxb0FkTQineefas7o+hg1ga03SVY/FB0a
+         vrElzJlyWLcHktvbCx0jm09k6rHltnmgLnqNd29HKdvRg8EtIug1A+QKhpej+pmJoSBG
+         YaiyzwPKtka3Iyafv9XtJcO4FXNFxGt0IYGqn+znU3eVWOikW7eT502CiHqD2eXtY32o
+         1zkg==
+X-Gm-Message-State: AOAM531dzZbI3mxY6ppLVDFNcsxt9SE3TXxZVlH8+yJhBw5luzgkHzIr
+	IahbEhJ/hPxjY2A7g6PK5rlsDA==
 X-Google-Smtp-Source: 
- ABdhPJy40hlPboNNneW336XQPHaoz4aS08CjJPPdSQRqooKuYV58MrYdfJGZR3ftnacIO0pCRXtzxg==
-X-Received: by 2002:a1c:7703:0:b0:39c:521d:e9af with SMTP id
- t3-20020a1c7703000000b0039c521de9afmr8151447wmi.170.1654857198607;
-        Fri, 10 Jun 2022 03:33:18 -0700 (PDT)
+ ABdhPJxqlbFz8j3X1CSUR8g1bgaIy2bsJcYSzHOD45HZlUYLFvk+97UK+a4dR1bXnVGO08tNMfIeuQ==
+X-Received: by 2002:a05:600c:3ca8:b0:397:87e:d643 with SMTP id
+ bg40-20020a05600c3ca800b00397087ed643mr8224258wmb.173.1654857805392;
+        Fri, 10 Jun 2022 03:43:25 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:a80c:d45b:2638:f3f9?
  ([2001:8b0:aba:5f3c:a80c:d45b:2638:f3f9])
         by smtp.gmail.com with ESMTPSA id
- i11-20020a05600c354b00b003942a244f47sm2548306wmq.32.2022.06.10.03.33.17
+ c10-20020a056000184a00b0021033caa332sm31085399wri.42.2022.06.10.03.43.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jun 2022 03:33:18 -0700 (PDT)
+        Fri, 10 Jun 2022 03:43:24 -0700 (PDT)
 Message-ID: 
- <12b842aa0edbff2327524acc656397b6b5f99a65.camel@linuxfoundation.org>
+ <eba8015849549cf06ed351ac4db5af382cd45e5a.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH v3] archiver: avoid race conditions when using
  multiconfig and sharing the same TMPDIR
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Jose Quaresma <quaresma.jose@gmail.com>,
 	openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Date: Fri, 10 Jun 2022 11:33:17 +0100
+Date: Fri, 10 Jun 2022 11:43:23 +0100
 In-Reply-To: <20220609163907.40205-1-jose.quaresma@foundries.io>
 References: <20220609163907.40205-1-jose.quaresma@foundries.io>
 Content-Type: text/plain; charset="UTF-8"
@@ -67,9 +67,9 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Jun 2022 10:33:28 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Jun 2022 10:43:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166794
+ https://lists.openembedded.org/g/openembedded-core/message/166795
 
 On Thu, 2022-06-09 at 17:39 +0100, Jose Quaresma wrote:
 > The archiver doesn't support using multiconfig sharing the same TMPDIR.
@@ -90,117 +90,71 @@ rk.
 > > bitbake mc:k3r5:gcc-source-11.2.0 gcc-source-11.2.0 -c do_unpack_and_pa=
 tch -f
 >=20
-> Fixes the following:
-> > ERROR: mc:k3r5:gcc-source-11.2.0-11.2.0-r0 do_unpack_and_patch: Error e=
-xecuting a python function in exec_func_python() autogenerated:
-> >=20
-> > The stack trace of python calls that resulted in this exception/failure=
- was:
-> > File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-> >     0001:
-> > *** 0002:do_unpack_and_patch(d)
-> >     0003:
-> > File: '/build/conf/../../layers/openembedded-core/meta/classes/archiver=
-.bbclass', lineno: 489, function: do_unpack_and_patch
-> >     0485:    # Save the original source for creating the patches
-> >     0486:    if d.getVarFlag('ARCHIVER_MODE', 'diff') =3D=3D '1':
-> >     0487:        src =3D d.getVar('S').rstrip('/')
-> >     0488:        src_orig =3D '%s.orig' % src
-> > *** 0489:        oe.path.copytree(src, src_orig)
-> >     0490:
-> >     0491:    if bb.data.inherits_class('dos2unix', d):
-> >     0492:        bb.build.exec_func('do_convert_crlf_to_lf', d)
-> >     0493:
-> > File: '/build/conf/../../layers/openembedded-core/meta/lib/oe/path.py',=
- lineno: 94, function: copytree
-> >     0090:    # This way we also preserve hardlinks between files in the=
- tree.
-> >     0091:
-> >     0092:    bb.utils.mkdirhier(dst)
-> >     0093:    cmd =3D "tar --xattrs --xattrs-include=3D'*' -cf - -S -C %=
-s -p . | tar --xattrs --xattrs-include=3D'*' -xf - -C %s" % (src, dst)
-> > *** 0094:    subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubpro=
-cess.STDOUT)
-> >     0095:
-> >     0096:def copyhardlinktree(src, dst):
-> >     0097:    """Make a tree of hard links when possible, otherwise copy=
-."""
-> >     0098:    bb.utils.mkdirhier(dst)
-> > File: '/usr/lib/python3.10/subprocess.py', lineno: 420, function: check=
-_output
-> >     0416:        else:
-> >     0417:            empty =3D b''
-> >     0418:        kwargs['input'] =3D empty
-> >     0419:
-> > *** 0420:    return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeout, c=
-heck=3DTrue,
-> >     0421:               **kwargs).stdout
-> >     0422:
-> >     0423:
-> >     0424:class CompletedProcess(object):
-> > File: '/usr/lib/python3.10/subprocess.py', lineno: 524, function: run
-> >     0520:            # We don't call process.wait() as .__exit__ does t=
-hat for us.
-> >     0521:            raise
-> >     0522:        retcode =3D process.poll()
-> >     0523:        if check and retcode:
-> > *** 0524:            raise CalledProcessError(retcode, process.args,
-> >     0525:                                     output=3Dstdout, stderr=
-=3Dstderr)
-> >     0526:    return CompletedProcess(process.args, retcode, stdout, std=
-err)
-> >     0527:
-> >     0528:
-> > Exception: subprocess.CalledProcessError: Command 'tar --xattrs --xattr=
-s-include=3D'*' -cf - -S -C /build/tmp-lmp/work-shared/gcc-11.2.0-r0/gcc-11=
-.2.0 -p . | tar --xattrs --xattrs-include=3D'*' |-xf - -C /build/tmp-lmp/wo=
-rk-shared/gcc-11.2.0-r0/gcc-11.2.0.orig' returned non-zero exit status 2.
-> >=20
-> > Subprocess output:
-> > tar: ./gcc/config/moxie/predicates.md: file changed as we read it
-> > tar: ./patches: Cannot stat: No such file or directory
-> > tar: Exiting with failure status due to previous errors
-> >=20
-> > ERROR: Logfile of failure stored in: /build/tmp-lmp/work-shared/gcc-11.=
-2.0-r0/temp/log.do_unpack_and_patch.291906
-> > ERROR: Task (mc:k3r5:/build/conf/../../layers/openembedded-core/meta/re=
-cipes-devtools/gcc/gcc-source_11.2.bb:do_unpack_and_patch) failed with exit=
- code '1'
->=20
-> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-> ---
->=20
->  v2: replace "bb.error" with "bb.fatal"
->  v3: instead of failing make it more resilient
->=20
->  meta/classes/archiver.bbclass | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclas=
-s
-> index c19c770d11..b1d7aa0247 100644
-> --- a/meta/classes/archiver.bbclass
-> +++ b/meta/classes/archiver.bbclass
-> @@ -485,7 +485,8 @@ python do_unpack_and_patch() {
->      # Save the original source for creating the patches
->      if d.getVarFlag('ARCHIVER_MODE', 'diff') =3D=3D '1':
->          src =3D d.getVar('S').rstrip('/')
-> -        src_orig =3D '%s.orig' % src
-> +        # append machine name to avoid races in multiconfig when using t=
-he same TMPDIR
-> +        src_orig =3D '%s.orig.%s' % (src, d.getVar('MACHINE'))
->          oe.path.copytree(src, src_orig)
-> =20
->      if bb.data.inherits_class('dos2unix', d):
 
+I went digging. If I enable this as above (using master) and run
 
-I'm not convinced this is correct. I did have a quick look at that
-multiconfig (a pointer to the config helps a lot!) and it looks correct
-in that it is just two different MACHINE settings being built within
-the same TMPDIR. That should mean there is only one gcc-source and that
-gcc-source should only run once. Obviously that isn't true so something
-is broken. This patch just works around it rather than identifying what
-is broken and fixing that. We need to find the real problem.
+$ bitbake mc:k3r5:gcc-source-12.1.0 gcc-source-12.1.0 -c do_unpack_and_patc=
+h -S none
+
+then:
+
+$ bitbake-diffsigs tmp/stamps/work-shared/gcc-12.1.0-r0.do_unpack_and_patch=
+.sigdata.*
+NOTE: Starting bitbake server...
+Task dependencies changed from:
+['ABIEXTENSION', 'ARCHIVER_MODE[diff-exclude]', 'ARCHIVER_MODE[diff]', 'ARC=
+HIVER_MODE[src]', 'ARCHIVER_OUTDIR', 'ARCHIVER_TOPDIR', 'ARCHIVER_WORKDIR',=
+ 'B', 'BASEURI', 'EXTENDPE', 'GNU_MIRROR', 'HOST_ARCH', 'HOST_OS', 'HOST_SY=
+S', 'HOST_VENDOR', 'INSANE_SKIP', 'LIBCEXTENSION', 'PATCHTOOL', 'PE', 'PF',=
+ 'PN', 'PR', 'PV', 'RECIPE_SYSROOT_NATIVE', 'S', 'SDE_DIR', 'SDE_FILE', 'SO=
+URCEDIR', 'SRC_URI', 'SRC_URI[sha256sum]', 'STAGING_DIR_NATIVE', 'T', 'TARG=
+ET_ARCH', 'TARGET_OS', 'TARGET_SYS', 'TARGET_VENDOR', 'TUNE_ARCH', 'UNPACK_=
+DIR', 'base_do_unpack', 'base_do_unpack[cleandirs]', 'create_diff_gz', 'cre=
+ate_source_date_epoch_stamp', 'do_patch', 'do_qa_patch', 'do_qa_unpack', 'd=
+o_unpack', 'do_unpack[cleandirs]', 'is_work_shared', 'patch_do_patch', 'src=
+_patches', 'unpack_check_src_uri']
+to:
+['ABIEXTENSION', 'ABIEXTENSION_32', 'ABIEXTENSION_64', 'ARCHIVER_MODE[diff-=
+exclude]', 'ARCHIVER_MODE[diff]', 'ARCHIVER_MODE[src]', 'ARCHIVER_OUTDIR', =
+'ARCHIVER_TOPDIR', 'ARCHIVER_WORKDIR', 'ARMPKGSFX_ENDIAN_64', 'B', 'BASEURI=
+', 'EXTENDPE', 'GNU_MIRROR', 'HOST_ARCH', 'HOST_OS', 'HOST_SYS', 'HOST_VEND=
+OR', 'INSANE_SKIP', 'LIBCEXTENSION', 'PATCHTOOL', 'PE', 'PF', 'PN', 'PR', '=
+PV', 'RECIPE_SYSROOT_NATIVE', 'S', 'SDE_DIR', 'SDE_FILE', 'SOURCEDIR', 'SRC=
+_URI', 'SRC_URI[sha256sum]', 'STAGING_DIR_NATIVE', 'T', 'TARGET_ARCH', 'TAR=
+GET_OS', 'TARGET_SYS', 'TARGET_VENDOR', 'TUNE_ARCH', 'TUNE_ARCH_32', 'TUNE_=
+ARCH_64', 'UNPACK_DIR', 'base_do_unpack', 'base_do_unpack[cleandirs]', 'cre=
+ate_diff_gz', 'create_source_date_epoch_stamp', 'do_patch', 'do_qa_patch', =
+'do_qa_unpack', 'do_unpack', 'do_unpack[cleandirs]', 'is_work_shared', 'pat=
+ch_do_patch', 'src_patches', 'unpack_check_src_uri']
+basehash changed from 005580a7a5a1ab1ff554d0a9e47c2ad4ba932f3fe185d8d349b06=
+c83e5e58b6c to d7b2e696005a578d5958ef4e73f1fc83e22612a3ae4294fb0540b0fadcb6=
+c50f
+List of dependencies for variable ABIEXTENSION changed from 'set()' to '{'A=
+BIEXTENSION_64', 'ABIEXTENSION_32'}'
+List of dependencies for variable TUNE_ARCH changed from 'set()' to '{'TUNE=
+_ARCH_32', 'TUNE_ARCH_64'}'
+Dependency on variable ABIEXTENSION_32 was added
+Dependency on variable ABIEXTENSION_64 was added
+Dependency on variable ARMPKGSFX_ENDIAN_64 was added
+Dependency on variable TUNE_ARCH_32 was added
+Dependency on variable TUNE_ARCH_64 was added
+Variable ABIEXTENSION value changed:
+@@ -1 +1,2 @@
+-eabi
++${@bb.utils.contains('TUNE_FEATURES', 'aarch64', '${ABIEXTENSION_64}', '${=
+ABIEXTENSION_32}', d)}
++TUNE_FEATURES{aarch64} =3D Set
+Variable TUNE_ARCH value changed:
+@@ -1,2 +1,2 @@
+-${@bb.utils.contains('TUNE_FEATURES', 'bigendian', 'armeb', 'arm', d)}
+-TUNE_FEATURES{bigendian} =3D Unset
++${@bb.utils.contains('TUNE_FEATURES', 'aarch64', '${TUNE_ARCH_64}', '${TUN=
+E_ARCH_32}', d)}
++TUNE_FEATURES{aarch64} =3D Set
+
+this tells us the real issue. The task is changing due to toolchain
+issues. These stamps should be the same and aren't and this is the real
+issue that needs fixing.
 
 Cheers,
 
