@@ -1,166 +1,134 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC048C43334
-	for <webhook@archiver.kernel.org>; Fri, 10 Jun 2022 14:14:19 +0000 (UTC)
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net
- [217.70.178.231])
- by mx.groups.io with SMTP id smtpd.web10.27582.1654870452757244344
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1640C433EF
+	for <webhook@archiver.kernel.org>; Fri, 10 Jun 2022 14:19:29 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web08.27624.1654870759418970880
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Jun 2022 07:14:13 -0700
+ Fri, 10 Jun 2022 07:19:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=KpL7b0N6;
- spf=pass (domain: bootlin.com, ip: 217.70.178.231,
- mailfrom: luca.ceresoli@bootlin.com)
-Received: from booty (unknown [77.244.183.192])
-	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 10370100004;
-	Fri, 10 Jun 2022 14:14:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1654870450;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qZCpjRzy2kihA8aoa0j9aBV5zejHBhmLYBZ1dsmQwcc=;
-	b=KpL7b0N60vQxZkEv0jwL/EBCy45nkQRAUMQj7UddfFXnTuA6G5lPCQQJKlKBF9hIkyzi1u
-	fWTWfhPIbKWrmetT9nyR/XIKoQtKnX8nIUyQbcKAW0RzNmlJoSSHFfeElYBQ9rqVipyHEj
-	ZHpd5PpSRIJcmO8CqQmVxyX8+faGh3Jd0ffXaE/162qTGil2Pdvo7AH2kWmUUVSMjIC8nK
-	pER//kVWKrYUWalY8g8lT/0YUjJZc1Vqv1iWlA1jtI6T/cBPA/4lztN2r6UOG+5zfWqmvo
-	SvtHoSRZ/9mzR2oZ0nFynT6PWLCj1qqBtGP+7bbqJxOpGlBL5yxk5XmFOZU1+Q==
-Date: Fri, 10 Jun 2022 16:14:08 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 1/5] classes/buildcfg: Move git/layer revision
- code into new OE module buildcfg
-Message-ID: <20220610161408.34a3a6a4@booty>
-In-Reply-To: <20220609113732.43566-1-richard.purdie@linuxfoundation.org>
-References: <20220609113732.43566-1-richard.purdie@linuxfoundation.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=WLf+19F2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.53,
+ mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f53.google.com with SMTP id v25so35498186eda.6
+        for <openembedded-core@lists.openembedded.org>;
+ Fri, 10 Jun 2022 07:19:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Miq4N/6HM8N3U9TNON4ycmrUg42387uhQe/zfhFQuy8=;
+        b=WLf+19F2ABKj001z/fLYtBTZeNSupV6C0milMc/bevcUBupIhbMRG6pIHfplstvHX2
+         NnCLrtGNi9GMikOUGLzb36KqAagw8eF7N5fLHyi+pwb0KhTedGnCuW0NbhIWZjtFLhq1
+         VM8SiozFxiceLecXK4tWrWVEPxDfheZxmeL+LvGcytm7b0GYdUM5A74vNb7COILfd4OT
+         X/zxerbEvVYbpEHRSh0A7GUm9fhWbShcTz64DJZHE8qmF16Msegh0LzNyyYePdis4Zex
+         vDWfrWJp+jFaQ14H4uYcLgSJAIaLe0B0mAxb9HTb4iDORZC455mtqrP4Vz1Jj3m27Zka
+         Z4EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Miq4N/6HM8N3U9TNON4ycmrUg42387uhQe/zfhFQuy8=;
+        b=caIrQhMNDMOFVlku9fF/Sjl+TVa8WmATLUPoD6seQMb9xnuteNplkXAMhnqYrGEAeS
+         gkY2NmxmioIwam4OtzwihjwoHClhqR5CdVh2natWJRGaJF/ZkAQnQLfdjspymOsYR9mg
+         4URO4DMhynbl4BqQ2JOItVPFXkKpGHd6eoJMMCiCF9iyVXQ7ApsCrfNi9Fe16eOXo7A9
+         Tbo39i6hKg8IKTRZUj/XQJGubFNOviMTpl5UuHgbKrmae5bkle4cGlldbgThwNUd9yJU
+         HjNJZxPfmJ46Ho/qlb46IgQ9LHtpGIaP46hJqG5kIzxSELUoS6D0kBFFqDTBPucbj+Pt
+         UrbQ==
+X-Gm-Message-State: AOAM532e/7gcZYhDCtmtEHbcjKu9zgjVdWJCsaISTnu8LJ4SwWCaHGFf
+	CxP9MPSx9cC7UYQcR6jOItmogsnt7FoXbd8ul5V3sw==
+X-Google-Smtp-Source: 
+ ABdhPJySa2rQcrKl6W2GATJX578bd7zZcVtpigp2GZfpSJiwV4hlRr5v2nQ+2GJU0dhNMCkzJv1iHmqrTyDFpRchOsw=
+X-Received: by 2002:a05:6402:703:b0:42d:d347:a586 with SMTP id
+ w3-20020a056402070300b0042dd347a586mr52167780edx.316.1654870757666; Fri, 10
+ Jun 2022 07:19:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <cover.1654188574.git.steve@sakoman.com>
+ <11399.1654850358021809382@lists.openembedded.org>
+ <CA+chaQevwOdx8w6bGNqwX1=WBN9WnBgHv+EBkUOf8cT7Z=NbjA@mail.gmail.com>
+In-Reply-To: 
+ <CA+chaQevwOdx8w6bGNqwX1=WBN9WnBgHv+EBkUOf8cT7Z=NbjA@mail.gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 10 Jun 2022 04:19:04 -1000
+Message-ID: 
+ <CAOSpxdY7jX0L+eVhQmsATJ0Ui7WY2BO3YLhHPy9A1_xD8WVo7Q@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone 00/26] Patch review
+To: Martin Jansa <Martin.Jansa@gmail.com>
+Cc: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>,
+ openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Jun 2022 14:14:19 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Jun 2022 14:19:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166806
+ https://lists.openembedded.org/g/openembedded-core/message/166807
 
-Hello Richard,
+On Thu, Jun 9, 2022 at 11:12 PM Martin Jansa <Martin.Jansa@gmail.com> wrote=
+:
+>
+> Don't know if it was intentional, but these patches seem to be moved to s=
+table/kirkstone-next:
+> http://cgit.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/ki=
+rkstone-next
 
-On Thu,  9 Jun 2022 12:37:28 +0100
-"Richard Purdie" <richard.purdie@linuxfoundation.org> wrote:
+Yes, it was intentional :-)
 
-> There is a load of duplicated git/layer/revision code which makes
-> most sesne as a python library, not bbclass code. Start to refactor as such.
+The general flow is:
 
-s/sesne/sense/
+1. Patch testing is done from stable/kirkstone-nut.  This branch is
+changed/rebased multiple times daily and is likely to have issues, so
+it is not for general use at all!
+2. Once I have a good patch set in stable/kirkstone-nut I send a
+review request to the list and allow 2 work days for comments.
+3. If there are no comments after the first day, I move the patches to
+stable/kirkstone-next.
+4. After the two day review period I send a pull request from
+stable/kirkstone-next. If there are comments on a patch I will
+typically just drop the patch from stable/kirkstone-next and deal with
+it in the next batch.
+5. Richard takes the pull request and the patches move to the main
+kirkstone branch
 
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/classes/base.bbclass            |  9 +++---
->  meta/classes/buildhistory.bbclass    |  4 +--
->  meta/classes/image-buildinfo.bbclass |  4 +--
->  meta/classes/metadata_scm.bbclass    | 43 ++--------------------------
->  meta/lib/oe/buildcfg.py              | 40 ++++++++++++++++++++++++++
->  5 files changed, 51 insertions(+), 49 deletions(-)
->  create mode 100644 meta/lib/oe/buildcfg.py
-> 
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index bdb3ac33c67..f59e95fef06 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -7,12 +7,11 @@ inherit staging
->  inherit mirrors
->  inherit utils
->  inherit utility-tasks
-> -inherit metadata_scm
->  inherit logging
->  
->  OE_EXTRA_IMPORTS ?= ""
->  
-> -OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license oe.qa oe.reproducible oe.rust ${OE_EXTRA_IMPORTS}"
-> +OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license oe.qa oe.reproducible oe.rust oe.buildcfg ${OE_EXTRA_IMPORTS}"
->  OE_IMPORTS[type] = "list"
->  
->  PACKAGECONFIG_CONFARGS ??= ""
-> @@ -35,6 +34,8 @@ def oe_import(d):
->  # We need the oe module name space early (before INHERITs get added)
->  OE_IMPORTED := "${@oe_import(d)}"
->  
-> +inherit metadata_scm
-> +
->  def lsb_distro_identifier(d):
->      adjust = d.getVar('LSB_DISTRO_ADJUST')
->      adjust_func = None
-> @@ -219,8 +220,8 @@ def get_source_date_epoch_value(d):
->  def get_layers_branch_rev(d):
->      layers = (d.getVar("BBLAYERS") or "").split()
->      layers_branch_rev = ["%-20s = \"%s:%s\"" % (os.path.basename(i), \
-> -        base_get_metadata_git_branch(i, None).strip(), \
-> -        base_get_metadata_git_revision(i, None)) \
-> +        oe.buildcfg.get_metadata_git_branch(i, None).strip(), \
-> +        oe.buildcfg.get_metadata_git_revision(i, None)) \
->              for i in layers]
->      i = len(layers_branch_rev)-1
->      p1 = layers_branch_rev[i].find("=")
-> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-> index 4345ffc6939..f2493b3765a 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -761,8 +761,8 @@ def buildhistory_get_metadata_revs(d):
->      # We want an easily machine-readable format here, so get_layers_branch_rev isn't quite what we want
->      layers = (d.getVar("BBLAYERS") or "").split()
->      medadata_revs = ["%-17s = %s:%s%s" % (os.path.basename(i), \
-> -        base_get_metadata_git_branch(i, None).strip(), \
-> -        base_get_metadata_git_revision(i, None), \
-> +        oe.buildcfg.get_metadata_git_branch(i, None).strip(), \
-> +        oe.buildcfg.get_metadata_git_revision(i, None), \
->          buildhistory_get_modified(i)) \
->              for i in layers]
->      return '\n'.join(medadata_revs)
-> diff --git a/meta/classes/image-buildinfo.bbclass b/meta/classes/image-buildinfo.bbclass
-> index 94c585d4cd9..25ca8d8fe6b 100644
-> --- a/meta/classes/image-buildinfo.bbclass
-> +++ b/meta/classes/image-buildinfo.bbclass
-> @@ -46,8 +46,8 @@ def get_layer_git_status(path):
->  def get_layer_revs(d):
->      layers = (d.getVar("BBLAYERS") or "").split()
->      medadata_revs = ["%-17s = %s:%s %s" % (os.path.basename(i), \
-> -        base_get_metadata_git_branch(i, None).strip(), \
-> -        base_get_metadata_git_revision(i, None), \
-> +        oe.buildcfg.get_metadata_git_branch(i, None).strip(), \
-> +        oe.buildcfg.get_metadata_git_revision(i, None), \
->          get_layer_git_status(i)) \
->              for i in layers]
->      return '\n'.join(medadata_revs)
-> diff --git a/meta/classes/metadata_scm.bbclass b/meta/classes/metadata_scm.bbclass
-> index 47cb969b8d8..f646b3159a4 100644
-> --- a/meta/classes/metadata_scm.bbclass
-> +++ b/meta/classes/metadata_scm.bbclass
-> @@ -1,44 +1,5 @@
-> -def base_detect_revision(d):
-> -    path = base_get_scmbasepath(d)
-> -    return base_get_metadata_git_revision(path, d)
->  
-> -def base_detect_branch(d):
-> -    path = base_get_scmbasepath(d)
-> -    return base_get_metadata_git_branch(path, d)
+As you might expect, I follow the same process for dunfell :-)
 
-This causes failures because there still a user of base_detect_branch()
-in meta/classes/report-error.bbclass
+Hope this clarifies things a bit!
 
-NameError: name 'base_detect_branch' is not defined
+Steve
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/113/builds/2527/steps/13/logs/stdio
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> On Fri, Jun 10, 2022 at 10:39 AM Sundeep KOKKONDA <sundeep.kokkonda@gmail=
+.com> wrote:
+>>
+>> Hello Steve,
+>>
+>> I am planning to do a regression test on gcc-11.3 and cloned the repo fr=
+om given link 'git://git.openembedded.org/openembedded-core-contrib stable/=
+kirkstone-nut' but I did not get these patches included in the cloned repos=
+itory. I could still see gcc-11.2 cloned. Also, I verified patches in rust-=
+common file, those are also not updated.
+>>
+>> Can you let me know does this repo is correct or I've do anything else t=
+o get these patches?
+>>
+>>
+>> Thanks,
+>> Sundeep K.
+>>
+>>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#166791): https://lists.openembedded.org/g/openembedde=
+d-core/message/166791
+> Mute This Topic: https://lists.openembedded.org/mt/91503792/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
