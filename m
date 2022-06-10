@@ -1,81 +1,59 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <sundeep.kokkonda@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1BC2C43334
-	for <webhook@archiver.kernel.org>; Fri, 10 Jun 2022 06:54:57 +0000 (UTC)
-Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web10.23825.1654844091237158946
- for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Jun 2022 23:54:51 -0700
-Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
- domain name (domain: windriver.com, ip: 147.11.146.13,
- mailfrom: kai.kang@windriver.com)
-Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
-	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 25A6snte026847
-	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 9 Jun 2022 23:54:50 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
- [147.11.82.252])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 25A6sf7e011948
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 9 Jun 2022 23:54:49 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 9 Jun 2022 23:54:40 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 9 Jun 2022 23:54:39 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Thu, 9 Jun 2022 23:54:39 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] xxhash: fix build with gcc 12
-Date: Fri, 10 Jun 2022 14:54:38 +0800
-Message-ID: <20220610065438.36893-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51A69C43334
+	for <webhook@archiver.kernel.org>; Fri, 10 Jun 2022 08:39:28 +0000 (UTC)
+Subject: Re: [kirkstone 00/26] Patch review
+To: openembedded-core@lists.openembedded.org
+From: "Sundeep KOKKONDA" <sundeep.kokkonda@gmail.com>
+X-Originating-Location: Hyderabad, Telangana, IN (106.200.142.83)
+X-Originating-Platform: Windows Chrome 102
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Type: text/plain
+Date: Fri, 10 Jun 2022 01:39:18 -0700
+References: <cover.1654188574.git.steve@sakoman.com>
+In-Reply-To: <cover.1654188574.git.steve@sakoman.com>
+Message-ID: <11399.1654850358021809382@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="xKVWvN8ze7cUzTWSiHO3"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Jun 2022 06:54:57 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Jun 2022 08:39:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166789
+ https://lists.openembedded.org/g/openembedded-core/message/166790
 
-From: Kai Kang <kai.kang@windriver.com>
+--xKVWvN8ze7cUzTWSiHO3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-It fails to compile xxhash when '-Og' is set in CFLAGS via such as set
-DEBUG_BUILD = '1' in local.conf. Check and disable inline when '-Og'
-exists.
+Hello Steve,
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-support/xxhash/xxhash_0.8.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+I am planning to do a regression test on gcc-11.3 and cloned the repo from =
+given link ' git://git.openembedded.org/openembedded-core-contrib stable/ki=
+rkstone-nut ' but I did not get these patches included in the cloned reposi=
+tory. I could still see gcc-11.2 cloned. Also, I verified patches in rust-c=
+ommon file, those are also not updated.
 
-diff --git a/meta/recipes-support/xxhash/xxhash_0.8.1.bb b/meta/recipes-support/xxhash/xxhash_0.8.1.bb
-index b3b97025987..222ba7b77c9 100644
---- a/meta/recipes-support/xxhash/xxhash_0.8.1.bb
-+++ b/meta/recipes-support/xxhash/xxhash_0.8.1.bb
-@@ -14,6 +14,8 @@ SRCREV = "35b0373c697b5f160d3db26b1cbb45a0d5ba788c"
- 
- S = "${WORKDIR}/git"
- 
-+CFLAGS += "${@bb.utils.contains('SELECTED_OPTIMIZATION', '-Og', '-DXXH_NO_INLINE_HINTS', '', d)}"
-+
- do_compile () {
- 	oe_runmake all
- }
--- 
-2.17.1
+Can you let me know does this repo is correct or I've do anything else to g=
+et these patches?
 
+Thanks,
+Sundeep K.
+
+--xKVWvN8ze7cUzTWSiHO3
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hello Steve,<br /><br />I am planning to do a regression test on gcc-11.3 a=
+nd cloned the repo from given link '<span style=3D"white-space: pre-wrap;">=
+<em>git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-n=
+ut</em>' but I did not get these patches included in the cloned repository.=
+ I could still see gcc-11.2 cloned. Also, I verified patches in </span><spa=
+n style=3D"white-space: pre-wrap;">rust-common file, those are also not upd=
+ated.</span><span style=3D"white-space: pre-wrap;"><br /><br />Can you let =
+me know does this repo is correct or I've do anything else to get these pat=
+ches?<br /><br /><br />Thanks,<br />Sundeep K.</span>
+
+--xKVWvN8ze7cUzTWSiHO3--
 
