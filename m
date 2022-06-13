@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E49FCCA47F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61133C43334
 	for <webhook@archiver.kernel.org>; Mon, 13 Jun 2022 14:22:17 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.6327.1655130129724635385
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
+ [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web12.6526.1655130132685966407
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Jun 2022 07:22:09 -0700
+ Mon, 13 Jun 2022 07:22:12 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=Xg4omNFP;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179,
+ header.b=F1qhLH0v;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.43,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id r1so5210496plo.10
+Received: by mail-pj1-f43.google.com with SMTP id
+ v11-20020a17090a4ecb00b001e2c5b837ccso8950607pjl.3
         for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Jun 2022 07:22:09 -0700 (PDT)
+ Mon, 13 Jun 2022 07:22:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=nPLGEZXmX7bxL4VD5j6VqUIPFcbIey2Cg5wDYIhQ3WI=;
-        b=Xg4omNFPtfmvdATQCQCeMf2zyOcVz/me27TMamMC7qPWM3KMWDN2+sXMIgq2HB0eyw
-         OACE2nRfH5th8H+wXb4QWdxMHUSU/1LeGXWQ439vVGw0gHrRIw60Ss20ZoK5t3xF4BJe
-         iDthmqg/tZak3KaGtYfsVOZE8fzQNG334Y5n1IShnY6H84lwqQtDngmEuZfOgst0qAXE
-         7gquTT/xJ5s7j2eA/uubZRSvBl7QgSAya53UGrK6ZKj5Z3jjmQpR6hzGsr38hg6T7Liz
-         R3YAWMKsOajOLT9XUY5/Mplt5os4Azw822T0pYPylfmX46/lZs78aTzW9twcyT1hAr2/
-         hR4w==
+        bh=8BstvXOIx4k20xuzpM14WjfbGiJJcDwq5MlHEYcCKt4=;
+        b=F1qhLH0vhwMOffwOgIHyd7PeCRJt//EvornM/zA5Wf7258mjtY5s+MH7bhgMKmJvIH
+         xO9auqVkUk4QIHCp+dynUmviEaTtmjHqSSsDGDSxG6m9cpNQIUco3xMqCPCNRWHc2bwx
+         P2Nh/5S878hEIAKNztVOxaYcUjQfveHcRGlln2bLBGbHZGxybuMmPZsT1bHWQLW0X3nE
+         fwUcFqqPhn5/anoswvZxStuR/M8AY0HLbEjavuIQHlD2HS8wXGevXcp7MvwDe2ROffFJ
+         KViKswvzegozoi6s4KAJKhZkMplfBVahQDrOlGFInP7AqrMO7QzsP1GIPvyQXGWnJyoW
+         WLDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=nPLGEZXmX7bxL4VD5j6VqUIPFcbIey2Cg5wDYIhQ3WI=;
-        b=dfHxnXQ2DcvHPy722g5DD/O80+WdaJBBspfIQUbxBJUCU6zErFlKLavV+9LqKfVEti
-         p1a9EI+je53boRnRPVeLyQ3g/lNFaMkmlr8HnUQJLqTHLsFVroK7CcK//0/QMjwLLha1
-         km/kpIAr7ZEihlOF2shgHpn6lb1IfpXfWGGTo7IdSfWLdo6Xo6U+FP7qa6HSrSZoamkW
-         nxblK1b+d0BBwGI5P4rRJoh7lOk+u9ccW6xbVJuct0o9sxeQ4GjMonMj9cHRYbZaXkmv
-         rd3FXlYfNjH0LElWyTmQuWPLp3sHDMFQblmXWKG8in93ut274LOGorIXk8tx8DsgUstS
-         b+xA==
-X-Gm-Message-State: AJIora9uVb7l1b3nNqO9BfjdoFZPsX8LZ4BcsnB2B4yeUeIqdTLVLkJP
-	TORQJZ1Fy166g1ElrxjTCQ7s5oLi0acG2qC5
+        bh=8BstvXOIx4k20xuzpM14WjfbGiJJcDwq5MlHEYcCKt4=;
+        b=xcE9vxaa1AOrJ1Bupfgzg9n22Fysbo2uU6yVuWtAC1Oe9xrP5zMxQ9nRFSOzCJ0lR2
+         4WHH/49T9WsgLlfIeDSmDxssnXEMvGgq4n9ibtryVWZL6/T+RDUAPRZ8nuF/iIfSVv00
+         KUjTaxbCfI0qY4QLdPBL/yWtpA897fsrUBXhHsr1j4Ylto2iDOJkPIKzRBUIiZ2KkVZd
+         zty3Jh8H4UANbfu/B/zz/552fcgZNmoyKAQNNZxZHCJh6u5p7EOSQj+yrI5lPwSc2vF6
+         ZdgLp1nV/Z5QYh6uIkkLTGqrEpj3v9U8KkRO3aSU/RbBa442bDgGrf4polgPzGD7RMAi
+         7PIQ==
+X-Gm-Message-State: AOAM533aT0uYk1fHZzdTXj0UckNpFnACJj3X/sh0RV/cVJ39czu+xn/S
+	7lWCGBQsUxgBru6BTPCy4IqgN4D+RMrew7c5
 X-Google-Smtp-Source: 
- AGRyM1uq/ulKmjfh84v5Jp93kIBpm+XhgR8oZ4QzKotKa5Rcya5UeyjCAZZqUwNcNlvQHmT7AsNZ9g==
-X-Received: by 2002:a17:90b:3806:b0:1e2:adc5:d192 with SMTP id
- mq6-20020a17090b380600b001e2adc5d192mr7245pjb.223.1655130128631;
-        Mon, 13 Jun 2022 07:22:08 -0700 (PDT)
+ ABdhPJyqhY3xEyrVtx4f3qhho0AHh1e3slvqYMTRCadBJPaeqFlWAZhE5HqCX8Vjk5QOOtusXMAtFw==
+X-Received: by 2002:a17:90a:31cf:b0:1c9:f9b8:68c7 with SMTP id
+ j15-20020a17090a31cf00b001c9f9b868c7mr16203196pjf.34.1655130131588;
+        Mon, 13 Jun 2022 07:22:11 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- iz19-20020a170902ef9300b001636c0b98a7sm5159401plb.226.2022.06.13.07.22.07
+ iz19-20020a170902ef9300b001636c0b98a7sm5159401plb.226.2022.06.13.07.22.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jun 2022 07:22:08 -0700 (PDT)
+        Mon, 13 Jun 2022 07:22:10 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 02/20] perl: Add dependency on make-native to
- avoid race issues
-Date: Mon, 13 Jun 2022 04:21:34 -1000
+Subject: [OE-core][kirkstone 03/20] glibc: Drop make-native dependency
+Date: Mon, 13 Jun 2022 04:21:35 -1000
 Message-Id: 
- <6b1bc1366bf88ec3b77fe9db44813c4dfd545a7d.1655129917.git.steve@sakoman.com>
+ <e36a8a22bd47884a8ecbaf2091560f08c22346f3.1655129917.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1655129917.git.steve@sakoman.com>
 References: <cover.1655129917.git.steve@sakoman.com>
@@ -70,34 +70,32 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 13 Jun 2022 14:22:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166847
+ https://lists.openembedded.org/g/openembedded-core/message/166848
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Make 4.1 has race issues with double colon usage in makefiles which are common
-in MakeMaker generated code in perl. Add a dependency on make-native to avoid
-this as it is relaitvely low overhead.
+Now that our make version is a minmum of 4.0 we can drop this dependency.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 692b7c518637c77804caf7b3cfc60a83afa2e4f4)
+(cherry picked from commit 7a0c52fd44332abb24e0dea608229ab7c472d94e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/perl/perl_5.34.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-core/glibc/glibc_2.35.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/perl/perl_5.34.1.bb b/meta/recipes-devtools/perl/perl_5.34.1.bb
-index 4b9d2e2c50..42bcb8b1bc 100644
---- a/meta/recipes-devtools/perl/perl_5.34.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.34.1.bb
-@@ -33,6 +33,8 @@ S = "${WORKDIR}/perl-${PV}"
- inherit upstream-version-is-even update-alternatives
+diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/glibc/glibc_2.35.bb
+index 6ea5b1efb5..96fe39c548 100644
+--- a/meta/recipes-core/glibc/glibc_2.35.bb
++++ b/meta/recipes-core/glibc/glibc_2.35.bb
+@@ -16,7 +16,7 @@ CVE_CHECK_IGNORE += "CVE-2019-1010022 CVE-2019-1010023 CVE-2019-1010024"
+ # Potential patch at https://sourceware.org/bugzilla/show_bug.cgi?id=22853
+ CVE_CHECK_IGNORE += "CVE-2019-1010025"
  
- DEPENDS += "perlcross-native zlib virtual/crypt"
-+# make 4.1 has race issues with the double-colon usage of MakeMaker, see #14096
-+DEPENDS += "make-native"
+-DEPENDS += "gperf-native bison-native make-native"
++DEPENDS += "gperf-native bison-native"
  
- PERL_LIB_VER = "${@'.'.join(d.getVar('PV').split('.')[0:2])}.0"
- 
+ NATIVESDKFIXES ?= ""
+ NATIVESDKFIXES:class-nativesdk = "\
 -- 
 2.25.1
 
