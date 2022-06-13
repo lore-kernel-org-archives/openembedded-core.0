@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B6BAC43334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5081DCCA47F
 	for <webhook@archiver.kernel.org>; Mon, 13 Jun 2022 14:22:47 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web12.6526.1655130132685966407
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web09.6462.1655130146728978487
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Jun 2022 07:22:41 -0700
+ Mon, 13 Jun 2022 07:22:38 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=mIMLBtBF;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43,
+ header.b=KKSPEkcX;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id
- v11-20020a17090a4ecb00b001e2c5b837ccso8950607pjl.3
+Received: by mail-pj1-f45.google.com with SMTP id e9so5759570pju.5
         for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Jun 2022 07:22:41 -0700 (PDT)
+ Mon, 13 Jun 2022 07:22:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=4OhhrcXgc2z66cLPAJP3OuSCLRigep8/PtAT/VlMeIo=;
-        b=mIMLBtBFuvEJWFSCgGSjm1TVBFyknikwRmSakBoWf2RbLE6nZTBYOaXI2G2kG2+88b
-         DAIDEWT5OTxI/7Xn/ndm4jS8fuvLAwy0hr96lXEhNMUpuAiU2VoxnAXRC5COaTB1EBQ2
-         H0OXHrXu7Ag0MXZIiVfCNbkRU3CIm5aMqyv/N/VqHNsqr5Toes3gpgvvzuFpKHVWJa69
-         M6p3t12kP4WDjrhNbwjQVbHV9QEhbI0Pm/FCyZ0tI0X84Q/ZkF/9LlHUzI460WRfgHO5
-         TktmJar57tpfKKu9j8C2wWIDYPMGxX/aDYf0RYH3Xh3ZYTY6N3NL5FauTy1Qa7HyCDYX
-         7OIw==
+        bh=569ijUURldeQsHqmfokp7WGLr3kz0V7RGATdMDFeVEs=;
+        b=KKSPEkcXdLDzECoivbVCdfRzDwejcK7OjeL/pf35uxrLVZgSEfSgRnlgsccanUbA+y
+         wP1/tYZBbpx3s3t2eYRyPHyUIa1sQWkYUv5xae006y0zJiK1/wKTSGjk6TE4FGjmKY4N
+         KJwcZQRe5TNk2MrzI/jGX83wzClDDiDoBTQIaM41KwIRWUw/jlYd0Y3RkUGLeMir7Ek3
+         kbZJ9hPXM1pBzdwVrGAH4wc+IocD0wqWyBDvnntAWVeCLeleR6cGLxUsNM+3cun+bHs3
+         bMDGpkK1gQpxwvvHmkI6XairF3qJB4jV1OEP1xbe6OblA3ziamUKn5jzBHCojycWEwlh
+         bHwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=4OhhrcXgc2z66cLPAJP3OuSCLRigep8/PtAT/VlMeIo=;
-        b=f9wj4X/WJ0aA0lhME5F3ps/zuCU22nnsgGCC5eHYgaEMeE3p7WsbvHkzWHnrOW6mbt
-         q5PcHFIPIjEcJp5L6lZUxXE72wTX7Ge3PnxgIwu2GywIwUHFWpJknGGdaMcdwwx0vdN5
-         r9TPBWkXPdIaY4/etkSXlanmavamVgwLx4p/b7ZpYzmNY0zCah6tC/ZcODlsZAQCQhXJ
-         y2d+NBzf4fp/rIo1AIA3gozPa8HjgG/uaBsr+MigdZczCbsGGzKe4VyFXSshV5mXWZXF
-         ApxNty0bSOZfrpdRto7Tsu45sKyUOKJBlLAHKP9Gme1fFcVXi+oZAi7EwuhncmMBfQCm
-         +S7A==
-X-Gm-Message-State: AOAM532PHVufIce0W9Fw54EHskAozyx8ajkN9uJPNaRUJDQE5jUf97x+
-	698wW9ras2nqx31vUpXPS5QwnLkeDPYK8cYF
+        bh=569ijUURldeQsHqmfokp7WGLr3kz0V7RGATdMDFeVEs=;
+        b=71MpKB2ULoVhHllBEgIjfkEx86Xj5dXZVkYb85NUVfnKYEbH3+CMpTxTQoQH57Nqry
+         NWWyLn5okZePPTJvDvv5Ug+GNE9aVcgnBTUqK9kEy/EysGrdGs6nb193o8ODe6LTK3SQ
+         vw/MdM2P0gbHRA6BWHebeJJ4nc0+njY85I2S5RLsvLYz0BsTRnLFcUEMeqPd6iejYr+d
+         zGsVw52ZSRsvtqiv6qkUfWUc6Y9oh8BehVzwoc++0RyKs3XopBKVOZZ/we5j/ooYMY2Z
+         C5d9hoR1AdfOn9fyFqJkU1unkVZS3JPAyUyE3mxJMqjJykOa0y2DU+NhsGlxvHyW5kvj
+         E2sQ==
+X-Gm-Message-State: AJIora/IbuqYq8/0Z74Gmdvqydsa6qS8dAV86/O+fbSoc+5KyWsN6PH7
+	nht0mJFwENaMfjK5C2H34LUoVU2CsxlhoHVZ
 X-Google-Smtp-Source: 
- ABdhPJwSJ9m0I3E+RDme8GbLDwmeBG86960RFXzZM/0HKk1lWr2ACddkDia3IjCVMgZzNUqC5aIhMw==
-X-Received: by 2002:a17:902:d4cf:b0:167:735a:e7a1 with SMTP id
- o15-20020a170902d4cf00b00167735ae7a1mr42115112plg.161.1655130160252;
-        Mon, 13 Jun 2022 07:22:40 -0700 (PDT)
+ AGRyM1u0TCh39TnJPaYg30N42BfMlf5VbP2433hJi6tfIH3yLGAVDfOAk04TLfYTYPHHZHxS4+0nnw==
+X-Received: by 2002:a17:903:120b:b0:168:98a9:221f with SMTP id
+ l11-20020a170903120b00b0016898a9221fmr85289plh.48.1655130157723;
+        Mon, 13 Jun 2022 07:22:37 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- iz19-20020a170902ef9300b001636c0b98a7sm5159401plb.226.2022.06.13.07.22.38
+ iz19-20020a170902ef9300b001636c0b98a7sm5159401plb.226.2022.06.13.07.22.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jun 2022 07:22:39 -0700 (PDT)
+        Mon, 13 Jun 2022 07:22:37 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 14/20] linux-yocto/5.10: update to v5.10.119
-Date: Mon, 13 Jun 2022 04:21:46 -1000
+Subject: [OE-core][kirkstone 13/20] linux-yocto/5.15: update to v5.15.44
+Date: Mon, 13 Jun 2022 04:21:45 -1000
 Message-Id: 
- <a4b49bdba4fa69f365e18ca6d45d7b414b697a1f.1655129917.git.steve@sakoman.com>
+ <87f0b01ea3a920eb881f9ef58e8d6a4f0606231b.1655129917.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1655129917.git.steve@sakoman.com>
 References: <cover.1655129917.git.steve@sakoman.com>
@@ -70,272 +69,262 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 13 Jun 2022 14:22:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166859
+ https://lists.openembedded.org/g/openembedded-core/message/166858
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
 Updating  to the latest korg -stable release that comprises
 the following commits:
 
-    56c31ac1d8aa Linux 5.10.119
-    7c57f2134988 ALSA: ctxfi: Add SB046x PCI ID
-    514f58734001 random: check for signals after page of pool writes
-    18c261e9485a random: wire up fops->splice_{read,write}_iter()
-    cf8f8d37586f random: convert to using fops->write_iter()
-    affa1ae52219 random: convert to using fops->read_iter()
-    4bb374a1183b random: unify batched entropy implementations
-    552ae8e4841b random: move randomize_page() into mm where it belongs
-    5f2a040b2fb4 random: move initialization functions out of hot pages
-    02102b63bd96 random: make consistent use of buf and len
-    33783ca3556e random: use proper return types on get_random_{int,long}_wait()
-    1fdd7eef2100 random: remove extern from functions in header
-    811afd06e0f3 random: use static branch for crng_ready()
-    04d61b96bd8a random: credit architectural init the exact amount
-    5123cc61e27d random: handle latent entropy and command line from random_init()
-    9320e087f2b6 random: use proper jiffies comparison macro
-    31ac294037be random: remove ratelimiting for in-kernel unseeded randomness
-    b50f2830b3df random: move initialization out of reseeding hot path
-    4c4110c052e8 random: avoid initializing twice in credit race
-    cef9010b78c4 random: use symbolic constants for crng_init states
-    30e9f362661c siphash: use one source of truth for siphash permutations
-    772edeb8c76a random: help compiler out with fast_mix() by using simpler arguments
-    18413472339b random: do not use input pool from hard IRQs
-    999b0c9e8a97 random: order timer entropy functions below interrupt functions
-    ce3c4ff38186 random: do not pretend to handle premature next security model
-    24d327568578 random: use first 128 bits of input as fast init
-    273aebb50be6 random: do not use batches when !crng_ready()
-    f4c98fe1d100 random: insist on random_get_entropy() existing in order to simplify
-    ffcfdd5de9d0 xtensa: use fallback for random_get_entropy() instead of zero
-    e1ea0e26d3e4 sparc: use fallback for random_get_entropy() instead of zero
-    a5092be129cf um: use fallback for random_get_entropy() instead of zero
-    25d4fdf1f0f8 x86/tsc: Use fallback for random_get_entropy() instead of zero
-    0b93f40cbe97 nios2: use fallback for random_get_entropy() instead of zero
-    fdca77508152 arm: use fallback for random_get_entropy() instead of zero
-    d5531246afcf mips: use fallback for random_get_entropy() instead of just c0 random
-    714def449776 riscv: use fallback for random_get_entropy() instead of zero
-    84397906a603 m68k: use fallback for random_get_entropy() instead of zero
-    7690be1adf8a timekeeping: Add raw clock fallback for random_get_entropy()
-    07b5d0b3e2cc powerpc: define get_cycles macro for arch-override
-    30ee01bcdc2c alpha: define get_cycles macro for arch-override
-    c55a863c304e parisc: define get_cycles macro for arch-override
-    641d1fbd9667 s390: define get_cycles macro for arch-override
-    c895438b172c ia64: define get_cycles macro for arch-override
-    7d9eab78bed9 init: call time_init() before rand_initialize()
-    ec25e386d381 random: fix sysctl documentation nits
-    9dff512945f1 random: document crng_fast_key_erasure() destination possibility
-    a1b5c849d855 random: make random_get_entropy() return an unsigned long
-    72a9ec8d7514 random: allow partial reads if later user copies fail
-    1805d20dfb67 random: check for signals every PAGE_SIZE chunk of /dev/[u]random
-    9641d9b4303f random: check for signal_pending() outside of need_resched() check
-    26ee8fa4dfda random: do not allow user to keep crng key around on stack
-    bb515a5beff2 random: do not split fast init input in add_hwgenerator_randomness()
-    be0d4e3e96ad random: mix build-time latent entropy into pool at init
-    bb563d06c5bc random: re-add removed comment about get_random_{u32,u64} reseeding
-    f3bc5eca83d3 random: treat bootloader trust toggle the same way as cpu trust toggle
-    7cb6782146b8 random: skip fast_init if hwrng provides large chunk of entropy
-    083ab33951e4 random: check for signal and try earlier when generating entropy
-    20da9c6079df random: reseed more often immediately after booting
-    9891211dfe03 random: make consistent usage of crng_ready()
-    95a1c94a1bd7 random: use SipHash as interrupt entropy accumulator
-    849e7b744cf2 random: replace custom notifier chain with standard one
-    66307429b5df random: don't let 644 read-only sysctls be written to
-    4c74ca006afe random: give sysctl_random_min_urandom_seed a more sensible value
-    0964a76fd58b random: do crng pre-init loading in worker rather than irq
-    192d4c6cb3e2 random: unify cycles_t and jiffies usage and types
-    47f0e89b71e2 random: cleanup UUID handling
-    9b0e0e27140d random: only wake up writers after zap if threshold was passed
-    c47f215ab36d random: round-robin registers as ulong, not u32
-    5064550d422d random: clear fast pool, crng, and batches in cpuhp bring up
-    6e1cb84cc6a0 random: pull add_hwgenerator_randomness() declaration into random.h
-    32252548b50f random: check for crng_init == 0 in add_device_randomness()
-    684e9fe92d44 random: unify early init crng load accounting
-    f656bd0011fd random: do not take pool spinlock at boot
-    5d73e69a5dd4 random: defer fast pool mixing to worker
-    7873321cd88f random: rewrite header introductory comment
-    6d1671b6d253 random: group sysctl functions
-    21ae543e3afb random: group userspace read/write functions
-    f04580811d26 random: group entropy collection functions
-    e9ff357860ab random: group entropy extraction functions
-    d7e5b1925a67 random: group crng functions
-    6b1ffb3b5a08 random: group initialization wait functions
-    6c9cee15555d random: remove whitespace and reorder includes
-    7b0f36f7c252 random: remove useless header comment
-    b3901816545e random: introduce drain_entropy() helper to declutter crng_reseed()
-    0971c1c2fdc6 random: deobfuscate irq u32/u64 contributions
-    ae1b8f19542f random: add proper SPDX header
-    9342656c013d random: remove unused tracepoints
-    17ad693cd214 random: remove ifdef'd out interrupt bench
-    28683a188537 random: tie batched entropy generation to base_crng generation
-    adc32acf23db random: fix locking for crng_init in crng_reseed()
-    bb63851c2557 random: zero buffer after reading entropy from userspace
-    63c1aae40ac1 random: remove outdated INT_MAX >> 6 check in urandom_read()
-    07280d2c3f33 random: make more consistent use of integer types
-    655a69cb41e0 random: use hash function for crng_slow_load()
-    95026060d809 random: use simpler fast key erasure flow on per-cpu keys
-    732872aa2c41 random: absorb fast pool into input pool after fast load
-    7a5b9ca583f9 random: do not xor RDRAND when writing into /dev/random
-    16a6e4ae71e2 random: ensure early RDSEED goes through mixer on init
-    c521bf08ee69 random: inline leaves of rand_initialize()
-    70377ee0740c random: get rid of secondary crngs
-    c36e71b5a52e random: use RDSEED instead of RDRAND in entropy extraction
-    1d1582e5fe52 random: fix locking in crng_fast_load()
-    0762b7d1f1ad random: remove batched entropy locking
-    8d07e2a22687 random: remove use_input_pool parameter from crng_reseed()
-    b07fcd9e53fa random: make credit_entropy_bits() always safe
-    32d1d7ce3aad random: always wake up entropy writers after extraction
-    985292206167 random: use linear min-entropy accumulation crediting
-    bb9c45cfb97e random: simplify entropy debiting
-    de0727c0c448 random: use computational hash for entropy extraction
-    e0cc561e4758 random: only call crng_finalize_init() for primary_crng
-    480fd91dcdc7 random: access primary_pool directly rather than through pointer
-    0b9e36e895bb random: continually use hwgenerator randomness
-    6d2d29f051be random: simplify arithmetic function flow in account()
-    a0653a9ec15e random: selectively clang-format where it makes sense
-    bccc8d92310d random: access input_pool_data directly rather than through pointer
-    a9db850c219f random: cleanup fractional entropy shift constants
-    edd294052e77 random: prepend remaining pool constants with POOL_
-    f87f50b843e4 random: de-duplicate INPUT_POOL constants
-    09ae6b851979 random: remove unused OUTPUT_POOL constants
-    8cc5260c19da random: rather than entropy_store abstraction, use global
-    5897e06ac15a random: remove unused extract_entropy() reserved argument
-    ae093ca1256e random: remove incomplete last_data logic
-    7abbc9809fa0 random: cleanup integer types
-    c9e108e36dc8 random: cleanup poolinfo abstraction
-    8a3b78f9177c random: fix typo in comments
-    0ad5d6384d25 random: don't reset crng_init_cnt on urandom_read()
-    17420c77f04c random: avoid superfluous call to RDRAND in CRNG extraction
-    c245231aecd3 random: early initialization of ChaCha constants
-    efaddd56bc54 random: use IS_ENABLED(CONFIG_NUMA) instead of ifdefs
-    644320410266 random: harmonize "crng init done" messages
-    ca57d51126e4 random: mix bootloader randomness into pool
-    542d8ebedb4d random: do not re-init if crng_reseed completes before primary init
-    2bfdf588a811 random: do not sign extend bytes for rotation when mixing
-    685200b076ff random: use BLAKE2s instead of SHA1 in extraction
-    33c30bfe4fb4 random: remove unused irq_flags argument from add_interrupt_randomness()
-    b57a88874088 random: document add_hwgenerator_randomness() with other input functions
-    ae33c501e059 lib/crypto: blake2s: avoid indirect calls to compression function for Clang CFI
-    07918ddba3ab lib/crypto: sha1: re-roll loops to reduce code size
-    5fb6a3ba3af6 lib/crypto: blake2s: move hmac construction into wireguard
-    62531d446a98 lib/crypto: blake2s: include as built-in
-    aec0878b1d13 crypto: blake2s - include <linux/bug.h> instead of <asm/bug.h>
-    030d3443aa61 crypto: blake2s - adjust include guard naming
-    fea91e907076 crypto: blake2s - add comment for blake2s_state fields
-    d45ae768b71b crypto: blake2s - optimize blake2s initialization
-    6c362b7c7764 crypto: blake2s - share the "shash" API boilerplate code
-    72e5b68f33a1 crypto: blake2s - move update and final logic to internal/blake2s.h
-    e467a55bd006 crypto: blake2s - remove unneeded includes
-    198a19d7ee95 crypto: x86/blake2s - define shash_alg structs using macros
-    89f9ee998e36 crypto: blake2s - define shash_alg structs using macros
-    0f8fcf5b6ed7 crypto: lib/blake2s - Move selftest prototype into header file
-    c3a4645d803e MAINTAINERS: add git tree for random.c
-    c4882c6e1ec9 MAINTAINERS: co-maintain random.c
-    acb198c4d11f random: remove dead code left over from blocking pool
-    6227458fef95 random: avoid arch_get_random_seed_long() when collecting IRQ randomness
-    257fbea15ab1 ACPI: sysfs: Fix BERT error region memory mapping
-    14fa2769ea6c ACPI: sysfs: Make sparse happy about address space in use
-    0debc69f003b media: vim2m: initialize the media device earlier
-    ed0e71cc3f1e media: vim2m: Register video device after setting up internals
-    a5c68f457fbf secure_seq: use the 64 bits of the siphash for port offset calculation
-    33f1b4a27abc tcp: change source port randomizarion at connect() time
-    9b4aa0d80b18 KVM: x86/mmu: fix NULL pointer dereference on guest INVPCID
-    74c6e5d58435 KVM: x86: Properly handle APF vs disabled LAPIC situation
-    c06e5f751a08 staging: rtl8723bs: prevent ->Ssid overflow in rtw_wx_set_scan()
-    a8f4d63142f9 lockdown: also lock down previous kgdb use
+    4e67be407725 Linux 5.15.44
+    50196b5d73dc ALSA: ctxfi: Add SB046x PCI ID
+    ea5b87349d5a random: check for signals after page of pool writes
+    3e167570a951 random: wire up fops->splice_{read,write}_iter()
+    0789c69644c8 random: convert to using fops->write_iter()
+    7f8cea12a494 random: convert to using fops->read_iter()
+    6244da28c6b3 random: unify batched entropy implementations
+    64cb7f01ddd2 random: move randomize_page() into mm where it belongs
+    55a368c3e850 random: move initialization functions out of hot pages
+    542a60612d2a random: make consistent use of buf and len
+    29ed26a33436 random: use proper return types on get_random_{int,long}_wait()
+    55729575eaa9 random: remove extern from functions in header
+    c6ae9d65bcdb random: use static branch for crng_ready()
+    4e5e6754a4b6 random: credit architectural init the exact amount
+    11cce5040c29 random: handle latent entropy and command line from random_init()
+    ac0172992c94 random: use proper jiffies comparison macro
+    8df752b82ec5 random: remove ratelimiting for in-kernel unseeded randomness
+    272b79432f66 random: move initialization out of reseeding hot path
+    c4e600154ac0 random: avoid initializing twice in credit race
+    23a1b984f4b8 random: use symbolic constants for crng_init states
+    f4cb809a90df siphash: use one source of truth for siphash permutations
+    82caef84092e random: help compiler out with fast_mix() by using simpler arguments
+    4649394c4749 random: do not use input pool from hard IRQs
+    df4e319ea60f random: order timer entropy functions below interrupt functions
+    baf06217704b random: do not pretend to handle premature next security model
+    0d24003b5fde random: use first 128 bits of input as fast init
+    0d79a47b4ae0 random: do not use batches when !crng_ready()
+    1ab530cf40dc random: insist on random_get_entropy() existing in order to simplify
+    e6bd242523e8 xtensa: use fallback for random_get_entropy() instead of zero
+    b4582cb35167 sparc: use fallback for random_get_entropy() instead of zero
+    d876dca6edf3 um: use fallback for random_get_entropy() instead of zero
+    e017497815f3 x86/tsc: Use fallback for random_get_entropy() instead of zero
+    38fbfa404da6 nios2: use fallback for random_get_entropy() instead of zero
+    197d25e068c0 arm: use fallback for random_get_entropy() instead of zero
+    9e6db825e87a mips: use fallback for random_get_entropy() instead of just c0 random
+    2ab416043a94 riscv: use fallback for random_get_entropy() instead of zero
+    a1428cd7e194 m68k: use fallback for random_get_entropy() instead of zero
+    82f182812f17 timekeeping: Add raw clock fallback for random_get_entropy()
+    bc94ccb2904e powerpc: define get_cycles macro for arch-override
+    8ca78fbdeba0 alpha: define get_cycles macro for arch-override
+    9bf990cff673 parisc: define get_cycles macro for arch-override
+    e05efd31b9db s390: define get_cycles macro for arch-override
+    9f174326e35c ia64: define get_cycles macro for arch-override
+    807ed9c29586 init: call time_init() before rand_initialize()
+    2814a9e632db random: fix sysctl documentation nits
+    4179671f496b random: document crng_fast_key_erasure() destination possibility
+    8b373c113a4c random: make random_get_entropy() return an unsigned long
+    b8078810e44d random: allow partial reads if later user copies fail
+    ccaaff57ed50 random: check for signals every PAGE_SIZE chunk of /dev/[u]random
+    02c2e2ca3610 random: check for signal_pending() outside of need_resched() check
+    e7e196e1ae26 random: do not allow user to keep crng key around on stack
+    be7561767ce8 random: do not split fast init input in add_hwgenerator_randomness()
+    636b057e2a1a random: mix build-time latent entropy into pool at init
+    3967a200367c random: re-add removed comment about get_random_{u32,u64} reseeding
+    25727cbbe9b4 random: treat bootloader trust toggle the same way as cpu trust toggle
+    a704248b4590 random: skip fast_init if hwrng provides large chunk of entropy
+    3689ac035180 random: check for signal and try earlier when generating entropy
+    94c8249efa76 random: reseed more often immediately after booting
+    99290c6898b2 random: make consistent usage of crng_ready()
+    0c66c876393b random: use SipHash as interrupt entropy accumulator
+    6da877d2d46b random: replace custom notifier chain with standard one
+    39c9e5566ac5 random: don't let 644 read-only sysctls be written to
+    e4e1600a674f random: give sysctl_random_min_urandom_seed a more sensible value
+    2c60d7f38d64 random: do crng pre-init loading in worker rather than irq
+    1523ec5324e9 random: unify cycles_t and jiffies usage and types
+    fdb1e54472c3 random: cleanup UUID handling
+    c169e7a09cd4 random: only wake up writers after zap if threshold was passed
+    e400ba11a241 random: round-robin registers as ulong, not u32
+    144c1e7ecf00 random: clear fast pool, crng, and batches in cpuhp bring up
+    80c1f7f8f3cd random: pull add_hwgenerator_randomness() declaration into random.h
+    98d6def672fd random: check for crng_init == 0 in add_device_randomness()
+    9df4a56fad32 random: unify early init crng load accounting
+    d386b087056a random: do not take pool spinlock at boot
+    3c48a2da32ef random: defer fast pool mixing to worker
+    9489e36e2150 random: rewrite header introductory comment
+    9385681af846 random: group sysctl functions
+    96340f035df6 random: group userspace read/write functions
+    74b704245f31 random: group entropy collection functions
+    43e87e6f3317 random: group entropy extraction functions
+    019e057db9b1 random: group crng functions
+    81e62ff1f650 random: group initialization wait functions
+    d3a2510216b4 random: remove whitespace and reorder includes
+    30c52e99db0d random: remove useless header comment
+    95f85a01584e random: introduce drain_entropy() helper to declutter crng_reseed()
+    c807eca035c3 random: deobfuscate irq u32/u64 contributions
+    f641f9495d6f random: add proper SPDX header
+    ce951e9672df random: remove unused tracepoints
+    4509941f75ac random: remove ifdef'd out interrupt bench
+    ad5d17d0faf9 random: tie batched entropy generation to base_crng generation
+    86ab60616ec6 random: fix locking for crng_init in crng_reseed()
+    d2d1ad9430b1 random: zero buffer after reading entropy from userspace
+    eda555356b39 random: remove outdated INT_MAX >> 6 check in urandom_read()
+    5dd066ade820 random: make more consistent use of integer types
+    ba789caa17a0 random: use hash function for crng_slow_load()
+    b27bd09d0544 random: use simpler fast key erasure flow on per-cpu keys
+    1aab83f96663 random: absorb fast pool into input pool after fast load
+    4a18db164cbb random: do not xor RDRAND when writing into /dev/random
+    b51caadb18a7 random: ensure early RDSEED goes through mixer on init
+    fd6eb2800589 random: inline leaves of rand_initialize()
+    5e4fab6fefb1 random: get rid of secondary crngs
+    ded4cc806d0d random: use RDSEED instead of RDRAND in entropy extraction
+    704c76e08804 random: fix locking in crng_fast_load()
+    67fdda9af773 random: remove batched entropy locking
+    ad86aa8ec90f random: remove use_input_pool parameter from crng_reseed()
+    1bc9db59b24c random: make credit_entropy_bits() always safe
+    3730490111ca random: always wake up entropy writers after extraction
+    cb65ac300816 random: use linear min-entropy accumulation crediting
+    a6beb8155b9c random: simplify entropy debiting
+    a5e2c8a4574a random: use computational hash for entropy extraction
+    add92df1cb37 random: only call crng_finalize_init() for primary_crng
+    07e015230415 random: access primary_pool directly rather than through pointer
+    b53c9666e714 random: continually use hwgenerator randomness
+    c1dc53d781fd random: simplify arithmetic function flow in account()
+    2f0e83e8326b random: selectively clang-format where it makes sense
+    db7a0a9171ed random: access input_pool_data directly rather than through pointer
+    c25c7e29be27 random: cleanup fractional entropy shift constants
+    68512942c0d7 random: prepend remaining pool constants with POOL_
+    2772ba4d5223 random: de-duplicate INPUT_POOL constants
+    da80b44cf9cf random: remove unused OUTPUT_POOL constants
+    f9efa1a98831 random: rather than entropy_store abstraction, use global
+    b6d849d0e2f8 random: remove unused extract_entropy() reserved argument
+    578fbb760064 random: remove incomplete last_data logic
+    8aa9ddc4db29 random: cleanup integer types
+    4330c485f92c random: cleanup poolinfo abstraction
+    250bda5d0505 random: fix typo in comments
+    15a1a3baf14f random: don't reset crng_init_cnt on urandom_read()
+    d47579fb283a random: avoid superfluous call to RDRAND in CRNG extraction
+    0c3910447110 random: early initialization of ChaCha constants
+    5822fad8d3dc random: use IS_ENABLED(CONFIG_NUMA) instead of ifdefs
+    69bb5f0917f9 random: harmonize "crng init done" messages
+    c4c9081184e9 random: mix bootloader randomness into pool
+    1b1258b91757 random: do not re-init if crng_reseed completes before primary init
+    08040365d0b7 random: do not sign extend bytes for rotation when mixing
+    2e827d53343a random: use BLAKE2s instead of SHA1 in extraction
+    c5a7694fa802 random: remove unused irq_flags argument from add_interrupt_randomness()
+    40af1df8034a random: document add_hwgenerator_randomness() with other input functions
+    45626449eb25 lib/crypto: blake2s: avoid indirect calls to compression function for Clang CFI
+    b0cdd9ec8445 lib/crypto: sha1: re-roll loops to reduce code size
+    cba2195416d4 lib/crypto: blake2s: move hmac construction into wireguard
+    caba66ec322e lib/crypto: blake2s: include as built-in
+    830ecbae41a7 MAINTAINERS: add git tree for random.c
+    12d7163380a2 MAINTAINERS: co-maintain random.c
+    0da5349e2254 ACPI: sysfs: Fix BERT error region memory mapping
+    bf5a3c51e9f7 ice: fix crash at allocation failure
+    acd12d165281 KVM: x86/mmu: fix NULL pointer dereference on guest INVPCID
+    f82ccfa4835b HID: amd_sfh: Add support for sensor discovery
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e03685b0263e127777baa3440c15db0de9fff523)
+(cherry picked from commit 20bd31326564cfb29e1442e8bbe2f9765aad5992)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
- .../linux/linux-yocto-tiny_5.10.bb            |  8 +++----
- meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 +++++++++----------
+ .../linux/linux-yocto-rt_5.15.bb              |  6 ++---
+ .../linux/linux-yocto-tiny_5.15.bb            |  6 ++---
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 +++++++++----------
  3 files changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-index 7bf7a8016b..ce903a7372 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+index 034656017c..b052db8a15 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
 @@ -11,13 +11,13 @@ python () {
          raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
  }
  
--SRCREV_machine ?= "b324ad7fb718b77e1bcb14017020a7a123ebc30c"
--SRCREV_meta ?= "081fcbfbc763d13eef4bfecb93d733666af2521a"
-+SRCREV_machine ?= "5629d552de7759e4bb9821e210f3673c14900dd0"
-+SRCREV_meta ?= "2f6fa8da5f84c343e6ea57c76829eaca1cc6a840"
+-SRCREV_machine ?= "0349dadc971ea2a9ad780b9be95df3c7b9f08eac"
+-SRCREV_meta ?= "ad633e2276497d00ecc9b7dab7ce03e429cb2f39"
++SRCREV_machine ?= "83bec9a458bfdfb46c5dc62342bafae2806043d4"
++SRCREV_meta ?= "947149960e1426ace478e4b52c28a28ef8d6e74b"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
  
--LINUX_VERSION ?= "5.10.118"
-+LINUX_VERSION ?= "5.10.119"
+-LINUX_VERSION ?= "5.15.43"
++LINUX_VERSION ?= "5.15.44"
  
  LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-index 2cce9695ff..625cdfd085 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+index e9991a66fa..f6110354a0 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+@@ -5,7 +5,7 @@ KCONFIG_MODE = "--allnoconfig"
  
  require recipes-kernel/linux/linux-yocto.inc
  
--LINUX_VERSION ?= "5.10.118"
-+LINUX_VERSION ?= "5.10.119"
+-LINUX_VERSION ?= "5.15.43"
++LINUX_VERSION ?= "5.15.44"
  LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
  
  DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
+@@ -14,8 +14,8 @@ DEPENDS += "openssl-native util-linux-native"
  KMETA = "kernel-meta"
  KCONF_BSP_AUDIT_LEVEL = "2"
  
--SRCREV_machine:qemuarm ?= "d4df93eb136b36c65d2fe5cfdb5404b222ff2a4d"
--SRCREV_machine ?= "f854641b454815ec8fea760820c7f8a6426330b8"
--SRCREV_meta ?= "081fcbfbc763d13eef4bfecb93d733666af2521a"
-+SRCREV_machine:qemuarm ?= "50342ca6fc7dd66bfde9dfd1d6c336f99c55e0ab"
-+SRCREV_machine ?= "d2cfd8b4499710877d54129a9137351a9de166fb"
-+SRCREV_meta ?= "2f6fa8da5f84c343e6ea57c76829eaca1cc6a840"
+-SRCREV_machine ?= "bec753cf26f9924ed9e4e583032687e4a2a947f4"
+-SRCREV_meta ?= "ad633e2276497d00ecc9b7dab7ce03e429cb2f39"
++SRCREV_machine ?= "768cd295dfc0a311d2e53c1b05e19a246e184d0e"
++SRCREV_meta ?= "947149960e1426ace478e4b52c28a28ef8d6e74b"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.10.bb b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-index e08d38d4cb..fcb7b83cec 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-@@ -13,23 +13,23 @@ KBRANCH:qemux86  ?= "v5.10/standard/base"
- KBRANCH:qemux86-64 ?= "v5.10/standard/base"
- KBRANCH:qemumips64 ?= "v5.10/standard/mti-malta64"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+index b7fdaebd3e..3cb5f93a21 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+@@ -13,24 +13,24 @@ KBRANCH:qemux86  ?= "v5.15/standard/base"
+ KBRANCH:qemux86-64 ?= "v5.15/standard/base"
+ KBRANCH:qemumips64 ?= "v5.15/standard/mti-malta64"
  
--SRCREV_machine:qemuarm ?= "71b08c67d5af08e96976aebea86e7d6cc18ac648"
--SRCREV_machine:qemuarm64 ?= "6f85e9236905531846a8473787ab45727b7febe7"
--SRCREV_machine:qemumips ?= "f8bb9500384317b474b0dbf27548d0ec81d9271d"
--SRCREV_machine:qemuppc ?= "66aa1440e2f7df15fb5af87cdafaf0f7be95940f"
--SRCREV_machine:qemuriscv64 ?= "a44e7133d7b5c649d7016a550423a90a4c804340"
--SRCREV_machine:qemuriscv32 ?= "a44e7133d7b5c649d7016a550423a90a4c804340"
--SRCREV_machine:qemux86 ?= "a44e7133d7b5c649d7016a550423a90a4c804340"
--SRCREV_machine:qemux86-64 ?= "a44e7133d7b5c649d7016a550423a90a4c804340"
--SRCREV_machine:qemumips64 ?= "6a33fdea4104a586b0a5abca593ef0dba1dbb87a"
--SRCREV_machine ?= "a44e7133d7b5c649d7016a550423a90a4c804340"
--SRCREV_meta ?= "081fcbfbc763d13eef4bfecb93d733666af2521a"
-+SRCREV_machine:qemuarm ?= "68264cfbddebea663543a7c4ad5131c6cf63d3d2"
-+SRCREV_machine:qemuarm64 ?= "b95be3e8c15d939ce402775de98ab80eda493b11"
-+SRCREV_machine:qemumips ?= "c6a8eaf00384dcce14bb9e28f2d68b5004e8c6f3"
-+SRCREV_machine:qemuppc ?= "6c1e46f34c6b9ababf8c6fcb4c01274099bb034f"
-+SRCREV_machine:qemuriscv64 ?= "f844c3765c3270321f0b3347992565cfdb938c99"
-+SRCREV_machine:qemuriscv32 ?= "f844c3765c3270321f0b3347992565cfdb938c99"
-+SRCREV_machine:qemux86 ?= "f844c3765c3270321f0b3347992565cfdb938c99"
-+SRCREV_machine:qemux86-64 ?= "f844c3765c3270321f0b3347992565cfdb938c99"
-+SRCREV_machine:qemumips64 ?= "8d66b3ad7fbc8554ba2248cfbe755f8d24cb5a1a"
-+SRCREV_machine ?= "f844c3765c3270321f0b3347992565cfdb938c99"
-+SRCREV_meta ?= "2f6fa8da5f84c343e6ea57c76829eaca1cc6a840"
+-SRCREV_machine:qemuarm ?= "53027a25781dce4876ed47dde4e7bb1f49216bf2"
+-SRCREV_machine:qemuarm64 ?= "0a49d733a9ec378aa945dbd20f4d1e3b2d4a9052"
+-SRCREV_machine:qemumips ?= "f8f756c4bfc3489427d714492b29ca316436276d"
+-SRCREV_machine:qemuppc ?= "1ae9b6880799961c8bc3c33d8b596dbea4002401"
+-SRCREV_machine:qemuriscv64 ?= "41470215f97ee60487e6c36b562c5b7ecb8a8c7d"
+-SRCREV_machine:qemuriscv32 ?= "41470215f97ee60487e6c36b562c5b7ecb8a8c7d"
+-SRCREV_machine:qemux86 ?= "41470215f97ee60487e6c36b562c5b7ecb8a8c7d"
+-SRCREV_machine:qemux86-64 ?= "41470215f97ee60487e6c36b562c5b7ecb8a8c7d"
+-SRCREV_machine:qemumips64 ?= "cc95aac05d6fb9f0fbe1c336127568df916e2fed"
+-SRCREV_machine ?= "41470215f97ee60487e6c36b562c5b7ecb8a8c7d"
+-SRCREV_meta ?= "ad633e2276497d00ecc9b7dab7ce03e429cb2f39"
++SRCREV_machine:qemuarm ?= "1585df4dbb1e353cc1472748186504a377de5dce"
++SRCREV_machine:qemuarm64 ?= "363482e730cbf7f772430c99c83f60ddc01d7518"
++SRCREV_machine:qemumips ?= "f534cfa2119dc7cf07d546d9fed2b822af1bc838"
++SRCREV_machine:qemuppc ?= "c019857d9af595336bb272c981150952b87d2639"
++SRCREV_machine:qemuriscv64 ?= "eb3df10e3f3146911fc3235c458c8ef1660ae9df"
++SRCREV_machine:qemuriscv32 ?= "eb3df10e3f3146911fc3235c458c8ef1660ae9df"
++SRCREV_machine:qemux86 ?= "eb3df10e3f3146911fc3235c458c8ef1660ae9df"
++SRCREV_machine:qemux86-64 ?= "eb3df10e3f3146911fc3235c458c8ef1660ae9df"
++SRCREV_machine:qemumips64 ?= "a26ad766d7372a98d4d1f11d50953c45782f3a37"
++SRCREV_machine ?= "eb3df10e3f3146911fc3235c458c8ef1660ae9df"
++SRCREV_meta ?= "947149960e1426ace478e4b52c28a28ef8d6e74b"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
+ # meta SRCREV as the linux-yocto-standard builds. Select your version using the
+ # normal PREFERRED_VERSION settings.
+ BBCLASSEXTEND = "devupstream:target"
+-SRCREV_machine:class-devupstream ?= "0e5bb338bf471ec46924f744c4301751bab8793a"
++SRCREV_machine:class-devupstream ?= "4e67be407725b1d8b829ed2075987037abec98ec"
+ PN:class-devupstream = "linux-yocto-upstream"
+ KBRANCH:class-devupstream = "v5.15/base"
+ 
+@@ -38,7 +38,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
  
  LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "5.10.118"
-+LINUX_VERSION ?= "5.10.119"
+-LINUX_VERSION ?= "5.15.43"
++LINUX_VERSION ?= "5.15.44"
  
  DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
  DEPENDS += "openssl-native util-linux-native"
