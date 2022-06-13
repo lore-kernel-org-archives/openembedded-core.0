@@ -1,139 +1,157 @@
-Return-Path: <ptsneves@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C8CBC43334
-	for <webhook@archiver.kernel.org>; Mon, 13 Jun 2022 11:20:26 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web12.4552.1655119222493844523
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08D68C43334
+	for <webhook@archiver.kernel.org>; Mon, 13 Jun 2022 12:36:17 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web08.5324.1655123775871895383
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Jun 2022 04:20:23 -0700
+ Mon, 13 Jun 2022 05:36:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=j0YOztaJ;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: ptsneves@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id e5so2782108wma.0;
-        Mon, 13 Jun 2022 04:20:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=RbmDa3nl;
+ spf=pass (domain: gmail.com, ip: 209.85.167.42,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f42.google.com with SMTP id s6so8568457lfo.13
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 13 Jun 2022 05:36:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=hUDVtkWJgnf0yQ8nSBLNoxhLn4BkJnT7SAMS8QePBys=;
-        b=j0YOztaJ9R2Bayf3TjE8qASlg67O2Cnh1M25iUgzpzyaoKjwDkeeDjKRF3Vfqds7xb
-         bhI3qbgmo6tZ6+niMx1JLDrcY4Hm9nkxFFeQX/HQBVSeCJD1CSMRzvuYVoXY4VNvF21g
-         A1hawDTaXHwUhes7Rcy7/q5ygdC5bHGptTwKkGdm8zeaRJK/ygPG2H8zmXT7ejsYJ3Vc
-         NYR8ZDYZ3fKipoVF1rIUl+92RX0HimQLukf/zrf5JRlXgdg2laslsBH+c7gp+JX4v95E
-         8aheUh/NY8EsgtTOrOlgMqj8+Dn6ogfiJILRw+CJ/v+nLDovYjXQ5thPGBDzZf5mXdjo
-         L4iw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=i6xaeKlyk9RXP1xStUBwtz7QVgelvC0bM/jRlsQy8zs=;
+        b=RbmDa3nlTDsyCpXImbuWofnJH3Ki8eQUH0e7YB1LQXrwB4Yy93IjGo7UH+2HlCET2e
+         LcYzLhL52d7EQSkCx+a1QbNWL2gWp2hc3zPTM339lpo5Mp6tX+OxrkMIbPt2iL9kk/wM
+         8Z5PERtNSpPl8/DQ1hL67zarpPXmT3Xsx/bxet3oznERzRmWAF3TyvCX64PwvgvZ6ERr
+         LpxBJwXemOQGyRcioNvi5Sf22KlFqJpH/nxuFiYYywTMYrN9TNl3zqMKPAqSSw7kIgqP
+         UXvWISX6q46g8UPectSOX/gPJrOqXS5ssLsx/ccv/7kZUSm1sdwv3s+i/MybemfZfStO
+         MgZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=hUDVtkWJgnf0yQ8nSBLNoxhLn4BkJnT7SAMS8QePBys=;
-        b=x4tcAFiWPj+56kfFIJMr7Q9zW1XVTipn9uwv9eF60dHa4eYcpr7vd/qa7ZhBSOYfbG
-         9chMzgql6UybSJikMxahSy20qVqQhuTSzzWpSo/Z7gEMwtWyK4+UTVv4l4L+yW7bwBCx
-         5Z/0VxPzvywM/IXBxrw8hKVUnjNXhOccFCXapoVVUVJNzzUIBjs4U98MZ8bxvb9s37S4
-         auHZR8OBohX5t+7k1ET/zYOz+nXkSlp0794rW1TQ694KDjnSQ0zBa/+XkSrf/F+A6ixn
-         twW+HN9bIQipPTn/KNKqd+7ej/Kd905uOE2GjzYAuBOAjNPMWmDbdlF3xeQ7FHQmxpSC
-         QOEA==
-X-Gm-Message-State: AOAM532tPbVmjfaJ0dOFlpzq864CwcWW1wCLTxnjemFkv2ts3gHTeBYq
-	KPokiodZ7XHnsRmxVZJj+A==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=i6xaeKlyk9RXP1xStUBwtz7QVgelvC0bM/jRlsQy8zs=;
+        b=ZysSXEAbpd2CTkQdXkJVG0HGyrqlgOUC80xRY1eOD8Xdsr2rafcnIDfe7I5Uc+144E
+         dYDyaZz7wni2yy3/96UbM5E/Py1SRXg4Vz9heJRYeYN5t1TiA6NAHEUvFQaSh79iLYrB
+         9G07b7olHMmtllCSZQ++YgZ7L4VMoYoh0+2OFeaM8wsRcwixC6/BgAu0+/q3qaL195zM
+         An/5K9cJyQKE7Y1itwHkZ1tXirAOHMktiErrmMNbNIgJRDQZVX7q2tHnEXFBVae06wLQ
+         zxB77tKT3RdQoN4b8nrCoo6N2jWPdGWJkcTWplIZ0RAY5GL8vdNHn+pSIr+CKjGs7jjB
+         fGhw==
+X-Gm-Message-State: AOAM531nHeK300Gxh7g7/5jkzqtIsT6FFlxVyLC4qXI9K91yCjFQmqMA
+	iqTJpmhcSVQGqzca8vNa2Mt7UUTqV6wpGWILQMc=
 X-Google-Smtp-Source: 
- ABdhPJwIN2kwotJqt7z2H4MQRhS6ECoinFXeHXiJ9tWjstbrd8QDRP1YyCQho/Gd+tlBDHOP/Pa/Qg==
-X-Received: by 2002:a05:600c:2189:b0:39c:4bfe:880e with SMTP id
- e9-20020a05600c218900b0039c4bfe880emr14001850wme.78.1655119220867;
-        Mon, 13 Jun 2022 04:20:20 -0700 (PDT)
-Received: from [192.168.1.248]
- (031011128028.dynamic-3-poz-k-0-2-0.vectranet.pl. [31.11.128.28])
-        by smtp.gmail.com with ESMTPSA id
- q14-20020adfea0e000000b00213ba4b5d94sm9885577wrm.27.2022.06.13.04.20.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jun 2022 04:20:20 -0700 (PDT)
-Message-ID: <be34fc80-bf8e-0e44-0ca2-fdab26d1ee5d@gmail.com>
-Date: Mon, 13 Jun 2022 13:20:18 +0200
+ ABdhPJyV7rv08c6K4Ovumolm9bKwS6mhBZGnLyyOimjquQDreZbVLW1A/XKPXhZ0DbW4tc+ph+YvMsr6SVHqTR+2NLk=
+X-Received: by 2002:a05:6512:3448:b0:479:10f0:11c7 with SMTP id
+ j8-20020a056512344800b0047910f011c7mr34043286lfr.521.1655123774051; Mon, 13
+ Jun 2022 05:36:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [OE-core] [PATCH v2 4/5] oeqa/selftest: Add test for shebang
- overflow
-Content-Language: en-US
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- "Luca Ceresoli via lists.openembedded.org"
- <luca.ceresoli=bootlin.com@lists.openembedded.org>
-Cc: openembedded-core@lists.openembedded.org
 References: <20220606155807.1414519-1-ptsneves@gmail.com>
- <20220607151123.3588947-1-ptsneves@gmail.com>
- <20220607151123.3588947-4-ptsneves@gmail.com>
- <16F6A653C457F871.26104@lists.openembedded.org>
- <20220608170626.4d97c4b7@booty>
-From: Paulo Neves <ptsneves@gmail.com>
-In-Reply-To: <20220608170626.4d97c4b7@booty>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <20220610214314.2754247-1-ptsneves@gmail.com>
+ <CANNYZj_e=nGby_zVsUEzHmGS9o+nutMXcdeCTDuRExEy+36DYQ@mail.gmail.com>
+ <a58cdf25-70a2-967b-2802-e35e6a62c6fb@gmail.com>
+In-Reply-To: <a58cdf25-70a2-967b-2802-e35e6a62c6fb@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 13 Jun 2022 14:36:02 +0200
+Message-ID: 
+ <CANNYZj_1agiASmtFXEY=NsZTWBFjwSkuFk6BkQd8DG-2DOxGqw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 1/7] python: Avoid shebang overflow on
+ python-config.py
+To: Paulo Neves <ptsneves@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Jun 2022 11:20:26 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Jun 2022 12:36:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166837
+ https://lists.openembedded.org/g/openembedded-core/message/166838
 
-Hey Luca,
+Thanks, can you resend with updated Upstream-Status that includes the link?
 
-I sent a new patchset and from my tests it all should be good now.
+Alex
 
-Paulo Neves
-
-On 6/8/22 17:06, Luca Ceresoli wrote:
-> Hi Paulo,
+On Mon, 13 Jun 2022 at 12:32, Paulo Neves <ptsneves@gmail.com> wrote:
 >
-> On Wed, 8 Jun 2022 14:53:05 +0200
-> "Luca Ceresoli via lists.openembedded.org"
-> <luca.ceresoli=bootlin.com@lists.openembedded.org> wrote:
+> As requested
+> https://github.com/python/cpython/pull/93760
 >
->> Hi Paulo,
->>
->> On Tue,  7 Jun 2022 17:11:22 +0200
->> "Paulo Neves" <ptsneves@gmail.com> wrote:
->>
->>> Make sure we do not stage any executable with a bigger shebang
->>> than 128. Fixes [1]
->>>
->>> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=11053
->>>
->>> Signed-off-by: Paulo Neves <ptsneves@gmail.com>
->> This check seems to be working very well!! It triggered a huge amount
->> of build failures on the autobuilders due to libcheck having a shebang
->> too long in the checkmk script, e.g.:
->>
->> #! /home/pokybuild/yocto-worker/genericx86-64-alt/build/build/tmp/work/x86_64-linux/libcheck-native/0.15.2-r0/recipe-sysroot-native/usr/bin/gawk -f
->>
->> Here are a few logs:
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/5367/steps/14/logs/errors
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/5367/steps/11/logs/errors
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/5689/steps/11/logs/errors
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/5340/steps/12/logs/errors
->>
->> It would be great if you could add another patch to your series to fix
->> libcheck, and also to do 'bitbake world' to test as many packages as
->> possible before discovering from the autobuilders.
-> Here are more failures:
+> Paulo Neves
 >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/5689/steps/12/logs/errors
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/5689/steps/12/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/62/builds/5340/steps/12/logs/errors
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/62/builds/5340/steps/12/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/5340/steps/13/logs/errors
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/5340/steps/13/logs/stdio
+> On 6/13/22 09:30, Alexander Kanavin wrote:
+> > As requested, please submit upstream.
+> >
+> > Alex
+> >
+> > On Fri, 10 Jun 2022 at 23:43, Paulo Neves <ptsneves@gmail.com> wrote:
+> >> The native path may be too big, leading to shebang
+> >> overflow. Just use the #!/usr/bin/env python3.
+> >>
+> >> Signed-off-by: Paulo Neves <ptsneves@gmail.com>
+> >> ---
+> >>   ...shebang-overflow-on-python-config.py.patch | 29 +++++++++++++++++++
+> >>   .../recipes-devtools/python/python3_3.10.4.bb |  1 +
+> >>   2 files changed, 30 insertions(+)
+> >>   create mode 100644 meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+> >>
+> >> diff --git a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+> >> new file mode 100644
+> >> index 0000000000..9f23278a30
+> >> --- /dev/null
+> >> +++ b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+> >> @@ -0,0 +1,29 @@
+> >> +From f0c9dec63d452a7cd1e15ea653f4aced281f021c Mon Sep 17 00:00:00 2001
+> >> +From: Paulo Neves <ptsneves@gmail.com>
+> >> +Date: Tue, 7 Jun 2022 16:16:41 +0200
+> >> +Subject: [PATCH 1/1] Avoid shebang overflow on python-config.py
+> >> +
+> >> +The whole native path may be too big, leading to shebang
+> >> +overflow. Let's just use the env shebang.
+> >> +
+> >> +Upstream-Status: Inappropriate [distribution]
+> >> +---
+> >> + Makefile.pre.in | 2 ++
+> >> + 1 file changed, 2 insertions(+)
+> >> +
+> >> +diff --git a/Makefile.pre.in b/Makefile.pre.in
+> >> +index f0aedb76cb58999427804255da56fa53284d7032..dd88e43114730f7681715777cc76dabb31113176 100644
+> >> +--- a/Makefile.pre.in
+> >> ++++ b/Makefile.pre.in
+> >> +@@ -1638,6 +1638,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
+> >> +       @ # Substitution happens here, as the completely-expanded BINDIR
+> >> +       @ # is not available in configure
+> >> +       sed -e "s,@EXENAME@,$(BINDIR)/python$(LDVERSION)$(EXE)," < $(srcdir)/Misc/python-config.in >python-config.py
+> >> ++      @ # Otherwise we might get huge shebangs with native paths
+> >> ++      sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' python-config.py
+> >> +       @ # Replace makefile compat. variable references with shell script compat. ones; $(VAR) -> ${VAR}
+> >> +       LC_ALL=C sed -e 's,\$$(\([A-Za-z0-9_]*\)),\$$\{\1\},g' < Misc/python-config.sh >python-config
+> >> +       @  # In OpenEmbedded, always use the python version of the script, the shell
+> >> +--
+> >> +2.25.1
+> >> +
+> >> diff --git a/meta/recipes-devtools/python/python3_3.10.4.bb b/meta/recipes-devtools/python/python3_3.10.4.bb
+> >> index 6bd3a6aba8..357025f856 100644
+> >> --- a/meta/recipes-devtools/python/python3_3.10.4.bb
+> >> +++ b/meta/recipes-devtools/python/python3_3.10.4.bb
+> >> @@ -34,6 +34,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+> >>              file://0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch \
+> >>              file://0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch \
+> >>              file://deterministic_imports.patch \
+> >> +           file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
+> >>              "
+> >>
+> >>   SRC_URI:append:class-native = " \
+> >> --
+> >> 2.25.1
+> >>
+> >>
+> >> -=-=-=-=-=-=-=-=-=-=-=-
+> >> Links: You receive all messages sent to this group.
+> >> View/Reply Online (#166813): https://lists.openembedded.org/g/openembedded-core/message/166813
+> >> Mute This Topic: https://lists.openembedded.org/mt/91678611/1686489
+> >> Group Owner: openembedded-core+owner@lists.openembedded.org
+> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> >> -=-=-=-=-=-=-=-=-=-=-=-
+> >>
 >
-> This time the error is:
->
-> stdio: ERROR: core-image-sato-1.0-r0 do_testsdk: The toolchain <...> is not built. Build it before running the tests: 'bitbake <image> -c populate_sdk' .
->
-> I'm not sure exactly how your code triggers such error, but it appeared
-> when testing on the autobuilders with this patch series and disappeared
-> when I removed only these 5 patches, thus it seems related.
->
-
 
