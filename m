@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49ED4CCA47C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49EABC433EF
 	for <webhook@archiver.kernel.org>; Mon, 13 Jun 2022 14:22:57 +0000 (UTC)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
- [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web12.6541.1655130167392498991
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.6334.1655130176081072405
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Jun 2022 07:22:47 -0700
+ Mon, 13 Jun 2022 07:22:56 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=1004IkZP;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.169,
+ header.b=nUwpOwWj;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f169.google.com with SMTP id z14so1529909pgh.0
+Received: by mail-pl1-f177.google.com with SMTP id u18so5242314plb.3
         for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Jun 2022 07:22:47 -0700 (PDT)
+ Mon, 13 Jun 2022 07:22:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=neEU0fNB2m7g2PaUFcNQc1qGmqHITIFnRmmSFlpAEoY=;
-        b=1004IkZPNXx0FElvPzKx3OjYG+yhC1hiNDTrkpOSpJQ0qHJVvfvaNfZwr2OG5hkHej
-         Is4o9pEqj+ojPLpuwNavtfHRk0Km1LvQRB6lwdrogWAtMTL8biJDYRXN0AplDMX53lWU
-         pD6LVPLjOGJEvokugoOCdh38N3QlmrxYldkPwy0EBK7vsELONmMrMYFWlTZ0z4PJ5E5z
-         hD+JimpDmUupIOH48XFuNYSXxUrxohmFMBwMnYKb3LaRxOCWBL8DLeocI9c8KJFPKyfy
-         hYwGRdO7iGDp3KIRuC869+pamvvD3bWZBNh0SFBkV/bdtdwwYZygEeFs3RS2AYenwsuM
-         Zg4A==
+        bh=J/pBgSHrLIsoASc+RXb1HgfqNGa0Ul9OJ+Med6NN2VI=;
+        b=nUwpOwWjk/55XzyQvVd0oQRChJvAme4GWcSH5wqdbSCFUyGVJpB3KaVjFkkX4RHZZb
+         NRZmkE9G8NRYlXV2B3UcpyJIqCrOkTIwhkuZRw607pEjH10WcgW/WJMdfE49v7OFp5rj
+         RdlxxobJoh/IqbGNmKLK71YeKG5Rh9EZYlwV1qA140/q7YMzP4dROgL30cKqyoXk9RyU
+         4jAV3P7wXw+t5tcX4fW3j2QlD472M1/yTQOVDMTnLOcZll68D5uj4OF1p/BAl4fAPRQP
+         my3CWsWwWWsso3wkGNEGazWt8uVsSM+ND7+4a6f3FdhYIoo0gLqnHzd4o0Z0qpJnNRZx
+         Fl7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=neEU0fNB2m7g2PaUFcNQc1qGmqHITIFnRmmSFlpAEoY=;
-        b=mpDVo6ftnjMir4InuqjM4otW1u6zPm9nlTqDXkQb/D4tCR8gj5nw+WHXCqunhcBIcU
-         ABMyS47N+akeASgAz1+TEXty+rkQQh/FAKXApWLvwEZJn93iZ+i5Hm0r/ITp51F5Evj3
-         4t4y4ro5ruud3pko6uy879BQrbJjDxTvFmmEBfc6GQaRRQNLxacXOqw4V/7gcFJe11Ij
-         YhYY06TXKyYkXL+3QIToQ9B+I/vAqb7vStiuFZV/96f5BT2Rz/fh+TJbHdS1H3Kak4RX
-         AfQOaBxKiSzNHOR7c5IXPHeN9ssZ0QCPWuDE2wB4O/RRbzYvz94qoYcWfAhkQodg2zm+
-         HR7w==
-X-Gm-Message-State: AOAM530317otp1hWfnlcFH4pFmK38swrDHcXqdR5eG4eiM9D7GfsBOIo
-	CMBvMnnti6+8EwCMxJ9fFfvNN0BPS0QaRWKB
+        bh=J/pBgSHrLIsoASc+RXb1HgfqNGa0Ul9OJ+Med6NN2VI=;
+        b=gesig/fY6XTID3Ii7RCs5wIm5yjEZsKz9co513bl9iZojQOGbKWN12tqGRVJKZ+/at
+         avPfDNTlCk9Mhj1BkjUhXPmvkUgNpfFXWiU1x3S35K86fbLxrzpaCcV808m861XKu4fQ
+         qmi5e9vtJUGfqg++WZqdbbH9o/hUyMEvQZ+qXxeJFnXk6ibIQfzGo1JCs2aU0pkAza5X
+         K8qNbBPPIM1TX0xh8BtX5U2sfw+IvIgEjOxZ6sxI+mPr19GZnMGL5m31OPvkCwQ6n5lI
+         q+9M1H5i41rzeKS3o2/BWsL+90XkYbB0FWTAcX736P6u19t98Dqj37/089L3zZk2tx0i
+         bTyg==
+X-Gm-Message-State: AOAM530xDxox9iSMh6Vxjgh3yqc2Uz6C7hdR4/xs5zfHwQnMVZQIuYF+
+	jTR0XloCNjQV75jqYS80Im4y6//M7VUsRPF4
 X-Google-Smtp-Source: 
- ABdhPJzgkfLUEkV4kP1EwlE2mseOm4jnA1vWu/UdbGi76u7mshUw6VbQnpHmBlurQp/OQRAxNKMbJA==
-X-Received: by 2002:a63:c63:0:b0:3fe:e14b:b5a0 with SMTP id
- 35-20020a630c63000000b003fee14bb5a0mr21769435pgm.428.1655130166288;
-        Mon, 13 Jun 2022 07:22:46 -0700 (PDT)
+ ABdhPJz273p2pkIIgfMdkx9gxfdiDi84aeb3wY7lwgFo0Fx8nrouSLSqwpO/MpBPWH5WYvYuQQHysA==
+X-Received: by 2002:a17:902:830b:b0:168:e27c:1a56 with SMTP id
+ bd11-20020a170902830b00b00168e27c1a56mr3458082plb.152.1655130175123;
+        Mon, 13 Jun 2022 07:22:55 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- iz19-20020a170902ef9300b001636c0b98a7sm5159401plb.226.2022.06.13.07.22.45
+ iz19-20020a170902ef9300b001636c0b98a7sm5159401plb.226.2022.06.13.07.22.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jun 2022 07:22:45 -0700 (PDT)
+        Mon, 13 Jun 2022 07:22:54 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 16/20] lttng-modules: Fix build failure for
- 5.10.119+ and 5.15.44+ kernel
-Date: Mon, 13 Jun 2022 04:21:48 -1000
+Subject: [OE-core][kirkstone 20/20] rootfs.py: close kernel_abi_ver_file
+Date: Mon, 13 Jun 2022 04:21:52 -1000
 Message-Id: 
- <48aad396d902b36ece414b0adb9cce4aebb093d7.1655129917.git.steve@sakoman.com>
+ <0f7a8359ba370c7f5d5153453ed699e9566f5b1d.1655129917.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1655129917.git.steve@sakoman.com>
 References: <cover.1655129917.git.steve@sakoman.com>
@@ -70,101 +69,38 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 13 Jun 2022 14:22:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166860
+ https://lists.openembedded.org/g/openembedded-core/message/166864
 
-From: He Zhe <zhe.he@windriver.com>
+From: Martin Jansa <Martin.Jansa@gmail.com>
 
-The following kernel commit has been back ported to v5.10.119 and v5.15.44.
+* fixes:
+  oe-core/meta/lib/oe/rootfs.py:331: ResourceWarning: unclosed file <_io.TextIOWrapper name='pkgdata/mach/kernel-depmod/kernel-abiversion' mode='r' encoding='UTF-8'>
+  kernel_ver = open(kernel_abi_ver_file).read().strip(' \n')
 
-commit 14c174633f349cb41ea90c2c0aaddac157012f74
-Author: Jason A. Donenfeld <Jason@zx2c4.com>
-Date:   Thu Feb 10 16:40:44 2022 +0100
-
-  random: remove unused tracepoints
-
-  These explicit tracepoints aren't really used and show sign of aging.
-  It's work to keep these up to date, and before I attempted to keep them
-  up to date, they weren't up to date, which indicates that they're not
-  really used. These days there are better ways of introspecting anyway.
-
-Which causes the following build failure
-lttng-modules-2.13.3/src/probes/lttng-probe-random.c:18:10: fatal error: trace/events/random.h: No such file or directory
-|    18 | #include <trace/events/random.h>
-|       |          ^~~~~~~~~~~~~~~~~~~~~~~
-| compilation terminated.
-
-Signed-off-by: He Zhe <zhe.he@windriver.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c8effd12cae7c7024f8e6c8f6ef70ed602d380ed)
+(cherry picked from commit f9dd8ee063c1132265248457fcd628e1e93727be)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...emove-unused-tracepoints-v5.10-v5.15.patch | 44 +++++++++++++++++++
- .../lttng/lttng-modules_2.13.3.bb             |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-random-remove-unused-tracepoints-v5.10-v5.15.patch
+ meta/lib/oe/rootfs.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-random-remove-unused-tracepoints-v5.10-v5.15.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-random-remove-unused-tracepoints-v5.10-v5.15.patch
-new file mode 100644
-index 0000000000..361a59c2e5
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-random-remove-unused-tracepoints-v5.10-v5.15.patch
-@@ -0,0 +1,44 @@
-+From 13e4c978d45237b8780f1de6d404812b3af26a49 Mon Sep 17 00:00:00 2001
-+From: He Zhe <zhe.he@windriver.com>
-+Date: Thu, 2 Jun 2022 06:36:08 +0000
-+Subject: [PATCH] fix: random: remove unused tracepoints (v5.10, v5.15)
-+
-+The following kernel commit has been back ported to v5.10.119 and v5.15.44.
-+
-+commit 14c174633f349cb41ea90c2c0aaddac157012f74
-+Author: Jason A. Donenfeld <Jason@zx2c4.com>
-+Date:   Thu Feb 10 16:40:44 2022 +0100
-+
-+  random: remove unused tracepoints
-+
-+  These explicit tracepoints aren't really used and show sign of aging.
-+  It's work to keep these up to date, and before I attempted to keep them
-+  up to date, they weren't up to date, which indicates that they're not
-+  really used. These days there are better ways of introspecting anyway.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ src/probes/Kbuild | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/probes/Kbuild b/src/probes/Kbuild
-+index 5478447..31e0ee8 100644
-+--- a/src/probes/Kbuild
-++++ b/src/probes/Kbuild
-+@@ -204,7 +204,10 @@ endif
-+ 
-+ # Introduced in v3.6, remove in v5.18
-+ obj-$(CONFIG_LTTNG) +=  $(shell \
-+-    if [ \( ! \( $(VERSION) -ge 6 -o \( $(VERSION) -eq 5 -a $(PATCHLEVEL) -ge 18 \) \) \) \
-++    if [ \( ! \( $(VERSION) -ge 6 \
-++      -o \( $(VERSION) -eq 5 -a $(PATCHLEVEL) -ge 18 \) \
-++      -o \( $(VERSION) -eq 5 -a $(PATCHLEVEL) -eq 15 -a $(SUBLEVEL) -ge 44 \) \
-++      -o \( $(VERSION) -eq 5 -a $(PATCHLEVEL) -eq 10 -a $(SUBLEVEL) -ge 119\) \) \) \
-+       -a \
-+       $(VERSION) -ge 4 \
-+       -o \( $(VERSION) -eq 3 -a $(PATCHLEVEL) -ge 6 \) \
-+-- 
-+2.32.0
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.3.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.3.bb
-index a5e6b906d2..e049bdc6d2 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.13.3.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.3.bb
-@@ -21,6 +21,7 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0009-Rename-genhd-wrapper-to-blkdev.patch \
-            file://0010-fix-mm-compaction-cleanup-the-compaction-trace-event.patch \
-            file://0001-fix-sched-tracing-Append-prev_state-to-tp-args-inste.patch \
-+           file://0001-fix-random-remove-unused-tracepoints-v5.10-v5.15.patch \
-           "
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 61ccf369f1..9e6b411fb6 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -328,7 +328,9 @@ class Rootfs(object, metaclass=ABCMeta):
+         if not os.path.exists(kernel_abi_ver_file):
+             bb.fatal("No kernel-abiversion file found (%s), cannot run depmod, aborting" % kernel_abi_ver_file)
  
- # Use :append here so that the patch is applied also when using devupstream
+-        kernel_ver = open(kernel_abi_ver_file).read().strip(' \n')
++        with open(kernel_abi_ver_file) as f:
++            kernel_ver = f.read().strip(' \n')
++
+         versioned_modules_dir = os.path.join(self.image_rootfs, modules_dir, kernel_ver)
+ 
+         bb.utils.mkdirhier(versioned_modules_dir)
 -- 
 2.25.1
 
