@@ -2,60 +2,60 @@ Return-Path: <ptsneves@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85599CCA47C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83C01C433EF
 	for <webhook@archiver.kernel.org>; Tue, 14 Jun 2022 13:17:05 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.5979.1655212620761240563
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web08.6119.1655212624367329031
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jun 2022 06:17:02 -0700
+ Tue, 14 Jun 2022 06:17:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NJn/ZISS;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: ptsneves@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id n185so4628324wmn.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=EA8I3mPZ;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: ptsneves@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id h5so11313104wrb.0
         for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jun 2022 06:17:01 -0700 (PDT)
+ Tue, 14 Jun 2022 06:17:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=uAMPa++ia1KnffFugYvd8o2vuvtd+oNHzbTD5UJLnpo=;
-        b=NJn/ZISS00qzyTdAmzu0/wN8B+7W6XU97VtFvv4KLwlcmW+JR9AZhRB6/pWWEwuk/s
-         zJe78QqmG/V/Sjw/J/CmFn9hjNYFwk0mboPTmGROi8HPUM7ziLXojRj7AcGjr+HL2sKI
-         IOlutcdxZtGFdnegR/4ULlwTW0r2rSZD3zyNoGZWek+Pk9VJ8YgkYRkMULsIAK9FPnQc
-         qoP5hT88QwW2VUTustQ9hpSriYZC6hVmnLdm//3QF6DpTMTP4T2Ocm9UC3dUvraZjhPk
-         HGqVbExQ87Xg28Px/8RQgsUl7gEUxwZbebbkMUpIyzFjRUHNpsQWj2H5w64aWSRMNccz
-         xAdw==
+        bh=CR6UkZUuS6acAAgx24EaiP1da4rnTNHECXKHjjMSFiY=;
+        b=EA8I3mPZDJjyq8mRgWB8T7otdQWzNgEVa+kZ9ByhAmsXxLWmyxfTuRDJEJgIp8a8wO
+         ulxufCeQ0KWBIY25ijUJ581MxNV7jFb1FqIqAfJDlS29fygF5Y85CbFO/fRWh/vYDu3R
+         hLZIy/XzeODhtTp+JoLLcZBNaYn7PuxMV5CJ7+b0X8ew9qYi+BT2d+Egn1T9JmdFN9BL
+         06LDSf+0mwQd2KZRHofIQZiA0/ldMx70tMhVYfPjt6kdVdzr7gaxquOJA04ZDE8rfYvv
+         7KjySXfT8MMunDSQfOpuGQA1DkbNIcE4HHrKf4sS59AvIfsMQfDTrrYrGiVLhkqe4K8b
+         jLZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=uAMPa++ia1KnffFugYvd8o2vuvtd+oNHzbTD5UJLnpo=;
-        b=s1eC46w1r4e4zTVQgeqchcf+hkAHk/D4sWwBs5upzKFWoUMgNSI4fIeu3BYPVsKiyd
-         wFZEEUkUQo1NzhK2BfdrL0CTDQB+dRWHNmqRo38IiASQr3sUF+PScFe04RrtQEO2B8i5
-         PxBkciCkFSrtLtygAVxC3iWt8yT7iJLK7oieZsmnNzHVmu+y49G/1oIfAT5OQ9A641eC
-         21G7kIq2D2aVDARndyq+jPg4BzAJoj6gMVCcX8VcdEy1HOvts/8of0ZKDkQA8VY5NghL
-         0MFM685dSy9vMHGtO9mJ73gPxDc59UXIEGij95SFj+U/Q8bBsM9LI+QYjmrsXpMrtye9
-         5NQQ==
-X-Gm-Message-State: AOAM531fck4CCBWtaS2HPSgc7/NVwrD/0JuSO/v+Z73tDlYrzKXgC9+p
-	89y2pXsPkfaVlYX4QKA0MKqN/m4gBA==
+        bh=CR6UkZUuS6acAAgx24EaiP1da4rnTNHECXKHjjMSFiY=;
+        b=7hXNYrBIilFvfjB8/la2xEK7t/miU7EQ8Xy8CjZIH3O/rC7QZ2XSkErjqoL1Gi1LY/
+         T3N1YaPQuLw/odDu2FYwkw5GHl/xIj3XXRo/S+JtJKi6qhfrgbcCrLdgsmywkcx2vIql
+         CnJ8QdAPxTx1OfPDBgziPt16gfrz8rW0Mn1e2XbkPN5Vg5VnABswJMRrD622hsZqWc1k
+         3pTXvxlGe+GnhcSQlyF8zB5ndyyoafc2HeguT9taKSnLZ95U6sZdbBjSmrmROWSZAX3Z
+         WVCnmUJHChuAYUWAH8IEYm+kqUxn+6qpes0MZsEv10fzfZC7MkYbdBwRRF8Hdf2Cfpwi
+         TnWw==
+X-Gm-Message-State: AJIora/lf6zPD3ZP8UV33yZKVp1x/wAFofiLv4aQc9IhAnfG4skV4vln
+	iTix9tg/RehUyRdUW+PgXttDybl6kQ==
 X-Google-Smtp-Source: 
- ABdhPJy84HNZe+idvvaFqhFM7d9vtKNbgZyj03px+uTM00nVoKKBF7oTDnoQetaapi/lcSSqvAk3hA==
-X-Received: by 2002:a7b:c31a:0:b0:39c:4783:385e with SMTP id
- k26-20020a7bc31a000000b0039c4783385emr4187963wmj.185.1655212621131;
-        Tue, 14 Jun 2022 06:17:01 -0700 (PDT)
+ AGRyM1uOs0oxabxQAjK1p8sikDXfSisFtzm7BcYu1K95HQn12N8yKqmtdst+Ybtoew2/KyOTP7G9HQ==
+X-Received: by 2002:a5d:6945:0:b0:211:7de7:7247 with SMTP id
+ r5-20020a5d6945000000b002117de77247mr4836105wrw.169.1655212622934;
+        Tue, 14 Jun 2022 06:17:02 -0700 (PDT)
 Received: from localhost.localdomain
  (031011128028.dynamic-3-poz-k-0-2-0.vectranet.pl. [31.11.128.28])
         by smtp.gmail.com with ESMTPSA id
- ay15-20020a5d6f0f000000b002183cf9cd69sm12161092wrb.15.2022.06.14.06.17.00
+ ay15-20020a5d6f0f000000b002183cf9cd69sm12161092wrb.15.2022.06.14.06.17.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jun 2022 06:17:00 -0700 (PDT)
+        Tue, 14 Jun 2022 06:17:02 -0700 (PDT)
 From: Paulo Neves <ptsneves@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Paulo Neves <ptsneves@gmail.com>
-Subject: [PATCH v4 4/7] oeqa/selftest: Add test for shebang overflow
-Date: Tue, 14 Jun 2022 15:16:49 +0200
-Message-Id: <20220614131652.566471-4-ptsneves@gmail.com>
+Subject: [PATCH v4 6/7] utils: Add cmdline_shebang_wrapper util.
+Date: Tue, 14 Jun 2022 15:16:51 +0200
+Message-Id: <20220614131652.566471-6-ptsneves@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220614131652.566471-1-ptsneves@gmail.com>
 References: <20220606155807.1414519-1-ptsneves@gmail.com>
@@ -67,56 +67,118 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 14 Jun 2022 13:17:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166885
+ https://lists.openembedded.org/g/openembedded-core/message/166887
 
-Make sure we do not stage any executable with a bigger shebang
-than 128. Fixes [1]
-
-[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=11053
-
-Signed-off-by: Paulo Neves <ptsneves@gmail.com>
+Useful to work around shebang relocation issues, where
+shebangs are too long or have arguments in them, thus preventing them
+from using the /usr/bin/env shebang.
 ---
- .../sysroot-test/sysroot-shebang-test_1.0.bb         | 12 ++++++++++++
- meta/lib/oeqa/selftest/cases/sysroot.py              | 10 ++++++++++
- 2 files changed, 22 insertions(+)
- create mode 100644 meta-selftest/recipes-test/sysroot-test/sysroot-shebang-test_1.0.bb
+ .../wrapper/cmdline-shebang-wrapper-test.bb   | 21 ++++++++++++
+ .../recipes-test/wrapper/files/test.awk       |  2 ++
+ meta/classes/utils.bbclass                    | 34 +++++++++++++++++++
+ meta/lib/oeqa/selftest/cases/wrapper.py       | 11 ++++++
+ 4 files changed, 68 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/wrapper/cmdline-shebang-wrapper-test.bb
+ create mode 100644 meta-selftest/recipes-test/wrapper/files/test.awk
+ create mode 100644 meta/lib/oeqa/selftest/cases/wrapper.py
 
-diff --git a/meta-selftest/recipes-test/sysroot-test/sysroot-shebang-test_1.0.bb b/meta-selftest/recipes-test/sysroot-test/sysroot-shebang-test_1.0.bb
+diff --git a/meta-selftest/recipes-test/wrapper/cmdline-shebang-wrapper-test.bb b/meta-selftest/recipes-test/wrapper/cmdline-shebang-wrapper-test.bb
 new file mode 100644
-index 0000000000..6c834be897
+index 0000000000..302eea8901
 --- /dev/null
-+++ b/meta-selftest/recipes-test/sysroot-test/sysroot-shebang-test_1.0.bb
-@@ -0,0 +1,12 @@
-+SUMMARY = "Check that shebang does not exceed 128 characters"
++++ b/meta-selftest/recipes-test/wrapper/cmdline-shebang-wrapper-test.bb
+@@ -0,0 +1,21 @@
++FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
++SUMMARY = "Check that create_cmdline_shebang works"
 +LICENSE = "CLOSED"
 +INHIBIT_DEFAULT_DEPS = "1"
++
++SRC_URI += "file://test.awk"
 +
 +EXCLUDE_FROM_WORLD = "1"
 +do_install() {
 +    install -d ${D}${bindir}
-+    echo '#!BiM3cnVd1Amtv6PG+FynrQiVMbZnX5ELgF21q3EkuB+44JEGWtq8TvBJ7EGidfVs3eR3wVOUbLnjYDlKUWcm7YC/ute7f+KDHbwxziRUSUBZAUqgjiQdfQ0HnxajI0ozbM863E9JV9k13yZKYfh9/zR77Y6Dl4Dd3zOWS75LSpkAXV' > ${D}${bindir}/max-shebang
-+    chmod 755 ${D}${bindir}/max-shebang
++    install -m 0755 ${WORKDIR}/test.awk ${D}${bindir}/test
++    sed -i -e 's|@AWK_BIN@|${bindir}/awk|g' ${D}${bindir}/test
++    create_cmdline_shebang_wrapper ${D}${bindir}/test
++    if [ $(${D}${bindir}/test) != "Don't Panic!" ]; then
++        bbfatal "Wrapper is broken"
++    else
++        bbnote "Wrapper is good"
++    fi
 +}
 +
 +BBCLASSEXTEND = "native"
-diff --git a/meta/lib/oeqa/selftest/cases/sysroot.py b/meta/lib/oeqa/selftest/cases/sysroot.py
-index 315d1a61c2..9457f1e3ac 100644
---- a/meta/lib/oeqa/selftest/cases/sysroot.py
-+++ b/meta/lib/oeqa/selftest/cases/sysroot.py
-@@ -35,3 +35,13 @@ TESTSTRING:pn-sysroot-test-arch1 = "%s"
- TESTSTRING:pn-sysroot-test-arch2 = "%s"
- """ % (uuid1, uuid2))
-         bitbake("sysroot-test")
+diff --git a/meta-selftest/recipes-test/wrapper/files/test.awk b/meta-selftest/recipes-test/wrapper/files/test.awk
+new file mode 100644
+index 0000000000..91429197b1
+--- /dev/null
++++ b/meta-selftest/recipes-test/wrapper/files/test.awk
+@@ -0,0 +1,2 @@
++#! @AWK_BIN@ -f
++BEGIN { print "Don't Panic!" }
+diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+index b4eb3d38ab..b617632d9f 100644
+--- a/meta/classes/utils.bbclass
++++ b/meta/classes/utils.bbclass
+@@ -184,6 +184,40 @@ END
+ 	chmod +x $cmd
+ }
+ 
++create_cmdline_shebang_wrapper () {
++	# Create a wrapper script where commandline options are needed
++	#
++	# These are useful to work around shebang relocation issues, where shebangs are too
++  # long or have arguments in them, thus preventing them from using the /usr/bin/env
++	# shebang
++	#
++	# Usage: create_cmdline_wrapper FILENAME <extra-options>
 +
-+    def test_sysroot_max_shebang(self):
++	cmd=$1
++	shift
++
++	echo "Generating wrapper script for $cmd"
++
++  # Strip #! and get remaining interpreter + arg
++  argument="$(basename "$(head -n1 $cmd | sed -e 's|#![ ]*||g' )")"
++  # strip the shebang from the real script as we do not want it to be usable anyway
++  tail -n +2 $cmd > $cmd.real
++	cmdname=$(basename $cmd)
++	dirname=$(dirname $cmd)
++	cmdoptions=$@
++	if [ "${base_prefix}" != "" ]; then
++		relpath=`python3 -c "import os; print(os.path.relpath('${D}${base_prefix}', '$dirname'))"`
++		cmdoptions=`echo $@ | sed -e "s:${base_prefix}:\\$realdir/$relpath:g"`
++	fi
++	cat <<END >$cmd
++#!/usr/bin/env bash
++realpath=\`readlink -fn \$0\`
++realdir=\`dirname \$realpath\`
++exec -a \$realdir/$cmdname $argument \$realdir/$cmdname.real $cmdoptions "\$@"
++END
++	chmod +x $cmd
++}
++
+ create_wrapper () {
+ 	# Create a wrapper script where extra environment variables are needed
+ 	#
+diff --git a/meta/lib/oeqa/selftest/cases/wrapper.py b/meta/lib/oeqa/selftest/cases/wrapper.py
+new file mode 100644
+index 0000000000..6de63310c0
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/wrapper.py
+@@ -0,0 +1,11 @@
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import bitbake
++
++class WrapperTests(OESelftestTestCase):
++    def test_shebang_wrapper(self):
 +        """
-+        Summary:   Check max shebang triggers. To confirm [YOCTO #11053] is closed.
-+        Expected:  Fail when a shebang bigger than the max shebang-size is reached.
++        Summary:   Build a recipe which will fail if the cmdline_shebang_wrapper function is defective.
++        Expected:  Exit status to be 0.
 +        Author:    Paulo Neves <ptsneves@gmail.com>
 +        """
-+        expected = "maximum shebang size exceeded, the maximum size is 128. [shebang-size]"
-+        res = bitbake("sysroot-shebang-test-native -c populate_sysroot", ignore_status=True)
-+        self.assertTrue(expected in res.output, msg=res.output)
++        res = bitbake("cmdline-shebang-wrapper-test -c install", ignore_status=False)
 -- 
 2.25.1
 
