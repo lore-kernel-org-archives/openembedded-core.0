@@ -2,95 +2,133 @@ Return-Path: <ptsneves@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEBB4C433EF
-	for <webhook@archiver.kernel.org>; Tue, 14 Jun 2022 15:11:15 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.7330.1655219473327778773
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11D71CCA47C
+	for <webhook@archiver.kernel.org>; Tue, 14 Jun 2022 15:11:16 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.7329.1655219472692178744
  for <openembedded-core@lists.openembedded.org>;
  Tue, 14 Jun 2022 08:11:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=oZlGPkjA;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: ptsneves@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id
- m39-20020a05600c3b2700b0039c511ebbacso6395944wms.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=h5Fb5peV;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: ptsneves@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id h19so8481821wrc.12
         for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jun 2022 08:11:13 -0700 (PDT)
+ Tue, 14 Jun 2022 08:11:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jx10Eh51y4HbWngWLtUzs8P6priZADjXMkCR29+D+5U=;
-        b=oZlGPkjAHCVY6utEH6BFRteDdorSEBHLPf/eKKlDl7srcQMvD5RmBpvQvmoPDyGeMG
-         wNOkKyTt2SemJ98CmxLDsIapbAc8g/nuHIG57en8GLLfD56iXDOg19hJ/obe0UdR6Hyd
-         33Ge6Mfp+S+IqTdYrHHHbUbFWknftKacCgxtZLAFJ00zPiDYDiOoq50+kKYchWuR52Zg
-         lrF4d/b9Fn8PcInJPVemt2wG09j9tGHxPFEPGrxXYQCKXotI7j6LZj6t2qUsjPFJFYAz
-         unGn37cdu06/uAkSh0gqNPgXkWBFobf21ac9AfBSeZ8HpNxMPygNdilJT6bR3F0bbJh5
-         e2mA==
+        bh=FTC5cXBGpbyP49C4is+heUbT3LnE71851DctikNERJo=;
+        b=h5Fb5peVcvEKS7bhHIxJaO1pNefHL/vL7UE7aEgPjuc7V/mwLjGgoJ9qpl+0Yoez7C
+         HfqZni9JxpPScsUjaTGLWqmFzvkgEABWvGyUgEwwmE145q6GM1bl2ZoOskuAfn7WL9zQ
+         pkFN8zhM3uinIDoaBJ6ZRTcPaFAkCiVDKO873m6gSJJr9mqsFM2iuKTlNeo7IabjrLNk
+         +LxNMCH1Zms45PHFgxljeLcQTtah97ziKqtehAh1WNz5IqroE3M28+5LeZPEHqrsfCQ7
+         qpn1sCfRg3sXYXr3G1pQ26IS3G8p3Zs8P8Qro2gbrqwoQGF3EUjE23wbqqwraBm4gKTQ
+         pj+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jx10Eh51y4HbWngWLtUzs8P6priZADjXMkCR29+D+5U=;
-        b=YNWG3FZE42aXTx7IPro/qoy1dMuGeD9rv1MsYnjy6RKT3C9st3vXWIW8nqNwvFfHlT
-         F2Khe4TK8bG0ooQuaXdV1kEdgQGr5elYlEG9iKokZqY32ua1LWzEyMlw1g+AQ+S3V356
-         WdXU4dx6UjGTHnC/btiDaLt9VaKim5E34hjPVIuPhq1UkwTwXG1tfax1qP3QaIrqj+JV
-         3+YlWPQMX4dZ0ZgxSVfWaFX464plHMznyyUTOJtDFEYxNgt/dpmr8El3oHj/LTFa8hrb
-         PaClRxX7LagXAba8+Aiu+cNGne1jL5VjrO006AwzC9VFZbkuPqj9QoNoSqGfEPOBcPDq
-         HtWQ==
-X-Gm-Message-State: AOAM533GfbNILVzv9qg92Nn7P69+ghJnwraEToqMklg6GmwR1H9JzWOy
-	l7ZgddjeNUDwICQE1kXFZqnJqXfLpw==
+        bh=FTC5cXBGpbyP49C4is+heUbT3LnE71851DctikNERJo=;
+        b=L7qIztJYFtBBkIiHfw111hU3V90AhfL27KNvAjJxvxcHmFA5pFAd4OhCCZFmJ08u6k
+         T2onhHRuUts96Af7JNOPddX7JfNsnCj4iU3XybO1iD3ZEo/kRB1riBsSK7rQEURnhe03
+         cWCotnV1m9MHOtirCKOUMsjxuU8FMcktt5jC2z4mUPHIv06tVSkbKBdj8VgVKPf0RbTK
+         YEny6xsFwP/GhRDbgf17Sk5ybuHetwVpbG5Uf3wI8+pzF/qPKdckSYk889AxkTPzrLzb
+         i67zcXo+w8CtSoSo71M840X2F+BRyPdB2axOidB/bS5LPZHN3ARhhIxOKaYr1BQO4Nza
+         EKeg==
+X-Gm-Message-State: AJIora8ZpWxBhFXl3ji8FJw6empE2ttm1AIO+MwjVY+dZYwCNvpHqAUm
+	AE/P2+YFM6MwtABhS2mSzjTx8yMroA==
 X-Google-Smtp-Source: 
- ABdhPJy1pzW7b6ccEtVQtyf1gbKgt3gtsdhOsT2hYWHDI+tSqoH0kuy6GFn91lIPI3X5lIzi+PxMeA==
-X-Received: by 2002:a7b:ce98:0:b0:39c:4dc7:6707 with SMTP id
- q24-20020a7bce98000000b0039c4dc76707mr4688189wmj.51.1655219471925;
-        Tue, 14 Jun 2022 08:11:11 -0700 (PDT)
+ AGRyM1veqP7BHavd9WSyRnWYakLWoGq4QnniF29St5HtiMdprNONRCp0UxhoNb4nQphbmIUdRzYxJw==
+X-Received: by 2002:a5d:484d:0:b0:215:e7bf:3e71 with SMTP id
+ n13-20020a5d484d000000b00215e7bf3e71mr5529349wrs.435.1655219470940;
+        Tue, 14 Jun 2022 08:11:10 -0700 (PDT)
 Received: from localhost.localdomain
  (031011128028.dynamic-3-poz-k-0-2-0.vectranet.pl. [31.11.128.28])
         by smtp.gmail.com with ESMTPSA id
- h62-20020a1c2141000000b0039c151298b7sm18114522wmh.10.2022.06.14.08.11.11
+ h62-20020a1c2141000000b0039c151298b7sm18114522wmh.10.2022.06.14.08.11.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jun 2022 08:11:11 -0700 (PDT)
+        Tue, 14 Jun 2022 08:11:10 -0700 (PDT)
 From: Paulo Neves <ptsneves@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Paulo Neves <ptsneves@gmail.com>
-Subject: [PATCH v5 2/7] gtk-doc: Fix potential shebang overflow on
- gtkdoc-mkhtml2
-Date: Tue, 14 Jun 2022 17:11:00 +0200
-Message-Id: <20220614151105.1890454-2-ptsneves@gmail.com>
+Subject: [PATCH v5 1/7] python: Avoid shebang overflow on python-config.py
+Date: Tue, 14 Jun 2022 17:10:59 +0200
+Message-Id: <20220614151105.1890454-1-ptsneves@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220614151105.1890454-1-ptsneves@gmail.com>
+In-Reply-To: <20220606155807.1414519-1-ptsneves@gmail.com>
 References: <20220606155807.1414519-1-ptsneves@gmail.com>
- <20220614151105.1890454-1-ptsneves@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jun 2022 15:11:15 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jun 2022 15:11:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166896
+ https://lists.openembedded.org/g/openembedded-core/message/166895
 
-A native path can cause a shebang overflow on gtkdoc-mkhtml.
-Replace it with /usr/bin/env.
+The native path may be too big, leading to shebang
+overflow. Just use the #!/usr/bin/env python3.
 
 Signed-off-by: Paulo Neves <ptsneves@gmail.com>
 ---
- meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb | 1 +
- 1 file changed, 1 insertion(+)
+ ...shebang-overflow-on-python-config.py.patch | 33 +++++++++++++++++++
+ .../recipes-devtools/python/python3_3.10.4.bb |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
 
-diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb b/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb
-index 150d2c0b23..392913fcc6 100644
---- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb
-+++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb
-@@ -43,6 +43,7 @@ do_install:append () {
-         ${datadir}/gtk-doc/python/gtkdoc/config.py; do
-         sed -e 's,${RECIPE_SYSROOT_NATIVE}/usr/bin/pkg-config,${bindir}/pkg-config,' \
-             -e 's,${HOSTTOOLS_DIR}/python3,${bindir}/python3,' \
-+            -e '1s|^#!.*|#!/usr/bin/env python3|' \
-             -i ${D}$fn
-     done
- }
+diff --git a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+new file mode 100644
+index 0000000000..921da8de7c
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+@@ -0,0 +1,33 @@
++From f0c9dec63d452a7cd1e15ea653f4aced281f021c Mon Sep 17 00:00:00 2001
++From: Paulo Neves <ptsneves@gmail.com>
++Date: Tue, 7 Jun 2022 16:16:41 +0200
++Subject: [PATCH 1/1] Avoid shebang overflow on python-config.py
++
++The whole native path may be too big, leading to shebang
++overflow. Let's just use the env shebang.
++
++Denial reason: [1]
++
++Upstream-Status: Denied [distribution]
++
++[1] https://github.com/python/cpython/pull/93760#pullrequestreview-1005365737
++---
++ Makefile.pre.in | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/Makefile.pre.in b/Makefile.pre.in
++index f0aedb76cb58999427804255da56fa53284d7032..dd88e43114730f7681715777cc76dabb31113176 100644
++--- a/Makefile.pre.in
+++++ b/Makefile.pre.in
++@@ -1638,6 +1638,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
++ 	@ # Substitution happens here, as the completely-expanded BINDIR
++ 	@ # is not available in configure
++ 	sed -e "s,@EXENAME@,$(BINDIR)/python$(LDVERSION)$(EXE)," < $(srcdir)/Misc/python-config.in >python-config.py
+++	@ # Otherwise we might get huge shebangs with native paths
+++	sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' python-config.py
++ 	@ # Replace makefile compat. variable references with shell script compat. ones; $(VAR) -> ${VAR}
++ 	LC_ALL=C sed -e 's,\$$(\([A-Za-z0-9_]*\)),\$$\{\1\},g' < Misc/python-config.sh >python-config
++ 	@  # In OpenEmbedded, always use the python version of the script, the shell
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/python/python3_3.10.4.bb b/meta/recipes-devtools/python/python3_3.10.4.bb
+index 6bd3a6aba8..357025f856 100644
+--- a/meta/recipes-devtools/python/python3_3.10.4.bb
++++ b/meta/recipes-devtools/python/python3_3.10.4.bb
+@@ -34,6 +34,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch \
+            file://0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch \
+            file://deterministic_imports.patch \
++           file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
+            "
+ 
+ SRC_URI:append:class-native = " \
 -- 
 2.25.1
 
