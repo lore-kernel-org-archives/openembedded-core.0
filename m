@@ -1,89 +1,105 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32646C43334
-	for <webhook@archiver.kernel.org>; Tue, 14 Jun 2022 09:06:14 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.3962.1655197552791633767
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5154AC43334
+	for <webhook@archiver.kernel.org>; Tue, 14 Jun 2022 09:32:34 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web09.4101.1655199149404405156
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jun 2022 02:05:53 -0700
+ Tue, 14 Jun 2022 02:32:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bqw4cSCA;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id c21so10346018wrb.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=f0qEaUpO;
+ spf=pass (domain: gmail.com, ip: 209.85.208.177,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f177.google.com with SMTP id j20so9049534ljg.8
         for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jun 2022 02:05:52 -0700 (PDT)
+ Tue, 14 Jun 2022 02:32:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mOqPHjs7BSNbKXV/P5dcwq5M+bewTsOjMlgXljiLlDM=;
-        b=bqw4cSCAEXhwd1cqQLw++ilatM/nJemfbClb9SrbKSxrq/AQDG19N2kotGavNgpJCG
-         9GCYH4BRldwg1p4q3rF8YgNfB8ffDgtPsC0sFu+kDdHgROJXc7dXMRK/ZhTgm3X8iKbh
-         QMEIOdsrO1qeePrtYXsY3N2F2Oo78QG3N1TAw=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QsT2tADp91+rSks/Aknem1FoLHzPfJFYSnXrsW/D5zw=;
+        b=f0qEaUpOv9/hsYirtlr1pPCwECNRWFji19B2GOIxUm5pMkiWYU1lKGnJ6gj68Bt7yO
+         4be2c3Jj6ZOD3eYJFWL+u/SLYdNET6zBfcMCPGDpQdARHC8grtvIfse25jf4GnRNJPEL
+         kjlI7il9ubBKZoDPSJipII6ntD+0Qf8Dxm8Zgju38kdn3UlVdzPZnlLNFYqDb14S2zZ/
+         P28/wUsMCZ7xK3RmkYBF1bE545TEf3svUmAm44rSSyM9oN4xWVsiW0Zlh5WitVUFJhLF
+         DZubGmWjWtQBLQqA5m2BfChKvEY2m9p8CcS8tYDVJfrP6svcWY4n821wpq1JQqOkbgw0
+         mUpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mOqPHjs7BSNbKXV/P5dcwq5M+bewTsOjMlgXljiLlDM=;
-        b=fevOKcCNdW82nbpdEi1oeNMUqstM2SPq+XjRWYNP5T9PEF+4+AZBtX+VUtODwuLlzL
-         AZiToGHjX3cK5zd3rBBbZj8ZKWAcdScHALhUC3gvvvqWIDlX2S7Pa06rtXVX3FXWdGtC
-         V/c6EsjBkFff+2yQG8odnIMN1KDm3UHvQol64x7crwyPzMCckEF/XPsnH+nF+O2NMUUn
-         hZxbqJJoCC4KzNny+kejAhVoYeYLCuA4Syjy9UxNjxiaUxER1OD1ttU+ceQ/q92+q4kC
-         RSaIxcU1xtNCzY+V1C6Q5hM1rUt8RujT6WMrDA/qWsG/zeOwzzwJy6629nKL3Uu7Pwbt
-         k9nw==
-X-Gm-Message-State: AJIora9gaUZFkUT/CRG4zwyEWUy/X0lLjsCu3Sy/W2Q3gnM7yQgtewYo
-	OLFCA4t5dZxit1AnIeCW3P/T+PHXLlIy5Q==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QsT2tADp91+rSks/Aknem1FoLHzPfJFYSnXrsW/D5zw=;
+        b=VCfxbKp3Va0CjENj6EGD803QIm5NYgN7ShC6nr1/Mxi3CWQ1Y75FqJV/sMX+LQZQC4
+         l5FhsdACGT3w4sffNRCKPkiojZYY90t1GoXOWhFenSHSM7INd4YzmTjTe82kecrfYr04
+         jGxKDBGtY5sfZvWE5rc93EveZu10XYTfJDX13sVvjYZ6470/mizgtfjaOo8V/eZ0pHiY
+         l7gjnhcHWGjw8fjzbHga9X51CLKkVjpPP8CRsOfmjcgbY+Ouj1s4WGf0cWhzINgBcy5B
+         1WrZLR7VFQtGceJHYXALx+8xC5RcbmsGEjJfKzpxeDeZYvgvUVZO0u6C8Bp79CEElgFI
+         6duw==
+X-Gm-Message-State: AJIora+qRR1sKKRwFi4UPV78zAKREdBNYgXqTl0CU/sK9TT6ukDDcat7
+	SWJdw12sZSOBtji23pwgB9LubHCGGO2Y1rIqzuU=
 X-Google-Smtp-Source: 
- AGRyM1t5ymtT2EICWd4Arc1pyDvdJjeEUfpktGXD2eJclm7KHLUY90pbx+s6pgIGQ0s7BdUYz4Fhww==
-X-Received: by 2002:adf:eccc:0:b0:212:f1ef:943c with SMTP id
- s12-20020adfeccc000000b00212f1ef943cmr3708764wro.179.1655197550819;
-        Tue, 14 Jun 2022 02:05:50 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:8492:b0dd:b0ac:744a])
-        by smtp.gmail.com with ESMTPSA id
- h7-20020a5d6887000000b0020fdc90aeabsm11043210wru.82.2022.06.14.02.05.49
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jun 2022 02:05:50 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] vim: Upgrade 8.2.5034 -> 8.2.5083
-Date: Tue, 14 Jun 2022 10:05:49 +0100
-Message-Id: <20220614090549.27507-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
+ AGRyM1vL2vlr+5BHvekq5SDVUNEcTFzwpfPB0KlbnnqRsPy8Mbw9C2ypOGHr9em9xJE7pEcYdSyxsjgG37HhnXtrMU4=
+X-Received: by 2002:a2e:2ac1:0:b0:255:6d35:6726 with SMTP id
+ q184-20020a2e2ac1000000b002556d356726mr1960452ljq.41.1655199147315; Tue, 14
+ Jun 2022 02:32:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220614090549.27507-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20220614090549.27507-1-richard.purdie@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 14 Jun 2022 11:32:15 +0200
+Message-ID: 
+ <CANNYZj95pQ0k=E5fy5J75VGGXL==q035hsbcG3SF=ThF8KGGxg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] vim: Upgrade 8.2.5034 -> 8.2.5083
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jun 2022 09:06:14 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jun 2022 09:32:34 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166879
+ https://lists.openembedded.org/g/openembedded-core/message/166880
 
-Includes fixes for CVE-2022-1927, CVE-2022-1942.
+I think SRCREV needs to be adjusted?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-support/vim/vim.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Alex
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index b22e8016abb..41bbfd4959c 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -21,7 +21,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://racefix.patch \
-            "
- 
--PV .= ".5034"
-+PV .= ".5083"
- SRCREV = "5a6ec10cc80ab02eeff644ab19b82312630ea855"
- 
- # Remove when 8.3 is out
--- 
-2.34.1
-
+On Tue, 14 Jun 2022 at 11:05, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> Includes fixes for CVE-2022-1927, CVE-2022-1942.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/recipes-support/vim/vim.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+> index b22e8016abb..41bbfd4959c 100644
+> --- a/meta/recipes-support/vim/vim.inc
+> +++ b/meta/recipes-support/vim/vim.inc
+> @@ -21,7 +21,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+>             file://racefix.patch \
+>             "
+>
+> -PV .= ".5034"
+> +PV .= ".5083"
+>  SRCREV = "5a6ec10cc80ab02eeff644ab19b82312630ea855"
+>
+>  # Remove when 8.3 is out
+> --
+> 2.34.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#166879): https://lists.openembedded.org/g/openembedded-core/message/166879
+> Mute This Topic: https://lists.openembedded.org/mt/91745309/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
