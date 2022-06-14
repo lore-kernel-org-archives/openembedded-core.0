@@ -1,396 +1,295 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <sjolley.yp.pm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F974C433EF
-	for <webhook@archiver.kernel.org>; Tue, 14 Jun 2022 13:40:15 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web09.6182.1655214005281192641
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC189C43334
+	for <webhook@archiver.kernel.org>; Tue, 14 Jun 2022 14:15:25 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web11.6625.1655216121101989389
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jun 2022 06:40:05 -0700
+ Tue, 14 Jun 2022 07:15:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=oRKA8Pst;
- spf=pass (domain: gmail.com, ip: 209.85.128.52,
- mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id
- x6-20020a1c7c06000000b003972dfca96cso4819258wmc.4
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Zm/UYwH8;
+ spf=pass (domain: gmail.com, ip: 209.85.216.49,
+ mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pj1-f49.google.com with SMTP id cx11so8605025pjb.1
         for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jun 2022 06:40:05 -0700 (PDT)
+ Tue, 14 Jun 2022 07:15:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SObAKJDQMEy3Ni3dUi2O1DOJf6kozok8UyF7v/1pXPE=;
-        b=oRKA8PstgsMmKTjX9jjn91CozlkDiX16vtDIH2pYWwVbF6q+qXhjtbJLB4W8hmrN9q
-         VIQHDpvMpRG2/VdNx3ozD1kM1XiK/U6WXkSVlZ16I+Upw+fL92nLQf2V/Px5V5OP3H6Q
-         lbFoyG9coB4OoGYqX2zgHOW3+FXbUwHWTM4+gf3fXHWEen6jucqmCXQkF+fqg9ITEQeW
-         L6aBmhje2+Nz7wn+1fH9CTe/S893eR8iArf4S1IV1ub62tLKXjn0URAaK7RhjQtfoMAd
-         hpPsL8fRHwMSPOk1JCRbkIB9l4uBbYQqe4d/7J6xsk2U3IK3eM1sbvTpnTc1AL3bwJnT
-         n7xg==
+        h=from:to:subject:date:message-id:mime-version:thread-index
+         :content-language;
+        bh=f85T2qiDEAGHUD40yH2geUETa03igHI2TbN9FzEt1Zc=;
+        b=Zm/UYwH8SLJzSqrke6CfzpqdkdP3e51yTB4l74ozqh/D8JDF1EXCKzWiXSfaFU3jdz
+         ArgUzVnzvwXSnkimLHh0v/DbWjK7LMO+NgwZ9O1342FoPJW72WgG2DgEcFN2Y9whI5h3
+         syOmTawky9B3gqZL1HdUmWo7tL14QF4/rhbOZxSGcRfjV4Z58pOpLVvJfhku6pW2M/S1
+         3+LfOwH4wG1uH0MjS5qWczGVKxnF5YVhZk9/hfIdUbaFxdHABSXs5rpfDacM6ohcckR4
+         nXOFmVbpy4uSTYMBbu3aAdvvOG4ri88bSXu1LVOlwZqdfy7lh3i8pycPvpUsKyy80EdV
+         M8fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SObAKJDQMEy3Ni3dUi2O1DOJf6kozok8UyF7v/1pXPE=;
-        b=rW3DCTk0y6nbNI5F/78ASlTIPYDTf6yglydSuArdyrolrr+9UpDqI0owz3W9rZ+b7t
-         XjzqXyzBGcyQyyUCWTBibiKVZKsa5/tF4WVdr2KevGfTgDITIdpuQM1SYw3ayguPjC0C
-         ymfSwIBuEByfLFJShhsrvyzJt0ORK0A9sX/LrAADl9GZOkxZYL4ZEJsG5it1wdMN4vGu
-         0CgTXJ9xQr1QnTIO/y+Q7kyzLlyf504q7Eyb2hT17TXnh22ATGZ1jPn1mkuLOoPoGyRs
-         S7d3pyunJFJBUKhb1NEejguX04lbdbfi4VCfXtVgXa8DwwWZirRuQy2RY0ljejhKfTHG
-         Zngw==
-X-Gm-Message-State: AOAM532jDHY5/SiE0huAATmyEX4cyYMBe3JZYrwrqDfjjzri6oBuAE55
-	jbXbjCWHeCHlCXHVrM+0AFGi6PLhsDpB/MWTS6Y=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :thread-index:content-language;
+        bh=f85T2qiDEAGHUD40yH2geUETa03igHI2TbN9FzEt1Zc=;
+        b=wT/60ziPci6y85hN3QxgD1iDtQH0eL/qbUy43oQL2hp7NNdfn1bYQKO6XqxUJtwUpT
+         IA4EDdvo/C1SUh6KhPBpaS8A9MYTYb0hiLmn3DlLXf3PYPZhqg2zIGYbfXhcMTlFxytd
+         5w5hpVFQP+fcM4A4Di7SKov5rkkUl98MqP0RCphEOzwN5DaVdtc1K+/nZaJmxK42ZUo0
+         l0ivIZcmGlQjmKQVZDF4VT6FVkoKuWhKUlFvrllCDE17jE9o8PoB/9wh1J5Z24q95O5l
+         MN62AYXpdLQxgIuBybpMScYotw00Ti3CBonIaJQoUL7OEoCdv8DdHWjJg65rXcxEkE95
+         CNUw==
+X-Gm-Message-State: AJIora+MsrO0SXIKOjBwHhFwn/rhh/T68znjCRsR9qZHOH73hVjHZmY8
+	SzkhbbOSsXFcjVVGVxBbCJs=
 X-Google-Smtp-Source: 
- ABdhPJyFa+hxKZgI6SBVwBc0x1OKATRjIvh9Q6eWHZbcnAoRXLOWFf/utKfWrLkwL/soQpmkt8t7U3yNGfFTkhRUHPg=
-X-Received: by 2002:a7b:c057:0:b0:39c:4579:42e1 with SMTP id
- u23-20020a7bc057000000b0039c457942e1mr4286563wmc.102.1655214003719; Tue, 14
- Jun 2022 06:40:03 -0700 (PDT)
+ AGRyM1vB3O3PkKwX8q5YxQd4/VEPKic67/CbUaRjoyHapFwjGTN5KtEQOYddf4W4f9iEHhENMvG7nA==
+X-Received: by 2002:a17:902:f792:b0:168:e97b:3c05 with SMTP id
+ q18-20020a170902f79200b00168e97b3c05mr4599624pln.94.1655216120393;
+        Tue, 14 Jun 2022 07:15:20 -0700 (PDT)
+Received: from skjolley ([2600:1011:a104:8283:68f7:f388:d1a6:6362])
+        by smtp.gmail.com with ESMTPSA id
+ y190-20020a6264c7000000b00517c84fd24asm7887704pfb.172.2022.06.14.07.15.19
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 14 Jun 2022 07:15:19 -0700 (PDT)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@lists.yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Tue, 14 Jun 2022 07:15:19 -0700
+Message-ID: <074701d87ff9$2e198bc0$8a4ca340$@gmail.com>
 MIME-Version: 1.0
-References: <20220606155807.1414519-1-ptsneves@gmail.com>
- <20220614131652.566471-1-ptsneves@gmail.com>
- <20220614131652.566471-6-ptsneves@gmail.com>
-In-Reply-To: <20220614131652.566471-6-ptsneves@gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 14 Jun 2022 15:39:47 +0200
-Message-ID: 
- <CA+chaQeSuFsrFdGLjyV42kk3wmiFEK8aMMuyBTA7VdDPH-Wb1Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4 6/7] utils: Add cmdline_shebang_wrapper util.
-To: Paulo Neves <ptsneves@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000b811bb05e1688a44"
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0748_01D87FBE.81BCFDB0"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQHCZ5XHUU6h5J7Qj6A4V/Fd2/2Ggw==
+Content-Language: en-us
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jun 2022 13:40:15 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jun 2022 14:15:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166889
+ https://lists.openembedded.org/g/openembedded-core/message/166891
 
---000000000000b811bb05e1688a44
-Content-Type: text/plain; charset="UTF-8"
+This is a multipart message in MIME format.
 
-FILESEXTRAPATHS:prepend doesn't seem to be needed and LICENSE is really
-CLOSED?
+------=_NextPart_000_0748_01D87FBE.81BCFDB0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 14, 2022 at 3:17 PM Paulo Neves <ptsneves@gmail.com> wrote:
+All,
 
-> Useful to work around shebang relocation issues, where
-> shebangs are too long or have arguments in them, thus preventing them
-> from using the /usr/bin/env shebang.
-> ---
->  .../wrapper/cmdline-shebang-wrapper-test.bb   | 21 ++++++++++++
->  .../recipes-test/wrapper/files/test.awk       |  2 ++
->  meta/classes/utils.bbclass                    | 34 +++++++++++++++++++
->  meta/lib/oeqa/selftest/cases/wrapper.py       | 11 ++++++
->  4 files changed, 68 insertions(+)
->  create mode 100644 meta-selftest/recipes-test/wrapper/
-> cmdline-shebang-wrapper-test.bb
->  create mode 100644 meta-selftest/recipes-test/wrapper/files/test.awk
->  create mode 100644 meta/lib/oeqa/selftest/cases/wrapper.py
->
-> diff --git a/meta-selftest/recipes-test/wrapper/
-> cmdline-shebang-wrapper-test.bb b/meta-selftest/recipes-test/wrapper/
-> cmdline-shebang-wrapper-test.bb
-> new file mode 100644
-> index 0000000000..302eea8901
-> --- /dev/null
-> +++ b/meta-selftest/recipes-test/wrapper/cmdline-shebang-wrapper-test.bb
-> @@ -0,0 +1,21 @@
-> +FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
-> +SUMMARY = "Check that create_cmdline_shebang works"
-> +LICENSE = "CLOSED"
-> +INHIBIT_DEFAULT_DEPS = "1"
-> +
-> +SRC_URI += "file://test.awk"
-> +
-> +EXCLUDE_FROM_WORLD = "1"
-> +do_install() {
-> +    install -d ${D}${bindir}
-> +    install -m 0755 ${WORKDIR}/test.awk ${D}${bindir}/test
-> +    sed -i -e 's|@AWK_BIN@|${bindir}/awk|g' ${D}${bindir}/test
-> +    create_cmdline_shebang_wrapper ${D}${bindir}/test
-> +    if [ $(${D}${bindir}/test) != "Don't Panic!" ]; then
-> +        bbfatal "Wrapper is broken"
-> +    else
-> +        bbnote "Wrapper is good"
-> +    fi
-> +}
-> +
-> +BBCLASSEXTEND = "native"
-> diff --git a/meta-selftest/recipes-test/wrapper/files/test.awk
-> b/meta-selftest/recipes-test/wrapper/files/test.awk
-> new file mode 100644
-> index 0000000000..91429197b1
-> --- /dev/null
-> +++ b/meta-selftest/recipes-test/wrapper/files/test.awk
-> @@ -0,0 +1,2 @@
-> +#! @AWK_BIN@ -f
-> +BEGIN { print "Don't Panic!" }
-> diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-> index b4eb3d38ab..b617632d9f 100644
-> --- a/meta/classes/utils.bbclass
-> +++ b/meta/classes/utils.bbclass
-> @@ -184,6 +184,40 @@ END
->         chmod +x $cmd
->  }
->
-> +create_cmdline_shebang_wrapper () {
-> +       # Create a wrapper script where commandline options are needed
-> +       #
-> +       # These are useful to work around shebang relocation issues, where
-> shebangs are too
-> +  # long or have arguments in them, thus preventing them from using the
-> /usr/bin/env
-> +       # shebang
-> +       #
-> +       # Usage: create_cmdline_wrapper FILENAME <extra-options>
-> +
-> +       cmd=$1
-> +       shift
-> +
-> +       echo "Generating wrapper script for $cmd"
-> +
-> +  # Strip #! and get remaining interpreter + arg
-> +  argument="$(basename "$(head -n1 $cmd | sed -e 's|#![ ]*||g' )")"
-> +  # strip the shebang from the real script as we do not want it to be
-> usable anyway
-> +  tail -n +2 $cmd > $cmd.real
-> +       cmdname=$(basename $cmd)
-> +       dirname=$(dirname $cmd)
-> +       cmdoptions=$@
-> +       if [ "${base_prefix}" != "" ]; then
-> +               relpath=`python3 -c "import os;
-> print(os.path.relpath('${D}${base_prefix}', '$dirname'))"`
-> +               cmdoptions=`echo $@ | sed -e
-> "s:${base_prefix}:\\$realdir/$relpath:g"`
-> +       fi
-> +       cat <<END >$cmd
-> +#!/usr/bin/env bash
-> +realpath=\`readlink -fn \$0\`
-> +realdir=\`dirname \$realpath\`
-> +exec -a \$realdir/$cmdname $argument \$realdir/$cmdname.real $cmdoptions
-> "\$@"
-> +END
-> +       chmod +x $cmd
-> +}
-> +
->  create_wrapper () {
->         # Create a wrapper script where extra environment variables are
-> needed
->         #
-> diff --git a/meta/lib/oeqa/selftest/cases/wrapper.py
-> b/meta/lib/oeqa/selftest/cases/wrapper.py
-> new file mode 100644
-> index 0000000000..6de63310c0
-> --- /dev/null
-> +++ b/meta/lib/oeqa/selftest/cases/wrapper.py
-> @@ -0,0 +1,11 @@
-> +from oeqa.selftest.case import OESelftestTestCase
-> +from oeqa.utils.commands import bitbake
-> +
-> +class WrapperTests(OESelftestTestCase):
-> +    def test_shebang_wrapper(self):
-> +        """
-> +        Summary:   Build a recipe which will fail if the
-> cmdline_shebang_wrapper function is defective.
-> +        Expected:  Exit status to be 0.
-> +        Author:    Paulo Neves <ptsneves@gmail.com>
-> +        """
-> +        res = bitbake("cmdline-shebang-wrapper-test -c install",
-> ignore_status=False)
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#166887):
-> https://lists.openembedded.org/g/openembedded-core/message/166887
-> Mute This Topic: https://lists.openembedded.org/mt/91748692/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> Martin.Jansa@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+ 
 
---000000000000b811bb05e1688a44
-Content-Type: text/html; charset="UTF-8"
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
+how to create a bugzilla account at:
+<https://bugzilla.yoctoproject.org/createaccount.cgi>
+https://bugzilla.yoctoproject.org/createaccount.cgi
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
+ 
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 411
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now,  "4.1", "4.2", "4.99" and "Future", the more pressing/urgent
+issues being in "4.1" and then "4.2".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_0748_01D87FBE.81BCFDB0
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0913_01D87A47.861FD750";
+	charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">FILESEXTRAPATHS:prepend doesn&#39;t seem to be needed and =
-LICENSE is really CLOSED?<br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Tue, Jun 14, 2022 at 3:17 PM Paulo Neves &=
-lt;<a href=3D"mailto:ptsneves@gmail.com">ptsneves@gmail.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">Useful to work a=
-round shebang relocation issues, where<br>
-shebangs are too long or have arguments in them, thus preventing them<br>
-from using the /usr/bin/env shebang.<br>
----<br>
-=C2=A0.../wrapper/<a href=3D"http://cmdline-shebang-wrapper-test.bb" rel=3D=
-"noreferrer" target=3D"_blank">cmdline-shebang-wrapper-test.bb</a>=C2=A0 =
-=C2=A0| 21 ++++++++++++<br>
-=C2=A0.../recipes-test/wrapper/files/test.awk=C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 2 ++<br>
-=C2=A0meta/classes/utils.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 34 +++++++++++++++++++<br>
-=C2=A0meta/lib/oeqa/selftest/cases/wrapper.py=C2=A0 =C2=A0 =C2=A0 =C2=A0| 1=
-1 ++++++<br>
-=C2=A04 files changed, 68 insertions(+)<br>
-=C2=A0create mode 100644 meta-selftest/recipes-test/wrapper/<a href=3D"http=
-://cmdline-shebang-wrapper-test.bb" rel=3D"noreferrer" target=3D"_blank">cm=
-dline-shebang-wrapper-test.bb</a><br>
-=C2=A0create mode 100644 meta-selftest/recipes-test/wrapper/files/test.awk<=
-br>
-=C2=A0create mode 100644 meta/lib/oeqa/selftest/cases/wrapper.py<br>
-<br>
-diff --git a/meta-selftest/recipes-test/wrapper/<a href=3D"http://cmdline-s=
-hebang-wrapper-test.bb" rel=3D"noreferrer" target=3D"_blank">cmdline-sheban=
-g-wrapper-test.bb</a> b/meta-selftest/recipes-test/wrapper/<a href=3D"http:=
-//cmdline-shebang-wrapper-test.bb" rel=3D"noreferrer" target=3D"_blank">cmd=
-line-shebang-wrapper-test.bb</a><br>
-new file mode 100644<br>
-index 0000000000..302eea8901<br>
---- /dev/null<br>
-+++ b/meta-selftest/recipes-test/wrapper/<a href=3D"http://cmdline-shebang-=
-wrapper-test.bb" rel=3D"noreferrer" target=3D"_blank">cmdline-shebang-wrapp=
-er-test.bb</a><br>
-@@ -0,0 +1,21 @@<br>
-+FILESEXTRAPATHS:prepend :=3D &quot;${THISDIR}/files:&quot;<br>
-+SUMMARY =3D &quot;Check that create_cmdline_shebang works&quot;<br>
-+LICENSE =3D &quot;CLOSED&quot;<br>
-+INHIBIT_DEFAULT_DEPS =3D &quot;1&quot;<br>
-+<br>
-+SRC_URI +=3D &quot;file://test.awk&quot;<br>
-+<br>
-+EXCLUDE_FROM_WORLD =3D &quot;1&quot;<br>
-+do_install() {<br>
-+=C2=A0 =C2=A0 install -d ${D}${bindir}<br>
-+=C2=A0 =C2=A0 install -m 0755 ${WORKDIR}/test.awk ${D}${bindir}/test<br>
-+=C2=A0 =C2=A0 sed -i -e &#39;s|@AWK_BIN@|${bindir}/awk|g&#39; ${D}${bindir=
-}/test<br>
-+=C2=A0 =C2=A0 create_cmdline_shebang_wrapper ${D}${bindir}/test<br>
-+=C2=A0 =C2=A0 if [ $(${D}${bindir}/test) !=3D &quot;Don&#39;t Panic!&quot;=
- ]; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bbfatal &quot;Wrapper is broken&quot;<br>
-+=C2=A0 =C2=A0 else<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bbnote &quot;Wrapper is good&quot;<br>
-+=C2=A0 =C2=A0 fi<br>
-+}<br>
-+<br>
-+BBCLASSEXTEND =3D &quot;native&quot;<br>
-diff --git a/meta-selftest/recipes-test/wrapper/files/test.awk b/meta-selft=
-est/recipes-test/wrapper/files/test.awk<br>
-new file mode 100644<br>
-index 0000000000..91429197b1<br>
---- /dev/null<br>
-+++ b/meta-selftest/recipes-test/wrapper/files/test.awk<br>
-@@ -0,0 +1,2 @@<br>
-+#! @AWK_BIN@ -f<br>
-+BEGIN { print &quot;Don&#39;t Panic!&quot; }<br>
-diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass<br>
-index b4eb3d38ab..b617632d9f 100644<br>
---- a/meta/classes/utils.bbclass<br>
-+++ b/meta/classes/utils.bbclass<br>
-@@ -184,6 +184,40 @@ END<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 chmod +x $cmd<br>
-=C2=A0}<br>
-<br>
-+create_cmdline_shebang_wrapper () {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# Create a wrapper script where commandline opt=
-ions are needed<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0#<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# These are useful to work around shebang reloc=
-ation issues, where shebangs are too<br>
-+=C2=A0 # long or have arguments in them, thus preventing them from using t=
-he /usr/bin/env<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# shebang<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0#<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# Usage: create_cmdline_wrapper FILENAME &lt;ex=
-tra-options&gt;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0cmd=3D$1<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0shift<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;Generating wrapper script for $cmd&q=
-uot;<br>
-+<br>
-+=C2=A0 # Strip #! and get remaining interpreter + arg<br>
-+=C2=A0 argument=3D&quot;$(basename &quot;$(head -n1 $cmd | sed -e &#39;s|#=
-![ ]*||g&#39; )&quot;)&quot;<br>
-+=C2=A0 # strip the shebang from the real script as we do not want it to be=
- usable anyway<br>
-+=C2=A0 tail -n +2 $cmd &gt; $cmd.real<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0cmdname=3D$(basename $cmd)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0dirname=3D$(dirname $cmd)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0cmdoptions=3D$@<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;${base_prefix}&quot; !=3D &quot;&quo=
-t; ]; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0relpath=3D`python3 =
--c &quot;import os; print(os.path.relpath(&#39;${D}${base_prefix}&#39;, &#3=
-9;$dirname&#39;))&quot;`<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cmdoptions=3D`echo =
-$@ | sed -e &quot;s:${base_prefix}:\\$realdir/$relpath:g&quot;`<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0cat &lt;&lt;END &gt;$cmd<br>
-+#!/usr/bin/env bash<br>
-+realpath=3D\`readlink -fn \$0\`<br>
-+realdir=3D\`dirname \$realpath\`<br>
-+exec -a \$realdir/$cmdname $argument \$realdir/$cmdname.real $cmdoptions &=
-quot;\$@&quot;<br>
-+END<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0chmod +x $cmd<br>
-+}<br>
-+<br>
-=C2=A0create_wrapper () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Create a wrapper script where extra environme=
-nt variables are needed<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 #<br>
-diff --git a/meta/lib/oeqa/selftest/cases/wrapper.py b/meta/lib/oeqa/selfte=
-st/cases/wrapper.py<br>
-new file mode 100644<br>
-index 0000000000..6de63310c0<br>
---- /dev/null<br>
-+++ b/meta/lib/oeqa/selftest/cases/wrapper.py<br>
-@@ -0,0 +1,11 @@<br>
-+from oeqa.selftest.case import OESelftestTestCase<br>
-+from oeqa.utils.commands import bitbake<br>
-+<br>
-+class WrapperTests(OESelftestTestCase):<br>
-+=C2=A0 =C2=A0 def test_shebang_wrapper(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Summary:=C2=A0 =C2=A0Build a recipe which will=
- fail if the cmdline_shebang_wrapper function is defective.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Expected:=C2=A0 Exit status to be 0.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Author:=C2=A0 =C2=A0 Paulo Neves &lt;<a href=
-=3D"mailto:ptsneves@gmail.com" target=3D"_blank">ptsneves@gmail.com</a>&gt;=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 res =3D bitbake(&quot;cmdline-shebang-wrapper-=
-test -c install&quot;, ignore_status=3DFalse)<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#166887): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/166887" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/166887</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/91748692/3617=
-156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/91748692/3617156</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
-rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The triage team is starting to try and =
+collect up and classify bugs which a newcomer to the project would be =
+able to work on in a way which means people can find them. They're being =
+listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a> and how to create a bugzilla account at: <a =
+href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
+style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
+/span></a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 411 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &nbsp;&#8220;4.1&#8221;, =
+&#8220;4.2&#8221;, &quot;4.99&quot; and &quot;Future&quot;, the more =
+pressing/urgent issues being in &quot;4.1&quot; and then =
+&#8220;4.2&#8221;.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Please review this link and if a bug is =
+something you would be able to help with either take ownership of the =
+bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_0748_01D87FBE.81BCFDB0--
 
---000000000000b811bb05e1688a44--
 
