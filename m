@@ -1,185 +1,123 @@
-Return-Path: <ptsneves@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7555C433EF
-	for <webhook@archiver.kernel.org>; Tue, 14 Jun 2022 15:11:25 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web09.7360.1655219478122313165
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62656C43334
+	for <webhook@archiver.kernel.org>; Tue, 14 Jun 2022 16:27:06 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web12.8188.1655224015978022921
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jun 2022 08:11:18 -0700
+ Tue, 14 Jun 2022 09:26:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=H9puScvS;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: ptsneves@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id m24so11677474wrb.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=XPKpIX8y;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id z17so4969687wmi.1
         for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jun 2022 08:11:17 -0700 (PDT)
+ Tue, 14 Jun 2022 09:26:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=jz5NAw+FoFqtqB0JVZHivCln3Thx4vdv26ZsFa2A8oE=;
-        b=H9puScvSU02EyxR37EKUFTAp0TlZb6aKsByX989OKbUnwusl06VrPws3Xbqj6BnCWA
-         RHF2JVh8A3vWTDuzVNxyVazlTKwuDeP3nsbtSTuaU2gal43jreAZ4QFB20tj778HkySD
-         cNfouDpcq0cP7cr5EEXFSKRYuS+mppI1DF2HQF01HBa8sTMwMX7DAhJnEzl/PPByx9Ma
-         iEiuYWTZpAfwkpAYJWiFddUGV8h6MuJhrxLjy4wyLSyelToJVV42F0dBShiIpjoue4QN
-         qy2sD29hVpNl13dlzrrzVgHYw4qSyx2QAs5jTZW1x/6fEuj6w9xwZA++/lERVnnw+FfZ
-         zTww==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3xNGFstRvRjHWQTtLI00834GAlQezrAYh8GVPFdPttQ=;
+        b=XPKpIX8yYj9Q6SttKYU/v4jFzNJceVtBtG1o5GRbcwiVAvU0ymINtAvPvzINUzMSir
+         PtmXbTQguddRsk6g2rIRahmOX2ywROE6/5KKwNRz+VK07nunoOVf5aNq1T/fpt06hF0U
+         Z6avQJgfySPlrWNqKBExYpkmAPrk+LUBbyg/Rj7cK5HIgDzoR1u4+af9SjNjYbzuThg7
+         q/XcoqCezruMw6S8jlN//x8MKIO0JXfeCmAD/pEDI658APS3+MJZeo+U5aOwMQCzGe8s
+         BpQap3yiSemPOsJ/KiGOpW6p9xSN+zOSdrX9T5HVCPrik2uvSJFncEopxy1ZdvZHLZE1
+         B/ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=jz5NAw+FoFqtqB0JVZHivCln3Thx4vdv26ZsFa2A8oE=;
-        b=uaq4sR14lWryDbjc9MWBDMC/JfqI0ZPgqRgSPiXkD60jSad/gN88DdMBuiWuwPPozp
-         RToKlmJbjSwxtz6An3u+0liESfwwntHL28U5KOVRkKJ8/nQXrz8MjLHPbm55CPxnKrep
-         9Ol2SzY+sGnd/XdrqeJG6NE+PsCWd3910j/vT+vd1ANGmk6djvkRINZvbDtWKaP2Wm4V
-         ScYvncbT6aHXEvSUsMSC/Mt7fPluMOMqtgAkILXvrYEd+x9+kehba5HKHxBy0BzPCR9q
-         6bVPc1ALzteaRZQZXOd3HxE6M+p8z4x1Y66uTWLle866iXz6VKk5kcyxO0VwsPcARwGv
-         XV1g==
-X-Gm-Message-State: AJIora/wTqjI/0ROmkV5pno1ULr38r5LB3c+b9B4d4SjmadAD5nLER/c
-	b+0PSKTaxZha98Dc0ez2Yp/6uwMPpw==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3xNGFstRvRjHWQTtLI00834GAlQezrAYh8GVPFdPttQ=;
+        b=yKl+RHIKpoilso4U4DJK4KIsrVnNHcw6/EmEIgDEH/Rp4IKFD9wr/m75nQzRMytIBN
+         jRTsWN3bHH+RBwm55H2OLVvzdKfHHM31iRgFjpJ09hyA6g3xZMSfUztGrZjh78sGee3C
+         q2FNYhlPejukg7/G/TMMPJbu386/ZgTtw6fQmyuKXnRLQAqQAP8Ugfy7ZMruFyJm1xNP
+         cYO5EmucB9ds2IjVz29lNA+M5mHUThHYj5xcz3i6PYuudC+ldqtGDu0dMDgNNu+Q1NmU
+         o++WlJ0zSE1ZysbXaqXb1eAEITE80CEXeZ9MyB6/tGhBPDQjc3XJbEYVARNAs41hGXQ6
+         uWGw==
+X-Gm-Message-State: AOAM533LKDyJyoTfdXXfB2jEqHSqf92x1A9WRMYqIEq8syBf2JIWvZV6
+	l9iTtGtAy2ps6loaYjEm8P9NHlM6cwke0Q==
 X-Google-Smtp-Source: 
- AGRyM1u2QK2Q2ySX827Cdf5eW7rakxyCL2fo79XHdjo3xmnK7UEOGJbkc1N58yhIItDjQFeIwa9/IA==
-X-Received: by 2002:adf:dd0a:0:b0:213:ba65:73fa with SMTP id
- a10-20020adfdd0a000000b00213ba6573famr5450971wrm.521.1655219476559;
-        Tue, 14 Jun 2022 08:11:16 -0700 (PDT)
-Received: from localhost.localdomain
- (031011128028.dynamic-3-poz-k-0-2-0.vectranet.pl. [31.11.128.28])
+ ABdhPJxz2Th3owpJqC9VZTrAm4k9XdTi64NLR7gJjNHVAsqJy7VV5TKVDDJWMZZXsrLSF1/UTNb1Vg==
+X-Received: by 2002:a05:600c:348d:b0:39c:652b:5153 with SMTP id
+ a13-20020a05600c348d00b0039c652b5153mr5025184wmq.24.1655224014036;
+        Tue, 14 Jun 2022 09:26:54 -0700 (PDT)
+Received: from fio.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
         by smtp.gmail.com with ESMTPSA id
- h62-20020a1c2141000000b0039c151298b7sm18114522wmh.10.2022.06.14.08.11.15
+ i20-20020a1c5414000000b0039c41686421sm17410691wmb.17.2022.06.14.09.26.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jun 2022 08:11:16 -0700 (PDT)
-From: Paulo Neves <ptsneves@gmail.com>
+        Tue, 14 Jun 2022 09:26:53 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
 To: openembedded-core@lists.openembedded.org
-Cc: Paulo Neves <ptsneves@gmail.com>
-Subject: [PATCH v5 6/7] utils: Add cmdline_shebang_wrapper util.
-Date: Tue, 14 Jun 2022 17:11:04 +0200
-Message-Id: <20220614151105.1890454-6-ptsneves@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220614151105.1890454-1-ptsneves@gmail.com>
-References: <20220606155807.1414519-1-ptsneves@gmail.com>
- <20220614151105.1890454-1-ptsneves@gmail.com>
+Cc: ricardo@foundries.io,
+	daiane.angolini@foundries.io,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [OE-core][PATCH v4 1/2] gcc-source: Fix incorrect task dependencies
+ from ${B}
+Date: Tue, 14 Jun 2022 17:24:36 +0100
+Message-Id: <20220614162435.202899-1-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jun 2022 15:11:25 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Jun 2022 16:27:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166900
+ https://lists.openembedded.org/g/openembedded-core/message/166903
 
-Useful to work around shebang relocation issues, where
-shebangs are too long or have arguments in them, thus preventing them
-from using the /usr/bin/env shebang.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Some tasks may reference ${B} for gcc-source which in general would not exist.
+It has dependencies on HOST_SYS and TARGET_SYS which are not appropriate for a
+shared recipe like gcc-source. This causes problems for the archiver and
+multiconfigs in particlar.
+
+Set B to something else to avoid these task hash issues.
+
+Acked-by: Jose Quaresma <jose.quaresma@foundries.io>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../wrapper/cmdline-shebang-wrapper-test.bb   | 21 ++++++++++++
- .../recipes-test/wrapper/files/test.awk       |  2 ++
- meta/classes/utils.bbclass                    | 34 +++++++++++++++++++
- meta/lib/oeqa/selftest/cases/wrapper.py       | 11 ++++++
- 4 files changed, 68 insertions(+)
- create mode 100644 meta-selftest/recipes-test/wrapper/cmdline-shebang-wrapper-test.bb
- create mode 100644 meta-selftest/recipes-test/wrapper/files/test.awk
- create mode 100644 meta/lib/oeqa/selftest/cases/wrapper.py
 
-diff --git a/meta-selftest/recipes-test/wrapper/cmdline-shebang-wrapper-test.bb b/meta-selftest/recipes-test/wrapper/cmdline-shebang-wrapper-test.bb
-new file mode 100644
-index 0000000000..c4126a41fc
---- /dev/null
-+++ b/meta-selftest/recipes-test/wrapper/cmdline-shebang-wrapper-test.bb
-@@ -0,0 +1,21 @@
-+SUMMARY = "Check that create_cmdline_shebang works"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+INHIBIT_DEFAULT_DEPS = "1"
-+
-+SRC_URI += "file://test.awk"
-+
-+EXCLUDE_FROM_WORLD = "1"
-+do_install() {
-+    install -d ${D}${bindir}
-+    install -m 0755 ${WORKDIR}/test.awk ${D}${bindir}/test
-+    sed -i -e 's|@AWK_BIN@|${bindir}/awk|g' ${D}${bindir}/test
-+    create_cmdline_shebang_wrapper ${D}${bindir}/test
-+    if [ $(${D}${bindir}/test) != "Don't Panic!" ]; then
-+        bbfatal "Wrapper is broken"
-+    else
-+        bbnote "Wrapper is good"
-+    fi
-+}
-+
-+BBCLASSEXTEND = "native"
-diff --git a/meta-selftest/recipes-test/wrapper/files/test.awk b/meta-selftest/recipes-test/wrapper/files/test.awk
-new file mode 100644
-index 0000000000..91429197b1
---- /dev/null
-+++ b/meta-selftest/recipes-test/wrapper/files/test.awk
-@@ -0,0 +1,2 @@
-+#! @AWK_BIN@ -f
-+BEGIN { print "Don't Panic!" }
-diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-index b4eb3d38ab..b617632d9f 100644
---- a/meta/classes/utils.bbclass
-+++ b/meta/classes/utils.bbclass
-@@ -184,6 +184,40 @@ END
- 	chmod +x $cmd
- }
+ v2: replace "bb.error" with "bb.fatal"
+ v3: instead of failing make it more resilient
+ v4: fixes the stamps
+
+ meta/recipes-devtools/gcc/gcc-common.inc | 2 +-
+ meta/recipes-devtools/gcc/gcc-source.inc | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+index 0f70be7dd4..2abc0e355d 100644
+--- a/meta/recipes-devtools/gcc/gcc-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-common.inc
+@@ -96,7 +96,7 @@ BINV = "${PV}"
+ #S = "${WORKDIR}/gcc-${PV}"
+ S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
  
-+create_cmdline_shebang_wrapper () {
-+	# Create a wrapper script where commandline options are needed
-+	#
-+	# These are useful to work around shebang relocation issues, where shebangs are too
-+  # long or have arguments in them, thus preventing them from using the /usr/bin/env
-+	# shebang
-+	#
-+	# Usage: create_cmdline_wrapper FILENAME <extra-options>
-+
-+	cmd=$1
-+	shift
-+
-+	echo "Generating wrapper script for $cmd"
-+
-+  # Strip #! and get remaining interpreter + arg
-+  argument="$(basename "$(head -n1 $cmd | sed -e 's|#![ ]*||g' )")"
-+  # strip the shebang from the real script as we do not want it to be usable anyway
-+  tail -n +2 $cmd > $cmd.real
-+	cmdname=$(basename $cmd)
-+	dirname=$(dirname $cmd)
-+	cmdoptions=$@
-+	if [ "${base_prefix}" != "" ]; then
-+		relpath=`python3 -c "import os; print(os.path.relpath('${D}${base_prefix}', '$dirname'))"`
-+		cmdoptions=`echo $@ | sed -e "s:${base_prefix}:\\$realdir/$relpath:g"`
-+	fi
-+	cat <<END >$cmd
-+#!/usr/bin/env bash
-+realpath=\`readlink -fn \$0\`
-+realdir=\`dirname \$realpath\`
-+exec -a \$realdir/$cmdname $argument \$realdir/$cmdname.real $cmdoptions "\$@"
-+END
-+	chmod +x $cmd
-+}
-+
- create_wrapper () {
- 	# Create a wrapper script where extra environment variables are needed
- 	#
-diff --git a/meta/lib/oeqa/selftest/cases/wrapper.py b/meta/lib/oeqa/selftest/cases/wrapper.py
-new file mode 100644
-index 0000000000..6de63310c0
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/wrapper.py
-@@ -0,0 +1,11 @@
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import bitbake
-+
-+class WrapperTests(OESelftestTestCase):
-+    def test_shebang_wrapper(self):
-+        """
-+        Summary:   Build a recipe which will fail if the cmdline_shebang_wrapper function is defective.
-+        Expected:  Exit status to be 0.
-+        Author:    Paulo Neves <ptsneves@gmail.com>
-+        """
-+        res = bitbake("cmdline-shebang-wrapper-test -c install", ignore_status=False)
+-B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
++B ?= "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
+ 
+ target_includedir ?= "${includedir}"
+ target_libdir ?= "${libdir}"
+diff --git a/meta/recipes-devtools/gcc/gcc-source.inc b/meta/recipes-devtools/gcc/gcc-source.inc
+index 03bab97815..224b7778ef 100644
+--- a/meta/recipes-devtools/gcc/gcc-source.inc
++++ b/meta/recipes-devtools/gcc/gcc-source.inc
+@@ -18,6 +18,7 @@ INHIBIT_DEFAULT_DEPS = "1"
+ DEPENDS = ""
+ PACKAGES = ""
+ 
++B = "${WORKDIR}/build"
+ 
+ # This needs to be Python to avoid lots of shell variables becoming dependencies.
+ python do_preconfigure () {
 -- 
-2.25.1
+2.36.1
 
 
