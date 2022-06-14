@@ -1,77 +1,374 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <ptsneves@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Steve Sakoman" <steve@sakoman.com>
-Subject: [OE-core][kirkstone 07/22] glib-2.0: upgrade 2.72.1 -> 2.72.2
-Date: Wed,  8 Jun 2022 04:39:20 -1000
-Message-Id: <a471cc829ced8d15a5b008514caf7b0f6839382c.1654698895.git.steve@sakoman.com>
-In-Reply-To: <cover.1654698895.git.steve@sakoman.com>
-References: <cover.1654698895.git.steve@sakoman.com>
+Message-ID: <0b06d351-7d98-42e4-0872-d8b0e4fe9ce7@gmail.com>
+Date: Tue, 14 Jun 2022 15:46:22 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Subject: Re: [OE-core] [PATCH v4 6/7] utils: Add cmdline_shebang_wrapper util.
+References: <20220606155807.1414519-1-ptsneves@gmail.com>
+ <20220614131652.566471-1-ptsneves@gmail.com>
+ <20220614131652.566471-6-ptsneves@gmail.com>
+ <CA+chaQeSuFsrFdGLjyV42kk3wmiFEK8aMMuyBTA7VdDPH-Wb1Q@mail.gmail.com>
+From: "Paulo Neves" <ptsneves@gmail.com>
+In-Reply-To: <CA+chaQeSuFsrFdGLjyV42kk3wmiFEK8aMMuyBTA7VdDPH-Wb1Q@mail.gmail.com>
+Content-Type: multipart/alternative;
+ boundary="------------9PBqQ3o7TTNW6OYihPn0V6SJ"
+Content-Language: en-US
 List-id: <openembedded-core.lists.openembedded.org>
-To: openembedded-core@lists.openembedded.org
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+--------------9PBqQ3o7TTNW6OYihPn0V6SJ
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
 
-Bugs fixed:
+Regarding the FILESEXTRAPATHS:prepend  i was convinced that 
+${THISDIR}/files was not automatically added and was needed for the 
+test.awk file. I guess I have been cargo culting for some time on this. 
+Will remove it.
 
-2640 UWP warnings about extensions and verbs with glib 2.72.1
-2605 Backport !2449 and !2600 mingw test fixes to glib-2-72
-2616 Backport !2615 “Meson: Fix gio-windows-2.0 override name” to glib-2-72
-2629 Backport !2626, !2627 minor leak fixes to glib-2-72
-2643 Backport !2642 “meson: Check rres.compiled() before calling rres.returncode()” to glib-2-72
-2644 Backport !2631 “Cast to guintptr instead of subtracting by null” to glib-2-72
-2662 Backport !2654 “gtask: use g_strconcat() in g_task_return() only if needed” to glib-2-72
-2691 Backport !2661 “win32appinfo: change log level from warning to debug” to glib-2-72
+This is a recipe for a test and if i add a license different than CLOSED 
+than i need to add a license file, which seems a bit overkill for a one 
+line. Am I wrong? What license should it even be? Dont Panic is a common 
+string used in awk docs.
 
-Translation updates:
+Paulo Neves
 
-Croatian
-Danish
-English (United Kingdom)
-French
-Galician
-German
-Nepali
-Portuguese (Brazil)
+On 6/14/22 15:39, Martin Jansa wrote:
+> FILESEXTRAPATHS:prepend doesn't seem to be needed and LICENSE is 
+> really CLOSED?
+>
+> On Tue, Jun 14, 2022 at 3:17 PM Paulo Neves <ptsneves@gmail.com> wrote:
+>
+>     Useful to work around shebang relocation issues, where
+>     shebangs are too long or have arguments in them, thus preventing them
+>     from using the /usr/bin/env shebang.
+>     ---
+>      .../wrapper/cmdline-shebang-wrapper-test.bb
+>     <http://cmdline-shebang-wrapper-test.bb>  | 21 ++++++++++++
+>      .../recipes-test/wrapper/files/test.awk       |  2 ++
+>      meta/classes/utils.bbclass                    | 34
+>     +++++++++++++++++++
+>      meta/lib/oeqa/selftest/cases/wrapper.py       | 11 ++++++
+>      4 files changed, 68 insertions(+)
+>      create mode 100644
+>     meta-selftest/recipes-test/wrapper/cmdline-shebang-wrapper-test.bb
+>     <http://cmdline-shebang-wrapper-test.bb>
+>      create mode 100644 meta-selftest/recipes-test/wrapper/files/test.awk
+>      create mode 100644 meta/lib/oeqa/selftest/cases/wrapper.py
+>
+>     diff --git
+>     a/meta-selftest/recipes-test/wrapper/cmdline-shebang-wrapper-test.bb
+>     <http://cmdline-shebang-wrapper-test.bb>
+>     b/meta-selftest/recipes-test/wrapper/cmdline-shebang-wrapper-test.bb
+>     <http://cmdline-shebang-wrapper-test.bb>
+>     new file mode 100644
+>     index 0000000000..302eea8901
+>     --- /dev/null
+>     +++
+>     b/meta-selftest/recipes-test/wrapper/cmdline-shebang-wrapper-test.bb
+>     <http://cmdline-shebang-wrapper-test.bb>
+>     @@ -0,0 +1,21 @@
+>     +FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
+>     +SUMMARY = "Check that create_cmdline_shebang works"
+>     +LICENSE = "CLOSED"
+>     +INHIBIT_DEFAULT_DEPS = "1"
+>     +
+>     +SRC_URI += "file://test.awk"
+>     +
+>     +EXCLUDE_FROM_WORLD = "1"
+>     +do_install() {
+>     +    install -d ${D}${bindir}
+>     +    install -m 0755 ${WORKDIR}/test.awk ${D}${bindir}/test
+>     +    sed -i -e 's|@AWK_BIN@|${bindir}/awk|g' ${D}${bindir}/test
+>     +    create_cmdline_shebang_wrapper ${D}${bindir}/test
+>     +    if [ $(${D}${bindir}/test) != "Don't Panic!" ]; then
+>     +        bbfatal "Wrapper is broken"
+>     +    else
+>     +        bbnote "Wrapper is good"
+>     +    fi
+>     +}
+>     +
+>     +BBCLASSEXTEND = "native"
+>     diff --git a/meta-selftest/recipes-test/wrapper/files/test.awk
+>     b/meta-selftest/recipes-test/wrapper/files/test.awk
+>     new file mode 100644
+>     index 0000000000..91429197b1
+>     --- /dev/null
+>     +++ b/meta-selftest/recipes-test/wrapper/files/test.awk
+>     @@ -0,0 +1,2 @@
+>     +#! @AWK_BIN@ -f
+>     +BEGIN { print "Don't Panic!" }
+>     diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+>     index b4eb3d38ab..b617632d9f 100644
+>     --- a/meta/classes/utils.bbclass
+>     +++ b/meta/classes/utils.bbclass
+>     @@ -184,6 +184,40 @@ END
+>             chmod +x $cmd
+>      }
+>
+>     +create_cmdline_shebang_wrapper () {
+>     +       # Create a wrapper script where commandline options are needed
+>     +       #
+>     +       # These are useful to work around shebang relocation
+>     issues, where shebangs are too
+>     +  # long or have arguments in them, thus preventing them from
+>     using the /usr/bin/env
+>     +       # shebang
+>     +       #
+>     +       # Usage: create_cmdline_wrapper FILENAME <extra-options>
+>     +
+>     +       cmd=$1
+>     +       shift
+>     +
+>     +       echo "Generating wrapper script for $cmd"
+>     +
+>     +  # Strip #! and get remaining interpreter + arg
+>     +  argument="$(basename "$(head -n1 $cmd | sed -e 's|#![ ]*||g' )")"
+>     +  # strip the shebang from the real script as we do not want it
+>     to be usable anyway
+>     +  tail -n +2 $cmd > $cmd.real
+>     +       cmdname=$(basename $cmd)
+>     +       dirname=$(dirname $cmd)
+>     +       cmdoptions=$@
+>     +       if [ "${base_prefix}" != "" ]; then
+>     +               relpath=`python3 -c "import os;
+>     print(os.path.relpath('${D}${base_prefix}', '$dirname'))"`
+>     +               cmdoptions=`echo $@ | sed -e
+>     "s:${base_prefix}:\\$realdir/$relpath:g"`
+>     +       fi
+>     +       cat <<END >$cmd
+>     +#!/usr/bin/env bash
+>     +realpath=\`readlink -fn \$0\`
+>     +realdir=\`dirname \$realpath\`
+>     +exec -a \$realdir/$cmdname $argument \$realdir/$cmdname.real
+>     $cmdoptions "\$@"
+>     +END
+>     +       chmod +x $cmd
+>     +}
+>     +
+>      create_wrapper () {
+>             # Create a wrapper script where extra environment
+>     variables are needed
+>             #
+>     diff --git a/meta/lib/oeqa/selftest/cases/wrapper.py
+>     b/meta/lib/oeqa/selftest/cases/wrapper.py
+>     new file mode 100644
+>     index 0000000000..6de63310c0
+>     --- /dev/null
+>     +++ b/meta/lib/oeqa/selftest/cases/wrapper.py
+>     @@ -0,0 +1,11 @@
+>     +from oeqa.selftest.case import OESelftestTestCase
+>     +from oeqa.utils.commands import bitbake
+>     +
+>     +class WrapperTests(OESelftestTestCase):
+>     +    def test_shebang_wrapper(self):
+>     +        """
+>     +        Summary:   Build a recipe which will fail if the
+>     cmdline_shebang_wrapper function is defective.
+>     +        Expected:  Exit status to be 0.
+>     +        Author:    Paulo Neves <ptsneves@gmail.com>
+>     +        """
+>     +        res = bitbake("cmdline-shebang-wrapper-test -c install",
+>     ignore_status=False)
+>     -- 
+>     2.25.1
+>
+>
+>     
+>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 780d40c9cc98fd5e9369be974acbbb60d7531a60)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch      | 2 +-
- .../glib-2.0/{glib-2.0_2.72.1.bb => glib-2.0_2.72.2.bb}         | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.72.1.bb => glib-2.0_2.72.2.bb} (96%)
+--------------9PBqQ3o7TTNW6OYihPn0V6SJ
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-index 816b790ce7..fb50fff6a5 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-@@ -1,4 +1,4 @@
--From d52b1b530c5d8a1e70ae45d6e2139e9d3f25207f Mon Sep 17 00:00:00 2001
-+From a30eb17c20e070124b55523d86729348f2929f95 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Fri, 11 Mar 2016 15:35:55 +0000
- Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.72.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb
-similarity index 96%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.72.1.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb
-index c9ccedd81f..c4a8a4b8ad 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.72.1.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb
-@@ -19,7 +19,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            "
- SRC_URI:append:class-native = " file://relocate-modules.patch"
- 
--SRC_URI[sha256sum] = "c07e57147b254cef92ce80a0378dc0c02a4358e7de4702e9f403069781095fe2"
-+SRC_URI[sha256sum] = "78d599a133dba7fe2036dfa8db8fb6131ab9642783fc9578b07a20995252d2de"
- 
- # Find any meson cross files in FILESPATH that are relevant for the current
- # build (using siteinfo) and add them to EXTRA_OEMESON.
--- 
-2.25.1
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    Regarding the FILESEXTRAPATHS:prepend  i was convinced that
+    ${THISDIR}/files was not automatically added and was needed for the
+    test.awk file. I guess I have been cargo culting for some time on
+    this. Will remove it.<br>
+    <br>
+    This is a recipe for a test and if i add a license different than
+    CLOSED than i need to add a license file, which seems a bit overkill
+    for a one line. Am I wrong? What license should it even be? Dont
+    Panic is a common string used in awk docs.<br>
+    <br>
+    Paulo Neves<br>
+    <br>
+    <div class="moz-cite-prefix">On 6/14/22 15:39, Martin Jansa wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CA+chaQeSuFsrFdGLjyV42kk3wmiFEK8aMMuyBTA7VdDPH-Wb1Q@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="ltr">FILESEXTRAPATHS:prepend doesn't seem to be needed
+        and LICENSE is really CLOSED?<br>
+      </div>
+      <br>
+      <div class="gmail_quote">
+        <div dir="ltr" class="gmail_attr">On Tue, Jun 14, 2022 at 3:17
+          PM Paulo Neves &lt;<a href="mailto:ptsneves@gmail.com"
+            moz-do-not-send="true" class="moz-txt-link-freetext">ptsneves@gmail.com</a>&gt;
+          wrote:<br>
+        </div>
+        <blockquote class="gmail_quote" style="margin:0px 0px 0px
+          0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Useful
+          to work around shebang relocation issues, where<br>
+          shebangs are too long or have arguments in them, thus
+          preventing them<br>
+          from using the /usr/bin/env shebang.<br>
+          ---<br>
+           .../wrapper/<a href="http://cmdline-shebang-wrapper-test.bb"
+            rel="noreferrer" target="_blank" moz-do-not-send="true">cmdline-shebang-wrapper-test.bb</a> 
+           | 21 ++++++++++++<br>
+           .../recipes-test/wrapper/files/test.awk       |  2 ++<br>
+           meta/classes/utils.bbclass                    | 34
+          +++++++++++++++++++<br>
+           meta/lib/oeqa/selftest/cases/wrapper.py       | 11 ++++++<br>
+           4 files changed, 68 insertions(+)<br>
+           create mode 100644 meta-selftest/recipes-test/wrapper/<a
+            href="http://cmdline-shebang-wrapper-test.bb"
+            rel="noreferrer" target="_blank" moz-do-not-send="true">cmdline-shebang-wrapper-test.bb</a><br>
+           create mode 100644
+          meta-selftest/recipes-test/wrapper/files/test.awk<br>
+           create mode 100644 meta/lib/oeqa/selftest/cases/wrapper.py<br>
+          <br>
+          diff --git a/meta-selftest/recipes-test/wrapper/<a
+            href="http://cmdline-shebang-wrapper-test.bb"
+            rel="noreferrer" target="_blank" moz-do-not-send="true">cmdline-shebang-wrapper-test.bb</a>
+          b/meta-selftest/recipes-test/wrapper/<a
+            href="http://cmdline-shebang-wrapper-test.bb"
+            rel="noreferrer" target="_blank" moz-do-not-send="true">cmdline-shebang-wrapper-test.bb</a><br>
+          new file mode 100644<br>
+          index 0000000000..302eea8901<br>
+          --- /dev/null<br>
+          +++ b/meta-selftest/recipes-test/wrapper/<a
+            href="http://cmdline-shebang-wrapper-test.bb"
+            rel="noreferrer" target="_blank" moz-do-not-send="true">cmdline-shebang-wrapper-test.bb</a><br>
+          @@ -0,0 +1,21 @@<br>
+          +FILESEXTRAPATHS:prepend := "${THISDIR}/files:"<br>
+          +SUMMARY = "Check that create_cmdline_shebang works"<br>
+          +LICENSE = "CLOSED"<br>
+          +INHIBIT_DEFAULT_DEPS = "1"<br>
+          +<br>
+          +SRC_URI += <a class="moz-txt-link-rfc2396E" href="file://test.awk">"file://test.awk"</a><br>
+          +<br>
+          +EXCLUDE_FROM_WORLD = "1"<br>
+          +do_install() {<br>
+          +    install -d ${D}${bindir}<br>
+          +    install -m 0755 ${WORKDIR}/test.awk ${D}${bindir}/test<br>
+          +    sed -i -e 's|@AWK_BIN@|${bindir}/awk|g'
+          ${D}${bindir}/test<br>
+          +    create_cmdline_shebang_wrapper ${D}${bindir}/test<br>
+          +    if [ $(${D}${bindir}/test) != "Don't Panic!" ]; then<br>
+          +        bbfatal "Wrapper is broken"<br>
+          +    else<br>
+          +        bbnote "Wrapper is good"<br>
+          +    fi<br>
+          +}<br>
+          +<br>
+          +BBCLASSEXTEND = "native"<br>
+          diff --git a/meta-selftest/recipes-test/wrapper/files/test.awk
+          b/meta-selftest/recipes-test/wrapper/files/test.awk<br>
+          new file mode 100644<br>
+          index 0000000000..91429197b1<br>
+          --- /dev/null<br>
+          +++ b/meta-selftest/recipes-test/wrapper/files/test.awk<br>
+          @@ -0,0 +1,2 @@<br>
+          +#! @AWK_BIN@ -f<br>
+          +BEGIN { print "Don't Panic!" }<br>
+          diff --git a/meta/classes/utils.bbclass
+          b/meta/classes/utils.bbclass<br>
+          index b4eb3d38ab..b617632d9f 100644<br>
+          --- a/meta/classes/utils.bbclass<br>
+          +++ b/meta/classes/utils.bbclass<br>
+          @@ -184,6 +184,40 @@ END<br>
+                  chmod +x $cmd<br>
+           }<br>
+          <br>
+          +create_cmdline_shebang_wrapper () {<br>
+          +       # Create a wrapper script where commandline options
+          are needed<br>
+          +       #<br>
+          +       # These are useful to work around shebang relocation
+          issues, where shebangs are too<br>
+          +  # long or have arguments in them, thus preventing them from
+          using the /usr/bin/env<br>
+          +       # shebang<br>
+          +       #<br>
+          +       # Usage: create_cmdline_wrapper FILENAME
+          &lt;extra-options&gt;<br>
+          +<br>
+          +       cmd=$1<br>
+          +       shift<br>
+          +<br>
+          +       echo "Generating wrapper script for $cmd"<br>
+          +<br>
+          +  # Strip #! and get remaining interpreter + arg<br>
+          +  argument="$(basename "$(head -n1 $cmd | sed -e 's|#![
+          ]*||g' )")"<br>
+          +  # strip the shebang from the real script as we do not want
+          it to be usable anyway<br>
+          +  tail -n +2 $cmd &gt; $cmd.real<br>
+          +       cmdname=$(basename $cmd)<br>
+          +       dirname=$(dirname $cmd)<br>
+          +       cmdoptions=$@<br>
+          +       if [ "${base_prefix}" != "" ]; then<br>
+          +               relpath=`python3 -c "import os;
+          print(os.path.relpath('${D}${base_prefix}', '$dirname'))"`<br>
+          +               cmdoptions=`echo $@ | sed -e
+          "s:${base_prefix}:\\$realdir/$relpath:g"`<br>
+          +       fi<br>
+          +       cat &lt;&lt;END &gt;$cmd<br>
+          +#!/usr/bin/env bash<br>
+          +realpath=\`readlink -fn \$0\`<br>
+          +realdir=\`dirname \$realpath\`<br>
+          +exec -a \$realdir/$cmdname $argument \$realdir/$cmdname.real
+          $cmdoptions "\$@"<br>
+          +END<br>
+          +       chmod +x $cmd<br>
+          +}<br>
+          +<br>
+           create_wrapper () {<br>
+                  # Create a wrapper script where extra environment
+          variables are needed<br>
+                  #<br>
+          diff --git a/meta/lib/oeqa/selftest/cases/wrapper.py
+          b/meta/lib/oeqa/selftest/cases/wrapper.py<br>
+          new file mode 100644<br>
+          index 0000000000..6de63310c0<br>
+          --- /dev/null<br>
+          +++ b/meta/lib/oeqa/selftest/cases/wrapper.py<br>
+          @@ -0,0 +1,11 @@<br>
+          +from oeqa.selftest.case import OESelftestTestCase<br>
+          +from oeqa.utils.commands import bitbake<br>
+          +<br>
+          +class WrapperTests(OESelftestTestCase):<br>
+          +    def test_shebang_wrapper(self):<br>
+          +        """<br>
+          +        Summary:   Build a recipe which will fail if the
+          cmdline_shebang_wrapper function is defective.<br>
+          +        Expected:  Exit status to be 0.<br>
+          +        Author:    Paulo Neves &lt;<a
+            href="mailto:ptsneves@gmail.com" target="_blank"
+            moz-do-not-send="true" class="moz-txt-link-freetext">ptsneves@gmail.com</a>&gt;<br>
+          +        """<br>
+          +        res = bitbake("cmdline-shebang-wrapper-test -c
+          install", ignore_status=False)<br>
+          -- <br>
+          2.25.1<br>
+          <br>
+          <br>
+          <br>
+          <br>
+        </blockquote>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
+--------------9PBqQ3o7TTNW6OYihPn0V6SJ--
