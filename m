@@ -1,143 +1,235 @@
-Return-Path: <raju.kumar-pothuraju@xilinx.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B731C43334
-	for <webhook@archiver.kernel.org>; Wed, 15 Jun 2022 13:11:26 +0000 (UTC)
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (NAM02-SN1-obe.outbound.protection.outlook.com [40.107.96.41])
- by mx.groups.io with SMTP id smtpd.web09.4496.1655298680741020382
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1FD3C43334
+	for <webhook@archiver.kernel.org>; Wed, 15 Jun 2022 13:20:36 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web12.4628.1655299227282477276
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jun 2022 06:11:21 -0700
+ Wed, 15 Jun 2022 06:20:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@xilinx.onmicrosoft.com
- header.s=selector2-xilinx-onmicrosoft-com header.b=JPpOmN2R;
- spf=pass (domain: xilinx.com, ip: 40.107.96.41, mailfrom: rajuk@xilinx.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ze1/NrbL0gMa4UileggS/ikBjOo7qPtM2F2mmz9BjefvHEiuRUvht/ay8Aa+3WkK6+9P0vuHKY0XixOfSNHGsYvWPUZHMnA9q5HmKx+h1Svr/rvP9GNNncYk/Y3OmrlsycJfsPk3llflaxBE5T8QaidU8FbbkTVafyu4sxDJ78v6BNnnZzbtvsMDpR0ENv8ZYFPZSiT4WyIuyZqP+AdX6w5sRwwu/ucJ+0pkBbi2QR0C3e72QFvjanD3x1EUYL5Sk1shKrUn08U2OUIFfHEjVJqsoc5eYCVsr+/e7gPlWKGqmTjvPIUvgKWkzouA3ryWu6lnU+vP2PhRD4rIbQpneg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kI+vS2VI07rHflE5iSmi2yPDrcZg05g+nhqwn8iTgVc=;
- b=MKSn2EnylPaGJ50KCMRDTRNUFWpUu94j3bP8UhImVGpAE/TMflBmhk0M0wRCebXOzAjNBuiGUYN8lVBtPnkYG+xIoshNB4cRkOgDEw7RcDcVVx7Arf1DzrHNNuqc1DZHj7DhL3tRcRwelJiXNu3xIKZPxb9dptSMfmeY3VWisO07RDUMChgWGn8cYTUVqWUXUT9o34rcVa//jZcip82GgkWDEMOFA23lGZWFGvSEvJw4jOozomaw5R2kXy0wu9thIL+AAmYR4de4j9C3ch0N3kLCyBzUn2OTz/Btb6ER494qtGmH7qcFvEa9wIQXifdLjioV0d+TJZI4pc/SGCE0mw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=xilinx.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=xilinx.com; dkim=none (message not signed); arc=none
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=dua3sjg9;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41,
+ mailfrom: rybczynska@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id v14so15362985wra.5
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 15 Jun 2022 06:20:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kI+vS2VI07rHflE5iSmi2yPDrcZg05g+nhqwn8iTgVc=;
- b=JPpOmN2RSiScrOBT1lb3p4QBwo/3DOSmRQc7AS3rHIKLbhdGyjBtCythSU6mdHPo1OuEFDcXxWFxzOPeG1FLEjjyonS5ilIbhojk59vEmgmQPlIJEp38pzgZL0cXF1swryCsymgbiF6TPqEx7JsdupMswQMlJ/ny8Qe3c4R43a4=
-Received: from BN9PR03CA0762.namprd03.prod.outlook.com (2603:10b6:408:13a::17)
- by SA0PR02MB7305.namprd02.prod.outlook.com (2603:10b6:806:e1::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.14; Wed, 15 Jun
- 2022 13:11:18 +0000
-Received: from BN1NAM02FT011.eop-nam02.prod.protection.outlook.com
- (2603:10b6:408:13a:cafe::41) by BN9PR03CA0762.outlook.office365.com
- (2603:10b6:408:13a::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.14 via Frontend
- Transport; Wed, 15 Jun 2022 13:11:18 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com; pr=C
-Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- BN1NAM02FT011.mail.protection.outlook.com (10.13.2.129) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5353.14 via Frontend Transport; Wed, 15 Jun 2022 13:11:18 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Wed, 15 Jun 2022 06:10:45 -0700
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Wed, 15 Jun 2022 06:10:45 -0700
-Envelope-to: openembedded-core@lists.openembedded.org
-Received: from [10.140.6.30] (port=55216 helo=xhdrajuk40.xilinx.com)
-	by smtp.xilinx.com with esmtp (Exim 4.90)
-	(envelope-from <raju.kumar-pothuraju@xilinx.com>)
-	id 1o1SnF-000G1A-5J; Wed, 15 Jun 2022 06:10:45 -0700
-From: Raju Kumar Pothuraju <raju.kumar-pothuraju@xilinx.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Raju Kumar Pothuraju <raju.kumar-pothuraju@xilinx.com>
-Subject: [PATCH] runqemu: add QB_KERNEL_CMDLINE
-Date: Wed, 15 Jun 2022 18:40:25 +0530
-Message-ID: <20220615131025.25729-2-raju.kumar-pothuraju@xilinx.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220615131025.25729-1-raju.kumar-pothuraju@xilinx.com>
-References: <20220615131025.25729-1-raju.kumar-pothuraju@xilinx.com>
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QSoQvm+CssHRpq4WwZSumcROaSAFzwvNITToI5uezJk=;
+        b=dua3sjg9l4r24oDtEX0ocxej6AOlsXIznoSkAk3P+/rm3BppXBV4TlPisnk+8p1tV1
+         wYHkOe+XO0f5MFS9pSAOmDYwZfKxHxOufzu9EwHwG82RM9TS1EsKBX/PnerDEPVyFA2s
+         uumEiQVdtZ/Sp2b3hrsWru+nv6RoAX8AAsMnZeSw26Bxa4ldvjWwZqkVrHmJQE6fxJ+a
+         wHTq7IvOvRQXT1pulKCu5lFCmKpvWZo3xEKJUjcnT6YdpNnif3s2ze63/l4gEZrJNpZs
+         2HNKIn6jArPhsinix7UGeaBBTQekVGG8MlNIYXuUWOkiOKFC5MaV1N4WQuqIN9iTZArk
+         PU0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QSoQvm+CssHRpq4WwZSumcROaSAFzwvNITToI5uezJk=;
+        b=uXhjHtUU2rnNgGgpwhCYEXr/UnitcaRZbT6eGTIhgwu5YKcncM0uT+J8zEDQ+bTLoQ
+         E0x1dz/X/5LQ5JVCGh4LfSntnR+0/1U/qTfXVNr5x4fKIkjBDiR75NrA/M5t/8Zvdsg7
+         umKp+kUq062m3x7DhEugvaiCmZOu2YYlL+7sX/wVqAo5PT8InoyYUvUTnXPDF0ouWj3C
+         yI5jgQEVmcQrY9gP+iu+2SUxZDXBY7dMtN9biWuwMO/vO/H8FGUR2kzOMknZ5fES5ymY
+         XzguDXHT63CdAGnRdvK1MJnN2TE7Zj8MfTurpU2fqaVsjPvtAHCVJBIW4uO07HM90Brl
+         MWcw==
+X-Gm-Message-State: AJIora9GZAtMl8AvEs6oZZ2dYlpuGnrkCw2ezukvKQfKihHBM2dld3XO
+	nuk6u1pJ3j9pgf5POkF6nzt0oG8lEUCorQ==
+X-Google-Smtp-Source: 
+ AGRyM1uHmR3ATC3zRxgQ7QOrX5cRFo/T9ret+bjNb4q3rv47H6BtLwsqFc6C6UYiWLi5z1WOQtl+RA==
+X-Received: by 2002:adf:e691:0:b0:210:2d6a:8a82 with SMTP id
+ r17-20020adfe691000000b002102d6a8a82mr10095442wrm.14.1655299225340;
+        Wed, 15 Jun 2022 06:20:25 -0700 (PDT)
+Received: from localhost.localdomain ([80.215.138.27])
+        by smtp.gmail.com with ESMTPSA id
+ l5-20020a05600c47c500b0039746638d6esm2226876wmo.33.2022.06.15.06.20.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jun 2022 06:20:24 -0700 (PDT)
+From: Marta Rybczynska <rybczynska@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Marta Rybczynska <rybczynska@gmail.com>,
+	Marta Rybczynska <marta.rybczynska@huawei.com>
+Subject: [PATCH v2 1/2] cve-check: add support for Ignored CVEs
+Date: Wed, 15 Jun 2022 15:20:11 +0200
+Message-Id: <20220615132011.2432008-1-rybczynska@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4e4a6f27-e292-40bf-09bb-08da4ed088fd
-X-MS-TrafficTypeDiagnostic: SA0PR02MB7305:EE_
-X-Microsoft-Antispam-PRVS: 
-	<SA0PR02MB7305B414229FEB3B5658ECAAD0AD9@SA0PR02MB7305.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	0us9zNTdlLn4/FBs3Y4qFUdoZ7reERn08fl6cfo13iNiNNIsJc7P7UbsALGzgPtfHYy+UNW9iNAzmF0W6mZdzdN0tGD8mBD7v5wnoEmYV74bdUjOruW7T/7X5rKDxzSmX6UOZLH3Gvq2pHU6F85sSr7jnIvf+z309mm7WEJmj5wFKIJb2a7VA1ltcd2eqxjecBfBqD+Zf8bkdrmrwZmffPzh0Ztr4wryf4m4xTTUtdcstZS6kzxG3Kt79aafLn5nFGvMM2GvQgtHWjC6KzuodCpdmi4lfzDwuxtdN4aiDzARakOv3MQAY3EzBceYvku9tLEDQaOtwxYvnhry3RGIoLGHEci+ryh1FgFC2WQFF+8ESB4C2/vYsO16kJbZLCsw5bkPVWxGEpUFHjMVHTW6KA7CV7cYw2BAjX0Ln0mQdoQI0LS0Ad0AXnnRXToLQ0eM0745UKzg7ac5eTwRNpkSYU6zi3h6ou8mjEYCKy9npAVTlHSDP7N6IhJ+3XtwWO8+PrFsPPv77XohK4E2QIEpJknk4/jfOxSQe0l4gsftUBNTHrmWbSOBsZRHmy8DGkZ7MoideiRpGh9d7P1rb+UlVV56qioxVwpkD7LmVwT+uHL4P5VR4hengSBCcfx7/SJNzJ+wAuOGVin0ura7EFH7Ed3N2hbnAuRjbHz8uR+2te581zN0T1KJQUOOkbYwg3LlD0/bZUSLhBcxtx4A+dj7zw==
-X-Forefront-Antispam-Report: 
-	CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch02.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(13230016)(4636009)(40470700004)(36840700001)(46966006)(9786002)(4326008)(8676002)(70586007)(70206006)(2906002)(40460700003)(356005)(5660300002)(8936002)(7636003)(82310400005)(26005)(186003)(107886003)(47076005)(336012)(508600001)(2616005)(6666004)(7696005)(36860700001)(426003)(316002)(1076003)(83380400001)(6916009)(36756003)(102446001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2022 13:11:18.3388
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 4e4a6f27-e292-40bf-09bb-08da4ed088fd
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
- TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.62.198];Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	BN1NAM02FT011.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR02MB7305
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jun 2022 13:11:26 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jun 2022 13:20:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166984
+ https://lists.openembedded.org/g/openembedded-core/message/166986
 
-runqemu auto generating the KERNEL_CMDLINE values and specifying using
--append option to qemu boot command which will lead to override the
-kernel_cmdline/bootargs which are specified in DTB when using -dtb option.
-Add new macro QB_KERNEL_CMDLINE to specify not to add the runqemu
-generated KERNEL_CMDLINE values instead use which are in the DTB if
-value defined as 'none'.
-Add provision to override bootargs using # runqemu bootparams="root=/dev/ram0"
+Ignored CVEs aren't patched, but do not apply in our configuration
+for some reason. Up till now they were only partially supported
+and reported as "Patched".
 
-Signed-off-by: Raju Kumar Pothuraju <raju.kumar-pothuraju@xilinx.com>
+This patch adds separate reporting of Ignored CVEs. The variable
+CVE_CHECK_REPORT_PATCHED now manages reporting of both patched
+and ignored CVEs.
+
+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 ---
- scripts/runqemu | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Changes in v2:
+    - fix JSON generation with CVE_CHECK_REPORT_PATCHED enabled/disabled
+---
+ meta/classes/cve-check.bbclass | 43 ++++++++++++++++++++++++----------
+ 1 file changed, 30 insertions(+), 13 deletions(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 6e1f073ed2..b4c1ae6d83 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -1486,7 +1486,12 @@ class BaseConfig(object):
-     def start_qemu(self):
-         import shlex
-         if self.kernel:
--            kernel_opts = "-kernel %s -append '%s %s %s %s'" % (self.kernel, self.kernel_cmdline,
-+            kernel_opts = "-kernel %s" % (self.kernel)
-+            if self.get('QB_KERNEL_CMDLINE') == "none":
-+                if self.bootparams:
-+                    kernel_opts += " -append '%s'" % (self.bootparams)
-+            else:
-+                kernel_opts += " -append '%s %s %s %s'" % (self.kernel_cmdline,
-                                                                 self.kernel_cmdline_script, self.get('QB_KERNEL_CMDLINE_APPEND'),
-                                                                 self.bootparams)
-             if self.dtb:
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 1b4910f737..50b9247f46 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -47,7 +47,9 @@ CVE_CHECK_MANIFEST_JSON ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX
+ CVE_CHECK_COPY_FILES ??= "1"
+ CVE_CHECK_CREATE_MANIFEST ??= "1"
+ 
++# Report Patched or Ignored CVEs
+ CVE_CHECK_REPORT_PATCHED ??= "1"
++
+ CVE_CHECK_SHOW_WARNINGS ??= "1"
+ 
+ # Provide text output
+@@ -144,7 +146,7 @@ python do_cve_check () {
+             bb.fatal("Failure in searching patches")
+         ignored, patched, unpatched, status = check_cves(d, patched_cves)
+         if patched or unpatched or (d.getVar("CVE_CHECK_COVERAGE") == "1" and status):
+-            cve_data = get_cve_info(d, patched + unpatched)
++            cve_data = get_cve_info(d, patched + unpatched + ignored)
+             cve_write_data(d, patched, unpatched, ignored, cve_data, status)
+     else:
+         bb.note("No CVE database found, skipping CVE check")
+@@ -258,6 +260,7 @@ def check_cves(d, patched_cves):
+     suffix = d.getVar("CVE_VERSION_SUFFIX")
+ 
+     cves_unpatched = []
++    cves_ignored = []
+     cves_status = []
+     cves_in_recipe = False
+     # CVE_PRODUCT can contain more than one product (eg. curl/libcurl)
+@@ -291,9 +294,8 @@ def check_cves(d, patched_cves):
+             cve = cverow[0]
+ 
+             if cve in cve_ignore:
+-                bb.note("%s-%s has been ignored for %s" % (product, pv, cve))
+-                # TODO: this should be in the report as 'ignored'
+-                patched_cves.add(cve)
++                bb.note("%s-%s ignores %s" % (product, pv, cve))
++                cves_ignored.append(cve)
+                 continue
+             elif cve in patched_cves:
+                 bb.note("%s has been patched" % (cve))
+@@ -305,9 +307,13 @@ def check_cves(d, patched_cves):
+                 cves_in_recipe = True
+ 
+             vulnerable = False
++            ignored = False
++
+             for row in conn.execute("SELECT * FROM PRODUCTS WHERE ID IS ? AND PRODUCT IS ? AND VENDOR LIKE ?", (cve, product, vendor)):
+                 (_, _, _, version_start, operator_start, version_end, operator_end) = row
+                 #bb.debug(2, "Evaluating row " + str(row))
++                if cve in cve_ignore:
++                    ignored = True
+ 
+                 if (operator_start == '=' and pv == version_start) or version_start == '-':
+                     vulnerable = True
+@@ -340,13 +346,16 @@ def check_cves(d, patched_cves):
+                         vulnerable = vulnerable_start or vulnerable_end
+ 
+                 if vulnerable:
+-                    bb.note("%s-%s is vulnerable to %s" % (pn, real_pv, cve))
+-                    cves_unpatched.append(cve)
++                    if ignored:
++                        bb.note("%s is ignored in %s-%s" % (cve, pn, real_pv))
++                        cves_ignored.append(cve)
++                    else:
++                        bb.note("%s-%s is vulnerable to %s" % (pn, real_pv, cve))
++                        cves_unpatched.append(cve)
+                     break
+ 
+             if not vulnerable:
+                 bb.note("%s-%s is not vulnerable to %s" % (pn, real_pv, cve))
+-                # TODO: not patched but not vulnerable
+                 patched_cves.add(cve)
+ 
+         if not cves_in_product:
+@@ -358,7 +367,7 @@ def check_cves(d, patched_cves):
+     if not cves_in_recipe:
+         bb.note("No CVE records for products in recipe %s" % (pn))
+ 
+-    return (list(cve_ignore), list(patched_cves), cves_unpatched, cves_status)
++    return (list(cves_ignored), list(patched_cves), cves_unpatched, cves_status)
+ 
+ def get_cve_info(d, cves):
+     """
+@@ -396,6 +405,8 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
+     include_layers = d.getVar("CVE_CHECK_LAYER_INCLUDELIST").split()
+     exclude_layers = d.getVar("CVE_CHECK_LAYER_EXCLUDELIST").split()
+ 
++    report_all = d.getVar("CVE_CHECK_REPORT_PATCHED") == "1"
++
+     if exclude_layers and layer in exclude_layers:
+         return
+ 
+@@ -403,7 +414,7 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
+         return
+ 
+     # Early exit, the text format does not report packages without CVEs
+-    if not patched+unpatched:
++    if not patched+unpatched+ignored:
+         return
+ 
+     nvd_link = "https://nvd.nist.gov/vuln/detail/"
+@@ -413,13 +424,16 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
+ 
+     for cve in sorted(cve_data):
+         is_patched = cve in patched
+-        if is_patched and (d.getVar("CVE_CHECK_REPORT_PATCHED") != "1"):
++        is_ignored = cve in ignored
++
++        if (is_patched or is_ignored) and not report_all:
+             continue
++
+         write_string += "LAYER: %s\n" % layer
+         write_string += "PACKAGE NAME: %s\n" % d.getVar("PN")
+         write_string += "PACKAGE VERSION: %s%s\n" % (d.getVar("EXTENDPE"), d.getVar("PV"))
+         write_string += "CVE: %s\n" % cve
+-        if cve in ignored:
++        if is_ignored:
+             write_string += "CVE STATUS: Ignored\n"
+         elif is_patched:
+             write_string += "CVE STATUS: Patched\n"
+@@ -496,6 +510,8 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
+     include_layers = d.getVar("CVE_CHECK_LAYER_INCLUDELIST").split()
+     exclude_layers = d.getVar("CVE_CHECK_LAYER_EXCLUDELIST").split()
+ 
++    report_all = d.getVar("CVE_CHECK_REPORT_PATCHED") == "1"
++
+     if exclude_layers and layer in exclude_layers:
+         return
+ 
+@@ -522,10 +538,11 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
+ 
+     for cve in sorted(cve_data):
+         is_patched = cve in patched
++        is_ignored = cve in ignored
+         status = "Unpatched"
+-        if is_patched and (d.getVar("CVE_CHECK_REPORT_PATCHED") != "1"):
++        if (is_patched or is_ignored) and not report_all:
+             continue
+-        if cve in ignored:
++        if is_ignored:
+             status = "Ignored"
+         elif is_patched:
+             status = "Patched"
 -- 
-2.17.1
+2.33.0
 
 
