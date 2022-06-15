@@ -2,233 +2,172 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1FD3C43334
-	for <webhook@archiver.kernel.org>; Wed, 15 Jun 2022 13:20:36 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web12.4628.1655299227282477276
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0515C43334
+	for <webhook@archiver.kernel.org>; Wed, 15 Jun 2022 13:22:06 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web08.4753.1655299322347011724
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jun 2022 06:20:27 -0700
+ Wed, 15 Jun 2022 06:22:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=dua3sjg9;
- spf=pass (domain: gmail.com, ip: 209.85.221.41,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bwiiPk4R;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46,
  mailfrom: rybczynska@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id v14so15362985wra.5
+Received: by mail-wm1-f46.google.com with SMTP id
+ m32-20020a05600c3b2000b0039756bb41f2so1112578wms.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jun 2022 06:20:27 -0700 (PDT)
+ Wed, 15 Jun 2022 06:22:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=QSoQvm+CssHRpq4WwZSumcROaSAFzwvNITToI5uezJk=;
-        b=dua3sjg9l4r24oDtEX0ocxej6AOlsXIznoSkAk3P+/rm3BppXBV4TlPisnk+8p1tV1
-         wYHkOe+XO0f5MFS9pSAOmDYwZfKxHxOufzu9EwHwG82RM9TS1EsKBX/PnerDEPVyFA2s
-         uumEiQVdtZ/Sp2b3hrsWru+nv6RoAX8AAsMnZeSw26Bxa4ldvjWwZqkVrHmJQE6fxJ+a
-         wHTq7IvOvRQXT1pulKCu5lFCmKpvWZo3xEKJUjcnT6YdpNnif3s2ze63/l4gEZrJNpZs
-         2HNKIn6jArPhsinix7UGeaBBTQekVGG8MlNIYXuUWOkiOKFC5MaV1N4WQuqIN9iTZArk
-         PU0A==
+        bh=Dm7dJd21Xo3YcwLXQPgbV0CNmWVSTD7B5+7rI6GRij0=;
+        b=bwiiPk4RKgZKU5xBbW7k1tca++TK1vRaDmBo3xLsi7cyVwXO9T2o8zjzEyTOTPa/SK
+         b/63mvWZDbyHLPKcE1gRORa/HseQyR8HryzYKfLmSZNAn3e5bcTN3Bz+Oujr6TeJvAXU
+         phytgFUMuVeIJ1Mp6OnD2vlDcYjxMjwcGCdbxQd54X/bqZ2XD1YrmDarTuWGCj98p6uY
+         HQkrUGDp21jXaMAmcEHPjQRVLDYL+8fw0sU0sVwnFCJGmREEoQPoEva0ljYjJE4fBwvG
+         isB8osFWuM+Df0ReZtUUl6B3A/ZHoOPMEzRzqxovbcXZmzErhwSPf2agS760duYTwHg4
+         WarA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=QSoQvm+CssHRpq4WwZSumcROaSAFzwvNITToI5uezJk=;
-        b=uXhjHtUU2rnNgGgpwhCYEXr/UnitcaRZbT6eGTIhgwu5YKcncM0uT+J8zEDQ+bTLoQ
-         E0x1dz/X/5LQ5JVCGh4LfSntnR+0/1U/qTfXVNr5x4fKIkjBDiR75NrA/M5t/8Zvdsg7
-         umKp+kUq062m3x7DhEugvaiCmZOu2YYlL+7sX/wVqAo5PT8InoyYUvUTnXPDF0ouWj3C
-         yI5jgQEVmcQrY9gP+iu+2SUxZDXBY7dMtN9biWuwMO/vO/H8FGUR2kzOMknZ5fES5ymY
-         XzguDXHT63CdAGnRdvK1MJnN2TE7Zj8MfTurpU2fqaVsjPvtAHCVJBIW4uO07HM90Brl
-         MWcw==
-X-Gm-Message-State: AJIora9GZAtMl8AvEs6oZZ2dYlpuGnrkCw2ezukvKQfKihHBM2dld3XO
-	nuk6u1pJ3j9pgf5POkF6nzt0oG8lEUCorQ==
+        bh=Dm7dJd21Xo3YcwLXQPgbV0CNmWVSTD7B5+7rI6GRij0=;
+        b=kUDZ/VGaILCz5G3z13ZSJhoK3lbfWsNagRH2ldOnNmJ0umoa/+CJ+KVd1WLZM8gK9Z
+         q0KUFZVZ0sCe+s3AQboyv/YJFOJ4sxJmd9atN7pM8Elxv30RGiGwCxEvojqfVnzpwDsD
+         V1g2mEnQzd+wsuAgGI3hnmyaPaWkeJlvh/jDLlOvcEK4kq/WvE+QY0PcoiI5pUHGOCVc
+         zCFPLfwf60/RL1Bey2HxtMwS7nuhelv8fSemv1wu7wwZShSFLoE9KlG1PIGrwM21832W
+         tP2DsoibpX8UuH6h3op0Iz6/Ke8lNbsoBzZnnQj79WN8C78nfSMZdRxjPmStw3Nnx5iE
+         IC6w==
+X-Gm-Message-State: AOAM532vwkUkc4y/on6v4xJa/NWqE50+MNKFPA5lvk9lhrwDGzeIYbns
+	w/4rK70K+HApnwcRcLo4AP4vzHT/l1YAFg==
 X-Google-Smtp-Source: 
- AGRyM1uHmR3ATC3zRxgQ7QOrX5cRFo/T9ret+bjNb4q3rv47H6BtLwsqFc6C6UYiWLi5z1WOQtl+RA==
-X-Received: by 2002:adf:e691:0:b0:210:2d6a:8a82 with SMTP id
- r17-20020adfe691000000b002102d6a8a82mr10095442wrm.14.1655299225340;
-        Wed, 15 Jun 2022 06:20:25 -0700 (PDT)
+ ABdhPJx5wPR7yUPRasbUn+U1nE8ZoicHGQWgSvuKSkMqzZsuwGu8G4H6L5Bz55yC3wZFwA3+ZPMiaw==
+X-Received: by 2002:a05:600c:3acd:b0:39c:7930:7b57 with SMTP id
+ d13-20020a05600c3acd00b0039c79307b57mr9834538wms.73.1655299320301;
+        Wed, 15 Jun 2022 06:22:00 -0700 (PDT)
 Received: from localhost.localdomain ([80.215.138.27])
         by smtp.gmail.com with ESMTPSA id
- l5-20020a05600c47c500b0039746638d6esm2226876wmo.33.2022.06.15.06.20.24
+ g16-20020a05600c4ed000b003974860e15esm2973088wmq.40.2022.06.15.06.21.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jun 2022 06:20:24 -0700 (PDT)
+        Wed, 15 Jun 2022 06:21:59 -0700 (PDT)
 From: Marta Rybczynska <rybczynska@gmail.com>
-To: openembedded-core@lists.openembedded.org
+To: openembedded-core@lists.openembedded.org,
+	ross.burton@arm.com
 Cc: Marta Rybczynska <rybczynska@gmail.com>,
 	Marta Rybczynska <marta.rybczynska@huawei.com>
-Subject: [PATCH v2 1/2] cve-check: add support for Ignored CVEs
-Date: Wed, 15 Jun 2022 15:20:11 +0200
-Message-Id: <20220615132011.2432008-1-rybczynska@gmail.com>
+Subject: [PATCH v2 2/2] oeqa/selftest/cve_check: add tests for Ignored and
+ partial reports
+Date: Wed, 15 Jun 2022 15:21:48 +0200
+Message-Id: <20220615132148.2432070-1-rybczynska@gmail.com>
 X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jun 2022 13:20:36 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jun 2022 13:22:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166986
+ https://lists.openembedded.org/g/openembedded-core/message/166987
 
-Ignored CVEs aren't patched, but do not apply in our configuration
-for some reason. Up till now they were only partially supported
-and reported as "Patched".
-
-This patch adds separate reporting of Ignored CVEs. The variable
-CVE_CHECK_REPORT_PATCHED now manages reporting of both patched
-and ignored CVEs.
+Add testcases for partial reports with CVE_CHECK_REPORT_PATCHED and
+Ignored CVEs.
 
 Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
 ---
-Changes in v2:
-    - fix JSON generation with CVE_CHECK_REPORT_PATCHED enabled/disabled
----
- meta/classes/cve-check.bbclass | 43 ++++++++++++++++++++++++----------
- 1 file changed, 30 insertions(+), 13 deletions(-)
+ meta/lib/oeqa/selftest/cases/cve_check.py | 82 +++++++++++++++++++++++
+ 1 file changed, 82 insertions(+)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 1b4910f737..50b9247f46 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -47,7 +47,9 @@ CVE_CHECK_MANIFEST_JSON ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX
- CVE_CHECK_COPY_FILES ??= "1"
- CVE_CHECK_CREATE_MANIFEST ??= "1"
- 
-+# Report Patched or Ignored CVEs
- CVE_CHECK_REPORT_PATCHED ??= "1"
+diff --git a/meta/lib/oeqa/selftest/cases/cve_check.py b/meta/lib/oeqa/selftest/cases/cve_check.py
+index 2f26f606d7..d0b2213703 100644
+--- a/meta/lib/oeqa/selftest/cases/cve_check.py
++++ b/meta/lib/oeqa/selftest/cases/cve_check.py
+@@ -117,3 +117,85 @@ CVE_CHECK_FORMAT_JSON = "1"
+         self.assertEqual(report["version"], "1")
+         self.assertEqual(len(report["package"]), 1)
+         self.assertEqual(report["package"][0]["name"], recipename)
 +
- CVE_CHECK_SHOW_WARNINGS ??= "1"
- 
- # Provide text output
-@@ -144,7 +146,7 @@ python do_cve_check () {
-             bb.fatal("Failure in searching patches")
-         ignored, patched, unpatched, status = check_cves(d, patched_cves)
-         if patched or unpatched or (d.getVar("CVE_CHECK_COVERAGE") == "1" and status):
--            cve_data = get_cve_info(d, patched + unpatched)
-+            cve_data = get_cve_info(d, patched + unpatched + ignored)
-             cve_write_data(d, patched, unpatched, ignored, cve_data, status)
-     else:
-         bb.note("No CVE database found, skipping CVE check")
-@@ -258,6 +260,7 @@ def check_cves(d, patched_cves):
-     suffix = d.getVar("CVE_VERSION_SUFFIX")
- 
-     cves_unpatched = []
-+    cves_ignored = []
-     cves_status = []
-     cves_in_recipe = False
-     # CVE_PRODUCT can contain more than one product (eg. curl/libcurl)
-@@ -291,9 +294,8 @@ def check_cves(d, patched_cves):
-             cve = cverow[0]
- 
-             if cve in cve_ignore:
--                bb.note("%s-%s has been ignored for %s" % (product, pv, cve))
--                # TODO: this should be in the report as 'ignored'
--                patched_cves.add(cve)
-+                bb.note("%s-%s ignores %s" % (product, pv, cve))
-+                cves_ignored.append(cve)
-                 continue
-             elif cve in patched_cves:
-                 bb.note("%s has been patched" % (cve))
-@@ -305,9 +307,13 @@ def check_cves(d, patched_cves):
-                 cves_in_recipe = True
- 
-             vulnerable = False
-+            ignored = False
 +
-             for row in conn.execute("SELECT * FROM PRODUCTS WHERE ID IS ? AND PRODUCT IS ? AND VENDOR LIKE ?", (cve, product, vendor)):
-                 (_, _, _, version_start, operator_start, version_end, operator_end) = row
-                 #bb.debug(2, "Evaluating row " + str(row))
-+                if cve in cve_ignore:
-+                    ignored = True
- 
-                 if (operator_start == '=' and pv == version_start) or version_start == '-':
-                     vulnerable = True
-@@ -340,13 +346,16 @@ def check_cves(d, patched_cves):
-                         vulnerable = vulnerable_start or vulnerable_end
- 
-                 if vulnerable:
--                    bb.note("%s-%s is vulnerable to %s" % (pn, real_pv, cve))
--                    cves_unpatched.append(cve)
-+                    if ignored:
-+                        bb.note("%s is ignored in %s-%s" % (cve, pn, real_pv))
-+                        cves_ignored.append(cve)
-+                    else:
-+                        bb.note("%s-%s is vulnerable to %s" % (pn, real_pv, cve))
-+                        cves_unpatched.append(cve)
-                     break
- 
-             if not vulnerable:
-                 bb.note("%s-%s is not vulnerable to %s" % (pn, real_pv, cve))
--                # TODO: not patched but not vulnerable
-                 patched_cves.add(cve)
- 
-         if not cves_in_product:
-@@ -358,7 +367,7 @@ def check_cves(d, patched_cves):
-     if not cves_in_recipe:
-         bb.note("No CVE records for products in recipe %s" % (pn))
- 
--    return (list(cve_ignore), list(patched_cves), cves_unpatched, cves_status)
-+    return (list(cves_ignored), list(patched_cves), cves_unpatched, cves_status)
- 
- def get_cve_info(d, cves):
-     """
-@@ -396,6 +405,8 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
-     include_layers = d.getVar("CVE_CHECK_LAYER_INCLUDELIST").split()
-     exclude_layers = d.getVar("CVE_CHECK_LAYER_EXCLUDELIST").split()
- 
-+    report_all = d.getVar("CVE_CHECK_REPORT_PATCHED") == "1"
++    def test_recipe_report_json_unpatched(self):
++        config = """
++INHERIT += "cve-check"
++CVE_CHECK_FORMAT_JSON = "1"
++CVE_CHECK_REPORT_PATCHED = "0"
++"""
++        self.write_config(config)
 +
-     if exclude_layers and layer in exclude_layers:
-         return
- 
-@@ -403,7 +414,7 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
-         return
- 
-     # Early exit, the text format does not report packages without CVEs
--    if not patched+unpatched:
-+    if not patched+unpatched+ignored:
-         return
- 
-     nvd_link = "https://nvd.nist.gov/vuln/detail/"
-@@ -413,13 +424,16 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
- 
-     for cve in sorted(cve_data):
-         is_patched = cve in patched
--        if is_patched and (d.getVar("CVE_CHECK_REPORT_PATCHED") != "1"):
-+        is_ignored = cve in ignored
++        vars = get_bb_vars(["CVE_CHECK_SUMMARY_DIR", "CVE_CHECK_SUMMARY_FILE_NAME_JSON"])
++        summary_json = os.path.join(vars["CVE_CHECK_SUMMARY_DIR"], vars["CVE_CHECK_SUMMARY_FILE_NAME_JSON"])
++        recipe_json = os.path.join(vars["CVE_CHECK_SUMMARY_DIR"], "m4-native_cve.json")
 +
-+        if (is_patched or is_ignored) and not report_all:
-             continue
++        try:
++            os.remove(summary_json)
++            os.remove(recipe_json)
++        except FileNotFoundError:
++            pass
 +
-         write_string += "LAYER: %s\n" % layer
-         write_string += "PACKAGE NAME: %s\n" % d.getVar("PN")
-         write_string += "PACKAGE VERSION: %s%s\n" % (d.getVar("EXTENDPE"), d.getVar("PV"))
-         write_string += "CVE: %s\n" % cve
--        if cve in ignored:
-+        if is_ignored:
-             write_string += "CVE STATUS: Ignored\n"
-         elif is_patched:
-             write_string += "CVE STATUS: Patched\n"
-@@ -496,6 +510,8 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
-     include_layers = d.getVar("CVE_CHECK_LAYER_INCLUDELIST").split()
-     exclude_layers = d.getVar("CVE_CHECK_LAYER_EXCLUDELIST").split()
- 
-+    report_all = d.getVar("CVE_CHECK_REPORT_PATCHED") == "1"
++        bitbake("m4-native -c cve_check")
 +
-     if exclude_layers and layer in exclude_layers:
-         return
- 
-@@ -522,10 +538,11 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
- 
-     for cve in sorted(cve_data):
-         is_patched = cve in patched
-+        is_ignored = cve in ignored
-         status = "Unpatched"
--        if is_patched and (d.getVar("CVE_CHECK_REPORT_PATCHED") != "1"):
-+        if (is_patched or is_ignored) and not report_all:
-             continue
--        if cve in ignored:
-+        if is_ignored:
-             status = "Ignored"
-         elif is_patched:
-             status = "Patched"
++        def check_m4_json(filename):
++            with open(filename) as f:
++                report = json.load(f)
++            self.assertEqual(report["version"], "1")
++            self.assertEqual(len(report["package"]), 1)
++            package = report["package"][0]
++            self.assertEqual(package["name"], "m4-native")
++            #m4 had only Patched CVEs, so the issues array will be empty
++            self.assertEqual(package["issue"], [])
++
++        self.assertExists(summary_json)
++        check_m4_json(summary_json)
++        self.assertExists(recipe_json)
++        check_m4_json(recipe_json)
++
++
++    def test_recipe_report_json_ignored(self):
++        config = """
++INHERIT += "cve-check"
++CVE_CHECK_FORMAT_JSON = "1"
++CVE_CHECK_REPORT_PATCHED = "1"
++"""
++        self.write_config(config)
++
++        vars = get_bb_vars(["CVE_CHECK_SUMMARY_DIR", "CVE_CHECK_SUMMARY_FILE_NAME_JSON"])
++        summary_json = os.path.join(vars["CVE_CHECK_SUMMARY_DIR"], vars["CVE_CHECK_SUMMARY_FILE_NAME_JSON"])
++        recipe_json = os.path.join(vars["CVE_CHECK_SUMMARY_DIR"], "logrotate_cve.json")
++
++        try:
++            os.remove(summary_json)
++            os.remove(recipe_json)
++        except FileNotFoundError:
++            pass
++
++        bitbake("logrotate -c cve_check")
++
++        def check_m4_json(filename):
++            with open(filename) as f:
++                report = json.load(f)
++            self.assertEqual(report["version"], "1")
++            self.assertEqual(len(report["package"]), 1)
++            package = report["package"][0]
++            self.assertEqual(package["name"], "logrotate")
++            found_cves = { issue["id"]: issue["status"] for issue in package["issue"]}
++            # m4 CVE should not be in logrotate
++            self.assertNotIn("CVE-2008-1687", found_cves)
++            # logrotate has both Patched and Ignored CVEs
++            self.assertIn("CVE-2011-1098", found_cves)
++            self.assertEqual(found_cves["CVE-2011-1098"], "Patched")
++            self.assertIn("CVE-2011-1548", found_cves)
++            self.assertEqual(found_cves["CVE-2011-1548"], "Ignored")
++            self.assertIn("CVE-2011-1549", found_cves)
++            self.assertEqual(found_cves["CVE-2011-1549"], "Ignored")
++            self.assertIn("CVE-2011-1550", found_cves)
++            self.assertEqual(found_cves["CVE-2011-1550"], "Ignored")
++
++        self.assertExists(summary_json)
++        check_m4_json(summary_json)
++        self.assertExists(recipe_json)
++        check_m4_json(recipe_json)
 -- 
 2.33.0
 
