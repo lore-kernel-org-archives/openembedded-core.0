@@ -1,164 +1,180 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9B3ACCA473
-	for <webhook@archiver.kernel.org>; Wed, 15 Jun 2022 11:27:44 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web12.3452.1655292457510567499
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 651E6CCA47E
+	for <webhook@archiver.kernel.org>; Wed, 15 Jun 2022 13:03:45 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com
+ (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.4414.1655298220237833708
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jun 2022 04:27:37 -0700
+ Wed, 15 Jun 2022 06:03:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=a34ct4yE;
- spf=pass (domain: gmail.com, ip: 209.85.167.47,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id i29so18443598lfp.3
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jun 2022 04:27:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3Z8AsIRd6X+leQcu/osrp9cywfA0lIxzmCn3Eq9M3zA=;
-        b=a34ct4yE/XBru16Ns7t21GgOtUGNrFNWh9E6wZ3UciPwC2YPdYbVVVGYRFLzTfCZ3a
-         bTzDgJg6P9ER8jeDQuh8oSbr6B61WfSisUZp6Z5FBPBmecqZG3xCrdTsCXKjcgJEU5wC
-         W8VCmdRjvHGUXQoNzjAoBJl5dCTYeQEvHC5JHUlEqnjBNirw0m9b05THUgYizWqip5wI
-         O1OCK5p+grm4IjQRvFRBwX29YQEFr8mrI++8oQUSZEH+VrUsy5a4N/5gAccWNRFzEZA4
-         37/EW/ceTtK5MF8CMyNpM9c48eVPXpCDIP+C2OErO8XOOhrMthxG2wxW+FDc9vXjAM/m
-         FziA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3Z8AsIRd6X+leQcu/osrp9cywfA0lIxzmCn3Eq9M3zA=;
-        b=Q9nZCbVjQ49J3qXp9IpV0zRvfyW2A3uw3odHmI1IIn2jaNAJJSqT0EYDGw2xTbMDdW
-         prjBn6QT3zZTP7n0bheQUWjy8INVM5Y/bTJlnRWUQzNbMh1iNZ5jvwvQl/YzYSOMfEBf
-         0j43tuqiBNlACW/+optyxKPqWMCS89ooqWwQLKF6YLDxwnlABctrG1b8bfRLmKkBeitL
-         bFD1EMAzWrSFCxdPMqS2hddEJlRsn8mF5A5Z/VQFzbcWGSzm1BCzfGL61MZVYjQqbEai
-         vOBbpPfzedxCTUbNEwlYQ7yhsF13h7DT0it9q4Hqiox4bvrf+1vxOaMhsEdOf8f94E1u
-         BmTg==
-X-Gm-Message-State: AJIora/g0vbZtNcZxzlhFm/X/+rtIMYuk//b+MmLY7iJB7n8awkjqU65
-	S1Sf6t23jSZvZObJfW0wUvholEg7IZS9pyi7lRU=
-X-Google-Smtp-Source: 
- AGRyM1tRBUWvgZiwIDQCmqFVg01xy7F2OjKB+PMbGonXRav4prqVwBcD5GCNAYjmqOAzuyDjC6YXABuYR68SZWPUC1g=
-X-Received: by 2002:a19:ca5a:0:b0:47d:b1fa:da4c with SMTP id
- h26-20020a19ca5a000000b0047db1fada4cmr5781597lfj.534.1655292455094; Wed, 15
- Jun 2022 04:27:35 -0700 (PDT)
+ dkim=pass header.i=@yoctoproject.org
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=WNS7eaNg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
+ mailfrom: 0101018167765c80-0fc1d287-fc3c-465e-9afa-73f18e915fc5-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
+	t=1655298219;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=2kQyBlJN5ldKSUX1PjQcL9Hp/FbL/QHDI0lw4apoQFA=;
+	b=WNS7eaNgBL+6gUeOCdye+ErVMt5UgqgVAfpvYH94L+TjPbx6N+3uJ23qe3EUd/8x
+	Yvs7JJNGpTX4HYhgu37L2wqe8/jeKdPXNvqdrGFJqcFbonqWfMwe32xNGOklu5zN66K
+	bM/EGJZwXiLVFl4+0giTXZ6L6v+k/3AfqkFseJi4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1655298219;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=2kQyBlJN5ldKSUX1PjQcL9Hp/FbL/QHDI0lw4apoQFA=;
+	b=iZ8+EYlX3yZfZrutihFTv1pr24ZapOy6Ao7bzJ17k+zhVKbJJvmnGu9BziYlg2ZR
+	WrI4AoQBQo2+G9rkGyJVG7RQk5Bq3MicoahG/FgaAvogQJl4gkUu1hrQf0yXB2hRmBf
+	AlxlnHxt9HgrNwmjZaLvSktmvL8mxX3aKnJorKT0=
+Content-Type: multipart/mixed; boundary="===============6690827511343120061=="
 MIME-Version: 1.0
-References: <20220615095916.16290-1-raju.kumar-pothuraju@xilinx.com>
- <CANNYZj-0C9yPVqWMXHc3ZgqyNPptsadbL14FvZtKCTti25yxTA@mail.gmail.com>
- <DM6PR12MB5007FE96BE467CCA804E9AB0E5AD9@DM6PR12MB5007.namprd12.prod.outlook.com>
-In-Reply-To: 
- <DM6PR12MB5007FE96BE467CCA804E9AB0E5AD9@DM6PR12MB5007.namprd12.prod.outlook.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 15 Jun 2022 13:27:23 +0200
+From: auh@yoctoproject.org
+To: Wang Mingyu <wangmy@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] btrfs-tools: upgrading to 5.18.1 SUCCEEDED
 Message-ID: 
- <CANNYZj8QEHuZGNV0vFGD7ZeOHspyjnraXbFbgsnRZ4dLShKT3Q@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] runqemu: Add QB_KERNEL_CMDLINE
-To: "Pothuraju, Rajukumar" <rajukumar.pothuraju@amd.com>
-Cc: Raju Kumar Pothuraju <raju.kumar-pothuraju@xilinx.com>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	"mark.hatle@xilinx.com" <mark.hatle@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
+ <0101018167765c80-0fc1d287-fc3c-465e-9afa-73f18e915fc5-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Jun 2022 13:03:39 +0000
+Feedback-ID: 
+ 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2022.06.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jun 2022 11:27:44 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jun 2022 13:03:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166936
+ https://lists.openembedded.org/g/openembedded-core/message/166937
 
-Right, I still find the naming confusing though. Can it be
-QB_RUNQEMU_KERNEL_CMDLINE_SUPPRESS? The name needs to indicate that it
-does not contain the actual cmdline, but only a flag to suppress it.
+--===============6690827511343120061==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Alex
+Hello,
 
-On Wed, 15 Jun 2022 at 13:19, Pothuraju, Rajukumar
-<rajukumar.pothuraju@amd.com> wrote:
->
-> Hi Alexander,
->
-> > -----Original Message-----
-> > From: Alexander Kanavin <alex.kanavin@gmail.com>
-> > Sent: Wednesday, June 15, 2022 4:42 PM
-> > To: Raju Kumar Pothuraju <raju.kumar-pothuraju@xilinx.com>
-> > Cc: OE-core <openembedded-core@lists.openembedded.org>;
-> > mark.hatle@xilinx.com
-> > Subject: Re: [OE-core][PATCH] runqemu: Add QB_KERNEL_CMDLINE
-> >
-> > CAUTION: This message has originated from an External Source. Please use
-> > proper judgment and caution when opening attachments, clicking links, or
-> > responding to this email.
-> >
-> >
-> > This means QB_KERNEL_CMDLINE needs to be set by default everywhere to
-> > preserve existing behaviour, I'm not sure this is going to work. Can you
-> > achieve the desired effect with a reverse condition?
-> The default flow works as it is, to skip that you have to set QB_KERNEL_CMDLINE to "none".
->
-> Regards,
-> Rajukumar P.
-> >
-> > Alex
-> >
-> > On Wed, 15 Jun 2022 at 11:59, Raju Kumar Pothuraju <raju.kumar-
-> > pothuraju@xilinx.com> wrote:
-> > >
-> > > runqemu auto generating the KERNEL_CMDLINE values and specifying using
-> > > -append option to qemu boot command which will lead to override the
-> > > kernel_cmdline/bootargs which are specified in DTB when using -dtb
-> > option.
-> > > Add new macro QB_KERNEL_CMDLINE to specify not to add the runqemu
-> > > generated KERNEL_CMDLINE values instead use which are in the DTB if
-> > > value defined as 'none'.
-> > > Add provision to override bootargs using # runqemu
-> > bootparams="root=/dev/ram0"
-> > >
-> > > Signed-off-by: Raju Kumar Pothuraju <raju.kumar-pothuraju@xilinx.com>
-> > > ---
-> > >  scripts/runqemu | 8 +++++++-
-> > >  1 file changed, 7 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/scripts/runqemu b/scripts/runqemu index
-> > > 6e1f073ed2..97ea37d690 100755
-> > > --- a/scripts/runqemu
-> > > +++ b/scripts/runqemu
-> > > @@ -1486,9 +1486,15 @@ class BaseConfig(object):
-> > >      def start_qemu(self):
-> > >          import shlex
-> > >          if self.kernel:
-> > > -            kernel_opts = "-kernel %s -append '%s %s %s %s'" % (self.kernel,
-> > self.kernel_cmdline,
-> > > +            kernel_opts = "-kernel %s" % (self.kernel)
-> > > +            if self.get('QB_KERNEL_CMDLINE') != "none":
-> > > +                kernel_opts += " -append '%s %s %s %s'" %
-> > > + (self.kernel_cmdline,
-> > >                                                                  self.kernel_cmdline_script,
-> > self.get('QB_KERNEL_CMDLINE_APPEND'),
-> > >
-> > > self.bootparams)
-> > > +            else:
-> > > +                if self.bootparams:
-> > > +                    kernel_opts += " -append '%s'" %
-> > > + (self.bootparams)
-> > > +
-> > >              if self.dtb:
-> > >                  kernel_opts += " -dtb %s" % self.dtb
-> > >          else:
-> > > --
-> > > 2.17.1
-> > >
-> > >
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > > Links: You receive all messages sent to this group.
-> > > View/Reply Online (#166926):
-> > > https://lists.openembedded.org/g/openembedded-core/message/166926
-> > > Mute This Topic: https://lists.openembedded.org/mt/91773086/1686489
-> > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-
-> > core/unsub
-> > > [alex.kanavin@gmail.com]
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > >
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *btrfs-tools* to *5.18.1* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-btrfs-tools-upgrade-5.18-5.18.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============6690827511343120061==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-btrfs-tools-upgrade-5.18-5.18.1.patch"
+
+From 4a98523f5d1219292a0fc0bf894910d2d6008b22 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 15 Jun 2022 06:45:14 +0000
+Subject: [PATCH] btrfs-tools: upgrade 5.18 -> 5.18.1
+
+---
+ .../btrfs-tools/{btrfs-tools_5.18.bb => btrfs-tools_5.18.1.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_5.18.bb => btrfs-tools_5.18.1.bb} (98%)
+
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.18.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.18.1.bb
+similarity index 98%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_5.18.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_5.18.1.bb
+index f5120d3980..816fc17ae1 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.18.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.18.1.bb
+@@ -18,7 +18,7 @@ DEPENDS = "util-linux zlib"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+            "
+-SRCREV = "f9e303584272b81b05b926a0cc9010f43af12a03"
++SRCREV = "47b5cf867fc37411ef51eb5c09893a95f7f6c3b7"
+ S = "${WORKDIR}/git"
+ 
+ PACKAGECONFIG ??= " \
+-- 
+2.31.1
+
+
+--===============6690827511343120061==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGV changed from 5.18 [default] to 5.18.1 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGSIZE changed from 17223112 to 17196768 (-0%)
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dbg: PV changed from "5.18" to "5.18.1"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dev: PKGV changed from 5.18 [default] to 5.18.1 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dev: PKGSIZE changed from 227688 to 217676 (-4%)
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dev: FILELIST: removed "/usr/include/btrfs/extent-cache.h /usr/include/btrfs/extent_io.h"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dev: PV changed from "5.18" to "5.18.1"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-doc: PKGV changed from 5.18 [default] to 5.18.1 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-doc: PV changed from "5.18" to "5.18.1"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-locale: PKGV changed from 5.18 [default] to 5.18.1 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-locale: PV changed from "5.18" to "5.18.1"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-src: PKGV changed from 5.18 [default] to 5.18.1 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-src: PKGSIZE changed from 3513822 to 3614355 (+3%)
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-src: FILELIST: directory renamed /usr/src/debug/btrfs-tools/5.18-r0/git/kernel-lib -> /usr/src/debug/btrfs-tools/5.18.1-r0/git/kernel-lib, directory renamed /usr/src/debug/btrfs-tools/5.18-r0/git/kernel-shared -> /usr/src/debug/btrfs-tools/5.18.1-r0/git/kernel-shared, directory renamed /usr/src/debug/btrfs-tools/5.18-r0/git/convert -> /usr/src/debug/btrfs-tools/5.18.1-r0/git/convert, directory renamed /usr/src/debug/btrfs-tools/5.18-r0/git/check -> /usr/src/debug/btrfs-tools/5.18.1-r0/git/check, directory renamed /usr/src/debug/btrfs-tools/5.18-r0/git/crypto -> /usr/src/debug/btrfs-tools/5.18.1-r0/git/crypto, directory renamed /usr/src/debug/btrfs-tools/5.18-r0/git/image -> /usr/src/debug/btrfs-tools/5.18.1-r0/git/image, directory renamed /usr/src/debug/btrfs-tools/5.18-r0/git/libbtrfsutil/python -> /usr/src/debug/btrfs-tools/5.18.1-r0/git/libbtrfsutil/python, directory renamed /usr/src/debug/btrfs-tools/5.18-r0/git -> /usr/src/deb
+ ug/btrfs-tools/5.18.1-r0/git, directory renamed /usr/src/debug/btrfs-tools/5.18-r0/git/libbtrfsutil -> /usr/src/debug/btrfs-tools/5.18.1-r0/git/libbtrfsutil, directory renamed /usr/src/debug/btrfs-tools/5.18-r0/git/common -> /usr/src/debug/btrfs-tools/5.18.1-r0/git/common, directory renamed /usr/src/debug/btrfs-tools/5.18-r0/git/cmds -> /usr/src/debug/btrfs-tools/5.18.1-r0/git/cmds, directory renamed /usr/src/debug/btrfs-tools/5.18-r0/git/mkfs -> /usr/src/debug/btrfs-tools/5.18.1-r0/git/mkfs, removed "/usr/src/debug/btrfs-tools/5.18-r0/git/libbtrfs/send-utils.c /usr/src/debug/btrfs-tools/5.18-r0/git/libbtrfs/send-utils.h /usr/src/debug/btrfs-tools/5.18-r0/git/libbtrfs/send-stream.c /usr/src/debug/btrfs-tools/5.18-r0/git/libbtrfs/send-stream.h", added "/usr/src/debug/btrfs-tools/5.18.1-r0/git/libbtrfs/ctree.h /usr/src/debug/btrfs-tools/5.18.1-r0/git/libbtrfs/send-stream.c /usr/src/debug/btrfs-tools/5.18.1-r0/git/libbtrfs/send.h /usr/src/debug/btrfs-tools/5.18.1-r0/git/libbtrfs/send-s
+ tream.h /usr/src/debug/btrfs-tools/5.18.1-r0/git/libbtrfs/send-utils.c /usr/src/debug/btrfs-tools/5.18.1-r0/git/libbtrfs/send-utils.h"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-src: PV changed from "5.18" to "5.18.1"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-staticdev: PKGV changed from 5.18 [default] to 5.18.1 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-staticdev: PV changed from "5.18" to "5.18.1"
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools: PKGV changed from 5.18 [default] to 5.18.1 [default]
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools: PKGSIZE changed from 6057325 to 6057327 (+0%)
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools: PV changed from "5.18" to "5.18.1"
+packages/core2-32-poky-linux/btrfs-tools: PKGV changed from 5.18 [default] to 5.18.1 [default]
+packages/core2-32-poky-linux/btrfs-tools: PV changed from "5.18" to "5.18.1"
+Changes to packages/core2-32-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18.1-py3.10.egg-info was added
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18.1-py3.10.egg-info/dependency_links.txt was added
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18.1-py3.10.egg-info/PKG-INFO was added
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18.1-py3.10.egg-info/SOURCES.txt was added
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18.1-py3.10.egg-info/top_level.txt was added
+  /usr/include/btrfs/extent-cache.h was removed
+  /usr/include/btrfs/extent_io.h was removed
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18-py3.10.egg-info was removed
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18-py3.10.egg-info/dependency_links.txt was removed
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18-py3.10.egg-info/PKG-INFO was removed
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18-py3.10.egg-info/SOURCES.txt was removed
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18-py3.10.egg-info/top_level.txt was removed
+
+--===============6690827511343120061==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/btrfs-tools/btrfs-tools-dev: FILELIST: removed "/usr/include/btrfs/extent-cache.h /usr/include/btrfs/extent_io.h"
+Changes to packages/core2-32-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18.1-py3.10.egg-info was added
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18.1-py3.10.egg-info/dependency_links.txt was added
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18.1-py3.10.egg-info/PKG-INFO was added
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18.1-py3.10.egg-info/SOURCES.txt was added
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18.1-py3.10.egg-info/top_level.txt was added
+  /usr/include/btrfs/extent-cache.h was removed
+  /usr/include/btrfs/extent_io.h was removed
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18-py3.10.egg-info was removed
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18-py3.10.egg-info/dependency_links.txt was removed
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18-py3.10.egg-info/PKG-INFO was removed
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18-py3.10.egg-info/SOURCES.txt was removed
+  /usr/lib/python3.10/site-packages/btrfsutil-5.18-py3.10.egg-info/top_level.txt was removed
+
+--===============6690827511343120061==--
 
