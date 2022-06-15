@@ -2,171 +2,133 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 609CBC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7608CCA481
 	for <webhook@archiver.kernel.org>; Wed, 15 Jun 2022 13:03:45 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com
- (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.4451.1655298222656828567
+Received: from a27-193.smtp-out.us-west-2.amazonses.com
+ (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web08.4461.1655298221818193907
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Jun 2022 06:03:42 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=aJgiCD1m;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29,
- mailfrom: 01010181677667fa-7f6955f4-02c9-44d0-ac20-ac70930582c7-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=PICvYqnT;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
+ mailfrom: 0101018167766823-ff7143a8-d5ae-425b-ac94-62ea92e87a0b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1655298222;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=IQVTNauYPfI1mtROPu12urESXRu/rkTFVdraVtXUJOk=;
-	b=aJgiCD1mrl6OgTsffRVZRjfhh4AZXu4PB7nebwqYmAWq7iSiy9UaPWIZs2U9FU0s
-	0vvatUr3+4JM2Q1p/bVMAjVK0IplAL9qpveRWC+pPUt5+p53lEzk7ybdmVCdseHxV5a
-	350PE5ULyPxM+PKU5HWW4drotySLXKYM3jjhhkyM=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=boZnhwpaqfSw9zX4Yt7pRJxqdPJIml6FVWmfqsclZy0=;
+	b=PICvYqnTXqntsmOWpMxhUvvd/2ZCTWBR6ZTi3zGOaEY+oTgE40c/3UgSpuJ2pDwr
+	dGsyICKAhtUdIxUtUUu0PAOXUTrX1rb90Z2r3XaizumgAYbjR1xwyP9fAI4xyyf+Rre
+	D3uyodZLX6qey2JYvalxqNa9RDDW5JoqSdb9cCb4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1655298222;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=IQVTNauYPfI1mtROPu12urESXRu/rkTFVdraVtXUJOk=;
-	b=DhbNmmaLLlRhDwjM3Wvpj48f8p7rOOA+ly8mCb7gVH9aw34k4SeW5DVJ0E38KA5U
-	/lUsXxSMn5+fMRWtWZFfNwfZUuiVU2/1mKqgG02YZtLQV+/s9ZSQC3FzzIcO9UnNVVp
-	I/Vug5HmoN4kqnxbyEyR06wKoyHHsbPEUBFr4HRU=
-Content-Type: multipart/mixed; boundary="===============0108969339058793870=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=boZnhwpaqfSw9zX4Yt7pRJxqdPJIml6FVWmfqsclZy0=;
+	b=OF4PkYio1DDOsogF+fBeJvmvsA5g16/9wmw69CS9eITL23SKK0Kepf5LhIsfQ534
+	lsHyfKhy6ZqnwoO//PA9Hjm03voSuN1zqUxTTmhTFYLvOL8vgDVIbOft8Ejt9l+GZVx
+	CmQZRPxrHJTAGbtZ8gGrZHZS6oS+uvZLXFxEuoFU=
+Content-Type: multipart/mixed; boundary="===============2401109366312695698=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] dos2unix: upgrading to 7.4.3 SUCCEEDED
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] Upgrade status: 2022-06-15
 Message-ID: 
- <01010181677667fa-7f6955f4-02c9-44d0-ac20-ac70930582c7-000000@us-west-2.amazonses.com>
+ <0101018167766823-ff7143a8-d5ae-425b-ac94-62ea92e87a0b-000000@us-west-2.amazonses.com>
 Date: Wed, 15 Jun 2022 13:03:42 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.06.15-54.240.27.29
+X-SES-Outgoing: 2022.06.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Jun 2022 13:03:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166981
+ https://lists.openembedded.org/g/openembedded-core/message/166976
 
---===============0108969339058793870==
+--===============2401109366312695698==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
-Hello,
+Recipe upgrade statistics:
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *dos2unix* to *7.4.3* has Succeeded.
+    * Failed(do_compile): 7
+        ell, 0.51, Zang Ruochen <zangrc.fnst@fujitsu.com>
+        go-runtime, 1.18.3, Khem Raj <raj.khem@gmail.com>
+        go, 1.18.3, Khem Raj <raj.khem@gmail.com>
+        python3-jsonschema, 4.6.0, Bruce Ashfield <bruce.ashfield@gmail.com>
+        libdrm, 2.4.111, Otavio Salvador <otavio.salvador@ossystems.com.br>
+        spirv-tools, 1.3.216.0, Jose Quaresma <quaresma.jose@gmail.com>
+        vulkan-tools, 1.3.216.0, Anuj Mittal <anuj.mittal@intel.com>
+    * Succeeded: 28
+        btrfs-tools, 5.18.1, Wang Mingyu <wangmy@fujitsu.com>
+        erofs-utils, 1.5, Richard Weinberger <richard@nod.at>
+        file, 5.42, Yi Zhao <yi.zhao@windriver.com>
+        python3-babel, 2.10.2, Tim Orling <tim.orling@konsulko.com>
+        python3-hypothesis, 6.47.2, Tim Orling <tim.orling@konsulko.com>
+        python3-magic, 0.4.27, Joshua Watt <JPEWhacker@gmail.com>
+        python3-numpy, 1.22.4, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+        python3-requests, 2.28.0, Tim Orling <tim.orling@konsulko.com>
+        python3-sphinx, 5.0.1, Tim Orling <tim.orling@konsulko.com>
+        python3, 3.10.5, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+        ethtool, 5.18, Changhyeok Bae <changhyeok.bae@gmail.com>
+        lighttpd, 1.4.65, Alexander Kanavin <alex.kanavin@gmail.com>
+        stress-ng, 0.14.02, Anuj Mittal <anuj.mittal@intel.com>
+        sudo, 1.9.11p2, Chen Qi <Qi.Chen@windriver.com>
+        adwaita-icon-theme, 42.0, Ross Burton <ross.burton@arm.com>
+        librsvg, 2.54.4, Anuj Mittal <anuj.mittal@intel.com>
+        glslang, 1.3.216.0, Jose Quaresma <quaresma.jose@gmail.com>
+        mesa, 22.1.1, Otavio Salvador <otavio.salvador@ossystems.com.br>
+        piglit, 1.0-new-commits-available, Ross Burton <ross.burton@arm.com>
+        spirv-headers, 1.3.216.0, Jose Quaresma <quaresma.jose@gmail.com>
+        vulkan-headers, 1.3.216.0, Anuj Mittal <anuj.mittal@intel.com>
+        libx11, 1.8.1, Unassigned <unassigned@yoctoproject.org>
+        linux-firmware, 20220610, Otavio Salvador <otavio.salvador@ossystems.com.br>
+        wireless-regdb, 2022.06.06, Adrian Bunk <bunk@kernel.org>
+        x264, r3039-new-commits-available, Anuj Mittal <anuj.mittal@intel.com>
+        puzzles, 0.0-new-commits-available, Anuj Mittal <anuj.mittal@intel.com>
+        diffoscope, 216, Joshua Watt <JPEWhacker@gmail.com>
+        dos2unix, 7.4.3, Khem Raj <raj.khem@gmail.com>
+    * Failed(other errors): 2
+        cargo, 1.61.0, Randy MacLeod <Randy.MacLeod@windriver.com>
+        vulkan-samples, git-new-commits-available, Ross Burton <ross.burton@arm.com>
+    * Failed (devtool error): 8
+        gnu-config, 20220516-new-commits-available, Robert Yang <liezhi.yang@windriver.com>
+        llvm, 14.0.5, Khem Raj <raj.khem@gmail.com>
+        python3-setuptools, 62.4.0, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+        libstd-rs, 1.61.0, Randy MacLeod <Randy.MacLeod@windriver.com>
+        rust-llvm, 1.61.0, Randy MacLeod <Randy.MacLeod@windriver.com>
+        procps, 4.0.0, Alexander Kanavin <alex.kanavin@gmail.com>
+        vulkan-loader, 1.3.216.0, Anuj Mittal <anuj.mittal@intel.com>
+        lttng-modules, 2.13.4, Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Next steps:
-    - apply the patch: git am 0001-dos2unix-upgrade-7.4.2-7.4.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+    TOTAL: attempted=45 succeeded=28(62.22%) failed=17(37.78%)
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Recipe upgrade statistics per Maintainer:
 
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+    Jose Quaresma <quaresma.jose: attempted=3 succeeded=2(66.67%) failed=1(33.33%)
+    Oleksandr Kravchuk <open.source: attempted=3 succeeded=2(66.67%) failed=1(33.33%)
+    Unassigned <unassigned: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
+    Anuj Mittal <anuj.mittal: attempted=7 succeeded=5(71.43%) failed=2(28.57%)
+    Adrian Bunk <bunk: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
+    Wang Mingyu <wangmy: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
+    Zang Ruochen <zangrc.fnst: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
+    Joshua Watt <JPEWhacker: attempted=2 succeeded=2(100.00%) failed=0(0.00%)
+    Robert Yang <liezhi.yang: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
+    Richard Weinberger <richard: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
+    Changhyeok Bae <changhyeok.bae: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
+    Tim Orling <tim.orling: attempted=4 succeeded=4(100.00%) failed=0(0.00%)
+    Khem Raj <raj.khem: attempted=4 succeeded=1(25.00%) failed=3(75.00%)
+    Bruce Ashfield <bruce.ashfield: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
+    Richard Purdie <richard.purdie: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
+    Alexander Kanavin <alex.kanavin: attempted=2 succeeded=1(50.00%) failed=1(50.00%)
+    Randy MacLeod <Randy.MacLeod: attempted=3 succeeded=0(0.00%) failed=3(100.00%)
+    Ross Burton <ross.burton: attempted=3 succeeded=2(66.67%) failed=1(33.33%)
+    Chen Qi <Qi.Chen: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
+    Otavio Salvador <otavio.salvador: attempted=3 succeeded=2(66.67%) failed=1(33.33%)
+    Yi Zhao <yi.zhao: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
 
-Regards,
-The Upgrade Helper
---===============0108969339058793870==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-dos2unix-upgrade-7.4.2-7.4.3.patch"
-
-From 4343a689c29f6377c1f6f81abb5f7a49a24e47c0 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Jun 2022 13:03:38 +0000
-Subject: [PATCH] dos2unix: upgrade 7.4.2 -> 7.4.3
-
----
- .../{dos2unix_7.4.2.bb => dos2unix_7.4.3.bb}  | 26 +++++++++++++++++--
- 1 file changed, 24 insertions(+), 2 deletions(-)
- rename meta/recipes-support/dos2unix/{dos2unix_7.4.2.bb => dos2unix_7.4.3.bb} (55%)
-
-diff --git a/meta/recipes-support/dos2unix/dos2unix_7.4.2.bb b/meta/recipes-support/dos2unix/dos2unix_7.4.3.bb
-similarity index 55%
-rename from meta/recipes-support/dos2unix/dos2unix_7.4.2.bb
-rename to meta/recipes-support/dos2unix/dos2unix_7.4.3.bb
-index 509a0a0ddc..39576ded47 100644
---- a/meta/recipes-support/dos2unix/dos2unix_7.4.2.bb
-+++ b/meta/recipes-support/dos2unix/dos2unix_7.4.3.bb
-@@ -1,3 +1,25 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- COPYING.txt
-+# +++ COPYING.txt
-+# @@ -2,7 +2,7 @@
-+#  See also http://www.freebsd.org/copyright/freebsd-license.html
-+#  --------
-+#  
-+# -Copyright (C) 2009-2020  Erwin Waterlander
-+# +Copyright (C) 2009-2022  Erwin Waterlander
-+#  Copyright (C) 1998 Christian Wurll
-+#  Copyright (C) 1998 Bernd Johannes Wuebben
-+#  Copyright (C) 1994-1995 Benjamin Lin.
-+# 
-+#
-+
- SUMMARY = "Convert text file line endings between CRLF and LF"
- DESCRIPTION = "The Dos2unix package includes utilities dos2unix and \
- unix2dos to convert plain text files in DOS or Mac format to Unix \
-@@ -6,12 +28,12 @@ HOMEPAGE = "http://waterlan.home.xs4all.nl/dos2unix.html"
- SECTION = "support"
- 
- LICENSE = "BSD-2-Clause"
--LIC_FILES_CHKSUM = "file://COPYING.txt;md5=8a7c3499a1142df819e727253cd53a12"
-+LIC_FILES_CHKSUM = "file://COPYING.txt;md5=9641fc4af7b564646f533f3911074b7a"
- 
- SRC_URI = "git://git.code.sf.net/p/dos2unix/dos2unix;branch=master"
- UPSTREAM_CHECK_GITTAGREGEX = "dos2unix-(?P<pver>(\d+(\.\d+)+))"
- 
--SRCREV = "72596f0ae21faa25a07a872d4843bc885475115d"
-+SRCREV = "dae6d4bbc42d03fabb89cde65ed89f22a165d16e"
- 
- S = "${WORKDIR}/git/dos2unix"
- 
--- 
-2.31.1
-
-
---===============0108969339058793870==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/dos2unix/dos2unix-dbg: PV changed from "7.4.2" to "7.4.3"
-packages/core2-32-poky-linux/dos2unix/dos2unix-dbg: PKGV changed from 7.4.2 [default] to 7.4.3 [default]
-packages/core2-32-poky-linux/dos2unix/dos2unix-dev: PV changed from "7.4.2" to "7.4.3"
-packages/core2-32-poky-linux/dos2unix/dos2unix-dev: PKGV changed from 7.4.2 [default] to 7.4.3 [default]
-packages/core2-32-poky-linux/dos2unix/dos2unix-doc: PKGSIZE changed from 192980 to 194047 (+1%)
-packages/core2-32-poky-linux/dos2unix/dos2unix-doc: PV changed from "7.4.2" to "7.4.3"
-packages/core2-32-poky-linux/dos2unix/dos2unix-doc: PKGV changed from 7.4.2 [default] to 7.4.3 [default]
-packages/core2-32-poky-linux/dos2unix/dos2unix-locale: PV changed from "7.4.2" to "7.4.3"
-packages/core2-32-poky-linux/dos2unix/dos2unix-locale: PKGV changed from 7.4.2 [default] to 7.4.3 [default]
-packages/core2-32-poky-linux/dos2unix/dos2unix-src: PKGSIZE changed from 192278 to 192350 (+0%)
-packages/core2-32-poky-linux/dos2unix/dos2unix-src: PV changed from "7.4.2" to "7.4.3"
-packages/core2-32-poky-linux/dos2unix/dos2unix-src: PKGV changed from 7.4.2 [default] to 7.4.3 [default]
-packages/core2-32-poky-linux/dos2unix/dos2unix-staticdev: PV changed from "7.4.2" to "7.4.3"
-packages/core2-32-poky-linux/dos2unix/dos2unix-staticdev: PKGV changed from 7.4.2 [default] to 7.4.3 [default]
-packages/core2-32-poky-linux/dos2unix/dos2unix: PV changed from "7.4.2" to "7.4.3"
-packages/core2-32-poky-linux/dos2unix/dos2unix: PKGV changed from 7.4.2 [default] to 7.4.3 [default]
-packages/core2-32-poky-linux/dos2unix: PV changed from "7.4.2" to "7.4.3"
-packages/core2-32-poky-linux/dos2unix: PKGV changed from 7.4.2 [default] to 7.4.3 [default]
-
---===============0108969339058793870==--
+--===============2401109366312695698==--
 
