@@ -1,91 +1,73 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFC54C43334
-	for <webhook@archiver.kernel.org>; Tue, 14 Jun 2022 21:24:26 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web12.2522.1655241861280361669
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EFA4C43334
+	for <webhook@archiver.kernel.org>; Wed, 15 Jun 2022 06:35:43 +0000 (UTC)
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web08.1405.1655274935824913696
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jun 2022 14:24:21 -0700
+ Tue, 14 Jun 2022 23:35:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dvu7ctea;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id k19so12851517wrd.8
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Jun 2022 14:24:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1f00ap30BgjvqyR7XCYf2QqPhYEsX5X7vWunF7KZhdE=;
-        b=dvu7cteakX2Sm2bPtuF7UK4WlYpNoBD21jvwqdhSMZnZSF3t9e9xIJA2n4U47lDfhx
-         OY8nXYdgpxX+G3P7pRvXwRAmciNgcHgd3b6OGZWIryyZ5xDZhIEd9SdS4VqwOZYmS7oV
-         glFBcmELTnjyTa98xuFFwMeAsFEk/kXZ1Gs08=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1f00ap30BgjvqyR7XCYf2QqPhYEsX5X7vWunF7KZhdE=;
-        b=p6oTKdMNTjX+9ADG+qwRzuIXnGhuOYH4E7xeXw2IoU/nkWujJtdvuJwZaP7Qa83Z/y
-         3Ei2WoiLIGFtb1us5F9UnrD9OfeGFINU1OSY3i8cXqA/zGTpb8ViKxBYvCLUlts/Aaae
-         QSoetmN9IbAU4m4wNUH7AaYCQUzV9ZZYSHfJwR1gjUxV2IC/Ed+I2DF5mhQo/0TYa9b9
-         UwygOZFbGJF1/ACoQqML7iQtvsUu+hWjrTl4kAlF5GP6rvvb3NF8WBHKBDFvP5xs9JCC
-         IBPGv/rr2L3r5mb8NaV1tw64/1R8My5GhrkKAf9DoKSB0823iGYVEcaY2O4/QGM+4dKp
-         SE1Q==
-X-Gm-Message-State: AJIora90X1RFxgugn/wltz8PKKxHvDyF/3hUMNO/zG2+e3ZNl3ib6+fp
-	1PTCxRCnMr4VfufQ2C/mnNq0cevtvn+P8g==
-X-Google-Smtp-Source: 
- AGRyM1tNY5M+fGFBmILdrehIFvPxBuFBuwNCZgfjAH2jd30zpJBjFnmQGPuQccY6dT0++ezQOsK4RA==
-X-Received: by 2002:a05:6000:1e0b:b0:219:d06:de6c with SMTP id
- bj11-20020a0560001e0b00b002190d06de6cmr6760193wrb.529.1655241859572;
-        Tue, 14 Jun 2022 14:24:19 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:5217:2b74:ee57:d3bc])
-        by smtp.gmail.com with ESMTPSA id
- f5-20020adfdb45000000b00210352bf36fsm12788048wrj.33.2022.06.14.14.24.18
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jun 2022 14:24:19 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] vim: Upgrade 8.2.5034 -> 8.2.5083
-Date: Tue, 14 Jun 2022 22:24:18 +0100
-Message-Id: <20220614212418.55149-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
+ dkim=missing;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
+ domain name (domain: windriver.com, ip: 147.11.146.13,
+ mailfrom: liezhi.yang@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 25F6ZYLI012192
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 14 Jun 2022 23:35:35 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 25F6ZTjh010409
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 14 Jun 2022 23:35:34 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 14 Jun 2022 23:35:29 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Tue, 14 Jun 2022 23:35:29 -0700
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Tue, 14 Jun 2022 23:35:29 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 0/1] wic: Use ROOTFS_DIR to locate pseudo_dir
+Date: Tue, 14 Jun 2022 23:35:28 -0700
+Message-ID: <cover.1655274860.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Jun 2022 21:24:26 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jun 2022 06:35:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166907
+ https://lists.openembedded.org/g/openembedded-core/message/166908
 
-Includes fixes for CVE-2022-1927, CVE-2022-1942.
+The following changes since commit dd39446dff75c6e48f4aa44ec90087f172d717d4:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+  python3-cryptography: remove test_x509.py (2022-06-14 10:03:58 +0100)
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index b22e8016abb..06707dbe112 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -21,8 +21,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://racefix.patch \
-            "
- 
--PV .= ".5034"
--SRCREV = "5a6ec10cc80ab02eeff644ab19b82312630ea855"
-+PV .= ".5083"
-+SRCREV = "db77c49401145d76441fbb3d22a1d7d987681c13"
- 
- # Remove when 8.3 is out
- UPSTREAM_VERSION_UNKNOWN = "1"
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/wic
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/wic
+
+Robert Yang (1):
+  wic: Use ROOTFS_DIR to locate pseudo_dir
+
+ scripts/lib/wic/plugins/source/rootfs.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-2.34.1
+2.33.1
 
 
