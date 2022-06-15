@@ -2,73 +2,74 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 096BAC43334
-	for <webhook@archiver.kernel.org>; Wed, 15 Jun 2022 08:11:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEF84CCA47B
+	for <webhook@archiver.kernel.org>; Wed, 15 Jun 2022 08:11:33 +0000 (UTC)
 Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
- [195.245.230.66])
- by mx.groups.io with SMTP id smtpd.web12.2017.1655280685035648038
+ [195.245.230.1])
+ by mx.groups.io with SMTP id smtpd.web08.2049.1655280685365541216
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jun 2022 01:11:25 -0700
+ Wed, 15 Jun 2022 01:11:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=D72unxMe;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.66,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ATGKqsFa;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.1,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
 	s=170520fj; t=1655280683; i=@fujitsu.com;
-	bh=zatTsBksi82rDLdNgE6WaxetEfHRzraW5BRYyEQOKe4=;
+	bh=GwvUPW9qN6jPFwki+/sFJXg5w4+7Zr+EEM/5dAIhGI0=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=D72unxMe9OCnpU7Baj5BueHUk5M+0cCsVQF9/o3KI8XCcoqRB4C0v9n5A1tEah/n+
-	 6339Iswr70mJ9u9Us/JoeWfvNeXUgeNv8KJri/et0beRTaXKSzyuvLTAIY4KDMoOf8
-	 pr5+W+mqeEGce+u3AJWbleCAX+xQlb4vtddlBYAss923szW2xF+PmqUcWwKd6Uznk+
-	 5jfWvzDW6HbQlwM3RLOzKpOXrUCHvsVLMPRknDxYwc1uRCRrOMe85q4BNukop23AG0
-	 b/jFXa5dvjmBA8qmpZnlLpdhsOiWy6k/Xcq9hH3ASNDZbbkisW0lkyXLGnYwc3afkv
-	 2XOBYLBi8tHbw==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrCIsWRWlGSWpSXmKPExsViZ8OxWVdryso
-  kg+OT9C3u/HzH7sDocW7jCsYAxijWzLyk/IoE1oynHQvZCp6zV3ybENTA+Juti5GLQ0jgAaPE
-  5Mnr2CGcM0wSC5bdZYVw9jBK9BzZx9jFyMnBJqAmMf3WDaAEB4eIgJ7E1X+iIGFmARWJF7972
-  EHCwgLmEuuXSoOEWQRUJWa+OMsGYvMKOEocm3KRBcSWEFCQmPLwPTOIzSngJHFr6yGw6UJANR
-  27rzNC1AtKnJz5hAVivITEwRcvmCF6FSVmX26GmlMhMWPGNjYIW03i6rlNzBMYBWchaZ+FpH0
-  BI9MqRqukosz0jJLcxMwcXUMDA11DQ1NdM11DM0u9xCrdRL3UUt3y1OISXUO9xPJivdTiYr3i
-  ytzknBS9vNSSTYzAAE4pZlu5g3Fl30+9Q4ySHExKorzKk1cmCfEl5adUZiQWZ8QXleakFh9il
-  OHgUJLgdZ0ElBMsSk1PrUjLzAFGE0xagoNHSYS3HqSVt7ggMbc4Mx0idYpRl2Ntw4G9zEIsef
-  l5qVLivDGdQEUCIEUZpXlwI2CRfYlRVkqYl5GBgUGIpyC1KDezBFX+FaM4B6OSMG8nyCqezLw
-  SuE2vgI5gAjqicd8KkCNKEhFSUg1M+W67z2g8SXzy+ZHZhenf3Nn+zPwzSdxKR/rCL4MLsr83
-  K7MfNT319X/6g4kOO8r+H/11rJnlxfqihY/LWxbUCExv+LDkSob9LUZpnQUVsTpvron+dY7g6
-  qxynHrXk9V4vucztcjTjQ/2uk86vMfstu+l/+u8t53afDWoQtcrRTtXtLNnh7tRkOFGRcd5P6
-  bndWqseSZrYJ8b6CUz/yprlNtXs2Klx+Jrv8qJRG6KYXn88bSLw5tfv1aqydzNTZ9mwPjZdO+
-  +mRqxihtmVV8SXr/czMnuoXlT5lOmz2LvrQLd7z8UnPslRTpRZkGEUml6iuemH8euB8ZddrIo
-  mdJ97An7OtmoH8EJhizes7QrlViKMxINtZiLihMBoBYaxGcDAAA=
+	b=ATGKqsFaMpRGy3TYAhEzSrExaxRju9Ex2vES3SOzZmAD6TKQ1TraDjxsQEy0ibGYF
+	 xP1g2ZguKMiwFVEipBSdGJuthQmT2lVyzOIkZmuWHr7PuUrKwSIOJeOPJGsWvG+7Ka
+	 MRyu/fMNTVjjnWmOQXm7tugFcIQjL2At48tlbxuYJBIsUi4ltR3iCCsOhrXWdqywmd
+	 qjx6bFxhCrz3X51YENxpmMEkBKqMS2y++n8jbbcRjbEivG4fmbAVVRv6nNjGqvI85s
+	 LmGN/d2D8jxjNzzbP6NbwQ5vP+0RTIrteYHn5WLuRdI2NcvELtCxJwfodEYV+TECVt
+	 PnF3TADFvxZzQ==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrOIsWRWlGSWpSXmKPExsViZ8OxWVdryso
+  kg0f/VC3u/HzH7sDocW7jCsYAxijWzLyk/IoE1oyJN5uYC1YIVRy68Ye5gXGFQBcjF4eQwH1G
+  iTl3PzNBOGeYJO5fP8gK4exhlFg7bzVzFyMnB5uAmsT0WzeAEhwcIgJ6Elf/iYKEmQVUJF787
+  mEHsYUFLCRu7LrOCFLCIqAq0fveASTMK+AosatlBguILSGgIDHl4XuwiZwCThK3th5iBLGFgG
+  o6dl9nhKgXlDg58wkLxHgJiYMvXjBD9CpKzL7cDDWnQmLGjG1sELaaxNVzm5gnMArOQtI+C0n
+  7AkamVYxWSUWZ6RkluYmZObqGBga6hoamuma6hmaWeolVuol6qaW65anFJbqGeonlxXqpxcV6
+  xZW5yTkpenmpJZsYgSGcUsy2cgfjyr6feocYJTmYlER5lSevTBLiS8pPqcxILM6ILyrNSS0+x
+  CjDwaEkwes6CSgnWJSanlqRlpkDjCeYtAQHj5IIbz1IK29xQWJucWY6ROoUoz3H1StX9jJzTJ
+  39bz8zx3IwOfNr2wFmIZa8/LxUKXHemE6gNgGQtozSPLihsPi/xCgrJczLyMDAIMRTkFqUm1m
+  CKv+KUZyDUUmYtxNkOU9mXgnc7ldAZzEBndW4bwXIWSWJCCmpBqby87tkVMyuiO+KsrO4k563
+  3vFtVP7Ug5sy24Q+TMucrV6plv+b+8Aza3/xM2mxL0Ldvb6WWrq80+RbmrTBb1vPURf1NzFe9
+  6Mdc+8cTORrVel9pSUhtLNi2URGc+a5UszTWD4e677ZNfNO7e+Z+56sv6ej4mP8rVSyUmr3e+
+  bFU7y95s+cV3qN3/6HOafto5Vb3sox7DxnGv1BTzvgQ/fSyMP5vbtmdhXzL73W/HnHxT8T9j0
+  +5q/3XHChwEufL98qV+oFtr6qir8t8GveGskdv5frb9s88bwo18NCuarC9Tan/3plKFYUbG/h
+  mvN887ptz4LleRi2nNsz9VVKXd/T5y4G+9wZlHR3FORv7Z6sxFKckWioxVxUnAgAwyZICHoDA
+  AA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-5.tower-591.messagelabs.com!1655280682!144118!1
+X-Msg-Ref: server-21.tower-587.messagelabs.com!1655280682!132815!1
 X-Originating-IP: [62.60.8.179]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.86.7; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 5378 invoked from network); 15 Jun 2022 08:11:22 -0000
+Received: (qmail 16580 invoked from network); 15 Jun 2022 08:11:22 -0000
 Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
-  by server-5.tower-591.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+  by server-21.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
  encrypted SMTP; 15 Jun 2022 08:11:22 -0000
 Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id 3D0AC155
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id 2A48675
 	for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Jun 2022 09:11:22 +0100 (BST)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id 08717152
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id F013514C
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jun 2022 09:11:22 +0100 (BST)
+ Wed, 15 Jun 2022 09:11:21 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Wed, 15 Jun 2022 09:11:08 +0100
+ (TLS) id 15.0.1497.32; Wed, 15 Jun 2022 09:11:03 +0100
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libx11: upgrade 1.8 -> 1.8.1
-Date: Wed, 15 Jun 2022 16:10:38 +0800
-Message-ID: <1655280638-6528-4-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] ethtool: upgrade 5.17 -> 5.18
+Date: Wed, 15 Jun 2022 16:10:36 +0800
+Message-ID: <1655280638-6528-2-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1655280638-6528-1-git-send-email-wangmy@fujitsu.com>
 References: <1655280638-6528-1-git-send-email-wangmy@fujitsu.com>
@@ -81,31 +82,59 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jun 2022 08:11:34 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jun 2022 08:11:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166912
+ https://lists.openembedded.org/g/openembedded-core/message/166914
+
+avoid_parallel_tests.patch
+refresed for new version.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../xorg-lib/{libx11_1.8.bb => libx11_1.8.1.bb}                 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libx11_1.8.bb => libx11_1.8.1.bb} (94%)
+ .../ethtool/ethtool/avoid_parallel_tests.patch              | 6 +++---
+ .../ethtool/{ethtool_5.17.bb => ethtool_5.18.bb}            | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-extended/ethtool/{ethtool_5.17.bb => ethtool_5.18.bb} (93%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.8.bb b/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb
-similarity index 94%
-rename from meta/recipes-graphics/xorg-lib/libx11_1.8.bb
-rename to meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb
-index 6d5a8626d6..1dcc3abee9 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.8.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.8.1.bb
-@@ -16,7 +16,7 @@ SRC_URI = "${XORG_MIRROR}/individual/lib/${XORG_PN}-${PV}.tar.xz"
+diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
+index 52d2a93449..4391a91767 100644
+--- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
++++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
+@@ -1,4 +1,4 @@
+-From ef2ad68becea77dfdbd5a344e30b3700cc440c0f Mon Sep 17 00:00:00 2001
++From b0270486eca02e1b70eff7517936fad77bb1fb8e Mon Sep 17 00:00:00 2001
+ From: Tudor Florea <tudor.florea@enea.com>
+ Date: Wed, 28 May 2014 18:59:54 +0200
+ Subject: [PATCH] ethtool: use serial-tests config needed by ptest.
+@@ -15,11 +15,11 @@ Upstream-Status: Inappropriate
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- SRC_URI += "file://disable_tests.patch \
+ diff --git a/configure.ac b/configure.ac
+-index 7a9b5b9..dc8ae35 100644
++index c11f2b1..2bd2b83 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
+- AC_INIT(ethtool, 5.17, netdev@vger.kernel.org)
++ AC_INIT(ethtool, 5.18, netdev@vger.kernel.org)
+  AC_PREREQ(2.52)
+  AC_CONFIG_SRCDIR([ethtool.c])
+ -AM_INIT_AUTOMAKE([gnu subdir-objects])
+diff --git a/meta/recipes-extended/ethtool/ethtool_5.17.bb b/meta/recipes-extended/ethtool/ethtool_5.18.bb
+similarity index 93%
+rename from meta/recipes-extended/ethtool/ethtool_5.17.bb
+rename to meta/recipes-extended/ethtool/ethtool_5.18.bb
+index 61032d4836..b4f74e7f5b 100644
+--- a/meta/recipes-extended/ethtool/ethtool_5.17.bb
++++ b/meta/recipes-extended/ethtool/ethtool_5.18.bb
+@@ -11,7 +11,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
+            file://avoid_parallel_tests.patch \
             "
--SRC_URI[sha256sum] = "081bf42ebab023aa92cfdb20c7af8c5ae13d13e88a5e22f90f4453ef80bbdde4"
-+SRC_URI[sha256sum] = "1bc41aa1bbe01401f330d76dfa19f386b79c51881c7bbfee9eb4e27f22f2d9f7"
  
- PROVIDES = "virtual/libx11"
+-SRC_URI[sha256sum] = "3e32735d13aa19e2be32d3528ef8a135fc99782950ab3fa602198e72992e9450"
++SRC_URI[sha256sum] = "70091f95448eba851f9f9804059d0e237f1d909064046f9e3c6dc892aa1e8afe"
+ 
+ UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
  
 -- 
 2.25.1
