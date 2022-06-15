@@ -1,259 +1,97 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF4EEC43334
-	for <webhook@archiver.kernel.org>; Wed, 15 Jun 2022 20:21:28 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.9718.1655324478160454229
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 597A2C433EF
+	for <webhook@archiver.kernel.org>; Wed, 15 Jun 2022 22:16:29 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web08.10965.1655331387307453880
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jun 2022 13:21:18 -0700
+ Wed, 15 Jun 2022 15:16:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=SAhyG2eb;
- spf=pass (domain: gmail.com, ip: 209.85.221.42,
- mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id s1so16788639wra.9
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jun 2022 13:21:17 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@axis.com
+ header.s=axis-central1 header.b=O1g7wclg;
+ spf=pass (domain: axis.com, ip: 195.60.68.17,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=e5rObMxAzrVManBvZqAsHqh1XDaT80JRgNWE8hc45Tk=;
-        b=SAhyG2ebaDO49EZ8eFFNTPnciMMekGHlqH1FnlCaH8crxxMr4NZE+B8QV/EcMwzG6X
-         hEkuHcs5JRchjX7httuWcYZw8kIbWyfOs43wMlc5dDmJrvtOJkEmvGF6UUNIIMioLPUO
-         belW+OZeSFds87HNHQL1lwFT26RAGbfaBHzLiYCMkDF23tBN7wMxZZn3l0AQka0ZBFJ+
-         Do1l3AC7yhpPLafFl0s5VjWTlagJNTGS1aBvUM8Z2hcD7Ug3kDQOR2IMZnWWKWCGQKbG
-         etbNB7/VbLeO/eblAhVCQVAdlenWfIHPBV4gJyazgILYwSPhSgtptKdHJ6wOXr70GR+W
-         Kecg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=e5rObMxAzrVManBvZqAsHqh1XDaT80JRgNWE8hc45Tk=;
-        b=6yQT6EeamP8MNe3fvg9ygf2RDu+zuweQGeteB01AlZ+raxzYOzTCnLbZem9Sg9Hcir
-         DAC49c0WJrZtdsrQrWV+UWMnQHJoy9EHOn+CCJRqFmC99IPN1a5RT8lN9379MDAVlks9
-         1UuLXF195ogB9MSBX6Jz6pb0cR5aTeZhSWah+ABQ9JRuel5bViYRD4586tv9c3cxzUZX
-         W5SYv8JSl2KRZcrdPLNQd28LlJ1BcHlIceysAu0au9JLue+vpKn8KistQ6qPRe0CEwnA
-         ury95HqcH8wc79olRlyae9J5Z592nUK+87DbKNiB+Rda8TlIachbVJja9Hy+YIYOIiSP
-         /xgA==
-X-Gm-Message-State: AJIora8S8cQHft/1R/QHQhbCMKqG+DFHjq6ZPyeHv7RqzdZN8Imt2JQi
-	xFNSA28hWxxHdl+w0keLI7hSeqBEstw=
-X-Google-Smtp-Source: 
- AGRyM1u0IB8G/S5AvbzpFHwDBTY7iNcU6op9WFxiqYuHvsda613OKBTWs/XiXj11PSjdFKanqdA57w==
-X-Received: by 2002:adf:f1c3:0:b0:21a:2dd4:97f3 with SMTP id
- z3-20020adff1c3000000b0021a2dd497f3mr1436364wro.265.1655324476556;
-        Wed, 15 Jun 2022 13:21:16 -0700 (PDT)
-Received: from localhost ([109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id
- s15-20020a7bc38f000000b0039c463e909asm3382416wmj.18.2022.06.15.13.21.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jun 2022 13:21:15 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] mesa: backport a patch to support compositors without
- zwp_linux_dmabuf_v1 again
-Date: Wed, 15 Jun 2022 22:21:08 +0200
-Message-Id: <20220615202108.3778981-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.35.1
+  d=axis.com; q=dns/txt; s=axis-central1; t=1655331387;
+  x=1686867387;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=6oNYaaDvQ6vIx1VnyUximyYkWbgUZI4cyJQjgHcuQXE=;
+  b=O1g7wclgymeRWvwohMBRv1WIqWeDSJ8KosVgNRpZJGT3y+W+jVnHv+nf
+   dtIHRARh+Fv06Xl7OvxlYvBf9kt//19hBQ2diR+s76TqJxmepD6QgWxya
+   D5x4lgDSAFdIyTi8rNaeUJFJUCB29Bo8PmYZJ7XvY9s+axqiihogNVy9a
+   Fo0k0ecoMXkPbaP6+u2OQwEWSMEa7KkOdDnBS1vzNLuQ0leHvUzTCZa91
+   Q4AXpZ5iGYQZMNBc8XZcOHcgklPMXcU5NCxCC+LVup10wtlGLVuOBG/vX
+   4LsJzXJDkqzVmC7Tu3z5O/Uy0BP9XvYju0Hrr5R8XnwgoExKCasPoTymL
+   Q==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Paulo Neves <ptsneves@gmail.com>, Ross Burton <ross.burton@arm.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH v5 6/7] utils: Add cmdline_shebang_wrapper util.
+Thread-Topic: [OE-core] [PATCH v5 6/7] utils: Add cmdline_shebang_wrapper
+ util.
+Thread-Index: AQHYgAEgmvIMChnlb0K8t25B7RTSVK1QKloAgABBbOD///BwAIAArdzQ
+Date: Wed, 15 Jun 2022 22:16:24 +0000
+Message-ID: <56b00048627840569c7c5fc5ca567443@axis.com>
+References: <20220606155807.1414519-1-ptsneves@gmail.com>
+ <20220614151105.1890454-1-ptsneves@gmail.com>
+ <20220614151105.1890454-6-ptsneves@gmail.com>
+ <282753D0-6BC9-4B2F-B73C-313D10232BF0@arm.com>
+ <a166fa72b7434e498cb4ef4f395045e1@axis.com>
+ <635fe97c-6a4f-1e8c-35c8-337fbe8e7b38@gmail.com>
+In-Reply-To: <635fe97c-6a4f-1e8c-35c8-337fbe8e7b38@gmail.com>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jun 2022 20:21:28 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Jun 2022 22:16:29 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166994
+ https://lists.openembedded.org/g/openembedded-core/message/166995
 
-* the same will be needed for kirkstone
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- ...nd-deprecate-drm_handle_format-and-d.patch | 158 ++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           |   1 +
- 2 files changed, 159 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch
-
-diff --git a/meta/recipes-graphics/mesa/files/0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch b/meta/recipes-graphics/mesa/files/0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch
-new file mode 100644
-index 0000000000..dac2de4e62
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch
-@@ -0,0 +1,158 @@
-+From 7796c2c56c960ac55e49246f0349ac52539ada55 Mon Sep 17 00:00:00 2001
-+From: Leandro Ribeiro <leandro.ribeiro@collabora.com>
-+Date: Sun, 10 Apr 2022 22:54:36 -0300
-+Subject: [PATCH] Revert "egl/wayland: deprecate drm_handle_format() and
-+ drm_handle_capabilities()"
-+
-+Commit af1ee8e010441f8f2ed8c77065b159652a4ac9fe dropped support to
-+wl_drm, as we thought that most compositors from active projects were
-+already supporting zwp_linux_dmabuf_v1.
-+
-+But that's not true, so revert this commit in order to give these
-+projects a longer transition period.
-+
-+Note that we didn't add back the support to GEM name API, and that was
-+on purpose.
-+
-+Signed-off-by: Leandro Ribeiro <leandro.ribeiro@collabora.com>
-+Reviewed-by: Simon Ser <contact@emersion.fr>
-+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/15822>
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/mesa/mesa/-/commit/c60fea8c228ae3f32e20d6b65c473d9f04871d20]
-+---
-+ src/egl/drivers/dri2/egl_dri2.h         |  1 +
-+ src/egl/drivers/dri2/platform_wayland.c | 59 +++++++++++++++++++------
-+ 2 files changed, 47 insertions(+), 13 deletions(-)
-+
-+diff --git a/src/egl/drivers/dri2/egl_dri2.h b/src/egl/drivers/dri2/egl_dri2.h
-+index c466ff83c53..eecb32a53fd 100644
-+--- a/src/egl/drivers/dri2/egl_dri2.h
-++++ b/src/egl/drivers/dri2/egl_dri2.h
-+@@ -283,6 +283,7 @@ struct dri2_egl_display
-+    struct zwp_linux_dmabuf_feedback_v1 *wl_dmabuf_feedback;
-+    struct dmabuf_feedback_format_table format_table;
-+    bool authenticated;
-++   uint32_t capabilities;
-+    char *device_name;
-+ #endif
-+ 
-+diff --git a/src/egl/drivers/dri2/platform_wayland.c b/src/egl/drivers/dri2/platform_wayland.c
-+index 5ff83cce08a..843434376a7 100644
-+--- a/src/egl/drivers/dri2/platform_wayland.c
-++++ b/src/egl/drivers/dri2/platform_wayland.c
-+@@ -1343,7 +1343,7 @@ create_wl_buffer(struct dri2_egl_display *dri2_dpy,
-+                  struct dri2_egl_surface *dri2_surf,
-+                  __DRIimage *image)
-+ {
-+-   struct wl_buffer *ret;
-++   struct wl_buffer *ret = NULL;
-+    EGLBoolean query;
-+    int width, height, fourcc, num_planes;
-+    uint64_t modifier = DRM_FORMAT_MOD_INVALID;
-+@@ -1447,11 +1447,28 @@ create_wl_buffer(struct dri2_egl_display *dri2_dpy,
-+       ret = zwp_linux_buffer_params_v1_create_immed(params, width, height,
-+                                                     fourcc, 0);
-+       zwp_linux_buffer_params_v1_destroy(params);
-++   } else {
-++      struct wl_drm *wl_drm =
-++         dri2_surf ? dri2_surf->wl_drm_wrapper : dri2_dpy->wl_drm;
-++      int fd = -1, stride;
-++
-++      if (num_planes > 1)
-++         return NULL;
-++
-++      query = dri2_dpy->image->queryImage(image, __DRI_IMAGE_ATTRIB_FD, &fd);
-++      query &= dri2_dpy->image->queryImage(image, __DRI_IMAGE_ATTRIB_STRIDE, &stride);
-++      if (!query) {
-++         if (fd >= 0)
-++            close(fd);
-++         return NULL;
-++      }
-+ 
-+-      return ret;
-++      ret = wl_drm_create_prime_buffer(wl_drm, fd, width, height, fourcc, 0,
-++                                       stride, 0, 0, 0, 0);
-++      close(fd);
-+    }
-+ 
-+-   return NULL;
-++   return ret;
-+ }
-+ 
-+ static EGLBoolean
-+@@ -1698,16 +1715,21 @@ drm_handle_device(void *data, struct wl_drm *drm, const char *device)
-+ static void
-+ drm_handle_format(void *data, struct wl_drm *drm, uint32_t format)
-+ {
-+-   /* deprecated, as compositors already support the dma-buf protocol extension
-+-    * and so we can rely on dmabuf_handle_modifier() to receive formats and
-+-    * modifiers */
-++   struct dri2_egl_display *dri2_dpy = data;
-++   int visual_idx = dri2_wl_visual_idx_from_fourcc(format);
-++
-++   if (visual_idx == -1)
-++      return;
-++
-++   BITSET_SET(dri2_dpy->formats.formats_bitmap, visual_idx);
-+ }
-+ 
-+ static void
-+ drm_handle_capabilities(void *data, struct wl_drm *drm, uint32_t value)
-+ {
-+-   /* deprecated, as compositors already support the dma-buf protocol extension
-+-    * and so we can rely on it to create wl_buffer's */
-++   struct dri2_egl_display *dri2_dpy = data;
-++
-++   dri2_dpy->capabilities = value;
-+ }
-+ 
-+ static void
-+@@ -2075,13 +2097,12 @@ dri2_initialize_wayland_drm(_EGLDisplay *disp)
-+    wl_registry_add_listener(dri2_dpy->wl_registry,
-+                             &registry_listener_drm, dri2_dpy);
-+ 
-+-   /* The compositor must expose the dma-buf interface. */
-+-   if (roundtrip(dri2_dpy) < 0 || dri2_dpy->wl_dmabuf == NULL)
-++   if (roundtrip(dri2_dpy) < 0)
-+       goto cleanup;
-+ 
-+    /* Get default dma-buf feedback */
-+-   if (zwp_linux_dmabuf_v1_get_version(dri2_dpy->wl_dmabuf) >=
-+-       ZWP_LINUX_DMABUF_V1_GET_DEFAULT_FEEDBACK_SINCE_VERSION) {
-++   if (dri2_dpy->wl_dmabuf && zwp_linux_dmabuf_v1_get_version(dri2_dpy->wl_dmabuf) >=
-++                              ZWP_LINUX_DMABUF_V1_GET_DEFAULT_FEEDBACK_SINCE_VERSION) {
-+       dmabuf_feedback_format_table_init(&dri2_dpy->format_table);
-+       dri2_dpy->wl_dmabuf_feedback =
-+          zwp_linux_dmabuf_v1_get_default_feedback(dri2_dpy->wl_dmabuf);
-+@@ -2089,7 +2110,6 @@ dri2_initialize_wayland_drm(_EGLDisplay *disp)
-+                                                 &dmabuf_feedback_listener, dri2_dpy);
-+    }
-+ 
-+-   /* Receive events from the interfaces */
-+    if (roundtrip(dri2_dpy) < 0)
-+       goto cleanup;
-+ 
-+@@ -2176,6 +2196,19 @@ dri2_initialize_wayland_drm(_EGLDisplay *disp)
-+ 
-+    dri2_wl_setup_swap_interval(disp);
-+ 
-++   if (dri2_dpy->wl_drm) {
-++      /* To use Prime, we must have _DRI_IMAGE v7 at least. createImageFromFds
-++       * support indicates that Prime export/import is supported by the driver.
-++       * We deprecated the support to GEM names API, so we bail out if the
-++       * driver does not suport Prime. */
-++      if (!(dri2_dpy->capabilities & WL_DRM_CAPABILITY_PRIME) ||
-++          (dri2_dpy->image->base.version < 7) ||
-++          (dri2_dpy->image->createImageFromFds == NULL)) {
-++         _eglLog(_EGL_WARNING, "wayland-egl: display does not support prime");
-++         goto cleanup;
-++      }
-++   }
-++
-+    if (dri2_dpy->is_different_gpu &&
-+        (dri2_dpy->image->base.version < 9 ||
-+         dri2_dpy->image->blitImage == NULL)) {
-+-- 
-+2.35.1
-+
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 0628151e96..afac8014fe 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -20,6 +20,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
-            file://0001-util-format-Check-for-NEON-before-using-it.patch \
-+           file://0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch \
-            "
- 
- SRC_URI[sha256sum] = "9f2b30f5276a9abaf71aafc6979685e2636189de1a87aea2c9e69744a6d0ebb9"
--- 
-2.35.1
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQYXVsbyBOZXZlcyA8cHRzbmV2
+ZXNAZ21haWwuY29tPg0KPiBTZW50OiBkZW4gMTUganVuaSAyMDIyIDE1OjUxDQo+IFRvOiBQZXRl
+ciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT47IFJvc3MgQnVydG9u
+DQo+IDxyb3NzLmJ1cnRvbkBhcm0uY29tPg0KPiBDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
+b3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2NSA2Lzdd
+IHV0aWxzOiBBZGQgY21kbGluZV9zaGViYW5nX3dyYXBwZXINCj4gdXRpbC4NCj4gDQo+IE9uIDYv
+MTUvMjIgMTU6MTEsIFBldGVyIEtqZWxsZXJzdGVkdCB3cm90ZToNCj4gPj4gLS0tLS1PcmlnaW5h
+bCBNZXNzYWdlLS0tLS0NCj4gPj4gRnJvbTogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLQ0KPiA+PiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmc+IE9uIEJlaGFsZiBPZiBSb3NzIEJ1cnRvbg0KPiA+PiBTZW50OiBkZW4gMTUganVuaSAyMDIy
+IDEyOjUyDQo+ID4+IFRvOiBwdHNuZXZlc0BnbWFpbC5jb20NCj4gPj4gQ2M6IG9wZW5lbWJlZGRl
+ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPj4gU3ViamVjdDogUmU6IFtPRS1jb3Jl
+XSBbUEFUQ0ggdjUgNi83XSB1dGlsczogQWRkDQo+IGNtZGxpbmVfc2hlYmFuZ193cmFwcGVyDQo+
+ID4+IHV0aWwuDQo+ID4+DQo+ID4+IE9uIDE0IEp1biAyMDIyLCBhdCAxNjoxMSwgUGF1bG8gTmV2
+ZXMgdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPj4gPHB0c25ldmVzPWdtYWlsLmNvbUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3cm90ZToNCj4gPj4+ICtjcmVhdGVfY21kbGluZV9zaGVi
+YW5nX3dyYXBwZXIgKCkgew0KPiA+PiBUaGUgaW5kZW50YXRpb24gaW4gdGhpcyBmdW5jdGlvbiBp
+cyBhIG1peCBvZiB0YWJzIGFuZCBzcGFjZXMsIHBsZWFzZQ0KPiA+PiB1bmlmeS4NCj4gPj4NCj4g
+Pj4+ICsgIGFyZ3VtZW50PSIkKGJhc2VuYW1lICIkKGhlYWQgLW4xICRjbWQgfCBzZWQgLWUgJ3N8
+IyFbIF0qfHxnJyAp4oCdKeKAnQ0KPiA+PiBbIF0qIHNlZW1zIG92ZXJseSwgY29tcGxleCwgbm8g
+bmVlZCBmb3IgdGhlIGJyYWNrZXRzLiBJ4oCZZCBhbmNob3IgdG8gdGhlDQo+ID4+IGJlZ2lubmlu
+ZyBvZiB0aGUgbGluZSwgYW5kIHJlbW92ZSB0aGUgZyBhcyB0aGVyZeKAmXMgb25seSBvbmUgZXhw
+ZWN0ZWQuDQo+ID4gVGhpcyBzaG91bGQgd29yazoNCj4gPg0KPiA+IGFyZ3VtZW50PSQoYmFzZW5h
+bWUgIiQoc2VkIC1uZSAncy9eIyEgKi8vcDtxJykiICRjbWQpDQo+ID4NCj4gPiBIb3dldmVyLCBp
+ZiB0aGUgZmlyc3QgbGluZSBpcyBzb21ldGhpbmcgbGlrZSAiIyEvdXNyL2Jpbi9lbnYgcHl0aG9u
+MyIsIHRoZW4NCj4gPiAkYXJndW1lbnQgd2lsbCBiZSAiZW52IHB5dGhvbjMiIGFuZCBzb21laG93
+IEkgYXNzdW1lIHRoYXQgaXMgbm90IGV4YWN0bHkNCj4gPiB3aGF0IHRoZSByZXN0IG9mIHRoZSBj
+b2RlIGV4cGVjdHMuDQo+IA0KPiBUaGUgdXNlIGNhc2UgaXMgdGhhdCB3aGF0ZXZlciBpcyBpbiBz
+aGViYW5nIHNob3VsZCBiZSBleHRyYWN0ZWQgYW5kIHJhbg0KPiB2ZXJiYXRpbSwgc28gdHJ1bmNh
+dGluZyBsaWtlIHlvdXIgc3VnZ2VzdGlvbiBjYW4gd29yayBidXQgaGFzIHNsaWdodGx5DQo+IGRp
+ZmZlcmVudCBzZW1hbnRpYy4NCg0KVW1tLCBteSBzdWdnZXN0ZWQgbGluZSBhYm92ZSBzaG91bGQg
+Z2l2ZSBleGFjdGx5IHRoZSBzYW1lIG91dHB1dCBhcyB5b3VycywgDQpvbmx5IHdpdGggZmV3ZXIg
+Y29tbWFuZHMuLi4NCg0KPiA+PiBNaWdodCBhbHNvIGJlIHdpc2UgdG8gYXNzZXJ0IHRoYXQgeW91
+IGZvdW5kIHNvbWV0aGluZyBoZXJlLCBzbyBydW5uaW5nDQo+ID4+IHRoaXMgb24gYW4gRUxGIGZh
+aWxzIHdpdGggYW4gb2J2aW91cyBlcnJvci4NCj4gPj4NCj4gPj4gUm9zcw0KPiA+IC8vUGV0ZXIN
+Cj4gPg0KPiBQYXVsbyBOZXZlcw0KDQovL1BldGVyDQoNCg==
 
