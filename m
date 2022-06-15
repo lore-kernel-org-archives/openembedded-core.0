@@ -2,42 +2,42 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22A2ECCA495
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 472E5CCA49D
 	for <webhook@archiver.kernel.org>; Wed, 15 Jun 2022 13:03:46 +0000 (UTC)
 Received: from a27-29.smtp-out.us-west-2.amazonses.com
  (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.4418.1655298221249506284
+ by mx.groups.io with SMTP id smtpd.web09.4388.1655298221709382976
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jun 2022 06:03:42 -0700
+ Wed, 15 Jun 2022 06:03:41 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=VKrxy0Bj;
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=kaQZ9hPh;
  spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29,
- mailfrom: 0101018167766164-801a0ad2-878a-4227-8a83-56edb97227ce-000000@us-west-2.amazonses.com)
+ mailfrom: 0101018167766366-7ec38c1a-70d5-4dc3-a920-6dfd9788c93c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1655298221;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=iPP8FB5XjKvZyVEBobG2I7rZaZAh+KMXIZtjfI/SgVw=;
-	b=VKrxy0BjFe369YIj3hYm2Tjods4F2bZrzsjJ7asDOoLfFN7ykNhVnZcdu4q+yNqN
-	qmZ5dtvwBHidr1NZ1besCnf4BaMlFR83iqvuAL9FhjNkzNiNQ6aNkZgXqjxMymW0mEd
-	AGAf3r5bJjjhARMUd8hCHYajTWjEcPXUVLIyDxsQ=
+	bh=jKAmwToiy3jfPayCYBuc9rUc3iB1z1+DT75cxcy9ixU=;
+	b=kaQZ9hPhHzH0o14d290cIT3Qidh8tKH3cMJDzy20uZc3sn2U1KZ11dtG51ATaPdA
+	tethk6s+f87Rw5HwG/M8s4iY0Dtiow3D+Z6ake3GvT/uEy+NaswLJI1Y0LiD8cZg8Xs
+	OvSxYJc2wlJ9y0EU5+D6W1eFFVi8O/9xlzcWeWH8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1655298221;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=iPP8FB5XjKvZyVEBobG2I7rZaZAh+KMXIZtjfI/SgVw=;
-	b=kHA9cGkXtGglkjJNLTdbyerlDIksg70/OhxnUud2JnXhJ/TDrcxUO45TgaiJb0cW
-	hIbMS2wx22230csKt0wUUMsMMN4S1ZXpg/1edpZPxUcZeABvQK85b78qBiBYABRTZt/
-	I8PdEsGKI/jTzPErM0STo61seiS2LPMPL1AB9iv8=
-Content-Type: multipart/mixed; boundary="===============1309289334729653423=="
+	bh=jKAmwToiy3jfPayCYBuc9rUc3iB1z1+DT75cxcy9ixU=;
+	b=TR/SJRFRstNviBpA6lrW1Wh/tghM38zy1l+skBKSQ1PAxMku8UjW8xEleA1LpS36
+	D3R+PgF94hDkDgyduQ+JK75plpKvbwpXCGbrI8IA4jF1q//4WKigag6DwiiP3Vw+S1k
+	iCsAZvoUgOji8hsjBa7eZa5fyJsLDsOaJRtANRIE=
+Content-Type: multipart/mixed; boundary="===============4826576504178221735=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Changhyeok Bae <changhyeok.bae@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-jsonschema: upgrading to 4.6.0 FAILED
+Subject: [AUH] ethtool: upgrading to 5.18 SUCCEEDED
 Message-ID: 
- <0101018167766164-801a0ad2-878a-4227-8a83-56edb97227ce-000000@us-west-2.amazonses.com>
-Date: Wed, 15 Jun 2022 13:03:40 +0000
+ <0101018167766366-7ec38c1a-70d5-4dc3-a920-6dfd9788c93c-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Jun 2022 13:03:41 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2022.06.15-54.240.27.29
@@ -46,9 +46,9 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Jun 2022 13:03:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166956
+ https://lists.openembedded.org/g/openembedded-core/message/166950
 
---===============1309289334729653423==
+--===============4826576504178221735==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,16 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-jsonschema* to *4.6.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *ethtool* to *5.18* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-jsonschema-upgrade-4.5.1-4.6.0.patch
+    - apply the patch: git am 0001-ethtool-upgrade-5.17-5.18.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -81,136 +75,97 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============1309289334729653423==
+--===============4826576504178221735==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-python3-jsonschema-upgrade-4.5.1-4.6.0.patch"
+ filename="0001-ethtool-upgrade-5.17-5.18.patch"
 
-From 8bd0126a8599e150e9c19c8e3d58e6a42981a9b4 Mon Sep 17 00:00:00 2001
+From 9f97a480ec22a7d4481af71e004d8321bec54927 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Jun 2022 07:55:45 +0000
-Subject: [PATCH] python3-jsonschema: upgrade 4.5.1 -> 4.6.0
+Date: Wed, 15 Jun 2022 09:41:07 +0000
+Subject: [PATCH] ethtool: upgrade 5.17 -> 5.18
 
 ---
- ...{python3-jsonschema_4.5.1.bb => python3-jsonschema_4.6.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-jsonschema_4.5.1.bb => python3-jsonschema_4.6.0.bb} (93%)
+ .../ethtool/ethtool/avoid_parallel_tests.patch              | 6 +++---
+ .../ethtool/{ethtool_5.17.bb => ethtool_5.18.bb}            | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-extended/ethtool/{ethtool_5.17.bb => ethtool_5.18.bb} (93%)
 
-diff --git a/meta/recipes-devtools/python/python3-jsonschema_4.5.1.bb b/meta/recipes-devtools/python/python3-jsonschema_4.6.0.bb
+diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
+index 52d2a93449..73b659dfe9 100644
+--- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
++++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
+@@ -1,4 +1,4 @@
+-From ef2ad68becea77dfdbd5a344e30b3700cc440c0f Mon Sep 17 00:00:00 2001
++From a2d7a97f225d8e12a77ceca03f4ef8c2da99e30b Mon Sep 17 00:00:00 2001
+ From: Tudor Florea <tudor.florea@enea.com>
+ Date: Wed, 28 May 2014 18:59:54 +0200
+ Subject: [PATCH] ethtool: use serial-tests config needed by ptest.
+@@ -15,11 +15,11 @@ Upstream-Status: Inappropriate
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 7a9b5b9..dc8ae35 100644
++index c11f2b1..2bd2b83 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
+- AC_INIT(ethtool, 5.17, netdev@vger.kernel.org)
++ AC_INIT(ethtool, 5.18, netdev@vger.kernel.org)
+  AC_PREREQ(2.52)
+  AC_CONFIG_SRCDIR([ethtool.c])
+ -AM_INIT_AUTOMAKE([gnu subdir-objects])
+diff --git a/meta/recipes-extended/ethtool/ethtool_5.17.bb b/meta/recipes-extended/ethtool/ethtool_5.18.bb
 similarity index 93%
-rename from meta/recipes-devtools/python/python3-jsonschema_4.5.1.bb
-rename to meta/recipes-devtools/python/python3-jsonschema_4.6.0.bb
-index 9f8719870c..58bcbd4280 100644
---- a/meta/recipes-devtools/python/python3-jsonschema_4.5.1.bb
-+++ b/meta/recipes-devtools/python/python3-jsonschema_4.6.0.bb
-@@ -4,7 +4,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=7a60a81c146ec25599a3e1dabb8610a8 \
-                     file://json/LICENSE;md5=9d4de43111d33570c8fe49b4cb0e01af"
+rename from meta/recipes-extended/ethtool/ethtool_5.17.bb
+rename to meta/recipes-extended/ethtool/ethtool_5.18.bb
+index 61032d4836..b4f74e7f5b 100644
+--- a/meta/recipes-extended/ethtool/ethtool_5.17.bb
++++ b/meta/recipes-extended/ethtool/ethtool_5.18.bb
+@@ -11,7 +11,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
+            file://avoid_parallel_tests.patch \
+            "
  
--SRC_URI[sha256sum] = "7c6d882619340c3347a1bf7315e147e6d3dae439033ae6383d6acb908c101dfc"
-+SRC_URI[sha256sum] = "9d6397ba4a6c0bf0300736057f649e3e12ecbc07d3e81a0dacb72de4e9801957"
+-SRC_URI[sha256sum] = "3e32735d13aa19e2be32d3528ef8a135fc99782950ab3fa602198e72992e9450"
++SRC_URI[sha256sum] = "70091f95448eba851f9f9804059d0e237f1d909064046f9e3c6dc892aa1e8afe"
  
- inherit pypi python_setuptools_build_meta
+ UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
  
 -- 
 2.31.1
 
 
---===============1309289334729653423==
+--===============4826576504178221735==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1642 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 882 .bb files complete (881 cached, 1 parsed). 1642 targets, 36 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-32-poky-linux/ethtool/ethtool-bash-completion: PV changed from "5.17" to "5.18"
+packages/core2-32-poky-linux/ethtool/ethtool-bash-completion: PKGV changed from 5.17 [default] to 5.18 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-dbg: PV changed from "5.17" to "5.18"
+packages/core2-32-poky-linux/ethtool/ethtool-dbg: PKGV changed from 5.17 [default] to 5.18 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-dbg: PKGSIZE changed from 3391984 to 3395008 (+0%)
+packages/core2-32-poky-linux/ethtool/ethtool-dev: PV changed from "5.17" to "5.18"
+packages/core2-32-poky-linux/ethtool/ethtool-dev: PKGV changed from 5.17 [default] to 5.18 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-doc: PV changed from "5.17" to "5.18"
+packages/core2-32-poky-linux/ethtool/ethtool-doc: PKGV changed from 5.17 [default] to 5.18 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-doc: PKGSIZE changed from 39484 to 39562 (+0%)
+packages/core2-32-poky-linux/ethtool/ethtool-locale: PV changed from "5.17" to "5.18"
+packages/core2-32-poky-linux/ethtool/ethtool-locale: PKGV changed from 5.17 [default] to 5.18 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-ptest: PV changed from "5.17" to "5.18"
+packages/core2-32-poky-linux/ethtool/ethtool-ptest: PKGV changed from 5.17 [default] to 5.18 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-src: PV changed from "5.17" to "5.18"
+packages/core2-32-poky-linux/ethtool/ethtool-src: PKGV changed from 5.17 [default] to 5.18 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-src: PKGSIZE changed from 1279795 to 1284335 (+0%)
+packages/core2-32-poky-linux/ethtool/ethtool-staticdev: PV changed from "5.17" to "5.18"
+packages/core2-32-poky-linux/ethtool/ethtool-staticdev: PKGV changed from 5.17 [default] to 5.18 [default]
+packages/core2-32-poky-linux/ethtool/ethtool: PV changed from "5.17" to "5.18"
+packages/core2-32-poky-linux/ethtool/ethtool: PKGV changed from 5.17 [default] to 5.18 [default]
+packages/core2-32-poky-linux/ethtool: PV changed from "5.17" to "5.18"
+packages/core2-32-poky-linux/ethtool: SRC_URI changed from "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-5.17.tar.gz file://run-ptest file://avoid_parallel_tests.patch" to "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-5.18.tar.gz file://run-ptest file://avoid_parallel_tests.patch"
+packages/core2-32-poky-linux/ethtool: PKGV changed from 5.17 [default] to 5.18 [default]
 
-Build Configuration:
-BB_VERSION           = "2.0.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-fc4e91f17bb1ed6d20fa56f0664ff41f1e81ef03"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:fc4e91f17bb1ed6d20fa56f0664ff41f1e81ef03"
-workspace            = "master:ee0d001b8104419798fc129c3ed9769c98b0832c"
-
-Initialising tasks...done.
-Sstate summary: Wanted 100 Local 93 Mirrors 0 Missed 7 Current 267 (93% match, 98% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 992 of 1355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.6.0.bb:do_fetch)
-NOTE: recipe python3-jsonschema-4.6.0-r0: task do_fetch: Started
-NOTE: recipe python3-jsonschema-4.6.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1342 of 1355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.6.0.bb:do_unpack)
-NOTE: Running task 1343 of 1355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.6.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-jsonschema-4.6.0-r0: task do_unpack: Started
-NOTE: recipe python3-jsonschema-4.6.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-jsonschema-4.6.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1344 of 1355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.6.0.bb:do_patch)
-NOTE: recipe python3-jsonschema-4.6.0-r0: task do_patch: Started
-NOTE: recipe python3-jsonschema-4.6.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-jsonschema-4.6.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1345 of 1355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.6.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1346 of 1355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.6.0.bb:do_populate_lic)
-NOTE: recipe python3-jsonschema-4.6.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-jsonschema-4.6.0-r0: task do_populate_lic: Started
-NOTE: recipe python3-jsonschema-4.6.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-jsonschema-4.6.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1347 of 1355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.6.0.bb:do_configure)
-NOTE: recipe python3-jsonschema-4.6.0-r0: task do_configure: Started
-NOTE: recipe python3-jsonschema-4.6.0-r0: task do_configure: Succeeded
-NOTE: Running task 1348 of 1355 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.6.0.bb:do_compile)
-NOTE: recipe python3-jsonschema-4.6.0-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-jsonschema/4.6.0-r0/recipe-sysroot-native/usr/lib/python3.10/site-packages/setuptools/config/pyprojecttoml.py:102: _ExperimentalProjectMetadata: Support for project metadata in `pyproject.toml` is still experimental and may be removed (or change) in future releases.
-|   warnings.warn(msg, _ExperimentalProjectMetadata)
-| error: Multiple top-level packages discovered in a flat-layout: ['json', 'jsonschema'].
-| 
-| To avoid accidental inclusion of unwanted files or directories,
-| setuptools will not proceed with this build.
-| 
-| If you are trying to create a single distribution with multiple packages
-| on purpose, you should not rely on automatic discovery.
-| Instead, consider the following options:
-| 
-| 1. set up custom discovery (`find` directive with `include` or `exclude`)
-| 2. use a `src-layout`
-| 3. explicitly set `py_modules` or `packages` with a list of names
-| 
-| To find more information, look for "package discovery" on setuptools docs.
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-jsonschema/4.6.0-r0/temp/run.do_compile.4125957:159 exit 1 from 'nativepython3 -c "import setuptools.build_meta as api; api.build_wheel('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-jsonschema/4.6.0-r0/dist')"'
-| WARNING: Backtrace (BB generated script):
-| 	#1: python_pep517_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-jsonschema/4.6.0-r0/temp/run.do_compile.4125957, line 159
-| 	#2: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-jsonschema/4.6.0-r0/temp/run.do_compile.4125957, line 153
-| 	#3: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-jsonschema/4.6.0-r0/temp/run.do_compile.4125957, line 163
-NOTE: recipe python3-jsonschema-4.6.0-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 1348 tasks of which 1340 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.6.0.bb:do_compile
-Summary: There was 1 WARNING message.
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: python3-jsonschema-4.6.0-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-jsonschema/4.6.0-r0/temp/run.do_compile.4125957', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-jsonschema/4.6.0-r0/temp/log.do_compile.4125957
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.6.0.bb:do_compile) failed with exit code '1'
-
---===============1309289334729653423==--
+--===============4826576504178221735==--
 
