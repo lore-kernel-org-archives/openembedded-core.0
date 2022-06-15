@@ -2,54 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DDE0C04E88
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ABF9C19F56
 	for <webhook@archiver.kernel.org>; Wed, 15 Jun 2022 13:03:46 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com
- (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web12.4405.1655298221389346796
+Received: from a27-33.smtp-out.us-west-2.amazonses.com
+ (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.4446.1655298221255889541
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Jun 2022 06:03:41 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=NME+HIgA;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
- mailfrom: 0101018167765fed-1f79ea57-d3d7-4751-9680-eaa9c967fc43-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=UidmKZtc;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
+ mailfrom: 010101816776619a-70427ccb-9d85-4ade-a7ad-b590fed75650-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1655298220;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=faaal4A4BcIYnBKTtm/kYgQRMQIaK6W94xlh3YCSIwc=;
-	b=NME+HIgADj+NNjBMjZTHaqLCwUtdF7ynhJmdB2CLnSjz8ctVXX7Q+l123SwKQdJF
-	39mFtJc0xwqUMBdylH+8iyafpsh71SwZlNoLMn0y8dzRuPiPLydSr5zYjYmoP26hRhS
-	gNT5/invCafX4R0SndTQ7h/2cRMNqo+oYyjy7JU0=
+	bh=dlbbb8Vw/nYIKxzHxeIR2WvB/FVRA/Q7T1PyBGshBBA=;
+	b=UidmKZtcOqiHKO1in0rRtVXq1XT53EbZLqQtxGe6duaH3+s6CVXrIUEXpNnM9Q7H
+	4cUk+/TYA+Fs3/D9L8BtDB57mCHUw219yje/tFQuT+voOeCuDSB0KSOIpfqcB8rZ1N3
+	J8pU/LHcfVn6q8YJe278OajoTYd8V6tQGVi6t8U0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1655298220;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=faaal4A4BcIYnBKTtm/kYgQRMQIaK6W94xlh3YCSIwc=;
-	b=T6AIk294PYuwDnRf1bYjajJnc5ZR/qzZhtV3f7XRtFsPBXgpTiuG6roKBHouVu63
-	BQI1fkwZjLO1mIjQfYjICGJy9EW5ArB2femqJ7l9Ds0874SLUAUX0GAVwI73KBm3ITx
-	8Ltx+XD3hzACMZWQdTZIrRJTvXGwnftsgUTTBDqU=
-Content-Type: multipart/mixed; boundary="===============3626526458405743515=="
+	bh=dlbbb8Vw/nYIKxzHxeIR2WvB/FVRA/Q7T1PyBGshBBA=;
+	b=gQtVHHbHjAyWL18PlhkBUvFIJdeOqjChff/952hWETAW120T3PDVZjm6vpmuGHrj
+	UXu8GK8FUUT85+kC7/X72DrzoKTAtCr+YCfm6JbMEOPKkpNo0BoVx4HxNHwbQGAcyDJ
+	e5/GlChU6xjioNxaTivD7qebr9PIdwVJTp0AmKSY=
+Content-Type: multipart/mixed; boundary="===============7374373859973433547=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gnu-config: upgrading to
- 02ba26b218d3d3db6c56e014655faf463cefa983 FAILED
+Subject: [AUH] python3-babel: upgrading to 2.10.2 SUCCEEDED
 Message-ID: 
- <0101018167765fed-1f79ea57-d3d7-4751-9680-eaa9c967fc43-000000@us-west-2.amazonses.com>
+ <010101816776619a-70427ccb-9d85-4ade-a7ad-b590fed75650-000000@us-west-2.amazonses.com>
 Date: Wed, 15 Jun 2022 13:03:40 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.06.15-54.240.27.45
+X-SES-Outgoing: 2022.06.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Jun 2022 13:03:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166944
+ https://lists.openembedded.org/g/openembedded-core/message/166942
 
---===============3626526458405743515==
+--===============7374373859973433547==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -57,61 +56,96 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gnu-config* to *02ba26b218d3d3db6c56e014655faf463cefa983* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-babel* to *2.10.2* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-babel-upgrade-2.10.1-2.10.2.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade gnu-config -S 02ba26b218d3d3db6c56e014655faf463cefa983
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1642 entries from dependency cache.
-
-Summary: There was 1 WARNING message.
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-2cac96623fd025a6dc6c448e0d8bc18a457a2c48"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:2cac96623fd025a6dc6c448e0d8bc18a457a2c48"
-workspace            = "master:ee0d001b8104419798fc129c3ed9769c98b0832c"
-
-Initialising tasks...done.
-Sstate summary: Wanted 8 Local 0 Mirrors 0 Missed 8 Current 12 (0% match, 60% complete)
-Removing 6 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-WARNING: Failed to find a git repository in WORKDIR: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-h1ybmhok/workdir
-WARNING: gnu-config: the directory ${WORKDIR}/git (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-h1ybmhok/workdir/git) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-WARNING: No source unpacked to S - either the gnu-config recipe doesn't use any source or the correct source directory could not be determined
-NOTE: Tasks Summary: Attempted 56 tasks of which 51 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-INFO: Extracting current version source...
-ERROR: Bitbake Fetcher Error: FetchError('Fetch command export PSEUDO_DISABLED=1; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/native-intercept:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-h1ybmhok/workdir/recipe-sysroot-native/usr/bin/x86_64-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-h1ybmhok/workdir/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-h1ybmhok/workdir/recipe-sysroot-native/usr/sbin:/home/pokybuild/
- yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-h1ybmhok/workdir/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-h1ybmhok/workdir/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-h1ybmhok/workdir/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; git -c core.fsyncobjectfiles=0 -c gc.autoDetach=false -c core.pager=cat clone -n -s /home/pokybuild/yocto-worker/auh/build/build/build/downloads/git2/git.savannah.gnu.org.git.config.git/ /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0
- /devtooltmp-h1ybmhok/workdir/git/ failed with exit code 128, output:\nfatal: destination path \'/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-h1ybmhok/workdir/git\' already exists and is not an empty directory.\n', None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20220516+gitAUTOINC+f56a714038-r0/devtooltmp-h1ybmhok/temp/log.do_unpack.3773124
-ERROR: Extracting source for gnu-config failed
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============3626526458405743515==--
+--===============7374373859973433547==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-python3-babel-upgrade-2.10.1-2.10.2.patch"
+
+From 369463f2ca0028fb485711a01dad6064f13ddde3 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 15 Jun 2022 07:50:19 +0000
+Subject: [PATCH] python3-babel: upgrade 2.10.1 -> 2.10.2
+
+---
+ .../python/{python3-babel_2.10.1.bb => python3-babel_2.10.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-babel_2.10.1.bb => python3-babel_2.10.2.bb} (87%)
+
+diff --git a/meta/recipes-devtools/python/python3-babel_2.10.1.bb b/meta/recipes-devtools/python/python3-babel_2.10.2.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-babel_2.10.1.bb
+rename to meta/recipes-devtools/python/python3-babel_2.10.2.bb
+index d06eb2bf5c..a236851a18 100644
+--- a/meta/recipes-devtools/python/python3-babel_2.10.1.bb
++++ b/meta/recipes-devtools/python/python3-babel_2.10.2.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://babel.edgewall.org/"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=1b3f4650099e6d6a73e5a7fc8774ff18"
+ 
+-SRC_URI[sha256sum] = "98aeaca086133efb3e1e2aad0396987490c8425929ddbcfe0550184fdc54cd13"
++SRC_URI[sha256sum] = "7aed055f0c04c9e7f51a2f75261e41e1c804efa724cb65b60a970dd4448d469d"
+ 
+ PYPI_PACKAGE = "Babel"
+ 
+-- 
+2.31.1
+
+
+--===============7374373859973433547==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-babel: PKGV changed from 2.10.1 [default] to 2.10.2 [default]
+packages/core2-32-poky-linux/python3-babel: PV changed from "2.10.1" to "2.10.2"
+packages/core2-32-poky-linux/python3-babel: SRC_URI changed from "https://files.pythonhosted.org/packages/source/B/Babel/Babel-2.10.1.tar.gz" to "https://files.pythonhosted.org/packages/source/B/Babel/Babel-2.10.2.tar.gz"
+packages/core2-32-poky-linux/python3-babel/python3-babel-dbg: PKGV changed from 2.10.1 [default] to 2.10.2 [default]
+packages/core2-32-poky-linux/python3-babel/python3-babel-dbg: PV changed from "2.10.1" to "2.10.2"
+packages/core2-32-poky-linux/python3-babel/python3-babel-dev: PKGV changed from 2.10.1 [default] to 2.10.2 [default]
+packages/core2-32-poky-linux/python3-babel/python3-babel-dev: PV changed from "2.10.1" to "2.10.2"
+packages/core2-32-poky-linux/python3-babel/python3-babel-doc: PKGV changed from 2.10.1 [default] to 2.10.2 [default]
+packages/core2-32-poky-linux/python3-babel/python3-babel-doc: PV changed from "2.10.1" to "2.10.2"
+packages/core2-32-poky-linux/python3-babel/python3-babel-locale: PKGV changed from 2.10.1 [default] to 2.10.2 [default]
+packages/core2-32-poky-linux/python3-babel/python3-babel-locale: PV changed from "2.10.1" to "2.10.2"
+packages/core2-32-poky-linux/python3-babel/python3-babel-src: PKGV changed from 2.10.1 [default] to 2.10.2 [default]
+packages/core2-32-poky-linux/python3-babel/python3-babel-src: PV changed from "2.10.1" to "2.10.2"
+packages/core2-32-poky-linux/python3-babel/python3-babel-staticdev: PKGV changed from 2.10.1 [default] to 2.10.2 [default]
+packages/core2-32-poky-linux/python3-babel/python3-babel-staticdev: PV changed from "2.10.1" to "2.10.2"
+packages/core2-32-poky-linux/python3-babel/python3-babel: PKGV changed from 2.10.1 [default] to 2.10.2 [default]
+packages/core2-32-poky-linux/python3-babel/python3-babel: PV changed from "2.10.1" to "2.10.2"
+packages/core2-32-poky-linux/python3-babel/python3-babel: PKGSIZE changed from 30302571 to 30304465 (+0%)
+Changes to packages/core2-32-poky-linux/python3-babel (sysroot):
+  /usr/lib/python3.10/site-packages/Babel-2.10.1.dist-info moved to /usr/lib/python3.10/site-packages/Babel-2.10.2.dist-info
+
+--===============7374373859973433547==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/python3-babel (sysroot):
+  /usr/lib/python3.10/site-packages/Babel-2.10.1.dist-info moved to /usr/lib/python3.10/site-packages/Babel-2.10.2.dist-info
+
+--===============7374373859973433547==--
 
