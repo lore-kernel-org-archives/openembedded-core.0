@@ -2,107 +2,85 @@ Return-Path: <Muhammad_Hamza@mentor.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71CDDC43334
-	for <webhook@archiver.kernel.org>; Thu, 16 Jun 2022 12:23:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C127C43334
+	for <webhook@archiver.kernel.org>; Thu, 16 Jun 2022 12:45:43 +0000 (UTC)
 Received: from esa3.mentor.iphmx.com (esa3.mentor.iphmx.com [68.232.137.180])
- by mx.groups.io with SMTP id smtpd.web12.17271.1655382224344317311
+ by mx.groups.io with SMTP id smtpd.web09.17438.1655383534649328079
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jun 2022 05:23:44 -0700
+ Thu, 16 Jun 2022 05:45:34 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=pass (domain: mentor.com, ip: 68.232.137.180, mailfrom: muhammad_hamza@mentor.com)
 X-IronPort-AV: E=Sophos;i="5.91,305,1647331200";
-   d="scan'208";a="77269223"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa3.mentor.iphmx.com with ESMTP; 16 Jun 2022 04:23:42 -0800
+   d="scan'208";a="77270039"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa3.mentor.iphmx.com with ESMTP; 16 Jun 2022 04:45:34 -0800
 IronPort-SDR: 
- L50alFdsevTvSYeLmwZS8ysQa5Mg91az1mDRGml09RMTHctRQBulzgPCsuEetrA8HeJA/uJMPD
- sPFMrmCt/Zhn7pWe7QlYUSgRJsd0Uu/6jVU1aC+iVJlFY2H5OcF0E40ygqQV9Ns1KrK1UFMD8T
- ekT1pmXOReZ86fUluC2z4Npst65ieJE5wF8sCkO+P39a4iBCjUMGL+Ude/0dXO/RcNcgyRp4MZ
- GYF7GF4CBN8bPZhXxFNCe+VbU1PQLjuUuVk2uzeeJ7uVZ0AzA4pL3V51zZ1/qrVXO/wH3GrzUo
- A3k=
-From: "Hamza, Muhammad" <Muhammad_Hamza@mentor.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Jacob Kroon
-	<jacob.kroon@gmail.com>
-CC: "Larson, Chris" <Chris_Larson@mentor.com>
-Subject: RE: [OE-core] [PATCH v1] glibc-locale: work around
- host-user-contaminated QA failure
-Thread-Topic: [OE-core] [PATCH v1] glibc-locale: work around
- host-user-contaminated QA failure
-Thread-Index: AQHYgUWWudwAgtrgPUeXx7s4CxMVWK1Rws6AgAAx8UA=
-Date: Thu, 16 Jun 2022 12:23:36 +0000
-Message-ID: <6ea7c38b8eba4df88666ee00a448ba7a@mentor.com>
-References: <20220616055414.42319-1-muhammad_hamza@mentor.com>
- <27226635e115be452ee7b5643860f4b53ee206b4.camel@linuxfoundation.org>
-In-Reply-To: 
- <27226635e115be452ee7b5643860f4b53ee206b4.camel@linuxfoundation.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.90]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ fWSc9rQM6yJJOEyCzC57fQpOhHloBFqNvE5hatjcaRDy6dgOp6FlNVr0ntWhOF7sW17ejvB+LR
+ MhqxwpzGuGau+LiAhSpUlCEbDwRPyY4kggmWWDRp6LoPVR7OsleXGu5btneqCqBrMsKnTyRYde
+ 8nRDQp8Dcwnz2dSaK/QLDK7OO3DsJk/UzwF3RZHNVuikZB/mbGa63XTVzk2s+Ud9VlgT5MkK9o
+ u+EA+OGthywuUqWmo6iuMxt302eC3VoOU9RgIYSgdvARCofwz+svtkTX8fZhiffQkNYK/XFB7x
+ mVk=
+From: Muhammad Hamza <muhammad_hamza@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Muhammad Hamza <muhammad_hamza@mentor.com>, Awais Belal
+	<awais_belal@mentor.com>
+Subject: [meta-oe][kirkstone][PATCH] initramfs-framework: move storage mounts
+ to actual rootfs
+Date: Thu, 16 Jun 2022 17:45:15 +0500
+Message-ID: <20220616124515.322289-1-muhammad_hamza@mentor.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Jun 2022 12:23:53 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Jun 2022 12:45:43 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167005
+ https://lists.openembedded.org/g/openembedded-core/message/167006
 
-SGVsbG8sIG15IGJhZCwgeWVzIHRoZXNlIGNoYW5nZXMgYXJlIG9uIHNvbWUgb2xkZXIgYnJhbmNo
-IGFuZCBkb24ndCBuZWVkIHVwc3RyZWFtLg0KDQpUaGFua3MsDQpIYW16YQ0KDQotLS0tLU9yaWdp
-bmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxp
-bnV4Zm91bmRhdGlvbi5vcmc+IA0KU2VudDogVGh1cnNkYXksIEp1bmUgMTYsIDIwMjIgMzoyMyBQ
-TQ0KVG86IEhhbXphLCBNdWhhbW1hZCA8TXVoYW1tYWRfSGFtemFAbWVudG9yLmNvbT47IG9wZW5l
-bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCkNjOiBMYXJzb24sIENocmlzIDxD
-aHJpc19MYXJzb25AbWVudG9yLmNvbT4NClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIHYx
-XSBnbGliYy1sb2NhbGU6IHdvcmsgYXJvdW5kIGhvc3QtdXNlci1jb250YW1pbmF0ZWQgUUEgZmFp
-bHVyZQ0KDQpPbiBUaHUsIDIwMjItMDYtMTYgYXQgMTA6NTQgKzA1MDAsIE11aGFtbWFkIEhhbXph
-IHdyb3RlOg0KPiBXb3JrIGFyb3VuZCBsb25nIHN0YW5kaW5nIHBlcmlvZGljIGhvc3QtdXNlci1j
-b250YW1pbmF0ZWQgUUEgZmFpbHVyZSANCj4gYnkgZXhwbGljaXRseSBjb3JyZWN0aW5nIHRoZSBv
-d25lcnNoaXAuDQo+IA0KPiBTZWUgYGdsaWJjLWxvY2FsZTogUmV3cml0ZSBkb19pbnN0YWxsIHVz
-aW5nIGluc3RhbGwgdXRpbGl0eSBpbnN0ZWFkIG9mIA0KPiBjcGAgb24gdGhlIG9lLWNvcmUgbWFp
-bGluZyBsaXN0IGZvciBkaXNjdXNzaW9uLiBUaGlzIHNob3VsZCBiZSBkcm9wcGVkIA0KPiB3aGVu
-IGEgcmVhbCBmaXggaXMgaW1wbGVtZW50ZWQuDQo+IA0KPiBFeHBsaWNpdGx5IGRpc2FibGUgaG9z
-dC11c2VyLWNvbnRhbWluYXRlZCB0byBmdXJ0aGVyIHdvcmsgYXJvdW5kIHRoZSANCj4gcHNldWRv
-IGJ1Zy4gV2l0aCBwc2V1ZG8gYWN0aW5nIHVwLCBldmVuIGlmIHRoZSBvd25lcnNoaXAgaXMgY29y
-cmVjdCwgDQo+IGl0IG1heSB3ZWxsIHRoaW5rIGl0IGlzIG5vdCwgc28ganVzdCBzaWRlc3RlcCB0
-aGUgaXNzdWUgdW50aWwgdXBzdHJlYW0gDQo+IGZpeGVzIHRoZSByb290IGNhdXNlLg0KPiANCj4g
-U2lnbmVkLW9mZi1ieTogQ2hyaXN0b3BoZXIgTGFyc29uIDxjaHJpc19sYXJzb25AbWVudG9yLmNv
-bT4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IE11aGFtbWFkIEhhbXphIDxtdWhhbW1hZF9oYW16YUBt
-ZW50b3IuY29tPg0KPiAtLS0NCj4gIG1ldGEvcmVjaXBlcy1jb3JlL2dsaWJjL2dsaWJjLWxvY2Fs
-ZS5pbmMgfCAxNyArKysrKysrKysrKysrKysrKw0KPiAgMSBmaWxlIGNoYW5nZWQsIDE3IGluc2Vy
-dGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9nbGliYy9nbGli
-Yy1sb2NhbGUuaW5jIA0KPiBiL21ldGEvcmVjaXBlcy1jb3JlL2dsaWJjL2dsaWJjLWxvY2FsZS5p
-bmMNCj4gaW5kZXggYjhkZTdkMzE5Mi4uMzRjMTc4MjY4YiAxMDA2NDQNCj4gLS0tIGEvbWV0YS9y
-ZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmMtbG9jYWxlLmluYw0KPiArKysgYi9tZXRhL3JlY2lwZXMt
-Y29yZS9nbGliYy9nbGliYy1sb2NhbGUuaW5jDQo+IEBAIC02OSw2ICs2OSwyMyBAQCBGSUxFUzps
-b2NhbGVkZWYgPSAiJHtiaW5kaXJ9L2xvY2FsZWRlZiINCj4gIA0KPiAgTE9DQUxFVFJFRVNSQyA9
-ICIke0NPTVBPTkVOVFNfRElSfS8ke1BBQ0tBR0VfQVJDSH0vZ2xpYmMtc3Rhc2gtbG9jYWxlIg0K
-PiAgDQo+ICsjIFdvcmsgYXJvdW5kIGxvbmcgc3RhbmRpbmcgcGVyaW9kaWMgaG9zdC11c2VyLWNv
-bnRhbWluYXRlZCBRQSANCj4gK2ZhaWx1cmUgYnkgIyBleHBsaWNpdGx5IGNvcnJlY3RpbmcgdGhl
-IG93bmVyc2hpcC4NCj4gKyMNCj4gKyMgU2VlIGBnbGliYy1sb2NhbGU6IFJld3JpdGUgZG9faW5z
-dGFsbCB1c2luZyBpbnN0YWxsIHV0aWxpdHkgaW5zdGVhZCANCj4gK29mIGNwYCAjIG9uIHRoZSBv
-ZS1jb3JlIG1haWxpbmcgbGlzdCBmb3IgZGlzY3Vzc2lvbi4gVGhpcyBzaG91bGQgYmUgDQo+ICtk
-cm9wcGVkIHdoZW4gIyBhIHJlYWwgZml4IGlzIGltcGxlbWVudGVkLg0KPiArDQo+ICtkb19wcmVw
-X2xvY2FsZV90cmVlX2FwcGVuZCAoKSB7DQo+ICsJY2hvd24gLVIgcm9vdDpyb290ICR0cmVlZGly
-DQo+ICt9DQo+ICsNCj4gKyMgRXhwbGljaXRseSBkaXNhYmxlIGhvc3QtdXNlci1jb250YW1pbmF0
-ZWQgdG8gZnVydGhlciB3b3JrIGFyb3VuZCANCj4gK3RoZSAjIHBzZXVkbyBidWcuIFdpdGggcHNl
-dWRvIGFjdGluZyB1cCwgZXZlbiBpZiB0aGUgb3duZXJzaGlwIGlzIA0KPiArY29ycmVjdCwgIyBp
-dCBtYXkgd2VsbCB0aGluayBpdCBpcyBub3QsIHNvIGp1c3Qgc2lkZXN0ZXAgdGhlIGlzc3VlIA0K
-PiArdW50aWwgdXBzdHJlYW0gIyBmaXhlcyB0aGUgcm9vdCBjYXVzZS4NCj4gK0VSUk9SX1FBX3Jl
-bW92ZSA9ICJob3N0LXVzZXItY29udGFtaW5hdGVkIg0KPiArDQo+ICBjb3B5X2xvY2FsZV9maWxl
-cygpIHsNCj4gIAlsb2NhbCBkaXI9JDEgbW9kZT0kMg0KDQpBdCBhIHF1aWNrIHNlYXJjaCBJIGNv
-dWxkbid0IGZpbmQgdGhlIGVtYWlsIHlvdSByZWZlcmVuY2Ugc28gaXQgcHJvYmFibHkgaXNuJ3Qg
-cmVjZW50LiBBcyBKYWNvYiBtZW50aW9ucywgdGhpcyBzeW50YXggaXMgaW52YWxpZCBmb3IgbWFz
-dGVyLg0KDQpXYXMgdGhpcyBub3QgZml4ZWQgcHJvcGVybHkgYnkgc29tZXRoaW5nIGxpa2U6DQoN
-Cmh0dHBzOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvcG9reS9jb21taXQvP2lkPTJlNzVjMDg0ZjJj
-ZmU3NjE3ZGUzYjlhNGIwMDZjYWEzZmVlNjg3YTYNCg0KPw0KDQpXZSdyZSBkZWZpbml0ZWx5IG5v
-dCB0YWtpbmcgdGhpcyB3aXRob3V0IG1vcmUgZGV0YWlscyBvbiB3aGF0IGlzIGdvaW5nIG9uIGFu
-ZCBhIGNvcnJlY3QgcGF0Y2ggYXMgdGhpcyBsb29rcyBsaWtlIGEgd29ya2Fyb3VuZC4NCg0KQ2hl
-ZXJzLA0KDQpSaWNoYXJkDQoNCg==
+Operations such as mkfs fail on devices that are not
+switched to the actual rootfs before switch_root is
+called. The kernel interprets these devices as still
+being used even after unmounting and errors such as
+below are seen when the target is fully booted
+
+root@v1000:~# umount /dev/sdb1
+root@v1000:~# mkfs.ext4 /dev/sdb1
+mke2fs 1.43.8 (1-Jan-2018)
+/dev/sdb1 contains a ext4 file system
+        last mounted on Wed Nov 28 07:33:54 2018
+Proceed anyway? (y,N) y
+/dev/sdb1 is apparently in use by the system; will not make a filesystem here!
+
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
+Signed-off-by: Muhammad Hamza <muhammad_hamza@mentor.com>
+---
+ .../initrdscripts/initramfs-framework/finish             | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/finish b/meta/recipes-core/initrdscripts/initramfs-framework/finish
+index f08a920867..ac0de9f996 100755
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/finish
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/finish
+@@ -26,6 +26,15 @@ finish_run() {
+ 
+ 		info "Switching root to '$ROOTFS_DIR'..."
+ 
++		debug "Moving basic mounts onto rootfs"
++		for dir in `awk '/\/dev.* \/run\/media/{print $2}' /proc/mounts`; do
++			# Parse any OCT or HEX encoded chars such as spaces
++			# in the mount points to actual ASCII chars
++			dir=`printf $dir`
++			mkdir -p "${ROOTFS_DIR}/media/${dir##*/}"
++			mount -n --move "$dir" "${ROOTFS_DIR}/media/${dir##*/}"
++		done
++
+ 		debug "Moving /dev, /proc and /sys onto rootfs..."
+ 		mount --move /dev $ROOTFS_DIR/dev
+ 		mount --move /proc $ROOTFS_DIR/proc
+-- 
+2.25.1
+
 
