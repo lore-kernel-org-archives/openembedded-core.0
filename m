@@ -1,97 +1,170 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 597A2C433EF
-	for <webhook@archiver.kernel.org>; Wed, 15 Jun 2022 22:16:29 +0000 (UTC)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web08.10965.1655331387307453880
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 438ECC43334
+	for <webhook@archiver.kernel.org>; Thu, 16 Jun 2022 01:36:40 +0000 (UTC)
+Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
+ [195.245.230.65])
+ by mx.groups.io with SMTP id smtpd.web10.12861.1655343396893460987
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jun 2022 15:16:28 -0700
+ Wed, 15 Jun 2022 18:36:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com
- header.s=axis-central1 header.b=O1g7wclg;
- spf=pass (domain: axis.com, ip: 195.60.68.17,
- mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1655331387;
-  x=1686867387;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=6oNYaaDvQ6vIx1VnyUximyYkWbgUZI4cyJQjgHcuQXE=;
-  b=O1g7wclgymeRWvwohMBRv1WIqWeDSJ8KosVgNRpZJGT3y+W+jVnHv+nf
-   dtIHRARh+Fv06Xl7OvxlYvBf9kt//19hBQ2diR+s76TqJxmepD6QgWxya
-   D5x4lgDSAFdIyTi8rNaeUJFJUCB29Bo8PmYZJ7XvY9s+axqiihogNVy9a
-   Fo0k0ecoMXkPbaP6+u2OQwEWSMEa7KkOdDnBS1vzNLuQ0leHvUzTCZa91
-   Q4AXpZ5iGYQZMNBc8XZcOHcgklPMXcU5NCxCC+LVup10wtlGLVuOBG/vX
-   4LsJzXJDkqzVmC7Tu3z5O/Uy0BP9XvYju0Hrr5R8XnwgoExKCasPoTymL
-   Q==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Paulo Neves <ptsneves@gmail.com>, Ross Burton <ross.burton@arm.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH v5 6/7] utils: Add cmdline_shebang_wrapper util.
-Thread-Topic: [OE-core] [PATCH v5 6/7] utils: Add cmdline_shebang_wrapper
- util.
-Thread-Index: AQHYgAEgmvIMChnlb0K8t25B7RTSVK1QKloAgABBbOD///BwAIAArdzQ
-Date: Wed, 15 Jun 2022 22:16:24 +0000
-Message-ID: <56b00048627840569c7c5fc5ca567443@axis.com>
-References: <20220606155807.1414519-1-ptsneves@gmail.com>
- <20220614151105.1890454-1-ptsneves@gmail.com>
- <20220614151105.1890454-6-ptsneves@gmail.com>
- <282753D0-6BC9-4B2F-B73C-313D10232BF0@arm.com>
- <a166fa72b7434e498cb4ef4f395045e1@axis.com>
- <635fe97c-6a4f-1e8c-35c8-337fbe8e7b38@gmail.com>
-In-Reply-To: <635fe97c-6a4f-1e8c-35c8-337fbe8e7b38@gmail.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=HwjkA5tK;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.65,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1655343394; i=@fujitsu.com;
+	bh=ET4UKfK/75NBpQZYUzos4SeyDcfgz9ruuMf+7NmeCpY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=HwjkA5tKPqHEfys4XHWfu7TN9J2IFJQ8J/TBcZC8+HHgw15jFv785+gtXlc2/eGcN
+	 8wcsKCf9BXOwqocU8R3sR76YLBPlWKH17ZQcztV5Xi42XBoi+K618cyoOCIl8D1Ohh
+	 Eq/kic5zrIjn5DdVtDTGKGn4nm7N7bfvQEJcSJZ7JOw+Wk/8SIsWqr5//hRAy+pbQy
+	 U3oRQfuL+VxRmyb4u8BMgBQh1KflN1QhoX0OlZV0zqOa/ZyO4679DyOVbZwlWN10Gv
+	 4X9DNobrIbf5zaPzLtde7l01FK/19tlR4LRK9Dnq9+kqY4MPmcLjPbTnQBgHTndohP
+	 8w7L+CRoEbSLw==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrAIsWRWlGSWpSXmKPExsViZ8MxSVexc1W
+  SwdRedYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPHjmnsBW+lK3p37WBqYHwn0cXIxSEk8JhR
+  ouv4TUYI5zyTxOnp81ggnD2MEnOvHADKcHKwCahJTL91g7WLkYNDREBP4uo/UZAws4CKxIvfP
+  ewgtrCAq8Tp+9eYQWwWAVWJjZevMYHYvAJOEjt/fwCrkRBQkJjy8D0zRFxQ4uTMJywQcyQkDr
+  54wQxRoygx+3IzC4RdITFjxjY2CFtN4uq5TcwTGPlnIWmfhaR9ASPTKkarpKLM9IyS3MTMHF1
+  DAwNdQ0NTXSBpZKyXWKWbqJdaqlueWlyia6iXWF6sl1pcrFdcmZuck6KXl1qyiREYlCnFDNU7
+  GP/3/tQ7xCjJwaQkyvuLZ1WSEF9SfkplRmJxRnxRaU5q8SFGGQ4OJQneHe1AOcGi1PTUirTMH
+  GCEwKQlOHiURHhPtAGleYsLEnOLM9MhUqcY7Tk+HLqyl5lj6ux/+5k5loPJmV/bDjALseTl56
+  VKifNuAJkqANKWUZoHNxQW0ZcYZaWEeRkZGBiEeApSi3IzS1DlXzGKczAqCfOeqQSawpOZVwK
+  3+xXQWUxAZzXuWwFyVkkiQkqqgWnu7JAb0rzl0d92HXE976U/0eWZ6vcKpr0vI5xXm7ifUE57
+  OqPszI+Y1Re33Ga1jXVg/P295O3x4GephyfxxdTx1XtNmLM1d/oXOXVRh+6YLV4mSuJZtbXhH
+  ir1ycJGK07z9l2/e+3GHBvhXx1pRrJSFVNt846UP3WN7ZghwRm6jCGir+0z785ZVbKaskHvmT
+  psP9X2z7n26OoO2RcvI3e4fi9yYDR21Rd8E2mp2cp47eHXSUleTzQuHV1kMn89G1fXy5PHyiq
+  7eTfPdOL5Z7tztdj1iRx5R29k5Mh9LGSNe+Fu+3uR+K21R3c5H7vqpZIpcbue6d8eQ87399NO
+  Lph1gVuzvvdk09s0qVNRy5VYijMSDbWYi4oTARdmU1BjAwAA
+X-Env-Sender: wangmy@fujitsu.com
+X-Msg-Ref: server-16.tower-587.messagelabs.com!1655343393!202003!1
+X-Originating-IP: [62.60.8.146]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.86.7; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 21166 invoked from network); 16 Jun 2022 01:36:33 -0000
+Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
+  by server-16.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 16 Jun 2022 01:36:33 -0000
+Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 084561000CD
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 16 Jun 2022 02:36:33 +0100 (BST)
+Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id EF203100078
+	for <openembedded-core@lists.openembedded.org>;
+ Thu, 16 Jun 2022 02:36:32 +0100 (BST)
+Received: from localhost.localdomain (10.167.225.33) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.32; Thu, 16 Jun 2022 02:36:11 +0100
+From: Wang Mingyu <wangmy@fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [PATCH] [OE-core] [PATCH v3] erofs-utils: upgrade 1.4 -> 1.5
+Date: Thu, 16 Jun 2022 09:35:54 +0800
+Message-ID: <1655343354-11954-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
+X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Jun 2022 22:16:29 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Jun 2022 01:36:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166995
+ https://lists.openembedded.org/g/openembedded-core/message/166996
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQYXVsbyBOZXZlcyA8cHRzbmV2
-ZXNAZ21haWwuY29tPg0KPiBTZW50OiBkZW4gMTUganVuaSAyMDIyIDE1OjUxDQo+IFRvOiBQZXRl
-ciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT47IFJvc3MgQnVydG9u
-DQo+IDxyb3NzLmJ1cnRvbkBhcm0uY29tPg0KPiBDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2NSA2Lzdd
-IHV0aWxzOiBBZGQgY21kbGluZV9zaGViYW5nX3dyYXBwZXINCj4gdXRpbC4NCj4gDQo+IE9uIDYv
-MTUvMjIgMTU6MTEsIFBldGVyIEtqZWxsZXJzdGVkdCB3cm90ZToNCj4gPj4gLS0tLS1PcmlnaW5h
-bCBNZXNzYWdlLS0tLS0NCj4gPj4gRnJvbTogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLQ0KPiA+PiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmc+IE9uIEJlaGFsZiBPZiBSb3NzIEJ1cnRvbg0KPiA+PiBTZW50OiBkZW4gMTUganVuaSAyMDIy
-IDEyOjUyDQo+ID4+IFRvOiBwdHNuZXZlc0BnbWFpbC5jb20NCj4gPj4gQ2M6IG9wZW5lbWJlZGRl
-ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPj4gU3ViamVjdDogUmU6IFtPRS1jb3Jl
-XSBbUEFUQ0ggdjUgNi83XSB1dGlsczogQWRkDQo+IGNtZGxpbmVfc2hlYmFuZ193cmFwcGVyDQo+
-ID4+IHV0aWwuDQo+ID4+DQo+ID4+IE9uIDE0IEp1biAyMDIyLCBhdCAxNjoxMSwgUGF1bG8gTmV2
-ZXMgdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPj4gPHB0c25ldmVzPWdtYWlsLmNvbUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3cm90ZToNCj4gPj4+ICtjcmVhdGVfY21kbGluZV9zaGVi
-YW5nX3dyYXBwZXIgKCkgew0KPiA+PiBUaGUgaW5kZW50YXRpb24gaW4gdGhpcyBmdW5jdGlvbiBp
-cyBhIG1peCBvZiB0YWJzIGFuZCBzcGFjZXMsIHBsZWFzZQ0KPiA+PiB1bmlmeS4NCj4gPj4NCj4g
-Pj4+ICsgIGFyZ3VtZW50PSIkKGJhc2VuYW1lICIkKGhlYWQgLW4xICRjbWQgfCBzZWQgLWUgJ3N8
-IyFbIF0qfHxnJyAp4oCdKeKAnQ0KPiA+PiBbIF0qIHNlZW1zIG92ZXJseSwgY29tcGxleCwgbm8g
-bmVlZCBmb3IgdGhlIGJyYWNrZXRzLiBJ4oCZZCBhbmNob3IgdG8gdGhlDQo+ID4+IGJlZ2lubmlu
-ZyBvZiB0aGUgbGluZSwgYW5kIHJlbW92ZSB0aGUgZyBhcyB0aGVyZeKAmXMgb25seSBvbmUgZXhw
-ZWN0ZWQuDQo+ID4gVGhpcyBzaG91bGQgd29yazoNCj4gPg0KPiA+IGFyZ3VtZW50PSQoYmFzZW5h
-bWUgIiQoc2VkIC1uZSAncy9eIyEgKi8vcDtxJykiICRjbWQpDQo+ID4NCj4gPiBIb3dldmVyLCBp
-ZiB0aGUgZmlyc3QgbGluZSBpcyBzb21ldGhpbmcgbGlrZSAiIyEvdXNyL2Jpbi9lbnYgcHl0aG9u
-MyIsIHRoZW4NCj4gPiAkYXJndW1lbnQgd2lsbCBiZSAiZW52IHB5dGhvbjMiIGFuZCBzb21laG93
-IEkgYXNzdW1lIHRoYXQgaXMgbm90IGV4YWN0bHkNCj4gPiB3aGF0IHRoZSByZXN0IG9mIHRoZSBj
-b2RlIGV4cGVjdHMuDQo+IA0KPiBUaGUgdXNlIGNhc2UgaXMgdGhhdCB3aGF0ZXZlciBpcyBpbiBz
-aGViYW5nIHNob3VsZCBiZSBleHRyYWN0ZWQgYW5kIHJhbg0KPiB2ZXJiYXRpbSwgc28gdHJ1bmNh
-dGluZyBsaWtlIHlvdXIgc3VnZ2VzdGlvbiBjYW4gd29yayBidXQgaGFzIHNsaWdodGx5DQo+IGRp
-ZmZlcmVudCBzZW1hbnRpYy4NCg0KVW1tLCBteSBzdWdnZXN0ZWQgbGluZSBhYm92ZSBzaG91bGQg
-Z2l2ZSBleGFjdGx5IHRoZSBzYW1lIG91dHB1dCBhcyB5b3VycywgDQpvbmx5IHdpdGggZmV3ZXIg
-Y29tbWFuZHMuLi4NCg0KPiA+PiBNaWdodCBhbHNvIGJlIHdpc2UgdG8gYXNzZXJ0IHRoYXQgeW91
-IGZvdW5kIHNvbWV0aGluZyBoZXJlLCBzbyBydW5uaW5nDQo+ID4+IHRoaXMgb24gYW4gRUxGIGZh
-aWxzIHdpdGggYW4gb2J2aW91cyBlcnJvci4NCj4gPj4NCj4gPj4gUm9zcw0KPiA+IC8vUGV0ZXIN
-Cj4gPg0KPiBQYXVsbyBOZXZlcw0KDQovL1BldGVyDQoNCg==
+0001-fsck-main.c-add-missing-include.patch
+removed since it's included in 1.5.
+
+License-Update: license switch to GPL-2.0+ OR Apache-2.0
+                for better 3rd-party integration.
+
+Changelog:
+==========
+* This release includes the following updates:
+   - (fsck.erofs) support filesystem extraction (Igor Ostapenko);
+   - support ztailpacking inline feature for compressed files (Yue Hu);
+   - (dump.erofs) support listing directories;
+   - more liberofs APIs (including iterate APIs) (me, Kelvin Zhang);
+   - use mtime to allow more control over the timestamps (David Anderson);
+   - switch to GPL-2.0+ OR Apache-2.0 dual license for liberofs;
+   - various bugfixes and cleanups;
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ ...0001-fsck-main.c-add-missing-include.patch | 26 -------------------
+ ...{erofs-utils_1.4.bb => erofs-utils_1.5.bb} |  9 +++----
+ 2 files changed, 4 insertions(+), 31 deletions(-)
+ delete mode 100644 meta/recipes-devtools/erofs-utils/erofs-utils/0001-fsck-main.c-add-missing-include.patch
+ rename meta/recipes-devtools/erofs-utils/{erofs-utils_1.4.bb => erofs-utils_1.5.bb} (72%)
+
+diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils/0001-fsck-main.c-add-missing-include.patch b/meta/recipes-devtools/erofs-utils/erofs-utils/0001-fsck-main.c-add-missing-include.patch
+deleted file mode 100644
+index c3b3c0bd56..0000000000
+--- a/meta/recipes-devtools/erofs-utils/erofs-utils/0001-fsck-main.c-add-missing-include.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-From 821778286843b8e88d0cd73a97d20b5a2fff8ea1 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Mon, 6 Dec 2021 20:12:54 +0100
+-Subject: [PATCH] fsck/main.c: add missing include
+-
+-Otherwise musl C library builds fail with missing S_IFMT/S_IFDIR
+-definitions.
+-
+-Upstream-Status: Submitted [email to linux-erofs@lists.ozlabs.org,hsiangkao@linux.alibaba.com]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- fsck/main.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/fsck/main.c b/fsck/main.c
+-index aefa881..ad48e35 100644
+---- a/fsck/main.c
+-+++ b/fsck/main.c
+-@@ -6,6 +6,7 @@
+- #include <stdlib.h>
+- #include <getopt.h>
+- #include <time.h>
+-+#include <sys/stat.h>
+- #include "erofs/print.h"
+- #include "erofs/io.h"
+- #include "erofs/decompress.h"
+diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils_1.4.bb b/meta/recipes-devtools/erofs-utils/erofs-utils_1.5.bb
+similarity index 72%
+rename from meta/recipes-devtools/erofs-utils/erofs-utils_1.4.bb
+rename to meta/recipes-devtools/erofs-utils/erofs-utils_1.5.bb
+index e5e19e75b4..b9a97b3e53 100644
+--- a/meta/recipes-devtools/erofs-utils/erofs-utils_1.4.bb
++++ b/meta/recipes-devtools/erofs-utils/erofs-utils_1.5.bb
+@@ -1,13 +1,12 @@
+ SUMMARY = "Tools for erofs filesystems"
++# liberofs also available under Apache 2.0
+ LICENSE = "GPL-2.0-or-later"
+ SECTION = "base"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=94fa01670a2a8f2d3ab2de15004e0848"
++LIC_FILES_CHKSUM = "file://COPYING;md5=73001d804ea1e3d84365f652242cca20"
+ HOMEPAGE = "https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/tree/README"
+ 
+-SRCREV = "ee97fe5fb77c737df0f77d92ab0d92edd3a11be6"
+-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git;branch=master \
+-           file://0001-fsck-main.c-add-missing-include.patch \
+-           "
++SRCREV = "a2821a66b42aee5430bccee82c280e38d1e9ab29"
++SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git;branch=master"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>(\d+(\.\d+)+))"
+ 
+-- 
+2.25.1
+
 
