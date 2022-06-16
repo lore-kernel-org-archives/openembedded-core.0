@@ -1,169 +1,143 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 438ECC43334
-	for <webhook@archiver.kernel.org>; Thu, 16 Jun 2022 01:36:40 +0000 (UTC)
-Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
- [195.245.230.65])
- by mx.groups.io with SMTP id smtpd.web10.12861.1655343396893460987
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AFDBC433EF
+	for <webhook@archiver.kernel.org>; Thu, 16 Jun 2022 02:35:10 +0000 (UTC)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web09.13453.1655346900760193904
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Jun 2022 18:36:37 -0700
+ Wed, 15 Jun 2022 19:35:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=HwjkA5tK;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.65,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1655343394; i=@fujitsu.com;
-	bh=ET4UKfK/75NBpQZYUzos4SeyDcfgz9ruuMf+7NmeCpY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=HwjkA5tKPqHEfys4XHWfu7TN9J2IFJQ8J/TBcZC8+HHgw15jFv785+gtXlc2/eGcN
-	 8wcsKCf9BXOwqocU8R3sR76YLBPlWKH17ZQcztV5Xi42XBoi+K618cyoOCIl8D1Ohh
-	 Eq/kic5zrIjn5DdVtDTGKGn4nm7N7bfvQEJcSJZ7JOw+Wk/8SIsWqr5//hRAy+pbQy
-	 U3oRQfuL+VxRmyb4u8BMgBQh1KflN1QhoX0OlZV0zqOa/ZyO4679DyOVbZwlWN10Gv
-	 4X9DNobrIbf5zaPzLtde7l01FK/19tlR4LRK9Dnq9+kqY4MPmcLjPbTnQBgHTndohP
-	 8w7L+CRoEbSLw==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrAIsWRWlGSWpSXmKPExsViZ8MxSVexc1W
-  SwdRedYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWPHjmnsBW+lK3p37WBqYHwn0cXIxSEk8JhR
-  ouv4TUYI5zyTxOnp81ggnD2MEnOvHADKcHKwCahJTL91g7WLkYNDREBP4uo/UZAws4CKxIvfP
-  ewgtrCAq8Tp+9eYQWwWAVWJjZevMYHYvAJOEjt/fwCrkRBQkJjy8D0zRFxQ4uTMJywQcyQkDr
-  54wQxRoygx+3IzC4RdITFjxjY2CFtN4uq5TcwTGPlnIWmfhaR9ASPTKkarpKLM9IyS3MTMHF1
-  DAwNdQ0NTXSBpZKyXWKWbqJdaqlueWlyia6iXWF6sl1pcrFdcmZuck6KXl1qyiREYlCnFDNU7
-  GP/3/tQ7xCjJwaQkyvuLZ1WSEF9SfkplRmJxRnxRaU5q8SFGGQ4OJQneHe1AOcGi1PTUirTMH
-  GCEwKQlOHiURHhPtAGleYsLEnOLM9MhUqcY7Tk+HLqyl5lj6ux/+5k5loPJmV/bDjALseTl56
-  VKifNuAJkqANKWUZoHNxQW0ZcYZaWEeRkZGBiEeApSi3IzS1DlXzGKczAqCfOeqQSawpOZVwK
-  3+xXQWUxAZzXuWwFyVkkiQkqqgWnu7JAb0rzl0d92HXE976U/0eWZ6vcKpr0vI5xXm7ifUE57
-  OqPszI+Y1Re33Ga1jXVg/P295O3x4GephyfxxdTx1XtNmLM1d/oXOXVRh+6YLV4mSuJZtbXhH
-  ir1ycJGK07z9l2/e+3GHBvhXx1pRrJSFVNt846UP3WN7ZghwRm6jCGir+0z785ZVbKaskHvmT
-  psP9X2z7n26OoO2RcvI3e4fi9yYDR21Rd8E2mp2cp47eHXSUleTzQuHV1kMn89G1fXy5PHyiq
-  7eTfPdOL5Z7tztdj1iRx5R29k5Mh9LGSNe+Fu+3uR+K21R3c5H7vqpZIpcbue6d8eQ87399NO
-  Lph1gVuzvvdk09s0qVNRy5VYijMSDbWYi4oTARdmU1BjAwAA
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-16.tower-587.messagelabs.com!1655343393!202003!1
-X-Originating-IP: [62.60.8.146]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.86.7; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 21166 invoked from network); 16 Jun 2022 01:36:33 -0000
-Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-16.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 16 Jun 2022 01:36:33 -0000
-Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 084561000CD
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jun 2022 02:36:33 +0100 (BST)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id EF203100078
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jun 2022 02:36:32 +0100 (BST)
-Received: from localhost.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Thu, 16 Jun 2022 02:36:11 +0100
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [PATCH] [OE-core] [PATCH v3] erofs-utils: upgrade 1.4 -> 1.5
-Date: Thu, 16 Jun 2022 09:35:54 +0800
-Message-ID: <1655343354-11954-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=58Qf/zdr;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.169,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f169.google.com with SMTP id w29so9310pgl.8
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 15 Jun 2022 19:35:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1PgQUsBDtrUpBq10yhvQkrleDn24uPFy5FRxpmubCAs=;
+        b=58Qf/zdr7wOl3ZN+f0igLEZGa2xen2QotrcrosMt66j/eTipxRAxGnL21Obq+jCRjV
+         qgG72WswPZs3NzjBsBoTBaSTKxJZbRylXX6thsE2lVj4bA1Ebbpvw7O7xpRzpHToq1X4
+         mAcfeyoLGXbAesr2fZ8gXEhX46KsVFzaNV91svZff5fOqBJnigwMP9lyHfGqTjARL8Ys
+         jAhQn7zXdIBjbeP3STIH3O4opvcyHwFHupAX46oZShdLSClBfzuct4u+SMHoxiGgMGJd
+         C5iQFspsYAA9XgzF87HJx3GTcGGHENasQ2QvyH5H1h78YOsKXartmID+4/9RuVD66Cuz
+         IhYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1PgQUsBDtrUpBq10yhvQkrleDn24uPFy5FRxpmubCAs=;
+        b=bBMBbAjrb30V6qjHD7HYFsAiu2J2jmxq+o3upRjR8YN529jmfLVa3TDCvmkQcZGJUn
+         fkgtRDlXJs+Q+wkMgqjHqxIH5gXxT9N1Zz8gHUmNdKUQqKEZ+kkstuNMq1KpwZVFDM+x
+         ewH2Wijfjh3PuUyy3CjRJpTR10v4DkWEKM+llouNIWaBht7vthcCQrSi+Qo/devsUXVm
+         qOH6YXuW3FlaPA9sp4pIHHSaDs5DI0uS3/kGLe2DNMQ6qSDXCOC0yGcbfvagy2L0R+Gt
+         Sk1Pv6EcfLBvR2a56+JmYcQi+femr4fuSfTOwtNGw7MpspdX18IDw6ffbbEX4y0Aivwt
+         SkrA==
+X-Gm-Message-State: AJIora+LGJgIrIQ5d9r9bUeub1pfzZwRyTCaZ7jvlVY2ffNOUGu9quRG
+	4I/jV/hsaYJIRDW0rDz6mO4N/p0gzq9ciECr
+X-Google-Smtp-Source: 
+ AGRyM1ujxGs9ipe8DWpdfUMCCR97kNLU9bb4DhGxMGfX6X/9YPyDj0lq+kjrdIe0BB4VU27gO99ETg==
+X-Received: by 2002:a63:5906:0:b0:401:9ade:d138 with SMTP id
+ n6-20020a635906000000b004019aded138mr2473742pgb.520.1655346899516;
+        Wed, 15 Jun 2022 19:34:59 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id
+ p11-20020a170903248b00b001618b70dcc9sm341779plw.101.2022.06.15.19.34.58
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jun 2022 19:34:58 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 00/20] Pull request (cover letter only)
+Date: Wed, 15 Jun 2022 16:34:47 -1000
+Message-Id: <cover.1655346792.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Jun 2022 01:36:40 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Jun 2022 02:35:10 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/166996
+ https://lists.openembedded.org/g/openembedded-core/message/166998
 
-0001-fsck-main.c-add-missing-include.patch
-removed since it's included in 1.5.
+The following changes since commit 6ade2bfdd9297896b9f251dd62f55e461fef1a3e:
 
-License-Update: license switch to GPL-2.0+ OR Apache-2.0
-                for better 3rd-party integration.
+  rootfs.py: find .ko.zst kernel modules (2022-06-06 05:32:51 -1000)
 
-Changelog:
-==========
-* This release includes the following updates:
-   - (fsck.erofs) support filesystem extraction (Igor Ostapenko);
-   - support ztailpacking inline feature for compressed files (Yue Hu);
-   - (dump.erofs) support listing directories;
-   - more liberofs APIs (including iterate APIs) (me, Kelvin Zhang);
-   - use mtime to allow more control over the timestamps (David Anderson);
-   - switch to GPL-2.0+ OR Apache-2.0 dual license for liberofs;
-   - various bugfixes and cleanups;
+are available in the Git repository at:
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- ...0001-fsck-main.c-add-missing-include.patch | 26 -------------------
- ...{erofs-utils_1.4.bb => erofs-utils_1.5.bb} |  9 +++----
- 2 files changed, 4 insertions(+), 31 deletions(-)
- delete mode 100644 meta/recipes-devtools/erofs-utils/erofs-utils/0001-fsck-main.c-add-missing-include.patch
- rename meta/recipes-devtools/erofs-utils/{erofs-utils_1.4.bb => erofs-utils_1.5.bb} (72%)
+  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-next
 
-diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils/0001-fsck-main.c-add-missing-include.patch b/meta/recipes-devtools/erofs-utils/erofs-utils/0001-fsck-main.c-add-missing-include.patch
-deleted file mode 100644
-index c3b3c0bd56..0000000000
---- a/meta/recipes-devtools/erofs-utils/erofs-utils/0001-fsck-main.c-add-missing-include.patch
-+++ /dev/null
-@@ -1,26 +0,0 @@
--From 821778286843b8e88d0cd73a97d20b5a2fff8ea1 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Mon, 6 Dec 2021 20:12:54 +0100
--Subject: [PATCH] fsck/main.c: add missing include
--
--Otherwise musl C library builds fail with missing S_IFMT/S_IFDIR
--definitions.
--
--Upstream-Status: Submitted [email to linux-erofs@lists.ozlabs.org,hsiangkao@linux.alibaba.com]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- fsck/main.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/fsck/main.c b/fsck/main.c
--index aefa881..ad48e35 100644
----- a/fsck/main.c
--+++ b/fsck/main.c
--@@ -6,6 +6,7 @@
-- #include <stdlib.h>
-- #include <getopt.h>
-- #include <time.h>
--+#include <sys/stat.h>
-- #include "erofs/print.h"
-- #include "erofs/io.h"
-- #include "erofs/decompress.h"
-diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils_1.4.bb b/meta/recipes-devtools/erofs-utils/erofs-utils_1.5.bb
-similarity index 72%
-rename from meta/recipes-devtools/erofs-utils/erofs-utils_1.4.bb
-rename to meta/recipes-devtools/erofs-utils/erofs-utils_1.5.bb
-index e5e19e75b4..b9a97b3e53 100644
---- a/meta/recipes-devtools/erofs-utils/erofs-utils_1.4.bb
-+++ b/meta/recipes-devtools/erofs-utils/erofs-utils_1.5.bb
-@@ -1,13 +1,12 @@
- SUMMARY = "Tools for erofs filesystems"
-+# liberofs also available under Apache 2.0
- LICENSE = "GPL-2.0-or-later"
- SECTION = "base"
--LIC_FILES_CHKSUM = "file://COPYING;md5=94fa01670a2a8f2d3ab2de15004e0848"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=73001d804ea1e3d84365f652242cca20"
- HOMEPAGE = "https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/tree/README"
- 
--SRCREV = "ee97fe5fb77c737df0f77d92ab0d92edd3a11be6"
--SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git;branch=master \
--           file://0001-fsck-main.c-add-missing-include.patch \
--           "
-+SRCREV = "a2821a66b42aee5430bccee82c280e38d1e9ab29"
-+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git;branch=master"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>(\d+(\.\d+)+))"
- 
+Bruce Ashfield (8):
+  linux-yocto/5.15: bpf: explicitly disable unpriv eBPF by default
+  linux-yocto/5.15: update to v5.15.43
+  linux-yocto/5.10: update to v5.10.118
+  linux-yocto/5.15: Enable MDIO bus config
+  linux-yocto/5.15: cfg/xen: Move x86 configs to separate file
+  linux-yocto/5.15: update to v5.15.44
+  linux-yocto/5.10: update to v5.10.119
+  lttng-modules: fix build against 5.18-rc7+
+
+Davide Gardenal (1):
+  baremetal-image: fix broken symlink in do_rootfs
+
+He Zhe (1):
+  lttng-modules: Fix build failure for 5.10.119+ and 5.15.44+ kernel
+
+Jiaqing Zhao (1):
+  systemd: Correct 0001-pass-correct-parameters-to-getdents64.patch
+
+Martin Jansa (3):
+  lttng-modules: fix shell syntax
+  buildhistory.bbclass: fix shell syntax when using dash
+  rootfs.py: close kernel_abi_ver_file
+
+Pavel Zhukov (1):
+  bitbake.conf: Make TCLIBC and TCMODE lazy assigned
+
+Richard Purdie (3):
+  sanity: Switch to make 4.0 as a minimum version
+  perl: Add dependency on make-native to avoid race issues
+  glibc: Drop make-native dependency
+
+wangmy (2):
+  iso-codes: upgrade 4.9.0 -> 4.10.0
+  lttng-ust: upgrade 2.13.2 -> 2.13.3
+
+ meta/classes/baremetal-image.bbclass          |  7 ++-
+ meta/classes/buildhistory.bbclass             |  2 +-
+ meta/classes/sanity.bbclass                   | 30 +---------
+ meta/conf/bitbake.conf                        |  4 +-
+ meta/lib/oe/rootfs.py                         |  4 +-
+ meta/recipes-core/glibc/glibc_2.35.bb         |  2 +-
+ ...ass-correct-parameters-to-getdents64.patch | 13 ++--
+ meta/recipes-devtools/perl/perl_5.34.1.bb     |  2 +
+ .../linux/linux-yocto-rt_5.10.bb              |  6 +-
+ .../linux/linux-yocto-rt_5.15.bb              |  6 +-
+ .../linux/linux-yocto-tiny_5.10.bb            |  8 +--
+ .../linux/linux-yocto-tiny_5.15.bb            |  6 +-
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 ++++----
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 ++++----
+ ...emove-unused-tracepoints-v5.10-v5.15.patch | 44 ++++++++++++++
+ ...g-Append-prev_state-to-tp-args-inste.patch | 59 +++++++++++++++++++
+ .../lttng/lttng-modules_2.13.3.bb             |  2 +
+ ...ttng-ust_2.13.2.bb => lttng-ust_2.13.3.bb} |  2 +-
+ ...iso-codes_4.9.0.bb => iso-codes_4.10.0.bb} |  2 +-
+ 19 files changed, 169 insertions(+), 80 deletions(-)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-random-remove-unused-tracepoints-v5.10-v5.15.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-sched-tracing-Append-prev_state-to-tp-args-inste.patch
+ rename meta/recipes-kernel/lttng/{lttng-ust_2.13.2.bb => lttng-ust_2.13.3.bb} (95%)
+ rename meta/recipes-support/iso-codes/{iso-codes_4.9.0.bb => iso-codes_4.10.0.bb} (94%)
+
 -- 
 2.25.1
 
