@@ -2,109 +2,84 @@ Return-Path: <Muhammad_Hamza@mentor.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D93AC433EF
-	for <webhook@archiver.kernel.org>; Fri, 17 Jun 2022 05:47:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83ED6C433EF
+	for <webhook@archiver.kernel.org>; Fri, 17 Jun 2022 05:50:48 +0000 (UTC)
 Received: from esa3.mentor.iphmx.com (esa3.mentor.iphmx.com [68.232.137.180])
- by mx.groups.io with SMTP id smtpd.web10.27346.1655444870906158280
+ by mx.groups.io with SMTP id smtpd.web10.27359.1655445039295440792
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jun 2022 22:47:51 -0700
+ Thu, 16 Jun 2022 22:50:39 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=pass (domain: mentor.com, ip: 68.232.137.180, mailfrom: muhammad_hamza@mentor.com)
 X-IronPort-AV: E=Sophos;i="5.92,306,1650960000";
-   d="scan'208";a="77309161"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa3.mentor.iphmx.com with ESMTP; 16 Jun 2022 21:47:51 -0800
+   d="scan'208";a="77309221"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa3.mentor.iphmx.com with ESMTP; 16 Jun 2022 21:50:38 -0800
 IronPort-SDR: 
- o75VRxn6/MqW5MymwfcyqXB7lySSqpzxjSMIffEbGN5CXIrcOotMj6kMOTk59y+NdX/WzyHSKe
- /m6AOazFcMTAlpteKfhsV6aNRdrEYW+ifQj4qfQQ/y5CaT5+VsAFFMxmqJodtGmKTpaM1mcXMh
- 2WN3j7lhdElOzTwgYEped8AbQE2eSCgLzzHokni5xz1kn2lGrET0z59wCuUrVbaYp9fINCheiL
- 3pfjkjFKvMePFU/CDjD3e2mcJHDwo5qvRlpneGnlKO75RA4R2RHYjuh+425Gz0nO/gE5IXmHv+
- cEI=
-From: "Hamza, Muhammad" <Muhammad_Hamza@mentor.com>
-To: Steve Sakoman <steve@sakoman.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [meta-oe][kirkstone][PATCH] initramfs-framework: move
- storage mounts to actual rootfs
-Thread-Topic: [OE-core] [meta-oe][kirkstone][PATCH] initramfs-framework: move
- storage mounts to actual rootfs
-Thread-Index: AQHYgX72GD93KNKaUUi/Seq3PoPnsq1SMMGAgADnt3A=
-Date: Fri, 17 Jun 2022 05:47:45 +0000
-Message-ID: <58b8a4a34eb741568f98b7268709d331@mentor.com>
-References: <20220616124515.322289-1-muhammad_hamza@mentor.com>
- <CAOSpxdbJpKLD54OW=7gZ2uujqJ-7pmJnTM83QgQY7=ww2s_jZw@mail.gmail.com>
-In-Reply-To: 
- <CAOSpxdbJpKLD54OW=7gZ2uujqJ-7pmJnTM83QgQY7=ww2s_jZw@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.90]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ KNVQjJm3EKAoMpuLjZ8f/RcBCGCTEzGlPee3+Oj9cmJgiJUFEZTx7n4Ksj+GgKBBkPq1CQOMB2
+ IbteDVr7eSFN2qK9hCo6Rpo81EkEYa83Cw9/KASQ360SWLozaixLRZIeRVe9fDt9mK2zH3ot1J
+ TEdVaIE2JeukqIijFI1wU49B4VRP85sRxRvlkWu94IMoFIixTxyo9Xn+l59AeYL4StrzqQ2JwR
+ 3xR9Iym4d3xz0DQNjrWT3odqQLnhyrI82kdmdJ/eHBKozml1G+ddPON/MLnrgrivzlh9wlO0TS
+ zCQ=
+From: Muhammad Hamza <muhammad_hamza@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Muhammad Hamza <muhammad_hamza@mentor.com>, Awais Belal
+	<awais_belal@mentor.com>
+Subject: [PATCH] initramfs-framework: move storage mounts to actual rootfs
+Date: Fri, 17 Jun 2022 10:50:22 +0500
+Message-ID: <20220617055022.1053835-1-muhammad_hamza@mentor.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jun 2022 05:47:58 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jun 2022 05:50:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167013
+ https://lists.openembedded.org/g/openembedded-core/message/167014
 
-R290IGl0LCB0aGFua3MNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IFN0ZXZl
-IFNha29tYW4gPHN0ZXZlQHNha29tYW4uY29tPiANClNlbnQ6IFRodXJzZGF5LCBKdW5lIDE2LCAy
-MDIyIDk6NTggUE0NClRvOiBIYW16YSwgTXVoYW1tYWQgPE11aGFtbWFkX0hhbXphQG1lbnRvci5j
-b20+DQpDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzsgQmVsYWws
-IEF3YWlzIDxBd2Fpc19CZWxhbEBtZW50b3IuY29tPg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBb
-bWV0YS1vZV1ba2lya3N0b25lXVtQQVRDSF0gaW5pdHJhbWZzLWZyYW1ld29yazogbW92ZSBzdG9y
-YWdlIG1vdW50cyB0byBhY3R1YWwgcm9vdGZzDQoNCkhpIE11aGFtbWFkLA0KDQpUaGlzIGlzc3Vl
-IGlzIGFsc28gcHJlc2VudCBpbiB0aGUgbWFzdGVyIGJyYW5jaCwgc28geW91IHdvdWxkIG5lZWQg
-dG8gc3VibWl0IHRoaXMgZmlyc3QgZm9yIG1hc3RlciBiZWZvcmUgSSBjYW4gdGFrZSBpdCBmb3Ig
-a2lya3N0b25lLg0KDQpBbHNvLCBzaW5jZSB0aGlzIGlzIGEgcGF0Y2ggZm9yIG9lLWNvcmUgeW91
-IHNob3VsZG4ndCBpbmNsdWRlIGEgW21ldGEtb2VdIHRhZyBpbiB0aGUgc3ViamVjdCBsaW5lLiAg
-U29tZSBvZiB1cyBtYWludGFpbmVycyBhcmUgZWFzaWx5IGNvbmZ1c2VkIDstKQ0KDQpTdGV2ZQ0K
-DQpPbiBUaHUsIEp1biAxNiwgMjAyMiBhdCAyOjQ1IEFNIE11aGFtbWFkIEhhbXphIDxNdWhhbW1h
-ZF9IYW16YUBtZW50b3IuY29tPiB3cm90ZToNCj4NCj4gT3BlcmF0aW9ucyBzdWNoIGFzIG1rZnMg
-ZmFpbCBvbiBkZXZpY2VzIHRoYXQgYXJlIG5vdCBzd2l0Y2hlZCB0byB0aGUgDQo+IGFjdHVhbCBy
-b290ZnMgYmVmb3JlIHN3aXRjaF9yb290IGlzIGNhbGxlZC4gVGhlIGtlcm5lbCBpbnRlcnByZXRz
-IA0KPiB0aGVzZSBkZXZpY2VzIGFzIHN0aWxsIGJlaW5nIHVzZWQgZXZlbiBhZnRlciB1bm1vdW50
-aW5nIGFuZCBlcnJvcnMgDQo+IHN1Y2ggYXMgYmVsb3cgYXJlIHNlZW4gd2hlbiB0aGUgdGFyZ2V0
-IGlzIGZ1bGx5IGJvb3RlZA0KPg0KPiByb290QHYxMDAwOn4jIHVtb3VudCAvZGV2L3NkYjENCj4g
-cm9vdEB2MTAwMDp+IyBta2ZzLmV4dDQgL2Rldi9zZGIxDQo+IG1rZTJmcyAxLjQzLjggKDEtSmFu
-LTIwMTgpDQo+IC9kZXYvc2RiMSBjb250YWlucyBhIGV4dDQgZmlsZSBzeXN0ZW0NCj4gICAgICAg
-ICBsYXN0IG1vdW50ZWQgb24gV2VkIE5vdiAyOCAwNzozMzo1NCAyMDE4IFByb2NlZWQgYW55d2F5
-PyAoeSxOKSANCj4geQ0KPiAvZGV2L3NkYjEgaXMgYXBwYXJlbnRseSBpbiB1c2UgYnkgdGhlIHN5
-c3RlbTsgd2lsbCBub3QgbWFrZSBhIGZpbGVzeXN0ZW0gaGVyZSENCj4NCj4gU2lnbmVkLW9mZi1i
-eTogQXdhaXMgQmVsYWwgPGF3YWlzX2JlbGFsQG1lbnRvci5jb20+DQo+IFNpZ25lZC1vZmYtYnk6
-IE11aGFtbWFkIEhhbXphIDxtdWhhbW1hZF9oYW16YUBtZW50b3IuY29tPg0KPiAtLS0NCj4gIC4u
-Li9pbml0cmRzY3JpcHRzL2luaXRyYW1mcy1mcmFtZXdvcmsvZmluaXNoICAgICAgICAgICAgIHwg
-OSArKysrKysrKysNCj4gIDEgZmlsZSBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKykNCj4NCj4gZGlm
-ZiAtLWdpdCANCj4gYS9tZXRhL3JlY2lwZXMtY29yZS9pbml0cmRzY3JpcHRzL2luaXRyYW1mcy1m
-cmFtZXdvcmsvZmluaXNoIA0KPiBiL21ldGEvcmVjaXBlcy1jb3JlL2luaXRyZHNjcmlwdHMvaW5p
-dHJhbWZzLWZyYW1ld29yay9maW5pc2gNCj4gaW5kZXggZjA4YTkyMDg2Ny4uYWMwZGU5Zjk5NiAx
-MDA3NTUNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvaW5pdHJkc2NyaXB0cy9pbml0cmFtZnMt
-ZnJhbWV3b3JrL2ZpbmlzaA0KPiArKysgYi9tZXRhL3JlY2lwZXMtY29yZS9pbml0cmRzY3JpcHRz
-L2luaXRyYW1mcy1mcmFtZXdvcmsvZmluaXNoDQo+IEBAIC0yNiw2ICsyNiwxNSBAQCBmaW5pc2hf
-cnVuKCkgew0KPg0KPiAgICAgICAgICAgICAgICAgaW5mbyAiU3dpdGNoaW5nIHJvb3QgdG8gJyRS
-T09URlNfRElSJy4uLiINCj4NCj4gKyAgICAgICAgICAgICAgIGRlYnVnICJNb3ZpbmcgYmFzaWMg
-bW91bnRzIG9udG8gcm9vdGZzIg0KPiArICAgICAgICAgICAgICAgZm9yIGRpciBpbiBgYXdrICcv
-XC9kZXYuKiBcL3J1blwvbWVkaWEve3ByaW50ICQyfScgL3Byb2MvbW91bnRzYDsgZG8NCj4gKyAg
-ICAgICAgICAgICAgICAgICAgICAgIyBQYXJzZSBhbnkgT0NUIG9yIEhFWCBlbmNvZGVkIGNoYXJz
-IHN1Y2ggYXMgc3BhY2VzDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICMgaW4gdGhlIG1vdW50
-IHBvaW50cyB0byBhY3R1YWwgQVNDSUkgY2hhcnMNCj4gKyAgICAgICAgICAgICAgICAgICAgICAg
-ZGlyPWBwcmludGYgJGRpcmANCj4gKyAgICAgICAgICAgICAgICAgICAgICAgbWtkaXIgLXAgIiR7
-Uk9PVEZTX0RJUn0vbWVkaWEvJHtkaXIjIyovfSINCj4gKyAgICAgICAgICAgICAgICAgICAgICAg
-bW91bnQgLW4gLS1tb3ZlICIkZGlyIiAiJHtST09URlNfRElSfS9tZWRpYS8ke2RpciMjKi99Ig0K
-PiArICAgICAgICAgICAgICAgZG9uZQ0KPiArDQo+ICAgICAgICAgICAgICAgICBkZWJ1ZyAiTW92
-aW5nIC9kZXYsIC9wcm9jIGFuZCAvc3lzIG9udG8gcm9vdGZzLi4uIg0KPiAgICAgICAgICAgICAg
-ICAgbW91bnQgLS1tb3ZlIC9kZXYgJFJPT1RGU19ESVIvZGV2DQo+ICAgICAgICAgICAgICAgICBt
-b3VudCAtLW1vdmUgL3Byb2MgJFJPT1RGU19ESVIvcHJvYw0KPiAtLQ0KPiAyLjI1LjENCj4NCj4N
-Cj4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4gTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNz
-YWdlcyBzZW50IHRvIHRoaXMgZ3JvdXAuDQo+IFZpZXcvUmVwbHkgT25saW5lICgjMTY3MDA2KTog
-DQo+IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21l
-c3NhZ2UvMTY3MDA2DQo+IE11dGUgVGhpcyBUb3BpYzogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRk
-ZWQub3JnL210LzkxNzk3OTU3LzM2MjA2MDENCj4gR3JvdXAgT3duZXI6IG9wZW5lbWJlZGRlZC1j
-b3JlK293bmVyQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gVW5zdWJzY3JpYmU6IGh0dHBzOi8v
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3ViIA0KPiBbc3Rl
-dmVAc2Frb21hbi5jb21dDQo+IC09LT0tPS09LT0tPS09LT0tPS09LT0tDQo+DQo=
+Operations such as mkfs fail on devices that are not
+switched to the actual rootfs before switch_root is
+called. The kernel interprets these devices as still
+being used even after unmounting and errors such as
+below are seen when the target is fully booted
+
+root@v1000:~# umount /dev/sdb1
+root@v1000:~# mkfs.ext4 /dev/sdb1
+mke2fs 1.43.8 (1-Jan-2018)
+/dev/sdb1 contains a ext4 file system
+        last mounted on Wed Nov 28 07:33:54 2018
+Proceed anyway? (y,N) y
+/dev/sdb1 is apparently in use by the system; will not make a filesystem here!
+
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
+Signed-off-by: Muhammad Hamza <muhammad_hamza@mentor.com>
+---
+ .../initrdscripts/initramfs-framework/finish             | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/finish b/meta/recipes-core/initrdscripts/initramfs-framework/finish
+index f08a920867..ac0de9f996 100755
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/finish
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/finish
+@@ -26,6 +26,15 @@ finish_run() {
+ 
+ 		info "Switching root to '$ROOTFS_DIR'..."
+ 
++		debug "Moving basic mounts onto rootfs"
++		for dir in `awk '/\/dev.* \/run\/media/{print $2}' /proc/mounts`; do
++			# Parse any OCT or HEX encoded chars such as spaces
++			# in the mount points to actual ASCII chars
++			dir=`printf $dir`
++			mkdir -p "${ROOTFS_DIR}/media/${dir##*/}"
++			mount -n --move "$dir" "${ROOTFS_DIR}/media/${dir##*/}"
++		done
++
+ 		debug "Moving /dev, /proc and /sys onto rootfs..."
+ 		mount --move /dev $ROOTFS_DIR/dev
+ 		mount --move /proc $ROOTFS_DIR/proc
+-- 
+2.25.1
+
 
