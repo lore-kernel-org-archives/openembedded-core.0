@@ -2,84 +2,109 @@ Return-Path: <Muhammad_Hamza@mentor.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83ED6C433EF
-	for <webhook@archiver.kernel.org>; Fri, 17 Jun 2022 05:50:48 +0000 (UTC)
-Received: from esa3.mentor.iphmx.com (esa3.mentor.iphmx.com [68.232.137.180])
- by mx.groups.io with SMTP id smtpd.web10.27359.1655445039295440792
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D2F1C43334
+	for <webhook@archiver.kernel.org>; Fri, 17 Jun 2022 05:52:28 +0000 (UTC)
+Received: from esa2.mentor.iphmx.com (esa2.mentor.iphmx.com [68.232.141.98])
+ by mx.groups.io with SMTP id smtpd.web10.27370.1655445141247949872
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jun 2022 22:50:39 -0700
+ Thu, 16 Jun 2022 22:52:21 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
- spf=pass (domain: mentor.com, ip: 68.232.137.180, mailfrom: muhammad_hamza@mentor.com)
+ spf=pass (domain: mentor.com, ip: 68.232.141.98, mailfrom: muhammad_hamza@mentor.com)
 X-IronPort-AV: E=Sophos;i="5.92,306,1650960000";
-   d="scan'208";a="77309221"
+   d="scan'208";a="77419860"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa3.mentor.iphmx.com with ESMTP; 16 Jun 2022 21:50:38 -0800
+  by esa2.mentor.iphmx.com with ESMTP; 16 Jun 2022 21:52:19 -0800
 IronPort-SDR: 
- KNVQjJm3EKAoMpuLjZ8f/RcBCGCTEzGlPee3+Oj9cmJgiJUFEZTx7n4Ksj+GgKBBkPq1CQOMB2
- IbteDVr7eSFN2qK9hCo6Rpo81EkEYa83Cw9/KASQ360SWLozaixLRZIeRVe9fDt9mK2zH3ot1J
- TEdVaIE2JeukqIijFI1wU49B4VRP85sRxRvlkWu94IMoFIixTxyo9Xn+l59AeYL4StrzqQ2JwR
- 3xR9Iym4d3xz0DQNjrWT3odqQLnhyrI82kdmdJ/eHBKozml1G+ddPON/MLnrgrivzlh9wlO0TS
- zCQ=
-From: Muhammad Hamza <muhammad_hamza@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Muhammad Hamza <muhammad_hamza@mentor.com>, Awais Belal
-	<awais_belal@mentor.com>
-Subject: [PATCH] initramfs-framework: move storage mounts to actual rootfs
-Date: Fri, 17 Jun 2022 10:50:22 +0500
-Message-ID: <20220617055022.1053835-1-muhammad_hamza@mentor.com>
-X-Mailer: git-send-email 2.25.1
+ na05EPdoxjKFDfjZGSfPz2CznRvXuWtRLB/EWXj9eOl/c6+JFn6Qb5VRGhiaE0McJ3WrNkbwfw
+ qlXyBI3eucsDfvcz16C1FOFZp/Pp4lmnTw1PsyVkTFTa0AGhsNqqxAEUW+DAJez7n4HEV3Z2bQ
+ 0MJ3gpwIiidYPNooCAnel8aDTe33SbmK9ZleTKNkex0bEArEaYqK1l1ayG4b1NxFfO2uzC7Hjo
+ gBJKsJGPzbfYmKxNVBZ7Y12P9SaCi2kpYxyOtHusQ636/KOEL0W1Jt945M+kESxW4E3+GhXQk0
+ E5o=
+From: "Hamza, Muhammad" <Muhammad_Hamza@mentor.com>
+To: Steve Sakoman <steve@sakoman.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [meta-oe][kirkstone][PATCH] initramfs-framework: move
+ storage mounts to actual rootfs
+Thread-Topic: [OE-core] [meta-oe][kirkstone][PATCH] initramfs-framework: move
+ storage mounts to actual rootfs
+Thread-Index: AQHYgX72GD93KNKaUUi/Seq3PoPnsq1SMMGAgADnt3CAAAE7UA==
+Date: Fri, 17 Jun 2022 05:52:16 +0000
+Message-ID: <f888271089714fd6b0d10252c9726bae@mentor.com>
+References: <20220616124515.322289-1-muhammad_hamza@mentor.com>
+ <CAOSpxdbJpKLD54OW=7gZ2uujqJ-7pmJnTM83QgQY7=ww2s_jZw@mail.gmail.com>
+ <16F95256EE2BDE96.4074@lists.openembedded.org>
+In-Reply-To: <16F95256EE2BDE96.4074@lists.openembedded.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.90]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jun 2022 05:50:48 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jun 2022 05:52:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167014
+ https://lists.openembedded.org/g/openembedded-core/message/167015
 
-Operations such as mkfs fail on devices that are not
-switched to the actual rootfs before switch_root is
-called. The kernel interprets these devices as still
-being used even after unmounting and errors such as
-below are seen when the target is fully booted
-
-root@v1000:~# umount /dev/sdb1
-root@v1000:~# mkfs.ext4 /dev/sdb1
-mke2fs 1.43.8 (1-Jan-2018)
-/dev/sdb1 contains a ext4 file system
-        last mounted on Wed Nov 28 07:33:54 2018
-Proceed anyway? (y,N) y
-/dev/sdb1 is apparently in use by the system; will not make a filesystem here!
-
-Signed-off-by: Awais Belal <awais_belal@mentor.com>
-Signed-off-by: Muhammad Hamza <muhammad_hamza@mentor.com>
----
- .../initrdscripts/initramfs-framework/finish             | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/finish b/meta/recipes-core/initrdscripts/initramfs-framework/finish
-index f08a920867..ac0de9f996 100755
---- a/meta/recipes-core/initrdscripts/initramfs-framework/finish
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/finish
-@@ -26,6 +26,15 @@ finish_run() {
- 
- 		info "Switching root to '$ROOTFS_DIR'..."
- 
-+		debug "Moving basic mounts onto rootfs"
-+		for dir in `awk '/\/dev.* \/run\/media/{print $2}' /proc/mounts`; do
-+			# Parse any OCT or HEX encoded chars such as spaces
-+			# in the mount points to actual ASCII chars
-+			dir=`printf $dir`
-+			mkdir -p "${ROOTFS_DIR}/media/${dir##*/}"
-+			mount -n --move "$dir" "${ROOTFS_DIR}/media/${dir##*/}"
-+		done
-+
- 		debug "Moving /dev, /proc and /sys onto rootfs..."
- 		mount --move /dev $ROOTFS_DIR/dev
- 		mount --move /proc $ROOTFS_DIR/proc
--- 
-2.25.1
-
+U2VudCBpbiBwYXRjaCBmb3IgbWFzdGVyLg0KDQpDaGVlcnMsDQpIYW16YQ0KDQotLS0tLU9yaWdp
+bmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZyA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gT24gQmVo
+YWxmIE9mIEhhbXphLCBNdWhhbW1hZA0KU2VudDogRnJpZGF5LCBKdW5lIDE3LCAyMDIyIDEwOjQ4
+IEFNDQpUbzogU3RldmUgU2Frb21hbiA8c3RldmVAc2Frb21hbi5jb20+DQpDYzogb3BlbmVtYmVk
+ZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBb
+bWV0YS1vZV1ba2lya3N0b25lXVtQQVRDSF0gaW5pdHJhbWZzLWZyYW1ld29yazogbW92ZSBzdG9y
+YWdlIG1vdW50cyB0byBhY3R1YWwgcm9vdGZzDQoNCkdvdCBpdCwgdGhhbmtzDQoNCi0tLS0tT3Jp
+Z2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBTdGV2ZSBTYWtvbWFuIDxzdGV2ZUBzYWtvbWFuLmNv
+bT4NClNlbnQ6IFRodXJzZGF5LCBKdW5lIDE2LCAyMDIyIDk6NTggUE0NClRvOiBIYW16YSwgTXVo
+YW1tYWQgPE11aGFtbWFkX0hhbXphQG1lbnRvci5jb20+DQpDYzogb3BlbmVtYmVkZGVkLWNvcmVA
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZzsgQmVsYWwsIEF3YWlzIDxBd2Fpc19CZWxhbEBtZW50b3Iu
+Y29tPg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbbWV0YS1vZV1ba2lya3N0b25lXVtQQVRDSF0g
+aW5pdHJhbWZzLWZyYW1ld29yazogbW92ZSBzdG9yYWdlIG1vdW50cyB0byBhY3R1YWwgcm9vdGZz
+DQoNCkhpIE11aGFtbWFkLA0KDQpUaGlzIGlzc3VlIGlzIGFsc28gcHJlc2VudCBpbiB0aGUgbWFz
+dGVyIGJyYW5jaCwgc28geW91IHdvdWxkIG5lZWQgdG8gc3VibWl0IHRoaXMgZmlyc3QgZm9yIG1h
+c3RlciBiZWZvcmUgSSBjYW4gdGFrZSBpdCBmb3Iga2lya3N0b25lLg0KDQpBbHNvLCBzaW5jZSB0
+aGlzIGlzIGEgcGF0Y2ggZm9yIG9lLWNvcmUgeW91IHNob3VsZG4ndCBpbmNsdWRlIGEgW21ldGEt
+b2VdIHRhZyBpbiB0aGUgc3ViamVjdCBsaW5lLiAgU29tZSBvZiB1cyBtYWludGFpbmVycyBhcmUg
+ZWFzaWx5IGNvbmZ1c2VkIDstKQ0KDQpTdGV2ZQ0KDQpPbiBUaHUsIEp1biAxNiwgMjAyMiBhdCAy
+OjQ1IEFNIE11aGFtbWFkIEhhbXphIDxNdWhhbW1hZF9IYW16YUBtZW50b3IuY29tPiB3cm90ZToN
+Cj4NCj4gT3BlcmF0aW9ucyBzdWNoIGFzIG1rZnMgZmFpbCBvbiBkZXZpY2VzIHRoYXQgYXJlIG5v
+dCBzd2l0Y2hlZCB0byB0aGUgDQo+IGFjdHVhbCByb290ZnMgYmVmb3JlIHN3aXRjaF9yb290IGlz
+IGNhbGxlZC4gVGhlIGtlcm5lbCBpbnRlcnByZXRzIA0KPiB0aGVzZSBkZXZpY2VzIGFzIHN0aWxs
+IGJlaW5nIHVzZWQgZXZlbiBhZnRlciB1bm1vdW50aW5nIGFuZCBlcnJvcnMgDQo+IHN1Y2ggYXMg
+YmVsb3cgYXJlIHNlZW4gd2hlbiB0aGUgdGFyZ2V0IGlzIGZ1bGx5IGJvb3RlZA0KPg0KPiByb290
+QHYxMDAwOn4jIHVtb3VudCAvZGV2L3NkYjENCj4gcm9vdEB2MTAwMDp+IyBta2ZzLmV4dDQgL2Rl
+di9zZGIxDQo+IG1rZTJmcyAxLjQzLjggKDEtSmFuLTIwMTgpDQo+IC9kZXYvc2RiMSBjb250YWlu
+cyBhIGV4dDQgZmlsZSBzeXN0ZW0NCj4gICAgICAgICBsYXN0IG1vdW50ZWQgb24gV2VkIE5vdiAy
+OCAwNzozMzo1NCAyMDE4IFByb2NlZWQgYW55d2F5PyAoeSxOKSANCj4geQ0KPiAvZGV2L3NkYjEg
+aXMgYXBwYXJlbnRseSBpbiB1c2UgYnkgdGhlIHN5c3RlbTsgd2lsbCBub3QgbWFrZSBhIGZpbGVz
+eXN0ZW0gaGVyZSENCj4NCj4gU2lnbmVkLW9mZi1ieTogQXdhaXMgQmVsYWwgPGF3YWlzX2JlbGFs
+QG1lbnRvci5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IE11aGFtbWFkIEhhbXphIDxtdWhhbW1hZF9o
+YW16YUBtZW50b3IuY29tPg0KPiAtLS0NCj4gIC4uLi9pbml0cmRzY3JpcHRzL2luaXRyYW1mcy1m
+cmFtZXdvcmsvZmluaXNoICAgICAgICAgICAgIHwgOSArKysrKysrKysNCj4gIDEgZmlsZSBjaGFu
+Z2VkLCA5IGluc2VydGlvbnMoKykNCj4NCj4gZGlmZiAtLWdpdA0KPiBhL21ldGEvcmVjaXBlcy1j
+b3JlL2luaXRyZHNjcmlwdHMvaW5pdHJhbWZzLWZyYW1ld29yay9maW5pc2gNCj4gYi9tZXRhL3Jl
+Y2lwZXMtY29yZS9pbml0cmRzY3JpcHRzL2luaXRyYW1mcy1mcmFtZXdvcmsvZmluaXNoDQo+IGlu
+ZGV4IGYwOGE5MjA4NjcuLmFjMGRlOWY5OTYgMTAwNzU1DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1j
+b3JlL2luaXRyZHNjcmlwdHMvaW5pdHJhbWZzLWZyYW1ld29yay9maW5pc2gNCj4gKysrIGIvbWV0
+YS9yZWNpcGVzLWNvcmUvaW5pdHJkc2NyaXB0cy9pbml0cmFtZnMtZnJhbWV3b3JrL2ZpbmlzaA0K
+PiBAQCAtMjYsNiArMjYsMTUgQEAgZmluaXNoX3J1bigpIHsNCj4NCj4gICAgICAgICAgICAgICAg
+IGluZm8gIlN3aXRjaGluZyByb290IHRvICckUk9PVEZTX0RJUicuLi4iDQo+DQo+ICsgICAgICAg
+ICAgICAgICBkZWJ1ZyAiTW92aW5nIGJhc2ljIG1vdW50cyBvbnRvIHJvb3RmcyINCj4gKyAgICAg
+ICAgICAgICAgIGZvciBkaXIgaW4gYGF3ayAnL1wvZGV2LiogXC9ydW5cL21lZGlhL3twcmludCAk
+Mn0nIC9wcm9jL21vdW50c2A7IGRvDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICMgUGFyc2Ug
+YW55IE9DVCBvciBIRVggZW5jb2RlZCBjaGFycyBzdWNoIGFzIHNwYWNlcw0KPiArICAgICAgICAg
+ICAgICAgICAgICAgICAjIGluIHRoZSBtb3VudCBwb2ludHMgdG8gYWN0dWFsIEFTQ0lJIGNoYXJz
+DQo+ICsgICAgICAgICAgICAgICAgICAgICAgIGRpcj1gcHJpbnRmICRkaXJgDQo+ICsgICAgICAg
+ICAgICAgICAgICAgICAgIG1rZGlyIC1wICIke1JPT1RGU19ESVJ9L21lZGlhLyR7ZGlyIyMqL30i
+DQo+ICsgICAgICAgICAgICAgICAgICAgICAgIG1vdW50IC1uIC0tbW92ZSAiJGRpciIgIiR7Uk9P
+VEZTX0RJUn0vbWVkaWEvJHtkaXIjIyovfSINCj4gKyAgICAgICAgICAgICAgIGRvbmUNCj4gKw0K
+PiAgICAgICAgICAgICAgICAgZGVidWcgIk1vdmluZyAvZGV2LCAvcHJvYyBhbmQgL3N5cyBvbnRv
+IHJvb3Rmcy4uLiINCj4gICAgICAgICAgICAgICAgIG1vdW50IC0tbW92ZSAvZGV2ICRST09URlNf
+RElSL2Rldg0KPiAgICAgICAgICAgICAgICAgbW91bnQgLS1tb3ZlIC9wcm9jICRST09URlNfRElS
+L3Byb2MNCj4gLS0NCj4gMi4yNS4xDQo+DQo+DQo+IA0KPg0K
 
