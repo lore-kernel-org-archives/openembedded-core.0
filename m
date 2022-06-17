@@ -1,139 +1,110 @@
-Return-Path: <xuhuan.fnst@fujitsu.com>
+Return-Path: <Muhammad_Hamza@mentor.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 411F8C433EF
-	for <webhook@archiver.kernel.org>; Fri, 17 Jun 2022 01:38:27 +0000 (UTC)
-Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com
- [85.158.142.113])
- by mx.groups.io with SMTP id smtpd.web11.25605.1655429903508495446
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D93AC433EF
+	for <webhook@archiver.kernel.org>; Fri, 17 Jun 2022 05:47:58 +0000 (UTC)
+Received: from esa3.mentor.iphmx.com (esa3.mentor.iphmx.com [68.232.137.180])
+ by mx.groups.io with SMTP id smtpd.web10.27346.1655444870906158280
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Jun 2022 18:38:24 -0700
+ Thu, 16 Jun 2022 22:47:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=Neioh/ja;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.113,
- mailfrom: xuhuan.fnst@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1655429901; i=@fujitsu.com;
-	bh=74XxOc5aVhU6au8UnOTsQjXYhmAAHYO797C48E6EMZw=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=Neioh/jaq0pTsIri5GN1L7bzYGjz4ACMo5SPNX06WJevdZoOZTYtrbfXvE9mGfL3t
-	 wuMa6uO4LMVS9Oyg0u+zz81QZzJLvNYLVO1eTOzFKH9RiYL6we1SZNBfOV++kL2cN5
-	 fP1xNpnFjeTtdid+Bi2aibnEx/p0Xjvwxqhw6NOXhCW822ILUmNyCwoFhlOg/O3emN
-	 vZ4mPoXYFpOLacAQaxFtRWmM1yARxpEGEk9UfS8XbAzjRI3hV8zFYMMz2oMNMqvoJo
-	 +yppqLsu9d2i6k6k+0OiFgE8Z4cQ5NhjF2xva1EcfCADOfsLPIuGMJscNQBYTLgzeZ
-	 r9vv0i8XTbYqw==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrIIsWRWlGSWpSXmKPExsViZ8ORpMtze3W
-  Swc7FGhZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aMxS2sBb+EK758vcbYwHhZsIuRk0NI4AGj
-  xIWD0l2MXED2aSaJm/e+MkM4JxklzizawwpSxSagLvH45mvGLkYODhEBPYmr/0RBwswCqhLdF
-  9ewg9jCAjYSl5Z+ZgaxWYDiDw+0gNm8Au4S35++AxsjIaAgMeXhe6i4oMTJmU9YIOZISBx88Y
-  IZokZJ4sSKj0wQdoXE68OXoOJqElfPbWKewMg/C0n7LCTtCxiZVjHaJBVlpmeU5CZm5ugaGhj
-  oGhqaAmlDXWMDvcQq3US91FLdvPyikgxdQ73E8mK91OJiveLK3OScFL281JJNjMCwTClOldvB
-  eGDfL71DjJIcTEqivFrHVycJ8SXlp1RmJBZnxBeV5qQWH2KU4eBQkuB9dAMoJ1iUmp5akZaZA
-  4wRmLQEB4+SCK/9ZaA0b3FBYm5xZjpE6hSjPcfVK1f2MnNMnf1vPzPHcjA582vbAWYhlrz8vF
-  Qpcd6rN4HaBEDaMkrz4IbCYvoSo6yUMC8jAwODEE9BalFuZgmq/CtGcQ5GJWFeNpApPJl5JXC
-  7XwGdxQR0VuO+FSBnlSQipKQamOR+8aZLJc+12/nM6tc+lijWGI9togqd32yEUzN5LEQ9kn9c
-  VunYvrQsnud65Hxunab7oX1mnbxT4orZM9lsvzdGHm3lPH3boW9bqOOHzIOrjSdP//eFPV1TJ
-  fpgyPZdq1yad7ltTr59yvL+V66WiXMuvX2z3uDGhuRJq5/tf7LUXEd/Yncdu1kfa87mu/qHut
-  6fuKV547zDUnH5+ZPnfYrZUL5jQ8yH3437eELvlRdX1LxL3R23Zn7+lda9j929ox7nbVy3Psx
-  l5z2vt+dcM69IcDA4xp68p/X8TO38zq6jib9eXM3aP/nT8fi7IksP6TWeOFnHbfK6wJPvZoyP
-  l9A/hX9HPVJ6hLS7eiytRJRYijMSDbWYi4oTAdhi2EhkAwAA
-X-Env-Sender: xuhuan.fnst@fujitsu.com
-X-Msg-Ref: server-18.tower-728.messagelabs.com!1655429900!62904!1
-X-Originating-IP: [62.60.8.98]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.86.7; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 7560 invoked from network); 17 Jun 2022 01:38:20 -0000
-Received: from unknown (HELO n03ukasimr03.n03.fujitsu.local) (62.60.8.98)
-  by server-18.tower-728.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 17 Jun 2022 01:38:20 -0000
-Received: from n03ukasimr03.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTP id 18C8E1AE
-	for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jun 2022 02:38:20 +0100 (BST)
-Received: from R01UKEXCASM126.r01.fujitsu.local (unknown [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTPS id 0C7967C
-	for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jun 2022 02:38:20 +0100 (BST)
-Received: from localhost.localdomain.localdomain (10.167.225.131) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Fri, 17 Jun 2022 02:37:59 +0100
-From: XU Huan <xuhuan.fnst@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Xu Huan <xuhuan.fnst@fujitsu.com>
-Subject: [OE-core] [PATCH] python3: upgrade 3.10.4 -> 3.10.5
-Date: Fri, 17 Jun 2022 09:37:49 +0800
-Message-ID: <1655429870-19507-1-git-send-email-xuhuan.fnst@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=missing;
+ spf=pass (domain: mentor.com, ip: 68.232.137.180, mailfrom: muhammad_hamza@mentor.com)
+X-IronPort-AV: E=Sophos;i="5.92,306,1650960000";
+   d="scan'208";a="77309161"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa3.mentor.iphmx.com with ESMTP; 16 Jun 2022 21:47:51 -0800
+IronPort-SDR: 
+ o75VRxn6/MqW5MymwfcyqXB7lySSqpzxjSMIffEbGN5CXIrcOotMj6kMOTk59y+NdX/WzyHSKe
+ /m6AOazFcMTAlpteKfhsV6aNRdrEYW+ifQj4qfQQ/y5CaT5+VsAFFMxmqJodtGmKTpaM1mcXMh
+ 2WN3j7lhdElOzTwgYEped8AbQE2eSCgLzzHokni5xz1kn2lGrET0z59wCuUrVbaYp9fINCheiL
+ 3pfjkjFKvMePFU/CDjD3e2mcJHDwo5qvRlpneGnlKO75RA4R2RHYjuh+425Gz0nO/gE5IXmHv+
+ cEI=
+From: "Hamza, Muhammad" <Muhammad_Hamza@mentor.com>
+To: Steve Sakoman <steve@sakoman.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [meta-oe][kirkstone][PATCH] initramfs-framework: move
+ storage mounts to actual rootfs
+Thread-Topic: [OE-core] [meta-oe][kirkstone][PATCH] initramfs-framework: move
+ storage mounts to actual rootfs
+Thread-Index: AQHYgX72GD93KNKaUUi/Seq3PoPnsq1SMMGAgADnt3A=
+Date: Fri, 17 Jun 2022 05:47:45 +0000
+Message-ID: <58b8a4a34eb741568f98b7268709d331@mentor.com>
+References: <20220616124515.322289-1-muhammad_hamza@mentor.com>
+ <CAOSpxdbJpKLD54OW=7gZ2uujqJ-7pmJnTM83QgQY7=ww2s_jZw@mail.gmail.com>
+In-Reply-To: 
+ <CAOSpxdbJpKLD54OW=7gZ2uujqJ-7pmJnTM83QgQY7=ww2s_jZw@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.90]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.131]
-X-ClientProxiedBy: G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jun 2022 01:38:27 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jun 2022 05:47:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167011
+ https://lists.openembedded.org/g/openembedded-core/message/167013
 
-From: Xu Huan <xuhuan.fnst@fujitsu.com>
-
-0001-Don-t-search-system-for-headers-libraries.patch
-refreshed for new version.
-
-Signed-off-by: Xu Huan <xuhuan.fnst@fujitsu.com>
----
- .../0001-Don-t-search-system-for-headers-libraries.patch    | 6 +++---
- .../python/{python3_3.10.4.bb => python3_3.10.5.bb}         | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/python/{python3_3.10.4.bb => python3_3.10.5.bb} (99%)
-
-diff --git a/meta/recipes-devtools/python/python3/0001-Don-t-search-system-for-headers-libraries.patch b/meta/recipes-devtools/python/python3/0001-Don-t-search-system-for-headers-libraries.patch
-index 5485020eb4..62dce4b827 100644
---- a/meta/recipes-devtools/python/python3/0001-Don-t-search-system-for-headers-libraries.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Don-t-search-system-for-headers-libraries.patch
-@@ -1,4 +1,4 @@
--From b6ead2d17ceafed47e598b6f50f3ff669deec5ab Mon Sep 17 00:00:00 2001
-+From c83256e40d3057ac6325d649f9ce4c4da2c00874 Mon Sep 17 00:00:00 2001
- From: Jeremy Puhlman <jpuhlman@mvista.com>
- Date: Wed, 4 Mar 2020 00:06:42 +0000
- Subject: Don't search system for headers/libraries
-@@ -11,10 +11,10 @@ Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/setup.py b/setup.py
--index c190002..5ef368d 100644
-+index f7a3d39..9d2273d 100644
- --- a/setup.py
- +++ b/setup.py
--@@ -854,8 +854,8 @@ class PyBuildExt(build_ext):
-+@@ -857,8 +857,8 @@ class PyBuildExt(build_ext):
-              add_dir_to_list(self.compiler.include_dirs,
-                              sysconfig.get_config_var("INCLUDEDIR"))
-  
-diff --git a/meta/recipes-devtools/python/python3_3.10.4.bb b/meta/recipes-devtools/python/python3_3.10.5.bb
-similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.10.4.bb
-rename to meta/recipes-devtools/python/python3_3.10.5.bb
-index 6bd3a6aba8..5933654e12 100644
---- a/meta/recipes-devtools/python/python3_3.10.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.5.bb
-@@ -42,7 +42,7 @@ SRC_URI:append:class-native = " \
-            file://12-distutils-prefix-is-inside-staging-area.patch \
-            file://0001-Don-t-search-system-for-headers-libraries.patch \
-            "
--SRC_URI[sha256sum] = "80bf925f571da436b35210886cf79f6eb5fa5d6c571316b73568343451f77a19"
-+SRC_URI[sha256sum] = "8437efd5b106ef0a75aabfbf23d880625120a73a86a22ade4d2e2e68d7b74486"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
--- 
-2.25.1
-
+R290IGl0LCB0aGFua3MNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IFN0ZXZl
+IFNha29tYW4gPHN0ZXZlQHNha29tYW4uY29tPiANClNlbnQ6IFRodXJzZGF5LCBKdW5lIDE2LCAy
+MDIyIDk6NTggUE0NClRvOiBIYW16YSwgTXVoYW1tYWQgPE11aGFtbWFkX0hhbXphQG1lbnRvci5j
+b20+DQpDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzsgQmVsYWws
+IEF3YWlzIDxBd2Fpc19CZWxhbEBtZW50b3IuY29tPg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBb
+bWV0YS1vZV1ba2lya3N0b25lXVtQQVRDSF0gaW5pdHJhbWZzLWZyYW1ld29yazogbW92ZSBzdG9y
+YWdlIG1vdW50cyB0byBhY3R1YWwgcm9vdGZzDQoNCkhpIE11aGFtbWFkLA0KDQpUaGlzIGlzc3Vl
+IGlzIGFsc28gcHJlc2VudCBpbiB0aGUgbWFzdGVyIGJyYW5jaCwgc28geW91IHdvdWxkIG5lZWQg
+dG8gc3VibWl0IHRoaXMgZmlyc3QgZm9yIG1hc3RlciBiZWZvcmUgSSBjYW4gdGFrZSBpdCBmb3Ig
+a2lya3N0b25lLg0KDQpBbHNvLCBzaW5jZSB0aGlzIGlzIGEgcGF0Y2ggZm9yIG9lLWNvcmUgeW91
+IHNob3VsZG4ndCBpbmNsdWRlIGEgW21ldGEtb2VdIHRhZyBpbiB0aGUgc3ViamVjdCBsaW5lLiAg
+U29tZSBvZiB1cyBtYWludGFpbmVycyBhcmUgZWFzaWx5IGNvbmZ1c2VkIDstKQ0KDQpTdGV2ZQ0K
+DQpPbiBUaHUsIEp1biAxNiwgMjAyMiBhdCAyOjQ1IEFNIE11aGFtbWFkIEhhbXphIDxNdWhhbW1h
+ZF9IYW16YUBtZW50b3IuY29tPiB3cm90ZToNCj4NCj4gT3BlcmF0aW9ucyBzdWNoIGFzIG1rZnMg
+ZmFpbCBvbiBkZXZpY2VzIHRoYXQgYXJlIG5vdCBzd2l0Y2hlZCB0byB0aGUgDQo+IGFjdHVhbCBy
+b290ZnMgYmVmb3JlIHN3aXRjaF9yb290IGlzIGNhbGxlZC4gVGhlIGtlcm5lbCBpbnRlcnByZXRz
+IA0KPiB0aGVzZSBkZXZpY2VzIGFzIHN0aWxsIGJlaW5nIHVzZWQgZXZlbiBhZnRlciB1bm1vdW50
+aW5nIGFuZCBlcnJvcnMgDQo+IHN1Y2ggYXMgYmVsb3cgYXJlIHNlZW4gd2hlbiB0aGUgdGFyZ2V0
+IGlzIGZ1bGx5IGJvb3RlZA0KPg0KPiByb290QHYxMDAwOn4jIHVtb3VudCAvZGV2L3NkYjENCj4g
+cm9vdEB2MTAwMDp+IyBta2ZzLmV4dDQgL2Rldi9zZGIxDQo+IG1rZTJmcyAxLjQzLjggKDEtSmFu
+LTIwMTgpDQo+IC9kZXYvc2RiMSBjb250YWlucyBhIGV4dDQgZmlsZSBzeXN0ZW0NCj4gICAgICAg
+ICBsYXN0IG1vdW50ZWQgb24gV2VkIE5vdiAyOCAwNzozMzo1NCAyMDE4IFByb2NlZWQgYW55d2F5
+PyAoeSxOKSANCj4geQ0KPiAvZGV2L3NkYjEgaXMgYXBwYXJlbnRseSBpbiB1c2UgYnkgdGhlIHN5
+c3RlbTsgd2lsbCBub3QgbWFrZSBhIGZpbGVzeXN0ZW0gaGVyZSENCj4NCj4gU2lnbmVkLW9mZi1i
+eTogQXdhaXMgQmVsYWwgPGF3YWlzX2JlbGFsQG1lbnRvci5jb20+DQo+IFNpZ25lZC1vZmYtYnk6
+IE11aGFtbWFkIEhhbXphIDxtdWhhbW1hZF9oYW16YUBtZW50b3IuY29tPg0KPiAtLS0NCj4gIC4u
+Li9pbml0cmRzY3JpcHRzL2luaXRyYW1mcy1mcmFtZXdvcmsvZmluaXNoICAgICAgICAgICAgIHwg
+OSArKysrKysrKysNCj4gIDEgZmlsZSBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKykNCj4NCj4gZGlm
+ZiAtLWdpdCANCj4gYS9tZXRhL3JlY2lwZXMtY29yZS9pbml0cmRzY3JpcHRzL2luaXRyYW1mcy1m
+cmFtZXdvcmsvZmluaXNoIA0KPiBiL21ldGEvcmVjaXBlcy1jb3JlL2luaXRyZHNjcmlwdHMvaW5p
+dHJhbWZzLWZyYW1ld29yay9maW5pc2gNCj4gaW5kZXggZjA4YTkyMDg2Ny4uYWMwZGU5Zjk5NiAx
+MDA3NTUNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvaW5pdHJkc2NyaXB0cy9pbml0cmFtZnMt
+ZnJhbWV3b3JrL2ZpbmlzaA0KPiArKysgYi9tZXRhL3JlY2lwZXMtY29yZS9pbml0cmRzY3JpcHRz
+L2luaXRyYW1mcy1mcmFtZXdvcmsvZmluaXNoDQo+IEBAIC0yNiw2ICsyNiwxNSBAQCBmaW5pc2hf
+cnVuKCkgew0KPg0KPiAgICAgICAgICAgICAgICAgaW5mbyAiU3dpdGNoaW5nIHJvb3QgdG8gJyRS
+T09URlNfRElSJy4uLiINCj4NCj4gKyAgICAgICAgICAgICAgIGRlYnVnICJNb3ZpbmcgYmFzaWMg
+bW91bnRzIG9udG8gcm9vdGZzIg0KPiArICAgICAgICAgICAgICAgZm9yIGRpciBpbiBgYXdrICcv
+XC9kZXYuKiBcL3J1blwvbWVkaWEve3ByaW50ICQyfScgL3Byb2MvbW91bnRzYDsgZG8NCj4gKyAg
+ICAgICAgICAgICAgICAgICAgICAgIyBQYXJzZSBhbnkgT0NUIG9yIEhFWCBlbmNvZGVkIGNoYXJz
+IHN1Y2ggYXMgc3BhY2VzDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICMgaW4gdGhlIG1vdW50
+IHBvaW50cyB0byBhY3R1YWwgQVNDSUkgY2hhcnMNCj4gKyAgICAgICAgICAgICAgICAgICAgICAg
+ZGlyPWBwcmludGYgJGRpcmANCj4gKyAgICAgICAgICAgICAgICAgICAgICAgbWtkaXIgLXAgIiR7
+Uk9PVEZTX0RJUn0vbWVkaWEvJHtkaXIjIyovfSINCj4gKyAgICAgICAgICAgICAgICAgICAgICAg
+bW91bnQgLW4gLS1tb3ZlICIkZGlyIiAiJHtST09URlNfRElSfS9tZWRpYS8ke2RpciMjKi99Ig0K
+PiArICAgICAgICAgICAgICAgZG9uZQ0KPiArDQo+ICAgICAgICAgICAgICAgICBkZWJ1ZyAiTW92
+aW5nIC9kZXYsIC9wcm9jIGFuZCAvc3lzIG9udG8gcm9vdGZzLi4uIg0KPiAgICAgICAgICAgICAg
+ICAgbW91bnQgLS1tb3ZlIC9kZXYgJFJPT1RGU19ESVIvZGV2DQo+ICAgICAgICAgICAgICAgICBt
+b3VudCAtLW1vdmUgL3Byb2MgJFJPT1RGU19ESVIvcHJvYw0KPiAtLQ0KPiAyLjI1LjENCj4NCj4N
+Cj4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4gTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNz
+YWdlcyBzZW50IHRvIHRoaXMgZ3JvdXAuDQo+IFZpZXcvUmVwbHkgT25saW5lICgjMTY3MDA2KTog
+DQo+IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21l
+c3NhZ2UvMTY3MDA2DQo+IE11dGUgVGhpcyBUb3BpYzogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRk
+ZWQub3JnL210LzkxNzk3OTU3LzM2MjA2MDENCj4gR3JvdXAgT3duZXI6IG9wZW5lbWJlZGRlZC1j
+b3JlK293bmVyQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gVW5zdWJzY3JpYmU6IGh0dHBzOi8v
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3ViIA0KPiBbc3Rl
+dmVAc2Frb21hbi5jb21dDQo+IC09LT0tPS09LT0tPS09LT0tPS09LT0tDQo+DQo=
 
