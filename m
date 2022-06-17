@@ -1,126 +1,111 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1632C43334
-	for <webhook@archiver.kernel.org>; Fri, 17 Jun 2022 10:34:09 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web11.28762.1655462045480664770
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 733BEC433EF
+	for <webhook@archiver.kernel.org>; Fri, 17 Jun 2022 12:17:20 +0000 (UTC)
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net
+ [217.70.178.231])
+ by mx.groups.io with SMTP id smtpd.web09.29851.1655468229252056292
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Jun 2022 03:34:06 -0700
+ Fri, 17 Jun 2022 05:17:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com
- header.s=axis-central1 header.b=F9mW0es7;
- spf=pass (domain: axis.com, ip: 195.60.68.18,
- mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1655462045;
-  x=1686998045;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=AX6EM9KPoqhH76FdTuAT60/j/thZ3TNpTQc6wevFEzc=;
-  b=F9mW0es7CTC7dyIByakWXTDwmCFGqy0weaAqjo4O5NG1AQtmB4207IvJ
-   YBAmU+tnN+FDaI/w701MHYadwATIU3u3ATZFHv9FgD9xo0ADpMbJoZCYU
-   a6wYsfNQrx/arVSU+9ec7WyqULxKxEHgja/szDn5qEquJTUrs8QSeGB+n
-   7xvINUkFYkwxM3XdwvA85KuCawDs3GJP7vLHVLOZ069Flzw7rLIxS6ZN5
-   DnstmKY+/w6iB8vlMdjMJf740EAtN7bH0iuko15hdbTTTcTP3z4Lk5pEm
-   pt9HbYkabK3xDq8qXbjDAKErxiqksSE5/oRO1B1jIDoflHc1Kc4Iu48Fo
-   g==;
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: leimaohui <leimaohui@fujitsu.com>, Alex Kiernan <alex.kiernan@gmail.com>,
-	Alexander Kanavin <alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
- doesn't work.
-Thread-Topic: [OE-core] DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
- doesn't work.
-Thread-Index: AdhxYR38VlAlQshxQSyxiIpryddRpQAi5XOAAB71CYAD5cy/AAANOkAw
-Date: Fri, 17 Jun 2022 10:34:02 +0000
-Message-ID: <5080f226b5754b8c8d8cc6a9fb73a0e8@axis.com>
-References: 
- <OS0PR01MB61783B64BAF9C5AE3BE85331A0D89@OS0PR01MB6178.jpnprd01.prod.outlook.com>
- <CANNYZj8LKgJA5vheJz-fMO_7ySbgPenzGMH58zSZSCMLCm50mA@mail.gmail.com>
- <CAO5Uq5SfVGqyu-+-Nnxn4hFSaZDBtA2qhUo+TQ89CjxgvYU-cA@mail.gmail.com>
- <OS0PR01MB6178CD703C7FA0F911A766CAA0AF9@OS0PR01MB6178.jpnprd01.prod.outlook.com>
-In-Reply-To: 
- <OS0PR01MB6178CD703C7FA0F911A766CAA0AF9@OS0PR01MB6178.jpnprd01.prod.outlook.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=RFqdpHQS;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.231,
+ mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 01D82100008;
+	Fri, 17 Jun 2022 12:17:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1655468227;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2TiTCcOgoY8ESGVE2VwudX8+TTUVXYZjKipaFf+P4jw=;
+	b=RFqdpHQSetFD0Bn0AK6cIT7/HohRZM0MH1WwbvJXItj9YvQ3YVCA8NsuCLyPXc4Mt9QMf3
+	Gm52DatWkp3n9Mxc99TDjJyWicBgdgGK2GuJhf1rOxrjKgNeFSLbyXoIi6VMutHU+CJ7ml
+	0o80GTPC8KtDwD3MBR9AtEIWupU+GD0yZdAMRH2Wtwh2feODa7a7Twr7VHTElx9+mQrmvE
+	jvTAkwPE+LTP+ndyyB+UIkHI37qdmD8as0wGP6FrombSSGZWNQnWjVGskGNG8neoJdStKr
+	ykxw9vtm1HYJZIA8wdEOKHVqSZK46406+nEF4ay553y3nZ6p4Of8RsQUKq3hIA==
+Date: Fri, 17 Jun 2022 14:17:06 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: wangmy <wangmy@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] python3-exceptiongroup : add recipe
+Message-ID: <YqxwwsO0OCTrgYIS@mail.local>
+References: <1655447108-20329-1-git-send-email-wangmy@fujitsu.com>
+ <1655447108-20329-2-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1655447108-20329-2-git-send-email-wangmy@fujitsu.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Jun 2022 10:34:09 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Jun 2022 12:17:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167020
+ https://lists.openembedded.org/g/openembedded-core/message/167021
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIGxlaW1hb2h1aQ0KPiBTZW50OiBkZW4gMTcganVuaSAy
-MDIyIDA4OjA3DQo+IFRvOiBBbGV4IEtpZXJuYW4gPGFsZXgua2llcm5hbkBnbWFpbC5jb20+OyBB
-bGV4YW5kZXIgS2FuYXZpbg0KPiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4NCj4gQ2M6IG9wZW5l
-bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1j
-b3JlXSBESVNUUk9fRkVBVFVSRVNfQkFDS0ZJTExfQ09OU0lERVJFRCA9ICJzeXN2aW5pdCINCj4g
-ZG9lc24ndCB3b3JrLg0KPiANCj4gSGksDQo+IA0KPiA+IEkgc3VzcGVjdCBpdCdzIHRoYXQgeW91
-IGNhbid0IHNldCBpdCBpbiBsb2NhbC5jb25mIG5vdzoNCj4gDQo+IFlvdSBhcmUgcmlnaHQsIHNl
-dHRpbmcgTklUX01BTkFHRVIgPSAic3lzdGVtZCIgaW4gbG9jYWwuY29uZiBkb2Vzbid0IHdvcmsu
-DQo+IFN5c3Zpbml0IGlzIHN0aWxsIGJ1aWx0Lg0KPiBTbywgdGhlcmUgaXMgbm8gd2F5IHRvIGRp
-c2FibGUgc3lzdmluaXQgZXhjZXB0IHNldHRpbmcNCj4gRElTVFJPX0ZFQVRVUkVTOnJlbW92ZT0i
-c3lzdmluaXQiIGluIGxvY2FsLmNvbmYsIHJpZ2h0Pw0KDQpUaGUgcHJvYmxlbSBpcyB0aGF0IGxv
-Y2FsLmNvbmYgaXMgcmVhZCBiZWZvcmUgJHtESVNUUk99LmNvbmYsIGFuZCBzaW5jZSANCnBva3ku
-Y29uZiB1c2VzIElOSVRfTUFOQUdFUiA9ICJzeXN2aW5pdCIsIHlvdSB3aWxsIGN1cnJlbnRseSBu
-ZWVkIHRvIHVzZSANCmFuIG92ZXJyaWRlIHRvIGZvcmNlIElOSVRfTUFOQUdFUiB0byB0aGUgdmFs
-dWUgeW91IHdhbnQgaWYgeW91IHdhbnQgdG8NCnNldCBpdCBpbiBsb2NhbC5jb25mLCBlLmcuLCBJ
-TklUX01BTkFHRVI6Zm9yY2V2YXJpYWJsZSA9ICJzeXN0ZW1kIi4gU2luY2UgDQp0aGlzIGlzIHR5
-cGljYWxseSBub3QgZXhwZWN0ZWQsIEkgdGhpbmsgaXQgd291bGQgYmUgbW9yZSBhcHByb3ByaWF0
-ZSB0byANCmNoYW5nZSBwb2t5LmNvbmYgdG8gaW5zdGVhZCB1c2UgSU5JVF9NQU5BR0VSID89ICJz
-eXN2aW5pdCIuDQoNCi8vUGV0ZXINCg0KPiANCj4gDQo+IEJlc3QgcmVnYXJkcw0KPiANCj4gDQo+
-ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiBGcm9tOiBBbGV4IEtpZXJuYW4gPGFs
-ZXgua2llcm5hbkBnbWFpbC5jb20+DQo+ID4gU2VudDogU2F0dXJkYXksIE1heSAyOCwgMjAyMiA1
-OjU3IFBNDQo+ID4gVG86IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29t
-Pg0KPiA+IENjOiBMZWksIE1hb2h1aSA8bGVpbWFvaHVpQGZ1aml0c3UuY29tPjsNCj4gPiBvcGVu
-ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gU3ViamVjdDogUmU6IFtP
-RS1jb3JlXSBESVNUUk9fRkVBVFVSRVNfQkFDS0ZJTExfQ09OU0lERVJFRCA9ICJzeXN2aW5pdCIN
-Cj4gPiBkb2Vzbid0IHdvcmsuDQo+ID4NCj4gPiBJIHN1c3BlY3QgaXQncyB0aGF0IHlvdSBjYW4n
-dCBzZXQgaXQgaW4gbG9jYWwuY29uZiBub3c6DQo+ID4NCj4gPiAjICRJTklUX01BTkFHRVIgWzMg
-b3BlcmF0aW9uc10NCj4gPiAjICAgc2V0IC9ob21lL2FsZXhrL3Bva3kvYnVpbGQvY29uZi9sb2Nh
-bC5jb25mOjI5MQ0KPiA+ICMgICAgICJzeXN0ZW1kIg0KPiA+ICMgICBzZXQgL2hvbWUvYWxleGsv
-cG9reS9tZXRhLXBva3kvY29uZi9kaXN0cm8vcG9reS5jb25mOjcwDQo+ID4gIyAgICAgInN5c3Zp
-bml0Ig0KPiA+ICMgICBzZXQgL2hvbWUvYWxleGsvcG9reS9tZXRhL2NvbmYvZGlzdHJvL2RlZmF1
-bHRzZXR1cC5jb25mOjIwDQo+ID4gIyAgICAgW19kZWZhdWx0dmFsXSAibm9uZSINCj4gPiAjIHBy
-ZS1leHBhbnNpb24gdmFsdWU6DQo+ID4gIyAgICJzeXN2aW5pdCINCj4gPiBJTklUX01BTkFHRVI9
-InN5c3Zpbml0Ig0KPiA+DQo+ID4gT24gRnJpLCBNYXkgMjcsIDIwMjIgYXQgODoxMSBQTSBBbGV4
-YW5kZXIgS2FuYXZpbg0KPiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4NCj4gPiB3cm90ZToNCj4g
-PiA+DQo+ID4gPiBDYW4geW91IGV4cGxhaW4gdGhlIHVzZSBjYXNlIHBsZWFzZT8gSWYgeW91IGp1
-c3Qgd2FudCB0byB1c2Ugc3lzdGVtZCwNCj4gPiA+IHNldCBJTklUX01BTkFHRVIgPSAic3lzdGVt
-ZCIuDQo+ID4gPg0KPiA+ID4gQWxleA0KPiA+ID4NCj4gPiA+IE9uIEZyaSwgMjcgTWF5IDIwMjIg
-YXQgMDI6MzksIGxlaW1hb2h1aSA8bGVpbWFvaHVpQGZ1aml0c3UuY29tPiB3cm90ZToNCj4gPiA+
-ID4NCj4gPiA+ID4gSGksIGFsbA0KPiA+ID4gPg0KPiA+ID4gPiBCZWNhdXNlIHRoZSBmb2xsb3dp
-bmcgcGF0Y2gsICJESVNUUk9fRkVBVFVSRVNfQkFDS0ZJTExfQ09OU0lERVJFRCA9DQo+ID4gInN5
-c3Zpbml0IiIgZG9lc24ndCB3b3JrIGFueW1vcmUuIEkgaGF2ZSB0byAiIERJU1RST19GRUFUVVJF
-UzpyZW1vdmUgPQ0KPiA+ICJzeXN2aW5pdCIgIiBpbnN0ZWFkIHRvIGRpc2FibGUgc3lzdmluaXQu
-DQo+ID4gPiA+IEJ1dCBJJ20gbm90IHZlcnkgY2xlYXIgaWYgdGhlcmUgaXMgZGlmZmVyZW5jZSBi
-ZXR3ZWVuDQo+ID4gIkRJU1RST19GRUFUVVJFU19CQUNLRklMTF9DT05TSURFUkVEIiBhbmQgIiBE
-SVNUUk9fRkVBVFVSRVM6cmVtb3ZlDQo+ID4gIiBmb3IgbXkgaW1hZ2UuIENhbiBhbnlib2R5IHRl
-bGwgbWU/DQo+ID4gPiA+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+
-ID4gPiA+IGNvbW1pdCBhNmViYmUzYTEwZmY3NjM4NmRkZTAzZGRhYTcwOTdiZGIyZjVkOWE1DQo+
-ID4gPiA+IEF1dGhvcjogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRh
-dGlvbi5vcmc+DQo+ID4gPiA+IERhdGU6ICAgV2VkIEFwciAxMyAxODo0MTozOSAyMDIyICswMTAw
-DQo+ID4gPiA+DQo+ID4gPiA+ICAgICBwb2t5OiBVc2UgSU5JVF9NQU5BR0VSIGluIG1haW4gZGlz
-dHJvIGNvbmZpZw0KPiA+ID4gPg0KPiA+ID4gPiAgICAgSnVzdCB0byBrZWVwIHRoaW5ncyBzdGFu
-ZGFyZCBhbmQgY2xlYXIsIHVzZSB0aGUgbmV3IElOSVRfTUFOQUdFUg0KPiA+IHZhcmlhYmxlDQo+
-ID4gPiA+ICAgICBpbiB0aGUgbWFpbiBkaXN0cm8gY29uZmlnLiBUaGlzIG1hdGNoZXMgdGhlIGRl
-ZmF1bHQgY29uZmlnIHdpdGgNCj4gdGhlDQo+ID4gYWRkaXRpb24NCj4gPiA+ID4gICAgIG9mIHNv
-bWUgRElTVFJPX0ZFQVRVUkVTIHR3ZWFrcy4NCj4gPiA+ID4gICAgIC4uLi4uLg0KPiA+ID4gPiAg
-ICAgQkJfSEFTSFNFUlZFID8/PSAiYXV0byINCj4gPiA+ID4gICAgICsNCj4gPiA+ID4gICAgICtJ
-TklUX01BTkFHRVIgPSAic3lzdmluaXQiDQo+ID4gPiA+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tDQo+ID4gPiA+DQo+ID4gPiA+IEJlc3QgcmVnYXJkcw0KPiA+ID4gPiBM
-ZWkNCj4gPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4NCj4gPiA+DQo+ID4gPg0KPiA+ID4NCj4gPg0K
-PiA+DQo+ID4gLS0NCj4gPiBBbGV4IEtpZXJuYW4NCg==
+Hello,
+
+This causes the following error:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/3713/steps/15/logs/stdio
+
+2022-06-17 08:06:44,127 - oe-selftest - INFO - distrodata.Distrodata.test_maintainers (subunit.RemotedTestCase)
+2022-06-17 08:06:44,128 - oe-selftest - INFO -  ... FAIL
+2022-06-17 08:06:44,128 - oe-selftest - INFO - 5: 5/11 58/492 (131.79s) (distrodata.Distrodata.test_maintainers)
+2022-06-17 08:06:44,128 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/selftest/cases/distrodata.py", line 141, in test_maintainers
+    """ + "\n".join(['%s (%s)' % i for i in no_maintainer_list]))
+  File "/usr/lib64/python3.6/unittest/case.py", line 687, in fail
+    raise self.failureException(msg)
+AssertionError: 
+The following recipes do not have a maintainer assigned to them. Please add an entry to meta/conf/distro/include/maintainers.inc file.
+python3-exceptiongroup (/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/recipes-devtools/python/python3-exceptiongroup_1.0.0rc8.bb)
+
+
+On 17/06/2022 14:25:08+0800, wangmy wrote:
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  .../python/python3-exceptiongroup_1.0.0rc8.bb         | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python3-exceptiongroup_1.0.0rc8.bb
+> 
+> diff --git a/meta/recipes-devtools/python/python3-exceptiongroup_1.0.0rc8.bb b/meta/recipes-devtools/python/python3-exceptiongroup_1.0.0rc8.bb
+> new file mode 100644
+> index 0000000000..adf530a6e5
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3-exceptiongroup_1.0.0rc8.bb
+> @@ -0,0 +1,11 @@
+> +DESCRIPTION = "This is a backport of the BaseExceptionGroup and ExceptionGroup classes from Python 3.11."
+> +HOMEPAGE = "https://pypi.org/project/exceptiongroup"
+> +SECTION = "devel/python"
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=d5caa317463c433575efff1d2fe206d7"
+> +
+> +SRC_URI[sha256sum] = "6990c24f06b8d33c8065cfe43e5e8a4bfa384e0358be036af9cc60b6321bd11a"
+> +
+> +#RDEPENDS:${PN} += "python3-profile python3-logging"
+> +
+> +inherit pypi python_setuptools_build_meta
+> -- 
+> 2.25.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#167017): https://lists.openembedded.org/g/openembedded-core/message/167017
+> Mute This Topic: https://lists.openembedded.org/mt/91816507/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
