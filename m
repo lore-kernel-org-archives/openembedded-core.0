@@ -1,72 +1,118 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 760D0C433EF
-	for <webhook@archiver.kernel.org>; Sat, 18 Jun 2022 17:53:20 +0000 (UTC)
-Received: from mailout02.t-online.de (mailout02.t-online.de [194.25.134.17])
- by mx.groups.io with SMTP id smtpd.web12.11537.1655574792373563456
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C93FC433EF
+	for <webhook@archiver.kernel.org>; Sat, 18 Jun 2022 20:54:51 +0000 (UTC)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by mx.groups.io with SMTP id smtpd.web11.2838.1655585688165347173
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Jun 2022 10:53:12 -0700
+ Sat, 18 Jun 2022 13:54:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.17,
- mailfrom: f_l_k@t-online.de)
-Received: from fwd70.dcpf.telekom.de (fwd70.aul.t-online.de [10.223.144.96])
-	by mailout02.t-online.de (Postfix) with SMTP id DED276632
-	for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Jun 2022 19:53:09 +0200 (CEST)
-Received: from flk-MS-7C91.fritz.box ([84.163.46.54]) by fwd70.t-online.de
-	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
-	esmtp id 1o2cdB-1CpVAH0; Sat, 18 Jun 2022 19:53:09 +0200
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Markus Volk <f_l_k@t-online.de>
-Subject: [oecore][PATCH] bc: add missing bison-native dependency
-Date: Sat, 18 Jun 2022 19:52:58 +0200
-Message-Id: <20220618175258.4655-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=GqcpOmv9;
+ spf=pass (domain: gmail.com, ip: 209.85.208.179,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f179.google.com with SMTP id b7so8072995ljr.6
+        for <openembedded-core@lists.openembedded.org>;
+ Sat, 18 Jun 2022 13:54:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mWxM1irP+bkv/U7lGoWu7f777AKpWNDHS05W9sLd17E=;
+        b=GqcpOmv9+tY6lTvKZM9U8HNQ9qrEoPX8egukk35S+FgIhEV3BI5nuxH5Ra3UYKULWj
+         3Q4ghiWs/5iPABag3CrcFg5OJRaRKmw+Jc2JlsDJ68HNvwnWYM/dTpVknywILHc5HLlb
+         yoz+gsKsJ9aUJeAkbDxWCRcI0JIZ/vsZ/Gz0dT+2JBg2ZIkLCukDW2RzqkVlIMfASjkA
+         5TKU/nxdGVz651IvuhLRxnGg53o9MUoSuKB2er+yIE8oKv9e3GWyeoXDgaVIniEH5DJf
+         nj/c9GRdF2eFOnCtiKGMt1dU80f0yQ80mJR5ITg4RmlkqgK7EWtUHMwLeTqchSO1VGPV
+         g5dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mWxM1irP+bkv/U7lGoWu7f777AKpWNDHS05W9sLd17E=;
+        b=w8iMqeRqL4EMqFdPY4kAeEbUf513a92j1M6fF9Et95l/Xcd5iaNHKpylBL+LaX6m9F
+         rgF5CXZUf9AqYjEg1G6FMfg+SnVTIjvUvJm0zNcKHEmWri4KLWUwvO//TyX2TdrvlMEF
+         bOUGYehinD5vxAuZJhLZMa7PUcvW5zmaiNyvYKvJO66CcpHoj6Ge3BxlIOJqH7HCRNaU
+         csjcXD0IBEnTGchgMX98og2z0ge6vEPUx1ja3OKrYc/p2A+ekaEgmDO/cDxBi6I2tJvn
+         j+TFxiDdOR/pxlj3SckdE0N6RZhKP2bVojyx4YD60XfwuiURr2cMhO8nK+j3xDEZupZ3
+         7hHA==
+X-Gm-Message-State: AJIora/MQok4YZJCSocbtzX+55YwQe9VSFkH01S8ec82qLlf+TJWBQSH
+	LKQ0RfMj3nHK1KjnyUV0GuZX8/x+WaUo30Dj9BM=
+X-Google-Smtp-Source: 
+ AGRyM1ujybU6uARQa+IhoXUb/nZgutlfv/rtLbn1bFp10o3GDE18BPJPKPTjSVVAV0y7NkwViTSRu8I/PBrYTL/NQx4=
+X-Received: by 2002:a2e:2ac1:0:b0:255:6d35:6726 with SMTP id
+ q184-20020a2e2ac1000000b002556d356726mr7978577ljq.41.1655585686197; Sat, 18
+ Jun 2022 13:54:46 -0700 (PDT)
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1655574789-0143FF0B-1DC26D50/0/0 CLEAN NORMAL
-X-TOI-MSGID: 5ebfbe9a-d965-4258-b3be-fa6c939fe859
-Content-Transfer-Encoding: quoted-printable
+References: 
+ <0101018167766164-801a0ad2-878a-4227-8a83-56edb97227ce-000000@us-west-2.amazonses.com>
+In-Reply-To: 
+ <0101018167766164-801a0ad2-878a-4227-8a83-56edb97227ce-000000@us-west-2.amazonses.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 18 Jun 2022 22:54:34 +0200
+Message-ID: 
+ <CANNYZj_gJRaGsbm-Lb=eVZqYD1u=N4Xqe0edEz6DfTunT3hRWw@mail.gmail.com>
+Subject: Re: [OE-core] [AUH] python3-jsonschema: upgrading to 4.6.0 FAILED
+To: Ross Burton <ross@burtonini.com>, Tim Orling <ticotimo@gmail.com>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 18 Jun 2022 17:53:20 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 18 Jun 2022 20:54:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167030
+ https://lists.openembedded.org/g/openembedded-core/message/167031
 
-this fixes an error i encountered building for raspberrypi4 32bit:
+python3-jsonschema has replaced setuptools with a "modern,
+well-designed, legacy-free, and now well-supported packaging tool,
+Hatch", which oe-core does not yet support:
+https://github.com/python-jsonschema/jsonschema/commit/f61f3b7a73c14409178921bf4ce23050bf90560d
 
-prefix-map=3D/home/flk/build/poky/build-raspi/tmp/work/cortexa7t2hf-neon-=
-vfpv4-poky-linux-gnueabi/bc/1.07.1-r0/recipe-sysroot-native=3D  -Wall -fu=
-nsigned-char -c -o warranty.o ../../bc-1.07.1/bc/warranty.c
-| ../../bc-1.07.1/ylwrap: line 176: yacc: command not found
-| make[2]: *** [Makefile:429: bc.c] Error 127
+Ross, I think there's been some work to enable that? Can you carry it
+to completion?
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- meta/recipes-extended/bc/bc_1.07.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Alex
 
-diff --git a/meta/recipes-extended/bc/bc_1.07.1.bb b/meta/recipes-extende=
-d/bc/bc_1.07.1.bb
-index 1bec76bb2a..67453de822 100644
---- a/meta/recipes-extended/bc/bc_1.07.1.bb
-+++ b/meta/recipes-extended/bc/bc_1.07.1.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd32239bcb673=
-463ab874e80d47fae504 \
-                     file://lib/number.c;endline=3D20;md5=3Dcf43068cc88f8=
-37731dc53240456cfaf"
-=20
- SECTION =3D "base"
--DEPENDS =3D "flex-native"
-+DEPENDS =3D "flex-native bison-native"
-=20
- SRC_URI =3D "${GNU_MIRROR}/${BPN}/${BP}.tar.gz \
-            file://no-gen-libmath.patch \
---=20
-2.25.1
-
+On Wed, 15 Jun 2022 at 15:05, Auto Upgrade Helper <auh@yoctoproject.org> wrote:
+>
+> Hello,
+>
+> this email is a notification from the Auto Upgrade Helper
+> that the automatic attempt to upgrade the recipe *python3-jsonschema* to *4.6.0* has Failed(do_compile).
+>
+> Detailed error information:
+>
+> do_compile failed
+>
+>
+>
+> Next steps:
+>     - apply the patch: git am 0001-python3-jsonschema-upgrade-4.5.1-4.6.0.patch
+>     - check the changes to upstream patches and summarize them in the commit message,
+>     - compile an image that contains the package
+>     - perform some basic sanity tests
+>     - amend the patch and sign it off: git commit -s --reset-author --amend
+>     - send it to the appropriate mailing list
+>
+> Alternatively, if you believe the recipe should not be upgraded at this time,
+> you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+> automatic upgrades would no longer be attempted.
+>
+> Please review the attached files for further information and build/update failures.
+> Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+>
+> Regards,
+> The Upgrade Helper
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#166956): https://lists.openembedded.org/g/openembedded-core/message/166956
+> Mute This Topic: https://lists.openembedded.org/mt/91775634/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
