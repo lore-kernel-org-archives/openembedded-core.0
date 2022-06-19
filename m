@@ -1,124 +1,79 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFF9CC433EF
-	for <webhook@archiver.kernel.org>; Sun, 19 Jun 2022 19:35:47 +0000 (UTC)
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
- [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web11.11833.1655667339625738286
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82AD9C433EF
+	for <webhook@archiver.kernel.org>; Sun, 19 Jun 2022 21:25:28 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.22973.1655673924600457195
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 12:35:39 -0700
+ Sun, 19 Jun 2022 14:25:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=ZqYaNW8L;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.170,
- mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f170.google.com with SMTP id l4so8434153pgh.13
-        for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 12:35:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=wcPTENRltBKOctxxp+/M02PgQ18z3NwLJeyz7PaymoE=;
-        b=ZqYaNW8LqoGuCtlG6MSSVV2nJKU1PUjetSYhdaiYqYmTeuchXwYsFOFB3Ag3nrdhqD
-         S41ss8+hkerDq9R2oRd0jEOATEcgpswu9JSAyR6+L7T4eOdxccQav+JS4s/sCzTJDk5P
-         BxxoATLfW/HSdRBTddGLC/ZxCeHKNQSXPPuQJyaGzEdCWSjJkuJsJMO55Wf2o2pwtocF
-         TsEB0i9KFQfgCwldDu1/yurMPjW5PjNJ6WtCRMCFm0Is1iYa6L2JAVr6+JyypfF+J77y
-         RbDDf5ah17EpAlOGUpzs6hQTGZho50aibZzi6VDW88UnIvv0QBlQdIjn/6vwVCELYJ4W
-         aD+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=wcPTENRltBKOctxxp+/M02PgQ18z3NwLJeyz7PaymoE=;
-        b=j6qx7fl1zqfInhSgldPZ2s3BZTt4uNVzv7r27RkR2jFYHrgQ+fkhusK93gzGVYa7zJ
-         DE4T04b1+OypdC9NM6swUzHYII3nTIavzwgKZH11wptt3PHOKjHwYJfOjUpUsLMd5ubr
-         cpln6eE0+3wTfVC0m2H5flS5yFrTDlcrZXdRPhzrlToI8LwcUdUdQdBCNOnuTRAVsBOB
-         D21RU1TgjEuul/KpFFuNcISpFF8FdfHfrCX4xvCc7N1d85dKgKRsYs2jziMcTV3F9yWP
-         hJUJVV701gx6S/ewzuzrtL9BYXO6OgDQYaykUCKg7skM8UMYglky7/I2vGraTZSZw81n
-         Ohdw==
-X-Gm-Message-State: AJIora+Z0IenEQcdzfX3veBL/V5FXsqcSAqWdVO6RCnWVKwcdQ+LBax4
-	YXAHy/m43zceJ58trZgyosvOoU+a+wbMqXlF
-X-Google-Smtp-Source: 
- AGRyM1sn54QjS/dh52NN2rV78XtQLwJbLDF9xd3E462tEuanwzypOrmP9cgdLMnWarJNWgXBQA3msg==
-X-Received: by 2002:a63:fc01:0:b0:403:af21:9729 with SMTP id
- j1-20020a63fc01000000b00403af219729mr18426756pgi.54.1655667338682;
-        Sun, 19 Jun 2022 12:35:38 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
-        by smtp.gmail.com with ESMTPSA id
- e5-20020a170902ed8500b001678dcb4c5asm216994plj.100.2022.06.19.12.35.37
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jun 2022 12:35:38 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
+ dkim=missing;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4A0911063;
+	Sun, 19 Jun 2022 14:25:24 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com
+ (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A7D663F5A1;
+	Sun, 19 Jun 2022 14:25:23 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 10/12] e2fsprogs: add alternatives handling of
- lsattr as well
-Date: Sun, 19 Jun 2022 09:35:04 -1000
-Message-Id: 
- <28090d32c88d99ea36a03f3bb723838746001e4b.1655667170.git.steve@sakoman.com>
+Cc: nd@arm.com
+Subject: [PATCH 3/3] python3-jsonschema: upgrade 4.5.1 -> 4.6.0
+Date: Sun, 19 Jun 2022 22:25:20 +0100
+Message-Id: <20220619212520.4158865-3-ross.burton@arm.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1655667170.git.steve@sakoman.com>
-References: <cover.1655667170.git.steve@sakoman.com>
+In-Reply-To: <20220619212520.4158865-1-ross.burton@arm.com>
+References: <20220619212520.4158865-1-ross.burton@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Jun 2022 19:35:47 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 19 Jun 2022 21:25:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167072
+ https://lists.openembedded.org/g/openembedded-core/message/167077
 
-From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Switch the build system from setuptools to hatch.
 
-Building busybox with CONFIG_LSATTR=y and installing that in the same
-filesystem as e2fsprogs breaks:
-
-  ERROR: ... do_rootfs: Postinstall scriptlets of ['busybox'] have failed. If the intention is to defer them to first boot,
-  then please place them into pkg_postinst_ontarget:${PN} ().
-  Deferring to first boot via 'exit 1' is no longer supported.
-
-Fix that by also alternatifying lsattr just as chattr already is.
-
-Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 96703961eeb3460e9da26503d7942cc965d1e573)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.7.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ ...hon3-jsonschema_4.5.1.bb =3D> python3-jsonschema_4.6.0.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3-jsonschema_4.5.1.bb =3D> py=
+thon3-jsonschema_4.6.0.bb} (84%)
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.7.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.7.bb
-index 3e6faf4cb8..b1abf6b858 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.7.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.7.bb
-@@ -54,6 +54,7 @@ do_install () {
- 	oe_multilib_header ext2fs/ext2_types.h
- 	install -d ${D}${base_bindir}
- 	mv ${D}${bindir}/chattr ${D}${base_bindir}/chattr.e2fsprogs
-+	mv ${D}${bindir}/lsattr ${D}${base_bindir}/lsattr.e2fsprogs
- 
- 	install -v -m 755 ${S}/contrib/populate-extfs.sh ${D}${base_sbindir}/
- 
-@@ -102,10 +103,12 @@ FILES_libe2p = "${base_libdir}/libe2p.so.*"
- FILES_libext2fs = "${libdir}/e2initrd_helper ${base_libdir}/libext2fs.so.*"
- FILES_${PN}-dev += "${datadir}/*/*.awk ${datadir}/*/*.sed ${base_libdir}/*.so ${bindir}/compile_et ${bindir}/mk_cmds"
- 
--ALTERNATIVE_${PN} = "chattr"
-+ALTERNATIVE_${PN} = "chattr lsattr"
- ALTERNATIVE_PRIORITY = "100"
- ALTERNATIVE_LINK_NAME[chattr] = "${base_bindir}/chattr"
- ALTERNATIVE_TARGET[chattr] = "${base_bindir}/chattr.e2fsprogs"
-+ALTERNATIVE_LINK_NAME[lsattr] = "${base_bindir}/lsattr"
-+ALTERNATIVE_TARGET[lsattr] = "${base_bindir}/lsattr.e2fsprogs"
- 
- ALTERNATIVE_${PN}-doc = "fsck.8"
- ALTERNATIVE_LINK_NAME[fsck.8] = "${mandir}/man8/fsck.8"
--- 
+diff --git a/meta/recipes-devtools/python/python3-jsonschema_4.5.1.bb b/m=
+eta/recipes-devtools/python/python3-jsonschema_4.6.0.bb
+similarity index 84%
+rename from meta/recipes-devtools/python/python3-jsonschema_4.5.1.bb
+rename to meta/recipes-devtools/python/python3-jsonschema_4.6.0.bb
+index 9f8719870c2..edd7fafc77d 100644
+--- a/meta/recipes-devtools/python/python3-jsonschema_4.5.1.bb
++++ b/meta/recipes-devtools/python/python3-jsonschema_4.6.0.bb
+@@ -4,11 +4,11 @@ LICENSE =3D "MIT"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D7a60a81c146ec25599a3e1dabb861=
+0a8 \
+                     file://json/LICENSE;md5=3D9d4de43111d33570c8fe49b4cb=
+0e01af"
+=20
+-SRC_URI[sha256sum] =3D "7c6d882619340c3347a1bf7315e147e6d3dae439033ae638=
+3d6acb908c101dfc"
++SRC_URI[sha256sum] =3D "9d6397ba4a6c0bf0300736057f649e3e12ecbc07d3e81a0d=
+acb72de4e9801957"
+=20
+-inherit pypi python_setuptools_build_meta
++inherit pypi python_hatchling
+=20
+-DEPENDS +=3D "${PYTHON_PN}-vcversioner-native ${PYTHON_PN}-setuptools-sc=
+m-native"
++DEPENDS +=3D "${PYTHON_PN}-hatch-vcs-native"
+=20
+ PACKAGECONFIG ??=3D "format"
+ PACKAGECONFIG[format] =3D ",,,\
+--=20
 2.25.1
 
 
