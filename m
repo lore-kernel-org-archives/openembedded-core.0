@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5AECC3F2D4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D10B8C43334
 	for <webhook@archiver.kernel.org>; Sun, 19 Jun 2022 19:31:17 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web12.22092.1655667076258179197
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.11779.1655667065395055413
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 12:31:16 -0700
+ Sun, 19 Jun 2022 12:31:05 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=ai6Q74N+;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175,
+ header.b=q2r9a/Y4;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id bo5so8469122pfb.4
+Received: by mail-pl1-f176.google.com with SMTP id k7so8001179plg.7
         for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 12:31:16 -0700 (PDT)
+ Sun, 19 Jun 2022 12:31:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=XnbfbcLRkjwx7eHchV2H313AxRrqYjvHK9z17b02mMM=;
-        b=ai6Q74N+pNJd7ylTRc/vWU5a4rT146Lh9KjVnAkZo1dC/w2P0c0fE4DEZYG0dy9tQ3
-         I6yJWIggBpG1Nv9nFqlN9ocNRytnS8qHYdW+RZ419jWqQ1GaaNUxCJb14p5w3OCyPXTE
-         fp8VwKCNXecCV8bB1Q48ONtK+o934wlODNCQYxw6ZTyAWdhJh+cF7D7AeQvR/lLY9bSw
-         pbc9pT4vV4od5VOEnzlLq+MV7xbMCOnXcO/kfatnO/O0sRF9D6auHC2HbDIaGYE9iDcr
-         w8M/slXa+wEpQlsYw79rL1Q266OJtYHzLb4hShjMKxpxzdCjQQ/Lxnq43bItsQmRAAi0
-         +vLA==
+        bh=+/XZik0pxh+Hbke4zcHiAvA0d2x8SEAe0OXB3jtlwx0=;
+        b=q2r9a/Y47PWixMoHqD9XVbmIY1sqxb4DYzqHLOEwsS/SkLmK4tDrHYA247qilh4LS0
+         v/5iLjPeSUyMbyu1etZHcAdm6mK3rGGENmipN6K3FOxWe71lP76qombM/dbiCG3FIZLw
+         jtGIp1Z9+AzeFm2WC0C5cZ0lss0vXb0RUjeZgVCkp0c5F9PybjY+nL8IuWYDvbXOh7Ee
+         kGtek890ctn3byRqNazVxvHe4pjPOlBxIuGv6IvVfP0CrnxDukFnRpba7PSW/pAopKvs
+         LOrk4c4IMCQrFjnZhUNZPgIFbKb9WiHNs2yE91i0TEAFHkc7HfRvMxzmtu5Dv49IxPpv
+         g8Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XnbfbcLRkjwx7eHchV2H313AxRrqYjvHK9z17b02mMM=;
-        b=qFxgYdtVHuW6wpkAlAtoRbMOL7rq6byMxnOMOHYEpBQI3Ho4E/rJ4Dy6OIepd5HGYZ
-         nn1sLjoHlr0FUwsGEcGzaP4LtkSUqn+Oco1G5GrLQBTEuvf8bZi8DjA7Ej1LyBldunq8
-         X1NLi5MdFionjR1vBGeFOqeb90y8aUs+ZkAKP0TjJGSbNHCV4mXpegPmvRu1WuhoQggU
-         hgrtHhhUtMYLjfpB/FVg5xdaUfjvPqDkepS0h5YGM6iX8iO3bWJbEvWVzCN9n3roKMPU
-         lHWUI2fHHA1nO2K/slgWqSfB29pFvKYrUOIGyrNox+kLPTBnGhEwWdwro4WRqPN0go0i
-         qSCw==
-X-Gm-Message-State: AJIora/TIIPPwtvQCty/oG8Sr7JHVaQ1CZdWjwRQ+JvRhooX7bqghsIP
-	anHJMFXOAMNJrjA0Gx4sLjAzhinxrBPis4/v
+        bh=+/XZik0pxh+Hbke4zcHiAvA0d2x8SEAe0OXB3jtlwx0=;
+        b=7ruurw/uEdKrm6g49UTEJMV4b5WceAUuIhia0MMIS8n6MG0CvzhygAkkpCY1i5CaMt
+         p0i+E9VcSTsOwltbDwlLePpFrZHxXiwCSAOpQeh1VxMb1eEJgkfO6NBfNMc1pPtMVnwr
+         E7tXzqw2z4cDxd1l3OkM7mdeLEuHQ1cjGA7GnADifB2srLnHfJF0MyNmLN41bOv3C6GK
+         +t7Vl8TLPhArv0TQ/yl37e9oJaZHPkvWdd/c3smn7GUYcguewWkbth6jO9IOhnZHeY0r
+         d4NqvJrsFht11lYKEDN6kJklngYL3lh/kFMdplz0uAovrfOuITjn+jo5alTXlsfymRQ+
+         1Obw==
+X-Gm-Message-State: AJIora/AGjoCwnyJ5zw2XH6fKzBq2jJtfhy7zxvUqBeFGPS0bsgr2zXh
+	aNl4WjzMw9OvsJXguGG8XGqD+a2vZooWNmyi
 X-Google-Smtp-Source: 
- AGRyM1tPADdbh3bACrR7XA6Yyp6zCYfumykGspXWzI0jIGfhwBdmSaQ/N/yJKkPbCvRUC4IXJ6p/PQ==
-X-Received: by 2002:a63:3c0f:0:b0:40c:8a83:fc4 with SMTP id
- j15-20020a633c0f000000b0040c8a830fc4mr6642344pga.397.1655667075283;
-        Sun, 19 Jun 2022 12:31:15 -0700 (PDT)
+ AGRyM1vQvsRghtwl2gCghcJa6zCFVladfGkhqDTHAkvZE+N23MXBbNi243Ul0TzkwNI67NP4h01YCw==
+X-Received: by 2002:a17:90b:3849:b0:1e8:7f47:5dcd with SMTP id
+ nl9-20020a17090b384900b001e87f475dcdmr33477009pjb.61.1655667064442;
+        Sun, 19 Jun 2022 12:31:04 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- o2-20020a637e42000000b003fe4836abdasm7432886pgn.1.2022.06.19.12.31.13
+ o2-20020a637e42000000b003fe4836abdasm7432886pgn.1.2022.06.19.12.31.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jun 2022 12:31:14 -0700 (PDT)
+        Sun, 19 Jun 2022 12:31:03 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 06/15] archiver: use bb.note instead of echo
-Date: Sun, 19 Jun 2022 09:30:41 -1000
+Subject: [OE-core][kirkstone 01/15] vim: Upgrade 8.2.5034 -> 8.2.5083
+Date: Sun, 19 Jun 2022 09:30:36 -1000
 Message-Id: 
- <d8cb65b2aee311cad4d174e0770bcb6ef51bedf5.1655666951.git.steve@sakoman.com>
+ <b85e29de4bca17834b003d499db5129fc5dee75e.1655666951.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1655666951.git.steve@sakoman.com>
 References: <cover.1655666951.git.steve@sakoman.com>
@@ -69,32 +69,36 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 19 Jun 2022 19:31:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167052
+ https://lists.openembedded.org/g/openembedded-core/message/167047
 
-From: Jose Quaresma <quaresma.jose@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Includes fixes for CVE-2022-1927, CVE-2022-1942.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6420c8a6a8143f53ccad7ab2d56b2ba06db83099)
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 1e740b5c2227c0040621ae63436d06db4873670f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/archiver.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/vim/vim.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index c19c770d11..8d026067f4 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -579,7 +579,7 @@ python do_dumpdata () {
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index b22e8016ab..06707dbe11 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -21,8 +21,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://racefix.patch \
+            "
  
- SSTATETASKS += "do_deploy_archives"
- do_deploy_archives () {
--    echo "Deploying source archive files from ${ARCHIVER_TOPDIR} to ${DEPLOY_DIR_SRC}."
-+    bbnote "Deploying source archive files from ${ARCHIVER_TOPDIR} to ${DEPLOY_DIR_SRC}."
- }
- python do_deploy_archives_setscene () {
-     sstate_setscene(d)
+-PV .= ".5034"
+-SRCREV = "5a6ec10cc80ab02eeff644ab19b82312630ea855"
++PV .= ".5083"
++SRCREV = "db77c49401145d76441fbb3d22a1d7d987681c13"
+ 
+ # Remove when 8.3 is out
+ UPSTREAM_VERSION_UNKNOWN = "1"
 -- 
 2.25.1
 
