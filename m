@@ -1,112 +1,135 @@
-Return-Path: <fede.evol@gmail.com>
+Return-Path: <ptsneves@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADC87C433EF
-	for <webhook@archiver.kernel.org>; Sun, 19 Jun 2022 15:24:26 +0000 (UTC)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.web08.20034.1655652261100780584
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5E1BC433EF
+	for <webhook@archiver.kernel.org>; Sun, 19 Jun 2022 19:20:57 +0000 (UTC)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by mx.groups.io with SMTP id smtpd.web10.21875.1655666448028395038
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 08:24:21 -0700
+ Sun, 19 Jun 2022 12:20:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=EzYD4NU5;
- spf=pass (domain: gmail.com, ip: 209.85.208.42,
- mailfrom: fede.evol@gmail.com)
-Received: by mail-ed1-f42.google.com with SMTP id cf14so2179768edb.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=dZNXnMyV;
+ spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: ptsneves@gmail.com)
+Received: by mail-lf1-f51.google.com with SMTP id y32so14135932lfa.6
         for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 08:24:20 -0700 (PDT)
+ Sun, 19 Jun 2022 12:20:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=w+bnSc8hLdy0CpmjIrT/W08Hz3k+xrowFGjFexqN1PI=;
-        b=EzYD4NU5Bn4FdrW+U4EC20IbkIx++4loo9S+gBZhr8NeYRjJ4Fb/KYoosVUT+JWnCB
-         X3ws5H3QCMX14i6kBt5Y7rql6gxmlbHfMXD5JYhlRD9IuMtQBjqj1AAAN3TC86AD4yRQ
-         NgJ08f30cXTJCyKbWKGrpy43i7ubfEi0A/RCDGbrdnuv8ZjvgRLjKCapN0h1UmaStTAw
-         1JZObkRoNhG/RezB92ScIECQ3ZHeiXGnSMWSYd76LLitOnGgz5WxhErLBFPMvb6qbotM
-         JPmD+VCefW1VajKB1KevJ0KXUFBKq/lLMNeAuekDA72WuIetdIRQeM1gMHxTuF7plLPa
-         d1rA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=FTC5cXBGpbyP49C4is+heUbT3LnE71851DctikNERJo=;
+        b=dZNXnMyVFhzV2rhmj5Eqhg8AZUMmmESt+xaG4ocO9RtVytvGVEFTB6J6tYjxuVCmzR
+         9NUVjqW0i5ILB3l8RSZde8/UpQi6XqB43uLM/HI1I38X99xDGRyUqskDJf0zFF0jtQCv
+         6Iw7wtcsTh3u3ZUul8M/qQ36wVIaGMBI2whpPES6RsCoBC+6Gb1mmbHhJCSSwY+/ivv2
+         nod1/xcc7rsQ1Y6qTTWWcdAKLjNNKjtzp3k98kUd0fSCUgadWa4PhSH2w/t3WgDt2bF8
+         rz2c3VT0GTrFAwp6n1Nmaj6Xk2oL6tgtoyuT7/VWj3f3sQx7I3sDCtE6pL+jqU0Wpss/
+         cptg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=w+bnSc8hLdy0CpmjIrT/W08Hz3k+xrowFGjFexqN1PI=;
-        b=ShUSvh1//+K3RleICob25Wv9QaQgkeqwC2p+0onMjiJxAnIKDIc52u2CdNPpVDwhiU
-         6LgweOS7I3I99E0egZEhSUpanVsuWai2HAC9pFQN9yDUa3i61tio2CvyCAIt4y+kLmfU
-         +Ccmqv33xDiaKZ3ZcYsee468hHISObWKQLRfrE4lPHjcohy6kfHRcrhEUZYI9gdynkjg
-         56+jQCavPvdt5xcm0sIvFCrPAoebQ6InMBkYw2nHXaTIeeTG+xCU65PzD8Dy7t3XnmqS
-         SPuekBbfSQIYyur6cjPNWXKVR8wUkxvONalY7FrKE8kOdiMCm8HaEB8e+BPFu+tiYe/1
-         b3hQ==
-X-Gm-Message-State: AJIora8Vb4hmzUNO1v1RlwRmuCSLztjBSzqwCQ6d7y9XCq0ICz0hNnr0
-	4KAmjL+iNILMEkcpGRSsyhXjYp8227xKKQ==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=FTC5cXBGpbyP49C4is+heUbT3LnE71851DctikNERJo=;
+        b=SUlGzhZWyYki5t69/z8aLXhcvxxMgShr1+5iZDe9h5L4kwW6Kn+ZaD9l9ZqbRaqyQ5
+         Fmuht7xzizQaMMmRAatD7Nn66mNfoZU/L+YbOKA1P5/0fkK/piVlUOZ3CmCMYi90PcZI
+         iXLmP3Lg9WYxUbnTcPJ2RLzepePVNBjMSOiRhdgXxl2M25PkqzICGpvp48nSi7ZzeHpQ
+         JNWWKRggsH+wHpbCz0qFSoRMc5lutfPqQkMvbF5v8HN707inbvReIJI8YxC/PsEbP/jt
+         4/qdcog1Za4ELeDo3dSKp3wNFY/okuSAdrF3S90sCNBPzGPoDpvzDucD0IWWGgpBQs+G
+         Lccg==
+X-Gm-Message-State: AJIora+zajBbmCDSqr0JhE0ntSlYzAd2Ew161D7Ayax2bI9muB5c5kn5
+	fZIZyzk6PFMi2Hy8gy/gOPvS0YqrNA==
 X-Google-Smtp-Source: 
- AGRyM1u3hRdiEMUv214KaBvk0Cu3s+rZ9hBXp+mnXVNSRN9HaFYRo9gtMMclu6dp7EO63/2EAHxOHQ==
-X-Received: by 2002:a05:6402:40c9:b0:42d:da4a:9a72 with SMTP id
- z9-20020a05640240c900b0042dda4a9a72mr24549955edb.380.1655652259687;
-        Sun, 19 Jun 2022 08:24:19 -0700 (PDT)
-Received: from interzone.fritz.box ([2a02:2455:e62:5a00:cd58:9e10:e01f:52a7])
+ AGRyM1veNlnPn35DwQVTqqHLeeIjCSDh4PCJuJNeMSH9x/Wu0Saxi9cl/FARyAgiPN3XjmuJ9N2HIw==
+X-Received: by 2002:a05:6512:12d3:b0:47f:5a20:400b with SMTP id
+ p19-20020a05651212d300b0047f5a20400bmr5680110lfg.572.1655666445760;
+        Sun, 19 Jun 2022 12:20:45 -0700 (PDT)
+Received: from pneves-XPS-15-9550.home (83.11.57.73.ipv4.supernova.orange.pl.
+ [83.11.57.73])
         by smtp.gmail.com with ESMTPSA id
- fd18-20020a056402389200b0043570d96d25sm3313072edb.95.2022.06.19.08.24.18
+ k1-20020a2eb741000000b0025a59470621sm817020ljo.26.2022.06.19.12.20.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jun 2022 08:24:19 -0700 (PDT)
-Sender: Federico Pellegrin <fede.evol@gmail.com>
-From: Federico Pellegrin <fede@evolware.org>
+        Sun, 19 Jun 2022 12:20:45 -0700 (PDT)
+From: Paulo Neves <ptsneves@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Federico Pellegrin <fede@evolware.org>
-Subject: [poky][meta][PATCHv2] signing-keys: fix RDEPENDS to signing-keys-dev
-Date: Sun, 19 Jun 2022 17:24:17 +0200
-Message-Id: <20220619152417.44584-1-fede@evolware.org>
-X-Mailer: git-send-email 2.35.3
+Cc: Paulo Neves <ptsneves@gmail.com>
+Subject: [PATCH v6 1/7] python: Avoid shebang overflow on python-config.py
+Date: Sun, 19 Jun 2022 21:20:35 +0200
+Message-Id: <20220619192041.1113263-1-ptsneves@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220606155807.1414519-1-ptsneves@gmail.com>
+References: <20220606155807.1414519-1-ptsneves@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Jun 2022 15:24:26 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 19 Jun 2022 19:20:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167037
+ https://lists.openembedded.org/g/openembedded-core/message/167039
 
-Specific provider (ie. RPM or IPK) does "provide" just itself as a
-package to the system. This will cause the "-dev" package, which
-refers to the generic signing-keys and not the provider specific,
-to miss the dependency.
+The native path may be too big, leading to shebang
+overflow. Just use the #!/usr/bin/env python3.
 
-Error case (RPM) when populating sdk:
-
-Error:
- Problem: conflicting requests
-  - nothing provides signing-keys = 1.0-r0 needed by signing-keys-dev-1.0-r0.noarch
-(try to add '--skip-broken' to skip uninstallable packages)
-
-Examining signing-keys-rpm packages in PROVIDES we have indeed:
-signing-keys-rpm = 1.0-r0
-
-But in signing-keys-dev: in REQUIRES:
-signing-keys-1.0-r0
-
-This MR will fix the situation by removing the RDEPENDS for
-the -dev package
-
-Signed-off-by: Federico Pellegrin <fede@evolware.org>
+Signed-off-by: Paulo Neves <ptsneves@gmail.com>
 ---
- meta/recipes-core/meta/signing-keys.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ ...shebang-overflow-on-python-config.py.patch | 33 +++++++++++++++++++
+ .../recipes-devtools/python/python3_3.10.4.bb |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
 
-diff --git a/meta/recipes-core/meta/signing-keys.bb b/meta/recipes-core/meta/signing-keys.bb
-index 03463f95f56..107a39d6581 100644
---- a/meta/recipes-core/meta/signing-keys.bb
-+++ b/meta/recipes-core/meta/signing-keys.bb
-@@ -18,6 +18,8 @@ FILES:${PN}-rpm = "${sysconfdir}/pki/rpm-gpg"
- FILES:${PN}-ipk = "${sysconfdir}/pki/ipk-gpg"
- FILES:${PN}-packagefeed = "${sysconfdir}/pki/packagefeed-gpg"
- 
-+RDEPENDS:${PN}-dev = ""
+diff --git a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+new file mode 100644
+index 0000000000..921da8de7c
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+@@ -0,0 +1,33 @@
++From f0c9dec63d452a7cd1e15ea653f4aced281f021c Mon Sep 17 00:00:00 2001
++From: Paulo Neves <ptsneves@gmail.com>
++Date: Tue, 7 Jun 2022 16:16:41 +0200
++Subject: [PATCH 1/1] Avoid shebang overflow on python-config.py
 +
- python do_get_public_keys () {
-     from oe.gpg_sign import get_signer
++The whole native path may be too big, leading to shebang
++overflow. Let's just use the env shebang.
++
++Denial reason: [1]
++
++Upstream-Status: Denied [distribution]
++
++[1] https://github.com/python/cpython/pull/93760#pullrequestreview-1005365737
++---
++ Makefile.pre.in | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/Makefile.pre.in b/Makefile.pre.in
++index f0aedb76cb58999427804255da56fa53284d7032..dd88e43114730f7681715777cc76dabb31113176 100644
++--- a/Makefile.pre.in
+++++ b/Makefile.pre.in
++@@ -1638,6 +1638,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
++ 	@ # Substitution happens here, as the completely-expanded BINDIR
++ 	@ # is not available in configure
++ 	sed -e "s,@EXENAME@,$(BINDIR)/python$(LDVERSION)$(EXE)," < $(srcdir)/Misc/python-config.in >python-config.py
+++	@ # Otherwise we might get huge shebangs with native paths
+++	sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' python-config.py
++ 	@ # Replace makefile compat. variable references with shell script compat. ones; $(VAR) -> ${VAR}
++ 	LC_ALL=C sed -e 's,\$$(\([A-Za-z0-9_]*\)),\$$\{\1\},g' < Misc/python-config.sh >python-config
++ 	@  # In OpenEmbedded, always use the python version of the script, the shell
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/python/python3_3.10.4.bb b/meta/recipes-devtools/python/python3_3.10.4.bb
+index 6bd3a6aba8..357025f856 100644
+--- a/meta/recipes-devtools/python/python3_3.10.4.bb
++++ b/meta/recipes-devtools/python/python3_3.10.4.bb
+@@ -34,6 +34,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch \
+            file://0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch \
+            file://deterministic_imports.patch \
++           file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
+            "
  
+ SRC_URI:append:class-native = " \
 -- 
-2.35.3
+2.25.1
 
 
