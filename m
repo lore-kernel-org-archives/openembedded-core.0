@@ -2,65 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E69DCCCA47C
-	for <webhook@archiver.kernel.org>; Sun, 19 Jun 2022 19:35:37 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web09.22260.1655667330988070407
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9E6CC43334
+	for <webhook@archiver.kernel.org>; Sun, 19 Jun 2022 19:35:47 +0000 (UTC)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+ [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web10.22010.1655667344274818584
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 12:35:31 -0700
+ Sun, 19 Jun 2022 12:35:44 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=ZYq56eQ2;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49,
+ header.b=g1BnSzN8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id
- y13-20020a17090a154d00b001eaaa3b9b8dso8399078pja.2
+Received: by mail-pf1-f180.google.com with SMTP id c205so1756353pfc.7
         for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 12:35:30 -0700 (PDT)
+ Sun, 19 Jun 2022 12:35:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=pnsd9fGlgzfh1lFeAiHnwRvENCH9rGydJbvP8hHC7dA=;
-        b=ZYq56eQ2T5ywKx6Qpq1mr+f9iLd9QBQxjrMRhiqffJF5/PmDjSqQEdCynMgxMWGRv+
-         9JNe9wwXfgS+2qajcyzbr69M8CAyq7PaUbroT5I1BbFjUA8B+E3u796bHDEvArnOdDmo
-         UTGmOsFKA4LhRKHVmMILVO49eUcyDoR+gR0rVxc4vNu4NzPa2X73+MDYf9qxD1VJRbTd
-         mTeFnQoFJ9NQFADIlOfeZTxY+beGE+RYMNHHQsWOJcZZvgLi61w7TemMrjI+XnkeZ0X6
-         E67bx6pKasU1e440MRfShgxy17kZHsXldkEwABhxcC7z2vNRZ+BGU2nrwBDnREOhqbOv
-         lFAQ==
+        bh=1f2NpFwHAU/vX+tBhekGqxELikj9PqXbvYEwAALtMDM=;
+        b=g1BnSzN8FH8Qjjz+iYxNNr8xzIeLR0qkJ0flZRGLsFW+QW5t34Np5+DqtG+RVMP/X7
+         /cTX6lEjwYVjAjFD0l87t2ojvUQbclE/fno7zH9fjj7bgo2KzicMYNd26asSO7U7gx5S
+         48wv4cma3DKl2+8W7eU/jpQ99VWtysZuhPZC2JHf/fL7n/nh7rVxaslI3rGDgR+qZdNX
+         Hrn5jrA6mF4+y9Bcpj9OOM/UdkV5vekkEJErVP9mAuEA561iIYB4Q6ckuUYkHHc6ovuS
+         Tio15+vRevS2qCwujBtCFj1AulgLolXgooR75zkJ7geYzaVdnyD0OQol07HU9TZUNCe4
+         XXew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pnsd9fGlgzfh1lFeAiHnwRvENCH9rGydJbvP8hHC7dA=;
-        b=yyFAT59/Q7tfcFfLkU3mTyd2VBtPgHwMMkBJnnYYL13K8oSOi46r8uYOg2n2T2hxQ3
-         3FjewYmUmuxT+9Vvm0YjtNQh9bPUcWhQVnuEhDVUxgDKTpK+gcrPD1cqUkSKm7Cw7IsF
-         xtdnbGHZapoaZOBNOWR7tFsLRmB4F/nLwL8K+waiXfieBcdSlX5LtxLL694NEP43T4xO
-         xSluEY2+VjdSRKuYrUFf5SDvrZlcbRqRgUPCPrPauQHV0GMRxeTGQOaAx+F/7NxsMyp8
-         hYEpndhPTDY1nqv2PYR9Z4Rv4rYncC6oXTaxU3+1s0yHOPEoIm/4Nrt1Tx7qD61MDrSL
-         SJgw==
-X-Gm-Message-State: AJIora+fhn6+WiN5/RTM/nZbgV3U+IWuI0+3UJYIbikdXA5f4xDJVJw9
-	+oSvvK9dcXgcUrRPqfSXVg+jVnllyysWzxGz
+        bh=1f2NpFwHAU/vX+tBhekGqxELikj9PqXbvYEwAALtMDM=;
+        b=472/e1RTtvfvnHHcbNgUMCWDzsqdPaI58RZ6ViMzrRrqut3ic0FHqphLCe0eZhZzks
+         G1MunGUUDU754aKB7yPGp9c5vfJm2bq9pgaKx5Py6h7MMUaDxWkKEHQNfawH9A7+55IP
+         KamGeneEk0HU/ywCKBwzlyYLiVEAYFQImwLkq1OFrEoF0ydFNB/0Jd4muJ+greXBWgVW
+         2r6QBFgT1RKBqf91riI7EO6a4h1eQVwLpgnak+1AbFsDrTKhxe85kUIeZxqx2NJiPznE
+         dl1ujSadNZkXW+UohJKRPyMr4Q+y18D7GOupV5seZ+v044mAYvbfB/hFhqo7Dz18HIcV
+         1OKg==
+X-Gm-Message-State: AJIora/Vpz1kyHdv3aUbcHBtNudIiib/Hc/10622vAR6McPTPKhHH5Rj
+	1GLyu8VeFV8gFDcighNlACHZOw4NinjlsUIf
 X-Google-Smtp-Source: 
- AGRyM1vN7OfD4tYrhEPRoC7Te/u67EBvaxPrZAMcGiW/+xWvDsiZuV+DyNKffTBVidqUn1XAvdmUMg==
-X-Received: by 2002:a17:902:8b8b:b0:167:4e55:2dac with SMTP id
- ay11-20020a1709028b8b00b001674e552dacmr20556302plb.132.1655667329981;
-        Sun, 19 Jun 2022 12:35:29 -0700 (PDT)
+ AGRyM1vVP4EUiPCANRiquoHhHV67ktT7B7H3t08b2cTXf6/xD2a6k3vPX2n0crWuNfEPBYUQz244JA==
+X-Received: by 2002:a05:6a00:1946:b0:4fe:309f:d612 with SMTP id
+ s6-20020a056a00194600b004fe309fd612mr21096640pfk.10.1655667343225;
+        Sun, 19 Jun 2022 12:35:43 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- e5-20020a170902ed8500b001678dcb4c5asm216994plj.100.2022.06.19.12.35.28
+ e5-20020a170902ed8500b001678dcb4c5asm216994plj.100.2022.06.19.12.35.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jun 2022 12:35:29 -0700 (PDT)
+        Sun, 19 Jun 2022 12:35:42 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 06/12] license.bbclass: Bound beginline and endline
- in copy_license_files()
-Date: Sun, 19 Jun 2022 09:35:00 -1000
+Subject: [OE-core][dunfell 12/12] archiver: don't use machine variables in
+ shared recipes
+Date: Sun, 19 Jun 2022 09:35:06 -1000
 Message-Id: 
- <27cd074d747c5ef4b475c8a62a8ede2bbe58f996.1655667170.git.steve@sakoman.com>
+ <135adeb82c9303c26193bb6f6bd3bc696793aa62.1655667170.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1655667170.git.steve@sakoman.com>
 References: <cover.1655667170.git.steve@sakoman.com>
@@ -69,52 +68,61 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Jun 2022 19:35:37 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 19 Jun 2022 19:35:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167068
+ https://lists.openembedded.org/g/openembedded-core/message/167074
 
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
 
-Ensure that begin_idx (i.e., beginline - 1) and end_idx (i.e.,
-endline) are positive numbers in copy_license_files(). This makes sure
-the same lines are copied as populate_lic_qa_checksum() uses when it
-calculates the checksum. Before, beginline=0 would typically lead to
-that no lines were copied at all.
+When using multiconfig with the same TMP folder we can have
+races because the shared recipes like gcc-source run twice.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+ARCHIVER_OUTDIR = ${ARCHIVER_TOPDIR}/${TARGET_SYS}/${PF}/
+which includes TARGET_SYS and between the two different MACHINE values,
+this changes  from 'arm-poky-linux-gnueabi' to 'aarch64-poky-linux'.
+This leads to the task running twice, once for each multiconfig.
+
+To solve this we need to store the shared output in a common place
+for all machines and in this way the stamps will be the same for each
+machine so the gcc-source will on run once regardless of the machine used.
+
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ab3cc3651d08d226675c461da760cda0bb6c0ce0)
+(cherry picked from commit 5abe497aad39a6ce8d72556fcdda1938a0f8c1bc)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/license.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/classes/archiver.bbclass | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 6b03221c7f..806b5069fd 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -91,17 +91,17 @@ def copy_license_files(lic_files_paths, destdir):
-                     os.link(src, dst)
-                 except OSError as err:
-                     if err.errno == errno.EXDEV:
--                        # Copy license files if hard-link is not possible even if st_dev is the
-+                        # Copy license files if hardlink is not possible even if st_dev is the
-                         # same on source and destination (docker container with device-mapper?)
-                         canlink = False
-                     else:
-                         raise
--                # Only chown if we did hardling, and, we're running under pseudo
-+                # Only chown if we did hardlink and we're running under pseudo
-                 if canlink and os.environ.get('PSEUDO_DISABLED') == '0':
-                     os.chown(dst,0,0)
-             if not canlink:
--                begin_idx = int(beginline)-1 if beginline is not None else None
--                end_idx = int(endline) if endline is not None else None
-+                begin_idx = max(0, int(beginline) - 1) if beginline is not None else None
-+                end_idx = max(0, int(endline)) if endline is not None else None
-                 if begin_idx is None and end_idx is None:
-                     shutil.copyfile(src, dst)
-                 else:
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index 80fa6752be..6ead010fe1 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -54,9 +54,10 @@ ARCHIVER_MODE[mirror] ?= "split"
+ 
+ DEPLOY_DIR_SRC ?= "${DEPLOY_DIR}/sources"
+ ARCHIVER_TOPDIR ?= "${WORKDIR}/archiver-sources"
+-ARCHIVER_OUTDIR = "${ARCHIVER_TOPDIR}/${TARGET_SYS}/${PF}/"
++ARCHIVER_ARCH = "${TARGET_SYS}"
++ARCHIVER_OUTDIR = "${ARCHIVER_TOPDIR}/${ARCHIVER_ARCH}/${PF}/"
+ ARCHIVER_RPMTOPDIR ?= "${WORKDIR}/deploy-sources-rpm"
+-ARCHIVER_RPMOUTDIR = "${ARCHIVER_RPMTOPDIR}/${TARGET_SYS}/${PF}/"
++ARCHIVER_RPMOUTDIR = "${ARCHIVER_RPMTOPDIR}/${ARCHIVER_ARCH}/${PF}/"
+ ARCHIVER_WORKDIR = "${WORKDIR}/archiver-work/"
+ 
+ # When producing a combined mirror directory, allow duplicates for the case
+@@ -100,6 +101,10 @@ python () {
+         bb.debug(1, 'archiver: %s is excluded, covered by gcc-source' % pn)
+         return
+ 
++    # TARGET_SYS in ARCHIVER_ARCH will break the stamp for gcc-source in multiconfig
++    if pn.startswith('gcc-source'):
++        d.setVar('ARCHIVER_ARCH', "allarch")
++
+     def hasTask(task):
+         return bool(d.getVarFlag(task, "task", False)) and not bool(d.getVarFlag(task, "noexec", False))
+ 
 -- 
 2.25.1
 
