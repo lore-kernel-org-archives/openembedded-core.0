@@ -2,63 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2220CCA480
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E69DCCCA47C
 	for <webhook@archiver.kernel.org>; Sun, 19 Jun 2022 19:35:37 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
- [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web09.22261.1655667333268457854
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web09.22260.1655667330988070407
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 12:35:33 -0700
+ Sun, 19 Jun 2022 12:35:31 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=XbHWjsh/;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180,
+ header.b=ZYq56eQ2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id t21so2207183pfq.1
+Received: by mail-pj1-f49.google.com with SMTP id
+ y13-20020a17090a154d00b001eaaa3b9b8dso8399078pja.2
         for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 12:35:33 -0700 (PDT)
+ Sun, 19 Jun 2022 12:35:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=rxK3BF3I7eSqbDArfJs2RlG+zGct4LxIlVF+87wBu0c=;
-        b=XbHWjsh/krQXqXQI2wblC3smjwve5rT2yrVjHOOaPlwv+4pD/wJ1I0LXu0apYIYi4B
-         9JqMx+Wdx09Rhsyz8K8Mfi7bmpwcP/dQYU+nVZksB0p/nM0JDIbvmjJIfgApUM8LPMTw
-         aldC199QHEPZztA0D0B8zJ8QpiAMFdgN5dHyWKjwXyUSls+oMd4e/H9tIUHZ1kIoVXNZ
-         fqU3ptDUthyVOYAx7D2Taw+QfFiiyQ9og3ll9XLeA/lXBqkYYNSCKkBipF9pDcOu9qWt
-         +kyulKCcleIfrSYq6NITW1Rk67yRK1Lt2gjX/zKjZgsyr/zVe7vhDICt9ktx2cZfOcBL
-         KvBw==
+        bh=pnsd9fGlgzfh1lFeAiHnwRvENCH9rGydJbvP8hHC7dA=;
+        b=ZYq56eQ2T5ywKx6Qpq1mr+f9iLd9QBQxjrMRhiqffJF5/PmDjSqQEdCynMgxMWGRv+
+         9JNe9wwXfgS+2qajcyzbr69M8CAyq7PaUbroT5I1BbFjUA8B+E3u796bHDEvArnOdDmo
+         UTGmOsFKA4LhRKHVmMILVO49eUcyDoR+gR0rVxc4vNu4NzPa2X73+MDYf9qxD1VJRbTd
+         mTeFnQoFJ9NQFADIlOfeZTxY+beGE+RYMNHHQsWOJcZZvgLi61w7TemMrjI+XnkeZ0X6
+         E67bx6pKasU1e440MRfShgxy17kZHsXldkEwABhxcC7z2vNRZ+BGU2nrwBDnREOhqbOv
+         lFAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=rxK3BF3I7eSqbDArfJs2RlG+zGct4LxIlVF+87wBu0c=;
-        b=jzhn18pXP4lvROss2pgjVXNXKd58hgd8tn3VfGEKmUcITpUZcCbzvt1gqRhqeEJ0vt
-         +xY0MFW5yUM8XyiG5b08v2x8Dhfg41GTxc+kXlViI6A8O7Bf/28SaDCo+FOHn78SHKv9
-         p6i62VW//OrKwxhgae4ZyFLHgAA0xtXVBydBRyK+rW6BNkxs16bJKC9/S3uOHqGm3cQp
-         6Nnb+mwsPc5QI3iD4i+lXmxxkVF5cWmh3jKMLx0kBqCjNBiHvNAoU3qrs1yPlfG8cDKY
-         Mez/c5cdfl55x/7yvKSWmXQwZ4uKvTz9rtJKLkhc6JyFE4ahvxbQv1yxGSJMPJmlkLkF
-         VgJA==
-X-Gm-Message-State: AJIora9oNwemaPxiR/rvd4Z+q+KwQZF5idnaXq2y7LBKn/KYaNq47hLJ
-	WT367puKwiM2BmRRBSb9ZNMqajxfZbhucx1U
+        bh=pnsd9fGlgzfh1lFeAiHnwRvENCH9rGydJbvP8hHC7dA=;
+        b=yyFAT59/Q7tfcFfLkU3mTyd2VBtPgHwMMkBJnnYYL13K8oSOi46r8uYOg2n2T2hxQ3
+         3FjewYmUmuxT+9Vvm0YjtNQh9bPUcWhQVnuEhDVUxgDKTpK+gcrPD1cqUkSKm7Cw7IsF
+         xtdnbGHZapoaZOBNOWR7tFsLRmB4F/nLwL8K+waiXfieBcdSlX5LtxLL694NEP43T4xO
+         xSluEY2+VjdSRKuYrUFf5SDvrZlcbRqRgUPCPrPauQHV0GMRxeTGQOaAx+F/7NxsMyp8
+         hYEpndhPTDY1nqv2PYR9Z4Rv4rYncC6oXTaxU3+1s0yHOPEoIm/4Nrt1Tx7qD61MDrSL
+         SJgw==
+X-Gm-Message-State: AJIora+fhn6+WiN5/RTM/nZbgV3U+IWuI0+3UJYIbikdXA5f4xDJVJw9
+	+oSvvK9dcXgcUrRPqfSXVg+jVnllyysWzxGz
 X-Google-Smtp-Source: 
- AGRyM1ts7WBU9JScpDaoQbGfBOx3GopKXW3hV8J0hqR7qmAyreFRYVErvq6lLJ4fE+8CKXrdd5OOfQ==
-X-Received: by 2002:a63:6e44:0:b0:40c:73a7:b6c9 with SMTP id
- j65-20020a636e44000000b0040c73a7b6c9mr8475003pgc.285.1655667332295;
-        Sun, 19 Jun 2022 12:35:32 -0700 (PDT)
+ AGRyM1vN7OfD4tYrhEPRoC7Te/u67EBvaxPrZAMcGiW/+xWvDsiZuV+DyNKffTBVidqUn1XAvdmUMg==
+X-Received: by 2002:a17:902:8b8b:b0:167:4e55:2dac with SMTP id
+ ay11-20020a1709028b8b00b001674e552dacmr20556302plb.132.1655667329981;
+        Sun, 19 Jun 2022 12:35:29 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- e5-20020a170902ed8500b001678dcb4c5asm216994plj.100.2022.06.19.12.35.31
+ e5-20020a170902ed8500b001678dcb4c5asm216994plj.100.2022.06.19.12.35.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jun 2022 12:35:31 -0700 (PDT)
+        Sun, 19 Jun 2022 12:35:29 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 07/12] rootfs.py: close kernel_abi_ver_file
-Date: Sun, 19 Jun 2022 09:35:01 -1000
+Subject: [OE-core][dunfell 06/12] license.bbclass: Bound beginline and endline
+ in copy_license_files()
+Date: Sun, 19 Jun 2022 09:35:00 -1000
 Message-Id: 
- <b761150790231792b42a8eb534013f1e17b4efb3.1655667170.git.steve@sakoman.com>
+ <27cd074d747c5ef4b475c8a62a8ede2bbe58f996.1655667170.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1655667170.git.steve@sakoman.com>
 References: <cover.1655667170.git.steve@sakoman.com>
@@ -69,38 +71,50 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 19 Jun 2022 19:35:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167069
+ https://lists.openembedded.org/g/openembedded-core/message/167068
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-* fixes:
-  oe-core/meta/lib/oe/rootfs.py:331: ResourceWarning: unclosed file <_io.TextIOWrapper name='pkgdata/mach/kernel-depmod/kernel-abiversion' mode='r' encoding='UTF-8'>
-  kernel_ver = open(kernel_abi_ver_file).read().strip(' \n')
+Ensure that begin_idx (i.e., beginline - 1) and end_idx (i.e.,
+endline) are positive numbers in copy_license_files(). This makes sure
+the same lines are copied as populate_lic_qa_checksum() uses when it
+calculates the checksum. Before, beginline=0 would typically lead to
+that no lines were copied at all.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f9dd8ee063c1132265248457fcd628e1e93727be)
+(cherry picked from commit ab3cc3651d08d226675c461da760cda0bb6c0ce0)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oe/rootfs.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/classes/license.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 9e9f7f1f08..5391c25af9 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -321,7 +321,9 @@ class Rootfs(object, metaclass=ABCMeta):
-         if not os.path.exists(kernel_abi_ver_file):
-             bb.fatal("No kernel-abiversion file found (%s), cannot run depmod, aborting" % kernel_abi_ver_file)
- 
--        kernel_ver = open(kernel_abi_ver_file).read().strip(' \n')
-+        with open(kernel_abi_ver_file) as f:
-+            kernel_ver = f.read().strip(' \n')
-+
-         versioned_modules_dir = os.path.join(self.image_rootfs, modules_dir, kernel_ver)
- 
-         bb.utils.mkdirhier(versioned_modules_dir)
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 6b03221c7f..806b5069fd 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -91,17 +91,17 @@ def copy_license_files(lic_files_paths, destdir):
+                     os.link(src, dst)
+                 except OSError as err:
+                     if err.errno == errno.EXDEV:
+-                        # Copy license files if hard-link is not possible even if st_dev is the
++                        # Copy license files if hardlink is not possible even if st_dev is the
+                         # same on source and destination (docker container with device-mapper?)
+                         canlink = False
+                     else:
+                         raise
+-                # Only chown if we did hardling, and, we're running under pseudo
++                # Only chown if we did hardlink and we're running under pseudo
+                 if canlink and os.environ.get('PSEUDO_DISABLED') == '0':
+                     os.chown(dst,0,0)
+             if not canlink:
+-                begin_idx = int(beginline)-1 if beginline is not None else None
+-                end_idx = int(endline) if endline is not None else None
++                begin_idx = max(0, int(beginline) - 1) if beginline is not None else None
++                end_idx = max(0, int(endline)) if endline is not None else None
+                 if begin_idx is None and end_idx is None:
+                     shutil.copyfile(src, dst)
+                 else:
 -- 
 2.25.1
 
