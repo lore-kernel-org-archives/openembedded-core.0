@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9E6CC43334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9E94CCA47A
 	for <webhook@archiver.kernel.org>; Sun, 19 Jun 2022 19:35:47 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
- [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.22010.1655667344274818584
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+ [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web12.22130.1655667341948551715
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 12:35:44 -0700
+ Sun, 19 Jun 2022 12:35:42 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=g1BnSzN8;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180,
+ header.b=b5sXHXHx;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.176,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id c205so1756353pfc.7
+Received: by mail-pg1-f176.google.com with SMTP id r66so2509001pgr.2
         for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 12:35:44 -0700 (PDT)
+ Sun, 19 Jun 2022 12:35:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=1f2NpFwHAU/vX+tBhekGqxELikj9PqXbvYEwAALtMDM=;
-        b=g1BnSzN8FH8Qjjz+iYxNNr8xzIeLR0qkJ0flZRGLsFW+QW5t34Np5+DqtG+RVMP/X7
-         /cTX6lEjwYVjAjFD0l87t2ojvUQbclE/fno7zH9fjj7bgo2KzicMYNd26asSO7U7gx5S
-         48wv4cma3DKl2+8W7eU/jpQ99VWtysZuhPZC2JHf/fL7n/nh7rVxaslI3rGDgR+qZdNX
-         Hrn5jrA6mF4+y9Bcpj9OOM/UdkV5vekkEJErVP9mAuEA561iIYB4Q6ckuUYkHHc6ovuS
-         Tio15+vRevS2qCwujBtCFj1AulgLolXgooR75zkJ7geYzaVdnyD0OQol07HU9TZUNCe4
-         XXew==
+        bh=yc+j+1cdHtCNYlddmGWJ5jvKdLsAmIIvR5DN1pLjbsI=;
+        b=b5sXHXHxnjp3JkVwRML48aW433o7707f9QU7K//ziAxrIzyKW3Mg5T4n8pIGXSTRqO
+         yUXCEu8qbpfVLJngIZq9V/k3azROFHk7CQ6qX7xCdaeHX+QzMbF8liJEountZYgYlpOb
+         o71LZETlM/6cSqeT50CgF4gy1y/tCkgNe3jz0KiX/2EksOur07vZZdAYiQRVI4NDu9zw
+         W6w8suD3NBtflO8u/zTOPzNCXYxtYgoNNZxLNiooGDMJRe1opX4j/E/DkelMLBL8BqZ6
+         EibtWDfyTHTJ6ykzfbY5Z5JeUz5K9Vu/J6rYWt0gLPVVGPfsaMfKQEmtpHZTyxeKdzVf
+         qnhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1f2NpFwHAU/vX+tBhekGqxELikj9PqXbvYEwAALtMDM=;
-        b=472/e1RTtvfvnHHcbNgUMCWDzsqdPaI58RZ6ViMzrRrqut3ic0FHqphLCe0eZhZzks
-         G1MunGUUDU754aKB7yPGp9c5vfJm2bq9pgaKx5Py6h7MMUaDxWkKEHQNfawH9A7+55IP
-         KamGeneEk0HU/ywCKBwzlyYLiVEAYFQImwLkq1OFrEoF0ydFNB/0Jd4muJ+greXBWgVW
-         2r6QBFgT1RKBqf91riI7EO6a4h1eQVwLpgnak+1AbFsDrTKhxe85kUIeZxqx2NJiPznE
-         dl1ujSadNZkXW+UohJKRPyMr4Q+y18D7GOupV5seZ+v044mAYvbfB/hFhqo7Dz18HIcV
-         1OKg==
-X-Gm-Message-State: AJIora/Vpz1kyHdv3aUbcHBtNudIiib/Hc/10622vAR6McPTPKhHH5Rj
-	1GLyu8VeFV8gFDcighNlACHZOw4NinjlsUIf
+        bh=yc+j+1cdHtCNYlddmGWJ5jvKdLsAmIIvR5DN1pLjbsI=;
+        b=QlH2/s87wV2kE7Cl/E8efw4PnLfMAxccXB0EJwm8vYjKNhCwpoSf8QjtUiqeF6m9c0
+         fkEftsxstZedtbLYJE00IYKMgZKj0uZ1MyK4QNmoxYXoN8pIZQfE1wRYT9EtJHFMXA6d
+         tlkqLBUQLKWtK4opsRdZ7jyrMgjcG6WpGe250jGE954QLpwVLQ6UDAd1XYmVzVKSDkLS
+         tnxXs9xuFuEA4AJgeW/MUXXbVUdxk2Y15HPNNCXt+fwKP5nsO/HIX/veEfrUJKOQ9FL8
+         JAOh95AIDXBTuIUXIu03OVjwHB3qxz9Sel6i9ctq5P81BC47fjcUO3BjRUnMJx0er1qH
+         ROcw==
+X-Gm-Message-State: AJIora/1+G7VkdRiloZvfGEqOHr7ZyPcr6lnHdJG5HdV70T1oZCyBKYS
+	Jy58TkKTRAfXCFcfuOHTRlfyYoMoCAarGMsp
 X-Google-Smtp-Source: 
- AGRyM1vVP4EUiPCANRiquoHhHV67ktT7B7H3t08b2cTXf6/xD2a6k3vPX2n0crWuNfEPBYUQz244JA==
-X-Received: by 2002:a05:6a00:1946:b0:4fe:309f:d612 with SMTP id
- s6-20020a056a00194600b004fe309fd612mr21096640pfk.10.1655667343225;
-        Sun, 19 Jun 2022 12:35:43 -0700 (PDT)
+ AGRyM1tSPGSoliYJGl5/ckjyMjlZP8tKcGfEdzVdgB5kQbdDlXAizZ1I8ez27VD2VEY/pLLSJUBf9A==
+X-Received: by 2002:a63:3fce:0:b0:40c:23a5:2827 with SMTP id
+ m197-20020a633fce000000b0040c23a52827mr15865484pga.314.1655667340965;
+        Sun, 19 Jun 2022 12:35:40 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- e5-20020a170902ed8500b001678dcb4c5asm216994plj.100.2022.06.19.12.35.41
+ e5-20020a170902ed8500b001678dcb4c5asm216994plj.100.2022.06.19.12.35.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jun 2022 12:35:42 -0700 (PDT)
+        Sun, 19 Jun 2022 12:35:40 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 12/12] archiver: don't use machine variables in
- shared recipes
-Date: Sun, 19 Jun 2022 09:35:06 -1000
+Subject: [OE-core][dunfell 11/12] gcc-source: Fix incorrect task dependencies
+ from ${B}
+Date: Sun, 19 Jun 2022 09:35:05 -1000
 Message-Id: 
- <135adeb82c9303c26193bb6f6bd3bc696793aa62.1655667170.git.steve@sakoman.com>
+ <14aa189c2e47a2c5a4a0099235a2605666651f74.1655667170.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1655667170.git.steve@sakoman.com>
 References: <cover.1655667170.git.steve@sakoman.com>
@@ -70,59 +70,53 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 19 Jun 2022 19:35:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167074
+ https://lists.openembedded.org/g/openembedded-core/message/167073
 
-From: Jose Quaresma <quaresma.jose@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-When using multiconfig with the same TMP folder we can have
-races because the shared recipes like gcc-source run twice.
+Some tasks may reference ${B} for gcc-source which in general would not exist.
+It has dependencies on HOST_SYS and TARGET_SYS which are not appropriate for a
+shared recipe like gcc-source. This causes problems for the archiver and
+multiconfigs in particlar.
 
-ARCHIVER_OUTDIR = ${ARCHIVER_TOPDIR}/${TARGET_SYS}/${PF}/
-which includes TARGET_SYS and between the two different MACHINE values,
-this changes  from 'arm-poky-linux-gnueabi' to 'aarch64-poky-linux'.
-This leads to the task running twice, once for each multiconfig.
+Set B to something else to avoid these task hash issues.
 
-To solve this we need to store the shared output in a common place
-for all machines and in this way the stamps will be the same for each
-machine so the gcc-source will on run once regardless of the machine used.
-
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+Acked-by: Jose Quaresma <jose.quaresma@foundries.io>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5abe497aad39a6ce8d72556fcdda1938a0f8c1bc)
+(cherry picked from commit beb2a76c591e985c6fc7ed473abd1bee27f955a2)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/archiver.bbclass | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/gcc/gcc-common.inc | 2 +-
+ meta/recipes-devtools/gcc/gcc-source.inc | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 80fa6752be..6ead010fe1 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -54,9 +54,10 @@ ARCHIVER_MODE[mirror] ?= "split"
+diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+index 629fa26dfe..69a3536965 100644
+--- a/meta/recipes-devtools/gcc/gcc-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-common.inc
+@@ -100,7 +100,7 @@ BINV = "${PV}"
+ #S = "${WORKDIR}/gcc-${PV}"
+ S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
  
- DEPLOY_DIR_SRC ?= "${DEPLOY_DIR}/sources"
- ARCHIVER_TOPDIR ?= "${WORKDIR}/archiver-sources"
--ARCHIVER_OUTDIR = "${ARCHIVER_TOPDIR}/${TARGET_SYS}/${PF}/"
-+ARCHIVER_ARCH = "${TARGET_SYS}"
-+ARCHIVER_OUTDIR = "${ARCHIVER_TOPDIR}/${ARCHIVER_ARCH}/${PF}/"
- ARCHIVER_RPMTOPDIR ?= "${WORKDIR}/deploy-sources-rpm"
--ARCHIVER_RPMOUTDIR = "${ARCHIVER_RPMTOPDIR}/${TARGET_SYS}/${PF}/"
-+ARCHIVER_RPMOUTDIR = "${ARCHIVER_RPMTOPDIR}/${ARCHIVER_ARCH}/${PF}/"
- ARCHIVER_WORKDIR = "${WORKDIR}/archiver-work/"
+-B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
++B ?= "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
  
- # When producing a combined mirror directory, allow duplicates for the case
-@@ -100,6 +101,10 @@ python () {
-         bb.debug(1, 'archiver: %s is excluded, covered by gcc-source' % pn)
-         return
+ target_includedir ?= "${includedir}"
+ target_libdir ?= "${libdir}"
+diff --git a/meta/recipes-devtools/gcc/gcc-source.inc b/meta/recipes-devtools/gcc/gcc-source.inc
+index 03bab97815..224b7778ef 100644
+--- a/meta/recipes-devtools/gcc/gcc-source.inc
++++ b/meta/recipes-devtools/gcc/gcc-source.inc
+@@ -18,6 +18,7 @@ INHIBIT_DEFAULT_DEPS = "1"
+ DEPENDS = ""
+ PACKAGES = ""
  
-+    # TARGET_SYS in ARCHIVER_ARCH will break the stamp for gcc-source in multiconfig
-+    if pn.startswith('gcc-source'):
-+        d.setVar('ARCHIVER_ARCH', "allarch")
-+
-     def hasTask(task):
-         return bool(d.getVarFlag(task, "task", False)) and not bool(d.getVarFlag(task, "noexec", False))
++B = "${WORKDIR}/build"
  
+ # This needs to be Python to avoid lots of shell variables becoming dependencies.
+ python do_preconfigure () {
 -- 
 2.25.1
 
