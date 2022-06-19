@@ -2,63 +2,65 @@ Return-Path: <ptsneves@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5E1BC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6C39C43334
 	for <webhook@archiver.kernel.org>; Sun, 19 Jun 2022 19:20:57 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web10.21875.1655666448028395038
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by mx.groups.io with SMTP id smtpd.web08.22171.1655666450791947789
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 12:20:48 -0700
+ Sun, 19 Jun 2022 12:20:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=dZNXnMyV;
- spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: ptsneves@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id y32so14135932lfa.6
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Mugu7U+F;
+ spf=pass (domain: gmail.com, ip: 209.85.208.174,
+ mailfrom: ptsneves@gmail.com)
+Received: by mail-lj1-f174.google.com with SMTP id s10so9743255ljh.12
         for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 12:20:47 -0700 (PDT)
+ Sun, 19 Jun 2022 12:20:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=FTC5cXBGpbyP49C4is+heUbT3LnE71851DctikNERJo=;
-        b=dZNXnMyVFhzV2rhmj5Eqhg8AZUMmmESt+xaG4ocO9RtVytvGVEFTB6J6tYjxuVCmzR
-         9NUVjqW0i5ILB3l8RSZde8/UpQi6XqB43uLM/HI1I38X99xDGRyUqskDJf0zFF0jtQCv
-         6Iw7wtcsTh3u3ZUul8M/qQ36wVIaGMBI2whpPES6RsCoBC+6Gb1mmbHhJCSSwY+/ivv2
-         nod1/xcc7rsQ1Y6qTTWWcdAKLjNNKjtzp3k98kUd0fSCUgadWa4PhSH2w/t3WgDt2bF8
-         rz2c3VT0GTrFAwp6n1Nmaj6Xk2oL6tgtoyuT7/VWj3f3sQx7I3sDCtE6pL+jqU0Wpss/
-         cptg==
+        bh=vlqA5dxz2imy3ZEoQfzVrOYZGick1Bh7QMLhND6Ie7s=;
+        b=Mugu7U+FRbR5fEOkWWXmFl2jDEuZI5kC0ShCVmWRFEwHXhvFo1O8COZ3xswE7cmIEe
+         uq7+nUULLRDatveBRXFItLem88+FGc6/4BP0uE7zZkMZb2FX42xP/LOM5KPCxBT+2rse
+         SUCxDLEhK+8xiGLcOe/EHGgPZNsoMzCdXv094ouVSEW+LzoWRj3gZoj5y6T5HMvrzvnW
+         2eK9OJrxPZXtt9Jg61rIrdBElXtnWLOOs/g/sOoyfEo29M+YEXEOR6D8gqXhYF6yRZqH
+         QlC22BSTQaLYVvxuPpMLPz9jqPr57L0Zjaqb5T+8E3Lru1xfguo1YbkW1V9+kp7lIjxq
+         z9uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=FTC5cXBGpbyP49C4is+heUbT3LnE71851DctikNERJo=;
-        b=SUlGzhZWyYki5t69/z8aLXhcvxxMgShr1+5iZDe9h5L4kwW6Kn+ZaD9l9ZqbRaqyQ5
-         Fmuht7xzizQaMMmRAatD7Nn66mNfoZU/L+YbOKA1P5/0fkK/piVlUOZ3CmCMYi90PcZI
-         iXLmP3Lg9WYxUbnTcPJ2RLzepePVNBjMSOiRhdgXxl2M25PkqzICGpvp48nSi7ZzeHpQ
-         JNWWKRggsH+wHpbCz0qFSoRMc5lutfPqQkMvbF5v8HN707inbvReIJI8YxC/PsEbP/jt
-         4/qdcog1Za4ELeDo3dSKp3wNFY/okuSAdrF3S90sCNBPzGPoDpvzDucD0IWWGgpBQs+G
-         Lccg==
-X-Gm-Message-State: AJIora+zajBbmCDSqr0JhE0ntSlYzAd2Ew161D7Ayax2bI9muB5c5kn5
-	fZIZyzk6PFMi2Hy8gy/gOPvS0YqrNA==
+        bh=vlqA5dxz2imy3ZEoQfzVrOYZGick1Bh7QMLhND6Ie7s=;
+        b=tFbwZCODg0oO8nu02a4KAswnrS+lkjjfOU2NA6t3X29xJup3MFXkNv0TMZuYcpBMjD
+         0G8AIOKWuoPsU4GqY5kh/relU5TUjsZoXZJKqqZCvyVLhK866ZR9cvBZUiZh/wRdHxiy
+         f20Eqihx6rlDgxlEewBbZ+ii/2LFRm61Pklmz9+bigICefBk5QIIDme2hIa6QfDYuveu
+         57+iQlZssBfV7Re4uD5P3JuP5UdfLGzs1yVpi1EL5Xy+860DlDUIHIGSpBm4/xtiXoon
+         OBAqV5Kb6QITpBkMvPQPsCqZDE2tYCWyTLbvv6D7xHNKm5ONSHz4RVs2i51UfIJlVMQH
+         zF9g==
+X-Gm-Message-State: AJIora8pr71qawORj0Vvi0IYczn8JP8oeDxziGmqoCDZUedCfdyj9S5M
+	iThpKTYUKzRnKC4zRlccS5ZuYvjTyw==
 X-Google-Smtp-Source: 
- AGRyM1veNlnPn35DwQVTqqHLeeIjCSDh4PCJuJNeMSH9x/Wu0Saxi9cl/FARyAgiPN3XjmuJ9N2HIw==
-X-Received: by 2002:a05:6512:12d3:b0:47f:5a20:400b with SMTP id
- p19-20020a05651212d300b0047f5a20400bmr5680110lfg.572.1655666445760;
-        Sun, 19 Jun 2022 12:20:45 -0700 (PDT)
+ AGRyM1t81hSTuzG4eSDY4vfA+qCHmiaRvzzXEYq8uagMvXYzfXcl1EwkZaGB3Ie0wvxmA4fd8YGYAA==
+X-Received: by 2002:a05:651c:1417:b0:258:df6a:731e with SMTP id
+ u23-20020a05651c141700b00258df6a731emr10152338lje.129.1655666449146;
+        Sun, 19 Jun 2022 12:20:49 -0700 (PDT)
 Received: from pneves-XPS-15-9550.home (83.11.57.73.ipv4.supernova.orange.pl.
  [83.11.57.73])
         by smtp.gmail.com with ESMTPSA id
- k1-20020a2eb741000000b0025a59470621sm817020ljo.26.2022.06.19.12.20.45
+ k1-20020a2eb741000000b0025a59470621sm817020ljo.26.2022.06.19.12.20.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jun 2022 12:20:45 -0700 (PDT)
+        Sun, 19 Jun 2022 12:20:48 -0700 (PDT)
 From: Paulo Neves <ptsneves@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Paulo Neves <ptsneves@gmail.com>
-Subject: [PATCH v6 1/7] python: Avoid shebang overflow on python-config.py
-Date: Sun, 19 Jun 2022 21:20:35 +0200
-Message-Id: <20220619192041.1113263-1-ptsneves@gmail.com>
+Subject: [PATCH v6 5/7] oeqa/selftest: Test staged .la and .pc files
+Date: Sun, 19 Jun 2022 21:20:39 +0200
+Message-Id: <20220619192041.1113263-5-ptsneves@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220606155807.1414519-1-ptsneves@gmail.com>
+In-Reply-To: <20220619192041.1113263-1-ptsneves@gmail.com>
 References: <20220606155807.1414519-1-ptsneves@gmail.com>
+ <20220619192041.1113263-1-ptsneves@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -66,69 +68,105 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 19 Jun 2022 19:20:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167039
+ https://lists.openembedded.org/g/openembedded-core/message/167043
 
-The native path may be too big, leading to shebang
-overflow. Just use the #!/usr/bin/env python3.
+These files are checked by qa_check_staged but there was no
+test cases for whether the tests actually worked. Now there
+are.
 
 Signed-off-by: Paulo Neves <ptsneves@gmail.com>
 ---
- ...shebang-overflow-on-python-config.py.patch | 33 +++++++++++++++++++
- .../recipes-devtools/python/python3_3.10.4.bb |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+ .../sysroot-test/sysroot-la-test_1.0.bb       | 16 +++++++++
+ .../sysroot-test/sysroot-pc-test_1.0.bb       | 12 +++++++
+ meta/lib/oeqa/selftest/cases/sysroot.py       | 36 +++++++++++++++++++
+ 3 files changed, 64 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/sysroot-test/sysroot-la-test_1.0.bb
+ create mode 100644 meta-selftest/recipes-test/sysroot-test/sysroot-pc-test_1.0.bb
 
-diff --git a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+diff --git a/meta-selftest/recipes-test/sysroot-test/sysroot-la-test_1.0.bb b/meta-selftest/recipes-test/sysroot-test/sysroot-la-test_1.0.bb
 new file mode 100644
-index 0000000000..921da8de7c
+index 0000000000..21f06782fb
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
-@@ -0,0 +1,33 @@
-+From f0c9dec63d452a7cd1e15ea653f4aced281f021c Mon Sep 17 00:00:00 2001
-+From: Paulo Neves <ptsneves@gmail.com>
-+Date: Tue, 7 Jun 2022 16:16:41 +0200
-+Subject: [PATCH 1/1] Avoid shebang overflow on python-config.py
++++ b/meta-selftest/recipes-test/sysroot-test/sysroot-la-test_1.0.bb
+@@ -0,0 +1,16 @@
++SUMMARY = "Produce a broken la file"
++LICENSE = "CLOSED"
++INHIBIT_DEFAULT_DEPS = "1"
 +
-+The whole native path may be too big, leading to shebang
-+overflow. Let's just use the env shebang.
++EXCLUDE_FROM_WORLD = "1"
 +
-+Denial reason: [1]
++# remove-libtool.bbclass is inherited by default and removes all
++# .la files which for this test we specifically do not want.
++REMOVE_LIBTOOL_LA = "0"
 +
-+Upstream-Status: Denied [distribution]
++do_install() {
++    install -d ${D}${libdir}/test/
++    echo '${WORKDIR}' > ${D}${libdir}/test/la-test.la
++}
 +
-+[1] https://github.com/python/cpython/pull/93760#pullrequestreview-1005365737
-+---
-+ Makefile.pre.in | 2 ++
-+ 1 file changed, 2 insertions(+)
++BBCLASSEXTEND += "native"
+diff --git a/meta-selftest/recipes-test/sysroot-test/sysroot-pc-test_1.0.bb b/meta-selftest/recipes-test/sysroot-test/sysroot-pc-test_1.0.bb
+new file mode 100644
+index 0000000000..e748310fc4
+--- /dev/null
++++ b/meta-selftest/recipes-test/sysroot-test/sysroot-pc-test_1.0.bb
+@@ -0,0 +1,12 @@
++SUMMARY = "Produce a broken pc file"
++LICENSE = "CLOSED"
++INHIBIT_DEFAULT_DEPS = "1"
 +
-+diff --git a/Makefile.pre.in b/Makefile.pre.in
-+index f0aedb76cb58999427804255da56fa53284d7032..dd88e43114730f7681715777cc76dabb31113176 100644
-+--- a/Makefile.pre.in
-++++ b/Makefile.pre.in
-+@@ -1638,6 +1638,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
-+ 	@ # Substitution happens here, as the completely-expanded BINDIR
-+ 	@ # is not available in configure
-+ 	sed -e "s,@EXENAME@,$(BINDIR)/python$(LDVERSION)$(EXE)," < $(srcdir)/Misc/python-config.in >python-config.py
-++	@ # Otherwise we might get huge shebangs with native paths
-++	sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' python-config.py
-+ 	@ # Replace makefile compat. variable references with shell script compat. ones; $(VAR) -> ${VAR}
-+ 	LC_ALL=C sed -e 's,\$$(\([A-Za-z0-9_]*\)),\$$\{\1\},g' < Misc/python-config.sh >python-config
-+ 	@  # In OpenEmbedded, always use the python version of the script, the shell
-+-- 
-+2.25.1
++EXCLUDE_FROM_WORLD = "1"
 +
-diff --git a/meta/recipes-devtools/python/python3_3.10.4.bb b/meta/recipes-devtools/python/python3_3.10.4.bb
-index 6bd3a6aba8..357025f856 100644
---- a/meta/recipes-devtools/python/python3_3.10.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.4.bb
-@@ -34,6 +34,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch \
-            file://0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch \
-            file://deterministic_imports.patch \
-+           file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
-            "
- 
- SRC_URI:append:class-native = " \
++do_install() {
++    install -d ${D}${libdir}/test/
++    echo '${WORKDIR}' > ${D}${libdir}/test/test.pc
++}
++
++BBCLASSEXTEND += "native"
+diff --git a/meta/lib/oeqa/selftest/cases/sysroot.py b/meta/lib/oeqa/selftest/cases/sysroot.py
+index a17fd1818a..294ba4a4a0 100644
+--- a/meta/lib/oeqa/selftest/cases/sysroot.py
++++ b/meta/lib/oeqa/selftest/cases/sysroot.py
+@@ -46,3 +46,39 @@ TESTSTRING:pn-sysroot-test-arch2 = "%s"
+         res = bitbake("sysroot-shebang-test-native -c populate_sysroot", ignore_status=True)
+         self.assertTrue(expected in res.output, msg=res.output)
+         self.assertTrue(res.status != 0)
++
++    def test_sysroot_la(self):
++        """
++        Summary:   Check that workdir paths are not contained in .la files.
++        Expected:  Fail when a workdir path is found in the file content.
++        Author:    Paulo Neves <ptsneves@gmail.com>
++        """
++        expected = "la-test.la failed sanity test (workdir) in path"
++
++        res = bitbake("sysroot-la-test -c populate_sysroot", ignore_status=True)
++        self.assertTrue(expected in res.output, msg=res.output)
++        self.assertTrue('[la]' in res.output, msg=res.output)
++        self.assertTrue(res.status != 0)
++
++        res = bitbake("sysroot-la-test-native -c populate_sysroot", ignore_status=True)
++        self.assertTrue(expected in res.output, msg=res.output)
++        self.assertTrue('[la]' in res.output, msg=res.output)
++        self.assertTrue(res.status != 0)
++
++    def test_sysroot_pkgconfig(self):
++        """
++        Summary:   Check that tmpdir paths are not contained in .pc files.
++        Expected:  Fail when a tmpdir path is found in the file content.
++        Author:    Paulo Neves <ptsneves@gmail.com>
++        """
++        expected = "test.pc failed sanity test (tmpdir) in path"
++
++        res = bitbake("sysroot-pc-test -c populate_sysroot", ignore_status=True)
++        self.assertTrue('[pkgconfig]' in res.output, msg=res.output)
++        self.assertTrue(expected in res.output, msg=res.output)
++        self.assertTrue(res.status != 0)
++
++        res = bitbake("sysroot-pc-test-native -c populate_sysroot", ignore_status=True)
++        self.assertTrue(expected in res.output, msg=res.output)
++        self.assertTrue('[pkgconfig]' in res.output, msg=res.output)
++        self.assertTrue(res.status != 0)
 -- 
 2.25.1
 
