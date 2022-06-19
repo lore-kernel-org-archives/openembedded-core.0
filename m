@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9E94CCA47A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFF9CC433EF
 	for <webhook@archiver.kernel.org>; Sun, 19 Jun 2022 19:35:47 +0000 (UTC)
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
- [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web12.22130.1655667341948551715
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+ [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web11.11833.1655667339625738286
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 12:35:42 -0700
+ Sun, 19 Jun 2022 12:35:39 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=b5sXHXHx;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.176,
+ header.b=ZqYaNW8L;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f176.google.com with SMTP id r66so2509001pgr.2
+Received: by mail-pg1-f170.google.com with SMTP id l4so8434153pgh.13
         for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 12:35:41 -0700 (PDT)
+ Sun, 19 Jun 2022 12:35:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=yc+j+1cdHtCNYlddmGWJ5jvKdLsAmIIvR5DN1pLjbsI=;
-        b=b5sXHXHxnjp3JkVwRML48aW433o7707f9QU7K//ziAxrIzyKW3Mg5T4n8pIGXSTRqO
-         yUXCEu8qbpfVLJngIZq9V/k3azROFHk7CQ6qX7xCdaeHX+QzMbF8liJEountZYgYlpOb
-         o71LZETlM/6cSqeT50CgF4gy1y/tCkgNe3jz0KiX/2EksOur07vZZdAYiQRVI4NDu9zw
-         W6w8suD3NBtflO8u/zTOPzNCXYxtYgoNNZxLNiooGDMJRe1opX4j/E/DkelMLBL8BqZ6
-         EibtWDfyTHTJ6ykzfbY5Z5JeUz5K9Vu/J6rYWt0gLPVVGPfsaMfKQEmtpHZTyxeKdzVf
-         qnhg==
+        bh=wcPTENRltBKOctxxp+/M02PgQ18z3NwLJeyz7PaymoE=;
+        b=ZqYaNW8LqoGuCtlG6MSSVV2nJKU1PUjetSYhdaiYqYmTeuchXwYsFOFB3Ag3nrdhqD
+         S41ss8+hkerDq9R2oRd0jEOATEcgpswu9JSAyR6+L7T4eOdxccQav+JS4s/sCzTJDk5P
+         BxxoATLfW/HSdRBTddGLC/ZxCeHKNQSXPPuQJyaGzEdCWSjJkuJsJMO55Wf2o2pwtocF
+         TsEB0i9KFQfgCwldDu1/yurMPjW5PjNJ6WtCRMCFm0Is1iYa6L2JAVr6+JyypfF+J77y
+         RbDDf5ah17EpAlOGUpzs6hQTGZho50aibZzi6VDW88UnIvv0QBlQdIjn/6vwVCELYJ4W
+         aD+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=yc+j+1cdHtCNYlddmGWJ5jvKdLsAmIIvR5DN1pLjbsI=;
-        b=QlH2/s87wV2kE7Cl/E8efw4PnLfMAxccXB0EJwm8vYjKNhCwpoSf8QjtUiqeF6m9c0
-         fkEftsxstZedtbLYJE00IYKMgZKj0uZ1MyK4QNmoxYXoN8pIZQfE1wRYT9EtJHFMXA6d
-         tlkqLBUQLKWtK4opsRdZ7jyrMgjcG6WpGe250jGE954QLpwVLQ6UDAd1XYmVzVKSDkLS
-         tnxXs9xuFuEA4AJgeW/MUXXbVUdxk2Y15HPNNCXt+fwKP5nsO/HIX/veEfrUJKOQ9FL8
-         JAOh95AIDXBTuIUXIu03OVjwHB3qxz9Sel6i9ctq5P81BC47fjcUO3BjRUnMJx0er1qH
-         ROcw==
-X-Gm-Message-State: AJIora/1+G7VkdRiloZvfGEqOHr7ZyPcr6lnHdJG5HdV70T1oZCyBKYS
-	Jy58TkKTRAfXCFcfuOHTRlfyYoMoCAarGMsp
+        bh=wcPTENRltBKOctxxp+/M02PgQ18z3NwLJeyz7PaymoE=;
+        b=j6qx7fl1zqfInhSgldPZ2s3BZTt4uNVzv7r27RkR2jFYHrgQ+fkhusK93gzGVYa7zJ
+         DE4T04b1+OypdC9NM6swUzHYII3nTIavzwgKZH11wptt3PHOKjHwYJfOjUpUsLMd5ubr
+         cpln6eE0+3wTfVC0m2H5flS5yFrTDlcrZXdRPhzrlToI8LwcUdUdQdBCNOnuTRAVsBOB
+         D21RU1TgjEuul/KpFFuNcISpFF8FdfHfrCX4xvCc7N1d85dKgKRsYs2jziMcTV3F9yWP
+         hJUJVV701gx6S/ewzuzrtL9BYXO6OgDQYaykUCKg7skM8UMYglky7/I2vGraTZSZw81n
+         Ohdw==
+X-Gm-Message-State: AJIora+Z0IenEQcdzfX3veBL/V5FXsqcSAqWdVO6RCnWVKwcdQ+LBax4
+	YXAHy/m43zceJ58trZgyosvOoU+a+wbMqXlF
 X-Google-Smtp-Source: 
- AGRyM1tSPGSoliYJGl5/ckjyMjlZP8tKcGfEdzVdgB5kQbdDlXAizZ1I8ez27VD2VEY/pLLSJUBf9A==
-X-Received: by 2002:a63:3fce:0:b0:40c:23a5:2827 with SMTP id
- m197-20020a633fce000000b0040c23a52827mr15865484pga.314.1655667340965;
-        Sun, 19 Jun 2022 12:35:40 -0700 (PDT)
+ AGRyM1sn54QjS/dh52NN2rV78XtQLwJbLDF9xd3E462tEuanwzypOrmP9cgdLMnWarJNWgXBQA3msg==
+X-Received: by 2002:a63:fc01:0:b0:403:af21:9729 with SMTP id
+ j1-20020a63fc01000000b00403af219729mr18426756pgi.54.1655667338682;
+        Sun, 19 Jun 2022 12:35:38 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- e5-20020a170902ed8500b001678dcb4c5asm216994plj.100.2022.06.19.12.35.39
+ e5-20020a170902ed8500b001678dcb4c5asm216994plj.100.2022.06.19.12.35.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jun 2022 12:35:40 -0700 (PDT)
+        Sun, 19 Jun 2022 12:35:38 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 11/12] gcc-source: Fix incorrect task dependencies
- from ${B}
-Date: Sun, 19 Jun 2022 09:35:05 -1000
+Subject: [OE-core][dunfell 10/12] e2fsprogs: add alternatives handling of
+ lsattr as well
+Date: Sun, 19 Jun 2022 09:35:04 -1000
 Message-Id: 
- <14aa189c2e47a2c5a4a0099235a2605666651f74.1655667170.git.steve@sakoman.com>
+ <28090d32c88d99ea36a03f3bb723838746001e4b.1655667170.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1655667170.git.steve@sakoman.com>
 References: <cover.1655667170.git.steve@sakoman.com>
@@ -70,53 +70,54 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 19 Jun 2022 19:35:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167073
+ https://lists.openembedded.org/g/openembedded-core/message/167072
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
 
-Some tasks may reference ${B} for gcc-source which in general would not exist.
-It has dependencies on HOST_SYS and TARGET_SYS which are not appropriate for a
-shared recipe like gcc-source. This causes problems for the archiver and
-multiconfigs in particlar.
+Building busybox with CONFIG_LSATTR=y and installing that in the same
+filesystem as e2fsprogs breaks:
 
-Set B to something else to avoid these task hash issues.
+  ERROR: ... do_rootfs: Postinstall scriptlets of ['busybox'] have failed. If the intention is to defer them to first boot,
+  then please place them into pkg_postinst_ontarget:${PN} ().
+  Deferring to first boot via 'exit 1' is no longer supported.
 
-Acked-by: Jose Quaresma <jose.quaresma@foundries.io>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Fix that by also alternatifying lsattr just as chattr already is.
+
+Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit beb2a76c591e985c6fc7ed473abd1bee27f955a2)
+(cherry picked from commit 96703961eeb3460e9da26503d7942cc965d1e573)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/gcc/gcc-common.inc | 2 +-
- meta/recipes-devtools/gcc/gcc-source.inc | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.7.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
-index 629fa26dfe..69a3536965 100644
---- a/meta/recipes-devtools/gcc/gcc-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-common.inc
-@@ -100,7 +100,7 @@ BINV = "${PV}"
- #S = "${WORKDIR}/gcc-${PV}"
- S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.7.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.7.bb
+index 3e6faf4cb8..b1abf6b858 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.7.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.7.bb
+@@ -54,6 +54,7 @@ do_install () {
+ 	oe_multilib_header ext2fs/ext2_types.h
+ 	install -d ${D}${base_bindir}
+ 	mv ${D}${bindir}/chattr ${D}${base_bindir}/chattr.e2fsprogs
++	mv ${D}${bindir}/lsattr ${D}${base_bindir}/lsattr.e2fsprogs
  
--B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
-+B ?= "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
+ 	install -v -m 755 ${S}/contrib/populate-extfs.sh ${D}${base_sbindir}/
  
- target_includedir ?= "${includedir}"
- target_libdir ?= "${libdir}"
-diff --git a/meta/recipes-devtools/gcc/gcc-source.inc b/meta/recipes-devtools/gcc/gcc-source.inc
-index 03bab97815..224b7778ef 100644
---- a/meta/recipes-devtools/gcc/gcc-source.inc
-+++ b/meta/recipes-devtools/gcc/gcc-source.inc
-@@ -18,6 +18,7 @@ INHIBIT_DEFAULT_DEPS = "1"
- DEPENDS = ""
- PACKAGES = ""
+@@ -102,10 +103,12 @@ FILES_libe2p = "${base_libdir}/libe2p.so.*"
+ FILES_libext2fs = "${libdir}/e2initrd_helper ${base_libdir}/libext2fs.so.*"
+ FILES_${PN}-dev += "${datadir}/*/*.awk ${datadir}/*/*.sed ${base_libdir}/*.so ${bindir}/compile_et ${bindir}/mk_cmds"
  
-+B = "${WORKDIR}/build"
+-ALTERNATIVE_${PN} = "chattr"
++ALTERNATIVE_${PN} = "chattr lsattr"
+ ALTERNATIVE_PRIORITY = "100"
+ ALTERNATIVE_LINK_NAME[chattr] = "${base_bindir}/chattr"
+ ALTERNATIVE_TARGET[chattr] = "${base_bindir}/chattr.e2fsprogs"
++ALTERNATIVE_LINK_NAME[lsattr] = "${base_bindir}/lsattr"
++ALTERNATIVE_TARGET[lsattr] = "${base_bindir}/lsattr.e2fsprogs"
  
- # This needs to be Python to avoid lots of shell variables becoming dependencies.
- python do_preconfigure () {
+ ALTERNATIVE_${PN}-doc = "fsck.8"
+ ALTERNATIVE_LINK_NAME[fsck.8] = "${mandir}/man8/fsck.8"
 -- 
 2.25.1
 
