@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9821C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D60C3C43334
 	for <webhook@archiver.kernel.org>; Sun, 19 Jun 2022 19:35:27 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
- [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web08.22293.1655667323529440942
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web12.22123.1655667325721353466
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 12:35:23 -0700
+ Sun, 19 Jun 2022 12:35:25 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=T4ETvA2L;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.171,
+ header.b=df0bw8a8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f171.google.com with SMTP id d129so8442821pgc.9
+Received: by mail-pf1-f175.google.com with SMTP id bo5so8473939pfb.4
         for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 12:35:23 -0700 (PDT)
+ Sun, 19 Jun 2022 12:35:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=hvbEm0R6oebZxUKXmJws1hmfoAurif3zuW99DhK8YMM=;
-        b=T4ETvA2LYC0L1Kj+up/RFZ+GiYyThFLKbtZddJKt4rF9i8nc4ZH1lK7U/Hx1NB247h
-         RXjUPikdGcNYFausbm+wl069JOC5nxloLBaM3ybHOYmv8Yv/AbDDI2VD0cIiTIm/V0YR
-         flMAz3XeRQBsn0Z4QkFO4tqiDuuAnmQTn1wSL6h3asnnaNZHEiePoSzwInczw1njrK4j
-         2+pALazXxnLBLwio2PzDML9xhx71KfH53CihRDnH+9M6Y6Ijjo2bEJGp9C9vpqI0sNYQ
-         Px26Mi5GYChaz8lOkOVjnpn1l72pVsGfbZKjYGspq0E6K0eLkFB6iU2H4WxA3iqURggN
-         YXCQ==
+        bh=GUzIR1E959xBdVkxlqAAXlOITSPfZphrRxIw7kCLTGc=;
+        b=df0bw8a8KqWJf+z9s5sphIHtrtN2lRs/c1Pmxajqua5vS6sAAJVF8I3+auqZdIbfun
+         irMSZ8powPpoyNOu8uHhmNqPrVvnu2R4c5Fe16e3x4EHm4bUJ+0tg+bSrBcLkGmDIbFH
+         GvAjoP58mp+KAHzgAMHxcRzCvbC8b+BrSR3pxWeLCRUk6Lbpb86vukTpKA5x8ebKJRFq
+         /hlzIt2F1+yTaEdDhSOHCUhXjwY5AK7Ud4B0ymzBGne0ZLovBDw3I4hh+DhHKENsuXuv
+         MwXnJhyyIV8g7soGMK1SVqXsK8OhTvBubCKy4NHsT8hCM8NSXyJ9h9dWuRr+6Ld05p2y
+         BFug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hvbEm0R6oebZxUKXmJws1hmfoAurif3zuW99DhK8YMM=;
-        b=XXd69ay291lRkkd1lP/hIEGxChMdZTQvJMuUR6562djZezI4ImI7Cl3mZFk+SmP4jh
-         tdbuQmHoWL7CvriRADlZFOG4E4cvJhnUCYUAjropGZTTyy5LSjMX2rpr3FPAJR+wUkVC
-         Rj8T6di20KdmIFCtQNCvsxlMbGHho2t32LLYzy7aaG7gGg5+a3Og3dyLhD6d/WrSvllB
-         3y0r5w7fpUq8Q/Nk1l6kBSh2ijZvG4pVfbS0P+kWk3eoeDq2bWmc/1cjjSNBUJNs+4hf
-         hkXwMfX0DArm4Qu+minnRYnM6j7xxwrYscKWm6WGYwnstYgyjEMeNmLCrlKEQnTMoh3j
-         19Fg==
-X-Gm-Message-State: AJIora+jaOEsVwyMZrYUzl4VF9L6qE/5S4qa8duKyZS2IUdg9LdCltBk
-	fR50YRX8sqeM4ZL26Re6wwKlhvzFNpoV4xMv
+        bh=GUzIR1E959xBdVkxlqAAXlOITSPfZphrRxIw7kCLTGc=;
+        b=Ac4EK+d87qS+QFRqZ9G4mSz4DU8ol5v2x0IJj1aQO1+5xe2oDl+RzXOFW9YbmgQTmI
+         i5gOBjWf95tCa44+RozBYzNZWzVfR/FvJzEd7ddUZCu0yagx/XHCK0Umghn0uOrlzn7/
+         qWJvsPIOYyhZeEmcPRISeyeiJNypLTiE0jv0ABFP7ut2vMKD7dLXHOREKIu0381sc+Si
+         RMZ7Pvau6iDuk5RSzsxpSxjxQBiIwUpGHU2eb3ElZA0IqHbNxQ9GtmzytBQIEE2BsStE
+         gq6j1Ro80pkqwCQaXyExEOBlF1HHp1FRgLf8UVxPw/AYQWhrpVJ/vgjsY245p3HjHXlu
+         /gww==
+X-Gm-Message-State: AJIora/SPyInEcRwfhFjNoWVfPlb/GO+KbW71Ms0T7p4TMAnLlsMIlhQ
+	kOkdq0LGbyLwyLpIVxIR1h906HlA8oGL1q+b
 X-Google-Smtp-Source: 
- AGRyM1uAX8m5syjCsbQU5t8atlfPEGefBsSIO4EH6rwtFRTLiHrK0A7rX0eAD8vKC2mQTJPZaf+uYQ==
-X-Received: by 2002:a63:145e:0:b0:405:70e2:1d04 with SMTP id
- 30-20020a63145e000000b0040570e21d04mr18427984pgu.487.1655667322452;
-        Sun, 19 Jun 2022 12:35:22 -0700 (PDT)
+ AGRyM1sCQuzi1/6wJJ83a4/iAewGrbeWRCH3elG2g6JmeF4oQo0D4G2yjU0aPU24zYuzVFU8xIB+GQ==
+X-Received: by 2002:a05:6a00:1306:b0:512:ca3d:392f with SMTP id
+ j6-20020a056a00130600b00512ca3d392fmr21272295pfu.79.1655667324697;
+        Sun, 19 Jun 2022 12:35:24 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- e5-20020a170902ed8500b001678dcb4c5asm216994plj.100.2022.06.19.12.35.21
+ e5-20020a170902ed8500b001678dcb4c5asm216994plj.100.2022.06.19.12.35.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jun 2022 12:35:21 -0700 (PDT)
+        Sun, 19 Jun 2022 12:35:23 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/12] vim: Upgrade 8.2.5034 -> 8.2.5083
-Date: Sun, 19 Jun 2022 09:34:57 -1000
+Subject: [OE-core][dunfell 04/12] kernel-yocto.bbclass: Reset to exiting on
+ non-zero return code at end of task
+Date: Sun, 19 Jun 2022 09:34:58 -1000
 Message-Id: 
- <2bba60d687fb45a8367cb683a8e9d385384ad51a.1655667170.git.steve@sakoman.com>
+ <7777cc853db7200b819095be6f6a3561738ac94d.1655667170.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1655667170.git.steve@sakoman.com>
 References: <cover.1655667170.git.steve@sakoman.com>
@@ -69,36 +70,64 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 19 Jun 2022 19:35:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167065
+ https://lists.openembedded.org/g/openembedded-core/message/167066
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Stefan Wiehler <stefan.wiehler@nokia.com>
 
-Includes fixes for CVE-2022-1927, CVE-2022-1942.
+Several tasks deactivate exiting on non-zero return codes via set +e because
+they run subcommands that have legitimate non-zero return codes. However when
+appending to those tasks, this behavior is not expected and can lead to builds
+silently proceeding in case of an error. Therefore reset the default behavior
+at the end of the respective tasks via set -e.
 
+Signed-off-by: Stefan Wiehler <stefan.wiehler@nokia.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1e740b5c2227c0040621ae63436d06db4873670f)
+(cherry picked from commit 83a6f28d2e464f00202090e998a63045adba9e4e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/kernel-yocto.bbclass | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 9d918379b4..31a1b57be8 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -21,8 +21,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://racefix.patch \
-            "
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index a1a073b738..2a6231803b 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -269,6 +269,8 @@ do_kernel_metadata() {
+ 		bbnote "KERNEL_FEATURES: $KERNEL_FEATURES_FINAL"
+ 		bbnote "Final scc/cfg list: $sccs_defconfig $bsp_definition $sccs $KERNEL_FEATURES_FINAL"
+ 	fi
++
++	set -e
+ }
  
--PV .= ".5034"
--SRCREV = "5a6ec10cc80ab02eeff644ab19b82312630ea855"
-+PV .= ".5083"
-+SRCREV = "db77c49401145d76441fbb3d22a1d7d987681c13"
+ do_patch() {
+@@ -298,6 +300,8 @@ do_patch() {
+ 			fi
+ 		done
+ 	fi
++
++	set -e
+ }
  
- # Remove when 8.3 is out
- UPSTREAM_VERSION_UNKNOWN = "1"
+ do_kernel_checkout() {
+@@ -356,6 +360,8 @@ do_kernel_checkout() {
+ 		git commit -q -m "baseline commit: creating repo for ${PN}-${PV}"
+ 		git clean -d -f
+ 	fi
++
++	set -e
+ }
+ do_kernel_checkout[dirs] = "${S}"
+ 
+@@ -523,6 +529,8 @@ do_validate_branches() {
+ 			kgit-s2q --clean
+ 		fi
+ 	fi
++
++	set -e
+ }
+ 
+ OE_TERMINAL_EXPORTS += "KBUILD_OUTPUT"
 -- 
 2.25.1
 
