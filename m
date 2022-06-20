@@ -1,101 +1,87 @@
-Return-Path: <Muhammad_Hamza@mentor.com>
+Return-Path: <sakoman@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF416C433EF
-	for <webhook@archiver.kernel.org>; Mon, 20 Jun 2022 13:54:27 +0000 (UTC)
-Received: from esa2.mentor.iphmx.com (esa2.mentor.iphmx.com [68.232.141.98])
- by mx.groups.io with SMTP id smtpd.web09.30626.1655733259117955631
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDAACC43334
+	for <webhook@archiver.kernel.org>; Mon, 20 Jun 2022 14:06:57 +0000 (UTC)
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
+ [209.85.166.47])
+ by mx.groups.io with SMTP id smtpd.web10.30399.1655734009192283300
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jun 2022 06:54:19 -0700
+ Mon, 20 Jun 2022 07:06:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: mentor.com, ip: 68.232.141.98, mailfrom: muhammad_hamza@mentor.com)
-X-IronPort-AV: E=Sophos;i="5.92,306,1650960000";
-   d="scan'208";a="77539688"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa2.mentor.iphmx.com with ESMTP; 20 Jun 2022 05:54:18 -0800
-IronPort-SDR: 
- oS3/EOdgL7Nbgzj556tLLOySg5BYrwjPHEis3dUfjw7eaAIcE1w/tv/p3SErv7cmt0kbNuB3qo
- jbehe4lzokeeOXCMQypMnTcQdkUP0no1nNzpopiXk3FXJPCwOSggRC8inYm+lBdaXKmwSvGSpJ
- FfhZJW2BvttUkp/AYe+In1UQXi9IP/DQSPWztfhwVyewpFI5c6Qn8Zv6Gp9hJf2fgwWHgJJ3Ip
- NPpMPFV5iYDwDoD3b4f+zKB1AHya44pNcDc4IbRY/Jf6VsjXm4SR3qk0+hdWXnjOREh5zS9CMC
- Zdg=
-From: Muhammad Hamza <muhammad_hamza@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Muhammad Hamza <muhammad_hamza@mentor.com>, Awais Belal
-	<awais_belal@mentor.com>
-Subject: [PATCH] udev-extraconf: force systemd-udevd to use shared MountFlags
-Date: Mon, 20 Jun 2022 18:52:58 +0500
-Message-ID: <20220620135256.307498-1-muhammad_hamza@mentor.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=aqSChBbP;
+ spf=pass (domain: gmail.com, ip: 209.85.166.47, mailfrom: sakoman@gmail.com)
+Received: by mail-io1-f47.google.com with SMTP id h8so11176289iof.11
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 20 Jun 2022 07:06:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZVaIia9zZpRTxagI819TqknE2FZxrtloW/hlgdPYvY8=;
+        b=aqSChBbPU5zbYNmKPfGhew+hO3hzB1JJ+75MUVW9bZF1voH11VK3as7mzjwSj/diRG
+         sDW9goDd2fJSAQob40Ui1bFr7XKEVlD7L9ZunGnSNkO6ffV8KKw92M22aUhYNPeTbNbH
+         8VQsZ0O7S6gFg5PNWivNLTypJZmZb++IQg1ryse5QYPCLlJA6+dLXP1k3VDlIKA9LlAh
+         uu2ZiYDsUsVceAspuMgJpNwGJ3uOsXHBgiwnS8Dd5SiCEPB7Nd5Lk9ARZbtPr9eXVbvh
+         lQvZWPy5BVFDsaFFF+iiY4rIlRYgBYEuU2Hmmy9KyGemBdbXNUhFyI+tsEGnB4dFwzeg
+         EIhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZVaIia9zZpRTxagI819TqknE2FZxrtloW/hlgdPYvY8=;
+        b=NsROmaPCRqNJxfInLOwdGRhO5xyL90/aEpvDEbLkBF2n7t9hNhARWKwlgDkTPGZwL+
+         9wN1CMHWOajLtC4LuGCj0iWNhazbF2wAUPmlYN0PAOkqEuz4pzK0nLHRahwlXB64Kpvs
+         SYU/vk4frt8R2+qGRZFj8fFBof++6CwNc8kvEDeQ68nCZKBL8nh1xYXtqdoUiz0PSKKC
+         JrjrAtZfRXd6mElnK49J5MGO8jBscJvueBL6fYLBRZqXJA49FQnLh2yRBGmbc3dmAqke
+         0XrH3ID4FjZyvZTqXdY7HnDtN0ZfCu3uUffjOOIVRv+3yIYp+Tvooyel3oaNcYKSN9ub
+         +ufw==
+X-Gm-Message-State: AJIora9okIBFHTWp5l/NzQjAiaawuF1WyOGuOeoDZO7nGfsKnrJeP6Yb
+	8o40qiJz3c2vqV0WmAxTYDAz6o1GS0n172GURiw=
+X-Google-Smtp-Source: 
+ AGRyM1vxFBzuekhPv1VjtzGlAD0kAcs27+/lm1Y0qw8Q/bi6tLbXUTNCwrXGBDzaCd9zfmv86jSKt2p2OT8HsjnCaks=
+X-Received: by 2002:a05:6638:1607:b0:331:bcef:784d with SMTP id
+ x7-20020a056638160700b00331bcef784dmr13314607jas.208.1655734008427; Mon, 20
+ Jun 2022 07:06:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <20220620090819.84400-1-davide.gardenal@huawei.com>
+ <CAApg2=T-XaL3b=-wcsAgU3=Gf51KXgBMdfkUHNgDkpNG7LBygw@mail.gmail.com>
+In-Reply-To: 
+ <CAApg2=T-XaL3b=-wcsAgU3=Gf51KXgBMdfkUHNgDkpNG7LBygw@mail.gmail.com>
+From: Steve Sakoman <sakoman@gmail.com>
+Date: Mon, 20 Jun 2022 04:06:36 -1000
+Message-ID: 
+ <CAGDS+nkCzPf5nMrNQHZsFg8147hZED25pz2UMepus+OzbKRvjw@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone][PATCH][RESEND] efivar: add musl libc
+ compatibility
+To: Marta Rybczynska <rybczynska@gmail.com>
+Cc: Davide Gardenal <davidegarde2000@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	Davide Gardenal <davide.gardenal@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jun 2022 13:54:27 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jun 2022 14:06:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167109
+ https://lists.openembedded.org/g/openembedded-core/message/167110
 
-Automounting does not work cleanly in case systemd as well as
-udev rules are being used simultaneously and in most cases
-race conditions and unknown behavior can come up.
-In case we're running on top of systemd we need to make sure
-that systemd-udevd knows that udev is in play as well and
-mounting should be done using shared flags. Also as we're
-using mount from sources other than systemd-mount in current
-scripts this is the most manageable fix to automounting
-problems.
+On Mon, Jun 20, 2022 at 1:32 AM Marta Rybczynska <rybczynska@gmail.com> wrote:
+>
+>
+>
+> On Mon, Jun 20, 2022 at 11:08 AM Davide Gardenal <davidegarde2000@gmail.com> wrote:
+>>
+>> Backport patch to get efivar working with musl.
+>>
+>
+> Steve,
+> do you consider picking this one up? It is blocking the cve-check on world on our side.
 
-Signed-off-by: Awais Belal <awais_belal@mentor.com>
-Signed-off-by: Muhammad Hamza <muhammad_hamza@mentor.com>
----
- .../udev/udev-extraconf/systemd-udevd.service            | 3 +++
- meta/recipes-core/udev/udev-extraconf_1.1.bb             | 9 ++++++++-
- 2 files changed, 11 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/udev/udev-extraconf/systemd-udevd.service
+Oops!  I was waiting for this to hit master, and then forgot to grab it.  Sorry!
 
-diff --git a/meta/recipes-core/udev/udev-extraconf/systemd-udevd.service b/meta/recipes-core/udev/udev-extraconf/systemd-udevd.service
-new file mode 100644
-index 0000000000..a9b86eb6e4
---- /dev/null
-+++ b/meta/recipes-core/udev/udev-extraconf/systemd-udevd.service
-@@ -0,0 +1,3 @@
-+.include @systemd_unitdir@/system/systemd-udevd.service
-+[Service]
-+MountFlags=shared
-diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-index 8213c1a930..ef6019259e 100644
---- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
-+++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-@@ -11,6 +11,7 @@ SRC_URI = " \
-        file://autonet.rules \
-        file://network.sh \
-        file://localextra.rules \
-+       ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'file://systemd-udevd.service', '', d)} \
- "
- 
- S = "${WORKDIR}"
-@@ -35,9 +36,15 @@ do_install() {
-     sed -i 's|@MOUNT_BASE@|${MOUNT_BASE}|g' ${D}${sysconfdir}/udev/scripts/mount.sh
- 
-     install -m 0755 ${WORKDIR}/network.sh ${D}${sysconfdir}/udev/scripts
-+
-+    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-+        install -d ${D}${sysconfdir}/systemd/system
-+        install ${WORKDIR}/systemd-udevd.service ${D}${sysconfdir}/systemd/system/systemd-udevd.service
-+        sed -i 's|@systemd_unitdir@|${systemd_unitdir}|g' ${D}${sysconfdir}/systemd/system/systemd-udevd.service
-+    fi
- }
- 
--FILES:${PN} = "${sysconfdir}/udev"
-+FILES:${PN} = "${sysconfdir}/udev ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '${sysconfdir}/systemd/system/systemd-udevd.service', '', d)}"
- RDEPENDS:${PN} = "udev util-linux-blkid"
- CONFFILES:${PN} = "${sysconfdir}/udev/mount.ignorelist"
- 
--- 
-2.25.1
+I've got it now.
 
+Steve
 
