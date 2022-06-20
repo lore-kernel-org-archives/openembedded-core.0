@@ -1,257 +1,189 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6759AC433EF
-	for <webhook@archiver.kernel.org>; Mon, 20 Jun 2022 00:07:59 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web08.24690.1655683674665648170
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 987C4C433EF
+	for <webhook@archiver.kernel.org>; Mon, 20 Jun 2022 04:44:30 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+ [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web12.26450.1655700265985366259
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 17:07:54 -0700
+ Sun, 19 Jun 2022 21:44:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=qTCpg8HS;
- spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id
- w19-20020a17090a8a1300b001ec79064d8dso5933436pjn.2
+ dkim=pass header.i=@mvista.com header.s=google header.b=iXCZ4f1u;
+ spf=pass (domain: mvista.com, ip: 209.85.215.172,
+ mailfrom: hprajapati@mvista.com)
+Received: by mail-pg1-f172.google.com with SMTP id f65so9246626pgc.7
         for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 17:07:54 -0700 (PDT)
+ Sun, 19 Jun 2022 21:44:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iGzhrkJS0k6YvC6zPJi4b2J0qICb0HgKy99dethCU40=;
-        b=qTCpg8HSx6gD3TKi/3zOZZCpv3dElknnjaRtKJd0bkfJ/aXn3VINNRfLzY39xrvKVC
-         Jc6Vs6oKZGaaB+A28CpFZCmIcXvQmi6E9Tdyezl9d7Aa91phJi6w966GmwF63T7VcFFX
-         2XsW+xsKlYbcXHuF8MgHsm7jJsjb2tDIJjdI290NBmUMgu0gbzYOm966PdrwDitcYiRP
-         5kPvbF/qU41Gv/A4XSptTdH0RbZWE+m+GH0rlmm8rwHYOrZMOJ14D15bD7w6EYF+wtqU
-         dQyBnrGbh4UoBZaveNZKS1fvl6PHyLcm2kLRpH5WsHvk797vX5x4B2z41c0xcWMDUU9W
-         afoA==
+        d=mvista.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=af7tIwZ8YwQ7X8FmLGvf+1OWyvkjCzfrL6jxz/6kr+g=;
+        b=iXCZ4f1uQYx00FQ9yFIyNcz01CE+VFI+Ii+XGrEiI1c9U5Qls4LIevqr4n6yCjuTl/
+         fKOUyazNY+c+4LjTjrEVgBYkykqEWlWuvj6I5/jC8JuRCcDVBNTnqrgo2lLTvgLXmJ4R
+         mz4eIzv5jU+YUB1AbLMwp/kl0tDpa+qRGrOxs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iGzhrkJS0k6YvC6zPJi4b2J0qICb0HgKy99dethCU40=;
-        b=z9X3YBFYPEX5xXWM+uBvrVqaa7JSH1yECZJkUgaxR1sDKTHLajmYa0T4sucKhkSMRM
-         feMz2TivXuLfy8MPyx6adtbgKou+edbvQganUqJUHSwWXsM7EJDZTHYvlbKT0qmYmGSG
-         +wbHufEyOU2rjBhDEyIHNvXNTk3WDlDKHQlGOLhNW2eUPLOMqvZ/8aEeZrhqZk8PiNAU
-         U4w7XA3RpvA0+qxHbCHAwAHWhX3qtoVjKfsD2lMExiK9FnTZyOGt66AmSmoMKGdZQ1bc
-         XpCKHYR/XPXdNsYu92bY5CS7tYeeXX5TlS5lxkuZjPtkukmF7YEZXxUjKdaiS4IJuCMQ
-         Qbaw==
-X-Gm-Message-State: AJIora9CNcqyOV9lLeCtkB5k5ZCjtF0NTiKoLiPh8vmPb7D8OKeetDbQ
-	GBJe0Ov4B9c/z8gvC7Ll8HO5+AgHX8XGDr0M1gw=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=af7tIwZ8YwQ7X8FmLGvf+1OWyvkjCzfrL6jxz/6kr+g=;
+        b=7KIeuOKTMa1uD0rgxmMbz/QljQPS1IIj1OXJZNffouFfoUAmhuivB5l7pGcyn9KAjj
+         XWcabVgVzYko85vRP3K8Stt6COL2JLab50LBXsyFcBYngEehOr2qnnadyyM7gnI/bud7
+         iKy6I0zPTuu3d4QYt6eIquL4RGNL4Cej2bhTBxZ2KyGI8WtjGX/L3Bd86K7M6kDusozB
+         RcwoTjrCoi/R0ZOSQe2NTaYi5iR1blvs1lgWCvCxMvCcLWi1XuhvNZMJUR8tmtWP51zA
+         dsNNi0fOnVyp0FH+U1uaf7MykjFYYVQ393E3mbIPnts3IZoDuQ9DmK47JwOESLoLweiB
+         1E+g==
+X-Gm-Message-State: AJIora+bfzLfYVoTF2bRUfQOjhNe+qN9EO0CF1pan1qHP/D59eF9lpaa
+	iO+EIRipPckgk8/WY5n8/57CPqDHAN8GnP0x
 X-Google-Smtp-Source: 
- AGRyM1v5JMWIViXOlwZqimaAjtIMCZ3xPYwlvvaYIKTV5W/JTSY62Pa6pL4xJnOPgUy1lYY43O5AC9aJtkwL+vLGD3U=
-X-Received: by 2002:a17:902:f60d:b0:16a:1a7f:a22f with SMTP id
- n13-20020a170902f60d00b0016a1a7fa22fmr5760917plg.13.1655683673891; Sun, 19
- Jun 2022 17:07:53 -0700 (PDT)
+ AGRyM1sSQ+TzDg43dGayQD1HrnQufgroeT1BU3kXcMVigZEDhVBG1KXyKPoockhCazsrk3UI+fhP2g==
+X-Received: by 2002:a05:6a00:1a91:b0:51c:2fab:7340 with SMTP id
+ e17-20020a056a001a9100b0051c2fab7340mr22717701pfv.74.1655700265302;
+        Sun, 19 Jun 2022 21:44:25 -0700 (PDT)
+Received: from MVIN00024 ([43.249.234.203])
+        by smtp.gmail.com with ESMTPSA id
+ x16-20020a17090a165000b001e667f932cdsm9317854pje.53.2022.06.19.21.44.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Jun 2022 21:44:24 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation);
+ Mon, 20 Jun 2022 10:14:19 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: jpuhlman@mvista.com,
+	Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [dunfell][PATCH] cyrus-sasl: CVE-2022-24407 failure to properly
+ escape SQL input allows an attacker to execute arbitrary SQL commands
+Date: Mon, 20 Jun 2022 10:14:11 +0530
+Message-Id: <20220620044411.6397-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: 
- <CANNYZj_gJRaGsbm-Lb=eVZqYD1u=N4Xqe0edEz6DfTunT3hRWw@mail.gmail.com>
- <E113DB50-F77E-408E-ABCA-9B320BC506E0@burtonini.com>
-In-Reply-To: <E113DB50-F77E-408E-ABCA-9B320BC506E0@burtonini.com>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Sun, 19 Jun 2022 17:07:42 -0700
-Message-ID: 
- <CANx9H-Abrq7pWDYOZu3DvVRZ=3+fthKhW4FL=WHLoXD3-eCM=A@mail.gmail.com>
-Subject: Re: [OE-core] [AUH] python3-jsonschema: upgrading to 4.6.0 FAILED
-To: Ross Burton <ross@burtonini.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
- Bruce Ashfield <bruce.ashfield@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000003e2e0105e1d5e54e"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jun 2022 00:07:59 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jun 2022 04:44:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167078
+ https://lists.openembedded.org/g/openembedded-core/message/167080
 
---0000000000003e2e0105e1d5e54e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Source: https://github.com/cyrusimap/cyrus-sasl
+MR: 118501
+Type: Security Fix
+Disposition: Backport from https://github.com/cyrusimap/cyrus-sasl/commit/9eff746c9daecbcc0041b09a5a51ba30738cdcbc
+ChangeID: 5e0fc4c28d97b498128e4aa5d3e7c012e914ef51
+Description:
+       CVE-2022-24407 cyrus-sasl: failure to properly escape SQL input allows an attacker to execute arbitrary SQL commands.
 
-On Sun, Jun 19, 2022 at 2:29 PM Ross Burton <ross@burtonini.com> wrote:
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../cyrus-sasl/CVE-2022-24407.patch           | 83 +++++++++++++++++++
+ .../cyrus-sasl/cyrus-sasl_2.1.27.bb           |  1 +
+ 2 files changed, 84 insertions(+)
+ create mode 100644 meta-networking/recipes-daemons/cyrus-sasl/cyrus-sasl/CVE-2022-24407.patch
 
-> Patches on the list.
->
-> I=E2=80=99m now debating as to whether the class should be called hatch o=
-r
-> hatchling=E2=80=A6
->
-or face hugger
+diff --git a/meta-networking/recipes-daemons/cyrus-sasl/cyrus-sasl/CVE-2022-24407.patch b/meta-networking/recipes-daemons/cyrus-sasl/cyrus-sasl/CVE-2022-24407.patch
+new file mode 100644
+index 000000000..0ddea03c6
+--- /dev/null
++++ b/meta-networking/recipes-daemons/cyrus-sasl/cyrus-sasl/CVE-2022-24407.patch
+@@ -0,0 +1,83 @@
++From 906b863c5308567086c6437ce17335b1922a78d1 Mon Sep 17 00:00:00 2001
++From: Hitendra Prajapati <hprajapati@mvista.com>
++Date: Wed, 15 Jun 2022 10:44:50 +0530
++Subject: [PATCH] CVE-2022-24407
++
++Upstream-Status: Backport [https://github.com/cyrusimap/cyrus-sasl/commit/9eff746c9daecbcc0041b09a5a51ba30738cdcbc]
++CVE: CVE-2022-24407
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ plugins/sql.c | 26 +++++++++++++++++++++++---
++ 1 file changed, 23 insertions(+), 3 deletions(-)
++
++diff --git a/plugins/sql.c b/plugins/sql.c
++index 95f5f707..5d20759b 100644
++--- a/plugins/sql.c
+++++ b/plugins/sql.c
++@@ -1150,6 +1150,7 @@ static int sql_auxprop_store(void *glob_context,
++     char *statement = NULL;
++     char *escap_userid = NULL;
++     char *escap_realm = NULL;
+++    char *escap_passwd = NULL;
++     const char *cmd;
++     
++     sql_settings_t *settings;
++@@ -1221,6 +1222,11 @@ static int sql_auxprop_store(void *glob_context,
++ 			    "Unable to begin transaction\n");
++     }
++     for (cur = to_store; ret == SASL_OK && cur->name; cur++) {
+++	/* Free the buffer, current content is from previous loop. */
+++	if (escap_passwd) {
+++	    sparams->utils->free(escap_passwd);
+++	    escap_passwd = NULL;
+++	}
++ 
++ 	if (cur->name[0] == '*') {
++ 	    continue;
++@@ -1242,19 +1248,32 @@ static int sql_auxprop_store(void *glob_context,
++ 	}
++ 	sparams->utils->free(statement);
++ 
+++	if (cur->values[0]) {
+++	    escap_passwd = (char *)sparams->utils->malloc(strlen(cur->values[0])*2+1);
+++	    if (!escap_passwd) {
+++		ret = SASL_NOMEM;
+++		break;
+++	    }
+++	    settings->sql_engine->sql_escape_str(escap_passwd, cur->values[0]);
+++	}
+++
++ 	/* create a statement that we will use */
++ 	statement = sql_create_statement(cmd, cur->name, escap_userid,
++ 					 escap_realm,
++-					 cur->values && cur->values[0] ?
++-					 cur->values[0] : SQL_NULL_VALUE,
+++					 escap_passwd ?
+++					 escap_passwd : SQL_NULL_VALUE,
++ 					 sparams->utils);
+++	if (!statement) {
+++	    ret = SASL_NOMEM;
+++	    break;
+++	}
++ 	
++ 	{
++ 	    char *log_statement =
++ 		sql_create_statement(cmd, cur->name,
++ 				     escap_userid,
++ 				     escap_realm,
++-				     cur->values && cur->values[0] ?
+++				     escap_passwd ?
++ 				     "<omitted>" : SQL_NULL_VALUE,
++ 				     sparams->utils);
++ 	    sparams->utils->log(sparams->utils->conn, SASL_LOG_DEBUG,
++@@ -1287,6 +1306,7 @@ static int sql_auxprop_store(void *glob_context,
++   done:
++     if (escap_userid) sparams->utils->free(escap_userid);
++     if (escap_realm) sparams->utils->free(escap_realm);
+++    if (escap_passwd) sparams->utils->free(escap_passwd);
++     if (conn) settings->sql_engine->sql_close(conn);
++     if (userid) sparams->utils->free(userid);
++     if (realm) sparams->utils->free(realm);
++-- 
++2.25.1
++
+diff --git a/meta-networking/recipes-daemons/cyrus-sasl/cyrus-sasl_2.1.27.bb b/meta-networking/recipes-daemons/cyrus-sasl/cyrus-sasl_2.1.27.bb
+index db5f94444..3e7056d67 100644
+--- a/meta-networking/recipes-daemons/cyrus-sasl/cyrus-sasl_2.1.27.bb
++++ b/meta-networking/recipes-daemons/cyrus-sasl/cyrus-sasl_2.1.27.bb
+@@ -17,6 +17,7 @@ SRC_URI = "git://github.com/cyrusimap/cyrus-sasl;protocol=https;branch=master \
+            file://0001-Allow-saslauthd-to-be-built-outside-of-source-tree-w.patch \
+            file://0001-makeinit.sh-fix-parallel-build-issue.patch \
+            file://CVE-2019-19906.patch \
++           file://CVE-2022-24407.patch \
+            "
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/cyrusimap/cyrus-sasl/archives"
+-- 
+2.25.1
 
->
-> Ross
->
-> > On 18 Jun 2022, at 21:54, Alexander Kanavin <alex.kanavin@gmail.com>
-> wrote:
-> >
-> > =EF=BB=BFpython3-jsonschema has replaced setuptools with a "modern,
-> > well-designed, legacy-free, and now well-supported packaging tool,
-> > Hatch", which oe-core does not yet support:
-> >
-> https://github.com/python-jsonschema/jsonschema/commit/f61f3b7a73c1440917=
-8921bf4ce23050bf90560d
-> >
-> > Ross, I think there's been some work to enable that? Can you carry it
-> > to completion?
-> >
-> > Alex
-> >
-> >> On Wed, 15 Jun 2022 at 15:05, Auto Upgrade Helper <auh@yoctoproject.or=
-g>
-> wrote:
-> >>
-> >> Hello,
-> >>
-> >> this email is a notification from the Auto Upgrade Helper
-> >> that the automatic attempt to upgrade the recipe *python3-jsonschema*
-> to *4.6.0* has Failed(do_compile).
-> >>
-> >> Detailed error information:
-> >>
-> >> do_compile failed
-> >>
-> >>
-> >>
-> >> Next steps:
-> >>    - apply the patch: git am
-> 0001-python3-jsonschema-upgrade-4.5.1-4.6.0.patch
-> >>    - check the changes to upstream patches and summarize them in the
-> commit message,
-> >>    - compile an image that contains the package
-> >>    - perform some basic sanity tests
-> >>    - amend the patch and sign it off: git commit -s --reset-author
-> --amend
-> >>    - send it to the appropriate mailing list
-> >>
-> >> Alternatively, if you believe the recipe should not be upgraded at thi=
-s
-> time,
-> >> you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-> >> automatic upgrades would no longer be attempted.
-> >>
-> >> Please review the attached files for further information and
-> build/update failures.
-> >> Any problem please file a bug at
-> https://bugzilla.yoctoproject.org/enter_bug.cgi?product=3DAutomated%20Upd=
-ate%20Handler
-> >>
-> >> Regards,
-> >> The Upgrade Helper
-> >>
-> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >> Links: You receive all messages sent to this group.
-> >> View/Reply Online (#166956):
-> https://lists.openembedded.org/g/openembedded-core/message/166956
-> >> Mute This Topic: https://lists.openembedded.org/mt/91775634/1686489
-> >> Group Owner: openembedded-core+owner@lists.openembedded.org
-> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
-[
-> alex.kanavin@gmail.com]
-> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >>
->
-
---0000000000003e2e0105e1d5e54e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Sun, Jun 19, 2022 at 2:29 PM Ross Burton &lt;<a href=3D"=
-mailto:ross@burtonini.com">ross@burtonini.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex">Patches on the list.<br>
-<br>
-I=E2=80=99m now debating as to whether the class should be called hatch or =
-hatchling=E2=80=A6<br>
-</blockquote><div dir=3D"auto">or face hugger</div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
-t:1ex"><br>
-Ross<br>
-<br>
-&gt; On 18 Jun 2022, at 21:54, Alexander Kanavin &lt;<a href=3D"mailto:alex=
-.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrote:=
-<br>
-&gt; <br>
-&gt; =EF=BB=BFpython3-jsonschema has replaced setuptools with a &quot;moder=
-n,<br>
-&gt; well-designed, legacy-free, and now well-supported packaging tool,<br>
-&gt; Hatch&quot;, which oe-core does not yet support:<br>
-&gt; <a href=3D"https://github.com/python-jsonschema/jsonschema/commit/f61f=
-3b7a73c14409178921bf4ce23050bf90560d" rel=3D"noreferrer" target=3D"_blank">=
-https://github.com/python-jsonschema/jsonschema/commit/f61f3b7a73c144091789=
-21bf4ce23050bf90560d</a><br>
-&gt; <br>
-&gt; Ross, I think there&#39;s been some work to enable that? Can you carry=
- it<br>
-&gt; to completion?<br>
-&gt; <br>
-&gt; Alex<br>
-&gt; <br>
-&gt;&gt; On Wed, 15 Jun 2022 at 15:05, Auto Upgrade Helper &lt;<a href=3D"m=
-ailto:auh@yoctoproject.org" target=3D"_blank">auh@yoctoproject.org</a>&gt; =
-wrote:<br>
-&gt;&gt; <br>
-&gt;&gt; Hello,<br>
-&gt;&gt; <br>
-&gt;&gt; this email is a notification from the Auto Upgrade Helper<br>
-&gt;&gt; that the automatic attempt to upgrade the recipe *python3-jsonsche=
-ma* to *4.6.0* has Failed(do_compile).<br>
-&gt;&gt; <br>
-&gt;&gt; Detailed error information:<br>
-&gt;&gt; <br>
-&gt;&gt; do_compile failed<br>
-&gt;&gt; <br>
-&gt;&gt; <br>
-&gt;&gt; <br>
-&gt;&gt; Next steps:<br>
-&gt;&gt;=C2=A0 =C2=A0 - apply the patch: git am 0001-python3-jsonschema-upg=
-rade-4.5.1-4.6.0.patch<br>
-&gt;&gt;=C2=A0 =C2=A0 - check the changes to upstream patches and summarize=
- them in the commit message,<br>
-&gt;&gt;=C2=A0 =C2=A0 - compile an image that contains the package<br>
-&gt;&gt;=C2=A0 =C2=A0 - perform some basic sanity tests<br>
-&gt;&gt;=C2=A0 =C2=A0 - amend the patch and sign it off: git commit -s --re=
-set-author --amend<br>
-&gt;&gt;=C2=A0 =C2=A0 - send it to the appropriate mailing list<br>
-&gt;&gt; <br>
-&gt;&gt; Alternatively, if you believe the recipe should not be upgraded at=
- this time,<br>
-&gt;&gt; you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so =
-that<br>
-&gt;&gt; automatic upgrades would no longer be attempted.<br>
-&gt;&gt; <br>
-&gt;&gt; Please review the attached files for further information and build=
-/update failures.<br>
-&gt;&gt; Any problem please file a bug at <a href=3D"https://bugzilla.yocto=
-project.org/enter_bug.cgi?product=3DAutomated%20Update%20Handler" rel=3D"no=
-referrer" target=3D"_blank">https://bugzilla.yoctoproject.org/enter_bug.cgi=
-?product=3DAutomated%20Update%20Handler</a><br>
-&gt;&gt; <br>
-&gt;&gt; Regards,<br>
-&gt;&gt; The Upgrade Helper<br>
-&gt;&gt; <br>
-&gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;&gt; Links: You receive all messages sent to this group.<br>
-&gt;&gt; View/Reply Online (#166956): <a href=3D"https://lists.openembedded=
-.org/g/openembedded-core/message/166956" rel=3D"noreferrer" target=3D"_blan=
-k">https://lists.openembedded.org/g/openembedded-core/message/166956</a><br=
->
-&gt;&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/9177=
-5634/1686489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedd=
-ed.org/mt/91775634/1686489</a><br>
-&gt;&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.ope=
-nembedded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded=
-.org</a><br>
-&gt;&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembed=
-ded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembe=
-dded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmai=
-l.com" target=3D"_blank">alex.kanavin@gmail.com</a>]<br>
-&gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;&gt; <br>
-</blockquote></div></div>
-
---0000000000003e2e0105e1d5e54e--
 
