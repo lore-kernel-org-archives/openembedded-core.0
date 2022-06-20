@@ -1,179 +1,147 @@
-Return-Path: <yogesh.tyagi@intel.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9EB6C43334
-	for <webhook@archiver.kernel.org>; Mon, 20 Jun 2022 06:42:15 +0000 (UTC)
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by mx.groups.io with SMTP id smtpd.web10.27017.1655707332810708406
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A452C433EF
+	for <webhook@archiver.kernel.org>; Mon, 20 Jun 2022 08:03:56 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web08.27795.1655712230733363859
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Jun 2022 23:42:13 -0700
+ Mon, 20 Jun 2022 01:03:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=VUzVGuHG;
- spf=pass (domain: intel.com, ip: 192.55.52.120,
- mailfrom: yogesh.tyagi@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1655707332; x=1687243332;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=GhSxwPHK5lAtEc/16EaNe3PftQ1+Oa/mGsC5fYceTgg=;
-  b=VUzVGuHGrysUnrWx6OPHTiBfpqraPQ8VyGmHSwhr3r7S0kV4jOXFNABj
-   Sw60vh0rshdl1LyZvhdmTfxnVw8pJPqtNBtUx5oHCVaXJ/SmTU5WZSeh7
-   YZwLsv1Lu4JtGNwLkusMN7UNfoFU1Acxy5KSNe0JPH+al3Ypqw2PxnVTY
-   t51zl/60sll6xNcWhzsKkDmiP/APTVE4TRCcQfVT4c5tMa8uKcsZ1LZTr
-   nmRthZfTETKyUKFAirj9LWor3bWpNFdVyPFwmoVOcc6zqEftGq67CKRFH
-   VCorBh2p11q3LLYS5tQME71D/PmJ0HPD+xXmqIjjGRn4edPrGzfxRgFL1
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="278589764"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400";
-   d="scan'208";a="278589764"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2022 23:42:12 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400";
-   d="scan'208";a="614274112"
-Received: from andromeda02.png.intel.com ([10.221.253.198])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
- 19 Jun 2022 23:42:09 -0700
-From: Yogesh Tyagi <yogesh.tyagi@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] Add ptest to curl
-Date: Mon, 20 Jun 2022 14:42:00 +0800
-Message-Id: <20220620064200.66981-1-yogesh.tyagi@intel.com>
-X-Mailer: git-send-email 2.36.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=nYibm/w6;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id s21so5402963lfs.13
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 20 Jun 2022 01:03:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=9qnq8L1fl4FbgNq6nBgWBWkbfkJF//gk39kEjBh9t6A=;
+        b=nYibm/w65+/r6CUg5LLmPN0dnva2iPAJjD98PaK0LwoZ4Lyxe9m6yaJRo91oeKNPHv
+         6he/bFR8tVdT4RxEBMLBsaQSaVZ546GMolaFyldTYl+YOSIicLIVd3FJ6OcKXhdjkjAw
+         1DWx6T1P2ro8na///Dcapg4BOGQ3AfSAJ6K+oodu8tfAd4RYtOv/Nw2+Trl51W6Fz/6q
+         qIwQBtKVVHHec5nNJHXdXcUmbqVf3kX/gCtwa9IWIy0zQKzG26EkyQBJjZkQttgl7vBl
+         bzCDwpE2oqnMUgWgcBBTAFo0Bd3azKNOdXigYkPRGyiC7Vk1Cbl0qPGC6BAhugS+mcc7
+         Z3gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=9qnq8L1fl4FbgNq6nBgWBWkbfkJF//gk39kEjBh9t6A=;
+        b=M6QtXkdUxeu5fac4yR7oEPjPPFCbf+0FtwpWoNNVGkT30SzYK2gLcOTfFYx/9Z1iFm
+         UrI5pMivOWU4QX49V4gom41KmmpLo527j+rz7DHO0jtB6caxMyfSDSEVdH8IiASB7Wcl
+         scpL09iTxywl/QWmKpGjoSOwj4XJLfkMyy2PEZM0djhb+Y0+I0HotB+lPuiidfqX+zwZ
+         0YkU7RKSau5Fh5ZdtTGofiNl3s55SKY3NqHc2W4OzDBP+MUioezY2ZHH+xC+bfWFjzGj
+         /FM2adaQtGKzagBbixu3tYKTE0hCRvAZ2asKMmsh67+OpnFdZwpCkeTK2gQNEUrWo18Y
+         6wcA==
+X-Gm-Message-State: AJIora/x98lg5UBCGaWJLuQOvqgFU6m7G97WvCgNCWFcz5/VCVOUk/Rl
+	jpKGVFzI8hPKOIrRxfv/odpGwSkb6TX7JZwjTfU=
+X-Google-Smtp-Source: 
+ AGRyM1uziYLI8irDS2PWgXNu/6vfOOkAFKnVCnH3514znwqVmB+Wzux/O3cXJQmRx8smPitu5HdqrBejnEGBAmfeNNs=
+X-Received: by 2002:ac2:5d31:0:b0:47d:c71c:50d5 with SMTP id
+ i17-20020ac25d31000000b0047dc71c50d5mr12317220lfb.665.1655712228758; Mon, 20
+ Jun 2022 01:03:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: 
+ <CANNYZj_gJRaGsbm-Lb=eVZqYD1u=N4Xqe0edEz6DfTunT3hRWw@mail.gmail.com>
+ <E113DB50-F77E-408E-ABCA-9B320BC506E0@burtonini.com>
+In-Reply-To: <E113DB50-F77E-408E-ABCA-9B320BC506E0@burtonini.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 20 Jun 2022 10:03:38 +0200
+Message-ID: 
+ <CANNYZj-AtXj4-jxuN8wkr+syzxhpf8fZ4ZuK_Bi086-QNSFEhw@mail.gmail.com>
+Subject: Re: [OE-core] [AUH] python3-jsonschema: upgrading to 4.6.0 FAILED
+To: Ross Burton <ross@burtonini.com>
+Cc: Tim Orling <ticotimo@gmail.com>,
+ Bruce Ashfield <bruce.ashfield@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jun 2022 06:42:15 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jun 2022 08:03:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167084
+ https://lists.openembedded.org/g/openembedded-core/message/167085
 
-- curl-ptest is taking around 270 seconds to execute so
-  added curl-ptest to PTESTS_SLOW
-- This patch is rework on an existing patch provided
-  by Maxin B. John (maxin.john@intel.com)
-  https://www.openembedded.org/pipermail/openembedded-core/2017-July/139176.html
-- Below is the run log of curl-ptest
-  START: ptest-runner
-  2022-06-20T03:28
-  BEGIN: /usr/lib/curl/ptest
-  ********* System characteristics ********
-  * curl 7.83.1 (x86_64-poky-linux-gnu)
-  * libcurl/7.83.1 OpenSSL/3.0.3 zlib/1.2.12 libidn2/2.3.2
-  * Features: alt-svc AsynchDNS Debug HSTS HTTPS-proxy IDN Largefile libz NTLM SSL TLS-SRP UnixSockets
-  * Disabled: headers-api
-  * Host: qemux86-64
-  * System: Linux qemux86-64 5.15.44-yocto-standard #1 SMP PREEMPT Tue May 31 20:28:59 UTC 2022 x86_64 GNU/Linux
-  * OS: linux
-  * Servers: HTTP-unix
-  * Env:
-  * Seed: 238592
-  *****************************************
-  PASS: test 0001 (1   out of 1487, remaining: 25:45, took 1.040s, duration: 00:01)
-  PASS: test 0002 (2   out of 1487, remaining: 13:50, took 0.078s, duration: 00:01)
-  ...
-  ...
-  PASS: test 3015 (1477 out of 1487, remaining: 00:01, took 0.024s, duration: 03:20)
-  PASS: test 3016 (1478 out of 1487, remaining: 00:01, took 0.023s, duration: 03:21)
-  PASS: test 3019 (1481 out of 1487, remaining: 00:00, took 0.015s, duration: 03:21)
-  PASS: test 3020 (1482 out of 1487, remaining: 00:00, took 0.014s, duration: 03:21)
-  test 3025...The tool set in the test case for this: 'lib3025' does not exist
-  TESTDONE: 1280 tests were considered during 201 seconds.
-  TESTDONE: 784 tests out of PASS: 804 report: 97%
+Thanks!
 
-  TESTFAIL: These test cases failed: 356 412 413 971 1119 1132 1135 1139 1140 1165 1167 1173 1185 1400 1401 1402 1403 1404 1405 1465
+Alex
 
-  DURATION: 207
-  END: /usr/lib/curl/ptest
-  2022-06-20T03:31
-  STOP: ptest-runner
-  TOTAL: 1 FAIL: 0
-- The failed testcase are either trying to parse man page/dcoumentation pages or
-  require --libcurl option to be enabled in curl configuration
-  [YOCTO #6707]
-
-Signed-off-by: Yogesh Tyagi <yogesh.tyagi@intel.com>
----
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-support/curl/curl/run-ptest      |  6 +++++
- meta/recipes-support/curl/curl_7.83.1.bb      | 22 +++++++++++++++++--
- 3 files changed, 27 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/curl/curl/run-ptest
-
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index a1ead90649..6c4339e3e1 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -81,6 +81,7 @@ PTESTS_SLOW = "\
-     babeltrace2-ptest \
-     busybox-ptest \
-     coreutils-ptest \
-+    curl-ptest \
-     dbus-ptest \
-     e2fsprogs-ptest \
-     findutils-ptest \
-diff --git a/meta/recipes-support/curl/curl/run-ptest b/meta/recipes-support/curl/curl/run-ptest
-new file mode 100644
-index 0000000000..614e822922
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/run-ptest
-@@ -0,0 +1,6 @@
-+#!/bin/sh
-+cd tests
-+./runtests.pl -a -n -s | sed \
-+     -e 's|\([^ ]* *\) \([^ ]* *\)...OK|PASS: \1 \2|' \
-+     -e 's|\([^ ]* *\) \([^ ]* *\)...FAILED|FAIL: \1 \2|' \
-+     -e 's/Warning: test[0-9]\+ not present in tests\/data\/Makefile.inc//'
-diff --git a/meta/recipes-support/curl/curl_7.83.1.bb b/meta/recipes-support/curl/curl_7.83.1.bb
-index 1d9de29a65..34c2298fe1 100644
---- a/meta/recipes-support/curl/curl_7.83.1.bb
-+++ b/meta/recipes-support/curl/curl_7.83.1.bb
-@@ -9,13 +9,16 @@ SECTION = "console/network"
- LICENSE = "MIT-open-group"
- LIC_FILES_CHKSUM = "file://COPYING;md5=190c514872597083303371684954f238"
- 
--SRC_URI = "https://curl.se/download/${BP}.tar.xz"
-+SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-+           file://run-ptest \
-+"
-+
- SRC_URI[sha256sum] = "2cb9c2356e7263a1272fd1435ef7cdebf2cd21400ec287b068396deb705c22c4"
- 
- # Curl has used many names over the years...
- CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
- 
--inherit autotools pkgconfig binconfig multilib_header
-+inherit autotools pkgconfig binconfig multilib_header ptest
- 
- # Entropy source for random PACKAGECONFIG option
- RANDOM ?= "/dev/urandom"
-@@ -80,6 +83,21 @@ do_install:append:class-target() {
- 	    ${D}${bindir}/curl-config
- }
- 
-+do_compile_ptest() {
-+	oe_runmake test
-+	oe_runmake -C ${B}/tests/server
-+}
-+
-+do_install_ptest() {
-+	cp -rf ${B}/tests ${D}${PTEST_PATH}
-+	cp -rf ${S}/tests ${D}${PTEST_PATH}
-+	install -d ${D}${PTEST_PATH}/src
-+	ln -sf ${bindir}/curl   ${D}${PTEST_PATH}/src/curl
-+	cp -rf ${D}${bindir}/curl-config ${D}${PTEST_PATH}
-+}
-+
-+RDEPENDS:${PN}-ptest += "bash perl-modules"
-+
- PACKAGES =+ "lib${BPN}"
- 
- FILES:lib${BPN} = "${libdir}/lib*.so.*"
--- 
-2.36.1
-
+On Sun, 19 Jun 2022 at 23:29, Ross Burton <ross@burtonini.com> wrote:
+>
+> Patches on the list.
+>
+> I=E2=80=99m now debating as to whether the class should be called hatch o=
+r hatchling=E2=80=A6
+>
+> Ross
+>
+> > On 18 Jun 2022, at 21:54, Alexander Kanavin <alex.kanavin@gmail.com> wr=
+ote:
+> >
+> > =EF=BB=BFpython3-jsonschema has replaced setuptools with a "modern,
+> > well-designed, legacy-free, and now well-supported packaging tool,
+> > Hatch", which oe-core does not yet support:
+> > https://github.com/python-jsonschema/jsonschema/commit/f61f3b7a73c14409=
+178921bf4ce23050bf90560d
+> >
+> > Ross, I think there's been some work to enable that? Can you carry it
+> > to completion?
+> >
+> > Alex
+> >
+> >> On Wed, 15 Jun 2022 at 15:05, Auto Upgrade Helper <auh@yoctoproject.or=
+g> wrote:
+> >>
+> >> Hello,
+> >>
+> >> this email is a notification from the Auto Upgrade Helper
+> >> that the automatic attempt to upgrade the recipe *python3-jsonschema* =
+to *4.6.0* has Failed(do_compile).
+> >>
+> >> Detailed error information:
+> >>
+> >> do_compile failed
+> >>
+> >>
+> >>
+> >> Next steps:
+> >>    - apply the patch: git am 0001-python3-jsonschema-upgrade-4.5.1-4.6=
+.0.patch
+> >>    - check the changes to upstream patches and summarize them in the c=
+ommit message,
+> >>    - compile an image that contains the package
+> >>    - perform some basic sanity tests
+> >>    - amend the patch and sign it off: git commit -s --reset-author --a=
+mend
+> >>    - send it to the appropriate mailing list
+> >>
+> >> Alternatively, if you believe the recipe should not be upgraded at thi=
+s time,
+> >> you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+> >> automatic upgrades would no longer be attempted.
+> >>
+> >> Please review the attached files for further information and build/upd=
+ate failures.
+> >> Any problem please file a bug at https://bugzilla.yoctoproject.org/ent=
+er_bug.cgi?product=3DAutomated%20Update%20Handler
+> >>
+> >> Regards,
+> >> The Upgrade Helper
+> >>
+> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >> Links: You receive all messages sent to this group.
+> >> View/Reply Online (#166956): https://lists.openembedded.org/g/openembe=
+dded-core/message/166956
+> >> Mute This Topic: https://lists.openembedded.org/mt/91775634/1686489
+> >> Group Owner: openembedded-core+owner@lists.openembedded.org
+> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
+[alex.kanavin@gmail.com]
+> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >>
 
