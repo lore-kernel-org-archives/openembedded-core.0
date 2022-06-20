@@ -1,118 +1,70 @@
-Return-Path: <Muhammad_Hamza@mentor.com>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 673DFCCA479
-	for <webhook@archiver.kernel.org>; Mon, 20 Jun 2022 12:27:07 +0000 (UTC)
-Received: from esa4.mentor.iphmx.com (esa4.mentor.iphmx.com [68.232.137.252])
- by mx.groups.io with SMTP id smtpd.web09.29670.1655728022939923464
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 873E4C43334
+	for <webhook@archiver.kernel.org>; Mon, 20 Jun 2022 12:48:47 +0000 (UTC)
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net
+ [217.70.178.230])
+ by mx.groups.io with SMTP id smtpd.web10.29475.1655729318555650984
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jun 2022 05:27:03 -0700
+ Mon, 20 Jun 2022 05:48:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: mentor.com, ip: 68.232.137.252, mailfrom: muhammad_hamza@mentor.com)
-X-IronPort-AV: E=Sophos;i="5.92,306,1650960000";
-   d="scan'208";a="77540531"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa4.mentor.iphmx.com with ESMTP; 20 Jun 2022 04:27:03 -0800
-IronPort-SDR: 
- s3Pz/+53zBsz0UNVfqCS3a3AUgsRYhvu6NUIp4Ralc4IPbP1Ug1unfs9RMV2o7N5anrRhtp1pO
- 4Xq+jOi7YG3C5dOOOFT5jSv0fR2uMC3889tJVGW+/koxa/RTLcM5m64e9ImRenfdbAFuqMJlYo
- fG7bqfoxVlEHgEIzViENy2i7dm8u52zKL8v7XcOaz8b1iZ4ZAnX3/kGJvcxUdC60b/US2EWpZx
- zPqjH7GxlX93umf2/aEnzcc1LM23t8o/sWqI+dKzsr/Vsxrk6LnIc4yqdcYo/gM9Y5rHLF8TgF
- qIg=
-From: Muhammad Hamza <muhammad_hamza@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Muhammad Hamza <muhammad_hamza@mentor.com>, "Arsalan H . Awan"
-	<Arsalan_Awan@mentor.com>
-Subject: [PATCH] udev-extraconf/mount.sh: add LABELs to mountpoints
-Date: Mon, 20 Jun 2022 17:26:40 +0500
-Message-ID: <20220620122640.239381-1-muhammad_hamza@mentor.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=d5frCYpL;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.230,
+ mailfrom: luca.ceresoli@bootlin.com)
+Received: from booty (unknown [37.161.31.168])
+	(Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 06084240006;
+	Mon, 20 Jun 2022 12:48:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1655729316;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cRInGgXfcDof0ZlaEwDaYgcjrwCd3rcu4mpdGoGie/Q=;
+	b=d5frCYpLcmt+W2m8iO9qSGQfu9QvnrjwslT6DcB5oHrpCkINfj/+WuWf77q32R1RbHXdRg
+	t9lee5b8w/MjYdIcO4qdjRMLCacmPHVYAP4fetQR/r0PgIk5WgprbR69YJfd2dovOgMvE3
+	pyiuqdgH3FKw51Q/2meJR2hb7IiMCLo8QBeZ6z7ShNA2VMjyXFGVq1+8fjWJr+U4b569Ul
+	oVKnYiapXx0aTn93s8vbMWZPkg7dqz83v/cn2SzBFkd9/IbqxtKmQq6ys2u21+V8EjF8yQ
+	Kx79Yn723mXMcAb+3JeZQA09wc5OX2+HL2XMdac6g3mVgz8WvtR/aE+dLCwyww==
+Date: Mon, 20 Jun 2022 14:48:32 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Ross Burton" <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org, nd@arm.com
+Subject: Re: [OE-core] [PATCH 1/3] Add python3-hatchling (from meta-oe)
+Message-ID: <20220620144832.0c93a7b8@booty>
+In-Reply-To: <20220619212520.4158865-1-ross.burton@arm.com>
+References: <20220619212520.4158865-1-ross.burton@arm.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jun 2022 12:27:07 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jun 2022 12:48:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167095
+ https://lists.openembedded.org/g/openembedded-core/message/167096
 
-This alters the mountpoints such that if a device has a LABEL or
-a PARTLABEL, it will be mounted at e.g.:
+Hi Ross,
 
-  /run/media/$LABEL-<device-node>
-  /run/media/$PARTLABEL-<device-node>
-  /run/media/rootfs-sda2
+On Sun, 19 Jun 2022 22:25:18 +0100
+"Ross Burton" <ross.burton@arm.com> wrote:
 
-otherwise the device will be mounted at e.g.:
+> Recipes in core are now needing to use the Hatch build system, so
+> move the hatchling recipe and class from meta-oe to oe-core.
+> 
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
 
-  /run/media/<device-node>
-  /run/media/sda1
+This patch is causing failures on the autobuilders:
 
-The <device-node> appended with LABEL or PARTLABEL makes sure that
-the mountpoint is unique, therefore, avoids overlapping mounts.
+ERROR: Nothing PROVIDES 'python3-pathspec-native' (but .../python3-hatchling_1.3.0.bb DEPENDS on or otherwise requires it). Close matches:
 
-Signed-off-by: Arsalan H. Awan <Arsalan_Awan@mentor.com>
-Signed-off-by: Muhammad Hamza <muhammad_hamza@mentor.com>
----
- .../recipes-core/udev/udev-extraconf/mount.sh | 20 +++++++++++++++++++
- meta/recipes-core/udev/udev-extraconf_1.1.bb  |  2 +-
- 2 files changed, 21 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
-index c8b773bc07..12c6a5af22 100644
---- a/meta/recipes-core/udev/udev-extraconf/mount.sh
-+++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
-@@ -54,6 +54,16 @@ automount_systemd() {
-         grep "^[[:space:]]*$tmp" /etc/fstab && return
-     done
- 
-+    # Get the LABEL or PARTLABEL
-+    LABEL=`/sbin/blkid | grep "${DEVNAME}:" | grep -o 'LABEL=".*"' | cut -d '"' -f2`
-+    # If the $DEVNAME has a LABEL or a PARTLABEL
-+    if [ -n "$LABEL" ]; then
-+            # Set the mount location dir name to LABEL appended
-+            # with $name e.g. label-sda. That would avoid overlapping
-+            # mounts in case two devices have same LABEL
-+            name="${LABEL}-${name}"
-+    fi
-+
-     [ -d "$MOUNT_BASE/$name" ] || mkdir -p "$MOUNT_BASE/$name"
- 
-     MOUNT="$MOUNT -o silent"
-@@ -94,6 +104,16 @@ automount() {
- 	# configured in fstab
- 	grep -q "^$DEVNAME " /proc/mounts && return
- 
-+        # Get the LABEL or PARTLABEL
-+        LABEL=`/sbin/blkid | grep "${DEVNAME}:" | grep -o 'LABEL=".*"' | cut -d '"' -f2`
-+        # If the $DEVNAME has a LABEL or a PARTLABEL
-+        if [ -n "$LABEL" ]; then
-+                # Set the mount location dir name to LABEL appended
-+                # with $name e.g. label-sda. That would avoid overlapping
-+                # mounts in case two devices have same LABEL
-+                name="${LABEL}-${name}"
-+        fi
-+
- 	! test -d "$MOUNT_BASE/$name" && mkdir -p "$MOUNT_BASE/$name"
- 	# Silent util-linux's version of mounting auto
- 	if [ "x`readlink $MOUNT`" = "x/bin/mount.util-linux" ] ;
-diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-index 2b908ac05b..8213c1a930 100644
---- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
-+++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-@@ -38,7 +38,7 @@ do_install() {
- }
- 
- FILES:${PN} = "${sysconfdir}/udev"
--RDEPENDS:${PN} = "udev"
-+RDEPENDS:${PN} = "udev util-linux-blkid"
- CONFFILES:${PN} = "${sysconfdir}/udev/mount.ignorelist"
- 
- # to replace udev-extra-rules from meta-oe
 -- 
-2.25.1
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
