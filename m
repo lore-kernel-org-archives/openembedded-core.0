@@ -1,406 +1,296 @@
-Return-Path: <akuster808@gmail.com>
+Return-Path: <sjolley.yp.pm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D85FEC43334
-	for <webhook@archiver.kernel.org>; Mon, 20 Jun 2022 17:37:28 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web09.33454.1655746646452908428
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92A1DCCA47C
+	for <webhook@archiver.kernel.org>; Mon, 20 Jun 2022 23:20:10 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web11.26946.1655767209550163745
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jun 2022 10:37:26 -0700
+ Mon, 20 Jun 2022 16:20:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=V8wIejGg;
- spf=pass (domain: gmail.com, ip: 209.85.214.169,
- mailfrom: akuster808@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id i15so10351068plr.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fa2olO60;
+ spf=pass (domain: gmail.com, ip: 209.85.216.47,
+ mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pj1-f47.google.com with SMTP id
+ h9-20020a17090a648900b001ecb8596e43so2446169pjj.5
         for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Jun 2022 10:37:26 -0700 (PDT)
+ Mon, 20 Jun 2022 16:20:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=2nW4sAKVFE3uqPJOyUlY17ko2gD2vD82L7p/vbpxOqA=;
-        b=V8wIejGgExA8a85RzzAi94qx63F4HZDpV8NU3Re2bqSHb+l4Qt8e+Eh567Ee7Fd5OZ
-         56qnyo6EvQmPDXttDOllapo18BiP/HWC/UboQT1S+mtciv5KMkt4FR8Vm/P1zWhzevfc
-         /RRCCIGcPuopTct/CorbPSrKVNDkf7tsRrRYc/MDqM6Fv0HbQJP8yC5cnIjwgD4gBv0c
-         p+DmvCk//NWBi5ESISeoMMvUsa5aTcEZ9TcLgjY84zDXmzc3cmsswQFy7JQE4931XHWt
-         uMLtxZl/oS1CoeDCxWNA3NXpuVKSPgoX0+Jc7BcDMm57xbgYuycozv8Q/7MX1UiK8vr2
-         CZpw==
+        h=from:to:subject:date:message-id:mime-version:thread-index
+         :content-language;
+        bh=BohLKrsD7UPnqqy44Yic2EJ1/Lmzp7TSeL+MbAiWSB0=;
+        b=fa2olO60g/qkOjoOM8kWs4QZiLx5sFyy37nKY6T0XuE7xB8MvCKxlLFtCTVt4zWe4M
+         L01LOKMvByvgIVeQcJzF1PYvzo4iTzcUbzC4muvIKLYrmdcz3MkzfMZ6g40zKIq8pcnT
+         d0nDp0139dZLzsMfLHF/Rj3gv26haU57wl0sMzV25yQB4kfVGCoKxorxt4n7DB9Uxvyx
+         y2/nE53PmbcvpCc/JLyhNZR3Brz5pCcviU0XbUVhY9stkY1JCyYjeKp1RhXzfERvddVS
+         ELSKayCgOp8EH4yr7LZtPIQQ9Te7cz0bkrPCce85MD6m84YZgqF/R6TCvA4mVgM1U14o
+         MyGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=2nW4sAKVFE3uqPJOyUlY17ko2gD2vD82L7p/vbpxOqA=;
-        b=MoZd+tCOuSDLHmh3YLwmk9BZUuEYQlv5tYBD2V2SZbOK0L47TY0XdXyzNObBZvBrln
-         5N5BwpzuW/d/uDgXS9wlxqW/uxXr7BEDg3ofojQl600lxu+Io4FUR/Gkwvwu6AhP8Q8d
-         3jsg2YS9HoFmpelFjnYc/xarwQfWFf2ftV7Zv3C3lCAJ8a+IIGNr9Mm3b5bInxzEKvnX
-         MULJyzN2a1+bi45wI46AxvWpsOgS4vv7gU97cyH766wLTKjQFeJcl6Uf26iP8Sq5TCYj
-         3HkRdZ7JtTwxwFOukNks5KhLczNrniiCoK7guLsdyPco5UDYFneS91K9lQYL885cqZzA
-         ggeg==
-X-Gm-Message-State: AJIora9d+YKdQ/UIEA4AZuEKS5wOjn9FFzKH1UnL6LnPYvWcdiTM64f0
-	Y048BeuXJxZeCTVOohMRyQ8=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :thread-index:content-language;
+        bh=BohLKrsD7UPnqqy44Yic2EJ1/Lmzp7TSeL+MbAiWSB0=;
+        b=H9Uwc8tvd0hzPl+jQVxeqxKtSs0Q0VHM4SATShVsrLtQcjfVR6GUQJY0zDZ1uZpwaN
+         i7qCUmcbNxB+QZ4o+EVHhdoW75pviLlAb1/j68mc5hLd7e+iHvyuVyfeWDNkOmmMX1ce
+         iSz3lxLESkGRPKCbGxWjdb32xQSWcXkNl3HA/FPgK5f2+zhAMe43lOWjTTA2r89zpgl6
+         e4kENMFdHzLfhfxjIGwyK/TF7NZxAnq2heh1KY6DyfB2AY4JreVFPxtyJS2fjy//Fb90
+         Nu7yWDT7Gb7CydU2r4JwPb9aXN4tgQQ7TUV/9t10Aw0xjiGUDITFcjViYbTO9bF9SUHc
+         5nGA==
+X-Gm-Message-State: AJIora+gtxXDyDJ9tuEVazebOWg7FjgMPGmzCCFRcP0X5DK+4gSVC+5B
+	dcAZSaaW5VVzxsOQ/jmT/RQ=
 X-Google-Smtp-Source: 
- AGRyM1so3ToHggvrEUHWcEGsrworPSwFTenPo+2zR9KfPja80raYWiI5l6BeIBkWI22ohzl0LZ6F1Q==
-X-Received: by 2002:a17:90a:c981:b0:1e6:75f0:d4ea with SMTP id
- w1-20020a17090ac98100b001e675f0d4eamr39191121pjt.37.1655746645759;
-        Mon, 20 Jun 2022 10:37:25 -0700 (PDT)
-Received: from ?IPV6:2601:202:4180:a5c0:7c8a:82c3:c70:4983?
- ([2601:202:4180:a5c0:7c8a:82c3:c70:4983])
+ AGRyM1syD+HMkgQaAVnqB+XeYAvcZ54zqVZdF3f3WgnHq2wgvA9rkVWz2RFGNjyMlyspCAFzy44XYw==
+X-Received: by 2002:a17:90a:784f:b0:1ea:fa7d:7013 with SMTP id
+ y15-20020a17090a784f00b001eafa7d7013mr25986105pjl.222.1655767208956;
+        Mon, 20 Jun 2022 16:20:08 -0700 (PDT)
+Received: from skjolley ([2600:1011:a105:deb2:ec52:6e03:7539:619c])
         by smtp.gmail.com with ESMTPSA id
- n14-20020a056a00212e00b005184d1e838dsm9856446pfj.12.2022.06.20.10.37.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Jun 2022 10:37:20 -0700 (PDT)
-Message-ID: <144c5532-b026-c461-d63d-2d092376400b@gmail.com>
-Date: Mon, 20 Jun 2022 10:37:17 -0700
+ p55-20020a056a0026f700b0052524b1bfc3sm2635677pfw.147.2022.06.20.16.20.07
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 20 Jun 2022 16:20:08 -0700 (PDT)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@lists.yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Mon, 20 Jun 2022 16:20:07 -0700
+Message-ID: <005901d884fc$48a7a140$d9f6e3c0$@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [OE-core] [dunfell][PATCH] openldap: CVE-2022-29155 OpenLDAP SQL
- injection
-Content-Language: en-US
-To: Hitendra Prajapati <hprajapati@mvista.com>,
- openembedded-core@lists.openembedded.org
-References: <20220620052143.7857-1-hprajapati@mvista.com>
-From: akuster808 <akuster808@gmail.com>
-In-Reply-To: <20220620052143.7857-1-hprajapati@mvista.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_005A_01D884C1.9C4B3A40"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQKsvlufdGwzYah0QEjNrDz+/dLM+Q==
+Content-Language: en-us
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Jun 2022 17:37:28 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Jun 2022 23:20:10 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167124
+ https://lists.openembedded.org/g/openembedded-core/message/167125
 
-This should be sent to openembedded-devel@lists.openembedded.org
+This is a multipart message in MIME format.
 
-it applies against meta-openembedded, not core.
+------=_NextPart_000_005A_01D884C1.9C4B3A40
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
--armin
+All,
 
-On 6/19/22 22:21, Hitendra Prajapati wrote:
-> Source: https://git.openldap.org/openldap/openldap
-> MR: 117821
-> Type: Security Fix
-> Disposition: Backport from https://git.openldap.org/openldap/openldap/-/commit/87df6c19915042430540931d199a39105544a134
-> ChangeID: d534808c796600ca5994bcda28938d45405bc7b4
-> Description:
-> 	CVE-2022-29155 openldap: OpenLDAP SQL injection
->
-> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-> ---
->   .../openldap/openldap/CVE-2022-29155.patch    | 277 ++++++++++++++++++
->   .../openldap/openldap_2.4.57.bb               |   2 +-
->   2 files changed, 278 insertions(+), 1 deletion(-)
->   create mode 100644 meta-oe/recipes-support/openldap/openldap/CVE-2022-29155.patch
->
-> diff --git a/meta-oe/recipes-support/openldap/openldap/CVE-2022-29155.patch b/meta-oe/recipes-support/openldap/openldap/CVE-2022-29155.patch
-> new file mode 100644
-> index 000000000..2860b9522
-> --- /dev/null
-> +++ b/meta-oe/recipes-support/openldap/openldap/CVE-2022-29155.patch
-> @@ -0,0 +1,277 @@
-> +From 11e136f15085a4bda5701e910988966bed699977 Mon Sep 17 00:00:00 2001
-> +From: Hitendra Prajapati <hprajapati@mvista.com>
-> +Date: Wed, 18 May 2022 13:57:59 +0530
-> +Subject: [PATCH] CVE-2022-29155
-> +
-> +Upstream-Status: Backport [https://git.openldap.org/openldap/openldap/-/commit/87df6c19915042430540931d199a39105544a134]
-> +CVE: CVE-2022-29155
-> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-> +
-> +---
-> + servers/slapd/back-sql/search.c | 123 +++++++++++++++++++++++++++-----
-> + 1 file changed, 105 insertions(+), 18 deletions(-)
-> +
-> +diff --git a/servers/slapd/back-sql/search.c b/servers/slapd/back-sql/search.c
-> +index bb0f1e2..1770bde 100644
-> +--- a/servers/slapd/back-sql/search.c
-> ++++ b/servers/slapd/back-sql/search.c
-> +@@ -63,6 +63,38 @@ static void send_paged_response(
-> + 	ID  *lastid );
-> + #endif /* ! BACKSQL_ARBITRARY_KEY */
-> +
-> ++/* Look for chars that need to be escaped, return count of them.
-> ++ * If out is non-NULL, copy escape'd val to it.
-> ++ */
-> ++static int
-> ++backsql_val_escape( Operation *op, struct berval *in, struct berval *out )
-> ++{
-> ++	char *ptr, *end;
-> ++	int q = 0;
-> ++
-> ++	ptr = in->bv_val;
-> ++	end = ptr + in->bv_len;
-> ++	while (ptr < end) {
-> ++		if ( *ptr == '\'' )
-> ++			q++;
-> ++		ptr++;
-> ++	}
-> ++	if ( q && out ) {
-> ++		char *dst;
-> ++		out->bv_len = in->bv_len + q;
-> ++		out->bv_val = op->o_tmpalloc( out->bv_len + 1, op->o_tmpmemctx );
-> ++		ptr = in->bv_val;
-> ++		dst = out->bv_val;
-> ++		while (ptr < end ) {
-> ++			if ( *ptr == '\'' )
-> ++				*dst++ = '\'';
-> ++			*dst++ = *ptr++;
-> ++		}
-> ++		*dst = '\0';
-> ++	}
-> ++	return q;
-> ++}
-> ++
-> + static int
-> + backsql_attrlist_add( backsql_srch_info *bsi, AttributeDescription *ad )
-> + {
-> +@@ -429,6 +461,8 @@ backsql_process_sub_filter( backsql_srch_info *bsi, Filter *f,
-> + 	backsql_info		*bi = (backsql_info *)bsi->bsi_op->o_bd->be_private;
-> + 	int			i;
-> + 	int			casefold = 0;
-> ++	int			escaped = 0;
-> ++	struct berval	escval, *fvalue;
-> +
-> + 	if ( !f ) {
-> + 		return 0;
-> +@@ -462,50 +496,68 @@ backsql_process_sub_filter( backsql_srch_info *bsi, Filter *f,
-> +
-> + 		BER_BVZERO( &bv );
-> + 		if ( f->f_sub_initial.bv_val ) {
-> +-			bv.bv_len += f->f_sub_initial.bv_len;
-> ++			bv.bv_len += f->f_sub_initial.bv_len + backsql_val_escape( NULL, &f->f_sub_initial, NULL );
-> + 		}
-> + 		if ( f->f_sub_any != NULL ) {
-> + 			for ( a = 0; f->f_sub_any[ a ].bv_val != NULL; a++ ) {
-> +-				bv.bv_len += f->f_sub_any[ a ].bv_len;
-> ++				bv.bv_len += f->f_sub_any[ a ].bv_len + backsql_val_escape( NULL, &f->f_sub_any[ a ], NULL );
-> + 			}
-> + 		}
-> + 		if ( f->f_sub_final.bv_val ) {
-> +-			bv.bv_len += f->f_sub_final.bv_len;
-> ++			bv.bv_len += f->f_sub_final.bv_len + backsql_val_escape( NULL, &f->f_sub_final, NULL );
-> + 		}
-> + 		bv.bv_len = 2 * bv.bv_len - 1;
-> + 		bv.bv_val = ch_malloc( bv.bv_len + 1 );
-> +
-> + 		s = 0;
-> + 		if ( !BER_BVISNULL( &f->f_sub_initial ) ) {
-> +-			bv.bv_val[ s ] = f->f_sub_initial.bv_val[ 0 ];
-> +-			for ( i = 1; i < f->f_sub_initial.bv_len; i++ ) {
-> ++			fvalue = &f->f_sub_initial;
-> ++			escaped = backsql_val_escape( bsi->bsi_op, fvalue, &escval );
-> ++			if ( escaped )
-> ++				fvalue = &escval;
-> ++			bv.bv_val[ s ] = fvalue->bv_val[ 0 ];
-> ++			for ( i = 1; i < fvalue->bv_len; i++ ) {
-> + 				bv.bv_val[ s + 2 * i - 1 ] = '%';
-> +-				bv.bv_val[ s + 2 * i ] = f->f_sub_initial.bv_val[ i ];
-> ++				bv.bv_val[ s + 2 * i ] = fvalue->bv_val[ i ];
-> + 			}
-> + 			bv.bv_val[ s + 2 * i - 1 ] = '%';
-> + 			s += 2 * i;
-> ++			if ( escaped )
-> ++				bsi->bsi_op->o_tmpfree( escval.bv_val, bsi->bsi_op->o_tmpmemctx );
-> + 		}
-> +
-> + 		if ( f->f_sub_any != NULL ) {
-> + 			for ( a = 0; !BER_BVISNULL( &f->f_sub_any[ a ] ); a++ ) {
-> +-				bv.bv_val[ s ] = f->f_sub_any[ a ].bv_val[ 0 ];
-> +-				for ( i = 1; i < f->f_sub_any[ a ].bv_len; i++ ) {
-> ++				fvalue = &f->f_sub_any[ a ];
-> ++				escaped = backsql_val_escape( bsi->bsi_op, fvalue, &escval );
-> ++				if ( escaped )
-> ++					fvalue = &escval;
-> ++				bv.bv_val[ s ] = fvalue->bv_val[ 0 ];
-> ++				for ( i = 1; i < fvalue->bv_len; i++ ) {
-> + 					bv.bv_val[ s + 2 * i - 1 ] = '%';
-> +-					bv.bv_val[ s + 2 * i ] = f->f_sub_any[ a ].bv_val[ i ];
-> ++					bv.bv_val[ s + 2 * i ] = fvalue->bv_val[ i ];
-> + 				}
-> + 				bv.bv_val[ s + 2 * i - 1 ] = '%';
-> + 				s += 2 * i;
-> ++				if ( escaped )
-> ++					bsi->bsi_op->o_tmpfree( escval.bv_val, bsi->bsi_op->o_tmpmemctx );
-> + 			}
-> + 		}
-> +
-> + 		if ( !BER_BVISNULL( &f->f_sub_final ) ) {
-> +-			bv.bv_val[ s ] = f->f_sub_final.bv_val[ 0 ];
-> +-			for ( i = 1; i < f->f_sub_final.bv_len; i++ ) {
-> ++			fvalue = &f->f_sub_final;
-> ++			escaped = backsql_val_escape( bsi->bsi_op, fvalue, &escval );
-> ++			if ( escaped )
-> ++				fvalue = &escval;
-> ++			bv.bv_val[ s ] = fvalue->bv_val[ 0 ];
-> ++			for ( i = 1; i < fvalue->bv_len; i++ ) {
-> + 				bv.bv_val[ s + 2 * i - 1 ] = '%';
-> +-				bv.bv_val[ s + 2 * i ] = f->f_sub_final.bv_val[ i ];
-> ++				bv.bv_val[ s + 2 * i ] = fvalue->bv_val[ i ];
-> + 			}
-> +-				bv.bv_val[ s + 2 * i - 1 ] = '%';
-> ++			bv.bv_val[ s + 2 * i - 1 ] = '%';
-> + 			s += 2 * i;
-> ++			if ( escaped )
-> ++				bsi->bsi_op->o_tmpfree( escval.bv_val, bsi->bsi_op->o_tmpmemctx );
-> + 		}
-> +
-> + 		bv.bv_val[ s - 1 ] = '\0';
-> +@@ -561,11 +613,17 @@ backsql_process_sub_filter( backsql_srch_info *bsi, Filter *f,
-> + 			f->f_sub_initial.bv_val, 0 );
-> + #endif /* BACKSQL_TRACE */
-> +
-> ++		fvalue = &f->f_sub_initial;
-> ++		escaped = backsql_val_escape( bsi->bsi_op, fvalue, &escval );
-> ++		if ( escaped )
-> ++			fvalue = &escval;
-> + 		start = bsi->bsi_flt_where.bb_val.bv_len;
-> + 		backsql_strfcat_x( &bsi->bsi_flt_where,
-> + 				bsi->bsi_op->o_tmpmemctx,
-> + 				"b",
-> +-				&f->f_sub_initial );
-> ++				fvalue );
-> ++		if ( escaped )
-> ++			bsi->bsi_op->o_tmpfree( escval.bv_val, bsi->bsi_op->o_tmpmemctx );
-> + 		if ( casefold && BACKSQL_AT_CANUPPERCASE( at ) ) {
-> + 			ldap_pvt_str2upper( &bsi->bsi_flt_where.bb_val.bv_val[ start ] );
-> + 		}
-> +@@ -586,12 +644,18 @@ backsql_process_sub_filter( backsql_srch_info *bsi, Filter *f,
-> + 				i, f->f_sub_any[ i ].bv_val );
-> + #endif /* BACKSQL_TRACE */
-> +
-> ++			fvalue = &f->f_sub_any[ i ];
-> ++			escaped = backsql_val_escape( bsi->bsi_op, fvalue, &escval );
-> ++			if ( escaped )
-> ++				fvalue = &escval;
-> + 			start = bsi->bsi_flt_where.bb_val.bv_len;
-> + 			backsql_strfcat_x( &bsi->bsi_flt_where,
-> + 					bsi->bsi_op->o_tmpmemctx,
-> + 					"bc",
-> +-					&f->f_sub_any[ i ],
-> ++					fvalue,
-> + 					'%' );
-> ++			if ( escaped )
-> ++				bsi->bsi_op->o_tmpfree( escval.bv_val, bsi->bsi_op->o_tmpmemctx );
-> + 			if ( casefold && BACKSQL_AT_CANUPPERCASE( at ) ) {
-> + 				/*
-> + 				 * Note: toupper('%') = '%'
-> +@@ -611,11 +675,17 @@ backsql_process_sub_filter( backsql_srch_info *bsi, Filter *f,
-> + 			f->f_sub_final.bv_val, 0 );
-> + #endif /* BACKSQL_TRACE */
-> +
-> ++		fvalue = &f->f_sub_final;
-> ++		escaped = backsql_val_escape( bsi->bsi_op, fvalue, &escval );
-> ++		if ( escaped )
-> ++			fvalue = &escval;
-> + 		start = bsi->bsi_flt_where.bb_val.bv_len;
-> +     		backsql_strfcat_x( &bsi->bsi_flt_where,
-> + 				bsi->bsi_op->o_tmpmemctx,
-> + 				"b",
-> +-				&f->f_sub_final );
-> ++				fvalue );
-> ++		if ( escaped )
-> ++			bsi->bsi_op->o_tmpfree( escval.bv_val, bsi->bsi_op->o_tmpmemctx );
-> +   		if ( casefold && BACKSQL_AT_CANUPPERCASE( at ) ) {
-> + 			ldap_pvt_str2upper( &bsi->bsi_flt_where.bb_val.bv_val[ start ] );
-> + 		}
-> +@@ -1183,6 +1253,8 @@ backsql_process_filter_attr( backsql_srch_info *bsi, Filter *f, backsql_at_map_r
-> + 	struct berval		*filter_value = NULL;
-> + 	MatchingRule		*matching_rule = NULL;
-> + 	struct berval		ordering = BER_BVC("<=");
-> ++	struct berval		escval;
-> ++	int					escaped = 0;
-> +
-> + 	Debug( LDAP_DEBUG_TRACE, "==>backsql_process_filter_attr(%s)\n",
-> + 		at->bam_ad->ad_cname.bv_val, 0, 0 );
-> +@@ -1237,6 +1309,10 @@ equality_match:;
-> + 			casefold = 1;
-> + 		}
-> +
-> ++		escaped = backsql_val_escape( bsi->bsi_op, filter_value, &escval );
-> ++		if ( escaped )
-> ++			filter_value = &escval;
-> ++
-> + 		/* FIXME: directoryString filtering should use a similar
-> + 		 * approach to deal with non-prettified values like
-> + 		 * " A  non    prettified   value  ", by using a LIKE
-> +@@ -1317,6 +1393,10 @@ equality_match:;
-> + 			casefold = 1;
-> + 		}
-> +
-> ++		escaped = backsql_val_escape( bsi->bsi_op, filter_value, &escval );
-> ++		if ( escaped )
-> ++			filter_value = &escval;
-> ++
-> + 		/*
-> + 		 * FIXME: should we uppercase the operands?
-> + 		 */
-> +@@ -1350,7 +1430,7 @@ equality_match:;
-> + 					&at->bam_sel_expr,
-> + 					&ordering,
-> + 					'\'',
-> +-					&f->f_av_value,
-> ++					filter_value,
-> + 					(ber_len_t)STRLENOF( /* (' */ "')" ),
-> + 						/* ( */ "')" );
-> + 		}
-> +@@ -1374,13 +1454,17 @@ equality_match:;
-> + 	case LDAP_FILTER_APPROX:
-> + 		/* we do our best */
-> +
-> ++		filter_value = &f->f_av_value;
-> ++		escaped = backsql_val_escape( bsi->bsi_op, filter_value, &escval );
-> ++		if ( escaped )
-> ++			filter_value = &escval;
-> + 		/*
-> + 		 * maybe we should check type of at->sel_expr here somehow,
-> + 		 * to know whether upper_func is applicable, but for now
-> + 		 * upper_func stuff is made for Oracle, where UPPER is
-> + 		 * safely applicable to NUMBER etc.
-> + 		 */
-> +-		(void)backsql_process_filter_like( bsi, at, 1, &f->f_av_value );
-> ++		(void)backsql_process_filter_like( bsi, at, 1, filter_value );
-> + 		break;
-> +
-> + 	default:
-> +@@ -1394,6 +1478,9 @@ equality_match:;
-> +
-> + 	}
-> +
-> ++	if ( escaped )
-> ++		bsi->bsi_op->o_tmpfree( escval.bv_val, bsi->bsi_op->o_tmpmemctx );
-> ++
-> + 	Debug( LDAP_DEBUG_TRACE, "<==backsql_process_filter_attr(%s)\n",
-> + 		at->bam_ad->ad_cname.bv_val, 0, 0 );
-> +
-> +--
-> +2.25.1
-> +
-> diff --git a/meta-oe/recipes-support/openldap/openldap_2.4.57.bb b/meta-oe/recipes-support/openldap/openldap_2.4.57.bb
-> index a282523a3..e3e9caa1b 100644
-> --- a/meta-oe/recipes-support/openldap/openldap_2.4.57.bb
-> +++ b/meta-oe/recipes-support/openldap/openldap_2.4.57.bb
-> @@ -23,8 +23,8 @@ SRC_URI = "http://www.openldap.org/software/download/OpenLDAP/openldap-release/$
->       file://thread_stub.patch \
->       file://openldap-CVE-2015-3276.patch \
->       file://remove-user-host-pwd-from-version.patch \
-> +    file://CVE-2022-29155.patch \
->   "
-> -
->   SRC_URI[md5sum] = "e3349456c3a66e5e6155be7ddc3f042c"
->   SRC_URI[sha256sum] = "c7ba47e1e6ecb5b436f3d43281df57abeffa99262141aec822628bc220f6b45a"
->   
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#167083): https://lists.openembedded.org/g/openembedded-core/message/167083
-> Mute This Topic: https://lists.openembedded.org/mt/91871436/3616698
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [akuster808@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+ 
+
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
+how to create a bugzilla account at:
+<https://bugzilla.yoctoproject.org/createaccount.cgi>
+https://bugzilla.yoctoproject.org/createaccount.cgi
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
+ 
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 418
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now,  "4.1", "4.2", "4.99" and "Future", the more pressing/urgent
+issues being in "4.1" and then "4.2".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_005A_01D884C1.9C4B3A40
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0748_01D87FBE.81BCFDB0";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The triage team is starting to try and =
+collect up and classify bugs which a newcomer to the project would be =
+able to work on in a way which means people can find them. They're being =
+listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a> and how to create a bugzilla account at: <a =
+href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
+style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
+/span></a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 418 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &nbsp;&#8220;4.1&#8221;, =
+&#8220;4.2&#8221;, &quot;4.99&quot; and &quot;Future&quot;, the more =
+pressing/urgent issues being in &quot;4.1&quot; and then =
+&#8220;4.2&#8221;.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Please review this link and if a bug is =
+something you would be able to help with either take ownership of the =
+bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_005A_01D884C1.9C4B3A40--
 
 
