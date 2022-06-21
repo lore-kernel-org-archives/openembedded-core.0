@@ -1,142 +1,119 @@
-Return-Path: <Muhammad_Hamza@mentor.com>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D831C43334
-	for <webhook@archiver.kernel.org>; Tue, 21 Jun 2022 09:07:33 +0000 (UTC)
-Received: from esa4.mentor.iphmx.com (esa4.mentor.iphmx.com [68.232.137.252])
- by mx.groups.io with SMTP id smtpd.web12.41166.1655802448563742451
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91809C43334
+	for <webhook@archiver.kernel.org>; Tue, 21 Jun 2022 09:51:33 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web10.40984.1655805086535962164
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jun 2022 02:07:28 -0700
+ Tue, 21 Jun 2022 02:51:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: mentor.com, ip: 68.232.137.252, mailfrom: muhammad_hamza@mentor.com)
-X-IronPort-AV: E=Sophos;i="5.92,209,1650960000";
-   d="scan'208";a="77594254"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa4.mentor.iphmx.com with ESMTP; 21 Jun 2022 01:07:27 -0800
-IronPort-SDR: 
- DKfA805kQws2Ux3fMuxu6XrqeqUElE69UQJck9SrK387DDfc0feSRyxjhOPYr7wjPtlpVKGJ0Y
- /2eDrtC7CzVtZDMdkPwG+R05Z5W4WXOJMC75YK+lhbV006UCpuWPxXTEwki80B5DhSos7uwN+V
- PY2Fb+uOTXTOIX2oJw7dFUfl9zFoExDF48w9H6wvzo1l6jj3PMuRuTuIE6cg80u2yErSFSRlA/
- SBtWlaH3DtUaqP+lHpYirlQ+vwnHPi/EreFAyXHDkisJqkdjqaaUNQhLmXd5Bj5UiS4SF7cngg
- xbM=
-From: "Hamza, Muhammad" <Muhammad_Hamza@mentor.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "Awan, Arsalan"
-	<Arsalan_Awan@mentor.com>
-Subject: RE: [OE-core] [PATCH] udev-extraconf/mount.sh: add LABELs to
- mountpoints
-Thread-Topic: [OE-core] [PATCH] udev-extraconf/mount.sh: add LABELs to
- mountpoints
-Thread-Index: AQHYhKEKtl0l/6eUI06nUeQS8qAvTa1ZdY0AgAAdVoA=
-Date: Tue, 21 Jun 2022 09:07:24 +0000
-Message-ID: <84647e3aeb62401581f6a207577a02ae@mentor.com>
-References: <20220620122640.239381-1-muhammad_hamza@mentor.com>
- <20220621102038.00b08ff3@booty>
-In-Reply-To: <20220621102038.00b08ff3@booty>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.90]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=katEj7jj;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199,
+ mailfrom: luca.ceresoli@bootlin.com)
+Received: from booty (unknown [77.244.183.192])
+	(Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 8C2F6FF80D;
+	Tue, 21 Jun 2022 09:51:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1655805083;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y7Jcf3S70pVb3xWbX2+GsiILQDS3Uh29hcfNbvWq968=;
+	b=katEj7jjTD8J5Pf9kivtDytTVgb535PsUduEepYJPCBgNfBDzifRDzuNuesQsezSX+idoi
+	IFw5RxQlbEgsRq2yOwpDcdwb9nWEuYbtYPuH1ZGIoiEgNxF7tQEpgfUlnXxZyc0XyIt9ma
+	5/tbCBnejoXtFAagdD1zUzVLQiigX4+d31s5XHYZFqtLTFsUe1IfnK508iHLi4Hl+FJ61i
+	QzY+j+Trqyv8QSbgwNIFzgVBDes0D5aqjO4mKIrrhyegf/G/GRTI0DFDY25gXJpntiKFjp
+	Bk+tnIwLdYqxP3tQ0ZYLP69ni1D8+yQoezfWSWS9zSiejshVhpb1GiRDEPslDA==
+Date: Tue, 21 Jun 2022 11:51:20 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Ross Burton" <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org, nd@arm.com
+Subject: Re: [OE-core] [PATCH v2 2/4] Add python3-hatchling (from meta-oe)
+Message-ID: <20220621115120.5c72e1b2@booty>
+In-Reply-To: <20220620131458.4177628-2-ross.burton@arm.com>
+References: <20220620131458.4177628-1-ross.burton@arm.com>
+	<20220620131458.4177628-2-ross.burton@arm.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jun 2022 09:07:33 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jun 2022 09:51:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167142
+ https://lists.openembedded.org/g/openembedded-core/message/167143
 
-Hi Luca,
-I have sent updated patch v2 at mailing list.
+Hi Ross,
 
-Regards,
-Hamza
+On Mon, 20 Jun 2022 14:14:56 +0100
+"Ross Burton" <ross.burton@arm.com> wrote:
 
------Original Message-----
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>=20
-Sent: Tuesday, June 21, 2022 1:21 PM
-To: Hamza, Muhammad <Muhammad_Hamza@mentor.com>
-Cc: openembedded-core@lists.openembedded.org; Awan, Arsalan <Arsalan_Awan@m=
-entor.com>
-Subject: Re: [OE-core] [PATCH] udev-extraconf/mount.sh: add LABELs to mount=
-points
-
-Hi Muhammad,
-
-On Mon, 20 Jun 2022 17:26:40 +0500
-"Muhammad Hamza" <Muhammad_Hamza@mentor.com> wrote:
-
-> This alters the mountpoints such that if a device has a LABEL or a=20
-> PARTLABEL, it will be mounted at e.g.:
->=20
->   /run/media/$LABEL-<device-node>
->   /run/media/$PARTLABEL-<device-node>
->   /run/media/rootfs-sda2
->=20
-> otherwise the device will be mounted at e.g.:
->=20
->   /run/media/<device-node>
->   /run/media/sda1
->=20
-> The <device-node> appended with LABEL or PARTLABEL makes sure that the=20
-> mountpoint is unique, therefore, avoids overlapping mounts.
->=20
-> Signed-off-by: Arsalan H. Awan <Arsalan_Awan@mentor.com>
-> Signed-off-by: Muhammad Hamza <muhammad_hamza@mentor.com>
+> Recipes in core are now needing to use the Hatch build system, so
+> move the hatchling recipe and class from meta-oe to oe-core.
+> 
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
 > ---
->  .../recipes-core/udev/udev-extraconf/mount.sh | 20=20
-> +++++++++++++++++++  meta/recipes-core/udev/udev-extraconf_1.1.bb  | =20
-> 2 +-
->  2 files changed, 21 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh=20
-> b/meta/recipes-core/udev/udev-extraconf/mount.sh
-> index c8b773bc07..12c6a5af22 100644
-> --- a/meta/recipes-core/udev/udev-extraconf/mount.sh
-> +++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
-> @@ -54,6 +54,16 @@ automount_systemd() {
->          grep "^[[:space:]]*$tmp" /etc/fstab && return
->      done
-> =20
-> +    # Get the LABEL or PARTLABEL
-> +    LABEL=3D`/sbin/blkid | grep "${DEVNAME}:" | grep -o 'LABEL=3D".*"' |=
- cut -d '"' -f2`
-> +    # If the $DEVNAME has a LABEL or a PARTLABEL
-> +    if [ -n "$LABEL" ]; then
-> +            # Set the mount location dir name to LABEL appended
-> +            # with $name e.g. label-sda. That would avoid overlapping
-> +            # mounts in case two devices have same LABEL
-> +            name=3D"${LABEL}-${name}"
-> +    fi
+>  meta/classes/python_hatchling.bbclass         |  5 +++++
+>  meta/conf/distro/include/maintainers.inc      |  1 +
+>  .../python/python3-hatchling_1.3.0.bb         | 21 +++++++++++++++++++
+>  3 files changed, 27 insertions(+)
+>  create mode 100644 meta/classes/python_hatchling.bbclass
+>  create mode 100644 meta/recipes-devtools/python/python3-hatchling_1.3.0.bb
+> 
+> diff --git a/meta/classes/python_hatchling.bbclass b/meta/classes/python_hatchling.bbclass
+> new file mode 100644
+> index 00000000000..b3cbe23601b
+> --- /dev/null
+> +++ b/meta/classes/python_hatchling.bbclass
+> @@ -0,0 +1,5 @@
+> +inherit python_pep517 python3native python3-dir setuptools3-base
 > +
->      [ -d "$MOUNT_BASE/$name" ] || mkdir -p "$MOUNT_BASE/$name"
-> =20
->      MOUNT=3D"$MOUNT -o silent"
-> @@ -94,6 +104,16 @@ automount() {
->  	# configured in fstab
->  	grep -q "^$DEVNAME " /proc/mounts && return
-> =20
-> +        # Get the LABEL or PARTLABEL
-> +        LABEL=3D`/sbin/blkid | grep "${DEVNAME}:" | grep -o 'LABEL=3D".*=
-"' | cut -d '"' -f2`
-> +        # If the $DEVNAME has a LABEL or a PARTLABEL
-> +        if [ -n "$LABEL" ]; then
-> +                # Set the mount location dir name to LABEL appended
-> +                # with $name e.g. label-sda. That would avoid overlappin=
-g
-> +                # mounts in case two devices have same LABEL
-> +                name=3D"${LABEL}-${name}"
-> +        fi
+> +DEPENDS += "python3-hatchling-native"
+> +
+> +PEP517_BUILD_API = "hatchling.build"
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+> index abc100e44b2..085593b0e9e 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -611,6 +611,7 @@ RECIPE_MAINTAINER:pn-python3-extras = "Oleksandr Kravchuk <open.source@oleksandr
+>  RECIPE_MAINTAINER:pn-python3-flit-core = "Tim Orling <tim.orling@konsulko.com>"
+>  RECIPE_MAINTAINER:pn-python3-git = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+>  RECIPE_MAINTAINER:pn-python3-gitdb = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+> +RECIPE_MAINTAINER:pn-python3-hatchling = "Ross Burton <ross.burton@arm.com>"
+>  RECIPE_MAINTAINER:pn-python3-hypothesis = "Tim Orling <tim.orling@konsulko.com>"
+>  RECIPE_MAINTAINER:pn-python3-idna = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+>  RECIPE_MAINTAINER:pn-python3-imagesize = "Tim Orling <tim.orling@konsulko.com>"
+> diff --git a/meta/recipes-devtools/python/python3-hatchling_1.3.0.bb b/meta/recipes-devtools/python/python3-hatchling_1.3.0.bb
+> new file mode 100644
+> index 00000000000..6e7ccd743f5
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3-hatchling_1.3.0.bb
+> @@ -0,0 +1,21 @@
+> +SUMMARY = "The extensible, standards compliant build backend used by Hatch"
+> +HOMEPAGE = "https://hatch.pypa.io/"
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=cbe2fd33fc9297692812fc94b7d27fd9"
+> +
+> +inherit pypi python_hatchling
+> +
+> +DEPENDS += "python3-pluggy-native python3-tomli-native python3-pathspec-native python3-packaging-native python3-editables-native"
 
-This is exactly as above. Can you move the common code to a function?
+Another missing dependency:
+
+  ERROR: Nothing PROVIDES 'python3-editables-native' (but
+ /home/pokybuild/yocto-worker/reproducible/build/meta/recipes-devtools/python/python3-hatchling_1.3.0.bb, virtual:native:/home/pokybuild/yocto-worker/reproducible/build/meta/recipes-devtools/python/python3-hatchling_1.3.0.bb DEPENDS on or otherwise requires it). Close matches:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/1039/steps/12/logs/stdio
 
 
---
+-- 
 Luca Ceresoli, Bootlin
 Embedded Linux and Kernel engineering
 https://bootlin.com
