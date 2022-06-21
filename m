@@ -1,120 +1,88 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <sean@geanix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91809C43334
-	for <webhook@archiver.kernel.org>; Tue, 21 Jun 2022 09:51:33 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web10.40984.1655805086535962164
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE182C433EF
+	for <webhook@archiver.kernel.org>; Tue, 21 Jun 2022 10:45:23 +0000 (UTC)
+Received: from first.geanix.com (first.geanix.com [116.203.34.67])
+ by mx.groups.io with SMTP id smtpd.web11.31455.1655808321408795219
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jun 2022 02:51:27 -0700
+ Tue, 21 Jun 2022 03:45:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=katEj7jj;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199,
- mailfrom: luca.ceresoli@bootlin.com)
-Received: from booty (unknown [77.244.183.192])
-	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 8C2F6FF80D;
-	Tue, 21 Jun 2022 09:51:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1655805083;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y7Jcf3S70pVb3xWbX2+GsiILQDS3Uh29hcfNbvWq968=;
-	b=katEj7jjTD8J5Pf9kivtDytTVgb535PsUduEepYJPCBgNfBDzifRDzuNuesQsezSX+idoi
-	IFw5RxQlbEgsRq2yOwpDcdwb9nWEuYbtYPuH1ZGIoiEgNxF7tQEpgfUlnXxZyc0XyIt9ma
-	5/tbCBnejoXtFAagdD1zUzVLQiigX4+d31s5XHYZFqtLTFsUe1IfnK508iHLi4Hl+FJ61i
-	QzY+j+Trqyv8QSbgwNIFzgVBDes0D5aqjO4mKIrrhyegf/G/GRTI0DFDY25gXJpntiKFjp
-	Bk+tnIwLdYqxP3tQ0ZYLP69ni1D8+yQoezfWSWS9zSiejshVhpb1GiRDEPslDA==
-Date: Tue, 21 Jun 2022 11:51:20 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Ross Burton" <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org, nd@arm.com
-Subject: Re: [OE-core] [PATCH v2 2/4] Add python3-hatchling (from meta-oe)
-Message-ID: <20220621115120.5c72e1b2@booty>
-In-Reply-To: <20220620131458.4177628-2-ross.burton@arm.com>
-References: <20220620131458.4177628-1-ross.burton@arm.com>
-	<20220620131458.4177628-2-ross.burton@arm.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@geanix.com header.s=first header.b=VCW9efpw;
+ spf=pass (domain: geanix.com, ip: 116.203.34.67, mailfrom: sean@geanix.com)
+Received: from [IPV6:2a06:4004:10df:1:f5e4:e344:82de:a74] (_gateway
+ [172.25.0.1])
+	by first.geanix.com (Postfix) with ESMTPSA id 42320E6BB7;
+	Tue, 21 Jun 2022 10:45:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=geanix.com; s=first;
+	t=1655808317; bh=QEX5SPDu2/nwxAZsLiLe+NZSsJNpBGlCYJD0xrw+lfo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=VCW9efpw8Nq1MRqma/KDMiE7/DhzzcsWsa5fcHKHWvoW9duBWyyU3aYJclSgF8u+N
+	 wlFXyqVG6YWoAmOGxdZzQWRJj5QCftOKL78ifzOJIuex+DUyrU4GEr7uMbiidjRu2q
+	 7nlpDcy5hC9UGkPrc+vu5Uvnvon73hIfhLUqgcy2DnKbCErUDFds7wo4zGQSqFaFBI
+	 S3KfDAFMkAo0rAdxHH+OWoOh70rU2z3i0Vrz/+svFrzveZt6PuXQtf9p2KqZPYaAnS
+	 GP2ASj0eTY+0FMlzsRPKvSSFpY2nI3zTKBZGmUzAkw/dF2kPliufHJeI+j7HhbI97w
+	 PZVWl1iySaRcw==
+Message-ID: <86367787-69bc-5828-8d15-f58872e21e14@geanix.com>
+Date: Tue, 21 Jun 2022 12:45:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.9.1
+Subject: Re: [OE-core][PATCH v3 1/2] cve-check: add json format
+To: Marta Rybczynska <rybczynska@gmail.com>,
+ openembedded-core@lists.openembedded.org, ross@burtonini.com
+Cc: Marta Rybczynska <marta.rybczynska@huawei.com>
+References: <20220329125432.78608-1-rybczynska@gmail.com>
+From: Sean Nyekjaer <sean@geanix.com>
+In-Reply-To: <20220329125432.78608-1-rybczynska@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jun 2022 09:51:33 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jun 2022 10:45:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167143
+ https://lists.openembedded.org/g/openembedded-core/message/167144
 
-Hi Ross,
 
-On Mon, 20 Jun 2022 14:14:56 +0100
-"Ross Burton" <ross.burton@arm.com> wrote:
 
-> Recipes in core are now needing to use the Hatch build system, so
-> move the hatchling recipe and class from meta-oe to oe-core.
+On 29/03/2022 14.54, Marta Rybczynska wrote:
+> Add an option to output the CVE check in a JSON-based format.
+> This format is easier to parse in software than the original
+> text-based one and allows post-processing by other tools.
 > 
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> Output formats are now handed by CVE_CHECK_FORMAT_TEXT and
+> CVE_CHECK_FORMAT_JSON. Both of them are enabled by default.
+> 
+> The JSON output format gets generated in a similar way to the
+> text format with the exception of the manifest: appending to
+> JSON arrays requires parsing the file. Because of that we
+> first write JSON fragments and then assemble them in one pass
+> at the end.
+> 
+> Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
+> 
 > ---
->  meta/classes/python_hatchling.bbclass         |  5 +++++
->  meta/conf/distro/include/maintainers.inc      |  1 +
->  .../python/python3-hatchling_1.3.0.bb         | 21 +++++++++++++++++++
->  3 files changed, 27 insertions(+)
->  create mode 100644 meta/classes/python_hatchling.bbclass
->  create mode 100644 meta/recipes-devtools/python/python3-hatchling_1.3.0.bb
-> 
-> diff --git a/meta/classes/python_hatchling.bbclass b/meta/classes/python_hatchling.bbclass
-> new file mode 100644
-> index 00000000000..b3cbe23601b
-> --- /dev/null
-> +++ b/meta/classes/python_hatchling.bbclass
-> @@ -0,0 +1,5 @@
-> +inherit python_pep517 python3native python3-dir setuptools3-base
-> +
-> +DEPENDS += "python3-hatchling-native"
-> +
-> +PEP517_BUILD_API = "hatchling.build"
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> index abc100e44b2..085593b0e9e 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -611,6 +611,7 @@ RECIPE_MAINTAINER:pn-python3-extras = "Oleksandr Kravchuk <open.source@oleksandr
->  RECIPE_MAINTAINER:pn-python3-flit-core = "Tim Orling <tim.orling@konsulko.com>"
->  RECIPE_MAINTAINER:pn-python3-git = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
->  RECIPE_MAINTAINER:pn-python3-gitdb = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-> +RECIPE_MAINTAINER:pn-python3-hatchling = "Ross Burton <ross.burton@arm.com>"
->  RECIPE_MAINTAINER:pn-python3-hypothesis = "Tim Orling <tim.orling@konsulko.com>"
->  RECIPE_MAINTAINER:pn-python3-idna = "Bruce Ashfield <bruce.ashfield@gmail.com>"
->  RECIPE_MAINTAINER:pn-python3-imagesize = "Tim Orling <tim.orling@konsulko.com>"
-> diff --git a/meta/recipes-devtools/python/python3-hatchling_1.3.0.bb b/meta/recipes-devtools/python/python3-hatchling_1.3.0.bb
-> new file mode 100644
-> index 00000000000..6e7ccd743f5
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3-hatchling_1.3.0.bb
-> @@ -0,0 +1,21 @@
-> +SUMMARY = "The extensible, standards compliant build backend used by Hatch"
-> +HOMEPAGE = "https://hatch.pypa.io/"
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=cbe2fd33fc9297692812fc94b7d27fd9"
-> +
-> +inherit pypi python_hatchling
-> +
-> +DEPENDS += "python3-pluggy-native python3-tomli-native python3-pathspec-native python3-packaging-native python3-editables-native"
 
-Another missing dependency:
+Hi Marta,
 
-  ERROR: Nothing PROVIDES 'python3-editables-native' (but
- /home/pokybuild/yocto-worker/reproducible/build/meta/recipes-devtools/python/python3-hatchling_1.3.0.bb, virtual:native:/home/pokybuild/yocto-worker/reproducible/build/meta/recipes-devtools/python/python3-hatchling_1.3.0.bb DEPENDS on or otherwise requires it). Close matches:
+When upgrading from honister to kirkstone, this patch was included.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/1039/steps/12/logs/stdio
+We have INHERIT += "cve" in our distro conf.
+When doing a build from scratch it works fine with the cve json output, 
+but when doing an incremental build it will throw:
+	bb.error("Error adding the same package twice")
 
+I have tried modifying that line to:
+	bb.error("Error adding the same package twice. Offending package: %s" % 
+product["name"])
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+It looks like it tries to add all packages again...
+
+I have just disabled json output for now.
+CVE_CHECK_FORMAT_JSON = "0"
+
+Br,
+/Sean
 
