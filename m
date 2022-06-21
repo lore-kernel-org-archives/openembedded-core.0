@@ -2,9 +2,9 @@ Return-Path: <maxime.roussinbelanger@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 From: =?UTF-8?B?TWF4aW1lIFJvdXNzaW4tQsOpbGFuZ2Vy?= <maxime.roussinbelanger@gmail.com>
-Subject: [PATCH v2] libffi: fix native build being not portable
-Date: Tue, 21 Jun 2022 10:04:52 -0400
-Message-Id: <20220621140451.937071-1-maxime.roussinbelanger@gmail.com>
+Subject: [PATCH v3] libffi: fix native build being not portable
+Date: Tue, 21 Jun 2022 10:26:19 -0400
+Message-Id: <20220621142618.957722-1-maxime.roussinbelanger@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -18,6 +18,8 @@ Without `--with-gcc-arch=generic` libffi looks up the cpuid to automatically det
 which mtune/march to use. This makes the native sstate-cache unuseable since it's
 possible to have a newer cpu building the recipe and the library being pulled from
 another older cpu which doesn't have the instruction.
+
+Signed-off-by: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
 ---
  meta/recipes-support/libffi/libffi_3.4.2.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
