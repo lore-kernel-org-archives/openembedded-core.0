@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93230CCA482
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C18C43334
 	for <webhook@archiver.kernel.org>; Tue, 21 Jun 2022 20:17:06 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web10.47954.1655842606808933030
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web09.48618.1655842623824846966
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jun 2022 13:16:57 -0700
+ Tue, 21 Jun 2022 13:17:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=OfN55fZZ;
- spf=pass (domain: gmail.com, ip: 209.85.218.42,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cK4DYdGU;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id pk21so6721291ejb.2
+Received: by mail-ed1-f53.google.com with SMTP id eo8so20961664edb.0
         for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jun 2022 13:16:57 -0700 (PDT)
+ Tue, 21 Jun 2022 13:17:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=TA6ATqhoHJN1/t4lQEA3h5QlFKzn4rPlc8qH3HdPMd4=;
-        b=OfN55fZZ19xN/6UrW5S7yyLf+jecNT3brDGmerdMmnUR91pHtyU3e0tLTzh/wXHrBH
-         zWR3/lwiNmSUm/vCKnEqtEwZ6ZDwjKXHl4gjbQuV6VYCgMrqL9iDuXw27XxYZqPm7sVF
-         uA3ULcL0un/rfooiRxZd+mtyI5j/VYZt8EXgQhrVcy6v4/944M0CXk27MGTY8C11FiJ0
-         DK2d51UjBzUbNzgdKzI5Qt++WOtlsV0ZVD2+k0qsaw5mJIjKdVRM80/8A4OQcUjsEAfa
-         pbxWZdEDN8XQdTSLlMIxfioN1of97m9m6twm0Qov0qZ75sk9dDJRBRARC7D91F8NldBg
-         Lvkw==
+        bh=vdnIcQLYUJF2fdxFVdg+WgQ+NqAzOPNm9xXq++6pH/s=;
+        b=cK4DYdGUKX2OsWHjsF3sYuUMvSVc8Hkp4npZmeQ+DLk0HNejvvJ/FXIkEaA28UGAbt
+         40/kZrem0Y2M+74HvM6BXRvJ+pwY1FaAmCJ+gU5s779poncrWjqqdqasD4A/45nH6mUN
+         ++lcpfyNegWcvTGceX+tK1p8u+mFBEd3hOGwsm+SxOSStjKS3N10aIxtPhgzJyE9BAlG
+         W0Ko0GPIJJeeGbshNrUTF4ErtlVbWjuykLNu7E5EWHmgTDlcmsr6Jy5mNTSQuNeGDTd9
+         n+sBt0gEMZ2TCY+K18illR+n91Y/lkWbt9URl9Vmynfx5JZXzeP4+3AaCnrn0PGsZnp4
+         3Xjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=TA6ATqhoHJN1/t4lQEA3h5QlFKzn4rPlc8qH3HdPMd4=;
-        b=g2d2Gn44sZNZoGEl4URBwd7JZGiuwAJOj2akU5v/bsDm8eWPnvFe30KHZLeerDQgJl
-         74mGJI3RIxbfZOYuHZv3xE6gqLiE1aI5iWh59ubPrVcbVQhQX69f5wrZyY0VQ58/X5Pr
-         +qZbqZoNY5kdZitVB/AIUucNfv/shBrd1d8QRlj6k7AD0BhIZ26K79y2kwiKeIRC3Oes
-         26NWlXSD9f3SXQ/1PxhM7a4yZEx2iRXNMoV7Vi5+F0/p3Qw+yu8Xyr6EWps5Dv5QeR2l
-         52sqlvkgQlaXAUKHNfVAjbeGiYvKrLrxlWJDUH5V2cX4XZHG0ej6ZZ0ueGCFfO7nE61+
-         mJBA==
-X-Gm-Message-State: AJIora8qPhkCf+xvt0VzBE6+Fvk7mZOSTpI4cL8XWYpLq2hVINDDvG6b
-	wTVk7/FQoRqE9GFD5m8IkVHtx1+l9dr54w==
+        bh=vdnIcQLYUJF2fdxFVdg+WgQ+NqAzOPNm9xXq++6pH/s=;
+        b=Ksaz5Z0IHfCDVPrwzaFSLjIZrNF2WZpSCGS+6HK6dKFisN0AIRk55MaOOshHeFFsh9
+         WxbVb2wovOrFuEALN6bcTcnT22BAuAGbOfrIxALgL9cb2SnyUYoaQ8AN68ZjOIDdrMXf
+         Y8zYjnbR2MCVstGKKTrFOoDUTdY6FEc1npFjzwRI2AFCWTeredq07L8G0M7YCnc3MZG6
+         ZUKr1BgEmkYQ+w8XcuSwRWvWESP+QjyAsV4wL73xqSVc/CP+CrlsLLjXuBzxS4lNxLL+
+         0LSPQUmUOzrqHOy0JlobDETUI3c2uHXxP82MJ1llV8z5+/WoVxRyAB0plkNrpCDL94uJ
+         JbbA==
+X-Gm-Message-State: AJIora8IDv0m5j4s+uCyAz4OAy8M/F/4Bab06kLxab34nwv3R6N9cOiD
+	e20HRzBytnqzfV86GjCSQp2ZM9Y6eMiuiw==
 X-Google-Smtp-Source: 
- AGRyM1vZQHpDuVGJEQNgztcvrQLt4Ke3PjEtD7MImcgAR3hDHLuhiEZQH3Pz2gJgUgo7Zk/MJCR9vA==
-X-Received: by 2002:a17:906:64c9:b0:722:e8ca:f929 with SMTP id
- p9-20020a17090664c900b00722e8caf929mr1988982ejn.675.1655842616813;
-        Tue, 21 Jun 2022 13:16:56 -0700 (PDT)
+ AGRyM1shPMQqCcOaconvLJ1zfC35i/1Ar0ZOKwkYZ5SRoEZz6nndXcOtM51+ZAqO268w4PAN5/oHMg==
+X-Received: by 2002:a05:6402:50c7:b0:435:923b:9b23 with SMTP id
+ h7-20020a05640250c700b00435923b9b23mr7651584edb.336.1655842622362;
+        Tue, 21 Jun 2022 13:17:02 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- j8-20020a056402238800b0043590660f16sm3420890eda.35.2022.06.21.13.16.56
+ j8-20020a056402238800b0043590660f16sm3420890eda.35.2022.06.21.13.17.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jun 2022 13:16:56 -0700 (PDT)
+        Tue, 21 Jun 2022 13:17:01 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 12/18] dos2unix: upgrade 7.4.2 -> 7.4.3
-Date: Tue, 21 Jun 2022 22:16:31 +0200
-Message-Id: <20220621201637.1378306-12-alex@linutronix.de>
+Subject: [PATCH 15/18] sudo: upgrade 1.9.10 -> 1.9.11p2
+Date: Tue, 21 Jun 2022 22:16:34 +0200
+Message-Id: <20220621201637.1378306-15-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220621201637.1378306-1-alex@linutronix.de>
 References: <20220621201637.1378306-1-alex@linutronix.de>
@@ -68,38 +68,30 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 21 Jun 2022 20:17:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167180
-
-License-Update: copyright years
+ https://lists.openembedded.org/g/openembedded-core/message/167183
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../dos2unix/{dos2unix_7.4.2.bb => dos2unix_7.4.3.bb}         | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/dos2unix/{dos2unix_7.4.2.bb => dos2unix_7.4.3.bb} (88%)
+ meta/recipes-extended/sudo/{sudo_1.9.10.bb => sudo_1.9.11p2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/sudo/{sudo_1.9.10.bb => sudo_1.9.11p2.bb} (96%)
 
-diff --git a/meta/recipes-support/dos2unix/dos2unix_7.4.2.bb b/meta/recipes-support/dos2unix/dos2unix_7.4.3.bb
-similarity index 88%
-rename from meta/recipes-support/dos2unix/dos2unix_7.4.2.bb
-rename to meta/recipes-support/dos2unix/dos2unix_7.4.3.bb
-index 509a0a0ddc..0d71c38bd1 100644
---- a/meta/recipes-support/dos2unix/dos2unix_7.4.2.bb
-+++ b/meta/recipes-support/dos2unix/dos2unix_7.4.3.bb
-@@ -6,12 +6,12 @@ HOMEPAGE = "http://waterlan.home.xs4all.nl/dos2unix.html"
- SECTION = "support"
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.10.bb b/meta/recipes-extended/sudo/sudo_1.9.11p2.bb
+similarity index 96%
+rename from meta/recipes-extended/sudo/sudo_1.9.10.bb
+rename to meta/recipes-extended/sudo/sudo_1.9.11p2.bb
+index aa0d814ed7..b3eae4a0fa 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.10.bb
++++ b/meta/recipes-extended/sudo/sudo_1.9.11p2.bb
+@@ -8,7 +8,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
  
- LICENSE = "BSD-2-Clause"
--LIC_FILES_CHKSUM = "file://COPYING.txt;md5=8a7c3499a1142df819e727253cd53a12"
-+LIC_FILES_CHKSUM = "file://COPYING.txt;md5=9641fc4af7b564646f533f3911074b7a"
+ PAM_SRC_URI = "file://sudo.pam"
  
- SRC_URI = "git://git.code.sf.net/p/dos2unix/dos2unix;branch=master"
- UPSTREAM_CHECK_GITTAGREGEX = "dos2unix-(?P<pver>(\d+(\.\d+)+))"
+-SRC_URI[sha256sum] = "44a1461098e7c7b8e6ac597499c24fb2e43748c0c139a8b4944e57d1349a64f4"
++SRC_URI[sha256sum] = "a21918eb9fc0063794f6887464fa2d924ab6d192e19063191a429605c22791d2"
  
--SRCREV = "72596f0ae21faa25a07a872d4843bc885475115d"
-+SRCREV = "dae6d4bbc42d03fabb89cde65ed89f22a165d16e"
- 
- S = "${WORKDIR}/git/dos2unix"
- 
+ DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS:${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 2.30.2
 
