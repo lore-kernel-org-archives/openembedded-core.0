@@ -1,161 +1,1127 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99168FA373D
-	for <webhook@archiver.kernel.org>; Fri, 21 Oct 2022 15:48:48 +0000 (UTC)
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
- by mx.groups.io with SMTP id smtpd.web08.11658.1666367323864076665
- for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Oct 2022 08:48:44 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CzXtKzq0;
- spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1364357a691so4019493fac.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Oct 2022 08:48:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=D1yEY2sVwn2kYe1YqGof57nFYRmxCNfBsYoVgPvam7w=;
-        b=CzXtKzq0jRgcUeId0k8l5ISPGzkfEnxZrAyUeQM1lBrCxgP/LV/GxJM8bm3d0xUqgL
-         7vCLFaPhY5Dfh5UOVg3LDRw1k6CcucIk/wXeZNyNTLPLq3MNFdC9xJywROm07q/E+FZF
-         8vC991cpPFtSmDPtdpzohwSTvhgMeFZ8zZtn23+Zbl8gBaqNQZJF31Ftfi1QSVM17AjO
-         km/O3Y6fZx5URsTUiWwHrF4VOZc1wwzvrDiwz/0Gu+OsAe7NWOiHeq9YNkoTPpg1XQvw
-         S0qvRqvl3OmUanq39Of2keXRBVK4jQydE6Q+fBnj7dlLRf0DXAbOVmKFjlPvnDfI+FNt
-         rl4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=D1yEY2sVwn2kYe1YqGof57nFYRmxCNfBsYoVgPvam7w=;
-        b=8NszOWNThXRWgRjMbGf2U4a+URAa3xX/o+Seqg0URbdLL8/6djMTAy7bVQ/HTbmU1S
-         Op7Gj/akTXj2+dwv/EuWZs9QDNGYwHWUoVxltROAkJIrpuiiXQzk5HE97U1bFC9wxl/q
-         tuDCY0DLamQjyNyi1TKqQsrKMY0f1IWMOjEbdT91Rln5ihwjkor99smJ41x/CK2iQ/Ye
-         o3+FTa3KCkhaCHI2rsUwHGbz8Gdg51PEWpVUOU633S23b7K+8tI+SKCJV0e9BuIOmGGq
-         IwHNRbt67Rv7okTY6HyKU4zB5nv5qGG5W9nenqP554TzXI7Do+EG52WOC9JWJpSssylj
-         gmpw==
-X-Gm-Message-State: ACrzQf1iOlRizGD1WHcNOuKQuMOAlNHMVZiXvlRok7t2DigndThm+IuP
-	FLRuOPzR+nDZMO8LMvbrrGE=
-X-Google-Smtp-Source: AMsMyM5JzlUWk4mKf/KyW+qD5q4kaPLzl7baWE8lBxyqftMio8elvQmR9GpXu2tpDKmaJ/k81VGSsw==
-X-Received: by 2002:a05:6870:c349:b0:13b:154e:5559 with SMTP id e9-20020a056870c34900b0013b154e5559mr4350309oak.31.1666367323141;
-        Fri, 21 Oct 2022 08:48:43 -0700 (PDT)
-Received: from ?IPV6:2605:a601:ac3d:c100:e3e8:d9:3a56:e27d? ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id d6-20020aca3606000000b0034d14c6ce3dsm1235061oia.16.2022.10.21.08.48.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Oct 2022 08:48:42 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <86f1e768-11ee-a693-d41e-9416ffa3fb04@gmail.com>
-Date: Fri, 21 Oct 2022 10:48:41 -0500
+Message-ID: <d05ea756-3e5b-225d-c893-407f0527293f@mvista.com>
+Date: Tue, 21 Jun 2022 09:41:39 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [OE-core] [PATCH] runqemu: preload uninative libraries when host
- gl drivers are in use
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
- Alexander Kanavin <alex@linutronix.de>
-References: <20220204204027.2323845-1-alex@linutronix.de>
- <CAJdd5GZtMysfzY_Rz2vv_JwG_f=TvaFenS3X6iM0_p6cAQaEAg@mail.gmail.com>
- <CANNYZj9oxuvB3J0pF+iZQnKxENos8jKS9qvjKkPUFA986q-FEw@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCH] openldap: CVE-2022-29155 OpenLDAP SQL injection
+References: <20220620052143.7857-1-hprajapati@mvista.com>
+ <144c5532-b026-c461-d63d-2d092376400b@gmail.com>
+From: "Hitendra Prajapati" <hprajapati@mvista.com>
+In-Reply-To: <144c5532-b026-c461-d63d-2d092376400b@gmail.com>
+Content-Type: multipart/alternative;
+ boundary="------------iInamUUa3cNNZzAXIztUtjxy"
 Content-Language: en-US
-In-Reply-To: <CANNYZj9oxuvB3J0pF+iZQnKxENos8jKS9qvjKkPUFA986q-FEw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
- aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Oct 2022 15:48:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/172028
+List-id: <openembedded-core.lists.openembedded.org>
+To: akuster808 <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
 
-Ya I've tracked it down to when qemu invokes the qemu-oe-bridge-helper 
-to setup network bridging. This is a shell script that uses /bin/sh, and 
-as the log indicates, /bin/sh can't find the required symbols to start 
-up (and qemu fails).
+--------------iInamUUa3cNNZzAXIztUtjxy
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
 
-I also see it when runqemu attempt so to invoke the stty program to 
-cleanup the console after qemu runs for the same reason. This one is a 
-little easier to fix; I have a prototype patch that only passes the 
-munged environment that sets LD_PRELOAD when runqemu actually invokes 
-qemu by passing env= to subprocess. The other process invocations with 
-subprcess are not passed this environment, so they don't see the 
-LD_PRELOAD. This doesn't fix the bridge problem however because in that 
-case, qemu is invoking the script so the script inherits qemu's environment.
+Hi Team,
 
-On 10/21/22 10:43, Alexander Kanavin wrote:
-> This is the first time I hear about this - can you find out what is
-> expecting the symbol, and where it's supposed to come from?
+I'm sorry for my mistake in MAIL address.
+
+Thank you for the correct direction.
+
+On 20/06/22 23:07, akuster808 wrote:
+> This should be sent to openembedded-devel@lists.openembedded.org
 >
-> Alex
+> it applies against meta-openembedded, not core.
 >
-> On Fri, 21 Oct 2022 at 17:27, Joshua Watt <jpewhacker@gmail.com> wrote:
->> This patch broke runqemu for me when I moved to kirkstone. I get this error:
+> -armin
+>
+> On 6/19/22 22:21, Hitendra Prajapati wrote:
+>> Source: https://git.openldap.org/openldap/openldap
+>> MR: 117821
+>> Type: Security Fix
+>> Disposition: Backport from 
+>> https://git.openldap.org/openldap/openldap/-/commit/87df6c19915042430540931d199a39105544a134
+>> ChangeID: d534808c796600ca5994bcda28938d45405bc7b4
+>> Description:
+>>     CVE-2022-29155 openldap: OpenLDAP SQL injection
 >>
->>   /bin/sh: symbol lookup error:
->> /grmn/prj/mrn/alchemy/build/tmp/eng/kirkstone/tetra/sysroots-uninative/x86_64-linux/lib/librt.so.1:
->> undefined symbol: __libc_unwind_link_get, version GLIBC_PRIVATE
+>> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+>> ---
+>>   .../openldap/openldap/CVE-2022-29155.patch    | 277 ++++++++++++++++++
+>>   .../openldap/openldap_2.4.57.bb               |   2 +-
+>>   2 files changed, 278 insertions(+), 1 deletion(-)
+>>   create mode 100644 
+>> meta-oe/recipes-support/openldap/openldap/CVE-2022-29155.patch
 >>
->> And I'm not sure how to fix it. Reverting this change does resolve the problem.
+>> diff --git 
+>> a/meta-oe/recipes-support/openldap/openldap/CVE-2022-29155.patch 
+>> b/meta-oe/recipes-support/openldap/openldap/CVE-2022-29155.patch
+>> new file mode 100644
+>> index 000000000..2860b9522
+>> --- /dev/null
+>> +++ b/meta-oe/recipes-support/openldap/openldap/CVE-2022-29155.patch
+>> @@ -0,0 +1,277 @@
+>> +From 11e136f15085a4bda5701e910988966bed699977 Mon Sep 17 00:00:00 2001
+>> +From: Hitendra Prajapati <hprajapati@mvista.com>
+>> +Date: Wed, 18 May 2022 13:57:59 +0530
+>> +Subject: [PATCH] CVE-2022-29155
+>> +
+>> +Upstream-Status: Backport 
+>> [https://git.openldap.org/openldap/openldap/-/commit/87df6c19915042430540931d199a39105544a134]
+>> +CVE: CVE-2022-29155
+>> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+>> +
+>> +---
+>> + servers/slapd/back-sql/search.c | 123 +++++++++++++++++++++++++++-----
+>> + 1 file changed, 105 insertions(+), 18 deletions(-)
+>> +
+>> +diff --git a/servers/slapd/back-sql/search.c 
+>> b/servers/slapd/back-sql/search.c
+>> +index bb0f1e2..1770bde 100644
+>> +--- a/servers/slapd/back-sql/search.c
+>> ++++ b/servers/slapd/back-sql/search.c
+>> +@@ -63,6 +63,38 @@ static void send_paged_response(
+>> +     ID  *lastid );
+>> + #endif /* ! BACKSQL_ARBITRARY_KEY */
+>> +
+>> ++/* Look for chars that need to be escaped, return count of them.
+>> ++ * If out is non-NULL, copy escape'd val to it.
+>> ++ */
+>> ++static int
+>> ++backsql_val_escape( Operation *op, struct berval *in, struct berval 
+>> *out )
+>> ++{
+>> ++    char *ptr, *end;
+>> ++    int q = 0;
+>> ++
+>> ++    ptr = in->bv_val;
+>> ++    end = ptr + in->bv_len;
+>> ++    while (ptr < end) {
+>> ++        if ( *ptr == '\'' )
+>> ++            q++;
+>> ++        ptr++;
+>> ++    }
+>> ++    if ( q && out ) {
+>> ++        char *dst;
+>> ++        out->bv_len = in->bv_len + q;
+>> ++        out->bv_val = op->o_tmpalloc( out->bv_len + 1, 
+>> op->o_tmpmemctx );
+>> ++        ptr = in->bv_val;
+>> ++        dst = out->bv_val;
+>> ++        while (ptr < end ) {
+>> ++            if ( *ptr == '\'' )
+>> ++                *dst++ = '\'';
+>> ++            *dst++ = *ptr++;
+>> ++        }
+>> ++        *dst = '\0';
+>> ++    }
+>> ++    return q;
+>> ++}
+>> ++
+>> + static int
+>> + backsql_attrlist_add( backsql_srch_info *bsi, AttributeDescription 
+>> *ad )
+>> + {
+>> +@@ -429,6 +461,8 @@ backsql_process_sub_filter( backsql_srch_info 
+>> *bsi, Filter *f,
+>> +     backsql_info        *bi = (backsql_info 
+>> *)bsi->bsi_op->o_bd->be_private;
+>> +     int            i;
+>> +     int            casefold = 0;
+>> ++    int            escaped = 0;
+>> ++    struct berval    escval, *fvalue;
+>> +
+>> +     if ( !f ) {
+>> +         return 0;
+>> +@@ -462,50 +496,68 @@ backsql_process_sub_filter( backsql_srch_info 
+>> *bsi, Filter *f,
+>> +
+>> +         BER_BVZERO( &bv );
+>> +         if ( f->f_sub_initial.bv_val ) {
+>> +-            bv.bv_len += f->f_sub_initial.bv_len;
+>> ++            bv.bv_len += f->f_sub_initial.bv_len + 
+>> backsql_val_escape( NULL, &f->f_sub_initial, NULL );
+>> +         }
+>> +         if ( f->f_sub_any != NULL ) {
+>> +             for ( a = 0; f->f_sub_any[ a ].bv_val != NULL; a++ ) {
+>> +-                bv.bv_len += f->f_sub_any[ a ].bv_len;
+>> ++                bv.bv_len += f->f_sub_any[ a ].bv_len + 
+>> backsql_val_escape( NULL, &f->f_sub_any[ a ], NULL );
+>> +             }
+>> +         }
+>> +         if ( f->f_sub_final.bv_val ) {
+>> +-            bv.bv_len += f->f_sub_final.bv_len;
+>> ++            bv.bv_len += f->f_sub_final.bv_len + 
+>> backsql_val_escape( NULL, &f->f_sub_final, NULL );
+>> +         }
+>> +         bv.bv_len = 2 * bv.bv_len - 1;
+>> +         bv.bv_val = ch_malloc( bv.bv_len + 1 );
+>> +
+>> +         s = 0;
+>> +         if ( !BER_BVISNULL( &f->f_sub_initial ) ) {
+>> +-            bv.bv_val[ s ] = f->f_sub_initial.bv_val[ 0 ];
+>> +-            for ( i = 1; i < f->f_sub_initial.bv_len; i++ ) {
+>> ++            fvalue = &f->f_sub_initial;
+>> ++            escaped = backsql_val_escape( bsi->bsi_op, fvalue, 
+>> &escval );
+>> ++            if ( escaped )
+>> ++                fvalue = &escval;
+>> ++            bv.bv_val[ s ] = fvalue->bv_val[ 0 ];
+>> ++            for ( i = 1; i < fvalue->bv_len; i++ ) {
+>> +                 bv.bv_val[ s + 2 * i - 1 ] = '%';
+>> +-                bv.bv_val[ s + 2 * i ] = f->f_sub_initial.bv_val[ i ];
+>> ++                bv.bv_val[ s + 2 * i ] = fvalue->bv_val[ i ];
+>> +             }
+>> +             bv.bv_val[ s + 2 * i - 1 ] = '%';
+>> +             s += 2 * i;
+>> ++            if ( escaped )
+>> ++                bsi->bsi_op->o_tmpfree( escval.bv_val, 
+>> bsi->bsi_op->o_tmpmemctx );
+>> +         }
+>> +
+>> +         if ( f->f_sub_any != NULL ) {
+>> +             for ( a = 0; !BER_BVISNULL( &f->f_sub_any[ a ] ); a++ ) {
+>> +-                bv.bv_val[ s ] = f->f_sub_any[ a ].bv_val[ 0 ];
+>> +-                for ( i = 1; i < f->f_sub_any[ a ].bv_len; i++ ) {
+>> ++                fvalue = &f->f_sub_any[ a ];
+>> ++                escaped = backsql_val_escape( bsi->bsi_op, fvalue, 
+>> &escval );
+>> ++                if ( escaped )
+>> ++                    fvalue = &escval;
+>> ++                bv.bv_val[ s ] = fvalue->bv_val[ 0 ];
+>> ++                for ( i = 1; i < fvalue->bv_len; i++ ) {
+>> +                     bv.bv_val[ s + 2 * i - 1 ] = '%';
+>> +-                    bv.bv_val[ s + 2 * i ] = f->f_sub_any[ a 
+>> ].bv_val[ i ];
+>> ++                    bv.bv_val[ s + 2 * i ] = fvalue->bv_val[ i ];
+>> +                 }
+>> +                 bv.bv_val[ s + 2 * i - 1 ] = '%';
+>> +                 s += 2 * i;
+>> ++                if ( escaped )
+>> ++                    bsi->bsi_op->o_tmpfree( escval.bv_val, 
+>> bsi->bsi_op->o_tmpmemctx );
+>> +             }
+>> +         }
+>> +
+>> +         if ( !BER_BVISNULL( &f->f_sub_final ) ) {
+>> +-            bv.bv_val[ s ] = f->f_sub_final.bv_val[ 0 ];
+>> +-            for ( i = 1; i < f->f_sub_final.bv_len; i++ ) {
+>> ++            fvalue = &f->f_sub_final;
+>> ++            escaped = backsql_val_escape( bsi->bsi_op, fvalue, 
+>> &escval );
+>> ++            if ( escaped )
+>> ++                fvalue = &escval;
+>> ++            bv.bv_val[ s ] = fvalue->bv_val[ 0 ];
+>> ++            for ( i = 1; i < fvalue->bv_len; i++ ) {
+>> +                 bv.bv_val[ s + 2 * i - 1 ] = '%';
+>> +-                bv.bv_val[ s + 2 * i ] = f->f_sub_final.bv_val[ i ];
+>> ++                bv.bv_val[ s + 2 * i ] = fvalue->bv_val[ i ];
+>> +             }
+>> +-                bv.bv_val[ s + 2 * i - 1 ] = '%';
+>> ++            bv.bv_val[ s + 2 * i - 1 ] = '%';
+>> +             s += 2 * i;
+>> ++            if ( escaped )
+>> ++                bsi->bsi_op->o_tmpfree( escval.bv_val, 
+>> bsi->bsi_op->o_tmpmemctx );
+>> +         }
+>> +
+>> +         bv.bv_val[ s - 1 ] = '\0';
+>> +@@ -561,11 +613,17 @@ backsql_process_sub_filter( backsql_srch_info 
+>> *bsi, Filter *f,
+>> +             f->f_sub_initial.bv_val, 0 );
+>> + #endif /* BACKSQL_TRACE */
+>> +
+>> ++        fvalue = &f->f_sub_initial;
+>> ++        escaped = backsql_val_escape( bsi->bsi_op, fvalue, &escval );
+>> ++        if ( escaped )
+>> ++            fvalue = &escval;
+>> +         start = bsi->bsi_flt_where.bb_val.bv_len;
+>> +         backsql_strfcat_x( &bsi->bsi_flt_where,
+>> +                 bsi->bsi_op->o_tmpmemctx,
+>> +                 "b",
+>> +-                &f->f_sub_initial );
+>> ++                fvalue );
+>> ++        if ( escaped )
+>> ++            bsi->bsi_op->o_tmpfree( escval.bv_val, 
+>> bsi->bsi_op->o_tmpmemctx );
+>> +         if ( casefold && BACKSQL_AT_CANUPPERCASE( at ) ) {
+>> +             ldap_pvt_str2upper( &bsi->bsi_flt_where.bb_val.bv_val[ 
+>> start ] );
+>> +         }
+>> +@@ -586,12 +644,18 @@ backsql_process_sub_filter( backsql_srch_info 
+>> *bsi, Filter *f,
+>> +                 i, f->f_sub_any[ i ].bv_val );
+>> + #endif /* BACKSQL_TRACE */
+>> +
+>> ++            fvalue = &f->f_sub_any[ i ];
+>> ++            escaped = backsql_val_escape( bsi->bsi_op, fvalue, 
+>> &escval );
+>> ++            if ( escaped )
+>> ++                fvalue = &escval;
+>> +             start = bsi->bsi_flt_where.bb_val.bv_len;
+>> +             backsql_strfcat_x( &bsi->bsi_flt_where,
+>> +                     bsi->bsi_op->o_tmpmemctx,
+>> +                     "bc",
+>> +-                    &f->f_sub_any[ i ],
+>> ++                    fvalue,
+>> +                     '%' );
+>> ++            if ( escaped )
+>> ++                bsi->bsi_op->o_tmpfree( escval.bv_val, 
+>> bsi->bsi_op->o_tmpmemctx );
+>> +             if ( casefold && BACKSQL_AT_CANUPPERCASE( at ) ) {
+>> +                 /*
+>> +                  * Note: toupper('%') = '%'
+>> +@@ -611,11 +675,17 @@ backsql_process_sub_filter( backsql_srch_info 
+>> *bsi, Filter *f,
+>> +             f->f_sub_final.bv_val, 0 );
+>> + #endif /* BACKSQL_TRACE */
+>> +
+>> ++        fvalue = &f->f_sub_final;
+>> ++        escaped = backsql_val_escape( bsi->bsi_op, fvalue, &escval );
+>> ++        if ( escaped )
+>> ++            fvalue = &escval;
+>> +         start = bsi->bsi_flt_where.bb_val.bv_len;
+>> +             backsql_strfcat_x( &bsi->bsi_flt_where,
+>> +                 bsi->bsi_op->o_tmpmemctx,
+>> +                 "b",
+>> +-                &f->f_sub_final );
+>> ++                fvalue );
+>> ++        if ( escaped )
+>> ++            bsi->bsi_op->o_tmpfree( escval.bv_val, 
+>> bsi->bsi_op->o_tmpmemctx );
+>> +           if ( casefold && BACKSQL_AT_CANUPPERCASE( at ) ) {
+>> +             ldap_pvt_str2upper( &bsi->bsi_flt_where.bb_val.bv_val[ 
+>> start ] );
+>> +         }
+>> +@@ -1183,6 +1253,8 @@ backsql_process_filter_attr( backsql_srch_info 
+>> *bsi, Filter *f, backsql_at_map_r
+>> +     struct berval        *filter_value = NULL;
+>> +     MatchingRule        *matching_rule = NULL;
+>> +     struct berval        ordering = BER_BVC("<=");
+>> ++    struct berval        escval;
+>> ++    int                    escaped = 0;
+>> +
+>> +     Debug( LDAP_DEBUG_TRACE, "==>backsql_process_filter_attr(%s)\n",
+>> +         at->bam_ad->ad_cname.bv_val, 0, 0 );
+>> +@@ -1237,6 +1309,10 @@ equality_match:;
+>> +             casefold = 1;
+>> +         }
+>> +
+>> ++        escaped = backsql_val_escape( bsi->bsi_op, filter_value, 
+>> &escval );
+>> ++        if ( escaped )
+>> ++            filter_value = &escval;
+>> ++
+>> +         /* FIXME: directoryString filtering should use a similar
+>> +          * approach to deal with non-prettified values like
+>> +          * " A  non    prettified   value  ", by using a LIKE
+>> +@@ -1317,6 +1393,10 @@ equality_match:;
+>> +             casefold = 1;
+>> +         }
+>> +
+>> ++        escaped = backsql_val_escape( bsi->bsi_op, filter_value, 
+>> &escval );
+>> ++        if ( escaped )
+>> ++            filter_value = &escval;
+>> ++
+>> +         /*
+>> +          * FIXME: should we uppercase the operands?
+>> +          */
+>> +@@ -1350,7 +1430,7 @@ equality_match:;
+>> +                     &at->bam_sel_expr,
+>> +                     &ordering,
+>> +                     '\'',
+>> +-                    &f->f_av_value,
+>> ++                    filter_value,
+>> +                     (ber_len_t)STRLENOF( /* (' */ "')" ),
+>> +                         /* ( */ "')" );
+>> +         }
+>> +@@ -1374,13 +1454,17 @@ equality_match:;
+>> +     case LDAP_FILTER_APPROX:
+>> +         /* we do our best */
+>> +
+>> ++        filter_value = &f->f_av_value;
+>> ++        escaped = backsql_val_escape( bsi->bsi_op, filter_value, 
+>> &escval );
+>> ++        if ( escaped )
+>> ++            filter_value = &escval;
+>> +         /*
+>> +          * maybe we should check type of at->sel_expr here somehow,
+>> +          * to know whether upper_func is applicable, but for now
+>> +          * upper_func stuff is made for Oracle, where UPPER is
+>> +          * safely applicable to NUMBER etc.
+>> +          */
+>> +-        (void)backsql_process_filter_like( bsi, at, 1, 
+>> &f->f_av_value );
+>> ++        (void)backsql_process_filter_like( bsi, at, 1, filter_value );
+>> +         break;
+>> +
+>> +     default:
+>> +@@ -1394,6 +1478,9 @@ equality_match:;
+>> +
+>> +     }
+>> +
+>> ++    if ( escaped )
+>> ++        bsi->bsi_op->o_tmpfree( escval.bv_val, 
+>> bsi->bsi_op->o_tmpmemctx );
+>> ++
+>> +     Debug( LDAP_DEBUG_TRACE, "<==backsql_process_filter_attr(%s)\n",
+>> +         at->bam_ad->ad_cname.bv_val, 0, 0 );
+>> +
+>> +--
+>> +2.25.1
+>> +
+>> diff --git a/meta-oe/recipes-support/openldap/openldap_2.4.57.bb 
+>> b/meta-oe/recipes-support/openldap/openldap_2.4.57.bb
+>> index a282523a3..e3e9caa1b 100644
+>> --- a/meta-oe/recipes-support/openldap/openldap_2.4.57.bb
+>> +++ b/meta-oe/recipes-support/openldap/openldap_2.4.57.bb
+>> @@ -23,8 +23,8 @@ SRC_URI = 
+>> "http://www.openldap.org/software/download/OpenLDAP/openldap-release/$
+>> file://thread_stub.patch \
+>> file://openldap-CVE-2015-3276.patch \
+>> file://remove-user-host-pwd-from-version.patch \
+>> + file://CVE-2022-29155.patch \
+>>   "
+>> -
+>>   SRC_URI[md5sum] = "e3349456c3a66e5e6155be7ddc3f042c"
+>>   SRC_URI[sha256sum] = 
+>> "c7ba47e1e6ecb5b436f3d43281df57abeffa99262141aec822628bc220f6b45a"
 >>
->> My host is Ubuntu 20.04
+>> 
 >>
->>
->>
->> On Fri, Feb 4, 2022 at 2:40 PM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->>> Some of the host distributions build the drivers in a way (RPATH/RUNPATH)
->>> that tricks uninative loader into loading pieces of the host libc, if
->>> the same pieces haven't been previously loaded by native binaries. Mixing
->>> the two libc versions leads to failures.
->>>
->>> This change ensures that the correct (uninative) versions are always in use.
->>>
->>> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
->>> ---
->>>   meta/classes/qemuboot.bbclass | 2 +-
->>>   scripts/runqemu               | 4 ++++
->>>   2 files changed, 5 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
->>> index cc1cbce69d..229bd88527 100644
->>> --- a/meta/classes/qemuboot.bbclass
->>> +++ b/meta/classes/qemuboot.bbclass
->>> @@ -109,7 +109,7 @@ def qemuboot_vars(d):
->>>       build_vars = ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE',
->>>                   'KERNEL_IMAGETYPE', 'IMAGE_NAME', 'IMAGE_LINK_NAME',
->>>                   'STAGING_DIR_NATIVE', 'STAGING_BINDIR_NATIVE',
->>> -                'STAGING_DIR_HOST', 'SERIAL_CONSOLES']
->>> +                'STAGING_DIR_HOST', 'SERIAL_CONSOLES', 'UNINATIVE_LOADER']
->>>       return build_vars + [k for k in d.keys() if k.startswith('QB_')]
->>>
->>>   do_write_qemuboot_conf[vardeps] += "${@' '.join(qemuboot_vars(d))}"
->>> diff --git a/scripts/runqemu b/scripts/runqemu
->>> index 4e05c1bb15..7d1f85f357 100755
->>> --- a/scripts/runqemu
->>> +++ b/scripts/runqemu
->>> @@ -460,6 +460,10 @@ class BaseConfig(object):
->>>           except subprocess.CalledProcessError as e:
->>>               raise RunQemuError("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
->>>           os.environ['LIBGL_DRIVERS_PATH'] = dripath.decode('utf-8').strip()
->>> +        uninative_path = os.path.dirname(self.get("UNINATIVE_LOADER"))
->>> +        preload_items = ['libdl.so.2', 'librt.so.1', 'libpthread.so.0']
->>> +        preload_paths = [os.path.join(uninative_path, i) for i in preload_items]
->>> +        os.environ['LD_PRELOAD'] = " ".join(preload_paths)
->>>
->>>       def check_args(self):
->>>           for debug in ("-d", "--debug"):
->>> --
->>> 2.20.1
->>>
->>>
->>> -=-=-=-=-=-=-=-=-=-=-=-
->>> Links: You receive all messages sent to this group.
->>> View/Reply Online (#161382): https://lists.openembedded.org/g/openembedded-core/message/161382
->>> Mute This Topic: https://lists.openembedded.org/mt/88916306/3616693
->>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JPEWhacker@gmail.com]
->>> -=-=-=-=-=-=-=-=-=-=-=-
->>>
+>
+-- 
+Regards,
+Hitendra Prajapati
+MontaVista Software LLC
 
+--------------iInamUUa3cNNZzAXIztUtjxy
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi Team,</p>
+    <p>I'm sorry for my mistake in MAIL address. <br>
+    </p>
+    <p>Thank you for the correct direction.<br>
+    </p>
+    <div class="moz-cite-prefix">On 20/06/22 23:07, akuster808 wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:144c5532-b026-c461-d63d-2d092376400b@gmail.com">This
+      should be sent to <a class="moz-txt-link-abbreviated" href="mailto:openembedded-devel@lists.openembedded.org">openembedded-devel@lists.openembedded.org</a>
+      <br>
+      <br>
+      it applies against meta-openembedded, not core.
+      <br>
+      <br>
+      -armin
+      <br>
+      <br>
+      On 6/19/22 22:21, Hitendra Prajapati wrote:
+      <br>
+      <blockquote type="cite">Source:
+        <a class="moz-txt-link-freetext" href="https://git.openldap.org/openldap/openldap">https://git.openldap.org/openldap/openldap</a>
+        <br>
+        MR: 117821
+        <br>
+        Type: Security Fix
+        <br>
+        Disposition: Backport from
+<a class="moz-txt-link-freetext" href="https://git.openldap.org/openldap/openldap/-/commit/87df6c19915042430540931d199a39105544a134">https://git.openldap.org/openldap/openldap/-/commit/87df6c19915042430540931d199a39105544a134</a><br>
+        ChangeID: d534808c796600ca5994bcda28938d45405bc7b4
+        <br>
+        Description:
+        <br>
+            CVE-2022-29155 openldap: OpenLDAP SQL injection
+        <br>
+        <br>
+        Signed-off-by: Hitendra Prajapati <a class="moz-txt-link-rfc2396E" href="mailto:hprajapati@mvista.com">&lt;hprajapati@mvista.com&gt;</a>
+        <br>
+        ---
+        <br>
+          .../openldap/openldap/CVE-2022-29155.patch    | 277
+        ++++++++++++++++++
+        <br>
+          .../openldap/openldap_2.4.57.bb               |   2 +-
+        <br>
+          2 files changed, 278 insertions(+), 1 deletion(-)
+        <br>
+          create mode 100644
+        meta-oe/recipes-support/openldap/openldap/CVE-2022-29155.patch
+        <br>
+        <br>
+        diff --git
+        a/meta-oe/recipes-support/openldap/openldap/CVE-2022-29155.patch
+        b/meta-oe/recipes-support/openldap/openldap/CVE-2022-29155.patch
+        <br>
+        new file mode 100644
+        <br>
+        index 000000000..2860b9522
+        <br>
+        --- /dev/null
+        <br>
+        +++
+        b/meta-oe/recipes-support/openldap/openldap/CVE-2022-29155.patch
+        <br>
+        @@ -0,0 +1,277 @@
+        <br>
+        +From 11e136f15085a4bda5701e910988966bed699977 Mon Sep 17
+        00:00:00 2001
+        <br>
+        +From: Hitendra Prajapati <a class="moz-txt-link-rfc2396E" href="mailto:hprajapati@mvista.com">&lt;hprajapati@mvista.com&gt;</a>
+        <br>
+        +Date: Wed, 18 May 2022 13:57:59 +0530
+        <br>
+        +Subject: [PATCH] CVE-2022-29155
+        <br>
+        +
+        <br>
+        +Upstream-Status: Backport
+[<a class="moz-txt-link-freetext" href="https://git.openldap.org/openldap/openldap/-/commit/87df6c19915042430540931d199a39105544a134">https://git.openldap.org/openldap/openldap/-/commit/87df6c19915042430540931d199a39105544a134</a>]<br>
+        +CVE: CVE-2022-29155
+        <br>
+        +Signed-off-by: Hitendra Prajapati <a class="moz-txt-link-rfc2396E" href="mailto:hprajapati@mvista.com">&lt;hprajapati@mvista.com&gt;</a>
+        <br>
+        +
+        <br>
+        +---
+        <br>
+        + servers/slapd/back-sql/search.c | 123
+        +++++++++++++++++++++++++++-----
+        <br>
+        + 1 file changed, 105 insertions(+), 18 deletions(-)
+        <br>
+        +
+        <br>
+        +diff --git a/servers/slapd/back-sql/search.c
+        b/servers/slapd/back-sql/search.c
+        <br>
+        +index bb0f1e2..1770bde 100644
+        <br>
+        +--- a/servers/slapd/back-sql/search.c
+        <br>
+        ++++ b/servers/slapd/back-sql/search.c
+        <br>
+        +@@ -63,6 +63,38 @@ static void send_paged_response(
+        <br>
+        +     ID  *lastid );
+        <br>
+        + #endif /* ! BACKSQL_ARBITRARY_KEY */
+        <br>
+        +
+        <br>
+        ++/* Look for chars that need to be escaped, return count of
+        them.
+        <br>
+        ++ * If out is non-NULL, copy escape'd val to it.
+        <br>
+        ++ */
+        <br>
+        ++static int
+        <br>
+        ++backsql_val_escape( Operation *op, struct berval *in, struct
+        berval *out )
+        <br>
+        ++{
+        <br>
+        ++    char *ptr, *end;
+        <br>
+        ++    int q = 0;
+        <br>
+        ++
+        <br>
+        ++    ptr = in-&gt;bv_val;
+        <br>
+        ++    end = ptr + in-&gt;bv_len;
+        <br>
+        ++    while (ptr &lt; end) {
+        <br>
+        ++        if ( *ptr == '\'' )
+        <br>
+        ++            q++;
+        <br>
+        ++        ptr++;
+        <br>
+        ++    }
+        <br>
+        ++    if ( q &amp;&amp; out ) {
+        <br>
+        ++        char *dst;
+        <br>
+        ++        out-&gt;bv_len = in-&gt;bv_len + q;
+        <br>
+        ++        out-&gt;bv_val = op-&gt;o_tmpalloc( out-&gt;bv_len +
+        1, op-&gt;o_tmpmemctx );
+        <br>
+        ++        ptr = in-&gt;bv_val;
+        <br>
+        ++        dst = out-&gt;bv_val;
+        <br>
+        ++        while (ptr &lt; end ) {
+        <br>
+        ++            if ( *ptr == '\'' )
+        <br>
+        ++                *dst++ = '\'';
+        <br>
+        ++            *dst++ = *ptr++;
+        <br>
+        ++        }
+        <br>
+        ++        *dst = '\0';
+        <br>
+        ++    }
+        <br>
+        ++    return q;
+        <br>
+        ++}
+        <br>
+        ++
+        <br>
+        + static int
+        <br>
+        + backsql_attrlist_add( backsql_srch_info *bsi,
+        AttributeDescription *ad )
+        <br>
+        + {
+        <br>
+        +@@ -429,6 +461,8 @@ backsql_process_sub_filter(
+        backsql_srch_info *bsi, Filter *f,
+        <br>
+        +     backsql_info        *bi = (backsql_info
+        *)bsi-&gt;bsi_op-&gt;o_bd-&gt;be_private;
+        <br>
+        +     int            i;
+        <br>
+        +     int            casefold = 0;
+        <br>
+        ++    int            escaped = 0;
+        <br>
+        ++    struct berval    escval, *fvalue;
+        <br>
+        +
+        <br>
+        +     if ( !f ) {
+        <br>
+        +         return 0;
+        <br>
+        +@@ -462,50 +496,68 @@ backsql_process_sub_filter(
+        backsql_srch_info *bsi, Filter *f,
+        <br>
+        +
+        <br>
+        +         BER_BVZERO( &amp;bv );
+        <br>
+        +         if ( f-&gt;f_sub_initial.bv_val ) {
+        <br>
+        +-            bv.bv_len += f-&gt;f_sub_initial.bv_len;
+        <br>
+        ++            bv.bv_len += f-&gt;f_sub_initial.bv_len +
+        backsql_val_escape( NULL, &amp;f-&gt;f_sub_initial, NULL );
+        <br>
+        +         }
+        <br>
+        +         if ( f-&gt;f_sub_any != NULL ) {
+        <br>
+        +             for ( a = 0; f-&gt;f_sub_any[ a ].bv_val != NULL;
+        a++ ) {
+        <br>
+        +-                bv.bv_len += f-&gt;f_sub_any[ a ].bv_len;
+        <br>
+        ++                bv.bv_len += f-&gt;f_sub_any[ a ].bv_len +
+        backsql_val_escape( NULL, &amp;f-&gt;f_sub_any[ a ], NULL );
+        <br>
+        +             }
+        <br>
+        +         }
+        <br>
+        +         if ( f-&gt;f_sub_final.bv_val ) {
+        <br>
+        +-            bv.bv_len += f-&gt;f_sub_final.bv_len;
+        <br>
+        ++            bv.bv_len += f-&gt;f_sub_final.bv_len +
+        backsql_val_escape( NULL, &amp;f-&gt;f_sub_final, NULL );
+        <br>
+        +         }
+        <br>
+        +         bv.bv_len = 2 * bv.bv_len - 1;
+        <br>
+        +         bv.bv_val = ch_malloc( bv.bv_len + 1 );
+        <br>
+        +
+        <br>
+        +         s = 0;
+        <br>
+        +         if ( !BER_BVISNULL( &amp;f-&gt;f_sub_initial ) ) {
+        <br>
+        +-            bv.bv_val[ s ] = f-&gt;f_sub_initial.bv_val[ 0 ];
+        <br>
+        +-            for ( i = 1; i &lt; f-&gt;f_sub_initial.bv_len;
+        i++ ) {
+        <br>
+        ++            fvalue = &amp;f-&gt;f_sub_initial;
+        <br>
+        ++            escaped = backsql_val_escape( bsi-&gt;bsi_op,
+        fvalue, &amp;escval );
+        <br>
+        ++            if ( escaped )
+        <br>
+        ++                fvalue = &amp;escval;
+        <br>
+        ++            bv.bv_val[ s ] = fvalue-&gt;bv_val[ 0 ];
+        <br>
+        ++            for ( i = 1; i &lt; fvalue-&gt;bv_len; i++ ) {
+        <br>
+        +                 bv.bv_val[ s + 2 * i - 1 ] = '%';
+        <br>
+        +-                bv.bv_val[ s + 2 * i ] =
+        f-&gt;f_sub_initial.bv_val[ i ];
+        <br>
+        ++                bv.bv_val[ s + 2 * i ] = fvalue-&gt;bv_val[ i
+        ];
+        <br>
+        +             }
+        <br>
+        +             bv.bv_val[ s + 2 * i - 1 ] = '%';
+        <br>
+        +             s += 2 * i;
+        <br>
+        ++            if ( escaped )
+        <br>
+        ++                bsi-&gt;bsi_op-&gt;o_tmpfree( escval.bv_val,
+        bsi-&gt;bsi_op-&gt;o_tmpmemctx );
+        <br>
+        +         }
+        <br>
+        +
+        <br>
+        +         if ( f-&gt;f_sub_any != NULL ) {
+        <br>
+        +             for ( a = 0; !BER_BVISNULL( &amp;f-&gt;f_sub_any[
+        a ] ); a++ ) {
+        <br>
+        +-                bv.bv_val[ s ] = f-&gt;f_sub_any[ a ].bv_val[
+        0 ];
+        <br>
+        +-                for ( i = 1; i &lt; f-&gt;f_sub_any[ a
+        ].bv_len; i++ ) {
+        <br>
+        ++                fvalue = &amp;f-&gt;f_sub_any[ a ];
+        <br>
+        ++                escaped = backsql_val_escape( bsi-&gt;bsi_op,
+        fvalue, &amp;escval );
+        <br>
+        ++                if ( escaped )
+        <br>
+        ++                    fvalue = &amp;escval;
+        <br>
+        ++                bv.bv_val[ s ] = fvalue-&gt;bv_val[ 0 ];
+        <br>
+        ++                for ( i = 1; i &lt; fvalue-&gt;bv_len; i++ ) {
+        <br>
+        +                     bv.bv_val[ s + 2 * i - 1 ] = '%';
+        <br>
+        +-                    bv.bv_val[ s + 2 * i ] = f-&gt;f_sub_any[
+        a ].bv_val[ i ];
+        <br>
+        ++                    bv.bv_val[ s + 2 * i ] =
+        fvalue-&gt;bv_val[ i ];
+        <br>
+        +                 }
+        <br>
+        +                 bv.bv_val[ s + 2 * i - 1 ] = '%';
+        <br>
+        +                 s += 2 * i;
+        <br>
+        ++                if ( escaped )
+        <br>
+        ++                    bsi-&gt;bsi_op-&gt;o_tmpfree(
+        escval.bv_val, bsi-&gt;bsi_op-&gt;o_tmpmemctx );
+        <br>
+        +             }
+        <br>
+        +         }
+        <br>
+        +
+        <br>
+        +         if ( !BER_BVISNULL( &amp;f-&gt;f_sub_final ) ) {
+        <br>
+        +-            bv.bv_val[ s ] = f-&gt;f_sub_final.bv_val[ 0 ];
+        <br>
+        +-            for ( i = 1; i &lt; f-&gt;f_sub_final.bv_len; i++
+        ) {
+        <br>
+        ++            fvalue = &amp;f-&gt;f_sub_final;
+        <br>
+        ++            escaped = backsql_val_escape( bsi-&gt;bsi_op,
+        fvalue, &amp;escval );
+        <br>
+        ++            if ( escaped )
+        <br>
+        ++                fvalue = &amp;escval;
+        <br>
+        ++            bv.bv_val[ s ] = fvalue-&gt;bv_val[ 0 ];
+        <br>
+        ++            for ( i = 1; i &lt; fvalue-&gt;bv_len; i++ ) {
+        <br>
+        +                 bv.bv_val[ s + 2 * i - 1 ] = '%';
+        <br>
+        +-                bv.bv_val[ s + 2 * i ] =
+        f-&gt;f_sub_final.bv_val[ i ];
+        <br>
+        ++                bv.bv_val[ s + 2 * i ] = fvalue-&gt;bv_val[ i
+        ];
+        <br>
+        +             }
+        <br>
+        +-                bv.bv_val[ s + 2 * i - 1 ] = '%';
+        <br>
+        ++            bv.bv_val[ s + 2 * i - 1 ] = '%';
+        <br>
+        +             s += 2 * i;
+        <br>
+        ++            if ( escaped )
+        <br>
+        ++                bsi-&gt;bsi_op-&gt;o_tmpfree( escval.bv_val,
+        bsi-&gt;bsi_op-&gt;o_tmpmemctx );
+        <br>
+        +         }
+        <br>
+        +
+        <br>
+        +         bv.bv_val[ s - 1 ] = '\0';
+        <br>
+        +@@ -561,11 +613,17 @@ backsql_process_sub_filter(
+        backsql_srch_info *bsi, Filter *f,
+        <br>
+        +             f-&gt;f_sub_initial.bv_val, 0 );
+        <br>
+        + #endif /* BACKSQL_TRACE */
+        <br>
+        +
+        <br>
+        ++        fvalue = &amp;f-&gt;f_sub_initial;
+        <br>
+        ++        escaped = backsql_val_escape( bsi-&gt;bsi_op, fvalue,
+        &amp;escval );
+        <br>
+        ++        if ( escaped )
+        <br>
+        ++            fvalue = &amp;escval;
+        <br>
+        +         start = bsi-&gt;bsi_flt_where.bb_val.bv_len;
+        <br>
+        +         backsql_strfcat_x( &amp;bsi-&gt;bsi_flt_where,
+        <br>
+        +                 bsi-&gt;bsi_op-&gt;o_tmpmemctx,
+        <br>
+        +                 "b",
+        <br>
+        +-                &amp;f-&gt;f_sub_initial );
+        <br>
+        ++                fvalue );
+        <br>
+        ++        if ( escaped )
+        <br>
+        ++            bsi-&gt;bsi_op-&gt;o_tmpfree( escval.bv_val,
+        bsi-&gt;bsi_op-&gt;o_tmpmemctx );
+        <br>
+        +         if ( casefold &amp;&amp; BACKSQL_AT_CANUPPERCASE( at )
+        ) {
+        <br>
+        +             ldap_pvt_str2upper(
+        &amp;bsi-&gt;bsi_flt_where.bb_val.bv_val[ start ] );
+        <br>
+        +         }
+        <br>
+        +@@ -586,12 +644,18 @@ backsql_process_sub_filter(
+        backsql_srch_info *bsi, Filter *f,
+        <br>
+        +                 i, f-&gt;f_sub_any[ i ].bv_val );
+        <br>
+        + #endif /* BACKSQL_TRACE */
+        <br>
+        +
+        <br>
+        ++            fvalue = &amp;f-&gt;f_sub_any[ i ];
+        <br>
+        ++            escaped = backsql_val_escape( bsi-&gt;bsi_op,
+        fvalue, &amp;escval );
+        <br>
+        ++            if ( escaped )
+        <br>
+        ++                fvalue = &amp;escval;
+        <br>
+        +             start = bsi-&gt;bsi_flt_where.bb_val.bv_len;
+        <br>
+        +             backsql_strfcat_x( &amp;bsi-&gt;bsi_flt_where,
+        <br>
+        +                     bsi-&gt;bsi_op-&gt;o_tmpmemctx,
+        <br>
+        +                     "bc",
+        <br>
+        +-                    &amp;f-&gt;f_sub_any[ i ],
+        <br>
+        ++                    fvalue,
+        <br>
+        +                     '%' );
+        <br>
+        ++            if ( escaped )
+        <br>
+        ++                bsi-&gt;bsi_op-&gt;o_tmpfree( escval.bv_val,
+        bsi-&gt;bsi_op-&gt;o_tmpmemctx );
+        <br>
+        +             if ( casefold &amp;&amp; BACKSQL_AT_CANUPPERCASE(
+        at ) ) {
+        <br>
+        +                 /*
+        <br>
+        +                  * Note: toupper('%') = '%'
+        <br>
+        +@@ -611,11 +675,17 @@ backsql_process_sub_filter(
+        backsql_srch_info *bsi, Filter *f,
+        <br>
+        +             f-&gt;f_sub_final.bv_val, 0 );
+        <br>
+        + #endif /* BACKSQL_TRACE */
+        <br>
+        +
+        <br>
+        ++        fvalue = &amp;f-&gt;f_sub_final;
+        <br>
+        ++        escaped = backsql_val_escape( bsi-&gt;bsi_op, fvalue,
+        &amp;escval );
+        <br>
+        ++        if ( escaped )
+        <br>
+        ++            fvalue = &amp;escval;
+        <br>
+        +         start = bsi-&gt;bsi_flt_where.bb_val.bv_len;
+        <br>
+        +             backsql_strfcat_x( &amp;bsi-&gt;bsi_flt_where,
+        <br>
+        +                 bsi-&gt;bsi_op-&gt;o_tmpmemctx,
+        <br>
+        +                 "b",
+        <br>
+        +-                &amp;f-&gt;f_sub_final );
+        <br>
+        ++                fvalue );
+        <br>
+        ++        if ( escaped )
+        <br>
+        ++            bsi-&gt;bsi_op-&gt;o_tmpfree( escval.bv_val,
+        bsi-&gt;bsi_op-&gt;o_tmpmemctx );
+        <br>
+        +           if ( casefold &amp;&amp; BACKSQL_AT_CANUPPERCASE( at
+        ) ) {
+        <br>
+        +             ldap_pvt_str2upper(
+        &amp;bsi-&gt;bsi_flt_where.bb_val.bv_val[ start ] );
+        <br>
+        +         }
+        <br>
+        +@@ -1183,6 +1253,8 @@ backsql_process_filter_attr(
+        backsql_srch_info *bsi, Filter *f, backsql_at_map_r
+        <br>
+        +     struct berval        *filter_value = NULL;
+        <br>
+        +     MatchingRule        *matching_rule = NULL;
+        <br>
+        +     struct berval        ordering = BER_BVC("&lt;=");
+        <br>
+        ++    struct berval        escval;
+        <br>
+        ++    int                    escaped = 0;
+        <br>
+        +
+        <br>
+        +     Debug( LDAP_DEBUG_TRACE,
+        "==&gt;backsql_process_filter_attr(%s)\n",
+        <br>
+        +         at-&gt;bam_ad-&gt;ad_cname.bv_val, 0, 0 );
+        <br>
+        +@@ -1237,6 +1309,10 @@ equality_match:;
+        <br>
+        +             casefold = 1;
+        <br>
+        +         }
+        <br>
+        +
+        <br>
+        ++        escaped = backsql_val_escape( bsi-&gt;bsi_op,
+        filter_value, &amp;escval );
+        <br>
+        ++        if ( escaped )
+        <br>
+        ++            filter_value = &amp;escval;
+        <br>
+        ++
+        <br>
+        +         /* FIXME: directoryString filtering should use a
+        similar
+        <br>
+        +          * approach to deal with non-prettified values like
+        <br>
+        +          * " A  non    prettified   value  ", by using a LIKE
+        <br>
+        +@@ -1317,6 +1393,10 @@ equality_match:;
+        <br>
+        +             casefold = 1;
+        <br>
+        +         }
+        <br>
+        +
+        <br>
+        ++        escaped = backsql_val_escape( bsi-&gt;bsi_op,
+        filter_value, &amp;escval );
+        <br>
+        ++        if ( escaped )
+        <br>
+        ++            filter_value = &amp;escval;
+        <br>
+        ++
+        <br>
+        +         /*
+        <br>
+        +          * FIXME: should we uppercase the operands?
+        <br>
+        +          */
+        <br>
+        +@@ -1350,7 +1430,7 @@ equality_match:;
+        <br>
+        +                     &amp;at-&gt;bam_sel_expr,
+        <br>
+        +                     &amp;ordering,
+        <br>
+        +                     '\'',
+        <br>
+        +-                    &amp;f-&gt;f_av_value,
+        <br>
+        ++                    filter_value,
+        <br>
+        +                     (ber_len_t)STRLENOF( /* (' */ "')" ),
+        <br>
+        +                         /* ( */ "')" );
+        <br>
+        +         }
+        <br>
+        +@@ -1374,13 +1454,17 @@ equality_match:;
+        <br>
+        +     case LDAP_FILTER_APPROX:
+        <br>
+        +         /* we do our best */
+        <br>
+        +
+        <br>
+        ++        filter_value = &amp;f-&gt;f_av_value;
+        <br>
+        ++        escaped = backsql_val_escape( bsi-&gt;bsi_op,
+        filter_value, &amp;escval );
+        <br>
+        ++        if ( escaped )
+        <br>
+        ++            filter_value = &amp;escval;
+        <br>
+        +         /*
+        <br>
+        +          * maybe we should check type of at-&gt;sel_expr here
+        somehow,
+        <br>
+        +          * to know whether upper_func is applicable, but for
+        now
+        <br>
+        +          * upper_func stuff is made for Oracle, where UPPER is
+        <br>
+        +          * safely applicable to NUMBER etc.
+        <br>
+        +          */
+        <br>
+        +-        (void)backsql_process_filter_like( bsi, at, 1,
+        &amp;f-&gt;f_av_value );
+        <br>
+        ++        (void)backsql_process_filter_like( bsi, at, 1,
+        filter_value );
+        <br>
+        +         break;
+        <br>
+        +
+        <br>
+        +     default:
+        <br>
+        +@@ -1394,6 +1478,9 @@ equality_match:;
+        <br>
+        +
+        <br>
+        +     }
+        <br>
+        +
+        <br>
+        ++    if ( escaped )
+        <br>
+        ++        bsi-&gt;bsi_op-&gt;o_tmpfree( escval.bv_val,
+        bsi-&gt;bsi_op-&gt;o_tmpmemctx );
+        <br>
+        ++
+        <br>
+        +     Debug( LDAP_DEBUG_TRACE,
+        "&lt;==backsql_process_filter_attr(%s)\n",
+        <br>
+        +         at-&gt;bam_ad-&gt;ad_cname.bv_val, 0, 0 );
+        <br>
+        +
+        <br>
+        +--
+        <br>
+        +2.25.1
+        <br>
+        +
+        <br>
+        diff --git a/meta-oe/recipes-support/openldap/openldap_2.4.57.bb
+        b/meta-oe/recipes-support/openldap/openldap_2.4.57.bb
+        <br>
+        index a282523a3..e3e9caa1b 100644
+        <br>
+        --- a/meta-oe/recipes-support/openldap/openldap_2.4.57.bb
+        <br>
+        +++ b/meta-oe/recipes-support/openldap/openldap_2.4.57.bb
+        <br>
+        @@ -23,8 +23,8 @@ SRC_URI =
+        "<a class="moz-txt-link-freetext" href="http://www.openldap.org/software/download/OpenLDAP/openldap-release/$">http://www.openldap.org/software/download/OpenLDAP/openldap-release/$</a>
+        <br>
+              <a class="moz-txt-link-freetext" href="file://thread_stub.patch">file://thread_stub.patch</a> \
+        <br>
+              <a class="moz-txt-link-freetext" href="file://openldap-CVE-2015-3276.patch">file://openldap-CVE-2015-3276.patch</a> \
+        <br>
+              <a class="moz-txt-link-freetext" href="file://remove-user-host-pwd-from-version.patch">file://remove-user-host-pwd-from-version.patch</a> \
+        <br>
+        +    <a class="moz-txt-link-freetext" href="file://CVE-2022-29155.patch">file://CVE-2022-29155.patch</a> \
+        <br>
+          "
+        <br>
+        -
+        <br>
+          SRC_URI[md5sum] = "e3349456c3a66e5e6155be7ddc3f042c"
+        <br>
+          SRC_URI[sha256sum] =
+        "c7ba47e1e6ecb5b436f3d43281df57abeffa99262141aec822628bc220f6b45a"
+        <br>
+          <br>
+        
+        <br>
+        <br>
+      </blockquote>
+      <br>
+    </blockquote>
+    <div class="moz-signature">-- <br>
+      <font color="#0000ff">
+        Regards,<br>
+        Hitendra Prajapati<br>
+        MontaVista Software LLC<br>
+      </font></div>
+  </body>
+</html>
+
+--------------iInamUUa3cNNZzAXIztUtjxy--
