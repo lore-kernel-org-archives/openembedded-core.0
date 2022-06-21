@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89EA7C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89ED4CCA47E
 	for <webhook@archiver.kernel.org>; Tue, 21 Jun 2022 20:17:06 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
- [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web12.48352.1655842612433487191
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
+ [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web12.48354.1655842616604057683
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jun 2022 13:17:05 -0700
+ Tue, 21 Jun 2022 13:16:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=kd9x898Z;
- spf=pass (domain: gmail.com, ip: 209.85.218.54,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=H0voNW1f;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id h23so29787086ejj.12
+Received: by mail-ed1-f48.google.com with SMTP id eq6so13574749edb.6
         for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jun 2022 13:17:04 -0700 (PDT)
+ Tue, 21 Jun 2022 13:16:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=hhUHxddf3/je86wjbrSnK+VYORDqsCep2CqIPgXjrYQ=;
-        b=kd9x898ZUEWQfapV57V3mITorijsWn3ifAymwafhZxQBHTBZO4WEZR5/CTZJ8M6pI1
-         eaA7tlpe9BjH46TBYWqNLY9/sfimZMjCnRv85vPMqQs4p7gEYFAw52SGJPeEKu5cWR5s
-         Fgn9fBUpJeav/BIa8b5eB7pAhI+S5PnQqIRmRcHCftOlgsd6zwFjc96808EPewmk3ebl
-         TeuiLZ8OodP1DFELKVX60Z8TzksAOftIo5Tt5J0TRYdblaP2NN1fZTVTpAvNdqi8etGS
-         k48FdgxhFtpgNmpvMj+LmnrLPwsgKXHG0yRS6+UCcg8KmX9OHjW0NwhDkF3gomll9IaQ
-         ASJQ==
+        bh=eE2t4hGrkGJifTHjmcLA3zqse20uLdz0JPEz7sUQHfQ=;
+        b=H0voNW1fvX8kmeK44LKi6gxeNB2AwxkiQwSPPQKfb0L1NhYkihv/Sl7A0/xd5oTzAb
+         KShlE9QUXs5jW4I3sOgPkvtMYEEC0P9dc+2W1Km6zzfl+ErS56C2CPahm5IVyI7AdqIa
+         ZrxNFGNsec6F/EBGhzoVJhhS2ImXFo+TAAxL5dNrmrb+g9JZixEpNOZ7DYSawFT/hk30
+         MXyy7M2uiE+Oi6wF/JKlGU3PljccJuWVUtTl287HN9ar+kMVyW5iCOT+JuTiI2GNVI1A
+         9ZLm7IqOwWngydXggB+AO4wlWItb4ICArr+Fk++HdmKKkR3mEtk1oEU9mXI9Huw9ugL0
+         YULQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hhUHxddf3/je86wjbrSnK+VYORDqsCep2CqIPgXjrYQ=;
-        b=JRQC+r78SCLrPdd3rhkFeHomUkW69mcLujAxjMwZM5KTAYqvrBpr1ABf+wGtKuW/+c
-         t8fhwJnB6sK++K0ZL+X1sPRTldZ5jf9tvRTbKN6JnY01CpeIAnT3dfpDuHTlSNJ0110R
-         k7AT4/NFufcuvJCApDLRYO6SjAJKhz0WaCPWafzrn56R+3rt0xvG5mbrkr4hInsjoJVy
-         2KEL1VzxbVkjlkTR8DCCKk5FVoW71dh880/vCjGic+wBXXXA9oP3OZNgm8hCQmF/suG4
-         9bdxEbb9+t5RmMrO/A8PZblHiwQTpL84CN5kTEBM8YHyA2f5ohEijOLWoek12T6GUrxR
-         lBHQ==
-X-Gm-Message-State: AJIora+vY/yp5wEMCdVto2oQGNT9WA9/CwnXb4ZyKqmWNYfTOzHXE2dl
-	HVUOCASgyvoZ/PbcxoahXiI3Z1QEdByLOg==
+        bh=eE2t4hGrkGJifTHjmcLA3zqse20uLdz0JPEz7sUQHfQ=;
+        b=0qcro6bq7STqhhP9fS/9mgV0wyHpxc3f0gjxcthySRBSQahGaBsJ6V6qrBr6kfodkL
+         Fye6khMdLGSIcAdASZm/gZg9stCD6+VfhHiHsDBOY1W2NQJ+n1oYyIbk65ZK1/UcRYD4
+         B2slH/Maz43Hs2t9ef+ukqNi5B0Nfhkx8blTYXiWJ52jsdod6d41/LJOiSdVAhItCchZ
+         9hvwRrwiGiYnHgIBH/xTqWY1ulKxZ3iwp35Svq2mOtfv3f4SCwJai9UYyfDw1sVY+F/i
+         X3F23l0246NoyoViWKs7wfarvQD8M2Po3tkv2EA1WYSfqNvQysan7acHnaBZ18FECe65
+         /l1Q==
+X-Gm-Message-State: AJIora+cNmvOSu3vbzenmUy0c/u60+dQvsHR/J7DIV0QgO86mNL1wPzL
+	JJY948CjtXLKtYN6CNL2NnYCCl2hN2K63w==
 X-Google-Smtp-Source: 
- AGRyM1vCHv5wTDDiLD59eAigXgUIB5GMgkbFY4r/uBB1yelCe95BiFU1tWlsU6cFrKyrw1ixhhcqpQ==
-X-Received: by 2002:a17:907:6eab:b0:722:dbb8:8e2 with SMTP id
- sh43-20020a1709076eab00b00722dbb808e2mr7061307ejc.746.1655842624510;
-        Tue, 21 Jun 2022 13:17:04 -0700 (PDT)
+ AGRyM1t1hlzdRGxp7TAMLf7FiehK3edVu1B/LR0TX7I2o+CwtZ9EIILhYY1BcpqT+YB+VhYtilucjA==
+X-Received: by 2002:aa7:cb83:0:b0:435:9170:8e3b with SMTP id
+ r3-20020aa7cb83000000b0043591708e3bmr7768956edt.144.1655842615238;
+        Tue, 21 Jun 2022 13:16:55 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- j8-20020a056402238800b0043590660f16sm3420890eda.35.2022.06.21.13.17.02
+ j8-20020a056402238800b0043590660f16sm3420890eda.35.2022.06.21.13.16.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jun 2022 13:17:04 -0700 (PDT)
+        Tue, 21 Jun 2022 13:16:54 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 16/18] wireless-regdb: upgrade 2022.04.08 -> 2022.06.06
-Date: Tue, 21 Jun 2022 22:16:35 +0200
-Message-Id: <20220621201637.1378306-16-alex@linutronix.de>
+Subject: [PATCH 10/18] libdrm: update 2.4.110 -> 2.4.111
+Date: Tue, 21 Jun 2022 22:16:29 +0200
+Message-Id: <20220621201637.1378306-10-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220621201637.1378306-1-alex@linutronix.de>
 References: <20220621201637.1378306-1-alex@linutronix.de>
@@ -68,30 +68,38 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 21 Jun 2022 20:17:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167184
+ https://lists.openembedded.org/g/openembedded-core/message/167178
+
+libkms option dropped by upstream.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...ireless-regdb_2022.04.08.bb => wireless-regdb_2022.06.06.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2022.04.08.bb => wireless-regdb_2022.06.06.bb} (94%)
+ .../drm/{libdrm_2.4.110.bb => libdrm_2.4.111.bb}             | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.110.bb => libdrm_2.4.111.bb} (91%)
 
-diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.04.08.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.06.06.bb
-similarity index 94%
-rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.04.08.bb
-rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.06.06.bb
-index cd42039680..2eba4f873b 100644
---- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.04.08.bb
-+++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.06.06.bb
-@@ -5,7 +5,7 @@ LICENSE = "ISC"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.110.bb b/meta/recipes-graphics/drm/libdrm_2.4.111.bb
+similarity index 91%
+rename from meta/recipes-graphics/drm/libdrm_2.4.110.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.111.bb
+index dd775939a5..17b737c556 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.110.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.111.bb
+@@ -13,12 +13,11 @@ DEPENDS = "libpthread-stubs"
+ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz \
+           "
  
- SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
--SRC_URI[sha256sum] = "884ba2e3c1e8b98762b6dc25ff60b5ec75c8d33a39e019b3ed4aa615491460d3"
-+SRC_URI[sha256sum] = "ac00f97efecce5046ed069d1d93f3365fdf994c7c7854a8fc50831e959537230"
+-SRC_URI[sha256sum] = "eecee4c4b47ed6d6ce1a9be3d6d92102548ea35e442282216d47d05293cf9737"
++SRC_URI[sha256sum] = "1ad7164f77424de6f4ecba7c262bde196a214c6e19a6fbf497f0815f4d7ab2a9"
  
- inherit bin_package allarch
+ inherit meson pkgconfig manpages
  
+-PACKAGECONFIG ??= "libkms intel radeon amdgpu nouveau vmwgfx omap freedreno vc4 etnaviv install-test-programs"
+-PACKAGECONFIG[libkms] = "-Dlibkms=true,-Dlibkms=false"
++PACKAGECONFIG ??= "intel radeon amdgpu nouveau vmwgfx omap freedreno vc4 etnaviv install-test-programs"
+ PACKAGECONFIG[intel] = "-Dintel=true,-Dintel=false,libpciaccess"
+ PACKAGECONFIG[radeon] = "-Dradeon=true,-Dradeon=false"
+ PACKAGECONFIG[amdgpu] = "-Damdgpu=true,-Damdgpu=false"
 -- 
 2.30.2
 
