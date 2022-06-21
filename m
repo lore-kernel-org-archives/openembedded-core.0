@@ -2,64 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64FA4C43334
-	for <webhook@archiver.kernel.org>; Tue, 21 Jun 2022 23:29:38 +0000 (UTC)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
- [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web08.1223.1655854171960070698
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AEF8C433EF
+	for <webhook@archiver.kernel.org>; Tue, 21 Jun 2022 23:29:48 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.1198.1655854178529839621
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jun 2022 16:29:32 -0700
+ Tue, 21 Jun 2022 16:29:38 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=Hd98wMam;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.169,
+ header.b=smPV9HD/;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f169.google.com with SMTP id s185so8757417pgs.3
+Received: by mail-pj1-f47.google.com with SMTP id
+ x1-20020a17090abc8100b001ec7f8a51f5so11075120pjr.0
         for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jun 2022 16:29:31 -0700 (PDT)
+ Tue, 21 Jun 2022 16:29:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=XsaUSxjltIiiTIRAFyzAPOEWUF5qP/NDLmYKCGtFOMw=;
-        b=Hd98wMambEBMb6wVAqeWRYTYBsi3YFXW45R1GMzEGPR3xr/h+af61yhRTd7caSCCZJ
-         EMYRQMGuyLV68BRSGkCRFfEJzfrmiyT2N++N2xLCRq6ZdM5h5Oi4B3Y13bNb36dQzyVs
-         nlh95DfaTPlHnRMdcjLrAqgN975Bu12fHHrT+W2fT3N6cFlvvjiglcYbt2/ofNxqeaHj
-         82NkWKKCvlLdNSmgm6SdS3xqdek8+FI/RV9IJSgpxjSyFblgXs5dAe43jzfVYmAi0xN/
-         lFlBV4xk7nn1oOxmhjoX3fb4N4pT0mmTU6CEE0GIrfLH47xn4v0rl/Q5hN4snUSmzuhh
-         Xrsw==
+        bh=swi7c35LDRCmgDHDk7RiWoNHUMrHMlctRudLqBUeMsY=;
+        b=smPV9HD/HUBrKjijBhH6uwns18toIgPuC3oRt30RjJ63o7vIv0j3ZBRz1ABOjuhl1N
+         CKGJT41fA/SJaCzB/b9zydLOzUI6Xgyl3W8bHryf/7XdFMfENvYDKlOoNZVRAD8RKIBo
+         s3IWG9Tb6tAP/YcXC1tajnmNjjB+a8qIu3Qt8pSfJkwbnY31uk7PmvlUpM++UArlTSS/
+         dYCLq+UYgHcl/U536XM3sciFPuQqwZwwK4CAl4m9jT2EQW6kUU3uVA7XbbmIDxryXQQr
+         0NGG+ZbiEsJaWuJEyfQ6JGOf0eqYqipczymESatFKaxgrSrBxSbcGehGxvsp/udgoJkS
+         e1BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XsaUSxjltIiiTIRAFyzAPOEWUF5qP/NDLmYKCGtFOMw=;
-        b=CyS0/VeeSHUhBwdilC01gO4mNKDym9NVnLUoNQLGzqN4LpjNP1W/bBYO6bX5obzxWE
-         WVZPHM+7la/9MZg8Pyh1WcsHTegqp+xVKgXgRJF8MG6KyRMDFMM/UOeHp8vvfvMjERxU
-         Ogm+lIRQivaG5rdSNiaPcQPmrU3qb/XzjYOtHRJ8xkuo3xU7UNfgXmGtKrr6QXofOrRf
-         YQLT8G8VCbjYOMMBDY3oLvdly1Iaqc0ZyDN4rUHU5gu9GlqaA4+RbKQPfFTvZcbf9QQO
-         UBE9+Ax39m58mmV26GItLsrvYEQUsY3rAVXEAec8ZvrIkyAPgyuyrb4rLiC8bEWbIaHC
-         8Xig==
-X-Gm-Message-State: AJIora8VJWvAVdezDpyXvoS+Ce5RjXNnOvOV7o2Itjo/qNfvpm8ggMlT
-	sONs2diLfhjjYSrqFGKxv9I7WgtH1qTQDVaV
+        bh=swi7c35LDRCmgDHDk7RiWoNHUMrHMlctRudLqBUeMsY=;
+        b=CPZ+FH5vagGkEG/D3hcd9ALEEpBt6gE131HFb4SKYAvbe+sWr8gbbwqFqa0tYsYMhH
+         Oa5ZwGTP6UonWliwqXX9qBZYJOi8G9mzFHb1TENtz/XPsgFOBCKC1phHzfJZPJd4UkZm
+         bnwgbTrcEtOuvkPEz7xuu1KhQx9p0G17hITmXJZ984qiwGHJPZGeGRpjOATtuA8laZNe
+         FCkjT2EoPGfABFzGtcFtFBOBheaV9PYSIX/XKR6PfJIZ80BHnJaWeDnY1SGnIkA/PgM1
+         Xud4cUUDSGxbk/ky0loRdeNU9pAO+S4J4dZpGEFRrIaO/h3TSkDxBRChTJC4+O5uJ9tv
+         JWuw==
+X-Gm-Message-State: AJIora88wl/6/RksAaZDG7LLXNeirCTAFHmcdR82QlilpISFbx/hKspD
+	guvduKWvmRxbjfDY10ueeOXxvbtUayOQQXJL
 X-Google-Smtp-Source: 
- AGRyM1u3m+ci8GbcAh5L7xhWcoOi5RRqWCogs8X/0qADQxxCZMW9PJKiQdgQAIKx/9PmjuMtAIoiKw==
-X-Received: by 2002:a62:1687:0:b0:50d:3364:46d4 with SMTP id
- 129-20020a621687000000b0050d336446d4mr32500342pfw.74.1655854170945;
-        Tue, 21 Jun 2022 16:29:30 -0700 (PDT)
+ AGRyM1t+/cGw1raE7wCc/55FNIFFgSgJy7hjVedCrKL190lYdtADHdxJpAkUFlpBeGzKjVgzoWujCA==
+X-Received: by 2002:a17:902:ed02:b0:169:e40a:7bed with SMTP id
+ b2-20020a170902ed0200b00169e40a7bedmr25900001pld.167.1655854177579;
+        Tue, 21 Jun 2022 16:29:37 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- f25-20020a637559000000b0040cf934a1a0sm2041614pgn.28.2022.06.21.16.29.29
+ f25-20020a637559000000b0040cf934a1a0sm2041614pgn.28.2022.06.21.16.29.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jun 2022 16:29:30 -0700 (PDT)
+        Tue, 21 Jun 2022 16:29:37 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 2/6] golang: CVE-2021-44717 syscall: don't close fd
- 0 on ForkExec error
-Date: Tue, 21 Jun 2022 13:28:59 -1000
+Subject: [OE-core][dunfell 5/6] linux-firmware: add support for building
+ snapshots
+Date: Tue, 21 Jun 2022 13:29:02 -1000
 Message-Id: 
- <b835c65845b1445e1bb547c192cb22c2db4c7e6f.1655836866.git.steve@sakoman.com>
+ <6654baf267003ac62bc886901e5197fc211239f4.1655836866.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1655836866.git.steve@sakoman.com>
 References: <cover.1655836866.git.steve@sakoman.com>
@@ -68,128 +69,65 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jun 2022 23:29:38 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jun 2022 23:29:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167206
+ https://lists.openembedded.org/g/openembedded-core/message/167209
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 
-Source: https://github.com/golang/go
-MR: 114884
-Type: Security Fix
-Disposition: Backport from https://github.com/golang/go/commit/44a3fb49
-ChangeID: 7b28553d4e23828b20c3357b1cca79ee3ca18058
-Description:
-        CVE-2021-44717 golang: syscall: don't close fd 0 on ForkExec error.
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+In some cases it is useful to be able to test the snapshot of
+linux-firmware (e.g. to test if the updated firmware works on the
+particular hardware). Allow building the linux-firmware snapshots.
+
+To switch to the most recent branch, add the following lines to the
+local.conf file:
+
+PREFERRED_VERSION_linux-firmware = "1:20220509+git%"
+SRCREV:class-devupstream = "${AUTOREV}"
+WHENCE_CHKSUM:class-devupstream:pn-linux-firmware = "4288aad55d189fa225d492526b8406d5"
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit b023570ae1d239de14b50a0e827582d0e84ddf81)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/go/go-1.14.inc          |  1 +
- .../go/go-1.14/CVE-2021-44717.patch           | 83 +++++++++++++++++++
- 2 files changed, 84 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2021-44717.patch
+ .../linux-firmware/linux-firmware_20220509.bb             | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
-index 08d547a837..4827c6adfa 100644
---- a/meta/recipes-devtools/go/go-1.14.inc
-+++ b/meta/recipes-devtools/go/go-1.14.inc
-@@ -22,6 +22,7 @@ SRC_URI += "\
-     file://CVE-2021-38297.patch \
-     file://CVE-2022-23806.patch \
-     file://CVE-2022-23772.patch \
-+    file://CVE-2021-44717.patch \
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20220509.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20220509.bb
+index ec92cae2fa..b6b4043002 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20220509.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20220509.bb
+@@ -69,6 +69,7 @@ LICENSE = "\
+     & WHENCE \
  "
  
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
-diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2021-44717.patch b/meta/recipes-devtools/go/go-1.14/CVE-2021-44717.patch
-new file mode 100644
-index 0000000000..17cac7a5ba
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.14/CVE-2021-44717.patch
-@@ -0,0 +1,83 @@
-+From 9171c664e7af479aa26bc72f2e7cf4e69d8e0a6f Mon Sep 17 00:00:00 2001
-+From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Fri, 17 Jun 2022 10:22:47 +0530
-+Subject: [PATCH] CVE-2021-44717
++WHENCE_CHKSUM = "d3eb82686904888f8bbbe8d865371404"
+ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728 \
+                     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
+@@ -132,7 +133,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+-                    file://WHENCE;md5=d3eb82686904888f8bbbe8d865371404 \
++                    file://WHENCE;md5=${WHENCE_CHKSUM} \
+                     "
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+@@ -208,6 +209,11 @@ SRC_URI = "\
+   file://0001-Makefile-replace-mkdir-by-install.patch \
+ "
+ 
++BBCLASSEXTEND = "devupstream:target"
++SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git;protocol=https;branch=main"
++# Pin this to the 20220509 release, override this in local.conf
++SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
 +
-+Upstream-Status: Backport [https://github.com/golang/go/commit/44a3fb49]
-+CVE: CVE-2021-44717
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+
-+syscall: fix ForkLock spurious close(0) on pipe failure
-+Pipe (and therefore forkLockPipe) does not make any guarantees
-+about the state of p after a failed Pipe(p). Avoid that assumption
-+and the too-clever goto, so that we don't accidentally Close a real fd
-+if the failed pipe leaves p[0] or p[1] set >= 0.
-+
-+Updates #50057
-+Fixes CVE-2021-44717
-+
-+Change-Id: Iff8e19a6efbba0c73cc8b13ecfae381c87600bb4
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1291270
-+Reviewed-by: Ian Lance Taylor <iant@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/370514
-+Trust: Filippo Valsorda <filippo@golang.org>
-+Run-TryBot: Filippo Valsorda <filippo@golang.org>
-+TryBot-Result: Gopher Robot <gobot@golang.org>
-+Reviewed-by: Alex Rakoczy <alex@golang.org>
-+---
-+ src/syscall/exec_unix.go | 20 ++++++--------------
-+ 1 file changed, 6 insertions(+), 14 deletions(-)
-+
-+diff --git a/src/syscall/exec_unix.go b/src/syscall/exec_unix.go
-+index b3798b6..b73782c 100644
-+--- a/src/syscall/exec_unix.go
-++++ b/src/syscall/exec_unix.go
-+@@ -151,9 +151,6 @@ func forkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error)
-+ 		sys = &zeroSysProcAttr
-+ 	}
-+ 
-+-	p[0] = -1
-+-	p[1] = -1
-+-
-+ 	// Convert args to C form.
-+ 	argv0p, err := BytePtrFromString(argv0)
-+ 	if err != nil {
-+@@ -194,14 +191,17 @@ func forkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error)
-+ 
-+ 	// Allocate child status pipe close on exec.
-+ 	if err = forkExecPipe(p[:]); err != nil {
-+-		goto error
-++		ForkLock.Unlock()
-++		return 0, err
-+ 	}
-+ 
-+ 	// Kick off child.
-+ 	pid, err1 = forkAndExecInChild(argv0p, argvp, envvp, chroot, dir, attr, sys, p[1])
-+ 	if err1 != 0 {
-+-		err = Errno(err1)
-+-		goto error
-++		Close(p[0])
-++		Close(p[1])
-++		ForkLock.Unlock()
-++		return 0, Errno(err1)
-+ 	}
-+ 	ForkLock.Unlock()
-+ 
-+@@ -228,14 +228,6 @@ func forkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error)
-+ 
-+ 	// Read got EOF, so pipe closed on exec, so exec succeeded.
-+ 	return pid, nil
-+-
-+-error:
-+-	if p[0] >= 0 {
-+-		Close(p[0])
-+-		Close(p[1])
-+-	}
-+-	ForkLock.Unlock()
-+-	return 0, err
-+ }
-+ 
-+ // Combination of fork and exec, careful to be thread safe.
-+-- 
-+2.25.1
-+
+ SRC_URI[sha256sum] = "376e0b3d7b4f8aaa2abf7f5ab74803dcf14b06b94e3d841b1467cd9a2848255e"
+ 
+ inherit allarch
 -- 
 2.25.1
 
