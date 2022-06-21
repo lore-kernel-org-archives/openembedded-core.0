@@ -2,118 +2,160 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FACCC433EF
-	for <webhook@archiver.kernel.org>; Tue, 21 Jun 2022 23:29:18 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web09.1314.1655854157072062659
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65C80C43334
+	for <webhook@archiver.kernel.org>; Tue, 21 Jun 2022 23:29:28 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web10.1195.1655854165125221770
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jun 2022 16:29:17 -0700
+ Tue, 21 Jun 2022 16:29:25 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=Jvy1+HnX;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176,
+ header.b=oyyNbLe7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.42,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id d17so5506451pfq.9
+Received: by mail-pj1-f42.google.com with SMTP id f16so13033175pjj.1
         for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jun 2022 16:29:17 -0700 (PDT)
+ Tue, 21 Jun 2022 16:29:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=QQLlvQk6NbtajmSFmnFyvKG4wxVK6ZR2mSzprWjQehg=;
-        b=Jvy1+HnXKsiyFxQaGAL1UedwzTqyAznSFOA0ZgSo7x0Oa008Xcx8WArcJPx+eKAaO8
-         uV8HUcrT8IHn+kE9NzF9tGTZ8VpBw/8uytHw2Ji4lm7tGpgUwkkFW9/E8etTboh9D8uc
-         KTPknWuoCMRJxwK481B9xRrSwsYefsCfizD9SVJ0MgGG5Q2eH0GBmuEunL9KHjUxO+Ul
-         LAgQDvlRyu9ch9bwj+RhqxGeyv73R7DMICFCCJxIzNDYo8xYdnyqMjZoDuqFbu+SEsWX
-         ZSx+5tJlbG8yTRcdFNRPW6G90g67g4yz9d5V6LJxZPFJQT5JuhfL/3bMnPh0BCdNN+ay
-         6XMg==
+        bh=ZckK9x+2GYGeZaSzAFKxjNF/U+gRT7wwhV6F9nePaxU=;
+        b=oyyNbLe7GerR1HVaXYHwSNd2McnX7SqBYrf6oZ1F3kuOwj75/gdTwXGaNa59ppmtTu
+         SKbKbVfNu61X7nifEkr4Gai/QlkXTco97hn31zcUpxSoRxe4CeQQBjBTECyNLibGd5Vx
+         mu7ZcCiEZfx2ZDdKyxQaTZcPqdXL+GKiUNfjY8dvwwc6slmFgujaqr1CKf9zabrlkZX9
+         F6oxsr2pF5w1obvTALYA/xuVK9MyV5PjCQxHpgGgjhfLcISt+BD3X8rqCi08BjYl3PMe
+         g160KDQz9QuP1iYnS6FC6b56FSbezPp0pZQXzDDdiGFtrTi6MvAcsH0FS5/wGy2zlQCD
+         bqOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QQLlvQk6NbtajmSFmnFyvKG4wxVK6ZR2mSzprWjQehg=;
-        b=4YJKOnAWXgkF3o1BkO/riTwqWdxk5ycpLNzrGlR0at9FOYp0doWzpMUFEdC5xS1zI2
-         bjZFZfvr9Iim3VCnt39OB6mbcZYsMvbmIJ611/mLC16NqRbp2qOcTg42nwKtSRaUcBNF
-         3vhfLmb0kzkV+60DqJwHiGPiG9JHAsl7/TjVXjNzzcV6Yt9sgIJ5ALcecna9yk2KAGT0
-         lc4/1+LO3OOky6GAFEElOmrD7QBM2uneMrnOE1auUaB+Y4SjUgJ/v+lioJZx4/r4tCfl
-         26OBQRxpfZk+sc+mypRS2V2VDTjGNKQEtO3AhofxiwBix7hp5WBsOC1+hv5dANnQNomt
-         mEpA==
-X-Gm-Message-State: AJIora92XMYiO60VHg2y+OkJbSHoQZtIBWpylg2i4B1VHi8bKYtfFLNr
-	GbNXOaLjt44ENi4BC8OJTLNd/gh7ppyJKRXQ
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ZckK9x+2GYGeZaSzAFKxjNF/U+gRT7wwhV6F9nePaxU=;
+        b=m/KiMaknTn43MRbCP/vVUWF3wRW2L9kLKEaT9fqCGgjE/hZl4FcI+rBPe7cI/4cNa6
+         lDXP79vINjCwDTvc3P8U+5bXhk/BuDe3K1sVseqTcXbjjQmOp2wJVjpCpdAgrZ9bOYKI
+         Gu+tB95/cVpCpXzm48z6Gyb0IirwcDBkLuUyFj61T55PsxYAJRao13Jw/gmiXTZBXtb9
+         9i2Xf8Oa0l03M3vCpMR75id4vsVKEhToF+xnkIZ6/WcKbX/YXi9HWVUu6JXyWVbufFzv
+         e8/gs2ysvNnPXLQbGaoQ1hJ37VLCjkHRNLAQMS+QBIM3TDxXOAf7PjBv9JZvSj9kK7m6
+         Nr5Q==
+X-Gm-Message-State: AJIora83Ee5F7JXmNb5r8zuOD5/uvelYEDSMYoLwPN2MHAdx3WePhgSV
+	nRqqJbLVI16OuFIkecbbceXCICLDySWKyIls
 X-Google-Smtp-Source: 
- AGRyM1uNU61Y2JGzE3TEI2uIElkJTlPGSLVomdRIVWv0pJImZHr8Cie9/OwzZvMBT6j+HOTxYI/5jQ==
-X-Received: by 2002:a63:b54d:0:b0:40c:5917:964b with SMTP id
- u13-20020a63b54d000000b0040c5917964bmr356067pgo.241.1655854156049;
-        Tue, 21 Jun 2022 16:29:16 -0700 (PDT)
+ AGRyM1uh6e1oHieudYfc5BODMbM9j15psV3EU0d0Un9waf0CuiCMkYKv4xJnx/BGPNaNddlW+hk9xA==
+X-Received: by 2002:a17:902:b192:b0:16a:afe:3c76 with SMTP id
+ s18-20020a170902b19200b0016a0afe3c76mr22730855plr.134.1655854164144;
+        Tue, 21 Jun 2022 16:29:24 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- f25-20020a637559000000b0040cf934a1a0sm2041614pgn.28.2022.06.21.16.29.14
+ f25-20020a637559000000b0040cf934a1a0sm2041614pgn.28.2022.06.21.16.29.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jun 2022 16:29:15 -0700 (PDT)
+        Tue, 21 Jun 2022 16:29:23 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/6] Patch review
-Date: Tue, 21 Jun 2022 13:28:57 -1000
-Message-Id: <cover.1655836866.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 1/6] python-pip: CVE-2021-3572 Incorrect handling
+ of unicode separators in git references
+Date: Tue, 21 Jun 2022 13:28:58 -1000
+Message-Id: 
+ <841a8fb5b6351f79a4d756232a544d1a6480c562.1655836866.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1655836866.git.steve@sakoman.com>
+References: <cover.1655836866.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jun 2022 23:29:18 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jun 2022 23:29:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167204
+ https://lists.openembedded.org/g/openembedded-core/message/167205
 
-Please review this set of patches for dunfell and have comments back by end
-of day Thursday.
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Passed a-full on autobuilder:
+Source: https://github.com/pypa/pip
+MR: 113864
+Type: Security Fix
+Disposition: Backport from https://github.com/pypa/pip/commit/e46bdda9711392fec0c45c1175bae6db847cb30b
+ChangeID: 717948e217d6219d1f03afb4d984342d7dea4636
+Description:
+       CVE-2021-3572 python-pip: Incorrect handling of unicode separators in git references.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3805
-
-The following changes since commit 135adeb82c9303c26193bb6f6bd3bc696793aa62:
-
-  archiver: don't use machine variables in shared recipes (2022-06-15 06:40:10 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Chee Yang Lee (1):
-  dpkg: update to 1.19.8
-
-Dmitry Baryshkov (2):
-  linux-firmware: add support for building snapshots
-  linux-firmware: upgrade 20220509 -> 20220610
-
-Hitendra Prajapati (2):
-  python-pip: CVE-2021-3572 Incorrect handling of unicode separators in
-    git references
-  golang: CVE-2021-44717 syscall: don't close fd 0 on ForkExec error
-
-Nick Potenski (1):
-  systemd: systemd-systemctl: Support instance conf files during enable
-
- .../systemd/systemd-systemctl/systemctl       | 14 +++-
- .../dpkg/{dpkg_1.19.7.bb => dpkg_1.19.8.bb}   |  4 +-
- meta/recipes-devtools/go/go-1.14.inc          |  1 +
- .../go/go-1.14/CVE-2021-44717.patch           | 83 ++++++++++++++++++
- .../python/python3-pip/CVE-2021-3572.patch    | 48 +++++++++++
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../python/python3-pip/CVE-2021-3572.patch    | 48 +++++++++++++++++++
  .../python/python3-pip_20.0.2.bb              |  1 +
- ...01-Makefile-replace-mkdir-by-install.patch | 84 -------------------
- ...20220509.bb => linux-firmware_20220610.bb} | 11 ++-
- 8 files changed, 154 insertions(+), 92 deletions(-)
- rename meta/recipes-devtools/dpkg/{dpkg_1.19.7.bb => dpkg_1.19.8.bb} (86%)
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2021-44717.patch
+ 2 files changed, 49 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2021-3572.patch
- delete mode 100644 meta/recipes-kernel/linux-firmware/files/0001-Makefile-replace-mkdir-by-install.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220509.bb => linux-firmware_20220610.bb} (99%)
 
+diff --git a/meta/recipes-devtools/python/python3-pip/CVE-2021-3572.patch b/meta/recipes-devtools/python/python3-pip/CVE-2021-3572.patch
+new file mode 100644
+index 0000000000..a38ab57bc6
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pip/CVE-2021-3572.patch
+@@ -0,0 +1,48 @@
++From c4fd13410b9a219f77fc30775d4a0ac9f69725bd Mon Sep 17 00:00:00 2001
++From: Hitendra Prajapati <hprajapati@mvista.com>
++Date: Thu, 16 Jun 2022 09:52:43 +0530
++Subject: [PATCH] CVE-2021-3572
++
++Upstream-Status: Backport [https://github.com/pypa/pip/commit/e46bdda9711392fec0c45c1175bae6db847cb30b]
++CVE: CVE-2021-3572
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ news/9827.bugfix.rst         |  3 +++
++ src/pip/_internal/vcs/git.py | 10 ++++++++--
++ 2 files changed, 11 insertions(+), 2 deletions(-)
++ create mode 100644 news/9827.bugfix.rst
++
++diff --git a/news/9827.bugfix.rst b/news/9827.bugfix.rst
++new file mode 100644
++index 0000000..e0d27c3
++--- /dev/null
+++++ b/news/9827.bugfix.rst
++@@ -0,0 +1,3 @@
+++**SECURITY**: Stop splitting on unicode separators in git references,
+++which could be maliciously used to install a different revision on the
+++repository.
++diff --git a/src/pip/_internal/vcs/git.py b/src/pip/_internal/vcs/git.py
++index 7483303..1b895f6 100644
++--- a/src/pip/_internal/vcs/git.py
+++++ b/src/pip/_internal/vcs/git.py
++@@ -137,9 +137,15 @@ class Git(VersionControl):
++         output = cls.run_command(['show-ref', rev], cwd=dest,
++                                  show_stdout=False, on_returncode='ignore')
++         refs = {}
++-        for line in output.strip().splitlines():
+++        # NOTE: We do not use splitlines here since that would split on other
+++        #       unicode separators, which can be maliciously used to install a
+++        #       different revision.
+++        for line in output.strip().split("\n"):
+++            line = line.rstrip("\r")
+++            if not line:
+++                continue
++             try:
++-                sha, ref = line.split()
+++                ref_sha, ref_name = line.split(" ", maxsplit=2)
++             except ValueError:
++                 # Include the offending line to simplify troubleshooting if
++                 # this error ever occurs.
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/python/python3-pip_20.0.2.bb b/meta/recipes-devtools/python/python3-pip_20.0.2.bb
+index 08738fb2f9..e24c6f4477 100644
+--- a/meta/recipes-devtools/python/python3-pip_20.0.2.bb
++++ b/meta/recipes-devtools/python/python3-pip_20.0.2.bb
+@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=8ba06d529c955048e5ddd7c45459eb2e"
+ 
+ DEPENDS += "python3 python3-setuptools-native"
+ 
++SRC_URI = "file://CVE-2021-3572.patch "
+ SRC_URI[md5sum] = "7d42ba49b809604f0df3d55df1c3fd86"
+ SRC_URI[sha256sum] = "7db0c8ea4c7ea51c8049640e8e6e7fde949de672bfa4949920675563a5a6967f"
+ 
 -- 
 2.25.1
 
