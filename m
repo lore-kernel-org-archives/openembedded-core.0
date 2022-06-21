@@ -2,9 +2,9 @@ Return-Path: <maxime.roussinbelanger@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 From: =?UTF-8?B?TWF4aW1lIFJvdXNzaW4tQsOpbGFuZ2Vy?= <maxime.roussinbelanger@gmail.com>
-Subject: [PATCH] libffti: fix native build being not portable
-Date: Tue, 21 Jun 2022 10:02:22 -0400
-Message-Id: <20220621140221.934874-1-maxime.roussinbelanger@gmail.com>
+Subject: [PATCH v2] libffi: fix native build being not portable
+Date: Tue, 21 Jun 2022 10:04:52 -0400
+Message-Id: <20220621140451.937071-1-maxime.roussinbelanger@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
