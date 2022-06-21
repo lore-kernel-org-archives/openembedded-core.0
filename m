@@ -2,43 +2,43 @@ Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CD20C433EF
-	for <webhook@archiver.kernel.org>; Tue, 21 Jun 2022 08:20:53 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by mx.groups.io with SMTP id smtpd.web10.40444.1655799642782700720
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43528C433EF
+	for <webhook@archiver.kernel.org>; Tue, 21 Jun 2022 08:24:53 +0000 (UTC)
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net
+ [217.70.178.232])
+ by mx.groups.io with SMTP id smtpd.web08.40980.1655799890975605095
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jun 2022 01:20:43 -0700
+ Tue, 21 Jun 2022 01:24:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=jm4kuy8R;
- spf=pass (domain: bootlin.com, ip: 217.70.183.194,
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=OwVWZPMY;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.232,
  mailfrom: luca.ceresoli@bootlin.com)
 Received: from booty (unknown [77.244.183.192])
 	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 839424000E;
-	Tue, 21 Jun 2022 08:20:40 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 8637C200011;
+	Tue, 21 Jun 2022 08:24:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1655799641;
+	t=1655799889;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0+qqlpy5K/YTw1VY4vYdkQlXDdRRCjEJZIxcYx2JqAA=;
-	b=jm4kuy8Riygp6C2bxe7cbZEE4ejxixhl9A2KDPvn0jnD0w7L9+DvV2HMamElOC0/PUFZLk
-	771AbyswmLuHajjciOLWHs/JpZ1VuPjQ6zSPvGbcl3oujcaBHjs5+sVhCcNgOkxjjMND0r
-	uq2ypLFF3O/Gj45m4ijVXxe9ocQKtZ3E7nLqco8Zy3aBxJl5AvI6qatVORHmWobHVwAM2E
-	Zw5dlHb4MFbcoXV+qiOSBsgI5FShXOWJdviv/pzA/0sX4CUsf+/A1XlLs67CeWwICJU+qK
-	61echiiK2IYe6FoPi+24WAI01R5g068bXtXGqNtG/nj/RSZlS/t80rn6NOLRGw==
-Date: Tue, 21 Jun 2022 10:20:38 +0200
+	bh=Hd2yQZRdFwuFY3pQG6pCIhcUjAr2vbQ+Sdlt5XBR3Iw=;
+	b=OwVWZPMYRtl6XpAimE18LBJ4hbPQcKG9xxNRzAG1SK0NnLTfQjWWnV4RddLg0Db15uhTNM
+	2JEOUM4/DtTYD9VweysWS+rDui1hqJ42mKUDPY28khPbUoReh+r7lsGoURKxkylcGNxp10
+	wUvo+3AlZyRutcZPV92SSVoItXG8n/MGI1aD1lFmPqXmv90iTg1dQbKnZnALnZ/9OLbpxm
+	NQJUuNUvYTUdfVhyDV8FYWeI6yBj1CXm/eipVJ5NzW8CttCsgVaTMGWMrhb+h9/ZpA1Iow
+	m3tLCl7JVuGmtvQJfM5XkZaCgdQsBMyZV3eeUxiAXAPEJBdD2ycdCuihLRMpXQ==
+Date: Tue, 21 Jun 2022 10:24:46 +0200
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Muhammad Hamza" <Muhammad_Hamza@mentor.com>
-Cc: <openembedded-core@lists.openembedded.org>, "Arsalan H . Awan"
- <Arsalan_Awan@mentor.com>
-Subject: Re: [OE-core] [PATCH] udev-extraconf/mount.sh: add LABELs to
- mountpoints
-Message-ID: <20220621102038.00b08ff3@booty>
-In-Reply-To: <20220620122640.239381-1-muhammad_hamza@mentor.com>
-References: <20220620122640.239381-1-muhammad_hamza@mentor.com>
+To: "Qorin Wu" <qorin.wu@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Qorin
+ <qorin.qorinna@nl.abb.com>
+Subject: Re: [OE-core] [PATCH] resolvconf: Install missing
+ normalize-resolvconf file
+Message-ID: <20220621102446.16d12268@booty>
+In-Reply-To: <20220620131338.160501-1-qorin.wu@gmail.com>
+References: <20220620131338.160501-1-qorin.wu@gmail.com>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
@@ -47,75 +47,27 @@ Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jun 2022 08:20:53 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jun 2022 08:24:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167135
+ https://lists.openembedded.org/g/openembedded-core/message/167136
 
-Hi Muhammad,
+Hi Qorin,
 
-On Mon, 20 Jun 2022 17:26:40 +0500
-"Muhammad Hamza" <Muhammad_Hamza@mentor.com> wrote:
+On Mon, 20 Jun 2022 15:13:38 +0200
+"Qorin Wu" <qorin.wu@gmail.com> wrote:
 
-> This alters the mountpoints such that if a device has a LABEL or
-> a PARTLABEL, it will be mounted at e.g.:
+> From: Qorin <qorin.qorinna@nl.abb.com>
 > 
->   /run/media/$LABEL-<device-node>
->   /run/media/$PARTLABEL-<device-node>
->   /run/media/rootfs-sda2
-> 
-> otherwise the device will be mounted at e.g.:
-> 
->   /run/media/<device-node>
->   /run/media/sda1
-> 
-> The <device-node> appended with LABEL or PARTLABEL makes sure that
-> the mountpoint is unique, therefore, avoids overlapping mounts.
-> 
-> Signed-off-by: Arsalan H. Awan <Arsalan_Awan@mentor.com>
-> Signed-off-by: Muhammad Hamza <muhammad_hamza@mentor.com>
-> ---
->  .../recipes-core/udev/udev-extraconf/mount.sh | 20 +++++++++++++++++++
->  meta/recipes-core/udev/udev-extraconf_1.1.bb  |  2 +-
->  2 files changed, 21 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
-> index c8b773bc07..12c6a5af22 100644
-> --- a/meta/recipes-core/udev/udev-extraconf/mount.sh
-> +++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
-> @@ -54,6 +54,16 @@ automount_systemd() {
->          grep "^[[:space:]]*$tmp" /etc/fstab && return
->      done
->  
-> +    # Get the LABEL or PARTLABEL
-> +    LABEL=`/sbin/blkid | grep "${DEVNAME}:" | grep -o 'LABEL=".*"' | cut -d '"' -f2`
-> +    # If the $DEVNAME has a LABEL or a PARTLABEL
-> +    if [ -n "$LABEL" ]; then
-> +            # Set the mount location dir name to LABEL appended
-> +            # with $name e.g. label-sda. That would avoid overlapping
-> +            # mounts in case two devices have same LABEL
-> +            name="${LABEL}-${name}"
-> +    fi
-> +
->      [ -d "$MOUNT_BASE/$name" ] || mkdir -p "$MOUNT_BASE/$name"
->  
->      MOUNT="$MOUNT -o silent"
-> @@ -94,6 +104,16 @@ automount() {
->  	# configured in fstab
->  	grep -q "^$DEVNAME " /proc/mounts && return
->  
-> +        # Get the LABEL or PARTLABEL
-> +        LABEL=`/sbin/blkid | grep "${DEVNAME}:" | grep -o 'LABEL=".*"' | cut -d '"' -f2`
-> +        # If the $DEVNAME has a LABEL or a PARTLABEL
-> +        if [ -n "$LABEL" ]; then
-> +                # Set the mount location dir name to LABEL appended
-> +                # with $name e.g. label-sda. That would avoid overlapping
-> +                # mounts in case two devices have same LABEL
-> +                name="${LABEL}-${name}"
-> +        fi
+> It was moved to a separate file in version 1.90
 
-This is exactly as above. Can you move the common code to a function?
+When sending a new version of a patch, please mark it as "v2", "v3"
+etc. This is very easy to do with 'git format-patch' and 'git
+send-email' by adding the '-v<NUMBER>' option.
 
+Another thing you are required to do is to sign off your patches. Git
+makes also this simple to do by adding '-s' to 'git commit'.
 
+Thank you!
 -- 
 Luca Ceresoli, Bootlin
 Embedded Linux and Kernel engineering
