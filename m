@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78A17C43334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87BF8CCA483
 	for <webhook@archiver.kernel.org>; Tue, 21 Jun 2022 20:16:56 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web10.47955.1655842615109594643
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web12.48351.1655842611630756622
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jun 2022 13:16:55 -0700
+ Tue, 21 Jun 2022 13:16:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=DDpDlONy;
- spf=pass (domain: gmail.com, ip: 209.85.208.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ji9qp1mP;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id cf14so11142499edb.8
+Received: by mail-ej1-f44.google.com with SMTP id u15so2168031ejc.10
         for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jun 2022 13:16:54 -0700 (PDT)
+ Tue, 21 Jun 2022 13:16:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=33cRbX2zRd5kroHA/p0Kqw+1wNgoEwkPhHzPA8Skh20=;
-        b=DDpDlONyrcEyuiIAXe3kKDeRccLzcT0cO12qN1fApQ3LW26UAD71yDVvH7GBMhjk3B
-         w/ig3cusjDuEvhSEIVCWEUYOO9kZW9+HUWe30v9hkhdorJ8Zpblnw85kPgZWX+rYl5eP
-         LOKEldsfm8HJWocucvj22N8GF4cj0oXkMA1amnBlp9x42AHs+LIi72V8WlsQFhORoszo
-         3tDlT9055HA+Gtg2U3oaXKqUBeOBXGRBnvQN/al7+bAP+lIQsvVWi5+NB8PRbk/KyoFv
-         i5rTkF0Ut6A0p9LOlFvVcYngAPSkIf9Hl4uOUipgPW/PEWKBFLyH4pWF4ZeCEwI54yjS
-         NMdA==
+        bh=grZLQ71WhdPTxBARdYqJ3tEhnR9dYRIgNdSIzmPOcc4=;
+        b=Ji9qp1mPxH7vZnQPXtF9Yy53guBVznMKiDf0KkAn8a+JqrXdpanBSgMJGmpvCNrADh
+         gBkcabtQeGa8srl2+oddk+iDuXBAsDRRDXRBu0l4FzI9y5+ICo+l5lGcjzkbjJCRcU8c
+         zzIc7nuoXgecmfaPjxFz0ejr4nk89loChLTGy/FXiNlc2tgbG+1UElw/L32KLq5GjxnM
+         lgaY5zRvZgWL+fUbnabb8dd80J7TLOFlUYaxHS4EUcZlZFmx8ANzm2BUd+KLcm4dzBlO
+         yrZzAQKseytxxasySo5jz9OGR/HaEhfKD4QEdZEaaTeCFD0eBYMgwTl75r4BBKwnN/8P
+         Qx/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=33cRbX2zRd5kroHA/p0Kqw+1wNgoEwkPhHzPA8Skh20=;
-        b=uDtArQbumHM5bFB4zqRBaU3hOSjXJCMZ3WABegkY2Ne/V3IEdcWHTGptAcIb1wtxo3
-         r30QrBTJh6azkq6rhNrqtT91Ej0E/osQ0A0XiiBG+CdIODP3DjtC3GntroXU+ONp213a
-         AaYm37GpoiM0leynITj75z2kYwuA80g3R9lJx56MN3VEPoNKTM4eV0Ln/XpEAu20kPJk
-         AoirI0KaFeNeP3eMsbyp2iuUMHpcBFjJpRs2N5WMxMLvy2aSkYJtva62oYEWpbBVkp2h
-         75jGtrQpQReAAlbhqLCwKFdcqmNVn08nQo/FZImy+IXidK1TQ2NLFKoHh3eN1KXPRecm
-         GNoA==
-X-Gm-Message-State: AJIora8B5Rms2BHoI7si9JS1P5TjW/OiPOLFao3ROo8qGWla6gQX7k9y
-	nFQSWnQ3paRK77nTQH3m9kqGtIw6db3HbQ==
+        bh=grZLQ71WhdPTxBARdYqJ3tEhnR9dYRIgNdSIzmPOcc4=;
+        b=7UiEidUNFopg0jNv6G1QK7ygZK8evOkMbSzZtUI7pa4TLl3IzzrGRSAzgg9jy8dKZ7
+         oTp0g4/fuayOZZ1g45KTPp3XARNYt0R034DEL+OTFeW/9wvVFCPNyONNAdF9VaJlvvtf
+         u6mRAUAJ7RADu/IKbCErVHU15ZrUxO/pFDuBHrEBL8lxxbGV0Adpivshh5xfqF/rlKgr
+         HIyN6zN5+1UReTg0387sUpuWnzo8ZeHm6CkoRU9+3IWZMgjOh55a/viAfN85Zn45VExM
+         UTEFfUbiBCdv5F4EpDUbbxNgSQDOCE+vZ2dlkkpbIaL815vS2J/jRYH/lB4alwmWQ2c3
+         h/tw==
+X-Gm-Message-State: AJIora+4ckGTkU35/C5paTQSUXuPTS+YeU4B2NVsjqjVBwXcV+x6Yt32
+	Wcr+RUBxVSYSxsIooGiz7gP4V/0SKAI6lQ==
 X-Google-Smtp-Source: 
- AGRyM1uc048fCxyPXuNNnd42E61HomoshqjQw6NXmggix16MBsUuL4m7N62eMpizu55V/mfumfXbpA==
-X-Received: by 2002:a50:fa99:0:b0:435:90d5:4e05 with SMTP id
- w25-20020a50fa99000000b0043590d54e05mr8627002edr.295.1655842613662;
-        Tue, 21 Jun 2022 13:16:53 -0700 (PDT)
+ AGRyM1u7hNyh0VgNJ+3s0g/VFO0L0swldfkBXfhDuwUIfB7NVfIh12KwYI102McqqNej9KK62xWUZA==
+X-Received: by 2002:a17:907:da0:b0:722:c42e:25b9 with SMTP id
+ go32-20020a1709070da000b00722c42e25b9mr10894363ejc.260.1655842610173;
+        Tue, 21 Jun 2022 13:16:50 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- j8-20020a056402238800b0043590660f16sm3420890eda.35.2022.06.21.13.16.52
+ j8-20020a056402238800b0043590660f16sm3420890eda.35.2022.06.21.13.16.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jun 2022 13:16:53 -0700 (PDT)
+        Tue, 21 Jun 2022 13:16:49 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 08/18] go: update 1.18.2 -> 1.18.3
-Date: Tue, 21 Jun 2022 22:16:27 +0200
-Message-Id: <20220621201637.1378306-8-alex@linutronix.de>
+Subject: [PATCH 04/18] python3-numpy: update 1.22.3 -> 1.22.4
+Date: Tue, 21 Jun 2022 22:16:23 +0200
+Message-Id: <20220621201637.1378306-4-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220621201637.1378306-1-alex@linutronix.de>
 References: <20220621201637.1378306-1-alex@linutronix.de>
@@ -68,83 +68,68 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 21 Jun 2022 20:16:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167176
+ https://lists.openembedded.org/g/openembedded-core/message/167172
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/go/{go-1.18.2.inc => go-1.18.3.inc}     | 2 +-
- ...{go-binary-native_1.18.2.bb => go-binary-native_1.18.3.bb} | 4 ++--
- ...o-cross-canadian_1.18.2.bb => go-cross-canadian_1.18.3.bb} | 0
- .../go/{go-cross_1.18.2.bb => go-cross_1.18.3.bb}             | 0
- .../go/{go-crosssdk_1.18.2.bb => go-crosssdk_1.18.3.bb}       | 0
- .../go/{go-native_1.18.2.bb => go-native_1.18.3.bb}           | 0
- .../go/{go-runtime_1.18.2.bb => go-runtime_1.18.3.bb}         | 0
- meta/recipes-devtools/go/{go_1.18.2.bb => go_1.18.3.bb}       | 0
- 8 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/go/{go-1.18.2.inc => go-1.18.3.inc} (88%)
- rename meta/recipes-devtools/go/{go-binary-native_1.18.2.bb => go-binary-native_1.18.3.bb} (83%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.18.2.bb => go-cross-canadian_1.18.3.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.18.2.bb => go-cross_1.18.3.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.18.2.bb => go-crosssdk_1.18.3.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.18.2.bb => go-native_1.18.3.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.18.2.bb => go-runtime_1.18.3.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.18.2.bb => go_1.18.3.bb} (100%)
+ ...y-do-not-write-full-path-to-output-f.patch | 28 +++++++++++++++++++
+ ...umpy_1.22.3.bb => python3-numpy_1.22.4.bb} |  3 +-
+ 2 files changed, 30 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/python/python3-numpy/0001-generate_umath.py-do-not-write-full-path-to-output-f.patch
+ rename meta/recipes-devtools/python/{python3-numpy_1.22.3.bb => python3-numpy_1.22.4.bb} (93%)
 
-diff --git a/meta/recipes-devtools/go/go-1.18.2.inc b/meta/recipes-devtools/go/go-1.18.3.inc
-similarity index 88%
-rename from meta/recipes-devtools/go/go-1.18.2.inc
-rename to meta/recipes-devtools/go/go-1.18.3.inc
-index 8f4f47db9e..68062952ca 100644
---- a/meta/recipes-devtools/go/go-1.18.2.inc
-+++ b/meta/recipes-devtools/go/go-1.18.3.inc
-@@ -14,4 +14,4 @@ SRC_URI += "\
-     file://0001-exec.go-do-not-write-linker-flags-into-buildids.patch \
-     file://0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
- "
--SRC_URI[main.sha256sum] = "2c44d03ea2c34092137ab919ba602f2c261a038d08eb468528a3f3a28e5667e2"
-+SRC_URI[main.sha256sum] = "0012386ddcbb5f3350e407c679923811dbd283fcdc421724931614a842ecbc2d"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.18.2.bb b/meta/recipes-devtools/go/go-binary-native_1.18.3.bb
-similarity index 83%
-rename from meta/recipes-devtools/go/go-binary-native_1.18.2.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.18.3.bb
-index c5514c5fdf..f207a47e90 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.18.2.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.18.3.bb
-@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
- PROVIDES = "go-native"
+diff --git a/meta/recipes-devtools/python/python3-numpy/0001-generate_umath.py-do-not-write-full-path-to-output-f.patch b/meta/recipes-devtools/python/python3-numpy/0001-generate_umath.py-do-not-write-full-path-to-output-f.patch
+new file mode 100644
+index 0000000000..41dea89682
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-numpy/0001-generate_umath.py-do-not-write-full-path-to-output-f.patch
+@@ -0,0 +1,28 @@
++From 3c7deaa3a961a0f3ce4ff108468e3d70118f17b3 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Thu, 9 Jun 2022 17:23:42 +0200
++Subject: [PATCH] generate_umath.py: do not write full path to output files
++
++This helps reproducibility as those paths vary in automated
++build environments.
++
++Upstream-Status: Submitted [https://github.com/numpy/numpy/pull/21707]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++
++---
++ numpy/core/code_generators/generate_umath.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/numpy/core/code_generators/generate_umath.py b/numpy/core/code_generators/generate_umath.py
++index 292d9e0..df37941 100644
++--- a/numpy/core/code_generators/generate_umath.py
+++++ b/numpy/core/code_generators/generate_umath.py
++@@ -1233,7 +1233,7 @@ def make_code(funcdict, filename):
++ 
++         return 0;
++     }
++-    """) % (filename, code1, code2, code3)
+++    """) % (os.path.basename(filename), code1, code2, code3)
++     return code
++ 
++ 
+diff --git a/meta/recipes-devtools/python/python3-numpy_1.22.3.bb b/meta/recipes-devtools/python/python3-numpy_1.22.4.bb
+similarity index 93%
+rename from meta/recipes-devtools/python/python3-numpy_1.22.3.bb
+rename to meta/recipes-devtools/python/python3-numpy_1.22.4.bb
+index b5b1c4e714..8ad3442413 100644
+--- a/meta/recipes-devtools/python/python3-numpy_1.22.3.bb
++++ b/meta/recipes-devtools/python/python3-numpy_1.22.4.bb
+@@ -11,8 +11,9 @@ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${S
+            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
+            file://0001-numpy-core-Define-RISCV-32-support.patch \
+            file://run-ptest \
++           file://0001-generate_umath.py-do-not-write-full-path-to-output-f.patch \
+            "
+-SRC_URI[sha256sum] = "a906c0b4301a3d62ccf66d058fe779a65c1c34f6719ef2058f96e1856f48bca5"
++SRC_URI[sha256sum] = "b4308198d0e41efaa108e57d69973398439c7299a9d551680cdd603cf6d20709"
  
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "e54bec97a1a5d230fc2f9ad0880fcbabb5888f30ed9666eca4a91c5a32e86cbc"
--SRC_URI[go_linux_arm64.sha256sum] = "fc4ad28d0501eaa9c9d6190de3888c9d44d8b5fb02183ce4ae93713f67b8a35b"
-+SRC_URI[go_linux_amd64.sha256sum] = "956f8507b302ab0bb747613695cdae10af99bbd39a90cae522b7c0302cc27245"
-+SRC_URI[go_linux_arm64.sha256sum] = "beacbe1441bee4d7978b900136d1d6a71d150f0a9bb77e9d50c822065623a35a"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.18.2.bb b/meta/recipes-devtools/go/go-cross-canadian_1.18.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.18.2.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.18.3.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.18.2.bb b/meta/recipes-devtools/go/go-cross_1.18.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.18.2.bb
-rename to meta/recipes-devtools/go/go-cross_1.18.3.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.18.2.bb b/meta/recipes-devtools/go/go-crosssdk_1.18.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.18.2.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.18.3.bb
-diff --git a/meta/recipes-devtools/go/go-native_1.18.2.bb b/meta/recipes-devtools/go/go-native_1.18.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-native_1.18.2.bb
-rename to meta/recipes-devtools/go/go-native_1.18.3.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.18.2.bb b/meta/recipes-devtools/go/go-runtime_1.18.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.18.2.bb
-rename to meta/recipes-devtools/go/go-runtime_1.18.3.bb
-diff --git a/meta/recipes-devtools/go/go_1.18.2.bb b/meta/recipes-devtools/go/go_1.18.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.18.2.bb
-rename to meta/recipes-devtools/go/go_1.18.3.bb
+ UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
 -- 
 2.30.2
 
