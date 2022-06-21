@@ -1,183 +1,95 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F42FC433EF
-	for <webhook@archiver.kernel.org>; Tue, 21 Jun 2022 13:06:34 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web10.42525.1655816786806363184
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 866E1C43334
+	for <webhook@archiver.kernel.org>; Tue, 21 Jun 2022 13:10:24 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.32641.1655817015893667083
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jun 2022 06:06:27 -0700
+ Tue, 21 Jun 2022 06:10:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Y4je0kaz;
- spf=pass (domain: gmail.com, ip: 209.85.167.53,
- mailfrom: rybczynska@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id j21so9165449lfe.1
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jun 2022 06:06:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Glcs+4BpapVyCo5GOgoUUyy+WU8deXk6JMA5gP8vaa4=;
-        b=Y4je0kaz7OLwaGtUoWOsmBWE9C/vxnm0Th9AqvzQISuuidLeI1zOx9cBpHzLdoV9Hi
-         CWYmkQml5eCTCY6AvKP1/2z25ldSy1MVJhPe6bBSE508tJkMw5D9/Ntl7mNfGhSFUDfi
-         v7s1GmWTXsCHxLFiXfiwdHPgd1Zz21v7Pwn76LZjg8GBByjGnDL6AWmEP2U7Ff3yZlFW
-         Smf08j5GtA+CKyMJKJpF4VBIUA/r1vM4dKsVUkIIn2XHvkx0L1AXj0T+BFMx1luKrmSV
-         OnBG+jE5/GNoF5ZIAZSghhSkc/niY8jo6Ux36YE6VsigRIB8K54WSzreZTspb7FKyZYo
-         FOvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Glcs+4BpapVyCo5GOgoUUyy+WU8deXk6JMA5gP8vaa4=;
-        b=mhyWNZkOiMswx4iFBvc+qH0LsGh4Lw0Fi30t7WpU8l0VDbjI7EHS5mQU7D0ee0yPrE
-         PB8mF6NKQbAZMVRCNR3LDr8387UCJ2ZSeMgS4ljRmMkNCfHGftK6ib1HpYPcsTNbaEq1
-         jXIOkC1ZB3oJOAx9ePviejq7KmnyTgIIaZ78DEb5GPALtkjhemsb5LdtAZgHq1QkaFo+
-         sbTKMzBDtuJftR2yNo7hblH1Vmc0XPNYgDkyUhU3+VP7P6KomiF6zS6us9EkWZbmziuq
-         6FlTPJmW19dODlNuVQaiZ1S0xDhnGF8rXybCPfFqFghCeD1HClN4JV8OAUvncsSm1nMZ
-         Xzag==
-X-Gm-Message-State: AJIora9D1Lp2eSowsv4BGs/OaUY9hqsROWRjF7hIJbBOo0xxET0Oe81O
-	HmxIh4A3pWFrkdgnXCIWC4F8SpJNlf4CkwDSxIU=
-X-Google-Smtp-Source: 
- AGRyM1ud3UkB3xISZhbHMEb0w99hUatyFk3xwD9feuMy2XoQlFxePhu3DxM9mMjhViXzgFixgyvFYguzMPjA12nHXr4=
-X-Received: by 2002:a05:6512:3f11:b0:478:9795:4a45 with SMTP id
- y17-20020a0565123f1100b0047897954a45mr15924602lfa.491.1655816784922; Tue, 21
- Jun 2022 06:06:24 -0700 (PDT)
+ dkim=missing;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6266165C;
+	Tue, 21 Jun 2022 06:10:15 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com
+ (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0F5FD3F534;
+	Tue, 21 Jun 2022 06:10:14 -0700 (PDT)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: nd@arm.com
+Subject: [PATCH v3 4/5] python3-hatch-vcs: add new recipe
+Date: Tue, 21 Jun 2022 14:10:10 +0100
+Message-Id: <20220621131011.96980-4-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220621131011.96980-1-ross.burton@arm.com>
+References: <20220621131011.96980-1-ross.burton@arm.com>
 MIME-Version: 1.0
-References: <20220329125432.78608-1-rybczynska@gmail.com>
- <86367787-69bc-5828-8d15-f58872e21e14@geanix.com>
-In-Reply-To: <86367787-69bc-5828-8d15-f58872e21e14@geanix.com>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Tue, 21 Jun 2022 15:06:13 +0200
-Message-ID: 
- <CAApg2=S3MknmJhLqkXo=ynq+TY4pbNyBBtskgpB0Fpdn_Dic-Q@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v3 1/2] cve-check: add json format
-To: Sean Nyekjaer <sean@geanix.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Ross Burton <ross@burtonini.com>,
- Marta Rybczynska <marta.rybczynska@huawei.com>
-Content-Type: multipart/alternative; boundary="000000000000474dce05e1f4e337"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jun 2022 13:06:34 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jun 2022 13:10:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167145
+ https://lists.openembedded.org/g/openembedded-core/message/167149
 
---000000000000474dce05e1f4e337
-Content-Type: text/plain; charset="UTF-8"
+This recipe (a VCS plugin for Hatch) is needed by the new
+python3-jsonschema to build.
 
-On Tue, Jun 21, 2022 at 12:45 PM Sean Nyekjaer <sean@geanix.com> wrote:
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/conf/distro/include/maintainers.inc             |  1 +
+ .../python/python3-hatch-vcs_0.2.0.bb                | 12 ++++++++++++
+ 2 files changed, 13 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-hatch-vcs_0.2.0.=
+bb
 
->
->
-> On 29/03/2022 14.54, Marta Rybczynska wrote:
-> > Add an option to output the CVE check in a JSON-based format.
-> > This format is easier to parse in software than the original
-> > text-based one and allows post-processing by other tools.
-> >
-> > Output formats are now handed by CVE_CHECK_FORMAT_TEXT and
-> > CVE_CHECK_FORMAT_JSON. Both of them are enabled by default.
-> >
-> > The JSON output format gets generated in a similar way to the
-> > text format with the exception of the manifest: appending to
-> > JSON arrays requires parsing the file. Because of that we
-> > first write JSON fragments and then assemble them in one pass
-> > at the end.
-> >
-> > Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
-> >
-> > ---
->
-> Hi Marta,
->
-> When upgrading from honister to kirkstone, this patch was included.
->
-> We have INHERIT += "cve" in our distro conf.
-> When doing a build from scratch it works fine with the cve json output,
-> but when doing an incremental build it will throw:
->         bb.error("Error adding the same package twice")
->
-> I have tried modifying that line to:
->         bb.error("Error adding the same package twice. Offending package:
-> %s" %
-> product["name"])
->
-> It looks like it tries to add all packages again...
->
-> I have just disabled json output for now.
-> CVE_CHECK_FORMAT_JSON = "0"
->
->
-Dear Sean,
-Thank you for the report. Could you please describe your configuration a
-little bit, especially, which layers do you use? Do you do an image build
-or a world build, or maybe a multiple image build?
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
+index cf7723deb08..18b0624af72 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -613,6 +613,7 @@ RECIPE_MAINTAINER:pn-python3-flit-core =3D "Tim Orlin=
+g <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-git =3D "Oleksandr Kravchuk <open.source@ol=
+eksandr-kravchuk.com>"
+ RECIPE_MAINTAINER:pn-python3-gitdb =3D "Oleksandr Kravchuk <open.source@=
+oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER:pn-python3-hatchling =3D "Ross Burton <ross.burton@arm=
+.com>"
++RECIPE_MAINTAINER:pn-python3-hatch-vcs =3D "Ross Burton <ross.burton@arm=
+.com>"
+ RECIPE_MAINTAINER:pn-python3-hypothesis =3D "Tim Orling <tim.orling@kons=
+ulko.com>"
+ RECIPE_MAINTAINER:pn-python3-idna =3D "Bruce Ashfield <bruce.ashfield@gm=
+ail.com>"
+ RECIPE_MAINTAINER:pn-python3-imagesize =3D "Tim Orling <tim.orling@konsu=
+lko.com>"
+diff --git a/meta/recipes-devtools/python/python3-hatch-vcs_0.2.0.bb b/me=
+ta/recipes-devtools/python/python3-hatch-vcs_0.2.0.bb
+new file mode 100644
+index 00000000000..100099c130c
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-hatch-vcs_0.2.0.bb
+@@ -0,0 +1,12 @@
++SUMMARY =3D "Hatch plugin for versioning with your preferred VCS"
++HOMEPAGE =3D "https://pypi.org/project/hatch-vcs/"
++LICENSE =3D "MIT"
++LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3D26501cfd0bbddf830ee820e95=
+551fa3d"
++
++inherit pypi python_hatchling
++
++PYPI_PACKAGE =3D "hatch_vcs"
++
++SRC_URI[sha256sum] =3D "9913d733b34eec9bb0345d0626ca32165a4ad2de15d1ce64=
+3c36d09ca908abff"
++
++BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.25.1
 
-I'm trying to imagine what is happening in your case, will try to reproduce.
-
-Kind regards,
-Marta
-
---000000000000474dce05e1f4e337
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jun 21, 2022 at 12:45 PM Sean=
- Nyekjaer &lt;<a href=3D"mailto:sean@geanix.com">sean@geanix.com</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-<br>
-On 29/03/2022 14.54, Marta Rybczynska wrote:<br>
-&gt; Add an option to output the CVE check in a JSON-based format.<br>
-&gt; This format is easier to parse in software than the original<br>
-&gt; text-based one and allows post-processing by other tools.<br>
-&gt; <br>
-&gt; Output formats are now handed by CVE_CHECK_FORMAT_TEXT and<br>
-&gt; CVE_CHECK_FORMAT_JSON. Both of them are enabled by default.<br>
-&gt; <br>
-&gt; The JSON output format gets generated in a similar way to the<br>
-&gt; text format with the exception of the manifest: appending to<br>
-&gt; JSON arrays requires parsing the file. Because of that we<br>
-&gt; first write JSON fragments and then assemble them in one pass<br>
-&gt; at the end.<br>
-&gt; <br>
-&gt; Signed-off-by: Marta Rybczynska &lt;<a href=3D"mailto:marta.rybczynska=
-@huawei.com" target=3D"_blank">marta.rybczynska@huawei.com</a>&gt;<br>
-&gt; <br>
-&gt; ---<br>
-<br>
-Hi Marta,<br>
-<br>
-When upgrading from honister to kirkstone, this patch was included.<br>
-<br>
-We have INHERIT +=3D &quot;cve&quot; in our distro conf.<br>
-When doing a build from scratch it works fine with the cve json output, <br=
->
-but when doing an incremental build it will throw:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.error(&quot;Error adding the same package tw=
-ice&quot;)<br>
-<br>
-I have tried modifying that line to:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.error(&quot;Error adding the same package tw=
-ice. Offending package: %s&quot; % <br>
-product[&quot;name&quot;])<br>
-<br>
-It looks like it tries to add all packages again...<br>
-<br>
-I have just disabled json output for now.<br>
-CVE_CHECK_FORMAT_JSON =3D &quot;0&quot;<br>
-<br></blockquote><div><br></div><div>Dear Sean,</div><div>Thank you for the=
- report. Could you please describe your configuration a little bit, especia=
-lly, which layers do you use? Do you do an image build or a world build, or=
- maybe a multiple image build?</div><div><br></div><div>I&#39;m trying to i=
-magine what is happening in your case, <span class=3D"ng" style=3D"backgrou=
-nd:rgba(0,0,0,0) none repeat scroll 0% 0%!important">will</span> try to rep=
-roduce.</div><div><br></div><div>Kind regards,</div><div>Marta<br></div></d=
-iv></div>
-
---000000000000474dce05e1f4e337--
 
