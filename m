@@ -1,260 +1,226 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6D1FC43334
-	for <webhook@archiver.kernel.org>; Tue, 21 Jun 2022 14:11:04 +0000 (UTC)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web09.43953.1655820659706961411
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8126C433EF
+	for <webhook@archiver.kernel.org>; Tue, 21 Jun 2022 14:14:14 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web09.43990.1655820852944487224
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jun 2022 07:11:00 -0700
+ Tue, 21 Jun 2022 07:14:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Du9wUgL+;
- spf=pass (domain: gmail.com, ip: 209.85.208.46,
- mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id e2so8626917edv.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=WXOEaPiN;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-lf1-f49.google.com with SMTP id w20so22579186lfa.11
         for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Jun 2022 07:10:59 -0700 (PDT)
+ Tue, 21 Jun 2022 07:14:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=e5rObMxAzrVManBvZqAsHqh1XDaT80JRgNWE8hc45Tk=;
-        b=Du9wUgL+0UbsnrXPFCNdYmGV8J1i+vfgqP0EkRwHo6/3eJnz96RB9e4cIn/7f22FRQ
-         RnDf1SJEGlbm15p5IB48VPSe4j6e/NfXKfyvaIUuXXJd+IOpbgfiIiJyUVLNSxZ76qZ+
-         md983J0yJBUbUDtOBGcam9bYMIZWgmwAY3sLkDQjaVwuD2c2J/f6wggaolGe8very5ct
-         9k/ZEmmNH0wqLqpfQ5qsG+Jlnx3ACz1EauAyapKPnzn1AyRqotG+aNugPxrB/Kp8nMfS
-         sq9wCt7w7zkkEfQBDL0Dw5R5/PuY9QDNTlPDo/LjoxtdCovwqLFwInIdkt1wnwwEwb5/
-         s1tg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hgfXT+AdQNq0MiDs7oFaTLLw4yeSRzjpkUh/EkZOrDs=;
+        b=WXOEaPiNb3Afr6qxpVlTIpxEqJQuq9Yo6bE0Bq85E4cDc4sVr+qE5AxgDe3YO2i1B9
+         SWJ3vBpvzwadhmSNopu9pbxvlWinK3fmfaonYEKm7KqPSPk/wXC1cWcgwGmwVe+KD5j5
+         IdrDv+cVA0cw/1SAVFwliG6nhBDmmaVk5CJ03jtWwq2RiWRbsyffxpQuCqoYCOk8137x
+         nAOr0TP5LgRqSu9Eoi64q9vqWdkzhxQQNjNfWVgePRjlPiyJ3BClWpxj4TejO0Xq7z04
+         V5fAOWZg2U10VFbrMJ6Rp4Nv0uGhdTudh5hkJMkzrkxjMlLFeG92LPhHd6OSaAUq3X7T
+         1dZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=e5rObMxAzrVManBvZqAsHqh1XDaT80JRgNWE8hc45Tk=;
-        b=L4lFg+z2ZrnASQgCEMKvjcLcoqhj52DHxWtc6bfQ/AUSdBGu8w/yCboMguONdLatKm
-         F+iWrP/atK/oJ3XHzJNLHMjO4R4dVU4P2E0RqiIgjotqYqntqe+R2YHSEs9q142EwpQA
-         OHpmxxiV8NLKAcLdR1T6gzCO7RMZuNy6QlICyFnRiBT2IxqOHzzuIqyuuntUf0eKDwbU
-         qoMB90lsHi815X6y8eqoxZ7sUAqTUsntcPd6a9LiYC1ynR3j8AFOMCndDbp+VowNPWyW
-         t4OA4vxsbcmVmNxL6+OivM1ScFvPasFvzNuQt57/nKWsizPNcb16Be1CNf78fcaMXnlB
-         6JCw==
-X-Gm-Message-State: AJIora/4bnl3me9j6MWbEsD+X9jKivUL5F9MZ9DCFSk8LnBw6hy3tZKY
-	Qd05gyNHy/lOjgFTk/max6g3LFXAMbA=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hgfXT+AdQNq0MiDs7oFaTLLw4yeSRzjpkUh/EkZOrDs=;
+        b=VR+9emEJHbKek0ULS7nX8YPmnE2nfOrcPvAApo+aoCMO0hUN+D1bk8RF5sCGQLJIbB
+         F68/NVJeM38KMMOEoIMKVIbQNGsaWUrZwxRGZs4H9QgC77T2cl396nxE1hMKCKMlxL/d
+         ubmeZIuq0YqEWn48A9fDCaiNEzkPEsy9Iew2f9Zq0v6Hu/wPcPJauM5WDwJHZMNSgQQO
+         clakcUgvlJxSxrjxpYDZmpE4q1YQ+gnxdPFr2//p8ymvsBLZBqGALp78q4Q4uwNxDaD5
+         Q6MARsPpG43tLOyNXtcdpFL4T+w+hV2JFqzgLZhCstx1ljMo5tzB5phDsoNYPtHigKbB
+         0HvQ==
+X-Gm-Message-State: AJIora9otgcG+XXibHiNBFIRd1KX4hWVyiwNIMQvjGyIV3nDwMjNzBKN
+	BUAk3jgfPl41UuaHrzbLiNARG/xhsgmH3NPc7ow=
 X-Google-Smtp-Source: 
- AGRyM1uRg0UIYGXS7jM/NuWyZjoxtN0kuXe6C+3Teu8EmyDUFrJC/qXqhJHrOUp6LAH2x5e6YxnjYg==
-X-Received: by 2002:a50:ed85:0:b0:435:6586:4b06 with SMTP id
- h5-20020a50ed85000000b0043565864b06mr25673667edr.315.1655820658188;
-        Tue, 21 Jun 2022 07:10:58 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id
- kz5-20020a17090777c500b006ff0b457cdasm7695151ejc.53.2022.06.21.07.10.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jun 2022 07:10:57 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Steve Sakoman <steve@sakoman.com>,
-	Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [kirkstone][PATCH] mesa: backport a patch to support compositors
- without zwp_linux_dmabuf_v1 again
-Date: Tue, 21 Jun 2022 16:10:48 +0200
-Message-Id: <20220621141048.1970617-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ AGRyM1sx6WyJqBkP62E8c0BUzQOt4DPm/O9sgctjKbPy+8E9jfZP0hER5JFWC01WHDYsO+MiEQ2It7GPHxw2eaKlT/E=
+X-Received: by 2002:a05:6512:13a1:b0:47f:787b:4e6a with SMTP id
+ p33-20020a05651213a100b0047f787b4e6amr4177934lfa.64.1655820851160; Tue, 21
+ Jun 2022 07:14:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220621140451.937071-1-maxime.roussinbelanger@gmail.com>
+In-Reply-To: <20220621140451.937071-1-maxime.roussinbelanger@gmail.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Tue, 21 Jun 2022 15:14:00 +0100
+Message-ID: 
+ <CANPvuRmG_m8O5TJYCPtepGXWXDoAo9CnUjFqZ+=Eqe91APVsiQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] libffi: fix native build being not portable
+To: =?UTF-8?Q?Maxime_Roussin=2DB=C3=A9langer?=
+ <maxime.roussinbelanger@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000a52c5a05e1f5d500"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Jun 2022 14:11:04 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Jun 2022 14:14:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167156
+ https://lists.openembedded.org/g/openembedded-core/message/167157
 
-* the same will be needed for kirkstone
+--000000000000a52c5a05e1f5d500
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- ...nd-deprecate-drm_handle_format-and-d.patch | 158 ++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           |   1 +
- 2 files changed, 159 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch
+Hi Maxime,
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch b/meta/recipes-graphics/mesa/files/0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch
-new file mode 100644
-index 0000000000..dac2de4e62
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch
-@@ -0,0 +1,158 @@
-+From 7796c2c56c960ac55e49246f0349ac52539ada55 Mon Sep 17 00:00:00 2001
-+From: Leandro Ribeiro <leandro.ribeiro@collabora.com>
-+Date: Sun, 10 Apr 2022 22:54:36 -0300
-+Subject: [PATCH] Revert "egl/wayland: deprecate drm_handle_format() and
-+ drm_handle_capabilities()"
-+
-+Commit af1ee8e010441f8f2ed8c77065b159652a4ac9fe dropped support to
-+wl_drm, as we thought that most compositors from active projects were
-+already supporting zwp_linux_dmabuf_v1.
-+
-+But that's not true, so revert this commit in order to give these
-+projects a longer transition period.
-+
-+Note that we didn't add back the support to GEM name API, and that was
-+on purpose.
-+
-+Signed-off-by: Leandro Ribeiro <leandro.ribeiro@collabora.com>
-+Reviewed-by: Simon Ser <contact@emersion.fr>
-+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/15822>
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/mesa/mesa/-/commit/c60fea8c228ae3f32e20d6b65c473d9f04871d20]
-+---
-+ src/egl/drivers/dri2/egl_dri2.h         |  1 +
-+ src/egl/drivers/dri2/platform_wayland.c | 59 +++++++++++++++++++------
-+ 2 files changed, 47 insertions(+), 13 deletions(-)
-+
-+diff --git a/src/egl/drivers/dri2/egl_dri2.h b/src/egl/drivers/dri2/egl_dri2.h
-+index c466ff83c53..eecb32a53fd 100644
-+--- a/src/egl/drivers/dri2/egl_dri2.h
-++++ b/src/egl/drivers/dri2/egl_dri2.h
-+@@ -283,6 +283,7 @@ struct dri2_egl_display
-+    struct zwp_linux_dmabuf_feedback_v1 *wl_dmabuf_feedback;
-+    struct dmabuf_feedback_format_table format_table;
-+    bool authenticated;
-++   uint32_t capabilities;
-+    char *device_name;
-+ #endif
-+ 
-+diff --git a/src/egl/drivers/dri2/platform_wayland.c b/src/egl/drivers/dri2/platform_wayland.c
-+index 5ff83cce08a..843434376a7 100644
-+--- a/src/egl/drivers/dri2/platform_wayland.c
-++++ b/src/egl/drivers/dri2/platform_wayland.c
-+@@ -1343,7 +1343,7 @@ create_wl_buffer(struct dri2_egl_display *dri2_dpy,
-+                  struct dri2_egl_surface *dri2_surf,
-+                  __DRIimage *image)
-+ {
-+-   struct wl_buffer *ret;
-++   struct wl_buffer *ret = NULL;
-+    EGLBoolean query;
-+    int width, height, fourcc, num_planes;
-+    uint64_t modifier = DRM_FORMAT_MOD_INVALID;
-+@@ -1447,11 +1447,28 @@ create_wl_buffer(struct dri2_egl_display *dri2_dpy,
-+       ret = zwp_linux_buffer_params_v1_create_immed(params, width, height,
-+                                                     fourcc, 0);
-+       zwp_linux_buffer_params_v1_destroy(params);
-++   } else {
-++      struct wl_drm *wl_drm =
-++         dri2_surf ? dri2_surf->wl_drm_wrapper : dri2_dpy->wl_drm;
-++      int fd = -1, stride;
-++
-++      if (num_planes > 1)
-++         return NULL;
-++
-++      query = dri2_dpy->image->queryImage(image, __DRI_IMAGE_ATTRIB_FD, &fd);
-++      query &= dri2_dpy->image->queryImage(image, __DRI_IMAGE_ATTRIB_STRIDE, &stride);
-++      if (!query) {
-++         if (fd >= 0)
-++            close(fd);
-++         return NULL;
-++      }
-+ 
-+-      return ret;
-++      ret = wl_drm_create_prime_buffer(wl_drm, fd, width, height, fourcc, 0,
-++                                       stride, 0, 0, 0, 0);
-++      close(fd);
-+    }
-+ 
-+-   return NULL;
-++   return ret;
-+ }
-+ 
-+ static EGLBoolean
-+@@ -1698,16 +1715,21 @@ drm_handle_device(void *data, struct wl_drm *drm, const char *device)
-+ static void
-+ drm_handle_format(void *data, struct wl_drm *drm, uint32_t format)
-+ {
-+-   /* deprecated, as compositors already support the dma-buf protocol extension
-+-    * and so we can rely on dmabuf_handle_modifier() to receive formats and
-+-    * modifiers */
-++   struct dri2_egl_display *dri2_dpy = data;
-++   int visual_idx = dri2_wl_visual_idx_from_fourcc(format);
-++
-++   if (visual_idx == -1)
-++      return;
-++
-++   BITSET_SET(dri2_dpy->formats.formats_bitmap, visual_idx);
-+ }
-+ 
-+ static void
-+ drm_handle_capabilities(void *data, struct wl_drm *drm, uint32_t value)
-+ {
-+-   /* deprecated, as compositors already support the dma-buf protocol extension
-+-    * and so we can rely on it to create wl_buffer's */
-++   struct dri2_egl_display *dri2_dpy = data;
-++
-++   dri2_dpy->capabilities = value;
-+ }
-+ 
-+ static void
-+@@ -2075,13 +2097,12 @@ dri2_initialize_wayland_drm(_EGLDisplay *disp)
-+    wl_registry_add_listener(dri2_dpy->wl_registry,
-+                             &registry_listener_drm, dri2_dpy);
-+ 
-+-   /* The compositor must expose the dma-buf interface. */
-+-   if (roundtrip(dri2_dpy) < 0 || dri2_dpy->wl_dmabuf == NULL)
-++   if (roundtrip(dri2_dpy) < 0)
-+       goto cleanup;
-+ 
-+    /* Get default dma-buf feedback */
-+-   if (zwp_linux_dmabuf_v1_get_version(dri2_dpy->wl_dmabuf) >=
-+-       ZWP_LINUX_DMABUF_V1_GET_DEFAULT_FEEDBACK_SINCE_VERSION) {
-++   if (dri2_dpy->wl_dmabuf && zwp_linux_dmabuf_v1_get_version(dri2_dpy->wl_dmabuf) >=
-++                              ZWP_LINUX_DMABUF_V1_GET_DEFAULT_FEEDBACK_SINCE_VERSION) {
-+       dmabuf_feedback_format_table_init(&dri2_dpy->format_table);
-+       dri2_dpy->wl_dmabuf_feedback =
-+          zwp_linux_dmabuf_v1_get_default_feedback(dri2_dpy->wl_dmabuf);
-+@@ -2089,7 +2110,6 @@ dri2_initialize_wayland_drm(_EGLDisplay *disp)
-+                                                 &dmabuf_feedback_listener, dri2_dpy);
-+    }
-+ 
-+-   /* Receive events from the interfaces */
-+    if (roundtrip(dri2_dpy) < 0)
-+       goto cleanup;
-+ 
-+@@ -2176,6 +2196,19 @@ dri2_initialize_wayland_drm(_EGLDisplay *disp)
-+ 
-+    dri2_wl_setup_swap_interval(disp);
-+ 
-++   if (dri2_dpy->wl_drm) {
-++      /* To use Prime, we must have _DRI_IMAGE v7 at least. createImageFromFds
-++       * support indicates that Prime export/import is supported by the driver.
-++       * We deprecated the support to GEM names API, so we bail out if the
-++       * driver does not suport Prime. */
-++      if (!(dri2_dpy->capabilities & WL_DRM_CAPABILITY_PRIME) ||
-++          (dri2_dpy->image->base.version < 7) ||
-++          (dri2_dpy->image->createImageFromFds == NULL)) {
-++         _eglLog(_EGL_WARNING, "wayland-egl: display does not support prime");
-++         goto cleanup;
-++      }
-++   }
-++
-+    if (dri2_dpy->is_different_gpu &&
-+        (dri2_dpy->image->base.version < 9 ||
-+         dri2_dpy->image->blitImage == NULL)) {
-+-- 
-+2.35.1
-+
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 0628151e96..afac8014fe 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -20,6 +20,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
-            file://0001-util-format-Check-for-NEON-before-using-it.patch \
-+           file://0001-Revert-egl-wayland-deprecate-drm_handle_format-and-d.patch \
-            "
- 
- SRC_URI[sha256sum] = "9f2b30f5276a9abaf71aafc6979685e2636189de1a87aea2c9e69744a6d0ebb9"
--- 
-2.35.1
+Maxime Roussin-B=C3=A9langer <maxime.roussinbelanger@gmail.com> escreveu no=
+ dia
+ter=C3=A7a, 21/06/2022 =C3=A0(s) 15:05:
 
+> From: Maxime Roussin-B=C3=A9langer <maxime.roussinbelanger@gmail.com>
+>
+> Without `--with-gcc-arch=3Dgeneric` libffi looks up the cpuid to
+> automatically determine
+> which mtune/march to use. This makes the native sstate-cache unuseable
+> since it's
+> possible to have a newer cpu building the recipe and the library being
+> pulled from
+> another older cpu which doesn't have the instruction.
+>
+
+Please add your sign off
+
+Signed-off-by: Maxime Roussin-B=C3=A9langer <maxime.roussinbelanger@gmail.c=
+om>
+
+Jose
+
+
+> ---
+>  meta/recipes-support/libffi/libffi_3.4.2.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-support/libffi/libffi_3.4.2.bb
+> b/meta/recipes-support/libffi/libffi_3.4.2.bb
+> index 733fcc5e6c..71d9518baf 100644
+> --- a/meta/recipes-support/libffi/libffi_3.4.2.bb
+> +++ b/meta/recipes-support/libffi/libffi_3.4.2.bb
+> @@ -19,6 +19,7 @@ UPSTREAM_CHECK_URI =3D "
+> https://github.com/libffi/libffi/releases/"
+>  UPSTREAM_CHECK_REGEX =3D "libffi-(?P<pver>\d+(\.\d+)+)\.tar"
+>
+>  EXTRA_OECONF +=3D "--disable-builddir --disable-exec-static-tramp"
+> +EXTRA_OECONF:class-native +=3D "--with-gcc-arch=3Dgeneric"
+>  EXTRA_OEMAKE:class-target =3D "LIBTOOLFLAGS=3D'--tag=3DCC'"
+>  inherit autotools texinfo multilib_header
+>
+> @@ -33,4 +34,3 @@ FILES:${PN}-dev +=3D "${libdir}/libffi-${PV}"
+>  MIPS_INSTRUCTION_SET =3D "mips"
+>
+>  BBCLASSEXTEND =3D "native nativesdk"
+> -
+> --
+> 2.36.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#167154):
+> https://lists.openembedded.org/g/openembedded-core/message/167154
+> Mute This Topic: https://lists.openembedded.org/mt/91900128/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--000000000000a52c5a05e1f5d500
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Maxime,</div><br><div class=3D"gmail_quote"><div d=
+ir=3D"ltr" class=3D"gmail_attr">Maxime Roussin-B=C3=A9langer &lt;<a href=3D=
+"mailto:maxime.roussinbelanger@gmail.com">maxime.roussinbelanger@gmail.com<=
+/a>&gt; escreveu no dia ter=C3=A7a, 21/06/2022 =C3=A0(s) 15:05:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">From: Maxime Roussin-B=C3=
+=A9langer &lt;<a href=3D"mailto:maxime.roussinbelanger@gmail.com" target=3D=
+"_blank">maxime.roussinbelanger@gmail.com</a>&gt;<br>
+<br>
+Without `--with-gcc-arch=3Dgeneric` libffi looks up the cpuid to automatica=
+lly determine<br>
+which mtune/march to use. This makes the native sstate-cache unuseable sinc=
+e it&#39;s<br>
+possible to have a newer cpu building the recipe and the library being pull=
+ed from<br>
+another older cpu which doesn&#39;t have the instruction.<br></blockquote><=
+div class=3D"gmail_quote"><br></div>Please add your sign off</div><div clas=
+s=3D"gmail_quote"><br></div><div class=3D"gmail_quote">Signed-off-by: Maxim=
+e Roussin-B=C3=A9langer &lt;<a href=3D"mailto:maxime.roussinbelanger@gmail.=
+com" target=3D"_blank">maxime.roussinbelanger@gmail.com</a>&gt;</div><div c=
+lass=3D"gmail_quote"><br></div><div class=3D"gmail_quote">Jose<br><div>=C2=
+=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0meta/recipes-support/libffi/<a href=3D"http://libffi_3.4.2.bb" rel=3D=
+"noreferrer" target=3D"_blank">libffi_3.4.2.bb</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-support/libffi/<a href=3D"http://libffi_3.4.2.bb"=
+ rel=3D"noreferrer" target=3D"_blank">libffi_3.4.2.bb</a> b/meta/recipes-su=
+pport/libffi/<a href=3D"http://libffi_3.4.2.bb" rel=3D"noreferrer" target=
+=3D"_blank">libffi_3.4.2.bb</a><br>
+index 733fcc5e6c..71d9518baf 100644<br>
+--- a/meta/recipes-support/libffi/<a href=3D"http://libffi_3.4.2.bb" rel=3D=
+"noreferrer" target=3D"_blank">libffi_3.4.2.bb</a><br>
++++ b/meta/recipes-support/libffi/<a href=3D"http://libffi_3.4.2.bb" rel=3D=
+"noreferrer" target=3D"_blank">libffi_3.4.2.bb</a><br>
+@@ -19,6 +19,7 @@ UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://github.co=
+m/libffi/libffi/releases/" rel=3D"noreferrer" target=3D"_blank">https://git=
+hub.com/libffi/libffi/releases/</a>&quot;<br>
+=C2=A0UPSTREAM_CHECK_REGEX =3D &quot;libffi-(?P&lt;pver&gt;\d+(\.\d+)+)\.ta=
+r&quot;<br>
+<br>
+=C2=A0EXTRA_OECONF +=3D &quot;--disable-builddir --disable-exec-static-tram=
+p&quot;<br>
++EXTRA_OECONF:class-native +=3D &quot;--with-gcc-arch=3Dgeneric&quot;<br>
+=C2=A0EXTRA_OEMAKE:class-target =3D &quot;LIBTOOLFLAGS=3D&#39;--tag=3DCC&#3=
+9;&quot;<br>
+=C2=A0inherit autotools texinfo multilib_header<br>
+<br>
+@@ -33,4 +34,3 @@ FILES:${PN}-dev +=3D &quot;${libdir}/libffi-${PV}&quot;<b=
+r>
+=C2=A0MIPS_INSTRUCTION_SET =3D &quot;mips&quot;<br>
+<br>
+=C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
+-<br>
+-- <br>
+2.36.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#167154): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/167154" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/167154</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/91900128/5052=
+612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/91900128/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
+ Quaresma</div></div></div></div>
+
+--000000000000a52c5a05e1f5d500--
 
