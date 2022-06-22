@@ -1,78 +1,104 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9975CCA47D
-	for <webhook@archiver.kernel.org>; Wed, 22 Jun 2022 13:55:02 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web10.7478.1655906100063445223
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D600FCCA481
+	for <webhook@archiver.kernel.org>; Wed, 22 Jun 2022 14:18:22 +0000 (UTC)
+Received: from mailout09.t-online.de (mailout09.t-online.de [194.25.134.84])
+ by mx.groups.io with SMTP id smtpd.web08.7800.1655907501055544830
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jun 2022 06:55:00 -0700
+ Wed, 22 Jun 2022 07:18:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=EIFhieUY;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197,
- mailfrom: luca.ceresoli@bootlin.com)
-Received: from booty (unknown [77.244.183.192])
-	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id A10611C0010;
-	Wed, 22 Jun 2022 13:54:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1655906098;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RHNMgSI6hXRicz0AYNmLbsgu4jmBSVx8mCnpSXqJW0U=;
-	b=EIFhieUY/TuxuzgLRb7+SQPzD83ClDPyGV7zSxr1dlvEa5JMUOd4m7EbEGapHOdKbTdxVh
-	SGIpxnViMc/XBLhcp8lVrTykrshjcgrYSZXQMZ7eSeyAUVdStHqYLPlrDyB8p/h2cqPHrn
-	v09TGaNWj5IcVucS91sNDfiNTLhP2h1jVMfK6ar+ijystW2UbA34x9YKoj1O7DQ7XGGcqq
-	FvE3B2fycvHIMGFrRM4Rpd9X5BlDdUkpFR3l+GzJIuL+sY7211KN4wtlxvKruVFrRlj20m
-	bDGRbd2KDCgz7taxyBg/PrJaTfzG22FxCxQ2swB11+K/sK3oO2smv6aiAEYp8g==
-Date: Wed, 22 Jun 2022 15:54:55 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "wangmy" <wangmy@fujitsu.com>
-Cc: <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] xcb-proto: upgrade 1.15 -> 1.15.2
-Message-ID: <20220622155455.47ed5d6f@booty>
-In-Reply-To: <1655884130-22843-5-git-send-email-wangmy@fujitsu.com>
-References: <1655884130-22843-1-git-send-email-wangmy@fujitsu.com>
-	<1655884130-22843-5-git-send-email-wangmy@fujitsu.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ dkim=missing;
+ spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.84,
+ mailfrom: f_l_k@t-online.de)
+Received: from fwd87.dcpf.telekom.de (fwd87.aul.t-online.de [10.223.144.113])
+	by mailout09.t-online.de (Postfix) with SMTP id C4887E2DE
+	for <openembedded-core@lists.openembedded.org>;
+ Wed, 22 Jun 2022 16:18:18 +0200 (CEST)
+Received: from [192.168.178.83] ([84.163.39.186]) by fwd87.t-online.de
+	with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+	esmtp id 1o41BS-4fWIZl0; Wed, 22 Jun 2022 16:18:18 +0200
+Message-ID: <679be2d1-4311-41af-d2e5-4132c96b3421@t-online.de>
+Date: Wed, 22 Jun 2022 16:18:17 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [OE-core] Easyish reproducibility issue for someone?
+Content-Language: en-US
+To: openembedded-core@lists.openembedded.org
+References: 
+ <31700e81f90027d7359c688ac8b3d5bdf914a0f9.camel@linuxfoundation.org>
+ <1df0fc03-e1f3-de99-bf81-f19c022e9fa7@weidmueller.com>
+From: Markus Volk <f_l_k@t-online.de>
+In-Reply-To: <1df0fc03-e1f3-de99-bf81-f19c022e9fa7@weidmueller.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TOI-EXPURGATEID: 150726::1655907498-0142618F-F807A77E/0/0 CLEAN NORMAL
+X-TOI-MSGID: bd4020f9-1dea-445c-9f73-258f9ad80fd6
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jun 2022 13:55:02 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jun 2022 14:18:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167238
+ https://lists.openembedded.org/g/openembedded-core/message/167239
 
-Hello wangmy,
+Hi,
 
-On Wed, 22 Jun 2022 15:48:50 +0800
-"wangmy" <wangmy@fujitsu.com> wrote:
+couldn't we just do it like this?
 
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+PACKAGECONFIG ?=3D ""
+PACKAGECONFIG[optviewer] =3D=20
+"-DLLVM_HAVE_OPT_VIEWER_MODULES=3DON,-DLLVM_HAVE_OPT_VIEWER_MODULES=3DOFF=
+,,python3-pygments=20
+python3-pyyaml"
 
-This patch triggers autobuilder failures in libxcb-native do_configure:
+Depending on wether the PACKAGECONFIG option is taken it looks like this=20
+in CMakeCache.txt:
 
-| checking for check >= 0.9.6... no
-| checking for xcb-proto >= 1.14... no
-| configure: error: Package requirements (xcb-proto >= 1.14) were not met:
-| 
-| Variable 'libdir' not defined in '/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/x86_64-linux/libxcb-native/1.15-r0/recipe-sysroot-native/usr/share/pkgconfig/xcb-proto.pc'
+//No help, variable specified on the command line.
+LLVM_HAVE_OPT_VIEWER_MODULES:UNINITIALIZED=3DOFF
 
-Some logs:
+//No help, variable specified on the command line.
+LLVM_HAVE_OPT_VIEWER_MODULES:UNINITIALIZED=3DON
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/5675/steps/11/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/5419/steps/11/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/75/builds/5384/steps/11/logs/stdio
+Markus
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Am 22.06.22 um 15:54 schrieb Stefan Herbrechtsmeier:
+> Hi Richard,
+>
+> Am 22.06.2022 um 15:10 schrieb Richard Purdie via lists.openembedded.or=
+g:
+>> There is a reproducibility issue which shouldn't be too hard to fix if
+>> someone had a few minutes to help out:
+>>
+>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14845
+>>
+>> It is in llvm and is a cmake configuration issue. Rather than setting
+>> that option based on the presence of python modules (with python from
+>> the host), we should add a configuration option to force it to be
+>> disabled in our case. Should be upstreamable with the right patch.
+>
+> I'm not able to test it at the moment but it should be possible to set=20
+> the variables (PY_PYGMENTS_FOUND, PY_PYGMENTS_LEXERS_C_CPP_FOUND and=20
+> PY_YAML_FOUND) to OFF via EXTRA_OECMAKE:
+>
+> -DPY_PYGMENTS_FOUND=3DOFF
+>
+> The find_python_module function in config-ix.cmake returns early if=20
+> the variable PY_${module_upper}_FOUND is defined.
+>
+> Regards
+> =C2=A0 Stefan
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#167237): https://lists.openembedded.org/g/openembed=
+ded-core/message/167237
+> Mute This Topic: https://lists.openembedded.org/mt/91921251/3618223
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+f_l_k@t-online.de]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
