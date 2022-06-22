@@ -2,66 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E24CCA481
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE670C43334
 	for <webhook@archiver.kernel.org>; Wed, 22 Jun 2022 10:33:51 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web12.5620.1655894025982636574
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+ [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.web11.5653.1655894022402083039
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jun 2022 03:33:46 -0700
+ Wed, 22 Jun 2022 03:33:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=msuqcAsH;
- spf=pass (domain: gmail.com, ip: 209.85.218.47,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=IPu4dcVC;
+ spf=pass (domain: gmail.com, ip: 209.85.208.43,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id t5so732802eje.1
+Received: by mail-ed1-f43.google.com with SMTP id eo8so23303940edb.0
         for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jun 2022 03:33:45 -0700 (PDT)
+ Wed, 22 Jun 2022 03:33:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=fVzUdEQtYCEMNZ4BkUSf64NYSOpz4gqJg7Pl22v6FgU=;
-        b=msuqcAsHW5xiMMrJo6QLeR6EzIW9D5qPao/WYwhEnAqO84ybPLgwhkWKGX3K67uIwo
-         dIiW3jmdWvF06RpUWPk+9vx04ClkdNozzuxBV/iyLgbX7Nx+BdqVF1PZ/BdYxq88NLnd
-         NzBN/tq0kCQnmuplpo9PzC7XTsJ7Mt4SH/cj5s7IBmqaJuAbPAGVurnmGwy9j3U9lFjb
-         LtpUfp7IHQdKXYvABfRaUH5sMAmoi3XjOVXyvUVCZpGmiswEPZqD/pNpAtL7EkB8gGmc
-         YVS0i+SwhyzgdAVVT6WDjo5+WI3h8qc0u2YZ4n5luh/EKgmvetBG20Y+u6e7LFUQPGDD
-         Zm3A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dfRajcw+weENRbz7mr0y9NHskzlANLBF0TA4bL2LHow=;
+        b=IPu4dcVCZypy8WnzmplIP0n6+uebilH3KSPQ1YZyqaP1BiOI3f+pBCvalZHfLp8Hli
+         2KCiNBgU3PR3v33yIdu+XVkdtD5SEo5W3NGNLoLHry7xE57Q8wBa3Erxk4NVM01CYK4i
+         XwTHEqKMiNnild64A6WkeLgLQ75eL8w8eccVD9AFYhO8DSdehZwg4KywephysURtMD7y
+         anyTwX68UgW4ViNNPXusxTIDi2Mt2Ob58cta5cErPfKxBM5mXYLp/jJNirQINdTCEE5R
+         lAXXtmEQpvdbUr8AJ5pRZjbskZ1YcQpduyeyDLs0UkX6fLOJyRv2y67TkjEbXsYEWwdA
+         rY0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=fVzUdEQtYCEMNZ4BkUSf64NYSOpz4gqJg7Pl22v6FgU=;
-        b=LuLerovwxrs+T7Ovi5P79pn3KaNXKPgA3yejrwssGGcFcwMrFXufoFODTr6+bAorkG
-         5/0k1gxqRi54iE6SI3P/Hl2JsGPMlBjbO7gEcroceUauapgLpCY4XlFOvvpyULrKiUn0
-         RrcmjBNt6nrnkqflxYPvT4jMbci+Aso6li+xf44V9ikBMwdx77oCJyaLNBKxHEJaesO0
-         jxRpDYzYpLApDl50tyUl7k5R46R+7yPr2nAlz0fNfTLQV9V5vezkvb+9jWlSikUDfgbe
-         T6jBy/gpZfUP1CJaRcUuZhG998zRugx+NW5ouqUAVtBaQk8gABLwlU8AIdZ+26/2RZlz
-         75Mw==
-X-Gm-Message-State: AJIora808qYJ36dy6WNoUdy/pIVa/wiO6MbXqP8Y1NaaT8fFZY1RCzgX
-	lf3FWtEIFj8yTAIvhVY+vijeiq/pvtLg+g==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dfRajcw+weENRbz7mr0y9NHskzlANLBF0TA4bL2LHow=;
+        b=kco4jRE2JCtTsZpPHCjaTu9i18fTjC8/Kol/4+2vk1jR5Me9mgTqnHlB0KP+8NVbNF
+         oduLV/3UWawSm8sAKcW4sOPL9uejRGYBreDAoIPxKPLntvSG7dNrN3Oj/ck3j1CtHEUZ
+         1P3/o4N63dcLPK0N0bgrjotnebWDCSsIh6UNMlelYyfL4t6+q3D0/Xl7D+3Q7IFUCKrN
+         NYqoCS50MLap0IkM+qCtO4tAIUnutUUbJVSgx2Xb5swLLdRHldm6APcDxMtDrfJI2gUJ
+         CglUD0CCZh2L2aR7IRZDn4Q05Puk/xE9JD4usUKULUlpLJexKMJ9jr5FtzcwAcaSzEHm
+         zhyA==
+X-Gm-Message-State: AJIora9DHtsmJ0q4lvzIYvvz1Shf+dHSkagbEzWbbe9qbJ9FCecEwMfs
+	JasllCHkwRJ6QZN+EDJiKhfOwz8g0FaiQQ==
 X-Google-Smtp-Source: 
- AGRyM1srfs3Uz8F5uiNqwRdUtHl2gPLBNEZQzHPwN+X1ridPaTeT8LBqX78OgQW4V01OFp8hX91Hcg==
-X-Received: by 2002:a17:907:a064:b0:711:c819:3cbf with SMTP id
- ia4-20020a170907a06400b00711c8193cbfmr2632681ejc.460.1655894024360;
-        Wed, 22 Jun 2022 03:33:44 -0700 (PDT)
+ AGRyM1trbLj4Pv3ItHRB0myCCkwzk3ZqvIKZlxzqHsS7AsoZUq8xhmXO36RHYpY1qU//t/MFPKu+9w==
+X-Received: by 2002:a05:6402:3586:b0:42e:2a6a:218b with SMTP id
+ y6-20020a056402358600b0042e2a6a218bmr3336372edc.208.1655894020749;
+        Wed, 22 Jun 2022 03:33:40 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- lb21-20020a170907785500b007219c20dcd8sm6315826ejc.196.2022.06.22.03.33.43
+ lb21-20020a170907785500b007219c20dcd8sm6315826ejc.196.2022.06.22.03.33.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jun 2022 03:33:43 -0700 (PDT)
+        Wed, 22 Jun 2022 03:33:39 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [RFC PATCH 3/6] oeqa/sdk: add a test class for running SDK tests
- directly in a Yocto build
-Date: Wed, 22 Jun 2022 12:33:09 +0200
-Message-Id: <20220622103312.1098389-4-alex@linutronix.de>
+Subject: [RFC PATCH 0/6] (e)SDK workflow directly in a Yocto build
+Date: Wed, 22 Jun 2022 12:33:06 +0200
+Message-Id: <20220622103312.1098389-1-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220622103312.1098389-1-alex@linutronix.de>
-References: <20220622103312.1098389-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -69,66 +66,80 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Jun 2022 10:33:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167230
+ https://lists.openembedded.org/g/openembedded-core/message/167226
 
-This is a simpler version of the same class in testsdk.py, as it does not
-need to unpack and set up the SDK, and can proceed to the tests straight away.
+There's been a recent discussion about how we can make the Yocto SDK
+experience better [1]. One of the ideas was to eliminate the SDK
+as a separate artefact altogether and simply provide everything
+that the SDK and eSDKs do directly in a yocto build. This does not
+mean that people have to 'learn Yocto', but rather that the integrators
+should provide a well-functioning sstate cache infrastructure (same as
+with minimal eSDK, really), and a few wrapper scripts for setting up the build
+and the SDK environment that run layer setup and bitbake behind the scenes.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/lib/oeqa/sdk/testmetaidesupport.py | 43 +++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+[1] https://lists.openembedded.org/g/openembedded-architecture/topic/thoughts_on_the_esdk/90990557
+
+So without further ado, here's how you get a 'SDK' with this set of patches:
+
+1. Set up all the needed layers and a yocto build directory.
+
+2. Run:
+$ bitbake meta-ide-support
+$ bitbake -c populate_sysroot gtk+3
+(or any other target or native item that the application developer would need)
+$ bitbake populate-sysroots
+
+3. Set up the SDK environment:
+. tmp/deploy/images/qemux86-64/environment-setup-core2-64-poky-linux
+(adjust accordingly)
+
+Et voila! The Unix environment is now set up to use the cross-toolchain from
+Yocto, exactly as in the SDK. And devtool/bitbake are available to extend it,
+exactly as in the eSDK.
+
+Theare are numerous benefits here: no need to produce, test, distribute and maintain
+separate SDK artifacts. No two separate environments for the yocto build and the SDK.
+Less code paths where things can go wrong. Less awkward, gigantic tarballs. Less
+SDK update headaches: 'updating the SDK' simply means updating the yocto layers with
+git fetch or layer management tooling. Built-in SDK extensibility: just run bitbake
+again to add more things to the sysroot, or add layers if even more things are required.
+
+How is this tested?
+
+Exactly same as the regular SDK:
+$ bitbake -c testsdk meta-ide-support
+
+This runs the same toolchain tests from meta/lib/oeqa/sdk/cases as the regular
+sdk testing does.
+
+One known issue is that the libepoxy test is failing: libepoxy is built with meson,
+and meson requires the build configuration to be provided with native/cross files and not
+in the unix environment. This is addressed in the 'classic SDK' through a wrapper for the binary,
+and something similar will be added to meta-ide-support as well.
+
+
+Alexander Kanavin (6):
+  toolchain-scripts.bbclass: adjust toolchain_create_tree_env_script to
+    better replicate (e)SDK
+  meta-ide-support: adjust to provide (e)SDK experience directly in a
+    yocto build
+  oeqa/sdk: add a test class for running SDK tests directly in a Yocto
+    build
+  selftest/meta_ide: add a test for running SDK tests
+  oeqa/sdk: allow epoxy/galculator tests to run in esdk and direct yocto
+    builds
+  oeqa/sdk: drop the nativesdk-python 2.x test
+
+ meta/classes/toolchain-scripts.bbclass     | 23 +++++++-----
+ meta/lib/oeqa/sdk/cases/buildepoxy.py      |  3 +-
+ meta/lib/oeqa/sdk/cases/buildgalculator.py |  3 +-
+ meta/lib/oeqa/sdk/cases/python.py          | 11 ------
+ meta/lib/oeqa/sdk/testmetaidesupport.py    | 43 ++++++++++++++++++++++
+ meta/lib/oeqa/selftest/cases/meta_ide.py   | 14 +++++--
+ meta/recipes-core/meta/meta-ide-support.bb | 26 +++++++++++--
+ 7 files changed, 94 insertions(+), 29 deletions(-)
  create mode 100644 meta/lib/oeqa/sdk/testmetaidesupport.py
 
-diff --git a/meta/lib/oeqa/sdk/testmetaidesupport.py b/meta/lib/oeqa/sdk/testmetaidesupport.py
-new file mode 100644
-index 0000000000..2ff76fd8e0
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/testmetaidesupport.py
-@@ -0,0 +1,43 @@
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+class TestSDK(object):
-+    def run(self, d):
-+        import json
-+        import logging
-+        from oeqa.sdk.context import OESDKTestContext, OESDKTestContextExecutor
-+        from oeqa.utils import make_logger_bitbake_compatible
-+
-+        pn = d.getVar("PN")
-+
-+        logger = make_logger_bitbake_compatible(logging.getLogger("BitBake"))
-+
-+        sdk_dir = d.expand("${WORKDIR}/testsdk/")
-+        bb.utils.remove(sdk_dir, True)
-+        bb.utils.mkdirhier(sdk_dir)
-+
-+        sdk_envs = OESDKTestContextExecutor._get_sdk_environs(d.getVar("DEPLOY_DIR_IMAGE"))
-+        tdname = d.expand("${DEPLOY_DIR_IMAGE}/${PN}.testdata.json")
-+        test_data = json.load(open(tdname, "r"))
-+
-+        host_pkg_manifest = {"cmake-native":"", "gcc-cross":"", "gettext-native":"", "meson-native":"", "perl-native":"", "python3-core-native":"", }
-+        target_pkg_manifest = {"gtk+3":""}
-+
-+        for s in sdk_envs:
-+            bb.plain("meta-ide-support based SDK testing environment: %s" % s)
-+
-+            sdk_env = sdk_envs[s]
-+
-+            tc = OESDKTestContext(td=test_data, logger=logger, sdk_dir=sdk_dir,
-+                sdk_env=sdk_env, target_pkg_manifest=target_pkg_manifest,
-+                host_pkg_manifest=host_pkg_manifest)
-+
-+            tc.loadTests(OESDKTestContextExecutor.default_cases)
-+
-+            results = tc.runTests()
-+            if results:
-+                results.logSummary(pn)
-+
-+            if (not results) or (not results.wasSuccessful()):
-+                bb.fatal('%s - FAILED' % (pn,), forcelog=True)
 -- 
 2.30.2
 
