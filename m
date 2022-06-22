@@ -2,74 +2,77 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBE42C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F94CCA47A
 	for <webhook@archiver.kernel.org>; Wed, 22 Jun 2022 07:38:20 +0000 (UTC)
-Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com
- [85.158.142.113])
- by mx.groups.io with SMTP id smtpd.web09.4810.1655883493711054607
+Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
+ [195.245.230.65])
+ by mx.groups.io with SMTP id smtpd.web08.4512.1655883498105659645
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jun 2022 00:38:14 -0700
+ Wed, 22 Jun 2022 00:38:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=L8X/qQK8;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.113,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=DqrvEzMI;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.65,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1655883491; i=@fujitsu.com;
-	bh=r8fc6VdzxHjVasw5JP16zqVR5EeaBuivunJH5JNNtYI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=L8X/qQK8Z91vVz7U8H0C1DJ5TnNM1pNk8i/MaxvM3dyDcwBwyNIHFZOHWFxxEC17K
-	 8qD83ZGGZtP16gRp/J2HjDoCsHrasaCFZFxcF97h5cfnV18dzU9r+yS+JvxACZldfb
-	 CIkg808Pr6ECznWYpgnYZ6YXXwzo6C/gcmrfDUV1OHjgsQpQCtc/y5oKqPiu9WkLJH
-	 AG4vazu+IjLVlrtfENEM39xYO6RVoIZ73cDN0uBfHeHcS+MkKmb2INYNuYyJcyjFg1
-	 J9pcvY0gqQ8BRW8m3eHzNue2bR+IWVmtDgfnfG8rjcI4aiju93E1972le2uhlsoztk
-	 1g5Xiznbo3+yA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLIsWRWlGSWpSXmKPExsViZ8ORqPv42KY
-  kg/kqFnd+vmN3YPQ4t3EFYwBjFGtmXlJ+RQJrRvukuawFJ7krfjfoNTB2cXUxcnEICTxmlNh5
-  qJu5i5ETyLnDJNH71RoisYdR4vTCl2AJNgE1iem3brB2MXJwiAjoSVz9JwoSZhZQkXjxu4cdx
-  BYWsJX4PeMjE4jNIqAq0fb9ISuIzSvgJPFm4gywuISAgsSUh++ZIeKCEidnPmGBmCMhcfDFC2
-  aIGkWJ2ZebWSDsCokZM7axQdhqElfPbWKewMg/C0n7LCTtCxiZVjHaJBVlpmeU5CZm5ugaGhj
-  oGhqa6lqa6RpaGuslVukm6qWW6ublF5Vk6BrqJZYX66UWF+sVV+Ym56To5aWWbGIEhmRKccLB
-  HYwr9v3SO8QoycGkJMoreWBTkhBfUn5KZUZicUZ8UWlOavEhRhkODiUJ3ubDQDnBotT01Iq0z
-  BxgfMCkJTh4lER4VQ8BpXmLCxJzizPTIVKnGHU5Zn5tO8AsxJKXn5cqJc779SBQkQBIUUZpHt
-  wIWKxeYpSVEuZlZGBgEOIpSC3KzSxBlX/FKM7BqCTMe/co0BSezLwSuE2vgI5gAjriyfINIEe
-  UJCKkpBqYKvb1zli1onnT99frd0/IzDkrHnWCV6N1wsOEHRG5G6R0K9Nk1tVO3JUpGniDY0t0
-  I7e58Zwj7zfsluKvdTnPziafJ/W86uyF+f3Tbgf8NLXW4bnyOUn4/fMtvsedXr3jt2PYmJ+U9
-  mxe31s9lW97fRcd+qaz2InZ4+xnlbmKe42X//lmv/BYgnid3mH21IaH6Q7uMrMP9H/+rFLLeq
-  z5IOdvQR6D86yH9nJ79PGXzuDMn1d1SPTEG4mELXaeGy/tm60xd2dB9d5XIe7iNXeWBU8yj5z
-  7e8YC0zMHVSLX511sXry7b07vHoPrwXK7537d/YUrw/sK+wSNwvyAT0KT7Xgif25p213Dwnjl
-  fLGwpBJLcUaioRZzUXEiAKRdF2NQAwAA
+	s=170520fj; t=1655883496; i=@fujitsu.com;
+	bh=ad9baMn5jE+WTdfY/ocCbgacUPuZPo9G3OlsE35iWNU=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type;
+	b=DqrvEzMIW+ehYwkZLBL/BpmWqnTUSSpp5SoUx+pOGWLyKPOCAUXHfgapZL2yfQqUG
+	 m/FZUFvKQIn/faS5yymNMwL5T1DCE82HwH0N3B6z58ri9k7V/kR/98Gf6nEb0RA7qT
+	 Q/obZhJw4aand2YUZOalBnXJmqDUrxdhNoGWfQwYNO2N1P3LTJI6RRSIMG3AukmHWE
+	 Npb9XxwMcRUHy/tt1cuSGw2hKj3G2fYQIwecx9dSWRN2cXTWjCSn+HK0KcS5UIDSU/
+	 EXNVkstys8Ev/cW7FyQA0twoQYzRvIDIhSW7+hgEJ5TXXErM6ZA9y9De88RMuZFp2V
+	 cmJ+L51Xw+yIA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrIIsWRWlGSWpSXmKPExsViZ8MxSff5sU1
+  JBu/WWljc+fmO3YHR49zGFYwBjFGsmXlJ+RUJrBlHZt9iKtjGXzF/X3QD4xneLkYuDiGBx4wS
+  Tz/8YoRw7jBJXGh5wQzh7GGU2PKwl62LkZODTUBNYvqtG6xdjBwcIgJ6Elf/iYKEmQVUJF787
+  mEHsYUFnCT+npvDDGKzCKhKLGxZyQJi8wLFr/y9zARiSwgoSEx5+B6shlPAWeLg1Q6wGiGgmi
+  233jJB1AtKnJz5hAVivoTEwRcvmCF6FSVmX25mgbArJGbM2MYGYatJXD23iXkCo+AsJO2zkLQ
+  vYGRaxWiVVJSZnlGSm5iZo2toYKBraGiqa6prZGSql1ilm6iXWqpbnlpcomuol1herJdaXKxX
+  XJmbnJOil5dasokRGMIpxawPdzAu7vupd4hRkoNJSZRX8sCmJCG+pPyUyozE4oz4otKc1OJDj
+  DIcHEoSvM2HgXKCRanpqRVpmTnAeIJJS3DwKInwqh4CSvMWFyTmFmemQ6ROMVpyTJ39bz8zx3
+  IwOfNr2wFmIZa8/LxUKXHerweBGgRAGjJK8+DGwWL+EqOslDAvIwMDgxBPQWpRbmYJqvwrRnE
+  ORiVh3rtHgabwZOaVwG19BXQQE9BBT5ZvADmoJBEhJdXApOcVVi1nsFrr/7etuc3Bc9h99k4p
+  yV7M2PAg8pRnkWCq8z651O/ebpf3iGYEBPy69Mr5xOWDRV8tbhdZvJtjKpfdM71K5MWbb6W2C
+  95NmmORduB+uncUC09k7pnqwNPz+aTe3ny3b4O4+/mz25iPfb3LZ3xjgoajlsx/F6uaXsm6C0
+  3nC09tzDHn07V69Gmu+gnzf2u/yfbEXSg5ttFd61tWZIzGiY+sO1Q43twovPLHzOC5Q5vuyY0
+  ntx3fvJ2V4V6CgvOMrv5E0dKv7Izs+XN8XHVK7bXTBTIPhbY5btjSPFnav8SN55dywqGK32Xf
+  Uqy/O01sfqVkbaC01X9JQfq3KLu0x0qs9jt25WsrsRRnJBpqMRcVJwIAtpT+2HQDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-14.tower-728.messagelabs.com!1655883490!425382!1
-X-Originating-IP: [62.60.8.97]
+X-Msg-Ref: server-3.tower-587.messagelabs.com!1655883495!574451!1
+X-Originating-IP: [62.60.8.146]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.86.7; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 24655 invoked from network); 22 Jun 2022 07:38:10 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-14.tower-728.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 22 Jun 2022 07:38:10 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 6CD63100193
+Received: (qmail 30016 invoked from network); 22 Jun 2022 07:38:15 -0000
+Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
+  by server-3.tower-587.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 22 Jun 2022 07:38:15 -0000
+Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 7D16E1000C0
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jun 2022 08:38:10 +0100 (BST)
+ Wed, 22 Jun 2022 08:38:15 +0100 (BST)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown10-183-43-178
  [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 60D2E100191
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 706F5100077
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jun 2022 08:38:10 +0100 (BST)
+ Wed, 22 Jun 2022 08:38:15 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Wed, 22 Jun 2022 08:38:08 +0100
+ (TLS) id 15.0.1497.32; Wed, 22 Jun 2022 08:38:13 +0100
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] alsa-lib: upgrade 1.2.7 -> 1.2.7.1
-Date: Wed, 22 Jun 2022 15:37:46 +0800
-Message-ID: <1655883470-22765-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] alsa-ucm-conf: upgrade 1.2.7 -> 1.2.7.1
+Date: Wed, 22 Jun 2022 15:37:48 +0800
+Message-ID: <1655883470-22765-3-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1655883470-22765-1-git-send-email-wangmy@fujitsu.com>
+References: <1655883470-22765-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.167.225.33]
@@ -81,46 +84,47 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Jun 2022 07:38:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167212
+ https://lists.openembedded.org/g/openembedded-core/message/167214
 
-Changelog:
-=========
-Core
- - Release v1.2.7.1
- - conf: Use ino64_t to save and compare inode numbers
-Control API
- - control: eld - fix the decoding for older hw
-I/O API
- - output: include stdarg.h
-PCM API
- - pcm: dmix - Add error handler for `fgets`
-Use Case Manager API
- - ucm: list also hardware configs (hw:X) in uc_mgr_scan_master_configs() fcn
 Configuration
- - conf: Use ino64_t to save and compare inode numbers
+ - mt8195_demo: fix the HDMI device name
+ - USB-Audio: ALC1220 - add support for Gigabyte TRX40 Aorus Pro WiFi Rev 1.2
+ - ucm2: MediaTek: mt8195-demo: Add Initial support
+ - ucm2: rk3399-gru-sound: Add missing symlink from conf.d tree
+ - USB-Audio: Optimize regex for realtek-alc4080
+ - USB-Audio: Add ALC4080 ID for Asus Z690-I Gaming Wifi
+ - ucm2 profile for MOTU M4 interface
+ - ucm2: Rockchip/max98090: add symlink to VEYRON-I2S
+ - ucm2: Rockchip/max98090: add JackControl and PlaybackVolume
+ - Added basic support for ALC4082 on ASUS ROG Maximus Z690 Hero.
+ - ucm2: direct profile - allow to override the card name
+ - ucm2 profile for Behringer Flow8
+ - Steinberg UR44: fix the direction for steinberg_ur44_mono_in
+ - Steinberg UR44: fix the Line2 channel mapping (2nd)
+ - Steinberg UR44: fix the Line2 channel mapping
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../alsa/{alsa-lib_1.2.7.bb => alsa-lib_1.2.7.1.bb}             | 2 +-
+ .../alsa/{alsa-ucm-conf_1.2.7.bb => alsa-ucm-conf_1.2.7.1.bb}   | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/alsa/{alsa-lib_1.2.7.bb => alsa-lib_1.2.7.1.bb} (94%)
+ rename meta/recipes-multimedia/alsa/{alsa-ucm-conf_1.2.7.bb => alsa-ucm-conf_1.2.7.1.bb} (89%)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.7.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.7.1.bb
-similarity index 94%
-rename from meta/recipes-multimedia/alsa/alsa-lib_1.2.7.bb
-rename to meta/recipes-multimedia/alsa/alsa-lib_1.2.7.1.bb
-index 1832ce71a4..7f7b955a7f 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.7.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.7.1.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
-                     "
+diff --git a/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.7.bb b/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.7.1.bb
+similarity index 89%
+rename from meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.7.bb
+rename to meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.7.1.bb
+index d60f22e7c7..79b8206592 100644
+--- a/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.7.bb
++++ b/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.7.1.bb
+@@ -8,7 +8,7 @@ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=20d74d74db9741697903372ad001d3b4"
  
  SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
--SRC_URI[sha256sum] = "8814e61f7ec6812c76e23a85cab00e0b0d3bba40816af36b726beb1bc04c74a7"
-+SRC_URI[sha256sum] = "046dc42dfcfad269217be05954686137e5e7397f3041372f8c6dcd7d79461e61"
+-SRC_URI[sha256sum] = "b97f2395ca2c1fd9bfab7627f0178f9069868e2a42a35894dacd280e7e40680e"
++SRC_URI[sha256sum] = "ac5b2a1275783eff07e1cb34c36c6c5987742679a340037507c04a9dc1d22cac"
+ # Something went wrong at upstream tarballing
  
- inherit autotools pkgconfig
- 
+ inherit allarch
 -- 
 2.25.1
 
