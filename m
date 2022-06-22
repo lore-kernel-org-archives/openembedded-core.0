@@ -2,63 +2,66 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE670C43334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2C0FCCA485
 	for <webhook@archiver.kernel.org>; Wed, 22 Jun 2022 10:33:51 +0000 (UTC)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.web11.5653.1655894022402083039
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web12.5618.1655894023217512764
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jun 2022 03:33:42 -0700
+ Wed, 22 Jun 2022 03:33:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=IPu4dcVC;
- spf=pass (domain: gmail.com, ip: 209.85.208.43,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=GxRhd9xx;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f43.google.com with SMTP id eo8so23303940edb.0
+Received: by mail-ej1-f52.google.com with SMTP id pk21so10129540ejb.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jun 2022 03:33:42 -0700 (PDT)
+ Wed, 22 Jun 2022 03:33:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dfRajcw+weENRbz7mr0y9NHskzlANLBF0TA4bL2LHow=;
-        b=IPu4dcVCZypy8WnzmplIP0n6+uebilH3KSPQ1YZyqaP1BiOI3f+pBCvalZHfLp8Hli
-         2KCiNBgU3PR3v33yIdu+XVkdtD5SEo5W3NGNLoLHry7xE57Q8wBa3Erxk4NVM01CYK4i
-         XwTHEqKMiNnild64A6WkeLgLQ75eL8w8eccVD9AFYhO8DSdehZwg4KywephysURtMD7y
-         anyTwX68UgW4ViNNPXusxTIDi2Mt2Ob58cta5cErPfKxBM5mXYLp/jJNirQINdTCEE5R
-         lAXXtmEQpvdbUr8AJ5pRZjbskZ1YcQpduyeyDLs0UkX6fLOJyRv2y67TkjEbXsYEWwdA
-         rY0Q==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=A+fGtxr4RkgxEb75XnxxvVSugypcXzihlwaNr7IqCKs=;
+        b=GxRhd9xxfm+IKfvkaJLdUNwSratkhzlskdy/TMTz4YUCsej2hL027z/4Rl3oaMPWqp
+         UM9lsc2YgL2xOYpwWaNeYgKIjVbYs7vgrUOrAviGHUsGsmCgGXUXG4tnVJmUDFnSaLkj
+         qqhrVChikwnA+fo1i1LoLbcvaa78cTEzYg3Ua7oN4W2PgZQCOyEheIH8KnANSFD/Yrgb
+         dXSau4NSReWUok7J+lSDkm5AikIytnXrhmm+amFQd+ZNBDiJ7HnGw9q8ycqrccQxG6Os
+         oBHTCCBzDi9IBs+bO9egYWSn9/szTARPigL+5CRa0eEexKo05CvWJbtKDxJ4MsTtJsu1
+         RqVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dfRajcw+weENRbz7mr0y9NHskzlANLBF0TA4bL2LHow=;
-        b=kco4jRE2JCtTsZpPHCjaTu9i18fTjC8/Kol/4+2vk1jR5Me9mgTqnHlB0KP+8NVbNF
-         oduLV/3UWawSm8sAKcW4sOPL9uejRGYBreDAoIPxKPLntvSG7dNrN3Oj/ck3j1CtHEUZ
-         1P3/o4N63dcLPK0N0bgrjotnebWDCSsIh6UNMlelYyfL4t6+q3D0/Xl7D+3Q7IFUCKrN
-         NYqoCS50MLap0IkM+qCtO4tAIUnutUUbJVSgx2Xb5swLLdRHldm6APcDxMtDrfJI2gUJ
-         CglUD0CCZh2L2aR7IRZDn4Q05Puk/xE9JD4usUKULUlpLJexKMJ9jr5FtzcwAcaSzEHm
-         zhyA==
-X-Gm-Message-State: AJIora9DHtsmJ0q4lvzIYvvz1Shf+dHSkagbEzWbbe9qbJ9FCecEwMfs
-	JasllCHkwRJ6QZN+EDJiKhfOwz8g0FaiQQ==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=A+fGtxr4RkgxEb75XnxxvVSugypcXzihlwaNr7IqCKs=;
+        b=Wuje6JaVt/yfq/eULol+wDG6SulIztfejmSNVDK1cIfC1tZ5hzbaeAm8CM7f/IOlHf
+         ADrLgcpNfpGpc+9SKMKWQdXKzPCL2+t2yj7PvnWxMBMfrjOHVLJqFiQiDycFof3dkrFk
+         /yUs0+PnNNYPF683jI9x7vMgszeITQSSzR741LMh0F3Byjrj5PR4XerLCQiFm3MyFkNy
+         98wp+5Zy2rdrH0PtPvuNbep80gAy3Y1fl3+KdBhVeKUldsi+FzcyqjRJ/4ePhZDw8js6
+         0BJIuzL6Mz3F+nCEAZCzEG6+Yx9/2GiDuSySYCSn83s5yLkV9tUyL/VDghGCIjUkVY33
+         1a4w==
+X-Gm-Message-State: AJIora8gaA+Skh9E1YBIGFnG2tRr552cBq+/mHzff0/lK4XFQSUnF6jt
+	jf2QUu+mRN2wcCywlMPNkPNd4WMNBJWhTg==
 X-Google-Smtp-Source: 
- AGRyM1trbLj4Pv3ItHRB0myCCkwzk3ZqvIKZlxzqHsS7AsoZUq8xhmXO36RHYpY1qU//t/MFPKu+9w==
-X-Received: by 2002:a05:6402:3586:b0:42e:2a6a:218b with SMTP id
- y6-20020a056402358600b0042e2a6a218bmr3336372edc.208.1655894020749;
-        Wed, 22 Jun 2022 03:33:40 -0700 (PDT)
+ AGRyM1u0nz+1o6C+LvMap7Yrwxn8AGer31+fL8hl+6AfF8SDzGeBDbe05SQsZsPEIu3u1K4drCJgew==
+X-Received: by 2002:a17:907:3e03:b0:722:e694:438 with SMTP id
+ hp3-20020a1709073e0300b00722e6940438mr2609035ejc.755.1655894021790;
+        Wed, 22 Jun 2022 03:33:41 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- lb21-20020a170907785500b007219c20dcd8sm6315826ejc.196.2022.06.22.03.33.39
+ lb21-20020a170907785500b007219c20dcd8sm6315826ejc.196.2022.06.22.03.33.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jun 2022 03:33:39 -0700 (PDT)
+        Wed, 22 Jun 2022 03:33:41 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [RFC PATCH 0/6] (e)SDK workflow directly in a Yocto build
-Date: Wed, 22 Jun 2022 12:33:06 +0200
-Message-Id: <20220622103312.1098389-1-alex@linutronix.de>
+Subject: [RFC PATCH 1/6] toolchain-scripts.bbclass: adjust
+ toolchain_create_tree_env_script to better replicate (e)SDK
+Date: Wed, 22 Jun 2022 12:33:07 +0200
+Message-Id: <20220622103312.1098389-2-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220622103312.1098389-1-alex@linutronix.de>
+References: <20220622103312.1098389-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -66,80 +69,65 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Jun 2022 10:33:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167226
+ https://lists.openembedded.org/g/openembedded-core/message/167227
 
-There's been a recent discussion about how we can make the Yocto SDK
-experience better [1]. One of the ideas was to eliminate the SDK
-as a separate artefact altogether and simply provide everything
-that the SDK and eSDKs do directly in a yocto build. This does not
-mean that people have to 'learn Yocto', but rather that the integrators
-should provide a well-functioning sstate cache infrastructure (same as
-with minimal eSDK, really), and a few wrapper scripts for setting up the build
-and the SDK environment that run layer setup and bitbake behind the scenes.
+Specifically:
+1. Place the environment setup file into $B and not into $TMPDIR,
+so that the recipe using the class can itself better decide what to do with the file.
 
-[1] https://lists.openembedded.org/g/openembedded-architecture/topic/thoughts_on_the_esdk/90990557
+2. Use global, unified sysroots (provided through build-sysroots recipe)
+and not recipe-specific ones, as this allows flexible on-the-fly management of what
+libraries are available to build applications, without having to modify any
+recipes, similar to eSDK 'extensible' part.
 
-So without further ado, here's how you get a 'SDK' with this set of patches:
+3. Add a few missing settings that have been added to SDK environment files.
 
-1. Set up all the needed layers and a yocto build directory.
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/classes/toolchain-scripts.bbclass | 23 ++++++++++++++---------
+ 1 file changed, 14 insertions(+), 9 deletions(-)
 
-2. Run:
-$ bitbake meta-ide-support
-$ bitbake -c populate_sysroot gtk+3
-(or any other target or native item that the application developer would need)
-$ bitbake populate-sysroots
-
-3. Set up the SDK environment:
-. tmp/deploy/images/qemux86-64/environment-setup-core2-64-poky-linux
-(adjust accordingly)
-
-Et voila! The Unix environment is now set up to use the cross-toolchain from
-Yocto, exactly as in the SDK. And devtool/bitbake are available to extend it,
-exactly as in the eSDK.
-
-Theare are numerous benefits here: no need to produce, test, distribute and maintain
-separate SDK artifacts. No two separate environments for the yocto build and the SDK.
-Less code paths where things can go wrong. Less awkward, gigantic tarballs. Less
-SDK update headaches: 'updating the SDK' simply means updating the yocto layers with
-git fetch or layer management tooling. Built-in SDK extensibility: just run bitbake
-again to add more things to the sysroot, or add layers if even more things are required.
-
-How is this tested?
-
-Exactly same as the regular SDK:
-$ bitbake -c testsdk meta-ide-support
-
-This runs the same toolchain tests from meta/lib/oeqa/sdk/cases as the regular
-sdk testing does.
-
-One known issue is that the libepoxy test is failing: libepoxy is built with meson,
-and meson requires the build configuration to be provided with native/cross files and not
-in the unix environment. This is addressed in the 'classic SDK' through a wrapper for the binary,
-and something similar will be added to meta-ide-support as well.
-
-
-Alexander Kanavin (6):
-  toolchain-scripts.bbclass: adjust toolchain_create_tree_env_script to
-    better replicate (e)SDK
-  meta-ide-support: adjust to provide (e)SDK experience directly in a
-    yocto build
-  oeqa/sdk: add a test class for running SDK tests directly in a Yocto
-    build
-  selftest/meta_ide: add a test for running SDK tests
-  oeqa/sdk: allow epoxy/galculator tests to run in esdk and direct yocto
-    builds
-  oeqa/sdk: drop the nativesdk-python 2.x test
-
- meta/classes/toolchain-scripts.bbclass     | 23 +++++++-----
- meta/lib/oeqa/sdk/cases/buildepoxy.py      |  3 +-
- meta/lib/oeqa/sdk/cases/buildgalculator.py |  3 +-
- meta/lib/oeqa/sdk/cases/python.py          | 11 ------
- meta/lib/oeqa/sdk/testmetaidesupport.py    | 43 ++++++++++++++++++++++
- meta/lib/oeqa/selftest/cases/meta_ide.py   | 14 +++++--
- meta/recipes-core/meta/meta-ide-support.bb | 26 +++++++++++--
- 7 files changed, 94 insertions(+), 29 deletions(-)
- create mode 100644 meta/lib/oeqa/sdk/testmetaidesupport.py
-
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index 1d7c703748..e46d27ebc7 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -63,22 +63,27 @@ toolchain_create_sdk_env_script () {
+ 	toolchain_shared_env_script
+ }
+ 
+-# This function creates an environment-setup-script in the TMPDIR which enables
++# This function creates an environment-setup-script in B which enables
+ # a OE-core IDE to integrate with the build tree
+ # Caller must ensure CONFIG_SITE is setup
+ toolchain_create_tree_env_script () {
+-	script=${TMPDIR}/environment-setup-${REAL_MULTIMACH_TARGET_SYS}
++	script=${B}/environment-setup-${REAL_MULTIMACH_TARGET_SYS}
+ 	rm -f $script
+ 	touch $script
++	echo 'standalone_sysroot_target="${STAGING_DIR}/${MACHINE}"' >> $script
++	echo 'standalone_sysroot_native="${STAGING_DIR}/${BUILD_ARCH}"' >> $script
+ 	echo 'orig=`pwd`; cd ${COREBASE}; . ./oe-init-build-env ${TOPDIR}; cd $orig' >> $script
+-	echo 'export PATH=${STAGING_DIR_NATIVE}/usr/bin:${STAGING_BINDIR_TOOLCHAIN}:$PATH' >> $script
+-	echo 'export PKG_CONFIG_SYSROOT_DIR=${PKG_CONFIG_SYSROOT_DIR}' >> $script
+-	echo 'export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}' >> $script
++	echo 'export PATH=$standalone_sysroot_native/${bindir_native}:$standalone_sysroot_native/${bindir_native}/${TARGET_SYS}:$PATH' >> $script
++	echo 'export PKG_CONFIG_SYSROOT_DIR=$standalone_sysroot_target' >> $script
++	echo 'export PKG_CONFIG_PATH=$standalone_sysroot_target'"$libdir"'/pkgconfig:$standalone_sysroot_target'"$prefix"'/share/pkgconfig' >> $script
+ 	echo 'export CONFIG_SITE="${CONFIG_SITE}"' >> $script
+-	echo 'export SDKTARGETSYSROOT=${STAGING_DIR_TARGET}' >> $script
+-	echo 'export OECORE_NATIVE_SYSROOT="${STAGING_DIR_NATIVE}"' >> $script
+-	echo 'export OECORE_TARGET_SYSROOT="${STAGING_DIR_TARGET}"' >> $script
+-	echo 'export OECORE_ACLOCAL_OPTS="-I ${STAGING_DIR_NATIVE}/usr/share/aclocal"' >> $script
++	echo 'export SDKTARGETSYSROOT=$standalone_sysroot_target' >> $script
++	echo 'export OECORE_NATIVE_SYSROOT=$standalone_sysroot_native' >> $script
++	echo 'export OECORE_TARGET_SYSROOT=$standalone_sysroot_target' >> $script
++	echo 'export OECORE_ACLOCAL_OPTS="-I $standalone_sysroot_native/usr/share/aclocal"' >> $script
++	echo 'export OECORE_BASELIB="${baselib}"' >> $script
++	echo 'export OECORE_TARGET_ARCH="${TARGET_ARCH}"' >>$script
++	echo 'export OECORE_TARGET_OS="${TARGET_OS}"' >>$script
+ 
+ 	toolchain_shared_env_script
+ }
 -- 
 2.30.2
 
