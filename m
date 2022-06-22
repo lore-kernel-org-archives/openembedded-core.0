@@ -2,76 +2,76 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5A46CCA47A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B40CCC43334
 	for <webhook@archiver.kernel.org>; Wed, 22 Jun 2022 07:49:30 +0000 (UTC)
 Received: from mail1.bemta32.messagelabs.com (mail1.bemta32.messagelabs.com
- [195.245.230.1])
- by mx.groups.io with SMTP id smtpd.web08.4580.1655884165348725730
+ [195.245.230.2])
+ by mx.groups.io with SMTP id smtpd.web11.4651.1655884160436097398
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jun 2022 00:49:25 -0700
+ Wed, 22 Jun 2022 00:49:21 -0700
 Authentication-Results: mx.groups.io;
  dkim=fail reason="body hash did not verify" header.i=@fujitsu.com
- header.s=170520fj header.b=sbn4rksZ;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.1,
+ header.s=170520fj header.b=AwT5Cl+4;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.2,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1655884163; i=@fujitsu.com;
-	bh=ZHojtPW9bqmYmTi4VY+u6hGjuqaSwUIyT3X9dWuRWdA=;
+	s=170520fj; t=1655884160; i=@fujitsu.com;
+	bh=xEQYu+X6EL6/kmbhk2DRYdNqmO+tOJSDIHN/IVnC6CA=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	b=sbn4rksZv9i/C3Cfu0NXDLYZ41PNgHnBKhwUAuH0gqGYKyNcHs0DbK4/UjF29e6CY
-	 js1ULqcutI0ShEekP66zWdKEZthGn1jS2aQUTEXQFbHnunjRfnF2IJbZJM6v2xkA26
-	 W1RM+7fhfv0tWixYA/+gnHYqLPAZPY8rL/uyYV3qF92ZtXulpbpJI2o7LjHIQSLZ2f
-	 1dpbHvoopwg2cdZa+dqZr0qZWl6vCEjP0Yv8XyKIN4D0nlHLN62AHC9O4xq8h4O7MF
-	 pZHo9Q8IblKgiMIbCX1NdQE0SiY3zCuPUFzq59Ge4+hzy5x78i3ZN2mfEKIFihOAQf
-	 zFZiOB1ZbQnyA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupmleJIrShJLcpLzFFi42Kxs+FI0m0+uSn
-  J4OAbLos7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePD1k1sBQcNKv52b2RtYDyg2cXIxSEk8IBR
-  4uvN48wQzk0miZ87/zF1MXICOXsYJW7+lwCx2QTUJKbfusHaxcjBISKgJ3H1nyhImFlAReLF7
-  x52EFtYwFzi4LJDYDaLgKrEnamrmUFsXgEniR8fDrKB2BICChJTHr4Hi3MKOEssvrufGWKVk0
-  Tr0gdMEPWCEidnPmGBmK8p0br9NzuELS/RvHU2M8QcRYnZl5tZIOwKiRkztkHNV5O4em4T8wR
-  GoVlIRs1CMmoWklELGJlXMVolFWWmZ5TkJmbm6BoaGOgaGprqmukaGRroJVbpJuqlluqWpxaX
-  6BrqJZYX66UWF+sVV+Ym56To5aWWbGIEhnxKMdulHYxz+37qHWKU5GBSEuWVPLApSYgvKT+lM
-  iOxOCO+qDQntfgQowwHh5IEb9xxoJxgUWp6akVaZg4w/mDSEhw8SiK8tieA0rzFBYm5xZnpEK
-  lTjN4c+69d2cvM8ffTXyA5dfa//cwcy8HkzK9tB5g5Nu3rOsAsxJKXn5cqJc779SDQCAGQERm
-  leXALYGnkEqOslDAvIwMDgxBPQWpRbmYJqvwrRnEORiVh3mKQQ3gy80rg7ngFdCIT0IlPlm8A
-  ObEkESEl1cDEdkpE9kmS7N0p7pKz449dflS+NL7iHcMJDn5bBjn13d4OZrWT2A8vX2rNadQVo
-  vPrv2+zS+zsn6vmpy6ccFAn4K3b4+Mby37EcgVZai3ecVFhSVlld/HJj9UX3r26pPTb6uQ/E+
-  u3v8P4L/Zsequ5IChnfpMKy9MCzXsp13dP7y6yS+4wq0kOWDpxbfKO7Akl56wqLbPL+WYwsd6
-  tf7ZF+3/uynJNllt+jW43jeLEw2437OeNntrB7/TqtMF1TqUz98MEj5k4toTPOvq3r/GCg07y
-  mfN1MrNTcx+yn/x803LVDwHhLbZeJa9tD+V+sF/+7L+kC0/SxM6ZYkLHD+YnyPCf08xVXdf8x
-  JjhgZoSS3FGoqEWc1FxIgAPEeLbngMAAA==
+	b=AwT5Cl+4tSY1zmom8m7aveFZ32GLyxtKG3aubvTXIQJvykOJ7G2wBea1CaKROxWNv
+	 hOSCNIjAI6d+uzbXAbjqlD3bSmcWjBM6cg8xle/kmpfB1xB6KAKjIakB6fxEm8lwQ8
+	 9CagSRPD3tZKXbtSZmxzwJCvKZBQjRyvT+8rSvjX6Qsq+STUuVTEXrnj99vY8k6Dog
+	 565/NcRn4A1/Hig81geWXQ3YSJivIks/KYVfefEEW2KIQfOC5zPnHadfFsRRCqeHoq
+	 gP4R5UTXaxvmRV1ZsX81/wyH3ohOlc42xDqqiLnKHRtr9+0wonYtFBz6Yq1TzOEING
+	 7oTnMJnH/JCFg==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupmleJIrShJLcpLzFFi42Kxs+HYrNtwclO
+  SQXuboMWdn+/YHRg9zm1cwRjAGMWamZeUX5HAmnH66jGmgjapiqWrzrA2MK4T72Lk4hASeMAo
+  0Xn8CSuEc5NJ4vXiuYwQzh5GidZNL5i7GDk52ATUJKbfugFUxcEhIqAncfWfKEiYWUBF4sXvH
+  nYQW1jASGLbyS2sIDaLgKrE+fstbCDlvAJOErcmeoKEJQQUJKY8fA82kVPAWWLx3f1gthBQSe
+  vSB0wgNq+AoMTJmU9YIMZrSrRu/80OYctLNG+dzQwxR1Fi9uVmFgi7QmLGjG1sELaaxNVzm5g
+  nMArNQjJqFpJRs5CMWsDIvIrRKqkoMz2jJDcxM0fX0MBA19DQVNdU18jIVC+xSjdRL7VUtzy1
+  uETXUC+xvFgvtbhYr7gyNzknRS8vtWQTIzDkU4pZH+5gXNz3U+8QoyQHk5Ior+SBTUlCfEn5K
+  ZUZicUZ8UWlOanFhxhlODiUJHjjjgPlBItS01Mr0jJzgPEHk5bg4FES4bU9AZTmLS5IzC3OTI
+  dInWL05ljbcGAvM8f+a1eA5NTZ//YzcywHkzO/th1g5jj9Z/oBZiGWvPy8VClx3q8HgUYIgIz
+  IKM2DWwBLI5cYZaWEeRkZGBiEeApSi3IzS1DlXzGKczAqCfMWgxzCk5lXAnfHK6ATmYBOfLJ8
+  A8iJJYkIKakGplrvlTdXiQRuemjsIckl4mSvkSemnlSZvp1pj1HAM9mZlvEp/Pn9GkIKyatzo
+  3TdzrYxXdp+uC3u05N3zkxlPmdO+M/yvPoyf9KkKe/+Pj4a6KVyLyXg4bEw+/c7824uCymaei
+  jErCxlx+kXYYvbdvqyfuvqeW1VG2bC9urynq/b1USPX5HU7nBbLKxyWTTx0UaDnqqDHvsMdhf
+  Kd52o6TlRnzuzZcKZipZbFm91t8+MUVirENylsmDj6hnPjywId37QeHC1vmKqrKIr8840lglV
+  nSeiHgspzpuZmJC+x9ZyfmFJ732F8tQNmxc923wv/cGaz2VfQw5l9ElduzpfxyS4cr1jThdLf
+  mhbepCWEktxRqKhFnNRcSIA0XInHZ4DAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-14.tower-591.messagelabs.com!1655884162!401703!1
-X-Originating-IP: [62.60.8.98]
+X-Msg-Ref: server-17.tower-591.messagelabs.com!1655884159!401774!1
+X-Originating-IP: [62.60.8.179]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.86.7; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 22744 invoked from network); 22 Jun 2022 07:49:23 -0000
-Received: from unknown (HELO n03ukasimr03.n03.fujitsu.local) (62.60.8.98)
-  by server-14.tower-591.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 22 Jun 2022 07:49:23 -0000
-Received: from n03ukasimr03.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTP id B7E5A1AD
+Received: (qmail 18945 invoked from network); 22 Jun 2022 07:49:20 -0000
+Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
+  by server-17.tower-591.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 22 Jun 2022 07:49:20 -0000
+Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id CAD53150
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jun 2022 08:49:22 +0100 (BST)
+ Wed, 22 Jun 2022 08:49:19 +0100 (BST)
 Received: from R01UKEXCASM126.r01.fujitsu.local (unknown10-183-43-178
  [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTPS id A53961B1
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id BE3A0142
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jun 2022 08:49:22 +0100 (BST)
+ Wed, 22 Jun 2022 08:49:19 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Wed, 22 Jun 2022 08:49:20 +0100
+ (TLS) id 15.0.1497.32; Wed, 22 Jun 2022 08:49:18 +0100
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] strace: upgrade 5.17 -> 5.18
-Date: Wed, 22 Jun 2022 15:48:49 +0800
-Message-ID: <1655884130-22843-4-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] sbc: upgrade 1.5 -> 2.0
+Date: Wed, 22 Jun 2022 15:48:48 +0800
+Message-ID: <1655884130-22843-3-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1655884130-22843-1-git-send-email-wangmy@fujitsu.com>
 References: <1655884130-22843-1-git-send-email-wangmy@fujitsu.com>
@@ -87,183 +87,90 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Jun 2022 07:49:30 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167220
+ https://lists.openembedded.org/g/openembedded-core/message/167219
 
-0001-landlock-update-expected-string.patch
-removed since it's not available in 5.18.
-
-skip-load.patch
-refreshed for new version.
+0001-sbc_primitives-Fix-build-on-non-x86.patch
+revmoed since it's included in 2.0
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...0001-landlock-update-expected-string.patch | 67 -------------------
- .../strace/strace/skip-load.patch             | 40 +++++------
- .../strace/{strace_5.17.bb =3D> strace_5.18.bb} |  3 +-
- 3 files changed, 18 insertions(+), 92 deletions(-)
- delete mode 100644 meta/recipes-devtools/strace/strace/0001-landlock-update-expected-string.patch
- rename meta/recipes-devtools/strace/{strace_5.17.bb =3D> strace_5.18.bb} (93%)
+ ...-sbc_primitives-Fix-build-on-non-x86.patch | 45 -------------------
+ .../sbc/{sbc_1.5.bb =3D> sbc_2.0.bb}            |  6 +--
+ 2 files changed, 2 insertions(+), 49 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/sbc/sbc/0001-sbc_primitives-Fix-build-on-non-x86.patch
+ rename meta/recipes-multimedia/sbc/{sbc_1.5.bb =3D> sbc_2.0.bb} (76%)
 
-diff --git a/meta/recipes-devtools/strace/strace/0001-landlock-update-expected-string.patch b/meta/recipes-devtools/strace/strace/0001-landlock-update-expected-string.patch
+diff --git a/meta/recipes-multimedia/sbc/sbc/0001-sbc_primitives-Fix-build-on-non-x86.patch b/meta/recipes-multimedia/sbc/sbc/0001-sbc_primitives-Fix-build-on-non-x86.patch
 deleted file mode 100644
-index 9d67d68331..0000000000
---- a/meta/recipes-devtools/strace/strace/0001-landlock-update-expected-string.patch
+index 11cec74fbb..0000000000
+--- a/meta/recipes-multimedia/sbc/sbc/0001-sbc_primitives-Fix-build-on-non-x86.patch
 +++ /dev/null
-@@ -1,67 +0,0 @@
--From d0dae2fb30b907bc9bf70382f37c9e00207ae036 Mon Sep 17 00:00:00 2001
--From: Bruce Ashfield <bruce.ashfield@gmail.com>
--Date: Sat, 30 Apr 2022 01:09:42 -0400
--Subject: [PATCH] landlock: update expected string
+@@ -1,45 +0,0 @@
+-From f4a1224323e386090a44bf70ee0ac9877ba7fb0d Mon Sep 17 00:00:00 2001
+-From: Marius Bakke <marius@gnu.org>
+-Date: Tue, 22 Dec 2020 11:04:26 +0000
+-Subject: [PATCH] sbc_primitives: Fix build on non-x86.
 -MIME-Version: 1.0
 -Content-Type: text/plain; charset=3DUTF-8
 -Content-Transfer-Encoding: 8bit
 -
--Kernel commit:
+-Don't call __builtin_cpu_init unless targeting i386 or x86_64.
+-Otherwise we get an error at link time:
 -
--  commit 3d4b396a616d0d67bf95d6823ad1197f6247292e
--  Author: Christian Brauner <christian.brauner@ubuntu.com>
--  Date:   Mon Oct 11 15:37:04 2021 +0200
+-  CC       sbc/sbc_primitives.lo
+-sbc/sbc_primitives.c: In function =E2=80=98sbc_init_primitives_x86=E2=80=99:
+-sbc/sbc_primitives.c:596:2: warning: implicit declaration of function =E2=80=98__builtin_cpu_init=E2=80=99; did you mean =E2=80=98__builtin_irint=E2=80=99=3F [-Wimplicit-function-declaration]
+-[...]
+-  CCLD     src/sbcdec
+-ld: sbc/.libs/libsbc-private.a(sbc_primitives.o): in function `sbc_init_primitives':
+-sbc_primitives.c:(.text+0x3a30): undefined reference to `__builtin_cpu_init'
 -
--      landlock: Use square brackets around "landlock-ruleset"
--
--      commit aea0b9f2486da8497f35c7114b764bf55e17c7ea upstream.
--
--      Make the name of the anon inode fd "[landlock-ruleset]" instead of
--      "landlock-ruleset". This is minor but most anon inode fds already
--      carry square brackets around their name:
--
--          [eventfd]
--          [eventpoll]
--          [fanotify]
--          [fscontext]
--          [io_uring]
--          [pidfd]
--          [signalfd]
--          [timerfd]
--          [userfaultfd]
--
--      For the sake of consistency lets do the same for the landlock-ruleset anon
--      inode fd that comes with landlock. We did the same in
--      1cdc415f1083 ("uapi, fsopen: use square brackets around "fscontext" [ver #2]")
--      for the new mount api.
--
--      Cc: linux-security-module@vger.kernel.org
--      Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
--      Link: https://lore.kernel.org/r/20211011133704.1704369-1-brauner@kernel.org
--      Cc: stable@vger.kernel.org
--      Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
--      Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
--
--Changed the format of the landlock tracing. We need to update the strace
--expected string to match.
--
--Upstream-Status: Submitted [https://lists.strace.io/pipermail/strace-devel/2022-April/011064.html]
--
--Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+-Upstream-Status: Backport
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ----
-- tests/landlock_create_ruleset-y.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- sbc/sbc_primitives.c | 2 ++
+- 1 file changed, 2 insertions(+)
 -
--diff --git a/tests/landlock_create_ruleset-y.c b/tests/landlock_create_ruleset-y.c
--index a30966b..50e19c2 100644
----- a/tests/landlock_create_ruleset-y.c
--+++ b/tests/landlock_create_ruleset-y.c
--@@ -1,4 +1,4 @@
---#define FD_PATH "<anon_inode:landlock-ruleset>"
--+#define FD_PATH "<anon_inode:[landlock-ruleset]>"
-- #define SKIP_IF_PROC_IS_UNAVAILABLE skip_if_unavailable("/proc/self/fd/")
+-diff --git a/sbc/sbc_primitives.c b/sbc/sbc_primitives.c
+-index 97a75be..09c214a 100644
+---- a/sbc/sbc_primitives.c
+-+++ b/sbc/sbc_primitives.c
+-@@ -593,6 +593,7 @@ static int sbc_calc_scalefactors_j(
 - 
-- #include "landlock_create_ruleset.c"
---- 
--2.19.1
--
-diff --git a/meta/recipes-devtools/strace/strace/skip-load.patch b/meta/recipes-devtools/strace/strace/skip-load.patch
-index fa3ddb8ddc..b1acfda5d8 100644
---- a/meta/recipes-devtools/strace/strace/skip-load.patch
-+++ b/meta/recipes-devtools/strace/strace/skip-load.patch
-@@ -4,6 +4,12 @@ care about timing.
- Upstream-Status: Inappropriate
- Signed-off-by: Ross Burton <ross.burton@arm.com>
+- static void sbc_init_primitives_x86(struct sbc_encoder_state *state)
+- {
+-+#if defined(__x86_64__) || defined(__i386__)
+- 	__builtin_cpu_init();
+- 
+- #ifdef SBC_BUILD_WITH_MMX_SUPPORT
+-@@ -604,6 +605,7 @@ static void sbc_init_primitives_x86(struct sbc_encoder_state *state)
+- 	if (__builtin_cpu_supports("sse4.2"))
+- 		sbc_init_primitives_sse(state);
+- #endif
+-+#endif
+- }
+- 
+- /*
+diff --git a/meta/recipes-multimedia/sbc/sbc_1.5.bb b/meta/recipes-multimedia/sbc/sbc_2.0.bb
+similarity index 76%
+rename from meta/recipes-multimedia/sbc/sbc_1.5.bb
+rename to meta/recipes-multimedia/sbc/sbc_2.0.bb
+index e5c72ec0b4..d25be9e80c 100644
+--- a/meta/recipes-multimedia/sbc/sbc_1.5.bb
++++ b/meta/recipes-multimedia/sbc/sbc_2.0.bb
+@@ -12,11 +12,9 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D12f884d2ae1ff87c09e5b7ccc2c4ca7e \
  
-+---
-+ tests/clock_nanosleep.gen.test | 1 +
-+ tests/delay.test               | 1 +
-+ tests/strace-r.test            | 1 +
-+ 3 files changed, 3 insertions(+)
-+
- diff --git a/tests/clock_nanosleep.gen.test b/tests/clock_nanosleep.gen.test
- index 7a6025b..f0e6dbb 100755
- --- a/tests/clock_nanosleep.gen.test
-@@ -15,41 +21,29 @@ index 7a6025b..f0e6dbb 100755
- +skip_ "Test not reliable under load"
-  run_strace_match_diff -e trace=3Dclock_nanosleep,clock_gettime
- diff --git a/tests/delay.test b/tests/delay.test
--index f74e27f..328087e 100755
-+index f74e27f..6172c04 100755
- --- a/tests/delay.test
- +++ b/tests/delay.test
--@@ -9,6 +9,8 @@
-+@@ -8,6 +8,7 @@
-+ # SPDX-License-Identifier: GPL-2.0-or-later
-  
-  . "${srcdir=3D.}/init.sh"
-- 
- +skip_ "Test not reliable under load"
--+
-+ 
-  while read -r denter dexit denter_us dexit_us; do
-  	[ -n "$denter" ] || continue
-- 
--diff --git a/tests/strace-T.test b/tests/strace-T.test
--index adca3e8..d4acfe9 100755
----- a/tests/strace-T.test
--+++ b/tests/strace-T.test
--@@ -9,6 +9,8 @@
-- 
-- . "${srcdir=3D.}/init.sh"
-- 
--+skip_ "Test not reliable under load"
--+
-- T_opt=3D"${1:--T}"
-- 
-- run_prog ../sleep 0
- diff --git a/tests/strace-r.test b/tests/strace-r.test
--index 8299737..c360344 100755
-+index 8299737..d89c7df 100755
- --- a/tests/strace-r.test
- +++ b/tests/strace-r.test
--@@ -9,6 +9,8 @@
-+@@ -8,6 +8,7 @@
-+ # SPDX-License-Identifier: GPL-2.0-or-later
-  
-  . "${srcdir=3D.}/init.sh"
-- 
- +skip_ "Test not reliable under load"
--+
-+ 
-  r_opt=3D"${1:--r}"
-  
-- run_prog ../sleep 0
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/strace/strace_5.17.bb b/meta/recipes-devtools/strace/strace_5.18.bb
-similarity index 93%
-rename from meta/recipes-devtools/strace/strace_5.17.bb
-rename to meta/recipes-devtools/strace/strace_5.18.bb
-index c7fd9edf40..3164ebca51 100644
---- a/meta/recipes-devtools/strace/strace_5.17.bb
-+++ b/meta/recipes-devtools/strace/strace_5.18.bb
-@@ -13,9 +13,8 @@ SRC_URI =3D "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
-            file://ptest-spacesave.patch \
-            file://0001-strace-fix-reproducibilty-issues.patch \
-            file://skip-load.patch \
--           file://0001-landlock-update-expected-string.patch \
-            "
--SRC_URI[sha256sum] =3D "5fb298dbd1331fd1e1bc94c5c32395860d376101b87c6cd3d1ba9f9aa15c161f"
-+SRC_URI[sha256sum] =3D "60293ea79ac9253d600cdc9be077ad2988ca22284a439c9e66be5150db3d1187"
+ DEPENDS =3D "libsndfile1"
  
- inherit autotools ptest
+-SRC_URI =3D "${KERNELORG_MIRROR}/linux/bluetooth/${BP}.tar.xz \
+-           file://0001-sbc_primitives-Fix-build-on-non-x86.patch \
+-           "
++SRC_URI =3D "${KERNELORG_MIRROR}/linux/bluetooth/${BP}.tar.xz"
+ 
+-SRC_URI[sha256sum] =3D "0cbad69823a99e8421fe0700e8cf9eeb8fa0c1ad28e8dbc2182b3353507931d2"
++SRC_URI[sha256sum] =3D "8f12368e1dbbf55e14536520473cfb338c84b392939cc9b64298360fd4a07992"
+ 
+ inherit autotools pkgconfig
  
 -- 
 2.25.1
