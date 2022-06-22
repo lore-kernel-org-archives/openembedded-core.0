@@ -1,117 +1,106 @@
-Return-Path: <pavel@zhukoff.net>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90D74C433EF
-	for <webhook@archiver.kernel.org>; Wed, 22 Jun 2022 10:27:01 +0000 (UTC)
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by mx.groups.io with SMTP id smtpd.web10.5630.1655893611195794508
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2691C433EF
+	for <webhook@archiver.kernel.org>; Wed, 22 Jun 2022 10:33:51 +0000 (UTC)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
+ [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web12.5621.1655894029141564040
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Jun 2022 03:26:51 -0700
+ Wed, 22 Jun 2022 03:33:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@zhukoff.net header.s=fm2
- header.b=0UMcpHZE;
- spf=pass (domain: zhukoff.net, ip: 64.147.123.20,
- mailfrom: pavel@zhukoff.net)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id 270AB32008C3;
-	Wed, 22 Jun 2022 06:26:50 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 22 Jun 2022 06:26:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm2; t=1655893609; x=1655980009; bh=DLd/uXB5BAzLiKCao9t39OcXZ
-	bcN4DvFkiTMFWexi+I=; b=0UMcpHZEh3nHyMiQMINY1ucoFeaN8Mx3uX95Kasjp
-	N2c8Y67mTi8xIVmmQVgHrGLZljMM1fHsn7JnQetKCbQwy48JsjNG8/NHTKbufFMY
-	AYOFJcJ3+bbi1ZnvjS6NGrEx8Z5IwZD5HFisQOVwVZ0hp+nsir5DznWF0fmJ5KQT
-	1Nx087iAtZrMwdjlyIzx6+SMY0kY2jOdm4SBpwFlq+wCrMkA0fucQqCRFWVrjzU8
-	LIAV15V0X4MReyLl/iIAVwAVZDLGZD253gNJkpCpEDtIJ8Jqlqyju3k0C+aXZWXF
-	12S8c71kflKF+QZ9cvq6AeabN0SStIFJgOey6dfpWfssw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1655893609; x=1655980009; bh=DLd/uXB5BAzLiKCao9t39OcXZbcN4DvFkiT
-	MFWexi+I=; b=bGwomXFi1w0hL/CqB9FxWmyHd2XyGvDIQNfTx/ZuJ5sNfzxvtnB
-	CTSVkXeplbypwhw1xue+MovmbzOaGNAcr7wZjdjUN6sc9HnenE7+fHgkoM2uzucH
-	q4yuSuLIarIOUWYJHkTw5zAouj+oiMGgoR49AiX/Tx7zFSxW+jvuNYBYxD0zORK0
-	C269LQ+/0LykBxSqWcWoZvoB56bUY5aHNSP1uo1hzS44I/KXS71DHFN4SrPSyJDZ
-	jb5T6ElHAZEKn8POrOInCeBCHZSkRi4ti/7YV9XyJHBwe5LPB4d9Gz7FUnS19FKi
-	LB3TU+e38xGJzFcvb5hRFAbnIJ521RsFSyQ==
-X-ME-Sender: <xms:ae6yYp5ZbyYVM_z0r6kLGSlFeg83K9v2Qm9eAjBxXnL4YvvZWIj0ag>
-    <xme:ae6yYm44i1G_NDubTfH4CU8YTOdqhHyGBc83iJzxLJgCaefbP9hr4inYvD4jdLXED
-    9_3baKsQAMnZzzZEfo>
-X-ME-Received: 
- <xmr:ae6yYgczwi0oCdOTr4zf4KtgqcuhHX434sL-AWcAYUDyh-99RYycEL3OD1-fg9RU3_9rGPqhKo-XJ6t2GIINyvo>
-X-ME-Proxy-Cause: 
- gggruggvucftvghtrhhoucdtuddrgedvfedrudefhedgvdekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
-    ertddtnecuhfhrohhmpefrrghvvghlucgkhhhukhhovhcuoehprghvvghlseiihhhukhho
-    fhhfrdhnvghtqeenucggtffrrghtthgvrhhnpedtveetkeejudduhefhtdfhtefhvdffhe
-    elffdtffeileefudelieeuffdvffdtieenucffohhmrghinhepghhithhhuhgsrdgtohhm
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgrvh
-    gvlhesiihhuhhkohhffhdrnhgvth
-X-ME-Proxy: <xmx:ae6yYiJw31b9g8r_eIJIPstUYI6oLCDK6-UEDjxudJRWKg19dHR01g>
-    <xmx:ae6yYtIOfdOAo2QsGqqP1QaeYgvf3h7pVQoSh1kXE40D-HEMglGGbQ>
-    <xmx:ae6yYryXDq6WjlTbWbq_J1zTaEN_5a5qBGSwy-bxx8897BuxNRvnZA>
-    <xmx:ae6yYrids2fNPBlLBrZruoldhPUihwydQMFQwczCQQ5GvoYiDkaZwQ>
-Feedback-ID: ib94946c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Jun 2022 06:26:48 -0400 (EDT)
-From: Pavel Zhukov <pavel@zhukoff.net>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=HySAZUTD;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id ge10so1715346ejb.7
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 22 Jun 2022 03:33:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=NdJGN94sJgMEjCZ5+UXG6f7F/CjelYO96tsB7flNPJA=;
+        b=HySAZUTDHqIexPYenoMTr61lgKxiUq6+jt2ohS64KFrg+M80tz+hvh7v+REKH83YcB
+         nGOO3Ys46Oa5McW3TkN/mGevuwEAFeIIGyDg4LUR0plAOOP7x6Pm5EPb6zHsmCtCS26+
+         BSkoGsYV7RyHejgLlbNHs20Q8UYOYCCu4jdvopBBuCcVhXa6Ac+MJ83azasNS2/d3F+4
+         96vRADKVVjMmnI8QXOlYxGGTdbDCN+tBtMzM7K+VcbVxk80REK5/vqj4AjzsApSSkZzy
+         gmnEEPnZz/vBJR9fGnSbC4zIpj9M6HCyoZE7+wrcrZoB08V8jru3/89VZTbv/GhYS7wM
+         Tmaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=NdJGN94sJgMEjCZ5+UXG6f7F/CjelYO96tsB7flNPJA=;
+        b=JZ8WPDUiL8XX4bV40IECkwAOBiKwumiu7nWDMidVrAExGDhXdROf9un2ayIHV6w4IH
+         9xawS06ow24ylkR0lGEZuk6r3F/Gr4LF6G8Y9MgSwTbr1M5ns1ggLrteOKf/4Bxu2bT4
+         ipSXIP6citWK3j3NuawzSyV3S4YMuOJhus94UQJDsWyNnGrf9F9tsFn0Douk0i7dnXUZ
+         c9t6ixqGiRCj3gKn7o/Nm2P0YjqHVS1WKSkx7E3DFW40ya7xKtSyL7g+56Wttq9NHgjB
+         HdBGVSKJ7NqehxcNJToI7+rt9nMyWYScJQXzEQFXKuefiuDph95zR2AXXW4XNFaMNWoc
+         TmIQ==
+X-Gm-Message-State: AJIora/rVXjMJD2m1N7s5j1Gk0xRgegNHGPvlCkrFfqQDiYfF2au/9Pc
+	o7Kl44iWPXz76l6+P2LLxda4nqCHjajz1Q==
+X-Google-Smtp-Source: 
+ AGRyM1tPkcJysFqtWO6rJP2qTaVKJcg7apiSMCdx57L7C/m8Oc4lrr5bhaGCRA33waTKwcLQ9IW8Zg==
+X-Received: by 2002:a17:907:94c2:b0:722:e542:12 with SMTP id
+ dn2-20020a17090794c200b00722e5420012mr2461275ejc.119.1655894027779;
+        Wed, 22 Jun 2022 03:33:47 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de.
+ (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
+        by smtp.gmail.com with ESMTPSA id
+ lb21-20020a170907785500b007219c20dcd8sm6315826ejc.196.2022.06.22.03.33.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jun 2022 03:33:46 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: pavel@zhukoff.net,
-	Pavel Zhukov <pavel.zhukov@huawei.com>
-Subject: [PATCH] systemd: update upstream status of merged patches
-Date: Wed, 22 Jun 2022 12:26:14 +0200
-Message-Id: <20220622102613.12256-1-pavel@zhukoff.net>
-X-Mailer: git-send-email 2.35.1
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [RFC PATCH 6/6] oeqa/sdk: drop the nativesdk-python 2.x test
+Date: Wed, 22 Jun 2022 12:33:12 +0200
+Message-Id: <20220622103312.1098389-7-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220622103312.1098389-1-alex@linutronix.de>
+References: <20220622103312.1098389-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Jun 2022 10:27:01 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Jun 2022 10:33:51 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167225
+ https://lists.openembedded.org/g/openembedded-core/message/167232
 
-Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
+Python 2.x has been EOL for a while, and so this test
+never runs.
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../systemd/systemd/0001-Add-sys-file.h-for-LOCK_.patch         | 2 +-
- .../systemd/systemd/0002-Add-sys-stat.h-for-S_IFDIR.patch       | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/sdk/cases/python.py | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-Add-sys-file.h-for-LOCK_.patch b/meta/recipes-core/systemd/systemd/0001-Add-sys-file.h-for-LOCK_.patch
-index a3e148ec3b..08e8af0a5b 100644
---- a/meta/recipes-core/systemd/systemd/0001-Add-sys-file.h-for-LOCK_.patch
-+++ b/meta/recipes-core/systemd/systemd/0001-Add-sys-file.h-for-LOCK_.patch
-@@ -3,7 +3,7 @@ From: Pavel Zhukov <pavel.zhukov@huawei.com>
- Date: Mon, 20 Jun 2022 11:24:52 +0200
- Subject: [PATCH] Add sys/file.h for LOCK_
+diff --git a/meta/lib/oeqa/sdk/cases/python.py b/meta/lib/oeqa/sdk/cases/python.py
+index a334abce5f..d43354c32a 100644
+--- a/meta/lib/oeqa/sdk/cases/python.py
++++ b/meta/lib/oeqa/sdk/cases/python.py
+@@ -8,17 +8,6 @@ from oeqa.sdk.case import OESDKTestCase
+ from oeqa.utils.subprocesstweak import errors_have_output
+ errors_have_output()
  
--Upstream-Status: Submitted [https://github.com/systemd/systemd/pull/23790]
-+Upstream-Status: Backport [19df770fe14da601d4e54e1592c11c10ffe4df5a]
- 
- Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
- 
-diff --git a/meta/recipes-core/systemd/systemd/0002-Add-sys-stat.h-for-S_IFDIR.patch b/meta/recipes-core/systemd/systemd/0002-Add-sys-stat.h-for-S_IFDIR.patch
-index 4db5d6d97f..58767c7c35 100644
---- a/meta/recipes-core/systemd/systemd/0002-Add-sys-stat.h-for-S_IFDIR.patch
-+++ b/meta/recipes-core/systemd/systemd/0002-Add-sys-stat.h-for-S_IFDIR.patch
-@@ -6,7 +6,7 @@ Subject: [PATCH] Add sys/stat.h for S_IFDIR
- ../git/src/shared/mkdir-label.c:13:61: error: use of undeclared identifier 'S_IFDIR'
-         r = mac_selinux_create_file_prepare_at(dirfd, path, S_IFDIR);
- 
--Upstream-Status: Submitted [https://github.com/systemd/systemd/pull/23441]
-+Upstream-Status: Backport [29b7114c5d9624002aa7c17748d960cd1e45362d]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- 
- ---
+-class Python2Test(OESDKTestCase):
+-    def setUp(self):
+-        if not (self.tc.hasHostPackage("nativesdk-python-core") or
+-                self.tc.hasHostPackage("python-core-native")):
+-            raise unittest.SkipTest("No python package in the SDK")
+-
+-    def test_python2(self):
+-        cmd = "python -c \"import codecs; print(codecs.encode('Uryyb, jbeyq', 'rot13'))\""
+-        output = self._run(cmd)
+-        self.assertEqual(output, "Hello, world\n")
+-
+ class Python3Test(OESDKTestCase):
+     def setUp(self):
+         if not (self.tc.hasHostPackage("nativesdk-python3-core") or
 -- 
-2.35.1
+2.30.2
 
 
