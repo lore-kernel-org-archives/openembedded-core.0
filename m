@@ -1,138 +1,112 @@
-Return-Path: <liu.ming50@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A607C43334
-	for <webhook@archiver.kernel.org>; Thu, 23 Jun 2022 19:01:46 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web08.990.1656010896257088844
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C595C433EF
+	for <webhook@archiver.kernel.org>; Thu, 23 Jun 2022 22:46:53 +0000 (UTC)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+ [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web11.1186.1656024409678077861
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jun 2022 12:01:36 -0700
+ Thu, 23 Jun 2022 15:46:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FNlMxBvf;
- spf=pass (domain: gmail.com, ip: 209.85.167.45,
- mailfrom: liu.ming50@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id t25so553995lfg.7
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=gqh1hcBg;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f170.google.com with SMTP id z14so798054pgh.0
         for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jun 2022 12:01:36 -0700 (PDT)
+ Thu, 23 Jun 2022 15:46:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ZdPYBSJQXW5Sz0xUC1y4Ca/r1f7hkqum0kDwe64O+TE=;
-        b=FNlMxBvfwLG7PmmLvBvEJGtYm7JkaxzAdT/desfs6PdCbp1QtL1EacG4sscjHJhSSv
-         Tt/XgqMti+80Ifx43IzzLKe9JsmaWB9Sk/hd1j//cmt0hHWPILFTqlKsPceEWdTy42k8
-         N3+0ncGwsvEf5CGyEUIevXLm66XWNITNrTi/PhJMCuYexIK7w71psLoSUGvFOhw0GJhc
-         g/LOdmRMLbJyCaeoURc4nnXB27rfXbXg+YbQhfel+gqunGF3DH0Foo4HyP1owRic3Mv1
-         QMBOQlP+eeqZ5vK0tZhyxROz6/2FnnnNvCoasjHFf0MdGOojKK/T/U86MZmGW+Nk3tvh
-         WV9Q==
+        bh=BbFg2OS3Dxn+Cp+hZfIZ2bm5/nmrIBAxEv4YUP895M0=;
+        b=gqh1hcBgB740jQjT9Of//kyndj//uwFd9axk+JqrCPxzaCnvYaBMkBCu2zxYizo3Wa
+         owmK4zREH+GXlvUbUu89LfNpJ3U6u/Ibv9xtagCHvq5teHEMvHd3jqTwNjVKiAYPcceR
+         dpY/iNb9K+aCdKXPm857u9QurkRSWbjk/LWUY+srqx4IV6FnetDphegHJZXpUX1nN5bi
+         REdU0TF21lvwkRuNxLoxX2NvnkbwcpDv9oJIUl7B3jJSixoLgJJVv51w5DFAbuJzSh7P
+         HHDwSEfGbZ7nr6DUGWv5EVgC3sQQgXqAd042S6MRObNcOE5ad05BxW7rZbP9UchuWAsu
+         D4rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ZdPYBSJQXW5Sz0xUC1y4Ca/r1f7hkqum0kDwe64O+TE=;
-        b=m5gPr93/P2ORZ07+so3ypbxhTdWteqFFwV0lTUgi/lvmdXpFmcvO77LgxPcGMCh76n
-         rejQTUmVtCnn+7twJOBWOfUU5eWQ9XvIBoH/GQB1X0eMYulElLPWUdMs4Ru/O6DLdNX5
-         Sw4O3YJm8Xr2pqPZ+UJZJW7yLQuTMDB7vJCrr5Q16goB2YVpwEa/SZI4OIUqF5f/uHDD
-         E18w4PPkje6bgkIbCue3KmLd1G0pdSSlEsbhB2Tz2hGM1HKLX3LvF2h1V6Vram5DMfQA
-         Xc9E5+ncXtybKdfxYMkPQiq5CwYgoccV5yfBUuaoqtA3oNJqbtJc24js8p2GC34AysAd
-         V2mQ==
-X-Gm-Message-State: AJIora8mRGQUNcfiZxSZ/AUzfHBAj8gEcAsqey7LK0sHozktIhBDeKWR
-	pKohiYmHFcbZ1/Vdz5iH6ZJLLgE1zVk=
+        bh=BbFg2OS3Dxn+Cp+hZfIZ2bm5/nmrIBAxEv4YUP895M0=;
+        b=i/Df311MU5BcWDCZS5B8UYwQVlkFE5du2y2Xo+3jPImI1Art6EtWjmpUWmzEU6e/Gb
+         wcsYlRqWrXQloSk3G4ni2ZpCBnnUHF3S5gqgCz/xbNpzPsVJWFrSMAUlwO5PBv7AQL/k
+         OJmfVvrXy09JIWG+AVXSCzyE7vVHp64KYHDDjP/LQ5pQZcwCNhi5o5wkcJzZsv/5c2Wj
+         YQMyTAvMyXgwB54FgSebheNITUIgUhvbk3JJoKor6nMN3QsF2445Td8zSdGt+cd69ZOR
+         +ZXY3DGafzopo8uItBaC3KOeqZdGP2d1YSEEUlngY5869gU2hPW9QVhOpNxWCyL/mv8L
+         0n9A==
+X-Gm-Message-State: AJIora+xsxy22VWr1iybWQ5L8vqlcblkJ42TZqCkBhaeF9FcyBuPofIe
+	flItv1ylvS5JmxcSX5Rj+HDvl+8G26xN+3SQ
 X-Google-Smtp-Source: 
- AGRyM1sMXJcjCYs6JrMpd7S/cEnWkkZBL+PZFy/ZruOLhrLZhfWDITIZa0x39L8oIpjHp77Lf9273w==
-X-Received: by 2002:a19:ca1a:0:b0:47f:6a76:b4c9 with SMTP id
- a26-20020a19ca1a000000b0047f6a76b4c9mr6481518lfg.108.1656010893968;
-        Thu, 23 Jun 2022 12:01:33 -0700 (PDT)
-Received: from peterliu-Precision-7530.emea.group.atlascopco.com
- ([2a00:801:74d:c493:7187:a36f:5cc2:3fe3])
+ AGRyM1suKCRgh/zEbeTihprF8QzlONKNPPijbxT9dLMB+oeI/upP3t+rKm1BDNvxoHTAvf3+re7hEw==
+X-Received: by 2002:a63:b90b:0:b0:408:e3bb:94af with SMTP id
+ z11-20020a63b90b000000b00408e3bb94afmr9532317pge.300.1656024408253;
+        Thu, 23 Jun 2022 15:46:48 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- 2-20020a2e1542000000b0025a475f69c9sm13803ljv.81.2022.06.23.12.01.32
+ y1-20020a17090a1f4100b001ec9f9fe028sm2450041pjy.46.2022.06.23.15.46.47
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jun 2022 12:01:33 -0700 (PDT)
-From: liu.ming50@gmail.com
+        Thu, 23 Jun 2022 15:46:47 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [OE-core] [PATCH] udev-extraconf: fix some systemd automount issues
-Date: Thu, 23 Jun 2022 21:01:27 +0200
-Message-Id: <20220623190127.2519287-1-liu.ming50@gmail.com>
+Subject: [OE-core][dunfell 0/6] Pull request (cover letter only)
+Date: Thu, 23 Jun 2022 12:46:36 -1000
+Message-Id: <cover.1656024335.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jun 2022 19:01:46 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Jun 2022 22:46:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167283
+ https://lists.openembedded.org/g/openembedded-core/message/167284
 
-From: Ming Liu <liu.ming50@gmail.com>
+The following changes since commit 135adeb82c9303c26193bb6f6bd3bc696793aa62:
 
-The '.include' syntax has been dropped from latest systemd releases,
-we need drop the systemd-udevd.service here, introduce a postinst
-function to add "MountFlags=shared" to systemd-udevd.service.
+  archiver: don't use machine variables in shared recipes (2022-06-15 06:40:10 -1000)
 
-Also lsblk binary is being called in mount.sh automount_systemd
-function, add it to RDEPENDS.
+are available in the Git repository at:
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- .../udev/udev-extraconf/systemd-udevd.service |  3 ---
- meta/recipes-core/udev/udev-extraconf_1.1.bb  | 20 +++++++++++--------
- 2 files changed, 12 insertions(+), 11 deletions(-)
- delete mode 100644 meta/recipes-core/udev/udev-extraconf/systemd-udevd.service
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
-diff --git a/meta/recipes-core/udev/udev-extraconf/systemd-udevd.service b/meta/recipes-core/udev/udev-extraconf/systemd-udevd.service
-deleted file mode 100644
-index a9b86eb6e4..0000000000
---- a/meta/recipes-core/udev/udev-extraconf/systemd-udevd.service
-+++ /dev/null
-@@ -1,3 +0,0 @@
--.include @systemd_unitdir@/system/systemd-udevd.service
--[Service]
--MountFlags=shared
-diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-index ef6019259e..30f1fe76d0 100644
---- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
-+++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-@@ -11,7 +11,6 @@ SRC_URI = " \
-        file://autonet.rules \
-        file://network.sh \
-        file://localextra.rules \
--       ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'file://systemd-udevd.service', '', d)} \
- "
- 
- S = "${WORKDIR}"
-@@ -36,16 +35,21 @@ do_install() {
-     sed -i 's|@MOUNT_BASE@|${MOUNT_BASE}|g' ${D}${sysconfdir}/udev/scripts/mount.sh
- 
-     install -m 0755 ${WORKDIR}/network.sh ${D}${sysconfdir}/udev/scripts
-+}
-+
-+pkg_postinst:${PN} () {
-+	if [ -e $D${systemd_unitdir}/system/systemd-udevd.service ]; then
-+		sed -i "/\[Service\]/aMountFlags=shared" $D${systemd_unitdir}/system/systemd-udevd.service
-+	fi
-+}
- 
--    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
--        install -d ${D}${sysconfdir}/systemd/system
--        install ${WORKDIR}/systemd-udevd.service ${D}${sysconfdir}/systemd/system/systemd-udevd.service
--        sed -i 's|@systemd_unitdir@|${systemd_unitdir}|g' ${D}${sysconfdir}/systemd/system/systemd-udevd.service
--    fi
-+pkg_postrm:${PN} () {
-+	if [ -e $D${systemd_unitdir}/system/systemd-udevd.service ]; then
-+		sed -i "/MountFlags=shared/d" $D${systemd_unitdir}/system/systemd-udevd.service
-+	fi
- }
- 
--FILES:${PN} = "${sysconfdir}/udev ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '${sysconfdir}/systemd/system/systemd-udevd.service', '', d)}"
--RDEPENDS:${PN} = "udev util-linux-blkid"
-+RDEPENDS:${PN} = "udev util-linux-blkid ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'util-linux-lsblk', '', d)}"
- CONFFILES:${PN} = "${sysconfdir}/udev/mount.ignorelist"
- 
- # to replace udev-extra-rules from meta-oe
+Chee Yang Lee (1):
+  dpkg: update to 1.19.8
+
+Dmitry Baryshkov (2):
+  linux-firmware: add support for building snapshots
+  linux-firmware: upgrade 20220509 -> 20220610
+
+Hitendra Prajapati (2):
+  python-pip: CVE-2021-3572 Incorrect handling of unicode separators in
+    git references
+  golang: CVE-2021-44717 syscall: don't close fd 0 on ForkExec error
+
+Nick Potenski (1):
+  systemd: systemd-systemctl: Support instance conf files during enable
+
+ .../systemd/systemd-systemctl/systemctl       | 14 +++-
+ .../dpkg/{dpkg_1.19.7.bb => dpkg_1.19.8.bb}   |  4 +-
+ meta/recipes-devtools/go/go-1.14.inc          |  1 +
+ .../go/go-1.14/CVE-2021-44717.patch           | 83 ++++++++++++++++++
+ .../python/python3-pip/CVE-2021-3572.patch    | 48 +++++++++++
+ .../python/python3-pip_20.0.2.bb              |  1 +
+ ...01-Makefile-replace-mkdir-by-install.patch | 84 -------------------
+ ...20220509.bb => linux-firmware_20220610.bb} | 11 ++-
+ 8 files changed, 154 insertions(+), 92 deletions(-)
+ rename meta/recipes-devtools/dpkg/{dpkg_1.19.7.bb => dpkg_1.19.8.bb} (86%)
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2021-44717.patch
+ create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2021-3572.patch
+ delete mode 100644 meta/recipes-kernel/linux-firmware/files/0001-Makefile-replace-mkdir-by-install.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20220509.bb => linux-firmware_20220610.bb} (99%)
+
 -- 
 2.25.1
 
