@@ -2,78 +2,99 @@ Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25FFAC43334
-	for <webhook@archiver.kernel.org>; Thu, 23 Jun 2022 07:40:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E685C43334
+	for <webhook@archiver.kernel.org>; Thu, 23 Jun 2022 07:44:47 +0000 (UTC)
 Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
  [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web09.4822.1655970040717538885
+ by mx.groups.io with SMTP id smtpd.web12.4762.1655970281280858783
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jun 2022 00:40:41 -0700
+ Thu, 23 Jun 2022 00:44:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=O+Mu+KUk;
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=fnVhg/RE;
  spf=pass (domain: bootlin.com, ip: 217.70.183.195,
  mailfrom: luca.ceresoli@bootlin.com)
-Received: from booty (unknown [77.244.183.192])
+Received: from booty.fritz.box (unknown [77.244.183.192])
 	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 7D05A6000B;
-	Thu, 23 Jun 2022 07:40:38 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPA id 718F16000C;
+	Thu, 23 Jun 2022 07:44:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1655970039;
+	t=1655970279;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P27hKumHQch/9Z6Kpvy+zCRNqVwKMfQXOD0thS4nmL0=;
-	b=O+Mu+KUk7O0/Yqa+23LWj2UwzOQrERqNnAEl6ysdOFdpkn09UmRwWeWUnqSKk3C6UMNEOG
-	R+VSOsxqxQNYK+P/L/C6laqtgGaW+xWjo5qG7SO9Zr9PB3Hr531hm1FrLh/pvGZhHtj1+k
-	Ff+J4QL6PgMZYypItaW4YF041e5SiMCGO3MYEqXlDOVyUGVd8ijNTHbki41AbvgTFEH9sH
-	jxL/Y15GbdOXgRI93Ot9owiyId+iVhbb7IQiGxO21Hv6MiZTVAxxslf3PaGpKm/s8NYy06
-	YWb0/X2lJU/uLxJplsKPalTD7H+maYfB+EN9N8CAmqDOSpeUwj+2mR5SbKGFuA==
-Date: Thu, 23 Jun 2022 09:40:37 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Markus Volk" <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-core][PATCH 1/2] llvm: make LLVM_HAVE_OPT_VIEWER_MODULES
- optional
-Message-ID: <20220623094037.2204a89a@booty>
-In-Reply-To: <e74c83db-d4fd-8696-d00b-b19c19f9b42e@t-online.de>
-References: <20220622173251.478588-1-f_l_k@t-online.de>
-	<20220622224440.658ff65c@booty>
-	<e74c83db-d4fd-8696-d00b-b19c19f9b42e@t-online.de>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ucKUiIq7Az3gb1V/RethN/DY9Nrj6j5y25mHEGdf5H8=;
+	b=fnVhg/RE2GxKEE+uK3NhxSGhU8qzSYFIp/tm9r08ea7yjr38+eNhqAn/ou33N6IgQ0uEAs
+	Gbo1rGl1JbLV1v8MXQ/mI28SZqx9WCt76ROA2kMr1rGgsIfIZlT0DJnEF9u8THgcpDpANh
+	N0lB0y6jSfMo5JPn2PbOW5I6RetGq+ZSn16GCRTyJUzWentDueS5aK+BQCS1hP28brvzDX
+	kVWShOvJ0ogHsimXFlUN2O8CbfgXStkE2Dp8T+I/S5IkmrrKu75PSqxrRaXaeutWSaBajc
+	vhXZ+U++hJkkDFXjc98CDwJzmtF/7luysQoEtTBdE3hGtjlfSqzSeE+Q6mFtWQ==
+From: luca.ceresoli@bootlin.com
+To: openembedded-core@lists.openembedded.org
+Cc: "Markus Volk" <f_l_k@t-online.de>,
+	"Stefan Herbrechtsmeier" <stefan.herbrechtsmeier-oss@weidmueller.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v2] llvm: add PACKAGECONFIG[optviewer]
+Date: Thu, 23 Jun 2022 09:44:29 +0200
+Message-Id: <20220623074429.259889-1-luca.ceresoli@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jun 2022 07:40:47 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Jun 2022 07:44:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167261
+ https://lists.openembedded.org/g/openembedded-core/message/167262
 
-Hi Markus,
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-On Wed, 22 Jun 2022 23:03:47 +0200
-"Markus Volk" <f_l_k@t-online.de> wrote:
+Currently the CMake configuration for llvm finds the python pygments and
+pyyaml if they are installed on the host. This makes builds
+non-reproducible across different machines, some having those modules
+installed and some others not.
 
-> Hi Luca,
-> 
-> your commit message is way better than mine.
-> 
-> One suggestion on your patch. I guess to be working on the target it 
-> would be needed to add python3-pygment and python3-pyyaml as runtime 
-> dependencies as well.
-> 
-> PACKAGECONFIG[optviewer] = ",-DPY_PYGMENTS_FOUND=OFF -DPY_PYGMENTS_LEXERS_C_CPP_FOUND=OFF -DPY_YAML_FOUND=OFF,python3-pygments python3-pyyaml,python3-pygments python3-pyyaml"
+This has been causing a 'reproducible' failure on one of the autobuilders:
 
-Good catch. So if you are OK I will take care of this, send v2, test it
-on the autobuilder where it did fail and if there is no surprise send it
-to Richard.
+  AssertionError: The following deb packages are missing or different and not in exclusion list: /home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB/tmp/deploy/deb/./core2-64/llvm-dev_14.0.4-r0_amd64.deb
+  The following ipk packages are missing or different and not in exclusion list: /home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB/tmp/deploy/ipk/./core2-64/llvm-dev_14.0.4-r0_core2-64.ipk
+  The following rpm packages are missing or different and not in exclusion list: /home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB/tmp/deploy/rpm/./core2_64/llvm-dev-14.0.4-r0.core2_64.rpm
 
+Fix by adding an explicit PACKAGECONFIG to control the
+LLVM_HAVE_OPT_VIEWER_MODULES option in CMake. If unset, it forces CMake to
+ignore pygments and pyyaml, no matter it they are available on the host. If
+set, it DEPENDS on the pygments and pyyaml modules so that CMake will find
+and use them.
 
+Based on suggestions from Stefan and Markus -- thanks.
+
+Proposed-by: "Stefan Herbrechtsmeier" <stefan.herbrechtsmeier-oss@weidmueller.com>
+Proposed-by: "Markus Volk" <f_l_k@t-online.de>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+
+---
+
+Changes in v2:
+ - add the modules as RDEPENDS too (spotted by Markus)
+---
+ meta/recipes-devtools/llvm/llvm_git.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index 67ed1eab00fe..2ec5c1e1c0a3 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -56,6 +56,10 @@ def get_llvm_arch(bb, d, arch_var):
+ def get_llvm_host_arch(bb, d):
+     return get_llvm_arch(bb, d, 'HOST_ARCH')
+ 
++PACKAGECONFIG ??= ""
++# if optviewer OFF, force the modules to be not found or the ones on the host would be found
++PACKAGECONFIG[optviewer] = ",-DPY_PYGMENTS_FOUND=OFF -DPY_PYGMENTS_LEXERS_C_CPP_FOUND=OFF -DPY_YAML_FOUND=OFF,python3-pygments python3-pyyaml,python3-pygments python3-pyyaml"
++
+ #
+ # Default to build all OE-Core supported target arches (user overridable).
+ #
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.34.1
+
 
