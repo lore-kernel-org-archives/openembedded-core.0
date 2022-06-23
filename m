@@ -2,42 +2,42 @@ Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFCA9CCA47C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE431C43334
 	for <webhook@archiver.kernel.org>; Thu, 23 Jun 2022 16:44:26 +0000 (UTC)
-Received: from tulikuusama2.dnainternet.net (tulikuusama2.dnainternet.net
- [83.102.40.151])
- by mx.groups.io with SMTP id smtpd.web08.69.1656002659115599281
+Received: from sypressi2.dnainternet.net (sypressi2.dnainternet.net
+ [83.102.40.154])
+ by mx.groups.io with SMTP id smtpd.web11.68.1656002664400159221
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jun 2022 09:44:20 -0700
+ Thu, 23 Jun 2022 09:44:24 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=permerror,
  err=parse error for token &{10 18 spf.protection.outlook.com}: parse error
  for token &{10 18 spfd.protection.outlook.com}: limit exceeded (domain:
- vaisala.com, ip: 83.102.40.151, mailfrom: niko.mauno@vaisala.com)
+ vaisala.com, ip: 83.102.40.154, mailfrom: niko.mauno@vaisala.com)
 Received: from localhost (localhost [127.0.0.1])
-	by tulikuusama2.dnainternet.net (Postfix) with ESMTP id 85C9F42357;
-	Thu, 23 Jun 2022 19:44:17 +0300 (EEST)
+	by sypressi2.dnainternet.net (Postfix) with ESMTP id 81912179F1;
+	Thu, 23 Jun 2022 19:44:22 +0300 (EEST)
 X-Virus-Scanned: DNA Internet at dnainternet.net
-Received: from tulikuusama2.dnainternet.net ([83.102.40.151])
-	by localhost (tulikuusama2.dnainternet.net [127.0.0.1]) (DNA Internet,
+Received: from sypressi2.dnainternet.net ([83.102.40.154])
+	by localhost (sypressi2.dnainternet.net [127.0.0.1]) (DNA Internet,
  port 10041)
-	with ESMTP id A5v-ha-pQ84u; Thu, 23 Jun 2022 19:44:16 +0300 (EEST)
+	with ESMTP id gaBFhs5Eo-MC; Thu, 23 Jun 2022 19:44:22 +0300 (EEST)
 Received: from kirsikkapuu2.dnainternet.net (kirsikkapuu2.dnainternet.net
  [83.102.40.52])
-	by tulikuusama2.dnainternet.net (Postfix) with ESMTP id 98E0042307;
-	Thu, 23 Jun 2022 19:44:16 +0300 (EEST)
+	by sypressi2.dnainternet.net (Postfix) with ESMTP id 54FF6179EF;
+	Thu, 23 Jun 2022 19:44:22 +0300 (EEST)
 Received: from gasmonkey.vaisala.com (82-181-110-188.bb.dnainternet.fi
  [82.181.110.188])
-	by kirsikkapuu2.dnainternet.net (Postfix) with ESMTP id 5EDDE7E;
-	Thu, 23 Jun 2022 19:44:12 +0300 (EEST)
+	by kirsikkapuu2.dnainternet.net (Postfix) with ESMTP id 1B19F7E;
+	Thu, 23 Jun 2022 19:44:18 +0300 (EEST)
 From: Niko Mauno <niko.mauno@vaisala.com>
 To: openembedded-core@lists.openembedded.org
 Cc: luca.ceresoli@bootlin.com,
 	Niko Mauno <niko.mauno@vaisala.com>
-Subject: [PATCHv2 2/3] strace: Drop redundant oe_runmake parameter
-Date: Thu, 23 Jun 2022 19:43:55 +0300
-Message-Id: <20220623164356.3239-2-niko.mauno@vaisala.com>
+Subject: [PATCHv2 3/3] valgrind: Drop redundant oe_runmake parameter
+Date: Thu, 23 Jun 2022 19:43:56 +0300
+Message-Id: <20220623164356.3239-3-niko.mauno@vaisala.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220623164356.3239-1-niko.mauno@vaisala.com>
 References: <20220623164356.3239-1-niko.mauno@vaisala.com>
@@ -48,31 +48,30 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 23 Jun 2022 16:44:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167278
+ https://lists.openembedded.org/g/openembedded-core/message/167279
 
 PARALLEL_MAKE is now honored in ptest.bbclass, so drop redundant
 parameter from oe_runmake call.
 
 Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
 ---
- meta/recipes-devtools/strace/strace_5.18.bb | 2 +-
+ meta/recipes-devtools/valgrind/valgrind_3.19.0.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/strace/strace_5.18.bb b/meta/recipes-d=
-evtools/strace/strace_5.18.bb
-index 3164ebca51..08f0f1d27e 100644
---- a/meta/recipes-devtools/strace/strace_5.18.bb
-+++ b/meta/recipes-devtools/strace/strace_5.18.bb
-@@ -33,7 +33,7 @@ TESTDIR =3D "tests"
- PTEST_BUILD_HOST_PATTERN =3D "^(DEB_CHANGELOGTIME|RPM_CHANGELOGTIME|WARN=
-_CFLAGS_FOR_BUILD|LDFLAGS_FOR_BUILD)"
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.19.0.bb b/meta/rec=
+ipes-devtools/valgrind/valgrind_3.19.0.bb
+index 6e3234be6b..69915de505 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.19.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.19.0.bb
+@@ -141,7 +141,7 @@ SKIP_FILEDEPS:${PN}-ptest =3D '1'
+ INSANE_SKIP:${PN}-ptest =3D "debug-deps"
 =20
  do_compile_ptest() {
--	oe_runmake ${PARALLEL_MAKE} -C ${TESTDIR} buildtest-TESTS
-+	oe_runmake -C ${TESTDIR} buildtest-TESTS
+-    oe_runmake ${PARALLEL_MAKE} check
++    oe_runmake check
  }
 =20
- do_install_ptest() {
+=20
 --=20
 2.35.1
 
