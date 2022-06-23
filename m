@@ -1,73 +1,105 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDBDBC433EF
-	for <webhook@archiver.kernel.org>; Thu, 23 Jun 2022 16:41:16 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web09.34.1656002466186524024
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA039C433EF
+	for <webhook@archiver.kernel.org>; Thu, 23 Jun 2022 16:44:16 +0000 (UTC)
+Received: from sinikuusama2.dnainternet.net (sinikuusama2.dnainternet.net
+ [83.102.40.152])
+ by mx.groups.io with SMTP id smtpd.web11.64.1656002651917430432
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Jun 2022 09:41:06 -0700
+ Thu, 23 Jun 2022 09:44:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=FEMTnkGs;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197,
- mailfrom: luca.ceresoli@bootlin.com)
-Received: from booty (unknown [77.244.183.192])
-	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 8B3651C0004;
-	Thu, 23 Jun 2022 16:41:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1656002464;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LOqyJNM2FdlA6ikoyOdV3PwTq5T997odXyGP+kxH3KQ=;
-	b=FEMTnkGsup16XZcwnfBIwvpsq27LsCO0bilzmqIhcyRXgm6DHpehp8IFVDeHfTbf2zMKRE
-	Wm3eVJgPiFojH3kzRk2PRNNzXMc8/6SmMORQymb95ycLV9C+dwK7Qt+3wt2UJ58Cv1iTzj
-	wEK1eRTSVe29deBd6vVNcwJhc/RcM/vcvsKs98hM0j9leAbuIecaF2LbYz3Bg07SLubKsu
-	pVo44IjmvMP1NwQH8WxFaXskmWZUggcgICM+SZ41FOY6SK5jTsQLCw89Zer2ZJqkGBaJPj
-	Ab7AYVjZD5GieKrIWw/7rxIPhXfGd5MwACwuAUZBNyWlxy5FhuU7X+QGAWUCSA==
-Date: Thu, 23 Jun 2022 18:41:01 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, Alexander Kanavin
- <alex@linutronix.de>
-Subject: Re: [OE-core] [RFC PATCH 2/6] meta-ide-support: adjust to provide
- (e)SDK experience directly in a yocto build
-Message-ID: <20220623184101.206540dd@booty>
-In-Reply-To: 
- <CANNYZj-GAsOMpoqC6RWvrWnbNHS4+00d_wZtEWwwPH5-w0bu2Q@mail.gmail.com>
-References: <20220622103312.1098389-1-alex@linutronix.de>
-	<20220622103312.1098389-3-alex@linutronix.de>
-	<20220623120337.28f9cb12@booty>
-	<CANNYZj-GAsOMpoqC6RWvrWnbNHS4+00d_wZtEWwwPH5-w0bu2Q@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ dkim=missing;
+ spf=permerror,
+ err=parse error for token &{10 18 spf.protection.outlook.com}: parse error
+ for token &{10 18 spfd.protection.outlook.com}: limit exceeded (domain:
+ vaisala.com, ip: 83.102.40.152, mailfrom: niko.mauno@vaisala.com)
+Received: from localhost (localhost [127.0.0.1])
+	by sinikuusama2.dnainternet.net (Postfix) with ESMTP id ED09A1620F;
+	Thu, 23 Jun 2022 19:44:08 +0300 (EEST)
+X-Virus-Scanned: DNA Internet at dnainternet.net
+Received: from sinikuusama2.dnainternet.net ([83.102.40.152])
+	by localhost (sinikuusama2.dnainternet.net [127.0.0.1]) (DNA Internet,
+ port 10041)
+	with ESMTP id 0kLJXwKaVUXe; Thu, 23 Jun 2022 19:44:08 +0300 (EEST)
+Received: from kirsikkapuu2.dnainternet.net (kirsikkapuu2.dnainternet.net
+ [83.102.40.52])
+	by sinikuusama2.dnainternet.net (Postfix) with ESMTP id 9B3DB163B5;
+	Thu, 23 Jun 2022 19:44:08 +0300 (EEST)
+Received: from gasmonkey.vaisala.com (82-181-110-188.bb.dnainternet.fi
+ [82.181.110.188])
+	by kirsikkapuu2.dnainternet.net (Postfix) with ESMTP id 693843BAF;
+	Thu, 23 Jun 2022 19:44:05 +0300 (EEST)
+From: Niko Mauno <niko.mauno@vaisala.com>
+To: openembedded-core@lists.openembedded.org
+Cc: luca.ceresoli@bootlin.com,
+	Niko Mauno <niko.mauno@vaisala.com>
+Subject: [PATCHv2 1/3] ptest.bbclass: Honor PARALLEL_MAKE, PARALLEL_MAKEINST
+Date: Thu, 23 Jun 2022 19:43:54 +0300
+Message-Id: <20220623164356.3239-1-niko.mauno@vaisala.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Jun 2022 16:41:16 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Jun 2022 16:44:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167276
+ https://lists.openembedded.org/g/openembedded-core/message/167277
 
-Hi Alex,
+Since oe_runmake wrapper doesn't by default involve PARALLEL_MAKE
+outside do_compile() nor PARALLEL_MAKEINST outside do_install(),
+enable parallellized make by default when oe_runmake is invoked from
+do_compile_ptest() or do_install_ptest() by declaring wrapper task
+specific EXTRA_OEMAKE overrides in fashion similar to do_compile and
+do_install overrides in meta/conf/bitbake.conf.
 
-On Thu, 23 Jun 2022 16:52:55 +0200
-Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+Parallel make can still be disabled by resetting bbclass specific
+PTEST_PARALLEL_MAKE and PTEST_PARALLEL_MAKEINST variables in recipe
+e.g. if a race issue needs to be avoided without modifying source code.
 
-> Thanks Luca, this was not meant for merging (RFC), but it helps to see
-> the issues upfront.
+Tested by issuing following command sequence on a 32-core build host:
 
-Sure, however Richard asked me to test this on the autobuilders.
+  $ bitbake -c clean util-linux && bitbake --skip-setscene -c compile uti=
+l-linux && time bitbake --skip-setscene -c compile_ptest_base util-linux
 
-Cheers.
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+and found that before this change the result was
+
+  real	0m34.684s
+  user	0m0.753s
+  sys	0m0.131s
+
+and after this change
+
+  real	0m9.868s
+  user	0m0.749s
+  sys	0m0.150s
+
+Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+---
+ meta/classes/ptest.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
+index 1ec23c0923..c162f5d934 100644
+--- a/meta/classes/ptest.bbclass
++++ b/meta/classes/ptest.bbclass
+@@ -5,6 +5,10 @@ This package contains a test directory ${PTEST_PATH} for=
+ package test purposes."
+ PTEST_PATH ?=3D "${libdir}/${BPN}/ptest"
+ PTEST_BUILD_HOST_FILES ?=3D "Makefile"
+ PTEST_BUILD_HOST_PATTERN ?=3D ""
++PTEST_PARALLEL_MAKE ?=3D "${PARALLEL_MAKE}"
++PTEST_PARALLEL_MAKEINST ?=3D "${PARALLEL_MAKEINST}"
++EXTRA_OEMAKE:prepend:task-compile-ptest-base =3D "${PTEST_PARALLEL_MAKE}=
+ "
++EXTRA_OEMAKE:prepend:task-install-ptest-base =3D "${PTEST_PARALLEL_MAKEI=
+NST} "
+=20
+ FILES:${PN}-ptest +=3D "${PTEST_PATH}"
+ SECTION:${PN}-ptest =3D "devel"
+--=20
+2.35.1
+
 
