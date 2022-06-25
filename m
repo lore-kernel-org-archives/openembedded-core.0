@@ -2,123 +2,103 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD28EC43334
-	for <webhook@archiver.kernel.org>; Sat, 25 Jun 2022 16:55:55 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web08.21794.1656176148180006655
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFBE5C433EF
+	for <webhook@archiver.kernel.org>; Sat, 25 Jun 2022 20:13:56 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web12.23506.1656188019346159864
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Jun 2022 09:55:48 -0700
+ Sat, 25 Jun 2022 13:13:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ETliAmpG;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TUr/3WH2;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id i1so2684413wrb.11
+Received: by mail-wm1-f54.google.com with SMTP id m184so3088461wme.1
         for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Jun 2022 09:55:47 -0700 (PDT)
+ Sat, 25 Jun 2022 13:13:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=/e0wxm34KJxyneDuziMtrU91O3PqW2fqAEElm7zpu/M=;
-        b=ETliAmpGk/vK0nFhfMp2PgZ5hbwCPwFw4jSqreHPvradDdPwXXxPYDYGJm0DWBFxkW
-         n2Ma1IH4XSag7h/FKnvZbugsIaQ2p1z89bipAPcSxntDKSz5imkDbptM6Uj8Lp0DydsN
-         nYPPKtKF0IC4O/znFq5drGsSnps1WtqPw61C0=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QaMSqH81mMe4H8Iaqn8Oviw3efwdiyJ95wVYsjcz/gk=;
+        b=TUr/3WH2RNi7q2rnNwpodDPBVUyDi7/H4KnPTHS/H6AkKV/CwR3zCk0Z+VYO2nHguQ
+         04Ab7hHhPVMYlmNtzRCNgWjrlo3vPwQ5i+FGi4IS4okYObO+031URzieaHk1VR+c+VtM
+         zzK93QOXkbl4vcZLSHtnwQJVad1QBJ7OE4d70=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=/e0wxm34KJxyneDuziMtrU91O3PqW2fqAEElm7zpu/M=;
-        b=liuifo6EFvIOE4fAvrmSErdVx0E4JGbylVT9Lqs4d+PiXrijotaUnMYBcquw/d7zpc
-         IFMhwswhNzF3WgbU/Vw3GpPJ030tJkuXLb4q0VSxSUag+70v0bbxRSl7PjatG50MqkEt
-         +BJhr0nS3mD4uCl/4s7a6b0v49Up3DfY8MbH5T30SHAqUTsH99+KaFtt7vuli0A5rCL5
-         AtwqswmD7GD8jOoVA8g4KVWHCNDOwCV+yGF6hq2+4+8NXCwjUjjpAvBCnZ7TmEW4XHLb
-         q7a9h9JaKaIC+7W5wuqawSAWVVyoeKyr3kApeyziB3+4wiuHfY2hphMBjzzcXD3FtUVA
-         x8jA==
-X-Gm-Message-State: AJIora9+Yooo9fkpfUJkN29LDbgL48nb/1YdSyz6OaCY6g8vHXOheaPV
-	azgC84Mq4nEmYzvqLalX3D6Vcw==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QaMSqH81mMe4H8Iaqn8Oviw3efwdiyJ95wVYsjcz/gk=;
+        b=mAj3cBjS/vQCHd2f2Slm57GJAFRch6ffLhhd44Af+zcy15R9thiD98u15QFcI80hMP
+         gsFuphlzc9qwe32pRKR6MZbrqkvbiEDIqmvDGIeDSYST5xWiW2fc12RjKOtqpX322UNG
+         93SHLKt7QmM/jpzB1ou7zzBKTNTMZqmDkKiI/im0X9ObOkktLFziPGrSWobeJPChf7eF
+         nuiek2ZIjG9Y3UptgQ7GRLGzgIaZ+mVtnaltF8sOfjLg+RAzqOGcMhYHoue+cl8dX3TE
+         8obbO1McaO4HkH13bA/Gs33FWoD2KPtlXk1pU7u05PimfvWsav3T4eS1VWZQYZFdOzwt
+         63Ig==
+X-Gm-Message-State: AJIora+sz8L4Gh1Ef1EZkOEkKHZOhXY13+gVpeO01y5OhWKffBYRZKgx
+	QECngtJ1K4/1vvgykHMuWoNGo+RarQIL6A==
 X-Google-Smtp-Source: 
- AGRyM1s5maVPMHddyrnkh6OZIlhBCLikq9fyDeK6xUas2UegBWZ0O6O4C4vqhfHMiEtIcL9yLgkl+w==
-X-Received: by 2002:adf:f10f:0:b0:21b:8f54:722c with SMTP id
- r15-20020adff10f000000b0021b8f54722cmr4458479wro.401.1656176146645;
-        Sat, 25 Jun 2022 09:55:46 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:94fb:7e7b:31cf:be7f?
- ([2001:8b0:aba:5f3c:94fb:7e7b:31cf:be7f])
+ AGRyM1sIyRiDzOM0MOFBBzUyYJVaY8bxB+G7UxSgzKDzBLrgsQme4rVQiLSPMZx34F7F8/UpBKuoiw==
+X-Received: by 2002:a05:600c:646:b0:397:77ab:5eb7 with SMTP id
+ p6-20020a05600c064600b0039777ab5eb7mr6205041wmm.166.1656188017092;
+        Sat, 25 Jun 2022 13:13:37 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:2873:558:fe47:ee6f])
         by smtp.gmail.com with ESMTPSA id
- x11-20020adff0cb000000b0021b92171d28sm6912557wro.54.2022.06.25.09.55.45
+ k19-20020a7bc413000000b003a02b135747sm7289607wmi.46.2022.06.25.13.13.36
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jun 2022 09:55:45 -0700 (PDT)
-Message-ID: 
- <b9d79d0231537cfcb8f75bd0e728d76bbdb64f1a.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/3] ptest.bbclass: Honor PARALLEL_MAKE,
- PARALLEL_MAKEINST
+        Sat, 25 Jun 2022 13:13:36 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: niko.mauno@vaisala.com, openembedded-core@lists.openembedded.org
-Date: Sat, 25 Jun 2022 17:55:45 +0100
-In-Reply-To: <20220622191615.10168-1-niko.mauno@vaisala.com>
-References: <20220622191615.10168-1-niko.mauno@vaisala.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] elfutils/flex: Disable parallel make ptest compile
+Date: Sat, 25 Jun 2022 21:13:35 +0100
+Message-Id: <20220625201335.317473-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 25 Jun 2022 16:55:55 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 25 Jun 2022 20:13:56 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167297
+ https://lists.openembedded.org/g/openembedded-core/message/167298
 
-On Wed, 2022-06-22 at 22:16 +0300, niko.mauno@vaisala.com via
-lists.openembedded.org wrote:
-> Since oe_runmake wrapper doesn't by default involve PARALLEL_MAKE
-> outside do_compile() nor PARALLEL_MAKEINST outside do_install(),
-> enable parallellized make by default when oe_runmake is invoked from
-> do_compile_ptest() or do_install_ptest() by declaring wrapper task
-> specific EXTRA_OEMAKE overrides in fashion similar to do_compile and
-> do_install overrides in meta/conf/bitbake.conf.
->=20
-> Parallel make can still be disabled by resetting bbclass specific
-> PTEST_PARALLEL_MAKE and PTEST_PARALLEL_MAKEINST variables in recipe
-> e.g. if a race issue needs to be avoided without modifying source code.
->=20
-> Tested by issuing following command sequence on a 32-core build host:
->=20
->   $ bitbake -c clean util-linux && bitbake --skip-setscene -c compile uti=
-l-linux && time bitbake --skip-setscene -c compile_ptest_base util-linux
->=20
-> and found that before this change the result was
->=20
->   real	0m34.684s
->   user	0m0.753s
->   sys	0m0.131s
->=20
-> and after this change
->=20
->   real	0m9.868s
->   user	0m0.749s
->   sys	0m0.150s
->=20
-> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
-> ---
->  meta/classes/ptest.bbclass | 4 ++++
->  1 file changed, 4 insertions(+)
+The recent change enabling parallel make for ptest compile/install caused
+autobuilder failures in these two recipes. Disable parallel make here
+for now until someone can debug the race and get it fixed (preferably
+upstream).
 
-This has merged but is causing a few problems. So far, elfutils and
-flex both ran into make races with a ton of failed builds as a result.
-I've a patch to disable paralell compile for those two recipes in the
-ptest compile. Ideally we'd look into and get this issues fixed
-upstream.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/elfutils/elfutils_0.187.bb | 1 +
+ meta/recipes-devtools/flex/flex_2.6.4.bb         | 1 +
+ 2 files changed, 2 insertions(+)
 
-Some random build failure links (there are many more in that build):
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/100/builds/3045
-https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/5446
-https://autobuilder.yoctoproject.org/typhoon/#/builders/62/builds/5417
-https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/3428
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.187.bb b/meta/recipes-devtools/elfutils/elfutils_0.187.bb
+index 31983dfd6ba..d03da613539 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.187.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.187.bb
+@@ -56,6 +56,7 @@ do_compile_ptest() {
+ 	cd ${B}/tests
+ 	oe_runmake buildtest-TESTS oecheck
+ }
++PTEST_PARALLEL_MAKE = ""
+ 
+ do_install_ptest() {
+ 	if [ ${PTEST_ENABLED} = "1" ]; then
+diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
+index c7cd9653470..8736b3585e0 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.4.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
+@@ -60,6 +60,7 @@ RDEPENDS:${PN}-ptest += "bash gawk make"
+ do_compile_ptest() {
+ 	oe_runmake -C ${B}/tests -f ${B}/tests/Makefile top_builddir=${B} INCLUDES=-I${S}/src buildtests
+ }
++PTEST_PARALLEL_MAKE = ""
+ 
+ do_install_ptest() {
+ 	mkdir -p ${D}${PTEST_PATH}/build-aux/
+-- 
+2.34.1
 
 
