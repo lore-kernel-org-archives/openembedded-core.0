@@ -2,57 +2,58 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8726DC43334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87EC8C433EF
 	for <webhook@archiver.kernel.org>; Sun, 26 Jun 2022 09:45:20 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web09.28512.1656236712028218058
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web08.28864.1656236713100267396
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Jun 2022 02:45:12 -0700
+ Sun, 26 Jun 2022 02:45:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iTpt1zUx;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=E8e5gpRB;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id k129so2264738wme.0
+Received: by mail-wr1-f52.google.com with SMTP id q9so8978256wrd.8
         for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Jun 2022 02:45:11 -0700 (PDT)
+ Sun, 26 Jun 2022 02:45:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=cQpvyQ5LZPCBF6phB1WznzDEpCBFzdaJPz7JXWytWDk=;
-        b=iTpt1zUx/vK5n9m7i64Vzy3oImAOga3aQ7f/r6ggcOsmh1ug4JISwV9GD24VgyKN/b
-         3kSR06loMWlEDpkdpaQsB4X+KDC0veRYMinhYPFJIoy9nyQmN9UtT7WlNhHLwSqwWJI1
-         PS70xzuEZHaS0yQkGLWjJY0FiXulyNEntNiqo=
+        bh=eU6Uo4AKLVOpWWxfA4CkeEVHsUmSUXq2thl2LkV8pJg=;
+        b=E8e5gpRBJAdXLGX8h0Pi57jBVmELuBS6VuYes+Wk5ikiFiYEt9X8l4nezy+tyB/ZNR
+         W2hbRo1gdo/ac9nTRt4HncaPyWpm2Eci8u53Ku9SSy4R3qJqcvzqs33Z6sAiMX6V2dIP
+         Ttke+WZ13xnUgGpyRHk22byLUb1TvhyOXRjrE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=cQpvyQ5LZPCBF6phB1WznzDEpCBFzdaJPz7JXWytWDk=;
-        b=yShreYmEVmIQMsYjJ1Yqt9vtBz6AOX63D4CPciFxtsn1AgplR2kV238g+/LN5k1xN6
-         XDyQrOu+wT+/3/ulVQoyVgKiX4JSTWHaxSulcadXL6s5OMV6zXWl0K6ybUHu+y/HPn3l
-         8dwN+stQFvPO/6bnIEycNzHCN5c1pEZYV9TT0XdeOwZKa/sxs2u91GavqY9soJEa081F
-         N1udolIWhEde60NJnM3Ywe+MgkgiRu2P02VhuSb3YllPqMFzJ4pNbJJ18tFaDDmf4NmM
-         kWWtyUIu977/EVXikM+YAUnJhPs1snEiDw7fYayk38i6W7khWu465KmmWquKTiCyJDLH
-         0W6w==
-X-Gm-Message-State: AJIora9b+3ljAZlVipSWi7A42oUl3l/ZXfEXWEh/YRFAt4ByWSUqR4bi
-	ZJQ7XBY0Uhq/vFHbkefTrhPVwQYIuCOxqA==
+        bh=eU6Uo4AKLVOpWWxfA4CkeEVHsUmSUXq2thl2LkV8pJg=;
+        b=xjvRiz924vsdVt6jw7BGL+bpSuCVLrBpwqdbVGZHbIx9ZaofjGCJ3PppDsbTDZTH49
+         YUuOYxY/JskA0p/ZTiDQWSriAHz+5iyzpMxbABD76Rgb0itmLhkeQA6zs0T+996s5coS
+         Xn9PWSjQvvIDM9z4FWBGowMbhG+CmvhEK2CgElg5uyEhCrxO+gvJ2ZzzbSH/yJ/SA2pG
+         8J2OnGLAox2jlgYyZAyUQhAFOYKXkXnwKhiBkWHx4PSGlNd/NMeh1tWVRZZeg110uPU3
+         Y0uJkK0GCWgnO/z+la0W1p4E9WbeTCbxOutzrE49yv+bVQ2g4wUHpvFLbZRJC+TU+5i+
+         LVHA==
+X-Gm-Message-State: AJIora8tVyNnB6CnxxfFXRmnvRBQQl4paclrUTGsGoUp9/D4bxkGR9rp
+	jPdxAEmlDAYCBDd6O9UhJ4SZZ8W5SHfXfg==
 X-Google-Smtp-Source: 
- AGRyM1tKtS/9ZBcYEMUmruPIlT29iqsIOwOjjoXfeUAMX7OdWgkuWWfIvAMmbRUw6UiX2+DlnlKTBw==
-X-Received: by 2002:a05:600c:17cf:b0:39c:4b79:78c9 with SMTP id
- y15-20020a05600c17cf00b0039c4b7978c9mr8601406wmo.96.1656236710239;
-        Sun, 26 Jun 2022 02:45:10 -0700 (PDT)
+ AGRyM1uJPL+d98vz9t5EuhyRBh+kaspt2JmgC2IeyJTc5/GcSir/fUUFLjoPDfNgwtTaD5t7ZNhxTw==
+X-Received: by 2002:a5d:64c1:0:b0:21b:981a:594e with SMTP id
+ f1-20020a5d64c1000000b0021b981a594emr7046935wri.171.1656236711243;
+        Sun, 26 Jun 2022 02:45:11 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:2873:558:fe47:ee6f])
         by smtp.gmail.com with ESMTPSA id
- e9-20020a5d4e89000000b0021a3a87fda9sm7305018wru.47.2022.06.26.02.45.09
+ e9-20020a5d4e89000000b0021a3a87fda9sm7305018wru.47.2022.06.26.02.45.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jun 2022 02:45:09 -0700 (PDT)
+        Sun, 26 Jun 2022 02:45:10 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/4] bitbake.conf: Change -dev RDEPENDS to RRECOMMENDS
-Date: Sun, 26 Jun 2022 10:45:05 +0100
-Message-Id: <20220626094506.352336-3-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 4/4] coreutils: Tweak packaging variable names for
+ coreutils-dev
+Date: Sun, 26 Jun 2022 10:45:06 +0100
+Message-Id: <20220626094506.352336-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220626094506.352336-1-richard.purdie@linuxfoundation.org>
 References: <20220626094506.352336-1-richard.purdie@linuxfoundation.org>
@@ -63,45 +64,31 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 26 Jun 2022 09:45:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167305
+ https://lists.openembedded.org/g/openembedded-core/message/167306
 
-Switch the default DEPENDS for ${PN}-dev to be a RRECOMMENDS instead. This
-takes advantage of a change to complmentary package globbing to not follow
-RRECOMMENDS and means and SDK for an image with both openssh and dropbear
-compoments will now build successfully.
+PACKAGES uses ${PN}-dev so be consistent with the addition to the
+variable to avoid weird variable conflicts.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/bitbake.conf                    | 2 +-
- meta/lib/oeqa/selftest/cases/oescripts.py | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/coreutils/coreutils_9.1.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 40a893fe1c6..1d36aae8b35 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -350,7 +350,7 @@ FILES:${PN}-dev = "${includedir} ${FILES_SOLIBSDEV} ${libdir}/*.la \
- SECTION:${PN}-dev = "devel"
- ALLOW_EMPTY:${PN}-dev = "1"
- DEV_PKG_DEPENDENCY = "${PN} (= ${EXTENDPKGV})"
--RDEPENDS:${PN}-dev = "${DEV_PKG_DEPENDENCY}"
-+RRECOMMENDS:${PN}-dev = "${DEV_PKG_DEPENDENCY}"
+diff --git a/meta/recipes-core/coreutils/coreutils_9.1.bb b/meta/recipes-core/coreutils/coreutils_9.1.bb
+index d57e147a7e0..0f57372369d 100644
+--- a/meta/recipes-core/coreutils/coreutils_9.1.bb
++++ b/meta/recipes-core/coreutils/coreutils_9.1.bb
+@@ -171,8 +171,8 @@ RDEPENDS:${PN}-ptest += "bash findutils gawk liberror-perl make perl perl-module
  
- FILES:${PN}-staticdev = "${libdir}/*.a ${base_libdir}/*.a ${libdir}/${BPN}/*.a"
- SECTION:${PN}-staticdev = "devel"
-diff --git a/meta/lib/oeqa/selftest/cases/oescripts.py b/meta/lib/oeqa/selftest/cases/oescripts.py
-index bd84f151cb3..d3a789a6a77 100644
---- a/meta/lib/oeqa/selftest/cases/oescripts.py
-+++ b/meta/lib/oeqa/selftest/cases/oescripts.py
-@@ -21,7 +21,7 @@ class BuildhistoryDiffTests(BuildhistoryBase):
-         pkgv = result.output.rstrip()
-         result = runCmd("buildhistory-diff -p %s" % get_bb_var('BUILDHISTORY_DIR'))
-         expected_endlines = [
--            "xcursor-transparent-theme-dev: RDEPENDS: removed \"xcursor-transparent-theme (['= %s-r1'])\", added \"xcursor-transparent-theme (['= %s-r0'])\"" % (pkgv, pkgv),
-+            "xcursor-transparent-theme-dev: RRECOMMENDS: removed \"xcursor-transparent-theme (['= %s-r1'])\", added \"xcursor-transparent-theme (['= %s-r0'])\"" % (pkgv, pkgv),
-             "xcursor-transparent-theme-staticdev: RDEPENDS: removed \"xcursor-transparent-theme-dev (['= %s-r1'])\", added \"xcursor-transparent-theme-dev (['= %s-r0'])\"" % (pkgv, pkgv)
-         ]
-         for line in result.output.splitlines():
+ # -dev automatic dependencies fails as we don't want libmodule-build-perl-dev, its too heavy
+ # may need tweaking if DEPENDS changes
+-RRECOMMENDS:coreutils-dev[nodeprrecs] = "1"
+-RRECOMMENDS:coreutils-dev = "acl-dev attr-dev gmp-dev libcap-dev bash-dev findutils-dev gawk-dev shadow-dev"
++RRECOMMENDS:${PN}-dev[nodeprrecs] = "1"
++RRECOMMENDS:${PN}-dev += "acl-dev attr-dev gmp-dev libcap-dev bash-dev findutils-dev gawk-dev shadow-dev"
+ 
+ do_install_ptest () {
+     install -d ${D}${PTEST_PATH}/tests
 -- 
 2.34.1
 
