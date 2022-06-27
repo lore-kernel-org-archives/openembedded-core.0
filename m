@@ -2,64 +2,63 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E4F7C433EF
-	for <webhook@archiver.kernel.org>; Mon, 27 Jun 2022 16:51:59 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web08.45017.1656348713814510352
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ECFEC43334
+	for <webhook@archiver.kernel.org>; Mon, 27 Jun 2022 19:14:40 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web10.46106.1656357270742602321
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jun 2022 09:51:54 -0700
+ Mon, 27 Jun 2022 12:14:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VU/4GMk5;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MCfj3rvt;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id d17so8286431wrc.10
+Received: by mail-wm1-f54.google.com with SMTP id
+ bi22-20020a05600c3d9600b003a04de22ab6so1304213wmb.1
         for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jun 2022 09:51:53 -0700 (PDT)
+ Mon, 27 Jun 2022 12:14:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :content-transfer-encoding:user-agent:mime-version;
-        bh=izy466s1mUNUDfPPZbh0oX0mlY/sIA23XNfR5m2atpc=;
-        b=VU/4GMk5u8Eg7gb/LU0J+j7blxquOOPWt7kKPC3U84dq3L6m8tQ5nmNVeDiS3VtAxF
-         2UY+O6lWAgktzUKTsRQv5qCv7szAHW09+3tq8PaLHxYmzDzpoSSr34zgJEXa9uS1MGhZ
-         8myRW1UQwiE9WJsExL7p9o5XcGu1WNZxaAXY8=
+        bh=WtmwTG3tAtUHc2TN9j6Zub20wIV7Wicpiw63lYMKm0Y=;
+        b=MCfj3rvtCVSvbzgsg7V2XO9B32Fq6kbaSgt+S4NPSYLdnD7xxWtcIngU8Sik6mXG89
+         ng3tCcDRXvbZv2XHq60ts3si4bmQjM2EjqsKyTjvXHsAGyfryOTX34ikgrtgmXdSUjkz
+         b480kBDBOUEJux1DtlK/IrliYzEVxWQxVnlOE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:content-transfer-encoding:user-agent:mime-version;
-        bh=izy466s1mUNUDfPPZbh0oX0mlY/sIA23XNfR5m2atpc=;
-        b=FvB6jm91Z/+ftvog0SiE3vt2iBAcbw/Cd6caVJDLAZ6NM7Fp7RToAqtLAwEv4JiOFx
-         qmruFnjNB/M3P3ziFCmFO2nd01yG932MkJwXwmhr9inn1Bq1Ayoci3i893XOiQzHbxO2
-         7KsV0ttWMQuK/uXqrbXXUCAI9BB+dXde9tv3z6SzusDiPaE+8O/CjpGJbApHxxc/g82o
-         tNDAhoxMrD5VjcU1Xj8kJv0s9y3kMGm+EKjDsKdi2xsTJsyIUc4B3HlFxPV4k3yiRwHp
-         /6gJCCsK/lDya2jBFtkfW2EIMLDtf/2WNDYgevSf6dmIb9k0lgYwesQI131p4xFTpjSU
-         Ko1w==
-X-Gm-Message-State: AJIora96lqkQ43WVHcTz9+rh6Pq7toAKctYSeixKkVpS657cpepxe6Bp
-	bmWeOVw4ma5lApGRnJ+E3YmkipJOqxOoBg==
+        bh=WtmwTG3tAtUHc2TN9j6Zub20wIV7Wicpiw63lYMKm0Y=;
+        b=EqUAiilaNqBZz8l7Cb6nAH8v/Ut6GfXNttHm9UnXicASVi/QR+QBu3ei+c6S+3CWpr
+         Lmcr6XgOew5IYTE7epn19s68k+Kcw2PpJpCoUr1h6k80o9MD/0JgCE5siIFtS8xVs+oY
+         StHKTI8XRhf9vcq1Y0o3gUhVmji6FlT7D8HeM/6I2KbmMzhhBZY+UqzwYFSo9KKjB9sp
+         tq5Y6RwFM3ankquY0CTXunfCnHKAibwylmqfhEuBkvOt+h1ys3KHLIJZvUr3/rYkFqau
+         Xd8g28ee9fKIQQ29puihfix+4PvPPYuzZxX96lapTZq7vSLfQ5gqYR3QFW8pxXHxbWHp
+         1E9g==
+X-Gm-Message-State: AJIora+tCY6ahZy3azf3RQMP0+WSHUQLF9/OjTU0jcWxAILDfxjh4mhz
+	MWnfI+exl6WcEyvQvgQUuBiirbc4Tw/sHQ==
 X-Google-Smtp-Source: 
- AGRyM1twwKaBjHIn+hI64bgACItyyposA8KS0VCqN1xbUEY02fdUZuFtGOtV3R3jQL+mYXnilrDeYg==
-X-Received: by 2002:adf:f5ce:0:b0:21b:832c:80dd with SMTP id
- k14-20020adff5ce000000b0021b832c80ddmr13136507wrp.235.1656348712376;
-        Mon, 27 Jun 2022 09:51:52 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:8950:ad6c:6fd6:5033?
- ([2001:8b0:aba:5f3c:8950:ad6c:6fd6:5033])
+ AGRyM1tzHvVI1NHRwnvGKsuf4bxKgc053Ji13O1vKa+oTOeo/7ns61PCei9ZQCSyWijCPNNaJ1TRMA==
+X-Received: by 2002:a05:600c:4982:b0:39c:3c0d:437c with SMTP id
+ h2-20020a05600c498200b0039c3c0d437cmr17119879wmp.38.1656357268572;
+        Mon, 27 Jun 2022 12:14:28 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1624:49b4:7dc4:c660?
+ ([2001:8b0:aba:5f3c:1624:49b4:7dc4:c660])
         by smtp.gmail.com with ESMTPSA id
- l16-20020adffe90000000b0021b9a4a75e2sm10958055wrr.30.2022.06.27.09.51.51
+ q12-20020a5d61cc000000b0021cf31e1f7csm3331772wrv.102.2022.06.27.12.14.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jun 2022 09:51:51 -0700 (PDT)
+        Mon, 27 Jun 2022 12:14:27 -0700 (PDT)
 Message-ID: 
- <064f43a0223448f2e7bb9ffa0c642ff71177fed1.camel@linuxfoundation.org>
-Subject: Re: [PATCH 1/4] package_manager: Change complementary package
- handling to not include soft dependencies
+ <7bdfec55599094a196f35ce4e84e651b8179d120.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] packagegroup-core-ssh-dropbear: Add
+ openssh-sftp-server
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Jun 2022 17:51:50 +0100
-In-Reply-To: <5A166BD2-8DCE-4519-B17A-811C83DDB236@arm.com>
-References: <20220626094506.352336-1-richard.purdie@linuxfoundation.org>
-	 <5A166BD2-8DCE-4519-B17A-811C83DDB236@arm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 27 Jun 2022 20:14:26 +0100
+In-Reply-To: <16FB9273F36F7F78.24408@lists.openembedded.org>
+References: <16FB9273F36F7F78.24408@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.1-0ubuntu1 
@@ -67,95 +66,55 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Jun 2022 16:51:59 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Jun 2022 19:14:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167329
+ https://lists.openembedded.org/g/openembedded-core/message/167330
 
-On Mon, 2022-06-27 at 16:12 +0000, Ross Burton wrote:
-> Whilst I agree with this series in general (obviously=E2=80=A6), some
-> commentary.
+On Fri, 2022-06-24 at 14:45 +0100, Richard Purdie via
+lists.openembedded.org wrote:
+> Seems sad to have to do this but openssh is moving to use sftp instead
+> of scp to move files. This means scp from Fedora 36 will no longer be
+> able to move files to/from a dropbear based image. This breaks a number
+> of our key QA tests and I suspect will cause users pain too.
 >=20
-> First, the impact of this can=E2=80=99t be understated.  If you enable de=
-v-
-> pkgs on core-image-base, and extra 424 packages are installed
-> *ignoring any package with -dev in its name*. This includes
-> behaviour-changing packages such as the full-fat versions of
-> coreutils, util-linux, findutils, most of Python, a whole slew of
-> libraries.  That is *not* good and this is a step in the right
-> direction.
+> The sftp server from openssh is small and standalone so adding it to
+> the packagegroup seems to be the best way to preserve user sanity. If
+> people really don't want it, they can just use dropbear instead of the
+> packageground.
 >=20
-> There are still some edge cases though, repeating the same test with
-> core-image-base installs these extra non-dev packages:
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  .../packagegroups/packagegroup-core-ssh-dropbear.bb             | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> alsa-topology-conf
-> libatopology2
-> libavahi-client3
-> libavahi-glib1
-> libavahi-gobject0
-> libc-malloc-debug0
-> libc6-extra-nss
-> libc6-thread-db
-> libc6-utils
-> libfdisk1
-> libform5
-> libformw5
-> libgcc1
-> libmenu5
-> libmenuw5
-> libncurses5
-> libncursesw5
-> libnl-3-cli
-> libnl-idiag-3-200
-> libnl-nf-3-200
-> libnl-xfrm-3-200
-> libnss-db2
-> libpanel5
-> libpanelw5
-> libpcrecpp0
-> libpcreposix0
-> libsmartcols1
-> libss2
-> libstdc++6
-> libtic5
-> libticw5
-> libx11-xcb1
-> libxcb-composite0
-> libxcb-damage0
-> libxcb-dpms0
-> libxcb-dri2-0
-> libxcb-dri3-0
-> libxcb-glx0
-> libxcb-present0
-> libxcb-randr0
-> libxcb-record0
-> libxcb-render0
-> libxcb-res0
-> libxcb-screensaver0
-> libxcb-shape0
-> libxcb-shm0
-> libxcb-sync1
-> libxcb-xf86dri0
-> libxcb-xfixes0
-> libxcb-xinerama0
-> libxcb-xinput0
-> libxcb-xkb1
-> libxcb-xtest0
-> libxcb-xv0
-> libxcb-xvmc0
->=20
-> The bulk of these are likely from the -dev package depending on the
-> real package to satisfy dangling symlinks.  This may actually be
-> desirable behaviour?  Not sure I=E2=80=99d want a broken -dev package.
+> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-ssh-dropbe=
+ar.bb b/meta/recipes-core/packagegroups/packagegroup-core-ssh-dropbear.bb
+> index 4f844ad9255..b969ab7ca01 100644
+> --- a/meta/recipes-core/packagegroups/packagegroup-core-ssh-dropbear.bb
+> +++ b/meta/recipes-core/packagegroups/packagegroup-core-ssh-dropbear.bb
+> @@ -3,4 +3,4 @@ PR =3D "r1"
+> =20
+>  inherit packagegroup
+> =20
+> -RDEPENDS:${PN} =3D "dropbear"
+> +RDEPENDS:${PN} =3D "dropbear openssh-sftp-server"
 
 
-I did a test build and changing package_fixsymlinks() in
-package.bbclaass to use RRECOMMENDS instead of RDEPENDS does remove the
-packages listed above too.
+If we want kirkstone or dunfell to work on Fedora 36 we're going to
+need this. Unfortunately it will break images with -dev packages in
+them.
 
-I'm torn on that, making that change would complete the picture and
-you'd still have the dependency there, just as a slightly weaker level
-and means dev-pkgs no longer radically changes the contents of the
-image which is probably a good thing?
+The fixes for master for that are not appropriate for
+kirkstone/dunfell, they're quite invasive for master.
+
+As such you may need to disable the -dev package dependencies for
+dropbear/openssh, something like:
+
+RDEPENDS:openssh-dev[nodeprrecs] =3D "1"
+RDEPENDS:dropbear-dev[nodeprrecs] =3D "1"
+
+in the appropriate places. I mention this now whilst I remember the
+context!
 
 Cheers,
 
