@@ -1,88 +1,82 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63143CCA47F
-	for <webhook@archiver.kernel.org>; Mon, 27 Jun 2022 13:02:08 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web12.41436.1656334922584534392
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC7FAC43334
+	for <webhook@archiver.kernel.org>; Mon, 27 Jun 2022 13:36:08 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web10.41733.1656336961244921636
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jun 2022 06:02:02 -0700
+ Mon, 27 Jun 2022 06:36:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XeYmtdKK;
- spf=pass (domain: gmail.com, ip: 209.85.167.54,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id x3so16532943lfd.2
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Xw7tnpPI;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id o16so13127365wra.4
         for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jun 2022 06:02:02 -0700 (PDT)
+ Mon, 27 Jun 2022 06:36:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7uJBj8g1/F8e4TOEQSOBFAstbcUI7UMQ/DKdREUQLTI=;
-        b=XeYmtdKKCNvtwi2hwnuBlOzdXX9zOGpcFmv44D3y8qhjbxs+zliNtAnfdoDfZyCo3u
-         LEtABCrfx2VVI9IQbsatXYflD1LAhwym9EAxDBlBG/7PKLlR0G8YwG2lSDgytb+52fWN
-         Yz68emfFrUle4rAA40G83p48utqCgkFa4pPPtT+IwxaImmFNXnjdk3QoMDNXvHoJqSyI
-         KFexVebxchcyiGxhko2020q60KysLZBVsQeZ2bkbo+yFoanB0vH/v1FXDT6eH/TRfqNS
-         ZZrIvaNOOf5F2Hkp0esGsEob8OkjXb/7TQvR+Jhss7mNXQnKIOzU5zPhKRmiglaOYBnh
-         efJA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=+O/Wwd/ponhD9mR+/Mv1VfxTY328kNDJ6yIRcfNEZOM=;
+        b=Xw7tnpPIWvzvw7vwgs0JUXJB8UzHgJg5BoTwLvEdV6Tq873CKt/W5UhsX7NNJVxsPU
+         cy+AejIrXOdaALKss1H7L12Afc5yHh/mC3DTcm6pI/HlnG+Bk5qJ76GmBO4cImePVufK
+         PS29SUeYJQoaehtzBoMEhL9h16zKvJe9ITCvU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7uJBj8g1/F8e4TOEQSOBFAstbcUI7UMQ/DKdREUQLTI=;
-        b=679GaxGmifSpRXKmMswhXaL2oet0kK7v85Jw69Q0mICJODyNOH6PgE+Fv1+Udq58N3
-         qBX0/BStMdZOh10+q+/9j22Ei+L8grobsckif2b5W4BSi4rVX+dI0jM0KABCRTLAhDKt
-         jiL3pIP83BDn/Ih9JgECTBiAnvsblapVO4RNqCeXnxIrN2ytKDrPicyNiCZdLZSuvwnQ
-         YoCqaxbjKhVdyC3drySv25bhz4vR2AzqTk3BKKRdyclON7Wrj88S9IqoIsWVr6YSiZ1n
-         vBiREBzMZT9JWkBNyouqvuf/vdLZAq/W16AsRO0VU76UlP+ZN81sWfdySLSbvuNwAc/q
-         GyXw==
-X-Gm-Message-State: AJIora+pnQLTDRpkiyn9jOK8HKEXwUxTUZhbNd80FxG4T4NlKQVgGjHK
-	6Qd48IG/QGGpGLzBZocCHDcaIqdITVRF5iZOKTU=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=+O/Wwd/ponhD9mR+/Mv1VfxTY328kNDJ6yIRcfNEZOM=;
+        b=NI6WaywMQ7S3zYul9oU8i9Kj9gNqizl0dPcOlRsb8Ayx4sojsVVKBHN2Ed5TUf7954
+         evx4W3wOVYlKtBCP70hOSXVpT93VvhUf+uvoJx/hTRwSXJzd+fu4jL2etfDO6B3G2xgU
+         yMA5hljFWgl8UIjtPqlbxi7nHt5JxbwdJhVKCT+UfvimJ8HCJ/J9T0NHBBOCiYfuia2/
+         vmR2n1gSDM5tK9q+O+DflRa7JpOVkeB+U1tU8WQTz40xI2oRakRRwyUKlErBjXJMnECR
+         MMQjiS2SqIRt4JqZsPwfeK5SteDDOl+YOFRNGqW5xn4W6uamAEFnT2prjuJINWazOfIJ
+         Nh9g==
+X-Gm-Message-State: AJIora9zb06pEJEos8tdZV0sEP+LL0jGdq9nXMz2yAHrO++pJg8rvplE
+	/0z6NxvYfAjJ6ojLHXIKRCIb/Q==
 X-Google-Smtp-Source: 
- AGRyM1tjEfdwSDXz+nr3rR/WEUhpMue1F4CTzfZYq5rs2XNN1vnAE8dyP3MSXrhgigkfLNTatdLA4YL0Qdpc3ykoJkU=
-X-Received: by 2002:a05:6512:5d2:b0:47f:6270:cb54 with SMTP id
- o18-20020a05651205d200b0047f6270cb54mr8506864lfo.358.1656334920766; Mon, 27
- Jun 2022 06:02:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <57e72a0fe687a49a7efcffa167adab843305b612.camel@siemens.com>
-In-Reply-To: <57e72a0fe687a49a7efcffa167adab843305b612.camel@siemens.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 27 Jun 2022 16:01:49 +0300
+ AGRyM1tV0adnf0CbXErRc2579d+H0X2g3rGZRy3277bfqwpeyEDKb+tAS9p/qMnw777wyb2wCx5KLw==
+X-Received: by 2002:adf:f6d0:0:b0:21b:c3f8:6230 with SMTP id
+ y16-20020adff6d0000000b0021bc3f86230mr9691211wrp.116.1656336959471;
+        Mon, 27 Jun 2022 06:35:59 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8950:ad6c:6fd6:5033?
+ ([2001:8b0:aba:5f3c:8950:ad6c:6fd6:5033])
+        by smtp.gmail.com with ESMTPSA id
+ id18-20020a05600ca19200b0039c871d3191sm9491757wmb.3.2022.06.27.06.35.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jun 2022 06:35:59 -0700 (PDT)
 Message-ID: 
- <CANNYZj-Kr3TZAt69GZyChhnC37hwBcUCVL3PbxnoHCO=McFcLA@mail.gmail.com>
-Subject: Re: [OE-core] eSDK dependencies
-To: Andrej Valek <andrej.valek@siemens.com>
-Cc: "Freihofer, Adrian" <adrian.freihofer@siemens.com>, "Marko,
- Peter" <Peter.Marko@siemens.com>,
-	"openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="00000000000094d8dd05e26d8664"
+ <cc2e9dad3bcab4cd3e0d11c65241476142324c8b.camel@linuxfoundation.org>
+Subject: Re: eSDK dependencies
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Valek, Andrej" <andrej.valek@siemens.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>, "Marko, Peter"
+ <Peter.Marko@siemens.com>, "Freihofer, Adrian"
+ <adrian.freihofer@siemens.com>
+Date: Mon, 27 Jun 2022 14:35:58 +0100
+In-Reply-To: <57e72a0fe687a49a7efcffa167adab843305b612.camel@siemens.com>
+References: <57e72a0fe687a49a7efcffa167adab843305b612.camel@siemens.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Jun 2022 13:02:08 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Jun 2022 13:36:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167320
+ https://lists.openembedded.org/g/openembedded-core/message/167321
 
---00000000000094d8dd05e26d8664
-Content-Type: text/plain; charset="UTF-8"
-
-Can this behavior be reproduced using poky and no other layers?
-
-Alex
-
-On Mon 27. Jun 2022 at 15.33, Andrej Valek <andrej.valek@siemens.com> wrote:
-
-> Hello Richard!
->
+On Mon, 2022-06-27 at 12:32 +0000, Valek, Andrej wrote:
 > I have a question related to eSDK dependencies. We're using the dunfell
 > branch were everything related to this eSDK topic works fine. Now we're
 > in the transition phase to new LTS branch, where were we found one big
 > difference between eSDKs.
->
+>=20
 > The old variant (dunfell) includes all application build dependencies,
 > but the new variant (kirkstone/master) doesn't. Means if I installed
 > the eSDK and used "devtool modify my-app" (application installed on the
@@ -92,76 +86,31 @@ On Mon 27. Jun 2022 at 15.33, Andrej Valek <andrej.valek@siemens.com> wrote:
 > I was already looked, what could be changed, but I didn't find so far
 > something suspicious. So the question is, what has been changed, and
 > how to bring the old variant back?
->
-> Many thanks,
-> Andrej
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#167319):
-> https://lists.openembedded.org/g/openembedded-core/message/167319
-> Mute This Topic: https://lists.openembedded.org/mt/92019337/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
 
---00000000000094d8dd05e26d8664
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Guessing is hard. Since you're asking me to guess:
 
-<div dir=3D"auto">Can this behavior be reproduced using poky and no other l=
-ayers?</div><div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><b=
-r><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon 2=
-7. Jun 2022 at 15.33, Andrej Valek &lt;<a href=3D"mailto:andrej.valek@sieme=
-ns.com">andrej.valek@siemens.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
-rder-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">=
-Hello Richard!<br>
-<br>
-I have a question related to eSDK dependencies. We&#39;re using the dunfell=
-<br>
-branch were everything related to this eSDK topic works fine. Now we&#39;re=
-<br>
-in the transition phase to new LTS branch, where were we found one big<br>
-difference between eSDKs.<br>
-<br>
-The old variant (dunfell) includes all application build dependencies,<br>
-but the new variant (kirkstone/master) doesn&#39;t. Means if I installed<br=
->
-the eSDK and used &quot;devtool modify my-app&quot; (application installed =
-on the<br>
-image) it works without any additional build deps recompilation.<br>
-But now, if I do the same on the newer version it always recompile all<br>
-build deps.<br>
-I was already looked, what could be changed, but I didn&#39;t find so far<b=
-r>
-something suspicious. So the question is, what has been changed, and<br>
-how to bring the old variant back?<br>
-<br>
-Many thanks,<br>
-Andrej<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#167319): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/167319" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/167319</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/92019337/1686=
-489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/92019337/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+https://git.yoctoproject.org/poky/commit/?id=3D568f62214bca3ac6d35eef8d9f45=
+62596fb4c9ab
 
---00000000000094d8dd05e26d8664--
+which was partially reverted here:
+
+https://git.yoctoproject.org/poky/commit/?id=3Df22e1fbdf7bed111e080d176fe5a=
+39c5139308ed
+
+maybe? It could be something else. It wasn't a specific change to
+remove such dependencies but I suspect it could have happened as an
+unforeseen side effect of something else.
+
+You may need to come up with a simple test case and then bisect between
+the two releases to see which change it was. Once we understand what
+change caused it, working out a solution would be easier, it is
+premature to even try without knowing the cause.
+
+Cheers,
+
+Richard
+
+
+
+
 
