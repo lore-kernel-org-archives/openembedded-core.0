@@ -2,65 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CB7DC43334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F79FC433EF
 	for <webhook@archiver.kernel.org>; Mon, 27 Jun 2022 09:50:07 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web11.39564.1656323399098823255
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web08.40417.1656323398542786910
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jun 2022 02:49:59 -0700
+ Mon, 27 Jun 2022 02:49:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=m455BqFU;
- spf=pass (domain: gmail.com, ip: 209.85.221.51,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=asf8CQ8D;
+ spf=pass (domain: gmail.com, ip: 209.85.221.46,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id n1so12179863wrg.12
+Received: by mail-wr1-f46.google.com with SMTP id n1so12179809wrg.12
         for <openembedded-core@lists.openembedded.org>;
  Mon, 27 Jun 2022 02:49:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=BFam3ob/1OodVmKUkdGvrIwsreJmSeoiTDd9x5fmYFw=;
-        b=m455BqFUoiVeZn+AcDdVqfbBHqe6hD5uVAlHESaxme1+KC/MNlcMHe0S0WkWQq7Y/O
-         PYqDJGhl/UiK9RSQFJqdKUJDVXEJ0funB31CZ2sLC+sySmzMBE2lnLnv9vHjMY0z3GH1
-         LWmGH1gW8K8AEAxDZNs+ipInRt2C1NwbMdzZg1uZfAxqtzpZLEK6+8YgSFv/4Gxl3LT4
-         zaskDzfrAlIBwsj/I6G/KacEfwjI2T5q0pZa9PUFuHit9vinR+xyAPTf3OfoQoq6z2OV
-         zkIUmpV9dSKb0mwLnAVn+8jO2ZOEenyg/8ubX8VitVwXkLIwuhOu+jQS8cRdREixGV3O
-         Tsug==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9GEdqUhiyjGQWnrea6C1hddFn6cRHwqvL0ilos497xg=;
+        b=asf8CQ8DiwMaFJFy9j25HtyEG8Y0DmuKGYJGbGWjWdZc725L2w1Sdawora9Mti0esj
+         MFogXbwU5EWEHhF7DDzxFDkwHbvj0UOoXCawtV3krMZAdAc7v6MRVd6QCm9uLjDCbDdN
+         bLYKGEKRK3MrJUda5HzP80u1qNvrB/VWUsZRLygdhAIm1iUU9hskf1u1w37uuidMwH3+
+         WG5WEinrJtcvpVb9FPowrJ1sk1zbjg14faYFxYCVDa6wCg2Q6jEemKWARM7gpNC1FxqC
+         fES+1y593lpDXfbMzYloJ5lLmNGNiywT38DsPkxiVLx1aM5Ie/acIaXnwLEbmmqxtTHI
+         z18A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BFam3ob/1OodVmKUkdGvrIwsreJmSeoiTDd9x5fmYFw=;
-        b=8E3fDtkgJILv1nscokLTjoAk3lwQpM0y9FfKPgyrbKD68Im6quN4i5wG29oTQE0Jn/
-         6Ui3DJDU2hN6xuLZGGnR6Xi0ujAUwDbebHTgfFUoyV14OZ3IHEpYVQpnghOd1IZWQvX6
-         wn3lILFTk8cI+RzhPuOlx4SgH/yNAb2KfL/4bj8p8ctBvZwWLOD5PZHA/rd5DNOBO0r5
-         2dZLN8+ED/EpIQQchvmVPX3tKXaVXRuoTih2FV6DitljusAIvrbupH1M1jY7bZi8Kk5K
-         xoDAm+ipZ5zPudlu8nOberuc4mpK6ZSzDUEk9hOGUlmyfrHeQ4EkJ3emaQMKHe/hmi5/
-         YaSA==
-X-Gm-Message-State: AJIora9qdnRyiTZzuFaJ1mQwm+5c2uq7VRSwlwNV62NlzxDsv6rl5eus
-	+4GtLHDobjNifPaQCNgZ6Xz4B8HaSzMY3fYV
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9GEdqUhiyjGQWnrea6C1hddFn6cRHwqvL0ilos497xg=;
+        b=zcj2r/68AMoc0vLFas8ZRzdlVaO36QipnKar3Bfcx8X3XD0xwqZiLnQEpx/T9pOumm
+         CVujEwxdkfGit2Sp39OTWQA52EuEDDVcQzPGQcQDtbmHug8W7KTFPBYQlgSJTz7u6R2o
+         LBOIQ7d12sNy+5Fq/kodihYQ1V7G/i5AWPVN3nCFwvU1Y5GYju4fZFpOcGumXECWTLR8
+         vvH7DNB/D4E7w6j2z3T97DEeeqYg435LemhxbeveblxyCL/PIT5z/8/Paw9VjG3WqB8A
+         RuLn6DAJd0cry+6Qykusb51JgOS20JWk9HRQPrdY8XoXFs0EzZcZILWuj2nUoaafVi4K
+         wtdQ==
+X-Gm-Message-State: AJIora9HymVFzcSaKUxhwjIKt6sR1+fNB5mW2iTpvxLYAZpqweAgxyLZ
+	b+kc5Y3f6VupuJFANhp9zkDQPTp3Qc+svd9D
 X-Google-Smtp-Source: 
- AGRyM1tFOhnOuLzctlHJvRqKdH8BiIhyl+Qyqltq4EcbrJAdpP/zEyqyZ88zMgfdVd8HVM041FkWkw==
-X-Received: by 2002:adf:efc2:0:b0:21b:adf4:b4d4 with SMTP id
- i2-20020adfefc2000000b0021badf4b4d4mr11403990wrp.287.1656323397655;
-        Mon, 27 Jun 2022 02:49:57 -0700 (PDT)
+ AGRyM1tSuyaY5AnKtVLoqrlUlc4iTBQNl1IEN4xtAcA8ccw9xbS+fJZzgGMm9XxqnzOIRAeATKr7aw==
+X-Received: by 2002:a5d:67cf:0:b0:21b:9fb8:e6d6 with SMTP id
+ n15-20020a5d67cf000000b0021b9fb8e6d6mr11161536wrw.205.1656323396766;
+        Mon, 27 Jun 2022 02:49:56 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de.
  (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
         by smtp.gmail.com with ESMTPSA id
- o19-20020a05600c511300b0039c7dbafa7asm17249081wms.19.2022.06.27.02.49.56
+ o19-20020a05600c511300b0039c7dbafa7asm17249081wms.19.2022.06.27.02.49.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jun 2022 02:49:57 -0700 (PDT)
+        Mon, 27 Jun 2022 02:49:55 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 2/3] at: take tarballs from debian
-Date: Mon, 27 Jun 2022 11:49:50 +0200
-Message-Id: <20220627094951.1882744-2-alex@linutronix.de>
+Subject: [PATCH 1/3] python3-hatch-vcs: fix upstream version check
+Date: Mon, 27 Jun 2022 11:49:49 +0200
+Message-Id: <20220627094951.1882744-1-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220627094951.1882744-1-alex@linutronix.de>
-References: <20220627094951.1882744-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -68,30 +66,23 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 27 Jun 2022 09:50:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167315
-
-The original site went down, and at is more or less
-maintained in Debian anyway; the tarballs are identical in name
-and content.
+ https://lists.openembedded.org/g/openembedded-core/message/167314
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-extended/at/at_3.2.5.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/python/python3-hatch-vcs_0.2.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-extended/at/at_3.2.5.bb b/meta/recipes-extended/at/at_3.2.5.bb
-index 6769eb364b..87a436173f 100644
---- a/meta/recipes-extended/at/at_3.2.5.bb
-+++ b/meta/recipes-extended/at/at_3.2.5.bb
-@@ -22,7 +22,7 @@ PAM_DEPS = "libpam libpam-runtime pam-plugin-env pam-plugin-limits"
- RCONFLICTS:${PN} = "atd"
- RREPLACES:${PN} = "atd"
+diff --git a/meta/recipes-devtools/python/python3-hatch-vcs_0.2.0.bb b/meta/recipes-devtools/python/python3-hatch-vcs_0.2.0.bb
+index 100099c130..cca2c49d2b 100644
+--- a/meta/recipes-devtools/python/python3-hatch-vcs_0.2.0.bb
++++ b/meta/recipes-devtools/python/python3-hatch-vcs_0.2.0.bb
+@@ -10,3 +10,5 @@ PYPI_PACKAGE = "hatch_vcs"
+ SRC_URI[sha256sum] = "9913d733b34eec9bb0345d0626ca32165a4ad2de15d1ce643c36d09ca908abff"
  
--SRC_URI = "http://software.calhariz.com/at/${BPN}_${PV}.orig.tar.gz \
-+SRC_URI = "${DEBIAN_MIRROR}/main/a/at/${BPN}_${PV}.orig.tar.gz \
-            file://posixtm.c \
-            file://posixtm.h \
-            file://file_replacement_with_gplv2.patch \
+ BBCLASSEXTEND = "native nativesdk"
++
++UPSTREAM_CHECK_REGEX = "/hatch-vcs/(?P<pver>(\d+[\.\-_]*)+)/"
 -- 
 2.30.2
 
