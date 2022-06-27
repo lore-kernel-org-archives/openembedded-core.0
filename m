@@ -1,95 +1,100 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D6A6CCA473
-	for <webhook@archiver.kernel.org>; Mon, 27 Jun 2022 09:50:07 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web10.39709.1656323400081173890
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05077C43334
+	for <webhook@archiver.kernel.org>; Mon, 27 Jun 2022 11:24:38 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web08.41147.1656329077282156488
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jun 2022 02:50:00 -0700
+ Mon, 27 Jun 2022 04:24:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=aOG9l43v;
- spf=pass (domain: gmail.com, ip: 209.85.128.48,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id
- c130-20020a1c3588000000b0039c6fd897b4so7145730wma.4
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UU55EjLq;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id
+ o19-20020a05600c4fd300b003a0489f414cso1875930wmq.4
         for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Jun 2022 02:49:59 -0700 (PDT)
+ Mon, 27 Jun 2022 04:24:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2ws2we7WXHw9YXmipGiJTV44N3mYJD27bhJZ854/388=;
-        b=aOG9l43vIQ368nMjXAgyprPJBKd998CSMy0GRNRhbqhB1FY5d/Qc/fXp8pxF768okx
-         CC23mz7Fr194g/mKCIlfwJBswPARro6VSRRdFieGlkRRL5QCrxFzf/1SKkPc/HjgOKXH
-         yFGdT42GjuBYlYnQnseTkpBTXVOL4EpoZsW32HpzDZ4CvDVibXaJMJWZVfxUSAHyJl+1
-         47qAWQPWNe2Erpb1O+voi5qOrST32KWYIttXu461MvnxVOCHyV5RSvLEagx8iwEdMUEI
-         EmZAnb9XC/nKslvmJE2xMt+GIq/ZtzcE9FTWopecxl8EEZO5O45ST9WTFwQGc5twn8k4
-         xSHQ==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Gh/26XZI3An/ogCuZiCKLwlHZcB1f5x5WCpAm7UIDHM=;
+        b=UU55EjLqkNU1ScyIqyMfYNPARfwMfq8XWpqH0GxalxO0cmiUg7S+SO2BtCHL5e//EV
+         V1AxR+dgjaTRbZCWZXWPM14cE4PCWtQYULgL5VUzmJ+REZTBWHt3sZXOzDFYb8QDstx2
+         kkPlY215Eaij2FaDgDYLYthU30XGeQCReE2Bk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2ws2we7WXHw9YXmipGiJTV44N3mYJD27bhJZ854/388=;
-        b=pEZ8jXvdAmR0rXMG3yNvVc7rXVnFiWgU+jPEHrQwiHQBadUsx2/Cl4o6z4nOPej5IU
-         LXwwj4ob1bRYaWp/6KTE1D6zSee0j1D35LNoqaqo6ESamrjLoDlkSsyDpaIqYwGWBjOA
-         I3KjU/uvkhguEAxdlmpYwfZS0vZ6CjHFNhNJjsA35NMqevSIZtMPffBOBAWznCbEukDL
-         oiC/9UB0HAX/FfSJtxz5jEiXVdyozyHax97lx+wQtS8JkJuCitaa6kWkODWr5SaV/tff
-         VlsHzajHFqPfcMlA+eeBKKpMUUFc9LUbe7zJZrdroB4aSVHPxTZtI29i05r+F9Nq5wAM
-         YoQg==
-X-Gm-Message-State: AJIora+tZb+BCR4G/30orhvQf959pzwc6WsHZC8N2shhcumKwh0dpGPt
-	wsvf8Qtq2X3noBp4A75kpzkLDjjcWh68mxte
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Gh/26XZI3An/ogCuZiCKLwlHZcB1f5x5WCpAm7UIDHM=;
+        b=uqBnYV6at/0yXWpz6H95OuoR882hsxu1K/O33zuFdcc90eAnHVHOYn67C5rmfmaAv8
+         tgY01AaWqrYK4P0kjzrMO5xrnSLQ7j1flDs4YUWBYZIlLvxkcBebGuIO64L3L0cPZY0V
+         ufX7gyWD6QeZrObTyo+O7pwJjbVHCarcnfmS0YutBIU24OLSzmvojMksfCLflG3MtJPp
+         B91PzYl5mMlLjs0hhKJVhB0VzX70WAvJ++j9YzxnXwYhm8vrz5LIyoP5ejJqJ8q2sV5H
+         GonmILlkxiBTqcLmeKD4b4dxc/tOa7I23qWlagIL5lUquWXqaBAIf+IuazYfkDYyteO5
+         OlWA==
+X-Gm-Message-State: AJIora8S8Pcw4K0/2RRKZxhF93MQ4E7ei2nKb/Y6NqwOmbzh9f01pkLf
+	CsLbLyOOkqioPWJ6Yw6zFffwpiJd/sTCoQ==
 X-Google-Smtp-Source: 
- AGRyM1vcg0mFipOmjP+nYMBxwf8vOMpu9Ham6VZf+iBquyAuS9w+r9yVd47j/wImxBfnDunYouLKIA==
-X-Received: by 2002:a05:600c:5014:b0:3a0:4867:d234 with SMTP id
- n20-20020a05600c501400b003a04867d234mr7324708wmr.35.1656323398562;
-        Mon, 27 Jun 2022 02:49:58 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de.
- (ip-109-090-143-203.um36.pools.vodafone-ip.de. [109.90.143.203])
+ AGRyM1tvcUtB9CouET0RzjTmJjuXOmYinl20MtEdFIgA/Yuf7WXGCWYswm2UlZkGjvjAqX2qdILmGQ==
+X-Received: by 2002:a05:600c:1c11:b0:39c:80b1:c3d7 with SMTP id
+ j17-20020a05600c1c1100b0039c80b1c3d7mr14865208wms.2.1656329075106;
+        Mon, 27 Jun 2022 04:24:35 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:8950:ad6c:6fd6:5033])
         by smtp.gmail.com with ESMTPSA id
- o19-20020a05600c511300b0039c7dbafa7asm17249081wms.19.2022.06.27.02.49.57
+ f18-20020adfb612000000b002185631adf0sm10331051wre.23.2022.06.27.04.24.32
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jun 2022 02:49:58 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+        Mon, 27 Jun 2022 04:24:33 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 3/3] pango: exclude 1.9x versions which are 2.x pre-releases.
-Date: Mon, 27 Jun 2022 11:49:51 +0200
-Message-Id: <20220627094951.1882744-3-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220627094951.1882744-1-alex@linutronix.de>
-References: <20220627094951.1882744-1-alex@linutronix.de>
+Subject: [PATCH v2] coreutils: Tweak packaging variable names for
+ coreutils-dev
+Date: Mon, 27 Jun 2022 12:24:32 +0100
+Message-Id: <20220627112432.421296-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Jun 2022 09:50:07 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Jun 2022 11:24:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167316
+ https://lists.openembedded.org/g/openembedded-core/message/167317
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+PACKAGES uses ${PN}-dev so be consistent with the addition to the
+variable to avoid weird variable conflicts.
+
+The flags variable used here is messy, key expansion and overrides are
+not supported by flags. The plain variable access does happen to work
+though, so leave it as is for now and note.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-graphics/pango/pango_1.50.7.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-core/coreutils/coreutils_9.1.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/pango/pango_1.50.7.bb b/meta/recipes-graphics/pango/pango_1.50.7.bb
-index 727c170288..01a11a1dac 100644
---- a/meta/recipes-graphics/pango/pango_1.50.7.bb
-+++ b/meta/recipes-graphics/pango/pango_1.50.7.bb
-@@ -15,6 +15,8 @@ GNOMEBASEBUILDCLASS = "meson"
+v2: Add in note about key expansion flags issues
+
+diff --git a/meta/recipes-core/coreutils/coreutils_9.1.bb b/meta/recipes-core/coreutils/coreutils_9.1.bb
+index d57e147a7e0..55663c77136 100644
+--- a/meta/recipes-core/coreutils/coreutils_9.1.bb
++++ b/meta/recipes-core/coreutils/coreutils_9.1.bb
+@@ -171,8 +171,9 @@ RDEPENDS:${PN}-ptest += "bash findutils gawk liberror-perl make perl perl-module
  
- inherit gnomebase gi-docgen ptest-gnome upstream-version-is-even gobject-introspection
+ # -dev automatic dependencies fails as we don't want libmodule-build-perl-dev, its too heavy
+ # may need tweaking if DEPENDS changes
++# Can't use ${PN}-dev here since flags with overrides and key expansion not supported
+ RRECOMMENDS:coreutils-dev[nodeprrecs] = "1"
+-RRECOMMENDS:coreutils-dev = "acl-dev attr-dev gmp-dev libcap-dev bash-dev findutils-dev gawk-dev shadow-dev"
++RRECOMMENDS:${PN}-dev += "acl-dev attr-dev gmp-dev libcap-dev bash-dev findutils-dev gawk-dev shadow-dev"
  
-+UPSTREAM_CHECK_REGEX = "pango-(?P<pver>\d+\.(?!9\d+)\d+\.\d+)"
-+
- GIR_MESON_ENABLE_FLAG = "enabled"
- GIR_MESON_DISABLE_FLAG = "disabled"
- 
+ do_install_ptest () {
+     install -d ${D}${PTEST_PATH}/tests
 -- 
-2.30.2
+2.34.1
 
 
