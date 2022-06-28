@@ -2,107 +2,103 @@ Return-Path: <davidegarde2000@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49A0DC433EF
-	for <webhook@archiver.kernel.org>; Tue, 28 Jun 2022 13:37:35 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web09.55243.1656423449482897124
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 496FFC433EF
+	for <webhook@archiver.kernel.org>; Tue, 28 Jun 2022 13:38:05 +0000 (UTC)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+ [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.web09.55247.1656423476498347048
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jun 2022 06:37:29 -0700
+ Tue, 28 Jun 2022 06:37:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=G1dH3TGC;
- spf=pass (domain: gmail.com, ip: 209.85.208.53,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=pLn55Ju8;
+ spf=pass (domain: gmail.com, ip: 209.85.208.43,
  mailfrom: davidegarde2000@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id o10so17655308edi.1
+Received: by mail-ed1-f43.google.com with SMTP id cf14so17617934edb.8
         for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jun 2022 06:37:29 -0700 (PDT)
+ Tue, 28 Jun 2022 06:37:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Vbiw6u6ta9whrRqJg3jJHXEGj5OWAD1r7LONljPa3ek=;
-        b=G1dH3TGCRHrPfLpjP/iGYTupwRGnKUJ90iI4YzvRmZ0CMSqlc4rk9q2AvjUUKurW4I
-         x6z/yCbJQ84HZQbvokChi1zG+kWj23Xekz3dhqq+Bm7GbrGj1o4kozF/aHstBSnlUlQg
-         c+XKf+7TKsCLDE/OVqxPJsUnReQYBBPovyiICQlv21mw8Th8Jn8VQnq5IYeeeZiQdYVZ
-         fHnUDW30RhkvJ+wlqkbk+9NIYq5uu1xnI/oIYyZtvO/LQ1G6ohI5/TJDfQ+kHc4X/hzO
-         +3bukIX1hsmngdvCvvLKnFtYQ7RAp7pY1aYJVymXACHwhSBpQSq1j+Sk8/5NOoArTm5h
-         W7/A==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=zM3mW2nCjruUY+YloHSyM6sApPvsk5eJGv11EVcXXLs=;
+        b=pLn55Ju8AfabBuL3kpireM1R7KaxiXa98esIX7k+lgSHltmC6QlrR1rrnKyLpPBlsj
+         N/6EE35q7Z3RxlpTUJhNbhhywG9jP16sUERoNJhAlK7ISQmtXghVWU3Y7XHCo96X2Lsv
+         x8y9G1bKue3TbSVqn0XB8Hu0Q3eYQL0A/ZzT4VgC/JCRgApafM+s3qW0bd5ahXK7Grh4
+         LkWNWSONd8aRaSQG75iCv5ppRJ67MBlDk8Nnp5Q0w/Cu9bPWUjiF5rGWPewVMfq5uSuH
+         I0/cgieQ7S8FgCENb1EaiMjMBC5XBMqsyZROt1wubBmpMDdZ2UagVJenZUhFR8OJ7x8D
+         JCzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Vbiw6u6ta9whrRqJg3jJHXEGj5OWAD1r7LONljPa3ek=;
-        b=4AFwnBNKvz85Qr5yG6KnNkrODkQArDSltXzs8Kh/rYlorkmib3fnF19JqlOhGV9hTK
-         0UUnwEvkcVENVh42zgEKjUwpUR9CF0CJTjL0YE8fXxljxNS+LMGo0emqP5BIhz2ajuKl
-         sf2yOq4NZM0+J8aCbfUf04LZDxqpe9BEkGpvTswBloUVD7AiSK1JGz5n6XgW0pD2PMtz
-         T0gtC3wHQhzM1nGfiFHRhUzATsVwIW5JOb7vRFqApUgkJcoEnNlZBdvRdwObvZzdVHtE
-         YTLUk4BJd1VT+s+C6QEIbLvB0hrQEV/LQOcGzBwgsET8K/1r2vNDIjLe5JOa/Cm4/Dr7
-         ioEg==
-X-Gm-Message-State: AJIora9VK59S1Vd1m5grA1hRoylX6IKFNrU16MWETUTrLAeWtjJICEQq
-	b9doiF5gcYMEL7vvdDcddEmSVgxylYE=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=zM3mW2nCjruUY+YloHSyM6sApPvsk5eJGv11EVcXXLs=;
+        b=Uv49fKGc7LDsehZsLmhGUhojh9MoAIDFjArVKkuYSj9rJT675ij/5Kf5EwohU8sfwh
+         Q4A7jZn2dDVaFrqu4P0nYqN2z1FXbz5PjejmCsR2KDIO5CuSYb4cVoHd1icGrxb5/NRA
+         lYtqyse32Nq0zueseuM76EHC1M9HB+JlHB0MXkytkw4T2yX7VKS4P1DH/poaPAVyAfjy
+         XcJx6KV9EEi8dJPXdlovyqXMnbe6an1RJ2Jc9f+kRxOjRStKZmPXG8mPJdUtCcQwrQw5
+         CVc0+jf31ucJ7OLrqzYXiseRVKGpZn1X5dB/ZHSZrGlzxgkn4H19cZGZ1GBoIrK2sSde
+         SNyQ==
+X-Gm-Message-State: AJIora9eGrY7kRfpn+wfQH2sbJhqbsjM0T3qauwpXYPdsv0LiBidvkx3
+	emrOLqAqXG7HYeZAUSJun/E4UTwFYKQ=
 X-Google-Smtp-Source: 
- AGRyM1vAsogbk9MBUIrYSOGAFckTGjaihdVYAUgSPxU78KX2Z7dKliHiOOUdIwuycl6cqxMhXI4beg==
-X-Received: by 2002:a05:6402:94e:b0:437:8d58:4ece with SMTP id
- h14-20020a056402094e00b004378d584ecemr14578731edz.396.1656423447636;
-        Tue, 28 Jun 2022 06:37:27 -0700 (PDT)
+ AGRyM1siBXOx9O3VOFQ1RBqEMgEV3EytHzwQCQS9xofeXC3ObHT98UDkWGITPwl9BPpWjREHbFfitw==
+X-Received: by 2002:a05:6402:498:b0:435:daf0:915b with SMTP id
+ k24-20020a056402049800b00435daf0915bmr22843138edv.322.1656423474752;
+        Tue, 28 Jun 2022 06:37:54 -0700 (PDT)
 Received: from tony3oo3-XPS-13-9370.home
  (host-82-60-178-162.retail.telecomitalia.it. [82.60.178.162])
         by smtp.gmail.com with ESMTPSA id
- i13-20020a170906444d00b00722eeb368cesm6451853ejp.64.2022.06.28.06.37.26
+ i13-20020a170906444d00b00722eeb368cesm6451853ejp.64.2022.06.28.06.37.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jun 2022 06:37:27 -0700 (PDT)
+        Tue, 28 Jun 2022 06:37:54 -0700 (PDT)
 From: Davide Gardenal <davidegarde2000@gmail.com>
 X-Google-Original-From: Davide Gardenal <davide.gardenal@huawei.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Davide Gardenal <davide.gardenal@huawei.com>
-Subject: [master][kirkstone][PATCH 1/5] lib/oe/cve_check: refactor
- update_symlinks with safer version
-Date: Tue, 28 Jun 2022 15:37:09 +0200
-Message-Id: <20220628133713.3390786-1-davide.gardenal@huawei.com>
+Subject: [master][kirkstone][PATCH 2/5] lib/oe/rootfs: create
+ image_list_installed_packages_pn function
+Date: Tue, 28 Jun 2022 15:37:10 +0200
+Message-Id: <20220628133713.3390786-2-davide.gardenal@huawei.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220628133713.3390786-1-davide.gardenal@huawei.com>
+References: <20220628133713.3390786-1-davide.gardenal@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Jun 2022 13:37:35 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Jun 2022 13:38:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167339
+ https://lists.openembedded.org/g/openembedded-core/message/167340
 
-Now update_symlinks has more checks to prevent unwanted exception.
-It returns False if the link is not created/updated, True otherwise.
+image_list_installed_packages_pn has been taken from cve-check.bbclass
+to make it available for other classes.
 
 Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
 ---
- meta/lib/oe/cve_check.py | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ meta/lib/oe/rootfs.py | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
-index aa06497727..688693520e 100644
---- a/meta/lib/oe/cve_check.py
-+++ b/meta/lib/oe/cve_check.py
-@@ -169,7 +169,17 @@ def update_symlinks(target_path, link_path):
-     Update a symbolic link link_path to point to target_path.
-     Remove the link and recreate it if exist and is different.
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 9e6b411fb6..54a356102f 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -393,6 +393,15 @@ def image_list_installed_packages(d, rootfs_dir=None):
+     cls = importlib.import_module('oe.package_manager.' + img_type)
+     return cls.PMPkgsList(d, rootfs_dir).list_pkgs()
+ 
++def image_list_installed_packages_pn(d):
++    recipies = set()
++    for pkg in list(image_list_installed_packages(d)):
++        pkg_info = os.path.join(d.getVar('PKGDATA_DIR'),
++                                'runtime-reverse', pkg)
++        pkg_data = oe.packagedata.read_pkgdatafile(pkg_info)
++        recipies.add(pkg_data["PN"])
++    return recipies
++
+ if __name__ == "__main__":
      """
--    if link_path != target_path and os.path.exists(target_path):
--        if os.path.exists(os.path.realpath(link_path)):
--            os.remove(link_path)
--        os.symlink(os.path.basename(target_path), link_path)
-+    import os
-+
-+    if target_path == link_path or \
-+        target_path is None or \
-+        link_path is None or \
-+        not os.path.exists(target_path):
-+
-+        return False
-+
-+    if os.path.lexists(link_path):
-+        os.remove(link_path)
-+
-+    os.symlink(target_path, link_path)
-+    return True
+     We should be able to run this as a standalone script, from outside bitbake
 -- 
 2.34.1
 
