@@ -2,63 +2,63 @@ Return-Path: <davidegarde2000@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 496FFC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CC8AC43334
 	for <webhook@archiver.kernel.org>; Tue, 28 Jun 2022 13:38:05 +0000 (UTC)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.web09.55247.1656423476498347048
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web08.55902.1656423482889735410
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jun 2022 06:37:56 -0700
+ Tue, 28 Jun 2022 06:38:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pLn55Ju8;
- spf=pass (domain: gmail.com, ip: 209.85.208.43,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=IOljgftt;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49,
  mailfrom: davidegarde2000@gmail.com)
-Received: by mail-ed1-f43.google.com with SMTP id cf14so17617934edb.8
+Received: by mail-ej1-f49.google.com with SMTP id ay16so25851004ejb.6
         for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jun 2022 06:37:56 -0700 (PDT)
+ Tue, 28 Jun 2022 06:38:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=zM3mW2nCjruUY+YloHSyM6sApPvsk5eJGv11EVcXXLs=;
-        b=pLn55Ju8AfabBuL3kpireM1R7KaxiXa98esIX7k+lgSHltmC6QlrR1rrnKyLpPBlsj
-         N/6EE35q7Z3RxlpTUJhNbhhywG9jP16sUERoNJhAlK7ISQmtXghVWU3Y7XHCo96X2Lsv
-         x8y9G1bKue3TbSVqn0XB8Hu0Q3eYQL0A/ZzT4VgC/JCRgApafM+s3qW0bd5ahXK7Grh4
-         LkWNWSONd8aRaSQG75iCv5ppRJ67MBlDk8Nnp5Q0w/Cu9bPWUjiF5rGWPewVMfq5uSuH
-         I0/cgieQ7S8FgCENb1EaiMjMBC5XBMqsyZROt1wubBmpMDdZ2UagVJenZUhFR8OJ7x8D
-         JCzw==
+        bh=S5bmxcvt7Rv1TtCoDf/5JtZI7HmGZZDk20//LP+OpaM=;
+        b=IOljgfttC7JYdNjsIPyaTgX2aOo7TQV3qh6udmoK8lH0ykQHG0TRqnLoE+D/AepzQw
+         uvoF+KG5Fq5LdIjnlSZJTtB7WZOT7GnxOcmGH7T810PFjtZiqD4R1FxrBLsIDRMSHfFo
+         ri2BXn1iKJSOFcIlHGvH4vnXVzzO3ABk/XZ3y748S27DTkScKB6pJO3CYsTnnZOc3+Ln
+         8epZ+tHkTQmV488mZs6lsC+gnYMqwjx112RfZ708z+T0XDZiTiYUSKHz7TvZxVTj6h97
+         oP9eTc+1G4zoBBEU8c79Aoszrtb+5oEEoKWhcFnsvBAR8HWoCdtPZ3cND4QwSM9RYFTY
+         dKzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zM3mW2nCjruUY+YloHSyM6sApPvsk5eJGv11EVcXXLs=;
-        b=Uv49fKGc7LDsehZsLmhGUhojh9MoAIDFjArVKkuYSj9rJT675ij/5Kf5EwohU8sfwh
-         Q4A7jZn2dDVaFrqu4P0nYqN2z1FXbz5PjejmCsR2KDIO5CuSYb4cVoHd1icGrxb5/NRA
-         lYtqyse32Nq0zueseuM76EHC1M9HB+JlHB0MXkytkw4T2yX7VKS4P1DH/poaPAVyAfjy
-         XcJx6KV9EEi8dJPXdlovyqXMnbe6an1RJ2Jc9f+kRxOjRStKZmPXG8mPJdUtCcQwrQw5
-         CVc0+jf31ucJ7OLrqzYXiseRVKGpZn1X5dB/ZHSZrGlzxgkn4H19cZGZ1GBoIrK2sSde
-         SNyQ==
-X-Gm-Message-State: AJIora9eGrY7kRfpn+wfQH2sbJhqbsjM0T3qauwpXYPdsv0LiBidvkx3
-	emrOLqAqXG7HYeZAUSJun/E4UTwFYKQ=
+        bh=S5bmxcvt7Rv1TtCoDf/5JtZI7HmGZZDk20//LP+OpaM=;
+        b=C1Tq4P8MdlrdsW/ur8U3lxeJFUZ8t9+eQbuaqWlHxlHd9FZqU3lRDX5ALkLaBtmsSN
+         TIOOYRmvaPmpsLBpoIARdxbH8I3IS9QkfMMdBujhVnHdcuQS5V3vfSzKBC1uklEfGY/M
+         2cFPSi7hP4ivsxx4MwOeZgtL6pMfHg4EG/GNYWkdlZi34iA4rF7PiaiDaM+OB0Or/RNs
+         TagxuYUEQrBqHECKfG3/CWAOAXoMIEL0bPAUqXORFvOwSTWUz9rt5+q2OTgY8G9ei3yh
+         5RQuGuGdnMGpUU0ewsvD5FeSoocpfN3phS8TD1zvEoQizUKwumR8XDMilM57tlPEJ8Os
+         Igtg==
+X-Gm-Message-State: AJIora89eRAK2Z3gKVmAr1Zh6XVtps6/9YZkbWGsT7og9RKL6t78kScj
+	qef+OjxGcmCoBhXuDWCQiY1DxaQZtXQ=
 X-Google-Smtp-Source: 
- AGRyM1siBXOx9O3VOFQ1RBqEMgEV3EytHzwQCQS9xofeXC3ObHT98UDkWGITPwl9BPpWjREHbFfitw==
-X-Received: by 2002:a05:6402:498:b0:435:daf0:915b with SMTP id
- k24-20020a056402049800b00435daf0915bmr22843138edv.322.1656423474752;
-        Tue, 28 Jun 2022 06:37:54 -0700 (PDT)
+ AGRyM1sNOHOinNoD2qom9C+93DbWu+LxmWYVLkt9HnrNwA0Ib3As1gN/T/Hvx3ZyAMKpsiMZwI3A/g==
+X-Received: by 2002:a17:906:5344:b0:712:3c7e:cf58 with SMTP id
+ j4-20020a170906534400b007123c7ecf58mr18467947ejo.679.1656423480931;
+        Tue, 28 Jun 2022 06:38:00 -0700 (PDT)
 Received: from tony3oo3-XPS-13-9370.home
  (host-82-60-178-162.retail.telecomitalia.it. [82.60.178.162])
         by smtp.gmail.com with ESMTPSA id
- i13-20020a170906444d00b00722eeb368cesm6451853ejp.64.2022.06.28.06.37.54
+ i13-20020a170906444d00b00722eeb368cesm6451853ejp.64.2022.06.28.06.38.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jun 2022 06:37:54 -0700 (PDT)
+        Tue, 28 Jun 2022 06:38:00 -0700 (PDT)
 From: Davide Gardenal <davidegarde2000@gmail.com>
 X-Google-Original-From: Davide Gardenal <davide.gardenal@huawei.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Davide Gardenal <davide.gardenal@huawei.com>
-Subject: [master][kirkstone][PATCH 2/5] lib/oe/rootfs: create
- image_list_installed_packages_pn function
-Date: Tue, 28 Jun 2022 15:37:10 +0200
-Message-Id: <20220628133713.3390786-2-davide.gardenal@huawei.com>
+Subject: [master][kirkstone][PATCH 5/5] selftest/cve_check: update to new
+ cve-check bb var
+Date: Tue, 28 Jun 2022 15:37:13 +0200
+Message-Id: <20220628133713.3390786-5-davide.gardenal@huawei.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220628133713.3390786-1-davide.gardenal@huawei.com>
 References: <20220628133713.3390786-1-davide.gardenal@huawei.com>
@@ -69,36 +69,102 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 28 Jun 2022 13:38:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167340
+ https://lists.openembedded.org/g/openembedded-core/message/167343
 
-image_list_installed_packages_pn has been taken from cve-check.bbclass
-to make it available for other classes.
+After cve-check.bbclass refactor some variables changed,
+this commit updates them to get the test working properly.
 
 Signed-off-by: Davide Gardenal <davide.gardenal@huawei.com>
 ---
- meta/lib/oe/rootfs.py | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/lib/oeqa/selftest/cases/cve_check.py | 34 ++++++++++++++---------
+ 1 file changed, 21 insertions(+), 13 deletions(-)
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 9e6b411fb6..54a356102f 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -393,6 +393,15 @@ def image_list_installed_packages(d, rootfs_dir=None):
-     cls = importlib.import_module('oe.package_manager.' + img_type)
-     return cls.PMPkgsList(d, rootfs_dir).list_pkgs()
+diff --git a/meta/lib/oeqa/selftest/cases/cve_check.py b/meta/lib/oeqa/selftest/cases/cve_check.py
+index d0b2213703..a06bda019f 100644
+--- a/meta/lib/oeqa/selftest/cases/cve_check.py
++++ b/meta/lib/oeqa/selftest/cases/cve_check.py
+@@ -52,12 +52,14 @@ class CVECheck(OESelftestTestCase):
+         config = """
+ INHERIT += "cve-check"
+ CVE_CHECK_FORMAT_JSON = "1"
++CVE_CHECK_CREATE_BUILD_REPORT = "1"
++CVE_CHECK_CREATE_RECIPE_REPORTS = "1"
+ """
+         self.write_config(config)
  
-+def image_list_installed_packages_pn(d):
-+    recipies = set()
-+    for pkg in list(image_list_installed_packages(d)):
-+        pkg_info = os.path.join(d.getVar('PKGDATA_DIR'),
-+                                'runtime-reverse', pkg)
-+        pkg_data = oe.packagedata.read_pkgdatafile(pkg_info)
-+        recipies.add(pkg_data["PN"])
-+    return recipies
-+
- if __name__ == "__main__":
-     """
-     We should be able to run this as a standalone script, from outside bitbake
+-        vars = get_bb_vars(["CVE_CHECK_SUMMARY_DIR", "CVE_CHECK_SUMMARY_FILE_NAME_JSON"])
+-        summary_json = os.path.join(vars["CVE_CHECK_SUMMARY_DIR"], vars["CVE_CHECK_SUMMARY_FILE_NAME_JSON"])
+-        recipe_json = os.path.join(vars["CVE_CHECK_SUMMARY_DIR"], "m4-native_cve.json")
++        vars = get_bb_vars(["CVE_CHECK_OUTPUT_DIR", "CVE_CHECK_BUILD_REPORT_FILE_NAME_BASE"])
++        summary_json = os.path.join(vars["CVE_CHECK_OUTPUT_DIR"], str(vars["CVE_CHECK_BUILD_REPORT_FILE_NAME_BASE"]) + ".json")
++        recipe_json = os.path.join(vars["CVE_CHECK_OUTPUT_DIR"], "recipes_reports/json/m4-native.json")
+ 
+         try:
+             os.remove(summary_json)
+@@ -88,11 +90,13 @@ CVE_CHECK_FORMAT_JSON = "1"
+         config = """
+ INHERIT += "cve-check"
+ CVE_CHECK_FORMAT_JSON = "1"
++CVE_CHECK_CREATE_IMAGE_REPORT = "1"
++CVE_CHECK_IMAGE_REPORT_FILE_NAME_BASE = "cve-report_core-image-minimal-initramfs-qemux86-64"
+ """
+         self.write_config(config)
+ 
+-        vars = get_bb_vars(["CVE_CHECK_DIR", "CVE_CHECK_SUMMARY_DIR", "CVE_CHECK_SUMMARY_FILE_NAME_JSON"])
+-        report_json = os.path.join(vars["CVE_CHECK_SUMMARY_DIR"], vars["CVE_CHECK_SUMMARY_FILE_NAME_JSON"])
++        vars = get_bb_vars(["DEPLOY_DIR_IMAGE", "CVE_CHECK_IMAGE_REPORT_FILE_NAME_BASE", "CVE_CHECK_OUTPUT_DIR"])
++        report_json = os.path.join(vars["DEPLOY_DIR_IMAGE"], str(vars["CVE_CHECK_IMAGE_REPORT_FILE_NAME_BASE"]) + ".json")
+         print(report_json)
+         try:
+             os.remove(report_json)
+@@ -108,9 +112,9 @@ CVE_CHECK_FORMAT_JSON = "1"
+         self.assertEqual(report["version"], "1")
+         self.assertGreater(len(report["package"]), 1)
+ 
+-        # Check that a random recipe wrote a recipe report to deploy/cve/
++        # Check that a random recipe wrote a recipe report to log/cve/recipes-reports/json
+         recipename = report["package"][0]["name"]
+-        recipe_report = os.path.join(vars["CVE_CHECK_DIR"], recipename + "_cve.json")
++        recipe_report = os.path.join(str(vars["CVE_CHECK_OUTPUT_DIR"]), "recipes_reports/json/" + recipename + ".json")
+         self.assertExists(recipe_report)
+         with open(recipe_report) as f:
+             report = json.load(f)
+@@ -124,12 +128,14 @@ CVE_CHECK_FORMAT_JSON = "1"
+ INHERIT += "cve-check"
+ CVE_CHECK_FORMAT_JSON = "1"
+ CVE_CHECK_REPORT_PATCHED = "0"
++CVE_CHECK_CREATE_BUILD_REPORT = "1"
++CVE_CHECK_CREATE_RECIPE_REPORTS = "1"
+ """
+         self.write_config(config)
+ 
+-        vars = get_bb_vars(["CVE_CHECK_SUMMARY_DIR", "CVE_CHECK_SUMMARY_FILE_NAME_JSON"])
+-        summary_json = os.path.join(vars["CVE_CHECK_SUMMARY_DIR"], vars["CVE_CHECK_SUMMARY_FILE_NAME_JSON"])
+-        recipe_json = os.path.join(vars["CVE_CHECK_SUMMARY_DIR"], "m4-native_cve.json")
++        vars = get_bb_vars(["CVE_CHECK_OUTPUT_DIR", "CVE_CHECK_BUILD_REPORT_FILE_NAME_BASE"])
++        summary_json = os.path.join(vars["CVE_CHECK_OUTPUT_DIR"], str(vars["CVE_CHECK_BUILD_REPORT_FILE_NAME_BASE"]) + ".json")
++        recipe_json = os.path.join(vars["CVE_CHECK_OUTPUT_DIR"], "recipes_reports/json/m4-native.json")
+ 
+         try:
+             os.remove(summary_json)
+@@ -160,12 +166,14 @@ CVE_CHECK_REPORT_PATCHED = "0"
+ INHERIT += "cve-check"
+ CVE_CHECK_FORMAT_JSON = "1"
+ CVE_CHECK_REPORT_PATCHED = "1"
++CVE_CHECK_CREATE_BUILD_REPORT = "1"
++CVE_CHECK_CREATE_RECIPE_REPORTS = "1"
+ """
+         self.write_config(config)
+ 
+-        vars = get_bb_vars(["CVE_CHECK_SUMMARY_DIR", "CVE_CHECK_SUMMARY_FILE_NAME_JSON"])
+-        summary_json = os.path.join(vars["CVE_CHECK_SUMMARY_DIR"], vars["CVE_CHECK_SUMMARY_FILE_NAME_JSON"])
+-        recipe_json = os.path.join(vars["CVE_CHECK_SUMMARY_DIR"], "logrotate_cve.json")
++        vars = get_bb_vars(["CVE_CHECK_OUTPUT_DIR", "CVE_CHECK_BUILD_REPORT_FILE_NAME_BASE"])
++        summary_json = os.path.join(vars["CVE_CHECK_OUTPUT_DIR"], str(vars["CVE_CHECK_BUILD_REPORT_FILE_NAME_BASE"]) + ".json")
++        recipe_json = os.path.join(vars["CVE_CHECK_OUTPUT_DIR"], "recipes_reports/json/logrotate.json")
+ 
+         try:
+             os.remove(summary_json)
 -- 
 2.34.1
 
