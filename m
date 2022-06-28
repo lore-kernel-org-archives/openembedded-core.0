@@ -1,96 +1,117 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2EB5C43334
-	for <webhook@archiver.kernel.org>; Tue, 28 Jun 2022 15:29:25 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web11.56340.1656430163064009049
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72558C43334
+	for <webhook@archiver.kernel.org>; Tue, 28 Jun 2022 16:03:48 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web12.95.1656432219274543409
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jun 2022 08:29:23 -0700
+ Tue, 28 Jun 2022 09:03:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=aQT5VtGV;
- spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f51.google.com with SMTP id
- i8-20020a17090aee8800b001ecc929d14dso12549858pjz.0;
-        Tue, 28 Jun 2022 08:29:23 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=diLkScW5;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id r20so18404301wra.1
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 28 Jun 2022 09:03:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=JfMe9wtFIcpOaRbm2IdQFPOEVkrZOfOUIkrQeYTS28Q=;
-        b=aQT5VtGVLeCpQfakTxdGfwHW84lp9vw1LK9ZWIyEqAVmEdgfjSqY+DHONA1mqG0qIc
-         9jiZSMXW7vfw/bjgI8n+Y2HGVoT1dc0GE5VjN+0biJeuK5PPstW25RZ76giWCdN2lmMc
-         Ff3APAN2R1XKk4ky9qzqLNEC4H8ETCa9FytfDad3hMxVlAr2OU7n0I6w51VJeSnSS+3C
-         0+qRupWLCPBLuwRH6nKgqFGqI0f0YwsLlATO+Rhq32RvPeYgwhSzTV2OgMHEAmT7xRqi
-         8BEu9352QJWBhLITZpDdmcfeV1FTLAHLeX86YNtHv8RvI59K73BhW8IMx6IS2c1AOsTX
-         +7Iw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=HpNkS3LPLpnr/I+6bjdhWryzz9RIN6BuW1NJr/XAMTA=;
+        b=diLkScW5C9qzlDPvctbOxiICjU5+kL+rYxKcpWgy3I5eIQVEhFKSabHbAfVxTW+7QC
+         fKsKzCYNFqr6xQ9553cLMsjOb/mwedhYLzp593q32Z4ek63aHSOWpsfVxhUMZCjQKJRB
+         u5e1/FIOCrb0kLgN2eJjNYakTteqpCwiicCqU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=JfMe9wtFIcpOaRbm2IdQFPOEVkrZOfOUIkrQeYTS28Q=;
-        b=6nKT2nL8qfG9L1WemFcrqHWeKQBxs4ITYdR4VENUbA530r5MafYwqjqKt1K1AG9GWC
-         JOKrb9XnDu7wLy4ezak31OlWUBD16h7UVIo5NLigJB6+/b/hERiMALD5LKVBIhl0aiqC
-         VLlj8ntNhwZ1EbejyeXgu1iAnOjXrNbj+HzUOVHM7CfUKwQzonMpgTxmUbRTdPlD0xoJ
-         zTeyNLaHWuOEJiQQGiFlIZMsrSUVPQsl8lHMPJXX/mTzfkX3jQ/t8c3sMof8LtN4P7fd
-         PfndZWoT5NhRvZ1sKIaoESWjAdaLH9PZdCHqBp4XLNzIPqxv13jU87nZEiXDc+M/LiLH
-         MJ2A==
-X-Gm-Message-State: AJIora/e3K53/wQFOU7nXLHPqcuqdC5AxyVHuzcg0axeNO0NNdGGMlNk
-	Iu5K1jhEj55dnnRq1NmeDrP4BAfJ1MYwZSVHFN8/tJDvIDnP7g==
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=HpNkS3LPLpnr/I+6bjdhWryzz9RIN6BuW1NJr/XAMTA=;
+        b=2mL1DbW92A+puICTpRdxIQYCZspkd5/a9yRozdEjtjD4v5AChQrXdsjXoH6sm7ebbq
+         JiBMgXFfJR3gpRk/cMswnQCOC0lcMMeaIWukfeWbT4gDT8HT43G3XU5oURJ2gYFtqa0R
+         OlTgvAppVy8BUG2vdATQMIbwaa6Ab7rNafnkWaW/JU4fhVonebLSskSLxJKBtIidnDql
+         AZzxH6RS/WSqkl0L/agCgfKbdPA4XlJhEfiYSVtRqgymoVSeSnmkH1MJq6l1KCJ3U76k
+         orD5kcnvGYydDdWV1DyqWGjoJC8FzuGzStfheyD1UPl0n+hlM7fUld6DP00HovfDrwwP
+         la+w==
+X-Gm-Message-State: AJIora/pbIN5M/U/WFzqMPz0K0V7Ojl6VBebXC1gzzVhA5z2xgkPTxn8
+	V7Jtn4zbmWPCShtTJ9GjkyW2Pg==
 X-Google-Smtp-Source: 
- AGRyM1sdHXije+UMS8HpTaag0L9FgUnEILxrh6xf3COEDUTIRLIQ/Bpma5Fkqu1LeqqaPBR7ONS+OAed7pguZ//Ykm4=
-X-Received: by 2002:a17:90b:19d3:b0:1ed:5596:1ee5 with SMTP id
- nm19-20020a17090b19d300b001ed55961ee5mr166581pjb.83.1656430161981; Tue, 28
- Jun 2022 08:29:21 -0700 (PDT)
-MIME-Version: 1.0
-From: Tim Orling <ticotimo@gmail.com>
-Date: Tue, 28 Jun 2022 08:29:10 -0700
+ AGRyM1sX7SsQgDFd6/lIQXd17iFq7DY0T3gY5J8kHw3nQzk21bXRZN3H2jNRL/YWB1iUXpie3oABaw==
+X-Received: by 2002:a5d:6c64:0:b0:219:ea71:306f with SMTP id
+ r4-20020a5d6c64000000b00219ea71306fmr17762939wrz.223.1656432217492;
+        Tue, 28 Jun 2022 09:03:37 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1624:49b4:7dc4:c660?
+ ([2001:8b0:aba:5f3c:1624:49b4:7dc4:c660])
+        by smtp.gmail.com with ESMTPSA id
+ v14-20020a1cf70e000000b003a02de5de80sm31533wmh.4.2022.06.28.09.03.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jun 2022 09:03:36 -0700 (PDT)
 Message-ID: 
- <CANx9H-ATwbp6A4hKjfrMTi92EVhibkW3FSSSR_9Oqh1Qe0oHcg@mail.gmail.com>
-Subject: OpenEmbedded Happy Hour June 29 9pm/2100 UTC
-To: openembedded-core <openembedded-core@lists.openembedded.org>,
-	"openembedded-devel@lists.openembedded.org"
- <Openembedded-devel@lists.openembedded.org>,
-	"Yocto (yocto@lists.yoctoproject.org)" <yocto@lists.yoctoproject.org>
-Content-Type: multipart/alternative; boundary="0000000000006675ec05e283b3fc"
+ <738df83db6fae233af819932c4bf56174cac0528.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] glibc-tests: not clear BBCLASSEXTEND
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: kai <kai.kang@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Tue, 28 Jun 2022 17:03:36 +0100
+In-Reply-To: <20220628152228.16791-1-kai.kang@windriver.com>
+References: <20220628152228.16791-1-kai.kang@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Jun 2022 15:29:25 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Jun 2022 16:03:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167349
+ https://lists.openembedded.org/g/openembedded-core/message/167350
 
---0000000000006675ec05e283b3fc
-Content-Type: text/plain; charset="UTF-8"
+On Tue, 2022-06-28 at 23:22 +0800, kai wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+>=20
+> It clears BBCLASSEXTEND in glibc-tests recipe to remove 'nativesdk'
+> which is set in glibc recipe. The side effect is that it removes
+> "${MULTILIBS}" at same time if multilib enabled. Then there will no
+> multilib version glibc-tests. So only remove 'nativesdk' from
+> BBCLASSEXTEND rather than clear it.
+>=20
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  meta/recipes-core/glibc/glibc-tests_2.35.bb | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/glibc/glibc-tests_2.35.bb b/meta/recipes-c=
+ore/glibc/glibc-tests_2.35.bb
+> index 414f8660de..028e83e865 100644
+> --- a/meta/recipes-core/glibc/glibc-tests_2.35.bb
+> +++ b/meta/recipes-core/glibc/glibc-tests_2.35.bb
+> @@ -18,7 +18,8 @@ python __anonymous() {
+>         d.setVar("PROVIDES", "${PN} ${PN}-ptest")
+>         d.setVar("RPROVIDES", "${PN} ${PN}-ptest")
+> =20
+> -       d.setVar("BBCLASSEXTEND", "")
+> +       bbclassextend =3D d.getVar("BBCLASSEXTEND").replace("nativesdk", =
+"").strip()
+> +       d.setVar("BBCLASSEXTEND", bbclassextend)
+>         d.setVar("RRECOMMENDS", "")
+>         d.setVar("SYSTEMD_SERVICE:nscd", "")
+>         d.setVar("SYSTEMD_PACKAGES", "")
+> @@ -95,7 +96,7 @@ python populate_packages:prepend () {
+>          d.setVar('DEBIAN_NAMES', '')
+>  }
+> =20
+> -FILES:${PN} =3D "${PTEST_PATH}/* /usr/src/debug/glibc-tests/*"
+> +FILES:${PN} =3D "${PTEST_PATH}/* /usr/src/debug/${PN}/*"
+> =20
+>  EXCLUDE_FROM_SHLIBS =3D "1"
+>=20
 
-All,
+Have you tested the multilib glibc-tests and been able to use it
+successfully?
 
-You are cordially invited to the next OpenEmbedded Happy Hour on June 29
-for Europe/Americas time zones @ 2100/9pm UTC (5pm ET / 2pm PT).
+Cheers,
 
-https://www.openembedded.org/wiki/Calendar
-https://www.openembedded.org/wiki/Happy_Hours
-https://www.timeanddate.com/worldclock/fixedtime.html?msg=OpenEmbedded+Happy+Hour+June+29&iso=20220629T21&p1=1440
+Richard
 
-Regards,
-Tim "moto-timo" Orling
-
---0000000000006675ec05e283b3fc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">All,<div><br></div><div>You are cordially invited to the n=
-ext OpenEmbedded Happy Hour on June 29</div><div>for Europe/Americas time z=
-ones=C2=A0@ 2100/9pm UTC (5pm ET / 2pm PT).</div><div><br></div><div><a hre=
-f=3D"https://www.openembedded.org/wiki/Calendar" rel=3D"noreferrer" target=
-=3D"_blank">https://www.openembedded.org/wiki/Calendar</a><br></div><div><a=
- href=3D"https://www.openembedded.org/wiki/Happy_Hours" rel=3D"noreferrer" =
-target=3D"_blank">https://www.openembedded.org/wiki/Happy_Hours</a><br></di=
-v><div><a href=3D"https://www.timeanddate.com/worldclock/fixedtime.html?msg=
-=3DOpenEmbedded+Happy+Hour+June+29&amp;iso=3D20220629T21&amp;p1=3D1440">htt=
-ps://www.timeanddate.com/worldclock/fixedtime.html?msg=3DOpenEmbedded+Happy=
-+Hour+June+29&amp;iso=3D20220629T21&amp;p1=3D1440</a><br></div><div><br></d=
-iv><div>Regards,</div><div>Tim &quot;moto-timo&quot; Orling</div></div>
-
---0000000000006675ec05e283b3fc--
 
