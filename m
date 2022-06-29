@@ -2,74 +2,74 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64974C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 657F2C43334
 	for <webhook@archiver.kernel.org>; Wed, 29 Jun 2022 03:25:31 +0000 (UTC)
-Received: from mail3.bemta32.messagelabs.com (mail3.bemta32.messagelabs.com
- [195.245.230.18])
- by mx.groups.io with SMTP id smtpd.web11.7192.1656473128100723944
+Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com
+ [85.158.142.1])
+ by mx.groups.io with SMTP id smtpd.web12.7204.1656473125567953233
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jun 2022 20:25:28 -0700
+ Tue, 28 Jun 2022 20:25:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=Lmb4HRms;
- spf=pass (domain: fujitsu.com, ip: 195.245.230.18,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=cY8UG2Df;
+ spf=pass (domain: fujitsu.com, ip: 85.158.142.1,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1656473126; i=@fujitsu.com;
-	bh=m0qGej3wXsoGnf0DI2/MLG0DVaelNwOCHEQpBUji7mI=;
+	s=170520fj; t=1656473123; i=@fujitsu.com;
+	bh=rq8MIYx/4hus5IgIEkHU8raqjtfJZ/a1CCtNwstdoQo=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=Lmb4HRms2ZEe0pMEKlLRAKNwUc1a/htGsP9SOrHohBQDKKqZwYnTs5eIAxuFw0Dmy
-	 gGDRHEA2ibdJ28fSnv6X209TfpUM7kzwkAK6NQ7oZ3SIvkGfkSNqqc6yLyaQDbDthE
-	 YrVIncp1ChAQ71CGnzPpO6BfkJ9SHQRTF0DVDara8kKeu7aiOnRWLWt/Cbk7M3PnSh
-	 WTkvn4PArdGvsO2c90T5mHINridSIC980eXtb1aSJz0w+gt44HnGr87ewo88fWmD59
-	 Aq2I6LSZSyZu9fGTgS9XTZxpCSB55oAMg57gRlk5R1mG3phjEDqf6FMJSKWzlX0PZR
-	 e10EbfbocyFKA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrAIsWRWlGSWpSXmKPExsViZ8ORqKt2bHe
-  SwYTnjBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8aJzT/YCr5yVjRvymhg7OTsYuTiEBJ4zCjx
-  ZPkvRgjnGpPEm6tn2CCcPYwS635/BMpwcrAJqElMv3WDtYuRg0NEQE/i6j9RkDCzgIrEi9897
-  CC2sICrxPTHn1hBbBYBVYn+Dz+YQGxeAUeJz3M72UBsCQEFiSkP3zODjOEUcJLoahAHCQsBla
-  y+9RyqXFDi5MwnLBDjJSQOvnjBDNGqKDH7cjMLhF0hMWPGNqiRahJXz21insAoOAtJ+ywk7Qs
-  YmVYxWiUVZaZnlOQmZuboGhoY6Boamuoa6hoZGOslVukm6qWW6panFpfoGuollhfrpRYX6xVX
-  5ibnpOjlpZZsYgQGcEox4+kdjJv6fuodYpTkYFIS5XWctjtJiC8pP6UyI7E4I76oNCe1+BCjD
-  AeHkgRv5BGgnGBRanpqRVpmDjCaYNISHDxKIrxFIGne4oLE3OLMdIjUKUZLjqmz/+1n5lgOJm
-  d+bTvALMSSl5+XKiXOOwGkQQCkIaM0D24cLOIvMcpKCfMyMjAwCPEUpBblZpagyr9iFOdgVBL
-  m5T0MNIUnM68EbusroIOYgA7ym7gD5KCSRISUVAPTqgUuLb+LDv58Ovf2BquH6b66zHnbbrk7
-  xfYtcq6NOXxiRcPf8wckfFara6Y87P3UFTKt4MryIydifYOM23TbvS/Krn4Qe1Fyv9H6hVofU
-  gIU66YFvVvx/6DEJqG8yyr2JQvXBVvFvlNnnnEp0Dts2tES+ybfklfyP93mc9pqp4U3MB1sqH
-  Sx41XtbfitOuv3nzW2ma2R8aUq+W8aWtUudSQKhlWuFPu7IIrnVMsBswLb9Lpltd+5zhl1/eG
-  M+fVNdHaXx8QtavuN60qzM1M03pjar5Mqjv/V9ilhxgsd0S/xm9bbX3EXCLDdc3LRkpnnnnRu
-  jGsNedb3WKft70yhuqXRZXfk2KZ457XXOSuxFGckGmoxFxUnAgDURD4zcwMAAA==
+	b=cY8UG2DfKVMAqWB4kuA5hF4FHto8D4JTtf+YXYkneHQckPwxIxsrtN5CRtFoF/TFS
+	 GHvt3fKGTxVhcKwz1xxMynguS9rbxC8KcFjGOPqK2WmlM5USYBin6udY9i4DeMtR+V
+	 WBomPzAWg2KHPybhb8apUBr/WSbxj8Tx1xa2txVr7Kp/te8nLgYosUnjD+LtmQlMx6
+	 2dWWdB6e3zzeBMOse1thTIQWfnzzJ0co3y0GFWD9JSQSEDoU4lNBrfG6qAkU/8Bt6U
+	 uYfei+aWuj7PdFsvDZC4kh/kRWpmrCYrcndgVTqWtUdKRZx+Mdwsd/CrTGp/KQcpjn
+	 sopDmxB9Md24g==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrOIsWRWlGSWpSXmKPExsViZ8MxSVf52O4
+  kg2tNvBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8baB8dZCs5xVEydf5WxgfE3excjF4eQwGNG
+  iamnb7BCONeYJN41H2WEcPYwSkxe/wOojJODTUBNYvotkCoODhEBPYmr/0RBwswCKhIvfveAl
+  QgL+EhMOPUOzGYRUJXYdqaXEcTmFXCUOH5gBlhcQkBBYsrD98wgYzgFnCS6GsRBwkJAJatvPW
+  eCKBeUODnzCQvEeAmJgy9eMEO0KkrMvtzMAmFXSMyYsY0NwlaTuHpuE/MERsFZSNpnIWlfwMi
+  0itEmqSgzPaMkNzEzR9fQwEDX0NBU19JM18jQQC+xSjdRL7VUNy+/qCRD11AvsbxYL7W4WK+4
+  Mjc5J0UvL7VkEyMwjFOKEy7tYFy375feIUZJDiYlUV7HabuThPiS8lMqMxKLM+KLSnNSiw8xy
+  nBwKEnwRh4BygkWpaanVqRl5gBjCiYtwcGjJMJbBJLmLS5IzC3OTIdInWLU5Zj5te0AsxBLXn
+  5eqpQ47wSQIgGQoozSPLgRsPi+xCgrJczLyMDAIMRTkFqUm1mCKv+KUZyDUUmYl/cw0BSezLw
+  SuE2vgI5gAjrCb+IOkCNKEhFSUg1MVVaudRutFrG9Mw90kd1XrJO5rVwhe9J+RaVPGWWpps9N
+  t6Vumr6aMdY6RO/M9ygFexWx8GUu50v18sUC7p69s1BQlFPBX+CeZqnlrgLPrxaf44Mv31c7y
+  rHw5u6umg3WDzfmn1+0PlxR38LhzInbz/IOvc69/K5b88rKkG3tbRny9V3z63peHJn75ObCW5
+  rcVeWuy5YeaT2gv3LSuxtTU7YG7078+P4XS7aERQzLypCuuOldkl++y0twvlO06zt70kFyllT
+  abb2GI58fTNJkrJkbtX5hyfn0zztmHjx2vX6KRm10fti+c4bGostSDie9l5zDd1/msLfZ+Ynd
+  mtItCuwn9ymui//9t/nrWqtPSizFGYmGWsxFxYkANpyrQWoDAAA=
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-16.tower-585.messagelabs.com!1656473125!313092!1
-X-Originating-IP: [62.60.8.97]
+X-Msg-Ref: server-16.tower-732.messagelabs.com!1656473122!135334!1
+X-Originating-IP: [62.60.8.146]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.86.7; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 5471 invoked from network); 29 Jun 2022 03:25:26 -0000
-Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
-  by server-16.tower-585.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 29 Jun 2022 03:25:26 -0000
-Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 935CD10019E
+Received: (qmail 1562 invoked from network); 29 Jun 2022 03:25:23 -0000
+Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
+  by server-16.tower-732.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 29 Jun 2022 03:25:23 -0000
+Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id A53321000C0
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jun 2022 04:25:25 +0100 (BST)
+ Wed, 29 Jun 2022 04:25:22 +0100 (BST)
 Received: from R01UKEXCASM126.r01.fujitsu.local (R01UKEXCASM126
  [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTPS id 8756E10019A
+	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 98C3F100078
 	for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jun 2022 04:25:25 +0100 (BST)
+ Wed, 29 Jun 2022 04:25:22 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Wed, 29 Jun 2022 04:25:23 +0100
+ (TLS) id 15.0.1497.32; Wed, 29 Jun 2022 04:25:21 +0100
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-dbusmock: upgrade 0.28.0 -> 0.28.1
-Date: Wed, 29 Jun 2022 11:24:06 +0800
-Message-ID: <1656473046-4187-5-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-certifi: upgrade 2022.5.18.1 -> 2022.6.15
+Date: Wed, 29 Jun 2022 11:24:05 +0800
+Message-ID: <1656473046-4187-4-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1656473046-4187-1-git-send-email-wangmy@fujitsu.com>
 References: <1656473046-4187-1-git-send-email-wangmy@fujitsu.com>
@@ -84,34 +84,29 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 29 Jun 2022 03:25:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167363
-
-Changelog:
-==========
-Again works on RHEL/CentOS 8 (0.27 broke there), now in CI
-Avoid glib GI dependency for main dbusmock, for running in virtualenv
+ https://lists.openembedded.org/g/openembedded-core/message/167362
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../{python3-dbusmock_0.28.0.bb => python3-dbusmock_0.28.1.bb}  | 2 +-
+ ...hon3-certifi_2022.5.18.1.bb => python3-certifi_2022.6.15.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-dbusmock_0.28.0.bb => python3-dbusmock_0.28.1.bb} (83%)
+ rename meta/recipes-devtools/python/{python3-certifi_2022.5.18.1.bb => python3-certifi_2022.6.15.bb} (86%)
 
-diff --git a/meta/recipes-devtools/python/python3-dbusmock_0.28.0.bb b/meta/recipes-devtools/python/python3-dbusmock_0.28.1.bb
-similarity index 83%
-rename from meta/recipes-devtools/python/python3-dbusmock_0.28.0.bb
-rename to meta/recipes-devtools/python/python3-dbusmock_0.28.1.bb
-index 6155c866a2..d6889f4313 100644
---- a/meta/recipes-devtools/python/python3-dbusmock_0.28.0.bb
-+++ b/meta/recipes-devtools/python/python3-dbusmock_0.28.1.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://pypi.org/project/python-dbusmock/"
- LICENSE = "GPL-3.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e6a600fd5e1d9cbde2d983680233ad02"
+diff --git a/meta/recipes-devtools/python/python3-certifi_2022.5.18.1.bb b/meta/recipes-devtools/python/python3-certifi_2022.6.15.bb
+similarity index 86%
+rename from meta/recipes-devtools/python/python3-certifi_2022.5.18.1.bb
+rename to meta/recipes-devtools/python/python3-certifi_2022.6.15.bb
+index ff460d40b9..f78409b177 100644
+--- a/meta/recipes-devtools/python/python3-certifi_2022.5.18.1.bb
++++ b/meta/recipes-devtools/python/python3-certifi_2022.6.15.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = " http://certifi.io/"
+ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=67da0714c3f9471067b729eca6c9fbe8"
  
--SRC_URI[sha256sum] = "c63edeacec7796c4f379b2e17566d62afa404c048931ac9eba446470cec80ada"
-+SRC_URI[sha256sum] = "6434e544c055e3570b20e341e50a3d2dd50b19d9e55d579b919e14879f9f1e57"
+-SRC_URI[sha256sum] = "9c5705e395cd70084351dd8ad5c41e65655e08ce46f2ec9cf6c2c08390f71eb7"
++SRC_URI[sha256sum] = "84c85a9078b11105f04f3036a9482ae10e4621616db313fe045dd24743a0820d"
  
- PYPI_PACKAGE = "python-dbusmock"
+ inherit pypi setuptools3
  
 -- 
 2.25.1
