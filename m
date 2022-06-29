@@ -1,139 +1,87 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <peter@berginkonsult.se>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F7F0C433EF
-	for <webhook@archiver.kernel.org>; Wed, 29 Jun 2022 05:54:32 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web11.8146.1656482061823827207
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E349AC433EF
+	for <webhook@archiver.kernel.org>; Wed, 29 Jun 2022 08:06:52 +0000 (UTC)
+Received: from mailrelay1-2.pub.mailoutpod1-cph3.one.com
+ (mailrelay1-2.pub.mailoutpod1-cph3.one.com [46.30.212.0])
+ by mx.groups.io with SMTP id smtpd.web09.8955.1656490011154873789
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jun 2022 22:54:22 -0700
+ Wed, 29 Jun 2022 01:06:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=a3H6GQmw;
- spf=pass (domain: mvista.com, ip: 209.85.216.45,
- mailfrom: hprajapati@mvista.com)
-Received: by mail-pj1-f45.google.com with SMTP id l2so13486702pjf.1
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jun 2022 22:54:21 -0700 (PDT)
+ dkim=pass header.i=@berginkonsult.se header.s=rsa2 header.b=Yf5tAW5a;
+ spf=none, err=permanent DNS error (domain: berginkonsult.se, ip: 46.30.212.0,
+ mailfrom: peter@berginkonsult.se)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FcF4TZnFtgtiQH2r6txKMet2+JE/5cID1nzbV8Zt3A4=;
-        b=a3H6GQmwGOyRCcc+fm8tgxa1KgmEPzpcEDEPWr5df6iLV8XWSFvuKtZq91GLw1R/NQ
-         BMKHpBQbCDPZBknpEQUPcMR8B7bSbd+t0TntQkWBX0Ih1dVeLmEMLkkLgql0+NuClv+W
-         ZD4ZjOqsM+RqtRvK+akR+UvqNA7uVY6xgiQqg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FcF4TZnFtgtiQH2r6txKMet2+JE/5cID1nzbV8Zt3A4=;
-        b=fC0kbHXBe1poI8bcvi3PRrpA0bZtaAWWQw0SZExvo7Yck/bTrKQkayXAe2TwgPOrjn
-         o439PijppWY0JNm7Vr7MuJOtZ/ezQ1vDh8NV+ZSMFiTmzT05wwVlDe2txi7CHvuyacVX
-         o3RvsHpISDnhIWtfLSpbXQzteeMo958JVStAU83QGibdgdNb2mULnsDjmQ6WVHNYisre
-         kSI8UR9y4tWBAPZc203tUkmMWlv9QT0scMuzSnOwpUewuO9xsPEh+h3r0IW7dRJRAXAa
-         wOfoF31vyjEF9jXDbopj0mnou1WjQuU9wIIhpiqQ8kQTGeEibb2m9pDkK8xbj23uNROI
-         zbwA==
-X-Gm-Message-State: AJIora+W0Ryz6LeckpvDYWixOMahGow/PlPFqkf47/ActJCn6Y9QF/eX
-	n7HI5B7N9aXes7Z6Tz8hCUYB43lrkIaeOA==
-X-Google-Smtp-Source: 
- AGRyM1vGCR6linyaUw0QbMiGch/KG0uiFnWEyHHYdJVx/TnRNLCLKtIQoFHCX9xsTNbew1z9dlnLIw==
-X-Received: by 2002:a17:902:e84a:b0:16a:5435:b5fc with SMTP id
- t10-20020a170902e84a00b0016a5435b5fcmr9043600plg.119.1656482061012;
-        Tue, 28 Jun 2022 22:54:21 -0700 (PDT)
-Received: from MVIN00024 ([27.121.101.82])
-        by smtp.gmail.com with ESMTPSA id
- j13-20020a17090a738d00b001cd4989fec6sm1032236pjg.18.2022.06.28.22.54.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jun 2022 22:54:20 -0700 (PDT)
-Received: by MVIN00024 (sSMTP sendmail emulation);
- Wed, 29 Jun 2022 11:24:15 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
+	d=berginkonsult.se; s=rsa2;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+	 from;
+	bh=q/nZhvXlU8iy1rU/VTinDRQeglQTVbyVMMhY6QqLe3w=;
+	b=Yf5tAW5ak9wqeN5Lv3kOn9MXteGEeoGvqsqhPMOJcKbfowBYqc9ifKMQiiifzf8ITwtDAVO37eoTP
+	 eqq9/RfxynEOJm6etf6Ac/hLPZyp8L/2Gf9M6j/rXMO0wpRdotPda9AKsht7s0y0JXi4PHDfzKUkJ3
+	 J+IAmqOMuhi223dG6X7mclNdQl7glDxYUOeTkySNoOEStzVuEFrB0SZRKa2eWLZlAMczVKzmljrZY/
+	 xnpZMWAMSbeMf93Ue2SlRdT78HkVZzukfx6SUWS1vuuuCpiXmsNlIjWbQm06jEaYtLDq2b7zkLpRIp
+	 Vkl4TTMR6exPJYaOGtvUylRLijEWOwg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=berginkonsult.se; s=ed2;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+	 from;
+	bh=q/nZhvXlU8iy1rU/VTinDRQeglQTVbyVMMhY6QqLe3w=;
+	b=PBkLYDt3wsuzhvJAor2EC5QljEuibOrVpz/ODaDRnxnHQqdCZaRPaWrL9mY8mf50ym81YrAnaKOpZ
+	 03c/vpyDg==
+X-HalOne-Cookie: 8609112c4e15d67baf74b0f5ecc5e092276d339d
+X-HalOne-ID: 6ad1ca74-f782-11ec-a6c5-d0431ea8a283
+Received: from pbergin-7420.. (h-79-136-99-68.na.cust.bahnhof.se
+ [79.136.99.68])
+	by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+	id 6ad1ca74-f782-11ec-a6c5-d0431ea8a283;
+	Wed, 29 Jun 2022 08:06:48 +0000 (UTC)
+From: Peter Bergin <peter@berginkonsult.se>
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [dunfell][PATCH] grub2: CVE-2021-3981 Incorrect permission in
- grub.cfg allow unprivileged user to read the file content
-Date: Wed, 29 Jun 2022 11:24:07 +0530
-Message-Id: <20220629055407.9146-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Peter Bergin <peter@berginkonsult.se>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [PATCH] rust: fix issue building cross-canadian tools for aarch64 on
+ x86_64
+Date: Wed, 29 Jun 2022 10:06:36 +0200
+Message-Id: <20220629080636.12101-1-peter@berginkonsult.se>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Jun 2022 05:54:32 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Jun 2022 08:06:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167367
+ https://lists.openembedded.org/g/openembedded-core/message/167368
 
-Source: https://git.savannah.gnu.org/cgit/grub.git/
-MR: 116495
-Type: Security Fix
-Disposition: Backport from https://git.savannah.gnu.org/cgit/grub.git/diff/util/grub-mkconfig.in?id=0adec29674561034771c13e446069b41ef41e4d4
-ChangeID: fce3d59e50320bef247bb981352051b8f953a4fc
-Description:
-        CVE-2021-3981 grub2: Incorrect permission in grub.cfg allow unprivileged user to read the file content.
+Commit bd36593ba3db758b3eacc974e48468a665967961 did introduce a
+regression when building package rust-cross-canadian-aarch64
+on a x86_64 host. This commit will fix that configuration.
 
-Affects "grub2 < 2.06"
-
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Suggested-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Peter Bergin <peter@berginkonsult.se>
 ---
- .../grub/files/CVE-2021-3981.patch            | 32 +++++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2021-3981.patch
+ meta/recipes-devtools/rust/rust-common.inc | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2021-3981.patch b/meta/recipes-bsp/grub/files/CVE-2021-3981.patch
-new file mode 100644
-index 0000000000..e27027ea65
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2021-3981.patch
-@@ -0,0 +1,32 @@
-+From 67740c43c9326956ea5cd6be77f813b5499a56a5 Mon Sep 17 00:00:00 2001
-+From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Mon, 27 Jun 2022 10:15:29 +0530
-+Subject: [PATCH] CVE-2021-3981
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/diff/util/grub-mkconfig.in?id=0adec29674561034771c13e446069b41ef41e4d4]
-+CVE: CVE-2021-3981
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ util/grub-mkconfig.in | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
-+index 9f477ff..ead94a6 100644
-+--- a/util/grub-mkconfig.in
-++++ b/util/grub-mkconfig.in
-+@@ -287,7 +287,11 @@ and /etc/grub.d/* files or please file a bug report with
-+     exit 1
-+   else
-+     # none of the children aborted with error, install the new grub.cfg
-+-    mv -f ${grub_cfg}.new ${grub_cfg}
-++    oldumask=$(umask)
-++    umask 077
-++    cat ${grub_cfg}.new > ${grub_cfg}
-++    umask $oldumask
-++    rm -f ${grub_cfg}.new
-+   fi
-+ fi
-+ 
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 0d3f6d05da..9e98d8249d 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -95,6 +95,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://0044-script-execute-Fix-NULL-dereference-in-grub_script_e.patch \
-            file://0045-commands-ls-Require-device_name-is-not-NULL-before-p.patch \
-            file://0046-script-execute-Avoid-crash-when-using-outside-a-func.patch \
-+           file://CVE-2021-3981.patch\
-            "
- SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
- SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
+diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-devtools/rust/rust-common.inc
+index 621cd4ad57..ef70c48d0f 100644
+--- a/meta/recipes-devtools/rust/rust-common.inc
++++ b/meta/recipes-devtools/rust/rust-common.inc
+@@ -309,10 +309,7 @@ def rust_gen_target(d, thing, wd, features, cpu, arch, abi=""):
+ 
+     # build tspec
+     tspec = {}
+-    if bb.data.inherits_class('cross-canadian', d):
+-        tspec['llvm-target'] = d.getVar('RUST_HOST_SYS', arch_abi)
+-    else:
+-        tspec['llvm-target'] = d.getVar('RUST_TARGET_SYS', arch_abi)
++    tspec['llvm-target'] = d.getVar('RUST_TARGET_SYS', arch_abi)
+     tspec['data-layout'] = d.getVarFlag('DATA_LAYOUT', arch_abi)
+     tspec['max-atomic-width'] = int(d.getVarFlag('MAX_ATOMIC_WIDTH', arch_abi))
+     tspec['target-pointer-width'] = d.getVarFlag('TARGET_POINTER_WIDTH', arch_abi)
 -- 
-2.25.1
+2.34.1
 
 
