@@ -1,126 +1,147 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <pgowda.cve@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79869C43334
-	for <webhook@archiver.kernel.org>; Wed, 29 Jun 2022 03:27:11 +0000 (UTC)
-Received: from mail1.bemta37.messagelabs.com (mail1.bemta37.messagelabs.com
- [85.158.142.2])
- by mx.groups.io with SMTP id smtpd.web09.7216.1656473222271185845
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 376E7C433EF
+	for <webhook@archiver.kernel.org>; Wed, 29 Jun 2022 05:25:22 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+ [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web09.7998.1656480311986191587
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Jun 2022 20:27:02 -0700
+ Tue, 28 Jun 2022 22:25:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=ofoKJejq;
- spf=pass (domain: fujitsu.com, ip: 85.158.142.2,
- mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1656473220; i=@fujitsu.com;
-	bh=kFo2jzsAoKpvV6B4g8zuRduCDhFkFndf0kc8uHZsnWc=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	b=ofoKJejqMlmIVNjO7nK4+akrIVUcSSqqRIw1MLoUIIQo6I6Sdvs68v1YeDHV0K3pS
-	 2XW1t17SjRvKTVqDPV5WbrXe2qWNK2ZQIaggxbSILC9ax1QJTE8fyF2Co6raZrL9ZQ
-	 OF/d7Gpku3VzwUuU7JT8Ywp2NhzzD4hI/nmUIZowkc+VnCDVTFEddntOQnfNToTuKq
-	 X9L3EbRiKfOc1Up4p/m8k9Jc9da6/lEaxIKH6i1BpheZO27+4iEj/JUG69UDWCdXbH
-	 zBm7P109BqrZM1I+JCoF6mDfiCn0m2mHo19+oR8xf6xnW6ZhdAmtzh43rOpQeHIB97
-	 jsV2L2KmYXUcg==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrBIsWRWlGSWpSXmKPExsViZ8MxSbfl2O4
-  kgzOH2Szu/HzH7sDocW7jCsYAxijWzLyk/IoE1oz1Ez4wFXzlqtizezVrA+Nzzi5GLg4hgceM
-  Ej+n7GaBcK4xSUx40MYM4exhlPjyaS1TFyMnB5uAmsT0WzdYuxg5OEQE9CSu/hMFCTMLqEi8+
-  N3DDhIWFvCUWH1XGSTMIqAqse1SL1gnr4CjROPCmYwgtoSAgsSUh++ZQWxOASeJ9QeWs4HYQk
-  A1E1a9YYOoF5Q4OfMJC8R4CYmDL14wQ/QqSsy+3MwCYVdIzJixjQ3CVpO4em4T8wRGwVlI2mc
-  haV/AyLSK0TapKDM9oyQ3MTNH19DAQNfQ0BRIG+saGZrpJVbpJuqllurm5ReVZOga6iWWF+ul
-  FhfrFVfmJuek6OWllmxiBAZySnH6jR2Mu/b90jvEKMnBpCTK6zhtd5IQX1J+SmVGYnFGfFFpT
-  mrxIUYZDg4lCd7II0A5waLU9NSKtMwcYFTBpCU4eJREeItA0rzFBYm5xZnpEKlTjLocM7+2HW
-  AWYsnLz0uVEuedAFIkAFKUUZoHNwIW4ZcYZaWEeRkZGBiEeApSi3IzS1DlXzGKczAqCfPyHga
-  awpOZVwK36RXQEUxAR/hN3AFyREkiQkqqganym+fZaUsOdix64f5rlWXS2Y+1F1b8O7TGRKZ5
-  E9PTyZU3X89axKewX6Z+D4e6hXB73bylx3acPTSDY8U9n8BrFaXnFj/Y0nSx/JaFyBfOXc9m1
-  0nf+nRj8Ry3EyEnvD9GPdqySb0ln72Ra+q9X+9a1aoupIfqGaVkbDy/WeL3/aA8sTcmzlsSt6
-  9b+GWzBsellXMX9nS3npo630vc4OYzCw3f1KRTlTOz5z79vWfaH4cogY7/09mfR3+PP/W1i+1
-  Yl4J9Q0cCx7JWj5+GLmmqplmbDXj/SW81E7X7I98Q0fJiV3Kw+f7rdm8ErxVl1gYx1Ti2pMce
-  O3IjwE1fke+l9vLFU9a/eyT0PJXZ7vcDJZbijERDLeai4kQAmPIdLGsDAAA=
-X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-17.tower-728.messagelabs.com!1656473219!134786!1
-X-Originating-IP: [62.60.8.146]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.86.7; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 4290 invoked from network); 29 Jun 2022 03:27:00 -0000
-Received: from unknown (HELO n03ukasimr02.n03.fujitsu.local) (62.60.8.146)
-  by server-17.tower-728.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 29 Jun 2022 03:27:00 -0000
-Received: from n03ukasimr02.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTP id 882F71000C0
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jun 2022 04:26:59 +0100 (BST)
-Received: from R01UKEXCASM126.r01.fujitsu.local (R01UKEXCASM126
- [10.183.43.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by n03ukasimr02.n03.fujitsu.local (Postfix) with ESMTPS id 7B116100078
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jun 2022 04:26:59 +0100 (BST)
-Received: from localhost.localdomain (10.167.225.33) by
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Wed, 29 Jun 2022 04:26:52 +0100
-From: Wang Mingyu <wangmy@fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-pycryptodome: upgrade 3.14.1 -> 3.15.0
-Date: Wed, 29 Jun 2022 11:26:38 +0800
-Message-ID: <1656473198-4226-2-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1656473198-4226-1-git-send-email-wangmy@fujitsu.com>
-References: <1656473198-4226-1-git-send-email-wangmy@fujitsu.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=R9nTuWWa;
+ spf=pass (domain: gmail.com, ip: 209.85.215.172,
+ mailfrom: pgowda.cve@gmail.com)
+Received: by mail-pg1-f172.google.com with SMTP id v126so10089300pgv.11
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 28 Jun 2022 22:25:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xCzWuSZPyqTcJZ34KYoCD+of4IsT5Z1MHkdQ0MohA/M=;
+        b=R9nTuWWaTfJy8XJBtSjsyHKWGSScmxbrLokI9S2SlsglsJOHLiPq83tft7isilFmvf
+         oEOiyX6fQN6Hs7ksx/mtAXjz1FYuc5s6dHXJwfq0PyYeQIHWEjWbgDw51VvQJajPcW4O
+         GshmAHjuP7QitXL4pZJAIGNxrR7lEse+YyydCYOk+kiE9IzZUOwtgDb0tcVy/A7GPayw
+         nTPhoDWIyPsUaWfjSkqCVCNF+N9GO9Hcl/GKPsREvh1UFB/83q1BFJy/hm33scFgJkqO
+         lu8J7dm9xjwZg5Dyy6nGR/gLUijw5NFt3dnAiCfeQdpw9e8ILFN8vhRsmd/Qnvtp9413
+         Sh6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xCzWuSZPyqTcJZ34KYoCD+of4IsT5Z1MHkdQ0MohA/M=;
+        b=Zi9wGUFi/7hiva/wtpdDR3f4MPRjTyVTsMlDEiBux9LtO/6Kbg70dz9BNx2s/saDbs
+         l/1x/MJdK7yOq04GfaBa7Md0SnV1IfmITLCX1D5sH6Ri28hnH6+641KiEc3ZeK71sLAA
+         IaMbwF9ymQ/PG6GVswb/6Zcl5DeXek3DD+r8PaMiQderFoXlnMmW+aPv4wAuAYs8FfFv
+         8A6j0Fk9km5Q2PT6bSRqcDpW8RMbaj/v5DCk6N+rcCJHnoO6FZEd60Z7InsBOMTIfM3P
+         xF3ba1WRrTApDTVIjdnPAnCVB4hsvcGkzfJuoYlsT9LZsgvBAdttOCoC7rnBmBZv5bKe
+         j5Qg==
+X-Gm-Message-State: AJIora8ISkYpdAS53XwWLFpbh1xPpt2laoN81bSWGZSdmSHC8UVTPD6w
+	lqMtndCBA8bVmmpQKQPih0UKCPg0pDA=
+X-Google-Smtp-Source: 
+ AGRyM1tmeeodfDQHYETccVFhOupEP2Q7vXKWx4Uc5Gkn3sDT1gha25PlR2Ns38EKDK4t8135SFy6uw==
+X-Received: by 2002:a05:6a00:4091:b0:527:b95d:6041 with SMTP id
+ bw17-20020a056a00409100b00527b95d6041mr8535769pfb.10.1656480311160;
+        Tue, 28 Jun 2022 22:25:11 -0700 (PDT)
+Received: from localhost.localdomain ([49.204.85.206])
+        by smtp.gmail.com with ESMTPSA id
+ 71-20020a63034a000000b0040d2d9f15e0sm10302938pgd.20.2022.06.28.22.25.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jun 2022 22:25:10 -0700 (PDT)
+From: Pgowda <pgowda.cve@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: rwmacleod@gmail.com,
+	Pgowda <pgowda.cve@gmail.com>
+Subject: [PATCH] binutils : CVE-2019-1010204
+Date: Wed, 29 Jun 2022 10:54:39 +0530
+Message-Id: <20220629052439.2353562-1-pgowda.cve@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) To
- R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Jun 2022 03:27:11 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Jun 2022 05:25:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167365
+ https://lists.openembedded.org/g/openembedded-core/message/167366
 
-Changelog:
-=========
+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=2a4fc266dbf77ed7ab83da16468e9ba627b8bc2d]
 
-New features
-------------
-    Add support for curves Ed25519 and Ed448, including export and import of keys.
-    Add support for EdDSA signatures.
-    Add support for Asymmetric Key Packages (RFC5958) to import private keys.
-
-Resolved issues
----------------
-    GH#620: for Crypto.Util.number.getPrime , do not sequentially scan numbers searching for a prime.
-
-
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Pgowda <pgowda.cve@gmail.com>
 ---
- ...n3-pycryptodome_3.14.1.bb => python3-pycryptodome_3.15.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pycryptodome_3.14.1.bb => python3-pycryptodome_3.15.0.bb} (38%)
+ .../binutils/binutils-2.38.inc                |  1 +
+ .../binutils/0014-CVE-2019-1010204.patch      | 49 +++++++++++++++++++
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0014-CVE-2019-1010204.patch
 
-diff --git a/meta/recipes-devtools/python/python3-pycryptodome_3.14.1.bb b/meta/recipes-devtools/python/python3-pycryptodome_3.15.0.bb
-similarity index 38%
-rename from meta/recipes-devtools/python/python3-pycryptodome_3.14.1.bb
-rename to meta/recipes-devtools/python/python3-pycryptodome_3.15.0.bb
-index c0324590c2..cabe9189f2 100644
---- a/meta/recipes-devtools/python/python3-pycryptodome_3.14.1.bb
-+++ b/meta/recipes-devtools/python/python3-pycryptodome_3.15.0.bb
-@@ -1,5 +1,5 @@
- require python-pycryptodome.inc
- inherit setuptools3
- 
--SRC_URI[sha256sum] = "e04e40a7f8c1669195536a37979dd87da2c32dbdc73d6fe35f0077b0c17c803b"
-+SRC_URI[sha256sum] = "9135dddad504592bcc18b0d2d95ce86c3a5ea87ec6447ef25cfedea12d6018b8"
- 
+diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
+index dc0a2a4054..a069071c97 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.38.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
+@@ -32,5 +32,6 @@ SRC_URI = "\
+      file://0011-sync-with-OE-libtool-changes.patch \
+      file://0012-Check-for-clang-before-checking-gcc-version.patch \
+      file://0013-Avoid-as-info-race-condition.patch \
++     file://0014-CVE-2019-1010204.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0014-CVE-2019-1010204.patch b/meta/recipes-devtools/binutils/binutils/0014-CVE-2019-1010204.patch
+new file mode 100644
+index 0000000000..dad4a62038
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0014-CVE-2019-1010204.patch
+@@ -0,0 +1,49 @@
++From 2a4fc266dbf77ed7ab83da16468e9ba627b8bc2d Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Mon, 27 Jun 2022 13:07:40 +0100
++Subject: [PATCH] Have gold's File_read::do_read() function check the start
++ parameter
++
++	PR 23765
++	* fileread.cc (File_read::do_read): Check start parameter before
++	computing number of bytes to read.
++
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=2a4fc266dbf77ed7ab83da16468e9ba627b8bc2d]
++
++Signed-off-by: Pgowda <pgowda.cve@gmail.com>
++---
++ gold/ChangeLog   | 6 ++++++
++ gold/fileread.cc | 6 ++++++
++ 2 files changed, 12 insertions(+)
++
++diff --git a/gold/ChangeLog b/gold/ChangeLog
++index 5103dab7b67..8557dc6db7f 100644
++--- a/gold/ChangeLog
+++++ b/gold/ChangeLog
++@@ -1,3 +1,9 @@
+++2022-06-27  Nick Clifton  <nickc@redhat.com>
+++
+++	PR 23765
+++	* fileread.cc (File_read::do_read): Check start parameter before
+++	computing number of bytes to read.
+++
++ 2022-02-17  Nick Clifton  <nickc@redhat.com>
++ 
++ 	* po/sr.po: Updated Serbian translation.
++diff --git a/gold/fileread.cc b/gold/fileread.cc
++index 2b653f78c2e..af2df215468 100644
++--- a/gold/fileread.cc
+++++ b/gold/fileread.cc
++@@ -385,6 +385,12 @@ File_read::do_read(off_t start, section_
++   ssize_t bytes;
++   if (this->whole_file_view_ != NULL)
++     {
+++      // See PR 23765 for an example of a testcase that triggers this error.
+++      if (((ssize_t) start) < 0)
+++	gold_fatal(_("%s: read failed, starting offset (%#llx) less than zero"),
+++		   this->filename().c_str(),
+++		   static_cast<long long>(start));
+++	
++       bytes = this->size_ - start;
++       if (static_cast<section_size_type>(bytes) >= size)
++ 	{
 -- 
 2.25.1
 
