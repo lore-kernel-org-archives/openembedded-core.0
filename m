@@ -1,146 +1,127 @@
-Return-Path: <flowergom@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA7F4C43334
-	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 18:48:32 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web11.28955.1656614903721152914
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15658C43334
+	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 19:17:03 +0000 (UTC)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
+ [209.85.222.179])
+ by mx.groups.io with SMTP id smtpd.web12.29691.1656616619559713249
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 11:48:24 -0700
+ Thu, 30 Jun 2022 12:16:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Go583pH9;
- spf=pass (domain: gmail.com, ip: 209.85.218.53,
- mailfrom: flowergom@gmail.com)
-Received: by mail-ej1-f53.google.com with SMTP id d2so28986249ejy.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=JZ7rcRxc;
+ spf=pass (domain: gmail.com, ip: 209.85.222.179,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f179.google.com with SMTP id f14so15282841qkm.0
         for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 11:48:23 -0700 (PDT)
+ Thu, 30 Jun 2022 12:16:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=SQz67GkSdc+CPb5Y9ud+7DGXDmiS2VJ0YCOXnev8RF0=;
-        b=Go583pH9gm6kQWu1/8Q4tUYWF/5GhVEcaueHX2G4ufIxDq+3KJtzikdAEOsXo0+QpE
-         FU5EKWRcEcOCccpm6up1iMHxKEfvgXsHyFUWFLWOo+X15nULz3CfRbh8IQOJrrCCM5iG
-         XeUfIyWelAFuS3oul6Ec/8o+wfs6VDRl/TtuR0cmVu7LtWF79URWN6E3bkmtlX8g90qu
-         FyJYoSlZHqvc5oCVwYECW+RmkjNpwqOMQR2W52DjSn1iaXRVFi9o0DvR24SE0xySAJGc
-         zocj8XvPK2HfkADovUzPILbqiRIjzX7/iQtdvMZCdaS/PKS8/FBLeL8Od0gNGlDsJ/if
-         HPjA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wHCuJ8bLoePJ32SBW1O2jz1jwAlnAwD0XQpLyf+SWbs=;
+        b=JZ7rcRxccP7ty9fsYn7cHkDX6VKSHsiXcTzFGjXMqRFM2yYp0x+LyGFihVD6qpI44O
+         tQvGgMaoHQXDk+zzLgCUaBQD8+Jw4X84AwZNR5I9gIjesGQFe85ggM1jPVFdtGadoLdE
+         nY7WXWiBpU800m5uqiMS+sCqLzvm1amxIhVtlgUivS+ld5Q/Vw/alxkz9q33ZBtN0G/l
+         0bYVx87H7aF5hv/0yfePs86dFW+Ea1orcLavn7B+Lvv5gzcAiQ9DSdQ5K0bk3un8GMeB
+         J30wJh8EFcyKo3MxVLUTXX81/PQnb8bHjLctUJHRNFSaxwHrREqJRc44PrY1+Wj07gbC
+         F0vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=SQz67GkSdc+CPb5Y9ud+7DGXDmiS2VJ0YCOXnev8RF0=;
-        b=h96mmYcsdh0trWjT+Q75h7BslKEhjTIE8ZHqzFhbu0iQWforMHdvv4B7LfwRWeLdyA
-         tEI3NXjGHriZ5LXuOH+SuOBzgHinLZUTjFDYgejEsfAKLnY6OCdYDjB/LjxLH1DIYrXn
-         /a0nYtpLsoxzvODDnfF4R2eyuy41tnV9jjGG1gUA+rrTUqYE3ve40D5d4TXw8BfoCDZA
-         IWmbygBW3sd4jOZx09gc6wAj7mHJ1w8SToEslUslGh3WX9P2vTTo/NPdkZrCVvtNSv7B
-         rUTlxmv/zEBoNsTn/w5eru6QDpILAjzQyLSu0tdG5M8vF1fCrtNY9Ron1QB0JgLSPiUU
-         iHyQ==
-X-Gm-Message-State: AJIora/+JgZfiYfiO9Hjo2ojiNJSZcBsyWVzxhmcs2mTdXNZn3fCFCa5
-	DgffojwMeY80LiQ4+dxEwPbmC5WtIPsNKj+hySU=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wHCuJ8bLoePJ32SBW1O2jz1jwAlnAwD0XQpLyf+SWbs=;
+        b=HPLvsNVBm58luHwsegkwLEFcKkUNhgyjL7ZTuIRHcog+9bcFMfjgJDMsGnZm2DezLR
+         Sya1e5tVN/s42Y/9VtKBsDJyf4cEJqNdrddyaOwLVtdwMW7k6+DXZFvupD2kXA+GbSq/
+         7qz46ZBIfJrPvkj1/t9iuzQMjIheoysJ+gD5GfMGvOhgG1JALOKjNvPrJjEfURKg7rgL
+         bqTutE4M6xy+6rJvRHiGTKV7humkU2juP3uejyJChCmnVHcW/p9dTHYXYaN0wQv2IZFJ
+         JjOOxq4rfjk0umD7kBz3wiTOVknHennz6AQO0ixQbDO+yd2cXmOPMcErW1ZR9dmJXsZL
+         5bbw==
+X-Gm-Message-State: AJIora+BkEgYGEZ4rnCZaqAKrnbqt/Ng07DwQvW/329/ex9nCUSiEFxh
+	d1taw4VRVUoNlvXlu8KQbhD6nIkHU4FpEA==
 X-Google-Smtp-Source: 
- AGRyM1sYHNJMhr/hD6fC1WYnsangWTD8ddcFFuNimuFwkaP3iA5yWpiI+Ox2DlXRlBaqclOrUarjjA==
-X-Received: by 2002:a17:906:5a57:b0:72a:8787:6c6d with SMTP id
- my23-20020a1709065a5700b0072a87876c6dmr183584ejc.440.1656614901876;
-        Thu, 30 Jun 2022 11:48:21 -0700 (PDT)
-Received: from localhost.localdomain (ip5b41135b.dynamic.kabel-deutschland.de.
- [91.65.19.91])
+ AGRyM1t3GGp6CKGIR+SvrGamXqbkorrjX9bePBb0Morn19hQ9wdVyLcz3by6VEg3SUSppHK00FqGIQ==
+X-Received: by 2002:a05:620a:29d0:b0:6af:1bc9:38cc with SMTP id
+ s16-20020a05620a29d000b006af1bc938ccmr7531105qkp.136.1656616618479;
+        Thu, 30 Jun 2022 12:16:58 -0700 (PDT)
+Received: from build.lan ([173.34.88.218])
         by smtp.gmail.com with ESMTPSA id
- s12-20020a170906354c00b0072637b9c8c0sm8680129eja.219.2022.06.30.11.48.21
+ c4-20020a05620a268400b006aee03a95dfsm15818291qkp.124.2022.06.30.12.16.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 11:48:21 -0700 (PDT)
-From: Minjae Kim <flowergom@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Minjae Kim <flowergom@gmail.com>
-Subject: [dunfell][PATCH] epiphany: fix CVE-2022-29536
-Date: Thu, 30 Jun 2022 18:48:04 +0000
-Message-Id: <20220630184804.345-1-flowergom@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Thu, 30 Jun 2022 12:16:57 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/7] kernel-yocto: consolidated pull request
+Date: Thu, 30 Jun 2022 15:16:48 -0400
+Message-Id: <cover.1656616115.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 18:48:32 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 19:17:03 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167433
+ https://lists.openembedded.org/g/openembedded-core/message/167434
 
-Fix memory corruption in ephy_string_shorten()
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/epiphany/-/merge_requests/1106]
-CVE: CVE-2022-29536
+Richard,
 
-Signed-off-by:Minjae Kim <flowergom@gmail.com>
----
- .../recipes-gnome/epiphany/epiphany_3.34.4.bb |  3 +-
- .../epiphany/files/CVE-2022-29536.patch       | 45 +++++++++++++++++++
- 2 files changed, 47 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-gnome/epiphany/files/CVE-2022-29536.patch
+With conference travel and issues with meta-virtualization, I've been
+behind in sending this out .. but I have been queueing changes, I just
+wanted to be around in case something breaks.
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.34.4.bb b/meta/recipes-gnome/epiphany/epiphany_3.34.4.bb
-index e2afb29c12..6f04324d4e 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.34.4.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.34.4.bb
-@@ -16,7 +16,8 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
- 
- SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
-            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
--           "
-+           file://CVE-2022-29536.patch \
-+          "
- SRC_URI[archive.md5sum] = "a559f164bb7d6cbeceb348648076830b"
- SRC_URI[archive.sha256sum] = "60e190fc07ec7e33472e60c7e633e04004f7e277a0ffc5e9cd413706881e598d"
- 
-diff --git a/meta/recipes-gnome/epiphany/files/CVE-2022-29536.patch b/meta/recipes-gnome/epiphany/files/CVE-2022-29536.patch
-new file mode 100644
-index 0000000000..c2160b471d
---- /dev/null
-+++ b/meta/recipes-gnome/epiphany/files/CVE-2022-29536.patch
-@@ -0,0 +1,45 @@
-+From 79725738500917cf5e4d829c76753cfb4c68be7f Mon Sep 17 00:00:00 2001
-+From: Michael Catanzaro <mcatanzaro@redhat.com>
-+Date: Fri, 15 Apr 2022 18:09:46 -0500
-+Subject: [PATCH] Fix memory corruption in ephy_string_shorten()
-+
-+This fixes a regression that I introduced in 232c613472b38ff0d0d97338f366024ddb9cd228.
-+
-+I got my browser stuck in a crash loop today while visiting a website
-+with a page title greater than ephy-embed.c's MAX_TITLE_LENGTH, the only
-+condition in which ephy_string_shorten() is ever used. Turns out this
-+commit is wrong: an ellipses is a multibyte character (three bytes in
-+UTF-8) and so we're writing past the end of the buffer when calling
-+strcat() here. Ooops.
-+
-+Shame it took nearly four years to notice and correct this.
-+
-+Part-of: <https://gitlab.gnome.org/GNOME/epiphany/-/merge_requests/1106>
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/epiphany/-/merge_requests/1106]
-+Signed-off-by:Minjae Kim <flowergom@gmail.com>
-+---
-+ lib/ephy-string.c | 5 ++---
-+ 1 file changed, 2 insertions(+), 3 deletions(-)
-+
-+diff --git a/lib/ephy-string.c b/lib/ephy-string.c
-+index 509490c86..d678803ad 100644
-+--- a/lib/ephy-string.c
-++++ b/lib/ephy-string.c
-+@@ -115,11 +115,10 @@ ephy_string_shorten (char  *str,
-+   /* create string */
-+   bytes = GPOINTER_TO_UINT (g_utf8_offset_to_pointer (str, target_length - 1) - str);
-+
-+-  /* +1 for ellipsis, +1 for trailing NUL */
-+-  new_str = g_new (gchar, bytes + 1 + 1);
-++  new_str = g_new (gchar, bytes + strlen ("?~@?") + 1);
-+
-+   strncpy (new_str, str, bytes);
-+-  strcat (new_str, "?~@?");
-++  strncpy (new_str + bytes, "?~@?", strlen ("?~@?") + 1);
-+
-+   g_free (str);
-+
-+--
-+2.25.1
-+
+Here are the -stable updates and the start of my efforts to bring
+5.19 in as the new reference kernel for the fall release.
+
+lttng-modules needed it's normal tweaks to work against the 5.19 source,
+but otherwise, nothing significant has popped up.  I have other parts
+of that uprev under test (libc-headers, systemtap, etc).
+
+Cheers,
+
+Bruce
+
+
+The following changes since commit 012c046628990ccb230dd92c32f470a087ff332e:
+
+  dev-manual: improve screenshot resolution (2022-06-30 17:09:51 +0100)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (7):
+  linux-yocto/5.10: update to v5.10.121
+  linux-yocto/5.15: update to v5.15.46
+  linux-yocto/5.15: update to v5.15.48
+  linux-yocto/5.10: update to v5.10.123
+  linux-yocto-dev: bump to v5.19-rc
+  linux-yocto/5.15: drop obselete GPIO sysfs ABI
+  lttng-modules: fix 5.19+ build
+
+ meta/recipes-kernel/linux/linux-yocto-dev.bb  |   4 +-
+ .../linux/linux-yocto-rt_5.10.bb              |   6 +-
+ .../linux/linux-yocto-rt_5.15.bb              |   6 +-
+ .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
+ .../linux/linux-yocto-tiny_5.15.bb            |   6 +-
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 ++--
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb |  26 ++--
+ ...c-fix-tracepoint-mm_page_alloc_zone_.patch | 106 +++++++++++++++
+ ...ags-parameter-from-aops-write_begin-.patch |  76 +++++++++++
+ ...Fix-type-of-cpu-in-trace-event-v5.19.patch | 124 ++++++++++++++++++
+ .../lttng/lttng-modules_2.13.4.bb             |   3 +
+ 11 files changed, 349 insertions(+), 40 deletions(-)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-page_alloc-fix-tracepoint-mm_page_alloc_zone_.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-fix-fs-Remove-flags-parameter-from-aops-write_begin-.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-fix-workqueue-Fix-type-of-cpu-in-trace-event-v5.19.patch
+
 -- 
-2.17.1
+2.19.1
 
 
