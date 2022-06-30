@@ -2,125 +2,126 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15658C43334
-	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 19:17:03 +0000 (UTC)
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
- [209.85.222.179])
- by mx.groups.io with SMTP id smtpd.web12.29691.1656616619559713249
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3F78C43334
+	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 19:17:12 +0000 (UTC)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
+ [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.web12.29694.1656616630821772041
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 12:16:59 -0700
+ Thu, 30 Jun 2022 12:17:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JZ7rcRxc;
- spf=pass (domain: gmail.com, ip: 209.85.222.179,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=dEXOMd3z;
+ spf=pass (domain: gmail.com, ip: 209.85.219.44,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f179.google.com with SMTP id f14so15282841qkm.0
+Received: by mail-qv1-f44.google.com with SMTP id z1so632652qvp.9
         for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 12:16:59 -0700 (PDT)
+ Thu, 30 Jun 2022 12:17:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wHCuJ8bLoePJ32SBW1O2jz1jwAlnAwD0XQpLyf+SWbs=;
-        b=JZ7rcRxccP7ty9fsYn7cHkDX6VKSHsiXcTzFGjXMqRFM2yYp0x+LyGFihVD6qpI44O
-         tQvGgMaoHQXDk+zzLgCUaBQD8+Jw4X84AwZNR5I9gIjesGQFe85ggM1jPVFdtGadoLdE
-         nY7WXWiBpU800m5uqiMS+sCqLzvm1amxIhVtlgUivS+ld5Q/Vw/alxkz9q33ZBtN0G/l
-         0bYVx87H7aF5hv/0yfePs86dFW+Ea1orcLavn7B+Lvv5gzcAiQ9DSdQ5K0bk3un8GMeB
-         J30wJh8EFcyKo3MxVLUTXX81/PQnb8bHjLctUJHRNFSaxwHrREqJRc44PrY1+Wj07gbC
-         F0vw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=BJvMsVOztBdjuNo6RLsufemb4ETjfC/adZoUKHGjFDg=;
+        b=dEXOMd3z2egb0En6mpwUuAvITC8gJcDCQ8/CA4lCmnmX5pDpYVepcHx6DPtTIngTeo
+         +HUam4OZCGYaiuQ1oDW8ePoe7dV7BCSxbW3qquaJ9vwQcekM9XHmdz8bzlLBG2taD43L
+         jX3sgpSE0L/0K3IfhtH0uoT3FeYyOAwvuShLEyMTu9dzEAmMiMVnIQEZ5quQqUxen8kj
+         nGRHuLXCK/eJQO/nXI07/hc+4zxVD8NrNizJ4eincggQ2MAMHEQYG7xkEeiX+1CFr2XS
+         j4GafRMUA12h4ftQRivBpRI0af6ylRJH5cdlhY/tIs97KHpxUQLcgSnnw0zY7Vzm/vo7
+         XEsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wHCuJ8bLoePJ32SBW1O2jz1jwAlnAwD0XQpLyf+SWbs=;
-        b=HPLvsNVBm58luHwsegkwLEFcKkUNhgyjL7ZTuIRHcog+9bcFMfjgJDMsGnZm2DezLR
-         Sya1e5tVN/s42Y/9VtKBsDJyf4cEJqNdrddyaOwLVtdwMW7k6+DXZFvupD2kXA+GbSq/
-         7qz46ZBIfJrPvkj1/t9iuzQMjIheoysJ+gD5GfMGvOhgG1JALOKjNvPrJjEfURKg7rgL
-         bqTutE4M6xy+6rJvRHiGTKV7humkU2juP3uejyJChCmnVHcW/p9dTHYXYaN0wQv2IZFJ
-         JjOOxq4rfjk0umD7kBz3wiTOVknHennz6AQO0ixQbDO+yd2cXmOPMcErW1ZR9dmJXsZL
-         5bbw==
-X-Gm-Message-State: AJIora+BkEgYGEZ4rnCZaqAKrnbqt/Ng07DwQvW/329/ex9nCUSiEFxh
-	d1taw4VRVUoNlvXlu8KQbhD6nIkHU4FpEA==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=BJvMsVOztBdjuNo6RLsufemb4ETjfC/adZoUKHGjFDg=;
+        b=HOmwIrcbxosMnXfxjbTZlHLWIZp/modrjmp7TurNEeuOWwMUZ5ttwuYo6VvHJUW23v
+         14mBd1hqwMuAki4XdMiedQsGzUnsxQtxqSqlwM1mz+ebcYUT3zDga4dZxaZjdWITKJnV
+         X/KuF5NK/zJtBwKxX3SfpwgYMU0k1HIjPcnOwTVIFGv046sGJtxLc0vPwb3vV1I7AdXL
+         OsR4uqkP+cctKziIhqDIgAte4F9e5i9WhMyIgSQseOyIN1d6FHcwIujDvW4K0ueeq2VT
+         uFRevxj6pln+SVWRGT7RqT9sfS1ME5F7kH8ckUAxY77TqAPMc06bqiaCUzqJKXfANwYb
+         y95w==
+X-Gm-Message-State: AJIora+kKpT+QnAhxRKsvSzD3fVcLhhlUaXzAurhISAGssLITjefPXaE
+	cZor51z4WpeDd6AXSJ8HcFneAQGKwLPBpQ==
 X-Google-Smtp-Source: 
- AGRyM1t3GGp6CKGIR+SvrGamXqbkorrjX9bePBb0Morn19hQ9wdVyLcz3by6VEg3SUSppHK00FqGIQ==
-X-Received: by 2002:a05:620a:29d0:b0:6af:1bc9:38cc with SMTP id
- s16-20020a05620a29d000b006af1bc938ccmr7531105qkp.136.1656616618479;
-        Thu, 30 Jun 2022 12:16:58 -0700 (PDT)
+ AGRyM1uOxQlD1jbF4kDE72IwGQ10aJE6CmRpPdh+mdnySv9S/J3bkq13J/Z+tiobtJ/O5EQSQhNf6A==
+X-Received: by 2002:a05:6214:2264:b0:470:b3c8:2c86 with SMTP id
+ gs4-20020a056214226400b00470b3c82c86mr14545021qvb.70.1656616629404;
+        Thu, 30 Jun 2022 12:17:09 -0700 (PDT)
 Received: from build.lan ([173.34.88.218])
         by smtp.gmail.com with ESMTPSA id
- c4-20020a05620a268400b006aee03a95dfsm15818291qkp.124.2022.06.30.12.16.57
+ c4-20020a05620a268400b006aee03a95dfsm15818291qkp.124.2022.06.30.12.17.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 12:16:57 -0700 (PDT)
+        Thu, 30 Jun 2022 12:17:08 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/7] kernel-yocto: consolidated pull request
-Date: Thu, 30 Jun 2022 15:16:48 -0400
-Message-Id: <cover.1656616115.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 6/7] linux-yocto/5.15: drop obselete GPIO sysfs ABI
+Date: Thu, 30 Jun 2022 15:16:54 -0400
+Message-Id: 
+ <ec413c29be08e41bbb8e2e10613bbc71a8be4b27.1656616115.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <cover.1656616115.git.bruce.ashfield@gmail.com>
+References: <cover.1656616115.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 19:17:03 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 19:17:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167434
+ https://lists.openembedded.org/g/openembedded-core/message/167440
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Richard,
+Integrating the following commit(s) to linux-yocto/.:
 
-With conference travel and issues with meta-virtualization, I've been
-behind in sending this out .. but I have been queueing changes, I just
-wanted to be around in case something breaks.
+    6778005b9fa treewide: Drop the obsolete GPIO sysfs ABI
 
-Here are the -stable updates and the start of my efforts to bring
-5.19 in as the new reference kernel for the fall release.
+Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-lttng-modules needed it's normal tweaks to work against the 5.19 source,
-but otherwise, nothing significant has popped up.  I have other parts
-of that uprev under test (libc-headers, systemtap, etc).
-
-Cheers,
-
-Bruce
-
-
-The following changes since commit 012c046628990ccb230dd92c32f470a087ff332e:
-
-  dev-manual: improve screenshot resolution (2022-06-30 17:09:51 +0100)
-
-are available in the Git repository at:
-
-  git://git.yoctoproject.org/poky-contrib zedd/kernel
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (7):
-  linux-yocto/5.10: update to v5.10.121
-  linux-yocto/5.15: update to v5.15.46
-  linux-yocto/5.15: update to v5.15.48
-  linux-yocto/5.10: update to v5.10.123
-  linux-yocto-dev: bump to v5.19-rc
-  linux-yocto/5.15: drop obselete GPIO sysfs ABI
-  lttng-modules: fix 5.19+ build
-
- meta/recipes-kernel/linux/linux-yocto-dev.bb  |   4 +-
- .../linux/linux-yocto-rt_5.10.bb              |   6 +-
- .../linux/linux-yocto-rt_5.15.bb              |   6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
- .../linux/linux-yocto-tiny_5.15.bb            |   6 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 ++--
- meta/recipes-kernel/linux/linux-yocto_5.15.bb |  26 ++--
- ...c-fix-tracepoint-mm_page_alloc_zone_.patch | 106 +++++++++++++++
- ...ags-parameter-from-aops-write_begin-.patch |  76 +++++++++++
- ...Fix-type-of-cpu-in-trace-event-v5.19.patch | 124 ++++++++++++++++++
- .../lttng/lttng-modules_2.13.4.bb             |   3 +
- 11 files changed, 349 insertions(+), 40 deletions(-)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-page_alloc-fix-tracepoint-mm_page_alloc_zone_.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-fix-fs-Remove-flags-parameter-from-aops-write_begin-.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-fix-workqueue-Fix-type-of-cpu-in-trace-event-v5.19.patch
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+index c81c47e290..eee69be7a8 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+@@ -12,7 +12,7 @@ python () {
+ }
+ 
+ SRCREV_machine ?= "9474b2c18a66a8172c2a13c9e83f02bd72e3df1d"
+-SRCREV_meta ?= "8828a8e63fc50647e3f714a8a87a95c6d3e5b391"
++SRCREV_meta ?= "b35d1d1e8390a1677ee2ef1be103d6a7d09bf9cc"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+index b82aa62da9..5a1bc5b6cf 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+@@ -15,7 +15,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "59aca7a6181799d691277b32cc202cf5ac997683"
+-SRCREV_meta ?= "8828a8e63fc50647e3f714a8a87a95c6d3e5b391"
++SRCREV_meta ?= "b35d1d1e8390a1677ee2ef1be103d6a7d09bf9cc"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+index 91106223df..4a40cde7d8 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+@@ -23,7 +23,7 @@ SRCREV_machine:qemux86 ?= "4ec79de9ce697cea8c9aa2e2781e5a464ba2ccf0"
+ SRCREV_machine:qemux86-64 ?= "4ec79de9ce697cea8c9aa2e2781e5a464ba2ccf0"
+ SRCREV_machine:qemumips64 ?= "6b35c884701422bd1ce0821ce316993483283d6a"
+ SRCREV_machine ?= "4ec79de9ce697cea8c9aa2e2781e5a464ba2ccf0"
+-SRCREV_meta ?= "8828a8e63fc50647e3f714a8a87a95c6d3e5b391"
++SRCREV_meta ?= "b35d1d1e8390a1677ee2ef1be103d6a7d09bf9cc"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
 -- 
 2.19.1
 
