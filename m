@@ -2,65 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A04CCCA481
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A148CCA485
 	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 16:23:42 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web12.27453.1656606218664775094
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web10.27166.1656606216402472160
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 09:23:38 -0700
+ Thu, 30 Jun 2022 09:23:36 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=Ir8u37vZ;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43,
+ header.b=8DtQoWy2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id
- c6-20020a17090abf0600b001eee794a478so3664574pjs.1
+Received: by mail-pg1-f182.google.com with SMTP id 23so18953274pgc.8
         for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 09:23:38 -0700 (PDT)
+ Thu, 30 Jun 2022 09:23:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=z1vozyKnZEA89Nj0n41A5BVHi5xhRnB0RDOV3xSgbEA=;
-        b=Ir8u37vZmN71Q/+Tt7c53lYxPZ0HdcDgR1OTulwAQAwDkuXYADJefSIpykxAIoSK8v
-         8y2yyiwWFvQIL4JfH/MmDGACj7oELXSRMvzr+KnVlvbygdYxOp0cJdK78Ke4OD1Wt7ZC
-         /O3zZe7qFMZzJaf2dVWOFH7Achr9LbQ9K9JXiF7YBt5ca8TQwfaGCpCJ1EpxdTxmm9GE
-         5+6ht31FM/HSmlvd3grHkn4GjS2TSzn6QH1Q8wnDgtL6/7fuOG68rLFV+lNWNtDmm3Qa
-         /UGDlgOdsihtDkAhMw4+hRoPmXSuMys5RnWMJdrnHtEWj7bbWgsEq0lgSGpqksMvCzhd
-         5k/g==
+        bh=e6wUicbCzBRXLTxl+aXUFZrzQsg/V5unHiyl3pyt7/8=;
+        b=8DtQoWy2YxgJBbnGPCBijEExZSLQJ3DOJjlVeLPP6Qzd3pihb8YTtmYFYe2hoiBqvX
+         e1f+Yki4PaZYLxK1qNUdCth2GDWcRkWK7R6c3TTKL0SIs+KZ1om0Tu+KcqqiHzfqpPfl
+         8Xwl3v/iKX1n9cmSdTMYzpXQLNP9vACvcIhuX/juXb+OhBOHRuMI68yOUH0VYm/Mtny0
+         xOhcY9dgsOTGq++59bpZ3pvah0R70me3Oliu4cgn+LaJnHbLuud6Xei+RviHml2kc9b0
+         LVw8+hMjdo2LKBrPNdNYy2w7TvuLR5bD6GUwOCWPTQdAqF2amL9HNbv240bnROwey/EL
+         ul9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=z1vozyKnZEA89Nj0n41A5BVHi5xhRnB0RDOV3xSgbEA=;
-        b=tTY2/AvlNJF+yjtoYl9SnqQecIC95mZwG7HkcFUw9X4wUy3DU+M8vLKveMDqqoIAIr
-         /Z8/cGPudNQKZPSZBz/WehxOFKH7wi+t4tM86iYnW5nNUIEon7RK4Ywh8IVZknewwYif
-         LCJpkGC4GU4lCNwV/1cIwCJPdHShMMnl+HZoZCkuCMsto0mDYXb5GnOel4yvas946MQ/
-         CnUnAvrsl06IDBwdaf9IEtw1/MMGu3D1wr1PUKVaT90XWHr8AWKIR/hUiLqpkQJ0QDLN
-         6mlPgd3kaAUI6eHTY+FnZiol3FvitkpsRimN9dePVZD9IyStJrneB3ZgCVGRjz2R3wib
-         0p9Q==
-X-Gm-Message-State: AJIora9GtxAPL1z2QulnE6PzuOxma+lZoEO6srHO8vm6dfLkdhD30N1t
-	Jg2JlootH7xdGrlh2F9oK1XMo4yAGEXCEFiQ
+        bh=e6wUicbCzBRXLTxl+aXUFZrzQsg/V5unHiyl3pyt7/8=;
+        b=EZzZcqV7zd0edDhYEpZYPARvW/gRNTqG5lOpEYQiG083fTrT1NeWS/sztZ34Nh941Q
+         yoMtw23i/E32y2P2U51VNMy9aAPz2EvTuaKu5Qr/9aeGHhIb2Hx3eYF2cLJ0GhPhodAv
+         eOWJcOD5QEpMqeQ7GgGgwHS9A2+WlVjq9B8X9G/F54LwdgpftH5xARgB4W2bmvLUDjfV
+         sCTKkxwCDU99QKRQAX8his0LQPlxDU9yAUXsT0l6S8elzo+5Q7dnbANOrIU4CIsyrjJr
+         Bk8MiE1z7pv2mUBuj1M3U/cG6VBiaRKgIGJYjRjf7aOF6uZzobWNx8Y7z+35hWPTAojg
+         S/JQ==
+X-Gm-Message-State: AJIora/cn/ZiiMrF96PUA5xDFNzklg7NuLKufjEnba36utZeEwbIe9gb
+	gQbT4vNJ0QKMU+YK+h0JnzAjjL2Bagghk63Z
 X-Google-Smtp-Source: 
- AGRyM1vvusQRMNFipy1bbEEQ7kSM2tEZJbPtFJpyjcKxiDOavJlnXKrX5n4a6FdpnJ7NaODWNDjcng==
-X-Received: by 2002:a17:90b:388e:b0:1ec:f6b6:f31f with SMTP id
- mu14-20020a17090b388e00b001ecf6b6f31fmr12828207pjb.181.1656606217433;
-        Thu, 30 Jun 2022 09:23:37 -0700 (PDT)
+ AGRyM1s9tIraAglUjjmeEBNwxqUsztet7cuUX/GMUyeYrKTOyQDbAtmRM684kYjnpADukPLB0ihpNg==
+X-Received: by 2002:a63:a112:0:b0:40c:450e:b1ad with SMTP id
+ b18-20020a63a112000000b0040c450eb1admr8468921pgf.493.1656606215191;
+        Thu, 30 Jun 2022 09:23:35 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- t129-20020a625f87000000b005259578e8fcsm10517611pfb.181.2022.06.30.09.23.36
+ t129-20020a625f87000000b005259578e8fcsm10517611pfb.181.2022.06.30.09.23.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 09:23:36 -0700 (PDT)
+        Thu, 30 Jun 2022 09:23:34 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 06/12] grub2: CVE-2021-3981 Incorrect permission in
- grub.cfg allow unprivileged user to read the file content
-Date: Thu, 30 Jun 2022 06:23:06 -1000
+Subject: [OE-core][dunfell 05/12] cve-check: add support for Ignored CVEs
+Date: Thu, 30 Jun 2022 06:23:05 -1000
 Message-Id: 
- <fd9dc688ead5cf0225cba94c380a618e332d548f.1656605800.git.steve@sakoman.com>
+ <14b3c0ca46a0aa97565a24b7a5116306237d7cfe.1656605800.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1656605800.git.steve@sakoman.com>
 References: <cover.1656605800.git.steve@sakoman.com>
@@ -71,78 +69,171 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 16:23:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167422
+ https://lists.openembedded.org/g/openembedded-core/message/167421
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
 
-Source: https://git.savannah.gnu.org/cgit/grub.git/
-MR: 116495
-Type: Security Fix
-Disposition: Backport from https://git.savannah.gnu.org/cgit/grub.git/diff/util/grub-mkconfig.in?id=0adec29674561034771c13e446069b41ef41e4d4
-ChangeID: fce3d59e50320bef247bb981352051b8f953a4fc
-Description:
-        CVE-2021-3981 grub2: Incorrect permission in grub.cfg allow unprivileged user to read the file content.
+Ignored CVEs aren't patched, but do not apply in our configuration
+for some reason. Up till now they were only partially supported
+and reported as "Patched".
 
-Affects "grub2 < 2.06"
+This patch adds separate reporting of Ignored CVEs. The variable
+CVE_CHECK_REPORT_PATCHED now manages reporting of both patched
+and ignored CVEs.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Marta Rybczynska <marta.rybczynska@huawei.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry-picked from c773102d4828fc4ddd1024f6115d577e23f1afe4)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../grub/files/CVE-2021-3981.patch            | 32 +++++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2021-3981.patch
+ meta/classes/cve-check.bbclass | 41 ++++++++++++++++++++++++----------
+ 1 file changed, 29 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2021-3981.patch b/meta/recipes-bsp/grub/files/CVE-2021-3981.patch
-new file mode 100644
-index 0000000000..e27027ea65
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2021-3981.patch
-@@ -0,0 +1,32 @@
-+From 67740c43c9326956ea5cd6be77f813b5499a56a5 Mon Sep 17 00:00:00 2001
-+From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Mon, 27 Jun 2022 10:15:29 +0530
-+Subject: [PATCH] CVE-2021-3981
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 894cebaaa4..d0f6970db8 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -47,7 +47,9 @@ CVE_CHECK_MANIFEST_JSON ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX
+ CVE_CHECK_COPY_FILES ??= "1"
+ CVE_CHECK_CREATE_MANIFEST ??= "1"
+ 
++# Report Patched or Ignored/Whitelisted CVEs
+ CVE_CHECK_REPORT_PATCHED ??= "1"
 +
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/diff/util/grub-mkconfig.in?id=0adec29674561034771c13e446069b41ef41e4d4]
-+CVE: CVE-2021-3981
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ util/grub-mkconfig.in | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
+ CVE_CHECK_SHOW_WARNINGS ??= "1"
+ 
+ # Provide text output
+@@ -142,7 +144,7 @@ python do_cve_check () {
+             bb.fatal("Failure in searching patches")
+         whitelisted, patched, unpatched, status = check_cves(d, patched_cves)
+         if patched or unpatched or (d.getVar("CVE_CHECK_COVERAGE") == "1" and status):
+-            cve_data = get_cve_info(d, patched + unpatched)
++            cve_data = get_cve_info(d, patched + unpatched + whitelisted)
+             cve_write_data(d, patched, unpatched, whitelisted, cve_data, status)
+     else:
+         bb.note("No CVE database found, skipping CVE check")
+@@ -315,6 +317,7 @@ def check_cves(d, patched_cves):
+     suffix = d.getVar("CVE_VERSION_SUFFIX")
+ 
+     cves_unpatched = []
++    cves_ignored = []
+     cves_status = []
+     cves_in_recipe = False
+     # CVE_PRODUCT can contain more than one product (eg. curl/libcurl)
+@@ -349,8 +352,7 @@ def check_cves(d, patched_cves):
+ 
+             if cve in cve_whitelist:
+                 bb.note("%s-%s has been whitelisted for %s" % (product, pv, cve))
+-                # TODO: this should be in the report as 'whitelisted'
+-                patched_cves.add(cve)
++                cves_ignored.append(cve)
+                 continue
+             elif cve in patched_cves:
+                 bb.note("%s has been patched" % (cve))
+@@ -362,9 +364,13 @@ def check_cves(d, patched_cves):
+                 cves_in_recipe = True
+ 
+             vulnerable = False
++            ignored = False
 +
-+diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
-+index 9f477ff..ead94a6 100644
-+--- a/util/grub-mkconfig.in
-++++ b/util/grub-mkconfig.in
-+@@ -287,7 +287,11 @@ and /etc/grub.d/* files or please file a bug report with
-+     exit 1
-+   else
-+     # none of the children aborted with error, install the new grub.cfg
-+-    mv -f ${grub_cfg}.new ${grub_cfg}
-++    oldumask=$(umask)
-++    umask 077
-++    cat ${grub_cfg}.new > ${grub_cfg}
-++    umask $oldumask
-++    rm -f ${grub_cfg}.new
-+   fi
-+ fi
-+ 
-+-- 
-+2.25.1
+             for row in conn.execute("SELECT * FROM PRODUCTS WHERE ID IS ? AND PRODUCT IS ? AND VENDOR LIKE ?", (cve, product, vendor)):
+                 (_, _, _, version_start, operator_start, version_end, operator_end) = row
+                 #bb.debug(2, "Evaluating row " + str(row))
++                if cve in cve_whitelist:
++                    ignored = True
+ 
+                 if (operator_start == '=' and pv == version_start) or version_start == '-':
+                     vulnerable = True
+@@ -397,13 +403,16 @@ def check_cves(d, patched_cves):
+                         vulnerable = vulnerable_start or vulnerable_end
+ 
+                 if vulnerable:
+-                    bb.note("%s-%s is vulnerable to %s" % (pn, real_pv, cve))
+-                    cves_unpatched.append(cve)
++                    if ignored:
++                        bb.note("%s is ignored in %s-%s" % (cve, pn, real_pv))
++                        cves_ignored.append(cve)
++                    else:
++                        bb.note("%s-%s is vulnerable to %s" % (pn, real_pv, cve))
++                        cves_unpatched.append(cve)
+                     break
+ 
+             if not vulnerable:
+                 bb.note("%s-%s is not vulnerable to %s" % (pn, real_pv, cve))
+-                # TODO: not patched but not vulnerable
+                 patched_cves.add(cve)
+ 
+         if not cves_in_product:
+@@ -412,7 +421,7 @@ def check_cves(d, patched_cves):
+ 
+     conn.close()
+ 
+-    return (list(cve_whitelist), list(patched_cves), cves_unpatched, cves_status)
++    return (list(cves_ignored), list(patched_cves), cves_unpatched, cves_status)
+ 
+ def get_cve_info(d, cves):
+     """
+@@ -450,6 +459,8 @@ def cve_write_data_text(d, patched, unpatched, whitelisted, cve_data):
+     include_layers = d.getVar("CVE_CHECK_LAYER_INCLUDELIST").split()
+     exclude_layers = d.getVar("CVE_CHECK_LAYER_EXCLUDELIST").split()
+ 
++    report_all = d.getVar("CVE_CHECK_REPORT_PATCHED") == "1"
 +
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 0d3f6d05da..9e98d8249d 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -95,6 +95,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://0044-script-execute-Fix-NULL-dereference-in-grub_script_e.patch \
-            file://0045-commands-ls-Require-device_name-is-not-NULL-before-p.patch \
-            file://0046-script-execute-Avoid-crash-when-using-outside-a-func.patch \
-+           file://CVE-2021-3981.patch\
-            "
- SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
- SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
+     if exclude_layers and layer in exclude_layers:
+         return
+ 
+@@ -457,7 +468,7 @@ def cve_write_data_text(d, patched, unpatched, whitelisted, cve_data):
+         return
+ 
+     # Early exit, the text format does not report packages without CVEs
+-    if not patched+unpatched:
++    if not patched+unpatched+whitelisted:
+         return
+ 
+     nvd_link = "https://nvd.nist.gov/vuln/detail/"
+@@ -467,13 +478,16 @@ def cve_write_data_text(d, patched, unpatched, whitelisted, cve_data):
+ 
+     for cve in sorted(cve_data):
+         is_patched = cve in patched
+-        if is_patched and (d.getVar("CVE_CHECK_REPORT_PATCHED") != "1"):
++        is_ignored = cve in whitelisted
++
++        if (is_patched or is_ignored) and not report_all:
+             continue
++
+         write_string += "LAYER: %s\n" % layer
+         write_string += "PACKAGE NAME: %s\n" % d.getVar("PN")
+         write_string += "PACKAGE VERSION: %s%s\n" % (d.getVar("EXTENDPE"), d.getVar("PV"))
+         write_string += "CVE: %s\n" % cve
+-        if cve in whitelisted:
++        if is_ignored:
+             write_string += "CVE STATUS: Whitelisted\n"
+         elif is_patched:
+             write_string += "CVE STATUS: Patched\n"
+@@ -550,6 +564,8 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
+     include_layers = d.getVar("CVE_CHECK_LAYER_INCLUDELIST").split()
+     exclude_layers = d.getVar("CVE_CHECK_LAYER_EXCLUDELIST").split()
+ 
++    report_all = d.getVar("CVE_CHECK_REPORT_PATCHED") == "1"
++
+     if exclude_layers and layer in exclude_layers:
+         return
+ 
+@@ -576,10 +592,11 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
+ 
+     for cve in sorted(cve_data):
+         is_patched = cve in patched
++        is_ignored = cve in ignored
+         status = "Unpatched"
+-        if is_patched and (d.getVar("CVE_CHECK_REPORT_PATCHED") != "1"):
++        if (is_patched or is_ignored) and not report_all:
+             continue
+-        if cve in ignored:
++        if is_ignored:
+             status = "Ignored"
+         elif is_patched:
+             status = "Patched"
 -- 
 2.25.1
 
