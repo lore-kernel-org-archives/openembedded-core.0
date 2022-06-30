@@ -1,393 +1,389 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C044C43334
-	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 08:32:50 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web08.22459.1656577959969171151
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FAFFC43334
+	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 08:39:00 +0000 (UTC)
+Received: from esa14.fujitsucc.c3s2.iphmx.com (esa14.fujitsucc.c3s2.iphmx.com
+ [68.232.156.101])
+ by mx.groups.io with SMTP id smtpd.web11.22451.1656578332075260878
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 01:32:40 -0700
+ Thu, 30 Jun 2022 01:38:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CPmLPl1M;
- spf=pass (domain: gmail.com, ip: 209.85.167.41,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id z21so32383688lfb.12
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 01:32:39 -0700 (PDT)
+ dkim=pass header.i=@fujitsu.com header.s=fj1 header.b=YRthnxQS;
+ spf=pass (domain: fujitsu.com, ip: 68.232.156.101,
+ mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
+  t=1656578332; x=1688114332;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:mime-version;
+  bh=YDCAKIU/05b//xMy44YbjgSXRaTfO8dzgYZRxp0r3KA=;
+  b=YRthnxQSWdd8IA7/xbIhZXhIHDz5GgpVJxKfWkIZcNpFUWM3Q8h4wB28
+   hL/XZ1cVpCEi721Sn6Ah4tl/5ZZQi1mDu/G0RUdJG9oHpGKf3yVg0D6iJ
+   y4lXBEHyXBmAunWab2uhPwMD7/jKgCbyTEZtzxbEanbiS9K23FMvhtmQC
+   t8AgOfaVs3GTdggtpaun1lKbe+6JAST8s8nfz5TCa/wMwSE3zoUBcI/Am
+   KmN+1JruxMhoHjkEI+ZwEmK584gV+RxVaWjzmJh5wghOCYw/OYpC0fS2x
+   1WtK/hnd1nJEBcZx9MHttMYhOkLxc5XJ/LSLtwrz9om1xBmIZN9lwJA/N
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="59089942"
+X-IronPort-AV: E=Sophos;i="5.92,233,1650898800";
+   d="scan'208,217";a="59089942"
+Received: from mail-os0jpn01lp2113.outbound.protection.outlook.com (HELO
+ JPN01-OS0-obe.outbound.protection.outlook.com) ([104.47.23.113])
+  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jun 2022 17:38:47 +0900
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bI29YLJZTF9FUMFP84eDhKHjQompz0iTnm0NkqPtiqI2vVoMQHJK5aoRM/XRWglMzqc9SfmUDagFGdt2H0uZu3QJC8Qti/T2WJJFpukUVTyN4EgwRGtz/NSeqMOL4iNMie5TzkjX0nNaKuW6Br4aRrnJh/qDN68UI779lMklJo1gWN7gS0Ek7Bpl6KctS9LL9mIdm6sLYneLVqY5UWKF34uLq2v6yJhsmLJHblJBrnco6Pn9MjP0i/sFP8uQBhZfc1u16wKAGEUfPalcGsptJxwupLL+9fRPrxGkw08+heXbv8GXsyCU5TEkAyIsDncv07X6avIu+i0UgxJWKeoYhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YDCAKIU/05b//xMy44YbjgSXRaTfO8dzgYZRxp0r3KA=;
+ b=IcENGwfqXYyWzv/A+TFFldjQNMEoD8Rm5qT0x78HsoklcHyuKioJwfa5RVuPoO6CulpVCSy8xgFx98wBIi+nhmjffrnTanRpYb27hkS10pxZdOeDX+wCyHTs+bVjMMsYKWzo2ygxYxbv/j/jFXYVZAG1XflGXc3lVbN8ndSyVrVMQvKBLU8NvlI27KbKt8AjVEMY5D3TZVkFpPATrKZeLPLzX68jRKYA8n2f8SOyCXcuebt454MnOMfjg9921vqLGfssfjiKKpwAobXxwNDtgEnUSzRccdtER/3J2k04iWp/zqV1maLv0/AJxqGXWyik9ivZOMvphyV9C8ROlKZAGw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=P9rjN4a7/z75H2QnPq9d6TuZLU8ymwrLD521F/a7v0A=;
-        b=CPmLPl1MwpUT8PJG1z3pafQ6XG2ClybcOkuqxdJg6fIwto59J+whA1yM0lp/zSV99i
-         f5B2iT1zvez2/MuZPM3wCgZ/KiiUgR18pNEA3icl+ScywSlfPb3mqHOK49xUfg9SjazW
-         PgwhqCadKQpe2Kj+q1d25mHp0Q/yUKO7ahZbVrzsaxQt1SY3INDne5MPhwphag8xrhqT
-         MIlqp03rCUCZ46CxIguvpOcE0F6X1BhycxwozW6gUzkbeNczRIqkur07sPIDxHyEsnvs
-         5LYEB7TKPAp6xkFt1AnUn8sbRXGj6lWYe13ci+hKcPl0JZkstsz+rTyMklY0jnh04RmS
-         JzEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=P9rjN4a7/z75H2QnPq9d6TuZLU8ymwrLD521F/a7v0A=;
-        b=avFPaQrUi8cKxaBriWblw54y4TcaNXzV+Qh+Sc6XkgF1t7lf5UEEp0gc1ZykOZb6Lg
-         elkIQhxvsUjxV91k0/NkiJzhRP8+kaSil0zzsvsR2VRAU3HdE6teMtZWkU7ORQCeJVh5
-         GK0K6ifgQ8MnwKOspMJMIMJmIbB4GnJv7UIXaH+oMq/WQqn9k/d6hhnc0VLd2rgs0Uat
-         RCUGUxkgH0s1rOslsJLXiuGUKn4ivbkPRudq/tX4onYa3h3W80JL20HG/MT+qilC/QDZ
-         cOQfBJQvxqvQjl6IoVWzarTuGwEi2wt0JD4ud6QhaAXPhobMLZlF8ByV5460Q7Op2fCW
-         PDVA==
-X-Gm-Message-State: AJIora/srlPte/sXqk63Y83iemEdmP3YesYu7nwb2C/lfbAko2ShIYnC
-	oRX8pVKEn3jUACjUV6ydcCT70C3gnhp0LjCAUjaKmPZkCrk=
-X-Google-Smtp-Source: 
- AGRyM1ujLK8qnZ3cyg49XQPTf+Wod4qyoxF9nuO9+5BTNDdrTrpfHBnvnfb4D9smCy+XCwUT4vZSkp6MkpnxHVziULA=
-X-Received: by 2002:a05:6512:13a1:b0:47f:787b:4e6a with SMTP id
- p33-20020a05651213a100b0047f787b4e6amr4690722lfa.64.1656577957871; Thu, 30
- Jun 2022 01:32:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220629201016.1948793-1-aryaman.gupta@windriver.com>
-In-Reply-To: <20220629201016.1948793-1-aryaman.gupta@windriver.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Thu, 30 Jun 2022 09:32:26 +0100
+ d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YDCAKIU/05b//xMy44YbjgSXRaTfO8dzgYZRxp0r3KA=;
+ b=XS41VszG/K0pDvNlJCMJQjRi59lyqQo+O4+8l2C5ZezGjPRob8KHCUe3cx/bczGlrTSJPa1x1+IdmpFoFBOZpKbLGUpAc47j+x8o80Od6OheVC6rTQxRlBf53Qcx4iUzG3lHGPQM5YEY+U/8+aJlgMwxv923749AU+nm652eznM=
+Received: from OSBPR01MB1845.jpnprd01.prod.outlook.com (2603:1096:603:5::13)
+ by TYAPR01MB2477.jpnprd01.prod.outlook.com (2603:1096:404:81::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.14; Thu, 30 Jun
+ 2022 08:38:43 +0000
+Received: from OSBPR01MB1845.jpnprd01.prod.outlook.com
+ ([fe80::5c8:28f3:16a6:a3e8]) by OSBPR01MB1845.jpnprd01.prod.outlook.com
+ ([fe80::5c8:28f3:16a6:a3e8%7]) with mapi id 15.20.5373.015; Thu, 30 Jun 2022
+ 08:38:43 +0000
+From: "wangmy@fujitsu.com" <wangmy@fujitsu.com>
+To: Jose Quaresma <quaresma.jose@gmail.com>
+CC: OE-core <openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH] gstreamer1.0: upgrade 1.20.2 -> 1.20.3
+Thread-Topic: [OE-core] [PATCH] gstreamer1.0: upgrade 1.20.2 -> 1.20.3
+Thread-Index: AQHYjDi5u1Olm9n+b0a6lEcFOA5lwa1nmUyAgAAHdsA=
+Date: Thu, 30 Jun 2022 08:38:43 +0000
 Message-ID: 
- <CANPvuR=H3Z4buLYC7Gy3--ndR_uw1sH1Y-KCozZwyodoEqfpdQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] runqueue: add cpu/io pressure regulation
-To: Aryaman Gupta <aryaman.gupta@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000b8c35b05e2a61cfc"
+ <OSBPR01MB18453FE42E6B1E5C79006679DCBA9@OSBPR01MB1845.jpnprd01.prod.outlook.com>
+References: <1656562773-11393-1-git-send-email-wangmy@fujitsu.com>
+ <1656562773-11393-4-git-send-email-wangmy@fujitsu.com>
+ <CANPvuR=4vnxmJPP2gPEFyatr85g8VkrR9iM-bc_FPNnSwiFDXw@mail.gmail.com>
+In-Reply-To: 
+ <CANPvuR=4vnxmJPP2gPEFyatr85g8VkrR9iM-bc_FPNnSwiFDXw@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9bab3718-1337-4d0d-c503-08da5a73f0ab
+x-ms-traffictypediagnostic: TYAPR01MB2477:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ Pe5qrRv73k2klP7XGSRii0o69PSMob9vGw6vSPR2XvXkBrE8MMIPp76G0nslL2rIRlY//tL5FFvAanAHYp5U8K9GxoqlSLYlIAPuw+AX8fbpiDJHEbMbfOQsfxe9kegr7NsIXHX8cnIv3URpwY8rztNdOjmtxKci6Dyubr3o9r4X+JhlzUf6iPryhKFsMiEqwyg9Yu5zpY+p4NqVe+pTV6+ErM+l1epHTtNTp7h6nJhKdGUrAks4SQWecloYtDDFbaNl2MWBeaAcdEMM0aFM2zv9qM5Lsf7LqO83dmAF9mYPcVCxXuDOK5NQr65uFYfZXvkc8c4D5FqFFJEYwXmhPQCNodRlYoojsRRGzzyqvw0A508zct5S1uno3zi29aqLOizFyH12LEf/EcHWgPmojexUQU3bfy9GrJcWIsoqGUPrUUtljKyq3GUgKoSVTgjqJNH9VOfTtpZue6NscEMMsJQAGaAIbcUOtUqA/zl72691c8iSQ68D8EF9taeEMDLAzQhV5Txri6BKHlnY0bOXOiYJfomjsIRFHKvGau9+eQqa8BB1s83tOW4Hkl1qJBdjQiQbyxgohnbdSlwllaqkPG3Quv00kSt93CyCm+d3LzCNVglHoDuCuWLfjyHbDRUBRjSULgxfX+lj85ZB7K/CWhwKrsMJm5drfTaMWNnH81qWcrtydEbrXy2iKWc5dF7ynBPGxrhHr/AnYf0xs8SdZ/Oeg30FywzXhX+G/poeSEntB8AjSqnyJggG7OXsuGjJvc4bkX0qumA1vW+WIVSQiFH2Uy5lTFVRnquhH2//m4NJBWPOsxfh0gvw6xHEvd+LxaBjTCLUWRC3okB1fGgKmw==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSBPR01MB1845.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(366004)(376002)(136003)(39860400002)(396003)(83380400001)(26005)(33656002)(7696005)(6506007)(53546011)(8936002)(2906002)(41300700001)(966005)(9686003)(478600001)(52536014)(5660300002)(186003)(316002)(76116006)(38100700002)(66946007)(38070700005)(166002)(6916009)(122000001)(82960400001)(64756008)(55016003)(66476007)(4326008)(71200400001)(8676002)(85182001)(66556008)(66446008)(86362001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?ZnRqb3V5Z1N1c29EUm5xcVhCelBRaW14cmhkWFozS0c5WGZERkpvbTFZSVE3?=
+ =?utf-8?B?TUUxNGIyQmZuWDIvaHlwN2RtVVJOQXZLaXhCbU5hamc2amhHMzlpYWQ3Mlow?=
+ =?utf-8?B?Zms5RnlpVklkK1AvaFBuaE13ei9nNWp0UDFlK3E5N3BiUWZ3VUtYV1prVmdH?=
+ =?utf-8?B?VDRscy9yeUZSWkhWakJSRjlNMVVpbDRWeW43ZWllQktscWZ0VTk0dUxmTE83?=
+ =?utf-8?B?dFZIcEdwNFNvcEt0ZTloYTF2clprSG1BRFF6cEZwZHQ2NU5EOVU3ekxnWGVL?=
+ =?utf-8?B?aSt2Qzc1WnhnMm14UkY4UUtSQlZYTm40VFRjU213b0dLOWFmTHAxY1hjMDhR?=
+ =?utf-8?B?OTNhVklVK2dGTUxkSk0yMWZjb1lYbVE5Z2M1bDJvN3h4R090cFdVWDZHSWhk?=
+ =?utf-8?B?cStDN1RJWXBWT0tyT2x4QUIveUtXL0tZUldqd2ZSb1ZndEVxSzBBM3FESUg4?=
+ =?utf-8?B?SE4vdHlneEdWeWEvem5jMjZManhDV2h3ajNzeWhNaEtZeFlSWmtERFY1ajNY?=
+ =?utf-8?B?T0szTVJ4T1dkbk4xRk9Uek9PV25FSTBySklWdFQrb0hSb1Rtd0xhSmlER3FT?=
+ =?utf-8?B?QVJqN0k1NUZMWEpYaXdaOXFkem5mM21aeDdFd2s1cTdScHdPb09tTmp2Vzdo?=
+ =?utf-8?B?ODZJRVFPQkYvQ0JLSjZQTFNUWkRiZEtETnJpZkx3UThYNUNNcldwU2t1VFla?=
+ =?utf-8?B?U2tEb3pnYlJEZHhEYitSZXlGU3NyVUQ4dHBvZ0dpcmVHMmd4cCtkQ09nWVgy?=
+ =?utf-8?B?YUN6NVFMcm4zV1dkajBsY3BwSGU0am5RMTlWOTB5bDdLWjBLMWZONHNxZzZY?=
+ =?utf-8?B?NlpCcEdqNk12RXpTN2RZODNmT3JlYmFRTjdKdVdIeWVGaWVDZlNJZFdqVkQw?=
+ =?utf-8?B?c0NnVkREZlVoVmF6UFB1QTFMbWhiQWd1a1BlS3NDZHFVSWxvWG9SbVdHU0k5?=
+ =?utf-8?B?Q3gyZWR2REVuOUNHbkJwR3JHdUtsaFpiRVVGUXJhYmlVZkR3Y1ROUFVOdWlY?=
+ =?utf-8?B?VmJoeU1KZk51cVhZVThabDNlVDVqMnJnRlcvaloyS20xemxReWNWZlNFcWIx?=
+ =?utf-8?B?R3pvZXJHWTh0WHhFU0Y3WURuOWJacHBML3htSXlZSHhna2VKSyszMVhPMUFy?=
+ =?utf-8?B?bFR4Q3YvYlF5YlNJUS9hWEJwbG83QUMxMStwWmZ6MDhWYkdsOGZHdHpxU2J6?=
+ =?utf-8?B?L3lvMDAycXd2UlBjTi9LNHhlTkhVa3hBOFhuZEE0b1Z4OWFSWmV4UHMwT1l5?=
+ =?utf-8?B?TFRkZGpFZTVrWnhUUlcvemUrNHVrR0JKeVliakpWZERFaXVlWlEyOTVYVDhn?=
+ =?utf-8?B?NUkreHpMWjZ2M1pWSGd4THBLK0hYcVVmNVdiQ3U4dGZ4Ty9Ua2xDMEE2eWVw?=
+ =?utf-8?B?M0ZVR2hueDkwaStxMElrQnpnQXJ0NDF2ekVqMkluTXhZUHdqbXNvRmpqaGRY?=
+ =?utf-8?B?Vkp2ejdJaUN5UmpXODZPakNJd3NNcVh2djR2MlZ3T1RVTFV1cHRWaEx5MEZi?=
+ =?utf-8?B?TFkzSlZBTGhHUXdPcDIreU5NOWdLcGF4WmxKZXRKQlpoTi9VVTU0OTU3VkFS?=
+ =?utf-8?B?ektuWVFYN25EeFVWMFZ2MzMyRktjYjVSZmVhUFFiQXdhTlQ5TE83T0trblk0?=
+ =?utf-8?B?dm84ZS9HYTBUc20yNDBvbXpWMzF1STdsTkdnQm9uMU9QL3E0OXJheGlXcTVo?=
+ =?utf-8?B?ZTdYMkJUY25oaEFQb1A3MWF5NEtmZWhacEJZRldMYzFRVmVSY2UxR1BZa0JT?=
+ =?utf-8?B?WUlaNzNvbWIycjJlNStQYzVWZEUzdUFBeUU3QWI4ZitSYWJoSnJRMVp3RXhl?=
+ =?utf-8?B?MFJoL3V4bk9aOUJCai93RUt2SmV4UWU2bUJ6THU2QVV5MjNwbVkwMXdxNkdt?=
+ =?utf-8?B?dTM3cDNlUnZ3RGx3THh6MmJ4QjRHRDBHbXhicitSMnRSY0hNY0txZGllYW1z?=
+ =?utf-8?B?YnZGdXJ6ekN0VHh6Ykg2Z1pDVmRPOFZaZTFoUDF4THlCQUFMRXFIL1NRakhN?=
+ =?utf-8?B?ZE9VOThyV1BuczRsbGlqWE1jZTl0OGJ3NUhHc3FVYkc5T09BbEVyU05uY0Fo?=
+ =?utf-8?B?clFxRkNTd3JsenlmZ2dpc2cwOS83dEMzeVFBalZndUo3OTZsNUpqREhLSGNt?=
+ =?utf-8?Q?7ySA=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_OSBPR01MB18453FE42E6B1E5C79006679DCBA9OSBPR01MB1845jpnp_"
+MIME-Version: 1.0
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OSBPR01MB1845.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 9bab3718-1337-4d0d-c503-08da5a73f0ab
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2022 08:38:43.1249
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 
+ Vimog1jS/6IQIGsSYBZihV7Dsxgw/d/7NLdj2xur8jKa6OHjTpX/CEvQ6UvncfxeSgNFS+uMKOtvPIdjcSrqEA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB2477
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 08:32:50 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 08:39:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167403
+ https://lists.openembedded.org/g/openembedded-core/message/167404
 
---000000000000b8c35b05e2a61cfc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--_000_OSBPR01MB18453FE42E6B1E5C79006679DCBA9OSBPR01MB1845jpnp_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Hi Aryaman,
+VGhhbmsgeW91IGZvciByZW1pbmRpbmcuDQpJIHdpbGwgdXBncmFkZSB0aGUgZnJhbWV3b3JrIGFz
+IGEgd2hvbGUgYW5kIHN1Ym1pdCBpdCBhZ2Fpbi4NCg0KICAtLQ0KQmVzdCBSZWdhcmRzDQotLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCldhbmcgTWlu
+Z3l1DQpEZXZlbG9wbWVudCBEZXB0LkkNCk5hbmppbmcgRnVqaXRzdSBOYW5kYSBTb2Z0d2FyZSBU
+ZWNoLiBDby4sIEx0ZC4oRk5TVCkgTm8uIDYgV2Vuemh1IFJvYWQsIE5hbmppbmcsIDIxMDAxMiwg
+Q2hpbmENClRFTDogKzg2KzI1LTg2NjMwNTY2LTg1NjgNCkNPSU5TOiA3OTk4ODU0OA0KRkFYOiAr
+ODYrMjUtODMzMTc2ODUNCk1BSUw6IHdhbmdteUBmdWppdHN1LmNvbTxtYWlsdG86d2FuZ215QGZ1
+aml0c3UuY29tPg0KaHR0cDovL3d3dy5mdWppdHN1LmNvbS9jbi9mbnN0Lw0KDQpGcm9tOiBvcGVu
+ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgSm9zZSBRdWFyZXNtYQ0KU2VudDog
+VGh1cnNkYXksIEp1bmUgMzAsIDIwMjIgNDoxMSBQTQ0KVG86IFdhbmcsIE1pbmd5dS/njosg6bij
+55GcIDx3YW5nbXlAZnVqaXRzdS5jb20+DQpDYzogT0UtY29yZSA8b3BlbmVtYmVkZGVkLWNvcmVA
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBn
+c3RyZWFtZXIxLjA6IHVwZ3JhZGUgMS4yMC4yIC0+IDEuMjAuMw0KDQpIaSB3YW5nbXksDQoNClRo
+aXMgZG9lc24ndCB3b3JrLCBnc3RyZWFtZXIgaXMgYSBmcmFtZXdvcmsgc28gd2hlbiB5b3UgdXBk
+YXRlIG9uZSBlbGVtZW50IHlvdSBuZWVkIHRvIHVwZGF0ZSBhbGwgb2YgdGhlbS4NCg0KSm9zZQ0K
+DQp3YW5nbXkgPHdhbmdteUBmdWppdHN1LmNvbTxtYWlsdG86d2FuZ215QGZ1aml0c3UuY29tPj4g
+ZXNjcmV2ZXUgbm8gZGlhIHF1aW50YSwgMzAvMDYvMjAyMiDDoChzKSAwNToyMDoNClNpZ25lZC1v
+ZmYtYnk6IFdhbmcgTWluZ3l1IDx3YW5nbXlAZnVqaXRzdS5jb208bWFpbHRvOndhbmdteUBmdWpp
+dHN1LmNvbT4+DQotLS0NCiAuLi4ve2dzdHJlYW1lcjEuMF8xLjIwLjIuYmI8aHR0cDovL2dzdHJl
+YW1lcjEuMF8xLjIwLjIuYmI+ID0+IGdzdHJlYW1lcjEuMF8xLjIwLjMuYmI8aHR0cDovL2dzdHJl
+YW1lcjEuMF8xLjIwLjMuYmI+fSAgICAgICAgICB8IDIgKy0NCiAxIGZpbGUgY2hhbmdlZCwgMSBp
+bnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCiByZW5hbWUgbWV0YS9yZWNpcGVzLW11bHRpbWVk
+aWEvZ3N0cmVhbWVyL3tnc3RyZWFtZXIxLjBfMS4yMC4yLmJiPGh0dHA6Ly9nc3RyZWFtZXIxLjBf
+MS4yMC4yLmJiPiA9PiBnc3RyZWFtZXIxLjBfMS4yMC4zLmJiPGh0dHA6Ly9nc3RyZWFtZXIxLjBf
+MS4yMC4zLmJiPn0gKDk3JSkNCg0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlh
+L2dzdHJlYW1lci9nc3RyZWFtZXIxLjBfMS4yMC4yLmJiPGh0dHA6Ly9nc3RyZWFtZXIxLjBfMS4y
+MC4yLmJiPiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjBf
+MS4yMC4zLmJiPGh0dHA6Ly9nc3RyZWFtZXIxLjBfMS4yMC4zLmJiPg0Kc2ltaWxhcml0eSBpbmRl
+eCA5NyUNCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3Ry
+ZWFtZXIxLjBfMS4yMC4yLmJiPGh0dHA6Ly9nc3RyZWFtZXIxLjBfMS4yMC4yLmJiPg0KcmVuYW1l
+IHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjBfMS4yMC4z
+LmJiPGh0dHA6Ly9nc3RyZWFtZXIxLjBfMS4yMC4zLmJiPg0KaW5kZXggM2FhOWFhNzA0OC4uMWY0
+NTc2YzNlMSAxMDA2NDQNCi0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9n
+c3RyZWFtZXIxLjBfMS4yMC4yLmJiPGh0dHA6Ly9nc3RyZWFtZXIxLjBfMS4yMC4yLmJiPg0KKysr
+IGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMF8xLjIwLjMu
+YmI8aHR0cDovL2dzdHJlYW1lcjEuMF8xLjIwLjMuYmI+DQpAQCAtMjMsNyArMjMsNyBAQCBTUkNf
+VVJJID0gImh0dHBzOi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9wLm9yZy9zcmMvZ3N0cmVhbWVyL2dz
+dHJlYW1lci0ke1BWfS50YXIueDxodHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcvc3Jj
+L2dzdHJlYW1lci9nc3RyZWFtZXItJCU3QlBWJTdELnRhci54Pg0KICAgICAgICAgICAgZmlsZTov
+LzAwMDQtdGVzdHMtYWRkLWhlbHBlci1zY3JpcHQtdG8tcnVuLXRoZS1pbnN0YWxsZWRfdGVzdHMu
+cGF0Y2g7c3RyaXBsZXZlbD0zIFwNCiAgICAgICAgICAgIGZpbGU6Ly8wMDA1LXRlc3RzLXJlbW92
+ZS1nc3RiaW4tdGVzdF93YXRjaF9mb3Jfc3RhdGVfY2hhbmdlLXRlc3QucGF0Y2ggXA0KICAgICAg
+ICAgICAgIg0KLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJkZjI0ZTg3OTI2OTFhMDJkZmUwMDNiMzgz
+M2E1MWYxZGJjNmMzMzMxYWU2MjVkMTQzYjE3ZGE5MzljZWI1ZTBhIg0KK1NSQ19VUklbc2hhMjU2
+c3VtXSA9ICI2MDdkYWY2NGJiYmQ1ZmIxOGFmOWQxN2UyMWMwZDIyYzRkNzAyZmZmZTgzYjIzY2Iy
+MmQxYjFhZjJjYTIzYTJhIg0KDQogUEFDS0FHRUNPTkZJRyA/Pz0gIiR7QGJiLnV0aWxzLmNvbnRh
+aW5zKCdQVEVTVF9FTkFCTEVEJywgJzEnLCAndGVzdHMnLCAnJywgZCl9IFwNCiAgICAgICAgICAg
+ICAgICAgICAgY2hlY2sgXA0KLS0NCjIuMjUuMQ0KDQoNCg0KDQoNCi0tDQpCZXN0IHJlZ2FyZHMs
+DQoNCkpvc8OpIFF1YXJlc21hDQo=
 
-Aryaman Gupta <aryaman.gupta@windriver.com> escreveu no dia quarta,
-29/06/2022 =C3=A0(s) 21:10:
+--_000_OSBPR01MB18453FE42E6B1E5C79006679DCBA9OSBPR01MB1845jpnp_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-> Stop the scheduler from starting new tasks if the
-> current cpu or io pressure is above a certain threshold, specified
-> through the "BB_MAX_{CPU|IO}_SOME_PRESSURE" variables in conf/local.conf.
->
-> If the thresholds aren't specified, the default values are 100 for both
-> CPU and IO, which will have no impact on build times.
-> Arbitary lower limit of 1.0 results in a fatal error to avoid extremely
-> long builds. If the percentage limits are higher than 100, then the defau=
-lt
-> values are used and warnings are issued to inform users that the
-> specified limit is out of bounds.
->
-> Signed-off-by: Aryaman Gupta <aryaman.gupta@windriver.com>
-> Signed-off-by: Randy Macleod <randy.macleod@windriver.com>
-> ---
->  bitbake/lib/bb/runqueue.py | 39 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 39 insertions(+)
->
-> diff --git a/bitbake/lib/bb/runqueue.py b/bitbake/lib/bb/runqueue.py
-> index 1e47fe70ef..9667acc11c 100644
-> --- a/bitbake/lib/bb/runqueue.py
-> +++ b/bitbake/lib/bb/runqueue.py
-> @@ -159,6 +159,27 @@ class RunQueueScheduler(object):
->                  self.buildable.append(tid)
->
->          self.rev_prio_map =3D None
-> +        # Some hosts like openSUSE have readable /proc/pressure files
-> +        # but throw errors when these files are opened.
-> +        try:
-> +            subprocess.check_output(["cat", "/proc/pressure/cpu",
-> "/proc/pressure/io"], \
-> +                                    universal_newlines=3DTrue,
-> stderr=3Dsubprocess.DEVNULL)
-> +            self.readable_pressure_files =3D True
-> +        except:
-> +            if self.rq.max_cpu_pressure!=3D100 or
-> self.rq.max_io_pressure!=3D100:
-> +                bb.warn("The /proc/pressure files can't be read.
-> Continuing build without monitoring pressure")
-> +            self.readable_pressure_files =3D False
-> +
-> +    def exceeds_max_pressure(self):
-> +        if self.readable_pressure_files:
->
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+Ik1TIE1pbmNobyI7DQoJcGFub3NlLTE6MiAyIDYgOSA0IDIgNSA4IDMgNDt9DQpAZm9udC1mYWNl
+DQoJe2ZvbnQtZmFtaWx5OuWui+S9kzsNCglwYW5vc2UtMToyIDEgNiAwIDMgMSAxIDEgMSAxO30N
+CkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0
+IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5Ouetiee6vzsNCglw
+YW5vc2UtMToyIDEgNiAwIDMgMSAxIDEgMSAxO30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJ
+e2ZvbnQtZmFtaWx5OiJcQOetiee6vyI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9
+DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOWui+S9kyI7DQoJcGFub3NlLTE6MiAxIDYg
+MCAzIDEgMSAxIDEgMTt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQE1TIE1pbmNobyI7
+DQoJcGFub3NlLTE6MiAyIDYgOSA0IDIgNSA4IDMgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAq
+Lw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNt
+Ow0KCWZvbnQtc2l6ZToxMi4wcHQ7DQoJZm9udC1mYW1pbHk65a6L5L2TO30NCmE6bGluaywgc3Bh
+bi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJ
+dGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxOA0KCXttc28tc3R5
+bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseTrnrYnnur87DQoJY29sb3I6d2lu
+ZG93dGV4dDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsN
+Cglmb250LWZhbWlseTrnrYnnur87fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBw
+dCA3OTIuMHB0Ow0KCW1hcmdpbjo3Mi4wcHQgOTAuMHB0IDcyLjBwdCA5MC4wcHQ7fQ0KZGl2Lldv
+cmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3Rl
+IG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAy
+NiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hh
+cGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+
+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5n
+PSJaSC1DTiIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSIgc3R5bGU9IndvcmQtd3JhcDpicmVh
+ay13b3JkIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6
+562J57q/Ij5UaGFuayB5b3UgZm9yIHJlbWluZGluZy4NCjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXpl
+OjEwLjVwdDtmb250LWZhbWlseTrnrYnnur8iPkkgd2lsbCB1cGdyYWRlIHRoZSBmcmFtZXdvcmsg
+YXMgYSB3aG9sZSBhbmQgc3VibWl0IGl0IGFnYWluLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEw
+LjVwdDtmb250LWZhbWlseTrnrYnnur8iPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJ0ZXh0LWFsaWduOmp1c3RpZnk7dGV4dC1qdXN0aWZ5
+OmludGVyLWlkZW9ncmFwaCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAu
+NXB0O2ZvbnQtZmFtaWx5OiZxdW90O01TIE1pbmNobyZxdW90Ozttc28tZmFyZWFzdC1sYW5ndWFn
+ZTpKQSI+Jm5ic3A7DQo8L3NwYW4+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6
+MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O01TIE1pbmNobyZxdW90OyI+LS08bzpwPjwvbzpwPjwv
+c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0idGV4dC1hbGlnbjpqdXN0aWZ5
+O3RleHQtanVzdGlmeTppbnRlci1pZGVvZ3JhcGgiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0i
+Zm9udC1zaXplOjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtNUyBNaW5jaG8mcXVvdDsiPkJlc3Qg
+UmVnYXJkczxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxl
+PSJ0ZXh0LWFsaWduOmp1c3RpZnk7dGV4dC1qdXN0aWZ5OmludGVyLWlkZW9ncmFwaCI+PHNwYW4g
+bGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O01T
+IE1pbmNobyZxdW90OyI+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5
+bGU9InRleHQtYWxpZ246anVzdGlmeTt0ZXh0LWp1c3RpZnk6aW50ZXItaWRlb2dyYXBoIj48c3Bh
+biBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
+TVMgTWluY2hvJnF1b3Q7Ij5XYW5nIE1pbmd5dTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJ0ZXh0LWFsaWduOmp1c3RpZnk7dGV4dC1qdXN0aWZ5Omlu
+dGVyLWlkZW9ncmFwaCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0
+O2ZvbnQtZmFtaWx5OiZxdW90O01TIE1pbmNobyZxdW90OyI+RGV2ZWxvcG1lbnQgRGVwdC5JPG86
+cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9InRleHQtYWxp
+Z246anVzdGlmeTt0ZXh0LWp1c3RpZnk6aW50ZXItaWRlb2dyYXBoIj48c3BhbiBsYW5nPSJFTi1V
+UyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7TVMgTWluY2hvJnF1
+b3Q7Ij5OYW5qaW5nIEZ1aml0c3UgTmFuZGEgU29mdHdhcmUgVGVjaC4gQ28uLCBMdGQuKEZOU1Qp
+IE5vLiA2IFdlbnpodSBSb2FkLCBOYW5qaW5nLCAyMTAwMTIsIENoaW5hPG86cD48L286cD48L3Nw
+YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9InRleHQtYWxpZ246anVzdGlmeTt0
+ZXh0LWp1c3RpZnk6aW50ZXItaWRlb2dyYXBoIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZv
+bnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7TVMgTWluY2hvJnF1b3Q7Ij5URUw6ICs4
+NisyNS04NjYzMDU2Ni04NTY4PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCIgc3R5bGU9InRleHQtYWxpZ246anVzdGlmeTt0ZXh0LWp1c3RpZnk6aW50ZXItaWRlb2dy
+YXBoIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1p
+bHk6JnF1b3Q7TVMgTWluY2hvJnF1b3Q7Ij5DT0lOUzogNzk5ODg1NDg8bzpwPjwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0idGV4dC1hbGlnbjpqdXN0aWZ5O3Rl
+eHQtanVzdGlmeTppbnRlci1pZGVvZ3JhcGgiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9u
+dC1zaXplOjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtNUyBNaW5jaG8mcXVvdDsiPkZBWDogKzg2
+KzI1LTgzMzE3Njg1PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIg
+c3R5bGU9InRleHQtYWxpZ246anVzdGlmeTt0ZXh0LWp1c3RpZnk6aW50ZXItaWRlb2dyYXBoIj48
+c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1
+b3Q7TVMgTWluY2hvJnF1b3Q7Ij5NQUlMOg0KPGEgaHJlZj0ibWFpbHRvOndhbmdteUBmdWppdHN1
+LmNvbSI+PHNwYW4gc3R5bGU9ImNvbG9yOiMwNTYzQzEiPndhbmdteUBmdWppdHN1LmNvbTwvc3Bh
+bj48L2E+PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9
+InRleHQtYWxpZ246anVzdGlmeTt0ZXh0LWp1c3RpZnk6aW50ZXItaWRlb2dyYXBoIj48c3BhbiBs
+YW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7TVMg
+TWluY2hvJnF1b3Q7Ij48YSBocmVmPSJodHRwOi8vd3d3LmZ1aml0c3UuY29tL2NuL2Zuc3QvIj48
+c3BhbiBzdHlsZT0iY29sb3I6IzA1NjNDMSI+aHR0cDovL3d3dy5mdWppdHN1LmNvbS9jbi9mbnN0
+Lzwvc3Bhbj48L2E+PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5Ouet
+iee6vyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5v
+bmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtwYWRkaW5nOjBjbSAwY20gMGNtIDQuMHB0
+Ij4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItdG9wOnNvbGlkICNFMUUx
+RTEgMS4wcHQ7cGFkZGluZzozLjBwdCAwY20gMGNtIDBjbSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48Yj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
+bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4g
+bGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
+bGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmcgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7
+DQo8Yj5PbiBCZWhhbGYgT2YgPC9iPkpvc2UgUXVhcmVzbWE8YnI+DQo8Yj5TZW50OjwvYj4gVGh1
+cnNkYXksIEp1bmUgMzAsIDIwMjIgNDoxMSBQTTxicj4NCjxiPlRvOjwvYj4gV2FuZywgTWluZ3l1
+Lzwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdCI+546LPC9zcGFuPjxzcGFuIHN0
+eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fu
+cy1zZXJpZiI+DQo8L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQiPum4o+eRnDwv
+c3Bhbj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
+bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj4gJmx0O3dhbmdteUBmdWppdHN1LmNv
+bSZndDs8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmUgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcmZ3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0g
+W1BBVENIXSBnc3RyZWFtZXIxLjA6IHVwZ3JhZGUgMS4yMC4yIC0mZ3Q7IDEuMjAuMzxvOnA+PC9v
+OnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
+biBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdj4NCjxkaXY+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+SGkgd2FuZ215LDxvOnA+
+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
+cGFuIGxhbmc9IkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxk
+aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+VGhpcyBkb2Vzbid0
+IHdvcmssIGdzdHJlYW1lciBpcyBhIGZyYW1ld29yayBzbyB3aGVuIHlvdSB1cGRhdGUgb25lIGVs
+ZW1lbnQgeW91IG5lZWQgdG8gdXBkYXRlIGFsbCBvZiB0aGVtLjxvOnA+PC9vOnA+PC9zcGFuPjwv
+cD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVT
+Ij48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+Sm9zZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
+CjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5i
+c3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PHNwYW4gbGFuZz0iRU4tVVMiPndhbmdteSAmbHQ7PGEgaHJlZj0ibWFpbHRvOndhbmdteUBmdWpp
+dHN1LmNvbSI+d2FuZ215QGZ1aml0c3UuY29tPC9hPiZndDsgZXNjcmV2ZXUgbm8gZGlhIHF1aW50
+YSwgMzAvMDYvMjAyMiDDoChzKSAwNToyMDo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4N
+CjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0ND
+IDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2lu
+LXJpZ2h0OjBjbSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWJvdHRvbTox
+Mi4wcHQiPjxzcGFuIGxhbmc9IkVOLVVTIj5TaWduZWQtb2ZmLWJ5OiBXYW5nIE1pbmd5dSAmbHQ7
+PGEgaHJlZj0ibWFpbHRvOndhbmdteUBmdWppdHN1LmNvbSIgdGFyZ2V0PSJfYmxhbmsiPndhbmdt
+eUBmdWppdHN1LmNvbTwvYT4mZ3Q7PGJyPg0KLS0tPGJyPg0KJm5ic3A7Li4uL3s8YSBocmVmPSJo
+dHRwOi8vZ3N0cmVhbWVyMS4wXzEuMjAuMi5iYiIgdGFyZ2V0PSJfYmxhbmsiPmdzdHJlYW1lcjEu
+MF8xLjIwLjIuYmI8L2E+ID0mZ3Q7DQo8YSBocmVmPSJodHRwOi8vZ3N0cmVhbWVyMS4wXzEuMjAu
+My5iYiIgdGFyZ2V0PSJfYmxhbmsiPmdzdHJlYW1lcjEuMF8xLjIwLjMuYmI8L2E+fSZuYnNwOyAm
+bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgfCAyICstPGJyPg0KJm5ic3A7MSBmaWxlIGNoYW5n
+ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pPGJyPg0KJm5ic3A7cmVuYW1lIG1ldGEv
+cmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci97PGEgaHJlZj0iaHR0cDovL2dzdHJlYW1lcjEu
+MF8xLjIwLjIuYmIiIHRhcmdldD0iX2JsYW5rIj5nc3RyZWFtZXIxLjBfMS4yMC4yLmJiPC9hPiA9
+Jmd0Ow0KPGEgaHJlZj0iaHR0cDovL2dzdHJlYW1lcjEuMF8xLjIwLjMuYmIiIHRhcmdldD0iX2Js
+YW5rIj5nc3RyZWFtZXIxLjBfMS4yMC4zLmJiPC9hPn0gKDk3JSk8YnI+DQo8YnI+DQpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyLzxhIGhyZWY9Imh0dHA6Ly9n
+c3RyZWFtZXIxLjBfMS4yMC4yLmJiIiB0YXJnZXQ9Il9ibGFuayI+Z3N0cmVhbWVyMS4wXzEuMjAu
+Mi5iYjwvYT4gYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvPGEgaHJlZj0iaHR0
+cDovL2dzdHJlYW1lcjEuMF8xLjIwLjMuYmIiIHRhcmdldD0iX2JsYW5rIj5nc3RyZWFtZXIxLjBf
+MS4yMC4zLmJiPC9hPjxicj4NCnNpbWlsYXJpdHkgaW5kZXggOTclPGJyPg0KcmVuYW1lIGZyb20g
+bWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyLzxhIGhyZWY9Imh0dHA6Ly9nc3RyZWFt
+ZXIxLjBfMS4yMC4yLmJiIiB0YXJnZXQ9Il9ibGFuayI+Z3N0cmVhbWVyMS4wXzEuMjAuMi5iYjwv
+YT48YnI+DQpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyLzxhIGhy
+ZWY9Imh0dHA6Ly9nc3RyZWFtZXIxLjBfMS4yMC4zLmJiIiB0YXJnZXQ9Il9ibGFuayI+Z3N0cmVh
+bWVyMS4wXzEuMjAuMy5iYjwvYT48YnI+DQppbmRleCAzYWE5YWE3MDQ4Li4xZjQ1NzZjM2UxIDEw
+MDY0NDxicj4NCi0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci88YSBocmVm
+PSJodHRwOi8vZ3N0cmVhbWVyMS4wXzEuMjAuMi5iYiIgdGFyZ2V0PSJfYmxhbmsiPmdzdHJlYW1l
+cjEuMF8xLjIwLjIuYmI8L2E+PGJyPg0KKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0
+cmVhbWVyLzxhIGhyZWY9Imh0dHA6Ly9nc3RyZWFtZXIxLjBfMS4yMC4zLmJiIiB0YXJnZXQ9Il9i
+bGFuayI+Z3N0cmVhbWVyMS4wXzEuMjAuMy5iYjwvYT48YnI+DQpAQCAtMjMsNyArMjMsNyBAQCBT
+UkNfVVJJID0gJnF1b3Q7PGEgaHJlZj0iaHR0cHM6Ly9nc3RyZWFtZXIuZnJlZWRlc2t0b3Aub3Jn
+L3NyYy9nc3RyZWFtZXIvZ3N0cmVhbWVyLSQlN0JQViU3RC50YXIueCIgdGFyZ2V0PSJfYmxhbmsi
+Pmh0dHBzOi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9wLm9yZy9zcmMvZ3N0cmVhbWVyL2dzdHJlYW1l
+ci0ke1BWfS50YXIueDwvYT48YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
+ICZuYnNwOyBmaWxlOi8vMDAwNC10ZXN0cy1hZGQtaGVscGVyLXNjcmlwdC10by1ydW4tdGhlLWlu
+c3RhbGxlZF90ZXN0cy5wYXRjaDtzdHJpcGxldmVsPTMgXDxicj4NCiZuYnNwOyAmbmJzcDsgJm5i
+c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGZpbGU6Ly8wMDA1LXRlc3RzLXJlbW92ZS1nc3RiaW4t
+dGVzdF93YXRjaF9mb3Jfc3RhdGVfY2hhbmdlLXRlc3QucGF0Y2ggXDxicj4NCiZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZxdW90Ozxicj4NCi1TUkNfVVJJW3NoYTI1
+NnN1bV0gPSAmcXVvdDtkZjI0ZTg3OTI2OTFhMDJkZmUwMDNiMzgzM2E1MWYxZGJjNmMzMzMxYWU2
+MjVkMTQzYjE3ZGE5MzljZWI1ZTBhJnF1b3Q7PGJyPg0KK1NSQ19VUklbc2hhMjU2c3VtXSA9ICZx
+dW90OzYwN2RhZjY0YmJiZDVmYjE4YWY5ZDE3ZTIxYzBkMjJjNGQ3MDJmZmZlODNiMjNjYjIyZDFi
+MWFmMmNhMjNhMmEmcXVvdDs8YnI+DQo8YnI+DQombmJzcDtQQUNLQUdFQ09ORklHID8/PSAmcXVv
+dDske0BiYi51dGlscy5jb250YWlucygnUFRFU1RfRU5BQkxFRCcsICcxJywgJ3Rlc3RzJywgJycs
+IGQpfSBcPGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
+c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGNoZWNrIFw8YnI+DQotLSA8YnI+DQoyLjI1LjE8YnI+
+DQo8YnI+DQo8YnI+DQo8YnI+DQo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Jsb2NrcXVvdGU+
+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj48YnIgY2xl
+YXI9ImFsbCI+DQo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjwv
+ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPi0tIDxvOnA+PC9v
+OnA+PC9zcGFuPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
+bGFuZz0iRU4tVVMiPkJlc3QgcmVnYXJkcyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2Pg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxicj4NCkpvc8OpIFF1YXJl
+c21hPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+
+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-We can jump when the user does not provide any default values or if they
-provide the maximum
-
-if self.readable_pressure_files and (self.rq.max_cpu_pressure < 100 or
-self.rq.max_io_pressure < 100):
-
-Jose
-
-+            # extract avg10 from /proc/pressure/{cpu|io}
-> +            curr_pressure_sample =3D subprocess.check_output(["cat",
-> "/proc/pressure/cpu", "/proc/pressure/io"], \
-> +                                   universal_newlines=3DTrue,
-> stderr=3Dsubprocess.DEVNULL)
-> +            curr_cpu_pressure =3D
-> curr_pressure_sample.split('\n')[0].split()[1].split("=3D")[1]
-> +            curr_io_pressure =3D
-> curr_pressure_sample.split('\n')[2].split()[1].split("=3D")[1]
-> +
-> +            return float(curr_cpu_pressure) > self.rq.max_cpu_pressure o=
-r
-> float(curr_io_pressure) > self.rq.max_io_pressure
-> +        return False
->
->      def next_buildable_task(self):
->          """
-> @@ -171,6 +192,8 @@ class RunQueueScheduler(object):
->          buildable.intersection_update(self.rq.tasks_covered |
-> self.rq.tasks_notcovered)
->          if not buildable:
->              return None
-> +        if self.exceeds_max_pressure():
-> +            return None
->
->          # Filter out tasks that have a max number of threads that have
-> been exceeded
->          skip_buildable =3D {}
-> @@ -1699,6 +1722,8 @@ class RunQueueExecute:
->
->          self.number_tasks =3D int(self.cfgData.getVar("BB_NUMBER_THREADS=
-")
-> or 1)
->          self.scheduler =3D self.cfgData.getVar("BB_SCHEDULER") or "speed=
-"
-> +        self.max_cpu_pressure =3D
-> float(self.cfgData.getVar("BB_MAX_CPU_SOME_PRESSURE") or 100.0)
-> +        self.max_io_pressure =3D
-> float(self.cfgData.getVar("BB_MAX_IO_SOME_PRESSURE") or 100.0)
->
->          self.sq_buildable =3D set()
->          self.sq_running =3D set()
-> @@ -1733,6 +1758,20 @@ class RunQueueExecute:
->          if self.number_tasks <=3D 0:
->               bb.fatal("Invalid BB_NUMBER_THREADS %s" % self.number_tasks=
-)
->
-> +        lower_limit =3D 1.0
-> +        upper_limit =3D 100.0
-> +        if self.max_cpu_pressure < lower_limit:
-> +            bb.fatal("Invalid BB_MAX_CPU_SOME_PRESSURE %s, minimum value
-> is %s" % (self.max_cpu_pressure, lower_limit))
-> +        if self.max_cpu_pressure > upper_limit:
-> +            bb.warn("Percentage value of BB_MAX_CPU_SOME_PRESSURE %s
-> rounded down to %s" % (self.max_cpu_pressure, upper_limit))
-> +            self.max_cpu_pressure =3D upper_limit
-> +
-> +        if self.max_io_pressure < lower_limit:
-> +            bb.fatal("Invalid BB_MAX_IO_SOME_PRESSURE %s, minimum value
-> is %s" % (self.max_io_pressure, lower_limit))
-> +        if self.max_io_pressure > upper_limit:
-> +            bb.warn("Percentage value of BB_MAX_IO_SOME_PRESSURE %s
-> rounded down to %s" % (self.max_io_pressure, upper_limit))
-> +            self.max_io_pressure =3D upper_limit
-> +
->          # List of setscene tasks which we've covered
->          self.scenequeue_covered =3D set()
->          # List of tasks which are covered (including setscene ones)
-> --
-> 2.35.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#167390):
-> https://lists.openembedded.org/g/openembedded-core/message/167390
-> Mute This Topic: https://lists.openembedded.org/mt/92073312/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---000000000000b8c35b05e2a61cfc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi=C2=A0Aryaman,</div><div dir=3D"ltr"><br></div><div=
- class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Aryaman Gupta =
-&lt;<a href=3D"mailto:aryaman.gupta@windriver.com">aryaman.gupta@windriver.=
-com</a>&gt; escreveu no dia quarta, 29/06/2022 =C3=A0(s) 21:10:<br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">Stop the scheduler from sta=
-rting new tasks if the<br>
-current cpu or io pressure is above a certain threshold, specified<br>
-through the &quot;BB_MAX_{CPU|IO}_SOME_PRESSURE&quot; variables in conf/loc=
-al.conf.<br>
-<br>
-If the thresholds aren&#39;t specified, the default values are 100 for both=
-<br>
-CPU and IO, which will have no impact on build times.<br>
-Arbitary lower limit of 1.0 results in a fatal error to avoid extremely<br>
-long builds. If the percentage limits are higher than 100, then the default=
-<br>
-values are used and warnings are issued to inform users that the<br>
-specified limit is out of bounds.<br>
-<br>
-Signed-off-by: Aryaman Gupta &lt;<a href=3D"mailto:aryaman.gupta@windriver.=
-com" target=3D"_blank">aryaman.gupta@windriver.com</a>&gt;<br>
-Signed-off-by: Randy Macleod &lt;<a href=3D"mailto:randy.macleod@windriver.=
-com" target=3D"_blank">randy.macleod@windriver.com</a>&gt;<br>
----<br>
-=C2=A0bitbake/lib/bb/runqueue.py | 39 +++++++++++++++++++++++++++++++++++++=
-+<br>
-=C2=A01 file changed, 39 insertions(+)<br>
-<br>
-diff --git a/bitbake/lib/bb/runqueue.py b/bitbake/lib/bb/runqueue.py<br>
-index 1e47fe70ef..9667acc11c 100644<br>
---- a/bitbake/lib/bb/runqueue.py<br>
-+++ b/bitbake/lib/bb/runqueue.py<br>
-@@ -159,6 +159,27 @@ class RunQueueScheduler(object):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.buildabl=
-e.append(tid)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.rev_prio_map =3D None<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Some hosts like openSUSE have readable /proc=
-/pressure files<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # but throw errors when these files are opened=
-.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 subprocess.check_output([&quot;c=
-at&quot;, &quot;/proc/pressure/cpu&quot;, &quot;/proc/pressure/io&quot;], \=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 universal_newlines=3DT=
-rue, stderr=3Dsubprocess.DEVNULL)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.readable_pressure_files =3D=
- True<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 except:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.rq.max_cpu_pressure!=3D1=
-00 or self.rq.max_io_pressure!=3D100:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(&quot;The =
-/proc/pressure files can&#39;t be read. Continuing build without monitoring=
- pressure&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.readable_pressure_files =3D=
- False<br>
-+<br>
-+=C2=A0 =C2=A0 def exceeds_max_pressure(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.readable_pressure_files:<br></blockquo=
-te><div><br></div><div>We can jump when the user does not provide any defau=
-lt values or if they provide the maximum</div><div><br></div><div>if self.r=
-eadable_pressure_files and (self.rq.max_cpu_pressure &lt; 100 or self.rq.ma=
-x_io_pressure &lt; 100):</div><div><br></div><div>Jose</div><div><br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # extract avg10 from /proc/press=
-ure/{cpu|io}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 curr_pressure_sample =3D subproc=
-ess.check_output([&quot;cat&quot;, &quot;/proc/pressure/cpu&quot;, &quot;/p=
-roc/pressure/io&quot;], \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0universal_newlines=3DTr=
-ue, stderr=3Dsubprocess.DEVNULL)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 curr_cpu_pressure =3D curr_press=
-ure_sample.split(&#39;\n&#39;)[0].split()[1].split(&quot;=3D&quot;)[1]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 curr_io_pressure =3D curr_pressu=
-re_sample.split(&#39;\n&#39;)[2].split()[1].split(&quot;=3D&quot;)[1]<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return float(curr_cpu_pressure) =
-&gt; self.rq.max_cpu_pressure or float(curr_io_pressure) &gt; self.rq.max_i=
-o_pressure<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return False<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0def next_buildable_task(self):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-@@ -171,6 +192,8 @@ class RunQueueScheduler(object):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0buildable.intersection_update(self.rq.tas=
-ks_covered | self.rq.tasks_notcovered)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not buildable:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return None<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.exceeds_max_pressure():<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return None<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Filter out tasks that have a max number=
- of threads that have been exceeded<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0skip_buildable =3D {}<br>
-@@ -1699,6 +1722,8 @@ class RunQueueExecute:<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.number_tasks =3D int(self.cfgData.ge=
-tVar(&quot;BB_NUMBER_THREADS&quot;) or 1)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.scheduler =3D self.cfgData.getVar(&q=
-uot;BB_SCHEDULER&quot;) or &quot;speed&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.max_cpu_pressure =3D float(self.cfgData.g=
-etVar(&quot;BB_MAX_CPU_SOME_PRESSURE&quot;) or 100.0)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.max_io_pressure =3D float(self.cfgData.ge=
-tVar(&quot;BB_MAX_IO_SOME_PRESSURE&quot;) or 100.0)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.sq_buildable =3D set()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.sq_running =3D set()<br>
-@@ -1733,6 +1758,20 @@ class RunQueueExecute:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if self.number_tasks &lt;=3D 0:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;Invalid BB_=
-NUMBER_THREADS %s&quot; % self.number_tasks)<br>
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 lower_limit =3D 1.0<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 upper_limit =3D 100.0<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.max_cpu_pressure &lt; lower_limit:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;Invalid BB_MAX_CP=
-U_SOME_PRESSURE %s, minimum value is %s&quot; % (self.max_cpu_pressure, low=
-er_limit))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.max_cpu_pressure &gt; upper_limit:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(&quot;Percentage value o=
-f BB_MAX_CPU_SOME_PRESSURE %s rounded down to %s&quot; % (self.max_cpu_pres=
-sure, upper_limit))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.max_cpu_pressure =3D upper_=
-limit<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.max_io_pressure &lt; lower_limit:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;Invalid BB_MAX_IO=
-_SOME_PRESSURE %s, minimum value is %s&quot; % (self.max_io_pressure, lower=
-_limit))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.max_io_pressure &gt; upper_limit:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(&quot;Percentage value o=
-f BB_MAX_IO_SOME_PRESSURE %s rounded down to %s&quot; % (self.max_io_pressu=
-re, upper_limit))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.max_io_pressure =3D upper_l=
-imit<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# List of setscene tasks which we&#39;ve =
-covered<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.scenequeue_covered =3D set()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# List of tasks which are covered (includ=
-ing setscene ones)<br>
--- <br>
-2.35.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#167390): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/167390" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/167390</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/92073312/5052=
-612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/92073312/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
-
---000000000000b8c35b05e2a61cfc--
+--_000_OSBPR01MB18453FE42E6B1E5C79006679DCBA9OSBPR01MB1845jpnp_--
 
