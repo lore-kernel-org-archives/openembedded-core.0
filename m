@@ -1,122 +1,135 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11BB1C43334
-	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 15:28:12 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web08.26496.1656602883656226715
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ACF9C433EF
+	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 16:04:12 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web11.26898.1656605044682536811
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 08:28:04 -0700
+ Thu, 30 Jun 2022 09:04:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Wsj3MMcS;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id
- bi22-20020a05600c3d9600b003a04de22ab6so1900489wmb.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=IZdZPSEw;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47,
+ mailfrom: rybczynska@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id a4so20987935lfm.0
         for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 08:28:03 -0700 (PDT)
+ Thu, 30 Jun 2022 09:04:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=pMKQv0CqY03D028jPYBRKxvmfLLSkOaUsfMlnz9PLBc=;
-        b=Wsj3MMcSl625Hf59VxZAZxlbUs1f5MNrLqwN7m+ox+GW/+ysQ9QQ05hFhTgUbYEOrT
-         Moqg/1jn7OisaJcTFjqG3dgJDxcPEj0+QQAewg9brrt5MmQuzVwZApY3QyWne6JcW34H
-         4xyxQF4wbqO1OHQ39M2Xpgq3pthgrMvse9YhM=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FU/BxIYxNkruSH5jkFkPojSkxEcaJOohVn3NCopqkeM=;
+        b=IZdZPSEwuAueue5tCO5ZDLNqmpo9b+LlcW6CrZ/XcxoQ6ujxC0FckQze5/c2N21grM
+         L+NI2W6K8DqCDdLedeqaNTmyWN15NfRmo+yD53jrYsxx60RSHFp37W6FKH++8skABcWX
+         J3uFObNB3Olb4IvWSqvzxOFJ/ofqUIZ5lC8YCE4MrS+Tgn9H/CvjdLGFhwey6E0qPHQu
+         wTLhY5yZWfnYlppBxmBjRv2hYefVbxZjx9g8RxXaQPC+kwRrOuGOSAUUDka34FppZX9G
+         1//TV5qYYVNTt50IRO8u6C2wv44Jno/LVDukDU+hmka14XsGlQ+MNqg+G3kK2KRDBD+H
+         SR/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=pMKQv0CqY03D028jPYBRKxvmfLLSkOaUsfMlnz9PLBc=;
-        b=k6syXmPIG0j3D/IK6ERQG7c2qG4r8rnfgm7Rmxrge6nsNjF4QBXxF9cxk4A+sCI+LE
-         VpG1ZmRxwzWk/z+8dfiXQjLT8tGbZMXKCW0SS4aCqf1OC+JuNfVP6Rsj++WDj2TOHU/5
-         VXdfXEoj6ymmFFwt/o7rHE7O6DObC2NJ9nVg3U7C7M6meANS6BgApAqdiUQPXR1MhVN2
-         cXag0BVhTufSEykAgKUooFoJdyJrJ/pHFkbJTjrY0EaCU2CfBbhwr3o1/ZsAvSV2vZqV
-         /3IX7hAlGgV+1j9Mz9Coab+AqmNikz7YJAF+o3LMkYLhHnL7HuyUc8+QyM69RokbYSGk
-         l9dA==
-X-Gm-Message-State: AJIora/PVuW9sifc0TbbKPBB2/rwSooLVObEgKGDTJjof7CR8T1D+2A7
-	gmI63bEFgPBuI7Af/8rvg1SNOg==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FU/BxIYxNkruSH5jkFkPojSkxEcaJOohVn3NCopqkeM=;
+        b=qZUG9rSFwa2KYM0sJbLEwHGlNT/Ch+QJi/c3K6p9jz2MSAGfpcAbt+fbzl8m+gI8rD
+         rWiTzgZcpIdTg3HaInmN4fsSXhVgmnZFAL06KAOS6sfTTYOeuQf5I1z3nlNXwFJS8dk0
+         PxxlDIt0SOO93UXNx/T2nLAUR8pUBd3uM+W8dvPsQku2sgKU2eydlsRwQ2YjKpiExEFC
+         DCpC1xaz+twJxhUv1IOrq5OUH/HkUDI875htL4thtwmicw1ScLgD5oExXl0oNhIvecg3
+         TpCSdLX0aWoH/1u4kEreQs6c04FMhL5FpQHgC87w2844fumj8zZUO4OXU9Qf0M7yMxhK
+         uBow==
+X-Gm-Message-State: AJIora84jxF9CbcsDWs0hoWOkkKb0XmyL/FvvallylQUPR3qhu311FQQ
+	1/k3zAfNZ+k2AacnVQ4fNueuY7dNdwf7RL8+Sa0=
 X-Google-Smtp-Source: 
- AGRyM1tZquJQ51TsmSVvOaOiRNYxYRMpYu1I4x535AEY9qKePcxSdbmaFs9j0IWQx2+qqiGIoEBB0w==
-X-Received: by 2002:a05:600c:1908:b0:3a0:998c:313d with SMTP id
- j8-20020a05600c190800b003a0998c313dmr11662655wmq.19.1656602881988;
-        Thu, 30 Jun 2022 08:28:01 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f06b:8b84:2b52:384a?
- ([2001:8b0:aba:5f3c:f06b:8b84:2b52:384a])
-        by smtp.gmail.com with ESMTPSA id
- u20-20020a05600c19d400b0039c4f53c4fdsm3727419wmq.45.2022.06.30.08.28.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 08:28:01 -0700 (PDT)
-Message-ID: 
- <eb07e0ecfc61d8848497773025c1bb8a4b57035b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] base.bbclass: Add sstate-cache dependency to
- GCCVERSION
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>, Jan
-	Brzezanski <jan.brzezanski@gmail.com>
-Date: Thu, 30 Jun 2022 16:28:00 +0100
-In-Reply-To: 
- <CAJkqNs3CpSbHOEeEBQefHf0vu_cETZ2oAe0MExETSVGUEi1q+Q@mail.gmail.com>
-References: <20220629130830.48974-1-tomasz.dziendzielski@gmail.com>
-	 <d0ea870012451b209c23dd76627aceee97530ef1.camel@linuxfoundation.org>
-	 <CAJkqNs3CpSbHOEeEBQefHf0vu_cETZ2oAe0MExETSVGUEi1q+Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ AGRyM1t2mPsYP8QGVZM1wJP32tcVK2JrUkizSmzXRrLVLQHqJsW+9YYChtyNmqGHlITud6yfroUHQWKP7PmyCBVTjvk=
+X-Received: by 2002:a05:6512:3ca4:b0:47f:6e53:fb4 with SMTP id
+ h36-20020a0565123ca400b0047f6e530fb4mr6247164lfv.57.1656605042813; Thu, 30
+ Jun 2022 09:04:02 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220629151519.1179173-1-ross.burton@arm.com>
+ <20220629151519.1179173-2-ross.burton@arm.com>
+ <CAApg2=R5-tfzpbMzKevZaPkzVd=BOnJpu-QOmdSFAKXxxThdzw@mail.gmail.com>
+ <137E539F-E832-47C4-B81E-4D9CE3E2C3DE@arm.com>
+In-Reply-To: <137E539F-E832-47C4-B81E-4D9CE3E2C3DE@arm.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Thu, 30 Jun 2022 18:03:51 +0200
+Message-ID: 
+ <CAApg2=SJFOXKL3yrJzMfEY-7hDdzgLNrBJKTsR2HPmZQav9sdg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] cve-check: hook cleanup to the
+ BuildCompleted event, not CookerExit
+To: Ross Burton <ross.burton@arm.com>
+Cc: Sean Nyekjaer <sean@geanix.com>,
+ OE-core <openembedded-core@lists.openembedded.org>,
+	nd <nd@arm.com>
+Content-Type: multipart/alternative; boundary="0000000000001c306305e2ac6b37"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 15:28:12 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 16:04:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167413
+ https://lists.openembedded.org/g/openembedded-core/message/167414
 
-On Thu, 2022-06-30 at 16:14 +0200, Tomasz Dziendzielski wrote:
-> Would setting dependency to SDKGCCVERSION be more acceptable?
+--0000000000001c306305e2ac6b37
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-No, it wouldn't. It doesn't address the manjority of my concerns.
+On Wed, Jun 29, 2022 at 5:45 PM Ross Burton <ross.burton@arm.com> wrote:
 
->  That way native recipes will not depend on target gcc version.
+>
+> > On 29 Jun 2022, at 16:19, Marta Rybczynska <rybczynska@gmail.com> wrote=
+:
+> > Sean, could you check if it is your case too? I'll be adding a more
+> verbose error message
+> > so that we know which package it comes from.
+>
+> I actually think we should get rid of the index file entirely. Why can=E2=
+=80=99t
+> the big JSON file simply be all of the written JSON files merged together
+> (by simply listing the directory contents)?
+>
+> Without the index file I was running into the issue of merging fragment
+files from different builds
+in the same directory (different images, the world build etc). I can see
+the following solutions:
+1. Move the fragment files to a separate directory and remove it at the
+build end. It would work if nobody if using fragment files.
+2. Extract the complete list of the packages build in a different way and
+get fragment files using that different list.
 
-The native recipes shouldn't depend on the SDK gcc version either.
+Opinions?
 
-> > I'm guessing what has happened in your case is that a
-> > TMPDIR as reused after changing gcc version but something didn't
-> > rebuild, probably as ${S} =3D=3D ${B} and hence ${B} couldn't be
-> > cleaned
->=20
-> The problem is not that it didn't rerun the make or didn't clean the
-> ${B} or ${S}. After changing GCCVERSION the nativesdk-mgen is taken
-> from sstate-cache.
+Regards,
+Marta
 
-I don't believe that is the issue. I don't have "nativesdk-mgen", but
-taking nativesdk-sed as an example:
+--0000000000001c306305e2ac6b37
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-$ bitbake nativesdk-sed -S none
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 29, 2022 at 5:45 PM Ross =
+Burton &lt;<a href=3D"mailto:ross.burton@arm.com">ross.burton@arm.com</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+&gt; On 29 Jun 2022, at 16:19, Marta Rybczynska &lt;<a href=3D"mailto:rybcz=
+ynska@gmail.com" target=3D"_blank">rybczynska@gmail.com</a>&gt; wrote:<br>
+&gt; Sean, could you check if it is your case too? I&#39;ll be adding a mor=
+e verbose error message<br>
+&gt; so that we know which package it comes from.<br>
+<br>
+I actually think we should get rid of the index file entirely. Why can=E2=
+=80=99t the big JSON file simply be all of the written JSON files merged to=
+gether (by simply listing the directory contents)?<br>
+<br></blockquote><div>Without the index file I was running into the issue o=
+f merging fragment files from different builds</div><div>in the same direct=
+ory (different images, the world build etc). I can see the following soluti=
+ons:</div><div>1. Move the fragment files to a separate directory and remov=
+e it at the build end. It would work if nobody <span class=3D"ng" style=3D"=
+background:rgba(0,0,0,0) none repeat scroll 0% 0%!important">if using</span=
+> fragment files.<br></div><div>2. Extract the complete list of the package=
+s <span class=3D"ng" style=3D"background:rgba(0,0,0,0) none repeat scroll 0=
+% 0%!important">build</span> in a different way and get fragment files usin=
+g that different list.</div><div><br></div><div>Opinions?</div><div><br></d=
+iv><div>Regards,</div><div>Marta<br></div></div></div>
 
-(to dump the signatures for that recipe)
-
-$ bitbake-dumpsig tmp/stamps/aarch64-nativesdk-pokysdk-linux/nativesdk-sed/=
-4.8-r0.do_prepare_recipe_sysroot.sigdata.*
-
-shows:
-
-Hash for dependent task /media/build1/poky/meta/recipes-devtools/gcc/gcc-cr=
-osssdk_12.1.bb:do_populate_sysroot is 4a58e102e0d4e2652a7f960e728b5ae3465a0=
-3a9fe6c26135ab6b4dc5b89b951
-Hash for dependent task virtual:nativesdk:/media/build1/poky/meta/recipes-d=
-evtools/gcc/gcc-runtime_12.1.bb:do_populate_sysroot is 3bcf5017659d63c6e744=
-140dde8db8a9e37a412a38924ab5f1031337dec44198
-
-amongst other things.
-
-i.e. the nativesdk recipes *clearly* do have a dependency on the gcc
-version used for nativesdk.
-
-Cheers,
-
-Richard
+--0000000000001c306305e2ac6b37--
 
