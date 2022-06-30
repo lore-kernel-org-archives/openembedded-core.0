@@ -2,75 +2,74 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0E19CCA47B
-	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 04:25:58 +0000 (UTC)
-Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
- [195.245.231.4])
- by mx.groups.io with SMTP id smtpd.web12.20989.1656563156349213124
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA9B9C433EF
+	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 04:26:08 +0000 (UTC)
+Received: from mail3.bemta32.messagelabs.com (mail3.bemta32.messagelabs.com
+ [195.245.230.18])
+ by mx.groups.io with SMTP id smtpd.web10.20797.1656563164745923015
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Jun 2022 21:25:56 -0700
+ Wed, 29 Jun 2022 21:26:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=CnZB//Yo;
- spf=pass (domain: fujitsu.com, ip: 195.245.231.4,
+ dkim=pass header.i=@fujitsu.com header.s=170520fj header.b=wjQoAAqr;
+ spf=pass (domain: fujitsu.com, ip: 195.245.230.18,
  mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
-	s=170520fj; t=1656563154; i=@fujitsu.com;
-	bh=NIng9xp7GryWssQa+tVM8HDPz8YpOEU/jQKkzCXm7us=;
+	s=170520fj; t=1656563163; i=@fujitsu.com;
+	bh=B93FMPto9GIceM+X/g1SvUVyMYyVt2m656Vh2NvXjnM=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type;
-	b=CnZB//Yo6OfmEAN/JgK9MAF+XrzONc/FdKi1D1c9tjKdQKTA5ZiuWkYWTN5gbWc9E
-	 8YO4qo8NyIJYcAzyY0mNxXiceSqhSSExBkXk3WyCj3cFQwcSZT1OdLe5mp9Lq/LxsC
-	 izKzv6QjaozdkOsD2eZGS19gXoSh5S260wwSpAUEuuesBb5JXejm9DuhnAEdI/jZ9M
-	 5otg5bspIWo4ms684UrHlR6oPkWVTaJn2GIClRBetpxLFPVbBPZHGoAKscR4arZnwg
-	 Dl3R1HM9EZvSnehL8njsCreTMXupwfsys5hF3VXxX8aIJsXkH1CaaWz2LIhsGoNW7+
-	 wb8UJAeO4P2xw==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrMIsWRWlGSWpSXmKPExsViZ8ORpHtRdW+
-  SwdHnphZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa0bPnJPMBX9kK24eWcHawNgk1cXIySEk8IBR
-  4vWi9C5GLiD7MpPE18YdrBDOHkaJfdvvsYBUsQmoSUy/dQMowcEhIqAncfWfKEiYWUBF4sXvH
-  nYQW1jAQuLw7TZmEJtFQFXi7K+jjCA2r4CTxI/Fx5lAbAkBBYkpD9+D1XAKOEus3dHKCHGEk8
-  SteQ9YIeoFJU7OfMICMV9C4uCLF8wQvYoSsy83s0DYFRIzZmxjg7DVJK6e28Q8gVFwFpL2WUj
-  aFzAyrWK0SirKTM8oyU3MzNE1NDDQNTQ01TU21jU30Uus0k3USy3VLU8tLtE10kssL9ZLLS7W
-  K67MTc5J0ctLLdnECAzhlGJFrx2Mr1b81DvEKMnBpCTKa8i+N0mILyk/pTIjsTgjvqg0J7X4E
-  KMMB4eSBO9xJaCcYFFqempFWmYOMJ5g0hIcPEoivKEgad7igsTc4sx0iNQpRm+OtQ0H9jJz/P
-  30F0hOnf1vPzPHcjA582vbAWaOTfu6DjALseTl56VKifO+UQEaIQAyIqM0D24BLC1cYpSVEuZ
-  lZGBgEOIpSC3KzSxBlX/FKM7BqCTMqw1yCE9mXgncHa+ATmQCOnHntD0gJ5YkIqSkGphsF5bn
-  cL49KlOorD9/tuPkrjsrTq504zy5ds0Xjdl8ywNcD7+1d81Q/zSBW8+Y/craVdxesrsPsWxRv
-  b5lgiB7W/f7efeMjQW/y4gY+wXevLIov7C3v+KQWOLDD5v2zv9wRr3ylSCLwG5pBXbzYC/Xe3
-  41N9Ltzxbc6r1beWo+1/G4eZIFrmtltuQyhxb8dZOMiHl9o2iVk9CEzGt7RRTUt3fJqJyY2j3
-  1/VHZ/5fDLi+vublkwrPYQNEz882Pv7vNf+vzldKv+7MtymyZBC+5+L838+XKe9+zaFVPz/F9
-  woU88mX7GnSmLPtammFk8tRxf48nr+EO9gb/9XHJrw+2h03e873XKzjdUXLmjB4lluKMREMt5
-  qLiRACT7YI1hgMAAA==
+	b=wjQoAAqrv7IaUkzyC7J04N5XSdKPqDHHDq0i16YVm7HbG0THSYhdAIvbPP8tp7c+b
+	 Byyu7WRqszKCPJnjE5xDRJxGegYQbIgEQsQfM7COOn99eMd93F6Eh/nX2xUzOjCcwH
+	 VLi7nhf5fUSB6ldQtxkWDqczP9Z/m2HQ/UmTnVymCreYPwq4yNqmDon5nWHg7dZ9L3
+	 Su/hWSFim6rdtFm8ToG+K/ONveZJ0satwBc9vNq/FvDNBU3GQI3dGx478XM+ITKmXD
+	 C0fa59eXC/C6Qp+BC6v+mSkosrSyef7BwXNgXAzeyD4UI/cXH3NHeG4MhkDlrVSpNH
+	 B/qHtST+igrJA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrKIsWRWlGSWpSXmKPExsViZ8OxWfeW6t4
+  kg5VPxCzu/HzH7sDocW7jCsYAxijWzLyk/IoE1oyZv3ezFlzlrrhz4SVbA+MKri5GLg4hgQeM
+  Ep8W/mGGcC4xSWx4cJEVwtnDKPHg6XSmLkZODjYBNYnpt24AJTg4RAT0JK7+EwUJMwuoSLz43
+  cMOYgsL2Eoc2rCcEcRmEVCV2Pn7CZjNK+Ak8X9lCwuILSGgIDHl4XtmEJtTwFli7Y5WsBohoJ
+  pb8x6wQtQLSpyc+YQFYr6ExMEXL5ghehUlZl9uhppTITFjxjY2CFtN4uq5TcwTGAVnIWmfhaR
+  9ASPTKkbLpKLM9IyS3MTMHF1DAwNdQ0NTXWNdCzO9xCrdRL3UUt3y1OISXUO9xPJivdTiYr3i
+  ytzknBS9vNSSTYzAEE4pZg7bwfin96feIUZJDiYlUV5D9r1JQnxJ+SmVGYnFGfFFpTmpxYcYZ
+  Tg4lCR4jysB5QSLUtNTK9Iyc4DxBJOW4OBREuENBUnzFhck5hZnpkOkTjHqcsz82naAWYglLz
+  8vVUqc940KUJEASFFGaR7cCFhsX2KUlRLmZWRgYBDiKUgtys0sQZV/xSjOwagkzKsNsoonM68
+  EbtMroCOYgI7YOW0PyBEliQgpqQYm1yty2g9/Nc7Xrrwzh1n9LvOPUw9Vt82NnyJtfsIm98Y3
+  xgOBOcHP85Z8WS3ef3K3sWZyu8QmW5u+X+5CkV27OzhPXp3KnqyzawbXc9ulB44/+fJ5uX7G6
+  2oX0eyAIOYP12eu/OV+k61nbeN5+x1rat/96lXTl39o/3JP6YGygysXvz5iOLWNbYf9Ssv/X2
+  6e6j553ST37eJ+lzVc3/4Uy39aKGNQ2Nkyqfv2222s/DaWxyPrT9Zd1r4WbSAsN1HfUSIshmf
+  D+9OTZtdO1L/0f59wpWVp96rpIQtmPip87WthymL54rFiinrqwVv3LmZ/nOTyue4cu63Xopuz
+  lX73eIZ1Ly/7v40td/6l20xWx5VYijMSDbWYi4oTAUOyOL5oAwAA
 X-Env-Sender: wangmy@fujitsu.com
-X-Msg-Ref: server-19.tower-548.messagelabs.com!1656563153!21366!1
-X-Originating-IP: [62.60.8.98]
+X-Msg-Ref: server-4.tower-585.messagelabs.com!1656563162!83850!1
+X-Originating-IP: [62.60.8.179]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
-X-StarScan-Version: 9.86.8; banners=-,-,-
+X-StarScan-Version: 9.86.7; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 18715 invoked from network); 30 Jun 2022 04:25:53 -0000
-Received: from unknown (HELO n03ukasimr03.n03.fujitsu.local) (62.60.8.98)
-  by server-19.tower-548.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 30 Jun 2022 04:25:53 -0000
-Received: from n03ukasimr03.n03.fujitsu.local (localhost [127.0.0.1])
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTP id 9366C1AE
+Received: (qmail 5082 invoked from network); 30 Jun 2022 04:26:02 -0000
+Received: from unknown (HELO n03ukasimr04.n03.fujitsu.local) (62.60.8.179)
+  by server-4.tower-585.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 30 Jun 2022 04:26:02 -0000
+Received: from n03ukasimr04.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTP id E1BDC142
 	for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 05:25:53 +0100 (BST)
+ Thu, 30 Jun 2022 05:26:01 +0100 (BST)
 Received: from R01UKEXCASM126.r01.fujitsu.local (R01UKEXCASM126
  [10.183.43.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by n03ukasimr03.n03.fujitsu.local (Postfix) with ESMTPS id 880731AB
+	by n03ukasimr04.n03.fujitsu.local (Postfix) with ESMTPS id D51E675
 	for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 05:25:53 +0100 (BST)
+ Thu, 30 Jun 2022 05:26:01 +0100 (BST)
 Received: from localhost.localdomain (10.167.225.33) by
  R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
- (TLS) id 15.0.1497.32; Thu, 30 Jun 2022 05:25:51 +0100
+ (TLS) id 15.0.1497.32; Thu, 30 Jun 2022 05:26:00 +0100
 From: Wang Mingyu <wangmy@fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] speex: upgrade 1.2.0 -> 1.2.1
-Date: Thu, 30 Jun 2022 12:25:34 +0800
-Message-ID: <1656563137-11471-2-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] sudo: upgrade 1.9.11p2 -> 1.9.11p3
+Date: Thu, 30 Jun 2022 12:25:37 +0800
+Message-ID: <1656563137-11471-5-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1656563137-11471-1-git-send-email-wangmy@fujitsu.com>
 References: <1656563137-11471-1-git-send-email-wangmy@fujitsu.com>
@@ -83,102 +82,40 @@ X-Virus-Scanned: ClamAV using ClamSMTP
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 04:25:58 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 04:26:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167397
-
-CVE-2020-23903.patch
-removed since it's included in 1.2.1
-
-License-Update:
-  Add "Organisation (CSIRO)" to Copyright 2005-2008
+ https://lists.openembedded.org/g/openembedded-core/message/167400
 
 Changelog:
-===========
- Check for _WIN32 instead of WIN32 in preprocessor checks
- wav_io: check for EOF when seeking in wav (fixes hang discovered by fuzzing, see #9)
- CI: add gitlab CI integration
- fixed-point: make left shift macros use unsigned to avoid undefined behaviour
- math_approx: use unsigned int for LCG pseudorandom generator (avoids integer overflow)
- oss-fuzz: add integration and fuzzing target
- speexenc: guard against invalid channel numbers (see #13)
- speexdec: make left shift macros use unsigned to avoid undefined behaviour
- autotools: do not use deprecated macros
+==========
+- Fixed "connection reset" errors on AIX when running shell scripts with the
+  intercept or log_subcmds sudoers options enabled. Bug #1034.
+- Fixed very slow execution of shell scripts when the intercept or log_subcmds
+  sudoers options are set on systems that enable Nagle's algorithm on the
+  loopback device, such as AIX. Bug #1034.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../speex/speex/CVE-2020-23903.patch          | 30 -------------------
- .../speex/{speex_1.2.0.bb => speex_1.2.1.bb}  | 12 ++++----
- 2 files changed, 5 insertions(+), 37 deletions(-)
- delete mode 100644 meta/recipes-multimedia/speex/speex/CVE-2020-23903.patch
- rename meta/recipes-multimedia/speex/{speex_1.2.0.bb => speex_1.2.1.bb} (65%)
+ .../sudo/{sudo_1.9.11p2.bb => sudo_1.9.11p3.bb}                 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/sudo/{sudo_1.9.11p2.bb => sudo_1.9.11p3.bb} (96%)
 
-diff --git a/meta/recipes-multimedia/speex/speex/CVE-2020-23903.patch b/meta/recipes-multimedia/speex/speex/CVE-2020-23903.patch
-deleted file mode 100644
-index eb16e95ffc..0000000000
---- a/meta/recipes-multimedia/speex/speex/CVE-2020-23903.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--Backport patch to fix CVE-2020-23903.
--
--CVE: CVE-2020-23903
--Upstream-Status: Backport [https://github.com/xiph/speex/commit/870ff84]
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
--
--From 870ff845b32f314aec0036641ffe18aba4916887 Mon Sep 17 00:00:00 2001
--From: Tristan Matthews <tmatth@videolan.org>
--Date: Mon, 13 Jul 2020 23:25:03 -0400
--Subject: [PATCH] wav_io: guard against invalid channel numbers
--
--Fixes #13
-----
-- src/wav_io.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/src/wav_io.c b/src/wav_io.c
--index b5183015..09d62eb0 100644
----- a/src/wav_io.c
--+++ b/src/wav_io.c
--@@ -111,7 +111,7 @@ int read_wav_header(FILE *file, int *rate, int *channels, int *format, spx_int32
--    stmp = le_short(stmp);
--    *channels = stmp;
-- 
---   if (stmp>2)
--+   if (stmp>2 || stmp<1)
--    {
--       fprintf (stderr, "Only mono and (intensity) stereo supported\n");
--       return -1;
-diff --git a/meta/recipes-multimedia/speex/speex_1.2.0.bb b/meta/recipes-multimedia/speex/speex_1.2.1.bb
-similarity index 65%
-rename from meta/recipes-multimedia/speex/speex_1.2.0.bb
-rename to meta/recipes-multimedia/speex/speex_1.2.1.bb
-index ea475f0f1b..c40198fa8f 100644
---- a/meta/recipes-multimedia/speex/speex_1.2.0.bb
-+++ b/meta/recipes-multimedia/speex/speex_1.2.1.bb
-@@ -3,17 +3,15 @@ DESCRIPTION = "Speex is an Open Source/Free Software patent-free audio compressi
- HOMEPAGE = "http://www.speex.org"
- SECTION = "libs"
- LICENSE = "BSD-3-Clause"
--LIC_FILES_CHKSUM = "file://COPYING;md5=314649d8ba9dd7045dfb6683f298d0a8 \
--                    file://include/speex/speex.h;beginline=1;endline=34;md5=ef8c8ea4f7198d71cf3509c6ed05ea50"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=eff3f76350f52a99a3df5eec6b79c02a \
-+                    file://include/speex/speex.h;beginline=1;endline=34;md5=ef8c8ea4f7198d71cf3509c6ed05ea50 \
-+                    "
- DEPENDS = "libogg speexdsp"
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.11p2.bb b/meta/recipes-extended/sudo/sudo_1.9.11p3.bb
+similarity index 96%
+rename from meta/recipes-extended/sudo/sudo_1.9.11p2.bb
+rename to meta/recipes-extended/sudo/sudo_1.9.11p3.bb
+index b3eae4a0fa..ba610ee2e7 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.11p2.bb
++++ b/meta/recipes-extended/sudo/sudo_1.9.11p3.bb
+@@ -8,7 +8,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
  
--SRC_URI = "http://downloads.xiph.org/releases/speex/speex-${PV}.tar.gz \
--           file://CVE-2020-23903.patch \
--           "
-+SRC_URI = "http://downloads.xiph.org/releases/speex/speex-${PV}.tar.gz"
- UPSTREAM_CHECK_REGEX = "speex-(?P<pver>\d+(\.\d+)+)\.tar"
+ PAM_SRC_URI = "file://sudo.pam"
  
--SRC_URI[md5sum] = "8ab7bb2589110dfaf0ed7fa7757dc49c"
--SRC_URI[sha256sum] = "eaae8af0ac742dc7d542c9439ac72f1f385ce838392dc849cae4536af9210094"
-+SRC_URI[sha256sum] = "4b44d4f2b38a370a2d98a78329fefc56a0cf93d1c1be70029217baae6628feea"
+-SRC_URI[sha256sum] = "a21918eb9fc0063794f6887464fa2d924ab6d192e19063191a429605c22791d2"
++SRC_URI[sha256sum] = "4687e7d2f56721708f59cca2e1352c056cb23de526c22725615a42bb094f1f70"
  
- inherit autotools pkgconfig lib_package
- 
+ DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS:${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 2.25.1
 
