@@ -1,125 +1,246 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <tomasz.dziendzielski@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DED8CCA47B
-	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 12:32:21 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web12.24599.1656592332957349705
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A184C433EF
+	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 14:13:21 +0000 (UTC)
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com
+ [209.85.217.53])
+ by mx.groups.io with SMTP id smtpd.web12.25729.1656598399359886887
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 05:32:13 -0700
+ Thu, 30 Jun 2022 07:13:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ckEicy38;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id
- r81-20020a1c4454000000b003a0297a61ddso1603895wma.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=d8+w57Or;
+ spf=pass (domain: gmail.com, ip: 209.85.217.53,
+ mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-vs1-f53.google.com with SMTP id 189so7522153vsh.2
         for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 05:32:12 -0700 (PDT)
+ Thu, 30 Jun 2022 07:13:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=oqmI1XAct+sH2C/x+CvfG+ys4SzoIPqSSIvTyyaBPUo=;
-        b=ckEicy38cW5XOGN0zQSvWP6QoLOFdY69seDskxu8UxVwst98u62+oIOWr6bMXeENkF
-         Wd25IwLMBO1q5d/JKnCy/sCQfYZP+Ya5w++c3naIPiF7qo8U/KHPLI1VfXrbv6XQd/7r
-         CN5Vj+pEdzJsIoR2LXnnr36SXzksd2C4WiHK8=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cMaA1nyzsHHIyVsupdd2AveqCuHeoqCD/EE44fEOuqk=;
+        b=d8+w57OrMQEk13WjhfYx/VfhZQgosP1/xeX8aAbQO1PtneweLxKWDFNIz6VLyJEhHc
+         QVz4/nW2vgHic//O4xeVJwrTJDAnqWjdg4JzP5UChkN+7BUopN8jtYkuQorOVEcZ5GQL
+         3WjY2KvUS6t3i3MFjCPWSI8dmhOy9aJlNfWbQphRU9fMn3VTvbHSUStauKs2M/vmztDA
+         dh6riOPepaIOw4QPW5M2ru0QqTuyuyRvY7B8RUoeMBMaUDMN+kGv8FxRwM6HgNPxaKct
+         RNk6hH3/EonMhhKcFNJUnIcEtmNOZPlbRYSkePi8v+ZgT+b8rglGgLPF1O+7jibffIze
+         ajvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=oqmI1XAct+sH2C/x+CvfG+ys4SzoIPqSSIvTyyaBPUo=;
-        b=PP5eDS+FsfSP56H6zV1LssZHFTIH+5baM/l1Ei8VKC76Lrmd0MySBLTp2cLsCtZvxa
-         l0Td+L2Fy3tBDTFvPA17rxgF0O4XwNjbWfySGeZuCdQuRwi9wpgUIerO2Q1bYCec8dxF
-         PAtFXaIfSTq3SBRGQMJWknVuo3n8TbobRF0XvkR6093lP1xXf8ee6xKQtc7Mo9YEcv/Y
-         PVYR6sx6nV8xzXUpL7EA7AFP7qeSxxcB/xdIzpBdb33wZl/oxMrD8FZJWa9TvSoFqvAC
-         vpv53JQwJOYcID7f+vxAEjCnnN8zE9zEISYhmn4T33MohH92Af/9DIl8/u+gzxPrMjOU
-         28Ug==
-X-Gm-Message-State: AJIora8kqKN0lynYfgHL+KjnWpQ6jYJFes/HbECEciroDEHpvj3EqEk6
-	1JymEdWAwKz1D/9bfQv4IV56m47szbpIeQ==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cMaA1nyzsHHIyVsupdd2AveqCuHeoqCD/EE44fEOuqk=;
+        b=hoJ1ja1PV1VqXMvIVHgOjMpaW6Kz6yEx1qjVZSPB7jvWGwficxiutfom8qON//xMC/
+         ZszlptlqPwLAnvXIw0QHbJUIqqMTe0vueDXEVw0ZYee3Obz+Mt53o9q8nI4o4w/vlRoQ
+         wws8mg7Yu9+XGuLcWbBy732qOGfY738eHlcoPgNYT1V45dPlEgXur7NsokQyO7exehPf
+         BnkU/9ni2RsW26n2UIWK9MSeH0wVIKNs/HkPxvDMtvPcnLCxBqOPF1djKOScQ6BSpRaV
+         no0SAlveFS21Z2vKqQEXY7/IRvT89x2iUfLARnh9T9cWLt47cxDDS7adLVw3HIku6qlf
+         Ujdg==
+X-Gm-Message-State: AJIora+rMoHZhIXVaoYahxfTxYb+VWPydHgbi0OGldP2rBSYq0FkwFRS
+	r5H/HJwk9kmd5iiHt3YDYHME2E/F1fp10UMnyd4=
 X-Google-Smtp-Source: 
- AGRyM1vWoCnRE8kTIAmZ+QadbVz638QX1BuVyt6oQE26zCL/Y1aUHgXQp7px9TXUrxzqUa/NuFNN0A==
-X-Received: by 2002:a1c:4d10:0:b0:3a0:4697:4f5c with SMTP id
- o16-20020a1c4d10000000b003a046974f5cmr12052157wmh.22.1656592330834;
-        Thu, 30 Jun 2022 05:32:10 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:f06b:8b84:2b52:384a])
-        by smtp.gmail.com with ESMTPSA id
- q3-20020a1c4303000000b003a03185231bsm6436622wma.31.2022.06.30.05.32.10
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 05:32:10 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] cve-extra-exclusions: Clean up and ignore three CVEs (2xqemu
- and nasm)
-Date: Thu, 30 Jun 2022 13:32:09 +0100
-Message-Id: <20220630123209.650284-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
+ AGRyM1sRzCCT29wUxi4uXTbhQ7PyPlUjG/00VEuxp0O5VAXyvDE4p/hZHvat5qFQEjih8IcrCG2P2bW/FxCPmqJzTVI=
+X-Received: by 2002:a67:fe04:0:b0:354:3541:4030 with SMTP id
+ l4-20020a67fe04000000b0035435414030mr8114001vsr.16.1656598398295; Thu, 30 Jun
+ 2022 07:13:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220629130830.48974-1-tomasz.dziendzielski@gmail.com>
+ <d0ea870012451b209c23dd76627aceee97530ef1.camel@linuxfoundation.org>
+In-Reply-To: 
+ <d0ea870012451b209c23dd76627aceee97530ef1.camel@linuxfoundation.org>
+From: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Date: Thu, 30 Jun 2022 16:14:07 +0200
+Message-ID: 
+ <CAJkqNs3CpSbHOEeEBQefHf0vu_cETZ2oAe0MExETSVGUEi1q+Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] base.bbclass: Add sstate-cache dependency to
+ GCCVERSION
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
+	Jan Brzezanski <jan.brzezanski@gmail.com>
+Content-Type: multipart/alternative; boundary="00000000000010e27105e2aadf9d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 12:32:21 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 14:13:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167411
+ https://lists.openembedded.org/g/openembedded-core/message/167412
 
-Remove obsolete comments/data from the file. Add in three CVEs to ignore.
-Two are qemu CVEs which upstream aren't particularly intersted in and aren't
-serious issues. Also ignore the nasm CVE found from fuzzing as this isn't
-a issue we'd expose from OE.
+--00000000000010e27105e2aadf9d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../distro/include/cve-extra-exclusions.inc   | 30 +++++++++----------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+Would setting dependency to SDKGCCVERSION be more acceptable? That way
+native recipes will not depend on target gcc version.
 
-diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/conf/distro/include/cve-extra-exclusions.inc
-index 993ee2811a3..8b5f8d49b80 100644
---- a/meta/conf/distro/include/cve-extra-exclusions.inc
-+++ b/meta/conf/distro/include/cve-extra-exclusions.inc
-@@ -90,24 +90,24 @@ CVE_CHECK_IGNORE += "CVE-2022-0185 CVE-2022-0264 CVE-2022-0286 CVE-2022-0330 CVE
-                      CVE-2022-28356 CVE-2022-28388 CVE-2022-28389 CVE-2022-28390 CVE-2022-28796 CVE-2022-28893 CVE-2022-29156 \
-                      CVE-2022-29582 CVE-2022-29968"
- 
--#### CPE update pending ####
--
--# groff:groff-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0803
--# Appears it was fixed in https://git.savannah.gnu.org/cgit/groff.git/commit/?id=07f95f1674217275ed4612f1dcaa95a88435c6a7
--# so from 1.17 onwards. Reported to the database for update by RP 2021/5/9. Update accepted 2021/5/10.
--#CVE_CHECK_IGNORE += "CVE-2000-0803"
--
--
--
--#### Upstream still working on ####
- 
- # qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255
- # There was a proposed patch https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg06098.html
--# however qemu maintainers are sure the patch is incorrect and should not be applied.
--
--# wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879
--# https://mail.gnu.org/archive/html/bug-wget/2021-02/msg00002.html
--# No response upstream as of 2021/5/12
-+# qemu maintainers say the patch is incorrect and should not be applied
-+# Ignore from OE's perspectivee as the issue is of low impact, at worst sitting in an infinite loop rather than exploitable
-+CVE_CHECK_IGNORE += "CVE-2021-20255"
-+
-+# qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067
-+# There was a proposed patch but rejected by upstream qemu. It is unclear if the issue can
-+# still be reproduced or where exactly any bug is.
-+# Ignore from OE's perspective as we'll pick up any fix when upstream accepts one.
-+CVE_CHECK_IGNORE += "CVE-2019-12067"
-+
-+# nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974
-+# It is a fuzzing related buffer overflow. It is of low impact since most devices
-+# wouldn't expose an assembler. The upstream is inactive and there is little to be
-+# done about the bug, ignore from an OE perspective.
-+CVE_CHECK_IGNORE += "CVE-2020-18974"
- 
- 
- 
--- 
-2.34.1
+>I'm guessing what has happened in your case is that a
+>TMPDIR as reused after changing gcc version but something didn't
+>rebuild, probably as ${S} =3D=3D ${B} and hence ${B} couldn't be cleaned
 
+The problem is not that it didn't rerun the make or didn't clean the ${B}
+or ${S}. After changing GCCVERSION the nativesdk-mgen is taken from
+sstate-cache.
+
+Best regards,
+Tomasz Dziendzielski
+
+
+=C5=9Br., 29 cze 2022 o 16:23 Richard Purdie <richard.purdie@linuxfoundatio=
+n.org>
+napisa=C5=82(a):
+
+> On Wed, 2022-06-29 at 15:08 +0200, Tomasz Dziendzielski wrote:
+> > If we have the build with different gcc versions in the same workspace
+> > it might happen that nativesdk recipe will not detect the change of gcc
+> > and the package will be taken from sstate-cache. This will lead to
+> > do_package_qa failure due to binaries requiring symbols that are not
+> > present in the older libstdc++.
+> >
+> > Example error:
+> > > ERROR: nativesdk-mgen-1.0-r0 do_package_qa: QA Issue:
+> > > /opt/poky/3.2.3/sysroots/x86_64-pokysdk-linux/usr/lib/libssh2pp.so.0.=
+1
+> > > contained in package nativesdk-mgen requires
+> > > libstdc++.so.6(GLIBCXX_3.4.11)(64bit), but no providers found in
+> > > RDEPENDS_nativesdk-mgen? [file-rdeps]
+> >
+> > Add vardeps dependency to GCCVERSION to make sure the package is rebuil=
+d
+> > with correct gcc version.
+> >
+> > Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+> > Signed-off-by: Jan Brzezanski <jan.brzezanski@gmail.com>
+> > ---
+> >  meta/classes/base.bbclass | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> > index cc02de5f77..da2dc05bba 100644
+> > --- a/meta/classes/base.bbclass
+> > +++ b/meta/classes/base.bbclass
+> > @@ -148,6 +148,7 @@ do_fetch[dirs] =3D "${DL_DIR}"
+> >  do_fetch[file-checksums] =3D "${@bb.fetch.get_checksum_file_list(d)}"
+> >  do_fetch[file-checksums] +=3D " ${@get_lic_checksum_file_list(d)}"
+> >  do_fetch[vardeps] +=3D "SRCREV"
+> > +do_fetch[vardeps] +=3D "GCCVERSION"
+> >  do_fetch[network] =3D "1"
+> >  python base_do_fetch() {
+> >
+>
+>
+> We're definitely not doing that, it is incorrect on many different
+> levels (e.g. fetching is not dependent on the target compiler version
+> just for starters). You also just made all native recipes rebuild for
+> the target GCC version too, which again, is just wrong.
+>
+> Building with a different target gcc version should mean all the sstate
+> checksums change. I'm guessing what has happened in your case is that a
+> TMPDIR as reused after changing gcc version but something didn't
+> rebuild, probably as ${S} =3D=3D ${B} and hence ${B} couldn't be cleaned.
+> We should really track down where the corruption came in and improve
+> the build output isolation of wherever that came from.
+>
+> Worse is that your "fix" above probably won't even solve the problem as
+> if you repeat your build workflow where this broke originally, I'd
+> strongly suspect it will still break with that change above too.
+>
+> Cheers,
+>
+> Richard
+>
+>
+
+--00000000000010e27105e2aadf9d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Would setting dependency to SDKGCCVERSION be more acc=
+eptable? That way native recipes will not depend on target gcc version.<br>=
+<br>&gt;I&#39;m guessing what has happened in your case is that a<br>&gt;TM=
+PDIR as reused after changing gcc version but something didn&#39;t<br>&gt;r=
+ebuild, probably as ${S} =3D=3D ${B} and hence ${B} couldn&#39;t be cleaned=
+<br><br></div>The problem is not that it didn&#39;t rerun the make or didn&=
+#39;t clean the ${B} or ${S}. After changing GCCVERSION the nativesdk-mgen =
+is taken from sstate-cache.<br><div><br></div><div>Best regards,</div><div>=
+Tomasz Dziendzielski<br></div><br></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">=C5=9Br., 29 cze 2022 o 16:23=C2=A0Richar=
+d Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=
+=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; napisa=C5=82(a):<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, 2022-06-29 =
+at 15:08 +0200, Tomasz Dziendzielski wrote:<br>
+&gt; If we have the build with different gcc versions in the same workspace=
+<br>
+&gt; it might happen that nativesdk recipe will not detect the change of gc=
+c<br>
+&gt; and the package will be taken from sstate-cache. This will lead to<br>
+&gt; do_package_qa failure due to binaries requiring symbols that are not<b=
+r>
+&gt; present in the older libstdc++.<br>
+&gt; <br>
+&gt; Example error:<br>
+&gt; &gt; ERROR: nativesdk-mgen-1.0-r0 do_package_qa: QA Issue:<br>
+&gt; &gt; /opt/poky/3.2.3/sysroots/x86_64-pokysdk-linux/usr/lib/libssh2pp.s=
+o.0.1<br>
+&gt; &gt; contained in package nativesdk-mgen requires<br>
+&gt; &gt; libstdc++.so.6(GLIBCXX_3.4.11)(64bit), but no providers found in<=
+br>
+&gt; &gt; RDEPENDS_nativesdk-mgen? [file-rdeps]<br>
+&gt; <br>
+&gt; Add vardeps dependency to GCCVERSION to make sure the package is rebui=
+ld<br>
+&gt; with correct gcc version.<br>
+&gt; <br>
+&gt; Signed-off-by: Tomasz Dziendzielski &lt;<a href=3D"mailto:tomasz.dzien=
+dzielski@gmail.com" target=3D"_blank">tomasz.dziendzielski@gmail.com</a>&gt=
+;<br>
+&gt; Signed-off-by: Jan Brzezanski &lt;<a href=3D"mailto:jan.brzezanski@gma=
+il.com" target=3D"_blank">jan.brzezanski@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/classes/base.bbclass | 1 +<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+)<br>
+&gt; <br>
+&gt; diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass<br>
+&gt; index cc02de5f77..da2dc05bba 100644<br>
+&gt; --- a/meta/classes/base.bbclass<br>
+&gt; +++ b/meta/classes/base.bbclass<br>
+&gt; @@ -148,6 +148,7 @@ do_fetch[dirs] =3D &quot;${DL_DIR}&quot;<br>
+&gt;=C2=A0 do_fetch[file-checksums] =3D &quot;${@bb.fetch.get_checksum_file=
+_list(d)}&quot;<br>
+&gt;=C2=A0 do_fetch[file-checksums] +=3D &quot; ${@get_lic_checksum_file_li=
+st(d)}&quot;<br>
+&gt;=C2=A0 do_fetch[vardeps] +=3D &quot;SRCREV&quot;<br>
+&gt; +do_fetch[vardeps] +=3D &quot;GCCVERSION&quot;<br>
+&gt;=C2=A0 do_fetch[network] =3D &quot;1&quot;<br>
+&gt;=C2=A0 python base_do_fetch() {<br>
+&gt; <br>
+<br>
+<br>
+We&#39;re definitely not doing that, it is incorrect on many different<br>
+levels (e.g. fetching is not dependent on the target compiler version<br>
+just for starters). You also just made all native recipes rebuild for<br>
+the target GCC version too, which again, is just wrong.<br>
+<br>
+Building with a different target gcc version should mean all the sstate<br>
+checksums change. I&#39;m guessing what has happened in your case is that a=
+<br>
+TMPDIR as reused after changing gcc version but something didn&#39;t<br>
+rebuild, probably as ${S} =3D=3D ${B} and hence ${B} couldn&#39;t be cleane=
+d.<br>
+We should really track down where the corruption came in and improve<br>
+the build output isolation of wherever that came from.<br>
+<br>
+Worse is that your &quot;fix&quot; above probably won&#39;t even solve the =
+problem as<br>
+if you repeat your build workflow where this broke originally, I&#39;d<br>
+strongly suspect it will still break with that change above too.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div>
+
+--00000000000010e27105e2aadf9d--
 
