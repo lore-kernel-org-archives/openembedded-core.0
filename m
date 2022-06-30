@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3164BCCA481
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2858AC43334
 	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 16:23:52 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web09.27538.1656606226849583453
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web11.27121.1656606231054091753
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 09:23:46 -0700
+ Thu, 30 Jun 2022 09:23:51 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=Nu/STcgG;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170,
+ header.b=mfDdukWw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id jb13so17456045plb.9
+Received: by mail-pj1-f47.google.com with SMTP id d14so19239577pjs.3
         for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 09:23:46 -0700 (PDT)
+ Thu, 30 Jun 2022 09:23:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=1B/5JfIrQ+0U7OL5psv0rkXLTstVLn2q+CVqmSoy3xw=;
-        b=Nu/STcgGggxGOJNt4FUGGwfJSq1+dn4xOsfXxDxrLOu6l9p7T9rXRl96OIDiZVhdL/
-         FoCycOCuwZxzJfUnFxZPga5Rm4XKZTD19FPUcSoG8G3Q6f39PeQIwu7xDYqWdpHOWffV
-         Ocg03735XtP6kEzggxauomeQJXdc5gJ46wOvr9PcvdFNPXbXPfcjK/XQeDGKWit/AF2P
-         hpapKkTz0U3zX8D9FLr3QnMw61bQcsOhlWdaTq0JHwIoYiUSPyuvI8kqnGWtBpEz8P9B
-         LwWe9Riy/eW6znHG+mk+3AhhZtjajW0XSXvcSSHNn+aBq7kt4ku/oHD7ccQtwFmZq8vZ
-         gu2Q==
+        bh=ix7TNWOxEorgglXbgd4k33GU7kZMg3LWWbAzBJmLKxw=;
+        b=mfDdukWwh0eSAgdnRg5eeQebrarJ55VqHqRmnxhDHdK/g6fozD8veqM/8AtDU9MsqT
+         r8uu6YnICKqhCw5s81jCTRTRCNIjCo94ajM1LMkqZNA/yk2yNQJykJhos9FiUPU7Ui5h
+         +fSe8TJp7+WwriqzGsAw6LeeUTQUwORYlWy834nVXBvWD+QRpFR9+Tj/V1A/he2MT5ke
+         hNG1NKUSawII4EXE749NDiyopuRjrMi/+JZQgLTgM92uGZRQ2QjaLfnyrk9Uv78OmrXl
+         5mL6r1I6CEhuKTMN8jrxYke0jIHdaIpKFujmOXq9i5auYv9ryZK/4trt+YbE+CJ8VmxE
+         +9pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1B/5JfIrQ+0U7OL5psv0rkXLTstVLn2q+CVqmSoy3xw=;
-        b=y1XF3RNZuK27BsDYXp8HjYdD4Ws7NJjOqtHkzjf5D3pd50CQKDSVttHCRfZcZjJmO/
-         I51ta5rRQE5Lh3vR0A+vOkeoPM+vjnEYUiUdkte5ST6+P4Os0Vs+I/+PRJtlqJvK1VYo
-         uA9OBwRkG9e2yDnOZ14+mEhDaAvaURQfH8pYO5atgZ2wfmPmMgv1ifSQHbMih61fisDi
-         cwab0j3xuVSDyCmpsXL9O1erdVOrvkkUqOVovEfUu8us2G3jCA8c1vaOUK8BJ5n6cXbr
-         c/OpsJPGdp4jzcnZ1bzKQ/EQ1m9NOCgXOTRoPQbQUvqGB/dOtgOhs5orAE/uAaI7XeMW
-         yj7g==
-X-Gm-Message-State: AJIora9y2//FOWpPu676Sm0SjbTbNLYVbmFeaPXQdGjp3ggEI5awAiw1
-	EzggvqUuG0kJx+eb93T6J4fcJLai981S4rb3
+        bh=ix7TNWOxEorgglXbgd4k33GU7kZMg3LWWbAzBJmLKxw=;
+        b=5SYcsexTA8DhyiI24awXzYPp5CXlTbsKla45HVQocZc4hw3qeyqpxlqm/FH4fVHphJ
+         Gr4eCKJ3Kw1AfO3YRowinrLXFF9YlyjUuWcVfUlJxst6DSxv5URC4eYsut+Kjve1zbAO
+         NcwSzRzMgK2u4EQbHuo+Fdn3rdLZrh5nqxFCQctUQEkSDh6A2Q+9nOhBSnyhMiZJR1zF
+         V0AxvehK4tJTEXJXHR+zba1dmo7eRynwv+glSujUlbxaJVbPOGhPh4wdyY5UhI/QC7Ic
+         bx980IOSLcGsX/rEfgJSZy14/So2IOXDLKdRur12EfEfH9uOXthWe7zvtbX2poqaa1Wp
+         xhEw==
+X-Gm-Message-State: AJIora/JX7/4m0F9kuQehfUKKk7t7NOLBZRsqcvBM4HiA21KL1VFwm12
+	ingNp8qig3BsBwY7Rwe19iHjK29WKDhxkUzO
 X-Google-Smtp-Source: 
- AGRyM1st9f4hClc3Ehm1iWPnIwGSu6JYTvDa80xGRgppaTWW0X7y2Dz0Be5RQ4JAhf2RP2HRQ/3VOQ==
-X-Received: by 2002:a17:90a:5207:b0:1ee:dfa1:afa9 with SMTP id
- v7-20020a17090a520700b001eedfa1afa9mr11111232pjh.246.1656606225835;
-        Thu, 30 Jun 2022 09:23:45 -0700 (PDT)
+ AGRyM1tUSkFdjVYzKgej97bWoYkZFc96pdZFIuEjZiAqqvW1Nhz3716VuU37j+KLakWRL1Rj+7lGUg==
+X-Received: by 2002:a17:90b:4f4e:b0:1ec:a71c:4148 with SMTP id
+ pj14-20020a17090b4f4e00b001eca71c4148mr11114107pjb.124.1656606230075;
+        Thu, 30 Jun 2022 09:23:50 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- t129-20020a625f87000000b005259578e8fcsm10517611pfb.181.2022.06.30.09.23.44
+ t129-20020a625f87000000b005259578e8fcsm10517611pfb.181.2022.06.30.09.23.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 09:23:45 -0700 (PDT)
+        Thu, 30 Jun 2022 09:23:49 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 10/12] initramfs-framework: move storage mounts to
- actual rootfs
-Date: Thu, 30 Jun 2022 06:23:10 -1000
+Subject: [OE-core][dunfell 12/12] insane.bbclass: host-user-contaminated:
+ Correct per package home path
+Date: Thu, 30 Jun 2022 06:23:12 -1000
 Message-Id: 
- <ce27982c24d2398c9eadb9d4d9e7475509424195.1656605800.git.steve@sakoman.com>
+ <b75caf4a985e3c20996531785125eaffdc832104.1656605800.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1656605800.git.steve@sakoman.com>
 References: <cover.1656605800.git.steve@sakoman.com>
@@ -70,53 +70,36 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 16:23:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167426
+ https://lists.openembedded.org/g/openembedded-core/message/167428
 
-From: Muhammad Hamza <Muhammad_Hamza@mentor.com>
+From: Ahmed Hossam <Ahmed.Hossam@opensynergy.com>
 
-Operations such as mkfs fail on devices that are not
-switched to the actual rootfs before switch_root is
-called. The kernel interprets these devices as still
-being used even after unmounting and errors such as
-below are seen when the target is fully booted
+The current home path that is compared against is incorrect as it is missing the
+package name, this patch adds it.
 
-root@v1000:~# umount /dev/sdb1
-root@v1000:~# mkfs.ext4 /dev/sdb1
-mke2fs 1.43.8 (1-Jan-2018)
-/dev/sdb1 contains a ext4 file system
-        last mounted on Wed Nov 28 07:33:54 2018
-Proceed anyway? (y,N) y
-/dev/sdb1 is apparently in use by the system; will not make a filesystem here!
+[YOCTO #14553]
 
-Signed-off-by: Awais Belal <awais_belal@mentor.com>
-Signed-off-by: Muhammad Hamza <muhammad_hamza@mentor.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit ec53ffd01972d1be2d6a28de828b3f0b80dc1e61)
+Signed-off-by: Ahmed Hossam <Ahmed.Hossam@opensynergy.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+(cherry picked from commit ae8f22d9e2694eea5ede3b31c6f3bca404ea4a5a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../initrdscripts/initramfs-framework/finish             | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/classes/insane.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/finish b/meta/recipes-core/initrdscripts/initramfs-framework/finish
-index 717383ebac..dee3ab3387 100755
---- a/meta/recipes-core/initrdscripts/initramfs-framework/finish
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/finish
-@@ -14,6 +14,15 @@ finish_run() {
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index eb19425652..77a2039738 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -945,7 +945,7 @@ def package_qa_check_host_user(path, name, d, elf, messages):
  
- 		info "Switching root to '$ROOTFS_DIR'..."
+     dest = d.getVar('PKGDEST')
+     pn = d.getVar('PN')
+-    home = os.path.join(dest, 'home')
++    home = os.path.join(dest, name, 'home')
+     if path == home or path.startswith(home + os.sep):
+         return
  
-+		debug "Moving basic mounts onto rootfs"
-+		for dir in `awk '/\/dev.* \/run\/media/{print $2}' /proc/mounts`; do
-+			# Parse any OCT or HEX encoded chars such as spaces
-+			# in the mount points to actual ASCII chars
-+			dir=`printf $dir`
-+			mkdir -p "${ROOTFS_DIR}/media/${dir##*/}"
-+			mount -n --move "$dir" "${ROOTFS_DIR}/media/${dir##*/}"
-+		done
-+
- 		debug "Moving /dev, /proc and /sys onto rootfs..."
- 		mount --move /dev $ROOTFS_DIR/dev
- 		mount --move /proc $ROOTFS_DIR/proc
 -- 
 2.25.1
 
