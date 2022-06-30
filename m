@@ -2,65 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29E6ACCA47B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3164BCCA481
 	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 16:23:52 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web09.27533.1656606222984103892
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web09.27538.1656606226849583453
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 09:23:43 -0700
+ Thu, 30 Jun 2022 09:23:46 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=l5+mOJSP;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.51,
+ header.b=Nu/STcgG;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f51.google.com with SMTP id
- h9-20020a17090a648900b001ecb8596e43so3381531pjj.5
+Received: by mail-pl1-f170.google.com with SMTP id jb13so17456045plb.9
         for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 09:23:42 -0700 (PDT)
+ Thu, 30 Jun 2022 09:23:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=o/48H3F8g79evQ4Ap+HldaqCtNbKARuuw7cZtb71BoE=;
-        b=l5+mOJSPBRB4Fg7b/TE3zIlwfjoRK4WwW8GGphQvaIATSR/vAlFcqH5YfPF0fqdMKi
-         G9l5eJeCJbmfRFin7TVrTLfMWp0kFA3xFsVB05vV4YCPmYlTDaGG7qavicl1m21JASP7
-         rjKg9mQVLpvh8ZHTpNQ0JfuP5M81zf+aSF9N+G3GOVxvE8UwLhrqhPZL9p/A2miCdJpf
-         SN5SdE1ALoW1L0cY/kR8/Djyg43U5QrLsSjpqs7nds0u2+jTS8btrUR3tx7o7Jrp5b3s
-         ExFvsGdJC9GtLF46KVddW57rvbNOlC9rLu+NNlHccCgKYkw335eTpXAm91TmZOyf1zPs
-         aWoA==
+        bh=1B/5JfIrQ+0U7OL5psv0rkXLTstVLn2q+CVqmSoy3xw=;
+        b=Nu/STcgGggxGOJNt4FUGGwfJSq1+dn4xOsfXxDxrLOu6l9p7T9rXRl96OIDiZVhdL/
+         FoCycOCuwZxzJfUnFxZPga5Rm4XKZTD19FPUcSoG8G3Q6f39PeQIwu7xDYqWdpHOWffV
+         Ocg03735XtP6kEzggxauomeQJXdc5gJ46wOvr9PcvdFNPXbXPfcjK/XQeDGKWit/AF2P
+         hpapKkTz0U3zX8D9FLr3QnMw61bQcsOhlWdaTq0JHwIoYiUSPyuvI8kqnGWtBpEz8P9B
+         LwWe9Riy/eW6znHG+mk+3AhhZtjajW0XSXvcSSHNn+aBq7kt4ku/oHD7ccQtwFmZq8vZ
+         gu2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=o/48H3F8g79evQ4Ap+HldaqCtNbKARuuw7cZtb71BoE=;
-        b=cHb5OHlZHLpWZdP+24qWL92WioaeY/QD4XI0iyKhawEh8ncuFrM0eT1GJUwtvk5Hny
-         LS+4KAFS21Gi8cCJX0kussb2i1yWB6neMB6R9tj8wEqP8KwNJXjUen7HHM9/KUAQyr/S
-         wyUlNtu+JGBOHCyLMa4xgbqyDz6JwfvjA0+r/SXArI9hmT6viY2AOXpoORm+Th+b2Qxu
-         ZjbcbF1HSK0lBUKXSSkLXWeCm3x7yq4a6V+dmcTedRqZ/EmNwbd8pJ7Jdhvp0KkkBfOf
-         6asZLrcKKPOPBK8l4rmVtswqV+Shg32PuFuTBKi7fBq/iI76uvkn5OpN1eGb5YY8qKI7
-         xB/g==
-X-Gm-Message-State: AJIora8PyHYvlhscJyUKStGBvTT/fAhzEaNeACGGQ+oys7Ct1AhyPSWS
-	lXkTLwknVTp/1XUs7xtyEDxV1slQgPCh2zsZ
+        bh=1B/5JfIrQ+0U7OL5psv0rkXLTstVLn2q+CVqmSoy3xw=;
+        b=y1XF3RNZuK27BsDYXp8HjYdD4Ws7NJjOqtHkzjf5D3pd50CQKDSVttHCRfZcZjJmO/
+         I51ta5rRQE5Lh3vR0A+vOkeoPM+vjnEYUiUdkte5ST6+P4Os0Vs+I/+PRJtlqJvK1VYo
+         uA9OBwRkG9e2yDnOZ14+mEhDaAvaURQfH8pYO5atgZ2wfmPmMgv1ifSQHbMih61fisDi
+         cwab0j3xuVSDyCmpsXL9O1erdVOrvkkUqOVovEfUu8us2G3jCA8c1vaOUK8BJ5n6cXbr
+         c/OpsJPGdp4jzcnZ1bzKQ/EQ1m9NOCgXOTRoPQbQUvqGB/dOtgOhs5orAE/uAaI7XeMW
+         yj7g==
+X-Gm-Message-State: AJIora9y2//FOWpPu676Sm0SjbTbNLYVbmFeaPXQdGjp3ggEI5awAiw1
+	EzggvqUuG0kJx+eb93T6J4fcJLai981S4rb3
 X-Google-Smtp-Source: 
- AGRyM1ubrDEDkOOKZ7hPncGiUVFdPs/eRRV0K50s2PZSonJQPNrKKZpx/EVRja4YrQF3ZZ2j6XYqSQ==
-X-Received: by 2002:a17:90b:3a8d:b0:1ef:7d4:6a5f with SMTP id
- om13-20020a17090b3a8d00b001ef07d46a5fmr11028117pjb.139.1656606221867;
-        Thu, 30 Jun 2022 09:23:41 -0700 (PDT)
+ AGRyM1st9f4hClc3Ehm1iWPnIwGSu6JYTvDa80xGRgppaTWW0X7y2Dz0Be5RQ4JAhf2RP2HRQ/3VOQ==
+X-Received: by 2002:a17:90a:5207:b0:1ee:dfa1:afa9 with SMTP id
+ v7-20020a17090a520700b001eedfa1afa9mr11111232pjh.246.1656606225835;
+        Thu, 30 Jun 2022 09:23:45 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- t129-20020a625f87000000b005259578e8fcsm10517611pfb.181.2022.06.30.09.23.40
+ t129-20020a625f87000000b005259578e8fcsm10517611pfb.181.2022.06.30.09.23.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 09:23:41 -0700 (PDT)
+        Thu, 30 Jun 2022 09:23:45 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/12] wireless-regdb: upgrade 2022.04.08 ->
- 2022.06.06
-Date: Thu, 30 Jun 2022 06:23:08 -1000
+Subject: [OE-core][dunfell 10/12] initramfs-framework: move storage mounts to
+ actual rootfs
+Date: Thu, 30 Jun 2022 06:23:10 -1000
 Message-Id: 
- <a0415549af8d10f4915c519433b49ce812bd2324.1656605800.git.steve@sakoman.com>
+ <ce27982c24d2398c9eadb9d4d9e7475509424195.1656605800.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1656605800.git.steve@sakoman.com>
 References: <cover.1656605800.git.steve@sakoman.com>
@@ -71,36 +70,53 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 16:23:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167424
+ https://lists.openembedded.org/g/openembedded-core/message/167426
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Muhammad Hamza <Muhammad_Hamza@mentor.com>
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4c27711292f93dfad1ffdeab6d715becad32a4ff)
+Operations such as mkfs fail on devices that are not
+switched to the actual rootfs before switch_root is
+called. The kernel interprets these devices as still
+being used even after unmounting and errors such as
+below are seen when the target is fully booted
+
+root@v1000:~# umount /dev/sdb1
+root@v1000:~# mkfs.ext4 /dev/sdb1
+mke2fs 1.43.8 (1-Jan-2018)
+/dev/sdb1 contains a ext4 file system
+        last mounted on Wed Nov 28 07:33:54 2018
+Proceed anyway? (y,N) y
+/dev/sdb1 is apparently in use by the system; will not make a filesystem here!
+
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
+Signed-off-by: Muhammad Hamza <muhammad_hamza@mentor.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit ec53ffd01972d1be2d6a28de828b3f0b80dc1e61)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...ireless-regdb_2022.04.08.bb => wireless-regdb_2022.06.06.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2022.04.08.bb => wireless-regdb_2022.06.06.bb} (94%)
+ .../initrdscripts/initramfs-framework/finish             | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.04.08.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.06.06.bb
-similarity index 94%
-rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.04.08.bb
-rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.06.06.bb
-index ad6ba8dc8b..91775bce5c 100644
---- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.04.08.bb
-+++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.06.06.bb
-@@ -5,7 +5,7 @@ LICENSE = "ISC"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/finish b/meta/recipes-core/initrdscripts/initramfs-framework/finish
+index 717383ebac..dee3ab3387 100755
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/finish
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/finish
+@@ -14,6 +14,15 @@ finish_run() {
  
- SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
--SRC_URI[sha256sum] = "884ba2e3c1e8b98762b6dc25ff60b5ec75c8d33a39e019b3ed4aa615491460d3"
-+SRC_URI[sha256sum] = "ac00f97efecce5046ed069d1d93f3365fdf994c7c7854a8fc50831e959537230"
+ 		info "Switching root to '$ROOTFS_DIR'..."
  
- inherit bin_package allarch
- 
++		debug "Moving basic mounts onto rootfs"
++		for dir in `awk '/\/dev.* \/run\/media/{print $2}' /proc/mounts`; do
++			# Parse any OCT or HEX encoded chars such as spaces
++			# in the mount points to actual ASCII chars
++			dir=`printf $dir`
++			mkdir -p "${ROOTFS_DIR}/media/${dir##*/}"
++			mount -n --move "$dir" "${ROOTFS_DIR}/media/${dir##*/}"
++		done
++
+ 		debug "Moving /dev, /proc and /sys onto rootfs..."
+ 		mount --move /dev $ROOTFS_DIR/dev
+ 		mount --move /proc $ROOTFS_DIR/proc
 -- 
 2.25.1
 
