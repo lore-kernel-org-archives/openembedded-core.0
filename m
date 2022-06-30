@@ -1,171 +1,146 @@
-Return-Path: <aryaman.gupta@windriver.com>
+Return-Path: <flowergom@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3C0CC43334
-	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 18:35:42 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.28871.1656614134280540045
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA7F4C43334
+	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 18:48:32 +0000 (UTC)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web11.28955.1656614903721152914
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 11:35:34 -0700
+ Thu, 30 Jun 2022 11:48:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=mqHK2fmK;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=4180e694f3=aryaman.gupta@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 25UFQ78O001894
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 11:35:33 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=PPS06212021;
- bh=nYUVSxr1wHw0vfggGrbFFJqZLbAVizl4f8HTT3EuaLs=;
- b=mqHK2fmKU5tuvcMrndRNYyykt1xPbJue0qQuxZvM1E4C6OgodF7UWkBzeMvfqCCwHDzv
- mtMSt4r148eXXAiEwYrPsKL5NgDZQ0GktThNDvbqHPyNdXVE05ipzmobs9HqpTGbmfFH
- FzdiwV3Bjae99R9hjK+ODS2vSdw5YyxAk2Z6qgTCzxAMBiasrk+e9Aa4LzoThTdTAn4A
- VwIWg0IEzLt6LrB8Lkda/MULp5WgDlDaS+K+mn5KDQSj1cLKlhlBGKt12bO4oRaQSQs9
- Vxm2KskX/XO8+tsfq4FTYxmBi6O2oYDW7xUw662ObmpL3hlLaxBQHPvDCkOJgFKtUV+U Tg==
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3gwwn4c80g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 11:35:33 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VTwVV2+A3ag4uiWXmLCSAcKcs7GMGEszzGiggmeB+8SP7Y5MWFIZAHdGzhbAYIyQX+U2mXYQJ/+XKDzN8bSmP4AWj2LcUtaIH2nit2FV0qoY7YVweevsTOGdwr8j2V9KW5DS3ZZJu4lBiOVbTGmn4FqbEe4bbhljxvtvXPksyCET75HHoGBHy1UbI4PB7fEDMuG+vWZFC6y0yLCzcV2vgFw2Df1i6Fox+5CA4QDyflPsswx838lya9WMChq1zNLZRXrTTsCFDGhcEJm+26NNBECntf61Vj+116xYZ8Xfyypwe9dxXxMom3DjUL+pORCVq+1My1R9u1IedxIyXofuLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nYUVSxr1wHw0vfggGrbFFJqZLbAVizl4f8HTT3EuaLs=;
- b=ktov+of7l3/ALH0FQEcAcB7/1bGvMD69+f7GtQpVxFmkFYOFi2XsdnjiQUd8UIhRp57SMnE+meVLvRVfR5EHNQ0Cy+cW12uPFBozCjrFRAklT4ULCNQmKIPRjKctXgKUXzQg24LWs1JxUuMiB955i/a5EDh9PG6UBrCzwP/lLWdwc3jDMrLVSpy7/cADI9UbIZihMIZq6D9iDu1E3C+ODOEFNrVd0/5yMuRc2nSSWqhTdpCHmDF1inMwkM/UsOGIZSpuy1Wo1YRtRafAzD1EDgAjsNZt1GRYpyeGf48uDRwvtnouw2w191nWTI4ywJNRWa3dyPKb1Qli8gSUruE50A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH7PR11MB6030.namprd11.prod.outlook.com (2603:10b6:510:1d1::19)
- by BN6PR1101MB2308.namprd11.prod.outlook.com (2603:10b6:405:54::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.15; Thu, 30 Jun
- 2022 18:35:30 +0000
-Received: from PH7PR11MB6030.namprd11.prod.outlook.com
- ([fe80::14a3:342b:5f14:eda6]) by PH7PR11MB6030.namprd11.prod.outlook.com
- ([fe80::14a3:342b:5f14:eda6%7]) with mapi id 15.20.5373.018; Thu, 30 Jun 2022
- 18:35:30 +0000
-From: Aryaman Gupta <aryaman.gupta@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Go583pH9;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53,
+ mailfrom: flowergom@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id d2so28986249ejy.1
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 30 Jun 2022 11:48:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=SQz67GkSdc+CPb5Y9ud+7DGXDmiS2VJ0YCOXnev8RF0=;
+        b=Go583pH9gm6kQWu1/8Q4tUYWF/5GhVEcaueHX2G4ufIxDq+3KJtzikdAEOsXo0+QpE
+         FU5EKWRcEcOCccpm6up1iMHxKEfvgXsHyFUWFLWOo+X15nULz3CfRbh8IQOJrrCCM5iG
+         XeUfIyWelAFuS3oul6Ec/8o+wfs6VDRl/TtuR0cmVu7LtWF79URWN6E3bkmtlX8g90qu
+         FyJYoSlZHqvc5oCVwYECW+RmkjNpwqOMQR2W52DjSn1iaXRVFi9o0DvR24SE0xySAJGc
+         zocj8XvPK2HfkADovUzPILbqiRIjzX7/iQtdvMZCdaS/PKS8/FBLeL8Od0gNGlDsJ/if
+         HPjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=SQz67GkSdc+CPb5Y9ud+7DGXDmiS2VJ0YCOXnev8RF0=;
+        b=h96mmYcsdh0trWjT+Q75h7BslKEhjTIE8ZHqzFhbu0iQWforMHdvv4B7LfwRWeLdyA
+         tEI3NXjGHriZ5LXuOH+SuOBzgHinLZUTjFDYgejEsfAKLnY6OCdYDjB/LjxLH1DIYrXn
+         /a0nYtpLsoxzvODDnfF4R2eyuy41tnV9jjGG1gUA+rrTUqYE3ve40D5d4TXw8BfoCDZA
+         IWmbygBW3sd4jOZx09gc6wAj7mHJ1w8SToEslUslGh3WX9P2vTTo/NPdkZrCVvtNSv7B
+         rUTlxmv/zEBoNsTn/w5eru6QDpILAjzQyLSu0tdG5M8vF1fCrtNY9Ron1QB0JgLSPiUU
+         iHyQ==
+X-Gm-Message-State: AJIora/+JgZfiYfiO9Hjo2ojiNJSZcBsyWVzxhmcs2mTdXNZn3fCFCa5
+	DgffojwMeY80LiQ4+dxEwPbmC5WtIPsNKj+hySU=
+X-Google-Smtp-Source: 
+ AGRyM1sYHNJMhr/hD6fC1WYnsangWTD8ddcFFuNimuFwkaP3iA5yWpiI+Ox2DlXRlBaqclOrUarjjA==
+X-Received: by 2002:a17:906:5a57:b0:72a:8787:6c6d with SMTP id
+ my23-20020a1709065a5700b0072a87876c6dmr183584ejc.440.1656614901876;
+        Thu, 30 Jun 2022 11:48:21 -0700 (PDT)
+Received: from localhost.localdomain (ip5b41135b.dynamic.kabel-deutschland.de.
+ [91.65.19.91])
+        by smtp.gmail.com with ESMTPSA id
+ s12-20020a170906354c00b0072637b9c8c0sm8680129eja.219.2022.06.30.11.48.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jun 2022 11:48:21 -0700 (PDT)
+From: Minjae Kim <flowergom@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] buildperf/base.py: skip reduced_proc_pressure directory
-Date: Thu, 30 Jun 2022 14:35:17 -0400
-Message-Id: <20220630183517.1633208-1-aryaman.gupta@windriver.com>
-X-Mailer: git-send-email 2.35.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: YQBPR0101CA0113.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:5::16) To PH7PR11MB6030.namprd11.prod.outlook.com
- (2603:10b6:510:1d1::19)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7395b6d9-9ef2-43a0-0e63-08da5ac74f4c
-X-MS-TrafficTypeDiagnostic: BN6PR1101MB2308:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	54kkcq98PxvHJUUY29BWqr405MNAqwNSp+nEdf7pMeWZD7nUsTtqxB7eOf2P8umHekMXScLguK9TvJ3vr2Nm1EBZO0T6tB6+RifH+yCo6EtPAREMQaXNa+yJ6E/aaoMCwCMO8Qd89am0l/VfPlRoaqwoSd1zneRhoHxRmGhaOU77uzr7FKFVb2D/0Vixz9gsXQG1OHRfa0qmXMhHcdjKotLIFHH8KBW0yBs+kgPhhjsvW0Ba8WIKbvDePcMh8FaikuGJKdtsWYqsfkYIuAUL5C1GZ6dSzQjVZqcBcBGO49NbmpVqIUxI2UNu+qWwfONbu8KSicT8S/CFU+VtTd5XDWAxDbXezEJdvrf3frM6RIc4W7VafvKbz8jY/7iRQDPEJtAwbxJPIogrP2N+qM53qaXxtXwVFPfazhScIsIDj96wya81VRE7GWbFqXdW7SKjHplRSsD44X2VZrR6kpKAsd3dTdvF5HcOgLSOWtcFSgs3jogDvlO32Rv8KENYNHwLPHIMSQPhR/0mJwbGgHkKLT9fAY5UFEjQuZQ2R6+YX8hzxKGL2gz76q1cyK9zweXxGtdgSAbuy5hZ+ph5iqQPa6K1GWGe+0zwO0hfC1BDaZXtqhPNghSy2xJ574L0T8yP834lWfKZ9QOgYo2/qEvPg+usA3sg4Oei7kEwfo0A1ddblYRDwOphmsD78qayHVUDNcw1QIS/WZh2nUOG09SGA6npAolgc3DgAkyMLl355C4QCpYyMcXVwAaS0kl4cNwLdOEnZu2fpVAkv12XUwPEadS+nFl5EDiXpp9Hf8A3D+xh90Wlwd9OKR4riyezq8q7
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6030.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(376002)(396003)(346002)(136003)(39850400004)(66476007)(66556008)(36756003)(8676002)(44832011)(66946007)(38100700002)(8936002)(316002)(6916009)(83380400001)(6486002)(5660300002)(478600001)(6512007)(26005)(2616005)(52116002)(1076003)(186003)(6506007)(41300700001)(2906002)(6666004)(38350700002)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?XD38Ns5mjip6PK87VoPb3gZOJtZISNYJoe2XsQ2m70++4jWJ5LAGN/Cps3LT?=
- =?us-ascii?Q?Przm3j86mA3iuO9Aoa3H3h/cqO83Ia8gisVVBYzCo+MSGDuk/hMpbfwirZah?=
- =?us-ascii?Q?cwXiO9H82MwAVFd9mi4ccw6aSAxsoInEJb3sSS6WeXKKUKcmF1JWWdWy4CMN?=
- =?us-ascii?Q?zmdARG+0zkT24Ly9jK47ypITY62kjmol3uJPrHM7sssFN1RjwHRQXBgADRye?=
- =?us-ascii?Q?E8/fX5mEYK9EVnpRQlZ9cfr5fCcJyeC4Bz4jhDOdBZUqGPuovebsHWNeAFZt?=
- =?us-ascii?Q?63xHUMRLj1B0tCrLShB8f5cthVQPqJ4ERuVO6CpLSipZ+J+by28w6Oap9c9o?=
- =?us-ascii?Q?LAQOmyprRiBH9qSpwweHfIWAKjDxs+sV9pi2FHRqcuiw3YQoGUSlP8Qme/Rv?=
- =?us-ascii?Q?Y90FrZLHabQU5o/Tl0QWByqbHaa3A5BgXS4PIh5MnLagOR1KqyegkM+Az+MY?=
- =?us-ascii?Q?QukTCZqC/ccmnpDy1pgM00mdnZVYgBsyB/1A4VGIjl2RpTCNcGZ9JT/Ue/6/?=
- =?us-ascii?Q?a3MQAwhJU1zwlkGewSTx6gjyGAs23Z6DbsEzjZL1RGu7iE/5akYBj3a6qTFx?=
- =?us-ascii?Q?YYxLgvZqcbb0o3Mq0qR7mjZjOmVzOFGhP0aDBYlZq2+LF9iAS+4SkbV4E2j9?=
- =?us-ascii?Q?G3cwN26Jz9YkNhWM/BTSn1N7TU9NoZaQla9HbBrDYIxWcYlp8CjsqDYmmNnd?=
- =?us-ascii?Q?0ChuxdVWh1R1CO95QhC7629zsGXrH9gvMSolHBmZ4E/l5lJFlcmPdN3t82eA?=
- =?us-ascii?Q?ByFS1pLbCwsR0QqhyHmeDP0E/covYZFsVENiFzSv84hRsgXP0EBeNQxRN5GU?=
- =?us-ascii?Q?h0oRZ4uxX3dwzxjXpTsq8F93FfXlp7+CtN2fEDXzeIlbRuGEecSVczXFpl4U?=
- =?us-ascii?Q?hZBWY1ncNPuf84USj46uMMNLOdFTUlxpWA6qxp/9XdLDly8PaNP8i7UGNsfd?=
- =?us-ascii?Q?O5s+/B/wec3hde82bfGlyJkqbJp/9nUwnhbToaILj3Xq2iULhcnF6hgBiv3A?=
- =?us-ascii?Q?ZhN+DnXMZIyZNeVTlm/96JDcjENTWOUDrKMZvkYOdjdW4U1vj6p4r3LSouOK?=
- =?us-ascii?Q?MsYJWXOxm3ioVdM2sb87vB7E7bfRnHdmlLXmT0pf2eU0CwuR4LuxmzEeTN6n?=
- =?us-ascii?Q?iPtLT46JrSlEAJaaOFBPFUqm2UdzhYU7CGrhnueUv7r8LUDBcSZF4SmbntZ/?=
- =?us-ascii?Q?+YqoSWWm3DF/UJebxPdKLQVO7JnjLrE2Y55jrEMDH1NjEDog58QOltlIrpLX?=
- =?us-ascii?Q?KqDmYAy2whvdisbmv7KdYtId7TXBo6j1Towjrc1HIkxug3aQyJNbr4fJ6sso?=
- =?us-ascii?Q?Qq/AYQ1PAxFmd/2AH5yH4Chu/bf1P7D71fvPuE8Y1a/C6NQwlKQcH6vfw9a1?=
- =?us-ascii?Q?IBxPgjE650/AJHMQRZoA3SLmAnGuXq9o3ZmqUj8kG1bQxdqVMuxLjpIarw8E?=
- =?us-ascii?Q?bIhWqbVPx3s7U9+N/WYw6lwWO19NYlViQ1FSvAWbweKFmxyFFtcIDlJCJdOJ?=
- =?us-ascii?Q?vIWSMeLe2dgWx/A5O0zvpcrj6Eqb8h3d9eHYxBVSamGTi1GdGMfPrOUwAXCs?=
- =?us-ascii?Q?gZIWa97PmwtexQIazR9tdUU6D6unx8PYhl/BdVfpJEtvYD1e/7qqDq0sLzQ2?=
- =?us-ascii?Q?AQ=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 7395b6d9-9ef2-43a0-0e63-08da5ac74f4c
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6030.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2022 18:35:30.4066
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- +AfmdueJeRUolEqk0Zuushw9pZorVU6jHfVkQWP1wGI6CoAcQLF+2aXBGxB9/dtilwt0J9HTV8UqHEc5F1wdIML3U+1kCiH36HeOL2xA704=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1101MB2308
-X-Proofpoint-ORIG-GUID: 2McrGQGuywzaJZCW68VYxdxk2_4ZFX6n
-X-Proofpoint-GUID: 2McrGQGuywzaJZCW68VYxdxk2_4ZFX6n
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-06-30_12,2022-06-28_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0
- phishscore=0 suspectscore=0 mlxlogscore=540 spamscore=0 impostorscore=0
- mlxscore=0 bulkscore=0 lowpriorityscore=0 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206300072
+Cc: Minjae Kim <flowergom@gmail.com>
+Subject: [dunfell][PATCH] epiphany: fix CVE-2022-29536
+Date: Thu, 30 Jun 2022 18:48:04 +0000
+Message-Id: <20220630184804.345-1-flowergom@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 18:35:42 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 18:48:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167432
+ https://lists.openembedded.org/g/openembedded-core/message/167433
 
-Buildperf was designed to skip all non-directories under buildstats, i.e. proc
-log files. With the /proc/pressure stats being collected in a new directory,
-the following error was seen:
-	meta/lib/oeqa/buildperf/base.py", line 392, in split_nevr
-    	n_e_v, revision = nevr.rsplit('-', 1)
-	ValueError: not enough values to unpack (expected 2, got 1)
+Fix memory corruption in ephy_string_shorten()
 
-Add an additional check to skip the reduced_proc_pressure directory.
+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/epiphany/-/merge_requests/1106]
+CVE: CVE-2022-29536
 
-Signed-off-by: Aryaman Gupta <aryaman.gupta@windriver.com>
+Signed-off-by:Minjae Kim <flowergom@gmail.com>
 ---
- meta/lib/oeqa/buildperf/base.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../recipes-gnome/epiphany/epiphany_3.34.4.bb |  3 +-
+ .../epiphany/files/CVE-2022-29536.patch       | 45 +++++++++++++++++++
+ 2 files changed, 47 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-gnome/epiphany/files/CVE-2022-29536.patch
 
-diff --git a/meta/lib/oeqa/buildperf/base.py b/meta/lib/oeqa/buildperf/base.py
-index 5f1805d86c..5d656c781a 100644
---- a/meta/lib/oeqa/buildperf/base.py
-+++ b/meta/lib/oeqa/buildperf/base.py
-@@ -444,7 +444,7 @@ class BuildPerfTestCase(unittest.TestCase):
-         buildstats = []
-         for fname in os.listdir(bs_dir):
-             recipe_dir = os.path.join(bs_dir, fname)
--            if not os.path.isdir(recipe_dir):
-+            if not os.path.isdir(recipe_dir) or fname == "reduced_proc_pressure":
-                 continue
-             name, epoch, version, revision = split_nevr(fname)
-             recipe_bs = OrderedDict((('name', name),
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.34.4.bb b/meta/recipes-gnome/epiphany/epiphany_3.34.4.bb
+index e2afb29c12..6f04324d4e 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.34.4.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.34.4.bb
+@@ -16,7 +16,8 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
+ 
+ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
+            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
+-           "
++           file://CVE-2022-29536.patch \
++          "
+ SRC_URI[archive.md5sum] = "a559f164bb7d6cbeceb348648076830b"
+ SRC_URI[archive.sha256sum] = "60e190fc07ec7e33472e60c7e633e04004f7e277a0ffc5e9cd413706881e598d"
+ 
+diff --git a/meta/recipes-gnome/epiphany/files/CVE-2022-29536.patch b/meta/recipes-gnome/epiphany/files/CVE-2022-29536.patch
+new file mode 100644
+index 0000000000..c2160b471d
+--- /dev/null
++++ b/meta/recipes-gnome/epiphany/files/CVE-2022-29536.patch
+@@ -0,0 +1,45 @@
++From 79725738500917cf5e4d829c76753cfb4c68be7f Mon Sep 17 00:00:00 2001
++From: Michael Catanzaro <mcatanzaro@redhat.com>
++Date: Fri, 15 Apr 2022 18:09:46 -0500
++Subject: [PATCH] Fix memory corruption in ephy_string_shorten()
++
++This fixes a regression that I introduced in 232c613472b38ff0d0d97338f366024ddb9cd228.
++
++I got my browser stuck in a crash loop today while visiting a website
++with a page title greater than ephy-embed.c's MAX_TITLE_LENGTH, the only
++condition in which ephy_string_shorten() is ever used. Turns out this
++commit is wrong: an ellipses is a multibyte character (three bytes in
++UTF-8) and so we're writing past the end of the buffer when calling
++strcat() here. Ooops.
++
++Shame it took nearly four years to notice and correct this.
++
++Part-of: <https://gitlab.gnome.org/GNOME/epiphany/-/merge_requests/1106>
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/epiphany/-/merge_requests/1106]
++Signed-off-by:Minjae Kim <flowergom@gmail.com>
++---
++ lib/ephy-string.c | 5 ++---
++ 1 file changed, 2 insertions(+), 3 deletions(-)
++
++diff --git a/lib/ephy-string.c b/lib/ephy-string.c
++index 509490c86..d678803ad 100644
++--- a/lib/ephy-string.c
+++++ b/lib/ephy-string.c
++@@ -115,11 +115,10 @@ ephy_string_shorten (char  *str,
++   /* create string */
++   bytes = GPOINTER_TO_UINT (g_utf8_offset_to_pointer (str, target_length - 1) - str);
++
++-  /* +1 for ellipsis, +1 for trailing NUL */
++-  new_str = g_new (gchar, bytes + 1 + 1);
+++  new_str = g_new (gchar, bytes + strlen ("?~@?") + 1);
++
++   strncpy (new_str, str, bytes);
++-  strcat (new_str, "?~@?");
+++  strncpy (new_str + bytes, "?~@?", strlen ("?~@?") + 1);
++
++   g_free (str);
++
++--
++2.25.1
++
 -- 
-2.35.1
+2.17.1
 
 
