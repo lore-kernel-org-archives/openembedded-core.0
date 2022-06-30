@@ -2,63 +2,67 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BADACCA47B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F962CCA480
 	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 16:23:32 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.27161.1656606204037309604
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+ [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web09.27525.1656606207758032110
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 09:23:24 -0700
+ Thu, 30 Jun 2022 09:23:27 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=HWgsL5ZA;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182,
+ header.b=N9Ihc6Tb;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id q18so17422962pld.13
+Received: by mail-pg1-f170.google.com with SMTP id h192so18991500pgc.4
         for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 09:23:23 -0700 (PDT)
+ Thu, 30 Jun 2022 09:23:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=supYjEM6N26WUHzj7upwTAWQf21VUl1w0mgTvEfjXkg=;
-        b=HWgsL5ZAygCaAm8PjC/K2F/JKJVsTZ3Z6bhmeNhLmdgqglq0WD/ukIAL6T74AqGfeA
-         KU9fTP/1nVzAUXUNsB5i1wnxr/EIS7vgpagkOu5O2RLAh37nKRKuBuwVgGti7wB9UiBZ
-         KCnlnoOxVVHtKZfwRYBtS586oVKuNzb+l0R0VSwfCBoAZNVUqU+hX85tdhwZDAWIBcAw
-         YRPr9gumgw03SpIUcQQ/yLwTZGb7gGqm50TGehEuADAu2OsLodRYfi1yyqaeKCYgZvVX
-         BkB/QNWmcysanUX/0gOwy3UB1V5ZwKj3c3hGfnl4B9ocvCQHIxgFcC4pT4aIldMJ7fAm
-         rZrQ==
+        bh=uNRtTEzYSP7UHrjspShU6jKKywnxxQ4n7c1xSpOKXS8=;
+        b=N9Ihc6TbJUPxkv2igzxTtOu4huHYR+K+e1oSYbjfrznmz8azMaG81sZ2OqwvBR7Ige
+         AR5ion512Y4RK7kkPWdkjieFmfHwf6VvnwS/fbgikzcGI58R5bwl2nZSH2DDCboRfmoi
+         x3F9KQ4Hynf05Q99oOLS3j0CS/PnVQcGl072BEAw532SMG9MV7gYJmSaA3RI9SkO3tFY
+         8uoLDe0KD0zLSjwxAKLfG2CyPX1oIEuu58WC7fAjIIP+JPCx5BVE/ZSpQDf/nJExa1ic
+         p06rAap/y+crBKKo3tQ7bPTdy4OseaA1hrY1fvtIgh/0Y4sHe8Riw6jfrgS9foalCBSh
+         /a0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=supYjEM6N26WUHzj7upwTAWQf21VUl1w0mgTvEfjXkg=;
-        b=EngRmOie5W2HOZdyIRGfl7irooBwchjXvBCKefp0rCouCzjfsszEpDAqTWjn/AX0WY
-         X5EOehup358OdAWhCVdQw7rt6N0KVNCXl6NRbhKolcdPZQm3h6ZXu22QJTT2OAtXfb9v
-         icoNUzXTfeDW5SwkPvWJN1qt9Uv1i51278bY2tP4GjQ6Yjb5kZ74vQhn7ldUKoeaa3AR
-         tQku0lqDlIcSCHw0Sg8Yvo3nAJKNXajw7DTDlehWLENdm7P2gWaKJYx9VvkxBZOmm+Z4
-         28z9j7flrtcFkSORzmP2PVpvx5iao9OAJG4uAZlHuF9fqBZeVfaww3nxIaJMfSK3o4vR
-         G0fg==
-X-Gm-Message-State: AJIora8Wc2SYWAtSLbvC28VdAvy/jS5QhPer5cQZU+I9oPVtB9jAXC3a
-	uM61dRedyt2AoXFpxpp9XwH7t+uiaSKeNpWA
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=uNRtTEzYSP7UHrjspShU6jKKywnxxQ4n7c1xSpOKXS8=;
+        b=1UJ0llcYvbF3rll6Fe+sAeaBDdkK0DKKGUCa9v0d+ralkdw0nOgwTNJqurH976GYCZ
+         ILS1AWFqAyfECRW3s1bW9PitvPMGno48f+ol0Lyv3GARWJvoQxOvBUblJew2i39RuiEU
+         2hne+BrZPPLLcH6u7ewKdWjvD/quEi9KDG9qyRe6doTWfxdM5nLgJgRX0h1AqCitT/cA
+         ROgFoXxD+BHMnIA9W2mVIBezmohAzW6TA8TDtaiiNupeJitqJIzK5RGNjHg3pLQIKL7e
+         iEhC9DYjSh3eHOPMtkKHqA50JIzG/0hw0xmWrX3IAzrMkrp4la/Id+X5a/AASkBt+mUO
+         5q2g==
+X-Gm-Message-State: AJIora9J3uvl8rD4KTIFzCWbzuk8/0roYne4AsNxpmOX67Xpu/XytZXG
+	CjlpfegZuW5URZ5MOT3WtthVGivY2Nfdf+Qz
 X-Google-Smtp-Source: 
- AGRyM1vKZVxjBswsGqAlowDUsrj+dupeCVAqhDL3l/8jLhTtx1QmpITEKbZN0C6to07CO5hjmoXAMg==
-X-Received: by 2002:a17:90a:4f0f:b0:1ee:f746:eca7 with SMTP id
- p15-20020a17090a4f0f00b001eef746eca7mr12791136pjh.122.1656606202657;
-        Thu, 30 Jun 2022 09:23:22 -0700 (PDT)
+ AGRyM1vZfx0WD+PuFWgpdOBmVYsGtHvxqNlBxoIUa31DfQBLbeM2kemaiRHvf5pb3j9Fvzfy7lVE3g==
+X-Received: by 2002:a63:1710:0:b0:40d:dd27:789b with SMTP id
+ x16-20020a631710000000b0040ddd27789bmr8260789pgl.386.1656606206467;
+        Thu, 30 Jun 2022 09:23:26 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- t129-20020a625f87000000b005259578e8fcsm10517611pfb.181.2022.06.30.09.23.20
+ t129-20020a625f87000000b005259578e8fcsm10517611pfb.181.2022.06.30.09.23.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 09:23:21 -0700 (PDT)
+        Thu, 30 Jun 2022 09:23:25 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/12] Patch review
-Date: Thu, 30 Jun 2022 06:23:00 -1000
-Message-Id: <cover.1656605800.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/12] golang: CVE-2022-24675 encoding/pem: fix
+ stack overflow in Decode
+Date: Thu, 30 Jun 2022 06:23:01 -1000
+Message-Id: 
+ <6625e24a6143765ce2e4e08d25e3fe021bc2cdf6.1656605800.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1656605800.git.steve@sakoman.com>
+References: <cover.1656605800.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -66,95 +70,315 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 16:23:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167416
+ https://lists.openembedded.org/g/openembedded-core/message/167417
 
-Please review this set of patches for dunfell and have comments back by end
-of day Monday.
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Passed a-full on autobuilder:
+Source: https://go-review.googlesource.com/c/go
+MR: 117551
+Type: Security Fix
+Disposition: Backport from https://go-review.googlesource.com/c/go/+/399816/
+ChangeID: 347f22f93e8eaecb3d39f8d6c0fe5a70c5cf7b7c
+Description:
+        CVE-2022-24675 golang: encoding/pem: fix stack overflow in Decode.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3844
-
-With the exception of a known autobuilder intermittent issue:
-
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=14788
-
-which passed on subsequent retest:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/5413
-
-The following changes since commit c6f5fb5e7545636ef7948ad1562548b7b64dac35:
-
-  linux-firmware: upgrade 20220509 -> 20220610 (2022-06-20 07:32:00 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Ahmed Hossam (1):
-  insane.bbclass: host-user-contaminated: Correct per package home path
-
-Alexander Kanavin (1):
-  wireless-regdb: upgrade 2022.04.08 -> 2022.06.06
-
-Hitendra Prajapati (3):
-  golang: CVE-2022-24675 encoding/pem: fix stack overflow in Decode
-  golang: CVE-2021-31525 net/http: panic in ReadRequest and ReadResponse
-    when reading a very large header
-  grub2: CVE-2021-3981 Incorrect permission in grub.cfg allow
-    unprivileged user to read the file content
-
-Joe Slater (1):
-  unzip: fix CVE-2021-4217
-
-Marek Vasut (1):
-  lttng-modules: Backport Linux 5.18+, 5.15.44+, 5.10.119+ fixes
-
-Marta Rybczynska (2):
-  cve-check: add support for Ignored CVEs
-  oeqa/selftest/cve_check: add tests for Ignored and partial reports
-
-Martin Jansa (1):
-  wic: fix WicError message
-
-Muhammad Hamza (1):
-  initramfs-framework: move storage mounts to actual rootfs
-
-Richard Purdie (1):
-  unzip: Port debian fixes for two CVEs
-
- meta/classes/cve-check.bbclass                |  41 ++-
- meta/classes/insane.bbclass                   |   2 +-
- meta/lib/oeqa/selftest/cases/cve_check.py     |  82 ++++++
- .../grub/files/CVE-2021-3981.patch            |  32 +++
- meta/recipes-bsp/grub/grub2.inc               |   1 +
- .../initrdscripts/initramfs-framework/finish  |   9 +
- meta/recipes-devtools/go/go-1.14.inc          |   2 +
- .../go/go-1.14/CVE-2021-31525.patch           |  38 +++
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-devtools/go/go-1.14.inc          |   1 +
  .../go/go-1.14/CVE-2022-24675.patch           | 271 ++++++++++++++++++
- .../unzip/unzip/CVE-2021-4217.patch           |  67 +++++
- .../unzip/unzip/CVE-2022-0529.patch           |  39 +++
- .../unzip/unzip/CVE-2022-0530.patch           |  33 +++
- meta/recipes-extended/unzip/unzip_6.0.bb      |   3 +
- ...ndom-remove-unused-tracepoints-v5.18.patch |  46 +++
- ...emove-unused-tracepoints-v5.10-v5.15.patch |  45 +++
- ...racepoints-removed-in-stable-kernels.patch |  51 ++++
- .../lttng/lttng-modules_2.11.6.bb             |   3 +
- ....04.08.bb => wireless-regdb_2022.06.06.bb} |   2 +-
- scripts/wic                                   |   2 +-
- 19 files changed, 754 insertions(+), 15 deletions(-)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2021-3981.patch
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2021-31525.patch
+ 2 files changed, 272 insertions(+)
  create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2022-24675.patch
- create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2021-4217.patch
- create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2022-0529.patch
- create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2022-0530.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0017-fix-random-remove-unused-tracepoints-v5.18.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0018-fix-random-remove-unused-tracepoints-v5.10-v5.15.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0019-fix-random-tracepoints-removed-in-stable-kernels.patch
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2022.04.08.bb => wireless-regdb_2022.06.06.bb} (94%)
 
+diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
+index 4827c6adfa..773d252bd1 100644
+--- a/meta/recipes-devtools/go/go-1.14.inc
++++ b/meta/recipes-devtools/go/go-1.14.inc
+@@ -23,6 +23,7 @@ SRC_URI += "\
+     file://CVE-2022-23806.patch \
+     file://CVE-2022-23772.patch \
+     file://CVE-2021-44717.patch \
++    file://CVE-2022-24675.patch \
+ "
+ 
+ SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2022-24675.patch b/meta/recipes-devtools/go/go-1.14/CVE-2022-24675.patch
+new file mode 100644
+index 0000000000..4bc012be21
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2022-24675.patch
+@@ -0,0 +1,271 @@
++From 1eb931d60a24501a9668e5cb4647593e19115507 Mon Sep 17 00:00:00 2001
++From: Hitendra Prajapati <hprajapati@mvista.com>
++Date: Fri, 17 Jun 2022 12:22:53 +0530
++Subject: [PATCH] CVE-2022-24675
++
++Upstream-Status: Backport [https://go-review.googlesource.com/c/go/+/399816/]
++CVE: CVE-2022-24675
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ src/encoding/pem/pem.go      | 174 +++++++++++++++--------------------
++ src/encoding/pem/pem_test.go |  28 +++++-
++ 2 files changed, 101 insertions(+), 101 deletions(-)
++
++diff --git a/src/encoding/pem/pem.go b/src/encoding/pem/pem.go
++index a7272da..1bee1c1 100644
++--- a/src/encoding/pem/pem.go
+++++ b/src/encoding/pem/pem.go
++@@ -87,123 +87,97 @@ func Decode(data []byte) (p *Block, rest []byte) {
++ 	// pemStart begins with a newline. However, at the very beginning of
++ 	// the byte array, we'll accept the start string without it.
++ 	rest = data
++-	if bytes.HasPrefix(data, pemStart[1:]) {
++-		rest = rest[len(pemStart)-1 : len(data)]
++-	} else if i := bytes.Index(data, pemStart); i >= 0 {
++-		rest = rest[i+len(pemStart) : len(data)]
++-	} else {
++-		return nil, data
++-	}
++-
++-	typeLine, rest := getLine(rest)
++-	if !bytes.HasSuffix(typeLine, pemEndOfLine) {
++-		return decodeError(data, rest)
++-	}
++-	typeLine = typeLine[0 : len(typeLine)-len(pemEndOfLine)]
++-
++-	p = &Block{
++-		Headers: make(map[string]string),
++-		Type:    string(typeLine),
++-	}
++-
++ 	for {
++-		// This loop terminates because getLine's second result is
++-		// always smaller than its argument.
++-		if len(rest) == 0 {
+++		if bytes.HasPrefix(rest, pemStart[1:]) {
+++			rest = rest[len(pemStart)-1:]
+++		} else if i := bytes.Index(rest, pemStart); i >= 0 {
+++			rest = rest[i+len(pemStart) : len(rest)]
+++		} else {
++ 			return nil, data
++ 		}
++-		line, next := getLine(rest)
++ 
++-		i := bytes.IndexByte(line, ':')
++-		if i == -1 {
++-			break
+++		var typeLine []byte
+++		typeLine, rest = getLine(rest)
+++		if !bytes.HasSuffix(typeLine, pemEndOfLine) {
+++			continue
++ 		}
+++		typeLine = typeLine[0 : len(typeLine)-len(pemEndOfLine)]
++ 
++-		// TODO(agl): need to cope with values that spread across lines.
++-		key, val := line[:i], line[i+1:]
++-		key = bytes.TrimSpace(key)
++-		val = bytes.TrimSpace(val)
++-		p.Headers[string(key)] = string(val)
++-		rest = next
++-	}
+++		p = &Block{
+++			Headers: make(map[string]string),
+++			Type:    string(typeLine),
+++		}
++ 
++-	var endIndex, endTrailerIndex int
+++		for {
+++			// This loop terminates because getLine's second result is
+++			// always smaller than its argument.
+++			if len(rest) == 0 {
+++				return nil, data
+++			}
+++			line, next := getLine(rest)
++ 
++-	// If there were no headers, the END line might occur
++-	// immediately, without a leading newline.
++-	if len(p.Headers) == 0 && bytes.HasPrefix(rest, pemEnd[1:]) {
++-		endIndex = 0
++-		endTrailerIndex = len(pemEnd) - 1
++-	} else {
++-		endIndex = bytes.Index(rest, pemEnd)
++-		endTrailerIndex = endIndex + len(pemEnd)
++-	}
+++			i := bytes.IndexByte(line, ':')
+++			if i == -1 {
+++				break
+++			}
++ 
++-	if endIndex < 0 {
++-		return decodeError(data, rest)
++-	}
+++			// TODO(agl): need to cope with values that spread across lines.
+++			key, val := line[:i], line[i+1:]
+++			key = bytes.TrimSpace(key)
+++			val = bytes.TrimSpace(val)
+++			p.Headers[string(key)] = string(val)
+++			rest = next
+++		}
++ 
++-	// After the "-----" of the ending line, there should be the same type
++-	// and then a final five dashes.
++-	endTrailer := rest[endTrailerIndex:]
++-	endTrailerLen := len(typeLine) + len(pemEndOfLine)
++-	if len(endTrailer) < endTrailerLen {
++-		return decodeError(data, rest)
++-	}
+++		var endIndex, endTrailerIndex int
++ 
++-	restOfEndLine := endTrailer[endTrailerLen:]
++-	endTrailer = endTrailer[:endTrailerLen]
++-	if !bytes.HasPrefix(endTrailer, typeLine) ||
++-		!bytes.HasSuffix(endTrailer, pemEndOfLine) {
++-		return decodeError(data, rest)
++-	}
+++		// If there were no headers, the END line might occur
+++		// immediately, without a leading newline.
+++		if len(p.Headers) == 0 && bytes.HasPrefix(rest, pemEnd[1:]) {
+++			endIndex = 0
+++			endTrailerIndex = len(pemEnd) - 1
+++		} else {
+++			endIndex = bytes.Index(rest, pemEnd)
+++			endTrailerIndex = endIndex + len(pemEnd)
+++		}
++ 
++-	// The line must end with only whitespace.
++-	if s, _ := getLine(restOfEndLine); len(s) != 0 {
++-		return decodeError(data, rest)
++-	}
+++		if endIndex < 0 {
+++			continue
+++		}
++ 
++-	base64Data := removeSpacesAndTabs(rest[:endIndex])
++-	p.Bytes = make([]byte, base64.StdEncoding.DecodedLen(len(base64Data)))
++-	n, err := base64.StdEncoding.Decode(p.Bytes, base64Data)
++-	if err != nil {
++-		return decodeError(data, rest)
++-	}
++-	p.Bytes = p.Bytes[:n]
+++		// After the "-----" of the ending line, there should be the same type
+++		// and then a final five dashes.
+++		endTrailer := rest[endTrailerIndex:]
+++		endTrailerLen := len(typeLine) + len(pemEndOfLine)
+++		if len(endTrailer) < endTrailerLen {
+++			continue
+++		}
+++
+++		restOfEndLine := endTrailer[endTrailerLen:]
+++		endTrailer = endTrailer[:endTrailerLen]
+++		if !bytes.HasPrefix(endTrailer, typeLine) ||
+++			!bytes.HasSuffix(endTrailer, pemEndOfLine) {
+++			continue
+++		}
++ 
++-	// the -1 is because we might have only matched pemEnd without the
++-	// leading newline if the PEM block was empty.
++-	_, rest = getLine(rest[endIndex+len(pemEnd)-1:])
+++		// The line must end with only whitespace.
+++		if s, _ := getLine(restOfEndLine); len(s) != 0 {
+++			continue
+++		}
++ 
++-	return
++-}
+++		base64Data := removeSpacesAndTabs(rest[:endIndex])
+++		p.Bytes = make([]byte, base64.StdEncoding.DecodedLen(len(base64Data)))
+++		n, err := base64.StdEncoding.Decode(p.Bytes, base64Data)
+++		if err != nil {
+++			continue
+++		}
+++		p.Bytes = p.Bytes[:n]
++ 
++-func decodeError(data, rest []byte) (*Block, []byte) {
++-	// If we get here then we have rejected a likely looking, but
++-	// ultimately invalid PEM block. We need to start over from a new
++-	// position. We have consumed the preamble line and will have consumed
++-	// any lines which could be header lines. However, a valid preamble
++-	// line is not a valid header line, therefore we cannot have consumed
++-	// the preamble line for the any subsequent block. Thus, we will always
++-	// find any valid block, no matter what bytes precede it.
++-	//
++-	// For example, if the input is
++-	//
++-	//    -----BEGIN MALFORMED BLOCK-----
++-	//    junk that may look like header lines
++-	//   or data lines, but no END line
++-	//
++-	//    -----BEGIN ACTUAL BLOCK-----
++-	//    realdata
++-	//    -----END ACTUAL BLOCK-----
++-	//
++-	// we've failed to parse using the first BEGIN line
++-	// and now will try again, using the second BEGIN line.
++-	p, rest := Decode(rest)
++-	if p == nil {
++-		rest = data
+++		// the -1 is because we might have only matched pemEnd without the
+++		// leading newline if the PEM block was empty.
+++		_, rest = getLine(rest[endIndex+len(pemEnd)-1:])
+++		return p, rest
++ 	}
++-	return p, rest
++ }
++ 
++ const pemLineLength = 64
++diff --git a/src/encoding/pem/pem_test.go b/src/encoding/pem/pem_test.go
++index 8515b46..4485581 100644
++--- a/src/encoding/pem/pem_test.go
+++++ b/src/encoding/pem/pem_test.go
++@@ -107,6 +107,12 @@ const pemMissingEndingSpace = `
++ dGVzdA==
++ -----ENDBAR-----`
++ 
+++const pemMissingEndLine = `
+++-----BEGIN FOO-----
+++Header: 1`
+++
+++var pemRepeatingBegin = strings.Repeat("-----BEGIN \n", 10)
+++
++ var badPEMTests = []struct {
++ 	name  string
++ 	input string
++@@ -131,14 +137,34 @@ var badPEMTests = []struct {
++ 		"missing ending space",
++ 		pemMissingEndingSpace,
++ 	},
+++	{
+++		"repeating begin",
+++		pemRepeatingBegin,
+++	},
+++	{
+++		"missing end line",
+++		pemMissingEndLine,
+++	},
++ }
++ 
++ func TestBadDecode(t *testing.T) {
++ 	for _, test := range badPEMTests {
++-		result, _ := Decode([]byte(test.input))
+++		result, rest := Decode([]byte(test.input))
++ 		if result != nil {
++ 			t.Errorf("unexpected success while parsing %q", test.name)
++ 		}
+++		if string(rest) != test.input {
+++			t.Errorf("unexpected rest: %q; want = %q", rest, test.input)
+++		}
+++	}
+++}
+++
+++func TestCVE202224675(t *testing.T) {
+++	// Prior to CVE-2022-24675, this input would cause a stack overflow.
+++	input := []byte(strings.Repeat("-----BEGIN \n", 10000000))
+++	result, rest := Decode(input)
+++	if result != nil || !reflect.DeepEqual(rest, input) {
+++		t.Errorf("Encode of %#v decoded as %#v", input, rest)
++ 	}
++ }
++ 
++-- 
++2.25.1
++
 -- 
 2.25.1
 
