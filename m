@@ -1,82 +1,96 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5494C43334
-	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 10:40:00 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.23289.1656585596793703119
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A206BC43334
+	for <webhook@archiver.kernel.org>; Thu, 30 Jun 2022 10:52:20 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.23462.1656586338870978482
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 03:39:56 -0700
+ Thu, 30 Jun 2022 03:52:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 92BF61042;
-	Thu, 30 Jun 2022 03:39:56 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com
- (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E0D273F5A1;
-	Thu, 30 Jun 2022 03:39:55 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH] ncurses: use GitHub mirror, not Debian's packaging
-Date: Thu, 30 Jun 2022 11:39:54 +0100
-Message-Id: <20220630103954.1183831-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FZ6EbFkI;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id k7so2198872wrc.12
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 30 Jun 2022 03:52:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=gDBbZsn12i+ojldFNczr8Of23PXYIeXCpM2H3D/iK04=;
+        b=FZ6EbFkIcW6jr8snPaHFI9Dms4Ev0gBq6RonbN3czHMCv3InzgzxoyAU9oXy5OdXOS
+         qHBESLB5ZnuDTkhNh0gO+jgeJDQv0WQ7bnqyAQvveskW6kq8xPr3B+L5dD2KpuEzSNmc
+         UwofBSY+D+KDL/0J1uVLMtyV58RMnaMBV5CVI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=gDBbZsn12i+ojldFNczr8Of23PXYIeXCpM2H3D/iK04=;
+        b=GodfKSzajDYBRNMmcxS0oBRM0nfG8yqBSE6VbsUNRpjDBCO48PlLlBNAUPxv47GAyu
+         fZD/cuMK9xWprMj4RwtuKKu5R4pb1Fp/KTpVRe0BckVZ8uKtdSKBKD4Qwp2rVNhceXCS
+         k7PFbNY5MI9vOq100cP2m6x2Zd+4IH3NbKst1g0zT22L/R/1/AV4XDSwGbd/u4+s+e9R
+         F4a8rlCrbmjWKaCQ6Sqsk7SgH6SfPwe+hQBX0JrVLjUV9ni4xPVXAdknghFKd6Wbzcn4
+         xqILApgdlRoGoZN/+KSTFynODF32PRJDtXQ4IofiXtSqqi1L6+xYmQlAdrUnsi5qVy8o
+         0lzQ==
+X-Gm-Message-State: AJIora91wE0ZzIMPxJWqwWXZASPdMJ8Yj0Ep1Nv5UWjFKIHz30Qt2GDs
+	F7SzNILFMM4e0eMsSqmuVzjbhA==
+X-Google-Smtp-Source: 
+ AGRyM1udOEiCXnPQ4SzKn+BUFAO3W/EANGRF88ToY2lJkJQZjfjtkeAn3qK8uRDie0BB1/6R2GaVZg==
+X-Received: by 2002:a5d:55c7:0:b0:21d:407c:cf1b with SMTP id
+ i7-20020a5d55c7000000b0021d407ccf1bmr1122896wrw.630.1656586337202;
+        Thu, 30 Jun 2022 03:52:17 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f06b:8b84:2b52:384a?
+ ([2001:8b0:aba:5f3c:f06b:8b84:2b52:384a])
+        by smtp.gmail.com with ESMTPSA id
+ l3-20020a1c7903000000b003a04962ad3esm2334291wme.31.2022.06.30.03.52.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jun 2022 03:52:16 -0700 (PDT)
+Message-ID: 
+ <2dff7aa236f2afce4982074ab76d125dc16014f6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 0/3] V3 /proc/pressure buildstats
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Aryaman Gupta <aryaman.gupta@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Cc: Randy MacLeod <randy.macleod@windriver.com>
+Date: Thu, 30 Jun 2022 11:52:15 +0100
+In-Reply-To: <20220622192105.2177756-1-aryaman.gupta@windriver.com>
+References: <20220622192105.2177756-1-aryaman.gupta@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 10:40:00 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Jun 2022 10:52:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167409
+ https://lists.openembedded.org/g/openembedded-core/message/167410
 
-The GitHub mirror of ncurses is updated daily, whereas the Debian
-packaging repository is only updated when they do an upgrade.
+On Wed, 2022-06-22 at 15:21 -0400, Aryaman Gupta wrote:
+> Changes in V3:
+> - In V2, it was assumed that heartbeat events arrived once per second
+>   but on the Autobuilder, the BB_HEARTBEAT_EVENT is set to 60 seconds.
+>   Hence, revert the requirement to restrict sampling only to heartbeat
+>   events.=20
+>=20
+> - Make sample return a bool indicating that a new sample was collected,
+>   and that the datastore should be updated.
+>=20
+> - Expand and explain why min_seconds has a tolerance of 0.01 seconds.
+>=20
+> While any testing is useful, it would be better if this change was
+> tested along with a patch that caused rebuilds to occur.=20
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/recipes-core/ncurses/ncurses.inc             | 2 +-
- meta/recipes-core/ncurses/ncurses_6.3+20220423.bb | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Unfortunately I suspect this has broken the performance worker testing:
 
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/nc=
-urses/ncurses.inc
-index 1abcfae1fef..367f3b19f48 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -13,7 +13,7 @@ BINCONFIG =3D "${bindir}/ncurses5-config ${bindir}/ncur=
-sesw5-config \
- inherit autotools binconfig-disabled multilib_header pkgconfig
-=20
- # Upstream has useful patches at times at ftp://invisible-island.net/ncu=
-rses/
--SRC_URI =3D "git://salsa.debian.org/debian/ncurses.git;protocol=3Dhttps;=
-branch=3Dmaster"
-+SRC_URI =3D "git://github.com/mirror/ncurses.git;protocol=3Dhttps;branch=
-=3Dmaster"
-=20
- EXTRA_AUTORECONF =3D "-I m4"
-=20
-diff --git a/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb b/meta/rec=
-ipes-core/ncurses/ncurses_6.3+20220423.bb
-index 6cd143774c8..1c46e79b308 100644
---- a/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
-@@ -5,7 +5,7 @@ SRC_URI +=3D "file://0001-tic-hang.patch \
-            file://0003-gen-pkgconfig.in-Do-not-include-LDFLAGS-in-genera=
-ted.patch \
-            "
- # commit id corresponds to the revision in package version
--SRCREV =3D "23b32732ccd779bae8731f2d4a611bfcae45974e"
-+SRCREV =3D "20db1fb41ec91cd8a1f528e770362092c5403378"
- S =3D "${WORKDIR}/git"
- EXTRA_OECONF +=3D "--with-abi-version=3D5"
- UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>\d+(\.\d+)+)$"
---=20
-2.25.1
+https://autobuilder.yoctoproject.org/typhoon/#/builders/132/builds/427/step=
+s/11/logs/stdio
+
+Cheers,
+
+Richard
 
 
