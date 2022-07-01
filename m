@@ -1,110 +1,194 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEB3BC43334
-	for <webhook@archiver.kernel.org>; Fri,  1 Jul 2022 11:52:57 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.37084.1656676376863186271
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18F8BC43334
+	for <webhook@archiver.kernel.org>; Fri,  1 Jul 2022 12:26:48 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web08.37294.1656678399635185148
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Jul 2022 04:52:57 -0700
+ Fri, 01 Jul 2022 05:26:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WLRzs0in;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id k7so2831872wrc.12
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=arE8sVSl;
+ spf=pass (domain: gmail.com, ip: 209.85.167.42,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f42.google.com with SMTP id e12so3594254lfr.6
         for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Jul 2022 04:52:56 -0700 (PDT)
+ Fri, 01 Jul 2022 05:26:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Q7WTuOWBmuhVwWcBC0Xez5JpGM3T01FBn/NPGl0lufE=;
-        b=WLRzs0inwA/vQjYM5CXCkmHS12VjEzzYE4q2WNEg3auaQ7SezmYF12d42JphzvZXei
-         XhdYNauVPoUoFhyD408pyAdoRhtddQo9AUSjL19n9VCL5Pv5CxwUiv1R1zOYxcf5c7f6
-         t2CvXQgRhjcrr6gKR+T9EDW6wEITnUgRPFN90=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8PRx9sOlhqsSUJRVj3XTEuN6yXwCZjsR75RllluRks0=;
+        b=arE8sVSlK0h6qlQm1CyFYmX57dWTu/9xokhe0NmjuZFJJg0gDNX6HgAcckz6jQYX9k
+         fYE5+fKUkr72b2IzZ2Mdq2+A6v5vi3hgUf7le6g0V2VJNbBSHDEbqj6xO0CIgEcDrTDe
+         b2vT7sMMQLTb6RtmNfhyAoYXq/K+8TMHQgzK7q4yYyuhOjJq6bc4D5MdhhS8ivSbLFV/
+         VYXFDlAfMCHQ09qQcXjjXKgQvI5o3Q98zR7eyRSlmmPur7YckB0HLSbjTlwx90ak2erK
+         qUtn8VBlAhZHEQFnCYMvShzzsk96IbEMe0DMSzz70ud4/HAqmK5gTyj6rKc2Cz7XuC7O
+         i7dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Q7WTuOWBmuhVwWcBC0Xez5JpGM3T01FBn/NPGl0lufE=;
-        b=eAlBtf25oZe3HjobGCoCuAY1BZacjAx/TKl+H2+v2Z//+NXF5d6dSoN9j2wYrNEw1L
-         GxRC2BAqj2WQqAItuoKHx55bQ49zBV6ZAsCLpFwZ/TywoHQUgHNw3YVpttAEPkZWLGGH
-         A0kbiW1P3ML3w6JWUxhjUmiKBVDYrSjIjC0oZDp7/x8uLyxojCMpEzCrOfvtLk6rb9H9
-         FwTPYWD86VkHRcrQ8xUSyMcvNsh/Aro0jsQ6kUuwcR8r3kYye9exRHzkBZI2dfXFkqJl
-         wY6ipa6p07GDjAw+UMUI031T4doCCV+bp0A1PJFShPFlfDS+vhJuSBYmhvb5llIX73t6
-         Jiog==
-X-Gm-Message-State: AJIora/ay9rvTa6rarQ9dSfhzMkG5LupiW9io0IpC47gWC3DQj7xsorv
-	nuqd7+XL6s4JlxCQAXxWNRXVLf3/ugkByA==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8PRx9sOlhqsSUJRVj3XTEuN6yXwCZjsR75RllluRks0=;
+        b=azNWOPZv341FTzU7/BSAzvAUpL+je/axUyEeI9AOEl+AaY5bU7nqwzuysByW9uTHhc
+         SsGpCe5HFNPHDDpo6bMOZcwLf+W1iQP1h1vZ3UDg4efynqHf1aHpMX4VJe2RtV5twDKk
+         N862A+Ba61kZHIUEHWP3MgXLV3e4nXAO0r8DMQKj+liRwgr2G9Ed8to0hER6fDlayEpa
+         Bj3nUho6A3vup+7LRAoI4SbZ12qQg6FIG4ZXIm0mYE38PpFDcqn6ecqzTRcR62/fnuzO
+         TwmDiU6fUQ+j0f3Sfs+K1kNIC+AIfC/SaakfBFcsJb0uGNJbTwVkUCaJDJNfYggRL4GA
+         P7PA==
+X-Gm-Message-State: AJIora9WZrarbokBx7GpweCxxK+no9PVbPFcBeBDNZIBVzBwp2jVKZdm
+	D1VjU5muCqyXDhZr5ddy+K8SP1vxXEuTVM+wZRk=
 X-Google-Smtp-Source: 
- AGRyM1uWnuusyoXHyFX0qDZBRsN2yioia7ZmGJ7C7gRhcBapTY7Uce3Wi/ZGK2Udl+oqjuIAJPsnug==
-X-Received: by 2002:a5d:59a7:0:b0:21b:cd67:52d9 with SMTP id
- p7-20020a5d59a7000000b0021bcd6752d9mr13807311wrr.194.1656676374580;
-        Fri, 01 Jul 2022 04:52:54 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a49f:615b:a613:6a47])
-        by smtp.gmail.com with ESMTPSA id
- m21-20020a05600c4f5500b003a0502c620dsm6239295wmq.44.2022.07.01.04.52.53
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Jul 2022 04:52:53 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] insane: Reword staging to refer to populate_sysroot
-Date: Fri,  1 Jul 2022 12:52:53 +0100
-Message-Id: <20220701115253.770729-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
+ AGRyM1usp8fDGz800+72HWnznSY1cNPfaNorC4sFjzvWfbmEy22x4nHmgbHMILy59h/ITRWG0tuOgqCLnP7Awjpb0d0=
+X-Received: by 2002:a05:6512:3403:b0:481:60ae:7ebc with SMTP id
+ i3-20020a056512340300b0048160ae7ebcmr1657458lfr.358.1656678397792; Fri, 01
+ Jul 2022 05:26:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: 
+ <SN4PR04MB836516C391002BA878B9E828E4BA9@SN4PR04MB8365.namprd04.prod.outlook.com>
+In-Reply-To: 
+ <SN4PR04MB836516C391002BA878B9E828E4BA9@SN4PR04MB8365.namprd04.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 1 Jul 2022 14:26:25 +0200
+Message-ID: 
+ <CANNYZj-+8qv4WWn0SufyzE4N5j5F_DYE_fR9+PHqDJ3oPZA6Pw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] package_manager/ipk: do not pipe stderr to
+ stdout
+To: Shruthi Ravichandran <shruthi.ravichandran@ni.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Jul 2022 11:52:57 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Jul 2022 12:26:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167465
+ https://lists.openembedded.org/g/openembedded-core/message/167466
 
-'staging' is a term lost in time. This code now operates on the sysroots,
-adjust the naming and messages to be more correct/appropriate.
+Yes, certainly.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/insane.bbclass | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+Alex
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index e6b0f081e61..fc7bb431e09 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -1149,13 +1149,14 @@ python do_package_qa_setscene () {
- }
- addtask do_package_qa_setscene
- 
--python do_qa_staging() {
--    bb.note("QA checking staging")
-+python do_qa_sysroot() {
-+    bb.note("QA checking do_populate_sysroot")
-     sysroot_destdir = d.expand('${SYSROOT_DESTDIR}')
-     for sysroot_dir in d.expand('${SYSROOT_DIRS}').split():
-         qa_check_staged(sysroot_destdir + sysroot_dir, d)
--    oe.qa.exit_with_message_if_errors("QA staging was broken by the package built above", d)
-+    oe.qa.exit_with_message_if_errors("do_populate_sysroot for this recipe installed files with QA issues", d)
- }
-+do_populate_sysroot[postfuncs] += "do_qa_sysroot"
- 
- python do_qa_patch() {
-     import subprocess
-@@ -1347,10 +1348,6 @@ python do_qa_unpack() {
-     unpack_check_src_uri(d.getVar('PN'), d)
- }
- 
--# The Staging Func, to check all staging
--#addtask qa_staging after do_populate_sysroot before do_build
--do_populate_sysroot[postfuncs] += "do_qa_staging "
--
- # Check for patch fuzz
- do_patch[postfuncs] += "do_qa_patch "
- 
--- 
-2.34.1
-
+On Fri, 1 Jul 2022 at 00:30, Shruthi Ravichandran
+<shruthi.ravichandran@ni.com> wrote:
+>
+> The change currently does discard everything in stderr. I can update
+> it to capture stderr and push it to bb.note on command success and
+> bb.fatal on command failure. In fact, I can make those changes to the
+> several other instances in this file where stderr is piped to stdout
+> too. Would that be acceptable?
+>
+> Shruthi
+>
+> > -----Original Message-----
+> > From: Alexander Kanavin <alex.kanavin@gmail.com>
+> > Sent: Thursday, June 30, 2022 1:47 AM
+> > To: Shruthi Ravichandran <shruthi.ravichandran@ni.com>
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core][PATCH] package_manager/ipk: do not pipe stderr to stdout
+> >
+> > Thanks for the information - perhaps this should be added to the commit message?
+> >
+> > Does this change discard things that appear on stderr completely, or
+> > does it still go somewhere where it can be seen later?
+> >
+> > Alex
+> >
+> > On Wed, 29 Jun 2022 at 21:22, Shruthi Ravichandran
+> > <shruthi.ravichandran@ni.com> wrote:
+> > >
+> > > Hi Alex,
+> > >
+> > > I've found that some OE commands print an error during cleanup when
+> > > the tmp_dir does not exist and an attempt is made to delete it. I've
+> > > submitted a patch to opkg to fix that.
+> > > Link:
+> > https://urldefense.com/v3/__https://git.yoctoproject.org/opkg/commit/?id=8dfdda86afd407a66e3dc00a077bdcc8b53d54ea__;!!FbZ0ZwI
+> > 3Qg!omDrJfbrjlLbY2OMgsAgQrIcnap222jrjZJAhJX_BWhVJfMi09419QAHH1bVf1VafwMRcVuWBaQ5k8y6gk-W-iLjh48$ .
+> > > That was the one instance that was causing an issue in our builds.
+> > > There may be other instances that I don't know of. Given that, I think
+> > > the package_manager code should be resilient against any such
+> > > miscellaneous stderr messages, which do not result in the command
+> > > itself failing.
+> > >
+> > > Hope that helps,
+> > > Shruthi
+> > >
+> > > > -----Original Message-----
+> > > > From: Alexander Kanavin <alex.kanavin@gmail.com>
+> > > > Sent: Tuesday, June 28, 2022 1:33 PM
+> > > > To: Shruthi Ravichandran <shruthi.ravichandran@ni.com>
+> > > > Cc: openembedded-core@lists.openembedded.org
+> > > > Subject: Re: [OE-core][PATCH] package_manager/ipk: do not pipe stderr to stdout
+> > > >
+> > > > This needs additional justification. What are the error messages, why are they harmless and why the solution is to suppress them instead
+> > of
+> > > > addressing the reasons they appear?
+> > > >
+> > > > Alex
+> > > >
+> > > > On Tue 28. Jun 2022 at 23.13, Shruthi Ravichandran <shruthi.ravichandran@ni.com <mailto:shruthi.ravichandran@ni.com> > wrote:
+> > > >
+> > > >
+> > > >       When parsing the output of a command, do not pipe stderr to stdout.
+> > > >       Opkg sometimes prints harmless error messages even when the opkg
+> > > >       command succeeds. When stderr is piped to stdout, these error
+> > > >       messages may clobber the stdout and cause unexpected results while
+> > > >       parsing the output.
+> > > >
+> > > >       Signed-off-by: Shruthi Ravichandran <shruthi.ravichandran@ni.com <mailto:shruthi.ravichandran@ni.com> >
+> > > >       ---
+> > > >        meta/lib/oe/package_manager/ipk/__init__.py | 2 +-
+> > > >        1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > >       diff --git a/meta/lib/oe/package_manager/ipk/__init__.py b/meta/lib/oe/package_manager/ipk/__init__.py
+> > > >       index 4cd3963111..d7f3f31853 100644
+> > > >       --- a/meta/lib/oe/package_manager/ipk/__init__.py
+> > > >       +++ b/meta/lib/oe/package_manager/ipk/__init__.py
+> > > >       @@ -103,7 +103,7 @@ class OpkgDpkgPM(PackageManager):
+> > > >                """
+> > > >
+> > > >                try:
+> > > >       -            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True).decode("utf-8")
+> > > >       +            output = subprocess.check_output(cmd, shell=True).decode("utf-8")
+> > > >                except subprocess.CalledProcessError as e:
+> > > >                    bb.fatal("Unable to list available packages. Command '%s' "
+> > > >                             "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
+> > > >       --
+> > > >       2.20.1
+> > > >
+> > > >
+> > > >       -=-=-=-=-=-=-=-=-=-=-=-
+> > > >       Links: You receive all messages sent to this group.
+> > > >       View/Reply Online (#167354): https://urldefense.com/v3/__https://lists.openembedded.org/g/openembedded-
+> > core/message/167354__;!!FbZ0ZwI3Qg!omDrJfbrjlLbY2OMgsAgQrIcnap222jrjZJAhJX_BWhVJfMi09419QAHH1bVf1VafwMRcVuWBaQ5k8y6
+> > gk-W-P8eXeA$
+> > > > <https://urldefense.com/v3/__https://lists.openembedded.org/g/openembedded-
+> > > > core/message/167354__;!!FbZ0ZwI3Qg!qc0xbL3QBz_illnPIJoeHb6mGA1kBLndLjrGDjlfDwR7rkQcM8i7ZTte5y_GL4XNQru-
+> > > > qSvIV3p_DxpS6tCIX3jHMdg$>
+> > > >       Mute This Topic:
+> > https://urldefense.com/v3/__https://lists.openembedded.org/mt/92051989/1686489__;!!FbZ0ZwI3Qg!omDrJfbrjlLbY2OMgsAgQrIcnap222
+> > jrjZJAhJX_BWhVJfMi09419QAHH1bVf1VafwMRcVuWBaQ5k8y6gk-WvQyK1Es$
+> > > >
+> > <https://urldefense.com/v3/__https://lists.openembedded.org/mt/92051989/1686489__;!!FbZ0ZwI3Qg!qc0xbL3QBz_illnPIJoeHb6mGA1kB
+> > > > LndLjrGDjlfDwR7rkQcM8i7ZTte5y_GL4XNQru-qSvIV3p_DxpS6tCIs81jASw$>
+> > > >       Group Owner: openembedded-core+owner@lists.openembedded.org <mailto:openembedded-
+> > > > core%2Bowner@lists.openembedded.org>
+> > > >       Unsubscribe: https://urldefense.com/v3/__https://lists.openembedded.org/g/openembedded-
+> > core/unsub__;!!FbZ0ZwI3Qg!omDrJfbrjlLbY2OMgsAgQrIcnap222jrjZJAhJX_BWhVJfMi09419QAHH1bVf1VafwMRcVuWBaQ5k8y6gk-
+> > WWbrhU-c$
+> > > > <https://urldefense.com/v3/__https://lists.openembedded.org/g/openembedded-
+> > > > core/unsub__;!!FbZ0ZwI3Qg!qc0xbL3QBz_illnPIJoeHb6mGA1kBLndLjrGDjlfDwR7rkQcM8i7ZTte5y_GL4XNQru-
+> > qSvIV3p_DxpS6tCIADJRjJc$>
+> > > > [alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com> ]
+> > > >       -=-=-=-=-=-=-=-=-=-=-=-
+> > > >
+> > > >
+> > >
+> > >
+> > > INTERNAL - NI CONFIDENTIAL
+>
+> INTERNAL - NI CONFIDENTIAL
 
