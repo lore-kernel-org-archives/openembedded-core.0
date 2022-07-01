@@ -2,62 +2,65 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2277BCCA479
-	for <webhook@archiver.kernel.org>; Fri,  1 Jul 2022 12:52:28 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.37659.1656679942317741403
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36C7EC43334
+	for <webhook@archiver.kernel.org>; Fri,  1 Jul 2022 12:53:58 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web08.37655.1656680027516399554
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Jul 2022 05:52:22 -0700
+ Fri, 01 Jul 2022 05:53:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GtOSfp6V;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UcUviGeT;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id k22so3096896wrd.6
+Received: by mail-wr1-f41.google.com with SMTP id k7so3069786wrc.12
         for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Jul 2022 05:52:22 -0700 (PDT)
+ Fri, 01 Jul 2022 05:53:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
+        h=message-id:subject:from:to:date:in-reply-to:references
          :content-transfer-encoding:user-agent:mime-version;
-        bh=fPjgHdJWDEAMFkYerChNxpZRZPgCrRS7q4MWSdWyqVg=;
-        b=GtOSfp6VZz6J4CI6K5tukg4qEvDhsbl3zlLfF3IVBgZTvAIDuNmtDg6zFHopAkxyis
-         USAOSPT2KlzjOHg3Xe5lI15jf/qIMfPq579a23OTbn3/jTA++Xe14Ogry9IWEPzJsPIV
-         GNBJFfFGPGwYYpNzJ+62fUorPrGnNbo+5JPqo=
+        bh=hGYHQFljMagRjDhpzc3Q4YVmOGHwY0mOoIW5b0e3+os=;
+        b=UcUviGeTXtuGzJLEQG7pyNWNd/HvkLfANs5ZfxcOU3T1Aq7d98Nm3pVDX4kdDZ+qnK
+         1cTVxqmtSG1aN3FRF8vDwW0p05CIem5YZhFfBqp9s9XlO9GOPg02kDxG6YsBrVtBQxGH
+         gNJguLOdgqovY23DRkqa1YbQEWRgWnU26eOh0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:content-transfer-encoding:user-agent:mime-version;
-        bh=fPjgHdJWDEAMFkYerChNxpZRZPgCrRS7q4MWSdWyqVg=;
-        b=yyqAkG31Htf0MTE3fdM8PByTwW1CUld4nn58dZVJWFbhMoUKtYyNkMN+hylV1Ufbdb
-         73PzFxkkoz/5ja7vrUPMsweMWNxPH0vbWBg0OP0tMwDsp4DoifruubN9A2VdwSRIWHps
-         EhLhXXB7Zk2dzgYUkDUznMwPw84qtlqWTMR6NWdDlKuk3qvJmoxdVrm2icUZWugqh6ZQ
-         jgA38VkVK6M++OwJ3pha1d6mouQtFg9X59LIaSeo5iN/CW3UGvUnogFN9kxRTQ/mgrIV
-         BadgVvldoydG3Kq0Shos/eG09VYp+EyC+KvU0AIM8NLK1xIUXcvdowdl2tubngUAmpDq
-         i9kw==
-X-Gm-Message-State: AJIora9NSd6oMTxIu4viynlQtCIY4JMfGdMkysidlYkvn3o7tcgvObMM
-	cnVHxe0i7O975t20g2rTDM75TQ==
+        bh=hGYHQFljMagRjDhpzc3Q4YVmOGHwY0mOoIW5b0e3+os=;
+        b=BBEYWXrjauws8osathaE8Htph0gVX4Ln+82OJQm2RWJGg982nFtBOF2/iTgeTSv1Vw
+         EUX4ws91CuxBf4rbA0WWUu3UkowPRjHLv+aiKspnW0K2eslHHMeVaNFFPphbISzpqMK9
+         IRQxCQ9z5opzBFWs3xnR1gi+F1dIk4XUSLj41uSI5eNeBwaO+MwmGBvYcEgdyybXlrt4
+         goOyoQXilkHbBRfBV8vNaxqsBH5D+TV6ukVNJRce5zEJaDv+7NCAy2I7N5owxRklvPXi
+         uSwMtkhIvboayVu1U2QpJIer7h9sprJa41LtrAt1nxZOG27qyuM7jZG03vtjb+2LdQ0u
+         L+Og==
+X-Gm-Message-State: AJIora8B1FTgUN+nr2ekmAtXWSmWzxE5WjD6ztlbTWEvvaAmctl8eF+E
+	oBY0NSYT23KCdMDFifKepDEnzA==
 X-Google-Smtp-Source: 
- AGRyM1uTEWDbsb0tYqL6f6g6FFjI1TRmfSWw7cWxk4VBkl8U5sL3WryHD6KdL8t9Haeb7BmUC+KJLg==
-X-Received: by 2002:a5d:588f:0:b0:21b:ba06:4d46 with SMTP id
- n15-20020a5d588f000000b0021bba064d46mr14518778wrf.58.1656679940707;
-        Fri, 01 Jul 2022 05:52:20 -0700 (PDT)
+ AGRyM1souWzGQxA90QayfgThuQ1nOjAFujJiQ6SvMR2XRh1W8hadEciSSa9IiPiMXux8/ZU/7gnaIQ==
+X-Received: by 2002:a05:6000:3cd:b0:21b:8e8d:470f with SMTP id
+ b13-20020a05600003cd00b0021b8e8d470fmr13250114wrg.387.1656680026057;
+        Fri, 01 Jul 2022 05:53:46 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:a49f:615b:a613:6a47?
  ([2001:8b0:aba:5f3c:a49f:615b:a613:6a47])
         by smtp.gmail.com with ESMTPSA id
- l4-20020a1c7904000000b003a047f64496sm10345019wme.7.2022.07.01.05.52.19
+ u15-20020a5d434f000000b0021b970a68f9sm22512296wrr.26.2022.07.01.05.53.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Jul 2022 05:52:19 -0700 (PDT)
+        Fri, 01 Jul 2022 05:53:45 -0700 (PDT)
 Message-ID: 
- <dc6bb9e65b31c7ef84855e9cd9245d0d9e4976f8.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 0/7] kernel-yocto: consolidated pull request
+ <d5c4534e429fc9307eaaba5a8316795d906cd27f.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v5 3/7] insane.bbclass: Make do_qa_staging
+ check shebangs
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: bruce.ashfield@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Date: Fri, 01 Jul 2022 13:52:18 +0100
-In-Reply-To: <16FDAC3178C621FE.2437@lists.openembedded.org>
-References: <cover.1656616115.git.bruce.ashfield@gmail.com>
-	 <16FDAC3178C621FE.2437@lists.openembedded.org>
+To: Paulo Neves <ptsneves@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 01 Jul 2022 13:53:43 +0100
+In-Reply-To: <16F97685B484595E.1329@lists.openembedded.org>
+References: <20220606155807.1414519-1-ptsneves@gmail.com>
+	 <20220614151105.1890454-1-ptsneves@gmail.com>
+	 <20220614151105.1890454-3-ptsneves@gmail.com>
+	 <16F97685B484595E.1329@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.1-0ubuntu1 
@@ -65,42 +68,90 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Jul 2022 12:52:28 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Jul 2022 12:53:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167467
+ https://lists.openembedded.org/g/openembedded-core/message/167468
 
-On Fri, 2022-07-01 at 10:59 +0100, Richard Purdie via
+On Fri, 2022-06-17 at 17:50 +0100, Richard Purdie via
 lists.openembedded.org wrote:
-> On Thu, 2022-06-30 at 15:16 -0400, bruce.ashfield@gmail.com wrote:
-> > With conference travel and issues with meta-virtualization, I've been
-> > behind in sending this out .. but I have been queueing changes, I just
-> > wanted to be around in case something breaks.
+> On Tue, 2022-06-14 at 17:11 +0200, Paulo Neves wrote:
+> > As reported in the bug report [1], there was no check for shebang
+> > sizes on native scripts and now this is fixed.
 > >=20
-> > Here are the -stable updates and the start of my efforts to bring
-> > 5.19 in as the new reference kernel for the fall release.
+> > The path scope of the qa_staging was increased from just checking
+> > libdir to all the relevant SYSROOT_DIRS.
 > >=20
-> > lttng-modules needed it's normal tweaks to work against the 5.19 source=
-,
-> > but otherwise, nothing significant has popped up.  I have other parts
-> > of that uprev under test (libc-headers, systemtap, etc).
+> > It is possible to skip this check through INSANE_SKIP.
+> >=20
+> > [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D11053
+> >=20
+> > Signed-off-by: Paulo Neves <ptsneves@gmail.com>
+> > ---
+> >  meta/classes/insane.bbclass | 16 +++++++++++++++-
+> >  1 file changed, 15 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> > index 9ca84bace9..b2951a48fe 100644
+> > --- a/meta/classes/insane.bbclass
+> > +++ b/meta/classes/insane.bbclass
+> > @@ -630,6 +630,11 @@ def qa_check_staged(path,d):
+> >          bb.note("Recipe %s skipping qa checking: pkgconfig" % d.getVar=
+('PN'))
+> >          skip_pkgconfig =3D True
+> > =20
+> > +    skip_shebang_size =3D False
+> > +    if 'shebang-size' in skip:
+> > +        bb.note("Recipe %s skipping qa checkking: shebang-size" % d.ge=
+tVar('PN'))
+> > +        skip_shebang_size =3D True
+> > +
+> >      # find all .la and .pc files
+> >      # read the content
+> >      # and check for stuff that looks wrong
+> > @@ -651,6 +656,13 @@ def qa_check_staged(path,d):
+> >                          error_msg =3D "%s failed sanity test (tmpdir) =
+in path %s" % (file,root)
+> >                          oe.qa.handle_error("pkgconfig", error_msg, d)
+> > =20
+> > +            if not skip_shebang_size:
+> > +                errors =3D {}
+> > +                package_qa_check_shebang_size(path, "", d, None, error=
+s)
+> > +                for e in errors:
+> > +                    oe.qa.handle_error(e, errors[e], d)
+> > +
+> > +
+> >  # Run all package-wide warnfuncs and errorfuncs
+> >  def package_qa_package(warnfuncs, errorfuncs, package, d):
+> >      warnings =3D {}
+> > @@ -1139,7 +1151,9 @@ addtask do_package_qa_setscene
+> > =20
+> >  python do_qa_staging() {
+> >      bb.note("QA checking staging")
+> > -    qa_check_staged(d.expand('${SYSROOT_DESTDIR}${libdir}'), d)
+> > +    sysroot_destdir =3D d.expand('${SYSROOT_DESTDIR}')
+> > +    for sysroot_dir in d.expand('${SYSROOT_DIRS}').split():
+> > +        qa_check_staged(sysroot_destdir + sysroot_dir, d)
+> >      oe.qa.exit_with_message_if_errors("QA staging was broken by the pa=
+ckage built above", d)
+> >  }
 >=20
-> Thanks Bruce!
 >=20
-> Unfortunately there was one issue the autobuilder found, a
-> reproducibility issue in perf:
+> I'm a little worried about the performance implications of this, we're
+> going from scanning files in libdir to scanning nearly all files in the
+> sysroots, reading from many of them. In isolation that doesn't seem
+> much but I suspect the IO will impact builds overall.
 >=20
-> http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20220630-53gdl=
-qxv/packages/diff-html/
->=20
-> I've not looked into it other than looking at the above link but it
-> seems some python paths are creeping into the binaries.
+> That leaves me a little torn on this change :/
 
-This looked a little suspicious to me:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=
-=3Dlinux-5.15.y&id=3D18f2967418d031a390a5befe855dd0faa8af70b9
+Sorry about the delay on this. My concern isn't an issue as I wasn't
+remembering the exact context of this code correctly. The patches have
+therefore merged, thanks!
 
 Cheers,
 
 Richard
+
+
+
 
