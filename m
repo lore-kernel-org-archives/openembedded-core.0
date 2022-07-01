@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 062EEC2BBED
-	for <webhook@archiver.kernel.org>; Fri,  1 Jul 2022 14:51:10 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com
- (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.39335.1656687062961208678
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F19F4C2BBEC
+	for <webhook@archiver.kernel.org>; Fri,  1 Jul 2022 14:51:09 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com
+ (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web09.39735.1656687063021870407
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Jul 2022 07:51:03 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=RN6oWg3c;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
- mailfrom: 01010181ba3e6947-bbf6e23d-1a49-487b-b5cb-82e6b6518329-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=LjGBZFfs;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
+ mailfrom: 01010181ba3e6bac-ee979f0c-cbd3-4345-bf4f-333f994b81a5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1656687062;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=pMSQemt0Z95U1RVTk3y7SRE8R0Wnq3PWhHaeur8qis4=;
-	b=RN6oWg3caVrUjRxv8CaWKrF+smlOOwiC1lQ7VigRxh+YAWMAbUix6Wzvk20qDD7b
-	ZiO467j1v0XPbFPkn+DzHoqCJBHouMtVSbzJ4vjQsIrkdGStGKiANG+UJXo2V21fqrA
-	LS4gZKkfKarIisxlnX5aLGTu2hwPU2SGEFkeceIg=
+	bh=hOepcpaMwImYCvSYeGjSkHbDm+22AWDawO/cqJqzW80=;
+	b=LjGBZFfsYCG7FhMpVc6KVSy+DYINzZA3Kz+HiaEVgaY1QuugLZe7ZZkJJhYUPgwj
+	0kJOX3BrlhvZBYvYMgxqa7fAxL8DeUakDiOzty5ZH0C95OGZ3OSkLc4OxdHdSkP09Ce
+	5FY/0H46WkSZ/IlAneKyvF4qjwFgCcidNaIbTaRI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1656687062;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=pMSQemt0Z95U1RVTk3y7SRE8R0Wnq3PWhHaeur8qis4=;
-	b=f12gYNtSM3j6202rzU2Jmq7rruw4z94zscwz53kh4TTLOfKhy6kdlBhkwPI/Wxq8
-	g/jgj+7ZFVUJIEREbnZ1+jcwVSQd/TYgsCHDMLuAf7gc2RbDt4v/PPGPsbcWcSBsSgY
-	mmiRzIgy/LAbMlAlynVA0VTsOBIFeUtQSlGrzoKQ=
-Content-Type: multipart/mixed; boundary="===============3478286492968166084=="
+	bh=hOepcpaMwImYCvSYeGjSkHbDm+22AWDawO/cqJqzW80=;
+	b=g5VJqeU2sb8KRL4QC1jm+Yh5e5vqu0suCVIAvCZqEjfTKYW3A9lB1QbCrqjIE6aA
+	CLRvDQg26LbKTTWsoYOn+4Y2ajd0dSG1Rd7w7wR1e34HXVwU05wVsjgkAnkjPTUX1Cd
+	zkQUcbV8xsLhLvnOffmp70KyKVXp5roqel8se2rE=
+Content-Type: multipart/mixed; boundary="===============7943343418824947441=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] createrepo-c: upgrading to 0.20.1 SUCCEEDED
+Subject: [AUH] python3-hypothesis: upgrading to 6.48.2 SUCCEEDED
 Message-ID: 
- <01010181ba3e6947-bbf6e23d-1a49-487b-b5cb-82e6b6518329-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Jul 2022 14:51:01 +0000
+ <01010181ba3e6bac-ee979f0c-cbd3-4345-bf4f-333f994b81a5-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Jul 2022 14:51:02 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.07.01-54.240.27.33
+X-SES-Outgoing: 2022.07.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Jul 2022 14:51:10 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Jul 2022 14:51:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167486
+ https://lists.openembedded.org/g/openembedded-core/message/167487
 
---===============3478286492968166084==
+--===============7943343418824947441==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *createrepo-c* to *0.20.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-hypothesis* to *6.48.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-createrepo-c-upgrade-0.20.0-0.20.1.patch
+    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.46.11-6.48.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,90 +75,105 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3478286492968166084==
+--===============7943343418824947441==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-createrepo-c-upgrade-0.20.0-0.20.1.patch"
+ filename="0001-python3-hypothesis-upgrade-6.46.11-6.48.2.patch"
 
-From 8c9d05ece7a1c1b9e1915e5d8d9cd5aa5e513d68 Mon Sep 17 00:00:00 2001
+From e00574065a831589357a1391badbde2742b529a6 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Jul 2022 07:40:18 +0000
-Subject: [PATCH] createrepo-c: upgrade 0.20.0 -> 0.20.1
+Date: Fri, 1 Jul 2022 08:42:13 +0000
+Subject: [PATCH] python3-hypothesis: upgrade 6.46.11 -> 6.48.2
 
 ---
- .../{createrepo-c_0.20.0.bb => createrepo-c_0.20.1.bb}          | 2 +-
+ ...thon3-hypothesis_6.46.11.bb => python3-hypothesis_6.48.2.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/createrepo-c/{createrepo-c_0.20.0.bb => createrepo-c_0.20.1.bb} (96%)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.46.11.bb => python3-hypothesis_6.48.2.bb} (91%)
 
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_0.20.0.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_0.20.1.bb
-similarity index 96%
-rename from meta/recipes-devtools/createrepo-c/createrepo-c_0.20.0.bb
-rename to meta/recipes-devtools/createrepo-c/createrepo-c_0.20.1.bb
-index bc61cac955..d309bb895f 100644
---- a/meta/recipes-devtools/createrepo-c/createrepo-c_0.20.0.bb
-+++ b/meta/recipes-devtools/createrepo-c/createrepo-c_0.20.1.bb
-@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/rpm-software-management/createrepo_c;branch=master;p
-            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
-            "
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.46.11.bb b/meta/recipes-devtools/python/python3-hypothesis_6.48.2.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.46.11.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.48.2.bb
+index 1d9772d4ff..9e74e2c1cd 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.46.11.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.48.2.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
  
--SRCREV = "e53188f86f4dfad46f5b81d6931cbaec19e44ea2"
-+SRCREV = "af14e164a3e4ab9dfaef1212e852b9ecebc326a2"
+-SRC_URI[sha256sum] = "f5c1cf61b24b094355577a6b8fbbb8eb54c1b0216fbc0519af97c46bddf43c42"
++SRC_URI[sha256sum] = "ef548f10438095678af7fcfa369b882390355a6329db73174a65749b677677ec"
  
- S = "${WORKDIR}/git"
- 
+ RDEPENDS:${PN} += " \
+     python3-attrs \
 -- 
 2.31.1
 
 
---===============3478286492968166084==
+--===============7943343418824947441==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-bash-completion: PV changed from "0.20.0" to "0.20.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-bash-completion: PKGV changed from 0.20.0 [default] to 0.20.1 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dbg: PKGSIZE changed from 1149760 to 1152784 (+0%)
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dbg: PV changed from "0.20.0" to "0.20.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dbg: PKGV changed from 0.20.0 [default] to 0.20.1 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dbg: FILELIST: removed "/usr/lib/.debug/libcreaterepo_c.so.0.20.0", added "/usr/lib/.debug/libcreaterepo_c.so.0.20.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dev: PKGSIZE changed from 138270 to 142602 (+3%)
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dev: PV changed from "0.20.0" to "0.20.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dev: PKGV changed from 0.20.0 [default] to 0.20.1 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dev: FILELIST: added "/usr/include/createrepo_c/createrepo_shared.h"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-doc: PV changed from "0.20.0" to "0.20.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-doc: PKGV changed from 0.20.0 [default] to 0.20.1 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-locale: PV changed from "0.20.0" to "0.20.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-locale: PKGV changed from 0.20.0 [default] to 0.20.1 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-src: PKGSIZE changed from 1219452 to 1222440 (+0%)
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-src: PV changed from "0.20.0" to "0.20.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-src: PKGV changed from 0.20.0 [default] to 0.20.1 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-staticdev: PV changed from "0.20.0" to "0.20.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-staticdev: PKGV changed from 0.20.0 [default] to 0.20.1 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c: PKGSIZE changed from 522119 to 526215 (+1%)
-packages/core2-32-poky-linux/createrepo-c/createrepo-c: PV changed from "0.20.0" to "0.20.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c: PKGV changed from 0.20.0 [default] to 0.20.1 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c: FILELIST: removed "/usr/lib/libcreaterepo_c.so.0.20.0", added "/usr/lib/libcreaterepo_c.so.0.20.1"
-packages/core2-32-poky-linux/createrepo-c: PV changed from "0.20.0" to "0.20.1"
-packages/core2-32-poky-linux/createrepo-c: PKGV changed from 0.20.0 [default] to 0.20.1 [default]
-Changes to packages/core2-32-poky-linux/createrepo-c (sysroot):
-  /usr/lib/libcreaterepo_c.so.0 changed symlink target from libcreaterepo_c.so.0.20.0 to libcreaterepo_c.so.0.20.1
-  /usr/lib/libcreaterepo_c.so.0.20.0 moved to /usr/lib/libcreaterepo_c.so.0.20.1
-  /usr/include/createrepo_c/createrepo_shared.h was added
+packages/core2-32-poky-linux/python3-hypothesis: PKGV changed from 6.46.11 [default] to 6.48.2 [default]
+packages/core2-32-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.46.11.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.48.2.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py"
+packages/core2-32-poky-linux/python3-hypothesis: PV changed from "6.46.11" to "6.48.2"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.46.11 [default] to 6.48.2 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.46.11" to "6.48.2"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.46.11 [default] to 6.48.2 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.46.11" to "6.48.2"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.46.11 [default] to 6.48.2 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.46.11" to "6.48.2"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.46.11 [default] to 6.48.2 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.46.11" to "6.48.2"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.46.11 [default] to 6.48.2 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.46.11" to "6.48.2"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.46.11 [default] to 6.48.2 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.46.11" to "6.48.2"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.46.11 [default] to 6.48.2 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.46.11" to "6.48.2"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.46.11 [default] to 6.48.2 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 2070320 to 2072669 (+0%)
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.46.11" to "6.48.2"
+Changes to packages/core2-32-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.10/site-packages/hypothesis-6.48.2.dist-info was added
+  /usr/lib/python3.10/site-packages/hypothesis-6.48.2.dist-info/entry_points.txt was added
+  /usr/lib/python3.10/site-packages/hypothesis-6.48.2.dist-info/LICENSE.txt was added
+  /usr/lib/python3.10/site-packages/hypothesis-6.48.2.dist-info/METADATA was added
+  /usr/lib/python3.10/site-packages/hypothesis-6.48.2.dist-info/RECORD was added
+  /usr/lib/python3.10/site-packages/hypothesis-6.48.2.dist-info/top_level.txt was added
+  /usr/lib/python3.10/site-packages/hypothesis-6.48.2.dist-info/WHEEL was added
+  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info was removed
+  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/entry_points.txt was removed
+  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/METADATA was removed
+  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/RECORD was removed
+  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/top_level.txt was removed
+  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/WHEEL was removed
 
---===============3478286492968166084==
+--===============7943343418824947441==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dev: FILELIST: added "/usr/include/createrepo_c/createrepo_shared.h"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c: FILELIST: removed "/usr/lib/libcreaterepo_c.so.0.20.0", added "/usr/lib/libcreaterepo_c.so.0.20.1"
-Changes to packages/core2-32-poky-linux/createrepo-c (sysroot):
-  /usr/lib/libcreaterepo_c.so.0 changed symlink target from libcreaterepo_c.so.0.20.0 to libcreaterepo_c.so.0.20.1
-  /usr/lib/libcreaterepo_c.so.0.20.0 moved to /usr/lib/libcreaterepo_c.so.0.20.1
-  /usr/include/createrepo_c/createrepo_shared.h was added
+Changes to packages/core2-32-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.10/site-packages/hypothesis-6.48.2.dist-info was added
+  /usr/lib/python3.10/site-packages/hypothesis-6.48.2.dist-info/entry_points.txt was added
+  /usr/lib/python3.10/site-packages/hypothesis-6.48.2.dist-info/LICENSE.txt was added
+  /usr/lib/python3.10/site-packages/hypothesis-6.48.2.dist-info/METADATA was added
+  /usr/lib/python3.10/site-packages/hypothesis-6.48.2.dist-info/RECORD was added
+  /usr/lib/python3.10/site-packages/hypothesis-6.48.2.dist-info/top_level.txt was added
+  /usr/lib/python3.10/site-packages/hypothesis-6.48.2.dist-info/WHEEL was added
+  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info was removed
+  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/entry_points.txt was removed
+  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/METADATA was removed
+  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/RECORD was removed
+  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/top_level.txt was removed
+  /usr/lib/python3.10/site-packages/hypothesis-6.46.11.dist-info/WHEEL was removed
 
---===============3478286492968166084==--
+--===============7943343418824947441==--
 
