@@ -1,84 +1,169 @@
-Return-Path: <preid@electromag.com.au>
+Return-Path: <alhe@linux.microsoft.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C12B0C433EF
-	for <webhook@archiver.kernel.org>; Fri,  1 Jul 2022 01:14:44 +0000 (UTC)
-Received: from anchovy3.45ru.net.au (anchovy3.45ru.net.au [203.30.46.155])
- by mx.groups.io with SMTP id smtpd.web08.32871.1656638082898146224
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B160C43334
+	for <webhook@archiver.kernel.org>; Fri,  1 Jul 2022 02:09:55 +0000 (UTC)
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web10.33416.1656641391240321853
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Jun 2022 18:14:43 -0700
+ Thu, 30 Jun 2022 19:09:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=permanent DNS error (domain: electromag.com.au,
- ip: 203.30.46.155, mailfrom: preid@electromag.com.au)
-Received: (qmail 8454 invoked by uid 5089); 1 Jul 2022 01:14:40 -0000
-Received: by simscan 1.2.0 ppid: 8401, pid: 8402, t: 0.0623s
-         scanners: regex: 1.2.0 attach: 1.2.0 clamav: 0.88.3/m:40/d:1950
-Received: from unknown (HELO ?10.1.1.101?)
- (preid@electromag.com.au@115.64.172.57)
-  by anchovy2.45ru.net.au with ESMTPA; 1 Jul 2022 01:14:40 -0000
-Message-ID: <fbe2ba5d-f82c-ea57-a00d-4e0ff1b9586f@electromag.com.au>
-Date: Fri, 1 Jul 2022 09:14:38 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
+ dkim=fail reason="body hash did not verify" header.i=@linux.microsoft.com
+ header.s=default header.b=mYFrp9l2;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182,
+ mailfrom: alhe@linux.microsoft.com)
+Received: from alsamon-xub.lan (cpe-70-112-59-126.austin.res.rr.com
+ [70.112.59.126])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 2777520CDF9A;
+	Thu, 30 Jun 2022 19:09:50 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2777520CDF9A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1656641390;
+	bh=I/NU+6Wq7zo2nEAZ4HsavNU8C3U7XLbJkmcy+rS8mBg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=mYFrp9l2o7kiWkVjGyZtwmm71PEwtKgL3JCaUBBcD+1//Vg29/ulB3Grd19VQ8X5i
+	 wgw8u7iO2BX1vCjtYgNJK8TNJ0WW/8W7+2TQJGPJ5PmEFd9BvJc9kIcQ3lYFD84HFN
+	 bZr6x1wFfw57eLsXoeqOdapPhtmh266hh8TyL/rs=
+From: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>
 To: openembedded-core@lists.openembedded.org
-Content-Language: en-AU
-From: Phil Reid <preid@electromag.com.au>
-Subject: libstdc++ honister -> kirkstone
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Cc: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>
+Subject: [PATCH] package.bbclass: Fix base directory for debugsource files
+ when using externalsrc
+Date: Thu, 30 Jun 2022 20:09:39 -0600
+Message-Id: <20220701020939.62295-1-alhe@linux.microsoft.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Jul 2022 01:14:44 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Jul 2022 02:09:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167447
+ https://lists.openembedded.org/g/openembedded-core/message/167448
 
-G'day All,
+While executing do_package, bitbake checks for a list of
+debug source files and uses a pattern to match the ones
+to be included in copydebugsources.
 
-We're just updating from honister to kirkstone branch and run into
-an issue with libstdc++. We're targeting a 32 bit arm device.
+Previously when externalsrc was in use either directly or by
+using devtool, the source location changed and this pattern
+no longer matched, hence debug source files failed to be
+included in the corresponding package.
 
-is_empty throws with "filesystem error: cannot check if file is empty: Operation not supported"
-when called on an empty directory.
+Check when the source directory isnt the default (based on
+WORKDIR), and change the pattern used to match debug source
+files if that is the case, allowing us to perform do_package
+properly.
 
-tracing this status is returning fs::file_type::unknown which looks to result from stat returnung EOVERFLOW.
-Which appears to be related to 64 / 32 bit file size limits.
+Workaround debugsource.list containing paths from the host by
+moving debug source files away from the host directory
+structure  to avoid host contamination (this seems to happen
+when packages use $TMPDIR/work-shared and externalsrc is
+in use).
 
-We are compiling our code with: -D_FILE_OFFSET_BITS=64
+Test matrix included using:
+- devtool to use externalsrc automatically
+- externalsrc with a non-devtool based source directory
+- No externalsrc at all
+Tested the following packages to be working:
+- glibc ($TMPDIR/work-shared based)
+- libxcrypt ($TMPDIR/work based)
 
+[YOCTO 8015]
 
-It does look like the builds are linking things slightly differently.
+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsof=
+t.com>
+---
+ meta/classes/package.bbclass | 31 ++++++++++++++++++++++++++++---
+ 1 file changed, 28 insertions(+), 3 deletions(-)
 
-preid:~/dev/kirkstone/tmp-glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/gcc-runtime/11.3.0-r0/package/usr/lib$ arm-emit-linux-gnueabi-readelf -r libstdc++.so | grep seek
-0015433c  00007916 R_ARM_JUMP_SLOT   00000000   lseek@GLIBC_2.4
-00154d70  0000aa16 R_ARM_JUMP_SLOT   00000000   fseek@GLIBC_2.4
-
-preid:~/dev/kirkstone/tmp-glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/gcc-runtime/11.3.0-r0/package/usr/lib$ arm-emit-linux-gnueabi-readelf -r libstdc++.so | grep stat
-0015561c  0000c016 R_ARM_JUMP_SLOT   00000000   stat64@GLIBC_2.33
-00155620  00003016 R_ARM_JUMP_SLOT   00000000   statvfs64@GLIBC_2.4
-
-
-
-preid:~/dev/honister/tmp-glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/gcc-runtime/11.2.0-r0/package/usr/lib$ arm-emit-linux-gnueabi-readelf -r libstdc++.so.6 | grep seek
-00159328  00008a16 R_ARM_JUMP_SLOT   00000000   lseek64@GLIBC_2.4
-00159d68  0000c616 R_ARM_JUMP_SLOT   00000000   fseeko64@GLIBC_2.4
-
-preid:~/dev/honister/tmp-glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/gcc-runtime/11.2.0-r0/package/usr/lib$ arm-emit-linux-gnueabi-readelf -r libstdc++.so.6 | grep stat
-00159334  00009f16 R_ARM_JUMP_SLOT   00000000   fstat64@GLIBC_2.33
-0015a618  00006d16 R_ARM_JUMP_SLOT   00000000   statvfs64@GLIBC_2.4
-0015a63c  00008816 R_ARM_JUMP_SLOT   00000000   stat64@GLIBC_2.33
-0015a68c  00008016 R_ARM_JUMP_SLOT   00000000   lstat64@GLIBC_2.33
-
-
-Not sure where to look to fix this...
-
-Any help appreciated.
-
-
-Regards
-Phil
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 62050a18b8..4850134022 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -553,13 +553,25 @@ def copydebugsources(debugsrcdir, sources, d):
+         strip =3D d.getVar("STRIP")
+         objcopy =3D d.getVar("OBJCOPY")
+         workdir =3D d.getVar("WORKDIR")
++        sdir =3D d.getVar("S")
++        sparentdir =3D os.path.dirname(os.path.dirname(sdir))
++        sbasedir =3D os.path.basename(os.path.dirname(sdir)) + "/" + os.=
+path.basename(sdir)
+         workparentdir =3D os.path.dirname(os.path.dirname(workdir))
+         workbasedir =3D os.path.basename(os.path.dirname(workdir)) + "/"=
+ + os.path.basename(workdir)
+=20
++        # If S isnt based on WORKDIR we can infer our sources are locate=
+d elsewhere,
++        # e.g. using externalsrc; use S as base for our dirs
++        if workdir in sdir:
++            basedir =3D workbasedir
++            parentdir =3D workparentdir
++        else:
++            basedir =3D sbasedir
++            parentdir =3D sparentdir
++
+         # If build path exists in sourcefile, it means toolchain did not=
+ use
+         # -fdebug-prefix-map to compile
+         if checkbuildpath(sourcefile, d):
+-            localsrc_prefix =3D workparentdir + "/"
++            localsrc_prefix =3D parentdir + "/"
+         else:
+             localsrc_prefix =3D "/usr/src/debug/"
+=20
+@@ -581,7 +593,7 @@ def copydebugsources(debugsrcdir, sources, d):
+         processdebugsrc +=3D "sed 's#%s##g' | "
+         processdebugsrc +=3D "(cd '%s' ; cpio -pd0mlL --no-preserve-owne=
+r '%s%s' 2>/dev/null)"
+=20
+-        cmd =3D processdebugsrc % (sourcefile, workbasedir, localsrc_pre=
+fix, workparentdir, dvar, debugsrcdir)
++        cmd =3D processdebugsrc % (sourcefile, basedir, localsrc_prefix,=
+ parentdir, dvar, debugsrcdir)
+         try:
+             subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubproce=
+ss.STDOUT)
+         except subprocess.CalledProcessError:
+@@ -591,9 +603,22 @@ def copydebugsources(debugsrcdir, sources, d):
+         # cpio seems to have a bug with -lL together and symbolic links =
+are just copied, not dereferenced.
+         # Work around this by manually finding and copying any symbolic =
+links that made it through.
+         cmd =3D "find %s%s -type l -print0 -delete | sed s#%s%s/##g | (c=
+d '%s' ; cpio -pd0mL --no-preserve-owner '%s%s')" % \
+-                (dvar, debugsrcdir, dvar, debugsrcdir, workparentdir, dv=
+ar, debugsrcdir)
++                (dvar, debugsrcdir, dvar, debugsrcdir, parentdir, dvar, =
+debugsrcdir)
+         subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubprocess.S=
+TDOUT)
+=20
++
++        # debugsources.list may be polluted from the host if we used ext=
+ernalsrc,
++        # cpio uses copy-pass and may have just created a directory stru=
+cture
++        # matching the one from the host, if thats the case move those f=
+iles to
++        # debugsrcdir to avoid host contamination.
++        # Empty dir structure will be deleted in the next step.
++
++        # Same check as above for externalsrc
++        if workdir not in sdir:
++            if os.path.exists(dvar + debugsrcdir + sdir):
++                cmd =3D "mv %s%s%s/* %s%s" % (dvar, debugsrcdir, sdir, d=
+var,debugsrcdir)
++                subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubp=
+rocess.STDOUT)
++
+         # The copy by cpio may have resulted in some empty directories! =
+ Remove these
+         cmd =3D "find %s%s -empty -type d -delete" % (dvar, debugsrcdir)
+         subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubprocess.S=
+TDOUT)
+--=20
+2.25.1
 
 
