@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D802AC19F56
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E73E2C2BBE6
 	for <webhook@archiver.kernel.org>; Fri,  1 Jul 2022 14:51:09 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com
- (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.39382.1656687063304076917
+Received: from a27-23.smtp-out.us-west-2.amazonses.com
+ (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.39381.1656687063120417081
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Jul 2022 07:51:03 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=YMKmgBmT;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
- mailfrom: 01010181ba3e6e0e-62d606ba-609f-4613-90e7-56e0b1b0b675-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=FNO5+tJk;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
+ mailfrom: 01010181ba3e6ca2-5cc7d67a-f958-4bae-bfff-e7dce4a7c93f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1656687062;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=zwnGlN3+rzWPsinUip+bRJOWt9BrVtqAzPnWu21Nz2Y=;
-	b=YMKmgBmTYT0g7VJEnUGNJsGiOroPSxbI0O/yv0pxbMUmN9mvTrF3gj2LQxBOP5xJ
-	449Ecqu45qsQ5zLOFoGmCjj4ANkJcISGBl0gV73+sPJFZ5ditWeoD8UHosHzsVv5pq3
-	0e8ZpIUt4ciqyxIvkyi4O1pZadz5Xyt2SWERFrrg=
+	bh=zJzqDgtPOPS3HUybURNSCIXfoAF24Wj4ib8HnXtyiBg=;
+	b=FNO5+tJkEcYKXkALIsj08tIPOH4J8HpWY/EfgVaCo9fPUGmbKxYen4hmV39/FqeE
+	AIjfhRrjAZ/qQoKlNL5/TAF0c64haOuZssvavtdAmlCsXdj4S0ag2ExdJxS4e1rbqJo
+	pSKHJIv/U9OBvVtx1Y4GIhVVhLYI3PSl2bs3KayI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1656687062;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=zwnGlN3+rzWPsinUip+bRJOWt9BrVtqAzPnWu21Nz2Y=;
-	b=Gg7knLNCv6vhnFFckJ2828oqhmdo++Fd6jneqLZoFH1L83o4PRFTqhkqNGJo60sk
-	p/qxKUMsQqHX/EZwdaCZKeD3+q+9VxOCckURpmdqumQdKubvTb1+Rq6sPmwhebIuvlS
-	cezdfA2cnZyFZ4djIOht1VWmKaITl+nGwBjIxpZ8=
-Content-Type: multipart/mixed; boundary="===============8204254588508524069=="
+	bh=zJzqDgtPOPS3HUybURNSCIXfoAF24Wj4ib8HnXtyiBg=;
+	b=YymHtdtaGFLfuyO7URCPJOlrPP2RE+HCwJBYFzhRsT9sGpGMkFoT2S5V39LmUDp4
+	+XSjEymqvD44IavxcZGIvctDu58EJfUFPN+3XPusOS/oJ0o/qrt9RlaznP93FWRlfB7
+	gfO/iSX2/VOAV4+zBZP7QjjBdsAWEleHFLTDKoZY=
+Content-Type: multipart/mixed; boundary="===============7467280273097204325=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] rust-llvm: upgrading to 1.62.0 FAILED
+Subject: [AUH] python3-mako: upgrading to 1.2.1 SUCCEEDED
 Message-ID: 
- <01010181ba3e6e0e-62d606ba-609f-4613-90e7-56e0b1b0b675-000000@us-west-2.amazonses.com>
+ <01010181ba3e6ca2-5cc7d67a-f958-4bae-bfff-e7dce4a7c93f-000000@us-west-2.amazonses.com>
 Date: Fri, 1 Jul 2022 14:51:02 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.07.01-54.240.27.33
+X-SES-Outgoing: 2022.07.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Jul 2022 14:51:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167494
+ https://lists.openembedded.org/g/openembedded-core/message/167490
 
---===============8204254588508524069==
+--===============7467280273097204325==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,73 +56,128 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *rust-llvm* to *1.62.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-mako* to *1.2.1* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-mako-upgrade-1.2.0-1.2.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  finish -f rust-llvm /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust
-NOTE: Starting bitbake server...
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1654 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 887 .bb files complete (886 cached, 1 parsed). 1656 targets, 35 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-
-ERROR: Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 162, in wrapped
-    return func(fn, *args)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 187, in parse_config_file
-    return bb.parse.handle(fn, data, include)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 107, in handle
-    return h['handle'](fn, data, include)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 118, in handle
-    abs_fn = resolve_file(fn, data)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 133, in resolve_file
-    raise IOError(errno.ENOENT, "file %s not found" % fn)
-FileNotFoundError: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf not found
-
-ERROR: Unable to parse /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf not found
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 162, in wrapped
-    return func(fn, *args)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 187, in parse_config_file
-    return bb.parse.handle(fn, data, include)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 107, in handle
-    return h['handle'](fn, data, include)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 118, in handle
-    abs_fn = resolve_file(fn, data)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/parse/__init__.py", line 133, in resolve_file
-    raise IOError(errno.ENOENT, "file %s not found" % fn)
-FileNotFoundError: [Errno 2] file /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/conf/layer.conf not found
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 334, in <module>
-    ret = main()
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 321, in main
-    ret = args.func(args, config, basepath, workspace)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/standard.py", line 2108, in finish
-    updated, appendfile, removed = _update_recipe(args.recipename, workspace, rd, args.mode, appendlayerdir, wildcard_version=True, no_remove=False, no_report_remove=removing_original, initial_rev=args.initial_rev, dry_run_outdir=dry_run_outdir, no_overrides=args.no_overrides, force_patch_refresh=args.force_patch_refresh)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/standard.py", line 1814, in _update_recipe
-    updated, appendf, removed = _update_recipe_patch(recipename, workspace, srctree, crd, appendlayerdir, wildcard_version, no_remove, no_report_remove, initial_rev, dry_run_outdir, force_patch_refresh)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/standard.py", line 1671, in _update_recipe_patch
-    redirect_output=dry_run_outdir)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/recipeutils.py", line 705, in bbappend_recipe
-    appendpath, pathok = get_bbappend_path(rd, destlayerdir, wildcardver)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/recipeutils.py", line 632, in get_bbappend_path
-    confdata = bb.cookerdata.parse_config_file(destlayerconf, confdata)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/cookerdata.py", line 167, in wrapped
-    raise bb.BBHandledException()
-bb.BBHandledException
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============8204254588508524069==--
+--===============7467280273097204325==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-mako: PV changed from "1.2.0" to "1.2.1"
+packages/core2-32-poky-linux/python3-mako: SRC_URI changed from "https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.2.0.tar.gz" to "https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.2.1.tar.gz"
+packages/core2-32-poky-linux/python3-mako: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-dbg: PV changed from "1.2.0" to "1.2.1"
+packages/core2-32-poky-linux/python3-mako/python3-mako-dbg: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-dev: PV changed from "1.2.0" to "1.2.1"
+packages/core2-32-poky-linux/python3-mako/python3-mako-dev: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-doc: PV changed from "1.2.0" to "1.2.1"
+packages/core2-32-poky-linux/python3-mako/python3-mako-doc: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-locale: PV changed from "1.2.0" to "1.2.1"
+packages/core2-32-poky-linux/python3-mako/python3-mako-locale: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-src: PV changed from "1.2.0" to "1.2.1"
+packages/core2-32-poky-linux/python3-mako/python3-mako-src: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako-staticdev: PV changed from "1.2.0" to "1.2.1"
+packages/core2-32-poky-linux/python3-mako/python3-mako-staticdev: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/python3-mako/python3-mako: PV changed from "1.2.0" to "1.2.1"
+packages/core2-32-poky-linux/python3-mako/python3-mako: PKGSIZE changed from 505980 to 507554 (+0%)
+packages/core2-32-poky-linux/python3-mako/python3-mako: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
+Changes to packages/core2-32-poky-linux/python3-mako (sysroot):
+  /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info moved to /usr/lib/python3.10/site-packages/Mako-1.2.1.dist-info
+
+--===============7467280273097204325==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-python3-mako-upgrade-1.2.0-1.2.1.patch"
+
+From 5580f2398447f9afa02a705c7b96f85cd76c5b88 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 1 Jul 2022 08:48:30 +0000
+Subject: [PATCH] python3-mako: upgrade 1.2.0 -> 1.2.1
+
+---
+ ...n3-mako_1.2.0.bb => python3-mako_1.2.1.bb} | 28 +++++++++++++++++--
+ 1 file changed, 26 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-mako_1.2.0.bb => python3-mako_1.2.1.bb} (27%)
+
+diff --git a/meta/recipes-devtools/python/python3-mako_1.2.0.bb b/meta/recipes-devtools/python/python3-mako_1.2.1.bb
+similarity index 27%
+rename from meta/recipes-devtools/python/python3-mako_1.2.0.bb
+rename to meta/recipes-devtools/python/python3-mako_1.2.1.bb
+index 11e5f326bd..8540b9b7a5 100644
+--- a/meta/recipes-devtools/python/python3-mako_1.2.0.bb
++++ b/meta/recipes-devtools/python/python3-mako_1.2.1.bb
+@@ -1,14 +1,38 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE
++# +++ LICENSE
++# @@ -1,4 +1,4 @@
++# -Copyright 2006-2021 the Mako authors and contributors <see AUTHORS file>.
++# +Copyright 2006-2022 the Mako authors and contributors <see AUTHORS file>.
++#  
++#  Permission is hereby granted, free of charge, to any person obtaining a copy of
++#  this software and associated documentation files (the "Software"), to deal in
++# @@ -16,4 +16,4 @@
++#  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++#  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++#  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++# -SOFTWARE.+SOFTWARE.
++# 
++#
++
+ SUMMARY = "Templating library for Python"
+ HOMEPAGE = "http://www.makotemplates.org/"
+ SECTION = "devel/python"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=b32291f107a8f1ea94c4a41e00a6a18d"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=ad08dd28df88e64b35bcac27c822ee34"
+ 
+ PYPI_PACKAGE = "Mako"
+ 
+ inherit pypi python_setuptools_build_meta
+ 
+-SRC_URI[sha256sum] = "9a7c7e922b87db3686210cf49d5d767033a41d4010b284e747682c92bddd8b39"
++SRC_URI[sha256sum] = "f054a5ff4743492f1aa9ecc47172cb33b42b9d993cffcc146c9de17e717b0307"
+ 
+ RDEPENDS:${PN} = "${PYTHON_PN}-html \
+                   ${PYTHON_PN}-markupsafe \
+-- 
+2.31.1
+
+
+--===============7467280273097204325==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/python3-mako (sysroot):
+  /usr/lib/python3.10/site-packages/Mako-1.2.0.dist-info moved to /usr/lib/python3.10/site-packages/Mako-1.2.1.dist-info
+
+--===============7467280273097204325==--
 
