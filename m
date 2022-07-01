@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BB09CCA492
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E1A1CCA48F
 	for <webhook@archiver.kernel.org>; Fri,  1 Jul 2022 14:51:09 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com
- (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web09.39740.1656687064344500353
+Received: from a27-45.smtp-out.us-west-2.amazonses.com
+ (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web08.39314.1656687064517305884
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Jul 2022 07:51:04 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=eRWiQ6Uv;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33,
- mailfrom: 01010181ba3e7107-61ddf89c-db28-4b83-9038-5e8adff9a8e5-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=KBL+qjGu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
+ mailfrom: 01010181ba3e733a-01d29efa-9b71-4007-bf69-e0ced04ec4b0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1656687063;
+	t=1656687064;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=oI0iq+fh6/tFeFx1ORc8t0ZdH5VXFX0XKYZCtUTWIb8=;
-	b=eRWiQ6UvraXGac/o+0fhCbWUv2+Vjt5NLVZvAUn+mgIqR/NbpF7iWHFID6/vFUEu
-	KuYWpvT4WbPfTl4FjrVQV0mH4m72op8/4PknLnGhCfectexa9G7UkzfSFEKEc5g9w3f
-	u+78q3SdEShjKC1y81P7gDsBtK0i8rZbN/c/RHpI=
+	bh=btV1mVQtr+TkWbcN69AxND/0WJanZuUvncTSbp8rNfY=;
+	b=KBL+qjGuhdPz3HAJyMHt2XT9PNStV9vMN+8mW1ulY0UJsm7MAvadK2iH+QdfTvSR
+	TlCB6aAvfldPHJ9kWIEUMIX7b02lOFSpM5WH+rQlTPjH/v0TISdhFUE6uWAp2sINmhF
+	3l+dEVoPkdrzBPaX3/ZurCV9wmsbzaiQiBvpQkP8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1656687063;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1656687064;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=oI0iq+fh6/tFeFx1ORc8t0ZdH5VXFX0XKYZCtUTWIb8=;
-	b=SNpNLGVYFzA7vZTOzEFWkbvkTlcCb+6It7bg4RhNoLzhsML15yguO8b4ZQISiQBu
-	y106odNXwEmDiz6A8h0wH9GcI3OCxvg5aj/mS5WZxNcf/8ZWjscDmK5tqnUaMMptPhz
-	e0OnzNps9zEQvmoSr7ZUPG1wuMDNLvrQKO2SftJ8=
-Content-Type: multipart/mixed; boundary="===============8942548341793823410=="
+	bh=btV1mVQtr+TkWbcN69AxND/0WJanZuUvncTSbp8rNfY=;
+	b=edxm4WWtBaDsHUGIyXQvriNOuD/0L4HfPmuWtznfSQnIgYKhmZiN2GqJh4vS0mqe
+	6HAjTLPehxmCiHoNcgRFlSCFHI3AhGqO125ByVZBTmoquADDkgDr8lAMeLG5YGMtRqL
+	AgChfUGe5APHZZX4Fd1/UTeNVM+ejOOeCTEz3ta8=
+Content-Type: multipart/mixed; boundary="===============6369541021983554380=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] kmod: upgrading to 30 SUCCEEDED
+Subject: [AUH] mpg123: upgrading to 1.30.0 SUCCEEDED
 Message-ID: 
- <01010181ba3e7107-61ddf89c-db28-4b83-9038-5e8adff9a8e5-000000@us-west-2.amazonses.com>
+ <01010181ba3e733a-01d29efa-9b71-4007-bf69-e0ced04ec4b0-000000@us-west-2.amazonses.com>
 Date: Fri, 1 Jul 2022 14:51:03 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.07.01-54.240.27.33
+X-SES-Outgoing: 2022.07.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Jul 2022 14:51:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167514
+ https://lists.openembedded.org/g/openembedded-core/message/167516
 
---===============8942548341793823410==
+--===============6369541021983554380==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *kmod* to *30* has Succeeded.
+that the automatic attempt to upgrade the recipe *mpg123* to *1.30.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-kmod-upgrade-29-30.patch
+    - apply the patch: git am 0001-mpg123-upgrade-1.29.3-1.30.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,43 +75,49 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8942548341793823410==
+--===============6369541021983554380==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/kmod/kmod-bash-completion: PKGV changed from 29 [default] to 30 [default]
-packages/core2-32-poky-linux/kmod/kmod-bash-completion: PV changed from "29" to "30"
-packages/core2-32-poky-linux/kmod/kmod-dbg: PKGV changed from 29 [default] to 30 [default]
-packages/core2-32-poky-linux/kmod/kmod-dbg: FILELIST: removed "/usr/lib/.debug/libkmod.so.2.3.7", added "/usr/lib/.debug/libkmod.so.2.4.0"
-packages/core2-32-poky-linux/kmod/kmod-dbg: PV changed from "29" to "30"
-packages/core2-32-poky-linux/kmod/kmod-dbg: PKGSIZE changed from 741180 to 748548 (+1%)
-packages/core2-32-poky-linux/kmod/kmod-dev: PKGV changed from 29 [default] to 30 [default]
-packages/core2-32-poky-linux/kmod/kmod-dev: PV changed from "29" to "30"
-packages/core2-32-poky-linux/kmod/kmod-dev: PKGSIZE changed from 9704 to 9903 (+2%)
-packages/core2-32-poky-linux/kmod/kmod-doc: PKGV changed from 29 [default] to 30 [default]
-packages/core2-32-poky-linux/kmod/kmod-doc: PV changed from "29" to "30"
-packages/core2-32-poky-linux/kmod/kmod-locale: PKGV changed from 29 [default] to 30 [default]
-packages/core2-32-poky-linux/kmod/kmod-locale: PV changed from "29" to "30"
-packages/core2-32-poky-linux/kmod/kmod-src: PKGV changed from 29 [default] to 30 [default]
-packages/core2-32-poky-linux/kmod/kmod-src: PV changed from "29" to "30"
-packages/core2-32-poky-linux/kmod/kmod-src: PKGSIZE changed from 394784 to 401503 (+2%)
-packages/core2-32-poky-linux/kmod/kmod-staticdev: PKGV changed from 29 [default] to 30 [default]
-packages/core2-32-poky-linux/kmod/kmod-staticdev: PV changed from "29" to "30"
-packages/core2-32-poky-linux/kmod/kmod: PKGV changed from 29 [default] to 30 [default]
-packages/core2-32-poky-linux/kmod/kmod: PV changed from "29" to "30"
-packages/core2-32-poky-linux/kmod/kmod: PKGSIZE changed from 173693 to 177789 (+2%)
-packages/core2-32-poky-linux/kmod: SRC_URI changed from "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git;branch=master file://depmod-search.conf file://avoid_parallel_tests.patch file://0001-depmod-Add-support-for-excluding-a-directory.patch" to "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git;branch=master file://depmod-search.conf file://avoid_parallel_tests.patch"
-packages/core2-32-poky-linux/kmod: PKGV changed from 29 [default] to 30 [default]
-packages/core2-32-poky-linux/kmod: PV changed from "29" to "30"
-packages/core2-32-poky-linux/kmod/libkmod: PKGV changed from 29 [default] to 30 [default]
-packages/core2-32-poky-linux/kmod/libkmod: FILELIST: removed "/usr/lib/libkmod.so.2.3.7", added "/usr/lib/libkmod.so.2.4.0"
-packages/core2-32-poky-linux/kmod/libkmod: PV changed from "29" to "30"
-Changes to packages/core2-32-poky-linux/kmod (sysroot):
-  /usr/lib/libkmod.so.2 changed symlink target from libkmod.so.2.3.7 to libkmod.so.2.4.0
-  /usr/lib/libkmod.so changed symlink target from libkmod.so.2.3.7 to libkmod.so.2.4.0
-  /usr/lib/libkmod.so.2.3.7 moved to /usr/lib/libkmod.so.2.4.0
+packages/core2-32-poky-linux/mpg123: SRC_URI changed from "https://www.mpg123.de/download/mpg123-1.29.3.tar.bz2" to "https://www.mpg123.de/download/mpg123-1.30.0.tar.bz2"
+packages/core2-32-poky-linux/mpg123: PKGV changed from 1.29.3 [default] to 1.30.0 [default]
+packages/core2-32-poky-linux/mpg123: PV changed from "1.29.3" to "1.30.0"
+packages/core2-32-poky-linux/mpg123/mpg123-dbg: PKGSIZE changed from 1961688 to 1970580 (+0%)
+packages/core2-32-poky-linux/mpg123/mpg123-dbg: FILELIST: removed "/usr/lib/.debug/libmpg123.so.0.46.7 /usr/lib/.debug/libout123.so.0.4.3", added "/usr/lib/.debug/libout123.so.0.4.4 /usr/lib/.debug/libmpg123.so.0.47.0"
+packages/core2-32-poky-linux/mpg123/mpg123-dbg: PKGV changed from 1.29.3 [default] to 1.30.0 [default]
+packages/core2-32-poky-linux/mpg123/mpg123-dbg: PV changed from "1.29.3" to "1.30.0"
+packages/core2-32-poky-linux/mpg123/mpg123-dev: PKGSIZE changed from 178887 to 180078 (+1%)
+packages/core2-32-poky-linux/mpg123/mpg123-dev: PKGV changed from 1.29.3 [default] to 1.30.0 [default]
+packages/core2-32-poky-linux/mpg123/mpg123-dev: PV changed from "1.29.3" to "1.30.0"
+packages/core2-32-poky-linux/mpg123/mpg123-doc: PKGSIZE changed from 40790 to 41308 (+1%)
+packages/core2-32-poky-linux/mpg123/mpg123-doc: PKGV changed from 1.29.3 [default] to 1.30.0 [default]
+packages/core2-32-poky-linux/mpg123/mpg123-doc: PV changed from "1.29.3" to "1.30.0"
+packages/core2-32-poky-linux/mpg123/mpg123-locale: PKGV changed from 1.29.3 [default] to 1.30.0 [default]
+packages/core2-32-poky-linux/mpg123/mpg123-locale: PV changed from "1.29.3" to "1.30.0"
+packages/core2-32-poky-linux/mpg123/mpg123-src: PKGSIZE changed from 2008752 to 2034118 (+1%)
+packages/core2-32-poky-linux/mpg123/mpg123-src: FILELIST: directory renamed /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/compat -> /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/compat, directory renamed /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/libmpg123 -> /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/libmpg123, directory renamed /usr/src/debug/mpg123/1.29.3-r0/build/src/libsyn123 -> /usr/src/debug/mpg123/1.30.0-r0/build/src/libsyn123, directory renamed /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/libout123/modules -> /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/libout123/modules, directory renamed /usr/src/debug/mpg123/1.29.3-r0/build/src/libmpg123 -> /usr/src/debug/mpg123/1.30.0-r0/build/src/libmpg123, directory renamed /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/libout123 -> /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/libout123, directory renamed /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/libsyn123 -> /usr/src/debug/mpg123/1.30.0-
+ r0/mpg123-1.30.0/src/libsyn123, directory renamed /usr/src/debug/mpg123/1.29.3-r0/build/src/libout123 -> /usr/src/debug/mpg123/1.30.0-r0/build/src/libout123, removed "/usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/audio.c /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/term.h /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/metaprint.c /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/sysutil.h /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/filters.h /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/mpg123-id3dump.c /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/local.c /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/equalizer.c /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/local.h /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/getlopt.h /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/term.c /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/filters.c /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/audio.h /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/met
+ aprint.h /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/genre.h /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/resolver.h /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/control_generic.c /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/mpg123-strip.c /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/httpget.c /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/streamdump.h /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/common.c /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/getlopt.c /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/out123.c /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/httpget.h /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/mpg123app.h /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/resolver.c /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/common.h /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/playlist.c /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/streamdump.c /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/sysutil.c /usr/src/
+ debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/playlist.h /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/mpg123.c /usr/src/debug/mpg123/1.29.3-r0/mpg123-1.29.3/src/genre.c", added "/usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/streamdump.c /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/mpg123-id3dump.c /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/local.h /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/audio.c /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/getlopt.h /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/term.h /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/metaprint.h /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/mpg123.c /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/net123_exec.c /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/net123.h /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/control_generic.c /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/resolver.c /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/genre.c /usr/src/debug/mpg123/1.3
+ 0.0-r0/mpg123-1.30.0/src/playlist.c /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/getlopt.c /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/playlist.h /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/term_posix.c /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/equalizer.c /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/audio.h /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/common.h /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/sysutil.h /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/common.c /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/filters.c /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/httpget.h /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/out123.c /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/filters.h /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/term.c /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/streamdump.h /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/local.c /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/httpget.c /u
+ sr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/genre.h /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/metaprint.c /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/sysutil.c /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/terms.h /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/mpg123-strip.c /usr/src/debug/mpg123/1.30.0-r0/mpg123-1.30.0/src/mpg123app.h"
+packages/core2-32-poky-linux/mpg123/mpg123-src: PKGV changed from 1.29.3 [default] to 1.30.0 [default]
+packages/core2-32-poky-linux/mpg123/mpg123-src: PV changed from "1.29.3" to "1.30.0"
+packages/core2-32-poky-linux/mpg123/mpg123-staticdev: PKGV changed from 1.29.3 [default] to 1.30.0 [default]
+packages/core2-32-poky-linux/mpg123/mpg123-staticdev: PV changed from "1.29.3" to "1.30.0"
+packages/core2-32-poky-linux/mpg123/mpg123: PKGSIZE changed from 1031547 to 1035735 (+0%)
+packages/core2-32-poky-linux/mpg123/mpg123: FILELIST: removed "/usr/lib/libmpg123.so.0.46.7 /usr/lib/libout123.so.0.4.3", added "/usr/lib/libout123.so.0.4.4 /usr/lib/libmpg123.so.0.47.0"
+packages/core2-32-poky-linux/mpg123/mpg123: PKGV changed from 1.29.3 [default] to 1.30.0 [default]
+packages/core2-32-poky-linux/mpg123/mpg123: PV changed from "1.29.3" to "1.30.0"
+Changes to packages/core2-32-poky-linux/mpg123 (sysroot):
+  /usr/lib/libmpg123.so.0 changed symlink target from libmpg123.so.0.46.7 to libmpg123.so.0.47.0
+  /usr/lib/libmpg123.so changed symlink target from libmpg123.so.0.46.7 to libmpg123.so.0.47.0
+  /usr/lib/libout123.so.0 changed symlink target from libout123.so.0.4.3 to libout123.so.0.4.4
+  /usr/lib/libout123.so changed symlink target from libout123.so.0.4.3 to libout123.so.0.4.4
+  /usr/lib/libmpg123.so.0.46.7 moved to /usr/lib/libmpg123.so.0.47.0
+  /usr/lib/libout123.so.0.4.3 moved to /usr/lib/libout123.so.0.4.4
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1466,237 +1472,56 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoffout.h was removed
 
---===============8942548341793823410==
+--===============6369541021983554380==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Disposition: attachment; filename="0001-kmod-upgrade-29-30.patch"
+Content-Disposition: attachment;
+ filename="0001-mpg123-upgrade-1.29.3-1.30.0.patch"
 
-From bf52bfe9e350791d38122f6bc8cdfbfbe6c864f4 Mon Sep 17 00:00:00 2001
+From 120f0e94cd174c0550aac4c6a0f17c82adb4858e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Jul 2022 11:03:24 +0000
-Subject: [PATCH] kmod: upgrade 29 -> 30
+Date: Fri, 1 Jul 2022 13:06:51 +0000
+Subject: [PATCH] mpg123: upgrade 1.29.3 -> 1.30.0
 
 ---
- ...dd-support-for-excluding-a-directory.patch | 172 ------------------
- .../kmod/{kmod_29.bb => kmod_30.bb}           |   3 +-
- 2 files changed, 1 insertion(+), 174 deletions(-)
- delete mode 100644 meta/recipes-kernel/kmod/kmod/0001-depmod-Add-support-for-excluding-a-directory.patch
- rename meta/recipes-kernel/kmod/{kmod_29.bb => kmod_30.bb} (96%)
+ .../mpg123/{mpg123_1.29.3.bb => mpg123_1.30.0.bb}               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/mpg123/{mpg123_1.29.3.bb => mpg123_1.30.0.bb} (96%)
 
-diff --git a/meta/recipes-kernel/kmod/kmod/0001-depmod-Add-support-for-excluding-a-directory.patch b/meta/recipes-kernel/kmod/kmod/0001-depmod-Add-support-for-excluding-a-directory.patch
-deleted file mode 100644
-index ea0570af2b..0000000000
---- a/meta/recipes-kernel/kmod/kmod/0001-depmod-Add-support-for-excluding-a-directory.patch
-+++ /dev/null
-@@ -1,172 +0,0 @@
--From f50e2d67575ac5f256fb853ca9d29aeac92d9a57 Mon Sep 17 00:00:00 2001
--From: Saul Wold <saul.wold@windriver.com>
--Date: Thu, 31 Mar 2022 14:56:28 -0700
--Subject: [PATCH] depmod: Add support for excluding a directory
--
--This adds support to depmod to enable a new exclude directive in
--the depmod.d/*.conf configuration file. Currently depmod
--already excludes directories named source or build. This change
--will allow additional directories like .debug to be excluded also
--via a new exclude directive.
--
--depmod.d/exclude.conf example:
--exclude	.debug
--
--Upstream-Status: Accepted
--
--Signed-off-by: Saul Wold <saul.wold@windriver.com>
--[ Fix warnings and make should_exclude_dir() return bool ]
--Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-----
-- man/depmod.d.xml | 14 ++++++++++
-- tools/depmod.c   | 66 +++++++++++++++++++++++++++++++++++++++++++++---
-- 2 files changed, 76 insertions(+), 4 deletions(-)
--
--diff --git a/man/depmod.d.xml b/man/depmod.d.xml
--index b315e93..76548e9 100644
----- a/man/depmod.d.xml
--+++ b/man/depmod.d.xml
--@@ -131,6 +131,20 @@
--           </para>
--         </listitem>
--       </varlistentry>
--+      <varlistentry>
--+        <term>exclude <replaceable>excludedir</replaceable>
--+        </term>
--+        <listitem>
--+          <para>
--+            This specifies the trailing directories that will be excluded
--+            during the search for kernel modules.
--+          </para>
--+          <para>
--+	    The <replaceable>excludedir</replaceable> is the trailing directory
--+	    to exclude
--+          </para>
--+        </listitem>
--+      </varlistentry>
--     </variablelist>
--   </refsect1>
-- 
--diff --git a/tools/depmod.c b/tools/depmod.c
--index 07a35ba..4117dd1 100644
----- a/tools/depmod.c
--+++ b/tools/depmod.c
--@@ -458,6 +458,11 @@ struct cfg_external {
-- 	char path[];
-- };
-- 
--+struct cfg_exclude {
--+	struct cfg_exclude *next;
--+	char exclude_dir[];
--+};
--+
-- struct cfg {
-- 	const char *kversion;
-- 	char dirname[PATH_MAX];
--@@ -469,6 +474,7 @@ struct cfg {
-- 	struct cfg_override *overrides;
-- 	struct cfg_search *searches;
-- 	struct cfg_external *externals;
--+	struct cfg_exclude *excludes;
-- };
-- 
-- static enum search_type cfg_define_search_type(const char *path)
--@@ -580,6 +586,30 @@ static void cfg_external_free(struct cfg_external *ext)
-- 	free(ext);
-- }
-- 
--+static int cfg_exclude_add(struct cfg *cfg, const char *path)
--+{
--+	struct cfg_exclude *exc;
--+	size_t len = strlen(path);
--+
--+	exc = malloc(sizeof(struct cfg_exclude) + len + 1);
--+	if (exc == NULL) {
--+		ERR("exclude add: out of memory\n");
--+		return -ENOMEM;
--+	}
--+	memcpy(exc->exclude_dir, path, len + 1);
--+
--+	DBG("exclude add: %s\n", path);
--+
--+	exc->next = cfg->excludes;
--+	cfg->excludes = exc;
--+	return 0;
--+}
--+
--+static void cfg_exclude_free(struct cfg_exclude *exc)
--+{
--+	free(exc);
--+}
--+
-- static int cfg_kernel_matches(const struct cfg *cfg, const char *pattern)
-- {
-- 	regex_t re;
--@@ -657,6 +687,11 @@ static int cfg_file_parse(struct cfg *cfg, const char *filename)
-- 			}
-- 
-- 			cfg_external_add(cfg, dir);
--+		} else if (streq(cmd, "exclude")) {
--+			const char *sp;
--+			while ((sp = strtok_r(NULL, "\t ", &saveptr)) != NULL) {
--+				cfg_exclude_add(cfg, sp);
--+			}
-- 		} else if (streq(cmd, "include")
-- 				|| streq(cmd, "make_map_files")) {
-- 			INF("%s:%u: command %s not implemented yet\n",
--@@ -857,6 +892,12 @@ static void cfg_free(struct cfg *cfg)
-- 		cfg->externals = cfg->externals->next;
-- 		cfg_external_free(tmp);
-- 	}
--+
--+	while (cfg->excludes) {
--+		struct cfg_exclude *tmp = cfg->excludes;
--+		cfg->excludes = cfg->excludes->next;
--+		cfg_exclude_free(tmp);
--+	}
-- }
-- 
-- 
--@@ -1229,6 +1270,25 @@ add:
-- 	return 0;
-- }
-- 
--+static bool should_exclude_dir(const struct cfg *cfg, const char *name)
--+{
--+	struct cfg_exclude *exc;
--+
--+	if (name[0] == '.' && (name[1] == '\0' ||
--+			(name[1] == '.' && name[2] == '\0')))
--+		return true;
--+
--+	if (streq(name, "build") || streq(name, "source"))
--+		return true;
--+
--+	for (exc = cfg->excludes; exc != NULL; exc = exc->next) {
--+		if (streq(name, exc->exclude_dir))
--+			return true;
--+	}
--+
--+	return false;
--+}
--+
-- static int depmod_modules_search_dir(struct depmod *depmod, DIR *d, size_t baselen, struct scratchbuf *s_path)
-- {
-- 	struct dirent *de;
--@@ -1240,11 +1300,9 @@ static int depmod_modules_search_dir(struct depmod *depmod, DIR *d, size_t basel
-- 		size_t namelen;
-- 		uint8_t is_dir;
-- 
---		if (name[0] == '.' && (name[1] == '\0' ||
---				       (name[1] == '.' && name[2] == '\0')))
---			continue;
---		if (streq(name, "build") || streq(name, "source"))
--+		if (should_exclude_dir(depmod->cfg, name))
-- 			continue;
--+
-- 		namelen = strlen(name);
-- 		if (scratchbuf_alloc(s_path, baselen + namelen + 2) < 0) {
-- 			err = -ENOMEM;
---- 
--2.31.1
--
-diff --git a/meta/recipes-kernel/kmod/kmod_29.bb b/meta/recipes-kernel/kmod/kmod_30.bb
+diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.29.3.bb b/meta/recipes-multimedia/mpg123/mpg123_1.30.0.bb
 similarity index 96%
-rename from meta/recipes-kernel/kmod/kmod_29.bb
-rename to meta/recipes-kernel/kmod/kmod_30.bb
-index 32dc49c126..8eb83efe6d 100644
---- a/meta/recipes-kernel/kmod/kmod_29.bb
-+++ b/meta/recipes-kernel/kmod/kmod_30.bb
-@@ -15,12 +15,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                    "
- inherit autotools bash-completion gtk-doc pkgconfig manpages update-alternatives
+rename from meta/recipes-multimedia/mpg123/mpg123_1.29.3.bb
+rename to meta/recipes-multimedia/mpg123/mpg123_1.30.0.bb
+index 0baa7aa4a1..f80bfa6550 100644
+--- a/meta/recipes-multimedia/mpg123/mpg123_1.29.3.bb
++++ b/meta/recipes-multimedia/mpg123/mpg123_1.30.0.bb
+@@ -10,7 +10,7 @@ LICENSE = "LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e7b9c15fcfb986abb4cc5e8400a24169"
  
--SRCREV = "b6ecfc916a17eab8f93be5b09f4e4f845aabd3d1"
-+SRCREV = "5d46434a63ae0160150a0efdde1914873697e273"
+ SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2"
+-SRC_URI[sha256sum] = "963885d8cc77262f28b77187c7d189e32195e64244de2530b798ddf32183e847"
++SRC_URI[sha256sum] = "397ead52f0299475f2cefd38c3835977193fd9b1db6593680346c4e9109ed61c"
  
- SRC_URI = "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git;branch=master \
-            file://depmod-search.conf \
-            file://avoid_parallel_tests.patch \
--           file://0001-depmod-Add-support-for-excluding-a-directory.patch \
-            "
+ UPSTREAM_CHECK_REGEX = "mpg123-(?P<pver>\d+(\.\d+)+)\.tar"
  
- S = "${WORKDIR}/git"
 -- 
 2.31.1
 
 
---===============8942548341793823410==
+--===============6369541021983554380==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/kmod/libkmod: FILELIST: removed "/usr/lib/libkmod.so.2.3.7", added "/usr/lib/libkmod.so.2.4.0"
-Changes to packages/core2-32-poky-linux/kmod (sysroot):
-  /usr/lib/libkmod.so.2 changed symlink target from libkmod.so.2.3.7 to libkmod.so.2.4.0
-  /usr/lib/libkmod.so changed symlink target from libkmod.so.2.3.7 to libkmod.so.2.4.0
-  /usr/lib/libkmod.so.2.3.7 moved to /usr/lib/libkmod.so.2.4.0
+packages/core2-32-poky-linux/mpg123/mpg123: FILELIST: removed "/usr/lib/libout123.so.0.4.3 /usr/lib/libmpg123.so.0.46.7", added "/usr/lib/libout123.so.0.4.4 /usr/lib/libmpg123.so.0.47.0"
+Changes to packages/core2-32-poky-linux/mpg123 (sysroot):
+  /usr/lib/libmpg123.so.0 changed symlink target from libmpg123.so.0.46.7 to libmpg123.so.0.47.0
+  /usr/lib/libmpg123.so changed symlink target from libmpg123.so.0.46.7 to libmpg123.so.0.47.0
+  /usr/lib/libout123.so.0 changed symlink target from libout123.so.0.4.3 to libout123.so.0.4.4
+  /usr/lib/libout123.so changed symlink target from libout123.so.0.4.3 to libout123.so.0.4.4
+  /usr/lib/libmpg123.so.0.46.7 moved to /usr/lib/libmpg123.so.0.47.0
+  /usr/lib/libout123.so.0.4.3 moved to /usr/lib/libout123.so.0.4.4
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -3051,5 +2876,5 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoffout.h was removed
 
---===============8942548341793823410==--
+--===============6369541021983554380==--
 
