@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C633CCCA47B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0EF7C433EF
 	for <webhook@archiver.kernel.org>; Fri,  1 Jul 2022 14:51:08 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com
- (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web08.39320.1656687065200066399
+Received: from a27-192.smtp-out.us-west-2.amazonses.com
+ (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web08.39319.1656687065147523858
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Jul 2022 07:51:05 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=WZKAZr9w;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
- mailfrom: 01010181ba3e7398-46c83035-72ec-43d6-8c2d-11ed8f2c61d6-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=StwHLnCF;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
+ mailfrom: 01010181ba3e74dc-655c629b-5db0-40be-b3dd-064d38480e9f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1656687064;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=7ZbcT6wUDArOWCf7UN7HmQ8/dK3q9lTdgA9ZCo1cjIA=;
-	b=WZKAZr9wBvNObg3uDMOjyRiog32DdLxwG48IQzDUDQCjMc1ufuljkwbHKvq1DKhk
-	VES3yWH3JMevwnO0vaqzUQ4oVq+GsZ+mM+T/HDdpJnb3/TXcVUw5tvmzw66r/jQ+TMD
-	sY197EGRSmDKO6APgslzBL1wNFST1K8ulWnmpEOM=
+	bh=s4LbE0GeaPNE1NVt01BKnVjjmGu0ZtXaZbl/SqOYugI=;
+	b=StwHLnCF9bvUG17q9CN4gD6SYFVODW26rg94uYgB/xzeBhqgRdHCKIzZ5tTg6k+j
+	J9v37lZtBW5te9Kv4+eDx0AWlHJ1kd3AA8L7lnDga4KDU5PFaq5zrHNS0lOvndZ4RcS
+	dfJ+rU/e8MTRQ11qskcn1TTc4TtZZIrE0bywuLmk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1656687064;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=7ZbcT6wUDArOWCf7UN7HmQ8/dK3q9lTdgA9ZCo1cjIA=;
-	b=OQHd+BE7XCdbySWiHNB6sDSbdccWQeW6LrUNhMRcWhWbSe4cMasUpQ0IAazI9e30
-	7/camIDKO/9U2bI+QqY7wv/RIffqa6X2LeOqZp2u34VuLUSkjbPwopXYRDJOsAO21dN
-	gqVZTtFPeH2xtn7YYjE8bZZw1/IsFofh/bCP+PiM=
-Content-Type: multipart/mixed; boundary="===============4952792640495913378=="
+	bh=s4LbE0GeaPNE1NVt01BKnVjjmGu0ZtXaZbl/SqOYugI=;
+	b=Gw9tcmSmBmoId2e2g2Yh4jeWnPTAslX+Tim7AZOrUXboP1UFOd7NADbS9sqVW0fK
+	GiEAY2Ue297wQzJ3fEazfULwgQtxZFxYC+E16ynbcODGUE9BwaPETzl4EaP8t2vKeMI
+	HnZqMyqnotwtiMqnjcYmIvl2WuLJwnlOTUksf3bM=
+Content-Type: multipart/mixed; boundary="===============2142027126417781361=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Michael Opdenacker <michael.opdenacker@bootlin.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] speex: upgrading to 1.2.1 SUCCEEDED
+Subject: [AUH] nghttp2: upgrading to 1.48.0 SUCCEEDED
 Message-ID: 
- <01010181ba3e7398-46c83035-72ec-43d6-8c2d-11ed8f2c61d6-000000@us-west-2.amazonses.com>
+ <01010181ba3e74dc-655c629b-5db0-40be-b3dd-064d38480e9f-000000@us-west-2.amazonses.com>
 Date: Fri, 1 Jul 2022 14:51:04 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.07.01-54.240.27.193
+X-SES-Outgoing: 2022.07.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Jul 2022 14:51:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167530
+ https://lists.openembedded.org/g/openembedded-core/message/167531
 
---===============4952792640495913378==
+--===============2142027126417781361==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *speex* to *1.2.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *nghttp2* to *1.48.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-speex-upgrade-1.2.0-1.2.1.patch
+    - apply the patch: git am 0001-nghttp2-upgrade-1.47.0-1.48.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,159 +75,89 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4952792640495913378==
+--===============2142027126417781361==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-speex-upgrade-1.2.0-1.2.1.patch"
+ filename="0001-nghttp2-upgrade-1.47.0-1.48.0.patch"
 
-From 970337ed2ee1475f558380abb3274e425e4f0991 Mon Sep 17 00:00:00 2001
+From a347d4d9fde78baea72e8b0c3b6c890eee0318dc Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Jul 2022 13:25:17 +0000
-Subject: [PATCH] speex: upgrade 1.2.0 -> 1.2.1
+Date: Fri, 1 Jul 2022 14:11:00 +0000
+Subject: [PATCH] nghttp2: upgrade 1.47.0 -> 1.48.0
 
 ---
- .../speex/speex/CVE-2020-23903.patch          | 30 ----------------
- .../speex/{speex_1.2.0.bb => speex_1.2.1.bb}  | 34 +++++++++++++++----
- 2 files changed, 27 insertions(+), 37 deletions(-)
- delete mode 100644 meta/recipes-multimedia/speex/speex/CVE-2020-23903.patch
- rename meta/recipes-multimedia/speex/{speex_1.2.0.bb => speex_1.2.1.bb} (37%)
+ .../nghttp2/{nghttp2_1.47.0.bb => nghttp2_1.48.0.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/nghttp2/{nghttp2_1.47.0.bb => nghttp2_1.48.0.bb} (93%)
 
-diff --git a/meta/recipes-multimedia/speex/speex/CVE-2020-23903.patch b/meta/recipes-multimedia/speex/speex/CVE-2020-23903.patch
-deleted file mode 100644
-index eb16e95ffc..0000000000
---- a/meta/recipes-multimedia/speex/speex/CVE-2020-23903.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--Backport patch to fix CVE-2020-23903.
--
--CVE: CVE-2020-23903
--Upstream-Status: Backport [https://github.com/xiph/speex/commit/870ff84]
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
--
--From 870ff845b32f314aec0036641ffe18aba4916887 Mon Sep 17 00:00:00 2001
--From: Tristan Matthews <tmatth@videolan.org>
--Date: Mon, 13 Jul 2020 23:25:03 -0400
--Subject: [PATCH] wav_io: guard against invalid channel numbers
--
--Fixes #13
-----
-- src/wav_io.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/src/wav_io.c b/src/wav_io.c
--index b5183015..09d62eb0 100644
----- a/src/wav_io.c
--+++ b/src/wav_io.c
--@@ -111,7 +111,7 @@ int read_wav_header(FILE *file, int *rate, int *channels, int *format, spx_int32
--    stmp = le_short(stmp);
--    *channels = stmp;
-- 
---   if (stmp>2)
--+   if (stmp>2 || stmp<1)
--    {
--       fprintf (stderr, "Only mono and (intensity) stereo supported\n");
--       return -1;
-diff --git a/meta/recipes-multimedia/speex/speex_1.2.0.bb b/meta/recipes-multimedia/speex/speex_1.2.1.bb
-similarity index 37%
-rename from meta/recipes-multimedia/speex/speex_1.2.0.bb
-rename to meta/recipes-multimedia/speex/speex_1.2.1.bb
-index ea475f0f1b..f57e026de1 100644
---- a/meta/recipes-multimedia/speex/speex_1.2.0.bb
-+++ b/meta/recipes-multimedia/speex/speex_1.2.1.bb
-@@ -1,19 +1,39 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- COPYING
-+# +++ COPYING
-+# @@ -1,7 +1,7 @@
-+#  Copyright 2002-2008 	Xiph.org Foundation
-+#  Copyright 2002-2008 	Jean-Marc Valin
-+#  Copyright 2005-2007	Analog Devices Inc.
-+# -Copyright 2005-2008	Commonwealth Scientific and Industrial Research 
-+# +Copyright 2005-2008	Commonwealth Scientific and Industrial Research
-+#                          Organisation (CSIRO)
-+#  Copyright 1993, 2002, 2006 David Rowe
-+#  Copyright 2003 		EpicGames
-+# 
-+#
-+
- SUMMARY = "Speech Audio Codec"
- DESCRIPTION = "Speex is an Open Source/Free Software patent-free audio compression format designed for speech."
- HOMEPAGE = "http://www.speex.org"
- SECTION = "libs"
- LICENSE = "BSD-3-Clause"
--LIC_FILES_CHKSUM = "file://COPYING;md5=314649d8ba9dd7045dfb6683f298d0a8 \
--                    file://include/speex/speex.h;beginline=1;endline=34;md5=ef8c8ea4f7198d71cf3509c6ed05ea50"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=eff3f76350f52a99a3df5eec6b79c02a \
-+                    file://include/speex/speex.h;beginline=1;endline=34;md5=ef8c8ea4f7198d71cf3509c6ed05ea50 \
-+                    "
- DEPENDS = "libogg speexdsp"
+diff --git a/meta/recipes-support/nghttp2/nghttp2_1.47.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.48.0.bb
+similarity index 93%
+rename from meta/recipes-support/nghttp2/nghttp2_1.47.0.bb
+rename to meta/recipes-support/nghttp2/nghttp2_1.48.0.bb
+index 58ce08084d..4ff3ab829b 100644
+--- a/meta/recipes-support/nghttp2/nghttp2_1.47.0.bb
++++ b/meta/recipes-support/nghttp2/nghttp2_1.48.0.bb
+@@ -10,7 +10,7 @@ SRC_URI = "\
+     https://github.com/nghttp2/nghttp2/releases/download/v${PV}/nghttp2-${PV}.tar.xz \
+     file://0001-fetch-ocsp-response-use-python3.patch \
+ "
+-SRC_URI[sha256sum] = "68271951324554c34501b85190f22f2221056db69f493afc3bbac8e7be21e7cc"
++SRC_URI[sha256sum] = "47d8f30ee4f1bc621566d10362ca1b3ac83a335c63da7144947c806772d016e4"
  
--SRC_URI = "http://downloads.xiph.org/releases/speex/speex-${PV}.tar.gz \
--           file://CVE-2020-23903.patch \
--           "
-+SRC_URI = "http://downloads.xiph.org/releases/speex/speex-${PV}.tar.gz"
- UPSTREAM_CHECK_REGEX = "speex-(?P<pver>\d+(\.\d+)+)\.tar"
- 
--SRC_URI[md5sum] = "8ab7bb2589110dfaf0ed7fa7757dc49c"
--SRC_URI[sha256sum] = "eaae8af0ac742dc7d542c9439ac72f1f385ce838392dc849cae4536af9210094"
-+SRC_URI[sha256sum] = "4b44d4f2b38a370a2d98a78329fefc56a0cf93d1c1be70029217baae6628feea"
- 
- inherit autotools pkgconfig lib_package
- 
+ inherit cmake manpages python3native
+ PACKAGECONFIG[manpages] = ""
 -- 
 2.31.1
 
 
---===============4952792640495913378==
+--===============2142027126417781361==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/speex: SRC_URI changed from "http://downloads.xiph.org/releases/speex/speex-1.2.0.tar.gz file://CVE-2020-23903.patch" to "http://downloads.xiph.org/releases/speex/speex-1.2.1.tar.gz"
-packages/core2-32-poky-linux/speex: PV changed from "1.2.0" to "1.2.1"
-packages/core2-32-poky-linux/speex: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
-packages/core2-32-poky-linux/speex/speex-bin: PKGSIZE changed from 0 to 56864 (+100%)
-packages/core2-32-poky-linux/speex/speex-bin: PV changed from "1.2.0" to "1.2.1"
-packages/core2-32-poky-linux/speex/speex-bin: RDEPENDS: added "speex (['>= 1.2.1']) libogg (['>= 1.3.5']) speexdsp (['>= 1.2.0']) glibc (['>= 2.35'])"
-packages/core2-32-poky-linux/speex/speex-bin: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
-packages/core2-32-poky-linux/speex/speex-bin: FILELIST: added "/usr/bin/speexenc /usr/bin/speexdec"
-packages/core2-32-poky-linux/speex/speex-dbg: PKGSIZE changed from 250204 to 361408 (+44%)
-packages/core2-32-poky-linux/speex/speex-dbg: PV changed from "1.2.0" to "1.2.1"
-packages/core2-32-poky-linux/speex/speex-dbg: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
-packages/core2-32-poky-linux/speex/speex-dbg: RRECOMMENDS: added "libogg-dbg speexdsp-dbg"
-packages/core2-32-poky-linux/speex/speex-dbg: FILELIST: removed "/usr/lib/.debug/libspeex.so.1.5.1", added "/usr/bin/.debug/speexenc /usr/lib/.debug/libspeex.so.1.5.2 /usr/bin/.debug/speexdec"
-packages/core2-32-poky-linux/speex/speex-dev: PKGSIZE changed from 41263 to 41268 (+0%)
-packages/core2-32-poky-linux/speex/speex-dev: PV changed from "1.2.0" to "1.2.1"
-packages/core2-32-poky-linux/speex/speex-dev: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
-packages/core2-32-poky-linux/speex/speex-doc: PKGSIZE changed from 439545 to 443212 (+1%)
-packages/core2-32-poky-linux/speex/speex-doc: PV changed from "1.2.0" to "1.2.1"
-packages/core2-32-poky-linux/speex/speex-doc: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
-packages/core2-32-poky-linux/speex/speex-doc: FILELIST: added "/usr/share/man/man1/speexdec.1 /usr/share/man/man1/speexenc.1"
-packages/core2-32-poky-linux/speex/speex-locale: PV changed from "1.2.0" to "1.2.1"
-packages/core2-32-poky-linux/speex/speex-locale: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
-packages/core2-32-poky-linux/speex/speex-src: PKGSIZE changed from 448342 to 522287 (+16%)
-packages/core2-32-poky-linux/speex/speex-src: PV changed from "1.2.0" to "1.2.1"
-packages/core2-32-poky-linux/speex/speex-src: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
-packages/core2-32-poky-linux/speex/speex-src: FILELIST: directory renamed /usr/src/debug/speex/1.2.0-r0/speex-1.2.0/libspeex -> /usr/src/debug/speex/1.2.1-r0/speex-1.2.1/libspeex, directory renamed /usr/src/debug/speex/1.2.0-r0/build/include/speex -> /usr/src/debug/speex/1.2.1-r0/build/include/speex, directory renamed /usr/src/debug/speex/1.2.0-r0/speex-1.2.0/include/speex -> /usr/src/debug/speex/1.2.1-r0/speex-1.2.1/include/speex, added "/usr/src/debug/speex/1.2.1-r0/speex-1.2.1/src/skeleton.c /usr/src/debug/speex/1.2.1-r0/speex-1.2.1/src/wav_io.c /usr/src/debug/speex/1.2.1-r0/speex-1.2.1/src/speexdec.c /usr/src/debug/speex/1.2.1-r0/speex-1.2.1/src/skeleton.h /usr/src/debug/speex/1.2.1-r0/speex-1.2.1/src/speexenc.c /usr/src/debug/speex/1.2.1-r0/speex-1.2.1/src/wav_io.h"
-packages/core2-32-poky-linux/speex/speex-staticdev: PV changed from "1.2.0" to "1.2.1"
-packages/core2-32-poky-linux/speex/speex-staticdev: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
-packages/core2-32-poky-linux/speex/speex: PV changed from "1.2.0" to "1.2.1"
-packages/core2-32-poky-linux/speex/speex: PKGV changed from 1.2.0 [default] to 1.2.1 [default]
-packages/core2-32-poky-linux/speex/speex: FILELIST: removed "/usr/lib/libspeex.so.1.5.1", added "/usr/lib/libspeex.so.1.5.2"
-Changes to packages/core2-32-poky-linux/speex (sysroot):
-  /usr/lib/libspeex.so.1 changed symlink target from libspeex.so.1.5.1 to libspeex.so.1.5.2
-  /usr/lib/libspeex.so changed symlink target from libspeex.so.1.5.1 to libspeex.so.1.5.2
-  /usr/lib/libspeex.so.1.5.1 moved to /usr/lib/libspeex.so.1.5.2
+packages/core2-32-poky-linux/nghttp2: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-32-poky-linux/nghttp2: PV changed from "1.47.0" to "1.48.0"
+packages/core2-32-poky-linux/nghttp2: SRC_URI changed from "https://github.com/nghttp2/nghttp2/releases/download/v1.47.0/nghttp2-1.47.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch" to "https://github.com/nghttp2/nghttp2/releases/download/v1.48.0/nghttp2-1.48.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch"
+packages/core2-32-poky-linux/nghttp2/libnghttp2: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-32-poky-linux/nghttp2/libnghttp2: PKGSIZE changed from 185745 to 206225 (+11%)
+packages/core2-32-poky-linux/nghttp2/libnghttp2: PV changed from "1.47.0" to "1.48.0"
+packages/core2-32-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.21.2", added "/usr/lib/libnghttp2.so.14.22.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-client: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-client: PV changed from "1.47.0" to "1.48.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: PKGSIZE changed from 431464 to 463228 (+7%)
+packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: PV changed from "1.47.0" to "1.48.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-dbg: FILELIST: removed "/usr/lib/.debug/libnghttp2.so.14.21.2", added "/usr/lib/.debug/libnghttp2.so.14.22.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-dev: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-dev: PKGSIZE changed from 199550 to 206660 (+4%)
+packages/core2-32-poky-linux/nghttp2/nghttp2-dev: PV changed from "1.47.0" to "1.48.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-doc: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-doc: PKGSIZE changed from 178887 to 179794 (+1%)
+packages/core2-32-poky-linux/nghttp2/nghttp2-doc: PV changed from "1.47.0" to "1.48.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-locale: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-locale: PV changed from "1.47.0" to "1.48.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-proxy: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-proxy: PV changed from "1.47.0" to "1.48.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-server: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-server: PV changed from "1.47.0" to "1.48.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-src: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-src: PKGSIZE changed from 938454 to 1005413 (+7%)
+packages/core2-32-poky-linux/nghttp2/nghttp2-src: PV changed from "1.47.0" to "1.48.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2-src: FILELIST: directory renamed /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/includes/nghttp2 -> /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/includes/nghttp2, removed "/usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_hd_huffman.h /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_option.h /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_queue.h /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_callbacks.h /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_session.h /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_helper.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_helper.h /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_frame.h /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_pq.h /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_stream.h /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_buf.h /usr/src/de
+ bug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_outbound_item.h /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_frame.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_debug.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_version.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_mem.h /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_http.h /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_priority_spec.h /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_hd.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_session.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_stream.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_rcbuf.h /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_pq.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_mem.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_option.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47
+ .0/lib/nghttp2_rcbuf.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_hd_huffman.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_callbacks.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_queue.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_submit.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_hd.h /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_http.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_buf.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_int.h /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_npn.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_outbound_item.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_map.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_priority_spec.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_hd_huffman_data.c /usr/src/debug/nghttp2/1.47.0-r0/nghttp2-1.47.0/lib/nghttp2_map.h"
+ , added "/usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_queue.h /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_frame.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_extpri.h /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_queue.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_helper.h /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_http.h /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_map.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_option.h /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_extpri.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_priority_spec.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_http.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_stream.h /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_version.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_rcbuf.c /usr/src/debug/nghttp2/1.
+ 48.0-r0/nghttp2-1.48.0/lib/nghttp2_hd.h /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_frame.h /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_hd.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_npn.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_mem.h /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_outbound_item.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_hd_huffman_data.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_hd_huffman.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_session.h /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_mem.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_int.h /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_callbacks.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_map.h /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_helper.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nght
+ tp2_debug.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_priority_spec.h /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_pq.h /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_buf.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_pq.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_stream.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_rcbuf.h /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_callbacks.h /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_outbound_item.h /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_hd_huffman.h /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_session.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_submit.c /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_buf.h /usr/src/debug/nghttp2/1.48.0-r0/nghttp2-1.48.0/lib/nghttp2_option.c"
+packages/core2-32-poky-linux/nghttp2/nghttp2-staticdev: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2-staticdev: PV changed from "1.47.0" to "1.48.0"
+packages/core2-32-poky-linux/nghttp2/nghttp2: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-32-poky-linux/nghttp2/nghttp2: PV changed from "1.47.0" to "1.48.0"
+Changes to packages/core2-32-poky-linux/nghttp2 (sysroot):
+  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.21.2 to libnghttp2.so.14.22.0
+  /usr/lib/libnghttp2.so.14.21.2 moved to /usr/lib/libnghttp2.so.14.22.0
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1582,24 +1512,17 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoffout.h was removed
 
---===============4952792640495913378==
+--===============2142027126417781361==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/speex/speex-bin: FILELIST: added "/usr/bin/speexenc /usr/bin/speexdec"
-packages/core2-32-poky-linux/speex/speex-bin: RDEPENDS: added "speexdsp (['>= 1.2.0']) libogg (['>= 1.3.5']) speex (['>= 1.2.1']) glibc (['>= 2.35'])"
-packages/core2-32-poky-linux/speex/speex-bin: PKGSIZE changed from 0 to 56864 (+100%)
-packages/core2-32-poky-linux/speex/speex-dbg: PKGSIZE changed from 250204 to 361408 (+44%)
-packages/core2-32-poky-linux/speex/speex-dbg: RRECOMMENDS: added "speexdsp-dbg libogg-dbg"
-packages/core2-32-poky-linux/speex/speex-doc: FILELIST: added "/usr/share/man/man1/speexdec.1 /usr/share/man/man1/speexenc.1"
-packages/core2-32-poky-linux/speex/speex-src: PKGSIZE changed from 448342 to 522287 (+16%)
-packages/core2-32-poky-linux/speex/speex: FILELIST: removed "/usr/lib/libspeex.so.1.5.1", added "/usr/lib/libspeex.so.1.5.2"
-Changes to packages/core2-32-poky-linux/speex (sysroot):
-  /usr/lib/libspeex.so.1 changed symlink target from libspeex.so.1.5.1 to libspeex.so.1.5.2
-  /usr/lib/libspeex.so changed symlink target from libspeex.so.1.5.1 to libspeex.so.1.5.2
-  /usr/lib/libspeex.so.1.5.1 moved to /usr/lib/libspeex.so.1.5.2
+packages/core2-32-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.21.2", added "/usr/lib/libnghttp2.so.14.22.0"
+packages/core2-32-poky-linux/nghttp2/libnghttp2: PKGSIZE changed from 185745 to 206225 (+11%)
+Changes to packages/core2-32-poky-linux/nghttp2 (sysroot):
+  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.21.2 to libnghttp2.so.14.22.0
+  /usr/lib/libnghttp2.so.14.21.2 moved to /usr/lib/libnghttp2.so.14.22.0
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2954,5 +2877,5 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoffout.h was removed
 
---===============4952792640495913378==--
+--===============2142027126417781361==--
 
