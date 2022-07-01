@@ -2,41 +2,41 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27D5CC2BBF5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19320C2BBF0
 	for <webhook@archiver.kernel.org>; Fri,  1 Jul 2022 14:51:10 +0000 (UTC)
 Received: from a27-31.smtp-out.us-west-2.amazonses.com
  (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web12.39616.1656687062426210900
+ by mx.groups.io with SMTP id smtpd.web08.39309.1656687062423134569
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Jul 2022 07:51:02 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=k/iIWzDQ;
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=lQGU5ZpG;
  spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
- mailfrom: 01010181ba3e6933-77828675-e718-4c7b-a3ee-e320c3ecbd1c-000000@us-west-2.amazonses.com)
+ mailfrom: 01010181ba3e6938-f4c0aea1-b518-49cf-8c70-2c338c8f793d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1656687061;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=StIJFgfGyDJD/kntRv27corU3Bff/JQh7KlaAC6pEfQ=;
-	b=k/iIWzDQDw/sHWyQuvqo9djrqbV1PpLn5RY4FyDAdWBU8xNa4IHMgYkGbZrxkQtd
-	GjXMkT3xw7tKT4BnIDXbL2AfB9HHJ9RERqF1FWny0WkYq7vtMkfbd2nkGDmcHGBeF+a
-	foZNlz+qp9BNk9GESUC0re9YSxJTdWSUbmUH2ENo=
+	bh=6hTXC750KjC2r1S70nAaLsvRbYyX2gT1v9GN1nCfVi4=;
+	b=lQGU5ZpGZeQ9cRYNnjwjB4RZmCD/pAvdfkt7NONXz1IShqaDA5B3AupOYWO82epq
+	b1XOCRNmfQVVSoPtbNH8/iX/WurAUAwGm6/M2T2e3UXiBSlhMGMhdvH3yJf5FKS4/xG
+	SV8ilzGro2mNPIHgr+FCJVT0ZnE5IdUFRtBdR0t8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1656687061;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=StIJFgfGyDJD/kntRv27corU3Bff/JQh7KlaAC6pEfQ=;
-	b=GWa9VchDnbpaznRy7VDGaooHOC6xCKwagIkqWddddULD4NbwIVQdOBjP1B24CxEP
-	X2FWc1h4i0WJz4SbPkvA+J2P0DZJ+oOiLX5YaJ3rmZ8MYg3rEFFge110uOeMXR1Q+6M
-	RkekMG9dS9ITbDcIsfeNm2BRVL1PudNvVFghmzR4=
-Content-Type: multipart/mixed; boundary="===============8848525150755325176=="
+	bh=6hTXC750KjC2r1S70nAaLsvRbYyX2gT1v9GN1nCfVi4=;
+	b=Ime+FAohi7JIXFrnKF9K3NoXsW1bkGrjEkWnzXn6XXTL4vOsSVrgcI4TgcC28bAy
+	2mY8W4BBQuRDcHcuI7Fm1r3UIwO564umLHl9NIGBQON1JofVfLvkPOehp3xe+Y4oSNv
+	Lh7LjK7upv4otz9jSZMtJidzRV7XmUDHMdruiEQE=
+Content-Type: multipart/mixed; boundary="===============0799321204656849815=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] cargo: upgrading to 1.62.0 FAILED
+Subject: [AUH] glib-networking: upgrading to 2.72.1 SUCCEEDED
 Message-ID: 
- <01010181ba3e6933-77828675-e718-4c7b-a3ee-e320c3ecbd1c-000000@us-west-2.amazonses.com>
+ <01010181ba3e6938-f4c0aea1-b518-49cf-8c70-2c338c8f793d-000000@us-west-2.amazonses.com>
 Date: Fri, 1 Jul 2022 14:51:01 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
@@ -46,9 +46,9 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Jul 2022 14:51:10 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167479
+ https://lists.openembedded.org/g/openembedded-core/message/167482
 
---===============8848525150755325176==
+--===============0799321204656849815==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,1006 +56,2442 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *cargo* to *1.62.0* has Failed(other errors).
+that the automatic attempt to upgrade the recipe *glib-networking* to *2.72.1* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-glib-networking-upgrade-2.72.0-2.72.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-'MACHINE=qemux86 bitbake cargo' failed
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 886 .bb files complete (0 cached, 886 parsed). 1654 targets, 36 skipped, 0 masked, 0 errors.
-Removing 26 recipes from the core2-32 sysroot...done.
-Removing 35 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.0.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.1+snapshot-b21d86cf293dbf100ff50c71cf0873122e2c1fa7"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:b21d86cf293dbf100ff50c71cf0873122e2c1fa7"
-workspace            = "master:6958024ed2aa199e56851bf960c06dec1a3d81a1"
-
-Initialising tasks...done.
-Sstate summary: Wanted 79 Local 39 Mirrors 0 Missed 40 Current 132 (49% match, 81% complete)
-Removing 2 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 157 of 211 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 158 of 211 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_packagedata_setscene)
-NOTE: Running setscene task 160 of 211 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 161 of 211 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 166 of 211 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: Running task 458 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_fetch)
-NOTE: Running task 530 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_fetch)
-NOTE: Running task 579 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_fetch)
-NOTE: Running task 580 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_fetch)
-NOTE: Running task 581 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_fetch)
-NOTE: Running task 582 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_fetch)
-NOTE: Running task 583 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_fetch)
-NOTE: Running task 584 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_fetch)
-NOTE: Running task 585 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_fetch)
-NOTE: Running task 587 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.2.bb:do_fetch)
-NOTE: Running task 589 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.83.1.bb:do_fetch)
-NOTE: Running task 592 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_fetch)
-NOTE: Running task 606 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_populate_sysroot)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.2.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.2.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_fetch: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_fetch: Started
-NOTE: recipe ca-certificates-20211016-r0: task do_populate_sysroot: Started
-NOTE: recipe openssl-3.0.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_fetch: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_fetch: Started
-NOTE: recipe libunistring-1.0-r0: task do_fetch: Started
-NOTE: recipe openssl-3.0.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cargo-1.60.0-r0: task do_fetch: Started
-NOTE: recipe libidn2-2.3.2-r0: task do_fetch: Started
-NOTE: recipe curl-7.83.1-r0: task do_fetch: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_fetch: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_fetch: Started
-NOTE: recipe libunistring-1.0-r0: task do_fetch: Succeeded
-NOTE: recipe cargo-native-1.60.0-r0: task do_fetch: Started
-NOTE: recipe libidn2-2.3.2-r0: task do_fetch: Succeeded
-NOTE: recipe curl-7.83.1-r0: task do_fetch: Succeeded
-NOTE: recipe libssh2-native-1.10.0-r0: task do_fetch: Started
-NOTE: Running task 609 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_unpack)
-NOTE: Running task 610 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.2.bb:do_unpack)
-NOTE: Running task 611 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.83.1.bb:do_unpack)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_fetch: Succeeded
-NOTE: Running task 612 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_unpack)
-NOTE: Running task 613 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_prepare_recipe_sysroot)
-NOTE: recipe zlib-1.2.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zlib-1.2.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libunistring-1.0-r0: task do_unpack: Started
-NOTE: recipe libidn2-2.3.2-r0: task do_unpack: Started
-NOTE: recipe curl-7.83.1-r0: task do_unpack: Started
-NOTE: recipe openssl-3.0.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 183 of 211 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
-NOTE: recipe openssl-3.0.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ca-certificates-native-20211016-r0: task do_unpack: Started
-NOTE: Running setscene task 185 of 211 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libidn2-2.3.2-r0: task do_unpack: Succeeded
-NOTE: Running task 626 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.2.bb:do_patch)
-NOTE: recipe ca-certificates-20211016-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libunistring-1.0-r0: task do_unpack: Succeeded
-NOTE: Running task 627 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_patch)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libidn2-2.3.2-r0: task do_patch: Started
-NOTE: Running setscene task 187 of 211 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.1.bb:do_packagedata_setscene)
-NOTE: recipe libunistring-1.0-r0: task do_patch: Started
-NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 188 of 211 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe curl-7.83.1-r0: task do_unpack: Succeeded
-NOTE: Running task 632 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.83.1.bb:do_patch)
-NOTE: recipe libidn2-2.3.2-r0: task do_patch: Succeeded
-NOTE: recipe gcc-runtime-12.1.0-r0: task do_packagedata_setscene: Started
-NOTE: Running task 633 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe libunistring-1.0-r0: task do_patch: Succeeded
-NOTE: Running task 634 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe gcc-runtime-12.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_unpack: Succeeded
-NOTE: recipe curl-7.83.1-r0: task do_patch: Started
-NOTE: Running task 635 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_patch)
-NOTE: recipe libidn2-2.3.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libunistring-1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe curl-7.83.1-r0: task do_patch: Succeeded
-NOTE: Running task 636 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.83.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe gcc-runtime-12.1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 191 of 211 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.1.bb:do_packagedata_setscene)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_patch: Started
-NOTE: recipe curl-7.83.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libidn2-2.3.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libgcc-12.1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libunistring-1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gcc-runtime-12.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 193 of 211 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-12.1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 195 of 211 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.35.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-12.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe curl-7.83.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe glibc-2.35-r0: task do_packagedata_setscene: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_patch: Succeeded
-NOTE: Running task 639 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_deploy_source_date_epoch)
-NOTE: recipe libgcc-12.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 196 of 211 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.35.bb:do_populate_sysroot_setscene)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe glibc-2.35-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glibc-2.35-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 199 of 211 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_packagedata_setscene)
-NOTE: recipe linux-libc-headers-5.16-r0: task do_packagedata_setscene: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 642 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_configure)
-NOTE: recipe glibc-2.35-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 203 of 211 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-5.16-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ca-certificates-native-20211016-r0: task do_configure: Started
-NOTE: recipe gcc-cross-i686-12.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_configure: Succeeded
-NOTE: Running task 649 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_compile)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_compile: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_compile: Succeeded
-NOTE: Running task 650 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_install)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_install: Started
-NOTE: recipe gcc-cross-i686-12.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 208 of 211 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 209 of 211 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.38.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-i686-2.38-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_fetch: Succeeded
-NOTE: recipe libssh2-native-1.10.0-r0: task do_fetch: Succeeded
-NOTE: Running task 667 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_unpack)
-NOTE: Running task 668 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_unpack)
-NOTE: Running task 669 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libssh2-1.10.0-r0: task do_unpack: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_unpack: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_unpack: Succeeded
-NOTE: Running task 670 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_patch)
-NOTE: recipe libssh2-native-1.10.0-r0: task do_unpack: Succeeded
-NOTE: Running task 671 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_patch)
-NOTE: recipe binutils-cross-i686-2.38-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 741 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 746 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libssh2-1.10.0-r0: task do_patch: Started
-NOTE: recipe libunistring-1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_patch: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libssh2-1.10.0-r0: task do_patch: Succeeded
-NOTE: Running task 753 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libssh2-native-1.10.0-r0: task do_patch: Succeeded
-NOTE: Running task 754 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libssh2-1.10.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libunistring-1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 755 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_configure)
-NOTE: recipe libssh2-1.10.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libssh2-1.10.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libunistring-1.0-r0: task do_configure: Started
-NOTE: Running task 756 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_configure)
-NOTE: recipe libssh2-native-1.10.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 757 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_configure)
-NOTE: recipe ca-certificates-native-20211016-r0: task do_install: Succeeded
-NOTE: Running task 758 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_populate_sysroot)
-NOTE: recipe libssh2-1.10.0-r0: task do_configure: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_configure: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_populate_sysroot: Started
-NOTE: recipe ca-certificates-native-20211016-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_fetch: Succeeded
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_fetch: Succeeded
-NOTE: recipe libstd-rs-1.60.0-r0: task do_fetch: Succeeded
-NOTE: Running task 759 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_unpack)
-NOTE: Running task 760 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 761 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_unpack)
-NOTE: Running task 762 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_unpack)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_unpack: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_unpack: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_unpack: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libssh2-native-1.10.0-r0: task do_configure: Succeeded
-NOTE: Running task 763 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_compile)
-NOTE: recipe libssh2-native-1.10.0-r0: task do_compile: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_fetch: Succeeded
-NOTE: recipe cargo-native-1.60.0-r0: task do_fetch: Succeeded
-NOTE: recipe cargo-1.60.0-r0: task do_fetch: Succeeded
-NOTE: Running task 764 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_unpack)
-NOTE: Running task 765 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_unpack)
-NOTE: Running task 766 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_unpack)
-NOTE: recipe libssh2-1.10.0-r0: task do_configure: Succeeded
-NOTE: Running task 767 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_configure_ptest_base)
-NOTE: recipe rust-native-1.60.0-r0: task do_unpack: Started
-NOTE: recipe cargo-1.60.0-r0: task do_unpack: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_unpack: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_configure_ptest_base: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 768 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_compile)
-NOTE: recipe libssh2-1.10.0-r0: task do_compile: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_compile: Succeeded
-NOTE: Running task 769 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_install)
-NOTE: recipe libssh2-native-1.10.0-r0: task do_install: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_install: Succeeded
-NOTE: Running task 770 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_populate_sysroot)
-NOTE: recipe libssh2-native-1.10.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libssh2-native-1.10.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libssh2-1.10.0-r0: task do_compile: Succeeded
-NOTE: Running task 771 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_compile_ptest_base)
-NOTE: recipe libssh2-1.10.0-r0: task do_compile_ptest_base: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 772 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_install)
-NOTE: recipe libssh2-1.10.0-r0: task do_install: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_install: Succeeded
-NOTE: Running task 773 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_install_ptest_base)
-NOTE: recipe libssh2-1.10.0-r0: task do_install_ptest_base: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 774 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_populate_sysroot)
-NOTE: Running task 775 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_package)
-NOTE: recipe libssh2-1.10.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_package: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libssh2-1.10.0-r0: task do_package: Succeeded
-NOTE: Running task 776 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libssh2/libssh2_1.10.0.bb:do_packagedata)
-NOTE: recipe libssh2-1.10.0-r0: task do_packagedata: Started
-NOTE: recipe libssh2-1.10.0-r0: task do_packagedata: Succeeded
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_unpack: Succeeded
-NOTE: Running task 777 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_patch)
-NOTE: Running task 778 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_rust_setup_snapshot)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_patch: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_rust_setup_snapshot: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_rust_setup_snapshot: Succeeded
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_patch: Succeeded
-NOTE: Running task 779 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 780 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_rust_gen_targets)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_rust_gen_targets: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_rust_gen_targets: Succeeded
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libstd-rs-1.60.0-r0: task do_unpack: Succeeded
-NOTE: Running task 781 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_patch)
-NOTE: recipe libstd-rs-1.60.0-r0: task do_patch: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_patch: Succeeded
-NOTE: Running task 782 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libstd-rs-1.60.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libunistring-1.0-r0: task do_configure: Succeeded
-NOTE: Running task 783 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_compile)
-NOTE: recipe libunistring-1.0-r0: task do_compile: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_unpack: Succeeded
-NOTE: Running task 784 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_patch)
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_patch: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_patch: Succeeded
-NOTE: Running task 785 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_generate_toolchain_file)
-NOTE: Running task 786 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 787 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_configure)
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_configure: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_configure: Succeeded
-NOTE: Running task 788 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_compile)
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_compile: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_unpack: Succeeded
-NOTE: Running task 789 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_patch)
-NOTE: Running task 790 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_rust_setup_snapshot)
-NOTE: recipe rust-native-1.60.0-r0: task do_patch: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_rust_setup_snapshot: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_patch: Succeeded
-NOTE: Running task 791 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 792 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_rust_gen_targets)
-NOTE: recipe rust-native-1.60.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_rust_gen_targets: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_rust_gen_targets: Succeeded
-NOTE: recipe rust-native-1.60.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe rust-native-1.60.0-r0: task do_rust_setup_snapshot: Succeeded
-NOTE: recipe cargo-native-1.60.0-r0: task do_unpack: Succeeded
-NOTE: Running task 793 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_patch)
-NOTE: Running task 794 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_cargo_setup_snapshot)
-NOTE: recipe cargo-native-1.60.0-r0: task do_cargo_setup_snapshot: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_patch: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_patch: Succeeded
-NOTE: Running task 795 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe cargo-native-1.60.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe cargo-native-1.60.0-r0: task do_cargo_setup_snapshot: Succeeded
-NOTE: recipe cargo-1.60.0-r0: task do_unpack: Succeeded
-NOTE: Running task 796 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_patch)
-NOTE: Running task 797 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_cargo_setup_snapshot)
-NOTE: recipe cargo-1.60.0-r0: task do_cargo_setup_snapshot: Started
-NOTE: recipe cargo-1.60.0-r0: task do_patch: Started
-NOTE: recipe cargo-1.60.0-r0: task do_patch: Succeeded
-NOTE: Running task 798 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 799 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_populate_lic)
-NOTE: recipe cargo-1.60.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe cargo-1.60.0-r0: task do_populate_lic: Started
-NOTE: recipe cargo-1.60.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe cargo-1.60.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe cargo-1.60.0-r0: task do_cargo_setup_snapshot: Succeeded
-NOTE: recipe libunistring-1.0-r0: task do_compile: Succeeded
-NOTE: Running task 800 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_install)
-NOTE: recipe libunistring-1.0-r0: task do_install: Started
-NOTE: recipe libunistring-1.0-r0: task do_install: Succeeded
-NOTE: Running task 801 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_populate_sysroot)
-NOTE: Running task 802 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_package)
-NOTE: recipe libunistring-1.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libunistring-1.0-r0: task do_package: Started
-NOTE: recipe libunistring-1.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 803 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libidn2-2.3.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libidn2-2.3.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 804 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.2.bb:do_configure)
-NOTE: recipe libidn2-2.3.2-r0: task do_configure: Started
-NOTE: recipe libunistring-1.0-r0: task do_package: Succeeded
-NOTE: Running task 805 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.0.bb:do_packagedata)
-NOTE: recipe libunistring-1.0-r0: task do_packagedata: Started
-NOTE: recipe libunistring-1.0-r0: task do_packagedata: Succeeded
-NOTE: recipe libidn2-2.3.2-r0: task do_configure: Succeeded
-NOTE: Running task 806 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.2.bb:do_compile)
-NOTE: recipe libidn2-2.3.2-r0: task do_compile: Started
-NOTE: recipe libidn2-2.3.2-r0: task do_compile: Succeeded
-NOTE: Running task 807 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.2.bb:do_install)
-NOTE: recipe libidn2-2.3.2-r0: task do_install: Started
-NOTE: recipe libidn2-2.3.2-r0: task do_install: Succeeded
-NOTE: Running task 808 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.2.bb:do_populate_sysroot)
-NOTE: Running task 809 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.2.bb:do_package)
-NOTE: recipe libidn2-2.3.2-r0: task do_populate_sysroot: Started
-NOTE: recipe libidn2-2.3.2-r0: task do_package: Started
-NOTE: recipe libidn2-2.3.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 810 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.83.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe curl-7.83.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe curl-7.83.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 811 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.83.1.bb:do_configure)
-NOTE: recipe curl-7.83.1-r0: task do_configure: Started
-NOTE: recipe libidn2-2.3.2-r0: task do_package: Succeeded
-NOTE: Running task 812 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.2.bb:do_packagedata)
-NOTE: recipe libidn2-2.3.2-r0: task do_packagedata: Started
-NOTE: recipe libidn2-2.3.2-r0: task do_packagedata: Succeeded
-NOTE: recipe curl-7.83.1-r0: task do_configure: Succeeded
-NOTE: Running task 813 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.83.1.bb:do_compile)
-NOTE: recipe curl-7.83.1-r0: task do_compile: Started
-NOTE: recipe curl-7.83.1-r0: task do_compile: Succeeded
-NOTE: Running task 814 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.83.1.bb:do_install)
-NOTE: recipe curl-7.83.1-r0: task do_install: Started
-NOTE: recipe curl-7.83.1-r0: task do_install: Succeeded
-NOTE: Running task 815 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.83.1.bb:do_populate_sysroot)
-NOTE: Running task 816 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.83.1.bb:do_package)
-NOTE: recipe curl-7.83.1-r0: task do_populate_sysroot: Started
-NOTE: recipe curl-7.83.1-r0: task do_package: Started
-NOTE: recipe curl-7.83.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe curl-7.83.1-r0: task do_package: Succeeded
-NOTE: Running task 817 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_7.83.1.bb:do_packagedata)
-NOTE: recipe curl-7.83.1-r0: task do_packagedata: Started
-NOTE: recipe curl-7.83.1-r0: task do_packagedata: Succeeded
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_compile: Succeeded
-NOTE: Running task 818 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_install)
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_install: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_install: Succeeded
-NOTE: Running task 819 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-llvm_1.60.0.bb:do_populate_sysroot)
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_populate_sysroot: Started
-NOTE: recipe rust-llvm-native-1.60.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 820 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe rust-native-1.60.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 821 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_rust_create_wrappers)
-NOTE: recipe rust-native-1.60.0-r0: task do_rust_create_wrappers: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_rust_create_wrappers: Succeeded
-NOTE: Running task 822 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_configure)
-NOTE: recipe rust-native-1.60.0-r0: task do_configure: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_configure: Succeeded
-NOTE: Running task 823 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_compile)
-NOTE: recipe rust-native-1.60.0-r0: task do_compile: Started
-Bitbake still alive (no events for 600s). Active tasks:
-virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_compile
-NOTE: recipe rust-native-1.60.0-r0: task do_compile: Succeeded
-NOTE: Running task 824 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_install)
-NOTE: recipe rust-native-1.60.0-r0: task do_install: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_install: Succeeded
-NOTE: Running task 825 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.60.0.bb:do_populate_sysroot)
-NOTE: recipe rust-native-1.60.0-r0: task do_populate_sysroot: Started
-NOTE: recipe rust-native-1.60.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 826 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 827 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 828 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_rust_create_wrappers)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 829 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_rust_create_wrappers)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_rust_create_wrappers: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_rust_create_wrappers: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_rust_create_wrappers: Succeeded
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_rust_create_wrappers: Succeeded
-NOTE: Running task 830 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_configure)
-NOTE: Running task 831 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_configure)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_configure: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_configure: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_configure: Succeeded
-NOTE: Running task 832 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_compile)
-NOTE: recipe cargo-native-1.60.0-r0: task do_configure: Succeeded
-NOTE: Running task 833 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_compile)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_compile: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_compile: Succeeded
-NOTE: Running task 834 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_install)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_install: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_compile: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_install: Succeeded
-NOTE: Running task 835 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust-cross_1.60.0.bb:do_populate_sysroot)
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_populate_sysroot: Started
-NOTE: recipe rust-cross-core2-32-glibc-1.60.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe cargo-native-1.60.0-r0: task do_compile: Succeeded
-NOTE: Running task 836 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_install)
-NOTE: recipe cargo-native-1.60.0-r0: task do_install: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_install: Succeeded
-NOTE: Running task 837 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_populate_sysroot)
-NOTE: recipe cargo-native-1.60.0-r0: task do_populate_sysroot: Started
-NOTE: recipe cargo-native-1.60.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 838 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libstd-rs-1.60.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 839 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_rust_create_wrappers)
-NOTE: recipe libstd-rs-1.60.0-r0: task do_rust_create_wrappers: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_rust_create_wrappers: Succeeded
-NOTE: Running task 840 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_configure)
-NOTE: recipe libstd-rs-1.60.0-r0: task do_configure: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_configure: Succeeded
-NOTE: Running task 841 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_compile)
-NOTE: recipe libstd-rs-1.60.0-r0: task do_compile: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_compile: Succeeded
-NOTE: Running task 842 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_install)
-NOTE: recipe libstd-rs-1.60.0-r0: task do_install: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_install: Succeeded
-NOTE: Running task 843 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_populate_sysroot)
-NOTE: Running task 844 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_package)
-NOTE: recipe libstd-rs-1.60.0-r0: task do_package: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 845 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe cargo-1.60.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe cargo-1.60.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 846 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_rust_create_wrappers)
-NOTE: recipe cargo-1.60.0-r0: task do_rust_create_wrappers: Started
-NOTE: recipe cargo-1.60.0-r0: task do_rust_create_wrappers: Succeeded
-NOTE: Running task 847 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_configure)
-NOTE: recipe cargo-1.60.0-r0: task do_configure: Started
-NOTE: recipe cargo-1.60.0-r0: task do_configure: Succeeded
-NOTE: Running task 848 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_compile)
-NOTE: recipe cargo-1.60.0-r0: task do_compile: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_package: Succeeded
-NOTE: Running task 849 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/libstd-rs_1.60.0.bb:do_packagedata)
-NOTE: recipe libstd-rs-1.60.0-r0: task do_packagedata: Started
-NOTE: recipe libstd-rs-1.60.0-r0: task do_packagedata: Succeeded
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| NOTE: cargo = /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot-native/usr/bin/cargo
-| Usage: which [options] [--] COMMAND [...]
-| Write the full path of COMMAND(s) to standard output.
-| 
-|   --version, -[vV] Print version and exit successfully.
-|   --help,          Print this help and exit successfully.
-|   --skip-dot       Skip directories in PATH that start with a dot.
-|   --skip-tilde     Skip directories in PATH that start with a tilde.
-|   --show-dot       Don't expand a dot to current directory in output.
-|   --show-tilde     Output a tilde for HOME directory for non-root.
-|   --tty-only       Stop processing options on the right if not on tty.
-|   --all, -a        Print all matches in PATH, not just the first
-|   --read-alias, -i Read list of aliases from stdin.
-|   --skip-alias     Ignore option --read-alias; don't read stdin.
-|   --read-functions Read shell functions from stdin.
-|   --skip-functions Ignore option --read-functions; don't read stdin.
-| 
-| Recommended use is to write the output of (alias; declare -f) to standard
-| input, so that which can show aliases and shell functions. See which(1) for
-| examples.
-| 
-| If the options --read-alias and/or --read-functions are specified then the
-| output can be a full alias or function definition, optionally followed by
-| the full path of each command used inside of those.
-| 
-| Report bugs to <which-bugs@gnu.org>.
-| NOTE: rustc =
-| NOTE: cargo build -v --target i686-poky-linux --release --manifest-path=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/src/tools/cargo//Cargo.toml
-|    Compiling libc v0.2.116
-|    Compiling pkg-config v0.3.18
-|    Compiling autocfg v1.0.0
-|    Compiling proc-macro2 v1.0.30
-|    Compiling syn v1.0.80
-|    Compiling unicode-xid v0.2.2
-|    Compiling serde_derive v1.0.125
-|    Compiling cfg-if v1.0.0
-|    Compiling serde v1.0.125
-|    Compiling memchr v2.4.1
-|    Compiling cfg-if v0.1.10
-|    Compiling log v0.4.14
-|    Compiling matches v0.1.8
-|    Compiling crc32fast v1.2.0
-|    Compiling bitflags v1.2.1
-|    Compiling getrandom v0.2.0
-|    Compiling tinyvec v0.3.4
-|    Compiling percent-encoding v2.1.0
-|    Compiling ryu v1.0.5
-|    Compiling getrandom v0.1.14
-|    Compiling lazy_static v1.4.0
-|    Compiling serde_json v1.0.59
-|    Compiling anyhow v1.0.51
-|    Compiling once_cell v1.7.2
-|    Compiling typenum v1.12.0
-|    Compiling regex-automata v0.1.10
-|    Compiling crossbeam-utils v0.8.6
-|    Compiling regex-syntax v0.6.25
-|    Compiling openssl v0.10.35
-|    Compiling itoa v0.4.6
-|    Compiling openssl-probe v0.1.2
-|    Compiling ppv-lite86 v0.2.8
-|    Compiling foreign-types-shared v0.1.1
-|    Compiling curl v0.4.41
-|    Compiling hashbrown v0.11.2
-|    Compiling byteorder v1.3.4
-|    Compiling same-file v1.0.6
-|    Compiling version_check v0.9.3
-|    Compiling remove_dir_all v0.5.3
-|    Compiling fnv v1.0.7
-|    Compiling semver v1.0.3
-|    Compiling termcolor v1.1.2
-|    Compiling utf8parse v0.1.1
-|    Compiling bytes v1.0.1
-|    Compiling either v1.6.0
-|    Compiling hex v0.3.2
-|    Compiling hex v0.4.2
-|    Compiling smallvec v1.7.0
-|    Compiling shell-escape v0.1.5
-|    Compiling textwrap v0.15.0
-|    Compiling humantime v2.0.1
-|    Compiling strsim v0.10.0
-|    Compiling lazycell v1.3.0
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/libc-0.2.116/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="align"' --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=d037728999df84bc -C extra-filename=-d037728999df84bc --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/libc-d037728999df84bc -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name pkg_config /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/pkg-config/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off -C metadata=9f248601c7e1ade4 -C extra-filename=-9f248601c7e1ade4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name autocfg /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/autocfg-1.0.0/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off -C metadata=a666cdefedf9bb83 -C extra-filename=-a666cdefedf9bb83 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/proc-macro2-1.0.30/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="proc-macro"' -C metadata=c7041dc8a252118e -C extra-filename=-c7041dc8a252118e --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/proc-macro2-c7041dc8a252118e -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/syn-1.0.80/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="clone-impls"' --cfg 'feature="default"' --cfg 'feature="derive"' --cfg 'feature="extra-traits"' --cfg 'feature="fold"' --cfg 'feature="full"' --cfg 'feature="parsing"' --cfg 'feature="printing"' --cfg 'feature="proc-macro"' --cfg 'feature="quote"' --cfg 'feature="visit"' --cfg 'feature="visit-mut"' -C metadata=6a0f819028b1c653 -C extra-filename=-6a0f819028b1c653 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/syn-6a0f819028b1c653 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/carg
- o/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name unicode_xid /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/unicode-xid/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' -C metadata=3f9e964215576218 -C extra-filename=-3f9e964215576218 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/serde_derive-1.0.125/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' -C metadata=ee131b2a4944cc28 -C extra-filename=-ee131b2a4944cc28 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/serde_derive-ee131b2a4944cc28 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name cfg_if --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/cfg-if/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=29fa95b255c53b46 -C extra-filename=-29fa95b255c53b46 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target
- /release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/serde-1.0.125/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="derive"' --cfg 'feature="serde_derive"' --cfg 'feature="std"' -C metadata=78961b5ccb83a023 -C extra-filename=-78961b5ccb83a023 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/serde-78961b5ccb83a023 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/memchr/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="std"' --cfg 'feature="use_std"' -C metadata=6b3ec43a6d9a9cb0 -C extra-filename=-6b3ec43a6d9a9cb0 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/memchr-6b3ec43a6d9a9cb0 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name cfg_if --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/cfg-if-0.1.10/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=4900f7cf59ef11c1 -C extra-filename=-4900f7cf59ef11c1 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build
- /target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/log/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="std"' -C metadata=1b10c698a9cc2495 -C extra-filename=-1b10c698a9cc2495 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/log-1b10c698a9cc2495 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name matches /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/matches-0.1.8/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=b68992495516de2b -C extra-filename=-b68992495516de2b --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/de
- ps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/crc32fast-1.2.0/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=755dcb0dae2632e2 -C extra-filename=-755dcb0dae2632e2 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/crc32fast-755dcb0dae2632e2 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/bitflags-1.2.1/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' -C metadata=9a9704b3d5d185d4 -C extra-filename=-9a9704b3d5d185d4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/bitflags-9a9704b3d5d185d4 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/getrandom/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="std"' -C metadata=95a3fd6e3b653e7b -C extra-filename=-95a3fd6e3b653e7b --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/getrandom-95a3fd6e3b653e7b -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name tinyvec --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/tinyvec-0.3.4/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="alloc"' --cfg 'feature="default"' -C metadata=7f7e748cb20fa42e -C extra-filename=-7f7e748cb20fa42e --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build
- /tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name percent_encoding /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/percent-encoding/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=380d06c9601be706 -C extra-filename=-380d06c9601be706 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/targe
- t/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/ryu-1.0.5/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off -C metadata=c5c5bd6e45ecc53f -C extra-filename=-c5c5bd6e45ecc53f --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/ryu-c5c5bd6e45ecc53f -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/getrandom-0.1.14/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="std"' -C metadata=fc52d8ce22410bec -C extra-filename=-fc52d8ce22410bec --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/getrandom-fc52d8ce22410bec -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-| warning: target json file contains unused fields: has-elf-tls
-| 
-|      Running `rustc --crate-name lazy_static /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/lazy_static/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=ff72ab8946451d6b -C extra-filename=-ff72ab8946451d6b --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/rele
- ase/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/serde_json-1.0.59/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="raw_value"' --cfg 'feature="std"' --cfg 'feature="unbounded_depth"' -C metadata=97d385e59c2f8c78 -C extra-filename=-97d385e59c2f8c78 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/serde_json-97d385e59c2f8c78 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/anyhow-1.0.51/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=8015a808b39c99a1 -C extra-filename=-8015a808b39c99a1 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/anyhow-8015a808b39c99a1 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name once_cell --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/once_cell-1.7.2/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="alloc"' --cfg 'feature="default"' --cfg 'feature="race"' --cfg 'feature="std"' -C metadata=60318161937ecfd3 -C extra-filename=-60318161937ecfd3 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/
- home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name build_script_main /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/typenum/build/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off -C metadata=3e1dc6e6a667c567 -C extra-filename=-3e1dc6e6a667c567 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/typenum-3e1dc6e6a667c567 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name regex_automata /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/regex-automata/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=d2ca31bc372c9b31 -C extra-filename=-d2ca31bc372c9b31 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/targe
- t/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/crossbeam-utils-0.8.6/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="lazy_static"' --cfg 'feature="nightly"' --cfg 'feature="std"' -C metadata=f686239c1b98207b -C extra-filename=-f686239c1b98207b --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/crossbeam-utils-f686239c1b98207b -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow
- `
-|      Running `rustc --crate-name regex_syntax --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/regex-syntax/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="unicode"' --cfg 'feature="unicode-age"' --cfg 'feature="unicode-bool"' --cfg 'feature="unicode-case"' --cfg 'feature="unicode-gencat"' --cfg 'feature="unicode-perl"' --cfg 'feature="unicode-script"' --cfg 'feature="unicode-segment"' -C metadata=0415a41f2f314fbd -C extra-filename=-0415a41f2f314fbd --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/targ
- et-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/openssl/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off -C metadata=d6369cd612110d48 -C extra-filename=-d6369cd612110d48 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/openssl-d6369cd612110d48 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name itoa /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/itoa-0.4.6/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=ed32eb9fc94ad2fc -C extra-filename=-ed32eb9fc94ad2fc --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps
-  --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name cfg_if --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/cfg-if-0.1.10/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off -C metadata=7efe5c704a5b4c0c -C extra-filename=-7efe5c704a5b4c0c --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name openssl_probe /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/openssl-probe/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=bb8f2735b3a73ce7 -C extra-filename=-bb8f2735b3a73ce7 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/
- release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name ppv_lite86 --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/ppv-lite86/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="simd"' --cfg 'feature="std"' -C metadata=8255f1ed3d790c8d -C extra-filename=-8255f1ed3d790c8d --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/
- work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name cfg_if --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/cfg-if/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off -C metadata=5783836431f5a2ee -C extra-filename=-5783836431f5a2ee --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name foreign_types_shared /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/foreign-types-shared/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=8fc5c57fa84b14ba -C extra-filename=-8fc5c57fa84b14ba --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0
- /build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/curl/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="http2"' --cfg 'feature="openssl-probe"' --cfg 'feature="openssl-sys"' --cfg 'feature="ssl"' -C metadata=e47b08211d6e96ed -C extra-filename=-e47b08211d6e96ed --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/curl-e47b08211d6e96ed -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints all
- ow`
-| warning: `cfg-if` (lib) generated 2 warnings (2 duplicates)
-|      Running `rustc --crate-name unicode_xid /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/unicode-xid/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' -C metadata=eaec642dc4bd613a -C extra-filename=-eaec642dc4bd613a --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1
- .60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name hashbrown --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/hashbrown-0.11.2/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="raw"' -C metadata=d6e1633a7bf826d6 -C extra-filename=-d6e1633a7bf826d6 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky
- -linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `cfg-if` (lib) generated 2 warnings (2 duplicates)
-|      Running `rustc --crate-name build_script_build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/byteorder/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=66cd7d61679bded3 -C extra-filename=-66cd7d61679bded3 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/byteorder-66cd7d61679bded3 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name same_file --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/same-file/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=615d1abc5c1fcf5f -C extra-filename=-615d1abc5c1fcf5f --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/
- target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `matches` (lib) generated 2 warnings (2 duplicates)
-|      Running `rustc --crate-name version_check /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/version_check-0.9.3/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off -C metadata=e813155548dc5b00 -C extra-filename=-e813155548dc5b00 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name remove_dir_all /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/remove_dir_all/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=81778ea11a419fef -C extra-filename=-81778ea11a419fef --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/targe
- t/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name fnv /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/fnv/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=663a85e922c67990 -C extra-filename=-663a85e922c67990 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo
- /1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/semver-1.0.3/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="serde"' --cfg 'feature="std"' -C metadata=68ad495f8520f732 -C extra-filename=-68ad495f8520f732 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/semver-68ad495f8520f732 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow`
-|      Running `rustc --crate-name termcolor --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/termcolor/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=4ea5a1ff7d9838e3 -C extra-filename=-4ea5a1ff7d9838e3 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/
- target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name utf8parse /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/utf8parse/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=d00f5561878f6567 -C extra-filename=-d00f5561878f6567 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/
- deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name bytes --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/bytes/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=379ae072c0f9335e -C extra-filename=-379ae072c0f9335e --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/co
- re2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name either /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/either-1.6.0/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=4845b6dccc565436 -C extra-filename=-4845b6dccc565436 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/
- deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name hex /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/hex-0.3.2/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=10e93aa2c9438aa4 -C extra-filename=-10e93aa2c9438aa4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -
- -cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name hex --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/hex/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=a63d5a1cde7dce26 -C extra-filename=-a63d5a1cde7dce26 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-
- 32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name smallvec --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/smallvec-1.7.0/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="may_dangle"' --cfg 'feature="union"' -C metadata=0fef2638061246ad -C extra-filename=-0fef2638061246ad --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/
- build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name shell_escape /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/shell-escape/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=13a6a7d877a3064b -C extra-filename=-13a6a7d877a3064b --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/re
- lease/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name textwrap --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/textwrap/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=a800b29e33890cd4 -C extra-filename=-a800b29e33890cd4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/ta
- rget/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name humantime --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/humantime/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=df585607570a3e49 -C extra-filename=-df585607570a3e49 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/
- target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name strsim /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/strsim/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=0aac8a4a71ccd55b -C extra-filename=-0aac8a4a71ccd55b --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -
- -cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|    Compiling home v0.5.3
-|    Compiling bytesize v1.0.1
-|    Compiling glob v0.3.0
-|      Running `rustc --crate-name lazycell /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/lazycell/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=52626c4239ca1c57 -C extra-filename=-52626c4239ca1c57 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/de
- ps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `lazy_static` (lib) generated 2 warnings (2 duplicates)
-| warning: `cfg-if` (lib) generated 2 warnings (2 duplicates)
-| warning: `cfg-if` (lib) generated 2 warnings (2 duplicates)
-|      Running `rustc --crate-name home --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/home/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=c1f87d091ad7570c -C extra-filename=-c1f87d091ad7570c --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/rel
- ease/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name bytesize /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/bytesize/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=d5389d800f541ea6 -C extra-filename=-d5389d800f541ea6 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/de
- ps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|    Compiling unicode-width v0.1.8
-|    Compiling unicode-bidi v0.3.4
-|    Compiling foreign-types v0.3.2
-|      Running `rustc --crate-name glob /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/glob/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=d3cb4ef7dc439063 -C extra-filename=-d3cb4ef7dc439063 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap
- -lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `foreign-types-shared` (lib) generated 2 warnings (2 duplicates)
-|      Running `rustc --crate-name unicode_width /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/unicode-width/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' -C metadata=7de6775a7b7190ea -C extra-filename=-7de6775a7b7190ea --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/car
- go/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `remove_dir_all` (lib) generated 2 warnings (2 duplicates)
-|      Running `rustc --crate-name unicode_bidi /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/unicode-bidi-0.3.4/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' -C metadata=ee455bf9cad83a5f -C extra-filename=-ee455bf9cad83a5f --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux
- /cargo/1.60.0-r0/build/target/release/deps --extern matches=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libmatches-b68992495516de2b.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name foreign_types /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/foreign-types/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=f8a48c9aefd3cd98 -C extra-filename=-f8a48c9aefd3cd98 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/
- release/deps --extern foreign_types_shared=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libforeign_types_shared-8fc5c57fa84b14ba.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `unicode-xid` (lib) generated 2 warnings (2 duplicates)
-|     Building [>                          ] 9/193: strsim, smallvec, fnv, re...
-| warning: `fnv` (lib) generated 2 warnings (2 duplicates)
-|     Building [>                         ] 10/193: strsim, smallvec, regex-s...
-| warning: `foreign-types` (lib) generated 2 warnings (2 duplicates)
-|    Compiling vte v0.3.3
-|     Building [>                         ] 11/193: strsim, smallvec, regex-s...
-|      Running `rustc --crate-name vte /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/vte/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=945a3faeb00cb7ee -C extra-filename=-945a3faeb00cb7ee --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --exter
- n utf8parse=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libutf8parse-d00f5561878f6567.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `utf8parse` (lib) generated 2 warnings (2 duplicates)
-|    Compiling form_urlencoded v1.0.1
-|     Building [>                         ] 12/193: strsim, smallvec, regex-s...
-|      Running `rustc --crate-name form_urlencoded --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/form_urlencoded/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=44e5599920f690fd -C extra-filename=-44e5599920f690fd --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60
- .0-r0/build/target/release/deps --extern matches=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libmatches-b68992495516de2b.rmeta --extern percent_encoding=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libpercent_encoding-380d06c9601be706.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `lazycell` (lib) generated 2 warnings (2 duplicates)
-|    Compiling walkdir v2.3.1
-|     Building [>                         ] 13/193: strsim, smallvec, regex-s...
-|      Running `rustc --crate-name walkdir --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/walkdir-2.3.1/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=64c69649462a9329 -C extra-filename=-64c69649462a9329 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/buil
- d/target/release/deps --extern same_file=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libsame_file-615d1abc5c1fcf5f.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `unicode-xid` (lib) generated 2 warnings (2 duplicates)
-|     Building [>                         ] 14/193: strsim, smallvec, regex-s...
-| warning: `unicode-width` (lib) generated 2 warnings (2 duplicates)
-|     Building [=>                        ] 15/193: strsim, smallvec, regex-s...
-| warning: `itoa` (lib) generated 2 warnings (2 duplicates)
-|     Building [=>                        ] 16/193: strsim, smallvec, regex-s...
-| warning: `either` (lib) generated 2 warnings (2 duplicates)
-|    Compiling itertools v0.10.1
-|     Building [=>                        ] 17/193: strsim, smallvec, regex-s...
-|      Running `rustc --crate-name itertools --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/itertools-0.10.1/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="use_alloc"' --cfg 'feature="use_std"' -C metadata=9a32e2cc2b5c3a5b -C extra-filename=-9a32e2cc2b5c3a5b --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild
- /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern either=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libeither-4845b6dccc565436.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|    Compiling thread_local v1.1.4
-|     Building [=>                        ] 17/193: strsim, smallvec, thread_...
-|    Compiling strip-ansi-escapes v0.1.0
-|      Running `rustc --crate-name strip_ansi_escapes /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/strip-ansi-escapes/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=5e57f24b78b29687 -C extra-filename=-5e57f24b78b29687 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/bui
- ld/target/release/deps --extern vte=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libvte-945a3faeb00cb7ee.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name thread_local --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/thread_local/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=34d1eb15d5445b36 -C extra-filename=-34d1eb15d5445b36 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/
- build/target/release/deps --extern once_cell=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libonce_cell-60318161937ecfd3.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `vte` (lib) generated 2 warnings (2 duplicates)
-|     Building [=>                        ] 18/193: strsim, smallvec, thread_...
-| warning: `same-file` (lib) generated 2 warnings (2 duplicates)
-|     Building [=>                        ] 19/193: strsim, smallvec, thread_...
-| warning: `bytesize` (lib) generated 2 warnings (2 duplicates)
-|     Building [=>                        ] 20/193: strsim, smallvec, thread_...
-| warning: `once_cell` (lib) generated 2 warnings (2 duplicates)
-|     Building [=>                        ] 21/193: strsim, smallvec, thread_...
-| warning: `getrandom` (build script) generated 2 warnings (2 duplicates)
-|     Building [=>                        ] 22/193: strsim, smallvec, thread_...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/getrandom-95a3fd6e3b653e7b/build-script-build`
-| warning: `curl` (build script) generated 2 warnings (2 duplicates)
-|     Building [==>                       ] 23/193: strsim, smallvec, thread_...
-|     Building [==>                       ] 24/193: strsim, smallvec, thread_...
-| warning: `home` (lib) generated 2 warnings (2 duplicates)
-|     Building [==>                       ] 25/193: strsim, smallvec, thread_...
-| warning: `crossbeam-utils` (build script) generated 2 warnings (2 duplicates)
-|     Building [==>                       ] 26/193: strsim, smallvec, thread_...
-| warning: `log` (build script) generated 2 warnings (2 duplicates)
-|     Building [==>                       ] 27/193: strsim, smallvec, thread_...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/crossbeam-utils-f686239c1b98207b/build-script-build`
-| warning: `openssl` (build script) generated 2 warnings (2 duplicates)
-|     Building [==>                       ] 28/193: strsim, smallvec, thread_...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/log-1b10c698a9cc2495/build-script-build`
-| warning: `getrandom` (build script) generated 2 warnings (2 duplicates)
-|     Building [==>                       ] 29/193: strsim, smallvec, thread_...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/getrandom-fc52d8ce22410bec/build-script-build`
-|     Building [===>                      ] 30/193: strsim, smallvec, thread_...
-|      Running `rustc --crate-name crossbeam_utils --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/crossbeam-utils-0.8.6/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="lazy_static"' --cfg 'feature="nightly"' --cfg 'feature="std"' -C metadata=a44adad03a56c4f4 -C extra-filename=-a44adad03a56c4f4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release
- /deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern cfg_if=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libcfg_if-29fa95b255c53b46.rmeta --extern lazy_static=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/liblazy_static-ff72ab8946451d6b.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|     Building [===>                      ] 31/193: strsim, smallvec, thread_...
-|      Running `rustc --crate-name log /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/log/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="std"' -C metadata=b0ad077105aca28a -C extra-filename=-b0ad077105aca28a --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/targe
- t/release/deps --extern cfg_if=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libcfg_if-29fa95b255c53b46.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg atomic_cas --cfg has_atomics`
-| warning: `strip-ansi-escapes` (lib) generated 2 warnings (2 duplicates)
-|     Building [===>                      ] 32/193: strsim, smallvec, thread_...
-| warning: `memchr` (build script) generated 2 warnings (2 duplicates)
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/memchr-6b3ec43a6d9a9cb0/build-script-build`
-|     Building [===>                      ] 34/193: strsim, smallvec, thread_...
-|     Building [===>                      ] 35/193: strsim, smallvec, thread_...
-|      Running `rustc --crate-name memchr --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/memchr/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' --cfg 'feature="use_std"' -C metadata=e187ebb0ca7a2308 -C extra-filename=-e187ebb0ca7a2308 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/b
- uild/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg memchr_runtime_simd --cfg memchr_runtime_sse2 --cfg memchr_runtime_sse42 --cfg memchr_runtime_avx`
-| warning: `serde_derive` (build script) generated 2 warnings (1 duplicate)
-|     Building [===>                      ] 36/193: strsim, smallvec, thread_...
-| warning: `percent-encoding` (lib) generated 2 warnings (2 duplicates)
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/serde_derive-ee131b2a4944cc28/build-script-build`
-|     Building [===>                      ] 37/193: strsim, smallvec, thread_...
-| warning: `smallvec` (lib) generated 2 warnings (2 duplicates)
-|     Building [====>                     ] 38/193: strsim, thread_local, reg...
-|     Building [====>                     ] 39/193: strsim, thread_local, reg...
-| warning: `bitflags` (build script) generated 2 warnings (2 duplicates)
-|     Building [====>                     ] 40/193: strsim, thread_local, reg...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/bitflags-9a9704b3d5d185d4/build-script-build`
-| warning: `openssl-probe` (lib) generated 2 warnings (2 duplicates)
-|     Building [====>                     ] 41/193: strsim, thread_local, reg...
-| warning: `serde_json` (build script) generated 2 warnings (2 duplicates)
-|    Compiling unicode-normalization v0.1.13
-|     Building [====>                     ] 42/193: strsim, thread_local, reg...
-| warning: `crc32fast` (build script) generated 2 warnings (2 duplicates)
-|     Building [====>                     ] 43/193: strsim, thread_local, reg...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/serde_json-97d385e59c2f8c78/build-script-build`
-|      Running `rustc --crate-name unicode_normalization --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/unicode-normalization-0.1.13/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=0b0fe5300faee195 -C extra-filename=-0b0fe5300faee195 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-w
- orker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern tinyvec=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libtinyvec-7f7e748cb20fa42e.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `shell-escape` (lib) generated 2 warnings (2 duplicates)
-|     Building [====>                     ] 44/193: strsim, thread_local, reg...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/crc32fast-755dcb0dae2632e2/build-script-build`
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/crc32fast-755dcb0dae2632e2/build-script-build`
-|     Building [=====>                    ] 45/193: strsim, thread_local, reg...
-|     Building [=====>                    ] 46/193: strsim, thread_local, reg...
-|      Running `rustc --crate-name bitflags /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/bitflags-1.2.1/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' -C metadata=1e47f9ec202d41f4 -C extra-filename=-1e47f9ec202d41f4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1
- .60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg bitflags_const_fn`
-| warning: `tinyvec` (lib) generated 2 warnings (2 duplicates)
-|     Building [=====>                    ] 47/193: strsim, thread_local, reg...
-| warning: `libc` (build script) generated 2 warnings (2 duplicates)
-|     Building [=====>                    ] 48/193: strsim, thread_local, reg...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/libc-d037728999df84bc/build-script-build`
-|     Building [=====>                    ] 49/193: strsim, thread_local, reg...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/libc-d037728999df84bc/build-script-build`
-|     Building [=====>                    ] 50/193: strsim, thread_local, reg...
-|      Running `rustc --crate-name crc32fast /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/crc32fast-1.2.0/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=a8c38a92a83090ad -C extra-filename=-a8c38a92a83090ad --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cor
- e2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern cfg_if=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libcfg_if-4900f7cf59ef11c1.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg crc32fast_stdarchx86`
-| warning: `ryu` (build script) generated 2 warnings (2 duplicates)
-| warning: `syn` (build script) generated 2 warnings (2 duplicates)
-|      Running `rustc --crate-name crc32fast /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/crc32fast-1.2.0/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=8b9fadbf9c017e21 -C extra-filename=-8b9fadbf9c017e21 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern cfg_if=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/r
- elease/deps/libcfg_if-7efe5c704a5b4c0c.rmeta --cap-lints allow --cfg crc32fast_stdarchx86`
-|     Building [======>                   ] 52/193: strsim, thread_local, reg...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/syn-6a0f819028b1c653/build-script-build`
-| warning: `proc-macro2` (build script) generated 2 warnings (2 duplicates)
-|     Building [======>                   ] 53/193: strsim, thread_local, reg...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/ryu-c5c5bd6e45ecc53f/build-script-build`
-| warning: `regex-automata` (lib) generated 2 warnings (2 duplicates)
-| warning: `semver` (build script) generated 2 warnings (2 duplicates)
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/syn-6a0f819028b1c653/build-script-build`
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/proc-macro2-c7041dc8a252118e/build-script-build`
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/proc-macro2-c7041dc8a252118e/build-script-build`
-|      Running `rustc --crate-name libc /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/libc-0.2.116/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="align"' --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=d2149737eee1e377 -C extra-filename=-d2149737eee1e377 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow --cfg freebsd11 --cfg libc_priv_mod_use --cfg libc_union --cfg libc_const_size_of --cfg libc
- _align --cfg libc_core_cvoid --cfg libc_packedN --cfg libc_cfg_target_vendor --cfg libc_non_exhaustive --cfg libc_ptr_addr_of`
-| warning: `serde` (build script) generated 2 warnings (2 duplicates)
-|     Building [======>                   ] 58/193: libc, strsim, thread_loca...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/semver-68ad495f8520f732/build-script-build`
-|     Building [======>                   ] 59/193: libc, strsim, thread_loca...
-| warning: `bitflags` (lib) generated 2 warnings (2 duplicates)
-|      Running `rustc --crate-name libc /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/libc-0.2.116/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="align"' --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=b5c6f9f754570794 -C extra-filename=-b5c6f9f754570794 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/bu
- ild/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg freebsd11 --cfg libc_priv_mod_use --cfg libc_union --cfg libc_const_size_of --cfg libc_align --cfg libc_core_cvoid --cfg libc_packedN --cfg libc_cfg_target_vendor --cfg libc_non_exhaustive --cfg libc_ptr_addr_of`
-|     Building [=======>                  ] 62/193: libc, strsim, thread_loca...
-|      Running `rustc --crate-name ryu --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/ryu-1.0.5/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=00bb36583e45bfad -C extra-filename=-00bb36583e45bfad --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target
- /release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg integer128 --cfg maybe_uninit`
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/serde-78961b5ccb83a023/build-script-build`
-|      Running `rustc --crate-name proc_macro2 --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/proc-macro2-1.0.30/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="default"' --cfg 'feature="proc-macro"' -C metadata=85bd5a2e99bc024c -C extra-filename=-85bd5a2e99bc024c --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern unicode_xid=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linu
- x/cargo/1.60.0-r0/build/target/release/deps/libunicode_xid-3f9e964215576218.rmeta --cap-lints allow --cfg lexerror_display --cfg hygiene --cfg literal_from_str --cfg is_available --cfg use_proc_macro --cfg wrap_proc_macro`
-|     Building [=======>                  ] 63/193: libc, strsim, thread_loca...
-|      Running `rustc --crate-name proc_macro2 --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/proc-macro2-1.0.30/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="proc-macro"' -C metadata=ab4e3de8a9f45def -C extra-filename=-ab4e3de8a9f45def --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/bui
- ld/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern unicode_xid=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libunicode_xid-eaec642dc4bd613a.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg lexerror_display --cfg hygiene --cfg literal_from_str --cfg is_available --cfg use_proc_macro --cfg wrap_proc_macro`
-|     Building [=======>                  ] 64/193: libc, strsim, thread_loca...
-| warning: `autocfg` (lib) generated 2 warnings (2 duplicates)
-|    Compiling indexmap v1.8.0
-|     Building [=======>                  ] 65/193: libc, strsim, thread_loca...
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/indexmap/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off --cfg 'feature="std"' -C metadata=c69f29aba0cbf335 -C extra-filename=-c69f29aba0cbf335 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/indexmap-c69f29aba0cbf335 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern autocfg=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/
- target/release/deps/libautocfg-a666cdefedf9bb83.rlib --cap-lints allow`
-|     Building [=======>                  ] 66/193: libc, strsim, thread_loca...
-| warning: `anyhow` (build script) generated 2 warnings (2 duplicates)
-|     Building [========>                 ] 68/193: libc, strsim, thread_loca...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/anyhow-8015a808b39c99a1/build-script-build`
-| warning: `ppv-lite86` (lib) generated 2 warnings (2 duplicates)
-|     Building [========>                 ] 69/193: libc, strsim, thread_loca...
-| warning: `byteorder` (build script) generated 2 warnings (2 duplicates)
-|     Building [========>                 ] 70/193: libc, strsim, thread_loca...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/byteorder-66cd7d61679bded3/build-script-build`
-| error[E0463]: can't find crate for `proc_macro`
-|    --> /usr/src/debug/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/proc-macro2-1.0.30/src/lib.rs:102:1
-|     |
-| 102 | extern crate proc_macro;
-|     | ^^^^^^^^^^^^^^^^^^^^^^^^ can't find crate
-| 
-| warning: `form_urlencoded` (lib) generated 2 warnings (2 duplicates)
-|     Building [========>                 ] 71/193: libc, strsim, thread_loca...
-| warning: `version_check` (lib) generated 2 warnings (2 duplicates)
-|    Compiling im-rc v15.0.0
-|     Building [========>                 ] 72/193: libc, strsim, thread_loca...
-|      Running `rustc --crate-name build_script_build --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/im-rc/./build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debug-assertions=off -C metadata=066fdb9c891d98e4 -C extra-filename=-066fdb9c891d98e4 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/im-rc-066fdb9c891d98e4 -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/build-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern version_check=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps/
- libversion_check-e813155548dc5b00.rlib --cap-lints allow`
-|     Building [========>                 ] 73/193: libc, strsim, thread_loca...
-|      Running `rustc --crate-name byteorder /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/byteorder/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=290629f661eb93c6 -C extra-filename=-290629f661eb93c6 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-
- poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg byteorder_i128`
-|     Building [========>                 ] 74/193: libc, strsim, thread_loca...
-|      Running `rustc --crate-name anyhow --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/anyhow-1.0.51/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=09a02b10607afeab -C extra-filename=-09a02b10607afeab --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tm
- p/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg backtrace`
-| warning: `pkg-config` (lib) generated 2 warnings (2 duplicates)
-|     Building [=========>                ] 75/193: libc, strsim, thread_loca...
-| warning: `hex` (lib) generated 2 warnings (2 duplicates)
-|     Building [=========>                ] 76/193: libc, strsim, thread_loca...
-| warning: `humantime` (lib) generated 2 warnings (2 duplicates)
-|     Building [=========>                ] 77/193: libc, strsim, thread_loca...
-| warning: `crc32fast` (lib) generated 2 warnings (2 duplicates)
-|     Building [=========>                ] 78/193: libc, strsim, thread_loca...
-| warning: `thread_local` (lib) generated 2 warnings (2 duplicates)
-|     Building [=========>                ] 79/193: libc, strsim, regex-synta...
-| warning: `crc32fast` (lib) generated 2 warnings (2 duplicates)
-|     Building [=========>                ] 80/193: libc, strsim, regex-synta...
-| warning: `indexmap` (build script) generated 2 warnings (2 duplicates)
-|     Building [=========>                ] 81/193: libc, strsim, regex-synta...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/indexmap-c69f29aba0cbf335/build-script-build`
-| warning: `typenum` (build script) generated 2 warnings (2 duplicates)
-|     Building [==========>               ] 82/193: libc, strsim, regex-synta...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/typenum-3e1dc6e6a667c567/build-script-main`
-|    Compiling bstr v0.2.13
-|    Compiling aho-corasick v0.7.18
-|    Compiling os_str_bytes v6.0.0
-|    Compiling combine v4.6.3
-|      Running `rustc --crate-name bstr /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/bstr/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="lazy_static"' --cfg 'feature="regex-automata"' --cfg 'feature="std"' --cfg 'feature="unicode"' -C metadata=67a1e7ba4fd5deff -C extra-filename=-67a1e7ba4fd5deff --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L d
- ependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern lazy_static=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/liblazy_static-ff72ab8946451d6b.rmeta --extern memchr=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libmemchr-e187ebb0ca7a2308.rmeta --extern regex_automata=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libregex_automata-d2ca31bc372c9b31.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/ca
- rgo/1.60.0-r0`
-|      Running `rustc --crate-name aho_corasick --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/aho-corasick/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=603e98512388496b -C extra-filename=-603e98512388496b --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/bui
- ld/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern memchr=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libmemchr-e187ebb0ca7a2308.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|      Running `rustc --crate-name os_str_bytes --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/os_str_bytes/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="memchr"' --cfg 'feature="raw_os_str"' -C metadata=cfeeb06c7b273864 -C extra-filename=-cfeeb06c7b273864 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/
- yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern memchr=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libmemchr-e187ebb0ca7a2308.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|     Building [==========>               ] 82/193: libc, strsim, aho-corasic...
-|      Running `rustc --crate-name combine --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/combine/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="alloc"' --cfg 'feature="bytes"' --cfg 'feature="default"' --cfg 'feature="std"' -C metadata=6ab7a2038bf45795 -C extra-filename=-6ab7a2038bf45795 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/poky
- build/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern bytes=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libbytes-379ae072c0f9335e.rmeta --extern memchr=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libmemchr-e187ebb0ca7a2308.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-|     Building [==========>               ] 83/193: libc, strsim, aho-corasic...
-|      Running `rustc --crate-name indexmap --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/indexmap/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="std"' -C metadata=6d105da5d546b068 -C extra-filename=-6d105da5d546b068 --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/ca
- rgo/1.60.0-r0/build/target/release/deps --extern hashbrown=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libhashbrown-d6e1633a7bf826d6.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg has_std --cfg rustc_1_51`
-| warning: `ryu` (lib) generated 2 warnings (2 duplicates)
-|     Building [==========>               ] 84/193: libc, strsim, aho-corasic...
-| warning: `hashbrown` (lib) generated 2 warnings (2 duplicates)
-|     Building [==========>               ] 85/193: libc, strsim, aho-corasic...
-|     Building [==========>               ] 86/193: libc, strsim, aho-corasic...
-|      Running `rustc --crate-name typenum /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/typenum/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no -C metadata=c6341ff09d3ae19b -C extra-filename=-c6341ff09d3ae19b --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps
-  --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0`
-| warning: `im-rc` (build script) generated 2 warnings (2 duplicates)
-|     Building [==========>               ] 87/193: libc, strsim, aho-corasic...
-|      Running `/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/build/im-rc-066fdb9c891d98e4/build-script-build`
-| warning: `log` (lib) generated 2 warnings (2 duplicates)
-|     Building [==========>               ] 88/193: libc, strsim, aho-corasic...
-| warning: `textwrap` (lib) generated 2 warnings (2 duplicates)
-|     Building [==========>               ] 89/193: libc, strsim, aho-corasic...
-|     Building [===========>              ] 90/193: libc, strsim, aho-corasic...
-| For more information about this error, try `rustc --explain E0463`.
-| warning: `proc-macro2` (lib) generated 2 warnings (2 duplicates)
-| error: could not compile `proc-macro2` due to previous error; 2 warnings emitted
-| 
-| Caused by:
-|   process didn't exit successfully: `rustc --crate-name proc_macro2 --edition=2018 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/vendor/proc-macro2-1.0.30/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C opt-level=3 -C embed-bitcode=no --cfg 'feature="default"' --cfg 'feature="proc-macro"' -C metadata=ab4e3de8a9f45def -C extra-filename=-ab4e3de8a9f45def --out-dir /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps --target i686-poky-linux -C linker=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/wrapper/target-rust-ccld -L dependency=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps -L dependency=/home/pokybui
- ld/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/release/deps --extern unicode_xid=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/build/target/i686-poky-linux/release/deps/libunicode_xid-eaec642dc4bd613a.rmeta --cap-lints allow -L /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/recipe-sysroot/usr/lib/rust --remap-path-prefix=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0=/usr/src/debug/cargo/1.60.0-r0 --cfg lexerror_display --cfg hygiene --cfg literal_from_str --cfg is_available --cfg use_proc_macro --cfg wrap_proc_macro` (exit status: 1)
-| warning: build failed, waiting for other jobs to finish...
-|     Building [===========>              ] 91/193: libc, strsim, aho-corasic...
-| warning: `termcolor` (lib) generated 2 warnings (2 duplicates)
-|     Building [===========>              ] 92/193: libc, strsim, aho-corasic...
-| warning: `byteorder` (lib) generated 2 warnings (2 duplicates)
-|     Building [===========>              ] 93/193: libc, strsim, aho-corasic...
-| warning: `hex` (lib) generated 2 warnings (2 duplicates)
-|     Building [===========>              ] 94/193: libc, strsim, aho-corasic...
-| warning: `strsim` (lib) generated 2 warnings (2 duplicates)
-|     Building [===========>              ] 95/193: libc, aho-corasick, regex...
-| warning: `walkdir` (lib) generated 2 warnings (2 duplicates)
-|     Building [===========>              ] 96/193: libc, aho-corasick, regex...
-| warning: `unicode-bidi` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>             ] 97/193: libc, aho-corasick, regex...
-| warning: `bytes` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>             ] 98/193: libc, aho-corasick, regex...
-| warning: `crossbeam-utils` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>             ] 99/193: libc, aho-corasick, regex...
-| warning: `os_str_bytes` (lib) generated 2 warnings (2 duplicates)
-|     Building [===========>             ] 100/193: libc, aho-corasick, regex...
-| warning: `anyhow` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>            ] 101/193: libc, aho-corasick, regex...
-| warning: `memchr` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>            ] 102/193: libc, aho-corasick, regex...
-| warning: `proc-macro2` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>            ] 103/193: libc, aho-corasick, regex...
-| warning: `glob` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>            ] 104/193: libc, aho-corasick, regex...
-| warning: `indexmap` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>            ] 105/193: libc, aho-corasick, regex...
-| warning: `libc` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>            ] 106/193: aho-corasick, regex-synta...
-| warning: `libc` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>            ] 107/193: aho-corasick, regex-synta...
-| warning: `unicode-normalization` (lib) generated 2 warnings (2 duplicates)
-|     Building [============>            ] 108/193: aho-corasick, regex-synta...
-| warning: `typenum` (lib) generated 2 warnings (2 duplicates)
-|     Building [=============>           ] 109/193: aho-corasick, regex-synta...
-| warning: `bstr` (lib) generated 2 warnings (2 duplicates)
-|     Building [=============>           ] 110/193: aho-corasick, regex-synta...
-| warning: `aho-corasick` (lib) generated 2 warnings (2 duplicates)
-|     Building [=============>           ] 111/193: regex-syntax, itertools, ...
-| warning: `itertools` (lib) generated 2 warnings (2 duplicates)
-|     Building [=============>           ] 112/193: regex-syntax, combine
-| warning: `regex-syntax` (lib) generated 2 warnings (2 duplicates)
-|     Building [=============>           ] 113/193: combine
-| warning: `combine` (lib) generated 2 warnings (2 duplicates)
-| error: build failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/temp/run.do_compile.1051469:176 exit 101 from '"cargo" build -v --target i686-poky-linux --release --manifest-path=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/rustc-1.60.0-src/src/tools/cargo//Cargo.toml "$@"'
-| WARNING: Backtrace (BB generated script):
-| 	#1: oe_cargo_build, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/temp/run.do_compile.1051469, line 176
-| 	#2: cargo_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/temp/run.do_compile.1051469, line 166
-| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/temp/run.do_compile.1051469, line 160
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/temp/run.do_compile.1051469, line 208
-NOTE: recipe cargo-1.60.0-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 849 tasks of which 716 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_compile
-Summary: There was 1 WARNING message.
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-
-/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-  return f(*args, **kwds)
-ERROR: cargo-1.60.0-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/temp/run.do_compile.1051469', 101, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/cargo/1.60.0-r0/temp/log.do_compile.1051469
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/cargo/cargo_1.60.0.bb:do_compile) failed with exit code '1'
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============8848525150755325176==--
+--===============0799321204656849815==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 886 .bb files complete (0 cached, 886 parsed). 1654 targets, 70 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "powerpc-poky-linux"
+MACHINE              = "qemuppc"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-9206a0066735ec9b7e459ce6a2dd3ee82ff927f2"
+TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:9206a0066735ec9b7e459ce6a2dd3ee82ff927f2"
+workspace            = "master:6958024ed2aa199e56851bf960c06dec1a3d81a1"
+
+Initialising tasks...done.
+Sstate summary: Wanted 45 Local 3 Mirrors 0 Missed 42 Current 390 (6% match, 90% complete)
+Removing 12 stale sstate objects for arch qemuppc...done.
+Removing 18 stale sstate objects for arch ppc7400...done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 977 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_fetch)
+NOTE: Running task 1027 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_write_config)
+NOTE: Running task 1074 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1075 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_fetch)
+NOTE: Running task 1088 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1127 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_write_config)
+NOTE: Running task 1228 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1283 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_fetch: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_write_config: Started
+NOTE: recipe wayland-1.20.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_fetch: Succeeded
+NOTE: recipe xorgproto-2022.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_fetch: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_write_config: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_fetch: Succeeded
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_write_config: Succeeded
+NOTE: Running task 1285 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_unpack)
+NOTE: recipe xkeyboard-config-2.36-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1286 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1287 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_unpack)
+NOTE: recipe glib-networking-2.72.1-r0: task do_write_config: Succeeded
+NOTE: recipe xorgproto-2022.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1329 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_configure)
+NOTE: recipe wayland-1.20.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe xkeyboard-config-2.36-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1330 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_configure)
+NOTE: Running task 1331 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_configure)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_unpack: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_unpack: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_configure: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_configure: Started
+NOTE: recipe wayland-1.20.0-r0: task do_configure: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1504 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_patch)
+NOTE: recipe glib-networking-2.72.1-r0: task do_patch: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_patch: Succeeded
+NOTE: Running task 1505 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1506 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_populate_lic)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_lic: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1507 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_patch)
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_populate_lic unihash changed to c68186bf18fcca6032d1588d84ee6284fdeee08e57a41c821e5831103d7d020a
+NOTE: recipe glib-networking-2.72.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_patch: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_configure: Succeeded
+NOTE: Running task 1508 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_compile)
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: recipe xkeyboard-config-2.36-r0: task do_compile: Started
+NOTE: Running task 1509 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: Running task 1510 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe xorgproto-2022.1-r0: task do_configure: Succeeded
+NOTE: Running task 1511 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_compile)
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_compile: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_compile: Succeeded
+NOTE: Running task 1512 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_install)
+NOTE: recipe xorgproto-2022.1-r0: task do_install: Started
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 24e7bbdb90fcd4b475610092eb7faada85d7d9355d2cd4f7125251b99c42e3bd
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_patch: Succeeded
+NOTE: recipe xkeyboard-config-2.36-r0: task do_compile: Succeeded
+NOTE: Running task 1513 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1514 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_install)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_install: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1515 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_configure)
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: Running task 1516 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_install: Succeeded
+NOTE: Running task 1517 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_populate_sysroot)
+NOTE: Running task 1518 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_package)
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to f21dc99d20ac7d87594cf6f890075c0c2a720b47039a37779f6a3cf7d22d0088
+NOTE: Running task 1519 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.16.bb:do_package_write_rpm)
+NOTE: recipe xorgproto-2022.1-r0: task do_populate_sysroot: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_package: Started
+NOTE: recipe wayland-1.20.0-r0: task do_configure: Succeeded
+NOTE: Running task 1520 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_configure_ptest_base)
+NOTE: recipe bash-5.1.16-r0: task do_package_write_rpm: Started
+NOTE: recipe wayland-1.20.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe wayland-1.20.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1521 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_compile)
+NOTE: recipe xorgproto-2022.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_populate_sysroot unihash changed to 82381b6f0a2f0ee5cdef5dc0676c0e42f08a157a0e92e085168877161888299b
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_populate_sysroot became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_populate_sysroot became valid
+NOTE: Running setscene task 425 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot_setscene)
+NOTE: recipe xkeyboard-config-2.36-r0: task do_install: Succeeded
+NOTE: recipe wayland-1.20.0-r0: task do_compile: Started
+NOTE: Running task 1522 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_populate_sysroot)
+NOTE: Running task 1523 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_package)
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_populate_sysroot: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_package: Started
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 434 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 435 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_populate_sysroot unihash changed to 58782a16334826c3f8b99757c826be785e7c73909c852383a6da99320015591c
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe xorgproto-2022.1-r0: task do_package: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_package unihash changed to 5a2ff072d7f30162bbf1a870f4d9bf5d6bd6bbab6f37ae155944f6377f0c686e
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_packagedata became valid
+NOTE: Running setscene task 424 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_package_setscene)
+NOTE: Running setscene task 425 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_package_setscene)
+NOTE: Running setscene task 426 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata_setscene)
+NOTE: Running setscene task 427 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata_setscene)
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_package_setscene: Started
+NOTE: recipe libxcb-1.15-r0: task do_package_setscene: Started
+NOTE: recipe wayland-1.20.0-r0: task do_compile: Succeeded
+NOTE: Running task 1539 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_compile_ptest_base)
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe wayland-1.20.0-r0: task do_compile_ptest_base: Started
+NOTE: recipe wayland-1.20.0-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1540 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_install)
+NOTE: recipe wayland-1.20.0-r0: task do_install: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_package_setscene: Succeeded
+NOTE: recipe wayland-1.20.0-r0: task do_install: Succeeded
+NOTE: Running task 1541 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_install_ptest_base)
+NOTE: recipe wayland-1.20.0-r0: task do_install_ptest_base: Started
+NOTE: recipe wayland-1.20.0-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1542 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_populate_sysroot)
+NOTE: Running task 1543 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_package)
+NOTE: recipe wayland-1.20.0-r0: task do_populate_sysroot: Started
+NOTE: recipe wayland-1.20.0-r0: task do_package: Started
+NOTE: recipe bash-5.1.16-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe wayland-1.20.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_populate_sysroot unihash changed to 00949faf2ca607e904de4d47ec56cd0c682e923133b4c374eb9a1d5d41199e03
+NOTE: Running task 1544 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe xkeyboard-config-2.36-r0: task do_package: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_package unihash changed to c734977047be9e51c8ca9836bf113bcf11a8a9290e20263bc922aa4f46374e86
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_packagedata became valid
+NOTE: Running setscene task 430 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_packagedata_setscene)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1545 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_configure)
+NOTE: recipe xkeyboard-config-2.36-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_configure: Started
+NOTE: recipe libxcb-1.15-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 434 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 435 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_packagedata_setscene)
+NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xorgproto-2022.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe wayland-1.20.0-r0: task do_package: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_package unihash changed to f5c5bfd5addc1f167e210e2521f8a9bb5b35ca91fa26fadf12a5d9b7997c8a04
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_packagedata became valid
+NOTE: Running setscene task 431 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_packagedata_setscene)
+NOTE: recipe wayland-1.20.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe wayland-1.20.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1555 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_compile)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_compile: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_compile: Succeeded
+NOTE: Running task 1556 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_install)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_install: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_install: Succeeded
+NOTE: Running task 1557 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_populate_sysroot)
+NOTE: Running task 1558 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_package)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_package: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_populate_sysroot unihash changed to 3227b635e2c877ff79aba2d8abdd6e92ed35a91dac8e0295316b3ecb7c81cf8c
+NOTE: Setscene tasks completed
+NOTE: Running task 1559 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe systemd-1_251.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe systemd-1_251.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1560 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_configure)
+NOTE: recipe systemd-1_251.2-r0: task do_configure: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_package: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_package unihash changed to 972e8554e0ed3f45b8dc8aec335d70d218d150b1d7c463992edab9f016b836c9
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_packagedata became valid
+NOTE: Running setscene task 432 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_packagedata_setscene)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure: Succeeded
+NOTE: Running task 1562 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_configure_ptest_base)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1563 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_compile)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile: Succeeded
+NOTE: Running task 1564 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_compile_ptest_base)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1565 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_install)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install: Started
+NOTE: recipe systemd-1_251.2-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1566 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_compile)
+NOTE: recipe systemd-1_251.2-r0: task do_compile: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install: Succeeded
+NOTE: Running task 1567 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_install_ptest_base)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1568 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_populate_sysroot)
+NOTE: Running task 1569 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_package)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_populate_sysroot: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_package: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1570 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe glib-networking-2.72.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1571 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_configure)
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure: Succeeded
+NOTE: Running task 1572 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_configure_ptest_base)
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1573 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_compile)
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile: Succeeded
+NOTE: Running task 1574 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_compile_ptest_base)
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1575 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_install)
+NOTE: recipe glib-networking-2.72.1-r0: task do_install: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_install: Succeeded
+NOTE: Running task 1576 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_install_ptest_base)
+NOTE: recipe glib-networking-2.72.1-r0: task do_install_ptest_base: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1577 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_populate_sysroot)
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_sysroot: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe systemd-1_251.2-r0: task do_compile: Succeeded
+NOTE: Running task 1578 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_install)
+NOTE: recipe systemd-1_251.2-r0: task do_install: Started
+NOTE: recipe systemd-1_251.2-r0: task do_install: Succeeded
+NOTE: Running task 1579 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_package)
+NOTE: Running task 1580 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_populate_sysroot)
+NOTE: recipe systemd-1_251.2-r0: task do_populate_sysroot: Started
+NOTE: recipe systemd-1_251.2-r0: task do_package: Started
+NOTE: recipe systemd-1_251.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_populate_sysroot unihash changed to b587690ad18ba451e7c07c20daaf04d16f4405d5af97961d608466a57eab4eed
+NOTE: Setscene tasks completed
+NOTE: Running task 1581 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1582 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_configure)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_package: Succeeded
+NOTE: Running task 1583 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_packagedata)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_packagedata: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_packagedata: Failed
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Succeeded
+NOTE: recipe systemd-1_251.2-r0: task do_package: Succeeded
+NOTE: Tasks Summary: Attempted 1583 tasks of which 1514 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_packagedata
+Summary: There was 1 WARNING message.
+Summary: There were 109 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-src went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-dbg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-ptest went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-staticdev went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-dev went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-doc went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0 went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-codegen went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-utils went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-bash-completion went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-af went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-am went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-an went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ar went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-as went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ast went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-az went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-be went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-be+latin went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bn-in went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bs went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ca went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ca+valencia went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-cs went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-cy went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-da went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-de went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-dz went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-el went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-en+shaw went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-en-ca went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-en-gb went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-eo went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-es went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-et went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-eu went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fa went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fur went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ga went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-gd went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-gl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-gu went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-he went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hu went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hy went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-id went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-is went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-it went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ja went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ka went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-kk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-kn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ko went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ku went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-lt went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-lv went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mai went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ml went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ms went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nb went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nds went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ne went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-oc went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-or went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pa went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ps went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pt went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pt-br went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ro went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ru went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-rw went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-si went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sq went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sr+ije went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sr+latin went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sv went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ta went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-te went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-th went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tt went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ug went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-uk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-vi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-wa went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-xh went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-yi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-zh-cn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-zh-hk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-zh-tw went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/glib-2.0/1_2.72.2-r0/temp/log.do_packagedata.872156
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_packagedata) failed with exit code '1'
+
+--===============0799321204656849815==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/glib-networking/glib-networking-dbg: PKGSIZE changed from 586548 to 588100 (+0%)
+packages/core2-32-poky-linux/glib-networking/glib-networking-dbg: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-dbg: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-dev: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-dev: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-doc: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-doc: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-an: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-an: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ar: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ar: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-as: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-as: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-be: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-be: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-bg: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-bg: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-bn-in: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-bn-in: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-bs: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-bs: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ca+valencia: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ca+valencia: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ca: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ca: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-cs: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-cs: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-da: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-da: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-de: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-de: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-el: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-el: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-en-ca: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-en-ca: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-en-gb: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-en-gb: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-eo: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-eo: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-es: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-es: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-et: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-et: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-eu: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-eu: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-fa: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-fa: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-fi: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-fi: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-fr: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-fr: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-fur: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-fur: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-gd: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-gd: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-gl: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-gl: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-gu: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-gu: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-he: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-he: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-hi: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-hi: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-hr: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-hr: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-hu: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-hu: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-id: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-id: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-it: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-it: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ja: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ja: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-kk: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-kk: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-km: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-km: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-kn: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-kn: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ko: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ko: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-lt: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-lt: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-lv: PKGSIZE changed from 7686 to 8152 (+6%)
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-lv: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-lv: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ml: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ml: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-mr: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-mr: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ms: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ms: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-nb: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-nb: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ne: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ne: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-nl: PKGSIZE changed from 7293 to 7739 (+6%)
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-nl: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-nl: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-oc: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-oc: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-or: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-or: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-pa: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-pa: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-pl: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-pl: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-pt-br: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-pt-br: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-pt: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-pt: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ro: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ro: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ru: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ru: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sk: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sk: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sl: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sl: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sr+latin: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sr+latin: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sr: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sr: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sv: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-sv: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ta: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ta: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-te: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-te: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-tg: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-tg: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-th: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-th: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-tr: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-tr: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ug: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-ug: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-uk: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-uk: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-vi: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-vi: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-zh-cn: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-zh-cn: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-zh-hk: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-zh-hk: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-zh-tw: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-locale-zh-tw: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-ptest: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-ptest: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-src: PKGSIZE changed from 501749 to 502240 (+0%)
+packages/core2-32-poky-linux/glib-networking/glib-networking-src: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-src: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking-staticdev: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking-staticdev: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking/glib-networking: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking/glib-networking: PV changed from "2.72.0" to "2.72.1"
+packages/core2-32-poky-linux/glib-networking: SRC_URI changed from "https://download.gnome.org/sources//glib-networking/2.72/glib-networking-2.72.0.tar.xz;name=archive file://run-ptest" to "https://download.gnome.org/sources//glib-networking/2.72/glib-networking-2.72.1.tar.xz;name=archive file://run-ptest"
+packages/core2-32-poky-linux/glib-networking: PKGV changed from 2.72.0 [default] to 2.72.1 [default]
+packages/core2-32-poky-linux/glib-networking: PV changed from "2.72.0" to "2.72.1"
+
+--===============0799321204656849815==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1656 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 886 .bb files complete (885 cached, 1 parsed). 1654 targets, 35 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-9206a0066735ec9b7e459ce6a2dd3ee82ff927f2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:9206a0066735ec9b7e459ce6a2dd3ee82ff927f2"
+workspace            = "master:6958024ed2aa199e56851bf960c06dec1a3d81a1"
+
+Initialising tasks...done.
+Sstate summary: Wanted 46 Local 4 Mirrors 0 Missed 42 Current 389 (8% match, 90% complete)
+Removing 12 stale sstate objects for arch qemux86_64...done.
+Removing 18 stale sstate objects for arch core2-64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 423 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.25.bb:do_populate_sysroot_setscene)
+NOTE: recipe wayland-protocols-1.25-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe wayland-protocols-1.25-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 977 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_fetch)
+NOTE: Running task 1027 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_write_config)
+NOTE: Running task 1074 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1075 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_fetch)
+NOTE: Running task 1088 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1127 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_write_config)
+NOTE: Running task 1228 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1284 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_fetch: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_write_config: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_fetch: Succeeded
+NOTE: recipe glib-networking-2.72.1-r0: task do_fetch: Started
+NOTE: recipe wayland-1.20.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_write_config: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_fetch: Succeeded
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_write_config: Succeeded
+NOTE: recipe xkeyboard-config-2.36-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1286 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_unpack)
+NOTE: Running task 1287 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1288 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_unpack)
+NOTE: recipe glib-networking-2.72.1-r0: task do_write_config: Succeeded
+NOTE: recipe xorgproto-2022.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe wayland-1.20.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe xkeyboard-config-2.36-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1329 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_configure)
+NOTE: Running task 1330 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_configure)
+NOTE: Running task 1331 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_configure)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_unpack: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_unpack: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_configure: Started
+NOTE: recipe wayland-1.20.0-r0: task do_configure: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_configure: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1504 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_patch)
+NOTE: recipe glib-networking-2.72.1-r0: task do_patch: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_patch: Succeeded
+NOTE: Running task 1505 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1506 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_populate_lic)
+NOTE: recipe glib-networking-2.72.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_lic: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_unpack: Succeeded
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_lic: Succeeded
+NOTE: Running task 1507 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_patch)
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_populate_lic unihash changed to c68186bf18fcca6032d1588d84ee6284fdeee08e57a41c821e5831103d7d020a
+NOTE: recipe glib-networking-2.72.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_patch: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_configure: Succeeded
+NOTE: Running task 1508 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_compile)
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: Running task 1509 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: Running task 1510 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_compile: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
+NOTE: recipe xorgproto-2022.1-r0: task do_configure: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to ceacde96a943d5e36c69eaeecad218c8f6bf77ab868ef4c4f4c40b6376bbdffe
+NOTE: Running task 1511 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_compile)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_patch: Succeeded
+NOTE: Running task 1512 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe xorgproto-2022.1-r0: task do_compile: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_compile: Succeeded
+NOTE: Running task 1513 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_install)
+NOTE: recipe xorgproto-2022.1-r0: task do_compile: Succeeded
+NOTE: Running task 1514 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_install)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_install: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_install: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1515 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_configure)
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: Running task 1516 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe wayland-1.20.0-r0: task do_configure: Succeeded
+NOTE: Running task 1517 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_configure_ptest_base)
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 68885898fa42694decaaa93fb8f5351a974266272251ec3d900503cb2ba7f9b5
+NOTE: Running task 1518 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.16.bb:do_package_write_rpm)
+NOTE: recipe wayland-1.20.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe wayland-1.20.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe bash-5.1.16-r0: task do_package_write_rpm: Started
+NOTE: Running task 1519 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_compile)
+NOTE: recipe wayland-1.20.0-r0: task do_compile: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_install: Succeeded
+NOTE: Running task 1520 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_populate_sysroot)
+NOTE: Running task 1521 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_package)
+NOTE: recipe xorgproto-2022.1-r0: task do_populate_sysroot: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_package: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_install: Succeeded
+NOTE: Running task 1522 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_populate_sysroot)
+NOTE: Running task 1523 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_package)
+NOTE: recipe xorgproto-2022.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_populate_sysroot unihash changed to b58bf204c46cd2486cd0b509d86f9515b627108cafa811df06dd2a1eeecab27b
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_populate_sysroot became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_populate_sysroot became valid
+NOTE: Running setscene task 422 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot_setscene)
+NOTE: recipe xkeyboard-config-2.36-r0: task do_populate_sysroot: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_package: Started
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 434 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 435 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_populate_sysroot unihash changed to 3bf9b2c52d231743555762b12f7233b9f4e202b02a2fa5d5a2c68f67c0fcc385
+NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe wayland-1.20.0-r0: task do_compile: Succeeded
+NOTE: Running task 1539 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_compile_ptest_base)
+NOTE: recipe wayland-1.20.0-r0: task do_compile_ptest_base: Started
+NOTE: recipe wayland-1.20.0-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1540 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_install)
+NOTE: recipe xorgproto-2022.1-r0: task do_package: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_package unihash changed to 984d36ee9261d87baea9a818cd23e6de5f322e6ec939f826155bd4af42de2b35
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_packagedata became valid
+NOTE: Running setscene task 422 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_package_setscene)
+NOTE: Running setscene task 423 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata_setscene)
+NOTE: Running setscene task 424 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata_setscene)
+NOTE: recipe wayland-1.20.0-r0: task do_install: Started
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_package_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 434 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_packagedata_setscene)
+NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe wayland-1.20.0-r0: task do_install: Succeeded
+NOTE: Running task 1541 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_install_ptest_base)
+NOTE: recipe wayland-1.20.0-r0: task do_install_ptest_base: Started
+NOTE: recipe wayland-1.20.0-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1542 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_populate_sysroot)
+NOTE: Running task 1543 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_package)
+NOTE: recipe libxau-1_1.0.9-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 435 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_packagedata_setscene)
+NOTE: recipe wayland-1.20.0-r0: task do_populate_sysroot: Started
+NOTE: recipe wayland-1.20.0-r0: task do_package: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe wayland-1.20.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_populate_sysroot unihash changed to ed35a89ec14c8492e052db7e5ddd096b461dfc7da4e6b3d810de68ee14776198
+NOTE: Setscene tasks completed
+NOTE: Running task 1551 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe bash-5.1.16-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe xkeyboard-config-2.36-r0: task do_package: Succeeded
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1552 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_configure)
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_package unihash changed to 514fa09bc6750af833f44e4346c7ba74851b261298907ecdc17b7fd81bf002b8
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_packagedata became valid
+NOTE: Running setscene task 432 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_packagedata_setscene)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_configure: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_packagedata_setscene: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe wayland-1.20.0-r0: task do_package: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_package unihash changed to a49cef6431193cb729b3d0ce35a33adffc74c4658946bffa2b99c5c02660cd80
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_packagedata became valid
+NOTE: Running setscene task 431 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_packagedata_setscene)
+NOTE: recipe wayland-1.20.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe wayland-1.20.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1555 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_compile)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_compile: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_compile: Succeeded
+NOTE: Running task 1556 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_install)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_install: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_install: Succeeded
+NOTE: Running task 1557 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_populate_sysroot)
+NOTE: Running task 1558 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_package)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_package: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_populate_sysroot unihash changed to c3a23a718dbedf3490f97096b6ac0599d96dee88744f22110f2f190a6c0cbb11
+NOTE: Setscene tasks completed
+NOTE: Running task 1559 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe systemd-1_251.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe systemd-1_251.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1560 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_configure)
+NOTE: recipe systemd-1_251.2-r0: task do_configure: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_package: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_package unihash changed to b8854305e7c439af08e437f979a9c8c2202387e536618076f6c7fd00a293616c
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_packagedata became valid
+NOTE: Running setscene task 432 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_packagedata_setscene)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure: Succeeded
+NOTE: Running task 1562 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_configure_ptest_base)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1563 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_compile)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile: Succeeded
+NOTE: Running task 1564 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_compile_ptest_base)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1565 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_install)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install: Started
+NOTE: recipe systemd-1_251.2-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1566 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_compile)
+NOTE: recipe systemd-1_251.2-r0: task do_compile: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install: Succeeded
+NOTE: Running task 1567 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_install_ptest_base)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1568 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_populate_sysroot)
+NOTE: Running task 1569 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_package)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_populate_sysroot: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_package: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1570 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe glib-networking-2.72.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1571 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_configure)
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure: Succeeded
+NOTE: Running task 1572 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_configure_ptest_base)
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1573 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_compile)
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile: Succeeded
+NOTE: Running task 1574 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_compile_ptest_base)
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1575 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_install)
+NOTE: recipe glib-networking-2.72.1-r0: task do_install: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_install: Succeeded
+NOTE: Running task 1576 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_install_ptest_base)
+NOTE: recipe glib-networking-2.72.1-r0: task do_install_ptest_base: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1577 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_populate_sysroot)
+NOTE: recipe systemd-1_251.2-r0: task do_compile: Succeeded
+NOTE: Running task 1578 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_install)
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_sysroot: Started
+NOTE: recipe systemd-1_251.2-r0: task do_install: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe systemd-1_251.2-r0: task do_install: Succeeded
+NOTE: Running task 1579 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_package)
+NOTE: Running task 1580 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_populate_sysroot)
+NOTE: recipe systemd-1_251.2-r0: task do_package: Started
+NOTE: recipe systemd-1_251.2-r0: task do_populate_sysroot: Started
+NOTE: recipe systemd-1_251.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_populate_sysroot unihash changed to 00ad81142f10b0a58da11eb5618b0a04ad0d7c1fdbdea6d7307c5b22d8d7e923
+NOTE: Setscene tasks completed
+NOTE: Running task 1581 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1582 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_configure)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_package: Succeeded
+NOTE: Running task 1583 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_packagedata)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_packagedata: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_packagedata: Failed
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Succeeded
+NOTE: recipe systemd-1_251.2-r0: task do_package: Succeeded
+NOTE: Tasks Summary: Attempted 1583 tasks of which 1514 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_packagedata
+Summary: There was 1 WARNING message.
+Summary: There were 109 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-src went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-dbg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-ptest went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-staticdev went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-dev went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-doc went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0 went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-codegen went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-utils went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-bash-completion went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-af went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-am went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-an went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ar went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-as went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ast went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-az went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-be went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-be+latin went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bn-in went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bs went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ca went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ca+valencia went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-cs went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-cy went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-da went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-de went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-dz went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-el went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-en+shaw went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-en-ca went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-en-gb went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-eo went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-es went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-et went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-eu went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fa went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fur went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ga went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-gd went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-gl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-gu went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-he went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hu went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hy went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-id went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-is went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-it went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ja went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ka went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-kk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-kn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ko went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ku went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-lt went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-lv went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mai went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ml went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ms went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nb went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nds went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ne went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-oc went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-or went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pa went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ps went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pt went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pt-br went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ro went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ru went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-rw went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-si went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sq went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sr+ije went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sr+latin went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sv went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ta went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-te went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-th went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tt went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ug went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-uk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-vi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-wa went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-xh went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-yi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-zh-cn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-zh-hk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-zh-tw went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/glib-2.0/1_2.72.2-r0/temp/log.do_packagedata.731527
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_packagedata) failed with exit code '1'
+
+--===============0799321204656849815==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 886 .bb files complete (0 cached, 886 parsed). 1655 targets, 49 skipped, 0 masked, 0 errors.
+Removing 26 recipes from the core2-32 sysroot...done.
+Removing 61 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux-musl"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-9206a0066735ec9b7e459ce6a2dd3ee82ff927f2"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:9206a0066735ec9b7e459ce6a2dd3ee82ff927f2"
+workspace            = "master:6958024ed2aa199e56851bf960c06dec1a3d81a1"
+
+Initialising tasks...done.
+Sstate summary: Wanted 155 Local 138 Mirrors 0 Missed 17 Current 148 (89% match, 94% complete)
+Removing 2 stale sstate objects for arch x86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 153 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 156 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.0.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 161 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 162 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 163 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 164 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.36.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 165 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.16.bb:do_packagedata_setscene)
+NOTE: Running setscene task 166 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 167 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.11.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 175 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.bb:do_packagedata_setscene)
+NOTE: Running setscene task 176 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.38.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 177 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 178 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 179 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 180 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_packagedata_setscene)
+NOTE: Running setscene task 181 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 182 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_package_write_rpm_setscene)
+NOTE: Running task 647 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_fetch)
+NOTE: Running task 669 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_write_config)
+NOTE: Running task 670 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_fetch)
+NOTE: Running task 671 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_write_config)
+NOTE: recipe base-files-3.0.14-r89: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe make-4.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.0.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.0.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-4.11.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe perl-5.36.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe sed-4.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-5.1.16-r0: task do_packagedata_setscene: Started
+NOTE: recipe coreutils-9.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libpcre-8.45-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpcre-8.45-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-2.38-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-2.38-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_fetch: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_write_config: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_fetch: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_write_config: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_fetch: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running task 681 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_fetch: Succeeded
+NOTE: Running task 682 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_unpack)
+NOTE: Running task 683 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_unpack)
+NOTE: recipe glib-networking-2.72.1-r0: task do_write_config: Succeeded
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 185 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/psmisc/psmisc_23.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 186 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_packagedata_setscene)
+NOTE: Running task 684 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_fetch)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_write_config: Succeeded
+NOTE: recipe libffi-3.4.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_fetch: Started
+NOTE: recipe bash-5.1.16-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 188 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.16.bb:do_package_setscene)
+NOTE: recipe base-files-3.0.14-r89: task do_fetch: Succeeded
+NOTE: recipe libffi-3.4.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpcre-8.45-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe openssl-3.0.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe glib-networking-2.72.1-r0: task do_unpack: Started
+NOTE: recipe util-linux-2.38-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.0.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_unpack: Started
+NOTE: recipe libpcre-8.45-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe psmisc-23.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Succeeded
+NOTE: recipe make-4.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe glib-networking-2.72.1-r0: task do_unpack: Succeeded
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+bcb82804da-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sed-4.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe coreutils-9.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe shadow-4.11.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 200 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 202 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 204 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.64.bb:do_packagedata_setscene)
+NOTE: Running setscene task 207 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 208 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running task 697 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_patch)
+NOTE: Running task 709 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_unpack)
+NOTE: Running task 715 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
+NOTE: Running task 720 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
+NOTE: recipe psmisc-23.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-2.64-r0: task do_packagedata_setscene: Started
+NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Started
+NOTE: recipe base-files-3.0.14-r89: task do_unpack: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_patch: Started
+NOTE: recipe base-files-3.0.14-r89: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe glib-networking-2.72.1-r0: task do_patch: Succeeded
+NOTE: Running task 725 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 726 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_populate_lic)
+NOTE: recipe base-files-3.0.14-r89: task do_unpack: Succeeded
+NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 727 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
+NOTE: recipe libcap-2.64-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 221 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-linux-2.38-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 225 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.bb:do_packagedata_setscene)
+NOTE: Running setscene task 226 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.38.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 228 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 229 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 230 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 231 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 232 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 233 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe glib-networking-2.72.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_lic: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_unpack: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_patch: Started
+NOTE: Running task 748 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_patch)
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.38-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_patch: Succeeded
+NOTE: Running task 750 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_patch: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_populate_lic unihash changed to c68186bf18fcca6032d1588d84ee6284fdeee08e57a41c821e5831103d7d020a
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Succeeded
+NOTE: recipe glib-networking-2.72.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 751 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_patch)
+NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_configure: Started
+NOTE: recipe util-linux-libuuid-2.38-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.38-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpam-1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_configure: Succeeded
+NOTE: Running task 768 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_patch: Started
+NOTE: recipe bash-5.1.16-r0: task do_package_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_compile: Started
+NOTE: recipe base-files-3.0.14-r89: task do_compile: Succeeded
+NOTE: Running task 769 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_patch: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe libpam-1.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 243 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 244 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 245 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 246 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_patch: Succeeded
+NOTE: Running task 775 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe bash-5.1.16-r0: task do_package_setscene: Succeeded
+NOTE: recipe cracklib-2.9.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe cracklib-2.9.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 248 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb:do_packagedata_setscene)
+NOTE: Running setscene task 249 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 250 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.16.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 776 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe ncurses-6.3+20220423-r0: task do_packagedata_setscene: Started
+NOTE: recipe ncurses-6.3+20220423-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bash-5.1.16-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe flex-2.6.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe cracklib-2.9.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bash-5.1.16-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ncurses-6.3+20220423-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.3+20220423-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe cracklib-2.9.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: Running task 793 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe perl-5.36.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 258 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_packagedata_setscene)
+NOTE: Running setscene task 259 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 260 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 261 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 263 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.2.12-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.2.12-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 6728b82399c51746d3fb26f9f0cd45942f82befd320f14c8b0368e7fe1dc57bf
+NOTE: recipe opkg-utils-0.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.2.12-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe zlib-1.2.12-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe opkg-utils-0.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 270 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 271 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-12.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 273 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_12.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-runtime-12.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 276 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.1.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-12.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-12.1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-12.1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 278 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.3+gitAUTOINC+6e9d2370c7-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-12.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 280 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_12.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcc-12.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.3+gitAUTOINC+6e9d2370c7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 282 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 283 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 284 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_packagedata_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-5.16-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-12.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 285 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-5.16-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-1.2.3+gitAUTOINC+6e9d2370c7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.3+gitAUTOINC+6e9d2370c7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 290 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 291 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 297 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_12.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-i686-12.1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-i686-12.1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 300 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.16.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-5.16-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 301 of 303 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.38.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-i686-2.38-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe binutils-cross-i686-2.38-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 994 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1138 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.16.bb:do_package_write_rpm)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe bash-5.1.16-r0: task do_package_write_rpm: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1139 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_configure)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure: Started
+NOTE: recipe bash-5.1.16-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure: Succeeded
+NOTE: Running task 1140 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_configure_ptest_base)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1141 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_compile)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile: Succeeded
+NOTE: Running task 1142 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_compile_ptest_base)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1143 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_install)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install: Succeeded
+NOTE: Running task 1144 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_install_ptest_base)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1145 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_populate_sysroot)
+NOTE: Running task 1146 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_package)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_populate_sysroot: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_package: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1147 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1148 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1149 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_configure)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1150 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_configure)
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure: Succeeded
+NOTE: Running task 1151 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_configure_ptest_base)
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1152 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_compile)
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile: Succeeded
+NOTE: Running task 1153 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_compile_ptest_base)
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1154 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_install)
+NOTE: recipe glib-networking-2.72.1-r0: task do_install: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_install: Succeeded
+NOTE: Running task 1155 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_install_ptest_base)
+NOTE: recipe glib-networking-2.72.1-r0: task do_install_ptest_base: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1156 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_populate_sysroot)
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_sysroot: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Succeeded
+NOTE: Running task 1157 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_compile)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_compile: Succeeded
+NOTE: Running task 1158 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_install)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_install: Succeeded
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_package: Succeeded
+NOTE: Running task 1159 of 1167 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_packagedata)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_packagedata: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_packagedata: Failed
+NOTE: Tasks Summary: Attempted 1159 tasks of which 1113 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_packagedata
+Summary: There was 1 WARNING message.
+Summary: There were 109 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-src went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-dbg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-ptest went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-staticdev went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-dev went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-doc went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0 went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-codegen went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-utils went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-bash-completion went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-af went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-am went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-an went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ar went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-as went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ast went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-az went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-be went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-be+latin went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bn-in went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bs went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ca went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ca+valencia went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-cs went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-cy went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-da went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-de went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-dz went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-el went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-en+shaw went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-en-ca went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-en-gb went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-eo went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-es went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-et went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-eu went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fa went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fur went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ga went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-gd went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-gl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-gu went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-he went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hu went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hy went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-id went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-is went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-it went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ja went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ka went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-kk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-kn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ko went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ku went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-lt went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-lv went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mai went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ml went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ms went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nb went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nds went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ne went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-oc went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-or went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pa went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ps went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pt went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pt-br went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ro went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ru went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-rw went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-si went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sq went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sr+ije went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sr+latin went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sv went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ta went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-te went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-th went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tt went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ug went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-uk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-vi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-wa went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-xh went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-yi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-zh-cn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-zh-hk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-zh-tw went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/glib-2.0/1_2.72.2-r0/temp/log.do_packagedata.909434
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_packagedata) failed with exit code '1'
+
+--===============0799321204656849815==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 886 .bb files complete (0 cached, 886 parsed). 1654 targets, 63 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the mips32r2 sysroot...done.
+Removing 1 recipes from the qemumips sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "mips-poky-linux"
+MACHINE              = "qemumips"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-9206a0066735ec9b7e459ce6a2dd3ee82ff927f2"
+TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:9206a0066735ec9b7e459ce6a2dd3ee82ff927f2"
+workspace            = "master:6958024ed2aa199e56851bf960c06dec1a3d81a1"
+
+Initialising tasks...done.
+Sstate summary: Wanted 45 Local 3 Mirrors 0 Missed 42 Current 386 (6% match, 90% complete)
+Removing 12 stale sstate objects for arch qemumips...done.
+Removing 18 stale sstate objects for arch mips32r2...done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 977 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_fetch)
+NOTE: Running task 1027 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_write_config)
+NOTE: Running task 1071 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1072 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_fetch)
+NOTE: Running task 1082 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1119 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_write_config)
+NOTE: Running task 1218 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1273 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_fetch: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_write_config: Started
+NOTE: recipe wayland-1.20.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_fetch: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_fetch: Succeeded
+NOTE: recipe glib-networking-2.72.1-r0: task do_write_config: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1275 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_unpack)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_write_config: Succeeded
+NOTE: recipe xkeyboard-config-2.36-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1276 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1277 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_unpack)
+NOTE: recipe glib-networking-2.72.1-r0: task do_write_config: Succeeded
+NOTE: recipe xorgproto-2022.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe wayland-1.20.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe xkeyboard-config-2.36-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1322 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_configure)
+NOTE: Running task 1323 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_configure)
+NOTE: Running task 1324 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_configure)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_unpack: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_unpack: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_configure: Started
+NOTE: recipe wayland-1.20.0-r0: task do_configure: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_configure: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1490 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_patch)
+NOTE: recipe glib-networking-2.72.1-r0: task do_patch: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_patch: Succeeded
+NOTE: Running task 1491 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1492 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_populate_lic)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe glib-networking-2.72.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_lic: Started
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_unpack: Succeeded
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_lic: Succeeded
+NOTE: Running task 1493 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_patch)
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_populate_lic unihash changed to c68186bf18fcca6032d1588d84ee6284fdeee08e57a41c821e5831103d7d020a
+NOTE: recipe glib-networking-2.72.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_patch: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_configure: Succeeded
+NOTE: Running task 1494 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_compile)
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: Running task 1495 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: Running task 1496 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe xorgproto-2022.1-r0: task do_configure: Succeeded
+NOTE: Running task 1497 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_compile)
+NOTE: recipe xkeyboard-config-2.36-r0: task do_compile: Started
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_compile: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_compile: Succeeded
+NOTE: Running task 1498 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_install)
+NOTE: recipe xorgproto-2022.1-r0: task do_install: Started
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_patch: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 5a87bce771979224b08661aca9e0f2c5a3c9278fb6b3f8becbeb8c95beab0433
+NOTE: Running task 1499 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe xkeyboard-config-2.36-r0: task do_compile: Succeeded
+NOTE: Running task 1500 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_install)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_install: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1501 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_configure)
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure: Started
+NOTE: Running task 1502 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe wayland-1.20.0-r0: task do_configure: Succeeded
+NOTE: Running task 1503 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_configure_ptest_base)
+NOTE: recipe xorgproto-2022.1-r0: task do_install: Succeeded
+NOTE: Running task 1504 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_populate_sysroot)
+NOTE: Running task 1505 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_package)
+NOTE: recipe wayland-1.20.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_populate_sysroot: Started
+NOTE: recipe wayland-1.20.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: Running task 1506 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_compile)
+NOTE: recipe xorgproto-2022.1-r0: task do_package: Started
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to fc785bd9401961ddf48c66e20cc7d64b01053c2960c2558eeebb4f01a6ac1297
+NOTE: Running task 1507 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.16.bb:do_package_write_rpm)
+NOTE: recipe wayland-1.20.0-r0: task do_compile: Started
+NOTE: recipe bash-5.1.16-r0: task do_package_write_rpm: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_populate_sysroot unihash changed to e096d76c8c6c07dc9d900d3f88120dd7576002a3f7a1696ede61615266d5581c
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_populate_sysroot became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_populate_sysroot became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot became valid
+NOTE: Running setscene task 422 of 431 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_install: Succeeded
+NOTE: Running task 1508 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_populate_sysroot)
+NOTE: Running task 1509 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_package)
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 430 of 431 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 431 of 431 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe xkeyboard-config-2.36-r0: task do_populate_sysroot: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_package: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe xkeyboard-config-2.36-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_populate_sysroot unihash changed to ff17a8755503b2782952e3b24608a64b2673cbbb7c34a95c7a72aaa27c1aa0b1
+NOTE: recipe xorgproto-2022.1-r0: task do_package: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_package unihash changed to efdea2e79d18d60ec34b91a3c40b68a42e907480cf816bb2ff38adbba4bd8a74
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata became valid
+NOTE: Running setscene task 418 of 431 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_package_setscene)
+NOTE: Running setscene task 419 of 431 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_package_setscene)
+NOTE: Running setscene task 420 of 431 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_package_setscene)
+NOTE: Running setscene task 422 of 431 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata_setscene)
+NOTE: Running setscene task 423 of 431 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_packagedata_setscene)
+NOTE: recipe xorgproto-2022.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_package_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_package_setscene: Started
+NOTE: recipe libxcb-1.15-r0: task do_package_setscene: Started
+NOTE: recipe wayland-1.20.0-r0: task do_compile: Succeeded
+NOTE: Running task 1525 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_compile_ptest_base)
+NOTE: recipe xorgproto-2022.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe wayland-1.20.0-r0: task do_compile_ptest_base: Started
+NOTE: recipe wayland-1.20.0-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1527 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_install)
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe wayland-1.20.0-r0: task do_install: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_package_setscene: Succeeded
+NOTE: recipe libxau-1_1.0.9-r0: task do_package_setscene: Succeeded
+NOTE: recipe wayland-1.20.0-r0: task do_install: Succeeded
+NOTE: Running task 1530 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_install_ptest_base)
+NOTE: recipe wayland-1.20.0-r0: task do_install_ptest_base: Started
+NOTE: recipe wayland-1.20.0-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1531 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_populate_sysroot)
+NOTE: Running task 1532 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_package)
+NOTE: recipe wayland-1.20.0-r0: task do_populate_sysroot: Started
+NOTE: recipe wayland-1.20.0-r0: task do_package: Started
+NOTE: recipe wayland-1.20.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_populate_sysroot unihash changed to 0e3ec0defdfab05155e77f460e2262a6d5b0c27c0d493a17d88ef9bdf2907e28
+NOTE: Running task 1533 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe bash-5.1.16-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe xkeyboard-config-2.36-r0: task do_package: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_package unihash changed to c5c41efcf3d22ba83c8d8457899a7e0ace5bcdbff082005a6461a1be016bd1b4
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_packagedata became valid
+NOTE: Running setscene task 423 of 431 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_packagedata_setscene)
+NOTE: recipe xkeyboard-config-2.36-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1534 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_configure)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_configure: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxcb-1.15-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 430 of 431 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 431 of 431 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata_setscene)
+NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe wayland-1.20.0-r0: task do_package: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_package unihash changed to f584689359d1f059f7d72680d65183a69c21a16b58651935658e6050d949b5e9
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_packagedata became valid
+NOTE: Running setscene task 425 of 431 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_packagedata_setscene)
+NOTE: recipe wayland-1.20.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe wayland-1.20.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1541 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_compile)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_compile: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_compile: Succeeded
+NOTE: Running task 1542 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_install)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_install: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_install: Succeeded
+NOTE: Running task 1543 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_populate_sysroot)
+NOTE: Running task 1544 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_package)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_package: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_populate_sysroot unihash changed to 823883b5c87a29503d7aaea1da5fd69b3a9fbf493f797b645ce03bfecb266a8b
+NOTE: Setscene tasks completed
+NOTE: Running task 1545 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe systemd-1_251.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe systemd-1_251.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1546 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_configure)
+NOTE: recipe systemd-1_251.2-r0: task do_configure: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_package: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_package unihash changed to 1b03b89f7f594e6025d1a6a8c15e6d4af45d8a969dc76b13f61f32c1d0cb4ce3
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_packagedata became valid
+NOTE: Running setscene task 427 of 431 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_packagedata_setscene)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure: Succeeded
+NOTE: Running task 1548 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_configure_ptest_base)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1549 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_compile)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile: Started
+NOTE: recipe systemd-1_251.2-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1550 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_compile)
+NOTE: recipe systemd-1_251.2-r0: task do_compile: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile: Succeeded
+NOTE: Running task 1551 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_compile_ptest_base)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1552 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_install)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install: Succeeded
+NOTE: Running task 1553 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_install_ptest_base)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1554 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_populate_sysroot)
+NOTE: Running task 1555 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_package)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_package: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_populate_sysroot: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1556 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe glib-networking-2.72.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1557 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_configure)
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure: Succeeded
+NOTE: Running task 1558 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_configure_ptest_base)
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1559 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_compile)
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile: Succeeded
+NOTE: Running task 1560 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_compile_ptest_base)
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1561 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_install)
+NOTE: recipe glib-networking-2.72.1-r0: task do_install: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_install: Succeeded
+NOTE: Running task 1562 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_install_ptest_base)
+NOTE: recipe glib-networking-2.72.1-r0: task do_install_ptest_base: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1563 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_populate_sysroot)
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_sysroot: Started
+NOTE: recipe systemd-1_251.2-r0: task do_compile: Succeeded
+NOTE: Running task 1564 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_install)
+NOTE: recipe systemd-1_251.2-r0: task do_install: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe systemd-1_251.2-r0: task do_install: Succeeded
+NOTE: Running task 1565 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_package)
+NOTE: Running task 1566 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_populate_sysroot)
+NOTE: recipe systemd-1_251.2-r0: task do_populate_sysroot: Started
+NOTE: recipe systemd-1_251.2-r0: task do_package: Started
+NOTE: recipe systemd-1_251.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_populate_sysroot unihash changed to 0bcd5ec26d79aefdd68b255f3f8ddd3b384cbef3cd5956660db40497d1c0517a
+NOTE: Setscene tasks completed
+NOTE: Running task 1567 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1568 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_configure)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_package: Succeeded
+NOTE: Running task 1569 of 1580 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_packagedata)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_packagedata: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_packagedata: Failed
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Succeeded
+NOTE: recipe systemd-1_251.2-r0: task do_package: Succeeded
+NOTE: Tasks Summary: Attempted 1569 tasks of which 1500 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_packagedata
+Summary: There was 1 WARNING message.
+Summary: There were 109 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-src went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-dbg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-ptest went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-staticdev went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-dev went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-doc went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0 went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-codegen went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-utils went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-bash-completion went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-af went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-am went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-an went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ar went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-as went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ast went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-az went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-be went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-be+latin went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bn-in went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bs went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ca went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ca+valencia went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-cs went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-cy went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-da went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-de went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-dz went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-el went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-en+shaw went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-en-ca went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-en-gb went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-eo went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-es went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-et went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-eu went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fa went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fur went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ga went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-gd went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-gl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-gu went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-he went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hu went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hy went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-id went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-is went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-it went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ja went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ka went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-kk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-kn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ko went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ku went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-lt went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-lv went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mai went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ml went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ms went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nb went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nds went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ne went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-oc went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-or went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pa went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ps went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pt went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pt-br went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ro went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ru went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-rw went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-si went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sq went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sr+ije went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sr+latin went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sv went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ta went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-te went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-th went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tt went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ug went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-uk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-vi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-wa went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-xh went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-yi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-zh-cn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-zh-hk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-zh-tw went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/glib-2.0/1_2.72.2-r0/temp/log.do_packagedata.825718
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_packagedata) failed with exit code '1'
+
+--===============0799321204656849815==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-glib-networking-upgrade-2.72.0-2.72.1.patch"
+
+From 9b652d01ba9e98a2084079994115d21918d08577 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 1 Jul 2022 06:48:10 +0000
+Subject: [PATCH] glib-networking: upgrade 2.72.0 -> 2.72.1
+
+---
+ .../{glib-networking_2.72.0.bb => glib-networking_2.72.1.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/glib-networking/{glib-networking_2.72.0.bb => glib-networking_2.72.1.bb} (93%)
+
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.72.0.bb b/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb
+similarity index 93%
+rename from meta/recipes-core/glib-networking/glib-networking_2.72.0.bb
+rename to meta/recipes-core/glib-networking/glib-networking_2.72.1.bb
+index d578f17aa5..41f18d1c48 100644
+--- a/meta/recipes-core/glib-networking/glib-networking_2.72.0.bb
++++ b/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ SECTION = "libs"
+ DEPENDS = "glib-2.0"
+ 
+-SRC_URI[archive.sha256sum] = "100aaebb369285041de52da422b6b716789d5e4d7549a3a71ba587b932e0823b"
++SRC_URI[archive.sha256sum] = "6fc1bedc8062484dc8a0204965995ef2367c3db5c934058ff1607e5a24d95a74"
+ 
+ PACKAGECONFIG ??= "openssl ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
+ 
+-- 
+2.31.1
+
+
+--===============0799321204656849815==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
+
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 886 .bb files complete (0 cached, 886 parsed). 1654 targets, 53 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the cortexa15t2hf-neon sysroot...done.
+Removing 1 recipes from the qemuarm sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.0.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-gnueabi"
+MACHINE              = "qemuarm"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.1+snapshot-9206a0066735ec9b7e459ce6a2dd3ee82ff927f2"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+TARGET_FPU           = "hard"
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:9206a0066735ec9b7e459ce6a2dd3ee82ff927f2"
+workspace            = "master:6958024ed2aa199e56851bf960c06dec1a3d81a1"
+
+Initialising tasks...done.
+Sstate summary: Wanted 45 Local 3 Mirrors 0 Missed 42 Current 390 (6% match, 90% complete)
+Removing 12 stale sstate objects for arch qemuarm...done.
+Removing 18 stale sstate objects for arch cortexa15t2hf-neon...done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 977 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_fetch)
+NOTE: Running task 1027 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_write_config)
+NOTE: Running task 1074 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1075 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_fetch)
+NOTE: Running task 1088 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1127 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_write_config)
+NOTE: Running task 1231 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1284 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_fetch: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_write_config: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe wayland-1.20.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_fetch: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_fetch: Succeeded
+NOTE: recipe glib-networking-2.72.1-r0: task do_write_config: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1286 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_unpack)
+NOTE: recipe xkeyboard-config-2.36-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_write_config: Succeeded
+NOTE: Running task 1287 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1288 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_unpack)
+NOTE: recipe glib-networking-2.72.1-r0: task do_write_config: Succeeded
+NOTE: recipe xorgproto-2022.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe wayland-1.20.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe xkeyboard-config-2.36-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1331 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_configure)
+NOTE: Running task 1332 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_configure)
+NOTE: Running task 1333 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_configure)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_unpack: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_unpack: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_configure: Started
+NOTE: recipe wayland-1.20.0-r0: task do_configure: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_configure: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1504 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_patch)
+NOTE: recipe glib-networking-2.72.1-r0: task do_patch: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_patch: Succeeded
+NOTE: Running task 1505 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1506 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_populate_lic)
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_lic: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe glib-networking-2.72.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe base-files-3.0.14-r89: task do_install: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1507 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_patch)
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_populate_lic unihash changed to c68186bf18fcca6032d1588d84ee6284fdeee08e57a41c821e5831103d7d020a
+NOTE: recipe glib-networking-2.72.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_patch: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_configure: Succeeded
+NOTE: Running task 1508 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_compile)
+NOTE: recipe base-files-3.0.14-r89: task do_install: Succeeded
+NOTE: Running task 1509 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: Running task 1510 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe xkeyboard-config-2.36-r0: task do_compile: Started
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Started
+NOTE: recipe base-files-3.0.14-r89: task do_package: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_configure: Succeeded
+NOTE: Running task 1511 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_compile)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_patch: Succeeded
+NOTE: recipe base-files-3.0.14-r89: task do_populate_sysroot: Succeeded
+NOTE: Running task 1512 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_deploy_source_date_epoch)
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 687ea4f02cf2520d1e4f6f05acf6a7c02d4c00ce54cbb04ee3ff9a790a9b0d36
+NOTE: recipe xorgproto-2022.1-r0: task do_compile: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_compile: Succeeded
+NOTE: Running task 1513 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_install)
+NOTE: recipe xorgproto-2022.1-r0: task do_compile: Succeeded
+NOTE: Running task 1514 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_install)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_install: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_install: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1515 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_configure)
+NOTE: recipe base-files-3.0.14-r89: task do_package: Succeeded
+NOTE: Running task 1516 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Started
+NOTE: recipe base-files-3.0.14-r89: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 6b884e10bab8744614c446ec2af7b2429353d31ec97ee2b6763a153ee41e4951
+NOTE: Running task 1517 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.1.16.bb:do_package_write_rpm)
+NOTE: recipe bash-5.1.16-r0: task do_package_write_rpm: Started
+NOTE: recipe wayland-1.20.0-r0: task do_configure: Succeeded
+NOTE: Running task 1518 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_configure_ptest_base)
+NOTE: recipe wayland-1.20.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_install: Succeeded
+NOTE: Running task 1519 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_populate_sysroot)
+NOTE: Running task 1520 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_package)
+NOTE: recipe wayland-1.20.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1521 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_compile)
+NOTE: recipe xkeyboard-config-2.36-r0: task do_install: Succeeded
+NOTE: Running task 1522 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_populate_sysroot)
+NOTE: recipe xorgproto-2022.1-r0: task do_populate_sysroot: Started
+NOTE: Running task 1523 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_package)
+NOTE: recipe xorgproto-2022.1-r0: task do_package: Started
+NOTE: recipe wayland-1.20.0-r0: task do_compile: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_populate_sysroot: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_package: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_populate_sysroot unihash changed to 666316a6adee857d43e3f61cf5cefc65989b8c5d61ee9721e1000428c4db0651
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_populate_sysroot became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_populate_sysroot became valid
+NOTE: Running setscene task 423 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 431 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Started
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_populate_sysroot unihash changed to 95104d6a375d879bc431e0491974621b060a433db7487b29a1f6e3f50943c6b8
+NOTE: recipe libxcb-1.15-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 435 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libxau-1_1.0.9-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe wayland-1.20.0-r0: task do_compile: Succeeded
+NOTE: Running task 1539 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_compile_ptest_base)
+NOTE: recipe xorgproto-2022.1-r0: task do_package: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_package unihash changed to 4aa991ef3194173d685f1ce224d71df489eab25d7ba968421804dd6ebc03b4d1
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_package became valid
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata became valid
+NOTE: Running setscene task 424 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 425 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_package_setscene)
+NOTE: Running setscene task 426 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 428 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb:do_packagedata_setscene)
+NOTE: Running setscene task 430 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2022.1.bb:do_packagedata_setscene)
+NOTE: recipe wayland-1.20.0-r0: task do_compile_ptest_base: Started
+NOTE: recipe wayland-1.20.0-r0: task do_compile_ptest_base: Succeeded
+NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Started
+NOTE: recipe xorgproto-2022.1-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1540 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_install)
+NOTE: recipe libxcb-1.15-r0: task do_package_setscene: Started
+NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xorgproto-2022.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe wayland-1.20.0-r0: task do_install: Started
+NOTE: recipe libxcb-1.15-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe wayland-1.20.0-r0: task do_install: Succeeded
+NOTE: Running task 1546 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_install_ptest_base)
+NOTE: recipe wayland-1.20.0-r0: task do_install_ptest_base: Started
+NOTE: recipe wayland-1.20.0-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1547 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_populate_sysroot)
+NOTE: Running task 1548 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_package)
+NOTE: recipe wayland-1.20.0-r0: task do_populate_sysroot: Started
+NOTE: recipe wayland-1.20.0-r0: task do_package: Started
+NOTE: recipe bash-5.1.16-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe xkeyboard-config-2.36-r0: task do_package: Succeeded
+NOTE: recipe wayland-1.20.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_populate_sysroot unihash changed to 513cc7839f9f82d6831c975586377d1353caaab931250e7a1824a346897a86f6
+NOTE: Running task 1549 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_prepare_recipe_sysroot)
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_package unihash changed to cf5886ae26c30e450067990223e1bac9a6740a600e3bba690116242d0081aebf
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_packagedata became valid
+NOTE: Running setscene task 432 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.36.bb:do_packagedata_setscene)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe xkeyboard-config-2.36-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1550 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_configure)
+NOTE: recipe xkeyboard-config-2.36-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_configure: Started
+NOTE: recipe libxcb-1.15-r0: task do_package_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe wayland-1.20.0-r0: task do_package: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_package unihash changed to cc9940e8872ffb73ad6529ebcd2950fbc6079f0080e6eba66b52161efa22eb56
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_packagedata became valid
+NOTE: Running setscene task 431 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.20.0.bb:do_packagedata_setscene)
+NOTE: recipe wayland-1.20.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe wayland-1.20.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_configure: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1555 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_compile)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_compile: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_compile: Succeeded
+NOTE: Running task 1556 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_install)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_install: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_install: Succeeded
+NOTE: Running task 1557 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_populate_sysroot)
+NOTE: Running task 1558 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_package)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_package: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_populate_sysroot unihash changed to 5cb8971799bfd7cc8f90e38022ea725af04f4bb94838616355c0dbfb7138e75b
+NOTE: Setscene tasks completed
+NOTE: Running task 1559 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe systemd-1_251.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe systemd-1_251.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1560 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_configure)
+NOTE: recipe systemd-1_251.2-r0: task do_configure: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_package: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_package unihash changed to 2d3343d1dfda47f48d0bdcdaba65b21e3b681696bf4706336849c01d900f86bb
+NOTE: Setscene task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_packagedata became valid
+NOTE: Running setscene task 432 of 435 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.4.1.bb:do_packagedata_setscene)
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libxkbcommon-1.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure: Succeeded
+NOTE: Running task 1562 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_configure_ptest_base)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1563 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_compile)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile: Succeeded
+NOTE: Running task 1564 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_compile_ptest_base)
+NOTE: recipe systemd-1_251.2-r0: task do_configure: Succeeded
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile_ptest_base: Started
+NOTE: Setscene tasks completed
+NOTE: Running task 1565 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_compile)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1566 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_install)
+NOTE: recipe systemd-1_251.2-r0: task do_compile: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install: Succeeded
+NOTE: Running task 1567 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_install_ptest_base)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install_ptest_base: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1568 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_populate_sysroot)
+NOTE: Running task 1569 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_package)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_populate_sysroot: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_package: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1570 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe glib-networking-2.72.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1571 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_configure)
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure: Succeeded
+NOTE: Running task 1572 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_configure_ptest_base)
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure_ptest_base: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1573 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_compile)
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile: Succeeded
+NOTE: Running task 1574 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_compile_ptest_base)
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile_ptest_base: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1575 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_install)
+NOTE: recipe glib-networking-2.72.1-r0: task do_install: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_install: Succeeded
+NOTE: Running task 1576 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_install_ptest_base)
+NOTE: recipe glib-networking-2.72.1-r0: task do_install_ptest_base: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1577 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.72.1.bb:do_populate_sysroot)
+NOTE: recipe systemd-1_251.2-r0: task do_compile: Succeeded
+NOTE: Running task 1578 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_install)
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_sysroot: Started
+NOTE: recipe systemd-1_251.2-r0: task do_install: Started
+NOTE: recipe glib-networking-2.72.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe systemd-1_251.2-r0: task do_install: Succeeded
+NOTE: Running task 1579 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_package)
+NOTE: Running task 1580 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_populate_sysroot)
+NOTE: recipe systemd-1_251.2-r0: task do_populate_sysroot: Started
+NOTE: recipe systemd-1_251.2-r0: task do_package: Started
+NOTE: recipe systemd-1_251.2-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_251.2.bb:do_populate_sysroot unihash changed to f196677c0384ad9e1f5f9f4648d939d9a3fd041d4a30cfe0b0bb162c88065cba
+NOTE: Setscene tasks completed
+NOTE: Running task 1581 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1582 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_configure)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_package: Succeeded
+NOTE: Running task 1583 of 1594 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_packagedata)
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_packagedata: Started
+NOTE: recipe glib-2.0-1_2.72.2-r0: task do_packagedata: Failed
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_configure: Succeeded
+NOTE: recipe systemd-1_251.2-r0: task do_package: Succeeded
+NOTE: Tasks Summary: Attempted 1583 tasks of which 1514 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_packagedata
+Summary: There was 1 WARNING message.
+Summary: There were 109 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-src went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-dbg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-ptest went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-staticdev went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-dev went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-doc went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0 went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-codegen went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-utils went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-bash-completion went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-af went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-am went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-an went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ar went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-as went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ast went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-az went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-be went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-be+latin went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bn-in went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-bs went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ca went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ca+valencia went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-cs went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-cy went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-da went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-de went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-dz went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-el went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-en+shaw went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-en-ca went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-en-gb went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-eo went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-es went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-et went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-eu went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fa went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-fur went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ga went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-gd went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-gl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-gu went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-he went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hu went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-hy went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-id went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-is went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-it went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ja went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ka went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-kk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-kn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ko went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ku went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-lt went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-lv went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mai went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ml went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-mr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ms went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nb went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nds went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ne went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-nn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-oc went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-or went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pa went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ps went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pt went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-pt-br went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ro went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ru went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-rw went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-si went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sq went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sr+ije went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sr+latin went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-sv went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ta went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-te went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tg went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-th went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tl went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tr went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-tt went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-ug went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-uk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-vi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-wa went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-xh went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-yi went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-zh-cn went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-zh-hk went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: QA Issue: Package version for package glib-2.0-locale-zh-tw went backwards which would break package feeds (from 1:2.72.3-r0 to 1:2.72.2-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.72.2-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/glib-2.0/1_2.72.2-r0/temp/log.do_packagedata.778468
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb:do_packagedata) failed with exit code '1'
+
+--===============0799321204656849815==--
 
