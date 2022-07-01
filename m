@@ -2,144 +2,279 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90E51CCA479
-	for <webhook@archiver.kernel.org>; Fri,  1 Jul 2022 16:12:20 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web12.40664.1656691932601829659
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC279C433EF
+	for <webhook@archiver.kernel.org>; Fri,  1 Jul 2022 16:36:40 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web12.40930.1656693398943382870
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Jul 2022 09:12:12 -0700
+ Fri, 01 Jul 2022 09:36:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=KwdZ02WE;
- spf=pass (domain: gmail.com, ip: 209.85.221.51,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=BxnoQwOq;
+ spf=pass (domain: gmail.com, ip: 209.85.208.177,
  mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id i1so3874907wrb.11
+Received: by mail-lj1-f177.google.com with SMTP id n15so3239872ljg.8
         for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Jul 2022 09:12:12 -0700 (PDT)
+ Fri, 01 Jul 2022 09:36:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YwYDb8z6iLPgEYwnd4sdhigoOEwrVopYOSZ9c8Q4Jfk=;
-        b=KwdZ02WEnKsTy2vDJnA4irHXup8HfHwKcQ4U3cK2o4vdflMObmMeqmLEqNz3730sJL
-         oX5L+KDOsjXQ22Z61YcqR8GYrlT2cVIjv/kSVyBaWAAwDZiC4ISUieYUqsbBVdqMSRdq
-         70B9HDMXRkwIrls4rK/g5j3EYhJB3eBDdv/1SgK0HddpoBUOUM0r1UNp/VwzD7scZvIm
-         DbkWWN8QFpiFKC1Fz1xUqhglaS4XYy7Fcclq+QAQyOXaf4nlKjZ6F8rGZv1OuczUaCwZ
-         N9OI0aO/kIs7fLot2KxJipLY7drGfTuHQ8972sHJVv58bz2maRCyJzEQ2wESqz3vVK3u
-         nBmw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sP0mvfU7EKzcCgMeUqYXTJmQF5XVrYEbJWK6UQ0WxVE=;
+        b=BxnoQwOqIPeMqh7PjdSTT/FH6TR3R9kqn2mVu15/wFsWypF0o6AhcYkQ6qvHdVcQU6
+         NtqY6R4+oABHO8ixJ+f6IAHMfo2yvJcetaapnP4h7pIUG7SCOtgZXY2cLGwWDkW1gZYO
+         D+2sNXtD3QJr38cDUXP6/p3bFL2qApmk1/n+7OKXOrbLQc3WYPJLE2ONN9hzS52zObw/
+         mESFWrfMJXTbq7K2X9hcEUZjbkWnS+HUG6PJpeJ64DpPhX1kYJlU/n1dciYG3tmdHPss
+         A8nqDrJ4R0RvvEKO6SQCa8Gnk2GvJYnt15PTJzaf7zR9dTg8ZsnFoF1T9Enln2Va5EBu
+         bI1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YwYDb8z6iLPgEYwnd4sdhigoOEwrVopYOSZ9c8Q4Jfk=;
-        b=cvEIOruxdZHQPdSryEBv0U74vrpCX6vDytm08TV5ZmNQYA8SlZyMfzI0nXo9VpPehk
-         8Npo886dIP8bAMkjA7JYGQLTfsC47pjn9cYWbabU45lc/8Sbl4pXlyPtewAESfDlj7K9
-         6Bo/hTRtWeXPAHh0dJXd2hfe6B094l6yAkpJgMFNkhrQyGL7E7emeLp+t7IxXVmVwmI2
-         upqPxdv5pmNBX32ncJr4Asb+FDM/4lXfga0Vq9F4vomqjAjIs2AtT2aeyM19wBMl4dt0
-         ThGyJfMB7vf9DOhPPjqbk7PgE3ut1Ox22ZIyCi7MHY34/Q9+YbORLCGactphiyi5VBYv
-         FD4Q==
-X-Gm-Message-State: AJIora81wkKJzbe4vD50QVInhfN7iZJ4wSVMdCg//Uqoog+wt6L70X4X
-	i8aBkgLRXh8HaCzLg/4EQ+lAATGmYT7UUQ==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sP0mvfU7EKzcCgMeUqYXTJmQF5XVrYEbJWK6UQ0WxVE=;
+        b=f3lddCCMdazsMIp3ebKu3JCMtQixxwt2ZPaVP512cGew44GRYrAdr7VtM05wwRALUo
+         4L4W1FAM4D7KS8LBmw7wJhMA8yTb1eiPm8ZkJ3+PEDShbAs2d8+0o0UmX/MVqWhHUlH2
+         suGJym80BPyBnBT8pk0uifWYRntlCoZy8EOt4lGZiPFsffU7FBH0BZE6hXH8pJHHH+g9
+         CqXrMF7jc+6M99oeSpIwauCH+wtm3k1EJC+Up/mhcY22FoF9GC78nXD371yRrCToEGL5
+         Qw9kSGHcLg/jTZfA8ixoFQQ1WMarkyJm2tgi3UPGsvAjn/dH2+IiU96GokRrLt7nebKd
+         XQ0g==
+X-Gm-Message-State: AJIora/3gzINnZMT++88Xiy0QcX1hhaZ0EQcvqwWQV8xCSRVjZmYIltq
+	Kh9gVQ7cl60cX9/ZQLGJSRw1z080ym4dloK+Jq0=
 X-Google-Smtp-Source: 
- AGRyM1tlw/bC4N63aqsPjlVUpD1C+aLyCZxwKc2jbRBpbt955CdQZz6mrZJWaxF7LrrAAZV89f8tAg==
-X-Received: by 2002:adf:ee4c:0:b0:21b:81ae:79cf with SMTP id
- w12-20020adfee4c000000b0021b81ae79cfmr14219326wro.121.1656691930718;
-        Fri, 01 Jul 2022 09:12:10 -0700 (PDT)
-Received: from fio.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id
- g13-20020adffc8d000000b0021b99efceb6sm22961512wrr.22.2022.07.01.09.12.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Jul 2022 09:12:09 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: ricardo@foundries.io,
-	daiane.angolini@foundries.io,
-	Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][kirkstone][PATCH] curl: backport openssl fix CN check error
- code
-Date: Fri,  1 Jul 2022 17:12:05 +0100
-Message-Id: <20220701161205.112341-1-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.37.0
+ AGRyM1velD02lWQTKjJk2Ba3Rkb/NBec7+OdOVT8HbyHJ2lFz0lBHuDEvkSH5aAmBMl3yOM8xqRQXiIt/oEGr4YBqq8=
+X-Received: by 2002:a2e:bc1d:0:b0:25b:9667:87b9 with SMTP id
+ b29-20020a2ebc1d000000b0025b966787b9mr8508801ljf.91.1656693397056; Fri, 01
+ Jul 2022 09:36:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220701020939.62295-1-alhe@linux.microsoft.com>
+ <CANPvuR=RZJALd-1jx-yULntdcjUSyDBpaMdakXWmqetXOa6Zyg@mail.gmail.com>
+ <a50e0d9b15a796c39b77b9b765084a093da489bd.camel@linuxfoundation.org>
+In-Reply-To: 
+ <a50e0d9b15a796c39b77b9b765084a093da489bd.camel@linuxfoundation.org>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Fri, 1 Jul 2022 17:36:25 +0100
+Message-ID: 
+ <CANPvuRkg1+=2oFG5b=Gw0RnAKAk7fdFnO9gWU4XJ-4gquNExQg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] package.bbclass: Fix base directory for
+ debugsource files when using externalsrc
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000006ef00505e2c0fd5c"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Jul 2022 16:12:20 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Jul 2022 16:36:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167535
+ https://lists.openembedded.org/g/openembedded-core/message/167536
 
-Fix out of memory [1]
+--0000000000006ef00505e2c0fd5c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-OpenSSL host verification + hostname in certificate CN only seems broken in 7.82.0
+Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia sexta,
+1/07/2022 =C3=A0(s) 12:19:
 
-[1] https://github.com/curl/curl/issues/8559
+> On Fri, 2022-07-01 at 12:05 +0100, Jose Quaresma wrote:
+> > Hi Alejandro,
+> >
+> > Alejandro Hernandez Samaniego <alhe@linux.microsoft.com> escreveu no
+> dia sexta, 1/07/2022 =C3=A0(s) 03:09:
+> > > While executing do_package, bitbake checks for a list of
+> > > debug source files and uses a pattern to match the ones
+> > > to be included in copydebugsources.
+> > >
+> > > Previously when externalsrc was in use either directly or by
+> > > using devtool, the source location changed and this pattern
+> > > no longer matched, hence debug source files failed to be
+> > > included in the corresponding package.
+> > >
+> > > Check when the source directory isnt the default (based on
+> > > WORKDIR), and change the pattern used to match debug source
+> > > files if that is the case, allowing us to perform do_package
+> > > properly.
+> > >
+> > > Workaround debugsource.list containing paths from the host by
+> > > moving debug source files away from the host directory
+> > > structure  to avoid host contamination (this seems to happen
+> > > when packages use $TMPDIR/work-shared and externalsrc is
+> > > in use).
+> > >
+> > > Test matrix included using:
+> > > - devtool to use externalsrc automatically
+> > > - externalsrc with a non-devtool based source directory
+> > > - No externalsrc at all
+> > > Tested the following packages to be working:
+> > > - glibc ($TMPDIR/work-shared based)
+> > > - libxcrypt ($TMPDIR/work based)
+> > >
+> > > [YOCTO 8015]
+> > >
+> > > Signed-off-by: Alejandro Enedino Hernandez Samaniego <
+> alhe@linux.microsoft.com>
+> > > ---
+> > >  meta/classes/package.bbclass | 31 ++++++++++++++++++++++++++++---
+> > >  1 file changed, 28 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/meta/classes/package.bbclass
+> b/meta/classes/package.bbclass
+> > > index 62050a18b8..4850134022 100644
+> > > --- a/meta/classes/package.bbclass
+> > > +++ b/meta/classes/package.bbclass
+> > > @@ -553,13 +553,25 @@ def copydebugsources(debugsrcdir, sources, d):
+> > >          strip =3D d.getVar("STRIP")
+> > >          objcopy =3D d.getVar("OBJCOPY")
+> > >          workdir =3D d.getVar("WORKDIR")
+> > > +        sdir =3D d.getVar("S")
+> > > +        sparentdir =3D os.path.dirname(os.path.dirname(sdir))
+> > > +        sbasedir =3D os.path.basename(os.path.dirname(sdir)) + "/" +
+> os.path.basename(sdir)
+> > >          workparentdir =3D os.path.dirname(os.path.dirname(workdir))
+> > >          workbasedir =3D os.path.basename(os.path.dirname(workdir)) +
+> "/" + os.path.basename(workdir)
+> > >
+> > > +        # If S isnt based on WORKDIR we can infer our sources are
+> located elsewhere,
+> > > +        # e.g. using externalsrc; use S as base for our dirs
+> > >
+> >
+> >
+> > This doesn't seem very safe imo, if the idea is to check if the
+> externalsrc in use it is better using:
+> >
+> > if bb.data.inherits_class('externalsrc', d):
+>
+> The code is generic enough that if the source is outside WORKDIR, it
+> should work so I'm not sure it makes sense to gate this on externalsrc
+> only though...
+>
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
----
- ...0001-openssl-fix-CN-check-error-code.patch | 38 +++++++++++++++++++
- meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/0001-openssl-fix-CN-check-error-code.patch
+My comment is mainly because I see the externalsrc everywhere in this patch=
+.
+But as said to make it generic it's better as it is.
 
-diff --git a/meta/recipes-support/curl/curl/0001-openssl-fix-CN-check-error-code.patch b/meta/recipes-support/curl/curl/0001-openssl-fix-CN-check-error-code.patch
-new file mode 100644
-index 0000000000..c5aa8f2d60
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/0001-openssl-fix-CN-check-error-code.patch
-@@ -0,0 +1,38 @@
-+From 0677924c6ec7e0d68964553fb760f6d407242c54 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Tue, 8 Mar 2022 13:38:13 +0100
-+Subject: [PATCH] openssl: fix CN check error code
-+
-+Due to a missing 'else' this returns error too easily.
-+
-+Regressed in: d15692ebb
-+
-+Reported-by: Kristoffer Gleditsch
-+Fixes #8559
-+Closes #8560
-+
-+Upstream-Status: Backported [https://github.com/curl/curl/commit/911714d617c106ed5d553bf003e34ec94ab6a136]
-+
-+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-+
-+---
-+ lib/vtls/openssl.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/lib/vtls/openssl.c b/lib/vtls/openssl.c
-+index 616a510..1bafe96 100644
-+--- a/lib/vtls/openssl.c
-++++ b/lib/vtls/openssl.c
-+@@ -1808,7 +1808,8 @@ CURLcode Curl_ossl_verifyhost(struct Curl_easy *data, struct connectdata *conn,
-+               memcpy(peer_CN, ASN1_STRING_get0_data(tmp), peerlen);
-+               peer_CN[peerlen] = '\0';
-+             }
-+-            result = CURLE_OUT_OF_MEMORY;
-++            else
-++              result = CURLE_OUT_OF_MEMORY;
-+           }
-+         }
-+         else /* not a UTF8 name */
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index ba3fd11820..d5dfe62a39 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -23,6 +23,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2022-27779.patch \
-            file://CVE-2022-27782-1.patch \
-            file://CVE-2022-27782-2.patch \
-+           file://0001-openssl-fix-CN-check-error-code.patch \
-            "
- SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
- 
--- 
-2.37.0
+Jose
 
+
+> Cheers,
+>
+> Richard
+>
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--0000000000006ef00505e2c0fd5c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
+richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
+gt; escreveu no dia sexta, 1/07/2022 =C3=A0(s) 12:19:<br></div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">On Fri, 2022-07-01 at 12:05 +0100, Jo=
+se Quaresma wrote:<br>
+&gt; Hi Alejandro,<br>
+&gt; <br>
+&gt; Alejandro Hernandez Samaniego &lt;<a href=3D"mailto:alhe@linux.microso=
+ft.com" target=3D"_blank">alhe@linux.microsoft.com</a>&gt; escreveu no dia =
+sexta, 1/07/2022 =C3=A0(s) 03:09:<br>
+&gt; &gt; While executing do_package, bitbake checks for a list of<br>
+&gt; &gt; debug source files and uses a pattern to match the ones<br>
+&gt; &gt; to be included in copydebugsources.<br>
+&gt; &gt; <br>
+&gt; &gt; Previously when externalsrc was in use either directly or by<br>
+&gt; &gt; using devtool, the source location changed and this pattern<br>
+&gt; &gt; no longer matched, hence debug source files failed to be<br>
+&gt; &gt; included in the corresponding package.<br>
+&gt; &gt; <br>
+&gt; &gt; Check when the source directory isnt the default (based on<br>
+&gt; &gt; WORKDIR), and change the pattern used to match debug source<br>
+&gt; &gt; files if that is the case, allowing us to perform do_package<br>
+&gt; &gt; properly.<br>
+&gt; &gt; <br>
+&gt; &gt; Workaround debugsource.list containing paths from the host by<br>
+&gt; &gt; moving debug source files away from the host directory<br>
+&gt; &gt; structure=C2=A0 to avoid host contamination (this seems to happen=
+<br>
+&gt; &gt; when packages use $TMPDIR/work-shared and externalsrc is<br>
+&gt; &gt; in use).<br>
+&gt; &gt; <br>
+&gt; &gt; Test matrix included using:<br>
+&gt; &gt; - devtool to use externalsrc automatically<br>
+&gt; &gt; - externalsrc with a non-devtool based source directory<br>
+&gt; &gt; - No externalsrc at all<br>
+&gt; &gt; Tested the following packages to be working:<br>
+&gt; &gt; - glibc ($TMPDIR/work-shared based)<br>
+&gt; &gt; - libxcrypt ($TMPDIR/work based)<br>
+&gt; &gt; <br>
+&gt; &gt; [YOCTO 8015]<br>
+&gt; &gt; <br>
+&gt; &gt; Signed-off-by: Alejandro Enedino Hernandez Samaniego &lt;<a href=
+=3D"mailto:alhe@linux.microsoft.com" target=3D"_blank">alhe@linux.microsoft=
+.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt; =C2=A0meta/classes/package.bbclass | 31 +++++++++++++++++++++++++=
++++---<br>
+&gt; &gt; =C2=A01 file changed, 28 insertions(+), 3 deletions(-)<br>
+&gt; &gt; <br>
+&gt; &gt; diff --git a/meta/classes/package.bbclass b/meta/classes/package.=
+bbclass<br>
+&gt; &gt; index 62050a18b8..4850134022 100644<br>
+&gt; &gt; --- a/meta/classes/package.bbclass<br>
+&gt; &gt; +++ b/meta/classes/package.bbclass<br>
+&gt; &gt; @@ -553,13 +553,25 @@ def copydebugsources(debugsrcdir, sources, =
+d):<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0strip =3D d.getVar(&quot;STRIP&=
+quot;)<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0objcopy =3D d.getVar(&quot;OBJC=
+OPY&quot;)<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0workdir =3D d.getVar(&quot;WORK=
+DIR&quot;)<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 sdir =3D d.getVar(&quot;S&quot;)<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 sparentdir =3D os.path.dirname(os.pa=
+th.dirname(sdir))<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 sbasedir =3D os.path.basename(os.pat=
+h.dirname(sdir)) + &quot;/&quot; + os.path.basename(sdir)<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0workparentdir =3D os.path.dirna=
+me(os.path.dirname(workdir))<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0workbasedir =3D os.path.basenam=
+e(os.path.dirname(workdir)) + &quot;/&quot; + os.path.basename(workdir)<br>
+&gt; &gt; <br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # If S isnt based on WORKDIR we can =
+infer our sources are located elsewhere,<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # e.g. using externalsrc; use S as b=
+ase for our dirs<br>
+&gt; &gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; This doesn&#39;t=C2=A0seem very safe imo, if the idea is to check if t=
+he externalsrc in use it is better using:<br>
+&gt; <br>
+&gt; if bb.data.inherits_class(&#39;externalsrc&#39;, d):<br>
+<br>
+The code is generic enough that if the source is outside WORKDIR, it<br>
+should work so I&#39;m not sure it makes sense to gate this on externalsrc<=
+br>
+only though...<br></blockquote><div><br></div><div>My comment is mainly bec=
+ause I see the externalsrc everywhere=C2=A0in this patch.</div><div>But as =
+said to make it generic it&#39;s better as it is.</div><div><br></div><div>=
+Jose</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
+ Quaresma</div></div></div></div>
+
+--0000000000006ef00505e2c0fd5c--
 
