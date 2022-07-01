@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27D28C2BBF3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16ACDC2BBF1
 	for <webhook@archiver.kernel.org>; Fri,  1 Jul 2022 14:51:10 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com
- (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web12.39614.1656687061824725347
+Received: from a27-45.smtp-out.us-west-2.amazonses.com
+ (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.39378.1656687062517298481
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Jul 2022 07:51:01 -0700
+ Fri, 01 Jul 2022 07:51:02 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=LgtXdfWS;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
- mailfrom: 01010181ba3e66d0-1cd8d6c0-8557-4801-bbf9-2c5119095151-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=jLes8tjb;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
+ mailfrom: 01010181ba3e6a16-9c8b5871-0a88-4e3e-944e-ece9b41578e9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1656687061;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=wBMjnYAbMvo6P/u1sY8HKANP0B+Xuu09gFivM3U/bpM=;
-	b=LgtXdfWSYmZGxMy3aLjrAe+4daDie5r5ZoBc/2YgiPrPHMd2xHd4nUoMz+VT+Dvw
-	uEjf3fHJFQwaBjvPs72ZvbouoCj0P1l95Wq2AGU2jMgiFqSYS9WSeSVCQ/1MgOkDEhA
-	wTPvTouRhPorhWMayI61D7tCGiXlphPydd7denoE=
+	bh=xSNAgoYHl/8t/SLTQ3BxoRE6hU/RwL2xha1lUTcg+6M=;
+	b=jLes8tjbJRRU+hDXq/7Ew8KGtXcbH1xtjF//VdR8rsFctFgHRwDl0iRE5wMXbt1C
+	0AFKhM/qg17InRJec/GJqfu4+DmKMkLUGWwxTdNE3RMiCWZ3F8l/4tCmH3u8kLtSTfN
+	BVZYea+QTFpusHA5bg6SrVGSM9JxLP3xaFag0fOw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1656687061;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=wBMjnYAbMvo6P/u1sY8HKANP0B+Xuu09gFivM3U/bpM=;
-	b=hAnpTlf2MQFOHc229/ndfCtzg1umQeWh7i7JnK1swfQAqIuYbvxrsQYVV8BU/Dpx
-	ueBD4HvHblJedfVv2jw4pdPE5ryLVPK1pYZdlQOjkZ0HRDmpA3BJ2pGXj/2HdM7sBLw
-	TDKdTgHWOUK8gyoQ5YFLDVVZP0mkneB04L8a6Als=
-Content-Type: multipart/mixed; boundary="===============7142388938968697683=="
+	bh=xSNAgoYHl/8t/SLTQ3BxoRE6hU/RwL2xha1lUTcg+6M=;
+	b=U7HTfZ9u9lcDMMGE6dsnfz71WBf1so8ZDa+E2vgE9VW8WQFZYhiljFSxhe6R0Feu
+	dJRYYcFi6N2FvVAia2bsba9m6uVEx2hCoHNjDFXPFJeCVooRErBtNOc+KQEH/LY9VMG
+	Xfj/c+qHjhKlQ/hn4FaYxjIyBT1fP6NgLI6ndHCg=
+Content-Type: multipart/mixed; boundary="===============2061443516012080244=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] glib-2.0: upgrading to 2.72.3 SUCCEEDED
+Subject: [AUH] git: upgrading to 2.37.0 SUCCEEDED
 Message-ID: 
- <01010181ba3e66d0-1cd8d6c0-8557-4801-bbf9-2c5119095151-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Jul 2022 14:51:00 +0000
+ <01010181ba3e6a16-9c8b5871-0a88-4e3e-944e-ece9b41578e9-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Jul 2022 14:51:01 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.07.01-54.240.27.23
+X-SES-Outgoing: 2022.07.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Jul 2022 14:51:10 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167478
+ https://lists.openembedded.org/g/openembedded-core/message/167481
 
---===============7142388938968697683==
+--===============2061443516012080244==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *glib-2.0* to *2.72.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *git* to *2.37.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-glib-2.0-upgrade-2.72.2-2.72.3.patch
+    - apply the patch: git am 0001-git-upgrade-2.36.1-2.37.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,346 +75,119 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7142388938968697683==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-glib-2.0-upgrade-2.72.2-2.72.3.patch"
-
-From d67daa075c8208322ca89f80f4532c0b2b278250 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Jul 2022 06:40:20 +0000
-Subject: [PATCH] glib-2.0: upgrade 2.72.2 -> 2.72.3
-
----
- meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch      | 2 +-
- .../glib-2.0/{glib-2.0_2.72.2.bb => glib-2.0_2.72.3.bb}         | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.72.2.bb => glib-2.0_2.72.3.bb} (96%)
-
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-index fb50fff6a5..c0114397d8 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-@@ -1,4 +1,4 @@
--From a30eb17c20e070124b55523d86729348f2929f95 Mon Sep 17 00:00:00 2001
-+From 9a66887179d28d696562dcac43ad05d67580cfdb Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Fri, 11 Mar 2016 15:35:55 +0000
- Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
-similarity index 96%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
-index c4a8a4b8ad..dd1ea508d2 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.72.2.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
-@@ -19,7 +19,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            "
- SRC_URI:append:class-native = " file://relocate-modules.patch"
- 
--SRC_URI[sha256sum] = "78d599a133dba7fe2036dfa8db8fb6131ab9642783fc9578b07a20995252d2de"
-+SRC_URI[sha256sum] = "4a39a2f624b8512d500d5840173eda7fa85f51c109052eae806acece85d345f0"
- 
- # Find any meson cross files in FILESPATH that are relevant for the current
- # build (using siteinfo) and add them to EXTRA_OEMESON.
--- 
-2.31.1
-
-
---===============7142388938968697683==
+--===============2061443516012080244==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-bash-completion: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-bash-completion: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-codegen: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-codegen: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-dbg: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-dbg: FILELIST: removed "/usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7200.2-gdb.py /usr/lib/.debug/libgthread-2.0.so.0.7200.2 /usr/lib/.debug/libgmodule-2.0.so.0.7200.2 /usr/lib/.debug/libgio-2.0.so.0.7200.2 /usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7200.2-gdb.py /usr/lib/.debug/libgobject-2.0.so.0.7200.2 /usr/lib/.debug/libglib-2.0.so.0.7200.2", added "/usr/lib/.debug/libgobject-2.0.so.0.7200.3 /usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7200.3-gdb.py /usr/lib/.debug/libgmodule-2.0.so.0.7200.3 /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7200.3-gdb.py /usr/lib/.debug/libgio-2.0.so.0.7200.3 /usr/lib/.debug/libgthread-2.0.so.0.7200.3 /usr/lib/.debug/libglib-2.0.so.0.7200.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-dbg: PKGSIZE changed from 21024536 to 21031292 (+0%)
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-dbg: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-dev: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-dev: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-doc: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-doc: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-af: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-af: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-am: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-am: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-an: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-an: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ar: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ar: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-as: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-as: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ast: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ast: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-az: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-az: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-be+latin: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-be+latin: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-be: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-be: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-bg: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-bg: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-bn-in: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-bn-in: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-bn: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-bn: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-bs: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-bs: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ca+valencia: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ca+valencia: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ca: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ca: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-cs: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-cs: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-cy: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-cy: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-da: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-da: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-de: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-de: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-dz: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-dz: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-el: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-el: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-en+shaw: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-en+shaw: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-en-ca: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-en-ca: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-en-gb: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-en-gb: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-eo: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-eo: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-es: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-es: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-et: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-et: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-eu: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-eu: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-fa: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-fa: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-fi: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-fi: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-fr: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-fr: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-fur: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-fur: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ga: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ga: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-gd: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-gd: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-gl: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-gl: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-gu: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-gu: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-he: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-he: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-hi: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-hi: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-hr: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-hr: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-hu: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-hu: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-hy: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-hy: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-id: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-id: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-is: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-is: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-it: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-it: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ja: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ja: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ka: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ka: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-kk: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-kk: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-kn: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-kn: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ko: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ko: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ku: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ku: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-lt: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-lt: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-lv: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-lv: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mai: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mai: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mg: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mg: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mk: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mk: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ml: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ml: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mn: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mn: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mr: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-mr: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ms: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ms: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-nb: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-nb: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-nds: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-nds: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ne: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ne: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-nl: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-nl: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-nn: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-nn: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-oc: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-oc: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-or: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-or: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-pa: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-pa: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-pl: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-pl: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ps: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ps: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-pt-br: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-pt-br: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-pt: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-pt: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ro: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ro: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ru: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ru: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-rw: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-rw: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-si: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-si: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sk: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sk: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sl: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sl: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sq: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sq: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sr+ije: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sr+ije: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sr+latin: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sr+latin: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sr: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sr: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sv: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-sv: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ta: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ta: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-te: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-te: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-tg: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-tg: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-th: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-th: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-tl: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-tl: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-tr: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-tr: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-tt: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-tt: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ug: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-ug: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-uk: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-uk: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-vi: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-vi: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-wa: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-wa: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-xh: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-xh: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-yi: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-yi: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-zh-cn: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-zh-cn: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-zh-hk: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-zh-hk: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-zh-tw: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-locale-zh-tw: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-ptest: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-ptest: PKGSIZE changed from 9602193 to 9606289 (+0%)
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-ptest: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-src: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-src: PKGSIZE changed from 26332938 to 26342569 (+0%)
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-src: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-staticdev: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-staticdev: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-utils: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0-utils: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0/glib-2.0: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0: FILELIST: removed "/usr/lib/libgmodule-2.0.so.0.7200.2 /usr/lib/libgobject-2.0.so.0.7200.2 /usr/lib/libglib-2.0.so.0.7200.2 /usr/lib/libgio-2.0.so.0.7200.2 /usr/lib/libgthread-2.0.so.0.7200.2", added "/usr/lib/libgthread-2.0.so.0.7200.3 /usr/lib/libgio-2.0.so.0.7200.3 /usr/lib/libgmodule-2.0.so.0.7200.3 /usr/lib/libglib-2.0.so.0.7200.3 /usr/lib/libgobject-2.0.so.0.7200.3"
-packages/core2-32-poky-linux/glib-2.0/glib-2.0: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-packages/core2-32-poky-linux/glib-2.0: PV changed from "2.72.2" to "2.72.3"
-packages/core2-32-poky-linux/glib-2.0: SRC_URI changed from "https://download.gnome.org/sources//glib/2.72/glib-2.72.2.tar.xz file://run-ptest file://0001-Fix-DATADIRNAME-on-uclibc-Linux.patch file://Enable-more-tests-while-cross-compiling.patch file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch file://0001-Do-not-ignore-return-value-of-write.patch file://0010-Do-not-hardcode-python-path-into-various-tools.patch file://0001-Set-host_machine-correctly-when-building-with-mingw3.patch file://0001-Do-not-write-bindir-into-pkg-config-files.patch file://0001-meson-Run-atomics-test-on-clang-as-well.patch file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch" to "https://download.gnome.org/sources//glib/2.72/glib-2.72.3.tar.xz file://run-ptest file://0001-Fix-DATADIRNAME-on-uclibc-Linux.patch file://Enable-more-tests-while-cross-compiling.patch file://0001-Remove-the-warning-about-deprecated-pa
- ths-in-schemas.patch file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch file://0001-Do-not-ignore-return-value-of-write.patch file://0010-Do-not-hardcode-python-path-into-various-tools.patch file://0001-Set-host_machine-correctly-when-building-with-mingw3.patch file://0001-Do-not-write-bindir-into-pkg-config-files.patch file://0001-meson-Run-atomics-test-on-clang-as-well.patch file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch"
-packages/core2-32-poky-linux/glib-2.0: PKGV changed from 2.72.2 [default] to 2.72.3 [default]
-Changes to packages/core2-32-poky-linux/glib-2.0 (sysroot):
-  /usr/lib/libgio-2.0.so.0 changed symlink target from libgio-2.0.so.0.7200.2 to libgio-2.0.so.0.7200.3
-  /usr/lib/libglib-2.0.so.0 changed symlink target from libglib-2.0.so.0.7200.2 to libglib-2.0.so.0.7200.3
-  /usr/lib/libgmodule-2.0.so.0 changed symlink target from libgmodule-2.0.so.0.7200.2 to libgmodule-2.0.so.0.7200.3
-  /usr/lib/libgobject-2.0.so.0 changed symlink target from libgobject-2.0.so.0.7200.2 to libgobject-2.0.so.0.7200.3
-  /usr/lib/libgthread-2.0.so.0 changed symlink target from libgthread-2.0.so.0.7200.2 to libgthread-2.0.so.0.7200.3
-  /usr/lib/libgio-2.0.so.0.7200.2 moved to /usr/lib/libgio-2.0.so.0.7200.3
-  /usr/lib/libglib-2.0.so.0.7200.2 moved to /usr/lib/libglib-2.0.so.0.7200.3
-  /usr/lib/libgmodule-2.0.so.0.7200.2 moved to /usr/lib/libgmodule-2.0.so.0.7200.3
-  /usr/lib/libgobject-2.0.so.0.7200.2 moved to /usr/lib/libgobject-2.0.so.0.7200.3
-  /usr/lib/libgthread-2.0.so.0.7200.2 moved to /usr/lib/libgthread-2.0.so.0.7200.3
-  /usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7200.2-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7200.3-gdb.py
-  /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7200.2-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7200.3-gdb.py
-Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
-  /usr/lib/libgio-2.0.so.0 changed symlink target from libgio-2.0.so.0.7200.2 to libgio-2.0.so.0.7200.3
-  /usr/lib/libglib-2.0.so.0 changed symlink target from libglib-2.0.so.0.7200.2 to libglib-2.0.so.0.7200.3
-  /usr/lib/libgmodule-2.0.so.0 changed symlink target from libgmodule-2.0.so.0.7200.2 to libgmodule-2.0.so.0.7200.3
-  /usr/lib/libgobject-2.0.so.0 changed symlink target from libgobject-2.0.so.0.7200.2 to libgobject-2.0.so.0.7200.3
-  /usr/lib/libgthread-2.0.so.0 changed symlink target from libgthread-2.0.so.0.7200.2 to libgthread-2.0.so.0.7200.3
-  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.72.2-r0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.7200.2-gdb.py moved to /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.72.3-r0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.7200.3-gdb.py
-  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.72.2-r0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.7200.2-gdb.py moved to /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.72.3-r0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.7200.3-gdb.py
-  /usr/lib/libgio-2.0.so.0.7200.2 moved to /usr/lib/libgio-2.0.so.0.7200.3
-  /usr/lib/libglib-2.0.so.0.7200.2 moved to /usr/lib/libglib-2.0.so.0.7200.3
-  /usr/lib/libgmodule-2.0.so.0.7200.2 moved to /usr/lib/libgmodule-2.0.so.0.7200.3
-  /usr/lib/libgobject-2.0.so.0.7200.2 moved to /usr/lib/libgobject-2.0.so.0.7200.3
-  /usr/lib/libgthread-2.0.so.0.7200.2 moved to /usr/lib/libgthread-2.0.so.0.7200.3
-  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.72.2-r0 moved to /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.72.3-r0
+packages/core2-32-poky-linux/git/git-bash-completion: PKGV changed from 2.36.1 [default] to 2.37.0 [default]
+packages/core2-32-poky-linux/git/git-bash-completion: PV changed from "2.36.1" to "2.37.0"
+packages/core2-32-poky-linux/git/git-dbg: PKGV changed from 2.36.1 [default] to 2.37.0 [default]
+packages/core2-32-poky-linux/git/git-dbg: PV changed from "2.36.1" to "2.37.0"
+packages/core2-32-poky-linux/git/git-dbg: PKGSIZE changed from 67081640 to 69613088 (+4%)
+packages/core2-32-poky-linux/git/git-dev: PKGV changed from 2.36.1 [default] to 2.37.0 [default]
+packages/core2-32-poky-linux/git/git-dev: PV changed from "2.36.1" to "2.37.0"
+packages/core2-32-poky-linux/git/git-doc: PKGV changed from 2.36.1 [default] to 2.37.0 [default]
+packages/core2-32-poky-linux/git/git-doc: PV changed from "2.36.1" to "2.37.0"
+packages/core2-32-poky-linux/git/git-locale: PKGV changed from 2.36.1 [default] to 2.37.0 [default]
+packages/core2-32-poky-linux/git/git-locale: PV changed from "2.36.1" to "2.37.0"
+packages/core2-32-poky-linux/git/git-perltools: PKGV changed from 2.36.1 [default] to 2.37.0 [default]
+packages/core2-32-poky-linux/git/git-perltools: PV changed from "2.36.1" to "2.37.0"
+packages/core2-32-poky-linux/git/git-perltools: PKGSIZE changed from 317804 to 317875 (+0%)
+packages/core2-32-poky-linux/git/git-src: PKGV changed from 2.36.1 [default] to 2.37.0 [default]
+packages/core2-32-poky-linux/git/git-src: PV changed from "2.36.1" to "2.37.0"
+packages/core2-32-poky-linux/git/git-src: FILELIST: directory renamed /usr/src/debug/git/2.36.1-r0/git-2.36.1/ewah -> /usr/src/debug/git/2.37.0-r0/git-2.37.0/ewah, directory renamed /usr/src/debug/git/2.36.1-r0/git-2.36.1/xdiff -> /usr/src/debug/git/2.37.0-r0/git-2.37.0/xdiff, directory renamed /usr/src/debug/git/2.36.1-r0/git-2.36.1/builtin -> /usr/src/debug/git/2.37.0-r0/git-2.37.0/builtin, directory renamed /usr/src/debug/git/2.36.1-r0/git-2.36.1/trace2 -> /usr/src/debug/git/2.37.0-r0/git-2.37.0/trace2, directory renamed /usr/src/debug/git/2.36.1-r0/git-2.36.1/negotiator -> /usr/src/debug/git/2.37.0-r0/git-2.37.0/negotiator, directory renamed /usr/src/debug/git/2.36.1-r0/git-2.36.1/sha1dc -> /usr/src/debug/git/2.37.0-r0/git-2.37.0/sha1dc, directory renamed /usr/src/debug/git/2.36.1-r0/git-2.36.1/refs -> /usr/src/debug/git/2.37.0-r0/git-2.37.0/refs, directory renamed /usr/src/debug/git/2.36.1-r0/git-2.36.1/compat/linux -> /usr/src/debug/git/2.37.0-r0/git-2.37.0/compat/linux, direct
+ ory renamed /usr/src/debug/git/2.36.1-r0/git-2.36.1/compat -> /usr/src/debug/git/2.37.0-r0/git-2.37.0/compat, directory renamed /usr/src/debug/git/2.36.1-r0/git-2.36.1/sha256/block -> /usr/src/debug/git/2.37.0-r0/git-2.37.0/sha256/block, removed "/usr/src/debug/git/2.36.1-r0/git-2.36.1/hook.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/advice.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/strvec.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/csum-file.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/base85.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/ll-merge.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/send-pack.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/credential.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/hashmap.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/parallel-checkout.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/ref-filter.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/diff.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/refs.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/pathspec.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/
+ tree.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/protocol-caps.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/branch.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/upload-pack.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/fetch-negotiator.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/diff-lib.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/git-compat-util.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/patch-delta.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/bisect.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/protocol-caps.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/fsmonitor.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/alias.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/credential.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/command-list.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/json-writer.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/line-log.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/strmap.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/zlib.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/urlmatch.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/ctyp
+ e.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/cache-tree.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/object-file.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/promisor-remote.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/pack-check.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/delta.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/connected.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/rerere.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/pack-bitmap.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/versioncmp.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/pack-bitmap-write.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/pack-bitmap.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/tempfile.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/shell.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/list-objects-filter-options.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/bundle.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/reflog.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/walker.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/shallow.h /usr/src/debug/git/2.36.1-r0/git-2.36.1
+ /setup.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/dir.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/help.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/delta-islands.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/linear-assignment.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/gettext.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/transport-helper.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/reset.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/list-objects.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/builtin.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/hashmap.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/tree.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/commit-reach.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/entry.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/graph.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/object.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/notes-cache.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/notes-utils.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/tree-walk.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/merge-ort.c /usr/src
+ /debug/git/2.36.1-r0/git-2.36.1/blame.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/write-or-die.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/pack-write.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/imap-send.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/fsck.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/mem-pool.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/editor.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/diffcore-rename.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/varint.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/object.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/unix-socket.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/trailer.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/ls-refs.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/oidset.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/submodule-config.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/streaming.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/symlinks.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/sideband.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/line-log.c /usr/src/debug/git/2.36.1-r
+ 0/git-2.36.1/diffcore-break.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/mailmap.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/packfile.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/ls-refs.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/chdir-notify.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/trace2.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/branch.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/refspec.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/ll-merge.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/decorate.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/rebase-interactive.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/blame.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/exec-cmd.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/protocol.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/parse-options.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/diffcore.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/reflog.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/split-index.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/khash.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/fs
+ monitor-ipc.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/wildmatch.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/unpack-trees.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/mergesort.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/color.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/blob.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/submodule-config.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/revision.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/thread-utils.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/line-range.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/utf8.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/archive-zip.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/mailmap.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/serve.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/match-trees.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/pack-revindex.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/merge-ort.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/bulk-checkin.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/streaming.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/rem
+ ote.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/diffcore-order.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/attr.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/mailinfo.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/shallow.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/gettext.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/diff-merges.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/notes-merge.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/kwset.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/csum-file.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/sigchain.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/reset.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/strvec.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/merge.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/notes-cache.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/refs.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/packfile.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/bulk-checkin.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/version.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/alloc.c /usr/src/debug/git/2.36.1-r
+ 0/git-2.36.1/archive.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/fetch-negotiator.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/list-objects-filter-options.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/userdiff.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/walker.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/tmp-objdir.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/object-name.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/bloom.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/linear-assignment.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/reachable.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/http-push.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/commit-reach.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/usage.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/strbuf.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/varint.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/fsmonitor-ipc.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/ws.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/pager.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/json-writer.h /usr/src/debug/git/2.3
+ 6.1-r0/git-2.36.1/pathspec.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/add-interactive.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/merge-ort-wrappers.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/prune-packed.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/http.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/quote.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/attr.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/utf8.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/repository.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/wt-status.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/worktree.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/date.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/resolve-undo.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/delta-islands.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/list-objects.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/kwset.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/sha1dc_git.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/alias.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/tmp-objdir.h /usr/src/debug/git/2.36.1-r0/git-2
+ .36.1/sh-i18n--envsubst.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/stable-qsort.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/http.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/url.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/upload-pack.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/gpg-interface.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/server-info.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/promisor-remote.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/parse-options-cb.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/userdiff.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/apply.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/pack-objects.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/rebase.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/cache.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/submodule.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/checkout.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/path.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/repository.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/run-command.c /usr/src/debug/git/2.36.1-r0/git-2
+ .36.1/cbtree.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/combine-diff.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/fsmonitor-settings.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/rebase.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/object-store.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/string-list.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/sub-process.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/hash.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/oidmap.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/refspec.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/split-index.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/tag.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/preload-index.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/wrapper.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/fsmonitor.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/wildmatch.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/pkt-line.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/chunk-format.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/oidtree.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/tr
+ ansport.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/trace.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/merge-blobs.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/dir-iterator.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/sparse-index.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/add-interactive.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/transport-internal.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/exec-cmd.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/pkt-line.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/http-fetch.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/log-tree.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/reflog-walk.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/quote.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/diffcore-rotate.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/fsck.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/thread-utils.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/shortlog.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/prio-queue.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/range-diff.h /usr/src/debug/git/2.36.1-r0/gi
+ t-2.36.1/replace-object.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/column.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/commit.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/git.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/pack-objects.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/parallel-checkout.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/http-backend.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/oidset.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/levenshtein.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/date.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/diff-delta.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/parse-options.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/grep.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/pretty.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/dir-iterator.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/remote-curl.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/repo-settings.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/trace2.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/line-range.h /usr/src/debug/git/2.36.1-r0/git-2.
+ 36.1/strmap.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/progress.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/worktree.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/progress.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/sideband.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/read-cache.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/reflog-walk.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/tar.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/unpack-trees.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/replace-object.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/chdir-notify.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/connected.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/sha1dc_git.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/list-objects-filter.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/commit-graph.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/cache-tree.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/decorate.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/tree-walk.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/midx.c /usr/src/debug/git/2.36.1-r0/git-2
+ .36.1/environment.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/convert.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/tree-diff.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/notes.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/submodule.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/diff-merges.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/common-main.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/unix-socket.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/version.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/patch-ids.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/graph.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/url.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/merge-ort-wrappers.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/notes-utils.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/range-diff.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/merge-blobs.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/tempfile.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/diffcore-delta.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/rerere.h /usr/src/debug/git/2.36.1-r0/git-2.36.
+ 1/config-list.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/tag.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/revision.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/color.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/oidmap.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/http-walker.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/send-pack.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/bisect.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/chunk-format.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/sequencer.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/oidtree.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/sparse-index.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/hook.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/archive-tar.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/wt-status.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/list-objects-filter.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/oid-array.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/diffcore-pickaxe.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/mem-pool.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/has
+ h-lookup.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/resolve-undo.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/diff.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/lockfile.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/pack.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/connect.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/column.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/pretty.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/merge-recursive.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/bloom.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/convert.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/grep.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/checkout.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/fetch-pack.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/mailinfo.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/abspath.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/log-tree.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/name-hash.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/cbtree.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/copy.c /usr/src/debug/git/2.36.1-r0/gi
+ t-2.36.1/midx.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/xdiff-interface.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/archive.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/entry.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/notes.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/unicode-width.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/alloc.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/daemon.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/lockfile.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/trailer.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/urlmatch.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/environment.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/prio-queue.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/sigchain.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/dir.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/notes-merge.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/config.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/advice.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/sub-process.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/iterator.h /usr/src/de
+ bug/git/2.36.1-r0/git-2.36.1/connect.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/commit.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/mergesort.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/list.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/sequencer.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/oid-array.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/prune-packed.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/rebase-interactive.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/bundle.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/reachable.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/trace.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/protocol.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/add-patch.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/strbuf.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/fsmonitor-settings.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/hex.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/config.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/pack-revindex.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/ref-filter.c /usr/src/debug/git/2.36.
+ 1-r0/git-2.36.1/apply.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/run-command.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/hook-list.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/diff-no-index.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/prompt.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/remote.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/ident.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/levenshtein.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/serve.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/string-list.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/hash-lookup.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/fmt-merge-msg.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/commit-graph.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/fetch-pack.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/xdiff-interface.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/path.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/gpg-interface.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/blob.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/prompt.h /usr/src/debug/git/2.36.1-r0/git-2
+ .36.1/merge-recursive.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/patch-ids.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/help.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/transport.c /usr/src/debug/git/2.36.1-r0/git-2.36.1/simple-ipc.h /usr/src/debug/git/2.36.1-r0/git-2.36.1/fmt-merge-msg.c", added "/usr/src/debug/git/2.37.0-r0/git-2.37.0/alloc.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/advice.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/repository.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/entry.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/url.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/progress.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/rerere.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/tmp-objdir.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/ls-refs.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/connect.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/hashmap.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/run-command.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/commit-graph.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/trace.c 
+ /usr/src/debug/git/2.37.0-r0/git-2.37.0/unpack-trees.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/fsmonitor-ipc.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/archive.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/notes.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/sparse-index.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/mailmap.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/read-cache.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/tag.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/object-store.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/archive-tar.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/prompt.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/pkt-line.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/object.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/hook.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/environment.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/mailmap.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/line-range.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/strmap.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/diff-merges.c /usr/src/debug/git/
+ 2.37.0-r0/git-2.37.0/add-interactive.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/chunk-format.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/http-push.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/log-tree.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/blob.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/string-list.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/transport-helper.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/diffcore-break.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/range-diff.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/hook.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/bundle.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/streaming.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/ref-filter.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/tar.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/hash-lookup.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/midx.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/attr.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/config-list.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/connected.h /usr/src/debug/git/2.37.0-r0/
+ git-2.37.0/http-walker.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/replace-object.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/gettext.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/revision.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/progress.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/sparse-index.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/reset.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/transport.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/credential.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/alloc.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/cache-tree.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/pack-objects.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/send-pack.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/object-file.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/tag.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/sequencer.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/graph.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/linear-assignment.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/hex.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/m
+ erge.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/strbuf.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/trace2.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/version.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/http-fetch.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/streaming.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/submodule.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/add-interactive.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/list-objects-filter.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/merge-ort-wrappers.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/linear-assignment.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/reflog-walk.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/shell.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/trailer.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/sha1dc_git.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/match-trees.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/pack-bitmap.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/utf8.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/decorate.c /usr/src/debug/git/2.37.0-r0/git-
+ 2.37.0/log-tree.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/iterator.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/merge-ort-wrappers.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/patch-delta.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/merge-recursive.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/cache.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/bulk-checkin.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/dir-iterator.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/hashmap.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/list-objects-filter-options.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/list-objects-filter-options.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/pathspec.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/entry.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/delta-islands.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/pretty.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/tempfile.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/notes-cache.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/grep.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/commit-reac
+ h.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/stable-qsort.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/common-main.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/wildmatch.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/column.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/diff.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/pack-mtimes.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/http-backend.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/submodule.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/reset.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/json-writer.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/line-range.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/checkout.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/config.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/combine-diff.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/diffcore-delta.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/builtin.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/sha1dc_git.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/diffcore-order.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/editor.c
+  /usr/src/debug/git/2.37.0-r0/git-2.37.0/varint.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/rebase.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/parallel-checkout.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/branch.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/alias.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/versioncmp.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/strmap.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/tmp-objdir.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/fetch-negotiator.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/pager.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/patch-ids.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/gpg-interface.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/prune-packed.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/gettext.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/pathspec.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/transport.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/apply.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/rebase.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/commit.c /usr/src/debug/gi
+ t/2.37.0-r0/git-2.37.0/mergesort.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/packfile.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/oidtree.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/worktree.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/rebase-interactive.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/fetch-pack.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/diffcore-rotate.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/unix-socket.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/run-command.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/ws.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/wildmatch.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/trace.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/version.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/fsmonitor-settings.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/serve.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/list-objects.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/list.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/worktree.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/ll-merge.c /usr/src/debug/git/2.3
+ 7.0-r0/git-2.37.0/bisect.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/merge-ort.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/wt-status.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/bundle.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/parse-options.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/protocol.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/strvec.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/copy.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/http.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/lockfile.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/pack-check.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/branch.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/rebase-interactive.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/patch-ids.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/cbtree.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/shallow.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/chunk-format.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/blame.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/remote.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/list-objec
+ ts-filter.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/levenshtein.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/repository.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/archive.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/notes-merge.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/split-index.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/mem-pool.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/grep.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/color.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/mergesort.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/url.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/merge-recursive.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/pack-bitmap-write.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/trailer.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/notes-cache.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/ref-filter.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/replace-object.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/column.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/reflog.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/packfi
+ le.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/userdiff.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/promisor-remote.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/cbtree.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/object.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/git-compat-util.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/oidmap.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/refs.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/unix-socket.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/split-index.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/symlinks.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/wrapper.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/alias.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/add-patch.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/urlmatch.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/attr.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/bulk-checkin.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/pack-mtimes.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/imap-send.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/ls-refs.h /usr/src/debu
+ g/git/2.37.0-r0/git-2.37.0/daemon.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/dir.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/diff.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/prio-queue.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/diffcore-rename.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/parse-options.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/pack-objects.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/prompt.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/pack.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/shortlog.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/upload-pack.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/preload-index.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/string-list.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/usage.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/command-list.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/reflog.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/pack-revindex.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/notes.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/fsmonitor.c /usr/src/debug/git/2.37.0-r
+ 0/git-2.37.0/oidtree.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/dir.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/server-info.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/help.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/tree.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/commit-graph.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/shallow.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/chdir-notify.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/oid-array.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/diffcore-pickaxe.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/base85.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/hash-lookup.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/resolve-undo.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/diff-delta.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/fetch-pack.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/varint.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/sub-process.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/zlib.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/xdiff-interface.c /usr/src/debug/git/2.37.0-r0/git-2.37
+ .0/reflog-walk.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/fsck.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/oidset.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/khash.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/fsmonitor.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/connected.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/simple-ipc.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/parse-options-cb.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/fsmonitor-settings.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/diff-no-index.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/sigchain.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/refspec.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/walker.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/bloom.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/diff-lib.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/mailinfo.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/transport-internal.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/upload-pack.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/commit.h /usr/src/debug/git/2.37.0-r0/git-2.37.0
+ /sideband.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/promisor-remote.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/remote.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/convert.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/prune-packed.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/gpg-interface.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/delta.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/hash.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/archive-zip.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/serve.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/merge-blobs.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/tree-walk.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/repo-settings.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/userdiff.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/list-objects.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/csum-file.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/merge-blobs.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/submodule-config.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/credential.h /usr/src/debug/git/2.37.0-r0/git-2
+ .37.0/oidset.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/quote.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/notes-utils.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/unpack-trees.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/revision.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/line-log.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/sub-process.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/blob.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/wt-status.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/object-name.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/protocol-caps.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/chdir-notify.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/ll-merge.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/reachable.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/protocol-caps.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/environment.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/diffcore.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/parallel-checkout.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/remote-curl.c /usr/src/debug/git/2.37.0-r
+ 0/git-2.37.0/protocol.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/send-pack.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/range-diff.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/walker.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/utf8.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/thread-utils.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/reachable.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/decorate.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/kwset.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/rerere.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/delta-islands.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/convert.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/tree-walk.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/strbuf.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/diff-merges.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/lockfile.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/date.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/commit-reach.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/exec-cmd.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/tree-diff.c 
+ /usr/src/debug/git/2.37.0-r0/git-2.37.0/xdiff-interface.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/git.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/pack-revindex.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/bloom.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/fsmonitor-ipc.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/tempfile.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/sequencer.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/quote.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/refspec.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/fsck.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/checkout.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/midx.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/strvec.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/fmt-merge-msg.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/trace2.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/bisect.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/abspath.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/refs.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/path.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/
+ date.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/sigchain.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/thread-utils.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/path.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/dir-iterator.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/notes-merge.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/levenshtein.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/help.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/json-writer.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/ctype.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/csum-file.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/color.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/mem-pool.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/oidmap.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/pack-write.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/pack-bitmap.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/oid-array.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/urlmatch.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/cache-tree.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/fmt-merge-msg.c /usr/s
+ rc/debug/git/2.37.0-r0/git-2.37.0/kwset.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/notes-utils.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/config.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/exec-cmd.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/graph.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/connect.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/pretty.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/unicode-width.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/name-hash.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/sideband.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/blame.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/merge-ort.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/line-log.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/submodule-config.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/apply.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/fetch-negotiator.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/prio-queue.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/tree.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/hook-list.h /usr/src/debug/git/2.37.0-
+ r0/git-2.37.0/ident.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/write-or-die.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/setup.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/pkt-line.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/sh-i18n--envsubst.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/mailinfo.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/resolve-undo.c /usr/src/debug/git/2.37.0-r0/git-2.37.0/http.h /usr/src/debug/git/2.37.0-r0/git-2.37.0/advice.h"
+packages/core2-32-poky-linux/git/git-src: PKGSIZE changed from 8660321 to 8729715 (+1%)
+packages/core2-32-poky-linux/git/git-staticdev: PKGV changed from 2.36.1 [default] to 2.37.0 [default]
+packages/core2-32-poky-linux/git/git-staticdev: PV changed from "2.36.1" to "2.37.0"
+packages/core2-32-poky-linux/git/git-tk: PKGV changed from 2.36.1 [default] to 2.37.0 [default]
+packages/core2-32-poky-linux/git/git-tk: PV changed from "2.36.1" to "2.37.0"
+packages/core2-32-poky-linux/git/git: PKGV changed from 2.36.1 [default] to 2.37.0 [default]
+packages/core2-32-poky-linux/git/git: PV changed from "2.36.1" to "2.37.0"
+packages/core2-32-poky-linux/git/git: PKGSIZE changed from 23286113 to 24195466 (+4%)
+packages/core2-32-poky-linux/git/gitweb: PKGV changed from 2.36.1 [default] to 2.37.0 [default]
+packages/core2-32-poky-linux/git/gitweb: PV changed from "2.36.1" to "2.37.0"
+packages/core2-32-poky-linux/git/gitweb: PKGSIZE changed from 314155 to 314117 (-0%)
+packages/core2-32-poky-linux/git: PKGV changed from 2.36.1 [default] to 2.37.0 [default]
+packages/core2-32-poky-linux/git: PV changed from "2.36.1" to "2.37.0"
+packages/core2-32-poky-linux/git: SRC_URI changed from "https://cdn.kernel.org/pub/software/scm/git/git-2.36.1.tar.gz;name=tarball file://fixsort.patch file://0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch" to "https://cdn.kernel.org/pub/software/scm/git/git-2.37.0.tar.gz;name=tarball file://fixsort.patch file://0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch"
 
---===============7142388938968697683==
-Content-Type: text/plain; charset="us-ascii"
+--===============2061443516012080244==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment;
+ filename="0001-git-upgrade-2.36.1-2.37.0.patch"
 
-packages/core2-32-poky-linux/glib-2.0/glib-2.0: FILELIST: removed "/usr/lib/libgthread-2.0.so.0.7200.2 /usr/lib/libglib-2.0.so.0.7200.2 /usr/lib/libgio-2.0.so.0.7200.2 /usr/lib/libgobject-2.0.so.0.7200.2 /usr/lib/libgmodule-2.0.so.0.7200.2", added "/usr/lib/libgthread-2.0.so.0.7200.3 /usr/lib/libgio-2.0.so.0.7200.3 /usr/lib/libgmodule-2.0.so.0.7200.3 /usr/lib/libglib-2.0.so.0.7200.3 /usr/lib/libgobject-2.0.so.0.7200.3"
-Changes to packages/core2-32-poky-linux/glib-2.0 (sysroot):
-  /usr/lib/libgio-2.0.so.0 changed symlink target from libgio-2.0.so.0.7200.2 to libgio-2.0.so.0.7200.3
-  /usr/lib/libglib-2.0.so.0 changed symlink target from libglib-2.0.so.0.7200.2 to libglib-2.0.so.0.7200.3
-  /usr/lib/libgmodule-2.0.so.0 changed symlink target from libgmodule-2.0.so.0.7200.2 to libgmodule-2.0.so.0.7200.3
-  /usr/lib/libgobject-2.0.so.0 changed symlink target from libgobject-2.0.so.0.7200.2 to libgobject-2.0.so.0.7200.3
-  /usr/lib/libgthread-2.0.so.0 changed symlink target from libgthread-2.0.so.0.7200.2 to libgthread-2.0.so.0.7200.3
-  /usr/lib/libgio-2.0.so.0.7200.2 moved to /usr/lib/libgio-2.0.so.0.7200.3
-  /usr/lib/libglib-2.0.so.0.7200.2 moved to /usr/lib/libglib-2.0.so.0.7200.3
-  /usr/lib/libgmodule-2.0.so.0.7200.2 moved to /usr/lib/libgmodule-2.0.so.0.7200.3
-  /usr/lib/libgobject-2.0.so.0.7200.2 moved to /usr/lib/libgobject-2.0.so.0.7200.3
-  /usr/lib/libgthread-2.0.so.0.7200.2 moved to /usr/lib/libgthread-2.0.so.0.7200.3
-  /usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7200.2-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7200.3-gdb.py
-  /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7200.2-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7200.3-gdb.py
-Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
-  /usr/lib/libgio-2.0.so.0 changed symlink target from libgio-2.0.so.0.7200.2 to libgio-2.0.so.0.7200.3
-  /usr/lib/libglib-2.0.so.0 changed symlink target from libglib-2.0.so.0.7200.2 to libglib-2.0.so.0.7200.3
-  /usr/lib/libgmodule-2.0.so.0 changed symlink target from libgmodule-2.0.so.0.7200.2 to libgmodule-2.0.so.0.7200.3
-  /usr/lib/libgobject-2.0.so.0 changed symlink target from libgobject-2.0.so.0.7200.2 to libgobject-2.0.so.0.7200.3
-  /usr/lib/libgthread-2.0.so.0 changed symlink target from libgthread-2.0.so.0.7200.2 to libgthread-2.0.so.0.7200.3
-  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.72.2-r0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.7200.2-gdb.py moved to /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.72.3-r0/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.7200.3-gdb.py
-  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.72.2-r0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.7200.2-gdb.py moved to /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.72.3-r0/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.7200.3-gdb.py
-  /usr/lib/libgio-2.0.so.0.7200.2 moved to /usr/lib/libgio-2.0.so.0.7200.3
-  /usr/lib/libglib-2.0.so.0.7200.2 moved to /usr/lib/libglib-2.0.so.0.7200.3
-  /usr/lib/libgmodule-2.0.so.0.7200.2 moved to /usr/lib/libgmodule-2.0.so.0.7200.3
-  /usr/lib/libgobject-2.0.so.0.7200.2 moved to /usr/lib/libgobject-2.0.so.0.7200.3
-  /usr/lib/libgthread-2.0.so.0.7200.2 moved to /usr/lib/libgthread-2.0.so.0.7200.3
-  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.72.2-r0 moved to /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.72.3-r0
+From efe3beda269eaad60722877bbe386ddb14bb5181 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 1 Jul 2022 07:51:42 +0000
+Subject: [PATCH] git: upgrade 2.36.1 -> 2.37.0
 
---===============7142388938968697683==--
+---
+ meta/recipes-devtools/git/{git_2.36.1.bb => git_2.37.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/git/{git_2.36.1.bb => git_2.37.0.bb} (98%)
+
+diff --git a/meta/recipes-devtools/git/git_2.36.1.bb b/meta/recipes-devtools/git/git_2.37.0.bb
+similarity index 98%
+rename from meta/recipes-devtools/git/git_2.36.1.bb
+rename to meta/recipes-devtools/git/git_2.37.0.bb
+index 07e416282b..d3bd0619af 100644
+--- a/meta/recipes-devtools/git/git_2.36.1.bb
++++ b/meta/recipes-devtools/git/git_2.37.0.bb
+@@ -165,4 +165,4 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+                  "
+ EXTRA_OEMAKE += "NO_GETTEXT=1"
+ 
+-SRC_URI[tarball.sha256sum] = "37d936fd17c81aa9ddd3dba4e56e88a45fa534ad0ba946454e8ce818760c6a2c"
++SRC_URI[tarball.sha256sum] = "fc3ffe6c65c1f7c681a1ce6bb91703866e432c762731d4b57c566d696f6d62c3"
+-- 
+2.31.1
+
+
+--===============2061443516012080244==--
 
