@@ -1,161 +1,364 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D879C433EF
-	for <webhook@archiver.kernel.org>; Fri,  1 Jul 2022 18:27:41 +0000 (UTC)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web12.42130.1656700053372562868
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F309C433EF
+	for <webhook@archiver.kernel.org>; Fri,  1 Jul 2022 19:25:21 +0000 (UTC)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by mx.groups.io with SMTP id smtpd.web11.42445.1656703515508068814
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Jul 2022 11:27:33 -0700
+ Fri, 01 Jul 2022 12:25:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=jQvy8tPA;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.41,
- mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f41.google.com with SMTP id cf14so3931643edb.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=GjEhfRwl;
+ spf=pass (domain: gmail.com, ip: 209.85.208.44,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f44.google.com with SMTP id c65so4107618edf.4
         for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Jul 2022 11:27:33 -0700 (PDT)
+ Fri, 01 Jul 2022 12:25:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8+/oTbGrvy9CZDAOT4+uNkJw+ZJmMMrapRdesYIRAAY=;
-        b=jQvy8tPAJL+FnSlCgsh5Mbos7yXnqTNl6i85X3R+JNg5WjER5rJQqIPOGu7DSWbdDY
-         9dvz5h2uAa5ws28UK6XKFwB4GKhpP0nUsH7q+BqpuzZuG3FepP3kbM4dK/FvWfNmqlM5
-         6ecvmnZexAuEUB9zn08rQFNe90ozKjZFmuV/Y3K1XQuzf59k5N/QENgbyeRJEj0NFMFA
-         9c2RQsJLfj4gJBfVSr10NoBFbNJgNvJvFQzee1MZ5uAkXcUsIKS2HCtXKpg0YiqRMB+w
-         Hh34YLzf8qEowSmr02bPxaT7GjnhB9sYEfWxgOVrsndes1suinMbCNPn+AMDUzDEOMgP
-         Jcxw==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=k/mICXxqKZTnAlAQF1CIcPVVxp6F3QyjYhPO4xFuYqM=;
+        b=GjEhfRwlKdP3NcF2ITqpN5KCIbyY6274/IByGSP5H7ZAnWpYoCyV6IksDFm8nv8EQO
+         gG4W9fdTkRm7wWHDiLTz/SN8XbkCsrHOEhLyGe2sFoa3mOKoQD1ep8ozDwBTNM+/DxhB
+         732lQhOgUc6ZKon8kBP5o8qA5FEdxtNr3lfXIWXyxItCKgJ5kcO9jwf3XS+SSuGlI1gC
+         WFq9YqjZfsVn8RXfJLK0cNJ3tV2S+qv/kv3XXgYsYWMavOWyKGTQR13wj/vbFhvUiM1O
+         K+q0lG4OHa+udVFJhVqHqx0SAvusKs7OlyxW+8zTPrw6YiqyHHkidJToWiPRjfJIV7d6
+         DKLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8+/oTbGrvy9CZDAOT4+uNkJw+ZJmMMrapRdesYIRAAY=;
-        b=hrsL8LV0e2iGWdVcjEBZxF5qatwPpb4xBhsxrACzSt+qZAjHR8QTqf4G0I/ToVsgcU
-         Ly5tOuIbsYFKzbglusO27VtiNzMR0H4aI0dUN4JWc2kp4R5a+soqNCdqz40mG4Gy4oJ/
-         pP4LjnvtU3nSO9CGug/+7iQ2oPP+pdFbApBkqPwXhg9mzv/WnopVozfx2Qdz8n8hItJ1
-         5aie9do8orgSL4PZD8w6FdGk3Pc2LoY8tzWX/4vH1jMWbiBYBPT1mjK02zMrXb8UyPQv
-         rs/w0DsLQODWievVRmvnMUgPayTCvB94G1wrFIAmEZGgUGBFFKR4eqWyMYWgwzPl0+nQ
-         xOPA==
-X-Gm-Message-State: AJIora9HcVRp94Ew+vq4PEk5jyUHC3SuV9Gf/heCMFUdAEjULmkyjcP5
-	uD60GcZO5pUFoFoe90MlCFOHJcO9do3yIn1HffTFYQ==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=k/mICXxqKZTnAlAQF1CIcPVVxp6F3QyjYhPO4xFuYqM=;
+        b=jem61d7edHocYvuc781nSw5YUJqLG03VPMbiUBdTCq+mqULv0hoMKVOOGHIUzAv/8d
+         eAb0vj/Rvuid8oakCv9PBiB6nDmq93H5kqFNS0nn5vdPWFyKeqiLJgd8YODn4kPUWX+w
+         Tr1kYr/BEoqAEs2xKNvJlthQ5Bx4uOXw4XOsU+RzD2ApPGC9RJlO7Z0BzUh0ZjAHHN78
+         fUcuE75ff/zTik6EuJTafPs3XWck6pCDLl/puh4gpWtccVpTUxxRLZL5G+rtlG/kjVsB
+         H3+Ga3/y1RdLTBIQwEk2diNxIQ6nF+D3ylkteqTKYHeXXg9lNab8b1zv2eq32mEMIckH
+         9rEQ==
+X-Gm-Message-State: AJIora/WLsqLjmItwvcLgZ+4KrEfS/Qh+pbkwAH0pMKU0blEQckVGtZE
+	1gk4PAsbt2hg0QkjJbjmfPaxz+4aKo6Egm8p
 X-Google-Smtp-Source: 
- AGRyM1tWnXE2+Cp6q975rzO76GhujlLdbk+602v1BqDiRigugbHWkwkJUdxTy3kxVoQKSepUPjtKLU98NtM++lQZ4wA=
-X-Received: by 2002:a05:6402:698:b0:435:75d9:f94c with SMTP id
- f24-20020a056402069800b0043575d9f94cmr21322310edy.330.1656700051530; Fri, 01
- Jul 2022 11:27:31 -0700 (PDT)
+ AGRyM1u+l9WHBzq+xim2/2yotCCO/rGmpI0Y8yPXujCv93VHHYkpfFGx+8gTwAQw7iFmXEDEbO63sg==
+X-Received: by 2002:a05:6402:501d:b0:437:e000:a898 with SMTP id
+ p29-20020a056402501d00b00437e000a898mr17929517eda.265.1656703513610;
+        Fri, 01 Jul 2022 12:25:13 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
+ [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id
+ h26-20020aa7c61a000000b00435cfa7c6f5sm15304606edq.46.2022.07.01.12.25.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Jul 2022 12:25:12 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [RFC PATCH] bitbake-layers: add layer repositories/revisions save and
+ restore tooling (aka 'layer configuration')
+Date: Fri,  1 Jul 2022 21:24:49 +0200
+Message-Id: <20220701192449.1358325-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220701161205.112341-1-jose.quaresma@foundries.io>
-In-Reply-To: <20220701161205.112341-1-jose.quaresma@foundries.io>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 1 Jul 2022 08:27:20 -1000
-Message-ID: 
- <CAOSpxdbq+CJE-k7dn1wBnd9ay-wD7-FdxMyMS5SXQVy=afdQCQ@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH] curl: backport openssl fix CN check
- error code
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, ricardo@foundries.io,
-	daiane.angolini@foundries.io, Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Jul 2022 18:27:41 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Jul 2022 19:25:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167539
+ https://lists.openembedded.org/g/openembedded-core/message/167540
 
-On Fri, Jul 1, 2022 at 6:12 AM Jose Quaresma <quaresma.jose@gmail.com> wrote:
->
-> Fix out of memory [1]
->
-> OpenSSL host verification + hostname in certificate CN only seems broken in 7.82.0
->
-> [1] https://github.com/curl/curl/issues/8559
->
-> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-> ---
->  ...0001-openssl-fix-CN-check-error-code.patch | 38 +++++++++++++++++++
->  meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
->  2 files changed, 39 insertions(+)
->  create mode 100644 meta/recipes-support/curl/curl/0001-openssl-fix-CN-check-error-code.patch
->
-> diff --git a/meta/recipes-support/curl/curl/0001-openssl-fix-CN-check-error-code.patch b/meta/recipes-support/curl/curl/0001-openssl-fix-CN-check-error-code.patch
-> new file mode 100644
-> index 0000000000..c5aa8f2d60
-> --- /dev/null
-> +++ b/meta/recipes-support/curl/curl/0001-openssl-fix-CN-check-error-code.patch
-> @@ -0,0 +1,38 @@
-> +From 0677924c6ec7e0d68964553fb760f6d407242c54 Mon Sep 17 00:00:00 2001
-> +From: Daniel Stenberg <daniel@haxx.se>
-> +Date: Tue, 8 Mar 2022 13:38:13 +0100
-> +Subject: [PATCH] openssl: fix CN check error code
-> +
-> +Due to a missing 'else' this returns error too easily.
-> +
-> +Regressed in: d15692ebb
-> +
-> +Reported-by: Kristoffer Gleditsch
-> +Fixes #8559
-> +Closes #8560
-> +
-> +Upstream-Status: Backported [https://github.com/curl/curl/commit/911714d617c106ed5d553bf003e34ec94ab6a136]
+This addresses a long standing gap in the core offering:
+there is no tooling to capture the currently configured layers
+with their revisions, or restore the layers from a configuration
+file (without using external tools, some of which aren't particularly
+suitable for the task). This plugin addresses the gap.
 
-Should be Backport, not Backported!  The latter will get you an error:
+How to use:
 
-ERROR: curl-7.82.0-r0 do_patch: Malformed Upstream-Status in patch
+1. Saving a layer configuration:
 
-No need to re-submit, I've fixed it!
+a) Command line options:
 
-Steve
+alex@Zen2:/srv/work/alex/poky/build-layersetup$ bitbake-layers create-layers-setup -h
+NOTE: Starting bitbake server...
+usage: bitbake-layers create-layers-setup [-h] [--output OUTPUT] [--format {python,json,kas}] destdir
 
-> +
-> +Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-> +
-> +---
-> + lib/vtls/openssl.c | 3 ++-
-> + 1 file changed, 2 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/lib/vtls/openssl.c b/lib/vtls/openssl.c
-> +index 616a510..1bafe96 100644
-> +--- a/lib/vtls/openssl.c
-> ++++ b/lib/vtls/openssl.c
-> +@@ -1808,7 +1808,8 @@ CURLcode Curl_ossl_verifyhost(struct Curl_easy *data, struct connectdata *conn,
-> +               memcpy(peer_CN, ASN1_STRING_get0_data(tmp), peerlen);
-> +               peer_CN[peerlen] = '\0';
-> +             }
-> +-            result = CURLE_OUT_OF_MEMORY;
-> ++            else
-> ++              result = CURLE_OUT_OF_MEMORY;
-> +           }
-> +         }
-> +         else /* not a UTF8 name */
-> +--
-> +2.34.1
-> +
-> diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-> index ba3fd11820..d5dfe62a39 100644
-> --- a/meta/recipes-support/curl/curl_7.82.0.bb
-> +++ b/meta/recipes-support/curl/curl_7.82.0.bb
-> @@ -23,6 +23,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
->             file://CVE-2022-27779.patch \
->             file://CVE-2022-27782-1.patch \
->             file://CVE-2022-27782-2.patch \
-> +           file://0001-openssl-fix-CN-check-error-code.patch \
->             "
->  SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
->
-> --
-> 2.37.0
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#167535): https://lists.openembedded.org/g/openembedded-core/message/167535
-> Mute This Topic: https://lists.openembedded.org/mt/92113235/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+ Writes out a python script/kas config/json config that replicates the directory structure and revisions of the layers in a current build.
+
+positional arguments:
+  destdir               Directory where to write the output
+                        (if it is inside one of the layers, the layer becomes a bootstrap repository and thus will be excluded from fetching by the script).
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --output OUTPUT, -o OUTPUT
+                        File name where to write the output, if the default (setup-layers.py/.json/.yml) is undesirable.
+  --format {python,json,kas}, -f {python,json,kas}
+                        Format of the output. The options are:
+                        	python - a self contained python script that fetches all the needed layers and sets them to correct revisions (default, recommended)
+                        	kas - a configuration file for the kas tool that allows the tool to do the same
+                        	json - a json formatted file containing all the needed metadata to do the same by any external or custom tool.
+
+b) Running with default choices:
+
+alex@Zen2:/srv/work/alex/poky/build-layersetup$ bitbake-layers create-layers-setup ../../meta-alex/
+NOTE: Starting bitbake server...
+NOTE: Created /srv/work/alex/meta-alex/setup-layers.py
+
+2. Restoring the layers from the saved configuration:
+
+a) Clone meta-alex separately, as a bootstrap layer/repository. It should already contain setup-layers.py created in the previous step.
+
+b) Command line options:
+
+alex@Zen2:/srv/work/alex/layers-test/meta-alex$ ./setup-layers.py -h
+usage: setup-layers.py [-h] [--force-meta-alex-checkout] [--choose-poky-remote {origin,poky-contrib}] [--destdir DESTDIR]
+
+A self contained python script that fetches all the needed layers and sets them to correct revisions
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --force-meta-alex-checkout
+                        Force the checkout of the bootstrap layer meta-alex (by default it is presumed that this script is in it, and so the layer is already in place).
+  --choose-poky-remote {origin,poky-contrib}
+                        Choose a remote server for layer poky (default: origin)
+  --destdir DESTDIR     Where to check out the layers (default is /srv/work/alex/layers-test).
+
+c) Running with default options:
+
+alex@Zen2:/srv/work/alex/layers-test/meta-alex$ ./setup-layers.py
+Note: not checking out layer meta-alex, use --force-meta-alex-checkout to override.
+Checking out layer meta-intel, revision 15.0-hardknott-3.3-310-g0a96edae, branch master from remote origin at git://git.yoctoproject.org/meta-intel
+Running 'git clone -q git://git.yoctoproject.org/meta-intel meta-intel' in /srv/work/alex/layers-test
+Running 'git checkout -q 0a96edae609a3f48befac36af82cf1eed6786b4a' in /srv/work/alex/layers-test/meta-intel
+Note: multiple remotes defined for layer poky, using origin (run with -h to see others).
+Checking out layer poky, revision 4.1_M1-295-g6850b29806, branch akanavin/setup-layers from remote origin at git://git.yoctoproject.org/poky
+Running 'git clone -q git://git.yoctoproject.org/poky poky' in /srv/work/alex/layers-test
+Running 'git checkout -q 4cc94de99230201c3c39b924219113157ff47006' in /srv/work/alex/layers-test/poky
+
+And that's it!
+
+FIXMEs:
+- kas config writer not yet implemented
+- oe-selftest test cases not yet written
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/lib/bblayers/makesetup.py                | 117 ++++++++++++++++++
+ .../templates/setup-layers.py.template        |  77 ++++++++++++
+ 2 files changed, 194 insertions(+)
+ create mode 100644 meta/lib/bblayers/makesetup.py
+ create mode 100644 meta/lib/bblayers/templates/setup-layers.py.template
+
+diff --git a/meta/lib/bblayers/makesetup.py b/meta/lib/bblayers/makesetup.py
+new file mode 100644
+index 0000000000..3c86eea3c4
+--- /dev/null
++++ b/meta/lib/bblayers/makesetup.py
+@@ -0,0 +1,117 @@
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
++import logging
++import os
++import stat
++import sys
++import shutil
++import json
++
++import bb.utils
++import bb.process
++
++from bblayers.common import LayerPlugin
++
++logger = logging.getLogger('bitbake-layers')
++
++sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
++
++import oe.buildcfg
++
++def plugin_init(plugins):
++    return MakeSetupPlugin()
++
++class MakeSetupPlugin(LayerPlugin):
++
++    def _write_python(self, repos, output):
++        with open(os.path.join(os.path.dirname(__file__), "templates", "setup-layers.py.template")) as f:
++            template = f.read()
++        args = sys.argv
++        args[0] = os.path.basename(args[0])
++        script = template.replace('{cmdline}', " ".join(args)).replace('{layerdata}', json.dumps(repos, sort_keys=True, indent=4))
++        with open(output, 'w') as f:
++            f.write(script)
++        st = os.stat(output)
++        os.chmod(output, st.st_mode | stat.S_IEXEC | stat.S_IXGRP | stat.S_IXOTH)
++
++    def _write_json(self, repos, output):
++        with open(output, 'w') as f:
++            json.dump(repos, f, sort_keys=True, indent=4)
++
++    def _write_kas(self, repos, output):
++        raise NotImplementedError('Kas config writer not implemented yet')
++
++    _write_config = {"python":_write_python, "json":_write_json, "kas":_write_kas}
++    _output_filename = {"python":"setup-layers.py","json":"setup-layers.json","kas":"setup-layers.kas.yaml"}
++
++    def _get_repo_path(self, layer_path):
++        repo_path, _ = bb.process.run('git rev-parse --show-toplevel', cwd=layer_path)
++        return repo_path.strip()
++
++    def _get_remotes(self, repo_path):
++        remotes = []
++        remotes_list,_ = bb.process.run('git remote', cwd=repo_path)
++        for r in remotes_list.split():
++            uri,_ = bb.process.run('git remote get-url {r}'.format(r=r), cwd=repo_path)
++            remotes.append({'name':r,'uri':uri.strip()})
++        return remotes
++
++    def _get_describe(self, repo_path):
++        try:
++            describe,_ = bb.process.run('git describe --tags', cwd=repo_path)
++        except bb.process.ExecutionError:
++            return ""
++        return describe.strip()
++
++    def _make_repo_config(self, destdir):
++        repos = {}
++        layers = oe.buildcfg.get_layer_revisions(self.tinfoil.config_data)
++        for l in layers:
++            if l[1] == 'workspace':
++                continue
++            if l[4]:
++                logger.error("Layer {name} in {path} has uncommitted modifications or is not in a git repository.".format(name=l[1],path=l[0]))
++                return
++            repo_path = self._get_repo_path(l[0])
++            if repo_path not in repos.keys():
++                repos[repo_path] = {'rev':l[3], 'branch':l[2], 'remotes':self._get_remotes(repo_path), 'layers':[], 'describe':self._get_describe(repo_path)}
++                if not repos[repo_path]['remotes']:
++                    logger.error("Layer repository in {path} does not have any remotes configured. Please add at least one with 'git remote add'.".format(path=repo_path))
++                    return
++                if repo_path in os.path.abspath(destdir):
++                    repos[repo_path]['is_bootstrap'] = True
++            repos[repo_path]['layers'].append({'name':l[1],'path':l[0].replace(repo_path,'')[1:]})
++
++        repo_dirs = set([os.path.dirname(p) for p in repos.keys()])
++        if len(repo_dirs) > 1:
++            logger.error("Layer repositories are not all in the same parent directory: {repo_dirs}. They need to be relocated into the same directory.".format(repo_dirs=repo_dirs))
++            return
++
++        repos_nopaths = {}
++        for r in repos.keys():
++            r_nopath = os.path.basename(r)
++            repos_nopaths[r_nopath] = repos[r]
++        return repos_nopaths
++
++    def do_make_setup(self, args):
++        """ Writes out a python script/kas config/json config that replicates the directory structure and revisions of the layers in a current build. """
++        repos = self._make_repo_config(args.destdir)
++        if not repos:
++            return
++        output = args.output
++        if not output:
++            output = self._output_filename[args.format]
++        output = os.path.join(os.path.abspath(args.destdir),output)
++        self._write_config[args.format](self, repos, output)
++        logger.info('Created {}'.format(output))
++
++    def register_commands(self, sp):
++        parser_setup_layers = self.add_command(sp, 'create-layers-setup', self.do_make_setup, parserecipes=False)
++        parser_setup_layers.add_argument('destdir',
++            help='Directory where to write the output\n(if it is inside one of the layers, the layer becomes a bootstrap repository and thus will be excluded from fetching by the script).')
++        parser_setup_layers.add_argument('--output', '-o',
++            help='File name where to write the output, if the default (setup-layers.py/.json/.yml) is undesirable.')
++        parser_setup_layers.add_argument('--format', '-f', choices=['python', 'json', 'kas'], default='python',
++            help='Format of the output. The options are:\n\tpython - a self contained python script that fetches all the needed layers and sets them to correct revisions (default, recommended)\n\tkas - a configuration file for the kas tool that allows the tool to do the same\n\tjson - a json formatted file containing all the needed metadata to do the same by any external or custom tool.')
+diff --git a/meta/lib/bblayers/templates/setup-layers.py.template b/meta/lib/bblayers/templates/setup-layers.py.template
+new file mode 100644
+index 0000000000..a704ad3d70
+--- /dev/null
++++ b/meta/lib/bblayers/templates/setup-layers.py.template
+@@ -0,0 +1,77 @@
++#!/usr/bin/env python3
++#
++# This file was generated by running
++#
++# {cmdline}
++#
++# It is recommended that you do not modify it directly, but rather re-run the above command.
++#
++
++layerdata = """
++{layerdata}
++"""
++
++import argparse
++import json
++import os
++import subprocess
++
++def _do_checkout(args):
++    for l_name in layers:
++        l_data = layers[l_name]
++        if 'is_bootstrap' in l_data.keys():
++            force_arg = 'force_{}_checkout'.format(l_name.replace('-','_'))
++            if not args[force_arg]:
++                print('Note: not checking out layer {layer}, use {layerflag} to override.'.format(layer=l_name, layerflag='--force-{}-checkout'.format(l_name)))
++                continue
++        rev = l_data['rev']
++        desc = l_data['describe']
++        if not desc:
++            desc = rev[:10]
++        branch = l_data['branch']
++        remotes = l_data['remotes']
++        remote = remotes[0]
++        if len(remotes) > 1:
++            remotechoice = args['choose_{}_remote'.format(l_name.replace('-','_'))]
++            for r in remotes:
++                if r['name'] == remotechoice:
++                    remote = r
++                    print('Note: multiple remotes defined for layer {}, using {} (run with -h to see others).'.format(l_name, r['name']))
++        print('Checking out layer {}, revision {}, branch {} from remote {} at {}'.format(l_name, desc, branch, remote['name'], remote['uri']))
++        cmd = 'git clone -q {} {}'.format(remote['uri'], l_name)
++        cwd = args['destdir']
++        print("Running '{}' in {}".format(cmd, cwd))
++        subprocess.check_output(cmd, text=True, shell=True, cwd=cwd)
++        cmd = 'git checkout -q {}'.format(rev)
++        cwd = os.path.join(args['destdir'], l_name)
++        print("Running '{}' in {}".format(cmd, cwd))
++        subprocess.check_output(cmd, text=True, shell=True, cwd=cwd)
++
++layers = json.loads(layerdata)
++parser = argparse.ArgumentParser(description='A self contained python script that fetches all the needed layers and sets them to correct revisions')
++
++bootstraplayer = None
++for l in layers:
++    if 'is_bootstrap' in layers[l]:
++        bootstraplayer = l
++
++if bootstraplayer:
++    parser.add_argument('--force-{bootstraplayer}-checkout'.format(bootstraplayer=bootstraplayer), action='store_true',
++        help='Force the checkout of the bootstrap layer {bootstraplayer} (by default it is presumed that this script is in it, and so the layer is already in place).'.format(bootstraplayer=bootstraplayer))
++
++for l in layers:
++    remotes = layers[l]['remotes']
++    if len(remotes) > 1:
++        parser.add_argument('--choose-{multipleremoteslayer}-remote'.format(multipleremoteslayer=l),choices=[r['name'] for r in remotes], default=remotes[0]['name'],
++            help='Choose a remote server for layer {multipleremoteslayer} (default: {defaultremote})'.format(multipleremoteslayer=l, defaultremote=remotes[0]['name']))
++
++try:
++    defaultdest = os.path.dirname(subprocess.check_output('git rev-parse --show-toplevel', text=True, shell=True, cwd=os.path.dirname(__file__)))
++except subprocess.CalledProcessError as e:
++    defaultdest = os.path.abspath(".")
++
++parser.add_argument('--destdir', default=defaultdest, help='Where to check out the layers (default is {defaultdest}).'.format(defaultdest=defaultdest))
++
++args = parser.parse_args()
++
++_do_checkout(vars(args))
+-- 
+2.30.2
+
 
