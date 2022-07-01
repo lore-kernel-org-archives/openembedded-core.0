@@ -1,153 +1,161 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF81BC433EF
-	for <webhook@archiver.kernel.org>; Fri,  1 Jul 2022 17:04:30 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web08.40955.1656695063436044730
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D879C433EF
+	for <webhook@archiver.kernel.org>; Fri,  1 Jul 2022 18:27:41 +0000 (UTC)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
+ [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web12.42130.1656700053372562868
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Jul 2022 10:04:23 -0700
+ Fri, 01 Jul 2022 11:27:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=H6pR4hxo;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id m184so1680549wme.1
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=jQvy8tPA;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.41,
+ mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f41.google.com with SMTP id cf14so3931643edb.8
         for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Jul 2022 10:04:23 -0700 (PDT)
+ Fri, 01 Jul 2022 11:27:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=lkX6tFxQN72MShWP9hqZUGW8BLj5tEgZ3EwFz2VW7UA=;
-        b=H6pR4hxoBIwCFrqu+xShHQpWYSAfuUXt+IilgAz2O0bodeP/0mKkywYRBUA4VuLy3o
-         TrCpHz5c5b0nhXtPjac44JpmVq9TP7HSIhS4In/AUmtwMCamaPy37Tz0gVybzs1niK23
-         pLbT+s52AdHQ/LAE0z3kyfM5FSoaRDouySnSo=
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8+/oTbGrvy9CZDAOT4+uNkJw+ZJmMMrapRdesYIRAAY=;
+        b=jQvy8tPAJL+FnSlCgsh5Mbos7yXnqTNl6i85X3R+JNg5WjER5rJQqIPOGu7DSWbdDY
+         9dvz5h2uAa5ws28UK6XKFwB4GKhpP0nUsH7q+BqpuzZuG3FepP3kbM4dK/FvWfNmqlM5
+         6ecvmnZexAuEUB9zn08rQFNe90ozKjZFmuV/Y3K1XQuzf59k5N/QENgbyeRJEj0NFMFA
+         9c2RQsJLfj4gJBfVSr10NoBFbNJgNvJvFQzee1MZ5uAkXcUsIKS2HCtXKpg0YiqRMB+w
+         Hh34YLzf8qEowSmr02bPxaT7GjnhB9sYEfWxgOVrsndes1suinMbCNPn+AMDUzDEOMgP
+         Jcxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=lkX6tFxQN72MShWP9hqZUGW8BLj5tEgZ3EwFz2VW7UA=;
-        b=ZWQwJv605thT9JGWWFkKZSnPgyXS+TdKa4qdCNpTcmYujeBStw998KG0VBaNkOFaqU
-         bSi+oEF13S3pPelf/ceg38Ya7+oJj6nVBsGU37cr9k+H6My2MmWfzppA9ahqVvs13pOA
-         r4TAzZqz5WjlmNNGpwjnyBVmFtOo8HhCPZwrI5BLbbDUygNK7dOpJczj5R1YoYYUXsz0
-         ctpiw8DiDUP2U89bqJOYIgqIxyPjTjuTthjVmYRuovHryh0vsmAlllsw8TSwaXRBxadE
-         p2dEv1UTmKWySFi3Jowc+zqn6FN1OsGZdc8jc8nqeVs/czyA104IAl2iLs2LTZmnA4q/
-         SwSg==
-X-Gm-Message-State: AJIora+WoCwcZxChY+dN/5XOWHSKVJdQW0NeGG+XFlP7IvpCJpwkdfDE
-	5H2HrgtOhEsaXmBOGrG7rGfjgA==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8+/oTbGrvy9CZDAOT4+uNkJw+ZJmMMrapRdesYIRAAY=;
+        b=hrsL8LV0e2iGWdVcjEBZxF5qatwPpb4xBhsxrACzSt+qZAjHR8QTqf4G0I/ToVsgcU
+         Ly5tOuIbsYFKzbglusO27VtiNzMR0H4aI0dUN4JWc2kp4R5a+soqNCdqz40mG4Gy4oJ/
+         pP4LjnvtU3nSO9CGug/+7iQ2oPP+pdFbApBkqPwXhg9mzv/WnopVozfx2Qdz8n8hItJ1
+         5aie9do8orgSL4PZD8w6FdGk3Pc2LoY8tzWX/4vH1jMWbiBYBPT1mjK02zMrXb8UyPQv
+         rs/w0DsLQODWievVRmvnMUgPayTCvB94G1wrFIAmEZGgUGBFFKR4eqWyMYWgwzPl0+nQ
+         xOPA==
+X-Gm-Message-State: AJIora9HcVRp94Ew+vq4PEk5jyUHC3SuV9Gf/heCMFUdAEjULmkyjcP5
+	uD60GcZO5pUFoFoe90MlCFOHJcO9do3yIn1HffTFYQ==
 X-Google-Smtp-Source: 
- AGRyM1v6wagIHz306nSXjbv7+zEwnzOSSZynOhgZ43K0kHStWwTieZkPFt/M2yfa+8fv4x8j3DNnBQ==
-X-Received: by 2002:a05:600c:4a09:b0:3a1:88f3:8ae9 with SMTP id
- c9-20020a05600c4a0900b003a188f38ae9mr6342247wmp.177.1656695061690;
-        Fri, 01 Jul 2022 10:04:21 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a49f:615b:a613:6a47?
- ([2001:8b0:aba:5f3c:a49f:615b:a613:6a47])
-        by smtp.gmail.com with ESMTPSA id
- u20-20020a05600c19d400b0039c4f53c4fdsm9279835wmq.45.2022.07.01.10.04.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Jul 2022 10:04:13 -0700 (PDT)
-Message-ID: 
- <591d5a5d5ac1e43e8595965f473c1b97a445086a.camel@linuxfoundation.org>
-Subject: Re: [OE-Core][master][kirkstone][PATCH] ruby: Add ruby-native
- dependency for nativesdk class
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ranjitsinh.rathod@kpit.com, openembedded-core@lists.openembedded.org
-Cc: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
-Date: Fri, 01 Jul 2022 18:04:12 +0100
-In-Reply-To: <20220629113459.8666-1-ranjitsinh.rathod@kpit.com>
-References: <20220629113459.8666-1-ranjitsinh.rathod@kpit.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ AGRyM1tWnXE2+Cp6q975rzO76GhujlLdbk+602v1BqDiRigugbHWkwkJUdxTy3kxVoQKSepUPjtKLU98NtM++lQZ4wA=
+X-Received: by 2002:a05:6402:698:b0:435:75d9:f94c with SMTP id
+ f24-20020a056402069800b0043575d9f94cmr21322310edy.330.1656700051530; Fri, 01
+ Jul 2022 11:27:31 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220701161205.112341-1-jose.quaresma@foundries.io>
+In-Reply-To: <20220701161205.112341-1-jose.quaresma@foundries.io>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 1 Jul 2022 08:27:20 -1000
+Message-ID: 
+ <CAOSpxdbq+CJE-k7dn1wBnd9ay-wD7-FdxMyMS5SXQVy=afdQCQ@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH] curl: backport openssl fix CN check
+ error code
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, ricardo@foundries.io,
+	daiane.angolini@foundries.io, Jose Quaresma <jose.quaresma@foundries.io>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Jul 2022 17:04:30 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Jul 2022 18:27:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167538
+ https://lists.openembedded.org/g/openembedded-core/message/167539
 
-On Wed, 2022-06-29 at 17:04 +0530, Ranjitsinh Rathod via
-lists.openembedded.org wrote:
-> We need to add ruby-native dependency for nativesdk class too
-> to fix the compilation issue
-
-This commit message is backwards. There is no nativesdk BBCLASSEXTEND
-for ruby so you can't need the ruby-native dependency for it.
-
-> Earlier this dependency is part of DEPENDS variable but the below
-> commit removes it from DEPENDS and add only for
-> DEPENDS_append_class-target which triggers the failure in
-> nativesdk-ruby:do_compile task
-> Link: https://git.yoctoproject.org/poky/commit/?h=3Ddunfell&id=3D6060b500=
-b952754c595fdf5de5de35c886e0e1d5
-
-No, that commit didn't break anything since there isn't a BBCLASSEXTEND
-here. There is also no mention in your patch that you're adding it?
-
-You need to say why we need a BBCLASSEXTEND here. The DEPENDS change
-would logically follow from that.
-
-Cheers,
-
-Richard
-
->=20
-> Signed-off-by: Ranjitsinh Rathod <ranjitsinh.rathod@kpit.com>
-> Signed-off-by: Ranjitsinh Rathod <ranjitsinhrathod1991@gmail.com>
+On Fri, Jul 1, 2022 at 6:12 AM Jose Quaresma <quaresma.jose@gmail.com> wrote:
+>
+> Fix out of memory [1]
+>
+> OpenSSL host verification + hostname in certificate CN only seems broken in 7.82.0
+>
+> [1] https://github.com/curl/curl/issues/8559
+>
+> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 > ---
->  meta/recipes-devtools/ruby/ruby.inc      | 1 +
->  meta/recipes-devtools/ruby/ruby_3.1.2.bb | 2 +-
->  2 files changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/=
-ruby/ruby.inc
-> index ebff5efd1f..efa40331e0 100644
-> --- a/meta/recipes-devtools/ruby/ruby.inc
-> +++ b/meta/recipes-devtools/ruby/ruby.inc
-> @@ -15,6 +15,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D5b8c87559868=
-796979806100db3f3805 \
->=20
->  DEPENDS =3D "zlib openssl libyaml gdbm readline libffi"
->  DEPENDS:append:class-target =3D " ruby-native"
-> +DEPENDS:append:class-nativesdk =3D " ruby-native"
->=20
->  SHRT_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
->  SRC_URI =3D "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.=
-tar.gz \
-> diff --git a/meta/recipes-devtools/ruby/ruby_3.1.2.bb b/meta/recipes-devt=
-ools/ruby/ruby_3.1.2.bb
-> index 38ba46731b..a9e6765939 100644
-> --- a/meta/recipes-devtools/ruby/ruby_3.1.2.bb
-> +++ b/meta/recipes-devtools/ruby/ruby_3.1.2.bb
-> @@ -104,4 +104,4 @@ FILES:${PN}-ptest:append:class-target =3D "\
->      ${libdir}/ruby/${SHRT_VER}.0/*/-test- \
->  "
->=20
-> -BBCLASSEXTEND =3D "native"
-> +BBCLASSEXTEND =3D "native nativesdk"
-> --
-> 2.17.1
->=20
-> This message contains information that may be privileged or confidential =
-and is the property of the KPIT Technologies Ltd. It is intended only for t=
-he person to whom it is addressed. If you are not the intended recipient, y=
-ou are not authorized to read, print, retain copy, disseminate, distribute,=
- or use this message or any part thereof. If you receive this message in er=
-ror, please notify the sender immediately and delete all copies of this mes=
-sage. KPIT Technologies Ltd. does not accept any liability for virus infect=
-ed mails.
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#167373): https://lists.openembedded.org/g/openembedde=
-d-core/message/167373
-> Mute This Topic: https://lists.openembedded.org/mt/92062913/1686473
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ri=
-chard.purdie@linuxfoundation.org]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+>  ...0001-openssl-fix-CN-check-error-code.patch | 38 +++++++++++++++++++
+>  meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
+>  2 files changed, 39 insertions(+)
+>  create mode 100644 meta/recipes-support/curl/curl/0001-openssl-fix-CN-check-error-code.patch
+>
+> diff --git a/meta/recipes-support/curl/curl/0001-openssl-fix-CN-check-error-code.patch b/meta/recipes-support/curl/curl/0001-openssl-fix-CN-check-error-code.patch
+> new file mode 100644
+> index 0000000000..c5aa8f2d60
+> --- /dev/null
+> +++ b/meta/recipes-support/curl/curl/0001-openssl-fix-CN-check-error-code.patch
+> @@ -0,0 +1,38 @@
+> +From 0677924c6ec7e0d68964553fb760f6d407242c54 Mon Sep 17 00:00:00 2001
+> +From: Daniel Stenberg <daniel@haxx.se>
+> +Date: Tue, 8 Mar 2022 13:38:13 +0100
+> +Subject: [PATCH] openssl: fix CN check error code
+> +
+> +Due to a missing 'else' this returns error too easily.
+> +
+> +Regressed in: d15692ebb
+> +
+> +Reported-by: Kristoffer Gleditsch
+> +Fixes #8559
+> +Closes #8560
+> +
+> +Upstream-Status: Backported [https://github.com/curl/curl/commit/911714d617c106ed5d553bf003e34ec94ab6a136]
 
+Should be Backport, not Backported!  The latter will get you an error:
+
+ERROR: curl-7.82.0-r0 do_patch: Malformed Upstream-Status in patch
+
+No need to re-submit, I've fixed it!
+
+Steve
+
+> +
+> +Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> +
+> +---
+> + lib/vtls/openssl.c | 3 ++-
+> + 1 file changed, 2 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/lib/vtls/openssl.c b/lib/vtls/openssl.c
+> +index 616a510..1bafe96 100644
+> +--- a/lib/vtls/openssl.c
+> ++++ b/lib/vtls/openssl.c
+> +@@ -1808,7 +1808,8 @@ CURLcode Curl_ossl_verifyhost(struct Curl_easy *data, struct connectdata *conn,
+> +               memcpy(peer_CN, ASN1_STRING_get0_data(tmp), peerlen);
+> +               peer_CN[peerlen] = '\0';
+> +             }
+> +-            result = CURLE_OUT_OF_MEMORY;
+> ++            else
+> ++              result = CURLE_OUT_OF_MEMORY;
+> +           }
+> +         }
+> +         else /* not a UTF8 name */
+> +--
+> +2.34.1
+> +
+> diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
+> index ba3fd11820..d5dfe62a39 100644
+> --- a/meta/recipes-support/curl/curl_7.82.0.bb
+> +++ b/meta/recipes-support/curl/curl_7.82.0.bb
+> @@ -23,6 +23,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
+>             file://CVE-2022-27779.patch \
+>             file://CVE-2022-27782-1.patch \
+>             file://CVE-2022-27782-2.patch \
+> +           file://0001-openssl-fix-CN-check-error-code.patch \
+>             "
+>  SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
+>
+> --
+> 2.37.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#167535): https://lists.openembedded.org/g/openembedded-core/message/167535
+> Mute This Topic: https://lists.openembedded.org/mt/92113235/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
