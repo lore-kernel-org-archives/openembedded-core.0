@@ -2,62 +2,59 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1A12C43334
-	for <webhook@archiver.kernel.org>; Sat,  2 Jul 2022 12:33:16 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.49723.1656765187154800993
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A964C43334
+	for <webhook@archiver.kernel.org>; Sat,  2 Jul 2022 12:41:37 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web12.49775.1656765687890323731
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 Jul 2022 05:33:07 -0700
+ Sat, 02 Jul 2022 05:41:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZeWg4kYu;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dm0daUXz;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id i25so6727021wrc.13
+Received: by mail-wr1-f45.google.com with SMTP id b26so6814228wrc.2
         for <openembedded-core@lists.openembedded.org>;
- Sat, 02 Jul 2022 05:33:06 -0700 (PDT)
+ Sat, 02 Jul 2022 05:41:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=L3Tse9uOc0nbsk9RL90M93mqbDu3/JXcGcGqjKZ3ILI=;
-        b=ZeWg4kYuPXrx2kLErANzYfRKk5tkevhHjhfJ4wxV8xB2h3p7zJmuldy69lK8Q0T5wL
-         MSup57zXHZL2GtWiE5GOk8YUkhhsUIuv+4cmPc5pySOzEI6fzaNBkQ303eGiP1DIluRU
-         TKMpC15RfMlLKs7RiubGRUILCfb/uBUsdhOUE=
+        h=message-id:subject:from:to:date:content-transfer-encoding
+         :user-agent:mime-version;
+        bh=vuEPWVKAduTd8ysy6+EoiiG6/U9VCRZJVT0cGNU37Vo=;
+        b=dm0daUXzOYh4hYAxFoiHJ2iDuwlR52LyvYICFYLZrRMh1tdg3HTJC3DejipiU4J4zF
+         DrPPXmEwjHjZQGqsx+ZOlvdlxcVjXQ1RlsqSIo4TdNsNyLmbg7enAmeFoyNSOU9fTK01
+         fxyg0nZNuChZbbtqSV6i0mRWqPWX+RA/LGLdM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=L3Tse9uOc0nbsk9RL90M93mqbDu3/JXcGcGqjKZ3ILI=;
-        b=1AUuDHCRPq4ZM9kN/BW69vi/6WyMRCCCKyGH1bFIuHcOrfghIRMXpxLODb/e0uYccp
-         bK+K9yIE5WzkqfvTDGtw1UvlSfbEQTleDzmsM4adVPLVA90Z3AGHRjkPE5KZEyXwmbuj
-         EvVZ6DMFD9tkKL8oeSuitf2KP8MedKPv6W4/RkDeDY31m6EcSFSidjEHdocfr+DG6foW
-         70Pe/36QMt6j6CTmMInP8t0ZJ+zqwbB+n1jN8T/K1XJ6uCIEuvy712Q5L1Aa+gQgFSwU
-         SPrMTVPw5RrV8ylNtYVU4pvjjpEm2br/JRx9QQ03bVGlem94TgobhIG7i5IqzxGLjBwq
-         qM5w==
-X-Gm-Message-State: AJIora9o3yOAhLiJtyasmJ+zExDxRcr4Pf1oah1FCQ3Wejh9jRS2L/rC
-	B3u7wv2xqQioE+LXYtuxQ1/BLA==
+        h=x-gm-message-state:message-id:subject:from:to:date
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=vuEPWVKAduTd8ysy6+EoiiG6/U9VCRZJVT0cGNU37Vo=;
+        b=uuV85kGhSPFpBUD9IaPf/8IX2dXLjUReambSsHUJfcHFRq5APOhyQK1OCFiNFHLyD/
+         FXoFhT9D2QAT9NfonOILc+JTwuoBGpeNadtEyvqqIP5feQvDGpByBYMgGL6/JwQJfkkt
+         isAEq5QoqBImkwbPtkEJdCvWWNbVWK5kgcw03zeVctEPFZwsJfS4V039x2l+t1VGujS4
+         JRzIIlh57AOG5GhA3xRwmUIH9LmRTKk6ie7k7BwdxnrjtpsLqe0+YwjoHjB1VRy83uHv
+         +TlzfxMQlnKz0F2s3MlwfMtd3QLIvMycGho3TMM9+hHxhfUMH0CEyrn6Muu6oDMuBXsZ
+         ZFKg==
+X-Gm-Message-State: AJIora+UomwS55DxSUnXT7x7FJPUJ/ZuKQlkwW7cJQDfeYtkiNI19UpQ
+	VIAzDLgVIRh3reWLVlSg4lkYiI5R3uvpFg==
 X-Google-Smtp-Source: 
- AGRyM1vOcyvKJzLVFAEEQoTwXzNRdj9XWiiFZHlfutv9MAq/92184QPcsVBysxHm2OYdM/Qd4m5d9g==
-X-Received: by 2002:a05:6000:18ab:b0:21d:231e:8397 with SMTP id
- b11-20020a05600018ab00b0021d231e8397mr18756261wri.646.1656765185517;
-        Sat, 02 Jul 2022 05:33:05 -0700 (PDT)
+ AGRyM1t9XM47FjG+2+AWb0aepwMzD73xgGgW+T0pQGCNHfpJZxHg/yZSXsgtFxdQNEl6QbcicN8vaA==
+X-Received: by 2002:a05:6000:1542:b0:21d:28c0:eb43 with SMTP id
+ 2-20020a056000154200b0021d28c0eb43mr18375978wry.622.1656765685339;
+        Sat, 02 Jul 2022 05:41:25 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:3569:71aa:bd43:a6d5?
  ([2001:8b0:aba:5f3c:3569:71aa:bd43:a6d5])
         by smtp.gmail.com with ESMTPSA id
- g4-20020a5d6984000000b0021bbc5a26cfsm22139027wru.79.2022.07.02.05.33.04
+ z6-20020a05600c0a0600b0039c747a1e8fsm9972859wmp.7.2022.07.02.05.41.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Jul 2022 05:33:04 -0700 (PDT)
+        Sat, 02 Jul 2022 05:41:24 -0700 (PDT)
 Message-ID: 
- <dbb26d0b74ed65a993a72d33c6b8a9bfe667a2a5.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v2] curl: Update to 7.84.0
+ <c751cf96c88840dec4b77930ffa0c805c50a7f7b.camel@linuxfoundation.org>
+Subject: Build paths/reproduibility issues in master - help requested
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jose Quaresma <quaresma.jose@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Date: Sat, 02 Jul 2022 13:33:03 +0100
-In-Reply-To: <20220701141831.101998-1-jose.quaresma@foundries.io>
-References: <20220701141831.101998-1-jose.quaresma@foundries.io>
+To: openembedded-core <openembedded-core@lists.openembedded.org>, Bruce
+	Ashfield <bruce.ashfield@gmail.com>
+Date: Sat, 02 Jul 2022 13:41:24 +0100
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.1-0ubuntu1 
@@ -65,58 +62,68 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 02 Jul 2022 12:33:16 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 02 Jul 2022 12:41:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167549
+ https://lists.openembedded.org/g/openembedded-core/message/167550
 
-On Fri, 2022-07-01 at 15:18 +0100, Jose Quaresma wrote:
-> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-> ---
->  meta/recipes-support/curl/{curl_7.83.1.bb =3D> curl_7.84.0.bb} | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-support/curl/{curl_7.83.1.bb =3D> curl_7.84.0.bb} (9=
-7%)
->=20
-> diff --git a/meta/recipes-support/curl/curl_7.83.1.bb b/meta/recipes-supp=
-ort/curl/curl_7.84.0.bb
-> similarity index 97%
-> rename from meta/recipes-support/curl/curl_7.83.1.bb
-> rename to meta/recipes-support/curl/curl_7.84.0.bb
-> index 1d9de29a65..ade2846a64 100644
-> --- a/meta/recipes-support/curl/curl_7.83.1.bb
-> +++ b/meta/recipes-support/curl/curl_7.84.0.bb
-> @@ -10,7 +10,7 @@ LICENSE =3D "MIT-open-group"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D190c514872597083303371684954f=
-238"
-> =20
->  SRC_URI =3D "https://curl.se/download/${BP}.tar.xz"
-> -SRC_URI[sha256sum] =3D "2cb9c2356e7263a1272fd1435ef7cdebf2cd21400ec287b0=
-68396deb705c22c4"
-> +SRC_URI[sha256sum] =3D "2d118b43f547bfe5bae806d8d47b4e596ea5b25a6c1f080a=
-ef49fbcd817c5db8"
-> =20
->  # Curl has used many names over the years...
->  CVE_PRODUCT =3D "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:l=
-ibcurl daniel_stenberg:curl"
+Hi All,
 
-Fails on some platforms:
+I tried enabling buildpaths in WARN_QA on the autobuilder. This in
+theory should have built cleanly but it didn't as we don't test all the
+autobuilder configurations for reproducibility. I think this proves the
+value in enabling it however before we can there are a handful of
+issues we need to fix:
 
-| In file included from ../../curl-7.84.0/lib/easy.c:89:
-| ../../curl-7.84.0/lib/easy_lock.h: In function 'curl_simple_lock_lock':
-| ../../curl-7.84.0/lib/easy_lock.h:56:7: error: implicit declaration of fu=
-nction 'sched_yield' [-Werror=3Dimplicit-function-declaration]
-|    56 |       sched_yield();
-|       |       ^~~~~~~~~~~
+With oe-core (systemd enabled):
+stdio: WARNING: go-helloworld-0.1-r0 do_package_qa: QA Issue: File /usr/bin=
+/go-helloworld in package go-helloworld contains reference to TMPDIR [build=
+paths]
+stdio: WARNING: glibc-tests-2.35-r0 do_package_qa: QA Issue: File /usr/lib/=
+glibc-tests/ptest/tests/glibc-ptest/tst-timer4-time64 in package glibc-test=
+s contains reference to TMPDIR
+stdio: WARNING: systemd-1_251.2-r0 do_package_qa: QA Issue: File /usr/src/d=
+ebug/systemd/1_251.2-r0/build/src/login/logind-gperf.c in package systemd-s=
+rc contains reference to TMPDIR
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/5476/step=
-s/12/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/62/builds/5447/step=
-s/11/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/102/builds/3228/ste=
-ps/13/logs/stdio
+With docs enabled:
+stdio: WARNING: lib32-vala-0.56.1-r0 do_package_qa: QA Issue: File /usr/bin=
+/vapigen-wrapper in package lib32-vala contains reference to TMPDIR [buildp=
+aths]
+stdio: WARNING: rpm-1_4.17.0-r0 do_package_qa: QA Issue: File /usr/lib64/pk=
+gconfig/rpm.pc in package rpm-dev contains reference to TMPDIR [buildpaths]
+stdio: WARNING: lib32-gtk-doc-1.33.2-r0 do_package_qa: QA Issue: File /usr/=
+share/gtk-doc/python/gtkdoc/config_data.py in package lib32-gtk-doc contain=
+s reference to TMPDIR [buildpaths]
+stdio: WARNING: vala-0.56.1-r0 do_package_qa: QA Issue: File /usr/bin/vapig=
+en-wrapper in package vala contains reference to TMPDIR [buildpaths]
+stdio: WARNING: gtk-doc-1.33.2-r0 do_package_qa: QA Issue: File /usr/share/=
+gtk-doc/python/gtkdoc/config_data.py in package gtk-doc contains reference =
+to TMPDIR [buildpaths]
+
+meta-virt:
+stdio: WARNING: xen-tools-4.16+stableAUTOINC+f265444922-r0 do_package_qa: Q=
+A Issue: File /usr/lib/libxenlight.a in package xen-tools-staticdev contain=
+s reference to TMPDIR [buildpaths]
+stdio: WARNING: xen-tools-4.16+stableAUTOINC+f265444922-r0 do_package_qa: Q=
+A Issue: File /usr/src/debug/xen-tools/4.16+stableAUTOINC+f265444922-r0/git=
+/tools/libs/light/dsdt_pvh.c in package xen-tools-src contains reference to=
+ TMPDIR [buildpaths]
+stdio: WARNING: xen-tools-4.16+stableAUTOINC+f265444922-r0 do_package_qa: Q=
+A Issue: File /usr/lib/debug/usr/lib/xen/boot/xen-shim-syms in package xen-=
+tools-dbg contains reference to TMPDIR [buildpaths]
+stdio: WARNING: xen-tools-4.16+stableAUTOINC+f265444922-r0 do_package_qa: Q=
+A Issue: File /usr/lib/xen/boot/xen-shim in package xen-tools-shim contains=
+ reference to TMPDIR [buildpaths]
+stdio: WARNING: xen-tools-4.16+stableAUTOINC+f265444922-r0 do_package_qa: Q=
+A Issue: File /usr/lib/libxenlight.so.4.16.0 in package xen-tools-libxenlig=
+ht contains reference to TMPDIR [buildpaths]
+
+Help in resolving these would be much appreciated.
+
+I've further builds running to see if there are any further issues as
+the first build has issues with a fifo in psplash.
 
 Cheers,
 
 Richard
-
 
