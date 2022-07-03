@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7B40C433EF
-	for <webhook@archiver.kernel.org>; Sun,  3 Jul 2022 19:36:55 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web11.64005.1656877012656779331
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC1CDCCA473
+	for <webhook@archiver.kernel.org>; Sun,  3 Jul 2022 19:37:05 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.64007.1656877017462163598
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Jul 2022 12:36:52 -0700
+ Sun, 03 Jul 2022 12:36:57 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=OeNzPhuH;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173,
+ header.b=lZBTUHAN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id b2so6831260plx.7
+Received: by mail-pl1-f176.google.com with SMTP id m2so6849953plx.3
         for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Jul 2022 12:36:52 -0700 (PDT)
+ Sun, 03 Jul 2022 12:36:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=hOosUmVBZxbFO0laKqnxwyWxFa/DTCPE2w2tlClJDhM=;
-        b=OeNzPhuHzZtqI7al7oR7N4mzGfpL9aaPGlSC63L4jXMJQDVpcvjmWc734sMUhgOTNv
-         y5OJSaApF8BUmlEBWh3hqNXQh5wwDrxmIYJZ3Wqp4chJRJ72XqoWu/u5/iL2PmT8Jps1
-         RAriEuU7jhkAIfzYUAqd+Gjl79BkiUxgFIsYQvgj6hzPxfGoeycv19dp9vFGHClAR7oo
-         89JgNCX6EbKVFYgV1X7aB3QJmA2PseqwAEYPbsGkDfy2We3adLUAN+GDIZ5+uZoqhOlt
-         w09uzdrOFI7ijff0DYPK+Vv//7CCdF6em9GTtGxQBWETt854bSFY/AHQA//aCTOc1vxa
-         5Eag==
+        bh=tGTkJy+x/v9GfSDctTvInARDNXtdFutip6/TE+H+Lkg=;
+        b=lZBTUHANPjdP/ZwtnK3jvJNV7IWdDSATwmdH7BNJpa9e85BSY8+lOQAlAHXJEB6cKd
+         PjMslnWBjQ/JVI5eZQJ4znQEYfF1LnJ1wUukJut/EzANRpAFtOC5htxtQFuVA5Af7W5U
+         RTARAw59SJwcT3cH9BotwlRiTXngZkcHNflc2XUSRw+xalAuoN1j2kvYBHyHZ+1+t6Mh
+         71eVhjb2KT/5+OsTD818L4tPPVyY8lp2ar3eCJ6rjZJrA1GeodIfD3E4KD1CWn12yJ+9
+         p7wJhflbJqbM1KJfWW1h6e+XpG2YgXbxDvvEyQlFurccUgU9wjCsJlcZHzCRjFfq3F1d
+         wamg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hOosUmVBZxbFO0laKqnxwyWxFa/DTCPE2w2tlClJDhM=;
-        b=i1ucuX84aJo4noxwpPi2D+EiSMARX8Qxdpvp80Yr9cADwBGa6/cs6mrpl6uWLzQxAH
-         qpQ3eF9acj/fWA9JTHg6a4RfNn5oPITu7IUZG+4Vnn5ZaCKGR5keV7SQQ/9OMLD7eltb
-         JNhfXftVv+vtQGFTDsrjSVyeYtUqVOeQyFaTsrkFvmWD6jOYSBUNACarsjSIYbEp8JMv
-         7attzjr4k34/w+EaaIxTrGIu8+yqEX386QpRORCa0p2MGx4YXWJkc1femsrj/Hz09Jv3
-         vvPWivUp8lq6aO5vgJbwiKBQ/rP6prdtMeVveIjQA+kZJ+9GVggucNN/tbAy2rTJBVIz
-         jzwA==
-X-Gm-Message-State: AJIora8UVwOjSt2cd58naDjGWs0juEkhzFx1XrrQ+a+N2jwzQMoKkCNp
-	lrykZtVOicKMew0zzbcqICPq49YXBW2lUePS
+        bh=tGTkJy+x/v9GfSDctTvInARDNXtdFutip6/TE+H+Lkg=;
+        b=hh5JVhTICmuaMcBppZ3UzL7bIPO0g2cuep+1HE1l11PQVbDuZ1yuvU8+EH+H5qOqwr
+         xZ01W5JcxG998Daj9iS52vjqJXdnTTQZOIBjQqcfbBf02FNnxkeUWYawq46dlfkp1c8F
+         mzhRgis3fmRDJZbRNvFg67QxlsN4VZl7D25uYJm9wh6pyCMcL/aNNHz7MDjb0OGzOxVG
+         LOcyMCAdqcwE9qu4/zjU25yGctnHorvfDl1KMrwCSq8b8Bo/FPtI3uk6HOCv18+FZuc8
+         ou9IG86Y82zkUUR2ANSLU7iBSRrPzxXxvgp5bPqSB+kmWqfMzxA7kegf6Q8Nf9pXRJwQ
+         WEvA==
+X-Gm-Message-State: AJIora/2+kOnLByygm+8qfYGbNtRlmz3Nv0XZQqZNX+JZoRpYQX6l/LX
+	SEBEwMQQiWBu0Q7oNqUGNpjtLCPsU4vUNsvl
 X-Google-Smtp-Source: 
- AGRyM1t+XqN4+iJ2gqS9NolwxNsySXStsyVj8CwUou8P8I2ZGLwWeUBg+LEq3tY9okcp8QhRRXJF/w==
-X-Received: by 2002:a17:90b:1e42:b0:1ec:f362:8488 with SMTP id
- pi2-20020a17090b1e4200b001ecf3628488mr30950556pjb.32.1656877011656;
-        Sun, 03 Jul 2022 12:36:51 -0700 (PDT)
+ AGRyM1vFfLuTtMPwRZsMClJ7ETNxg0Mzcj6gqfRi1S/GyrbU6Sv74V8fqxGDOy4ypst2eVB1Q0+ZCw==
+X-Received: by 2002:a17:902:f710:b0:167:7a06:b2ce with SMTP id
+ h16-20020a170902f71000b001677a06b2cemr32707100plo.104.1656877016373;
+        Sun, 03 Jul 2022 12:36:56 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- d4-20020a170902654400b00168aed83c63sm19441739pln.237.2022.07.03.12.36.47
+ d4-20020a170902654400b00168aed83c63sm19441739pln.237.2022.07.03.12.36.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Jul 2022 12:36:49 -0700 (PDT)
+        Sun, 03 Jul 2022 12:36:54 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 08/30] wireless-regdb: upgrade 2022.04.08 ->
- 2022.06.06
-Date: Sun,  3 Jul 2022 09:35:43 -1000
+Subject: [OE-core][kirkstone 09/30] vim: 8.2.5083 -> 9.0.0005
+Date: Sun,  3 Jul 2022 09:35:44 -1000
 Message-Id: 
- <681df7c4a761cc92234baf08fbd3d82f83b4bf10.1656876825.git.steve@sakoman.com>
+ <a290032fe88b6bac5e789da20f88fd72febe1780.1656876825.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1656876825.git.steve@sakoman.com>
 References: <cover.1656876825.git.steve@sakoman.com>
@@ -68,38 +67,57 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 03 Jul 2022 19:36:55 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 03 Jul 2022 19:37:05 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167568
+ https://lists.openembedded.org/g/openembedded-core/message/167569
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+The license checksum changed due to a major version change in the referenced file.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4c27711292f93dfad1ffdeab6d715becad32a4ff)
+(cherry picked from commit 89f34d8aa4f4572d048dbb732ca4c83d443157fb)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...ireless-regdb_2022.04.08.bb => wireless-regdb_2022.06.06.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2022.04.08.bb => wireless-regdb_2022.06.06.bb} (94%)
+ .../vim/{vim-tiny_8.2.bb => vim-tiny_9.0.bb}                | 0
+ meta/recipes-support/vim/vim.inc                            | 6 +++---
+ meta/recipes-support/vim/{vim_8.2.bb => vim_9.0.bb}         | 0
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/vim/{vim-tiny_8.2.bb => vim-tiny_9.0.bb} (100%)
+ rename meta/recipes-support/vim/{vim_8.2.bb => vim_9.0.bb} (100%)
 
-diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.04.08.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.06.06.bb
-similarity index 94%
-rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.04.08.bb
-rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.06.06.bb
-index cd42039680..2eba4f873b 100644
---- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.04.08.bb
-+++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2022.06.06.bb
-@@ -5,7 +5,7 @@ LICENSE = "ISC"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
+diff --git a/meta/recipes-support/vim/vim-tiny_8.2.bb b/meta/recipes-support/vim/vim-tiny_9.0.bb
+similarity index 100%
+rename from meta/recipes-support/vim/vim-tiny_8.2.bb
+rename to meta/recipes-support/vim/vim-tiny_9.0.bb
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 06707dbe11..b85f34d6c8 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -11,7 +11,7 @@ RSUGGESTS:${PN} = "diffutils"
  
- SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
--SRC_URI[sha256sum] = "884ba2e3c1e8b98762b6dc25ff60b5ec75c8d33a39e019b3ed4aa615491460d3"
-+SRC_URI[sha256sum] = "ac00f97efecce5046ed069d1d93f3365fdf994c7c7854a8fc50831e959537230"
+ LICENSE = "Vim"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=6b30ea4fa660c483b619924bc709ef99 \
+-                    file://runtime/doc/uganda.txt;md5=daf48235bb824c77fe8ae88d5f575f74"
++                    file://runtime/doc/uganda.txt;md5=001ef779f422a0e9106d428c84495b4d"
  
- inherit bin_package allarch
+ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://disable_acl_header_check.patch \
+@@ -21,8 +21,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://racefix.patch \
+            "
  
+-PV .= ".5083"
+-SRCREV = "db77c49401145d76441fbb3d22a1d7d987681c13"
++PV .= ".0005"
++SRCREV = "040674129f3382822eeb7b590380efa5228124a8"
+ 
+ # Remove when 8.3 is out
+ UPSTREAM_VERSION_UNKNOWN = "1"
+diff --git a/meta/recipes-support/vim/vim_8.2.bb b/meta/recipes-support/vim/vim_9.0.bb
+similarity index 100%
+rename from meta/recipes-support/vim/vim_8.2.bb
+rename to meta/recipes-support/vim/vim_9.0.bb
 -- 
 2.25.1
 
