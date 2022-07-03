@@ -2,63 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D782BC43334
-	for <webhook@archiver.kernel.org>; Sun,  3 Jul 2022 19:37:25 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
- [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web11.64014.1656877042874667539
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB2ABC433EF
+	for <webhook@archiver.kernel.org>; Sun,  3 Jul 2022 19:37:35 +0000 (UTC)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web11.64016.1656877047420803404
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Jul 2022 12:37:23 -0700
+ Sun, 03 Jul 2022 12:37:27 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=Fsff1WxU;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.173,
+ header.b=lWt91nqy;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.41,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id d17so7175110pfq.9
+Received: by mail-pj1-f41.google.com with SMTP id
+ h9-20020a17090a648900b001ecb8596e43so7562394pjj.5
         for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Jul 2022 12:37:22 -0700 (PDT)
+ Sun, 03 Jul 2022 12:37:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=vpxF9p40a9HAlXH4ISFDanCcGk+nD4ibDLlybq152Wo=;
-        b=Fsff1WxU9jTNO1Zu/e6I+ZvDYG0IjMkDyBSHjOAmPbYyef7OE9riwBAMyqn9mrs0+t
-         5zqfv7ikm0EsN3o8hYMk4XvYX840WnVrf4tGPVKetcomv7ifXK4tcj91Gzb3HSxqpe0G
-         fodBYeE8PkrcqZyp6/qejkQi2n8F5xUfc2qOlnpuePWM1U8t29wA7IqGEWeinrWtgIJ0
-         H1dQU3cCZk950ruzMRRdjiThhYAxoj2Pm+qcsCc0eEHpWaONWotprZ8Am6WKIa8tflJq
-         jqaoosX5IsKxHH5MZDK7B8fY5KBCChHd2WIPEBoFXBML4ZnPjHYnH6NGGgaELn4EWHgZ
-         dqyw==
+        bh=+ugZPqvXV8XX0kujAQvijggAgBeXUQp7B36JuM0FxI0=;
+        b=lWt91nqy1d1gDDbClt7SmontPRBHLtYwtLzBAQ0lh4pr86fLd0Px+yZuIaEiWRor56
+         PIprLIBdYA0yBGuh5qikoQj8Zb4xcquyeYpjLr0KKmc4dSzZG4Cjdxti0IjR/M2UJgF1
+         7WkyNl0gr+CsKrn5sisACjeGC/KmwX90cWVr9u70ugNkeAJG8/OXh8nn+e1oR2Vn7iHL
+         XqajW9XgyAjS9v+qWuFL7H1e3UDcfpGJrSAzcdqsaTjV5FnMJ8nlHZV1Xsuy0KccEPfB
+         Un3Pth2ISsekoUbcLVlHVrpPAFlaqwIvPAMXlgwuBCvG80EKlsEjBxj6BW3xFieSUyY+
+         k9xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vpxF9p40a9HAlXH4ISFDanCcGk+nD4ibDLlybq152Wo=;
-        b=UyuN/IcuVwxrzAz17ZX+OVS/ZT8nw5hULuQxatU4YVlizX6+YdKKyKsaGoHBJc/77R
-         euC8xcAXAM3TSL3Gpyc7rmUe18BgMtYcIe+xmlUB1X+el0q9u94Z5yx9Y+EKzg8P9pbn
-         CmQ22twHeoDxFEXFbOE1xo7mVOoKDykoIk++qMGx3cemHa/n1QhHkrbtFYARRRiD/jNY
-         KSpi/yjfbi4/Ff3ApKY/sYvBePQc0XGge4coWXx4VcdEMlWuFpsP2S8gflzdAeDek18e
-         xFfaR8cUUdWhn3cI3+s22ODIskj9D9HrCjFLPgJId7msvTxmIBrv0+JpprDyOqepvDWO
-         C1XQ==
-X-Gm-Message-State: AJIora/irpRjeq7VQWwCdtqS0TyedlWWz9R0XK37MU36gVv2SPD8NxU7
-	cp/apeOty0r+Iuqyt0l2mZujq4E0LsooASNO
+        bh=+ugZPqvXV8XX0kujAQvijggAgBeXUQp7B36JuM0FxI0=;
+        b=OJv0FJY2UIJLeTeH2rB5h8CF0DSVboQkVK6qdeUnpSpRSIc0/3A1bLua1DsEdkIujH
+         nY4xWUzibj1Lm0rqyIhW7YfXHM3t1jQUx877tEbpIWgT9mN2CthtK9qEHu/BTH/f83LX
+         DB33fDRi8HBtXAx4I5RSuRhNolLlR94Gce3rq3V2Gpmn+Po3LWq1KJCTKKVs1lz1Vgqa
+         QFoW6uQ2CaOBB6fxs5FeTjx9vDsh3QwfICBerR4CQrIzDUuaNrxiJZpW2kucJEJUBkiU
+         +UWEA797RzcPkq8j94D/zEfWN0mn/R0RPwcyJYLqdeIWYJ2xM2wBU1aEDnzHv/aZsYkN
+         wF/g==
+X-Gm-Message-State: AJIora+ozVcLF2y7jN0OVHorABS5YwtKDcCUfzVyY48jGRRW6IPOtCgU
+	zDI4eO2sC7ewnTO/RHJ6ZZTKo3sWep7qrmxn
 X-Google-Smtp-Source: 
- AGRyM1sMSNdqa2HkJlGrlkDqV5O/pf1KTsrjm1swOwPnXMzvZbJgieL4rlhqkvwQdcDPennBOAapPQ==
-X-Received: by 2002:a63:8441:0:b0:40d:34a3:b7ce with SMTP id
- k62-20020a638441000000b0040d34a3b7cemr22601807pgd.292.1656877041835;
-        Sun, 03 Jul 2022 12:37:21 -0700 (PDT)
+ AGRyM1vpF6muWqljw193/tyiFM5SsD3vAizBdd9lmpIgch/q1ilSsBQxv8r9i0mJdcgqL2ztEgz+gQ==
+X-Received: by 2002:a17:903:453:b0:16b:ce52:f610 with SMTP id
+ iw19-20020a170903045300b0016bce52f610mr9465046plb.25.1656877046392;
+        Sun, 03 Jul 2022 12:37:26 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- d4-20020a170902654400b00168aed83c63sm19441739pln.237.2022.07.03.12.37.14
+ d4-20020a170902654400b00168aed83c63sm19441739pln.237.2022.07.03.12.37.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Jul 2022 12:37:18 -0700 (PDT)
+        Sun, 03 Jul 2022 12:37:23 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 13/30] wic: fix WicError message
-Date: Sun,  3 Jul 2022 09:35:48 -1000
+Subject: [OE-core][kirkstone 14/30] perf: sort-pmuevents: really keep array
+ terminators
+Date: Sun,  3 Jul 2022 09:35:49 -1000
 Message-Id: 
- <772c9f66633e85c5059670d328e1b5fad407457f.1656876825.git.steve@sakoman.com>
+ <70d4a09c1f9fada1a02cf7b3886ffaf39d1b9baf.1656876825.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1656876825.git.steve@sakoman.com>
 References: <cover.1656876825.git.steve@sakoman.com>
@@ -67,42 +69,48 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 03 Jul 2022 19:37:25 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 03 Jul 2022 19:37:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167573
+ https://lists.openembedded.org/g/openembedded-core/message/167574
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Lucas Stach <l.stach@pengutronix.de>
 
-* add missing % to print the values instead of:
-  | INFO: Build artifacts not found, exiting.
-  | INFO:   (Please check that the build artifacts for the machine
-  | INFO:    selected in local.conf actually exist and that they
-  | INFO:    are the correct artifacts for the image (.wks file)).
-  |
-  | ERROR: ("The artifact that couldn't be found was %s:\n  %s", 'kernel-dir', '/OE/build/deploy/images/qemux86-64')
+Commit e1382583cd50 ("perf: sort-pmuevents: don't drop elements") tried
+to fix a case where the array terminator elements were dropped from the
+sorted list breaking the build, but it only worked for the case where
+the terminator is the only element of the array. When the array has other
+elements the terminator will still be silently dropped, causing invalid
+memory accesses at runtime when the perf utility iterates over the array.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Fix this by treating any unmatched entry as an array terminator and also
+add a comment to make it a little more clear how things are ending up at
+the right position in the sorted list.
+
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e104c2b1273d8c5bd97893f318bf2a2699ef7f2d)
+(cherry picked from commit 69c35a48c5100b884f1b633142b07222b9390e92)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/wic | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-kernel/perf/perf/sort-pmuevents.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/wic b/scripts/wic
-index aee63a45aa..06e0b48db0 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -209,7 +209,7 @@ def wic_create_subcommand(options, usage_str):
-             logger.info("  (Please check that the build artifacts for the machine")
-             logger.info("   selected in local.conf actually exist and that they")
-             logger.info("   are the correct artifacts for the image (.wks file)).\n")
--            raise WicError("The artifact that couldn't be found was %s:\n  %s", not_found, not_found_dir)
-+            raise WicError("The artifact that couldn't be found was %s:\n  %s" % (not_found, not_found_dir))
+diff --git a/meta/recipes-kernel/perf/perf/sort-pmuevents.py b/meta/recipes-kernel/perf/perf/sort-pmuevents.py
+index 09ba3328a7..0362f2d8fa 100755
+--- a/meta/recipes-kernel/perf/perf/sort-pmuevents.py
++++ b/meta/recipes-kernel/perf/perf/sort-pmuevents.py
+@@ -62,7 +62,10 @@ for struct in re.findall( struct_block_regex, data ):
+             #print( "    name found: %s" % name.group(1) )
+             entry_dict[struct[2]]['fields'][name.group(1)] = entry
  
-     krootfs_dir = options.rootfs_dir
-     if krootfs_dir is None:
+-        if not entry_dict[struct[2]]['fields']:
++        # unmatched entries are most likely array terminators and
++        # should end up as the last element in the sorted list, which
++        # is achieved by using '0' as the key
++        if not cpuid and not name:
+             entry_dict[struct[2]]['fields']['0'] = entry
+ 
+ # created ordered dictionaries from the captured values. These are ordered by
 -- 
 2.25.1
 
