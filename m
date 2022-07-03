@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB6F9C43334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB724CCA473
 	for <webhook@archiver.kernel.org>; Sun,  3 Jul 2022 19:36:45 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
- [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web11.63999.1656876996006810935
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web09.64582.1656876999617003520
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Jul 2022 12:36:36 -0700
+ Sun, 03 Jul 2022 12:36:39 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=y7A+ugAE;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180,
+ header.b=rRwMLLLp;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id e132so7122187pgc.5
+Received: by mail-pf1-f179.google.com with SMTP id a15so7163398pfv.13
         for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Jul 2022 12:36:35 -0700 (PDT)
+ Sun, 03 Jul 2022 12:36:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=g6ZgzLjRBlK54iWYMa1JOrAJAzzqf2uHuO9wbSa0oE4=;
-        b=y7A+ugAEX4BA8zuGyMzQGkbtS7hrL8cdE9C/W8KFGqbcbontbTuCNSOdb/n4lPveMq
-         9KenYNJjalS0SVo1ZLv88kxbjvL2NlqnT8ACl9uPYlM7fGIUg72RNbpqsD83LOub+rZp
-         /Vt2TipyJDU08IlRxWEQEP/gU3RvPcddER9Sq7uNN37RmM8e3Vz/yrP/9dRr/XSOnsB1
-         mTEesOX4pwLzuWiLAArZIIsH2iON6UnO0RMwUriiBAoWxtI8urE+P5XmlE/m0oBfVuGk
-         SEphVzVaRV2bJGbxe1qPBEpwSq0TGyHRXbIUTt0A9O6myAANvu28t7Y4Q/GJCNgjj4hj
-         +LhA==
+        bh=7TF3c6xrkMpiSXmgSTabxuU+FWDdz7T6ny93UN95McU=;
+        b=rRwMLLLpzVxYorQ771epD1olm2FtqkFPucjSX+JTkkULEa+yPw4pySKjMuiiGbyQ6J
+         rQUXsbY385kXvL1SSXNJB9djMFXklewOeebW/6ZM3d9Hxa4Nv9mQ/mlnI+1h/DnMZhGx
+         Wge965ACOAU1YC/m241Ap+OkVFNsGoCdPmvW2RcJX0Q8UynzYJDcxm2EEdZ3tL5XbuSs
+         1B7T5QvOq/E9o3b1wF5xOzVkIzQPbZjJlM2I7m6hbrOUnmcxaDk4KdPAJR/R09cBJlG4
+         1sbLkXhD4HDdQbc7qtkPfyYripjdPzl3xgJ/AyVhHVtclfrOEe2sbZ9BIXmdl4LdSHYw
+         Ic5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=g6ZgzLjRBlK54iWYMa1JOrAJAzzqf2uHuO9wbSa0oE4=;
-        b=l1prQkWJeALZspF2SHIigaKqLTsry3oc88YBbpR1hZZ8aQTLPxBv4bBekmuenvlEhd
-         5u5ItcynWQZTI7meoNYip665BsWQdEihzpNB0pbWwry48WqEIsnf5LHIfMp8qCAPueRE
-         /aT2GKwx4jP+tiKBDK9MidIB7fZZpL0EPt+O4Tk/3z4wQuRBSeOXMrRhRAej93kZfyzT
-         vaUaTsKIdZljXIdP0ukUg9iVzsjOL14Lg3eCxq35ebRtXLMl1N0D8jnkQ1SJ3/ddoDWa
-         /8b+58TUIq1h5kOB1BRQCFDDrP/OwSypN61BKCZ6AT8ra9sosFZrscNpqwP+eB4DtSj0
-         UvKg==
-X-Gm-Message-State: AJIora+419CCF+MDuiuwENg8ZUDK4QXVeJ1MhM63YaA9OA+erxGj2mPJ
-	8vl4pR4qFJAteBcBh5InLRr4zJ6W37X5I6z0
+        bh=7TF3c6xrkMpiSXmgSTabxuU+FWDdz7T6ny93UN95McU=;
+        b=eCTSWKuYD+/Jmcr9PCSzjNkKDocT1gLpedUOns/84gLDT8uRfQef7wYSoQLfG/PIeD
+         JiMyaCemPKa3ZmZx7zY8fUy/MKxCZ+AKC8egtJv+Qj8vXcTMd2wxHP856JahyhZluON9
+         raFADd7RivzhaQ4FnGr7eD1szKp2sTZGskp3QFY4Y57nFXKP9dMea3Fdws3t5eCAtL+T
+         fcyjwTplwb4f74kzIpAhOZzLJYqxUV2bua8JLR551XoGWy1bnsos68xeRKIZhn+1lFew
+         dfoIuZ6hMhKES38RcXy9M1KjEkQmCIYYgSeaJwBfPZGhNs4uIUm/hdxPu67kAxvBDMM3
+         fChw==
+X-Gm-Message-State: AJIora/jlbIRgMJ3dQfSrCWO+O2TPIZerVDYWumKOhSoXX3ZZhcqe5Xp
+	s56nhbjWB5Rm9q4qMsNHHVP/Jvh1QocHJFQm
 X-Google-Smtp-Source: 
- AGRyM1v3OUakWpAI2P4zM8UgPzmhoOMdha27+nYRr+uoB6bXcOOTkAfdpemO881dihyYGRJasZYRDg==
-X-Received: by 2002:a05:6a00:893:b0:528:646f:528a with SMTP id
- q19-20020a056a00089300b00528646f528amr2815489pfj.21.1656876994941;
-        Sun, 03 Jul 2022 12:36:34 -0700 (PDT)
+ AGRyM1vYVHbYYkVxv96CbRFI74xu8pwMNqe01FCRmim9AnzjoPRmn4TuRSo0Dw81tobeyPVat5xDtw==
+X-Received: by 2002:a05:6a00:1491:b0:528:1aa1:743c with SMTP id
+ v17-20020a056a00149100b005281aa1743cmr18977471pfu.84.1656876998491;
+        Sun, 03 Jul 2022 12:36:38 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- d4-20020a170902654400b00168aed83c63sm19441739pln.237.2022.07.03.12.36.32
+ d4-20020a170902654400b00168aed83c63sm19441739pln.237.2022.07.03.12.36.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Jul 2022 12:36:33 -0700 (PDT)
+        Sun, 03 Jul 2022 12:36:37 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 04/30] cups: ignore CVE-2022-26691
-Date: Sun,  3 Jul 2022 09:35:39 -1000
+Subject: [OE-core][kirkstone 05/30] busybox: fix CVE-2022-30065
+Date: Sun,  3 Jul 2022 09:35:40 -1000
 Message-Id: 
- <8eb224d3160e8483c2bc6ffa207a2b6fc8644c6f.1656876825.git.steve@sakoman.com>
+ <aacc1091d8d17b817c6ad1108d9ab44b234bc08e.1656876825.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1656876825.git.steve@sakoman.com>
 References: <cover.1656876825.git.steve@sakoman.com>
@@ -69,33 +69,67 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 03 Jul 2022 19:36:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167564
+ https://lists.openembedded.org/g/openembedded-core/message/167565
 
 From: Ross Burton <ross.burton@arm.com>
 
-This is fixed in 2.4.2, which we have, but the complex CPE in that CVE
-isn't parsed by cve-check correctly so it thinks that we're vulnerable.
-
 Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b40dd920f8b40eabe78db363249257818c63c074)
+(cherry picked from commit bf3d981b0303eab91d4cb19092ac27b489c8ad27)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/cups/cups.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ .../busybox/busybox/CVE-2022-30065.patch      | 29 +++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.35.0.bb   |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2022-30065.patch
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index 8f2ad8a009..4592980766 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -26,6 +26,8 @@ CVE_CHECK_IGNORE += "CVE-2008-1033"
- CVE_CHECK_IGNORE += "CVE-2009-0032"
- # This is an Ubuntu only issue.
- CVE_CHECK_IGNORE += "CVE-2018-6553"
-+# This is fixed in 2.4.2 but the cve-check class still reports it
-+CVE_CHECK_IGNORE += "CVE-2022-26691"
- 
- LEAD_SONAME = "libcupsdriver.so"
+diff --git a/meta/recipes-core/busybox/busybox/CVE-2022-30065.patch b/meta/recipes-core/busybox/busybox/CVE-2022-30065.patch
+new file mode 100644
+index 0000000000..25ad653b25
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/CVE-2022-30065.patch
+@@ -0,0 +1,29 @@
++Fix use-after-free in awk.
++
++CVE: CVE-2022-30065
++Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2022-June/089768.html]
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++fixes https://bugs.busybox.net/show_bug.cgi?id=14781
++
++Signed-off-by: Natanael Copa <ncopa at alpinelinux.org>
++---
++ editors/awk.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/editors/awk.c b/editors/awk.c
++index 079d0bde5..728ee8685 100644
++--- a/editors/awk.c
+++++ b/editors/awk.c
++@@ -3128,6 +3128,9 @@ static var *evaluate(node *op, var *res)
++ 
++ 		case XC( OC_MOVE ):
++ 			debug_printf_eval("MOVE\n");
+++			/* make sure that we never return a temp var */
+++			if (L.v == TMPVAR0)
+++				L.v = res;
++ 			/* if source is a temporary string, jusk relink it to dest */
++ 			if (R.v == TMPVAR1
++ 			 && !(R.v->type & VF_NUMBER)
++-- 
++2.36.1
+diff --git a/meta/recipes-core/busybox/busybox_1.35.0.bb b/meta/recipes-core/busybox/busybox_1.35.0.bb
+index f2f1b35902..edf896485e 100644
+--- a/meta/recipes-core/busybox/busybox_1.35.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.35.0.bb
+@@ -49,6 +49,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch \
+            file://0001-libbb-sockaddr2str-ensure-only-printable-characters-.patch \
+            file://0002-nslookup-sanitize-all-printed-strings-with-printable.patch \
++           file://CVE-2022-30065.patch \
+            "
+ SRC_URI:append:libc-musl = " file://musl.cfg "
  
 -- 
 2.25.1
