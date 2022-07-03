@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB724CCA473
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1C5DC3F2D4
 	for <webhook@archiver.kernel.org>; Sun,  3 Jul 2022 19:36:45 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web09.64582.1656876999617003520
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web12.64394.1656877003457662009
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Jul 2022 12:36:39 -0700
+ Sun, 03 Jul 2022 12:36:43 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=rRwMLLLp;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.179,
+ header.b=zu4Ow74D;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.182,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id a15so7163398pfv.13
+Received: by mail-pl1-f182.google.com with SMTP id 5so960567plk.9
         for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Jul 2022 12:36:39 -0700 (PDT)
+ Sun, 03 Jul 2022 12:36:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=7TF3c6xrkMpiSXmgSTabxuU+FWDdz7T6ny93UN95McU=;
-        b=rRwMLLLpzVxYorQ771epD1olm2FtqkFPucjSX+JTkkULEa+yPw4pySKjMuiiGbyQ6J
-         rQUXsbY385kXvL1SSXNJB9djMFXklewOeebW/6ZM3d9Hxa4Nv9mQ/mlnI+1h/DnMZhGx
-         Wge965ACOAU1YC/m241Ap+OkVFNsGoCdPmvW2RcJX0Q8UynzYJDcxm2EEdZ3tL5XbuSs
-         1B7T5QvOq/E9o3b1wF5xOzVkIzQPbZjJlM2I7m6hbrOUnmcxaDk4KdPAJR/R09cBJlG4
-         1sbLkXhD4HDdQbc7qtkPfyYripjdPzl3xgJ/AyVhHVtclfrOEe2sbZ9BIXmdl4LdSHYw
-         Ic5A==
+        bh=LnnBk7L6z45t8aTRRBnqzXg2OPzv3ec56uaT/1D2DpE=;
+        b=zu4Ow74DWT2WIUnxREvAe2LoaK9zt/87wK7aElpOKGEJd1ku3fAu95Wka/CP96oriX
+         fiHemwrVKH/xSnTGRBDOfOeOPCNUOkLOaf5Nl16uC31JeDOm1fX+LyAHB+N6/B2EQzTt
+         bQCyZQErdGmK7kS1wZBNfVcnRmHL/nbRN0DO6DzBJIe8ozjHAqgm49wR9QIPHVADqPGw
+         3BfyhUlRv6N7mDgbxC52V8vEvXV/P/SjCpRWs50PXPquqiLhM1yYWKAL8ngCkReNl6YT
+         0lUno81IsrID0OvdVGrVlHamBinA+zh3VaZij90bifP8hAC9cPS7g2FnWNO08s7Mex/X
+         oB9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=7TF3c6xrkMpiSXmgSTabxuU+FWDdz7T6ny93UN95McU=;
-        b=eCTSWKuYD+/Jmcr9PCSzjNkKDocT1gLpedUOns/84gLDT8uRfQef7wYSoQLfG/PIeD
-         JiMyaCemPKa3ZmZx7zY8fUy/MKxCZ+AKC8egtJv+Qj8vXcTMd2wxHP856JahyhZluON9
-         raFADd7RivzhaQ4FnGr7eD1szKp2sTZGskp3QFY4Y57nFXKP9dMea3Fdws3t5eCAtL+T
-         fcyjwTplwb4f74kzIpAhOZzLJYqxUV2bua8JLR551XoGWy1bnsos68xeRKIZhn+1lFew
-         dfoIuZ6hMhKES38RcXy9M1KjEkQmCIYYgSeaJwBfPZGhNs4uIUm/hdxPu67kAxvBDMM3
-         fChw==
-X-Gm-Message-State: AJIora/jlbIRgMJ3dQfSrCWO+O2TPIZerVDYWumKOhSoXX3ZZhcqe5Xp
-	s56nhbjWB5Rm9q4qMsNHHVP/Jvh1QocHJFQm
+        bh=LnnBk7L6z45t8aTRRBnqzXg2OPzv3ec56uaT/1D2DpE=;
+        b=NlokZW7CagjDapk5VuL7Yjlx5y78i9Tjp2/W7QihxL6Bbaqav0BZCHFGe3cEQKNvSO
+         cwStBjxMBUAlTbi3pVvHmqBaZ2eu3teJ2KQefWyxT2K4LFqN7fSUtEfdnWPCy/nbK/j6
+         4JrT/aRXBLnWMtAbjvlgLgAU2QRL5EFxNLDyV14pA7HHVXV/Ywehfv5pp6wLz6HSDZop
+         YdADlu7aoBl7oe/l8c4xobKJN5xzvYb3xbajUbeM0oCM4un5wbE/CRmM/6ED2p02E+Cn
+         /NwWjvcZpJcq2q9DI0y/f8OMMrXyut8SJ2lSIpr8r8cSwEXrqECyvD06Q3CyuFWkxI8w
+         Fpqg==
+X-Gm-Message-State: AJIora+UlSVwHm+nSpd4RU+bMojY0i/IY21HSsmABqEj8TjnI4HHWw7X
+	Pw6yX+I4BhhWTP9kAGgCi7WMAq0HlXWYXFi/
 X-Google-Smtp-Source: 
- AGRyM1vYVHbYYkVxv96CbRFI74xu8pwMNqe01FCRmim9AnzjoPRmn4TuRSo0Dw81tobeyPVat5xDtw==
-X-Received: by 2002:a05:6a00:1491:b0:528:1aa1:743c with SMTP id
- v17-20020a056a00149100b005281aa1743cmr18977471pfu.84.1656876998491;
-        Sun, 03 Jul 2022 12:36:38 -0700 (PDT)
+ AGRyM1sfmPDI9tZoGs1PkYgZ51wFwOMmOMpORNxg5vTBT7fUp3CgjTTyOg23oaylx5O3oINEYO6qqw==
+X-Received: by 2002:a17:903:185:b0:16a:6113:c01 with SMTP id
+ z5-20020a170903018500b0016a61130c01mr33767306plg.113.1656877002429;
+        Sun, 03 Jul 2022 12:36:42 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- d4-20020a170902654400b00168aed83c63sm19441739pln.237.2022.07.03.12.36.35
+ d4-20020a170902654400b00168aed83c63sm19441739pln.237.2022.07.03.12.36.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Jul 2022 12:36:37 -0700 (PDT)
+        Sun, 03 Jul 2022 12:36:40 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 05/30] busybox: fix CVE-2022-30065
-Date: Sun,  3 Jul 2022 09:35:40 -1000
+Subject: [OE-core][kirkstone 06/30] cve-extra-exclusions: Clean up and ignore
+ three CVEs (2xqemu and nasm)
+Date: Sun,  3 Jul 2022 09:35:41 -1000
 Message-Id: 
- <aacc1091d8d17b817c6ad1108d9ab44b234bc08e.1656876825.git.steve@sakoman.com>
+ <94fad58c6f10d0dfc42be816b0a7f6b108bd03e6.1656876825.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1656876825.git.steve@sakoman.com>
 References: <cover.1656876825.git.steve@sakoman.com>
@@ -69,67 +70,65 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 03 Jul 2022 19:36:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167565
+ https://lists.openembedded.org/g/openembedded-core/message/167566
 
-From: Ross Burton <ross.burton@arm.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Remove obsolete comments/data from the file. Add in three CVEs to ignore.
+Two are qemu CVEs which upstream aren't particularly intersted in and aren't
+serious issues. Also ignore the nasm CVE found from fuzzing as this isn't
+a issue we'd expose from OE.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit bf3d981b0303eab91d4cb19092ac27b489c8ad27)
+(cherry picked from commit 68291026aab2fa6ee1260ca95198dd1d568521e5)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../busybox/busybox/CVE-2022-30065.patch      | 29 +++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.35.0.bb   |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2022-30065.patch
+ .../distro/include/cve-extra-exclusions.inc   | 30 +++++++++----------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox/CVE-2022-30065.patch b/meta/recipes-core/busybox/busybox/CVE-2022-30065.patch
-new file mode 100644
-index 0000000000..25ad653b25
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/CVE-2022-30065.patch
-@@ -0,0 +1,29 @@
-+Fix use-after-free in awk.
+diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/conf/distro/include/cve-extra-exclusions.inc
+index 993ee2811a..8b5f8d49b8 100644
+--- a/meta/conf/distro/include/cve-extra-exclusions.inc
++++ b/meta/conf/distro/include/cve-extra-exclusions.inc
+@@ -90,24 +90,24 @@ CVE_CHECK_IGNORE += "CVE-2022-0185 CVE-2022-0264 CVE-2022-0286 CVE-2022-0330 CVE
+                      CVE-2022-28356 CVE-2022-28388 CVE-2022-28389 CVE-2022-28390 CVE-2022-28796 CVE-2022-28893 CVE-2022-29156 \
+                      CVE-2022-29582 CVE-2022-29968"
+ 
+-#### CPE update pending ####
+-
+-# groff:groff-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0803
+-# Appears it was fixed in https://git.savannah.gnu.org/cgit/groff.git/commit/?id=07f95f1674217275ed4612f1dcaa95a88435c6a7
+-# so from 1.17 onwards. Reported to the database for update by RP 2021/5/9. Update accepted 2021/5/10.
+-#CVE_CHECK_IGNORE += "CVE-2000-0803"
+-
+-
+-
+-#### Upstream still working on ####
+ 
+ # qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255
+ # There was a proposed patch https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg06098.html
+-# however qemu maintainers are sure the patch is incorrect and should not be applied.
+-
+-# wget https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-31879
+-# https://mail.gnu.org/archive/html/bug-wget/2021-02/msg00002.html
+-# No response upstream as of 2021/5/12
++# qemu maintainers say the patch is incorrect and should not be applied
++# Ignore from OE's perspectivee as the issue is of low impact, at worst sitting in an infinite loop rather than exploitable
++CVE_CHECK_IGNORE += "CVE-2021-20255"
 +
-+CVE: CVE-2022-30065
-+Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2022-June/089768.html]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
++# qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067
++# There was a proposed patch but rejected by upstream qemu. It is unclear if the issue can
++# still be reproduced or where exactly any bug is.
++# Ignore from OE's perspective as we'll pick up any fix when upstream accepts one.
++CVE_CHECK_IGNORE += "CVE-2019-12067"
 +
-+fixes https://bugs.busybox.net/show_bug.cgi?id=14781
-+
-+Signed-off-by: Natanael Copa <ncopa at alpinelinux.org>
-+---
-+ editors/awk.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/editors/awk.c b/editors/awk.c
-+index 079d0bde5..728ee8685 100644
-+--- a/editors/awk.c
-++++ b/editors/awk.c
-+@@ -3128,6 +3128,9 @@ static var *evaluate(node *op, var *res)
-+ 
-+ 		case XC( OC_MOVE ):
-+ 			debug_printf_eval("MOVE\n");
-++			/* make sure that we never return a temp var */
-++			if (L.v == TMPVAR0)
-++				L.v = res;
-+ 			/* if source is a temporary string, jusk relink it to dest */
-+ 			if (R.v == TMPVAR1
-+ 			 && !(R.v->type & VF_NUMBER)
-+-- 
-+2.36.1
-diff --git a/meta/recipes-core/busybox/busybox_1.35.0.bb b/meta/recipes-core/busybox/busybox_1.35.0.bb
-index f2f1b35902..edf896485e 100644
---- a/meta/recipes-core/busybox/busybox_1.35.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.35.0.bb
-@@ -49,6 +49,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch \
-            file://0001-libbb-sockaddr2str-ensure-only-printable-characters-.patch \
-            file://0002-nslookup-sanitize-all-printed-strings-with-printable.patch \
-+           file://CVE-2022-30065.patch \
-            "
- SRC_URI:append:libc-musl = " file://musl.cfg "
++# nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974
++# It is a fuzzing related buffer overflow. It is of low impact since most devices
++# wouldn't expose an assembler. The upstream is inactive and there is little to be
++# done about the bug, ignore from an OE perspective.
++CVE_CHECK_IGNORE += "CVE-2020-18974"
+ 
+ 
  
 -- 
 2.25.1
