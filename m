@@ -1,109 +1,83 @@
-Return-Path: <ptsneves@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A876CCCA47C
-	for <webhook@archiver.kernel.org>; Sun,  3 Jul 2022 11:41:23 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.59408.1656848479893451363
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA31EC43334
+	for <webhook@archiver.kernel.org>; Sun,  3 Jul 2022 12:02:53 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web12.59931.1656849767959640611
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Jul 2022 04:41:20 -0700
+ Sun, 03 Jul 2022 05:02:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jEeK0fV6;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: ptsneves@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id b26so9533575wrc.2
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=pn7lbRMf;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id l6so6240686plg.11
         for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Jul 2022 04:41:19 -0700 (PDT)
+ Sun, 03 Jul 2022 05:02:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cGjGdklO9Lbkk8DxIJtghinkYm/LJU76LJ20ywNVTCo=;
-        b=jEeK0fV66kk/I0BIyu0qdB0Id3WQFR75tmuaI35uyCFDIuGBAeDDYQa+yLopBO0czw
-         6LPmyyKDjjpyLIHX5AP0Me7/v39CbhF84F207kqRUwwAJveV1S8dL/sCUhfLFrSmUDAc
-         NQzacZiN0subRVHuLdVHBp/vszwVDfX15h2ydbVc46eGYz2b12bWQupp2KB8HjDHU+9s
-         hUWYYITkA4pvAnFijNKePuc8cy6MczKeglEBx5S0WI05MS7cWKBByOiEXV2LpJqhCPbZ
-         N/nUwEHJkA1DmW1DUfUIERSBtPc2brp8AZEgNcdjEuKxaNgeIb+T6s4AEVg/aFF972gk
-         qINg==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:from:to:message-id:date;
+        bh=9K9w47Q99HQCqYk/RWTSujyfLZRI9vDUjwYh+QzsEV0=;
+        b=pn7lbRMfCK4Ftdh+1x8bupKBPv8e8KOenNE7EhRviq00AC1B6upA5F9IUfWq/psMRY
+         vWStCO9xUXZCOztMYVfx1mrypSM2QMgVsEfukn4MnWIPH2MgNDldfWQKd9Bof8WfnsYM
+         4xhnH1koP2+89rFXdMt+RwESj/q6K4HqdYvEy/IQ1Z4Pwf2SiVpQYgtkQPKvJ143EwqZ
+         +hxMvyr5BqyC+oDY01d6w3lKW04gcxpYo5L7GoAy7GcBQEqkCqBQZg58yE202C79LdCQ
+         FFxfvqOs7e4tTrcsQldfbZrXK8KbL9exHVJIqtiw33ahzi6wA3nnfpwFd4+W0FTzphXN
+         UqAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cGjGdklO9Lbkk8DxIJtghinkYm/LJU76LJ20ywNVTCo=;
-        b=mKLIrMTo9pd7BEWC/GRvfddMjGK4y7H7/EwCkzrgDhEeLVR2xA2mpds/0/XHgHYrzi
-         PN8wmzGfEltffqKYE6gDFJfQBqTGbADgiC/Zip05ZY+c80wWPFDFwPgOLJqzfWK5TuLl
-         f/2Ruf6wTt/AzAT2y7A/E/oFtbPosjoOCiVXSg5RwK5XbjHRMh2FL+/CuMATdWdBkRKg
-         ToA6SSKbqKwdbk92GbXkzX2OD+68Uh1Q/ZZPaDRfYwfZoJCcRDZCofLJajNZxllRQKrU
-         zo7Lqh8gBqM11Qbf6sM8mc0kIIH3jG9F06vBwO//q2TEq2dWs9R9IqVrFJzwjHcANHRL
-         oz1A==
-X-Gm-Message-State: AJIora9HpeyELWnwV0PijauJ/51oLcs2qoIKUEao6Y2WelnYvk1QkfWM
-	O6nFiLwjHJiJysnKeDU5TpQyl9BVpwNL
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=9K9w47Q99HQCqYk/RWTSujyfLZRI9vDUjwYh+QzsEV0=;
+        b=Ul7taFtJtrqSNzaHgShRb7HBbBqdyMQFFPh+gL86yDZinf0GYnwmNOKdnikQYxECXj
+         g4Tw9AswdujcdiwO9tsDRMTDOP0rjVD729DUil2MFfJf6fkkQbcARs0nqyBYhQ6IzNKC
+         STp9baKoksObQ+HqBcTRbANFewE4yn1UyWoxYagun0M6OLY+xOJ1WKZUuAU/MJAskmnw
+         xB+PFCIq0Lf4FYXPDWkbqiIhTgDznFHC01eC0XZAJ5cyf4eMiSWj6y2u0/c+dcZpuQVS
+         iQKBx0Ji/5KLxTVKucyuz4C/8sehLwCJtVQO5PRCFYv8Zsnxy3nagfGrXKD6L+GFjkor
+         7GyQ==
+X-Gm-Message-State: AJIora8X/pP/sRyB+NlOqy3yNinxsSJ5uj32yWwVUmqpJJV9avm1TLvN
+	wivPYRqtr0RcOqGoP8k6umYuDuV51nKyOrvK
 X-Google-Smtp-Source: 
- AGRyM1sXEZP/v0OFlrKR/7zIuBqr4QwEmyHBnwE2UwdU6EiQWPn45p6b6zkujRcRHnXvQmP0KolZVg==
-X-Received: by 2002:a5d:4d02:0:b0:21d:31c5:ed18 with SMTP id
- z2-20020a5d4d02000000b0021d31c5ed18mr20661302wrt.673.1656848478306;
-        Sun, 03 Jul 2022 04:41:18 -0700 (PDT)
-Received: from localhost.localdomain (83.11.75.211.ipv4.supernova.orange.pl.
- [83.11.75.211])
+ AGRyM1tMtQ5cR/ukxQY3ZyQBGSR+oy3SQwAWbVf05XzriEoQTY7TL26wTUTBBphhewc0r3/j1flv5g==
+X-Received: by 2002:a17:902:7582:b0:16a:307a:5965 with SMTP id
+ j2-20020a170902758200b0016a307a5965mr30787149pll.159.1656849766768;
+        Sun, 03 Jul 2022 05:02:46 -0700 (PDT)
+Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
+ [66.91.142.162])
         by smtp.gmail.com with ESMTPSA id
- p28-20020a1c545c000000b003a02de5de80sm12413142wmi.4.2022.07.03.04.41.17
+ c8-20020a62e808000000b00525386c17bbsm18982787pfi.79.2022.07.03.05.02.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Jul 2022 04:41:17 -0700 (PDT)
-From: Paulo Neves <ptsneves@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Paulo Neves <ptsneves@gmail.com>
-Subject: [PATCH 1/3] utils: create_cmdline_shebang_wrapper whitespace and sed
- refactor
-Date: Sun,  3 Jul 2022 13:41:12 +0200
-Message-Id: <20220703114114.2313369-1-ptsneves@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 03 Jul 2022 05:02:45 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id AB4BD962530; Sun,  3 Jul 2022 02:02:43 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 03 Jul 2022 02:00:01 AM HST
+FROM: steve@sakoman.com
+To: 
+ <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20220703120243.AB4BD962530@nuc.router0800d9.com>
+Date: Sun,  3 Jul 2022 02:02:43 -1000 (HST)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 03 Jul 2022 11:41:23 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 03 Jul 2022 12:02:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167553
+ https://lists.openembedded.org/g/openembedded-core/message/167556
 
-Correct whitespace to match the rest of the code in utils.
-Refactored sed expression with a simpler equivalent.
+Branch: master
 
-Signed-off-by: Paulo Neves <ptsneves@gmail.com>
----
- meta/classes/utils.bbclass | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+New this week: 0 CVEs
 
-diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-index b617632d9f..b58c22771f 100644
---- a/meta/classes/utils.bbclass
-+++ b/meta/classes/utils.bbclass
-@@ -188,7 +188,7 @@ create_cmdline_shebang_wrapper () {
- 	# Create a wrapper script where commandline options are needed
- 	#
- 	# These are useful to work around shebang relocation issues, where shebangs are too
--  # long or have arguments in them, thus preventing them from using the /usr/bin/env
-+	# long or have arguments in them, thus preventing them from using the /usr/bin/env
- 	# shebang
- 	#
- 	# Usage: create_cmdline_wrapper FILENAME <extra-options>
-@@ -198,10 +198,10 @@ create_cmdline_shebang_wrapper () {
- 
- 	echo "Generating wrapper script for $cmd"
- 
--  # Strip #! and get remaining interpreter + arg
--  argument="$(basename "$(head -n1 $cmd | sed -e 's|#![ ]*||g' )")"
--  # strip the shebang from the real script as we do not want it to be usable anyway
--  tail -n +2 $cmd > $cmd.real
-+	# Strip #! and get remaining interpreter + arg
-+	argument="$(sed -ne 's/^#! *//p;q' $cmd)"
-+	# strip the shebang from the real script as we do not want it to be usable anyway
-+	tail -n +2 $cmd > $cmd.real
- 	cmdname=$(basename $cmd)
- 	dirname=$(dirname $cmd)
- 	cmdoptions=$@
--- 
-2.25.1
+Removed this week: 6 CVEs
+CVE-2019-12067 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
+CVE-2020-18974 (CVSS3: 3.3 LOW): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
+CVE-2021-20255 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
+CVE-2022-26691 (CVSS3: 6.7 MEDIUM): cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-26691 *
+CVE-2022-29458 (CVSS3: 7.1 HIGH): ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-29458 *
+CVE-2022-30065 (CVSS3: 7.8 HIGH): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-30065 *
+
+Full list:  Found 0 unpatched CVEs
 
 
