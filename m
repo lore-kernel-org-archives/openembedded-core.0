@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A60AC433EF
-	for <webhook@archiver.kernel.org>; Sun,  3 Jul 2022 19:36:26 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
- [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web11.63994.1656876984055619540
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD6E6CCA473
+	for <webhook@archiver.kernel.org>; Sun,  3 Jul 2022 19:36:35 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web09.64577.1656876987597484452
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Jul 2022 12:36:24 -0700
+ Sun, 03 Jul 2022 12:36:27 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=8FIXIU7+;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52,
+ header.b=DITqoqxn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.46,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id o15so2884233pjh.1
+Received: by mail-pj1-f46.google.com with SMTP id
+ h9-20020a17090a648900b001ecb8596e43so7560985pjj.5
         for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Jul 2022 12:36:24 -0700 (PDT)
+ Sun, 03 Jul 2022 12:36:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=QdGyJHuYju6tYqVzJtYtiahpMlu3fVWgYyw8TBmSkUM=;
-        b=8FIXIU7+8tlSnNK7mgAtf0l79CYPsNqx+TswMTaRlhdgj+/t8YD7mbS+bnJTgZXwsF
-         TG9ywCNiMnwfbEevMhc/s19QAWQjNe3W9uaxexwKBQWXfNiKtdMz+G1Z4DVI8xGpV80Z
-         zTVZJHXn8Qso5SYMXJ/+VK6XhPAHhjL8NjTew2w5hCHVB0dehc7mFuRA6sam2Gu+wIi0
-         xZ/EZyPP9ZxqDgQaxDJbUcJ1zMjULYaOgboGX2TWXQ95e54DhGJq2MsIBMOhcltUWhuc
-         680xsp/SId9DJaURhVFEmMagzEoBzyNi9BigukY/aELHwizf7ML94OUhZsG/xHlT50w8
-         aq/g==
+        bh=o34fG+NPXN0+GfpLzPo8UT3ICYNE5RuzcOPc4z9NdGs=;
+        b=DITqoqxn9e74uCi7HIE2aHnls1zCIxR0/j6C0ancdDTeZFiB0duNgzLB2o+ODt64Vs
+         OLehsqAQxoKSR7eiew7mIBAhg0Xgo/ka5K5wSz5On/Pq39g6LNpbNneoQM87tVimyZ0v
+         IQBUS/B5R4V2hq8/k2in3nJB1rHeyLBxBA2ytFsnfsD9Crownrm0SRQwDlp3kpso14fu
+         NFfpuxwWhgP9blda9MQzi6jgVzp1WH3f14iX/ninWvIaRtq0m0De0xeB09S3fz3Udujd
+         bMBi4NhuoS6wF/5sbMb9LTe8+k53e5jxl51LTYGPRpHKnGfZ4KOC1iXgBOUHqMtfzzKA
+         mtcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=QdGyJHuYju6tYqVzJtYtiahpMlu3fVWgYyw8TBmSkUM=;
-        b=WoorHsj/W+1X1mjkPq2ENKJKDq7C0PkbMcyKuq8MR6gvEu7i6Uf8Hq6jkF1zcCaM82
-         u61eC9hQmZBKRV1ci1XHj3DVA7QvCAFa2CS72X8prJ8uVu/g8sQJSxfILfA1DB+KrRn8
-         M0jTO1im9SIIU+He9BPHerdM3tgKZawMSTLdPlwj3mucmuULAUNA727bUHaOeOUkygAD
-         udlo758JyRFOQ6keTaKDLDtsACnrwFz7KzrNXL2JRkrl7cr7Hy1xbSKY/IMybFcEFHl7
-         htI75/SGHiMBvpvCODeFI8P/zpAREDkG6MIh8qhf85Wlshbm/eVFcTZPtXuWp9VR3LvC
-         qOVQ==
-X-Gm-Message-State: AJIora9/34H/e9rWqiqJcB4/jNBttWt1sDgx4aCk1peqR0VTl0++bhLC
-	GA2lT03D6D0NVGoa36iqHwmQRz554kYk5G8j
+        bh=o34fG+NPXN0+GfpLzPo8UT3ICYNE5RuzcOPc4z9NdGs=;
+        b=EintaE5VEdV5dicSd3RVC5Snlr8+VpIpOR7Hew7VFmSHrnY9WMR+BpCgdNwmk3Xu5S
+         484Nx+B3TS1KcZSZUlxomqjJRJMjDGOTW8wZMnHvGuHdntjrZDdZFEnDJs+x0/8iiBmn
+         TRq+RH8A2H4R/ZgWjrvPe4d4snul/PQtJ0woIHY030oF8qIhrzCkKEL+jS9Lzf5u0JVT
+         NZ2o6D7zFjlh9gXXdSbOam9gyjRPiC06PEuVxXlZyrKOhi9b93SZdqckTPj5bDZGnsHY
+         WI4cootnwvfQlRV1d4jXxDCkoF7rtGgHVq1ovB9bl0FVRPtB7qDhU5sOZQTBDg9QWl0N
+         WEcA==
+X-Gm-Message-State: AJIora/aMMJFMimMPpcIgeRICuEMAeCT1AAxzlV1bXGSaMYEUQhOnNyn
+	XEG8OHC+88TIM/2/7YLd16JMUD98y/laMpae
 X-Google-Smtp-Source: 
- AGRyM1smG1oSyREYBo9nx8YWdWF0DIro0HTOVQUysgiYCPnnZuoWXzXP+28D7ba/fHZRlBuxVPIZMA==
-X-Received: by 2002:a17:90a:6b45:b0:1e3:3cfa:3104 with SMTP id
- x5-20020a17090a6b4500b001e33cfa3104mr32926071pjl.113.1656876983050;
-        Sun, 03 Jul 2022 12:36:23 -0700 (PDT)
+ AGRyM1tz6QHQYs+DH3vtPxJQbpBNWZ4rWj2RGymDtVK31UOYx41xX7mm5Bmc5HzJ58XJ4JjiY83A5A==
+X-Received: by 2002:a17:902:76c4:b0:16a:deb:c0ae with SMTP id
+ j4-20020a17090276c400b0016a0debc0aemr33058309plt.22.1656876986588;
+        Sun, 03 Jul 2022 12:36:26 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- d4-20020a170902654400b00168aed83c63sm19441739pln.237.2022.07.03.12.36.19
+ d4-20020a170902654400b00168aed83c63sm19441739pln.237.2022.07.03.12.36.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Jul 2022 12:36:21 -0700 (PDT)
+        Sun, 03 Jul 2022 12:36:25 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 01/30] unzip: Port debian fixes for two CVEs
-Date: Sun,  3 Jul 2022 09:35:36 -1000
+Subject: [OE-core][kirkstone 02/30] ghostscript: fix CVE-2022-2085
+Date: Sun,  3 Jul 2022 09:35:37 -1000
 Message-Id: 
- <6a277ba7964c0ce029e1097f061007484f63bcf5.1656876825.git.steve@sakoman.com>
+ <645a619524d04aa6a2029a2810e2d84dc751fc48.1656876825.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1656876825.git.steve@sakoman.com>
 References: <cover.1656876825.git.steve@sakoman.com>
@@ -67,127 +68,82 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 03 Jul 2022 19:36:26 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 03 Jul 2022 19:36:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167561
+ https://lists.openembedded.org/g/openembedded-core/message/167562
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Lee Chee Yang <lcyang92@gmail.com>
 
-Add two fixes from debian for two CVEs. From:
-
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1010355
-
-I wans't able to get the reproducers to work but the added error
-checking isn't probably a bad thing.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 054be00a632c2918dd1f973e76514e459fc6f017)
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../unzip/unzip/CVE-2022-0529.patch           | 39 +++++++++++++++++++
- .../unzip/unzip/CVE-2022-0530.patch           | 33 ++++++++++++++++
- meta/recipes-extended/unzip/unzip_6.0.bb      |  2 +
- 3 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2022-0529.patch
- create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2022-0530.patch
+ .../ghostscript/CVE-2022-2085.patch           | 44 +++++++++++++++++++
+ .../ghostscript/ghostscript_9.55.0.bb         |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2022-2085.patch
 
-diff --git a/meta/recipes-extended/unzip/unzip/CVE-2022-0529.patch b/meta/recipes-extended/unzip/unzip/CVE-2022-0529.patch
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2022-2085.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2022-2085.patch
 new file mode 100644
-index 0000000000..1c1e120deb
+index 0000000000..58cb93727a
 --- /dev/null
-+++ b/meta/recipes-extended/unzip/unzip/CVE-2022-0529.patch
-@@ -0,0 +1,39 @@
-+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1010355
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2022-2085.patch
+@@ -0,0 +1,44 @@
++From ae1061d948d88667bdf51d47d918c4684d0f67df Mon Sep 17 00:00:00 2001
++From: Robin Watts <Robin.Watts@artifex.com>
++Date: Wed, 16 Feb 2022 15:22:50 +0000
++Subject: [PATCH] Bug 704945: Add init_device_procs entry for mem_x_device.
 +
-+CVE: CVE-2022-0529
-+Upstream-Status: Inactive-Upstream [need a new release]
++When allocating a buffer device, we rely on an init_device_procs
++being defined for the device we are using as a prototype. Which
++device we use as a prototype depends upon the number of bits per
++pixel we are using. For bpp > 64, we use mem_x_device, which does
++not currently have an init_device_procs defined.
 +
-+diff --git a/process.c b/process.c
-+index d2a846e..99b9c7b 100644
-+--- a/process.c
-++++ b/process.c
-+@@ -2507,13 +2507,15 @@ char *wide_to_local_string(wide_string, escape_all)
-+   char buf[9];
-+   char *buffer = NULL;
-+   char *local_string = NULL;
-++  size_t buffer_size;
++This is a fairly hard case to tickle, as very few devices use
++more than 64 bits per pixel. The DeviceN device is one of the
++few that does, and then the problem only kicks in if the
++MaxBitmap figure is high enough (or conversely the resolution is
++low enough).
++
++
++http://git.ghostscript.com/?p=ghostpdl.git;a=patch;h=ae1061d948d88667bdf51d47d918c4684d0f67df
++Upstream-Status: Backport
++CVE: CVE-2022-2085
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++---
++ base/gdevmx.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/base/gdevmx.c b/base/gdevmx.c
++index 08b0cbcfe..89e9ff774 100644
++--- a/base/gdevmx.c
+++++ b/base/gdevmx.c
++@@ -1,4 +1,4 @@
++-/* Copyright (C) 2001-2021 Artifex Software, Inc.
+++/* Copyright (C) 2001-2022 Artifex Software, Inc.
++    All Rights Reserved.
 + 
-+   for (wsize = 0; wide_string[wsize]; wsize++) ;
++    This software is provided AS-IS with no warranty, either express or
++@@ -25,4 +25,4 @@
 + 
-+   if (max_bytes < MAX_ESCAPE_BYTES)
-+     max_bytes = MAX_ESCAPE_BYTES;
-+ 
-+-  if ((buffer = (char *)malloc(wsize * max_bytes + 1)) == NULL) {
-++  buffer_size = wsize * max_bytes + 1;
-++  if ((buffer = (char *)malloc(buffer_size)) == NULL) {
-+     return NULL;
-+   }
-+ 
-+@@ -2552,7 +2554,11 @@ char *wide_to_local_string(wide_string, escape_all)
-+       /* no MB for this wide */
-+         /* use escape for wide character */
-+         char *escape_string = wide_to_escape_string(wide_string[i]);
-+-        strcat(buffer, escape_string);
-++        size_t buffer_len = strlen(buffer);
-++        size_t escape_string_len = strlen(escape_string);
-++        if (buffer_len + escape_string_len + 1 > buffer_size)
-++          escape_string_len = buffer_size - buffer_len - 1;
-++        strncat(buffer, escape_string, escape_string_len);
-+         free(escape_string);
-+     }
-+   }
-diff --git a/meta/recipes-extended/unzip/unzip/CVE-2022-0530.patch b/meta/recipes-extended/unzip/unzip/CVE-2022-0530.patch
-new file mode 100644
-index 0000000000..363dafddc9
---- /dev/null
-+++ b/meta/recipes-extended/unzip/unzip/CVE-2022-0530.patch
-@@ -0,0 +1,33 @@
-+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1010355
-+
-+CVE: CVE-2022-0530
-+Upstream-Status: Inactive-Upstream [need a new release]
-+
-+diff --git a/fileio.c b/fileio.c
-+index 6290824..77e4b5f 100644
-+--- a/fileio.c
-++++ b/fileio.c
-+@@ -2361,6 +2361,9 @@ int do_string(__G__ length, option)   /* return PK-type error code */
-+                   /* convert UTF-8 to local character set */
-+                   fn = utf8_to_local_string(G.unipath_filename,
-+                                             G.unicode_escape_all);
-++                  if (fn == NULL)
-++                    return PK_ERR;
-++
-+                   /* make sure filename is short enough */
-+                   if (strlen(fn) >= FILNAMSIZ) {
-+                     fn[FILNAMSIZ - 1] = '\0';
-+diff --git a/process.c b/process.c
-+index d2a846e..715bc0f 100644
-+--- a/process.c
-++++ b/process.c
-+@@ -2605,6 +2605,8 @@ char *utf8_to_local_string(utf8_string, escape_all)
-+   int escape_all;
-+ {
-+   zwchar *wide = utf8_to_wide_string(utf8_string);
-++  if (wide == NULL)
-++    return NULL;
-+   char *loc = wide_to_local_string(wide, escape_all);
-+   free(wide);
-+   return loc;
-+
-diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-index c222a684b4..f35856cf61 100644
---- a/meta/recipes-extended/unzip/unzip_6.0.bb
-+++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-@@ -29,6 +29,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
- 	file://unzip_optimization.patch \
-         file://0001-configure-Pass-LDFLAGS-to-tests-doing-link-step.patch \
-         file://CVE-2021-4217.patch \
-+        file://CVE-2022-0529.patch \
-+        file://CVE-2022-0530.patch \
++ /* The device descriptor. */
++ const gx_device_memory mem_x_device =
++-    mem_device("imagex", 256, 0, NULL);
+++    mem_device("imagex", 256, 0, mem_initialize_device_procs);
++-- 
++2.25.1
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+index c28e62f089..365420fb64 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+@@ -33,6 +33,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://do-not-check-local-libpng-source.patch \
+                 file://avoid-host-contamination.patch \
+                 file://mkdir-p.patch \
++                file://CVE-2022-2085.patch \
  "
- UPSTREAM_VERSION_UNKNOWN = "1"
  
+ SRC_URI = "${SRC_URI_BASE} \
 -- 
 2.25.1
 
