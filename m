@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCBECC43334
-	for <webhook@archiver.kernel.org>; Sun,  3 Jul 2022 19:36:35 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web09.64579.1656876992173322453
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB6F9C43334
+	for <webhook@archiver.kernel.org>; Sun,  3 Jul 2022 19:36:45 +0000 (UTC)
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+ [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web11.63999.1656876996006810935
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Jul 2022 12:36:32 -0700
+ Sun, 03 Jul 2022 12:36:36 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=fhMwS00g;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48,
+ header.b=y7A+ugAE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.180,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id
- g16-20020a17090a7d1000b001ea9f820449so11526488pjl.5
+Received: by mail-pg1-f180.google.com with SMTP id e132so7122187pgc.5
         for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Jul 2022 12:36:32 -0700 (PDT)
+ Sun, 03 Jul 2022 12:36:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=QhSDRUQHh6vDRe6i+5g4w6pvKSibNr3BO2ynIBLt4JM=;
-        b=fhMwS00gL4OVdeSoJZOKMFbG2uCij0iA+XqugZEvOeu8lvb0ct+2gXFmgJy5CGbxmp
-         RtWv20xfvFcUu+kEFxwpcLFwUDaTOHw7p22VfrDQylpdYQRWQXmk/E2eCc7HQqq6j3/7
-         ekcwnFyoOYkLMqDQa5AeEFC7cH+QntpkpwxrkhHFm/9ilOxyLxA1LbCqLhPt1yzLce7e
-         sJL/rADB5UiB1/T/PiD9cp/UnoLFF3fhAhgT9lFXjAInYjlJTg7jFqf4fv239Yk6S+MI
-         bEIlTOb+V16KYp2xzBOq93IAEJDr9/V6S3DjM3IEMnWuKefXEnqSBGloUdpDbQ7VpAUZ
-         85+A==
+        bh=g6ZgzLjRBlK54iWYMa1JOrAJAzzqf2uHuO9wbSa0oE4=;
+        b=y7A+ugAEX4BA8zuGyMzQGkbtS7hrL8cdE9C/W8KFGqbcbontbTuCNSOdb/n4lPveMq
+         9KenYNJjalS0SVo1ZLv88kxbjvL2NlqnT8ACl9uPYlM7fGIUg72RNbpqsD83LOub+rZp
+         /Vt2TipyJDU08IlRxWEQEP/gU3RvPcddER9Sq7uNN37RmM8e3Vz/yrP/9dRr/XSOnsB1
+         mTEesOX4pwLzuWiLAArZIIsH2iON6UnO0RMwUriiBAoWxtI8urE+P5XmlE/m0oBfVuGk
+         SEphVzVaRV2bJGbxe1qPBEpwSq0TGyHRXbIUTt0A9O6myAANvu28t7Y4Q/GJCNgjj4hj
+         +LhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=QhSDRUQHh6vDRe6i+5g4w6pvKSibNr3BO2ynIBLt4JM=;
-        b=PyZmrG5K6wFezD9G8YWakX7IVgps8yX9gytzviXkODdaKafC/3zTOiWDDY3fQR9cjr
-         Okg7iaEJmSMGjTrCzk9JQp1SAUiVSiM+iTtTCqGUfcWoK/FOD1skcHvFh9VXiiti+OxG
-         IUTzjiejyo6Aa6yalFW8RagHCLG8VctWPaVDY+14X+6wJ8msrt/EZT9Ix5DGXanDC9A+
-         h/IolHdn/FtRv2n5KwbJI6v0hYZTpNKqfFkunB0FTSi5j+D6am71tyR0cWUZUHboc7LJ
-         NmWPz/AWR39Tmx3oWXJecDXGc8CQ/51joi5Pov8cjUNjnc8o10EIELPsjgxGyrCLEoIA
-         QVxg==
-X-Gm-Message-State: AJIora8/npbFDBETtKM6GP4D6r8Nc8bugSlyxVRVe7pBjlFCGd65Qgoo
-	ImFJ8tsPf0W2DbbJbtYRvoSGhev4AS5DU1GT
+        bh=g6ZgzLjRBlK54iWYMa1JOrAJAzzqf2uHuO9wbSa0oE4=;
+        b=l1prQkWJeALZspF2SHIigaKqLTsry3oc88YBbpR1hZZ8aQTLPxBv4bBekmuenvlEhd
+         5u5ItcynWQZTI7meoNYip665BsWQdEihzpNB0pbWwry48WqEIsnf5LHIfMp8qCAPueRE
+         /aT2GKwx4jP+tiKBDK9MidIB7fZZpL0EPt+O4Tk/3z4wQuRBSeOXMrRhRAej93kZfyzT
+         vaUaTsKIdZljXIdP0ukUg9iVzsjOL14Lg3eCxq35ebRtXLMl1N0D8jnkQ1SJ3/ddoDWa
+         /8b+58TUIq1h5kOB1BRQCFDDrP/OwSypN61BKCZ6AT8ra9sosFZrscNpqwP+eB4DtSj0
+         UvKg==
+X-Gm-Message-State: AJIora+419CCF+MDuiuwENg8ZUDK4QXVeJ1MhM63YaA9OA+erxGj2mPJ
+	8vl4pR4qFJAteBcBh5InLRr4zJ6W37X5I6z0
 X-Google-Smtp-Source: 
- AGRyM1uuNHaE/pXrmhc/4SLgaSXqxKxluCZpO97LT9/4C/1/rC/7NWWaxknr87pc87RTitwT4vTo5Q==
-X-Received: by 2002:a17:903:120e:b0:16b:8167:e39e with SMTP id
- l14-20020a170903120e00b0016b8167e39emr31244734plh.165.1656876991111;
-        Sun, 03 Jul 2022 12:36:31 -0700 (PDT)
+ AGRyM1v3OUakWpAI2P4zM8UgPzmhoOMdha27+nYRr+uoB6bXcOOTkAfdpemO881dihyYGRJasZYRDg==
+X-Received: by 2002:a05:6a00:893:b0:528:646f:528a with SMTP id
+ q19-20020a056a00089300b00528646f528amr2815489pfj.21.1656876994941;
+        Sun, 03 Jul 2022 12:36:34 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- d4-20020a170902654400b00168aed83c63sm19441739pln.237.2022.07.03.12.36.27
+ d4-20020a170902654400b00168aed83c63sm19441739pln.237.2022.07.03.12.36.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Jul 2022 12:36:28 -0700 (PDT)
+        Sun, 03 Jul 2022 12:36:33 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 03/30] binutils : CVE-2019-1010204
-Date: Sun,  3 Jul 2022 09:35:38 -1000
+Subject: [OE-core][kirkstone 04/30] cups: ignore CVE-2022-26691
+Date: Sun,  3 Jul 2022 09:35:39 -1000
 Message-Id: 
- <4bc6bb36dba96a534998928959acf637f9360775.1656876825.git.steve@sakoman.com>
+ <8eb224d3160e8483c2bc6ffa207a2b6fc8644c6f.1656876825.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1656876825.git.steve@sakoman.com>
 References: <cover.1656876825.git.steve@sakoman.com>
@@ -68,91 +67,36 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 03 Jul 2022 19:36:35 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 03 Jul 2022 19:36:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167563
+ https://lists.openembedded.org/g/openembedded-core/message/167564
 
-From: Pgowda <pgowda.cve@gmail.com>
+From: Ross Burton <ross.burton@arm.com>
 
-Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=2a4fc266dbf77ed7ab83da16468e9ba627b8bc2d]
+This is fixed in 2.4.2, which we have, but the complex CPE in that CVE
+isn't parsed by cve-check correctly so it thinks that we're vulnerable.
 
-Signed-off-by: Pgowda <pgowda.cve@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0c55355a83130c2c0a59e9fb94f8914499943dd4)
+(cherry picked from commit b40dd920f8b40eabe78db363249257818c63c074)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../binutils/binutils-2.38.inc                |  1 +
- .../binutils/0014-CVE-2019-1010204.patch      | 49 +++++++++++++++++++
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0014-CVE-2019-1010204.patch
+ meta/recipes-extended/cups/cups.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
-index dc0a2a4054..a069071c97 100644
---- a/meta/recipes-devtools/binutils/binutils-2.38.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
-@@ -32,5 +32,6 @@ SRC_URI = "\
-      file://0011-sync-with-OE-libtool-changes.patch \
-      file://0012-Check-for-clang-before-checking-gcc-version.patch \
-      file://0013-Avoid-as-info-race-condition.patch \
-+     file://0014-CVE-2019-1010204.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0014-CVE-2019-1010204.patch b/meta/recipes-devtools/binutils/binutils/0014-CVE-2019-1010204.patch
-new file mode 100644
-index 0000000000..dad4a62038
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0014-CVE-2019-1010204.patch
-@@ -0,0 +1,49 @@
-+From 2a4fc266dbf77ed7ab83da16468e9ba627b8bc2d Mon Sep 17 00:00:00 2001
-+From: Nick Clifton <nickc@redhat.com>
-+Date: Mon, 27 Jun 2022 13:07:40 +0100
-+Subject: [PATCH] Have gold's File_read::do_read() function check the start
-+ parameter
-+
-+	PR 23765
-+	* fileread.cc (File_read::do_read): Check start parameter before
-+	computing number of bytes to read.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=2a4fc266dbf77ed7ab83da16468e9ba627b8bc2d]
-+
-+Signed-off-by: Pgowda <pgowda.cve@gmail.com>
-+---
-+ gold/ChangeLog   | 6 ++++++
-+ gold/fileread.cc | 6 ++++++
-+ 2 files changed, 12 insertions(+)
-+
-+diff --git a/gold/ChangeLog b/gold/ChangeLog
-+index 5103dab7b67..8557dc6db7f 100644
-+--- a/gold/ChangeLog
-++++ b/gold/ChangeLog
-+@@ -1,3 +1,9 @@
-++2022-06-27  Nick Clifton  <nickc@redhat.com>
-++
-++	PR 23765
-++	* fileread.cc (File_read::do_read): Check start parameter before
-++	computing number of bytes to read.
-++
-+ 2022-02-17  Nick Clifton  <nickc@redhat.com>
-+ 
-+ 	* po/sr.po: Updated Serbian translation.
-+diff --git a/gold/fileread.cc b/gold/fileread.cc
-+index 2b653f78c2e..af2df215468 100644
-+--- a/gold/fileread.cc
-++++ b/gold/fileread.cc
-+@@ -385,6 +385,12 @@ File_read::do_read(off_t start, section_
-+   ssize_t bytes;
-+   if (this->whole_file_view_ != NULL)
-+     {
-++      // See PR 23765 for an example of a testcase that triggers this error.
-++      if (((ssize_t) start) < 0)
-++	gold_fatal(_("%s: read failed, starting offset (%#llx) less than zero"),
-++		   this->filename().c_str(),
-++		   static_cast<long long>(start));
-++	
-+       bytes = this->size_ - start;
-+       if (static_cast<section_size_type>(bytes) >= size)
-+ 	{
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index 8f2ad8a009..4592980766 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -26,6 +26,8 @@ CVE_CHECK_IGNORE += "CVE-2008-1033"
+ CVE_CHECK_IGNORE += "CVE-2009-0032"
+ # This is an Ubuntu only issue.
+ CVE_CHECK_IGNORE += "CVE-2018-6553"
++# This is fixed in 2.4.2 but the cve-check class still reports it
++CVE_CHECK_IGNORE += "CVE-2022-26691"
+ 
+ LEAD_SONAME = "libcupsdriver.so"
+ 
 -- 
 2.25.1
 
