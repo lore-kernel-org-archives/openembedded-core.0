@@ -2,73 +2,75 @@ Return-Path: <pgowda.cve@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FA58C43334
-	for <webhook@archiver.kernel.org>; Mon,  4 Jul 2022 07:17:39 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web11.69139.1656919055883926237
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82209CCA47F
+	for <webhook@archiver.kernel.org>; Mon,  4 Jul 2022 07:18:49 +0000 (UTC)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+ [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web12.69451.1656919119747861266
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Jul 2022 00:17:36 -0700
+ Mon, 04 Jul 2022 00:18:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=T5PCUOLh;
- spf=pass (domain: gmail.com, ip: 209.85.216.43,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=lIAvAMPZ;
+ spf=pass (domain: gmail.com, ip: 209.85.210.182,
  mailfrom: pgowda.cve@gmail.com)
-Received: by mail-pj1-f43.google.com with SMTP id
- h9-20020a17090a648900b001ecb8596e43so8673238pjj.5
+Received: by mail-pf1-f182.google.com with SMTP id f85so4350169pfa.3
         for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Jul 2022 00:17:35 -0700 (PDT)
+ Mon, 04 Jul 2022 00:18:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=6tstoE4UnAc0Nb8/Rwgu0euGXZdHGKrA+jzn8xCACbQ=;
-        b=T5PCUOLhQYjONY9wqY8DgYBWFPAhtdAkffd5aGOn8yzmr/+ExTEqVW3ddPkAOOtqiZ
-         0aOlU3K00a8mcLRKPpiBCrJ+eMXBCPQJCeLHkU7xk06IyuQ7zuCD52hYOjKOWtyot9mz
-         cYxNXH+GkLcsyJuNy2mzK2eJBdIB/X2zmRtYGfSepcRWgE6fTyvq/7kFZ04BnDvfGU5X
-         W8W/5VHAhdiZXmDc91aLoF9Z+PKw2cVvsMIEc3PedfIamlUxID10FyHiMSuMSFJOlvIE
-         ChS+0vXSfLYB+XKAljHAfpe+XoUOTUip4NTZ2ogmhPD68nU3CPTlHHkSTfFEPhAOC0Ud
-         tIhg==
+        bh=RWrx1HAlEjw584ixwsuny+ZjlYYLNFNxa9S6rfpiTyY=;
+        b=lIAvAMPZNbEG7eyyQMTCnglJTDnT0HL0iEvdqF3MTAe4mUx1EKzCTaGgl/clr9SdrA
+         EEJvo80yU06BorrrtyXS5bY91QQRMIr2HQ0lQ4poqkgWUZbNaPf15OvlgYRsBdkStnhM
+         qbLqdE9+GcWVxAPmCo2kmEsc/QKKxxSaGFltoVRqF7P+62VPSdTWu43Ijl6kPzA6kngj
+         XyuA3vLBWY6rHuY7SYc/YxU9HVgQfd1IrXyBnhMEG9RcgFotJ43dUJLRUy5c6wr3mAHc
+         ZoxOelNeK7ASWr2YRtEZeR1oNFKdh9ACduGBwlgZe+asdQnCIzyk5hyUpQ+SSaoLO9no
+         1izA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=6tstoE4UnAc0Nb8/Rwgu0euGXZdHGKrA+jzn8xCACbQ=;
-        b=EJGwSn+/m2eOerph4kYsfc2P5c9NPdzoORP+F/6LQ4O8Gj5w4NQ05XY9xATdiaT5eS
-         /BDDHcHsuU8jaSNgU98pkl3zb1IdrTtRyRkttvzT+wIG64Sme6Rn17iiSNy2ZclSnEaX
-         0p+HocwhX21EBGYr9hlnu0EEdgrV7OO8AsAk4xeEnyZ1m9LaWSbUlV859eYzvz1Bqijr
-         qE1bAkXhnLHmNMwikXV0A4VTxNlDQnWM9SZLFExKtI5P/e7U3a42eRS/HBWmzvIk9Clu
-         vmm7yh9uc5rOc3LgUkWlBn9BzvQtYXQk5h7uf9VvX/Cos2m5+VrtQM1pJvvqsmmhYHRh
-         pLbg==
-X-Gm-Message-State: AJIora8iyOWhsB5BDKBHt9t04GaPqvWziRhAR8/yUf3/xJJr3OpQbdmd
-	SzcL+kYOCKR69DW8+L3GH+DewsyTsbw=
+        bh=RWrx1HAlEjw584ixwsuny+ZjlYYLNFNxa9S6rfpiTyY=;
+        b=yRV6OdgSvJb7uQ0Zorb2kNhLBL3OdC7YnXuD4JKgAq04+Gc2saJRsweHTQtVRraqry
+         ZKRzUbbncn/dAX8JdeR7J97+qeBP5t+Eu5v2NA8qcmnmypAbIUCNwx8WsESAHR4f3+iD
+         K2UvloHlg3WXoIKvzRgG1zbOsoT9xL8oyP4JoV6dQpMkRClplEnaMm1th9vkc546IeBn
+         qoNMmo7Xjjj1s3lI/qeKgjZB9pD9CWv4BgOKqf41YW1jO4oX/Ux4tg+eItz8pbZJ99D+
+         aFMGIWJ3BPM6ETWzciTBCdSevaJlfK55UJhvM9EZihyP05Ipt9s4+p9QtjLr1apHv9uW
+         PXBQ==
+X-Gm-Message-State: AJIora8ldj9qNaTHhRWdG3tKXoq/DEed2w8pRt3smxaUYPrlHPNdHdio
+	oEIm89W3Dk6QeI0ERVNsOlW2oPStbKY=
 X-Google-Smtp-Source: 
- AGRyM1smIc2dxijc+8Ly5YyAyhFVk1Tu6kVzBWPPi+8ITmLJPzDmEKpIbo/NRD6LtLdH7PQ/N3Xsgw==
-X-Received: by 2002:a17:902:eccc:b0:16a:2b42:3f42 with SMTP id
- a12-20020a170902eccc00b0016a2b423f42mr33996182plh.75.1656919054952;
-        Mon, 04 Jul 2022 00:17:34 -0700 (PDT)
+ AGRyM1u9z1f21elv3QJDA2vsBcLqE6/U8MTXhMkGneaxI43xw4DXgPDRB+B7tY3QP2l2EPK6y2xK3A==
+X-Received: by 2002:a65:6a50:0:b0:3f6:4566:581d with SMTP id
+ o16-20020a656a50000000b003f64566581dmr23437821pgu.122.1656919118827;
+        Mon, 04 Jul 2022 00:18:38 -0700 (PDT)
 Received: from localhost.localdomain ([49.204.85.206])
         by smtp.gmail.com with ESMTPSA id
- ca27-20020a056a00419b00b00525133f98adsm20687642pfb.146.2022.07.04.00.17.32
+ m18-20020a634c52000000b0040c74f0cdb5sm19741769pgl.6.2022.07.04.00.18.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Jul 2022 00:17:34 -0700 (PDT)
-From: Pgowda <pgowda.cve@gmail.com>
+        Mon, 04 Jul 2022 00:18:38 -0700 (PDT)
+From: Sundeep KOKKONDA <pgowda.cve@gmail.com>
+X-Google-Original-From: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: rwmacleod@gmail.com,
 	umesh.kalappa0@gmail.com,
 	pgowda.cve@gmail.com,
 	shivams@gmail.com
 Subject: [kirkstone] Binutils, Glibc: Updated with latest commits
-Date: Mon,  4 Jul 2022 12:47:28 +0530
-Message-Id: <20220704071728.3400475-1-pgowda.cve@gmail.com>
+Date: Mon,  4 Jul 2022 12:48:32 +0530
+Message-Id: <20220704071832.3400931-1-sundeep.kokkonda@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Jul 2022 07:17:39 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Jul 2022 07:18:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167595
+ https://lists.openembedded.org/g/openembedded-core/message/167596
+
+From: Pgowda <pgowda.cve@gmail.com>
 
 Below commits are on Binutils-2.38 and Glibc-2.35 development branches are updated.
 
