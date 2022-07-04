@@ -1,162 +1,89 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 881D1C433EF
-	for <webhook@archiver.kernel.org>; Mon,  4 Jul 2022 14:19:31 +0000 (UTC)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.web08.72562.1656944364152207107
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AC07C43334
+	for <webhook@archiver.kernel.org>; Mon,  4 Jul 2022 14:24:41 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.web08.72615.1656944676818209620
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Jul 2022 07:19:24 -0700
+ Mon, 04 Jul 2022 07:24:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=rlQkDlUd;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.43,
- mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f43.google.com with SMTP id c13so11872847eds.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jVwkjuDk;
+ spf=pass (domain: gmail.com, ip: 209.85.167.43,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f43.google.com with SMTP id a13so16040759lfr.10
         for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Jul 2022 07:19:23 -0700 (PDT)
+ Mon, 04 Jul 2022 07:24:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=3VhzLe5ZThCbgPyFsEdjHGXHJ78/ve4h7ZBI8v9pEE4=;
-        b=rlQkDlUdOF09Y47kZSuyt8ama+ATD61W/B6jeNJduCN3L2kl3ikLHj0aHW9vdZRWFD
-         iscr6S7e7TjI90jj6Zpuw8y8va6WUFp81RQ5pr3nX1Jbs0YYUSLt/CvvNmqKPO5uvAhF
-         nxuC66m7O6E/e3t4EVRtsy/S7tm2KHQijlqjHwSS+nc1h1cTuWs0pC/qR88GWsfuP6QO
-         YoDS0EsM871pydWja3Y/6YhLyUP2mzBCO+Gj/CPBR9d9o+cjBe+o4zZmb+IQpQ0vGRDh
-         LumOPW+rY0MIpqcU0GSgSZwklVxATQ16TzD2B+M8RIUpSAAcX/qMODgmoAoNAvDhVexC
-         60pw==
+         :cc;
+        bh=igDsvvty9eRtvPI0x0gUWMtZ1nxAzqugMQC2a781COU=;
+        b=jVwkjuDkPivBN7m3aqkIe+s3Tl+/Lhglzipa4snXRes0IKNUQFwbWTMnOnGMO9MwfG
+         m62vGuKXehJODTlSPPYhTzoCHVR5C/ud2ACuJB8tn7jYL7e4hQgTsjmg3tRrJL3A6hbB
+         juVm1KF/yAS9Qm5a1S5onFM/SNoscqNwvqXfppXiKftVE7w93CwORQkBNLx9foD0JScB
+         C8BnYJfp25uKulor28ivjpFYxI+SwDnt2JGefnhL0aputU2fu82i+LO6bug2mR+lMLY3
+         SOI+Emex2l7Y1eoOXzMqFUkqMbkOKc4cNx2FNE83i6vhtJIu15nhIk8dLXYQ1EogRLx0
+         SuCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=3VhzLe5ZThCbgPyFsEdjHGXHJ78/ve4h7ZBI8v9pEE4=;
-        b=oL4X4mKguninJDjnIzRDRU2aHQ+wtJ0k6XAcyF4wAuxU/WUnqq5W9x+Ar38+eOTuFr
-         Z1uNCHGeWlIQ7b/bheP9k4pXvkxQQe9Dzd7YGvJ90k3V85g+NHiA3nFqYukk5t3uWWBv
-         8AdjlJNnskyFYX76nRy2hcXwrCPG0whZkB+MHVLOy3nDYszYPtU304Y4pYNqEdWyEUiL
-         wTJg0KfGBAH3dNXtSRDuyOrs24IJDm0pFPIyK+0p9DKtodPQtBApt3tl51VjgG9ieNnT
-         Jf1rwTWlsb7WGhECiESe0cqWrqtHsLEJ1dfuwjAvX/dxwDCx6TaawSaIziYxi/zhLzfI
-         Czow==
-X-Gm-Message-State: AJIora8lMQSkxM/xvSuw81905QuMpvvi2YLD6XB9t7oCvn6l+uuUY0hf
-	0WPNNhiLr9XKyTtVaipxIIVfwyoFZLEAyGkzVCGAUg==
+         :message-id:subject:to:cc;
+        bh=igDsvvty9eRtvPI0x0gUWMtZ1nxAzqugMQC2a781COU=;
+        b=OkHIMMzgTbMIIAYdZtFGGyCSU4j4QG49eIXiF/Ec2zyrC0boh+3xaXGZ32XCIyZeuP
+         0ouRKNv9L0iQlv0LJRL6seJAh0uaLnv3giO4RZQpKvgviYtGROKU3QNETJc6X1YkGZpX
+         3U0gFN+ItvBvfaluVN4y5XiPBPsJ7RZlLz5/q6GcT4GGsgdSz30ag5xIGFl7P8sGHdW2
+         I1YDBDNfGRe8Ehq/qycEHz57CeOyU/LOQCq8UINvLaVVBsynoXI/QEoVMRFeQYTNKmD7
+         cY+io+n0k2/mazF5Q3I5KoSdXOemn3823EGK+2J8AJ5GkuXnR0DLNihguJd5FVnhkpRu
+         gPRg==
+X-Gm-Message-State: AJIora+R72MqovvDQCjTKvyb4M2rdEPkGxao68lfZITEcbpiNwMnFGJo
+	qrh4uIW+QymmBl4xVQuyrvh8pSSbOXq6eI32evM=
 X-Google-Smtp-Source: 
- AGRyM1sCtJsv8u7zZuQ4dNvt5eqtVr9p4VgjZtpEhzwR4oh/9KT2TUK3Ha3JSp2DOArjMrN1qA+Tpz/Q6HHVxrIchs8=
-X-Received: by 2002:a05:6402:5409:b0:42a:a643:4eb8 with SMTP id
- ev9-20020a056402540900b0042aa6434eb8mr39137355edb.71.1656944362270; Mon, 04
- Jul 2022 07:19:22 -0700 (PDT)
+ AGRyM1sGb68360NnQXSrXc34zT67ec0G7Obs27dmoQZ9pib4/NNdK4+WapO5RFP4jfr1sRxO5rU1LOqjKG0BYIbOcGM=
+X-Received: by 2002:a05:6512:3b21:b0:47f:665a:bf50 with SMTP id
+ f33-20020a0565123b2100b0047f665abf50mr19427561lfv.673.1656944674755; Mon, 04
+ Jul 2022 07:24:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220704124511.16872-1-Neetika.Singh@kpit.com>
-In-Reply-To: <20220704124511.16872-1-Neetika.Singh@kpit.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 4 Jul 2022 04:19:10 -1000
+References: <16FE039DA287E43E.1980@lists.openembedded.org>
+ <4770b1475916c1c4e8b7118dab2ba934af604c03.camel@linuxfoundation.org>
+ <CANNYZj_vu9dY==pXQE6VMB_cYKuq3T0TK-g0U4jv2kKHTzuA+g@mail.gmail.com>
+ <576a6c208bd89721228fa201212a557778f01079.camel@linuxfoundation.org>
+In-Reply-To: 
+ <576a6c208bd89721228fa201212a557778f01079.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 4 Jul 2022 16:24:23 +0200
 Message-ID: 
- <CAOSpxda_xvUbXMZUOoxQbQ86gZ3701KGwZVcGaSO-wCQkNLkaA@mail.gmail.com>
-Subject: Re: [OE-core] [meta-java][dunfell] [PATCH] xerces-j: Upgrade to
- 2.12.2
-To: Neetika.Singh@kpit.com
-Cc: openembedded-core@lists.openembedded.org, raj.khem@gmail.com
+ <CANNYZj_2ZJXOotiROS72EsSAspU3oRDAgA-t37kjipQVQMyA6A@mail.gmail.com>
+Subject: Re: [OE-core] Build paths/reproduibility issues in master - help
+ requested
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Jul 2022 14:19:31 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Jul 2022 14:24:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167615
+ https://lists.openembedded.org/g/openembedded-core/message/167616
 
-Since this is a patch for meta-java it should be sent to:
-openembedded-devel@lists.openembedded.org
+On Mon, 4 Jul 2022 at 15:55, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> I guess the go one might, and using it as a template for some of our
+> other workarounds might also help some of the other patches upstream
+> but I have no connection to golang so help there from anyone with
+> better connections might help.
+>
+> The gperf one is a workaround, I doubt it would be accepted upstream
+> unfortunately but I'm also not sure what else we can do about the
+> issue.
 
-Also, it shouldn't be tagged for [oe-core], just [meta-java]
+Right, I was just asking to go through the mechanics of the upstream
+submission. Basically trying to keep that weekly pending number from
+going up :) Maybe just the gperf patch then? If they don't want the
+patch, that's fine.
 
-Steve
-
-On Mon, Jul 4, 2022 at 2:45 AM Neetika.Singh via
-lists.openembedded.org <Neetika.Singh=3Dkpit.com@lists.openembedded.org>
-wrote:
->
-> From: Neetika Singh <Neetika.Singh@kpit.com>
->
-> As per below links CVE-2022-23437 is fixed by upgrade of
-> xerces-j version to 2.12.2.
-> https://bugs.gentoo.org/show_bug.cgi?id=3DCVE-2022-23437
-> https://gitweb.gentoo.org/repo/gentoo.git/commit/?id=3D743111a72f39a1b24f=
-87bd1b2fc32ef707b41407
->
-> Hence upgrade the version.
->
-> Signed-off-by: Neetika Singh <Neetika.Singh@kpit.com>
-> ---
->  .../xerces-j/{xerces-j_2.11.0.bb =3D> xerces-j_2.12.2.bb}   | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->  rename recipes-core/xerces-j/{xerces-j_2.11.0.bb =3D> xerces-j_2.12.2.bb=
-} (88%)
->
-> diff --git a/recipes-core/xerces-j/xerces-j_2.11.0.bb b/recipes-core/xerc=
-es-j/xerces-j_2.12.2.bb
-> similarity index 88%
-> rename from recipes-core/xerces-j/xerces-j_2.11.0.bb
-> rename to recipes-core/xerces-j/xerces-j_2.12.2.bb
-> index fda6fe4..bc2780e 100644
-> --- a/recipes-core/xerces-j/xerces-j_2.11.0.bb
-> +++ b/recipes-core/xerces-j/xerces-j_2.12.2.bb
-> @@ -12,7 +12,7 @@ LIC_FILES_CHKSUM =3D " \
->                      file://LICENSE.serializer.txt;md5=3Dd229da563da18fe5=
-d58cd95a6467d584 \
->                     "
->
-> -SRC_URI =3D "http://archive.apache.org/dist/xerces/j/Xerces-J-src.${PV}.=
-tar.gz"
-> +SRC_URI =3D "http://archive.apache.org/dist/xerces/j/source/Xerces-J-src=
-.${PV}.tar.gz"
->
->  # CVE only applies to some Oracle Java SE and Red Hat Enterprise Linux v=
-ersions.
->  # Already fixed with updates and closed.
-> @@ -20,7 +20,7 @@ SRC_URI =3D "http://archive.apache.org/dist/xerces/j/Xe=
-rces-J-src.${PV}.tar.gz"
->  # https://bugzilla.redhat.com/show_bug.cgi?id=3D1567542
->  CVE_CHECK_WHITELIST +=3D "CVE-2018-2799"
->
-> -S =3D "${WORKDIR}/xerces-2_11_0"
-> +S =3D "${WORKDIR}/xerces-2_12_2"
->
->  inherit java-library
->
-> @@ -63,7 +63,7 @@ do_compile() {
->
->  }
->
-> -SRC_URI[md5sum] =3D "d01fc11eacbe43b45681cb85ac112ebf"
-> -SRC_URI[sha256sum] =3D "f59a5ef7b51bd883f2e9bda37a9360692e6c5e439b98d9b6=
-ac1953e1f98b0680"
-> +SRC_URI[md5sum] =3D "41dde3c515fca8d307416123bc07a739"
-> +SRC_URI[sha256sum] =3D "6dd1ebd4c88e935c182375346cd7365514bd8dd2ad2f30f0=
-d0b05257bab34ee8"
->
->  BBCLASSEXTEND =3D "native"
-> --
-> 2.17.1
->
-> This message contains information that may be privileged or confidential =
-and is the property of the KPIT Technologies Ltd. It is intended only for t=
-he person to whom it is addressed. If you are not the intended recipient, y=
-ou are not authorized to read, print, retain copy, disseminate, distribute,=
- or use this message or any part thereof. If you receive this message in er=
-ror, please notify the sender immediately and delete all copies of this mes=
-sage. KPIT Technologies Ltd. does not accept any liability for virus infect=
-ed mails.
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#167604): https://lists.openembedded.org/g/openembedde=
-d-core/message/167604
-> Mute This Topic: https://lists.openembedded.org/mt/92163687/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Alex
 
