@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37017CCA483
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 285A5CCA47F
 	for <webhook@archiver.kernel.org>; Tue,  5 Jul 2022 17:04:00 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web10.86907.1657040633983985295
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
+ [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web11.86662.1657040634924250955
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jul 2022 10:03:54 -0700
+ Tue, 05 Jul 2022 10:03:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=dTRhZnmb;
- spf=pass (domain: gmail.com, ip: 209.85.218.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Te//lbOR;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id ay16so22743292ejb.6
+Received: by mail-ej1-f54.google.com with SMTP id li14so809735ejb.2
         for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jul 2022 10:03:53 -0700 (PDT)
+ Tue, 05 Jul 2022 10:03:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=HokKUdKwpAeBj8u1v5emTJeq8IE62XY4OTPc+fWh41Y=;
-        b=dTRhZnmbljsfEzSdvMwlh/nepxVqAEHdlRKSSIQvSDiJCxn/2df8A2YNjKzgwOf3e6
-         zd1ZIxjpkfaX98aL9cY3Rb8El+jQKiuo7eck0/rnpPs1+V2MQDIUWdBmRbDZpFNR5xCx
-         Uh7Q8d75OLYxdzlZUeAHd69Na8O9zNtH8u37almsdR7eExGWIg3Em/FjSCHRgs3FBIF9
-         w84mZmgxTSyq0MEoUzitOhrVhgbVqTnEXbNqWlrgrhj1WLKm3UQAhn7Y85a8+uA5FaSm
-         lGNzyPlBIVOi/sYIu96cerDtNhM5WoFCDi024upfxHkFL/5B+g4GA8AsyIMSKMJbocHY
-         dxVQ==
+        bh=Y188UD/SyUEGwh0BODmT+vhE+eTFi8/ffxr2j2p7q4E=;
+        b=Te//lbORYUvpj65k9Q7Gf1zdmjFFCvrQoxyiw7ES99sichvkGEGUMm/4iJL3wrSe3A
+         +hexDJnqw9BBJBIoCZGribS2u1xpZGXvEo0WZwV3q6d5T/EYcjOBty7qDbItvnyDDQ9+
+         stmPqe9lhhq65obw8BUteoqhYbS+qhO7hpwS21GpD2jC4l3lqwNmlsoxGYcnKmxcFK0v
+         dGSKD3vZ77zkENDjl3JW6JQKMNvLDzx7NQEPT7BHd0ZiwL8b+hC53s9yVDxUApfPAH2p
+         AYOdHL8Wy0gfCFJcIONtxVGah/PnhuA0yj52hLxIxISlnQNgxBT7y8M/eAyxA4+U7n8q
+         SFhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=HokKUdKwpAeBj8u1v5emTJeq8IE62XY4OTPc+fWh41Y=;
-        b=z7RTSxdU1AUoehnslrtReQ0xkP/5EYTKuXS+MQ2u4flqvcHlNry+cZz0Ww3l9ei0H7
-         vryWaLMBD+CI9YWlt0bepxUKs3nNy1PhP1Z2giuhzIE2bvLUMlZeX0ksTPP29BqPKZAx
-         +xNGYZpyp9a2r9NyU9gJ2ZOXyvUlv1hq9edGfzyciOhBrgRaxxSD6Bw9Ar4hNqknA4HU
-         RPaBX1wb6LNtC4KFc0crqFYyyJ655aUXQ59vs2MwFnvs6CldilF8Ih8jRvuP241+fgS3
-         GmMaQlDYr1BD/lhMk4ZcG0B6vCjdarback47FsjBXDco1+p25sn3hdZuBxhiFsOZfKQP
-         Yt/A==
-X-Gm-Message-State: AJIora9Lwy5fRmuZNv2+9QR+r/XznMyp2aKZHxMkmW5nX1EXta65gzsz
-	MkzOjbBFprE8KgnI4xF9GydpUQmUm2H3PQ==
+        bh=Y188UD/SyUEGwh0BODmT+vhE+eTFi8/ffxr2j2p7q4E=;
+        b=PHImbt1jeJqLWE6AmrXT4jtcPMv/TaJR73+N0QhBos9Co9LLjtCwPmCCnpoSOge5gG
+         7kmjX8J8s1Ca0ecWOiAzjuRF9EppwqDvuWOiBZ/lNENtr6WA9vg+5ClE/JBBNcmRNoEk
+         dfAOF3/igohkGvF4PeTMU/fKn1xaGpsKio7qwioPKpjN8vFP4KrGzghxuJ1i9J+jolah
+         zq+VfXUXCOjKqYCZghTO/qVb69dYCtihnmGnLbV5EO17VyvYHGt+lPDYkIEm/RL5dESQ
+         Yr2vidyBWP7zYoXcnprs9gcOzECMgEqMjnvgAd/zBqR5oja4XVDFW5m6g1Ng/YgJjqIZ
+         GqDg==
+X-Gm-Message-State: AJIora+xBPD4rPRVqlvP10lVAlKpbb/dHuc1lGlKWictChRVsXm+eC0u
+	Lu8ciHeGF8Poq/ekHHCVzdghjbByAlAn6w==
 X-Google-Smtp-Source: 
- AGRyM1sb9giTFZx2yeJCunfc/vZ2MyugfPsK6GvkBMQqFdvuJV5cVUjFgwU2w6QxB9ZRwX0VxFQxhw==
-X-Received: by 2002:a17:906:9c84:b0:6e0:7c75:6f01 with SMTP id
- fj4-20020a1709069c8400b006e07c756f01mr35019439ejc.103.1657040632584;
-        Tue, 05 Jul 2022 10:03:52 -0700 (PDT)
+ AGRyM1vRaE7nk5DBHvRpSfarHoA8muLX6P94hjz+DzSMU1v09SFeko3XUr4XTj5Yd3JYhMqJ/7si9g==
+X-Received: by 2002:a17:907:7dac:b0:722:3352:ac05 with SMTP id
+ oz44-20020a1709077dac00b007223352ac05mr34448677ejc.421.1657040633472;
+        Tue, 05 Jul 2022 10:03:53 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- x2-20020a05640225c200b00435651c4a01sm23999886edb.56.2022.07.05.10.03.51
+ x2-20020a05640225c200b00435651c4a01sm23999886edb.56.2022.07.05.10.03.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 05 Jul 2022 10:03:52 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 6/7] python3-setuptools-scm: upgrade 6.4.2 -> 7.0.3
-Date: Tue,  5 Jul 2022 19:03:38 +0200
-Message-Id: <20220705170339.771017-6-alex@linutronix.de>
+Subject: [PATCH 7/7] waffle: correctly request wayland-scanner executable
+Date: Tue,  5 Jul 2022 19:03:39 +0200
+Message-Id: <20220705170339.771017-7-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220705170339.771017-1-alex@linutronix.de>
 References: <20220705170339.771017-1-alex@linutronix.de>
@@ -68,46 +68,60 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 05 Jul 2022 17:04:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167675
+ https://lists.openembedded.org/g/openembedded-core/message/167676
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...uptools-scm_6.4.2.bb => python3-setuptools-scm_7.0.3.bb} | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-setuptools-scm_6.4.2.bb => python3-setuptools-scm_7.0.3.bb} (79%)
+ ...build-request-native-wayland-scanner.patch | 27 +++++++++++++++++++
+ meta/recipes-graphics/waffle/waffle_1.7.0.bb  |  1 +
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-graphics/waffle/waffle/0001-meson.build-request-native-wayland-scanner.patch
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_6.4.2.bb b/meta/recipes-devtools/python/python3-setuptools-scm_7.0.3.bb
-similarity index 79%
-rename from meta/recipes-devtools/python/python3-setuptools-scm_6.4.2.bb
-rename to meta/recipes-devtools/python/python3-setuptools-scm_7.0.3.bb
-index 9aaae071d3..114e6820a9 100644
---- a/meta/recipes-devtools/python/python3-setuptools-scm_6.4.2.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools-scm_7.0.3.bb
-@@ -4,20 +4,22 @@ DESCRIPTION = "setuptools_scm handles managing your Python package versions in S
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=8227180126797a0148f94f483f3e1489"
+diff --git a/meta/recipes-graphics/waffle/waffle/0001-meson.build-request-native-wayland-scanner.patch b/meta/recipes-graphics/waffle/waffle/0001-meson.build-request-native-wayland-scanner.patch
+new file mode 100644
+index 0000000000..1b62db92e9
+--- /dev/null
++++ b/meta/recipes-graphics/waffle/waffle/0001-meson.build-request-native-wayland-scanner.patch
+@@ -0,0 +1,27 @@
++From 2195cec1e5bc66128d72049c11ff381ca4516a4b Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Tue, 5 Jul 2022 11:51:39 +0200
++Subject: [PATCH] meson.build: request native wayland-scanner
++
++This matters in cross compilation, as otherwise meson will
++try to use a cross-binary, and fail.
++
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/waffle/-/merge_requests/110]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/meson.build b/meson.build
++index 0bb6128..0b6da1f 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -108,7 +108,7 @@ else
++     'wayland-egl', version : '>= 9.1', required : get_option('wayland'),
++   )
++   dep_wayland_scanner = dependency(
++-    'wayland-scanner', version : '>= 1.15', required : get_option('wayland'),
+++    'wayland-scanner', version : '>= 1.15', required : get_option('wayland'), native: true,
++   )
++   if dep_wayland_scanner.found()
++     prog_wayland_scanner = find_program(dep_wayland_scanner.get_pkgconfig_variable('wayland_scanner'))
+diff --git a/meta/recipes-graphics/waffle/waffle_1.7.0.bb b/meta/recipes-graphics/waffle/waffle_1.7.0.bb
+index f1fd9e7630..dc475908d0 100644
+--- a/meta/recipes-graphics/waffle/waffle_1.7.0.bb
++++ b/meta/recipes-graphics/waffle/waffle_1.7.0.bb
+@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=4c5154407c2490750dd461c50ad94797 \
  
--SRC_URI[sha256sum] = "6833ac65c6ed9711a4d5d2266f8024cfa07c533a0e55f4c12f6eff280a5a9e30"
-+SRC_URI[sha256sum] = "cf8ab8e235bed840cd4559b658af0d8e8a70896a191bbc510ee914ec5325332d"
- 
- PYPI_PACKAGE = "setuptools_scm"
- inherit pypi python_setuptools_build_meta
- 
- UPSTREAM_CHECK_REGEX = "setuptools_scm-(?P<pver>.*)\.tar"
- 
--DEPENDS += "python3-tomli-native"
-+DEPENDS += "python3-tomli-native python3-packaging-native"
- 
- RDEPENDS:${PN} = "\
-     ${PYTHON_PN}-packaging \
-+    ${PYTHON_PN}-pip \
-     ${PYTHON_PN}-pyparsing \
-     ${PYTHON_PN}-setuptools \
-     ${PYTHON_PN}-tomli \
-+    ${PYTHON_PN}-typing-extensions \
- "
- 
- RDEPENDS:${PN}:append:class-target = " \
+ SRC_URI = "git://gitlab.freedesktop.org/mesa/waffle.git;protocol=https;branch=master \
+            file://0001-waffle-do-not-make-core-protocol-into-the-library.patch \
++           file://0001-meson.build-request-native-wayland-scanner.patch \
+            "
+ SRCREV = "905c6c10f2483adf0cbfa024e2d3c2ed541fb300"
+ S = "${WORKDIR}/git"
 -- 
 2.30.2
 
