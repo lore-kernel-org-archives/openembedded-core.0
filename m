@@ -1,176 +1,151 @@
-Return-Path: <sundeep.kokkonda@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B562C433EF
-	for <webhook@archiver.kernel.org>; Tue,  5 Jul 2022 10:18:27 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web10.82673.1657016298564397016
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 929EDC433EF
+	for <webhook@archiver.kernel.org>; Tue,  5 Jul 2022 11:00:27 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.82566.1657018821969353985
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jul 2022 03:18:18 -0700
+ Tue, 05 Jul 2022 04:00:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=fXpHPJ/5;
- spf=pass (domain: gmail.com, ip: 209.85.216.43,
- mailfrom: sundeep.kokkonda@gmail.com)
-Received: by mail-pj1-f43.google.com with SMTP id a15so4985636pjs.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JsqNg2L3;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id n185so6792091wmn.4
         for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jul 2022 03:18:18 -0700 (PDT)
+ Tue, 05 Jul 2022 04:00:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:references:in-reply-to:subject:date:message-id
-         :mime-version:content-transfer-encoding:content-language
-         :thread-index;
-        bh=k3obYFKcG2gQt0Oe+3XcJgaHyKtw759JGO7mKBb4YMw=;
-        b=fXpHPJ/58GuZacyoNI+fidt7iGpU8WDFwf6lipp8+uwIkmfseGyEClp2DtMFEjm4Y/
-         sMfCHDEu7AdWGx6e/EcyHNvV50fDpSHhUAYLJ7rPDts5GSJNzxG+N+13HOu846qvj3Y5
-         lNOuv+lURd5z4Vev+oBQQ9pEC8bE/Kn8yqk6OcVuoTL8AGvE0fyD+6pfT/qJGNp50DPu
-         GIrqmBYHlfxRozYyyTEjeaQRoFvfJGfVct4V0m9SEYgISPv6hBcuvnt1fKfx5x+PUQff
-         cpEVF6pDwWqvDuyF5Gt27RdaEDHGqg8TdrW3tLhLcU/EZdFCtajwYTplosk9RHY//iA6
-         TyRg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=b2kOZDofrdYooEb4YQ/4xdWWHNtdDPPqWljFPWL7aL0=;
+        b=JsqNg2L3gIs4nGros16fmoxh06rjHYJ1/itg9ibkExQKDRFc1GWo24v0Vf+STjKrh+
+         5DWtOkXPlCXhmBkT9r/6qI3/qg/1qILg9jbwo0J4bKaLgRk5b+3B++Mra32Cxtwj5ZuM
+         wz3cWpRDcB5sCu/o1aaPyXdrOFLquePJN6yY8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:references:in-reply-to:subject:date
-         :message-id:mime-version:content-transfer-encoding:content-language
-         :thread-index;
-        bh=k3obYFKcG2gQt0Oe+3XcJgaHyKtw759JGO7mKBb4YMw=;
-        b=RNSf6Kr0Hg1inNhtAAglXlmzMzNktKJ05lrbc9HJaBN36rUqtKmTCtkc8vR22ogcxE
-         0dytTF3X6L3iDRwyIGJc4vETtgaT8ARIPPi9oFvbsfW0u2lbOurVl/cRv29FRsxlmW58
-         cEtrsybNpfFVnUCbWTSu7OBjXqq7ytgdgiyUi3Sp6rhm5eW8mRVXuZyIdGz49yQfU9wb
-         2R+GofKuzSq7AjJiA88nhKeELHkgxP5xkxdA5w7/1PejGV+a+DSFCHD5GUnjAAo2QcV+
-         5i8/+C161p45+bqLmInnWJn1xapkoWLnbv8K5x+dRXPxL6hduo56zK5gD+MuXS4OXJFW
-         kWHw==
-X-Gm-Message-State: AJIora9iQLI851X5oNR3DbtsmP/vrigz44SYVLFu5C7JZSFIeD3bZkz8
-	EaciEQ4OoYgAattowNVNU+PdeLfeF9To4w==
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=b2kOZDofrdYooEb4YQ/4xdWWHNtdDPPqWljFPWL7aL0=;
+        b=sdbNT3qMLkcYTA22oJIbYy/l/jV5Vwp3l8efjTiWZykImkTlfP+Fsc0Alb5oDcNM57
+         YIAelqcOi4IOb9GddbrN63MrpJajJ5VOIEcrAdnSLUzOzNtLogHeXbdQvgHq/IOtWVz1
+         SqQZP/vD/GJv6HpQIJKU6sU3HdT7/x98tXwD3Swh9ZI6IXFGvfcUAFoMPEoy86klW/9B
+         3gC4oNZJCuYS72eDmWjpmmYvFcI2tdU3sVY00oSJBdFnpw47bjNzOdZOYm1B582GzoCo
+         WK+vvt7h+ng27vHqRsDEjCGhsbnJLgDnPLlqHKApimDRDLAZ39RHsBtvB6SnVIrhDSnb
+         y/PQ==
+X-Gm-Message-State: AJIora8leWsyDUK4Qe9/rgyzk8CsZ9r8FxgsNdDedrt0BJZDkRR1clC4
+	ljqf1fok8B1PZhkqBczXzl3+qA==
 X-Google-Smtp-Source: 
- AGRyM1tXqJm9zzVLwHXc9arNzmLCFd6jGuDboY0H/rJxQVth/VB1acgn/mfAbZRN9Zmync7rAFyPfw==
-X-Received: by 2002:a17:90a:8815:b0:1ee:f3f3:2607 with SMTP id
- s21-20020a17090a881500b001eef3f32607mr41082154pjn.72.1657016297538;
-        Tue, 05 Jul 2022 03:18:17 -0700 (PDT)
-Received: from LPTBFTI009 ([49.205.113.207])
+ AGRyM1tTrRx3u8R0ZGpq7vDLJrsEvT6ko+bdSW5f4ncd+91s/N55PHwYwlBOzOBRIQohhT9SgT/2iA==
+X-Received: by 2002:a05:600c:600d:b0:3a1:967a:770c with SMTP id
+ az13-20020a05600c600d00b003a1967a770cmr16842692wmb.144.1657018820309;
+        Tue, 05 Jul 2022 04:00:20 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:7dad:6fff:75bd:1ad8?
+ ([2001:8b0:aba:5f3c:7dad:6fff:75bd:1ad8])
         by smtp.gmail.com with ESMTPSA id
- x3-20020a170902a38300b0016be4d78792sm3812444pla.257.2022.07.05.03.18.15
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 05 Jul 2022 03:18:16 -0700 (PDT)
-From: sundeep.kokkonda@gmail.com
-X-Google-Original-From: <sundeep.Kokkonda@gmail.com>
-To: "'Richard Purdie'" <richard.purdie@linuxfoundation.org>
-Cc: <openembedded-core@lists.openembedded.org>
-References: <20220704071832.3400931-1-sundeep.kokkonda@gmail.com>
-	 <26024.1656921064972068793@lists.openembedded.org>
- <9e541f91d002db8ef50b187ea8a6ad470e6dc49a.camel@linuxfoundation.org>
-In-Reply-To: 
- <9e541f91d002db8ef50b187ea8a6ad470e6dc49a.camel@linuxfoundation.org>
-Subject: RE: [OE-core] [kirkstone] Binutils,
- Glibc: Updated with latest commits
-Date: Tue, 5 Jul 2022 15:48:12 +0530
-Message-ID: <002101d89058$89ef9010$9dceb030$@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="UTF-8"
+ n35-20020a05600c3ba300b003a039054567sm21542956wms.18.2022.07.05.04.00.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jul 2022 04:00:19 -0700 (PDT)
+Message-ID: 
+ <daa0ee87582751bd86366cc467d22e1cdd1e6d5b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] gperf: Add a patch to work around
+ reproducibility issues
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jacob Kroon <jacob.kroon@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 05 Jul 2022 12:00:18 +0100
+In-Reply-To: <02d29713-0c1a-19f7-6494-100c7524bf81@gmail.com>
+References: <20220704132504.913976-1-richard.purdie@linuxfoundation.org>
+	 <02d29713-0c1a-19f7-6494-100c7524bf81@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-in
-Thread-Index: AQHBdFi2sRiDFESjUm9WnTELqfO6sgLZOUD8AiI4JFetdet+QA==
+User-Agent: Evolution 3.44.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Jul 2022 10:18:27 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Jul 2022 11:00:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167648
+ https://lists.openembedded.org/g/openembedded-core/message/167649
 
-Hello Richard,
-
-> -----Original Message-----
-> From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Sent: 04 July 2022 14:20
-> To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>; openembedded-
-> core@lists.openembedded.org
-> Subject: Re: [OE-core] [kirkstone] Binutils, Glibc: Updated with =
-latest commits
+On Tue, 2022-07-05 at 06:36 +0200, Jacob Kroon wrote:
+> On 7/4/22 15:25, Richard Purdie wrote:
+> > Add a patch to avoid writing the full pathname to gperf into source
+> > files which leads to reproducibility issues.
+> >=20
+> > This fixes issues with systemd reproducibility in particular.
+> >=20
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> >   .../gperf/gperf/reproducibility.patch         | 26 ++++++++++++++++++=
++
+> >   meta/recipes-extended/gperf/gperf_3.1.bb      |  2 ++
+> >   2 files changed, 28 insertions(+)
+> >   create mode 100644 meta/recipes-extended/gperf/gperf/reproducibility.=
+patch
+> >=20
+> > diff --git a/meta/recipes-extended/gperf/gperf/reproducibility.patch b/=
+meta/recipes-extended/gperf/gperf/reproducibility.patch
+> > new file mode 100644
+> > index 00000000000..9f80828dbd7
+> > --- /dev/null
+> > +++ b/meta/recipes-extended/gperf/gperf/reproducibility.patch
+> > @@ -0,0 +1,26 @@
+> > +By default gperf puts a header into generated files with the full path=
+ to
+> > +the tool along with the commandline used. This patch removes the path =
+to
+> > +the binary, allowing reproducible source files (which can be included =
+in
+> > +debug source packages).
+> > +
+> > +Upstream-Status: Pending
+> > +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > +
+> > +Index: gperf-3.1/src/options.cc
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +--- gperf-3.1.orig/src/options.cc
+> > ++++ gperf-3.1/src/options.cc
+> > +@@ -280,6 +280,13 @@ Options::print_options () const
+> > +     {
+> > +       const char *arg =3D _argument_vector[i];
+> > +
+> > ++      if (i =3D=3D 0) {
+> > ++          const char *shortarg =3D strrchr(arg, '/');
+> > ++          if (shortarg) {
+> > ++              arg =3D shortarg + 1;
+> > ++          }
+> > ++      }
+> > ++
+> > +       /* Escape arg if it contains shell metacharacters.  */
+> > +       if (*arg =3D=3D '-')
+> > +         {
+> > diff --git a/meta/recipes-extended/gperf/gperf_3.1.bb b/meta/recipes-ex=
+tended/gperf/gperf_3.1.bb
+> > index 82750fca05c..3564ac0805b 100644
+> > --- a/meta/recipes-extended/gperf/gperf_3.1.bb
+> > +++ b/meta/recipes-extended/gperf/gperf_3.1.bb
+> > @@ -9,6 +9,8 @@ SRC_URI  =3D "${GNU_MIRROR}/${BPN}/${BP}.tar.gz"
+> >   SRC_URI[md5sum] =3D "9e251c0a618ad0824b51117d5d9db87e"
+> >   SRC_URI[sha256sum] =3D "588546b945bba4b70b6a3a616e80b4ab466e3f33024a3=
+52fc2198112cdbb3ae2"
+> >  =20
+> > +SRC_URI:append =3D " file://reproducibility.patch"
+> > +
 >=20
-> On Mon, 2022-07-04 at 00:51 -0700, Sundeep KOKKONDA wrote:
-> > The regression test for Binutils and Glibc is performed.
-> >
-> > 1) Binutils test shows no regression after update.
-> >
-> > 2) Glibc test result:
-> > Test summary before glibc update on Kirkstone:
-> >     204 FAIL
-> >    4320 PASS
-> >      43 UNSUPPORTED
-> >      12 XFAIL
-> >       6 XPASS
-> >
-> > Test summary after glibc update on Kirkstone:
-> >     204 FAIL
-> >    4339 PASS
-> >      41 UNSUPPORTED
-> >      12 XFAIL
-> >       6 XPASS
-> >
-> > Test results analysis:
-> > Total 4585 test cases before Glibc update & Total 4602 test cases
-> > after Glibc update.
-> > 17 new test cases added (out of those 16 PASS & 1 FAIL)
-> > 12 new FAIL test cases after glibc update
-> > 14 new PASS test cases after glibc update
->=20
-> Do we know why some of the failing test cass now pass and why some of =
-the
-> passing test cases now fail? Is this some issue with the way we're =
-testing things?
-> I'm wondering if this is "normal" noise between test runs and if there =
-is some
-> underlying instability or glibc changes do cause changes in pass/fails =
-of tests like
-> this in general?
+> Can I ask if :append was really necessary here, couldn't we just have=20
+> used +=3D ? I'm a little saddened with all these :append/:prepend/:remove=
+=20
+> creeping in to OE-Core.
 
+I agree, I should and usually do better. I'll take a patch to fix it.
 
-Hello Richard,
+Cheers,
 
-The test results are impacted by Execution procedure OR by Changes in =
-glibc.
-
-Execution procedure:
-I tested the glibc with the cross-compiler method given in =
-https://sourceware.org/glibc/wiki/Testing/Testsuite for the aarch64 =
-architecture on qemu.
-However, based on our past test experience, we're following a few =
-additional steps like copying the 'glibc-locale/2.28-r0/image/usr/*' to =
-booted qemu image /usr/ directory (This step is not mentioned the glibc =
-wiki) etc.
-Also, the glibc test is aborted when the -Werror=3Dformat-security flag =
-is used and to get the test done we've removed this error flag and =
-compiled glibc sources.
-
-Since the glibc test not performed very frequently, I am not sure the =
-additional steps what we followed are obsolete or not. I am now working =
-on adhering to the test procedure mentioned in the glibc test wiki and =
-will see the results.
-
-Changes in glibc:
-To comment on the code change impact on the test failures I've to look =
-into each failed test case by case and what are the changes in glibc and =
-how it is impacting the test.
-
-
-I'll keep you posted on this and since the glibc test execution is =
-taking a lot of time my response may be delayed.
-
-
-
-Thanks,
-Sundeep K.
-
-
->=20
-> Cheers,
->=20
-> Richard
->=20
->=20
->=20
-
+Richard
 
 
