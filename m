@@ -1,264 +1,176 @@
-Return-Path: <kristian.amlie@northern.tech>
+Return-Path: <sundeep.kokkonda@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D6A4C433EF
-	for <webhook@archiver.kernel.org>; Tue,  5 Jul 2022 09:33:17 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web12.82180.1657013594897776956
- for <Openembedded-core@lists.openembedded.org>;
- Tue, 05 Jul 2022 02:33:15 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B562C433EF
+	for <webhook@archiver.kernel.org>; Tue,  5 Jul 2022 10:18:27 +0000 (UTC)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
+ [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web10.82673.1657016298564397016
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 05 Jul 2022 03:18:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@northern.tech header.s=google header.b=DrTvZ4Va;
- spf=pass (domain: northern.tech, ip: 209.85.208.181,
- mailfrom: kristian.amlie@northern.tech)
-Received: by mail-lj1-f181.google.com with SMTP id a39so13764639ljq.11
-        for <Openembedded-core@lists.openembedded.org>;
- Tue, 05 Jul 2022 02:33:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=fXpHPJ/5;
+ spf=pass (domain: gmail.com, ip: 209.85.216.43,
+ mailfrom: sundeep.kokkonda@gmail.com)
+Received: by mail-pj1-f43.google.com with SMTP id a15so4985636pjs.0
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 05 Jul 2022 03:18:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=northern.tech; s=google;
-        h=message-id:date:mime-version:user-agent:content-language:to
-         :references:from:subject:in-reply-to;
-        bh=GXP3xh3oyxTCueKboaoHVsxWyBYer73QJR5TDCgUdpg=;
-        b=DrTvZ4VaRg3ZbmyrHLQGkK/cATv6+jKYdietYHnnWAeId+0AQlHAREUCp3c83o9UR5
-         K/x7kEE7Nic+2GOMsPzFRLcBs3liaB9Ro/2TJoXoDP4nC72nz8iVUgtCdnvFLDJuMl7Y
-         /4p1kIEg6yLWADMVOO4zng6GCsMUt1xW6DrQtL3v+dtCijCPzsHXmm9dsOkZgKiBdVY4
-         qk5Gu2S4SxRzH/J+3aq8x1jM2ljCszMhGJH9vfTggbSj38OMe4iEDwO+tT3h1D3wZMXH
-         oVvmIrzk42Z/atT4Wr+4MsCbm3f3/Zrk9DM8kuANNIVfWK++pzSM0KWu4a2vOJwydbDF
-         SPoA==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:references:in-reply-to:subject:date:message-id
+         :mime-version:content-transfer-encoding:content-language
+         :thread-index;
+        bh=k3obYFKcG2gQt0Oe+3XcJgaHyKtw759JGO7mKBb4YMw=;
+        b=fXpHPJ/58GuZacyoNI+fidt7iGpU8WDFwf6lipp8+uwIkmfseGyEClp2DtMFEjm4Y/
+         sMfCHDEu7AdWGx6e/EcyHNvV50fDpSHhUAYLJ7rPDts5GSJNzxG+N+13HOu846qvj3Y5
+         lNOuv+lURd5z4Vev+oBQQ9pEC8bE/Kn8yqk6OcVuoTL8AGvE0fyD+6pfT/qJGNp50DPu
+         GIrqmBYHlfxRozYyyTEjeaQRoFvfJGfVct4V0m9SEYgISPv6hBcuvnt1fKfx5x+PUQff
+         cpEVF6pDwWqvDuyF5Gt27RdaEDHGqg8TdrW3tLhLcU/EZdFCtajwYTplosk9RHY//iA6
+         TyRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:references:from:subject:in-reply-to;
-        bh=GXP3xh3oyxTCueKboaoHVsxWyBYer73QJR5TDCgUdpg=;
-        b=CbM+hgwz1r3zXTVmns5M79I6RgQ1mgO2VcewZQQSextQSXNb05DmS75FuIyLAFbHfo
-         OkxSezItktURaEz6NcBerfNps6+rD31rKR+CJ6U9QqWVRFSj9+7c93FGITt31ynFy7zq
-         9lImR4w3uXo58bgx3osVNYXB9VMgIkFWVD1fTQih0jZ/id7PPVWHph0lvo850HyhGLcA
-         GbBigGeZZ9KFCB2hBXOdUIdzIxsMGTcJBOU+S0LP0o4UXKr6asONOX6FaogfyRuWNG10
-         O4q78QINF551tuTg9qbCOwCNk8yYhW57X1qJJxNg7ePUQ+hkK1VZnsvZD9vPE09pX806
-         WLnw==
-X-Gm-Message-State: AJIora/S4GoPFqf52tg4p3BkORI0aCwtJhKMTT4BbORpJ5KjDBKcxm1+
-	gA/nvKqhq7wSUVDzI3F/23jJSQ==
+        h=x-gm-message-state:from:to:cc:references:in-reply-to:subject:date
+         :message-id:mime-version:content-transfer-encoding:content-language
+         :thread-index;
+        bh=k3obYFKcG2gQt0Oe+3XcJgaHyKtw759JGO7mKBb4YMw=;
+        b=RNSf6Kr0Hg1inNhtAAglXlmzMzNktKJ05lrbc9HJaBN36rUqtKmTCtkc8vR22ogcxE
+         0dytTF3X6L3iDRwyIGJc4vETtgaT8ARIPPi9oFvbsfW0u2lbOurVl/cRv29FRsxlmW58
+         cEtrsybNpfFVnUCbWTSu7OBjXqq7ytgdgiyUi3Sp6rhm5eW8mRVXuZyIdGz49yQfU9wb
+         2R+GofKuzSq7AjJiA88nhKeELHkgxP5xkxdA5w7/1PejGV+a+DSFCHD5GUnjAAo2QcV+
+         5i8/+C161p45+bqLmInnWJn1xapkoWLnbv8K5x+dRXPxL6hduo56zK5gD+MuXS4OXJFW
+         kWHw==
+X-Gm-Message-State: AJIora9iQLI851X5oNR3DbtsmP/vrigz44SYVLFu5C7JZSFIeD3bZkz8
+	EaciEQ4OoYgAattowNVNU+PdeLfeF9To4w==
 X-Google-Smtp-Source: 
- AGRyM1uCc23wSuRzHHkoRcDqm6VeWCgHzIluORmC6ZleVCi4soe6yGpkeAhRNcfJAMs6cQp1KNADuw==
-X-Received: by 2002:a2e:959a:0:b0:25a:6de7:982 with SMTP id
- w26-20020a2e959a000000b0025a6de70982mr18718097ljh.7.1657013592764;
-        Tue, 05 Jul 2022 02:33:12 -0700 (PDT)
-Received: from [10.180.37.37] ([91.232.32.6])
-        by smtp.googlemail.com with ESMTPSA id
- d6-20020a2e96c6000000b0025bdd6af056sm3798793ljj.45.2022.07.05.02.33.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Jul 2022 02:33:12 -0700 (PDT)
-Message-ID: <5d5b0a5e-3a8d-4d9c-6b55-fb3098fa398e@northern.tech>
-Date: Tue, 5 Jul 2022 11:33:11 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- OE-core <Openembedded-core@lists.openembedded.org>
-References: <f3eb760d-07f2-b5ca-a425-fc1166be8064@northern.tech>
- <01c18d2c70290294a649df5c8e044b9d680ebf82.camel@linuxfoundation.org>
- <fb8c122a-9524-af6f-8b53-489a9a035f74@northern.tech>
- <b5c562b9ef7f999b4c655cc45e8c50a9d472c81f.camel@linuxfoundation.org>
- <ef9a8546-e0a0-b346-cd3b-1a955088c11d@northern.tech>
- <27095ef6-ad42-58d2-5242-60584bd6d139@northern.tech>
- <f716cdce4cdc39440223c4dd87adba91fb7ba6f5.camel@linuxfoundation.org>
-From: Kristian Amlie <kristian.amlie@northern.tech>
-Subject: Re: [OE-core] externalsrc wiping out external source directory
+ AGRyM1tXqJm9zzVLwHXc9arNzmLCFd6jGuDboY0H/rJxQVth/VB1acgn/mfAbZRN9Zmync7rAFyPfw==
+X-Received: by 2002:a17:90a:8815:b0:1ee:f3f3:2607 with SMTP id
+ s21-20020a17090a881500b001eef3f32607mr41082154pjn.72.1657016297538;
+        Tue, 05 Jul 2022 03:18:17 -0700 (PDT)
+Received: from LPTBFTI009 ([49.205.113.207])
+        by smtp.gmail.com with ESMTPSA id
+ x3-20020a170902a38300b0016be4d78792sm3812444pla.257.2022.07.05.03.18.15
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 05 Jul 2022 03:18:16 -0700 (PDT)
+From: sundeep.kokkonda@gmail.com
+X-Google-Original-From: <sundeep.Kokkonda@gmail.com>
+To: "'Richard Purdie'" <richard.purdie@linuxfoundation.org>
+Cc: <openembedded-core@lists.openembedded.org>
+References: <20220704071832.3400931-1-sundeep.kokkonda@gmail.com>
+	 <26024.1656921064972068793@lists.openembedded.org>
+ <9e541f91d002db8ef50b187ea8a6ad470e6dc49a.camel@linuxfoundation.org>
 In-Reply-To: 
- <f716cdce4cdc39440223c4dd87adba91fb7ba6f5.camel@linuxfoundation.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------IfsQbF20LUdYx3PTs68kfCd9"
+ <9e541f91d002db8ef50b187ea8a6ad470e6dc49a.camel@linuxfoundation.org>
+Subject: RE: [OE-core] [kirkstone] Binutils,
+ Glibc: Updated with latest commits
+Date: Tue, 5 Jul 2022 15:48:12 +0530
+Message-ID: <002101d89058$89ef9010$9dceb030$@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain;
+	charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-in
+Thread-Index: AQHBdFi2sRiDFESjUm9WnTELqfO6sgLZOUD8AiI4JFetdet+QA==
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Jul 2022 09:33:17 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Jul 2022 10:18:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167647
+ https://lists.openembedded.org/g/openembedded-core/message/167648
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------IfsQbF20LUdYx3PTs68kfCd9
-Content-Type: multipart/mixed; boundary="------------krNtY18xXzu9NyNxAUJnkHrA";
- protected-headers="v1"
-From: Kristian Amlie <kristian.amlie@northern.tech>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- OE-core <Openembedded-core@lists.openembedded.org>
-Message-ID: <5d5b0a5e-3a8d-4d9c-6b55-fb3098fa398e@northern.tech>
-Subject: Re: [OE-core] externalsrc wiping out external source directory
-References: <f3eb760d-07f2-b5ca-a425-fc1166be8064@northern.tech>
- <01c18d2c70290294a649df5c8e044b9d680ebf82.camel@linuxfoundation.org>
- <fb8c122a-9524-af6f-8b53-489a9a035f74@northern.tech>
- <b5c562b9ef7f999b4c655cc45e8c50a9d472c81f.camel@linuxfoundation.org>
- <ef9a8546-e0a0-b346-cd3b-1a955088c11d@northern.tech>
- <27095ef6-ad42-58d2-5242-60584bd6d139@northern.tech>
- <f716cdce4cdc39440223c4dd87adba91fb7ba6f5.camel@linuxfoundation.org>
-In-Reply-To: <f716cdce4cdc39440223c4dd87adba91fb7ba6f5.camel@linuxfoundation.org>
+Hello Richard,
 
---------------krNtY18xXzu9NyNxAUJnkHrA
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+> -----Original Message-----
+> From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Sent: 04 July 2022 14:20
+> To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>; openembedded-
+> core@lists.openembedded.org
+> Subject: Re: [OE-core] [kirkstone] Binutils, Glibc: Updated with =
+latest commits
+>=20
+> On Mon, 2022-07-04 at 00:51 -0700, Sundeep KOKKONDA wrote:
+> > The regression test for Binutils and Glibc is performed.
+> >
+> > 1) Binutils test shows no regression after update.
+> >
+> > 2) Glibc test result:
+> > Test summary before glibc update on Kirkstone:
+> >     204 FAIL
+> >    4320 PASS
+> >      43 UNSUPPORTED
+> >      12 XFAIL
+> >       6 XPASS
+> >
+> > Test summary after glibc update on Kirkstone:
+> >     204 FAIL
+> >    4339 PASS
+> >      41 UNSUPPORTED
+> >      12 XFAIL
+> >       6 XPASS
+> >
+> > Test results analysis:
+> > Total 4585 test cases before Glibc update & Total 4602 test cases
+> > after Glibc update.
+> > 17 new test cases added (out of those 16 PASS & 1 FAIL)
+> > 12 new FAIL test cases after glibc update
+> > 14 new PASS test cases after glibc update
+>=20
+> Do we know why some of the failing test cass now pass and why some of =
+the
+> passing test cases now fail? Is this some issue with the way we're =
+testing things?
+> I'm wondering if this is "normal" noise between test runs and if there =
+is some
+> underlying instability or glibc changes do cause changes in pass/fails =
+of tests like
+> this in general?
 
-T24gMjAvMDYvMjAyMiAxNzozNSwgUmljaGFyZCBQdXJkaWUgd3JvdGU6DQo+IE9uIE1vbiwg
-MjAyMi0wNi0yMCBhdCAxMzo1NiArMDIwMCwgS3Jpc3RpYW4gQW1saWUgd3JvdGU6DQo+PiBK
-dXN0IGZvciB0aGUgcmVjb3JkLCBhbmQgZm9yIGFueSBwZW9wbGUgZ29vZ2xpbmcgdGhpczog
-VW50aWwgdGhpcyBpcw0KPj4gZml4ZWQsIGp1c3QgcmV2ZXJ0aW5nIHRoZSBhYm92ZSBjb21t
-aXQgd29ya3MgdG8gZml4IHRoaXMgcHJvYmxlbS4NCj4+DQo+PiBSaWNoYXJkLCBjb3JyZWN0
-IG1lIGlmIEknbSB3cm9uZywgYnV0IEkgaGF2ZSBub3QgeWV0IHNlZW4gYW55IGZpeGVzIGZv
-cg0KPj4gdGhpcy4gQW5kIHVuZm9ydHVuYXRlbHkgdGhpcyBpcyB0b28gZGVlcCBpbiBCaXRi
-YWtlIGZvciBtZSB0byBmaXggaXQNCj4+IG15c2VsZi4gRG8geW91IHRoaW5rIGl0IG1ha2Vz
-IHNlbnNlIHRvIHJldmVydCB0aGF0IGNvbW1pdCBpbiB0aGUNCj4+IG9mZmljaWFsIHBva3kg
-YnJhbmNoZXM/IEkgbWVhbiwgdGhlIGNvbnNlcXVlbmNlcyBvZiB0aGlzIGJ1ZyBhcmUNCj4+
-IHVudXN1YWxseSBkaXJlLiBFc3BlY2lhbGx5IGluIGNvbWJpbmF0aW9uIHdpdGggZ28ncyBj
-b21tb24gcGF0dGVybiBvZg0KPj4gcHV0dGluZyBhbGwgc291cmNlIGNvZGUgaW4gb25lIGRp
-cmVjdG9yeSwgZXh0ZXJuYWxzcmMgY2FuIHdpcGUgb3V0IG1vc3QNCj4+IG9mIHRoZSBzb3Vy
-Y2UgY29kZSBpbiB0aGUgdXNlcidzIGhvbWUgZGlyZWN0b3J5Lg0KPiANCj4gVGhlIHNpdHVh
-dGlvbiBpcyByYXRoZXIgcG9vciwgeWVzIDooLiBTYWRseSBub3QgbWFueSBwZW9wbGUgd2Fu
-dCB0byBnZXQNCj4gaW52b2x2ZWQgd2l0aCB0aGUgY29yZSBlbm91Z2ggdG8gdHJ5IGFuZCB3
-b3JrIG9uIHRoZXNlIGtpbmRzIG9mIGlzc3Vlcy4NCj4gVGhlcmUgYXJlIGEgY291cGxlIG9m
-IHdheXMgd2UgY291bGQgcGVyaGFwcyBpbXByb3ZlIHRoaW5ncy4gSSd2ZSBhDQo+IGNvdXBs
-ZSBvZiBwYXRjaGVzICh1bnRlc3RlZCBidXQgeW91J2xsIGdldCB0aGUgaWRlYSkuIEZpcnN0
-bHk6DQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzL2V4dGVybmFsc3JjLmJiY2xh
-c3MgYi9tZXRhL2NsYXNzZXMvZXh0ZXJuYWxzcmMuYmJjbGFzcw0KPiBpbmRleCBiMmYyMTZm
-MzYxZC4uZTIwMDBkMWM4ZDMgMTAwNjQ0DQo+IC0tLSBhL21ldGEvY2xhc3Nlcy9leHRlcm5h
-bHNyYy5iYmNsYXNzDQo+ICsrKyBiL21ldGEvY2xhc3Nlcy9leHRlcm5hbHNyYy5iYmNsYXNz
-DQo+IEBAIC05MCwxNiArOTAsMTggQEAgcHl0aG9uICgpIHsNCj4gICAgICAgICAgICAgICAg
-ICAgIyBTaW5jZSBjb25maWd1cmUgd2lsbCBsaWtlbHkgdG91Y2ggJHtTfSwgZW5zdXJlIG9u
-bHkgd2UgbG9jayBzbyBvbmUgdGFzayBoYXMgYWNjZXNzIGF0IGEgdGltZQ0KPiAgICAgICAg
-ICAgICAgICAgICBkLmFwcGVuZFZhckZsYWcodGFzaywgImxvY2tmaWxlcyIsICIgJHtTfS9z
-aW5nbGV0YXNrLmxvY2siKQ0KPiAgIA0KPiAtICAgICAgICAgICAgZm9yIGZ1bmNuYW1lIGlu
-IFt0YXNrLCAiYmFzZV8iICsgdGFzaywgImtlcm5lbF8iICsgdGFza106DQo+ICsgICAgICAg
-IGZvciB2IGluIGQua2V5cygpDQo+ICsgICAgICAgICAgICBjbGVhbmRpcnMgPSBkLmdldFZh
-ckZsYWcodiwgImNsZWFuZGlycyIsIEZhbHNlKQ0KPiArICAgICAgICAgICAgaWYgY2xlYW5k
-aXJzOg0KPiAgICAgICAgICAgICAgICAgICAjIFdlIGRvIG5vdCB3YW50IG91ciBzb3VyY2Ug
-dG8gYmUgd2lwZWQgb3V0LCBldmVyIChrZXJuZWwuYmJjbGFzcyBkb2VzIHRoaXMgZm9yIGRv
-X2NsZWFuKQ0KPiAtICAgICAgICAgICAgICAgIGNsZWFuZGlycyA9IG9lLnJlY2lwZXV0aWxz
-LnNwbGl0X3Zhcl92YWx1ZShkLmdldFZhckZsYWcoZnVuY25hbWUsICdjbGVhbmRpcnMnLCBG
-YWxzZSkgb3IgJycpDQo+ICsgICAgICAgICAgICAgICAgY2xlYW5kaXJzID0gb2UucmVjaXBl
-dXRpbHMuc3BsaXRfdmFyX3ZhbHVlKGNsZWFuZGlycykNCj4gICAgICAgICAgICAgICAgICAg
-c2V0dmFsdWUgPSBGYWxzZQ0KPiAgICAgICAgICAgICAgICAgICBmb3IgY2xlYW5kaXIgaW4g
-Y2xlYW5kaXJzWzpdOg0KPiAgICAgICAgICAgICAgICAgICAgICAgaWYgb2UucGF0aC5pc19w
-YXRoX3BhcmVudChleHRlcm5hbHNyYywgZC5leHBhbmQoY2xlYW5kaXIpKToNCj4gICAgICAg
-ICAgICAgICAgICAgICAgICAgICBjbGVhbmRpcnMucmVtb3ZlKGNsZWFuZGlyKQ0KPiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIHNldHZhbHVlID0gVHJ1ZQ0KPiAgICAgICAgICAgICAg
-ICAgICBpZiBzZXR2YWx1ZToNCj4gLSAgICAgICAgICAgICAgICAgICAgZC5zZXRWYXJGbGFn
-KGZ1bmNuYW1lLCAnY2xlYW5kaXJzJywgJyAnLmpvaW4oY2xlYW5kaXJzKSkNCj4gKyAgICAg
-ICAgICAgICAgICAgICAgZC5zZXRWYXJGbGFnKHYsICdjbGVhbmRpcnMnLCAnICcuam9pbihj
-bGVhbmRpcnMpKQ0KPiAgIA0KPiAgICAgICAgICAgZmV0Y2hfdGFza3MgPSBbJ2RvX2ZldGNo
-JywgJ2RvX3VucGFjayddDQo+ICAgICAgICAgICAjIElmIHdlIGRlbHRhc2sgZG9fcGF0Y2gs
-IHRoZXJlJ3Mgbm8gZGVwZW5kZW5jeSB0byBlbnN1cmUgZG9fdW5wYWNrIGdldHMgcnVuLCBz
-byBhZGQgb25lDQo+IA0KPiANCj4gVGhpcyBsb29rcyBzaW1wbGUgZW5vdWdoIC0gaXRlcmF0
-ZSBhbmQgcmVtb3ZlIGFueSBwcm9ibGVtYXRpYyBjbGVhbmRpcnMNCj4gcmVmZXJlbmNlcy4g
-VGhlcmUgYXJlIHNldmVyYWwgcG90ZW50aWFsIGlzc3Vlcy4gRmlyc3RseSB0aGUgcGVyZm9y
-bWFuY2UNCj4gb2YgZC5rZXlzKCkgd2l0aCBhIGdldFZhckZsYWcoKSBjYWxsIGxpa2UgdGhh
-dCBpcyBkaXJlLiBJZiBldmVyeSByZWNpcGUNCj4gZGlkIHRoaXMgdGhlIHBhcnNpbmcgdGlt
-ZSB3b3VsZCBiZSBob3JyaWJsZS4gSSBkb24ndCBrbm93IGhvdyBiYWRseSBpdA0KPiB3aWxs
-IGFmZmVjdCB0aGluZ3MgZm9yIGEgc2luZ2RvIHdhbnQgdG8gZ2l2ZSB1c2Vyc2xlIHJlY2lw
-ZS4gV2UgbWlnaHQNCj4gYmUgYWJsZSB0byBoYXZlIGJpdGJha2Ugc2F2ZSBhIGxpdCBvZiBm
-dW5jdGlvbiBuYW1lcyBpbnRvIGEgdmFyaWFibGUgdG8NCj4gaGF2ZSBpdCByZWR1Y2UgdGhl
-IHBlcmZvcm1hbmNlIGltcGFjdCBpZiB0aGF0IGJlY2FtZSBhbiBpc3N1ZS4NCj4gDQo+IFNl
-Y29uZGx5LCBpdCBzdGlsbCBtaWdodCBub3QgY2F0Y2ggZXZlcnkgY2xlYW5kaXJzIGZvciB2
-YXJpb3VzIHJlYXNvbnMNCj4gc2luY2UgdGhleSBtYXkgYmUgc2V0IGR5bmFtaWNhbGx5IG9y
-IGluIG90aGVyIHVudXN1YWwgd2F5cy4gSXQgaXMNCj4gcHJvYmFibHkgYmV0dGVyIHRoYW4g
-d2hhdCB3ZSBoYXZlIHRvZGF5IHRob3VnaC4NCg0KSSBmaW5hbGx5IGdvdCBhIGNoYW5jZSB0
-byBydW4gdGhpcyB0aHJvdWdoIG91ciB3aG9sZSB0ZXN0IHBpcGVsaW5lIFsxXS4gDQpJIHRo
-aW5rIHRoaXMgaXMgYSBnb29kIGFwcHJvYWNoLiBZb3UncmUgcmlnaHQgaXQgbWlnaHQgbm90
-IGNhdGNoIGV2ZXJ5IA0KbGFzdCBvY2N1cnJlbmNlLCBidXQgaXQncyBtdWNoIGJldHRlciB0
-aGFuIHRoZSBjdXJyZW50IHN0YXRlLCBhbmQgaXQgDQpzaG91bGQgY2F0Y2ggbW9zdC4gQW5k
-IG1vc3QgaW1wb3J0YW50bHksIGl0IHdvcmtlZC4NCg0KUmVnYXJkaW5nIHRoZSBwZXJmb3Jt
-YW5jZTogV2lsbCB0aGF0IGFjdHVhbGx5IGJlIGEgYmlnIHByb2JsZW0/IFRoZSBjb2RlIA0K
-aW4gcXVlc3Rpb24gaXMgZ3VhcmRlZCBieSAiaWYgZXh0ZXJuYWxzcmMiLCB3aGljaCBpcyBv
-bmx5IHRydWUgaWYgdGhlIA0KRVhURVJOQUxTUkMgdmFyaWFibGUgaXMgbm9uLWVtcHR5LiBU
-eXBpY2FsbHkgaXQgd2lsbCBvbmx5IGJlIG5vbi1lbXB0eSANCmZvciBvbmUgb3IgYSBmZXcg
-cmVjaXBlcy4gVGhlIHRpbWluZ3Mgb2Ygb3VyIGZ1bGwgUUEgcGlwZWxpbmUgZmx1Y3R1YXRl
-IA0KYSBsaXR0bGUsIGJ1dCBJIGRpZCBub3Qgc2VlIGFueSAqc2lnbmlmaWNhbnQqIHNsb3dk
-b3duLCBpdCB3YXMgd2l0aGluIA0KNSUsIGFuZCBjb3VsZCBqdXN0IGJlIGEgY29pbmNpZGVu
-Y2UuDQoNClsxXSBOb3RlOiBPbmUgbWlzc2luZyAiOiIgaW4gdGhlICJmb3IiIHN0YXRlbWVu
-dC4NCg0KPiBNeSBzZWNvbmQgaWRlYToNCj4gDQo+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNz
-ZXMvYmFzZS5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzL2Jhc2UuYmJjbGFzcw0KPiBpbmRleCAy
-MDk2OGE1MDc2Ni4uYmZlOWMxMjRlZTMgMTAwNjQ0DQo+IC0tLSBhL21ldGEvY2xhc3Nlcy9i
-YXNlLmJiY2xhc3MNCj4gKysrIGIvbWV0YS9jbGFzc2VzL2Jhc2UuYmJjbGFzcw0KPiBAQCAt
-MTY1LDcgKzE2NSw4IEBAIHB5dGhvbiBiYXNlX2RvX2ZldGNoKCkgew0KPiAgIGFkZHRhc2sg
-dW5wYWNrIGFmdGVyIGRvX2ZldGNoDQo+ICAgZG9fdW5wYWNrW2RpcnNdID0gIiR7V09SS0RJ
-Un1kbyB3YW50IHRvIGdpdmUgdXNlcnMiDQo+ICAgDQo+IC1kb191bnBhY2tbY2xlYW5kaXJz
-XSA9ICIke0BkLmdldFZhcignUycpIGlmIG9zLnBhdGgubm9ybXBhdGgoZC5nZXRWYXIoJ1Mn
-KSkgIT0gb3MucGF0aC5ub3JtcGF0aChkLmdldFZhcignV09SS0RJUicpKSBlbHNlIG9zLnBh
-dGguam9pbignJHtTfScsICdwYXRjaGVzJyl9Ig0KPiArU09VUkNFX0NMRUFORElSUyA9ICIk
-e0BkLmdldFZhcignUycpIGlmIG9zLnBhdGgubm9ybXBhdGgoZC5nZXRWYXIoJ1MnKSkgIT0g
-b3MucGF0aC5ub3JtcGF0aChkLmdldFZhcignV09SS0RJUicpKSBlbHNlIG9zLnBhdGguam9p
-bignJHtTfScsICdwYXRjaGVzJyl9Ig0KPiArZG9fdW5wYWNrW2NsZWFuZGlyc10gPSAiJHtT
-T1VSQ0VfQ0xFQU5ESVJTfSINCj4gICANCj4gICBweXRob24gYmFzZV9kb191bnBhY2soKSB7
-DQo+ICAgICAgIHNyY191cmkgPSAoZC5nZXRWYXIoJ1NSQ19VUkknKSBvciAiIikuc3BsaXQo
-KQ0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzL2V4dGVybmFsc3JjLmJiY2xhc3MgYi9t
-ZXRhL2NsYXNzZXMvZXh0ZXJuYWxzcmMuYmJjbGFzcw0KPiBpbmRleCA5MDc5MmE3MzdiMS4u
-ZjE0NWUwYmQxZGUgMTAwNjQ0DQo+IC0tLSBhL21ldGEvY2xhc3Nlcy9leHRlcm5hbHNyYy5i
-YmNsYXNzDQo+ICsrKyBiL21ldGEvY2xhc3Nlcy9leHRlcm5hbHNyYy5iYmNsYXNzDQo+IEBA
-IC03Nyw2ICs3Nyw4IEBAIHB5dGhvbiAoKSB7DQo+ICAgICAgICAgICAjIER1bW15IHZhbHVl
-IGJlY2F1c2UgdGhlIGRlZmF1bHQgZnVuY3Rpb24gY2FuJ3QgYmUgY2FsbGVkIHdpdGggYmxh
-bmsgU1JDX1VSSQ0KPiAgICAgICAgICAgZC5zZXRWYXIoJ1NSQ1BWJywgJzk5OScpDQo+ICAg
-DQo+ICsgICAgICAgIGQuc2V0VmFyKCJTT1VSQ0VfQ0xFQU5ESVJTIiwgIiIpDQo+ICsNCj4g
-ICAgICAgICAgIGlmIGQuZ2V0VmFyKCdDT05GSUdVUkVPUFRfREVQVFJBQ0snKSA9PSAnLS1k
-aXNhYmxlLWRlcGVuZGVuY3ktdHJhY2tpbmcnOg0KPiAgICAgICAgICAgICAgIGQuc2V0VmFy
-KCdDT05GSUdVUkVPUFRfREVQVFJBQ0snLCAnJykNCj4gICANCj4gQEAgLTkwLDcgKzkyLDcg
-QEAgcHl0aG9uICgpIHsNCj4gICAgICAgICAgICAgICAgICAgIyBTaW5jZSBjb25maWd1cmUg
-d2lsbCBsaWtlbHkgdG91Y2ggJHtTfSwgZW5zdXJlIG9ubHkgd2UgbG9jayBzbyBvbmUgdGFz
-ayBoYXMgYWNjZXNzIGF0IGEgdGltZQ0KPiAgICAgICAgICAgICAgICAgICBkLmFwcGVuZFZh
-ckZsYWcodGFzaywgImxvY2tmaWxlcyIsICIgJHtTfS9zaW5nbGV0YXNrLmxvY2siKQ0KPiAg
-IA0KPiAtICAgICAgICAgICAgZm9yIGZ1bmNuYW1lIGluIFt0YXNrLCAiYmFzZV8iICsgdGFz
-aywgImtlcm5lbF8iICsgdGFza106DQo+ICsgICAgICAgICAgICBmb3IgZnVuY25hbWUgaW4g
-W3Rhc2tdOg0KPiAgICAgICAgICAgICAgICAgICAjIFdlIGRvIG5vdCB3YW50IG91ciBzb3Vy
-Y2UgdG8gYmUgd2lwZWQgb3V0LCBldmVyIChrZXJuZWwuYmJjbGFzcyBkb2VzIHRoaXMgZm9y
-IGRvX2NsZWFuKQ0KPiAgICAgICAgICAgICAgICAgICBjbGVhbmRpcnMgPSBvZS5yZWNpcGV1
-dGlscy5zcGxpdF92YXJfdmFsdWUoZC5nZXRWYXJGbGFnKGZ1bmNuYW1lLCAnY2xlYW5kaXJz
-JywgRmFsc2UpIG9yICcnKQ0KPiAgICAgICAgICAgICAgICAgICBzZXR2YWx1ZSA9IEZhbHNl
-DQo+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMva2VybmVsLmJiY2xhc3MgYi9tZXRhL2Ns
-YXNzZXMva2VybmVsLmJiY2xhc3MNCj4gaW5kZXggNWQyZjE3YzNiZTIuLmI3ZDNiYzAzOTU1
-IDEwMDY0NA0KPiAtLS0gYS9tZXRhL2NsYXNzZXMva2VybmVsLmJiY2xhc3NkbyB3YW50IHRv
-IGdpdmUgdXNlcnMNCj4gKysrIGIvbWV0YS9jbGFzc2VzL2tlcm5lbC5iYmNsYXNzDQo+IEBA
-IC0xNzIsOCArMTcyLDkgQEAgaW5oZXJpdCAke0tFUk5FTF9DTEFTU0VTfQ0KPiAgICMgV2Ug
-bmVlZCB0byBtb3ZlIHRoZXNlIG92ZXIgdG8gU1RBR0lOR19LRVJORUxfRElSLiBXZSBjYW4n
-dCBqdXN0DQo+ICAgIyBjcmVhdGUgdGhlIHN5bWxpbmsgaW4gYWR2YW5jZSBhcyB0aGUgZ2l0
-IGZldGNoZXIgY2FuJ3QgY29wZSB3aXRoDQo+ICAgIyB0aGUgc3ltbGluay4NCj4gLWRvX3Vu
-cGFja1tjbGVhbmRpcnNdICs9ICIgJHtTfSAke1NUQUdJTkdfS0VSTkVMX0RJUn0gJHtCfSAk
-e1NUQUdJTkdfS0VSTkVMX0JVSUxERElSfSINCj4gLWRvX2NsZWFuW2NsZWFuZGlyc10gKz0g
-IiAke1N9ICR7U1RBR0lOR19LRVJORUxfRElSfSAke0J9ICR7U1RBR0lOR19LRVJORUxfQlVJ
-TERESVJ9Ig0KPiArU09VUkNFX0NMRUFORElSUyArPSAiJHtTVEFHSU5HX0tFUk5FTF9ESVJ9
-Ig0KPiArZG9fdW5wYWNrW2NsZWFuZGlyc10gKz0gIiR7Qn0gJHtTVEFHSU5HX0tFUk5FTF9C
-VUlMRERJUn0iDQo+ICtkb19jbGVhbltjbGVhbmRpcnNdICs9ICIgJHtTT1VSQ0VfQ0xFQU5E
-SVJTfSAke0J9ICR7U1RBR0lOR19LRVJORUxfQlVJTERESVJ9Ig0KPiAgIHB5dGhvbiBkb19z
-eW1saW5rX2tlcm5zcmMgKCkgew0KPiAgICAgICBzID0gZC5nZXRWYXIoIlMiKQ0KPiAgICAg
-ICBpZiBzWy0xXSA9PSAnLyc6DQo+IA0KPiBXaGljaCBwYXJhbWV0ZXJpc2VzIHRoZSBwbGFj
-ZXMgJHtTfSBpcyBwbGFjZWQgaW50byBjbGVhbmRpcnMgYW5kIGNsZWFycw0KPiB0aGFuIGlu
-IGV4dGVybmFsc3JjLiBUaGF0IHNob3VsZCBiZSBtb3JlIHJlbGlhYmxlIGluIHNvbWUgc2Nl
-bmFyaW9zIGJ1dA0KPiByZWxpZXMgdXBvbiBpdCBub3QgYmVpbmcgYWRkZWQgdG8gY2xlYW5k
-aXJzIGVsc2V3aGVyZS4gSXQgaXMgcHJvYmFibHkNCj4gbW9yZSBzdXJnaWNhbCBhbmQgbmVh
-dGVyIGJ1dCBkb2Vzbid0IHJlbW92ZSBhbGwgdGhlIHJpc2suIEknbSBub3Qgc3VyZQ0KPiB3
-ZSBjYW4gZXZlciBnaXZlIDEwMCUgZ3VhcmFudGVlcyB0aG91Z2guDQoNCkkgZGlkbid0IHRy
-eSB0aGlzIGFwcHJvYWNoLCBidXQgaXQgc2VlbXMgbGVzcyBnZW5lcmljLCBhbmQgaGFzIG1v
-cmUgDQpwb3RlbnRpYWwgdG8gYnJlYWsgaWYgY2xlYW5kaXJzIGlzIHVzZWQgaW4gb3RoZXIg
-bGF5ZXJzIGZvciBleGFtcGxlLiANClBlcnNvbmFsbHkgSSB3b3VsZCB2b3RlIGZvciB0aGUg
-Zmlyc3Qgb3B0aW9uLg0KDQotLSANCktyaXN0aWFuDQo=
 
---------------krNtY18xXzu9NyNxAUJnkHrA--
+Hello Richard,
 
---------------IfsQbF20LUdYx3PTs68kfCd9
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+The test results are impacted by Execution procedure OR by Changes in =
+glibc.
 
------BEGIN PGP SIGNATURE-----
+Execution procedure:
+I tested the glibc with the cross-compiler method given in =
+https://sourceware.org/glibc/wiki/Testing/Testsuite for the aarch64 =
+architecture on qemu.
+However, based on our past test experience, we're following a few =
+additional steps like copying the 'glibc-locale/2.28-r0/image/usr/*' to =
+booted qemu image /usr/ directory (This step is not mentioned the glibc =
+wiki) etc.
+Also, the glibc test is aborted when the -Werror=3Dformat-security flag =
+is used and to get the test done we've removed this error flag and =
+compiled glibc sources.
 
-iQEzBAEBCgAdFiEENCehelwanxwH18S/9GRAfJlq8D8FAmLEBVcACgkQ9GRAfJlq
-8D/PhQf6AwXJ4n1/M7nfwkdW2lmO6AaylvfQsFClYwSj2QWtbv3YsMFA9ynivCoW
-2iPfHTI+95ByoclRmvVKsqj8GiNWjQaVbe4bk6nlwwzuA5iQhsbDr8MYe6V18NxH
-s4WcxdZ3gWXGU/NbHcmQnQAPgUXzuMFYo+4JmAlBqHxTtATLezOlk6MQqGl4YY3i
-UP23wz5O2pd2/8yczQUiWRMn4Hq/xUL0tCCAcCASdDNC5UINKAbd17Wc2DqlWazs
-1P5xCAqmd7HOM1nROcf4pZ3TNeHUvrdlo7JMpSoXs/sshrip3z0+c5yxTv+Z31/E
-ZX/f+/KFQ/hQ3aUhiFGJLpdKswo2jw==
-=0iwH
------END PGP SIGNATURE-----
+Since the glibc test not performed very frequently, I am not sure the =
+additional steps what we followed are obsolete or not. I am now working =
+on adhering to the test procedure mentioned in the glibc test wiki and =
+will see the results.
 
---------------IfsQbF20LUdYx3PTs68kfCd9--
+Changes in glibc:
+To comment on the code change impact on the test failures I've to look =
+into each failed test case by case and what are the changes in glibc and =
+how it is impacting the test.
+
+
+I'll keep you posted on this and since the glibc test execution is =
+taking a lot of time my response may be delayed.
+
+
+
+Thanks,
+Sundeep K.
+
+
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+>=20
+
+
 
