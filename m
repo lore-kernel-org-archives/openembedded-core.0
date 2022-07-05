@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AD95CCA482
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24D6DC433EF
 	for <webhook@archiver.kernel.org>; Tue,  5 Jul 2022 17:04:00 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web11.86660.1657040631781878457
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web11.86661.1657040632979043694
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jul 2022 10:03:52 -0700
+ Tue, 05 Jul 2022 10:03:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=POXK1DzE;
- spf=pass (domain: gmail.com, ip: 209.85.218.41,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=NbXxvmQj;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id g26so22735239ejb.5
+Received: by mail-ej1-f44.google.com with SMTP id dn9so17454714ejc.7
         for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jul 2022 10:03:51 -0700 (PDT)
+ Tue, 05 Jul 2022 10:03:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ucCs6qEi5/VLeI790jwRSC1ApRo9S/KFy7Uilmgj5MY=;
-        b=POXK1DzE/Z0+ULV1FqwDF9/IOH4kkmm3jgZKdmk4oNus7NN03bYN/a7TunMrkbG1tq
-         CGzJ+Hn7jmGTaHDDjbTnJdER8Pp0gF71aqSLkWIvemhdsD6DgFhUxfr8LwjsxCAboTY4
-         GBkHHGJCrVy44DtIHT3/OwzkgLlcn6tdMq/YKn7G/05yYDldHrP8+2MCyDsWfQjD8Fgq
-         IhGVhbTHsETJcMv2PambOe4KYu4Ny9rDzsJn2XgR1QCi7ggb8a9zUJ074yOmobLkWwH3
-         XYSdDCGhAuddAnKT5xI/g47q2hx984OuygxgRIgf+zwkLdi25MaMvslqwyiS0gWrnmc3
-         E6kw==
+        bh=N4bU9c4syoKek8wfUiqvGybRnS+P8wGzCLYThfykQ04=;
+        b=NbXxvmQjqful4Wen2bkxJC3FQE2DKgbmVN3v98An/TMC9BX+r71onZBjcFzAkHXYAJ
+         RU/GpLZjscoa/y/gV/k/68bSuJ25lCr/IlejN5SQTDm0DijPIOQatTYaovTRCdXtJqzz
+         002DrSKKqngkdqvXsSafuVGO+eYxdZYtxFdMNClGiXNVXg3pFdpR+gtnYN/qDli/vPUF
+         yVOCs0mw1s1S+pTDCjjDASdVFIyOZlN0BSAWFSiTqBd9aF8n5Lk8OlAsRROLHtYf3RfV
+         MYxB3AgxCoBxCofxmvqTNys6zouHbY33ybG7U+6JqdBNOvKbJFOZ2n3P6vupf3V5lRy1
+         0acg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ucCs6qEi5/VLeI790jwRSC1ApRo9S/KFy7Uilmgj5MY=;
-        b=H/b/1j4WEPxKO4+w1vQevtXRpPeXSU2CTY3/2mafTKXKvxeDggffA7P5eK/fr48Sn3
-         +6sfphxprhhsal/nEFg/Fru3kuBV4P6C1KX+QgLgPaEZjmB5Tp7WgEcwx/4EpDPU9pMe
-         RVfV65NM7WEw5VbwsVTsmxdXQcnPKnOBEMgYOaG5Co2zjGlkRrMyzMfLDAyz+NMhXMx9
-         hYRUCjvDKB8yJSN5C9AWe+wCrCsIQu15YeXcF8XGZW+JV7RMZ+mhi9DjUHmyCnQ8kl5V
-         otH0YpbzD92KB8ehGG6bln1GW7PCZDRO8o8hkjQ7yE3KbQiqohINaynyHNlWI37XSNJc
-         PEUg==
-X-Gm-Message-State: AJIora8Cky+lw+RuyM3Hc9o9qfcji9u6AYkhuHCr5wYH/AmBqN9BPa8M
-	cA41rUt9Fst0uMtbU+T39zmb07dTDNGx/A==
+        bh=N4bU9c4syoKek8wfUiqvGybRnS+P8wGzCLYThfykQ04=;
+        b=GM6Yc2NuHoiYyrD837CYpPSOaQY+2EWp2J1hlg72+YM0P+7gXgg5yPc6SxmttYQC0E
+         FNwCumsHr7jpF574omX6o5Ux4PSSa/iLf51sKvqZVhWgixKryYZjR1P/jAzkfJ5xMV6b
+         2fLjRSzTGaroTvp7eESBQxYhU7TyF+8L7+g/5zbOY+1Y8UNcvs5mXserctU2dDBPGxBc
+         a885Tcf0P9ZKTpYQBLF86yEkAwSIY5wLbAZtBh258irf0SYFxEYQpmmk9becyToYQi+e
+         Tv984aBE0jSaskDUGN22PQOWgiTMyRmrb5O3DOHCFKptg4Z4l066Z5PoAvswUNXt/uEi
+         RSQg==
+X-Gm-Message-State: AJIora/09CeQfyTGerSe+zObg6oVve6jjAqWodY4HgEnpAZ/RFzJ12tZ
+	Wqqt9VXFp1nysBTRt3PHAYZmwJrAo7zNOQ==
 X-Google-Smtp-Source: 
- AGRyM1vI//FYQBPf8ZnTu95rtbAX/q2vIbtFTO2cRXjKCxx9jcfoMTTzbngvzQOAxTErws2IzCWKDw==
-X-Received: by 2002:a17:907:7ea7:b0:72a:b641:d38 with SMTP id
- qb39-20020a1709077ea700b0072ab6410d38mr15300597ejc.187.1657040630170;
-        Tue, 05 Jul 2022 10:03:50 -0700 (PDT)
+ AGRyM1sc7+hhHKGRXZIcDLcs6a1Ts1Z2ZTS0kCAOxJE2qC+piyRP+q1GB8G4F07XP+MfXpAdIyM5qA==
+X-Received: by 2002:a17:907:2da3:b0:726:b031:a448 with SMTP id
+ gt35-20020a1709072da300b00726b031a448mr34176547ejc.506.1657040631408;
+        Tue, 05 Jul 2022 10:03:51 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- x2-20020a05640225c200b00435651c4a01sm23999886edb.56.2022.07.05.10.03.49
+ x2-20020a05640225c200b00435651c4a01sm23999886edb.56.2022.07.05.10.03.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 10:03:49 -0700 (PDT)
+        Tue, 05 Jul 2022 10:03:50 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 4/7] wayland: update 1.20.0 -> 1.21.0
-Date: Tue,  5 Jul 2022 19:03:36 +0200
-Message-Id: <20220705170339.771017-4-alex@linutronix.de>
+Subject: [PATCH 5/7] weston: update 10.0.0 -> 10.0.1
+Date: Tue,  5 Jul 2022 19:03:37 +0200
+Message-Id: <20220705170339.771017-5-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220705170339.771017-1-alex@linutronix.de>
 References: <20220705170339.771017-1-alex@linutronix.de>
@@ -68,74 +68,39 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 05 Jul 2022 17:04:00 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167672
-
-Drop the patch, as it is no longer necessary
-(genereated .pc defines everything as relative to the .pc path).
+ https://lists.openembedded.org/g/openembedded-core/message/167674
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...hardcode-the-path-to-wayland-scanner.patch | 27 -------------------
- .../{wayland_1.20.0.bb => wayland_1.21.0.bb}  |  5 ++--
- 2 files changed, 2 insertions(+), 30 deletions(-)
- delete mode 100644 meta/recipes-graphics/wayland/wayland/0002-Do-not-hardcode-the-path-to-wayland-scanner.patch
- rename meta/recipes-graphics/wayland/{wayland_1.20.0.bb => wayland_1.21.0.bb} (90%)
+ .../wayland/{weston_10.0.0.bb => weston_10.0.1.bb}            | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/wayland/{weston_10.0.0.bb => weston_10.0.1.bb} (97%)
 
-diff --git a/meta/recipes-graphics/wayland/wayland/0002-Do-not-hardcode-the-path-to-wayland-scanner.patch b/meta/recipes-graphics/wayland/wayland/0002-Do-not-hardcode-the-path-to-wayland-scanner.patch
-deleted file mode 100644
-index e3e71925b8..0000000000
---- a/meta/recipes-graphics/wayland/wayland/0002-Do-not-hardcode-the-path-to-wayland-scanner.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--From 3e7cd56611aeec274e48a4816bc7c21f74f15be0 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Mon, 17 Feb 2020 21:46:18 +0100
--Subject: [PATCH] Do not hardcode the path to wayland-scanner
--
--This results in host contamination during builds.
--
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
-----
-- src/meson.build | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/src/meson.build b/src/meson.build
--index 15730a3..61edbc8 100644
----- a/src/meson.build
--+++ b/src/meson.build
--@@ -52,7 +52,7 @@ if get_option('scanner')
-- 			'datarootdir=' + join_paths('${prefix}', get_option('datadir')),
-- 			'pkgdatadir=' + join_paths('${datarootdir}', meson.project_name()),
-- 			'bindir=' + join_paths('${prefix}', get_option('bindir')),
---			'wayland_scanner=${bindir}/wayland-scanner'
--+			'wayland_scanner=wayland-scanner'
-- 		],
-- 		filebase: 'wayland-scanner'
-- 	)
-diff --git a/meta/recipes-graphics/wayland/wayland_1.20.0.bb b/meta/recipes-graphics/wayland/wayland_1.21.0.bb
-similarity index 90%
-rename from meta/recipes-graphics/wayland/wayland_1.20.0.bb
-rename to meta/recipes-graphics/wayland/wayland_1.21.0.bb
-index dd48a29dc4..ce59e601d2 100644
---- a/meta/recipes-graphics/wayland/wayland_1.20.0.bb
-+++ b/meta/recipes-graphics/wayland/wayland_1.21.0.bb
-@@ -12,12 +12,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b31d8f53b6aaf2b4985d7dd7810a70d1 \
- 
- DEPENDS = "expat libffi wayland-native"
+diff --git a/meta/recipes-graphics/wayland/weston_10.0.0.bb b/meta/recipes-graphics/wayland/weston_10.0.1.bb
+similarity index 97%
+rename from meta/recipes-graphics/wayland/weston_10.0.0.bb
+rename to meta/recipes-graphics/wayland/weston_10.0.1.bb
+index 93f7b59659..e27dac164e 100644
+--- a/meta/recipes-graphics/wayland/weston_10.0.0.bb
++++ b/meta/recipes-graphics/wayland/weston_10.0.1.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70 \
+                     file://libweston/compositor.c;endline=27;md5=eb6d5297798cabe2ddc65e2af519bcf0 \
+                     "
  
 -SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-+SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland/-/releases/${PV}/downloads/${BPN}-${PV}.tar.xz \
-            file://run-ptest \
--           file://0002-Do-not-hardcode-the-path-to-wayland-scanner.patch \
-            file://0001-build-Fix-strndup-detection-on-MinGW.patch \
-            "
--SRC_URI[sha256sum] = "b8a034154c7059772e0fdbd27dbfcda6c732df29cae56a82274f6ec5d7cd8725"
-+SRC_URI[sha256sum] = "6dc64d7fc16837a693a51cfdb2e568db538bfdc9f457d4656285bb9594ef11ac"
++SRC_URI = "https://gitlab.freedesktop.org/wayland/weston/-/releases/${PV}/downloads/${BPN}-${PV}.tar.xz \
+            file://weston.png \
+            file://weston.desktop \
+            file://xwayland.weston-start \
+@@ -15,7 +15,7 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+ 
+ SRC_URI:append:libc-musl = " file://dont-use-plane-add-prop.patch "
+ 
+-SRC_URI[sha256sum] = "5c23964112b90238bed39e5dd1e41cd71a79398813cdc3bbb15a9fdc94e547ae"
++SRC_URI[sha256sum] = "8a9e52506a865a7410981b04f8341b89b84106db8531ab1f9fdd37b5dc034115"
  
  UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
- UPSTREAM_CHECK_REGEX = "wayland-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ 
 -- 
 2.30.2
 
