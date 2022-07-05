@@ -2,95 +2,285 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EE30C43334
-	for <webhook@archiver.kernel.org>; Tue,  5 Jul 2022 16:40:00 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
- [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web12.86435.1657039196286697655
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4062ECCA47F
+	for <webhook@archiver.kernel.org>; Tue,  5 Jul 2022 17:03:50 +0000 (UTC)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web10.86902.1657040628928582785
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jul 2022 09:39:56 -0700
+ Tue, 05 Jul 2022 10:03:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=kl7VGlxu;
- spf=pass (domain: gmail.com, ip: 209.85.208.51,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=gE2t+UL3;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id r6so4593703edd.7
+Received: by mail-ed1-f49.google.com with SMTP id m16so607910edb.11
         for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jul 2022 09:39:56 -0700 (PDT)
+ Tue, 05 Jul 2022 10:03:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=KVwju2X6Twifr46qqqbCCfTrXKdWHkhey0CTw/wm6ZI=;
-        b=kl7VGlxui3vkwhzosXsLyj+lxJiNMRBYTSMnTwv3vDMaLRu4+n1qEX5tGqyDUpxJkQ
-         PAUceBPxDQSthOxRzTZfANEwA1dCApv5YgBrPE7dKhXsV2d84cUmC08+5Ac7uDnSnb+C
-         z7mXz1d2U3i+JPGZ60a7cAEuwQlQnx0rZvtFJrjsMuQA7ebaov2xibuvAVLH4Uze9d72
-         f7XWLo8r4lQzBLUsJQZnQCl0OUiAwikxUA28V3WULlVi8A6aKQtQqNDWF49qvgC2IFVE
-         i/QHusovR0m4qcy6Exn1J+9fu1JoWMYUQPWKu1XBR/2b+wvKUsn34LNSJGbgYThkhzGt
-         1Llw==
+        bh=i2+Zp+N+V/vTwvHM5ZsoPjJDWJ9a2DcwjY4F0lkfRnU=;
+        b=gE2t+UL3IYlMIT+CVW4vdmrEPP4a8lNaz5cvRhHLF0wRvIYtqg8osjNuj6GddTm0zX
+         0m3iD0ZQ09NY2/5fopFVP79n4OCvtJqRl0C4p5MfMEIuZSjm+NOR9clWFXGRNsHKJRxH
+         5JxUE/WJICrVIRt6OhuZ4cx8vTtNqFVUmRV0EkfbSwxmroPrI1pdOQrysEDprKZSIMTB
+         K40rFfYb3Y8HBHBuSrD71Ux0S1jdV8NGmTVBp7aIXvYtKx/eIRqv2E6MUKbrezzHUDMc
+         nAJQGCRttZbAqNeZen+o8Rv5n95rt8rLN317pZRYVu1rk0QFcE9H4yIW25puYTxZOiBT
+         3J8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=KVwju2X6Twifr46qqqbCCfTrXKdWHkhey0CTw/wm6ZI=;
-        b=kukusp19ip+jS8U9H+1wgAuGRVCZOAqibZnrCTYsY5uRNWcWYHPvoRa7ztDHM1uRcG
-         v1uY3wMZmdLXHi5n0VRt6kgdrKpxcg3OneOIeHbY3/22vb75MzsgojR74r1kXwr3wI7U
-         QLgaIdE/x1wpluXt/g2J5Ccn6QrZhh73xT77o/OLEJWcdp36QL/yPMLugz9szILp0SeJ
-         grQD5jzEkLiHlDEd+3dCCVCLtEzz+451+0isM6/ePu17MIj2176hNEqz9ltHhM0IMmgN
-         QysQIHC8wDGy+mlAGGEgrw2TYTl0pR3IfTXZL7Pec7BZF5IyUimTD4/tNPw4ixOS2zha
-         +nyA==
-X-Gm-Message-State: AJIora9uV221H+Btaxk1oF0gxJro1sIyxtFlRq8pkW7sn4UejXgbKvz/
-	d2WXqjkU92M0+0mI7uHP2SpIKwQ+RzytlQ==
+        bh=i2+Zp+N+V/vTwvHM5ZsoPjJDWJ9a2DcwjY4F0lkfRnU=;
+        b=wDqS0AQz8+CTmFXj4a22zVZsdeJegT9zuQV/lRytBDSGQCqCyG7NgkxlwnX2kolpGJ
+         /FiDwcyGKF1RNB0/+BtIanVNg+8YDqIHXhxlaXxf9c2vLvPUszKmQYJLY8FmvVHMxtx6
+         VaHQFKHy5WyKfp1toYuOFGzZxepz06QJpyf4G8zEIoz6qTw6k4vsL+ciNV9dIJ5ZKB2m
+         2bs4AlxR1dLMnSsUHiFV6Z6OA3XWTtU3fLsb5Cg7bMm0QqquW3JkxAah/uR9P92ALy9W
+         yYHJpSR5gu/DM57poTUS+THfZ7t4pcziTr5nMTRm79SDtNy+U+9bxOfquEJjRim4TIzR
+         Fzpg==
+X-Gm-Message-State: AJIora8orjjpycuVrx6HT7G3zWhpVhj3X+WL0HmBRgO8sHsPwN/i/cwa
+	EsK6ModQluu4kaYvPUjB8BdovHL/99urGA==
 X-Google-Smtp-Source: 
- AGRyM1s2RkezWcg7Sw3RNdhGyMsySdQoevJOaOOVdhT8I2F6mRYoIhe8UMTSXOklJ20+Iier/7zO3g==
-X-Received: by 2002:a05:6402:448c:b0:435:9dcc:b8a5 with SMTP id
- er12-20020a056402448c00b004359dccb8a5mr47222988edb.287.1657039194757;
-        Tue, 05 Jul 2022 09:39:54 -0700 (PDT)
+ AGRyM1vZ1VG2ONTFS9OFGOIQeJEcHhjPlezWSmtmaL0daVPZ3CRO8TecY8uGVU8QIzkbAkotZccfVg==
+X-Received: by 2002:a05:6402:2681:b0:43a:7a08:bb66 with SMTP id
+ w1-20020a056402268100b0043a7a08bb66mr5078023edd.262.1657040627167;
+        Tue, 05 Jul 2022 10:03:47 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- eg37-20020a05640228a500b0043a587eb95dsm4975978edb.5.2022.07.05.09.39.54
+ x2-20020a05640225c200b00435651c4a01sm23999886edb.56.2022.07.05.10.03.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 09:39:54 -0700 (PDT)
+        Tue, 05 Jul 2022 10:03:46 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] externalsrc: write task locks into ${T}, not into ${S}
-Date: Tue,  5 Jul 2022 18:39:49 +0200
-Message-Id: <20220705163949.770641-1-alex@linutronix.de>
+Subject: [PATCH 1/7] sato: work around missing icons in adwaita 42.0
+Date: Tue,  5 Jul 2022 19:03:33 +0200
+Message-Id: <20220705170339.771017-1-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Jul 2022 16:40:00 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Jul 2022 17:03:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167668
+ https://lists.openembedded.org/g/openembedded-core/message/167669
 
-Otherwise lock files appearing and disappearing can interfere
-with reproducibility code enumerating source files in do_unpack():
+adwaita icon theme upstream has done significant trimming around app category icons
+(fullcolour versions gone completely, 'symbolic' b&w versions still around but marked
+as legacy). Going forward, apps would need to provide their own icons. Given that
+sato is likely to be deprecated in favour of wayland/weston rather soon, let's use
+the symbolic icons for now.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/3745/steps/14/logs/stdio
+[YOCTO #14782]
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/classes/externalsrc.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../gstreamer/gst-examples/gst-player.desktop |  2 +-
+ ...sktop-update-icon-to-one-available-i.patch | 25 ++++++++++++++++++
+ .../matchbox-config-gtk_0.2.bb                |  4 ++-
+ ...ile.c-use-view-refresh-symbolic-icon.patch | 26 +++++++++++++++++++
+ .../matchbox-desktop/matchbox-desktop_2.2.bb  |  1 +
+ ...l.desktop-use-an-icon-available-in-a.patch | 25 ++++++++++++++++++
+ .../matchbox-terminal_0.2.bb                  |  4 ++-
+ meta/recipes-sato/puzzles/puzzles_git.bb      |  2 +-
+ .../rxvt-unicode/rxvt-unicode/rxvt.desktop    |  2 +-
+ .../shutdown-desktop/shutdown.desktop         |  2 +-
+ 10 files changed, 87 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch
+ create mode 100644 meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch
+ create mode 100644 meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch
 
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index 90792a737b..b326f10050 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -88,7 +88,7 @@ python () {
-                 bb.build.deltask(task, d)
-             elif os.path.realpath(d.getVar('S')) == os.path.realpath(d.getVar('B')):
-                 # Since configure will likely touch ${S}, ensure only we lock so one task has access at a time
--                d.appendVarFlag(task, "lockfiles", " ${S}/singletask.lock")
-+                d.appendVarFlag(task, "lockfiles", " ${T}/singletask.lock")
+diff --git a/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop b/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop
+index 7ddd456a1e..a5df5c9c84 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop
++++ b/meta/recipes-multimedia/gstreamer/gst-examples/gst-player.desktop
+@@ -1,7 +1,7 @@
+ [Desktop Entry]
+ Name=Media Player
+ Comment=Basic media player
+-Icon=multimedia-player
++Icon=multimedia-player-symbolic
+ TryExec=gtk-play
+ Exec=gtk-play
+ StartupNotify=true
+diff --git a/meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch b/meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch
+new file mode 100644
+index 0000000000..7e75fdab9a
+--- /dev/null
++++ b/meta/recipes-sato/matchbox-config-gtk/files/0001-mb-appearance.desktop-update-icon-to-one-available-i.patch
+@@ -0,0 +1,25 @@
++From ab2c716bb0679a67dc6b0878ef750d3fdd29edb7 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Wed, 13 Apr 2022 22:19:11 +0200
++Subject: [PATCH] mb-appearance.desktop: update icon to one available in
++ adwaita 42.0
++
++Upstream-Status: Inappropriate [apps need their own icons as of 42.0]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ appearance/mb-appearance.desktop | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/appearance/mb-appearance.desktop b/appearance/mb-appearance.desktop
++index 4db2bbc..cfa5142 100644
++--- a/appearance/mb-appearance.desktop
+++++ b/appearance/mb-appearance.desktop
++@@ -2,7 +2,7 @@
++ Name=Appearance
++ Comment=Change the appearance
++ Exec=matchbox-appearance
++-Icon=preferences-desktop-theme
+++Icon=preferences-desktop-appearance-symbolic
++ Terminal=false
++ Type=Application
++ Categories=GTK;Settings;DesktopSettings;
+diff --git a/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb b/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
+index d951baf361..c91f9a7cc2 100644
+--- a/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
++++ b/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
+@@ -12,7 +12,9 @@ RDEPENDS:${PN} = "settings-daemon"
+ # SRCREV tagged 0.2
+ SRCREV = "ef2192ce98d9374ffdad5f78544c3f8f353c16aa"
+ SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master \
+-           file://no-handed.patch"
++           file://no-handed.patch \
++           file://0001-mb-appearance.desktop-update-icon-to-one-available-i.patch \
++           "
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
  
-             for funcname in [task, "base_" + task, "kernel_" + task]:
-                 # We do not want our source to be wiped out, ever (kernel.bbclass does this for do_clean)
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch b/meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch
+new file mode 100644
+index 0000000000..7a4db83da2
+--- /dev/null
++++ b/meta/recipes-sato/matchbox-desktop/files/0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch
+@@ -0,0 +1,26 @@
++From 764201dff04a7ca1c3862357ea485a6fc624dd00 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Wed, 13 Apr 2022 22:01:30 +0200
++Subject: [PATCH] taku-launcher-tile.c: use view-refresh-symbolic icon
++
++Plain view-refresh is no longer provided in latest adwaita icon theme.
++
++Upstream-Status: Inappropriate [apps need their own icons as of 42.0]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ libtaku/taku-launcher-tile.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/libtaku/taku-launcher-tile.c b/libtaku/taku-launcher-tile.c
++index e7f58f3..8bbf2f7 100644
++--- a/libtaku/taku-launcher-tile.c
+++++ b/libtaku/taku-launcher-tile.c
++@@ -185,7 +185,7 @@ taku_launcher_tile_new_from_item (TakuMenuItem *item)
++   taku_icon_tile_set_secondary (TAKU_ICON_TILE (tile),
++                                 taku_menu_item_get_description (item));
++   taku_icon_tile_set_pixbuf (TAKU_ICON_TILE (tile),
++-                             get_icon ("view-refresh", size));
+++                             get_icon ("view-refresh-symbolic", size));
++ 
++   /* Don't need to update the icon here, because we'll get a style-set signal
++      when the widget is realised which will update the icon. */
+diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
+index b05a9c48ad..c306aba6ec 100644
+--- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
++++ b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
+@@ -15,6 +15,7 @@ SECTION = "x11/wm"
+ SRCREV = "6bc67d09da4147e5552fe30011a05a2c59d2f777"
+ SRC_URI = "git://git.yoctoproject.org/${BPN}-2;branch=master \
+            file://vfolders/ \
++           file://0001-taku-launcher-tile.c-use-view-refresh-symbolic-icon.patch \
+            "
+ 
+ EXTRA_OECONF = "--enable-startup-notification --with-dbus"
+diff --git a/meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch b/meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch
+new file mode 100644
+index 0000000000..48987f9d31
+--- /dev/null
++++ b/meta/recipes-sato/matchbox-terminal/matchbox-terminal/0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch
+@@ -0,0 +1,25 @@
++From ec16ba4a1cb0e4217910a1b36783f00828bb5dfc Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Wed, 13 Apr 2022 22:24:50 +0200
++Subject: [PATCH] matchbox-terminal.desktop: use an icon available in adwaita
++ 42.0
++
++Upstream-Status: Inappropriate [apps need their own icons as of 42.0]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ matchbox-terminal.desktop | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/matchbox-terminal.desktop b/matchbox-terminal.desktop
++index c84a24c..fedaf10 100644
++--- a/matchbox-terminal.desktop
+++++ b/matchbox-terminal.desktop
++@@ -3,7 +3,7 @@ Type=Application
++ Name=Terminal
++ Comment=When all else fails.
++ Exec=matchbox-terminal
++-Icon=utilities-terminal
+++Icon=utilities-terminal-symbolic
++ Terminal=false
++ Categories=GTK;Utility;
++ StartupNotify=true
+diff --git a/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb b/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
+index 802ffa971b..048e247b89 100644
+--- a/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
++++ b/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
+@@ -11,7 +11,9 @@ SECTION = "x11/utils"
+ 
+ #SRCREV tagged 0.2
+ SRCREV = "161276d0f5d1be8187010fd0d9581a6feca70ea5"
+-SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master"
++SRC_URI = "git://git.yoctoproject.org/${BPN};branch=master \
++           file://0001-matchbox-terminal.desktop-use-an-icon-available-in-a.patch \
++           "
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+ 
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
+index 68bdee8b52..94912bee60 100644
+--- a/meta/recipes-sato/puzzles/puzzles_git.bb
++++ b/meta/recipes-sato/puzzles/puzzles_git.bb
+@@ -37,7 +37,7 @@ do_install:append () {
+ [Desktop Entry]
+ Name=$title
+ Exec=${bindir}/$prog
+-Icon=applications-games
++Icon=applications-games-symbolic
+ Terminal=false
+ Type=Application
+ Categories=Game;
+diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop
+index 6b7978afc9..84a8ba7dc5 100644
+--- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop
++++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/rxvt.desktop
+@@ -3,7 +3,7 @@ Version=1.0
+ Name=Terminal
+ Comment=A unicode capable rxvt clone
+ Exec=rxvt
+-Icon=utilities-terminal
++Icon=utilities-terminal-symbolic
+ Terminal=false
+ Type=Application
+ Categories=Utility;TerminalEmulator;
+diff --git a/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop b/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
+index 662659afc2..bc437ca2de 100644
+--- a/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
++++ b/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
+@@ -4,7 +4,7 @@ Type=Application
+ Name=Shutdown
+ Comment=Close down the machine safely
+ Exec=poweroff
+-Icon=system-shutdown
++Icon=system-shutdown-symbolic
+ Terminal=false
+ Categories=Utility;
+ StartupNotify=true
 -- 
 2.30.2
 
