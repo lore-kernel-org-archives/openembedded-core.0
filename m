@@ -2,228 +2,340 @@ Return-Path: <sundeep.kokkonda@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1637C43334
-	for <webhook@archiver.kernel.org>; Tue,  5 Jul 2022 15:17:49 +0000 (UTC)
-Subject: Re: [kirkstone][PATCH V2] binutils : stable 2.38 branch updates
-To: openembedded-core@lists.openembedded.org
-From: "Sundeep KOKKONDA" <sundeep.kokkonda@gmail.com>
-X-Originating-Location: Hyderabad, Telangana, IN (49.205.113.207)
-X-Originating-Platform: Windows Chrome 103
-User-Agent: GROUPS.IO Web Poster
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B93B5C433EF
+	for <webhook@archiver.kernel.org>; Tue,  5 Jul 2022 15:20:59 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+ [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web09.85784.1657034449702465604
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 05 Jul 2022 08:20:49 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=DMhPVmyY;
+ spf=pass (domain: gmail.com, ip: 209.85.215.172,
+ mailfrom: sundeep.kokkonda@gmail.com)
+Received: by mail-pg1-f172.google.com with SMTP id v126so11640095pgv.11
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 05 Jul 2022 08:20:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:references:in-reply-to:subject:date:message-id
+         :mime-version:content-transfer-encoding:content-language
+         :thread-index;
+        bh=hB0YcLT/aK3+jgdMDyv6chFONTNZk/yIOtf/HBIMlXc=;
+        b=DMhPVmyYCMrVjqjG0Hp8vL8sGiAyebyv2tsyv6NeHM+ikjQ7RQRcbrV33nM8ybHJLc
+         UD+L0J0wSKGmLmBVSIJLVRSfGYuM1r+bna4xBMmmg6CRcpuphjdPOP5S97R3r70YhTKk
+         pvulLFdHhsQKegkVUiyDV8X31QJkmroUHVqKPo5Oh3TVyxOrgb36y9BTXsWInIooJOxR
+         QFWqyVXcf4QKysrDUqz9nOwMygs0lPqQUIrwllAca5l0qkrsRi4VECTBjzYa64gN9Jwj
+         4gfy16BFq5n7F+Np0Khy/8Jd5YK0KZa7is7d0wJFdKdkuNhksNrIaLLUMHD8Z/0wdS95
+         zZPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:references:in-reply-to:subject:date
+         :message-id:mime-version:content-transfer-encoding:content-language
+         :thread-index;
+        bh=hB0YcLT/aK3+jgdMDyv6chFONTNZk/yIOtf/HBIMlXc=;
+        b=6Ov3aQ0PMS13s4sfn4SonTEVpwEQmWwSc63RUMp29ozXbY7hvRsRZR/s8qwgrixrpi
+         4IVM29YDMi531VE72+hmoa+BWZtUz3wf4lT2IkaDC6zCTs/h7iI+YQhJL/FRIkqu9FWP
+         T4RQVLGewbPhKXqgcIEnqN90/66z2MPtliZe5QmESFHv0ZkxDBe3vN394JPNWYFfbI4Y
+         y0SF5sHgqu4EaNbaPpCYuzmaNqX2fP95KfVrvTYmkfze9atQC/FcsQZwaMIpBqwi1CM+
+         F3J8DTCEoPumJFjeDJ7d4rpNA7d67gSXsbgbJ2gTZpLDYj5ACnN5W72r/1NdSSugu51B
+         smNg==
+X-Gm-Message-State: AJIora9NNmaZdDC4SDGVpb41tJv+toiSEft5HgU040MmWOXV9zTpdm/w
+	uLlwX+7UaPkX4JxAdDlrBY7nCEzgVOhj3A==
+X-Google-Smtp-Source: 
+ AGRyM1sFVbnaE8Kh2gSCWLK1ftWjMpkfzDz+epc/LeiWX3WY1ClCeDU2gJwFTAde3syVNLYadB0UXg==
+X-Received: by 2002:a05:6a00:14c4:b0:525:9341:288 with SMTP id
+ w4-20020a056a0014c400b0052593410288mr43050098pfu.1.1657034448501;
+        Tue, 05 Jul 2022 08:20:48 -0700 (PDT)
+Received: from LPTBFTI009 ([49.205.113.207])
+        by smtp.gmail.com with ESMTPSA id
+ o6-20020a170902bcc600b0016a61e7f30dsm23486168pls.281.2022.07.05.08.20.45
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 05 Jul 2022 08:20:47 -0700 (PDT)
+From: sundeep.kokkonda@gmail.com
+X-Google-Original-From: <sundeep.Kokkonda@gmail.com>
+To: "'Randy MacLeod'" <randy.macleod@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+Cc: <rwmacleod@gmail.com>,
+	<umesh.kalappa0@gmail.com>,
+	<pgowda.cve@gmail.com>,
+	<shivams@gmail.com>
+References: <20220705040139.165670-1-sundeep.kokkonda@gmail.com>
+ <73cb5723-9cf2-579f-1b8e-1386e6fb1382@windriver.com>
+In-Reply-To: <73cb5723-9cf2-579f-1b8e-1386e6fb1382@windriver.com>
+Subject: RE: [OE-core] [kirkstone] Glibc: Glibc-2.35 Stable release updated
+ with latest commits
+Date: Tue, 5 Jul 2022 20:50:41 +0530
+Message-ID: <004101d89082$ccd29290$6677b7b0$@gmail.com>
 MIME-Version: 1.0
-Date: Tue, 05 Jul 2022 08:17:44 -0700
-References: <20220705151432.96498-1-sundeep.kokkonda@gmail.com>
-In-Reply-To: <20220705151432.96498-1-sundeep.kokkonda@gmail.com>
-Message-ID: <13357.1657034264786603206@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="i5Y2lH01371Gl0EM4frj"
+Content-Type: text/plain;
+	charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-in
+Thread-Index: AQKMWQ9b6alm/X4YdDJzwtm902ejcALe/czHq/Fa5HA=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Jul 2022 15:17:49 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Jul 2022 15:20:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167665
+ https://lists.openembedded.org/g/openembedded-core/message/167666
 
---i5Y2lH01371Gl0EM4frj
-Content-Type: multipart/alternative; boundary="60p1AteIl8tbiCCGCcOy"
 
---60p1AteIl8tbiCCGCcOy
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hello,
+> -----Original Message-----
+> From: Randy MacLeod <randy.macleod@windriver.com>
+> Sent: 05 July 2022 19:23
+> To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>; openembedded-
+> core@lists.openembedded.org
+> Cc: rwmacleod@gmail.com; umesh.kalappa0@gmail.com;
+> pgowda.cve@gmail.com; shivams@gmail.com
+> Subject: Re: [OE-core] [kirkstone] Glibc: Glibc-2.35 Stable release =
+updated with
+> latest commits
+>=20
+>=20
+> Same comment about CapiTaLiZation ;-) and word repetition in the short =
+log so:
+>=20
+> Glibc: Glibc-2.35 Stable release updated with latest commits
+>=20
+> should be something like:
+>=20
+> glibc: Stable 2.35 updates
+>=20
+>=20
+>=20
+> On 2022-07-05 00:01, Sundeep KOKKONDA wrote:
+> > Below commits on Glibc-2.35 development branch are updated.
+> >
+> > glibc:
+> > b6aade18a7 nss: handle stat failure in check_reload_and_get (BZ
+> > #28752)
+> > ccac2d6d95 nss: add assert to DB_LOOKUP_FCT (BZ #28752)
+> > 9d8ae95604 nios2: Remove _dl_skip_args usage (BZ# 29187)
+> > 8468be8433 hppa: Remove _dl_skip_args usage (BZ# 29165) 99978cd42c
+> > NEWS: Add a bug fix entry for BZ #29225
+> > 97dd8b3f70 nptl: Fix __libc_cleanup_pop_restore asynchronous restore
+> > (BZ#29214) 0a1572b8bb powerpc: Fix VSX register number on
+> > __strncpy_power9 [BZ #29197] fe9ca732ac socket: Fix mistyped define
+> > statement in socket/sys/socket.h (BZ #29225) d7d1eebd4d iconv: Use =
+64
+> > bit stat for gconv_parseconfdir (BZ# 29213)
+> > c5a75ecec8 catgets: Use 64 bit stat for __open_catalog (BZ# 29211)
+> > e429695805 inet: Use 64 bit stat for ruserpass (BZ# 29210)
+> > 6ea3c0aba4 socket: Use 64 bit stat for isfdtype (BZ# 29209)
+> > 9bcf5b12f8 posix: Use 64 bit stat for fpathconf (_PC_ASYNC_IO) (BZ#
+> > 29208)
+> > 45e5d0f533 posix: Use 64 bit stat for posix_fallocate fallback (BZ#
+> > 29207)
+> > 37c94dc999 misc: Use 64 bit stat for getusershell (BZ# 29204)
+> > cb49c14183 misc: Use 64 bit stat for daemon (BZ# 29203) 6abb4002df =
+Fix
+> > deadlock when pthread_atfork handler calls pthread_atfork or dlclose
+> > ac87df8d75 x86: Fallback {str|wcs}cmp RTM in the ncmp overflow case
+> > [BZ #29127] 478cd506ea string.h: fix __fortified_attr_access macro
+> > call [BZ #29162]
+> > 2b128a7d30 linux: Add a getauxval test [BZ #23293] f5f7144dfc rtld:
+> > Use generic argv adjustment in ld.so [BZ #23293] 04892c543e S390:
+> > Enable static PIE
+> > 72d9dcfd16 csu: Implement and use _dl_early_allocate during static
+> > startup b5ddf33c6e Linux: Introduce __brk_call for invoking the brk
+> > system call 2d05ba7f8e Linux: Implement a useful version of
+> > _startup_fatal 55ee3afa0d ia64: Always define IA64_USE_NEW_STUB as a
+> > flag macro d66cca3fbb Linux: Define MMAP_CALL_INTERNAL
+> > a7b122a7b4 i386: Honor I386_USE_SYSENTER for 6-argument Linux system
+> > calls
+> > d1772c9376 i386: Remove OPTIMIZE_FOR_GCC_5 from Linux
+> > libc-do-syscall.S 58bb3aeaae elf: Remove __libc_init_secure
+> > 0a5c6c9d99 Linux: Consolidate auxiliary vector parsing (redo)
+> > 76304dfdaf Linux: Include <dl-auxv.h> in dl-sysdep.c only for SHARED
+> > 788eb21ff0 Revert "Linux: Consolidate auxiliary vector parsing"
+> > 150039ff07 Linux: Consolidate auxiliary vector parsing
+> > 3948c6ca89 Linux: Assume that NEED_DL_SYSINFO_DSO is always defined
+> > 29f833f5ab Linux: Remove DL_FIND_ARG_COMPONENTS
+> > 1695c5e0f6 Linux: Remove HAVE_AUX_SECURE, HAVE_AUX_XID,
+> > HAVE_AUX_PAGESIZE 756d583c9e elf: Merge dl-sysdep.c into the Linux
+> > version 2c4fc8e5ca x86: Optimize {str|wcs}rchr-evex fdbc8439ac x86:
+> > Optimize {str|wcs}rchr-avx2
+> > b05c0c8b28 x86: Optimize {str|wcs}rchr-sse2
+> > bc35e22be4 x86-64: Fix SSE2 memcmp and SSSE3 memmove for x32
+> > 4d1841deb7 x86: Fix missing __wmemcmp def for disable-multiarch =
+build
+> > cee9939f67 x86: Cleanup page cross code in memcmp-avx2-movbe.S
+> > 0909286ffa x86: Remove memcmp-sse4.S 5a8df6485c x86: Optimize memcmp
+> > SSE2 in memcmp.S af0865571a x86: Small improvements for wcslen
+> > 3b710e32d8 x86: Remove AVX str{n}casecmp
+> > fc5d42bf82 x86: Add EVEX optimized str{n}casecmp 33fcf8344f x86: Add
+> > AVX2 optimized str{n}casecmp
+> > 3496d64d69 x86: Optimize str{n}casecmp TOLOWER logic in =
+strcmp-sse42.S
+> > 283982b362 x86: Optimize str{n}casecmp TOLOWER logic in strcmp.S
+> > 420cd6f155 x86: Remove strspn-sse2.S and use the generic
+> > implementation
+> > 4b61d76521 x86: Remove strpbrk-sse2.S and use the generic
+> > implementation
+> > 2fef1961a7 x86: Remove strcspn-sse2.S and use the generic
+> > implementation
+> > 1ed2813eb1 x86: Optimize strspn in strspn-c.c
+> > 3214c878f2 x86: Optimize strcspn and strpbrk in strcspn-c.c
+> > ff9772ac19 x86: Code cleanup in strchr-evex and comment justifying
+> > branch
+> > 424bbd4d25 x86: Code cleanup in strchr-avx2 and comment justifying
+> > branch
+> > 0a10b8b181 x86_64: Remove bcopy optimizations f0a53588da x86-64:
+> > Define __memcmpeq in ld.so
+> > a133623048 x86-64: Remove bzero weak alias in SS2 memset
+> > 18baf86f51 x86_64/multiarch: Sort sysdep_routines and put one entry
+> > per line
+> > d422197a69 x86: Improve L to support L(XXX_SYMBOL (YYY, ZZZ))
+> > 58947e1fa5 fortify: Ensure that __glibc_fortify condition is a
+> > constant [BZ #29141]
+> > 28ea43f8d6 dlfcn: Implement the RTLD_DI_PHDR request type for dlinfo
+> > 78f82ab4ef manual: Document the dlinfo function bbb017a2bb NEWS: Add =
+a
+> > bug fix entry for BZ #29109
+> > 5c0d94d780 linux: Fix posix_spawn return code if clone fails
+> > (BZ#29109) 059e36d9ed x86: Fix fallback for wcsncmp_avx2 in
+> > strcmp-avx2.S [BZ #28896]
+> > 676f7bcf11 x86: Fix bug in strncmp-evex and strncmp-avx2 [BZ #28895]
+> > c394d7e11a x86: Set .text section in memset-vec-unaligned-erms
+> > de0cd691b2 x86-64: Optimize bzero
+> > 0bf9c8b5fe x86: Remove SSSE3 instruction for broadcast in memset.S
+> > (SSE2 Only) 58596411ad x86: Improve vec generation in
+> > memset-vec-unaligned-erms.S 36766c02af x86-64: Fix strcmp-evex.S
+> > 250e277797 x86-64: Fix strcmp-avx2.S
+> > 34ef810945 x86: Optimize strcmp-evex.S b68e782f8e x86: Optimize
+> > strcmp-avx2.S
+> > ec5b79aac7 manual: Clarify that abbreviations of long options are
+> > allowed
+> > 0bcba53020 Add HWCAP2_AFP, HWCAP2_RPRES from Linux 5.17 to AArch64
+> > bits/hwcap.h
+> > 95759abbf3 Add SOL_MPTCP, SOL_MCTP from Linux 5.16 to bits/socket.h
+> > eed29011f9 Update kernel version to 5.17 in tst-mman-consts.py
+> > e72c363a15 Update kernel version to 5.16 in tst-mman-consts.py
+> > edc06fdd62 Update syscall lists for Linux 5.17
+> > dde291ab53 posix/glob.c: update from gnulib 7d96aa2d7d linux: Fix
+> > fchmodat with AT_SYMLINK_NOFOLLOW for 64 bit time_t (BZ#29097)
+> > 14b1e32a4d i386: Regenerate ulps
+> > ef87599348 linux: Fix missing internal 64 bit time_t stat usage
+> > 10fe3cd309 elf: Fix DFS sorting algorithm for =
+LD_TRACE_LOADED_OBJECTS
+> > with missing libraries (BZ #28868) cb4d670d8f scripts/glibcelf.py:
+> > Mark as UNSUPPORTED on Python 3.5 and earlier
+> > 106b7e0e45 dlfcn: Do not use rtld_active () to determine ld.so state
+> > (bug 29078)
+> > e5cf8ccca6 INSTALL: Rephrase -with-default-link documentation
+> > c8ee1c85c0 misc: Fix rare fortify crash on wchar funcs. [BZ 29030]
+> > 499a601796 Default to --with-default-link=3Dno (bug 25812)
+> > 70f1eecdc1 scripts: Add glibcelf.py module
+> > d3feff2232 m68k: Handle fewer relocations for RTLD_BOOTSTRAP
+> > (#BZ29071)
+> > 68d3a9a696 nptl: Fix pthread_cancel cancelhandling atomic operations
+> > 8e8d46d598 mips: Fix mips64n32 64 bit time_t stat support (BZ#29069)
+> > bd415684df hurd: Fix arbitrary error code ba9c42ac0e nptl: Handle
+> > spurious EINTR when thread cancellation is disabled (BZ#29029)
+> > 6583d53445 S390: Add new s390 platform z16.
+> > cc9a4a664f elf: Fix memory leak in _dl_find_object_update (bug =
+29062)
+> > db03235895 NEWS: Move PLT tracking slowdown to glibc 2.35.
+> > 9be62976af hppa: Use END instead of PSEUDO_END in swapcontext.S
+> > 01d5214bb4 hppa: Implement swapcontext in assembler (bug 28960)
+> > 123bd1ec66 nss: Protect against errno changes in function lookup =
+(bug
+> > 28953)
+> > c54c5cd8e3 nss: Do not mention NSS test modules in <gnu/lib-names.h>
+> > 3149f47b80 io: Add fsync call in tst-stat e30c1c73da nptl: Fix
+> > cleanups for stack grows up [BZ# 28899]
+> > ca0570fee3 hppa: Fix warnings from _dl_lookup_address
+> > d82d9cdff4 hppa: Revise gettext trampoline design
+> > 2631d3b3a6 hppa: Fix swapcontext
+> > 1f77081178 Fix elf/tst-audit2 on hppa
+> > c60e6a458b hppa: Fix bind-now audit (BZ #28857)
+> > 90797f4972 localedef: Handle symbolic links when generating
+> > locale-archive 732dd3a63d localedata: Do not generate output if =
+warnings
+> were present.
+> > 3feecd8001 localedef: Update LC_MONETARY handling (Bug 28845)
+> > a787325e83 NEWS: Add a bug fix entry for BZ #28688
+> > 264ad5d7d6 resolv: Fix tst-resolv tests for 2.35 ABIs and later
+> > e247a3b118 elf: Replace tst-audit24bmod2.so with tst-audit24bmod2
+> > 1dd783fafd elf: Check invalid hole in PT_LOAD segments [BZ #28838]
+> > 3226ffde07 NEWS: Add a bug fix entry for BZ #28896 676f85759c x86: =
+Fix
+> > TEST_NAME to make it a string in tst-strncmp-rtm.c
+> > d001088e22 x86: Test wcscmp RTM in the wcsncmp overflow case [BZ
+> > #28896] fd412fff6d x86: Fallback {str|wcs}cmp RTM in the ncmp =
+overflow
+> > case [BZ #28896] a30807b7db string: Add a testcase for wcsncmp with
+> > SIZE_MAX [BZ #28755]
+> > f055faf801 linux: Use socket-constants-time64.h on
+> > tst-socket-timestamp-compat
+> > 491f2ef1f0 linux: fix accuracy of get_nprocs and get_nprocs_conf [BZ
+> > #28865]
+>=20
+> Lots of bug fixes, optimizations, etc.
+>=20
+> Do you have regression tests results or are you running them now?
 
-Binutils regression test is performed and no regressions found. Test summar=
-y attached.
+Hello Randy,
+
+The glibc regression test is performed. The test result discussion is =
+on-going in =
+https://lists.openembedded.org/g/openembedded-core/message/167656.
+
 
 Thanks,
 Sundeep K.
 
---60p1AteIl8tbiCCGCcOy
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+>=20
+> ../Randy
+>=20
+>=20
+> >
+> > Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+>=20
+>=20
+> Please use your Wind River email address for the SOB.
+>=20
+> Thanks,
+>=20
+> ../Randy
+>=20
+>=20
+> > ---
+> >   meta/recipes-core/glibc/glibc-version.inc | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-core/glibc/glibc-version.inc
+> > b/meta/recipes-core/glibc/glibc-version.inc
+> > index 080e905b6e..99017ce1d4 100644
+> > --- a/meta/recipes-core/glibc/glibc-version.inc
+> > +++ b/meta/recipes-core/glibc/glibc-version.inc
+> > @@ -1,6 +1,6 @@
+> >   SRCBRANCH ?=3D "release/2.35/master"
+> >   PV =3D "2.35"
+> > -SRCREV_glibc ?=3D "24962427071fa532c3c48c918e9d64d719cc8a6c"
+> > +SRCREV_glibc ?=3D "b6aade18a7e5719c942aa2da6cf3157aca993fa4"
+> >   SRCREV_localedef ?=3D "794da69788cbf9bf57b59a852f9f11307663fa87"
+> >
+> >   GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git"
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#167635):
+> > https://lists.openembedded.org/g/openembedded-core/message/167635
+> > Mute This Topic: https://lists.openembedded.org/mt/92179092/3616765
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: =
+https://lists.openembedded.org/g/openembedded-core/unsub
+> > [randy.macleod@windriver.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>=20
+> --
+> # Randy MacLeod
+> # Wind River Linux
 
-Hello,<br /><br />Binutils regression test is performed and no regressions =
-found. Test summary attached.<br /><br /><br />Thanks,<br />Sundeep K.
 
---60p1AteIl8tbiCCGCcOy--
-
---i5Y2lH01371Gl0EM4frj
-Content-Type: 
- application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;
- name="TestSummary_Binutils.xlsx"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="TestSummary_Binutils.xlsx"
-
-UEsDBBQABgAIAAAAIQBi7p1oXgEAAJAEAAATAAgCW0NvbnRlbnRfVHlwZXNdLnhtbCCiBAIooAAC
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACs
-lMtOwzAQRfdI/EPkLUrcskAINe2CxxIqUT7AxJPGqmNbnmlp/56J+xBCoRVqN7ESz9x7MvHNaLJu
-bbaCiMa7UgyLgcjAVV4bNy/Fx+wlvxcZknJaWe+gFBtAMRlfX41mmwCYcbfDUjRE4UFKrBpoFRY+
-gOOd2sdWEd/GuQyqWqg5yNvB4E5W3hE4yqnTEOPRE9RqaSl7XvPjLUkEiyJ73BZ2XqVQIVhTKWJS
-uXL6l0u+cyi4M9VgYwLeMIaQvQ7dzt8Gu743Hk00GrKpivSqWsaQayu/fFx8er8ojov0UPq6NhVo
-Xy1bnkCBIYLS2ABQa4u0Fq0ybs99xD8Vo0zL8MIg3fsl4RMcxN8bZLqej5BkThgibSzgpceeRE85
-NyqCfqfIybg4wE/tYxx8bqbRB+QERfj/FPYR6brzwEIQycAhJH2H7eDI6Tt77NDlW4Pu8ZbpfzL+
-BgAA//8DAFBLAwQUAAYACAAAACEAtVUwI/QAAABMAgAACwAIAl9yZWxzLy5yZWxzIKIEAiigAAIA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKyS
-TU/DMAyG70j8h8j31d2QEEJLd0FIuyFUfoBJ3A+1jaMkG92/JxwQVBqDA0d/vX78ytvdPI3qyCH2
-4jSsixIUOyO2d62Gl/pxdQcqJnKWRnGs4cQRdtX11faZR0p5KHa9jyqruKihS8nfI0bT8USxEM8u
-VxoJE6UchhY9mYFaxk1Z3mL4rgHVQlPtrYawtzeg6pPPm3/XlqbpDT+IOUzs0pkVyHNiZ9mufMhs
-IfX5GlVTaDlpsGKecjoieV9kbMDzRJu/E/18LU6cyFIiNBL4Ms9HxyWg9X9atDTxy515xDcJw6vI
-8MmCix+o3gEAAP//AwBQSwMEFAAGAAgAAAAhADqp90l7AwAAoQgAAA8AAAB4bC93b3JrYm9vay54
-bWysVV1vozoQfb/S/gfEuwvmKwSVrIDA3krtqmpz25dKkQNOsAo4a0yTqtr/vmNC0nZztcp2N0rs
-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
-eG1sUEsFBgAAAAAKAAoAgAIAACQjAAAAAA==
-
---i5Y2lH01371Gl0EM4frj--
 
