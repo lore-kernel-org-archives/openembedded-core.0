@@ -2,150 +2,112 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EA25C433EF
-	for <webhook@archiver.kernel.org>; Tue,  5 Jul 2022 13:37:49 +0000 (UTC)
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com
- [209.85.160.180])
- by mx.groups.io with SMTP id smtpd.web09.84507.1657028264764156269
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31E52C43334
+	for <webhook@archiver.kernel.org>; Tue,  5 Jul 2022 13:39:19 +0000 (UTC)
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+ [209.85.222.178])
+ by mx.groups.io with SMTP id smtpd.web11.84052.1657028350995328822
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jul 2022 06:37:44 -0700
+ Tue, 05 Jul 2022 06:39:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=AE2VIqrZ;
- spf=pass (domain: gmail.com, ip: 209.85.160.180,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=HbafI4+x;
+ spf=pass (domain: gmail.com, ip: 209.85.222.178,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f180.google.com with SMTP id k14so13636146qtm.3
+Received: by mail-qk1-f178.google.com with SMTP id b125so8649307qkg.11
         for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jul 2022 06:37:44 -0700 (PDT)
+ Tue, 05 Jul 2022 06:39:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=5EkQYE0ADZ1r+la3seCPQPsvfEHVzllzPo+7CGAm7h8=;
-        b=AE2VIqrZD0LB1QGzTkY/mo9wR5DyexMD+Uq8vudmIq+11mahSn0Ss40SCfIEqPKPDS
-         Yym4JSv1gP7IFn+fNqrB+6w/TXafIU24SmbwDpR3LZ3DmQreCnzOt9inSvKk5QmJhORn
-         9mi7DKSKaucZomcwMaohGlbXOFTcfFwmW8z8p8h22YPVrK4uuwJNhOUpArhIbYqdBqFO
-         x+jnr+fqZL6J/A0jJxQEvpik2HlzMq3j05xpNe1R3BUop82NoGA91ns93ence/uDZu3L
-         rW6vqnNYc+B/gpW59u1awdNa6Bpii72bTEjvrYTro7VYf2IaVSxQNPO/kEq2Qq0p8bMI
-         FmCg==
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=YRvfERMBJRktFs30B5dmR3ocencmHO3aT0+LR9rumnA=;
+        b=HbafI4+xe3hJVRQfI85k3w/QCA7XCv0nvFBnnSLTUxzEzRCBgXqVxFEHl/nEzKrJ6A
+         R0/7Ffd0fiJ0jGEs694EgDHvFjAsyez9wJxKiwKIpLMKbU1U6C37MBCyNm86blX2YNtb
+         kSPUMu62EowNeC2O7Nz2+wAZa9AIr48wZbKU32U3t3zDFORLF2jSnhxj0waGODdsnhv0
+         iyEtWzSqW275mEVVPCWmF9mprLUIQZ2V8x4V/51R4MAXQ2cStdJvy+H0tOxrNFIGPc39
+         1pjS8sB2uCSNPiAWr8JgR2Exkl9LSwK1JWNtwNzSO1Slmw1gOwmkAdac8DS2PA7g+Fj/
+         ps4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+         :content-language:to:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=5EkQYE0ADZ1r+la3seCPQPsvfEHVzllzPo+7CGAm7h8=;
-        b=EJQKiX41inhseXhoqveuCoZJPssP38rz6JB//ka515isX3AZRjX9FIaQnRh3IuHA4l
-         b0zJShhrd+3iEOL/7uzpsHmHmbuT9HUNcKyqDbKe6RUcsGyobrnGjlTWfcIiOLOToZ07
-         H7IhY4HExQEmHtGfCJCOdjQmBGJEo0HTf9V38Dt8Juhe4wi3j3uyJbwBP+71FtAwOm1B
-         5notmFTnmiTBQ9QTUZJjV8xpDDmBqfq+D3CHw7X6VBx0Nwtcv1TPwGwJlKQCj1dWqmoZ
-         JYcLIkloWS9TBcjuswPlMZXOV1ryTdLZ+mgK0v/YuVvjiULfLN8SjMYTayfXle3i+rEG
-         tCAQ==
-X-Gm-Message-State: AJIora98mm4qLvlHlG9KNpo5SSF8SGy6sOUNuCN5E+Jjk7CTP/QQaAdK
-	blDIqC+VQbGuLDJlcXapACJq09p7ntSN8w==
+        bh=YRvfERMBJRktFs30B5dmR3ocencmHO3aT0+LR9rumnA=;
+        b=2a5av+cJHki0hfOz8BrR+uNmoamMFU4x4ZcZBZZ52Xm5CbN/OMcMJ009rnxwbaVb3k
+         Wk7v0lLTDVlcc7Myi+a9oEcX7+S1Bn4Zjz62N9ZyE5yxZDJ3/KecY6/C7UcphVm6/eb0
+         Au3gEeq0TXdbod6cgCeEwrcTGgZs6StHRhjpJplQWlhyBhg5KkqEGB/IoHBxddrVsWTt
+         Q6ke06YUWXmAcUQVdZaAk1BVQVBk5Hte8jbOVJN96cHVte799DgBM44+TNzeXaBb9ArG
+         ibq7pHXhQZzCnu8KIClDf68QPzL+9MmmQlXp4cuttpftskdJZMfr9AVW/Aq3+Jzi+j43
+         31Nw==
+X-Gm-Message-State: AJIora8VE0nmm2aVIfaWVwms3DQuHyDiTu+fBYlS5p/V8vhP4j1tIv8j
+	LBWj0Uz9Hz6HOnZQ1kUjmMQ=
 X-Google-Smtp-Source: 
- AGRyM1vzyZ9myMRdjOZPNPFDG0tOYgIgCTUezo6xBkcntcUVuVY34ysiEM5yMx2kBGYtsuNZzq/Kag==
-X-Received: by 2002:ad4:594b:0:b0:470:852e:2efd with SMTP id
- eo11-20020ad4594b000000b00470852e2efdmr31488210qvb.115.1657028263779;
-        Tue, 05 Jul 2022 06:37:43 -0700 (PDT)
+ AGRyM1s9lbf7ljO9K6eYBwz/RULAPwJv3h67GF2NRs6qisWLqA9U9q9eTOU0k81VVLKRa45EZ4BzJA==
+X-Received: by 2002:a05:620a:4503:b0:6b4:6ae5:d524 with SMTP id
+ t3-20020a05620a450300b006b46ae5d524mr5073279qkp.445.1657028349578;
+        Tue, 05 Jul 2022 06:39:09 -0700 (PDT)
 Received: from ?IPV6:2607:fea8:95df:9730:959d:d09a:db6c:637c?
  ([2607:fea8:95df:9730:959d:d09a:db6c:637c])
         by smtp.gmail.com with ESMTPSA id
- j4-20020a05620a410400b006a6278a2b31sm17063442qko.75.2022.07.05.06.37.43
+ h18-20020ac87772000000b002f905347586sm22417342qtu.14.2022.07.05.06.39.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Jul 2022 06:37:43 -0700 (PDT)
-Message-ID: <ee8e898d-893d-c1fb-2e99-f14d3199fe42@gmail.com>
-Date: Tue, 5 Jul 2022 09:37:42 -0400
+        Tue, 05 Jul 2022 06:39:09 -0700 (PDT)
+Message-ID: <7af70882-4835-2316-5c54-52318b5e7d4b@gmail.com>
+Date: Tue, 5 Jul 2022 09:39:08 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.0
-Subject: Re: [OE-core] [kirkstone] Binutils : Binutils-2.38 Stable release
- updated with latest commits
+Subject: Re: [OE-core] [PATCH] strace: set COMPATIBLE_HOST for riscv32
 Content-Language: en-US
-To: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>,
+To: "Yu, Mingli" <mingli.yu@windriver.com>,
  openembedded-core@lists.openembedded.org
-Cc: rwmacleod@gmail.com, umesh.kalappa0@gmail.com, pgowda.cve@gmail.com,
- shivams@gmail.com
-References: <20220705035905.163902-1-sundeep.kokkonda@gmail.com>
+References: <20220705070318.737747-1-mingli.yu@windriver.com>
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20220705035905.163902-1-sundeep.kokkonda@gmail.com>
+In-Reply-To: <20220705070318.737747-1-mingli.yu@windriver.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Jul 2022 13:37:49 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Jul 2022 13:39:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167653
+ https://lists.openembedded.org/g/openembedded-core/message/167654
 
-this is ok.
 
-On 7/4/22 11:59 PM, Sundeep KOKKONDA wrote:
-> Below commits on Binutils-2.38 development branch are updated.
+On 7/5/22 3:03 AM, Yu, Mingli wrote:
+> From: Mingli Yu <mingli.yu@windriver.com>
 >
-> binutils:
-> eed56ee299b Automatic date update in version.in
-> 8e001ed8f2c Automatic date update in version.in
-> 6b2a26c63ba Automatic date update in version.in
-> f0b5a0b5687 Automatic date update in version.in
-> 5cc2bdc75bf Automatic date update in version.in
-> a06ed65fce8 Automatic date update in version.in
-> 164daf3d644 Automatic date update in version.in
-> 8b1dda80a5d Automatic date update in version.in
-> a4577d4f18f Automatic date update in version.in
-> 614000f9d7b Automatic date update in version.in
-> ebd859d2cc4 Automatic date update in version.in
-> d2823f8c27c Automatic date update in version.in
-> 949c11728ca Automatic date update in version.in
-> fe36d34f258 Automatic date update in version.in
-> 0dae8bed68e Automatic date update in version.in
-> 884e81eeb2c Automatic date update in version.in
-> d61f79dc474 Automatic date update in version.in
-> c86fbb1d885 Automatic date update in version.in
-> 724f6468fb1 Automatic date update in version.in
-> aef4bdb2ed5 Automatic date update in version.in
-> db802012a3e Automatic date update in version.in
-> b28a1fd5055 Automatic date update in version.in
-> e1ea1dafff6 x86: Properly handle IFUNC function pointer reference
-> e35ea91a86c Automatic date update in version.in
-> 1d81266d92e Automatic date update in version.in
-> b0530a6f3dc Automatic date update in version.in
-> 81d275cb83f Automatic date update in version.in
-> 794474ead0b Automatic date update in version.in
-> 220b941f1e0 Automatic date update in version.in
-> 912f2e4449d Automatic date update in version.in
-> 93054037f1e Automatic date update in version.in
-> bc8ba34fc24 Automatic date update in version.in
-> af58abfd800 Automatic date update in version.in
-> d200cde62c8 Automatic date update in version.in
-> 31fd6cd3d76 Automatic date update in version.in
-> 475549dc3ac Automatic date update in version.in
-> ffc7aa903b9 AArch64: Enable FP16 by default for Armv9-A.
-> f20245c35f2 Automatic date update in version.in
-> 39c6088537b Automatic date update in version.in
-> 6a8f2255438 Automatic date update in version.in
+> Disable the build on riscv32 as it's not supported on riscv32 [1].
 >
-> Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
+> [1] https://github.com/strace/strace/commit/69ff62ea5087506ad36a27599db088096db215da
+>
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 > ---
->   meta/recipes-devtools/binutils/binutils-2.38.inc | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   meta/recipes-devtools/strace/strace_5.18.bb | 3 +++
+>   1 file changed, 3 insertions(+)
 >
-> diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
-> index dc0a2a4054..c2502e0901 100644
-> --- a/meta/recipes-devtools/binutils/binutils-2.38.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
-> @@ -18,7 +18,7 @@ SRCBRANCH ?= "binutils-2_38-branch"
+> diff --git a/meta/recipes-devtools/strace/strace_5.18.bb b/meta/recipes-devtools/strace/strace_5.18.bb
+> index 08f0f1d27e..75ff58bd50 100644
+> --- a/meta/recipes-devtools/strace/strace_5.18.bb
+> +++ b/meta/recipes-devtools/strace/strace_5.18.bb
+> @@ -18,6 +18,9 @@ SRC_URI[sha256sum] = "60293ea79ac9253d600cdc9be077ad2988ca22284a439c9e66be5150db
 >   
->   UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
+>   inherit autotools ptest
 >   
-> -SRCREV ?= "134f17ef688ba4c72a6c4e57af7382882cc1a705"
-> +SRCREV ?= "eed56ee299b9ef8754bb4e53f2e9cf2a7c28c04d"
->   BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=${SRCBRANCH};protocol=git"
->   SRC_URI = "\
->        ${BINUTILS_GIT_URI} \
+> +# Not yet ported to rv32
+> +COMPATIBLE_HOST:riscv32 = "null"
+> +
+
+there might be more changes needed especially in package groups perhaps.
+
+>   PACKAGECONFIG:class-target ??= "\
+>       ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
+>   "
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#167634): https://lists.openembedded.org/g/openembedded-core/message/167634
-> Mute This Topic: https://lists.openembedded.org/mt/92179043/1997914
+> View/Reply Online (#167640): https://lists.openembedded.org/g/openembedded-core/message/167640
+> Mute This Topic: https://lists.openembedded.org/mt/92180245/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
