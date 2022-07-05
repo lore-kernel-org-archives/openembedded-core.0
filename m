@@ -1,132 +1,104 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05B6DC43334
-	for <webhook@archiver.kernel.org>; Tue,  5 Jul 2022 08:56:17 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web11.81806.1657011367296855097
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12643C43334
+	for <webhook@archiver.kernel.org>; Tue,  5 Jul 2022 09:16:07 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.web12.82079.1657012559929448927
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jul 2022 01:56:07 -0700
+ Tue, 05 Jul 2022 02:16:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hZ0JgRY9;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id q9so16525225wrd.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=EvzDVTaM;
+ spf=pass (domain: gmail.com, ip: 209.85.167.43,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f43.google.com with SMTP id z13so19438208lfj.13
         for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jul 2022 01:56:07 -0700 (PDT)
+ Tue, 05 Jul 2022 02:15:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=GdzT0rXGY1hN2pKSTfzV9AukRUtnmLnXJLXxxQ2dM0Q=;
-        b=hZ0JgRY9hl/z8H//QEyG+v8orfvTjey+8jvH9PGXU06HlW9xaAH/9Xtp4d3dUEALQ6
-         ttjNGVG48kiqxCfjZIMnZecxmmbaah9FaRPRb/A54YT960u17FLhCvdADai/JlXghnbu
-         wEy/CoXnrFHJ6DH1oYHZ9ZF5p4WlDvgp1yIaU=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZyAOZiEz4cJmlca1wcsFyi5KV52rkRIVxz90rLlDLIY=;
+        b=EvzDVTaMMm0cSlrMvbaCJvtsGP/hzvEc0JPLjd/9iSMJTu3PMc7kqf1UopJdC2NN4Q
+         7dVUs5aSOYzHaVTg6opxi+qNiS1UI7GJAvcSPchaU2OMGdgpOp13FWh82jOxZNg9I+CM
+         +mfDoyg/ZNVLSZ70aImMSFx8FHRTHLGhvSaHqI3uMOAcJ7WBcl56cxM4MNt922W21B33
+         0ckuJmUN9YTSnzcXDSo1Trgp1qqG7BcStC+9+c8MHQ+CyMcyy5odAa929/6uQqmL7r+P
+         swOBqAbYvCNQTvzes5AeravK2ZO2lEzCZjwaktBgUzKuQMuH5tLRVDVvmwHu6jhFVfDJ
+         l5cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=GdzT0rXGY1hN2pKSTfzV9AukRUtnmLnXJLXxxQ2dM0Q=;
-        b=kzlCtYtG/esrOX7hc1xW0kKnIusCnRPuOtkHuqarb4I5BAA0aafok+oqsRu8Ru7T33
-         PSLn7JbZL+OBy269tWoqIQaGSa6qhAGlJk01pXjXVDYQ3XD7om6Q7ywE3v63cCvUe3mD
-         DmGcXMAuombRVRPxUlOaPW1d1brx7y204Q9ex5EZ0lTujkl3jEVLw07r7YjMkkUlq4d+
-         kYjL1mqkJagCvpjCocIzSKk9p7ZiaARVd0zv3TQeocQ3pxNKdkO06xwOgPqKs9pTFGCM
-         RBG0opPFVmZP4iVmc0Hu4VT4o9EqiPc4yrh27wNMxOtxFiRVtyTdJEX9Uiz/2obJgJig
-         J2HQ==
-X-Gm-Message-State: AJIora+XkMdFs+IjHU8rJRCOU4eG/mBPI+cC1Y69S5x708F3fB7Tply3
-	7/i2stEdQqYinesV9p6rf86yqw==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZyAOZiEz4cJmlca1wcsFyi5KV52rkRIVxz90rLlDLIY=;
+        b=SZdd4ouMkGKfVYyLg33K6V/ztpOC0xTQV0S3GZyDtelK/uz76wYUxEY3o9eA1c4zNq
+         +oL7mK0CK5/78MBOMP/v27oa2LLr6Qb3EgE7Cvuxm96HC+LYEZRxf4/zMzCw22yWd3EG
+         Le5Eou6UAJQWDjfhiA/qkCslgWgnxDTOJgpMefCU7UkiuGP4EqZQjl8P20QGep9XoQez
+         2QqMGt3OkN9jTIemX5K1cmakEjkUTGgfNn9/xStJagSrlqTqD6hwzEY4T25BWEkDdfWU
+         4xpU3cDUtRm3LZ2DEVd8Z02sCHEX0cIRgq7dUxP+uqox+888b85Vh7yg0fZs/bq4hlb1
+         8X3A==
+X-Gm-Message-State: AJIora84N7TRTcWTg7XT5t3PMtrmQNJ74AKyRuE4wylGMvUB/2WD8WsY
+	SrrCec7HzLHefFyCENR6dm/QNAvNVUmvcRMBLP0=
 X-Google-Smtp-Source: 
- AGRyM1unnuglT4foummJ427lqB9EKkN1F2etepX9m6JviZ4UHSyNYjigq6cDKBxubjjBHp5Kk0YX6g==
-X-Received: by 2002:a5d:64ec:0:b0:21b:aa79:623e with SMTP id
- g12-20020a5d64ec000000b0021baa79623emr32380229wri.710.1657011365869;
-        Tue, 05 Jul 2022 01:56:05 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:7dad:6fff:75bd:1ad8?
- ([2001:8b0:aba:5f3c:7dad:6fff:75bd:1ad8])
-        by smtp.gmail.com with ESMTPSA id
- m123-20020a1ca381000000b003942a244f47sm19620984wme.32.2022.07.05.01.56.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 01:56:05 -0700 (PDT)
+ AGRyM1vUS046Vp/US8HhjmkKrOxcRL1odp+qFiW9ptP8AWBaBAJuJwT7iRGm70Fky5o10syyH1zhkPos10PpeRKRB4A=
+X-Received: by 2002:a05:6512:acc:b0:47f:769e:6aef with SMTP id
+ n12-20020a0565120acc00b0047f769e6aefmr20571762lfu.26.1657012558130; Tue, 05
+ Jul 2022 02:15:58 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220701192449.1358325-1-alex@linutronix.de>
+ <329d53233a9966693bc19f821f7f3996a187eced.camel@linuxfoundation.org>
+ <CAJ86T=XPx1sVqmaJd+C2q81PV-jgjDK9x=cjrEzqRnGjqEghLw@mail.gmail.com>
+ <CANNYZj-+2QvuXUT9Vshdq5T6-uLEV5p92QeAqw+kbajPm+UKyQ@mail.gmail.com>
+ <481775663c6c797dde9596268fde594bc567a12d.camel@linuxfoundation.org>
+In-Reply-To: 
+ <481775663c6c797dde9596268fde594bc567a12d.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 5 Jul 2022 11:15:46 +0200
 Message-ID: 
- <2f419565e69455c68abb362c666c0bb19935c197.camel@linuxfoundation.org>
+ <CANNYZj9e6dmh1pFZZN5T705s6mtVa5SdWoov3+5vbUT0+VrhQg@mail.gmail.com>
 Subject: Re: [OE-core] [RFC PATCH] bitbake-layers: add layer
  repositories/revisions save and restore tooling (aka 'layer configuration')
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Andre McCurdy <armccurdy@gmail.com>, Adrian Freihofer
-	 <adrian.freihofer@gmail.com>, OE Core mailing list
-	 <openembedded-core@lists.openembedded.org>, Alexander Kanavin
-	 <alex@linutronix.de>
-Date: Tue, 05 Jul 2022 09:56:04 +0100
-In-Reply-To: 
- <CANNYZj93XZ8UxBzUfPBbu093_kY8B7OyGDm_PCNkbdmb+aRpfw@mail.gmail.com>
-References: <20220701192449.1358325-1-alex@linutronix.de>
-	 <329d53233a9966693bc19f821f7f3996a187eced.camel@linuxfoundation.org>
-	 <CAJ86T=XPx1sVqmaJd+C2q81PV-jgjDK9x=cjrEzqRnGjqEghLw@mail.gmail.com>
-	 <16FEE1E2A731461A.2437@lists.openembedded.org>
-	 <CANNYZj93XZ8UxBzUfPBbu093_kY8B7OyGDm_PCNkbdmb+aRpfw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Andre McCurdy <armccurdy@gmail.com>,
+ Adrian Freihofer <adrian.freihofer@gmail.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Jul 2022 08:56:17 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Jul 2022 09:16:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167644
+ https://lists.openembedded.org/g/openembedded-core/message/167645
 
-On Tue, 2022-07-05 at 10:39 +0200, Alexander Kanavin wrote:
-> On Tue, 5 Jul 2022 at 10:34, Alexander Kanavin via
-> lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
-> wrote:
-> > At this point, I have to remind everyone about our harsh reality.
-> > Which is having lots of core pieces without maintainers:
-> > https://git.yoctoproject.org/poky/tree/MAINTAINERS.md#n45
-> >=20
-> > Let's focus on adding foundational pieces of layer and configuration
-> > management in a controlled, testable and tested manner for now. Which
-> > is what I am trying to do. I think discussing grandiose designs for
-> > things that try to please everybody is just a bit premature, honestly.
->=20
-> And let me just go ahead and say it, and I understand this may be
-> upsetting. I'd rather try really hard to completely avoid the
-> standalone setup tool.
+On Tue, 5 Jul 2022 at 10:51, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> The challenge with your approach is that it is bolted directly onto
+> bitbake-layers, which makes it not only OE-Core API but bitbake API
+> too. There is a standard such changes need to reach and I'm not
+> convinced that is doesn't tie our hands in future as is.
+>
+> I suspect in reality, we could probably have the same functionality in
+> a separate script in OE-Core, maybe improving the APIs/library
+> functions from bitbake-layers if needed. That would lower the bar and
+> mean we could have something focused on eSDK needs rather than the
+> wider problem.
 
-I've been trying that for years, it is looking like it is no longer an
-option as if we don't do something, I think the project will suffer
-more damage than a tool would do.
+I added the layer config generator as a bitbake-layers plugin for these reasons:
+1. It is layer management functionality, and so logically belongs in that tool.
+2. It is more visible and discoverable when it is in there, as opposed
+to all those executables in poky/scripts/ which most people have no
+idea about.
+3. It needs to get a list of active layers and their locations
+programmatically, which is trivial from a bitbake-layers plugin, less
+so from other places.
+4. it can reuse code from meta/lib/oe if/when needed.
 
->  That tool, and the way it's just been described
-> sounds like an invitation to compatibility issues between various tool
-> versions and the metadata and backends (kas alone has more than 12
-> config format versions and requires to specify the version
-> explicitly?) coming from all kinds of places, maintainability issues
-> (we are already pressed to the limit with many pieces getting no
-> maintenance), leaky abstractions, not quite covering all of the ways
-> people want to use it with their existing setups, and overall greatly
-> increased complexity in a project that is already notorious for it.
+There are a few things in there that I'd already like to do
+differently, and there's also the 'save the active build/conf in
+TEMPLATECONF format' piece missing, so there'll be a reworked version,
+arriving in bite-sized chunks for easier review/discussion.
 
-In defence of the tool idea, we do have some experience of what
-compatibility looks like through the autobuilder. There are a lot of
-parallels in what it does and how it does it to what we need in that
-standalone tool. Yes, there are differences needed but there is a
-decent chunk of experience which can be used to hopefully largely avoid
-those compatibility issues.
-
-> I'd rather avoid repeating the story with devtool, which is both more
-> complex and has less use than what we'd hope for - and has no
-> maintainer.
-
-I don't think the setup tool should impact devtool, those are two
-different components which should be orthogonal to each other. Yes,
-there is impact on the eSDK but I'd hope in general that would be a
-simplification of the existing setup code.
-
-Cheers,
-
-Richard
-
-
+Alex
 
