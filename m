@@ -1,96 +1,116 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BB86C43334
-	for <webhook@archiver.kernel.org>; Wed,  6 Jul 2022 08:08:02 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web09.3728.1657094874410688758
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CCDAC43334
+	for <webhook@archiver.kernel.org>; Wed,  6 Jul 2022 09:12:42 +0000 (UTC)
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
+ [209.85.160.176])
+ by mx.groups.io with SMTP id smtpd.web09.4117.1657098753198487376
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Jul 2022 01:07:54 -0700
+ Wed, 06 Jul 2022 02:12:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=bXUv6YXI;
- spf=pass (domain: gmail.com, ip: 209.85.208.53,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id r6so6804250edd.7
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bKukvW7n;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.160.176,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-qt1-f176.google.com with SMTP id h19so17360459qtp.6
         for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Jul 2022 01:07:54 -0700 (PDT)
+ Wed, 06 Jul 2022 02:12:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=7nvpGUIbSJFa6qFlwqQk3KQxdpBghsuOsmd5vPvnxsU=;
-        b=bXUv6YXIKh3QaDbL8Kd8Gw9rxipvOq/78qgZK49WWxwbged9Ch9mzB4jKF/oW4+GzV
-         U3Ftdc8j0kxbWCvB+T0vO+6NqaTTIwMRvpQkx4MRkXLc2XDX8ITKOodRTXKIMIBFzdAK
-         XhFqhQRuRpwEixQF796HqEcVzcQ+WbEzu7xxVSU+TFT66KLp+jNxZx92JMKZb/ZikSha
-         LYCB/MmTXXqXfEJSXPOtBtqGebU+7jLSX98am4xNSCUHIohEwAyoow13vx1MYxw7n2i1
-         iJ7PJxZwxZdDpz+f81DoJFN8mDBo0Mh5Qq/jflPOCeqM8M0W8RWe40GNu2HXBZPrTRxV
-         vvWw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=4vAYCp3PcCGkljtswg+PDB9smNBjVn+J0Fz1YOSEoVw=;
+        b=bKukvW7nBI3hGFhTHcCcqTkh7f82sDohLXLOo9airVw+3LDuuJDskWGNVNkdvusjaj
+         pAWF3BCYVbHxIUTrbQgyZuGDzsptIpEM5HKMSXhBDS0iL2AFA92G6AUuYpoz7Gk3v3HK
+         NbufHXswnNMbUq/ACT0/yjco581AveSXDzUhc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7nvpGUIbSJFa6qFlwqQk3KQxdpBghsuOsmd5vPvnxsU=;
-        b=wcgMPRszfaPRc0vAYbbSG30umO/QDH1td+m4AKP8oCDbOZmk+xk3Rr2QOes4PauVrx
-         F5OKzHAHH/4tmqkxiR3wKNiWn7dkOvqMm4FVST4davC6z7RK7suZsXsh01l942XkWQDw
-         jEjiGKQfPjDqPWk3bNRfVb912FVIXnOqDT/EPgJxPcXDO13F+RpRzUV4XqAMcRuWTleh
-         VrV9Z6jFzJdaHC8OZrD19KzeY38/xJTnd9CW6u/omKIIjjqIo4ztwQWFrFB0JzTx6PPX
-         YPqLmfg2FWtUCfMdstmSYFwPcdhGlNZpCADWxtaJHM+/VCVCCkEQ3vduHQl+7/CPBp2U
-         Qj3A==
-X-Gm-Message-State: AJIora/ufRwdIRMVZ62d3cHaBIdUr4WLOHJpWBslrJD8KHicy39HZ/yl
-	xvJ4ntMSa7RNDiq/g5MFOkQBEVRkSJslcA==
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=4vAYCp3PcCGkljtswg+PDB9smNBjVn+J0Fz1YOSEoVw=;
+        b=2rQ+BfAuMv6KBzBGAxA/njDDx5gal1cIy7MKUAPu1TViPHgTy7PQyrd2kRBm4NWNDj
+         mMsWfJnfFAGhlEOlVWgTjBgBNCz3yo6Ufgje7UtWn8y/OvBrWkbbUuoHzqKC7iEjhiF/
+         CYeEHP4t3aD5e4WM7YEAbvbnebCVSiYrFdgdNN4Iz//BE1EU0zl9HBOkUwjfmPb78MyW
+         w8YLFuneHExrxEhcElvtOULF4OnFSEWnmw+ehu86HWrlsBlItwJRf3fXZbqV9iRpEkzX
+         8WfBcy01+9LwAJNrBrDpEEi8IV58svOYlRgUj49ojUCoJNdZiDA1ebtLKwudKxMuYpbv
+         tFiw==
+X-Gm-Message-State: AJIora8dkmz7eS7mIqzSroq3PBAhREGMyjWjXogU1QxfphLJgZ9ShE3p
+	pB7F2nO26tGBlK/6M2pXgsT1Mw==
 X-Google-Smtp-Source: 
- AGRyM1u1TdkAYbyqXEm/eIa2BfC9kdWBARCN0NA7EQWEWoK8mqWVzBOABGBStvn2MJnpGfaKWw0hWA==
-X-Received: by 2002:a05:6402:34ce:b0:435:afb0:1d5a with SMTP id
- w14-20020a05640234ce00b00435afb01d5amr52576400edc.361.1657094872960;
-        Wed, 06 Jul 2022 01:07:52 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
- [80.153.143.164])
+ AGRyM1tf8z+v89zW+7CNia9veYGpKk2zCTqiJcLHOrgf55Iyyfc9o7Md09BtUnWBWOAyqJVWGwDjEg==
+X-Received: by 2002:a05:6214:c4b:b0:470:8a1a:fed0 with SMTP id
+ r11-20020a0562140c4b00b004708a1afed0mr36746490qvj.125.1657098752203;
+        Wed, 06 Jul 2022 02:12:32 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:9b71:63f4:5737:a5c8?
+ ([2001:8b0:aba:5f3c:9b71:63f4:5737:a5c8])
         by smtp.gmail.com with ESMTPSA id
- v19-20020a170906381300b00721d8e5bf0bsm17001344ejc.6.2022.07.06.01.07.51
+ h2-20020ac85482000000b00317cd3edab4sm22851187qtq.11.2022.07.06.02.12.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jul 2022 01:07:52 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 27/27] ncurses: mark upstream version as unknown
-Date: Wed,  6 Jul 2022 10:07:21 +0200
-Message-Id: <20220706080721.3072553-27-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220706080721.3072553-1-alex@linutronix.de>
-References: <20220706080721.3072553-1-alex@linutronix.de>
+        Wed, 06 Jul 2022 02:12:31 -0700 (PDT)
+Message-ID: 
+ <8b13b18a7aa7568fc234d58e5871cf9adb3debd5.camel@linuxfoundation.org>
+Subject: Re: Question about nativesdk-qemuwrapper-cross
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "leimaohui@fujitsu.com" <leimaohui@fujitsu.com>,
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Wed, 06 Jul 2022 10:12:29 +0100
+In-Reply-To: 
+ <OS0PR01MB6178C500A5157ED31549D49DA0809@OS0PR01MB6178.jpnprd01.prod.outlook.com>
+References: 
+	<OS0PR01MB6178C500A5157ED31549D49DA0809@OS0PR01MB6178.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Jul 2022 08:08:02 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Jul 2022 09:12:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167714
+ https://lists.openembedded.org/g/openembedded-core/message/167715
 
-This is to avoid check-version reporting a broken current version
-(6.3+nnnn sorts higher than 6.3 and isn't tagged in upstream git).
+On Wed, 2022-07-06 at 03:31 +0000, leimaohui@fujitsu.com wrote:
+> Hi, Richard
+>=20
+> I added nativesdk- qemuwrapper-cross into my meta-toolchain, and found th=
+e content of nativesdk-qemuwrapper script is like the following:=20
+> ------------------------------------------------------------------
+> # cat /opt/poky/4.1+snapshot/sysroots/x86_64-pokysdk-linux/usr/bin/crosss=
+cripts/nativesdk-qemuwrapper
+> #!/bin/sh
+> # Wrapper script to run binaries under qemu user-mode emulation
+> set -x
+>=20
+> if [ True =3D False -a "nativesdk-qemuwrapper-cross" !=3D "nativesdk-qemu=
+wrapper-cross" ]; then
+>         echo "qemuwrapper: qemu usermode is not supported"
+>         exit 1
+> fi
+>=20
+>=20
+> qemu-x86_64 -r 3.2.0  -E LD_LIBRARY_PATH=3D$D/opt/poky/4.1+snapshot/sysro=
+ots/x86_64-pokysdk-linux/usr/lib:$D/opt/poky/4.1+snapshot/sysroots/x86_64-p=
+okysdk-linux/lib "$@"
+> ------------------------------------------------------------------
+>=20
+> Reference to qemuwrapper-cross, it seems that nativesdk qemuwrapper-cross=
+ is not correct.
+> Why the "qemu_binary " is " qemu-x86_64"? Shouldn't it be "qemu-aarch64 "=
+?
+> Is it better to change nativesdk qemuwrapper-cross to qemuwrapper-cross-c=
+anadian-${MACHINE}?
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/recipes-core/ncurses/ncurses_6.3+20220423.bb | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb b/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
-index 1c46e79b30..9fba5b584b 100644
---- a/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
-@@ -9,6 +9,7 @@ SRCREV = "20db1fb41ec91cd8a1f528e770362092c5403378"
- S = "${WORKDIR}/git"
- EXTRA_OECONF += "--with-abi-version=5"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)$"
-+UPSTREAM_VERSION_UNKNOWN = "1"
- 
- # This is needed when using patchlevel versions like 6.1+20181013
- CVE_VERSION = "${@d.getVar("PV").split('+')[0]}.${@d.getVar("PV").split('+')[1]}"
--- 
-2.30.2
+A nativesdk-qemuwrapper-cross would run binaries from the SDK under
+qemu, so if SDKMACHINE was x86-64, that would be correct.
+
+It sounds like you want a qemuwrapper-cross-canadian-${MACHINE} which
+is something different.
+
+Cheers,
+
+Richard
 
 
