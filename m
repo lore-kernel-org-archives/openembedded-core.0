@@ -1,150 +1,99 @@
-Return-Path: <liu.ming50@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BE2FC43334
-	for <webhook@archiver.kernel.org>; Wed,  6 Jul 2022 11:10:43 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web12.4891.1657105841138769275
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23D45C433EF
+	for <webhook@archiver.kernel.org>; Wed,  6 Jul 2022 11:35:33 +0000 (UTC)
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
+ [209.85.222.182])
+ by mx.groups.io with SMTP id smtpd.web10.5091.1657107325295692161
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Jul 2022 04:10:41 -0700
+ Wed, 06 Jul 2022 04:35:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=mqgA75y2;
- spf=pass (domain: gmail.com, ip: 209.85.208.182,
- mailfrom: liu.ming50@gmail.com)
-Received: by mail-lj1-f182.google.com with SMTP id c15so18073914ljr.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JNwO78gQ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.222.182,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-qk1-f182.google.com with SMTP id r138so10749462qke.13
         for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Jul 2022 04:10:40 -0700 (PDT)
+ Wed, 06 Jul 2022 04:35:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=eDEpsoPWF6cN6PyomUdbq4Y8aLWrLe+xviTTwEk3wmI=;
-        b=mqgA75y2n4AEr1MA6Rk0z9DLVGDv9JQTbOFpfzhpNY0ugPxAjTckNvuvh2iPazorAP
-         ZnCJZrOPAEPA9YhHTQFw0ID4SfqookWFc71rD6jXSpnliqchHAMlPyEIPOQ6cpl1f24P
-         hfjPREOgrDU31A2TwWiKBFJPUpEtaNXAfXIM6i7wUaMOpPPlsLZhxOUSTjFMKCanUCtS
-         Iy0Ee6ni5jQLXPyiUWv04KTffq6HqvuG3uPXTIAEtULYEgMDSdQ3qyWNlFksPogIrGqb
-         kD6SWjr10uYxG5hejZfsUdL+Dkhm738S8yXOdKBgLdXa2DYPhbOluEFPVJRZhOWk+zAF
-         lE7Q==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=SKozGnLp8WfdKk9s6Rfxq8mIIy9AN8cwX3oo/F1UTmA=;
+        b=JNwO78gQGPOaitsSmzy4EE1mKmltYjuoAkD8+W3Z2BzpaRLZkym3hIJIpLndps9oob
+         jg6+9pM0456BXJx0P1UKrZ2Qyxq7bcpkrrBtS/Ca493OM9eXWGMbG0PRPV5lGzFEk4FB
+         M64sB+BR82+3THPM/qorAepnZ9s746O9XLLl4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=eDEpsoPWF6cN6PyomUdbq4Y8aLWrLe+xviTTwEk3wmI=;
-        b=Du2RyE0CkRr2yUPcOoCs9Uj7ga5Y7XY0uom2e5IBy6wOVqTdcgDfNz3x9UAznsLpas
-         H3v7BClpAqKZjjelI9llBBerLIhgv5XkIBmQQqTBoGBoIjASVkCJ5CZd8RCRYFJKN7m7
-         xo/oDCl3TEe26lm42ZLQ2MXEJ+NFEEJC7KudbA9ZY/6BmcOVy/CQpdf9N7t70r5h8LW+
-         JnrFkuet6fSMhx0g10p7P2vfWcZgwMDntZQHJXqo7mW7xlSf13X2x3ll9SL/qlnuj90U
-         CWVHesxKJCtMp3c4p3QokbeDUKIpzLDn1jtHaa9EA047q4BuiIRjMN0gIMgBZJL81aPf
-         CK3Q==
-X-Gm-Message-State: AJIora+0tfUP6/qkQBerVOVrUpJd9y7fqOsACjL7oQRRy3htj86jSDp8
-	jwvA3Ys3GWt8oeOGUTqb+lwDiEaXo/c=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=SKozGnLp8WfdKk9s6Rfxq8mIIy9AN8cwX3oo/F1UTmA=;
+        b=Qu1Ya+O12cwhHSWxXolR7sZcMLUOMttqv0wbeC/thtVtq1rr3rHi7SOwiARCHsJ0IM
+         G/y4egDtG5Bhilc5vn/R8wwXUd1Z+DTeg8+djAshLSB17v36jDPBY7A7PuR8W2JA8Jf0
+         DteYUuTU/pgMAhy/AXrxgeNAwtut8sd4IJb00aPDSRxqURWHi+uke0D8kfsyZW2R5srq
+         q5dtDYPrFqqcrkaZJCIn46T++KTpXVL3k7wA/Q0WLzHAqeHTpH5n6hCMxJKnOeqefCuv
+         bx7IruiVGWrHyfApLOGDyuWG1/vQcflsytkIpKTWRZctNSY9AWjscAg9hQjIyCSd33Ol
+         QxCQ==
+X-Gm-Message-State: AJIora8zine/jlpdP8G5mBppJQBPZBzrCgaS9duqUF/I9yWZEf2ziUOT
+	kpJfimshV0Zdno0Qu+KF6FL3ig==
 X-Google-Smtp-Source: 
- AGRyM1vavScEysDpI17JEc7yuygbxV/1VgAwpUiNXl8qYLaEnOqlsjVCin1Iq0KYqESTkQ92oW5gYg==
-X-Received: by 2002:a2e:730b:0:b0:25c:63cf:1ffd with SMTP id
- o11-20020a2e730b000000b0025c63cf1ffdmr14844551ljc.208.1657105838823;
-        Wed, 06 Jul 2022 04:10:38 -0700 (PDT)
-Received: from peterliu-Precision-7530.emea.group.atlascopco.com
- (customer-212-100-112-191.stosn.net. [212.100.112.191])
+ AGRyM1vuEG9qhjWBBgSTr8/mfnSm49lgnID+I2ezGUtqbjhwD4xwuhoy0jI9RQyGUdyqjsypp/ZckQ==
+X-Received: by 2002:a05:620a:2b96:b0:6af:25ab:54b2 with SMTP id
+ dz22-20020a05620a2b9600b006af25ab54b2mr26958427qkb.99.1657107324135;
+        Wed, 06 Jul 2022 04:35:24 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:9b71:63f4:5737:a5c8?
+ ([2001:8b0:aba:5f3c:9b71:63f4:5737:a5c8])
         by smtp.gmail.com with ESMTPSA id
- v27-20020ac258fb000000b00478f739f1fdsm595127lfo.103.2022.07.06.04.10.37
+ i11-20020a05620a248b00b006af4f9b77fdsm22941154qkn.44.2022.07.06.04.35.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jul 2022 04:10:38 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: max.krummenacher@toradex.com,
-	Ming Liu <liu.ming50@gmail.com>
-Subject: [OE-core] [PATCH] meta: introduce UBOOT_MKIMAGE_KERNEL_TYPE
-Date: Wed,  6 Jul 2022 13:10:28 +0200
-Message-Id: <20220706111028.149100-1-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 06 Jul 2022 04:35:23 -0700 (PDT)
+Message-ID: 
+ <6d91f47a67fdcd99ded5b6e31836dc41b2f75ca5.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/7] sato: work around missing icons in
+ adwaita 42.0
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Wed, 06 Jul 2022 12:35:20 +0100
+In-Reply-To: <20220705170339.771017-1-alex@linutronix.de>
+References: <20220705170339.771017-1-alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Jul 2022 11:10:43 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Jul 2022 11:35:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167719
+ https://lists.openembedded.org/g/openembedded-core/message/167720
 
-From: Ming Liu <liu.ming50@gmail.com>
+On Tue, 2022-07-05 at 19:03 +0200, Alexander Kanavin wrote:
+> adwaita icon theme upstream has done significant trimming around app cate=
+gory icons
+> (fullcolour versions gone completely, 'symbolic' b&w versions still aroun=
+d but marked
+> as legacy). Going forward, apps would need to provide their own icons. Gi=
+ven that
+> sato is likely to be deprecated in favour of wayland/weston rather soon, =
+let's use
+> the symbolic icons for now.
+>=20
+> [YOCTO #14782]
 
-Sometimes an end user might want to choose another kernel type argument
-for uboot-mkimage other than "kernel", for instance: "kernel_noload".
+I did finally get some time to run some tests and compare these with
+some ideas I had. This patch has horribly fuzzy icons in black and
+white and I do not think it is a good option. I'm therefore definitely
+not going to take this patch.
 
-Let's introduce a variable UBOOT_MKIMAGE_KERNEL_TYPE to support that,
-and it could be used by BSP layers as well.
+I'm going to work on cleaning up my patch to add svg icons to sato-
+icon-theme and bring those back for now. It will mean icon-naming-tools
+has to come back too but it isn't a complex recipe.
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/classes/kernel-fitimage.bbclass     | 2 +-
- meta/classes/kernel-uboot.bbclass        | 3 +++
- meta/classes/kernel-uimage.bbclass       | 2 +-
- meta/lib/oeqa/selftest/cases/fitimage.py | 3 ++-
- 4 files changed, 7 insertions(+), 3 deletions(-)
+Cheers,
 
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index 7e09b075ff..2112ae4cfa 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -148,7 +148,7 @@ fitimage_emit_section_kernel() {
-                 kernel-$2 {
-                         description = "Linux kernel";
-                         data = /incbin/("$3");
--                        type = "kernel";
-+                        type = "${UBOOT_MKIMAGE_KERNEL_TYPE}";
-                         arch = "${UBOOT_ARCH}";
-                         os = "linux";
-                         compression = "$4";
-diff --git a/meta/classes/kernel-uboot.bbclass b/meta/classes/kernel-uboot.bbclass
-index 2facade818..1bc98e042d 100644
---- a/meta/classes/kernel-uboot.bbclass
-+++ b/meta/classes/kernel-uboot.bbclass
-@@ -2,6 +2,9 @@
- FIT_KERNEL_COMP_ALG ?= "gzip"
- FIT_KERNEL_COMP_ALG_EXTENSION ?= ".gz"
- 
-+# Kernel image type passed to mkimage (i.e. kernel kernel_noload...)
-+UBOOT_MKIMAGE_KERNEL_TYPE ?= "kernel"
-+
- uboot_prep_kimage() {
- 	if [ -e arch/${ARCH}/boot/compressed/vmlinux ]; then
- 		vmlinux_path="arch/${ARCH}/boot/compressed/vmlinux"
-diff --git a/meta/classes/kernel-uimage.bbclass b/meta/classes/kernel-uimage.bbclass
-index cedb4fa070..e116bf0265 100644
---- a/meta/classes/kernel-uimage.bbclass
-+++ b/meta/classes/kernel-uimage.bbclass
-@@ -30,6 +30,6 @@ do_uboot_mkimage() {
- 			awk '$3=="${UBOOT_ENTRYSYMBOL}" {print "0x"$1;exit}'`
- 	fi
- 
--	uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${B}/arch/${ARCH}/boot/uImage
-+	uboot-mkimage -A ${UBOOT_ARCH} -O ${UBOOT_MKIMAGE_KERNEL_TYPE} -T kernel -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${B}/arch/${ARCH}/boot/uImage
- 	rm -f linux.bin
- }
-diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-index e6bfd1257e..7e6479c9ca 100644
---- a/meta/lib/oeqa/selftest/cases/fitimage.py
-+++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -763,6 +763,7 @@ FIT_HASH_ALG = "sha256"
- 
-         kernel_load = str(get_bb_var('UBOOT_LOADADDRESS'))
-         kernel_entry = str(get_bb_var('UBOOT_ENTRYPOINT'))
-+        kernel_type = str(get_bb_var('UBOOT_MKIMAGE_KERNEL_TYPE'))
-         kernel_compression = str(get_bb_var('FIT_KERNEL_COMP_ALG'))
-         uboot_arch = str(get_bb_var('UBOOT_ARCH'))
-         fit_hash_alg = str(get_bb_var('FIT_HASH_ALG'))
-@@ -775,7 +776,7 @@ FIT_HASH_ALG = "sha256"
-             'kernel-1 {',
-             'description = "Linux kernel";',
-             'data = /incbin/("linux.bin");',
--            'type = "kernel";',
-+            'type = "' + kernel_type + '";',
-             'arch = "' + uboot_arch + '";',
-             'os = "linux";',
-             'compression = "' + kernel_compression + '";',
--- 
-2.25.1
+Richard
 
 
