@@ -1,140 +1,250 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64385C433EF
-	for <webhook@archiver.kernel.org>; Wed,  6 Jul 2022 18:52:43 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web12.1018.1657133560550211750
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8A10C43334
+	for <webhook@archiver.kernel.org>; Wed,  6 Jul 2022 19:54:23 +0000 (UTC)
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com
+ [209.85.167.174])
+ by mx.groups.io with SMTP id smtpd.web09.1729.1657137259836586120
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Jul 2022 11:52:40 -0700
+ Wed, 06 Jul 2022 12:54:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pjdoMPpR;
- spf=pass (domain: gmail.com, ip: 209.85.216.51,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f51.google.com with SMTP id
- t5-20020a17090a6a0500b001ef965b262eso6339023pjj.5
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=JQGcyYYZ;
+ spf=pass (domain: gmail.com, ip: 209.85.167.174,
+ mailfrom: jpewhacker@gmail.com)
+Received: by mail-oi1-f174.google.com with SMTP id u9so21032780oiv.12
         for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Jul 2022 11:52:40 -0700 (PDT)
+ Wed, 06 Jul 2022 12:54:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cV4jUF6dDgmUHAMTaCZx3ZYvVVibODN7ErRGatb2MDw=;
-        b=pjdoMPpReC70qhwIvDUJI0zJrvlEpgQNmF3bx2UUhakoGSQ8194nP0LEt3kcf7M1Cb
-         WfW/JUJzrWnOzF2o4+cnTTMaAuORsLAXp3swILZA6BMySelE2XZQTSPFp3AQ5WDHZ+5R
-         WzqPGFlpMMn/7odIBphkSkvY1okZe5RcY3q87xLZfso5eIkqq2TLZLfRj6Hk2ZPxJuhW
-         4EFZWDDNO8gIoLYEvD6XRCAeHgrRxe7f0inkIAbFDB34lCcSMY+jIafdneVoI1eOroci
-         gNOuBz3uefTvbZU57Tw9gmLgrjLEZsbMlPbu7VXnmUYXBjuiYrSdxiHSU7cfkg0Aq+34
-         zWIw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0Kc5658nAHqldg2GfxyVJavP6anirchvpx4iYLz1Mvs=;
+        b=JQGcyYYZS5v565dwqMJNniOdyc2rQbFrWVgnw4Si/jGrVSJfFrzd860tpaR55wNK/T
+         PNj2cp+Cm4kvt9mHjhWqS65DGMirQr2fv/6KYQ7VelSm1cUkANQH+h6SacqKff2rslv6
+         8IoTikftNmki/FT5sub72DCBpeMi2au84CdzwInI0jTgr+AcHC1Cfc9s/ddCcVgvId03
+         ItpD7Ri4orD4CGCoGmHIjcuWoV7PJSG3Fwy23xKyvI1TOe4r2rWPG5jtuAdbHh8NvqMb
+         v1Ul26j89ccAfbn5+pUxopqWj6PvyaOwO4m5zKOHcJOr41+ZMQRHYijCxfcLZn60wEuI
+         07TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cV4jUF6dDgmUHAMTaCZx3ZYvVVibODN7ErRGatb2MDw=;
-        b=EUJnQVvt6gETu2Yg6BMwwcem0teO0mfEhRfg5njCKjEKQvDHDAz+Yq3LtptWtfywc6
-         FEiAsyLUhskz1BxdcwuDtbsoe2RiGXx+Q/bZorUOXVw5ER17nlIYw6gXXz7Gk/ln8ddQ
-         PxYA/Uk6q4IlGlyrV3rVYboe2P7Qaholmhwi2rwir3STjJe8t2BWTORxx9QU5EYCXQNn
-         bEVQoNqtc4ib4RobqCd1jCOCe+hDjRc5NKoxTMXhYVStl33rpd8Fs3NsNu0aY0miJ3BX
-         nZfvuGYusB0l5UW14eFs5bLK7bordeyu+BDmyxVziSVA0YzP+O+byrGwMYrA4zMP4OQe
-         juvA==
-X-Gm-Message-State: AJIora96Gi5fdQOdtgmgehXWx35QAreye6ORyReT2nHDshK67AYd5yGt
-	mBglqOcax2MxVhlD6hOhkg+bnGc5q1G8KFbKm9g=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0Kc5658nAHqldg2GfxyVJavP6anirchvpx4iYLz1Mvs=;
+        b=ZHvl6DyXfa2Inr7hENdALuQy0hsrAuI2WTXlz2YRCCRx3L/RbzTJBIj+cs71iG+zhK
+         9Olff7QBGs9kH6pldBGAde2ky2SVLORdJFLJT2fl4Yqk7nlh1rwSYsfpDBB/sQlSanbf
+         0uxQR6ZNngaHWYnPthhTomeqUbH4Y+gUsu4vQwxARADKLY4aMT1humuawaaAvXaPMCHt
+         hjLtPJDfTDi+CN7wuL/8aSNjnPA41Q9Mm2otnbh4wtSWNjvvkQYxowEhZwaI8IUnt0Vh
+         meeYD2f9CK5QB15TySs1GsVcwCGgdeA2ynVnNRtrHO1di2FQ74yL812bQsesTeBEN6iV
+         oNPw==
+X-Gm-Message-State: AJIora9A/Cm6l7X5swKedqsih5S1gQ66nApi+f/EcL2Z7kUjJBtymWiy
+	9iRy3tN4pD2UAVse5E8/UR9BPcP/rZanQg==
 X-Google-Smtp-Source: 
- AGRyM1sXYR9oQJx5kdgPYsmMagY7yad7frzmjMUH+1ZLVx9Fe4QiQRs1H1gVZx0iqB23G9mNzfCn8trLwveA6g9ToiE=
-X-Received: by 2002:a17:90b:1807:b0:1ef:8aa5:1158 with SMTP id
- lw7-20020a17090b180700b001ef8aa51158mr42463pjb.163.1657133559944; Wed, 06 Jul
- 2022 11:52:39 -0700 (PDT)
+ AGRyM1txz0ZMpEclzZkmZ7k3FUd5tYyHubYta6qRvGoBR+vxxYajr71Dlm89w3WgRihUP+KOcZ5MDQ==
+X-Received: by 2002:a05:6808:192a:b0:335:3fd7:665f with SMTP id
+ bf42-20020a056808192a00b003353fd7665fmr198651oib.164.1657137258690;
+        Wed, 06 Jul 2022 12:54:18 -0700 (PDT)
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+        by smtp.gmail.com with ESMTPSA id
+ a13-20020a056870468d00b0010be134ac60sm3523751oap.19.2022.07.06.12.54.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Jul 2022 12:54:18 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][RFC] Layer Setup JSON schema and example
+Date: Wed,  6 Jul 2022 14:53:11 -0500
+Message-Id: <20220706195311.974830-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <16FE039DA287E43E.1980@lists.openembedded.org>
- <16FEA3B3CA900B93.1980@lists.openembedded.org>
- <16FEBD90A08F81A5.1980@lists.openembedded.org>
- <5b8c809573b0ecb0039333edcbeb1936b40db564.camel@linuxfoundation.org>
-In-Reply-To: 
- <5b8c809573b0ecb0039333edcbeb1936b40db564.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 6 Jul 2022 14:52:27 -0400
-Message-ID: 
- <CADkTA4MCU2o20k0s9LZ_co0rwurfEa-JNxvYpEK1XL8_8K20eg@mail.gmail.com>
-Subject: Re: [OE-core] Build paths/reproduibility issues in master - help
- requested
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Jul 2022 18:52:43 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Jul 2022 19:54:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167743
+ https://lists.openembedded.org/g/openembedded-core/message/167744
 
-On Wed, Jul 6, 2022 at 12:39 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2022-07-04 at 22:28 +0100, Richard Purdie via
-> lists.openembedded.org wrote:
-> > On Mon, 2022-07-04 at 14:34 +0100, Richard Purdie via
-> > > > With docs enabled:
-> > > > stdio: WARNING: lib32-vala-0.56.1-r0 do_package_qa: QA Issue: File /usr/bin/vapigen-wrapper in package lib32-vala contains reference to TMPDIR [buildpaths]
-> > > > stdio: WARNING: rpm-1_4.17.0-r0 do_package_qa: QA Issue: File /usr/lib64/pkgconfig/rpm.pc in package rpm-dev contains reference to TMPDIR [buildpaths]
-> > > > stdio: WARNING: lib32-gtk-doc-1.33.2-r0 do_package_qa: QA Issue: File /usr/share/gtk-doc/python/gtkdoc/config_data.py in package lib32-gtk-doc contains reference to TMPDIR [buildpaths]
-> > > > stdio: WARNING: vala-0.56.1-r0 do_package_qa: QA Issue: File /usr/bin/vapigen-wrapper in package vala contains reference to TMPDIR [buildpaths]
-> > > > stdio: WARNING: gtk-doc-1.33.2-r0 do_package_qa: QA Issue: File /usr/share/gtk-doc/python/gtkdoc/config_data.py in package gtk-doc contains reference to TMPDIR [buildpaths]
->
-> I think I have fixes out for rpm (via lua) and vala. gtk-doc remains.
->
-> > > These still remain. In addition we also have:
-> > >
-> > > A musl ltp issue:
-> > > stdio: WARNING: ltp-20220527-r0 do_package_qa: QA Issue: File /opt/ltp/testcases/open_posix_testsuite/logfile.conformance-all in package ltp contains reference to TMPDIR [buildpaths]
->
-> Still remaining.
->
-> > >
-> > > Some multilib issues:
-> > > stdio: WARNING: lib32-vala-0.56.1-r0 do_package_qa: QA Issue: File /usr/bin/vapigen-wrapper in package lib32-vala contains reference to TMPDIR [buildpaths]
-> > > stdio: WARNING: vala-0.56.1-r0 do_package_qa: QA Issue: File /usr/bin/vapigen-wrapper in package vala contains reference to TMPDIR [buildpaths]
-> > > stdio: WARNING: rpm-1_4.17.0-r0 do_package_qa: QA Issue: File /usr/lib64/pkgconfig/rpm.pc in package rpm-dev contains reference to TMPDIR [buildpaths]
->
-> These are probably fixed.
->
-> > > qemuarm64:
-> > > stdio: WARNING: kernel-devsrc-1.0-r0 do_package_qa: QA Issue: File /lib/modules/5.15.44-yocto-standard/build/include/generated/.vdso-offsets.h.cmd in package kernel-devsrc contains reference to TMPDIR [buildpaths]
->
-> Fix out from Bruce (thanks!)
->
-> > >
-> > > meta-gplv2 issue:
-> > > stdio: WARNING: mc-4.7.5.2-r3 do_package_qa: QA Issue: File /usr/libexec/mc/extfs.d/iso9660 in package mc-helpers contains reference to TMPDIR [buildpaths]
-> > > stdio: WARNING: tar-1.17-r3 do_package_qa: QA Issue: File /usr/src/debug/tar/1.17-r3/build/lib/string.h in package tar-src contains reference to TMPDIR
->
-> This may be the end of meta-gplv2 since nobody cares.
->
-> > >
-> > > Christopher replied about meta-virt which is much appreciated!
-> >
-> > With the .debug checking patch applied, we also see an issue with
-> > lttng-modules on beaglebone, edgerouter, and qemumips:
-> >
-> > stdio: WARNING: lttng-modules-2.13.4-r0 do_package_qa: QA Issue: File /lib/modules/5.15.36-yocto-standard/kernel/lttng-modules/lib/.debug/lttng-lib-ring-buffer.ko in package lttng-modules-dbg contains reference to TMPDIR
+Defines a common schema for layer setup that can be consumed by tools to
+know how to fetch and assemble layers for end users. Also includes an
+example of the layer setup that constructs poky for reference.
 
-I'll have a go at this one as well, but I'll be out of the office on
-Friday/Monday, so it'll be after hours and a bit slower than normal.
+The schema can be used to validate a layer setup file with the commands:
 
-Bruce
+ $ python3 -m pip install jsonschema
+ $ jsonschema -i meta/lib/layers.example.json meta/lib/layers.schema.json
 
->
-> Still remaining.
->
-> Cheers,
->
-> Richard
->
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/lib/layers.example.json |  35 +++++++++++
+ meta/lib/layers.schema.json  | 113 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 148 insertions(+)
+ create mode 100644 meta/lib/layers.example.json
+ create mode 100644 meta/lib/layers.schema.json
 
-
+diff --git a/meta/lib/layers.example.json b/meta/lib/layers.example.json
+new file mode 100644
+index 0000000000..33264dac9e
+--- /dev/null
++++ b/meta/lib/layers.example.json
+@@ -0,0 +1,35 @@
++{
++    "version": "1.0",
++    "sources": [
++        {
++            "name": "poky",
++            "path": "poky",
++            "description": "Poky reference distribution",
++            "remote": {
++                "type": "git",
++                "branch": "master",
++                "rev": "bc6d96e69684253a7236594cb0af2738be06b7a9",
++                "remotes": [
++                    {
++                        "name": "origin",
++                        "uri": "git://git.yoctoproject.org/poky"
++                    }
++                ]
++            },
++            "layers": [
++                {
++                    "name": "meta",
++                    "subpath": "meta"
++                },
++                {
++                    "name": "meta-poky",
++                    "subpath": "meta-poky"
++                },
++                {
++                    "name": "meta-yocto-bsp",
++                    "subpath": "meta-yocto-bsp"
++                }
++            ]
++        }
++    ]
++}
+diff --git a/meta/lib/layers.schema.json b/meta/lib/layers.schema.json
+new file mode 100644
+index 0000000000..19df89d38b
+--- /dev/null
++++ b/meta/lib/layers.schema.json
+@@ -0,0 +1,113 @@
++{
++    "description": "OpenEmbedder Layer Setup Manifest",
++    "type": "object",
++    "additionalProperties": false,
++    "required": [
++        "version"
++    ],
++    "properties": {
++        "version": {
++            "description": "The version of this document; currently '1.0'",
++            "enum": ["1.0"]
++        },
++        "sources": {
++            "description": "The list of layer sources",
++            "type": "array",
++            "items": {
++                "type": "object",
++                "description": "The upstream source from which a set of layers may be fetched",
++                "additionalProperties": false,
++                "required": [
++                    "name",
++                    "path"
++                ],
++                "properties": {
++                    "name": {
++                        "description": "The name of this layer source",
++                        "type": "string"
++                    },
++                    "path": {
++                        "description": "The path where this layer source will be placed when fetching",
++                        "type": "string"
++                    },
++                    "description": {
++                        "description": "A description of this layer source",
++                        "type": "string"
++                    },
++                    "layers": {
++                        "description": "The list of layers to be used from this upstream source",
++                        "type": "array",
++                        "items": {
++                            "description": "A layer from the upstream source",
++                            "type": "object",
++                            "additionalProperties": false,
++                            "required": [
++                                "name"
++                            ],
++                            "properties": {
++                                "name": {
++                                    "description": "The name of the layer",
++                                    "type": "string"
++                                },
++                                "subpath": {
++                                    "description": "The subpath (relative to the source root) for this layer. Omit if the source root is the layer path",
++                                    "type": "string"
++                                }
++                            }
++                        }
++                    },
++                    "remote": {
++                        "oneOf": [
++                            {
++                                "description": "A remote git source from which to fetch",
++                                "type": "object",
++                                "additionalProperties": false,
++                                "required": [
++                                    "type",
++                                    "rev"
++                                ],
++                                "properties": {
++                                    "type": {
++                                        "description": "This is a git source",
++                                        "enum": ["git"]
++                                    },
++                                    "branch": {
++                                        "description": "The git branch to fetch (optional)",
++                                        "type": "string"
++                                    },
++                                    "rev": {
++                                        "description": "The git revision to checkout",
++                                        "type": "string"
++                                    },
++                                    "remotes": {
++                                        "description": "The list of git remotes to add to this repository",
++                                        "type": "array",
++                                        "items": {
++                                            "description": "A git remote",
++                                            "type": "object",
++                                            "addtionalProperties": false,
++                                            "required": [
++                                                "name",
++                                                "uri"
++                                            ],
++                                            "properties": {
++                                                "name": {
++                                                    "description": "The name of the remote",
++                                                    "type": "string"
++                                                },
++                                                "uri": {
++                                                    "description": "The URI for the remote",
++                                                    "type": "string"
++                                                }
++                                            }
++                                        }
++                                    }
++                                }
++                            }
++                        ]
++                    }
++                }
++            }
++        }
++    }
++}
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.33.0
+
 
