@@ -1,116 +1,214 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <yogesh.tyagi@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CCDAC43334
-	for <webhook@archiver.kernel.org>; Wed,  6 Jul 2022 09:12:42 +0000 (UTC)
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
- [209.85.160.176])
- by mx.groups.io with SMTP id smtpd.web09.4117.1657098753198487376
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9485C43334
+	for <webhook@archiver.kernel.org>; Wed,  6 Jul 2022 10:18:52 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by mx.groups.io with SMTP id smtpd.web12.4466.1657102724007610262
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Jul 2022 02:12:33 -0700
+ Wed, 06 Jul 2022 03:18:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bKukvW7n;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.160.176,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-qt1-f176.google.com with SMTP id h19so17360459qtp.6
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Jul 2022 02:12:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=4vAYCp3PcCGkljtswg+PDB9smNBjVn+J0Fz1YOSEoVw=;
-        b=bKukvW7nBI3hGFhTHcCcqTkh7f82sDohLXLOo9airVw+3LDuuJDskWGNVNkdvusjaj
-         pAWF3BCYVbHxIUTrbQgyZuGDzsptIpEM5HKMSXhBDS0iL2AFA92G6AUuYpoz7Gk3v3HK
-         NbufHXswnNMbUq/ACT0/yjco581AveSXDzUhc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=4vAYCp3PcCGkljtswg+PDB9smNBjVn+J0Fz1YOSEoVw=;
-        b=2rQ+BfAuMv6KBzBGAxA/njDDx5gal1cIy7MKUAPu1TViPHgTy7PQyrd2kRBm4NWNDj
-         mMsWfJnfFAGhlEOlVWgTjBgBNCz3yo6Ufgje7UtWn8y/OvBrWkbbUuoHzqKC7iEjhiF/
-         CYeEHP4t3aD5e4WM7YEAbvbnebCVSiYrFdgdNN4Iz//BE1EU0zl9HBOkUwjfmPb78MyW
-         w8YLFuneHExrxEhcElvtOULF4OnFSEWnmw+ehu86HWrlsBlItwJRf3fXZbqV9iRpEkzX
-         8WfBcy01+9LwAJNrBrDpEEi8IV58svOYlRgUj49ojUCoJNdZiDA1ebtLKwudKxMuYpbv
-         tFiw==
-X-Gm-Message-State: AJIora8dkmz7eS7mIqzSroq3PBAhREGMyjWjXogU1QxfphLJgZ9ShE3p
-	pB7F2nO26tGBlK/6M2pXgsT1Mw==
-X-Google-Smtp-Source: 
- AGRyM1tf8z+v89zW+7CNia9veYGpKk2zCTqiJcLHOrgf55Iyyfc9o7Md09BtUnWBWOAyqJVWGwDjEg==
-X-Received: by 2002:a05:6214:c4b:b0:470:8a1a:fed0 with SMTP id
- r11-20020a0562140c4b00b004708a1afed0mr36746490qvj.125.1657098752203;
-        Wed, 06 Jul 2022 02:12:32 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:9b71:63f4:5737:a5c8?
- ([2001:8b0:aba:5f3c:9b71:63f4:5737:a5c8])
-        by smtp.gmail.com with ESMTPSA id
- h2-20020ac85482000000b00317cd3edab4sm22851187qtq.11.2022.07.06.02.12.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jul 2022 02:12:31 -0700 (PDT)
-Message-ID: 
- <8b13b18a7aa7568fc234d58e5871cf9adb3debd5.camel@linuxfoundation.org>
-Subject: Re: Question about nativesdk-qemuwrapper-cross
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "leimaohui@fujitsu.com" <leimaohui@fujitsu.com>,
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Wed, 06 Jul 2022 10:12:29 +0100
-In-Reply-To: 
- <OS0PR01MB6178C500A5157ED31549D49DA0809@OS0PR01MB6178.jpnprd01.prod.outlook.com>
-References: 
-	<OS0PR01MB6178C500A5157ED31549D49DA0809@OS0PR01MB6178.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=dLtjNupM;
+ spf=pass (domain: intel.com, ip: 134.134.136.20,
+ mailfrom: yogesh.tyagi@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657102724; x=1688638724;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=HUl4SHFxCz4O6QlDA9yU/W7dfkQJ32X7aDkHzGckSTI=;
+  b=dLtjNupM8kYorj4ZT8EwVZuJebSAdsuTdXWN3n1mDNx5F1A77B4N+znr
+   DvAIKcofi6iETfWUcH24pHnxf0iEQQvVlNjIwiDN0ubeZrcWweZ2/eCOv
+   S2+RtZe/WzdZ4zscKHXF9yGYhfLpL7e1wnPJHUxh7m9K3OKnNJBYM61A0
+   cfBaQCj9nurgDo9ggNxZkXy4borOZJJ2BhyLuzg51FNiMeWPw5AjdyNhw
+   jcO5065Sw/9gaDZhCDDy+ullcTfYNmzX5KKw9X5UputL5IGw8xY6VsXKe
+   JxSPLSnQfGG+S9MRr2Dgjn/BJPzxEOPntgTBumoayQnM72RyiHAC6rLze
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10399"; a="272491206"
+X-IronPort-AV: E=Sophos;i="5.92,249,1650956400";
+   d="scan'208";a="272491206"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2022 03:18:40 -0700
+X-IronPort-AV: E=Sophos;i="5.92,249,1650956400";
+   d="scan'208";a="920106339"
+Received: from andromeda02.png.intel.com ([10.221.253.198])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
+ 06 Jul 2022 03:18:39 -0700
+From: Yogesh Tyagi <yogesh.tyagi@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v4] curl : Add ptest
+Date: Wed,  6 Jul 2022 18:18:27 +0800
+Message-Id: <20220706101827.76249-1-yogesh.tyagi@intel.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Jul 2022 09:12:42 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Jul 2022 10:18:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167715
+ https://lists.openembedded.org/g/openembedded-core/message/167716
 
-On Wed, 2022-07-06 at 03:31 +0000, leimaohui@fujitsu.com wrote:
-> Hi, Richard
->=20
-> I added nativesdk- qemuwrapper-cross into my meta-toolchain, and found th=
-e content of nativesdk-qemuwrapper script is like the following:=20
-> ------------------------------------------------------------------
-> # cat /opt/poky/4.1+snapshot/sysroots/x86_64-pokysdk-linux/usr/bin/crosss=
-cripts/nativesdk-qemuwrapper
-> #!/bin/sh
-> # Wrapper script to run binaries under qemu user-mode emulation
-> set -x
->=20
-> if [ True =3D False -a "nativesdk-qemuwrapper-cross" !=3D "nativesdk-qemu=
-wrapper-cross" ]; then
->         echo "qemuwrapper: qemu usermode is not supported"
->         exit 1
-> fi
->=20
->=20
-> qemu-x86_64 -r 3.2.0  -E LD_LIBRARY_PATH=3D$D/opt/poky/4.1+snapshot/sysro=
-ots/x86_64-pokysdk-linux/usr/lib:$D/opt/poky/4.1+snapshot/sysroots/x86_64-p=
-okysdk-linux/lib "$@"
-> ------------------------------------------------------------------
->=20
-> Reference to qemuwrapper-cross, it seems that nativesdk qemuwrapper-cross=
- is not correct.
-> Why the "qemu_binary " is " qemu-x86_64"? Shouldn't it be "qemu-aarch64 "=
-?
-> Is it better to change nativesdk qemuwrapper-cross to qemuwrapper-cross-c=
-anadian-${MACHINE}?
+- curl-ptest is taking around 200 seconds to execute so
+  added curl-ptest to PTESTS_SLOW
+- This patch is rework on an existing patch provided
+  by Maxin B. John (maxin.john@intel.com)
+  https://www.openembedded.org/pipermail/openembedded-core/2017-July/139176.html
+- Below is the run log of curl-ptest
+  START: ptest-runner
+  2022-07-03T15:52
+  BEGIN: /usr/lib/curl/ptest
+  ********* System characteristics ********
+  * curl 7.83.1 (x86_64-poky-linux-gnu)
+  * libcurl/7.83.1 OpenSSL/3.0.3 zlib/1.2.12 libidn2/2.3.2
+  * Features: alt-svc AsynchDNS Debug HSTS HTTPS-proxy IDN Largefile libz NTLM SSL TLS-SRP UnixSockets
+  * Disabled: headers-api
+  * Host: qemux86-64
+  * System: Linux qemux86-64 5.15.44-yocto-standard #1 SMP PREEMPT Tue May 31 20:28:59 UTC 2022 x86_64 GNU/Linux
+  * OS: linux
+  * Servers: HTTP-unix
+  * Env:
+  * Seed: 238593
+  *****************************************
+  PASS: test 0001 (1   out of 1466, remaining: 25:07, took 1.029s, duration: 00:01)
+  PASS: test 0002 (2   out of 1466, remaining: 13:21, took 0.065s, duration: 00:01)
+  ...
+  ...
+  PASS: test 3019 (1460 out of 1466, remaining: 00:00, took 0.012s, duration: 03:16)
+  PASS: test 3020 (1461 out of 1466, remaining: 00:00, took 0.011s, duration: 03:16)
+  test 3025...The tool set in the test case for this: 'lib3025' does not exist
+  TESTDONE: 1280 tests were considered during 197 seconds.
+  TESTDONE: 783 tests out of PASS: 783 report: 100%
+  DURATION: 202
+  END: /usr/lib/curl/ptest
+  2022-07-03T15:56
+  STOP: ptest-runner
+  TOTAL: 1 FAIL: 0
+- disable the curl tests that are expected to fail
+- remove the generated file configurehelp.pm from curl test beacuse it is causing reproducible build failure.
+  this file is used by some curl tests to scan symbols from curl headers. we are anyway not installing curl
+  headers and already have disabled those tests.
+  [YOCTO #6707]
 
+Signed-off-by: Yogesh Tyagi <yogesh.tyagi@intel.com>
+---
+v4:removed configurehelp.pm from curl test which is causing reproducible build error
 
-A nativesdk-qemuwrapper-cross would run binaries from the SDK under
-qemu, so if SDKMACHINE was x86-64, that would be correct.
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ meta/recipes-support/curl/curl/disable-tests  | 28 +++++++++++++++++++
+ meta/recipes-support/curl/curl/run-ptest      |  6 ++++
+ meta/recipes-support/curl/curl_7.84.0.bb      | 21 +++++++++++++-
+ 4 files changed, 55 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/curl/curl/disable-tests
+ create mode 100644 meta/recipes-support/curl/curl/run-ptest
 
-It sounds like you want a qemuwrapper-cross-canadian-${MACHINE} which
-is something different.
-
-Cheers,
-
-Richard
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index a1ead90649..6c4339e3e1 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -81,6 +81,7 @@ PTESTS_SLOW = "\
+     babeltrace2-ptest \
+     busybox-ptest \
+     coreutils-ptest \
++    curl-ptest \
+     dbus-ptest \
+     e2fsprogs-ptest \
+     findutils-ptest \
+diff --git a/meta/recipes-support/curl/curl/disable-tests b/meta/recipes-support/curl/curl/disable-tests
+new file mode 100644
+index 0000000000..92056bd8ca
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/disable-tests
+@@ -0,0 +1,28 @@
++# These CRL test (alt-avc) are failing
++356
++412
++413
++# These CRL tests are scanning docs
++971
++1119
++1132
++1135
++# These CRL tests are scnning headers
++1167
++# These CRL tests are scanning man pages
++1139
++1140
++1173
++1177
++# This CRL test is looking for m4 files
++1165
++# This CRL test is looking for src files
++1185
++# These CRL tests need --libcurl option to be enabled
++1400
++1401
++1402
++1403
++1404
++1405
++1465
+diff --git a/meta/recipes-support/curl/curl/run-ptest b/meta/recipes-support/curl/curl/run-ptest
+new file mode 100644
+index 0000000000..614e822922
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/run-ptest
+@@ -0,0 +1,6 @@
++#!/bin/sh
++cd tests
++./runtests.pl -a -n -s | sed \
++     -e 's|\([^ ]* *\) \([^ ]* *\)...OK|PASS: \1 \2|' \
++     -e 's|\([^ ]* *\) \([^ ]* *\)...FAILED|FAIL: \1 \2|' \
++     -e 's/Warning: test[0-9]\+ not present in tests\/data\/Makefile.inc//'
+diff --git a/meta/recipes-support/curl/curl_7.84.0.bb b/meta/recipes-support/curl/curl_7.84.0.bb
+index 74a19d20c9..0d829cdf23 100644
+--- a/meta/recipes-support/curl/curl_7.84.0.bb
++++ b/meta/recipes-support/curl/curl_7.84.0.bb
+@@ -12,13 +12,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=190c514872597083303371684954f238"
+ SRC_URI = " \
+     https://curl.se/download/${BP}.tar.xz \
+     file://0001-easy_lock.h-include-sched.h-if-available-to-fix-buil.patch \
++    file://run-ptest \
++    file://disable-tests \
+ "
+ SRC_URI[sha256sum] = "2d118b43f547bfe5bae806d8d47b4e596ea5b25a6c1f080aef49fbcd817c5db8"
+ 
+ # Curl has used many names over the years...
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
+ 
+-inherit autotools pkgconfig binconfig multilib_header
++inherit autotools pkgconfig binconfig multilib_header ptest
+ 
+ # Entropy source for random PACKAGECONFIG option
+ RANDOM ?= "/dev/urandom"
+@@ -83,6 +85,23 @@ do_install:append:class-target() {
+ 	    ${D}${bindir}/curl-config
+ }
+ 
++do_compile_ptest() {
++	oe_runmake test
++	oe_runmake -C ${B}/tests/server
++}
++
++do_install_ptest() {
++	cat  ${WORKDIR}/disable-tests >> ${S}/tests/data/DISABLED
++	rm  ${B}/tests/configurehelp.pm
++	cp -rf ${B}/tests ${D}${PTEST_PATH}
++	cp -rf ${S}/tests ${D}${PTEST_PATH}
++	install -d ${D}${PTEST_PATH}/src
++	ln -sf ${bindir}/curl   ${D}${PTEST_PATH}/src/curl
++	cp -rf ${D}${bindir}/curl-config ${D}${PTEST_PATH}
++}
++
++RDEPENDS:${PN}-ptest += "bash perl-modules"
++
+ PACKAGES =+ "lib${BPN}"
+ 
+ FILES:lib${BPN} = "${libdir}/lib*.so.*"
+-- 
+2.36.1
 
 
