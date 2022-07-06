@@ -1,214 +1,211 @@
-Return-Path: <yogesh.tyagi@intel.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9485C43334
-	for <webhook@archiver.kernel.org>; Wed,  6 Jul 2022 10:18:52 +0000 (UTC)
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by mx.groups.io with SMTP id smtpd.web12.4466.1657102724007610262
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7A24C43334
+	for <webhook@archiver.kernel.org>; Wed,  6 Jul 2022 10:40:02 +0000 (UTC)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
+ [209.85.222.181])
+ by mx.groups.io with SMTP id smtpd.web10.4603.1657103998780933905
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Jul 2022 03:18:44 -0700
+ Wed, 06 Jul 2022 03:39:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
- header.b=dLtjNupM;
- spf=pass (domain: intel.com, ip: 134.134.136.20,
- mailfrom: yogesh.tyagi@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657102724; x=1688638724;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=HUl4SHFxCz4O6QlDA9yU/W7dfkQJ32X7aDkHzGckSTI=;
-  b=dLtjNupM8kYorj4ZT8EwVZuJebSAdsuTdXWN3n1mDNx5F1A77B4N+znr
-   DvAIKcofi6iETfWUcH24pHnxf0iEQQvVlNjIwiDN0ubeZrcWweZ2/eCOv
-   S2+RtZe/WzdZ4zscKHXF9yGYhfLpL7e1wnPJHUxh7m9K3OKnNJBYM61A0
-   cfBaQCj9nurgDo9ggNxZkXy4borOZJJ2BhyLuzg51FNiMeWPw5AjdyNhw
-   jcO5065Sw/9gaDZhCDDy+ullcTfYNmzX5KKw9X5UputL5IGw8xY6VsXKe
-   JxSPLSnQfGG+S9MRr2Dgjn/BJPzxEOPntgTBumoayQnM72RyiHAC6rLze
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10399"; a="272491206"
-X-IronPort-AV: E=Sophos;i="5.92,249,1650956400";
-   d="scan'208";a="272491206"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2022 03:18:40 -0700
-X-IronPort-AV: E=Sophos;i="5.92,249,1650956400";
-   d="scan'208";a="920106339"
-Received: from andromeda02.png.intel.com ([10.221.253.198])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
- 06 Jul 2022 03:18:39 -0700
-From: Yogesh Tyagi <yogesh.tyagi@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v4] curl : Add ptest
-Date: Wed,  6 Jul 2022 18:18:27 +0800
-Message-Id: <20220706101827.76249-1-yogesh.tyagi@intel.com>
-X-Mailer: git-send-email 2.36.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=PceYqKX+;
+ spf=pass (domain: gmail.com, ip: 209.85.222.181,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f181.google.com with SMTP id r138so10668392qke.13
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 06 Jul 2022 03:39:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/gcRLhWZZz4JB21E3mnN9pMmhhZHdyfXRijznFeGXBo=;
+        b=PceYqKX+nDYVQHzNHDJBiWT+fEXHsIK9sJOTBQfH8H3cM9AUDb3coaQ+teVYvhdZTP
+         5AJNc/6UdqCWsg/y8VIZUXzTXUsxbAeScOXzs68jdSVJ9sb5/RqoUfXRa7d1Y+VprqOn
+         kzI25cn/wZONLQwS/HgP9GcNVKvpwNNqG339OSdw4qopXZ65g8JccEHNAieLpwbDMzEf
+         5MVrS86cf0JqjsxJ0Mx3udNVfSX/3xhXa7ZjDo9vbU8Wt1yIuDYyULpydsoy0CsF6Gln
+         ORkhPDLGgyKWetEGcjODbMTRohjQ3qkZCAkiFiU+2qWlI+/xHkYTUfcIdcWBljZU5HRH
+         aZww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/gcRLhWZZz4JB21E3mnN9pMmhhZHdyfXRijznFeGXBo=;
+        b=hv9NymgwuTCZuaDUEaU/iurNYfoJ93Ota5lkKzaspCNuU0GH2Y/cLBQDWjg3rJAod6
+         jx4ob5eqDGPUDd3/1VIdHpMAaPCaaRxN34WQSAleT10y6lnBgWJ7U5zbO4e4YUUgSqhS
+         K+Q8W2a8rfnTC5Biot2SaI104ziCr+M+qdnI0H6Z2x6jxGaMYkG4L3NiUaiGrl9LGXrc
+         8mYJcJdoxbF2raD3zNAVBONpMl3Y5zsZsxDOvHYKRJ2YE56QfAOVDQJoWg8uReXhnVyx
+         hV6i6jzFceKqRn3x5GqLadKGLFl1JP8ZNW6/igF7w/ar+SBmO0yvrKIyI7X/dFn49kdQ
+         hcWw==
+X-Gm-Message-State: AJIora/z3iupFhWoZmgPfRgR70sZUnr5kaC7HPIkoFdXneTEVIb4K5Hb
+	VH8T866p3VXn0TnWx8eEiPalOSVoZ20zNxH3BTs=
+X-Google-Smtp-Source: 
+ AGRyM1vL87Iv8jKS4eluEdZIz3qBIN6V6q6qhs59ml3AztThooZC4mxCHjuOHDsxbJQ48rzyHrZ/xVqlpp+Qp37HKe0=
+X-Received: by 2002:a05:620a:448a:b0:6af:3a05:f73c with SMTP id
+ x10-20020a05620a448a00b006af3a05f73cmr27518128qkp.72.1657103997644; Wed, 06
+ Jul 2022 03:39:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220706080721.3072553-1-alex@linutronix.de>
+ <20220706080721.3072553-20-alex@linutronix.de>
+In-Reply-To: <20220706080721.3072553-20-alex@linutronix.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 6 Jul 2022 06:39:46 -0400
+Message-ID: 
+ <CAMKF1soyCB6WGUCpPhbzjt5=7pr6gSeJSjg5a58wkqh7rGJ04g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 20/27] python3-mako: upgrade 1.2.0 -> 1.2.1
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Alexander Kanavin <alex@linutronix.de>,
+ openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000022b4f305e3209774"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Jul 2022 10:18:52 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Jul 2022 10:40:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167716
+ https://lists.openembedded.org/g/openembedded-core/message/167717
 
-- curl-ptest is taking around 200 seconds to execute so
-  added curl-ptest to PTESTS_SLOW
-- This patch is rework on an existing patch provided
-  by Maxin B. John (maxin.john@intel.com)
-  https://www.openembedded.org/pipermail/openembedded-core/2017-July/139176.html
-- Below is the run log of curl-ptest
-  START: ptest-runner
-  2022-07-03T15:52
-  BEGIN: /usr/lib/curl/ptest
-  ********* System characteristics ********
-  * curl 7.83.1 (x86_64-poky-linux-gnu)
-  * libcurl/7.83.1 OpenSSL/3.0.3 zlib/1.2.12 libidn2/2.3.2
-  * Features: alt-svc AsynchDNS Debug HSTS HTTPS-proxy IDN Largefile libz NTLM SSL TLS-SRP UnixSockets
-  * Disabled: headers-api
-  * Host: qemux86-64
-  * System: Linux qemux86-64 5.15.44-yocto-standard #1 SMP PREEMPT Tue May 31 20:28:59 UTC 2022 x86_64 GNU/Linux
-  * OS: linux
-  * Servers: HTTP-unix
-  * Env:
-  * Seed: 238593
-  *****************************************
-  PASS: test 0001 (1   out of 1466, remaining: 25:07, took 1.029s, duration: 00:01)
-  PASS: test 0002 (2   out of 1466, remaining: 13:21, took 0.065s, duration: 00:01)
-  ...
-  ...
-  PASS: test 3019 (1460 out of 1466, remaining: 00:00, took 0.012s, duration: 03:16)
-  PASS: test 3020 (1461 out of 1466, remaining: 00:00, took 0.011s, duration: 03:16)
-  test 3025...The tool set in the test case for this: 'lib3025' does not exist
-  TESTDONE: 1280 tests were considered during 197 seconds.
-  TESTDONE: 783 tests out of PASS: 783 report: 100%
-  DURATION: 202
-  END: /usr/lib/curl/ptest
-  2022-07-03T15:56
-  STOP: ptest-runner
-  TOTAL: 1 FAIL: 0
-- disable the curl tests that are expected to fail
-- remove the generated file configurehelp.pm from curl test beacuse it is causing reproducible build failure.
-  this file is used by some curl tests to scan symbols from curl headers. we are anyway not installing curl
-  headers and already have disabled those tests.
-  [YOCTO #6707]
+--00000000000022b4f305e3209774
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Yogesh Tyagi <yogesh.tyagi@intel.com>
----
-v4:removed configurehelp.pm from curl test which is causing reproducible build error
+On Wed, Jul 6, 2022 at 4:07 AM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-support/curl/curl/disable-tests  | 28 +++++++++++++++++++
- meta/recipes-support/curl/curl/run-ptest      |  6 ++++
- meta/recipes-support/curl/curl_7.84.0.bb      | 21 +++++++++++++-
- 4 files changed, 55 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/curl/curl/disable-tests
- create mode 100644 meta/recipes-support/curl/curl/run-ptest
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  .../python/{python3-mako_1.2.0.bb => python3-mako_1.2.1.bb}   | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-devtools/python/{python3-mako_1.2.0.bb =>
+> python3-mako_1.2.1.bb} (73%)
+>
+> diff --git a/meta/recipes-devtools/python/python3-mako_1.2.0.bb
+> b/meta/recipes-devtools/python/python3-mako_1.2.1.bb
+> similarity index 73%
+> rename from meta/recipes-devtools/python/python3-mako_1.2.0.bb
+> rename to meta/recipes-devtools/python/python3-mako_1.2.1.bb
+> index 11e5f326bd..8155c37984 100644
+> --- a/meta/recipes-devtools/python/python3-mako_1.2.0.bb
+> +++ b/meta/recipes-devtools/python/python3-mako_1.2.1.bb
+> @@ -2,13 +2,13 @@ SUMMARY = "Templating library for Python"
+>  HOMEPAGE = "http://www.makotemplates.org/"
+>  SECTION = "devel/python"
+>  LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=b32291f107a8f1ea94c4a41e00a6a18d"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=ad08dd28df88e64b35bcac27c822ee34"
+>
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index a1ead90649..6c4339e3e1 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -81,6 +81,7 @@ PTESTS_SLOW = "\
-     babeltrace2-ptest \
-     busybox-ptest \
-     coreutils-ptest \
-+    curl-ptest \
-     dbus-ptest \
-     e2fsprogs-ptest \
-     findutils-ptest \
-diff --git a/meta/recipes-support/curl/curl/disable-tests b/meta/recipes-support/curl/curl/disable-tests
-new file mode 100644
-index 0000000000..92056bd8ca
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/disable-tests
-@@ -0,0 +1,28 @@
-+# These CRL test (alt-avc) are failing
-+356
-+412
-+413
-+# These CRL tests are scanning docs
-+971
-+1119
-+1132
-+1135
-+# These CRL tests are scnning headers
-+1167
-+# These CRL tests are scanning man pages
-+1139
-+1140
-+1173
-+1177
-+# This CRL test is looking for m4 files
-+1165
-+# This CRL test is looking for src files
-+1185
-+# These CRL tests need --libcurl option to be enabled
-+1400
-+1401
-+1402
-+1403
-+1404
-+1405
-+1465
-diff --git a/meta/recipes-support/curl/curl/run-ptest b/meta/recipes-support/curl/curl/run-ptest
-new file mode 100644
-index 0000000000..614e822922
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/run-ptest
-@@ -0,0 +1,6 @@
-+#!/bin/sh
-+cd tests
-+./runtests.pl -a -n -s | sed \
-+     -e 's|\([^ ]* *\) \([^ ]* *\)...OK|PASS: \1 \2|' \
-+     -e 's|\([^ ]* *\) \([^ ]* *\)...FAILED|FAIL: \1 \2|' \
-+     -e 's/Warning: test[0-9]\+ not present in tests\/data\/Makefile.inc//'
-diff --git a/meta/recipes-support/curl/curl_7.84.0.bb b/meta/recipes-support/curl/curl_7.84.0.bb
-index 74a19d20c9..0d829cdf23 100644
---- a/meta/recipes-support/curl/curl_7.84.0.bb
-+++ b/meta/recipes-support/curl/curl_7.84.0.bb
-@@ -12,13 +12,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=190c514872597083303371684954f238"
- SRC_URI = " \
-     https://curl.se/download/${BP}.tar.xz \
-     file://0001-easy_lock.h-include-sched.h-if-available-to-fix-buil.patch \
-+    file://run-ptest \
-+    file://disable-tests \
- "
- SRC_URI[sha256sum] = "2d118b43f547bfe5bae806d8d47b4e596ea5b25a6c1f080aef49fbcd817c5db8"
- 
- # Curl has used many names over the years...
- CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
- 
--inherit autotools pkgconfig binconfig multilib_header
-+inherit autotools pkgconfig binconfig multilib_header ptest
- 
- # Entropy source for random PACKAGECONFIG option
- RANDOM ?= "/dev/urandom"
-@@ -83,6 +85,23 @@ do_install:append:class-target() {
- 	    ${D}${bindir}/curl-config
- }
- 
-+do_compile_ptest() {
-+	oe_runmake test
-+	oe_runmake -C ${B}/tests/server
-+}
-+
-+do_install_ptest() {
-+	cat  ${WORKDIR}/disable-tests >> ${S}/tests/data/DISABLED
-+	rm  ${B}/tests/configurehelp.pm
-+	cp -rf ${B}/tests ${D}${PTEST_PATH}
-+	cp -rf ${S}/tests ${D}${PTEST_PATH}
-+	install -d ${D}${PTEST_PATH}/src
-+	ln -sf ${bindir}/curl   ${D}${PTEST_PATH}/src/curl
-+	cp -rf ${D}${bindir}/curl-config ${D}${PTEST_PATH}
-+}
-+
-+RDEPENDS:${PN}-ptest += "bash perl-modules"
-+
- PACKAGES =+ "lib${BPN}"
- 
- FILES:lib${BPN} = "${libdir}/lib*.so.*"
--- 
-2.36.1
+You forgot to mention What changed here
 
+>
+>  PYPI_PACKAGE = "Mako"
+>
+>  inherit pypi python_setuptools_build_meta
+>
+> -SRC_URI[sha256sum] =
+> "9a7c7e922b87db3686210cf49d5d767033a41d4010b284e747682c92bddd8b39"
+> +SRC_URI[sha256sum] =
+> "f054a5ff4743492f1aa9ecc47172cb33b42b9d993cffcc146c9de17e717b0307"
+>
+>  RDEPENDS:${PN} = "${PYTHON_PN}-html \
+>                    ${PYTHON_PN}-markupsafe \
+> --
+> 2.30.2
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#167707):
+> https://lists.openembedded.org/g/openembedded-core/message/167707
+> Mute This Topic: https://lists.openembedded.org/mt/92202189/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--00000000000022b4f305e3209774
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, Jul 6, 2022 at 4:07 AM Alexander Kanavin &lt;<a hre=
+f=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex">Signed-off-by: Alexander Kanavin &lt=
+;<a href=3D"mailto:alex@linutronix.de" target=3D"_blank">alex@linutronix.de=
+</a>&gt;<br>
+---<br>
+=C2=A0.../python/{<a href=3D"http://python3-mako_1.2.0.bb" rel=3D"noreferre=
+r" target=3D"_blank">python3-mako_1.2.0.bb</a> =3D&gt; <a href=3D"http://py=
+thon3-mako_1.2.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-mako_1.2.=
+1.bb</a>}=C2=A0 =C2=A0| 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+=C2=A0rename meta/recipes-devtools/python/{<a href=3D"http://python3-mako_1=
+.2.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-mako_1.2.0.bb</a> =3D=
+&gt; <a href=3D"http://python3-mako_1.2.1.bb" rel=3D"noreferrer" target=3D"=
+_blank">python3-mako_1.2.1.bb</a>} (73%)<br>
+<br>
+diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-mako_1.=
+2.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-mako_1.2.0.bb</a> b/me=
+ta/recipes-devtools/python/<a href=3D"http://python3-mako_1.2.1.bb" rel=3D"=
+noreferrer" target=3D"_blank">python3-mako_1.2.1.bb</a><br>
+similarity index 73%<br>
+rename from meta/recipes-devtools/python/<a href=3D"http://python3-mako_1.2=
+.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-mako_1.2.0.bb</a><br>
+rename to meta/recipes-devtools/python/<a href=3D"http://python3-mako_1.2.1=
+.bb" rel=3D"noreferrer" target=3D"_blank">python3-mako_1.2.1.bb</a><br>
+index 11e5f326bd..8155c37984 100644<br>
+--- a/meta/recipes-devtools/python/<a href=3D"http://python3-mako_1.2.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">python3-mako_1.2.0.bb</a><br>
++++ b/meta/recipes-devtools/python/<a href=3D"http://python3-mako_1.2.1.bb"=
+ rel=3D"noreferrer" target=3D"_blank">python3-mako_1.2.1.bb</a><br>
+@@ -2,13 +2,13 @@ SUMMARY =3D &quot;Templating library for Python&quot;<br>
+=C2=A0HOMEPAGE =3D &quot;<a href=3D"http://www.makotemplates.org/" rel=3D"n=
+oreferrer" target=3D"_blank">http://www.makotemplates.org/</a>&quot;<br>
+=C2=A0SECTION =3D &quot;devel/python&quot;<br>
+=C2=A0LICENSE =3D &quot;MIT&quot;<br>
+-LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3Db32291f107a8f1ea94c4a41e00=
+a6a18d&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3Dad08dd28df88e64b35bcac27c8=
+22ee34&quot;<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">You forgot to me=
+ntion What changed here=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+=C2=A0PYPI_PACKAGE =3D &quot;Mako&quot;<br>
+<br>
+=C2=A0inherit pypi python_setuptools_build_meta<br>
+<br>
+-SRC_URI[sha256sum] =3D &quot;9a7c7e922b87db3686210cf49d5d767033a41d4010b28=
+4e747682c92bddd8b39&quot;<br>
++SRC_URI[sha256sum] =3D &quot;f054a5ff4743492f1aa9ecc47172cb33b42b9d993cffc=
+c146c9de17e717b0307&quot;<br>
+<br>
+=C2=A0RDEPENDS:${PN} =3D &quot;${PYTHON_PN}-html \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${PYTH=
+ON_PN}-markupsafe \<br>
+-- <br>
+2.30.2<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#167707): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/167707" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/167707</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/92202189/1997=
+914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/92202189/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--00000000000022b4f305e3209774--
 
