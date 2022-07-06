@@ -1,112 +1,149 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCAEFC433EF
-	for <webhook@archiver.kernel.org>; Wed,  6 Jul 2022 14:05:43 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web09.6670.1657116342736214681
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D70F5C43334
+	for <webhook@archiver.kernel.org>; Wed,  6 Jul 2022 14:06:23 +0000 (UTC)
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net
+ [217.70.178.232])
+ by mx.groups.io with SMTP id smtpd.web12.6635.1657116375042593569
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Jul 2022 07:05:42 -0700
+ Wed, 06 Jul 2022 07:06:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=LSmZtnMa;
- spf=pass (domain: gmail.com, ip: 209.85.214.180,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pl1-f180.google.com with SMTP id l12so8377862plk.13
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Jul 2022 07:05:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=e9LdP/PoG9vmOZPQt7BY+mE+n7uCWMqZPDOyrBUcIUQ=;
-        b=LSmZtnMaIzsaNwSGcjBccSf+X0mFTSEwZ6efioDPtdCPmb1WMF8DMNq2h/jMh03tz1
-         R49HJNoQ6VNRPrWYyI9JGGeVqa62SCOrKmG8Jm0IjecXvvHS40rFGXVFy40+Ti5aEvwJ
-         KsehgwPm8lFFZR3BukQjNxqKs7w8U7p8Tal0551OfdWbjBgONDUh5wsP6wDyIsgTg5+V
-         WPVms8Uo/tcoc64oWmykM41Wxl09iEqvyIebejxfk+D5B2g1sANt6IdYyPOVecP3z+hO
-         E5xz1x1a8Y7RAEi9MquHvyKAqmerz0SvRM7fGP1Eo1doxQuJHWiElARbiq6clMgF5V2m
-         Ys6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=e9LdP/PoG9vmOZPQt7BY+mE+n7uCWMqZPDOyrBUcIUQ=;
-        b=T/K7bBbj/0yt2zaGEceBNOs0eF8uZXYd531loXQp6zP26SaLzpVtSvQx63iuQaSDhK
-         JUzOsZNviDQOABPZujEkf2cHaqtKMlY2a024hdEbyQg2iV09Xz+Mv1h69RtZq53NorAw
-         6dS5PK/MUNhenq9PHVX+8nKGVTEdHsWeV1h/lWIW/7Prejrsq/U7eULL8rfM8ILs8JlD
-         O3/1Qd/eL2eFCWVtdmrYS4OIzwiOUCj/+DeKrtatZDRBSmjWLsWqAj9qFw/gmLjvg6GM
-         NrGwVn0vrEScckAiC49+8gRP2JJt0NTjEica56yJru4neq7wbSfivLQV4v8ic/wTPvgG
-         dQ3g==
-X-Gm-Message-State: AJIora9QYqTfTV5PwNpTgcbh7w4kSGz+TgZ3VOz4Posd6ruXfHvG+oRG
-	5kzSRyeoM0Cgc1jwKItsG+9D/j2zEP2nObfm+/s=
-X-Google-Smtp-Source: 
- AGRyM1uArViCwYre3fszMWNSZYq7IrldGwiWfp4xTVVtnB1yqoff4mDZcLUSnCFIsocU9sVFu7pUjSHy9ZXsVZWa+IM=
-X-Received: by 2002:a17:90b:3e8a:b0:1ef:6a5e:e55a with SMTP id
- rj10-20020a17090b3e8a00b001ef6a5ee55amr31671681pjb.112.1657116342187; Wed, 06
- Jul 2022 07:05:42 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=pw1lyoWa;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.232,
+ mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id E91F3200007;
+	Wed,  6 Jul 2022 14:06:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1657116373;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/TUtrkwZqdW7wrMP01Bqc09R2q2/ijnpUFHjUvv/1A8=;
+	b=pw1lyoWarWZq1fEr2lnIR3Z1uf01vTPmwHMqtRQj25rFsNgOFVBb36evxH8ZjS3Sm4Yaqd
+	mh4UjMsnwjfWiRjN39KBSRGf2fwdmINjTi17DoG+LhVlKPIGZpzYNdE7T8tejFoUTZDuHb
+	jO3v33Di7i8pdPk/Y3b79c2Wsnjs+1JU0xYPETbl/fm1BVLcQbVjPsPphkS4UhHSWrEA0a
+	i7hydkv/Ml/hkaoSFzTZmhUEVYIXoI9aV/0xszg8LpyNUlBThARnqXenXBvzCoaJRd740X
+	pLmWickkvYQ/7I2EtRAumMKG2VZ9UbZ+KOa7EN/v2TFn7F4b/dC4YZ5+B1kaYA==
+Date: Wed, 6 Jul 2022 16:06:12 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Ming Liu <liu.ming50@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, max.krummenacher@toradex.com
+Subject: Re: [OE-core] [PATCH] meta: introduce UBOOT_MKIMAGE_KERNEL_TYPE
+Message-ID: <YsWW1I3LrrA4YTv1@mail.local>
+References: <20220706111028.149100-1-liu.ming50@gmail.com>
 MIME-Version: 1.0
-References: <YsWOLwlNxhAq7sKz@mail.local>
- <570c56bce472ec4ba6a68f537dcb1f85f99a05ea.camel@linuxfoundation.org>
-In-Reply-To: 
- <570c56bce472ec4ba6a68f537dcb1f85f99a05ea.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 6 Jul 2022 10:05:30 -0400
-Message-ID: 
- <CADkTA4N2gGHwG7OWGY32gqLzztsTcOsGXx=-wgpJrJhkfj=OKA@mail.gmail.com>
-Subject: Re: linux-yocto 5.15.48 reproducibility failure
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220706111028.149100-1-liu.ming50@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Jul 2022 14:05:43 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Jul 2022 14:06:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167727
+ https://lists.openembedded.org/g/openembedded-core/message/167728
 
-On Wed, Jul 6, 2022 at 9:31 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2022-07-06 at 15:29 +0200, Alexandre Belloni wrote:
-> > Hello Bruce,
-> >
-> > I got the following reproducible build failures:
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/1116/steps/12/logs/stdio
-> >
-> > To me, it looks like the in-kernel config changed, did the compression
-> > alg change?
-> >
-> > Are you able to look at that soon or should I file a bug?
->
-> FWIW,
-> http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20220705-g8ltxczy/packages/diff-html/
->
-> and CONFIG_CC_HAS_ASM_GOTO_TIED_OUTPUT=y changed value...
+Hello,
 
-A quick look at the -stable queue to init/Kconfig does indeed show
-that option arriving .. from my scan of the change, it looks like
-there are different compilers on the hosts, and hence that check is
-detecting a buggy gcc (or not) and changing the value.
+On 06/07/2022 13:10:28+0200, Ming Liu wrote:
+> From: Ming Liu <liu.ming50@gmail.com>
+> 
+> Sometimes an end user might want to choose another kernel type argument
+> for uboot-mkimage other than "kernel", for instance: "kernel_noload".
+> 
+> Let's introduce a variable UBOOT_MKIMAGE_KERNEL_TYPE to support that,
+> and it could be used by BSP layers as well.
+> 
+> Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+> ---
+>  meta/classes/kernel-fitimage.bbclass     | 2 +-
+>  meta/classes/kernel-uboot.bbclass        | 3 +++
+>  meta/classes/kernel-uimage.bbclass       | 2 +-
+>  meta/lib/oeqa/selftest/cases/fitimage.py | 3 ++-
+>  4 files changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+> index 7e09b075ff..2112ae4cfa 100644
+> --- a/meta/classes/kernel-fitimage.bbclass
+> +++ b/meta/classes/kernel-fitimage.bbclass
+> @@ -148,7 +148,7 @@ fitimage_emit_section_kernel() {
+>                  kernel-$2 {
+>                          description = "Linux kernel";
+>                          data = /incbin/("$3");
+> -                        type = "kernel";
+> +                        type = "${UBOOT_MKIMAGE_KERNEL_TYPE}";
+>                          arch = "${UBOOT_ARCH}";
+>                          os = "linux";
+>                          compression = "$4";
+> diff --git a/meta/classes/kernel-uboot.bbclass b/meta/classes/kernel-uboot.bbclass
+> index 2facade818..1bc98e042d 100644
+> --- a/meta/classes/kernel-uboot.bbclass
+> +++ b/meta/classes/kernel-uboot.bbclass
+> @@ -2,6 +2,9 @@
+>  FIT_KERNEL_COMP_ALG ?= "gzip"
+>  FIT_KERNEL_COMP_ALG_EXTENSION ?= ".gz"
+>  
+> +# Kernel image type passed to mkimage (i.e. kernel kernel_noload...)
+> +UBOOT_MKIMAGE_KERNEL_TYPE ?= "kernel"
+> +
+>  uboot_prep_kimage() {
+>  	if [ -e arch/${ARCH}/boot/compressed/vmlinux ]; then
+>  		vmlinux_path="arch/${ARCH}/boot/compressed/vmlinux"
+> diff --git a/meta/classes/kernel-uimage.bbclass b/meta/classes/kernel-uimage.bbclass
+> index cedb4fa070..e116bf0265 100644
+> --- a/meta/classes/kernel-uimage.bbclass
+> +++ b/meta/classes/kernel-uimage.bbclass
+> @@ -30,6 +30,6 @@ do_uboot_mkimage() {
+>  			awk '$3=="${UBOOT_ENTRYSYMBOL}" {print "0x"$1;exit}'`
+>  	fi
+>  
+> -	uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${B}/arch/${ARCH}/boot/uImage
+> +	uboot-mkimage -A ${UBOOT_ARCH} -O ${UBOOT_MKIMAGE_KERNEL_TYPE} -T kernel -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${B}/arch/${ARCH}/boot/uImage
 
-So one of the build hosts is failing the test, and another isn't.
+I feel like you replace the wrong argument here.
 
-I'm not sure how to fix that, unless we revert the change. I'll ponder it more.
+>  	rm -f linux.bin
+>  }
+> diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+> index e6bfd1257e..7e6479c9ca 100644
+> --- a/meta/lib/oeqa/selftest/cases/fitimage.py
+> +++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+> @@ -763,6 +763,7 @@ FIT_HASH_ALG = "sha256"
+>  
+>          kernel_load = str(get_bb_var('UBOOT_LOADADDRESS'))
+>          kernel_entry = str(get_bb_var('UBOOT_ENTRYPOINT'))
+> +        kernel_type = str(get_bb_var('UBOOT_MKIMAGE_KERNEL_TYPE'))
+>          kernel_compression = str(get_bb_var('FIT_KERNEL_COMP_ALG'))
+>          uboot_arch = str(get_bb_var('UBOOT_ARCH'))
+>          fit_hash_alg = str(get_bb_var('FIT_HASH_ALG'))
+> @@ -775,7 +776,7 @@ FIT_HASH_ALG = "sha256"
+>              'kernel-1 {',
+>              'description = "Linux kernel";',
+>              'data = /incbin/("linux.bin");',
+> -            'type = "kernel";',
+> +            'type = "' + kernel_type + '";',
+>              'arch = "' + uboot_arch + '";',
+>              'os = "linux";',
+>              'compression = "' + kernel_compression + '";',
+> -- 
+> 2.25.1
+> 
 
-Bruce
-
->
-> Cheers,
->
-> Richard
-
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#167719): https://lists.openembedded.org/g/openembedded-core/message/167719
+> Mute This Topic: https://lists.openembedded.org/mt/92204115/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
