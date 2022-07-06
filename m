@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDD1BCCA487
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED273CCA485
 	for <webhook@archiver.kernel.org>; Wed,  6 Jul 2022 08:07:41 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web09.3721.1657094854092807176
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web11.3655.1657094848544225873
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Jul 2022 01:07:34 -0700
+ Wed, 06 Jul 2022 01:07:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=ijx5s2sP;
- spf=pass (domain: gmail.com, ip: 209.85.218.44,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=LsUdVPc1;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id q6so25599123eji.13
+Received: by mail-ed1-f49.google.com with SMTP id x10so10871844edd.13
         for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Jul 2022 01:07:33 -0700 (PDT)
+ Wed, 06 Jul 2022 01:07:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jKaB6i/bphLRDB5hMD93knPgFuFtdhPGWzUOxlF1wpo=;
-        b=ijx5s2sPBcdB0GhnO1ejDTaaXAR9n5np4pjp+xooAT6vmnME+m40ZYlaHN+Kbh7fG2
-         CtE0cG459Y31Hfdoe+FgwBRjHPOXgi5tgYcW0Umf5cWXNFn+Ol8E1CxHt9lKfVRcvK4f
-         lthY/oTvfd5wbf5BrH8FIi3nQEI7C6O+lIq3jSuPvyA4lOp3HL7hSi6Qw4pOI30WfnMA
-         HLUIssfW9PyxcNjiQUqZemg+fz/GrJtnE1W7Jjqa/Nq+5QdvVnweb4sRx8FvCHInnz+O
-         Rab34CyXSXM3RJb6Rgh2lhsOs93QUCByo4i1BMxl0DIjuKy1oMPE+ByZqYIzwmNMbTGT
-         JVBA==
+        bh=INb5NNj/TYr1vczs/6uKnc1lWmwAfQw8bo2JexX0otc=;
+        b=LsUdVPc1lQDtubaRFogjdWV4l9Yo2G9lASo+u7PJlV8y66aGSUPEQ/siAU8q0CS4Mg
+         kNgHD9d40Oqzy7Zrwj6R6ELyVeLC5Fy5TyEu2YC9NEG+cuGqPeZHZqbddqkVVQCL970a
+         lnHlCmlK71cHRTLOY7GKx2SQ5UVGUNYqR2x/PUIZKUZ7leKCbk12HXAXKO20C3OD7WV1
+         2MlRIsbFqhVvmAODOniAR1ZUnJHiTaG3XPCl57ADG2yCLrmq2imTg5vJ2525H/Tx0v4O
+         SPIWAwbtTTPlLsg+oI/br/kCq630OhbDSbLtF7Li/FGNp2JVBrKdxjS+WYM6Rf0u4Qmm
+         FDug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jKaB6i/bphLRDB5hMD93knPgFuFtdhPGWzUOxlF1wpo=;
-        b=GtuqhB9GvbxJlHzYr6+9EhmgwM2LgXV9Qro/zaNxcSn5BHstR0KE7Lpb4tGzyLbHtM
-         3ZsVXtXUu0S/6KCLFRP1xu2x3IPlPojvlYdkgIPjfa9n/9s7Y9BdHwe7PPLLmaJaE9Zq
-         aevVjc/Jbl/LQ/4uuqVy7p0ieKk0PlghfMpTGHmDX3md5DX9NJNOfESwxtkvxjrUkirS
-         mngMshgSnjZISCFKLJxLezMMasDz4GvhYEKc9h/XrPXO6TlYuN1JhMxcPVKU9L7pDn0R
-         dUpX7sscEhqWBayULIzJkc2MTz0Fy72wx5xc+qnxy925IUgbJJBWPX/rqdUyY55ZCiSk
-         rXZw==
-X-Gm-Message-State: AJIora/XSe5oMd4osgGh4qZmIEo0NaLvMdpIIi+9g2eNawYfQgMVBAh4
-	mVmjsbOgjJU/EoEQ58hQDTtdPoptH462/A==
+        bh=INb5NNj/TYr1vczs/6uKnc1lWmwAfQw8bo2JexX0otc=;
+        b=bW/p5jMlftPhk8b71WdEDCDWxPPckCbJsz0P+4wdQPZ09w70dlrTjfjQk1T4llC/Yz
+         vm9XZ0nsJiSV9QWtfDG+e8hBb6b0k/hiSI9amzmgIJ+nZ6DST9OaDMZVwPB5Ue6dvsze
+         7tyAhfKDWIT9rgzq4hA8zsYX22MRkiNIKkdh84+qb+qwm7JsW8+FcobzkKLW6pdEeXo1
+         g59rRLRJl7xK2xENDAsGWGGNaMyBSg6yZScCl9uy1kMIMcUlkrbbmndDqV6USgscVLsQ
+         Vsr2yim+boszWByc723rCOGvj4mCAe6Nq2mu3YRzp2YyZdQY77aGDp3NWFGqAmNlA7KR
+         jnGw==
+X-Gm-Message-State: AJIora8wPoeXevmAQMW6rYY8wm9v9W6633FgOpqbJemcYFPVrGA2ak+3
+	HXRnFWxILZXEeATxYypzQB5EsxzjA2oZwQ==
 X-Google-Smtp-Source: 
- AGRyM1t9YrCKrmSs/0QRxtLbkC0oaRrCcINvQkQEecqVU8wWv1M8T29TvNObWQSLm8QWBuEuHDN13Q==
-X-Received: by 2002:a17:906:28d6:b0:726:41df:d9cc with SMTP id
- p22-20020a17090628d600b0072641dfd9ccmr38189620ejd.649.1657094852580;
-        Wed, 06 Jul 2022 01:07:32 -0700 (PDT)
+ AGRyM1v1mVb1sX/3Ljgbok7aAXznK1Cvn2bgquYbzXiy004/grrsiQJZfRoDAmH40cm+Mh3K+CI8Lw==
+X-Received: by 2002:a05:6402:538d:b0:435:7ca6:a136 with SMTP id
+ ew13-20020a056402538d00b004357ca6a136mr53807045edb.268.1657094859769;
+        Wed, 06 Jul 2022 01:07:39 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- v19-20020a170906381300b00721d8e5bf0bsm17001344ejc.6.2022.07.06.01.07.31
+ v19-20020a170906381300b00721d8e5bf0bsm17001344ejc.6.2022.07.06.01.07.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jul 2022 01:07:31 -0700 (PDT)
+        Wed, 06 Jul 2022 01:07:39 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 08/27] libsoup: upgrade 3.0.6 -> 3.0.7
-Date: Wed,  6 Jul 2022 10:07:02 +0200
-Message-Id: <20220706080721.3072553-8-alex@linutronix.de>
+Subject: [PATCH 15/27] python3-cryptography: upgrade 37.0.2 -> 37.0.3
+Date: Wed,  6 Jul 2022 10:07:09 +0200
+Message-Id: <20220706080721.3072553-15-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220706080721.3072553-1-alex@linutronix.de>
 References: <20220706080721.3072553-1-alex@linutronix.de>
@@ -68,30 +68,30 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 06 Jul 2022 08:07:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167695
+ https://lists.openembedded.org/g/openembedded-core/message/167702
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../libsoup/{libsoup_3.0.6.bb => libsoup_3.0.7.bb}              | 2 +-
+ ...n3-cryptography_37.0.2.bb => python3-cryptography_37.0.3.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libsoup/{libsoup_3.0.6.bb => libsoup_3.0.7.bb} (94%)
+ rename meta/recipes-devtools/python/{python3-cryptography_37.0.2.bb => python3-cryptography_37.0.3.bb} (97%)
 
-diff --git a/meta/recipes-support/libsoup/libsoup_3.0.6.bb b/meta/recipes-support/libsoup/libsoup_3.0.7.bb
-similarity index 94%
-rename from meta/recipes-support/libsoup/libsoup_3.0.6.bb
-rename to meta/recipes-support/libsoup/libsoup_3.0.7.bb
-index 17825ae6a4..59cc4a1d0a 100644
---- a/meta/recipes-support/libsoup/libsoup_3.0.6.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.0.7.bb
-@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 libpsl nghttp2"
- SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+diff --git a/meta/recipes-devtools/python/python3-cryptography_37.0.2.bb b/meta/recipes-devtools/python/python3-cryptography_37.0.3.bb
+similarity index 97%
+rename from meta/recipes-devtools/python/python3-cryptography_37.0.2.bb
+rename to meta/recipes-devtools/python/python3-cryptography_37.0.3.bb
+index 9ef3a61e9f..53c8ea7477 100644
+--- a/meta/recipes-devtools/python/python3-cryptography_37.0.2.bb
++++ b/meta/recipes-devtools/python/python3-cryptography_37.0.3.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=bf405a8056a6647e7d077b0e7bc36aba \
+                    "
+ LDSHARED += "-pthread"
  
- SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
--SRC_URI[sha256sum] = "b45d59f840b9acf9bb45fd45854e3ef672f57e3ab957401c3ad8d7502ac23da6"
-+SRC_URI[sha256sum] = "ebdf90cf3599c11acbb6818a9d9e3fc9d2c68e56eb829b93962972683e1bf7c8"
+-SRC_URI[sha256sum] = "f224ad253cc9cea7568f49077007d2263efa57396a2f2f78114066fd54b5c68e"
++SRC_URI[sha256sum] = "ae430d51c67ac638dfbb42edf56c669ca9c74744f4d225ad11c6f3d355858187"
  
- PROVIDES = "libsoup-3.0"
- CVE_PRODUCT = "libsoup"
+ SRC_URI += "file://run-ptest \
+            file://check-memfree.py \
 -- 
 2.30.2
 
