@@ -1,99 +1,101 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mingli.yu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71181C43334
-	for <webhook@archiver.kernel.org>; Tue,  5 Jul 2022 22:04:43 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web08.883.1657058679170989187
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62F1BC433EF
+	for <webhook@archiver.kernel.org>; Wed,  6 Jul 2022 02:27:40 +0000 (UTC)
+Received: from mail1.wrs.com (mail1.wrs.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web11.1662.1657074458122018062
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jul 2022 15:04:39 -0700
+ Tue, 05 Jul 2022 19:27:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EF9lyouk;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.218.45,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ej1-f45.google.com with SMTP id fi2so23943403ejb.9
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jul 2022 15:04:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=Q4SZqc9tdk4vJQKjvwy/dL/HG4wUBZsBWpEBdQZHNcc=;
-        b=EF9lyoukTpVHzxOFdD0vdHvNnelfaWUeZagEKFkPbPqF+j14B961nItkJXKfGQvcjU
-         GSLGm8r/GVF2DxCUrqzJcVanYePCDcTZfMCUzMOEwTr1uI6eJyzvFYsvKc8qUcyPbeZL
-         a1gdEulhQEA15wkbQ1D8PTbmDjoxn/L9Gf1l4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=Q4SZqc9tdk4vJQKjvwy/dL/HG4wUBZsBWpEBdQZHNcc=;
-        b=htNbGnYAhKTOTaMv5W0kCOiWGPxpEh3RaOV+3EE+maLvcfrRPKLHEXPANg69K7Gm2H
-         TH7ikvPouumFb/jp4BboPgJDtohVr7hOFv8hi4xtUnldhMtaDzRVN2ObDsuMkdL8QgZj
-         ZPGjJOk4ORsz/o9uyyby5sPpsX7HJQe8NJhqgomv3tbHwnBXjBbNaUS6JE44WtEvBpcf
-         JOtxSTjOhRekU680AGPeDQmsplCU1AtBTXpC1JXRyRo/d47plIZ/BI3TcwmSf6bHj173
-         SPAvykn1tngbULb0dp63T5VOtiJslOH5hxqMfKitmm1rJWXIq4QiSu8uZievyKNOq1fD
-         pJDg==
-X-Gm-Message-State: AJIora9PxiYpbCU7DDwN+qrNMGPExcnZOaPwUHvU8WfJmVurhkn9Cc5a
-	zTlZD302ZPur8/WEQmiGmeiafQ==
-X-Google-Smtp-Source: 
- AGRyM1vTK7KNvLeuocpOb7Z2meVPAP8FdENU+0x7OpkYJPYDneYQWr4cOe74kl5sc2nwrQjSg0Z3zA==
-X-Received: by 2002:a17:907:3f02:b0:6f3:5c42:321a with SMTP id
- hq2-20020a1709073f0200b006f35c42321amr35719136ejc.521.1657058677550;
-        Tue, 05 Jul 2022 15:04:37 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:9b71:63f4:5737:a5c8?
- ([2001:8b0:aba:5f3c:9b71:63f4:5737:a5c8])
-        by smtp.gmail.com with ESMTPSA id
- eo7-20020a056402530700b0043a78236cd2sm2418542edb.89.2022.07.05.15.04.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 15:04:37 -0700 (PDT)
-Message-ID: 
- <ca3347502948ad012926db3e4e2ba93bc5714dbb.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] externalsrc: write task locks into ${T}, not
- into ${S}
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, Alexander Kanavin
-	 <alex@linutronix.de>
-Date: Tue, 05 Jul 2022 23:04:36 +0100
-In-Reply-To: 
- <CANNYZj-EKVYunx2uf9nMrmCKEmg+q6D81Ny7YhVdOTVHQ=TjEw@mail.gmail.com>
-References: <20220705163949.770641-1-alex@linutronix.de>
-	 <38e843d999ac2ee830db7d058395704ac2563a84.camel@linuxfoundation.org>
-	 <CANNYZj8wqKxXRFzykE_rbFeRRvGTysgi=PEtZHLOYM1Exgmcyw@mail.gmail.com>
-	 <e7027f1165f7725145722e209cb549e3268a60d2.camel@linuxfoundation.org>
-	 <CANNYZj-EKVYunx2uf9nMrmCKEmg+q6D81Ny7YhVdOTVHQ=TjEw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ dkim=missing;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid
+ domain name (domain: windriver.com, ip: 147.11.146.13,
+ mailfrom: mingli.yu@windriver.com)
+Received: from mail.windriver.com (mail.wrs.com [147.11.1.11])
+	by mail1.wrs.com (8.15.2/8.15.2) with ESMTPS id 2662RNOQ029527
+	(version=TLSv1.1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 5 Jul 2022 19:27:27 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.corp.ad.wrs.com
+ [147.11.82.252])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 2662RMR1007402
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+ Tue, 5 Jul 2022 19:27:22 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 5 Jul 2022 19:27:22 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2242.12 via Frontend Transport; Tue, 5 Jul 2022 19:27:21 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [kirkstone][PATCH] vim: 8.2.5083 -> 9.0.0005
+Date: Wed, 6 Jul 2022 10:27:20 +0800
+Message-ID: <20220706022720.1410652-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Jul 2022 22:04:43 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Jul 2022 02:27:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167684
+ https://lists.openembedded.org/g/openembedded-core/message/167685
 
-On Tue, 2022-07-05 at 23:51 +0200, Alexander Kanavin wrote:
-> On Tue, 5 Jul 2022 at 23:48, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > > I considered adding an exclusion for the lock filename to the code
-> > > that tracebacks, but special casing like that is pretty ugh. Today
-> > > here, tomorrow elsewhere.
-> >=20
-> > Right, but the lock was also added there for a reason so we're going to
-> > have to work out some solution :/.
->=20
-> One thing I don't quite understand is why the lock file is appearing
-> and disappearing while the task itself is executing? Shouldn't it be
-> happening when the task queue is being processed?
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-I think we do need to understand why that is happening. I don't
-remember the specifics of the lock but it is possible it is being held
-and then released by another task running in parallel?
+The license checksum changed due to a major version change in the referenced file.
 
-Cheers,
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 89f34d8aa4f4572d048dbb732ca4c83d443157fb)
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ .../vim/{vim-tiny_8.2.bb => vim-tiny_9.0.bb}                | 0
+ meta/recipes-support/vim/vim.inc                            | 6 +++---
+ meta/recipes-support/vim/{vim_8.2.bb => vim_9.0.bb}         | 0
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/vim/{vim-tiny_8.2.bb => vim-tiny_9.0.bb} (100%)
+ rename meta/recipes-support/vim/{vim_8.2.bb => vim_9.0.bb} (100%)
 
-Richard
+diff --git a/meta/recipes-support/vim/vim-tiny_8.2.bb b/meta/recipes-support/vim/vim-tiny_9.0.bb
+similarity index 100%
+rename from meta/recipes-support/vim/vim-tiny_8.2.bb
+rename to meta/recipes-support/vim/vim-tiny_9.0.bb
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 06707dbe11..b85f34d6c8 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -11,7 +11,7 @@ RSUGGESTS:${PN} = "diffutils"
+ 
+ LICENSE = "Vim"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=6b30ea4fa660c483b619924bc709ef99 \
+-                    file://runtime/doc/uganda.txt;md5=daf48235bb824c77fe8ae88d5f575f74"
++                    file://runtime/doc/uganda.txt;md5=001ef779f422a0e9106d428c84495b4d"
+ 
+ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://disable_acl_header_check.patch \
+@@ -21,8 +21,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://racefix.patch \
+            "
+ 
+-PV .= ".5083"
+-SRCREV = "db77c49401145d76441fbb3d22a1d7d987681c13"
++PV .= ".0005"
++SRCREV = "040674129f3382822eeb7b590380efa5228124a8"
+ 
+ # Remove when 8.3 is out
+ UPSTREAM_VERSION_UNKNOWN = "1"
+diff --git a/meta/recipes-support/vim/vim_8.2.bb b/meta/recipes-support/vim/vim_9.0.bb
+similarity index 100%
+rename from meta/recipes-support/vim/vim_8.2.bb
+rename to meta/recipes-support/vim/vim_9.0.bb
+-- 
+2.25.1
+
 
