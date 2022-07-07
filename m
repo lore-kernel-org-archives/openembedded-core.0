@@ -1,373 +1,177 @@
-Return-Path: <liu.ming50@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD4FAC433EF
-	for <webhook@archiver.kernel.org>; Thu,  7 Jul 2022 09:53:23 +0000 (UTC)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
- [209.85.128.171])
- by mx.groups.io with SMTP id smtpd.web09.3683.1657187600033302465
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8457C433EF
+	for <webhook@archiver.kernel.org>; Thu,  7 Jul 2022 10:03:23 +0000 (UTC)
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com
+ (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.56])
+ by mx.groups.io with SMTP id smtpd.web09.3741.1657188192788105605
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Jul 2022 02:53:20 -0700
+ Thu, 07 Jul 2022 03:03:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=g+ftN3W4;
- spf=pass (domain: gmail.com, ip: 209.85.128.171,
- mailfrom: liu.ming50@gmail.com)
-Received: by mail-yw1-f171.google.com with SMTP id
- 00721157ae682-31bf3656517so164388277b3.12
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Jul 2022 02:53:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=c/LxcPuPhVXPQzn57stEGHpSah/gYbnTpXAc6m9kb4M=;
-        b=g+ftN3W4t7pRNU6kmkb21R+00wkfbZK/lfD6/V4g+/WXu2pNXvH3hYEsgBkN8aB0Qk
-         z8OA6/Cte348bFLxtQFYxycnLN+1dAI6ifDVP4vMp1OnZ/5rsAQ4kAcUmyeu/CUZqGJK
-         3YC+HC0+TKI++9yfC+Qp8f3vP+/Zm61g+WeGOOrxbsU2lH7Nfp/MbDu1rOxUeawBwAvE
-         kobGsTzTyrbz/X4mdi8dUn8rGJUQ5mYHYApR1NGabC45gNYkLfhDG7PaoYsP9p0qcJ16
-         cqh4c2Pp6KW1Gi3S4qTjD6HZgBUd5lcJBAEzoHvVUX99BB5uvjAaViOqPtJWOfuS8tOy
-         lAoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=c/LxcPuPhVXPQzn57stEGHpSah/gYbnTpXAc6m9kb4M=;
-        b=l6GdAUkJjWmq/4KmpU2mIblGgAZ5QtMXyAl8DlQYEvGq30o62tWGC+N72QHsQC9FCY
-         afQ0sOsy1kia6aCxn0mFQzhVlResvgeLx9OLP6/ii/68TXC5psjcUQX8ngp55OwQZp6/
-         GCOrAvDoGQLtnOy0AeMQ+pTBPR+DRk8wW71YdZC1BvAXcGTb5N2wDTeg61ewVvtwJo6m
-         zsYeOpsWIAmTzA3LgO6sxxjcdm8LDhuhuf/IGzoDF5ru+bmbkYYKim7cy5fG4ask7bfG
-         0/REF9d2JV4eCVRCLoTdQmpyT1Okwip96woFshUiAwDIpXhjwqwz+QC9lUgC+cy45P3I
-         a0TA==
-X-Gm-Message-State: AJIora9Q2rviozNN7DKlP6x+ZZ8VsIMOfmuF9dij/qOazCMxiRqMXhnp
-	ODbLqSJABiP5M5dohXV6B1+ftaWW/tWGlUDgk9M=
-X-Google-Smtp-Source: 
- AGRyM1ufbklliaf9TBEp77rZkrKToWDNhJOAhmDbKPOKGCnpWT94U342vUQpjT+Kbn/oqhvN6ICMgSMV3DztlxEg7I0=
-X-Received: by 2002:a0d:e4c1:0:b0:313:8b27:c02c with SMTP id
- n184-20020a0de4c1000000b003138b27c02cmr49509276ywe.198.1657187599108; Thu, 07
- Jul 2022 02:53:19 -0700 (PDT)
+ dkim=pass header.i=@armh.onmicrosoft.com
+ header.s=selector2-armh-onmicrosoft-com header.b=Ltz2fxBt;
+ spf=pass (domain: arm.com, ip: 40.107.104.56, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=ap0al+RTOu7bfm+Mmj47cvhhU2DgKJsyt/tlbxcPkXMPFq+kzFha2qK6bbTSt3SgnnXdzjVVz0Bt9QQCbigpb63T9HuQqzYfhoW4ePlzu7VyOlc/K02aYohfCdRIdGrtlQEEhy272I+Yn0WqUB8+zRc1hIBk5ymEVs9oIi8z6ROCHvSnqbPfnjm1VioR+htD1aD/ci14qtYitO6mzwaI8+VcIzPydWDvjC4sXhJ2rhjHm06XS7ll7lOw3mH5AZz+sYYLdFx0vnQVI1Zufwj8TuEXZhm9aKacpxG0VELu6sztxvty5ByK4sOdkM5eS9YaT/j9mO98qTTImnCsQem4Iw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rs6lhJYVhEiwJGxRGxP7ZbVz2TZZzEnC0B/E4bC/BHw=;
+ b=VimQcdqlBmU1bb9IMZcHpvf9QLlAykdi/fMWnyNfMCYxTEnSYKhRgYTZdm9ZLxDHlgJ8tJgU0t2l5rVTTzk1S9N2vKWHXMas96Eu3OcpD4u5Qn8GhOTPShaQLR7gAMcF28M4IWeCrIprc2GX6sJ9/taLS8GUG1ivkJOI5gzba892TggtJFMRTGpYMkTpDv9SWCJjhd4V6NzB2RS+m2blZ2TlKzyQxSUGXW0UuGnByAls7kMMXSE5KyZfMuj4FKFvBbkusGkt03ZfeOC48vimgFpDJEbFPH6iJ9ZNHEZBNVpc5lI8CGYG1MlDpRc2N0V7Dc13gR8BPY9TlHZOhaUOsA==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
+ oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rs6lhJYVhEiwJGxRGxP7ZbVz2TZZzEnC0B/E4bC/BHw=;
+ b=Ltz2fxBtnXtsitSnE0gk3cIbDzLvkXRISFp33rK4eganBesY4Kwa3P05jQg7yhQz+IsJzJBBndXAegvCbCBNNinj1oaqslh5KSlkVf2Bu6CQTYgPN/hSoUR6pUOYbLPQIhTrLThb7qt27GyvZ39XqKPrnpoyyMuYdv2bbBNyJpM=
+Received: from DU2PR04CA0224.eurprd04.prod.outlook.com (2603:10a6:10:2b1::19)
+ by VI1PR08MB5519.eurprd08.prod.outlook.com (2603:10a6:803:133::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16; Thu, 7 Jul
+ 2022 10:03:09 +0000
+Received: from DBAEUR03FT061.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:2b1:cafe::68) by DU2PR04CA0224.outlook.office365.com
+ (2603:10a6:10:2b1::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16 via Frontend
+ Transport; Thu, 7 Jul 2022 10:03:09 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DBAEUR03FT061.mail.protection.outlook.com (100.127.143.28) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5417.15 via Frontend Transport; Thu, 7 Jul 2022 10:03:09 +0000
+Received: ("Tessian outbound e5f49c5d38f9:v122");
+ Thu, 07 Jul 2022 10:03:09 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 0024d7951ee4bf07
+X-CR-MTA-TID: 64aa7808
+Received: from cd2aa322582d.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ C38F2009-028D-49D2-9B2E-C382CA7F5CBC.1;
+	Thu, 07 Jul 2022 10:03:02 +0000
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id
+ cd2aa322582d.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Thu, 07 Jul 2022 10:03:02 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GeCtoL88wO1KiM9rvkAqx39em8ZDe6bh/+AHmi4oAfJW7yqf6wP+k5RmbMh5dnoXoPra2W9SRJ10xM/2KuCxyFG6/V2wl+BaQnEJ1YBCQr0JjmlrgULyKuCbifdZsJSUK3cenhcMWBufbYzQVL53y40e66U5BwSu8+4MHqQFLk2WIDTRFomMTA3Erk/XnYO6ixo8dA69TkKs4Xi+cNTmf3SagAWRFBpLKhZoucGtEeOsqz9UNntdANs7gBBt3u3FKo/7msjTIOYWJ+HeLt1JlGqzBQIjc3MbDCPAIruv9qiH+p/g+iB/9Nz584pm6x4yyFkpiZxKsZHLgP9slEU3TA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rs6lhJYVhEiwJGxRGxP7ZbVz2TZZzEnC0B/E4bC/BHw=;
+ b=LjawvSyUjNRFKfKnkm0IVHrK2mPVjiRqNL35WGrLyYORZvWRKG0RCnjpWNge4nQfQxLoNKnwdX4shqa1Lw9YWGsfSDBkePbHk49bE05O8nmBHgerHk5M3nWRHBhVC2e/AoIaBuYrWqftnoKYblFI9K+U5a4JRjqLev/NKDk5zZxKSgtNZ4KCsSwscHTcBXBcs8eJR+zd5ARohRrwj9f2KCZ/mMzhf6UahcZ/OpEWGg4Ny2JzpHVgL7HpSdx5UMYVO0f7BXsPXnrgHirk2u+EcLeG2bCWxpAmWkVCGOsYvYbUziLRhy065D/+LFMF2/NYn4z/LSEPe6iU4EPrA8z25A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rs6lhJYVhEiwJGxRGxP7ZbVz2TZZzEnC0B/E4bC/BHw=;
+ b=Ltz2fxBtnXtsitSnE0gk3cIbDzLvkXRISFp33rK4eganBesY4Kwa3P05jQg7yhQz+IsJzJBBndXAegvCbCBNNinj1oaqslh5KSlkVf2Bu6CQTYgPN/hSoUR6pUOYbLPQIhTrLThb7qt27GyvZ39XqKPrnpoyyMuYdv2bbBNyJpM=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AS8PR08MB6568.eurprd08.prod.outlook.com (2603:10a6:20b:338::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16; Thu, 7 Jul
+ 2022 10:02:59 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::2c4a:b33:a761:a926]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::2c4a:b33:a761:a926%2]) with mapi id 15.20.5395.020; Thu, 7 Jul 2022
+ 10:02:59 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "JPEWhacker@gmail.com" <JPEWhacker@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][RFC] Layer Setup JSON schema and example
+Thread-Topic: [OE-core][RFC] Layer Setup JSON schema and example
+Thread-Index: AQHYkXI5OEmmUfWjvkWig9qxoeGl661yrpMA
+Date: Thu, 7 Jul 2022 10:02:59 +0000
+Message-ID: <CAA2FC7D-8003-431C-B856-B8DE9DCDC202@arm.com>
+References: <20220706195311.974830-1-JPEWhacker@gmail.com>
+In-Reply-To: <20220706195311.974830-1-JPEWhacker@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3696.100.31)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-MS-Office365-Filtering-Correlation-Id: 8c5a7dd6-3894-482c-5ded-08da5fffe541
+x-ms-traffictypediagnostic: 
+	AS8PR08MB6568:EE_|DBAEUR03FT061:EE_|VI1PR08MB5519:EE_
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ dy1dPsSAoLGQfkoQiTIQjKw97+vH3Tfgw0V3dkKNgO6OnfEdBrYFGXSw3a5NBZIvvSWJRD8R9Z02TvqQG31ystYOWk2qu3lj72ISwO5Jf3TMNrGl8quYenMw9AuhEWbt0Dle+TON4QxnaYrDlIufVX+M221BtAwjeWWcaBDRsJZGBMxmBLAQEiNgfkW9KvsaJostkVuGn+y1FBZ3aN17MzoQTza7alB988JwpGrBZRhY6ZZe1aASgapeKIxzFIa5MQfveyiuwhCEIkGAC+dbtnhFwgUIWLcYjGm/8qJzIA5Jgc4CBrzdTkkv6NV7Cm2Sy0pGRSVc7X/RyE17aHhJkdi4p503LED+ghTfIC2JdWe42G4h6wgchLK4lKN/g9zRgORW8BjR3CM/jZ1Bd6SAc3UQ3tsuwiWDJhCt+mSppvogW2M0TTFsQkTCTpM14IVaLpqANRQmc5obisB176oYPmMoUCP5VrnrpxkaYJmYz9NfJ8d7ptLElpNEHPDAboI857FtiLQ8FhL+EmvqdXeBKn32V+WLGl1HnA0cA9Lw9Jdrzx3orn9SkXcr0vsb/Ix+9NwUgt/2ZBWyGNGNxT+1/R1w90gBFQg17dNpe60a2BLOBr/OWnQaX153lWt7zTUSmNU7jxLYIdovssYCwvPKnm4uPiua40EKNVfmTCGsED2Ntf0DTt7qkQQZlxkvWL6p49xaJqk+ajOuprpqMNY5OkoFBKcytaPBIevm7Qu5SWNzyacg7J2YgkSEvl00AstqN3IwIkKH2Ppnmepa65piICrmiNyVvGJajLY+yAxTc0/ldJHyczlxkJRxoFW6AVYyWaRssLoghAKuUPapmPqMtYv5/vdMygYV+qXM9zKF5Zg=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(136003)(39860400002)(366004)(396003)(376002)(64756008)(41300700001)(2906002)(66476007)(478600001)(4326008)(8676002)(91956017)(86362001)(4744005)(66446008)(6486002)(66946007)(8936002)(33656002)(76116006)(66556008)(71200400001)(36756003)(316002)(122000001)(5660300002)(38100700002)(6916009)(186003)(26005)(2616005)(6512007)(83380400001)(53546011)(6506007)(38070700005)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <34D55035C2953C4889E89745AAC58AA8@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20220706111028.149100-1-liu.ming50@gmail.com>
- <YsWW1I3LrrA4YTv1@mail.local>
-In-Reply-To: <YsWW1I3LrrA4YTv1@mail.local>
-From: Ming Liu <liu.ming50@gmail.com>
-Date: Thu, 7 Jul 2022 11:53:19 +0200
-Message-ID: 
- <CALatG=7tsPYUtMqZ+etf1UMpRoQtg_dvAhojnkkUsqwOHxAmQw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] meta: introduce UBOOT_MKIMAGE_KERNEL_TYPE
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Max Krummenacher <max.krummenacher@toradex.com>
-Content-Type: multipart/alternative; boundary="0000000000002bce7a05e3340e93"
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6568
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DBAEUR03FT061.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	b41f3b5b-dc26-464c-c1c3-08da5fffdf8d
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	RUvsHtDz2SblezAHVpsjNgkVkEfUX2Ydq/ac8MTpaEOlw11QTJP5QC69e6yngUs/ANSHAieNjXdoRjpSlvKhg7R3gtbpppoBhImEV35HRJQMdiLAr9BetTBbsJbBThzEf3m2T2F9o7daJR1WV4o1anu7A+u95z1kXMNZhxR5AQTNRzxCLrfV/KvHBe9lhUpWwcBYsIV8mFNZh/XXiQHzKNmumvlGv2aFEoC/PJChYZxRABO8AGG5XGj4geXXXqpYwCNre3af5ecqSO2puItDkfNUOq7wmruDhLR1JP1Mgsrs5saGOAbQTytpbSQK8aC8EFoTiWSExw2LSk7wkb/CfTUXYdJTgRQmtE8gmqMPhrcUbDFDUhzLOBbD2t0tqqJ9u3vW818CybHpO7qOKeS0N8EUbI2RvFriqRPitfOJCm6TTad3uqkBPBjp9Tp73f25uFY45IB47ROYcnPq1qaAp67NCiLNQNpWtFWWzpW61ccWBlrJpF1TRVGo9LSdHAgJn9XbvtnTKqW2scJQh0uvVnFHMaeXSKZM42aBP+g035jwDIeuWmKU9s5tHOgWXVnygueyC8PUQ9telVx5zIR9iyF0/TSK0zu+WllHeYbAEMIkdquKUNS3OPhuHDLFPQYV/xq+Ve8BzI9LS8ZWnOOKWnVebxbtqGt175aUegeQM35jDkivzXSKguOFBfzxB/GOq8nOooQkIyZTsKZjxJMP9ts9LZ2uilyZsuk+01e7uZKLnym2V/btnG3t0Lwy5U6xc6ztxGBf7l/Jrdmazy8WHQ1HkfguyQKktxS2122/gvQkvtALR7OK6O+avi8pymdd
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(136003)(376002)(396003)(346002)(40470700004)(36840700001)(46966006)(6862004)(5660300002)(86362001)(81166007)(8936002)(70206006)(8676002)(36860700001)(82310400005)(70586007)(4744005)(4326008)(356005)(41300700001)(316002)(478600001)(6512007)(47076005)(6486002)(6506007)(36756003)(40460700003)(26005)(2616005)(33656002)(336012)(40480700001)(53546011)(2906002)(186003)(82740400003)(83380400001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2022 10:03:09.3755
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 8c5a7dd6-3894-482c-5ded-08da5fffe541
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
+ TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DBAEUR03FT061.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB5519
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Jul 2022 09:53:23 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Jul 2022 10:03:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167763
+ https://lists.openembedded.org/g/openembedded-core/message/167764
 
---0000000000002bce7a05e3340e93
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi, Alexandre:
-
-Thanks for the review, I did not quite follow you, you meant the 'type'
-argument being replaced wrongly? I dont see how. Could you share some
-details about your comment?
-
-//Ming Liu
-
-Alexandre Belloni <alexandre.belloni@bootlin.com> =E6=96=BC 2022=E5=B9=B47=
-=E6=9C=886=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=884:06=E5=AF=AB=E9=
-=81=93=EF=BC=9A
-
-> Hello,
->
-> On 06/07/2022 13:10:28+0200, Ming Liu wrote:
-> > From: Ming Liu <liu.ming50@gmail.com>
-> >
-> > Sometimes an end user might want to choose another kernel type argument
-> > for uboot-mkimage other than "kernel", for instance: "kernel_noload".
-> >
-> > Let's introduce a variable UBOOT_MKIMAGE_KERNEL_TYPE to support that,
-> > and it could be used by BSP layers as well.
-> >
-> > Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-> > ---
-> >  meta/classes/kernel-fitimage.bbclass     | 2 +-
-> >  meta/classes/kernel-uboot.bbclass        | 3 +++
-> >  meta/classes/kernel-uimage.bbclass       | 2 +-
-> >  meta/lib/oeqa/selftest/cases/fitimage.py | 3 ++-
-> >  4 files changed, 7 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/meta/classes/kernel-fitimage.bbclass
-> b/meta/classes/kernel-fitimage.bbclass
-> > index 7e09b075ff..2112ae4cfa 100644
-> > --- a/meta/classes/kernel-fitimage.bbclass
-> > +++ b/meta/classes/kernel-fitimage.bbclass
-> > @@ -148,7 +148,7 @@ fitimage_emit_section_kernel() {
-> >                  kernel-$2 {
-> >                          description =3D "Linux kernel";
-> >                          data =3D /incbin/("$3");
-> > -                        type =3D "kernel";
-> > +                        type =3D "${UBOOT_MKIMAGE_KERNEL_TYPE}";
-> >                          arch =3D "${UBOOT_ARCH}";
-> >                          os =3D "linux";
-> >                          compression =3D "$4";
-> > diff --git a/meta/classes/kernel-uboot.bbclass
-> b/meta/classes/kernel-uboot.bbclass
-> > index 2facade818..1bc98e042d 100644
-> > --- a/meta/classes/kernel-uboot.bbclass
-> > +++ b/meta/classes/kernel-uboot.bbclass
-> > @@ -2,6 +2,9 @@
-> >  FIT_KERNEL_COMP_ALG ?=3D "gzip"
-> >  FIT_KERNEL_COMP_ALG_EXTENSION ?=3D ".gz"
-> >
-> > +# Kernel image type passed to mkimage (i.e. kernel kernel_noload...)
-> > +UBOOT_MKIMAGE_KERNEL_TYPE ?=3D "kernel"
-> > +
-> >  uboot_prep_kimage() {
-> >       if [ -e arch/${ARCH}/boot/compressed/vmlinux ]; then
-> >               vmlinux_path=3D"arch/${ARCH}/boot/compressed/vmlinux"
-> > diff --git a/meta/classes/kernel-uimage.bbclass
-> b/meta/classes/kernel-uimage.bbclass
-> > index cedb4fa070..e116bf0265 100644
-> > --- a/meta/classes/kernel-uimage.bbclass
-> > +++ b/meta/classes/kernel-uimage.bbclass
-> > @@ -30,6 +30,6 @@ do_uboot_mkimage() {
-> >                       awk '$3=3D=3D"${UBOOT_ENTRYSYMBOL}" {print
-> "0x"$1;exit}'`
-> >       fi
-> >
-> > -     uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C
-> "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n
-> "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${B}/arch/${ARCH}/boot/uIm=
-age
-> > +     uboot-mkimage -A ${UBOOT_ARCH} -O ${UBOOT_MKIMAGE_KERNEL_TYPE} -T
-> kernel -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n
-> "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${B}/arch/${ARCH}/boot/uIm=
-age
->
-> I feel like you replace the wrong argument here.
->
-> >       rm -f linux.bin
-> >  }
-> > diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py
-> b/meta/lib/oeqa/selftest/cases/fitimage.py
-> > index e6bfd1257e..7e6479c9ca 100644
-> > --- a/meta/lib/oeqa/selftest/cases/fitimage.py
-> > +++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-> > @@ -763,6 +763,7 @@ FIT_HASH_ALG =3D "sha256"
-> >
-> >          kernel_load =3D str(get_bb_var('UBOOT_LOADADDRESS'))
-> >          kernel_entry =3D str(get_bb_var('UBOOT_ENTRYPOINT'))
-> > +        kernel_type =3D str(get_bb_var('UBOOT_MKIMAGE_KERNEL_TYPE'))
-> >          kernel_compression =3D str(get_bb_var('FIT_KERNEL_COMP_ALG'))
-> >          uboot_arch =3D str(get_bb_var('UBOOT_ARCH'))
-> >          fit_hash_alg =3D str(get_bb_var('FIT_HASH_ALG'))
-> > @@ -775,7 +776,7 @@ FIT_HASH_ALG =3D "sha256"
-> >              'kernel-1 {',
-> >              'description =3D "Linux kernel";',
-> >              'data =3D /incbin/("linux.bin");',
-> > -            'type =3D "kernel";',
-> > +            'type =3D "' + kernel_type + '";',
-> >              'arch =3D "' + uboot_arch + '";',
-> >              'os =3D "linux";',
-> >              'compression =3D "' + kernel_compression + '";',
-> > --
-> > 2.25.1
-> >
->
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#167719):
-> https://lists.openembedded.org/g/openembedded-core/message/167719
-> > Mute This Topic: https://lists.openembedded.org/mt/92204115/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alexandre.belloni@bootlin.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
-
---0000000000002bce7a05e3340e93
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi, Alexandre:</div><div><br></div><div>Thanks for th=
-e review, I did not quite follow you, you meant the &#39;type&#39; argument=
- being replaced wrongly? I dont see how. Could you share some details about=
- your comment?<br></div><div><br></div><div>//Ming Liu <br></div></div><br>=
-<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Alexandre =
-Belloni &lt;<a href=3D"mailto:alexandre.belloni@bootlin.com">alexandre.bell=
-oni@bootlin.com</a>&gt; =E6=96=BC 2022=E5=B9=B47=E6=9C=886=E6=97=A5 =E9=80=
-=B1=E4=B8=89 =E4=B8=8B=E5=8D=884:06=E5=AF=AB=E9=81=93=EF=BC=9A<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">Hello,<br>
-<br>
-On 06/07/2022 13:10:28+0200, Ming Liu wrote:<br>
-&gt; From: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_=
-blank">liu.ming50@gmail.com</a>&gt;<br>
-&gt; <br>
-&gt; Sometimes an end user might want to choose another kernel type argumen=
-t<br>
-&gt; for uboot-mkimage other than &quot;kernel&quot;, for instance: &quot;k=
-ernel_noload&quot;.<br>
-&gt; <br>
-&gt; Let&#39;s introduce a variable UBOOT_MKIMAGE_KERNEL_TYPE to support th=
-at,<br>
-&gt; and it could be used by BSP layers as well.<br>
-&gt; <br>
-&gt; Signed-off-by: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" ta=
-rget=3D"_blank">liu.ming50@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/kernel-fitimage.bbclass=C2=A0 =C2=A0 =C2=A0| 2 +-<b=
-r>
-&gt;=C2=A0 meta/classes/kernel-uboot.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 3=
- +++<br>
-&gt;=C2=A0 meta/classes/kernel-uimage.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0| 2=
- +-<br>
-&gt;=C2=A0 meta/lib/oeqa/selftest/cases/fitimage.py | 3 ++-<br>
-&gt;=C2=A0 4 files changed, 7 insertions(+), 3 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kerne=
-l-fitimage.bbclass<br>
-&gt; index 7e09b075ff..2112ae4cfa 100644<br>
-&gt; --- a/meta/classes/kernel-fitimage.bbclass<br>
-&gt; +++ b/meta/classes/kernel-fitimage.bbclass<br>
-&gt; @@ -148,7 +148,7 @@ fitimage_emit_section_kernel() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel-$=
-2 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 description =3D &quot;Linux kernel&quot;;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 data =3D /incbin/(&quot;$3&quot;);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 type =3D &quot;kernel&quot;;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 type =3D &quot;${UBOOT_MKIMAGE_KERNEL_TYPE}&quot;;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 arch =3D &quot;${UBOOT_ARCH}&quot;;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 os =3D &quot;linux&quot;;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 compression =3D &quot;$4&quot;;<br>
-&gt; diff --git a/meta/classes/kernel-uboot.bbclass b/meta/classes/kernel-u=
-boot.bbclass<br>
-&gt; index 2facade818..1bc98e042d 100644<br>
-&gt; --- a/meta/classes/kernel-uboot.bbclass<br>
-&gt; +++ b/meta/classes/kernel-uboot.bbclass<br>
-&gt; @@ -2,6 +2,9 @@<br>
-&gt;=C2=A0 FIT_KERNEL_COMP_ALG ?=3D &quot;gzip&quot;<br>
-&gt;=C2=A0 FIT_KERNEL_COMP_ALG_EXTENSION ?=3D &quot;.gz&quot;<br>
-&gt;=C2=A0 <br>
-&gt; +# Kernel image type passed to mkimage (i.e. kernel kernel_noload...)<=
-br>
-&gt; +UBOOT_MKIMAGE_KERNEL_TYPE ?=3D &quot;kernel&quot;<br>
-&gt; +<br>
-&gt;=C2=A0 uboot_prep_kimage() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -e arch/${ARCH}/boot/compressed/vmlinux=
- ]; then<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vmlinux_path=3D&=
-quot;arch/${ARCH}/boot/compressed/vmlinux&quot;<br>
-&gt; diff --git a/meta/classes/kernel-uimage.bbclass b/meta/classes/kernel-=
-uimage.bbclass<br>
-&gt; index cedb4fa070..e116bf0265 100644<br>
-&gt; --- a/meta/classes/kernel-uimage.bbclass<br>
-&gt; +++ b/meta/classes/kernel-uimage.bbclass<br>
-&gt; @@ -30,6 +30,6 @@ do_uboot_mkimage() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0awk &#39;$3=3D=3D&quot;${UBOOT_ENTRYSYMBOL}&quot; {print &quot=
-;0x&quot;$1;exit}&#39;`<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-&gt;=C2=A0 <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel=
- -C &quot;${linux_comp}&quot; -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n &qu=
-ot;${DISTRO_NAME}/${PV}/${MACHINE}&quot; -d linux.bin ${B}/arch/${ARCH}/boo=
-t/uImage<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0uboot-mkimage -A ${UBOOT_ARCH} -O ${UBOOT_MKIMAGE=
-_KERNEL_TYPE} -T kernel -C &quot;${linux_comp}&quot; -a ${UBOOT_LOADADDRESS=
-} -e $ENTRYPOINT -n &quot;${DISTRO_NAME}/${PV}/${MACHINE}&quot; -d linux.bi=
-n ${B}/arch/${ARCH}/boot/uImage<br>
-<br>
-I feel like you replace the wrong argument here.<br>
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f linux.bin<br>
-&gt;=C2=A0 }<br>
-&gt; diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/=
-selftest/cases/fitimage.py<br>
-&gt; index e6bfd1257e..7e6479c9ca 100644<br>
-&gt; --- a/meta/lib/oeqa/selftest/cases/fitimage.py<br>
-&gt; +++ b/meta/lib/oeqa/selftest/cases/fitimage.py<br>
-&gt; @@ -763,6 +763,7 @@ FIT_HASH_ALG =3D &quot;sha256&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_load =3D str(get_bb_var(&#39;=
-UBOOT_LOADADDRESS&#39;))<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_entry =3D str(get_bb_var(&#39=
-;UBOOT_ENTRYPOINT&#39;))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_type =3D str(get_bb_var(&#39;UBOOT=
-_MKIMAGE_KERNEL_TYPE&#39;))<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_compression =3D str(get_bb_va=
-r(&#39;FIT_KERNEL_COMP_ALG&#39;))<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uboot_arch =3D str(get_bb_var(&#39;U=
-BOOT_ARCH&#39;))<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fit_hash_alg =3D str(get_bb_var(&#39=
-;FIT_HASH_ALG&#39;))<br>
-&gt; @@ -775,7 +776,7 @@ FIT_HASH_ALG =3D &quot;sha256&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;kernel-1 {&#39;,<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;description =3D &=
-quot;Linux kernel&quot;;&#39;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;data =3D /incbin/=
-(&quot;linux.bin&quot;);&#39;,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;type =3D &quot;kernel&=
-quot;;&#39;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;type =3D &quot;&#39; +=
- kernel_type + &#39;&quot;;&#39;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;arch =3D &quot;&#=
-39; + uboot_arch + &#39;&quot;;&#39;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;os =3D &quot;linu=
-x&quot;;&#39;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;compression =3D &=
-quot;&#39; + kernel_compression + &#39;&quot;;&#39;,<br>
-&gt; -- <br>
-&gt; 2.25.1<br>
-&gt; <br>
-<br>
-&gt; <br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#167719): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/167719" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://lists.openembedded.org/g/openembedded-core/message/167719</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/92204115=
-/3617179" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.o=
-rg/mt/92204115/3617179</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:alexandre.belloni@boo=
-tlin.com" target=3D"_blank">alexandre.belloni@bootlin.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; <br>
-<br>
-<br>
--- <br>
-Alexandre Belloni, co-owner and COO, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
-//bootlin.com</a><br>
-</blockquote></div>
-
---0000000000002bce7a05e3340e93--
+DQoNCj4gT24gNiBKdWwgMjAyMiwgYXQgMjA6NTMsIEpvc2h1YSBXYXR0IHZpYSBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnIDxKUEVXaGFja2VyPWdtYWlsLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
+PiB3cm90ZToNCj4NCj4gRGVmaW5lcyBhIGNvbW1vbiBzY2hlbWEgZm9yIGxheWVyIHNldHVwIHRo
+YXQgY2FuIGJlIGNvbnN1bWVkIGJ5IHRvb2xzIHRvDQo+IGtub3cgaG93IHRvIGZldGNoIGFuZCBh
+c3NlbWJsZSBsYXllcnMgZm9yIGVuZCB1c2Vycy4gQWxzbyBpbmNsdWRlcyBhbg0KPiBleGFtcGxl
+IG9mIHRoZSBsYXllciBzZXR1cCB0aGF0IGNvbnN0cnVjdHMgcG9reSBmb3IgcmVmZXJlbmNlLg0K
+DQpKU09OIGlzIHRlcnJpYmxlIGZvciBodW1hbnMgdG8gcmVhZCBvciBlZGl0LCBpcyB0aGlzIGlu
+dGVuZGVkIHRvIGJlIHB1cmVseSBmb3IgdGhlIG1hY2hpbmUsIG9yIGFyZSBodW1hbnMgbWVhbnQg
+dG8gcmVhZCBpdCB0b28/ICBJZiBodW1hbnMgYXJlIG1lYW50IHRvIHdvcmsgb24gdGhlIGZpbGUg
+SeKAmWQgcmVhbGx5IHByZWZlciBzb21ldGhpbmcgcmVhZGFibGUgbGlrZSBZQU1MLg0KDQpSb3Nz
+DQpJTVBPUlRBTlQgTk9USUNFOiBUaGUgY29udGVudHMgb2YgdGhpcyBlbWFpbCBhbmQgYW55IGF0
+dGFjaG1lbnRzIGFyZSBjb25maWRlbnRpYWwgYW5kIG1heSBhbHNvIGJlIHByaXZpbGVnZWQuIElm
+IHlvdSBhcmUgbm90IHRoZSBpbnRlbmRlZCByZWNpcGllbnQsIHBsZWFzZSBub3RpZnkgdGhlIHNl
+bmRlciBpbW1lZGlhdGVseSBhbmQgZG8gbm90IGRpc2Nsb3NlIHRoZSBjb250ZW50cyB0byBhbnkg
+b3RoZXIgcGVyc29uLCB1c2UgaXQgZm9yIGFueSBwdXJwb3NlLCBvciBzdG9yZSBvciBjb3B5IHRo
+ZSBpbmZvcm1hdGlvbiBpbiBhbnkgbWVkaXVtLiBUaGFuayB5b3UuDQo=
 
