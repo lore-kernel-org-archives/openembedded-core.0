@@ -1,121 +1,89 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 614D9C43334
-	for <webhook@archiver.kernel.org>; Thu,  7 Jul 2022 08:20:13 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web12.3178.1657182002784537175
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A2EBC433EF
+	for <webhook@archiver.kernel.org>; Thu,  7 Jul 2022 08:20:53 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
+ [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web10.3213.1657182051276875795
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Jul 2022 01:20:03 -0700
+ Thu, 07 Jul 2022 01:20:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=B+MJhPUM;
- spf=pass (domain: gmail.com, ip: 209.85.167.46,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id t25so29830558lfg.7
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=gelUQ4PX;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42,
+ mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id y4so8800996edc.4
         for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Jul 2022 01:20:02 -0700 (PDT)
+ Thu, 07 Jul 2022 01:20:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gPNMuAsaJtHW7OMFIu0Iu5Klfl1PxF/eQ24zep3RPf0=;
-        b=B+MJhPUMJpmSV0UiaeuXOFLe27fjmisjt6omusdg2oQUPWe70tK5Q3lkpVQvi9TIB2
-         rnBMbZ5Il6zOvfBmU4+Eqa97y7H0o60l18VF/Vj9TGpOWVN/2bdjQNCu9nZiT5tskp8P
-         LNQ6ABwBsrike63dq9ebEJgCyefjLGxuaEjIKLSw4oul/FPuJeGFYLtRPcTIeIHUipog
-         DkpQfkAI7PSNbrm/lZe/84RL4maogxUumgKFoy3yvjhJDpwYlnbDfZcEBaDsMu8E+qvU
-         AC31VzF93UBsKRmxUsbApRugABXFiP1i1t2RNKUzo+bpJVEtALJtmVJimF4tzn1YKLM8
-         8log==
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=PQjo83VidKiR0j6ReApLbnX91LvsGvP4ESdus3pcOUE=;
+        b=gelUQ4PXwgBN/5i46dhA18u3eEWaCCCvILB8NSYOuxHGB1Wi1tAX5VG8hQf6Wm6dQX
+         j/LzrwrLUYIqF10VRqKSnj36ARoqni44bh/Fn4Z+wUaMdaU1D1gLr1D02uXRw0qlkMpC
+         2GkPMnsK8B5oSug+ThN7W3ZOV9g7KT9v0Pvvocz6K++brXe3yZoUBUc+a+67Ejb9i9QR
+         bmAybZ2duR9H5KzdicSBHumSlPXHq0fapJNsn1kJZKOshbcN3huGFsLPHjlM35v7/6Nj
+         PStC/nnqDLTNitxJgGzWSdbjyXNqTYWHAGAUKg+SObkXOvhlidDDql9NDER3nhIXxqHp
+         Y5Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gPNMuAsaJtHW7OMFIu0Iu5Klfl1PxF/eQ24zep3RPf0=;
-        b=W2XpSSKiMFxNTxiBBGeMqChCOD7jnk9jcKkiMUwk3a0sCnKpiH1ESndkon4X/FHk8w
-         kfSRai4bFpbToBmzRDkJhh2oDa6ndbrd50nO+VnMZdwTASVRaPUYBqrMVR/PVxAaxdww
-         UdQwfXWCGPC75G5HlF/KhSiwN6MLbHN8ScViu9CTVG13vI9I4UvoKsps5brkcePIDejC
-         kQn1fukiN9RoKff9y+f1VW7wqqtlXCjSMqdEwmh+b9JWaxvn81d27kbCtO+CYTLqXLyO
-         r75QKXt033V/2W4wzwDRAkJ6Y5AarNn6LZv0/0NwqnpS15PAG9xVY5FPDo8MtTuYxryY
-         a2jA==
-X-Gm-Message-State: AJIora/qsPqgio2I7Eb1KOI2vWGL9PU3Fmigqd13NZCTrOa3tusIc9dK
-	TSPCIP4Md3R0guuv4tV51LyNRi+ZekXJe/wbnAE=
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=PQjo83VidKiR0j6ReApLbnX91LvsGvP4ESdus3pcOUE=;
+        b=Ji/37+TGgwEtEayHTpqvy2D0eq3eWkF2fh6D09XBJYLs3rfp4n/gdfRfj+T6YRC9yC
+         IUg5Exb9huuTUL+GJQLAYNUhgW6exsyBaujVBEm0ux3EkRj1N1bQJ4vPNio8pOKoEmqr
+         Jfjn3rvsBzgXVIPRxYmm4SxQzICqt8qTZrv9lvzk8yz3ymLTO/uhuyJG8I0ib35EdZUV
+         mmLS6mtABzSYvtmjTbYKDAUsHOttbC5xREmTPNcHqbDtCj69cKmEQtMs35tfw1T9O9O5
+         bwgd/e3WWXmRmLAy+DzlD6xy80OgeeBCgDtfbXgt/4uvcUK/Bg0xA/dVJHbfO/ov5B3I
+         Xb8w==
+X-Gm-Message-State: AJIora9ZfC7YvXbBWMUSpMvuqgo8dvqd/eeaV4va3ZFhza8uuvzVXi7q
+	SC8p1QKTYIAleqLtGzGpMaWH+C+3y5n1aLjL
 X-Google-Smtp-Source: 
- AGRyM1sb5oDPq+dqtSJGzfhn9WMovsHMMU7O9dUet+38r/nDe6UO7MSa8SghnzF2vK8xocgrRzMjT7x0VaLKmOx/gXY=
-X-Received: by 2002:ac2:5597:0:b0:47f:8d1d:c63d with SMTP id
- v23-20020ac25597000000b0047f8d1dc63dmr28225222lfg.521.1657182000685; Thu, 07
- Jul 2022 01:20:00 -0700 (PDT)
-MIME-Version: 1.0
+ AGRyM1vimKWSMgWjLOQo4cuWB1KCvpwb9FzZnaElGq3OCqlLMWwfTFhi3gH8XGoIkQXHJXeTNOXsMw==
+X-Received: by 2002:a05:6402:194f:b0:43a:298f:f39c with SMTP id
+ f15-20020a056402194f00b0043a298ff39cmr31513537edz.106.1657182049512;
+        Thu, 07 Jul 2022 01:20:49 -0700 (PDT)
+Received: from md2ramxc.ad001.siemens.net ([62.32.0.69])
+        by smtp.gmail.com with ESMTPSA id
+ 17-20020a170906211100b0072b16a57cdcsm55491ejt.118.2022.07.07.01.20.49
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Jul 2022 01:20:49 -0700 (PDT)
+Message-ID: <8a4953cd2019ce07a5288db4c0ced8c782eccecd.camel@gmail.com>
+Subject: Re: [meta-oe][master][PATCH 0/2] modemmanager update
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 07 Jul 2022 10:20:48 +0200
+In-Reply-To: <20220707081704.2494733-1-adrian.freihofer@siemens.com>
 References: <20220707081704.2494733-1-adrian.freihofer@siemens.com>
- <20220707081704.2494733-2-adrian.freihofer@siemens.com>
-In-Reply-To: <20220707081704.2494733-2-adrian.freihofer@siemens.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 7 Jul 2022 10:19:50 +0200
-Message-ID: 
- <CANNYZj-uo4wxG8e0RMhFk61t=1DYL00Eq11Fj9gPLvzg7hVH8Q@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe][PATCH 1/2] libqmi: upgrade 1.30.4 -> 1.30.8
-To: Adrian Freihofer <adrian.freihofer@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Adrian Freihofer <adrian.freihofer@siemens.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Jul 2022 08:20:13 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Jul 2022 08:20:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167760
+ https://lists.openembedded.org/g/openembedded-core/message/167761
 
-Wrong mailing list, should go to oe-devel.
+Just realized that this went to the wrong mailing list, sorry. Please
+ignore.
 
-Alex
-
-On Thu, 7 Jul 2022 at 10:17, Adrian Freihofer
-<adrian.freihofer@gmail.com> wrote:
->
-> Update to latest stable version:
->
-> 1.30.8
-> * New request/response/indications:
->   ** dms: new 'Foxconn FCC authentication v2' request/response.
->
-> 1.30.6
-> * build:
->   ** meson: fix 'export_packages' in GIR setup.
-> * libqmi-glib:
->   ** net-port-manager: use unaligned netlink attribute length.
->
-> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> ---
+On Thu, 2022-07-07 at 10:17 +0200, Adrian Freihofer wrote:
+> Update modemmanager and libqmi to latest stable.
+> 
+> Adrian Freihofer (2):
+>   libqmi: upgrade 1.30.4 -> 1.30.8
+>   modemmanager: upgrade 1.18.8 -> 1.18.10
+> 
 >  .../libqmi/{libqmi_1.30.4.bb => libqmi_1.30.8.bb}               | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../{modemmanager_1.18.8.bb => modemmanager_1.18.10.bb}         | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 >  rename meta-oe/recipes-connectivity/libqmi/{libqmi_1.30.4.bb => libqmi_1.30.8.bb} (95%)
->
-> diff --git a/meta-oe/recipes-connectivity/libqmi/libqmi_1.30.4.bb b/meta-oe/recipes-connectivity/libqmi/libqmi_1.30.8.bb
-> similarity index 95%
-> rename from meta-oe/recipes-connectivity/libqmi/libqmi_1.30.4.bb
-> rename to meta-oe/recipes-connectivity/libqmi/libqmi_1.30.8.bb
-> index 4807244a5..a1cfe29cc 100644
-> --- a/meta-oe/recipes-connectivity/libqmi/libqmi_1.30.4.bb
-> +++ b/meta-oe/recipes-connectivity/libqmi/libqmi_1.30.8.bb
-> @@ -12,7 +12,7 @@ DEPENDS = "glib-2.0 glib-2.0-native"
->
->  inherit meson pkgconfig bash-completion gobject-introspection
->
-> -SRCREV ?= "f6c2feaf199e0f129a0bde8c5e6cba5f2117b564"
-> +SRCREV ?= "95108b6eebfefa6621a1c34565f562eeca9308b9"
->  # patch 0001 is on main branch upstream
->  SRC_URI = "\
->      git://gitlab.freedesktop.org/mobile-broadband/libqmi.git;protocol=https;branch=qmi-1-30 \
-> --
-> 2.35.3
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#167759): https://lists.openembedded.org/g/openembedded-core/message/167759
-> Mute This Topic: https://lists.openembedded.org/mt/92224455/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+>  rename meta-oe/recipes-connectivity/modemmanager/{modemmanager_1.18.8.bb => modemmanager_1.18.10.bb} (97%)
+> 
+
 
