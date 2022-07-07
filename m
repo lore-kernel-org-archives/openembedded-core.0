@@ -1,189 +1,503 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9935DC433EF
-	for <webhook@archiver.kernel.org>; Thu,  7 Jul 2022 15:58:25 +0000 (UTC)
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.75])
- by mx.groups.io with SMTP id smtpd.web08.7263.1657209500032618285
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12A39C43334
+	for <webhook@archiver.kernel.org>; Thu,  7 Jul 2022 16:38:35 +0000 (UTC)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
+ [209.85.160.171])
+ by mx.groups.io with SMTP id smtpd.web11.135.1657211913114321715
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Jul 2022 08:58:20 -0700
+ Thu, 07 Jul 2022 09:38:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com
- header.s=selector2-armh-onmicrosoft-com header.b=MZmAu3se;
- spf=pass (domain: arm.com, ip: 40.107.6.75, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=fHPbGbN2AwwTh/BXlQVzPQlcGolP1GQw4sAgUv2B8ryTezCsYgEuCyIK7t6XB0rtP3vu8fuTdZZxBEGTmSPHJrfdUM2Yy3HngvYE5Q5yxszhx+jSHXiqgK2mEKZ5g1Qd+iuRQHscYa4Ba5fyU0GdWaAJUP4oWUDFFk8XJJSrA4IJvSayus0zIalz0upRde/sTcE/JXiyYfF0mqE7+eepMy032o6purbQxwjJWmYBniuM6ZWty64QtplwDPzgcxrZ18HcSxj29g3CV94BKnC5wiPc01AoVerXAyWjbW4j8pTafl9qoOZln7XfNBBhq2ioy2/6aLJMwWiaOk0xOOz0MQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mCWk+PJ4ZuSSokA6Vys6K5qv1WA3fZBlkHBZavbKEUI=;
- b=CCZJ4l51VWYIuygg0PBayEijmd2rSGtqwCxlBT2FixfHI3g/IrGrZVEf4HKSGVQlps1perZDO9CnniBqQ06hN9gye6Q0NWYod/nnGxXLL247yvJc2SzTF6u0mzDFpGiHs+jN+a67lSi+OEQTJ/AbcbT7vUuYv/m6RPNiokDo7tY+tGXMSyDIOvtiMuCrSmAHNVslpcmkgmsVm6xxUKypWHior/5C7sV9Zj60r/TGxuyv3HKbSSt0g7k6ln8LXivnTwrGX+Ji5Uy0G+gMfDmDQM6+5i17FBoS27jVzRF8IssP19VYaDhfTXregSUiz/0A+tOtFrVATKs3JblOpWLSjQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
- oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mCWk+PJ4ZuSSokA6Vys6K5qv1WA3fZBlkHBZavbKEUI=;
- b=MZmAu3semTgow2R/G3/BNrzWLPoKe0HKRwcKI/bSQFXqkvhP76obG8gzzjGAoW7Lp4y93/Jbvoz9Hhe4huY+E7A4WTFV2BOYlOrFSIDXMgnz26au/EuDjAX9rh5jfWS+pJiSCFaC7DjpNoC17Ih55MjzTSP9MZK8WP0YnkOQuvs=
-Received: from FR3P281CA0037.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:4a::21)
- by DB8PR08MB5388.eurprd08.prod.outlook.com (2603:10a6:10:11c::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.15; Thu, 7 Jul
- 2022 15:58:16 +0000
-Received: from VE1EUR03FT035.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:d10:4a:cafe::32) by FR3P281CA0037.outlook.office365.com
- (2603:10a6:d10:4a::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.8 via Frontend
- Transport; Thu, 7 Jul 2022 15:58:16 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- VE1EUR03FT035.mail.protection.outlook.com (10.152.18.110) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5417.15 via Frontend Transport; Thu, 7 Jul 2022 15:58:15 +0000
-Received: ("Tessian outbound 13cb25bfb745:v122");
- Thu, 07 Jul 2022 15:58:14 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 79946935342c35ab
-X-CR-MTA-TID: 64aa7808
-Received: from 7e3e77a2e442.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 1C70157C-7AA7-465A-B278-602F7E20B26E.1;
-	Thu, 07 Jul 2022 15:58:08 +0000
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id
- 7e3e77a2e442.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Thu, 07 Jul 2022 15:58:08 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aHkTjaXUZc4+1qbvKaK0pAslpuy6czlmr0nti6eDEpfq0W5swoHRaNKDVZRj3TXlf6yu1+OFglbDWCao3C/n4DQ4LdwIeW/Fni5UazylzQB59iWKS9Mq4dOq9MxYkn0GMoOPSCJZktERmJ4sr6ndKVycTl9eshawTPS5/I1HroyGcpb9vtbnw5togNFb6UQHaDqA7SJht7XwJCsTtpU6EqtNh8RabPKwFYsQ3GhszBaueY3Wc2nlIbJCR1NRj+YG6OL/pSF/0b4XM+sfYzXL1Oi8FG7fLbQrt/PhRCuvbDTYJabbqlmwtILGy4tRQIzrJvvKaQ2nU3YKV4w7k7A59Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mCWk+PJ4ZuSSokA6Vys6K5qv1WA3fZBlkHBZavbKEUI=;
- b=n0wqNkI3ZFuC714eff3n13uKvCWIhk3WxM+2fofVeIdSov87OU26hoBhdo+BkwnV2aWhRe/XfX3J/sZy1Kxg6cxEnMjpIJ9bxlo5K4WTy2OvWiIEjCtwcS5cYoL/f4Wb254edcCkcBTD1041LHb3i+diiPmkWhOMHRIyya3eQD0Xmnaeptx/ORXxN8zmrXdAKEzYxMXTiwdSmFRFE9A5JRLvB6t9cbcVvXdHTI+/b5u+sm0aJ4HevyJUEfZ/INZiqwqCuok9gPaA9qID+ku5oveA9whdpunyOUgckVndVkxZXFsXcIAraya9JfneAK6RgPZj3tNCjS2SHLK9ke++Hg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mCWk+PJ4ZuSSokA6Vys6K5qv1WA3fZBlkHBZavbKEUI=;
- b=MZmAu3semTgow2R/G3/BNrzWLPoKe0HKRwcKI/bSQFXqkvhP76obG8gzzjGAoW7Lp4y93/Jbvoz9Hhe4huY+E7A4WTFV2BOYlOrFSIDXMgnz26au/EuDjAX9rh5jfWS+pJiSCFaC7DjpNoC17Ih55MjzTSP9MZK8WP0YnkOQuvs=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by HE1PR0801MB1771.eurprd08.prod.outlook.com (2603:10a6:3:88::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16; Thu, 7 Jul
- 2022 15:58:02 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::2c4a:b33:a761:a926]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::2c4a:b33:a761:a926%2]) with mapi id 15.20.5395.020; Thu, 7 Jul 2022
- 15:58:01 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "raj.khem@gmail.com" <raj.khem@gmail.com>
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>, Patches and
- discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] ltp: Remove -mfpmath=sse on x86
-Thread-Topic: [OE-core] [PATCH] ltp: Remove -mfpmath=sse on x86
-Thread-Index: AQHYkbXzjrhhFM/kKE+SWEbuMcn14q1ylnaAgABtmwmAAA0tAA==
-Date: Thu, 7 Jul 2022 15:58:01 +0000
-Message-ID: <F03DB6AB-A7CB-4464-859C-9530438A247B@arm.com>
-References: <20220707035911.2153302-1-raj.khem@gmail.com>
- <054612390f09ab87115bdf160682495e8e06c4f8.camel@linuxfoundation.org>
- <2723e792-207e-6857-31d7-16738c0e42ad@gmail.com>
- <CAMKF1srZaKOhgNHGwo4JTDdjNWTEO9MPSoxcAYj31AKbRU-2GA@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1srZaKOhgNHGwo4JTDdjNWTEO9MPSoxcAYj31AKbRU-2GA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3696.100.31)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-MS-Office365-Filtering-Correlation-Id: 5241b40f-a494-41ff-1267-08da603180d0
-x-ms-traffictypediagnostic: 
-	HE1PR0801MB1771:EE_|VE1EUR03FT035:EE_|DB8PR08MB5388:EE_
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- 0C2+Ch1svD3fehQQQUA9wklwLJCEyfaQgDV0a6euIW62I/MkRL4JS50Gu5OEdrY3rZzcZd86HTsbCBK/QGuTASb5SZ3BCfo6Y0+myFofaQthJ0aknINFMin/MUIUBbko6j5BnluUjcbsnLULkDfDMHJYKTDdxqd04D1uuV4NCdtv+/gH3JpfedZaW6lOR3QqCPTKZSUo+vlfA9L/UV8refPYzY1qLHY33yUdiqA5eS8cmpYylG1F7ZgSuRnWB3fUEvyR3GtCiL9ahfVOzik1zm9XxjYO2On4YdZHLzEGaKQ9652sFuXjphObF/c6SJ9FsbiXHFlaz2JBbs5ZY1lUE3ngeee8ubUI/bAZEzfXCQ0MQoPMsLgXY9C4zyVv4FFGqAr1QilpG5r/NIC7y/2+dxCWkMuiafjpWehhVa/3bcMTB5o53r2RLhJ6HD8q2WJNeduhgX955u7UzY1RtZXfdG/piHKYqg4oPciKudYgb6pGfe8Xl7iFoKS2WxWieWQCdxpr9QsySiHFRL0sIrnnawKCruYv0c8QJ7be0c/gsrW6Z3dfl7wdTXpLrOZbQ6WhaJBK0XGlntzpNxPQ9E3N5NFVHVlHNcXM6RsMGtfvL9QMiM/qwEfKWHXdPM+OUgNGM2BSzA1NEvpI5466MyQeP/N9u64tYkceX8hbzSf1yXTbqGNjEQ+10GeT46gmD5xzCbap7ya43DtGjSs4SZK+lBboC+FaizFdYPtPvRN98fNfJrUziJwmIT0l2T1wIq61aZm0MMoamzxTtMDhyYxtPaUz1PQmJbVZ0drvOjYPcUlDlJAZuzEIaig6lmyG+nzcSmubcPDSgGi8MoBqR0Ua5Ru5TNzUzLUDMt3aW6CKtXY=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(346002)(39860400002)(376002)(366004)(396003)(54906003)(8676002)(33656002)(122000001)(66946007)(66476007)(91956017)(66556008)(64756008)(4326008)(83380400001)(71200400001)(6916009)(66446008)(38070700005)(36756003)(316002)(76116006)(6506007)(2616005)(38100700002)(6486002)(86362001)(478600001)(6512007)(26005)(186003)(8936002)(41300700001)(2906002)(53546011)(5660300002)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D056750CED867446934FFBFC1D440BA8@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CyLuF/LK;
+ spf=pass (domain: gmail.com, ip: 209.85.160.171,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f171.google.com with SMTP id ay10so23504196qtb.1
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 07 Jul 2022 09:38:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=DgiuvqPvIBizibQbcVlAVfC+wcIdchOz5EbVn8KkMGk=;
+        b=CyLuF/LKoZhs8bSqcGAnSzrQljMcTHFqG2vRK1WvThyjuFiOVVTNOYW5TJoA1exBgK
+         PVm2XAk3IOiGVQ/dNM3Bg+LTNpGLk2lDya3y382OvbNv5csA6aFG3VSY+nHjHVHOsg5Y
+         0NntuMYikd+vYUZg02yyykEuSnbxqqvmlXG/9tjUF22XpnWCNTbgRpJnCKf2oVK30leR
+         B+phPcOe4mxZ2iYNZKiR9vozCjLj8WLzf17vnw0u7qdFXflz3jUcnKv40A2Ec50CVlxf
+         wkn8nkkjxo5RTFKKh4Jipo9YhmRaayLa/TPSwBOvmBjeTIGnALyPBMaaHp6m/+vLqIYa
+         Lghg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=DgiuvqPvIBizibQbcVlAVfC+wcIdchOz5EbVn8KkMGk=;
+        b=NKzBiUgugdkdLyhbRqEQq1iEZMRRhAA5L9q8M2WuKT9CKrQYVXWN9ibI07A8N2JeP6
+         NFv6p+Lwy6nrUp6o0OXElcQ/P/2J4zg1acBFQgQbu0sOiwJVFltt7eSdlWN5I0QuDyEY
+         WcdRCBPpcxszYbdPJWCMDQ7Ki8gEBXykHyeHBZ4t27d+5VcU8RfQZZfQG6sZen4yroqv
+         +beffn2FbLXf/NWXp4Gzb/2fWHk7LPUnQOqSYq3bBXvkotDlsyfF4urQ6jBDjcYj6xTa
+         OcLvnUUylfEZBja348ntwocKA4Z/RV9cDmGiQbNJY2TrYIs912wtEkohHRAV1yO1KtZ5
+         G0KQ==
+X-Gm-Message-State: AJIora8GiRiSx9g4c3OzaLGihXiEMkDA67lKXtdBnlsFMgxfkqqDg6yB
+	TPJrxxY+Zr8ldxcA9A+hJ/Y=
+X-Google-Smtp-Source: 
+ AGRyM1vVwKoj8UQkbW0aqaEHaiIgSJyVBk2LVozCDBHFm02lBMKRrS7QX7LSHXllsId4MX/hEMOTsQ==
+X-Received: by 2002:a05:6214:27c4:b0:473:568:adc with SMTP id
+ ge4-20020a05621427c400b0047305680adcmr12594473qvb.95.1657211911441;
+        Thu, 07 Jul 2022 09:38:31 -0700 (PDT)
+Received: from build.lan ([173.34.88.218])
+        by smtp.gmail.com with ESMTPSA id
+ c21-20020ac87d95000000b003172da668desm28928698qtd.50.2022.07.07.09.38.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Jul 2022 09:38:30 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: steve@sakoman.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/2][dunfell] linux-yocto/5.4: update to v5.4.203
+Date: Thu,  7 Jul 2022 12:38:27 -0400
+Message-Id: <20220707163827.857-2-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20220707163827.857-1-bruce.ashfield@gmail.com>
+References: <20220707163827.857-1-bruce.ashfield@gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0801MB1771
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- VE1EUR03FT035.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	de1b303f-e7db-492a-b840-08da60317825
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	YtdLgjrK54kh/nZS1eIT4I4z2DTu8mFUIZvmCrGxHxL6i94eVMzxq50WTnb+BDWnLZJm7KV1NyGzcq6d7pPiPnObTEYECIgIcmbrDU27jjacrLHpkyRkBel5hx7e7WLyvlLPZj29CLtEGMEWk1Qxntvghm7s0qwmULGPXBdQsh8ad+W0YOAN7LXCdixTaNS6z0YHrKqUf4SafxuE55XI8LFtA2T3Zm4xEo2YDPEglc8JBun0Dvp8AHng+CU6ADDXTkvqTspAynzvBVHE2V4O/OJ5cDux0WuO54otfTqAe0OaUe2S/g6g2iEPCSJGQg2biEYEewkqQ/Gg20qZbj/aR8FUfamURp384WyyKD5wd12PIq6ZQ6S5loaKSm2M5SZQx7B/81RH18hq6JlOv6dt52l6LIN/VA+I6x4KkEjuXpMfd7cLYGn+Bgj4IWtlUSS08mt7SPFaUo3LJk8RGoOBvegjDLsuEudJ6mKceLtfYDgh/IC6wAn3tVx5wWLAAsNI4XpE8RDExpeM7zqkmc/aSfe1K0q9EE/RXQyJkoYUFPtDy/zM2dc6rMHhyEuMjkVAh7gm4Z4PxL08jFMcXGpNuxJ0vNdTqeAQNOUI824INRN14C/ZGQx+gWxI5DHCGJkmEW1uf982zn7RopLiNIezbHsxWU6QbbXdHgc65xMQO5p5BkncDjUW8/enycY2+PhRoo7PKrjx6st2X2xCpguykhxDwG5sZGTU2iwKSc68XkEjIqAFcgTNT1pIPs5CpLMSJXbkhTix4NaqIT+v46jbpwRmSGhuObbGVSu4x0m9+crvOb9mdJWwymmAADNVfhUo
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230016)(4636009)(376002)(346002)(39860400002)(396003)(136003)(36840700001)(46966006)(40470700004)(316002)(336012)(47076005)(83380400001)(36756003)(8676002)(54906003)(186003)(40460700003)(41300700001)(82740400003)(33656002)(82310400005)(36860700001)(53546011)(6512007)(6862004)(70206006)(81166007)(6506007)(8936002)(2616005)(478600001)(6486002)(70586007)(5660300002)(86362001)(26005)(2906002)(40480700001)(4326008)(356005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2022 15:58:15.6036
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 5241b40f-a494-41ff-1267-08da603180d0
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
- TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	VE1EUR03FT035.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5388
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Jul 2022 15:58:25 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Jul 2022 16:38:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167789
+ https://lists.openembedded.org/g/openembedded-core/message/167791
 
-T24gNyBKdWwgMjAyMiwgYXQgMTY6MTAsIEtoZW0gUmFqIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnIDxyYWoua2hlbT1nbWFpbC5jb21AbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gd3JvdGU6DQo+
-ICUgZ2NjIC1tMzIgLW1zc2UzIC1tZnBtYXRoPXNzZSAteGMgL2Rldi9udWxsIC1jIC1tbm8tc3Nl
-DQo+IGNjMTogd2FybmluZzogU1NFIGluc3RydWN0aW9uIHNldCBkaXNhYmxlZCwgdXNpbmcgMzg3
-IGFyaXRobWV0aWNzDQo+IFtrcmFqQGFwb2xsbyAvdG1wXQ0KPiAlIGNsYW5nIC1tMzIgLW1zc2Uz
-IC1tZnBtYXRoPXNzZSAteGMgL2Rldi9udWxsIC1jIC1tbm8tc3NlDQo+IGVycm9yOiB0aGUgJ3Nz
-ZScgdW5pdCBpcyBub3Qgc3VwcG9ydGVkIHdpdGggdGhpcyBpbnN0cnVjdGlvbiBzZXQNCg0KU28g
-SSBqdXN0IGJ1aWx0IGx0cCBmb3IgcWVtdXg4Ni02NCBvbiBteSBhYXJjaDY0IGhvc3Q6DQoNCnwg
-Y2MxOiB3YXJuaW5nOiBTU0UgaW5zdHJ1Y3Rpb24gc2V0IGRpc2FibGVkLCB1c2luZyAzODcgYXJp
-dGhtZXRpY3MNCnwgY2MxOiB3YXJuaW5nOiBTU0UgaW5zdHJ1Y3Rpb24gc2V0IGRpc2FibGVkLCB1
-c2luZyAzODcgYXJpdGhtZXRpY3MNCnwgQVMgdGVzdGNhc2VzL2tlcm5lbC9rdm0vYm9vdHN0cmFw
-X3g4Nl82NC5vDQp8IG1ha2VbNV06IE5vdGhpbmcgdG8gYmUgZG9uZSBmb3IgJ2FsbCcuDQp8IG1h
-a2VbNV06IE5vdGhpbmcgdG8gYmUgZG9uZSBmb3IgJ2FsbCcuDQp8IENDIHRlc3RjYXNlcy9rZXJu
-ZWwva3ZtL2xpYl94ODYubw0KfCBDQyB0ZXN0Y2FzZXMva2VybmVsL2t2bS9saWJfZ3Vlc3Qubw0K
-fCBjYzE6IHdhcm5pbmc6IFNTRSBpbnN0cnVjdGlvbiBzZXQgZGlzYWJsZWQsIHVzaW5nIDM4NyBh
-cml0aG1ldGljcw0KfCBsZDogdGFyZ2V0IGVsZjY0LXg4Ni02NCBub3QgZm91bmQNCg0KTG9va3Mg
-bGlrZSBpdOKAmXMgYWxzbyB0cnlpbmcgdG8gdXNlIHRoZSBob3N0IGxkPw0KDQpSb3NzDQpJTVBP
-UlRBTlQgTk9USUNFOiBUaGUgY29udGVudHMgb2YgdGhpcyBlbWFpbCBhbmQgYW55IGF0dGFjaG1l
-bnRzIGFyZSBjb25maWRlbnRpYWwgYW5kIG1heSBhbHNvIGJlIHByaXZpbGVnZWQuIElmIHlvdSBh
-cmUgbm90IHRoZSBpbnRlbmRlZCByZWNpcGllbnQsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciBp
-bW1lZGlhdGVseSBhbmQgZG8gbm90IGRpc2Nsb3NlIHRoZSBjb250ZW50cyB0byBhbnkgb3RoZXIg
-cGVyc29uLCB1c2UgaXQgZm9yIGFueSBwdXJwb3NlLCBvciBzdG9yZSBvciBjb3B5IHRoZSBpbmZv
-cm1hdGlvbiBpbiBhbnkgbWVkaXVtLiBUaGFuayB5b3UuDQo=
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+
+Updating  to the latest korg -stable release that comprises
+the following commits:
+
+    871cbc208bf0 Linux 5.4.203
+    572cc34503d4 crypto: arm/ghash-ce - define fpu before fpu registers are referenced
+    3bf992f9d9a8 crypto: arm - use Kconfig based compiler checks for crypto opcodes
+    1b43c30cd5d5 ARM: 9029/1: Make iwmmxt.S support Clang's integrated assembler
+    9e00e5d195ed ARM: OMAP2+: drop unnecessary adrl
+    3657432a75e3 ARM: 8929/1: use APSR_nzcv instead of r15 as mrc operand
+    02c200fdba46 ARM: 8933/1: replace Sun/Solaris style flag on section directive
+    54e6ecd5b7ca crypto: arm/sha512-neon - avoid ADRL pseudo instruction
+    5e6f80033286 crypto: arm/sha256-neon - avoid ADRL pseudo instruction
+    e120403c0e7c ARM: 8971/1: replace the sole use of a symbol with its definition
+    0a43679016f0 ARM: 8990/1: use VFP assembler mnemonics in register load/store macros
+    472671eec98a ARM: 8989/1: use .fpu assembler directives instead of assembler arguments
+    2bfb0d43a47c net: mscc: ocelot: allow unregistered IP multicast flooding
+    223d551a6681 kexec_file: drop weak attribute from arch_kexec_apply_relocations[_add]
+    ab3ed204a146 powerpc/ftrace: Remove ftrace init tramp once kernel init is complete
+    77e2ad091850 drm: remove drm_fb_helper_modinit
+    9ef3ad40a81f Linux 5.4.202
+    ceda71d49f6b powerpc/pseries: wire up rng during setup_arch()
+    ece983890287 kbuild: link vmlinux only once for CONFIG_TRIM_UNUSED_KSYMS (2nd attempt)
+    2a81e813141e random: update comment from copy_to_user() -> copy_to_iter()
+    80f0038d757e modpost: fix section mismatch check for exported init/exit sections
+    d1359e4129ad ARM: cns3xxx: Fix refcount leak in cns3xxx_init
+    29ca9c4efacc ARM: Fix refcount leak in axxia_boot_secondary
+    734a4d15142b soc: bcm: brcmstb: pm: pm-arm: Fix refcount leak in brcmstb_pm_probe
+    f9b77a529375 ARM: exynos: Fix refcount leak in exynos_map_pmu
+    615907ccc421 ARM: dts: imx6qdl: correct PU regulator ramp delay
+    93e6137d2a5b powerpc/powernv: wire up rng during setup_arch
+    97808c781721 powerpc/rtas: Allow ibm,platform-dump RTAS call with null buffer address
+    b6232979320a powerpc: Enable execve syscall exit tracepoint
+    e0701f150b28 parisc: Enable ARCH_HAS_STRICT_MODULE_RWX
+    e5234a9d64a9 xtensa: Fix refcount leak bug in time.c
+    a52972ee706b xtensa: xtfpga: Fix refcount leak bug in setup
+    f0fc7cdf5f19 iio: adc: axp288: Override TS pin bias current for some models
+    11c7ea38be91 iio: adc: stm32: fix maximum clock rate for stm32mp15x
+    5e39397d60da iio: trigger: sysfs: fix use-after-free on remove
+    6d2e68d02171 iio: gyro: mpu3050: Fix the error handling in mpu3050_power_up()
+    1ad6d668543d iio: accel: mma8452: ignore the return value of reset operation
+    a391bced8404 iio:accel:mxc4005: rearrange iio trigger get and register
+    23c158caa032 iio:accel:bma180: rearrange iio trigger get and register
+    8ea16a64aafc iio:chemical:ccs811: rearrange iio trigger get and register
+    2333db14d875 usb: chipidea: udc: check request status before setting device address
+    47e41b4dabbf xhci: turn off port power in shutdown
+    d62d1c606db0 iio: adc: vf610: fix conversion mode sysfs node name
+    741b6c8363c2 s390/cpumf: Handle events cycles and instructions identical
+    4837d1c81223 gpio: winbond: Fix error code in winbond_gpio_get()
+    bb18ad00c0b7 Revert "net/tls: fix tls_sk_proto_close executed repeatedly"
+    8c7a32b7c155 virtio_net: fix xdp_rxq_info bug after suspend/resume
+    28a78414f21e igb: Make DMA faster when CPU is active on the PCIe link
+    a5ed066bc246 regmap-irq: Fix a bug in regmap_irq_enable() for type_in_mask chips
+    844168a5dabf ice: ethtool: advertise 1000M speeds properly
+    e3a232e57670 afs: Fix dynamic root getattr
+    cacab1e620e0 MIPS: Remove repetitive increase irq_err_count
+    788c954f194c x86/xen: Remove undefined behavior in setup_features()
+    c7bdaad9cbfe udmabuf: add back sanity check
+    05c6c36c7931 net/tls: fix tls_sk_proto_close executed repeatedly
+    02da602bc2f3 erspan: do not assume transport header is always set
+    d1592d3e362c drm/msm/mdp4: Fix refcount leak in mdp4_modeset_init_intf
+    f1f9c2a5a3d9 net/sched: sch_netem: Fix arithmetic in netem_dump() for 32-bit platforms
+    47d31b97bf47 bonding: ARP monitor spams NETDEV_NOTIFY_PEERS notifiers
+    104a59b74577 phy: aquantia: Fix AN when higher speeds than 1G are not advertised
+    8ffe2e50e967 bpf: Fix request_sock leak in sk lookup helpers
+    f074ab253988 USB: serial: option: add Quectel RM500K module support
+    ea7b23eadebc USB: serial: option: add Quectel EM05-G modem
+    613c849d73df USB: serial: option: add Telit LE910Cx 0x1250 composition
+    ae183969bd66 random: quiet urandom warning ratelimit suppression message
+    06a24ddba93a dm mirror log: clear log bits up to BITS_PER_LONG boundary
+    1f350f3cf0c1 dm era: commit metadata in postsuspend after worker stops
+    0e75acbe1b76 ata: libata: add qc->flags in ata_qc_complete_template tracepoint
+    71c76f56b97c mtd: rawnand: gpmi: Fix setting busy timeout setting
+    c8d37e6ca180 mmc: sdhci-pci-o2micro: Fix card detect by dealing with debouncing
+    af28f602df74 net: openvswitch: fix parsing of nw_proto for IPv6 fragments
+    6fda65dabd3e ALSA: hda/realtek: Add quirk for Clevo PD70PNT
+    5fbad99e76c0 ALSA: hda/realtek - ALC897 headset MIC no sound
+    cf81f367cf81 ALSA: hda/conexant: Fix missing beep setup
+    eca9b5e36e24 ALSA: hda/via: Fix missing beep setup
+    1df5178fdebe random: schedule mix_interrupt_randomness() less often
+    c87e851b23e5 vt: drop old FONT ioctls
+    23db944f754e Linux 5.4.201
+    3994d2ee55e2 Revert "hwmon: Make chip parameter for with_info API mandatory"
+    7b9c3bfbad25 arm64: mm: Don't invalidate FROM_DEVICE buffers at start of DMA transfer
+    2e1591c27b95 tcp: drop the hash_32() part from the index calculation
+    c26e1addf157 tcp: increase source port perturb table to 2^16
+    77d29f3b18c4 tcp: dynamically allocate the perturb table used by source ports
+    7c0a777b7dbd tcp: add small random increments to the source port
+    53c5de3092ad tcp: use different parts of the port_offset for index and offset
+    95921a3bab76 tcp: add some entropy in __inet_hash_connect()
+    bdcbf2602feb usb: gadget: u_ether: fix regression in setting fixed MAC address
+    2577d67a9a8a dm: remove special-casing of bio-based immutable singleton target on NVMe
+    4143503b486a s390/mm: use non-quiescing sske for KVM switch to keyed guest
+    f0c280af0ec7 Linux 5.4.200
+    ab8dff4b716e powerpc/mm: Switch obsolete dssall to .long
+    1a48a41f1422 riscv: Less inefficient gcc tishift helpers (and export their symbols)
+    2464a1c0de53 RISC-V: fix barrier() use in <vdso/processor.h>
+    490a02cd8205 arm64: kprobes: Use BRK instead of single-step when executing instructions out-of-line
+    ef6f9ce0a79a net: openvswitch: fix leak of nested actions
+    6bb3c77c74f5 net: openvswitch: fix misuse of the cached connection on tuple changes
+    b47319b4aa21 net/sched: act_police: more accurate MTU policing
+    13fbdea1184b virtio-pci: Remove wrong address verification in vp_del_vqs()
+    80e4d8a27451 ALSA: hda/realtek: fix right sounds and mute/micmute LEDs for HP machine
+    119e0268cc1c ALSA: hda/realtek: fix mute/micmute LEDs for HP 440 G8
+    fba542891767 ext4: add reserved GDT blocks check
+    4ca0d2f1e04e ext4: make variable "count" signed
+    a6b31616e5af ext4: fix bug_on ext4_mb_use_inode_pa
+    ae4603128751 dm mirror log: round up region bitmap size to BITS_PER_LONG
+    64d2df648003 serial: 8250: Store to lsr_save_flags after lsr read
+    b75bddfcc181 usb: gadget: lpc32xx_udc: Fix refcount leak in lpc32xx_udc_probe
+    6506aff2dc2f usb: dwc2: Fix memory leak in dwc2_hcd_init
+    940653b51c33 USB: serial: io_ti: add Agilent E5805A support
+    31363b2b868e USB: serial: option: add support for Cinterion MV31 with new baseline
+    d0c3730f2763 comedi: vmk80xx: fix expression for tx buffer size
+    bf833c484881 i2c: designware: Use standard optional ref clock implementation
+    8d884c08eeb8 irqchip/gic-v3: Fix refcount leak in gic_populate_ppi_partitions
+    58e67c81e229 irqchip/gic-v3: Fix error handling in gic_populate_ppi_partitions
+    56526c3883fc irqchip/gic/realview: Fix refcount leak in realview_gic_of_init
+    4695bafabf5b faddr2line: Fix overlapping text section failures, the sequel
+    1b34d6a93832 certs/blacklist_hashes.c: fix const confusion in certs blacklist
+    fb775ee3cfff arm64: ftrace: fix branch range checks
+    0e21311ba459 net: bgmac: Fix an erroneous kfree() in bgmac_remove()
+    c19cdd72b3ec mlxsw: spectrum_cnt: Reorder counter pools
+    c03304dc4234 misc: atmel-ssc: Fix IRQ check in ssc_probe
+    f7183c76d500 tty: goldfish: Fix free_irq() on remove
+    ff6e03fe84bc i40e: Fix call trace in setup_tx_descriptors
+    4b94408e1617 i40e: Fix calculating the number of queue pairs
+    43f65970eeb2 i40e: Fix adding ADQ filter to TC0
+    cff3a7ce6e81 clocksource: hyper-v: unexport __init-annotated hv_init_clocksource()
+    11c870c0b532 pNFS: Don't keep retrying if the server replied NFS4ERR_LAYOUTUNAVAILABLE
+    e32fe87afcfe random: credit cpu and bootloader seeds by default
+    9e4cab02b7ec net: ethernet: mtk_eth_soc: fix misuse of mem alloc interface netdev[napi]_alloc_frag
+    2f42389d270f ipv6: Fix signed integer overflow in l2tp_ip6_sendmsg
+    6b4d8b44e716 nfc: nfcmrvl: Fix memory leak in nfcmrvl_play_deferred
+    786428a1dec2 virtio-mmio: fix missing put_device() when vm_cmdline_parent registration failed
+    aacb264d54c4 ALSA: hda/realtek - Add HW8326 support
+    ff882404dff7 scsi: pmcraid: Fix missing resource cleanup in error case
+    c48119223618 scsi: ipr: Fix missing/incorrect resource cleanup in error case
+    fe0855944a64 scsi: lpfc: Allow reduced polling rate for nvme_admin_async_event cmd completion
+    1f1be79189fd scsi: lpfc: Fix port stuck in bypassed state after LIP in PT2PT topology
+    001de3d8ce82 scsi: vmw_pvscsi: Expand vcpuHint to 16 bits
+    9e3a0d3fc71c ASoC: wm_adsp: Fix event generation for wm_adsp_fw_put()
+    bc046649c5d6 ASoC: es8328: Fix event generation for deemphasis control
+    a81f5a7f7a20 ASoC: wm8962: Fix suspend while playing music
+    253334f84c81 ata: libata-core: fix NULL pointer deref in ata_host_alloc_pinfo()
+    052cd621acbf ASoC: cs42l56: Correct typo in minimum level for SX volume controls
+    6d180913b3ab ASoC: cs42l52: Correct TLV for Bypass Volume
+    385a031c56a9 ASoC: cs53l30: Correct number of volume levels on SX controls
+    675b6a49cf70 ASoC: cs35l36: Update digital volume TLV
+    b00f63dba5b8 ASoC: cs42l52: Fix TLV scales for mixer controls
+    cd8c1e6c01f1 dma-debug: make things less spammy under memory pressure
+    a45e19fd6ed8 ASoC: nau8822: Add operation for internal PLL off and on
+    348831a9e8aa powerpc/kasan: Silence KASAN warnings in __get_wchan()
+    5624055c8f4b random: account for arch randomness in bits
+    c0bf6bfce70a random: mark bootloader randomness code as __init
+    f96250197b43 random: avoid checking crng_ready() twice in random_init()
+    072cd87d12a8 crypto: drbg - make reseeding from get_random_bytes() synchronous
+    e9eb0c4741a7 crypto: drbg - always try to free Jitter RNG instance
+    f284afc3a9ca crypto: drbg - move dynamic ->reseed_threshold adjustments to __drbg_seed()
+    babba4bf53a6 crypto: drbg - track whether DRBG was seeded with !rng_is_initialized()
+    1b93b302e942 crypto: drbg - prepare for more fine-grained tracking of seeding state
+    98e574a73414 crypto: drbg - always seeded with SP800-90B compliant noise source
+    61f87ea3f957 Revert "random: use static branch for crng_ready()"
+    3faf33a85650 random: check for signals after page of pool writes
+    2177cef53ec9 random: wire up fops->splice_{read,write}_iter()
+    35db2a073118 random: convert to using fops->write_iter()
+    43e62db84a99 random: convert to using fops->read_iter()
+    c23188facd10 random: unify batched entropy implementations
+    1aeedbe02b5c random: move randomize_page() into mm where it belongs
+    ceaf1feefe6e random: move initialization functions out of hot pages
+    d3bf98d61fb6 random: make consistent use of buf and len
+    70fce7f105bb random: use proper return types on get_random_{int,long}_wait()
+    d05948dc23e6 random: remove extern from functions in header
+    d8b4296417ea random: use static branch for crng_ready()
+    087a14b9cf9b random: credit architectural init the exact amount
+    ac48f7bee198 random: handle latent entropy and command line from random_init()
+    736a22645d98 random: use proper jiffies comparison macro
+    3266fba20661 random: remove ratelimiting for in-kernel unseeded randomness
+    c5373bd6e4fb random: move initialization out of reseeding hot path
+    0747ad152fa1 random: avoid initializing twice in credit race
+    0baeec0effc7 random: use symbolic constants for crng_init states
+    55d64df3ad5b siphash: use one source of truth for siphash permutations
+    e4e8a9f8a616 random: help compiler out with fast_mix() by using simpler arguments
+    bf3b51eb0f13 random: do not use input pool from hard IRQs
+    6d4203a2cddc random: order timer entropy functions below interrupt functions
+    58da574f105a random: do not pretend to handle premature next security model
+    e739d5bd1466 random: use first 128 bits of input as fast init
+    c44f8b386376 random: do not use batches when !crng_ready()
+    e247ea8d97bf random: insist on random_get_entropy() existing in order to simplify
+    9bfbcb37e5f6 xtensa: use fallback for random_get_entropy() instead of zero
+    fa15650b51f6 sparc: use fallback for random_get_entropy() instead of zero
+    9dfc14590c5d um: use fallback for random_get_entropy() instead of zero
+    0cc41e2c73f7 x86/tsc: Use fallback for random_get_entropy() instead of zero
+    f2a6e8727084 nios2: use fallback for random_get_entropy() instead of zero
+    db1d13fe4c80 arm: use fallback for random_get_entropy() instead of zero
+    6fa912f987fa mips: use fallback for random_get_entropy() instead of just c0 random
+    36f38f838c5b m68k: use fallback for random_get_entropy() instead of zero
+    a7d04ca9da61 timekeeping: Add raw clock fallback for random_get_entropy()
+    eb2f9d72f32a powerpc: define get_cycles macro for arch-override
+    10455a367c33 alpha: define get_cycles macro for arch-override
+    5f0b77ca1978 parisc: define get_cycles macro for arch-override
+    80459abc9fee s390: define get_cycles macro for arch-override
+    73385644490a ia64: define get_cycles macro for arch-override
+    5fac86663976 init: call time_init() before rand_initialize()
+    b88ae87b100c random: fix sysctl documentation nits
+    465425748359 random: document crng_fast_key_erasure() destination possibility
+    ec07b3494517 random: make random_get_entropy() return an unsigned long
+    fe156368f987 random: allow partial reads if later user copies fail
+    70788723da70 random: check for signals every PAGE_SIZE chunk of /dev/[u]random
+    2ce859d91fe9 random: check for signal_pending() outside of need_resched() check
+    0e8030c9e03d random: do not allow user to keep crng key around on stack
+    95aed891f7be random: do not split fast init input in add_hwgenerator_randomness()
+    1d53d5a0973e random: mix build-time latent entropy into pool at init
+    0aba75c6173d random: re-add removed comment about get_random_{u32,u64} reseeding
+    81ea8a609b48 random: treat bootloader trust toggle the same way as cpu trust toggle
+    a08d52a6081b random: skip fast_init if hwrng provides large chunk of entropy
+    8320bc665c29 random: check for signal and try earlier when generating entropy
+    3a53b818bb0e random: reseed more often immediately after booting
+    905759e0fc17 random: make consistent usage of crng_ready()
+    ad4c6bd98c54 random: use SipHash as interrupt entropy accumulator
+    631503001ccf random: replace custom notifier chain with standard one
+    1ae73fb2a635 random: don't let 644 read-only sysctls be written to
+    ed409757100b random: give sysctl_random_min_urandom_seed a more sensible value
+    75d95c1b5dea random: do crng pre-init loading in worker rather than irq
+    219c84fe93e5 random: unify cycles_t and jiffies usage and types
+    673637c4c9e0 random: cleanup UUID handling
+    4d5151cc288a random: only wake up writers after zap if threshold was passed
+    ac0081dec7d6 random: round-robin registers as ulong, not u32
+    62cd795e465a random: clear fast pool, crng, and batches in cpuhp bring up
+    a7f8f385bb6f random: pull add_hwgenerator_randomness() declaration into random.h
+    ff607fc7607d random: check for crng_init == 0 in add_device_randomness()
+    20788eb4ce70 random: unify early init crng load accounting
+    49567f947735 random: do not take pool spinlock at boot
+    4a61bf7f9b18 random: defer fast pool mixing to worker
+    944d1bd0e5be random: rewrite header introductory comment
+    c0e35949c736 random: group sysctl functions
+    d946084180ee random: group userspace read/write functions
+    565a66043bdf random: group entropy collection functions
+    f2d587c493fc random: group entropy extraction functions
+    a8786d54762f random: group crng functions
+    c12dfec1aacf random: group initialization wait functions
+    22e3db57ab94 random: remove whitespace and reorder includes
+    cee64be60591 random: remove useless header comment
+    904e6123c400 random: introduce drain_entropy() helper to declutter crng_reseed()
+    47c56790d51c random: deobfuscate irq u32/u64 contributions
+    e280b79c3127 random: add proper SPDX header
+    776927dfd4ac random: remove unused tracepoints
+    d68883956d36 random: remove ifdef'd out interrupt bench
+    4a14a5a6969a random: tie batched entropy generation to base_crng generation
+    d8a6684950c1 random: fix locking for crng_init in crng_reseed()
+    b1d561138150 random: zero buffer after reading entropy from userspace
+    21da00f8cb3a random: remove outdated INT_MAX >> 6 check in urandom_read()
+    b530684129b2 random: make more consistent use of integer types
+    3eed6af93ecd random: use hash function for crng_slow_load()
+    cee3c7056900 random: use simpler fast key erasure flow on per-cpu keys
+    ea9941fd6e26 random: absorb fast pool into input pool after fast load
+    a3562bf4e8c9 random: do not xor RDRAND when writing into /dev/random
+    574c8839504b random: ensure early RDSEED goes through mixer on init
+    d3d3c1c214c3 random: inline leaves of rand_initialize()
+    817315517af9 random: get rid of secondary crngs
+    c15fc80b7df0 random: use RDSEED instead of RDRAND in entropy extraction
+    72db8151c889 random: fix locking in crng_fast_load()
+    7229c6d90a1a random: remove batched entropy locking
+    6c8911579221 random: remove use_input_pool parameter from crng_reseed()
+    4ef908fb81d9 random: make credit_entropy_bits() always safe
+    42a9a7e80750 random: always wake up entropy writers after extraction
+    373ef51f3e8a random: use linear min-entropy accumulation crediting
+    a1a2bae5ef93 random: simplify entropy debiting
+    4e5814bd2e75 random: use computational hash for entropy extraction
+    99a0f8e22d4c random: only call crng_finalize_init() for primary_crng
+    88609b892fdd random: access primary_pool directly rather than through pointer
+    0b9f9b94f1ea random: continually use hwgenerator randomness
+    811e333c4eb2 random: simplify arithmetic function flow in account()
+    56de23dcf9d0 random: selectively clang-format where it makes sense
+    86eac12b1cf5 random: access input_pool_data directly rather than through pointer
+    4f5400ca7fc1 random: cleanup fractional entropy shift constants
+    1b6f1d32a858 random: prepend remaining pool constants with POOL_
+    0fe4a64fd946 random: de-duplicate INPUT_POOL constants
+    e35576c4cb18 random: remove unused OUTPUT_POOL constants
+    74cb3093f2de random: rather than entropy_store abstraction, use global
+    14652d864280 random: remove unused extract_entropy() reserved argument
+    12f17e3f3a14 random: remove incomplete last_data logic
+    adcbbb44ccc1 random: cleanup integer types
+    4ac4c7f057ff random: cleanup poolinfo abstraction
+    5c3818e3bd7b random: fix typo in comments
+    0a7e65810269 random: don't reset crng_init_cnt on urandom_read()
+    8d7c55563ed0 random: avoid superfluous call to RDRAND in CRNG extraction
+    8b4695640bc5 random: early initialization of ChaCha constants
+    cfc69065005e random: initialize ChaCha20 constants with correct endianness
+    922d082e3363 random: use IS_ENABLED(CONFIG_NUMA) instead of ifdefs
+    565b3af16894 random: harmonize "crng init done" messages
+    346c4a697c29 random: mix bootloader randomness into pool
+    afce74c0c04f random: do not re-init if crng_reseed completes before primary init
+    d76758c71209 random: do not sign extend bytes for rotation when mixing
+    c2f0a89cd1d5 random: use BLAKE2s instead of SHA1 in extraction
+    6e6ae70c1eac random: remove unused irq_flags argument from add_interrupt_randomness()
+    2580b0b3fd5a random: document add_hwgenerator_randomness() with other input functions
+    3cc36a4aa1ca crypto: blake2s - adjust include guard naming
+    09342a544c4b crypto: blake2s - include <linux/bug.h> instead of <asm/bug.h>
+    f850f3643d6b MAINTAINERS: co-maintain random.c
+    967e3a136f9b random: remove dead code left over from blocking pool
+    610f0b439a6b random: avoid arch_get_random_seed_long() when collecting IRQ randomness
+    ad3fce669105 random: add arch_get_random_*long_early()
+    41b0d3e86c50 powerpc: Use bool in archrandom.h
+    89533373e11c linux/random.h: Mark CONFIG_ARCH_RANDOM functions __must_check
+    0222f9f1d168 linux/random.h: Use false with bool
+    15f93060b718 linux/random.h: Remove arch_has_random, arch_has_random_seed
+    a95ed04e21da s390: Remove arch_has_random, arch_has_random_seed
+    aab52172d9f9 powerpc: Remove arch_has_random, arch_has_random_seed
+    35e28a05f659 x86: Remove arch_has_random, arch_has_random_seed
+    98f749e29728 random: avoid warnings for !CONFIG_NUMA builds
+    c13b9c3627d8 random: split primary/secondary crng init paths
+    c070b07aaf34 random: remove some dead code of poolinfo
+    898498bb4414 random: fix typo in add_timer_randomness()
+    2c53d6d6a7be random: Add and use pr_fmt()
+    f3375cfe31bc random: convert to ENTROPY_BITS for better code readability
+    9f757cad20b7 random: remove unnecessary unlikely()
+    4431c366fe23 random: remove kernel.random.read_wakeup_threshold
+    ec134003cc39 random: delete code to pull data into pools
+    a9564e14c6dd random: remove the blocking pool
+    940cbc47b369 random: make /dev/random be almost like /dev/urandom
+    c4edc1055c11 random: ignore GRND_RANDOM in getentropy(2)
+    7f9f864af021 random: add GRND_INSECURE to return best-effort non-cryptographic bytes
+    479d39707ff7 random: Add a urandom_read_nowait() for random APIs that don't warn
+    69441ba56f13 random: Don't wake crng_init_wait when crng_init == 1
+    69ef3109d422 random: don't forget compat_ioctl on urandom
+    927fc225af29 compat_ioctl: remove /dev/random commands
+    996fba14fa35 lib/crypto: sha1: re-roll loops to reduce code size
+    c4f48374407b lib/crypto: blake2s: move hmac construction into wireguard
+    97126d2f65b3 crypto: blake2s - generic C library implementation and selftest
+    76101f1b7f59 nfc: st21nfca: fix incorrect sizing calculations in EVT_TRANSACTION
+    e804587ecdcd bpf: Fix incorrect memory charge cost calculation in stack_map_alloc()
+    f91da317e6fa 9p: missing chunk of "fs/9p: Don't update file type when updating file attributes"
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+index 2fef4f032d..7fa1b81229 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "d7693f19702e1fa1bb18507260198478cba0d6a2"
+-SRCREV_meta ?= "318db1080fdd1e26567b6ba679310adad84c173a"
++SRCREV_machine ?= "fa8536530bdd6a87856aa6fe0af4f9ef4af21fe0"
++SRCREV_meta ?= "010ac788e81b6cb6c3fd2367802eee9d8feac34f"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "5.4.199"
++LINUX_VERSION ?= "5.4.203"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+index 32ff438a57..d08658cf7e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "5.4.199"
++LINUX_VERSION ?= "5.4.203"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine_qemuarm ?= "a117c8494d49f5ab6ec54a69c0f926bad5d55616"
+-SRCREV_machine ?= "fbc1147bd48ea6b51895e8ab9d6422d112cdd58a"
+-SRCREV_meta ?= "318db1080fdd1e26567b6ba679310adad84c173a"
++SRCREV_machine_qemuarm ?= "d92cd7d5916772a20105ef776c7f3bf433df55a4"
++SRCREV_machine ?= "5f7c3e952857eb90a4113a41901bb770150af46b"
++SRCREV_meta ?= "010ac788e81b6cb6c3fd2367802eee9d8feac34f"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+index e2130386b2..545c754c1d 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
+ KBRANCH_qemux86-64 ?= "v5.4/standard/base"
+ KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "3bc1fc1cd35bd8f95e80fb49627c2f6977debc84"
+-SRCREV_machine_qemuarm64 ?= "c048122124fdbd78d02ac64ef6558503e7536f7b"
+-SRCREV_machine_qemumips ?= "19fc003e228a56e30943ddcba0614de6365e2740"
+-SRCREV_machine_qemuppc ?= "ef263615ec81ddfac29c82c5c61f6195dde31944"
+-SRCREV_machine_qemuriscv64 ?= "ac296ae9753c775eb216fe6c2eb3dbccfc1489f7"
+-SRCREV_machine_qemux86 ?= "ac296ae9753c775eb216fe6c2eb3dbccfc1489f7"
+-SRCREV_machine_qemux86-64 ?= "ac296ae9753c775eb216fe6c2eb3dbccfc1489f7"
+-SRCREV_machine_qemumips64 ?= "9ee7899b379b865fe676d50be29162845c9a9ee3"
+-SRCREV_machine ?= "ac296ae9753c775eb216fe6c2eb3dbccfc1489f7"
+-SRCREV_meta ?= "318db1080fdd1e26567b6ba679310adad84c173a"
++SRCREV_machine_qemuarm ?= "bf4029e0d9ff2e65d654909d7e9df50dce294c77"
++SRCREV_machine_qemuarm64 ?= "3e0dab732964f7bbc26671fee05be420fd02890a"
++SRCREV_machine_qemumips ?= "e8bea70e0c6a527383f2351e4f3d189aedf543a3"
++SRCREV_machine_qemuppc ?= "24cc2a066b8151925fdf86136b70b63cf37cc540"
++SRCREV_machine_qemuriscv64 ?= "9eab27738de4b3222b1c99cdebf3bde9611ef9fa"
++SRCREV_machine_qemux86 ?= "9eab27738de4b3222b1c99cdebf3bde9611ef9fa"
++SRCREV_machine_qemux86-64 ?= "9eab27738de4b3222b1c99cdebf3bde9611ef9fa"
++SRCREV_machine_qemumips64 ?= "5a5e07ef8df0e73b2f318b921f9262b49a6125d5"
++SRCREV_machine ?= "9eab27738de4b3222b1c99cdebf3bde9611ef9fa"
++SRCREV_meta ?= "010ac788e81b6cb6c3fd2367802eee9d8feac34f"
+ 
+ # remap qemuarm to qemuarma15 for the 5.4 kernel
+ # KMACHINE_qemuarm ?= "qemuarma15"
+@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+-LINUX_VERSION ?= "5.4.199"
++LINUX_VERSION ?= "5.4.203"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
+-- 
+2.19.1
+
 
