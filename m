@@ -1,127 +1,165 @@
-Return-Path: <ptsneves@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BA2BC43334
-	for <webhook@archiver.kernel.org>; Thu,  7 Jul 2022 14:50:15 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web11.6429.1657205411368096878
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4890EC433EF
+	for <webhook@archiver.kernel.org>; Thu,  7 Jul 2022 15:10:35 +0000 (UTC)
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
+ [209.85.160.178])
+ by mx.groups.io with SMTP id smtpd.web10.6758.1657206628298283772
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Jul 2022 07:50:11 -0700
+ Thu, 07 Jul 2022 08:10:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gcT3xBmi;
- spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: ptsneves@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id v16so15231784wrd.13
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Wbw3acSw;
+ spf=pass (domain: gmail.com, ip: 209.85.160.178,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f178.google.com with SMTP id z13so23102962qts.12
         for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Jul 2022 07:50:11 -0700 (PDT)
+ Thu, 07 Jul 2022 08:10:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=8eenwE+lEXt9L3Y9UmvCPVXf22O6ZOLb+9a3tuErSM4=;
-        b=gcT3xBmiWHPnJ9fObEEG0JX5GYGUMBbm1+tAun7SLbg0w/uG/YzHhTDEkPxHuR0kad
-         92o4Q7fAfI2byeTNkfMYVdsvQm5j7BUMoPtIr0+bGk9P/QKvPPHzihYTzPnevsS+rMBa
-         HSbrGydvjcY2CUPyCT6kAY4KWQc9e/M9FnCtjgLEktOqNXWQ+gGcFGuDC2YIQRAxUKDX
-         pu+WqIfx5/lxTHw4Lyoafa/D3gP8fgUXeN9r/Z3Ip1qHXk4Tl5s637mj6cbwTEk8C3Rl
-         hUiHUDwwyWBVyLhrqwbyfWSZXSB2lgo3j1SemaY9J784y4hychBs9JAddGemqaqO2k+m
-         SAnw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=ndbNDvyBn5gd6ldUiZR23CDOWJM59f+c5XBOGSNjtbk=;
+        b=Wbw3acSwF9KAV+uJkvKkp7sDpSFcExhP8UNCCTe7td/4Fr12bKI/hAgOu7KemR1fiq
+         r8CIPRpLRe5bEJcIK/aMQPXMfXWuw1Rwsx8BJBV2VYqhf2fcE26ZdbmUnz6XMBdwbUCM
+         2MDzFyrMR4+cbVlrSEX1s+C6XsERyxPhMraNklaxQHasB2FppAL6L1wGTtEZdmH94zyN
+         kN0aUsq3QXebYsspygFHHRZH1/gOusd0M7j2LC0MStxrtIqO3/Feq2j9V3L8ffJ27ZUc
+         PZ9fKXzcSJSWz126dguD5HXeTxF0odBekF7+/m1iB1uGKblCUyKQFEdbQpa1LyajeYBZ
+         6PSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=8eenwE+lEXt9L3Y9UmvCPVXf22O6ZOLb+9a3tuErSM4=;
-        b=bewjwJMlYo5XjGow+dJCw0qqczWLVjBOhHBKUS3t/hnKEM3bfcJHcbVJOfCPqeyUkk
-         EjDXa7MvCnOOdbfexdBQKGfha3CNzdMTVDCLRWF4/G5EjwD0KO5OJe6v4OvoRyh6t9NR
-         RE229fyqt8mF43ZkhPtxYDs5AwqkpK8XEW2IoJDqRTLJGnzDPdN5V1wCUdV7DW5pNTM/
-         gbgwiWwgop8xrWeAtMgXG9Ef1M2BAG8fFcNQwjFgS9ZTzYlX0MfmEPEZsJV1EUKFXlKC
-         Jj2ODkp9y9ErWuIWYAME5GvTSo/gPlbmt98k5VJWH4FZaf7KkZNRIm9FVOdu2j/zj3K7
-         ci6Q==
-X-Gm-Message-State: AJIora+y+aJu57C3C4gxCL4SG687dtVy8D4IPod++pHggsnZR2Wtz4Sn
-	cKCgA0/DLqbNCzdz9Udh2A==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=ndbNDvyBn5gd6ldUiZR23CDOWJM59f+c5XBOGSNjtbk=;
+        b=c27ixOzt/VaamTXOfFbvW2dMsTO1sKkiHXNGdaUlZCbpiU5doQevLuL3/mG3a6v9Vn
+         xTmOVasxWrEvQ3iZqYzXnBhfaY0TeYcD+NVDThJLEo6K5zIxI8H/tMZqo08H2DuWAQm6
+         j1lQeF9GrV+bpwQe0dHSJ+YDN5cmqiti7HtcFXOOSZmXUEEgazmIA0piIZrD3gmjzz+O
+         ZI+XnydKXhzKerHbOJxX4ESbl4S+oGNXDRpyffDDSRoPX1QCzyOyoDQj8yddvafe56am
+         IH/AobXwcgaYHxXfTlir06yDjlDZrm+bpfo+6UvYbYRVe1CMk77RHSlq2ERZyrvvy/3/
+         y/hQ==
+X-Gm-Message-State: AJIora8F8wlBCqSOwf3B7iMqS8X4XNX2I8nFtlckpPI1cUOhvo7sSrxA
+	g/nZVcUpiZ+3u3Ep7q81K6q6IxnOuSGTgpbQWTk=
 X-Google-Smtp-Source: 
- AGRyM1sU5sH12n34xMlnVtcWwLNUBvSjhSk+AQv4noqPLYAECuxgHUJrjM3EldpDeRm6+kE2ZBCmoQ==
-X-Received: by 2002:a05:6000:1549:b0:21b:c7fb:9dd0 with SMTP id
- 9-20020a056000154900b0021bc7fb9dd0mr41019246wry.446.1657205409699;
-        Thu, 07 Jul 2022 07:50:09 -0700 (PDT)
-Received: from [192.168.1.10] (83.11.75.211.ipv4.supernova.orange.pl.
- [83.11.75.211])
-        by smtp.gmail.com with ESMTPSA id
- i13-20020a0560001acd00b0021d78b570dfsm7567529wry.108.2022.07.07.07.50.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Jul 2022 07:50:09 -0700 (PDT)
-Message-ID: <3720b151-5f66-30ef-2dd5-b07c35b0c960@gmail.com>
-Date: Thu, 7 Jul 2022 16:50:08 +0200
+ AGRyM1sF6ww5oV4Rq4XfHjGw6SocgGJ8/rzr8nOg9vXI+du4NdaoNkvmhNzQtkkPvBaUNX9QrohmCasod5CfJmoUiSM=
+X-Received: by 2002:a05:622a:110e:b0:31d:455c:bd0a with SMTP id
+ e14-20020a05622a110e00b0031d455cbd0amr21218863qty.54.1657206626987; Thu, 07
+ Jul 2022 08:10:26 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [OE-core] [PATCH 2/3] oeqa/sysroot.py: Check bitbake return
- status
-Content-Language: en-US
+References: <20220707035911.2153302-1-raj.khem@gmail.com>
+ <054612390f09ab87115bdf160682495e8e06c4f8.camel@linuxfoundation.org>
+ <2723e792-207e-6857-31d7-16738c0e42ad@gmail.com>
+In-Reply-To: <2723e792-207e-6857-31d7-16738c0e42ad@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 7 Jul 2022 11:10:00 -0400
+Message-ID: 
+ <CAMKF1srZaKOhgNHGwo4JTDdjNWTEO9MPSoxcAYj31AKbRU-2GA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] ltp: Remove -mfpmath=sse on x86
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20220703114114.2313369-1-ptsneves@gmail.com>
- <20220703114114.2313369-2-ptsneves@gmail.com>
- <69be22a57b1786c0e8a86a64fea2717a2fc73868.camel@linuxfoundation.org>
- <8e071b38-0ec1-c5ab-a14f-776ec826d5d4@gmail.com>
- <d3756ea92c2bbcd4e32e405784b69ed1a79ed5d9.camel@linuxfoundation.org>
-From: Paulo Neves <ptsneves@gmail.com>
-In-Reply-To: 
- <d3756ea92c2bbcd4e32e405784b69ed1a79ed5d9.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Jul 2022 14:50:15 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Jul 2022 15:10:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167785
+ https://lists.openembedded.org/g/openembedded-core/message/167786
 
-After re-thinking this is the correct version of the patch. We need to 
-ignore_status because we are asserting that it actually fails. Otherwise 
-the bitbake() will fail the test on the desired failure.
+There are some tests in ltp where it conflicts especially for tunes
+used in qemux86, the test adds -mno-sse which does nullify -msse3 but
+does not nullify -mfpmath=sse and clang is pedantic about it whereas
+gcc just warns
 
-Paulo Neves
+here is ltp cmd
 
-On 7/4/22 16:30, Richard Purdie wrote:
-> On Mon, 2022-07-04 at 16:28 +0200, Paulo Neves wrote:
->> On 7/4/22 16:16, Richard Purdie wrote:
->>> On Sun, 2022-07-03 at 13:41 +0200, Paulo Neves wrote:
->>>> bitbake ran but we incorrectly did not assert the exit status needs to
->>>> be non 0. Now all sysroot tests commands expected to fail are verified
->>>> to do so.
->>>>
->>>> Signed-off-by: Paulo Neves <ptsneves@gmail.com>
->>>> ---
->>>>    meta/lib/oeqa/selftest/cases/sysroot.py | 5 +++++
->>>>    1 file changed, 5 insertions(+)
->>>>
->>>> diff --git a/meta/lib/oeqa/selftest/cases/sysroot.py b/meta/lib/oeqa/selftest/cases/sysroot.py
->>>> index 588fc8c713..294ba4a4a0 100644
->>>> --- a/meta/lib/oeqa/selftest/cases/sysroot.py
->>>> +++ b/meta/lib/oeqa/selftest/cases/sysroot.py
->>>> @@ -45,6 +45,7 @@ TESTSTRING:pn-sysroot-test-arch2 = "%s"
->>>>            expected = "maximum shebang size exceeded, the maximum size is 128. [shebang-size]"
->>>>            res = bitbake("sysroot-shebang-test-native -c populate_sysroot", ignore_status=True)
->>>>            self.assertTrue(expected in res.output, msg=res.output)
->>>> +        self.assertTrue(res.status != 0)
->>>>    
->>>>        def test_sysroot_la(self):
->>>>            """
->>> I did have a question on this patch. Wouldn't it be simpler to remove
->>> the "ignore_status=True" from the bitbake() call?
->>>
->>> Cheers,
->>>
->>> Richard
->> You are right. I guess the assert is more explicit and with the removal
->> of the ignore_status it becomes implicit. Let me know if you want me to
->> remove the assert and the ignore status and will submit a v2.
-> Please, I think that would be cleaner.
+cd tmp/work/core2-32-yoe-linux/ltp/20220527-r0/git/testcases/kernel/kvm
+
+% ../../../../recipe-sysroot-native/usr/bin/i686-yoe-linux/i686-yoe-linux-clang
+-target i686-yoe-linux -m32 -march=core2 -mtune=core2 -msse3
+-mfpmath=sse -mlittle-endian --dyld-prefix=/usr -Qunused-arguments
+-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
+-fmacro-prefix-map=/mnt/b/yoe/master/build/tmp/work/core2-32-yoe-linux/ltp/20220527-r0=/usr/src/debug/ltp/20220527-r0
+-fdebug-prefix-map=/mnt/b/yoe/master/build/tmp/work/core2-32-yoe-linux/ltp/20220527-r0=/usr/src/debug/ltp/20220527-r0
+-fdebug-prefix-map=/mnt/b/yoe/master/build/tmp/work/core2-32-yoe-linux/ltp/20220527-r0/recipe-sysroot=
+-fdebug-prefix-map=/mnt/b/yoe/master/build/tmp/work/core2-32-yoe-linux/ltp/20220527-r0/recipe-sysroot-native=
+-Wl,-z,relro,-z,now -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security
+-Werror=format-security
+--sysroot=/mnt/b/yoe/master/build/tmp/work/core2-32-yoe-linux/ltp/20220527-r0/recipe-sysroot
+-I/mnt/b/yoe/master/build/tmp/work/core2-32-yoe-linux/ltp/20220527-r0/git/testcases/kernel/kvm/include
+-DCOMPILE_PAYLOAD -ffreestanding -O2 -Wall
+-fno-asynchronous-unwind-tables -mno-mmx -mno-sse -fno-pie -c -o
+lib_guest.o lib_guest.c
+
+
+here is a reduced case
+
+% gcc -m32 -msse3 -mfpmath=sse -xc /dev/null -c -mno-sse
+cc1: warning: SSE instruction set disabled, using 387 arithmetics
+[kraj@apollo /tmp]
+% clang -m32 -msse3 -mfpmath=sse -xc /dev/null -c -mno-sse
+error: the 'sse' unit is not supported with this instruction set
+
+On Thu, Jul 7, 2022 at 11:05 AM Khem Raj <raj.khem@gmail.com> wrote:
 >
-> Cheers,
 >
-> Richard
-
+>
+> On 7/7/22 4:38 AM, Richard Purdie wrote:
+> > On Wed, 2022-07-06 at 20:59 -0700, Khem Raj wrote:
+> >> Fixes build errors seen with clang
+> >> error: the 'sse' unit is not supported with this instruction set
+> >>
+> >> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> >> ---
+> >>   meta/recipes-extended/ltp/ltp_20220527.bb | 1 +
+> >>   1 file changed, 1 insertion(+)
+> >>
+> >> diff --git a/meta/recipes-extended/ltp/ltp_20220527.bb b/meta/recipes-extended/ltp/ltp_20220527.bb
+> >> index b3ef8f59105..034b62b321e 100644
+> >> --- a/meta/recipes-extended/ltp/ltp_20220527.bb
+> >> +++ b/meta/recipes-extended/ltp/ltp_20220527.bb
+> >> @@ -19,6 +19,7 @@ EXTRA_OECONF:append:libc-musl = " LIBS=-lfts "
+> >>   # is set to -O0 or frame pointers have been enabled by -fno-omit-frame-pointer
+> >>   # earlier in CFLAGS, etc.
+> >>   CFLAGS:append:x86-64 = " -fomit-frame-pointer"
+> >> +TUNE_CCARGS:remove:x86 = "-mfpmath=sse"
+> >>
+> >>   CFLAGS:append:powerpc64 = " -D__SANE_USERSPACE_TYPES__"
+> >>   CFLAGS:append:mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
+> >
+> > I really don't like remove operations in OE-Core. If it is
+> > incompatible, why is it there in the first place? Does that need to be
+> > clang only?
+>
+> There are some tests in ltp where it conflicts especially for tunes used
+> in qemux86, the test adds -mno-sse which does nullify -msse3 not nullify
+> -mfpmath=sse
+>
+>
+> cd tmp/work/core2-32-yoe-linux/ltp/20220527-r0/git/testcases/kernel/kvm
+>
+> %
+> ../../../../recipe-sysroot-native/usr/bin/i686-yoe-linux/i686-yoe-linux-clang
+> -target i686-yoe-linux  -m32 -march=core2 -mtune=core2 -msse3
+> -mfpmath=sse -mlittle-endian --dyld-prefix=/usr -Qunused-arguments
+> -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
+> -fmacro-prefix-map=/mnt/b/yoe/master/build/tmp/work/core2-32-yoe-linux/ltp/20220527-r0=/usr/src/debug/ltp/20220527-r0
+>
+> -fdebug-prefix-map=/mnt/b/yoe/master/build/tmp/work/core2-32-yoe-linux/ltp/20220527-r0=/usr/src/debug/ltp/20220527-r0
+>
+> -fdebug-prefix-map=/mnt/b/yoe/master/build/tmp/work/core2-32-yoe-linux/ltp/20220527-r0/recipe-sysroot=
+>
+> -fdebug-prefix-map=/mnt/b/yoe/master/build/tmp/work/core2-32-yoe-linux/ltp/20220527-r0/recipe-sysroot-native=
+>   -Wl,-z,relro,-z,now     -O2 -D_FORTIFY_SOURCE=2 -Wformat
+> -Wformat-security -Werror=format-security
+> --sysroot=/mnt/b/yoe/master/build/tmp/work/core2-32-yoe-linux/ltp/20220527-r0/recipe-sysroot
+> -I/mnt/b/yoe/master/build/tmp/work/core2-32-yoe-linux/ltp/20220527-r0/git/testcases/kernel/kvm/include
+> -DCOMPILE_PAYLOAD -ffreestanding -O2 -Wall
+> -fno-asynchronous-unwind-tables -mno-mmx -mno-sse -fno-pie -c -o
+> lib_guest.o lib_guest.c
+>
+> >
+> > Cheers,
+> >
+> > Richard
+> >
 
