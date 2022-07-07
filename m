@@ -1,102 +1,215 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC715C43334
-	for <webhook@archiver.kernel.org>; Thu,  7 Jul 2022 12:28:44 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web08.4897.1657196922916574550
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A962DC43334
+	for <webhook@archiver.kernel.org>; Thu,  7 Jul 2022 12:46:14 +0000 (UTC)
+Received: from smtp7.emailarray.com (smtp7.emailarray.com [65.39.216.66])
+ by mx.groups.io with SMTP id smtpd.web12.5041.1657197964420271489
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Jul 2022 05:28:43 -0700
+ Thu, 07 Jul 2022 05:46:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=elvEpCke;
- spf=pass (domain: gmail.com, ip: 209.85.208.53,
- mailfrom: alex.kiernan@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id r6so11507700edd.7
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Jul 2022 05:28:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iP8jXxQEvf/F4Jhht4dTOTee/ZE9TG23IZBnJut/Fro=;
-        b=elvEpCkefm2TC2ZPhGqavlQHeBkbtrs9Aja+Y0+mQ9MP6NbTHlWad3oz1SdyX6WJc5
-         KgULM1E0EfmMZe9C41oHNHrJEWkA9uDUt08V/NlyAeAqE9u6EONUvhw1EeSo1muMII4A
-         /Th7J+pyMDKu4370WQ0xCoXEGN6qlFeTjZCh9ZrWHDssffnFl7OPDZvmOuzLSGD4ecrp
-         NUz4ZLwPzHymuEkw482ZsgAW0RgT21Z8uUvXmrXSfiAL1vbLlxZl8H/d+IJjQzqmoh3R
-         y778q2OMKZ+84MCnGnwsPeypK3FDLVd4DuSixT/bp0fsW+bx6TWZakmC92UYWp32IkSF
-         tklQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iP8jXxQEvf/F4Jhht4dTOTee/ZE9TG23IZBnJut/Fro=;
-        b=5LrJmXAUGyclLIdzb2jSea2Eb40/J/83YO9B4GvFrS+mAEPHiAG5EpCkdvNSA9eaFi
-         SePFfCJusSvZQ5gkOir88nsp4+eMWNuTPTuge8xUWnozPGtY1ukhcjRub7inMv+ZHe3m
-         vU+evVwe0IToMw/0KDy///7pRBZCokna6K6GTOSux2yOY9XiBYLzNprmvKv9hgHuhxdw
-         ffgVVrEWBFXq7EU7qptrhmiwIVt/rSKtocVdUSXR1K7ck+9zzkhurP6FCVKWVT311GHV
-         poHtyjndJI/HZ7NV4jJhvGy2rv2zNdsYr7BsWOKPUttz2EJom+su7DN/lg7n/CL9lKiQ
-         KwaQ==
-X-Gm-Message-State: AJIora9Tc2Py475okfzwVja6DWJ6vNP6mw3Z3UqPzvqDWSP035ZgZOL6
-	KhDNysreNZm067htryE5P6peW6Y0t4S0yz7MSWA=
-X-Google-Smtp-Source: 
- AGRyM1sACO1xdteDfTULH7t2eTF1Da7395CIlxsKM7zZHTh0ykGVelHW3aO5qNqmv0tmbCC//1dPX0aVj4jzTei17dI=
-X-Received: by 2002:a05:6402:5002:b0:437:7a54:12cd with SMTP id
- p2-20020a056402500200b004377a5412cdmr62680525eda.345.1657196921337; Thu, 07
- Jul 2022 05:28:41 -0700 (PDT)
+ dkim=missing;
+ spf=pass (domain: balister.org, ip: 65.39.216.66, mailfrom: philip@balister.org)
+Received: (qmail 95921 invoked by uid 89); 7 Jul 2022 12:46:00 -0000
+Received: from unknown (HELO ?10.10.50.236?)
+ (cGhpbGlwQG9wZW5zZHIuY29tQDk2LjgyLjE0LjE2OQ==) (POLARISLOCAL)  
+  by smtp7.emailarray.com with SMTP; 7 Jul 2022 12:46:00 -0000
+Message-ID: <0da5bde9-65a3-8dab-358a-b6113f5ad0ef@balister.org>
+Date: Thu, 7 Jul 2022 08:45:59 -0400
 MIME-Version: 1.0
-References: <16FE039DA287E43E.1980@lists.openembedded.org>
- <16FEA3B3CA900B93.1980@lists.openembedded.org>
- <16FEBD90A08F81A5.1980@lists.openembedded.org>
- <5b8c809573b0ecb0039333edcbeb1936b40db564.camel@linuxfoundation.org>
- <CAO5Uq5SPMd3FZwF8StQ6ofSustJiVFC2LLOe8RLTzMyyHXK5pQ@mail.gmail.com>
- <8877617E-E758-4948-9BF3-730FBB36E74A@arm.com>
-In-Reply-To: <8877617E-E758-4948-9BF3-730FBB36E74A@arm.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Thu, 7 Jul 2022 13:28:28 +0100
-Message-ID: 
- <CAO5Uq5SyuYfJcTM-WYhroZOLsoXM512gUv5JYvDr1ON5o7ZXmw@mail.gmail.com>
-Subject: Re: [OE-core] Build paths/reproduibility issues in master - help
- requested
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [OE-core] [RFC PATCH] bitbake-layers: add layer
+ repositories/revisions save and restore tooling (aka 'layer configuration')
+Content-Language: en-US
+To: Andre McCurdy <armccurdy@gmail.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+ OE Core mailing list <openembedded-core@lists.openembedded.org>,
+ Alexander Kanavin <alex@linutronix.de>
+References: <20220701192449.1358325-1-alex@linutronix.de>
+ <329d53233a9966693bc19f821f7f3996a187eced.camel@linuxfoundation.org>
+ <CAJ86T=XPx1sVqmaJd+C2q81PV-jgjDK9x=cjrEzqRnGjqEghLw@mail.gmail.com>
+From: Philip Balister <philip@balister.org>
+In-Reply-To: 
+ <CAJ86T=XPx1sVqmaJd+C2q81PV-jgjDK9x=cjrEzqRnGjqEghLw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Jul 2022 12:28:44 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Jul 2022 12:46:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167774
+ https://lists.openembedded.org/g/openembedded-core/message/167775
 
-On Thu, Jul 7, 2022 at 12:29 PM Ross Burton <Ross.Burton@arm.com> wrote:
->
-> On 7 Jul 2022, at 12:14, Alex Kiernan via lists.openembedded.org <alex.kiernan=gmail.com@lists.openembedded.org> wrote:
-> >>>> meta-gplv2 issue:
-> >>>> stdio: WARNING: mc-4.7.5.2-r3 do_package_qa: QA Issue: File /usr/libexec/mc/extfs.d/iso9660 in package mc-helpers contains reference to TMPDIR [buildpaths]
-> >>>> stdio: WARNING: tar-1.17-r3 do_package_qa: QA Issue: File /usr/src/debug/tar/1.17-r3/build/lib/string.h in package tar-src contains reference to TMPDIR
-> >>
-> >> This may be the end of meta-gplv2 since nobody cares.
-> >>
-> >
-> > Much as I'd rather this just wasn't necessary, I'm taking a look.
->
-> Is this an admittance that you use meta-gplv2?  Do you have an opinion on this thread?
->
+On 7/4/22 22:09, Andre McCurdy wrote:
+> On Sat, Jul 2, 2022 at 4:13 AM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>>
+>> I admit I've been putting off this topic for a long time. I actually
+>> wrote up something about it about 5 years ago. I sent it to four people
+>> to get some opinions. The six opinions I got back made me despair. i
+>> have had a while to think about it though.
+>>
+>> The challenge is that everyone has a workflow they like today and they
+>> will tend to dislike anything that looks different. For that reason I
+>> think we need a high level tool which can work with the different
+>> approaches. Once we have that, I suspect we'll see some grow stronger
+>> and some will wither off, which is probably as it should be through
+>> natural evolution. The approach Alex has taken here does head in that
+>> direction but I'm not sure it goes quite far enough to get the fraction
+>> of users we need on board.
+>>
+>> I'm not going to comment directly on Alex's proposal at this point, I'd
+>> like to put some ideas out there and see what people think of them. I
+>> think you'll see that I'm in agreement with the idea/direction but I
+>> have a slightly bigger idea of how to do it, which will both be harder
+>> to implement but also have a better chance of getting more people on
+>> board.
+>>
+>> So, let me go into a proposal of what I think the tool we need looks
+>> like. I propose we create a new tool, lets call it "oe-setup". It is a
+>> standalone project in it's own git repo and it's first command would be
+>> "init" with a command line looking roughly like:
+>>
+>> oe-setup init <project-name>
+>> oe-setup init <project-name> <target-dir>
+>> oe-setup init <project-name> <config-name> <target-dir>
+>> oe-setup init <project-name> <config-url> <target-dir>
+>> oe-setup init <config-url> <target-dir>
+>>
+>> The idea being that the repository has some "pre-canned" idea of
+>> certain project names, e.g. poky, yoe and whatever else we decide to
+>> support "out the box" (criteria tbd). Those project names have a
+>> default pre-canned config, or set of configs (e.g. taking branch/series
+>> names) so I'd want to see these all work:
+> 
+> My proposal would be to try to reuse Linux kconfig. Users know how to
+> run "make oldconfig", "make menuconfig", etc and I believe all key
 
-Sadly, yes, as a dependency through a vendor layer which is
-(currently) stuck on thud, rather than anything we depend on directly.
-The value for me is in being able to build with these kind of checks
-on master and find out what issues we're missing.
+I'm not sure that is true. Many current users do not come from the 
+kernel dev community so, they are not familiar with how kconfig operates.
 
-> https://lists.openembedded.org/g/openembedded-architecture/message/1566
->
+Philip
 
-Honestly I think it's probably the right approach, since keeping it
-alive perpetuates the problem (now trying to decide if I should just
-delete the two trivial fixes I have...)
-
--- 
-Alex Kiernan
+> distro / machine configuration along with which meta layers should be
+> enabled, which branch to use, etc can all be captured within a kconfig
+> .config file. The task at hand would then become writing a tool to
+> translate from a .config file to a set of distro, machine, local.conf
+> config files (and an image recipe?) + drive whichever tool will be
+> used to fetch meta layer git repos.
+> 
+> The "pre-canned" knowledge of poky, yoe, etc then just becomes a set
+> of alternative defconfig files. Although if we can generate distro
+> configs on the fly from a defconfig file then separate meta layers to
+> hold distro configs starts to become redundant...
+> 
+> As a reminder, here's the Buildroot README:
+> 
+>    https://github.com/buildroot/buildroot/blob/master/README
+> 
+> With those first 2 steps a Buildroot user can effectively create their
+> own custom distro and machine config... all from within the
+> user-friendly menuconfig environment. The OE equivalent (Yocto Quick
+> Start) is not only more complex and only tells a user how to build
+> someone else's preset configurations. Creating a custom distro and
+> machine config in OE is beyond the quick start and requires a full
+> knowledge of bitbake syntax etc, etc.
+> 
+>> oe-setup init poky .
+>> oe-setup init poky dunfell .
+>> oe-setup init poky ./my-local-config.json .
+>> oe-setup init poky http://someserver/my-remote-config.json .
+>>
+>> We'd also allow something not in the default like of project names to
+>> be used directly with a url, or maybe added with an "add-project"
+>> command. This could work against a user local config file, a bit like
+>> git does with global config and adding remotes to a repo.
+>>
+>> You'll note I haven't made any mention of the tooling these use. The
+>> reason is that we don't actually care. I'd propose we teach the tool
+>> about a few common standards (kas, submodules, repo) in the form of
+>> plugins and then hand off to those tools to do the setup. I'd also
+>> propose we develop a "native" form where they perhaps aren't needed.
+>> the nice thing is we can have several "native" forms if needed so if
+>> one approach isn't working or we need to change it, we can.
+>>
+>> We may also want to consider an optional "sub-config" parameter which
+>> gets passed along to the underlying tool.
+>>
+>> One of my conclusions after thinking about this for a long time is we
+>> have a bootstrap problem. If everyone used git and git worked
+>> everywhere, things would be easier. They don't and it doesn't. My
+>> evidence? The bitbake fetcher. Much of the ugliness the bitbake fetcher
+>> deals with applies to layers as well. Some people need proxy support,
+>> some need mirror tarballs, some need floating revisions, some need
+>> complete lock down and so on.
+>>
+>> We could simplify the problem and just say those users "can manage". If
+>> we do that, we're giving up at the first hurdle on the idea what we can
+>> have a (mostly) universal tool. I'm not sure I'm quite ready to do
+>> that.
+>>
+>> Like most more seasoned developers, I dislike code duplication. We do
+>> have the fetcher code, which knows something about these issues and it
+>> even has a test suite with decent coverage. Most users already know how
+>> to configure it too.
+>>
+>> Whilst I don't like it particularly, I'd propose we include a chunk of
+>> bitbake inside oe-setup (maybe just lib/bb?). How needs discussion. I
+>> nearly wrote combo-layer here but people might think I'm serious :).
+>> More seriously, git subtree might be a potential option. We could then
+>> have bitbake master, or a chunk of it, available to the tool. This
+>> would then allow us to potentially get out of a variety of different
+>> firewall/mirror situations, if the appropriate backends were right.
+>> This gives us the option for fix bugs in the fetcher and update oe-
+>> setup and still use specific versions of bitbake for the different
+>> releases as needed.
+>>
+>> I'd propose oe-setup be a different kind of project to bitbake,
+>> hopefully something we could make available via pip for example, again
+>> to try and help the bootstrap issue for people behind firewalls etc.
+>> although I would want it usable standalone too. It would be designed to
+>> be a separate standalone tool installed somewhere once by a user rather
+>> than associated with a particular build/metadata set like bitbake is.
+>>
+>> Beyond init, the question is probably updating. There are probably two
+>> options, one is an update command to oe-setup and the other is
+>> deferring to the underlying tool and it should be possible to use
+>> either depending on the underlying tool and the circumstances.
+>>
+>> As for configuration of the build, I've wondered if we add a new level
+>> of config file, basically dedicating a config file "slot" to the setup
+>> tooling where config from the setup tool would land (i.e. like
+>> auto.conf but dedicated to this). I need to think about this piece a
+>> bit more.
+>>
+>> The other side of this would be the generation of the config(s). I'm
+>> less worried about this piece, it would be done by the people who can
+>> deal with more complexity and I'm sure we could figure it out. I used
+>> "json" in the config urls above but I'm aware that yaml is going to be
+>> a discussion there too. From the oe-setup perspective, it may support
+>> multiple options since once it knows the tool to pass it off to, it
+>> doesn't really need to know more.
+>>
+>> I'm sure there is more I could write on this topic but I'll stop there
+>> and see what people think.
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+>>
+>>
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#167633): https://lists.openembedded.org/g/openembedded-core/message/167633
+>> Mute This Topic: https://lists.openembedded.org/mt/92117681/384425
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [philip@balister.org]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
 
