@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34260C433EF
-	for <webhook@archiver.kernel.org>; Thu,  7 Jul 2022 22:00:31 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web09.782.1657231227628584527
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D3E9C43334
+	for <webhook@archiver.kernel.org>; Thu,  7 Jul 2022 22:00:41 +0000 (UTC)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web12.757.1657231232065160070
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Jul 2022 15:00:27 -0700
+ Thu, 07 Jul 2022 15:00:32 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=r6KtLVGT;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175,
+ header.b=I2Suyr/7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id y141so21927284pfb.7
+Received: by mail-pj1-f52.google.com with SMTP id
+ o5-20020a17090a3d4500b001ef76490983so116653pjf.2
         for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Jul 2022 15:00:27 -0700 (PDT)
+ Thu, 07 Jul 2022 15:00:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=wJwdnG/dK3HUJAFujjHOK4fDPS7QGU6w+Xde8nOlqeE=;
-        b=r6KtLVGTdcafjOmwPYMzrobiA8cvW1hK+52nR2UhzU7L7CQ+CH14t5VOyVW6HocBg9
-         45wn52Wv+4V+wGyjddVx7uBTAFEcKn+0o/mV1IeillP/Hrjh8o6RtlmIoBTqRK7hNM4s
-         z26kMlKeQoGeT328xiLlpvGAUmrWQOqgwBRWLbySgWf0ZOOSyntFXEWPhBQITCato9jJ
-         Gwwpijc/aTT9jHpa8f7woxcPp0vn5J6sVhTDoVFcHR/2mWgD/s5lD1TKidGAMom08l89
-         kguZRuKg6yBq7WX8BrnxcEOV3lH8SosdfjJZbW09TteJRqVZXb1CDByf5NKXpwXyjFQa
-         tpmw==
+        bh=/kRyNqe4I8uYPf2kdZ+rvZmJQ/RMHS83uJEcFvzWOFE=;
+        b=I2Suyr/7y/f+/iwaWUhRWEaFpaMwgFUYb0o8FWcC/zJDtnS7EOaPO1WH0/7m4orFsf
+         d0wDdFDCZsl9nbbivd7j02nPreKf+nnW50rRG0O5Dq1juOm32uCHPyGVWUXPxni8x2+c
+         GMjj44xNeKRD+e1OQ1l895K/92bGBuPFSWBNEmVKzFGVqmMvmwCgqFNTvyJaV7BsTRy6
+         Zw40HE6fVCmhdJ10z8OCWQ1iv8dmG8sqIoO4gkGcDH376gTMp4an0aOEWBPb9xhYobsh
+         lLSnp/q4X1iYAzVK4uU6sj9PFWfdr6Lxtuv/F5CNbI8CEkpqijIkqfO+QFYLex18CAox
+         CVjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wJwdnG/dK3HUJAFujjHOK4fDPS7QGU6w+Xde8nOlqeE=;
-        b=3CE3B2SfgNof+ep8/k3GGDnklLVf9Po5mGUnMVhB+nckM+ozm1ackkwGg96JehIiFA
-         9Bp4HOaQDNR5MNVRkPYVRzowWTiAS7h3ReDxsXNW1zoSR4lHYKKWuHkpJgRS8l/+ixNC
-         igpgx5lqG88NXAz7SWyigAV3e8GP5IT6APSEXKNbnvsQPlJ8OzK/N1GsdT/LsBRO/HEA
-         JSI/qUmYE098du58/gEjxPVwhVQiKjM9k+s6Kh1APDo8/OMgflxpA/PIkjOcxXfbjpVN
-         yyS7jve3X6F0TL+aLhSt+BwCmfQ5/vglGllT5tqREHX4UCi3pfBgzNjxM3Lcpd8GsjW9
-         tvvg==
-X-Gm-Message-State: AJIora9bo/nFOnR4L3kuHxoFWn6F7IMmy4kGyWGaEl+fiUb4U2QwaiS8
-	fwzm3uLNZMg/m4P6C3V6VpUijlL2L2ObRBwk
+        bh=/kRyNqe4I8uYPf2kdZ+rvZmJQ/RMHS83uJEcFvzWOFE=;
+        b=eXDQ/A66ZkPOdwgN+JzCTaV3Snh+c/k/GulS4lWAcMqyQA72dzfNzalQlJIyG455fs
+         yB601Hobgh9QFOeIieKF5QyQzOzIu5zjIcop/QgKF96Zxl9nc3Zn9C3CJysbcULKcbKn
+         5FzzgD+m7UV/ZFlY071MtN7WRNps+v8pSmZz0Pz0Z22Vit96OsOlBjMXMlPlVjjMko9y
+         nKyHnNcxdxqHjirf+i7famgot8I0siyTZUDcxrkNiMRcXuRFQMW1eD2Cop7+sq6zFi5W
+         jL4OszJTKPVBf40D6ydWyjvCGoJKbs9ccOJa+PKEAN552A2aG5K8VWWK229VUSE7nwlB
+         miOg==
+X-Gm-Message-State: AJIora+e5e73XNsNeWl9OeglmvWMFh9lUFMJ/fFD2Dj0J1I+hs9rx6lR
+	Lzcbx+sX5DfZ8TUMEh1LLwLck/8p/j2/9V4i
 X-Google-Smtp-Source: 
- AGRyM1vtiLEVopkpMybKEsuxJDkJ7Il6G1DDfHibjcTeqca9DFrRqejPMeptnsx1gQBYy3roZ5QN4A==
-X-Received: by 2002:a63:1f5f:0:b0:412:9ace:9fd6 with SMTP id
- q31-20020a631f5f000000b004129ace9fd6mr208953pgm.199.1657231226530;
-        Thu, 07 Jul 2022 15:00:26 -0700 (PDT)
+ AGRyM1s/NCc/YvaOTIRQJ9eOOvilRQQW3rSAB977O7I/LPadH9MUXG7+x6ji/sBroYB4dNazEg2F3g==
+X-Received: by 2002:a17:90a:66c1:b0:1ed:4de4:6a57 with SMTP id
+ z1-20020a17090a66c100b001ed4de46a57mr7810094pjl.84.1657231231023;
+        Thu, 07 Jul 2022 15:00:31 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- j1-20020a17090a31c100b001ef79eb5033sm56840pjf.11.2022.07.07.15.00.25
+ j1-20020a17090a31c100b001ef79eb5033sm56840pjf.11.2022.07.07.15.00.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jul 2022 15:00:25 -0700 (PDT)
+        Thu, 07 Jul 2022 15:00:30 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 12/14] dropbear: break dependency on base package
- for -dev package
-Date: Thu,  7 Jul 2022 11:59:34 -1000
+Subject: [OE-core][dunfell 14/14] qemu: add PACKAGECONFIG for capstone
+Date: Thu,  7 Jul 2022 11:59:36 -1000
 Message-Id: 
- <7bc7d4d24ee05a3bbb9a82ff1089da5d162c8497.1657231055.git.steve@sakoman.com>
+ <d358fdb9134114512ee13553762f7502c16ece71.1657231055.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1657231055.git.steve@sakoman.com>
 References: <cover.1657231055.git.steve@sakoman.com>
@@ -68,36 +68,35 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Jul 2022 22:00:31 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Jul 2022 22:00:41 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167810
+ https://lists.openembedded.org/g/openembedded-core/message/167812
 
-Otherwise the SDK fails to build as the main openssh and dropbear packages
-conflict with each other
+Autobuilder workers were non-deterministically enabling capstone.
 
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
-(cherry picked from commit 4667abcc925ae0c430cccb480ec530506f6201ae)
+Add PACKAGECONFIG for capstone with default off.
+
+Qemu versions in master and kirkstone have removed the capstone
+submodule and configure options so this patch is not appropriate
+for these branches.
+
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/dropbear/dropbear.inc | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/recipes-devtools/qemu/qemu.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index b949a9a337..026292230c 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -12,6 +12,11 @@ DEPENDS = "zlib virtual/crypt"
- RPROVIDES_${PN} = "ssh sshd"
- RCONFLICTS_${PN} = "openssh-sshd openssh"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 25c2cdef3a..4135619fc6 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -254,6 +254,7 @@ PACKAGECONFIG[xkbcommon] = "--enable-xkbcommon,--disable-xkbcommon,libxkbcommon"
+ PACKAGECONFIG[libudev] = "--enable-libudev,--disable-libudev,eudev"
+ PACKAGECONFIG[libxml2] = "--enable-libxml2,--disable-libxml2,libxml2"
+ PACKAGECONFIG[seccomp] = "--enable-seccomp,--disable-seccomp,libseccomp"
++PACKAGECONFIG[capstone] = "--enable-capstone,--disable-capstone"
  
-+# break dependency on base package for -dev package
-+# otherwise SDK fails to build as the main openssh and dropbear packages
-+# conflict with each other
-+RDEPENDS:${PN}-dev = ""
-+
- DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ INSANE_SKIP_${PN} = "arch"
  
- SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
 -- 
 2.25.1
 
