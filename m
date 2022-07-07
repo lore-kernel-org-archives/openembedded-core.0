@@ -1,16 +1,17 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Subject: [PATCH 1/2][dunfell] linux-yocto/5.4: update to v5.4.199
-Date: Thu,  7 Jul 2022 12:38:26 -0400
-Message-Id: <20220707163827.857-1-bruce.ashfield@gmail.com>
+From: "Steve Sakoman" <steve@sakoman.com>
+Subject: [OE-core][dunfell 05/14] linux-yocto/5.4: update to v5.4.199
+Date: Thu,  7 Jul 2022 11:59:27 -1000
+Message-Id: <5503425172d832dae12bad6af8ca22ece454e4b0.1657231055.git.steve@sakoman.com>
+In-Reply-To: <cover.1657231055.git.steve@sakoman.com>
+References: <cover.1657231055.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: steve@sakoman.com
-Cc: openembedded-core@lists.openembedded.org
+To: openembedded-core@lists.openembedded.org
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
@@ -483,6 +484,7 @@ the following commits:
     8bb828229da9 lockdown: also lock down previous kgdb use
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
  .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
  .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
@@ -577,5 +579,5 @@ index 11e7ff6a21..e2130386b2 100644
  DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
  DEPENDS += "openssl-native util-linux-native"
 -- 
-2.19.1
+2.25.1
 
