@@ -2,310 +2,173 @@ Return-Path: <akash.hadke@kpit.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E504C43334
-	for <webhook@archiver.kernel.org>; Fri,  8 Jul 2022 11:49:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D1BFC43334
+	for <webhook@archiver.kernel.org>; Fri,  8 Jul 2022 12:07:15 +0000 (UTC)
 Received: from IND01-MAX-obe.outbound.protection.outlook.com
- (IND01-MAX-obe.outbound.protection.outlook.com [40.107.222.61])
- by mx.groups.io with SMTP id smtpd.web08.6561.1657280986983867522
+ (IND01-MAX-obe.outbound.protection.outlook.com [40.107.222.46])
+ by mx.groups.io with SMTP id smtpd.web08.6692.1657282032450727343
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Jul 2022 04:49:47 -0700
+ Fri, 08 Jul 2022 05:07:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kpit.com header.s=selector1 header.b=gA/bCOXb;
- spf=pass (domain: kpit.com, ip: 40.107.222.61,
+ dkim=pass header.i=@kpit.com header.s=selector1 header.b=xcO3UWPd;
+ spf=pass (domain: kpit.com, ip: 40.107.222.46,
  mailfrom: akash.hadke@kpit.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EtexNm2+j790HxZsYSYzpzUs40Ip3a/xs2k8inf2qmMkJNVFP0vxNJcRPiZrR9yvepi0FrEx6HkhT2wYRgWCvx208M2KoxmfRhRqFvzyOMG9fgoxS2Thzo6WpoVeTx+S9ZIctRVtFNWDSi6zUmEJWNGjfliHX/SUyfQ7lLUUi9kdyt4TPgo0tLELzdrV/NGzNX+sMd3g81m2X76kl2l8UfX0Zkbzx6rp0b/T54orF/glvrytMrvc7gbD2n0Dv5jFKiFGw1o6yJ/aowCW0AQlJODNNy3Wzt7EKlpIDgyF9fHdZzzyKC9QNzDxSxuxR+2qK+xWhQnyrYKx5azqIIkmhA==
+ b=oaFHB22+AwM/1O5onwTiWaEBwXxt4Lkya5vUX2CTU0erBMd/i9HM1+dIv+6jwes27BLA9dMIEKI6abna1vA01GUtUKKcA/qpIpSFOq5rXr6Qs55zA+U6f9KZPXWqdpyKgK+1sz6HdshSuDiUYHXolGiDLPw3oUuzu5KusLxrLgPcW6JjKI2Qr0wNNTmPvk5/pphF0524RMeA7DZtI4m+n3b6FR7FT+iwPgEqEFfnKXEBmAYH1WljGWaoDA//O8vOboCyeI8qbHxIsSqJALzUkXvIVVTOjPYUYUTUtqowHL/91r+npBJPEVw0/1QjzPMlVUFsgZApfoMNQzCPPaylxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D3EOcpLXVKNpyyLsPI9KCvh92fLuBr9Atg7G+F9Pm3A=;
- b=hzpii5PqJqc72MumQm7XDwnm6Ql9MEGXd8brgHDHCZDA9lWtZWdh7s3+1+5pAn182z6V7mhF0I/UhkIWSHsumqnAcF5jsrzwvLBzA3TfAkdjEZX4+BYu26RmjHepz8gwZ/brDtTzo0CnhkriYsewU+LEl8GwpEl+L7SamevCJ8qbQS++ZGj1dBRk1xoD9ujeYtxjocrWRVnZzcnKV1kTyBocxHak8dvROIPBadreFkhWGYQIVhYzHaMbpXeHoJ5aX+IQTKvV2BEPOzPiNkuamaWXwpEVO4H4y2O46gF/1C9Ih1FyzTV0ZV0ZkzZx4Y4or0EWzVC7t7Z69Lwa7dJCpA==
+ bh=HL6ssoBR0KBspRFrUTaQ9lRhLPoqh6t0a7UQf/J5Sbw=;
+ b=Fc+UyIEva06mYCUyOIcuFlWQ7VgCYSVLKDOZ/oWak7RyJQ870m6GNVsuOThIgVtYK1Yw5P+Xxc+Xa8TeG8yUWIXMu0lBBLg0dGxVDFL3EI1DDzHAnY7uR+H4M94/iNlZMXBBKSZ8cCHipjJQesxuRNAzvwBthBHG3hcSttkKcRaa6+YqTsJ4tJsXFF16jw87oEaEBQhoFRcgR7WXBLrHm8leqTZtTzJ3diIp7oGnswRmMtDWraqChsq5ocJ/YoprNZiuE5Ppa9lqYmceKGS5EsEKZvK0LJA0gIUpfGCj2NfJ5RZ6yNADbawfAuM9g6dK7MiiWcoXPphF7UEr2ZY6lw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
  dkim=pass header.d=kpit.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D3EOcpLXVKNpyyLsPI9KCvh92fLuBr9Atg7G+F9Pm3A=;
- b=gA/bCOXb7Wdj9rb6a81KCSDSN15cc1zpGgm5CSLNs4IV+QeaMvtnTlVlIbweXOd6imr/vBF1Kum7FVVk0lgyNGKKCJe382BDFNTskn31/8gAIA16r5w0uGtnxx5hxH4hN7HbbUa8tR02zEp0y+y5iUP9VRIge1ZrlmFTVute04o=
+ bh=HL6ssoBR0KBspRFrUTaQ9lRhLPoqh6t0a7UQf/J5Sbw=;
+ b=xcO3UWPdFAUIXAoI9Nk9kvao8e2CAAY07peJmUNMFzrUvVtgS3PCeGCvNWFiSV5C1tfNTSabMLGJHuinqpTDOpNI5DKFGdT+SgkjnTpKkOJHFGO/U7Of1lNDPbljz1fWjelhSwPbDoVwEMoPSr63GC7EvedFNI5ugH9wSHOuKrI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=kpit.com;
 Received: from PN3PR01MB6712.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:89::13)
- by MA1PR01MB0620.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:8::23) with
+ by MA1PR01MB3355.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:7e::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.19; Fri, 8 Jul
- 2022 11:49:41 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.15; Fri, 8 Jul
+ 2022 12:07:01 +0000
 Received: from PN3PR01MB6712.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::57:e269:a77f:d5d9]) by PN3PR01MB6712.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::57:e269:a77f:d5d9%4]) with mapi id 15.20.5417.016; Fri, 8 Jul 2022
- 11:49:41 +0000
+ 12:06:58 +0000
 From: Akash Hadke <akash.hadke@kpit.com>
 To: openembedded-core@lists.openembedded.org
-Cc: ranjitsinh.rathod@kpit.com,
-	Joshua Watt <JPEWhacker@gmail.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [poky][dunfell][PATCH] classes/cve-check: Move get_patches_cves to
- library
-Date: Fri,  8 Jul 2022 13:47:36 +0200
-Message-Id: <20220708114736.5547-1-akash.hadke@kpit.com>
+Cc: ranjitsinh.rathod@kpit.com
+Subject: [poky][dunfell][PATCH] cve-extra-exclusions.inc: Use conditional
+ override
+Date: Fri,  8 Jul 2022 14:06:11 +0200
+Message-Id: <20220708120611.6577-1-akash.hadke@kpit.com>
 X-Mailer: git-send-email 2.17.1
 Content-Type: text/plain
-X-ClientProxiedBy: AM6P194CA0085.EURP194.PROD.OUTLOOK.COM
- (2603:10a6:209:8f::26) To PN3PR01MB6712.INDPRD01.PROD.OUTLOOK.COM
+X-ClientProxiedBy: FR0P281CA0107.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a8::20) To PN3PR01MB6712.INDPRD01.PROD.OUTLOOK.COM
  (2603:1096:c01:89::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5d3bbb70-e729-452e-a1cc-08da60d7f13c
-X-MS-TrafficTypeDiagnostic: MA1PR01MB0620:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2ab01cce-f2a5-4e43-d390-08da60da5b05
+X-MS-TrafficTypeDiagnostic: MA1PR01MB3355:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	LITZqKCqRLLdDz0yvuXFkYeSZhPxX4vMQlb0OPiSjTZ35hz2V/lSD+rOwe6YkzUA33UIF8xD1PuMDod3r6ju/bh3LHjzihrrimUYkjDlPA6V7xWA7P4tpDQ7O+tddINvMnvOrlOVvBnyh6yqyHAPXJJJBEOuZNz9h9QZS1tYznIheN6uU+XHsYhTdikO5fjk4P8KT7IR89pvDcBHdt+H+Sag3NALDc+RDrIj2xF3eleAe4yWr2NSHMSQeAljXi/jRBO8Drm9mWh0Ms6xO++M/3FFRfIFCNFGBfntAyDC89aiqDP6wVeJMEzqE2Em6wM4BnR3Pi6jh7U9la3Qg06i0iq98mVF7TaMUN68PuX0wJN4glJ86ZrShDeFN19WOxFhuVCkyUS7vRKhr2nH08lQWJhAhsVqJPaDYHzXi0N0n7EviCG2/kMNK8bbVXW4coyNVlP1reobaa/pvd6psTUOtAwlRpZqTjqBJfmRGKU3w8sZJo78wcDFTiDf10sb9ubTryFzMpwFt/d8awbFASVhM+jmbRWjvvJMRO0+VEG3jMZ8xukmvdDoabp9mAISD6dUGk5sKm6J5q7Q2NQkXc2nY998YAoHWdnoSSZTizCYf8ohujdnOwIJ6uxQO4zOUrxqOvUF9esi3eN1F6tT9z79HKOSHlWwSN0eXfyLG80rsVi4WXQ9F/hiJerpzNe7eFkM2ep8sJzZesLbYrqdUr2ZLfgF5KeWXiO5tl2mf+lTpZfcELP5+KCQVSxjZTuJ4JNcYDN8QcsHE5PAy/8Qi+npNXGGmAh4rRizVjAfeIMpHMp6bFO1jdKnuCn045va2jIw
+	0stJb8NsU159v3R31xJMo8Ug0/ch8lsqPzThG7mYa119tU0WUdliK60HFo9t8vyC1RQiwMJ0QczfM4l9T+I4V05PTsIJwL8e0sRygnC92Fr49toq4mXwsvUXxC/AO4SvVtbC20n9MJF21fYyouYTuNBwXJCIFaA5z3xG8t3r/8oVeHjA+FO/yDxMfNOtY1uu1TR5Nw6CsmnBvORiacfd5Faz1lc0nUefSMt01B6VxQvIZJYMfZXPrm/08xl+kPnsXca6Innmk/Gekbcheg6uU74J7Kl8sUxD5COJXX8hbU/yiqpA3vXo1sEvkz5QxkzLahWp6NBBKKzpP/x2yUpBjLgstukjEOsjoN0fR1Uby4gxFipOHR7yFNK9elxkCUxvhVCrSHHE90fGjE/3xfPcqvB/Qe6RRjAm5MchTA1/serQcMDXUpBvw1JE8FOtPv7mtGr7JKqORWsF4Xi+xgaAggtpAtyuQUkfnKJ9OXXIJy/B+3LcZji3mPJDufPFFNpQf4O+ut6LXg3FGVWtcpSpyUZcnGgQOrOLqE323OBUGuYJ8TXq/LbZfhxKoNwaFeLkMqbEjg70ir5c82ehG4feWwI69szULe2csFo8Uzi/s41qGWyomCPeov3uSU/d3poSbMimlUY2RLu6H1gRvcbNX2/CbVi6z8WQg3x3Ng6HWQ1uloEaJJgyoCCFbaUJVJnspQ04T10xHdeWXOlqPZNrXkTT9nW5YUwm6RXdXW//DxrcuFy1Y8st5xhaHFzeVcvZGMkbqHQx4Dk0+08MHRfjUU2/IVylPJTcx/+SAXGipOjXQsg1I2d6RVtOkz2c02u20WK9DIsOv9MTVGjLOnjmH3reUprI7ktLim7lRBEVsF8=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3PR01MB6712.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(39860400002)(346002)(376002)(136003)(366004)(38350700002)(83380400001)(5660300002)(316002)(1076003)(36756003)(2616005)(66556008)(38100700002)(478600001)(6486002)(8676002)(186003)(54906003)(2906002)(6666004)(4326008)(6512007)(66476007)(52116002)(6506007)(8936002)(41300700001)(44832011)(6916009)(26005)(66946007)(86362001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3PR01MB6712.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(396003)(376002)(346002)(39860400002)(136003)(66476007)(478600001)(36756003)(8936002)(4326008)(8676002)(66556008)(6916009)(66946007)(86362001)(41300700001)(966005)(6486002)(6666004)(2906002)(44832011)(52116002)(38100700002)(107886003)(38350700002)(6506007)(186003)(6512007)(2616005)(316002)(26005)(83380400001)(1076003)(5660300002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?kNphd2cgVzDIzJPuLernP/hbak34Jjgjv3wkcktrjXz2XfJ5t/NsirA4Qq8q?=
- =?us-ascii?Q?n3JxuxWC1V+EllIgxvpoUYmHHz6caOaGilVyBaxYudjD6Y61CdfiJF4ueJ5K?=
- =?us-ascii?Q?wzpKpQcnId8am9XFYV9ugIaJ6/K2cl1ZXeejzpdFv3coXr5S/906CrMFVj3a?=
- =?us-ascii?Q?1EkdAHcohM7Y5sDpi2JU4DCObi3RXbSA6bFYwuyF/sK5fZNZWTivPsfP7gsY?=
- =?us-ascii?Q?hEWzj4kRbtoOy9Z8g29NYh482ox25sdjVkDbr8qePy2ma8UIeWw1o1veBByA?=
- =?us-ascii?Q?winPGcvut5VR83c8LfRCoECwO2wBqLIf98kw45mO07vgDgLo1lu/E/20j1/v?=
- =?us-ascii?Q?BxHtd6G/ZH2AuzSQTedoqSq/veUqqE2ZVQjDZ4P6VhZGGLeafAtfPm5E3Fxl?=
- =?us-ascii?Q?9lq3teKf+w/vGeKg6rzQ8zMTXGg2JPx+EZrvwFOrgHD9e1/yWvTPA4J26mVW?=
- =?us-ascii?Q?sYf5l/2kVF0uyix9ddRHygBfaKe5CMBZHtbjIKwkxy004auWYfaopBtsIQnd?=
- =?us-ascii?Q?ms/9YDT5cs42sJDp9IQEmiGlDLfDn5CL9G69iXF0+AhD/ukCr9dOV2Xtytwo?=
- =?us-ascii?Q?sppAmvAatO+2h3NSaOsknagLiAbAYmmYGtpUxYBRyyUMezto0vYSk0VryxJ2?=
- =?us-ascii?Q?6i1oIgrZmCrdc0qm5FQZn/aDY4PvzWgilqAFbxRmdZ+kDX/9yf4movBkB7uM?=
- =?us-ascii?Q?78ZcuVcp3C5gLE8aSArA8aOy7OA3gqrDqFLRTIwIfR4SfgIOdwJbevFk30gM?=
- =?us-ascii?Q?AEWJGKUHxeNY+wNnUw24ZrKgufTRn+73WJ+VlS++Lf0uDbhBVth6QBomBCJS?=
- =?us-ascii?Q?o+aZQNhgoaR5bSRKXJHd3x3XNihOGRrjKsp+ZtIEK2wxYxQHaEZVijMCnhy0?=
- =?us-ascii?Q?GPLbrbK9Mv4X4eYPAL74/B6Y6PJgaSEX4O05Zc5HUkYuS+nd7MlD4IxuuA+y?=
- =?us-ascii?Q?TuahwrbUYFW18cRsActT5oTQplpqrkfU3LV+McwUdB7E8rq6qxZl4QLMV5E0?=
- =?us-ascii?Q?yIMkzQ5zOW9cDnCXnWtGgIvddCqm4dBrpHnvQ21+AbP7P6zNwv4BDblCXNrY?=
- =?us-ascii?Q?w6/MgRxwa8KyY+3YB9fe5LDuO0uk7ujlctJ2BSiP/KKf0yZm4N+RMejQO5Dw?=
- =?us-ascii?Q?oEIGJwVEE0G3uSeF/UkhtiY1rMI2D/lvzFREfef2mwi3mRRNrNAU8giRy1YR?=
- =?us-ascii?Q?qX8JGxX4gRKqDGloYGI+W9Fl/CnY9vFpCzz8bxR02HWPMgCTxkezjtzkLJSx?=
- =?us-ascii?Q?lOmzTSL/Z2h99ZTVGI7ngd0sUj/Qy8lumdBOKUQstCH+FXxF2xRl717HutAC?=
- =?us-ascii?Q?+F8p0YJGCt+DsCh2XueQu/zuQsAAvP59w4X1zL5naziRhwpt3t+FptOJ3C4c?=
- =?us-ascii?Q?HzDejYrmIeepxX93+ayM7jxrq4Ykh/b8JAN8PbwtfxXTN81xRwtB/ReEjO29?=
- =?us-ascii?Q?0OX/TaC3n8jhq6xS5uPGvP7hi+4PI94PnbAlW4yWqDou/FN+U+PWdG7y9Imp?=
- =?us-ascii?Q?ljoyRCyAsAJK7TK8XXVintI2LhQjyK4wAlCtEmuiB/lNrQ4iN3psb7GYDC4X?=
- =?us-ascii?Q?Nx5gypOBLC0NTrw01hDZMiIM8rBWrfcltysBrYCr?=
+	=?us-ascii?Q?HhWqvwVbQU7mKWRAKcnC7nMlIGbV/n6DrSI2cGHMJPqIhsAD/mRadAXXOS8h?=
+ =?us-ascii?Q?maKJow6HXOiTvueghnoNCDjJGz0KTMG4AIY0c4lEvtBo/JJOatFYSmJX5K8w?=
+ =?us-ascii?Q?47gGr/hQghC98lbtkYqS6RZos8qXlYS0tuvCJKilJnYQ+kmtteFMlWc9tTVa?=
+ =?us-ascii?Q?cCoTES7bV5DObBrEIoZHjhVyaY6Ng2nlTGy7lHpQP7ZL0gUKRnQQF6vtxUJ8?=
+ =?us-ascii?Q?P/Ytx8uIBk60nGoTESa+2Kw4PU3vc+A1omvu50CqW34Rpr4InDzkBi/v06G7?=
+ =?us-ascii?Q?TbpR9bv9bS56QWzL+GP6tfS//XSaBo1ViwRJ3ojix6ncSdoaG4+QYB24Qdaz?=
+ =?us-ascii?Q?2z1oCJuMIu35F3+F75U+W6qXRY8mFTSOKkIRA0uaZE2ZAnD3cXT9kmlYOFaR?=
+ =?us-ascii?Q?7+hVnGx+lzohtQBXEs3GF/m8GjcENQbRnioGRcYPWNSuGc9oUwmOoXRZZzM2?=
+ =?us-ascii?Q?5HhSgDhrGdF8jeUEPtLKWiZSeIBqQ89sabNMdQXgIa2EwP7MrY2TzBNvDZ1P?=
+ =?us-ascii?Q?LqxTCzCL4o1YZ1kzR+CjhNgF30uAWjh05Wszm42xPr2ByeO+CsEDA/cAk/Ul?=
+ =?us-ascii?Q?fW0jfzrJ7B3Nbcn8flpvxbnuGbrMz3TgAsjjQ3NSLG1jAW0Jggw+h/mQF9OO?=
+ =?us-ascii?Q?sXWT1riEeQKN0LdeWDVYwBfPy0TFMTuC2hi+OhZ+FUBa4VR9Fo3Ax+tFbCtW?=
+ =?us-ascii?Q?EBCcczEdF+UeZUkjuNIy4SqRJY4u92qOaLP4uL6UnrQKPR5TN45mElfdD1MN?=
+ =?us-ascii?Q?OY+tb7OgfMQiRd96w6bQ+Avs3L9QplsjYqTQGLyRR85ajon1e5BFDF8b3onG?=
+ =?us-ascii?Q?sdxsjo43HIjqVnIE4/pgvsm+ns0opPg5khBxv3hXLNy0OJEPagAEoy8sEGqc?=
+ =?us-ascii?Q?9OtuBF10JJSplHyQseQ7lZFm8hYyo+QuomiRdf0tBMTMSWdHxZ9065jo+ySZ?=
+ =?us-ascii?Q?vileQCvJKhlwey9NyM0vaJ1OHZmzs6xg7BIikaAu0LbBj9xGi9FYViiho+2/?=
+ =?us-ascii?Q?VQasTPFqRmOqw95mwMsgM6o80Wcs5+0QAn0HVNy6Yw/hOhx4AS6noGHjAFK9?=
+ =?us-ascii?Q?FuhTjjPE6s9BM4brb8p27M+woRR6EYqnKvrqF7v4jstwU7kDgpyNTwb/KeZm?=
+ =?us-ascii?Q?XzBXKvChjUUugqF/h1V2xh3cPnXt7Fftg/NpPo7867MjRwug3boGHUNmQApZ?=
+ =?us-ascii?Q?J/zbGacbeGQYWcb00kcot7G3tpMMiJgityOugzGoaUOZ7PPWZJZKYr+tvIcc?=
+ =?us-ascii?Q?bwHZN3D3KeZ6w3PIl7jTDZzo5r3FMcfNVKLkM97fE7dp21X6upzMYmPhlGrg?=
+ =?us-ascii?Q?j0efOiW72Xg+J2IsA+RtcGxYyQGpql3thW6ZCiVcdqwMdghG4CUXMwfE30h2?=
+ =?us-ascii?Q?vHXTAtLDN00bjwlFa7zyOIGz2AHxTF09N94FULS1kGvlcGytR0l42NKc09I2?=
+ =?us-ascii?Q?e15oYSnDw3Jebqvv+xfej06+3Az08RWzywGW0qXltsfst4fafpwgMiNVP2tK?=
+ =?us-ascii?Q?0WrpFoawnTsEWCPDCoFv9YLQcKNPaBRNH0vI8YZ6C1ztNI2+YH0EiQbAHGvd?=
+ =?us-ascii?Q?LrCQ1adUOKtgEVqPLWCCnvgVOGusgrXgAPAnv+4x?=
 X-OriginatorOrg: kpit.com
 X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 5d3bbb70-e729-452e-a1cc-08da60d7f13c
+ 2ab01cce-f2a5-4e43-d390-08da60da5b05
 X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB6712.INDPRD01.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2022 11:49:41.0352
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2022 12:06:57.5091
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
 X-MS-Exchange-CrossTenant-UserPrincipalName: 
- MB6Y3b7tpwQLsNEeg9x8DPv6hyIduGf/pEhQ6f21o4B3Owfsp5u53nYQvoEN30C0+47FxppKbj6lL8q9CP5XhQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA1PR01MB0620
+ USfriNJcodZM59gnISKhFlgnqTQ8zwCbZQhPRW3T19bI7okD8VKWxlihJY/+3McGDpVi+0wWGYFc/esXJ3wJeQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA1PR01MB3355
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Jul 2022 11:49:55 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Jul 2022 12:07:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167820
+ https://lists.openembedded.org/g/openembedded-core/message/167821
 
-From: Joshua Watt <JPEWhacker@gmail.com>
+Use conditional override for CVE_CHECK_WHITELIST variable
+to whitelist CVEs for specific recipe.
 
-Moving the function will allow other classes to capture which CVEs have
-been patched, in particular SBoM generation.
+After including cve-extra-exclusions.inc all CVEs from
+file are getting shown in whitelist list for every component even
+if that CVE is not related to it.
 
-Also add a function to capture the CPE ID from the CVE Product and
-Version
+This change can help to set actual whitelisted CVEs for
+the recipe.
 
-(From OE-Core rev: 75d34259a715120be1d023e4fd7b6b4b125f2443)
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit fa6c07bc1a585f204dbdc28704f61448edb8fdc8)
 Signed-off-by: Akash Hadke <akash.hadke@kpit.com>
 ---
- meta/classes/cve-check.bbclass | 62 +------------------------
- meta/lib/oe/cve_check.py       | 82 ++++++++++++++++++++++++++++++++++
- 2 files changed, 84 insertions(+), 60 deletions(-)
+ meta/conf/distro/include/cve-extra-exclusions.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index d0f6970db8..290fcb3316 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -136,10 +136,11 @@ python do_cve_check () {
-     """
-     Check recipe for patched and unpatched CVEs
-     """
-+    from oe.cve_check import get_patched_cves
+diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/conf/distro/include/cve-extra-exclusions.inc
+index e02a4d1fde..4c8716c1a8 100644
+--- a/meta/conf/distro/include/cve-extra-exclusions.inc
++++ b/meta/conf/distro/include/cve-extra-exclusions.inc
+@@ -19,7 +19,7 @@
+ # strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2000-0006
+ # CVE is more than 20 years old with no resolution evident
+ # broken links in CVE database references make resolution impractical
+-CVE_CHECK_WHITELIST += "CVE-2000-0006"
++CVE_CHECK_WHITELIST:pn-strace += "CVE-2000-0006"
  
-     if os.path.exists(d.getVar("CVE_CHECK_DB_FILE")):
-         try:
--            patched_cves = get_patches_cves(d)
-+            patched_cves = get_patched_cves(d)
-         except FileNotFoundError:
-             bb.fatal("Failure in searching patches")
-         whitelisted, patched, unpatched, status = check_cves(d, patched_cves)
-@@ -247,65 +248,6 @@ ROOTFS_POSTPROCESS_COMMAND_prepend = "${@'cve_check_write_rootfs_manifest; ' if
- do_rootfs[recrdeptask] += "${@'do_cve_check' if d.getVar('CVE_CHECK_CREATE_MANIFEST') == '1' else ''}"
- do_populate_sdk[recrdeptask] += "${@'do_cve_check' if d.getVar('CVE_CHECK_CREATE_MANIFEST') == '1' else ''}"
+ # epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2005-0238
+ # The issue here is spoofing of domain names using characters from other character sets.
+@@ -28,26 +28,26 @@ CVE_CHECK_WHITELIST += "CVE-2000-0006"
+ # there is unlikely ever to be a single fix to webkit or epiphany which addresses this
+ # problem. Whitelisted as there isn't any mitigation or fix or way to progress this further
+ # we can seem to take.
+-CVE_CHECK_WHITELIST += "CVE-2005-0238"
++CVE_CHECK_WHITELIST:pn-epiphany += "CVE-2005-0238"
  
--def get_patches_cves(d):
--    """
--    Get patches that solve CVEs using the "CVE: " tag.
--    """
--
--    import re
--
--    pn = d.getVar("PN")
--    cve_match = re.compile("CVE:( CVE\-\d{4}\-\d+)+")
--
--    # Matches the last "CVE-YYYY-ID" in the file name, also if written
--    # in lowercase. Possible to have multiple CVE IDs in a single
--    # file name, but only the last one will be detected from the file name.
--    # However, patch files contents addressing multiple CVE IDs are supported
--    # (cve_match regular expression)
--
--    cve_file_name_match = re.compile(".*([Cc][Vv][Ee]\-\d{4}\-\d+)")
--
--    patched_cves = set()
--    bb.debug(2, "Looking for patches that solves CVEs for %s" % pn)
--    for url in src_patches(d):
--        patch_file = bb.fetch.decodeurl(url)[2]
--
--        if not os.path.isfile(patch_file):
--            bb.error("File Not found: %s" % patch_file)
--            raise FileNotFoundError
--
--        # Check patch file name for CVE ID
--        fname_match = cve_file_name_match.search(patch_file)
--        if fname_match:
--            cve = fname_match.group(1).upper()
--            patched_cves.add(cve)
--            bb.debug(2, "Found CVE %s from patch file name %s" % (cve, patch_file))
--
--        with open(patch_file, "r", encoding="utf-8") as f:
--            try:
--                patch_text = f.read()
--            except UnicodeDecodeError:
--                bb.debug(1, "Failed to read patch %s using UTF-8 encoding"
--                        " trying with iso8859-1" %  patch_file)
--                f.close()
--                with open(patch_file, "r", encoding="iso8859-1") as f:
--                    patch_text = f.read()
--
--        # Search for one or more "CVE: " lines
--        text_match = False
--        for match in cve_match.finditer(patch_text):
--            # Get only the CVEs without the "CVE: " tag
--            cves = patch_text[match.start()+5:match.end()]
--            for cve in cves.split():
--                bb.debug(2, "Patch %s solves %s" % (patch_file, cve))
--                patched_cves.add(cve)
--                text_match = True
--
--        if not fname_match and not text_match:
--            bb.debug(2, "Patch %s doesn't solve CVEs" % patch_file)
--
--    return patched_cves
--
- def check_cves(d, patched_cves):
-     """
-     Connect to the NVD database and find unpatched cves.
-diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
-index b17390de90..a4b831831b 100644
---- a/meta/lib/oe/cve_check.py
-+++ b/meta/lib/oe/cve_check.py
-@@ -89,3 +89,85 @@ def update_symlinks(target_path, link_path):
-         if os.path.exists(os.path.realpath(link_path)):
-             os.remove(link_path)
-         os.symlink(os.path.basename(target_path), link_path)
-+
-+def get_patched_cves(d):
-+    """
-+    Get patches that solve CVEs using the "CVE: " tag.
-+    """
-+
-+    import re
-+    import oe.patch
-+
-+    pn = d.getVar("PN")
-+    cve_match = re.compile("CVE:( CVE\-\d{4}\-\d+)+")
-+
-+    # Matches the last "CVE-YYYY-ID" in the file name, also if written
-+    # in lowercase. Possible to have multiple CVE IDs in a single
-+    # file name, but only the last one will be detected from the file name.
-+    # However, patch files contents addressing multiple CVE IDs are supported
-+    # (cve_match regular expression)
-+
-+    cve_file_name_match = re.compile(".*([Cc][Vv][Ee]\-\d{4}\-\d+)")
-+
-+    patched_cves = set()
-+    bb.debug(2, "Looking for patches that solves CVEs for %s" % pn)
-+    for url in oe.patch.src_patches(d):
-+        patch_file = bb.fetch.decodeurl(url)[2]
-+
-+        if not os.path.isfile(patch_file):
-+            bb.error("File Not found: %s" % patch_file)
-+            raise FileNotFoundError
-+
-+        # Check patch file name for CVE ID
-+        fname_match = cve_file_name_match.search(patch_file)
-+        if fname_match:
-+            cve = fname_match.group(1).upper()
-+            patched_cves.add(cve)
-+            bb.debug(2, "Found CVE %s from patch file name %s" % (cve, patch_file))
-+
-+        with open(patch_file, "r", encoding="utf-8") as f:
-+            try:
-+                patch_text = f.read()
-+            except UnicodeDecodeError:
-+                bb.debug(1, "Failed to read patch %s using UTF-8 encoding"
-+                        " trying with iso8859-1" %  patch_file)
-+                f.close()
-+                with open(patch_file, "r", encoding="iso8859-1") as f:
-+                    patch_text = f.read()
-+
-+        # Search for one or more "CVE: " lines
-+        text_match = False
-+        for match in cve_match.finditer(patch_text):
-+            # Get only the CVEs without the "CVE: " tag
-+            cves = patch_text[match.start()+5:match.end()]
-+            for cve in cves.split():
-+                bb.debug(2, "Patch %s solves %s" % (patch_file, cve))
-+                patched_cves.add(cve)
-+                text_match = True
-+
-+        if not fname_match and not text_match:
-+            bb.debug(2, "Patch %s doesn't solve CVEs" % patch_file)
-+
-+    return patched_cves
-+
-+
-+def get_cpe_ids(cve_product, version):
-+    """
-+    Get list of CPE identifiers for the given product and version
-+    """
-+
-+    version = version.split("+git")[0]
-+
-+    cpe_ids = []
-+    for product in cve_product.split():
-+        # CVE_PRODUCT in recipes may include vendor information for CPE identifiers. If not,
-+        # use wildcard for vendor.
-+        if ":" in product:
-+            vendor, product = product.split(":", 1)
-+        else:
-+            vendor = "*"
-+
-+        cpe_id = f'cpe:2.3:a:{vendor}:{product}:{version}:*:*:*:*:*:*:*'
-+        cpe_ids.append(cpe_id)
-+
-+    return cpe_ids
+ # glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4756
+ # Issue is memory exhaustion via glob() calls, e.g. from within an ftp server
+ # Best discussion in https://bugzilla.redhat.com/show_bug.cgi?id=681681
+ # Upstream don't see it as a security issue, ftp servers shouldn't be passing
+ # this to libc glob. Exclude as upstream have no plans to add BSD's GLOB_LIMIT or similar
+-CVE_CHECK_WHITELIST += "CVE-2010-4756"
++CVE_CHECK_WHITELIST:pn-glibc += "CVE-2010-4756"
+ 
+ # go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29509
+ # go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29511
+ # The encoding/xml package in go can potentially be used for security exploits if not used correctly
+ # CVE applies to a netapp product as well as flagging a general issue. We don't ship anything
+ # exposing this interface in an exploitable way
+-CVE_CHECK_WHITELIST += "CVE-2020-29509 CVE-2020-29511"
++CVE_CHECK_WHITELIST:pn-go += "CVE-2020-29509 CVE-2020-29511"
+ 
+ # db
+ # Since Oracle relicensed bdb, the open source community is slowly but surely replacing bdb with
+ # supported and open source friendly alternatives. As a result these CVEs are unlikely to ever be fixed.
+-CVE_CHECK_WHITELIST += "CVE-2015-2583 CVE-2015-2624 CVE-2015-2626 CVE-2015-2640 CVE-2015-2654 \
++CVE_CHECK_WHITELIST:pn-db += "CVE-2015-2583 CVE-2015-2624 CVE-2015-2626 CVE-2015-2640 CVE-2015-2654 \
+ CVE-2015-2656 CVE-2015-4754 CVE-2015-4764 CVE-2015-4774 CVE-2015-4775 CVE-2015-4776 CVE-2015-4777 \
+ CVE-2015-4778 CVE-2015-4779 CVE-2015-4780 CVE-2015-4781 CVE-2015-4782 CVE-2015-4783 CVE-2015-4784 \
+ CVE-2015-4785 CVE-2015-4786 CVE-2015-4787 CVE-2015-4788 CVE-2015-4789 CVE-2015-4790 CVE-2016-0682 \
 -- 
 2.17.1
 
