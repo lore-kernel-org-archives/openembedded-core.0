@@ -2,139 +2,172 @@ Return-Path: <christopher.w.clark@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8502C43334
-	for <webhook@archiver.kernel.org>; Sun, 10 Jul 2022 05:42:41 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web12.14255.1657431754809065130
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B03F3C433EF
+	for <webhook@archiver.kernel.org>; Sun, 10 Jul 2022 05:54:31 +0000 (UTC)
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com
+ [209.85.217.44])
+ by mx.groups.io with SMTP id smtpd.web12.14315.1657432463945753853
  for <openembedded-core@lists.openembedded.org>;
- Sat, 09 Jul 2022 22:42:34 -0700
+ Sat, 09 Jul 2022 22:54:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=XJrGzdEa;
- spf=pass (domain: gmail.com, ip: 209.85.216.50,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QGeP6PQY;
+ spf=pass (domain: gmail.com, ip: 209.85.217.44,
  mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id
- o5-20020a17090a3d4500b001ef76490983so2228576pjf.2
+Received: by mail-vs1-f44.google.com with SMTP id o185so2286059vsc.7
         for <openembedded-core@lists.openembedded.org>;
- Sat, 09 Jul 2022 22:42:34 -0700 (PDT)
+ Sat, 09 Jul 2022 22:54:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rTehgZpXkFXdAPySnair4tQMh0wIefkZORJDZWK84E4=;
-        b=XJrGzdEa+sQNGD04Hq2tY6+3f9g87NxrSUwWsgRCIJqLPPPZBEeuXKYXYbi0PfsCDA
-         e4gybG5LoT0wnX06KB04c9lQfoF4gH39igPpORZpi9N07E0i0CpbO5/cEgxhQxitJXMs
-         Z/yXN5khYE/Jkzj+YbgZuum/omIxujd/Cbcbfse3BcfpHtGmuk7t5US8X0mgai+VaL3n
-         BQH/nmiFxtsIZREvAw+0Nh8lWdh18lq7G4QJ3pw0Xk4FJKBMtanh1fQqITJCdOHN60b1
-         C9DhYOS+lZpE8X4PjTRNx/fCbG9KjRUEGDmcmgcK0zK4aNLT6uQ5tGL97s0hlIRHiVqR
-         cAUA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jd81KQ2MbTvDuB4vm07JNaUgY85q0QfRgHU2jK/SVCQ=;
+        b=QGeP6PQYW5j+QWitQThv8tWTMfOx8xIdfU27G1B6SOsA7UIcnPjqOlqLl2vwrRSbrL
+         3yPiTLvPBld5M4HIoV7B9FjnMeeYB2eNhxqvBxcnlHKBao6sKECtl8HyXmdYPIOw/oHn
+         t3+xejvCS/EOkNEiz69td1V+Cfdl5WUhvPX1ecWImg0vaz3fdMszroEpCmPg3s93uTpG
+         LRUgyZPsWRoNkDLdDdO48+5SumhUopMa921byNO9ChUpeTN9RPQ1/Kz930M+TnUeV4E2
+         xpX5rFVxMN/VTriU8k2WlW3Y3eVAxAW+XwNOPByeyzZkf+7c9I6kgVMLVYgcsgIE5Uc1
+         MhBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rTehgZpXkFXdAPySnair4tQMh0wIefkZORJDZWK84E4=;
-        b=IiHvsYgAJNcpWsX97st8RfpU5D4ruVhUs9eRBYY/vWLs3mnuY/kH4TE6w6QqiswBo4
-         fb9SZZMv9Ei/PUfT3ZOyKlDR7dhN7AsMbchLuhw9KUY/x93T73BeILF0Hz7w+MolUWHR
-         1dcS2HomvQx00bB3I5sELtG3heE8mgvEz0jgPvnpT5cgoxoij8crMIf3h0iGZO8U1YL9
-         wXqqnrr/tywtkuBLluQF/EBbeGROkBL68jMToqvfrP3PUMpnKPNFcqEIYc0w+foldjid
-         kDgSJjmEJwrf6cbgUiYTSaCvGRmVhMsMRgl47SNnGjKVB/F7tBUi2VdCXn9WAxwHD2jO
-         s4Kg==
-X-Gm-Message-State: AJIora+QaAsrmrn5uxv611+xTJpj6xW/ASEdO4K+Ausfh4VtE6g5aZP8
-	ILKTyGGiCM/vV+x7SKufCbE=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jd81KQ2MbTvDuB4vm07JNaUgY85q0QfRgHU2jK/SVCQ=;
+        b=IWmiqcOrRr1jDeiR4AaJe+7Fmn6bjn6STpoCDjAKdsNFtrwhH51hSriVEiNGKobJGx
+         /HNHy4dw7hV18gJED59HdUz9w/07kqge+lijDPNtxGsfHBKgUdWeTJq2KlqkhNUVoXSY
+         PABvkz5PjkQuPZgwEdL++PkdDA4x6zIyP552d77GoJdhUIJoMvWV0Gq0jqQwIN2+4XPu
+         xtDQnd7SDvoEeMAs+39WVqs8KPXWNqjMzD++Go5Gnk4dVa0Nj5gVuYxDc/rXskpDuz6+
+         4ZkJ+f/ffaoCAU6y9dnwSS0mOPQl3tr7HkHZLoq9jRUACdiag4KMwtHYgh7B4S4DS+3Z
+         /Ufw==
+X-Gm-Message-State: AJIora/vKhbLpPjO27Z2U4HCtq5ooEV8XtRpfVxVP+TGMcqW5B8Hl0lF
+	gjhMHPEJGCsdKDlVstCVtzodWhrnPrj7SdgO6v0=
 X-Google-Smtp-Source: 
- AGRyM1s3yHxRnT2KyG6YvLl3aBJ1NW5EGIGFogzi/h4CeBcA/0SGjobaO4vj9aXFkunpGXMQhwl47g==
-X-Received: by 2002:a17:90b:1005:b0:1ef:9a54:5837 with SMTP id
- gm5-20020a17090b100500b001ef9a545837mr9998149pjb.102.1657431754117;
-        Sat, 09 Jul 2022 22:42:34 -0700 (PDT)
-Received: from cog-dev.home ([70.103.208.83])
-        by smtp.gmail.com with ESMTPSA id
- j11-20020a17090aeb0b00b001ef917f1c30sm2181539pjz.6.2022.07.09.22.42.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Jul 2022 22:42:33 -0700 (PDT)
-From: Christopher Clark <christopher.w.clark@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org,
-	openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Cc: bruce.ashfield@gmail.com,
-	cardoe@cardoe.com,
-	Bertrand.Marquis@arm.com
-Subject: [meta-virtualization][PATCH] xen,
- xen-tools: pass prefix maps to fix buildpaths reproducible build issues
-Date: Sat,  9 Jul 2022 22:42:16 -0700
-Message-Id: <20220710054216.40558-1-christopher.w.clark@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ AGRyM1t9GGYLZkHAk3yl3ssCGmHgGEjWb/JcHYpabgANVkzd4tE3s7XsRyZc+z6/lVbMsfumkGdieB6CF2ekq8COXbA=
+X-Received: by 2002:a67:f74c:0:b0:354:5c29:aad7 with SMTP id
+ w12-20020a67f74c000000b003545c29aad7mr3912599vso.40.1657432462879; Sat, 09
+ Jul 2022 22:54:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: 
+ <7140b61c92f4f9d79b8c8b8d9be68f127512b758.camel@linuxfoundation.org>
+ <CADkTA4O0Ej3HKMPtwoq_iBue2P43gicwx8rfFKyLY5d3jNTP_A@mail.gmail.com>
+ <170006698A73A72B.21011@lists.openembedded.org>
+In-Reply-To: <170006698A73A72B.21011@lists.openembedded.org>
+From: Christopher Clark <christopher.w.clark@gmail.com>
+Date: Sat, 9 Jul 2022 22:54:11 -0700
+Message-ID: 
+ <CACMJ4Gac31vrekYcD7+vooVtp5pd24kCVtAocNM4yjzjXCHNaA@mail.gmail.com>
+Subject: Re: [OE-core] Reproducible build issues with buildpaths - take 2
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
+	Bertrand Marquis <Bertrand.Marquis@arm.com>,
+ Doug Goldstein <cardoe@cardoe.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 10 Jul 2022 05:42:41 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 10 Jul 2022 05:54:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167842
+ https://lists.openembedded.org/g/openembedded-core/message/167843
 
-To fix warnings when the buildpaths QA test is enabled, pass the file
-and debug prefix map options that were previously supplied only for
-reproducible builds, adding them to the DEBUG_PREFIX_MAP variable
-and supplying that to CC.
+On Fri, Jul 8, 2022 at 6:55 PM Christopher Clark via
+lists.openembedded.org
+<christopher.w.clark=gmail.com@lists.openembedded.org> wrote:
+>
+> On Fri, Jul 8, 2022 at 6:37 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> >
+> > On Fri, Jul 8, 2022 at 7:07 AM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > >
+> > > Hi All,
+> > >
+> > > We've made good progress and I appreciate the help from people. I ran a
+> > > fresh build on the autobuilder and I forced it to rerun the QA checks
+> > > for all recipes. The tricky bit about warnings is that they don't show
+> > > up for objects from sstate and the addition of the buildpaths QA check
+> > > doesn't cause the checks to rerun. Due to that a few more previsouly
+> > > unseen issues cropped up.
+> > >
+> > > The list of issues now stands are:
+> > >
+> > > qemuppc:
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/5428
+> > > WARNING: kernel-devsrc-1.0-r0 do_package_qa: QA Issue: File /lib/modules/5.15.48-yocto-standard/build/include/generated/.vdso32-offsets.h.cmd in package kernel-devsrc contains reference to TMPDIR [buildpaths]
+> >
+> > I'll take this one. My fix was only for arch/arm, but I'll expand it
+> > to cover ppc32.
+> >
+> > >
+> > > meta-arm:
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/113/builds/2629
+> > > stdio: WARNING: perl-5.36.0-r0 do_package_qa: QA Issue: File /usr/lib/perl/ptest/dist/threads-shared/Makefile.old in package perl-ptest contains reference to TMPDIR
+> > >
+> > > meta-gplv2:
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/75/builds/5460
+> > > WARNING: bash-3.2.57-r0 do_package_qa: QA Issue: File /usr/bin/bashbug in package bash contains reference to TMPDIR [buildpaths]
+> > > WARNING: tar-1.17-r3 do_package_qa: QA Issue: File /usr/src/debug/tar/1.17-r3/build/lib/string.h in package tar-src contains reference to TMPDIR
+> > > WARNING: diffutils-2.8.1-r7.0 do_package_qa: QA Issue: File /usr/bin/diff.diffutils in package diffutils contains reference to TMPDIR [buildpaths]
+> > > WARNING: findutils-4.2.31-r4 do_package_qa: QA Issue: File /usr/bin/updatedb in package findutils contains reference to TMPDIR [buildpaths]
+> > > WARNING: mc-4.7.5.2-r3 do_package_qa: QA Issue: File /usr/libexec/mc/extfs.d/iso9660 in package mc-helpers contains reference to TMPDIR [buildpaths]
+> > >
+> > > There is a proposal on the oe-architecture list about simply disabling
+> > > this layer going forward. The increased number of issues reinforces my
+> > > view on that.
+> > >
+> > > meta-virt:
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/128/builds/292
+> > > WARNING: xen-tools-4.16+stableAUTOINC+f265444922-r0 do_package_qa: QA Issue: File /usr/lib/xen/boot/xen-shim in package xen-tools-shim contains reference to TMPDIR [buildpaths]
+> > > WARNING: xen-tools-4.16+stableAUTOINC+f265444922-r0 do_package_qa: QA Issue: File /usr/src/debug/xen-tools/4.16+stableAUTOINC+f265444922-r0/git/tools/libs/light/dsdt_pvh.c in package xen-tools-src contains reference to TMPDIR [buildpaths]
+> > > WARNING: xen-tools-4.16+stableAUTOINC+f265444922-r0 do_package_qa: QA Issue: File /usr/lib/libxenlight.so.4.16.0 in package xen-tools-libxenlight contains reference to TMPDIR [buildpaths]
+> > > WARNING: xen-tools-4.16+stableAUTOINC+f265444922-r0 do_package_qa: QA Issue: File /usr/lib/libxenlight.a in package xen-tools-staticdev contains reference to TMPDIR [buildpaths]
+> > > WARNING: xen-tools-4.16+stableAUTOINC+f265444922-r0 do_package_qa: QA Issue: File /usr/lib/debug/usr/lib/xen/boot/xen-shim-syms in package xen-tools-dbg contains reference to TMPDIR [buildpaths]
+> > >
+> >
+> > Hopefully Christopher can chime in here. If not, I'll have a look
+> > early next week (or over the weekend).
+>
+> Ack - I will be working on this over this weekend and will let you know.
 
-Testing indicates that passing the prefix maps needs to be via CC
-rather than the EXTRA_CFLAGS_XEN_CORE/TOOLS variables.
+ok, I've just posted a patch for this with what I've found so far this
+weekend -- it fixes all the warnings that I can see in testing with
+both x86 and Arm builds, so hopefully it's OK now.
 
-Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
----
- recipes-extended/xen/xen.inc | 21 ++++++++++-----------
- 1 file changed, 10 insertions(+), 11 deletions(-)
+thanks,
 
-diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-index ed6e6a7..2bbf1e3 100644
---- a/recipes-extended/xen/xen.inc
-+++ b/recipes-extended/xen/xen.inc
-@@ -88,12 +88,13 @@ export CROSS_COMPILE="${TARGET_PREFIX}"
- # overide LDFLAGS to allow xen to build without: "x86_64-oe-linux-ld: unrecognized option '-Wl,-O1'"
- export LDFLAGS=""
- 
--# Pass through the Yocto distro compiler flags via the Xen-provided variables.
--# Special handling:
--# - The Yocto distro compiler flags are typically set to be appropriate for
--#   user-space software rather than for generation of a hypervisor binary, so
--#   only pass the debug prefix map to the hypervisor build:
--EXTRA_CFLAGS_XEN_CORE="${DEBUG_PREFIX_MAP}"
-+# No additional C flags for the main hypervisor build
-+EXTRA_CFLAGS_XEN_CORE ?= ""
-+# Add prefix maps to support buildpaths QA test and reproducibility
-+DEBUG_PREFIX_MAP:append = " \
-+    -ffile-prefix-map=${S}=${PN}-source \
-+    -fdebug-prefix-map=${WORKDIR}=${PN} \
-+    "
- 
- # - The Xen tools build for x86 systems with HVM-mode enabled includes hvmloader
- #   which fails to build when "-m64" is included in flags set via the
-@@ -109,11 +110,11 @@ TUNE_CCARGS:x86-64=""
- #   It must not be compiled with SSE compiler options enabled and the Xen build
- #   explicitly clears CFLAGS to ensure that, so such options must not be passed
- #   in via the tool variable. hvmloader is required to run HVM-mode guest VMs.
--CC="${CCACHE}${HOST_PREFIX}gcc ${TOOLCHAIN_OPTIONS} ${CC_REPRODUCIBLE_OPTIONS}"
-+CC="${CCACHE}${HOST_PREFIX}gcc ${TOOLCHAIN_OPTIONS} ${DEBUG_PREFIX_MAP} ${CC_REPRODUCIBLE_OPTIONS}"
- EXTRA_CFLAGS_XEN_TOOLS="${HOST_CC_ARCH} ${CFLAGS}"
- # 32-bit ARM needs the TUNE_CCARGS component of HOST_CC_ARCH to be passed
- # in CC to ensure that configure can compile binaries for the right arch.
--CC:arm="${CCACHE}${HOST_PREFIX}gcc ${TUNE_CCARGS} ${TOOLCHAIN_OPTIONS} ${CC_REPRODUCIBLE_OPTIONS}"
-+CC:arm="${CCACHE}${HOST_PREFIX}gcc ${TUNE_CCARGS} ${TOOLCHAIN_OPTIONS} ${DEBUG_PREFIX_MAP} ${CC_REPRODUCIBLE_OPTIONS}"
- 
- # There are no Xen-provided variables for C++, so append to the tool variables:
- CPP:append = " ${CPPFLAGS}"
-@@ -158,9 +159,7 @@ EXTRA_OEMAKE += "${@['', 'XEN_WHOAMI=${PF} XEN_DOMAIN=${DISTRO} XEN_BUILD_HOST=$
-                     [d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1']}${@get_build_time_vars(d)}"
- 
- # Improve build reproducibility: compiler flags to remove filesystem differences.
--CC_REPRODUCIBLE_OPTIONS = "${@['', '-gno-record-gcc-switches ' + \
--                                   '-ffile-prefix-map=${S}=${PN}-source ' + \
--                                   '-fdebug-prefix-map=${WORKDIR}=${PN}'] \
-+CC_REPRODUCIBLE_OPTIONS = "${@['', '-gno-record-gcc-switches'] \
-                              [d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1']}"
- 
- # check for XSM in package config to allow XSM_ENABLE to be set
--- 
-2.25.1
+Christopher
 
+>
+> >
+> > > There is also still the lttng-modules issue if we enable .debug
+> > > checking. I disabled that for these tests to reduce the noise.
+> >
+> > This is one I can pick up as well, if no one else gets there first.
+> >
+> > Bruce
+> >
+> > >
+> > > Cheers,
+> > >
+> > > Richard
+> > >
+> > >
+> > >
+> > >
+> >
+> >
+> > --
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > thee at its end
+> > - "Use the force Harry" - Gandalf, Star Trek II
+> >
+> >
+> >
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#167834): https://lists.openembedded.org/g/openembedded-core/message/167834
+> Mute This Topic: https://lists.openembedded.org/mt/92248896/3619037
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [christopher.w.clark@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
