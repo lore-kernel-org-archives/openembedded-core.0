@@ -1,110 +1,93 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <christoph.lauer@email.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D319CC433EF
-	for <webhook@archiver.kernel.org>; Sun, 10 Jul 2022 13:02:43 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web12.16612.1657458153500101824
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DEC8C433EF
+	for <webhook@archiver.kernel.org>; Sun, 10 Jul 2022 15:36:54 +0000 (UTC)
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+ by mx.groups.io with SMTP id smtpd.web08.18003.1657467408701823191
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Jul 2022 06:02:33 -0700
+ Sun, 10 Jul 2022 08:36:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=sWV5fIbP;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.50,
- mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f50.google.com with SMTP id
- i8-20020a17090a4b8800b001ef8a65bfbdso2682890pjh.1
-        for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Jul 2022 06:02:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:from:to:message-id:date;
-        bh=nqAyaT4Tpo6mKHzCo+KYhCaFiaCYolfAGf1zufh8Xl4=;
-        b=sWV5fIbPnYHuW2vvi5tw3cyrsnDrBjL2bUiPrSZG18ZRzB9T3matyE55IUXr7ybTKX
-         MEVv9ug3ZiUWTTvz+zaTOsdmZ8f9hNxZofg1X8ZJkj5zqeP4+sIq3FtmyPN85EhhW2o7
-         6tnx7R+iVWpMj0ss1AgX5h7bvG37BjB4j5fwiYhxjMJ1o/RFTPT7hdDfA0Hj2M2lcSxe
-         sm88TKjMuqGQtGnSeQN8D1KqAVCBqjswhmX5cgVuDKOrUWi69CBwtjpPfR9VZFfHMqT/
-         eO4qSMNgi/igtlRuAB689WO8PsugCGd/BTPIsAHdyV6SJRoaIODcxzODCldCNsanPjR3
-         AXIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=nqAyaT4Tpo6mKHzCo+KYhCaFiaCYolfAGf1zufh8Xl4=;
-        b=Nz7BXYddIN+EWe1MlI2Zorv79RqZ+hqpgopew3h1+82NFSRmOXprE6FrH/XyH3nNbY
-         L7K+PzwFg5miTIPifcp7gfj7+/g83wzZA1WbQfmDgHF7Zrw6hhBAwh8YMTkMN3o7msda
-         FcZo+CHyfNGVXdWQZCZGmWJ1+9lfU0x4yqMCsN2sCg63gafUy6L9r+YMWVY4n0NSkAUU
-         bfM6bDI1D8S7AaaSDi2/U4N6YT16OF9lZ8ealpinnbyJcojzNpP6dHRP5AaFgx1r5exI
-         Xh3jiE0rgX8jXk/aOdIpsLiw3yKywjkEqm7pKAaYulBWmEgjJV5C4HCn2/QbkXd7U3b6
-         NUpQ==
-X-Gm-Message-State: AJIora/siedOANhTwgu+RxF2FDax7kedLYCbOmzziwzen2BKTtb/tbix
-	bH83ZhzBRUqzN1oN6gN/8fwMXpk/lf5XQOKw
-X-Google-Smtp-Source: 
- AGRyM1v+Sn/YV9Ctyfzf/TEWsBYzZQB7qOMtMhoyN9a3ho7SmgcvVpXsVTRjbuhkL25ofaO4Y9Mv5w==
-X-Received: by 2002:a17:902:d50e:b0:16c:1664:81e5 with SMTP id
- b14-20020a170902d50e00b0016c166481e5mr13628405plg.149.1657458152341;
-        Sun, 10 Jul 2022 06:02:32 -0700 (PDT)
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
- [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id
- u8-20020a1709026e0800b001635b86a790sm2703250plk.44.2022.07.10.06.02.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Jul 2022 06:02:31 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 8044E9624F0; Sun, 10 Jul 2022 03:02:29 -1000 (HST)
-Subject: OE-core CVE metrics for kirkstone on Sun 10 Jul 2022 03:00:01 AM HST
-FROM: steve@sakoman.com
-To: 
- <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20220710130229.8044E9624F0@nuc.router0800d9.com>
-Date: Sun, 10 Jul 2022 03:02:29 -1000 (HST)
+ dkim=pass header.i=@web.de header.s=dbaedf251592 header.b=GTferMfD;
+ spf=pass (domain: email.de, ip: 217.72.192.78,
+ mailfrom: christoph.lauer@email.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+	s=dbaedf251592; t=1657467406;
+	bh=Hg8GC1n4JY+fEFSpN22dKalyh7t8oao68j8ntbRb4ek=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=GTferMfDYP7Fp4NADJelE+vEDD/aPvTMZbo3dnvhYdznNTvPvywGDfTxqug5nhBV+
+	 qNrKuViTCGkeMx59qEv5B4qur2ysCSithSQjhW2CqOHbqcZZSEbgDBoh3xhaS0YKQp
+	 s3LOy0nioijaF0O9yS3sY+b+5QohshC8Hrn7vOAk=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from XTR-ACUYOCTO-P01.xtronic-net.com ([178.251.90.190]) by
+ smtp.web.de (mrweb106 [213.165.67.124]) with ESMTPSA (Nemesis) id
+ 1MWi9q-1o3quk0rNI-00XM9w; Sun, 10 Jul 2022 17:36:46 +0200
+From: Christoph Lauer <christoph.lauer@email.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Christoph Lauer <christoph.lauer@xtronic.de>
+Subject: [PATCH] package.bbclass: Avoid stripping signed kernel modules in
+ splitdebuginfo
+Date: Sun, 10 Jul 2022 17:36:38 +0200
+Message-Id: <20220710153638.61096-1-christoph.lauer@email.de>
+X-Mailer: git-send-email 2.17.1
+X-Provags-ID: V03:K1:e6pPCjho8tavajd5WTNDg5aNVyJQeOQKbOrcSQXdODtOkz9AykR
+ L+HhxLPT1zCZODKxcQSvlBgGpoxY4bxsjmMOjx3TJagJVQegY8jsummlJp8b1FpEsUvB7nW
+ AN18IscbJCHQ6VBU87MDu5NNIAAhpUrPVeolwDnUo4O2EgGhte6dXxOMu2dxV1Ve1wHyGvg
+ AQwIgLtbSQ1pzhtzLfQYQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:yfH9RAxIiD0=:o5QQgpdvJkxNEVYnJIkduB
+ e0eZS40j7U0d3HAt2Ah8dAf6olkWpUMTeRZb8zIR3uREPrWUc4XX8hgHCrChCgVSNHDhTVc7+
+ akwKvDZPWBHF2mCgkdi+8zHFYVnIpJ8aBgJ/G9+q9vwZkY3QCVxlQIJWl6W6AJzHLbsJCFqmH
+ nRGMdQWe/RQgmbRDBuTRO/t8uE7xm+jTzW8KyIhDfx6h4DTfP0I1c8KcM/TuA2fXphprWABi+
+ zkaojJSmEbrj/m+5EJ++u1Ya3/qvOcp3m493z/fvGLfJlJqgDYmH8qUjAxB2BVecWCoGrdDjR
+ EiDti8EDSwM7hK+bd4xNn8rPDyh6s+HBLZWTkk+gruOWksPJttyfW/xbgB8TzUuUFN0DN9dje
+ LmkdaXFst1PF3LxVKF20W1tqn+MTYZ6LZjCKrhQmhWo8vEmkWD0pljgewfDDhPD/kr+MEaQZ4
+ DSmP8PpVx40DDGUwwMFrrwsM9V8eXmfE4Yai0P3V5m+1CT7LpyEfqkjqMKg22R8Kjkc2lXg0m
+ fNpGDBEjXtyAxnqiGiYccWiv3O76ParIgk2sM7MlBehsoBUqOXCzHEJTlgsylx6YFv+5S8yIm
+ 3BFpuuQ+k5xILaen9w5FXiV/3GWMQsokQqrnb53JArxXQra6YZhwPwPp6uZHncWpVm3dBaphm
+ edmRhIU4lx0do/ODD/WnZdFuFuSkI7pOHiyB0nW2JZClns1SDXHL9yX1iK9IyrATpbG0JsLc+
+ mH2dSAN6owpdAXIzhHHiy87HZCp+dhu5ljNk0XSK5VgTRlyg2EYg8hk81qTmHDj2Gi1y3ER5j
+ JWAcujfGIHPLFmWhCVN5li/RJJ2CqWcUqTMu+tM9oL9b88PaFhPqNJeTe8q3oghfjG/Qu3HrP
+ DTcG5te9R1dJtaKN1sWjGdvwVsdoof8XlCJ8bpXBEreb/W3cIh3NBcPuZWkqUGtrfNWmSxwR9
+ rcd5IOtMdCSBTY86/rM+bUHAYmyYw3pZRUeIJdb+QT394o5pXJckcim6PeyaSweem68kcalRs
+ cOhfEYGGgAqaghZunsKubLl+QpHkEga7buDMJTIoRK68Unyyt6qimautk57TIwQwBuKPkbx22
+ eTTrRgEe5FmYW1FpsbK+FoNX9c/wzcDeq3aqEQtZIcs1pxjILRpKpQhqQ==
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 10 Jul 2022 13:02:43 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 10 Jul 2022 15:36:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167846
+ https://lists.openembedded.org/g/openembedded-core/message/167847
 
-Branch: kirkstone
+From: Christoph Lauer <christoph.lauer@xtronic.de>
 
-New this week: 6 CVEs
-CVE-2022-2257 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2257 *
-CVE-2022-2264 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2264 *
-CVE-2022-2284 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2284 *
-CVE-2022-2285 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2285 *
-CVE-2022-2286 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2286 *
-CVE-2022-2287 (CVSS3: 7.1 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2287 *
+Since commit d756b346f248df47b0540644adb1d0f17bcc4b6e kernel modules are s=
+tripped by the functions 'runstrip' and 'splitdebuginfo'. Signed modules m=
+ust not be stripped. Function 'runstrip' avoids this by running is_kernel_=
+module_signed. Apply the same check to splitdebuginfo.
 
-Removed this week: 16 CVEs
-CVE-2019-12067 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-12067 *
-CVE-2020-18974 (CVSS3: 3.3 LOW): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-18974 *
-CVE-2021-20255 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-20255 *
-CVE-2022-0529 (CVSS3: 5.5 MEDIUM): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0529 *
-CVE-2022-0530 (CVSS3: 5.5 MEDIUM): unzip:unzip-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0530 *
-CVE-2022-2068 (CVSS3: 9.8 CRITICAL): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2068 *
-CVE-2022-2085 (CVSS3: 5.5 MEDIUM): ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2085 *
-CVE-2022-2124 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2124 *
-CVE-2022-2125 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2125 *
-CVE-2022-2126 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2126 *
-CVE-2022-2129 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2129 *
-CVE-2022-2175 (CVSS3: 8.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2175 *
-CVE-2022-2182 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2182 *
-CVE-2022-2183 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2183 *
-CVE-2022-26691 (CVSS3: 6.7 MEDIUM): cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-26691 *
-CVE-2022-30065 (CVSS3: 7.8 HIGH): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-30065 *
+Signed-off-by: Christoph Lauer <christoph.lauer@xtronic.de>
+=2D--
+ meta/classes/package.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Full list:  Found 10 unpatched CVEs
-CVE-2021-3611 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3611 *
-CVE-2021-3750 (CVSS3: 8.2 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3750 *
-CVE-2022-1183 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1183 *
-CVE-2022-1664 (CVSS3: 9.8 CRITICAL): dpkg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1664 *
-CVE-2022-2257 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2257 *
-CVE-2022-2264 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2264 *
-CVE-2022-2284 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2284 *
-CVE-2022-2285 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2285 *
-CVE-2022-2286 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2286 *
-CVE-2022-2287 (CVSS3: 7.1 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2287 *
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 4850134022..5328c6bc8b 100644
+=2D-- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -382,6 +382,10 @@ def splitdebuginfo(file, dvar, dv, d):
+     debugfile =3D dvar + dest
+     sources =3D []
+
++    if oe.package.is_kernel_module_signed(file):
++        bb.debug(1, "Skip strip on signed module %s" % file)
++        return (file, sources)
++
+     # Split the file...
+     bb.utils.mkdirhier(os.path.dirname(debugfile))
+     #bb.note("Split %s -> %s" % (file, debugfile))
+=2D-
+2.17.1
 
 
