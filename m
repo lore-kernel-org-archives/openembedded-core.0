@@ -1,254 +1,118 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C645C433EF
-	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 07:57:59 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web11.25973.1657526268973209832
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71A61C433EF
+	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 08:29:19 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.26161.1657528157846686274
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Jul 2022 00:57:49 -0700
+ Mon, 11 Jul 2022 01:29:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=cRi1/Pmu;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199,
- mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 6D286FF810;
-	Mon, 11 Jul 2022 07:57:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1657526267;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VFbwl31MNlFIEOMywEOCBKzkPqhWn+eu1bijJs+Jgko=;
-	b=cRi1/PmujXcHmZ1PTGK9smc+TYWjRgefcsTH6pJcHMZgUERMQbMr0ynH9phgZYCk5n9g15
-	/N0Xx6z2s/9jmeproqaabrN49qldNZYveH+7HiPA0aSKI8v5Vb0Yp49btWAdRgT9jUoCFL
-	7gGoGZMCMoLhDCjYYr54zcoJtTmBVZEXwGY5cJepcnMEtqLJKJl7lFQZToueeIcKlOBwd4
-	2UQ+ps+NVkfv9WNjpxluaW8nwliqP9f0LShiFsot3MXViQTEoZmcaJAs0m4U1XfhBPiU/c
-	xfreXXvYSPQ5ZFxu/hm6oQ5avQsNn1r9LHSgnwFJ57BNiHxaVgMLD4GuJHI24Q==
-Date: Mon, 11 Jul 2022 09:57:45 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Morikazu Fumita <mfumita@electromag.com.au>
-Cc: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org, preid@electromag.com.au
-Subject: Re: [OE-core] [PATCH 1/1] gcc: Fixed libstdc++ configure failure
-Message-ID: <YsvX+cK7gKUvKf1G@mail.local>
-References: <20220708070350.23456-1-mfumita@electromag.com.au>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CnPIewkI;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id q9so5980746wrd.8
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 11 Jul 2022 01:29:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=Hj65bWBHJJmAZ4bOFcWeq6Fui5McCwXpLL5CpEMu0FE=;
+        b=CnPIewkIrnCPkOTtT5lk1YKdN7EgVqNz5wwFb6fTVT+mMkl9CJGmvM/Icbsfi9TdK/
+         tYn4KOY9bLeEfp2cI39KltkwjjaJhABgLrRKMP8gNZde6dxDaaS+D3xjXWlgiuxpfFFs
+         mjvSExwL3CCOK2tE9m1gJEVxNntCGJbH0n0Co=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=Hj65bWBHJJmAZ4bOFcWeq6Fui5McCwXpLL5CpEMu0FE=;
+        b=DbYSukjwpEYMuDhyRVs2/9FdryyrI2sTasdRMti5svuD9XbBV2aaruO2JOaPLQjgTV
+         Iy1/J5ggZOhZ5l6G1LZdXU7mUQgYHUYc7pnW5jXlAU4PE6aPKenl2RGw4iDXeEt0XJkH
+         E9rOCIxOxl8tF1b9dorHFTZhMEqQjd0WpFB09OoQ3huHXR7jcExtJKa6gslBGn3hAWJN
+         bx6PSBtCL0wIw8yQN7xflU4TJtkaLQ1gqfU1KO2g9i4LkmEEngtZblp5GqXkYyLMd2Mr
+         L9xQsrf7xlATmMQZQM624kkM7PcK83Ufi/dNXVOxe9hChSBN/o25xIQoFqLETBz7i8V4
+         IlOg==
+X-Gm-Message-State: AJIora9x5W3BXCS1/TTI9XMvtJbAUCDQHKX1jHl6D/eNCH55oJWTtpaM
+	1UhjWOkNLrXpucUko1U27hxg5g==
+X-Google-Smtp-Source: 
+ AGRyM1v5cPcBr5kz9+XeJPW4gGKCmHT2ylz3sgrcVBjjaVjMEG9nqohFSejuOLy49AJ4FRuMv4EkTg==
+X-Received: by 2002:adf:fdc4:0:b0:21d:6f76:5193 with SMTP id
+ i4-20020adffdc4000000b0021d6f765193mr14655601wrs.606.1657528156259;
+        Mon, 11 Jul 2022 01:29:16 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:33cc:9a17:a076:b55d?
+ ([2001:8b0:aba:5f3c:33cc:9a17:a076:b55d])
+        by smtp.gmail.com with ESMTPSA id
+ r3-20020adfe683000000b0021b81855c1csm6283521wrm.27.2022.07.11.01.29.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jul 2022 01:29:15 -0700 (PDT)
+Message-ID: 
+ <ac55c4c365dec2b3dcc4e1d664a176b0f71a08d0.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] package.bbclass: Avoid stripping signed
+ kernel modules in splitdebuginfo
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Christoph Lauer <christoph.lauer@email.de>,
+	openembedded-core@lists.openembedded.org
+Cc: Christoph Lauer <christoph.lauer@xtronic.de>
+Date: Mon, 11 Jul 2022 09:29:14 +0100
+In-Reply-To: <20220710153638.61096-1-christoph.lauer@email.de>
+References: <20220710153638.61096-1-christoph.lauer@email.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220708070350.23456-1-mfumita@electromag.com.au>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Jul 2022 07:57:59 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Jul 2022 08:29:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167859
+ https://lists.openembedded.org/g/openembedded-core/message/167860
 
-Hello,
-
-On 08/07/2022 15:03:50+0800, Morikazu Fumita wrote:
-> Since commit 34b0edb0d312 ("gcc: Drop stdlib++ option patch"), configure for libstdc++ failed due to ld error of "dummylib/libstdc++.so: file is empty".
-> This failure caused _GLIBCXX_HAVE_S_ISREG not to get defined then make_file_type function in libstdc++-v3\src\filesystem\ops-common.h returns file_type::unknown unconditionally.
-> Fixed by reverting commit 34b0edb0d312 ("gcc: Drop stdlib++ option patch").
-> 
-> Fixes: 34b0edb0d312 ("gcc: Drop stdlib++ option patch")
-
-This doesn't apply since we updated master to gcc 12.1 back in april.
-Can you rebase if this is still relevant?
-
-Thanks!
-
-> 
-> Signed-off-by: Morikazu Fumita <mfumita@electromag.com.au>
+On Sun, 2022-07-10 at 17:36 +0200, Christoph Lauer wrote:
+> From: Christoph Lauer <christoph.lauer@xtronic.de>
+>=20
+> Since commit d756b346f248df47b0540644adb1d0f17bcc4b6e kernel modules are =
+stripped by the functions 'runstrip' and 'splitdebuginfo'. Signed modules m=
+ust not be stripped. Function 'runstrip' avoids this by running is_kernel_m=
+odule_signed. Apply the same check to splitdebuginfo.
+>=20
+> Signed-off-by: Christoph Lauer <christoph.lauer@xtronic.de>
 > ---
->  meta/recipes-devtools/gcc/gcc-11.3.inc        |   2 +
->  meta/recipes-devtools/gcc/gcc-runtime.inc     |   8 +-
->  .../gcc/gcc/0005-optional-libstdc.patch       | 118 ++++++++++++++++++
->  3 files changed, 122 insertions(+), 6 deletions(-)
->  create mode 100644 meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
-> 
-> diff --git a/meta/recipes-devtools/gcc/gcc-11.3.inc b/meta/recipes-devtools/gcc/gcc-11.3.inc
-> index acbb43a25fb1..e6464d2f5489 100644
-> --- a/meta/recipes-devtools/gcc/gcc-11.3.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-11.3.inc
-> @@ -65,6 +65,8 @@ SRC_URI = "\
->             file://0003-CVE-2021-42574.patch \
->             file://0004-CVE-2021-42574.patch \
->             file://0001-CVE-2021-46195.patch \
-> +           \
-> +           file://0005-optional-libstdc.patch \
->  "
->  SRC_URI[sha256sum] = "b47cf2818691f5b1e21df2bb38c795fac2cfbd640ede2d0a5e1c89e338a3ac39"
->  
-> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> index e9f2cf16e840..d2bdfa99db42 100644
-> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> @@ -64,11 +64,7 @@ DEBUG_PREFIX_MAP:class-target = " \
->     "
->  
->  do_configure () {
-> -	export CXX="${CXX} -nostdinc++ -L${WORKDIR}/dummylib"
-> -	# libstdc++ isn't built yet so CXX would error not able to find it which breaks stdc++'s configure
-> -	# tests. Create a dummy empty lib for the purposes of configure.
-> -	mkdir -p ${WORKDIR}/dummylib
-> -	touch ${WORKDIR}/dummylib/libstdc++.so
-> +	export CXX="${CXX} -nostdinc++ -nostdlib++"
->  	for d in libgcc ${RUNTIMETARGET}; do
->  		echo "Configuring $d"
->  		rm -rf ${B}/${TARGET_SYS}/$d/
-> @@ -306,7 +302,7 @@ do_check() {
->      export DEJAGNU="${WORKDIR}/dejagnu/site.exp"
->  
->      # HACK: this works around the configure setting CXX with -nostd* args
-> -    sed -i 's#-nostdinc++ -L${WORKDIR}/dummylib##g' $(find ${B} -name testsuite_flags | head -1)
-> +    sed -i 's/-nostdinc++ -nostdlib++//g' $(find ${B} -name testsuite_flags | head -1)
->  
->      if [ "${TOOLCHAIN_TEST_TARGET}" = "user" ]; then
->          # qemu user has issues allocating large amounts of memory
-> diff --git a/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch b/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
-> new file mode 100644
-> index 000000000000..b856c5dea367
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
-> @@ -0,0 +1,118 @@
-> +From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> +Subject: [PATCH 3/5] gcc: Add --nostdlib++ option
+>  meta/classes/package.bbclass | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index 4850134022..5328c6bc8b 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -382,6 +382,10 @@ def splitdebuginfo(file, dvar, dv, d):
+>      debugfile =3D dvar + dest
+>      sources =3D []
+>=20
+> +    if oe.package.is_kernel_module_signed(file):
+> +        bb.debug(1, "Skip strip on signed module %s" % file)
+> +        return (file, sources)
 > +
-> +[gcc-runtime builds libstdc++ separately from gcc-cross-*. Its configure tests using g++
-> +will not run correctly since by default the linker will try to link against libstdc++
-> +which shouldn't exist yet. We need an option to disable -lstdc++
-> +option whilst leaving -lc, -lgcc and other automatic library dependencies added by gcc
-> +driver. This patch adds such an option which only disables the -lstdc++.]
-> +
-> +[A "standard" gcc build uses xgcc and hence avoids this. We should ask upstream how to
-> +do this officially, the likely answer is don't build libstdc++ separately.]
-> +
-> +OpenEmbedded/Yocto Project builds libgcc and the other gcc runtime libraries
-> +separately from the compiler and slightly differently to the standard gcc build.
-> +
-> +In general this works well but in trying to build them separately we run into
-> +an issue since we're using our gcc, not xgcc and there is no way to tell configure
-> +to use libgcc but not look for libstdc++.
-> +
-> +This adds such an option allowing such configurations to work.
-> +
-> +2021-10-26 Richard Purdie <richard.purdie@linuxfoundation.org>
-> +
-> +gcc/c-family/ChangeLog:
-> +
-> +    * c.opt: Add --nostdlib++ option
-> +
-> +gcc/cp/ChangeLog:
-> +
-> +    * g++spec.c (lang_specific_driver): Add --nostdlib++ option
-> +
-> +gcc/ChangeLog:
-> +
-> +    * doc/invoke.texi: Document --nostdlib++ option
-> +    * gcc.c: Add --nostdlib++ option
-> +
-> +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> +
-> +Upstream-Status: Submitted [https://gcc.gnu.org/pipermail/gcc-patches/2021-October/582724.html]
-> +---
-> + gcc/c-family/c.opt  | 4 ++++
-> + gcc/cp/g++spec.c    | 1 +
-> + gcc/doc/invoke.texi | 8 +++++++-
-> + gcc/gcc.c           | 1 +
-> + 4 files changed, 13 insertions(+), 1 deletion(-)
-> +
-> +Index: gcc-11.2.0/gcc/c-family/c.opt
-> +===================================================================
-> +--- gcc-11.2.0.orig/gcc/c-family/c.opt
-> ++++ gcc-11.2.0/gcc/c-family/c.opt
-> +@@ -2153,6 +2153,10 @@ nostdinc++
-> + C++ ObjC++
-> + Do not search standard system include directories for C++.
-> + 
-> ++nostdlib++
-> ++Driver
-> ++Do not link standard C++ runtime library
-> ++
-> + o
-> + C ObjC C++ ObjC++ Joined Separate
-> + ; Documented in common.opt
-> +Index: gcc-11.2.0/gcc/cp/g++spec.c
-> +===================================================================
-> +--- gcc-11.2.0.orig/gcc/cp/g++spec.c
-> ++++ gcc-11.2.0/gcc/cp/g++spec.c
-> +@@ -159,6 +159,7 @@ lang_specific_driver (struct cl_decoded_
-> +       switch (decoded_options[i].opt_index)
-> + 	{
-> + 	case OPT_nostdlib:
-> ++	case OPT_nostdlib__:
-> + 	case OPT_nodefaultlibs:
-> + 	  library = -1;
-> + 	  break;
-> +Index: gcc-11.2.0/gcc/doc/invoke.texi
-> +===================================================================
-> +--- gcc-11.2.0.orig/gcc/doc/invoke.texi
-> ++++ gcc-11.2.0/gcc/doc/invoke.texi
-> +@@ -239,6 +239,7 @@ in the following sections.
-> + -fno-weak  -nostdinc++ @gol
-> + -fvisibility-inlines-hidden @gol
-> + -fvisibility-ms-compat @gol
-> ++-nostdlib++ @gol
-> + -fext-numeric-literals @gol
-> + -flang-info-include-translate@r{[}=@var{header}@r{]} @gol
-> + -flang-info-include-translate-not @gol
-> +@@ -632,7 +633,7 @@ Objective-C and Objective-C++ Dialects}.
-> + -pie  -pthread  -r  -rdynamic @gol
-> + -s  -static  -static-pie  -static-libgcc  -static-libstdc++ @gol
-> + -static-libasan  -static-libtsan  -static-liblsan  -static-libubsan @gol
-> +--shared  -shared-libgcc  -symbolic @gol
-> ++-shared  -shared-libgcc  -symbolic -nostdlib++ @gol
-> + -T @var{script}  -Wl,@var{option}  -Xlinker @var{option} @gol
-> + -u @var{symbol}  -z @var{keyword}}
-> + 
-> +@@ -15721,6 +15722,11 @@ Specify that the program entry point is
-> + interpreted by the linker; the GNU linker accepts either a symbol name
-> + or an address.
-> + 
-> ++@item -nostdlib++
-> ++@opindex nostdlib++
-> ++Do not use the standard system C++ runtime libraries when linking.
-> ++Only the libraries you specify will be passed to the linker.
-> ++
-> + @item -pie
-> + @opindex pie
-> + Produce a dynamically linked position independent executable on targets
-> +Index: gcc-11.2.0/gcc/gcc.c
-> +===================================================================
-> +--- gcc-11.2.0.orig/gcc/gcc.c
-> ++++ gcc-11.2.0/gcc/gcc.c
-> +@@ -1162,6 +1162,7 @@ proper position among the other output f
-> +     %(mflib) " STACK_SPLIT_SPEC "\
-> +     %{fprofile-arcs|fprofile-generate*|coverage:-lgcov} " SANITIZER_SPEC " \
-> +     %{!nostdlib:%{!r:%{!nodefaultlibs:%(link_ssp) %(link_gcc_c_sequence)}}}\
-> ++    %{!nostdlib++:}\
-> +     %{!nostdlib:%{!r:%{!nostartfiles:%E}}} %{T*}  \n%(post_link) }}}}}}"
-> + #endif
-> + 
-> -- 
-> 2.25.1
-> 
+>      # Split the file...
+>      bb.utils.mkdirhier(os.path.dirname(debugfile))
+>      #bb.note("Split %s -> %s" % (file, debugfile))
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#167815): https://lists.openembedded.org/g/openembedded-core/message/167815
-> Mute This Topic: https://lists.openembedded.org/mt/92246725/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+This isn't as simple as it may first appear. That is going to do open()
+and read() calls on many files which aren't kernel modules and it will
+impact the speed of the do_package task for recipes with large numbers
+of files (perl, ltp and so on).
 
+Cam we use the filename to limit which ones we scan a bit?
+Even=C2=A0something like:
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+if ".ko" in file:
+
+would help a lot but I'm not sure that covers everything.
+
+Cheers,
+
+Richard
+
 
