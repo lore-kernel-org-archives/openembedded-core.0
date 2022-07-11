@@ -1,245 +1,121 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34BADC43334
-	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 18:07:52 +0000 (UTC)
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
- [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.web11.32437.1657562870505213572
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB431C43334
+	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 18:38:17 +0000 (UTC)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by mx.groups.io with SMTP id smtpd.web12.97.1657564694929082906
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Jul 2022 11:07:50 -0700
+ Mon, 11 Jul 2022 11:38:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=TfyiP/+l;
- spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f51.google.com with SMTP id d17so928892qvs.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=acAXnu6X;
+ spf=pass (domain: gmail.com, ip: 209.85.167.51,
+ mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f51.google.com with SMTP id bf9so10106433lfb.13
         for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Jul 2022 11:07:50 -0700 (PDT)
+ Mon, 11 Jul 2022 11:38:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=tRIULoOEhRdHvAA2521cgjtiH1VE64ds+Sopbz/atUc=;
-        b=TfyiP/+lElKXBnU5GYX7sLJBGSDsKMnjMzatQWzyRYyBvJcA9TC/gi2r+cuctwcUB5
-         BbwtPWA+KRotS9cR79Z4K9h5Y9CvkzQKWIHHTXFi0UhYJSc7sTcdtDocPwT6yAQTtH4K
-         0IM5M6RTotiSjK4dzR5sb4SYbsK4QW5tXiRqEKUzqACwOa4tI6wuJa5Bjkk7Tv3SpP2r
-         jGHTzQkBV6aqefgX3Y4SvS7uzlSzoDr4em2qpLJ/2qDAwg4mAJO8EKTJvLdCWhpKvTxC
-         yTgMSq3fBEfTxQ0GZ4ciPcfY/O2+65gApFVEgPj5CBfGSZn7aD3K6dLyRGJimexXHc4D
-         A77Q==
+        bh=sGJab52bCg9vaoBVoFcbDlzpHCCtIFRAp3Mdkf7UZDc=;
+        b=acAXnu6XMY3Tw8T7PcvalzQbabK75ylSBHwhOLigtSbhiLUEg2Jhry3PnYfMfgjro9
+         Tkl/F+JKILUyx4BITHNbByS8ZuERg0uid1vhdYdV8QV8Q9WhGeU/bUwq/jUtNwbLbqZH
+         5mtZQ/SoOE7zX9lTCe74gKPBeZyTYD8Suh0w9AP5ubvmT6x1kKjbn13+xj9pvKeV1UZM
+         Pih99bvqcTRKd8zbiD96MBOrLzv3Arqi8/JsYvHfFDT5Cz9k3Zy251Pwanr+biesGkgM
+         NPxkO124P5+nc3Ok/aXHBjQn1H4d1lY086iMJsGqefTOufp4OR38ck5snPO1GSr17Tpn
+         8vTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=tRIULoOEhRdHvAA2521cgjtiH1VE64ds+Sopbz/atUc=;
-        b=eDwuw329xvrkaZrSGaFvsWv4buHnxL5m2YASVRjGv0ZrxPb7Ew6VSBMjJFmUCK1x/1
-         aC2iThLF6uTWRGGG2yYNKCwHIa87Yqu7DmD9F7+bfYb+U8TdQbLIQeHDUMNT0SBahT9Z
-         UfKHmKM0s30/XaKqUXv9X1grJpxsLpYRMiJIDgrtseATGJW6otF28h/P7xWKDjdxkFWA
-         EHdhD+Fa8uN3n+Xs9TVNU37YfENgGa33BTO7eO2HN1dfrpmJlqfZBvZvy3WeWznFaaWw
-         60YqvhSoiYjqKPNuqdle8WFs7m6LPhR/MrkYYgskgTBidBDt877GL7aNb8IhPqqrya0B
-         5W5Q==
-X-Gm-Message-State: AJIora/oCI9qSNknx2S0tEOLbCZ/mI4WjQz40xJEkl73YluHQ+fXuH2U
-	jb1ojrkKjVS+loPyY1SxWzL7xy1jPkKnffoF559xA9kPQOPrpw==
+        bh=sGJab52bCg9vaoBVoFcbDlzpHCCtIFRAp3Mdkf7UZDc=;
+        b=2vOoldj/is2NhFYkGB9TTeaHSmUgedTveKqPDLwuvziXmiQFS0Vh5E13cla/6kz8pE
+         bzhGSc+z/02A947UJfDsgP6s0G9H1mbDkpFhYLO4ZDOaYdp3drFlyNK0i4jXJYqsQTee
+         ggVENqyR249VXr0Wxcyt7S52k5YjJxYj9jcBqAZMV89uoOSF094XRY9sLxm6NUMjD9dk
+         dMcjPhiLq4Cf4blbQ1OlrvTbB3VDl5QSuKfj40zYOimQNvLlwH+OfUMk2yZy2p3pz5CA
+         IRezMk6SBgFkkui+J+7zgc5w4OnYSNIIazrtxVQ5IJSRSkM082OWWDzRMragMEF8+hq4
+         z70w==
+X-Gm-Message-State: AJIora/7dNF2bdnox/AEJOEr2JFeWT+jXt6SX/tpwiTngQQnXa6gEcSq
+	rLXaeCW6vue4F/esPnjkNSIRKjuec6vSnSs39Hk=
 X-Google-Smtp-Source: 
- AGRyM1t+VgjCz5Gs1kfgD6aV9QwEkf0Hf0OpSIzX/V93VqjhGkw/rG/TowXhG0Hh38NhuhyAThDFiyA/lXz95Y4NKe0=
-X-Received: by 2002:a0c:ed23:0:b0:472:f9c0:9fda with SMTP id
- u3-20020a0ced23000000b00472f9c09fdamr14554546qvq.24.1657562869268; Mon, 11
- Jul 2022 11:07:49 -0700 (PDT)
+ AGRyM1sAdq5eMMImT+7uGUUIYxeKKu6+iGbxDIDG2yM1Heux01DRw4P8nVLXirNnsp9bZNjSaB6vp3wfGCo3Eq/fwEE=
+X-Received: by 2002:a05:6512:238a:b0:489:e6f6:c13f with SMTP id
+ c10-20020a056512238a00b00489e6f6c13fmr2089999lfv.673.1657564693040; Mon, 11
+ Jul 2022 11:38:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220711083309.1749253-1-sean@geanix.com>
-In-Reply-To: <20220711083309.1749253-1-sean@geanix.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 11 Jul 2022 19:07:38 +0100
+References: <20220708191730.3413011-1-alex@linutronix.de>
+ <CAJdd5Gbs6YKYs3qNgt_jQriiR7ix8XtPubMAmc2ftK5CMuNNfQ@mail.gmail.com>
+ <CANNYZj95c=syJT9-sW20UC79bf3qRjZDDJNaOmDUvq_jJPiYLQ@mail.gmail.com>
+ <CAJdd5GYdxO_Th9_BV+7sWMsj9CDtdu+_nFpnr=eCGFWYXRM=Aw@mail.gmail.com>
+In-Reply-To: 
+ <CAJdd5GYdxO_Th9_BV+7sWMsj9CDtdu+_nFpnr=eCGFWYXRM=Aw@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 11 Jul 2022 20:38:01 +0200
 Message-ID: 
- <CAMKF1sry2PHb52OyVBFSwFnnuHVB4g5rY-te_-BKjq4uQ0onsQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] zlib: split src_uri into inc file
-To: Sean Nyekjaer <sean@geanix.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000004048b05e38b6e9e"
+ <CANNYZj-kpWt937GK1Hi-4GDamJdvj8CDS1CzE6+ddwP2Ogx9Zg@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/3] meta/files: add layer setup JSON schema and
+ example
+To: Joshua Watt <jpewhacker@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Tim Orling <ticotimo@gmail.com>,
+ Adrian Freihofer <adrian.freihofer@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Jul 2022 18:07:52 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Jul 2022 18:38:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167876
+ https://lists.openembedded.org/g/openembedded-core/message/167877
 
---00000000000004048b05e38b6e9e
-Content-Type: text/plain; charset="UTF-8"
+On Mon, 11 Jul 2022 at 17:46, Joshua Watt <jpewhacker@gmail.com> wrote:
+> I did think of one way in which the order matters: If you are planning
+> on populating BBLAYERS from this list, the order would matter. If you
+> are doing that (or we want to allow it at all) it would need to be a
+> list instead of a dictionary.
 
-We are in process of merging the inc files can you cite reasons why we want
-to split it
+This would not be allowed at all. This dict is strictly for checkout,
+actual BBLAYERS is set in bblayers.conf.sample coming from a
+configuration template pointed to by the json or from some other
+description in the json or elsewhere.
 
-On Mon, Jul 11, 2022 at 9:33 AM Sean Nyekjaer <sean@geanix.com> wrote:
+> > They're not quite same as machines or distros, as they can be anywhere
+> > in the layer. This saves you the trouble of walking over the layer
+> > tree, especially when look at the layer repo through the browser.
+>
+> Configuring _what_ you want to build is probably even more contentious
+> that describing how to fetch your layers, so for starters I'd really
+> like to just focus on the layer fetching; TEMPLATECONF is far from the
+> only method for doing build configuration and I don't think we should
+> bake it into the "layer setup" piece at this point (same for machine &
+> distro, although they aren't generally contentious, see below).
 
-> Signed-off-by: Sean Nyekjaer <sean@geanix.com>
-> ---
->  meta/recipes-core/zlib/zlib.inc       |  4 ++++
->  meta/recipes-core/zlib/zlib_1.2.12.bb | 18 +++++++++---------
->  2 files changed, 13 insertions(+), 9 deletions(-)
->  create mode 100644 meta/recipes-core/zlib/zlib.inc
->
-> diff --git a/meta/recipes-core/zlib/zlib.inc
-> b/meta/recipes-core/zlib/zlib.inc
-> new file mode 100644
-> index 0000000000..2bcc32071a
-> --- /dev/null
-> +++ b/meta/recipes-core/zlib/zlib.inc
-> @@ -0,0 +1,4 @@
-> +SRC_URI = "https://zlib.net/${BP}.tar.xz"
-> +UPSTREAM_CHECK_URI = "http://zlib.net/"
-> +
-> +SRC_URI[sha256sum] =
-> "7db46b8d7726232a621befaab4a1c870f00a90805511c0e0090441dac57def18"
-> diff --git a/meta/recipes-core/zlib/zlib_1.2.12.bb
-> b/meta/recipes-core/zlib/zlib_1.2.12.bb
-> index e921703137..ba986d8cf2 100644
-> --- a/meta/recipes-core/zlib/zlib_1.2.12.bb
-> +++ b/meta/recipes-core/zlib/zlib_1.2.12.bb
-> @@ -6,16 +6,16 @@ SECTION = "libs"
->  LICENSE = "Zlib"
->  LIC_FILES_CHKSUM =
-> "file://zlib.h;beginline=6;endline=23;md5=5377232268e952e9ef63bc555f7aa6c0"
->
-> -SRC_URI = "https://zlib.net/${BP}.tar.xz \
-> -           file://cc.patch \
-> -           file://ldflags-tests.patch \
-> -           file://0001-configure-Pass-LDFLAGS-to-link-tests.patch \
-> -           file://run-ptest \
-> -
->  file://0001-Correct-incorrect-inputs-provided-to-the-CRC-functio.patch \
-> -           "
-> -UPSTREAM_CHECK_URI = "http://zlib.net/"
-> +include zlib.inc
-> +
-> +SRC_URI += "file://cc.patch \
-> +            file://ldflags-tests.patch \
-> +            file://0001-configure-Pass-LDFLAGS-to-link-tests.patch \
-> +            file://run-ptest \
-> +
-> file://0001-Correct-incorrect-inputs-provided-to-the-CRC-functio.patch \
-> +"
->
-> -SRC_URI[sha256sum] =
-> "7db46b8d7726232a621befaab4a1c870f00a90805511c0e0090441dac57def18"
-> +UPSTREAM_CHECK_URI = "http://zlib.net/"
->
->  CFLAGS += "-D_REENTRANT"
->
-> --
-> 2.36.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#167861):
-> https://lists.openembedded.org/g/openembedded-core/message/167861
-> Mute This Topic: https://lists.openembedded.org/mt/92305639/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+What are those other methods? TEMPLATECONF is contentious if you have
+ugly legacy scripts (understood by no one) that write into local.conf,
+and don't want to replace that with a clean set of templates. For new
+projects or teaching beginners I really would want to encourage only
+static, prefabricated templates that restrict local.conf to just two
+lines: distro and machine. Describing where templateconfs are is not
+mandatory in the scheme; if you don't want them, no one forces you to
+have the respective items in the json or use them if they're there.
+But they are standard, simple, and part of the core, and they work. I
+don't see why we can't have them now, and then argue about those other
+ways, what use cases they serve (that static templates cannot), and
+how to integrate them into the schema and tools.
 
---00000000000004048b05e38b6e9e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> I suspect that not including the machine/distro/template stuff for now
+> might give us better adoption as standard way to describe layers,
+> which is another reason I'm a little hesitant to include them (in
+> addition to duplicating information available in the layer itself)
 
-<div dir=3D"auto">We are in process of merging the inc files can you cite r=
-easons why we want to split it=C2=A0</div><div><br><div class=3D"gmail_quot=
-e"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 11, 2022 at 9:33 AM Se=
-an Nyekjaer &lt;<a href=3D"mailto:sean@geanix.com">sean@geanix.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex">Signed-off-by: Sean Nyekjaer=
- &lt;<a href=3D"mailto:sean@geanix.com" target=3D"_blank">sean@geanix.com</=
-a>&gt;<br>
----<br>
-=C2=A0meta/recipes-core/zlib/zlib.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 4 +=
-+++<br>
-=C2=A0meta/recipes-core/zlib/<a href=3D"http://zlib_1.2.12.bb" rel=3D"noref=
-errer" target=3D"_blank">zlib_1.2.12.bb</a> | 18 +++++++++---------<br>
-=C2=A02 files changed, 13 insertions(+), 9 deletions(-)<br>
-=C2=A0create mode 100644 meta/recipes-core/zlib/zlib.inc<br>
-<br>
-diff --git a/meta/recipes-core/zlib/zlib.inc b/meta/recipes-core/zlib/zlib.=
-inc<br>
-new file mode 100644<br>
-index 0000000000..2bcc32071a<br>
---- /dev/null<br>
-+++ b/meta/recipes-core/zlib/zlib.inc<br>
-@@ -0,0 +1,4 @@<br>
-+SRC_URI =3D &quot;<a href=3D"https://zlib.net/$%7BBP%7D.tar.xz" rel=3D"nor=
-eferrer" target=3D"_blank">https://zlib.net/${BP}.tar.xz</a>&quot;<br>
-+UPSTREAM_CHECK_URI =3D &quot;<a href=3D"http://zlib.net/" rel=3D"noreferre=
-r" target=3D"_blank">http://zlib.net/</a>&quot;<br>
-+<br>
-+SRC_URI[sha256sum] =3D &quot;7db46b8d7726232a621befaab4a1c870f00a90805511c=
-0e0090441dac57def18&quot;<br>
-diff --git a/meta/recipes-core/zlib/<a href=3D"http://zlib_1.2.12.bb" rel=
-=3D"noreferrer" target=3D"_blank">zlib_1.2.12.bb</a> b/meta/recipes-core/zl=
-ib/<a href=3D"http://zlib_1.2.12.bb" rel=3D"noreferrer" target=3D"_blank">z=
-lib_1.2.12.bb</a><br>
-index e921703137..ba986d8cf2 100644<br>
---- a/meta/recipes-core/zlib/<a href=3D"http://zlib_1.2.12.bb" rel=3D"noref=
-errer" target=3D"_blank">zlib_1.2.12.bb</a><br>
-+++ b/meta/recipes-core/zlib/<a href=3D"http://zlib_1.2.12.bb" rel=3D"noref=
-errer" target=3D"_blank">zlib_1.2.12.bb</a><br>
-@@ -6,16 +6,16 @@ SECTION =3D &quot;libs&quot;<br>
-=C2=A0LICENSE =3D &quot;Zlib&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://zlib.h;beginline=3D6;endline=3D23;m=
-d5=3D5377232268e952e9ef63bc555f7aa6c0&quot;<br>
-<br>
--SRC_URI =3D &quot;<a href=3D"https://zlib.net/$%7BBP%7D.tar.xz" rel=3D"nor=
-eferrer" target=3D"_blank">https://zlib.net/${BP}.tar.xz</a> \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://cc.patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://ldflags-tests.patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-configure-Pass-LDFLAG=
-S-to-link-tests.patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://run-ptest \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Correct-incorrect-inp=
-uts-provided-to-the-CRC-functio.patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
--UPSTREAM_CHECK_URI =3D &quot;<a href=3D"http://zlib.net/" rel=3D"noreferre=
-r" target=3D"_blank">http://zlib.net/</a>&quot;<br>
-+include zlib.inc<br>
-+<br>
-+SRC_URI +=3D &quot;file://cc.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://ldflags-tests.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-configure-Pass-LDFLA=
-GS-to-link-tests.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://run-ptest \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Correct-incorrect-in=
-puts-provided-to-the-CRC-functio.patch \<br>
-+&quot;<br>
-<br>
--SRC_URI[sha256sum] =3D &quot;7db46b8d7726232a621befaab4a1c870f00a90805511c=
-0e0090441dac57def18&quot;<br>
-+UPSTREAM_CHECK_URI =3D &quot;<a href=3D"http://zlib.net/" rel=3D"noreferre=
-r" target=3D"_blank">http://zlib.net/</a>&quot;<br>
-<br>
-=C2=A0CFLAGS +=3D &quot;-D_REENTRANT&quot;<br>
-<br>
--- <br>
-2.36.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#167861): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/167861" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/167861</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/92305639/1997=
-914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/92305639/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+None of these are mandatory properties. You do not have to write them
+into actual jsons, and if they are present, you are free to ignore
+them. But I do want them, as I want something that can be used to
+actually set up a build all the way to bitbake, instead of just going
+halfway, and not being as functional as kas. We can make disclaimers
+in the schema description fields.
 
---00000000000004048b05e38b6e9e--
+Alex
 
