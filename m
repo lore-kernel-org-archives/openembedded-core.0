@@ -2,115 +2,182 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9EF8CCA479
-	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 02:25:57 +0000 (UTC)
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
- [209.85.160.182])
- by mx.groups.io with SMTP id smtpd.web11.23995.1657506347708064610
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0F3FC43334
+	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 02:27:47 +0000 (UTC)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web10.23961.1657506464044937808
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Jul 2022 19:25:47 -0700
+ Sun, 10 Jul 2022 19:27:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=nQxUihv1;
- spf=pass (domain: gmail.com, ip: 209.85.160.182,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=GvA6+RzN;
+ spf=pass (domain: gmail.com, ip: 209.85.216.54,
  mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f182.google.com with SMTP id cf13so4016782qtb.13
+Received: by mail-pj1-f54.google.com with SMTP id
+ o3-20020a17090a744300b001ef8f7f3dddso3657599pjk.3
         for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Jul 2022 19:25:47 -0700 (PDT)
+ Sun, 10 Jul 2022 19:27:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=U1kmt25dWby28Lm6YlVOvxXPZsT5ZOruagaBdezL4z0=;
-        b=nQxUihv1BpGYuEQ8QU3D5aBGPJ91w34hUrKnMhcL9MJ58ych6tSBtOvqe0vddPWJrl
-         JLNZoVI99O5JcXpqbeupVZxZ2z2aM24hk5CK8if1a626QbTqTjaj9xetNfbLN1Aah9PL
-         u+phsF7Z16Hl3Ev1KFrCP9Ah8EyTXZlVOgAOsdY/s5Uemmvi0o2/tfHHhe/NpRrnDWfr
-         r5xz3wk7dFJ7TAWEYFqVw0pmMxETeClMlaz3uLs+FhIsf2VBUgWqFx6/Q5fLjyxyTl9P
-         s9ZHgNfC0XjJVm1PaQ4vOsyBtgiUHLL9scxilg6AIgsy0UQxuw38HaIlRUtG9PEYYCwq
-         gYMw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=BzFcu5rzJSPdKerabt9JiCAUEyqmTBgIeDmlCkKLo+g=;
+        b=GvA6+RzNoCjo0MF5/6VvCDP6TUabwkigJBPxgZ//7VgXnCCRthRk9Lnosz0dw7PSap
+         p8mM+2kzcyaf0K04c5NrR3izNzM/REJnkopVXypX5P2tkGXoQTJwJk9TLrsRu5K0ZMDR
+         knlNciU1N3xKxitxRdJ8n727y0FHjObt3X5Cj64mA0Y/fLkz9cYGBFCbMnuPFE1cblls
+         ggEvl7Zty5knCQs8ntGTuTS88eTGzv0ikY/ADtROpIfMWRbNuSKXaYlwae/wgT0Amv89
+         8biHKVXMtYZuRPmGM+iqsHEyFk13fhb9MJcyPGI1mh7y5dbWsPGWxdKiGpAJFR945cyx
+         VHxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=U1kmt25dWby28Lm6YlVOvxXPZsT5ZOruagaBdezL4z0=;
-        b=U2jMFQWcMyPKzm3dtANmKRPzMl9esO3WANgkqEJoATYJggs/7e1YjofmFTPVK9pbbB
-         UvYMiK4wp2K86heIfUA+Ua2hlIb8eLA9+UvBeu04EVjS1iGtV3gXY0XKBSeBG3tgpYu+
-         dYrXBvgAEeMpKsC2xO50MOfswj3zimLmGetdLwvZrE/0qCD9VngSSReG3C8fug1GM59m
-         0KV6n/rZCBScYt1S52W0inYLEIQwRODf230HX5/fsK0y/wVA/xnoVHIOMdDW4tvZbbpW
-         L0J2BhXh+CF4GSuePSlJ+YlWHb02pZuTUHhHmxXtK/MNZUOzuj0fAntvnnCKsuufFCZf
-         NVBQ==
-X-Gm-Message-State: AJIora/Co1nhc5F3+Gh2FhAPuqASwW84qxp4dxQ4lyWK7O/m3zx3lspf
-	LNAwMkpuVlZ8KUHKzgkScFM=
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=BzFcu5rzJSPdKerabt9JiCAUEyqmTBgIeDmlCkKLo+g=;
+        b=KWPy04rtrFgCuP6PpVoa3TRDS/zeH709P8CP/jyqK1H+p++UNK9VDWwC6rIV/+Yxi/
+         oZG3n4dSCvrD02385vKscmaqPbSQauc7LI3genXGHFPOvqh59jyG4kIFlEj5GSAguwhX
+         sQTUHy/ztG08cSDCEOkxEyTyfDj3HWnIm4x0bYP74/r4WgO7YmqBm5/MABJ1oY2m1UhE
+         85XrDczJ5IzN6kdM1OSacB1o7Mb1DeXdfvA0tD54C41o3Xli5UPTBjneKmWIuZ6I8h/w
+         12Z5NW6hhpP3aRikHlnmFNFYTE19rsxwHBQ3iAeRasHE/yto6xb6NHFNhNd2RU5qiHuz
+         nLRQ==
+X-Gm-Message-State: AJIora8jTEtQEVYFd1NAZx4tY5ULxTdO7YK32bbvVXk/SGaOzI90gpeS
+	Ax7FPsUXUvGqFdUlxifGNc4h4mK1HB2CzZ7ggFc=
 X-Google-Smtp-Source: 
- AGRyM1u1YUS54Zz7d6Qv50BXp5lkwjhtHaCSDR7W4m0VsexdlC3lJLoTg89MM/uutU2mXTi6AmQRng==
-X-Received: by 2002:a05:622a:2c7:b0:31d:3cc2:3439 with SMTP id
- a7-20020a05622a02c700b0031d3cc23439mr12280466qtx.185.1657506346611;
-        Sun, 10 Jul 2022 19:25:46 -0700 (PDT)
-Received: from build.lan ([173.34.88.218])
-        by smtp.gmail.com with ESMTPSA id
- s185-20020a372cc2000000b006a6ab259261sm5258890qkh.29.2022.07.10.19.25.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Jul 2022 19:25:45 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/4] kernel-yocto: -stable and reproduciblity fixes
-Date: Sun, 10 Jul 2022 22:25:40 -0400
-Message-Id: <cover.1657506122.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
+ AGRyM1tyKgoIS9Bu3db0gpqfK0XFkkF2YP8kzV5jw7GdLjxaqd0jLzSn0zcnKtyTKccx77afZl+cpKyiPzVxPr9MXJE=
+X-Received: by 2002:a17:902:e153:b0:16b:dccf:5a89 with SMTP id
+ d19-20020a170902e15300b0016bdccf5a89mr16179140pla.69.1657506463554; Sun, 10
+ Jul 2022 19:27:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: 
+ <7140b61c92f4f9d79b8c8b8d9be68f127512b758.camel@linuxfoundation.org>
+ <CADkTA4O0Ej3HKMPtwoq_iBue2P43gicwx8rfFKyLY5d3jNTP_A@mail.gmail.com>
+ <77dd3defcb6908755d06585d4cfb69a523626a22.camel@linuxfoundation.org>
+ <17009EE9B42D5D4F.21011@lists.openembedded.org>
+In-Reply-To: <17009EE9B42D5D4F.21011@lists.openembedded.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sun, 10 Jul 2022 23:27:36 -0300
+Message-ID: 
+ <CADkTA4PHA2BMjv1rb349Tu_T72zQ-mUG1OGSgCacisTh3dDOMw@mail.gmail.com>
+Subject: Re: [OE-core] Reproducible build issues with buildpaths - take 2
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Jul 2022 02:25:57 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Jul 2022 02:27:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167853
+ https://lists.openembedded.org/g/openembedded-core/message/167856
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+On Sun, Jul 10, 2022 at 9:29 PM Bruce Ashfield via
+lists.openembedded.org
+<bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
+>
+> On Fri, Jul 8, 2022 at 10:47 AM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > On Fri, 2022-07-08 at 09:37 -0400, Bruce Ashfield wrote:
+> > > On Fri, Jul 8, 2022 at 7:07 AM Richard Purdie
+> > > <richard.purdie@linuxfoundation.org> wrote:
+> > > >
+> > > > Hi All,
+> > > >
+> > > > We've made good progress and I appreciate the help from people. I r=
+an a
+> > > > fresh build on the autobuilder and I forced it to rerun the QA chec=
+ks
+> > > > for all recipes. The tricky bit about warnings is that they don't s=
+how
+> > > > up for objects from sstate and the addition of the buildpaths QA ch=
+eck
+> > > > doesn't cause the checks to rerun. Due to that a few more previsoul=
+y
+> > > > unseen issues cropped up.
+> > > >
+> > > > The list of issues now stands are:
+> > > >
+> > > > qemuppc:
+> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/5=
+428
+> > > > WARNING: kernel-devsrc-1.0-r0 do_package_qa: QA Issue: File /lib/mo=
+dules/5.15.48-yocto-standard/build/include/generated/.vdso32-offsets.h.cmd =
+in package kernel-devsrc contains reference to TMPDIR [buildpaths]
+> > >
+> > > I'll take this one. My fix was only for arch/arm, but I'll expand it
+> > > to cover ppc32.
+> >
+> > Thanks.
+> >
+> > I built qemuppc locally and got a different failure, I'd really like to
+> > know why I saw that and the autobuilder did not. The failure was:
+> >
+> > WARNING: linux-yocto-5.15.48+gitAUTOINC+b35d1d1e83_5aa3abf07b-r0 do_pac=
+kage_qa: QA Issue: File /usr/src/debug/linux-yocto/5.15.48+gitAUTOINC+b35d1=
+d1e83_5aa3abf07b-r0/linux-qemuppc-standard-build/drivers/tty/vt/consolemap_=
+deftbl.c in package linux-yocto-src contains reference to TMPDIR
+> > File /usr/src/debug/linux-yocto/5.15.48+gitAUTOINC+b35d1d1e83_5aa3abf07=
+b-r0/linux-qemuppc-standard-build/lib/oid_registry_data.c in package linux-=
+yocto-src contains reference to TMPDIR [buildpaths]
+>
+> I have the devsrc fixed for qeumppc32, fix incoming shortly.
+>
+> But for this one, I don't see it either. What do I need to enable to
+> get the linux-yocto-src package ? Mine is empty, hence no warning. Is
+> it one of the archiver modes ?
 
-Richard,
-
-Here's the next set of updates to -stable (I had already staged
-them before we ran into the buildpaths QA issues), and on top of
-them is a RFC fix that I did for the buildpaths issue you found
-in the linux-src package with the conmakehash.
-
-That fix is still preliminary, as i haven't triggered the error
-here, but I did inspect the output of my build and can confirm the
-full path is gone. It isn't appropriate for upstream yet, and only
-fixes the issues for 5.15 linux-yocto, but we can expand it to
-other linux-yocto versions later.
-
-Also, ther's another fix to devsrc for ppc32 to remove the vdso
-file causing the build paths warning.
+I sent a series with a fix for qemuppc32 kernel-devsrc and a WIP fix
+for the conmakehash issue, I'll have a look at oid_registry next.
 
 Bruce
 
-The following changes since commit dc184d6aaf282f28fe96cce2f01bf20f09821645:
+>
+> Bruce
+>
+> >
+> > sure enough, tmp/work/qemuppc-poky-linux/linux-yocto/5.15.48+gitAUTOINC=
++b35d1d1e83_5aa3abf07b-r0$ head package/usr/src/debug/linux-yocto/5.15.48+g=
+itAUTOINC+b35d1d1e83_5aa3abf07b-r0/linux-qemuppc-standard-build/drivers/tty=
+/vt/consolemap_deftbl.c
+> > /*
+> >  * Do not edit this file; it was automatically generated by
+> >  *
+> >  * conmakehash /media/build1/poky/build/tmp/work-shared/qemuppc/kernel-=
+source/drivers/tty/vt/cp437.uni > [this file]
+> >  *
+> >  */
+> >
+> >
+> > I think the warning is saying there is a second issue in linux-qemuppc-
+> > standard-build/lib/oid_registry_data.c too.
+> >
+> > Sorry Bruce, not sure why several roads lead to the kernel :/
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#167851): https://lists.openembedded.org/g/openembedde=
+d-core/message/167851
+> Mute This Topic: https://lists.openembedded.org/mt/92248896/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
+uce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
-  gperf: Switch to upstream patch (2022-07-09 20:58:35 +0100)
 
-are available in the Git repository at:
-
-  git://git.yoctoproject.org/poky-contrib zedd/kernel
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (4):
-  linux-yocto/5.15: update to v5.15.52
-  linux-yocto/5.10: update to v5.10.128
-  kernel-devsrc: ppc32: fix reproducibility
-  linux-yocto/5.15: fix qemuppc buildpaths warning
-
- meta/recipes-kernel/linux/kernel-devsrc.bb    |  4 ++-
- .../linux/linux-yocto-rt_5.10.bb              |  6 ++und---
- .../linux/linux-yocto-rt_5.15.bb              |  6 ++---
- .../linux/linux-yocto-tiny_5.10.bb            |  8 +++---
- .../linux/linux-yocto-tiny_5.15.bb            |  6 ++---
- meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 ++++++++---------
- meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 +++++++++----------
- 7 files changed, 41 insertions(+), 39 deletions(-)
-
--- 
-2.19.1
-
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
