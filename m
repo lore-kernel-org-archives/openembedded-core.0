@@ -1,193 +1,245 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 621DBC433EF
-	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 15:46:31 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web08.30574.1657554385904220031
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34BADC43334
+	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 18:07:52 +0000 (UTC)
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
+ [209.85.219.51])
+ by mx.groups.io with SMTP id smtpd.web11.32437.1657562870505213572
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Jul 2022 08:46:26 -0700
+ Mon, 11 Jul 2022 11:07:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=KT3toU8b;
- spf=pass (domain: gmail.com, ip: 209.85.167.51,
- mailfrom: jpewhacker@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id a9so9361298lfk.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=TfyiP/+l;
+ spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f51.google.com with SMTP id d17so928892qvs.0
         for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Jul 2022 08:46:25 -0700 (PDT)
+ Mon, 11 Jul 2022 11:07:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=lKEu5E3cNx2f9P7yMCmugGiIJc7JhiUErv+zmWr0gj0=;
-        b=KT3toU8btXUD6o1xuT7z569STJ1R+aK1G+1Ofx1uq1IewQE3gwDVvI6V6ew6MhZFdg
-         DefBHdAQoao/mfp99KC5wYKV52OqmIvsKKRLu4nKuKZMHuNPirOuH4GbGLsIw7S6P3mO
-         r8S22C2WtScPawyQo4xt3KHiE2/Qu+x/t8tbHQoZZbuFpUGC2wilZbNYVR+sFJ8bY6Hu
-         iSRHaGzl2+7k9njuQxME5Japjss5DoQosv5XpCZdcujF1RDLatpUT10A20/B98jAKH+h
-         EwCgbM3wgziuPvPvbIFDT0+AIDTndMXNY6CdvDKQ6vH158lcWPecgU2g9WNzToXmeJXg
-         TH+Q==
+        bh=tRIULoOEhRdHvAA2521cgjtiH1VE64ds+Sopbz/atUc=;
+        b=TfyiP/+lElKXBnU5GYX7sLJBGSDsKMnjMzatQWzyRYyBvJcA9TC/gi2r+cuctwcUB5
+         BbwtPWA+KRotS9cR79Z4K9h5Y9CvkzQKWIHHTXFi0UhYJSc7sTcdtDocPwT6yAQTtH4K
+         0IM5M6RTotiSjK4dzR5sb4SYbsK4QW5tXiRqEKUzqACwOa4tI6wuJa5Bjkk7Tv3SpP2r
+         jGHTzQkBV6aqefgX3Y4SvS7uzlSzoDr4em2qpLJ/2qDAwg4mAJO8EKTJvLdCWhpKvTxC
+         yTgMSq3fBEfTxQ0GZ4ciPcfY/O2+65gApFVEgPj5CBfGSZn7aD3K6dLyRGJimexXHc4D
+         A77Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lKEu5E3cNx2f9P7yMCmugGiIJc7JhiUErv+zmWr0gj0=;
-        b=gNeG0brtwORxddH0tJK1QXQ+tY3Q9rjlrcZ3wyaeawPVJXeA504APct4RWMBV6wLSa
-         KLQzeMC1lm5y2H5w+71ABvjxHUKAKim9/Ft99hANYbuhhKHly1BFAvrg8pHitKXBCs+d
-         FLzvUP9TK3CmvMYR8E/NPMIqu5lZoidPH2HwS8P9H9MrLDVXeAr0Vb4w2aB0g4j+P3HJ
-         GnDrjO9WBOaXHnqujbl4uB7XK2dsDEZAP5bglTXegahr3AXrgLOAva0BWYTedLpOv8p5
-         /+jUIimtyWV6GHiNovKbhJ3+C2c+O6Szao5cvXpFSawojkvsintcgq+sY/SoKBMmTB3B
-         /trg==
-X-Gm-Message-State: AJIora+8I8YGlpYUC+lrHeZ47B/1luICaFhPup1UFMKRp9Sizuq794wp
-	g/cLVmdkfLjwhg8EZlkeGd8+qUYXS3M5Qn8EPbE=
+        bh=tRIULoOEhRdHvAA2521cgjtiH1VE64ds+Sopbz/atUc=;
+        b=eDwuw329xvrkaZrSGaFvsWv4buHnxL5m2YASVRjGv0ZrxPb7Ew6VSBMjJFmUCK1x/1
+         aC2iThLF6uTWRGGG2yYNKCwHIa87Yqu7DmD9F7+bfYb+U8TdQbLIQeHDUMNT0SBahT9Z
+         UfKHmKM0s30/XaKqUXv9X1grJpxsLpYRMiJIDgrtseATGJW6otF28h/P7xWKDjdxkFWA
+         EHdhD+Fa8uN3n+Xs9TVNU37YfENgGa33BTO7eO2HN1dfrpmJlqfZBvZvy3WeWznFaaWw
+         60YqvhSoiYjqKPNuqdle8WFs7m6LPhR/MrkYYgskgTBidBDt877GL7aNb8IhPqqrya0B
+         5W5Q==
+X-Gm-Message-State: AJIora/oCI9qSNknx2S0tEOLbCZ/mI4WjQz40xJEkl73YluHQ+fXuH2U
+	jb1ojrkKjVS+loPyY1SxWzL7xy1jPkKnffoF559xA9kPQOPrpw==
 X-Google-Smtp-Source: 
- AGRyM1s7r7dUifgihjqjUr/wHT9CfNUR+iWHXRpR/RpOVadb64q7Pp6IpS8HDf4eiy59ctwysfrY1QIF+YgH4ocdYsE=
-X-Received: by 2002:a05:6512:3b26:b0:47f:9895:703c with SMTP id
- f38-20020a0565123b2600b0047f9895703cmr12530501lfv.395.1657554383899; Mon, 11
- Jul 2022 08:46:23 -0700 (PDT)
+ AGRyM1t+VgjCz5Gs1kfgD6aV9QwEkf0Hf0OpSIzX/V93VqjhGkw/rG/TowXhG0Hh38NhuhyAThDFiyA/lXz95Y4NKe0=
+X-Received: by 2002:a0c:ed23:0:b0:472:f9c0:9fda with SMTP id
+ u3-20020a0ced23000000b00472f9c09fdamr14554546qvq.24.1657562869268; Mon, 11
+ Jul 2022 11:07:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220708191730.3413011-1-alex@linutronix.de>
- <CAJdd5Gbs6YKYs3qNgt_jQriiR7ix8XtPubMAmc2ftK5CMuNNfQ@mail.gmail.com>
- <CANNYZj95c=syJT9-sW20UC79bf3qRjZDDJNaOmDUvq_jJPiYLQ@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj95c=syJT9-sW20UC79bf3qRjZDDJNaOmDUvq_jJPiYLQ@mail.gmail.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Mon, 11 Jul 2022 10:46:12 -0500
+References: <20220711083309.1749253-1-sean@geanix.com>
+In-Reply-To: <20220711083309.1749253-1-sean@geanix.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 11 Jul 2022 19:07:38 +0100
 Message-ID: 
- <CAJdd5GYdxO_Th9_BV+7sWMsj9CDtdu+_nFpnr=eCGFWYXRM=Aw@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/3] meta/files: add layer setup JSON schema and
- example
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+ <CAMKF1sry2PHb52OyVBFSwFnnuHVB4g5rY-te_-BKjq4uQ0onsQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] zlib: split src_uri into inc file
+To: Sean Nyekjaer <sean@geanix.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000004048b05e38b6e9e"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Jul 2022 15:46:31 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Jul 2022 18:07:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167875
+ https://lists.openembedded.org/g/openembedded-core/message/167876
 
-On Fri, Jul 8, 2022 at 3:03 PM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> On Fri, 8 Jul 2022 at 21:33, Joshua Watt <jpewhacker@gmail.com> wrote:
-> > > -- all lists (sources, layers, remotes) are replaced by objects keyed by 'name' properties of the list items.
-> > > This allows using them as dicts inside Python, and makes the json more compact and readable.
-> >
-> > As long as the order is truly irrelevant because different
-> > implementations (and even different versions of Python!) will result
-> > in a different processing order.
->
-> Yes, for all of those things it's irrelevant.
+--00000000000004048b05e38b6e9e
+Content-Type: text/plain; charset="UTF-8"
 
-I did think of one way in which the order matters: If you are planning
-on populating BBLAYERS from this list, the order would matter. If you
-are doing that (or we want to allow it at all) it would need to be a
-list instead of a dictionary.
+We are in process of merging the inc files can you cite reasons why we want
+to split it
 
->
-> > > +++ b/meta/files/layers.example.json
-> > > @@ -0,0 +1,115 @@
-> > > +{
-> >
-> > Missing the version? Although I see it's in the schema.
->
-> It's at the end of the file. File is written via python's json module
-> which decides where it goes.
+On Mon, Jul 11, 2022 at 9:33 AM Sean Nyekjaer <sean@geanix.com> wrote:
 
-Yep sorry.
+> Signed-off-by: Sean Nyekjaer <sean@geanix.com>
+> ---
+>  meta/recipes-core/zlib/zlib.inc       |  4 ++++
+>  meta/recipes-core/zlib/zlib_1.2.12.bb | 18 +++++++++---------
+>  2 files changed, 13 insertions(+), 9 deletions(-)
+>  create mode 100644 meta/recipes-core/zlib/zlib.inc
+>
+> diff --git a/meta/recipes-core/zlib/zlib.inc
+> b/meta/recipes-core/zlib/zlib.inc
+> new file mode 100644
+> index 0000000000..2bcc32071a
+> --- /dev/null
+> +++ b/meta/recipes-core/zlib/zlib.inc
+> @@ -0,0 +1,4 @@
+> +SRC_URI = "https://zlib.net/${BP}.tar.xz"
+> +UPSTREAM_CHECK_URI = "http://zlib.net/"
+> +
+> +SRC_URI[sha256sum] =
+> "7db46b8d7726232a621befaab4a1c870f00a90805511c0e0090441dac57def18"
+> diff --git a/meta/recipes-core/zlib/zlib_1.2.12.bb
+> b/meta/recipes-core/zlib/zlib_1.2.12.bb
+> index e921703137..ba986d8cf2 100644
+> --- a/meta/recipes-core/zlib/zlib_1.2.12.bb
+> +++ b/meta/recipes-core/zlib/zlib_1.2.12.bb
+> @@ -6,16 +6,16 @@ SECTION = "libs"
+>  LICENSE = "Zlib"
+>  LIC_FILES_CHKSUM =
+> "file://zlib.h;beginline=6;endline=23;md5=5377232268e952e9ef63bc555f7aa6c0"
+>
+> -SRC_URI = "https://zlib.net/${BP}.tar.xz \
+> -           file://cc.patch \
+> -           file://ldflags-tests.patch \
+> -           file://0001-configure-Pass-LDFLAGS-to-link-tests.patch \
+> -           file://run-ptest \
+> -
+>  file://0001-Correct-incorrect-inputs-provided-to-the-CRC-functio.patch \
+> -           "
+> -UPSTREAM_CHECK_URI = "http://zlib.net/"
+> +include zlib.inc
+> +
+> +SRC_URI += "file://cc.patch \
+> +            file://ldflags-tests.patch \
+> +            file://0001-configure-Pass-LDFLAGS-to-link-tests.patch \
+> +            file://run-ptest \
+> +
+> file://0001-Correct-incorrect-inputs-provided-to-the-CRC-functio.patch \
+> +"
+>
+> -SRC_URI[sha256sum] =
+> "7db46b8d7726232a621befaab4a1c870f00a90805511c0e0090441dac57def18"
+> +UPSTREAM_CHECK_URI = "http://zlib.net/"
+>
+>  CFLAGS += "-D_REENTRANT"
+>
+> --
+> 2.36.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#167861):
+> https://lists.openembedded.org/g/openembedded-core/message/167861
+> Mute This Topic: https://lists.openembedded.org/mt/92305639/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
 
->
-> > > +    "sources": {
-> > > +        "meta-alex": {
-> > > +            "contains_this_file": true,
-> > > +            "git-remote": {
-> >
-> > The problem with this is that there has been some desire for other
-> > fetching mechanisms; Perhaps we can say git is only supported, but
-> > that was the reason I used `oneOf`: it allows for other fetching types
-> > in the future.
->
-> 'git-remote' is not a mandatory property in the json, it can be
-> absent, and instead there can be 'svn-remote', 'tarball' or
-> 'delivered-by-doves'. Anything you want. Just propose an object
-> definition into the schema.
->
-> >
-> > > +                "branch": "master",
-> > > +                "describe": "",
-> > > +                "remotes": {
-> > > +                    "remote-alex": {
-> > > +                        "uri": "https://github.com/kanavin/meta-alex"
-> > > +                    }
-> >
-> > Multiple remotes are nice.... but not strictly necessary, since you
-> > can only have one rev checked out. I don't care too much one way or
-> > another but it's something to think about since it makes the fetching
-> > more complicated.
->
-> It isn't at all more complicated to handle multiple remotes in the
-> fetch script which I suggest you look at and try out. I don't want to
-> have to guess which of the remotes is the right one either when
-> writing the json, or when using it: I'm writing them all, and fetching
-> from all as well, ignoring the failures (the failure only happens if
-> needed revision is absent and can't be checked out). You can write and
-> check out single remotes if you so wish, but then you have to decide
-> how to choose out of several.
->
-> >
-> > > +                },
-> > > +                "rev": "05b25605fb8b2399e4706d7323828676bf0da0b5"
-> > > +            },
-> > > +            "layers": {
-> > > +                "meta-alex": {
-> > > +                    "buildconfigs": {
-> > > +                        "conf/templates/configuration-gadget": {},
-> > > +                        "conf/templates/configuration-gizmo": {}
-> >
-> > I think these fall under the same category as the machines below, but
-> > I don't use  TEMPLATECONF so I'm not sure.
->
-> They're not quite same as machines or distros, as they can be anywhere
-> in the layer. This saves you the trouble of walking over the layer
-> tree, especially when look at the layer repo through the browser.
+--00000000000004048b05e38b6e9e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Configuring _what_ you want to build is probably even more contentious
-that describing how to fetch your layers, so for starters I'd really
-like to just focus on the layer fetching; TEMPLATECONF is far from the
-only method for doing build configuration and I don't think we should
-bake it into the "layer setup" piece at this point (same for machine &
-distro, although they aren't generally contentious, see below).
+<div dir=3D"auto">We are in process of merging the inc files can you cite r=
+easons why we want to split it=C2=A0</div><div><br><div class=3D"gmail_quot=
+e"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 11, 2022 at 9:33 AM Se=
+an Nyekjaer &lt;<a href=3D"mailto:sean@geanix.com">sean@geanix.com</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex">Signed-off-by: Sean Nyekjaer=
+ &lt;<a href=3D"mailto:sean@geanix.com" target=3D"_blank">sean@geanix.com</=
+a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-core/zlib/zlib.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 4 +=
++++<br>
+=C2=A0meta/recipes-core/zlib/<a href=3D"http://zlib_1.2.12.bb" rel=3D"noref=
+errer" target=3D"_blank">zlib_1.2.12.bb</a> | 18 +++++++++---------<br>
+=C2=A02 files changed, 13 insertions(+), 9 deletions(-)<br>
+=C2=A0create mode 100644 meta/recipes-core/zlib/zlib.inc<br>
+<br>
+diff --git a/meta/recipes-core/zlib/zlib.inc b/meta/recipes-core/zlib/zlib.=
+inc<br>
+new file mode 100644<br>
+index 0000000000..2bcc32071a<br>
+--- /dev/null<br>
++++ b/meta/recipes-core/zlib/zlib.inc<br>
+@@ -0,0 +1,4 @@<br>
++SRC_URI =3D &quot;<a href=3D"https://zlib.net/$%7BBP%7D.tar.xz" rel=3D"nor=
+eferrer" target=3D"_blank">https://zlib.net/${BP}.tar.xz</a>&quot;<br>
++UPSTREAM_CHECK_URI =3D &quot;<a href=3D"http://zlib.net/" rel=3D"noreferre=
+r" target=3D"_blank">http://zlib.net/</a>&quot;<br>
++<br>
++SRC_URI[sha256sum] =3D &quot;7db46b8d7726232a621befaab4a1c870f00a90805511c=
+0e0090441dac57def18&quot;<br>
+diff --git a/meta/recipes-core/zlib/<a href=3D"http://zlib_1.2.12.bb" rel=
+=3D"noreferrer" target=3D"_blank">zlib_1.2.12.bb</a> b/meta/recipes-core/zl=
+ib/<a href=3D"http://zlib_1.2.12.bb" rel=3D"noreferrer" target=3D"_blank">z=
+lib_1.2.12.bb</a><br>
+index e921703137..ba986d8cf2 100644<br>
+--- a/meta/recipes-core/zlib/<a href=3D"http://zlib_1.2.12.bb" rel=3D"noref=
+errer" target=3D"_blank">zlib_1.2.12.bb</a><br>
++++ b/meta/recipes-core/zlib/<a href=3D"http://zlib_1.2.12.bb" rel=3D"noref=
+errer" target=3D"_blank">zlib_1.2.12.bb</a><br>
+@@ -6,16 +6,16 @@ SECTION =3D &quot;libs&quot;<br>
+=C2=A0LICENSE =3D &quot;Zlib&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://zlib.h;beginline=3D6;endline=3D23;m=
+d5=3D5377232268e952e9ef63bc555f7aa6c0&quot;<br>
+<br>
+-SRC_URI =3D &quot;<a href=3D"https://zlib.net/$%7BBP%7D.tar.xz" rel=3D"nor=
+eferrer" target=3D"_blank">https://zlib.net/${BP}.tar.xz</a> \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://cc.patch \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://ldflags-tests.patch \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-configure-Pass-LDFLAG=
+S-to-link-tests.patch \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://run-ptest \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Correct-incorrect-inp=
+uts-provided-to-the-CRC-functio.patch \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+-UPSTREAM_CHECK_URI =3D &quot;<a href=3D"http://zlib.net/" rel=3D"noreferre=
+r" target=3D"_blank">http://zlib.net/</a>&quot;<br>
++include zlib.inc<br>
++<br>
++SRC_URI +=3D &quot;file://cc.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://ldflags-tests.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-configure-Pass-LDFLA=
+GS-to-link-tests.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://run-ptest \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Correct-incorrect-in=
+puts-provided-to-the-CRC-functio.patch \<br>
++&quot;<br>
+<br>
+-SRC_URI[sha256sum] =3D &quot;7db46b8d7726232a621befaab4a1c870f00a90805511c=
+0e0090441dac57def18&quot;<br>
++UPSTREAM_CHECK_URI =3D &quot;<a href=3D"http://zlib.net/" rel=3D"noreferre=
+r" target=3D"_blank">http://zlib.net/</a>&quot;<br>
+<br>
+=C2=A0CFLAGS +=3D &quot;-D_REENTRANT&quot;<br>
+<br>
+-- <br>
+2.36.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#167861): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/167861" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/167861</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/92305639/1997=
+914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/92305639/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
 
->
-> > > +                "meta-intel": {
-> > > +                    "machines": {
-> > > +                        "intel-core2-32": {},
-> > > +                        "intel-corei7-64": {},
-> > > +                        "intel-skylake-64": {}
-> >
-> > Why does this need to be listed here? Isn't this just the contents of
-> > the conf/machine directory in the layer? I really don't want to be
-> > duplicating information; IHMO it's better to let the layer itself be
-> > canonical about what machines/distros/etc. it supports
->
-> Then you would have to check out all the layers first and look at them
-> one by one. The idea is that this information is available upfront,
-> and for all of the layers in a build. It can be used, for example to
-> be used by Richard's proposed oe-setup tool, and as the json is never
-> written or edited manually, it won't get out of sync wrt git revision
-> it lists for the layer.
->
-> The plain list of machines isn't that interesting, but if it comes
-> with additional information such as descriptions, architectures or
-> kernel versions etc., then it's quite useful to capture this in a
-> standard format. We could maybe look at how buildroot handles this.
-
-I suspect that not including the machine/distro/template stuff for now
-might give us better adoption as standard way to describe layers,
-which is another reason I'm a little hesitant to include them (in
-addition to duplicating information available in the layer itself)
-
->
-> Alex
+--00000000000004048b05e38b6e9e--
 
