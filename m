@@ -1,116 +1,99 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <sean@geanix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89B34C43334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88DC4C433EF
 	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 19:29:54 +0000 (UTC)
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
- [209.85.222.172])
- by mx.groups.io with SMTP id smtpd.web12.36.1657567776182025874
+Received: from first.geanix.com (first.geanix.com [116.203.34.67])
+ by mx.groups.io with SMTP id smtpd.web10.37.1657567778691213808
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Jul 2022 12:29:36 -0700
+ Mon, 11 Jul 2022 12:29:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=SeNtlB/K;
- spf=pass (domain: gmail.com, ip: 209.85.222.172,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f172.google.com with SMTP id i2so2573581qkm.8
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Jul 2022 12:29:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aFinGLjVTOYLH7w5E/ClzlN1pHKWHuTxVUUJvpPvoyY=;
-        b=SeNtlB/K66I6yOWelFTRDmkDkgRYF+opjIBJkTi4bAMy1QqTaMzlg9XhkVHGSRWVPA
-         VSlBoKC/MUSzmzuzu7qr4RyPXGC2qHBOdXjBIvj/JIqFfz8VrRI76Y0YXoYO2HMcMVnq
-         2b1Wk0loD71yI2n2bvysYGfqBjrhID0DGzaxLiFjCxYZU6zcPLQb7Nt8MghgCURrzFb4
-         oiTB/TO3TydSWRHK+ivMeofffYEXKHv15U6KJCWO4ITxfX9/QUYKnShxygq3lEFQPNUs
-         TuB/CvcwCw8KPH+JbW9oFhhbVlDX9HAaECF62tXq3WknROc46iTujiijmsjotdh2gdLC
-         gHAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aFinGLjVTOYLH7w5E/ClzlN1pHKWHuTxVUUJvpPvoyY=;
-        b=kDAXvH/msisjD2J4T3Ou55BfZHtWpR8Yr1OSK3WLSOukGmGtvG6J5zbiNdY5z/V1Uq
-         G+QFUK8RJgtKFewjTF95QCWFAr2ZBh0MTbezWaMBBaQNfkrytJ9JQTyYTiMXCaP5sl4t
-         GDhAEszk0FlBTGZO76yANQ+gW7Z7FM8u2v6HqLUwcVDSpHHJDpubSQdLt+swY7FxCXuZ
-         DthxGSulqCkiDVbXxXHkdkENghVNyWhzxmqnxD1EKawfH86wh1aKn+ZtqowlMUHXsBmg
-         jCOjrrdq3gdj8o/L+XyDW7r7n4jSXo1DQMgaNJOiPQUwWHMDI0R8DBqy2kro+an/lmbh
-         hngQ==
-X-Gm-Message-State: AJIora+li8UY6iDo3I9VVWRAahfYk++1W40XymrjpC+8p1FIlw0XbMm1
-	qxraYRYXiJV02ZTL/Kj7o5NoX41ppzNwKtgcQW0=
-X-Google-Smtp-Source: 
- AGRyM1vsZ6ltjtqQL5yKAykZR7U9u58guNLwkv1hDjBGZFaGrVh/nugtvLKmfCzIvRE0ADJO2C/7FD6cqqVX90bTcRA=
-X-Received: by 2002:a05:620a:448a:b0:6af:3a05:f73c with SMTP id
- x10-20020a05620a448a00b006af3a05f73cmr12973777qkp.72.1657567775170; Mon, 11
- Jul 2022 12:29:35 -0700 (PDT)
-MIME-Version: 1.0
+ dkim=fail reason="body hash did not verify" header.i=@geanix.com
+ header.s=first header.b=ixJrSiNW;
+ spf=pass (domain: geanix.com, ip: 116.203.34.67, mailfrom: sean@geanix.com)
+Received: from Seans-MBP.hadsten (unknown [185.233.254.173])
+	by first.geanix.com (Postfix) with ESMTPSA id 50134E9047;
+	Mon, 11 Jul 2022 19:29:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=geanix.com; s=first;
+	t=1657567775; bh=Xyr+1C7U1eOlnfl+YfEnW3B9YtH15c/ZUQTaTi53h78=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ixJrSiNWpaNW+RPVvlqZP5ZJrVWowMKpHtcwtoBDLlhRkloEnHc6l1Kp+p0Vbh6Qt
+	 7YueFaFJ0ZysYCgn7cvenOaz1zatw1qAiQDy0wolgeRO3Qg1NFZ+tPdANO83I5Gxg2
+	 HFWT0bDYfHmcY2GWz13bxJ158hYI7lvIzCkyeT/3K4wFj0wqGqXPeI9El/lFeb2ob6
+	 +mtgQiotx0jf+UM9aE3thbKqPFLGJ1blUbsMn8vHHPMu2+Kce7mta6ZRJG9HpKnLcx
+	 IxIpbqO6kTUyvrLYHqVFkmW4WlFVtQ+Aa1AQhIolcC+6xdyHFmp1pD+qy1gr1aL8e5
+	 LuxLihNQzPYEg==
+Date: Mon, 11 Jul 2022 21:29:34 +0200
+From: Sean Nyekjaer <sean@geanix.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] zlib: minizip: add recipe
+Message-ID: <20220711192934.i7nd2p3xotbhmjku@Seans-MBP.hadsten>
 References: <20220711083309.1749253-1-sean@geanix.com>
- <CAMKF1sry2PHb52OyVBFSwFnnuHVB4g5rY-te_-BKjq4uQ0onsQ@mail.gmail.com>
- <20220711192740.yqa3kdfkvrxt4hib@Seans-MBP.hadsten>
-In-Reply-To: <20220711192740.yqa3kdfkvrxt4hib@Seans-MBP.hadsten>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 11 Jul 2022 20:29:24 +0100
-Message-ID: 
- <CAMKF1sp1nrf1ZjYt9T9Hxq7mMSmtGzLhXJ_3nJuWBiAhD-Nu4A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] zlib: split src_uri into inc file
-To: Sean Nyekjaer <sean@geanix.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000006e25c405e38c92ca"
+ <20220711083309.1749253-2-sean@geanix.com>
+ <5227282d05b0791d57457c44f63859a97001c6ab.camel@linuxfoundation.org>
+ <20220711085329.su52yw5ygcpoalfm@Seans-MBP.hadsten>
+ <2e252bb607b9ef3a5821a1a0882246c5de157a89.camel@linuxfoundation.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: 
+ <2e252bb607b9ef3a5821a1a0882246c5de157a89.camel@linuxfoundation.org>
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 11 Jul 2022 19:29:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167880
+ https://lists.openembedded.org/g/openembedded-core/message/167881
 
---0000000000006e25c405e38c92ca
-Content-Type: text/plain; charset="UTF-8"
+On Mon, Jul 11, 2022 at 09:58:38AM +0100, Richard Purdie wrote:
+> On Mon, 2022-07-11 at 10:53 +0200, Sean Nyekjaer wrote:
+> > On Mon, Jul 11, 2022 at 09:46:58AM +0100, Richard Purdie wrote:
+> > > On Mon, 2022-07-11 at 10:33 +0200, Sean Nyekjaer wrote:
+> > > > Signed-off-by: Sean Nyekjaer <sean@geanix.com>
+> > > > ---
+> > > >  meta/recipes-core/zlib/minizip_1.2.12.bb | 15 +++++++++++++++
+> > > >  1 file changed, 15 insertions(+)
+> > > >  create mode 100644 meta/recipes-core/zlib/minizip_1.2.12.bb
+> > >=20
+> > > I can see what this does, but why? Who would want this and why?=C2=A0=
+There
+> > > is no detail in the commit messages. Also no maintainers entry whic=
+h
+> > > will break QA checks.
+> > >=20
+> > > Cheers,
+> > >=20
+> > > Richard
+> > >=20
+> > >=20
+> >=20
+> > Hi Richard,
+> >=20
+> > We have some software that depends on minizip.
+> > I don't know if an extra package zlib-minizip or this was the prefere=
+d
+> > way to add it?
+>=20
+> I think an extra package on the existing recipe may be simpler and
+> easier maintenance.
+>=20
+> Commit messages do need a bit more information in them too, it isn't
+> enough to say what something does, it needs to say why.
+>=20
+> Cheers,
+>=20
+> Richard
 
-On Mon, Jul 11, 2022 at 8:27 PM Sean Nyekjaer <sean@geanix.com> wrote:
+I think it will be quite hacky to do it as one recipe, as zlib and
+minizip is to seperate autotools projects and zlib isn't even compatible
+with the autotools class.
+I could something with addtask but I don't think it will be very
+readable.
 
-> On Mon, Jul 11, 2022 at 07:07:38PM +0100, Khem Raj wrote:
-> > We are in process of merging the inc files can you cite reasons why we
-> want
-> > to split it
-> >
->
-> @Khem:
-> Inside the zlib artifact resides a contrib directory that contains more
-> libs, one of them minizip are we using in our project.
->
+Any ideas?
 
-Is it possible to use packageconfig for enabling this
-
-
-> /Sean
->
-
---0000000000006e25c405e38c92ca
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Mon, Jul 11, 2022 at 8:27 PM Sean Nyekjaer &lt;<a href=
-=3D"mailto:sean@geanix.com">sean@geanix.com</a>&gt; wrote:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex">On Mon, Jul 11, 2022 at 07:07:38PM +0100, Khem Raj =
-wrote:<br>
-&gt; We are in process of merging the inc files can you cite reasons why we=
- want<br>
-&gt; to split it<br>
-&gt; <br>
-<br>
-@Khem:<br>
-Inside the zlib artifact resides a contrib directory that contains more<br>
-libs, one of them minizip are we using in our project.<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Is it possible t=
-o use packageconfig for enabling this=C2=A0</div><div dir=3D"auto"><br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex"><br>
-/Sean<br>
-</blockquote></div></div>
-
---0000000000006e25c405e38c92ca--
+/Sean
 
