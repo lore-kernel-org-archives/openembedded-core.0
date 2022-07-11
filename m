@@ -1,210 +1,254 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2740C433EF
-	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 03:06:27 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web11.24304.1657508781676220824
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C645C433EF
+	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 07:57:59 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web11.25973.1657526268973209832
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Jul 2022 20:06:21 -0700
+ Mon, 11 Jul 2022 00:57:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=AKLnrnp0;
- spf=pass (domain: gmail.com, ip: 209.85.216.44,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id
- 89-20020a17090a09e200b001ef7638e536so7040107pjo.3
-        for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Jul 2022 20:06:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=7cgukDRKztC3FT8ZvTTPtgdcr6vLFVzytt56W/3RWck=;
-        b=AKLnrnp0+HRQwBRGQrFp3CZdnLKoAA/qiXwkeEmFcGrgdd7Y09QLoOJEo8S6Ybc64h
-         eQh6l8oLKHKud9M0a4Mi71ad9lxN/vW5FdCfK9MW0Lk52J9+h2G/h7lhJA9WiWcKJEsa
-         Vq1RLOioHEv3p4kJQmh3JfWqT4iZCnVPA2qfKCWJL3GWJsuUU6NY7CBJGKp+l6Ehfg5K
-         wvqvjCWJJNYyHIPwurZyP5YFJsDofysvPPey7d9hnPzdU+eO1u2tyhsW0/AUyy3GawNX
-         NBQRZdfoqb2QstvwqLFn1pJRQh0FCLf95a68PjvJojjWHZ5RQZ1aA+6jGrn8CfCOZO0p
-         SY0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=7cgukDRKztC3FT8ZvTTPtgdcr6vLFVzytt56W/3RWck=;
-        b=c1NOYsXbGLWrMeXTM7TyjmGVTQDjWSdbGKTpBWQhO5sNMX1l3QN245Wv6CsQAiVwBa
-         GFwNqby1QA0QkiTYb+qG3WE5l0pkP1qNHLbCfxSJkJnTBjR2wMU8jg6klYA2/T7q9tuZ
-         GBP3x4nMBf3DZv2T2XTmb5hjmB1D6LO3gAOnarEFKy59dftLmX94ORZWgXGhCzOpKWfL
-         9VKsY8iPNC6O8KFwyzoUb2KPqOHofPMG1r3yV1UvZbXjS6B+E+csm1aU3hBsBX5Vna3H
-         AbFPCbFykvCotllK9euGNgBFTXcjDQxEW0DjLXfT5pnLtLipjYLLx4OBW2nngAV8D6Pg
-         U5oA==
-X-Gm-Message-State: AJIora9csPSaWGL6f2SptF2UqAzrDmHpMtyuOKCcpOQJHlC1j3YMuw1v
-	aMdKoCe4sMvIyCJAJczk9Pf1Y+sCbnEP74OddQQ=
-X-Google-Smtp-Source: 
- AGRyM1szozsl0LEHbiTad7Z1DJ9uBQvrSyjGUGELpKivgV3tcTBnUMmxUKSCCjcGiPxjp53MCYaV5qbTrMlfJZ1E2jE=
-X-Received: by 2002:a17:90a:ff17:b0:1ef:8b4b:8cc0 with SMTP id
- ce23-20020a17090aff1700b001ef8b4b8cc0mr15388575pjb.155.1657508781100; Sun, 10
- Jul 2022 20:06:21 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=cRi1/Pmu;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199,
+ mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 6D286FF810;
+	Mon, 11 Jul 2022 07:57:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1657526267;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VFbwl31MNlFIEOMywEOCBKzkPqhWn+eu1bijJs+Jgko=;
+	b=cRi1/PmujXcHmZ1PTGK9smc+TYWjRgefcsTH6pJcHMZgUERMQbMr0ynH9phgZYCk5n9g15
+	/N0Xx6z2s/9jmeproqaabrN49qldNZYveH+7HiPA0aSKI8v5Vb0Yp49btWAdRgT9jUoCFL
+	7gGoGZMCMoLhDCjYYr54zcoJtTmBVZEXwGY5cJepcnMEtqLJKJl7lFQZToueeIcKlOBwd4
+	2UQ+ps+NVkfv9WNjpxluaW8nwliqP9f0LShiFsot3MXViQTEoZmcaJAs0m4U1XfhBPiU/c
+	xfreXXvYSPQ5ZFxu/hm6oQ5avQsNn1r9LHSgnwFJ57BNiHxaVgMLD4GuJHI24Q==
+Date: Mon, 11 Jul 2022 09:57:45 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Morikazu Fumita <mfumita@electromag.com.au>
+Cc: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org, preid@electromag.com.au
+Subject: Re: [OE-core] [PATCH 1/1] gcc: Fixed libstdc++ configure failure
+Message-ID: <YsvX+cK7gKUvKf1G@mail.local>
+References: <20220708070350.23456-1-mfumita@electromag.com.au>
 MIME-Version: 1.0
-References: 
- <7140b61c92f4f9d79b8c8b8d9be68f127512b758.camel@linuxfoundation.org>
- <CADkTA4O0Ej3HKMPtwoq_iBue2P43gicwx8rfFKyLY5d3jNTP_A@mail.gmail.com>
- <77dd3defcb6908755d06585d4cfb69a523626a22.camel@linuxfoundation.org>
- <17009EE9B42D5D4F.21011@lists.openembedded.org>
- <1700A558F3D5D3E4.14864@lists.openembedded.org>
-In-Reply-To: <1700A558F3D5D3E4.14864@lists.openembedded.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 11 Jul 2022 00:06:14 -0300
-Message-ID: 
- <CADkTA4P=BDAYiZUCN+hhqpyUUAoOckX+RMphyZiwmci3nFrkOA@mail.gmail.com>
-Subject: Re: [OE-core] Reproducible build issues with buildpaths - take 2
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220708070350.23456-1-mfumita@electromag.com.au>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Jul 2022 03:06:27 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Jul 2022 07:57:59 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167858
+ https://lists.openembedded.org/g/openembedded-core/message/167859
 
-On Sun, Jul 10, 2022 at 11:27 PM Bruce Ashfield via
-lists.openembedded.org
-<bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
->
-> On Sun, Jul 10, 2022 at 9:29 PM Bruce Ashfield via
-> lists.openembedded.org
-> <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
-> >
-> > On Fri, Jul 8, 2022 at 10:47 AM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >
-> > > On Fri, 2022-07-08 at 09:37 -0400, Bruce Ashfield wrote:
-> > > > On Fri, Jul 8, 2022 at 7:07 AM Richard Purdie
-> > > > <richard.purdie@linuxfoundation.org> wrote:
-> > > > >
-> > > > > Hi All,
-> > > > >
-> > > > > We've made good progress and I appreciate the help from people. I=
- ran a
-> > > > > fresh build on the autobuilder and I forced it to rerun the QA ch=
-ecks
-> > > > > for all recipes. The tricky bit about warnings is that they don't=
- show
-> > > > > up for objects from sstate and the addition of the buildpaths QA =
-check
-> > > > > doesn't cause the checks to rerun. Due to that a few more previso=
-uly
-> > > > > unseen issues cropped up.
-> > > > >
-> > > > > The list of issues now stands are:
-> > > > >
-> > > > > qemuppc:
-> > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds=
-/5428
-> > > > > WARNING: kernel-devsrc-1.0-r0 do_package_qa: QA Issue: File /lib/=
-modules/5.15.48-yocto-standard/build/include/generated/.vdso32-offsets.h.cm=
-d in package kernel-devsrc contains reference to TMPDIR [buildpaths]
-> > > >
-> > > > I'll take this one. My fix was only for arch/arm, but I'll expand i=
-t
-> > > > to cover ppc32.
-> > >
-> > > Thanks.
-> > >
-> > > I built qemuppc locally and got a different failure, I'd really like =
-to
-> > > know why I saw that and the autobuilder did not. The failure was:
-> > >
-> > > WARNING: linux-yocto-5.15.48+gitAUTOINC+b35d1d1e83_5aa3abf07b-r0 do_p=
-ackage_qa: QA Issue: File /usr/src/debug/linux-yocto/5.15.48+gitAUTOINC+b35=
-d1d1e83_5aa3abf07b-r0/linux-qemuppc-standard-build/drivers/tty/vt/consolema=
-p_deftbl.c in package linux-yocto-src contains reference to TMPDIR
-> > > File /usr/src/debug/linux-yocto/5.15.48+gitAUTOINC+b35d1d1e83_5aa3abf=
-07b-r0/linux-qemuppc-standard-build/lib/oid_registry_data.c in package linu=
-x-yocto-src contains reference to TMPDIR [buildpaths]
-> >
-> > I have the devsrc fixed for qeumppc32, fix incoming shortly.
-> >
-> > But for this one, I don't see it either. What do I need to enable to
-> > get the linux-yocto-src package ? Mine is empty, hence no warning. Is
-> > it one of the archiver modes ?
->
-> I sent a series with a fix for qemuppc32 kernel-devsrc and a WIP fix
-> for the conmakehash issue, I'll have a look at oid_registry next.
+Hello,
 
+On 08/07/2022 15:03:50+0800, Morikazu Fumita wrote:
+> Since commit 34b0edb0d312 ("gcc: Drop stdlib++ option patch"), configure for libstdc++ failed due to ld error of "dummylib/libstdc++.so: file is empty".
+> This failure caused _GLIBCXX_HAVE_S_ISREG not to get defined then make_file_type function in libstdc++-v3\src\filesystem\ops-common.h returns file_type::unknown unconditionally.
+> Fixed by reverting commit 34b0edb0d312 ("gcc: Drop stdlib++ option patch").
+> 
+> Fixes: 34b0edb0d312 ("gcc: Drop stdlib++ option patch")
 
-oid_registry is a perl script .. also capturing the full path of the
-executable. I did a similar fix for linux-yocto 5.15 and used
-'basename' versus the whole path.
+This doesn't apply since we updated master to gcc 12.1 back in april.
+Can you rebase if this is still relevant?
 
-If these hold up, we can expand the versions that get the fix.
+Thanks!
 
-Bruce
+> 
+> Signed-off-by: Morikazu Fumita <mfumita@electromag.com.au>
+> ---
+>  meta/recipes-devtools/gcc/gcc-11.3.inc        |   2 +
+>  meta/recipes-devtools/gcc/gcc-runtime.inc     |   8 +-
+>  .../gcc/gcc/0005-optional-libstdc.patch       | 118 ++++++++++++++++++
+>  3 files changed, 122 insertions(+), 6 deletions(-)
+>  create mode 100644 meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
+> 
+> diff --git a/meta/recipes-devtools/gcc/gcc-11.3.inc b/meta/recipes-devtools/gcc/gcc-11.3.inc
+> index acbb43a25fb1..e6464d2f5489 100644
+> --- a/meta/recipes-devtools/gcc/gcc-11.3.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-11.3.inc
+> @@ -65,6 +65,8 @@ SRC_URI = "\
+>             file://0003-CVE-2021-42574.patch \
+>             file://0004-CVE-2021-42574.patch \
+>             file://0001-CVE-2021-46195.patch \
+> +           \
+> +           file://0005-optional-libstdc.patch \
+>  "
+>  SRC_URI[sha256sum] = "b47cf2818691f5b1e21df2bb38c795fac2cfbd640ede2d0a5e1c89e338a3ac39"
+>  
+> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> index e9f2cf16e840..d2bdfa99db42 100644
+> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> @@ -64,11 +64,7 @@ DEBUG_PREFIX_MAP:class-target = " \
+>     "
+>  
+>  do_configure () {
+> -	export CXX="${CXX} -nostdinc++ -L${WORKDIR}/dummylib"
+> -	# libstdc++ isn't built yet so CXX would error not able to find it which breaks stdc++'s configure
+> -	# tests. Create a dummy empty lib for the purposes of configure.
+> -	mkdir -p ${WORKDIR}/dummylib
+> -	touch ${WORKDIR}/dummylib/libstdc++.so
+> +	export CXX="${CXX} -nostdinc++ -nostdlib++"
+>  	for d in libgcc ${RUNTIMETARGET}; do
+>  		echo "Configuring $d"
+>  		rm -rf ${B}/${TARGET_SYS}/$d/
+> @@ -306,7 +302,7 @@ do_check() {
+>      export DEJAGNU="${WORKDIR}/dejagnu/site.exp"
+>  
+>      # HACK: this works around the configure setting CXX with -nostd* args
+> -    sed -i 's#-nostdinc++ -L${WORKDIR}/dummylib##g' $(find ${B} -name testsuite_flags | head -1)
+> +    sed -i 's/-nostdinc++ -nostdlib++//g' $(find ${B} -name testsuite_flags | head -1)
+>  
+>      if [ "${TOOLCHAIN_TEST_TARGET}" = "user" ]; then
+>          # qemu user has issues allocating large amounts of memory
+> diff --git a/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch b/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
+> new file mode 100644
+> index 000000000000..b856c5dea367
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
+> @@ -0,0 +1,118 @@
+> +From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +Subject: [PATCH 3/5] gcc: Add --nostdlib++ option
+> +
+> +[gcc-runtime builds libstdc++ separately from gcc-cross-*. Its configure tests using g++
+> +will not run correctly since by default the linker will try to link against libstdc++
+> +which shouldn't exist yet. We need an option to disable -lstdc++
+> +option whilst leaving -lc, -lgcc and other automatic library dependencies added by gcc
+> +driver. This patch adds such an option which only disables the -lstdc++.]
+> +
+> +[A "standard" gcc build uses xgcc and hence avoids this. We should ask upstream how to
+> +do this officially, the likely answer is don't build libstdc++ separately.]
+> +
+> +OpenEmbedded/Yocto Project builds libgcc and the other gcc runtime libraries
+> +separately from the compiler and slightly differently to the standard gcc build.
+> +
+> +In general this works well but in trying to build them separately we run into
+> +an issue since we're using our gcc, not xgcc and there is no way to tell configure
+> +to use libgcc but not look for libstdc++.
+> +
+> +This adds such an option allowing such configurations to work.
+> +
+> +2021-10-26 Richard Purdie <richard.purdie@linuxfoundation.org>
+> +
+> +gcc/c-family/ChangeLog:
+> +
+> +    * c.opt: Add --nostdlib++ option
+> +
+> +gcc/cp/ChangeLog:
+> +
+> +    * g++spec.c (lang_specific_driver): Add --nostdlib++ option
+> +
+> +gcc/ChangeLog:
+> +
+> +    * doc/invoke.texi: Document --nostdlib++ option
+> +    * gcc.c: Add --nostdlib++ option
+> +
+> +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +
+> +Upstream-Status: Submitted [https://gcc.gnu.org/pipermail/gcc-patches/2021-October/582724.html]
+> +---
+> + gcc/c-family/c.opt  | 4 ++++
+> + gcc/cp/g++spec.c    | 1 +
+> + gcc/doc/invoke.texi | 8 +++++++-
+> + gcc/gcc.c           | 1 +
+> + 4 files changed, 13 insertions(+), 1 deletion(-)
+> +
+> +Index: gcc-11.2.0/gcc/c-family/c.opt
+> +===================================================================
+> +--- gcc-11.2.0.orig/gcc/c-family/c.opt
+> ++++ gcc-11.2.0/gcc/c-family/c.opt
+> +@@ -2153,6 +2153,10 @@ nostdinc++
+> + C++ ObjC++
+> + Do not search standard system include directories for C++.
+> + 
+> ++nostdlib++
+> ++Driver
+> ++Do not link standard C++ runtime library
+> ++
+> + o
+> + C ObjC C++ ObjC++ Joined Separate
+> + ; Documented in common.opt
+> +Index: gcc-11.2.0/gcc/cp/g++spec.c
+> +===================================================================
+> +--- gcc-11.2.0.orig/gcc/cp/g++spec.c
+> ++++ gcc-11.2.0/gcc/cp/g++spec.c
+> +@@ -159,6 +159,7 @@ lang_specific_driver (struct cl_decoded_
+> +       switch (decoded_options[i].opt_index)
+> + 	{
+> + 	case OPT_nostdlib:
+> ++	case OPT_nostdlib__:
+> + 	case OPT_nodefaultlibs:
+> + 	  library = -1;
+> + 	  break;
+> +Index: gcc-11.2.0/gcc/doc/invoke.texi
+> +===================================================================
+> +--- gcc-11.2.0.orig/gcc/doc/invoke.texi
+> ++++ gcc-11.2.0/gcc/doc/invoke.texi
+> +@@ -239,6 +239,7 @@ in the following sections.
+> + -fno-weak  -nostdinc++ @gol
+> + -fvisibility-inlines-hidden @gol
+> + -fvisibility-ms-compat @gol
+> ++-nostdlib++ @gol
+> + -fext-numeric-literals @gol
+> + -flang-info-include-translate@r{[}=@var{header}@r{]} @gol
+> + -flang-info-include-translate-not @gol
+> +@@ -632,7 +633,7 @@ Objective-C and Objective-C++ Dialects}.
+> + -pie  -pthread  -r  -rdynamic @gol
+> + -s  -static  -static-pie  -static-libgcc  -static-libstdc++ @gol
+> + -static-libasan  -static-libtsan  -static-liblsan  -static-libubsan @gol
+> +--shared  -shared-libgcc  -symbolic @gol
+> ++-shared  -shared-libgcc  -symbolic -nostdlib++ @gol
+> + -T @var{script}  -Wl,@var{option}  -Xlinker @var{option} @gol
+> + -u @var{symbol}  -z @var{keyword}}
+> + 
+> +@@ -15721,6 +15722,11 @@ Specify that the program entry point is
+> + interpreted by the linker; the GNU linker accepts either a symbol name
+> + or an address.
+> + 
+> ++@item -nostdlib++
+> ++@opindex nostdlib++
+> ++Do not use the standard system C++ runtime libraries when linking.
+> ++Only the libraries you specify will be passed to the linker.
+> ++
+> + @item -pie
+> + @opindex pie
+> + Produce a dynamically linked position independent executable on targets
+> +Index: gcc-11.2.0/gcc/gcc.c
+> +===================================================================
+> +--- gcc-11.2.0.orig/gcc/gcc.c
+> ++++ gcc-11.2.0/gcc/gcc.c
+> +@@ -1162,6 +1162,7 @@ proper position among the other output f
+> +     %(mflib) " STACK_SPLIT_SPEC "\
+> +     %{fprofile-arcs|fprofile-generate*|coverage:-lgcov} " SANITIZER_SPEC " \
+> +     %{!nostdlib:%{!r:%{!nodefaultlibs:%(link_ssp) %(link_gcc_c_sequence)}}}\
+> ++    %{!nostdlib++:}\
+> +     %{!nostdlib:%{!r:%{!nostartfiles:%E}}} %{T*}  \n%(post_link) }}}}}}"
+> + #endif
+> + 
+> -- 
+> 2.25.1
+> 
 
->
-> Bruce
->
-> >
-> > Bruce
-> >
-> > >
-> > > sure enough, tmp/work/qemuppc-poky-linux/linux-yocto/5.15.48+gitAUTOI=
-NC+b35d1d1e83_5aa3abf07b-r0$ head package/usr/src/debug/linux-yocto/5.15.48=
-+gitAUTOINC+b35d1d1e83_5aa3abf07b-r0/linux-qemuppc-standard-build/drivers/t=
-ty/vt/consolemap_deftbl.c
-> > > /*
-> > >  * Do not edit this file; it was automatically generated by
-> > >  *
-> > >  * conmakehash /media/build1/poky/build/tmp/work-shared/qemuppc/kerne=
-l-source/drivers/tty/vt/cp437.uni > [this file]
-> > >  *
-> > >  */
-> > >
-> > >
-> > > I think the warning is saying there is a second issue in linux-qemupp=
-c-
-> > > standard-build/lib/oid_registry_data.c too.
-> > >
-> > > Sorry Bruce, not sure why several roads lead to the kernel :/
-> > >
-> > > Cheers,
-> > >
-> > > Richard
-> > >
-> >
-> >
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
-> >
-> >
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#167856): https://lists.openembedded.org/g/openembedde=
-d-core/message/167856
-> Mute This Topic: https://lists.openembedded.org/mt/92248896/1050810
+> View/Reply Online (#167815): https://lists.openembedded.org/g/openembedded-core/message/167815
+> Mute This Topic: https://lists.openembedded.org/mt/92246725/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
-uce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
