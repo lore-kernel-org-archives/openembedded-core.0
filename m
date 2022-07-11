@@ -1,141 +1,153 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB99BC433EF
-	for <webhook@archiver.kernel.org>; Sun, 10 Jul 2022 16:55:34 +0000 (UTC)
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
- [209.85.222.169])
- by mx.groups.io with SMTP id smtpd.web10.18859.1657472133003079924
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29EABC43334
+	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 00:29:57 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web09.23023.1657499389183937026
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Jul 2022 09:55:33 -0700
+ Sun, 10 Jul 2022 17:29:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20210112.gappssmtp.com header.s=20210112
- header.b=KrzgFWQG;
- spf=pass (domain: ossystems.com.br, ip: 209.85.222.169,
- mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qk1-f169.google.com with SMTP id z12so2426882qki.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ImzM1eQI;
+ spf=pass (domain: gmail.com, ip: 209.85.216.42,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f42.google.com with SMTP id
+ q5-20020a17090a304500b001efcc885cc4so3489852pjl.4
         for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Jul 2022 09:55:32 -0700 (PDT)
+ Sun, 10 Jul 2022 17:29:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20210112.gappssmtp.com; s=20210112;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc;
-        bh=EVFrwvbWOs5binrLyD6bTPHCw+t9Tn+GbsJmbmWeWxY=;
-        b=KrzgFWQGpSA9hYf+HydUDkJkI+PcSV/Us5Y0vTh9nVsnen2seErW+UfyqeYFLXE8CF
-         AhWLDbCPYYOzskMfRPH3GL8ZMpOA/SUApIF3qgyt+IcZPPtpzxRiS1EyLzEfyt9OnvQA
-         rDWi+qpXiEgz3uKPJnNCTnBsX8N4K3JmBUypUPkBGaTr9zJyBIuKsinHb9w9fpbpWq3L
-         TR0AHi0G47QEiM/QHN3Zjp/x8bCbrN5+/NzHQ6ObqV7Kj0cWug6nJy9DGCIy1wnG19qm
-         ziLK1qvPPvVM+M20LeDb74Ue9Eej/Tn9Kshv+74fd/5eEUYx3RsUUm/22tKrUFOEJhf3
-         9G+w==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=xKsMl0MJw4wRM//nCaIsZeXtvRZxPlBU7nDCo/OhyHE=;
+        b=ImzM1eQIOoJvusxugPVVZ9EKXVaLQiyZ/pz9CJGJe+sMqmER6j58FH2RIyI6y+fn59
+         5ViNiF5fJzwjfEh1GgT8l6CVMpoopThyCR2WPKabx3rjoOnWwoHdEjVqYA8MeTom7sM3
+         igrg6lJAanst2R/sZZkXXWO6x3UkjMe4xUQoSprw3G1sal5SQWcpTXxsngU0/mEq4mM/
+         dgUX2jNWCug7izQ2CUQAcsaHcGrPXcH2faemx/yNizg+U8c7JoP+RhKIgTzQUlHIbC88
+         GF5DpYs4TlUr5ZyJ67W063yNz1T+guAdoyLt+g0V+sLxolEJPo3XgxyxHdyk441D81Vk
+         azdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc;
-        bh=EVFrwvbWOs5binrLyD6bTPHCw+t9Tn+GbsJmbmWeWxY=;
-        b=JeL7lhKLUTXs74drag/+AKk7NcMVorD8K3nSLyxB36QffBa6lLo1DRWPUxnJoVYBoV
-         ADCQ/cZqlTs9XaVcpb3srzuZy4aUseLI13yPNdWhD/LCyJb05rGWqJws8LGt1BhebUfa
-         66p/X6OdE9j6+tSbdk1SdeM1X2bkwTVk8rn3cihHmL1XQR8xSe/Vq5AUKqVJB+EwIwxe
-         VzwDqQKUUcW+7PwLF05zTeb4CxGaHs4OMgmzTQIjyEJiaaFCNlrD+rNEkbgTEK1FqpYb
-         QReAS9mBzrY9K+zON6anzq8gwY1BFmESZ9/g8XdRHPSPm+0M88Hf/y+comV6v7TJdXpP
-         yEsQ==
-X-Gm-Message-State: AJIora9cNmK4irkHXkg+Z1QJIRUuM9fjBPLXud7d1C1sDAh7rBWH+lto
-	AAW1I2CIyM+XVDxvyzbYJZEYPgqqIcM36SgJ
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=xKsMl0MJw4wRM//nCaIsZeXtvRZxPlBU7nDCo/OhyHE=;
+        b=pfPDDg4GvsgXtUP+1M2RZROYz4aF+quUo+0HI0Y3ZKNWJFbwJ2eEfkE4pbOh7Yn+qm
+         /blCMxpZTV0eJ3AsiJOFeEi5qy+JQNnT3hspqhon9HZKNCxV119DgLr9BEu6ur89Zd4n
+         hQvXlBluWxgghrvFq3PVhPtFU0Ni9ERGqjt7ffGqu2sQM0BWfZxQMPqWmuYJD193wD4u
+         jtpYMzukywX0cBXUh0bS6amVintk3BjHYshHVe76KpIJSt82tBTDMoqAQapQjbBwA7rw
+         R/1f4pAubkPdQDcCEKW3X3cLJs5toYDzN/LQYa3qrVDNCNY/ZyTf3pFNjmrriUoEJzoZ
+         DeVQ==
+X-Gm-Message-State: AJIora8Qdth/fYGGcNLK6elC14S4/xGMHLCsRbFjd4y+AnynNCLjNsnQ
+	QpARTbFS3I9ZbqCyDWIZqaUx5xnN81x0/qdL9sQ=
 X-Google-Smtp-Source: 
- AGRyM1vJrfgxLgS7ipKGskiftxjoqise3+20lD9Y+H9m+OALFFxr2nrgXi3FoDNOG6S4rGN4x6qnVg==
-X-Received: by 2002:a05:620a:410e:b0:6b2:809f:2f62 with SMTP id
- j14-20020a05620a410e00b006b2809f2f62mr9034968qko.14.1657472131545;
-        Sun, 10 Jul 2022 09:55:31 -0700 (PDT)
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com.
- [209.85.222.182])
-        by smtp.gmail.com with ESMTPSA id
- n16-20020a05622a041000b00304fe5247bfsm3826742qtx.36.2022.07.10.09.55.31
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 Jul 2022 09:55:31 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qk1-f182.google.com with SMTP id z11so948057qkz.13
-        for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Jul 2022 09:55:31 -0700 (PDT)
-X-Received: by 2002:a37:27d1:0:b0:6b5:79e9:d32a with SMTP id
- n200-20020a3727d1000000b006b579e9d32amr3284176qkn.705.1657472130889; Sun, 10
- Jul 2022 09:55:30 -0700 (PDT)
+ AGRyM1u8qS7iPBxjY89FN/yIwyhkcGB9tclk0pdZ03Ub+UPHOlJXic/u6XNhr4/KtT8G+66S8z2k5QbBvsfDWmNhvxQ=
+X-Received: by 2002:a17:902:e153:b0:16b:dccf:5a89 with SMTP id
+ d19-20020a170902e15300b0016bdccf5a89mr15742180pla.69.1657499388286; Sun, 10
+ Jul 2022 17:29:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220709201307.2194050-1-limon.anibal@gmail.com>
-In-Reply-To: <20220709201307.2194050-1-limon.anibal@gmail.com>
-Date: Sun, 10 Jul 2022 13:55:19 -0300
-X-Gmail-Original-Message-ID: 
- <CAP9ODKqdpsBsma8f5VL_T+pyVFesF7fVN=2zOJBZZRjd=HeVSg@mail.gmail.com>
+References: 
+ <7140b61c92f4f9d79b8c8b8d9be68f127512b758.camel@linuxfoundation.org>
+ <CADkTA4O0Ej3HKMPtwoq_iBue2P43gicwx8rfFKyLY5d3jNTP_A@mail.gmail.com>
+ <77dd3defcb6908755d06585d4cfb69a523626a22.camel@linuxfoundation.org>
+In-Reply-To: 
+ <77dd3defcb6908755d06585d4cfb69a523626a22.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sun, 10 Jul 2022 21:29:41 -0300
 Message-ID: 
- <CAP9ODKqdpsBsma8f5VL_T+pyVFesF7fVN=2zOJBZZRjd=HeVSg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rng-tools: Only install one set of init scripts
-To: "An?bal Lim?n" <limon.anibal@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>, matthew@rzerosystems.com,
-	aleksandar@rzerosystems.com, wangmy@fujitsu.com,
-	"Purdie, Richard" <richard.purdie@linuxfoundation.org>, h@denx.de,
-	Alexander Kanavin <alex.kanavin@gmail.com>,
- =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal@rzerosystems.com>
-Content-Type: multipart/alternative; boundary="000000000000963bdc05e3764daf"
+ <CADkTA4Otrt3AXZtRg99ZCU6hODm-4dei4s2NNLzrnEu16Ur+JQ@mail.gmail.com>
+Subject: Re: [OE-core] Reproducible build issues with buildpaths - take 2
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 10 Jul 2022 16:55:34 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Jul 2022 00:29:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167850
+ https://lists.openembedded.org/g/openembedded-core/message/167851
 
---000000000000963bdc05e3764daf
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Em s=C3=A1b., 9 de jul. de 2022 =C3=A0s 17:26, An?bal Lim?n <limon.anibal@g=
-mail.com>
-escreveu:
-
-> From: An=C3=ADbal Lim=C3=B3n <limon.anibal@gmail.com>
+On Fri, Jul 8, 2022 at 10:47 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> Check if systemd is enabled to install .service file only instead of
-> service and sysvinit files because it will to rngd service twice by
-> systemd compatibility.
+> On Fri, 2022-07-08 at 09:37 -0400, Bruce Ashfield wrote:
+> > On Fri, Jul 8, 2022 at 7:07 AM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > >
+> > > Hi All,
+> > >
+> > > We've made good progress and I appreciate the help from people. I ran=
+ a
+> > > fresh build on the autobuilder and I forced it to rerun the QA checks
+> > > for all recipes. The tricky bit about warnings is that they don't sho=
+w
+> > > up for objects from sstate and the addition of the buildpaths QA chec=
+k
+> > > doesn't cause the checks to rerun. Due to that a few more previsouly
+> > > unseen issues cropped up.
+> > >
+> > > The list of issues now stands are:
+> > >
+> > > qemuppc:
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/542=
+8
+> > > WARNING: kernel-devsrc-1.0-r0 do_package_qa: QA Issue: File /lib/modu=
+les/5.15.48-yocto-standard/build/include/generated/.vdso32-offsets.h.cmd in=
+ package kernel-devsrc contains reference to TMPDIR [buildpaths]
+> >
+> > I'll take this one. My fix was only for arch/arm, but I'll expand it
+> > to cover ppc32.
 >
-> One called rng-tools.service (sysv compat) and another rngd.service.
+> Thanks.
+>
+> I built qemuppc locally and got a different failure, I'd really like to
+> know why I saw that and the autobuilder did not. The failure was:
+>
+> WARNING: linux-yocto-5.15.48+gitAUTOINC+b35d1d1e83_5aa3abf07b-r0 do_packa=
+ge_qa: QA Issue: File /usr/src/debug/linux-yocto/5.15.48+gitAUTOINC+b35d1d1=
+e83_5aa3abf07b-r0/linux-qemuppc-standard-build/drivers/tty/vt/consolemap_de=
+ftbl.c in package linux-yocto-src contains reference to TMPDIR
+> File /usr/src/debug/linux-yocto/5.15.48+gitAUTOINC+b35d1d1e83_5aa3abf07b-=
+r0/linux-qemuppc-standard-build/lib/oid_registry_data.c in package linux-yo=
+cto-src contains reference to TMPDIR [buildpaths]
+
+I have the devsrc fixed for qeumppc32, fix incoming shortly.
+
+But for this one, I don't see it either. What do I need to enable to
+get the linux-yocto-src package ? Mine is empty, hence no warning. Is
+it one of the archiver modes ?
+
+Bruce
+
+>
+> sure enough, tmp/work/qemuppc-poky-linux/linux-yocto/5.15.48+gitAUTOINC+b=
+35d1d1e83_5aa3abf07b-r0$ head package/usr/src/debug/linux-yocto/5.15.48+git=
+AUTOINC+b35d1d1e83_5aa3abf07b-r0/linux-qemuppc-standard-build/drivers/tty/v=
+t/consolemap_deftbl.c
+> /*
+>  * Do not edit this file; it was automatically generated by
+>  *
+>  * conmakehash /media/build1/poky/build/tmp/work-shared/qemuppc/kernel-so=
+urce/drivers/tty/vt/cp437.uni > [this file]
+>  *
+>  */
+>
+>
+> I think the warning is saying there is a second issue in linux-qemuppc-
+> standard-build/lib/oid_registry_data.c too.
+>
+> Sorry Bruce, not sure why several roads lead to the kernel :/
+>
+> Cheers,
+>
+> Richard
 >
 
-I think renaming the init script to use the same name as the .service file
-should fix it.
 
 --=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
-
---000000000000963bdc05e3764daf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Em s=C3=A1b., 9 de jul. de 2022 =C3=
-=A0s 17:26, An?bal Lim?n &lt;<a href=3D"mailto:limon.anibal@gmail.com">limo=
-n.anibal@gmail.com</a>&gt; escreveu:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">From: An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:lim=
-on.anibal@gmail.com" target=3D"_blank">limon.anibal@gmail.com</a>&gt;<br>
-<br>
-Check if systemd is enabled to install .service file only instead of<br>
-service and sysvinit files because it will to rngd service twice by<br>
-systemd compatibility.<br>
-<br>
-One called rng-tools.service (sysv compat) and another rngd.service.<br></b=
-lockquote><div><br></div><div>I think renaming the init script to use the s=
-ame=C2=A0name as the .service file should fix it.</div><div>=C2=A0</div></d=
-iv>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Otavio Salvador =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 O.S. Systems<br><a href=3D"http://www.ossystems.com.br" t=
-arget=3D"_blank">http://www.ossystems.com.br</a> =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0<a href=3D"http://code.ossystems.com.br" target=3D"_blank">http://code.o=
-ssystems.com.br</a><br>Mobile: +55 (53) 9 9981-7854 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0Mobile: +1 (347) 903-9750</div></div>
-
---000000000000963bdc05e3764daf--
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
