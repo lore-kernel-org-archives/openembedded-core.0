@@ -1,251 +1,193 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49C8AC43334
-	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 15:23:41 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web09.30216.1657553018000006030
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 621DBC433EF
+	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 15:46:31 +0000 (UTC)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by mx.groups.io with SMTP id smtpd.web08.30574.1657554385904220031
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Jul 2022 08:23:38 -0700
+ Mon, 11 Jul 2022 08:46:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LabMTn8z;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id v16so7443140wrd.13
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=KT3toU8b;
+ spf=pass (domain: gmail.com, ip: 209.85.167.51,
+ mailfrom: jpewhacker@gmail.com)
+Received: by mail-lf1-f51.google.com with SMTP id a9so9361298lfk.11
         for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Jul 2022 08:23:37 -0700 (PDT)
+ Mon, 11 Jul 2022 08:46:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=ddKgYZvazU7xKgYs/REjyrJz2i8Gxp6Ax2I4IMBNRwc=;
-        b=LabMTn8zbgX5PxYeDpiV0YoYopBfJAeLwn+hAmKli87IIqoWr8IvBpuh1H5jk6vluK
-         EuC5CBHvKeUKsk0SSvAxOCVJc6JS1Hj6ozvs98I6pvnb4NFmDZ3Bq4OxwTIGCPtJGBPF
-         d+7fukM70sJyxkII7stRgZret+mZOM15xncmo=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lKEu5E3cNx2f9P7yMCmugGiIJc7JhiUErv+zmWr0gj0=;
+        b=KT3toU8btXUD6o1xuT7z569STJ1R+aK1G+1Ofx1uq1IewQE3gwDVvI6V6ew6MhZFdg
+         DefBHdAQoao/mfp99KC5wYKV52OqmIvsKKRLu4nKuKZMHuNPirOuH4GbGLsIw7S6P3mO
+         r8S22C2WtScPawyQo4xt3KHiE2/Qu+x/t8tbHQoZZbuFpUGC2wilZbNYVR+sFJ8bY6Hu
+         iSRHaGzl2+7k9njuQxME5Japjss5DoQosv5XpCZdcujF1RDLatpUT10A20/B98jAKH+h
+         EwCgbM3wgziuPvPvbIFDT0+AIDTndMXNY6CdvDKQ6vH158lcWPecgU2g9WNzToXmeJXg
+         TH+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=ddKgYZvazU7xKgYs/REjyrJz2i8Gxp6Ax2I4IMBNRwc=;
-        b=3FseevVIBu8MFRPjVf/xcI+lwVeSZMC6gKkiTVZq0Z3zk1SWblCStAP37hI5Y1mGLk
-         3bj1FaCV3fZBLvITFQQG9xNB90Dv1OOgH3SK/t0Pca5FnWdZrEPWGALe0Yc/HJu18orL
-         Tvpri3PO8CB/XiDy4I0E/IGUr0svTKyrlGoSqXmfEtWKlMNZxaJbYpL+hXhZcaury1pC
-         PZW0qVnpYvyOBLJegcqArkBOfdit5kOE6OZDJlbLtXAIg8fIh8nmOII58mfH7YajSE8X
-         0a3UTs9b4SGb2gHleRAEF26/BbcIvBqZWYojDUnqxy+ZNumQhbY1IkdGyB3ZWl+oExSG
-         LWcQ==
-X-Gm-Message-State: AJIora82hoV94xnJ7ON8+NCOF746d1Jdz2o+s8dpDaQK9dyOmdXn9ij/
-	FIc/Bb7MXvRujANyaDIHggk+Aw==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lKEu5E3cNx2f9P7yMCmugGiIJc7JhiUErv+zmWr0gj0=;
+        b=gNeG0brtwORxddH0tJK1QXQ+tY3Q9rjlrcZ3wyaeawPVJXeA504APct4RWMBV6wLSa
+         KLQzeMC1lm5y2H5w+71ABvjxHUKAKim9/Ft99hANYbuhhKHly1BFAvrg8pHitKXBCs+d
+         FLzvUP9TK3CmvMYR8E/NPMIqu5lZoidPH2HwS8P9H9MrLDVXeAr0Vb4w2aB0g4j+P3HJ
+         GnDrjO9WBOaXHnqujbl4uB7XK2dsDEZAP5bglTXegahr3AXrgLOAva0BWYTedLpOv8p5
+         /+jUIimtyWV6GHiNovKbhJ3+C2c+O6Szao5cvXpFSawojkvsintcgq+sY/SoKBMmTB3B
+         /trg==
+X-Gm-Message-State: AJIora+8I8YGlpYUC+lrHeZ47B/1luICaFhPup1UFMKRp9Sizuq794wp
+	g/cLVmdkfLjwhg8EZlkeGd8+qUYXS3M5Qn8EPbE=
 X-Google-Smtp-Source: 
- AGRyM1uTp5C+/vQ1M1KulT7e9/2Vmw5wpl+zwUo7PmMUv9grAKEgJs+fQml9i4S7RLvOIb7BWGW0fA==
-X-Received: by 2002:a5d:5986:0:b0:21d:8779:8220 with SMTP id
- n6-20020a5d5986000000b0021d87798220mr17531781wri.165.1657553016290;
-        Mon, 11 Jul 2022 08:23:36 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f9ee:ac79:b0a:1aa9?
- ([2001:8b0:aba:5f3c:f9ee:ac79:b0a:1aa9])
-        by smtp.gmail.com with ESMTPSA id
- j9-20020a05600c410900b003a02cbf862esm6919123wmi.13.2022.07.11.08.23.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jul 2022 08:23:35 -0700 (PDT)
-Message-ID: 
- <81ec35e85e7dd36525b92b2d3166a2162c417349.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [poky][master][kirkstone][PATCH]
- cve-extra-exclusions.inc: Use conditional override
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: akash.hadke@kpit.com, openembedded-core@lists.openembedded.org
-Cc: ranjitsinh.rathod@kpit.com
-Date: Mon, 11 Jul 2022 16:23:35 +0100
-In-Reply-To: <20220711150832.8360-1-akash.hadke@kpit.com>
-References: <20220711150832.8360-1-akash.hadke@kpit.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ AGRyM1s7r7dUifgihjqjUr/wHT9CfNUR+iWHXRpR/RpOVadb64q7Pp6IpS8HDf4eiy59ctwysfrY1QIF+YgH4ocdYsE=
+X-Received: by 2002:a05:6512:3b26:b0:47f:9895:703c with SMTP id
+ f38-20020a0565123b2600b0047f9895703cmr12530501lfv.395.1657554383899; Mon, 11
+ Jul 2022 08:46:23 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220708191730.3413011-1-alex@linutronix.de>
+ <CAJdd5Gbs6YKYs3qNgt_jQriiR7ix8XtPubMAmc2ftK5CMuNNfQ@mail.gmail.com>
+ <CANNYZj95c=syJT9-sW20UC79bf3qRjZDDJNaOmDUvq_jJPiYLQ@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj95c=syJT9-sW20UC79bf3qRjZDDJNaOmDUvq_jJPiYLQ@mail.gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Mon, 11 Jul 2022 10:46:12 -0500
+Message-ID: 
+ <CAJdd5GYdxO_Th9_BV+7sWMsj9CDtdu+_nFpnr=eCGFWYXRM=Aw@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/3] meta/files: add layer setup JSON schema and
+ example
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Jul 2022 15:23:41 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Jul 2022 15:46:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167874
+ https://lists.openembedded.org/g/openembedded-core/message/167875
 
-On Mon, 2022-07-11 at 17:08 +0200, akash hadke via
-lists.openembedded.org wrote:
-> Use conditional override for CVE_CHECK_IGNORE variable
-> to whitelist CVEs for specific recipe.
->=20
-> After including cve-extra-exclusions.inc all CVEs from
-> file are getting shown in ignored list for every component even
-> if that CVE is not related to it.
->=20
-> This change can help to set actual ignored CVEs for
-> the recipe.
->=20
-> Signed-off-by: Akash Hadke <akash.hadke@kpit.com>
-> ---
->  .../distro/include/cve-extra-exclusions.inc   | 42 ++++++++++++-------
->  1 file changed, 26 insertions(+), 16 deletions(-)
->=20
-> diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/con=
-f/distro/include/cve-extra-exclusions.inc
-> index 8b5f8d49b8..2f9735f700 100644
-> --- a/meta/conf/distro/include/cve-extra-exclusions.inc
-> +++ b/meta/conf/distro/include/cve-extra-exclusions.inc
-> @@ -19,7 +19,8 @@
->  # strace https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2000-000=
-6
->  # CVE is more than 20 years old with no resolution evident
->  # broken links in CVE database references make resolution impractical
-> -CVE_CHECK_IGNORE +=3D "CVE-2000-0006"
-> +CVE_CHECK_IGNORE:pn-strace +=3D "CVE-2000-0006"
-> +CVE_CHECK_IGNORE:pn-strace-native +=3D "CVE-2000-0006"
-> =20
->  # epiphany https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2005-0=
-238
->  # The issue here is spoofing of domain names using characters from other=
- character sets.
-> @@ -28,31 +29,35 @@ CVE_CHECK_IGNORE +=3D "CVE-2000-0006"
->  # there is unlikely ever to be a single fix to webkit or epiphany which =
-addresses this
->  # problem. Ignore this CVE as there isn't any mitigation or fix or way t=
-o progress this further
->  # we can seem to take.
-> -CVE_CHECK_IGNORE +=3D "CVE-2005-0238"
-> +CVE_CHECK_IGNORE:pn-epiphany +=3D "CVE-2005-0238"
-> =20
->  # glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2010-4756
->  # Issue is memory exhaustion via glob() calls, e.g. from within an ftp s=
-erver
->  # Best discussion in https://bugzilla.redhat.com/show_bug.cgi?id=3D68168=
-1
->  # Upstream don't see it as a security issue, ftp servers shouldn't be pa=
-ssing
->  # this to libc glob. Exclude as upstream have no plans to add BSD's GLOB=
-_LIMIT or similar
-> -CVE_CHECK_IGNORE +=3D "CVE-2010-4756"
-> +CVE_CHECK_IGNORE:pn-glibc +=3D "CVE-2010-4756"
-> =20
->  # go https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2020-29509
->  # go https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2020-29511
->  # The encoding/xml package in go can potentially be used for security ex=
-ploits if not used correctly
->  # CVE applies to a netapp product as well as flagging a general issue. W=
-e don't ship anything
->  # exposing this interface in an exploitable way
-> -CVE_CHECK_IGNORE +=3D "CVE-2020-29509 CVE-2020-29511"
-> +CVE_CHECK_IGNORE:pn-go +=3D "CVE-2020-29509 CVE-2020-29511"
-> =20
->  # db
->  # Since Oracle relicensed bdb, the open source community is slowly but s=
-urely replacing bdb with
->  # supported and open source friendly alternatives. As a result these CVE=
-s are unlikely to ever be fixed.
-> -CVE_CHECK_IGNORE +=3D "CVE-2015-2583 CVE-2015-2624 CVE-2015-2626 CVE-201=
-5-2640 CVE-2015-2654 \
-> +CVE_CHECK_IGNORE:pn-db +=3D "CVE-2015-2583 CVE-2015-2624 CVE-2015-2626 C=
-VE-2015-2640 CVE-2015-2654 \
-> +CVE-2015-2656 CVE-2015-4754 CVE-2015-4764 CVE-2015-4774 CVE-2015-4775 CV=
-E-2015-4776 CVE-2015-4777 \
-> +CVE-2015-4778 CVE-2015-4779 CVE-2015-4780 CVE-2015-4781 CVE-2015-4782 CV=
-E-2015-4783 CVE-2015-4784 \
-> +CVE-2015-4785 CVE-2015-4786 CVE-2015-4787 CVE-2015-4788 CVE-2015-4789 CV=
-E-2015-4790 CVE-2016-0682 \
-> +CVE-2016-0689 CVE-2016-0692 CVE-2016-0694 CVE-2016-3418 CVE-2020-2981"
-> +CVE_CHECK_IGNORE:pn-db-native +=3D "CVE-2015-2583 CVE-2015-2624 CVE-2015=
--2626 CVE-2015-2640 CVE-2015-2654 \
->  CVE-2015-2656 CVE-2015-4754 CVE-2015-4764 CVE-2015-4774 CVE-2015-4775 CV=
-E-2015-4776 CVE-2015-4777 \
->  CVE-2015-4778 CVE-2015-4779 CVE-2015-4780 CVE-2015-4781 CVE-2015-4782 CV=
-E-2015-4783 CVE-2015-4784 \
->  CVE-2015-4785 CVE-2015-4786 CVE-2015-4787 CVE-2015-4788 CVE-2015-4789 CV=
-E-2015-4790 CVE-2016-0682 \
->  CVE-2016-0689 CVE-2016-0692 CVE-2016-0694 CVE-2016-3418 CVE-2020-2981"
-> -
-> =20
->  #
->  # Kernel CVEs, e.g. linux-yocto*
-> @@ -66,23 +71,23 @@ CVE-2016-0689 CVE-2016-0692 CVE-2016-0694 CVE-2016-34=
-18 CVE-2020-2981"
->  # welcome than and then entries can likely be removed from here.
->  #
->  # 1999-2010
-> -CVE_CHECK_IGNORE +=3D "CVE-1999-0524 CVE-1999-0656 CVE-2006-2932 CVE-200=
-7-2764 CVE-2007-4998 CVE-2008-2544 \
-> +CVE_CHECK_IGNORE:pn-linux-yocto +=3D "CVE-1999-0524 CVE-1999-0656 CVE-20=
-06-2932 CVE-2007-2764 CVE-2007-4998 CVE-2008-2544 \
->                       CVE-2008-4609 CVE-2010-0298 CVE-2010-4563"
->  # 2011-2017
-> -CVE_CHECK_IGNORE +=3D "CVE-2011-0640 CVE-2014-2648 CVE-2014-8171 CVE-201=
-6-0774 CVE-2016-3695 CVE-2016-3699 \
-> +CVE_CHECK_IGNORE:pn-linux-yocto +=3D "CVE-2011-0640 CVE-2014-2648 CVE-20=
-14-8171 CVE-2016-0774 CVE-2016-3695 CVE-2016-3699 \
->                       CVE-2017-1000255 CVE-2017-1000377 CVE-2017-5897 CVE=
--2017-6264"
->  # 2018
-> -CVE_CHECK_IGNORE +=3D "CVE-2018-1000026 CVE-2018-10840 CVE-2018-10876 CV=
-E-2018-10882 CVE-2018-10901 CVE-2018-10902 \
-> +CVE_CHECK_IGNORE:pn-linux-yocto +=3D "CVE-2018-1000026 CVE-2018-10840 CV=
-E-2018-10876 CVE-2018-10882 CVE-2018-10901 CVE-2018-10902 \
->                       CVE-2018-14625 CVE-2018-16880 CVE-2018-16884 CVE-20=
-18-5873 CVE-2018-6559"
->  # 2019
-> -CVE_CHECK_IGNORE +=3D "CVE-2019-10126 CVE-2019-14899 CVE-2019-18910 CVE-=
-2019-3016 CVE-2019-3819 CVE-2019-3846 CVE-2019-3887"
-> +CVE_CHECK_IGNORE:pn-linux-yocto +=3D "CVE-2019-10126 CVE-2019-14899 CVE-=
-2019-18910 CVE-2019-3016 CVE-2019-3819 CVE-2019-3846 CVE-2019-3887"
->  # 2020
-> -CVE_CHECK_IGNORE +=3D "CVE-2020-10732 CVE-2020-10742 CVE-2020-16119 CVE-=
-2020-1749 CVE-2020-25672 CVE-2020-27820 CVE-2020-35501 CVE-2020-8834"
-> +CVE_CHECK_IGNORE:pn-linux-yocto +=3D "CVE-2020-10732 CVE-2020-10742 CVE-=
-2020-16119 CVE-2020-1749 CVE-2020-25672 CVE-2020-27820 CVE-2020-35501 CVE-2=
-020-8834"
->  # 2021
-> -CVE_CHECK_IGNORE +=3D "CVE-2021-20194 CVE-2021-20226 CVE-2021-20265 CVE-=
-2021-3564 CVE-2021-3743 CVE-2021-3847 CVE-2021-4002 \
-> +CVE_CHECK_IGNORE:pn-linux-yocto +=3D "CVE-2021-20194 CVE-2021-20226 CVE-=
-2021-20265 CVE-2021-3564 CVE-2021-3743 CVE-2021-3847 CVE-2021-4002 \
->                       CVE-2021-4090 CVE-2021-4095 CVE-2021-4197 CVE-2021-=
-4202 CVE-2021-44879 CVE-2021-45402"
->  # 2022
-> -CVE_CHECK_IGNORE +=3D "CVE-2022-0185 CVE-2022-0264 CVE-2022-0286 CVE-202=
-2-0330 CVE-2022-0382 CVE-2022-0433 CVE-2022-0435 \
-> +CVE_CHECK_IGNORE:pn-linux-yocto +=3D "CVE-2022-0185 CVE-2022-0264 CVE-20=
-22-0286 CVE-2022-0330 CVE-2022-0382 CVE-2022-0433 CVE-2022-0435 \
->                       CVE-2022-0492 CVE-2022-0494 CVE-2022-0500 CVE-2022-=
-0516 CVE-2022-0617 CVE-2022-0742 CVE-2022-0854 \
->                       CVE-2022-0995 CVE-2022-0998 CVE-2022-1011 CVE-2022-=
-1015 CVE-2022-1048 CVE-2022-1055 CVE-2022-1195 \
->                       CVE-2022-1353 CVE-2022-24122 CVE-2022-24448 CVE-202=
-2-24958 CVE-2022-24959 CVE-2022-25258 CVE-2022-25265 \
-> @@ -95,19 +100,24 @@ CVE_CHECK_IGNORE +=3D "CVE-2022-0185 CVE-2022-0264 C=
-VE-2022-0286 CVE-2022-0330 CVE
->  # There was a proposed patch https://lists.gnu.org/archive/html/qemu-dev=
-el/2021-02/msg06098.html
->  # qemu maintainers say the patch is incorrect and should not be applied
->  # Ignore from OE's perspectivee as the issue is of low impact, at worst =
-sitting in an infinite loop rather than exploitable
-> -CVE_CHECK_IGNORE +=3D "CVE-2021-20255"
-> +CVE_CHECK_IGNORE:pn-qemu +=3D "CVE-2021-20255"
-> +CVE_CHECK_IGNORE:pn-qemu-native +=3D "CVE-2021-20255"
-> +CVE_CHECK_IGNORE:pn-qemu-system-native +=3D "CVE-2021-20255"
-> =20
->  # qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln=
-/detail?vulnId=3DCVE-2019-12067
->  # There was a proposed patch but rejected by upstream qemu. It is unclea=
-r if the issue can
->  # still be reproduced or where exactly any bug is.
->  # Ignore from OE's perspective as we'll pick up any fix when upstream ac=
-cepts one.
-> -CVE_CHECK_IGNORE +=3D "CVE-2019-12067"
-> +CVE_CHECK_IGNORE:pn-qemu +=3D "CVE-2019-12067"
-> +CVE_CHECK_IGNORE:pn-qemu-native +=3D "CVE-2019-12067"
-> +CVE_CHECK_IGNORE:pn-qemu-system-native +=3D "CVE-2019-12067"
+On Fri, Jul 8, 2022 at 3:03 PM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>
+> On Fri, 8 Jul 2022 at 21:33, Joshua Watt <jpewhacker@gmail.com> wrote:
+> > > -- all lists (sources, layers, remotes) are replaced by objects keyed by 'name' properties of the list items.
+> > > This allows using them as dicts inside Python, and makes the json more compact and readable.
+> >
+> > As long as the order is truly irrelevant because different
+> > implementations (and even different versions of Python!) will result
+> > in a different processing order.
+>
+> Yes, for all of those things it's irrelevant.
 
-I don't think we should do this. There are nativesdk and some native
-variants missing here and it will be a maintenance nightmare.
+I did think of one way in which the order matters: If you are planning
+on populating BBLAYERS from this list, the order would matter. If you
+are doing that (or we want to allow it at all) it would need to be a
+list instead of a dictionary.
 
-Cheers,
+>
+> > > +++ b/meta/files/layers.example.json
+> > > @@ -0,0 +1,115 @@
+> > > +{
+> >
+> > Missing the version? Although I see it's in the schema.
+>
+> It's at the end of the file. File is written via python's json module
+> which decides where it goes.
 
-Richard
+Yep sorry.
 
+>
+> > > +    "sources": {
+> > > +        "meta-alex": {
+> > > +            "contains_this_file": true,
+> > > +            "git-remote": {
+> >
+> > The problem with this is that there has been some desire for other
+> > fetching mechanisms; Perhaps we can say git is only supported, but
+> > that was the reason I used `oneOf`: it allows for other fetching types
+> > in the future.
+>
+> 'git-remote' is not a mandatory property in the json, it can be
+> absent, and instead there can be 'svn-remote', 'tarball' or
+> 'delivered-by-doves'. Anything you want. Just propose an object
+> definition into the schema.
+>
+> >
+> > > +                "branch": "master",
+> > > +                "describe": "",
+> > > +                "remotes": {
+> > > +                    "remote-alex": {
+> > > +                        "uri": "https://github.com/kanavin/meta-alex"
+> > > +                    }
+> >
+> > Multiple remotes are nice.... but not strictly necessary, since you
+> > can only have one rev checked out. I don't care too much one way or
+> > another but it's something to think about since it makes the fetching
+> > more complicated.
+>
+> It isn't at all more complicated to handle multiple remotes in the
+> fetch script which I suggest you look at and try out. I don't want to
+> have to guess which of the remotes is the right one either when
+> writing the json, or when using it: I'm writing them all, and fetching
+> from all as well, ignoring the failures (the failure only happens if
+> needed revision is absent and can't be checked out). You can write and
+> check out single remotes if you so wish, but then you have to decide
+> how to choose out of several.
+>
+> >
+> > > +                },
+> > > +                "rev": "05b25605fb8b2399e4706d7323828676bf0da0b5"
+> > > +            },
+> > > +            "layers": {
+> > > +                "meta-alex": {
+> > > +                    "buildconfigs": {
+> > > +                        "conf/templates/configuration-gadget": {},
+> > > +                        "conf/templates/configuration-gizmo": {}
+> >
+> > I think these fall under the same category as the machines below, but
+> > I don't use  TEMPLATECONF so I'm not sure.
+>
+> They're not quite same as machines or distros, as they can be anywhere
+> in the layer. This saves you the trouble of walking over the layer
+> tree, especially when look at the layer repo through the browser.
+
+Configuring _what_ you want to build is probably even more contentious
+that describing how to fetch your layers, so for starters I'd really
+like to just focus on the layer fetching; TEMPLATECONF is far from the
+only method for doing build configuration and I don't think we should
+bake it into the "layer setup" piece at this point (same for machine &
+distro, although they aren't generally contentious, see below).
+
+>
+> > > +                "meta-intel": {
+> > > +                    "machines": {
+> > > +                        "intel-core2-32": {},
+> > > +                        "intel-corei7-64": {},
+> > > +                        "intel-skylake-64": {}
+> >
+> > Why does this need to be listed here? Isn't this just the contents of
+> > the conf/machine directory in the layer? I really don't want to be
+> > duplicating information; IHMO it's better to let the layer itself be
+> > canonical about what machines/distros/etc. it supports
+>
+> Then you would have to check out all the layers first and look at them
+> one by one. The idea is that this information is available upfront,
+> and for all of the layers in a build. It can be used, for example to
+> be used by Richard's proposed oe-setup tool, and as the json is never
+> written or edited manually, it won't get out of sync wrt git revision
+> it lists for the layer.
+>
+> The plain list of machines isn't that interesting, but if it comes
+> with additional information such as descriptions, architectures or
+> kernel versions etc., then it's quite useful to capture this in a
+> standard format. We could maybe look at how buildroot handles this.
+
+I suspect that not including the machine/distro/template stuff for now
+might give us better adoption as standard way to describe layers,
+which is another reason I'm a little hesitant to include them (in
+addition to duplicating information available in the layer itself)
+
+>
+> Alex
 
