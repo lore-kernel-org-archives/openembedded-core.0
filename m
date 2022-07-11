@@ -1,85 +1,91 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 979A4C43334
-	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 13:19:30 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web08.28510.1657545548836557003
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7A03C43334
+	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 13:45:40 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net
+ (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.web08.28834.1657547129838399305
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Jul 2022 06:19:09 -0700
+ Mon, 11 Jul 2022 06:45:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A3DB316A3;
-	Mon, 11 Jul 2022 06:19:08 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com
- (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C679F3F70D;
-	Mon, 11 Jul 2022 06:19:07 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=YjyZZATY;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227,
+ mailfrom: fm-256628-20220711134522ba2071d5c508c06084-ydi5i_@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id
+ 20220711134522ba2071d5c508c06084
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 11 Jul 2022 15:45:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=yO28VBJyaDbjz6hobR28uS1L8Uv5WTjBuXrWUGVNb7A=;
+ b=YjyZZATYei5iusbOi4tpAuyY2kDY/hZ431ixhiCHsWHw1V1Pnv2z0DfijCa1duPKpeGeib
+ tuORXBaC12ZFOOk+UtczPjfFU6LXZQeF2y17/EXnU02H2ya+sLq8jOoeqYDfNl+3RPQuJuHn
+ kO6ANGKvngligKRuDVswlEImFNzL0=;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH 2/3] perl: don't install Makefile.old into perl-ptest
-Date: Mon, 11 Jul 2022 14:19:04 +0100
-Message-Id: <20220711131905.3536120-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220711131905.3536120-1-ross.burton@arm.com>
-References: <20220711131905.3536120-1-ross.burton@arm.com>
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][master][kirkstone][dunfell][PATCH] alsa-state: correct
+ license
+Date: Mon, 11 Jul 2022 15:45:04 +0200
+Message-Id: <20220711134504.1831682-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Jul 2022 13:19:30 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Jul 2022 13:45:40 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167869
+ https://lists.openembedded.org/g/openembedded-core/message/167871
 
-We already exclude Makefile, makefile, and makefile.old from copy of the
-perl source tree that is used by perl-ptest, but Makefile.old is not
-being excluded.  In a rebuild of perl with an existing source tree these
-files now exist but have build paths in. As they're backup files, they
-can just be excluded from the packages.
-
-Use range globs to clean up the expressions, and exclude Makefile.old.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+* add GPL license because of alsa-state-init file
+* gpl link points to gpl3, but at time of adding this file was actually
+  pointing to gpl2, so should correspond to SPDX GPL-2.0-or-later
+* remove date as the file was already changed several times since then
 ---
- meta/recipes-devtools/perl/perl-ptest.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-bsp/alsa-state/alsa-state.bb              | 7 +++++--
+ meta/recipes-bsp/alsa-state/alsa-state/alsa-state-init | 3 +--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-dev=
-tools/perl/perl-ptest.inc
-index 54c78075715..c233fab5453 100644
---- a/meta/recipes-devtools/perl/perl-ptest.inc
-+++ b/meta/recipes-devtools/perl/perl-ptest.inc
-@@ -10,12 +10,12 @@ do_install_ptest () {
- 	sed -e "s:\/usr\/local:${bindir}:g" -i cpan/version/t/*
- 	sed -e "s:\/opt:\/usr:" -i Porting/add-package.pl
- 	sed -e "s:\/local\/gnu\/:\/:" -i hints/cxux.sh
--	tar -c --exclude=3Dtry --exclude=3Da.out --exclude=3D'*.o' --exclude=3D=
-libperl.so* --exclude=3DMakefile --exclude=3Dmakefile --exclude=3Dhostper=
-l \
-+	tar -c --exclude=3Dtry --exclude=3Da.out --exclude=3D'*.o' --exclude=3D=
-libperl.so* --exclude=3D[Mm]akefile --exclude=3Dhostperl \
- 	    --exclude=3Dcygwin --exclude=3Dos2 --exclude=3Ddjgpp --exclude=3Dqn=
-x --exclude=3Dsymbian --exclude=3Dhaiku \
- 	    --exclude=3Dvms --exclude=3Dvos --exclude=3DNetWare --exclude=3Dami=
-gaos4  --exclude=3Dbuildcustomize.pl \
- 	    --exclude=3D'win32/config.*' --exclude=3Dplan9 --exclude=3DREADME.p=
-lan9 --exclude=3Dperlplan9.pod --exclude=3DConfigure \
- 	    --exclude=3Dveryclean.sh --exclude=3Drealclean.sh  --exclude=3Dgeti=
-octlsizes \
--	    --exclude=3Ddl_aix.xs --exclude=3Dsdbm.3 --exclude=3D'cflags.SH' --=
-exclude=3Dmakefile.old \
-+	    --exclude=3Ddl_aix.xs --exclude=3Dsdbm.3 --exclude=3D'cflags.SH' --=
-exclude=3D[Mm]akefile.old \
- 		--exclude=3Dminiperl --exclude=3Dgenerate_uudmap --exclude=3Dpatches -=
--exclude=3D'config.log' * | ( cd ${D}${PTEST_PATH} && tar -x )
-=20
- 	ln -sf ${bindir}/perl ${D}${PTEST_PATH}/t/perl
---=20
-2.34.1
+diff --git a/meta/recipes-bsp/alsa-state/alsa-state.bb b/meta/recipes-bsp/alsa-state/alsa-state.bb
+index df546633f1..27b2eccbe4 100644
+--- a/meta/recipes-bsp/alsa-state/alsa-state.bb
++++ b/meta/recipes-bsp/alsa-state/alsa-state.bb
+@@ -8,8 +8,11 @@ SUMMARY = "Alsa scenario files to enable alsa state restoration"
+ HOMEPAGE = "http://www.alsa-project.org/"
+ DESCRIPTION = "Alsa Scenario Files - an init script and state files to restore \
+ sound state at system boot and save it at system shut down."
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++LICENSE = "MIT & GPL-2.0-or-later"
++LIC_FILES_CHKSUM = " \
++    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420 \
++    file://alsa-state-init;beginline=3;endline=4;md5=3ff7ecbf534d7d503941abe8e268ef50 \
++"
+ PV = "0.2.0"
+ PR = "r5"
+ 
+diff --git a/meta/recipes-bsp/alsa-state/alsa-state/alsa-state-init b/meta/recipes-bsp/alsa-state/alsa-state/alsa-state-init
+index eee59cb321..a04cc27004 100755
+--- a/meta/recipes-bsp/alsa-state/alsa-state/alsa-state-init
++++ b/meta/recipes-bsp/alsa-state/alsa-state/alsa-state-init
+@@ -1,10 +1,9 @@
+ #! /bin/sh
+ #
+ # Copyright Matthias Hentges <devel@hentges.net> (c) 2007
+-# License: GPL (see http://www.gnu.org/licenses/gpl.txt for a copy of the license)
++# SPDX-License-Identifier: GPL-2.0-or-later
+ #
+ # Filename: alsa-state
+-# Date: 20070308 (YMD)
+ 
+ # source function library
+ . /etc/init.d/functions
+-- 
+2.30.2
 
 
