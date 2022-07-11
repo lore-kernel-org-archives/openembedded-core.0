@@ -1,75 +1,109 @@
-Return-Path: <sean@geanix.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70D24C43334
-	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 08:53:39 +0000 (UTC)
-Received: from first.geanix.com (first.geanix.com [116.203.34.67])
- by mx.groups.io with SMTP id smtpd.web10.26212.1657529613638672802
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80FEAC433EF
+	for <webhook@archiver.kernel.org>; Mon, 11 Jul 2022 08:58:49 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.26368.1657529921796858168
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Jul 2022 01:53:34 -0700
+ Mon, 11 Jul 2022 01:58:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@geanix.com
- header.s=first header.b=lxbDx60y;
- spf=pass (domain: geanix.com, ip: 116.203.34.67, mailfrom: sean@geanix.com)
-Received: from Seans-MBP.hadsten (unknown [185.233.254.173])
-	by first.geanix.com (Postfix) with ESMTPSA id 4F95CE6BB7;
-	Mon, 11 Jul 2022 08:53:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=geanix.com; s=first;
-	t=1657529610; bh=OaS0X/y5YZ5fUOmvyqkVzMd+nLY2FGTjYn6+fRjL4GE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lxbDx60yfMAnw/C5V0RNflQ7rH9/O48zvmLYbkfp+mIvySQf8zN9iB377J0pFMfb8
-	 5kOQes9yN5D1tvgSioSGukrANZMPT7RqwsfGeOwkKbLCkrQlvWAFcJmKlgzMefE/0j
-	 3h3VsKXZy6810hua3g7PK0n2Yp/pEp0Ber6vutbOFEx483KqbXyW8poRXZdtUwAKba
-	 p5owgY95PYIQRZHUIx4ilLM0kVpaXx/GvWD08/pPtfMnbouS73gk57Bzuf5xmDlPRi
-	 SNjD+q2CG2eXZWXkRvssxa3IXQCvj6SPuiUcimMWfd2jKnwBncaCl1zFLXtI/3kjDy
-	 jf05VNrmn+5Yg==
-Date: Mon, 11 Jul 2022 10:53:29 +0200
-From: Sean Nyekjaer <sean@geanix.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Sl0EKZl4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id n10so6097007wrc.4
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 11 Jul 2022 01:58:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=fXZAhMdPntw1KWXvHPqhgZO+UGiAGX4/1h2ohYcH61E=;
+        b=Sl0EKZl4gP6bn/YC1K0McqMVxA61nZgrWy5zETh1mftDd3LrYne7/jATr8vKk/5QZA
+         8/6Ejup3LI1LgNv/E4ykXXMUO5a8uuZC/xhF1GWPEiABSfOv0yEfxoBwxDyaafuJnJb+
+         yZJVR06qaLmudoyg2/mWmonKi8MvJbn61iQQA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=fXZAhMdPntw1KWXvHPqhgZO+UGiAGX4/1h2ohYcH61E=;
+        b=TDQN7UhByj1+mvLCnAT0HOIQzTkUJM+6KfALSM/qwXplcKhjfEii3UDA7mzBruOuAe
+         wdEKdw9vKg60opx1Oc7DHkDlPvEpiEBPrOxogwtoYsfMlFFXCQsG7yRcOHjKSAJjd1a1
+         NTcwVCgU2XIVp1Vy6ll3dV8ryCEhjNxFiqPmDMf+8PNyI8GXFKFy7CP6w1Xcr4rpECe7
+         Cg7gf4tdyAr0Hjbx+v4xVn0SLAQrqiihR8tgvqWbaYxSSbo8sf0U54wbx3pM8yLX8UMV
+         L2HYfWJLYVn4pRk36AzLaRpG02CgLJj/1/X8cFFQ71G5iZ1sZdNO1qH/GcJkoSCIhUPR
+         vrVg==
+X-Gm-Message-State: AJIora8lOucngjgm4kmL95jr5lDI4fGyJ9SLogjD9snOp9NlVvOjeYYQ
+	mfKYZVLjYtNzH1qynnSXsGnRGw==
+X-Google-Smtp-Source: 
+ AGRyM1vd89VwoPh24dzsNOpZYzhecqUwouDb18X1YBzdl/QXs1OkzTelHE9sWClyi1WMoK1pFeLB0g==
+X-Received: by 2002:adf:e98b:0:b0:21d:7337:da3a with SMTP id
+ h11-20020adfe98b000000b0021d7337da3amr15640372wrm.13.1657529920182;
+        Mon, 11 Jul 2022 01:58:40 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:33cc:9a17:a076:b55d?
+ ([2001:8b0:aba:5f3c:33cc:9a17:a076:b55d])
+        by smtp.gmail.com with ESMTPSA id
+ j16-20020adfff90000000b0021d76a1b0e3sm5314933wrr.6.2022.07.11.01.58.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jul 2022 01:58:39 -0700 (PDT)
+Message-ID: 
+ <2e252bb607b9ef3a5821a1a0882246c5de157a89.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH 2/2] zlib: minizip: add recipe
-Message-ID: <20220711085329.su52yw5ygcpoalfm@Seans-MBP.hadsten>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Sean Nyekjaer <sean@geanix.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Jul 2022 09:58:38 +0100
+In-Reply-To: <20220711085329.su52yw5ygcpoalfm@Seans-MBP.hadsten>
 References: <20220711083309.1749253-1-sean@geanix.com>
- <20220711083309.1749253-2-sean@geanix.com>
- <5227282d05b0791d57457c44f63859a97001c6ab.camel@linuxfoundation.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: 
- <5227282d05b0791d57457c44f63859a97001c6ab.camel@linuxfoundation.org>
+	 <20220711083309.1749253-2-sean@geanix.com>
+	 <5227282d05b0791d57457c44f63859a97001c6ab.camel@linuxfoundation.org>
+	 <20220711085329.su52yw5ygcpoalfm@Seans-MBP.hadsten>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Jul 2022 08:53:39 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Jul 2022 08:58:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167864
+ https://lists.openembedded.org/g/openembedded-core/message/167865
 
-On Mon, Jul 11, 2022 at 09:46:58AM +0100, Richard Purdie wrote:
-> On Mon, 2022-07-11 at 10:33 +0200, Sean Nyekjaer wrote:
-> > Signed-off-by: Sean Nyekjaer <sean@geanix.com>
-> > ---
-> >  meta/recipes-core/zlib/minizip_1.2.12.bb | 15 +++++++++++++++
-> >  1 file changed, 15 insertions(+)
-> >  create mode 100644 meta/recipes-core/zlib/minizip_1.2.12.bb
->=20
-> I can see what this does, but why? Who would want this and why?=C2=A0Th=
+On Mon, 2022-07-11 at 10:53 +0200, Sean Nyekjaer wrote:
+> On Mon, Jul 11, 2022 at 09:46:58AM +0100, Richard Purdie wrote:
+> > On Mon, 2022-07-11 at 10:33 +0200, Sean Nyekjaer wrote:
+> > > Signed-off-by: Sean Nyekjaer <sean@geanix.com>
+> > > ---
+> > >  meta/recipes-core/zlib/minizip_1.2.12.bb | 15 +++++++++++++++
+> > >  1 file changed, 15 insertions(+)
+> > >  create mode 100644 meta/recipes-core/zlib/minizip_1.2.12.bb
+> >=20
+> > I can see what this does, but why? Who would want this and why?=C2=A0Th=
 ere
-> is no detail in the commit messages. Also no maintainers entry which
-> will break QA checks.
+> > is no detail in the commit messages. Also no maintainers entry which
+> > will break QA checks.
+> >=20
+> > Cheers,
+> >=20
+> > Richard
+> >=20
+> >=20
 >=20
-> Cheers,
+> Hi Richard,
 >=20
-> Richard
->=20
->=20
+> We have some software that depends on minizip.
+> I don't know if an extra package zlib-minizip or this was the prefered
+> way to add it?
 
-Hi Richard,
+I think an extra package on the existing recipe may be simpler and
+easier maintenance.
 
-We have some software that depends on minizip.
-I don't know if an extra package zlib-minizip or this was the prefered
-way to add it?
+Commit messages do need a bit more information in them too, it isn't
+enough to say what something does, it needs to say why.
 
-/Sean
+Cheers,
+
+Richard
 
