@@ -1,225 +1,177 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD750C433EF
-	for <webhook@archiver.kernel.org>; Tue, 12 Jul 2022 10:44:28 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web09.7680.1657622657729418828
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12979C43334
+	for <webhook@archiver.kernel.org>; Tue, 12 Jul 2022 11:01:09 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.82])
+ by mx.groups.io with SMTP id smtpd.web10.7682.1657623667703638853
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Jul 2022 03:44:18 -0700
+ Tue, 12 Jul 2022 04:01:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YCFfJMWB;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id
- bi22-20020a05600c3d9600b003a04de22ab6so4557284wmb.1
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Jul 2022 03:44:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=xmV7kcdfCKm1tlwHs2mDv52+xAKx4UUTXqtZ3B1fYP4=;
-        b=YCFfJMWBWjcvk/vqp4wJtuNy2Z7j3COX+1m+H/4ilWW4UcAjPo20uutNlaeLoSwLGM
-         RZrIxhEUgbNa9cQB0tr0cs9bUT+C80TnjnZ7qLMnc8RSssJsn1Cb+MohjgMTorjkRaiK
-         HgbPsxJPSfxn+IWmWlo9gnRrv2ty7orc5Mqj4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=xmV7kcdfCKm1tlwHs2mDv52+xAKx4UUTXqtZ3B1fYP4=;
-        b=L4iUBTpWsapxuF54CKhXZQpHoS1Nez6FfzttOR9gyQwNjXK50aHzVtAyZco2raiWp+
-         EnS2w3ROahTaONFVKxOfwcQ22oVxQ2b5O6aM34x0kqiE0n5KVe5qJ8/5h6viTr6d8zTr
-         0eTJ2kv1/qxVbl97LsPjG9kMaTRH6NdhkBElcUQkaUThgzOr4njcvqHi3xHb00s/OxlE
-         liQ/CTTknddPieis8ldAAJJ0oaK6YDnKPA01s38UXc0rGPeDtSU7PR4FUS4yfm/PvbG7
-         aP1keID64/G4sCUEygCJLW3HMTSv70DE5h7ylSWV7I6JwLPjQZ2IMPi4Bsb0j7ebAoQY
-         E1EA==
-X-Gm-Message-State: AJIora+jlflDwqgFVR9hEhR82f0q3946poGaKihO8luWPoOQi7X/AjzF
-	uPcpZ7F4ie3m2ffW8bCHq4REkg==
-X-Google-Smtp-Source: 
- AGRyM1ujQlHudpxKvXaXIzsDKM9NObYa0+Wh4weF6oXqjQomykkL2WUUy+qY6EhpA+yCHlwRHA+cLA==
-X-Received: by 2002:a05:600c:4f48:b0:3a0:45dd:8bd5 with SMTP id
- m8-20020a05600c4f4800b003a045dd8bd5mr3184014wmq.80.1657622655907;
-        Tue, 12 Jul 2022 03:44:15 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:375:1449:b69:de14?
- ([2001:8b0:aba:5f3c:375:1449:b69:de14])
-        by smtp.gmail.com with ESMTPSA id
- i2-20020adfdec2000000b0021d76985929sm7818392wrn.80.2022.07.12.03.44.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jul 2022 03:44:15 -0700 (PDT)
-Message-ID: 
- <ce91dc24e3a6d7c011c6b3f0bb79ac404f597a1f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Reproducible build issues with buildpaths - take 2
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, Alejandro Hernandez Samaniego
-	 <Alejandro.Hernandez@microsoft.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Jul 2022 11:44:14 +0100
-In-Reply-To: 
- <CADkTA4P=BDAYiZUCN+hhqpyUUAoOckX+RMphyZiwmci3nFrkOA@mail.gmail.com>
-References: 
-	<7140b61c92f4f9d79b8c8b8d9be68f127512b758.camel@linuxfoundation.org>
-	 <CADkTA4O0Ej3HKMPtwoq_iBue2P43gicwx8rfFKyLY5d3jNTP_A@mail.gmail.com>
-	 <77dd3defcb6908755d06585d4cfb69a523626a22.camel@linuxfoundation.org>
-	 <17009EE9B42D5D4F.21011@lists.openembedded.org>
-	 <1700A558F3D5D3E4.14864@lists.openembedded.org>
-	 <CADkTA4P=BDAYiZUCN+hhqpyUUAoOckX+RMphyZiwmci3nFrkOA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ dkim=pass header.i=@armh.onmicrosoft.com
+ header.s=selector2-armh-onmicrosoft-com header.b=cIPdkbsK;
+ spf=pass (domain: arm.com, ip: 40.107.8.82, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=Pk/FpYC7sLMeBZHb5GAU/B7sWc1dsymu7X91GUGFY/RFE/jqD3aQ2qiDpfbCQ0tc9RTTFiDGBd6mKGwS18mdtMh/h3TTvjxUwEuRXvaJBPSSpLtpevBdiWtGZd8Z4y5fRpEr7dH/epz56sF0X/dDe/PhJGIMr3ZQJnGf84tO9nC8l9Xy1TznNgEeh3jegnI8p+KHFiKG8YffVozt90Jn6YQ6BJONORIgg3JIoweGJj65zA9K/wTWm6BRt8FAPXeRSSvppIoxUcquFQ61djw62RXbg0UEFtDEqsoFqlhB/OlydThPXOJ4N+CaOEdFmAr93i5y/PRPsYXw2D6dlsfojA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qAvMq68rv06HHBZFZ+Kb5avDhoeizayN/FnlrRbEyxE=;
+ b=SufRsLSF/P/8e0JL+VrWhnpWD218cTGrkBjGeowPrcmW6BDY6ZaZzX4NeoseghJezh6J50OcTFX5biHBisQRS3B9nW4/32bIbbgmcZDPCYO9pInueBk2BPGJgtxnhhGK0xw3QOIwu8Mh8P3X9YDIt5VscAQH/M3jtKmACRVA20deMDiFa1oAj5qn4KpQwycywKmAsuQhCXsSrcMYDkR+jVlB8Uxw3yLErnjPsEwXF5g2+of+kplSpNTh0q4nAh6U7r0fxnCdv2NhhGYZW/Cr55EjOgPaTvCudwU4xpa5vEJo5v1z/ovTKNjbJoqNuu2oAS2b8Io/EDRv4kokD6iNGw==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
+ oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qAvMq68rv06HHBZFZ+Kb5avDhoeizayN/FnlrRbEyxE=;
+ b=cIPdkbsK6V+lMGpsJwDzSEgmT7PzQZRp1WcRAxS4VN3iQgYDX/LIRlBV/cwCvtcmFaqcP7zdpOjqAMV/+hC4l1KQhe1OOUKyR6ss46ajk12V3uo2E+n86yIhiKrZjV7yE9FXf8yr8TFSysoTH01Skpm6ssBLjkaSQWi2HUUtfeo=
+Received: from FR0P281CA0003.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:15::8) by
+ DB6PR08MB2887.eurprd08.prod.outlook.com (2603:10a6:6:1f::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5417.20; Tue, 12 Jul 2022 11:01:04 +0000
+Received: from VE1EUR03FT035.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:d10:15:cafe::db) by FR0P281CA0003.outlook.office365.com
+ (2603:10a6:d10:15::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.11 via Frontend
+ Transport; Tue, 12 Jul 2022 11:01:04 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ VE1EUR03FT035.mail.protection.outlook.com (10.152.18.110) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5417.15 via Frontend Transport; Tue, 12 Jul 2022 11:01:03 +0000
+Received: ("Tessian outbound 6f9e7ef31fa8:v122");
+ Tue, 12 Jul 2022 11:01:03 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: d26a05d2f2bf55d5
+X-CR-MTA-TID: 64aa7808
+Received: from f3b6ac9ba87f.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ C4426D24-5EDF-4D00-8ECE-4E5B3071E1D8.1;
+	Tue, 12 Jul 2022 11:00:55 +0000
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id
+ f3b6ac9ba87f.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Tue, 12 Jul 2022 11:00:55 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Wjsajg0j7uIlMAtgL8aQRltZZaZexyZ5dPoARn1Rw3xtmmi3+qLC2ACTG1ftDQoxQ72bjvuy3ivS7SkXadfMFv5Q4bSuZ5tSbT2i3BsCemKZ373mcFDRd6xX6m8QxyI4EuND4jZs66oZjyLmDGxL5f+qbo5m5PCm+lFg9Ue6+eKJbVCfB2FI5YpcHwnpf+4nIsUxt1/RY9ok+STNPWwhnf0Qe0ZXTIJ/unoGOpPDNwxUW1vYpyFQ8ZXmOSOYVFyYRq//4F+IX+U+x0h4V38m/PlLom3qyzGTt04qquecUnl2HhI7RLyVIa8VnAucS9xfqClWExU1dIxmo6M34ElExw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qAvMq68rv06HHBZFZ+Kb5avDhoeizayN/FnlrRbEyxE=;
+ b=HuuuMixDHeaoUed3Y7+VoFh0+esIkijl7CtG8fVFqmVAqkxMYkvAEAmGHKhu4apHZMnYcXf5ugOiiI8MZA2duit+LX0Ume+/0S8Cek7+GuIRtixqgrnINrpOinkpOG38C8RYu4Irxr5ff2fSmpgipAOpP83OhfKNkPsTLjNBuRC5h8hBIQi1RtZhfwJW2+pF+CghswgJ0DsSH5xssdKvco+xQY0PsuDA/jh/TO9HJlCBm3DZBy+IHJVZWQNOwwGXQENm6SeK+Yip8fEygB9NrVEiuRSJtVNui6QPFNTFQFpdk037M0CO+EitUztFKBsRRT3/1vhGSWhV8PolqwPJxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qAvMq68rv06HHBZFZ+Kb5avDhoeizayN/FnlrRbEyxE=;
+ b=cIPdkbsK6V+lMGpsJwDzSEgmT7PzQZRp1WcRAxS4VN3iQgYDX/LIRlBV/cwCvtcmFaqcP7zdpOjqAMV/+hC4l1KQhe1OOUKyR6ss46ajk12V3uo2E+n86yIhiKrZjV7yE9FXf8yr8TFSysoTH01Skpm6ssBLjkaSQWi2HUUtfeo=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AM0PR08MB3779.eurprd08.prod.outlook.com (2603:10a6:208:101::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.21; Tue, 12 Jul
+ 2022 11:00:51 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::2c4a:b33:a761:a926]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::2c4a:b33:a761:a926%2]) with mapi id 15.20.5417.026; Tue, 12 Jul 2022
+ 11:00:51 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "akash.hadke@kpit.com" <akash.hadke@kpit.com>
+CC: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, "ranjitsinh.rathod@kpit.com"
+	<ranjitsinh.rathod@kpit.com>
+Subject: Re: [OE-core] [poky][master][kirkstone][PATCH] cve-check.bbclass: Add
+ anonymous function to get patched CVEs from recipe
+Thread-Topic: [OE-core] [poky][master][kirkstone][PATCH] cve-check.bbclass:
+ Add anonymous function to get patched CVEs from recipe
+Thread-Index: AQHYldra0S6go3Kl3E+EgotogGeeBa16kZUA
+Date: Tue, 12 Jul 2022 11:00:50 +0000
+Message-ID: <A70DCBA1-F769-485C-AE06-F71A5C85A2B5@arm.com>
+References: <20220712102729.24407-1-akash.hadke@kpit.com>
+In-Reply-To: <20220712102729.24407-1-akash.hadke@kpit.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3696.100.31)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-MS-Office365-Filtering-Correlation-Id: 72fe82bb-9c87-4308-3fec-08da63f5d01a
+x-ms-traffictypediagnostic: 
+	AM0PR08MB3779:EE_|VE1EUR03FT035:EE_|DB6PR08MB2887:EE_
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ vR3PWOee8AG2kpgcvdV2LuQqm5mTSmfp9uJi7SkXcViw5ecRIniJbmQiTCA0R4bj8Ha6GfCxyo2fQx5nWmAAXcUPULWxP48CH7E5nkye5Tia/a05muVP+QoDx5OhzQ5B9Kk6tlaTyDV1dyHetrun6JQCLuplWZ8aACjTbSFIqSxxDislI5E4kn7x5YdZ4g95/jijALTneswrbj1wM8XEkC+p6f6cs8U0q+0hwxQgovYdmzNvelYa2EmGDtPp8P918ePZpw/2870lIzw/KEKdbWWc0BpfR1zO4rPdOkYU30fFUN2ghaxFXdIq3C7JmEXG8hTCA33Q5bPSKRR9eIZKzFUh9AjoNTdfI848fHp0Ladf3CP9B0rw+sdBs2sEHrj7FudV9cYt2wIiX+/SG6JgXwl96TRkbKod1VSFKEhqe1iMNiA5UFzXvXzrczT0f0im3hqGMmql0H3PTt3F9H6o+hlZYTGgNRX5Yw4GR3QJZNyYcUzHUG4r+qWrnUsMo3/WzCNFWEdasWKnIqO6GuB7UdAX7D6g7MctTUVv5nCUTzxt5E8GkiETX5eopjBiDmA1d1IbgK50y0OSQA5YatxjgOeP8WOz3/wo75Wyu6MvIVKQ3Xvy81UPCyNLY3V9eHVBAVTozampaBw1oo6EiWVvrj3686/XfXvTe3nMnynTwBUoP8tgzhm0l5qZBSjohSPOySvgTn9oDuPdyhLRulJ7CuPsKAAT8+uJCKreALheFT17q/cLRSmW1rPTmIavshXxZP/ulZGeUi6Avwvl3yOCmzpgxYJJ8bJo7TKL960MKRAhIoL4cjNw/RxU7VUhHKtX+qaIG4CzVgMLwfuJxLUE8ehVHwEM83LRrdQ85ADT1bk=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(136003)(366004)(396003)(39860400002)(346002)(64756008)(66476007)(91956017)(76116006)(66946007)(6506007)(6512007)(86362001)(4326008)(478600001)(66556008)(53546011)(26005)(41300700001)(6916009)(66446008)(6486002)(38070700005)(71200400001)(186003)(54906003)(8676002)(2616005)(8936002)(33656002)(38100700002)(36756003)(2906002)(5660300002)(4744005)(122000001)(316002)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <31ACAA31B994C84C957BC1110CC87BD9@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3779
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ VE1EUR03FT035.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	4910b4bb-1f1b-4e6b-c4cd-08da63f5c8a0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	jLgFK8zt9DYDxOW8AIPOIeJpKNFHA0qHfkOivH60peegRrlbOqVjG6XCJLDg/W7AON+ZpSzbBk08LvtfEtIiNJ+7papezcj0s2JQUtHnf0MTmVVq5gG5W9yqh59kS9PV5AzYou0tVQct0KD5Gmbyd8ELDsZ8u9ahQUDGjCIP9OUzBJY1E/SgxfAg85NPDsSq+oAkPO0/mQZyNfXNxrzBL7KFi+aHBWydiI15iMyyUlEAIzEC8Dd+F6rxg0Z7F6/kGfTTkrqQ+ip5avWL/qK8zi+LjVkHQjQnLIL/UVw/L5kOL6FXtw4vFok8L0Vp8dS9G3cidi2LfaiJ32nxiyNBHhfdXm/awZx62QjNzuG5l6k8lUbjtAxUnIrOO496ze8CzePYpEdHiQl3Irpe726q3r7wfrU7CfQ0iH4xI36u6b2VVZnDV4d3+wW5Qtd3sXyt2cb+JPbr7vCy6+8vCDsTfQ8DAiXOsIxtW+4Eurd4IB9Dh0+wNuJ/zgYV9MIlZ823V/LXwfFGTWEmULXcKxCC9QD3GbbHy7a5JPyu9y1mSsGWxVIjvrHF1VEEIN48JOoEpSiZb8aPopqiub7qe87nKg/B+0MwQqF1A3CeV43Hkv0YD6XzrZjG1CJkmGHlrBYIeMAJN+jjac5Dyx0nvZqCee0AP9tgceyVXbHppDZMWXqVmheLyzC4SF7jEPIwPiNT3kCiRIevlBHJEXxpgVNbdWmUNpuD6vuo7oc43Vc6mW/OEgywlxNP0OGbQMXAZa7lOaQmh5VFhnAuulW7GXwt435+EvBMSDfi4e//CK/JIy1Du7MYLwyN2TMiPWKDXj6y
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230016)(4636009)(396003)(136003)(346002)(39860400002)(376002)(40470700004)(36840700001)(46966006)(336012)(356005)(41300700001)(53546011)(6506007)(40460700003)(82310400005)(107886003)(47076005)(86362001)(2906002)(40480700001)(82740400003)(2616005)(4744005)(4326008)(6486002)(81166007)(186003)(54906003)(478600001)(6512007)(316002)(26005)(36860700001)(8676002)(36756003)(5660300002)(6862004)(33656002)(8936002)(70206006)(70586007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2022 11:01:03.3365
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 72fe82bb-9c87-4308-3fec-08da63f5d01a
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
+ TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	VE1EUR03FT035.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR08MB2887
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Jul 2022 10:44:28 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Jul 2022 11:01:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167919
+ https://lists.openembedded.org/g/openembedded-core/message/167920
 
-On Mon, 2022-07-11 at 00:06 -0300, Bruce Ashfield wrote:
-> On Sun, Jul 10, 2022 at 11:27 PM Bruce Ashfield via
-> lists.openembedded.org
-> <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
-> >=20
-> > On Sun, Jul 10, 2022 at 9:29 PM Bruce Ashfield via
-> > lists.openembedded.org
-> > <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
-> > >=20
-> > > On Fri, Jul 8, 2022 at 10:47 AM Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > > >=20
-> > > > On Fri, 2022-07-08 at 09:37 -0400, Bruce Ashfield wrote:
-> > > > > On Fri, Jul 8, 2022 at 7:07 AM Richard Purdie
-> > > > > <richard.purdie@linuxfoundation.org> wrote:
-> > > > > >=20
-> > > > > > Hi All,
-> > > > > >=20
-> > > > > > We've made good progress and I appreciate the help from people.=
- I ran a
-> > > > > > fresh build on the autobuilder and I forced it to rerun the QA =
-checks
-> > > > > > for all recipes. The tricky bit about warnings is that they don=
-'t show
-> > > > > > up for objects from sstate and the addition of the buildpaths Q=
-A check
-> > > > > > doesn't cause the checks to rerun. Due to that a few more previ=
-souly
-> > > > > > unseen issues cropped up.
-> > > > > >=20
-> > > > > > The list of issues now stands are:
-> > > > > >=20
-> > > > > > qemuppc:
-> > > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/63/buil=
-ds/5428
-> > > > > > WARNING: kernel-devsrc-1.0-r0 do_package_qa: QA Issue: File /li=
-b/modules/5.15.48-yocto-standard/build/include/generated/.vdso32-offsets.h.=
-cmd in package kernel-devsrc contains reference to TMPDIR [buildpaths]
-> > > > >=20
-> > > > > I'll take this one. My fix was only for arch/arm, but I'll expand=
- it
-> > > > > to cover ppc32.
-> > > >=20
-> > > > Thanks.
-> > > >=20
-> > > > I built qemuppc locally and got a different failure, I'd really lik=
-e to
-> > > > know why I saw that and the autobuilder did not. The failure was:
-> > > >=20
-> > > > WARNING: linux-yocto-5.15.48+gitAUTOINC+b35d1d1e83_5aa3abf07b-r0 do=
-_package_qa: QA Issue: File /usr/src/debug/linux-yocto/5.15.48+gitAUTOINC+b=
-35d1d1e83_5aa3abf07b-r0/linux-qemuppc-standard-build/drivers/tty/vt/console=
-map_deftbl.c in package linux-yocto-src contains reference to TMPDIR
-> > > > File /usr/src/debug/linux-yocto/5.15.48+gitAUTOINC+b35d1d1e83_5aa3a=
-bf07b-r0/linux-qemuppc-standard-build/lib/oid_registry_data.c in package li=
-nux-yocto-src contains reference to TMPDIR [buildpaths]
-> > >=20
-> > > I have the devsrc fixed for qeumppc32, fix incoming shortly.
-> > >=20
-> > > But for this one, I don't see it either. What do I need to enable to
-> > > get the linux-yocto-src package ? Mine is empty, hence no warning. Is
-> > > it one of the archiver modes ?
-> >=20
-> > I sent a series with a fix for qemuppc32 kernel-devsrc and a WIP fix
-> > for the conmakehash issue, I'll have a look at oid_registry next.
->=20
->=20
-> oid_registry is a perl script .. also capturing the full path of the
-> executable. I did a similar fix for linux-yocto 5.15 and used
-> 'basename' versus the whole path.
->=20
-> If these hold up, we can expand the versions that get the fix.
-
-Thanks. I spent a bit of time working out why I was seeing things the
-autobuilder wasn't. It turns out:
-
-https://git.yoctoproject.org/poky/commit/?id=3Dc725bdb29b2669e53ea0f9d30f96=
-83f094c9b326
-
-broke kernel source handling (and hence SPDX license handling for the
-kernel too). I was using an older build where that wasn't present,
-hence I saw more kernel errors.
-
-With your fixes and the above reverted, I ran another build overnight
-and in that we saw:
-
-beaglebone:
-WARNING: linux-yocto-5.15.36+gitAUTOINC+f122fe59e7_4c875cf137-r0 do_package=
-_qa: QA Issue: File /usr/src/debug/linux-yocto/5.15.36+gitAUTOINC+f122fe59e=
-7_4c875cf137-r0/linux-beaglebone_yocto-standard-build/lib/oid_registry_data=
-.c in package linux-yocto-src contains reference to TMPDIR
-
-beaglebone-alt:
-stdio: WARNING: linux-yocto-5.10.113+gitAUTOINC+5b3dacac6f_8038166b72-r0 do=
-_package_qa: QA Issue: File /usr/src/debug/linux-yocto/5.10.113+gitAUTOINC+=
-5b3dacac6f_8038166b72-r0/linux-beaglebone_yocto-standard-build/drivers/tty/=
-vt/consolemap_deftbl.c in package linux-yocto-src contains reference to TMP=
-DIR
-
-edgerouter:
-stdio: WARNING: linux-yocto-5.15.36+gitAUTOINC+f122fe59e7_b978686694-r0 do_=
-package_qa: QA Issue: File /usr/src/debug/linux-yocto/5.15.36+gitAUTOINC+f1=
-22fe59e7_b978686694-r0/linux-edgerouter-standard-build/lib/oid_registry_dat=
-a.c in package linux-yocto-src contains reference to TMPDIR
-
-edgerouter-alt:
-stdio: WARNING: linux-yocto-5.10.113+gitAUTOINC+5b3dacac6f_43577894d2-r0 do=
-_package_qa: QA Issue: File /usr/src/debug/linux-yocto/5.10.113+gitAUTOINC+=
-5b3dacac6f_43577894d2-r0/linux-edgerouter-standard-build/lib/oid_registry_d=
-ata.c in package linux-yocto-src contains reference to TMPDIR
-
-meta-intel:
-tdio: WARNING: linux-intel-5.15.43+gitAUTOINC+ea948a0983_1ec5959a8f-r0 do_p=
-ackage_qa: QA Issue: File /usr/src/debug/linux-intel/5.15.43+gitAUTOINC+ea9=
-48a0983_1ec5959a8f-r0/linux-corei7-64-intel-common-standard-build/drivers/t=
-ty/vt/consolemap_deftbl.c in package linux-intel-src contains reference to =
-TMPDIR
-
-qemumips-alt:
-tdio: WARNING: linux-yocto-5.10.128+gitAUTOINC+5b3dacac6f_cdec08a505-r0 do_=
-package_qa: QA Issue: File /usr/src/debug/linux-yocto/5.10.128+gitAUTOINC+5=
-b3dacac6f_cdec08a505-r0/linux-qemumips-standard-build/drivers/tty/vt/consol=
-emap_deftbl.c in package linux-yocto-src contains reference to TMPDIR
-
-qemuppc-alt:
-stdio: WARNING: linux-yocto-5.10.128+gitAUTOINC+5b3dacac6f_c0821a7ab5-r0 do=
-_package_qa: QA Issue: File /usr/src/debug/linux-yocto/5.10.128+gitAUTOINC+=
-5b3dacac6f_c0821a7ab5-r0/linux-qemuppc-standard-build/drivers/tty/vt/consol=
-emap_deftbl.c in package linux-yocto-src contains reference to TMPDIR
-
-so thankfully that looks like the two errors we know about spread over
-different kernel versions. I think a version bump for yocto-bsp would
-fix some of them and backports to 5.10 some of the others?
-
-I'm sharing the full info in case you spot any patterns I don't! :)
-
-In summary, we're down to these and the lttng-modules issue which
-appears when we start checking .debug files in buildpaths (patch added
-and reverted in master-next currently).
-
-Cheers,
-
-Richard
-
-
+T24gMTIgSnVsIDIwMjIsIGF0IDExOjI3LCBha2FzaCBoYWRrZSB2aWEgbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZyA8YWthc2guaGFka2U9a3BpdC5jb21AbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gd3Jv
+dGU6DQo+IA0KPiBBZGQgYW4gYW5vbnltb3VzIGZ1bmN0aW9uIHRvIGdldCBwYXRjaGVkIENWRXMg
+ZnJvbSB0aGUgcmVjaXBlDQo+IGFuZCBzZXQgdGhlIHZhbHVlIHRvICdDVkVfUEFUQ0hFRCcgdmFy
+aWFibGUNCj4gVGhpcyB2YXJpYWJsZSBsYXRlciBjYW4gYmUgdXNlZCB0byBkbyBDVkUgZGF0YSBw
+cm9jZXNzaW5nDQo+IG91dHNpZGUgb2YgYml0YmFrZQ0KPiANCj4gQWxzbywgaW50cm9kdWNlIGEg
+bmV3IHZhcmlhYmxlICdDVkVfQ0hFQ0tfV0lUSF9EQicgZGVmYXVsdCBzZXQNCj4gdG8gJzAnLCB3
+aGVuIGl0IGlzIHNldCB0byBub24gemVybyB2YWx1ZSBpdCBhdm9pZHMgQ1ZFIHNjYW4gZm9yDQo+
+IHVucGF0Y2hlZCBDVkVzIGZyb20gTlZEIERCLg0KPiBJdCB3aWxsIHdvcmsgYXMgdGhlIHNlY29u
+ZCBvcGVyYXRpb25hbCBtb2RlIGZvciBjdmUtY2hlY2suYmJjbGFzcw0KPiB3aGljaCBvbmx5IGV4
+cG9ydHMgdGhlIGRhdGEuDQoNClRoaXMgaXMgdHdvIGNoYW5nZXMsIHNvIHBsZWFzZSBzcGxpdCBp
+bnRvIHR3byBjb21taXRzLg0KDQpJ4oCZbSBjdXJpb3VzIHdoYXQgcHJvYmxlbSB0aGUgQ1ZFX0NI
+RUNLX1dJVEhfREIgdmFyaWFibGUgaXMgc29sdmluZywgY2FuIHlvdSBleHBsYWluIHRoZSB1c2Ut
+Y2FzZT8+DQoNClJvc3M=
 
