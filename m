@@ -1,164 +1,123 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <christoph.lauer@email.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A5E0C433EF
-	for <webhook@archiver.kernel.org>; Tue, 12 Jul 2022 21:55:52 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.15054.1657662947873757908
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44EABC43334
+	for <webhook@archiver.kernel.org>; Tue, 12 Jul 2022 22:26:12 +0000 (UTC)
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+ by mx.groups.io with SMTP id smtpd.web11.15355.1657664770302544293
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Jul 2022 14:55:48 -0700
+ Tue, 12 Jul 2022 15:26:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZUxje686;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id bk26so12965299wrb.11
-        for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Jul 2022 14:55:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=2Ulp2j01Ei1tZ0/oovMTQVWOeRjxRcq5d3SXkdZn67k=;
-        b=ZUxje686o8X3fE3m8WBpAnXbgB59VTAQYVbr07FQ7ZVr9Dmgzpbbxwl4Zv5FBmgW6V
-         +Ma68Fhv1k//8RMZmEaL3m7nrevIuuBilVlICLThM6KuqhjMIb41Hc7TQzLi6QdzstMN
-         3CMLiUa8+k1ZuCemrP/d1bb7vIWf2AfwXvCco=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=2Ulp2j01Ei1tZ0/oovMTQVWOeRjxRcq5d3SXkdZn67k=;
-        b=HKKiLD7hQXCfeQW4jOKHk+kLP82TAuUUZQVUaPM4jOPJOOCupWOu6QBZ39yhWMR1P1
-         puCoTcTXNRjHhXAsWi7m6c2ietf+McHU9n14nLEu3hQyM8XulqfrBmKdK+x0iz1V009u
-         lH6suGM++M/0HNRtdsOsSCOi1v01ZXhdHiAlYnowZNXqgPYx0XC/0w/dFz20yLT7XJvl
-         /oJAP+x+CnW1DdoQKSXUF2lGjfwC38uGdIQltYbZnuBSCXlGYvMAan4ubX99ylajRl1Q
-         9/PWn1Tf7OCsOABjc/97OvW9Lm5yCn4VHwwBj8Pk57L9V+TpDP1UbTilUXyJSVxIRgPK
-         Ixig==
-X-Gm-Message-State: AJIora97aQxlsldjGy0SHamJL7Yw13TtEozQza4/pd4gUox1Z2FSD048
-	iQHbInyUZHuPDpbVIf8WvJeJxQ==
-X-Google-Smtp-Source: 
- AGRyM1swlzVSJ66Orxe+h3TceWJLMiup7hioYL05NDKhhrUNdi+nAcP8luxFwYedmMmYvPzxP4fUag==
-X-Received: by 2002:a5d:6da6:0:b0:21d:ac61:ba55 with SMTP id
- u6-20020a5d6da6000000b0021dac61ba55mr61934wrs.683.1657662945996;
-        Tue, 12 Jul 2022 14:55:45 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:5d1c:2bb3:e975:b527?
- ([2001:8b0:aba:5f3c:5d1c:2bb3:e975:b527])
-        by smtp.gmail.com with ESMTPSA id
- s14-20020adfeb0e000000b0021d7fa77710sm9241088wrn.92.2022.07.12.14.55.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jul 2022 14:55:45 -0700 (PDT)
-Message-ID: 
- <d4dd373c6d1718f6fd417c8484a057268df6d495.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] systemd: add usrmerge to
- REQUIRED_DISTRO_FEATURES
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Luca Boccassi <luca.boccassi@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, Paul Eggleton
-	 <paul.eggleton@microsoft.com>
-Date: Tue, 12 Jul 2022 22:55:42 +0100
-In-Reply-To: 
- <CAMw=ZnRwkp6nkZzqw69Xc83xDp0QRCZ+MNwHx=QiTdmncZ5L3A@mail.gmail.com>
-References: <20220711202929.3839971-1-luca.boccassi@gmail.com>
-	 <ba078de5f59105d61daed5b8abc69cd1e15bc43e.camel@linuxfoundation.org>
-	 <CAMw=ZnRwkp6nkZzqw69Xc83xDp0QRCZ+MNwHx=QiTdmncZ5L3A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ dkim=pass header.i=@web.de header.s=dbaedf251592 header.b=RfmhSuDX;
+ spf=pass (domain: email.de, ip: 212.227.15.4,
+ mailfrom: christoph.lauer@email.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+	s=dbaedf251592; t=1657664767;
+	bh=/8sTFgULB4+ko0FFUKphWn2KRKjKvPmm7TbJc1iBhL8=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=RfmhSuDXXXBpK790YmpgjkAy+TygZrJOvL1tqgLwJ4el1sqazU0KTHigud8wj2rYn
+	 YNCQaeAsq4UCpw7lnwh1qbNFndmHWL65wZUULlHqSiJbLc73Ec+espMm4GQ4Dk9tZH
+	 Udx7rTfjH7SQuNB1O1LjQh5nv6ILngvmdnos6724=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [172.18.0.93] ([178.251.90.190]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M6HG8-1oDaBL08fA-006l6k; Wed, 13
+ Jul 2022 00:26:07 +0200
+Message-ID: <2d8feee3-6745-a5bb-8650-314c527c0c40@email.de>
+Date: Wed, 13 Jul 2022 00:26:06 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [OE-core] [PATCH] package.bbclass: Avoid stripping signed kernel
+ modules in splitdebuginfo
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Cc: Christoph Lauer <christoph.lauer@xtronic.de>
+References: <20220710153638.61096-1-christoph.lauer@email.de>
+ <ac55c4c365dec2b3dcc4e1d664a176b0f71a08d0.camel@linuxfoundation.org>
+From: Christoph Lauer <Christoph.Lauer@email.de>
+In-Reply-To: 
+ <ac55c4c365dec2b3dcc4e1d664a176b0f71a08d0.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:nMXEVaLOPfRE6ivJPf9FPx6N5bS6tVlySmAK/3mH/DR2G5jIXVo
+ vo10FOQ+A0jPdzGvrE0ddsWo9Jhe9+hdFZO/5ZD0mfZ5EZL4skDlu1kywLmMqtVGErWDY0L
+ faUI5xA0KuWniFTD1Vuzyj+Bm459+Mhj0gQbhNR6W2QskQCMd11fzXRPmfTTpp6JL0kltWA
+ lWg+Ys9PVa0MfCQcnfEqg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:GcmKez/FesU=:iH+FPUqPbGuYH+ACS/f5+C
+ RTif4JXioIXilvYwbcppro/VdN0VDqTYBP6YUgxh9r9S9FFsvfECL8IGRyJiw1Bn38SM6CwEl
+ zbeO3Q+ljkqcd+so0p+iojAiH3H16zX3wdKsy27Kbs8t6OBPyA1mvm6aOjAX1fl1lMf1tg/r7
+ uUg5sOPuHRsPlWkwKJJK3EM3ijnHbP3vt+uMejbqH9OM0HAKEuXMHgH8Vn2EHI29VRxKO35DF
+ f+IBwg94tqvKe7Mq6rPw7UmOIRQNbmDW7VwyPUy8UnyFWUmOIhK4NiWfPjQa0P3ujNe5Uuh83
+ 15w4mgfxx9cdtExzWqmhRIrP8KdqXzuwDw9vp99IeYkqn3ecKgaJ+CXHJUSi5Ob3eGsQAMuTU
+ mCavrTwCnlJzyVJzrPkuGrd1A90z2nr7/3gxRR4pw8Ap3rmUf9pkyfX+dWUmF9CXmuZN68qxN
+ uTMA2p58xHw5FC+JbrglXsvdu1cmtihCczJLbvkfQ8mkHPN+B+dAu9qIi4S70KYdLPB8MSVT3
+ e3Ps5wPnRc1Vva3kCnXKbF8zmIGSsM9enOTk0aW5ZC2/SbRV2pLYRfYtzWoDzeBZ11gADw8AN
+ N9Bt8j57Yv7ItXYs8BZblRB5MXTEUdC4QY/a++CfLAODq68SsGSwSBG+PEJNiS8o1F1pD9Nhi
+ W2K8FPRJvN2ICGZ7FJDmGR2ulBeOgnuAb73J+w8AsHTdlc1Vn2+LTVpIdW+Dz+/yYRf0txqwC
+ JvBHYEAAFmOxUKl+aC76shg2LzSP1zUwKejHWDMLIr9ByhK/eEXg2rZKWRMhl6mfv6yXRVoLI
+ DnTWvTCRVaMc1yYOED+lKKXzGsLWsczhxFMuRgn+gVyXFy+Wem8KnWd/iKhOfooLCrNLmMH5l
+ pY/RA7SEJb2yCZ7ydIPrx8+QTTg6bR+qWdeq5LZDnMoocncXb0H6P0dG8gyYoo1CO3zOQPxCV
+ 6UefOv8NXhvKnH+NOnLeXYCHh4sDUYwPaCit5u7NSd23wx1uITWz3HLeOkL0Qk7YRn2sFr8B8
+ 9erPpCqb9L2OCkXjCqWI2ShlTiwwhjm7MeVfCo5DqRs/OQIKblo9fg9SmejFZnYwrseNf/LSj
+ vi8R/fMiEvwAY/2IvFphFwrni+G7CSOC+HdljYz0Wd8CZSK3g4f2J6BKQ==
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Jul 2022 21:55:52 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Jul 2022 22:26:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167943
+ https://lists.openembedded.org/g/openembedded-core/message/167944
 
-On Tue, 2022-07-12 at 18:16 +0100, Luca Boccassi wrote:
-> On Mon, 11 Jul 2022 at 23:06, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >=20
-> > On Mon, 2022-07-11 at 21:29 +0100, Luca Bocassi wrote:
-> > > From: Luca Boccassi <luca.boccassi@microsoft.com>
-> > >=20
-> > > Support for unmerged-usr is deprecated upstream, taints the system an=
-d will be
-> > > removed in the near future.
-> > > Enforce building merged-usr images when using systemd.
-> > >=20
-> > > Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> > > ---
-> > > We intend to deprecate unmerged-usr at some point, and we are doing t=
-he
-> > > rounds ensuring distros are moving along so that there are no surpris=
-es
-> > > when the time comes.
-> > >=20
-> > > See:
-> > > https://lists.freedesktop.org/archives/systemd-devel/2022-April/04767=
-3.html
-> > >=20
-> > >  meta/recipes-core/systemd/systemd.inc | 5 +++++
-> > >  1 file changed, 5 insertions(+)
-> > >=20
-> > > diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-cor=
-e/systemd/systemd.inc
-> > > index b8dbe2263a..f9e109bba4 100644
-> > > --- a/meta/recipes-core/systemd/systemd.inc
-> > > +++ b/meta/recipes-core/systemd/systemd.inc
-> > > @@ -21,3 +21,8 @@ SRC_URI =3D "git://github.com/systemd/systemd-stabl=
-e.git;protocol=3Dhttps;branch=3D${S
-> > >  "
-> > >=20
-> > >  S =3D "${WORKDIR}/git"
-> > > +
-> > > +# unmerged-usr support is deprecated upstream, taints the system and=
- will be
-> > > +# removed in the near future. Fail the build if it is not enabled.
-> > > +inherit features_check
-> > > +REQUIRED_DISTRO_FEATURES =3D "usrmerge"
-> >=20
-> > Given none of our systemd testing on the autobuilder is done under
-> > usrmerge and we've never mentioned this requirement to any of our
-> > userbase before, this is going to come as a bit of a surprise to
-> > people. The above change will break the autobuilder as things stand :(.
->=20
-> Yes I was expecting there would be these kind of issues, the purpose
-> of sending this was mainly to find out about them.
-> So where are these configurations stored? How can we get them updated?
+Thank you for your input. The package function 'is_elf' can perform the
+check if the current file is a kernel module. I will add another
+condition to the patch.
 
-The configuration is yocto-autobuilder-helper but the best place to
-start is probably the poky-altcfg distro config.
-
-Once we change that we'll have to run through the testing, see how much
-breaks and then find someone to try and fix any issues if/as needed.
-There is a lot of work just in pulling things together for testing and
-triaging the result and I'm depressed it will probably end up on my
-plate when I personally disagree with the decision.=20
-
-I was asked earlier today if we should just make the systemd include
-files force usrmerge on. The challenge is that OE/YP give users choice
-to configure their system how they wish, we don't just force
-configurations upon them. Or only real option is therefore to throw
-errors and have them decide what to do (which basically amounts to
-submitting to the upstream decision).
-
-> Also is a deprecation notification needed? How is it handled usually?
-
-Do we have time for such a notification or are we in the situation
-where we just throw errors to the user and let them agree to the
-usrmerge change? The timescale is unclear but if the systems are
-already throwing deprecation warnings at runtime, this isn't a good
-experience for our users.
-
-> Aside from process details, I assume there's no problem with doing the
-> change in principle?
-
-There is, but it appears a done deal which we just have to accept so
-I'm trying not to start a discussion which I don't think can go
-anywhere productive. If this isn't a done deal, then let me know as
-that would be different.
-
-Cheers,
-
-Richard
+Am 11.07.22 um 10:29 schrieb Richard Purdie:
+> On Sun, 2022-07-10 at 17:36 +0200, Christoph Lauer wrote:
+>> From: Christoph Lauer <christoph.lauer@xtronic.de>
+>>
+>> Since commit d756b346f248df47b0540644adb1d0f17bcc4b6e kernel modules ar=
+e stripped by the functions 'runstrip' and 'splitdebuginfo'. Signed module=
+s must not be stripped. Function 'runstrip' avoids this by running is_kern=
+el_module_signed. Apply the same check to splitdebuginfo.
+>>
+>> Signed-off-by: Christoph Lauer <christoph.lauer@xtronic.de>
+>> ---
+>>   meta/classes/package.bbclass | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclas=
+s
+>> index 4850134022..5328c6bc8b 100644
+>> --- a/meta/classes/package.bbclass
+>> +++ b/meta/classes/package.bbclass
+>> @@ -382,6 +382,10 @@ def splitdebuginfo(file, dvar, dv, d):
+>>       debugfile =3D dvar + dest
+>>       sources =3D []
+>>
+>> +    if oe.package.is_kernel_module_signed(file):
+>> +        bb.debug(1, "Skip strip on signed module %s" % file)
+>> +        return (file, sources)
+>> +
+>>       # Split the file...
+>>       bb.utils.mkdirhier(os.path.dirname(debugfile))
+>>       #bb.note("Split %s -> %s" % (file, debugfile))
+>
+> This isn't as simple as it may first appear. That is going to do open()
+> and read() calls on many files which aren't kernel modules and it will
+> impact the speed of the do_package task for recipes with large numbers
+> of files (perl, ltp and so on).
+>
+> Cam we use the filename to limit which ones we scan a bit?
+> Even=C2=A0something like:
+>
+> if ".ko" in file:
+>
+> would help a lot but I'm not sure that covers everything.
+>
+> Cheers,
+>
+> Richard
+>
 
