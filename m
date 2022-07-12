@@ -2,63 +2,70 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3256CCA47C
-	for <webhook@archiver.kernel.org>; Tue, 12 Jul 2022 10:31:38 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.7414.1657621891889793179
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD750C433EF
+	for <webhook@archiver.kernel.org>; Tue, 12 Jul 2022 10:44:28 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web09.7680.1657622657729418828
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Jul 2022 03:31:32 -0700
+ Tue, 12 Jul 2022 03:44:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=d0R/U0mK;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YCFfJMWB;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id bu1so9351885wrb.9
+Received: by mail-wm1-f42.google.com with SMTP id
+ bi22-20020a05600c3d9600b003a04de22ab6so4557284wmb.1
         for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Jul 2022 03:31:31 -0700 (PDT)
+ Tue, 12 Jul 2022 03:44:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
          :content-transfer-encoding:user-agent:mime-version;
-        bh=bELdOKSpBkLMVFfMEjVZM9jorht7BJj38rIcTTjDlgE=;
-        b=d0R/U0mKGf72ujWnwT4Tbd5NrEi4ochfzkhbmaQhOHvsosxKO7nNcXDtnvTB1FB2pF
-         pEkTENhj4BcrUcOKhBnGnn7uzQ9q+mSObJ4hm/hcEt4VPwMkYsgB4BwttP+XLsZ6KhAz
-         HCEboqDox1NN9xQuXr4gGf3iNYnwQF7Knl4SI=
+        bh=xmV7kcdfCKm1tlwHs2mDv52+xAKx4UUTXqtZ3B1fYP4=;
+        b=YCFfJMWBWjcvk/vqp4wJtuNy2Z7j3COX+1m+H/4ilWW4UcAjPo20uutNlaeLoSwLGM
+         RZrIxhEUgbNa9cQB0tr0cs9bUT+C80TnjnZ7qLMnc8RSssJsn1Cb+MohjgMTorjkRaiK
+         HgbPsxJPSfxn+IWmWlo9gnRrv2ty7orc5Mqj4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:content-transfer-encoding:user-agent:mime-version;
-        bh=bELdOKSpBkLMVFfMEjVZM9jorht7BJj38rIcTTjDlgE=;
-        b=js2/kl4H5xDr/6Hse6DqTrTSm93bbQ1y2/MarBZNbH3fOB9/CGFHC5ghWlTK9zbywJ
-         XAhc8mO0vgndfOfd1OYpo83yvdPcKphMqqY7iKoI0IOq5NiNN5o7hmi1GufyUaGQiu/n
-         VUoBcj1lmWfnfRdvTnk7NT/4Xhtx5Avbhoa6SMAjyutbhtBD0Jjg3+9oBmE1tZzy27Nn
-         Z7H4DN8PRI83uBq/QPnREAmWav/EttKhuN0EHBZY2HmVuuOgYIS5mJ3uev7jExRPaHyE
-         9W7/S+C0bAi1EsjYETAMXZt3Il+AvMEPLGr11SNcmvjb4F7jcUHj6MFDNtjtLgJSsQJd
-         k+dA==
-X-Gm-Message-State: AJIora8RQt4WhYgzWVDG5DiCgZNP23Cd1LH6WLUZZBS5c6qphhmLiILW
-	Q32DOArJXEbdcO6m0oeInD+z9g==
+        bh=xmV7kcdfCKm1tlwHs2mDv52+xAKx4UUTXqtZ3B1fYP4=;
+        b=L4iUBTpWsapxuF54CKhXZQpHoS1Nez6FfzttOR9gyQwNjXK50aHzVtAyZco2raiWp+
+         EnS2w3ROahTaONFVKxOfwcQ22oVxQ2b5O6aM34x0kqiE0n5KVe5qJ8/5h6viTr6d8zTr
+         0eTJ2kv1/qxVbl97LsPjG9kMaTRH6NdhkBElcUQkaUThgzOr4njcvqHi3xHb00s/OxlE
+         liQ/CTTknddPieis8ldAAJJ0oaK6YDnKPA01s38UXc0rGPeDtSU7PR4FUS4yfm/PvbG7
+         aP1keID64/G4sCUEygCJLW3HMTSv70DE5h7ylSWV7I6JwLPjQZ2IMPi4Bsb0j7ebAoQY
+         E1EA==
+X-Gm-Message-State: AJIora+jlflDwqgFVR9hEhR82f0q3946poGaKihO8luWPoOQi7X/AjzF
+	uPcpZ7F4ie3m2ffW8bCHq4REkg==
 X-Google-Smtp-Source: 
- AGRyM1ujAuHnJt8TShycxckFhM/cUgyqkldEwKQnDH81MkR8Vn6nDHhWj8Tf4Eo6sqp8udpmc9Hkgg==
-X-Received: by 2002:a05:6000:15ca:b0:21d:a72d:beb8 with SMTP id
- y10-20020a05600015ca00b0021da72dbeb8mr8276051wry.624.1657621890339;
-        Tue, 12 Jul 2022 03:31:30 -0700 (PDT)
+ AGRyM1ujQlHudpxKvXaXIzsDKM9NObYa0+Wh4weF6oXqjQomykkL2WUUy+qY6EhpA+yCHlwRHA+cLA==
+X-Received: by 2002:a05:600c:4f48:b0:3a0:45dd:8bd5 with SMTP id
+ m8-20020a05600c4f4800b003a045dd8bd5mr3184014wmq.80.1657622655907;
+        Tue, 12 Jul 2022 03:44:15 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:375:1449:b69:de14?
  ([2001:8b0:aba:5f3c:375:1449:b69:de14])
         by smtp.gmail.com with ESMTPSA id
- t3-20020a05600c41c300b0039c362311d2sm14563513wmh.9.2022.07.12.03.31.29
+ i2-20020adfdec2000000b0021d76985929sm7818392wrn.80.2022.07.12.03.44.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jul 2022 03:31:29 -0700 (PDT)
+        Tue, 12 Jul 2022 03:44:15 -0700 (PDT)
 Message-ID: 
- <f1147b78ba7fc515767a479f81ec4f5e2eb0c9fc.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] qemu: Avoid accidental librdmacm linkage
+ <ce91dc24e3a6d7c011c6b3f0bb79ac404f597a1f.camel@linuxfoundation.org>
+Subject: Re: [OE-core] Reproducible build issues with buildpaths - take 2
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Jul 2022 11:31:28 +0100
-In-Reply-To: <81f50f6f0da7441998ed05862b9b0e7e@axis.com>
-References: <20220711122406.79439-1-richard.purdie@linuxfoundation.org>
-	 <81f50f6f0da7441998ed05862b9b0e7e@axis.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>, Alejandro Hernandez Samaniego
+	 <Alejandro.Hernandez@microsoft.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Jul 2022 11:44:14 +0100
+In-Reply-To: 
+ <CADkTA4P=BDAYiZUCN+hhqpyUUAoOckX+RMphyZiwmci3nFrkOA@mail.gmail.com>
+References: 
+	<7140b61c92f4f9d79b8c8b8d9be68f127512b758.camel@linuxfoundation.org>
+	 <CADkTA4O0Ej3HKMPtwoq_iBue2P43gicwx8rfFKyLY5d3jNTP_A@mail.gmail.com>
+	 <77dd3defcb6908755d06585d4cfb69a523626a22.camel@linuxfoundation.org>
+	 <17009EE9B42D5D4F.21011@lists.openembedded.org>
+	 <1700A558F3D5D3E4.14864@lists.openembedded.org>
+	 <CADkTA4P=BDAYiZUCN+hhqpyUUAoOckX+RMphyZiwmci3nFrkOA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.1-0ubuntu1 
@@ -66,46 +73,153 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Jul 2022 10:31:38 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Jul 2022 10:44:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167918
+ https://lists.openembedded.org/g/openembedded-core/message/167919
 
-On Mon, 2022-07-11 at 18:42 +0000, Peter Kjellerstedt wrote:
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Richard Purdie
-> > Sent: den 11 juli 2022 14:24
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH] qemu: Avoid accidental librdmacm linkage
+On Mon, 2022-07-11 at 00:06 -0300, Bruce Ashfield wrote:
+> On Sun, Jul 10, 2022 at 11:27 PM Bruce Ashfield via
+> lists.openembedded.org
+> <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
 > >=20
-> > Avoid accidentally linking to the rdma library from the host by
-> > adding a PACKAGECONFIG for the option. This was found on new
-> > Fedora 36 autobuilder workers.
+> > On Sun, Jul 10, 2022 at 9:29 PM Bruce Ashfield via
+> > lists.openembedded.org
+> > <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
+> > >=20
+> > > On Fri, Jul 8, 2022 at 10:47 AM Richard Purdie
+> > > <richard.purdie@linuxfoundation.org> wrote:
+> > > >=20
+> > > > On Fri, 2022-07-08 at 09:37 -0400, Bruce Ashfield wrote:
+> > > > > On Fri, Jul 8, 2022 at 7:07 AM Richard Purdie
+> > > > > <richard.purdie@linuxfoundation.org> wrote:
+> > > > > >=20
+> > > > > > Hi All,
+> > > > > >=20
+> > > > > > We've made good progress and I appreciate the help from people.=
+ I ran a
+> > > > > > fresh build on the autobuilder and I forced it to rerun the QA =
+checks
+> > > > > > for all recipes. The tricky bit about warnings is that they don=
+'t show
+> > > > > > up for objects from sstate and the addition of the buildpaths Q=
+A check
+> > > > > > doesn't cause the checks to rerun. Due to that a few more previ=
+souly
+> > > > > > unseen issues cropped up.
+> > > > > >=20
+> > > > > > The list of issues now stands are:
+> > > > > >=20
+> > > > > > qemuppc:
+> > > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/63/buil=
+ds/5428
+> > > > > > WARNING: kernel-devsrc-1.0-r0 do_package_qa: QA Issue: File /li=
+b/modules/5.15.48-yocto-standard/build/include/generated/.vdso32-offsets.h.=
+cmd in package kernel-devsrc contains reference to TMPDIR [buildpaths]
+> > > > >=20
+> > > > > I'll take this one. My fix was only for arch/arm, but I'll expand=
+ it
+> > > > > to cover ppc32.
+> > > >=20
+> > > > Thanks.
+> > > >=20
+> > > > I built qemuppc locally and got a different failure, I'd really lik=
+e to
+> > > > know why I saw that and the autobuilder did not. The failure was:
+> > > >=20
+> > > > WARNING: linux-yocto-5.15.48+gitAUTOINC+b35d1d1e83_5aa3abf07b-r0 do=
+_package_qa: QA Issue: File /usr/src/debug/linux-yocto/5.15.48+gitAUTOINC+b=
+35d1d1e83_5aa3abf07b-r0/linux-qemuppc-standard-build/drivers/tty/vt/console=
+map_deftbl.c in package linux-yocto-src contains reference to TMPDIR
+> > > > File /usr/src/debug/linux-yocto/5.15.48+gitAUTOINC+b35d1d1e83_5aa3a=
+bf07b-r0/linux-qemuppc-standard-build/lib/oid_registry_data.c in package li=
+nux-yocto-src contains reference to TMPDIR [buildpaths]
+> > >=20
+> > > I have the devsrc fixed for qeumppc32, fix incoming shortly.
+> > >=20
+> > > But for this one, I don't see it either. What do I need to enable to
+> > > get the linux-yocto-src package ? Mine is empty, hence no warning. Is
+> > > it one of the archiver modes ?
 > >=20
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> > =C2=A0meta/recipes-devtools/qemu/qemu.inc | 1 +
-> > =C2=A01 file changed, 1 insertion(+)
-> >=20
-> > diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-
-> > devtools/qemu/qemu.inc
-> > index ef4e949805b..e9095fd750f 100644
-> > --- a/meta/recipes-devtools/qemu/qemu.inc
-> > +++ b/meta/recipes-devtools/qemu/qemu.inc
-> > @@ -186,6 +186,7 @@ PACKAGECONFIG[pulsedio] =3D "--enable-pa,--
-> > disable-
-> > pa,pulseaudio"
-> > =C2=A0PACKAGECONFIG[selinux] =3D "--enable-selinux,--disable-selinux"
-> > =C2=A0PACKAGECONFIG[bpf] =3D "--enable-bpf,--disable-bpf,libbpf"
-> > =C2=A0PACKAGECONFIG[capstone] =3D "--enable-capstone,--disable-capstone=
-"
-> > +PACKAGECONFIG[rdma] =3D "--enable-dma,--disable-rdma"
+> > I sent a series with a fix for qemuppc32 kernel-devsrc and a WIP fix
+> > for the conmakehash issue, I'll have a look at oid_registry next.
 >=20
-> Shouldn't that be "--enable-rdma"?
+>=20
+> oid_registry is a perl script .. also capturing the full path of the
+> executable. I did a similar fix for linux-yocto 5.15 and used
+> 'basename' versus the whole path.
+>=20
+> If these hold up, we can expand the versions that get the fix.
 
-It should. I've tweaked the patch in master-next.
+Thanks. I spent a bit of time working out why I was seeing things the
+autobuilder wasn't. It turns out:
+
+https://git.yoctoproject.org/poky/commit/?id=3Dc725bdb29b2669e53ea0f9d30f96=
+83f094c9b326
+
+broke kernel source handling (and hence SPDX license handling for the
+kernel too). I was using an older build where that wasn't present,
+hence I saw more kernel errors.
+
+With your fixes and the above reverted, I ran another build overnight
+and in that we saw:
+
+beaglebone:
+WARNING: linux-yocto-5.15.36+gitAUTOINC+f122fe59e7_4c875cf137-r0 do_package=
+_qa: QA Issue: File /usr/src/debug/linux-yocto/5.15.36+gitAUTOINC+f122fe59e=
+7_4c875cf137-r0/linux-beaglebone_yocto-standard-build/lib/oid_registry_data=
+.c in package linux-yocto-src contains reference to TMPDIR
+
+beaglebone-alt:
+stdio: WARNING: linux-yocto-5.10.113+gitAUTOINC+5b3dacac6f_8038166b72-r0 do=
+_package_qa: QA Issue: File /usr/src/debug/linux-yocto/5.10.113+gitAUTOINC+=
+5b3dacac6f_8038166b72-r0/linux-beaglebone_yocto-standard-build/drivers/tty/=
+vt/consolemap_deftbl.c in package linux-yocto-src contains reference to TMP=
+DIR
+
+edgerouter:
+stdio: WARNING: linux-yocto-5.15.36+gitAUTOINC+f122fe59e7_b978686694-r0 do_=
+package_qa: QA Issue: File /usr/src/debug/linux-yocto/5.15.36+gitAUTOINC+f1=
+22fe59e7_b978686694-r0/linux-edgerouter-standard-build/lib/oid_registry_dat=
+a.c in package linux-yocto-src contains reference to TMPDIR
+
+edgerouter-alt:
+stdio: WARNING: linux-yocto-5.10.113+gitAUTOINC+5b3dacac6f_43577894d2-r0 do=
+_package_qa: QA Issue: File /usr/src/debug/linux-yocto/5.10.113+gitAUTOINC+=
+5b3dacac6f_43577894d2-r0/linux-edgerouter-standard-build/lib/oid_registry_d=
+ata.c in package linux-yocto-src contains reference to TMPDIR
+
+meta-intel:
+tdio: WARNING: linux-intel-5.15.43+gitAUTOINC+ea948a0983_1ec5959a8f-r0 do_p=
+ackage_qa: QA Issue: File /usr/src/debug/linux-intel/5.15.43+gitAUTOINC+ea9=
+48a0983_1ec5959a8f-r0/linux-corei7-64-intel-common-standard-build/drivers/t=
+ty/vt/consolemap_deftbl.c in package linux-intel-src contains reference to =
+TMPDIR
+
+qemumips-alt:
+tdio: WARNING: linux-yocto-5.10.128+gitAUTOINC+5b3dacac6f_cdec08a505-r0 do_=
+package_qa: QA Issue: File /usr/src/debug/linux-yocto/5.10.128+gitAUTOINC+5=
+b3dacac6f_cdec08a505-r0/linux-qemumips-standard-build/drivers/tty/vt/consol=
+emap_deftbl.c in package linux-yocto-src contains reference to TMPDIR
+
+qemuppc-alt:
+stdio: WARNING: linux-yocto-5.10.128+gitAUTOINC+5b3dacac6f_c0821a7ab5-r0 do=
+_package_qa: QA Issue: File /usr/src/debug/linux-yocto/5.10.128+gitAUTOINC+=
+5b3dacac6f_c0821a7ab5-r0/linux-qemuppc-standard-build/drivers/tty/vt/consol=
+emap_deftbl.c in package linux-yocto-src contains reference to TMPDIR
+
+so thankfully that looks like the two errors we know about spread over
+different kernel versions. I think a version bump for yocto-bsp would
+fix some of them and backports to 5.10 some of the others?
+
+I'm sharing the full info in case you spot any patterns I don't! :)
+
+In summary, we're down to these and the lttng-modules issue which
+appears when we start checking .debug files in buildpaths (patch added
+and reverted in master-next currently).
 
 Cheers,
 
 Richard
+
+
 
