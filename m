@@ -2,112 +2,110 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F001C43334
-	for <webhook@archiver.kernel.org>; Tue, 12 Jul 2022 08:19:58 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web12.6634.1657613996513358769
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FCD5C43334
+	for <webhook@archiver.kernel.org>; Tue, 12 Jul 2022 08:23:18 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.6646.1657614190145737087
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Jul 2022 01:19:56 -0700
+ Tue, 12 Jul 2022 01:23:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=OvvtZpTZ;
- spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id
- v67-20020a1cac46000000b003a1888b9d36so6308345wme.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=RZd80Twl;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id bk26so10057123wrb.11
         for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Jul 2022 01:19:56 -0700 (PDT)
+ Tue, 12 Jul 2022 01:23:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:to:references
-         :content-language:from:in-reply-to:content-transfer-encoding;
-        bh=r9zPrhn71BcyvBiwCTMJjbuEjt/z/+aMYg9LN0pNOQQ=;
-        b=OvvtZpTZ5oyLdOb0pN0JhB+5QTBHeE6h3tZVAlJnbSeMPe2jmfVEfaVzlGJnoyrkt7
-         bdMVTfQMmPBMiWM4eLgrrjncdRJVPhlX5W2Q71PDcJ2XXkirv5v8egtbBKrhFZRtBI7z
-         DP4L6KKWit5XWw4MBzoZBO58cotn/9XWg/OVo8pGpfZgQzEmtVK+j5CI19OooZpoFrtF
-         PtzWrn64QyKPBr8yjMxnw4T4psYX1jEJ7Uq16nGBT1CiS3lzmdPYNyk5IUcJprWg/7/5
-         DVu2VAKojBfhH6imq9H75ZQcBl6hi9u0Ri5/efF2oyiY57BJEfTplrzpoKN8URGnPyjK
-         87RQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=iWNgGwY1uD56pn91Od5mTZ87LERWJVmMRmTVET+iILw=;
+        b=RZd80TwlQn4uq56F4VAT1q/kL8B1XGfZe+UO5SlIzqOFspuur4+r7Kh/iiWBtMKQ5h
+         dRH3IjgOkXh6QW3h76NnakwwWLAV7x7TDaJzuG1B3s9MsGVasebcHYW5EOa2pa3Hkmdo
+         VcIWOTAGcaptX9HbOp3b3hQOR3J5S2JiIfP+W9ZjB+PaeEkOBL7pjarG5I5Epq2pglh0
+         u8KdaOML1JP81pG9/30le/YIGnOPgiUowjxmkDb5cDO26g7NiOFlnSzEi9mHjANY0y/J
+         5EH147elWlRgc0SjqBSEUtGg5WEtllDs75aQEHkk7QcP0bSA3DhNyxB8R7CnV48Yjm15
+         +4QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :to:references:content-language:from:in-reply-to
+         :content-language:to:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=r9zPrhn71BcyvBiwCTMJjbuEjt/z/+aMYg9LN0pNOQQ=;
-        b=FsZIxJgbsDWTxof6ik+pfMTO1S8455YCHVPTOS7IFPohSCNtW/2ufkY7WPIHqbEO7I
-         8Re1cEyDxmFu8DOuRl3g+6RFW6TtwH1RwPrweJGmB/iCs2RqieasdZiCcmlpqF8fUGkk
-         MiVXWTjFx1vIAfXJvsQ1Ptxi/S3BBrR0Q8Gnpn1RF4aJLOyVaoPA87JemWywibaWkfNc
-         Qz4ZaL1B5W+wbdZYFAj5EWXXNPASQpMLM9utmCoNpRINETD7KwV8tn41s1eZYYmdH/Ng
-         N8vZyF/Cw6wvMZvSRICxFGg5VwffyOwm454Sqi3W5Nm5pSKlf8z/tvQRcQqRgz0T1E1n
-         HGqA==
-X-Gm-Message-State: AJIora+i4GioPrRb9ERZtZRAmnOqweQUSBuku+2ybENKkB1IuhlynAVX
-	Usg94gT2OADD+UK8BeYP9o+w4wlcR7MCJg==
+        bh=iWNgGwY1uD56pn91Od5mTZ87LERWJVmMRmTVET+iILw=;
+        b=LpyG4hq/BjEne+vUi82K6MGo4csBuNo3MMySWC/LoACGuCg7BHOOuPMO9q3xlXu44m
+         SqfCtCHQtkqjE733HUpjU3KYjyi74KO6jEao6IK8FetPPKyhm5Myyp2E52MBqWmOxYBu
+         oQpV5QIXR/tFWtwyHSkbXaJTFlaE9CDFXnsPIK/Utq0g9r/H5fnif58QitHXYRfucD69
+         9B5WxfMRPMwrq0GMJRCfk1O03NdoeUFJxAiZQMwUKW2BOAitWj9pJfoJzkPA5dwdzxvF
+         eRziUcpjsouGObqAjQoI1AACb7Et5DKi7SzCgGRqQsTDgJoPA4qtODAnI32InsvbBU4j
+         kbNw==
+X-Gm-Message-State: AJIora8D00LxbMgbsqqisQdYuK4H38PF7R+PLXOKcNXEw84u/9pwN7cs
+	+bek9VJLwF/pYJJON8PSOxk=
 X-Google-Smtp-Source: 
- AGRyM1s4w/9GIUZ8FoCnNCUvHlqvJWsz89JlSs9B4RQUmlamoEcYO4LOy1XhdHOoHOs7Xna+A2aPkQ==
-X-Received: by 2002:a05:600c:4fc8:b0:3a1:99cf:7fe with SMTP id
- o8-20020a05600c4fc800b003a199cf07femr2448338wmq.142.1657613994391;
-        Tue, 12 Jul 2022 01:19:54 -0700 (PDT)
+ AGRyM1v62XPW0+URmrt8kTz/4vrx7t+B0yzCRAgIsPeCzpDA3mmgP1MVN6/6ifkk96O4961AEFYU3w==
+X-Received: by 2002:adf:d1e9:0:b0:21d:2154:2bc7 with SMTP id
+ g9-20020adfd1e9000000b0021d21542bc7mr19967667wrd.105.1657614188529;
+        Tue, 12 Jul 2022 01:23:08 -0700 (PDT)
 Received: from [10.11.0.62] ([2.221.90.128])
         by smtp.gmail.com with ESMTPSA id
- t18-20020a5d6912000000b0021d888e1132sm7659423wru.43.2022.07.12.01.19.53
+ g14-20020adff3ce000000b0021d68d3a27dsm9321965wrp.45.2022.07.12.01.23.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Jul 2022 01:19:53 -0700 (PDT)
-Message-ID: <d857b61c-8b97-056a-25bb-3e274cfe23a1@gmail.com>
-Date: Tue, 12 Jul 2022 09:19:53 +0100
+        Tue, 12 Jul 2022 01:23:07 -0700 (PDT)
+Message-ID: <c27df961-eb13-0968-58d7-68ac86ea006b@gmail.com>
+Date: Tue, 12 Jul 2022 09:23:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.0.1
-Subject: Re: [OE-core] [PATCH] curl: Link with libatomic on rv64
-To: "Yu, Mingli" <mingli.yu@windriver.com>,
- openembedded-core@lists.openembedded.org
-References: <20220712080006.1711090-1-mingli.yu@windriver.com>
+Subject: Re: [OE-core] [PATCH] qemu: Avoid accidental librdmacm linkage
 Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20220711122406.79439-1-richard.purdie@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20220712080006.1711090-1-mingli.yu@windriver.com>
+In-Reply-To: <20220711122406.79439-1-richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Jul 2022 08:19:58 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Jul 2022 08:23:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167911
+ https://lists.openembedded.org/g/openembedded-core/message/167912
 
-upstream has a fix in code [1] to avoid these calls lets backport that
 
-[1] 
-https://github.com/curl/curl/commit/50efb0822aa0e0ab165158dd0a26e65a2290e6d2
 
-On 7/12/22 9:00 AM, Yu, Mingli wrote:
-> From: Mingli Yu <mingli.yu@windriver.com>
+On 7/11/22 1:24 PM, Richard Purdie wrote:
+> Avoid accidentally linking to the rdma library from the host by
+> adding a PACKAGECONFIG for the option. This was found on new
+> Fedora 36 autobuilder workers.
 > 
-> Fixes:
->    undefined reference to `__atomic_exchange_1'
-> 
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->   meta/recipes-support/curl/curl_7.84.0.bb | 2 ++
->   1 file changed, 2 insertions(+)
+>   meta/recipes-devtools/qemu/qemu.inc | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> diff --git a/meta/recipes-support/curl/curl_7.84.0.bb b/meta/recipes-support/curl/curl_7.84.0.bb
-> index 0d829cdf23..d8efb45a08 100644
-> --- a/meta/recipes-support/curl/curl_7.84.0.bb
-> +++ b/meta/recipes-support/curl/curl_7.84.0.bb
-> @@ -75,6 +75,8 @@ EXTRA_OECONF = " \
->       ${@'--without-ssl' if (bb.utils.filter('PACKAGECONFIG', 'gnutls mbedtls nss openssl', d) == '') else ''} \
->   "
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+> index ef4e949805b..e9095fd750f 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -186,6 +186,7 @@ PACKAGECONFIG[pulsedio] = "--enable-pa,--disable-pa,pulseaudio"
+>   PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux"
+>   PACKAGECONFIG[bpf] = "--enable-bpf,--disable-bpf,libbpf"
+>   PACKAGECONFIG[capstone] = "--enable-capstone,--disable-capstone"
+> +PACKAGECONFIG[rdma] = "--enable-dma,--disable-rdma"
+                                    ^^
+
+should this be rdma ?
+
 >   
-> +LDFLAGS:append:riscv64 = " -Wl,--no-as-needed -latomic -Wl,--as-needed"
-> +
->   do_install:append:class-target() {
->   	# cleanup buildpaths from curl-config
->   	sed -i \
+>   INSANE_SKIP:${PN} = "arch"
+>   
 > 
 > 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#167910): https://lists.openembedded.org/g/openembedded-core/message/167910
-> Mute This Topic: https://lists.openembedded.org/mt/92328681/1997914
+> View/Reply Online (#167867): https://lists.openembedded.org/g/openembedded-core/message/167867
+> Mute This Topic: https://lists.openembedded.org/mt/92308429/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
