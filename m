@@ -2,28 +2,28 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92896CCA481
-	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 16:28:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8ED6C43334
+	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 16:28:38 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web12.24133.1657729705100478754
+ by mx.groups.io with SMTP id smtpd.web11.1.1657729709716014826
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 09:28:25 -0700
+ Wed, 13 Jul 2022 09:28:29 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 159561C01;
-	Wed, 13 Jul 2022 09:28:25 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D8B9A1C01;
+	Wed, 13 Jul 2022 09:28:29 -0700 (PDT)
 Received: from oss-tx204.lab.cambridge.arm.com
  (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 148513F792;
-	Wed, 13 Jul 2022 09:28:23 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 01CCB3F792;
+	Wed, 13 Jul 2022 09:28:28 -0700 (PDT)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: nd@arm.com
-Subject: [PATCH 2/8] python3-flit-core: bootstrap explicitly
-Date: Wed, 13 Jul 2022 17:28:15 +0100
-Message-Id: <20220713162821.974801-2-ross.burton@arm.com>
+Subject: [PATCH 8/8] documentation: remove obsolete PEP517_BUILD_API
+Date: Wed, 13 Jul 2022 17:28:21 +0100
+Message-Id: <20220713162821.974801-8-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220713162821.974801-1-ross.burton@arm.com>
 References: <20220713162821.974801-1-ross.burton@arm.com>
@@ -32,51 +32,56 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 16:28:27 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 16:28:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167967
+ https://lists.openembedded.org/g/openembedded-core/message/167972
 
-Add a method to python_flit_core.bbclass that does a manual build with
-flit explicitly, and use that to bootstrap python3-flit-core-native which
-can build itself.
+This variable has been obsoleted, so remove it from the documentation.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes/python_flit_core.bbclass                   | 5 +++++
- meta/recipes-devtools/python/python3-flit-core_3.7.1.bb | 4 ++++
- 2 files changed, 9 insertions(+)
+ documentation/ref-manual/classes.rst   | 4 +---
+ documentation/ref-manual/variables.rst | 5 -----
+ 2 files changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/meta/classes/python_flit_core.bbclass b/meta/classes/python_=
-flit_core.bbclass
-index 96652aa2043..a900f7b5579 100644
---- a/meta/classes/python_flit_core.bbclass
-+++ b/meta/classes/python_flit_core.bbclass
-@@ -3,3 +3,8 @@ inherit python_pep517 python3native python3-dir setuptool=
-s3-base
- DEPENDS +=3D "python3 python3-flit-core-native"
+diff --git a/documentation/ref-manual/classes.rst b/documentation/ref-man=
+ual/classes.rst
+index d0ed5392293..424c505715f 100644
+--- a/documentation/ref-manual/classes.rst
++++ b/documentation/ref-manual/classes.rst
+@@ -2000,9 +2000,7 @@ The ``python_pep517`` class builds and installs a P=
+ython ``wheel`` binary
+ archive (see `PEP-517 <https://peps.python.org/pep-0517/>`__).
 =20
- PEP517_BUILD_API =3D "flit_core.buildapi"
-+
-+python_flit_core_do_manual_build () {
-+    cd ${PEP517_SOURCE_PATH}
-+    nativepython3 -m flit_core.wheel --outdir ${PEP517_WHEEL_PATH} .
-+}
-diff --git a/meta/recipes-devtools/python/python3-flit-core_3.7.1.bb b/me=
-ta/recipes-devtools/python/python3-flit-core_3.7.1.bb
-index 8d107384a6d..abe620374c0 100644
---- a/meta/recipes-devtools/python/python3-flit-core_3.7.1.bb
-+++ b/meta/recipes-devtools/python/python3-flit-core_3.7.1.bb
-@@ -20,6 +20,10 @@ DEPENDS:append:class-native =3D " unzip-native"
- PYPI_PACKAGE =3D "flit"
- PEP517_SOURCE_PATH =3D "${S}/flit_core"
+ Recipes wouldn't inherit this directly, instead typically another class =
+will
+-inherit this, add the relevant native dependencies, and set
+-:term:`PEP517_BUILD_API` to the Python class which implements the PEP-51=
+7 build
+-API.
++inherit this and add the relevant native dependencies.
 =20
-+do_compile:class-native () {
-+    python_flit_core_do_manual_build
-+}
-+
- do_install:class-native () {
-     python_pep517_do_bootstrap_install
- }
+ Examples of classes which do this are :ref:`python_flit_core
+ <ref-classes-python_flit_core>`, :ref:`python_setuptools_build_meta
+diff --git a/documentation/ref-manual/variables.rst b/documentation/ref-m=
+anual/variables.rst
+index c4b2119f26c..1710830dc03 100644
+--- a/documentation/ref-manual/variables.rst
++++ b/documentation/ref-manual/variables.rst
+@@ -5682,11 +5682,6 @@ system and gives an overview of their function and=
+ contents.
+=20
+       :term:`PE` is the default value of the :term:`PKGE` variable.
+=20
+-   :term:`PEP517_BUILD_API`
+-      When used by recipes that inherit the :ref:`python_pep517
+-      <ref-classes-python_pep517>` class, specifies the entry point to t=
+he
+-      PEP-517 compliant build API (such as ``flit_core.buildapi``).
+-
+    :term:`PEP517_WHEEL_PATH`
+       When used by recipes that inherit the
+       :ref:`python_pep517 <ref-classes-python_pep517>` class,
 --=20
 2.34.1
 
