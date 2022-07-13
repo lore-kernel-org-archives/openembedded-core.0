@@ -1,94 +1,96 @@
-Return-Path: <festevam@gmail.com>
+Return-Path: <luca.boccassi@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF579C43334
-	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 14:03:36 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web10.22313.1657721012061147276
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57A12CCA479
+	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 15:41:57 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web09.23673.1657726906671960166
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 07:03:32 -0700
+ Wed, 13 Jul 2022 08:41:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=X/V2QTeP;
- spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: festevam@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id
- i8-20020a17090a4b8800b001ef8a65bfbdso3802374pjh.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=FCXlj/lN;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43,
+ mailfrom: luca.boccassi@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id r14so16102846wrg.1
         for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 07:03:32 -0700 (PDT)
+ Wed, 13 Jul 2022 08:41:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=5XMFMyyA6cbUDOkcMFyOAINYHl/qvSnx+7I4vZGxyE8=;
-        b=X/V2QTeP0KbZSQTOtJwvhMK8KT3mkJp7Uo2jqdYsmx2xz1NA/nep25eOI1CjzGFx+R
-         PzEl9SUaWie/vdmOTh+jxh3SwbRrm5FDBQSf3bHMRJe6I8y6f9MxgTmwCrpxCWayAUEH
-         /7iw0g4F7+q1mrEghdQ+5QhXo98o7iINQQ6PQdUrkax4EYzrhoS4HhKqp5CVkL86ZD9e
-         jZED28W0InMESrGW2KOobe31fIFoQAhzCxk4v06CEPAXPuJx9pLMfQAPuVKyOLbhU1Ph
-         ZY6ai3jnI7QbIlLwCqEEBzLHmkiFLGBv+k8eWKgvv1/KH8C/JR8jM1tN+HAzipAGjwf2
-         kN4Q==
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=lzH17ZWw+SxicGZEBkbxW9TXsWAtuOL6x4kJAd0WgNs=;
+        b=FCXlj/lN6gDJAX7pEbr4utH23H+HVZXC3grFYDSmUbt5jX9UKoxmpzOo9LQ79q7ShF
+         yNV8F+hoKG7wAAgRe+m4sGdxra8CIgNee8tlGtdzCKK+Zd0CKzwpMkQl9AZMpnnbFSR7
+         0cq6oUeyYKfUZfD68mQGZ2hPxsFbFebV6y/JAeg5AEVrbW2GiXdVcg8ThNOOyhFClIwW
+         Udxac+wqEea228pb82E42lZjYo3fAb/5BINunajKAmBilhWObDvgTiYaZwjXB7pY2rGW
+         kdiKAFQW4cSvXjT3JMygDKvZBLgj73Ve+kaV0F1Sy6L7/NbRYd7rbVeyhaK8z5hkdhBZ
+         vMSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=5XMFMyyA6cbUDOkcMFyOAINYHl/qvSnx+7I4vZGxyE8=;
-        b=0I17ArKUO9v1bLjOaVwo8u1NLQWvbXP0kIbJjejLcSmRdkjPkBDrw24/IAvmRSFOwb
-         e7XTbTsNRYQSZB9DhmDMhhDEgMvMeGRNiSHdBHGytrPXFqgO4dbuZWji0gyG3izbRlt3
-         yevoMo9FTJ54L9IXnFNVv+wpkxMtUlgz0puBz9px4G835okmK02BirgwfHBauOlTRxJF
-         8tnI1rgcF6BLpLQHvVAXir7p0O2+R7PPCo+rhL9xziTRJ7+3sDJVJ5EgjfkASpkghBnn
-         o9NCgLGXJrvxZATdi5Jl4hAx/CNwjH2Pe/HAaZSgldTDvfnB/uqgxmqsIucIjT+/KFEi
-         +E+Q==
-X-Gm-Message-State: AJIora9mZhtM9VnkdLjJrEFPBVdJzu25A5un2z9g6YdJCITmN9vkuq6n
-	z6lOAf6z1RhDee11BSXcyK6sFNsAewa1pfgDBaQ=
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=lzH17ZWw+SxicGZEBkbxW9TXsWAtuOL6x4kJAd0WgNs=;
+        b=iehCQG6Xj2x7I6LDiJ3e5rvdh7OaOLarqqdzuUM7cmsJdDiYzV2+Kwd3zmTypyEqFo
+         lSW5ApuK87xFjdH1Winv6U4JBvu5a0g4560j0SHiSyzlCEJY3/49QveJYH8fKbKlbW67
+         My8Dng+mh8siyiaQKYkaOiNg7zETvoPoQio+unhFljdJ0fH38RHjtQYSRC5ejhgVDgkF
+         x8j/jvIpUIw33Tq55oDP4AJ3UCN7iLZhYULyMUyzy/tCszqBZK8JnT7TRrihEcEMvXiT
+         AKrtVor683FghPhPGlidTwu3MdRSRuXhCkaq7PgGAamuKh8PpswepVIRB3cnr2eOnIcN
+         QxFA==
+X-Gm-Message-State: AJIora/9JTKCm9xPgVdeTaYxjxBE071RInXkdtleTb9BhSgptjD7hPHK
+	HHwcfguiOBGeYoJWnsCwYuiM8U+wlrQ=
 X-Google-Smtp-Source: 
- AGRyM1vjS6hfXAbN6PT2aR6R3UyIeN+YUmQO5e+9UV+O/0WILgBFKSzAcXMFGmAJ/FaLoT7x92Jc1navut5yQa0GvA0=
-X-Received: by 2002:a17:902:ce86:b0:16c:8a4e:746a with SMTP id
- f6-20020a170902ce8600b0016c8a4e746amr1563256plg.168.1657721011157; Wed, 13
- Jul 2022 07:03:31 -0700 (PDT)
+ AGRyM1sw8gL8N5Ks2lPvMM6pkqyR/3mPjyQkoS6C0OJVnIRKHZJ0+v/QtoclYUrAwqtb5aeZTb/P+g==
+X-Received: by 2002:a05:6000:144f:b0:21d:a3cc:a6fa with SMTP id
+ v15-20020a056000144f00b0021da3cca6famr3922814wrx.191.1657726904732;
+        Wed, 13 Jul 2022 08:41:44 -0700 (PDT)
+Received: from localhost ([2a01:4b00:f41a:3600:360b:9754:2e3a:c344])
+        by smtp.gmail.com with ESMTPSA id
+ l16-20020a056000023000b0020fff0ea0a3sm11182883wrz.116.2022.07.13.08.41.44
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Jul 2022 08:41:44 -0700 (PDT)
+From: luca.boccassi@gmail.com
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2 1/2] poky-altcfg: enable usrmerge
+Date: Wed, 13 Jul 2022 16:41:38 +0100
+Message-Id: <20220713154139.101744-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220711202929.3839971-1-luca.boccassi@gmail.com>
+References: <20220711202929.3839971-1-luca.boccassi@gmail.com>
 MIME-Version: 1.0
-References: <20220712151730.10465-1-sakib.sajal@windriver.com>
- <Ys50UcQEs9EzTimU@mail.local>
-In-Reply-To: <Ys50UcQEs9EzTimU@mail.local>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Wed, 13 Jul 2022 11:03:19 -0300
-Message-ID: 
- <CAOMZO5AVAhvb5nsgXhX0AV6vrZmqT6MFHuvpoYyT7rQz+ehE3Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH][V2] u-boot: upgrade 2022.04 -> 2022.07
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Sakib Sajal <sakib.sajal@windriver.com>,
-	oe-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 14:03:36 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 15:41:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167958
+ https://lists.openembedded.org/g/openembedded-core/message/167959
 
-Hi Alexandre and Sakib,
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-On Wed, Jul 13, 2022 at 4:29 AM Alexandre Belloni via
-lists.openembedded.org
-<alexandre.belloni=3Dbootlin.com@lists.openembedded.org> wrote:
+Ensure it gets tested by the CI
 
-> | /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/core2-6=
-4-poky-linux/u-boot-tools/1_2022.07-r0/git/scripts/dtc/pylibfdt/setup.py:21=
-: DeprecationWarning: The distutils package is deprecated and slated for re=
-moval in Python 3.12. Use setuptools or check PEP 632 for potential alterna=
-tives
-> |   from distutils.core import setup, Extension
-> | error: command 'swig' failed: No such file or directory
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+---
+ meta-poky/conf/distro/poky-altcfg.conf | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Does the change below fix the build problem?
+diff --git a/meta-poky/conf/distro/poky-altcfg.conf b/meta-poky/conf/distro/poky-altcfg.conf
+index f03306e798..57a76e8bb9 100644
+--- a/meta-poky/conf/distro/poky-altcfg.conf
++++ b/meta-poky/conf/distro/poky-altcfg.conf
+@@ -9,6 +9,8 @@ DISTROOVERRIDES = "poky:poky-altcfg"
+ #DISTROOVERRIDES = "poky:linuxstdbase"
+ 
+ INIT_MANAGER:poky-altcfg = "systemd"
++# systemd will soon require usrmerge
++DISTRO_FEATURES:poky-altcfg += "usrmerge"
+ # systemd isn't suitable with musl
+ INIT_MANAGER:poky-altcfg:libc-musl = "sysvinit"
+ 
+-- 
+2.34.1
 
---- a/meta/recipes-bsp/u-boot/u-boot-tools.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-tools.inc
-@@ -1,5 +1,5 @@
- SUMMARY =3D "U-Boot bootloader tools"
--DEPENDS +=3D "gnutls openssl util-linux"
-+DEPENDS +=3D "gnutls openssl util-linux swig-native"
-
- PROVIDES =3D "${MLPREFIX}u-boot-mkimage ${MLPREFIX}u-boot-mkenvimage"
- PROVIDES:class-native =3D "u-boot-mkimage-native u-boot-mkenvimage-native"
 
