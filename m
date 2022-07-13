@@ -1,169 +1,159 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5032AC433EF
-	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 12:31:26 +0000 (UTC)
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net
- [217.70.178.232])
- by mx.groups.io with SMTP id smtpd.web09.21394.1657715477119021618
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A22D3C43334
+	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 13:19:46 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web12.21763.1657718382410633777
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 05:31:17 -0700
+ Wed, 13 Jul 2022 06:19:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=nq7u/5Dd;
- spf=pass (domain: bootlin.com, ip: 217.70.178.232,
- mailfrom: alexandre.belloni@bootlin.com)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 98380200002;
-	Wed, 13 Jul 2022 12:31:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1657715475;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WvxAuM2jUfJF2ml7c0r4nG4rJkVWm/t1uFuAIqgAxMQ=;
-	b=nq7u/5DdsGoaibPc6LkNEWb0JIVPUTYFLecF13iF5enphPXUU+SwecW2uBbKfKuruG04Yn
-	SZFNX24UQhx+XKf5ukFcCYpmzOjUlCETNtt2voMY3VBEllueX0FlHtuRLsWW5KMdGslc0P
-	TbhHCDsb5XZ3GAKx779HkffClDib31IpupfwPbLwbKzecUGqf2Tdw5dWwzG8rlTvn4nZe3
-	eUpMQYy7cHTTfO3AVJSOxUYijdaZFHkNDhOzdK3HTOQBEERZLKTnB1oEy9pIj4VSfRvsy8
-	XEeqjdDGZJNIxnI/TvHjKy0TYeJxjyy6zsfP8KZ0TS+GdEGLb0G5SmqFOC1Mgw==
-Date: Wed, 13 Jul 2022 14:31:14 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Ming Liu <liu.ming50@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, max.krummenacher@toradex.com
-Subject: Re: [OE-core] [PATCH V2 1/1] meta: introduce
- UBOOT_MKIMAGE_KERNEL_TYPE
-Message-ID: <Ys67Eg+WYRvmSrK1@mail.local>
-References: <20220709081221.5601-1-liu.ming50@gmail.com>
- <20220709081221.5601-2-liu.ming50@gmail.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Y0+HHIjC;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id
+ p27-20020a05600c1d9b00b003a2f36054d0so1168760wms.4
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 13 Jul 2022 06:19:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=hHLdLZDwKZ2bkYseuUg1xDTVnQgSXarCTOgT6O9/luQ=;
+        b=Y0+HHIjCqcS36jFJGLaOYmMX96f5AmR2T+dLLLZqfT/hGu/tIFa1VtZByQ6xd6B1Pm
+         7Ta285mfcvAZ5KmT7b7og5eql/gEUGNdFclzsQvPJfkPpR28Xo8MZ+yNxYjBkOg7L7Pq
+         qoJgg+G0i3kGX9EA9qU3ExFkZ1fHuy5lT2W5o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=hHLdLZDwKZ2bkYseuUg1xDTVnQgSXarCTOgT6O9/luQ=;
+        b=7I3ybbuPPXrrQoCEjhmN7p80iYiW5FBhpwPoNtf7Eb9Hi6aexu+f/z6xZp0J0YxHa1
+         8SoZVtQXAOMTVe9gBwXaJagvCXeIenICI5tyG+zbCmr6DsX3OnKtACzFdjPAM0yaXNcs
+         AavAd2M+7QfUXT6ELETyUORhvOf+UE0xXZ+uXa1TsFr3zjROUevt+NFQ4W+N65w/bGgP
+         z5hxTKa6yqg2I2CDLOLtGu+3L3lCAvZLXecEPj0iSDBdcm51hRvgxR/PaTE3ZDSaoKUp
+         OOUb8jPpGNOv3A//Uf4Ih1eHa4uiAMndL7XIoRZMIinWe4k7wWTz1X2vycLSj043D3UM
+         X57Q==
+X-Gm-Message-State: AJIora9p5Z69Iez48/Jq4H9iS3YVSFFX6N0WSMCNvye8TN3q8misaYet
+	Grchehl9ia+QeHWlprNqso2w+g==
+X-Google-Smtp-Source: 
+ AGRyM1vXY1ol1h0Lq3+cIaY29v5l5d0FmAPVhYj2S32iQdRixt3MijiABmUAPwa/Qa3K9vlnCB16CA==
+X-Received: by 2002:a05:600c:4e54:b0:3a0:4e07:ce with SMTP id
+ e20-20020a05600c4e5400b003a04e0700cemr3661255wmq.37.1657718380681;
+        Wed, 13 Jul 2022 06:19:40 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5d1c:2bb3:e975:b527?
+ ([2001:8b0:aba:5f3c:5d1c:2bb3:e975:b527])
+        by smtp.gmail.com with ESMTPSA id
+ s6-20020a5d69c6000000b0021d69860b66sm13838603wrw.9.2022.07.13.06.19.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Jul 2022 06:19:39 -0700 (PDT)
+Message-ID: 
+ <9f596d5368294084433399218427fb0d14031fd1.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] systemd: add usrmerge to
+ REQUIRED_DISTRO_FEATURES
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Luca Boccassi <luca.boccassi@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, Paul Eggleton
+	 <paul.eggleton@microsoft.com>
+Date: Wed, 13 Jul 2022 14:19:38 +0100
+In-Reply-To: 
+ <CAMw=ZnQxrxMS_B-5RYp+krab8s6yR+5ny_q1_ioaL=W-u68XdQ@mail.gmail.com>
+References: <20220711202929.3839971-1-luca.boccassi@gmail.com>
+	 <ba078de5f59105d61daed5b8abc69cd1e15bc43e.camel@linuxfoundation.org>
+	 <CAMw=ZnRwkp6nkZzqw69Xc83xDp0QRCZ+MNwHx=QiTdmncZ5L3A@mail.gmail.com>
+	 <d4dd373c6d1718f6fd417c8484a057268df6d495.camel@linuxfoundation.org>
+	 <CAMw=ZnQxrxMS_B-5RYp+krab8s6yR+5ny_q1_ioaL=W-u68XdQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220709081221.5601-2-liu.ming50@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 12:31:26 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 13:19:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167956
+ https://lists.openembedded.org/g/openembedded-core/message/167957
 
-Hello,
+On Wed, 2022-07-13 at 00:30 +0100, Luca Boccassi wrote:
+> On Tue, 12 Jul 2022 at 22:55, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > The configuration is yocto-autobuilder-helper but the best place to
+> > start is probably the poky-altcfg distro config.
+> >=20
+> > Once we change that we'll have to run through the testing, see how much
+> > breaks and then find someone to try and fix any issues if/as needed.
+> > There is a lot of work just in pulling things together for testing and
+> > triaging the result and I'm depressed it will probably end up on my
+> > plate when I personally disagree with the decision.
+>=20
+> We've been running this configuration internally for ~3 years in our
+> Yocto downstream, never seen any issue, not even at the beginning, it
+> just worked.
+> Nowadays most major distros have switched over, Gentoo's the other one
+> left but it's planned for this year.
+> Any issues in upstream softwares should have been fixed years ago when
+> Fedora started the process.
+> So hopefully it shouldn't be too bad?
 
-I believe this is the cause of the following failures:
+My worry is the QA framework and tests likely haven't been used with
+it. It may be fine or it may not. I do know how much of my time this
+stuff takes up with other issues.
 
-2022-07-13 10:51:39,025 - oe-selftest - INFO - fitimage.FitImageTests.test_initramfs_bundle (subunit.RemotedTestCase)
-2022-07-13 10:51:39,025 - oe-selftest - INFO -  ... FAIL
-Stderr:
-2022-07-13 10:06:12,424 - oe-selftest - INFO - Adding: "include selftest.inc" in /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-33314/conf/local.conf
-2022-07-13 10:06:12,425 - oe-selftest - INFO - Adding: "include bblayers.inc" in bblayers.conf
-2022-07-13 10:51:39,025 - oe-selftest - INFO - 10: 3/27 373/493 (826.21s) (fitimage.FitImageTests.test_initramfs_bundle)
-2022-07-13 10:51:39,025 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/selftest/cases/fitimage.py", line 803, in test_initramfs_bundle
-    self.assertTrue(test_passed == True,"kernel node does not match expectation")
-  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/python3.9/unittest/case.py", line 682, in assertTrue
-    raise self.failureException(msg)
-AssertionError: False is not true : kernel node does not match expectation
+> > I was asked earlier today if we should just make the systemd include
+> > files force usrmerge on. The challenge is that OE/YP give users choice
+> > to configure their system how they wish, we don't just force
+> > configurations upon them. Or only real option is therefore to throw
+> > errors and have them decide what to do (which basically amounts to
+> > submitting to the upstream decision).
+> >=20
+> > > Also is a deprecation notification needed? How is it handled usually?
+> >=20
+> > Do we have time for such a notification or are we in the situation
+> > where we just throw errors to the user and let them agree to the
+> > usrmerge change? The timescale is unclear but if the systems are
+> > already throwing deprecation warnings at runtime, this isn't a good
+> > experience for our users.
+>=20
+> It's not urgent. But the build-time warning has been in place for a
+> couple of years now, you should have already seen it.
 
-https://autobuilder.yoctoproject.org/typhoon/#builders/80/builds/3765/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#builders/79/builds/3813/steps/15/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#builders/86/builds/3778/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#builders/87/builds/3824/steps/14/logs/stdio
+I haven't :(.
 
+> The runtime is a taint flag in 'systemctl status', and was introduced
+> in the most recent release.
+> There is no timeline as of now for dropping legacy compat code and
+> configuration, as the runtime taint was just added.
+> Certainly won't be this year. I've been doing the rounds ensuring
+> everyone who hasn't switched already is aware with plenty of time to
+> spare.
 
-On 09/07/2022 10:12:21+0200, Ming Liu wrote:
-> From: Ming Liu <liu.ming50@gmail.com>
-> 
-> Sometimes an end user might want to choose another kernel type argument
-> for uboot-mkimage other than "kernel", for instance: "kernel_noload".
-> 
-> Let's introduce a variable UBOOT_MKIMAGE_KERNEL_TYPE to support that,
-> and it could be used by BSP layers as well.
-> 
-> Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-> ---
->  meta/classes/kernel-fitimage.bbclass     | 2 +-
->  meta/classes/kernel-uboot.bbclass        | 3 +++
->  meta/classes/kernel-uimage.bbclass       | 2 +-
->  meta/lib/oeqa/selftest/cases/fitimage.py | 3 ++-
->  4 files changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-> index 7e09b075ff..2112ae4cfa 100644
-> --- a/meta/classes/kernel-fitimage.bbclass
-> +++ b/meta/classes/kernel-fitimage.bbclass
-> @@ -148,7 +148,7 @@ fitimage_emit_section_kernel() {
->                  kernel-$2 {
->                          description = "Linux kernel";
->                          data = /incbin/("$3");
-> -                        type = "kernel";
-> +                        type = "${UBOOT_MKIMAGE_KERNEL_TYPE}";
->                          arch = "${UBOOT_ARCH}";
->                          os = "linux";
->                          compression = "$4";
-> diff --git a/meta/classes/kernel-uboot.bbclass b/meta/classes/kernel-uboot.bbclass
-> index 2facade818..1bc98e042d 100644
-> --- a/meta/classes/kernel-uboot.bbclass
-> +++ b/meta/classes/kernel-uboot.bbclass
-> @@ -2,6 +2,9 @@
->  FIT_KERNEL_COMP_ALG ?= "gzip"
->  FIT_KERNEL_COMP_ALG_EXTENSION ?= ".gz"
->  
-> +# Kernel image type passed to mkimage (i.e. kernel kernel_noload...)
-> +UBOOT_MKIMAGE_KERNEL_TYPE ?= "kernel"
-> +
->  uboot_prep_kimage() {
->  	if [ -e arch/${ARCH}/boot/compressed/vmlinux ]; then
->  		vmlinux_path="arch/${ARCH}/boot/compressed/vmlinux"
-> diff --git a/meta/classes/kernel-uimage.bbclass b/meta/classes/kernel-uimage.bbclass
-> index cedb4fa070..2e661ea916 100644
-> --- a/meta/classes/kernel-uimage.bbclass
-> +++ b/meta/classes/kernel-uimage.bbclass
-> @@ -30,6 +30,6 @@ do_uboot_mkimage() {
->  			awk '$3=="${UBOOT_ENTRYSYMBOL}" {print "0x"$1;exit}'`
->  	fi
->  
-> -	uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${B}/arch/${ARCH}/boot/uImage
-> +	uboot-mkimage -A ${UBOOT_ARCH} -O linux -T ${UBOOT_MKIMAGE_KERNEL_TYPE} -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${B}/arch/${ARCH}/boot/uImage
->  	rm -f linux.bin
->  }
-> diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-> index e6bfd1257e..7e6479c9ca 100644
-> --- a/meta/lib/oeqa/selftest/cases/fitimage.py
-> +++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-> @@ -763,6 +763,7 @@ FIT_HASH_ALG = "sha256"
->  
->          kernel_load = str(get_bb_var('UBOOT_LOADADDRESS'))
->          kernel_entry = str(get_bb_var('UBOOT_ENTRYPOINT'))
-> +        kernel_type = str(get_bb_var('UBOOT_MKIMAGE_KERNEL_TYPE'))
->          kernel_compression = str(get_bb_var('FIT_KERNEL_COMP_ALG'))
->          uboot_arch = str(get_bb_var('UBOOT_ARCH'))
->          fit_hash_alg = str(get_bb_var('FIT_HASH_ALG'))
-> @@ -775,7 +776,7 @@ FIT_HASH_ALG = "sha256"
->              'kernel-1 {',
->              'description = "Linux kernel";',
->              'data = /incbin/("linux.bin");',
-> -            'type = "kernel";',
-> +            'type = "' + kernel_type + '";',
->              'arch = "' + uboot_arch + '";',
->              'os = "linux";',
->              'compression = "' + kernel_compression + '";',
-> -- 
-> 2.25.1
-> 
+Well, it is good to have the warning, thanks.
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#167837): https://lists.openembedded.org/g/openembedded-core/message/167837
-> Mute This Topic: https://lists.openembedded.org/mt/92268338/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+>=20
+> > > Aside from process details, I assume there's no problem with doing th=
+e
+> > > change in principle?
+> >=20
+> > There is, but it appears a done deal which we just have to accept so
+> > I'm trying not to start a discussion which I don't think can go
+> > anywhere productive. If this isn't a done deal, then let me know as
+> > that would be different.
+>=20
+> It is a done deal as far as we are concerned upstream, matter of
+> 'when' not 'if'.
 
+This is not going to help systemd's reputation. Basically, we have to
+do what Fedora does and look as we're told to, which does go against
+our configurability objective. We already have tensions around musl and
+this will further demonstrate our direction and systemd's are not
+aligned. I do understand why systemd is doing what it is doing and that
+it really doesn't care about our use cases. That doesn't stop some
+users wanting it (but also wanting other things we have like musl).
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Cheers,
+
+Richard
+
 
