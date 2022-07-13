@@ -1,100 +1,97 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <luca.boccassi@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B7AAC43334
-	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 16:38:18 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.101.1657730288456063919
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA445C433EF
+	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 16:55:48 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web10.306.1657731343617583783
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 09:38:08 -0700
+ Wed, 13 Jul 2022 09:55:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0D9EE1C14;
-	Wed, 13 Jul 2022 09:28:28 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com
- (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2A8113F792;
-	Wed, 13 Jul 2022 09:28:27 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ITj4bhCi;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44,
+ mailfrom: luca.boccassi@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 8-20020a05600c024800b003a2fe343db1so775276wmj.1
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 13 Jul 2022 09:55:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=lzH17ZWw+SxicGZEBkbxW9TXsWAtuOL6x4kJAd0WgNs=;
+        b=ITj4bhCir95NTdjmWbkMK3MamSd4Dk/1qRRQ8AVTEtyUVYFunlvQrdRd25UYagsmRi
+         II4Jg/rTMP1q0le2qyBrLDAjgigvNUC8Mnl4I64Hz+lqyH4B14d/cnPOk/FcsukOGYRh
+         ahfpaZRkrYcBqUmthh41/26iZStmHcW68x+GAphiwKEQ78EwRyF5ted64ojv+4rbSlga
+         dKwnwItMTnApVRjB32iGk79ZBXcT5zOIACdg6wWGgQu6GXF3CHbkATeyC1bp0ns8s8JD
+         XHU8bUI/pDyCAEqLFt8tXt5OFZnY5gjTFt73npWa+keMJoDCSEuLBKmCReo3NRbCGHwi
+         bo+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=lzH17ZWw+SxicGZEBkbxW9TXsWAtuOL6x4kJAd0WgNs=;
+        b=Sm/inT0jNOmKc3hakhcMDY74yZacPiE4foRUrCA9MPJSnty2R7VgyW2SP/44oi60cQ
+         Ri8dNQ2kF9cHDIiBxpp4ISLpof6lOR0VYWzpgPr4kJeUc9+EXSphpJnPFZwjTZpH9RKd
+         Eei1QSqpV4YZ/MEcp6JvpgGx0xqogaC7Zn122Ah57MXmXR6XycES4f/j7taPz8btqXMZ
+         mfJ3mvd/REPVB8Wu22WE1g5h+254ue97oRxbAi8z5irinDe1VZnJmKAQ4k5CJEuD8th5
+         BUIyFGR6ax/8OYfhjJUWU6+5QHJ0YnUQ1QPb5VQMPf7LGpriZ7VpeArDLp8+ZwvMXBcL
+         alWw==
+X-Gm-Message-State: AJIora+uIX+gmIlrdlvxZymT1wzjIDXnWzpK1cqmJTH4DezKlTx9KeXV
+	qaO4O3RlU+TYt6Y7ALGCcPBIKLBlJ0I=
+X-Google-Smtp-Source: 
+ AGRyM1sSMahfMy7vm0zBFvIwtDMNroKUjDVfyTmzidIa/GG5+oNUyE3gGEz8uWOaZX2ZOU2TrGfvJQ==
+X-Received: by 2002:a05:600c:206:b0:3a2:e224:da6f with SMTP id
+ 6-20020a05600c020600b003a2e224da6fmr10854733wmi.167.1657731341241;
+        Wed, 13 Jul 2022 09:55:41 -0700 (PDT)
+Received: from localhost ([137.220.125.106])
+        by smtp.gmail.com with ESMTPSA id
+ p6-20020a05600c358600b003a2e2ba94ecsm2652327wmq.40.2022.07.13.09.55.40
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Jul 2022 09:55:40 -0700 (PDT)
+From: luca.boccassi@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH 6/8] classes: remove obsolete PEP517_BUILD_API
-Date: Wed, 13 Jul 2022 17:28:19 +0100
-Message-Id: <20220713162821.974801-6-ross.burton@arm.com>
+Subject: [PATCH v3 1/2] poky-altcfg: enable usrmerge
+Date: Wed, 13 Jul 2022 17:55:32 +0100
+Message-Id: <20220713165533.125600-1-luca.boccassi@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220713162821.974801-1-ross.burton@arm.com>
-References: <20220713162821.974801-1-ross.burton@arm.com>
+In-Reply-To: <20220711202929.3839971-1-luca.boccassi@gmail.com>
+References: <20220711202929.3839971-1-luca.boccassi@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 16:38:18 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 16:55:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167974
+ https://lists.openembedded.org/g/openembedded-core/message/167975
 
-This variable is no longer used, so remove it from the python_* classes.
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Ensure it gets tested by the CI
+
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
 ---
- meta/classes/python_flit_core.bbclass             | 2 --
- meta/classes/python_hatchling.bbclass             | 2 --
- meta/classes/python_poetry_core.bbclass           | 2 --
- meta/classes/python_setuptools_build_meta.bbclass | 2 --
- 4 files changed, 8 deletions(-)
+ meta-poky/conf/distro/poky-altcfg.conf | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/python_flit_core.bbclass b/meta/classes/python_=
-flit_core.bbclass
-index a900f7b5579..7109307de5b 100644
---- a/meta/classes/python_flit_core.bbclass
-+++ b/meta/classes/python_flit_core.bbclass
-@@ -2,8 +2,6 @@ inherit python_pep517 python3native python3-dir setuptool=
-s3-base
-=20
- DEPENDS +=3D "python3 python3-flit-core-native"
-=20
--PEP517_BUILD_API =3D "flit_core.buildapi"
--
- python_flit_core_do_manual_build () {
-     cd ${PEP517_SOURCE_PATH}
-     nativepython3 -m flit_core.wheel --outdir ${PEP517_WHEEL_PATH} .
-diff --git a/meta/classes/python_hatchling.bbclass b/meta/classes/python_=
-hatchling.bbclass
-index b3cbe23601b..984eb6bb5db 100644
---- a/meta/classes/python_hatchling.bbclass
-+++ b/meta/classes/python_hatchling.bbclass
-@@ -1,5 +1,3 @@
- inherit python_pep517 python3native python3-dir setuptools3-base
-=20
- DEPENDS +=3D "python3-hatchling-native"
--
--PEP517_BUILD_API =3D "hatchling.build"
-diff --git a/meta/classes/python_poetry_core.bbclass b/meta/classes/pytho=
-n_poetry_core.bbclass
-index 577663b8f17..0aaf66b1944 100644
---- a/meta/classes/python_poetry_core.bbclass
-+++ b/meta/classes/python_poetry_core.bbclass
-@@ -1,5 +1,3 @@
- inherit python_pep517 python3native setuptools3-base
-=20
- DEPENDS +=3D "python3-poetry-core-native"
--
--PEP517_BUILD_API =3D "poetry.core.masonry.api"
-diff --git a/meta/classes/python_setuptools_build_meta.bbclass b/meta/cla=
-sses/python_setuptools_build_meta.bbclass
-index b2bba35a0bc..974054fe5ac 100644
---- a/meta/classes/python_setuptools_build_meta.bbclass
-+++ b/meta/classes/python_setuptools_build_meta.bbclass
-@@ -1,5 +1,3 @@
- inherit setuptools3-base python_pep517
-=20
- DEPENDS +=3D "python3-setuptools-native python3-wheel-native"
--
--PEP517_BUILD_API =3D "setuptools.build_meta"
---=20
+diff --git a/meta-poky/conf/distro/poky-altcfg.conf b/meta-poky/conf/distro/poky-altcfg.conf
+index f03306e798..57a76e8bb9 100644
+--- a/meta-poky/conf/distro/poky-altcfg.conf
++++ b/meta-poky/conf/distro/poky-altcfg.conf
+@@ -9,6 +9,8 @@ DISTROOVERRIDES = "poky:poky-altcfg"
+ #DISTROOVERRIDES = "poky:linuxstdbase"
+ 
+ INIT_MANAGER:poky-altcfg = "systemd"
++# systemd will soon require usrmerge
++DISTRO_FEATURES:poky-altcfg += "usrmerge"
+ # systemd isn't suitable with musl
+ INIT_MANAGER:poky-altcfg:libc-musl = "sysvinit"
+ 
+-- 
 2.34.1
 
 
