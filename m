@@ -2,88 +2,72 @@ Return-Path: <paul.eggleton@linux.microsoft.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CDB0CCA480
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E476CCA47F
 	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 01:41:33 +0000 (UTC)
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web10.17262.1657676490637257858
+ by mx.groups.io with SMTP id smtpd.web11.17179.1657676490656566044
  for <openembedded-core@lists.openembedded.org>;
  Tue, 12 Jul 2022 18:41:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linux.microsoft.com header.s=default header.b=CAyTf/9b;
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=kO/Gv5QU;
  spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182,
  mailfrom: pauleg@linux.microsoft.com)
 Received: by linux.microsoft.com (Postfix, from userid 1054)
-	id 2A27C204DE8B; Tue, 12 Jul 2022 18:41:30 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2A27C204DE8B
+	id 1E115204DE86; Tue, 12 Jul 2022 18:41:30 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1E115204DE86
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
 	s=default; t=1657676490;
-	bh=Dw/w1fAABMixqkfLnlUucp5Xppakthvovwx4I61Ms50=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=CAyTf/9bwId+qffMdK0vtsCUQt999zKgV7ec3yn7QXvFuyRHBvkit/w6ivsnpZpXw
-	 2ok/ewFdoa9Sk5MGtsDWrEJ2H2qDP8QjtMp0TqGHtdkfN7UvHZWZI+Ea4Fr7iOK1cS
-	 qDvj1nJ4zvmuVwB57SmVvrzWvKRZWkbe7/g9WWWI=
+	bh=SJ+6hmdJL9LuSHOWB5xutk7mP/WJhlJW7MgpjyGZUb4=;
+	h=From:To:Subject:Date:From;
+	b=kO/Gv5QUfvq0i+4tXwU5Z1LAS74I7OlXwaA+wtpIt1UjkKWtUtvwVeUXiq8giGfux
+	 15hIaWtnmtRjAFj/2PfigVS5EWzVoeF3LOK2NVuzlWPD2jZ2iPFA12PqCPW34hgc6c
+	 tsfCA0iEVPrquve/ChHbJN1xHkPPcFb/zx/vW/ys=
 From: Paul Eggleton <paul.eggleton@linux.microsoft.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 1/3] patch: handle if S points to a subdirectory of a git
- repo
-Date: Tue, 12 Jul 2022 18:41:23 -0700
-Message-Id: 
- <da55e9f53def9d5aa84986119aac3ce7a3160fe6.1657676159.git.paul.eggleton@linux.microsoft.com>
+Subject: [PATCH v2 0/3] devtool fixes
+Date: Tue, 12 Jul 2022 18:41:22 -0700
+Message-Id: <cover.1657676159.git.paul.eggleton@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1657676159.git.paul.eggleton@linux.microsoft.com>
-References: <cover.1657676159.git.paul.eggleton@linux.microsoft.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 01:41:33 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167949
+ https://lists.openembedded.org/g/openembedded-core/message/167951
 
-From: Paul Eggleton <paul.eggleton@microsoft.com>
+A few fixes for devtool, mostly relating to recipes that fetch from git
+where S points to a subdirectory of the repo.
 
-If PATCHTOOL = "git", SRC_URI fetches from a git repo and S points to
-a subdirectory of the checked out sources, then we were erroneously
-initialising the subdirectory as its own git repo. Check if the returned
-top-level repo directory is a subdirectory of WORKDIR and do not
-run initialise the source directory if that is the case.
+Changes since v1:
+* Fixed erroneous addition of a separator when not needed (which broke
+  one of the other devtool tests)
+* Fixed missing separator before patchdir= when updating original recipe
+* Added extra logic to the test to ensure we can update the original
+  recipe properly (as well creating a bbappend that was already in the
+  test).
+* Rebased and dropped pn- overrides fix since that has just been merged.
 
-(This was a regression introduced with OE-Core revision
-6184b56a7a0fc6f5d19fdfb81e7453667f7da940, however we didn't have a test
-that verified the behaviour.)
 
-Signed-off-by: Paul Eggleton <paul.eggleton@microsoft.com>
----
- meta/lib/oe/patch.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+The following changes since commit db22dbc1f66d2f76dab719597986cfd96cf18d71:
 
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index 95b915a..4ec9cae 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -299,10 +299,10 @@ class GitApplyTree(PatchTree):
-         PatchTree.__init__(self, dir, d)
-         self.commituser = d.getVar('PATCH_GIT_USER_NAME')
-         self.commitemail = d.getVar('PATCH_GIT_USER_EMAIL')
--        if not self._isInitialized():
-+        if not self._isInitialized(d):
-             self._initRepo()
- 
--    def _isInitialized(self):
-+    def _isInitialized(self, d):
-         cmd = "git rev-parse --show-toplevel"
-         try:
-             output = runcmd(cmd.split(), self.dir).strip()
-@@ -310,8 +310,8 @@ class GitApplyTree(PatchTree):
-             ## runcmd returned non-zero which most likely means 128
-             ## Not a git directory
-             return False
--        ## Make sure repo is in builddir to not break top-level git repos
--        return os.path.samefile(output, self.dir)
-+        ## Make sure repo is in builddir to not break top-level git repos, or under workdir
-+        return os.path.samefile(output, self.dir) or oe.path.is_path_parent(d.getVar('WORKDIR'), output)
- 
-     def _initRepo(self):
-         runcmd("git init".split(), self.dir)
+  linux-yocto/5.10: fix build_OID_registry/conmakehash buildpaths warning (2022-07-12 23:56:06 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/devtool37-oe
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/devtool37-oe
+
+Paul Eggleton (3):
+  patch: handle if S points to a subdirectory of a git repo
+  devtool: finish: handle patching when S points to subdir of a git repo
+  oe-selftest: devtool: test modify git recipe building from a subdir
+
+ meta/lib/oe/patch.py                    |   8 +--
+ meta/lib/oe/recipeutils.py              |   9 ++-
+ meta/lib/oeqa/selftest/cases/devtool.py | 114 +++++++++++++++++++++++++++-----
+ scripts/lib/devtool/standard.py         |  25 +++++--
+ 4 files changed, 127 insertions(+), 29 deletions(-)
+
 -- 
 1.8.3.1
 
