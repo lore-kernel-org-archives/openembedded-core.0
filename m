@@ -1,133 +1,169 @@
-Return-Path: <christoph.lauer@email.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84F3AC43334
-	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 21:21:17 +0000 (UTC)
-Received: from mout.web.de (mout.web.de [217.72.192.78])
- by mx.groups.io with SMTP id smtpd.web09.125.1657747267741635097
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9619C433EF
+	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 22:13:57 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web08.826.1657750429568513317
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 14:21:08 -0700
+ Wed, 13 Jul 2022 15:13:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@web.de header.s=dbaedf251592 header.b=Em4HDFY6;
- spf=pass (domain: email.de, ip: 217.72.192.78,
- mailfrom: christoph.lauer@email.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-	s=dbaedf251592; t=1657747265;
-	bh=fFm39L0jj8iatBkZRI2ISXfAZvm6NUcPvco+p4AF9nA=;
-	h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
-	b=Em4HDFY6v5BqBr5drN9jJhYDzppN1qNHOrvHwM0RrIHsD7M8emUalSo5UuyNUFlUb
-	 UcSJKaz79Zjd7+fGcNRsUThhlzp2qbdktEvCQFrkdZEBA1YPF+uOW/gxQGE122jQaG
-	 i9KEr7zGSusVKtHlVeTaqi8pW6gOAo47JBFigV6o=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [172.18.0.166] ([178.251.90.190]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MHEbq-1oOsxF1Mem-00DTsl for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 23:21:05 +0200
-Message-ID: <702c42c3-ef3a-e9db-f26e-e51a55578492@email.de>
-Date: Wed, 13 Jul 2022 23:21:04 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [OE-core] [PATCH v2] package.bbclass: Avoid stripping signed
- kernel modules in splitdebuginfo
-Content-Language: en-US
-To: openembedded-core@lists.openembedded.org
-References: <20220712222937.62542-1-christoph.lauer@email.de>
- <e29b5fb39a9901db4176b4055ae82530a523d5a1.camel@linuxfoundation.org>
-From: Christoph Lauer <Christoph.Lauer@email.de>
-In-Reply-To: 
- <e29b5fb39a9901db4176b4055ae82530a523d5a1.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CcAanRGw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id z12so17416054wrq.7
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 13 Jul 2022 15:13:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=+QLkxNym3Qu4FHcRvBZs3JjANuOL0aanbts8G1X51us=;
+        b=CcAanRGwNXz6Fdjbxxs0v3VBF0DED8/qodkgFwhcJYGki/AuqS+awRy2+UZjmwNieE
+         CaDz8SiFVzBHU//lmh1YtsxDgoBmeKhcUQ3CD5qrWpf9Jl66jhxkLukpFpmkDk+YGL0L
+         BcHs2sPstUkVbnvxRwfQMQ3Z6RCuCkMkADekY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=+QLkxNym3Qu4FHcRvBZs3JjANuOL0aanbts8G1X51us=;
+        b=HQOEnZs2N1T2yzmn/Vg+dsCvm+dyMz1at/92Eunzvsiz+aGAjMKcGFhKYg77HWxDuD
+         pX4a2ZzlfqVoMKUZvtO5clBIiYCbATWgmOzztlxSlvZ/GV0cc0QRwXb/M9YxsBO2Jd7Z
+         kQygfN+VhyHLuNvlnCFl7pd9taaNXOgM4GYY1VNmBxLthzWn5TzOJJiowZlLxBQAryB8
+         SCVq9OdcLUVS02z39bOrBnX4s4cheKgmWaURw2TpTfumlv40IE138DCdzGrm0vuOWfFa
+         6ELvEq4+qMHJVb2HALx01KfQOmTOl/nN8ed797fja4fZ2aObzBRtC7OigAGkLXkD8xl+
+         Wrng==
+X-Gm-Message-State: AJIora82WReXLfk69RzbVLTKYr8UlR3TbLArtiTGHmjyS1O1fKZY2MeE
+	EZ1HgEmg7vULo3igWzOLFBUxHAI8NB5ifA==
+X-Google-Smtp-Source: 
+ AGRyM1u9pqMVrK4um4QJzFM5PSZM3nsp1B7H6rQiho1xwmkcetMa5KKA4kXsnY8k93hC+SYOxwXdnQ==
+X-Received: by 2002:adf:dd01:0:b0:21d:6df2:be30 with SMTP id
+ a1-20020adfdd01000000b0021d6df2be30mr5208807wrm.255.1657750427822;
+        Wed, 13 Jul 2022 15:13:47 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:c037:3be3:5ea0:9a64?
+ ([2001:8b0:aba:5f3c:c037:3be3:5ea0:9a64])
+        by smtp.gmail.com with ESMTPSA id
+ e15-20020a5d500f000000b0021d905477dfsm11747416wrt.86.2022.07.13.15.13.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Jul 2022 15:13:46 -0700 (PDT)
+Message-ID: 
+ <6e83879c522c185635c6ad258854e170ef07fcd3.camel@linuxfoundation.org>
+Subject: Re: [OE-core] libstdc++ honister -> kirkstone
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Phil Reid <preid@electromag.com.au>, mfumita@electromag.com.au,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 13 Jul 2022 23:13:45 +0100
+In-Reply-To: <f4223840-8400-44ed-1d5d-8f9ab9b51c46@electromag.com.au>
+References: <fbe2ba5d-f82c-ea57-a00d-4e0ff1b9586f@electromag.com.au>
+	 <28194.1657080073438546558@lists.openembedded.org>
+	 <25ddecdf5e77515b5967dd92d804e8dbd4ef3b70.camel@linuxfoundation.org>
+	 <f4223840-8400-44ed-1d5d-8f9ab9b51c46@electromag.com.au>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ZZGlSnDgFFTLv/mxlXIUjySEult27/fR1J5eh5Ul6Ma4HYlTVJh
- 3uo40i667k2vlPGUizO5cPWdtRtcWYI3exIbG07Qp+zpC4bjVD4ABX5cTOJigTvpaDGI+1C
- lCcSnYwlLHGIPLG1UkDUzfRyO6vijUujubDXSDuA//K7p5mDZsd7HADDb9Oz3GpcL5YZMxr
- 3dsUOaZ7FHk4zu/JZcJSA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:/uGviCSgHS4=:00VmBKV8O2eRF9evliWQup
- 9xsveggYdfa5aX9jBdJKrfbLG9V/MP7ENfgY8sqxB5TShVkMVR5+FB2n5ZGW81A6V8/xy4q4S
- efASrRG09Ge70z7yQ4lqq25ARDNhyovsZbipzKyzEcOHQp47TKTAEIDStcXN22g+DJhl7bRIW
- 0vV5PT+OaBGs04j8XKfaljEja//HG/3XGp+JvbLY8+Mxxmn4h1i5+0mDqCo3aJ8l1bejjI5sv
- fkH+hZ08hFl/frofae2saMOI6XQ9dZSxXgDj9UblKaegNQYQSR3i5HX/vD6lRus7OpcDA02yL
- 1n52aYWyk0G5gkoKx6d+NpBihxQLGqllFgiIjgd9Ypq9+iqNwkiOnw+DQcWwcE4AHvQkkFnKD
- euJTVAeuLK1x1MLadK3I+cdMS1Smsd6ki+tmM5lD7veaeBMFJZCzgCwrGjYCx7ToTjy/5sE6+
- 0s7Yr3SO90Xo86s+OTA94RIPFlkIkYbuS44YJfEVGT/uHBjnXCHBybfdx6rgpTVyQydS36Pjo
- lv+yq2PIWUWBDz0qs5LuHIbYcPXNSseqiwwg+cS3F0oSG/hzInJxUxMdhga1Fv4dlGr+qq/e6
- RFdc3T6L3sUnbXTwAaCPkCLD2844IDdnjIsUZuLYF2fR2zVlMuizRt9Lwb4oBhNFDL+rzJ9nq
- 9NwxKLg+3qFhkUVUzHt12F5tFv8eQjgx0HGhUBC3IDa2+yNINiU3xOmb0z8pm+akjqpcb9t1C
- A5oDqKdimExttbxGehPhI9XX815jD5FYJszz2F8gygOQes4s5ep3OW59z+ScXbZ7flaruy5gI
- ahJ+7aSRMO0KgLDf0T8cNiV5K/pxuR6mRZklGp19IBqaDJa4zDKe4UHJc089PoZ7NJRW8li9R
- NA+kd3etHgERsbBj5SoyaR+5wwxzlE5oesYTm5uoQdTuZYS/jlLuptoNcYcfLHNlkd3S5P6e0
- uQjYVNgyF3NDd5i52rc07IDSdRge5svYL4BIRVIHvrs8NECCwY7WLP2yeE3w+go+iMpR8SLAR
- bKsMMZJsULeJXcLhZRSb5d79bVVssrmLWt8AHXzfgtBSU9RtfPz4v/ITQf8V2ODReG06s53/M
- h6KsdREwx3A6sanpAo/zds82G4WVxIXoLb+hJNE3u9oVXXwXwo3SOMgGw==
+User-Agent: Evolution 3.44.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 21:21:17 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 22:13:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167993
+ https://lists.openembedded.org/g/openembedded-core/message/167994
+
+On Tue, 2022-07-12 at 13:23 +0800, Phil Reid wrote:
+> On 8/07/2022 9:05 pm, Richard Purdie wrote:
+> > On Tue, 2022-07-05 at 21:01 -0700, mfumita@electromag.com.au wrote:
+> > > Hello there,
+> > >  =20
+> > > It isn't due to EOVERFLOW but make_file_type function in libstdc++-
+> > > v3\src\filesystem\ops-common.h always returns file_type::unknown.
+> > > It's because _GLIBCXX_HAVE_S_ISREG isn't defined.
+> > > I found HAVE_S_ISREG at libstdc++-v3/config.h isn't set properly.
+> > >  =20
+> > > It's caused by a configure failure below to tell if S_ISREG exists on
+> > > the target.
+> > > gcc/arm-emit-linux-gnueabi/11.3.0/ld: error: tmp-
+> > > glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/gcc-runtime/11.3.0-
+> > > r0/dummylib/libstdc++.so: file is empty
+> > > collect2: error: ld returned 1 exit status
+> > > configure:15686: $? =3D 1
+> > >  =20
+> > > It complains dummylib/libstdc++.so is empty, configure failed then
+> > > wrongly considered S_ISREG doesn't exist.
+> > > This seems related to the following commit.
+> > > https://github.com/openembedded/openembedded-core/commit/34b0edb0d312=
+0c32063ff7e3dd52be20d60401d5
+> > >  =20
+> > > Reverting this commit rectifies this issue but not sure what's the
+> > > proper fix?
+> > > Any help appreciated.
+> >=20
+> > There is some piece we're still not understanding. I had a look at my
+> > local build (master so gcc 12.1) and I see HAVE_S_ISREG is set
+> > correctly, I don't see any "file is empty" message.
+> >=20
+> > Are you able to reproduce this on master? Which linker are you using?
+> >=20
+>=20
+> G'day Richard,
+>=20
+> I've update to master and tried this. Still get a "file is empty" error d=
+uring configure. See log snippet below.
+>=20
+>=20
+> Tried to capture the ld version here:
+>=20
+> wait4(23043, /home/preid/dev/v2022.05/tmp-glibc/work/cortexa9t2hf-neon-em=
+it-linux-gnueabi/gcc-runtime/12.1.0-r0/recipe-sysroot-native/usr/bin/arm-em=
+it-linux-gnueabi/../../libexec/arm-emit-linux-gnueabi/gcc/arm-emit-linux-gn=
+ueabi/12.1.0/ld: error: /home/preid/dev/v2022.05/tmp-glibc/work/cortexa9t2h=
+f-neon-emit-linux-gnueabi/gcc-runtime/12.1.0-r0/dummylib/libstdc++.so: file=
+ is empty
+> collect2: error: ld returned 1 exit status
+>=20
+>=20
+> /home/preid/dev/v2022.05/tmp-glibc/work/cortexa9t2hf-neon-emit-linux-gnue=
+abi/gcc-runtime/12.1.0-r0/recipe-sysroot-native/usr/bin/arm-emit-linux-gnue=
+abi/../../libexec/arm-emit-linux-gnueabi/gcc/arm-emit-linux-gnueabi/12.1.0/=
+ld --version
+> GNU gold (GNU Binutils 2.38.20220516) 1.16
+> Copyright (C) 2022 Free Software Foundation, Inc.
+> This program is free software; you may redistribute it under the terms of
+> the GNU General Public License version 3 or (at your option) a later vers=
+ion.
+> This program has absolutely no warranty.
+>=20
+>=20
+> Hope that helps.
 
 
-Am 13.07.22 um 00:37 schrieb Richard Purdie:
-> On Wed, 2022-07-13 at 00:29 +0200, Christoph Lauer wrote:
->> From: Christoph Lauer <christoph.lauer@xtronic.de>
->>
->> Since commit d756b346f248df47b0540644adb1d0f17bcc4b6e kernel modules ar=
-e stripped by the functions 'runstrip' and 'splitdebuginfo'. Signed module=
-s must not be stripped. Function 'runstrip' avoids this by running is_kern=
-el_module_signed. Apply the same check to splitdebuginfo.
->>
->> Signed-off-by: Christoph Lauer <christoph.lauer@xtronic.de>
->> ---
->>   meta/classes/package.bbclass | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclas=
-s
->> index 4850134022..78ec96df85 100644
->> --- a/meta/classes/package.bbclass
->> +++ b/meta/classes/package.bbclass
->> @@ -382,6 +382,11 @@ def splitdebuginfo(file, dvar, dv, d):
->>       debugfile =3D dvar + dest
->>       sources =3D []
->>
->> +    if oe.package.is_elf(file)[1] & 16:
->> +        if oe.package.is_kernel_module_signed(file):
->> +            bb.debug(1, "Skip strip on signed module %s" % file)
->> +            return (file, sources)
->> +
->>       # Split the file...
->>       bb.utils.mkdirhier(os.path.dirname(debugfile))
->>       #bb.note("Split %s -> %s" % (file, debugfile))
->
-> That is better but I think we can do better still. splitdebuginfo is
-> called as:
->
-> results =3D oe.utils.multiprocess_launch(splitdebuginfo, list(elffiles),=
- d, extraargs=3D(dvar, dv, d))
->
-> and earlier in the function there is also:
->
-> results =3D oe.utils.multiprocess_launch(oe.package.is_elf, checkelf.key=
-s(), d)
->
-> i.e. we already probably called is_elf() which isn't a cheap operation e=
-ither.
->
-> I think we can tweak things so we reuse that data?
->
-> Cheers,
->
-> Richard
->
->
->
-Sorry for double-posting, my last mail did not reply to this conversation:
-You're correct that oe.package.is_elf already ran on the file before
-splitdebuginfo is called, but the result is currently not available to
-splitdebuginfo AFAIS. It could be by extending the parameters and what
-not, but I'm too lazy to do that for what was meant to be a rather small
-change. Instead I'll follow your first suggestion to check on file
-extension and file location (as is_elf does too). That should cover all
-kernel modules and is specific enough to avoid false positives.
+It does thanks. It confirms you're using the gold linker which allowed
+me to reproduce (I was trying with the default bfd). I think this small
+change will fix it:
+
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devto=
+ols/gcc/gcc-runtime.inc
+index c39a0caf8a7..7e920df2d34 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -68,7 +68,8 @@ do_configure () {
+        # libstdc++ isn't built yet so CXX would error not able to find it =
+which breaks stdc++'s configure
+        # tests. Create a dummy empty lib for the purposes of configure.
+        mkdir -p ${WORKDIR}/dummylib
+-       touch ${WORKDIR}/dummylib/libstdc++.so
++       touch ${WORKDIR}/dummylib/dummylib.c
++       ${CC} ${WORKDIR}/dummylib/dummylib.c -shared -o ${WORKDIR}/dummylib=
+/libstdc++.so
+        for d in libgcc ${RUNTIMETARGET}; do
+                echo "Configuring $d"
+                rm -rf ${B}/${TARGET_SYS}/$d/
+
+Cheers,
+
+Richard
+
+
+
 
