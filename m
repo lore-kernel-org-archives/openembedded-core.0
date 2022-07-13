@@ -1,130 +1,169 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01474C43334
-	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 10:52:46 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web09.20703.1657709562685264728
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5032AC433EF
+	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 12:31:26 +0000 (UTC)
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net
+ [217.70.178.232])
+ by mx.groups.io with SMTP id smtpd.web09.21394.1657715477119021618
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 03:52:43 -0700
+ Wed, 13 Jul 2022 05:31:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=a0T3GC71;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id a5so14924255wrx.12
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 03:52:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=1jMPZGcBBYYgFbJJUF9OObXjrlBoT/TLulGDnaSQD6c=;
-        b=a0T3GC71LUWQA1TLoxYw0mOQGTs7zaTcq5h/9E1K9mbMD7lblLO5El6jCyO/Dw00El
-         B90lJgXWbpCxvStdX/cL2sOteJ8WVzDcNze5cLNTTmmbsaP4H7ouSyYN5PFLl0gzWqzj
-         C1daz0NuT+SQXi7erP+XFR/kcNE9CUaxHyryg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=1jMPZGcBBYYgFbJJUF9OObXjrlBoT/TLulGDnaSQD6c=;
-        b=4SbxDxMUQCJGr28yM04Cd/ari/CPIlDBtVtHtYgeMw4rdDEVmuf1m632r96LQzPbAt
-         U/PTyFbOnw9lAyi5AKeA7TeLhEZdtYQ6krzcySRCxxy9ZDClQNpj8e9Bk+vAOHD9OsPA
-         x4G1tKiZGrLI7uWO4X8UruqoeQjgkD3XYvMhgR5B7qHKshOcY3N2HJS4+UWrOThKJQ+A
-         HCPZyaj8yLEpHAC+Kr3u6CBrW41HVlxt2G8HQkHTtK/Cb9aldkDj+xJgp2oqWPdw3dib
-         KN88tLgdQBOw+MV2DiPQGqPKTWNUmyr1m0OC2Eq32j0CLvnvXwxxHcc1eV+q0YKxb/hI
-         bu6A==
-X-Gm-Message-State: AJIora8AlWeIOxUDEbrjZ/lq79ChMW/Q4rrcgU4ulCIXSGDRJBjWNkZv
-	rlk1ubCefNWvl7bc2JGAR0fQPkCiBnQf7Q==
-X-Google-Smtp-Source: 
- AGRyM1uRiu5up5JMmeqDBi/2sUX2CtyECPPuhZICHF9JiwzYdUk02swkmebhqy6xOI3Z0C1y65eyBw==
-X-Received: by 2002:a05:6000:100f:b0:21d:779f:fa87 with SMTP id
- a15-20020a056000100f00b0021d779ffa87mr2815070wrx.291.1657709560687;
-        Wed, 13 Jul 2022 03:52:40 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:5d1c:2bb3:e975:b527])
-        by smtp.gmail.com with ESMTPSA id
- l16-20020a1ced10000000b003a0375c4f73sm1668977wmh.44.2022.07.13.03.52.39
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jul 2022 03:52:39 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] qemu: Fix slirp determinism issue
-Date: Wed, 13 Jul 2022 11:52:37 +0100
-Message-Id: <20220713105237.307377-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220713105237.307377-1-richard.purdie@linuxfoundation.org>
-References: <20220713105237.307377-1-richard.purdie@linuxfoundation.org>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=nq7u/5Dd;
+ spf=pass (domain: bootlin.com, ip: 217.70.178.232,
+ mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 98380200002;
+	Wed, 13 Jul 2022 12:31:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1657715475;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WvxAuM2jUfJF2ml7c0r4nG4rJkVWm/t1uFuAIqgAxMQ=;
+	b=nq7u/5DdsGoaibPc6LkNEWb0JIVPUTYFLecF13iF5enphPXUU+SwecW2uBbKfKuruG04Yn
+	SZFNX24UQhx+XKf5ukFcCYpmzOjUlCETNtt2voMY3VBEllueX0FlHtuRLsWW5KMdGslc0P
+	TbhHCDsb5XZ3GAKx779HkffClDib31IpupfwPbLwbKzecUGqf2Tdw5dWwzG8rlTvn4nZe3
+	eUpMQYy7cHTTfO3AVJSOxUYijdaZFHkNDhOzdK3HTOQBEERZLKTnB1oEy9pIj4VSfRvsy8
+	XEeqjdDGZJNIxnI/TvHjKy0TYeJxjyy6zsfP8KZ0TS+GdEGLb0G5SmqFOC1Mgw==
+Date: Wed, 13 Jul 2022 14:31:14 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Ming Liu <liu.ming50@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, max.krummenacher@toradex.com
+Subject: Re: [OE-core] [PATCH V2 1/1] meta: introduce
+ UBOOT_MKIMAGE_KERNEL_TYPE
+Message-ID: <Ys67Eg+WYRvmSrK1@mail.local>
+References: <20220709081221.5601-1-liu.ming50@gmail.com>
+ <20220709081221.5601-2-liu.ming50@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220709081221.5601-2-liu.ming50@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 10:52:45 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 12:31:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167955
+ https://lists.openembedded.org/g/openembedded-core/message/167956
 
-Add a PACKAGECONFIG option for slirp, defaulting to internal. This avoids
-the presence of libslirp on the host causing qemu to link against that
-instead breaking reproducibility and usability of the binary on hosts
-where the library isn't present.
+Hello,
 
-We need to add it to PACKAGECONFIG by default since users do expect slirp
-to be enabled in the wider community.
+I believe this is the cause of the following failures:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/qemu/qemu-system-native_7.0.0.bb | 2 +-
- meta/recipes-devtools/qemu/qemu.inc                    | 1 +
- meta/recipes-devtools/qemu/qemu_7.0.0.bb               | 4 ++--
- 3 files changed, 4 insertions(+), 3 deletions(-)
+2022-07-13 10:51:39,025 - oe-selftest - INFO - fitimage.FitImageTests.test_initramfs_bundle (subunit.RemotedTestCase)
+2022-07-13 10:51:39,025 - oe-selftest - INFO -  ... FAIL
+Stderr:
+2022-07-13 10:06:12,424 - oe-selftest - INFO - Adding: "include selftest.inc" in /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-33314/conf/local.conf
+2022-07-13 10:06:12,425 - oe-selftest - INFO - Adding: "include bblayers.inc" in bblayers.conf
+2022-07-13 10:51:39,025 - oe-selftest - INFO - 10: 3/27 373/493 (826.21s) (fitimage.FitImageTests.test_initramfs_bundle)
+2022-07-13 10:51:39,025 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/selftest/cases/fitimage.py", line 803, in test_initramfs_bundle
+    self.assertTrue(test_passed == True,"kernel node does not match expectation")
+  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/python3.9/unittest/case.py", line 682, in assertTrue
+    raise self.failureException(msg)
+AssertionError: False is not true : kernel node does not match expectation
 
-diff --git a/meta/recipes-devtools/qemu/qemu-system-native_7.0.0.bb b/meta/recipes-devtools/qemu/qemu-system-native_7.0.0.bb
-index bc5384d472e..5ccede5095c 100644
---- a/meta/recipes-devtools/qemu/qemu-system-native_7.0.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu-system-native_7.0.0.bb
-@@ -11,7 +11,7 @@ DEPENDS = "glib-2.0-native zlib-native pixman-native qemu-native bison-native me
- 
- EXTRA_OECONF:append = " --target-list=${@get_qemu_system_target_list(d)}"
- 
--PACKAGECONFIG ??= "fdt alsa kvm pie \
-+PACKAGECONFIG ??= "fdt alsa kvm pie slirp \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer epoxy', '', d)} \
- "
- 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 16674eb5adb..c412d416d5a 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -188,6 +188,7 @@ PACKAGECONFIG[bpf] = "--enable-bpf,--disable-bpf,libbpf"
- PACKAGECONFIG[capstone] = "--enable-capstone,--disable-capstone"
- PACKAGECONFIG[rdma] = "--enable-rdma,--disable-rdma"
- PACKAGECONFIG[vde] = "--enable-vde,--disable-vde"
-+PACKAGECONFIG[slirp] = "--enable-slirp=internal,--disable-slirp"
- 
- INSANE_SKIP:${PN} = "arch"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu_7.0.0.bb b/meta/recipes-devtools/qemu/qemu_7.0.0.bb
-index 9f7fad9886e..42e133967e1 100644
---- a/meta/recipes-devtools/qemu/qemu_7.0.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_7.0.0.bb
-@@ -15,12 +15,12 @@ EXTRA_OECONF:append:class-target:mipsarcho32 = "${@bb.utils.contains('BBEXTENDCU
- EXTRA_OECONF:append:class-nativesdk = " --target-list=${@get_qemu_target_list(d)}"
- 
- PACKAGECONFIG ??= " \
--    fdt sdl kvm pie \
-+    fdt sdl kvm pie slirp \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer epoxy', '', d)} \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'seccomp', d)} \
- "
--PACKAGECONFIG:class-nativesdk ??= "fdt sdl kvm pie \
-+PACKAGECONFIG:class-nativesdk ??= "fdt sdl kvm pie slirp \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer epoxy', '', d)} \
- "
- # ppc32 hosts are no longer supported in qemu
+https://autobuilder.yoctoproject.org/typhoon/#builders/80/builds/3765/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#builders/79/builds/3813/steps/15/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#builders/86/builds/3778/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#builders/87/builds/3824/steps/14/logs/stdio
+
+
+On 09/07/2022 10:12:21+0200, Ming Liu wrote:
+> From: Ming Liu <liu.ming50@gmail.com>
+> 
+> Sometimes an end user might want to choose another kernel type argument
+> for uboot-mkimage other than "kernel", for instance: "kernel_noload".
+> 
+> Let's introduce a variable UBOOT_MKIMAGE_KERNEL_TYPE to support that,
+> and it could be used by BSP layers as well.
+> 
+> Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+> ---
+>  meta/classes/kernel-fitimage.bbclass     | 2 +-
+>  meta/classes/kernel-uboot.bbclass        | 3 +++
+>  meta/classes/kernel-uimage.bbclass       | 2 +-
+>  meta/lib/oeqa/selftest/cases/fitimage.py | 3 ++-
+>  4 files changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+> index 7e09b075ff..2112ae4cfa 100644
+> --- a/meta/classes/kernel-fitimage.bbclass
+> +++ b/meta/classes/kernel-fitimage.bbclass
+> @@ -148,7 +148,7 @@ fitimage_emit_section_kernel() {
+>                  kernel-$2 {
+>                          description = "Linux kernel";
+>                          data = /incbin/("$3");
+> -                        type = "kernel";
+> +                        type = "${UBOOT_MKIMAGE_KERNEL_TYPE}";
+>                          arch = "${UBOOT_ARCH}";
+>                          os = "linux";
+>                          compression = "$4";
+> diff --git a/meta/classes/kernel-uboot.bbclass b/meta/classes/kernel-uboot.bbclass
+> index 2facade818..1bc98e042d 100644
+> --- a/meta/classes/kernel-uboot.bbclass
+> +++ b/meta/classes/kernel-uboot.bbclass
+> @@ -2,6 +2,9 @@
+>  FIT_KERNEL_COMP_ALG ?= "gzip"
+>  FIT_KERNEL_COMP_ALG_EXTENSION ?= ".gz"
+>  
+> +# Kernel image type passed to mkimage (i.e. kernel kernel_noload...)
+> +UBOOT_MKIMAGE_KERNEL_TYPE ?= "kernel"
+> +
+>  uboot_prep_kimage() {
+>  	if [ -e arch/${ARCH}/boot/compressed/vmlinux ]; then
+>  		vmlinux_path="arch/${ARCH}/boot/compressed/vmlinux"
+> diff --git a/meta/classes/kernel-uimage.bbclass b/meta/classes/kernel-uimage.bbclass
+> index cedb4fa070..2e661ea916 100644
+> --- a/meta/classes/kernel-uimage.bbclass
+> +++ b/meta/classes/kernel-uimage.bbclass
+> @@ -30,6 +30,6 @@ do_uboot_mkimage() {
+>  			awk '$3=="${UBOOT_ENTRYSYMBOL}" {print "0x"$1;exit}'`
+>  	fi
+>  
+> -	uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${B}/arch/${ARCH}/boot/uImage
+> +	uboot-mkimage -A ${UBOOT_ARCH} -O linux -T ${UBOOT_MKIMAGE_KERNEL_TYPE} -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${B}/arch/${ARCH}/boot/uImage
+>  	rm -f linux.bin
+>  }
+> diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+> index e6bfd1257e..7e6479c9ca 100644
+> --- a/meta/lib/oeqa/selftest/cases/fitimage.py
+> +++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+> @@ -763,6 +763,7 @@ FIT_HASH_ALG = "sha256"
+>  
+>          kernel_load = str(get_bb_var('UBOOT_LOADADDRESS'))
+>          kernel_entry = str(get_bb_var('UBOOT_ENTRYPOINT'))
+> +        kernel_type = str(get_bb_var('UBOOT_MKIMAGE_KERNEL_TYPE'))
+>          kernel_compression = str(get_bb_var('FIT_KERNEL_COMP_ALG'))
+>          uboot_arch = str(get_bb_var('UBOOT_ARCH'))
+>          fit_hash_alg = str(get_bb_var('FIT_HASH_ALG'))
+> @@ -775,7 +776,7 @@ FIT_HASH_ALG = "sha256"
+>              'kernel-1 {',
+>              'description = "Linux kernel";',
+>              'data = /incbin/("linux.bin");',
+> -            'type = "kernel";',
+> +            'type = "' + kernel_type + '";',
+>              'arch = "' + uboot_arch + '";',
+>              'os = "linux";',
+>              'compression = "' + kernel_compression + '";',
+> -- 
+> 2.25.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#167837): https://lists.openembedded.org/g/openembedded-core/message/167837
+> Mute This Topic: https://lists.openembedded.org/mt/92268338/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.34.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
