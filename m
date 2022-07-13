@@ -1,140 +1,133 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <christoph.lauer@email.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B5F7C433EF
-	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 21:17:27 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web12.81.1657747043720391832
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84F3AC43334
+	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 21:21:17 +0000 (UTC)
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+ by mx.groups.io with SMTP id smtpd.web09.125.1657747267741635097
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 14:17:24 -0700
+ Wed, 13 Jul 2022 14:21:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Jb67x3Pk;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id
- y22-20020a7bcd96000000b003a2e2725e89so83046wmj.0
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 14:17:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=Ygg9DFo0tDULnG08OLP7bK900Svtu+9Fxuiep0eouts=;
-        b=Jb67x3PkjUYjAoRqa0qSWC3naruZp/bAu8hJNNnBMI85L8jdcnKGYRv+z1inEy7YEk
-         jyZ3vm0W9D1o7u1MoLRAw7dokvUJoJ00tk57qoorEVvxFBu9gVff2rfpNbj+o4CaQjiU
-         bLCUj4sKwXb/Ma8PZETXyceB6zz9kEqoF5ixk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=Ygg9DFo0tDULnG08OLP7bK900Svtu+9Fxuiep0eouts=;
-        b=P77rmSKNdvs8Sy/oVRDDaCh6QP60d1IoB25N/iR32ip1wPKP8WWQJtI13uLacbZxmt
-         f+AiiOJ6nBk9iSJbcijxAsagYOoQeGPdNofzg+0CBlIr4U073VaH7/hLuKIcReSuCxqr
-         Fpe9vFOuO3NB7ZvDqwSS1CuyabG98M3sbNjuU0rrg6sQIoAsnAX4VETVMThb2sI7idYh
-         HFgbZBdW2n8JXwb7PnU+51vz/noSqiRF1io4W5Fn9F5wRC2oLerNZg5PM6tWjzuEs19d
-         TUsL7PBxJ0djhfNwZNplSnXUemtof8Q+AgpV2xykSNaEhpqpjK2lTMqx6UYxCUkUwpaw
-         F1fw==
-X-Gm-Message-State: AJIora8ThyiSBw2v9d4J3TG1LWN/gVxeSTntjY224ETG1NfY9kD0qZDV
-	+2dOm1ks12Qa2afCC8YguMrQbA==
-X-Google-Smtp-Source: 
- AGRyM1vg2+YtFsOYX+2YjKYjX7pVToK5VwBNi3X8jaXjBNKqkfuBXHFaqtMQQNR5Xy9W5bLELKIvyQ==
-X-Received: by 2002:a05:600c:1c98:b0:3a2:ec7e:fbf5 with SMTP id
- k24-20020a05600c1c9800b003a2ec7efbf5mr5740130wms.40.1657747042000;
-        Wed, 13 Jul 2022 14:17:22 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:c037:3be3:5ea0:9a64?
- ([2001:8b0:aba:5f3c:c037:3be3:5ea0:9a64])
-        by smtp.gmail.com with ESMTPSA id
- z11-20020a5d4d0b000000b0021b9f126fd3sm11791238wrt.14.2022.07.13.14.17.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jul 2022 14:17:21 -0700 (PDT)
-Message-ID: 
- <bab4356b6c9c62c60318060a89d4d1ef0e5a97c6.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3 1/2] poky-altcfg: enable usrmerge
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Luca Boccassi <luca.boccassi@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Jul 2022 22:17:20 +0100
-In-Reply-To: 
- <CAMw=ZnQGseWOkhmpVdMMLSeq2+-9AND=FbO5k2FHgCkgo5Lnaw@mail.gmail.com>
-References: <20220711202929.3839971-1-luca.boccassi@gmail.com>
-	 <20220713165533.125600-1-luca.boccassi@gmail.com>
-	 <8189a37bf619f781f8e9437fd5a4b2c7c06c7457.camel@linuxfoundation.org>
-	 <CAMw=ZnQCPQ4zm0+YDjLq4+k17kYyjBTtAz2VsDFZDsUYp1jCXg@mail.gmail.com>
-	 <3f2f03085301d22854e5429019fb010f27d98bc7.camel@linuxfoundation.org>
-	 <CAMw=ZnQGseWOkhmpVdMMLSeq2+-9AND=FbO5k2FHgCkgo5Lnaw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ dkim=pass header.i=@web.de header.s=dbaedf251592 header.b=Em4HDFY6;
+ spf=pass (domain: email.de, ip: 217.72.192.78,
+ mailfrom: christoph.lauer@email.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+	s=dbaedf251592; t=1657747265;
+	bh=fFm39L0jj8iatBkZRI2ISXfAZvm6NUcPvco+p4AF9nA=;
+	h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
+	b=Em4HDFY6v5BqBr5drN9jJhYDzppN1qNHOrvHwM0RrIHsD7M8emUalSo5UuyNUFlUb
+	 UcSJKaz79Zjd7+fGcNRsUThhlzp2qbdktEvCQFrkdZEBA1YPF+uOW/gxQGE122jQaG
+	 i9KEr7zGSusVKtHlVeTaqi8pW6gOAo47JBFigV6o=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [172.18.0.166] ([178.251.90.190]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MHEbq-1oOsxF1Mem-00DTsl for
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 23:21:05 +0200
+Message-ID: <702c42c3-ef3a-e9db-f26e-e51a55578492@email.de>
+Date: Wed, 13 Jul 2022 23:21:04 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [OE-core] [PATCH v2] package.bbclass: Avoid stripping signed
+ kernel modules in splitdebuginfo
+Content-Language: en-US
+To: openembedded-core@lists.openembedded.org
+References: <20220712222937.62542-1-christoph.lauer@email.de>
+ <e29b5fb39a9901db4176b4055ae82530a523d5a1.camel@linuxfoundation.org>
+From: Christoph Lauer <Christoph.Lauer@email.de>
+In-Reply-To: 
+ <e29b5fb39a9901db4176b4055ae82530a523d5a1.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ZZGlSnDgFFTLv/mxlXIUjySEult27/fR1J5eh5Ul6Ma4HYlTVJh
+ 3uo40i667k2vlPGUizO5cPWdtRtcWYI3exIbG07Qp+zpC4bjVD4ABX5cTOJigTvpaDGI+1C
+ lCcSnYwlLHGIPLG1UkDUzfRyO6vijUujubDXSDuA//K7p5mDZsd7HADDb9Oz3GpcL5YZMxr
+ 3dsUOaZ7FHk4zu/JZcJSA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/uGviCSgHS4=:00VmBKV8O2eRF9evliWQup
+ 9xsveggYdfa5aX9jBdJKrfbLG9V/MP7ENfgY8sqxB5TShVkMVR5+FB2n5ZGW81A6V8/xy4q4S
+ efASrRG09Ge70z7yQ4lqq25ARDNhyovsZbipzKyzEcOHQp47TKTAEIDStcXN22g+DJhl7bRIW
+ 0vV5PT+OaBGs04j8XKfaljEja//HG/3XGp+JvbLY8+Mxxmn4h1i5+0mDqCo3aJ8l1bejjI5sv
+ fkH+hZ08hFl/frofae2saMOI6XQ9dZSxXgDj9UblKaegNQYQSR3i5HX/vD6lRus7OpcDA02yL
+ 1n52aYWyk0G5gkoKx6d+NpBihxQLGqllFgiIjgd9Ypq9+iqNwkiOnw+DQcWwcE4AHvQkkFnKD
+ euJTVAeuLK1x1MLadK3I+cdMS1Smsd6ki+tmM5lD7veaeBMFJZCzgCwrGjYCx7ToTjy/5sE6+
+ 0s7Yr3SO90Xo86s+OTA94RIPFlkIkYbuS44YJfEVGT/uHBjnXCHBybfdx6rgpTVyQydS36Pjo
+ lv+yq2PIWUWBDz0qs5LuHIbYcPXNSseqiwwg+cS3F0oSG/hzInJxUxMdhga1Fv4dlGr+qq/e6
+ RFdc3T6L3sUnbXTwAaCPkCLD2844IDdnjIsUZuLYF2fR2zVlMuizRt9Lwb4oBhNFDL+rzJ9nq
+ 9NwxKLg+3qFhkUVUzHt12F5tFv8eQjgx0HGhUBC3IDa2+yNINiU3xOmb0z8pm+akjqpcb9t1C
+ A5oDqKdimExttbxGehPhI9XX815jD5FYJszz2F8gygOQes4s5ep3OW59z+ScXbZ7flaruy5gI
+ ahJ+7aSRMO0KgLDf0T8cNiV5K/pxuR6mRZklGp19IBqaDJa4zDKe4UHJc089PoZ7NJRW8li9R
+ NA+kd3etHgERsbBj5SoyaR+5wwxzlE5oesYTm5uoQdTuZYS/jlLuptoNcYcfLHNlkd3S5P6e0
+ uQjYVNgyF3NDd5i52rc07IDSdRge5svYL4BIRVIHvrs8NECCwY7WLP2yeE3w+go+iMpR8SLAR
+ bKsMMZJsULeJXcLhZRSb5d79bVVssrmLWt8AHXzfgtBSU9RtfPz4v/ITQf8V2ODReG06s53/M
+ h6KsdREwx3A6sanpAo/zds82G4WVxIXoLb+hJNE3u9oVXXwXwo3SOMgGw==
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 21:17:27 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 21:21:17 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167992
+ https://lists.openembedded.org/g/openembedded-core/message/167993
 
-On Wed, 2022-07-13 at 20:02 +0100, Luca Boccassi wrote:
-> On Wed, 13 Jul 2022 at 19:36, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >=20
-> > On Wed, 2022-07-13 at 19:09 +0100, Luca Boccassi wrote:
-> > > On Wed, 13 Jul 2022 at 18:53, Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > > >=20
-> > > > On Wed, 2022-07-13 at 17:55 +0100, Luca Bocassi wrote:
-> > > > > From: Luca Boccassi <luca.boccassi@microsoft.com>
-> > > > >=20
-> > > > > Ensure it gets tested by the CI
-> > > > >=20
-> > > > > Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> > > > > ---
-> > > > >  meta-poky/conf/distro/poky-altcfg.conf | 2 ++
-> > > > >  1 file changed, 2 insertions(+)
-> > > > >=20
-> > > > > diff --git a/meta-poky/conf/distro/poky-altcfg.conf b/meta-poky/c=
-onf/distro/poky-altcfg.conf
-> > > > > index f03306e798..57a76e8bb9 100644
-> > > > > --- a/meta-poky/conf/distro/poky-altcfg.conf
-> > > > > +++ b/meta-poky/conf/distro/poky-altcfg.conf
-> > > > > @@ -9,6 +9,8 @@ DISTROOVERRIDES =3D "poky:poky-altcfg"
-> > > > >  #DISTROOVERRIDES =3D "poky:linuxstdbase"
-> > > > >=20
-> > > > >  INIT_MANAGER:poky-altcfg =3D "systemd"
-> > > > > +# systemd will soon require usrmerge
-> > > > > +DISTRO_FEATURES:poky-altcfg +=3D "usrmerge"
-> > > > >  # systemd isn't suitable with musl
-> > > > >  INIT_MANAGER:poky-altcfg:libc-musl =3D "sysvinit"
-> > > > >=20
-> > > >=20
-> > > > This blew up builds since it clears everything else out of
-> > > > DISTRO_FEATURES which isn't what was intended. I've tweaked the pat=
-ch
-> > > > and re-queued.
-> > >=20
-> > > Sorry, did I get something wrong? The diff between my local branch an=
-d
-> > > the master-next branch is empty, can't quite see it:
-> > >=20
-> > > $ git diff upstream/master-next meta-poky/conf/distro/poky-altcfg.con=
-f
-> > > $
-> >=20
-> > My fault, I'm trying to restart the build from a different environment
-> > to usual and I messed up the change. It should be there now (and build
-> > restarted).
->=20
-> No worries - I see, in this case the append was the right thing. One
-> day I'll get these right on the first try. One day! Thanks for the
-> fix.
 
-It really depends how complex the variable is and how you're making the
-assignment. In this case you're using an override to make the
-assignment and you want to add to the existing values so append is the
-only way.
-
-Cheers,
-
-Richard
+Am 13.07.22 um 00:37 schrieb Richard Purdie:
+> On Wed, 2022-07-13 at 00:29 +0200, Christoph Lauer wrote:
+>> From: Christoph Lauer <christoph.lauer@xtronic.de>
+>>
+>> Since commit d756b346f248df47b0540644adb1d0f17bcc4b6e kernel modules ar=
+e stripped by the functions 'runstrip' and 'splitdebuginfo'. Signed module=
+s must not be stripped. Function 'runstrip' avoids this by running is_kern=
+el_module_signed. Apply the same check to splitdebuginfo.
+>>
+>> Signed-off-by: Christoph Lauer <christoph.lauer@xtronic.de>
+>> ---
+>>   meta/classes/package.bbclass | 5 +++++
+>>   1 file changed, 5 insertions(+)
+>>
+>> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclas=
+s
+>> index 4850134022..78ec96df85 100644
+>> --- a/meta/classes/package.bbclass
+>> +++ b/meta/classes/package.bbclass
+>> @@ -382,6 +382,11 @@ def splitdebuginfo(file, dvar, dv, d):
+>>       debugfile =3D dvar + dest
+>>       sources =3D []
+>>
+>> +    if oe.package.is_elf(file)[1] & 16:
+>> +        if oe.package.is_kernel_module_signed(file):
+>> +            bb.debug(1, "Skip strip on signed module %s" % file)
+>> +            return (file, sources)
+>> +
+>>       # Split the file...
+>>       bb.utils.mkdirhier(os.path.dirname(debugfile))
+>>       #bb.note("Split %s -> %s" % (file, debugfile))
+>
+> That is better but I think we can do better still. splitdebuginfo is
+> called as:
+>
+> results =3D oe.utils.multiprocess_launch(splitdebuginfo, list(elffiles),=
+ d, extraargs=3D(dvar, dv, d))
+>
+> and earlier in the function there is also:
+>
+> results =3D oe.utils.multiprocess_launch(oe.package.is_elf, checkelf.key=
+s(), d)
+>
+> i.e. we already probably called is_elf() which isn't a cheap operation e=
+ither.
+>
+> I think we can tweak things so we reuse that data?
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+Sorry for double-posting, my last mail did not reply to this conversation:
+You're correct that oe.package.is_elf already ran on the file before
+splitdebuginfo is called, but the result is currently not available to
+splitdebuginfo AFAIS. It could be by extending the parameters and what
+not, but I'm too lazy to do that for what was meant to be a rather small
+change. Instead I'll follow your first suggestion to check on file
+extension and file location (as is_elf does too). That should cover all
+kernel modules and is specific enough to avoid false positives.
 
