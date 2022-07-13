@@ -1,112 +1,92 @@
-Return-Path: <lenriquez389@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 639B8C43334
-	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 08:29:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3A30C433EF
+	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 10:52:45 +0000 (UTC)
 Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
  [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web12.19772.1657700976130242480
+ by mx.groups.io with SMTP id smtpd.web10.20640.1657709561362605845
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 01:29:36 -0700
+ Wed, 13 Jul 2022 03:52:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FaaWnOSA;
- spf=pass (domain: gmail.com, ip: 209.85.221.46,
- mailfrom: lenriquez389@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id d16so14399199wrv.10
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DyOTGjyL;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id q9so14935162wrd.8
         for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 01:29:35 -0700 (PDT)
+ Wed, 13 Jul 2022 03:52:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linuxfoundation.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=kJ/EQp/qOy40u4VRrj53phe4um4Tjf7k+wP4M3jSh8o=;
-        b=FaaWnOSA56/GFmoC2+ztoEirTp28dPJ9tDwfzChkA3yNleet4vBwR2mGPTwOfBd2sG
-         kVjMKSWUR7/sdKdyBRJCeGjLqootRS4CXiYZWg5N+4P4xDaja+Gv9pa3baEhJVuNZEVK
-         4Mj2lardT3EaK7fAQrj3SBnMtZljIFxdK9SB+ZZe6OlWvtqZJD2ZNBhSuOiw5ozkSFRf
-         52rM8qxq28mykr8+ImiluAwY3R8dGx4cY4IYBi6tkbIbngc1ZO2EezezQclSFnUvZs4N
-         wl+5vsXHUpPXMGbLzr2kZaL8vN4BsIXjZ+gkE044Wwy77EIEDlSwRnJ9hBfQt97SrmYv
-         Ta1w==
+        bh=gHYZO1QO/oDZumR/5jdI0LMVIRx3g+anRYjCvboi8rY=;
+        b=DyOTGjyLfnlLGl6zWZJm+WuvP5zzwBLI7z7ZBjziWXf8vXPZWYUQSJD48mi1kcM6Wy
+         LvTn/tny/fBCD0k7nMycPxfRC3ULAwyAO9aA0rediRXAiYXzh260ZDnRMAMZ0P1wx4l0
+         uXD/5nwLJWouhidx/6O5vy4NaMcggGSfXCiyo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=kJ/EQp/qOy40u4VRrj53phe4um4Tjf7k+wP4M3jSh8o=;
-        b=PClSCIiSOUeTzh9YFpTr3I5mBXPDWGo9nBDMJMcCCsvbu/AGMnjOZmXWRRWZQNnj7e
-         9GPOJrYek6FBeGU7D03wIx1DdwJSES1f/pJr1y0eeCA+UtEayYHEk1wW/d3BRmot11x0
-         rmhucPFjaG+qLFHLi12LnZeOzdi+lMU6x/qnb0XrW4bFTjS59PwdVRrHDnFj0HsPg12f
-         famdc1q8u+KBrvTKgmc6s/touMIF0RBALAG4IkQdScaQxRurFPV7BpbtjkaFHsiE6hSz
-         XfH3PQRsdh9sXJaIQTuinuJfP0+Z7gxaWGQseFsFQOnBdsLl7/QhsL3NCQ33X5W5VqG3
-         7p9A==
-X-Gm-Message-State: AJIora9R7nPVejtXlgwr4AxcygDCluMDGlHSmZ4ZE7CEC88SGhmOZCmH
-	LLGjJQaB2bBAkKwxuIWW2YrNawWALCs=
+        bh=gHYZO1QO/oDZumR/5jdI0LMVIRx3g+anRYjCvboi8rY=;
+        b=0uY68gCG1//nf4vPNUBKOnOKMf0q2JViRxJbTXkh51hewiZXj5KbE0jtrt25+5GRVr
+         j9avB7koolYI1bgaitHT+YWNe/RQxa/cyVjmhf/TxvujziuuYrJ6vhrqBdbrEDDNjrAt
+         bYSmmbvvB3khVqys/icdbM+VlxldSdNAVkPJVqC1vqDN/M5dy40Go0mFy5qdkLpYB/Gi
+         Ty/tTgDQGPtGesBdNOxwxS7IrhgL8MRQA3yBfbdqZPuB3wG/yj7Rr9F0ZHFLLtLvwGGJ
+         +Bchaia1RDU2hKeW4VjR96HVZzS9HoaZnt8DItfu7DrJFl1msvd1OdPUYtMvDmDjMBMw
+         DNKw==
+X-Gm-Message-State: AJIora9SU7wEyOeCd1doGxn/86XT0F+aGBOlx28xM2sa9Z4pPl1MhOlY
+	WbM7gaBCePFoKbgyn7RRDCv1gwzBXj+3pQ==
 X-Google-Smtp-Source: 
- AGRyM1sTi0rY1QRyMZMZfOGNkJC4PGg0bwndhcpA6lfxAw6xMh38KLTywXJ7dCxwm0F+In+ZVnjg+w==
-X-Received: by 2002:a5d:5955:0:b0:21d:854d:3322 with SMTP id
- e21-20020a5d5955000000b0021d854d3322mr1962905wri.503.1657700974255;
-        Wed, 13 Jul 2022 01:29:34 -0700 (PDT)
-Received: from gmail.com (38.175.185.81.rev.sfr.net. [81.185.175.38])
+ AGRyM1ve1I1LwPwdfHajo6ZGR+nfcTzXd5CCX7fMSrx0puYW2pMqobGUawSifSKuffofsgdZ12Mocw==
+X-Received: by 2002:a05:6000:114f:b0:21d:6e51:6e55 with SMTP id
+ d15-20020a056000114f00b0021d6e516e55mr2608878wrx.132.1657709559458;
+        Wed, 13 Jul 2022 03:52:39 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:5d1c:2bb3:e975:b527])
         by smtp.gmail.com with ESMTPSA id
- p185-20020a1c29c2000000b003a2e2a2e294sm1406713wmp.18.2022.07.13.01.29.21
+ l16-20020a1ced10000000b003a0375c4f73sm1668977wmh.44.2022.07.13.03.52.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jul 2022 01:29:33 -0700 (PDT)
-From: LUIS ENRIQUEZ <lenriquez389@gmail.com>
-X-Google-Original-From: LUIS ENRIQUEZ <luis.enriquez@se.com>
+        Wed, 13 Jul 2022 03:52:38 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: LUIS ENRIQUEZ <luis.enriquez@se.com>
-Subject: [PATCH] kernel-fitimage.bbclass: add padding algorithm property in
- config nodes
-Date: Wed, 13 Jul 2022 10:28:03 +0200
-Message-Id: <20220713082802.581567-1-luis.enriquez@se.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Steve Sakoman <steve@sakoman.com>
+Subject: [PATCH 1/2] qemu: Avoid accidental libvdeplug linkage
+Date: Wed, 13 Jul 2022 11:52:36 +0100
+Message-Id: <20220713105237.307377-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 08:29:45 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 10:52:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167953
+ https://lists.openembedded.org/g/openembedded-core/message/167954
 
-This allows choosing padding algorithm when building fitImage. It may be pkcs-1.5 or pss.
+From: Steve Sakoman <steve@sakoman.com>
 
-Signed-off-by: LUIS ENRIQUEZ <luis.enriquez@se.com>
-From: LUIS ENRIQUEZ <lenriquez389@gmail.com>
+Avoid accidentally linking to the vde library from the host by
+adding a PACKAGECONFIG for the option.
+
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/kernel-fitimage.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/recipes-devtools/qemu/qemu.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index 5f5e9dd444..7c0d93625b 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -56,6 +56,9 @@ FIT_HASH_ALG ?= "sha256"
- # fitImage Signature Algo
- FIT_SIGN_ALG ?= "rsa2048"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 070913b2d33..16674eb5adb 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -187,6 +187,7 @@ PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux"
+ PACKAGECONFIG[bpf] = "--enable-bpf,--disable-bpf,libbpf"
+ PACKAGECONFIG[capstone] = "--enable-capstone,--disable-capstone"
+ PACKAGECONFIG[rdma] = "--enable-rdma,--disable-rdma"
++PACKAGECONFIG[vde] = "--enable-vde,--disable-vde"
  
-+# fitImage Padding Algo
-+FIT_PAD_ALG ?= "pkcs-1.5"
-+
- #
- # Emit the fitImage ITS header
- #
-@@ -250,6 +253,7 @@ fitimage_emit_section_config() {
+ INSANE_SKIP:${PN} = "arch"
  
- 	conf_csum="${FIT_HASH_ALG}"
- 	conf_sign_algo="${FIT_SIGN_ALG}"
-+	conf_padding_algo="${FIT_PAD_ALG}"
- 	if [ "${UBOOT_SIGN_ENABLE}" = "1" ] ; then
- 		conf_sign_keyname="${UBOOT_SIGN_KEYNAME}"
- 	fi
-@@ -333,6 +337,7 @@ EOF
-                         signature-1 {
-                                 algo = "${conf_csum},${conf_sign_algo}";
-                                 key-name-hint = "${conf_sign_keyname}";
-+                                padding = "${conf_padding_algo}";
- 				${sign_line}
-                         };
- EOF
 -- 
-2.25.1
+2.34.1
 
 
