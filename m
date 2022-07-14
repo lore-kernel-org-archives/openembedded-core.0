@@ -1,98 +1,67 @@
-Return-Path: <limon.anibal@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "An?bal Lim?n" <limon.anibal@gmail.com>
-Subject: [PATCH] rng-tools: Only install one set of init scripts
-Date: Sat,  9 Jul 2022 15:13:07 -0500
-Message-Id: <20220709201307.2194050-1-limon.anibal@gmail.com>
+From: "Steve Sakoman" <steve@sakoman.com>
+Subject: [OE-core][kirkstone 13/27] gstreamer1.0: upgrade 1.20.2 -> 1.20.3
+Date: Wed, 13 Jul 2022 18:35:33 -1000
+Message-Id: <2c177d00e1e839593757da5985b411f2770da009.1657772638.git.steve@sakoman.com>
+In-Reply-To: <cover.1657772638.git.steve@sakoman.com>
+References: <cover.1657772638.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
 To: openembedded-core@lists.openembedded.org
-Cc: matthew@rzerosystems.com, aleksandar@rzerosystems.com, wangmy@fujitsu.com, richard.purdie@linuxfoundation.org, h@denx.de, alex.kanavin@gmail.com, =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <limon.anibal@gmail.com>, =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal@rzerosystems.com>
 
-From: Aníbal Limón <limon.anibal@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Check if systemd is enabled to install .service file only instead of
-service and sysvinit files because it will to rngd service twice by
-systemd compatibility.
+The third 1.20 bug-fix release (1.20.3) was released on 15 June 2022.
 
-One called rng-tools.service (sysv compat) and another rngd.service.
+This release only contains bugfixes and it should be safe to upgrade from 1.20.x.
 
-...
-root@:~# ps  | grep rng
-   23 root         0 SW   [hwrng]
-13109 root      3528 R    /usr/sbin/rngd -f -r /dev/hwrng
-13117 root      2348 S    grep rng
-29418 root     12756 S    /usr/sbin/rngd -r /dev/hwrng
-...
+gstreamer
+clock: Avoid creating a weakref with every entry (performance improvement)
+plugin: add Apache 2 license to list of known licenses to avoid warning
+gst_plugin_load_file: force plugin reload if filename differs
+Add support for LoongArch
 
-Signed-off-by: Aníbal Limón <anibal@rzerosystems.com>
+Base Libraries
+aggregator: Only send events up to CAPS event from gst_aggregator_set_src_caps(), don't send multiple caps events with the same caps and fix negotiation in muxers
+basetransform: handle gst_base_transform_query_caps() returning NULL
+basetransform: fix critical if transform_caps() returned NULL
+queuearray: Fix potential heap overflow when expanding GstQueueArray
+
+Core Elements
+multiqueue: fix potential crash on shutdown
+multiqueue: fix warning: ‘is_query’ may be used uninitialized in this function
+multiqueue: SegFault during flushing with gcc11
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 1b1e4ad9b31f9f6e34dae1d0b73d36adca58eb59)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../rng-tools/rng-tools_6.15.bb               | 35 +++++++++++--------
- 1 file changed, 21 insertions(+), 14 deletions(-)
+ .../{gstreamer1.0_1.20.2.bb => gstreamer1.0_1.20.3.bb}          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.20.2.bb => gstreamer1.0_1.20.3.bb} (97%)
 
-diff --git a/meta/recipes-support/rng-tools/rng-tools_6.15.bb b/meta/recipes-support/rng-tools/rng-tools_6.15.bb
-index 0696351903..2e4c0a126b 100644
---- a/meta/recipes-support/rng-tools/rng-tools_6.15.bb
-+++ b/meta/recipes-support/rng-tools/rng-tools_6.15.bb
-@@ -17,7 +17,12 @@ SRCREV = "381f69828b782afda574f259c1b7549f48f9bb77"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.3.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.3.bb
+index 3aa9aa7048..1f4576c3e1 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.3.bb
+@@ -23,7 +23,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
+            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch;striplevel=3 \
+            file://0005-tests-remove-gstbin-test_watch_for_state_change-test.patch \
+            "
+-SRC_URI[sha256sum] = "df24e8792691a02dfe003b3833a51f1dbc6c3331ae625d143b17da939ceb5e0a"
++SRC_URI[sha256sum] = "607daf64bbbd5fb18af9d17e21c0d22c4d702fffe83b23cb22d1b1af2ca23a2a"
  
- S = "${WORKDIR}/git"
- 
--inherit autotools update-rc.d systemd pkgconfig
-+inherit autotools pkgconfig
-+
-+inherit ${@bb.utils.contains('VIRTUAL-RUNTIME_init_manager', 'systemd', 'systemd', 'update-rc.d', d)}
-+SYSTEMD_SERVICE:${PN} = "rngd.service"
-+INITSCRIPT_NAME = "rng-tools"
-+INITSCRIPT_PARAMS = "start 03 2 3 4 5 . stop 30 0 6 1 ."
- 
- EXTRA_OECONF = "--without-rtlsdr"
- 
-@@ -29,11 +34,6 @@ PACKAGECONFIG[libjitterentropy] = "--enable-jitterentropy,--disable-jitterentrop
- PACKAGECONFIG[libp11] = "--with-pkcs11,--without-pkcs11,libp11 openssl"
- PACKAGECONFIG[nistbeacon] = "--with-nistbeacon,--without-nistbeacon,curl libxml2 openssl"
- 
--INITSCRIPT_NAME = "rng-tools"
--INITSCRIPT_PARAMS = "start 03 2 3 4 5 . stop 30 0 6 1 ."
--
--SYSTEMD_SERVICE:${PN} = "rngd.service"
--
- CFLAGS += " -DJENT_CONF_ENABLE_INTERNAL_TIMER "
- 
- # Refer autogen.sh in rng-tools
-@@ -43,14 +43,21 @@ do_configure:prepend() {
- 
- do_install:append() {
-     install -Dm 0644 ${WORKDIR}/default ${D}${sysconfdir}/default/rng-tools
--    install -Dm 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/rng-tools
--    install -Dm 0644 ${WORKDIR}/rngd.service \
--                     ${D}${systemd_system_unitdir}/rngd.service
--    sed -i \
--        -e 's,@SYSCONFDIR@,${sysconfdir},g' \
--        -e 's,@SBINDIR@,${sbindir},g' \
--        ${D}${sysconfdir}/init.d/rng-tools \
--        ${D}${systemd_system_unitdir}/rngd.service
-+
-+    if [ "${VIRTUAL-RUNTIME_init_manager}" = "systemd" ]; then
-+        install -Dm 0644 ${WORKDIR}/rngd.service \
-+                         ${D}${systemd_system_unitdir}/rngd.service
-+        sed -i \
-+            -e 's,@SYSCONFDIR@,${sysconfdir},g' \
-+            -e 's,@SBINDIR@,${sbindir},g' \
-+            ${D}${systemd_system_unitdir}/rngd.service
-+    else
-+        install -Dm 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/rng-tools
-+        sed -i \
-+            -e 's,@SYSCONFDIR@,${sysconfdir},g' \
-+            -e 's,@SBINDIR@,${sbindir},g' \
-+            ${D}${sysconfdir}/init.d/rng-tools 
-+    fi
- 
-     if [ "${@bb.utils.contains('PACKAGECONFIG', 'nistbeacon', 'yes', 'no', d)}" = "yes" ]; then
-         sed -i \
+ PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
+                    check \
 -- 
-2.36.1
+2.25.1
 
