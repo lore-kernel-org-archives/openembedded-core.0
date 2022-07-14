@@ -1,145 +1,113 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 696EECCA47B
-	for <webhook@archiver.kernel.org>; Thu, 14 Jul 2022 19:15:20 +0000 (UTC)
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
- [209.85.160.174])
- by mx.groups.io with SMTP id smtpd.web09.256.1657826111134285549
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90319C433EF
+	for <webhook@archiver.kernel.org>; Thu, 14 Jul 2022 19:27:50 +0000 (UTC)
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com
+ [209.85.160.46])
+ by mx.groups.io with SMTP id smtpd.web10.400.1657826861832026292
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Jul 2022 12:15:11 -0700
+ Thu, 14 Jul 2022 12:27:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=GVElW2rD;
- spf=pass (domain: gmail.com, ip: 209.85.160.174,
- mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f174.google.com with SMTP id c20so2211043qtw.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=Yqkk2JaX;
+ spf=pass (domain: gmail.com, ip: 209.85.160.46,
+ mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f46.google.com with SMTP id
+ 586e51a60fabf-10cf9f5b500so2545766fac.2
         for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Jul 2022 12:15:11 -0700 (PDT)
+ Thu, 14 Jul 2022 12:27:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=yWzo2tbtEtThRGGd6dZa37RE5Vk1qYfZlWp3iE6Xwyg=;
-        b=GVElW2rDqoJsD6xQaSsa0/i3YtNueNGKm/UX0E3ovVxVlZfs4GYTS6RgOjik5w9lUv
-         oiqzrrrWv+axH3ZL9vYgRJXdTqow8cuYz6QfQAwbm1PDtLnLuefBSV8ipSpPtv2rgA1M
-         bmiop72X3OTjJZ7vEKg1UvgQqMrDp2S+TPK0+7bfk9yxkK5gW4vxyUaUI7KDYSxlumG0
-         EOxSANLwsYqRjON5YJaxLdkoodtb9X0OQSv4fZ7QNsayc0dNJmVIshpvWIdaxzq06+bn
-         MQX0VjhKmcBbWY1ey++i7J6R00HfUeseGck7ERaLEu1pmJLXJznXCVopi/2LYV7p+R7S
-         HBwQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=y6832rXAXTCcjUkkPEBkXDexk76f881Ndd1wPi8xs+A=;
+        b=Yqkk2JaXOHz9Y4cSG9uMNy+FU3vaFfbqS8UjIDrjyWswHLuVsb7KAb4sJ4RMPhavnu
+         E7IusJrcO7QAKES7ZSsTyCj+CjkJfxjMXQYRQ3ciBGOdIrEttd8st+ZPZqDEW/LJFzhP
+         Ba9O/1X5qOMHYHvsAxlkgtINhtUvL98aa5Bb6LPxE1TF2b+wv1NaSL33vAREyUOkkoYs
+         7HzGHjLVaE4FUj3OFtD7oOVE9/zK9FWG7ZOss8/pYJLrntyg6X4rzgZG4fcHJWeaV5RI
+         II+NbtuE5fWhil3BBFLJEuyDrlnML2x/CWxmPzxkAyGS3Z4lloZCLxznsgB3/n47FR72
+         5gjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=yWzo2tbtEtThRGGd6dZa37RE5Vk1qYfZlWp3iE6Xwyg=;
-        b=Q70L5Sp/mGbpwPNX7ERTVUkOR0p56S80/xJkMAOLG4p4TsNuAP9QRrSh5FTW/i9tgu
-         xC7ARnJKlB2j9E8UfydPhmStafED+dPlCl59dOP1P9JvhZ0wWGqx4Lc4YNqNs6Ikacu9
-         H/VSgOqKTSAaRGpjmMA9WrcO2LbcX34/bM1zElxjtV+4XMpwnaNXSglk2cZxAGIDy62c
-         3Og0L3uWYY1BlZSN1YLNtSzV+MW9eOHGF+ULwEMlUcQpzIqOnPTrrdHqyvX/v8gltEpD
-         QVKaLnTK5Gc6Nly2ngQFGo6I4g408KuSryWkxE+MbCfuah7NtQ7XoOwvngHjye0y26rz
-         CqMQ==
-X-Gm-Message-State: AJIora8LrYMe/uM6j3hJ5OT+fs7C4pvFbUZ/fIl93VGzZ+3E0qjkY+lB
-	a3myJGxCk18l5YcAmiZlV1g=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=y6832rXAXTCcjUkkPEBkXDexk76f881Ndd1wPi8xs+A=;
+        b=TOhZaz0L0QZ0KAarBsOQVIEL7/8zZRMSC1HwhtvLQWCi8tAK8QNerHQmOLAOA5WMPu
+         oeYL7iMWmfmqbAk56LrRvpQHWb/KJVEV+5ljL58GPQ8ur3zxDB2UaajGtg8hjTvNF5t5
+         l9+1Yds+qUUH6YmkIFran2YZd8b5ci6feNQyEFvZ8rQ8CbsbtMtqOyq6fCumY7H/WV/v
+         VxT2QqhyhxFm8t0PMW4ZVlROeDftuY//ygqu8KxMUXLvKrY43xEH7XAxc105nxaf3ePl
+         wdPG0sqUiD5Kr5480WjqMtCXZJaa6y3h/X+Y13CZZsL/IR7xURRgqviuN//9O0JMWpnS
+         6yWQ==
+X-Gm-Message-State: AJIora+6fNGU5B3vsBsxQJ7czPgszZGGTxLS6W4iOodXOXNDByyvlhhg
+	PPaVWsO8gEoi4DTAKYUR6My/bz2szSvpOg==
 X-Google-Smtp-Source: 
- AGRyM1v4gfl2tYtDtLJ/k+KHr0xS7JQikiZspXtS9xWvAUuWUR94cbNRHGYo4rxd5UWLJCNqGRmUHA==
-X-Received: by 2002:ac8:5a81:0:b0:31e:cb79:346 with SMTP id
- c1-20020ac85a81000000b0031ecb790346mr8872836qtc.19.1657826110110;
-        Thu, 14 Jul 2022 12:15:10 -0700 (PDT)
-Received: from build.lan ([173.34.88.218])
+ AGRyM1v816Tm0QU78d7DYfs/0yCwyPp84X2cbHQiPB4DH/pkE82wFQLlmwc5Lthu4uv2Sn/zjbZ9LQ==
+X-Received: by 2002:a05:6870:972c:b0:10c:151d:4df8 with SMTP id
+ n44-20020a056870972c00b0010c151d4df8mr7980609oaq.210.1657826860631;
+        Thu, 14 Jul 2022 12:27:40 -0700 (PDT)
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
         by smtp.gmail.com with ESMTPSA id
- d11-20020a05620a240b00b006b253a6dd1fsm1966022qkn.125.2022.07.14.12.15.06
+ r41-20020a056870582900b00108b31bf8fbsm1325498oap.53.2022.07.14.12.27.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Jul 2022 12:15:08 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 07/10] linux-yocto/5.15: fix buildpaths issue with pnmtologo
-Date: Thu, 14 Jul 2022 15:14:50 -0400
-Message-Id: 
- <b4092dd48e0b86e5832db5ab1befd4965ddcff24.1657825809.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1657825809.git.bruce.ashfield@gmail.com>
-References: <cover.1657825809.git.bruce.ashfield@gmail.com>
+        Thu, 14 Jul 2022 12:27:39 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] sstatesig: Include all dependencies in SPDX task
+ signatures
+Date: Thu, 14 Jul 2022 14:27:34 -0500
+Message-Id: <20220714192734.416127-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Jul 2022 19:15:20 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Jul 2022 19:27:50 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168047
+ https://lists.openembedded.org/g/openembedded-core/message/168051
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+SDPX generation involves looking through BB_TASKDEPDATA for
+dependencies, then linking to the generated documents for those
+dependencies. These document links use a checksum to validate the
+document, which means that if a upstream document changes, all
+downstream documents must be regenerated to get the new checksum,
+otherwise the compendium of documents produced by the build will have
+broken links; therefore all dependent task should be included in the
+signature (even from "ABI safe" recipes).
 
-Integrating the following commit(s) to linux-yocto/5.15:
-
-    a40d2daf2795 pnmtologo: use relocatable file name
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- .../linux/linux-yocto-rt_5.15.bb              |  2 +-
- .../linux/linux-yocto-tiny_5.15.bb            |  2 +-
- meta/recipes-kernel/linux/linux-yocto_5.15.bb | 20 +++++++++----------
- 3 files changed, 12 insertions(+), 12 deletions(-)
+ meta/lib/oe/sstatesig.py | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-index 0cac752eba..b6e443d4da 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-@@ -11,7 +11,7 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 7150bd0929..839b3a992a 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -24,10 +24,19 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCaches):
+         return "/allarch.bbclass" in inherits
+     def isImage(mc, fn):
+         return "/image.bbclass" in " ".join(dataCaches[mc].inherits[fn])
++    def isSPDXTask(task):
++        return task in ("do_create_spdx", "do_create_runtime_spdx")
  
--SRCREV_machine ?= "3a0e5a16b0c30008959538258553ca70f33ff2fc"
-+SRCREV_machine ?= "0222cbb8d40318cf5377875017e32eebefa59ab8"
- SRCREV_meta ?= "0e3a81a5aefbea03388b1235fbcc3dec278425d0"
+     depmc, _, deptaskname, depmcfn = bb.runqueue.split_tid_mcfn(dep)
+     mc, _ = bb.runqueue.split_mc(fn)
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-index 3a35c1e44c..aadf014463 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-@@ -14,7 +14,7 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "e7447cb9afee4a22b0d3102922c3430eeb44bcc3"
-+SRCREV_machine ?= "9b1d0e5eb8b08323577f5e2b21cbb2065aba0aa1"
- SRCREV_meta ?= "0e3a81a5aefbea03388b1235fbcc3dec278425d0"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-index 0b499b29ff..4c1d163a1e 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-@@ -13,16 +13,16 @@ KBRANCH:qemux86  ?= "v5.15/standard/base"
- KBRANCH:qemux86-64 ?= "v5.15/standard/base"
- KBRANCH:qemumips64 ?= "v5.15/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "e12b73a556e5cbd2c5cb157aba0d84e2c3be1ddf"
--SRCREV_machine:qemuarm64 ?= "b1f3c7dddb39848a5b6bae9f6490927bf090de84"
--SRCREV_machine:qemumips ?= "aa4bd512de00a1054205069ac334d97f82564b1e"
--SRCREV_machine:qemuppc ?= "fcd84bc0d01c29fe94f736812ef58978c57d6836"
--SRCREV_machine:qemuriscv64 ?= "d81d20a55992c55475d7b5570589cd5884059147"
--SRCREV_machine:qemuriscv32 ?= "d81d20a55992c55475d7b5570589cd5884059147"
--SRCREV_machine:qemux86 ?= "d81d20a55992c55475d7b5570589cd5884059147"
--SRCREV_machine:qemux86-64 ?= "d81d20a55992c55475d7b5570589cd5884059147"
--SRCREV_machine:qemumips64 ?= "694134b0fceb27051d3b0cfccc7ba0649319aa7e"
--SRCREV_machine ?= "d81d20a55992c55475d7b5570589cd5884059147"
-+SRCREV_machine:qemuarm ?= "c284142affccb534122ad93bdcd4774af161d767"
-+SRCREV_machine:qemuarm64 ?= "c4c194a34c568c17389120608b2ee8a7a988150a"
-+SRCREV_machine:qemumips ?= "7b446965d9659d312952ef4dedf5b50a493e60c2"
-+SRCREV_machine:qemuppc ?= "0c2a4ad856c8f0c1b3ca8a38c17e1194f47e4643"
-+SRCREV_machine:qemuriscv64 ?= "a40d2daf2795d89e3ef8af0413b25190558831ec"
-+SRCREV_machine:qemuriscv32 ?= "a40d2daf2795d89e3ef8af0413b25190558831ec"
-+SRCREV_machine:qemux86 ?= "a40d2daf2795d89e3ef8af0413b25190558831ec"
-+SRCREV_machine:qemux86-64 ?= "a40d2daf2795d89e3ef8af0413b25190558831ec"
-+SRCREV_machine:qemumips64 ?= "9a8d4e00df67daf224ae62b238c151a3f3f70ae7"
-+SRCREV_machine ?= "a40d2daf2795d89e3ef8af0413b25190558831ec"
- SRCREV_meta ?= "0e3a81a5aefbea03388b1235fbcc3dec278425d0"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
++    # Keep all dependencies between SPDX tasks in the signature. SPDX documents
++    # are linked together by hashes, which means if a dependent document changes,
++    # all downstream documents must be re-written (even if they are "safe"
++    # dependencies).
++    if isSPDXTask(task):
++        return True
++
+     # (Almost) always include our own inter-task dependencies (unless it comes
+     # from a mcdepends). The exception is the special
+     # do_kernel_configme->do_unpack_and_patch dependency from archiver.bbclass.
 -- 
-2.19.1
+2.33.0
 
 
