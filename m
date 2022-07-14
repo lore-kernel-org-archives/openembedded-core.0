@@ -1,113 +1,137 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <preid@electromag.com.au>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85273C433EF
-	for <webhook@archiver.kernel.org>; Thu, 14 Jul 2022 04:42:49 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
- [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web11.4113.1657773766650417471
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9224AC433EF
+	for <webhook@archiver.kernel.org>; Thu, 14 Jul 2022 08:26:10 +0000 (UTC)
+Received: from anchovy3.45ru.net.au (anchovy3.45ru.net.au [203.30.46.155])
+ by mx.groups.io with SMTP id smtpd.web11.5292.1657787158383143114
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 21:42:47 -0700
+ Thu, 14 Jul 2022 01:25:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=iPLx4mFa;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.51,
- mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f51.google.com with SMTP id oy13so1322360ejb.1
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 21:42:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=l6+Bgbs18p/5z5HdV7F6IxlAnJn3JlkCoxeYAuqwQ+o=;
-        b=iPLx4mFaE7u8Lycvwq7DpO1OJUFK55Ms0kQYTqHZP9jCGnje3Oy3fWUNo2h33yWcAY
-         j9MEDqkPosFIR4WCmX5EnXhSFklnLO8iIX4h8P4NFblu3L2YiUMCojo2fKikNsP2X/pO
-         R2vSSL3dWOdG0G7e9/mocyuaCAnlp3bBfu0myN1fzCDGs21xNKfc6JuX5D/XLwcRQGTb
-         2B/UiVIfJzI1qA2TrCcr18m27cO7l8+zzwrCW3gseEXrEqDTgSwIpX9HA7+qauA56C6y
-         Mim1AU7e1vw67oai3kkRiEqHyCSvz39BS3aZS7MttG596++OcDVWME+McbCIoM1TqogF
-         fpfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=l6+Bgbs18p/5z5HdV7F6IxlAnJn3JlkCoxeYAuqwQ+o=;
-        b=ZpzyL4HPFK0JusqgJiGPKmmliqVmGdyiAW4XkrjdBEFMrshmfe96kXgWzs9WsQGtPY
-         khmCpw6a1pGGNtpdocaiqEpooF3SYRE6W5Jsvik3w8FqzIDsqSRa1IEEYMfk+LhJNWKr
-         OC6uC/aLg5KpxXgaSBtz7Y0XOP70ZaOA3gxJaT4nC8ZDblZ8s9bVGvFxadndRUoHnwqf
-         YZsZjHlvLozzTVoQ19VKYKzmU7YXZqlImAM9T5Ds7w0ZKPydp/v3Smz2S4h1neXm/M5l
-         zKPBeqj4oGrWXGd6HWX4tTQZCoaPopEOjm6Mh/4cUCaF0+o4COg4VyxhgHe5UGbd61l/
-         ZXxQ==
-X-Gm-Message-State: AJIora+kBfQDe2K1snga5tGfdfK2k3N7m/g+f3N0Dqc0GNra8vIkcQ4c
-	QylbEOf68KzaD9K1XU2+6WEUW0oQ1MC+nYbJLlDsQw==
-X-Google-Smtp-Source: 
- AGRyM1ufTonyC1QL3mIomrcJpb81r944bfFUUDsCS1aEwY1979Q4g9U6rXOc/h1vBo36MlZyD8+X06NwYcDlYLC6sBA=
-X-Received: by 2002:a17:907:6d8b:b0:72b:5f51:a9e7 with SMTP id
- sb11-20020a1709076d8b00b0072b5f51a9e7mr7007028ejc.628.1657773764580; Wed, 13
- Jul 2022 21:42:44 -0700 (PDT)
+ dkim=missing;
+ spf=none, err=permanent DNS error (domain: electromag.com.au,
+ ip: 203.30.46.155, mailfrom: preid@electromag.com.au)
+Received: (qmail 26163 invoked by uid 5089); 14 Jul 2022 08:25:56 -0000
+Received: by simscan 1.2.0 ppid: 25914, pid: 25915, t: 0.9595s
+         scanners: regex: 1.2.0 attach: 1.2.0 clamav: 0.88.3/m:40/d:1950 spam:
+ 3.1.4
+Received: from unknown (HELO ?192.168.0.22?)
+ (preid@electromag.com.au@203.59.235.95)
+  by anchovy2.45ru.net.au with ESMTPA; 14 Jul 2022 08:25:54 -0000
+Message-ID: <33bb2737-58eb-5cc7-c6a0-30328f9baafe@electromag.com.au>
+Date: Thu, 14 Jul 2022 16:25:53 +0800
 MIME-Version: 1.0
-References: <cover.1657772638.git.steve@sakoman.com>
- <17019818268B4DB5.31059@lists.openembedded.org>
-In-Reply-To: <17019818268B4DB5.31059@lists.openembedded.org>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 13 Jul 2022 18:42:32 -1000
-Message-ID: 
- <CAOSpxdad4+XpE-kWSbuWYu8YptOx-nDFthiuEPUcyBrx+dMpkw@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone 01/27] ruby: add PACKAGECONFIG for capstone
-To: steve@sakoman.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [OE-core] libstdc++ honister -> kirkstone
+Content-Language: en-AU
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+  mfumita@electromag.com.au, openembedded-core@lists.openembedded.org
+References: <fbe2ba5d-f82c-ea57-a00d-4e0ff1b9586f@electromag.com.au>
+ <28194.1657080073438546558@lists.openembedded.org>
+ <25ddecdf5e77515b5967dd92d804e8dbd4ef3b70.camel@linuxfoundation.org>
+ <f4223840-8400-44ed-1d5d-8f9ab9b51c46@electromag.com.au>
+ <6e83879c522c185635c6ad258854e170ef07fcd3.camel@linuxfoundation.org>
+From: Phil Reid <preid@electromag.com.au>
+In-Reply-To: 
+ <6e83879c522c185635c6ad258854e170ef07fcd3.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Jul 2022 04:42:49 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Jul 2022 08:26:10 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168025
+ https://lists.openembedded.org/g/openembedded-core/message/168026
 
-At this point I've only seen this on kirkstone, but I suspect it is
-only a matter of time before we see it on master too. So we should
-probably consider this for master too.
+On 14/07/2022 6:13 am, Richard Purdie wrote:
+> On Tue, 2022-07-12 at 13:23 +0800, Phil Reid wrote:
+>> On 8/07/2022 9:05 pm, Richard Purdie wrote:
+>>> On Tue, 2022-07-05 at 21:01 -0700, mfumita@electromag.com.au wrote:
+>>>> Hello there,
+>>>>    
+>>>> It isn't due to EOVERFLOW but make_file_type function in libstdc++-
+>>>> v3\src\filesystem\ops-common.h always returns file_type::unknown.
+>>>> It's because _GLIBCXX_HAVE_S_ISREG isn't defined.
+>>>> I found HAVE_S_ISREG at libstdc++-v3/config.h isn't set properly.
+>>>>    
+>>>> It's caused by a configure failure below to tell if S_ISREG exists on
+>>>> the target.
+>>>> gcc/arm-emit-linux-gnueabi/11.3.0/ld: error: tmp-
+>>>> glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/gcc-runtime/11.3.0-
+>>>> r0/dummylib/libstdc++.so: file is empty
+>>>> collect2: error: ld returned 1 exit status
+>>>> configure:15686: $? = 1
+>>>>    
+>>>> It complains dummylib/libstdc++.so is empty, configure failed then
+>>>> wrongly considered S_ISREG doesn't exist.
+>>>> This seems related to the following commit.
+>>>> https://github.com/openembedded/openembedded-core/commit/34b0edb0d3120c32063ff7e3dd52be20d60401d5
+>>>>    
+>>>> Reverting this commit rectifies this issue but not sure what's the
+>>>> proper fix?
+>>>> Any help appreciated.
+>>>
+>>> There is some piece we're still not understanding. I had a look at my
+>>> local build (master so gcc 12.1) and I see HAVE_S_ISREG is set
+>>> correctly, I don't see any "file is empty" message.
+>>>
+>>> Are you able to reproduce this on master? Which linker are you using?
+>>>
+>>
+>> G'day Richard,
+>>
+>> I've update to master and tried this. Still get a "file is empty" error during configure. See log snippet below.
+>>
+>>
+>> Tried to capture the ld version here:
+>>
+>> wait4(23043, /home/preid/dev/v2022.05/tmp-glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/gcc-runtime/12.1.0-r0/recipe-sysroot-native/usr/bin/arm-emit-linux-gnueabi/../../libexec/arm-emit-linux-gnueabi/gcc/arm-emit-linux-gnueabi/12.1.0/ld: error: /home/preid/dev/v2022.05/tmp-glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/gcc-runtime/12.1.0-r0/dummylib/libstdc++.so: file is empty
+>> collect2: error: ld returned 1 exit status
+>>
+>>
+>> /home/preid/dev/v2022.05/tmp-glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/gcc-runtime/12.1.0-r0/recipe-sysroot-native/usr/bin/arm-emit-linux-gnueabi/../../libexec/arm-emit-linux-gnueabi/gcc/arm-emit-linux-gnueabi/12.1.0/ld --version
+>> GNU gold (GNU Binutils 2.38.20220516) 1.16
+>> Copyright (C) 2022 Free Software Foundation, Inc.
+>> This program is free software; you may redistribute it under the terms of
+>> the GNU General Public License version 3 or (at your option) a later version.
+>> This program has absolutely no warranty.
+>>
+>>
+>> Hope that helps.
+> 
+> 
+> It does thanks. It confirms you're using the gold linker which allowed
+> me to reproduce (I was trying with the default bfd). I think this small
+> change will fix it:
+> 
+> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> index c39a0caf8a7..7e920df2d34 100644
+> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> @@ -68,7 +68,8 @@ do_configure () {
+>          # libstdc++ isn't built yet so CXX would error not able to find it which breaks stdc++'s configure
+>          # tests. Create a dummy empty lib for the purposes of configure.
+>          mkdir -p ${WORKDIR}/dummylib
+> -       touch ${WORKDIR}/dummylib/libstdc++.so
+> +       touch ${WORKDIR}/dummylib/dummylib.c
+> +       ${CC} ${WORKDIR}/dummylib/dummylib.c -shared -o ${WORKDIR}/dummylib/libstdc++.so
+>          for d in libgcc ${RUNTIMETARGET}; do
+>                  echo "Configuring $d"
+>                  rm -rf ${B}/${TARGET_SYS}/$d/
+> 
+G'day Richard,
 
-Steve
+Thanks, can confirm that this fixes the problem. Our tests all passed.
+Will you submit this as a patch?
+Affects us on kirkstone, as well as master branch.
 
-On Wed, Jul 13, 2022 at 6:36 PM Steve Sakoman via
-lists.openembedded.org <steve=sakoman.com@lists.openembedded.org>
-wrote:
->
-> Autobuilder workers were non-deterministically enabling capstone
-> depending on whether the worker had libcapstone installed.
->
-> Add PACKAGECONFIG for capstone with default off, since ruby does not
-> require capstone support.
->
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> ---
->  meta/recipes-devtools/ruby/ruby_3.1.2.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-devtools/ruby/ruby_3.1.2.bb b/meta/recipes-devtools/ruby/ruby_3.1.2.bb
-> index 38ba46731b..6fc1f53b18 100644
-> --- a/meta/recipes-devtools/ruby/ruby_3.1.2.bb
-> +++ b/meta/recipes-devtools/ruby/ruby_3.1.2.bb
-> @@ -25,6 +25,7 @@ PACKAGECONFIG[ipv6] = "--enable-ipv6, --disable-ipv6,"
->  # rdoc is off by default due to non-reproducibility reported in
->  # https://bugs.ruby-lang.org/issues/18456
->  PACKAGECONFIG[rdoc] = "--enable-install-rdoc,--disable-install-rdoc,"
-> +PACKAGECONFIG[capstone] = "--with-capstone=yes, --with-capstone=no"
->
->  EXTRA_OECONF = "\
->      --disable-versioned-paths \
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#167998): https://lists.openembedded.org/g/openembedded-core/message/167998
-> Mute This Topic: https://lists.openembedded.org/mt/92373433/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [steve@sakoman.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+
+
+
+-- 
+Regards
+Phil Reid
+  
 
