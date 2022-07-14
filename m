@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69769C3F2D4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 646A5CCA47B
 	for <webhook@archiver.kernel.org>; Thu, 14 Jul 2022 04:36:49 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web12.4029.1657773404551804504
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
+ [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web11.4069.1657773399892023167
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 21:36:44 -0700
+ Wed, 13 Jul 2022 21:36:40 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=O8no6a19;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.53,
+ header.b=LQt8aqBL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.175,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f53.google.com with SMTP id
- y14-20020a17090a644e00b001ef775f7118so7142552pjm.2
+Received: by mail-pg1-f175.google.com with SMTP id g4so512487pgc.1
         for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 21:36:44 -0700 (PDT)
+ Wed, 13 Jul 2022 21:36:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=um56lL3QWZ3G2yyyOlhm9hZVhSmlAYOaM2kuT3KFkF0=;
-        b=O8no6a19bHLtc1gyd900SPCVXRv9iIxiQMRP0cn1YTlcbdxsgfp3nnEYz5zM4lz/Ou
-         prdS6w/eTAilbDDlaRlz2+/N206l+LQuQAF+o4QO5WYVZAxQwJdEDxAowquOHoHP689p
-         hmEWyREMioMI0W+nN+zkXCKnPDpVwh2mNGxPa6/NANwmro5sc3h2krd6xQtbaRdcuWMJ
-         Ip8OwHItrX6wpD25ikyzFisd7Z7ZVJhNk+ij/QUIfPrhisIf1UCA5BLYVfJ5ogH7xBr7
-         hQVVP666IfDK4Lk7RhDPy6WjkIbw7CDefwDsEz8NrfxH6qTQ1F4J8fieXYiC6aMsd634
-         jNmg==
+        bh=Ovv4cZ1RtfzSAHpMY2ImYZb8uw0c3iz6h9FV+aOBfMc=;
+        b=LQt8aqBLEuJ4xsPvwwRD0FEZPzwcQVoYutD//OJHWHVD5QQzPiYpUuhrWbdsR6bjiJ
+         TWoZfKapkUj4OFa188azE1h48Hr82bEYoxqiEYEBQ14knyTMdreHKfE5cnYRwvV3cZBv
+         GOwlwyrQc/oRlMUsOUkbVZHBhJ6+SC0fvwcf0dIVSnemxRUrBO1sEvzSXHzvqNgwKuuJ
+         rCzncVMdKCyIpL3Z3gpHm/YEwhroX/cyR4BQ+jG3T79Zr66bgoK2OihHfuodwvvXzh36
+         da9i4/88RAUa4LmrUSsqLnBbuKQ7VvDd7WhviEx9Bt2KP7k28M+Dsn5zwxaW+McPKG+k
+         Qa8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=um56lL3QWZ3G2yyyOlhm9hZVhSmlAYOaM2kuT3KFkF0=;
-        b=zlv8Vj/YFg33r/GEuenSqlMMWJuQb0rti7FB8O6t7MtYk2V4cfUyHAe143LOpvUaIy
-         X7AvKfU4AejBHeP6P5AS2Pk6LsI8PM/XziM+lnavm77uPbN8xxgvSyF4Je+RncJN2sYm
-         HkXk/DzfCRrtcyE+o7me6wJFKKbeowxTZ8Kn9Sv5eWYempQtT75uEMPyzjC+XLZ1zbWA
-         6nzOmqb5ERscuSMStLQ6/gQrXiAl2d9LoBfyMb5bko1Al8Vg0Hrr0jJ33vPA0EManRCn
-         kMXQSuwrNZMYPUMGaOZh4DVwnDLMFH15mkCGFMGcDsFX+Q8Ru8IWTxNo0Rv+OEym39UT
-         wHtw==
-X-Gm-Message-State: AJIora9e84ApNmFoC8BJoECu1Jxy4D7rYFbmHNEuR3/baX+wdSoclrKV
-	IwExjHRrt8ZFmdSDkjCEYDKFvQ0Deb/ZPcdz
+        bh=Ovv4cZ1RtfzSAHpMY2ImYZb8uw0c3iz6h9FV+aOBfMc=;
+        b=pYDJyIXrzQN2r4u3G2E4/YBs6A9qCljCNUfY5ZrDr17oStUs9pRJERjQbDFIhsLUIV
+         da5TXGUcnF4dNZxDkZUuB88UIH1Poxj7DLx2LeFbTAzpUs9ikzMBIAFKxiLkiQTJ8BGe
+         60iVoEFS2q/92ErygwhxBffiP/EgJY6fpw0eRLEHg5ki5UpX7ei0u5APNtuiOC4puzDe
+         Klirv44SM+8iv5uA6o4jwSsXF4n58mE12P4uMpapoRIZX2D3/LBadledZM89pxuRU640
+         T1E3Gia/8bSgmK+E2v7nliH/RWTFV5xAFDyBRQsanosGiUDZ+00gjnZ/dzv9k1wKejZO
+         TjbQ==
+X-Gm-Message-State: AJIora8iueo3p3Do8CSHkzC/RyR8/dza/dpu/407CTg88jazLtnKheY7
+	LCA5VwOZwWztMweaQ3A+s9mRoUwR+0KrDY5o
 X-Google-Smtp-Source: 
- AGRyM1veUK+zMwRHO0N19CkkGBv1Yg0GsLbv3Gs8l+h9lArJeyYZY/0sVkOFsJrBtEodZyrjOwsCYg==
-X-Received: by 2002:a17:90b:3b8d:b0:1f0:22f1:27d8 with SMTP id
- pc13-20020a17090b3b8d00b001f022f127d8mr14066581pjb.56.1657773403532;
-        Wed, 13 Jul 2022 21:36:43 -0700 (PDT)
+ AGRyM1sWwdw2xdiq9c2ILVTvcoEdKol08WGOOr21zJy6kImJ1A9C4l1K7bUGGBDqOMR74aiEA3dN2A==
+X-Received: by 2002:a65:6a0e:0:b0:405:2310:22d0 with SMTP id
+ m14-20020a656a0e000000b00405231022d0mr6099270pgu.290.1657773398836;
+        Wed, 13 Jul 2022 21:36:38 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- f6-20020aa79d86000000b0050dc762819bsm411320pfq.117.2022.07.13.21.36.42
+ f6-20020aa79d86000000b0050dc762819bsm411320pfq.117.2022.07.13.21.36.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jul 2022 21:36:42 -0700 (PDT)
+        Wed, 13 Jul 2022 21:36:38 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 14/27] gst-devtools: upgrade 1.20.2 -> 1.20.3
-Date: Wed, 13 Jul 2022 18:35:34 -1000
+Subject: [OE-core][kirkstone 12/27] binutils : stable 2.38 branch updates
+Date: Wed, 13 Jul 2022 18:35:32 -1000
 Message-Id: 
- <84b2d193fa4d22c012a8032b4de6f581406a2720.1657772638.git.steve@sakoman.com>
+ <2023e334efa325bcd08b7bcc92455afdbf4e66d7.1657772638.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1657772638.git.steve@sakoman.com>
 References: <cover.1657772638.git.steve@sakoman.com>
@@ -70,39 +69,35 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Jul 2022 04:36:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168011
+ https://lists.openembedded.org/g/openembedded-core/message/168009
 
-From: wangmy <wangmy@fujitsu.com>
+From: Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>
 
-The third 1.20 bug-fix release (1.20.3) was released on 15 June 2022.
+Below commits on Binutils-2.38 development branch are updated.
 
-This release only contains bugfixes and it should be safe to upgrade from 1.20.x.
+binutils:
+e1ea1dafff6 x86: Properly handle IFUNC function pointer reference
+ffc7aa903b9 AArch64: Enable FP16 by default for Armv9-A.
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 74bc037120fa9f00def7e8df6b3a77bba9c9031e)
+Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../{gst-devtools_1.20.2.bb => gst-devtools_1.20.3.bb}          | 2 +-
+ meta/recipes-devtools/binutils/binutils-2.38.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.20.2.bb => gst-devtools_1.20.3.bb} (95%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.3.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb
-rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.20.3.bb
-index 4819a34b26..c515e173c8 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.3.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
-            file://0001-connect-has-a-different-signature-on-musl.patch \
-            "
+diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
+index a069071c97..742ca86379 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.38.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
+@@ -18,7 +18,7 @@ SRCBRANCH ?= "binutils-2_38-branch"
  
--SRC_URI[sha256sum] = "b28dba953a92532208b30467ff91076295e266f65364b1b3482b4c4372d44b2a"
-+SRC_URI[sha256sum] = "bbbd45ead703367ea8f4be9b3c082d7b62bef47b240a39083f27844e28758c47"
+ UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
  
- DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
- RRECOMMENDS:${PN} = "git"
+-SRCREV ?= "134f17ef688ba4c72a6c4e57af7382882cc1a705"
++SRCREV ?= "eed56ee299b9ef8754bb4e53f2e9cf2a7c28c04d"
+ BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=${SRCBRANCH};protocol=git"
+ SRC_URI = "\
+      ${BINUTILS_GIT_URI} \
 -- 
 2.25.1
 
