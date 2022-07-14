@@ -1,125 +1,131 @@
-Return-Path: <jacob.kroon@gmail.com>
+Return-Path: <otavio.salvador@ossystems.com.br>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B390C433EF
-	for <webhook@archiver.kernel.org>; Thu, 14 Jul 2022 11:15:31 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web10.6222.1657797324737008058
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC264C43334
+	for <webhook@archiver.kernel.org>; Thu, 14 Jul 2022 11:25:11 +0000 (UTC)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
+ [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.web08.6335.1657797902443597817
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Jul 2022 04:15:25 -0700
+ Thu, 14 Jul 2022 04:25:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=S84NpMV9;
- spf=pass (domain: gmail.com, ip: 209.85.167.47,
- mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id t1so2224153lft.8
+ dkim=pass header.i=@ossystems-com-br.20210112.gappssmtp.com header.s=20210112
+ header.b=DFGACEy4;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.219.48,
+ mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qv1-f48.google.com with SMTP id r12so1197852qvm.3
         for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Jul 2022 04:15:24 -0700 (PDT)
+ Thu, 14 Jul 2022 04:25:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=w/Huhxj0GmdXNOYBq+dwNal7QWvughejifpWtOJPrBo=;
-        b=S84NpMV9lKDuDG5zHoFHATg8z45UARkgXaXx0n03bs6NuU+A2N4Y2HcMfmbx4uDK1d
-         sBBCYkIhm8KypjIKJfUEE8ZRHsWgpv6nLXHH2pYW9HkTANRyCsZGLJdqbXxxUNax6iVS
-         WYYH2VDYiEWRkiF9xAHLXdBcxtkJYebCR68yY7Bc5/uGm2PdlGFaynFRWNjlOzAjYZtT
-         24tm6NI8ErcD8Vv76SZKK65ZKPzUsysZovasXKPaDRQdwVGIh6y23Bc2kVxqVtMHnHio
-         u30Qe+M49m1HK2lXfDq9SAzHVZXm/bwSrk+vqLuNnDT0cYGUDXil0cJCbdUsZA/2B/80
-         bKEw==
+        d=ossystems-com-br.20210112.gappssmtp.com; s=20210112;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+         :cc;
+        bh=Jxdqbzg62TxkMMAEUXNGFJE5eXSopYdJQs6XpxLCDG4=;
+        b=DFGACEy4/hidcU01XQLfxLIqzYuEjr2mjbJ4DR1ZUbV1bnFfBmw/ApcJ7lzeZQnZer
+         0HiZbB7UlM5XOXRal6lAUsx/cJ82GDCcCGbAjejE+2VJYN5CVkb6xol2NvG9TJv3Yu+Y
+         /gM+pKbN6KvPQyWEQWDAK6vIZDNWGHGo1LEPZmmyLfhXeQV5resWn0jOGCzPP2ZupFWS
+         01+M++pW8eDuXqs2M79IFaxKa+/X1zTTlYWND+FnfKSnIwd0l+UJNdfUrjChBFgpHLN4
+         332l+XVyKI7rI6FVVUZVOQeirtMuvZczCIUSGJ6hTZ3lL/oNlsH1Gk4A+BetjxuwFovH
+         0RLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=w/Huhxj0GmdXNOYBq+dwNal7QWvughejifpWtOJPrBo=;
-        b=ThmzOZQqtkZ5LKFdMLoeZc2JIgNsiQdIWa1vpTHvwxMfzIzxgzbb98LmjJHYvD+bVL
-         iiAE+4L+RCCG8XWnN7m0Kr+mJYcWsKnhu40BZyZRedJZeastPHgiQxTRfpSxXC3mmBjx
-         ZHeFoFv90H5gErJZGOsnChcSFAAGd1DrS11b9gZ4passXlFI6ypa+gAiRCz6/2jPowrZ
-         x55MbXemfrEYHglhopI72kEo2e5LXSqV3UCzbmvQvCaQ9NEO0G8M5FJ59RYZscYruiI6
-         pM5YY2yTj5eEUmOMH7qZIidZp+eWkfnvRToYrKOs0n2LaRn9meF1uVSeQzn7m6Qax5dk
-         iXsA==
-X-Gm-Message-State: AJIora9XeP5mTfGkZVHRMaQqL/2CzkD8oPwPF1f2VScsetQjmop//C9Y
-	oRVGIpon93sCl1e89kcVVno=
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+         :message-id:subject:to:cc;
+        bh=Jxdqbzg62TxkMMAEUXNGFJE5eXSopYdJQs6XpxLCDG4=;
+        b=LqoL+f/y5nEQO/OYcfMFImXALCZwE8RW/YYmCNI2L6U/ZjzVOo1D0xkjtkX7shK5rH
+         b/vN8Vpcs1UElQrSwm71l16k0cWENb6yhTivbdvzxd+0O1tQshNby7wdvuCcnjC8nwE0
+         U3ZeQQUg0Je6ZQ1KBEghoUA4yDBCuK4hnrPMPM1Omry4JC1oV5v+ZRNhFDcpbuGp4koj
+         PlSO3CIiBDiBrpQV4BA1umv2C9XubgevH1iy/mnRHW0+dUpEhHL5oJfi3rWyWGja7yUv
+         3F52TE6DT0N0/eTrbMVNH3R4Bic7/uzN9BDIkCj0rUQ59Ov1DTogagqfScbOfi2nFEnN
+         R80g==
+X-Gm-Message-State: AJIora9e1ZoM8l2cNRPAlgUDysZNGoqQykQ7Iib+96izeUHlHAJOiQbT
+	BfNXc+A+soipzPI0TuV2bpxBycjhs+QUmrWO
 X-Google-Smtp-Source: 
- AGRyM1sbjPYeF43S+ge5heSy7thM3i/EKauIeHZ6d5kj3vwmivYJ48/3Lf/oHrcr7//W38k9tLE/iw==
-X-Received: by 2002:ac2:5389:0:b0:48a:1070:775d with SMTP id
- g9-20020ac25389000000b0048a1070775dmr3324923lfh.266.1657797322655;
-        Thu, 14 Jul 2022 04:15:22 -0700 (PDT)
-Received: from [192.168.10.113] (89-253-118-72.customers.ownit.se.
- [89.253.118.72])
+ AGRyM1sIYdmJBognKtRgqvpBmXhELqQRR7bjVLgpZ3CJP1X+qSjqKqz9UXpJvJ743O17Uv9XHnr67w==
+X-Received: by 2002:a05:6214:628:b0:473:be4:65d2 with SMTP id
+ a8-20020a056214062800b004730be465d2mr7281986qvx.97.1657797901202;
+        Thu, 14 Jul 2022 04:25:01 -0700 (PDT)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com.
+ [209.85.222.172])
         by smtp.gmail.com with ESMTPSA id
- dt8-20020a0565122a8800b0047f9aefa838sm305149lfb.109.2022.07.14.04.15.21
+ m12-20020a05620a290c00b006b59ddb4bc5sm1091354qkp.84.2022.07.14.04.25.00
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Jul 2022 04:15:22 -0700 (PDT)
-Message-ID: <cd66e245-9b30-dc6f-ed7e-a2d9a67df98c@gmail.com>
-Date: Thu, 14 Jul 2022 13:15:21 +0200
+        Thu, 14 Jul 2022 04:25:00 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qk1-f172.google.com with SMTP id 20so949182qky.5
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 14 Jul 2022 04:25:00 -0700 (PDT)
+X-Received: by 2002:a05:620a:1d0d:b0:6b5:774e:9a27 with SMTP id
+ dl13-20020a05620a1d0d00b006b5774e9a27mr5478127qkb.280.1657797900461; Thu, 14
+ Jul 2022 04:25:00 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [OE-core] [PATCH v3 1/2] poky-altcfg: enable usrmerge
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Luca Bocassi <luca.boccassi@gmail.com>,
- openembedded-core@lists.openembedded.org
-References: <20220711202929.3839971-1-luca.boccassi@gmail.com>
- <20220713165533.125600-1-luca.boccassi@gmail.com>
- <8189a37bf619f781f8e9437fd5a4b2c7c06c7457.camel@linuxfoundation.org>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-In-Reply-To: 
- <8189a37bf619f781f8e9437fd5a4b2c7c06c7457.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220710164300.953098-1-otavio@ossystems.com.br>
+ <017e9264-cb7e-9904-7746-56cc461196da@linux.microsoft.com>
+In-Reply-To: <017e9264-cb7e-9904-7746-56cc461196da@linux.microsoft.com>
+Date: Thu, 14 Jul 2022 08:24:49 -0300
+X-Gmail-Original-Message-ID: 
+ <CAP9ODKrirVni8tcSFZupuYKPoXSqenS_0gTEpkz4RnDJcustuA@mail.gmail.com>
+Message-ID: 
+ <CAP9ODKrirVni8tcSFZupuYKPoXSqenS_0gTEpkz4RnDJcustuA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 1/2] rust-common: Fix use of target
+ definitions for SDK generation
+To: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000f76b8f05e3c22639"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Jul 2022 11:15:31 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Jul 2022 11:25:11 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168030
+ https://lists.openembedded.org/g/openembedded-core/message/168031
 
-On 7/13/22 19:53, Richard Purdie wrote:
-> On Wed, 2022-07-13 at 17:55 +0100, Luca Bocassi wrote:
->> From: Luca Boccassi <luca.boccassi@microsoft.com>
->>
->> Ensure it gets tested by the CI
->>
->> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
->> ---
->>   meta-poky/conf/distro/poky-altcfg.conf | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/meta-poky/conf/distro/poky-altcfg.conf b/meta-poky/conf/distro/poky-altcfg.conf
->> index f03306e798..57a76e8bb9 100644
->> --- a/meta-poky/conf/distro/poky-altcfg.conf
->> +++ b/meta-poky/conf/distro/poky-altcfg.conf
->> @@ -9,6 +9,8 @@ DISTROOVERRIDES = "poky:poky-altcfg"
->>   #DISTROOVERRIDES = "poky:linuxstdbase"
->>   
->>   INIT_MANAGER:poky-altcfg = "systemd"
->> +# systemd will soon require usrmerge
->> +DISTRO_FEATURES:poky-altcfg += "usrmerge"
->>   # systemd isn't suitable with musl
->>   INIT_MANAGER:poky-altcfg:libc-musl = "sysvinit"
->>   
-> 
-> This blew up builds since it clears everything else out of
-> DISTRO_FEATURES which isn't what was intended. I've tweaked the patch
-> and re-queued.
-> 
+--000000000000f76b8f05e3c22639
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Maybe I'm missing something, but what is the benefit in introducing and 
-using the "poky-altcfg" override in this file ? If DISTRO_FEATURES was 
-just appended with
+Hello Alejandro,
 
-DISTRO_FEATURES += "usrmerge"
+Em qua., 13 de jul. de 2022 =C3=A0s 21:08, Alejandro Hernandez Samaniego <
+alhe@linux.microsoft.com> escreveu:
 
-it would all be fine, since it is after the
+> These look okay to me, could we backport these to Kirkstone?
+>
+This is my goal as well; kirkstone is broken for me at this moment.
 
-require conf/distro/poky.conf
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
-line, right ? And if someone wants to base a distro in 
-"poky-altcfg.conf", they would include "poky-altcfg.conf" first in the 
-same way, then do customizations.
+--000000000000f76b8f05e3c22639
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Jacob
+<div dir=3D"ltr"><div>Hello=C2=A0Alejandro,</div><br><div class=3D"gmail_qu=
+ote"><div dir=3D"ltr" class=3D"gmail_attr">Em qua., 13 de jul. de 2022 =C3=
+=A0s 21:08, Alejandro Hernandez Samaniego &lt;<a href=3D"mailto:alhe@linux.=
+microsoft.com">alhe@linux.microsoft.com</a>&gt; escreveu:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">
+ =20
+   =20
+ =20
+  <div>
+    <p>These look okay to me, could we backport these to Kirkstone?</p></di=
+v></blockquote><div>This is my goal as well; kirkstone is broken for me at =
+this moment.</div><div>=C2=A0</div></div>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Otavio Salvador =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. Systems<br><a =
+href=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems=
+.com.br</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://code.ossystems.com=
+.br" target=3D"_blank">http://code.ossystems.com.br</a><br>Mobile: +55 (53)=
+ 9 9981-7854 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mobile: +1 (347) 903-9750</d=
+iv></div>
+
+--000000000000f76b8f05e3c22639--
 
