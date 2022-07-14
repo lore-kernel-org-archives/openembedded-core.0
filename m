@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A431CCA47B
-	for <webhook@archiver.kernel.org>; Thu, 14 Jul 2022 04:36:39 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web08.4058.1657773397297536616
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69733CCA482
+	for <webhook@archiver.kernel.org>; Thu, 14 Jul 2022 04:36:49 +0000 (UTC)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+ [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web12.4030.1657773406926155370
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 21:36:37 -0700
+ Wed, 13 Jul 2022 21:36:47 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=MPQspIE2;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.48,
+ header.b=kWYKhd1P;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f48.google.com with SMTP id
- t5-20020a17090a6a0500b001ef965b262eso1443018pjj.5
+Received: by mail-pg1-f170.google.com with SMTP id 23so489494pgc.8
         for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 21:36:37 -0700 (PDT)
+ Wed, 13 Jul 2022 21:36:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=lDWwCUacrYYwPuy/55s+wj7AkQPSe2+h/kwtD5+Yh4s=;
-        b=MPQspIE2OpaaxcXoMmJFPI9+tpNLBXjoYvkT7OrRcWLYDqxCs8UuZjPicCYMtodhA5
-         DTo/qvPK0Nn6GvAaQ47VU2qB99HGg2FuyFHO+HBLj30aHAtTSoUnNhc+RGCQq6DSyUX3
-         Os4pspQkV/VGHZQfHVk9Zsy5Kk1DEDusTkmoVSzhjsFjrx1h6Ct+KyLj79OP4qPq51Ge
-         knr3xZN6rv5F2pl/Vh6BQBy3uPlIZ7C5C1r2vCgkkOiG+Ld65fnYHmhAad2fKnwNy6L9
-         +Lni4Ljzpkz3HvEW+ZS11JnnCsc9OqR3A6YMitu+pGNjPbqY5hmww9I6OF8yJTaUcYAL
-         HgxA==
+        bh=ci+TlZO3AKBXcXC+HJVxSuVaVpq0B4W7Uej8AhJILpw=;
+        b=kWYKhd1PlhbAckMLP6cqQVFVZcpZE5iUQLjtpJsn5YHBY9PfvgOYLUrrfwB1I/1icB
+         1i4f6HqR41yqyhdSm9+TpC3GT6yrjcTtcGRTLsA7XGK74nZwWYKvEDkbIyPvGONS77LH
+         gQTZPgtZOVVBmE4Pb6H4bKhBzeLIi5qiKywzvFoVD91OWv1JWZia1EMRCxzUGcIPv42N
+         2Plr8r+hUlqwz/dEzGGT3UB6iqF5uSgglURRQsAMCJ7bm1+KxEI+bdXhQwrC2PSitQ+t
+         9ztvoWI7jVq/i9AljLdpp5+5f0tnrlSUtSL9p5tR3U4JjI37+XNBoR7MQEA3DIjuL2dD
+         X/Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=lDWwCUacrYYwPuy/55s+wj7AkQPSe2+h/kwtD5+Yh4s=;
-        b=0tNQB90rM298T/xE3DkeJHzSGiX3Lxok9vxM8MxGuzpcrMOsXyVkPXlS8H1vMcfATg
-         NFhZMdBugIdENnu79hdtJFJE+L/Hn/aOP+JMrpPqwTsK2Jj6EolEmrW7zEudLpRwBN5+
-         5YIbf5Aeenc+aFKk14VYe3lpzzBpYm6Sw3RItQN/djIzhjFq+GNqhUABk5inhfxRo72N
-         RPVvb3ZFclUT+wQfM91RBiBHNzR2/tPlXyu72/tSV196Vzk69efOrwEHKUPFhWMG22Gl
-         0L+ccfMD2HedgHUCcUgGkHP4qjQhyqWxZr4u1GYm+FreBZSZV30pvEY4ER7Y6cE5Cc0l
-         jY4w==
-X-Gm-Message-State: AJIora+ySWKIFfs21rF+i1+oLrdaLCGek0hFYfeUkiZMZFQFpslhD2Gw
-	QSBpimKBTK9lUifsvA1UOfP+Nz+D2b+wJLoA
+        bh=ci+TlZO3AKBXcXC+HJVxSuVaVpq0B4W7Uej8AhJILpw=;
+        b=nCHS+a/ODNsAlggzW21yrVBZ5ql6jbpJgcwF4HcmIgsR4FhhpqHw04lWHEt6IqaHLv
+         D3vvQ/2PR4GEiWQEJzc9PsQY8h4XWKSE8ODR3q3A/+I48ImDKyay6uOKXGoMckUHNffX
+         BeIb+Zx5d0PiPJXeH6YL6b8oINcp9xOVDCxXMSFpH/nQ2iIURqeYL48NhBEf0mXTbQKx
+         e+yv4kLpSARfA7ZrUKNxCw/aosuZaqHCxhEeQ485PV2wF16lRrfm1rb0Ml0Hq//ooHr7
+         Vq3I/aunUu1ogx9g6LikzGkSI1R2SsivSOruCjbiHyBWHHRVEy9IcD0mmGQBa5H5qzTa
+         azww==
+X-Gm-Message-State: AJIora/i767uGDEfaW0U99QEGd2lYgZs1ufiGAFc2/EqjABZHN5Iyhj4
+	UKX+8nJqpIIz3iU6bhGEkhsPX1wUk/nxN2+W
 X-Google-Smtp-Source: 
- AGRyM1sDmWuLDWA52P09+qJXZrdmkIFPlW4XT1nGkg0aIETKREMHNdy6oSzjXFA1YJqctGjPt5ydVg==
-X-Received: by 2002:a17:903:189:b0:16c:39b2:c217 with SMTP id
- z9-20020a170903018900b0016c39b2c217mr7050514plg.113.1657773396245;
-        Wed, 13 Jul 2022 21:36:36 -0700 (PDT)
+ AGRyM1tHz+VC47m/ddDHF0H7c3jvXYTvle6rQAWQ6umUJU6bhgKsqU+WCaVFYvWMn6Anft4CLCgxOQ==
+X-Received: by 2002:a63:2686:0:b0:419:a2da:5078 with SMTP id
+ m128-20020a632686000000b00419a2da5078mr4067423pgm.613.1657773405964;
+        Wed, 13 Jul 2022 21:36:45 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- f6-20020aa79d86000000b0050dc762819bsm411320pfq.117.2022.07.13.21.36.34
+ f6-20020aa79d86000000b0050dc762819bsm411320pfq.117.2022.07.13.21.36.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jul 2022 21:36:35 -0700 (PDT)
+        Wed, 13 Jul 2022 21:36:45 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 11/27] glibc-tests: Avoid reproducibility issues
-Date: Wed, 13 Jul 2022 18:35:31 -1000
+Subject: [OE-core][kirkstone 15/27] gstreamer1.0-libav: upgrade 1.20.2 ->
+ 1.20.3
+Date: Wed, 13 Jul 2022 18:35:35 -1000
 Message-Id: 
- <96f6badee73f35ededcb7d0172db07fcc305df0d.1657772638.git.steve@sakoman.com>
+ <9b8a62dd3987280debba1fa11e9a1387fc341f4e.1657772638.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1657772638.git.steve@sakoman.com>
 References: <cover.1657772638.git.steve@sakoman.com>
@@ -68,77 +68,39 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Jul 2022 04:36:39 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Jul 2022 04:36:49 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168008
+ https://lists.openembedded.org/g/openembedded-core/message/168012
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: wangmy <wangmy@fujitsu.com>
 
-Currently, there are hardcoded paths in the binaries installed by this
-recipe, at least one some architectures. Change the compile definitions to
-point to more appropriate paths. Ideally we'd rework this patch into a form
-acceptable to upstream but I'm not entirely sure what that would look like
-right now.
+No changes from version 1.20.2
 
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ede7ab3bbf87cc7d7e713d435ea8a88035c2e46e)
+(cherry picked from commit 671a2ebab778393207bf95db88445bded3a4ef54)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/glibc/glibc-tests_2.35.bb   |  3 +++
- .../glibc/glibc/reproducible-paths.patch      | 23 +++++++++++++++++++
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/reproducible-paths.patch
+ ...streamer1.0-libav_1.20.2.bb => gstreamer1.0-libav_1.20.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.20.2.bb => gstreamer1.0-libav_1.20.3.bb} (91%)
 
-diff --git a/meta/recipes-core/glibc/glibc-tests_2.35.bb b/meta/recipes-core/glibc/glibc-tests_2.35.bb
-index 028e83e865..96d0569ff6 100644
---- a/meta/recipes-core/glibc/glibc-tests_2.35.bb
-+++ b/meta/recipes-core/glibc/glibc-tests_2.35.bb
-@@ -5,6 +5,7 @@ inherit ptest features_check
- REQUIRED_DISTRO_FEATURES = "ptest"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.3.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.3.bb
+index 4ef9755c07..e8da49af99 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.3.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
+                     "
  
- SRC_URI:append = " \
-+	file://reproducible-paths.patch \
- 	file://run-ptest \
- "
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "b5c531dd8413bf771c79dab66b8e389f20b3991f745115133f0fa0b8e32809f9"
++SRC_URI[sha256sum] = "3fedd10560fcdfaa1b6462cbf79a38c4e7b57d7f390359393fc0cef6dbf27dfe"
  
-@@ -31,6 +32,8 @@ RRECOMMENDS:${PN} = ""
- RDEPENDS:${PN} = " glibc sed"
- DEPENDS:append = " sed"
+ S = "${WORKDIR}/gst-libav-${PV}"
  
-+export oe_srcdir="${exec_prefix}/src/debug/glibc/${PV}/"
-+
- # Just build tests for target - do not run them
- do_check:append () {
- 	oe_runmake -i check run-built-tests=no
-diff --git a/meta/recipes-core/glibc/glibc/reproducible-paths.patch b/meta/recipes-core/glibc/glibc/reproducible-paths.patch
-new file mode 100644
-index 0000000000..0754dca62b
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/reproducible-paths.patch
-@@ -0,0 +1,23 @@
-+Avoid hardcoded build time paths in the output binaries by replacing the compile
-+definitions with the output locations.
-+
-+Upstream-Status: Inappropriate [would need reworking somehow to be acceptable upstream]
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Index: git/support/Makefile
-+===================================================================
-+--- git.orig/support/Makefile
-++++ git/support/Makefile
-+@@ -216,9 +216,9 @@ libsupport-inhibit-o += .o
-+ endif
-+ 
-+ CFLAGS-support_paths.c = \
-+-		-DSRCDIR_PATH=\"`cd .. ; pwd`\" \
-+-		-DOBJDIR_PATH=\"`cd $(objpfx)/..; pwd`\" \
-+-		-DOBJDIR_ELF_LDSO_PATH=\"`cd $(objpfx)/..; pwd`/elf/$(rtld-installed-name)\" \
-++		-DSRCDIR_PATH=\"$(oe_srcdir)\" \
-++		-DOBJDIR_PATH=\"$(libdir)/glibc-tests/ptest/tests/glibc-ptest\" \
-++		-DOBJDIR_ELF_LDSO_PATH=\"$(slibdir)/$(rtld-installed-name)\" \
-+ 		-DINSTDIR_PATH=\"$(prefix)\" \
-+ 		-DLIBDIR_PATH=\"$(libdir)\" \
-+ 		-DBINDIR_PATH=\"$(bindir)\" \
 -- 
 2.25.1
 
