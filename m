@@ -1,113 +1,77 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <ripastri@linux.microsoft.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90319C433EF
-	for <webhook@archiver.kernel.org>; Thu, 14 Jul 2022 19:27:50 +0000 (UTC)
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com
- [209.85.160.46])
- by mx.groups.io with SMTP id smtpd.web10.400.1657826861832026292
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48ADBC433EF
+	for <webhook@archiver.kernel.org>; Thu, 14 Jul 2022 23:51:22 +0000 (UTC)
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web12.759.1657842678472390384
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Jul 2022 12:27:41 -0700
+ Thu, 14 Jul 2022 16:51:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Yqkk2JaX;
- spf=pass (domain: gmail.com, ip: 209.85.160.46,
- mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f46.google.com with SMTP id
- 586e51a60fabf-10cf9f5b500so2545766fac.2
-        for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Jul 2022 12:27:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=y6832rXAXTCcjUkkPEBkXDexk76f881Ndd1wPi8xs+A=;
-        b=Yqkk2JaXOHz9Y4cSG9uMNy+FU3vaFfbqS8UjIDrjyWswHLuVsb7KAb4sJ4RMPhavnu
-         E7IusJrcO7QAKES7ZSsTyCj+CjkJfxjMXQYRQ3ciBGOdIrEttd8st+ZPZqDEW/LJFzhP
-         Ba9O/1X5qOMHYHvsAxlkgtINhtUvL98aa5Bb6LPxE1TF2b+wv1NaSL33vAREyUOkkoYs
-         7HzGHjLVaE4FUj3OFtD7oOVE9/zK9FWG7ZOss8/pYJLrntyg6X4rzgZG4fcHJWeaV5RI
-         II+NbtuE5fWhil3BBFLJEuyDrlnML2x/CWxmPzxkAyGS3Z4lloZCLxznsgB3/n47FR72
-         5gjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=y6832rXAXTCcjUkkPEBkXDexk76f881Ndd1wPi8xs+A=;
-        b=TOhZaz0L0QZ0KAarBsOQVIEL7/8zZRMSC1HwhtvLQWCi8tAK8QNerHQmOLAOA5WMPu
-         oeYL7iMWmfmqbAk56LrRvpQHWb/KJVEV+5ljL58GPQ8ur3zxDB2UaajGtg8hjTvNF5t5
-         l9+1Yds+qUUH6YmkIFran2YZd8b5ci6feNQyEFvZ8rQ8CbsbtMtqOyq6fCumY7H/WV/v
-         VxT2QqhyhxFm8t0PMW4ZVlROeDftuY//ygqu8KxMUXLvKrY43xEH7XAxc105nxaf3ePl
-         wdPG0sqUiD5Kr5480WjqMtCXZJaa6y3h/X+Y13CZZsL/IR7xURRgqviuN//9O0JMWpnS
-         6yWQ==
-X-Gm-Message-State: AJIora+6fNGU5B3vsBsxQJ7czPgszZGGTxLS6W4iOodXOXNDByyvlhhg
-	PPaVWsO8gEoi4DTAKYUR6My/bz2szSvpOg==
-X-Google-Smtp-Source: 
- AGRyM1v816Tm0QU78d7DYfs/0yCwyPp84X2cbHQiPB4DH/pkE82wFQLlmwc5Lthu4uv2Sn/zjbZ9LQ==
-X-Received: by 2002:a05:6870:972c:b0:10c:151d:4df8 with SMTP id
- n44-20020a056870972c00b0010c151d4df8mr7980609oaq.210.1657826860631;
-        Thu, 14 Jul 2022 12:27:40 -0700 (PDT)
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id
- r41-20020a056870582900b00108b31bf8fbsm1325498oap.53.2022.07.14.12.27.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Jul 2022 12:27:39 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+ dkim=fail reason="body hash did not verify" header.i=@linux.microsoft.com
+ header.s=default header.b=kA2swMoT;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182,
+ mailfrom: ripastri@linux.microsoft.com)
+Received: from leda.corp.microsoft.com (unknown [50.35.98.180])
+	by linux.microsoft.com (Postfix) with ESMTPSA id B069A20FD0C6;
+	Thu, 14 Jul 2022 16:51:17 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B069A20FD0C6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1657842677;
+	bh=TiVY8ADKAWwzghlF5xRomqqsLIcHgcpZx6gsZ7hY+vs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=kA2swMoTUHhAsdx6ZVC7Skh7d4s6+I4DRuta00rg+RRa/KltL5iZx/YNxLTubnqq1
+	 KrNHbi/u7exUBFJH9dryVlYmpBzEsdhlYqdl9OtPkdfX7Zn1KBQkAfDWrprHIgVIUP
+	 M+QBbcyVYPK5FiHTy7fZKj+Wbf3+oop9CS2K6Tes=
+From: Richard Pastrick <ripastri@linux.microsoft.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] sstatesig: Include all dependencies in SPDX task
- signatures
-Date: Thu, 14 Jul 2022 14:27:34 -0500
-Message-Id: <20220714192734.416127-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.33.0
+Cc: alhe@linux.microsoft.com
+Subject: [kirkstone][PATCH 1/2] cargo_common.bbclass: enable bitbake vendoring
+ for externalsrc
+Date: Thu, 14 Jul 2022 16:51:02 -0700
+Message-Id: <20220714235103.75188-1-ripastri@linux.microsoft.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Jul 2022 19:27:50 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Jul 2022 23:51:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168051
+ https://lists.openembedded.org/g/openembedded-core/message/168052
 
-SDPX generation involves looking through BB_TASKDEPDATA for
-dependencies, then linking to the generated documents for those
-dependencies. These document links use a checksum to validate the
-document, which means that if a upstream document changes, all
-downstream documents must be regenerated to get the new checksum,
-otherwise the compendium of documents produced by the build will have
-broken links; therefore all dependent task should be included in the
-signature (even from "ABI safe" recipes).
+From: Chanho Park <chanho61.park@samsung.com>
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+To support crate:// fetcher on externalsrc, we need to remove "-z
+${EXTERNALSRC} check of bitbake vendoring. It is possible to disable
+vendoring by CARGO_DISABLE_BITBAKE_VENDORING =3D "1" if externalsrc-ed
+project does not want to enablt it.
+
+Signed-off-by: Chanho Park <chanho61.park@samsung.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Richard Pastrick <ripastri@linux.microsoft.com>
 ---
- meta/lib/oe/sstatesig.py | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/classes/cargo_common.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 7150bd0929..839b3a992a 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -24,10 +24,19 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCaches):
-         return "/allarch.bbclass" in inherits
-     def isImage(mc, fn):
-         return "/image.bbclass" in " ".join(dataCaches[mc].inherits[fn])
-+    def isSPDXTask(task):
-+        return task in ("do_create_spdx", "do_create_runtime_spdx")
- 
-     depmc, _, deptaskname, depmcfn = bb.runqueue.split_tid_mcfn(dep)
-     mc, _ = bb.runqueue.split_mc(fn)
- 
-+    # Keep all dependencies between SPDX tasks in the signature. SPDX documents
-+    # are linked together by hashes, which means if a dependent document changes,
-+    # all downstream documents must be re-written (even if they are "safe"
-+    # dependencies).
-+    if isSPDXTask(task):
-+        return True
-+
-     # (Almost) always include our own inter-task dependencies (unless it comes
-     # from a mcdepends). The exception is the special
-     # do_kernel_configme->do_unpack_and_patch dependency from archiver.bbclass.
--- 
-2.33.0
+diff --git a/meta/classes/cargo_common.bbclass b/meta/classes/cargo_commo=
+n.bbclass
+index 90fad75415..39f32829fd 100644
+--- a/meta/classes/cargo_common.bbclass
++++ b/meta/classes/cargo_common.bbclass
+@@ -45,7 +45,7 @@ cargo_common_do_configure () {
+ 	directory =3D "${CARGO_VENDORING_DIRECTORY}"
+ 	EOF
+=20
+-	if [ -z "${EXTERNALSRC}" ] && [ ${CARGO_DISABLE_BITBAKE_VENDORING} =3D =
+"0" ]; then
++	if [ ${CARGO_DISABLE_BITBAKE_VENDORING} =3D "0" ]; then
+ 		cat <<- EOF >> ${CARGO_HOME}/config
+=20
+ 		[source.crates-io]
+--=20
+2.25.1
 
 
