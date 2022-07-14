@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68D90C43334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68DCACCA486
 	for <webhook@archiver.kernel.org>; Thu, 14 Jul 2022 04:36:19 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web12.4023.1657773378502152733
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web10.4011.1657773374978894593
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 21:36:18 -0700
+ Wed, 13 Jul 2022 21:36:15 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=c9er2rXZ;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182,
+ header.b=QunI90Sg;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id 70so835686pfx.1
+Received: by mail-pj1-f49.google.com with SMTP id
+ o5-20020a17090a3d4500b001ef76490983so1474012pjf.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 21:36:18 -0700 (PDT)
+ Wed, 13 Jul 2022 21:36:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=P56G9QS+YFogAdP1se22UaOVvDzZrKpOttuiBAlmgzc=;
-        b=c9er2rXZ51ViOdorcTTCTKuuS3ZkIexE6zJfRoSy/mi23mKkwCnLdYU/Zb1S5xjIQG
-         Mob/QfJ0Zve+X5aHiWUSEOGwAh9Ck2T2WxSH8ui4wSqcA54faJ0XNyrkQQGo7emq/fWt
-         Oe9BPqU0M9f5LREnF4xk4CvH05BtEhCTld25xMmCQe1BHOC0ASv3G8VNtGJewDQ1bBGx
-         3ih7u6JcHu8S7aQe34/PeTF1iQD2I565P44y3BJ8E+Z5QAYNy9GmhUytLAFoldnd5fLk
-         NjXBdKoI2xNL4kP7LFEJ2o3c7a7JkfpBaGMEd3QbvDCk/ZGy9Qdbo0IATIGGL+f5KqEQ
-         D+eA==
+        bh=ASIlKCpmT+Y+8CoSq6Zyh3cStANG0AdTv3MjnqXnZV4=;
+        b=QunI90SgCabvQ7tkC7f59hRf2pRQOHLSVeU2ie1EZMmhF8XfGi+dmBQKjW4bOmuT0l
+         OqNhbEKbrY9NT6kOJ3Z3owl0BDXWsqihR6Txr8rg+VHIOfdXBhrkmvhsVsBgBZulQ5N7
+         DAujyG+UC/2Zz40iMV4BwHgKff5rk4wUjEwRXTwqIMN8cU+/HSk9+dEM/QAKf7wAcRoC
+         92jHNq696NBOcwO7XUMnUy63t3ogF+T/GmJQQzK3K5dn/RNvEqX898STXE1UGha7gM7F
+         Wva/nRa7cdBdIQtSe6WVfPTr+fe1ZUJk/zfdQuOs3HZlZpeb+lSTfmU9WJgwin69hv0Z
+         kWxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=P56G9QS+YFogAdP1se22UaOVvDzZrKpOttuiBAlmgzc=;
-        b=aINRKArzJ4wZIotB4mztFuT3csm4MfFpegAnGHvkrapXBezO2EWOwHiIg8pvXhwknl
-         sLgJ5uGbn2PTbfCy/0NMK/X3ptBJy8XILCTrsX6fhS1bNmCIV9UGDWIaGdcFXo7XK3X3
-         hnqk5nxbARSJn7kQxcbym/FSL2U1wGYlw+HJLn7noZIDrU0UyLsttG2YWDgRWGAQMQJY
-         5zhvr7kT5MegiDIyT5iiumzPpXZarPdC5hJtEttrxY1W5Djv617zz9p6dhk10I10fpzZ
-         eysD5iPC6D0Cnjs6yQygsJ5WA4r1eLkeqzexUSou9RGFRWTvXFmybnKGJVugDTpx9/GZ
-         t3Mg==
-X-Gm-Message-State: AJIora+/4E9KGYow+vuXlY4oWNiayjP7BnhZdB+VD8/K8DkaQXmEbE8h
-	j8TtPrx20s6IU/gw9BPVnyOgsZprlsaHqQ2v
+        bh=ASIlKCpmT+Y+8CoSq6Zyh3cStANG0AdTv3MjnqXnZV4=;
+        b=UT+vPQdEt/SyT5C70mMvUWTQt13tM6pkXUgMhM30ZMZ/3XsYcJ/sS/bTUohztr3x7P
+         Bg+iipxU+SvC5J2ERXdr8dMPfb4EN1DjY0AnWCv50tE3weI2Q0i/IJ1cpC7xXov/5GgB
+         X5VF5fd5jiHeLbqrPHkT+wxZkNMQETC284QDP/hYm3NouyMEaq4SXSaoLa+GaVlDxlHb
+         egTdHHXJ5CYCEcVDI+b47H2HnRQN/NrKTZJyVGtBrESLkMCI0gmk+ogVrMbjFexxd8WQ
+         OL/6qvFgZWlzeX+E1eQ8foDHsd+33sPb4u5Di8P95V2hfYef0gB3H6R9p14B0nnGA1Gr
+         0n2A==
+X-Gm-Message-State: AJIora+rPl6Upq1qt705ium4yrUA7gX3IDv1JcdtZbwdH10qQOeXCt7/
+	2qds56avmK7OttiadzmNOsSy1OYJB5zHIqvY
 X-Google-Smtp-Source: 
- AGRyM1vB2G9WGiueZngvCf50y9iNWAa3n9M/4RsH+6FXftX4WG1gYASOZVmwbQMln+YrhFybkLFAhQ==
-X-Received: by 2002:a63:d1e:0:b0:40d:379e:bff8 with SMTP id
- c30-20020a630d1e000000b0040d379ebff8mr6180186pgl.215.1657773377382;
-        Wed, 13 Jul 2022 21:36:17 -0700 (PDT)
+ AGRyM1u/ek+DoiweYeFVVG6IU9dFWbxg+WNvL2zubnK1fqmLmRpUc84LMY1Gmg+asS8nVdFnroUGpg==
+X-Received: by 2002:a17:90a:1782:b0:1ef:cc5c:411a with SMTP id
+ q2-20020a17090a178200b001efcc5c411amr7928022pja.147.1657773374012;
+        Wed, 13 Jul 2022 21:36:14 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- f6-20020aa79d86000000b0050dc762819bsm411320pfq.117.2022.07.13.21.36.15
+ f6-20020aa79d86000000b0050dc762819bsm411320pfq.117.2022.07.13.21.36.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jul 2022 21:36:16 -0700 (PDT)
+        Wed, 13 Jul 2022 21:36:13 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 05/27] harfbuzz: fix CVE-2022-33068
-Date: Wed, 13 Jul 2022 18:35:25 -1000
+Subject: [OE-core][kirkstone 04/27] qemu: Avoid accidental libvdeplug linkage
+Date: Wed, 13 Jul 2022 18:35:24 -1000
 Message-Id: 
- <537e7d323f57a0484c279c3b52ad5bb45eb44a10.1657772638.git.steve@sakoman.com>
+ <83ab9f51f45b73ff595fbb8d519eee4f4d48e308.1657772638.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1657772638.git.steve@sakoman.com>
 References: <cover.1657772638.git.steve@sakoman.com>
@@ -69,79 +70,28 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Jul 2022 04:36:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168002
+ https://lists.openembedded.org/g/openembedded-core/message/168001
 
-From: Wentao Zhang <wentao.zhang@windriver.com>
+Avoid accidentally linking to the vde library from the host by
+adding a PACKAGECONFIG for the option.
 
-Backport patch from
-https://github.com/harfbuzz/harfbuzz/commit/62e803b36173fd096d7ad460dd1d1db9be542593
-
-The 'tff' file in upstream patch is for testing only which cause error during do_patch so need be dropped.
-File test/fuzzing/fonts/sbix-extents.ttf: git binary diffs are not supported.
-
-Signed-off-by: Wentao Zhang <wentao.zhang@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../harfbuzz/harfbuzz/CVE-2022-33068.patch    | 35 +++++++++++++++++++
- .../harfbuzz/harfbuzz_4.0.1.bb                |  3 +-
- 2 files changed, 37 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2022-33068.patch
+ meta/recipes-devtools/qemu/qemu.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2022-33068.patch b/meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2022-33068.patch
-new file mode 100644
-index 0000000000..931b9abe1e
---- /dev/null
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz/CVE-2022-33068.patch
-@@ -0,0 +1,35 @@
-+From 62e803b36173fd096d7ad460dd1d1db9be542593 Mon Sep 17 00:00:00 2001
-+From: Behdad Esfahbod <behdad@behdad.org>
-+Date: Wed, 1 Jun 2022 07:38:21 -0600
-+Subject: [PATCH] [sbix] Limit glyph extents
-+
-+Fixes https://github.com/harfbuzz/harfbuzz/issues/3557
-+
-+Upstream-Status: Backport [https://github.com/harfbuzz/harfbuzz/commit/62e803b36173fd096d7ad460dd1d1db9be542593]
-+CVE:CVE-2022-33068
-+Signed-off-by: Wentao Zhang<Wentao.Zhang@windriver.com>
-+
-+---
-+ src/hb-ot-color-sbix-table.hh | 6 ++++++
-+ 1 file changed, 6 insertions(+)
-+
-+diff --git a/src/hb-ot-color-sbix-table.hh b/src/hb-ot-color-sbix-table.hh
-+index 9741ebd45..6efae43cd 100644
-+--- a/src/hb-ot-color-sbix-table.hh
-++++ b/src/hb-ot-color-sbix-table.hh
-+@@ -298,6 +298,12 @@ struct sbix
-+ 
-+       const PNGHeader &png = *blob->as<PNGHeader>();
-+ 
-++      if (png.IHDR.height >= 65536 | png.IHDR.width >= 65536)
-++      {
-++	hb_blob_destroy (blob);
-++	return false;
-++      }
-++
-+       extents->x_bearing = x_offset;
-+       extents->y_bearing = png.IHDR.height + y_offset;
-+       extents->width     = png.IHDR.width;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb
-index bf77a5e56c..81518a53ea 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb
-@@ -11,7 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6ee0f16281694fb6aa689cca1e0fb3da \
- UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
- UPSTREAM_CHECK_REGEX = "harfbuzz-(?P<pver>\d+(\.\d+)+).tar"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 189e0d3f9e..8c5a649c76 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -201,6 +201,7 @@ PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux"
+ PACKAGECONFIG[bpf] = "--enable-bpf,--disable-bpf,libbpf"
+ PACKAGECONFIG[capstone] = "--enable-capstone,--disable-capstone"
+ PACKAGECONFIG[rdma] = "--enable-rdma,--disable-rdma"
++PACKAGECONFIG[vde] = "--enable-vde,--disable-vde"
  
--SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.xz"
-+SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.xz\
-+           file://CVE-2022-33068.patch"
- SRC_URI[sha256sum] = "98f68777272db6cd7a3d5152bac75083cd52a26176d87bc04c8b3929d33bce49"
+ INSANE_SKIP:${PN} = "arch"
  
- inherit meson pkgconfig lib_package gtk-doc gobject-introspection
 -- 
 2.25.1
 
