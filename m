@@ -1,84 +1,125 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <jacob.kroon@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC1BBC433EF
-	for <webhook@archiver.kernel.org>; Thu, 14 Jul 2022 09:40:20 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web11.5728.1657791614264337522
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B390C433EF
+	for <webhook@archiver.kernel.org>; Thu, 14 Jul 2022 11:15:31 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web10.6222.1657797324737008058
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Jul 2022 02:40:14 -0700
+ Thu, 14 Jul 2022 04:15:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LtqZhdXJ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id o8so679737wms.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=S84NpMV9;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47,
+ mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id t1so2224153lft.8
         for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Jul 2022 02:40:14 -0700 (PDT)
+ Thu, 14 Jul 2022 04:15:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=3cwgrUB0dz7AXWNUijAed7MIAnXRnB3DThIMp2oyBR8=;
-        b=LtqZhdXJSQQMFgpdjokmnW49e7KGFTQU4qgoxkl2hJAS98ue3Qd7aYuo2pHEwwnZSD
-         sBVQK/rKectXBkS25FguXTgz3l8vxHy9ijEzAHDYGKKt95TOrZM8Io6CAEILCn3EsTEU
-         PJ4jYDMkjjBKLElbll2vKJ6OZmRr9CYLlyEkw=
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=w/Huhxj0GmdXNOYBq+dwNal7QWvughejifpWtOJPrBo=;
+        b=S84NpMV9lKDuDG5zHoFHATg8z45UARkgXaXx0n03bs6NuU+A2N4Y2HcMfmbx4uDK1d
+         sBBCYkIhm8KypjIKJfUEE8ZRHsWgpv6nLXHH2pYW9HkTANRyCsZGLJdqbXxxUNax6iVS
+         WYYH2VDYiEWRkiF9xAHLXdBcxtkJYebCR68yY7Bc5/uGm2PdlGFaynFRWNjlOzAjYZtT
+         24tm6NI8ErcD8Vv76SZKK65ZKPzUsysZovasXKPaDRQdwVGIh6y23Bc2kVxqVtMHnHio
+         u30Qe+M49m1HK2lXfDq9SAzHVZXm/bwSrk+vqLuNnDT0cYGUDXil0cJCbdUsZA/2B/80
+         bKEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=3cwgrUB0dz7AXWNUijAed7MIAnXRnB3DThIMp2oyBR8=;
-        b=h0ihCLml8vI0j5EKrGq5WqIysw/b5DsU7wTywpSv/meb4VemNjE6dcS1AGB+C7m0h4
-         hKj0tLzAoH+PFtvYjxq1AoI73vQOLK17Rfv7XnRh8BFjzhDN1ksJBxhGQuBXCGwWh90l
-         Ult/McZGxBvB/av0kHshjTzCdCSHJ0k2647/GjwWTavsCSFHeisReo9fCMjehNsw5r+1
-         FjOmUDq7MtP/FzsJe6po2jjvTxNxemR0H4BMyDYuBAkAdlji168YPsnJ87YTidAbSaum
-         wF/b3o70009/du14InZbft59iW2x1NkH178C0R0ZfWnNHetqC2Z8YU/9rSSHLX7dvJh0
-         zPsw==
-X-Gm-Message-State: AJIora/qP/iajqQ2LsFj5pX5Ks9KjrDFjXrvQxe7aQdkhJ+qdTkdQ+1Y
-	yNDIwu4Dg7XgJvDTHf8VFGddVw==
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=w/Huhxj0GmdXNOYBq+dwNal7QWvughejifpWtOJPrBo=;
+        b=ThmzOZQqtkZ5LKFdMLoeZc2JIgNsiQdIWa1vpTHvwxMfzIzxgzbb98LmjJHYvD+bVL
+         iiAE+4L+RCCG8XWnN7m0Kr+mJYcWsKnhu40BZyZRedJZeastPHgiQxTRfpSxXC3mmBjx
+         ZHeFoFv90H5gErJZGOsnChcSFAAGd1DrS11b9gZ4passXlFI6ypa+gAiRCz6/2jPowrZ
+         x55MbXemfrEYHglhopI72kEo2e5LXSqV3UCzbmvQvCaQ9NEO0G8M5FJ59RYZscYruiI6
+         pM5YY2yTj5eEUmOMH7qZIidZp+eWkfnvRToYrKOs0n2LaRn9meF1uVSeQzn7m6Qax5dk
+         iXsA==
+X-Gm-Message-State: AJIora9XeP5mTfGkZVHRMaQqL/2CzkD8oPwPF1f2VScsetQjmop//C9Y
+	oRVGIpon93sCl1e89kcVVno=
 X-Google-Smtp-Source: 
- AGRyM1vOzTtSZoSnvxSyW04eFAyZW7nEUkX4E/VMx0Wfx0jgrVsQAg659ltjSC1ph+wCkJtQV73j3Q==
-X-Received: by 2002:a05:600c:354e:b0:3a1:9ddf:468d with SMTP id
- i14-20020a05600c354e00b003a19ddf468dmr14031311wmq.145.1657791612611;
-        Thu, 14 Jul 2022 02:40:12 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:c037:3be3:5ea0:9a64?
- ([2001:8b0:aba:5f3c:c037:3be3:5ea0:9a64])
+ AGRyM1sbjPYeF43S+ge5heSy7thM3i/EKauIeHZ6d5kj3vwmivYJ48/3Lf/oHrcr7//W38k9tLE/iw==
+X-Received: by 2002:ac2:5389:0:b0:48a:1070:775d with SMTP id
+ g9-20020ac25389000000b0048a1070775dmr3324923lfh.266.1657797322655;
+        Thu, 14 Jul 2022 04:15:22 -0700 (PDT)
+Received: from [192.168.10.113] (89-253-118-72.customers.ownit.se.
+ [89.253.118.72])
         by smtp.gmail.com with ESMTPSA id
- i16-20020a5d5230000000b0021d9d13bf6csm974630wra.97.2022.07.14.02.40.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Jul 2022 02:40:12 -0700 (PDT)
-Message-ID: 
- <9af42266ee228614914afa3f1cf7ac1f43b550be.camel@linuxfoundation.org>
-Subject: Re: [OE-core][kirkstone 01/27] ruby: add PACKAGECONFIG for capstone
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Steve Sakoman <steve@sakoman.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jul 2022 10:40:11 +0100
-In-Reply-To: 
- <CAOSpxdad4+XpE-kWSbuWYu8YptOx-nDFthiuEPUcyBrx+dMpkw@mail.gmail.com>
-References: <cover.1657772638.git.steve@sakoman.com>
-	 <17019818268B4DB5.31059@lists.openembedded.org>
-	 <CAOSpxdad4+XpE-kWSbuWYu8YptOx-nDFthiuEPUcyBrx+dMpkw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ dt8-20020a0565122a8800b0047f9aefa838sm305149lfb.109.2022.07.14.04.15.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Jul 2022 04:15:22 -0700 (PDT)
+Message-ID: <cd66e245-9b30-dc6f-ed7e-a2d9a67df98c@gmail.com>
+Date: Thu, 14 Jul 2022 13:15:21 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [OE-core] [PATCH v3 1/2] poky-altcfg: enable usrmerge
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Luca Bocassi <luca.boccassi@gmail.com>,
+ openembedded-core@lists.openembedded.org
+References: <20220711202929.3839971-1-luca.boccassi@gmail.com>
+ <20220713165533.125600-1-luca.boccassi@gmail.com>
+ <8189a37bf619f781f8e9437fd5a4b2c7c06c7457.camel@linuxfoundation.org>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+In-Reply-To: 
+ <8189a37bf619f781f8e9437fd5a4b2c7c06c7457.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Jul 2022 09:40:20 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Jul 2022 11:15:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168029
+ https://lists.openembedded.org/g/openembedded-core/message/168030
 
-On Wed, 2022-07-13 at 18:42 -1000, Steve Sakoman wrote:
-> At this point I've only seen this on kirkstone, but I suspect it is
-> only a matter of time before we see it on master too. So we should
-> probably consider this for master too.
+On 7/13/22 19:53, Richard Purdie wrote:
+> On Wed, 2022-07-13 at 17:55 +0100, Luca Bocassi wrote:
+>> From: Luca Boccassi <luca.boccassi@microsoft.com>
+>>
+>> Ensure it gets tested by the CI
+>>
+>> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+>> ---
+>>   meta-poky/conf/distro/poky-altcfg.conf | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meta-poky/conf/distro/poky-altcfg.conf b/meta-poky/conf/distro/poky-altcfg.conf
+>> index f03306e798..57a76e8bb9 100644
+>> --- a/meta-poky/conf/distro/poky-altcfg.conf
+>> +++ b/meta-poky/conf/distro/poky-altcfg.conf
+>> @@ -9,6 +9,8 @@ DISTROOVERRIDES = "poky:poky-altcfg"
+>>   #DISTROOVERRIDES = "poky:linuxstdbase"
+>>   
+>>   INIT_MANAGER:poky-altcfg = "systemd"
+>> +# systemd will soon require usrmerge
+>> +DISTRO_FEATURES:poky-altcfg += "usrmerge"
+>>   # systemd isn't suitable with musl
+>>   INIT_MANAGER:poky-altcfg:libc-musl = "sysvinit"
+>>   
+> 
+> This blew up builds since it clears everything else out of
+> DISTRO_FEATURES which isn't what was intended. I've tweaked the patch
+> and re-queued.
+> 
 
-No probably about it, I've queued for testing!
+Maybe I'm missing something, but what is the benefit in introducing and 
+using the "poky-altcfg" override in this file ? If DISTRO_FEATURES was 
+just appended with
 
-Cheers,
+DISTRO_FEATURES += "usrmerge"
 
-Richard
+it would all be fine, since it is after the
+
+require conf/distro/poky.conf
+
+line, right ? And if someone wants to base a distro in 
+"poky-altcfg.conf", they would include "poky-altcfg.conf" first in the 
+same way, then do customizations.
+
+Jacob
 
