@@ -1,142 +1,320 @@
-Return-Path: <armccurdy@gmail.com>
+Return-Path: <alhe@linux.microsoft.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05932C433EF
-	for <webhook@archiver.kernel.org>; Wed, 13 Jul 2022 22:57:08 +0000 (UTC)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web09.1183.1657753024684648779
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DA9DC433EF
+	for <webhook@archiver.kernel.org>; Thu, 14 Jul 2022 00:08:18 +0000 (UTC)
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web10.1896.1657757293268494843
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 15:57:05 -0700
+ Wed, 13 Jul 2022 17:08:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QDfUv2YS;
- spf=pass (domain: gmail.com, ip: 209.85.208.47,
- mailfrom: armccurdy@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id r18so219409edb.9
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jul 2022 15:57:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BgVIl3+rH8tcOJqnifVUXz3mTZ5PdU/MYGOQ5/eX3Xg=;
-        b=QDfUv2YStGSyViwwVbN4MLcTAjiQ3EBTp+pLmKzrIKEGHnmmadMJK71eGvEim81Cq5
-         kSEEjRNQBo/W++hJrd0vE0hCMbe/R/M2s0TJiElj0j94u5RyFMI2flukxAsl1hwiQlEV
-         eYuQWqfs7X5PZuOhySZwJ6sN4A7IpO03rlT3X5qtR9WCkIgqDz0nqbhgVdS4BA5MEn7t
-         itarnLF9qs9b5J03pN/8wQV3QwCSY3iHgsZBaFmy+1xV9D7yV6F8aWXm/myVLGwhr2X5
-         wKRgYzuGp5s05yzPBckZsWg5JJjht9zMnY/mD+f3ym9QHB6fAvPwFL9fYgK5MzpOCU8i
-         mMKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BgVIl3+rH8tcOJqnifVUXz3mTZ5PdU/MYGOQ5/eX3Xg=;
-        b=yYzklGicwKOVDJbgfNRb9ZaDRzzCk1y6eYB5rC23/5t8LujCdmr+XgJgKVzlyvKPUL
-         CA2i3Hp3hPQ/PDlynoFPWtHylDrLUoGsC4Xn0pcXFHeDec+/7zd3PytHKQ8hjy7hqXbU
-         Tg9W/GSLE+wX05hQKru3XnDZYLC7hfLZHc+wmep19fbhu2Yq95l95/3ViYfpj8EXxdz3
-         n1dXjFA8vwX+BnCKjLfykP8HU/XqoCIn/+s+C+0f9+B83CU6XvyVtFLcH2DsL8FoquOl
-         rWGAKEmZ+O48SEbrh70lX+Myd7AWHrI/yTJqaMS5sFuKOFhot+4CV/tjz2Y2p8HlD3Vl
-         YsKw==
-X-Gm-Message-State: AJIora9MsuEpjG0psdP91byqVMKcP+scvmZi/Wq2nDl8Or/bK/vMFX60
-	6RqZb4FtVkKGcPOHdGQDvZeOrv+CiuFzXjVBVNc=
-X-Google-Smtp-Source: 
- AGRyM1vC6/FtqKokR5Ou9vlDQcBoeYHSVecYaRItr2wMaaOFn60hh5i9tFhM9RWVjHtzF2WgaHm6YtLAsCtWAQ8MGD8=
-X-Received: by 2002:a05:6402:15a:b0:431:71b9:86f3 with SMTP id
- s26-20020a056402015a00b0043171b986f3mr7919761edu.249.1657753023078; Wed, 13
- Jul 2022 15:57:03 -0700 (PDT)
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=dp/kogbI;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182,
+ mailfrom: alhe@linux.microsoft.com)
+Received: from [192.168.1.99] (cpe-70-112-59-126.austin.res.rr.com
+ [70.112.59.126])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 39AA120FD069;
+	Wed, 13 Jul 2022 17:08:12 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 39AA120FD069
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1657757292;
+	bh=i6weXqTLJrbZOzAn4kJzELMisLxnJbvmP7WnSjeaytE=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=dp/kogbIMHpCsGY6x5RlbItzEgx43lYSgBHgn04GKiZAYtIW/XChCWxd9Mi+yi436
+	 1jJzANFJqYJmr74GFLlrpvFuhr8H9d1VPTxkc5yfoLGrgaziO1U7ZFbgM99CjoFPbP
+	 3Wlt00l9Kp4/o8XOUPWmCqF70OJo2HkN1GBgd7iE=
+Content-Type: multipart/alternative;
+ boundary="------------0Caol4DRKDxJgHilYHcDjf05"
+Message-ID: <017e9264-cb7e-9904-7746-56cc461196da@linux.microsoft.com>
+Date: Wed, 13 Jul 2022 18:08:10 -0600
 MIME-Version: 1.0
-References: <20220711202929.3839971-1-luca.boccassi@gmail.com>
- <20220713165533.125600-1-luca.boccassi@gmail.com>
- <8189a37bf619f781f8e9437fd5a4b2c7c06c7457.camel@linuxfoundation.org>
- <CAMw=ZnQCPQ4zm0+YDjLq4+k17kYyjBTtAz2VsDFZDsUYp1jCXg@mail.gmail.com>
- <3f2f03085301d22854e5429019fb010f27d98bc7.camel@linuxfoundation.org>
- <CAMw=ZnQGseWOkhmpVdMMLSeq2+-9AND=FbO5k2FHgCkgo5Lnaw@mail.gmail.com>
-In-Reply-To: 
- <CAMw=ZnQGseWOkhmpVdMMLSeq2+-9AND=FbO5k2FHgCkgo5Lnaw@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 13 Jul 2022 15:56:46 -0700
-Message-ID: 
- <CAJ86T=Whwb5cx2Ac0V0Ym8Z7r7zSDT58fZN_BtfpLcQmBUvrFg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 1/2] poky-altcfg: enable usrmerge
-To: Luca Bocassi <luca.boccassi@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [OE-core] [PATCH v2 1/2] rust-common: Fix use of target
+ definitions for SDK generation
+Content-Language: en-US
+To: Otavio Salvador <otavio@ossystems.com.br>,
+ openembedded-core@lists.openembedded.org
+References: <20220710164300.953098-1-otavio@ossystems.com.br>
+From: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>
+In-Reply-To: <20220710164300.953098-1-otavio@ossystems.com.br>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Jul 2022 22:57:08 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Jul 2022 00:08:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/167995
+ https://lists.openembedded.org/g/openembedded-core/message/167996
 
-On Wed, Jul 13, 2022 at 12:02 PM Luca Bocassi <luca.boccassi@gmail.com> wrote:
+This is a multi-part message in MIME format.
+--------------0Caol4DRKDxJgHilYHcDjf05
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+
+On 7/10/22 10:42, Otavio Salvador wrote:
+> We need full target passed for build so we changed the
+> rust-cross-canadian to use same code used in regular rust recipes and
+> added support to use specific llvm-target for the building host.
 >
-> On Wed, 13 Jul 2022 at 19:36, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > On Wed, 2022-07-13 at 19:09 +0100, Luca Boccassi wrote:
-> > > On Wed, 13 Jul 2022 at 18:53, Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > > >
-> > > > On Wed, 2022-07-13 at 17:55 +0100, Luca Bocassi wrote:
-> > > > > From: Luca Boccassi <luca.boccassi@microsoft.com>
-> > > > >
-> > > > > Ensure it gets tested by the CI
-> > > > >
-> > > > > Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> > > > > ---
-> > > > >  meta-poky/conf/distro/poky-altcfg.conf | 2 ++
-> > > > >  1 file changed, 2 insertions(+)
-> > > > >
-> > > > > diff --git a/meta-poky/conf/distro/poky-altcfg.conf b/meta-poky/conf/distro/poky-altcfg.conf
-> > > > > index f03306e798..57a76e8bb9 100644
-> > > > > --- a/meta-poky/conf/distro/poky-altcfg.conf
-> > > > > +++ b/meta-poky/conf/distro/poky-altcfg.conf
-> > > > > @@ -9,6 +9,8 @@ DISTROOVERRIDES = "poky:poky-altcfg"
-> > > > >  #DISTROOVERRIDES = "poky:linuxstdbase"
-> > > > >
-> > > > >  INIT_MANAGER:poky-altcfg = "systemd"
-> > > > > +# systemd will soon require usrmerge
-> > > > > +DISTRO_FEATURES:poky-altcfg += "usrmerge"
-> > > > >  # systemd isn't suitable with musl
-> > > > >  INIT_MANAGER:poky-altcfg:libc-musl = "sysvinit"
-> > > > >
-> > > >
-> > > > This blew up builds since it clears everything else out of
-> > > > DISTRO_FEATURES which isn't what was intended. I've tweaked the patch
-> > > > and re-queued.
-> > >
-> > > Sorry, did I get something wrong? The diff between my local branch and
-> > > the master-next branch is empty, can't quite see it:
-> > >
-> > > $ git diff upstream/master-next meta-poky/conf/distro/poky-altcfg.conf
-> > > $
-> >
-> > My fault, I'm trying to restart the build from a different environment
-> > to usual and I messed up the change. It should be there now (and build
-> > restarted).
+> Fixes: ef566af964 ("rust: fix issue building cross-canadian tools for aarch64 on x86_64")
+> Fixes: bd36593ba3 ("rust-common: Drop LLVM_TARGET and simplify")
+> Fixes: 8ed000debb ("rust-common: Fix for target definitions returning 'NoneType' for arm")
+> Signed-off-by: Otavio Salvador<otavio@ossystems.com.br>
+> ---
 >
-> No worries - I see, in this case the append was the right thing. One
-> day I'll get these right on the first try. One day! Thanks for the
-> fix.
+> Changes in v2:
+> - Fix syntax for newer Python
+>
+>   meta/recipes-devtools/rust/rust-common.inc    | 21 ++++++++++++------
+>   .../rust/rust-cross-canadian-common.inc       | 22 ++++++++++++++++---
+>   2 files changed, 33 insertions(+), 10 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-devtools/rust/rust-common.inc
+> index ef70c48d0f..a937d58a37 100644
+> --- a/meta/recipes-devtools/rust/rust-common.inc
+> +++ b/meta/recipes-devtools/rust/rust-common.inc
+> @@ -119,12 +119,12 @@ def llvm_features(d):
+>   
+>   
+>   ## arm-unknown-linux-gnueabihf
+> -DATA_LAYOUT[arm] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
+> -TARGET_ENDIAN[arm] = "little"
+> -TARGET_POINTER_WIDTH[arm] = "32"
+> -TARGET_C_INT_WIDTH[arm] = "32"
+> -MAX_ATOMIC_WIDTH[arm] = "64"
+> -FEATURES[arm] = "+v6,+vfp2"
+> +DATA_LAYOUT[arm-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
+> +TARGET_ENDIAN[arm-eabi] = "little"
+> +TARGET_POINTER_WIDTH[arm-eabi] = "32"
+> +TARGET_C_INT_WIDTH[arm-eabi] = "32"
+> +MAX_ATOMIC_WIDTH[arm-eabi] = "64"
+> +FEATURES[arm-eabi] = "+v6,+vfp2"
+>   
+>   ## armv7-unknown-linux-gnueabihf
+>   DATA_LAYOUT[armv7-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
+> @@ -304,12 +304,19 @@ def rust_gen_target(d, thing, wd, features, cpu, arch, abi=""):
+>       else:
+>           arch_abi = rust_arch
+>   
+> +    # When building for the building system we need to return the HOST target
+> +    # or wrong flags are used.
+> +    if thing == "BUILD":
+> +        llvm_target = d.getVar('RUST_HOST_SYS', arch_abi)
+> +    else:
+> +        llvm_target = d.getVar('RUST_TARGET_SYS', arch_abi)
+> +
+>       features = features or d.getVarFlag('FEATURES', arch_abi) or ""
+>       features = features.strip()
+>   
+>       # build tspec
+>       tspec = {}
+> -    tspec['llvm-target'] = d.getVar('RUST_TARGET_SYS', arch_abi)
+> +    tspec['llvm-target'] = llvm_target
+>       tspec['data-layout'] = d.getVarFlag('DATA_LAYOUT', arch_abi)
+>       tspec['max-atomic-width'] = int(d.getVarFlag('MAX_ATOMIC_WIDTH', arch_abi))
+>       tspec['target-pointer-width'] = d.getVarFlag('TARGET_POINTER_WIDTH', arch_abi)
+> diff --git a/meta/recipes-devtools/rust/rust-cross-canadian-common.inc b/meta/recipes-devtools/rust/rust-cross-canadian-common.inc
+> index 1f21c8af26..eff9212648 100644
+> --- a/meta/recipes-devtools/rust/rust-cross-canadian-common.inc
+> +++ b/meta/recipes-devtools/rust/rust-cross-canadian-common.inc
+> @@ -27,9 +27,23 @@ DEBUG_PREFIX_MAP = "-fdebug-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDP
+>   
+>   python do_rust_gen_targets () {
+>       wd = d.getVar('WORKDIR') + '/targets/'
+> -    rust_gen_target(d, 'TARGET', wd, d.getVar('TARGET_LLVM_FEATURES') or "", d.getVar('TARGET_LLVM_CPU'), d.getVar('TARGET_ARCH'))
+> -    rust_gen_target(d, 'HOST', wd, "", "generic", d.getVar('HOST_ARCH'))
+> -    rust_gen_target(d, 'BUILD', wd, "", "generic", d.getVar('BUILD_ARCH'))
+> +    # It is important 'TARGET' is last here so that it overrides our less
+> +    # informed choices for BUILD & HOST if TARGET happens to be the same as
+> +    # either of them.
+> +    for thing in ['BUILD', 'HOST', 'TARGET']:
+> +        bb.debug(1, "rust_gen_target for " + thing)
+> +        features = ""
+> +        cpu = "generic"
+> +        arch = d.getVar('{}_ARCH'.format(thing))
+> +        abi = ""
+> +        if thing is "TARGET":
+> +            abi = d.getVar('ABIEXTENSION')
+> +            # arm and armv7 have different targets in llvm
+> +            if arch == "arm" and target_is_armv7(d):
+> +                arch = 'armv7'
+> +            features = d.getVar('TARGET_LLVM_FEATURES') or ""
+> +            cpu = d.getVar('TARGET_LLVM_CPU')
+> +        rust_gen_target(d, thing, wd, features, cpu, arch, abi)
+>   }
+>   
+>   INHIBIT_DEFAULT_RUST_DEPS = "1"
+> @@ -45,6 +59,8 @@ python do_configure:prepend() {
+>       hosts = ["{}-unknown-linux-gnu".format(d.getVar("HOST_ARCH", True))]
+>   }
+>   
+> +INSANE_SKIP:${PN} = "libdir"
+> +
+>   INSANE_SKIP:${RUSTLIB_TARGET_PN} = "file-rdeps arch ldflags"
+>   SKIP_FILEDEPS:${RUSTLIB_TARGET_PN} = "1"
 
-Yeah... += with an over-ride is intuitive but 99.9% of the time is
-completely wrong.
 
-There was a discussion some time ago about having the parser reject it
-with an error because it repeatedly trips up new (and some not so
-new...) developers, but it never came to anything.
+These look okay to me, could we backport these to Kirkstone?
 
-> Kind regards,
-> Luca Boccassi
+Alejandro
+
+
+>   
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#167984): https://lists.openembedded.org/g/openembedded-core/message/167984
-> Mute This Topic: https://lists.openembedded.org/mt/92361983/3619030
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [armccurdy@gmail.com]
+> View/Reply Online (#167848):https://lists.openembedded.org/g/openembedded-core/message/167848
+> Mute This Topic:https://lists.openembedded.org/mt/92292890/4354175
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [alhe@linux.microsoft.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
 >
+--------------0Caol4DRKDxJgHilYHcDjf05
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 7/10/22 10:42, Otavio Salvador
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20220710164300.953098-1-otavio@ossystems.com.br">
+      <pre class="moz-quote-pre" wrap="">We need full target passed for build so we changed the
+rust-cross-canadian to use same code used in regular rust recipes and
+added support to use specific llvm-target for the building host.
+
+Fixes: ef566af964 ("rust: fix issue building cross-canadian tools for aarch64 on x86_64")
+Fixes: bd36593ba3 ("rust-common: Drop LLVM_TARGET and simplify")
+Fixes: 8ed000debb ("rust-common: Fix for target definitions returning 'NoneType' for arm")
+Signed-off-by: Otavio Salvador <a class="moz-txt-link-rfc2396E" href="mailto:otavio@ossystems.com.br">&lt;otavio@ossystems.com.br&gt;</a>
+---
+
+Changes in v2:
+- Fix syntax for newer Python
+
+ meta/recipes-devtools/rust/rust-common.inc    | 21 ++++++++++++------
+ .../rust/rust-cross-canadian-common.inc       | 22 ++++++++++++++++---
+ 2 files changed, 33 insertions(+), 10 deletions(-)
+
+diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-devtools/rust/rust-common.inc
+index ef70c48d0f..a937d58a37 100644
+--- a/meta/recipes-devtools/rust/rust-common.inc
++++ b/meta/recipes-devtools/rust/rust-common.inc
+@@ -119,12 +119,12 @@ def llvm_features(d):
+ 
+ 
+ ## arm-unknown-linux-gnueabihf
+-DATA_LAYOUT[arm] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
+-TARGET_ENDIAN[arm] = "little"
+-TARGET_POINTER_WIDTH[arm] = "32"
+-TARGET_C_INT_WIDTH[arm] = "32"
+-MAX_ATOMIC_WIDTH[arm] = "64"
+-FEATURES[arm] = "+v6,+vfp2"
++DATA_LAYOUT[arm-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
++TARGET_ENDIAN[arm-eabi] = "little"
++TARGET_POINTER_WIDTH[arm-eabi] = "32"
++TARGET_C_INT_WIDTH[arm-eabi] = "32"
++MAX_ATOMIC_WIDTH[arm-eabi] = "64"
++FEATURES[arm-eabi] = "+v6,+vfp2"
+ 
+ ## armv7-unknown-linux-gnueabihf
+ DATA_LAYOUT[armv7-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
+@@ -304,12 +304,19 @@ def rust_gen_target(d, thing, wd, features, cpu, arch, abi=""):
+     else:
+         arch_abi = rust_arch
+ 
++    # When building for the building system we need to return the HOST target
++    # or wrong flags are used.
++    if thing == "BUILD":
++        llvm_target = d.getVar('RUST_HOST_SYS', arch_abi)
++    else:
++        llvm_target = d.getVar('RUST_TARGET_SYS', arch_abi)
++
+     features = features or d.getVarFlag('FEATURES', arch_abi) or ""
+     features = features.strip()
+ 
+     # build tspec
+     tspec = {}
+-    tspec['llvm-target'] = d.getVar('RUST_TARGET_SYS', arch_abi)
++    tspec['llvm-target'] = llvm_target
+     tspec['data-layout'] = d.getVarFlag('DATA_LAYOUT', arch_abi)
+     tspec['max-atomic-width'] = int(d.getVarFlag('MAX_ATOMIC_WIDTH', arch_abi))
+     tspec['target-pointer-width'] = d.getVarFlag('TARGET_POINTER_WIDTH', arch_abi)
+diff --git a/meta/recipes-devtools/rust/rust-cross-canadian-common.inc b/meta/recipes-devtools/rust/rust-cross-canadian-common.inc
+index 1f21c8af26..eff9212648 100644
+--- a/meta/recipes-devtools/rust/rust-cross-canadian-common.inc
++++ b/meta/recipes-devtools/rust/rust-cross-canadian-common.inc
+@@ -27,9 +27,23 @@ DEBUG_PREFIX_MAP = "-fdebug-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDP
+ 
+ python do_rust_gen_targets () {
+     wd = d.getVar('WORKDIR') + '/targets/'
+-    rust_gen_target(d, 'TARGET', wd, d.getVar('TARGET_LLVM_FEATURES') or "", d.getVar('TARGET_LLVM_CPU'), d.getVar('TARGET_ARCH'))
+-    rust_gen_target(d, 'HOST', wd, "", "generic", d.getVar('HOST_ARCH'))
+-    rust_gen_target(d, 'BUILD', wd, "", "generic", d.getVar('BUILD_ARCH'))
++    # It is important 'TARGET' is last here so that it overrides our less
++    # informed choices for BUILD &amp; HOST if TARGET happens to be the same as
++    # either of them.
++    for thing in ['BUILD', 'HOST', 'TARGET']:
++        bb.debug(1, "rust_gen_target for " + thing)
++        features = ""
++        cpu = "generic"
++        arch = d.getVar('{}_ARCH'.format(thing))
++        abi = ""
++        if thing is "TARGET":
++            abi = d.getVar('ABIEXTENSION')
++            # arm and armv7 have different targets in llvm
++            if arch == "arm" and target_is_armv7(d):
++                arch = 'armv7'
++            features = d.getVar('TARGET_LLVM_FEATURES') or ""
++            cpu = d.getVar('TARGET_LLVM_CPU')
++        rust_gen_target(d, thing, wd, features, cpu, arch, abi)
+ }
+ 
+ INHIBIT_DEFAULT_RUST_DEPS = "1"
+@@ -45,6 +59,8 @@ python do_configure:prepend() {
+     hosts = ["{}-unknown-linux-gnu".format(d.getVar("HOST_ARCH", True))]
+ }
+ 
++INSANE_SKIP:${PN} = "libdir"
++
+ INSANE_SKIP:${RUSTLIB_TARGET_PN} = "file-rdeps arch ldflags"
+ SKIP_FILEDEPS:${RUSTLIB_TARGET_PN} = "1"
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre>These look okay to me, could we backport these to Kirkstone?
+
+Alejandro
+</pre>
+    <p><br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:20220710164300.953098-1-otavio@ossystems.com.br">
+      <pre class="moz-quote-pre" wrap=""> 
+</pre>
+      <br>
+      <fieldset class="moz-mime-attachment-header"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#167848): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/167848">https://lists.openembedded.org/g/openembedded-core/message/167848</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/92292890/4354175">https://lists.openembedded.org/mt/92292890/4354175</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:alhe@linux.microsoft.com">alhe@linux.microsoft.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------0Caol4DRKDxJgHilYHcDjf05--
 
