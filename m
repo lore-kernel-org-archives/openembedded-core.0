@@ -1,137 +1,99 @@
-Return-Path: <preid@electromag.com.au>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9224AC433EF
-	for <webhook@archiver.kernel.org>; Thu, 14 Jul 2022 08:26:10 +0000 (UTC)
-Received: from anchovy3.45ru.net.au (anchovy3.45ru.net.au [203.30.46.155])
- by mx.groups.io with SMTP id smtpd.web11.5292.1657787158383143114
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE6DBC43334
+	for <webhook@archiver.kernel.org>; Thu, 14 Jul 2022 09:12:10 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web10.5471.1657789927477150419
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Jul 2022 01:25:59 -0700
+ Thu, 14 Jul 2022 02:12:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=permanent DNS error (domain: electromag.com.au,
- ip: 203.30.46.155, mailfrom: preid@electromag.com.au)
-Received: (qmail 26163 invoked by uid 5089); 14 Jul 2022 08:25:56 -0000
-Received: by simscan 1.2.0 ppid: 25914, pid: 25915, t: 0.9595s
-         scanners: regex: 1.2.0 attach: 1.2.0 clamav: 0.88.3/m:40/d:1950 spam:
- 3.1.4
-Received: from unknown (HELO ?192.168.0.22?)
- (preid@electromag.com.au@203.59.235.95)
-  by anchovy2.45ru.net.au with ESMTPA; 14 Jul 2022 08:25:54 -0000
-Message-ID: <33bb2737-58eb-5cc7-c6a0-30328f9baafe@electromag.com.au>
-Date: Thu, 14 Jul 2022 16:25:53 +0800
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MovV+cge;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id
+ l22-20020a05600c4f1600b003a2e10c8cdeso3117588wmq.1
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 14 Jul 2022 02:12:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=/pVLh1bgUuxKkpO7q2giCzBfPae4SXd9hE5aBwALsNU=;
+        b=MovV+cgeNS+zGM5lOH4Pq2ev0wEJaoPknO9IaVmM9I807ia/AhluGmG2gtEJfX6crE
+         aig0Kk3sGSSWT2QAZm8A050yJbNVbxneiXwTs5dAn4K+7s6R/gZMcDkrPWcEQLMBU8Ie
+         y41ASZ2DVc67lDDdGVVzeSOMebq/9AcfB2OsY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=/pVLh1bgUuxKkpO7q2giCzBfPae4SXd9hE5aBwALsNU=;
+        b=BJmT+9+hEKR52vxffrsNSZvi9X9gG7AlHuYslk1GHhZWQi7e5Wl1CEKj6xSMGnY4/c
+         11EcuqfF/q6NgIY8tPDoi3uI2NfogwVeeWa1ixCLgx6SXWuk6GYs/CuKC54lYbLbQm96
+         r1X8kHhrS3Cmgc/y12Vcu1MuUfvhFOtRlWsDWACgoFSh02hxjTwRwKiatEDrlBeeq1B5
+         XxRiUtO8Zw/B0gyudazDqk4WiCxoI5mq2KQpXAOoOw8B94YDq8/8MO/1McMhCycpTvau
+         23tyA1Itj2v2sgHEpRAGdALjH8uZ4/9niG+lpsw/no9Df7xe7PcJQfDcUvQbMMTqdBJ9
+         1ZrQ==
+X-Gm-Message-State: AJIora+Zf8Esi4W/bQTXMO2FcN5hcKQ4BRXs5QGLDb0KEGFofJHhXuo9
+	XhmmWn38UcYfe/85Njn9kUNQHg==
+X-Google-Smtp-Source: 
+ AGRyM1vITmiyNRfVU2PSb7kpCaGudOw6uwprBR2QFRs5PUwUW+SAifHauxFYRW1VbNohuJa3KR1otg==
+X-Received: by 2002:a05:600c:154c:b0:3a1:884e:72ac with SMTP id
+ f12-20020a05600c154c00b003a1884e72acmr8518329wmg.23.1657789925491;
+        Thu, 14 Jul 2022 02:12:05 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:c037:3be3:5ea0:9a64?
+ ([2001:8b0:aba:5f3c:c037:3be3:5ea0:9a64])
+        by smtp.gmail.com with ESMTPSA id
+ r21-20020a05600c425500b003a2cf5eb900sm1144387wmm.40.2022.07.14.02.12.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Jul 2022 02:12:04 -0700 (PDT)
+Message-ID: 
+ <388284feddf07d7535beb381599ea1662864dec1.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] gcc : Bug-105039
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Pgowda <pgowda.cve@gmail.com>, openembedded-core@lists.openembedded.org
+Cc: rwmacleod@gmail.com
+Date: Thu, 14 Jul 2022 10:12:04 +0100
+In-Reply-To: <20220711142425.4152037-1-pgowda.cve@gmail.com>
+References: <20220711142425.4152037-1-pgowda.cve@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [OE-core] libstdc++ honister -> kirkstone
-Content-Language: en-AU
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-  mfumita@electromag.com.au, openembedded-core@lists.openembedded.org
-References: <fbe2ba5d-f82c-ea57-a00d-4e0ff1b9586f@electromag.com.au>
- <28194.1657080073438546558@lists.openembedded.org>
- <25ddecdf5e77515b5967dd92d804e8dbd4ef3b70.camel@linuxfoundation.org>
- <f4223840-8400-44ed-1d5d-8f9ab9b51c46@electromag.com.au>
- <6e83879c522c185635c6ad258854e170ef07fcd3.camel@linuxfoundation.org>
-From: Phil Reid <preid@electromag.com.au>
-In-Reply-To: 
- <6e83879c522c185635c6ad258854e170ef07fcd3.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Jul 2022 08:26:10 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Jul 2022 09:12:10 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168026
+ https://lists.openembedded.org/g/openembedded-core/message/168027
 
-On 14/07/2022 6:13 am, Richard Purdie wrote:
-> On Tue, 2022-07-12 at 13:23 +0800, Phil Reid wrote:
->> On 8/07/2022 9:05 pm, Richard Purdie wrote:
->>> On Tue, 2022-07-05 at 21:01 -0700, mfumita@electromag.com.au wrote:
->>>> Hello there,
->>>>    
->>>> It isn't due to EOVERFLOW but make_file_type function in libstdc++-
->>>> v3\src\filesystem\ops-common.h always returns file_type::unknown.
->>>> It's because _GLIBCXX_HAVE_S_ISREG isn't defined.
->>>> I found HAVE_S_ISREG at libstdc++-v3/config.h isn't set properly.
->>>>    
->>>> It's caused by a configure failure below to tell if S_ISREG exists on
->>>> the target.
->>>> gcc/arm-emit-linux-gnueabi/11.3.0/ld: error: tmp-
->>>> glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/gcc-runtime/11.3.0-
->>>> r0/dummylib/libstdc++.so: file is empty
->>>> collect2: error: ld returned 1 exit status
->>>> configure:15686: $? = 1
->>>>    
->>>> It complains dummylib/libstdc++.so is empty, configure failed then
->>>> wrongly considered S_ISREG doesn't exist.
->>>> This seems related to the following commit.
->>>> https://github.com/openembedded/openembedded-core/commit/34b0edb0d3120c32063ff7e3dd52be20d60401d5
->>>>    
->>>> Reverting this commit rectifies this issue but not sure what's the
->>>> proper fix?
->>>> Any help appreciated.
->>>
->>> There is some piece we're still not understanding. I had a look at my
->>> local build (master so gcc 12.1) and I see HAVE_S_ISREG is set
->>> correctly, I don't see any "file is empty" message.
->>>
->>> Are you able to reproduce this on master? Which linker are you using?
->>>
->>
->> G'day Richard,
->>
->> I've update to master and tried this. Still get a "file is empty" error during configure. See log snippet below.
->>
->>
->> Tried to capture the ld version here:
->>
->> wait4(23043, /home/preid/dev/v2022.05/tmp-glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/gcc-runtime/12.1.0-r0/recipe-sysroot-native/usr/bin/arm-emit-linux-gnueabi/../../libexec/arm-emit-linux-gnueabi/gcc/arm-emit-linux-gnueabi/12.1.0/ld: error: /home/preid/dev/v2022.05/tmp-glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/gcc-runtime/12.1.0-r0/dummylib/libstdc++.so: file is empty
->> collect2: error: ld returned 1 exit status
->>
->>
->> /home/preid/dev/v2022.05/tmp-glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/gcc-runtime/12.1.0-r0/recipe-sysroot-native/usr/bin/arm-emit-linux-gnueabi/../../libexec/arm-emit-linux-gnueabi/gcc/arm-emit-linux-gnueabi/12.1.0/ld --version
->> GNU gold (GNU Binutils 2.38.20220516) 1.16
->> Copyright (C) 2022 Free Software Foundation, Inc.
->> This program is free software; you may redistribute it under the terms of
->> the GNU General Public License version 3 or (at your option) a later version.
->> This program has absolutely no warranty.
->>
->>
->> Hope that helps.
-> 
-> 
-> It does thanks. It confirms you're using the gold linker which allowed
-> me to reproduce (I was trying with the default bfd). I think this small
-> change will fix it:
-> 
-> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> index c39a0caf8a7..7e920df2d34 100644
-> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> @@ -68,7 +68,8 @@ do_configure () {
->          # libstdc++ isn't built yet so CXX would error not able to find it which breaks stdc++'s configure
->          # tests. Create a dummy empty lib for the purposes of configure.
->          mkdir -p ${WORKDIR}/dummylib
-> -       touch ${WORKDIR}/dummylib/libstdc++.so
-> +       touch ${WORKDIR}/dummylib/dummylib.c
-> +       ${CC} ${WORKDIR}/dummylib/dummylib.c -shared -o ${WORKDIR}/dummylib/libstdc++.so
->          for d in libgcc ${RUNTIMETARGET}; do
->                  echo "Configuring $d"
->                  rm -rf ${B}/${TARGET_SYS}/$d/
-> 
-G'day Richard,
+On Mon, 2022-07-11 at 19:54 +0530, Pgowda wrote:
+> From: pgowda <pgowda.cve@gmail.com>
+>=20
+> Upstream-Status: Backport [https://gcc.gnu.org/git/gitweb.cgi?p=3Dgcc.git=
+;h=3D9234cdca6ee88badfc00297e72f13dac4e540c79]
+>=20
+> Signed-off-by: pgowda <pgowda.cve@gmail.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-12.1.inc        |  1 +
+>  .../gcc/gcc/0026-rust-recursion-limit.patch   | 92 +++++++++++++++++++
+>  2 files changed, 93 insertions(+)
+>  create mode 100644 meta/recipes-devtools/gcc/gcc/0026-rust-recursion-lim=
+it.patch
 
-Thanks, can confirm that this fixes the problem. Our tests all passed.
-Will you submit this as a patch?
-Affects us on kirkstone, as well as master branch.
+The patch is fine but the commit message needs work. The shortlog
+whitespace is wrong and it needs to say that 105039 is a gcc bug, that
+it is related to the rust demangler. The commit log should really say
+why we need this as well. The upstream status should be in the patch
+itself (which it is), not in the commit log. The URL to the upsteam fix
+is ok though.
 
+Since we'd tested this, I fixed the commit log in this case so you can
+have a look at what I merged as an example of how it should look.
 
+Cheers,
 
-
--- 
-Regards
-Phil Reid
-  
+Richard
 
