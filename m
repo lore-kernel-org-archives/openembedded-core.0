@@ -1,120 +1,108 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9D06C43334
-	for <webhook@archiver.kernel.org>; Fri, 15 Jul 2022 17:05:37 +0000 (UTC)
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
- [209.85.160.176])
- by mx.groups.io with SMTP id smtpd.web12.46.1657904732165058746
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7B19C433EF
+	for <webhook@archiver.kernel.org>; Fri, 15 Jul 2022 17:10:37 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web08.111.1657905029714155679
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Jul 2022 10:05:32 -0700
+ Fri, 15 Jul 2022 10:10:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=fll5dtrR;
- spf=pass (domain: gmail.com, ip: 209.85.160.176,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f176.google.com with SMTP id w29so3485349qtv.9
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CGorFiKX;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id r14so7595246wrg.1
         for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Jul 2022 10:05:32 -0700 (PDT)
+ Fri, 15 Jul 2022 10:10:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=ZHKLi2JT6t46/UYKU679PjyKgKSnMtsUGVsltSHPaRE=;
-        b=fll5dtrRPiWY9/uYNXVKOnLnzvvnIp6H/MIYCiyWnXsOBW9vAIAg3J2ZcTiizzua55
-         oDUtvu6qK8Dr3xRSBiQNM8VTddaUDAMH2WcT3hAZKjlQlHn1XUHQLEnju/svL4IMPzNO
-         2XK5HctW6Ly4NMY2HrHSaPNtPxzm1e0qftMEt729hJa68BRwzArM+E1zfSsFpKQSut1R
-         z5LEPsEtfPRjRmXOOBzalVxa2b2m/AbMlZ5njJ2MXQhW+VdNEI94obC7NPV0uQacP0TN
-         80NNjusrK+uNZYGDNjesBOn3wNcvh1W1PywO+qzeDbwSty0OL379fm26b89fxDPkuZHJ
-         Oolg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=4avKA8AKrTr0xxAJw1nGYfN0A3cBw3zk4bvZ7MFKQ8E=;
+        b=CGorFiKXoEnlYrYM/9NKJ3FYbVbJDpiZvzqh00N0iZ6OBZk3gLLFjMo9t5eXLPSpWv
+         8pz+cMHMiJ/0uMgmSmUGEfuZnyHXT3W8mcqyIB4VOXPQs2F/uLkMhyvK+5MXmW82EYMY
+         +k2Ye4PxXjm040wPClN36Tn6ojqpJ9mEkg3f0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=ZHKLi2JT6t46/UYKU679PjyKgKSnMtsUGVsltSHPaRE=;
-        b=SvcY8VWJ6R4X11PYW67itqQuDmeIlhe77Tl+zaOPnxjvJphfJeITuVOkFkiUwkBZRu
-         TGQGswvvQZ5DZ0hNyKRXJO72XUSZzZM8TWVn3GF1EmjVgAh2Wnjg+dntNlwAXj+YDfrP
-         iyeFsCudecZklShOrfHopb6sjgLYPgruFCkrwvzTLOy5sUhhJEBbUiV3PTmHYghPIy7g
-         B5Cfpm5S1JTd2Ehs/sNB8vKZTEGyRIkT9AufKvYUgLPURJpCdmaZT9q78C8VcDvRyes7
-         BiYDzOT/h9UZDpjxPOvwUpkrG7gtAhKDN8obkfmcoccaijRAEC/2dBv4xP9xaGZ9c4Hp
-         Bb6w==
-X-Gm-Message-State: AJIora8BOMNtHiB2q+xPUZHLSBUbFwHGd9dplt3ENMfv9TxMiHn4WAOT
-	DlkWK5PbtuRpSGjUhqKK5DM=
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=4avKA8AKrTr0xxAJw1nGYfN0A3cBw3zk4bvZ7MFKQ8E=;
+        b=5KBkr78mD9KV7+KM8cf0UK1eUs/0xt93wCYb4VTyz6Ke6iOi3olATTeE6f+sZKap8H
+         aa84dUuCmZ4RTUpgAbDs03QEzESnyLQh0SmDSYDWKt7rs0fhWv7JR6ykmRKs2uvMjlgz
+         AM5oZOr9LS9QTPII08G3qL40X2pESe4hKtwWrj8IFuJZt6enEm30M0l9CIcKrGInYb+H
+         v3D1Up5UcFzDf/5j9q9rH9g54uZQzpw8acsIRXd7/sQb356oaYTlLaA0YGOFjb2PJL4P
+         AJUpa0PcwD58CYE2orjSdJVfG4aku/9E8N9vfDFS6CBDp6qXK0i7KfeKxc/30UkHp9ln
+         xiDA==
+X-Gm-Message-State: AJIora8iZBf/gRN3b00kc0Jl4XhySzp86zQSJQE5fBJptT0+kSIN6U2W
+	xYMssfcjjrodBriBnghES7L4Iw==
 X-Google-Smtp-Source: 
- AGRyM1vxJs3QektBJDnKv2aVyyqVypSqIgsdgmIEpmH3gaEhnnW3s50MVVQ35QDp6JqJdC0A4tCP3w==
-X-Received: by 2002:a05:622a:1709:b0:31e:dcb0:90b6 with SMTP id
- h9-20020a05622a170900b0031edcb090b6mr2839872qtk.659.1657904730343;
-        Fri, 15 Jul 2022 10:05:30 -0700 (PDT)
-Received: from ?IPV6:2607:fea8:95df:9730:2953:99a6:d45f:6161?
- ([2607:fea8:95df:9730:2953:99a6:d45f:6161])
+ AGRyM1vweUyqy43j4nfQFqcju3qKeswTxYaEDKePRcIegQcQWLw5y/MM/Ls2N70xx4P1WYFFZ9qVMA==
+X-Received: by 2002:a5d:6942:0:b0:21d:7f61:9579 with SMTP id
+ r2-20020a5d6942000000b0021d7f619579mr13341838wrw.703.1657905028064;
+        Fri, 15 Jul 2022 10:10:28 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ef6a:f831:81f1:d696?
+ ([2001:8b0:aba:5f3c:ef6a:f831:81f1:d696])
         by smtp.gmail.com with ESMTPSA id
- m13-20020ac8688d000000b0031bf484079esm3429791qtq.18.2022.07.15.10.05.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Jul 2022 10:05:30 -0700 (PDT)
-Message-ID: <d7ae54ce-8362-32ca-163e-539f5fa32805@gmail.com>
-Date: Fri, 15 Jul 2022 13:05:29 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.0.2
+ h8-20020adff4c8000000b0021d887f9468sm4223829wrp.25.2022.07.15.10.10.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Jul 2022 10:10:27 -0700 (PDT)
+Message-ID: 
+ <66a2252bde5d7e721d706b1581f7300e9bc61663.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH] pulseaudio: add m4-native to DEPENDS
-Content-Language: en-US
-To: Ross Burton <ross.burton@arm.com>,
- openembedded-core@lists.openembedded.org
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, Ross Burton <ross.burton@arm.com>,
+	openembedded-core@lists.openembedded.org
 Cc: nd@arm.com
+Date: Fri, 15 Jul 2022 18:10:26 +0100
+In-Reply-To: <d7ae54ce-8362-32ca-163e-539f5fa32805@gmail.com>
 References: <20220715110533.4008485-1-ross.burton@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20220715110533.4008485-1-ross.burton@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+	 <d7ae54ce-8362-32ca-163e-539f5fa32805@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Jul 2022 17:05:37 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Jul 2022 17:10:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168132
+ https://lists.openembedded.org/g/openembedded-core/message/168133
 
+On Fri, 2022-07-15 at 13:05 -0400, Khem Raj wrote:
+>=20
+> On 7/15/22 7:05 AM, Ross Burton wrote:
+> > Normally m4-native ends up in the sysroot via the toolchain, but if a
+> > non-standard toolchain is used them m4-native may not be installed.
+> >=20
+> > However Pulseaudio explicitly checks for m4 in the meson.build, so add
+> > it to DEPENDS.
+>=20
+> I think default toolchain dependencies should be emulated by external=20
+> toolchains too. Or perhaps m4-native should be dropped from the internal=
+=20
+> toolchain too.
 
+See the section in OE-Core's layer.conf:
 
-On 7/15/22 7:05 AM, Ross Burton wrote:
-> Normally m4-native ends up in the sysroot via the toolchain, but if a
-> non-standard toolchain is used them m4-native may not be installed.
-> 
-> However Pulseaudio explicitly checks for m4 in the meson.build, so add
-> it to DEPENDS.
+"""
+# Avoid adding bison-native to the sysroot without a specific
+# dependency in the recipe. This means indirect dependencies
+# (e.g. X -> Y -> binutils-cross -> bison-native) no longer meet the
+# dependency incidentally. This improves determinism and avoids build
+# failures when people switch to external toolchains.
+# libarchive only needs e2fsprogs headers at buildtime
+SSTATE_EXCLUDEDEPS_SYSROOT +=3D "\
+    .*->autoconf-native \
+    .*->automake-native \
+    .*->bison-native \
+"""
 
-I think default toolchain dependencies should be emulated by external 
-toolchains too. Or perhaps m4-native should be dropped from the internal 
-toolchain too.
+If we add m4-native to that list, it would do that. Just need someone
+to work through all the failures it might generate.
 
-> 
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->   meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> index 602d7263ce8..6055a9ebadb 100644
-> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> @@ -61,7 +61,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0e5cd938de1a7a53ea5adac38cc10c39 \
->   "
->   
->   # libtool is needed for libltdl, used in module loading.
-> -DEPENDS = "libatomic-ops libsndfile1 libtool"
-> +DEPENDS = "m4-native libatomic-ops libsndfile1 libtool"
->   # optional
->   DEPENDS += "udev alsa-lib glib-2.0"
->   DEPENDS += "speexdsp libxml-parser-perl-native libcap"
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#168055): https://lists.openembedded.org/g/openembedded-core/message/168055
-> Mute This Topic: https://lists.openembedded.org/mt/92398180/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Cheers,
+
+Richard
 
