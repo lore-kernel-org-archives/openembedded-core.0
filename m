@@ -2,140 +2,244 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B31DCCA480
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7391ACCA485
 	for <webhook@archiver.kernel.org>; Fri, 15 Jul 2022 15:57:53 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com
- (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web08.935.1657900667451541210
+Received: from a27-23.smtp-out.us-west-2.amazonses.com
+ (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web12.981.1657900667956046784
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Jul 2022 08:57:50 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=WV+U5CRp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
- mailfrom: 0101018202949940-3cf64b61-c847-40e3-bac5-e7b65f425b9b-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=QuyrYxb5;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23,
+ mailfrom: 0101018202949973-c681676e-8eb9-4113-b313-bcf88b540444-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1657900669;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=T8bGU6kEGUUnyx+LJ44Knmwtb5OuX3samg9EpP9UryA=;
-	b=WV+U5CRpTeYHn1Wlf++v3AdA3kb/c7oCF24PoGpMo7M7WloIuiyq624zCHwpLBfN
-	CK1xAlEP8XQB1suZOGiAEe+uuQs0BIdJu0xnY0ajKNBYzVYAXRKRXFq614ZflgjBLew
-	ZCpDeICgSEnK5Ug+sSTck107oSBWNOR5P5JabGZY=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=8WNoDuuJZcWDeQ+VRO0TZ+OcvJJEjFSmLU+Xqo/ShS4=;
+	b=QuyrYxb5XCwLq1Ospvii8J4lY5Q39M7Lt3lEj1BnjFtDNY75GcvESgSx1XdOjLZ9
+	EWm6ENi07UF8Z+4M7oFxUKKaOHly2SP73PIxZDOwDK43TSGlAG/FPLBRZHQnDjYLXQa
+	PChnZNyn3Rh4NaUhpi6JdnxfE00Gvy67Rbt0wMdg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1657900669;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=T8bGU6kEGUUnyx+LJ44Knmwtb5OuX3samg9EpP9UryA=;
-	b=XeeNDToudFqR4vCytiG+lEI4IPEDHruTRLxeG91yB7yUDPe1iAXo5h8WUwh6HlmX
-	BpUeByB9UQhRD5opdv3qziVr1ob+ljEzbObWbIAXTylKGgmUUEUxKvxMi3Izlocvn1E
-	RPC9eJnalo1sarmb7CwJFEMmtkr0cPrUiLSTFSC4=
-Content-Type: multipart/mixed; boundary="===============3371228097924230397=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=8WNoDuuJZcWDeQ+VRO0TZ+OcvJJEjFSmLU+Xqo/ShS4=;
+	b=fRWB5fHOCv7iF0o9PVa4eRqloxckTRYsPKrD1qzrnustWm92ERCzI9rRIogcV+Nq
+	STEXR1u4zweJDbl+KvaN3tUBal28Bc1V67KMfkeTYhbE2CxrEm0QG/kJmF8NVYRm4nA
+	Xs1PxvBd3Ml1QYAWRlXofgiqMZG17qxYhYOnWhP8=
+Content-Type: multipart/mixed; boundary="===============0436780956200741441=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] Upgrade status: 2022-07-15
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] libnl: upgrading to 3.7.0 SUCCEEDED
 Message-ID: 
- <0101018202949940-3cf64b61-c847-40e3-bac5-e7b65f425b9b-000000@us-west-2.amazonses.com>
+ <0101018202949973-c681676e-8eb9-4113-b313-bcf88b540444-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Jul 2022 15:57:49 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.07.15-54.240.27.31
+X-SES-Outgoing: 2022.07.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Jul 2022 15:57:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168118
+ https://lists.openembedded.org/g/openembedded-core/message/168116
 
---===============3371228097924230397==
+--===============0436780956200741441==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
-Recipe upgrade statistics:
+Hello,
 
-    * Failed (devtool error): 16
-        efibootmgr, 18, Ross Burton <ross.burton@arm.com>
-        systemd, 251.3, Chen Qi <Qi.Chen@windriver.com>
-        rpm, 4.17.1, Unassigned <unassigned@yoctoproject.org>
-        gcr, 3.90.0, Alexander Kanavin <alex.kanavin@gmail.com>
-        libva-initial, 2.15.0, Anuj Mittal <anuj.mittal@intel.com>
-        libva-utils, 2.15.0, Anuj Mittal <anuj.mittal@intel.com>
-        xev, 1.2.5, Unassigned <unassigned@yoctoproject.org>
-        xmodmap, 1.0.11, Unassigned <unassigned@yoctoproject.org>
-        xf86-input-keyboard, 2.0.0, Unassigned <unassigned@yoctoproject.org>
-        xf86-input-synaptics, 1.9.2, Unassigned <unassigned@yoctoproject.org>
-        xf86-video-cirrus, 1.6.0, Unassigned <unassigned@yoctoproject.org>
-        encodings, 1.0.6, Unassigned <unassigned@yoctoproject.org>
-        font-util, 1.3.3, Unassigned <unassigned@yoctoproject.org>
-        linux-firmware, 20220708, Otavio Salvador <otavio.salvador@ossystems.com.br>
-        rt-tests, 2.4, Alexander Kanavin <alex.kanavin@gmail.com>
-        libgit2, 1.5.0, Unassigned <unassigned@yoctoproject.org>
-    * Failed(do_compile): 5
-        u-boot-tools, 2022.07, Marek Vasut <marek.vasut@gmail.com>
-        u-boot, 2022.07, Marek Vasut <marek.vasut@gmail.com>
-        go-runtime, 1.18.4, Khem Raj <raj.khem@gmail.com>
-        go, 1.18.4, Khem Raj <raj.khem@gmail.com>
-        llvm, 14.0.6, Khem Raj <raj.khem@gmail.com>
-    * Succeeded: 35
-        libuv, 1.44.2, Armin Kuster <akuster@mvista.com>
-        systemd-boot, 251.3, Chen Qi <Qi.Chen@windriver.com>
-        git, 2.37.1, Robert Yang <liezhi.yang@windriver.com>
-        log4cplus, 2.0.8, Unassigned <unassigned@yoctoproject.org>
-        meson, 0.63.0, Alexander Kanavin <alex.kanavin@gmail.com>
-        mmc-utils, 0.1-new-commits-available, Anuj Mittal <anuj.mittal@intel.com>
-        python3-docutils, 0.19, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-        python3-dtschema, 2022.7, Bruce Ashfield <bruce.ashfield@gmail.com>
-        python3-hypothesis, 6.50.1, Tim Orling <tim.orling@konsulko.com>
-        python3-jsonschema, 4.7.2, Bruce Ashfield <bruce.ashfield@gmail.com>
-        python3-setuptools-rust, 1.4.1, Tim Orling <tim.orling@konsulko.com>
-        python3-setuptools-scm, 7.0.5, Tim Orling <tim.orling@konsulko.com>
-        python3-setuptools, 63.2.0, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-        python3-zipp, 3.8.1, Tim Orling <tim.orling@konsulko.com>
-        vala, 0.56.2, Alexander Kanavin <alex.kanavin@gmail.com>
-        hdparm, 9.64, Denys Dmytriyenko <denis@denix.org>
-        libidn2, 2.3.3, Ross Burton <ross.burton@arm.com>
-        epiphany, 42.3, Alexander Kanavin <alex.kanavin@gmail.com>
-        libhandy, 1.6.3, Alexander Kanavin <alex.kanavin@gmail.com>
-        libnotify, 0.8.0, Anuj Mittal <anuj.mittal@intel.com>
-        libdrm, 2.4.112, Otavio Salvador <otavio.salvador@ossystems.com.br>
-        libva, 2.15.0, Anuj Mittal <anuj.mittal@intel.com>
-        pango, 1.50.8, Ross Burton <ross.burton@arm.com>
-        piglit, 1.0-new-commits-available, Ross Burton <ross.burton@arm.com>
-        wayland-protocols, 1.26, Denys Dmytriyenko <denis@denix.org>
-        xserver-xorg, 21.1.4, Unassigned <unassigned@yoctoproject.org>
-        xwayland, 22.1.3, Unassigned <unassigned@yoctoproject.org>
-        alsa-lib, 1.2.7.2, Michael Opdenacker <michael.opdenacker@bootlin.com>
-        alsa-ucm-conf, 1.2.7.2, Michael Opdenacker <michael.opdenacker@bootlin.com>
-        mpg123, 1.30.1, Alexander Kanavin <alex.kanavin@gmail.com>
-        hwlatdetect, 2.4, Alexander Kanavin <alex.kanavin@gmail.com>
-        webkitgtk, 2.36.4, Alexander Kanavin <alex.kanavin@gmail.com>
-        diffoscope, 218, Joshua Watt <JPEWhacker@gmail.com>
-        libnl, 3.7.0, Alexander Kanavin <alex.kanavin@gmail.com>
-        sqlite3, 3.39.1, Anuj Mittal <anuj.mittal@intel.com>
-    * Failed(other errors): 1
-        vulkan-samples, git-new-commits-available, Ross Burton <ross.burton@arm.com>
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *libnl* to *3.7.0* has Succeeded.
 
-    TOTAL: attempted=57 succeeded=35(61.40%) failed=22(38.60%)
+Next steps:
+    - apply the patch: git am 0001-libnl-upgrade-3.6.0-3.7.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Recipe upgrade statistics per Maintainer:
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
-    Marek Vasut <marek.vasut: attempted=2 succeeded=0(0.00%) failed=2(100.00%)
-    Anuj Mittal <anuj.mittal: attempted=6 succeeded=4(66.67%) failed=2(33.33%)
-    Denys Dmytriyenko <denis: attempted=2 succeeded=2(100.00%) failed=0(0.00%)
-    Tim Orling <tim.orling: attempted=4 succeeded=4(100.00%) failed=0(0.00%)
-    Armin Kuster <akuster: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
-    Joshua Watt <JPEWhacker: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
-    Chen Qi <Qi.Chen: attempted=2 succeeded=1(50.00%) failed=1(50.00%)
-    Khem Raj <raj.khem: attempted=3 succeeded=0(0.00%) failed=3(100.00%)
-    Bruce Ashfield <bruce.ashfield: attempted=2 succeeded=2(100.00%) failed=0(0.00%)
-    Otavio Salvador <otavio.salvador: attempted=2 succeeded=1(50.00%) failed=1(50.00%)
-    Alexander Kanavin <alex.kanavin: attempted=10 succeeded=8(80.00%) failed=2(20.00%)
-    Ross Burton <ross.burton: attempted=5 succeeded=3(60.00%) failed=2(40.00%)
-    Robert Yang <liezhi.yang: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
-    Unassigned <unassigned: attempted=12 succeeded=3(25.00%) failed=9(75.00%)
-    Oleksandr Kravchuk <open.source: attempted=2 succeeded=2(100.00%) failed=0(0.00%)
-    Michael Opdenacker <michael.opdenacker: attempted=2 succeeded=2(100.00%) failed=0(0.00%)
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
---===============3371228097924230397==--
+Regards,
+The Upgrade Helper
+--===============0436780956200741441==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/libnl: PV changed from "3.6.0" to "3.7.0"
+packages/core2-32-poky-linux/libnl: PKGV changed from 3.6.0 [default] to 3.7.0 [default]
+packages/core2-32-poky-linux/libnl: SRC_URI changed from "https://github.com/thom311/libnl/releases/download/libnl3_6_0/libnl-3.6.0.tar.gz file://enable-serial-tests.patch file://run-ptest file://fa7f97f8982544c4fcb403893bae6701230d5165.patch" to "https://github.com/thom311/libnl/releases/download/libnl3_7_0/libnl-3.7.0.tar.gz file://enable-serial-tests.patch file://run-ptest"
+packages/core2-32-poky-linux/libnl/libnl-cli: PV changed from "3.6.0" to "3.7.0"
+packages/core2-32-poky-linux/libnl/libnl-cli: PKGV changed from 3.6.0 [default] to 3.7.0 [default]
+packages/core2-32-poky-linux/libnl/libnl-dbg: PV changed from "3.6.0" to "3.7.0"
+packages/core2-32-poky-linux/libnl/libnl-dbg: PKGV changed from 3.6.0 [default] to 3.7.0 [default]
+packages/core2-32-poky-linux/libnl/libnl-dbg: PKGSIZE changed from 4096748 to 4215168 (+3%)
+packages/core2-32-poky-linux/libnl/libnl-dev: FILELIST: added "/usr/include/libnl3/netlink/route/act/nat.h"
+packages/core2-32-poky-linux/libnl/libnl-dev: PV changed from "3.6.0" to "3.7.0"
+packages/core2-32-poky-linux/libnl/libnl-dev: PKGV changed from 3.6.0 [default] to 3.7.0 [default]
+packages/core2-32-poky-linux/libnl/libnl-dev: PKGSIZE changed from 284493 to 286366 (+1%)
+packages/core2-32-poky-linux/libnl/libnl-doc: PV changed from "3.6.0" to "3.7.0"
+packages/core2-32-poky-linux/libnl/libnl-doc: PKGV changed from 3.6.0 [default] to 3.7.0 [default]
+packages/core2-32-poky-linux/libnl/libnl-genl: PV changed from "3.6.0" to "3.7.0"
+packages/core2-32-poky-linux/libnl/libnl-genl: PKGV changed from 3.6.0 [default] to 3.7.0 [default]
+packages/core2-32-poky-linux/libnl/libnl-idiag: PV changed from "3.6.0" to "3.7.0"
+packages/core2-32-poky-linux/libnl/libnl-idiag: PKGV changed from 3.6.0 [default] to 3.7.0 [default]
+packages/core2-32-poky-linux/libnl/libnl-locale: PV changed from "3.6.0" to "3.7.0"
+packages/core2-32-poky-linux/libnl/libnl-locale: PKGV changed from 3.6.0 [default] to 3.7.0 [default]
+packages/core2-32-poky-linux/libnl/libnl-nf: PV changed from "3.6.0" to "3.7.0"
+packages/core2-32-poky-linux/libnl/libnl-nf: PKGV changed from 3.6.0 [default] to 3.7.0 [default]
+packages/core2-32-poky-linux/libnl/libnl-ptest: PV changed from "3.6.0" to "3.7.0"
+packages/core2-32-poky-linux/libnl/libnl-ptest: PKGV changed from 3.6.0 [default] to 3.7.0 [default]
+packages/core2-32-poky-linux/libnl/libnl-ptest: PKGSIZE changed from 450127 to 539151 (+20%)
+packages/core2-32-poky-linux/libnl/libnl-route: PV changed from "3.6.0" to "3.7.0"
+packages/core2-32-poky-linux/libnl/libnl-route: PKGV changed from 3.6.0 [default] to 3.7.0 [default]
+packages/core2-32-poky-linux/libnl/libnl-route: PKGSIZE changed from 640513 to 648801 (+1%)
+packages/core2-32-poky-linux/libnl/libnl-src: FILELIST: directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/lib/route -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/lib/route, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/netlink -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/netlink, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/netlink-private/route -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/netlink-private/route, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/netlink/idiag -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/netlink/idiag, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/linux-private/linux/tc_ematch -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/linux-private/linux/tc_ematch, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/src/lib -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/src/lib, directory renamed /usr/src/debug/l
+ ibnl/1_3.6.0-r0/libnl-3.6.0/lib/route/cls -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/lib/route/cls, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/netlink/netfilter -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/netlink/netfilter, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/netlink/route/link -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/netlink/route/link, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/lib -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/lib, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/netlink/route/cls/ematch -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/netlink/route/cls/ematch, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/lib/route/cls/ematch -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/lib/route/cls/ematch, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/lib/route/qdisc -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.
+ 7.0/lib/route/qdisc, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/netlink/genl -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/netlink/genl, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/netlink/route -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/netlink/route, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/lib/idiag -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/lib/idiag, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/build/lib/route/cls -> /usr/src/debug/libnl/1_3.7.0-r0/build/lib/route/cls, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/netlink/fib_lookup -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/netlink/fib_lookup, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/linux-private/linux -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/linux-private/linux, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/netlink/route/
+ cls -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/netlink/route/cls, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/linux-private/linux/can -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/linux-private/linux/can, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/build/lib/route -> /usr/src/debug/libnl/1_3.7.0-r0/build/lib/route, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/netlink/route/qdisc -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/netlink/route/qdisc, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/netlink/cli -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/netlink/cli, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/netlink/xfrm -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/netlink/xfrm, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/src -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/src, directory renamed /usr/src/debug/libnl/1_
+ 3.6.0-r0/libnl-3.6.0/include/linux-private/linux/netfilter -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/linux-private/linux/netfilter, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/netlink-private -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/netlink-private, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/lib/genl -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/lib/genl, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/tests -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/tests, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/lib/cli/qdisc -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/lib/cli/qdisc, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/netlink/route/act -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/netlink/route/act, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/lib/cli/cls -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/lib/cli/cls, directory 
+ renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/lib/netfilter -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/lib/netfilter, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/netlink-private/route/link -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/netlink-private/route/link, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/lib/fib_lookup -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/lib/fib_lookup, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/lib/xfrm -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/lib/xfrm, directory renamed /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/lib/route/link -> /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/lib/route/link, removed "/usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/linux-private/linux/tc_act/tc_gact.h /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/lib/route/act/mirred.c /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/lib/route/act/vlan.c /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/lib/rou
+ te/act/gact.c /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/lib/route/act/skbedit.c /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/linux-private/linux/tc_act/tc_vlan.h /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/linux-private/linux/tc_act/tc_mirred.h /usr/src/debug/libnl/1_3.6.0-r0/libnl-3.6.0/include/linux-private/linux/tc_act/tc_skbedit.h", added "/usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/lib/route/act/skbedit.c /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/linux-private/linux/tc_act/tc_gact.h /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/linux-private/linux/tc_act/tc_mirred.h /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/linux-private/linux/tc_act/tc_vlan.h /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/linux-private/linux/tc_act/tc_skbedit.h /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/lib/route/act/nat.c /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/lib/route/act/gact.c /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/lib/route/act/vlan.c /usr/src/de
+ bug/libnl/1_3.7.0-r0/libnl-3.7.0/lib/route/act/mirred.c /usr/src/debug/libnl/1_3.7.0-r0/libnl-3.7.0/include/linux-private/linux/tc_act/tc_nat.h"
+packages/core2-32-poky-linux/libnl/libnl-src: PV changed from "3.6.0" to "3.7.0"
+packages/core2-32-poky-linux/libnl/libnl-src: PKGV changed from 3.6.0 [default] to 3.7.0 [default]
+packages/core2-32-poky-linux/libnl/libnl-src: PKGSIZE changed from 2842072 to 2888685 (+2%)
+packages/core2-32-poky-linux/libnl/libnl-staticdev: PV changed from "3.6.0" to "3.7.0"
+packages/core2-32-poky-linux/libnl/libnl-staticdev: PKGV changed from 3.6.0 [default] to 3.7.0 [default]
+packages/core2-32-poky-linux/libnl/libnl-xfrm: PV changed from "3.6.0" to "3.7.0"
+packages/core2-32-poky-linux/libnl/libnl-xfrm: PKGV changed from 3.6.0 [default] to 3.7.0 [default]
+packages/core2-32-poky-linux/libnl/libnl: PV changed from "3.6.0" to "3.7.0"
+packages/core2-32-poky-linux/libnl/libnl: PKGV changed from 3.6.0 [default] to 3.7.0 [default]
+Changes to packages/core2-32-poky-linux/libnl (sysroot):
+  /usr/include/libnl3/netlink/route/act/nat.h was added
+
+--===============0436780956200741441==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-libnl-upgrade-3.6.0-3.7.0.patch"
+
+From 60dc0d8428ced0fdb5216a45109791b1d06aeebb Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 15 Jul 2022 15:26:26 +0000
+Subject: [PATCH] libnl: upgrade 3.6.0 -> 3.7.0
+
+---
+ ...97f8982544c4fcb403893bae6701230d5165.patch | 48 -------------------
+ .../libnl/{libnl_3.6.0.bb => libnl_3.7.0.bb}  |  8 ++--
+ 2 files changed, 3 insertions(+), 53 deletions(-)
+ delete mode 100644 meta/recipes-support/libnl/files/fa7f97f8982544c4fcb403893bae6701230d5165.patch
+ rename meta/recipes-support/libnl/{libnl_3.6.0.bb => libnl_3.7.0.bb} (91%)
+
+diff --git a/meta/recipes-support/libnl/files/fa7f97f8982544c4fcb403893bae6701230d5165.patch b/meta/recipes-support/libnl/files/fa7f97f8982544c4fcb403893bae6701230d5165.patch
+deleted file mode 100644
+index 02662c939e..0000000000
+--- a/meta/recipes-support/libnl/files/fa7f97f8982544c4fcb403893bae6701230d5165.patch
++++ /dev/null
+@@ -1,48 +0,0 @@
+-From fa7f97f8982544c4fcb403893bae6701230d5165 Mon Sep 17 00:00:00 2001
+-From: Thomas Haller <thaller@redhat.com>
+-Date: Fri, 15 Apr 2022 13:29:49 +0200
+-Subject: [PATCH] build: avoid building check-direct with --disable-static
+-
+-"check-direct" needs to statically link with the libraries, because
+-it wants to test internal ABI, which is hidden in the share libraries.
+-When configuring with "--disable-static", static libs are not build
+-and the test tool cannot be build.
+-
+-Just skip the test in that case.
+-
+-https://github.com/thom311/libnl/issues/306
+-Upstream-Status: Backport [https://github.com/thom311/libnl/commit/fa7f97f8982544c4fcb403893bae6701230d5165]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- Makefile.am  | 2 ++
+- configure.ac | 2 ++
+- 2 files changed, 4 insertions(+)
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index a6bcf553..2f5e0dfc 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -984,8 +984,10 @@ tests_check_all_LDADD = \
+- 	$(NULL)
+- 
+- if WITH_CHECK
+-+if ENABLE_STATIC
+- check_programs += tests/check-direct
+- endif
+-+endif
+- 
+- tests_check_direct_SOURCES = \
+- 	tests/check-direct.c \
+-diff --git a/configure.ac b/configure.ac
+-index 1f9ad0eb..0fd1cc0f 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -107,6 +107,8 @@ else
+-     AC_CHECK_LIB([pthread], [pthread_mutex_lock], [], AC_MSG_ERROR([libpthread is required]))
+- fi
+- 
+-+AM_CONDITIONAL([ENABLE_STATIC], [test "$enable_static" != "no"])
+-+
+- AC_ARG_ENABLE([debug],
+- 	AS_HELP_STRING([--disable-debug], [Do not include debugging statements]),
+- 	[enable_debug="$enableval"], [enable_debug="yes"])
+diff --git a/meta/recipes-support/libnl/libnl_3.6.0.bb b/meta/recipes-support/libnl/libnl_3.7.0.bb
+similarity index 91%
+rename from meta/recipes-support/libnl/libnl_3.6.0.bb
+rename to meta/recipes-support/libnl/libnl_3.7.0.bb
+index af3aa41040..ddcc83a039 100644
+--- a/meta/recipes-support/libnl/libnl_3.6.0.bb
++++ b/meta/recipes-support/libnl/libnl_3.7.0.bb
+@@ -14,14 +14,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
+ DEPENDS = "flex-native bison-native"
+ 
+-SRC_URI = " \
+-           https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV').replace('.','_')}/${BP}.tar.gz \
++SRC_URI = "https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV').replace('.','_')}/${BP}.tar.gz \
+            file://enable-serial-tests.patch \
+            file://run-ptest \
+-           file://fa7f97f8982544c4fcb403893bae6701230d5165.patch \
+-          "
++           "
+ 
+-SRC_URI[sha256sum] = "532155fd011e5a805bd67121b87a01c757e2bb24112ac17e69cb86013b970009"
++SRC_URI[sha256sum] = "9fe43ccbeeea72c653bdcf8c93332583135cda46a79507bfd0a483bb57f65939"
+ 
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/thom311/${BPN}/releases"
+-- 
+2.31.1
+
+
+--===============0436780956200741441==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/libnl/libnl-dev: FILELIST: added "/usr/include/libnl3/netlink/route/act/nat.h"
+packages/core2-32-poky-linux/libnl/libnl-ptest: PKGSIZE changed from 450127 to 539151 (+20%)
+Changes to packages/core2-32-poky-linux/libnl (sysroot):
+  /usr/include/libnl3/netlink/route/act/nat.h was added
+
+--===============0436780956200741441==--
 
