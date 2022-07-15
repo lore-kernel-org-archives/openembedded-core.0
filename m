@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3B97CCA492
-	for <webhook@archiver.kernel.org>; Fri, 15 Jul 2022 15:57:53 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com
- (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web09.968.1657900669318515950
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 050B1CCA499
+	for <webhook@archiver.kernel.org>; Fri, 15 Jul 2022 15:57:54 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com
+ (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web12.984.1657900668221831147
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Jul 2022 08:57:49 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=kGa9vFiH;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
- mailfrom: 01010182029494d4-d390034e-6885-42bc-9996-4f8e562431ba-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=lDDjzrsA;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191,
+ mailfrom: 01010182029495f8-97e0929d-01ec-46e1-8ac0-6d53e5a64508-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1657900668;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=sFj2OALJc+lNq3BJswJYJVRk2vUZ/aCnZmB2rQEOYKw=;
-	b=kGa9vFiHh21KxkTzNzP8k8yMdLVxjf/x5buxomwglt1vAgcXLZ2xsk+qvrXYzBre
-	Hkurem3ZgB0ZFa1ZVqHSPMQ1vk/ALsKI9VJqbPyg5s4S6j2RaUVo6YZudGCN28D1/V1
-	YKwhOvIPwjWzDwbKuf40R33XZxh7nY0hjDgiXirc=
+	bh=MhD846+d4PFc6YG1OtbYJGwNwZVheF6242UkrZp0uac=;
+	b=lDDjzrsA3Dx9qxbA23vgwTNXpz7I++Xud0VJbx966tQNFnvFdk5BjQBtKc5u8fps
+	qTC7HNKo9C1UIpuhB4wrYY0rG8U3IAB/38EwtOpMvI/FqGhJktX22yVzZh0XExakqqi
+	oKGmvxUQtBvVOoSj/X637da0Ok+jP3o9ldeGPMng=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1657900668;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=sFj2OALJc+lNq3BJswJYJVRk2vUZ/aCnZmB2rQEOYKw=;
-	b=XuQC72oUtJy9V5A938bXmsEFP4suoiVDr3gTVwuxIEe2iLEBSrb2uyuXcsPqlDRB
-	Jgng/1DbiZO090vV/LcvKJLRFn6Ytjy4DSq1qINMaxTj2ipZQ3/GCzVypT7+vthPkg5
-	qEaJDe0pznglMjWbNdoxn6jTP7a0EAFRl20lO+R0=
-Content-Type: multipart/mixed; boundary="===============9184147636093434702=="
+	bh=MhD846+d4PFc6YG1OtbYJGwNwZVheF6242UkrZp0uac=;
+	b=cUuPnPCAL+9tEnNUkWt4oTqL6bnPpmWcKb5dpmrxiquXRPdM7s4Ffudfh0kX9TsX
+	xYK66ak53Z04mOzPJQuj9N5lTv96TaPvV/7moGbUtxoxvSj0/3hqwJTg6etXonTT/uH
+	xztMdGXtI0KpkP/cVCEHMhmX8ZY4bqUhQgZgIAdU=
+Content-Type: multipart/mixed; boundary="===============5747418254817014114=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libdrm: upgrading to 2.4.112 SUCCEEDED
+Subject: [AUH] pango: upgrading to 1.50.8 SUCCEEDED
 Message-ID: 
- <01010182029494d4-d390034e-6885-42bc-9996-4f8e562431ba-000000@us-west-2.amazonses.com>
+ <01010182029495f8-97e0929d-01ec-46e1-8ac0-6d53e5a64508-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Jul 2022 15:57:48 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.07.15-54.240.27.30
+X-SES-Outgoing: 2022.07.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Jul 2022 15:57:53 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Jul 2022 15:57:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168104
+ https://lists.openembedded.org/g/openembedded-core/message/168096
 
---===============9184147636093434702==
+--===============5747418254817014114==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libdrm* to *2.4.112* has Succeeded.
+that the automatic attempt to upgrade the recipe *pango* to *1.50.8* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libdrm-upgrade-2.4.111-2.4.112.patch
+    - apply the patch: git am 0001-pango-upgrade-1.50.7-1.50.8.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,54 +75,47 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============9184147636093434702==
+--===============5747418254817014114==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libdrm: PV changed from "2.4.111" to "2.4.112"
-packages/core2-32-poky-linux/libdrm: PKGV changed from 2.4.111 [default] to 2.4.112 [default]
-packages/core2-32-poky-linux/libdrm: SRC_URI changed from "http://dri.freedesktop.org/libdrm/libdrm-2.4.111.tar.xz" to "http://dri.freedesktop.org/libdrm/libdrm-2.4.112.tar.xz"
-packages/core2-32-poky-linux/libdrm/libdrm-amdgpu: PV changed from "2.4.111" to "2.4.112"
-packages/core2-32-poky-linux/libdrm/libdrm-amdgpu: PKGV changed from 2.4.111 [default] to 2.4.112 [default]
-packages/core2-32-poky-linux/libdrm/libdrm-dbg: PV changed from "2.4.111" to "2.4.112"
-packages/core2-32-poky-linux/libdrm/libdrm-dbg: PKGSIZE changed from 1279904 to 1279680 (-0%)
-packages/core2-32-poky-linux/libdrm/libdrm-dbg: PKGV changed from 2.4.111 [default] to 2.4.112 [default]
-packages/core2-32-poky-linux/libdrm/libdrm-dev: PV changed from "2.4.111" to "2.4.112"
-packages/core2-32-poky-linux/libdrm/libdrm-dev: PKGSIZE changed from 660663 to 661465 (+0%)
-packages/core2-32-poky-linux/libdrm/libdrm-dev: PKGV changed from 2.4.111 [default] to 2.4.112 [default]
-packages/core2-32-poky-linux/libdrm/libdrm-doc: PV changed from "2.4.111" to "2.4.112"
-packages/core2-32-poky-linux/libdrm/libdrm-doc: PKGV changed from 2.4.111 [default] to 2.4.112 [default]
-packages/core2-32-poky-linux/libdrm/libdrm-drivers: PV changed from "2.4.111" to "2.4.112"
-packages/core2-32-poky-linux/libdrm/libdrm-drivers: PKGV changed from 2.4.111 [default] to 2.4.112 [default]
-packages/core2-32-poky-linux/libdrm/libdrm-etnaviv: PV changed from "2.4.111" to "2.4.112"
-packages/core2-32-poky-linux/libdrm/libdrm-etnaviv: PKGV changed from 2.4.111 [default] to 2.4.112 [default]
-packages/core2-32-poky-linux/libdrm/libdrm-exynos: PV changed from "2.4.111" to "2.4.112"
-packages/core2-32-poky-linux/libdrm/libdrm-exynos: PKGV changed from 2.4.111 [default] to 2.4.112 [default]
-packages/core2-32-poky-linux/libdrm/libdrm-freedreno: PV changed from "2.4.111" to "2.4.112"
-packages/core2-32-poky-linux/libdrm/libdrm-freedreno: PKGV changed from 2.4.111 [default] to 2.4.112 [default]
-packages/core2-32-poky-linux/libdrm/libdrm-intel: PV changed from "2.4.111" to "2.4.112"
-packages/core2-32-poky-linux/libdrm/libdrm-intel: PKGV changed from 2.4.111 [default] to 2.4.112 [default]
-packages/core2-32-poky-linux/libdrm/libdrm-kms: PV changed from "2.4.111" to "2.4.112"
-packages/core2-32-poky-linux/libdrm/libdrm-kms: PKGV changed from 2.4.111 [default] to 2.4.112 [default]
-packages/core2-32-poky-linux/libdrm/libdrm-locale: PV changed from "2.4.111" to "2.4.112"
-packages/core2-32-poky-linux/libdrm/libdrm-locale: PKGV changed from 2.4.111 [default] to 2.4.112 [default]
-packages/core2-32-poky-linux/libdrm/libdrm-nouveau: PV changed from "2.4.111" to "2.4.112"
-packages/core2-32-poky-linux/libdrm/libdrm-nouveau: PKGV changed from 2.4.111 [default] to 2.4.112 [default]
-packages/core2-32-poky-linux/libdrm/libdrm-omap: PV changed from "2.4.111" to "2.4.112"
-packages/core2-32-poky-linux/libdrm/libdrm-omap: PKGV changed from 2.4.111 [default] to 2.4.112 [default]
-packages/core2-32-poky-linux/libdrm/libdrm-radeon: PV changed from "2.4.111" to "2.4.112"
-packages/core2-32-poky-linux/libdrm/libdrm-radeon: PKGV changed from 2.4.111 [default] to 2.4.112 [default]
-packages/core2-32-poky-linux/libdrm/libdrm-src: PV changed from "2.4.111" to "2.4.112"
-packages/core2-32-poky-linux/libdrm/libdrm-src: PKGSIZE changed from 1586336 to 1587934 (+0%)
-packages/core2-32-poky-linux/libdrm/libdrm-src: PKGV changed from 2.4.111 [default] to 2.4.112 [default]
-packages/core2-32-poky-linux/libdrm/libdrm-staticdev: PV changed from "2.4.111" to "2.4.112"
-packages/core2-32-poky-linux/libdrm/libdrm-staticdev: PKGV changed from 2.4.111 [default] to 2.4.112 [default]
-packages/core2-32-poky-linux/libdrm/libdrm-tests: PV changed from "2.4.111" to "2.4.112"
-packages/core2-32-poky-linux/libdrm/libdrm-tests: PKGV changed from 2.4.111 [default] to 2.4.112 [default]
-packages/core2-32-poky-linux/libdrm/libdrm: PV changed from "2.4.111" to "2.4.112"
-packages/core2-32-poky-linux/libdrm/libdrm: PKGV changed from 2.4.111 [default] to 2.4.112 [default]
+packages/core2-32-poky-linux/pango: SRC_URI changed from "https://download.gnome.org/sources//pango/1.50/pango-1.50.7.tar.xz;name=archive file://run-ptest file://0001-Skip-running-test-layout-test.patch" to "https://download.gnome.org/sources//pango/1.50/pango-1.50.8.tar.xz;name=archive file://run-ptest file://0001-Skip-running-test-layout-test.patch"
+packages/core2-32-poky-linux/pango: PV changed from "1.50.7" to "1.50.8"
+packages/core2-32-poky-linux/pango: PKGV changed from 1.50.7 [default] to 1.50.8 [default]
+packages/core2-32-poky-linux/pango/pango-dbg: PKGSIZE changed from 2374396 to 2367628 (-0%)
+packages/core2-32-poky-linux/pango/pango-dbg: FILELIST: removed "/usr/lib/.debug/libpangocairo-1.0.so.0.5000.7 /usr/lib/.debug/libpangoft2-1.0.so.0.5000.7 /usr/lib/.debug/libpango-1.0.so.0.5000.7 /usr/lib/.debug/libpangoxft-1.0.so.0.5000.7", added "/usr/lib/.debug/libpango-1.0.so.0.5000.8 /usr/lib/.debug/libpangoxft-1.0.so.0.5000.8 /usr/lib/.debug/libpangocairo-1.0.so.0.5000.8 /usr/lib/.debug/libpangoft2-1.0.so.0.5000.8"
+packages/core2-32-poky-linux/pango/pango-dbg: PV changed from "1.50.7" to "1.50.8"
+packages/core2-32-poky-linux/pango/pango-dbg: PKGV changed from 1.50.7 [default] to 1.50.8 [default]
+packages/core2-32-poky-linux/pango/pango-dev: PKGSIZE changed from 1562479 to 1563822 (+0%)
+packages/core2-32-poky-linux/pango/pango-dev: PV changed from "1.50.7" to "1.50.8"
+packages/core2-32-poky-linux/pango/pango-dev: PKGV changed from 1.50.7 [default] to 1.50.8 [default]
+packages/core2-32-poky-linux/pango/pango-doc: PV changed from "1.50.7" to "1.50.8"
+packages/core2-32-poky-linux/pango/pango-doc: PKGV changed from 1.50.7 [default] to 1.50.8 [default]
+packages/core2-32-poky-linux/pango/pango-locale: PV changed from "1.50.7" to "1.50.8"
+packages/core2-32-poky-linux/pango/pango-locale: PKGV changed from 1.50.7 [default] to 1.50.8 [default]
+packages/core2-32-poky-linux/pango/pango-ptest: PKGSIZE changed from 4093265 to 4089173 (-0%)
+packages/core2-32-poky-linux/pango/pango-ptest: PV changed from "1.50.7" to "1.50.8"
+packages/core2-32-poky-linux/pango/pango-ptest: PKGV changed from 1.50.7 [default] to 1.50.8 [default]
+packages/core2-32-poky-linux/pango/pango-src: PKGSIZE changed from 2318700 to 2322851 (+0%)
+packages/core2-32-poky-linux/pango/pango-src: PV changed from "1.50.7" to "1.50.8"
+packages/core2-32-poky-linux/pango/pango-src: PKGV changed from 1.50.7 [default] to 1.50.8 [default]
+packages/core2-32-poky-linux/pango/pango-staticdev: PV changed from "1.50.7" to "1.50.8"
+packages/core2-32-poky-linux/pango/pango-staticdev: PKGV changed from 1.50.7 [default] to 1.50.8 [default]
+packages/core2-32-poky-linux/pango/pango: PKGSIZE changed from 853727 to 853959 (+0%)
+packages/core2-32-poky-linux/pango/pango: FILELIST: removed "/usr/lib/libpangocairo-1.0.so.0.5000.7 /usr/lib/libpangoft2-1.0.so.0.5000.7 /usr/lib/libpangoxft-1.0.so.0.5000.7 /usr/lib/libpango-1.0.so.0.5000.7", added "/usr/lib/libpangocairo-1.0.so.0.5000.8 /usr/lib/libpango-1.0.so.0.5000.8 /usr/lib/libpangoft2-1.0.so.0.5000.8 /usr/lib/libpangoxft-1.0.so.0.5000.8"
+packages/core2-32-poky-linux/pango/pango: PV changed from "1.50.7" to "1.50.8"
+packages/core2-32-poky-linux/pango/pango: PKGV changed from 1.50.7 [default] to 1.50.8 [default]
+Changes to packages/core2-32-poky-linux/pango (sysroot):
+  /usr/lib/libpango-1.0.so.0 changed symlink target from libpango-1.0.so.0.5000.7 to libpango-1.0.so.0.5000.8
+  /usr/lib/libpangocairo-1.0.so.0 changed symlink target from libpangocairo-1.0.so.0.5000.7 to libpangocairo-1.0.so.0.5000.8
+  /usr/lib/libpangoft2-1.0.so.0 changed symlink target from libpangoft2-1.0.so.0.5000.7 to libpangoft2-1.0.so.0.5000.8
+  /usr/lib/libpangoxft-1.0.so.0 changed symlink target from libpangoxft-1.0.so.0.5000.7 to libpangoxft-1.0.so.0.5000.8
+  /usr/lib/libpango-1.0.so.0.5000.7 moved to /usr/lib/libpango-1.0.so.0.5000.8
+  /usr/lib/libpangocairo-1.0.so.0.5000.7 moved to /usr/lib/libpangocairo-1.0.so.0.5000.8
+  /usr/lib/libpangoft2-1.0.so.0.5000.7 moved to /usr/lib/libpangoft2-1.0.so.0.5000.8
+  /usr/lib/libpangoxft-1.0.so.0.5000.7 moved to /usr/lib/libpangoxft-1.0.so.0.5000.8
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1477,48 +1470,22 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoffout.h was removed
 
---===============9184147636093434702==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-libdrm-upgrade-2.4.111-2.4.112.patch"
-
-From f3ab96f5440897d6a4ab37b51cbf932d705b2233 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Jul 2022 12:02:35 +0000
-Subject: [PATCH] libdrm: upgrade 2.4.111 -> 2.4.112
-
----
- .../drm/{libdrm_2.4.111.bb => libdrm_2.4.112.bb}                | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.111.bb => libdrm_2.4.112.bb} (96%)
-
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.111.bb b/meta/recipes-graphics/drm/libdrm_2.4.112.bb
-similarity index 96%
-rename from meta/recipes-graphics/drm/libdrm_2.4.111.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.112.bb
-index 17b737c556..48838245dd 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.111.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.112.bb
-@@ -13,7 +13,7 @@ DEPENDS = "libpthread-stubs"
- SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz \
-           "
- 
--SRC_URI[sha256sum] = "1ad7164f77424de6f4ecba7c262bde196a214c6e19a6fbf497f0815f4d7ab2a9"
-+SRC_URI[sha256sum] = "00b07710bd09b35cd8d80eaf4f4497fe27f4becf467a9830f1f5e8324f8420ff"
- 
- inherit meson pkgconfig manpages
- 
--- 
-2.31.1
-
-
---===============9184147636093434702==
+--===============5747418254817014114==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-32-poky-linux/pango/pango: FILELIST: removed "/usr/lib/libpangoft2-1.0.so.0.5000.7 /usr/lib/libpango-1.0.so.0.5000.7 /usr/lib/libpangoxft-1.0.so.0.5000.7 /usr/lib/libpangocairo-1.0.so.0.5000.7", added "/usr/lib/libpango-1.0.so.0.5000.8 /usr/lib/libpangocairo-1.0.so.0.5000.8 /usr/lib/libpangoft2-1.0.so.0.5000.8 /usr/lib/libpangoxft-1.0.so.0.5000.8"
+Changes to packages/core2-32-poky-linux/pango (sysroot):
+  /usr/lib/libpango-1.0.so.0 changed symlink target from libpango-1.0.so.0.5000.7 to libpango-1.0.so.0.5000.8
+  /usr/lib/libpangocairo-1.0.so.0 changed symlink target from libpangocairo-1.0.so.0.5000.7 to libpangocairo-1.0.so.0.5000.8
+  /usr/lib/libpangoft2-1.0.so.0 changed symlink target from libpangoft2-1.0.so.0.5000.7 to libpangoft2-1.0.so.0.5000.8
+  /usr/lib/libpangoxft-1.0.so.0 changed symlink target from libpangoxft-1.0.so.0.5000.7 to libpangoxft-1.0.so.0.5000.8
+  /usr/lib/libpango-1.0.so.0.5000.7 moved to /usr/lib/libpango-1.0.so.0.5000.8
+  /usr/lib/libpangocairo-1.0.so.0.5000.7 moved to /usr/lib/libpangocairo-1.0.so.0.5000.8
+  /usr/lib/libpangoft2-1.0.so.0.5000.7 moved to /usr/lib/libpangoft2-1.0.so.0.5000.8
+  /usr/lib/libpangoxft-1.0.so.0.5000.7 moved to /usr/lib/libpangoxft-1.0.so.0.5000.8
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -2873,5 +2840,41 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoff.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/12.1.0/plugin/include/xcoffout.h was removed
 
---===============9184147636093434702==--
+--===============5747418254817014114==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-pango-upgrade-1.50.7-1.50.8.patch"
+
+From 548665064485742b3f58401163cf585bb60e36ca Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 15 Jul 2022 12:17:38 +0000
+Subject: [PATCH] pango: upgrade 1.50.7 -> 1.50.8
+
+---
+ .../recipes-graphics/pango/{pango_1.50.7.bb => pango_1.50.8.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/pango/{pango_1.50.7.bb => pango_1.50.8.bb} (94%)
+
+diff --git a/meta/recipes-graphics/pango/pango_1.50.7.bb b/meta/recipes-graphics/pango/pango_1.50.8.bb
+similarity index 94%
+rename from meta/recipes-graphics/pango/pango_1.50.7.bb
+rename to meta/recipes-graphics/pango/pango_1.50.8.bb
+index 01a11a1dac..936526799f 100644
+--- a/meta/recipes-graphics/pango/pango_1.50.7.bb
++++ b/meta/recipes-graphics/pango/pango_1.50.8.bb
+@@ -24,7 +24,7 @@ SRC_URI += "file://run-ptest \
+             file://0001-Skip-running-test-layout-test.patch \
+ "
+ 
+-SRC_URI[archive.sha256sum] = "0477f369a3d4c695df7299a6989dc004756a7f4de27eecac405c6790b7e3ad33"
++SRC_URI[archive.sha256sum] = "cf626f59dd146c023174c4034920e9667f1d25ac2c1569516d63136c311255fa"
+ 
+ DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
+ 
+-- 
+2.31.1
+
+
+--===============5747418254817014114==--
 
