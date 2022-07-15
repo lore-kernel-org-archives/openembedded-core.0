@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93E76C2BBF7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B3F0C2BBF6
 	for <webhook@archiver.kernel.org>; Fri, 15 Jul 2022 15:57:54 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com
- (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.901.1657900667815792974
+Received: from a27-31.smtp-out.us-west-2.amazonses.com
+ (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web08.935.1657900667451541210
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Jul 2022 08:57:47 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=AD3EjfFI;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191,
- mailfrom: 010101820294904d-ba366c07-6035-47b2-8f3d-8f324b03384b-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=MTl7Gw1e;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31,
+ mailfrom: 0101018202948e13-fbb8d34d-5820-4be8-850e-939572080921-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1657900667;
+	t=1657900666;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=X0sV1KSa1agepOk9vTXuVu1rDn7HithWWWBNu389CHI=;
-	b=AD3EjfFIxXhCB2CBZmass0e4/GPhfrWSQv/YFC8kXclrabpOPtNW796Lb1/a5CTH
-	HkAR7V5WIQBgaslaKVSi1UgotZS4XkiDseq0AdAnw9KAgYankmVE/dsRvINeKrqXezF
-	WK3zY04P8qu6bk+1KKQYhAOl/BAKgEn4AcS7HOuo=
+	bh=CTsZwTHQJKosJKBQU5qtRGUCXWyni+DLAYESxZXtKtU=;
+	b=MTl7Gw1e2U14M5hXvQz2sn2MzbGhG/VZ5Q14Amd5dTAC0hIb68TqVCL4sXKCVFVp
+	vJhuoe2DRsrK3sG1Fconk8yBawbak4tFRf8ps9c9E8trEKvo0fdw4L4I1DGsFf4FJH1
+	mYWS0+qwBCn85m+GGQ/qZrPHakTjp7kIBP6VMfnA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1657900667;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1657900666;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=X0sV1KSa1agepOk9vTXuVu1rDn7HithWWWBNu389CHI=;
-	b=i/466dxLbNgZNmcqxZQ7QYx1IpjqZqsLmIH8K78+WG2IqEVPvg6ogEDcVioS79DN
-	YSStdW2AEQ5isMupY9zxe08gssoaI2uQY07HP1mFgfAjO6uNHaAqCbEqq0BAwfVy6jS
-	Hc8wQvzgRCD2QFj9gfuAL65Q83TzkIG5ZJnQII08=
-Content-Type: multipart/mixed; boundary="===============8009114351066402154=="
+	bh=CTsZwTHQJKosJKBQU5qtRGUCXWyni+DLAYESxZXtKtU=;
+	b=TppMzPX5C8hRrVtnlVb7OmWy5SGuUOmPtF7NKZI9OOaFpJYIHhLYRWWjav7IGmIm
+	z4MpmT6Pv0BVD+VF/8ESSdO8Mrk5D32zLgopTMAgePUWm1bQDE3xSEjojBVQ0hr4arl
+	IuP0wzHSftzOwo58fSf/cawmcUlVyHG8x58s0vL8=
+Content-Type: multipart/mixed; boundary="===============2835327138987023952=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Marek Vasut <marek.vasut@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] go-runtime: upgrading to 1.18.4 FAILED
+Subject: [AUH] u-boot: upgrading to 2022.07 FAILED
 Message-ID: 
- <010101820294904d-ba366c07-6035-47b2-8f3d-8f324b03384b-000000@us-west-2.amazonses.com>
+ <0101018202948e13-fbb8d34d-5820-4be8-850e-939572080921-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Jul 2022 15:57:46 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.07.15-54.240.27.191
+X-SES-Outgoing: 2022.07.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Jul 2022 15:57:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168071
+ https://lists.openembedded.org/g/openembedded-core/message/168066
 
---===============8009114351066402154==
+--===============2835327138987023952==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,7 +56,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *go-runtime* to *1.18.4* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *u-boot* to *2022.07* has Failed(do_compile).
 
 Detailed error information:
 
@@ -65,7 +65,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-go-runtime-upgrade-1.18.3-1.18.4.patch
+    - apply the patch: git am 0001-u-boot-upgrade-2022.04-2022.07.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -81,61 +81,136 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8009114351066402154==
+--===============2835327138987023952==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/qemux86-poky-linux/u-boot: PKGV changed from 2022.04 [default] to 2022.07 [default]
+packages/qemux86-poky-linux/u-boot: PV changed from "2022.04" to "2022.07"
+packages/qemux86-poky-linux/u-boot/u-boot-dbg: PKGV changed from 2022.04 [default] to 2022.07 [default]
+packages/qemux86-poky-linux/u-boot/u-boot-dbg: PV changed from "2022.04" to "2022.07"
+packages/qemux86-poky-linux/u-boot/u-boot-dev: PKGV changed from 2022.04 [default] to 2022.07 [default]
+packages/qemux86-poky-linux/u-boot/u-boot-dev: PV changed from "2022.04" to "2022.07"
+packages/qemux86-poky-linux/u-boot/u-boot-doc: PKGV changed from 2022.04 [default] to 2022.07 [default]
+packages/qemux86-poky-linux/u-boot/u-boot-doc: PV changed from "2022.04" to "2022.07"
+packages/qemux86-poky-linux/u-boot/u-boot-env: PKGSIZE changed from 4611 to 4618 (+0%)
+packages/qemux86-poky-linux/u-boot/u-boot-env: FILELIST: removed "/etc/u-boot-initial-env-qemux86-2022.04-r0", added "/etc/u-boot-initial-env-qemux86-2022.07-r0"
+packages/qemux86-poky-linux/u-boot/u-boot-env: PKGV changed from 2022.04 [default] to 2022.07 [default]
+packages/qemux86-poky-linux/u-boot/u-boot-env: PV changed from "2022.04" to "2022.07"
+packages/qemux86-poky-linux/u-boot/u-boot-extlinux: PKGV changed from 2022.04 [default] to 2022.07 [default]
+packages/qemux86-poky-linux/u-boot/u-boot-extlinux: PV changed from "2022.04" to "2022.07"
+packages/qemux86-poky-linux/u-boot/u-boot-locale: PKGV changed from 2022.04 [default] to 2022.07 [default]
+packages/qemux86-poky-linux/u-boot/u-boot-locale: PV changed from "2022.04" to "2022.07"
+packages/qemux86-poky-linux/u-boot/u-boot-src: PKGV changed from 2022.04 [default] to 2022.07 [default]
+packages/qemux86-poky-linux/u-boot/u-boot-src: PV changed from "2022.04" to "2022.07"
+packages/qemux86-poky-linux/u-boot/u-boot-staticdev: PKGV changed from 2022.04 [default] to 2022.07 [default]
+packages/qemux86-poky-linux/u-boot/u-boot-staticdev: PV changed from "2022.04" to "2022.07"
+packages/qemux86-poky-linux/u-boot/u-boot: PKGSIZE changed from 711059 to 725071 (+2%)
+packages/qemux86-poky-linux/u-boot/u-boot: FILELIST: removed "/boot/u-boot-qemux86-2022.04-r0.bin", added "/boot/u-boot-qemux86-2022.07-r0.bin"
+packages/qemux86-poky-linux/u-boot/u-boot: PKGV changed from 2022.04 [default] to 2022.07 [default]
+packages/qemux86-poky-linux/u-boot/u-boot: PV changed from "2022.04" to "2022.07"
+
+--===============2835327138987023952==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-go-runtime-upgrade-1.18.3-1.18.4.patch"
+ filename="0001-u-boot-upgrade-2022.04-2022.07.patch"
 
-From 3c348cc6d9d551f36a1dcbcf6205f2f7c6f0abd7 Mon Sep 17 00:00:00 2001
+From a33bcbcea2523c456eb426745296cf20564a2388 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Jul 2022 06:56:10 +0000
-Subject: [PATCH] go-runtime: upgrade 1.18.3 -> 1.18.4
+Date: Fri, 15 Jul 2022 05:58:59 +0000
+Subject: [PATCH] u-boot: upgrade 2022.04 -> 2022.07
 
 ---
- meta/recipes-devtools/go/{go-1.18.3.inc => go-1.18.4.inc}       | 2 +-
- .../go/{go-runtime_1.18.3.bb => go-runtime_1.18.4.bb}           | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/go/{go-1.18.3.inc => go-1.18.4.inc} (89%)
- rename meta/recipes-devtools/go/{go-runtime_1.18.3.bb => go-runtime_1.18.4.bb} (100%)
+ meta/recipes-bsp/u-boot/u-boot-common.inc     |  4 ++--
+ .../{u-boot_2022.04.bb => u-boot_2022.07.bb}  | 21 +++++++++++++++++++
+ 2 files changed, 23 insertions(+), 2 deletions(-)
+ rename meta/recipes-bsp/u-boot/{u-boot_2022.04.bb => u-boot_2022.07.bb} (20%)
 
-diff --git a/meta/recipes-devtools/go/go-1.18.3.inc b/meta/recipes-devtools/go/go-1.18.4.inc
-similarity index 89%
-rename from meta/recipes-devtools/go/go-1.18.3.inc
-rename to meta/recipes-devtools/go/go-1.18.4.inc
-index 693b045e8f..bfda15c54f 100644
---- a/meta/recipes-devtools/go/go-1.18.3.inc
-+++ b/meta/recipes-devtools/go/go-1.18.4.inc
-@@ -15,4 +15,4 @@ SRC_URI += "\
-     file://0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
-     file://filter-build-paths.patch \
- "
--SRC_URI[main.sha256sum] = "0012386ddcbb5f3350e407c679923811dbd283fcdc421724931614a842ecbc2d"
-+SRC_URI[main.sha256sum] = "4525aa6b0e3cecb57845f4060a7075aafc9ab752bb7b6b4cf8a212d43078e1e4"
-diff --git a/meta/recipes-devtools/go/go-runtime_1.18.3.bb b/meta/recipes-devtools/go/go-runtime_1.18.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.18.3.bb
-rename to meta/recipes-devtools/go/go-runtime_1.18.4.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index 8fc33608d0..d7fd3c7227 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -7,12 +7,12 @@ SECTION = "bootloaders"
+ DEPENDS += "flex-native bison-native"
+ 
+ LICENSE = "GPL-2.0-or-later"
+-LIC_FILES_CHKSUM = "file://Licenses/README;md5=5a7450c57ffe5ae63fd732446b988025"
++LIC_FILES_CHKSUM = "file://Licenses/README;md5=2ca5f2c35c8cc335f0a19756634782f1"
+ PE = "1"
+ 
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "e4b6ebd3de982ae7185dbf689a030e73fd06e0d2"
++SRCREV = "e092e3250270a1016c877da7bdd9384f14b1321e"
+ 
+ SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
+ 
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2022.04.bb b/meta/recipes-bsp/u-boot/u-boot_2022.07.bb
+similarity index 20%
+rename from meta/recipes-bsp/u-boot/u-boot_2022.04.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2022.07.bb
+index 0d2464d74b..843d9646fa 100644
+--- a/meta/recipes-bsp/u-boot/u-boot_2022.04.bb
++++ b/meta/recipes-bsp/u-boot/u-boot_2022.07.bb
+@@ -1,3 +1,24 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- Licenses/README
++# +++ Licenses/README
++# @@ -139,6 +139,7 @@
++#  
++#  Full name					SPDX Identifier	OSI Approved	File name		URI
++#  =======================================================================================================================================
++# +bzip2 and libbzip2 License v1.0.6		bzip2-1.0.6			bzip2-1.0.6.txt		https://spdx.org/licenses/bzip2-1.0.6.html
++#  GNU General Public License v2.0 only		GPL-2.0		Y		gpl-2.0.txt		http://www.gnu.org/licenses/gpl-2.0.txt
++#  GNU General Public License v2.0 or later	GPL-2.0+	Y		gpl-2.0.txt		http://www.gnu.org/licenses/gpl-2.0.txt
++#  GNU Library General Public License v2 or later	LGPL-2.0+	Y		lgpl-2.0.txt		http://www.gnu.org/licenses/old-licenses/lgpl-2.0.txt
++# 
++#
++
+ require u-boot-common.inc
+ require u-boot.inc
+ 
 -- 
 2.31.1
 
 
---===============8009114351066402154==
+--===============2835327138987023952==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/qemux86-poky-linux/u-boot/u-boot-env: FILELIST: removed "/etc/u-boot-initial-env-qemux86-2022.04-r0", added "/etc/u-boot-initial-env-qemux86-2022.07-r0"
+packages/qemux86-poky-linux/u-boot/u-boot: FILELIST: removed "/boot/u-boot-qemux86-2022.04-r0.bin", added "/boot/u-boot-qemux86-2022.07-r0.bin"
+
+--===============2835327138987023952==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
 
 WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
 Loading cache...done.
-Loaded 1660 entries from dependency cache.
-Parsing recipes...
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 889 .bb files complete (0 cached, 889 parsed). 1660 targets, 70 skipped, 0 masked, 0 errors.
+
 Summary: There was 1 WARNING message.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
+Summary: There was 1 ERROR message, returning a non-zero exit code.
 /usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
   return f(*args, **kwds)
-ERROR: ParseError at /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/go/go-native_1.18.3.bb:4: Could not include required file go-1.18.3.inc
-ERROR: Parsing halted due to errors, see error messages above
+ERROR: Nothing PROVIDES 'u-boot'
+u-boot was skipped: Either UBOOT_MACHINE or UBOOT_CONFIG must be set in the qemuppc machine configuration.
 
---===============8009114351066402154==--
+--===============2835327138987023952==--
 
