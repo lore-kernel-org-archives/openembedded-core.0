@@ -2,41 +2,41 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE42C2BBE6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4853AC2BBEB
 	for <webhook@archiver.kernel.org>; Fri, 15 Jul 2022 15:57:54 +0000 (UTC)
 Received: from a27-191.smtp-out.us-west-2.amazonses.com
  (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.903.1657900668358078622
+ by mx.groups.io with SMTP id smtpd.web10.919.1657900667876003910
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Jul 2022 08:57:48 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=idXo8nh/;
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=bXSjyumH;
  spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191,
- mailfrom: 010101820294930c-033f0ee5-a96c-4e3c-a649-5e643e7816a5-000000@us-west-2.amazonses.com)
+ mailfrom: 01010182029492a5-ad99684e-2a26-42e0-859e-c97da307cb9e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1657900667;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=684F2fOLZbmil9GHJ6iMnv+xUWGgEvz5fZqE+XxD6MY=;
-	b=idXo8nh/U0yPKz6PpAqYDadBTbos0qQIJBMOoShtGlMSkAb9igjfjLH7mG1d5b28
-	5Xrr5VfLbhskDjY6JmTiCuwHjcCI61C60jZ3t4BMyHbXArnyf5sb2ZN55iy3pyzwXWg
-	bC/GsKsMw2X8Cm2lWrR/VDW4a/QqcSDRXDZysnJE=
+	bh=/rzJLsP1gs3dMlB5laFw21D3sjht2YtqOJMM0qYnSQw=;
+	b=bXSjyumHJMMEB1rBBmQfamKgsti+RPnjHoFtH+dF0SLKyynJiRUMRezqOYFgWkVi
+	+dL0T3O9xQUK5hXL51EHBskw5TKViNcAGAj/feD7SPpReQ2X3RfV0QLtuWkBwJElhmQ
+	joa8tM5bgxzwv5p2/ymGc9XubIZt0e4PkebtXoEA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1657900667;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=684F2fOLZbmil9GHJ6iMnv+xUWGgEvz5fZqE+XxD6MY=;
-	b=TOTuXfhHyQYJJdtlEif2rF0XwjG4UpRliNLIR3iDtvuGb/U6X/nj5799jUm4hW2O
-	ALA4ZJn2xgltd9qNxstqYAWiZFY9P2eyq3us4lCGGbfFULqj/kZiqwkOt7Z/RkJzqc+
-	QEbGUqZqyRT+WbQFsWz0W+sZTn8SNPdlZCHrPaXo=
-Content-Type: multipart/mixed; boundary="===============6909773538850342655=="
+	bh=/rzJLsP1gs3dMlB5laFw21D3sjht2YtqOJMM0qYnSQw=;
+	b=OEHUmU6pc39yqNAb9CSmsFUL5DvmTdkw55mnwTyUT3t59GRLLPjaV4r+Q1GNF/H1
+	yjVyEh3fidQXVzZ9XSJY54TZhAC8njvJpw0IgrW5EZVHq02PNDekuhBQyTPL3G/P+Fz
+	vZe1l2lXPUV3MGaeP3sC0Fp64/kBpYv8sT24xTuA=
+Content-Type: multipart/mixed; boundary="===============0594096086698361226=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vala: upgrading to 0.56.2 SUCCEEDED
+Subject: [AUH] python3-setuptools-scm: upgrading to 7.0.5 SUCCEEDED
 Message-ID: 
- <010101820294930c-033f0ee5-a96c-4e3c-a649-5e643e7816a5-000000@us-west-2.amazonses.com>
+ <01010182029492a5-ad99684e-2a26-42e0-859e-c97da307cb9e-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Jul 2022 15:57:47 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
@@ -46,9 +46,9 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Jul 2022 15:57:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168082
+ https://lists.openembedded.org/g/openembedded-core/message/168080
 
---===============6909773538850342655==
+--===============0594096086698361226==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *vala* to *0.56.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-setuptools-scm* to *7.0.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-vala-upgrade-0.56.1-0.56.2.patch
+    - apply the patch: git am 0001-python3-setuptools-scm-upgrade-7.0.3-7.0.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,106 +75,77 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6909773538850342655==
+--===============0594096086698361226==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-python3-setuptools-scm-upgrade-7.0.3-7.0.5.patch"
+
+From 045050a407698784a670c40510f33631a8f141cf Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 15 Jul 2022 08:29:51 +0000
+Subject: [PATCH] python3-setuptools-scm: upgrade 7.0.3 -> 7.0.5
+
+---
+ ...-setuptools-scm_7.0.3.bb => python3-setuptools-scm_7.0.5.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-setuptools-scm_7.0.3.bb => python3-setuptools-scm_7.0.5.bb} (91%)
+
+diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_7.0.3.bb b/meta/recipes-devtools/python/python3-setuptools-scm_7.0.5.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-setuptools-scm_7.0.3.bb
+rename to meta/recipes-devtools/python/python3-setuptools-scm_7.0.5.bb
+index 72529353e5..a1e719f54b 100644
+--- a/meta/recipes-devtools/python/python3-setuptools-scm_7.0.3.bb
++++ b/meta/recipes-devtools/python/python3-setuptools-scm_7.0.5.bb
+@@ -4,7 +4,7 @@ DESCRIPTION = "setuptools_scm handles managing your Python package versions in S
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=8227180126797a0148f94f483f3e1489"
+ 
+-SRC_URI[sha256sum] = "cf8ab8e235bed840cd4559b658af0d8e8a70896a191bbc510ee914ec5325332d"
++SRC_URI[sha256sum] = "031e13af771d6f892b941adb6ea04545bbf91ebc5ce68c78aaf3fff6e1fb4844"
+ 
+ PYPI_PACKAGE = "setuptools_scm"
+ inherit pypi python_setuptools_build_meta
+-- 
+2.31.1
+
+
+--===============0594096086698361226==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/vala: PKGV changed from 0.56.1 [default] to 0.56.2 [default]
-packages/core2-32-poky-linux/vala: PV changed from "0.56.1" to "0.56.2"
-packages/core2-32-poky-linux/vala: SRC_URI changed from "http://ftp.gnome.org/pub/GNOME/sources/vala/0.56/vala-0.56.1.tar.xz" to "http://ftp.gnome.org/pub/GNOME/sources/vala/0.56/vala-0.56.2.tar.xz"
-Changes to packages/core2-32-poky-linux/vala (sysroot):
-  /usr/share/vala-0.56/vapi/geocode-glib-2.0.deps was added
-  /usr/share/vala-0.56/vapi/geocode-glib-2.0.vapi was added
-  /usr/share/vala-0.56/vapi/rest-1.0.deps was added
-  /usr/share/vala-0.56/vapi/rest-1.0.vapi was added
-  /usr/share/vala-0.56/vapi/rest-extras-1.0.deps was added
-  /usr/share/vala-0.56/vapi/rest-extras-1.0.vapi was added
-  /usr/share/vala-0.56/vapi/wayland-client.vapi was added
-packages/core2-32-poky-linux/vala/vala-dbg: PKGV changed from 0.56.1 [default] to 0.56.2 [default]
-packages/core2-32-poky-linux/vala/vala-dbg: PV changed from "0.56.1" to "0.56.2"
-packages/core2-32-poky-linux/vala/vala-dbg: PKGSIZE changed from 15442244 to 15447840 (+0%)
-packages/core2-32-poky-linux/vala/vala-dev: PKGV changed from 0.56.1 [default] to 0.56.2 [default]
-packages/core2-32-poky-linux/vala/vala-dev: PV changed from "0.56.1" to "0.56.2"
-packages/core2-32-poky-linux/vala/vala-doc: PKGV changed from 0.56.1 [default] to 0.56.2 [default]
-packages/core2-32-poky-linux/vala/vala-doc: PV changed from "0.56.1" to "0.56.2"
-packages/core2-32-poky-linux/vala/vala-doc: PKGSIZE changed from 10307 to 10304 (-0%)
-packages/core2-32-poky-linux/vala/vala-locale: PKGV changed from 0.56.1 [default] to 0.56.2 [default]
-packages/core2-32-poky-linux/vala/vala-locale: PV changed from "0.56.1" to "0.56.2"
-packages/core2-32-poky-linux/vala/vala-src: PKGV changed from 0.56.1 [default] to 0.56.2 [default]
-packages/core2-32-poky-linux/vala/vala-src: PV changed from "0.56.1" to "0.56.2"
-packages/core2-32-poky-linux/vala/vala-src: PKGSIZE changed from 15478348 to 15485258 (+0%)
-packages/core2-32-poky-linux/vala/vala-staticdev: PKGV changed from 0.56.1 [default] to 0.56.2 [default]
-packages/core2-32-poky-linux/vala/vala-staticdev: PV changed from "0.56.1" to "0.56.2"
-packages/core2-32-poky-linux/vala/vala: PKGV changed from 0.56.1 [default] to 0.56.2 [default]
-packages/core2-32-poky-linux/vala/vala: PV changed from "0.56.1" to "0.56.2"
-packages/core2-32-poky-linux/vala/vala: PKGSIZE changed from 13028128 to 13073034 (+0%)
-packages/core2-32-poky-linux/vala/vala: FILELIST: added "/usr/share/vala-0.56/vapi/rest-1.0.vapi /usr/share/vala-0.56/vapi/wayland-client.vapi /usr/share/vala-0.56/vapi/geocode-glib-2.0.deps /usr/share/vala-0.56/vapi/rest-1.0.deps /usr/share/vala-0.56/vapi/rest-extras-1.0.vapi /usr/share/vala-0.56/vapi/rest-extras-1.0.deps /usr/share/vala-0.56/vapi/geocode-glib-2.0.vapi"
-Changes to packages/x86_64-linux/vala-native (sysroot):
-  /usr/share/vala-0.56/vapi/geocode-glib-2.0.deps was added
-  /usr/share/vala-0.56/vapi/geocode-glib-2.0.vapi was added
-  /usr/share/vala-0.56/vapi/rest-1.0.deps was added
-  /usr/share/vala-0.56/vapi/rest-1.0.vapi was added
-  /usr/share/vala-0.56/vapi/rest-extras-1.0.deps was added
-  /usr/share/vala-0.56/vapi/rest-extras-1.0.vapi was added
-  /usr/share/vala-0.56/vapi/wayland-client.vapi was added
+packages/core2-32-poky-linux/python3-setuptools-scm: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/setuptools_scm/setuptools_scm-7.0.3.tar.gz" to "https://files.pythonhosted.org/packages/source/s/setuptools_scm/setuptools_scm-7.0.5.tar.gz"
+packages/core2-32-poky-linux/python3-setuptools-scm: PKGV changed from 7.0.3 [default] to 7.0.5 [default]
+packages/core2-32-poky-linux/python3-setuptools-scm: PV changed from "7.0.3" to "7.0.5"
+packages/core2-32-poky-linux/python3-setuptools-scm/python3-setuptools-scm-dbg: PV changed from "7.0.3" to "7.0.5"
+packages/core2-32-poky-linux/python3-setuptools-scm/python3-setuptools-scm-dbg: PKGV changed from 7.0.3 [default] to 7.0.5 [default]
+packages/core2-32-poky-linux/python3-setuptools-scm/python3-setuptools-scm-dev: PV changed from "7.0.3" to "7.0.5"
+packages/core2-32-poky-linux/python3-setuptools-scm/python3-setuptools-scm-dev: PKGV changed from 7.0.3 [default] to 7.0.5 [default]
+packages/core2-32-poky-linux/python3-setuptools-scm/python3-setuptools-scm-doc: PV changed from "7.0.3" to "7.0.5"
+packages/core2-32-poky-linux/python3-setuptools-scm/python3-setuptools-scm-doc: PKGV changed from 7.0.3 [default] to 7.0.5 [default]
+packages/core2-32-poky-linux/python3-setuptools-scm/python3-setuptools-scm-locale: PV changed from "7.0.3" to "7.0.5"
+packages/core2-32-poky-linux/python3-setuptools-scm/python3-setuptools-scm-locale: PKGV changed from 7.0.3 [default] to 7.0.5 [default]
+packages/core2-32-poky-linux/python3-setuptools-scm/python3-setuptools-scm-src: PV changed from "7.0.3" to "7.0.5"
+packages/core2-32-poky-linux/python3-setuptools-scm/python3-setuptools-scm-src: PKGV changed from 7.0.3 [default] to 7.0.5 [default]
+packages/core2-32-poky-linux/python3-setuptools-scm/python3-setuptools-scm-staticdev: PV changed from "7.0.3" to "7.0.5"
+packages/core2-32-poky-linux/python3-setuptools-scm/python3-setuptools-scm-staticdev: PKGV changed from 7.0.3 [default] to 7.0.5 [default]
+packages/core2-32-poky-linux/python3-setuptools-scm/python3-setuptools-scm: PKGSIZE changed from 193065 to 193775 (+0%)
+packages/core2-32-poky-linux/python3-setuptools-scm/python3-setuptools-scm: PV changed from "7.0.3" to "7.0.5"
+packages/core2-32-poky-linux/python3-setuptools-scm/python3-setuptools-scm: PKGV changed from 7.0.3 [default] to 7.0.5 [default]
+Changes to packages/core2-32-poky-linux/python3-setuptools-scm (sysroot):
+  /usr/lib/python3.10/site-packages/setuptools_scm-7.0.3.dist-info moved to /usr/lib/python3.10/site-packages/setuptools_scm-7.0.5.dist-info
 
---===============6909773538850342655==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-vala-upgrade-0.56.1-0.56.2.patch"
-
-From b01215959fcac7c4f358785e3d1783984038de5e Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Jul 2022 08:51:36 +0000
-Subject: [PATCH] vala: upgrade 0.56.1 -> 0.56.2
-
----
- meta/recipes-devtools/vala/{vala_0.56.1.bb => vala_0.56.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/vala/{vala_0.56.1.bb => vala_0.56.2.bb} (18%)
-
-diff --git a/meta/recipes-devtools/vala/vala_0.56.1.bb b/meta/recipes-devtools/vala/vala_0.56.2.bb
-similarity index 18%
-rename from meta/recipes-devtools/vala/vala_0.56.1.bb
-rename to meta/recipes-devtools/vala/vala_0.56.2.bb
-index 48d21685e8..08c8ccca1d 100644
---- a/meta/recipes-devtools/vala/vala_0.56.1.bb
-+++ b/meta/recipes-devtools/vala/vala_0.56.2.bb
-@@ -1,3 +1,3 @@
- require ${BPN}.inc
- 
--SRC_URI[sha256sum] = "c518b81dfdda82d1cdf586b3f9b2323162cb96bd3cb5a2c03650cea025d91fb9"
-+SRC_URI[sha256sum] = "66c9619bb17859fd1ac3aba0a57970613e38fd2a1ee30541174260c9fb90124c"
--- 
-2.31.1
-
-
---===============6909773538850342655==
+--===============0594096086698361226==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/vala (sysroot):
-  /usr/share/vala-0.56/vapi/geocode-glib-2.0.deps was added
-  /usr/share/vala-0.56/vapi/geocode-glib-2.0.vapi was added
-  /usr/share/vala-0.56/vapi/rest-1.0.deps was added
-  /usr/share/vala-0.56/vapi/rest-1.0.vapi was added
-  /usr/share/vala-0.56/vapi/rest-extras-1.0.deps was added
-  /usr/share/vala-0.56/vapi/rest-extras-1.0.vapi was added
-  /usr/share/vala-0.56/vapi/wayland-client.vapi was added
-packages/core2-32-poky-linux/vala/vala: FILELIST: added "/usr/share/vala-0.56/vapi/wayland-client.vapi /usr/share/vala-0.56/vapi/rest-extras-1.0.vapi /usr/share/vala-0.56/vapi/geocode-glib-2.0.vapi /usr/share/vala-0.56/vapi/rest-1.0.deps /usr/share/vala-0.56/vapi/rest-1.0.vapi /usr/share/vala-0.56/vapi/rest-extras-1.0.deps /usr/share/vala-0.56/vapi/geocode-glib-2.0.deps"
-Changes to packages/x86_64-linux/vala-native (sysroot):
-  /usr/share/vala-0.56/vapi/geocode-glib-2.0.deps was added
-  /usr/share/vala-0.56/vapi/geocode-glib-2.0.vapi was added
-  /usr/share/vala-0.56/vapi/rest-1.0.deps was added
-  /usr/share/vala-0.56/vapi/rest-1.0.vapi was added
-  /usr/share/vala-0.56/vapi/rest-extras-1.0.deps was added
-  /usr/share/vala-0.56/vapi/rest-extras-1.0.vapi was added
-  /usr/share/vala-0.56/vapi/wayland-client.vapi was added
+Changes to packages/core2-32-poky-linux/python3-setuptools-scm (sysroot):
+  /usr/lib/python3.10/site-packages/setuptools_scm-7.0.3.dist-info moved to /usr/lib/python3.10/site-packages/setuptools_scm-7.0.5.dist-info
 
---===============6909773538850342655==--
+--===============0594096086698361226==--
 
