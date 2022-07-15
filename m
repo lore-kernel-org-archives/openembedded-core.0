@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52BDDC2BBED
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65D39C2BBE9
 	for <webhook@archiver.kernel.org>; Fri, 15 Jul 2022 15:57:54 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com
- (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web08.939.1657900668113600539
+Received: from a27-30.smtp-out.us-west-2.amazonses.com
+ (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web12.979.1657900665345661915
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Jul 2022 08:57:48 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=J9wIFUaT;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
- mailfrom: 01010182029490f7-871bceb1-57b7-41f6-857e-9e1049ea774b-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=JuD/3CdH;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30,
+ mailfrom: 0101018202949213-6bedfd0b-5536-41c6-8614-77df52859ef3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
 	t=1657900667;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=v7WpM0+07FcKNS33khIKPIIH96eG+S5rlhPqZfEsyfM=;
-	b=J9wIFUaTq6mbOcVE4UwlElP3VJ0tdZAthaN+gvT2Is4NosXqhC57bgWRia2LR6YH
-	IQDZLvSYtY0V05I7C0cGM+jHPLyxnb/EZ5Iap3UNvospj4KFmeWRavXDQ1rZLDD/8Af
-	A07snBqd4Z+Ebap4wo6L58FRW7pkEoKaCT39a1Fw=
+	bh=mio9TmyU3Y2kyx2YHK6Y5MAM61rqPDkqb8MpYH1JgPQ=;
+	b=JuD/3CdH9XSsDLk4xkSu2UxREWjpcbDLKPxPtx/JAsHSKKws8MvzrTcWANl+G25P
+	L17ltEHIy3jJY4vTq1WsoiapC24slK3vZ7Rj05t87L2co9pfE1HWDGmdOTL6VVZ8Gpt
+	9fg3ZZi8rzW1XXLKRmxw7hiB/hupduVUYKPJARIc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1657900667;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=v7WpM0+07FcKNS33khIKPIIH96eG+S5rlhPqZfEsyfM=;
-	b=aencn7A3CwVqaskRuPTCgfZFOGYHhw/JpfHRICqHvGk+vRVIdTMvUzLj8LZ689VO
-	j8Z6nRcARrFfARpIEPxE+ja8drV9RDqBJrWA+9FuFILtvx5M59Ho0kYw0qcQiTNH2FY
-	Cj0jsv4yEp0YOMKVZnIUMh4TMgVTjjZ0OorKlqLA=
-Content-Type: multipart/mixed; boundary="===============4696220126794091920=="
+	bh=mio9TmyU3Y2kyx2YHK6Y5MAM61rqPDkqb8MpYH1JgPQ=;
+	b=Pjxf/9e1YnKUz3l/GHtuChxR9qNWLR9mF+Tuze7+EzqxLNaPUJ2vLwC8hpuPIqqT
+	snNr2/BC/PTJ+lLlnCMRlBJjlRpMkqCi8bj5biFgLh3cqVJb3xgDlDhVmD9BZ5ETu74
+	7p550C5fsGi9gBJ52MxpTWmU8v3gzcp+ha4a2SP4=
+Content-Type: multipart/mixed; boundary="===============8350373039954806026=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] meson: upgrading to 0.63.0 SUCCEEDED
+Subject: [AUH] python3-hypothesis: upgrading to 6.50.1 SUCCEEDED
 Message-ID: 
- <01010182029490f7-871bceb1-57b7-41f6-857e-9e1049ea774b-000000@us-west-2.amazonses.com>
+ <0101018202949213-6bedfd0b-5536-41c6-8614-77df52859ef3-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Jul 2022 15:57:47 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.07.15-54.240.27.45
+X-SES-Outgoing: 2022.07.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Jul 2022 15:57:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168077
+ https://lists.openembedded.org/g/openembedded-core/message/168074
 
---===============4696220126794091920==
+--===============8350373039954806026==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *meson* to *0.63.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-hypothesis* to *6.50.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-meson-upgrade-0.62.2-0.63.0.patch
+    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.48.2-6.50.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -75,78 +75,79 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4696220126794091920==
+--===============8350373039954806026==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/meson: SRC_URI changed from "https://github.com/mesonbuild/meson/releases/download/0.62.2/meson-0.62.2.tar.gz file://meson-setup.py file://meson-wrapper file://0001-python-module-do-not-manipulate-the-environment-when.patch file://disable-rpath-handling.patch file://0001-Make-CPU-family-warnings-fatal.patch file://0002-Support-building-allarch-recipes-again.patch file://0001-is_debianlike-always-return-False.patch file://0001-Check-for-clang-before-guessing-gcc-or-lcc.patch" to "https://github.com/mesonbuild/meson/releases/download/0.63.0/meson-0.63.0.tar.gz file://meson-setup.py file://meson-wrapper file://0001-python-module-do-not-manipulate-the-environment-when.patch file://disable-rpath-handling.patch file://0001-Make-CPU-family-warnings-fatal.patch file://0002-Support-building-allarch-recipes-again.patch file://0001-is_debianlike-always-return-False.patch file://0001-Check-for-clang-before-guessing-gcc-or-lcc.patch"
-packages/core2-32-poky-linux/meson: PKGV changed from 0.62.2 [default] to 0.63.0 [default]
-packages/core2-32-poky-linux/meson: PV changed from "0.62.2" to "0.63.0"
-packages/core2-32-poky-linux/meson/meson-dbg: PKGV changed from 0.62.2 [default] to 0.63.0 [default]
-packages/core2-32-poky-linux/meson/meson-dbg: PV changed from "0.62.2" to "0.63.0"
-packages/core2-32-poky-linux/meson/meson-dev: PKGV changed from 0.62.2 [default] to 0.63.0 [default]
-packages/core2-32-poky-linux/meson/meson-dev: PV changed from "0.62.2" to "0.63.0"
-packages/core2-32-poky-linux/meson/meson-doc: PKGV changed from 0.62.2 [default] to 0.63.0 [default]
-packages/core2-32-poky-linux/meson/meson-doc: PV changed from "0.62.2" to "0.63.0"
-packages/core2-32-poky-linux/meson/meson-doc: PKGSIZE changed from 5340 to 5341 (+0%)
-packages/core2-32-poky-linux/meson/meson-locale: PKGV changed from 0.62.2 [default] to 0.63.0 [default]
-packages/core2-32-poky-linux/meson/meson-locale: PV changed from "0.62.2" to "0.63.0"
-packages/core2-32-poky-linux/meson/meson-src: PKGV changed from 0.62.2 [default] to 0.63.0 [default]
-packages/core2-32-poky-linux/meson/meson-src: PV changed from "0.62.2" to "0.63.0"
-packages/core2-32-poky-linux/meson/meson-staticdev: PKGV changed from 0.62.2 [default] to 0.63.0 [default]
-packages/core2-32-poky-linux/meson/meson-staticdev: PV changed from "0.62.2" to "0.63.0"
-packages/core2-32-poky-linux/meson/meson: PKGV changed from 0.62.2 [default] to 0.63.0 [default]
-packages/core2-32-poky-linux/meson/meson: PV changed from "0.62.2" to "0.63.0"
-packages/core2-32-poky-linux/meson/meson: PKGSIZE changed from 5571742 to 5656824 (+2%)
-Changes to packages/core2-32-poky-linux/meson (sysroot):
-  /usr/lib/python3.10/site-packages/meson-0.62.2.dist-info moved to /usr/lib/python3.10/site-packages/meson-0.63.0.dist-info
+packages/core2-32-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.48.2.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.50.1.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py"
+packages/core2-32-poky-linux/python3-hypothesis: PKGV changed from 6.48.2 [default] to 6.50.1 [default]
+packages/core2-32-poky-linux/python3-hypothesis: PV changed from "6.48.2" to "6.50.1"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.48.2 [default] to 6.50.1 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.48.2" to "6.50.1"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.48.2 [default] to 6.50.1 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.48.2" to "6.50.1"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.48.2 [default] to 6.50.1 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.48.2" to "6.50.1"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.48.2 [default] to 6.50.1 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.48.2" to "6.50.1"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.48.2 [default] to 6.50.1 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.48.2" to "6.50.1"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.48.2 [default] to 6.50.1 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.48.2" to "6.50.1"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.48.2 [default] to 6.50.1 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.48.2" to "6.50.1"
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.48.2 [default] to 6.50.1 [default]
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 2072669 to 2079543 (+0%)
+packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.48.2" to "6.50.1"
+Changes to packages/core2-32-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.10/site-packages/hypothesis-6.48.2.dist-info moved to /usr/lib/python3.10/site-packages/hypothesis-6.50.1.dist-info
 
---===============4696220126794091920==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-meson-upgrade-0.62.2-0.63.0.patch"
-
-From 25c7458d4c8e1c9a2a1f57bfdfa82e0ed7a5344b Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Jul 2022 07:41:55 +0000
-Subject: [PATCH] meson: upgrade 0.62.2 -> 0.63.0
-
----
- .../recipes-devtools/meson/{meson_0.62.2.bb => meson_0.63.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/meson/{meson_0.62.2.bb => meson_0.63.0.bb} (98%)
-
-diff --git a/meta/recipes-devtools/meson/meson_0.62.2.bb b/meta/recipes-devtools/meson/meson_0.63.0.bb
-similarity index 98%
-rename from meta/recipes-devtools/meson/meson_0.62.2.bb
-rename to meta/recipes-devtools/meson/meson_0.63.0.bb
-index acfc64fd4f..42e64e351f 100644
---- a/meta/recipes-devtools/meson/meson_0.62.2.bb
-+++ b/meta/recipes-devtools/meson/meson_0.63.0.bb
-@@ -17,7 +17,7 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
-            file://0001-is_debianlike-always-return-False.patch \
-            file://0001-Check-for-clang-before-guessing-gcc-or-lcc.patch \
-            "
--SRC_URI[sha256sum] = "a7669e4c4110b06b743d57cc5d6432591a6677ef2402139fe4f3d42ac13380b0"
-+SRC_URI[sha256sum] = "3b51d451744c2bc71838524ec8d96cd4f8c4793d5b8d5d0d0a9c8a4f7c94cd6f"
- 
- UPSTREAM_CHECK_URI = "https://github.com/mesonbuild/meson/releases"
- UPSTREAM_CHECK_REGEX = "meson-(?P<pver>\d+(\.\d+)+)\.tar"
--- 
-2.31.1
-
-
---===============4696220126794091920==
+--===============8350373039954806026==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/meson (sysroot):
-  /usr/lib/python3.10/site-packages/meson-0.62.2.dist-info moved to /usr/lib/python3.10/site-packages/meson-0.63.0.dist-info
+Changes to packages/core2-32-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.10/site-packages/hypothesis-6.48.2.dist-info moved to /usr/lib/python3.10/site-packages/hypothesis-6.50.1.dist-info
 
---===============4696220126794091920==--
+--===============8350373039954806026==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-python3-hypothesis-upgrade-6.48.2-6.50.1.patch"
+
+From cb42f0da0e09aca0b4ca268c106fea98ec469882 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 15 Jul 2022 07:54:50 +0000
+Subject: [PATCH] python3-hypothesis: upgrade 6.48.2 -> 6.50.1
+
+---
+ ...ython3-hypothesis_6.48.2.bb => python3-hypothesis_6.50.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.48.2.bb => python3-hypothesis_6.50.1.bb} (91%)
+
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.48.2.bb b/meta/recipes-devtools/python/python3-hypothesis_6.50.1.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.48.2.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.50.1.bb
+index 9e74e2c1cd..0c93c12493 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.48.2.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.50.1.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
+ 
+-SRC_URI[sha256sum] = "ef548f10438095678af7fcfa369b882390355a6329db73174a65749b677677ec"
++SRC_URI[sha256sum] = "1a19ade3b27825cab622c95fcf25182a27a42f97589c163173fcbdafb8621d1e"
+ 
+ RDEPENDS:${PN} += " \
+     python3-attrs \
+-- 
+2.31.1
+
+
+--===============8350373039954806026==--
 
