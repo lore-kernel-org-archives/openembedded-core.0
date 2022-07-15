@@ -2,54 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE67CCCA493
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFF92CCA498
 	for <webhook@archiver.kernel.org>; Fri, 15 Jul 2022 15:57:53 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com
- (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web09.966.1657900669168092839
+Received: from a27-45.smtp-out.us-west-2.amazonses.com
+ (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web08.940.1657900668119059240
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Jul 2022 08:57:49 -0700
+ Fri, 15 Jul 2022 08:57:48 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=L3vi7uWd;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193,
- mailfrom: 01010182029495a5-a06e3dcd-3ae9-4732-99c3-e06fe15a0dc4-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=Njpi66im;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45,
+ mailfrom: 0101018202949100-4aeb5dc3-5135-4d78-a64a-0f7d1fe75f2d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1657900668;
+	t=1657900667;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=sLGMMiBmJ+EMMbbDVWCmR9lTmXQhwm53SP7AwLZHarU=;
-	b=L3vi7uWdSogCAgFU8jnVZ9K1jXN8uUkiWgTGgDC9fwEE1pdG863vR4e4oQcBqbcV
-	CuWQ+pwL9PRp1lqjEsazgcvqtOsqcIfvfoNu30DqnmEgVckJ0loXnQJY2xMetOHdq3o
-	ZldNGAI9p/jgKWJLrj/Rrv53DF1DT+3exJi8zuCo=
+	bh=CDkqLt9sE2VjADJnRHcpdys1dQUMzbYLWd21w3x3b64=;
+	b=Njpi66imXqFn239MO6iSOAKs6p94VOJU59SboQSeHDJSy6KJHhj5I7n/bGcKrDuC
+	+C01F9iCIoTrUJQHywd3GVOC3fzTRi9ZjhmWABT6YGbj5mM+oxMQMMB2Z8ZKgiQXyp1
+	yQVxAuANspo73vgZ/l1U5hLwBFkRqdd7b3TLVFb0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1657900668;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1657900667;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=sLGMMiBmJ+EMMbbDVWCmR9lTmXQhwm53SP7AwLZHarU=;
-	b=UvxWSl6xA+xlbigSszKMiruCGGmUVv1jaEydDnWToAd+q0BWNjtbOE9T48oSpneg
-	KoHXuZPsWQvUjzA420Ccps5knD1hCBUog2rW0k32OB5Dt3fxVEu8pjLQWatoOJItiEC
-	W0ahHNaYO+AxOArUEEgHwS56MVO+gOsaV6Y+L+A8=
-Content-Type: multipart/mixed; boundary="===============8636867029479863130=="
+	bh=CDkqLt9sE2VjADJnRHcpdys1dQUMzbYLWd21w3x3b64=;
+	b=cXstCT8ntc0rV8v5LdQjk1r/r886qybu7/TaRf77e2mWhOCkgU67mnlVUsIuCBrc
+	/0h+NeLJI8I9x9de1zCpuxk8TAsF0RWSxbdBBQ9iZSZuAjTlyx1y1oGLZtWiF8NHYOw
+	AgCU5vgRYvicwifnPny36ibglydjUbjDcKSt4SvM=
+Content-Type: multipart/mixed; boundary="===============3534433842173632543=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] piglit: upgrading to c107462e4e429fa1cf6daac39168674c1c0c9fd4
- SUCCEEDED
+Subject: [AUH] go: upgrading to 1.18.4 FAILED
 Message-ID: 
- <01010182029495a5-a06e3dcd-3ae9-4732-99c3-e06fe15a0dc4-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Jul 2022 15:57:48 +0000
+ <0101018202949100-4aeb5dc3-5135-4d78-a64a-0f7d1fe75f2d-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Jul 2022 15:57:47 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.07.15-54.240.27.193
+X-SES-Outgoing: 2022.07.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Jul 2022 15:57:53 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168100
+ https://lists.openembedded.org/g/openembedded-core/message/168075
 
---===============8636867029479863130==
+--===============3534433842173632543==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -57,10 +56,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *piglit* to *c107462e4e429fa1cf6daac39168674c1c0c9fd4* has Succeeded.
+that the automatic attempt to upgrade the recipe *go* to *1.18.4* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-piglit-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-go-upgrade-1.18.3-1.18.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -76,80 +81,61 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8636867029479863130==
+--===============3534433842173632543==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
-packages/core2-32-poky-linux/piglit: PKGV changed from 1.0+gitrAUTOINC+479b0002d0 [default] to 1.0+gitrAUTOINC+c107462e4e [default]
-packages/core2-32-poky-linux/piglit: PV changed from "1.0+gitrAUTOINC+479b0002d0" to "1.0+gitrAUTOINC+c107462e4e"
-packages/core2-32-poky-linux/piglit/piglit-bash-completion: PKGV changed from 1.0+gitr0+479b0002d0 to 1.0+gitr0+c107462e4e
-packages/core2-32-poky-linux/piglit/piglit-bash-completion: PV changed from "1.0+gitrAUTOINC+479b0002d0" to "1.0+gitrAUTOINC+c107462e4e"
-packages/core2-32-poky-linux/piglit/piglit-dbg: PKGV changed from 1.0+gitr0+479b0002d0 to 1.0+gitr0+c107462e4e
-packages/core2-32-poky-linux/piglit/piglit-dbg: PV changed from "1.0+gitrAUTOINC+479b0002d0" to "1.0+gitrAUTOINC+c107462e4e"
-packages/core2-32-poky-linux/piglit/piglit-dev: PKGV changed from 1.0+gitr0+479b0002d0 to 1.0+gitr0+c107462e4e
-packages/core2-32-poky-linux/piglit/piglit-dev: PV changed from "1.0+gitrAUTOINC+479b0002d0" to "1.0+gitrAUTOINC+c107462e4e"
-packages/core2-32-poky-linux/piglit/piglit-doc: PKGV changed from 1.0+gitr0+479b0002d0 to 1.0+gitr0+c107462e4e
-packages/core2-32-poky-linux/piglit/piglit-doc: PV changed from "1.0+gitrAUTOINC+479b0002d0" to "1.0+gitrAUTOINC+c107462e4e"
-packages/core2-32-poky-linux/piglit/piglit-locale: PKGV changed from 1.0+gitr0+479b0002d0 to 1.0+gitr0+c107462e4e
-packages/core2-32-poky-linux/piglit/piglit-locale: PV changed from "1.0+gitrAUTOINC+479b0002d0" to "1.0+gitrAUTOINC+c107462e4e"
-packages/core2-32-poky-linux/piglit/piglit-src: PKGV changed from 1.0+gitr0+479b0002d0 to 1.0+gitr0+c107462e4e
-packages/core2-32-poky-linux/piglit/piglit-src: PV changed from "1.0+gitrAUTOINC+479b0002d0" to "1.0+gitrAUTOINC+c107462e4e"
-packages/core2-32-poky-linux/piglit/piglit-staticdev: PKGV changed from 1.0+gitr0+479b0002d0 to 1.0+gitr0+c107462e4e
-packages/core2-32-poky-linux/piglit/piglit-staticdev: PV changed from "1.0+gitrAUTOINC+479b0002d0" to "1.0+gitrAUTOINC+c107462e4e"
-packages/core2-32-poky-linux/piglit/piglit: PKGV changed from 1.0+gitr0+479b0002d0 to 1.0+gitr0+c107462e4e
-packages/core2-32-poky-linux/piglit/piglit: PV changed from "1.0+gitrAUTOINC+479b0002d0" to "1.0+gitrAUTOINC+c107462e4e"
-packages/core2-32-poky-linux/piglit/piglit: FILELIST: added "/usr/lib/piglit/bin/arm_shader_framebuffer_fetch_depth_stencil /usr/lib/piglit/bin/arm_shader_framebuffer_fetch_depth_stencil_gles3"
-packages/core2-32-poky-linux/piglit/piglit: PKGSIZE changed from 2042567695 to 2042597292 (+0%)
+WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
+Loading cache...done.
+Loaded 1660 entries from dependency cache.
+Parsing recipes...
+Summary: There was 1 WARNING message.
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+ERROR: ParseError at /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/go/go-runtime_1.18.3.bb:1: Could not include required file go-1.18.3.inc
+ERROR: Parsing halted due to errors, see error messages above
 
---===============8636867029479863130==
+--===============3534433842173632543==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-piglit-upgrade-to-latest-revision.patch"
+ filename="0001-go-upgrade-1.18.3-1.18.4.patch"
 
-From f821880b0572ecb504f6ca067530cc6edea7938c Mon Sep 17 00:00:00 2001
+From 9578d96ed154fa21fe13b9a716641ec4d650e3c8 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Jul 2022 13:16:28 +0000
-Subject: [PATCH] piglit: upgrade to latest revision
+Date: Fri, 15 Jul 2022 06:58:33 +0000
+Subject: [PATCH] go: upgrade 1.18.3 -> 1.18.4
 
 ---
- meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/go/{go-1.18.3.inc => go-1.18.4.inc} | 2 +-
+ meta/recipes-devtools/go/{go_1.18.3.bb => go_1.18.4.bb}   | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/go/{go-1.18.3.inc => go-1.18.4.inc} (89%)
+ rename meta/recipes-devtools/go/{go_1.18.3.bb => go_1.18.4.bb} (100%)
 
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 38ededfcf8..932f2928a0 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -14,7 +14,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
-            "
- UPSTREAM_CHECK_COMMITS = "1"
- 
--SRCREV = "479b0002d004bc99514d186724b5a4fbfe543370"
-+SRCREV = "c107462e4e429fa1cf6daac39168674c1c0c9fd4"
- # (when PV goes above 1.0 remove the trailing r)
- PV = "1.0+gitr${SRCPV}"
- 
+diff --git a/meta/recipes-devtools/go/go-1.18.3.inc b/meta/recipes-devtools/go/go-1.18.4.inc
+similarity index 89%
+rename from meta/recipes-devtools/go/go-1.18.3.inc
+rename to meta/recipes-devtools/go/go-1.18.4.inc
+index 693b045e8f..bfda15c54f 100644
+--- a/meta/recipes-devtools/go/go-1.18.3.inc
++++ b/meta/recipes-devtools/go/go-1.18.4.inc
+@@ -15,4 +15,4 @@ SRC_URI += "\
+     file://0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
+     file://filter-build-paths.patch \
+ "
+-SRC_URI[main.sha256sum] = "0012386ddcbb5f3350e407c679923811dbd283fcdc421724931614a842ecbc2d"
++SRC_URI[main.sha256sum] = "4525aa6b0e3cecb57845f4060a7075aafc9ab752bb7b6b4cf8a212d43078e1e4"
+diff --git a/meta/recipes-devtools/go/go_1.18.3.bb b/meta/recipes-devtools/go/go_1.18.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.18.3.bb
+rename to meta/recipes-devtools/go/go_1.18.4.bb
 -- 
 2.31.1
 
 
---===============8636867029479863130==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/piglit/piglit-bash-completion: PKGV changed from 1.0+gitr0+479b0002d0 to 1.0+gitr0+c107462e4e
-packages/core2-32-poky-linux/piglit/piglit-dbg: PKGV changed from 1.0+gitr0+479b0002d0 to 1.0+gitr0+c107462e4e
-packages/core2-32-poky-linux/piglit/piglit-dev: PKGV changed from 1.0+gitr0+479b0002d0 to 1.0+gitr0+c107462e4e
-packages/core2-32-poky-linux/piglit/piglit-doc: PKGV changed from 1.0+gitr0+479b0002d0 to 1.0+gitr0+c107462e4e
-packages/core2-32-poky-linux/piglit/piglit-locale: PKGV changed from 1.0+gitr0+479b0002d0 to 1.0+gitr0+c107462e4e
-packages/core2-32-poky-linux/piglit/piglit-src: PKGV changed from 1.0+gitr0+479b0002d0 to 1.0+gitr0+c107462e4e
-packages/core2-32-poky-linux/piglit/piglit-staticdev: PKGV changed from 1.0+gitr0+479b0002d0 to 1.0+gitr0+c107462e4e
-packages/core2-32-poky-linux/piglit/piglit: FILELIST: added "/usr/lib/piglit/bin/arm_shader_framebuffer_fetch_depth_stencil /usr/lib/piglit/bin/arm_shader_framebuffer_fetch_depth_stencil_gles3"
-packages/core2-32-poky-linux/piglit/piglit: PKGV changed from 1.0+gitr0+479b0002d0 to 1.0+gitr0+c107462e4e
-
---===============8636867029479863130==--
+--===============3534433842173632543==--
 
