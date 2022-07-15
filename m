@@ -1,91 +1,100 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D521BC433EF
-	for <webhook@archiver.kernel.org>; Fri, 15 Jul 2022 18:01:25 +0000 (UTC)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
- [209.85.208.50])
- by mx.groups.io with SMTP id smtpd.web09.595.1657908085153691120
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC1EEC433EF
+	for <webhook@archiver.kernel.org>; Fri, 15 Jul 2022 20:42:27 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web08.1875.1657917743342102300
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Jul 2022 11:01:25 -0700
+ Fri, 15 Jul 2022 13:42:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jS/+4uv4;
- spf=pass (domain: gmail.com, ip: 209.85.208.50,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f50.google.com with SMTP id y4so7279653edc.4
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QkwesmD4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id
+ j29-20020a05600c1c1d00b003a2fdafdefbso3746583wms.2
         for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Jul 2022 11:01:24 -0700 (PDT)
+ Fri, 15 Jul 2022 13:42:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WuFMlqTz29bJkhB/ce7aCPNkxCVnfbk+/XuGiIEj2TM=;
-        b=jS/+4uv4bHgxe708WbDxizHfdUe9AhV4ZvyBLCreIFzXRLflxHWLFsDqbYJEGHeEo9
-         vxvFUJaW3QatTdmTku5BendUNa8kknXocxhzTuBnvwBvQqdDoKf/Uy2ZVw+DkVFDCpEb
-         KtTM9+1MOp8n3Y2x5BUiutlv528UI205bVArO0b5FsuuZ6R/lvVfcb/GW18EZCwAKcgs
-         Zsc76WER5JchdU0dnwfM1YBqQGWiKS47Wak8Xn+Uc9mRdvEli03J6EIzJdNjqVcwsmYW
-         05H4WpZ33tghx4j4XEprOcgAa71a5+Bb74WkkfPGhe2sD4T3O9kvTa5buFz9AoPDhR/L
-         61eg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=T4kxz8We8rvDOHHvINvM3rMpM5KDyOgfwoPAsXgKe88=;
+        b=QkwesmD4kEL10PWAmV+Y52D960mFePXVbheDoxFtFzHuFJgdPfF+xe20Xzd/TKIBWg
+         oeLnZrgiESe7dYQM9li4npzOZ/IUC/llXeYXtOAsZ84hMq+A4eXINPJ7ChdsqwLjQN1F
+         RaY9XvKsL/QYRR42sTgdvgmevEmrdRF1AxGnI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WuFMlqTz29bJkhB/ce7aCPNkxCVnfbk+/XuGiIEj2TM=;
-        b=SKFvBO3gwkX8NaI8oj2yHQeBZOKBkp3nSvVsmymk+DTIYZHnQdbSeUMy3sgeNkjIDQ
-         8XaI1DjoFoUVQhW1IE5NuledoTNVwBJ0ctFDiaOK1BCm+mu6lQ7qt5RvmqFQjgvZmZh1
-         8nnfBmQVpg4Z818B5Pc3GcH6Hd6s4R3tqB3R281NgS2iAZbIEQi6X1n+DP1mDPT8tVBc
-         zVXhQ74M5NK9tjoOTgOBdymcuEMZhYU2DqRA18iJDys0Nd/a6wCx+uzxTBGL9h9W6q05
-         XAqCijgW91EdQfJIVEFhVAiQjDLNnd1AW1OZaivj9DY23Z/NeKyrl43OxRyz+GljSH+G
-         qqAA==
-X-Gm-Message-State: AJIora+rZXTF5MiIXbhzv7E2HqyyOE6BUVzpirtCwwJxzzVYXMSTvlqh
-	z5jon5qDh6EFjQfDzdzgXu0fwu5dlKKEbg==
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=T4kxz8We8rvDOHHvINvM3rMpM5KDyOgfwoPAsXgKe88=;
+        b=OvJmgO+ygQsvYZ0OTlX5Oo5k8S5Zg/jA4g+45LtJWm7+cwx0fSnXeB7e8spsQUILeh
+         i5SX+hHnoPFOtylTfieyGdD2QTao+uT3SLAGXPzSzWr6siH2Hq9sR63KYLSj/FFryxyz
+         8swXY7UP9r+XRa9lCWQMlPve583MBpLcRLNrPeCH/QDFA7acGuGOVyCgkbPMBQFGP9Gi
+         jhrr0IpMklWIuSqjCx8S95kfUdgjkFtcO3APhWb7c48Wm+cEKXjJSgXlXZ9rnzeN3TQB
+         vIinJ5IgfEJbY6uSiHsBrzgGHZRiwJxqZvrsjZmWF54XZllymnLCxFhClbWkYNFxKs3D
+         yF9w==
+X-Gm-Message-State: AJIora9ihkjZyE9oH5DSzfz8LZ04ccdaQJHTcf640mO/iezZTPxUDlQ/
+	06WH807Fomf15hJrr+O8xaxyTg==
 X-Google-Smtp-Source: 
- AGRyM1vf8mweCRG90ITsChk9lmOKYkUVV6HmpP+sqe73dxyZXPOZ5rrb7IvlgwKtja64TwNYQhjveQ==
-X-Received: by 2002:a05:6402:3785:b0:435:5d0e:2a2e with SMTP id
- et5-20020a056402378500b004355d0e2a2emr21130898edb.307.1657908083502;
-        Fri, 15 Jul 2022 11:01:23 -0700 (PDT)
-Received: from fedora.fritz.box ([2a02:2454:29b:3b00:d35d:e3cf:58b5:748b])
+ AGRyM1umkHifwXO3JaCa84W+QezD+tEelufQ0Kr5ZA24xstpaP1bo9Jk3c11P+4kdMN1e+T9vItkJw==
+X-Received: by 2002:a05:600c:a41:b0:39c:1512:98bd with SMTP id
+ c1-20020a05600c0a4100b0039c151298bdmr22521742wmq.88.1657917741608;
+        Fri, 15 Jul 2022 13:42:21 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1063:9d94:8410:9c6d?
+ ([2001:8b0:aba:5f3c:1063:9d94:8410:9c6d])
         by smtp.gmail.com with ESMTPSA id
- g3-20020a170906538300b0072b14836087sm2254429ejo.103.2022.07.15.11.01.22
+ 3-20020a05600c024300b003a1a02c6d7bsm10018530wmj.35.2022.07.15.13.42.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Jul 2022 11:01:22 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH] conf/local.conf.sample: mention site.conf.sample as well
-Date: Fri, 15 Jul 2022 20:01:04 +0200
-Message-Id: <20220715180104.6737-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.36.1
+        Fri, 15 Jul 2022 13:42:21 -0700 (PDT)
+Message-ID: 
+ <17b18a74f7af9e01bd16c029063f41ce56029466.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] selftest/runtime_test/virgl: Disable for all
+ almalinux
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 15 Jul 2022 21:42:17 +0100
+In-Reply-To: 
+ <CANNYZj8FT-H9-0qB+9VrAiiKjEQ=jj3aG0GB1MFJU67umQpqpg@mail.gmail.com>
+References: <20220715155859.665686-1-richard.purdie@linuxfoundation.org>
+	 <CANNYZj8FT-H9-0qB+9VrAiiKjEQ=jj3aG0GB1MFJU67umQpqpg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Jul 2022 18:01:25 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Jul 2022 20:42:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168136
+ https://lists.openembedded.org/g/openembedded-core/message/168137
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/conf/local.conf.sample | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Fri, 2022-07-15 at 18:13 +0200, Alexander Kanavin wrote:
+> On Fri, 15 Jul 2022 at 17:59, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > -        if distro and distro in ['debian-9', 'debian-10', 'centos-7', =
+'centos-8', 'ubuntu-16.04', 'ubuntu-18.04', 'almalinux-8.5', 'almalinux-8.6=
+']:
+> > +        if distro and (distro in ['debian-9', 'debian-10', 'centos-7',=
+ 'centos-8', 'ubuntu-16.04', 'ubuntu-18.04'] or distro.startswith('almalinu=
+x')):
+>=20
+> I guess almalinux-9 has also shown the same problem as 8? Should this
+> be 'or distro.startswith('almalinux-8') or
+> distro.startswith('almalinux-9') rather? It will be a while before 10
+> is available , and that should be evaluated on its own.
 
-diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-index 589ee32665..f6be0a59d1 100644
---- a/meta/conf/local.conf.sample
-+++ b/meta/conf/local.conf.sample
-@@ -5,7 +5,8 @@
- # be set in this file. More adventurous users can look at
- # local.conf.sample.extended which contains other examples of configuration which
- # can be placed in this file but new users likely won't need any of them
--# initially.
-+# initially. There's also site.conf.sample which contains examples of site specific
-+# information such as proxy server addresses.
- #
- # Lines starting with the '#' character are commented out and in some cases the
- # default values are provided as comments to show people example syntax. Enabling
--- 
-2.36.1
+Michael basically said that we were unlikely ever to get vgem working
+with Alma. It was almalinux-9 that I was adding but I think we wait and
+evaluate the situation with 10 and then someone can send a patch if we
+can add it.
+
+Cheers,
+
+Richard
+
 
 
