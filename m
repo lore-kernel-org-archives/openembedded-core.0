@@ -2,53 +2,53 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 484C8C2BBE8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE42C2BBE6
 	for <webhook@archiver.kernel.org>; Fri, 15 Jul 2022 15:57:54 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com
- (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web08.944.1657900669127695186
+Received: from a27-191.smtp-out.us-west-2.amazonses.com
+ (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.903.1657900668358078622
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Jul 2022 08:57:49 -0700
+ Fri, 15 Jul 2022 08:57:48 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@yoctoproject.org
- header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=a0kZn4O3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192,
- mailfrom: 01010182029494b4-f1717658-0627-48dc-aa3a-c1f2a2a76d43-000000@us-west-2.amazonses.com)
+ header.s=j46ser6a2yusdzubpv7m7ewqgesde2ie header.b=idXo8nh/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191,
+ mailfrom: 010101820294930c-033f0ee5-a96c-4e3c-a649-5e643e7816a5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=j46ser6a2yusdzubpv7m7ewqgesde2ie; d=yoctoproject.org;
-	t=1657900668;
+	t=1657900667;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=mwd+vkmXtemmcQJHW2O+WmqdRdo+kuk1444XM7qeOXo=;
-	b=a0kZn4O3ErDeRoTx8ZHi/MO17PkC9ZC+fmbsL6Rs96JboVPdC/awXBw9/FGuMCrH
-	XUWHCtfGXvfxOMZZBW1nP+c3uoVrzrnhiL3wK5aNig0IOJ4DywyuU8V2tFCREnUO3JO
-	DtYiesJ07Fl4OWxvREtC/HqCqslMgyYChii26Sns=
+	bh=684F2fOLZbmil9GHJ6iMnv+xUWGgEvz5fZqE+XxD6MY=;
+	b=idXo8nh/U0yPKz6PpAqYDadBTbos0qQIJBMOoShtGlMSkAb9igjfjLH7mG1d5b28
+	5Xrr5VfLbhskDjY6JmTiCuwHjcCI61C60jZ3t4BMyHbXArnyf5sb2ZN55iy3pyzwXWg
+	bC/GsKsMw2X8Cm2lWrR/VDW4a/QqcSDRXDZysnJE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1657900668;
+	s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1657900667;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=mwd+vkmXtemmcQJHW2O+WmqdRdo+kuk1444XM7qeOXo=;
-	b=UZ23RIriOyDiTDEYeNLIlLAdxqvWHnyppQwlt1P/GDwKFWKsWU0Cys5GBnjkSntz
-	BH5kAf8PA2tndpznyHN9K36cQET/wLnxOVOi9Jl0lmOm8jJCpja568t9X/UpYPPVXIX
-	NcKeJtDTwDHtOWGBhkLO3VWzgVKY/0cCR/VIxB+Y=
-Content-Type: multipart/mixed; boundary="===============8583420232959527680=="
+	bh=684F2fOLZbmil9GHJ6iMnv+xUWGgEvz5fZqE+XxD6MY=;
+	b=TOTuXfhHyQYJJdtlEif2rF0XwjG4UpRliNLIR3iDtvuGb/U6X/nj5799jUm4hW2O
+	ALA4ZJn2xgltd9qNxstqYAWiZFY9P2eyq3us4lCGGbfFULqj/kZiqwkOt7Z/RkJzqc+
+	QEbGUqZqyRT+WbQFsWz0W+sZTn8SNPdlZCHrPaXo=
+Content-Type: multipart/mixed; boundary="===============6909773538850342655=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libva-initial: upgrading to 2.15.0 FAILED
+Subject: [AUH] vala: upgrading to 0.56.2 SUCCEEDED
 Message-ID: 
- <01010182029494b4-f1717658-0627-48dc-aa3a-c1f2a2a76d43-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Jul 2022 15:57:48 +0000
+ <010101820294930c-033f0ee5-a96c-4e3c-a649-5e643e7816a5-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Jul 2022 15:57:47 +0000
 Feedback-ID: 
  1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2022.07.15-54.240.27.192
+X-SES-Outgoing: 2022.07.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Jul 2022 15:57:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168099
+ https://lists.openembedded.org/g/openembedded-core/message/168082
 
---===============8583420232959527680==
+--===============6909773538850342655==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,37 +56,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libva-initial* to *2.15.0* has Failed (devtool error).
-
-Detailed error information:
-
-The following devtool command failed:  finish -f libva-initial /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libva
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1660 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 890 .bb files complete (889 cached, 1 parsed). 1663 targets, 35 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 WARNING message.
-
-INFO: No patches or local source files needed updating
-INFO: Cleaning sysroot for recipe libva-initial...
-ERROR: Command 'bitbake -c clean libva-initial' failed, output:
-WARNING: Host distribution "almalinux-8.6" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache...done.
-Loaded 1663 entries from dependency cache.
-Parsing recipes...
-Summary: There was 1 WARNING message.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-
-If you wish, you may specify -n/--no-clean to skip running this command when resetting
-
+that the automatic attempt to upgrade the recipe *vala* to *0.56.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libva-initial-upgrade-2.14.0-2.15.0.patch
+    - apply the patch: git am 0001-vala-upgrade-0.56.1-0.56.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -102,84 +75,106 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8583420232959527680==
+--===============6909773538850342655==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/vala: PKGV changed from 0.56.1 [default] to 0.56.2 [default]
+packages/core2-32-poky-linux/vala: PV changed from "0.56.1" to "0.56.2"
+packages/core2-32-poky-linux/vala: SRC_URI changed from "http://ftp.gnome.org/pub/GNOME/sources/vala/0.56/vala-0.56.1.tar.xz" to "http://ftp.gnome.org/pub/GNOME/sources/vala/0.56/vala-0.56.2.tar.xz"
+Changes to packages/core2-32-poky-linux/vala (sysroot):
+  /usr/share/vala-0.56/vapi/geocode-glib-2.0.deps was added
+  /usr/share/vala-0.56/vapi/geocode-glib-2.0.vapi was added
+  /usr/share/vala-0.56/vapi/rest-1.0.deps was added
+  /usr/share/vala-0.56/vapi/rest-1.0.vapi was added
+  /usr/share/vala-0.56/vapi/rest-extras-1.0.deps was added
+  /usr/share/vala-0.56/vapi/rest-extras-1.0.vapi was added
+  /usr/share/vala-0.56/vapi/wayland-client.vapi was added
+packages/core2-32-poky-linux/vala/vala-dbg: PKGV changed from 0.56.1 [default] to 0.56.2 [default]
+packages/core2-32-poky-linux/vala/vala-dbg: PV changed from "0.56.1" to "0.56.2"
+packages/core2-32-poky-linux/vala/vala-dbg: PKGSIZE changed from 15442244 to 15447840 (+0%)
+packages/core2-32-poky-linux/vala/vala-dev: PKGV changed from 0.56.1 [default] to 0.56.2 [default]
+packages/core2-32-poky-linux/vala/vala-dev: PV changed from "0.56.1" to "0.56.2"
+packages/core2-32-poky-linux/vala/vala-doc: PKGV changed from 0.56.1 [default] to 0.56.2 [default]
+packages/core2-32-poky-linux/vala/vala-doc: PV changed from "0.56.1" to "0.56.2"
+packages/core2-32-poky-linux/vala/vala-doc: PKGSIZE changed from 10307 to 10304 (-0%)
+packages/core2-32-poky-linux/vala/vala-locale: PKGV changed from 0.56.1 [default] to 0.56.2 [default]
+packages/core2-32-poky-linux/vala/vala-locale: PV changed from "0.56.1" to "0.56.2"
+packages/core2-32-poky-linux/vala/vala-src: PKGV changed from 0.56.1 [default] to 0.56.2 [default]
+packages/core2-32-poky-linux/vala/vala-src: PV changed from "0.56.1" to "0.56.2"
+packages/core2-32-poky-linux/vala/vala-src: PKGSIZE changed from 15478348 to 15485258 (+0%)
+packages/core2-32-poky-linux/vala/vala-staticdev: PKGV changed from 0.56.1 [default] to 0.56.2 [default]
+packages/core2-32-poky-linux/vala/vala-staticdev: PV changed from "0.56.1" to "0.56.2"
+packages/core2-32-poky-linux/vala/vala: PKGV changed from 0.56.1 [default] to 0.56.2 [default]
+packages/core2-32-poky-linux/vala/vala: PV changed from "0.56.1" to "0.56.2"
+packages/core2-32-poky-linux/vala/vala: PKGSIZE changed from 13028128 to 13073034 (+0%)
+packages/core2-32-poky-linux/vala/vala: FILELIST: added "/usr/share/vala-0.56/vapi/rest-1.0.vapi /usr/share/vala-0.56/vapi/wayland-client.vapi /usr/share/vala-0.56/vapi/geocode-glib-2.0.deps /usr/share/vala-0.56/vapi/rest-1.0.deps /usr/share/vala-0.56/vapi/rest-extras-1.0.vapi /usr/share/vala-0.56/vapi/rest-extras-1.0.deps /usr/share/vala-0.56/vapi/geocode-glib-2.0.vapi"
+Changes to packages/x86_64-linux/vala-native (sysroot):
+  /usr/share/vala-0.56/vapi/geocode-glib-2.0.deps was added
+  /usr/share/vala-0.56/vapi/geocode-glib-2.0.vapi was added
+  /usr/share/vala-0.56/vapi/rest-1.0.deps was added
+  /usr/share/vala-0.56/vapi/rest-1.0.vapi was added
+  /usr/share/vala-0.56/vapi/rest-extras-1.0.deps was added
+  /usr/share/vala-0.56/vapi/rest-extras-1.0.vapi was added
+  /usr/share/vala-0.56/vapi/wayland-client.vapi was added
+
+--===============6909773538850342655==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-libva-initial-upgrade-2.14.0-2.15.0.patch"
+ filename="0001-vala-upgrade-0.56.1-0.56.2.patch"
 
-From 819d29cce274a2be065038e5668109f19a490c52 Mon Sep 17 00:00:00 2001
+From b01215959fcac7c4f358785e3d1783984038de5e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Jul 2022 12:03:37 +0000
-Subject: [PATCH] libva-initial: upgrade 2.14.0 -> 2.15.0
+Date: Fri, 15 Jul 2022 08:51:36 +0000
+Subject: [PATCH] vala: upgrade 0.56.1 -> 0.56.2
 
 ---
- .../libva/libva-initial_2.14.0.bb             |  8 ----
- meta/recipes-graphics/libva/libva.inc         | 37 -------------------
- 2 files changed, 45 deletions(-)
- delete mode 100644 meta/recipes-graphics/libva/libva-initial_2.14.0.bb
- delete mode 100644 meta/recipes-graphics/libva/libva.inc
+ meta/recipes-devtools/vala/{vala_0.56.1.bb => vala_0.56.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/vala/{vala_0.56.1.bb => vala_0.56.2.bb} (18%)
 
-diff --git a/meta/recipes-graphics/libva/libva-initial_2.14.0.bb b/meta/recipes-graphics/libva/libva-initial_2.14.0.bb
-deleted file mode 100644
-index 453096822f..0000000000
---- a/meta/recipes-graphics/libva/libva-initial_2.14.0.bb
-+++ /dev/null
-@@ -1,8 +0,0 @@
--require libva.inc
--
--PACKAGECONFIG ?= ""
--
--do_install:append () {
--	rm -f ${D}${libdir}/*.so*
--}
--
-diff --git a/meta/recipes-graphics/libva/libva.inc b/meta/recipes-graphics/libva/libva.inc
-deleted file mode 100644
-index 148bb03b5f..0000000000
---- a/meta/recipes-graphics/libva/libva.inc
-+++ /dev/null
-@@ -1,37 +0,0 @@
--SUMMARY = "Video Acceleration (VA) API for Linux"
--DESCRIPTION = "Video Acceleration API (VA API) is a library (libVA) \
--and API specification which enables and provides access to graphics \
--hardware (GPU) acceleration for video processing on Linux and UNIX \
--based operating systems. Accelerated processing includes video \
--decoding, video encoding, subpicture blending and rendering. The \
--specification was originally designed by Intel for its GMA (Graphics \
--Media Accelerator) series of GPU hardware, the API is however not \
--limited to GPUs or Intel specific hardware, as other hardware and \
--manufacturers can also freely use this API for hardware accelerated \
--video decoding."
--
--HOMEPAGE = "https://01.org/linuxmedia/vaapi"
--BUGTRACKER = "https://github.com/intel/libva/issues"
--
--SECTION = "x11"
--LICENSE = "MIT"
--
--SRC_URI = "https://github.com/intel/libva/releases/download/${PV}/libva-${PV}.tar.bz2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
--SRC_URI[sha256sum] = "511e9a74d1ccfb548bc192290603082c11074ac59b17aadfd5d56a3f93e58454"
--
--S = "${WORKDIR}/libva-${PV}"
--
--UPSTREAM_CHECK_URI = "https://github.com/intel/libva/releases"
--
--DEPENDS = "libdrm"
--
--inherit meson pkgconfig
--
--PACKAGECONFIG[x11] = "-Dwith_x11=yes,-Dwith_x11=no,virtual/libx11 libxext libxfixes"
--PACKAGECONFIG[glx] = "-Dwith_glx=yes,-Dwith_glx=no,virtual/mesa"
--
--PACKAGECONFIG[wayland] = "-Dwith_wayland=yes,-Dwith_wayland=no,wayland-native wayland"
--
--BBCLASSEXTEND = "native nativesdk"
--
+diff --git a/meta/recipes-devtools/vala/vala_0.56.1.bb b/meta/recipes-devtools/vala/vala_0.56.2.bb
+similarity index 18%
+rename from meta/recipes-devtools/vala/vala_0.56.1.bb
+rename to meta/recipes-devtools/vala/vala_0.56.2.bb
+index 48d21685e8..08c8ccca1d 100644
+--- a/meta/recipes-devtools/vala/vala_0.56.1.bb
++++ b/meta/recipes-devtools/vala/vala_0.56.2.bb
+@@ -1,3 +1,3 @@
+ require ${BPN}.inc
+ 
+-SRC_URI[sha256sum] = "c518b81dfdda82d1cdf586b3f9b2323162cb96bd3cb5a2c03650cea025d91fb9"
++SRC_URI[sha256sum] = "66c9619bb17859fd1ac3aba0a57970613e38fd2a1ee30541174260c9fb90124c"
 -- 
 2.31.1
 
 
---===============8583420232959527680==--
+--===============6909773538850342655==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/vala (sysroot):
+  /usr/share/vala-0.56/vapi/geocode-glib-2.0.deps was added
+  /usr/share/vala-0.56/vapi/geocode-glib-2.0.vapi was added
+  /usr/share/vala-0.56/vapi/rest-1.0.deps was added
+  /usr/share/vala-0.56/vapi/rest-1.0.vapi was added
+  /usr/share/vala-0.56/vapi/rest-extras-1.0.deps was added
+  /usr/share/vala-0.56/vapi/rest-extras-1.0.vapi was added
+  /usr/share/vala-0.56/vapi/wayland-client.vapi was added
+packages/core2-32-poky-linux/vala/vala: FILELIST: added "/usr/share/vala-0.56/vapi/wayland-client.vapi /usr/share/vala-0.56/vapi/rest-extras-1.0.vapi /usr/share/vala-0.56/vapi/geocode-glib-2.0.vapi /usr/share/vala-0.56/vapi/rest-1.0.deps /usr/share/vala-0.56/vapi/rest-1.0.vapi /usr/share/vala-0.56/vapi/rest-extras-1.0.deps /usr/share/vala-0.56/vapi/geocode-glib-2.0.deps"
+Changes to packages/x86_64-linux/vala-native (sysroot):
+  /usr/share/vala-0.56/vapi/geocode-glib-2.0.deps was added
+  /usr/share/vala-0.56/vapi/geocode-glib-2.0.vapi was added
+  /usr/share/vala-0.56/vapi/rest-1.0.deps was added
+  /usr/share/vala-0.56/vapi/rest-1.0.vapi was added
+  /usr/share/vala-0.56/vapi/rest-extras-1.0.deps was added
+  /usr/share/vala-0.56/vapi/rest-extras-1.0.vapi was added
+  /usr/share/vala-0.56/vapi/wayland-client.vapi was added
+
+--===============6909773538850342655==--
 
