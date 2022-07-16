@@ -1,83 +1,117 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <lenriquez389@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FF5BC433EF
-	for <webhook@archiver.kernel.org>; Sat, 16 Jul 2022 07:37:36 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web09.3312.1657957047871305049
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AEE0C433EF
+	for <webhook@archiver.kernel.org>; Sat, 16 Jul 2022 15:53:19 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web12.6749.1657986789410693452
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Jul 2022 00:37:28 -0700
+ Sat, 16 Jul 2022 08:53:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=GyTxGx9Q;
- spf=pass (domain: gmail.com, ip: 209.85.167.46,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id u13so11149548lfn.5
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=V8TU+c3q;
+ spf=pass (domain: gmail.com, ip: 209.85.221.46,
+ mailfrom: lenriquez389@gmail.com)
+Received: by mail-wr1-f46.google.com with SMTP id d16so10635462wrv.10
         for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Jul 2022 00:37:27 -0700 (PDT)
+ Sat, 16 Jul 2022 08:53:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Sxtvt9Pq8YToPFuRFy7qthj2FKJHt6bkc2KaJHtbh4E=;
-        b=GyTxGx9QzRI8heTihBLJZxKUqliCxyrKkGkDUkar14QfZ8VairSklMi7U6Uqh4i/Fq
-         GGMsmZWa9Nb3VRwzjG6Su7GuQpzYNc+G7tGuU6dCDLh+iHKicGPiXijzk95G6GRhzqpg
-         Kdev3fiYW4SBGGOeAdA6WFV58wy23h/ofn03KX0cpp3gAcLocysCo9mBzWAy5/jV+4Oa
-         FEtFQD4Hq0oZQXHK33A/CMqTWleZO7MOROhCTlAraqxJ+DzNU1vGNfomfkuAyr6t2e+O
-         4FpttVG/8lEokPlNhpFGkgBSnJAYLa2kVOcDDwDw00NE5VLXjrlaY6WKBP+ED1vscJjT
-         UcOw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3nkbojUeZ6fVNtYUi2ANdG1YK1Dr80yIVh+93KNrj5Q=;
+        b=V8TU+c3qHaqJI179TDFvDrN0o/Ytq2GRqM3ksNh7HDZ3LUzBiXANv5QA3iBlpECGsH
+         ANF309QXgLmLHkpP3g46PPmE1SYitMMoBTpdKA+TS6gr8rM598a+WqMXO+i2oHGLP+Hc
+         qaHJPUU+zyg8uCkt3gEtTqufYg0antulH+WRw8TFuAlIkFDkZYZY3Osz3mEhLXy+V0l0
+         lH1tvq5ZENuTBQ64iz57SgZggHU1ZW+e8SvJxMKSARNRX/5LWSaa2uymzFJ8HmDYr9Xl
+         oyGQu+F9sx5xA51VSWaW/ccWufImiuvwLeuAghDRxZHFSOSrbUcRtwuN7kSatq25WOKg
+         4ulg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Sxtvt9Pq8YToPFuRFy7qthj2FKJHt6bkc2KaJHtbh4E=;
-        b=f6kcuS4RoCmOZWc6UAUcIvr/ecTOaDc5tztRunXN6CrNtQ+CkvMIL3SF/y1INI9JnH
-         WQnlfjoSFp48608ouWC6DOG5H/C7h3J0EpBgH2xPlEadq1nYl9xEdVIm6+UAf3sEuFTy
-         RZ+E5ZKSt0uuDY1ou828jWC7+U89E5PUavQucIsr0aOg6QYvlAfvLqu+rSi6yOkn9rxb
-         DUX6yWNL2dOOiwFOVzhjRlE/SE2DxUpi3DHFfC+cV/2uRh2kzilCPhVE/+CbjA+5ZgFG
-         HHtw6HYqA3r3o8KKnWu0unoUudo36hYbo0Jr6hLNsZL3HUupXUhOwb3r+qdSJapCRQVb
-         +omQ==
-X-Gm-Message-State: AJIora9o0ywV5SdHNlXCpDASg3RMNZB7iuOaHmNtFTBcLpReTthL5hUu
-	I0d3Da50wvEyLdUhgxPbgGVZO0do68JBm3uWzo8=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3nkbojUeZ6fVNtYUi2ANdG1YK1Dr80yIVh+93KNrj5Q=;
+        b=487DZnXVNw9m9A712Bj4iOTfzD9ROEWkZBK6x2A+BPNxL/06bwim+4OgsnY1M+qUfY
+         UmB8Bgop1Zi6XMAEv6zieYDiR08Yb7gA54C00OFv8kxurfmI2CvrLJ1joBIXpmdlKNOl
+         5F7r2+32CuZ7MqHPncaT6MElK6s01BDNFBHhwOWYj7p1gdqs8r0lnbwHJR4gmsAONZsn
+         C/6VQsBtXoGPkajCFUXLDQC8e4pcHh1HUz3izUTCGVewpDgkoDS/Obx5QY8HCjOnkSgz
+         LE+utPb7poV/Xe65zf2PWYTY2SaAjNZb8L4FxL0etTLy7k+Ti8i86vfrITU0VtcXr1JC
+         yGQQ==
+X-Gm-Message-State: AJIora9Fkm5385rfXD+cwyK97LIYXiSMg/c7EhY+n/L5S5jvwx0n73SF
+	mRn4SnTwF9Ic2GTnC26otOmBWUDuAPc=
 X-Google-Smtp-Source: 
- AGRyM1syWVN9cdxawJZOXixXNO+IH48HZVg9nXiKbvPC2bSf/YHbFpaVYl+6THL+sc51zyBCLWX7GHmj9XBHpfTxx7k=
-X-Received: by 2002:a05:6512:3996:b0:489:d526:93e5 with SMTP id
- j22-20020a056512399600b00489d52693e5mr10177805lfu.534.1657957045788; Sat, 16
- Jul 2022 00:37:25 -0700 (PDT)
+ AGRyM1vR4uuBCENPbGv1cayl6fR5fra9WN5nwJ3Iuf2nEhM7RG7jNzdVaEmS/1uLVpwatOUpWt4bLw==
+X-Received: by 2002:adf:eace:0:b0:21d:6e90:2bf8 with SMTP id
+ o14-20020adfeace000000b0021d6e902bf8mr15936320wrn.349.1657986787545;
+        Sat, 16 Jul 2022 08:53:07 -0700 (PDT)
+Received: from Asus.numericable.fr (174.18.86.79.rev.sfr.net. [79.86.18.174])
+        by smtp.gmail.com with ESMTPSA id
+ j27-20020a05600c1c1b00b0039c4ba160absm20866335wms.2.2022.07.16.08.53.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Jul 2022 08:53:07 -0700 (PDT)
+From: LUIS ENRIQUEZ <lenriquez389@gmail.com>
+X-Google-Original-From: LUIS ENRIQUEZ <luis.enriquez@se.com>
+To: openembedded-core@lists.openembedded.org
+Cc: LUIS ENRIQUEZ <luis.enriquez@se.com>
+Subject: [PATCH] kernel-fitimage.bbclass: add padding algorithm property in
+ config nodes
+Date: Sat, 16 Jul 2022 17:52:22 +0200
+Message-Id: <20220716155221.15968-1-luis.enriquez@se.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220706182329.3085564-1-alex@linutronix.de>
- <6ee630104deb0e90d99c9ecb0ce2dcad7212a4f0.camel@linuxfoundation.org>
- <CANNYZj_fo5_KbvnXvCqPvoPiy6wgNr+By8Xf724aQm70xxCpkg@mail.gmail.com>
- <YtHiu9pR5QMFkXRP@mail.local>
-In-Reply-To: <YtHiu9pR5QMFkXRP@mail.local>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 16 Jul 2022 09:37:14 +0200
-Message-ID: 
- <CANNYZj9W6PM20kH=Fxz7tTj=KCM=08vYPosO9t+SvcijMJBW3g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] scripts/oe-setup-builddir: copy
- site.conf.sample out of template directories (if it exists)
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 16 Jul 2022 07:37:36 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 16 Jul 2022 15:53:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168142
+ https://lists.openembedded.org/g/openembedded-core/message/168143
 
-On Fri, 15 Jul 2022 at 23:57, Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
-> I don't think you need a custom script for site.conf, it is searched for
-> relative to BBPATH? I usually just put it directly as conf/site.conf in
-> the custom layer so it is in version control and not copied to BUILDDIR.
+This allows choosing padding algorithm when building fitImage. It may be pkcs-1.5 or pss.
 
-I was thinking of situations where the settings that go there vary
-between build configurations. But we settled with RP that then they
-should be in local.conf.
+Signed-off-by: LUIS ENRIQUEZ <luis.enriquez@se.com>
+From: LUIS ENRIQUEZ <luis.enriquez@se.com>
+---
+ meta/classes/kernel-fitimage.bbclass | 2 ++
+ meta/classes/uboot-sign.bbclass      | 3 +++
+ 2 files changed, 5 insertions(+)
 
-Alex
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index 2112ae4cfa..753164551c 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -346,6 +346,7 @@ fitimage_emit_section_config() {
+ 
+ 	conf_csum="${FIT_HASH_ALG}"
+ 	conf_sign_algo="${FIT_SIGN_ALG}"
++	conf_padding_algo="${FIT_PAD_ALG}"
+ 	if [ "${UBOOT_SIGN_ENABLE}" = "1" ] ; then
+ 		conf_sign_keyname="${UBOOT_SIGN_KEYNAME}"
+ 	fi
+@@ -465,6 +466,7 @@ EOF
+                         signature-1 {
+                                 algo = "$conf_csum,$conf_sign_algo";
+                                 key-name-hint = "$conf_sign_keyname";
++                                padding = "$conf_padding_algo";
+                                 $sign_line
+                         };
+ EOF
+diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
+index 31ffe1f472..eecdec9160 100644
+--- a/meta/classes/uboot-sign.bbclass
++++ b/meta/classes/uboot-sign.bbclass
+@@ -73,6 +73,9 @@ UBOOT_FIT_HASH_ALG ?= "sha256"
+ FIT_SIGN_ALG ?= "rsa2048"
+ UBOOT_FIT_SIGN_ALG ?= "rsa2048"
+ 
++# Kernel / U-Boot fitImage Padding Algo
++FIT_PAD_ALG ?= "pkcs-1.5"
++
+ # Generate keys for signing Kernel / U-Boot fitImage
+ FIT_GENERATE_KEYS ?= "0"
+ UBOOT_FIT_GENERATE_KEYS ?= "0"
+-- 
+2.34.1
+
 
