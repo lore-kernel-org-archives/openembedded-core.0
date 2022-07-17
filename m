@@ -2,67 +2,66 @@ Return-Path: <liu.ming50@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 528FCCCA480
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 459A1CCA47B
 	for <webhook@archiver.kernel.org>; Sun, 17 Jul 2022 12:57:15 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web11.15411.1658062629590235730
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web08.15572.1658062626091943937
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Jul 2022 05:57:10 -0700
+ Sun, 17 Jul 2022 05:57:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=IicwBowh;
- spf=pass (domain: gmail.com, ip: 209.85.208.182,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QGZ+lqEq;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50,
  mailfrom: liu.ming50@gmail.com)
-Received: by mail-lj1-f182.google.com with SMTP id 19so10741087ljz.4
+Received: by mail-lf1-f50.google.com with SMTP id z25so15220295lfr.2
         for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Jul 2022 05:57:09 -0700 (PDT)
+ Sun, 17 Jul 2022 05:57:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Lvum3lG7JAzpUDVqbQaPAv+CzFm7fDPoP3bXIWMZDkY=;
-        b=IicwBowhsKdSoEZ2DR+BsrofQqAbNzp2DOx9rJJvbFEAVI+zJGdVEacgztBcfK8z6J
-         f/AslYALPDHv7quVindRl38F9R/yOlg1O0w0QB4xQ9ZfA0e86sJpj3kWEVibIpjY/Zd9
-         8dYI+BlESe4zOxp+sox5nhXHLPe3y32xGRSXQE+M4i0LHaeWXYVGU432Sz4KP/HSdKaS
-         EM4/3H5dQMqmFwJPdfMk+rpB4U47gRLObPsDkOgFJB2PXV0OKwwVT6oTAoq3Z+Ih3f3H
-         8kG9HDskg4KySWPfaSftG+UKPQL4lrMoiVRME5D2MRWjEnQMzBBUlP9p/B0Rvc8b+eLJ
-         WZmg==
+        bh=fazLW+vUsBaZ+k8iTO38IqHw1z5/fDopIJ15qR++uaU=;
+        b=QGZ+lqEqk5JSp24ggaU3i4Gz1C7zXFDnLmWNTs7j2bRY93fjGUwLThbNDwRf0PvPqB
+         y5TjYwEa11YH5XUK9ZzXSMrH/0UJkxlYbYZM+cvBjXy4ZTaSjhz0v1OBpLdJP/haKRtA
+         bunSM/4nOHigYV9ECl832ps15PSZdvs40sG+MVhhjpcCJjvlBLkNapG5H834+O5TDj3Q
+         OBbGJA3OXO2KRJMivsOiFAV9BPgvOX9HTHE9nExQnuOoz8tITv/rXZ4aHveH5OdxejDd
+         LJbmBhgl8FmKq21PaL2+Cxi5M+xxcLw/pA1xYbjS/Z4e4eR1HAzTkZy7Tp6MBlohK//P
+         jXbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Lvum3lG7JAzpUDVqbQaPAv+CzFm7fDPoP3bXIWMZDkY=;
-        b=FBxHw18Z9Kf4+grTK3xUWILL903z3FLZ7DU2sMBkGj4lb06htueHuXGCT/8Cuo3suy
-         0R/fcJ2HfrZtmYGX/8TmtlBuBgIO4H9/ljOtKUO832P8VzgtUuPKrNdAAG2blN495vIU
-         HJ3Pw7ifJu/LpvbSd09SJEz3GYkmOdebeQKVxtvAHKMHM90LCWKgA+2D8M9DzMaUnh1e
-         7MIi+S2qP07oSDckNyKavNdk9nM/hTK9mDoc0YPE5QhHam4TiPpnQg2rFK8mKIwwR5jx
-         mVY64k2coGG9+A7HEdx1DA2AIsd5aPxLF8yZC1wmTb7jZGz2OWVfXzkiPIKgsuQD3yIF
-         0zQw==
-X-Gm-Message-State: AJIora9X93VOPScen+JbxCv2JSwZx0TCHK85n2SCUnOilqgiQXs86rGP
-	xl+dzXU4iTA9C0Mvn26Fbp9X4VT6cSY=
+        bh=fazLW+vUsBaZ+k8iTO38IqHw1z5/fDopIJ15qR++uaU=;
+        b=RPncMnO6KAWQlBGUuEOvHjk2a6/ZvH73HGWHXkeCv1slHPJ1FabtSSU6EpyeNQIDYt
+         jrws55e/WzkK7jXeEff9auGmN08dF5+n86qfRo/xyZNirsS4eahA75Ws8qFTFl33xCwC
+         LHvTKEp+xHLgua1mJ+iKKQfxGbfdFH5DVq+mR51FOSiqz8MinL7xG38QlcLrImEDDOP2
+         JNLzO7xBuy7e44w5Kg0tbzChQSCaVbFqiuG2GbyOGcYDwmOwwXjB0N7lvd8CehUdUXVX
+         2DBfhVs2h8FfjzLf4eLIxsPEWcmRNqnLPqBWB5PgrSoIZg1rpI4qN3PmjZbNxLeZ3xJq
+         cA3A==
+X-Gm-Message-State: AJIora/iGj+xQU8ulHlwtELervACcP4BPbzeaDACvZIpM5wrPMb0ZsGX
+	HHjTpp4QlExzZDCJhZLI3ICn7YK0iIU=
 X-Google-Smtp-Source: 
- AGRyM1sUhmRiezOmMcEVwVRqMgZjgvkkvxpc7VrjykRlLg3EUUeaJ5+fOn3nuvlxF2JMKGDAICO5cQ==
-X-Received: by 2002:a2e:a9a6:0:b0:25d:6062:91af with SMTP id
- x38-20020a2ea9a6000000b0025d606291afmr10362081ljq.144.1658062627376;
-        Sun, 17 Jul 2022 05:57:07 -0700 (PDT)
+ AGRyM1sJCbgi6VR/0YT4nqsgrZGp4RFRDrMmZgekGBX/KSSkAQldb0I8lXxg79oA7w7xDhG2UWVw6Q==
+X-Received: by 2002:a05:6512:3d8d:b0:489:de37:74c0 with SMTP id
+ k13-20020a0565123d8d00b00489de3774c0mr12233906lfv.527.1658062623865;
+        Sun, 17 Jul 2022 05:57:03 -0700 (PDT)
 Received: from peterliu-Precision-7530.emea.group.atlascopco.com
  (customer-212-100-112-191.stosn.net. [212.100.112.191])
         by smtp.gmail.com with ESMTPSA id
- v11-20020a05651203ab00b00483e5f01698sm2023056lfp.65.2022.07.17.05.57.06
+ v11-20020a05651203ab00b00483e5f01698sm2023056lfp.65.2022.07.17.05.57.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Jul 2022 05:57:06 -0700 (PDT)
+        Sun, 17 Jul 2022 05:57:03 -0700 (PDT)
 From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: steve@sakoman.com,
-	Muhammad Hamza <Muhammad_Hamza@mentor.com>,
-	"Arsalan H . Awan" <Arsalan_Awan@mentor.com>,
-	Muhammad Hamza <muhammad_hamza@mentor.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Luca Ceresoli <luca.ceresoli@bootlin.com>,
 	Ming Liu <liu.ming50@gmail.com>
-Subject: [OE-core] [kirkstone] [PATCH 3/9] udev-extraconf/mount.sh: add LABELs
- to mountpoints
-Date: Sun, 17 Jul 2022 14:56:42 +0200
-Message-Id: <20220717125648.2942046-4-liu.ming50@gmail.com>
+Subject: [OE-core] [kirkstone] [PATCH 1/9]
+  udev-extraconf/initrdscripts/parted: Rename mount.blacklist ->
+ mount.ignorelist
+Date: Sun, 17 Jul 2022 14:56:40 +0200
+Message-Id: <20220717125648.2942046-2-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220717125648.2942046-1-liu.ming50@gmail.com>
 References: <20220717125648.2942046-1-liu.ming50@gmail.com>
@@ -73,91 +72,156 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 17 Jul 2022 12:57:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168151
+ https://lists.openembedded.org/g/openembedded-core/message/168149
 
-From: Muhammad Hamza <Muhammad_Hamza@mentor.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This alters the mountpoints such that if a device has a LABEL or
-a PARTLABEL, it will be mounted at e.g.:
-
-  /run/media/$LABEL-<device-node>
-  /run/media/$PARTLABEL-<device-node>
-  /run/media/rootfs-sda2
-
-otherwise the device will be mounted at e.g.:
-
-  /run/media/<device-node>
-  /run/media/sda1
-
-The <device-node> appended with LABEL or PARTLABEL makes sure that
-the mountpoint is unique, therefore, avoids overlapping mounts.
-
-Signed-off-by: Arsalan H. Awan <Arsalan_Awan@mentor.com>
-Signed-off-by: Muhammad Hamza <muhammad_hamza@mentor.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-(cherry picked from commit a9a0a0967832445f1bcc65d58f95343d1b562e1b)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 69e486ddb3059f80ba538e1f59c2ca8a8df0faf9)
 Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 ---
- meta/recipes-core/udev/udev-extraconf/mount.sh | 18 ++++++++++++++++++
- meta/recipes-core/udev/udev-extraconf_1.1.bb   |  2 +-
- 2 files changed, 19 insertions(+), 1 deletion(-)
+ .../initrdscripts/files/init-install-efi-testfs.sh     |  2 +-
+ .../initrdscripts/files/init-install-efi.sh            |  2 +-
+ .../initrdscripts/files/init-install-testfs.sh         |  2 +-
+ meta/recipes-core/initrdscripts/files/init-install.sh  |  2 +-
+ .../{mount.blacklist => mount.ignorelist}              |  0
+ meta/recipes-core/udev/udev-extraconf/mount.sh         |  4 ++--
+ meta/recipes-core/udev/udev-extraconf_1.1.bb           | 10 +++++-----
+ meta/recipes-extended/parted/files/run-ptest           |  6 +++---
+ 8 files changed, 14 insertions(+), 14 deletions(-)
+ rename meta/recipes-core/udev/udev-extraconf/{mount.blacklist => mount.ignorelist} (100%)
 
+diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi-testfs.sh b/meta/recipes-core/initrdscripts/files/init-install-efi-testfs.sh
+index 1fcd29e54c..4bd6ace7b3 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install-efi-testfs.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install-efi-testfs.sh
+@@ -138,7 +138,7 @@ touch /ssd/etc/controllerimage
+ if [ -d /ssd/etc/ ] ; then
+     # We dont want udev to mount our root device while we're booting...
+     if [ -d /ssd/etc/udev/ ] ; then
+-        echo "/dev/${device}" >> /ssd/etc/udev/mount.blacklist
++        echo "/dev/${device}" >> /ssd/etc/udev/mount.ignorelist
+     fi
+ fi
+ 
+diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+index f667518b89..ffd3870199 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+@@ -229,7 +229,7 @@ if [ -d /tgt_root/etc/ ] ; then
+     echo "UUID=$boot_uuid              /boot            vfat       defaults              1  2" >> /tgt_root/etc/fstab
+     # We dont want udev to mount our root device while we're booting...
+     if [ -d /tgt_root/etc/udev/ ] ; then
+-        echo "${device}" >> /tgt_root/etc/udev/mount.blacklist
++        echo "${device}" >> /tgt_root/etc/udev/mount.ignorelist
+     fi
+ fi
+ 
+diff --git a/meta/recipes-core/initrdscripts/files/init-install-testfs.sh b/meta/recipes-core/initrdscripts/files/init-install-testfs.sh
+index 7b49001659..8ab74ddc5d 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install-testfs.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install-testfs.sh
+@@ -164,7 +164,7 @@ if [ -d /tgt_root/etc/ ] ; then
+     echo "$bootfs              /boot            ext3       defaults              1  2" >> /tgt_root/etc/fstab
+     # We dont want udev to mount our root device while we're booting...
+     if [ -d /tgt_root/etc/udev/ ] ; then
+-	echo "/dev/${device}" >> /tgt_root/etc/udev/mount.blacklist
++	echo "/dev/${device}" >> /tgt_root/etc/udev/mount.ignorelist
+     fi
+ fi
+ umount /tgt_root
+diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
+index e71579631b..df33791ec7 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+@@ -261,7 +261,7 @@ if [ -d /tgt_root/etc/ ] ; then
+     echo "$bootdev              /boot            ext3       defaults              1  2" >> /tgt_root/etc/fstab
+     # We dont want udev to mount our root device while we're booting...
+     if [ -d /tgt_root/etc/udev/ ] ; then
+-        echo "${device}" >> /tgt_root/etc/udev/mount.blacklist
++        echo "${device}" >> /tgt_root/etc/udev/mount.ignorelist
+     fi
+ fi
+ umount /tgt_root
+diff --git a/meta/recipes-core/udev/udev-extraconf/mount.blacklist b/meta/recipes-core/udev/udev-extraconf/mount.ignorelist
+similarity index 100%
+rename from meta/recipes-core/udev/udev-extraconf/mount.blacklist
+rename to meta/recipes-core/udev/udev-extraconf/mount.ignorelist
 diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
-index c8b773bc07..40910be8bd 100644
+index b23731870e..5ba66e98e2 100644
 --- a/meta/recipes-core/udev/udev-extraconf/mount.sh
 +++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
-@@ -54,6 +54,9 @@ automount_systemd() {
-         grep "^[[:space:]]*$tmp" /etc/fstab && return
-     done
+@@ -26,11 +26,11 @@ fi
  
-+    # Get the unique name for mount point
-+    get_label_name "${DEVNAME}"
-+
-     [ -d "$MOUNT_BASE/$name" ] || mkdir -p "$MOUNT_BASE/$name"
+ PMOUNT="/usr/bin/pmount"
  
-     MOUNT="$MOUNT -o silent"
-@@ -94,6 +97,9 @@ automount() {
- 	# configured in fstab
- 	grep -q "^$DEVNAME " /proc/mounts && return
- 
-+	# Get the unique name for mount point
-+	get_label_name "${DEVNAME}"
-+
- 	! test -d "$MOUNT_BASE/$name" && mkdir -p "$MOUNT_BASE/$name"
- 	# Silent util-linux's version of mounting auto
- 	if [ "x`readlink $MOUNT`" = "x/bin/mount.util-linux" ] ;
-@@ -134,6 +140,18 @@ rm_dir() {
+-for line in `grep -h -v ^# /etc/udev/mount.blacklist /etc/udev/mount.blacklist.d/*`
++for line in `grep -h -v ^# /etc/udev/mount.ignorelist /etc/udev/mount.ignorelist.d/*`
+ do
+ 	if [ ` expr match "$DEVNAME" "$line" ` -gt 0 ];
+ 	then
+-		logger "udev/mount.sh" "[$DEVNAME] is blacklisted, ignoring"
++		logger "udev/mount.sh" "[$DEVNAME] is marked to ignore"
+ 		exit 0
  	fi
- }
- 
-+get_label_name() {
-+	# Get the LABEL or PARTLABEL
-+	LABEL=`/sbin/blkid | grep "$1:" | grep -o 'LABEL=".*"' | cut -d '"' -f2`
-+	# If the $DEVNAME has a LABEL or a PARTLABEL
-+	if [ -n "$LABEL" ]; then
-+	        # Set the mount location dir name to LABEL appended
-+        	# with $name e.g. label-sda. That would avoid overlapping
-+	        # mounts in case two devices have same LABEL
-+        	name="${LABEL}-${name}"
-+	fi
-+}
-+
- # No ID_FS_TYPE for cdrom device, yet it should be mounted
- name="`basename "$DEVNAME"`"
- [ -e /sys/block/$name/device/media ] && media_type=`cat /sys/block/$name/device/media`
+ done
 diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-index 2b908ac05b..8213c1a930 100644
+index 2ba35b0df6..7da04379c0 100644
 --- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
 +++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-@@ -38,7 +38,7 @@ do_install() {
- }
+@@ -1,13 +1,13 @@
+ SUMMARY = "Extra machine specific configuration files"
+ HOMEPAGE = "https://wiki.gentoo.org/wiki/Eudev"
+-DESCRIPTION = "Extra machine specific configuration files for udev, specifically blacklist information."
++DESCRIPTION = "Extra machine specific configuration files for udev, specifically information on devices to ignore."
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+ SRC_URI = " \
+        file://automount.rules \
+        file://mount.sh \
+-       file://mount.blacklist \
++       file://mount.ignorelist \
+        file://autonet.rules \
+        file://network.sh \
+        file://localextra.rules \
+@@ -23,8 +23,8 @@ do_install() {
+     install -m 0644 ${WORKDIR}/autonet.rules       ${D}${sysconfdir}/udev/rules.d/autonet.rules
+     install -m 0644 ${WORKDIR}/localextra.rules    ${D}${sysconfdir}/udev/rules.d/localextra.rules
+ 
+-    install -d ${D}${sysconfdir}/udev/mount.blacklist.d
+-    install -m 0644 ${WORKDIR}/mount.blacklist     ${D}${sysconfdir}/udev/
++    install -d ${D}${sysconfdir}/udev/mount.ignorelist.d
++    install -m 0644 ${WORKDIR}/mount.ignorelist     ${D}${sysconfdir}/udev/
+ 
+     install -d ${D}${sysconfdir}/udev/scripts/
+ 
+@@ -37,7 +37,7 @@ do_install() {
  
  FILES:${PN} = "${sysconfdir}/udev"
--RDEPENDS:${PN} = "udev"
-+RDEPENDS:${PN} = "udev util-linux-blkid"
- CONFFILES:${PN} = "${sysconfdir}/udev/mount.ignorelist"
+ RDEPENDS:${PN} = "udev"
+-CONFFILES:${PN} = "${sysconfdir}/udev/mount.blacklist"
++CONFFILES:${PN} = "${sysconfdir}/udev/mount.ignorelist"
  
  # to replace udev-extra-rules from meta-oe
+ RPROVIDES:${PN} = "udev-extra-rules"
+diff --git a/meta/recipes-extended/parted/files/run-ptest b/meta/recipes-extended/parted/files/run-ptest
+index c3d6fca339..096078967f 100644
+--- a/meta/recipes-extended/parted/files/run-ptest
++++ b/meta/recipes-extended/parted/files/run-ptest
+@@ -1,7 +1,7 @@
+ #!/bin/sh
+ 
+-mkdir -p /etc/udev/mount.blacklist.d
+-echo /dev/sda1 >> /etc/udev/mount.blacklist.d/parted-tmp
++mkdir -p /etc/udev/mount.ignorelist.d
++echo /dev/sda1 >> /etc/udev/mount.ignorelist.d/parted-tmp
+ rm -f tests/*.log
+ make -C tests test-suite.log
+-rm /etc/udev/mount.blacklist.d/parted-tmp
++rm /etc/udev/mount.ignorelist.d/parted-tmp
 -- 
 2.25.1
 
