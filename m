@@ -2,242 +2,60 @@ Return-Path: <robert.joslyn@redrectangle.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3800C43334
-	for <webhook@archiver.kernel.org>; Sun, 17 Jul 2022 18:13:46 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by mx.groups.io with SMTP id smtpd.web10.18188.1658081623069614436
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E986CC433EF
+	for <webhook@archiver.kernel.org>; Sun, 17 Jul 2022 18:16:36 +0000 (UTC)
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net
+ [217.70.178.231])
+ by mx.groups.io with SMTP id smtpd.web09.18376.1658081795147702216
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Jul 2022 11:13:43 -0700
+ Sun, 17 Jul 2022 11:16:35 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing;
  spf=none, err=permanent DNS error (domain: redrectangle.org,
- ip: 217.70.183.194, mailfrom: robert.joslyn@redrectangle.org)
+ ip: 217.70.178.231, mailfrom: robert.joslyn@redrectangle.org)
 Received: (Authenticated sender: robert.joslyn@redrectangle.org)
-	by mail.gandi.net (Postfix) with ESMTPSA id 2949C40004;
-	Sun, 17 Jul 2022 18:13:39 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 1FB6010000A;
+	Sun, 17 Jul 2022 18:16:31 +0000 (UTC)
 From: Robert Joslyn <robert.joslyn@redrectangle.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Robert Joslyn <robert.joslyn@redrectangle.org>
-Subject: [kirkstone][PATCH] curl: Fix multiple CVEs
-Date: Sun, 17 Jul 2022 11:12:52 -0700
-Message-Id: <20220717181252.2290990-1-robert.joslyn@redrectangle.org>
+Subject: [dunfell][PATCH] curl: Fix CVE-2022-32206, CVE-2022-32207,
+ and CVE-2022-32208
+Date: Sun, 17 Jul 2022 11:16:18 -0700
+Message-Id: <20220717181618.2308925-1-robert.joslyn@redrectangle.org>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Jul 2022 18:13:46 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Jul 2022 18:16:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168160
+ https://lists.openembedded.org/g/openembedded-core/message/168161
 
 Backport fixes for:
- * CVE-2022-32205 - https://curl.se/docs/CVE-2022-32205.html
  * CVE-2022-32206 - https://curl.se/docs/CVE-2022-32206.html
  * CVE-2022-32207 - https://curl.se/docs/CVE-2022-32207.html
  * CVE-2022-32208 - https://curl.se/docs/CVE-2022-32208.html
 
 Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
 ---
- .../curl/curl/CVE-2022-32205.patch            | 174 +++++++++++
- .../curl/curl/CVE-2022-32206.patch            |  51 ++++
- .../curl/curl/CVE-2022-32207.patch            | 283 ++++++++++++++++++
- .../curl/curl/CVE-2022-32208.patch            |  67 +++++
- meta/recipes-support/curl/curl_7.82.0.bb      |   4 +
- 5 files changed, 579 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2022-32205.patch
+ .../curl/curl/CVE-2022-32206.patch            |  52 ++++
+ .../curl/curl/CVE-2022-32207.patch            | 284 ++++++++++++++++++
+ .../curl/curl/CVE-2022-32208.patch            |  72 +++++
+ meta/recipes-support/curl/curl_7.69.1.bb      |   3 +
+ 4 files changed, 411 insertions(+)
  create mode 100644 meta/recipes-support/curl/curl/CVE-2022-32206.patch
  create mode 100644 meta/recipes-support/curl/curl/CVE-2022-32207.patch
  create mode 100644 meta/recipes-support/curl/curl/CVE-2022-32208.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2022-32205.patch b/meta/recipes-support/curl/curl/CVE-2022-32205.patch
-new file mode 100644
-index 0000000000..165fd8af47
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2022-32205.patch
-@@ -0,0 +1,174 @@
-+From a91c22a072cbb32e296f1efba3502f1b7775dfaf Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Sun, 26 Jun 2022 11:00:48 +0200
-+Subject: [PATCH] cookie: apply limits
-+
-+- Send no more than 150 cookies per request
-+- Cap the max length used for a cookie: header to 8K
-+- Cap the max number of received Set-Cookie: headers to 50
-+
-+Bug: https://curl.se/docs/CVE-2022-32205.html
-+CVE-2022-32205
-+Reported-by: Harry Sintonen
-+Closes #9048
-+
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/48d7064a49148f0394]
-+Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
-+---
-+ lib/cookie.c  | 14 ++++++++++++--
-+ lib/cookie.h  | 21 +++++++++++++++++++--
-+ lib/http.c    | 13 +++++++++++--
-+ lib/urldata.h |  1 +
-+ 4 files changed, 43 insertions(+), 6 deletions(-)
-+
-+diff --git a/lib/cookie.c b/lib/cookie.c
-+index 1b8c8f9..8a6aa1a 100644
-+--- a/lib/cookie.c
-++++ b/lib/cookie.c
-+@@ -477,6 +477,10 @@ Curl_cookie_add(struct Curl_easy *data,
-+   (void)data;
-+ #endif
-+ 
-++  DEBUGASSERT(MAX_SET_COOKIE_AMOUNT <= 255); /* counter is an unsigned char */
-++  if(data->req.setcookies >= MAX_SET_COOKIE_AMOUNT)
-++    return NULL;
-++
-+   /* First, alloc and init a new struct for it */
-+   co = calloc(1, sizeof(struct Cookie));
-+   if(!co)
-+@@ -816,7 +820,7 @@ Curl_cookie_add(struct Curl_easy *data,
-+       freecookie(co);
-+       return NULL;
-+     }
-+-
-++    data->req.setcookies++;
-+   }
-+   else {
-+     /*
-+@@ -1354,7 +1358,8 @@ static struct Cookie *dup_cookie(struct Cookie *src)
-+  *
-+  * It shall only return cookies that haven't expired.
-+  */
-+-struct Cookie *Curl_cookie_getlist(struct CookieInfo *c,
-++struct Cookie *Curl_cookie_getlist(struct Curl_easy *data,
-++                                   struct CookieInfo *c,
-+                                    const char *host, const char *path,
-+                                    bool secure)
-+ {
-+@@ -1409,6 +1414,11 @@ struct Cookie *Curl_cookie_getlist(struct CookieInfo *c,
-+             mainco = newco;
-+ 
-+             matches++;
-++            if(matches >= MAX_COOKIE_SEND_AMOUNT) {
-++              infof(data, "Included max number of cookies (%u) in request!",
-++                    matches);
-++              break;
-++            }
-+           }
-+           else
-+             goto fail;
-+diff --git a/lib/cookie.h b/lib/cookie.h
-+index 0ffe08e..7411980 100644
-+--- a/lib/cookie.h
-++++ b/lib/cookie.h
-+@@ -81,10 +81,26 @@ struct CookieInfo {
-+ */
-+ #define MAX_COOKIE_LINE 5000
-+ 
-+-/* This is the maximum length of a cookie name or content we deal with: */
-++/* Maximum length of an incoming cookie name or content we deal with. Longer
-++   cookies are ignored. */
-+ #define MAX_NAME 4096
-+ #define MAX_NAME_TXT "4095"
-+ 
-++/* Maximum size for an outgoing cookie line libcurl will use in an http
-++   request. This is the default maximum length used in some versions of Apache
-++   httpd. */
-++#define MAX_COOKIE_HEADER_LEN 8190
-++
-++/* Maximum number of cookies libcurl will send in a single request, even if
-++   there might be more cookies that match. One reason to cap the number is to
-++   keep the maximum HTTP request within the maximum allowed size. */
-++#define MAX_COOKIE_SEND_AMOUNT 150
-++
-++/* Maximum number of Set-Cookie: lines accepted in a single response. If more
-++   such header lines are received, they are ignored. This value must be less
-++   than 256 since an unsigned char is used to count. */
-++#define MAX_SET_COOKIE_AMOUNT 50
-++
-+ struct Curl_easy;
-+ /*
-+  * Add a cookie to the internal list of cookies. The domain and path arguments
-+@@ -97,7 +113,8 @@ struct Cookie *Curl_cookie_add(struct Curl_easy *data,
-+                                const char *domain, const char *path,
-+                                bool secure);
-+ 
-+-struct Cookie *Curl_cookie_getlist(struct CookieInfo *c, const char *host,
-++struct Cookie *Curl_cookie_getlist(struct Curl_easy *data,
-++                                   struct CookieInfo *c, const char *host,
-+                                    const char *path, bool secure);
-+ void Curl_cookie_freelist(struct Cookie *cookies);
-+ void Curl_cookie_clearall(struct CookieInfo *cookies);
-+diff --git a/lib/http.c b/lib/http.c
-+index 4433824..2c8b0c4 100644
-+--- a/lib/http.c
-++++ b/lib/http.c
-+@@ -2709,12 +2709,14 @@ CURLcode Curl_http_bodysend(struct Curl_easy *data, struct connectdata *conn,
-+ }
-+ 
-+ #if !defined(CURL_DISABLE_COOKIES)
-++
-+ CURLcode Curl_http_cookies(struct Curl_easy *data,
-+                            struct connectdata *conn,
-+                            struct dynbuf *r)
-+ {
-+   CURLcode result = CURLE_OK;
-+   char *addcookies = NULL;
-++  bool linecap = FALSE;
-+   if(data->set.str[STRING_COOKIE] &&
-+      !Curl_checkheaders(data, STRCONST("Cookie")))
-+     addcookies = data->set.str[STRING_COOKIE];
-+@@ -2732,7 +2734,7 @@ CURLcode Curl_http_cookies(struct Curl_easy *data,
-+         !strcmp(host, "127.0.0.1") ||
-+         !strcmp(host, "[::1]") ? TRUE : FALSE;
-+       Curl_share_lock(data, CURL_LOCK_DATA_COOKIE, CURL_LOCK_ACCESS_SINGLE);
-+-      co = Curl_cookie_getlist(data->cookies, host, data->state.up.path,
-++      co = Curl_cookie_getlist(data, data->cookies, host, data->state.up.path,
-+                                secure_context);
-+       Curl_share_unlock(data, CURL_LOCK_DATA_COOKIE);
-+     }
-+@@ -2746,6 +2748,13 @@ CURLcode Curl_http_cookies(struct Curl_easy *data,
-+             if(result)
-+               break;
-+           }
-++          if((Curl_dyn_len(r) + strlen(co->name) + strlen(co->value) + 1) >=
-++             MAX_COOKIE_HEADER_LEN) {
-++            infof(data, "Restricted outgoing cookies due to header size, "
-++                  "'%s' not sent", co->name);
-++            linecap = TRUE;
-++            break;
-++          }
-+           result = Curl_dyn_addf(r, "%s%s=%s", count?"; ":"",
-+                                  co->name, co->value);
-+           if(result)
-+@@ -2756,7 +2765,7 @@ CURLcode Curl_http_cookies(struct Curl_easy *data,
-+       }
-+       Curl_cookie_freelist(store);
-+     }
-+-    if(addcookies && !result) {
-++    if(addcookies && !result && !linecap) {
-+       if(!count)
-+         result = Curl_dyn_addn(r, STRCONST("Cookie: "));
-+       if(!result) {
-+diff --git a/lib/urldata.h b/lib/urldata.h
-+index e006495..54faf7d 100644
-+--- a/lib/urldata.h
-++++ b/lib/urldata.h
-+@@ -707,6 +707,7 @@ struct SingleRequest {
-+ #ifndef CURL_DISABLE_DOH
-+   struct dohdata *doh; /* DoH specific data for this request */
-+ #endif
-++  unsigned char setcookies;
-+   BIT(header);        /* incoming data has HTTP header */
-+   BIT(content_range); /* set TRUE if Content-Range: was found */
-+   BIT(upload_done);   /* set to TRUE when doing chunked transfer-encoding
 diff --git a/meta/recipes-support/curl/curl/CVE-2022-32206.patch b/meta/recipes-support/curl/curl/CVE-2022-32206.patch
 new file mode 100644
-index 0000000000..25f5b27cc7
+index 0000000000..3d76aeb43d
 --- /dev/null
 +++ b/meta/recipes-support/curl/curl/CVE-2022-32206.patch
-@@ -0,0 +1,51 @@
-+From e12531340b03d242d3f892aa8797faf12b56dddf Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,52 @@
++From 25e7be39be5f8ed696b6085ced9cf6c17e6128f4 Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
 +Date: Mon, 16 May 2022 16:28:13 +0200
 +Subject: [PATCH] content_encoding: return error on too many compression steps
@@ -256,10 +74,10 @@ index 0000000000..25f5b27cc7
 + 1 file changed, 9 insertions(+)
 +
 +diff --git a/lib/content_encoding.c b/lib/content_encoding.c
-+index c03637a..6f994b3 100644
++index 6d47537..91e621f 100644
 +--- a/lib/content_encoding.c
 ++++ b/lib/content_encoding.c
-+@@ -1026,12 +1026,16 @@ static const struct content_encoding *find_encoding(const char *name,
++@@ -934,6 +934,9 @@ static const content_encoding *find_encoding(const char *name, size_t len)
 +   return NULL;
 + }
 + 
@@ -268,15 +86,16 @@ index 0000000000..25f5b27cc7
 ++
 + /* Set-up the unencoding stack from the Content-Encoding header value.
 +  * See RFC 7231 section 3.1.2.2. */
-+ CURLcode Curl_build_unencoding_stack(struct Curl_easy *data,
-+                                      const char *enclist, int maybechunked)
++ CURLcode Curl_build_unencoding_stack(struct connectdata *conn,
++@@ -941,6 +944,7 @@ CURLcode Curl_build_unencoding_stack(struct connectdata *conn,
 + {
++   struct Curl_easy *data = conn->data;
 +   struct SingleRequest *k = &data->req;
 ++  int counter = 0;
 + 
 +   do {
 +     const char *name;
-+@@ -1066,6 +1070,11 @@ CURLcode Curl_build_unencoding_stack(struct Curl_easy *data,
++@@ -975,6 +979,11 @@ CURLcode Curl_build_unencoding_stack(struct connectdata *conn,
 +       if(!encoding)
 +         encoding = &error_encoding;  /* Defer error at stack use. */
 + 
@@ -284,17 +103,17 @@ index 0000000000..25f5b27cc7
 ++        failf(data, "Reject response due to %u content encodings",
 ++              counter);
 ++        return CURLE_BAD_CONTENT_ENCODING;
-++      }
+++      }    
 +       /* Stack the unencoding stage. */
-+       writer = new_unencoding_writer(data, encoding, k->writer_stack);
++       writer = new_unencoding_writer(conn, encoding, k->writer_stack);
 +       if(!writer)
 diff --git a/meta/recipes-support/curl/curl/CVE-2022-32207.patch b/meta/recipes-support/curl/curl/CVE-2022-32207.patch
 new file mode 100644
-index 0000000000..bc16b62f39
+index 0000000000..f75aaecd64
 --- /dev/null
 +++ b/meta/recipes-support/curl/curl/CVE-2022-32207.patch
-@@ -0,0 +1,283 @@
-+From 759088694e2ba68ddc5ffe042b071dadad6ff675 Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,284 @@
++From af92181055d7d64dfc0bc9d5a13c8b98af3196be Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
 +Date: Wed, 25 May 2022 10:09:53 +0200
 +Subject: [PATCH] fopen: add Curl_fopen() for better overwriting of files
@@ -309,20 +128,20 @@ index 0000000000..bc16b62f39
 +---
 + CMakeLists.txt          |   1 +
 + configure.ac            |   1 +
-+ lib/Makefile.inc        |   2 +
++ lib/Makefile.inc        |   4 +-
 + lib/cookie.c            |  19 ++-----
 + lib/curl_config.h.cmake |   3 ++
 + lib/fopen.c             | 113 ++++++++++++++++++++++++++++++++++++++++
 + lib/fopen.h             |  30 +++++++++++
-+ 7 files changed, 154 insertions(+), 15 deletions(-)
++ 7 files changed, 155 insertions(+), 16 deletions(-)
 + create mode 100644 lib/fopen.c
 + create mode 100644 lib/fopen.h
 +
 +diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index b77de6d..a0bfaad 100644
++index 73b053b..cc587b0 100644
 +--- a/CMakeLists.txt
 ++++ b/CMakeLists.txt
-+@@ -1027,6 +1027,7 @@ elseif(HAVE_LIBSOCKET)
++@@ -869,6 +869,7 @@ elseif(HAVE_LIBSOCKET)
 +   set(CMAKE_REQUIRED_LIBRARIES socket)
 + endif()
 + 
@@ -331,10 +150,10 @@ index 0000000000..bc16b62f39
 + check_symbol_exists(socket        "${CURL_INCLUDES}" HAVE_SOCKET)
 + check_symbol_exists(select        "${CURL_INCLUDES}" HAVE_SELECT)
 +diff --git a/configure.ac b/configure.ac
-+index d431870..7433bb9 100644
++index d090622..7071077 100755
 +--- a/configure.ac
 ++++ b/configure.ac
-+@@ -3351,6 +3351,7 @@ AC_CHECK_DECLS([getpwuid_r], [], [AC_DEFINE(HAVE_DECL_GETPWUID_R_MISSING, 1, "Se
++@@ -4059,6 +4059,7 @@ AC_CHECK_DECLS([getpwuid_r], [], [AC_DEFINE(HAVE_DECL_GETPWUID_R_MISSING, 1, "Se
 + 
 + 
 + AC_CHECK_FUNCS([fnmatch \
@@ -343,32 +162,34 @@ index 0000000000..bc16b62f39
 +   getpass_r \
 +   getppid \
 +diff --git a/lib/Makefile.inc b/lib/Makefile.inc
-+index e8f110f..5139b03 100644
++index 46ded90..79307d8 100644
 +--- a/lib/Makefile.inc
 ++++ b/lib/Makefile.inc
-+@@ -133,6 +133,7 @@ LIB_CFILES =         \
-+   escape.c           \
-+   file.c             \
-+   fileinfo.c         \
-++  fopen.c            \
-+   formdata.c         \
-+   ftp.c              \
-+   ftplistparser.c    \
-+@@ -263,6 +264,7 @@ LIB_HFILES =         \
-+   escape.h           \
-+   file.h             \
-+   fileinfo.h         \
-++  fopen.h            \
-+   formdata.h         \
-+   ftp.h              \
-+   ftplistparser.h    \
++@@ -63,7 +63,7 @@ LIB_CFILES = file.c timeval.c base64.c hostip.c progress.c formdata.c   \
++   curl_multibyte.c hostcheck.c conncache.c dotdot.c                     \
++   x509asn1.c http2.c smb.c curl_endian.c curl_des.c system_win32.c      \
++   mime.c sha256.c setopt.c curl_path.c curl_ctype.c curl_range.c psl.c  \
++-  doh.c urlapi.c curl_get_line.c altsvc.c socketpair.c rename.c
+++  doh.c urlapi.c curl_get_line.c altsvc.c socketpair.c rename.c fopen.c
++ 
++ LIB_HFILES = arpa_telnet.h netrc.h file.h timeval.h hostip.h progress.h \
++   formdata.h cookie.h http.h sendf.h ftp.h url.h dict.h if2ip.h         \
++@@ -84,7 +84,7 @@ LIB_HFILES = arpa_telnet.h netrc.h file.h timeval.h hostip.h progress.h \
++   x509asn1.h http2.h sigpipe.h smb.h curl_endian.h curl_des.h           \
++   curl_printf.h system_win32.h rand.h mime.h curl_sha256.h setopt.h     \
++   curl_path.h curl_ctype.h curl_range.h psl.h doh.h urlapi-int.h        \
++-  curl_get_line.h altsvc.h quic.h socketpair.h rename.h
+++  curl_get_line.h altsvc.h quic.h socketpair.h rename.h fopen.h
++ 
++ LIB_RCFILES = libcurl.rc
++ 
 +diff --git a/lib/cookie.c b/lib/cookie.c
-+index 8a6aa1a..cb0c03b 100644
++index 68054e1..a9ad20a 100644
 +--- a/lib/cookie.c
 ++++ b/lib/cookie.c
-+@@ -96,8 +96,8 @@ Example set of cookies:
-+ #include "curl_get_line.h"
++@@ -97,8 +97,8 @@ Example set of cookies:
 + #include "curl_memrchr.h"
++ #include "inet_pton.h"
 + #include "parsedate.h"
 +-#include "rand.h"
 + #include "rename.h"
@@ -376,7 +197,7 @@ index 0000000000..bc16b62f39
 + 
 + /* The last 3 #include files should be in this order */
 + #include "curl_printf.h"
-+@@ -1620,20 +1620,9 @@ static CURLcode cookie_output(struct Curl_easy *data,
++@@ -1524,18 +1524,9 @@ static int cookie_output(struct Curl_easy *data,
 +     use_stdout = TRUE;
 +   }
 +   else {
@@ -387,32 +208,31 @@ index 0000000000..bc16b62f39
 +-
 +-    tempstore = aprintf("%s.%s.tmp", filename, randsuffix);
 +-    if(!tempstore)
-+-      return CURLE_OUT_OF_MEMORY;
++-      return 1;
 +-
 +-    out = fopen(tempstore, FOPEN_WRITETEXT);
-+-    if(!out) {
-+-      error = CURLE_WRITE_ERROR;
-++    error = Curl_fopen(data, filename, &out, &tempstore);
-++    if(error)
-+       goto error;
-+-    }
++-    if(!out)
++-      goto error;
+++      error = Curl_fopen(data, filename, &out, &tempstore);
+++      if(error)
+++        goto error;
 +   }
 + 
 +   fputs("# Netscape HTTP Cookie File\n"
-+@@ -1680,7 +1669,7 @@ static CURLcode cookie_output(struct Curl_easy *data,
++@@ -1581,7 +1572,7 @@ static int cookie_output(struct Curl_easy *data,
 +   if(!use_stdout) {
 +     fclose(out);
 +     out = NULL;
 +-    if(Curl_rename(tempstore, filename)) {
 ++    if(tempstore && Curl_rename(tempstore, filename)) {
 +       unlink(tempstore);
-+       error = CURLE_WRITE_ERROR;
 +       goto error;
++     }
 +diff --git a/lib/curl_config.h.cmake b/lib/curl_config.h.cmake
-+index d2a0f43..c254359 100644
++index 98cdf51..fe43751 100644
 +--- a/lib/curl_config.h.cmake
 ++++ b/lib/curl_config.h.cmake
-+@@ -157,6 +157,9 @@
++@@ -124,6 +124,9 @@
 + /* Define to 1 if you have the <assert.h> header file. */
 + #cmakedefine HAVE_ASSERT_H 1
 + 
@@ -579,11 +399,11 @@ index 0000000000..bc16b62f39
 ++#endif
 diff --git a/meta/recipes-support/curl/curl/CVE-2022-32208.patch b/meta/recipes-support/curl/curl/CVE-2022-32208.patch
 new file mode 100644
-index 0000000000..9a4e398370
+index 0000000000..2939314d09
 --- /dev/null
 +++ b/meta/recipes-support/curl/curl/CVE-2022-32208.patch
-@@ -0,0 +1,67 @@
-+From fd2ffddec315c029e923e6e6f2c049809d01a5fc Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,72 @@
++From 3b90f0b2a7a84645acce151c86b40d25b5de6615 Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
 +Date: Thu, 9 Jun 2022 09:27:24 +0200
 +Subject: [PATCH] krb5: return error properly on decode errors
@@ -596,14 +416,15 @@ index 0000000000..9a4e398370
 +Upstream-Status: Backport [https://github.com/curl/curl/commit/6ecdf5136b52af7]
 +Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
 +---
-+ lib/krb5.c | 18 +++++++++++-------
-+ 1 file changed, 11 insertions(+), 7 deletions(-)
++ lib/krb5.c     |  5 +----
++ lib/security.c | 13 ++++++++++---
++ 2 files changed, 11 insertions(+), 7 deletions(-)
 +
 +diff --git a/lib/krb5.c b/lib/krb5.c
-+index 787137c..6f9e1f7 100644
++index f50287a..5b77e35 100644
 +--- a/lib/krb5.c
 ++++ b/lib/krb5.c
-+@@ -140,11 +140,8 @@ krb5_decode(void *app_data, void *buf, int len,
++@@ -86,11 +86,8 @@ krb5_decode(void *app_data, void *buf, int len,
 +   enc.value = buf;
 +   enc.length = len;
 +   maj = gss_unwrap(&min, *context, &enc, &dec, NULL, NULL);
@@ -616,7 +437,11 @@ index 0000000000..9a4e398370
 + 
 +   memcpy(buf, dec.value, dec.length);
 +   len = curlx_uztosi(dec.length);
-+@@ -506,6 +503,7 @@ static CURLcode read_data(struct connectdata *conn,
++diff --git a/lib/security.c b/lib/security.c
++index fbfa707..3542210 100644
++--- a/lib/security.c
+++++ b/lib/security.c
++@@ -192,6 +192,7 @@ static CURLcode read_data(struct connectdata *conn,
 + {
 +   int len;
 +   CURLcode result;
@@ -624,7 +449,7 @@ index 0000000000..9a4e398370
 + 
 +   result = socket_read(fd, &len, sizeof(len));
 +   if(result)
-+@@ -514,7 +512,10 @@ static CURLcode read_data(struct connectdata *conn,
++@@ -200,7 +201,10 @@ static CURLcode read_data(struct connectdata *conn,
 +   if(len) {
 +     /* only realloc if there was a length */
 +     len = ntohl(len);
@@ -636,35 +461,34 @@ index 0000000000..9a4e398370
 +   }
 +   if(!len || !buf->data)
 +     return CURLE_OUT_OF_MEMORY;
-+@@ -522,8 +523,11 @@ static CURLcode read_data(struct connectdata *conn,
++@@ -208,8 +212,11 @@ static CURLcode read_data(struct connectdata *conn,
 +   result = socket_read(fd, buf->data, len);
 +   if(result)
 +     return result;
 +-  buf->size = conn->mech->decode(conn->app_data, buf->data, len,
 +-                                 conn->data_prot, conn);
-++  nread = conn->mech->decode(conn->app_data, buf->data, len,
-++                             conn->data_prot, conn);
+++  nread = buf->size = conn->mech->decode(conn->app_data, buf->data, len,
+++                                         conn->data_prot, conn);
 ++  if(nread < 0)
 ++    return CURLE_RECV_ERROR;
 ++  buf->size = (size_t)nread;
 +   buf->index = 0;
 +   return CURLE_OK;
 + }
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index d5dfe62a39..67de0220c6 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -24,6 +24,10 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
+diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
+index 5a597a7dd9..7b67b68f1d 100644
+--- a/meta/recipes-support/curl/curl_7.69.1.bb
++++ b/meta/recipes-support/curl/curl_7.69.1.bb
+@@ -35,6 +35,9 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://CVE-2022-27781.patch \
             file://CVE-2022-27782-1.patch \
             file://CVE-2022-27782-2.patch \
-            file://0001-openssl-fix-CN-check-error-code.patch \
-+           file://CVE-2022-32205.patch \
 +           file://CVE-2022-32206.patch \
 +           file://CVE-2022-32207.patch \
 +           file://CVE-2022-32208.patch \
-            "
- SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
+ "
  
+ SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
 -- 
 2.35.1
 
