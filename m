@@ -2,104 +2,165 @@ Return-Path: <liu.ming50@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 506C6C43334
-	for <webhook@archiver.kernel.org>; Sun, 17 Jul 2022 12:57:05 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web11.15409.1658062620571114099
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43C68C433EF
+	for <webhook@archiver.kernel.org>; Sun, 17 Jul 2022 12:57:15 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web11.15412.1658062632885754167
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Jul 2022 05:57:00 -0700
+ Sun, 17 Jul 2022 05:57:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=RtGluUW7;
- spf=pass (domain: gmail.com, ip: 209.85.167.53,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jveMFbTY;
+ spf=pass (domain: gmail.com, ip: 209.85.167.52,
  mailfrom: liu.ming50@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id bp17so15213491lfb.3
+Received: by mail-lf1-f52.google.com with SMTP id a9so15173242lfk.11
         for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Jul 2022 05:57:00 -0700 (PDT)
+ Sun, 17 Jul 2022 05:57:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hRG6uI0+sJxCgfDQS28MG8+BtHIrqjBPP9cxS3wHyWE=;
-        b=RtGluUW7WljXn2rJDBTtY+NfEy/yAQ+78D7TjQKYaCRVHWAFe/6NWSAtzAQl8A8eOC
-         zJdidH/6qiWdtDT6GuF8ygMTjfHq+neLf4/EZkOjCBXDl1nQ0QJhyLMrL8BrOOzNHKGO
-         osZPBX5yE8uSr5+epoMUZf8LaJZaurRYYJiHOI4u90yCrKVoqBiT9l+P4GpWW+VgEfTc
-         AImbe6HHR+JIXgaYgxQWarkMc12dXOy9EXZp7QV0+8ytem+mbWCBmTDkWju1q7z+AG94
-         5laOFlbB6JbhfS88WAQmGwTThhJLEPb/SyP59hDF/ldwvpydm+xJCzLoPyZGDTPps4ns
-         CoWg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=DU4Fv6tn3HUeFpBmCHHZ68jLCopbV5ZUp+kqErHNHjQ=;
+        b=jveMFbTYJaBiP25F9Ets3rSS0MyTiran1kfkYLs7CuqxZ4Ytj6UgHPfTORfJPlSZ30
+         XrFehTw16LtEFVStLkB0uxIrYqQOgSgA/hehfbxqnr2K/R+Kjj9CSP4EGYUbLh5hkElo
+         Vj/QndEUCRFerQYtiwXt/FEDsySh5OhmEDdtW1JpF4/xu6VPEbJDyrVzFoD4y0ZbRVAY
+         I3piaNS0TTYOGGRj3AftQHyiI6xPCyO1J7MSjyCTXdr0iBqAhJBY8tP3/BRmPi2pj9A3
+         EinsDTHD2a1HJplFmxdVws3VESx2QxEL00Fjq7ua3DMRYQ5SXk6ilPFg23O3iptjord0
+         mriQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hRG6uI0+sJxCgfDQS28MG8+BtHIrqjBPP9cxS3wHyWE=;
-        b=QVtF2T2eEnwpl3SbJnFJjJb7Ot4g6nGoPIyqCZGyHzEYwBBknnB5VXLBuh1J2XP79B
-         RpdLaarHlp9ICgNUtbuon6/Jwa232Mq4qEZJDSsMFnM6QCTasYpWBWi5IlHkZLcsIrE6
-         uCjwiQKeAHn+djKaVsCqVVga9X0xW9byFCA+erYYIfONhHDVI6Wxy7ZTUSjkeKs60GYP
-         vuGsjCjNqRxwdBU42RPiKvjBiqYRGsEicWGZ/RjeBfNMSCVfXpmfG3NOGIOH+2Zdrvi9
-         ZbSjM8itGB0R6+4b1lZhaq91WvuF+761rz4QYPrH0v9x4GvapHdDiGfBIkKlzOO+EifB
-         N4sQ==
-X-Gm-Message-State: AJIora8mVKps2fPr6+MnrayUTh0LzsYEODr8YAO19WBNNKfx9KvIofoZ
-	6bQoHzogIwQIIdu57Uc0nqi0PS8iVQ0=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=DU4Fv6tn3HUeFpBmCHHZ68jLCopbV5ZUp+kqErHNHjQ=;
+        b=sgSfMxy9NqYD8+aWCe/kDy15BuyZYOPkd8SKdaXJre+J4j33EWx7MmcbczyANPqRLJ
+         dXI4Ed+aXz2lo9lMs+qVTN1lxj2v7e95D6/IJ/78bxtH+++jorOpuX7724Aoqb0f/+Ye
+         YrHudRiSEGRtcsKss/fFoCYMJyr6DumTvx/FC8F4vdGWkiwFvrClhLhZPZeZOYVKIr5I
+         nHKt5t2CpVhJpZHs9OYkmUScxlGwriuBL8WS19SfLK41pw8E5xWklrxWRN297ivTF/tp
+         5KrhYGVtXDqBDfGPL8mYqqkcV28vZaweNvGs2a5wr/1u717IjUeRqGZK79mTalgKfhTt
+         Fm5Q==
+X-Gm-Message-State: AJIora8YX+cLEEoOHf1Zfb7HKNp2aQL+2YoY9YKiQFxmByWOixplxpN2
+	ioMf/H+r5F2ZdF0oWs28iBkjoc23iSc=
 X-Google-Smtp-Source: 
- AGRyM1ub8qqxHWSQD7dl0gJbLf9XWMWCIR3BVttjKnPegNRqzWYuwCcQ5fBEEJkLOicM2sJjNPwVRA==
-X-Received: by 2002:a05:6512:2282:b0:489:fdb3:2351 with SMTP id
- f2-20020a056512228200b00489fdb32351mr12243905lfu.209.1658062617287;
-        Sun, 17 Jul 2022 05:56:57 -0700 (PDT)
+ AGRyM1unGPd+mbih+Tc+7l99DmP7TUh0kY39MjihEBlrE8zJLw9JgpfhagVIBCCk4nnW2/zhD6tazA==
+X-Received: by 2002:ac2:5d46:0:b0:484:2613:814f with SMTP id
+ w6-20020ac25d46000000b004842613814fmr12037414lfd.281.1658062630772;
+        Sun, 17 Jul 2022 05:57:10 -0700 (PDT)
 Received: from peterliu-Precision-7530.emea.group.atlascopco.com
  (customer-212-100-112-191.stosn.net. [212.100.112.191])
         by smtp.gmail.com with ESMTPSA id
- v11-20020a05651203ab00b00483e5f01698sm2023056lfp.65.2022.07.17.05.56.56
+ v11-20020a05651203ab00b00483e5f01698sm2023056lfp.65.2022.07.17.05.57.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Jul 2022 05:56:56 -0700 (PDT)
+        Sun, 17 Jul 2022 05:57:10 -0700 (PDT)
 From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: steve@sakoman.com,
+	Muhammad Hamza <Muhammad_Hamza@mentor.com>,
+	Awais Belal <awais_belal@mentor.com>,
+	Muhammad Hamza <muhammad_hamza@mentor.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
 	Ming Liu <liu.ming50@gmail.com>
-Subject: [OE-core] [kirkstone] [PATCH 0/9] udev-extraconf fixes
-Date: Sun, 17 Jul 2022 14:56:39 +0200
-Message-Id: <20220717125648.2942046-1-liu.ming50@gmail.com>
+Subject: [OE-core] [kirkstone] [PATCH 5/9] udev-extraconf/mount.sh: only mount
+ devices on hotplug
+Date: Sun, 17 Jul 2022 14:56:44 +0200
+Message-Id: <20220717125648.2942046-6-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220717125648.2942046-1-liu.ming50@gmail.com>
+References: <20220717125648.2942046-1-liu.ming50@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Jul 2022 12:57:05 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Jul 2022 12:57:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168148
+ https://lists.openembedded.org/g/openembedded-core/message/168153
 
-From: Ming Liu <liu.ming50@gmail.com>
+From: Muhammad Hamza <Muhammad_Hamza@mentor.com>
 
-udev-extraconf of kirkstone does not work, back-ported several fixes from
-upstream.
+fdisk from util-linux (2.31.1) and above allows the user to
+manipulate an already mounted device. In order to achieve this
+functionality it issues a BLKRRPART (block device re-read part)
+ioctl and in response the kernel generates remove/change/add
+events if the device is not mounted (manually unmounted etc)
+which are caught and processed by udev. This causes our auto-mounter
+to remount everything because it does not keep track and things
+go out of control.
+Differentiating between types of remove events such as the one
+described above (generated by BLKRRPART) and one where the device
+is physically plugged out is only possible using the DEVPATH variable
+which is cleaned up only when the device is actually plugged-out.
+This fixes the above anomaly by only mounting a device in add event
+which is cleaned up properly (tmp cache deleted) in the remove event
+or is not present in the tmp cache while making use of the DEVPATH
+variable during the remove action.
 
-Ming Liu (3):
-  udev-extraconf: let automount base directory configurable
-  udev-extraconf: fix some systemd automount issues
-  udev-extraconf:mount.sh: fix path mismatching issues
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
+Signed-off-by: Muhammad Hamza <muhammad_hamza@mentor.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+(cherry picked from commit 11a5e6c17535438ea1e7a8403ed260c8b3a22bc8)
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ .../recipes-core/udev/udev-extraconf/mount.sh | 34 +++++++++++++++----
+ 1 file changed, 27 insertions(+), 7 deletions(-)
 
-Muhammad Hamza (5):
-  udev-extraconf/mount.sh: add LABELs to mountpoints
-  udev-extraconf/mount.sh: save mount name in our tmp filecache
-  udev-extraconf/mount.sh: only mount devices on hotplug
-  udev-extraconf: force systemd-udevd to use shared MountFlags
-  udev-extraconf/mount.sh: ignore lvm in automount
-
-Richard Purdie (1):
-  udev-extraconf/initrdscripts/parted: Rename mount.blacklist ->
-    mount.ignorelist
-
- .../files/init-install-efi-testfs.sh          |  2 +-
- .../initrdscripts/files/init-install-efi.sh   |  2 +-
- .../files/init-install-testfs.sh              |  2 +-
- .../initrdscripts/files/init-install.sh       |  2 +-
- .../{mount.blacklist => mount.ignorelist}     |  0
- .../recipes-core/udev/udev-extraconf/mount.sh | 90 ++++++++++++++-----
- meta/recipes-core/udev/udev-extraconf_1.1.bb  | 27 ++++--
- meta/recipes-extended/parted/files/run-ptest  |  6 +-
- 8 files changed, 95 insertions(+), 36 deletions(-)
- rename meta/recipes-core/udev/udev-extraconf/{mount.blacklist => mount.ignorelist} (100%)
-
+diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+index c4695ee27d..537828e3e3 100644
+--- a/meta/recipes-core/udev/udev-extraconf/mount.sh
++++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+@@ -45,6 +45,13 @@ automount_systemd() {
+         return
+     fi
+ 
++    # Only go for auto-mounting when the device has been cleaned up in remove
++    # or has not been identified yet
++    if [ -e "/tmp/.automount-$name" ]; then
++            logger "mount.sh/automount" "[$MOUNT_BASE/$name] is already cached"
++            return
++    fi
++
+     # Skip the partition which are already in /etc/fstab
+     grep "^[[:space:]]*$DEVNAME" /etc/fstab && return
+     for n in LABEL PARTLABEL UUID PARTUUID; do
+@@ -100,6 +107,13 @@ automount() {
+ 	# Get the unique name for mount point
+ 	get_label_name "${DEVNAME}"
+ 
++        # Only go for auto-mounting when the device has been cleaned up in remove
++        # or has not been identified yet
++        if [ -e "/tmp/.automount-$name" ]; then
++                logger "mount.sh/automount" "[$MOUNT_BASE/$name] is already cached"
++                return
++        fi
++
+ 	! test -d "$MOUNT_BASE/$name" && mkdir -p "$MOUNT_BASE/$name"
+ 	# Silent util-linux's version of mounting auto
+ 	if [ "x`readlink $MOUNT`" = "x/bin/mount.util-linux" ] ;
+@@ -172,12 +186,18 @@ if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] && [ -n "$ID_FS_TYPE" -o "$media_t
+ fi
+ 
+ if [ "$ACTION" = "remove" ] || [ "$ACTION" = "change" ] && [ -x "$UMOUNT" ] && [ -n "$DEVNAME" ]; then
+-    for mnt in `cat /proc/mounts | grep "$DEVNAME" | cut -f 2 -d " " `
+-    do
+-        $UMOUNT $mnt
+-    done
+-
+-    # Remove empty directories from auto-mounter
+     name="`basename "$DEVNAME"`"
+-    test -e "/tmp/.automount-$name" && rm_dir "$MOUNT_BASE/$name"
++    tmpfile=`find /tmp | grep "\.automount-.*${name}$"`
++    if [ ! -e "/sys/$DEVPATH" -a -e "$tmpfile" ]; then
++        logger "mount.sh/remove" "cleaning up $DEVNAME, was mounted by the auto-mounter"
++        for mnt in `cat /proc/mounts | grep "$DEVNAME" | cut -f 2 -d " " `
++        do
++                $UMOUNT $mnt
++        done
++        # Remove mount directory created by the auto-mounter
++        # and clean up our tmp cache file
++        mntdir=`cat "$tmpfile"`
++        rm_dir "$MOUNT_BASE/$mntdir"
++        rm "$tmpfile"
++    fi
+ fi
 -- 
 2.25.1
 
