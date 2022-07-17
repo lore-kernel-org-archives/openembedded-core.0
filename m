@@ -1,109 +1,160 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5651DC43334
-	for <webhook@archiver.kernel.org>; Sun, 17 Jul 2022 13:02:55 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web08.15619.1658062970710236089
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E59BBC43334
+	for <webhook@archiver.kernel.org>; Sun, 17 Jul 2022 14:50:35 +0000 (UTC)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+ [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web09.16375.1658069432511153918
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Jul 2022 06:02:50 -0700
+ Sun, 17 Jul 2022 07:50:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=L/0XOym1;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179,
- mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id x21so6877312plb.3
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=m0Kq0PY1;
+ spf=pass (domain: gmail.com, ip: 209.85.215.176,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f176.google.com with SMTP id s27so8508963pga.13
         for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Jul 2022 06:02:50 -0700 (PDT)
+ Sun, 17 Jul 2022 07:50:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:from:to:message-id:date;
-        bh=3kTKuVxQKCcchV74wE1H2Z6keuwCDmyPLtwK5Z/ra10=;
-        b=L/0XOym11cl9IMTiS5LQE0q3+t9QAeAEvpxolueiJd8I/fWzlkD7iXrPSk7YC1PpGU
-         Ng5fw1rbWFB5j7Nms+Z0jCwEv+GetmEEwWmaTDL3TcwndnLj9FYn0v/3V9Ml10CRQ4HG
-         T5bLkhn1yeR9pKRa0f6zc1KQ24IP6exDvYfKsuA/3B965IWjPD0oIDu9a77pj6ekWulu
-         yYPmB8kJW2p43PM5T8BXd9V9SaabH1gVxEYIDhV+Uv3hvjLokxpXFuWA67v8msOBK4JK
-         lDcQ5BYnE8dm6n5nzMVwE2vAqVv0aiDduX6fmT0YzqTGMgpfUWxMV+E4gPsvTTUX0RYV
-         e1qQ==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/mcD85LKBGMfszjZfc7HI4i50Seyf6pNkQle7EdHF9A=;
+        b=m0Kq0PY1PZtGcfOybE31+D603JD07fXnfBUOh/j/V23CbOhWf3qUWxhCVHURTd2xWA
+         ggu0Q6o51GnPU7HEGjaqTJ4nLlxh3rknFmH/kjIfW5fBzyD5XSAUklkPnWL3GBjaDrJS
+         PEUX3W03CttONn0S9MffrlW+Jlc68e0DV3YpV/tj4oogSbo3ntcfU41WcQjQVCqbP+rl
+         TOsrFOGU3M4wuTujL6h3vDekuZgS+GzDtYO61rdn0sJVYoavqoNe0Skblug2xdkChKGW
+         YREgmRhkADNuTCrt+pyJdI05pLf9hTUemvqd3vJfxmvXqvmBBWhA3haHAr3wmQb+6Uyb
+         ugTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=3kTKuVxQKCcchV74wE1H2Z6keuwCDmyPLtwK5Z/ra10=;
-        b=TxYED27GTLkDONv/XKY96G233KK19qSG2SdgFujsnRoA1rwpZGxobpTBIEbaEK38pl
-         midBgGF24d4UD8ye6MPYwAbUdCxBr0u0aatz+PBxL9YUfeIIyS50q+FvBPAGK/a3CXdq
-         aVyH11KMBMCCegFg8TO5Y0sDp1G+QvukQc6WvM9WjiFwrZEmO4QdFC1+Oxaue9DEyuU5
-         k1p5hTizBqUqQQS+RYItm5MF4NFVd2pbWpstBlNsykZHGfFV9wWH1zIyCGnel+sCjwo+
-         M6nCFshy0nAOT60YxyS43aevuKGksH1mo1busZBjx3sxqEeSWAruzJJPNSt+0/7RzrN6
-         ll/g==
-X-Gm-Message-State: AJIora8ZDJ/Y3x1kS0b0WSrGHIlTESLUv6JX/liSlG0j+GVlvxfZ0Tud
-	xHGLL9irEMf0MxdjnUJsNC06S3M8Ezak1lqO
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/mcD85LKBGMfszjZfc7HI4i50Seyf6pNkQle7EdHF9A=;
+        b=EJxF2ENMExqtK5UfR3EoOwMJ6XtXwVoicc+WjqPdugDufIr/9Qx03mKMHnvTGlPPU5
+         gDmdHzmmk+bzpOcYMdFtqdBa8AXXuhi2Kua641XvHz9SK22RrmD2hwLlvfacQaGPCyUU
+         hMCovPToyTSKLDl5XgUgAeVyHOzecnYSdqaqGA1dWii3RogSawmjTgnNQCz0nuM3zLHe
+         LUIIqfQjnQGfOgzhM0IcwQVHkh5gk3SfIcTpwgewn8kx0EfJlNyw98aeHKRyFvDtFBnr
+         FGlW+AoLAMqfA8kjxIdAXiP1hTcBhblYQR+dcQ44aeXBY7CF0KZXkcfDy/ER2aGvXV4Z
+         1iYw==
+X-Gm-Message-State: AJIora/pSxxNzE83tPjUeZd3IA5QmMpWgLbwhVaA5AXBStGaoULWiwP9
+	SuXiaUchrZfkSyalk/kNBnDbCBuD+M3BiQ==
 X-Google-Smtp-Source: 
- AGRyM1sOgXtT4lKH0WwyNBWf1WLr/jQP4U+t+Jw9uSiPZHpfBCaGUnaDbfACQC9Jn7C3MVHiTSQTwA==
-X-Received: by 2002:a17:90b:1d12:b0:1f1:8d48:abaa with SMTP id
- on18-20020a17090b1d1200b001f18d48abaamr8685274pjb.96.1658062969611;
-        Sun, 17 Jul 2022 06:02:49 -0700 (PDT)
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com.
- [66.91.142.162])
+ AGRyM1vUK6QXg4Sld7a/gRLPpU6ReqOshFyw+fREGmCVhVKjUxSwiVDK83Hf5rD7HvIVhAr/DxiI/Q==
+X-Received: by 2002:a63:d5:0:b0:41a:58f:929e with SMTP id
+ 204-20020a6300d5000000b0041a058f929emr4798783pga.260.1658069431534;
+        Sun, 17 Jul 2022 07:50:31 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::3bff])
         by smtp.gmail.com with ESMTPSA id
- q18-20020a17090311d200b0016a5384071bsm7215528plh.1.2022.07.17.06.02.47
+ j10-20020a170902da8a00b0016c09e23b21sm7457629plx.215.2022.07.17.07.50.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Jul 2022 06:02:48 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id B85329624F3; Sun, 17 Jul 2022 03:02:45 -1000 (HST)
-Subject: OE-core CVE metrics for kirkstone on Sun 17 Jul 2022 03:00:01 AM HST
-FROM: steve@sakoman.com
-To: 
- <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20220717130245.B85329624F3@nuc.router0800d9.com>
-Date: Sun, 17 Jul 2022 03:02:45 -1000 (HST)
+        Sun, 17 Jul 2022 07:50:30 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] lua: Backport fix for CVE-2022-33099
+Date: Sun, 17 Jul 2022 07:50:27 -0700
+Message-Id: <20220717145027.4109980-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.37.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Jul 2022 13:02:55 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Jul 2022 14:50:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168158
+ https://lists.openembedded.org/g/openembedded-core/message/168159
 
-Branch: kirkstone
+Fixes stack overflow while handling recurring errors in Lua-stack
 
-New this week: 11 CVEs
-CVE-2022-2288 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2288 *
-CVE-2022-2289 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2289 *
-CVE-2022-2304 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2304 *
-CVE-2022-2344 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2344 *
-CVE-2022-2345 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2345 *
-CVE-2022-32205 (CVSS3: 4.3 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32205 *
-CVE-2022-32206 (CVSS3: 6.5 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32206 *
-CVE-2022-32207 (CVSS3: 9.8 CRITICAL): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32207 *
-CVE-2022-32208 (CVSS3: 5.9 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32208 *
-CVE-2022-33099 (CVSS3: 7.5 HIGH): lua:lua-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-33099 *
-CVE-2022-34903 (CVSS3: 6.5 MEDIUM): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-34903 *
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../lua/lua/CVE-2022-33099.patch              | 61 +++++++++++++++++++
+ meta/recipes-devtools/lua/lua_5.4.4.bb        |  1 +
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-devtools/lua/lua/CVE-2022-33099.patch
 
-Removed this week: 6 CVEs
-CVE-2022-2257 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2257 *
-CVE-2022-2264 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2264 *
-CVE-2022-2284 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2284 *
-CVE-2022-2285 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2285 *
-CVE-2022-2286 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2286 *
-CVE-2022-2287 (CVSS3: 7.1 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2287 *
-
-Full list:  Found 15 unpatched CVEs
-CVE-2021-3611 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3611 *
-CVE-2021-3750 (CVSS3: 8.2 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3750 *
-CVE-2022-1183 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1183 *
-CVE-2022-1664 (CVSS3: 9.8 CRITICAL): dpkg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1664 *
-CVE-2022-2288 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2288 *
-CVE-2022-2289 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2289 *
-CVE-2022-2304 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2304 *
-CVE-2022-2344 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2344 *
-CVE-2022-2345 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-2345 *
-CVE-2022-32205 (CVSS3: 4.3 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32205 *
-CVE-2022-32206 (CVSS3: 6.5 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32206 *
-CVE-2022-32207 (CVSS3: 9.8 CRITICAL): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32207 *
-CVE-2022-32208 (CVSS3: 5.9 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-32208 *
-CVE-2022-33099 (CVSS3: 7.5 HIGH): lua:lua-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-33099 *
-CVE-2022-34903 (CVSS3: 6.5 MEDIUM): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-34903 *
+diff --git a/meta/recipes-devtools/lua/lua/CVE-2022-33099.patch b/meta/recipes-devtools/lua/lua/CVE-2022-33099.patch
+new file mode 100644
+index 00000000000..fe7b6065c2a
+--- /dev/null
++++ b/meta/recipes-devtools/lua/lua/CVE-2022-33099.patch
+@@ -0,0 +1,61 @@
++From 42d40581dd919fb134c07027ca1ce0844c670daf Mon Sep 17 00:00:00 2001
++From: Roberto Ierusalimschy <roberto@inf.puc-rio.br>
++Date: Fri, 20 May 2022 13:14:33 -0300
++Subject: [PATCH] Save stack space while handling errors
++
++Because error handling (luaG_errormsg) uses slots from EXTRA_STACK,
++and some errors can recur (e.g., string overflow while creating an
++error message in 'luaG_runerror', or a C-stack overflow before calling
++the message handler), the code should use stack slots with parsimony.
++
++This commit fixes the bug "Lua-stack overflow when C stack overflows
++while handling an error".
++
++CVE: CVE-2022-33099
++
++Upstream-Status: Backport [https://github.com/lua/lua/commit/42d40581dd919fb134c07027ca1ce0844c670daf]
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ ldebug.c | 5 ++++-
++ lvm.c    | 6 ++++--
++ 2 files changed, 8 insertions(+), 3 deletions(-)
++
++--- a/src/ldebug.c
+++++ b/src/ldebug.c
++@@ -824,8 +824,11 @@ l_noret luaG_runerror (lua_State *L, con
++   va_start(argp, fmt);
++   msg = luaO_pushvfstring(L, fmt, argp);  /* format message */
++   va_end(argp);
++-  if (isLua(ci))  /* if Lua function, add source:line information */
+++  if (isLua(ci)) {  /* if Lua function, add source:line information */
++     luaG_addinfo(L, msg, ci_func(ci)->p->source, getcurrentline(ci));
+++    setobjs2s(L, L->top - 2, L->top - 1);  /* remove 'msg' from the stack */
+++    L->top--;
+++  }
++   luaG_errormsg(L);
++ }
++ 
++--- a/src/lvm.c
+++++ b/src/lvm.c
++@@ -656,8 +656,10 @@ void luaV_concat (lua_State *L, int tota
++       /* collect total length and number of strings */
++       for (n = 1; n < total && tostring(L, s2v(top - n - 1)); n++) {
++         size_t l = vslen(s2v(top - n - 1));
++-        if (l_unlikely(l >= (MAX_SIZE/sizeof(char)) - tl))
+++        if (l_unlikely(l >= (MAX_SIZE/sizeof(char)) - tl)) {
+++          L->top = top - total;  /* pop strings to avoid wasting stack */
++           luaG_runerror(L, "string length overflow");
+++        }
++         tl += l;
++       }
++       if (tl <= LUAI_MAXSHORTLEN) {  /* is result a short string? */
++@@ -672,7 +674,7 @@ void luaV_concat (lua_State *L, int tota
++       setsvalue2s(L, top - n, ts);  /* create result */
++     }
++     total -= n-1;  /* got 'n' strings to create 1 new */
++-    L->top -= n-1;  /* popped 'n' strings and pushed one */
+++    L->top = top - (n - 1);  /* popped 'n' strings and pushed one */
++   } while (total > 1);  /* repeat until only 1 result left */
++ }
++ 
+diff --git a/meta/recipes-devtools/lua/lua_5.4.4.bb b/meta/recipes-devtools/lua/lua_5.4.4.bb
+index 6f2cea53147..0b2e754b313 100644
+--- a/meta/recipes-devtools/lua/lua_5.4.4.bb
++++ b/meta/recipes-devtools/lua/lua_5.4.4.bb
+@@ -7,6 +7,7 @@ HOMEPAGE = "http://www.lua.org/"
+ SRC_URI = "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=tarballsrc \
+            file://lua.pc.in \
+            file://CVE-2022-28805.patch \
++           file://CVE-2022-33099.patch \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'http://www.lua.org/tests/lua-${PV_testsuites}-tests.tar.gz;name=tarballtest file://run-ptest ', '', d)} \
+            "
+ 
+-- 
+2.37.1
 
 
