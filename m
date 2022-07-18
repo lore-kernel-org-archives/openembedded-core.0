@@ -1,251 +1,159 @@
-Return-Path: <jdmason@kudzu.us>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E37B3C43334
-	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 22:10:14 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web11.33715.1658182209120058755
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EE3FC43334
+	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 22:54:25 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web09.34113.1658184857023348579
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 15:10:09 -0700
+ Mon, 18 Jul 2022 15:54:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112
- header.b=wclxsuVc;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.167.49,
- mailfrom: jdmason@kudzu.us)
-Received: by mail-lf1-f49.google.com with SMTP id y11so21748762lfs.6
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cdfIS67p;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id bk26so19100568wrb.11
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 15:10:08 -0700 (PDT)
+ Mon, 18 Jul 2022 15:54:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mcr6Y1l11R0QuQk6YUyHhLrC2bpewjrS+akIteCichU=;
-        b=wclxsuVcoO1NQasBD5fK6vZkYLcKb/MlWEVByK3hRmSpjC/bEMjad+OQyoBW1iiS8b
-         Q3/NoVE15Hd5Ml0klAJHEQKaU8WbpTiiM+mau79hUDDmZbwVCMZ9OaflFoC5KWsIj0oj
-         VwNIL06dXssKBqYxcPcLNXYItocWtVGz3YiX1o3xeqj2bSG6IAi02KbQ2wO06t0Yl0WD
-         boRrK7MLVaxiNUlcehBFW1aCiDtlcnfJLN7SPMsTm7jTZsD4D1cqCIbDDKgli63sLvQ1
-         hbQIxkjwCL4ixSxzsfTQKiPMxgmucuoDG4JEd/Zt3e83l9yJC01b+Z1W3czeRJQOftft
-         n6tw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=OyDrorNBRIOOKjIYHrPPY1IIHQTr6wlospgO9X2sSow=;
+        b=cdfIS67pbUF14rqTfdqorn2mtDWQvoYn9GZhH35UinWECdLI3djz7rOQw3GGNihyq5
+         JESmJXshY4UjL8SjXZpX36zpozwqH4QPK+ib5m+TCBeAiRZkB994ady4pjgyD4t1k2ra
+         9CeRJS/v+UACE9V/QHm64Kt8V7dWgg8OYcrGA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mcr6Y1l11R0QuQk6YUyHhLrC2bpewjrS+akIteCichU=;
-        b=WIKfC3WYBpi+I6VaNZAsctEhvvFBez4yyS7OC/9Yqa2rcHVywgVLkiRMC+bJh4SYUg
-         URD1u0oDl9YLwQDul+LVcB71J61AW6N390fyklpHsNHtDGk+qmtVKbgfV9v/2VoO+8gl
-         6/ViCFCg7kG3YXKqxAY+T62YCu5tABJG0j9Wd9ZfWFkv1K1UAm3pmm0C/9hPJjo+FaAx
-         yRyiwe+3jOFGknHyTNFthDgIhgfExtYrDVAwLaupDGx/+LdSET2tVfB8LMrIRh0uufg0
-         JegqPoJZzOue9lfYWxWb+qsYrncoMl/zB3XFbJW3dNNyI8wP4fF6dnmQfvbQVrXsDqw8
-         CF3w==
-X-Gm-Message-State: AJIora9DOgTGTvrHJUmFQP7fpIlowdDEK1Sf8KqNzkZCy5Zl96C5qi9a
-	ZqgjBqYZ3IPhqwE0mOO0b1CsEtAhORTzdo2F7E1BHw==
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=OyDrorNBRIOOKjIYHrPPY1IIHQTr6wlospgO9X2sSow=;
+        b=t22YgXLjgc9u4g+Onth11KQDXs+3pfpVuRKATUw3BTRbHZ/4wVAsplw26MSim+LtSk
+         qnMCwk3RcSuQxaYYAPAP4eFKTBTXlxOO1m4BQbt8vdoKYOF/igOtSX12TsOhznRL64u2
+         8SZbrYo/RQyhaOgSxEx1/gix1SjQssIuUHDWn/0J5+c001+HGBeY2kGKiSVKd9dZPWfo
+         AmZ/61TgIsPLVj+lEeXGiWXxpVuKAEyRhbN541OmJYefOZNnbLPqqoWYgV1qkloKjUpu
+         GNevkKVwD9fn1czrryZFcg/yM4YxH1WZzWl3l8KXAyvk0vT9Kq1Q3jquiOnZoJiQUE5t
+         9gfw==
+X-Gm-Message-State: AJIora+Oy2qw1vtt8LCC5KfeetcfPjf8mZKeqEwpbj/95k9naAfd0VjN
+	sFs/4D+isbSgAyp+u9YidvaLkg==
 X-Google-Smtp-Source: 
- AGRyM1uL8q0+uCUBN7Qjvq9QSZb9UTOlLN3lqd6CLZXW/IYyj/LasvgxeWHCcxeixYwPfJ+s6RO8qx5gH5wmpAxXvSU=
-X-Received: by 2002:a19:6408:0:b0:48a:139e:67b7 with SMTP id
- y8-20020a196408000000b0048a139e67b7mr12212595lfb.203.1658182207119; Mon, 18
- Jul 2022 15:10:07 -0700 (PDT)
-MIME-Version: 1.0
-References: 
- <CAMRc=McXfAzcUrdTLWsHHEo8DyUwU1gUuFTBALwXpJCuA0CoEA@mail.gmail.com>
- <YtWrKcR6y1jWSFtC@kudzu.us>
- <CAMKF1sqZh=fPoYHqh-uuJL6oftkmGoDHHcZkTgivoKapFFerAQ@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1sqZh=fPoYHqh-uuJL6oftkmGoDHHcZkTgivoKapFFerAQ@mail.gmail.com>
-From: Jon Mason <jdmason@kudzu.us>
-Date: Mon, 18 Jul 2022 18:09:55 -0400
+ AGRyM1s1rulUxZnoyM6dp8HeuU1GGMJyi7fio8B7tdbdLNxMgQbmguh1u007PrxQYEK+Zx+ysa7/Lw==
+X-Received: by 2002:a05:6000:2c6:b0:21d:be55:d311 with SMTP id
+ o6-20020a05600002c600b0021dbe55d311mr22964156wry.154.1658184855347;
+        Mon, 18 Jul 2022 15:54:15 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:22db:3f70:c684:113a?
+ ([2001:8b0:aba:5f3c:22db:3f70:c684:113a])
+        by smtp.gmail.com with ESMTPSA id
+ m2-20020a05600c3b0200b0039ee391a024sm21758404wms.14.2022.07.18.15.54.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Jul 2022 15:54:14 -0700 (PDT)
 Message-ID: 
- <CAPoiz9zRWPGLSUNaeTQDO=E60cGD4zRVmnZmHFkSdVLrkx_WmA@mail.gmail.com>
-Subject: Re: [oe] [meta-zephyr] build broken with current oe-core master
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
-	openembedded-devel <openembedded-devel@lists.openembedded.org>,
- Jon Mason <jon.mason@arm.com>,
-	=?UTF-8?B?RWlsw61zIE7DrSBGaGxhbm5hZ8OhaW4=?= <elizabeth.flanagan@huawei.com>,
-	Naveen Saini <naveen.kumar.saini@intel.com>
+ <06a78e1a344f8ee4dbf696b56756781a65463f1f.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 2/2] cargo-cross-canadian: Use SDK's flags
+ during target linking
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Khem Raj <raj.khem@gmail.com>, Otavio Salvador
+ <otavio@ossystems.com.br>,  Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Date: Mon, 18 Jul 2022 23:54:13 +0100
+In-Reply-To: 
+ <CAP9ODKrTbdjMOK5scpWEeh2Fdk0gt4XTdsVR0MLTb7GKEfpKJw@mail.gmail.com>
+References: <20220710164300.953098-1-otavio@ossystems.com.br>
+	 <20220710164300.953098-2-otavio@ossystems.com.br>
+	 <e642480e892b0b411acb509c0de11aa7e52d4412.camel@linuxfoundation.org>
+	 <CAP9ODKooHNY8GyNuY8hDHyscEAJJfCfTXdThVMQW5TOGnjOZxw@mail.gmail.com>
+	 <8e065ede6abdb6065c862bd8b25cdccf2b6828a8.camel@linuxfoundation.org>
+	 <CAP9ODKp1_CV4N-RB+NR4nTdvVgSR=pu6V7q2T2sQ8Pu8w=Ew2g@mail.gmail.com>
+	 <bba9495ce38c56f914c391f054ce2bd77f2bef55.camel@linuxfoundation.org>
+	 <CAP9ODKrTbdjMOK5scpWEeh2Fdk0gt4XTdsVR0MLTb7GKEfpKJw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 22:10:14 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 22:54:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168261
+ https://lists.openembedded.org/g/openembedded-core/message/168262
 
-On Mon, Jul 18, 2022 at 4:06 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> Can you try something like this
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> index 5d74e4494d..61d5bf6058 100644
-> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> @@ -68,8 +68,7 @@ do_configure () {
->     # libstdc++ isn't built yet so CXX would error not able to find it
-> which breaks stdc++'s configure
->     # tests. Create a dummy empty lib for the purposes of configure.
->     mkdir -p ${WORKDIR}/dummylib
-> -   touch ${WORKDIR}/dummylib/dummylib.c
-> -   ${CC} ${WORKDIR}/dummylib/dummylib.c -shared -o
-> ${WORKDIR}/dummylib/libstdc++.so
-> +   ${CC} -nostartfiles -shared -x c /dev/null -o
-> ${WORKDIR}/dummylib/libstdc++.so
->     for d in libgcc ${RUNTIMETARGET}; do
->         echo "Configuring $d"
->         rm -rf ${B}/${TARGET_SYS}/$d/
->
->
-> and see if it helps ?
+On Mon, 2022-07-18 at 18:41 -0300, Otavio Salvador wrote:
+> Em seg., 18 de jul. de 2022 =C3=A0s 18:18, Richard Purdie
+> <richard.purdie@linuxfoundation.org> escreveu:
+> > > It does, indeed, but it doesn't seem related to this PR.=C2=A0
+> > >=20
+> > > Do you know if this has worked?
+> > >=20
+> > > I am asking as I did all development and testing using=C2=A0SDKMACHIN=
+E
+> > > ?=3D
+> > > 'x86_64' and even=C2=A0MACHINE ?=3D 'qemuarm64' worked just fine.
+> > > However,
+> > > looking at some of the logs above, it seems it is using an
+> > > SDKMACHINE
+> > > as i686, so this appears as a different issue for me.
+> > >=20
+> >=20
+> > rust-cross-canadian hasn't officially worked properly or been
+> > supported. In assessing whether a patch is better or worse, it is
+> > useful to know which cases regress and which improve. I had hoped
+> > this
+> > list of failures would be smaller. I will admit I don't know
+> > whether
+> > this is better or worse than before so I guess that is the next
+> > thing I
+> > need to determine.
+> >=20
+>=20
+>=20
+> I told you. I tried SDKMACHINE as x86_64 on a x86_64 host and this
+> worked.
+>=20
+> > What we don't know right now is which combinations work and which
+> > don't
+> > so we can't even tell people what is expected to work and what
+> > isn't/doesn't :(
+> >=20
+>=20
+>=20
+> See above.
+> =C2=A0
+> > I mentioned this report in case someone can work out the pattern,
+> > or
+> > even better, understand what a fix looks like...
+> >=20
+>=20
+>=20
+> I am not familiar enough to Rust boostrap=C2=A0to help here but we spent =
+a
+> lot of time to get the SDK working and I think this is a step on the
+> right direction, at least.
 
-That appears to work for the 2 zephyr machines in meta-arm
+Thanks, I do appreciate the patches. I think we've talked cross
+purposes as I did report my aarch64 test case issue previously and I
+thought this series was to attempt to fix things so the recipe did work
+generically.
 
->
-> On Mon, Jul 18, 2022 at 2:49 PM Jon Mason <jdmason@kudzu.us> wrote:
-> >
-> > On Mon, Jul 18, 2022 at 08:31:39PM +0200, Bartosz Golaszewski wrote:
-> > > Hi!
-> > >
-> > > It seems that the zephyr build is currently broken with master (and
-> > > master-next) for meta-zephyr samples:
-> > >
-> > > Build Configuration:
-> > > BB_VERSION           = "2.0.1"
-> > > BUILD_SYS            = "x86_64-linux"
-> > > NATIVELSBSTRING      = "universal"
-> > > TARGET_SYS           = "arm-yocto-eabi"
-> > > MACHINE              = "arduino-nano-33-ble"
-> > > DISTRO               = "zephyr"
-> > > DISTRO_VERSION       = "1.0"
-> > > TUNE_FEATURES        = "armv7m cortexm4"
-> > > TARGET_FPU           = "soft"
-> > > meta
-> > > meta-poky            = "HEAD:67b9303d72c14d2aedb3f0313cb7b27dfb1499d3"
-> > > meta-zephyr-core
-> > > meta-zephyr-bsp      = "master:6d184ce6b66349a87dc114c7ab59d0dd3bf92785"
-> > > meta-oe
-> > > meta-python          = "master:cb7d3afba838f159a5df4ef5091dba8e770159a8"
-> > >
-> > > Initialising tasks: 100%
-> > > |#########################################################################################################|
-> > > Time: 0:00:01
-> > > Sstate summary: Wanted 101 Local 66 Mirrors 0 Missed 35 Current 98
-> > > (65% match, 82% complete)
-> > > NOTE: Executing Tasks
-> > > ERROR: gcc-runtime-12.1.0-r0 do_configure:
-> > > ExecutionError('/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/work/armv7m-yocto-eabi/gcc-runtime/12.1.0-r0/temp/run.do_configure.2702410',
-> > > 1, None, None)
-> > > ERROR: Logfile of failure stored in:
-> > > /home/brgl/workspace/zephyr-yocto/build/tmp-newlib/work/armv7m-yocto-eabi/gcc-runtime/12.1.0-r0/temp/log.do_configure.2702410
-> > > Log data follows:
-> > > | DEBUG: Executing python function extend_recipe_sysroot
-> > > | NOTE: Direct dependencies are
-> > > ['/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-core/newlib/newlib_4.2.0.bb:do_populate_sysroot',
-> > > '/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-devtools/binutils/binutils-cross_2.38.bb:do_populate_sysroot',
-> > > '/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-devtools/gcc/gcc-cross_12.1.bb:do_populate_sysroot',
-> > > '/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-devtools/gcc/libgcc_12.1.bb:do_populate_sysroot',
-> > > '/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-devtools/libtool/libtool-native_2.4.7.bb:do_populate_sysroot',
-> > > '/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot',
-> > > '/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb:do_populate_sysroot',
-> > > 'virtual:native:/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-core/zlib/zlib_1.2.12.bb:do_populate_sysroot',
-> > > 'virtual:native:/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-devtools/autoconf/autoconf_2.71.bb:do_populate_sysroot',
-> > > 'virtual:native:/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-devtools/automake/automake_1.16.5.bb:do_populate_sysroot',
-> > > 'virtual:native:/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_populate_sysroot',
-> > > 'virtual:native:/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-devtools/gnu-config/gnu-config_git.bb:do_populate_sysroot',
-> > > 'virtual:native:/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot',
-> > > 'virtual:native:/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot',
-> > > 'virtual:native:/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_populate_sysroot',
-> > > 'virtual:native:/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-extended/zstd/zstd_1.5.2.bb:do_populate_sysroot',
-> > > 'virtual:native:/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_populate_sysroot',
-> > > 'virtual:native:/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-support/libmpc/libmpc_1.2.1.bb:do_populate_sysroot',
-> > > 'virtual:native:/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-support/mpfr/mpfr_4.1.0.bb:do_populate_sysroot']
-> > > | NOTE: Installed into sysroot: []
-> > > | NOTE: Skipping as already exists in sysroot: ['newlib',
-> > > 'binutils-cross-arm', 'gcc-cross-arm', 'libgcc', 'libtool-native',
-> > > 'quilt-native', 'texinfo-dummy-native', 'zlib-native',
-> > > 'autoconf-native', 'automake-native', 'flex-native',
-> > > 'gnu-config-native', 'patch-native', 'pseudo-native', 'xz-native',
-> > > 'zstd-native', 'gmp-native', 'libmpc-native', 'mpfr-native',
-> > > 'attr-native', 'gettext-minimal-native', 'm4-native']
-> > > | DEBUG: Python function extend_recipe_sysroot finished
-> > > | DEBUG: Executing shell function autotools_preconfigure
-> > > | DEBUG: Shell function autotools_preconfigure finished
-> > > | DEBUG: Executing python function autotools_aclocals
-> > > | DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common',
-> > > 'arm-32', 'arm-eabi', 'common']
-> > > | DEBUG: Python function autotools_aclocals finished
-> > > | DEBUG: Executing python function gcc_multilib_setup
-> > > | DEBUG: Python function gcc_multilib_setup finished
-> > > | DEBUG: Executing python function extract_stashed_builddir
-> > > | DEBUG: sed -e
-> > > 's:^[^/]*/:/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/work/armv7m-yocto-eabi/gcc-runtime/12.1.0-r0/gcc-12.1.0/build.arm-yocto-eabi.arm-yocto-eabi/:g'
-> > > /home/brgl/workspace/zephyr-yocto/build/tmp-newlib/sysroots-components/x86_64/gcc-stashed-builddir-arm-yocto-eabi/fixmepath
-> > > | xargs sed -i -e
-> > > 's:FIXMESTAGINGDIRTARGET:/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/work/armv7m-yocto-eabi/gcc-runtime/12.1.0-r0/recipe-sysroot:g;
-> > > s:FIXMESTAGINGDIRHOST:/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/work/armv7m-yocto-eabi/gcc-runtime/12.1.0-r0/recipe-sysroot-native:g'
-> > > -e 's:FIXME_PSEUDO_SYSROOT:/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/sysroots-components/x86_64/pseudo-native:g'
-> > > -e 's:FIXME_HOSTTOOLS_DIR:/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/hosttools:g'
-> > > -e 's:FIXME_PKGDATA_DIR:/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/pkgdata/arduino-nano-33-ble:g'
-> > > -e 's:FIXME_PSEUDO_LOCALSTATEDIR:/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/work/armv7m-yocto-eabi/gcc-runtime/12.1.0-r0/pseudo/:g'
-> > > -e 's:FIXME_LOGFIFO:/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/work/armv7m-yocto-eabi/gcc-runtime/12.1.0-r0/temp/fifo.2702410:g'
-> > > | DEBUG: Python function extract_stashed_builddir finished
-> > > | DEBUG: Executing shell function do_configure
-> > > | /home/brgl/workspace/zephyr-yocto/build/tmp-newlib/work/armv7m-yocto-eabi/gcc-runtime/12.1.0-r0/recipe-sysroot-native/usr/bin/arm-yocto-eabi/../../libexec/arm-yocto-eabi/gcc/arm-yocto-eabi/12.1.0/ld:
-> > > cannot find crt0.o: No such file or directory
-> > > | collect2: error: ld returned 1 exit status
-> > > | WARNING: exit code 1 from a shell command.
-> > > ERROR: Task (/home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-devtools/gcc/gcc-runtime_12.1.bb:do_configure)
-> > > failed with exit code '1'
-> > > NOTE: Tasks Summary: Attempted 765 tasks of which 746 didn't need to
-> > > be rerun and 1 failed.
-> > >
-> > > Summary: 1 task failed:
-> > >   /home/brgl/workspace/zephyr-yocto/sources/poky/meta/recipes-devtools/gcc/gcc-runtime_12.1.bb:do_configure
-> > > Summary: There was 1 ERROR message, returning a non-zero exit code.
-> > >
-> > > I don't have any ideas but it looks like something related to the machine tune?
-> >
-> > I haven't had time to bottom out on the issue, but I was able to
-> > confirm that the patch in OE core that breaks meta-zephyr is
-> >
-> > commit 028ecb0c265fa495071cbcca10587c0ba60cf538
-> > Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > Date:   Wed Jul 13 23:12:06 2022 +0100
-> >
-> >     gcc-runtime: Fix build when using gold
-> >
-> >     If gold is enabled as the default linker, it errors trying to link
-> >     to our dummy library empty file and this turns off things which should
-> >     be present in libstdc++.
-> >
-> >     For example, _GLIBCXX_HAVE_S_ISREG isn't defined and HAVE_S_ISREG in
-> >     libstdc++-v3/config.h isn't set properly.
-> >
-> >     Instead of just creating an empty file, create an empty elf binary
-> >     instead which addresses the issue.
-> >
-> >     (From OE-Core rev: 2070bcd10aa3a05c96c8501c6a8c1e129fb1d440)
-> >
-> >     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >
-> > If you revert that, everything is happy.
-> >
-> > Thanks,
-> > Jon
-> >
-> >
-> > >
-> > > Bart
-> > >
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#97883): https://lists.openembedded.org/g/openembedded-devel/message/97883
-> > Mute This Topic: https://lists.openembedded.org/mt/92465636/1997914
-> > Group Owner: openembedded-devel+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-devel/unsub [raj.khem@gmail.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
+If I merge this to fix x86_64, I think people will then just ignore the
+other cases and things will remain broken there which worries me a lot
+and means we can't generically enable rust SDKs for the project and
+gain autobuilder testing to spot future regressions.
+
+Obviously you want your use case fixed though. I will try and evaluate
+things a bit more tomorrow. What I don't want to do is merge a fix
+which then makes it harder to get things correctly done in future
+though, particularly when I know there will be an instant backport
+request to an LTS as soon as I accept it for master.
+
+We never should have accepted these rust cross-canadian recipes at all
+as they are just broken :(.
+
+Cheers,
+
+Richard
+
+
+
 
