@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3AEAC43334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A831AC433EF
 	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 14:51:22 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web12.28268.1658155877588655608
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+ [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web09.28186.1658155873210798043
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:51:17 -0700
+ Mon, 18 Jul 2022 07:51:13 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=ruV0aD87;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.179,
+ header.b=FXel+QQB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.176,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id e16so10810819pfm.11
+Received: by mail-pf1-f176.google.com with SMTP id b9so10819519pfp.10
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:51:17 -0700 (PDT)
+ Mon, 18 Jul 2022 07:51:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=30MClMHSIKzPyo7Uemg7gIcwb5ASB7i8xN4gdDU4odk=;
-        b=ruV0aD87hjDwpFQTygjhhKgUQnhmAjjOXERba6jG5UjTm6ol4LQyHQhLhnkUAh7QED
-         cLuzyg84179ZbPO62ZxdWG+usC4N7wc7VlntMnL3Zq7Z7z/5MYjMpBCRUCdtIqVYBG6N
-         IEnACXsdepGh+y4eLqPEZjKZkW6QOD1wyL99jha6rHVe2yhnk9qyes4C7ipSHdCLoMu9
-         9jrXKGL5t8zQxUD8GzKoAOnE5ptP1PhGOPsWwiJF2uxbDm8TcWqi2U6pzZQva8VmC5RM
-         SYX/Eh7HFqZLjA23ZEFVoiwQ/Fq6PVqg3xni7hAhV0Ql+g82LfK8eryQf8B6uq2BC99M
-         D5ng==
+        bh=3uOrr7pmv04opixLh6bQPRBQN7qKjxjpO6BJi15Y3FQ=;
+        b=FXel+QQB3+ZUB/FsHalDjs81cNhxtrhF+Gk5u3g0fSWZrwERR3pMnbOdgvpY4TnL3i
+         EXyOCrjQvYDjbNQOhLKHcZtYcEQAM4fMvRwMEkC3q6QwFAbnkAMAzoDhbINQ+87oHI6n
+         a69jHeFm95H5vChCxoPoIe9NQbDhopvswXZh5e8DQlvm/6IdnDvEXVeY52NcVwqC1dmb
+         QkU66nDvVcpyyWZlCIMEtT/2/Kd+zlcrzZK1lzKdPu8NsPZmwLjD1NoR4wK018bE7oXz
+         NSYqu6j7FdHx7WL8GBWC280LBBssHJ7W7DHVfuifritHfAVnkQd1uLCymjDe+/KqBw5c
+         29BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=30MClMHSIKzPyo7Uemg7gIcwb5ASB7i8xN4gdDU4odk=;
-        b=C37s7bOrPo93/dlOPC+tZ4fMRyO9yUaPd4uI1nRuVs+joOUybai7yaGLTDklc6mGt2
-         +U3Iivr9ifk1QJUPM+dV8wwxcregkBrCS/2+yUe6M9qst1j6htPxprmpnjD1pNd8SLR8
-         xPLMk4RVssOeOOzJuYYB6HVYPpScvwfJEjXq+Joitv7dhDZvjzdqdMR/jRNZg0F7ZTzP
-         wgKrPNZPgMDRVP6UYd7ue0GGV8mHIiflAHzH8es2MRnnsJDgqn/vpL+qHxKAB8Bh8cxZ
-         IHEJLxf5SKZ7nkZ3QDxy+Or6LV0lVm7gxOyDbbcd+uPKhz6DPAwNfJZBSNe4Gm+aQD7O
-         OxCQ==
-X-Gm-Message-State: AJIora+BVek1VfQJ2JMLcxJz2pmr7/YWTqqs8sGg5F44C2kRhk467Ihu
-	/FCZcz9kwO36/HdQ1Jqv60jRHgrYteLgsAC9
+        bh=3uOrr7pmv04opixLh6bQPRBQN7qKjxjpO6BJi15Y3FQ=;
+        b=BNuRaQsxJexp91qeyxhEvf8w+J3GOYBJK2LGUu0pYJynKX9xKGMgSYmKmgHi4h22FX
+         ht8nQH6PYXrK6yEwo304preEGOwWsQ4QvPIVokFOjpY6GN5tHr8PLGBrH6PxbtbBlq1E
+         e6IIiTaNwkLyhRfd+eVe0rKr/kCC3qbPBLbRretR5O9cBBIf5+5FicKTWkJUfpS+Rghi
+         vAZt2O/nCLMKbDB8III7v+Ab82/1wJmLojemChWujNCGRh+kCj2+mZ7kIdz8Zwxy/3T0
+         KJ11YHbAKnJDvF0t4DqOaVa4zG2wz/qQnF051VKsHhwqPQc0Lt5iyZLOA+YuoBHwQSxK
+         3xtA==
+X-Gm-Message-State: AJIora9gkieG/ywypF2d1Vy/UTK96950VWmRc0p0ZB8TDAP7cpWIRxR4
+	ztoBfKZOcMs+0V9bKHmPpMX7HKhf32lYSL/L
 X-Google-Smtp-Source: 
- AGRyM1uMFujqnk3FJfzJg2jeD6X9FZuGpF+IKGdW1JfkWjf4tj1NfuoZLICeYSIn8sGdiC4KQMxQsg==
-X-Received: by 2002:a05:6a00:2446:b0:528:5f22:5b6f with SMTP id
- d6-20020a056a00244600b005285f225b6fmr28824683pfj.73.1658155876557;
-        Mon, 18 Jul 2022 07:51:16 -0700 (PDT)
+ AGRyM1tjZr639W9PbHhziHu9cBPFPdBGPvtMQI1OkiBtempHWKEzTtS/BZnbPUY+2APK68d1ark20A==
+X-Received: by 2002:a05:6a00:2446:b0:528:5da9:cc7 with SMTP id
+ d6-20020a056a00244600b005285da90cc7mr29153947pfj.51.1658155872148;
+        Mon, 18 Jul 2022 07:51:12 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.51.15
+ ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.51.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 07:51:15 -0700 (PDT)
+        Mon, 18 Jul 2022 07:51:11 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 35/35] pulseaudio: add m4-native to DEPENDS
-Date: Mon, 18 Jul 2022 04:49:00 -1000
+Subject: [OE-core][kirkstone 34/35] externalsrc.bbclass: support crate fetcher
+ on externalsrc
+Date: Mon, 18 Jul 2022 04:48:59 -1000
 Message-Id: 
- <f1c2e21a28f8ad5dc6ff7b0db877aa22e01a9e00.1658155579.git.steve@sakoman.com>
+ <73cc5a1cc62df616c2705280c8de27c38bb2ff0f.1658155579.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1658155579.git.steve@sakoman.com>
 References: <cover.1658155579.git.steve@sakoman.com>
@@ -69,37 +70,35 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 14:51:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168235
+ https://lists.openembedded.org/g/openembedded-core/message/168234
 
-From: Ross Burton <ross.burton@arm.com>
+From: Chanho Park <chanho61.park@samsung.com>
 
-Normally m4-native ends up in the sysroot via the toolchain, but if a
-non-standard toolchain is used them m4-native may not be installed.
+To support crate:// fetcher on externalsrc, we need to make pass-through
+the URIs in SRC_URI.
 
-However Pulseaudio explicitly checks for m4 in the meson.build, so add
-it to DEPENDS.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Chanho Park <chanho61.park@samsung.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ddf846635783923d43520c9dd6f63ca59ed6e3b8)
+Signed-off-by: Richard Pastrick <ripastri@linux.microsoft.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
+ meta/classes/externalsrc.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 821ce7d1df..61d5bb00ba 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -61,7 +61,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0e5cd938de1a7a53ea5adac38cc10c39 \
- "
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index b2f216f361..90792a737b 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -68,7 +68,7 @@ python () {
+             url_data = fetch.ud[url]
+             parm = url_data.parm
+             if (url_data.type == 'file' or
+-                    url_data.type == 'npmsw' or
++                    url_data.type == 'npmsw' or url_data.type == 'crate' or
+                     'type' in parm and parm['type'] == 'kmeta'):
+                 local_srcuri.append(url)
  
- # libtool is needed for libltdl, used in module loading.
--DEPENDS = "libatomic-ops libsndfile1 libtool"
-+DEPENDS = "m4-native libatomic-ops libsndfile1 libtool"
- # optional
- DEPENDS += "udev alsa-lib glib-2.0"
- DEPENDS += "speexdsp libxml-parser-perl-native libcap"
 -- 
 2.25.1
 
