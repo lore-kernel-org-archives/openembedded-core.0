@@ -2,65 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D738C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F74FCCA481
 	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 00:32:08 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web12.21880.1658104323044016070
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
+ [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web09.21807.1658104326789382426
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Jul 2022 17:32:03 -0700
+ Sun, 17 Jul 2022 17:32:06 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=ljl6s1Vh;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.41,
+ header.b=mF5kBt7O;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.43,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f41.google.com with SMTP id
- q5-20020a17090a304500b001efcc885cc4so11114913pjl.4
+Received: by mail-pj1-f43.google.com with SMTP id
+ cp18-20020a17090afb9200b001ef79e8484aso11430011pjb.1
         for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Jul 2022 17:32:02 -0700 (PDT)
+ Sun, 17 Jul 2022 17:32:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=4dhPJDOJV/VDKDc0zjAO3ADTjmgmQzZIZR6lTDX1OHE=;
-        b=ljl6s1VhhesX4SJsEHxr2AXRusp0NgGQyOe7OUySjUSxem+t7foB2xt0sLf1/KaViv
-         KWli1U0IMMtX0VazW6mcPC+wCGqRehyZkymzSFVk36vfLZKQyT8qlfqnyP6OSnTFhOAC
-         5KbO/zWEnYsNbTChKGIfyhqldfAF3UeLyZf4auqoUX15J6AK2Ya5fNCX3xnOVI3VkZO7
-         i36Eon4yFq88Kr8j3tFVUVgo8j/pK5abFyPRdy9lg57jgp6xLz0pomqowudqrHIrhRgR
-         vnnPMXpz8HaeET0OUf+YZZZBBkNBf68/Ijg4UJ8whvyw8Ja3eVRpxB844PbbYu0lRUQI
-         H8gQ==
+        bh=TvV7oFUoAaTTFHJs+cBr+XzFq5HFWtkJx78pMidctVU=;
+        b=mF5kBt7OoX9b/BGJnrEfBZZS1bmTzI/9tKXtrkjnTT6UpLud+bxqKr1SNFuEg7gjzA
+         X8lqdpIKFVaOK469PwZKSSespxc7+i6T+1GrAVQBzokFB8yZlZK7NxiFVLKjBWuldS0K
+         N8E9dIL5+945pR3fIOfP6v2JJ7RXUBpz0OWmCo38uQ4GW3V8a+HoUKfG1focix1/Z4QJ
+         HPirZTBafoIs40UV11vSIOcyB6IgEAkYtykrAYrhDrBT+COFRnSYMHKfmihwDP4s51Xo
+         bcMnmW05IoHYChKc3loP0tUkaDcOIqIxbhH+jUhjWpPyxWmvTHe5dYiJWRgrzLENKadm
+         MHRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=4dhPJDOJV/VDKDc0zjAO3ADTjmgmQzZIZR6lTDX1OHE=;
-        b=eDXAGSFtaZ9DuU4y4ycB3dG5Qkl2HMjMHJfh5z6DzyOfFWAxPVC6oCu+A7PQs/w9gI
-         moDKOx7qacfjJPGbQBWQOHQOuhJa4AU3M4GD1EYuSIYHrHw+b/KPMBXBbE1J2WKWlmNF
-         JcktECt+QvnPOQom6/aROVdqWN4jB09Dq5eh5I3Qd/bKLYMSv1SrncXAUgtJ1I7EWFbc
-         wL3wQ00mhgbg1B3YMzDZioNjcZJGnlCLQ1gMVl5/rPiNMdiYfdghOJrKWQJ+zJol+TUm
-         5uGwm/j79c9wsUixUAcA2YPF5dnpE4Az/KlnFncwe0z8FqW9sI+S/6o6C8CvkjkozyDa
-         E16w==
-X-Gm-Message-State: AJIora8qzT5mkruajcswUigZ+hwuonM4nb1kuBrcr11iRvlXM8bV4T++
-	Ky8iUHFsulGGDUaAt41XXGXUZMEw8biKSu6x
+        bh=TvV7oFUoAaTTFHJs+cBr+XzFq5HFWtkJx78pMidctVU=;
+        b=m+COD9R2DBvJYPwJwyd1sF8tO18Jl02Q5vWcQC7ioipUBEFFv4f5/PSHWaO0p14vr8
+         0c4aMsKr0XruLge9cWSfyeIwvhx9YU7PE4h/Or3/OpmI0dxu/WjjRV/Hc6G8tqigK3xF
+         5j0BZMbkh7OxA4fUN0LtcHbSCMqDdngUjg5Pwsw6svEKjngo4v0Yy6hoOtpsCC7qvD08
+         3YAWTTgwA4en7PcZIjMFLm/FQjTc2gEyqvxAYYLzrqcTuKR3+7Gm9TtsN1tkfgpilGUq
+         17DlG4VyXpPymsUCtUIaqDiiwv6lmdAbYZPE4ak9tJ+j85HVjJnIV4HfdqdbR/yhefmU
+         nOxg==
+X-Gm-Message-State: AJIora8c29VRKvCvQLpIH+6P4P8E4xnulZ83pvMTGCUj6fx6eCRiRT5m
+	aRvg+THiC+g2jLVemm3XshDIZZGBlWUrLfYu
 X-Google-Smtp-Source: 
- AGRyM1sMkIDC/VJrEUyDMIM2ZhGRHd0n12gOzDclxQiBPK/cvmEvqNt+rH6yG6Tbx7OhHEaXP13vzA==
-X-Received: by 2002:a17:90b:3e83:b0:1f0:4233:b222 with SMTP id
- rj3-20020a17090b3e8300b001f04233b222mr35490609pjb.218.1658104322006;
-        Sun, 17 Jul 2022 17:32:02 -0700 (PDT)
+ AGRyM1sVTwKckEFClByS6G63QkCeCmo7Cq3/7eQz4WLjlFRsW5xmr7vTAjT+jni/KBSSo9Kyfqsm8Q==
+X-Received: by 2002:a17:902:e153:b0:16b:dccf:5a89 with SMTP id
+ d19-20020a170902e15300b0016bdccf5a89mr25860920pla.69.1658104325745;
+        Sun, 17 Jul 2022 17:32:05 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- s30-20020a17090a2f2100b001ef831a2015sm9958183pjd.22.2022.07.17.17.32.00
+ s30-20020a17090a2f2100b001ef831a2015sm9958183pjd.22.2022.07.17.17.32.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Jul 2022 17:32:00 -0700 (PDT)
+        Sun, 17 Jul 2022 17:32:03 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 19/23] kernel-devsrc: fix reproducibility and
- buildpaths QA warning
-Date: Sun, 17 Jul 2022 14:30:20 -1000
+Subject: [OE-core][kirkstone 20/23] kernel-devsrc: ppc32: fix reproducibility
+Date: Sun, 17 Jul 2022 14:30:21 -1000
 Message-Id: 
- <ff5b50458a7018c157df9b5f039d80434b0e6e24.1658093505.git.steve@sakoman.com>
+ <3480149a102737a198ba1929c6cdd4ea5a966739.1658093505.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1658093505.git.steve@sakoman.com>
 References: <cover.1658093505.git.steve@sakoman.com>
@@ -71,46 +70,41 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 00:32:08 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168184
+ https://lists.openembedded.org/g/openembedded-core/message/168185
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-We've been removing .vdso-offsets.h.cmd for quite some time, as it
-is not required to regenerate scripts or to satisfy the prepare
-target in the kernel source.
+In a similar manner to the arm/arm32 reprodicibility fixes,
+we can also fix ppc32.
 
-That being said, there is a secondary location that this file may
-be found, and since we aren't detecting or removing it, we end up
-with embedded build paths, which cause both reproducibility and
-buildpaths QA warnings.
+The file .vdso32-offsets.h.cmd has captured paths, but we don't
+need it on target or SDKs to regenerate a build enviroment.
 
-We can test for both files, and force remove them if present, and
-we'll fix this new location of the file and not risk breaking
-any old kernels.
+We add it to our vdso-offsets list of files to delete and we
+no longer have files patckaged with buildpaths.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e0a9433685397b716920fa9ad5d5a7be95c496f7)
+(cherry picked from commit 2a142b68b232ff7728f4eb945eea923c64e7ebd5)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/linux/kernel-devsrc.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 9654488a54..ee5d8d9ab0 100644
+index ee5d8d9ab0..f8f717199c 100644
 --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
 +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -128,8 +128,10 @@ do_install() {
- 	# breaks workflows.
+@@ -129,9 +129,11 @@ do_install() {
  	cp -a --parents include/generated/autoconf.h $kerneldir/build 2>/dev/null || :
  
--	if [ -e $kerneldir/include/generated/.vdso-offsets.h.cmd ]; then
--	    rm $kerneldir/include/generated/.vdso-offsets.h.cmd
-+	if [ -e $kerneldir/include/generated/.vdso-offsets.h.cmd ] ||
-+	     [ -e $kerneldir/build/include/generated/.vdso-offsets.h.cmd ]; then
-+	    rm -f $kerneldir/include/generated/.vdso-offsets.h.cmd
-+	    rm -f $kerneldir/build/include/generated/.vdso-offsets.h.cmd
+ 	if [ -e $kerneldir/include/generated/.vdso-offsets.h.cmd ] ||
+-	     [ -e $kerneldir/build/include/generated/.vdso-offsets.h.cmd ]; then
++	     [ -e $kerneldir/build/include/generated/.vdso-offsets.h.cmd ] ||
++	     [ -e $kerneldir/build/include/generated/.vdso32-offsets.h.cmd ] ; then
+ 	    rm -f $kerneldir/include/generated/.vdso-offsets.h.cmd
+ 	    rm -f $kerneldir/build/include/generated/.vdso-offsets.h.cmd
++	    rm -f $kerneldir/build/include/generated/.vdso32-offsets.h.cmd
  	fi
      )
  
