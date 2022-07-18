@@ -1,339 +1,203 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <wentao.zhang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B65BFC433EF
-	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 07:42:20 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web09.24546.1658130134531055447
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2506C43334
+	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 08:32:20 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
+ [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web12.24860.1658133138058091577
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 00:42:14 -0700
+ Mon, 18 Jul 2022 01:32:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=KMPl8YVB;
- spf=pass (domain: gmail.com, ip: 209.85.128.50,
- mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id p4so6610681wms.0
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 00:42:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HkRHD7kBpoKWCdsjARi0kILbZejHxPoCbfiFi3BRpmU=;
-        b=KMPl8YVB7f7vdIUVaYxzkwA2m/boCurd+wXN6UQqdHPyUrJNkRA7ULelZZT9p0Lfbw
-         6psIwW2BVpMJM2yc/7jr3qptYKLT4RtkDynZiEF9DYSybSRNNwW/b0FvaDAx2G8MX1vs
-         Xl7u3jusuruOyO6LQBhiyVuPRKR4gTNKabIPKy4yBfbE+dmJ8vDvyMURAyKCgqhQp1RH
-         7TWmCTqaA3y7y4IdAo9z35SsuNmgxio5Md6CyfXUBbjaM3K1wvVGX7ryhou4fTAm0Ncu
-         9Wv2+FJIt+BzHBnfUDve8ffsEZ+vFcl6ya24rH/9mbCVYy2qJpy9pQXGbkpQV9VsGK91
-         33xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HkRHD7kBpoKWCdsjARi0kILbZejHxPoCbfiFi3BRpmU=;
-        b=HBnv4qbG6Ev1ywi83hINbRwoAW/6XPP5JTIHL4WelZdgfNvG4YKv0cTW31N1RommA1
-         XIKQgjarzzqJupTZI7gOPLwfEdnHKNzDIWl5psGYlzG+Utlp4CdUuhgqzPLkjL9VSRZh
-         pxdJj2BEtas41TFW63gh3QvNI5Qs6HEHHGZMizkYlFS4gvwnFZhQg2yjiPAuPGVSYpua
-         dspYawd+fyR7LqO7aXtHsuvi8Jyk2UALKwInYwgermzjbSw1hU20uMIubFmbfqE2sqCf
-         JLGDkQYnwXDCU4rAwiZDP7O8suRNtLOoJdYhYoAr3SDOsa4tADF1/iI+SJWQf9HnUEKC
-         nzAA==
-X-Gm-Message-State: AJIora/g+UpK3GEsxC+DArOeME8pEFggxZQdy/rNaf1hx4SG9MCxrEXy
-	Pu83ggpaESk26cTXtr8OwRkN7oASZ6t3XNgZXSg=
-X-Google-Smtp-Source: 
- AGRyM1viz8KbVx6UBd+MR0sFhTjQpp/H7wpCOgjhfUBOP238JBv9PUcc6NluGYYtJtHa6NL7U/soPH6PpXA9AKipYZs=
-X-Received: by 2002:a7b:ce13:0:b0:3a3:102c:23d3 with SMTP id
- m19-20020a7bce13000000b003a3102c23d3mr11775667wmc.67.1658130132951; Mon, 18
- Jul 2022 00:42:12 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=OIa0+9en;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.166.238,
+ mailfrom: prvs=4198963d11=wentao.zhang@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
+ 26I8WB7a004406
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 18 Jul 2022 01:32:17 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS06212021;
+ bh=oGjd3bBbhUL9irUg8cXReS9NM/keWK6fAzZgyg4+Jlg=;
+ b=OIa0+9en1U6fYpXEt6ZAmUmfNxyj91mmLr6xhwB2xMMozuoNQo6LpHD3gBLQQR2XRA+q
+ BKbPz5d12w4dSgcdojfX3p9WgCqO8k/RVjpDLN8qqNFgwZrMJd9SA1KeE5MPKoPH///L
+ RzqDyOTmnOu2Vv5L0jOTei1xB6eEE5Wj6JtecrpapDmUfUFiwF0epddgnTWwSLVHxmAK
+ lLTfrnInbC3dP3JlmmiiVOxK8uAbUJ18Ii8oH1YXPo8OmquCXOgTxeb16uNnQvqfNJ/U
+ cds9C92C5DBvwh37mpbMa0/CeSDvxR73Bz4E2AeniWP++BwIc02EkDbsnWcRpyFUg+rO OQ==
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3hbvuks0vq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Mon, 18 Jul 2022 01:32:17 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DwBwBxiSUqZozjGpGl4Lsi+VpSqfHExvU20esX2MGXA8Zhinof7qCgb7rTa9hF1h3p4Uh31LdntDR4cPea6f1noRR83V1j/aQzuqEdccZBkbWpxxDGtfIg7rIrctZOQyh4s0/rL1HBj+0OmOwFlbbnxepY8mw0mJhqrCKAJswjOFmphD3dXDjJI1vayO/SicO8LZhVYQBZksneDieOliO33yMDNtqzWbmOxVZu/ORDZUnCsKHgaVenY41eWOvXFd0Yv3U5HU4FxaqfF8M5hd1gw35aixoKwOJuM9Ln76K2MLqBLWrFWbZsQzCUyhelBE2SzfGoa5UuytxpHygpfxdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oGjd3bBbhUL9irUg8cXReS9NM/keWK6fAzZgyg4+Jlg=;
+ b=NBHUzb6YQGPmoZFvdpFIgzpzvN0C0Zi6RtH1nFYRusYqSsY9ycDN9nmDLpYKUgFjcSd9L4H8GV45YxwmsjE4uUEgLAqfNWegJUSrknK8wxAnQ4wpYtshvKuLZ7jR4+n/vz2PP4Go0hNKZ/8+P9rTUfGU68o0b8YJYWzrdoaiimbZcEW6id7CQ6Z/bAag8r4eEsVUCt1RzywDvZOd3RudZGw1+hUhGRHvFawjxQHnxicsrn7OkkFHvwer5GQ7vEZnjb+kbVaGMBslvFMGZFngaJd0qs2OvmOAvG9vn/PmdBgA5z4/A2GAuh7CYKIFt+I620l30LPB6XD6n5xhiriycQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SA2PR11MB4938.namprd11.prod.outlook.com (2603:10b6:806:fb::14)
+ by BN6PR11MB4147.namprd11.prod.outlook.com (2603:10b6:405:80::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.12; Mon, 18 Jul
+ 2022 08:32:15 +0000
+Received: from SA2PR11MB4938.namprd11.prod.outlook.com
+ ([fe80::5986:e5e1:9cc8:cdc0]) by SA2PR11MB4938.namprd11.prod.outlook.com
+ ([fe80::5986:e5e1:9cc8:cdc0%8]) with mapi id 15.20.5438.023; Mon, 18 Jul 2022
+ 08:32:15 +0000
+From: Wentao Zhang <wentao.zhang@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][kirkstone][PATCH] harfbuzz: Fix conditional
+Date: Mon, 18 Jul 2022 01:32:04 -0700
+Message-Id: <20220718083204.6069-1-wentao.zhang@windriver.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR03CA0019.namprd03.prod.outlook.com
+ (2603:10b6:a02:a8::32) To SA2PR11MB4938.namprd11.prod.outlook.com
+ (2603:10b6:806:fb::14)
 MIME-Version: 1.0
-References: <20220712143734.204094-1-ross.burton@arm.com>
-In-Reply-To: <20220712143734.204094-1-ross.burton@arm.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 18 Jul 2022 09:42:00 +0200
-Message-ID: 
- <CA+chaQfdXZ4b2duzorAdT6+aWMj8ghv2VJLG78jV5vPNjJf45w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ltp: fix builds when host ld doesn't know about
- target ELF formats
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org, nd@arm.com
-Content-Type: multipart/alternative; boundary="00000000000090e53805e40f81fd"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: deee22bb-5c71-450e-7b88-08da689804f1
+X-MS-TrafficTypeDiagnostic: BN6PR11MB4147:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	GBsUeCZZOB6muCXzZfPLdCwdIdxhLKbsigclSfoOgppVakobtktyP15VRq7Ma8I6kHpDl7hd3bR4JJ0rtUWB/IpRX96DG05gTl4t+6mZ8ofjEm0dlhKlbyKzrMr4boZFmrg0Z37wxVPfndDtMPjDokBlcXdankTzwI4v403LN55g3/aedMKhwGXi9DKQtLGykB7KMArNhlpFL1vo4ZTtO2j+eKp9baxVCcvvoMjKLOgu6eyi0Ots45Y2NN9QGJnRafk1gNPD79cbVW/OFuZDw26T+QW7oDqx9r1sLSucNefna8nYJAkD9v8Q2ClgTFQOKRiEhqE9kz1GgUlxx4tgVpuaEYM++TZu+zlmZji6Bs5kfh9+Rbt+RnPO76+q3IlrsIyNJ5mCwpHuDBMcfisZ0JiOIJXc/TQPC/Wg+15m+mAzcqhgyI+sY4CYZFcXc7tapqgUzsZjcl6yhljdh+qiYE/ckWLk32Ag9lln8X98q6Fyo+92aioZ78ShZlFli+5s1pJW8ux+dYhBvtQO8fp140RuDNseNKRMEUGcpwENFyLUFxGoWapj/YkN1o8Gqf23phgGr7gdymyCzMEsoK2s4y+/tsPi6NIV9tVsR0rL/ZaJ2uUlQZFcYPaQ37ZbQHqhms4gVtqQCKhNay5Fdvxdc6u+mGs0ENvFgo3Mxam8wx7nrikwDTg0VmM2NTl9qod/6AJ3krvrzM4v0pYkYPNZC/tU6dP4irmlBRpjBzy/CzgjWPwGvo4I7z2ndHdJe2yM2AxqGNQ38vfh35ZB/v5sEdcXr9oDpmQrWv4VYcZUKFB7wTSFhmtRIYFOqA2bjAXJDqfY9xFSfpdgP2Ni2cBuI4xQrQbVegwgQL3h2AUtH8AUlz1VHPIoGTBFOn2a8zdL
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA2PR11MB4938.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(376002)(136003)(39840400004)(366004)(396003)(316002)(38350700002)(6916009)(38100700002)(66946007)(66476007)(66556008)(8676002)(36756003)(186003)(44832011)(26005)(2906002)(6666004)(41300700001)(83380400001)(6512007)(2616005)(966005)(6486002)(5660300002)(8936002)(6506007)(86362001)(52116002)(1076003)(478600001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?csbRiWH5a5ZVlIY7ZqfxLEPvQP4TheqJNf6bdZQMq/KBgXWdIneVXrMnV2Q/?=
+ =?us-ascii?Q?xq2L0eKMYqfs4kCQ7oX4r6jlzYQ+1VP9gUL5H4iy1YK62nEPXLx3ReUtGLM8?=
+ =?us-ascii?Q?rWCHFYKrcyygfvmZjJoxZLAiFz0HJqK8MOFlxxGOAlM3AzlEe7jyK2rzkaEm?=
+ =?us-ascii?Q?2BF/RiiF0ROEK02Biw/7BNk3ZrJoMR+ZHqxVzN+hbuLiFpUZuRc+VaGJlDLP?=
+ =?us-ascii?Q?Oox8tjS5FpuKTL3FI9YKjQajWHrZxa2xQi/1VoE3865cmqr5Cfl1wOL4mTL+?=
+ =?us-ascii?Q?/4pNF3d6jOvZnuE1gccSKlamUNYfRjtN9ahuhhj4bhM0zPCHT607DYyQpF9M?=
+ =?us-ascii?Q?PqUdISil6M59FEYMhrS8rt0IPPQY90znja0BkuW6DT0xqqzvt3uchyUBDKuH?=
+ =?us-ascii?Q?ewintCdf4MslJZ0jkmSRKkypRTeBq+IHI6y1nvxvpXJbVXCM/VzED2D1XD4D?=
+ =?us-ascii?Q?YhtrduXZIV1q4RZgsbY+T6E4xPG7Ed2R68xQFYRujUmvjOxeWF4xen4vpuMG?=
+ =?us-ascii?Q?5EXZ/+cYso14I3AYc8bxlyAUGW41Wvhf/93X2ancD6cMorS9ZrngUR775iuT?=
+ =?us-ascii?Q?bX46rdJzonRxzllVT03gGShMDN+YEMjnKoHcZc4JICrwLsyOemxGa1SiQhSd?=
+ =?us-ascii?Q?6va/pyl47x04Wvnk0GV1EbI+N4sE3QuT+ymg5pEwvjYR5iEffvpkdbnDtqzT?=
+ =?us-ascii?Q?lInu7s7IQkPbNKWaxFo7FgkVpY95Xh35K5TZN8ySGeeIvFYd5jLu251k5QY/?=
+ =?us-ascii?Q?KlYXlywtWhs1I2m8tprNXeA7o0+qI0iUFsLcKmT4wLcJjDIFi03Ulv1VPpyb?=
+ =?us-ascii?Q?ptToM2GBVxmpkcyjRx2zYi5bPdGndYvspuNLcrBSZL1DTQCPDNiW/XMN0J/L?=
+ =?us-ascii?Q?HI9bu84WAncxvpFlJDsfLdeh/JKj+tWCHN9UPLgC9HeqS4P/EFNGllJmpNcG?=
+ =?us-ascii?Q?B4S98GZbZRmDt8Q+4T6MA5eUjucAOiwIYmeUDswQyi8He/qL74dxRX2ME5ha?=
+ =?us-ascii?Q?kh38bDqOu8gkf7OuR4RBE8EpSrKSBKixjrKkqKlEWd6GmB8G+3/uoHwmityF?=
+ =?us-ascii?Q?Fi1xwnAZbLDvSpXZsN4KAAFgh8aaHmK1jAAKmq/TWAqqqbaL3YGL946SrrMA?=
+ =?us-ascii?Q?pyof+QuI+agG7VXUko8eLnNAawildbOFoITpy+5b+8AJSYB+AaVVyGeQ/AVF?=
+ =?us-ascii?Q?8I5eCFqtTM2irPjSD6zULEuTS0Sml51odyQO8eXReby62UZ38ckf3FEYgjpu?=
+ =?us-ascii?Q?vljbUzTKvaoYTnN8k/djOTR0Ai7BMPk0UP5sLfz2leloIeonp1hLa4BKe4bR?=
+ =?us-ascii?Q?LXYqzPoDKEkmpTejpgJSJUH/HhnsxTaeqfmbl3CnK69FgtZLxPZSV9ZBKXPt?=
+ =?us-ascii?Q?wV1NHmVzO035dFWfY1CPnHIBLxVM1tN20iACtg8hGgMvhEUikMAXE1cPPJ7f?=
+ =?us-ascii?Q?4ZW9Uk+T+mpBfEyy3AoJ4vGKtuuYRybydzQAkZD49JY6kDqRlWs8ciZQDEwz?=
+ =?us-ascii?Q?2Y+qqN6QgkhHmNpyc3HxdKZ320jgjDxdk7rGlL2iTHQxexpgDtKwg0jS0fU9?=
+ =?us-ascii?Q?BsMPJtwKpZOCRhzqw81njSgcGiUVegi68t7tR33mG1sqTJADVhyLjRnOIXGS?=
+ =?us-ascii?Q?mQ=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ deee22bb-5c71-450e-7b88-08da689804f1
+X-MS-Exchange-CrossTenant-AuthSource: SA2PR11MB4938.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2022 08:32:15.4692
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ /BtmVie5bK3tWNfUZTs7VxSmti+LrYx6cetsHnVkvheUI66IcN591+EUn/4yRwlATCvu2Valuf3+5t4s7CZd0hJeGsxZLtEGXameRE8AR7w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB4147
+X-Proofpoint-GUID: vfUEXu2W_0xHJeTizmS8jokaYnreTfZM
+X-Proofpoint-ORIG-GUID: vfUEXu2W_0xHJeTizmS8jokaYnreTfZM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-18_08,2022-07-15_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ mlxlogscore=863 suspectscore=0 clxscore=1015 malwarescore=0 mlxscore=0
+ phishscore=0 adultscore=0 impostorscore=0 bulkscore=0 priorityscore=1501
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207180035
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 07:42:20 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 08:32:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168193
+ https://lists.openembedded.org/g/openembedded-core/message/168194
 
---00000000000090e53805e40f81fd
-Content-Type: text/plain; charset="UTF-8"
+From: Wentao Zhang <wzhang4@ala-lpd-susbld2.wrs.com>
 
-FYI: This might be causing build issues with ld-is-gold:
+Backport patch from
+https://github.com/harfbuzz/harfbuzz/commit/e421613e8f825508afa9a0b54d33085557c37441
 
-| i686-webos-linux-ld: error: kvm_pagefault01-payload.bin:1:1: invalid
-character
-| ltp/20220527-r0/git/testcases/kernel/kvm/Makefile:55: recipe for target
-'kvm_pagefault01-payload.o' failed
-| make[3]: *** [kvm_pagefault01-payload.o] Error 1
+Signed-off-by: Wentao Zhang <wzhang4@ala-lpd-susbld2.wrs.com>
+---
+ .../harfbuzz/harfbuzz/Fix-conditional.patch   | 27 +++++++++++++++++++
+ .../harfbuzz/harfbuzz_4.0.1.bb                |  3 ++-
+ 2 files changed, 29 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz/Fix-conditional.patch
 
-The previous patch to use bfd:
-https://git.openembedded.org/openembedded-core/commit/?id=674fd0c423f3a8911d73b4319ab23bd9b3f1bbac
-was doing it only through -fuse-ld=bfd in LDFLAGS which doesn't seem to be
-used here.
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz/Fix-conditional.patch b/meta/recipes-graphics/harfbuzz/harfbuzz/Fix-conditional.patch
+new file mode 100644
+index 0000000000..ed2b606c00
+--- /dev/null
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz/Fix-conditional.patch
+@@ -0,0 +1,27 @@
++From e421613e8f825508afa9a0b54d33085557c37441 Mon Sep 17 00:00:00 2001
++From: Behdad Esfahbod <behdad@behdad.org>
++Date: Wed, 1 Jun 2022 09:07:57 -0600
++Subject: [PATCH] [sbix] Fix conditional
++
++Upstream-Status: Backport [https://github.com/harfbuzz/harfbuzz/commit/e421613e8f825508afa9a0b54d33085557c37441]
++Signed-off-by: Wentao Zhang<Wentao.Zhang@windriver.com>
++---
++ src/hb-ot-color-sbix-table.hh | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/hb-ot-color-sbix-table.hh b/src/hb-ot-color-sbix-table.hh
++index 6efae43cd..d0e2235fb 100644
++--- a/src/hb-ot-color-sbix-table.hh
+++++ b/src/hb-ot-color-sbix-table.hh
++@@ -298,7 +298,7 @@ struct sbix
++ 
++       const PNGHeader &png = *blob->as<PNGHeader>();
++ 
++-      if (png.IHDR.height >= 65536 | png.IHDR.width >= 65536)
+++      if (png.IHDR.height >= 65536 || png.IHDR.width >= 65536)
++       {
++ 	hb_blob_destroy (blob);
++ 	return false;
++-- 
++2.34.1
++
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb
+index 81518a53ea..54ac194eae 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb
+@@ -12,7 +12,8 @@ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
+ UPSTREAM_CHECK_REGEX = "harfbuzz-(?P<pver>\d+(\.\d+)+).tar"
+ 
+ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.xz\
+-           file://CVE-2022-33068.patch"
++           file://CVE-2022-33068.patch\
++	   file://Fix-conditional.patch"
+ SRC_URI[sha256sum] = "98f68777272db6cd7a3d5152bac75083cd52a26176d87bc04c8b3929d33bce49"
+ 
+ inherit meson pkgconfig lib_package gtk-doc gobject-introspection
+-- 
+2.34.1
 
-Will check if it was really caused by this change after my builder gets
-online again (now in memtest86 with sad results).
-
-Cheers,
-
-On Tue, Jul 12, 2022 at 4:37 PM Ross Burton <ross.burton@arm.com> wrote:
-
-> The kvm tests use the host ld, which doesn't necessarily know about the
-> target ELF format.  It should be using the cross ld we built, so call
-> $(LD) instead.
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  ...-kvm-use-LD-instead-of-hardcoding-ld.patch | 37 +++++++++++++++++++
->  meta/recipes-extended/ltp/ltp_20220527.bb     |  1 +
->  2 files changed, 38 insertions(+)
->  create mode 100644
-> meta/recipes-extended/ltp/ltp/0001-kvm-use-LD-instead-of-hardcoding-ld.patch
->
-> diff --git
-> a/meta/recipes-extended/ltp/ltp/0001-kvm-use-LD-instead-of-hardcoding-ld.patch
-> b/meta/recipes-extended/ltp/ltp/0001-kvm-use-LD-instead-of-hardcoding-ld.patch
-> new file mode 100644
-> index 00000000000..23634d0c860
-> --- /dev/null
-> +++
-> b/meta/recipes-extended/ltp/ltp/0001-kvm-use-LD-instead-of-hardcoding-ld.patch
-> @@ -0,0 +1,37 @@
-> +Upstream-Status: Submitted [
-> https://github.com/linux-test-project/ltp/pull/948]
-> +Signed-off-by: Ross Burton <ross.burton@arm.com>
-> +
-> +From 7670233e43df2aed6d44b96c51b034f8e2d28a19 Mon Sep 17 00:00:00 2001
-> +From: Ross Burton <ross.burton@arm.com>
-> +Date: Tue, 12 Jul 2022 15:03:54 +0100
-> +Subject: [PATCH] kvm: use $(LD) instead of hardcoding ld
-> +
-> +In cross-compiled builds the host ld may not know the required ELF format,
-> +so ensure we use $(LD) which will be the cross-capable ld binary.
-> +
-> +Signed-off-by: Ross Burton <ross.burton@arm.com>
-> +---
-> + testcases/kernel/kvm/Makefile | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/testcases/kernel/kvm/Makefile b/testcases/kernel/kvm/Makefile
-> +index 69a9946fe..4ddef9f95 100644
-> +--- a/testcases/kernel/kvm/Makefile
-> ++++ b/testcases/kernel/kvm/Makefile
-> +@@ -50,11 +50,11 @@ include $(top_srcdir)/include/mk/
-> generic_leaf_target.mk
-> + ifdef VERBOSE
-> +       $(CC) $(GUEST_CPPFLAGS) $(GUEST_CFLAGS) $(GUEST_LDFLAGS) -o
-> $*-payload.elf $^ $(GUEST_LDLIBS)
-> +       objcopy -O binary -j .init.boot -j .text -j .data -j .init -j
-> .preinit_array -j .init_array --gap-fill=0 $*-payload.elf $*-payload.bin
-> +-      ld -r -T $(abs_srcdir)/linker/payload.lds --oformat=$(BIN_FORMAT)
-> -o $@ $*-payload.bin
-> ++      $(LD) -r -T $(abs_srcdir)/linker/payload.lds
-> --oformat=$(BIN_FORMAT) -o $@ $*-payload.bin
-> + else
-> +       @$(CC) $(GUEST_CPPFLAGS) $(GUEST_CFLAGS) $(GUEST_LDFLAGS) -o
-> $*-payload.elf $^ $(GUEST_LDLIBS)
-> +       @objcopy -O binary -j .init.boot -j .text -j .data -j .init -j
-> .preinit_array -j .init_array --gap-fill=0 $*-payload.elf $*-payload.bin
-> +-      @ld -r -T $(abs_srcdir)/linker/payload.lds --oformat=$(BIN_FORMAT)
-> -o $@ $*-payload.bin
-> ++      @$(LD) -r -T $(abs_srcdir)/linker/payload.lds
-> --oformat=$(BIN_FORMAT) -o $@ $*-payload.bin
-> +       @echo KVM_CC $(target_rel_dir)$@
-> + endif
-> +       @rm $*-payload.elf $*-payload.bin
-> +--
-> +2.34.1
-> +
-> diff --git a/meta/recipes-extended/ltp/ltp_20220527.bb
-> b/meta/recipes-extended/ltp/ltp_20220527.bb
-> index 56fa83f5a03..094251ec811 100644
-> --- a/meta/recipes-extended/ltp/ltp_20220527.bb
-> +++ b/meta/recipes-extended/ltp/ltp_20220527.bb
-> @@ -28,6 +28,7 @@ SRCREV = "6f88e0f6f1d6eb12c48c902f50f47ecbd3b0f18a"
->  SRC_URI = "git://
-> github.com/linux-test-project/ltp.git;branch=master;protocol=https \
->             file://0001-Remove-OOM-tests-from-runtest-mm.patch \
->             file://disable_hanging_tests.patch \
-> +           file://0001-kvm-use-LD-instead-of-hardcoding-ld.patch \
->             "
->
->  S = "${WORKDIR}/git"
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#167929):
-> https://lists.openembedded.org/g/openembedded-core/message/167929
-> Mute This Topic: https://lists.openembedded.org/mt/92334178/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> Martin.Jansa@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
-
---00000000000090e53805e40f81fd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">FYI: This might be causing build issues with ld-is-gold:<d=
-iv><br></div><div>| i686-webos-linux-ld: error: kvm_pagefault01-payload.bin=
-:1:1: invalid character<br>| ltp/20220527-r0/git/testcases/kernel/kvm/Makef=
-ile:55: recipe for target &#39;kvm_pagefault01-payload.o&#39; failed<br>| m=
-ake[3]: *** [kvm_pagefault01-payload.o] Error 1<br></div><div><br></div><di=
-v>The previous patch to use bfd:</div><div><a href=3D"https://git.openembed=
-ded.org/openembedded-core/commit/?id=3D674fd0c423f3a8911d73b4319ab23bd9b3f1=
-bbac">https://git.openembedded.org/openembedded-core/commit/?id=3D674fd0c42=
-3f3a8911d73b4319ab23bd9b3f1bbac</a><br></div><div>was doing it only through=
- -fuse-ld=3Dbfd in LDFLAGS which doesn&#39;t seem to be used here.</div><di=
-v><br></div><div>Will check if it was really caused by this change after my=
- builder gets online again (now in memtest86 with sad results).</div><div><=
-br></div><div>Cheers,</div></div><br><div class=3D"gmail_quote"><div dir=3D=
-"ltr" class=3D"gmail_attr">On Tue, Jul 12, 2022 at 4:37 PM Ross Burton &lt;=
-<a href=3D"mailto:ross.burton@arm.com">ross.burton@arm.com</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">The kvm tests use=
- the host ld, which doesn&#39;t necessarily know about the<br>
-target ELF format.=C2=A0 It should be using the cross ld we built, so call<=
-br>
-$(LD) instead.<br>
-<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
-t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
----<br>
-=C2=A0...-kvm-use-LD-instead-of-hardcoding-ld.patch | 37 ++++++++++++++++++=
-+<br>
-=C2=A0meta/recipes-extended/ltp/<a href=3D"http://ltp_20220527.bb" rel=3D"n=
-oreferrer" target=3D"_blank">ltp_20220527.bb</a>=C2=A0 =C2=A0 =C2=A0|=C2=A0=
- 1 +<br>
-=C2=A02 files changed, 38 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-extended/ltp/ltp/0001-kvm-use-LD-inst=
-ead-of-hardcoding-ld.patch<br>
-<br>
-diff --git a/meta/recipes-extended/ltp/ltp/0001-kvm-use-LD-instead-of-hardc=
-oding-ld.patch b/meta/recipes-extended/ltp/ltp/0001-kvm-use-LD-instead-of-h=
-ardcoding-ld.patch<br>
-new file mode 100644<br>
-index 00000000000..23634d0c860<br>
---- /dev/null<br>
-+++ b/meta/recipes-extended/ltp/ltp/0001-kvm-use-LD-instead-of-hardcoding-l=
-d.patch<br>
-@@ -0,0 +1,37 @@<br>
-+Upstream-Status: Submitted [<a href=3D"https://github.com/linux-test-proje=
-ct/ltp/pull/948" rel=3D"noreferrer" target=3D"_blank">https://github.com/li=
-nux-test-project/ltp/pull/948</a>]<br>
-+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targ=
-et=3D"_blank">ross.burton@arm.com</a>&gt;<br>
-+<br>
-+From 7670233e43df2aed6d44b96c51b034f8e2d28a19 Mon Sep 17 00:00:00 2001<br>
-+From: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" target=3D"_bl=
-ank">ross.burton@arm.com</a>&gt;<br>
-+Date: Tue, 12 Jul 2022 15:03:54 +0100<br>
-+Subject: [PATCH] kvm: use $(LD) instead of hardcoding ld<br>
-+<br>
-+In cross-compiled builds the host ld may not know the required ELF format,=
-<br>
-+so ensure we use $(LD) which will be the cross-capable ld binary.<br>
-+<br>
-+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targ=
-et=3D"_blank">ross.burton@arm.com</a>&gt;<br>
-+---<br>
-+ testcases/kernel/kvm/Makefile | 4 ++--<br>
-+ 1 file changed, 2 insertions(+), 2 deletions(-)<br>
-+<br>
-+diff --git a/testcases/kernel/kvm/Makefile b/testcases/kernel/kvm/Makefile=
-<br>
-+index 69a9946fe..4ddef9f95 100644<br>
-+--- a/testcases/kernel/kvm/Makefile<br>
-++++ b/testcases/kernel/kvm/Makefile<br>
-+@@ -50,11 +50,11 @@ include $(top_srcdir)/include/mk/<a href=3D"http://gen=
-eric_leaf_target.mk" rel=3D"noreferrer" target=3D"_blank">generic_leaf_targ=
-et.mk</a><br>
-+ ifdef VERBOSE<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0$(CC) $(GUEST_CPPFLAGS) $(GUEST_CFLAGS) $(GUEST=
-_LDFLAGS) -o $*-payload.elf $^ $(GUEST_LDLIBS)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0objcopy -O binary -j .init.boot -j .text -j .da=
-ta -j .init -j .preinit_array -j .init_array --gap-fill=3D0 $*-payload.elf =
-$*-payload.bin<br>
-+-=C2=A0 =C2=A0 =C2=A0 ld -r -T $(abs_srcdir)/linker/payload.lds --oformat=
-=3D$(BIN_FORMAT) -o $@ $*-payload.bin<br>
-++=C2=A0 =C2=A0 =C2=A0 $(LD) -r -T $(abs_srcdir)/linker/payload.lds --oform=
-at=3D$(BIN_FORMAT) -o $@ $*-payload.bin<br>
-+ else<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0@$(CC) $(GUEST_CPPFLAGS) $(GUEST_CFLAGS) $(GUES=
-T_LDFLAGS) -o $*-payload.elf $^ $(GUEST_LDLIBS)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0@objcopy -O binary -j .init.boot -j .text -j .d=
-ata -j .init -j .preinit_array -j .init_array --gap-fill=3D0 $*-payload.elf=
- $*-payload.bin<br>
-+-=C2=A0 =C2=A0 =C2=A0 @ld -r -T $(abs_srcdir)/linker/payload.lds --oformat=
-=3D$(BIN_FORMAT) -o $@ $*-payload.bin<br>
-++=C2=A0 =C2=A0 =C2=A0 @$(LD) -r -T $(abs_srcdir)/linker/payload.lds --ofor=
-mat=3D$(BIN_FORMAT) -o $@ $*-payload.bin<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0@echo KVM_CC $(target_rel_dir)$@<br>
-+ endif<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0@rm $*-payload.elf $*-payload.bin<br>
-+-- <br>
-+2.34.1<br>
-+<br>
-diff --git a/meta/recipes-extended/ltp/<a href=3D"http://ltp_20220527.bb" r=
-el=3D"noreferrer" target=3D"_blank">ltp_20220527.bb</a> b/meta/recipes-exte=
-nded/ltp/<a href=3D"http://ltp_20220527.bb" rel=3D"noreferrer" target=3D"_b=
-lank">ltp_20220527.bb</a><br>
-index 56fa83f5a03..094251ec811 100644<br>
---- a/meta/recipes-extended/ltp/<a href=3D"http://ltp_20220527.bb" rel=3D"n=
-oreferrer" target=3D"_blank">ltp_20220527.bb</a><br>
-+++ b/meta/recipes-extended/ltp/<a href=3D"http://ltp_20220527.bb" rel=3D"n=
-oreferrer" target=3D"_blank">ltp_20220527.bb</a><br>
-@@ -28,6 +28,7 @@ SRCREV =3D &quot;6f88e0f6f1d6eb12c48c902f50f47ecbd3b0f18a=
-&quot;<br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://github.com/linux-test-proje=
-ct/ltp.git;branch=3Dmaster;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_=
-blank">github.com/linux-test-project/ltp.git;branch=3Dmaster;protocol=3Dhtt=
-ps</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Remove-OOM-tests-from=
--runtest-mm.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://disable_hanging_tests.patc=
-h \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-kvm-use-LD-instead-of=
--hardcoding-ld.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-<br>
-=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#167929): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/167929" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/167929</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/92334178/3617=
-156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/92334178/3617156</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
-rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---00000000000090e53805e40f81fd--
 
