@@ -2,65 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0C7AC43334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5DDACCA479
 	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 14:50:02 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web09.28150.1658155797023633807
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web09.28153.1658155800352709237
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:49:57 -0700
+ Mon, 18 Jul 2022 07:50:00 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=ZrkpY0oD;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.41,
+ header.b=vWTUNemS;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f41.google.com with SMTP id
- i8-20020a17090a4b8800b001ef8a65bfbdso12876735pjh.1
+Received: by mail-pl1-f179.google.com with SMTP id q5so9225171plr.11
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:49:56 -0700 (PDT)
+ Mon, 18 Jul 2022 07:50:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=Vg/ivvGs++S3ajIxvGc4MqYS185SB4tpaXnBIrYXZ4k=;
-        b=ZrkpY0oDd2Xgzxze2eo5+8N588Qeyxj5P6v5vAev0y2Pu9uOirsrt0PPpUNvWVN+WG
-         5atev6jDzY6cTW+5/UXjvgHN06Vuj2cQ1tKqWkryHb2KP8MiMNA/Bcmk4OERVb06rYtg
-         Yiuh8ybRMEu/6QDCUp2ucRi48nBiZQPmWQJHzG2WHNs92ZxaoYOprZ2Fpj1rVbuJihzg
-         WCfNaO7Nfxeh4d58G9NHQ58JFFTeAaZqi+tPD+EZRDsOWL8dM14eWqbjajeUYyso0Ltf
-         PR/HUuCOoYoPdcZnnPZUIEmJuH5qGKSowGMIoGphrjTq3rdbX1M5js2VwUdLQjoZ+pAm
-         XyEQ==
+        bh=VHZkuw3nrtGohByuggbevR1ZIdWuG2Xe+MV/4WfQaOA=;
+        b=vWTUNemS1nAkHY27/AJl2iKnFBcWapOj0APTF4v3rw+uox8WJze24ME2Eu8Grj/vHJ
+         oxeMJxTTAhVKB6YItzW2w/aZCUGwy/Z+Xqbnc2/JYyzxxWRzA6nfj84l35Ej0rZ5WJN4
+         wzdcROr4OxmUEAdpmvtclBR5XxJeQYd4qN8BMxCc37u4fkXeN+g4yEdji/CWIU1mkb/3
+         DP1DJGEF7cAAYrr5OVRpXSl/mhusn94SQiYvdQQZKwvI4i+NJJrIKIKicnEWoDX0usGo
+         VwLZw+uzz+OAX2u0/TA/Ggmn6+gt3Vqpg503rXdAdcFd9LSf2udh7paQnBkT8MGH1dzA
+         Sy8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Vg/ivvGs++S3ajIxvGc4MqYS185SB4tpaXnBIrYXZ4k=;
-        b=OYR+Hy74+9hLqDMhP3K+pD1Q1pf2b6CDdU+MWrPyiCL94FvvBcu3LZCG7VzMvt6you
-         AgXpgTsBtdaKXHxGZGaUZWkkcBf6eASAfWSBXDeJj0iobqVhrri8RLJFNhxpsjD2NGqC
-         R4Z1kIt54hXh1Ir4s4fR/oDyX4Q8iYI5YOBgOqGX2NsASEsiO2Tp6IwT0tA7w2McCjgE
-         WZMNZpmiNnGZaocmD8zsCPV6OUa1kKMzylud5IrqQC0c+fieYaQDc9YUKXvuaCcwM0YY
-         vzUS1a+ZsNMl46J+SObGhp0M8tJ6cAABCL1RZ+1vv/pfmZTYJWA+QMaJTQFc7/XADUJe
-         LLDA==
-X-Gm-Message-State: AJIora9bQxvyqMO60MSSxWG7AStYQQluhdYrh1PuqI4hYcXEsMpASbp2
-	m8YkuKLMhSQAfahftyysP/0X+4aC77wwYUOs
+        bh=VHZkuw3nrtGohByuggbevR1ZIdWuG2Xe+MV/4WfQaOA=;
+        b=mrGBbBCo9iqKQ7eBI19whdfGxcQ7WbK9jItAodZPsgtWJU69zkoj229A46B/llq8H6
+         7CuYz4DOVA7igeti01mLUEj98dQDVJZJp5gUBMl+nyyVo5tlMxVZYlxLt4p2cLzgAsFc
+         5ewycqXjc9bb+KwNKu/4U4TvObzJn3dZQ3Rj+WRjnu4xFpE6fs85nIwcncvnYO1ret4P
+         YdKswT8EoN4yE1ngTwV6AWa1/j11sL1vbdFwvBhKck8oJz/+KDJJyhHvhplfNU3SQapW
+         qP5JtnNHTd91oxjh/JjcAXFK7PUi5btoNbyziE08k2hodvlR9f9A+u5d+VljueF/pm4O
+         OQ1Q==
+X-Gm-Message-State: AJIora+ZRb1zU8N9oklAjWJyn90cPfpBRN0SDof7/1QwvCo89aBk1oHf
+	AfJTo1smfwa/UFAhgkmNjp87BmU20iWT5lxn
 X-Google-Smtp-Source: 
- AGRyM1uu+OOoeg1/OKB9mptDGUrW6xZmIVUPDITA874IalDnnK924Dxw2PzRaO/T+jP1CNaLdciSRA==
-X-Received: by 2002:a17:903:3093:b0:16b:deea:4d36 with SMTP id
- u19-20020a170903309300b0016bdeea4d36mr28433752plc.126.1658155795733;
-        Mon, 18 Jul 2022 07:49:55 -0700 (PDT)
+ AGRyM1sAFTCJaOzfqNUCUmHBwfQ9zqLnTaKz+ULK28uMykxONU3PFf/mEihuZ8Va0lwt2T8F0GHbJw==
+X-Received: by 2002:a17:902:7611:b0:16c:5c53:d932 with SMTP id
+ k17-20020a170902761100b0016c5c53d932mr28629986pll.1.1658155799245;
+        Mon, 18 Jul 2022 07:49:59 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.49.54
+ ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.49.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 07:49:55 -0700 (PDT)
+        Mon, 18 Jul 2022 07:49:58 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 15/35] package.bbclass: Fix kernel source
- handling when not using externalsrc
-Date: Mon, 18 Jul 2022 04:48:40 -1000
+Subject: [OE-core][kirkstone 16/35] insane: Fix buildpaths test to work with
+ special devices
+Date: Mon, 18 Jul 2022 04:48:41 -1000
 Message-Id: 
- <8efd5e31670235f7c59af2a5ee14646f029f4d18.1658155579.git.steve@sakoman.com>
+ <1837c175d997ced1455537bb82fb86286711025c.1658155579.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1658155579.git.steve@sakoman.com>
 References: <cover.1658155579.git.steve@sakoman.com>
@@ -71,44 +70,43 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 14:50:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168215
+ https://lists.openembedded.org/g/openembedded-core/message/168216
 
-From: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Previous commit c725bdb29b266 broke kernel source handling, this was due
-to the code expecting the sources to be in a different directory, this did
-not happen when using externalsrc since sources were found in the expected
-directories.
+If enabled, the buildpaths test hangs in psplash as it tries to open
+a fifo and read from it, hanging indefinitely.
 
-Pass work-shared to the check to allow sources to be found in the proper
-directory, allowing these to be packaged in the next step.
+Tweak the test to ignore fifo/socket/device files.
 
-To test this we grabbed a commit where we knew the buildpaths
-QA test should flag a file inside the kernel sources, with the previous
-commit the QA warning wasnt flagged since no sources where there, with
-this fix the buildpaths QA warning gets flagged properly.
-
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2714a8ef8c7b3c66d50f27f4f52fe2fe4db39b00)
+(cherry picked from commit 2567edb7e0a8c5ca9a88d6940491bf33bfe0eff9)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/package.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/insane.bbclass | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 63887b34f8..97e97d2703 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -566,7 +566,7 @@ def copydebugsources(debugsrcdir, sources, d):
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 6f6dcb3dd5..f3f80334f6 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -444,12 +444,14 @@ def package_qa_check_buildpaths(path, name, d, elf, messages):
+     Check for build paths inside target files and error if paths are not
+     explicitly ignored.
+     """
++    import stat
+     # Ignore .debug files, not interesting
+     if path.find(".debug") != -1:
+         return
  
-         # If S isnt based on WORKDIR we can infer our sources are located elsewhere,
-         # e.g. using externalsrc; use S as base for our dirs
--        if workdir in sdir:
-+        if workdir in sdir or 'work-shared' in sdir:
-             basedir = workbasedir
-             parentdir = workparentdir
-         else:
+-    # Ignore symlinks
+-    if os.path.islink(path):
++    # Ignore symlinks/devs/fifos
++    mode = os.lstat(path).st_mode
++    if stat.S_ISLNK(mode) or stat.S_ISBLK(mode) or stat.S_ISFIFO(mode) or stat.S_ISCHR(mode) or stat.S_ISSOCK(mode):
+         return
+ 
+     tmpdir = bytes(d.getVar('TMPDIR'), encoding="utf-8")
 -- 
 2.25.1
 
