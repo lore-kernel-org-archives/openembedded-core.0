@@ -1,170 +1,185 @@
-Return-Path: <quentin.schulz@theobroma-systems.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64C5CC433EF
-	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 20:28:24 +0000 (UTC)
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.80])
- by mx.groups.io with SMTP id smtpd.web10.32499.1658176102070920961
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1D47C433EF
+	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 21:18:14 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web10.33163.1658179088363570058
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 13:28:22 -0700
+ Mon, 18 Jul 2022 14:18:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify"
- header.i=@cherrycloud.onmicrosoft.com
- header.s=selector2-cherrycloud-onmicrosoft-com header.b=garkFg31;
- spf=pass (domain: theobroma-systems.com, ip: 40.107.7.80,
- mailfrom: quentin.schulz@theobroma-systems.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IOXjHwzEmWUDM2KW0WArL4rUXte+hKCCa+VXEOSEV/SaTR30fwPJXY2LkY0k25KVylmuIBKrjRjZYGQ7uIzNlYgAzIUdcVgmd7PPihbHTjGsW+pohFBpISnVQPeiBfuDFtnszJoodddBWJCNLUa9daDruXTdA4LOz0dk8/ckXMxEEe4KfbxUFSF7LbLlbmwtEMO3rLHUKkBnYrp/9NBU4u8Tb0VhCda8gQdQccpQUj6jltQkmR/lImbcCBWPFjwG3lD1FRO4H2s70j9wggXi4G8PJDyQjJKoWWB87IC2EkQmWSuQiPhoK9/BX8GlE3bsKYGP5q/7Ps28n3q2tokWHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hMqLmx4teNH39XSvyK4C52/k2lz8ZQPF4HzsHonhg6c=;
- b=IuQTRQNJtLS4kl7GCh/MwoaPTGN9n7f2S0JnSYXPMY5V5PfOBvEyf3FhuwpyU05m7Kj5waR8utfOoHvxMkSIoN3aPNrdJeULEOroHCZtKwRsvMPYuq5EjYYIvylVCuQNS1q/J/f03oEYzfbETEUIUC6FSM6zie5LYkp/TCvqJOywBsm7KJ4tN8gYkS3JrSAZEkPqlWPjTNlL149Yx53FlZBTJ1u+dEQxcj2BzFBrPMhoFOIclG8vpAO/k6aArizlqDd4ZxaAqU5ts1jnXsx0Rad9t/9jsouLRnbjo7bXg/wxa7cn14IwkaUQ79X89xktkVSmY1KVNzbolwwFynbDcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
- header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
- arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZodAE5S/;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id d16so18826583wrv.10
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 18 Jul 2022 14:18:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cherrycloud.onmicrosoft.com; s=selector2-cherrycloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hMqLmx4teNH39XSvyK4C52/k2lz8ZQPF4HzsHonhg6c=;
- b=garkFg31IK0JR/XR1fH7NtWu7NxDmx/Rw+TUIZsShPCSyJgv7MFUbXoPa9b7bPHUzv9g2MSHr5g1eX1sD4VBZIo9z9szolNuVYZ1qgpXFjfMTL70qt+hzGezURLBJEEWFsmkc7Fxy5Hcj8rQ/g8uEXU1ubsxQDUdUSiYw5k9tzY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
-Received: from PA4PR04MB9367.eurprd04.prod.outlook.com (2603:10a6:102:2aa::7)
- by AM6PR04MB4853.eurprd04.prod.outlook.com (2603:10a6:20b:8::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.23; Mon, 18 Jul
- 2022 20:28:16 +0000
-Received: from PA4PR04MB9367.eurprd04.prod.outlook.com
- ([fe80::5c3:766e:66e9:8c4]) by PA4PR04MB9367.eurprd04.prod.outlook.com
- ([fe80::5c3:766e:66e9:8c4%9]) with mapi id 15.20.5438.022; Mon, 18 Jul 2022
- 20:28:16 +0000
-Message-ID: <15208757-c36e-5adf-1b74-8d030b53b9a9@theobroma-systems.com>
-Date: Mon, 18 Jul 2022 22:28:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [OE-core] Forced password change in first login
-Content-Language: en-US
-To: Livius <egyszeregy@freemail.hu>, openembedded-core@lists.openembedded.org
-References: <IkQF.1653391044347982572.4xC9@lists.openembedded.org>
- <11484.1654292712146430411@lists.openembedded.org>
-From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-In-Reply-To: <11484.1654292712146430411@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=+Qq+z8PjE7Dl2w2w/QkRhaBDYJbadrFatWHrx8IDFlI=;
+        b=ZodAE5S/7RxItnYhYIIc/Gn0vkrQC7rtC1nQr7bjTRItI9cGqtme6RiHbyQ2xwA3t9
+         Qn5vLZkk2X6einvlXl8hzXSNprH/IgTR2b98GGQ5ogX4hgFk4vKQyYMNxesRsI9KGvMy
+         DfLAt3EkjEnGjWz6JfAjTlJJGmNf121b8bs1M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=+Qq+z8PjE7Dl2w2w/QkRhaBDYJbadrFatWHrx8IDFlI=;
+        b=kZAPMaV13WfUzOP822/9Y9G8l/Orzqk7ELv9axiNz9lZzfrFEAtbsdeJTiZoGcv7m0
+         MbYk0o//GRiOLExe0vFDyFa9y8L1Wr8AUoMLE2NNYD6V/FJu69nYl9WYsiHUlFXK5xTK
+         ystmUx+Cv+ker8r1SKqZBL5JG3k7cO2i0jecfhq+ZlTISx4JMpL2k26HEKjSW+NztdfK
+         4lTHsXbWHZT/K7H/EuEqLCRihfibeE28qF98Rr4FurAedvHqdxitIkjwNLMj4TmB9lZ0
+         p4T1h/Qiu/QPPvyHRRoTKezWoYlU0gIBtWt+eeLwpV6KHbHhx4KQsv11FMrFEnXr+xGY
+         yQ7w==
+X-Gm-Message-State: AJIora/sznz+O/fVGggvnLmlCjSQJ2gFN6pJakXzNPVhtyA9IFH278CO
+	+aZdbssEqEoMeIJeH+TKLWsiNA==
+X-Google-Smtp-Source: 
+ AGRyM1vywwXEIGa7u3/JJ9LFdmTw/me+XgVo5iHfoLrzhH1PkrEkiBfN9Jmh2y1VvvWUBRMGF0ACEQ==
+X-Received: by 2002:adf:ffc1:0:b0:21d:efac:100b with SMTP id
+ x1-20020adfffc1000000b0021defac100bmr9982857wrs.444.1658179086647;
+        Mon, 18 Jul 2022 14:18:06 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:22db:3f70:c684:113a?
+ ([2001:8b0:aba:5f3c:22db:3f70:c684:113a])
+        by smtp.gmail.com with ESMTPSA id
+ v10-20020a05600c428a00b003a2fc754313sm15718981wmc.10.2022.07.18.14.18.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Jul 2022 14:18:05 -0700 (PDT)
+Message-ID: 
+ <bba9495ce38c56f914c391f054ce2bd77f2bef55.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 2/2] cargo-cross-canadian: Use SDK's flags
+ during target linking
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>, Khem Raj
+	 <raj.khem@gmail.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>, Patches and discussions
+	about the oe-core layer <openembedded-core@lists.openembedded.org>
+Date: Mon, 18 Jul 2022 22:18:02 +0100
+In-Reply-To: 
+ <CAP9ODKp1_CV4N-RB+NR4nTdvVgSR=pu6V7q2T2sQ8Pu8w=Ew2g@mail.gmail.com>
+References: <20220710164300.953098-1-otavio@ossystems.com.br>
+	 <20220710164300.953098-2-otavio@ossystems.com.br>
+	 <e642480e892b0b411acb509c0de11aa7e52d4412.camel@linuxfoundation.org>
+	 <CAP9ODKooHNY8GyNuY8hDHyscEAJJfCfTXdThVMQW5TOGnjOZxw@mail.gmail.com>
+	 <8e065ede6abdb6065c862bd8b25cdccf2b6828a8.camel@linuxfoundation.org>
+	 <CAP9ODKp1_CV4N-RB+NR4nTdvVgSR=pu6V7q2T2sQ8Pu8w=Ew2g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: VI1PR08CA0192.eurprd08.prod.outlook.com
- (2603:10a6:800:d2::22) To PA4PR04MB9367.eurprd04.prod.outlook.com
- (2603:10a6:102:2aa::7)
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c79fff33-8161-4cf4-3895-08da68fc0b7b
-X-MS-TrafficTypeDiagnostic: AM6PR04MB4853:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	+55s2fzRTMxtbKFW08lYOQuQS9/SFsABOVYJ95SW7rtsNNM/XdKFJ6Xd9mCe37tVUh7Rgedva8ejspPFEWUM7Z2BQKQUp3B50HSzdU27othV/JTysYVlltKXgO1Yu8adkfEnEzQHBH9MBaqg0U7c/4oX4a4N/jTR6QtuWgYNgTTBNJoTeWhtdK3nalB0UW42Y/0Y88nW1+B6M6VIgsnDkEYynJxx/TafQI29uuPgRc7PpSVtxrIUQ5FgdMLStEGScybXPYAFAr5N0vfCR1G4yzNO5qyGnC1dTcNwIHFeFR5UgK4f74eSXrruZhoO5xtDTFiTEZl6XZuype148o7j34uZyf+Yudz5/ykj/vz71PPp7FiHhPQwnT1OXxL+ba5UuopzqUAJHT983iMqqiG8UEs5V6Bui1CH1YWvrTRXOTlCSIYG9PE1GOEatTqN6HI9gZYH00n6jyYB+1DTQ3oIy5fBLM08UfD1759OVGrHQ5hROzwkUk/tJD1NeeAZ/lbxDcDGnEaC+ChwYt6CCZOK49JRAd1vWzGk5Lvlbl3BAICTI95KaNLQn/krm4M6vyBroVc77mmls10J/+tn/S1KZx/ypo+83JiLJ4VmxXzHkEYNOFUmdY2kFwdbqTLGHIMl/YHkXQMcrAZ1NVQJ7o0Yidv7CjRe6cJBtJ+1XWted+ULaIAf/QFKPjYTrxlz6nDuBRP44v46ZvXCmEiIGp2vN9wznXdIR5QxcODqOSZaIX1iaDuXpEuEJbcVhG/Nt44cMYiAfYCxbcnK0mtKUNRNgPlwPk993ukJgCL9Oy8XIuZQrn68yQOHYcBKgq9XRet2+hnPGRQnA7qBHEEhKqTq7I8bS17D8YXeL6Uo+8bWx5Y=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9367.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(136003)(366004)(376002)(396003)(39850400004)(346002)(5660300002)(36756003)(8936002)(2906002)(31686004)(44832011)(31696002)(66556008)(8676002)(316002)(66476007)(478600001)(966005)(186003)(41300700001)(6506007)(38100700002)(6512007)(86362001)(53546011)(6486002)(2616005)(83380400001)(6666004)(66946007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?TAv93C5Dl9CkGgN6ygN7rMDfU6z84r+0ETer1ig9cRaz2/iaMZX/rwwP+dEb?=
- =?us-ascii?Q?3jBrNoNrZdzempvgA/GVMq/3U3+FEGKC93NnWZ3dKBWyK57AGqbPMkS3l0SA?=
- =?us-ascii?Q?tmQqZT31qRZsjxHU7MPZIStXb7s/ftxJK+sWZsDkyqHUziBbBTK51A28vDK2?=
- =?us-ascii?Q?FQXar2iAVt8poDtfZFX2tpH5d8rBVppo5QHXuIgCKfHeUB0o+wF89PrBu3zU?=
- =?us-ascii?Q?UDQicOJO/HdzdaIWZ8mwZyL5LY+CHGMThhD67fPAu9iA2fzatyqewiFY1Fuj?=
- =?us-ascii?Q?FH1wKZrhJDKmpwuUHAu2Zf5tKXrBV90wM6lrlwNcGQKumFsxsf5rV284sIgb?=
- =?us-ascii?Q?XuEXpdvPJQSN2VNVS6VhspL3+P6f1HeTiEz4EzPFLn+1RN+sEj0rBHy13sV1?=
- =?us-ascii?Q?gPtfkBNhcewNH679omRR3lKmJNlR8JZI5OPojEh0faxewhS1yq4/+CC/PIeJ?=
- =?us-ascii?Q?Pu+i5tEjAzhREZzmAdVZw3e586qiFnxRHF0ev53jwTLEGztt4xholynZxLWT?=
- =?us-ascii?Q?QU6lf7FWWswPX7AwjUrp//m3a1mApJtm6r6t3HF/kMjwF4XH2DNt7g5BUSbh?=
- =?us-ascii?Q?GNEt8cAFP/PZa8CB0seInLaaaqkdLYLnBRNDZ0Il/Td7jIcOM9xy530723rY?=
- =?us-ascii?Q?9eWaXSVa/rUoAtuPdV4cUEVgQbL9RAmDFR9r92JHTurVHQr4qNdlkyiEVl7v?=
- =?us-ascii?Q?tGFDDY0u8peB4MRuqD/96D5r2byG1NqRSoiHDDs62XpJpPgHPDcND6ztkCvQ?=
- =?us-ascii?Q?ODsdlKC8iv0DEsuMaF4cBCWwIkJMxkv9chbKkloQNOsNid0drv4blLqrorRI?=
- =?us-ascii?Q?GldP1Xn+AlC7bw4LIltSRisZVawE9iahjsa3xUfdk1NqqqqVVsail5eYW24q?=
- =?us-ascii?Q?ymdjW+Zmb/rEwsWgbWckTWpjJfAYu0l/PQRgw/ghc1m6wxX+uF5qByMoiZQK?=
- =?us-ascii?Q?OcZ1UjQHadOKI304TGlYc5d+3Yr2FmLOj0L4NWVf02jIile4pcyfdXiI00D7?=
- =?us-ascii?Q?uGMEBpLnHGiEAHClcz87YzELIdV689/h64YHsXsyc6GlENxHmyoi8s5p0Jfh?=
- =?us-ascii?Q?xvCHrb0dvZHY4u2S2WTX75uf9PCI7fangLJ6vTcGZD0DgEJfKVJ4IR637eiH?=
- =?us-ascii?Q?mxJOJtoxuhH65A9HnInLvaG9WVXxGkYZ1gkwFz8FVvlPzenQJk9tC2w4xNmd?=
- =?us-ascii?Q?IBWtxtB2KaqVunAJtspki1FWRdhBNkfyyKeEwuBH82JTkMk5rizWLMdL9XDh?=
- =?us-ascii?Q?CwHnCb/K/t2x4vMk+B09hcp6fAocFJGialZaBu02qmPTxguoivsV+YZXCglg?=
- =?us-ascii?Q?vV8DpgimkbSNdHR8ka0ImltQ40gEKe2EKkPFaAae2SLHfviPm0tKpnpGcBc3?=
- =?us-ascii?Q?eDBQ1giXSajdXYqVUQW8hieWjlp9A+XQHHdYBQmB3zBQW0O7gt/5RgegRJID?=
- =?us-ascii?Q?ceN+LJoDrZU/bGtOCdZJmBixRofZ7NX0Mnq6xIEk6Nr0TGrwM3PG9xze4qSi?=
- =?us-ascii?Q?aU6L6Wj8l+yjkYsPlW4bTmp326pSnNvgPQRSrol5+ddf8iK/WmBsacsDFbLB?=
- =?us-ascii?Q?8qNZm+2tND4kyaTX81Zy2ffrcfzPfnaQlwobxEFR4IfBeTR+NZMjaDZ2cFFC?=
- =?us-ascii?Q?gFtboDq7WezQ0N1VydzrlB79/9JKShZpEkEHuRJCJ2t0?=
-X-OriginatorOrg: theobroma-systems.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- c79fff33-8161-4cf4-3895-08da68fc0b7b
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9367.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2022 20:28:16.1580
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- bkOvUm1R4Bsj6xkXkSZROoGBd29AJum+RT6iT5tykVS0LD2hMx8JweTVA9j0q/leM7dJRyAFdARV2lLwyGwllVimTRSBlivIh/Vn1czb+fhXOpoyn+O+/HQmxtBy3S5Z
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB4853
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 20:28:24 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 21:18:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168257
+ https://lists.openembedded.org/g/openembedded-core/message/168258
 
-Hi Livius,
-
-On 6/3/22 23:45, Livius wrote:
-> Finaly, i found the problem and i could solve it. SHA-256 is too weak to =
-make a password hash, this is why on first login we need to change password=
- always.
+On Mon, 2022-07-18 at 16:25 -0300, Otavio Salvador wrote:
+> Hello Richard and Khem
 >=20
-> Please fix it in Yocto manual ( https://urldefense.proofpoint.com/v2/url?=
-u=3Dhttps-3A__docs.yoctoproject.org_singleindex.html-23term-2DEXTRA-5FUSERS=
--5FPARAMS&d=3DDwIFaQ&c=3D_sEr5x9kUWhuk4_nFwjJtA&r=3DLYjLexDn7rXIzVmkNPvw5ym=
-A1XTSqHGq8yBP6m6qZZ4njZguQhZhkI_-172IIy1t&m=3D0uV8RQppxWsB3H_ISKM3TtcskB-MI=
-QyiSP7s0BMWyk5zDyOJ2v-Hmu1z51A1H1Td&s=3DbI64ytMKJ6c4SoARAXvTxdYfYoS61-EPSeq=
-xAbok8CY&e=3D  ). When i set it to generate=C2=A0sha512crypt hash it works =
-fine, there are no any change request on first login.
+> Em seg., 18 de jul. de 2022 =C3=A0s 12:59, Richard Purdie
+> <richard.purdie@linuxfoundation.org> escreveu:
+> > On Mon, 2022-07-18 at 12:49 -0300, Otavio Salvador wrote:
+> > > Em seg., 18 de jul. de 2022 =C3=A0s 09:45, Richard Purdie
+> > > <richard.purdie@linuxfoundation.org> escreveu:
+> > > > On Sun, 2022-07-10 at 13:43 -0300, Otavio Salvador wrote:
+> > > > > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> > > > SDKAMCHINE =3D "aarch64"
+> > > > MACHINE =3D "qemuarm64"
+> > > >=20
+> > > > bitbake rust-cross-canadian-aarch64
+> > > >=20
+> > > > still fails so there is still something wrong with the SDK
+> > > > builds
+> > > > :/
+> > > >=20
+> > >=20
+> > >=20
+> > > I'll check this. I didn't check this combination.
+> >=20
+> > I tried an experiment to see which combinations worked. To do that
+> > I
+> > added:
+> >=20
+> > TOOLCHAIN_HOST_TASK:append =3D ' packagegroup-rust-cross-canadian-
+> > ${MACHINE}'
+> >=20
+> > to the autobuilder config. This resulted in:
+> >=20
+> > qemux86:
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/5491
+> >=20
+> > buildtools:
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/5885
+> >=20
+> > beaglebone:
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/5563
+> >=20
+> > edgerouter:
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/62/builds/5533
+> >=20
+> > genericx86:
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/5548
+> >=20
+> > genericx86-64:
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/5533
+> >=20
+> > multilib:
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/5554
+> >=20
+> > pkgman-deb-non-deb:
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/5554
+> >=20
+> > qemumips:
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/5498
+> >=20
+> > qemux86-64:
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/73/builds/5487
+> >=20
+> > qemuarm64:
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/5510
+> >=20
+> > qemuarm:
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/5525
+> >=20
+> > so there is something rather wrong :(
+> >=20
+>=20
+>=20
+> It does, indeed, but it doesn't seem related to this PR.=C2=A0
+>=20
+> Do you know if this has worked?
+>=20
+> I am asking as I did all development and testing using=C2=A0SDKMACHINE ?=
+=3D
+> 'x86_64' and even=C2=A0MACHINE ?=3D 'qemuarm64' worked just fine. However=
+,
+> looking at some of the logs above, it seems it is using an SDKMACHINE
+> as i686, so this appears as a different issue for me.
 >=20
 
-With poky commit 2d1838b7bc ("python3-picobuild: upgrade to 0.2") master=20
-branch and the following diff:
-diff --git a/meta/recipes-core/images/core-image-minimal.bb=20
-b/meta/recipes-core/images/core-image-minimal.bb
-index 84343adcd8..f21f467bfd 100644
---- a/meta/recipes-core/images/core-image-minimal.bb
-+++ b/meta/recipes-core/images/core-image-minimal.bb
-@@ -10,3 +10,8 @@ inherit core-image
+rust-cross-canadian hasn't officially worked properly or been
+supported. In assessing whether a patch is better or worse, it is
+useful to know which cases regress and which improve. I had hoped this
+list of failures would be smaller. I will admit I don't know whether
+this is better or worse than before so I guess that is the next thing I
+need to determine.
 
-  IMAGE_ROOTFS_SIZE ?=3D "8192"
-  IMAGE_ROOTFS_EXTRA_SPACE:append =3D=20
-"${@bb.utils.contains("DISTRO_FEATURES", "systemd", " + 4096", "", d)}"
-+
-+inherit extrausers
-+
-+PASSWD =3D=20
-"\$5\$AEz8bdRlSRIc3Ejb\$g3M6ww5SouP5wwkjw126ulgdxNMlLfx5b.hbCRpZMM4"
-+EXTRA_USERS_PARAMS =3D "usermod -p '${PASSWD}' root; "
+What we don't know right now is which combinations work and which don't
+so we can't even tell people what is expected to work and what
+isn't/doesn't :(
 
-with brand new build directory created with source oe-init-build-env=20
-../build
-Then running the qemu image with:
-runqemu noslirp nographic
-I can successfully login and do not get any request for a password=20
-change, even though the password I created was generated as explained in=20
-the docs.
+I mentioned this report in case someone can work out the pattern, or
+even better, understand what a fix looks like...
 
-Can you give us more info so we can reproduce this and amend the=20
-documentation or fix the code for the usecase you found required sha512?
+Cheers,
 
-Thanks,
-Quentin
+Richard
+
+
+
+
 
