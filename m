@@ -2,256 +2,207 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B94BAC43334
-	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 14:45:22 +0000 (UTC)
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
- [209.85.166.47])
- by mx.groups.io with SMTP id smtpd.web12.28170.1658155521204659404
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B91C6C433EF
+	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 14:49:22 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web11.28044.1658155756610267343
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:45:21 -0700
+ Mon, 18 Jul 2022 07:49:16 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=Aa1mc+SE;
- spf=pass (domain: gmail.com, ip: 209.85.166.47, mailfrom: sakoman@gmail.com)
-Received: by mail-io1-f47.google.com with SMTP id u20so9417254iob.8
+ header.b=PV2q/pWE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id d10so10813707pfd.9
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:45:21 -0700 (PDT)
+ Mon, 18 Jul 2022 07:49:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=65Issv5ocHnD1Yq1bMHVu6KVaDQyWN37zbesksHBJnU=;
-        b=Aa1mc+SE9eVcryMpiqYzCC5pyUQVKhRsSdZhrxw0JhZgruZKXDU5ye6Z0Is3sl4Olx
-         erLsx9iFpM3K8WAUI+eAslxuU7dFMP5F90C+d+UrPYCbJe/i6hHqbq2npukFFqDucJAN
-         +c31w+b19my5sJWx8Iz04cTBB6XVFEnDk3dYZ3mEhXkFCuO0WwN9Dd2qhyyMejcj4N/q
-         hDibl5qCSb+qbntX48QpKemOvp188GnMF7wP1x0NVdsXAh28J9GyvNpRWMsLTwF2PoBt
-         uR0Wr6lGJKtqN18M2L6w1sCSVpApz6llgU96yqLGT5Ca5PhGrwr1atn/XifKN19tFQQs
-         JXfg==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Qn9Qd/HCUFdS5IO6BwRr/MXcX7jJdczEuAauapRDJdU=;
+        b=PV2q/pWEuukiD0N5LvmGrqF8kIG4/0FoJkbWr5FlfgCFGRkH1qU9BhlTdKoc03kSDC
+         w/o22e/FKdZS2OUneMirQhBgOQxPEz+EQfddGWzp38PxpFuo1A5LAPUcqrh6tDe5fIYA
+         mzB3DZb2kie4TEHPbdhtsucwL66aJs2DKI7mp9zDQxjLlIpMCdIqIG25zuGgxvsIpcob
+         ZierReRE6YZ5L81Hnhg+l63SbVJbefzNW4gGiu+Vi27DAVpdyB0TSePvWox9uNmSxM9J
+         GeaEMaqUaI8kN2deOSXiQ9ULTYWqznOXuZU4nio6fY92M5kU+UNK0MyCGaR1zzvu9KNq
+         mVMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=65Issv5ocHnD1Yq1bMHVu6KVaDQyWN37zbesksHBJnU=;
-        b=Phnw9Fzl24F0z6v9gVux8I1JLmIqHJR6ARfNeII6gpSbH8vd9rA+6qZw7Hkl/HES+i
-         zXrVnc0U1sU36JIdYMmecw4JD3PygwCMA8l8JDekk5I2n72osOPsPXpduOSvH9SjyN4q
-         td+SX0xitG7CQKGNPffnLb63JkkbAsAitnfIWtAnToV+gaXbft6K2pGYbml2Z8KWPNcF
-         APjV0+XWr1GmsjFW0WrWYN8iqXbhYcUFkQu4w1lrEkf5fCAJcq8ML6VIb2k4g5OgpSDF
-         tpyRiYXqSGsYgwce6ldglv1R7xtfA2guJDJ7TNgXLEVRk1HKOzFJiXBVLvm7GsEcxRbB
-         DRCA==
-X-Gm-Message-State: AJIora+4ZbcUeHUR4fsOO7poOUCY+RgGL0zDJQL0z3nW6K4PaItb0sjm
-	cw3MeXpPlqdUOGrhIkF2zsql73u0hfcvqieYmhg=
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Qn9Qd/HCUFdS5IO6BwRr/MXcX7jJdczEuAauapRDJdU=;
+        b=8EncN7KsVPSM4bygqBG35t//LGfYq0Cey7Alb/YA6a+ZZxCXPTwQMNr7vNma7yWMBS
+         XGnDFDczd8+M5VlNaO+nVMJ4RvvruWdr4ZSoJ7Xaw1+xC/c+XnAx+5xqfytDrd+H1MM5
+         DHXdmVOm441xwjFdPbbt2h13UD232s5+vDgKlxRwu15FycnHTNDbRY/OkbC63J9bv7x1
+         aJKFljszm+SqLCr2ny+yFt+IOfgc+kCKyv9gVRj8BTV5U16x8mzla8ek3aXYEWdU9GyG
+         F5c16hOUZqG76QBJ7vhlLSpBET50aJIddczxJswQDIMNw/8tjL9RpqMw55PASbHVNIbl
+         4SJw==
+X-Gm-Message-State: AJIora/fJytNh+HVv2KgyCLa8eWh3InJfDK1wpX4ObpYzx6q8o6ZCzjP
+	QAK6Z7+ooIfSiwiS1i2aiKjXzInLHVOs38X6
 X-Google-Smtp-Source: 
- AGRyM1u3DTmCk0qwMXffkvWVwpo3VaprkTERvCijuPStGX3iQ0Vg/d+XKeAJizJDaVqiPj8NHVmmhu9dAFMoENZVACw=
-X-Received: by 2002:a02:a68c:0:b0:33f:46d4:918e with SMTP id
- j12-20020a02a68c000000b0033f46d4918emr13632970jam.58.1658155520387; Mon, 18
- Jul 2022 07:45:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <1653381225-6080-1-git-send-email-wangmy@fujitsu.com>
- <f9a77fc2-4ecd-2481-b5eb-71ef67d79d0a@windriver.com>
-In-Reply-To: <f9a77fc2-4ecd-2481-b5eb-71ef67d79d0a@windriver.com>
+ AGRyM1tcsbPsZduF88WSQ08Z/HU6xKB3gg6UhJnexbZO9B8r5eQZOlt6kNDDEuUV+IZced51qfODoQ==
+X-Received: by 2002:a05:6a00:2407:b0:52b:29dd:915 with SMTP id
+ z7-20020a056a00240700b0052b29dd0915mr21547185pfh.60.1658155755241;
+        Mon, 18 Jul 2022 07:49:15 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
+        by smtp.gmail.com with ESMTPSA id
+ ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.49.13
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Jul 2022 07:49:14 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 18 Jul 2022 04:45:09 -1000
-Message-ID: 
- <CAGDS+nnXoSz0XrbbAhVrgwnpNYvkdrsgXSLCA8CR4RFt2+Zudg@mail.gmail.com>
-Subject: Re: [PATCH] [OE-core] [PATCH] bind: upgrade 9.18.2 -> 9.18.3
-To: Yi Zhao <yi.zhao@windriver.com>
-Cc: wangmy <wangmy@fujitsu.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 00/35] Patch review
+Date: Mon, 18 Jul 2022 04:48:25 -1000
+Message-Id: <cover.1658155579.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 14:45:22 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 14:49:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168199
+ https://lists.openembedded.org/g/openembedded-core/message/168200
 
-On Sun, Jul 17, 2022 at 8:42 PM Yi Zhao <yi.zhao@windriver.com> wrote:
->
-> Hi Steve,
->
->
-> On 5/24/22 16:33, wangmy wrote:
-> > Changelog:
-> > ==========
-> > [security]
-> >   Fix a crash in DNS-over-HTTPS (DoH) code caused by
-> >   premature TLS stream socket object deletion.
-> >   (CVE-2022-1183) [GL #3216]
->
->
-> There is a CVE fix in this minor update. Is there any plan to backport
-> it to kirkstone ?
+Please review this set of patches for kirkstone and have comments back by
+end of day Wednesday.
 
-Since this is a stable branch update I can take it. I'll add it to my
-next patch set for testing.
+Passed a-full on autobuilder:
 
-Steve
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3928
 
-> >
-> > [bug]
-> >   RPZ NSIP and NSDNAME rule processing didn't handle stub
-> >   and static-stub zones at or above the query name.  This
-> >   has now been addressed. [GL #3232]
-> >   Fixed a deadlock that could occur if an rndc
-> >   connection arrived during the shutdown of network
-> >   interfaces. [GL #3272]
-> >
-> >   Refactor the fctx_done() function to set fctx to
-> >   NULL after detaching, so that reference counting
-> >   errors will be easier to avoid. [GL #2969]
-> >
-> >   udp_recv() in dispatch could trigger an INSIST when the
-> >   callback's result indicated success but the response
-> >   was canceled in the meantime. [GL #3300]
-> >
-> >   Work around a jemalloc quirk which could trigger an
-> >   out-of-memory condition in named over time. [GL #3287]
-> >
-> >   If there was a pending negative cache DS entry,
-> >   validations depending upon it could fail. [GL #3279]
-> >
-> >   dig returned a 0 exit status on UDP connection failure.
-> >   [GL #3235]
-> >
-> >   Fix an assertion failure when using dig with +nssearch
-> >   and +tcp options by starting the next query in the
-> >   send_done() callback (like in the UDP mode) instead
-> >   of doing that recursively in start_tcp(). Also
-> >   ensure that queries interrupted while connecting
-> >   are detached properly. [GL #3144]
-> >
-> >   Don't remove CDS/CDNSKEY DELETE records on zone sign
-> >   when using 'auto-dnssec maintain;'. [GL #2931]
-> >
-> > [contrib]
-> >   Avoid name space collision in dlz modules by prefixing
-> >   functions with 'dlz_'. [GL !5778]
-> >
-> >   dlz: Add FALLTHROUGH and UNREACHABLE macros. [GL #3306]
-> >
-> > [func]
-> >   Add new named command-line option -C to print built-in
-> >   defaults. [GL #1326]
-> >
-> >   Introduce the concept of broken catalog zones described
-> >   in the DNS catalog zones draft version 5 document.
-> >   [GL #3224]
-> >
-> >   Add DNS Extended Errors when stale answers are returned
-> >   from cache. [GL #2267]
-> >
-> >   Implement support for catalog zones change of ownership
-> >   (coo) mechanism described in the DNS catalog zones draft
-> >   version 5 document. [GL #3223]
-> >
-> >   Implement support for catalog zones options new syntax
-> >   based on catalog zones custom properties with "ext"
-> >   suffix described in the DNS catalog zones draft version
-> >   5 document. [GL #3222]
-> >
-> >   Implement reference counting for TLS contexts and
-> >   allow reloading of TLS certificates on reconfiguration
-> >   without destroying the underlying TCP listener sockets
-> >   for TLS-based DNS transports. [GL #3122]
-> >   Add support for remote TLS certificates
-> >   verification, both to BIND and dig, making it possible
-> >   to implement Strict and Mutual TLS authentication,
-> >   as described in RFC 9103, Section 9.3. [GL #3163]
-> >
-> > [cleanup]
-> >   Remove use of exclusive mode in ns_interfacemgr in
-> >   favor of rwlocked access to localhost and localnets
-> >   members of dns_aclenv_t structure. [GL #3229]
-> >
-> >   Remove the task exclusive mode use in ns_clientmgr.
-> >   [GL #3230]
-> >
-> > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> > ---
-> >   .../0001-avoid-start-failure-with-bind-user.patch               | 0
-> >   .../0001-named-lwresd-V-and-start-log-hide-build-options.patch  | 0
-> >   .../bind-ensure-searching-for-json-headers-searches-sysr.patch  | 0
-> >   .../bind/{bind-9.18.2 => bind-9.18.3}/bind9                     | 0
-> >   .../bind/{bind-9.18.2 => bind-9.18.3}/conf.patch                | 0
-> >   .../bind/{bind-9.18.2 => bind-9.18.3}/generate-rndc-key.sh      | 0
-> >   .../init.d-add-support-for-read-only-rootfs.patch               | 0
-> >   .../make-etc-initd-bind-stop-work.patch                         | 0
-> >   .../bind/{bind-9.18.2 => bind-9.18.3}/named.service             | 0
-> >   .../bind/{bind_9.18.2.bb => bind_9.18.3.bb}                     | 2 +-
-> >   10 files changed, 1 insertion(+), 1 deletion(-)
-> >   rename meta/recipes-connectivity/bind/{bind-9.18.2 => bind-9.18.3}/0001-avoid-start-failure-with-bind-user.patch (100%)
-> >   rename meta/recipes-connectivity/bind/{bind-9.18.2 => bind-9.18.3}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
-> >   rename meta/recipes-connectivity/bind/{bind-9.18.2 => bind-9.18.3}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
-> >   rename meta/recipes-connectivity/bind/{bind-9.18.2 => bind-9.18.3}/bind9 (100%)
-> >   rename meta/recipes-connectivity/bind/{bind-9.18.2 => bind-9.18.3}/conf.patch (100%)
-> >   rename meta/recipes-connectivity/bind/{bind-9.18.2 => bind-9.18.3}/generate-rndc-key.sh (100%)
-> >   rename meta/recipes-connectivity/bind/{bind-9.18.2 => bind-9.18.3}/init.d-add-support-for-read-only-rootfs.patch (100%)
-> >   rename meta/recipes-connectivity/bind/{bind-9.18.2 => bind-9.18.3}/make-etc-initd-bind-stop-work.patch (100%)
-> >   rename meta/recipes-connectivity/bind/{bind-9.18.2 => bind-9.18.3}/named.service (100%)
-> >   rename meta/recipes-connectivity/bind/{bind_9.18.2.bb => bind_9.18.3.bb} (98%)
-> >
-> > diff --git a/meta/recipes-connectivity/bind/bind-9.18.2/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.18.3/0001-avoid-start-failure-with-bind-user.patch
-> > similarity index 100%
-> > rename from meta/recipes-connectivity/bind/bind-9.18.2/0001-avoid-start-failure-with-bind-user.patch
-> > rename to meta/recipes-connectivity/bind/bind-9.18.3/0001-avoid-start-failure-with-bind-user.patch
-> > diff --git a/meta/recipes-connectivity/bind/bind-9.18.2/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.18.3/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-> > similarity index 100%
-> > rename from meta/recipes-connectivity/bind/bind-9.18.2/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-> > rename to meta/recipes-connectivity/bind/bind-9.18.3/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-> > diff --git a/meta/recipes-connectivity/bind/bind-9.18.2/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.18.3/bind-ensure-searching-for-json-headers-searches-sysr.patch
-> > similarity index 100%
-> > rename from meta/recipes-connectivity/bind/bind-9.18.2/bind-ensure-searching-for-json-headers-searches-sysr.patch
-> > rename to meta/recipes-connectivity/bind/bind-9.18.3/bind-ensure-searching-for-json-headers-searches-sysr.patch
-> > diff --git a/meta/recipes-connectivity/bind/bind-9.18.2/bind9 b/meta/recipes-connectivity/bind/bind-9.18.3/bind9
-> > similarity index 100%
-> > rename from meta/recipes-connectivity/bind/bind-9.18.2/bind9
-> > rename to meta/recipes-connectivity/bind/bind-9.18.3/bind9
-> > diff --git a/meta/recipes-connectivity/bind/bind-9.18.2/conf.patch b/meta/recipes-connectivity/bind/bind-9.18.3/conf.patch
-> > similarity index 100%
-> > rename from meta/recipes-connectivity/bind/bind-9.18.2/conf.patch
-> > rename to meta/recipes-connectivity/bind/bind-9.18.3/conf.patch
-> > diff --git a/meta/recipes-connectivity/bind/bind-9.18.2/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.18.3/generate-rndc-key.sh
-> > similarity index 100%
-> > rename from meta/recipes-connectivity/bind/bind-9.18.2/generate-rndc-key.sh
-> > rename to meta/recipes-connectivity/bind/bind-9.18.3/generate-rndc-key.sh
-> > diff --git a/meta/recipes-connectivity/bind/bind-9.18.2/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.18.3/init.d-add-support-for-read-only-rootfs.patch
-> > similarity index 100%
-> > rename from meta/recipes-connectivity/bind/bind-9.18.2/init.d-add-support-for-read-only-rootfs.patch
-> > rename to meta/recipes-connectivity/bind/bind-9.18.3/init.d-add-support-for-read-only-rootfs.patch
-> > diff --git a/meta/recipes-connectivity/bind/bind-9.18.2/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.18.3/make-etc-initd-bind-stop-work.patch
-> > similarity index 100%
-> > rename from meta/recipes-connectivity/bind/bind-9.18.2/make-etc-initd-bind-stop-work.patch
-> > rename to meta/recipes-connectivity/bind/bind-9.18.3/make-etc-initd-bind-stop-work.patch
-> > diff --git a/meta/recipes-connectivity/bind/bind-9.18.2/named.service b/meta/recipes-connectivity/bind/bind-9.18.3/named.service
-> > similarity index 100%
-> > rename from meta/recipes-connectivity/bind/bind-9.18.2/named.service
-> > rename to meta/recipes-connectivity/bind/bind-9.18.3/named.service
-> > diff --git a/meta/recipes-connectivity/bind/bind_9.18.2.bb b/meta/recipes-connectivity/bind/bind_9.18.3.bb
-> > similarity index 98%
-> > rename from meta/recipes-connectivity/bind/bind_9.18.2.bb
-> > rename to meta/recipes-connectivity/bind/bind_9.18.3.bb
-> > index 1c77aceb9f..b511b77f2e 100644
-> > --- a/meta/recipes-connectivity/bind/bind_9.18.2.bb
-> > +++ b/meta/recipes-connectivity/bind/bind_9.18.3.bb
-> > @@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-> >              file://0001-avoid-start-failure-with-bind-user.patch \
-> >              "
-> >
-> > -SRC_URI[sha256sum] = "2e4b38779bba0a23ee634fdf7c525fd9794c41d692bfd83cda25823a2a3ed969"
-> > +SRC_URI[sha256sum] = "0ad8da773bd93cba0ef66cc81999698ebdf9c3e51faed5e5c8c1eb75cad2ae6f"
-> >
-> >   UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
-> >   # follow the ESV versions divisible by 2
-> >
-> >
-> >
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#168192): https://lists.openembedded.org/g/openembedded-core/message/168192
-> Mute This Topic: https://lists.openembedded.org/mt/91307116/3617601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [sakoman@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+The following changes since commit 171415e38e526033a0423f4dc39e9d8e9dc4e5f6:
+
+  perf: fix reproducibility in 5.19+ (2022-07-16 08:20:22 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Alejandro Hernandez Samaniego (2):
+  package.bbclass: Fix base directory for debugsource files when using
+    externalsrc
+  package.bbclass: Fix kernel source handling when not using externalsrc
+
+Alexander Kanavin (1):
+  waffle: correctly request wayland-scanner executable
+
+Chanho Park (2):
+  cargo_common.bbclass: enable bitbake vendoring for externalsrc
+  externalsrc.bbclass: support crate fetcher on externalsrc
+
+Christoph Lauer (1):
+  package.bbclass: Avoid stripping signed kernel modules in
+    splitdebuginfo
+
+Khem Raj (1):
+  libmodule-build-perl: Use env utility to find perl interpreter
+
+Markus Volk (1):
+  python3: Backport patch to fix an issue in subinterpreters
+
+Ming Liu (3):
+  udev-extraconf: let automount base directory configurable
+  udev-extraconf: fix some systemd automount issues
+  udev-extraconf:mount.sh: fix path mismatching issues
+
+Muhammad Hamza (5):
+  udev-extraconf/mount.sh: add LABELs to mountpoints
+  udev-extraconf/mount.sh: save mount name in our tmp filecache
+  udev-extraconf/mount.sh: only mount devices on hotplug
+  udev-extraconf: force systemd-udevd to use shared MountFlags
+  udev-extraconf/mount.sh: ignore lvm in automount
+
+Pascal Bach (1):
+  bin_package: install into base_prefix
+
+Paul Eggleton (4):
+  devtool: ignore pn- overrides when determining SRC_URI overrides
+  patch: handle if S points to a subdirectory of a git repo
+  devtool: finish: handle patching when S points to subdir of a git repo
+  oe-selftest: devtool: test modify git recipe building from a subdir
+
+Pavel Zhukov (1):
+  harfbuzz: Fix compilation with clang
+
+Peter Marko (1):
+  alsa-state: correct license
+
+Richard Purdie (9):
+  udev-extraconf/initrdscripts/parted: Rename mount.blacklist ->
+    mount.ignorelist
+  insane: Fix buildpaths test to work with special devices
+  lua: Fix multilib buildpath reproducibility issues
+  vala: Fix on target wrapper buildpaths issue
+  gtk-doc: Remove hardcoded buildpath
+  kernel-arch: Fix buildpaths leaking into external module compiles
+  gcc-runtime: Fix build when using gold
+  gcc-runtime: Fix missing MLPREFIX in debug mappings
+  selftest/runtime_test/virgl: Disable for all almalinux
+
+Robert Joslyn (1):
+  curl: Fix multiple CVEs
+
+Ross Burton (2):
+  perl: don't install Makefile.old into perl-ptest
+  pulseaudio: add m4-native to DEPENDS
+
+ meta/classes/bin_package.bbclass              |   3 +-
+ meta/classes/cargo_common.bbclass             |   2 +-
+ meta/classes/externalsrc.bbclass              |   2 +-
+ meta/classes/insane.bbclass                   |   6 +-
+ meta/classes/kernel-arch.bbclass              |   2 +-
+ meta/classes/package.bbclass                  |  36 ++-
+ meta/lib/oe/patch.py                          |   8 +-
+ meta/lib/oe/recipeutils.py                    |   9 +-
+ meta/lib/oeqa/selftest/cases/devtool.py       | 114 +++++--
+ meta/lib/oeqa/selftest/cases/runtime_test.py  |   2 +-
+ meta/recipes-bsp/alsa-state/alsa-state.bb     |   7 +-
+ .../alsa-state/alsa-state/alsa-state-init     |   3 +-
+ .../files/init-install-efi-testfs.sh          |   2 +-
+ .../initrdscripts/files/init-install-efi.sh   |   2 +-
+ .../files/init-install-testfs.sh              |   2 +-
+ .../initrdscripts/files/init-install.sh       |   2 +-
+ .../{mount.blacklist => mount.ignorelist}     |   0
+ .../recipes-core/udev/udev-extraconf/mount.sh |  90 ++++--
+ meta/recipes-core/udev/udev-extraconf_1.1.bb  |  27 +-
+ meta/recipes-devtools/gcc/gcc-runtime.inc     |   5 +-
+ meta/recipes-devtools/lua/lua/lua.pc.in       |   5 +-
+ meta/recipes-devtools/lua/lua_5.4.4.bb        |   2 +-
+ .../perl/libmodule-build-perl_0.4231.bb       |   1 +
+ meta/recipes-devtools/perl/perl-ptest.inc     |   4 +-
+ ...h-92036-Fix-gc_fini_untrack-GH-92037.patch |  54 ++++
+ .../recipes-devtools/python/python3_3.10.4.bb |   1 +
+ meta/recipes-devtools/vala/vala.inc           |   6 +
+ meta/recipes-extended/parted/files/run-ptest  |   6 +-
+ meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb  |   2 +
+ .../harfbuzz/0001-Fix-conditional.patch       |  25 ++
+ .../harfbuzz/harfbuzz_4.0.1.bb                |   5 +-
+ ...build-request-native-wayland-scanner.patch |  27 ++
+ meta/recipes-graphics/waffle/waffle_1.7.0.bb  |   1 +
+ .../pulseaudio/pulseaudio.inc                 |   2 +-
+ .../curl/curl/CVE-2022-32205.patch            | 174 +++++++++++
+ .../curl/curl/CVE-2022-32206.patch            |  51 ++++
+ .../curl/curl/CVE-2022-32207.patch            | 283 ++++++++++++++++++
+ .../curl/curl/CVE-2022-32208.patch            |  67 +++++
+ meta/recipes-support/curl/curl_7.82.0.bb      |   4 +
+ scripts/lib/devtool/standard.py               |  29 +-
+ 40 files changed, 982 insertions(+), 91 deletions(-)
+ rename meta/recipes-core/udev/udev-extraconf/{mount.blacklist => mount.ignorelist} (100%)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-gh-92036-Fix-gc_fini_untrack-GH-92037.patch
+ create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz/0001-Fix-conditional.patch
+ create mode 100644 meta/recipes-graphics/waffle/waffle/0001-meson.build-request-native-wayland-scanner.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-32205.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-32206.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-32207.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-32208.patch
+
+-- 
+2.25.1
+
 
