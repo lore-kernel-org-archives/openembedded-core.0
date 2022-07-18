@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB679CCA482
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6542C433EF
 	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 14:49:52 +0000 (UTC)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web12.28236.1658155784906777526
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.28030.1658155782734633224
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:49:45 -0700
+ Mon, 18 Jul 2022 07:49:42 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=P1msJFA2;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.54,
+ header.b=cZn8EUJZ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f54.google.com with SMTP id b10so1057760pjq.5
+Received: by mail-pl1-f177.google.com with SMTP id j12so9226189plj.8
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:49:44 -0700 (PDT)
+ Mon, 18 Jul 2022 07:49:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=zLy5cCp+jeV9OG6RCDv/48a1ON5Rwkqd5hWJXoCG8u8=;
-        b=P1msJFA2yXbOftZ/CL8RMZa4VLgxsh1YXyzaQT8Ok07Ry7uJEpNC7WX/iWsEz35KTm
-         0LGOA3Dg3IHC5LLM5tnKUMYEe80IXwmlbbe62YkLwQV8A6j1tFIOYm2LtU2FwPRUMo7W
-         AtpDMIai+rZCEbkMlFxjrxS9IxRPjaFRp2G8sq+2ZrgtBQJC1CCjiWmvbxOteZ//mtn5
-         P1O2vHHR5gTRj8yuAAocZLXTaXtBgPLHAXkAyRn5f+5JiIvB7IlJbTB8O95TzQ1XAkTP
-         me65hxSWB7frIY36QxGswoPte34Nlhvpmyu2Qy6bzV7phELE1aID+zmSDTPwmv9Aano/
-         x4bA==
+        bh=iOJjmfxzG1vJGby0CkXuT78T42u+krUtsbxEObVS2WY=;
+        b=cZn8EUJZad4V0FCpJnPK4gXEz4Ej9WxX62X3lIVklRY4z+j6HZmD/JOM6IvQSZbvk/
+         W0vOhClCzWIgleh11QO2uWFgVGtbltI4hamwsaLs45tq/jir/gyRXAjQRj/iF32G7qUE
+         SJG26k66A9yLJ7KEEFc+Rh4Z+4+UsAZvVbhXnY/psFp9UVmwFCa3NFSmbFtc5T16C218
+         yKluZbQnqZwaW14e9MhSjCkzElruY9ptwpSh8RBFHUTWQ4EyjHeTmoyaCb7UmnlIWapE
+         AVu8orrFPf9cGxFbfQZR2VDThvcVUaahW7NABeI35+aye8AIO3enRn3HC5aNGcIPtvpH
+         JYmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zLy5cCp+jeV9OG6RCDv/48a1ON5Rwkqd5hWJXoCG8u8=;
-        b=Q97cZ6sEex8EOB0DupqUEzvXz/JD5aviF4l7+llTRynGwE8Lp2fJV/bVhHaTKzhPMb
-         j8wiXX+oZWnU6GcLXveqpDL2f2FGkMnLQTaRJ2MSdX2eg99pWRx2ixrIHX9/UTyS4uMm
-         j/AdfdjrFEZT8no/Ct9zBzNDTEzAP9Ij7SvEqVmfwwyVabQ7t81OHBJLPzLmpfcij59o
-         7ZbE2w1mWdA6/F3gmP6eKP2NAoGbARFI9jbK29uhkUn7xMNMXW0sVu7TCJgbUC5VSkzJ
-         QEH4RGFMKRBSxs32LVxMJQUimo6snuvuTuvqFm0B55SSWfPaJZnHHrKITKd+dy0IJWHM
-         7ZtA==
-X-Gm-Message-State: AJIora+HP4TkrunEpbhvKtOqNjASHyiKcCPu5l84MKF3fX2m8MCGtggL
-	A9v5MPEaGSvrNzp8WLq5AcLvaGFwmgLay/J3
+        bh=iOJjmfxzG1vJGby0CkXuT78T42u+krUtsbxEObVS2WY=;
+        b=f24EoTBmhr6A5nL0ZO6MW2ZFYqnB2g4PInDnenvc0AqRVyGBymHVeS0Cmd27h16nXh
+         TQYv1qp6thcnPq9esW90XBdHZUSPxMD2WTEEfD4ut9zR6WyoFlMP7A8jGhHD3AJYMnXA
+         J/zoPD9ogFyZm3GI5wgtmXVNiw3rbdZXqKyUVC3vV/6y/Hq9XYWBcIj/03VREfWjvhCz
+         NBaeMVaQfYgJsf1a8VsvinNd5BY2y0N2UU/Mkenl/ykxAyQfFo6JGeU8xaWklU39GmnA
+         8gznMMC0gTEZsH6YNASeiXzPGOJ/0yq0UdLrjVCBUmZZGKQmHL36jj3Vt+F1ald56w3Q
+         0dbg==
+X-Gm-Message-State: AJIora/25QhGQYPW+oBLYO9UY4jcYQDMX18LQ1njP3Zp2xkMDUtwFwI0
+	PTxUmbkwKOVMMLnTp1JzoI337USGCif6ZNfM
 X-Google-Smtp-Source: 
- AGRyM1vP0Y0CR4wYuu41dSrp2qQTS/oQv1pLshfsBd05IfQv+oYa0mMLjd+axpLripP8+bl3pTJQ8w==
-X-Received: by 2002:a17:90b:28d:b0:1f0:47:ca83 with SMTP id
- az13-20020a17090b028d00b001f00047ca83mr38372205pjb.176.1658155783799;
-        Mon, 18 Jul 2022 07:49:43 -0700 (PDT)
+ AGRyM1tRssHqDXGLE2/TWknXEjHrtJSlbCE2AQT4FeQVVLyJqfwNVo4s9dHBtcIqNwOuHV+FkSDH0A==
+X-Received: by 2002:a17:903:281:b0:16c:4ccf:e46b with SMTP id
+ j1-20020a170903028100b0016c4ccfe46bmr28208359plr.36.1658155781633;
+        Mon, 18 Jul 2022 07:49:41 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.49.42
+ ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.49.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 07:49:43 -0700 (PDT)
+        Mon, 18 Jul 2022 07:49:41 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 11/35] udev-extraconf:mount.sh: fix path
- mismatching issues
-Date: Mon, 18 Jul 2022 04:48:36 -1000
+Subject: [OE-core][kirkstone 10/35] udev-extraconf: fix some systemd automount
+ issues
+Date: Mon, 18 Jul 2022 04:48:35 -1000
 Message-Id: 
- <cb37eebf477e9907363b195c3d460b14717c5fea.1658155579.git.steve@sakoman.com>
+ <a3c93ec301a34413f91e3edb70c16454ebcdcdf2.1658155579.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1658155579.git.steve@sakoman.com>
 References: <cover.1658155579.git.steve@sakoman.com>
@@ -70,62 +70,78 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 14:49:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168211
+ https://lists.openembedded.org/g/openembedded-core/message/168210
 
 From: Ming Liu <liu.ming50@gmail.com>
 
-Since commit f077befd5f36ad88623aaf6a38b1a837ecb18650:
-[ udev-extraconf: let automount base directory configurable ]
+The '.include' syntax has been dropped from latest systemd releases,
+we need drop the systemd-udevd.service here, introduce a postinst
+function to add "MountFlags=shared" to systemd-udevd.service.
 
-the mount base directory was configurable, we need drop 'run-media'
-usage as well, change to figure it out from MOUNT_BASE.
-
-Also 'get_label_name' function needs to be called ealier in
-automount_systemd before checking '/tmp/.automount-$name', otherwise
-they would never match.
-
-(From OE-Core rev: c013b33162546fb5bd4bcc1daac75aa65d0be1a3)
+Also lsblk binary is being called in mount.sh automount_systemd
+function, add it to RDEPENDS.
 
 Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7ed210054b3e253d5a67075bb9d4768d1661bef1)
+(cherry picked from commit 356520d60b9429c6f62124821e42468ff2b7b1d6)
 Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/udev/udev-extraconf/mount.sh | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../udev/udev-extraconf/systemd-udevd.service |  3 ---
+ meta/recipes-core/udev/udev-extraconf_1.1.bb  | 20 +++++++++++--------
+ 2 files changed, 12 insertions(+), 11 deletions(-)
+ delete mode 100644 meta/recipes-core/udev/udev-extraconf/systemd-udevd.service
 
-diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
-index 8b6ce77741..43acb3a7a0 100644
---- a/meta/recipes-core/udev/udev-extraconf/mount.sh
-+++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
-@@ -40,11 +40,14 @@ automount_systemd() {
-     name="`basename "$DEVNAME"`"
+diff --git a/meta/recipes-core/udev/udev-extraconf/systemd-udevd.service b/meta/recipes-core/udev/udev-extraconf/systemd-udevd.service
+deleted file mode 100644
+index a9b86eb6e4..0000000000
+--- a/meta/recipes-core/udev/udev-extraconf/systemd-udevd.service
++++ /dev/null
+@@ -1,3 +0,0 @@
+-.include @systemd_unitdir@/system/systemd-udevd.service
+-[Service]
+-MountFlags=shared
+diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+index ef6019259e..30f1fe76d0 100644
+--- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
++++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+@@ -11,7 +11,6 @@ SRC_URI = " \
+        file://autonet.rules \
+        file://network.sh \
+        file://localextra.rules \
+-       ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'file://systemd-udevd.service', '', d)} \
+ "
  
-     # Skip already mounted partitions
--    if [ -f /run/systemd/transient/run-media-$name.mount ]; then
-+    if [ -f /run/systemd/transient/$(echo $MOUNT_BASE | cut -d '/' -f 2- | sed 's#/#-#g')-*$name.mount ]; then
-         logger "mount.sh/automount" "$MOUNT_BASE/$name already mounted"
-         return
-     fi
+ S = "${WORKDIR}"
+@@ -36,16 +35,21 @@ do_install() {
+     sed -i 's|@MOUNT_BASE@|${MOUNT_BASE}|g' ${D}${sysconfdir}/udev/scripts/mount.sh
  
-+    # Get the unique name for mount point
-+    get_label_name "${DEVNAME}"
+     install -m 0755 ${WORKDIR}/network.sh ${D}${sysconfdir}/udev/scripts
++}
 +
-     # Only go for auto-mounting when the device has been cleaned up in remove
-     # or has not been identified yet
-     if [ -e "/tmp/.automount-$name" ]; then
-@@ -61,9 +64,6 @@ automount_systemd() {
-         grep "^[[:space:]]*$tmp" /etc/fstab && return
-     done
++pkg_postinst:${PN} () {
++	if [ -e $D${systemd_unitdir}/system/systemd-udevd.service ]; then
++		sed -i "/\[Service\]/aMountFlags=shared" $D${systemd_unitdir}/system/systemd-udevd.service
++	fi
++}
  
--    # Get the unique name for mount point
--    get_label_name "${DEVNAME}"
--
-     [ -d "$MOUNT_BASE/$name" ] || mkdir -p "$MOUNT_BASE/$name"
+-    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
+-        install -d ${D}${sysconfdir}/systemd/system
+-        install ${WORKDIR}/systemd-udevd.service ${D}${sysconfdir}/systemd/system/systemd-udevd.service
+-        sed -i 's|@systemd_unitdir@|${systemd_unitdir}|g' ${D}${sysconfdir}/systemd/system/systemd-udevd.service
+-    fi
++pkg_postrm:${PN} () {
++	if [ -e $D${systemd_unitdir}/system/systemd-udevd.service ]; then
++		sed -i "/MountFlags=shared/d" $D${systemd_unitdir}/system/systemd-udevd.service
++	fi
+ }
  
-     MOUNT="$MOUNT -o silent"
+-FILES:${PN} = "${sysconfdir}/udev ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '${sysconfdir}/systemd/system/systemd-udevd.service', '', d)}"
+-RDEPENDS:${PN} = "udev util-linux-blkid"
++RDEPENDS:${PN} = "udev util-linux-blkid ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'util-linux-lsblk', '', d)}"
+ CONFFILES:${PN} = "${sysconfdir}/udev/mount.ignorelist"
+ 
+ # to replace udev-extra-rules from meta-oe
 -- 
 2.25.1
 
