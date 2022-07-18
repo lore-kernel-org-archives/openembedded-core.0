@@ -2,64 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5DFCC3F2D4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0C7AC43334
 	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 14:50:02 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
- [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web10.28037.1658155793263848263
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web09.28150.1658155797023633807
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:49:53 -0700
+ Mon, 18 Jul 2022 07:49:57 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=dxG5Gekl;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180,
+ header.b=ZrkpY0oD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.41,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id f65so10766903pgc.12
+Received: by mail-pj1-f41.google.com with SMTP id
+ i8-20020a17090a4b8800b001ef8a65bfbdso12876735pjh.1
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:49:53 -0700 (PDT)
+ Mon, 18 Jul 2022 07:49:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=iPc7NocptWA32GYzrCUB/G2dZyK3h0JflmP4fVj+tA0=;
-        b=dxG5Gekl/2w0RGyiT0k/LSvZ1YFeMQXSU/jDVNg7nseBuLdeLWy7dXvKJIawD0tHyp
-         1IeoaL0R2MJ1p04mOiC2mpM+rZVQn6ewJKSVHPwwI50RKxG+QnTylGvH7OTYv6qO0/1c
-         jLFE1d8AqtgqpIdsDdbU4BAC6hzY4wXn6USsKdMFz4J30pKjuOnoQ1MdcA+TpC5ORtjI
-         20vtjIOJjKNCj25aDGuNqrq98VbjA7gatSV3KSKlO59yKBVW2mUZzp6JXFy53/c2Lc9X
-         xvpKLTYMWPEvBhorIg7/RkWncdLKt8w4u2HBzvhdBO8yfbVz6+88QuNgCySXS/HVCvqt
-         iWNA==
+        bh=Vg/ivvGs++S3ajIxvGc4MqYS185SB4tpaXnBIrYXZ4k=;
+        b=ZrkpY0oDd2Xgzxze2eo5+8N588Qeyxj5P6v5vAev0y2Pu9uOirsrt0PPpUNvWVN+WG
+         5atev6jDzY6cTW+5/UXjvgHN06Vuj2cQ1tKqWkryHb2KP8MiMNA/Bcmk4OERVb06rYtg
+         Yiuh8ybRMEu/6QDCUp2ucRi48nBiZQPmWQJHzG2WHNs92ZxaoYOprZ2Fpj1rVbuJihzg
+         WCfNaO7Nfxeh4d58G9NHQ58JFFTeAaZqi+tPD+EZRDsOWL8dM14eWqbjajeUYyso0Ltf
+         PR/HUuCOoYoPdcZnnPZUIEmJuH5qGKSowGMIoGphrjTq3rdbX1M5js2VwUdLQjoZ+pAm
+         XyEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=iPc7NocptWA32GYzrCUB/G2dZyK3h0JflmP4fVj+tA0=;
-        b=kA8JDF9G8uJx4AVKnwQtIrz9YJMJeQsVjECsB90NkNO2i1vWJvfs2F9agZ4WmHSOxv
-         +v4SfS1CTEqPumKJjIOMxLYvUvTp6JLwzVJImYEwleCiMbZ6tq2BS2kOAVrgU1eGvsvb
-         N+HK0RdL5Wl7/m3946XI7rwi7FFoEGorcGWjVSi5Mwoo9vfXfCzpfj7mTYlXI6sTdpOU
-         FxpSs8Zrg2Ik+a4965Xuihg61B5h/b6oWS0uaJxx3D7yvbwFQQuOThVtaGBwFY3f+BRD
-         QtUTYWlSwKruBdbqFzbB3e3uPJHTkIEawG7ZFje/M/ZX23vjLCw+RyVKhl+9HRngHtKS
-         jEjg==
-X-Gm-Message-State: AJIora/HA7QNgwBvhTnyM8vpJJuTEfmYvWxi2wIz63fmJRMuxD7Q/NOz
-	S52YZK2VGkUv5M5F75ochyPzS2c4DX6087ER
+        bh=Vg/ivvGs++S3ajIxvGc4MqYS185SB4tpaXnBIrYXZ4k=;
+        b=OYR+Hy74+9hLqDMhP3K+pD1Q1pf2b6CDdU+MWrPyiCL94FvvBcu3LZCG7VzMvt6you
+         AgXpgTsBtdaKXHxGZGaUZWkkcBf6eASAfWSBXDeJj0iobqVhrri8RLJFNhxpsjD2NGqC
+         R4Z1kIt54hXh1Ir4s4fR/oDyX4Q8iYI5YOBgOqGX2NsASEsiO2Tp6IwT0tA7w2McCjgE
+         WZMNZpmiNnGZaocmD8zsCPV6OUa1kKMzylud5IrqQC0c+fieYaQDc9YUKXvuaCcwM0YY
+         vzUS1a+ZsNMl46J+SObGhp0M8tJ6cAABCL1RZ+1vv/pfmZTYJWA+QMaJTQFc7/XADUJe
+         LLDA==
+X-Gm-Message-State: AJIora9bQxvyqMO60MSSxWG7AStYQQluhdYrh1PuqI4hYcXEsMpASbp2
+	m8YkuKLMhSQAfahftyysP/0X+4aC77wwYUOs
 X-Google-Smtp-Source: 
- AGRyM1u6kutlpQK7msq+xW9QtEkSmumRLIIpqMd8MAmBR4iW7df2bDqs0mGzXgdWzBkxkireHU1bLg==
-X-Received: by 2002:a05:6a00:99f:b0:52a:dd61:a50f with SMTP id
- u31-20020a056a00099f00b0052add61a50fmr28354415pfg.9.1658155792244;
-        Mon, 18 Jul 2022 07:49:52 -0700 (PDT)
+ AGRyM1uu+OOoeg1/OKB9mptDGUrW6xZmIVUPDITA874IalDnnK924Dxw2PzRaO/T+jP1CNaLdciSRA==
+X-Received: by 2002:a17:903:3093:b0:16b:deea:4d36 with SMTP id
+ u19-20020a170903309300b0016bdeea4d36mr28433752plc.126.1658155795733;
+        Mon, 18 Jul 2022 07:49:55 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.49.50
+ ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.49.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 07:49:51 -0700 (PDT)
+        Mon, 18 Jul 2022 07:49:55 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 14/35] package.bbclass: Avoid stripping signed
- kernel modules in splitdebuginfo
-Date: Mon, 18 Jul 2022 04:48:39 -1000
+Subject: [OE-core][kirkstone 15/35] package.bbclass: Fix kernel source
+ handling when not using externalsrc
+Date: Mon, 18 Jul 2022 04:48:40 -1000
 Message-Id: 
- <cefc6ec245ac1ca7a1a47d55aaec793e730a24a5.1658155579.git.steve@sakoman.com>
+ <8efd5e31670235f7c59af2a5ee14646f029f4d18.1658155579.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1658155579.git.steve@sakoman.com>
 References: <cover.1658155579.git.steve@sakoman.com>
@@ -70,39 +71,44 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 14:50:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168214
+ https://lists.openembedded.org/g/openembedded-core/message/168215
 
-From: Christoph Lauer <christoph.lauer@xtronic.de>
+From: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
 
-Since commit d756b346f248df47b0540644adb1d0f17bcc4b6e kernel modules are stripped by the functions 'runstrip' and 'splitdebuginfo'. Signed modules must not be stripped. Function 'runstrip' avoids this by running is_kernel_module_signed. Apply the same check to splitdebuginfo.
+Previous commit c725bdb29b266 broke kernel source handling, this was due
+to the code expecting the sources to be in a different directory, this did
+not happen when using externalsrc since sources were found in the expected
+directories.
 
-(From OE-Core rev: 6859226652339b19cbc7bdfec074fe2016cdee60)
+Pass work-shared to the check to allow sources to be found in the proper
+directory, allowing these to be packaged in the next step.
 
-Signed-off-by: Christoph Lauer <christoph.lauer@xtronic.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To test this we grabbed a commit where we knew the buildpaths
+QA test should flag a file inside the kernel sources, with the previous
+commit the QA warning wasnt flagged since no sources where there, with
+this fix the buildpaths QA warning gets flagged properly.
+
+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit dc0f0413eabfd50f78d887f73f808d40a314fbd8)
+(cherry picked from commit 2714a8ef8c7b3c66d50f27f4f52fe2fe4db39b00)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/package.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/classes/package.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 4850134022..63887b34f8 100644
+index 63887b34f8..97e97d2703 100644
 --- a/meta/classes/package.bbclass
 +++ b/meta/classes/package.bbclass
-@@ -382,6 +382,11 @@ def splitdebuginfo(file, dvar, dv, d):
-     debugfile = dvar + dest
-     sources = []
+@@ -566,7 +566,7 @@ def copydebugsources(debugsrcdir, sources, d):
  
-+    if file.endswith(".ko") and file.find("/lib/modules/") != -1:
-+        if oe.package.is_kernel_module_signed(file):
-+            bb.debug(1, "Skip strip on signed module %s" % file)
-+            return (file, sources)
-+
-     # Split the file...
-     bb.utils.mkdirhier(os.path.dirname(debugfile))
-     #bb.note("Split %s -> %s" % (file, debugfile))
+         # If S isnt based on WORKDIR we can infer our sources are located elsewhere,
+         # e.g. using externalsrc; use S as base for our dirs
+-        if workdir in sdir:
++        if workdir in sdir or 'work-shared' in sdir:
+             basedir = workbasedir
+             parentdir = workparentdir
+         else:
 -- 
 2.25.1
 
