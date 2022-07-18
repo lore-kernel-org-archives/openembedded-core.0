@@ -2,133 +2,96 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF888C433EF
-	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 00:30:38 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web12.21863.1658104237516578842
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 945A4C43334
+	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 00:30:48 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web09.21795.1658104246065502511
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Jul 2022 17:30:37 -0700
+ Sun, 17 Jul 2022 17:30:46 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=LUyyY3/0;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176,
+ header.b=ypcDNfHH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id w185so9336214pfb.4
+Received: by mail-pl1-f169.google.com with SMTP id y15so2956603plp.10
         for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Jul 2022 17:30:37 -0700 (PDT)
+ Sun, 17 Jul 2022 17:30:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=7XDa2yAOlw3ChzZN9n2/2yAC6pdKQU7b9Qk1+EjR1Y8=;
-        b=LUyyY3/0y9V00lRV+8peew0WD9DUT5qHF60bXhtsUA5Zx2b9h7oHUYABCszzTAFoyr
-         6hybtJ8uMLNrx/UnhtWUQlt6fkPe4H1J6Byl0wtpTM+fcATAquWgQBZ8ajlxmPVy6tp6
-         DwP3E1rlSzg2iy3bcZUZBo2g7BNIw9AzvFOiM37ucoTq90YhNyIcLirpcVQE1rn2ZPvZ
-         sUmY3efoQg6vhUVri9wvb3iLCP7t0AcDdlpit6ZQ3yVErzJfSPDAHiJzV40oIUmixDbG
-         jmKeB9w6vKSjhEs+TIEmCngkznu8JMIZCQ/xrESnZ11ZDO3QAoBs+aZTZ338GrOAdE/w
-         0oeA==
+        bh=1lOiRryxMkmFNrDPdPgo8HfWBeyMRXg5N0pT9xAUEG8=;
+        b=ypcDNfHHZFd6/eM9Giqa9bp/q0rctiquEHCG4zTrwgQneP1lg9uoTjtg3UxmhtNSRE
+         F/p0LLaqI71NNqba3xR7zVvju0FaIeG/9PBs0Hjdv32cH9C5z5ohEdbJm5GITOcgwHXD
+         jBH79Bf7NV/kWhA5pzoBpwgYpS2uC5pDL+6z/ki6aTFpsk1Ld9Dfvy3XWdLJTXK1tpTO
+         2LFx0xnypKXpA6XaZzOgPkibwxD11OZDiqtxKo22yvmMTw8XpzS2GOL0E9UDqDXXpki3
+         YJEFexQe3iyFn+tkzX8UUsFoo9e6lUgfpedU+GK2svY6AHfb+4to88rq/xq7z+tc3lVA
+         eMBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7XDa2yAOlw3ChzZN9n2/2yAC6pdKQU7b9Qk1+EjR1Y8=;
-        b=2atWRo2wjS1THEXiEdhOxSkL+WM6kRZTWb7rx2vbpR9dpbn4ViwSkj1D66pNyb8tdo
-         7TwTERvS1kX1Sum/AYVjqT6ildV4fuyIskB6nflHrXZCz5t+AtsJruu77D3yEliQd7f2
-         Cw+hwLcnpW4+ik82xbwORYVmr175yEslItIho5CsKNE9NSNRL8kg7x1XBbUL9NLcMN8h
-         1Ju3N2S6g+9TDkfg0PAk/oA+Xrugz7AYOPHJRa5TZpCkgJ3ACvfw13cveMwwESZcfngN
-         tQDNuTWIaiiJEyeA4LIM5Bg+BkQ3jSVRomnlTxHzoHWLNwmdwnDaYOBCksHR7DKkMRrT
-         Sl/Q==
-X-Gm-Message-State: AJIora/mzVhmNkX3zHt+Vah65ntPXOfnEaYIlmHzh94WkZEEYkWCtdlI
-	5W0Klvq9Yclr/hoToGxmAxPaPa7+vdnLna72
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=1lOiRryxMkmFNrDPdPgo8HfWBeyMRXg5N0pT9xAUEG8=;
+        b=tRSQQjX+DvCfbXSBIdCHyqNZTDvyW8rI8Ccu0vf1i2XnFCle5xWKyC+yDYsoOd2L6g
+         RWDq+4FgKj/hBdzHWtkwrhthLFgnKK/9JtxgeQS4gRvnD1A49DUYtzIiGV/YUgpOH2yY
+         PvsIVrG7qfcRqotC1BKejhmqqdoo+h8fYU5Hr8wZmCgrnPzho+Ui0SpAzjO0Gr0n4QHs
+         9fQi48ERe61FU8g8VDAt0ecEWpQBmr12zYR5YqEKuTIGG/kNUIwsRNJ3JHa0Bw5SsHwo
+         Nua2e2NRw98Q6vhXyY3d28Ply+IiCSHJElLg6OIArGeoWO3WV67487wx6UQqJF0emeNs
+         wPgw==
+X-Gm-Message-State: AJIora+FUp1S2smYeDn5k7Jo7uL3lnmLWOL+tcmX8tLJ92W712tdIvXB
+	j8ZZh7e4kFCw+N7yMaM1Qql6hMfuGzPsTZnu
 X-Google-Smtp-Source: 
- AGRyM1vRMbYcY2MDqQIfthDOWxBWtQmaD56ZxJN3+jKu8FwyTjGRvcTqJfRckEnsqVhiOqyXK04uTQ==
-X-Received: by 2002:aa7:909a:0:b0:52b:3afb:fc49 with SMTP id
- i26-20020aa7909a000000b0052b3afbfc49mr15023155pfa.39.1658104236245;
-        Sun, 17 Jul 2022 17:30:36 -0700 (PDT)
+ AGRyM1tdJpwi315XhDn2YN3JeYeFYmJGlk3gHYHr6ztJchTQSGrFtHfKu3Wmo6xU94ER3XnzPq8zZQ==
+X-Received: by 2002:a17:90b:2bd3:b0:1ef:9ac7:d90c with SMTP id
+ ru19-20020a17090b2bd300b001ef9ac7d90cmr29159861pjb.53.1658104244969;
+        Sun, 17 Jul 2022 17:30:44 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- s30-20020a17090a2f2100b001ef831a2015sm9958183pjd.22.2022.07.17.17.30.32
+ s30-20020a17090a2f2100b001ef831a2015sm9958183pjd.22.2022.07.17.17.30.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Jul 2022 17:30:33 -0700 (PDT)
+        Sun, 17 Jul 2022 17:30:43 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/23] Patch review
-Date: Sun, 17 Jul 2022 14:30:01 -1000
-Message-Id: <cover.1658093505.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 02/23] qemu: Add PACKAGECONFIG for brlapi
+Date: Sun, 17 Jul 2022 14:30:03 -1000
+Message-Id: 
+ <5a892e2202c70939944bc99ce192a4e4462ba2c8.1658093505.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1658093505.git.steve@sakoman.com>
+References: <cover.1658093505.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 00:30:38 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 00:30:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168165
+ https://lists.openembedded.org/g/openembedded-core/message/168167
 
-Please review this set of patches for kirkstone and have comments back by
-end of day Tuesday.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Passed a-full on autobuilder:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 482471a617e5f682416b7ec1a920dfaeac65f1a3)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3924
-
-The following changes since commit a4bfb5ceb5cf8c0c6d27225b27ef10c0b9dceccb:
-
-  libsoup: upgrade 3.0.6 -> 3.0.7 (2022-07-13 11:54:16 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Bruce Ashfield (19):
-  linux-yocto/5.10: update to v5.10.121
-  linux-yocto/5.10: update to v5.10.123
-  linux-yocto/5.10: update to v5.10.128
-  linux-yocto/5.10: fix build_OID_registry/conmakehash buildpaths
-    warning
-  linux-yocto/5.10: fix buildpaths issue with gen-mach-types
-  linux-yocto/5.10: update to v5.10.130
-  linux-yocto/5.10: fix buildpaths issue with pnmtologo
-  linux-yocto/5.15: update to v5.15.46
-  linux-yocto/5.15: update to v5.15.48
-  linux-yocto/5.15: drop obselete GPIO sysfs ABI
-  linux-yocto/5.15: update to v5.15.52
-  linux-yocto/5.15: fix qemuppc buildpaths warning
-  linux-yocto/5.15: fix build_OID_registry buildpaths warning
-  linux-yocto/5.15: fix buildpaths issue with gen-mach-types
-  linux-yocto/5.15: update to v5.15.54
-  linux-yocto/5.15: fix buildpaths issue with pnmtologo
-  kernel-devsrc: fix reproducibility and buildpaths QA warning
-  kernel-devsrc: ppc32: fix reproducibility
-  perf: fix reproducibility in 5.19+
-
-Richard Purdie (4):
-  qemu: Fix slirp determinism issue
-  qemu: Add PACKAGECONFIG for brlapi
-  gperf: Add a patch to work around reproducibility issues
-  gperf: Switch to upstream patch
-
- .../qemu/qemu-system-native_6.2.0.bb          |   2 +-
- meta/recipes-devtools/qemu/qemu.inc           |   2 +
- meta/recipes-devtools/qemu/qemu_6.2.0.bb      |   4 +-
- ...c6e57a308a05889c80c048dbc58bdc378dcb.patch | 181 ++++++++++++++++++
- meta/recipes-extended/gperf/gperf_3.1.bb      |   2 +
- meta/recipes-kernel/linux/kernel-devsrc.bb    |   8 +-
- .../linux/linux-yocto-rt_5.10.bb              |   6 +-
- .../linux/linux-yocto-rt_5.15.bb              |   6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
- .../linux/linux-yocto-tiny_5.15.bb            |   6 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +--
- meta/recipes-kernel/linux/linux-yocto_5.15.bb |  26 +--
- meta/recipes-kernel/perf/perf.bb              |   6 +
- 13 files changed, 238 insertions(+), 43 deletions(-)
- create mode 100644 meta/recipes-extended/gperf/gperf/1862c6e57a308a05889c80c048dbc58bdc378dcb.patch
-
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index e1b5b2e5d3..63f0569d06 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -203,6 +203,7 @@ PACKAGECONFIG[capstone] = "--enable-capstone,--disable-capstone"
+ PACKAGECONFIG[rdma] = "--enable-rdma,--disable-rdma"
+ PACKAGECONFIG[vde] = "--enable-vde,--disable-vde"
+ PACKAGECONFIG[slirp] = "--enable-slirp=internal,--disable-slirp"
++PACKAGECONFIG[brlapi] = "--enable-brlapi,--disable-brlapi"
+ 
+ INSANE_SKIP:${PN} = "arch"
+ 
 -- 
 2.25.1
 
