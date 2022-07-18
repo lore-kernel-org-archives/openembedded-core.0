@@ -1,168 +1,248 @@
-Return-Path: <kai.kang@windriver.com>
+Return-Path: <mfumita@electromag.com.au>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CB2EC43334
-	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 02:22:09 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.22682.1658110924606851945
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DD04C43334
+	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 02:47:19 +0000 (UTC)
+Received: from anchovy2.45ru.net.au (anchovy2.45ru.net.au [203.30.46.146])
+ by mx.groups.io with SMTP id smtpd.web12.22974.1658112437248709254
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Jul 2022 19:22:04 -0700
+ Sun, 17 Jul 2022 19:47:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriver.com
- header.s=pps06212021 header.b=pZro+kpI;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=41981c58c2=kai.kang@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 26I1xD20028268
-	for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Jul 2022 19:22:04 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to :
- subject : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=PPS06212021;
- bh=un5Rd5Akk1g1djJIjqoZvBqDDC/BMYYb5Fz5uJ6+mZo=;
- b=pZro+kpIgJH8itTKGr3dFt2N/bnuGSbGFm4PNoBM7T6H82t/UOTgcvdx0JpUUW//wuOk
- r1KLhqmr5zy5jB1A00GNN2MRlge2OGLpuhl5kIzi+HTGv36DDd2SDEL8R3jkTCe3T9ua
- iub0CSRuVGFA8rodcbmt8UrpZqhkdzGgs0ttjUX0lU+zB3Xsun3nM4ZgHgWke9/+RI3O
- BFzjqE5jvWmNh70UAu18XL9snzd8Y/iBwDYVji4JSZ0eniM0hRlYmpUzphoFZt2xbfQG
- Egz8ULUuymOfEmOL8He61q6GRwvRRaQOIvOMbB2qg7evF9jW4yNgzFFsR5IpCmKZJc2d oQ==
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com
- [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3hbvukrub5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Jul 2022 19:22:03 -0700
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Sun, 17 Jul 2022 19:22:03 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Sun, 17 Jul 2022 19:22:03 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Sun, 17 Jul 2022 19:22:02 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] mesa: fix with DEBUG_BUILD enabled
-Date: Mon, 18 Jul 2022 10:21:59 +0800
-Message-ID: <20220718022159.39781-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=missing;
+ spf=none, err=permanent DNS error (domain: electromag.com.au,
+ ip: 203.30.46.146, mailfrom: mfumita@electromag.com.au)
+Received: (qmail 15912 invoked by uid 5089); 18 Jul 2022 02:47:15 -0000
+Received: by simscan 1.2.0 ppid: 15836, pid: 15837, t: 0.1020s
+         scanners: regex: 1.2.0 attach: 1.2.0 clamav: 0.88.3/m:40/d:1950
+X-RBL: $rbltext
+Received: from unknown (HELO ?192.168.0.102?)
+ (mfumita@electromag.com.au@203.59.235.95)
+  by anchovy3.45ru.net.au with ESMTPA; 18 Jul 2022 02:47:14 -0000
+Message-ID: <1329b01e-7f4e-de90-6b0c-885bc5a9392a@electromag.com.au>
+Date: Mon, 18 Jul 2022 10:47:11 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Proofpoint-GUID: z06J-xahp4daxs8Vb1QpbVaF0u1HpWxy
-X-Proofpoint-ORIG-GUID: z06J-xahp4daxs8Vb1QpbVaF0u1HpWxy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-18_01,2022-07-15_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- mlxlogscore=999 suspectscore=0 clxscore=1015 malwarescore=0 mlxscore=0
- phishscore=0 adultscore=0 impostorscore=0 bulkscore=0 priorityscore=1501
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207180009
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-0064b401.pphosted.com id 26I1xD20028268
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [OE-core] [PATCH 1/1] gcc: Fixed libstdc++ configure failure
+Content-Language: en-AU
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org,
+  richard.purdie@linuxfoundation.org, preid@electromag.com.au
+References: <20220708070350.23456-1-mfumita@electromag.com.au>
+ <YsvX+cK7gKUvKf1G@mail.local>
+From: Morikazu Fumita <mfumita@electromag.com.au>
+In-Reply-To: <YsvX+cK7gKUvKf1G@mail.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 02:22:09 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 02:47:19 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168189
+ https://lists.openembedded.org/g/openembedded-core/message/168190
 
-From: Kai Kang <kai.kang@windriver.com>
+Thank you for the reply.
 
-It fails to compile mesa-native when DEBUG_BUILD is enabled:
+Please ignore this patch as it's solved at the following thread.
+libstdc++ honister -> kirkstone
 
-../mesa-22.1.3/src/compiler/nir/nir_inline_helpers.h: In function =E2=80=98=
-nir_opt_move_block=E2=80=99:
-../mesa-22.1.3/src/compiler/nir/nir_opt_move.c:55:1: error: inlining fail=
-ed in call to
-  always_inline =E2=80=98src_is_ssa=E2=80=99: indirect function call with=
- a yet undetermined callee
- src_is_ssa(nir_src *src, void *state)
- ^~~~~~~~~~
-
-Remove 'ALWAYS_INLINE' for function src_is_ssa.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../mesa/files/0001-nir-fix-build-at-Og.patch | 31 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-nir-fix-build-a=
-t-Og.patch
-
-diff --git a/meta/recipes-graphics/mesa/files/0001-nir-fix-build-at-Og.pa=
-tch b/meta/recipes-graphics/mesa/files/0001-nir-fix-build-at-Og.patch
-new file mode 100644
-index 0000000000..5b4a5c7231
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-nir-fix-build-at-Og.patch
-@@ -0,0 +1,31 @@
-+At -Og with gcc 12.1, it fails to compile:
-+
-+../mesa-22.1.3/src/compiler/nir/nir_inline_helpers.h: In function =E2=80=
-=98nir_opt_move_block=E2=80=99:
-+../mesa-22.1.3/src/compiler/nir/nir_opt_move.c:55:1: error: inlining fai=
-led in call to always_inline =E2=80=98src_is_ssa=E2=80=99: indirect funct=
-ion call with a yet undetermined callee     src_is_ssa(nir_src *src, void=
- *state)
-+ ^~~~~~~~~~
-+
-+Remove 'ALWAYS_INLINE' for function src_is_ssa.
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/m=
-erge_requests/17589]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+ src/compiler/nir/nir_opt_move.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/compiler/nir/nir_opt_move.c b/src/compiler/nir/nir_opt_=
-move.c
-+index 81bcde5c436..09db6717002 100644
-+--- a/src/compiler/nir/nir_opt_move.c
-++++ b/src/compiler/nir/nir_opt_move.c
-+@@ -51,7 +51,7 @@
-+  * lower register pressure.
-+  */
-+=20
-+-static ALWAYS_INLINE bool
-++static bool
-+ src_is_ssa(nir_src *src, void *state)
-+ {
-+    return src->is_ssa;
-+--=20
-+2.34.1
-+
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-index 710cacb09d..58e662efd4 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -22,6 +22,7 @@ SRC_URI =3D "https://mesa.freedesktop.org/archive/mesa-=
-${PV}.tar.xz \
-            file://0001-util-format-Check-for-NEON-before-using-it.patch =
-\
-            file://0001-Revert-egl-wayland-deprecate-drm_handle_format-an=
-d-d.patch \
-            file://0001-swrast_kms-use-swkmsDRI2Extension-instead-of-driD=
-RI2.patch \
-+           file://0001-nir-fix-build-at-Og.patch \
-            "
-=20
- SRC_URI[sha256sum] =3D "b98f32ba7aa2a1ff5725fb36eb999c693079f0ca16f70aa2=
-f103e2b6c3f093e3"
---=20
-2.17.1
+On 11/07/2022 3:57 pm, Alexandre Belloni wrote:
+> Hello,
+>
+> On 08/07/2022 15:03:50+0800, Morikazu Fumita wrote:
+>> Since commit 34b0edb0d312 ("gcc: Drop stdlib++ option patch"), configure for libstdc++ failed due to ld error of "dummylib/libstdc++.so: file is empty".
+>> This failure caused _GLIBCXX_HAVE_S_ISREG not to get defined then make_file_type function in libstdc++-v3\src\filesystem\ops-common.h returns file_type::unknown unconditionally.
+>> Fixed by reverting commit 34b0edb0d312 ("gcc: Drop stdlib++ option patch").
+>>
+>> Fixes: 34b0edb0d312 ("gcc: Drop stdlib++ option patch")
+> This doesn't apply since we updated master to gcc 12.1 back in april.
+> Can you rebase if this is still relevant?
+>
+> Thanks!
+>
+>> Signed-off-by: Morikazu Fumita <mfumita@electromag.com.au>
+>> ---
+>>   meta/recipes-devtools/gcc/gcc-11.3.inc        |   2 +
+>>   meta/recipes-devtools/gcc/gcc-runtime.inc     |   8 +-
+>>   .../gcc/gcc/0005-optional-libstdc.patch       | 118 ++++++++++++++++++
+>>   3 files changed, 122 insertions(+), 6 deletions(-)
+>>   create mode 100644 meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
+>>
+>> diff --git a/meta/recipes-devtools/gcc/gcc-11.3.inc b/meta/recipes-devtools/gcc/gcc-11.3.inc
+>> index acbb43a25fb1..e6464d2f5489 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-11.3.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-11.3.inc
+>> @@ -65,6 +65,8 @@ SRC_URI = "\
+>>              file://0003-CVE-2021-42574.patch \
+>>              file://0004-CVE-2021-42574.patch \
+>>              file://0001-CVE-2021-46195.patch \
+>> +           \
+>> +           file://0005-optional-libstdc.patch \
+>>   "
+>>   SRC_URI[sha256sum] = "b47cf2818691f5b1e21df2bb38c795fac2cfbd640ede2d0a5e1c89e338a3ac39"
+>>   
+>> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+>> index e9f2cf16e840..d2bdfa99db42 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+>> @@ -64,11 +64,7 @@ DEBUG_PREFIX_MAP:class-target = " \
+>>      "
+>>   
+>>   do_configure () {
+>> -	export CXX="${CXX} -nostdinc++ -L${WORKDIR}/dummylib"
+>> -	# libstdc++ isn't built yet so CXX would error not able to find it which breaks stdc++'s configure
+>> -	# tests. Create a dummy empty lib for the purposes of configure.
+>> -	mkdir -p ${WORKDIR}/dummylib
+>> -	touch ${WORKDIR}/dummylib/libstdc++.so
+>> +	export CXX="${CXX} -nostdinc++ -nostdlib++"
+>>   	for d in libgcc ${RUNTIMETARGET}; do
+>>   		echo "Configuring $d"
+>>   		rm -rf ${B}/${TARGET_SYS}/$d/
+>> @@ -306,7 +302,7 @@ do_check() {
+>>       export DEJAGNU="${WORKDIR}/dejagnu/site.exp"
+>>   
+>>       # HACK: this works around the configure setting CXX with -nostd* args
+>> -    sed -i 's#-nostdinc++ -L${WORKDIR}/dummylib##g' $(find ${B} -name testsuite_flags | head -1)
+>> +    sed -i 's/-nostdinc++ -nostdlib++//g' $(find ${B} -name testsuite_flags | head -1)
+>>   
+>>       if [ "${TOOLCHAIN_TEST_TARGET}" = "user" ]; then
+>>           # qemu user has issues allocating large amounts of memory
+>> diff --git a/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch b/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
+>> new file mode 100644
+>> index 000000000000..b856c5dea367
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
+>> @@ -0,0 +1,118 @@
+>> +From: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> +Subject: [PATCH 3/5] gcc: Add --nostdlib++ option
+>> +
+>> +[gcc-runtime builds libstdc++ separately from gcc-cross-*. Its configure tests using g++
+>> +will not run correctly since by default the linker will try to link against libstdc++
+>> +which shouldn't exist yet. We need an option to disable -lstdc++
+>> +option whilst leaving -lc, -lgcc and other automatic library dependencies added by gcc
+>> +driver. This patch adds such an option which only disables the -lstdc++.]
+>> +
+>> +[A "standard" gcc build uses xgcc and hence avoids this. We should ask upstream how to
+>> +do this officially, the likely answer is don't build libstdc++ separately.]
+>> +
+>> +OpenEmbedded/Yocto Project builds libgcc and the other gcc runtime libraries
+>> +separately from the compiler and slightly differently to the standard gcc build.
+>> +
+>> +In general this works well but in trying to build them separately we run into
+>> +an issue since we're using our gcc, not xgcc and there is no way to tell configure
+>> +to use libgcc but not look for libstdc++.
+>> +
+>> +This adds such an option allowing such configurations to work.
+>> +
+>> +2021-10-26 Richard Purdie <richard.purdie@linuxfoundation.org>
+>> +
+>> +gcc/c-family/ChangeLog:
+>> +
+>> +    * c.opt: Add --nostdlib++ option
+>> +
+>> +gcc/cp/ChangeLog:
+>> +
+>> +    * g++spec.c (lang_specific_driver): Add --nostdlib++ option
+>> +
+>> +gcc/ChangeLog:
+>> +
+>> +    * doc/invoke.texi: Document --nostdlib++ option
+>> +    * gcc.c: Add --nostdlib++ option
+>> +
+>> +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> +
+>> +Upstream-Status: Submitted [https://gcc.gnu.org/pipermail/gcc-patches/2021-October/582724.html]
+>> +---
+>> + gcc/c-family/c.opt  | 4 ++++
+>> + gcc/cp/g++spec.c    | 1 +
+>> + gcc/doc/invoke.texi | 8 +++++++-
+>> + gcc/gcc.c           | 1 +
+>> + 4 files changed, 13 insertions(+), 1 deletion(-)
+>> +
+>> +Index: gcc-11.2.0/gcc/c-family/c.opt
+>> +===================================================================
+>> +--- gcc-11.2.0.orig/gcc/c-family/c.opt
+>> ++++ gcc-11.2.0/gcc/c-family/c.opt
+>> +@@ -2153,6 +2153,10 @@ nostdinc++
+>> + C++ ObjC++
+>> + Do not search standard system include directories for C++.
+>> +
+>> ++nostdlib++
+>> ++Driver
+>> ++Do not link standard C++ runtime library
+>> ++
+>> + o
+>> + C ObjC C++ ObjC++ Joined Separate
+>> + ; Documented in common.opt
+>> +Index: gcc-11.2.0/gcc/cp/g++spec.c
+>> +===================================================================
+>> +--- gcc-11.2.0.orig/gcc/cp/g++spec.c
+>> ++++ gcc-11.2.0/gcc/cp/g++spec.c
+>> +@@ -159,6 +159,7 @@ lang_specific_driver (struct cl_decoded_
+>> +       switch (decoded_options[i].opt_index)
+>> + 	{
+>> + 	case OPT_nostdlib:
+>> ++	case OPT_nostdlib__:
+>> + 	case OPT_nodefaultlibs:
+>> + 	  library = -1;
+>> + 	  break;
+>> +Index: gcc-11.2.0/gcc/doc/invoke.texi
+>> +===================================================================
+>> +--- gcc-11.2.0.orig/gcc/doc/invoke.texi
+>> ++++ gcc-11.2.0/gcc/doc/invoke.texi
+>> +@@ -239,6 +239,7 @@ in the following sections.
+>> + -fno-weak  -nostdinc++ @gol
+>> + -fvisibility-inlines-hidden @gol
+>> + -fvisibility-ms-compat @gol
+>> ++-nostdlib++ @gol
+>> + -fext-numeric-literals @gol
+>> + -flang-info-include-translate@r{[}=@var{header}@r{]} @gol
+>> + -flang-info-include-translate-not @gol
+>> +@@ -632,7 +633,7 @@ Objective-C and Objective-C++ Dialects}.
+>> + -pie  -pthread  -r  -rdynamic @gol
+>> + -s  -static  -static-pie  -static-libgcc  -static-libstdc++ @gol
+>> + -static-libasan  -static-libtsan  -static-liblsan  -static-libubsan @gol
+>> +--shared  -shared-libgcc  -symbolic @gol
+>> ++-shared  -shared-libgcc  -symbolic -nostdlib++ @gol
+>> + -T @var{script}  -Wl,@var{option}  -Xlinker @var{option} @gol
+>> + -u @var{symbol}  -z @var{keyword}}
+>> +
+>> +@@ -15721,6 +15722,11 @@ Specify that the program entry point is
+>> + interpreted by the linker; the GNU linker accepts either a symbol name
+>> + or an address.
+>> +
+>> ++@item -nostdlib++
+>> ++@opindex nostdlib++
+>> ++Do not use the standard system C++ runtime libraries when linking.
+>> ++Only the libraries you specify will be passed to the linker.
+>> ++
+>> + @item -pie
+>> + @opindex pie
+>> + Produce a dynamically linked position independent executable on targets
+>> +Index: gcc-11.2.0/gcc/gcc.c
+>> +===================================================================
+>> +--- gcc-11.2.0.orig/gcc/gcc.c
+>> ++++ gcc-11.2.0/gcc/gcc.c
+>> +@@ -1162,6 +1162,7 @@ proper position among the other output f
+>> +     %(mflib) " STACK_SPLIT_SPEC "\
+>> +     %{fprofile-arcs|fprofile-generate*|coverage:-lgcov} " SANITIZER_SPEC " \
+>> +     %{!nostdlib:%{!r:%{!nodefaultlibs:%(link_ssp) %(link_gcc_c_sequence)}}}\
+>> ++    %{!nostdlib++:}\
+>> +     %{!nostdlib:%{!r:%{!nostartfiles:%E}}} %{T*}  \n%(post_link) }}}}}}"
+>> + #endif
+>> +
+>> -- 
+>> 2.25.1
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#167815): https://lists.openembedded.org/g/openembedded-core/message/167815
+>> Mute This Topic: https://lists.openembedded.org/mt/92246725/3617179
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
+>
 
 
