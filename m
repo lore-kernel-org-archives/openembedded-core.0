@@ -2,65 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FD1EC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A524EC43334
 	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 14:51:02 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
- [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web10.28060.1658155858265152909
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.28057.1658155854945849641
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:50:58 -0700
+ Mon, 18 Jul 2022 07:50:55 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=NziaTTwZ;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52,
+ header.b=NH5D8oMK;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id
- v4-20020a17090abb8400b001ef966652a3so18411395pjr.4
+Received: by mail-pj1-f47.google.com with SMTP id a15so12032051pjs.0
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:50:58 -0700 (PDT)
+ Mon, 18 Jul 2022 07:50:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=q3FMdemEa/tEtqviFrmf81dEI/l6OSTFG135dG0vvVY=;
-        b=NziaTTwZIoEjHPOAXZDu4FFyakrMluzzTJHpxd2IkNWGw3WvK9YKdcZeTXIu3jkfU7
-         FQFbzCn1UcrMCaRRZiv+9dct1nprnbNlZGaQmT6mlUeqscixpHOVsHpuriZk234KL9dF
-         xJenXtPrgCwN58lcYz02GDta+3pqa+w3XSekxOOKqFos415ePv3zH+SriGD5ove5EkWn
-         GFdBtsytYOT56z3nbOvDUdCd9VNnFnnQAEISjNyi6Q0l8oOuMrdXL0pFTzIjPk2fSRIo
-         dbqzYX5qKh+f4aBMm1gMqf0Vh08OP3zWe6jjjlDsa5qVZkaVQ42ZR+mXiB8hZ7hdSoVo
-         h09w==
+        bh=AAJ2qhgqaL07IQKxnjsxkB2PgpkR0Y7k5SVkYAQTIzQ=;
+        b=NH5D8oMK5zq/MAyuuX0sgUM1qlkahw9FBRY4aUQWLPcSOrZrtUDU+MlWG/RH0s66xA
+         gGITNjKZO8+QRig2WYTlq2smBCN9ecvNs0G1eXPhIebgB4itb5CNG1mNVkVTzZ/Bkycv
+         TTzqbsa9rQ9/RpgWWfPqODuZVdubry9QLEm1RpsgGZXmlscqgR3s1jC1fSRHuKenfDkL
+         jYVWmwQxZQQ1vHLl8Rr0hWIHCQFMD56qLRrNh0bSEuY7SXBDcXzGKIuArxoTt2L4d/yE
+         Oi1Io7FP+K81bBG/+NM+o7TP4Dk3zMM20ZV3JsnZc7bKl3DPpwZhGtedKAKKKg52VLIG
+         4t9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=q3FMdemEa/tEtqviFrmf81dEI/l6OSTFG135dG0vvVY=;
-        b=3Tm5Jk58uSof3a+tA40TTPXaiTm61H3BD5yfyPAuN1XwYw/GiiE1AP50WV/Z3AYWqA
-         x6nOLSXSauzvQdFF3pWwElKTHDVJhQLUIeRA8P7rtX1VGfqJlmAkGBaLzCWsSJOsjTvS
-         GowmD+v/wD0tHIUicuk8jpjjjpDc5Mfs9L2xVHaHMmFDpgoqu7yZ8kRsRSMueOHI4fSK
-         rMHFGXAWZ+mYKKKl4o5e3sdw8k07s2erMGQQBrvS1hHh7ZmDHTYhXEod1JktQGSvkw6I
-         jYlv7xaM9gWNTsXIt96A9ZyS/rxDJxzyd5ckn6IEaqUXl5DOjOIdjRi0hCiTYUdYMxhA
-         QHPw==
-X-Gm-Message-State: AJIora8J16N7DLzumnQhtl3BJTx8mU+wvj29wKZvHbU4LLNnQ7zJ24dp
-	qZ4x/stQHzNRLu24Zd4mUNl2GM00JOlMa27p
+        bh=AAJ2qhgqaL07IQKxnjsxkB2PgpkR0Y7k5SVkYAQTIzQ=;
+        b=hhGiewKwbooTY05VLfrPd7fOVEPvrnSQuZhFTzOiGZAQwC4/nw6V0xBcFw8wPzyhkw
+         ldwEewM7YPrQIq7t33AmWJBKwErYSCOxeNzcNk85YH01U9QzG6T3xzaGTT7ATK+GfkgO
+         cxkY7/SqM+2nWz81mhV3OQ7BrjU1xaqrK/N5P1yw2CRCscV1Alq9jjiDlG4VY8TbuHJz
+         5gPpevMVRIB8jmplBypwGmWhFz4NMgFm8ZaNVS/evQsA59HZID03EJm+AzIn7NlwuVzF
+         +C8G8OCqcqAtyUZHTxX2MFiphNwqctL/i7CGFK1E13mrADiCF1IzznUfL/mo1F49Sy98
+         Lz2Q==
+X-Gm-Message-State: AJIora9msz6vwLmNoeWOEFWDO0hXArJ7RPQsWILKVw9Z2eB/UN0Pl3Zy
+	sbD95e0/IPRtnjbFLycbrQUj4RjwAzEvgmdq
 X-Google-Smtp-Source: 
- AGRyM1urJVwNBvjX+5N83ZYCVcYWKwRAZSPRyjIIzlE1S/V8ZU97BLjSrPm5BYFXJpnr5i+Thje0pA==
-X-Received: by 2002:a17:90b:4d11:b0:1f0:414b:586e with SMTP id
- mw17-20020a17090b4d1100b001f0414b586emr39659310pjb.111.1658155857189;
-        Mon, 18 Jul 2022 07:50:57 -0700 (PDT)
+ AGRyM1t8IinxAhRSmF+6y93pIK8gbsXW9n0BOzvMQrkNVsi8tRwy5Vs525ygCa7eS6sKqkV+BPeLeQ==
+X-Received: by 2002:a17:90b:8d:b0:1ef:74c8:1541 with SMTP id
+ bb13-20020a17090b008d00b001ef74c81541mr32849042pjb.103.1658155853839;
+        Mon, 18 Jul 2022 07:50:53 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.50.55
+ ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.50.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 07:50:56 -0700 (PDT)
+        Mon, 18 Jul 2022 07:50:53 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 31/35] gcc-runtime: Fix missing MLPREFIX in debug
- mappings
-Date: Mon, 18 Jul 2022 04:48:56 -1000
+Subject: [OE-core][kirkstone 30/35] gcc-runtime: Fix build when using gold
+Date: Mon, 18 Jul 2022 04:48:55 -1000
 Message-Id: 
- <3bb7abe545be6c92b2bd4f184536b0b0e871aac6.1658155579.git.steve@sakoman.com>
+ <f842dbc478cb007b5f3e2f016959e2b597a4d0be.1658155579.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1658155579.git.steve@sakoman.com>
 References: <cover.1658155579.git.steve@sakoman.com>
@@ -71,33 +69,41 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 14:51:02 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168231
+ https://lists.openembedded.org/g/openembedded-core/message/168230
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This fixes reproducibility issues with multilibs were a different recipe
-specific sysroot is used which was leaking into debug symbols in libraries.
+If gold is enabled as the default linker, it errors trying to link
+to our dummy library empty file and this turns off things which should
+be present in libstdc++.
+
+For example, _GLIBCXX_HAVE_S_ISREG isn't defined and HAVE_S_ISREG in
+libstdc++-v3/config.h isn't set properly.
+
+Instead of just creating an empty file, create an empty elf binary
+instead which addresses the issue.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f442edf51e256bd315bd8e4ac4d9fa12b8e9e092)
+(cherry picked from commit 2070bcd10aa3a05c96c8501c6a8c1e129fb1d440)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/gcc/gcc-runtime.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index dc903c2b88..c85b5888d4 100644
+index e9f2cf16e8..dc903c2b88 100644
 --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
 +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -53,7 +53,7 @@ RUNTIMETARGET:libc-newlib = "libstdc++-v3"
- REL_S = "/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
- 
- DEBUG_PREFIX_MAP:class-target = " \
--   -fdebug-prefix-map=${WORKDIR}/recipe-sysroot= \
-+   -fdebug-prefix-map=${WORKDIR}/${MLPREFIX}recipe-sysroot= \
-    -fdebug-prefix-map=${WORKDIR}/recipe-sysroot-native= \
-    -fdebug-prefix-map=${S}=${REL_S} \
-    -fdebug-prefix-map=${S}/include=${REL_S}/libstdc++-v3/../include \
+@@ -68,7 +68,8 @@ do_configure () {
+ 	# libstdc++ isn't built yet so CXX would error not able to find it which breaks stdc++'s configure
+ 	# tests. Create a dummy empty lib for the purposes of configure.
+ 	mkdir -p ${WORKDIR}/dummylib
+-	touch ${WORKDIR}/dummylib/libstdc++.so
++	touch ${WORKDIR}/dummylib/dummylib.c
++	${CC} ${WORKDIR}/dummylib/dummylib.c -shared -o ${WORKDIR}/dummylib/libstdc++.so
+ 	for d in libgcc ${RUNTIMETARGET}; do
+ 		echo "Configuring $d"
+ 		rm -rf ${B}/${TARGET_SYS}/$d/
 -- 
 2.25.1
 
