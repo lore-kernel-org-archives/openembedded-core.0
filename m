@@ -1,248 +1,144 @@
-Return-Path: <mfumita@electromag.com.au>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DD04C43334
-	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 02:47:19 +0000 (UTC)
-Received: from anchovy2.45ru.net.au (anchovy2.45ru.net.au [203.30.46.146])
- by mx.groups.io with SMTP id smtpd.web12.22974.1658112437248709254
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E2B3C433EF
+	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 03:04:39 +0000 (UTC)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web09.23005.1658113469890615256
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Jul 2022 19:47:18 -0700
+ Sun, 17 Jul 2022 20:04:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=permanent DNS error (domain: electromag.com.au,
- ip: 203.30.46.146, mailfrom: mfumita@electromag.com.au)
-Received: (qmail 15912 invoked by uid 5089); 18 Jul 2022 02:47:15 -0000
-Received: by simscan 1.2.0 ppid: 15836, pid: 15837, t: 0.1020s
-         scanners: regex: 1.2.0 attach: 1.2.0 clamav: 0.88.3/m:40/d:1950
-X-RBL: $rbltext
-Received: from unknown (HELO ?192.168.0.102?)
- (mfumita@electromag.com.au@203.59.235.95)
-  by anchovy3.45ru.net.au with ESMTPA; 18 Jul 2022 02:47:14 -0000
-Message-ID: <1329b01e-7f4e-de90-6b0c-885bc5a9392a@electromag.com.au>
-Date: Mon, 18 Jul 2022 10:47:11 +0800
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=Nw0hhsDY;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.54,
+ mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f54.google.com with SMTP id w12so13482253edd.13
+        for <openembedded-core@lists.openembedded.org>;
+ Sun, 17 Jul 2022 20:04:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AzbgBrkxKmSnKmkStx+U4RA5hELdLJMPQ+LJ3rdXwVY=;
+        b=Nw0hhsDY2hRlJIz1+DrPbhmZ61Nj2ke8z3M7LoUN1KklUlwb4F1VIBmxvS0n+82A0l
+         0+ZYqIUC5rmiuh6K/oK0BWNzndTzxcHh+uzRrgiqfMW2wo47k/ciZSywLdklQEEEZm3B
+         I0ZxIHpzV6EWXDA6w2Rr8Dz2tXynYx1Zqh0thmZu9uSwtdUek4LG1CmI15ae0my0ZCLt
+         +XE0DTPHSlY1/1CuCuI/IQDWKdic0UpgAThfcJUazOkqrm8fJDrCy0d79MXBdnItpjZO
+         J8iCXPDhPYHYPfCME3frUXbLKQM8sjpolXev8/JAI63IDU/IlCOv+JrDyldF/b+o61+B
+         dDgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AzbgBrkxKmSnKmkStx+U4RA5hELdLJMPQ+LJ3rdXwVY=;
+        b=b7yyMr2IXyTiIgxQ6AMbNbekEMWV254DksmWIc3h5/aqWOIu9+coNWJ2pARx1VTLMM
+         aIbWDrRJRJj2kgrVaUUZIh9g12NohFNP3MLsbemthW8UWTKUYvrRWbebMX+tW/d60KEp
+         lkEWU1ChSaRO7XF+jHKihTbR25+hq/4L5LG2JrhPWfb2k+MVcJEMotX/vRmTVUj89AMh
+         jvrOTLv0y7OnkK71sPd+7E7LSa35SZI6goy8gN2E8oN5veYT1gBuwCjlB1F9EvPiM8fb
+         mMAMcck2Kx20oDDkYk22euJuatLnVslHZAd4N9BqUPea1c6ZgYqFonVLj9O2rpUHsjKh
+         jnFQ==
+X-Gm-Message-State: AJIora/ynxt/NQcesLZ2nlnzP6j0nWs/nLDsLMf/sVeG2ycWV3/3LAQZ
+	IN8g1xGJ5QUMrvupQNIkiFUcBNyHnqhNTwNm8fG42w==
+X-Google-Smtp-Source: 
+ AGRyM1s5DOaFH/UyWTEHiMBQ1rfmmNUIsK3wEqI4jtdA1nnDtjlXpBUi+RvlV8ZFLjxgh8Sr0sudCI1T8d30w3JRfIk=
+X-Received: by 2002:a05:6402:3219:b0:43b:6f3:8ccb with SMTP id
+ g25-20020a056402321900b0043b06f38ccbmr34708005eda.345.1658113467957; Sun, 17
+ Jul 2022 20:04:27 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [OE-core] [PATCH 1/1] gcc: Fixed libstdc++ configure failure
-Content-Language: en-AU
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+References: <20220717200717.16540-1-pavel@zhukoff.net>
+In-Reply-To: <20220717200717.16540-1-pavel@zhukoff.net>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Sun, 17 Jul 2022 17:04:16 -1000
+Message-ID: 
+ <CAOSpxdY5D8tc9RY7o50PrjAPy1zLeeUOvS1Y9z9vRpuuNJ0iAA@mail.gmail.com>
+Subject: Re: [kirkstone][PATCH] harfbuzz: Fix compilation with clang
+To: Pavel Zhukov <pavel@zhukoff.net>
 Cc: openembedded-core@lists.openembedded.org,
-  richard.purdie@linuxfoundation.org, preid@electromag.com.au
-References: <20220708070350.23456-1-mfumita@electromag.com.au>
- <YsvX+cK7gKUvKf1G@mail.local>
-From: Morikazu Fumita <mfumita@electromag.com.au>
-In-Reply-To: <YsvX+cK7gKUvKf1G@mail.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+	Pavel Zhukov <pavel.zhukov@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 02:47:19 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 03:04:39 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168190
+ https://lists.openembedded.org/g/openembedded-core/message/168191
 
-Thank you for the reply.
+On Sun, Jul 17, 2022 at 10:09 AM Pavel Zhukov <pavel@zhukoff.net> wrote:
+>
+> Fixup commit for prevous CVE-2022-33068 fix.
+>
+> Fixes:
+> | In file included from ../harfbuzz-4.0.1/src/hb-ot-face.cc:39:
+> 4429| ../harfbuzz-4.0.1/src/hb-ot-color-sbix-table.hh:301:11: error: use of bitwise '|' with boolean operands [-Werror,-Wbitwise-instead-of-logical]
+> 4430|       if (png.IHDR.height >= 65536 | png.IHDR.width >= 65536)
+> 4431|           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 4432|                                    ||
+> 4433| ../harfbuzz-4.0.1/src/hb-ot-color-sbix-table.hh:301:11: note: cast one or both operands to int to silence this warning
+> 4434| 1 error generated.
+>
+> Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
+> ---
+>  .../harfbuzz/0001-Fix-conditional.patch       | 25 +++++++++++++++++++
+>  .../harfbuzz/harfbuzz_4.0.1.bb                |  3 ++-
+>  2 files changed, 27 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-graphics/harfbuzz/harfbuzz/0001-Fix-conditional.patch
+>
+> diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz/0001-Fix-conditional.patch b/meta/recipes-graphics/harfbuzz/harfbuzz/0001-Fix-conditional.patch
+> new file mode 100644
+> index 0000000000..0f9b86973b
+> --- /dev/null
+> +++ b/meta/recipes-graphics/harfbuzz/harfbuzz/0001-Fix-conditional.patch
+> @@ -0,0 +1,25 @@
+> +From e421613e8f825508afa9a0b54d33085557c37441 Mon Sep 17 00:00:00 2001
+> +From: Behdad Esfahbod <behdad@behdad.org>
+> +Date: Wed, 1 Jun 2022 09:07:57 -0600
+> +Subject: [PATCH] [sbix] Fix conditional
+> +
+> +Signed-off: Pavel Zhukov <pavel.zhukov@huawei.com>
+> +Upstream-Status: Backport [e421613e8f825508afa9a0b54d33085557c37441]
+> +
+> +---
+> + src/hb-ot-color-sbix-table.hh | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/src/hb-ot-color-sbix-table.hh b/src/hb-ot-color-sbix-table.hh
+> +index 6efae43cda..d0e2235fb2 100644
+> +--- a/src/hb-ot-color-sbix-table.hh
+> ++++ b/src/hb-ot-color-sbix-table.hh
+> +@@ -298,7 +298,7 @@ struct sbix
+> +
+> +       const PNGHeader &png = *blob->as<PNGHeader>();
+> +
+> +-      if (png.IHDR.height >= 65536 | png.IHDR.width >= 65536)
+> ++      if (png.IHDR.height >= 65536 || png.IHDR.width >= 65536)
+> +       {
+> +       hb_blob_destroy (blob);
+> +       return false;
+> diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb
+> index 81518a53ea..e18727bcfc 100644
+> --- a/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb
+> +++ b/meta/recipes-graphics/harfbuzz/harfbuzz_4.0.1.bb
+> @@ -12,7 +12,8 @@ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
+>  UPSTREAM_CHECK_REGEX = "harfbuzz-(?P<pver>\d+(\.\d+)+).tar"
+>
+>  SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BPN}-${PV}.tar.xz\
+> -           file://CVE-2022-33068.patch"
+> +           file://CVE-2022-33068.patch
+missing \ here ---------------------------------^
 
-Please ignore this patch as it's solved at the following thread.
-libstdc++ honister -> kirkstone
+No need to resubmit, I've fixed it.
 
-On 11/07/2022 3:57 pm, Alexandre Belloni wrote:
-> Hello,
->
-> On 08/07/2022 15:03:50+0800, Morikazu Fumita wrote:
->> Since commit 34b0edb0d312 ("gcc: Drop stdlib++ option patch"), configure for libstdc++ failed due to ld error of "dummylib/libstdc++.so: file is empty".
->> This failure caused _GLIBCXX_HAVE_S_ISREG not to get defined then make_file_type function in libstdc++-v3\src\filesystem\ops-common.h returns file_type::unknown unconditionally.
->> Fixed by reverting commit 34b0edb0d312 ("gcc: Drop stdlib++ option patch").
->>
->> Fixes: 34b0edb0d312 ("gcc: Drop stdlib++ option patch")
-> This doesn't apply since we updated master to gcc 12.1 back in april.
-> Can you rebase if this is still relevant?
->
-> Thanks!
->
->> Signed-off-by: Morikazu Fumita <mfumita@electromag.com.au>
->> ---
->>   meta/recipes-devtools/gcc/gcc-11.3.inc        |   2 +
->>   meta/recipes-devtools/gcc/gcc-runtime.inc     |   8 +-
->>   .../gcc/gcc/0005-optional-libstdc.patch       | 118 ++++++++++++++++++
->>   3 files changed, 122 insertions(+), 6 deletions(-)
->>   create mode 100644 meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
->>
->> diff --git a/meta/recipes-devtools/gcc/gcc-11.3.inc b/meta/recipes-devtools/gcc/gcc-11.3.inc
->> index acbb43a25fb1..e6464d2f5489 100644
->> --- a/meta/recipes-devtools/gcc/gcc-11.3.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-11.3.inc
->> @@ -65,6 +65,8 @@ SRC_URI = "\
->>              file://0003-CVE-2021-42574.patch \
->>              file://0004-CVE-2021-42574.patch \
->>              file://0001-CVE-2021-46195.patch \
->> +           \
->> +           file://0005-optional-libstdc.patch \
->>   "
->>   SRC_URI[sha256sum] = "b47cf2818691f5b1e21df2bb38c795fac2cfbd640ede2d0a5e1c89e338a3ac39"
->>   
->> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
->> index e9f2cf16e840..d2bdfa99db42 100644
->> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
->> @@ -64,11 +64,7 @@ DEBUG_PREFIX_MAP:class-target = " \
->>      "
->>   
->>   do_configure () {
->> -	export CXX="${CXX} -nostdinc++ -L${WORKDIR}/dummylib"
->> -	# libstdc++ isn't built yet so CXX would error not able to find it which breaks stdc++'s configure
->> -	# tests. Create a dummy empty lib for the purposes of configure.
->> -	mkdir -p ${WORKDIR}/dummylib
->> -	touch ${WORKDIR}/dummylib/libstdc++.so
->> +	export CXX="${CXX} -nostdinc++ -nostdlib++"
->>   	for d in libgcc ${RUNTIMETARGET}; do
->>   		echo "Configuring $d"
->>   		rm -rf ${B}/${TARGET_SYS}/$d/
->> @@ -306,7 +302,7 @@ do_check() {
->>       export DEJAGNU="${WORKDIR}/dejagnu/site.exp"
->>   
->>       # HACK: this works around the configure setting CXX with -nostd* args
->> -    sed -i 's#-nostdinc++ -L${WORKDIR}/dummylib##g' $(find ${B} -name testsuite_flags | head -1)
->> +    sed -i 's/-nostdinc++ -nostdlib++//g' $(find ${B} -name testsuite_flags | head -1)
->>   
->>       if [ "${TOOLCHAIN_TEST_TARGET}" = "user" ]; then
->>           # qemu user has issues allocating large amounts of memory
->> diff --git a/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch b/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
->> new file mode 100644
->> index 000000000000..b856c5dea367
->> --- /dev/null
->> +++ b/meta/recipes-devtools/gcc/gcc/0005-optional-libstdc.patch
->> @@ -0,0 +1,118 @@
->> +From: Richard Purdie <richard.purdie@linuxfoundation.org>
->> +Subject: [PATCH 3/5] gcc: Add --nostdlib++ option
->> +
->> +[gcc-runtime builds libstdc++ separately from gcc-cross-*. Its configure tests using g++
->> +will not run correctly since by default the linker will try to link against libstdc++
->> +which shouldn't exist yet. We need an option to disable -lstdc++
->> +option whilst leaving -lc, -lgcc and other automatic library dependencies added by gcc
->> +driver. This patch adds such an option which only disables the -lstdc++.]
->> +
->> +[A "standard" gcc build uses xgcc and hence avoids this. We should ask upstream how to
->> +do this officially, the likely answer is don't build libstdc++ separately.]
->> +
->> +OpenEmbedded/Yocto Project builds libgcc and the other gcc runtime libraries
->> +separately from the compiler and slightly differently to the standard gcc build.
->> +
->> +In general this works well but in trying to build them separately we run into
->> +an issue since we're using our gcc, not xgcc and there is no way to tell configure
->> +to use libgcc but not look for libstdc++.
->> +
->> +This adds such an option allowing such configurations to work.
->> +
->> +2021-10-26 Richard Purdie <richard.purdie@linuxfoundation.org>
->> +
->> +gcc/c-family/ChangeLog:
->> +
->> +    * c.opt: Add --nostdlib++ option
->> +
->> +gcc/cp/ChangeLog:
->> +
->> +    * g++spec.c (lang_specific_driver): Add --nostdlib++ option
->> +
->> +gcc/ChangeLog:
->> +
->> +    * doc/invoke.texi: Document --nostdlib++ option
->> +    * gcc.c: Add --nostdlib++ option
->> +
->> +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> +
->> +Upstream-Status: Submitted [https://gcc.gnu.org/pipermail/gcc-patches/2021-October/582724.html]
->> +---
->> + gcc/c-family/c.opt  | 4 ++++
->> + gcc/cp/g++spec.c    | 1 +
->> + gcc/doc/invoke.texi | 8 +++++++-
->> + gcc/gcc.c           | 1 +
->> + 4 files changed, 13 insertions(+), 1 deletion(-)
->> +
->> +Index: gcc-11.2.0/gcc/c-family/c.opt
->> +===================================================================
->> +--- gcc-11.2.0.orig/gcc/c-family/c.opt
->> ++++ gcc-11.2.0/gcc/c-family/c.opt
->> +@@ -2153,6 +2153,10 @@ nostdinc++
->> + C++ ObjC++
->> + Do not search standard system include directories for C++.
->> +
->> ++nostdlib++
->> ++Driver
->> ++Do not link standard C++ runtime library
->> ++
->> + o
->> + C ObjC C++ ObjC++ Joined Separate
->> + ; Documented in common.opt
->> +Index: gcc-11.2.0/gcc/cp/g++spec.c
->> +===================================================================
->> +--- gcc-11.2.0.orig/gcc/cp/g++spec.c
->> ++++ gcc-11.2.0/gcc/cp/g++spec.c
->> +@@ -159,6 +159,7 @@ lang_specific_driver (struct cl_decoded_
->> +       switch (decoded_options[i].opt_index)
->> + 	{
->> + 	case OPT_nostdlib:
->> ++	case OPT_nostdlib__:
->> + 	case OPT_nodefaultlibs:
->> + 	  library = -1;
->> + 	  break;
->> +Index: gcc-11.2.0/gcc/doc/invoke.texi
->> +===================================================================
->> +--- gcc-11.2.0.orig/gcc/doc/invoke.texi
->> ++++ gcc-11.2.0/gcc/doc/invoke.texi
->> +@@ -239,6 +239,7 @@ in the following sections.
->> + -fno-weak  -nostdinc++ @gol
->> + -fvisibility-inlines-hidden @gol
->> + -fvisibility-ms-compat @gol
->> ++-nostdlib++ @gol
->> + -fext-numeric-literals @gol
->> + -flang-info-include-translate@r{[}=@var{header}@r{]} @gol
->> + -flang-info-include-translate-not @gol
->> +@@ -632,7 +633,7 @@ Objective-C and Objective-C++ Dialects}.
->> + -pie  -pthread  -r  -rdynamic @gol
->> + -s  -static  -static-pie  -static-libgcc  -static-libstdc++ @gol
->> + -static-libasan  -static-libtsan  -static-liblsan  -static-libubsan @gol
->> +--shared  -shared-libgcc  -symbolic @gol
->> ++-shared  -shared-libgcc  -symbolic -nostdlib++ @gol
->> + -T @var{script}  -Wl,@var{option}  -Xlinker @var{option} @gol
->> + -u @var{symbol}  -z @var{keyword}}
->> +
->> +@@ -15721,6 +15722,11 @@ Specify that the program entry point is
->> + interpreted by the linker; the GNU linker accepts either a symbol name
->> + or an address.
->> +
->> ++@item -nostdlib++
->> ++@opindex nostdlib++
->> ++Do not use the standard system C++ runtime libraries when linking.
->> ++Only the libraries you specify will be passed to the linker.
->> ++
->> + @item -pie
->> + @opindex pie
->> + Produce a dynamically linked position independent executable on targets
->> +Index: gcc-11.2.0/gcc/gcc.c
->> +===================================================================
->> +--- gcc-11.2.0.orig/gcc/gcc.c
->> ++++ gcc-11.2.0/gcc/gcc.c
->> +@@ -1162,6 +1162,7 @@ proper position among the other output f
->> +     %(mflib) " STACK_SPLIT_SPEC "\
->> +     %{fprofile-arcs|fprofile-generate*|coverage:-lgcov} " SANITIZER_SPEC " \
->> +     %{!nostdlib:%{!r:%{!nodefaultlibs:%(link_ssp) %(link_gcc_c_sequence)}}}\
->> ++    %{!nostdlib++:}\
->> +     %{!nostdlib:%{!r:%{!nostartfiles:%E}}} %{T*}  \n%(post_link) }}}}}}"
->> + #endif
->> +
->> -- 
->> 2.25.1
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#167815): https://lists.openembedded.org/g/openembedded-core/message/167815
->> Mute This Topic: https://lists.openembedded.org/mt/92246725/3617179
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
->
+Thanks for the patch!
 
+Steve
+
+> +           file://0001-Fix-conditional.patch"
+>  SRC_URI[sha256sum] = "98f68777272db6cd7a3d5152bac75083cd52a26176d87bc04c8b3929d33bce49"
+>
+>  inherit meson pkgconfig lib_package gtk-doc gobject-introspection
+> --
+> 2.35.1
+>
 
