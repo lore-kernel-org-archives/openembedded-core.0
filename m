@@ -2,65 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA8E3CCA479
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB679CCA482
 	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 14:49:52 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web10.28034.1658155787184776661
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web12.28236.1658155784906777526
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:49:47 -0700
+ Mon, 18 Jul 2022 07:49:45 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=1H4Aju+F;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44,
+ header.b=P1msJFA2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.54,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id
- 89-20020a17090a09e200b001ef7638e536so18421950pjo.3
+Received: by mail-pj1-f54.google.com with SMTP id b10so1057760pjq.5
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:49:47 -0700 (PDT)
+ Mon, 18 Jul 2022 07:49:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=0F9wCgphh2RDxSmzoDZuRZPGVkNaMy7AU7AR/k1fIi8=;
-        b=1H4Aju+F1AMoj2sYXtyqvN6ro6vV+Df4sDl37DXNxJA1jTzZ3l4W5odx2g06x+SzR/
-         10hmeqFxde+BDkoayGTcRVs8nsGvdmZ2MLpPmc6BWmoloU2K5enHKsK9Emv7ausuFjaA
-         LeUYwcs+xwnu+VL5yPN9vSGcGwg/GMacfkBvbzKeQoWDQ9IYj8bY/+6a2YoQm5X2Uhak
-         0C2WxRhiNQy71RLr7wv23KxVTm4C3QZz132bjqvgt7uUCepaI2YZukJY44q0vVCufvb9
-         xpOYGijRFURTbww18A02dkk2/2nMCRL9d3m9BWf+Pnz5pC3zVd3KmgLhn5wEbEFQetOA
-         Yq9w==
+        bh=zLy5cCp+jeV9OG6RCDv/48a1ON5Rwkqd5hWJXoCG8u8=;
+        b=P1msJFA2yXbOftZ/CL8RMZa4VLgxsh1YXyzaQT8Ok07Ry7uJEpNC7WX/iWsEz35KTm
+         0LGOA3Dg3IHC5LLM5tnKUMYEe80IXwmlbbe62YkLwQV8A6j1tFIOYm2LtU2FwPRUMo7W
+         AtpDMIai+rZCEbkMlFxjrxS9IxRPjaFRp2G8sq+2ZrgtBQJC1CCjiWmvbxOteZ//mtn5
+         P1O2vHHR5gTRj8yuAAocZLXTaXtBgPLHAXkAyRn5f+5JiIvB7IlJbTB8O95TzQ1XAkTP
+         me65hxSWB7frIY36QxGswoPte34Nlhvpmyu2Qy6bzV7phELE1aID+zmSDTPwmv9Aano/
+         x4bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0F9wCgphh2RDxSmzoDZuRZPGVkNaMy7AU7AR/k1fIi8=;
-        b=slyfZSbsCZGjC1EhRyjtCrRGlK8vwc4Fm1ddh+LbhsIAoEndc+pFCbmfiYOommgdP9
-         qlZ8IOyoXTiFENb505OVLqOmYFsERYAjRwsTZjwPaNB7waWmbyfvlxF0yiI0jFOENRgV
-         9QaWTvYTf+Ljsj3ykBeEqGT29hM5jWRL3rernUz3JNKuGVnfWNgWtgstmRrGItVBUS07
-         uNrqO+kwpI4H9LHMdC18RL+4wqnFjNh2FN5YYjMYq2Ujy8tLHTYDscnbCkX7YSLLTpcr
-         WzaZ/HNp4PhM2KSg5T+NDMp//6Q4IhE8tRnVkKjP8EMuqbADOqcgdtN2OgzJpf5Ki3Wv
-         lzGQ==
-X-Gm-Message-State: AJIora9hubqhqx1Q/VGrPP3OXSfqIusAEIJuTvplpItr8qap70iMPhPE
-	v6kjq6v5cy7FGoWdRbmd31YZ3mKRt349asDL
+        bh=zLy5cCp+jeV9OG6RCDv/48a1ON5Rwkqd5hWJXoCG8u8=;
+        b=Q97cZ6sEex8EOB0DupqUEzvXz/JD5aviF4l7+llTRynGwE8Lp2fJV/bVhHaTKzhPMb
+         j8wiXX+oZWnU6GcLXveqpDL2f2FGkMnLQTaRJ2MSdX2eg99pWRx2ixrIHX9/UTyS4uMm
+         j/AdfdjrFEZT8no/Ct9zBzNDTEzAP9Ij7SvEqVmfwwyVabQ7t81OHBJLPzLmpfcij59o
+         7ZbE2w1mWdA6/F3gmP6eKP2NAoGbARFI9jbK29uhkUn7xMNMXW0sVu7TCJgbUC5VSkzJ
+         QEH4RGFMKRBSxs32LVxMJQUimo6snuvuTuvqFm0B55SSWfPaJZnHHrKITKd+dy0IJWHM
+         7ZtA==
+X-Gm-Message-State: AJIora+HP4TkrunEpbhvKtOqNjASHyiKcCPu5l84MKF3fX2m8MCGtggL
+	A9v5MPEaGSvrNzp8WLq5AcLvaGFwmgLay/J3
 X-Google-Smtp-Source: 
- AGRyM1tqUaFaPY6RHtHce6L69TDuAS+f9/zgyxwh/rH8YaO6tSQUytrq1xW6IlZGnz+UUsM/S0PmGg==
-X-Received: by 2002:a17:90b:2496:b0:1ef:a94:7048 with SMTP id
- nt22-20020a17090b249600b001ef0a947048mr32784898pjb.244.1658155785866;
-        Mon, 18 Jul 2022 07:49:45 -0700 (PDT)
+ AGRyM1vP0Y0CR4wYuu41dSrp2qQTS/oQv1pLshfsBd05IfQv+oYa0mMLjd+axpLripP8+bl3pTJQ8w==
+X-Received: by 2002:a17:90b:28d:b0:1f0:47:ca83 with SMTP id
+ az13-20020a17090b028d00b001f00047ca83mr38372205pjb.176.1658155783799;
+        Mon, 18 Jul 2022 07:49:43 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.49.44
+ ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.49.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 07:49:45 -0700 (PDT)
+        Mon, 18 Jul 2022 07:49:43 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 12/35] python3: Backport patch to fix an issue in
- subinterpreters
-Date: Mon, 18 Jul 2022 04:48:37 -1000
+Subject: [OE-core][kirkstone 11/35] udev-extraconf:mount.sh: fix path
+ mismatching issues
+Date: Mon, 18 Jul 2022 04:48:36 -1000
 Message-Id: 
- <39d57ef7e341a048b94bc5dd9c29d58f57e06f19.1658155579.git.steve@sakoman.com>
+ <cb37eebf477e9907363b195c3d460b14717c5fea.1658155579.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1658155579.git.steve@sakoman.com>
 References: <cover.1658155579.git.steve@sakoman.com>
@@ -71,95 +70,62 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 14:49:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168212
+ https://lists.openembedded.org/g/openembedded-core/message/168211
 
-From: Markus Volk <f_l_k@t-online.de>
+From: Ming Liu <liu.ming50@gmail.com>
 
-This adds a backport patch that fixes a problem in subinterpreters related
-to the garbagecollector. Without the patch, there are random segfaults in
-several Kodi addons that use python3-sqlite3. Presumably there are real world
-issues in other programs as well.
+Since commit f077befd5f36ad88623aaf6a38b1a837ecb18650:
+[ udev-extraconf: let automount base directory configurable ]
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+the mount base directory was configurable, we need drop 'run-media'
+usage as well, change to figure it out from MOUNT_BASE.
+
+Also 'get_label_name' function needs to be called ealier in
+automount_systemd before checking '/tmp/.automount-$name', otherwise
+they would never match.
+
+(From OE-Core rev: c013b33162546fb5bd4bcc1daac75aa65d0be1a3)
+
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 7ed210054b3e253d5a67075bb9d4768d1661bef1)
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...h-92036-Fix-gc_fini_untrack-GH-92037.patch | 54 +++++++++++++++++++
- .../recipes-devtools/python/python3_3.10.4.bb |  1 +
- 2 files changed, 55 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-gh-92036-Fix-gc_fini_untrack-GH-92037.patch
+ meta/recipes-core/udev/udev-extraconf/mount.sh | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3/0001-gh-92036-Fix-gc_fini_untrack-GH-92037.patch b/meta/recipes-devtools/python/python3/0001-gh-92036-Fix-gc_fini_untrack-GH-92037.patch
-new file mode 100644
-index 0000000000..6a58c35cc6
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-gh-92036-Fix-gc_fini_untrack-GH-92037.patch
-@@ -0,0 +1,54 @@
-+From 178a238f25ab8aff7689d7a09d66dc1583ecd6cb Mon Sep 17 00:00:00 2001
-+From: "Miss Islington (bot)"
-+ <31488909+miss-islington@users.noreply.github.com>
-+Date: Wed, 4 May 2022 03:23:29 -0700
-+Subject: [PATCH 01/40] gh-92036: Fix gc_fini_untrack() (GH-92037)
-+
-+Fix a crash in subinterpreters related to the garbage collector. When
-+a subinterpreter is deleted, untrack all objects tracked by its GC.
-+To prevent a crash in deallocator functions expecting objects to be
-+tracked by the GC, leak a strong reference to these objects on
-+purpose, so they are never deleted and their deallocator functions
-+are not called.
-+(cherry picked from commit 14243369b5f80613628a565c224bba7fb3fcacd8)
-+
-+Co-authored-by: Victor Stinner <vstinner@python.org>
-+
-+Upstream-Status: Backport
-+---
-+ .../2022-04-28-23-37-30.gh-issue-92036.GZJAC9.rst           | 5 +++++
-+ Modules/gcmodule.c                                          | 6 ++++++
-+ 2 files changed, 11 insertions(+)
-+ create mode 100644 Misc/NEWS.d/next/Core and Builtins/2022-04-28-23-37-30.gh-issue-92036.GZJAC9.rst
-+
-+diff --git a/Misc/NEWS.d/next/Core and Builtins/2022-04-28-23-37-30.gh-issue-92036.GZJAC9.rst b/Misc/NEWS.d/next/Core and Builtins/2022-04-28-23-37-30.gh-issue-92036.GZJAC9.rst
-+new file mode 100644
-+index 0000000000..78094c5e4f
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Core and Builtins/2022-04-28-23-37-30.gh-issue-92036.GZJAC9.rst	
-+@@ -0,0 +1,5 @@
-++Fix a crash in subinterpreters related to the garbage collector. When a
-++subinterpreter is deleted, untrack all objects tracked by its GC. To prevent a
-++crash in deallocator functions expecting objects to be tracked by the GC, leak
-++a strong reference to these objects on purpose, so they are never deleted and
-++their deallocator functions are not called. Patch by Victor Stinner.
-+diff --git a/Modules/gcmodule.c b/Modules/gcmodule.c
-+index 805a159d53..43ae6fa98b 100644
-+--- a/Modules/gcmodule.c
-++++ b/Modules/gcmodule.c
-+@@ -2170,6 +2170,12 @@ gc_fini_untrack(PyGC_Head *list)
-+     for (gc = GC_NEXT(list); gc != list; gc = GC_NEXT(list)) {
-+         PyObject *op = FROM_GC(gc);
-+         _PyObject_GC_UNTRACK(op);
-++        // gh-92036: If a deallocator function expect the object to be tracked
-++        // by the GC (ex: func_dealloc()), it can crash if called on an object
-++        // which is no longer tracked by the GC. Leak one strong reference on
-++        // purpose so the object is never deleted and its deallocator is not
-++        // called.
-++        Py_INCREF(op);
-+     }
-+ }
-+ 
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/python/python3_3.10.4.bb b/meta/recipes-devtools/python/python3_3.10.4.bb
-index 357025f856..34fd2895a3 100644
---- a/meta/recipes-devtools/python/python3_3.10.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.10.4.bb
-@@ -35,6 +35,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch \
-            file://deterministic_imports.patch \
-            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
-+           file://0001-gh-92036-Fix-gc_fini_untrack-GH-92037.patch \
-            "
+diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+index 8b6ce77741..43acb3a7a0 100644
+--- a/meta/recipes-core/udev/udev-extraconf/mount.sh
++++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+@@ -40,11 +40,14 @@ automount_systemd() {
+     name="`basename "$DEVNAME"`"
  
- SRC_URI:append:class-native = " \
+     # Skip already mounted partitions
+-    if [ -f /run/systemd/transient/run-media-$name.mount ]; then
++    if [ -f /run/systemd/transient/$(echo $MOUNT_BASE | cut -d '/' -f 2- | sed 's#/#-#g')-*$name.mount ]; then
+         logger "mount.sh/automount" "$MOUNT_BASE/$name already mounted"
+         return
+     fi
+ 
++    # Get the unique name for mount point
++    get_label_name "${DEVNAME}"
++
+     # Only go for auto-mounting when the device has been cleaned up in remove
+     # or has not been identified yet
+     if [ -e "/tmp/.automount-$name" ]; then
+@@ -61,9 +64,6 @@ automount_systemd() {
+         grep "^[[:space:]]*$tmp" /etc/fstab && return
+     done
+ 
+-    # Get the unique name for mount point
+-    get_label_name "${DEVNAME}"
+-
+     [ -d "$MOUNT_BASE/$name" ] || mkdir -p "$MOUNT_BASE/$name"
+ 
+     MOUNT="$MOUNT -o silent"
 -- 
 2.25.1
 
