@@ -1,294 +1,296 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
+Return-Path: <sjolley.yp.pm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29761C43334
-	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 19:25:24 +0000 (UTC)
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
- [209.85.160.173])
- by mx.groups.io with SMTP id smtpd.web09.31720.1658172319186023544
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45279C433EF
+	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 20:02:14 +0000 (UTC)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web11.32119.1658174532494609926
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 12:25:19 -0700
+ Mon, 18 Jul 2022 13:02:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20210112.gappssmtp.com header.s=20210112
- header.b=NhZJEZem;
- spf=pass (domain: ossystems.com.br, ip: 209.85.160.173,
- mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qt1-f173.google.com with SMTP id e5so9529529qts.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=gDWWl4G7;
+ spf=pass (domain: gmail.com, ip: 209.85.208.54,
+ mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-ed1-f54.google.com with SMTP id m16so16803631edb.11
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 12:25:19 -0700 (PDT)
+ Mon, 18 Jul 2022 13:02:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20210112.gappssmtp.com; s=20210112;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc;
-        bh=7zCqIaHWz2i7f1ESkfDE4Nl4M8UpcdY2lfD+3fKntOQ=;
-        b=NhZJEZemGjGFSpL7Gv6PqDYeqoaQtoC9b9Ld6EmiNinR+lnsxRoT0tj4n9yU3eTltR
-         dvLRBcHNeIp8PTUeDAD6g2VazQIPYT1aUMrfoeDsJNOnNN6PMwCY/0ScxdfpmrhxB3G+
-         Q8boMUe6n20RQ4mMwTfXGUw6DRMmzMKasiy2DVD3OT4UUxXITaT97Pjs8T+i+lmmzbjd
-         tcl4n5Q3amfmffvlQZ65NTGkqzdDkwFSYmIKpUajmGWQPAIAQXTv6j4Yq9NmAcWRc39b
-         3gIUmJ3EzGfPgCq9uMkBYN7vbbJvQgniQhO7NQImOuJOAljWP/4ijTwWgajfOVUZYrcj
-         6+XQ==
+        d=gmail.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version:thread-index
+         :content-language;
+        bh=//HBxlTJrc1nKmt0J1HpYOLVLshGzgJ71GwPxOGRsks=;
+        b=gDWWl4G7uGY8UjbsjJS1lG4n3U+ZBwnSQdTH4qxP2xdAfI65YFEyL/NR8LIY4bkyiF
+         a1Dds2HZN54rMwn7gIAk1LcvE42olLk5LXRA1Q44ROabQLG1T1Kfitf9raWzb0gJDtjg
+         ZF/t4SEGxuL9JV1AipNZqgbm0/BcF6O4+8g4VdyuLUqVD8EDgUn8li8Kq21FQ46eqqVN
+         tc+7BLDDKds0ogPNhonT2avGuZ1TCTQAnBVbRGuDrQPIwTBtKIeTicCzgBZz5k8cPuf/
+         1IJ170TQFmUDNbg/6NJTl3PamfUGAULTWNvT1sPY5gMW4/symIMcS8Lult58guxmY5nd
+         jIqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc;
-        bh=7zCqIaHWz2i7f1ESkfDE4Nl4M8UpcdY2lfD+3fKntOQ=;
-        b=A8aN4ql/WT1bJwSaK7IfQjIoWYHq216AjB8hqpfwX7N87iMH+1ftyMEtfcr7T1lxbX
-         ysg0zaiNgQr4jjNDEIysczX4Zvt7TN+UNKdWfsntgjP7EQppTThTekNtobKf5lNB4QXu
-         aVsSfa8fBJmMorPFtoQNiPWsEsD/5gaGkdCzgX1+ziprElxoKzkxUrKOubSgGYkaxwRp
-         LX9HUAuyPsthULD1XYqG9OaqMuQ+of5ANFMp9HQ5pnhxmcEqidW0jJlqoOgdfCecPKKH
-         MhP1MhRMhyhio/gj5Xk5F9bAUHGOsjyFGhIhUn5d7h1dmsju1VjYFMrZ9l1Omf2PZrag
-         m7GA==
-X-Gm-Message-State: AJIora+Jz/Kh6EyEo8nQkHMe7PMR9F50Ly+og0ZFuQwEof5HFjb3P/fk
-	dVPbwR8NiPpZZe15WqKCCml7qo8UTN0D1iKY
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :thread-index:content-language;
+        bh=//HBxlTJrc1nKmt0J1HpYOLVLshGzgJ71GwPxOGRsks=;
+        b=3qKbjBhWkRRDSX/hPYRdY54KY6zgUpAkwyVHe2QtQY8Ly2dLlUX/B02lf8TwhvpzJz
+         YyA9Yo9gPWUaAXOdBqTl+gFhQDFIFSOX/oS2HU26GVXIpf9Lr9XjcmaJ1pcwZKBDD+Uo
+         sTcec5xhIwpZRyp5AI4Chm7guJ6qRNelLn0+FQbBXgn3q9dW/1OdcrYEAuNwfogBrhCt
+         80VwIDeXNzKhddBQwzklWkJPwBAs19Q2jh+I918KoXLEnw7lAlLmg5dIAxcAdLfYrOdP
+         ABLWq9LanCWE5ZiSfJfyF5Pq3t55i+5nN3cY1bMcpK4auCanqJ5EU10PlJVME8QELo22
+         aJew==
+X-Gm-Message-State: AJIora/FRo/gYOqufgkAbybvoUYLESCA5r+dP8xKKMBAgS4PY2e8Gyq0
+	xlh8hHrhowfW8PKAPh8Bv/U=
 X-Google-Smtp-Source: 
- AGRyM1sMtQxpQdeys/mz96y4XWc8yMAbVu/U1KJ78qZWDuPZdQwR4Fq+2+uJzGYhg+FADwsbwX4hBQ==
-X-Received: by 2002:ac8:5c8d:0:b0:31e:cf54:5ede with SMTP id
- r13-20020ac85c8d000000b0031ecf545edemr19191628qta.531.1658172317977;
-        Mon, 18 Jul 2022 12:25:17 -0700 (PDT)
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com.
- [209.85.222.180])
+ AGRyM1slALSRl6zMomEcDYUwsd89riTTuos6i2/v5Q3dqjcb6iaziqZw+2/efiXbNbuDYPelvPFMew==
+X-Received: by 2002:a05:6402:5c8:b0:433:545f:a811 with SMTP id
+ n8-20020a05640205c800b00433545fa811mr39374558edx.101.1658174530576;
+        Mon, 18 Jul 2022 13:02:10 -0700 (PDT)
+Received: from skjolley ([212.39.176.11])
         by smtp.gmail.com with ESMTPSA id
- m6-20020a05620a290600b006b5c492aafesm10822069qkp.86.2022.07.18.12.25.16
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Jul 2022 12:25:17 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qk1-f180.google.com with SMTP id c3so3799734qko.1
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 12:25:16 -0700 (PDT)
-X-Received: by 2002:a37:4115:0:b0:6b5:da97:fe0d with SMTP id
- o21-20020a374115000000b006b5da97fe0dmr7458723qka.370.1658172316704; Mon, 18
- Jul 2022 12:25:16 -0700 (PDT)
+ j4-20020a170906474400b0072aed3b2158sm5871498ejs.45.2022.07.18.13.02.02
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 18 Jul 2022 13:02:09 -0700 (PDT)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@lists.yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Mon, 18 Jul 2022 13:01:59 -0700
+Message-ID: <10a101d89ae1$42e28450$c8a78cf0$@gmail.com>
 MIME-Version: 1.0
-References: <20220710164300.953098-1-otavio@ossystems.com.br>
- <20220710164300.953098-2-otavio@ossystems.com.br>
- <e642480e892b0b411acb509c0de11aa7e52d4412.camel@linuxfoundation.org>
- <CAP9ODKooHNY8GyNuY8hDHyscEAJJfCfTXdThVMQW5TOGnjOZxw@mail.gmail.com>
- <8e065ede6abdb6065c862bd8b25cdccf2b6828a8.camel@linuxfoundation.org>
-In-Reply-To: 
- <8e065ede6abdb6065c862bd8b25cdccf2b6828a8.camel@linuxfoundation.org>
-Date: Mon, 18 Jul 2022 16:25:05 -0300
-X-Gmail-Original-Message-ID: 
- <CAP9ODKp1_CV4N-RB+NR4nTdvVgSR=pu6V7q2T2sQ8Pu8w=Ew2g@mail.gmail.com>
-Message-ID: 
- <CAP9ODKp1_CV4N-RB+NR4nTdvVgSR=pu6V7q2T2sQ8Pu8w=Ew2g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 2/2] cargo-cross-canadian: Use SDK's flags
- during target linking
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Khem Raj <raj.khem@gmail.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000e9e97905e41953f5"
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_10A2_01D89AA6.96861D50"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQF2GWC+1dDBw8ItOjTpE2wD5cinYg==
+Content-Language: en-us
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 19:25:24 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 20:02:14 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168253
+ https://lists.openembedded.org/g/openembedded-core/message/168254
 
---000000000000e9e97905e41953f5
-Content-Type: text/plain; charset="UTF-8"
+This is a multipart message in MIME format.
+
+------=_NextPart_000_10A2_01D89AA6.96861D50
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+All,
+
+ 
+
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
+how to create a bugzilla account at:
+<https://bugzilla.yoctoproject.org/createaccount.cgi>
+https://bugzilla.yoctoproject.org/createaccount.cgi
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
+ 
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 412
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now,  "4.1", "4.2", "4.99" and "Future", the more pressing/urgent
+issues being in "4.1" and then "4.2".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_10A2_01D89AA6.96861D50
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0066_01D89538.80C067F0";
+	charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Hello Richard and Khem
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The triage team is starting to try and =
+collect up and classify bugs which a newcomer to the project would be =
+able to work on in a way which means people can find them. They're being =
+listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a> and how to create a bugzilla account at: <a =
+href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
+style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
+/span></a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 412 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &nbsp;&#8220;4.1&#8221;, =
+&#8220;4.2&#8221;, &quot;4.99&quot; and &quot;Future&quot;, the more =
+pressing/urgent issues being in &quot;4.1&quot; and then =
+&#8220;4.2&#8221;.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Please review this link and if a bug is =
+something you would be able to help with either take ownership of the =
+bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_NextPart_000_10A2_01D89AA6.96861D50--
 
-Em seg., 18 de jul. de 2022 =C3=A0s 12:59, Richard Purdie <
-richard.purdie@linuxfoundation.org> escreveu:
-
-> On Mon, 2022-07-18 at 12:49 -0300, Otavio Salvador wrote:
-> > Em seg., 18 de jul. de 2022 =C3=A0s 09:45, Richard Purdie
-> > <richard.purdie@linuxfoundation.org> escreveu:
-> > > On Sun, 2022-07-10 at 13:43 -0300, Otavio Salvador wrote:
-> > > > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> > > SDKAMCHINE =3D "aarch64"
-> > > MACHINE =3D "qemuarm64"
-> > >
-> > > bitbake rust-cross-canadian-aarch64
-> > >
-> > > still fails so there is still something wrong with the SDK builds
-> > > :/
-> > >
-> >
-> >
-> > I'll check this. I didn't check this combination.
->
-> I tried an experiment to see which combinations worked. To do that I
-> added:
->
-> TOOLCHAIN_HOST_TASK:append =3D ' packagegroup-rust-cross-canadian-${MACHI=
-NE}'
->
-> to the autobuilder config. This resulted in:
->
-> qemux86:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/5491
->
-> buildtools:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/5885
->
-> beaglebone:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/5563
->
-> edgerouter:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/62/builds/5533
->
-> genericx86:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/5548
->
-> genericx86-64:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/5533
->
-> multilib:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/5554
->
-> pkgman-deb-non-deb:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/5554
->
-> qemumips:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/5498
->
-> qemux86-64:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/73/builds/5487
->
-> qemuarm64:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/5510
->
-> qemuarm:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/5525
->
-> so there is something rather wrong :(
->
-
-It does, indeed, but it doesn't seem related to this PR.
-
-Do you know if this has worked?
-
-I am asking as I did all development and testing using SDKMACHINE ?=3D
-'x86_64' and even MACHINE ?=3D 'qemuarm64' worked just fine. However, looki=
-ng
-at some of the logs above, it seems it is using an SDKMACHINE as i686, so
-this appears as a different issue for me.
-
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
-
---000000000000e9e97905e41953f5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hello Richard and Khem</div><br><div class=3D"gmail_q=
-uote"><div dir=3D"ltr" class=3D"gmail_attr">Em seg., 18 de jul. de 2022 =C3=
-=A0s 12:59, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfounda=
-tion.org">richard.purdie@linuxfoundation.org</a>&gt; escreveu:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">On Mon, 2022-07-18 at 12:49 =
--0300, Otavio Salvador wrote:<br>&gt; Em seg., 18 de jul. de 2022 =C3=A0s 0=
-9:45, Richard Purdie<br>
-&gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_b=
-lank">richard.purdie@linuxfoundation.org</a>&gt; escreveu:<br>
-&gt; &gt; On Sun, 2022-07-10 at 13:43 -0300, Otavio Salvador wrote:<br>
-&gt; &gt; &gt; Signed-off-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@=
-ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>&gt;<br>&gt;=
- &gt; SDKAMCHINE =3D &quot;aarch64&quot;<br>
-&gt; &gt; MACHINE =3D &quot;qemuarm64&quot;<br>
-&gt; &gt; <br>
-&gt; &gt; bitbake rust-cross-canadian-aarch64<br>
-&gt; &gt; <br>
-&gt; &gt; still fails so there is still something wrong with the SDK builds=
-<br>
-&gt; &gt; :/<br>
-&gt; &gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; I&#39;ll check this. I didn&#39;t check this combination.<br>
-<br>
-I tried an experiment to see which combinations worked. To do that I<br>
-added:<br>
-<br>
-TOOLCHAIN_HOST_TASK:append =3D &#39; packagegroup-rust-cross-canadian-${MAC=
-HINE}&#39;<br>
-<br>
-to the autobuilder config. This resulted in:<br>
-<br>
-qemux86:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/59/build=
-s/5491" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/59/builds/5491</a><br>
-<br>
-buildtools:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/20/build=
-s/5885" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/20/builds/5885</a><br>
-<br>
-beaglebone:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/65/build=
-s/5563" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/65/builds/5563</a><br>
-<br>
-edgerouter:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/62/build=
-s/5533" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/62/builds/5533</a><br>
-<br>
-genericx86:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/48/build=
-s/5548" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/48/builds/5548</a><br>
-<br>
-genericx86-64:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/37/build=
-s/5533" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/37/builds/5533</a><br>
-<br>
-multilib:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/44/build=
-s/5554" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/44/builds/5554</a><br>
-<br>
-pkgman-deb-non-deb:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/50/build=
-s/5554" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/50/builds/5554</a><br>
-<br>
-qemumips:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/60/build=
-s/5498" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/60/builds/5498</a><br>
-<br>
-qemux86-64:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/73/build=
-s/5487" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/73/builds/5487</a><br>
-<br>
-qemuarm64:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/42/build=
-s/5510" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/42/builds/5510</a><br>
-<br>
-qemuarm:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/53/build=
-s/5525" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/53/builds/5525</a><br>
-<br>
-so there is something rather wrong :(<br></blockquote><div><br></div><div>I=
-t does, indeed, but it doesn&#39;t seem related to this PR.=C2=A0</div><div=
-><br></div><div>Do you know if this has worked?</div><div><br></div><div>I =
-am asking as I did all development and testing using=C2=A0SDKMACHINE ?=3D &=
-#39;x86_64&#39; and even=C2=A0MACHINE ?=3D &#39;qemuarm64&#39; worked just =
-fine. However, looking at some of the logs above, it seems it is using an S=
-DKMACHINE as i686, so this appears as a different issue for me.</div><div>=
-=C2=A0</div></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Otavio =
-Salvador =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. Systems<br><a href=3D"http://www.ossys=
-tems.com.br" target=3D"_blank">http://www.ossystems.com.br</a> =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0<a href=3D"http://code.ossystems.com.br" target=3D"_blank"=
->http://code.ossystems.com.br</a><br>Mobile: +55 (53) 9 9981-7854 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0Mobile: +1 (347) 903-9750</div></div>
-
---000000000000e9e97905e41953f5--
 
