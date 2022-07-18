@@ -2,64 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6570C43334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA8E3CCA479
 	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 14:49:52 +0000 (UTC)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
- [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web12.28239.1658155789352625933
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web10.28034.1658155787184776661
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:49:49 -0700
+ Mon, 18 Jul 2022 07:49:47 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=eTmQBy08;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.177,
+ header.b=1H4Aju+F;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.44,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f177.google.com with SMTP id q16so7694117pgq.6
+Received: by mail-pj1-f44.google.com with SMTP id
+ 89-20020a17090a09e200b001ef7638e536so18421950pjo.3
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:49:49 -0700 (PDT)
+ Mon, 18 Jul 2022 07:49:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=1JNhF9Lak23IrYMTuxgy6rpBPOIkleJ/SKoCCZgzqY8=;
-        b=eTmQBy08rxUP23sngAOPFVysSh31lVk5VgxIRZVUp3VvXQW8PXMJxVetRXsI8Eebnd
-         sW8OXe7TnnM1FrIuGe1R6pPDnl1576hNQSA82jxUrgY5PenWeog5Q5zCqIpG3STw44qv
-         mYaGb/4pj1Zvp1mRGUv5/sE9i0KuZAdHyHvE2UG6O0d1rE2k0QbWYSn+gFY4eMWosPAh
-         tCv+NIIdmoz4Q6yuC4PqPp8W8rVqxKQR0Arzs1ctVzCkdsoNpJP3VCKLaraP29nvvxJZ
-         9/fKCNrAI8UhRGxmE8/06xEhIUeNclgJ+MnYfxnkdyW/6ascJM7lFi/tUTwyeV6sqISB
-         inOg==
+        bh=0F9wCgphh2RDxSmzoDZuRZPGVkNaMy7AU7AR/k1fIi8=;
+        b=1H4Aju+F1AMoj2sYXtyqvN6ro6vV+Df4sDl37DXNxJA1jTzZ3l4W5odx2g06x+SzR/
+         10hmeqFxde+BDkoayGTcRVs8nsGvdmZ2MLpPmc6BWmoloU2K5enHKsK9Emv7ausuFjaA
+         LeUYwcs+xwnu+VL5yPN9vSGcGwg/GMacfkBvbzKeQoWDQ9IYj8bY/+6a2YoQm5X2Uhak
+         0C2WxRhiNQy71RLr7wv23KxVTm4C3QZz132bjqvgt7uUCepaI2YZukJY44q0vVCufvb9
+         xpOYGijRFURTbww18A02dkk2/2nMCRL9d3m9BWf+Pnz5pC3zVd3KmgLhn5wEbEFQetOA
+         Yq9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1JNhF9Lak23IrYMTuxgy6rpBPOIkleJ/SKoCCZgzqY8=;
-        b=s/c3b9DTInHG1QidjY5QkoPmN2ARdfsnUZocquNNjf6e7ivOZ7Nirtbdc+wt6UzyUt
-         0FsnKYgqGqcRZF/Ea38gYPtJBYvEG8uuPtuNaG6dgsl1eLohpGIFmw+tx6B/YPFLjoFr
-         9kCtxIbsJfUSLxLYJRX0JXYE8H5qCrM/1JXo7Z3mIOX+docheujBdnsTz5waASim9Acv
-         3oLALBfYtavRqfcxp2vPzjkQqSuK8MTuxrZalztrq+qvuyPjg3IB4SqZGlt/ZAAWFmRp
-         H15MXa8Sz5J2GG6MBZrXPJeLsf+Zlff+Hv7BFWXp7LMGUXaUtt/mECdOnZur8CDOWQgc
-         9esg==
-X-Gm-Message-State: AJIora9nnFgei+JoAk9E07hdT+brqbflxiReUDZuSo3z3n3Ugac1Zj1X
-	D+IIIHg+joSG8EYVsbh9jljj7guJm9XEQQu6
+        bh=0F9wCgphh2RDxSmzoDZuRZPGVkNaMy7AU7AR/k1fIi8=;
+        b=slyfZSbsCZGjC1EhRyjtCrRGlK8vwc4Fm1ddh+LbhsIAoEndc+pFCbmfiYOommgdP9
+         qlZ8IOyoXTiFENb505OVLqOmYFsERYAjRwsTZjwPaNB7waWmbyfvlxF0yiI0jFOENRgV
+         9QaWTvYTf+Ljsj3ykBeEqGT29hM5jWRL3rernUz3JNKuGVnfWNgWtgstmRrGItVBUS07
+         uNrqO+kwpI4H9LHMdC18RL+4wqnFjNh2FN5YYjMYq2Ujy8tLHTYDscnbCkX7YSLLTpcr
+         WzaZ/HNp4PhM2KSg5T+NDMp//6Q4IhE8tRnVkKjP8EMuqbADOqcgdtN2OgzJpf5Ki3Wv
+         lzGQ==
+X-Gm-Message-State: AJIora9hubqhqx1Q/VGrPP3OXSfqIusAEIJuTvplpItr8qap70iMPhPE
+	v6kjq6v5cy7FGoWdRbmd31YZ3mKRt349asDL
 X-Google-Smtp-Source: 
- AGRyM1uNTdWmY5CkR5meDayLA+R498NMlrbwXjonUc+duvnPUztSA1CQMhShYxtfgw8PNCwE+uwaCg==
-X-Received: by 2002:a05:6a00:230a:b0:52a:d0e8:c936 with SMTP id
- h10-20020a056a00230a00b0052ad0e8c936mr29194841pfh.67.1658155788184;
-        Mon, 18 Jul 2022 07:49:48 -0700 (PDT)
+ AGRyM1tqUaFaPY6RHtHce6L69TDuAS+f9/zgyxwh/rH8YaO6tSQUytrq1xW6IlZGnz+UUsM/S0PmGg==
+X-Received: by 2002:a17:90b:2496:b0:1ef:a94:7048 with SMTP id
+ nt22-20020a17090b249600b001ef0a947048mr32784898pjb.244.1658155785866;
+        Mon, 18 Jul 2022 07:49:45 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.49.46
+ ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.49.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 07:49:47 -0700 (PDT)
+        Mon, 18 Jul 2022 07:49:45 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 13/35] package.bbclass: Fix base directory for
- debugsource files when using externalsrc
-Date: Mon, 18 Jul 2022 04:48:38 -1000
+Subject: [OE-core][kirkstone 12/35] python3: Backport patch to fix an issue in
+ subinterpreters
+Date: Mon, 18 Jul 2022 04:48:37 -1000
 Message-Id: 
- <2772b77c0e3d0f6226a2d7c40a59900a6d7c942f.1658155579.git.steve@sakoman.com>
+ <39d57ef7e341a048b94bc5dd9c29d58f57e06f19.1658155579.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1658155579.git.steve@sakoman.com>
 References: <cover.1658155579.git.steve@sakoman.com>
@@ -70,112 +71,95 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 14:49:52 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168213
+ https://lists.openembedded.org/g/openembedded-core/message/168212
 
-From: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
+From: Markus Volk <f_l_k@t-online.de>
 
-While executing do_package, bitbake checks for a list of
-debug source files and uses a pattern to match the ones
-to be included in copydebugsources.
+This adds a backport patch that fixes a problem in subinterpreters related
+to the garbagecollector. Without the patch, there are random segfaults in
+several Kodi addons that use python3-sqlite3. Presumably there are real world
+issues in other programs as well.
 
-Previously when externalsrc was in use either directly or by
-using devtool, the source location changed and this pattern
-no longer matched, hence debug source files failed to be
-included in the corresponding package.
-
-Check when the source directory isnt the default (based on
-WORKDIR), and change the pattern used to match debug source
-files if that is the case, allowing us to perform do_package
-properly.
-
-Workaround debugsource.list containing paths from the host by
-moving debug source files away from the host directory
-structure  to avoid host contamination (this seems to happen
-when packages use $TMPDIR/work-shared and externalsrc is
-in use).
-
-Test matrix included using:
-- devtool to use externalsrc automatically
-- externalsrc with a non-devtool based source directory
-- No externalsrc at all
-Tested the following packages to be working:
-- glibc ($TMPDIR/work-shared based)
-- libxcrypt ($TMPDIR/work based)
-
-[YOCTO 8015]
-
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a887bd96fd0a15398e8077ea79df5070971866e4)
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/package.bbclass | 31 ++++++++++++++++++++++++++++---
- 1 file changed, 28 insertions(+), 3 deletions(-)
+ ...h-92036-Fix-gc_fini_untrack-GH-92037.patch | 54 +++++++++++++++++++
+ .../recipes-devtools/python/python3_3.10.4.bb |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-gh-92036-Fix-gc_fini_untrack-GH-92037.patch
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 62050a18b8..4850134022 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -553,13 +553,25 @@ def copydebugsources(debugsrcdir, sources, d):
-         strip = d.getVar("STRIP")
-         objcopy = d.getVar("OBJCOPY")
-         workdir = d.getVar("WORKDIR")
-+        sdir = d.getVar("S")
-+        sparentdir = os.path.dirname(os.path.dirname(sdir))
-+        sbasedir = os.path.basename(os.path.dirname(sdir)) + "/" + os.path.basename(sdir)
-         workparentdir = os.path.dirname(os.path.dirname(workdir))
-         workbasedir = os.path.basename(os.path.dirname(workdir)) + "/" + os.path.basename(workdir)
- 
-+        # If S isnt based on WORKDIR we can infer our sources are located elsewhere,
-+        # e.g. using externalsrc; use S as base for our dirs
-+        if workdir in sdir:
-+            basedir = workbasedir
-+            parentdir = workparentdir
-+        else:
-+            basedir = sbasedir
-+            parentdir = sparentdir
+diff --git a/meta/recipes-devtools/python/python3/0001-gh-92036-Fix-gc_fini_untrack-GH-92037.patch b/meta/recipes-devtools/python/python3/0001-gh-92036-Fix-gc_fini_untrack-GH-92037.patch
+new file mode 100644
+index 0000000000..6a58c35cc6
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/0001-gh-92036-Fix-gc_fini_untrack-GH-92037.patch
+@@ -0,0 +1,54 @@
++From 178a238f25ab8aff7689d7a09d66dc1583ecd6cb Mon Sep 17 00:00:00 2001
++From: "Miss Islington (bot)"
++ <31488909+miss-islington@users.noreply.github.com>
++Date: Wed, 4 May 2022 03:23:29 -0700
++Subject: [PATCH 01/40] gh-92036: Fix gc_fini_untrack() (GH-92037)
 +
-         # If build path exists in sourcefile, it means toolchain did not use
-         # -fdebug-prefix-map to compile
-         if checkbuildpath(sourcefile, d):
--            localsrc_prefix = workparentdir + "/"
-+            localsrc_prefix = parentdir + "/"
-         else:
-             localsrc_prefix = "/usr/src/debug/"
- 
-@@ -581,7 +593,7 @@ def copydebugsources(debugsrcdir, sources, d):
-         processdebugsrc += "sed 's#%s##g' | "
-         processdebugsrc += "(cd '%s' ; cpio -pd0mlL --no-preserve-owner '%s%s' 2>/dev/null)"
- 
--        cmd = processdebugsrc % (sourcefile, workbasedir, localsrc_prefix, workparentdir, dvar, debugsrcdir)
-+        cmd = processdebugsrc % (sourcefile, basedir, localsrc_prefix, parentdir, dvar, debugsrcdir)
-         try:
-             subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-         except subprocess.CalledProcessError:
-@@ -591,9 +603,22 @@ def copydebugsources(debugsrcdir, sources, d):
-         # cpio seems to have a bug with -lL together and symbolic links are just copied, not dereferenced.
-         # Work around this by manually finding and copying any symbolic links that made it through.
-         cmd = "find %s%s -type l -print0 -delete | sed s#%s%s/##g | (cd '%s' ; cpio -pd0mL --no-preserve-owner '%s%s')" % \
--                (dvar, debugsrcdir, dvar, debugsrcdir, workparentdir, dvar, debugsrcdir)
-+                (dvar, debugsrcdir, dvar, debugsrcdir, parentdir, dvar, debugsrcdir)
-         subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
- 
++Fix a crash in subinterpreters related to the garbage collector. When
++a subinterpreter is deleted, untrack all objects tracked by its GC.
++To prevent a crash in deallocator functions expecting objects to be
++tracked by the GC, leak a strong reference to these objects on
++purpose, so they are never deleted and their deallocator functions
++are not called.
++(cherry picked from commit 14243369b5f80613628a565c224bba7fb3fcacd8)
 +
-+        # debugsources.list may be polluted from the host if we used externalsrc,
-+        # cpio uses copy-pass and may have just created a directory structure
-+        # matching the one from the host, if thats the case move those files to
-+        # debugsrcdir to avoid host contamination.
-+        # Empty dir structure will be deleted in the next step.
++Co-authored-by: Victor Stinner <vstinner@python.org>
 +
-+        # Same check as above for externalsrc
-+        if workdir not in sdir:
-+            if os.path.exists(dvar + debugsrcdir + sdir):
-+                cmd = "mv %s%s%s/* %s%s" % (dvar, debugsrcdir, sdir, dvar,debugsrcdir)
-+                subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
++Upstream-Status: Backport
++---
++ .../2022-04-28-23-37-30.gh-issue-92036.GZJAC9.rst           | 5 +++++
++ Modules/gcmodule.c                                          | 6 ++++++
++ 2 files changed, 11 insertions(+)
++ create mode 100644 Misc/NEWS.d/next/Core and Builtins/2022-04-28-23-37-30.gh-issue-92036.GZJAC9.rst
 +
-         # The copy by cpio may have resulted in some empty directories!  Remove these
-         cmd = "find %s%s -empty -type d -delete" % (dvar, debugsrcdir)
-         subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
++diff --git a/Misc/NEWS.d/next/Core and Builtins/2022-04-28-23-37-30.gh-issue-92036.GZJAC9.rst b/Misc/NEWS.d/next/Core and Builtins/2022-04-28-23-37-30.gh-issue-92036.GZJAC9.rst
++new file mode 100644
++index 0000000000..78094c5e4f
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Core and Builtins/2022-04-28-23-37-30.gh-issue-92036.GZJAC9.rst	
++@@ -0,0 +1,5 @@
+++Fix a crash in subinterpreters related to the garbage collector. When a
+++subinterpreter is deleted, untrack all objects tracked by its GC. To prevent a
+++crash in deallocator functions expecting objects to be tracked by the GC, leak
+++a strong reference to these objects on purpose, so they are never deleted and
+++their deallocator functions are not called. Patch by Victor Stinner.
++diff --git a/Modules/gcmodule.c b/Modules/gcmodule.c
++index 805a159d53..43ae6fa98b 100644
++--- a/Modules/gcmodule.c
+++++ b/Modules/gcmodule.c
++@@ -2170,6 +2170,12 @@ gc_fini_untrack(PyGC_Head *list)
++     for (gc = GC_NEXT(list); gc != list; gc = GC_NEXT(list)) {
++         PyObject *op = FROM_GC(gc);
++         _PyObject_GC_UNTRACK(op);
+++        // gh-92036: If a deallocator function expect the object to be tracked
+++        // by the GC (ex: func_dealloc()), it can crash if called on an object
+++        // which is no longer tracked by the GC. Leak one strong reference on
+++        // purpose so the object is never deleted and its deallocator is not
+++        // called.
+++        Py_INCREF(op);
++     }
++ }
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/python/python3_3.10.4.bb b/meta/recipes-devtools/python/python3_3.10.4.bb
+index 357025f856..34fd2895a3 100644
+--- a/meta/recipes-devtools/python/python3_3.10.4.bb
++++ b/meta/recipes-devtools/python/python3_3.10.4.bb
+@@ -35,6 +35,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-setup.py-Do-not-detect-multiarch-paths-when-cross-co.patch \
+            file://deterministic_imports.patch \
+            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
++           file://0001-gh-92036-Fix-gc_fini_untrack-GH-92037.patch \
+            "
+ 
+ SRC_URI:append:class-native = " \
 -- 
 2.25.1
 
