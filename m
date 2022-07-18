@@ -2,63 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A524EC43334
-	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 14:51:02 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web10.28057.1658155854945849641
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1D15C43334
+	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 14:51:12 +0000 (UTC)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web08.28274.1658155870106823018
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:50:55 -0700
+ Mon, 18 Jul 2022 07:51:10 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=NH5D8oMK;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.47,
+ header.b=TxFqrRf4;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.54,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f47.google.com with SMTP id a15so12032051pjs.0
+Received: by mail-pj1-f54.google.com with SMTP id
+ n4-20020a17090a73c400b001f1e87432c2so131306pjk.3
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:50:54 -0700 (PDT)
+ Mon, 18 Jul 2022 07:51:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=AAJ2qhgqaL07IQKxnjsxkB2PgpkR0Y7k5SVkYAQTIzQ=;
-        b=NH5D8oMK5zq/MAyuuX0sgUM1qlkahw9FBRY4aUQWLPcSOrZrtUDU+MlWG/RH0s66xA
-         gGITNjKZO8+QRig2WYTlq2smBCN9ecvNs0G1eXPhIebgB4itb5CNG1mNVkVTzZ/Bkycv
-         TTzqbsa9rQ9/RpgWWfPqODuZVdubry9QLEm1RpsgGZXmlscqgR3s1jC1fSRHuKenfDkL
-         jYVWmwQxZQQ1vHLl8Rr0hWIHCQFMD56qLRrNh0bSEuY7SXBDcXzGKIuArxoTt2L4d/yE
-         Oi1Io7FP+K81bBG/+NM+o7TP4Dk3zMM20ZV3JsnZc7bKl3DPpwZhGtedKAKKKg52VLIG
-         4t9Q==
+        bh=KxhoLUd1N/Pey4KDwLBufK5c1ZnIqrch8OD8tWvNvew=;
+        b=TxFqrRf4/1wFWS0UajGvLZY2YEoh7ylB/39qzcnZcuXB3ZBJRbdqgBVBl8GQVse1jT
+         wh9SGN9UAWKJ2jPBHw1AlDpA/5ug6sLVTjwp8x9/fR8003HOg3UsLX75XT+P9bAzcKvh
+         ESxeyagA0xIr679DYF9wSSDY4M4T53555yhQFGpdbEnU8kOP4yWSRE2px7TF7bIL7zHJ
+         wI9CA6Ad6xCarOW1+QXIOAZFek4MrM8FabA6xEMcGnGQ2eRfAutihaq30R/SiGbVz3kh
+         Ppv36/VQSPCKOeldJ9sIcuXEMburzrToizrfMchbED5ztBANLhCzaB3TxfGSsv1cKUgi
+         BP7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=AAJ2qhgqaL07IQKxnjsxkB2PgpkR0Y7k5SVkYAQTIzQ=;
-        b=hhGiewKwbooTY05VLfrPd7fOVEPvrnSQuZhFTzOiGZAQwC4/nw6V0xBcFw8wPzyhkw
-         ldwEewM7YPrQIq7t33AmWJBKwErYSCOxeNzcNk85YH01U9QzG6T3xzaGTT7ATK+GfkgO
-         cxkY7/SqM+2nWz81mhV3OQ7BrjU1xaqrK/N5P1yw2CRCscV1Alq9jjiDlG4VY8TbuHJz
-         5gPpevMVRIB8jmplBypwGmWhFz4NMgFm8ZaNVS/evQsA59HZID03EJm+AzIn7NlwuVzF
-         +C8G8OCqcqAtyUZHTxX2MFiphNwqctL/i7CGFK1E13mrADiCF1IzznUfL/mo1F49Sy98
-         Lz2Q==
-X-Gm-Message-State: AJIora9msz6vwLmNoeWOEFWDO0hXArJ7RPQsWILKVw9Z2eB/UN0Pl3Zy
-	sbD95e0/IPRtnjbFLycbrQUj4RjwAzEvgmdq
+        bh=KxhoLUd1N/Pey4KDwLBufK5c1ZnIqrch8OD8tWvNvew=;
+        b=KAjFUvoii65JrJRNOZ8FNTBjkZ9B2wWvSmUbCwe+Nyx9FqAqsvos3IqT0421as+J7N
+         U2eOTykTYNypFgR2ta79l9UbpUp+rzkmBUsoHqWhwGxLE/6/AWkH48++cbu25s2P43ob
+         I1c4FDYMHRy3lwT14BD5J0CXE7puaLoWmZYYPoGabR8VD2OottakKsVBLgw5vh9b7xZm
+         OfCHYX/CBFIZNIm2GWJpEX0ZeqsPvfO1uQaylPGXpOO+Fex2aKevOULFiDaeNFgAqFoJ
+         3INb5K3hlhqPVVsWNiEkPm48BeGvhXoCJRo6s+B5UTEXW61NJZ/YO8UaEPqyV2Zoth5n
+         jnIg==
+X-Gm-Message-State: AJIora9RmB8thlMmrO3VpxBKUNhR6HJBAEW8re9a/T/qECQIpmKoGRgv
+	/v1783NRftP6DWkktk7qAKllajM3xXkJ9E8z
 X-Google-Smtp-Source: 
- AGRyM1t8IinxAhRSmF+6y93pIK8gbsXW9n0BOzvMQrkNVsi8tRwy5Vs525ygCa7eS6sKqkV+BPeLeQ==
-X-Received: by 2002:a17:90b:8d:b0:1ef:74c8:1541 with SMTP id
- bb13-20020a17090b008d00b001ef74c81541mr32849042pjb.103.1658155853839;
-        Mon, 18 Jul 2022 07:50:53 -0700 (PDT)
+ AGRyM1uC/+BfyJ7/UWfuPy6PlSuUa1GpGswbWMuaj9amzODjOPCC4XLg2tia9igKFqyqzGvCLqK+MA==
+X-Received: by 2002:a17:90b:1d8f:b0:1f0:270a:b556 with SMTP id
+ pf15-20020a17090b1d8f00b001f0270ab556mr33476055pjb.192.1658155869070;
+        Mon, 18 Jul 2022 07:51:09 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.50.52
+ ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.51.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 07:50:53 -0700 (PDT)
+        Mon, 18 Jul 2022 07:51:08 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 30/35] gcc-runtime: Fix build when using gold
-Date: Mon, 18 Jul 2022 04:48:55 -1000
+Subject: [OE-core][kirkstone 33/35] cargo_common.bbclass: enable bitbake
+ vendoring for externalsrc
+Date: Mon, 18 Jul 2022 04:48:58 -1000
 Message-Id: 
- <f842dbc478cb007b5f3e2f016959e2b597a4d0be.1658155579.git.steve@sakoman.com>
+ <9b2f7eb0e2108392a849dff663767f1f32552241.1658155579.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1658155579.git.steve@sakoman.com>
 References: <cover.1658155579.git.steve@sakoman.com>
@@ -67,43 +69,39 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 14:51:02 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 14:51:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168230
+ https://lists.openembedded.org/g/openembedded-core/message/168233
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Chanho Park <chanho61.park@samsung.com>
 
-If gold is enabled as the default linker, it errors trying to link
-to our dummy library empty file and this turns off things which should
-be present in libstdc++.
+To support crate:// fetcher on externalsrc, we need to remove "-z
+${EXTERNALSRC} check of bitbake vendoring. It is possible to disable
+vendoring by CARGO_DISABLE_BITBAKE_VENDORING = "1" if externalsrc-ed
+project does not want to enablt it.
 
-For example, _GLIBCXX_HAVE_S_ISREG isn't defined and HAVE_S_ISREG in
-libstdc++-v3/config.h isn't set properly.
-
-Instead of just creating an empty file, create an empty elf binary
-instead which addresses the issue.
-
+Signed-off-by: Chanho Park <chanho61.park@samsung.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2070bcd10aa3a05c96c8501c6a8c1e129fb1d440)
+Signed-off-by: Richard Pastrick <ripastri@linux.microsoft.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/gcc/gcc-runtime.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/cargo_common.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index e9f2cf16e8..dc903c2b88 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -68,7 +68,8 @@ do_configure () {
- 	# libstdc++ isn't built yet so CXX would error not able to find it which breaks stdc++'s configure
- 	# tests. Create a dummy empty lib for the purposes of configure.
- 	mkdir -p ${WORKDIR}/dummylib
--	touch ${WORKDIR}/dummylib/libstdc++.so
-+	touch ${WORKDIR}/dummylib/dummylib.c
-+	${CC} ${WORKDIR}/dummylib/dummylib.c -shared -o ${WORKDIR}/dummylib/libstdc++.so
- 	for d in libgcc ${RUNTIMETARGET}; do
- 		echo "Configuring $d"
- 		rm -rf ${B}/${TARGET_SYS}/$d/
+diff --git a/meta/classes/cargo_common.bbclass b/meta/classes/cargo_common.bbclass
+index 90fad75415..39f32829fd 100644
+--- a/meta/classes/cargo_common.bbclass
++++ b/meta/classes/cargo_common.bbclass
+@@ -45,7 +45,7 @@ cargo_common_do_configure () {
+ 	directory = "${CARGO_VENDORING_DIRECTORY}"
+ 	EOF
+ 
+-	if [ -z "${EXTERNALSRC}" ] && [ ${CARGO_DISABLE_BITBAKE_VENDORING} = "0" ]; then
++	if [ ${CARGO_DISABLE_BITBAKE_VENDORING} = "0" ]; then
+ 		cat <<- EOF >> ${CARGO_HOME}/config
+ 
+ 		[source.crates-io]
 -- 
 2.25.1
 
