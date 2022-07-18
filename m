@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5DDACCA479
-	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 14:50:02 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web09.28153.1658155800352709237
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A79E8C433EF
+	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 14:50:12 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web12.28242.1658155804930223279
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:50:00 -0700
+ Mon, 18 Jul 2022 07:50:05 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=vWTUNemS;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179,
+ header.b=iJm/8y8h;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id q5so9225171plr.11
+Received: by mail-pf1-f169.google.com with SMTP id y9so10804933pff.12
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:50:00 -0700 (PDT)
+ Mon, 18 Jul 2022 07:50:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=VHZkuw3nrtGohByuggbevR1ZIdWuG2Xe+MV/4WfQaOA=;
-        b=vWTUNemS1nAkHY27/AJl2iKnFBcWapOj0APTF4v3rw+uox8WJze24ME2Eu8Grj/vHJ
-         oxeMJxTTAhVKB6YItzW2w/aZCUGwy/Z+Xqbnc2/JYyzxxWRzA6nfj84l35Ej0rZ5WJN4
-         wzdcROr4OxmUEAdpmvtclBR5XxJeQYd4qN8BMxCc37u4fkXeN+g4yEdji/CWIU1mkb/3
-         DP1DJGEF7cAAYrr5OVRpXSl/mhusn94SQiYvdQQZKwvI4i+NJJrIKIKicnEWoDX0usGo
-         VwLZw+uzz+OAX2u0/TA/Ggmn6+gt3Vqpg503rXdAdcFd9LSf2udh7paQnBkT8MGH1dzA
-         Sy8g==
+        bh=wWZmYtNUCrDRdeA7O8i5eqXhv5Ib9cCZmKEcxaVULEg=;
+        b=iJm/8y8hTpMPDeWsTQVJHt/oymoLi3YdrEMW8V2RY8trFNdnocorlWTI/YJT7/qGNK
+         K6MjWwFzNgbJisSUsSfMqDPQNYl66UqBVKZwORHZYLXoedtMM628TbXLC0VYf3lNbWfg
+         oKn/bVbqFkp+1CehndJjv88PVoSvcLEtNCQqc5064XII8jeOhDgvR3yI6JQNISwFUMBF
+         dpaYXoHdOICtyZ0C1U5RUpfiZOFZdmoitxIcnCVVVUwzr3SJkC/KuqwsynaraEwxERQg
+         HtI6ja+dKwVkxrBaiEgJJWP4S5eGnluakc2f+AliIEZoTGepqrz+DlfWB+/XUWkJu3lw
+         YmVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=VHZkuw3nrtGohByuggbevR1ZIdWuG2Xe+MV/4WfQaOA=;
-        b=mrGBbBCo9iqKQ7eBI19whdfGxcQ7WbK9jItAodZPsgtWJU69zkoj229A46B/llq8H6
-         7CuYz4DOVA7igeti01mLUEj98dQDVJZJp5gUBMl+nyyVo5tlMxVZYlxLt4p2cLzgAsFc
-         5ewycqXjc9bb+KwNKu/4U4TvObzJn3dZQ3Rj+WRjnu4xFpE6fs85nIwcncvnYO1ret4P
-         YdKswT8EoN4yE1ngTwV6AWa1/j11sL1vbdFwvBhKck8oJz/+KDJJyhHvhplfNU3SQapW
-         qP5JtnNHTd91oxjh/JjcAXFK7PUi5btoNbyziE08k2hodvlR9f9A+u5d+VljueF/pm4O
-         OQ1Q==
-X-Gm-Message-State: AJIora+ZRb1zU8N9oklAjWJyn90cPfpBRN0SDof7/1QwvCo89aBk1oHf
-	AfJTo1smfwa/UFAhgkmNjp87BmU20iWT5lxn
+        bh=wWZmYtNUCrDRdeA7O8i5eqXhv5Ib9cCZmKEcxaVULEg=;
+        b=nOjda7ITFxJj8xXHsuqZ8WttznbHKckpbGPGXXUSVVK83ce8+MvZ/UQEVIJc+5BTXh
+         Mb/Je4fuQqbqQQE3pAhXJhrT5A46qQhk4Wj04p72KzxiTEClu1m8vtEUiIBLYyyHi/ZB
+         TdYFyAKuFDLboHVT++gz8wF0RTifnFs6FybBzb6LabJ7krVWTdGOU9v1ayhspo/vsyve
+         zPTd3oL0Eha6mPnDqPxF328Ebm9p5qXAwiMDl5aF7fIpsS8meZmJHIzGq5dEC9+KULEp
+         AYBXHfKYkgCzDDzxaXayfWIZlSN/33H3nNO6wIauboN+zcsWVH4Nk2w30qi0h/zA/EaI
+         ZNuA==
+X-Gm-Message-State: AJIora8As8pDnN1sZ3Dk5RnrHznrFK7uOlzj5t9S+E0tsB9mc91z1H4Y
+	eW8gUfu8ykbPu1OZS1k698LW1JQxlWz3LHcL
 X-Google-Smtp-Source: 
- AGRyM1sAFTCJaOzfqNUCUmHBwfQ9zqLnTaKz+ULK28uMykxONU3PFf/mEihuZ8Va0lwt2T8F0GHbJw==
-X-Received: by 2002:a17:902:7611:b0:16c:5c53:d932 with SMTP id
- k17-20020a170902761100b0016c5c53d932mr28629986pll.1.1658155799245;
-        Mon, 18 Jul 2022 07:49:59 -0700 (PDT)
+ AGRyM1u32ChlNLq1dn6xT6s8TKVuwXeiWcqEM2M5s5MjgIqD/8yvC77EYiyfB0NInXEQWGmoPYjQVQ==
+X-Received: by 2002:a63:484d:0:b0:419:cde7:a912 with SMTP id
+ x13-20020a63484d000000b00419cde7a912mr17845454pgk.621.1658155803658;
+        Mon, 18 Jul 2022 07:50:03 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.49.57
+ ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.50.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 07:49:58 -0700 (PDT)
+        Mon, 18 Jul 2022 07:50:03 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 16/35] insane: Fix buildpaths test to work with
- special devices
-Date: Mon, 18 Jul 2022 04:48:41 -1000
+Subject: [OE-core][kirkstone 17/35] waffle: correctly request wayland-scanner
+ executable
+Date: Mon, 18 Jul 2022 04:48:42 -1000
 Message-Id: 
- <1837c175d997ced1455537bb82fb86286711025c.1658155579.git.steve@sakoman.com>
+ <05457e7f2a4c379082f8f39480f16b90141dc54f.1658155579.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1658155579.git.steve@sakoman.com>
 References: <cover.1658155579.git.steve@sakoman.com>
@@ -68,45 +68,68 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 14:50:02 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 14:50:12 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168216
+ https://lists.openembedded.org/g/openembedded-core/message/168217
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-If enabled, the buildpaths test hangs in psplash as it tries to open
-a fifo and read from it, hanging indefinitely.
-
-Tweak the test to ignore fifo/socket/device files.
-
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2567edb7e0a8c5ca9a88d6940491bf33bfe0eff9)
+(cherry picked from commit cd05e2543bde4175da67781ec6f3eebc143d95d0)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/insane.bbclass | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ ...build-request-native-wayland-scanner.patch | 27 +++++++++++++++++++
+ meta/recipes-graphics/waffle/waffle_1.7.0.bb  |  1 +
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-graphics/waffle/waffle/0001-meson.build-request-native-wayland-scanner.patch
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 6f6dcb3dd5..f3f80334f6 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -444,12 +444,14 @@ def package_qa_check_buildpaths(path, name, d, elf, messages):
-     Check for build paths inside target files and error if paths are not
-     explicitly ignored.
-     """
-+    import stat
-     # Ignore .debug files, not interesting
-     if path.find(".debug") != -1:
-         return
+diff --git a/meta/recipes-graphics/waffle/waffle/0001-meson.build-request-native-wayland-scanner.patch b/meta/recipes-graphics/waffle/waffle/0001-meson.build-request-native-wayland-scanner.patch
+new file mode 100644
+index 0000000000..1b62db92e9
+--- /dev/null
++++ b/meta/recipes-graphics/waffle/waffle/0001-meson.build-request-native-wayland-scanner.patch
+@@ -0,0 +1,27 @@
++From 2195cec1e5bc66128d72049c11ff381ca4516a4b Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Tue, 5 Jul 2022 11:51:39 +0200
++Subject: [PATCH] meson.build: request native wayland-scanner
++
++This matters in cross compilation, as otherwise meson will
++try to use a cross-binary, and fail.
++
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/waffle/-/merge_requests/110]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/meson.build b/meson.build
++index 0bb6128..0b6da1f 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -108,7 +108,7 @@ else
++     'wayland-egl', version : '>= 9.1', required : get_option('wayland'),
++   )
++   dep_wayland_scanner = dependency(
++-    'wayland-scanner', version : '>= 1.15', required : get_option('wayland'),
+++    'wayland-scanner', version : '>= 1.15', required : get_option('wayland'), native: true,
++   )
++   if dep_wayland_scanner.found()
++     prog_wayland_scanner = find_program(dep_wayland_scanner.get_pkgconfig_variable('wayland_scanner'))
+diff --git a/meta/recipes-graphics/waffle/waffle_1.7.0.bb b/meta/recipes-graphics/waffle/waffle_1.7.0.bb
+index f1fd9e7630..dc475908d0 100644
+--- a/meta/recipes-graphics/waffle/waffle_1.7.0.bb
++++ b/meta/recipes-graphics/waffle/waffle_1.7.0.bb
+@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=4c5154407c2490750dd461c50ad94797 \
  
--    # Ignore symlinks
--    if os.path.islink(path):
-+    # Ignore symlinks/devs/fifos
-+    mode = os.lstat(path).st_mode
-+    if stat.S_ISLNK(mode) or stat.S_ISBLK(mode) or stat.S_ISFIFO(mode) or stat.S_ISCHR(mode) or stat.S_ISSOCK(mode):
-         return
- 
-     tmpdir = bytes(d.getVar('TMPDIR'), encoding="utf-8")
+ SRC_URI = "git://gitlab.freedesktop.org/mesa/waffle.git;protocol=https;branch=master \
+            file://0001-waffle-do-not-make-core-protocol-into-the-library.patch \
++           file://0001-meson.build-request-native-wayland-scanner.patch \
+            "
+ SRCREV = "905c6c10f2483adf0cbfa024e2d3c2ed541fb300"
+ S = "${WORKDIR}/git"
 -- 
 2.25.1
 
