@@ -2,64 +2,65 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A75B9C43334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3EA7CCA482
 	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 14:50:32 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.28072.1658155829908247914
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web08.28262.1658155811083518262
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:50:30 -0700
+ Mon, 18 Jul 2022 07:50:11 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=uYC2Ia1Y;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179,
+ header.b=PxKnav6t;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.41,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id y15so4498906plp.10
+Received: by mail-pj1-f41.google.com with SMTP id
+ cp18-20020a17090afb9200b001ef79e8484aso12594138pjb.1
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:50:29 -0700 (PDT)
+ Mon, 18 Jul 2022 07:50:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=LDzEmCp2bnGPvzCZFahGPBW52QUZ4J5nW+UEzQQvB7E=;
-        b=uYC2Ia1YvwlXE7Vh8qP80UknMofOnYcao1uXOCKKPWdxVOVgVZ0xF21SSeSiuLGbvA
-         b56GtIh4XyoyXF3MjgCCrBwR6zp2AVkanV/s22xcETm4cQmyv6EDFrRJ1IHFKzgodF4k
-         EfCZJDQUwar0dEomPc7E6QOoawWuJE/WaV6kfC7SR2CRoE8cihEt4hfgaJ8mXFEg+8e/
-         yU3siBAIiwo0Kb620exiNA7n0FrXOenXr+UV29v0XOZiwl8JANaxPIm0pClMHHY6WD0d
-         TtxqoMYxEMUdGgjQh40X59JQp2eLZAPgI2GTyqi4N9pRPSVeYQfVXAQZiPCI8/bqA2kK
-         PvHg==
+        bh=9tXR2qLZYHvikC9xA/SgkOiQqxHwESjdGYzyY8Z/8dI=;
+        b=PxKnav6tit/lAOJ+OvbXM+10g63ZvihQUDHKE24p3e4wvU+Hv4oikxaBlPHYwUa7A/
+         Q7+u28KP/zr3bx59y/eVHUSjXdyxSk8zfK7ocUF69qqRm0gsh7zkrERYqJawAwCk2B93
+         dalhKPkRLRHNbFPYebGZ+76j0jZdqmKVes5QPvMVlLFipZDoReDEy3LWylE5K3Nfmrp6
+         zqX+5ngCqjHdH3KKpG5dDf5Tk1snEKdLXQ2ZePdRI0tx3laJ3ILFyz27ir4KZcOCSMBi
+         notLuaU+MYEguM3L7wfkNCfVZ7NNyvBQdUB3Adjrssl944VszZX8noEXIZb2S3ZGY39n
+         aPgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=LDzEmCp2bnGPvzCZFahGPBW52QUZ4J5nW+UEzQQvB7E=;
-        b=7mL1OTDEPVKRZCx1KyIVyn3ZcBCYOEgUxth3mfbePKeo9Zx+AISVptvWCY2g7cRD9/
-         03dzwn+PZAdDRvW6QsWIj6Dz8kFX1TCkm3H7GHZP7fmWk7pvjI08LSoBNv1GApXhqXLj
-         5ejLgZ7XSnhRB1qyFk7hD5EuAcp9v0rDNfFKa/UGKSg95VnB7XV0ETPCRJpTtd/eeFed
-         FY95bM6MH/1YWs+RB1vfiOT3ZTYm3e2FDM1OYzQk5LGIT+7id6VaEDjjzECzYklCmj+i
-         keDZpaUlHKHxjnDH+mpazSduwbxjgZ3C4Gv6CyKWrxRjqWgSzZE6iTwaEaK0w5HCbh5x
-         7Dzg==
-X-Gm-Message-State: AJIora/Y9C/CQTGvtHiLvcd6y9Eo8YykZoVJAiEU1m8JwU708k4Lxh5v
-	yjmsiDltccRjIRuPJaCyBfS4cAgf3xNQbFwz
+        bh=9tXR2qLZYHvikC9xA/SgkOiQqxHwESjdGYzyY8Z/8dI=;
+        b=mqVKGBngBNqTCnGLIX/0LyA0tfoXxX0xxTaZ8UQ1t/D265p3xfThgspu5fyjYRW+eQ
+         +w79N9Wx3yQiI0HqvpmeGBNOV20acQTQ/mFaCJjdRVcELMOdRY3mEu6fBF8LYU0HJ9Z9
+         XdGLcPMBNIVWv+calnGWqm6C8GRmQbk3ERl8hvDwWrXgfMJtEne4KTSF6zhgQvPZW1bp
+         zmUlzswPYUDI44FNQRFq+RIxeVouab3M48Ky/+RyDuLcKOM/XRg86eM7AyTcM+jKpsHo
+         GxsiEVIuEyqdwHYUt2vY8osFBl/HBVBIEql7M1h68uSclm9oYX61HBKogKynGCUI8yWF
+         KVRQ==
+X-Gm-Message-State: AJIora9gPxmTp2YcBbJXdFoua3AkLgZCyZv6c3wB8fpSED/N01xp5TuT
+	5ySiua3HncjgFDgCJxvJBqQiHeZwbQj1azln
 X-Google-Smtp-Source: 
- AGRyM1tQn4opJNumGfAIoEQuOyVWyb/9eJXCH4tRl0Yywe62Cc6hkOQtcKxQvvBXfwyW01vepBHwfg==
-X-Received: by 2002:a17:902:7209:b0:16b:fa09:5d6 with SMTP id
- ba9-20020a170902720900b0016bfa0905d6mr28680686plb.120.1658155828842;
-        Mon, 18 Jul 2022 07:50:28 -0700 (PDT)
+ AGRyM1sBIZVBtPTcEjIeNOIGqsqdiNViDmiMPgCEbFDYzpZLKdCn7JmwkzzY4y79WkOr1lG+xIvEzQ==
+X-Received: by 2002:a17:902:eb89:b0:16c:6337:b9b4 with SMTP id
+ q9-20020a170902eb8900b0016c6337b9b4mr28466904plg.27.1658155809952;
+        Mon, 18 Jul 2022 07:50:09 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.50.27
+ ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.50.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 07:50:28 -0700 (PDT)
+        Mon, 18 Jul 2022 07:50:09 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 24/35] kernel-arch: Fix buildpaths leaking into
- external module compiles
-Date: Mon, 18 Jul 2022 04:48:49 -1000
+Subject: [OE-core][kirkstone 19/35] vala: Fix on target wrapper buildpaths
+ issue
+Date: Mon, 18 Jul 2022 04:48:44 -1000
 Message-Id: 
- <7acc1b9b572789015619e4baea2642197b8b1950.1658155579.git.steve@sakoman.com>
+ <cd3821fd52115d0eacdad4ba37f5c51a49b6990e.1658155579.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1658155579.git.steve@sakoman.com>
 References: <cover.1658155579.git.steve@sakoman.com>
@@ -70,36 +71,35 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 14:50:32 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168224
+ https://lists.openembedded.org/g/openembedded-core/message/168219
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Building external kernel modules like lttng-modules was showing build paths
-inside the debug symbols for the modules and breaking build reproducibility.
-
-Fix this by adding in the mapping needed to map the kernel build directory
-to something more approriate on target.
+The on target wrapper contains paths from the host build. Remove them.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b56dc9009ba93174de6bf4c01e17808ef249dc5c)
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 10980ae59f18679413f2d3fd428a9386e4d6fc3a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/kernel-arch.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/vala/vala.inc | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
-index 07ec242e63..348a3adf22 100644
---- a/meta/classes/kernel-arch.bbclass
-+++ b/meta/classes/kernel-arch.bbclass
-@@ -61,7 +61,7 @@ HOST_LD_KERNEL_ARCH ?= "${TARGET_LD_KERNEL_ARCH}"
- TARGET_AR_KERNEL_ARCH ?= ""
- HOST_AR_KERNEL_ARCH ?= "${TARGET_AR_KERNEL_ARCH}"
+diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
+index 90e0b77de0..974baa33f5 100644
+--- a/meta/recipes-devtools/vala/vala.inc
++++ b/meta/recipes-devtools/vala/vala.inc
+@@ -60,3 +60,9 @@ vapigen_sysroot_preprocess() {
+ }
  
--KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH} -fuse-ld=bfd ${DEBUG_PREFIX_MAP} -fdebug-prefix-map=${STAGING_KERNEL_DIR}=${KERNEL_SRC_PATH}"
-+KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH} -fuse-ld=bfd ${DEBUG_PREFIX_MAP} -fdebug-prefix-map=${STAGING_KERNEL_DIR}=${KERNEL_SRC_PATH} -fdebug-prefix-map=${STAGING_KERNEL_BUILDDIR}=${KERNEL_SRC_PATH}"
- KERNEL_LD = "${CCACHE}${HOST_PREFIX}ld.bfd ${HOST_LD_KERNEL_ARCH}"
- KERNEL_AR = "${CCACHE}${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
- TOOLCHAIN = "gcc"
+ SSTATE_SCAN_FILES += "vapigen-wrapper"
++
++PACKAGE_PREPROCESS_FUNCS += "vala_package_preprocess"
++
++vala_package_preprocess () {
++	sed -i -e 's:${RECIPE_SYSROOT}::g;' ${PKGD}${bindir}/vapigen-wrapper
++}
 -- 
 2.25.1
 
