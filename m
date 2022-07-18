@@ -2,64 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2D18CCA485
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4BF4C433EF
 	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 14:49:42 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
- [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web08.28249.1658155776297225959
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+ [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web08.28250.1658155778552114127
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:49:36 -0700
+ Mon, 18 Jul 2022 07:49:38 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=ruhn47qB;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.172,
+ header.b=TiP7sSnv;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id r186so10799837pgr.2
+Received: by mail-pf1-f172.google.com with SMTP id g126so10836268pfb.3
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:49:36 -0700 (PDT)
+ Mon, 18 Jul 2022 07:49:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=udLw72HCoQCxvBEgcor/Anf7hejFjSKD4KzKxLaLyA0=;
-        b=ruhn47qBnvKqelKUUw7cCGnxohWJ68XOfo/ttnEgowLK4PEthlLfHxFvwA04WC0fCx
-         cJyUfaUcKUyZRi1AshKP3D78hbIqsiDs4CSsoIfXZym3yqJETCqWDStCVm2kHMNqO6rh
-         pc8vvemN5nB+mkpDuChMmt2k4MgAYHsNGMZtu+mPLJvAugvy1RJLonwAWMM/dKRMhMVY
-         YIcNK09jbYdYOt6sLO+LNG//19y4DXyzypIQ/ohe9yPHBPE+avkBPNQqcs/eni4n9wI6
-         WDsvlaQEJ070FZEjLBx7BfNy++wOxNc4QSx4nwyq79d3MM10nt1kTO2cBSIuCVOkQrpg
-         jrsA==
+        bh=x70jdLNfP0wjX4IuU+zSxMTN1n1uB7Aa6BIun9X+Hh0=;
+        b=TiP7sSnvUXW12+0tUY82wZnsW9FbZAfYspfHcizPGjIcqeSo6gkEOpn3apGKPbn/P5
+         FBARKMMn1vGO97pjo+KDNUo2jeJEhDE2WMC/5/q9azylniESd4GGpmvAsheDpJ4EtFmj
+         q7X+D2fairUJmX1J4Q+88y9M6+REF6mSrKxnned08QZik9XNsoThe1v1Oa7jJmTiRiiu
+         AwmDbeNDqc2RLwHwA7dY5Kvm+AczoWyLxThwRMA52dma2DO5S295hfmszPWX1+EoaM/U
+         5wQaRpZtETWM/+6xctyoPOBjJh9VV/1oX2S4dN8gQ/LpJb7VNRRpq5JCGp9aaYfs8AC+
+         X9Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=udLw72HCoQCxvBEgcor/Anf7hejFjSKD4KzKxLaLyA0=;
-        b=eG9cZuFpIJy+SfYNUretw1j7pRKoktwBEHhZ+RLwnvj8OGZCGcqv2PxHWAM2Y0C5lt
-         aMJHKwN5wfUIZg7RwELobgIcqFOlkoXdcMqu1Bz5AUu1OoLwaIKBQfFavS/68G1UZAgm
-         k2CXCGth3vyiVuNgBi73AwT8qtTmGkUe9eZqnerodABMfSKq9eNlvyVB0pLKiOuCU81V
-         V2OjpomtsTGaShPR477QfBGUKo2gXg3ZwBafVRLCYThf7EPsaF3rAtrstEsF87GraidQ
-         Kix8O7VloQhAigFV0z+Flsjj1fAYJNti8gbALJLVp2laQ5u6Dg5MYTeGw6bB92EqOj8c
-         szwA==
-X-Gm-Message-State: AJIora83K/Wh1Cbn016pv5wwAt81zKWZnHk5XZcB1kAujehH6Ej2xWUW
-	l2+x/o84nHJLyTczILKCpMVwzG79XMyRNK+L
+        bh=x70jdLNfP0wjX4IuU+zSxMTN1n1uB7Aa6BIun9X+Hh0=;
+        b=ncUF2SnnIngRthG6chFG1glEtdkC3MIHdSnSE0B6U8SbOTLsFJaiNn2K2YQbqng753
+         DdL7J/i2kpYJun3JE6iA6XZvnpeVT4DYmTnAfEnxj1HbnlHb6lxfNHyhuDzcAaN8EZOh
+         gbl/s4kASwnzNcNyMPnlPtyndoDPpWJjy+1uq0jwuZ6xpg04aNybWIIQchhBdr3lEdi/
+         PhqpjlDLrZ4ILygo4nHp8MKjZIYZsOqRjveJLeQtK6F2hBKbian/1oIecLOn+Oirvh7L
+         F1m1sN/vEJbcZguOJ1OayOrGDDicZcDLIH55x3RjYKyIfLvg7NeQLBfHMWqZdh7inSc/
+         T8yA==
+X-Gm-Message-State: AJIora98IaP/dhQgGPj8K03uf9ZTwroVbqy7dFfq+1yJUhhFdyRQJn5Q
+	AiDa2q5ey+Uif+K1dKSE/EHEfcqgOgIvH8hM
 X-Google-Smtp-Source: 
- AGRyM1skBvVzmK9SOfx3cq6D/y8R/5fOcbVRrr9hcM6R52AuOr0ksBzOUyXnxJpZCu50vk8VYcsX2A==
-X-Received: by 2002:a63:2c89:0:b0:411:66bf:9efc with SMTP id
- s131-20020a632c89000000b0041166bf9efcmr24385911pgs.589.1658155775240;
-        Mon, 18 Jul 2022 07:49:35 -0700 (PDT)
+ AGRyM1tlyus/4hou6Kh5OMDcggRHY9fdXPIK/C/XlHkLFdcEgmEWzsEwUTtpA6tmAxJeyImY9hlHCQ==
+X-Received: by 2002:a63:f355:0:b0:419:8dfd:45d0 with SMTP id
+ t21-20020a63f355000000b004198dfd45d0mr24768520pgj.226.1658155777474;
+        Mon, 18 Jul 2022 07:49:37 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.49.33
+ ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.49.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 07:49:34 -0700 (PDT)
+        Mon, 18 Jul 2022 07:49:36 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 07/35] udev-extraconf/mount.sh: only mount
- devices on hotplug
-Date: Mon, 18 Jul 2022 04:48:32 -1000
+Subject: [OE-core][kirkstone 08/35] udev-extraconf: force systemd-udevd to use
+ shared MountFlags
+Date: Mon, 18 Jul 2022 04:48:33 -1000
 Message-Id: 
- <35b18c5721cae13eb206631ee1dc0c14d3d52046.1658155579.git.steve@sakoman.com>
+ <00ea4314feb51d82f9027bf53ff627541180daca.1658155579.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1658155579.git.steve@sakoman.com>
 References: <cover.1658155579.git.steve@sakoman.com>
@@ -70,95 +70,70 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 14:49:42 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168207
+ https://lists.openembedded.org/g/openembedded-core/message/168208
 
 From: Muhammad Hamza <Muhammad_Hamza@mentor.com>
 
-fdisk from util-linux (2.31.1) and above allows the user to
-manipulate an already mounted device. In order to achieve this
-functionality it issues a BLKRRPART (block device re-read part)
-ioctl and in response the kernel generates remove/change/add
-events if the device is not mounted (manually unmounted etc)
-which are caught and processed by udev. This causes our auto-mounter
-to remount everything because it does not keep track and things
-go out of control.
-Differentiating between types of remove events such as the one
-described above (generated by BLKRRPART) and one where the device
-is physically plugged out is only possible using the DEVPATH variable
-which is cleaned up only when the device is actually plugged-out.
-This fixes the above anomaly by only mounting a device in add event
-which is cleaned up properly (tmp cache deleted) in the remove event
-or is not present in the tmp cache while making use of the DEVPATH
-variable during the remove action.
+Automounting does not work cleanly in case systemd as well as
+udev rules are being used simultaneously and in most cases
+race conditions and unknown behavior can come up.
+In case we're running on top of systemd we need to make sure
+that systemd-udevd knows that udev is in play as well and
+mounting should be done using shared flags. Also as we're
+using mount from sources other than systemd-mount in current
+scripts this is the most manageable fix to automounting
+problems.
 
 Signed-off-by: Awais Belal <awais_belal@mentor.com>
 Signed-off-by: Muhammad Hamza <muhammad_hamza@mentor.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-(cherry picked from commit 11a5e6c17535438ea1e7a8403ed260c8b3a22bc8)
+(cherry picked from commit 1e770416b4c9a0468404fb64d55114d93e84763b)
 Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../recipes-core/udev/udev-extraconf/mount.sh | 34 +++++++++++++++----
- 1 file changed, 27 insertions(+), 7 deletions(-)
+ .../udev/udev-extraconf/systemd-udevd.service            | 3 +++
+ meta/recipes-core/udev/udev-extraconf_1.1.bb             | 9 ++++++++-
+ 2 files changed, 11 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/udev/udev-extraconf/systemd-udevd.service
 
-diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
-index c4695ee27d..537828e3e3 100644
---- a/meta/recipes-core/udev/udev-extraconf/mount.sh
-+++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
-@@ -45,6 +45,13 @@ automount_systemd() {
-         return
-     fi
+diff --git a/meta/recipes-core/udev/udev-extraconf/systemd-udevd.service b/meta/recipes-core/udev/udev-extraconf/systemd-udevd.service
+new file mode 100644
+index 0000000000..a9b86eb6e4
+--- /dev/null
++++ b/meta/recipes-core/udev/udev-extraconf/systemd-udevd.service
+@@ -0,0 +1,3 @@
++.include @systemd_unitdir@/system/systemd-udevd.service
++[Service]
++MountFlags=shared
+diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+index 8213c1a930..ef6019259e 100644
+--- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
++++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+@@ -11,6 +11,7 @@ SRC_URI = " \
+        file://autonet.rules \
+        file://network.sh \
+        file://localextra.rules \
++       ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'file://systemd-udevd.service', '', d)} \
+ "
  
-+    # Only go for auto-mounting when the device has been cleaned up in remove
-+    # or has not been identified yet
-+    if [ -e "/tmp/.automount-$name" ]; then
-+            logger "mount.sh/automount" "[$MOUNT_BASE/$name] is already cached"
-+            return
-+    fi
+ S = "${WORKDIR}"
+@@ -35,9 +36,15 @@ do_install() {
+     sed -i 's|@MOUNT_BASE@|${MOUNT_BASE}|g' ${D}${sysconfdir}/udev/scripts/mount.sh
+ 
+     install -m 0755 ${WORKDIR}/network.sh ${D}${sysconfdir}/udev/scripts
 +
-     # Skip the partition which are already in /etc/fstab
-     grep "^[[:space:]]*$DEVNAME" /etc/fstab && return
-     for n in LABEL PARTLABEL UUID PARTUUID; do
-@@ -100,6 +107,13 @@ automount() {
- 	# Get the unique name for mount point
- 	get_label_name "${DEVNAME}"
- 
-+        # Only go for auto-mounting when the device has been cleaned up in remove
-+        # or has not been identified yet
-+        if [ -e "/tmp/.automount-$name" ]; then
-+                logger "mount.sh/automount" "[$MOUNT_BASE/$name] is already cached"
-+                return
-+        fi
-+
- 	! test -d "$MOUNT_BASE/$name" && mkdir -p "$MOUNT_BASE/$name"
- 	# Silent util-linux's version of mounting auto
- 	if [ "x`readlink $MOUNT`" = "x/bin/mount.util-linux" ] ;
-@@ -172,12 +186,18 @@ if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] && [ -n "$ID_FS_TYPE" -o "$media_t
- fi
- 
- if [ "$ACTION" = "remove" ] || [ "$ACTION" = "change" ] && [ -x "$UMOUNT" ] && [ -n "$DEVNAME" ]; then
--    for mnt in `cat /proc/mounts | grep "$DEVNAME" | cut -f 2 -d " " `
--    do
--        $UMOUNT $mnt
--    done
--
--    # Remove empty directories from auto-mounter
-     name="`basename "$DEVNAME"`"
--    test -e "/tmp/.automount-$name" && rm_dir "$MOUNT_BASE/$name"
-+    tmpfile=`find /tmp | grep "\.automount-.*${name}$"`
-+    if [ ! -e "/sys/$DEVPATH" -a -e "$tmpfile" ]; then
-+        logger "mount.sh/remove" "cleaning up $DEVNAME, was mounted by the auto-mounter"
-+        for mnt in `cat /proc/mounts | grep "$DEVNAME" | cut -f 2 -d " " `
-+        do
-+                $UMOUNT $mnt
-+        done
-+        # Remove mount directory created by the auto-mounter
-+        # and clean up our tmp cache file
-+        mntdir=`cat "$tmpfile"`
-+        rm_dir "$MOUNT_BASE/$mntdir"
-+        rm "$tmpfile"
++    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
++        install -d ${D}${sysconfdir}/systemd/system
++        install ${WORKDIR}/systemd-udevd.service ${D}${sysconfdir}/systemd/system/systemd-udevd.service
++        sed -i 's|@systemd_unitdir@|${systemd_unitdir}|g' ${D}${sysconfdir}/systemd/system/systemd-udevd.service
 +    fi
- fi
+ }
+ 
+-FILES:${PN} = "${sysconfdir}/udev"
++FILES:${PN} = "${sysconfdir}/udev ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '${sysconfdir}/systemd/system/systemd-udevd.service', '', d)}"
+ RDEPENDS:${PN} = "udev util-linux-blkid"
+ CONFFILES:${PN} = "${sysconfdir}/udev/mount.ignorelist"
+ 
 -- 
 2.25.1
 
