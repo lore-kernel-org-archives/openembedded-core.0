@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4F3ECCA479
-	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 14:51:12 +0000 (UTC)
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
- [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web12.28263.1658155863059189276
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3AEAC43334
+	for <webhook@archiver.kernel.org>; Mon, 18 Jul 2022 14:51:22 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web12.28268.1658155877588655608
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:51:03 -0700
+ Mon, 18 Jul 2022 07:51:17 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=8MLqCEiH;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.181,
+ header.b=ruV0aD87;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179,
  mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f181.google.com with SMTP id 72so10828374pge.0
+Received: by mail-pf1-f179.google.com with SMTP id e16so10810819pfm.11
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 07:51:03 -0700 (PDT)
+ Mon, 18 Jul 2022 07:51:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=hFK0q7DhGAW2Z18u1V+1pM8knEKcCOWfUVv9QY9YS20=;
-        b=8MLqCEiHN0VffU+HhJudVuVWFCT/xxpMlLv03Ub5Dzyr+8G/rMaUy3IGdIxK4uDxlO
-         scXs+5AC6IsREPnCdao9mbbT9QOQ7oXwdQlyxd2K0Qn12zTj67CLypuSOiAEHaNnIs4q
-         JMHtlQ1VHhKN0BcVahEO8E8VbB/ZzcoPQJFTZ+TkA80ZGbDOnHwXfjPrvMJuW3oLQ8y5
-         0JRG+nOH2DRHmMBDLh+fGceD9CkM9hFcy9GPYxs8kZ/5BDg+JimJtsXwC1EVZeOxF7uW
-         Q0YllNndVNRGM52lW8bmlPoUglaHbbisquCrj6yvYFfqHX0/v5s7k2+XEPeUTRhhP+2p
-         K74Q==
+        bh=30MClMHSIKzPyo7Uemg7gIcwb5ASB7i8xN4gdDU4odk=;
+        b=ruV0aD87hjDwpFQTygjhhKgUQnhmAjjOXERba6jG5UjTm6ol4LQyHQhLhnkUAh7QED
+         cLuzyg84179ZbPO62ZxdWG+usC4N7wc7VlntMnL3Zq7Z7z/5MYjMpBCRUCdtIqVYBG6N
+         IEnACXsdepGh+y4eLqPEZjKZkW6QOD1wyL99jha6rHVe2yhnk9qyes4C7ipSHdCLoMu9
+         9jrXKGL5t8zQxUD8GzKoAOnE5ptP1PhGOPsWwiJF2uxbDm8TcWqi2U6pzZQva8VmC5RM
+         SYX/Eh7HFqZLjA23ZEFVoiwQ/Fq6PVqg3xni7hAhV0Ql+g82LfK8eryQf8B6uq2BC99M
+         D5ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hFK0q7DhGAW2Z18u1V+1pM8knEKcCOWfUVv9QY9YS20=;
-        b=zxYYp2oVP9LpQicqEAOYuDQ3+Bb9YN30qFq8OPSm9QO5LAYLsn3A1bfPRSlw0d5xgG
-         LPpaQnkaOjLf0JOaelYl81sQ62XwVubvQtiNhN8qP3+8Ah6GxhR/r1/jN4qD0WVPcC2X
-         sYbPxtzIPxJ+IBRx6EGu+4CqPH79h2EHCSiZmC1T2ji3qcv6kk2+VFBbjNuOWHOzpFfU
-         kGNaDXYkGFRM6C/CWOR6sdtMShQVXCntrOCXZlxS4oe08YXY9IYaZzWffwFDi+vjEyvb
-         TVV7SXv1bEXR0Eh0B+2Irl8wMi9tZ5tEFeOBYFu0g5NvzWbODhlNewfrQDn4uG9SIA3A
-         S1pw==
-X-Gm-Message-State: AJIora9Untj+7AJHx/MtiSKp0RdE0ggCvDMiqI1Zl3E2NfFOS6V5wbFK
-	5s1w/q47XpCLN6D7r4Q7qcbFb5puNxStn9hO
+        bh=30MClMHSIKzPyo7Uemg7gIcwb5ASB7i8xN4gdDU4odk=;
+        b=C37s7bOrPo93/dlOPC+tZ4fMRyO9yUaPd4uI1nRuVs+joOUybai7yaGLTDklc6mGt2
+         +U3Iivr9ifk1QJUPM+dV8wwxcregkBrCS/2+yUe6M9qst1j6htPxprmpnjD1pNd8SLR8
+         xPLMk4RVssOeOOzJuYYB6HVYPpScvwfJEjXq+Joitv7dhDZvjzdqdMR/jRNZg0F7ZTzP
+         wgKrPNZPgMDRVP6UYd7ue0GGV8mHIiflAHzH8es2MRnnsJDgqn/vpL+qHxKAB8Bh8cxZ
+         IHEJLxf5SKZ7nkZ3QDxy+Or6LV0lVm7gxOyDbbcd+uPKhz6DPAwNfJZBSNe4Gm+aQD7O
+         OxCQ==
+X-Gm-Message-State: AJIora+BVek1VfQJ2JMLcxJz2pmr7/YWTqqs8sGg5F44C2kRhk467Ihu
+	/FCZcz9kwO36/HdQ1Jqv60jRHgrYteLgsAC9
 X-Google-Smtp-Source: 
- AGRyM1seIFLa+cxxtwpTNj1wVOtuce9YUvD+KuQaHj8dzLR+Vk6iztIaaOZYYFPmVs1ZUvZa0uc6Lg==
-X-Received: by 2002:a05:6a00:2282:b0:52a:e79b:16e4 with SMTP id
- f2-20020a056a00228200b0052ae79b16e4mr28446616pfe.79.1658155862006;
-        Mon, 18 Jul 2022 07:51:02 -0700 (PDT)
+ AGRyM1uMFujqnk3FJfzJg2jeD6X9FZuGpF+IKGdW1JfkWjf4tj1NfuoZLICeYSIn8sGdiC4KQMxQsg==
+X-Received: by 2002:a05:6a00:2446:b0:528:5f22:5b6f with SMTP id
+ d6-20020a056a00244600b005285f225b6fmr28824683pfj.73.1658155876557;
+        Mon, 18 Jul 2022 07:51:16 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.51.00
+ ij8-20020a170902ab4800b0016c066e566bsm9551517plb.164.2022.07.18.07.51.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 07:51:01 -0700 (PDT)
+        Mon, 18 Jul 2022 07:51:15 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 32/35] selftest/runtime_test/virgl: Disable for
- all almalinux
-Date: Mon, 18 Jul 2022 04:48:57 -1000
+Subject: [OE-core][kirkstone 35/35] pulseaudio: add m4-native to DEPENDS
+Date: Mon, 18 Jul 2022 04:49:00 -1000
 Message-Id: 
- <b418b969b4d44e347d95c6ed8c86703b977d90a3.1658155579.git.steve@sakoman.com>
+ <f1c2e21a28f8ad5dc6ff7b0db877aa22e01a9e00.1658155579.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1658155579.git.steve@sakoman.com>
 References: <cover.1658155579.git.steve@sakoman.com>
@@ -68,35 +67,39 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 14:51:12 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Jul 2022 14:51:22 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168232
+ https://lists.openembedded.org/g/openembedded-core/message/168235
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Ross Burton <ross.burton@arm.com>
 
-We can't support vgem on RHEL derived distros so disable this test for
-all almalinux hosts rather than specific versions.
+Normally m4-native ends up in the sysroot via the toolchain, but if a
+non-standard toolchain is used them m4-native may not be installed.
 
+However Pulseaudio explicitly checks for m4 in the meson.build, so add
+it to DEPENDS.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e921f3c1b917072e4c5a110c7dfeeadd2e571bde)
+(cherry picked from commit ddf846635783923d43520c9dd6f63ca59ed6e3b8)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/runtime_test.py | 2 +-
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 8eacde40ad..857737f730 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -252,7 +252,7 @@ class TestImage(OESelftestTestCase):
-         import subprocess, os
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 821ce7d1df..61d5bb00ba 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -61,7 +61,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0e5cd938de1a7a53ea5adac38cc10c39 \
+ "
  
-         distro = oe.lsb.distro_identifier()
--        if distro and distro in ['debian-9', 'debian-10', 'centos-7', 'centos-8', 'ubuntu-16.04', 'ubuntu-18.04', 'almalinux-8.5', 'almalinux-8.6']:
-+        if distro and (distro in ['debian-9', 'debian-10', 'centos-7', 'centos-8', 'ubuntu-16.04', 'ubuntu-18.04'] or distro.startswith('almalinux')):
-             self.skipTest('virgl headless cannot be tested with %s' %(distro))
- 
-         render_hint = """If /dev/dri/renderD* is absent due to lack of suitable GPU, 'modprobe vgem' will create one suitable for mesa llvmpipe software renderer."""
+ # libtool is needed for libltdl, used in module loading.
+-DEPENDS = "libatomic-ops libsndfile1 libtool"
++DEPENDS = "m4-native libatomic-ops libsndfile1 libtool"
+ # optional
+ DEPENDS += "udev alsa-lib glib-2.0"
+ DEPENDS += "speexdsp libxml-parser-perl-native libcap"
 -- 
 2.25.1
 
