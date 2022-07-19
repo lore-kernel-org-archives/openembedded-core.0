@@ -1,96 +1,97 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 446ACC43334
-	for <webhook@archiver.kernel.org>; Tue, 19 Jul 2022 03:00:36 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web08.36443.1658199627936045172
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73508C433EF
+	for <webhook@archiver.kernel.org>; Tue, 19 Jul 2022 03:45:06 +0000 (UTC)
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
+ [209.85.219.51])
+ by mx.groups.io with SMTP id smtpd.web09.36566.1658202300343770994
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 20:00:28 -0700
+ Mon, 18 Jul 2022 20:45:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=qhLnBxuS;
- spf=pass (domain: gmail.com, ip: 209.85.214.177,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f177.google.com with SMTP id k19so10746030pll.5
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=IjM7yixc;
+ spf=pass (domain: gmail.com, ip: 209.85.219.51,
+ mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f51.google.com with SMTP id r12so10295807qvm.3
         for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jul 2022 20:00:27 -0700 (PDT)
+ Mon, 18 Jul 2022 20:45:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=NVryLeKNy9Y0ZwpMmSTEf5sT2LZglc9FkyT2AepvEAI=;
-        b=qhLnBxuSu3kxxrCNG0c1XnAbr2l4w5ju7nevxLQiwp0zerqPM1FegrNNPQz7yIM0ir
-         qoDPWJcr9ftxVWXaRHitPiny3WD/4aKii/QgINjHidqW4PAcYe4YQK4DvyTKtBMTkfl1
-         x7CqLWc0eAv7qCN6uaFeXCzfCFXQa6em8nfFrQA2zPaRtA9wE7rl590Eu52QjuF4yjBK
-         sFzYUwNZUm9zFScYpDDg9khJMC70i1XdCp7EdA/XqVLky9dgHgvFMvWP+XkvLcCyO9n2
-         pRUh0Yf2th7QP+K/2Zm5KxSv7XzyN67vhHq1IP1ikrLg+huXn/ptQ6eyquY/SzMbg+v/
-         +pMg==
+        bh=ESMy4R4wUkJyltUUyT0EQZneAfgwCOJ4k5Ci5/E3EvM=;
+        b=IjM7yixc9UyL0DVxx1Rt43aWKPRTpN9N8KbMUtmLvWf81pcLW0XGV7CDtFMB7gXN1V
+         xvJ1jZgj/pZmNjPbEw5dhwdfMiN0NdRuxb4tfRqL8WXaM6DzwM6+hnnl8BoTX19stbdi
+         Dzp/2a56t3w5NV5yxa4/2TOVIacDwKThT+I3+4CKODd0Fi9E10WwUlax0L0tajKJ4qo9
+         CvsK3C5c+J75Oc13Oslo3Lfl5cuZf5rhYwVATO+BMRIWJXAeqtwI39mKdSwZl6m6fgyU
+         Zzt1XFIwKHE/z4dHsg5MI3DDdyYd6NsTjp/F5iH5zIZmbQzHS0C65oz+K9L59/Wly7MQ
+         T0jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=NVryLeKNy9Y0ZwpMmSTEf5sT2LZglc9FkyT2AepvEAI=;
-        b=3l0t7g5kjGTmJVbBduaYJ9Pq12hL+KVwSe4bxV3r4Y1DS0U3kbyBDy04/nXGz/wVDh
-         vAXiYLMqqOddRMBHrOhxwt56psIlgJ2vGqehf9WPKxUPCiF1bkuJSVOWkvCdtck+GS2O
-         YzyduYAlJV6cdZQz1ZrkxPAcFWgd0Jwc/4PxZGRt3exPzg6rOn7xSmr3MH7DakTWU26z
-         2UwLmKg61kc6QZPAuMmQjbGuJawRzA44FchahG0Px+rW9fHUxkQ3JoIXpNFEQCwAXs59
-         Cf9Kn8Zz+v2+eX2+B7l8j7sulvytt3IReVHzpmnj18OhqokoHljM+Qe+bKYzMQMY4zUl
-         PuHQ==
-X-Gm-Message-State: AJIora/3Fb7Ifm0e2UvWrzfj6RmxAbJRwEHChwjG/U7nw0njRBebWR4l
-	I37Gjal/yb3Qaevrrbsslv4ZE+iJlhp8WA==
+        bh=ESMy4R4wUkJyltUUyT0EQZneAfgwCOJ4k5Ci5/E3EvM=;
+        b=baHrC7YnTptnFBoAXHeSxRPP3DXb4mZGc/7vgQaEvAAfSwRMktJvEw59N/II5LEkuX
+         qykTfIvbgCg6wxHzbxn6qvP8QBYmjyVKQCc23Em4Utk6Tb8NsG+OsS4O6dLHCfAlvfBm
+         AkynOLF5h705yFgdspYSPhnaZtQtmrt82cN7gxnv81+Xm+kdUiVwS1+oIzI2obsdUpSI
+         Ry1C9tvLEARxWrenGE+w6ZEEHLqIGsYtFrskG3iJOW8pjupSUJXKOZUXNHXaVTmt+fsV
+         8UDWU2t9XJYsa+c3yP1Wva1/nXYLynbhDdfOEPL3ouGtiVVQZkO5DeJj8dnNmiCiZpXM
+         AFoA==
+X-Gm-Message-State: AJIora/ByK80Q8cSyvow/e0oBBQdsBXcfceYlQ1v/rbTcTWSxKfcGLXd
+	oswK0G32msTjCzOBrzYY04A=
 X-Google-Smtp-Source: 
- AGRyM1t2yg/jelOo00jLEwUwx1xtpiHIqJBtGLjPV3rRVRrmfaJYq/2o2pxpbPrEVXmlLJe7uSvX7Q==
-X-Received: by 2002:a17:90a:6741:b0:1ef:7f62:6cd1 with SMTP id
- c1-20020a17090a674100b001ef7f626cd1mr35249801pjm.89.1658199626827;
-        Mon, 18 Jul 2022 20:00:26 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::3bff])
+ AGRyM1vUOTD4OgqhAaUak13C1jhUvqT4XniwBpStRXoel96RcyIr52HfjU2M4/gaweEO3Y57ovvcFQ==
+X-Received: by 2002:a05:6214:e4f:b0:473:202:3fca with SMTP id
+ o15-20020a0562140e4f00b0047302023fcamr23284583qvc.39.1658202299350;
+        Mon, 18 Jul 2022 20:44:59 -0700 (PDT)
+Received: from build.lan ([173.34.88.218])
         by smtp.gmail.com with ESMTPSA id
- b23-20020a62a117000000b0052a53f8ece3sm10083127pff.42.2022.07.18.20.00.26
+ n24-20020ac86758000000b0031ed8ef7982sm8354531qtp.22.2022.07.18.20.44.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 20:00:26 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] gcc-runtime: Pass -nostartfiles when building dummy
- libstdc++.so
-Date: Mon, 18 Jul 2022 20:00:23 -0700
-Message-Id: <20220719030023.2456608-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.37.1
+        Mon, 18 Jul 2022 20:44:58 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: steve@sakoman.com,
+	openembedded-core@lists.openembedded.org
+Subject: [PATCH][dunfell] linux-yocto-rt/5.4: fixup -rt build breakage
+Date: Mon, 18 Jul 2022 23:44:56 -0400
+Message-Id: <20220719034456.2312-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Jul 2022 03:00:36 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Jul 2022 03:45:06 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168267
+ https://lists.openembedded.org/g/openembedded-core/message/168268
 
-This is a dummy shared object therefore reduce dependencies further by
-not requiring the C startup files, we wont use this shared library for
-anything useful anyway
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Integrating the following commit(s) to linux-yocto/5.4:
+
+    cc478e363cc3 rt: fixup random and irq/manage merge issues
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-runtime.inc | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index 5d74e4494d1..3e1c799ba13 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -68,8 +68,7 @@ do_configure () {
- 	# libstdc++ isn't built yet so CXX would error not able to find it which breaks stdc++'s configure
- 	# tests. Create a dummy empty lib for the purposes of configure.
- 	mkdir -p ${WORKDIR}/dummylib
--	touch ${WORKDIR}/dummylib/dummylib.c
--	${CC} ${WORKDIR}/dummylib/dummylib.c -shared -o ${WORKDIR}/dummylib/libstdc++.so
-+	${CC} -x c /dev/null -nostartfiles -shared -o ${WORKDIR}/dummylib/libstdc++.so
- 	for d in libgcc ${RUNTIMETARGET}; do
- 		echo "Configuring $d"
- 		rm -rf ${B}/${TARGET_SYS}/$d/
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+index 5bc1993cf2..fe75aee4da 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+@@ -11,7 +11,7 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "086bb7f7d2b47d654922e5cc526cc6274b28e319"
++SRCREV_machine ?= "cc478e363cc35064b58a871a4cc535aa973c5891"
+ SRCREV_meta ?= "aaaf9f090dfb3160154b24fbc2f9a6e669babc87"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
 -- 
-2.37.1
+2.19.1
 
 
