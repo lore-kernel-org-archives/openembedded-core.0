@@ -1,197 +1,98 @@
-Return-Path: <pgowda.cve@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4F6FC43334
-	for <webhook@archiver.kernel.org>; Wed, 20 Jul 2022 09:20:15 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web11.51847.1658308810452196861
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAA87CCA482
+	for <webhook@archiver.kernel.org>; Wed, 20 Jul 2022 09:23:35 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web11.51867.1658309009104642914
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 02:20:10 -0700
+ Wed, 20 Jul 2022 02:23:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=O+3FcxNU;
- spf=pass (domain: gmail.com, ip: 209.85.216.49,
- mailfrom: pgowda.cve@gmail.com)
-Received: by mail-pj1-f49.google.com with SMTP id b10so6271418pjq.5
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UWPOhM4e;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id z12so25260841wrq.7
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 02:20:10 -0700 (PDT)
+ Wed, 20 Jul 2022 02:23:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xtEKS71Y1avoqCoSAMtfEoaUbR5RrxQcIrAjBbzopc8=;
-        b=O+3FcxNUi4NEgmbodGyuNrqzInLeCt0pdJHzetlUbjBFO+KV+poCVEOWwg5sfa9/Bc
-         YsEAzpYX9kK/w0BTf4cdUEuLaufQskc79IOZk7Z20tYfkrs5JE6bUHoevmUi9rnaMmGY
-         qDm6WvPcO/22Oum8CHxs2FSCyRYS3N8Vro9RQ74l/+KkHYs5t2OhXk6vLiS8M+9bPcZT
-         7lDIpvThBcAeWZMYioWQo5DW77kteF0K3PE9AjXQMtRMDmm+Vti5QEyZPjYROPBTkw1q
-         /5YrYXphkV8Yfjn2Fylo3nQ0KMD1fgyX6GZEZa/yWOssNVj0a0cEUmsRyZ9wEj+hqw3m
-         xofw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=hnmp+FavXMWKDrRJik8vwzpJZDVqUKMTeRK3wMSOb6E=;
+        b=UWPOhM4e5iEbOw1ZdEJUQfh79ZZ8G/4zfEeiR2YMKTffufCbX8zvEkevXVLHN/Le2o
+         3quP2Fprs7nRHb41t+SDzytbWzj0e0s6wxIcnN+0UzAIXQ+IPQrJzIHUZYQVVlMu9Pb1
+         7o0hqk4dhjoFVaHEpuoeHmAAtHtUWOC2kL17E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xtEKS71Y1avoqCoSAMtfEoaUbR5RrxQcIrAjBbzopc8=;
-        b=3SOW8XZ01WBfZuYKDPi9JEUTnPbkOJ/B8VetvyQm6pnjORRqjIzMNKgGsWtYr9Ak0n
-         8pNAn/7hpBETx+U/QMrFJj2QMHZYPRmrzzkI+gMj3GBI/eQW1V5t+fqxE7BmJaQX0twk
-         YELsa8vzHNJDBzR2WMB9mBiGa88lMOQpcglhQdHPKQ/fKPVlgMphBXPwweLGnzVuvOeG
-         yb6VZ+iTIslcmASa1fau8lgD+ZBWtQSEZkzt6wf45FS4OFdQVab42y3L7Jr6p2uIYJkF
-         cWves1l3ijMDIVQtF6JeondO/kKpEpWT7P/4tvsvoYGIbma28fvjaxzfMwA2wC8Ol+oO
-         gAEg==
-X-Gm-Message-State: AJIora8ytg7IDy86XNdyGFYPWbPwiYL41TmYtVxBMPyaEXthI2+uIF/n
-	hceNB6NJQvtLo3BdTshuWARO0d75xHA=
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=hnmp+FavXMWKDrRJik8vwzpJZDVqUKMTeRK3wMSOb6E=;
+        b=EMPrFXPH07jUEqAwqzN3UFv+b6AhekGfbnInGCcSVNAodrBN9SIbBnta+yEVbA2yb+
+         Z+/G7peqpd2q7OA4WAs7+8XYPZtXBF1ewwV83A70wJ0l3xVbiZf4J4qGqUWPIqhDnH8L
+         PtbFUzXobAzORkyEdQ/cgX9HGAAdqhRS/Q0tAv8CdxC2J3MsO2df6eGOFAcI8Butxj17
+         n45Rxag+zvi7YGAYCbSI1cVAHXa0DAmg41ZylE4STF9tAD2A7OxwrBWxfIMdo4ojkWjL
+         xWizhg68NieyyQ2rNxa9ofSEsRIAFwkW4dZZtF6HRgpbcK12UqSrFMZPoYohjhjbIMGk
+         ps3w==
+X-Gm-Message-State: AJIora8OhKhsFe2VA7KuBIzm9qXKweglFEEGZLg2MevTELk9fFjryr+R
+	FI7sBcME6FEDKXpCVWWfCKym2Q==
 X-Google-Smtp-Source: 
- AGRyM1ut9mQaSJnLWbnkkt2gtBAxtZQmWDUeyWHG6m5JTn+BJn2GFYBt+1dRXFe5YMTEscyNOxBLHg==
-X-Received: by 2002:a17:90b:1a84:b0:1ef:dc5c:3088 with SMTP id
- ng4-20020a17090b1a8400b001efdc5c3088mr4225096pjb.245.1658308809607;
-        Wed, 20 Jul 2022 02:20:09 -0700 (PDT)
-Received: from localhost.localdomain ([49.204.85.206])
+ AGRyM1ujeieKvwB00L7ltVrJiSoDfcivEMgbyqa9KGxOYrJrp7yATolsn74wbHya+25fSiSFPQ3+EQ==
+X-Received: by 2002:a05:6000:178c:b0:21d:b6d0:11a8 with SMTP id
+ e12-20020a056000178c00b0021db6d011a8mr29045559wrg.547.1658309007344;
+        Wed, 20 Jul 2022 02:23:27 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:feec:14a3:c5ce:5d56?
+ ([2001:8b0:aba:5f3c:feec:14a3:c5ce:5d56])
         by smtp.gmail.com with ESMTPSA id
- 129-20020a621487000000b0052521fd273fsm13051891pfu.218.2022.07.20.02.20.08
+ p30-20020a05600c1d9e00b003a2f6367049sm1768863wms.48.2022.07.20.02.23.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 02:20:09 -0700 (PDT)
-From: pgowda.cve@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: rwmacleod@gmail.com
-Subject: [kirkstone][PATCH] gcc: Backport a fix for gcc bug 105039
-Date: Wed, 20 Jul 2022 14:50:03 +0530
-Message-Id: <20220720092003.3342876-1-pgowda.cve@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 20 Jul 2022 02:23:26 -0700 (PDT)
+Message-ID: 
+ <ee397d3552782e6fd969a497e55396ff474fee92.camel@linuxfoundation.org>
+Subject: Re: [Openembedded-architecture] Let's drop x86-x32 (was Re:
+ [OE-core] [PATCH 05/51] rpm: update 4.17.0 -> 4.17.1)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, OE-core
+	 <openembedded-core@lists.openembedded.org>, openembedded-architecture
+	 <openembedded-architecture@lists.openembedded.org>, Yocto-mailing-list
+	 <yocto@lists.yoctoproject.org>
+Date: Wed, 20 Jul 2022 10:23:25 +0100
+In-Reply-To: 
+ <CANNYZj9KKfqK8fH6HB3mLP8Vhi=U-VCMOus1uAq9kUQ7+6D74A@mail.gmail.com>
+References: <20220720084442.2940187-1-alex@linutronix.de>
+	 <17037D268C38CE83.21682@lists.openembedded.org>
+	 <CANNYZj9KKfqK8fH6HB3mLP8Vhi=U-VCMOus1uAq9kUQ7+6D74A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Jul 2022 09:20:15 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Jul 2022 09:23:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168347
+ https://lists.openembedded.org/g/openembedded-core/message/168348
 
-From: Naveen <naveen.gowda@windriver.com>
+On Wed, 2022-07-20 at 10:49 +0200, Alexander Kanavin wrote:
+> Note: this update fails on x32 with
+>=20
+> > configure: error: unrecognized GNU build triplet linux-gnux32
+>=20
+> This time I want to put my foot down and suggest that we just drop the
+> whole x32 variant from the autobuilder (I had already sent a patch for
+> this previously). In all likelihood it was never used to ship anything
+> to customers, and was only devised to look better in benchmarks
+> against competition.
 
-Backport a fix from:
-https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=9234cdca6ee88badfc00297e72f13dac4e540c79
+That amounts to dropping x32 support because as soon as we remove these
+tests, it will bitrot.
 
-which fixes rust recursion issues in the demangler.
+There is still some value in the project being able to support
+different architectures and different type sizes so I do still lean
+towards keeping this alive at a minimal level.
 
-Signed-off-by: Naveen <naveen.gowda@windriver.com>
----
- meta/recipes-devtools/gcc/gcc-11.3.inc        |  2 +-
- .../gcc/gcc/0030-rust-recursion-limit.patch   | 92 +++++++++++++++++++
- 2 files changed, 93 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc/0030-rust-recursion-limit.patch
+Cheers,
 
-diff --git a/meta/recipes-devtools/gcc/gcc-11.3.inc b/meta/recipes-devtools/gcc/gcc-11.3.inc
-index acbb43a25f..2cebeb2bc8 100644
---- a/meta/recipes-devtools/gcc/gcc-11.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-11.3.inc
-@@ -59,7 +59,7 @@ SRC_URI = "\
-            file://0027-libatomic-Do-not-enforce-march-on-aarch64.patch \
-            file://0028-debug-101473-apply-debug-prefix-maps-before-checksum.patch \
-            file://0029-Fix-install-path-of-linux64.h.patch \
--           \
-+           file://0030-rust-recursion-limit.patch \
-            file://0001-CVE-2021-42574.patch \
-            file://0002-CVE-2021-42574.patch \
-            file://0003-CVE-2021-42574.patch \
-diff --git a/meta/recipes-devtools/gcc/gcc/0030-rust-recursion-limit.patch b/meta/recipes-devtools/gcc/gcc/0030-rust-recursion-limit.patch
-new file mode 100644
-index 0000000000..bbe2f18f6f
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0030-rust-recursion-limit.patch
-@@ -0,0 +1,92 @@
-+From 9234cdca6ee88badfc00297e72f13dac4e540c79 Mon Sep 17 00:00:00 2001
-+From: Nick Clifton <nickc@redhat.com>
-+Date: Fri, 1 Jul 2022 15:58:52 +0100
-+Subject: [PATCH] Add a recursion limit to the demangle_const function in the
-+ Rust demangler.
-+
-+libiberty/
-+	PR demangler/105039
-+	* rust-demangle.c (demangle_const): Add recursion limit.
-+
-+Upstream-Status: Backport [https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=9234cdca6ee88badfc00297e72f13dac4e540c79]
-+---
-+ libiberty/rust-demangle.c | 29 ++++++++++++++++++++---------
-+ 1 file changed, 20 insertions(+), 9 deletions(-)
-+
-+diff --git a/libiberty/rust-demangle.c b/libiberty/rust-demangle.c
-+index bb58d900e27..36afcfae278 100644
-+--- a/libiberty/rust-demangle.c
-++++ b/libiberty/rust-demangle.c
-+@@ -126,7 +126,7 @@ parse_integer_62 (struct rust_demangler *rdm)
-+     return 0;
-+ 
-+   x = 0;
-+-  while (!eat (rdm, '_'))
-++  while (!eat (rdm, '_') && !rdm->errored)
-+     {
-+       c = next (rdm);
-+       x *= 62;
-+@@ -1148,6 +1148,15 @@ demangle_const (struct rust_demangler *rdm)
-+   if (rdm->errored)
-+     return;
-+ 
-++  if (rdm->recursion != RUST_NO_RECURSION_LIMIT)
-++    {
-++      ++ rdm->recursion;
-++      if (rdm->recursion > RUST_MAX_RECURSION_COUNT)
-++	/* FIXME: There ought to be a way to report
-++	   that the recursion limit has been reached.  */
-++	goto fail_return;
-++    }
-++
-+   if (eat (rdm, 'B'))
-+     {
-+       backref = parse_integer_62 (rdm);
-+@@ -1158,7 +1167,7 @@ demangle_const (struct rust_demangler *rdm)
-+           demangle_const (rdm);
-+           rdm->next = old_next;
-+         }
-+-      return;
-++      goto pass_return;
-+     }
-+ 
-+   ty_tag = next (rdm);
-+@@ -1167,7 +1176,7 @@ demangle_const (struct rust_demangler *rdm)
-+     /* Placeholder. */
-+     case 'p':
-+       PRINT ("_");
-+-      return;
-++      goto pass_return;
-+ 
-+     /* Unsigned integer types. */
-+     case 'h':
-+@@ -1200,18 +1209,20 @@ demangle_const (struct rust_demangler *rdm)
-+       break;
-+ 
-+     default:
-+-      rdm->errored = 1;
-+-      return;
-++      goto fail_return;
-+     }
-+ 
-+-  if (rdm->errored)
-+-    return;
-+-
-+-  if (rdm->verbose)
-++  if (!rdm->errored && rdm->verbose)
-+     {
-+       PRINT (": ");
-+       PRINT (basic_type (ty_tag));
-+     }
-++
-++ fail_return:
-++  rdm->errored = 1;
-++ pass_return:
-++  if (rdm->recursion != RUST_NO_RECURSION_LIMIT)
-++    -- rdm->recursion;
-+ }
-+ 
-+ static void
-+-- 
-+2.31.1
-+
--- 
-2.25.1
-
+Richard
 
