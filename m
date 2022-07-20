@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14A89CCA487
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14B9CCCA489
 	for <webhook@archiver.kernel.org>; Wed, 20 Jul 2022 08:45:15 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
- [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web10.51645.1658306708330039184
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web11.51614.1658306698678729601
  for <openembedded-core@lists.openembedded.org>;
  Wed, 20 Jul 2022 01:45:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=oZYYMQFd;
- spf=pass (domain: gmail.com, ip: 209.85.218.54,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=JzCSvxP/;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id tk8so20447532ejc.7
+Received: by mail-ej1-f46.google.com with SMTP id ss3so31736568ejc.11
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 01:45:08 -0700 (PDT)
+ Wed, 20 Jul 2022 01:45:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=nrThsa29GvviKiAiqfklnBQBLlq9WT/XRO8AiYz1y+U=;
-        b=oZYYMQFdYIhXp3XmFrps6NNYmQGpA/Xkl/c3ieJ16ECBSOqY61pH+2DDhS46WaF/CO
-         Z22NzCQrzdpylnLsDl3+SsOPv3ZeLIF1CAVoChvRDvo0NO/SYH9ysyMP5o/X9GoC1cpj
-         xMhVRURw6hn9B+w+XDdUUHWGv52abNMH6Gney/tHOTQouCQOjus5vZH/e447BwzXFsyz
-         /r7/BindItohPJFCo1rYUXq2xmgth4UDh6fG7CBI15QSlJX9DCQ1X1TSYETtzaGVvkpI
-         MZcW2OiSLApnvvb0lNh0+UCLYvpv2uyboCxYRipoVK2/JeGedsubwzvGwzUvPgvozasE
-         6D9Q==
+        bh=slzQIZh0W/RGzywOuFgzL8f1v9Rk8YUYmgSZQIpo8uc=;
+        b=JzCSvxP/gTn5gos0nNE2whKN6ZhjKQfpZ4TauDr2kwS/V0LZo/m3iuRWsr/M55fN76
+         Ogr3QIdr0QDEd2gLUKbiZuQrI7Gxp4h96stdUz2Oul6mK+OVtcs0ydFNa05DwqrnM25N
+         3BCR8ecNXp8krpRwO6uK8VfcB1uvVOSy35R30VbKUanRPC5AzmTXQrFZfuRZntWfNONE
+         Oj7uCre+/628Hi7s4g9m5EwI75j3AjmCYn7hBw1c2WkLZZJLjf6cg+nhz53Km9Pe+bDS
+         KdxIlvE/UVjEtyI2VFCzfXYJ0pYdsDzmzHdiW4QKHvmHeQEberQbODaUux2XzqWP5/PX
+         XRYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=nrThsa29GvviKiAiqfklnBQBLlq9WT/XRO8AiYz1y+U=;
-        b=Ggtv+HFWrtGJidbyf3b6v02Dgp4B5P4p1kBsrEswJ3LB4SwrtnvyZJDtYJGMlvTQhF
-         BwIMiCXu7LwNxugMLxgz1hMc1CPw3vxgOq1Fpma4C844S+LWpV8F32bkkTQzaXrW3+Ij
-         uMMcbbA25yXzDTcnZ0g3ZVXITpf5e8l8Ge2iaiiW0sNBEkk3l+2/vK6WVYHxGBiunwzG
-         uvuzddJnO6vRz9qED0v2WbJPOnfJ2zl/MkWQtR/yVTWy8wVm5SO2BGRMLX3Ld2QL1c1p
-         tDC8eq24Y56zaZ6Kt0YLNfFsnG+ahjri4HKvu/8P9Uobz/HUZNeF1URrPqOIV3JK5yIr
-         Ov5w==
-X-Gm-Message-State: AJIora+SK36wkyK79RJA1uJMaMYifS25gXyXJ/kOINrj4C4O24sla8Nb
-	jXSkhVKp9f7sTv3XD4FUKKsf+pwyT18=
+        bh=slzQIZh0W/RGzywOuFgzL8f1v9Rk8YUYmgSZQIpo8uc=;
+        b=sDKgW4kLX+GWYHrAcTqYnnMokagFQD8ymb3Mz59WBlgb36244OSIg4NL/JAC9jKyP0
+         +qqdzF3SeyoUyOKiA8S4swtrwRKRlnWse3i9BmDOVmmjlmA4TC/OxQN5dwYFg/Gejsfz
+         4Vms2GX9En3t8LF40hX17N6xRqZwW0e7OTLQshbObA4Tk2MuvqchSQ6Gy8+lodVFA1r1
+         jql73XvOSnNrk26yBwEPRVkomkcsqoi+ANHFRXk6BFKpEphCavirDvvkfDaxry3NFayw
+         QMPIC/Lt8In1de6CGTRBXnN5hD6MLYv+ZhWCm4BIIU5snXoyNsEPyeomZg3ZJrKPdmG1
+         CKvQ==
+X-Gm-Message-State: AJIora+OZUQJrXTuH/1B9UYhr4HYNuWamGGoe0vOEuXci6im2LIurXrU
+	lfgmBXVxT7yW9SV1ps1A+VBKPnrBe04=
 X-Google-Smtp-Source: 
- AGRyM1vs40awWfO6Lk2rORZyXAlCoxGg0y8J9Hu4FTseojigho093kRMyL9/ziRsN+IU5ZPrMHOvlw==
-X-Received: by 2002:a17:907:7396:b0:72d:a080:86a9 with SMTP id
- er22-20020a170907739600b0072da08086a9mr32078916ejc.49.1658306706779;
-        Wed, 20 Jul 2022 01:45:06 -0700 (PDT)
+ AGRyM1tICZ9P8TCcBsoqTaJOFYDSNpGb3eolnmYY7M/MYb6BOW6xpZ3uOsgqkTwzVPsMAcmjKgcd4Q==
+X-Received: by 2002:a17:907:75f2:b0:72b:564c:465e with SMTP id
+ jz18-20020a17090775f200b0072b564c465emr33115079ejc.689.1658306707597;
+        Wed, 20 Jul 2022 01:45:07 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
  s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.45.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 01:45:06 -0700 (PDT)
+        Wed, 20 Jul 2022 01:45:07 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 17/51] libgit2: update 1.4.3 -> 1.5.0
-Date: Wed, 20 Jul 2022 10:44:08 +0200
-Message-Id: <20220720084442.2940187-17-alex@linutronix.de>
+Subject: [PATCH 18/51] u-boot: update 2022.04 -> 2022.07
+Date: Wed, 20 Jul 2022 10:44:09 +0200
+Message-Id: <20220720084442.2940187-18-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220720084442.2940187-1-alex@linutronix.de>
 References: <20220720084442.2940187-1-alex@linutronix.de>
@@ -68,41 +68,72 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Jul 2022 08:45:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168312
+ https://lists.openembedded.org/g/openembedded-core/message/168311
 
-License-Update: added sha256 support under bsd-3-clause:
-https://github.com/libgit2/libgit2/commit/b900981cf7f6499b99cf83f77f73cf5fc436653b
+Native python and native swig are new requirements for scripts/dtc
+
+License-Update: added bzip2 licensed headers:
+https://source.denx.de/u-boot/u-boot/-/commit/fba0882bcdfd919727ee9ee8523ef3156daab507
+(overall license still gpl2)
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../libgit2/{libgit2_1.4.3.bb => libgit2_1.5.0.bb}        | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-support/libgit2/{libgit2_1.4.3.bb => libgit2_1.5.0.bb} (56%)
+ meta/recipes-bsp/u-boot/u-boot-common.inc                    | 4 ++--
+ meta/recipes-bsp/u-boot/u-boot-tools.inc                     | 5 ++++-
+ .../{u-boot-tools_2022.04.bb => u-boot-tools_2022.07.bb}     | 1 +
+ .../u-boot/{u-boot_2022.04.bb => u-boot_2022.07.bb}          | 0
+ 4 files changed, 7 insertions(+), 3 deletions(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-tools_2022.04.bb => u-boot-tools_2022.07.bb} (98%)
+ rename meta/recipes-bsp/u-boot/{u-boot_2022.04.bb => u-boot_2022.07.bb} (100%)
 
-diff --git a/meta/recipes-support/libgit2/libgit2_1.4.3.bb b/meta/recipes-support/libgit2/libgit2_1.5.0.bb
-similarity index 56%
-rename from meta/recipes-support/libgit2/libgit2_1.4.3.bb
-rename to meta/recipes-support/libgit2/libgit2_1.5.0.bb
-index 7e27b5b018..ee4d79b11a 100644
---- a/meta/recipes-support/libgit2/libgit2_1.4.3.bb
-+++ b/meta/recipes-support/libgit2/libgit2_1.5.0.bb
-@@ -1,12 +1,12 @@
- SUMMARY = "the Git linkable library"
- HOMEPAGE = "http://libgit2.github.com/"
--LICENSE = "GPL-2.0-with-GCC-exception & MIT & OpenSSL"
--LIC_FILES_CHKSUM = "file://COPYING;md5=e5a9227de4cb6afb5d35ed7b0fdf480d"
-+LICENSE = "GPL-2.0-with-GCC-exception & MIT & OpenSSL & BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=112e6bb421dea73cd41de09e777f2d2c"
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index 8fc33608d0..d7fd3c7227 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -7,12 +7,12 @@ SECTION = "bootloaders"
+ DEPENDS += "flex-native bison-native"
  
- DEPENDS = "curl openssl zlib libssh2 libgcrypt libpcre2"
+ LICENSE = "GPL-2.0-or-later"
+-LIC_FILES_CHKSUM = "file://Licenses/README;md5=5a7450c57ffe5ae63fd732446b988025"
++LIC_FILES_CHKSUM = "file://Licenses/README;md5=2ca5f2c35c8cc335f0a19756634782f1"
+ PE = "1"
  
--SRC_URI = "git://github.com/libgit2/libgit2.git;branch=maint/v1.4;protocol=https"
--SRCREV = "465bbf88ea939a965fbcbade72870c61f815e457"
-+SRC_URI = "git://github.com/libgit2/libgit2.git;branch=main;protocol=https"
-+SRCREV = "fbea439d4b6fc91c6b619d01b85ab3b7746e4c19"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "e4b6ebd3de982ae7185dbf689a030e73fd06e0d2"
++SRCREV = "e092e3250270a1016c877da7bdd9384f14b1321e"
  
- S = "${WORKDIR}/git"
+ SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
  
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools.inc b/meta/recipes-bsp/u-boot/u-boot-tools.inc
+index a8d7fab46d..0bdbce725a 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-tools.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-tools.inc
+@@ -1,5 +1,8 @@
+ SUMMARY = "U-Boot bootloader tools"
+-DEPENDS += "gnutls openssl util-linux"
++DEPENDS += "gnutls openssl util-linux swig-native"
++
++inherit python3native
++export STAGING_INCDIR="${STAGING_INCDIR_NATIVE}"
+ 
+ PROVIDES = "${MLPREFIX}u-boot-mkimage ${MLPREFIX}u-boot-mkenvimage"
+ PROVIDES:class-native = "u-boot-mkimage-native u-boot-mkenvimage-native"
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2022.04.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2022.07.bb
+similarity index 98%
+rename from meta/recipes-bsp/u-boot/u-boot-tools_2022.04.bb
+rename to meta/recipes-bsp/u-boot/u-boot-tools_2022.07.bb
+index 7eaf721ca8..ef386f76e6 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-tools_2022.04.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-tools_2022.07.bb
+@@ -1,2 +1,3 @@
+ require u-boot-common.inc
+ require u-boot-tools.inc
++
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2022.04.bb b/meta/recipes-bsp/u-boot/u-boot_2022.07.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot_2022.04.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2022.07.bb
 -- 
 2.30.2
 
