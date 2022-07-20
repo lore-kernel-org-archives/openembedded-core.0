@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EE76CCA482
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06C72C433EF
 	for <webhook@archiver.kernel.org>; Wed, 20 Jul 2022 08:45:15 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web11.51615.1658306699694263100
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web08.51505.1658306711811506021
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 01:45:09 -0700
+ Wed, 20 Jul 2022 01:45:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=DJwqwVf2;
- spf=pass (domain: gmail.com, ip: 209.85.208.44,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VlyRT54t;
+ spf=pass (domain: gmail.com, ip: 209.85.208.54,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id m13so12682820edc.5
+Received: by mail-ed1-f54.google.com with SMTP id y8so22875897eda.3
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 01:45:08 -0700 (PDT)
+ Wed, 20 Jul 2022 01:45:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=5vAum4WlgCUHyFHJtr9Gt3Hz3VtCq1O9tCPdSxcw+UA=;
-        b=DJwqwVf2X7WWs9CDG3z+zmeqG3TAM7KCnLhiA61BAvAxnn+1Na8/0NGSNBgnlV0xY3
-         3jBFEoTdHTPWn4oTJ7IfCDAcMy95lm2DXB6nBc1gfWpN/cWMD56K9hBMieh/nB82jZ2h
-         VVusVYNwoR4T+KjTTBsl1Gxf1jlHv43TR4r3xIgg6lH1rBEvWe2s1EtfglOAsrgiQVdm
-         nYXkmFeZtbL/weC0fDTnG6iho54Y8t1XywQ3RZtaRdVq8ErrNs4kZWv7E/X9Zg+AShqA
-         uIOOH3L+rFGNUlZp9rHyjKkDL2A+l1RvJvu+SOlfwdLLmAD9UPzDSJVWk2JKZ0LvrwVe
-         egWw==
+        bh=0uF1W2TqRqfAzQwFUq2/banlr/R54wkqXK3j8eGkr2k=;
+        b=VlyRT54tOABQrIf4Xmo/0PX0fHjwjANG8gYW23hBUQNI4UmPhka24vgGy99M9eJejk
+         w9P+T+EJ8NxIvN7t6bFhGY/ptlaJ99Htr9Q5GITcnM6zkunFj3kXgH+scxeWEWYOA9aN
+         HtVVijKQiosiNTb+PnJLyCtirSUm8crmOZMobp0Pi9mQOloBuk6YETvwyBDYL3KbA9FR
+         WpYaEoybcFBew4aSkWMXGYS1asEwP7GSJ5Fgjfzw1EtT8z5rPZoHgvv0t8vqx4XiI1O3
+         9XhhmSNIqeDTvkAQoS/4OtenYXEqShgGrDkPXGJyd1oirFn7gKwvrI8ac1fxD8OQ2Pm4
+         ZCcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=5vAum4WlgCUHyFHJtr9Gt3Hz3VtCq1O9tCPdSxcw+UA=;
-        b=Q2KOH6lW2cK05Aa8CKlS6ply1wTOThooyZSwpgZ1PD50ztFtxyp1dP/rQrORKvLH2j
-         kAtgDfueRIUHUYE9Gsc1VukSC3j9xFHpehWeBRR99WLykyq4g74kPvAZjS+I0Fd5Q0PE
-         i045JOoCwhGnhwNjySTGXMeK/2RIViKVGhfdorj0UgjiWM2o2clniFcTk5gOKuksb4/Z
-         3HLJJMXOxWixnhtktRDiWBIXoesw/gluCxOklgf9tUlItQNYVqXMdCR11m/wcVkTZgIH
-         dXvavrA6xzZ9/Mhjg4Op3c/Fn4jUayuOP15SsLNZXS09LJfeZNXRuSE9gv8O3Ns1XE/h
-         ofhQ==
-X-Gm-Message-State: AJIora/fxbHIgOdC8RauYItbSAIcllpgdbEVcx1Gf216FSVkGLB+Ojla
-	25QDS9l3mDvMFWAr4GAo1Zx54Htop/s=
+        bh=0uF1W2TqRqfAzQwFUq2/banlr/R54wkqXK3j8eGkr2k=;
+        b=0cspQ3L9HH4Q+x7P6Mae371TZIsFs2G8Hp2iYVs6iyoZBzG+Y13g9Hk7KxOYcfW0vu
+         mvnRdiaVYEzUI99Nc2DaInDw2Q4IHvxfBn13KGVjwnpkcy5Lm+6PLSelNDWN+nRSpGwX
+         bsLym3DajinmGpITAnHLK/l8R1+vLRg69rmXS0UucazsZr1DXBqx8vD81w99CKNe4ncx
+         ZZ7IK7fnTNGGxKgZFkZ2t4QEQssMp/WrDeCy/TFzZJlB9fJrd9bUMYHHjWPU8NLRu28z
+         HxxKCWnbTxkIhi2GqDj2E4W0AA8DVBJVlONk5XqjD6ED/mZkDN5HQaXfjrcZJvAxP++M
+         GYOg==
+X-Gm-Message-State: AJIora+AixWOkZRi5MEA/8Be0OMiH5Di7reQ3AAlbQXTZlwcxx5VP6sS
+	9Jvogue9PWzCCLQB/ubBovmKrUuIdY0=
 X-Google-Smtp-Source: 
- AGRyM1vttkdGzxowvMogCJkneOuLLKbO3smnEuGE2+2LLZoTDsmrseZ1A0Ro64/tHnExz22M+1Puug==
-X-Received: by 2002:a05:6402:214e:b0:43b:6bd9:319 with SMTP id
- bq14-20020a056402214e00b0043b6bd90319mr16061118edb.308.1658306708416;
-        Wed, 20 Jul 2022 01:45:08 -0700 (PDT)
+ AGRyM1vmHZuRmlRGMY5oaOWPjg0Q+NHYJUJ8pPKZBrHscuiYI3mniEbWwya43iYfRDJvGqYLg9YG+g==
+X-Received: by 2002:a05:6402:2741:b0:434:fe8a:1f96 with SMTP id
+ z1-20020a056402274100b00434fe8a1f96mr49948917edd.331.1658306710378;
+        Wed, 20 Jul 2022 01:45:10 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.45.07
+ s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.45.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 01:45:07 -0700 (PDT)
+        Wed, 20 Jul 2022 01:45:09 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 19/51] go: update 1.18.3 -> 1.18.4
-Date: Wed, 20 Jul 2022 10:44:10 +0200
-Message-Id: <20220720084442.2940187-19-alex@linutronix.de>
+Subject: [PATCH 21/51] vulkan-samples: update to latest revision
+Date: Wed, 20 Jul 2022 10:44:12 +0200
+Message-Id: <20220720084442.2940187-21-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220720084442.2940187-1-alex@linutronix.de>
 References: <20220720084442.2940187-1-alex@linutronix.de>
@@ -68,83 +68,65 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Jul 2022 08:45:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168313
+ https://lists.openembedded.org/g/openembedded-core/message/168315
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/go/{go-1.18.3.inc => go-1.18.4.inc}     | 2 +-
- ...{go-binary-native_1.18.3.bb => go-binary-native_1.18.4.bb} | 4 ++--
- ...o-cross-canadian_1.18.3.bb => go-cross-canadian_1.18.4.bb} | 0
- .../go/{go-cross_1.18.3.bb => go-cross_1.18.4.bb}             | 0
- .../go/{go-crosssdk_1.18.3.bb => go-crosssdk_1.18.4.bb}       | 0
- .../go/{go-native_1.18.3.bb => go-native_1.18.4.bb}           | 0
- .../go/{go-runtime_1.18.3.bb => go-runtime_1.18.4.bb}         | 0
- meta/recipes-devtools/go/{go_1.18.3.bb => go_1.18.4.bb}       | 0
- 8 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/go/{go-1.18.3.inc => go-1.18.4.inc} (89%)
- rename meta/recipes-devtools/go/{go-binary-native_1.18.3.bb => go-binary-native_1.18.4.bb} (83%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.18.3.bb => go-cross-canadian_1.18.4.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.18.3.bb => go-cross_1.18.4.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.18.3.bb => go-crosssdk_1.18.4.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.18.3.bb => go-native_1.18.4.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.18.3.bb => go-runtime_1.18.4.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.18.3.bb => go_1.18.4.bb} (100%)
+ ...pp_vulkan_resource.h-add-header-incl.patch | 27 +++++++++++++++++++
+ .../vulkan/vulkan-samples_git.bb              |  3 ++-
+ 2 files changed, 29 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-core-hpp_vulkan_resource.h-add-header-incl.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.18.3.inc b/meta/recipes-devtools/go/go-1.18.4.inc
-similarity index 89%
-rename from meta/recipes-devtools/go/go-1.18.3.inc
-rename to meta/recipes-devtools/go/go-1.18.4.inc
-index 693b045e8f..bfda15c54f 100644
---- a/meta/recipes-devtools/go/go-1.18.3.inc
-+++ b/meta/recipes-devtools/go/go-1.18.4.inc
-@@ -15,4 +15,4 @@ SRC_URI += "\
-     file://0001-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
-     file://filter-build-paths.patch \
- "
--SRC_URI[main.sha256sum] = "0012386ddcbb5f3350e407c679923811dbd283fcdc421724931614a842ecbc2d"
-+SRC_URI[main.sha256sum] = "4525aa6b0e3cecb57845f4060a7075aafc9ab752bb7b6b4cf8a212d43078e1e4"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.18.3.bb b/meta/recipes-devtools/go/go-binary-native_1.18.4.bb
-similarity index 83%
-rename from meta/recipes-devtools/go/go-binary-native_1.18.3.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.18.4.bb
-index f207a47e90..252c467a00 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.18.3.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.18.4.bb
-@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
- PROVIDES = "go-native"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-core-hpp_vulkan_resource.h-add-header-incl.patch b/meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-core-hpp_vulkan_resource.h-add-header-incl.patch
+new file mode 100644
+index 0000000000..c2bb43fe76
+--- /dev/null
++++ b/meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-core-hpp_vulkan_resource.h-add-header-incl.patch
+@@ -0,0 +1,27 @@
++From 8c069a1c4452f626e5bafc547463507d86111319 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex@linutronix.de>
++Date: Tue, 19 Jul 2022 16:55:40 +0200
++Subject: [PATCH] framework/core/hpp_vulkan_resource.h: add header include that
++ defines std::exchange
++
++Upstream-Status: Submitted [https://github.com/KhronosGroup/Vulkan-Samples/pull/501]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ framework/core/hpp_vulkan_resource.h | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/framework/core/hpp_vulkan_resource.h b/framework/core/hpp_vulkan_resource.h
++index 0e30f5a..8d83019 100644
++--- a/framework/core/hpp_vulkan_resource.h
+++++ b/framework/core/hpp_vulkan_resource.h
++@@ -18,6 +18,7 @@
++ #pragma once
++ 
++ #include <vulkan/vulkan.hpp>
+++#include <utility>
++ 
++ namespace vkb
++ {
++-- 
++2.30.2
++
+diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+index 57d3bd8fe5..41cb4a437d 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+@@ -8,10 +8,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=48aa35cefb768436223a6e7f18dc2a2a"
+ SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=master;protocol=https \
+            file://0001-CMakeLists.txt-do-not-hardcode-lib-as-installation-t.patch \
+            file://debugfix.patch \
++           file://0001-framework-core-hpp_vulkan_resource.h-add-header-incl.patch \
+            "
  
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "956f8507b302ab0bb747613695cdae10af99bbd39a90cae522b7c0302cc27245"
--SRC_URI[go_linux_arm64.sha256sum] = "beacbe1441bee4d7978b900136d1d6a71d150f0a9bb77e9d50c822065623a35a"
-+SRC_URI[go_linux_amd64.sha256sum] = "c9b099b68d93f5c5c8a8844a89f8db07eaa58270e3a1e01804f17f4cf8df02f5"
-+SRC_URI[go_linux_arm64.sha256sum] = "35014d92b50d97da41dade965df7ebeb9a715da600206aa59ce1b2d05527421f"
+ UPSTREAM_CHECK_COMMITS = "1"
+-SRCREV = "0cc04a63583769bd13bcc51229a5a263d59343df"
++SRCREV = "ee6c1522af8ba9b56f8416c2eedafb440f681085"
  
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.18.3.bb b/meta/recipes-devtools/go/go-cross-canadian_1.18.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.18.3.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.18.4.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.18.3.bb b/meta/recipes-devtools/go/go-cross_1.18.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.18.3.bb
-rename to meta/recipes-devtools/go/go-cross_1.18.4.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.18.3.bb b/meta/recipes-devtools/go/go-crosssdk_1.18.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.18.3.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.18.4.bb
-diff --git a/meta/recipes-devtools/go/go-native_1.18.3.bb b/meta/recipes-devtools/go/go-native_1.18.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-native_1.18.3.bb
-rename to meta/recipes-devtools/go/go-native_1.18.4.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.18.3.bb b/meta/recipes-devtools/go/go-runtime_1.18.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.18.3.bb
-rename to meta/recipes-devtools/go/go-runtime_1.18.4.bb
-diff --git a/meta/recipes-devtools/go/go_1.18.3.bb b/meta/recipes-devtools/go/go_1.18.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.18.3.bb
-rename to meta/recipes-devtools/go/go_1.18.4.bb
+ UPSTREAM_CHECK_GITTAGREGEX = "These are not the releases you're looking for"
+ S = "${WORKDIR}/git"
 -- 
 2.30.2
 
