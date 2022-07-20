@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 523E3CCA488
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D8B3CCA486
 	for <webhook@archiver.kernel.org>; Wed, 20 Jul 2022 08:45:35 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web11.51626.1658306728533697715
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web11.51627.1658306729805992562
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 01:45:28 -0700
+ Wed, 20 Jul 2022 01:45:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=oO7kbC1T;
- spf=pass (domain: gmail.com, ip: 209.85.208.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=T4kd8ckJ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id v12so22858290edc.10
+Received: by mail-ed1-f47.google.com with SMTP id v12so22858361edc.10
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 01:45:28 -0700 (PDT)
+ Wed, 20 Jul 2022 01:45:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OSPm2xWy5y/IzoYS57o3qCHqAWBChwxgoVDogAvcDR4=;
-        b=oO7kbC1T/U1L7JsZEEPzSBmpsNk50tdQEUw3xoeELPYPS2WVgMtnBmhZTbkca+T0X6
-         LMxMnPu1IR4X6owYlfNgc03CAHMVmHO6+Q4AWwXcV6suQF7ukZ5vhf03ArfZOQTSCBqA
-         b4a7R/iaELRmeVj+OWZeUEa1ChjCFFlWTqxXFPrP5J/mrlShwl60oTyeXM+Kwsr2mKH5
-         U6Myc1mOPow1L+g25Y3eoF93yx0GvUSCXVVzqI1It1utlkmp84JbAaTeGbbaoZwbDT0S
-         rf//OyQebSfUGVLWPCGEGCvhqPXtTKD3c02mxbtmPNnMMtFMbBs8Md8xr5O0/rvgDhgD
-         gtqQ==
+        bh=Nwz3ggndKRksAXrn6ME8vKzNDV952ecCE1at7f1IuJA=;
+        b=T4kd8ckJ2hvocOmy9KbeGEtZTGLvxm0kaw/BI8C9Y2mz9YionAzPAeVMFZF+AJQYXj
+         gbe7lmG/XJBjvDTx9ldB0jGXyeUBqk99/04GJ9qKX+yvGhTVXRTSgCMstn+vOkeEFtBq
+         eYl1z9V202MUE6qkH0VzBQCzh6vuMPM/aYFV+an3aaURqy4bJVhCqCVnkxNzEiYr7FU7
+         hiRzrOiZSBTivHI5FvJyPsM3C9xz3xowe4QhbWx4BtBYGlKI1Ugq/LEOWHY3YyhpB5Y2
+         dz2hikAB6gwvHW/H1j3vstC09PYYraF3yK7Qs7eQvDFHKHEwZ5ezFYePuww5O/WmWvF+
+         4ZJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OSPm2xWy5y/IzoYS57o3qCHqAWBChwxgoVDogAvcDR4=;
-        b=Xk5opRNjqCVQyXVFvSziOVdyDLGyJ4N8VOg3JOcxUpa3gH7vDVEzug6Gp3mXuP03bk
-         01WH122ABZX+DRByx6/x+uLwmgU5vU8xs8FSlMNlD02JaHQU1oHizAWJRSPQHWYxW1hA
-         su7v1TNFpzwutp3nn9ArrcINTb4irPH99o+1ZzPUZMGpWuAqLr9n+vtO48/fuREbVTvk
-         jsgpd2CCnIDZj2dKk6Pzid+XTTX7ZlTdu/gPYl9jW3wYbiDdgmkia8RAXommd/aHMe/Q
-         RvJLoKMBw9aDMU9GHbnv+6eQGyjpxZR1s/DCE0V6nLUgymnwin7VxjarQ/khDxsLA5r5
-         bPtA==
-X-Gm-Message-State: AJIora/gFQk2j04hivIcEhjGssHpjZCONxXLGsmqn/XOGmJZ684T5O4x
-	bkfNcNEL9vDKi00X7s96N4LCDOSb1PQ=
+        bh=Nwz3ggndKRksAXrn6ME8vKzNDV952ecCE1at7f1IuJA=;
+        b=2aTOQ61yijdpYolOXSp3ZpPmKlkLZA/ywALD8nb0q6t8m68EIued6mTCqvrhn1Tton
+         VwXcNJqC5X6PVUiR+TNIW00RKclI/DbFnDFJnBx8gl6N4gTeLwhwhaxdIZmeQiZ1hbm+
+         UBFYnhKmAiw1/i2M/YaPRZo10rUAX8eNQdOmXYhTlQEO5BZ7/KcYBbq/zAfzaLMqXylP
+         uqrD4UXlW8+ICrG2ApCtKkPRKYqxlY5D9/ei1vItX7CMsEZK15JLxeuqLE5J8ZUCe5lw
+         SJGP9FG2a+JyE2CL4ZA0MGSvCKqT3lRBOqZnN6yBOJgwrWBgkp7L9979FOjpJ2LRlBs+
+         d7Mg==
+X-Gm-Message-State: AJIora87YV0y2jDgjhvf08cYkhKVYRW2+n/RAMIytlu+a3cGYsle4tfG
+	eQc+j4dV5Vsw8P3riQrW2b4zjwds0dU=
 X-Google-Smtp-Source: 
- AGRyM1vVt+PiL4oqDXsYY1ymwoaE1PtPU9qKMPE5Ey3jmM/Q4B9tcVhTKC2OxCKq2qCPa9WVKXk5Zw==
-X-Received: by 2002:a05:6402:529a:b0:43b:b8e4:fca5 with SMTP id
- en26-20020a056402529a00b0043bb8e4fca5mr1809964edb.344.1658306727140;
-        Wed, 20 Jul 2022 01:45:27 -0700 (PDT)
+ AGRyM1uQ3MLQ63qytWnkAcdqveqW0GXf9yEONHZ0amYcCkhrRdHN4apCYSPy3/tojLVsh9lFd1oshA==
+X-Received: by 2002:a05:6402:5202:b0:43a:a238:61c with SMTP id
+ s2-20020a056402520200b0043aa238061cmr49590693edd.186.1658306728378;
+        Wed, 20 Jul 2022 01:45:28 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.45.26
+ s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.45.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 01:45:26 -0700 (PDT)
+        Wed, 20 Jul 2022 01:45:27 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 38/51] pango: upgrade 1.50.7 -> 1.50.8
-Date: Wed, 20 Jul 2022 10:44:29 +0200
-Message-Id: <20220720084442.2940187-38-alex@linutronix.de>
+Subject: [PATCH 39/51] piglit: upgrade to latest revision
+Date: Wed, 20 Jul 2022 10:44:30 +0200
+Message-Id: <20220720084442.2940187-39-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220720084442.2940187-1-alex@linutronix.de>
 References: <20220720084442.2940187-1-alex@linutronix.de>
@@ -68,29 +68,25 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Jul 2022 08:45:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168332
+ https://lists.openembedded.org/g/openembedded-core/message/168334
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../recipes-graphics/pango/{pango_1.50.7.bb => pango_1.50.8.bb} | 2 +-
+ meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/pango/{pango_1.50.7.bb => pango_1.50.8.bb} (94%)
 
-diff --git a/meta/recipes-graphics/pango/pango_1.50.7.bb b/meta/recipes-graphics/pango/pango_1.50.8.bb
-similarity index 94%
-rename from meta/recipes-graphics/pango/pango_1.50.7.bb
-rename to meta/recipes-graphics/pango/pango_1.50.8.bb
-index 01a11a1dac..936526799f 100644
---- a/meta/recipes-graphics/pango/pango_1.50.7.bb
-+++ b/meta/recipes-graphics/pango/pango_1.50.8.bb
-@@ -24,7 +24,7 @@ SRC_URI += "file://run-ptest \
-             file://0001-Skip-running-test-layout-test.patch \
- "
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index 38ededfcf8..932f2928a0 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -14,7 +14,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
+            "
+ UPSTREAM_CHECK_COMMITS = "1"
  
--SRC_URI[archive.sha256sum] = "0477f369a3d4c695df7299a6989dc004756a7f4de27eecac405c6790b7e3ad33"
-+SRC_URI[archive.sha256sum] = "cf626f59dd146c023174c4034920e9667f1d25ac2c1569516d63136c311255fa"
- 
- DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
+-SRCREV = "479b0002d004bc99514d186724b5a4fbfe543370"
++SRCREV = "c107462e4e429fa1cf6daac39168674c1c0c9fd4"
+ # (when PV goes above 1.0 remove the trailing r)
+ PV = "1.0+gitr${SRCPV}"
  
 -- 
 2.30.2
