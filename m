@@ -1,55 +1,144 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-From: "Steve Sakoman" <steve@sakoman.com>
-Subject: [OE-core][kirkstone 17/29] webkitgtk: upgrade 2.36.3 -> 2.36.4
-Date: Fri, 29 Jul 2022 04:46:33 -1000
-Message-Id: <fde20b5b6bb030b6c5538938ac9a6e178576d9dd.1659105705.git.steve@sakoman.com>
-In-Reply-To: <cover.1659105705.git.steve@sakoman.com>
-References: <cover.1659105705.git.steve@sakoman.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Subject: [PATCH 22/51] xserver-xorg: update 21.1.3 -> 21.1.4
+Date: Wed, 20 Jul 2022 10:44:13 +0200
+Message-Id: <20220720084442.2940187-22-alex@linutronix.de>
+In-Reply-To: <20220720084442.2940187-1-alex@linutronix.de>
+References: <20220720084442.2940187-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
 To: openembedded-core@lists.openembedded.org
-
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-
-Changes:
-
-Fix the new ATSPI accessibility implementation to add the missing Collection interface for the loaded document.
-Fix the MediaSession implementation to make the MPRIS object names more sandbox friendly, which plays better with Flatpak and WebKit’s own Bubblwrap-based sandboxing.
-Fix leaked Web Processes in some particular situations.
-Fix the build with media capture support enabled.
-Fix cross-compilation when targeting 64-bit ARM.
-Fix several crashes and rendering issues.
+Cc: Alexander Kanavin <alex@linutronix.de>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2396f8de9b6b9690dd70961084514da7d237f2ad)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../webkit/{webkitgtk_2.36.3.bb => webkitgtk_2.36.4.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-sato/webkit/{webkitgtk_2.36.3.bb => webkitgtk_2.36.4.bb} (98%)
+ .../0001-render-Fix-build-with-gcc-12.patch   | 90 -------------------
+ ...-xorg_21.1.3.bb => xserver-xorg_21.1.4.bb} |  7 +-
+ 2 files changed, 3 insertions(+), 94 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-render-Fix-build-with-gcc-12.patch
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.3.bb => xserver-xorg_21.1.4.bb} (79%)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.4.bb
-similarity index 98%
-rename from meta/recipes-sato/webkit/webkitgtk_2.36.3.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.36.4.bb
-index 83b6f8a6ee..df4ff63121 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.36.3.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.36.4.bb
-@@ -17,7 +17,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-When-building-introspection-files-do-not-quote-CFLAG.patch \
-            "
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-render-Fix-build-with-gcc-12.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-render-Fix-build-with-gcc-12.patch
+deleted file mode 100644
+index df9332fae7..0000000000
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-render-Fix-build-with-gcc-12.patch
++++ /dev/null
+@@ -1,90 +0,0 @@
+-From 12041ad0610f1345d6b9994c32943fd4dd01f65d Mon Sep 17 00:00:00 2001
+-From: Olivier Fourdan <ofourdan@redhat.com>
+-Date: Thu, 20 Jan 2022 10:20:38 +0100
+-Subject: [PATCH] render: Fix build with gcc 12
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-The xserver fails to compile with the latest gcc 12:
+-
+- render/picture.c: In function ‘CreateSolidPicture’:
+- render/picture.c:874:26: error: array subscript ‘union _SourcePict[0]’ is partly outside array bounds of ‘unsigned char[16]’ [-Werror=array-bounds]
+-  874 |     pPicture->pSourcePict->type = SourcePictTypeSolidFill;
+-      |                          ^~
+- render/picture.c:868:45: note: object of size 16 allocated by ‘malloc’
+-  868 |     pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictSolidFill));
+-      |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- render/picture.c: In function ‘CreateLinearGradientPicture’:
+- render/picture.c:906:26: error: array subscript ‘union _SourcePict[0]’ is partly outside array bounds of ‘unsigned char[32]’ [-Werror=array-bounds]
+-  906 |     pPicture->pSourcePict->linear.type = SourcePictTypeLinear;
+-      |                          ^~
+- render/picture.c:899:45: note: object of size 32 allocated by ‘malloc’
+-  899 |     pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictLinearGradient));
+-      |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- render/picture.c: In function ‘CreateConicalGradientPicture’:
+- render/picture.c:989:26: error: array subscript ‘union _SourcePict[0]’ is partly outside array bounds of ‘unsigned char[32]’ [-Werror=array-bounds]
+-  989 |     pPicture->pSourcePict->conical.type = SourcePictTypeConical;
+-      |                          ^~
+- render/picture.c:982:45: note: object of size 32 allocated by ‘malloc’
+-  982 |     pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictConicalGradient));
+-      |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- cc1: some warnings being treated as errors
+- ninja: build stopped: subcommand failed.
+-
+-This is because gcc 12 has become stricter and raises a warning now.
+-
+-Fix the warning/error by allocating enough memory to store the union
+-struct.
+-
+-Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/c6b0dcb82d4db07a2f32c09a8c09c85a5f57248e]
+-Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
+-Acked-by: Michel Dänzer <mdaenzer@redhat.com>
+-Closes: https://gitlab.freedesktop.org/xorg/xserver/-/issues/1256
+----
+- render/picture.c | 8 ++++----
+- 1 file changed, 4 insertions(+), 4 deletions(-)
+-
+-diff --git a/render/picture.c b/render/picture.c
+-index afa0d25..2be4b19 100644
+---- a/render/picture.c
+-+++ b/render/picture.c
+-@@ -865,7 +865,7 @@ CreateSolidPicture(Picture pid, xRenderColor * color, int *error)
+-     }
+- 
+-     pPicture->id = pid;
+--    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictSolidFill));
+-+    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(SourcePict));
+-     if (!pPicture->pSourcePict) {
+-         *error = BadAlloc;
+-         free(pPicture);
+-@@ -896,7 +896,7 @@ CreateLinearGradientPicture(Picture pid, xPointFixed * p1, xPointFixed * p2,
+-     }
+- 
+-     pPicture->id = pid;
+--    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictLinearGradient));
+-+    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(SourcePict));
+-     if (!pPicture->pSourcePict) {
+-         *error = BadAlloc;
+-         free(pPicture);
+-@@ -936,7 +936,7 @@ CreateRadialGradientPicture(Picture pid, xPointFixed * inner,
+-     }
+- 
+-     pPicture->id = pid;
+--    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictRadialGradient));
+-+    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(SourcePict));
+-     if (!pPicture->pSourcePict) {
+-         *error = BadAlloc;
+-         free(pPicture);
+-@@ -979,7 +979,7 @@ CreateConicalGradientPicture(Picture pid, xPointFixed * center, xFixed angle,
+-     }
+- 
+-     pPicture->id = pid;
+--    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(PictConicalGradient));
+-+    pPicture->pSourcePict = (SourcePictPtr) malloc(sizeof(SourcePict));
+-     if (!pPicture->pSourcePict) {
+-         *error = BadAlloc;
+-         free(pPicture);
+--- 
+-2.35.1
+-
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.3.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.4.bb
+similarity index 79%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.3.bb
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.4.bb
+index 1f53ab5177..b9cbc9989e 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.3.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.4.bb
+@@ -1,10 +1,9 @@
+ require xserver-xorg.inc
  
--SRC_URI[sha256sum] = "732fcf8c4ec644b8ed28b46ebbd7c1ebab9d9e0afea9bdf5e5d12786afc478d1"
-+SRC_URI[sha256sum] = "b6bebe1f85a479d968c19e44a4704622ef8cef61636ad1b2406b77d16ae2e2a8"
+ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
+-            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
+-            file://0001-render-Fix-build-with-gcc-12.patch \
+-            "
+-SRC_URI[sha256sum] = "61d6aad5b6b47a116b960bd7f0cba4ee7e6da95d6bb0b127bde75d7d1acdebe5"
++           file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
++           "
++SRC_URI[sha256sum] = "5cc4be8ee47edb58d4a90e603a59d56b40291ad38371b0bd2471fc3cbee1c587"
  
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
- 
+ # These extensions are now integrated into the server, so declare the migration
+ # path for in-place upgrades.
 -- 
-2.25.1
+2.30.2
 
