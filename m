@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55C2CC3F2D4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55880CCA482
 	for <webhook@archiver.kernel.org>; Wed, 20 Jul 2022 08:45:45 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web12.51547.1658306741785600990
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web12.51544.1658306735539850883
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 01:45:42 -0700
+ Wed, 20 Jul 2022 01:45:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=iWhGKxBw;
- spf=pass (domain: gmail.com, ip: 209.85.208.53,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=oWqYJmJf;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id w12so22820439edd.13
+Received: by mail-ej1-f47.google.com with SMTP id va17so31882371ejb.0
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 01:45:41 -0700 (PDT)
+ Wed, 20 Jul 2022 01:45:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=zehYR/2ZWpJ0tA1/ZdWLMIicMK5Myxxh+rOL8KTApfU=;
-        b=iWhGKxBwg2wzN13Kec9wk3KIFGKID8x/4l9vb81SmXiziRD1I/S3hDxVI98Ez5qiZi
-         DiAmTRwzXFRUAfO6X/koEzzXfdRZBHU38f/F3jfMVaRKBw+ipEMmp/fCV8rJza9imSnp
-         7hr2a8tdXcZ+IwcjyBVR6GvF0boa+vwpNPAjFgVjG0dIwKWJI8HM9qv1RnZLL4FNFu33
-         gELDmYDFXZQV46UdOuoQstDKmvX49780VuDB/6TGC1Qz1RrY8k0XNWqb7GGz7kDbzTlp
-         +nyFalWzx/ccN+fI3ef8zhHx9LdCy7tj8Ac1BqHZKzIrzZgbx28T2i7qW0qdWCqJHm0f
-         BS0A==
+        bh=e3r6RRbKy8EqoV4jiVjyHGP3OgaLj3HdglmX5hPSwsA=;
+        b=oWqYJmJfehZZW0LQI9Y4jGl23dEcvbEUMFLn4/1PKPljbgg1IRf8CmIZckIEanJ09Z
+         xp1N08ml9HAaeu0ss1JdzMSYsXE1Dw/RV+aYLgUhlCKaOHtK8/nC/5Q50U4yOR9HMqQx
+         WviFGKAv2NWr5OKdgGcKBR3buuJtRpWBzkgFz0moxueDzB2D744vG4jItLwL50ybTgtk
+         xF4FH/jfsM25763YehKBQMx+T6IR+mitpJlkNlU2yN1Jg1gqD8S0U5VjFx2pNHWHtCBM
+         XANKl6s6djD2BjgAUTVD7ocTmjGLp/G8pBEh2JsTnjm667mJEyiIWOQduuaab6ckiJX+
+         geQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zehYR/2ZWpJ0tA1/ZdWLMIicMK5Myxxh+rOL8KTApfU=;
-        b=BKciL8s7KS2Z5ElUJoTxTiBs213MBXCRNLRpbE6qY3Tj2o0ZhrDdy5TIdefUx8Iyy4
-         qGzA8dZU0Jyc718lRgzg8RHqAKtITbLtXqqVa6sfoR9K5E1ib2Mr/8chPe4wPZkZRJ6P
-         rvsi/46oFrwfEpHf1V6Imr2cgENh6+BWcfyrx6FJmFGBUv4KcEDNG9ViePX4jkTG/TPB
-         /Xwaz+R8gzYZChtM2KO+tt9K/JylrH+tfJmTDec6bi6vrSC/0nF92d1Q62B7eR5vbcSF
-         tEgfgezZ1I9O5AdC757AsgAAsFJQSoRE84Qae4zETG+0crP3cYKU/om0WASk8sS3u1EV
-         JGnA==
-X-Gm-Message-State: AJIora/03GAXtwYo27u0jBufznBS/zmFLJH9cva6H7aEQRsZQqcAh6+r
-	ZNnxougFEaPh4JKuh3+nQUz5WJH1AtA=
+        bh=e3r6RRbKy8EqoV4jiVjyHGP3OgaLj3HdglmX5hPSwsA=;
+        b=8H5uYvA8+BIEv4Bp+Mz4EzO1k1rxk8oRICPd7rhat25Y/XSPQeB7fNTnBPij36vaj2
+         +z5j74Q6lTY/2OYj9DF2BL+dNVR6YN4yg/ZCodye9ab+NMq6bulFBcWL3fhmN/ElUEKi
+         oLC6LbjBe7NJsXgONp6smuPzAQ+qlhcuMQwgK9C6JNxJ3twIJVntFZXRPxJ1N7P5/+Pg
+         Yc1RunGoNPC9pYwX3ok5LuAzN83CAZMlLyrVeBPeejXmIcX18gMhpqNd/L2iw8byyCJ9
+         dZgE9cgu5kzc59P1vTV80sEOYzvUxltGl4MYLH4BMPGHw04wGxtt6eSRlB0+0rpmiU4k
+         XN6w==
+X-Gm-Message-State: AJIora9ekMcbqY/7egaA8+hgqkhzJDwamTZyl5eNKdUxGu8RtBJoLEEU
+	cM3I1HxyOGcT/lL5LtG2EjKMu0PKkNo=
 X-Google-Smtp-Source: 
- AGRyM1tqegA4pKQzbSkegG3bQUZOt6n+tJXqk8iuyoCqAtsM5D1yIFrfTSgC5RNRugGy5YBBJ6EnCA==
-X-Received: by 2002:a05:6402:214e:b0:43b:6bd9:319 with SMTP id
- bq14-20020a056402214e00b0043b6bd90319mr16063239edb.308.1658306740349;
-        Wed, 20 Jul 2022 01:45:40 -0700 (PDT)
+ AGRyM1uSirS8agc5l0vQU/pFANS1MDNk800fLhfNShxO6zcPHI3ZjOG1kMh5KC4d+A6KzyYNUoJdwQ==
+X-Received: by 2002:a17:907:7637:b0:72b:3a3b:7d68 with SMTP id
+ jy23-20020a170907763700b0072b3a3b7d68mr33194490ejc.566.1658306734093;
+        Wed, 20 Jul 2022 01:45:34 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.45.39
+ s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.45.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 01:45:39 -0700 (PDT)
+        Wed, 20 Jul 2022 01:45:33 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 51/51] epiphany: upgrade 42.2 -> 42.3
-Date: Wed, 20 Jul 2022 10:44:42 +0200
-Message-Id: <20220720084442.2940187-51-alex@linutronix.de>
+Subject: [PATCH 45/51] python3-zipp: upgrade 3.8.0 -> 3.8.1
+Date: Wed, 20 Jul 2022 10:44:36 +0200
+Message-Id: <20220720084442.2940187-45-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220720084442.2940187-1-alex@linutronix.de>
 References: <20220720084442.2940187-1-alex@linutronix.de>
@@ -68,30 +68,30 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Jul 2022 08:45:45 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168345
+ https://lists.openembedded.org/g/openembedded-core/message/168339
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../epiphany/{epiphany_42.2.bb => epiphany_42.3.bb}             | 2 +-
+ .../python/{python3-zipp_3.8.0.bb => python3-zipp_3.8.1.bb}     | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/epiphany/{epiphany_42.2.bb => epiphany_42.3.bb} (94%)
+ rename meta/recipes-devtools/python/{python3-zipp_3.8.0.bb => python3-zipp_3.8.1.bb} (85%)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_42.2.bb b/meta/recipes-gnome/epiphany/epiphany_42.3.bb
-similarity index 94%
-rename from meta/recipes-gnome/epiphany/epiphany_42.2.bb
-rename to meta/recipes-gnome/epiphany/epiphany_42.3.bb
-index dc1b34ac92..f9d60ff2a9 100644
---- a/meta/recipes-gnome/epiphany/epiphany_42.2.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_42.3.bb
-@@ -28,7 +28,7 @@ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@oe.utils.trim_version("${PV}", 1)}/${GN
-            file://migrator.patch \
-            file://distributor.patch \
-            "
--SRC_URI[archive.sha256sum] = "92c02cf886d10d2ccff5de658e1a420eab31d20bb50e746d430e9535b485192d"
-+SRC_URI[archive.sha256sum] = "7316d3c6500e825d8e57293fa58047c56727bee16cd6b6ac804ffe5d9b229560"
+diff --git a/meta/recipes-devtools/python/python3-zipp_3.8.0.bb b/meta/recipes-devtools/python/python3-zipp_3.8.1.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-zipp_3.8.0.bb
+rename to meta/recipes-devtools/python/python3-zipp_3.8.1.bb
+index f1fd383842..fa2f7bcf90 100644
+--- a/meta/recipes-devtools/python/python3-zipp_3.8.0.bb
++++ b/meta/recipes-devtools/python/python3-zipp_3.8.1.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/jaraco/zipp"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=7a7126e068206290f3fe9f8d6c713ea6"
  
- PACKAGECONFIG_SOUP ?= "soup2"
- PACKAGECONFIG ??= "${PACKAGECONFIG_SOUP}"
+-SRC_URI[sha256sum] = "56bf8aadb83c24db6c4b577e13de374ccfb67da2078beba1d037c17980bf43ad"
++SRC_URI[sha256sum] = "05b45f1ee8f807d0cc928485ca40a07cb491cf092ff587c0df9cb1fd154848d2"
+ 
+ DEPENDS += "${PYTHON_PN}-setuptools-scm-native"
+ 
 -- 
 2.30.2
 
