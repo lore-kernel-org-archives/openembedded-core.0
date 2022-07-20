@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4661ACCA48C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25EE8CCA487
 	for <webhook@archiver.kernel.org>; Wed, 20 Jul 2022 08:45:25 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web12.51538.1658306715773180322
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+ [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.web12.51539.1658306721244581034
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 01:45:16 -0700
+ Wed, 20 Jul 2022 01:45:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=NeW1ceAd;
- spf=pass (domain: gmail.com, ip: 209.85.218.53,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=WmGybyQN;
+ spf=pass (domain: gmail.com, ip: 209.85.208.43,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f53.google.com with SMTP id mf4so31823587ejc.3
+Received: by mail-ed1-f43.google.com with SMTP id e15so22873118edj.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 01:45:15 -0700 (PDT)
+ Wed, 20 Jul 2022 01:45:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=q+6j73l87tJtWS7zs2IqEfNFBhmd9V+3TZkxmmOjOxo=;
-        b=NeW1ceAd82BtYkpVasFhFojin4VNjqvfmENvuXwdD9cZ0P5KlEVHPmQnbxraGOCrzN
-         d4W0JWCDHgZ0SxaIPKfN06jKoJejZ45NORKnch4dcET27TLpAUMImKrGtkrztlChXdG9
-         56pDG6rWgNqHHE38u8IMluj17EmZbkQpzP4rMWbGZsFiOuZB//C950DtJBggd9TG6yoT
-         1xPNMNw91GHH1lk4CCh0Wr6LD/AbJW5v7AK2/aG7qIxqtioRIAdoL1QiQy3/FgpE6Z0y
-         KBFS3TJbK237fGYlVHQFqZ6zb8MA6OkvCoakDF0u3OkAYzMVC0NM6iMWNDJ1c4eqGVLj
-         JvMQ==
+        bh=OHKpsz1jsX8ZbuBodHvpm2xBC6TX5OUZQCmlfDEGAaA=;
+        b=WmGybyQN2v52oIJZQG4gHaCkY17zOQUmoZgCHTUA36cG3Fu+QOWPUURohQAPzSWxeO
+         qusLx/gUgUKsoENS3gstBViRpO+gXni96gGye6h1vf9FwH6/1otH96OS0/sJpf9ojFQg
+         9EasUW8WncRW3VU0eX/VsZrCFFw072hi6rQrOP8nsJF15Kj7wpMEl+GxK1lK5wjlc8mq
+         WYTtPmAugd9o0gFY6ikCAQ2Ts6oO6UKIHnJOob0yAM5wpsxPtHsogvN17pgYutLFzRRC
+         1YVOlcJTLLumsLlwKSd3ACJh3eJnA48MCT+QVNMKPC3CAZK1j3IPblNtPdjez3JNl+Ku
+         wuqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=q+6j73l87tJtWS7zs2IqEfNFBhmd9V+3TZkxmmOjOxo=;
-        b=3pVsQv6X56P2AqO5DkiW55iaEdVWCLB46nY/UE8nNbqx0C8W6nyVnq0zK8cFFiO7Lf
-         w3idB+Rjh8x7t3mqtrRaBGtmS0uQVSa834qYBEMILNK78dIzjvdDzFk+NIeoXgaujvzw
-         Z1u5YJCD7NEx5oPyYeqv17ndBtdHv+gLtiEWjE7hfxhdPoRpgAua9mOgzAeobHY9urIK
-         URBKBfEH4H+eypcz6cqo/k87tTKtqQinwKPyqUU2qr/UxD3xUaWD/SOlmvwPv7R8C1Pi
-         Bp7TGOnxmosTYD20VbPY3cMjICTDDfpYzxJ5QLdgxLG/opbm6chDCjAX2DGDgw7LcZ/T
-         ivyA==
-X-Gm-Message-State: AJIora8gjegVzxMo6eo9SNaumWUVCYzpz7Zip0Evfe5fxWUJ9dtDhWsx
-	PtCN/dR/VCn9q4TuGO3goydALd/hMqA=
+        bh=OHKpsz1jsX8ZbuBodHvpm2xBC6TX5OUZQCmlfDEGAaA=;
+        b=3ZQT4GezspC3B0ZVmstZd+p8aA+3G+scMQEtCag0k5QlkHXaJZuJEsxMk8BNFAYxiK
+         NkwkBFBLA3y0NCCGFO0Y/ppJwjzwLBWEKpz990Fut3fib2XFldSYQKCKyNWnCInCDmWM
+         2hsRxUadTjXlY+gdZQ79b4GKIJjXy0leD1xZ9MCbzYu2s7itCbNrx0TPHXqYjaRHm5Vo
+         qIqMELjraQEeZ4DYm2ER6dgf+X1GfnwMi6TSnaQJNQW5Z6OZoP2Mln/sGWWT7KDFW9E1
+         dLArvwdBqvBbEXXQ7VK88bs3OBVIHKpbXX7QHuMQrABCaJCrnjwais4dRowWBadCMKKI
+         wXtA==
+X-Gm-Message-State: AJIora8tAZ1s8Q9IyRU2WOAnJyoqgFWn8x7Dy55ZUQ3i/5l+IL6HTL+Z
+	7C9ox3wbO+0KkanfDeI/lCUkwQ3YDwQ=
 X-Google-Smtp-Source: 
- AGRyM1tVQle+ghFNJkd3m0/sG1sWZds523/X6bJH/2Tkf70GeSnWALL/dzFCaEyQR8YSk68amlSMyA==
-X-Received: by 2002:a17:907:a05c:b0:72b:347b:4f59 with SMTP id
- gz28-20020a170907a05c00b0072b347b4f59mr33035526ejc.764.1658306714243;
-        Wed, 20 Jul 2022 01:45:14 -0700 (PDT)
+ AGRyM1sbGFaZKltMASM5wDvlLw+tmFHrt1D6sb+UlLukELsAl4wot19PpAVW2tBQth8WIbNOh6gkXw==
+X-Received: by 2002:a05:6402:4011:b0:43a:84de:26b1 with SMTP id
+ d17-20020a056402401100b0043a84de26b1mr48571523eda.402.1658306719804;
+        Wed, 20 Jul 2022 01:45:19 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.45.13
+ s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.45.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 01:45:13 -0700 (PDT)
+        Wed, 20 Jul 2022 01:45:19 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 25/51] diffoscope: upgrade 217 -> 218
-Date: Wed, 20 Jul 2022 10:44:16 +0200
-Message-Id: <20220720084442.2940187-25-alex@linutronix.de>
+Subject: [PATCH 31/51] libnl: upgrade 3.6.0 -> 3.7.0
+Date: Wed, 20 Jul 2022 10:44:22 +0200
+Message-Id: <20220720084442.2940187-31-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220720084442.2940187-1-alex@linutronix.de>
 References: <20220720084442.2940187-1-alex@linutronix.de>
@@ -68,30 +68,95 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Jul 2022 08:45:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168320
+ https://lists.openembedded.org/g/openembedded-core/message/168325
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../diffoscope/{diffoscope_217.bb => diffoscope_218.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/diffoscope/{diffoscope_217.bb => diffoscope_218.bb} (92%)
+ ...97f8982544c4fcb403893bae6701230d5165.patch | 48 -------------------
+ .../libnl/{libnl_3.6.0.bb => libnl_3.7.0.bb}  |  8 ++--
+ 2 files changed, 3 insertions(+), 53 deletions(-)
+ delete mode 100644 meta/recipes-support/libnl/files/fa7f97f8982544c4fcb403893bae6701230d5165.patch
+ rename meta/recipes-support/libnl/{libnl_3.6.0.bb => libnl_3.7.0.bb} (91%)
 
-diff --git a/meta/recipes-support/diffoscope/diffoscope_217.bb b/meta/recipes-support/diffoscope/diffoscope_218.bb
-similarity index 92%
-rename from meta/recipes-support/diffoscope/diffoscope_217.bb
-rename to meta/recipes-support/diffoscope/diffoscope_218.bb
-index d5ab38f8ad..eceba47186 100644
---- a/meta/recipes-support/diffoscope/diffoscope_217.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_218.bb
-@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
+diff --git a/meta/recipes-support/libnl/files/fa7f97f8982544c4fcb403893bae6701230d5165.patch b/meta/recipes-support/libnl/files/fa7f97f8982544c4fcb403893bae6701230d5165.patch
+deleted file mode 100644
+index 02662c939e..0000000000
+--- a/meta/recipes-support/libnl/files/fa7f97f8982544c4fcb403893bae6701230d5165.patch
++++ /dev/null
+@@ -1,48 +0,0 @@
+-From fa7f97f8982544c4fcb403893bae6701230d5165 Mon Sep 17 00:00:00 2001
+-From: Thomas Haller <thaller@redhat.com>
+-Date: Fri, 15 Apr 2022 13:29:49 +0200
+-Subject: [PATCH] build: avoid building check-direct with --disable-static
+-
+-"check-direct" needs to statically link with the libraries, because
+-it wants to test internal ABI, which is hidden in the share libraries.
+-When configuring with "--disable-static", static libs are not build
+-and the test tool cannot be build.
+-
+-Just skip the test in that case.
+-
+-https://github.com/thom311/libnl/issues/306
+-Upstream-Status: Backport [https://github.com/thom311/libnl/commit/fa7f97f8982544c4fcb403893bae6701230d5165]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- Makefile.am  | 2 ++
+- configure.ac | 2 ++
+- 2 files changed, 4 insertions(+)
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index a6bcf553..2f5e0dfc 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -984,8 +984,10 @@ tests_check_all_LDADD = \
+- 	$(NULL)
+- 
+- if WITH_CHECK
+-+if ENABLE_STATIC
+- check_programs += tests/check-direct
+- endif
+-+endif
+- 
+- tests_check_direct_SOURCES = \
+- 	tests/check-direct.c \
+-diff --git a/configure.ac b/configure.ac
+-index 1f9ad0eb..0fd1cc0f 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -107,6 +107,8 @@ else
+-     AC_CHECK_LIB([pthread], [pthread_mutex_lock], [], AC_MSG_ERROR([libpthread is required]))
+- fi
+- 
+-+AM_CONDITIONAL([ENABLE_STATIC], [test "$enable_static" != "no"])
+-+
+- AC_ARG_ENABLE([debug],
+- 	AS_HELP_STRING([--disable-debug], [Do not include debugging statements]),
+- 	[enable_debug="$enableval"], [enable_debug="yes"])
+diff --git a/meta/recipes-support/libnl/libnl_3.6.0.bb b/meta/recipes-support/libnl/libnl_3.7.0.bb
+similarity index 91%
+rename from meta/recipes-support/libnl/libnl_3.6.0.bb
+rename to meta/recipes-support/libnl/libnl_3.7.0.bb
+index af3aa41040..ddcc83a039 100644
+--- a/meta/recipes-support/libnl/libnl_3.6.0.bb
++++ b/meta/recipes-support/libnl/libnl_3.7.0.bb
+@@ -14,14 +14,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
- inherit pypi setuptools3
+ DEPENDS = "flex-native bison-native"
  
--SRC_URI[sha256sum] = "1e9791e3f718ca809d98fb319b150ce6222a682b4009ea00838b9d8705003950"
-+SRC_URI[sha256sum] = "68056e6d5382bfe16662c60d47bf710aa7b0ef43bfde1172fad694bc487279e3"
+-SRC_URI = " \
+-           https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV').replace('.','_')}/${BP}.tar.gz \
++SRC_URI = "https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV').replace('.','_')}/${BP}.tar.gz \
+            file://enable-serial-tests.patch \
+            file://run-ptest \
+-           file://fa7f97f8982544c4fcb403893bae6701230d5165.patch \
+-          "
++           "
  
- RDEPENDS:${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic python3-rpm"
+-SRC_URI[sha256sum] = "532155fd011e5a805bd67121b87a01c757e2bb24112ac17e69cb86013b970009"
++SRC_URI[sha256sum] = "9fe43ccbeeea72c653bdcf8c93332583135cda46a79507bfd0a483bb57f65939"
  
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/thom311/${BPN}/releases"
 -- 
 2.30.2
 
