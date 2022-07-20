@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06C72C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06E0BCCA486
 	for <webhook@archiver.kernel.org>; Wed, 20 Jul 2022 08:45:15 +0000 (UTC)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web08.51505.1658306711811506021
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web11.51620.1658306710937743847
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 01:45:12 -0700
+ Wed, 20 Jul 2022 01:45:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=VlyRT54t;
- spf=pass (domain: gmail.com, ip: 209.85.208.54,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=jzsacOar;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id y8so22875897eda.3
+Received: by mail-ej1-f45.google.com with SMTP id oy13so31717126ejb.1
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 01:45:11 -0700 (PDT)
+ Wed, 20 Jul 2022 01:45:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0uF1W2TqRqfAzQwFUq2/banlr/R54wkqXK3j8eGkr2k=;
-        b=VlyRT54tOABQrIf4Xmo/0PX0fHjwjANG8gYW23hBUQNI4UmPhka24vgGy99M9eJejk
-         w9P+T+EJ8NxIvN7t6bFhGY/ptlaJ99Htr9Q5GITcnM6zkunFj3kXgH+scxeWEWYOA9aN
-         HtVVijKQiosiNTb+PnJLyCtirSUm8crmOZMobp0Pi9mQOloBuk6YETvwyBDYL3KbA9FR
-         WpYaEoybcFBew4aSkWMXGYS1asEwP7GSJ5Fgjfzw1EtT8z5rPZoHgvv0t8vqx4XiI1O3
-         9XhhmSNIqeDTvkAQoS/4OtenYXEqShgGrDkPXGJyd1oirFn7gKwvrI8ac1fxD8OQ2Pm4
-         ZCcw==
+        bh=HFaaquxKyT5dJUWfR6XhvYX3XDaBvR81msHReUYaf2o=;
+        b=jzsacOarls39+EncKkwYV1YlwNQllYcUXGa+m3wHqUh1g24TcuYMBmKYE3b+a6yEfk
+         tXT7IymnrJlB3tov+4dnDexzBil9Tqif1yjxT8Q05OBUTsQX95o6lXzawfL3V6gUymVb
+         C2WKqAUmEmfkzuDlQBMgxfbV7LLQ6KkM8IQVSPuY+HOmp3mnVC3OXQrnjLUhq8Ra577I
+         Ley127Xq/yiRKHPW8C9+3DHdqz6HHmjxiTRWYFQPJFAUdJJJx+KHDgAuFf+uhOUCzv2j
+         N8HQviHKV+X3SP/L5KmN8/fcBfrOKOD9Ubm7+XXSRH7TIL6DZoZ9z1SyUBMW02xymT8e
+         RQPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0uF1W2TqRqfAzQwFUq2/banlr/R54wkqXK3j8eGkr2k=;
-        b=0cspQ3L9HH4Q+x7P6Mae371TZIsFs2G8Hp2iYVs6iyoZBzG+Y13g9Hk7KxOYcfW0vu
-         mvnRdiaVYEzUI99Nc2DaInDw2Q4IHvxfBn13KGVjwnpkcy5Lm+6PLSelNDWN+nRSpGwX
-         bsLym3DajinmGpITAnHLK/l8R1+vLRg69rmXS0UucazsZr1DXBqx8vD81w99CKNe4ncx
-         ZZ7IK7fnTNGGxKgZFkZ2t4QEQssMp/WrDeCy/TFzZJlB9fJrd9bUMYHHjWPU8NLRu28z
-         HxxKCWnbTxkIhi2GqDj2E4W0AA8DVBJVlONk5XqjD6ED/mZkDN5HQaXfjrcZJvAxP++M
-         GYOg==
-X-Gm-Message-State: AJIora+AixWOkZRi5MEA/8Be0OMiH5Di7reQ3AAlbQXTZlwcxx5VP6sS
-	9Jvogue9PWzCCLQB/ubBovmKrUuIdY0=
+        bh=HFaaquxKyT5dJUWfR6XhvYX3XDaBvR81msHReUYaf2o=;
+        b=pyh/Nndqwlg8S3VXRniYjYYFgVNCbIm2e517fWLvrKmf33tXI9B0pbJwMn5MY2yRFI
+         RfudS98r0ZO8Bs+uIZXTW2Kj43j02kt7dWnuVhveEPxLNnvyuBkEoq72lEEOimxdfUba
+         N6IqLdjMvKivILu57/dfSL9pr7b1OTHf52/IvFJK1um2TB9DiA3EFP8th6GaUl6BTIjM
+         64kSCPcoB/Oq7b+LwDxOLjtUIuM6oRKi70Z83Acf/326RQ+NSsZqSaC5DS0lrb9P5+67
+         9aHvqnqU5w+2ND5w9s+5Yxczha5uVpffkzzm1diuxdQ1dCuUHmsFcd0v55QHkFoU3fIA
+         +BNQ==
+X-Gm-Message-State: AJIora/OJ/JDmIW4aGgePcWLlG82J7dfMtaQ/uZJeQod24QGS8LzZzKg
+	Q2fASeTvHYk+1J1JaX5T0jt3k4xEqTw=
 X-Google-Smtp-Source: 
- AGRyM1vmHZuRmlRGMY5oaOWPjg0Q+NHYJUJ8pPKZBrHscuiYI3mniEbWwya43iYfRDJvGqYLg9YG+g==
-X-Received: by 2002:a05:6402:2741:b0:434:fe8a:1f96 with SMTP id
- z1-20020a056402274100b00434fe8a1f96mr49948917edd.331.1658306710378;
-        Wed, 20 Jul 2022 01:45:10 -0700 (PDT)
+ AGRyM1um9wmGq+8d31T5C3dMNnmjOI5F1LJmbDbFr375wA/X0ITq5s5ggYPX3UU+lkaLpPr+o8lpzg==
+X-Received: by 2002:a17:907:7fa7:b0:72e:f88c:db16 with SMTP id
+ qk39-20020a1709077fa700b0072ef88cdb16mr23902021ejc.366.1658306709509;
+        Wed, 20 Jul 2022 01:45:09 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.45.09
+ s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.45.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 01:45:09 -0700 (PDT)
+        Wed, 20 Jul 2022 01:45:08 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 21/51] vulkan-samples: update to latest revision
-Date: Wed, 20 Jul 2022 10:44:12 +0200
-Message-Id: <20220720084442.2940187-21-alex@linutronix.de>
+Subject: [PATCH 20/51] llvm: update 14.0.4 -> 14.0.6
+Date: Wed, 20 Jul 2022 10:44:11 +0200
+Message-Id: <20220720084442.2940187-20-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220720084442.2940187-1-alex@linutronix.de>
 References: <20220720084442.2940187-1-alex@linutronix.de>
@@ -68,65 +68,48 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Jul 2022 08:45:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168315
+ https://lists.openembedded.org/g/openembedded-core/message/168314
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...pp_vulkan_resource.h-add-header-incl.patch | 27 +++++++++++++++++++
- .../vulkan/vulkan-samples_git.bb              |  3 ++-
- 2 files changed, 29 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-core-hpp_vulkan_resource.h-add-header-incl.patch
+ meta/conf/distro/include/tcmode-default.inc | 2 +-
+ meta/recipes-devtools/llvm/llvm_git.bb      | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-core-hpp_vulkan_resource.h-add-header-incl.patch b/meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-core-hpp_vulkan_resource.h-add-header-incl.patch
-new file mode 100644
-index 0000000000..c2bb43fe76
---- /dev/null
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples/0001-framework-core-hpp_vulkan_resource.h-add-header-incl.patch
-@@ -0,0 +1,27 @@
-+From 8c069a1c4452f626e5bafc547463507d86111319 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Tue, 19 Jul 2022 16:55:40 +0200
-+Subject: [PATCH] framework/core/hpp_vulkan_resource.h: add header include that
-+ defines std::exchange
-+
-+Upstream-Status: Submitted [https://github.com/KhronosGroup/Vulkan-Samples/pull/501]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ framework/core/hpp_vulkan_resource.h | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/framework/core/hpp_vulkan_resource.h b/framework/core/hpp_vulkan_resource.h
-+index 0e30f5a..8d83019 100644
-+--- a/framework/core/hpp_vulkan_resource.h
-++++ b/framework/core/hpp_vulkan_resource.h
-+@@ -18,6 +18,7 @@
-+ #pragma once
-+ 
-+ #include <vulkan/vulkan.hpp>
-++#include <utility>
-+ 
-+ namespace vkb
-+ {
-+-- 
-+2.30.2
-+
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-index 57d3bd8fe5..41cb4a437d 100644
---- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-@@ -8,10 +8,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=48aa35cefb768436223a6e7f18dc2a2a"
- SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=master;protocol=https \
-            file://0001-CMakeLists.txt-do-not-hardcode-lib-as-installation-t.patch \
-            file://debugfix.patch \
-+           file://0001-framework-core-hpp_vulkan_resource.h-add-header-incl.patch \
-            "
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 860671e2de..4477689157 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -26,7 +26,7 @@ QEMUVERSION ?= "7.0%"
+ GOVERSION ?= "1.18%"
+ # This can not use wildcards like 8.0.% since it is also used in mesa to denote
+ # llvm version being used, so always bump it with llvm recipe version bump
+-LLVMVERSION ?= "14.0.4"
++LLVMVERSION ?= "14.0.6"
+ RUSTVERSION ?= "1.62%"
  
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "0cc04a63583769bd13bcc51229a5a263d59343df"
-+SRCREV = "ee6c1522af8ba9b56f8416c2eedafb440f681085"
+ PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index 2ec5c1e1c0..bdea95db96 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -19,14 +19,14 @@ inherit cmake pkgconfig
  
- UPSTREAM_CHECK_GITTAGREGEX = "These are not the releases you're looking for"
- S = "${WORKDIR}/git"
+ PROVIDES += "llvm${PV}"
+ 
+-PV = "14.0.4"
++PV = "14.0.6"
+ 
+ MAJOR_VERSION = "${@oe.utils.trim_version("${PV}", 1)}"
+ 
+ LLVM_RELEASE = "${PV}"
+ 
+ BRANCH = "release/${MAJOR_VERSION}.x"
+-SRCREV = "29f1039a7285a5c3a9c353d054140bf2556d4c4d"
++SRCREV = "f28c006a5895fc0e329fe15fead81e37457cb1d1"
+ SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH};protocol=https \
+            file://0006-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch;striplevel=2 \
+            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
 -- 
 2.30.2
 
