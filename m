@@ -1,90 +1,374 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E8A7C433EF
-	for <webhook@archiver.kernel.org>; Wed, 20 Jul 2022 15:46:57 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web09.55564.1658332006747910931
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EC37C433EF
+	for <webhook@archiver.kernel.org>; Wed, 20 Jul 2022 15:59:07 +0000 (UTC)
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
+ [209.85.219.51])
+ by mx.groups.io with SMTP id smtpd.web12.55945.1658332746825847965
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 08:46:47 -0700
+ Wed, 20 Jul 2022 08:59:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=Pd6qxTXY;
- spf=pass (domain: gmail.com, ip: 209.85.208.181,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f181.google.com with SMTP id a10so21575507ljj.5;
-        Wed, 20 Jul 2022 08:46:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=ASufwlpm;
+ spf=pass (domain: gmail.com, ip: 209.85.219.51, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f51.google.com with SMTP id kh20so13774552qvb.5;
+        Wed, 20 Jul 2022 08:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=1No8H5MzrY/xOjBojMr7b4EpPyrKpEgLksi/Yr0pJkA=;
-        b=Pd6qxTXYdbVUFMBO2aEWrwn2bZZgE0K1WW2rT6hyP5SFr2d0zSQmamrE4A1WKZorOK
-         i4AnxL39/Uxn4Dg4UBvpdSqU5YYaa6LhNiJMHMIqkiN+AoNrSvapij3z47FUqc0ifcMv
-         3bcPIC5v03atMsSduj+x6qJ24ucll8xFF4BqRURo6Nttc4TOG63tWA1/ckTJ09Y1sHjW
-         fZIqFtQBgvIGzsVSP9gWuWi9wPs4hmga+yJ8ma0ZEkIzmHv7Y30USSLuDMdnILSEEWe/
-         BIsWRJi8z980LBaWSJYcMSkxgF/80+0Mp6+HOlBKEfGCa5aOrtU9TZrKpp+aHmCZ+Jl9
-         bOrw==
+        bh=xjgBxc9/OvU7WcgqrexED2fY7gN/O0dAuijB8ZAdFj8=;
+        b=ASufwlpm3FT+ZnAt89PtillBiX2lwD0bT3BJFW2O/jp+VpcNIk7a64djNv2Y2+JBra
+         16RGH7HCp3BHYPbxSJb3HtKlOpgsiQNhFwo69HO1qLAl6bIzVkDvk8AyRLyaDZSqI68E
+         DxegcROqQujXOI5tqbkVrfp/cWXl3p07iTf9d90UpcgcRv62JymmX+BqwzJTxKcyciRs
+         PSvRD6Eta12MQXbpejiLgjEgLZr/E+k4o3roMnjmW4cVMrUZJTh+3UIMEexebsBDEsZG
+         4buKdtTcYrfUJYe7TQYx+6KI0aXKLR+1UHRu4W49e0uSTi5gnGfMAhFGzaMuMCqIJmFW
+         mvNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1No8H5MzrY/xOjBojMr7b4EpPyrKpEgLksi/Yr0pJkA=;
-        b=kW7laN/d0E9dnt4keIEF/9OWA0Hzkm8oZcAs7fpyJ6mkqsQrXQ1Fnv1Qr7YJO1LMap
-         OiCxATFVV6ukW0rGRR2/J0GMvsT8F9wOh+lvVzfk0LYWB9XkFoCaYu0KM2QXCwOX40qD
-         m70OrHrTLX4Cy6sJWg33v5r0NmrIrbUS1BKsny3YWPxHVFSfP4sHwCFM3SHm92Y/Zhm+
-         88Rib6xCNP6SsF2Y72JwPafgWBJ17A71ZSZqcEtzlIGFKQ1YxGR0YQDk7fUMa4lF8o7A
-         E5QOthUuDgy5CktduPubMie/NoCe66eAnJahi/NGw5jXIyxT/efEoUkkfPzHcbfA9STT
-         yLlQ==
-X-Gm-Message-State: AJIora+9zKKzLeA57NM+TJaHf8memxIJRoeJkXWPzzNzM5KamalU1TRV
-	NclBWHZ2/gPeCbyfJ1fSt+TcBsBdudIjCpxs3iE=
+        bh=xjgBxc9/OvU7WcgqrexED2fY7gN/O0dAuijB8ZAdFj8=;
+        b=PwJbpBhkeKe0Rdv3kJLmWxGG0y/K4AWMelApdudEaThtTTVbOhICKBqSSzKcv5gAso
+         wCR1pJWg0BaVkJq6EEXfVaFZYYaNJ2KWdFXTPav8y9Q5PmHYmeAO326pz9A5Jhz3cewg
+         zgJ/cucR9E5lshS8qzsbDdXBMaCoeNxD5iuSVy5wTE3ofvpTIhq0wpRplQCJzMo24dmv
+         icAhjeYChhLLQkSHVPAJKuMWWFgLeaJQUGlvNkGzcn6WEKmf114BIBgX5WrpByiHwok0
+         4BtkDeCp6jSjKTSmEvwF3SlNmBdNqIzkZtyMUdS5HbSD52wOixDx1tai3NII9FEcTG1x
+         LdWA==
+X-Gm-Message-State: AJIora8uhOgvy8teFIwKuCHdYNCUTW9w30ckzMK2uRwCHAglQL+FcRCg
+	h6iDj2jG6Y2e4VJRktVDnj7cy7n9tA1Xzdu6O18=
 X-Google-Smtp-Source: 
- AGRyM1u3DShfnCDvtH7NMmZKAGo9Xk2+CQTYANuvy3QEv1nAWDQdoUfUzjpVluUn/fCcLkMhZQp9H7igqM4IeKy68uE=
-X-Received: by 2002:a05:651c:385:b0:25d:d821:e0e with SMTP id
- e5-20020a05651c038500b0025dd8210e0emr1138903ljp.56.1658332004980; Wed, 20 Jul
- 2022 08:46:44 -0700 (PDT)
+ AGRyM1sY1Id31iKeVvD3M0dvYGZldTXmGfhP2MOjsjcwPGr9yjQuMC4HhI+9h8Q5ilaXG/mDVWUMNFfFGgN8+Htn+BY=
+X-Received: by 2002:a0c:f9ce:0:b0:474:14a:3c9 with SMTP id
+ j14-20020a0cf9ce000000b00474014a03c9mr5479462qvo.24.1658332745691;
+ Wed, 20 Jul 2022 08:59:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220720084442.2940187-1-alex@linutronix.de>
- <17037D268C38CE83.21682@lists.openembedded.org>
- <CANNYZj9KKfqK8fH6HB3mLP8Vhi=U-VCMOus1uAq9kUQ7+6D74A@mail.gmail.com>
- <ee397d3552782e6fd969a497e55396ff474fee92.camel@linuxfoundation.org>
- <CANNYZj8EVF79=r4agVTa_5rfqtsU_mdBu2bD8eLv9TbD8U3fHw@mail.gmail.com>
- <0A7591F9-3D0D-49E2-A067-67485A8B3B0D@arm.com>
- <CANNYZj_kuU9GQMYwQyPjvqv47PYq=o8LXNbHzAVWdOwN7DFeNQ@mail.gmail.com>
- <7092d96e020932ff7c32a78b7862502bb0faddcc.camel@intel.com>
-In-Reply-To: <7092d96e020932ff7c32a78b7862502bb0faddcc.camel@intel.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 20 Jul 2022 17:46:33 +0200
+References: 
+ <CAMRc=McXfAzcUrdTLWsHHEo8DyUwU1gUuFTBALwXpJCuA0CoEA@mail.gmail.com>
+ <YtWrKcR6y1jWSFtC@kudzu.us>
+ <CAMKF1sqZh=fPoYHqh-uuJL6oftkmGoDHHcZkTgivoKapFFerAQ@mail.gmail.com>
+ <CAPoiz9zRWPGLSUNaeTQDO=E60cGD4zRVmnZmHFkSdVLrkx_WmA@mail.gmail.com>
+ <CAMRc=MecfyMPB2B5ukhYzMdQDWL4fY=8nbfUe0LR_8hUPhNP9w@mail.gmail.com>
+ <CAMKF1srBz3xL0VTZedyyf4oFgiXxn7ai4afH37yBrT63djTr3Q@mail.gmail.com>
+ <CAMRc=MdFDGv=a04jn23r2v0ZoYYTACW2-KNNi2dVboU2knoDoQ@mail.gmail.com>
+ <CAMKF1sr5cQeqoQum3HAdHVrv-3EbrCkMfmMzoppQUCiisLiEYA@mail.gmail.com>
+ <CAMRc=Mcaaufj-2+WnUZAgwznbkxroOVDEMmX_o4aZXFxmqwF0Q@mail.gmail.com>
+In-Reply-To: 
+ <CAMRc=Mcaaufj-2+WnUZAgwznbkxroOVDEMmX_o4aZXFxmqwF0Q@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 20 Jul 2022 11:58:54 -0400
 Message-ID: 
- <CANNYZj_NsdbOXwnTTy27ME57MLV1yLv-f8tLQ9Jrz71aissONQ@mail.gmail.com>
-Subject: Re: [Openembedded-architecture] Let's drop x86-x32 (was Re: [OE-core]
- [PATCH 05/51] rpm: update 4.17.0 -> 4.17.1)
-To: "Mittal, Anuj" <anuj.mittal@intel.com>
-Cc: "Ross.Burton@arm.com" <Ross.Burton@arm.com>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
+ <CAMKF1sr3C=MYuX4NXigMT+NdTxdMB65VhMvSK3gqBSbGi+7YXw@mail.gmail.com>
+Subject: Re: [oe] [meta-zephyr] build broken with current oe-core master
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: =?UTF-8?B?RWlsw61zIE7DrSBGaGxhbm5hZ8OhaW4=?=
+ <elizabeth.flanagan@huawei.com>,
+	Jon Mason <jdmason@kudzu.us>, Jon Mason <jon.mason@arm.com>,
+	Naveen Saini <naveen.kumar.saini@intel.com>,
+	Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>,
-	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
-	"openembedded-architecture@lists.openembedded.org"
- <openembedded-architecture@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+	openembedded-devel <openembedded-devel@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000039f61e05e43eaefd"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Jul 2022 15:46:57 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Jul 2022 15:59:07 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168367
+ https://lists.openembedded.org/g/openembedded-core/message/168368
 
-On Wed, 20 Jul 2022 at 17:41, Mittal, Anuj <anuj.mittal@intel.com> wrote:
-> I don't know if there are any Yocto users of it who might notice.
+--00000000000039f61e05e43eaefd
+Content-Type: text/plain; charset="UTF-8"
+
+On Wed, Jul 20, 2022 at 11:35 AM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+
+> On Tue, Jul 19, 2022 at 4:58 PM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > On Tue, Jul 19, 2022 at 10:48 AM Bartosz Golaszewski <brgl@bgdev.pl>
+> wrote:
+> > >
+> > > On Tue, Jul 19, 2022 at 2:54 PM Khem Raj <raj.khem@gmail.com> wrote:
+> > > >
+> > > >
+> > > >
+> > > > On Tue, Jul 19, 2022 at 3:40 AM Bartosz Golaszewski <brgl@bgdev.pl>
+> wrote:
+> > > >>
+> > > >> On Tue, Jul 19, 2022 at 12:10 AM Jon Mason <jdmason@kudzu.us>
+> wrote:
+> > > >> >
+> > > >> > On Mon, Jul 18, 2022 at 4:06 PM Khem Raj <raj.khem@gmail.com>
+> wrote:
+> > > >> > >
+> > > >> > > Can you try something like this
+> > > >> > >
+> > > >> > > diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc
+> > > >> > > b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> > > >> > > index 5d74e4494d..61d5bf6058 100644
+> > > >> > > --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
+> > > >> > > +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> > > >> > > @@ -68,8 +68,7 @@ do_configure () {
+> > > >> > >     # libstdc++ isn't built yet so CXX would error not able to
+> find it
+> > > >> > > which breaks stdc++'s configure
+> > > >> > >     # tests. Create a dummy empty lib for the purposes of
+> configure.
+> > > >> > >     mkdir -p ${WORKDIR}/dummylib
+> > > >> > > -   touch ${WORKDIR}/dummylib/dummylib.c
+> > > >> > > -   ${CC} ${WORKDIR}/dummylib/dummylib.c -shared -o
+> > > >> > > ${WORKDIR}/dummylib/libstdc++.so
+> > > >> > > +   ${CC} -nostartfiles -shared -x c /dev/null -o
+> > > >> > > ${WORKDIR}/dummylib/libstdc++.so
+> > > >> > >     for d in libgcc ${RUNTIMETARGET}; do
+> > > >> > >         echo "Configuring $d"
+> > > >> > >         rm -rf ${B}/${TARGET_SYS}/$d/
+> > > >> > >
+> > > >> > >
+> > > >> > > and see if it helps ?
+> > > >> >
+> > > >> > That appears to work for the 2 zephyr machines in meta-arm
+> > > >> >
+> > > >>
+> > > >> This still fails for arduino nano 33 ble:
+> > > >>
+> > > >> | checking for dirent.h... no
+> > > >> | checking sys/statvfs.h usability... no
+> > > >> | checking sys/statvfs.h presence... no
+> > > >> | checking for sys/statvfs.h... no
+> > > >> | checking utime.h usability... yes
+> > > >> | checking utime.h presence... yes
+> > > >> | checking for utime.h... yes
+> > > >> | checking whether to build Filesystem TS support... no
+> > > >> | checking for struct dirent.d_type... no
+> > > >> | checking for realpath... no
+> > > >> | checking for utimensat... no
+> > > >> | checking for utime... no
+> > > >> | checking for lstat... no
+> > > >> | checking for struct stat.st_mtim.tv_nsec... yes
+> > > >> | checking for fchmod... yes
+> > > >> | checking for fchmodat... yes
+> > > >> | checking for sendfile that can copy files... no
+> > > >> | checking for link... yes
+> > > >> | checking for readlink... yes
+> > > >> | checking for symlink... yes
+> > > >> | checking for truncate... yes
+> > > >> | checking for fdopendir... no
+> > > >> | checking for dirfd... no
+> > > >> | checking for unlinkat... yes
+> > > >> | checking __sync extensions... yes
+> > > >> | checking link.h usability... no
+> > > >> | checking link.h presence... no
+> > > >> | checking for link.h... no
+> > > >> | checking for fcntl... configure: error: Link tests are not allowed
+> > > >> after GCC_NO_EXECUTABLES.
+> > > >
+> > > >
+> > > >
+> > > > Can you post config.log from this component
+> > > >
+> > >
+> > > Here you go: https://pastebin.com/6KMD9PhX
+> >
+> > this one has succeeded. I guess there are multiple config.log files in
+> > your build tree. Perhaps the one which shows exit 1 at the end is one
+> > I am interested in.
+> >
+> > >
+> > > Bart
 >
-> Instead of dropping the testing completely, may be we should switch to
-> building/testing just the core-image-minimal image on autobuilder and
-> keep at least some minimal support for now.
+> I don't see any config.h that would fail and I just ran a clean build.
 
-There's actually already a patch for that :)
-https://lists.yoctoproject.org/g/yocto/message/56880
 
-Alex
+Not config.h but config.log
+
+
+>
+> | DEBUG: Executing python function extract_stashed_builddir
+> | DEBUG: sed -e
+>
+> 's:^[^/]*/:/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/work/armv7m-yocto-eabi/gcc-runtime/12.1.0-r0/gcc-12.1.0/build.arm-yocto-eabi.arm-yocto-eabi/:g'
+>
+> /home/brgl/workspace/zephyr-yocto/build/tmp-newlib/sysroots-components/x86_64/gcc-stashed-builddir-arm-yocto-eabi/fixmepath
+> | xargs sed -i -e
+>
+> 's:FIXMESTAGINGDIRTARGET:/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/work/armv7m-yocto-eabi/gcc-runtime/12.1.0-r0/recipe-sysroot:g;
+>
+> s:FIXMESTAGINGDIRHOST:/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/work/armv7m-yocto-eabi/gcc-runtime/12.1.0-r0/recipe-sysroot-native:g'
+> -e
+> 's:FIXME_PSEUDO_SYSROOT:/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/sysroots-components/x86_64/pseudo-native:g'
+> -e
+> 's:FIXME_HOSTTOOLS_DIR:/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/hosttools:g'
+> -e
+> 's:FIXME_PKGDATA_DIR:/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/pkgdata/arduino-nano-33-ble:g'
+> -e
+> 's:FIXME_PSEUDO_LOCALSTATEDIR:/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/work/armv7m-yocto-eabi/gcc-runtime/12.1.0-r0/pseudo/:g'
+> -e
+> 's:FIXME_LOGFIFO:/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/work/armv7m-yocto-eabi/gcc-runtime/12.1.0-r0/temp/fifo.385595:g'
+>
+> This makes me think that it fails after configure?
+>
+> Bart
+>
+
+--00000000000039f61e05e43eaefd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, Jul 20, 2022 at 11:35 AM Bartosz Golaszewski &lt;<a=
+ href=3D"mailto:brgl@bgdev.pl">brgl@bgdev.pl</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
+ solid;padding-left:1ex">On Tue, Jul 19, 2022 at 4:58 PM Khem Raj &lt;<a hr=
+ef=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&g=
+t; wrote:<br>
+&gt;<br>
+&gt; On Tue, Jul 19, 2022 at 10:48 AM Bartosz Golaszewski &lt;<a href=3D"ma=
+ilto:brgl@bgdev.pl" target=3D"_blank">brgl@bgdev.pl</a>&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; On Tue, Jul 19, 2022 at 2:54 PM Khem Raj &lt;<a href=3D"mailto:ra=
+j.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; On Tue, Jul 19, 2022 at 3:40 AM Bartosz Golaszewski &lt;<a h=
+ref=3D"mailto:brgl@bgdev.pl" target=3D"_blank">brgl@bgdev.pl</a>&gt; wrote:=
+<br>
+&gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt;&gt; On Tue, Jul 19, 2022 at 12:10 AM Jon Mason &lt;<a href=
+=3D"mailto:jdmason@kudzu.us" target=3D"_blank">jdmason@kudzu.us</a>&gt; wro=
+te:<br>
+&gt; &gt; &gt;&gt; &gt;<br>
+&gt; &gt; &gt;&gt; &gt; On Mon, Jul 18, 2022 at 4:06 PM Khem Raj &lt;<a hre=
+f=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt=
+; wrote:<br>
+&gt; &gt; &gt;&gt; &gt; &gt;<br>
+&gt; &gt; &gt;&gt; &gt; &gt; Can you try something like this<br>
+&gt; &gt; &gt;&gt; &gt; &gt;<br>
+&gt; &gt; &gt;&gt; &gt; &gt; diff --git a/meta/recipes-devtools/gcc/gcc-run=
+time.inc<br>
+&gt; &gt; &gt;&gt; &gt; &gt; b/meta/recipes-devtools/gcc/gcc-runtime.inc<br=
+>
+&gt; &gt; &gt;&gt; &gt; &gt; index 5d74e4494d..61d5bf6058 100644<br>
+&gt; &gt; &gt;&gt; &gt; &gt; --- a/meta/recipes-devtools/gcc/gcc-runtime.in=
+c<br>
+&gt; &gt; &gt;&gt; &gt; &gt; +++ b/meta/recipes-devtools/gcc/gcc-runtime.in=
+c<br>
+&gt; &gt; &gt;&gt; &gt; &gt; @@ -68,8 +68,7 @@ do_configure () {<br>
+&gt; &gt; &gt;&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0# libstdc++ isn&#39;t built=
+ yet so CXX would error not able to find it<br>
+&gt; &gt; &gt;&gt; &gt; &gt; which breaks stdc++&#39;s configure<br>
+&gt; &gt; &gt;&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0# tests. Create a dummy emp=
+ty lib for the purposes of configure.<br>
+&gt; &gt; &gt;&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0mkdir -p ${WORKDIR}/dummyli=
+b<br>
+&gt; &gt; &gt;&gt; &gt; &gt; -=C2=A0 =C2=A0touch ${WORKDIR}/dummylib/dummyl=
+ib.c<br>
+&gt; &gt; &gt;&gt; &gt; &gt; -=C2=A0 =C2=A0${CC} ${WORKDIR}/dummylib/dummyl=
+ib.c -shared -o<br>
+&gt; &gt; &gt;&gt; &gt; &gt; ${WORKDIR}/dummylib/libstdc++.so<br>
+&gt; &gt; &gt;&gt; &gt; &gt; +=C2=A0 =C2=A0${CC} -nostartfiles -shared -x c=
+ /dev/null -o<br>
+&gt; &gt; &gt;&gt; &gt; &gt; ${WORKDIR}/dummylib/libstdc++.so<br>
+&gt; &gt; &gt;&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0for d in libgcc ${RUNTIMETA=
+RGET}; do<br>
+&gt; &gt; &gt;&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;Co=
+nfiguring $d&quot;<br>
+&gt; &gt; &gt;&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf ${B}/$=
+{TARGET_SYS}/$d/<br>
+&gt; &gt; &gt;&gt; &gt; &gt;<br>
+&gt; &gt; &gt;&gt; &gt; &gt;<br>
+&gt; &gt; &gt;&gt; &gt; &gt; and see if it helps ?<br>
+&gt; &gt; &gt;&gt; &gt;<br>
+&gt; &gt; &gt;&gt; &gt; That appears to work for the 2 zephyr machines in m=
+eta-arm<br>
+&gt; &gt; &gt;&gt; &gt;<br>
+&gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt;&gt; This still fails for arduino nano 33 ble:<br>
+&gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt;&gt; | checking for dirent.h... no<br>
+&gt; &gt; &gt;&gt; | checking sys/statvfs.h usability... no<br>
+&gt; &gt; &gt;&gt; | checking sys/statvfs.h presence... no<br>
+&gt; &gt; &gt;&gt; | checking for sys/statvfs.h... no<br>
+&gt; &gt; &gt;&gt; | checking utime.h usability... yes<br>
+&gt; &gt; &gt;&gt; | checking utime.h presence... yes<br>
+&gt; &gt; &gt;&gt; | checking for utime.h... yes<br>
+&gt; &gt; &gt;&gt; | checking whether to build Filesystem TS support... no<=
+br>
+&gt; &gt; &gt;&gt; | checking for struct dirent.d_type... no<br>
+&gt; &gt; &gt;&gt; | checking for realpath... no<br>
+&gt; &gt; &gt;&gt; | checking for utimensat... no<br>
+&gt; &gt; &gt;&gt; | checking for utime... no<br>
+&gt; &gt; &gt;&gt; | checking for lstat... no<br>
+&gt; &gt; &gt;&gt; | checking for struct stat.st_mtim.tv_nsec... yes<br>
+&gt; &gt; &gt;&gt; | checking for fchmod... yes<br>
+&gt; &gt; &gt;&gt; | checking for fchmodat... yes<br>
+&gt; &gt; &gt;&gt; | checking for sendfile that can copy files... no<br>
+&gt; &gt; &gt;&gt; | checking for link... yes<br>
+&gt; &gt; &gt;&gt; | checking for readlink... yes<br>
+&gt; &gt; &gt;&gt; | checking for symlink... yes<br>
+&gt; &gt; &gt;&gt; | checking for truncate... yes<br>
+&gt; &gt; &gt;&gt; | checking for fdopendir... no<br>
+&gt; &gt; &gt;&gt; | checking for dirfd... no<br>
+&gt; &gt; &gt;&gt; | checking for unlinkat... yes<br>
+&gt; &gt; &gt;&gt; | checking __sync extensions... yes<br>
+&gt; &gt; &gt;&gt; | checking link.h usability... no<br>
+&gt; &gt; &gt;&gt; | checking link.h presence... no<br>
+&gt; &gt; &gt;&gt; | checking for link.h... no<br>
+&gt; &gt; &gt;&gt; | checking for fcntl... configure: error: Link tests are=
+ not allowed<br>
+&gt; &gt; &gt;&gt; after GCC_NO_EXECUTABLES.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Can you post config.log from this component<br>
+&gt; &gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; Here you go: <a href=3D"https://pastebin.com/6KMD9PhX" rel=3D"nor=
+eferrer" target=3D"_blank">https://pastebin.com/6KMD9PhX</a><br>
+&gt;<br>
+&gt; this one has succeeded. I guess there are multiple config.log files in=
+<br>
+&gt; your build tree. Perhaps the one which shows exit 1 at the end is one<=
+br>
+&gt; I am interested in.<br>
+&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; Bart<br>
+<br>
+I don&#39;t see any config.h that would fail and I just ran a clean build.<=
+/blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Not config.h but =
+config.log=C2=A0</div><div dir=3D"auto"><br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex" dir=3D"auto"><br>
+<br>
+| DEBUG: Executing python function extract_stashed_builddir<br>
+| DEBUG: sed -e<br>
+&#39;s:^[^/]*/:/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/work/armv=
+7m-yocto-eabi/gcc-runtime/12.1.0-r0/gcc-12.1.0/build.arm-yocto-eabi.arm-yoc=
+to-eabi/:g&#39;<br>
+/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/sysroots-components/x86_=
+64/gcc-stashed-builddir-arm-yocto-eabi/fixmepath<br>
+| xargs sed -i -e<br>
+&#39;s:FIXMESTAGINGDIRTARGET:/home/brgl/workspace/zephyr-yocto/build/tmp-ne=
+wlib/work/armv7m-yocto-eabi/gcc-runtime/12.1.0-r0/recipe-sysroot:g;<br>
+s:FIXMESTAGINGDIRHOST:/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/wo=
+rk/armv7m-yocto-eabi/gcc-runtime/12.1.0-r0/recipe-sysroot-native:g&#39;<br>
+-e &#39;s:FIXME_PSEUDO_SYSROOT:/home/brgl/workspace/zephyr-yocto/build/tmp-=
+newlib/sysroots-components/x86_64/pseudo-native:g&#39;<br>
+-e &#39;s:FIXME_HOSTTOOLS_DIR:/home/brgl/workspace/zephyr-yocto/build/tmp-n=
+ewlib/hosttools:g&#39;<br>
+-e &#39;s:FIXME_PKGDATA_DIR:/home/brgl/workspace/zephyr-yocto/build/tmp-new=
+lib/pkgdata/arduino-nano-33-ble:g&#39;<br>
+-e &#39;s:FIXME_PSEUDO_LOCALSTATEDIR:/home/brgl/workspace/zephyr-yocto/buil=
+d/tmp-newlib/work/armv7m-yocto-eabi/gcc-runtime/12.1.0-r0/pseudo/:g&#39;<br=
+>
+-e &#39;s:FIXME_LOGFIFO:/home/brgl/workspace/zephyr-yocto/build/tmp-newlib/=
+work/armv7m-yocto-eabi/gcc-runtime/12.1.0-r0/temp/fifo.385595:g&#39;<br>
+<br>
+This makes me think that it fails after configure?<br>
+<br>
+Bart<br>
+</blockquote></div></div>
+
+--00000000000039f61e05e43eaefd--
 
