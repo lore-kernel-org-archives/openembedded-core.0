@@ -2,288 +2,320 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D52ACCA486
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A099CCA482
 	for <webhook@archiver.kernel.org>; Wed, 20 Jul 2022 08:44:55 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web11.51612.1658306689959011333
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web10.51638.1658306690564786805
  for <openembedded-core@lists.openembedded.org>;
  Wed, 20 Jul 2022 01:44:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=pkRqQ7NL;
- spf=pass (domain: gmail.com, ip: 209.85.218.48,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=QAP8E5fA;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id l23so31812947ejr.5
+Received: by mail-ej1-f42.google.com with SMTP id bp15so31836826ejb.6
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 01:44:49 -0700 (PDT)
+ Wed, 20 Jul 2022 01:44:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=NdK505DpRoP1SwH9zDO5mJCeSWgz4AzEvy9KlLu5kIs=;
-        b=pkRqQ7NLYr1npHQ/JS5WoTN7k18Js9WY8ykmtnZLDx5CNBEdmnB1ZrRCUUxZWCHfy5
-         mReC7bXcs9Ja9Rv4FHz9hYaX2YNEJpMxLEH0nY1Rhm4+U490fXQsFmrhcPfeJwiMCqjk
-         5RKTRgwEfMlgGghfXW7Y0s/jZLFAQVHeIUnm5Ej9VONELd4Pqhk70VTR4GdGLA1FVxeI
-         bfurJdMpx2BrY5l70IrCmRnmJmyWVbcl3Us9D9rU7dMVgXeI/GSSLrwh6cMZclGtoGFP
-         7w2nfQRyPYpNIXlQGmLFC9ClJNk8xrVzVFKAqb6POTZJ+yI3g6PbI5a68oWhMalU0Uyw
-         d2xA==
+        bh=XzIl8h7iFtZj4TsC7Wq0/vlFKHZBnYT9IxgdjejV4nc=;
+        b=QAP8E5fAdDf17e2a7rWmgRs3mNan5o5PuLp0hv/It/JffrpMWCtyLBISKGs+e981Mg
+         o4ff567bpe4W7mau9WT1m4Zvgh2yPU+oKeIAzIgitiWEHXNr0FAI/9BvuvMSuUYo4ptk
+         GDbJ/aY0UDKB2D0fURlwel3LVLYzlhLW6RuIDGKROCzqOfk12FIOCAeZiM0MnM38ijlL
+         e1WH6JmxqQmEyzEYNdCOv+4Kg1pejM6PfJkVmFqS36IQ8L2zUidfFeoPBFc4TsUtUzSC
+         AZEAharbkpbP+0Fr8dzzTseXECwV21gewVu8z1nRewGTpyLCCWsFyL3GmmXtOCYhh+c7
+         zS7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=NdK505DpRoP1SwH9zDO5mJCeSWgz4AzEvy9KlLu5kIs=;
-        b=gccavW9n2w2QgbW/LxYNeuZTqeNM3xR0+EoZ02ueQuVVc+Md/hz6h9VuHZwwcrCnzb
-         NA1MsuHSbgEHPii4d7V3p6K8DmhgRCmxwG/cRElyzkIL9bwiJF3JO0aDstMWB0ZDquqG
-         gSimSko23O26l/BVqafvKiwRvIsIYjlJiobg87u736QnkdMVt3JRqTBv84H4ecC2Mlth
-         aiko4svidl5KJQIEhYghFNBkX6o3GLPqo1X2Figrs/0ZWPrUNlKkeftszNb1mivSl7Zm
-         3iXNHzPCeV3OJELbx4JPxvuBDavMZ+W2+a+MFHVZYiW+BUR1529UQX+p+ngcLMES7GA3
-         t7Uw==
-X-Gm-Message-State: AJIora+OlwxwFE7yaR1LKiG7JuORZISq15z5l6y2JQsd3OknalZjkZen
-	+zBlZlIkZ+HYg/NyHpYa8CT2y5bhQ2Y=
+        bh=XzIl8h7iFtZj4TsC7Wq0/vlFKHZBnYT9IxgdjejV4nc=;
+        b=sbPU/h2JIhDXW+ITZ6WfJeGcE9VXhz4dcXoCNCRdmxfeIM+pyhVZBohIFwRRCvkLER
+         9YbT4a27uLiaLCPPUUGcJLIe25t22SSCvZ+QaGKmf9Zfb5a9hXYB/oocw4OnV/iZM761
+         WTGOU2GQkTIPWCnwZTvzJdCeKdLFfHcsr1mSWs5hD7M4+uBDT3SgH98nW93GCEUyxErf
+         bgyadOsKECtVm4xIi8J+gM2CPNKxYaTfeZIrRBlT8Y6SD1CJW4gW+RA7XI5wtDfbQobp
+         23UOQWhgm6qcmVJXAi/xzaxMEIzbNcBG6oAaMraZqLJFFV8IKapqWnxLVF/i8/7z25q7
+         eZsw==
+X-Gm-Message-State: AJIora92nDUIboMSmxvlGNhqHucsuzRwTiB9b7CTv31CXs2R3AIIrJbr
+	6wxNKDtzfuUfIqY/htIR67xd//AkEkU=
 X-Google-Smtp-Source: 
- AGRyM1sKDClKmT20ZpS96fUiD76Lp9lvOchOLmxrpcJNqRU82V9Yw+Pa3l+FlNv/6qXg2lNkliIObA==
-X-Received: by 2002:a17:906:6a0f:b0:72b:64ce:289d with SMTP id
- qw15-20020a1709066a0f00b0072b64ce289dmr33112083ejc.663.1658306688208;
-        Wed, 20 Jul 2022 01:44:48 -0700 (PDT)
+ AGRyM1s5yaDGOnPjpV3mb244g2TvESueieyQKjh9pKQT5nAL49vvoYoWtVFmSEz0p3DJW0feXK7STA==
+X-Received: by 2002:a17:907:a06f:b0:72b:564c:465b with SMTP id
+ ia15-20020a170907a06f00b0072b564c465bmr33945419ejc.344.1658306689035;
+        Wed, 20 Jul 2022 01:44:49 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.44.47
+ s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.44.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 01:44:47 -0700 (PDT)
+        Wed, 20 Jul 2022 01:44:48 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 03/51] efibootmgr: update 17 -> 18
-Date: Wed, 20 Jul 2022 10:43:54 +0200
-Message-Id: <20220720084442.2940187-3-alex@linutronix.de>
+Subject: [PATCH 04/51] systemd-boot: update 251.2 -> 251.3
+Date: Wed, 20 Jul 2022 10:43:55 +0200
+Message-Id: <20220720084442.2940187-4-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220720084442.2940187-1-alex@linutronix.de>
 References: <20220720084442.2940187-1-alex@linutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Jul 2022 08:44:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168297
+ https://lists.openembedded.org/g/openembedded-core/message/168298
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../efibootmgr/0001-remove-extra-decl.patch   | 31 -------
- ...1-src-make-compatible-with-efivar-38.patch | 47 -----------
- ...8ae0bce776a36ea2001dea63d376be8274ac.patch | 83 -------------------
- .../{efibootmgr_17.bb => efibootmgr_18.bb}    |  8 +-
- 4 files changed, 2 insertions(+), 167 deletions(-)
- delete mode 100644 meta/recipes-bsp/efibootmgr/efibootmgr/0001-remove-extra-decl.patch
- delete mode 100644 meta/recipes-bsp/efibootmgr/efibootmgr/0001-src-make-compatible-with-efivar-38.patch
- delete mode 100644 meta/recipes-bsp/efibootmgr/efibootmgr/97668ae0bce776a36ea2001dea63d376be8274ac.patch
- rename meta/recipes-bsp/efibootmgr/{efibootmgr_17.bb => efibootmgr_18.bb} (75%)
+ ...md-boot_251.2.bb =3D> systemd-boot_251.3.bb} |  0
+ meta/recipes-core/systemd/systemd.inc         |  3 +-
+ ...sysctl.d-binfmt.d-modules-load.d-to-.patch | 16 ++++---
+ ...red-utmp-wtmp-fix-build-without-utmp.patch | 32 --------------
+ ...7ca2ab96d085158485ecfc46c7cb6af0f166.patch | 42 -------------------
+ .../{systemd_251.2.bb =3D> systemd_251.3.bb}    |  4 +-
+ 6 files changed, 10 insertions(+), 87 deletions(-)
+ rename meta/recipes-core/systemd/{systemd-boot_251.2.bb =3D> systemd-boot_=
+251.3.bb} (100%)
+ delete mode 100644 meta/recipes-core/systemd/systemd/0001-shared-utmp-wtmp=
+-fix-build-without-utmp.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/38c87ca2ab96d08515848=
+5ecfc46c7cb6af0f166.patch
+ rename meta/recipes-core/systemd/{systemd_251.2.bb =3D> systemd_251.3.bb} =
+(99%)
 
-diff --git a/meta/recipes-bsp/efibootmgr/efibootmgr/0001-remove-extra-decl.patch b/meta/recipes-bsp/efibootmgr/efibootmgr/0001-remove-extra-decl.patch
+diff --git a/meta/recipes-core/systemd/systemd-boot_251.2.bb b/meta/recipes=
+-core/systemd/systemd-boot_251.3.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot_251.2.bb
+rename to meta/recipes-core/systemd/systemd-boot_251.3.bb
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/syst=
+emd/systemd.inc
+index b8dbe2263a..03f1559f02 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -14,10 +14,9 @@ LICENSE =3D "GPL-2.0-only & LGPL-2.1-only"
+ LIC_FILES_CHKSUM =3D "file://LICENSE.GPL2;md5=3D751419260aa954499f7abaabaa=
+882bbe \
+                     file://LICENSE.LGPL2.1;md5=3D4fbd65380cdd255951079008b=
+364516c"
+=20
+-SRCREV =3D "253052686cbd840ac69030d31c4b186af23aba4c"
++SRCREV =3D "516108f273888df3dcfa4f42b140252a285a2288"
+ SRCBRANCH =3D "v251-stable"
+ SRC_URI =3D "git://github.com/systemd/systemd-stable.git;protocol=3Dhttps;=
+branch=3D${SRCBRANCH} \
+-           file://38c87ca2ab96d085158485ecfc46c7cb6af0f166.patch \
+ "
+=20
+ S =3D "${WORKDIR}/git"
+diff --git a/meta/recipes-core/systemd/systemd/0001-Move-sysusers.d-sysctl.=
+d-binfmt.d-modules-load.d-to-.patch b/meta/recipes-core/systemd/systemd/000=
+1-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch
+index 31efc4cc4b..0fb6efb469 100644
+--- a/meta/recipes-core/systemd/systemd/0001-Move-sysusers.d-sysctl.d-binfm=
+t.d-modules-load.d-to-.patch
++++ b/meta/recipes-core/systemd/systemd/0001-Move-sysusers.d-sysctl.d-binfm=
+t.d-modules-load.d-to-.patch
+@@ -1,4 +1,4 @@
+-From beb0219b71510bc63aed81d2a970a04349d6c616 Mon Sep 17 00:00:00 2001
++From 258af8106cbed6fa53f7bee042bf903e58b57a41 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Tue, 29 Sep 2020 18:01:41 -0700
+ Subject: [PATCH] Move sysusers.d/sysctl.d/binfmt.d/modules-load.d to /usr
+@@ -10,18 +10,19 @@ the old /usr/lib is still being used.
+ Upstream-Status: Inappropriate (OE-specific)
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
++
+ ---
+  src/core/systemd.pc.in           | 8 ++++----
+  src/libsystemd/sd-path/sd-path.c | 8 ++++----
+  2 files changed, 8 insertions(+), 8 deletions(-)
+=20
+ diff --git a/src/core/systemd.pc.in b/src/core/systemd.pc.in
+-index fc0f8c34fa..65996bbed8 100644
++index 693433b34b..8368a3ff02 100644
+ --- a/src/core/systemd.pc.in
+ +++ b/src/core/systemd.pc.in
+-@@ -65,16 +65,16 @@ systemdshutdowndir=3D${systemd_shutdown_dir}
+- tmpfiles_dir=3D${prefix}/lib/tmpfiles.d
+- tmpfilesdir=3D${tmpfiles_dir}
++@@ -67,16 +67,16 @@ tmpfilesdir=3D${tmpfiles_dir}
++=20
++ user_tmpfiles_dir=3D${prefix}/share/user-tmpfiles.d
+=20=20
+ -sysusers_dir=3D${rootprefix}/lib/sysusers.d
+ +sysusers_dir=3D${prefix}/lib/sysusers.d
+@@ -41,7 +42,7 @@ index fc0f8c34fa..65996bbed8 100644
+=20=20
+  catalog_dir=3D${prefix}/lib/systemd/catalog
+ diff --git a/src/libsystemd/sd-path/sd-path.c b/src/libsystemd/sd-path/sd-=
+path.c
+-index ff1e0d5f8e..19a001f47e 100644
++index ac33e349c0..f0615ffb22 100644
+ --- a/src/libsystemd/sd-path/sd-path.c
+ +++ b/src/libsystemd/sd-path/sd-path.c
+ @@ -362,19 +362,19 @@ static int get_path(uint64_t type, char **buffer, co=
+nst char **ret) {
+@@ -68,6 +69,3 @@ index ff1e0d5f8e..19a001f47e 100644
+                  return 0;
+=20=20
+          case SD_PATH_CATALOG:
+---=20
+-2.34.1
+-
+diff --git a/meta/recipes-core/systemd/systemd/0001-shared-utmp-wtmp-fix-bu=
+ild-without-utmp.patch b/meta/recipes-core/systemd/systemd/0001-shared-utmp=
+-wtmp-fix-build-without-utmp.patch
 deleted file mode 100644
-index 42f3a8182d..0000000000
---- a/meta/recipes-bsp/efibootmgr/efibootmgr/0001-remove-extra-decl.patch
+index 2bb9565bf2..0000000000
+--- a/meta/recipes-core/systemd/systemd/0001-shared-utmp-wtmp-fix-build-wit=
+hout-utmp.patch
 +++ /dev/null
-@@ -1,31 +0,0 @@
--From 99b578501643377e0b1994b2a068b790d189d5ad Mon Sep 17 00:00:00 2001
--From: Peter Jones <pjones@redhat.com>
--Date: Wed, 13 Jun 2018 09:41:01 -0400
--Subject: [PATCH] remove extra decl
+@@ -1,32 +0,0 @@
+-From d6e2c2d34d336398f5948a8b731fefff3dc0ff12 Mon Sep 17 00:00:00 2001
+-From: Christian Hesse <mail@eworm.de>
+-Date: Thu, 2 Jun 2022 20:49:46 +0200
+-Subject: [PATCH] shared/utmp-wtmp: fix build without utmp
 -
--Signed-off-by: Peter Jones <pjones@redhat.com>
+-Commit 16618332388442f2f1c3e52b0a9fde00121564a3 changed a function to
+-add an extra argument. The data types used when building without utmp
+-missed the change.
 -
--Upstream-Status: Backport [git://github.com/rhinstaller/efibootmgr.git]
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+-Upstream-Status: Backport [d6e2c2d34d336398f5948a8b731fefff3dc0ff12]
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 -
 ----
-- src/efibootmgr.c | 3 ---
-- 1 file changed, 3 deletions(-)
+- src/shared/utmp-wtmp.h | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--diff --git a/src/efibootmgr.c b/src/efibootmgr.c
--index de38f01..4e1a680 100644
----- a/src/efibootmgr.c
--+++ b/src/efibootmgr.c
--@@ -1536,9 +1536,6 @@ parse_opts(int argc, char **argv)
-- 					       "invalid numeric value %s\n",
-- 					       optarg);
-- 			}
---                        /* XXX efivar-36 accidentally doesn't have a public
---                         * header for this */
---			extern int efi_set_verbose(int verbosity, FILE *errlog);
-- 			efi_set_verbose(opts.verbose - 2, stderr);
-- 			break;
-- 		case 'V':
---- 
--2.7.4
+-diff --git a/src/shared/utmp-wtmp.h b/src/shared/utmp-wtmp.h
+-index 36e4203b4f..188d011fdd 100644
+---- a/src/shared/utmp-wtmp.h
+-+++ b/src/shared/utmp-wtmp.h
+-@@ -59,7 +59,7 @@ static inline int utmp_wall(
+-                 const char *message,
+-                 const char *username,
+-                 const char *origin_tty,
+--                bool (*match_tty)(const char *tty, void *userdata),
+-+                bool (*match_tty)(const char *tty, bool is_local, void *u=
+serdata),
+-                 void *userdata) {
+-         return 0;
+- }
+---=20
+-2.36.1
 -
-diff --git a/meta/recipes-bsp/efibootmgr/efibootmgr/0001-src-make-compatible-with-efivar-38.patch b/meta/recipes-bsp/efibootmgr/efibootmgr/0001-src-make-compatible-with-efivar-38.patch
+diff --git a/meta/recipes-core/systemd/systemd/38c87ca2ab96d085158485ecfc46=
+c7cb6af0f166.patch b/meta/recipes-core/systemd/systemd/38c87ca2ab96d0851584=
+85ecfc46c7cb6af0f166.patch
 deleted file mode 100644
-index f8d912391e..0000000000
---- a/meta/recipes-bsp/efibootmgr/efibootmgr/0001-src-make-compatible-with-efivar-38.patch
+index 6ab89cd99e..0000000000
+--- a/meta/recipes-core/systemd/systemd/38c87ca2ab96d085158485ecfc46c7cb6af=
+0f166.patch
 +++ /dev/null
-@@ -1,47 +0,0 @@
--From 07f080184d067c1ebc3fec1b53dd4a06d1a2566a Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Mon, 17 Jan 2022 23:24:34 +0100
--Subject: [PATCH] src: make compatible with efivar 38
+@@ -1,42 +0,0 @@
+-From 38c87ca2ab96d085158485ecfc46c7cb6af0f166 Mon Sep 17 00:00:00 2001
+-From: =3D?UTF-8?q?Zbigniew=3D20J=3DC4=3D99drzejewski-Szmek?=3D <zbyszek@in=
+.waw.pl>
+-Date: Fri, 3 Jun 2022 09:32:02 +0200
+-Subject: [PATCH] sha256: fix compilation on efi-ia32
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=3DUTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-/usr/bin/gcc -c ../src/fundamental/sha256.c -o src/boot/efi/sha256.c.o -Wn=
+o-format-signedness -Wno-missing-field-initializers -Wno-unused-parameter -=
+Wdate-time -Wendif-labels -Werror=3Dformat=3D2 -Werror=3Dimplicit-function-=
+declaration -Werror=3Dincompatible-pointer-types -Werror=3Dint-conversion -=
+Werror=3Doverflow -Werror=3Doverride-init -Werror=3Dreturn-type -Werror=3Ds=
+hift-count-overflow -Werror=3Dshift-overflow=3D2 -Werror=3Dundef -Wfloat-eq=
+ual -Wimplicit-fallthrough=3D5 -Winit-self -Wlogical-op -Wmissing-include-d=
+irs -Wmissing-noreturn -Wnested-externs -Wold-style-definition -Wpointer-ar=
+ith -Wredundant-decls -Wshadow -Wstrict-aliasing=3D2 -Wstrict-prototypes -W=
+suggest-attribute=3Dnoreturn -Wunused-function -Wwrite-strings -Wno-unused-=
+result -fno-stack-protector -fno-strict-aliasing -fpic -fwide-exec-charset=
+=3DUCS2 -Wall -Wextra -Wsign-compare -nostdlib -std=3Dgnu99 -ffreestanding =
+-fshort-wchar -fvisibility=3Dhidden -isystem /usr/include/efi -isystem /usr=
+/include/efi/ia32 -I /builddir/build/BUILD/systemd-stable-250.7/src/fundame=
+ntal -DSD_BOOT -DGNU_EFI_USE_MS_ABI -include src/boot/efi/efi_config.h -inc=
+lude version.h -mno-sse -mno-mmx -flto -O2 -flto=3Dauto
+-../src/fundamental/sha256.c: In function =E2=80=98sha256_finish_ctx=E2=80=
+=99:
+-../src/fundamental/sha256.c:61:25: error: =E2=80=98false=E2=80=99 undeclar=
+ed (first use in this function)
+-   61 | # define UNALIGNED_P(p) false
+-      |                         ^~~~~
+-../src/fundamental/sha256.c:136:21: note: in expansion of macro =E2=80=98U=
+NALIGNED_P=E2=80=99
+-  136 |                 if (UNALIGNED_P(resbuf))
+-      |                     ^~~~~~~~~~~
+-../src/fundamental/sha256.c:32:1: note: =E2=80=98false=E2=80=99 is defined=
+ in header =E2=80=98<stdbool.h>=E2=80=99; did you forget to =E2=80=98#inclu=
+de <stdbool.h>=E2=80=99?
+-   31 | #include "sha256.h"
+-  +++ |+#include <stdbool.h>
+-   32 |
+-...
 -
 -Upstream-Status: Backport
 -Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+-
 ----
-- src/efibootdump.c | 2 +-
-- src/efibootmgr.c  | 4 ++--
-- 2 files changed, 3 insertions(+), 3 deletions(-)
+- src/fundamental/sha256.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--diff --git a/src/efibootdump.c b/src/efibootdump.c
--index eceffd6..09bd76e 100644
----- a/src/efibootdump.c
--+++ b/src/efibootdump.c
--@@ -69,7 +69,7 @@ print_boot_entry(efi_load_option *loadopt, size_t data_size)
-- 	text_path = alloca(text_path_len);
-- 	if (!text_path)
-- 		error(100, "Couldn't allocate memory");
---	rc = efidp_format_device_path(text_path, text_path_len,
--+	rc = efidp_format_device_path((unsigned char *)text_path, text_path_len,
-- 				      dp, pathlen);
-- 	if (rc < 0) {
-- 		printf("<bad device path>");
--diff --git a/src/efibootmgr.c b/src/efibootmgr.c
--index 4e1a680..b77b1fb 100644
----- a/src/efibootmgr.c
--+++ b/src/efibootmgr.c
--@@ -949,7 +949,7 @@ show_vars(const char *prefix)
-- 			pathlen = efi_loadopt_pathlen(load_option,
-- 						      boot->data_size);
-- 			dp = efi_loadopt_path(load_option, boot->data_size);
---			rc = efidp_format_device_path(text_path, text_path_len,
--+			rc = efidp_format_device_path((unsigned char *)text_path, text_path_len,
-- 						      dp, pathlen);
-- 			if (rc < 0)
-- 				error(18, "Could not parse device path");
--@@ -960,7 +960,7 @@ show_vars(const char *prefix)
-- 			if (!text_path)
-- 				error(19, "Could not parse device path");
-- 
---			rc = efidp_format_device_path(text_path, text_path_len,
--+			rc = efidp_format_device_path((unsigned char *)text_path, text_path_len,
-- 						      dp, pathlen);
-- 			if (rc < 0)
-- 				error(20, "Could not parse device path");
-diff --git a/meta/recipes-bsp/efibootmgr/efibootmgr/97668ae0bce776a36ea2001dea63d376be8274ac.patch b/meta/recipes-bsp/efibootmgr/efibootmgr/97668ae0bce776a36ea2001dea63d376be8274ac.patch
-deleted file mode 100644
-index 9525ed8c54..0000000000
---- a/meta/recipes-bsp/efibootmgr/efibootmgr/97668ae0bce776a36ea2001dea63d376be8274ac.patch
-+++ /dev/null
-@@ -1,83 +0,0 @@
--From 97668ae0bce776a36ea2001dea63d376be8274ac Mon Sep 17 00:00:00 2001
--From: Peter Jones <pjones@redhat.com>
--Date: Wed, 6 Mar 2019 13:08:33 -0500
--Subject: [PATCH] Make sure PKGS= is propogated into the submake for "make
-- deps"
--
--When we're doing make deps with "$(CC) -MF", gcc and clang have different
--behavior, both broken in different ways, which we're hitting because of a
--missing -I argument for libefivar's includes.  On clang, when a header can't
--be found, it emits a rule with the header as a prerequisite without a path,
--such as efivar.h here:
--
--efibootmgr.o: efibootmgr.c fix_coverity.h efivar.h efiboot.h \
--  /home/pjones/devel/github.com/efibootmgr/master/src/include/list.h \
--  /home/pjones/devel/github.com/efibootmgr/master/src/include/efi.h \
--  /home/pjones/devel/github.com/efibootmgr/master/src/include/unparse_path.h \
--  /home/pjones/devel/github.com/efibootmgr/master/src/include/efibootmgr.h \
--  error.h
--
--Then the build that utilizes that rule will fail to find the
--prerequisite and tell you something like:
--
--make[1]: *** No rule to make target 'efivar.h', needed by 'efibootmgr.o'.  Stop.
--make[1]: Leaving directory '/home/pjones/devel/github.com/efibootmgr/master/src'
--
--With gcc, when a header can't be found, it emits a rule without that header
--as a prerequisite, as such (again with efivar.h):
--
--efibootmgr.o: efibootmgr.c fix_coverity.h \
-- /home/pjones/devel/github.com/efibootmgr/master/src/include/list.h \
-- /home/pjones/devel/github.com/efibootmgr/master/src/include/efi.h \
-- /home/pjones/devel/github.com/efibootmgr/master/src/include/unparse_path.h \
-- /home/pjones/devel/github.com/efibootmgr/master/src/include/efi.h \
-- /home/pjones/devel/github.com/efibootmgr/master/src/include/efibootmgr.h \
-- error.h
--
--And then your build will fail if you haven't adjusted CFLAGS to tell it
--where to find the header.
--
--Both of these would be better just erroring, but at least gcc's doesn't
--insert a *wrong* dependency.
--
--This patch adds "PKGS=efivar efibootmgr popt" for all deps under src/.
--Technically that's overkill, as efibootmgr itself doesn't need popt, but it
--doesn't hurt anything to have the extra part there.  The resulting
--.efibootmgr.d file has the prerequisites expressed correctly:
--
--efibootmgr.o: efibootmgr.c fix_coverity.h /usr/include/efivar/efivar.h \
-- /usr/include/efivar/efiboot.h \
-- /home/pjones/devel/github.com/efibootmgr/master/src/include/list.h \
-- /home/pjones/devel/github.com/efibootmgr/master/src/include/efi.h \
-- /home/pjones/devel/github.com/efibootmgr/master/src/include/unparse_path.h \
-- /home/pjones/devel/github.com/efibootmgr/master/src/include/efi.h \
-- /home/pjones/devel/github.com/efibootmgr/master/src/include/efibootmgr.h \
-- error.h
--
--This fixes the issue described in github PR #96
--
--Signed-off-by: Peter Jones <pjones@redhat.com>
--Upstream-Status: Backport [https://github.com/rhboot/efibootmgr/commit/97668ae0bce776a36ea2001dea63d376be8274ac]
-----
-- src/Makefile | 7 ++++++-
-- 1 file changed, 6 insertions(+), 1 deletion(-)
--
--diff --git a/src/Makefile b/src/Makefile
--index 258bac1..32fa188 100644
----- a/src/Makefile
--+++ b/src/Makefile
--@@ -31,8 +31,13 @@ efibootdump : PKGS=efivar efiboot popt
-- efibootnext : $(call objects-of,$(EFIBOOTNEXT_SOURCES))
-- efibootnext : PKGS=efivar efiboot popt
-- 
--+deps : PKGS=efivar efiboot popt
-- deps : $(ALL_SOURCES)
---	$(MAKE) -f $(TOPDIR)/Make.deps deps SOURCES="$(ALL_SOURCES)" SUBDIR_CFLAGS="$(SUBDIR_CFLAGS)"
--+	$(MAKE) -f $(TOPDIR)/Make.deps \
--+		SOURCES="$(ALL_SOURCES)" \
--+		SUBDIR_CFLAGS="$(SUBDIR_CFLAGS)" \
--+		PKGS="$(PKGS)" \
--+		deps
-- 
-- clean :
-- 	@rm -rfv *.o *.a *.so $(TARGETS)
-diff --git a/meta/recipes-bsp/efibootmgr/efibootmgr_17.bb b/meta/recipes-bsp/efibootmgr/efibootmgr_18.bb
-similarity index 75%
-rename from meta/recipes-bsp/efibootmgr/efibootmgr_17.bb
-rename to meta/recipes-bsp/efibootmgr/efibootmgr_18.bb
-index 11d8b9061d..cbcaac1e97 100644
---- a/meta/recipes-bsp/efibootmgr/efibootmgr_17.bb
-+++ b/meta/recipes-bsp/efibootmgr/efibootmgr_18.bb
-@@ -10,12 +10,8 @@ DEPENDS = "efivar popt"
- 
- COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
- 
--SRC_URI = "git://github.com/rhinstaller/efibootmgr.git;protocol=https;branch=master \
--           file://0001-remove-extra-decl.patch \
--           file://97668ae0bce776a36ea2001dea63d376be8274ac.patch \
--           file://0001-src-make-compatible-with-efivar-38.patch \
--           "
--SRCREV = "e067160ecef8208e1944002e5d50b275733211fb"
-+SRC_URI = "git://github.com/rhinstaller/efibootmgr.git;protocol=https;branch=main"
-+SRCREV = "c3f9f0534e32158f62c43564036878b93b9e0fd6"
- 
- S = "${WORKDIR}/git"
- 
--- 
+-diff --git a/src/fundamental/sha256.c b/src/fundamental/sha256.c
+-index cd16aec4dd..58b1a80d33 100644
+---- a/src/fundamental/sha256.c
+-+++ b/src/fundamental/sha256.c
+-@@ -58,7 +58,7 @@
+- #  define UNALIGNED_P(p) (((size_t) p) % sizeof(uint32_t) !=3D 0)
+- # endif
+- #else
+--# define UNALIGNED_P(p) false
+-+# define UNALIGNED_P(p) sd_false
+- #endif
+-=20
+- /* This array contains the bytes used to pad the buffer to the next
+diff --git a/meta/recipes-core/systemd/systemd_251.2.bb b/meta/recipes-core=
+/systemd/systemd_251.3.bb
+similarity index 99%
+rename from meta/recipes-core/systemd/systemd_251.2.bb
+rename to meta/recipes-core/systemd/systemd_251.3.bb
+index bb3c59f418..025472143c 100644
+--- a/meta/recipes-core/systemd/systemd_251.2.bb
++++ b/meta/recipes-core/systemd/systemd_251.3.bb
+@@ -14,7 +14,8 @@ inherit useradd pkgconfig meson perlnative update-rc.d up=
+date-alternatives qemu
+ # that we don't build both udev and systemd in world builds.
+ REQUIRED_DISTRO_FEATURES =3D "systemd"
+=20
+-SRC_URI +=3D "file://touchscreen.rules \
++SRC_URI +=3D " \
++           file://touchscreen.rules \
+            file://00-create-volatile.conf \
+            ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallbac=
+k', 'file://org.freedesktop.hostname1_no_polkit.conf', '', d)} \
+            ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallbac=
+k', 'file://00-hostnamed-network-user.conf', '', d)} \
+@@ -24,7 +25,6 @@ SRC_URI +=3D "file://touchscreen.rules \
+            file://0001-binfmt-Don-t-install-dependency-links-at-install-ti=
+m.patch \
+            file://0003-implment-systemd-sysv-install-for-OE.patch \
+            file://0001-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to=
+-.patch \
+-           file://0001-shared-utmp-wtmp-fix-build-without-utmp.patch \
+            "
+=20
+ # patches needed by musl
+--=20
 2.30.2
 
 
