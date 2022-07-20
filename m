@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4172C43334
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5339CCA480
 	for <webhook@archiver.kernel.org>; Wed, 20 Jul 2022 08:44:54 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web10.51640.1658306692472670656
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web10.51637.1658306688917300151
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 01:44:52 -0700
+ Wed, 20 Jul 2022 01:44:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gdrkEUvZ;
- spf=pass (domain: gmail.com, ip: 209.85.218.47,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=hjuXBBNO;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id os14so31833139ejb.4
+Received: by mail-ej1-f49.google.com with SMTP id bp15so31836712ejb.6
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 01:44:52 -0700 (PDT)
+ Wed, 20 Jul 2022 01:44:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=fS7Tlj9KjH2/IVhp+969BSZ4HFSiAXoD9tjZEFTRrZU=;
-        b=gdrkEUvZFDKhvH/d+DZyL3oYnAtk7zxpxQj8JOg/yRpo/s7+ijpox2qZNVXgNjxo3c
-         frJOXpSS6suymOvcXzK7TVQF0+Xl8WrIQRG10xwwIOQ3dJvK7kJ6rCjpmcKCse6Yy4ss
-         e/jUAkIWW/JRsBSZ6HsTWjyEDrWXjXB3TbpZmytjMNRcBoqSgI1F1Ogi8Vgdr3Orqanp
-         0+Kwl7GPsLyu+JTo20kBQkyfzX8uOPoZPmpXBjz9GnvexndCN1WjWM0E4aTXHgeNU4vU
-         K44zWia5Yd2ePfXEdymVtvBpLKF95waJmHj8AuP3B5/DRav+ykf1FOcwCwF1petenTta
-         otiQ==
+        bh=2LZbh2n6wJewd1qHzRKe1C1vfxdEwO49MSUBoSRo/J8=;
+        b=hjuXBBNO82SXo9sndKIVloJoXdemyUIkLjJOLJ3Zs2BjGOCIisHSEb4ErkDw2Hv4qS
+         uWf8DZrErPLJ9cCo5qpD2sLMhT9fMskmy9hMWRp6iE19WYc5amRikQ05mks90PZw4mAU
+         mvyDUJR0+144jZKNJ9Q713PpfxLxEkfK+6dwIVbIUQ9MaBIu+5fDXk4yj1ft1UNnXvL0
+         W3+rKiXSu7h10/GNd2awq8INeErVY42Ur4PSmkrUfrb3UY1zvX+I2pveDYHFvjeT2zxj
+         7/bEc6b+Au30tTNjunnNuSEgFiAKqunkJwS3dnJ9McjqYuJKCBEhd26ybygHUa99az4Q
+         3lCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fS7Tlj9KjH2/IVhp+969BSZ4HFSiAXoD9tjZEFTRrZU=;
-        b=pS2XtyFGjv9RQDEvRWtqlD307kSl4TrtSnQ653DD15P8E3jFQOOAvHlN17aRvvwmp4
-         IX7ReNsA+txBJFllzInNhT+mGhjcDyoBORKmbxeVbijhP/HUTL2MBP4fdAJCjVFVAeX7
-         yovDe53ZbcUiTIxlHCDZShEN+WBFw/1aS9PSrjA8Hbf35aQKr3HAeKghsjAWhOqmrYGW
-         5oY5l+Y9MF+eErOX+rk8lfz5oRiiWJqSAJQicoSMHwZEa/nVFFj6Fu6dJlp2FkIzD8/B
-         RY6sc06v34esk/PncW8fbOFAq7hDeHCFqUp46nJ2fliUEqK/L/mH0KOMqHeN+shM4z2b
-         FNxA==
-X-Gm-Message-State: AJIora+JpC8COIhw+lB4pIcGms+IvnNWIH7FhSgIODGEYCdRNQ+EVLGi
-	ADrCuNwtKFoQYIaYXGkRSkuC6/h0iCc=
+        bh=2LZbh2n6wJewd1qHzRKe1C1vfxdEwO49MSUBoSRo/J8=;
+        b=FvEZhaujRx6rUSwKKCyYoSoFwkfxJaHo19d1PsK4cp39HV5nDn7vsM/JpacHzf5/S3
+         /zCzFXDLq9yd6lVCRswFmtZCmHBpAcUgU1hr1Fv8yXRaLpGsyBJPjBVgUUg/eOaRehKT
+         MHqByrp6FuXrAGW73NiWmbcuHzdcOizWEOM2U+KKBmUYb1ReG54LrDtfUqCAwSqaqtWi
+         MZnTAPgXXhTmckkG1N3CK6E57NsupSmk0vkkp4hh6EeydD846I7AEx3/7+A3SYGNGVh7
+         Nes37WtGUE2iHRVVtOdJxVwwbuMRDcsorV9YxQzmAN04fUml/j1BXcaTx6SycsXKaDDS
+         8miw==
+X-Gm-Message-State: AJIora/M27b2aeXOv2WZ23Ul3DBstLIxNTEQrNWUg2KiskV9MR9qrsPM
+	8LNnKGPwMpaXXkxV/b9EUsHHARFX0uI=
 X-Google-Smtp-Source: 
- AGRyM1u42n1ak4aQuKGBW3+WMKS2UXh8+sn79aBwD3BD5UhL05jvI1j2v/OLshmdKD7VMTtLkulFPg==
-X-Received: by 2002:a17:907:6890:b0:72c:7533:8901 with SMTP id
- qy16-20020a170907689000b0072c75338901mr33686898ejc.100.1658306691010;
-        Wed, 20 Jul 2022 01:44:51 -0700 (PDT)
+ AGRyM1vHCXxN8LSCZURlsRrNmDhKPlmLv4+TBxiuRDfMy2P1d9bppdW4heVwH9ordLd0cTk95wS9rA==
+X-Received: by 2002:a17:907:8690:b0:72b:552e:67c0 with SMTP id
+ qa16-20020a170907869000b0072b552e67c0mr33486024ejc.600.1658306687339;
+        Wed, 20 Jul 2022 01:44:47 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.44.50
+ s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.44.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 01:44:50 -0700 (PDT)
+        Wed, 20 Jul 2022 01:44:46 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 06/51] libva: upgrade 2.14.0 -> 2.15.0
-Date: Wed, 20 Jul 2022 10:43:57 +0200
-Message-Id: <20220720084442.2940187-6-alex@linutronix.de>
+Subject: [PATCH 02/51] gcr: exclude x.9y versions from upstream version check
+Date: Wed, 20 Jul 2022 10:43:53 +0200
+Message-Id: <20220720084442.2940187-2-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220720084442.2940187-1-alex@linutronix.de>
 References: <20220720084442.2940187-1-alex@linutronix.de>
@@ -68,38 +68,25 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Jul 2022 08:44:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168300
+ https://lists.openembedded.org/g/openembedded-core/message/168296
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../libva/{libva-initial_2.14.0.bb => libva-initial_2.15.0.bb}  | 0
- meta/recipes-graphics/libva/libva.inc                           | 2 +-
- .../recipes-graphics/libva/{libva_2.14.0.bb => libva_2.15.0.bb} | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/libva/{libva-initial_2.14.0.bb => libva-initial_2.15.0.bb} (100%)
- rename meta/recipes-graphics/libva/{libva_2.14.0.bb => libva_2.15.0.bb} (100%)
+ meta/recipes-gnome/gcr/gcr_3.40.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-graphics/libva/libva-initial_2.14.0.bb b/meta/recipes-graphics/libva/libva-initial_2.15.0.bb
-similarity index 100%
-rename from meta/recipes-graphics/libva/libva-initial_2.14.0.bb
-rename to meta/recipes-graphics/libva/libva-initial_2.15.0.bb
-diff --git a/meta/recipes-graphics/libva/libva.inc b/meta/recipes-graphics/libva/libva.inc
-index 148bb03b5f..956cd50756 100644
---- a/meta/recipes-graphics/libva/libva.inc
-+++ b/meta/recipes-graphics/libva/libva.inc
-@@ -18,7 +18,7 @@ LICENSE = "MIT"
+diff --git a/meta/recipes-gnome/gcr/gcr_3.40.0.bb b/meta/recipes-gnome/gcr/gcr_3.40.0.bb
+index b6e591fb6e..0c2af42f06 100644
+--- a/meta/recipes-gnome/gcr/gcr_3.40.0.bb
++++ b/meta/recipes-gnome/gcr/gcr_3.40.0.bb
+@@ -16,6 +16,7 @@ CACHED_CONFIGUREVARS += "ac_cv_path_GPG='gpg2'"
+ GNOMEBASEBUILDCLASS = "meson"
+ GTKDOC_MESON_OPTION = "gtk_doc"
+ inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-version-is-even vala gobject-introspection gettext mime mime-xdg
++UPSTREAM_CHECK_REGEX = "[^\d\.](?P<pver>\d+\.(?!9\d+)(\d*[02468])+(\.\d+)+)\.tar"
  
- SRC_URI = "https://github.com/intel/libva/releases/download/${PV}/libva-${PV}.tar.bz2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
--SRC_URI[sha256sum] = "511e9a74d1ccfb548bc192290603082c11074ac59b17aadfd5d56a3f93e58454"
-+SRC_URI[sha256sum] = "258ed409458d3e7a000e1908bc852619615ee6a933359c745fcd93eb3e461eca"
- 
- S = "${WORKDIR}/libva-${PV}"
- 
-diff --git a/meta/recipes-graphics/libva/libva_2.14.0.bb b/meta/recipes-graphics/libva/libva_2.15.0.bb
-similarity index 100%
-rename from meta/recipes-graphics/libva/libva_2.14.0.bb
-rename to meta/recipes-graphics/libva/libva_2.15.0.bb
+ SRC_URI += "file://0001-gcr-meson.build-fix-one-parallel-build-failure.patch \ 
+             file://b3ca1d02bb0148ca787ac4aead164d7c8ce2c4d8.patch"
 -- 
 2.30.2
 
