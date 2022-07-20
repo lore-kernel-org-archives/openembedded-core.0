@@ -2,320 +2,629 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A099CCA482
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D556CCA487
 	for <webhook@archiver.kernel.org>; Wed, 20 Jul 2022 08:44:55 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web10.51638.1658306690564786805
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web10.51639.1658306691669662644
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 01:44:50 -0700
+ Wed, 20 Jul 2022 01:44:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=QAP8E5fA;
- spf=pass (domain: gmail.com, ip: 209.85.218.42,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CKJv2dMu;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id bp15so31836826ejb.6
+Received: by mail-ej1-f47.google.com with SMTP id ez10so31761349ejc.13
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 01:44:50 -0700 (PDT)
+ Wed, 20 Jul 2022 01:44:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=XzIl8h7iFtZj4TsC7Wq0/vlFKHZBnYT9IxgdjejV4nc=;
-        b=QAP8E5fAdDf17e2a7rWmgRs3mNan5o5PuLp0hv/It/JffrpMWCtyLBISKGs+e981Mg
-         o4ff567bpe4W7mau9WT1m4Zvgh2yPU+oKeIAzIgitiWEHXNr0FAI/9BvuvMSuUYo4ptk
-         GDbJ/aY0UDKB2D0fURlwel3LVLYzlhLW6RuIDGKROCzqOfk12FIOCAeZiM0MnM38ijlL
-         e1WH6JmxqQmEyzEYNdCOv+4Kg1pejM6PfJkVmFqS36IQ8L2zUidfFeoPBFc4TsUtUzSC
-         AZEAharbkpbP+0Fr8dzzTseXECwV21gewVu8z1nRewGTpyLCCWsFyL3GmmXtOCYhh+c7
-         zS7Q==
+        bh=tvntzF45ViuzhjAKw1LD1zJnwc4FurBVZqN5TTCxvuk=;
+        b=CKJv2dMuMxBNV22cqTVH9Hz2JQfusmvY7OJ3OdkhxkqYoe4FuvAgtnklVaapvZbazS
+         m1TwPumRCGLewHmD31Xl+F1nN7oju/qw9NUzQubRcmDvnrIEW1jQ17k7v45M2clTh01l
+         OImUDD+9OQIPmapI72/+JLYW/CaOVABn79erBU203L4iX8c3sq062z1x/oTHfKDVd+oH
+         CS6ktIRGLFB9hptAZajc93OqpPDOD3tnDQWWBgOZILL07mjAA3hCq51wlXNMcZNV6iae
+         9R+el8wXNJlL1/jS32kGNFQfPmhzSXs7hMbfgevvbwZBeboD7eI9nfigI2ywSOhJrgiP
+         vhUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XzIl8h7iFtZj4TsC7Wq0/vlFKHZBnYT9IxgdjejV4nc=;
-        b=sbPU/h2JIhDXW+ITZ6WfJeGcE9VXhz4dcXoCNCRdmxfeIM+pyhVZBohIFwRRCvkLER
-         9YbT4a27uLiaLCPPUUGcJLIe25t22SSCvZ+QaGKmf9Zfb5a9hXYB/oocw4OnV/iZM761
-         WTGOU2GQkTIPWCnwZTvzJdCeKdLFfHcsr1mSWs5hD7M4+uBDT3SgH98nW93GCEUyxErf
-         bgyadOsKECtVm4xIi8J+gM2CPNKxYaTfeZIrRBlT8Y6SD1CJW4gW+RA7XI5wtDfbQobp
-         23UOQWhgm6qcmVJXAi/xzaxMEIzbNcBG6oAaMraZqLJFFV8IKapqWnxLVF/i8/7z25q7
-         eZsw==
-X-Gm-Message-State: AJIora92nDUIboMSmxvlGNhqHucsuzRwTiB9b7CTv31CXs2R3AIIrJbr
-	6wxNKDtzfuUfIqY/htIR67xd//AkEkU=
+        bh=tvntzF45ViuzhjAKw1LD1zJnwc4FurBVZqN5TTCxvuk=;
+        b=i9rXaBfb16paEqg43Fh+ZFk80i3zrmMIjvPASxpYu2pAC9gtdPfcJYG0++/80q0Yfi
+         +YLeqWpXzGdWJzPfoWv33ljJ1AXU8v3yVWvQebiYLuEL+zKkauB2Ge90w/n2gzZmir7m
+         0pjcN6DVz9uS+HX9hqpeq19BDn5Wg6K0NfKkFJZaHHfiHJoo6w5DOb9F3j9p8FdKtNTG
+         XRChOTU3rxK3ZUNxRFmGWE25GKJBB+/wtBJMoe74VjhHMzZjeUGi31DTIDEOGB0BTGC9
+         aM9t7isz1zbq4hb81MzexXZeS0nQJ3Del1JnWLJSi/oEsHzjWhC7lnTVYP5KQkzSvkBZ
+         Adkg==
+X-Gm-Message-State: AJIora+A0vS6rrnrjhJBub3+5RUR9hDZgwgQguld0tBl9K5OuJhpxrpb
+	ooT5paBVK/cpaq5m34CvEjO8tjEnlDk=
 X-Google-Smtp-Source: 
- AGRyM1s5yaDGOnPjpV3mb244g2TvESueieyQKjh9pKQT5nAL49vvoYoWtVFmSEz0p3DJW0feXK7STA==
-X-Received: by 2002:a17:907:a06f:b0:72b:564c:465b with SMTP id
- ia15-20020a170907a06f00b0072b564c465bmr33945419ejc.344.1658306689035;
+ AGRyM1vkfwOGWZCA1z1DQL9AUEI4Tpj4WPJriA7fG6Ow53hykbNBD+LTFpqOETb9N6c7mmvvfBKDSA==
+X-Received: by 2002:a17:906:58d5:b0:72f:2b21:eb20 with SMTP id
+ e21-20020a17090658d500b0072f2b21eb20mr14246494ejs.508.1658306689983;
         Wed, 20 Jul 2022 01:44:49 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.44.48
+ s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.44.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 01:44:48 -0700 (PDT)
+        Wed, 20 Jul 2022 01:44:49 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 04/51] systemd-boot: update 251.2 -> 251.3
-Date: Wed, 20 Jul 2022 10:43:55 +0200
-Message-Id: <20220720084442.2940187-4-alex@linutronix.de>
+Subject: [PATCH 05/51] rpm: update 4.17.0 -> 4.17.1
+Date: Wed, 20 Jul 2022 10:43:56 +0200
+Message-Id: <20220720084442.2940187-5-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220720084442.2940187-1-alex@linutronix.de>
 References: <20220720084442.2940187-1-alex@linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Jul 2022 08:44:55 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168298
+ https://lists.openembedded.org/g/openembedded-core/message/168299
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...md-boot_251.2.bb =3D> systemd-boot_251.3.bb} |  0
- meta/recipes-core/systemd/systemd.inc         |  3 +-
- ...sysctl.d-binfmt.d-modules-load.d-to-.patch | 16 ++++---
- ...red-utmp-wtmp-fix-build-without-utmp.patch | 32 --------------
- ...7ca2ab96d085158485ecfc46c7cb6af0f166.patch | 42 -------------------
- .../{systemd_251.2.bb =3D> systemd_251.3.bb}    |  4 +-
- 6 files changed, 10 insertions(+), 87 deletions(-)
- rename meta/recipes-core/systemd/{systemd-boot_251.2.bb =3D> systemd-boot_=
-251.3.bb} (100%)
- delete mode 100644 meta/recipes-core/systemd/systemd/0001-shared-utmp-wtmp=
--fix-build-without-utmp.patch
- delete mode 100644 meta/recipes-core/systemd/systemd/38c87ca2ab96d08515848=
-5ecfc46c7cb6af0f166.patch
- rename meta/recipes-core/systemd/{systemd_251.2.bb =3D> systemd_251.3.bb} =
-(99%)
+ .../rpm/files/0001-CVE-2021-3521.patch        |  57 ---
+ ...lib-rpm-as-the-installation-path-for.patch |  14 +-
+ .../rpm/files/0002-CVE-2021-3521.patch        |  64 ----
+ .../rpm/files/0003-CVE-2021-3521.patch        | 329 ------------------
+ .../rpm/{rpm_4.17.0.bb => rpm_4.17.1.bb}      |   5 +-
+ 5 files changed, 8 insertions(+), 461 deletions(-)
+ delete mode 100644 meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch
+ rename meta/recipes-devtools/rpm/{rpm_4.17.0.bb => rpm_4.17.1.bb} (97%)
 
-diff --git a/meta/recipes-core/systemd/systemd-boot_251.2.bb b/meta/recipes=
--core/systemd/systemd-boot_251.3.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-boot_251.2.bb
-rename to meta/recipes-core/systemd/systemd-boot_251.3.bb
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/syst=
-emd/systemd.inc
-index b8dbe2263a..03f1559f02 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -14,10 +14,9 @@ LICENSE =3D "GPL-2.0-only & LGPL-2.1-only"
- LIC_FILES_CHKSUM =3D "file://LICENSE.GPL2;md5=3D751419260aa954499f7abaabaa=
-882bbe \
-                     file://LICENSE.LGPL2.1;md5=3D4fbd65380cdd255951079008b=
-364516c"
-=20
--SRCREV =3D "253052686cbd840ac69030d31c4b186af23aba4c"
-+SRCREV =3D "516108f273888df3dcfa4f42b140252a285a2288"
- SRCBRANCH =3D "v251-stable"
- SRC_URI =3D "git://github.com/systemd/systemd-stable.git;protocol=3Dhttps;=
-branch=3D${SRCBRANCH} \
--           file://38c87ca2ab96d085158485ecfc46c7cb6af0f166.patch \
- "
-=20
- S =3D "${WORKDIR}/git"
-diff --git a/meta/recipes-core/systemd/systemd/0001-Move-sysusers.d-sysctl.=
-d-binfmt.d-modules-load.d-to-.patch b/meta/recipes-core/systemd/systemd/000=
-1-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch
-index 31efc4cc4b..0fb6efb469 100644
---- a/meta/recipes-core/systemd/systemd/0001-Move-sysusers.d-sysctl.d-binfm=
-t.d-modules-load.d-to-.patch
-+++ b/meta/recipes-core/systemd/systemd/0001-Move-sysusers.d-sysctl.d-binfm=
-t.d-modules-load.d-to-.patch
-@@ -1,4 +1,4 @@
--From beb0219b71510bc63aed81d2a970a04349d6c616 Mon Sep 17 00:00:00 2001
-+From 258af8106cbed6fa53f7bee042bf903e58b57a41 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Tue, 29 Sep 2020 18:01:41 -0700
- Subject: [PATCH] Move sysusers.d/sysctl.d/binfmt.d/modules-load.d to /usr
-@@ -10,18 +10,19 @@ the old /usr/lib is still being used.
- Upstream-Status: Inappropriate (OE-specific)
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
-+
- ---
-  src/core/systemd.pc.in           | 8 ++++----
-  src/libsystemd/sd-path/sd-path.c | 8 ++++----
-  2 files changed, 8 insertions(+), 8 deletions(-)
-=20
- diff --git a/src/core/systemd.pc.in b/src/core/systemd.pc.in
--index fc0f8c34fa..65996bbed8 100644
-+index 693433b34b..8368a3ff02 100644
- --- a/src/core/systemd.pc.in
- +++ b/src/core/systemd.pc.in
--@@ -65,16 +65,16 @@ systemdshutdowndir=3D${systemd_shutdown_dir}
-- tmpfiles_dir=3D${prefix}/lib/tmpfiles.d
-- tmpfilesdir=3D${tmpfiles_dir}
-+@@ -67,16 +67,16 @@ tmpfilesdir=3D${tmpfiles_dir}
-+=20
-+ user_tmpfiles_dir=3D${prefix}/share/user-tmpfiles.d
-=20=20
- -sysusers_dir=3D${rootprefix}/lib/sysusers.d
- +sysusers_dir=3D${prefix}/lib/sysusers.d
-@@ -41,7 +42,7 @@ index fc0f8c34fa..65996bbed8 100644
-=20=20
-  catalog_dir=3D${prefix}/lib/systemd/catalog
- diff --git a/src/libsystemd/sd-path/sd-path.c b/src/libsystemd/sd-path/sd-=
-path.c
--index ff1e0d5f8e..19a001f47e 100644
-+index ac33e349c0..f0615ffb22 100644
- --- a/src/libsystemd/sd-path/sd-path.c
- +++ b/src/libsystemd/sd-path/sd-path.c
- @@ -362,19 +362,19 @@ static int get_path(uint64_t type, char **buffer, co=
-nst char **ret) {
-@@ -68,6 +69,3 @@ index ff1e0d5f8e..19a001f47e 100644
-                  return 0;
-=20=20
-          case SD_PATH_CATALOG:
----=20
--2.34.1
--
-diff --git a/meta/recipes-core/systemd/systemd/0001-shared-utmp-wtmp-fix-bu=
-ild-without-utmp.patch b/meta/recipes-core/systemd/systemd/0001-shared-utmp=
--wtmp-fix-build-without-utmp.patch
+diff --git a/meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch b/meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch
 deleted file mode 100644
-index 2bb9565bf2..0000000000
---- a/meta/recipes-core/systemd/systemd/0001-shared-utmp-wtmp-fix-build-wit=
-hout-utmp.patch
+index 044b4dd2a0..0000000000
+--- a/meta/recipes-devtools/rpm/files/0001-CVE-2021-3521.patch
 +++ /dev/null
-@@ -1,32 +0,0 @@
--From d6e2c2d34d336398f5948a8b731fefff3dc0ff12 Mon Sep 17 00:00:00 2001
--From: Christian Hesse <mail@eworm.de>
--Date: Thu, 2 Jun 2022 20:49:46 +0200
--Subject: [PATCH] shared/utmp-wtmp: fix build without utmp
+@@ -1,57 +0,0 @@
+-From 9a6871126f472feea057d5f803505ec8cc78f083 Mon Sep 17 00:00:00 2001
+-From: Panu Matilainen <pmatilai@redhat.com>
+-Date: Thu, 30 Sep 2021 09:56:20 +0300
+-Subject: [PATCH 1/3] Refactor pgpDigParams construction to helper function
 -
--Commit 16618332388442f2f1c3e52b0a9fde00121564a3 changed a function to
--add an extra argument. The data types used when building without utmp
--missed the change.
+-No functional changes, just to reduce code duplication and needed by
+-the following commits.
 -
--Upstream-Status: Backport [d6e2c2d34d336398f5948a8b731fefff3dc0ff12]
--Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+-CVE: CVE-2021-3521
+-Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/9f03f42e2]
 -
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ----
-- src/shared/utmp-wtmp.h | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- rpmio/rpmpgp.c | 13 +++++++++----
+- 1 file changed, 9 insertions(+), 4 deletions(-)
 -
--diff --git a/src/shared/utmp-wtmp.h b/src/shared/utmp-wtmp.h
--index 36e4203b4f..188d011fdd 100644
----- a/src/shared/utmp-wtmp.h
--+++ b/src/shared/utmp-wtmp.h
--@@ -59,7 +59,7 @@ static inline int utmp_wall(
--                 const char *message,
--                 const char *username,
--                 const char *origin_tty,
---                bool (*match_tty)(const char *tty, void *userdata),
--+                bool (*match_tty)(const char *tty, bool is_local, void *u=
-serdata),
--                 void *userdata) {
--         return 0;
+-diff --git a/rpmio/rpmpgp.c b/rpmio/rpmpgp.c
+-index d0688ebe9a..e472b5320f 100644
+---- a/rpmio/rpmpgp.c
+-+++ b/rpmio/rpmpgp.c
+-@@ -1041,6 +1041,13 @@ unsigned int pgpDigParamsAlgo(pgpDigParams digp, unsigned int algotype)
+-     return algo;
 - }
----=20
--2.36.1
+- 
+-+static pgpDigParams pgpDigParamsNew(uint8_t tag)
+-+{
+-+    pgpDigParams digp = xcalloc(1, sizeof(*digp));
+-+    digp->tag = tag;
+-+    return digp;
+-+}
+-+
+- int pgpPrtParams(const uint8_t * pkts, size_t pktlen, unsigned int pkttype,
+- 		 pgpDigParams * ret)
+- {
+-@@ -1058,8 +1065,7 @@ int pgpPrtParams(const uint8_t * pkts, size_t pktlen, unsigned int pkttype,
+- 	    if (pkttype && pkt.tag != pkttype) {
+- 		break;
+- 	    } else {
+--		digp = xcalloc(1, sizeof(*digp));
+--		digp->tag = pkt.tag;
+-+		digp = pgpDigParamsNew(pkt.tag);
+- 	    }
+- 	}
+- 
+-@@ -1105,8 +1111,7 @@ int pgpPrtParamsSubkeys(const uint8_t *pkts, size_t pktlen,
+- 		digps = xrealloc(digps, alloced * sizeof(*digps));
+- 	    }
+- 
+--	    digps[count] = xcalloc(1, sizeof(**digps));
+--	    digps[count]->tag = PGPTAG_PUBLIC_SUBKEY;
+-+	    digps[count] = pgpDigParamsNew(PGPTAG_PUBLIC_SUBKEY);
+- 	    /* Copy UID from main key to subkey */
+- 	    digps[count]->userid = xstrdup(mainkey->userid);
+- 
+--- 
+-2.17.1
 -
-diff --git a/meta/recipes-core/systemd/systemd/38c87ca2ab96d085158485ecfc46=
-c7cb6af0f166.patch b/meta/recipes-core/systemd/systemd/38c87ca2ab96d0851584=
-85ecfc46c7cb6af0f166.patch
+diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+index 6d236ac400..c6cf9d4c88 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+@@ -1,4 +1,4 @@
+-From 8d013fe154a162305f76141151baf767dd04b598 Mon Sep 17 00:00:00 2001
++From 4ab6a4c5bbad65c3401016bb26b87214cdd0c59b Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 27 Feb 2017 09:43:30 +0200
+ Subject: [PATCH] Do not hardcode "lib/rpm" as the installation path for
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  3 files changed, 4 insertions(+), 4 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index eb7d6941b..10a889b5d 100644
++index 372875fc4..1b7add9ee 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -871,7 +871,7 @@ else
++@@ -884,7 +884,7 @@ else
+      usrprefix=$prefix
+  fi
+  
+@@ -27,10 +27,10 @@ index eb7d6941b..10a889b5d 100644
+  
+  AC_SUBST(OBJDUMP)
+ diff --git a/macros.in b/macros.in
+-index a1f795e5f..689e784ef 100644
++index d53ab5ed5..9d10441c8 100644
+ --- a/macros.in
+ +++ b/macros.in
+-@@ -933,7 +933,7 @@ package or when debugging this package.\
++@@ -911,7 +911,7 @@ package or when debugging this package.\
+  %_sharedstatedir	%{_prefix}/com
+  %_localstatedir		%{_prefix}/var
+  %_lib			lib
+@@ -40,7 +40,7 @@ index a1f795e5f..689e784ef 100644
+  %_infodir		%{_datadir}/info
+  %_mandir		%{_datadir}/man
+ diff --git a/rpm.am b/rpm.am
+-index 7b57f433b..9bbb9ee96 100644
++index ebe4e40d1..e6920e258 100644
+ --- a/rpm.am
+ +++ b/rpm.am
+ @@ -1,10 +1,10 @@
+@@ -55,4 +55,4 @@ index 7b57f433b..9bbb9ee96 100644
+ +rpmconfigdir = $(libdir)/rpm
+  
+  # Libtool version (current-revision-age) for all our libraries
+- rpm_version_info = 11:0:2
++ rpm_version_info = 12:0:3
+diff --git a/meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch b/meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch
 deleted file mode 100644
-index 6ab89cd99e..0000000000
---- a/meta/recipes-core/systemd/systemd/38c87ca2ab96d085158485ecfc46c7cb6af=
-0f166.patch
+index 683b57d455..0000000000
+--- a/meta/recipes-devtools/rpm/files/0002-CVE-2021-3521.patch
 +++ /dev/null
-@@ -1,42 +0,0 @@
--From 38c87ca2ab96d085158485ecfc46c7cb6af0f166 Mon Sep 17 00:00:00 2001
--From: =3D?UTF-8?q?Zbigniew=3D20J=3DC4=3D99drzejewski-Szmek?=3D <zbyszek@in=
-.waw.pl>
--Date: Fri, 3 Jun 2022 09:32:02 +0200
--Subject: [PATCH] sha256: fix compilation on efi-ia32
--MIME-Version: 1.0
--Content-Type: text/plain; charset=3DUTF-8
--Content-Transfer-Encoding: 8bit
+@@ -1,64 +0,0 @@
+-From c4b1bee51bbdd732b94b431a951481af99117703 Mon Sep 17 00:00:00 2001
+-From: Panu Matilainen <pmatilai@redhat.com>
+-Date: Thu, 30 Sep 2021 09:51:10 +0300
+-Subject: [PATCH 2/3] Process MPI's from all kinds of signatures
 -
--/usr/bin/gcc -c ../src/fundamental/sha256.c -o src/boot/efi/sha256.c.o -Wn=
-o-format-signedness -Wno-missing-field-initializers -Wno-unused-parameter -=
-Wdate-time -Wendif-labels -Werror=3Dformat=3D2 -Werror=3Dimplicit-function-=
-declaration -Werror=3Dincompatible-pointer-types -Werror=3Dint-conversion -=
-Werror=3Doverflow -Werror=3Doverride-init -Werror=3Dreturn-type -Werror=3Ds=
-hift-count-overflow -Werror=3Dshift-overflow=3D2 -Werror=3Dundef -Wfloat-eq=
-ual -Wimplicit-fallthrough=3D5 -Winit-self -Wlogical-op -Wmissing-include-d=
-irs -Wmissing-noreturn -Wnested-externs -Wold-style-definition -Wpointer-ar=
-ith -Wredundant-decls -Wshadow -Wstrict-aliasing=3D2 -Wstrict-prototypes -W=
-suggest-attribute=3Dnoreturn -Wunused-function -Wwrite-strings -Wno-unused-=
-result -fno-stack-protector -fno-strict-aliasing -fpic -fwide-exec-charset=
-=3DUCS2 -Wall -Wextra -Wsign-compare -nostdlib -std=3Dgnu99 -ffreestanding =
--fshort-wchar -fvisibility=3Dhidden -isystem /usr/include/efi -isystem /usr=
-/include/efi/ia32 -I /builddir/build/BUILD/systemd-stable-250.7/src/fundame=
-ntal -DSD_BOOT -DGNU_EFI_USE_MS_ABI -include src/boot/efi/efi_config.h -inc=
-lude version.h -mno-sse -mno-mmx -flto -O2 -flto=3Dauto
--../src/fundamental/sha256.c: In function =E2=80=98sha256_finish_ctx=E2=80=
-=99:
--../src/fundamental/sha256.c:61:25: error: =E2=80=98false=E2=80=99 undeclar=
-ed (first use in this function)
--   61 | # define UNALIGNED_P(p) false
--      |                         ^~~~~
--../src/fundamental/sha256.c:136:21: note: in expansion of macro =E2=80=98U=
-NALIGNED_P=E2=80=99
--  136 |                 if (UNALIGNED_P(resbuf))
--      |                     ^~~~~~~~~~~
--../src/fundamental/sha256.c:32:1: note: =E2=80=98false=E2=80=99 is defined=
- in header =E2=80=98<stdbool.h>=E2=80=99; did you forget to =E2=80=98#inclu=
-de <stdbool.h>=E2=80=99?
--   31 | #include "sha256.h"
--  +++ |+#include <stdbool.h>
--   32 |
--...
+-No immediate effect but needed by the following commits.
 -
--Upstream-Status: Backport
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+-CVE: CVE-2021-3521
+-Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/b5e8bc74b]
+-
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
 -
 ----
-- src/fundamental/sha256.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- rpmio/rpmpgp.c | 13 +++++--------
+- 1 file changed, 5 insertions(+), 8 deletions(-)
 -
--diff --git a/src/fundamental/sha256.c b/src/fundamental/sha256.c
--index cd16aec4dd..58b1a80d33 100644
----- a/src/fundamental/sha256.c
--+++ b/src/fundamental/sha256.c
--@@ -58,7 +58,7 @@
-- #  define UNALIGNED_P(p) (((size_t) p) % sizeof(uint32_t) !=3D 0)
-- # endif
-- #else
---# define UNALIGNED_P(p) false
--+# define UNALIGNED_P(p) sd_false
-- #endif
--=20
-- /* This array contains the bytes used to pad the buffer to the next
-diff --git a/meta/recipes-core/systemd/systemd_251.2.bb b/meta/recipes-core=
-/systemd/systemd_251.3.bb
-similarity index 99%
-rename from meta/recipes-core/systemd/systemd_251.2.bb
-rename to meta/recipes-core/systemd/systemd_251.3.bb
-index bb3c59f418..025472143c 100644
---- a/meta/recipes-core/systemd/systemd_251.2.bb
-+++ b/meta/recipes-core/systemd/systemd_251.3.bb
-@@ -14,7 +14,8 @@ inherit useradd pkgconfig meson perlnative update-rc.d up=
-date-alternatives qemu
- # that we don't build both udev and systemd in world builds.
- REQUIRED_DISTRO_FEATURES =3D "systemd"
-=20
--SRC_URI +=3D "file://touchscreen.rules \
-+SRC_URI +=3D " \
-+           file://touchscreen.rules \
-            file://00-create-volatile.conf \
-            ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallbac=
-k', 'file://org.freedesktop.hostname1_no_polkit.conf', '', d)} \
-            ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallbac=
-k', 'file://00-hostnamed-network-user.conf', '', d)} \
-@@ -24,7 +25,6 @@ SRC_URI +=3D "file://touchscreen.rules \
-            file://0001-binfmt-Don-t-install-dependency-links-at-install-ti=
-m.patch \
-            file://0003-implment-systemd-sysv-install-for-OE.patch \
-            file://0001-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to=
--.patch \
--           file://0001-shared-utmp-wtmp-fix-build-without-utmp.patch \
+-diff --git a/rpmio/rpmpgp.c b/rpmio/rpmpgp.c
+-index 25f67048fd..509e777e6d 100644
+---- a/rpmio/rpmpgp.c
+-+++ b/rpmio/rpmpgp.c
+-@@ -543,7 +543,7 @@ pgpDigAlg pgpDigAlgFree(pgpDigAlg alg)
+-     return NULL;
+- }
+- 
+--static int pgpPrtSigParams(pgpTag tag, uint8_t pubkey_algo, uint8_t sigtype,
+-+static int pgpPrtSigParams(pgpTag tag, uint8_t pubkey_algo,
+- 		const uint8_t *p, const uint8_t *h, size_t hlen,
+- 		pgpDigParams sigp)
+- {
+-@@ -556,10 +556,8 @@ static int pgpPrtSigParams(pgpTag tag, uint8_t pubkey_algo, uint8_t sigtype,
+- 	int mpil = pgpMpiLen(p);
+- 	if (pend - p < mpil)
+- 	    break;
+--	if (sigtype == PGPSIGTYPE_BINARY || sigtype == PGPSIGTYPE_TEXT) {
+--	    if (sigalg->setmpi(sigalg, i, p))
+--		break;
+--	}
+-+        if (sigalg->setmpi(sigalg, i, p))
+-+            break;
+- 	p += mpil;
+-     }
+- 
+-@@ -619,7 +617,7 @@ static int pgpPrtSig(pgpTag tag, const uint8_t *h, size_t hlen,
+- 	}
+- 
+- 	p = ((uint8_t *)v) + sizeof(*v);
+--	rc = pgpPrtSigParams(tag, v->pubkey_algo, v->sigtype, p, h, hlen, _digp);
+-+	rc = pgpPrtSigParams(tag, v->pubkey_algo, p, h, hlen, _digp);
+-     }	break;
+-     case 4:
+-     {   pgpPktSigV4 v = (pgpPktSigV4)h;
+-@@ -677,8 +675,7 @@ static int pgpPrtSig(pgpTag tag, const uint8_t *h, size_t hlen,
+- 	p += 2;
+- 	if (p > hend)
+- 	    return 1;
+--
+--	rc = pgpPrtSigParams(tag, v->pubkey_algo, v->sigtype, p, h, hlen, _digp);
+-+	rc = pgpPrtSigParams(tag, v->pubkey_algo, p, h, hlen, _digp);
+-     }	break;
+-     default:
+- 	rpmlog(RPMLOG_WARNING, _("Unsupported version of signature: V%d\n"), version);
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch b/meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch
+deleted file mode 100644
+index a5ec802501..0000000000
+--- a/meta/recipes-devtools/rpm/files/0003-CVE-2021-3521.patch
++++ /dev/null
+@@ -1,329 +0,0 @@
+-From 07676ca03ad8afcf1ca95a2353c83fbb1d970b9b Mon Sep 17 00:00:00 2001
+-From: Panu Matilainen <pmatilai@redhat.com>
+-Date: Thu, 30 Sep 2021 09:59:30 +0300
+-Subject: [PATCH 3/3] Validate and require subkey binding signatures on PGP
+- public keys
+-
+-All subkeys must be followed by a binding signature by the primary key
+-as per the OpenPGP RFC, enforce the presence and validity in the parser.
+-
+-The implementation is as kludgey as they come to work around our
+-simple-minded parser structure without touching API, to maximise
+-backportability. Store all the raw packets internally as we decode them
+-to be able to access previous elements at will, needed to validate ordering
+-and access the actual data. Add testcases for manipulated keys whose
+-import previously would succeed.
+-
+-Depends on the two previous commits:
+-7b399fcb8f52566e6f3b4327197a85facd08db91 and
+-236b802a4aa48711823a191d1b7f753c82a89ec5
+-
+-Fixes CVE-2021-3521.
+-
+-Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/bd36c5dc9]
+-CVE:CVE-2021-3521
+-
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+-
+----
+- rpmio/rpmpgp.c                                | 99 +++++++++++++++++--
+- tests/Makefile.am                             |  3 +
+- tests/data/keys/CVE-2021-3521-badbind.asc     | 25 +++++
+- .../data/keys/CVE-2021-3521-nosubsig-last.asc | 25 +++++
+- tests/data/keys/CVE-2021-3521-nosubsig.asc    | 37 +++++++
+- tests/rpmsigdig.at                            | 28 ++++++
+- 6 files changed, 209 insertions(+), 8 deletions(-)
+- create mode 100644 tests/data/keys/CVE-2021-3521-badbind.asc
+- create mode 100644 tests/data/keys/CVE-2021-3521-nosubsig-last.asc
+- create mode 100644 tests/data/keys/CVE-2021-3521-nosubsig.asc
+-
+-diff --git a/rpmio/rpmpgp.c b/rpmio/rpmpgp.c
+-index 509e777e6d..371ad4d9b6 100644
+---- a/rpmio/rpmpgp.c
+-+++ b/rpmio/rpmpgp.c
+-@@ -1061,33 +1061,116 @@ static pgpDigParams pgpDigParamsNew(uint8_t tag)
+-     return digp;
+- }
+- 
+-+static int hashKey(DIGEST_CTX hash, const struct pgpPkt *pkt, int exptag)
+-+{
+-+    int rc = -1;
+-+    if (pkt->tag == exptag) {
+-+       uint8_t head[] = {
+-+           0x99,
+-+           (pkt->blen >> 8),
+-+           (pkt->blen     ),
+-+       };
+-+
+-+       rpmDigestUpdate(hash, head, 3);
+-+       rpmDigestUpdate(hash, pkt->body, pkt->blen);
+-+       rc = 0;
+-+    }
+-+    return rc;
+-+}
+-+
+-+static int pgpVerifySelf(pgpDigParams key, pgpDigParams selfsig,
+-+                       const struct pgpPkt *all, int i)
+-+{
+-+    int rc = -1;
+-+    DIGEST_CTX hash = NULL;
+-+
+-+    switch (selfsig->sigtype) {
+-+    case PGPSIGTYPE_SUBKEY_BINDING:
+-+       hash = rpmDigestInit(selfsig->hash_algo, 0);
+-+       if (hash) {
+-+           rc = hashKey(hash, &all[0], PGPTAG_PUBLIC_KEY);
+-+           if (!rc)
+-+               rc = hashKey(hash, &all[i-1], PGPTAG_PUBLIC_SUBKEY);
+-+       }
+-+       break;
+-+    default:
+-+       /* ignore types we can't handle */
+-+       rc = 0;
+-+       break;
+-+    }
+-+
+-+    if (hash && rc == 0)
+-+       rc = pgpVerifySignature(key, selfsig, hash);
+-+
+-+    rpmDigestFinal(hash, NULL, NULL, 0);
+-+
+-+    return rc;
+-+}
+-+
+- int pgpPrtParams(const uint8_t * pkts, size_t pktlen, unsigned int pkttype,
+- 		 pgpDigParams * ret)
+- {
+-     const uint8_t *p = pkts;
+-     const uint8_t *pend = pkts + pktlen;
+-     pgpDigParams digp = NULL;
+--    struct pgpPkt pkt;
+-+    pgpDigParams selfsig = NULL;
+-+    int i = 0;
+-+    int alloced = 16; /* plenty for normal cases */
+-+    struct pgpPkt *all = xmalloc(alloced * sizeof(*all));
+-     int rc = -1; /* assume failure */
+-+    int expect = 0;
+-+    int prevtag = 0;
+- 
+-     while (p < pend) {
+--	if (decodePkt(p, (pend - p), &pkt))
+-+	struct pgpPkt *pkt = &all[i];
+-+	if (decodePkt(p, (pend - p), pkt))
+- 	    break;
+- 
+- 	if (digp == NULL) {
+--	    if (pkttype && pkt.tag != pkttype) {
+-+               if (pkttype && pkt->tag != pkttype) {
+- 		break;
+- 	    } else {
+--		digp = pgpDigParamsNew(pkt.tag);
+-+		digp = pgpDigParamsNew(pkt->tag);
+- 	    }
+- 	}
+- 
+--	if (pgpPrtPkt(&pkt, digp))
+-+        if (expect) {
+-+            if (pkt->tag != expect)
+-+                break;
+-+            selfsig = pgpDigParamsNew(pkt->tag);
+-+        }
+-+	if (pgpPrtPkt(pkt, selfsig ? selfsig : digp))
+- 	    break;
+- 
+--	p += (pkt.body - pkt.head) + pkt.blen;
+--	if (pkttype == PGPTAG_SIGNATURE)
+--	    break;
+-+	if (selfsig) {
+-+           /* subkeys must be followed by binding signature */
+-+           if (prevtag == PGPTAG_PUBLIC_SUBKEY) {
+-+               if (selfsig->sigtype != PGPSIGTYPE_SUBKEY_BINDING)
+-+                   break;
+-+           }
+-+
+-+           int xx = pgpVerifySelf(digp, selfsig, all, i);
+-+
+-+           selfsig = pgpDigParamsFree(selfsig);
+-+           if (xx)
+-+               break;
+-+           expect = 0;
+-+       }
+-+
+-+       if (pkt->tag == PGPTAG_PUBLIC_SUBKEY)
+-+           expect = PGPTAG_SIGNATURE;
+-+       prevtag = pkt->tag;
+-+
+-+       i++;
+-+       p += (pkt->body - pkt->head) + pkt->blen;
+-+       if (pkttype == PGPTAG_SIGNATURE)
+-+           break;
+-+
+-+       if (alloced <= i) {
+-+           alloced *= 2;
+-+           all = xrealloc(all, alloced * sizeof(*all));
+-+       }
+-+
+-     }
+- 
+-     rc = (digp && (p == pend)) ? 0 : -1;
+-diff --git a/tests/Makefile.am b/tests/Makefile.am
+-index a41ce10de8..7bb23247f1 100644
+---- a/tests/Makefile.am
+-+++ b/tests/Makefile.am
+-@@ -107,6 +107,9 @@ EXTRA_DIST += data/SPECS/hello-config-buildid.spec
+- EXTRA_DIST += data/SPECS/hello-cd.spec
+- EXTRA_DIST += data/keys/rpm.org-rsa-2048-test.pub
+- EXTRA_DIST += data/keys/rpm.org-rsa-2048-test.secret
+-+EXTRA_DIST += data/keys/CVE-2021-3521-badbind.asc
+-+EXTRA_DIST += data/keys/CVE-2022-3521-nosubsig.asc
+-+EXTRA_DIST += data/keys/CVE-2022-3521-nosubsig-last.asc
+- EXTRA_DIST += data/macros.testfile
+- EXTRA_DIST += data/macros.debug
+- EXTRA_DIST += data/SOURCES/foo.c
+-diff --git a/tests/data/keys/CVE-2021-3521-badbind.asc b/tests/data/keys/CVE-2021-3521-badbind.asc
+-new file mode 100644
+-index 0000000000..aea00f9d7a
+---- /dev/null
+-+++ b/tests/data/keys/CVE-2021-3521-badbind.asc
+-@@ -0,0 +1,25 @@
+-+-----BEGIN PGP PUBLIC KEY BLOCK-----
+-+Version: rpm-4.17.90 (NSS-3)
+-+
+-+mQENBFjmORgBCAC7TMEk6wnjSs8Dr4yqSScWdU2pjcqrkTxuzdWvowcIUPZI0w/g
+-+HkRqGd4apjvY2V15kjL10gk3QhFP3pZ/9p7zh8o8NHX7aGdSGDK7NOq1eFaErPRY
+-+91LW9RiZ0lbOjXEzIL0KHxUiTQEmdXJT43DJMFPyW9fkCWg0OltiX618FUdWWfI8
+-+eySdLur1utnqBvdEbCUvWK2RX3vQZQdvEBODnNk2pxqTyV0w6VPQ96W++lF/5Aas
+-+7rUv3HIyIXxIggc8FRrnH+y9XvvHDonhTIlGnYZN4ubm9i4y3gOkrZlGTrEw7elQ
+-+1QeMyG2QQEbze8YjpTm4iLABCBrRfPRaQpwrABEBAAG0IXJwbS5vcmcgUlNBIHRl
+-+c3RrZXkgPHJzYUBycG0ub3JnPokBNwQTAQgAIQUCWOY5GAIbAwULCQgHAgYVCAkK
+-+CwIEFgIDAQIeAQIXgAAKCRBDRFkeGWTF/MxxCACnjqFL+MmPh9W9JQKT2DcLbBzf
+-+Cqo6wcEBoCOcwgRSk8dSikhARoteoa55JRJhuMyeKhhEAogE9HRmCPFdjezFTwgB
+-+BDVBpO2dZ023mLXDVCYX3S8pShOgCP6Tn4wqCnYeAdLcGg106N4xcmgtcssJE+Pr
+-+XzTZksbZsrTVEmL/Ym+R5w5jBfFnGk7Yw7ndwfQsfNXQb5AZynClFxnX546lcyZX
+-+fEx3/e6ezw57WNOUK6WT+8b+EGovPkbetK/rGxNXuWaP6X4A/QUm8O98nCuHYFQq
+-++mvNdsCBqGf7mhaRGtpHk/JgCn5rFvArMDqLVrR9hX0LdCSsH7EGE+bR3r7wuQEN
+-+BFjmORgBCACk+vDZrIXQuFXEYToZVwb2attzbbJJCqD71vmZTLsW0QxuPKRgbcYY
+-+zp4K4lVBnHhFrF8MOUOxJ7kQWIJZMZFt+BDcptCYurbD2H4W2xvnWViiC+LzCMzz
+-+iMJT6165uefL4JHTDPxC2fFiM9yrc72LmylJNkM/vepT128J5Qv0gRUaQbHiQuS6
+-+Dm/+WRnUfx3i89SV4mnBxb/Ta93GVqoOciWwzWSnwEnWYAvOb95JL4U7c5J5f/+c
+-+KnQDHsW7sIiIdscsWzvgf6qs2Ra1Zrt7Fdk4+ZS2f/adagLhDO1C24sXf5XfMk5m
+-+L0OGwZSr9m5s17VXxfspgU5ugc8kBJfzABEBAAE=
+-+=WCfs
+-+-----END PGP PUBLIC KEY BLOCK-----
+-+
+-diff --git a/tests/data/keys/CVE-2021-3521-nosubsig-last.asc b/tests/data/keys/CVE-2021-3521-nosubsig-last.asc
+-new file mode 100644
+-index 0000000000..aea00f9d7a
+---- /dev/null
+-+++ b/tests/data/keys/CVE-2021-3521-nosubsig-last.asc
+-@@ -0,0 +1,25 @@
+-+-----BEGIN PGP PUBLIC KEY BLOCK-----
+-+Version: rpm-4.17.90 (NSS-3)
+-+
+-+mQENBFjmORgBCAC7TMEk6wnjSs8Dr4yqSScWdU2pjcqrkTxuzdWvowcIUPZI0w/g
+-+HkRqGd4apjvY2V15kjL10gk3QhFP3pZ/9p7zh8o8NHX7aGdSGDK7NOq1eFaErPRY
+-+91LW9RiZ0lbOjXEzIL0KHxUiTQEmdXJT43DJMFPyW9fkCWg0OltiX618FUdWWfI8
+-+eySdLur1utnqBvdEbCUvWK2RX3vQZQdvEBODnNk2pxqTyV0w6VPQ96W++lF/5Aas
+-+7rUv3HIyIXxIggc8FRrnH+y9XvvHDonhTIlGnYZN4ubm9i4y3gOkrZlGTrEw7elQ
+-+1QeMyG2QQEbze8YjpTm4iLABCBrRfPRaQpwrABEBAAG0IXJwbS5vcmcgUlNBIHRl
+-+c3RrZXkgPHJzYUBycG0ub3JnPokBNwQTAQgAIQUCWOY5GAIbAwULCQgHAgYVCAkK
+-+CwIEFgIDAQIeAQIXgAAKCRBDRFkeGWTF/MxxCACnjqFL+MmPh9W9JQKT2DcLbBzf
+-+Cqo6wcEBoCOcwgRSk8dSikhARoteoa55JRJhuMyeKhhEAogE9HRmCPFdjezFTwgB
+-+BDVBpO2dZ023mLXDVCYX3S8pShOgCP6Tn4wqCnYeAdLcGg106N4xcmgtcssJE+Pr
+-+XzTZksbZsrTVEmL/Ym+R5w5jBfFnGk7Yw7ndwfQsfNXQb5AZynClFxnX546lcyZX
+-+fEx3/e6ezw57WNOUK6WT+8b+EGovPkbetK/rGxNXuWaP6X4A/QUm8O98nCuHYFQq
+-++mvNdsCBqGf7mhaRGtpHk/JgCn5rFvArMDqLVrR9hX0LdCSsH7EGE+bR3r7wuQEN
+-+BFjmORgBCACk+vDZrIXQuFXEYToZVwb2attzbbJJCqD71vmZTLsW0QxuPKRgbcYY
+-+zp4K4lVBnHhFrF8MOUOxJ7kQWIJZMZFt+BDcptCYurbD2H4W2xvnWViiC+LzCMzz
+-+iMJT6165uefL4JHTDPxC2fFiM9yrc72LmylJNkM/vepT128J5Qv0gRUaQbHiQuS6
+-+Dm/+WRnUfx3i89SV4mnBxb/Ta93GVqoOciWwzWSnwEnWYAvOb95JL4U7c5J5f/+c
+-+KnQDHsW7sIiIdscsWzvgf6qs2Ra1Zrt7Fdk4+ZS2f/adagLhDO1C24sXf5XfMk5m
+-+L0OGwZSr9m5s17VXxfspgU5ugc8kBJfzABEBAAE=
+-+=WCfs
+-+-----END PGP PUBLIC KEY BLOCK-----
+-+
+-diff --git a/tests/data/keys/CVE-2021-3521-nosubsig.asc b/tests/data/keys/CVE-2021-3521-nosubsig.asc
+-new file mode 100644
+-index 0000000000..3a2e7417f8
+---- /dev/null
+-+++ b/tests/data/keys/CVE-2021-3521-nosubsig.asc
+-@@ -0,0 +1,37 @@
+-+-----BEGIN PGP PUBLIC KEY BLOCK-----
+-+Version: rpm-4.17.90 (NSS-3)
+-+
+-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
+-+E4XX4jtDmdZPreZALsiB
+-+=rRop
+-+-----END PGP PUBLIC KEY BLOCK-----
+-+
+-diff --git a/tests/rpmsigdig.at b/tests/rpmsigdig.at
+-index 8e7c759b8f..e2d30a7f1b 100644
+---- a/tests/rpmsigdig.at
+-+++ b/tests/rpmsigdig.at
+-@@ -2,6 +2,34 @@
+- 
+- AT_BANNER([RPM signatures and digests])
+- 
+-+AT_SETUP([rpmkeys --import invalid keys])
+-+AT_KEYWORDS([rpmkeys import])
+-+RPMDB_INIT
+-+
+-+AT_CHECK([
+-+runroot rpmkeys --import /data/keys/CVE-2021-3521-badbind.asc
+-+],
+-+[1],
+-+[],
+-+[error: /data/keys/CVE-2021-3521-badbind.asc: key 1 import failed.]
+-+)
+-+AT_CHECK([
+-+runroot rpmkeys --import /data/keys/CVE-2021-3521-nosubsig.asc
+-+],
+-+[1],
+-+[],
+-+[error: /data/keys/CVE-2021-3521-nosubsig.asc: key 1 import failed.]
+-+)
+-+
+-+AT_CHECK([
+-+runroot rpmkeys --import /data/keys/CVE-2021-3521-nosubsig-last.asc
+-+],
+-+[1],
+-+[],
+-+[error: /data/keys/CVE-2021-3521-nosubsig-last.asc: key 1 import failed.]
+-+)
+-+AT_CLEANUP
+-+
+- # ------------------------------
+- # Test pre-built package verification
+- AT_SETUP([rpmkeys -Kv <unsigned> 1])
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-devtools/rpm/rpm_4.17.0.bb b/meta/recipes-devtools/rpm/rpm_4.17.1.bb
+similarity index 97%
+rename from meta/recipes-devtools/rpm/rpm_4.17.0.bb
+rename to meta/recipes-devtools/rpm/rpm_4.17.1.bb
+index c392ac0db4..e3015172f8 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.17.0.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.17.1.bb
+@@ -39,13 +39,10 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.17.x;protoc
+            file://0001-tools-Add-error.h-for-non-glibc-case.patch \
+            file://0001-docs-do-not-build-manpages-requires-pandoc.patch \
+            file://0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch \
+-           file://0001-CVE-2021-3521.patch \
+-           file://0002-CVE-2021-3521.patch \
+-           file://0003-CVE-2021-3521.patch \
             "
-=20
- # patches needed by musl
---=20
+ 
+ PE = "1"
+-SRCREV = "3e74e8ba2dd5e76a5353d238dc7fc38651ce27b3"
++SRCREV = "5bef402da334595ed9302b8bca1acdf5e88bfe11"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
 2.30.2
 
 
