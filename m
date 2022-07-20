@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14B9CCCA489
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25028CCA48B
 	for <webhook@archiver.kernel.org>; Wed, 20 Jul 2022 08:45:15 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web11.51614.1658306698678729601
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+ [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web10.51644.1658306707520253040
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 01:45:08 -0700
+ Wed, 20 Jul 2022 01:45:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=JzCSvxP/;
- spf=pass (domain: gmail.com, ip: 209.85.218.46,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=qOzaLAmC;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id ss3so31736568ejc.11
+Received: by mail-ed1-f51.google.com with SMTP id x91so22891164ede.1
         for <openembedded-core@lists.openembedded.org>;
  Wed, 20 Jul 2022 01:45:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=slzQIZh0W/RGzywOuFgzL8f1v9Rk8YUYmgSZQIpo8uc=;
-        b=JzCSvxP/gTn5gos0nNE2whKN6ZhjKQfpZ4TauDr2kwS/V0LZo/m3iuRWsr/M55fN76
-         Ogr3QIdr0QDEd2gLUKbiZuQrI7Gxp4h96stdUz2Oul6mK+OVtcs0ydFNa05DwqrnM25N
-         3BCR8ecNXp8krpRwO6uK8VfcB1uvVOSy35R30VbKUanRPC5AzmTXQrFZfuRZntWfNONE
-         Oj7uCre+/628Hi7s4g9m5EwI75j3AjmCYn7hBw1c2WkLZZJLjf6cg+nhz53Km9Pe+bDS
-         KdxIlvE/UVjEtyI2VFCzfXYJ0pYdsDzmzHdiW4QKHvmHeQEberQbODaUux2XzqWP5/PX
-         XRYQ==
+        bh=WuhoLeP0431tksg9LP48t+HgKc/IjDYCg2RYi9f/iac=;
+        b=qOzaLAmCTDNYhuwmyJqc84Indk6GJt6kSyFcXPhLai0sXFzrn3n2xUb0N77ktg2rKP
+         4rZcN9wM0z9134agX1HDehpla5suJP6aY1nIGS6x7ezoMExGFAbeAm3rRfwFcldR/7qI
+         uBbDbmRGVCU74t8gi+blfDVXAOBIazAkPxNuQKcrofo6l1kicEbosEbzS4kQfYYJjMjm
+         DIRNhmNdXVYYrHYhJzJ3HxEm7FLohmiht7hFqHZllck8fYN+TqVGowQr7sQ5Gnqk2nQL
+         JFwaA8K42NZEuT2kiQoy9nJj2ShyIdhiJmOrgkScPfymYWMfHc9pZJAiV27vZXE2cmQC
+         NmYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=slzQIZh0W/RGzywOuFgzL8f1v9Rk8YUYmgSZQIpo8uc=;
-        b=sDKgW4kLX+GWYHrAcTqYnnMokagFQD8ymb3Mz59WBlgb36244OSIg4NL/JAC9jKyP0
-         +qqdzF3SeyoUyOKiA8S4swtrwRKRlnWse3i9BmDOVmmjlmA4TC/OxQN5dwYFg/Gejsfz
-         4Vms2GX9En3t8LF40hX17N6xRqZwW0e7OTLQshbObA4Tk2MuvqchSQ6Gy8+lodVFA1r1
-         jql73XvOSnNrk26yBwEPRVkomkcsqoi+ANHFRXk6BFKpEphCavirDvvkfDaxry3NFayw
-         QMPIC/Lt8In1de6CGTRBXnN5hD6MLYv+ZhWCm4BIIU5snXoyNsEPyeomZg3ZJrKPdmG1
-         CKvQ==
-X-Gm-Message-State: AJIora+OZUQJrXTuH/1B9UYhr4HYNuWamGGoe0vOEuXci6im2LIurXrU
-	lfgmBXVxT7yW9SV1ps1A+VBKPnrBe04=
+        bh=WuhoLeP0431tksg9LP48t+HgKc/IjDYCg2RYi9f/iac=;
+        b=GK+9OA4Ohf+kUWsuPEqsFTHVsFr5DouceEjWlbdIe9bcXRM21LANkBk7YEip0F7asC
+         0DebzGe7Ly8MP2c4vxYTS/9wJrDhdyN9P6MmN0w290nQqqHGg0E0wSweel/77Bll0nsO
+         N8GoOdyKraNwJ+wBMO+pphdxrVbm2LL9i70jcO/Wzii6TPUgNDBJ41rsFqPm7Ymaok2n
+         mQ2YI6buEvEHvoTmYxbIvZvMfjqFRL8d7W9pe0tRypnrBW600f3DjXvHGv5+L+p75HlR
+         HbfJKbKrHfxdom9ZvpE6uCNC28Pg++nXp/pBMPp+4wz65HhM5ZPJGLTzblNZ9D7CpSnJ
+         NXHA==
+X-Gm-Message-State: AJIora/1agnNA4PtffTu4u7HWTZkzcZpKMlq5P/xf2GH9jUilpY0LI2X
+	tUUTlABCweny2ydsIWckoGrn/V/DX9Y=
 X-Google-Smtp-Source: 
- AGRyM1tICZ9P8TCcBsoqTaJOFYDSNpGb3eolnmYY7M/MYb6BOW6xpZ3uOsgqkTwzVPsMAcmjKgcd4Q==
-X-Received: by 2002:a17:907:75f2:b0:72b:564c:465e with SMTP id
- jz18-20020a17090775f200b0072b564c465emr33115079ejc.689.1658306707597;
-        Wed, 20 Jul 2022 01:45:07 -0700 (PDT)
+ AGRyM1scaLlrIeEEGqrFAuAXEsk/eOHjpEEH1zCTdnRAcwEwHKhv90cgEEnQ8SWogznMyw9ayck0Jg==
+X-Received: by 2002:aa7:db8a:0:b0:43b:75b1:92e9 with SMTP id
+ u10-20020aa7db8a000000b0043b75b192e9mr10036615edt.223.1658306705943;
+        Wed, 20 Jul 2022 01:45:05 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.45.06
+ s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.45.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 01:45:07 -0700 (PDT)
+        Wed, 20 Jul 2022 01:45:05 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 18/51] u-boot: update 2022.04 -> 2022.07
-Date: Wed, 20 Jul 2022 10:44:09 +0200
-Message-Id: <20220720084442.2940187-18-alex@linutronix.de>
+Subject: [PATCH 16/51] rt-tests: update 2.3 -> 2.4
+Date: Wed, 20 Jul 2022 10:44:07 +0200
+Message-Id: <20220720084442.2940187-16-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220720084442.2940187-1-alex@linutronix.de>
 References: <20220720084442.2940187-1-alex@linutronix.de>
@@ -68,72 +68,50 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Jul 2022 08:45:15 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168311
-
-Native python and native swig are new requirements for scripts/dtc
-
-License-Update: added bzip2 licensed headers:
-https://source.denx.de/u-boot/u-boot/-/commit/fba0882bcdfd919727ee9ee8523ef3156daab507
-(overall license still gpl2)
+ https://lists.openembedded.org/g/openembedded-core/message/168310
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-bsp/u-boot/u-boot-common.inc                    | 4 ++--
- meta/recipes-bsp/u-boot/u-boot-tools.inc                     | 5 ++++-
- .../{u-boot-tools_2022.04.bb => u-boot-tools_2022.07.bb}     | 1 +
- .../u-boot/{u-boot_2022.04.bb => u-boot_2022.07.bb}          | 0
- 4 files changed, 7 insertions(+), 3 deletions(-)
- rename meta/recipes-bsp/u-boot/{u-boot-tools_2022.04.bb => u-boot-tools_2022.07.bb} (98%)
- rename meta/recipes-bsp/u-boot/{u-boot_2022.04.bb => u-boot_2022.07.bb} (100%)
+ ...0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch | 6 +++---
+ meta/recipes-rt/rt-tests/rt-tests.inc                       | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index 8fc33608d0..d7fd3c7227 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-@@ -7,12 +7,12 @@ SECTION = "bootloaders"
- DEPENDS += "flex-native bison-native"
+diff --git a/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch b/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
+index 43c2a2f33b..5410ec94e9 100644
+--- a/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
++++ b/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
+@@ -1,4 +1,4 @@
+-From 05ccf5045adf4248f29623ad0db2d2a55ae5cd06 Mon Sep 17 00:00:00 2001
++From 5a7caafe04cac805b5057db2632b0defe703eacd Mon Sep 17 00:00:00 2001
+ From: Randy Witt <randy.e.witt@intel.com>
+ Date: Fri, 16 Oct 2020 16:54:30 -0700
+ Subject: [PATCH] Makefile: Allow for CC and AR to be overridden
+@@ -15,11 +15,11 @@ Upstream-Status: Inappropriate [other]
+  1 file changed, 2 insertions(+), 2 deletions(-)
  
- LICENSE = "GPL-2.0-or-later"
--LIC_FILES_CHKSUM = "file://Licenses/README;md5=5a7450c57ffe5ae63fd732446b988025"
-+LIC_FILES_CHKSUM = "file://Licenses/README;md5=2ca5f2c35c8cc335f0a19756634782f1"
+ diff --git a/Makefile b/Makefile
+-index ec5d693..ab8a8de 100644
++index 3fbf882..04d3c0f 100644
+ --- a/Makefile
+ +++ b/Makefile
+ @@ -1,6 +1,6 @@
+- VERSION = 2.3
++ VERSION = 2.4
+ -CC = $(CROSS_COMPILE)gcc
+ -AR = $(CROSS_COMPILE)ar
+ +CC ?= $(CROSS_COMPILE)gcc
+diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
+index e519dfdc61..93fa390bba 100644
+--- a/meta/recipes-rt/rt-tests/rt-tests.inc
++++ b/meta/recipes-rt/rt-tests/rt-tests.inc
+@@ -1,5 +1,5 @@
+-SRCREV = "338843c1ee157ae5d990c6f544f66b447b24fa8b"
+-PV = "2.3"
++SRCREV = "ca4a6293da23ad0fd708ea1fecb2d465a9ea6093"
++PV = "2.4"
  PE = "1"
  
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "e4b6ebd3de982ae7185dbf689a030e73fd06e0d2"
-+SRCREV = "e092e3250270a1016c877da7bdd9384f14b1321e"
- 
- SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools.inc b/meta/recipes-bsp/u-boot/u-boot-tools.inc
-index a8d7fab46d..0bdbce725a 100644
---- a/meta/recipes-bsp/u-boot/u-boot-tools.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-tools.inc
-@@ -1,5 +1,8 @@
- SUMMARY = "U-Boot bootloader tools"
--DEPENDS += "gnutls openssl util-linux"
-+DEPENDS += "gnutls openssl util-linux swig-native"
-+
-+inherit python3native
-+export STAGING_INCDIR="${STAGING_INCDIR_NATIVE}"
- 
- PROVIDES = "${MLPREFIX}u-boot-mkimage ${MLPREFIX}u-boot-mkenvimage"
- PROVIDES:class-native = "u-boot-mkimage-native u-boot-mkenvimage-native"
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2022.04.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2022.07.bb
-similarity index 98%
-rename from meta/recipes-bsp/u-boot/u-boot-tools_2022.04.bb
-rename to meta/recipes-bsp/u-boot/u-boot-tools_2022.07.bb
-index 7eaf721ca8..ef386f76e6 100644
---- a/meta/recipes-bsp/u-boot/u-boot-tools_2022.04.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-tools_2022.07.bb
-@@ -1,2 +1,3 @@
- require u-boot-common.inc
- require u-boot-tools.inc
-+
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2022.04.bb b/meta/recipes-bsp/u-boot/u-boot_2022.07.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot_2022.04.bb
-rename to meta/recipes-bsp/u-boot/u-boot_2022.07.bb
+ SRC_URI = "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git;branch=main"
 -- 
 2.30.2
 
