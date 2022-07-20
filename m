@@ -2,62 +2,62 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1318AC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37562CCA489
 	for <webhook@archiver.kernel.org>; Wed, 20 Jul 2022 08:45:25 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web11.51624.1658306723114854210
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web10.51642.1658306701623392478
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 01:45:23 -0700
+ Wed, 20 Jul 2022 01:45:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=RdJe2bDp;
- spf=pass (domain: gmail.com, ip: 209.85.218.43,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=SiCgk6uT;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id l23so31815398ejr.5
+Received: by mail-ej1-f41.google.com with SMTP id j22so31836183ejs.2
         for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jul 2022 01:45:22 -0700 (PDT)
+ Wed, 20 Jul 2022 01:45:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=lZ8J8OqOkGDLJnE0l14pM5x8bDbVqW8cKgYWkP2HGOo=;
-        b=RdJe2bDpuiFabOt5sGp/+D+A2oNu4/46h0t+Uf5ERa3N3rwyH1cv8xzoeC0N9NNjYp
-         Enydg4ercmdSKyCeH/MuWYofTjik5DoKMr5/qKQxWKCYUK2Kz7JujW9Ij2VJNwmGUhgM
-         2wpoHCtra4J9GZ24kAEDWFQ+iLfybyZ0h2YTCzsenFUAgZcduETBjl6vkjyh8VjgzUBl
-         auGWOINdI7kC0et4hW21IrEJ2givi69aRyVTYalldULZLaU+IKqDomnJiqDIO4FB2x1K
-         XsmpvbNpATliy29EatU5n+PajElENaE+zzsuqkdxBGGQxwe/R4c4yUdhsjaucRyPzTPs
-         GyvQ==
+        bh=N6l2AnJXnVkL0kvLy0lsK79ApFkzswksOF+xUywZLEE=;
+        b=SiCgk6uT7VqyPXs1C6GpZdqIvzDYT6BsJK3syVTzEap20YivNQOY5yUlpJcGRAWcG2
+         QMtipzu2Nmhw8IPUbTSLjMmAqLjmNXsz6XmPML5W1XzBin6DJkU5hXzsvrcDzS3kuuFJ
+         riByGnirVs2UFayWFJOkmnjStTkZtjsIKZWB11dqhf2nqhB2wbaOE7gYrbEbZ+4tLmK+
+         FUb2Ez9vWqUKEB04BlkIi81px0vApsZK9Uz4Jwgyf8T5m4DUcq1Gr5wdVV0SBENB4A/3
+         p4VuNGXis4XfYchPJBw+8qKGQrzF6coXL0fQ7oxG240HSBGomV1dfzR+tHGacQ3M1Y6d
+         ir5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=lZ8J8OqOkGDLJnE0l14pM5x8bDbVqW8cKgYWkP2HGOo=;
-        b=gpaWTFjXye81a0rOLnmuLy/iPU51KndtM+XzdmQTuesKhCKfMi+VDIWQV1wwJCah1E
-         +EoFZyIrz13GpcqdNnul/5lVCCoL0Cv4zW09Xh0bvQRSPOo6qAfh0nSUt1OgH58DxNXT
-         8LIRLJcjqu5hjts6iGPOou1N1chIB5nFHOPGEQ+fMD7DnskJ93l5k/04Q/6lBR2JKusU
-         irHOJKwIJ0JNTxT4eJK55xAtKe6lv9hLQ/x4ffskRheL8KiTCQ9Yks54fPpk9705RfeV
-         iXX8RviXiyG3MDCglJ5i2eTNwLGau84P9MQTdt/032D1Xg7YKd4OSqkjtaa8pDVZHl9Q
-         Dg/A==
-X-Gm-Message-State: AJIora/74sr+3z/osiL5jRtPZrDKUGWOnP8R8o0UfAi+gnzr7n61ZSwW
-	P7VjJyfbbz3i0+zMC60xdhE9Q7GXR6c=
+        bh=N6l2AnJXnVkL0kvLy0lsK79ApFkzswksOF+xUywZLEE=;
+        b=NX8U7wPcvBsrlp7GWKZ0fcFuWTZRko/WneA+s69Dpauo4eDDypPz+e1iQ5j+MYQHe8
+         Mj9PMuCiY91ZauwC8MN2NfnKspjxxSQorVDKLver8wLgyt1fpqUc5mN1xFuRLHgrnA+J
+         MHRvp5QjpDxWscz5ktCjNCTrjteSEPfY9Opye4JsfjRQ0885LTb5LDtyOSNy+HmvWaII
+         kpoTarHBDi0elTKsn0sVwanpGGitzWqWcGMXcKjCGWPSTfmpxAKvC7/gSHlMVSkRK4bW
+         3YAhYj8wWfQ2iRBftu39l1d7SIyU+VYSTKhVIkW990O36m0KTj0cEFvIWFVNyGXyDoFJ
+         PmwQ==
+X-Gm-Message-State: AJIora+UhbV7hOoGukO6xjuf/xebfk/dIQs9rVk/+1ioJ9pWRu262vDj
+	8v4AM5whLMoyFFwuLfgeBhgkRkbwZng=
 X-Google-Smtp-Source: 
- AGRyM1v3K98+PzpbKR9ffBj7Pyus80cXRhw1hyATDYEsvsYIcTEkxFU9iLXfgykFrBMdDDCgriuzDA==
-X-Received: by 2002:a17:907:6890:b0:72c:7533:8901 with SMTP id
- qy16-20020a170907689000b0072c75338901mr33688537ejc.100.1658306721702;
-        Wed, 20 Jul 2022 01:45:21 -0700 (PDT)
+ AGRyM1vLp2hwb5eLdl1LAjzvSghSAeci8qKUxyiQR4a2LPO53na/an4kUwjvHxls7421kJGBEzxc5Q==
+X-Received: by 2002:a17:906:6a0f:b0:72b:64ce:289d with SMTP id
+ qw15-20020a1709066a0f00b0072b64ce289dmr33113471ejc.663.1658306716215;
+        Wed, 20 Jul 2022 01:45:16 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.45.20
+ s9-20020a170906a18900b00722e5b234basm7781784ejy.179.2022.07.20.01.45.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 01:45:21 -0700 (PDT)
+        Wed, 20 Jul 2022 01:45:15 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 33/51] libuv: upgrade 1.44.1 -> 1.44.2
-Date: Wed, 20 Jul 2022 10:44:24 +0200
-Message-Id: <20220720084442.2940187-33-alex@linutronix.de>
+Subject: [PATCH 27/51] hdparm: upgrade 9.63 -> 9.64
+Date: Wed, 20 Jul 2022 10:44:18 +0200
+Message-Id: <20220720084442.2940187-27-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220720084442.2940187-1-alex@linutronix.de>
 References: <20220720084442.2940187-1-alex@linutronix.de>
@@ -68,29 +68,29 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Jul 2022 08:45:25 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168327
+ https://lists.openembedded.org/g/openembedded-core/message/168321
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../libuv/{libuv_1.44.1.bb => libuv_1.44.2.bb}                  | 2 +-
+ meta/recipes-extended/hdparm/{hdparm_9.63.bb => hdparm_9.64.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/libuv/{libuv_1.44.1.bb => libuv_1.44.2.bb} (93%)
+ rename meta/recipes-extended/hdparm/{hdparm_9.63.bb => hdparm_9.64.bb} (94%)
 
-diff --git a/meta/recipes-connectivity/libuv/libuv_1.44.1.bb b/meta/recipes-connectivity/libuv/libuv_1.44.2.bb
-similarity index 93%
-rename from meta/recipes-connectivity/libuv/libuv_1.44.1.bb
-rename to meta/recipes-connectivity/libuv/libuv_1.44.2.bb
-index 4c96d80a65..4c1b8eed56 100644
---- a/meta/recipes-connectivity/libuv/libuv_1.44.1.bb
-+++ b/meta/recipes-connectivity/libuv/libuv_1.44.2.bb
-@@ -5,7 +5,7 @@ BUGTRACKER = "https://github.com/libuv/libuv/issues"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=ad93ca1fffe931537fcf64f6fcce084d"
+diff --git a/meta/recipes-extended/hdparm/hdparm_9.63.bb b/meta/recipes-extended/hdparm/hdparm_9.64.bb
+similarity index 94%
+rename from meta/recipes-extended/hdparm/hdparm_9.63.bb
+rename to meta/recipes-extended/hdparm/hdparm_9.64.bb
+index 7900a310a3..558dd53f8f 100644
+--- a/meta/recipes-extended/hdparm/hdparm_9.63.bb
++++ b/meta/recipes-extended/hdparm/hdparm_9.64.bb
+@@ -26,7 +26,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/hdparm/${BP}.tar.gz \
+            file://wiper.sh-fix-stat-path.patch \
+           "
  
--SRCREV = "e8b7eb6908a847ffbe6ab2eec7428e43a0aa53a2"
-+SRCREV = "0c1fa696aa502eb749c2c4735005f41ba00a27b8"
- SRC_URI = "git://github.com/libuv/libuv;branch=v1.x;protocol=https"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+-SRC_URI[sha256sum] = "70785deaebba5877a89c123568b41dee990da55fc51420f13f609a1072899691"
++SRC_URI[sha256sum] = "315b956951c3fea027287de204381534217c0bd0f37b4935877fe2db0cab859a"
+ 
+ EXTRA_OEMAKE = 'STRIP="echo" LDFLAGS="${LDFLAGS}"'
  
 -- 
 2.30.2
