@@ -1,135 +1,135 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <shruthi.ravichandran@ni.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16DD2CCA489
-	for <webhook@archiver.kernel.org>; Fri, 22 Jul 2022 18:39:38 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web11.11458.1658515168552939762
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15C30C433EF
+	for <webhook@archiver.kernel.org>; Fri, 22 Jul 2022 18:54:28 +0000 (UTC)
+Received: from mx0a-00010702.pphosted.com (mx0a-00010702.pphosted.com
+ [148.163.156.75])
+ by mx.groups.io with SMTP id smtpd.web09.11620.1658516063158557342
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Jul 2022 11:39:28 -0700
+ Fri, 22 Jul 2022 11:54:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=qTAf14tb;
- spf=pass (domain: gmail.com, ip: 209.85.218.48,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id l23so10019619ejr.5
-        for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Jul 2022 11:39:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ApLkMAsvtvuW3lLfkcuZOiBTHFW5KtHbpzX5B9uYltc=;
-        b=qTAf14tbuCDW0v+8ewi8ay0/IiWraNWErb0waWHZBQFitSh6BAzDWum5NCnLSBddQN
-         442kTVFZweWKJprKoOtzSqWBbnbafoo8Jk9HYkSCOAbwT7IY3s7y0S9G4tQcnz0iT/iU
-         kRNtfrfGbMaOhIeblQqJ6BHo9tsOGxDnngjEwkSZtuCsVbAvsMoiJR7IvWYSzUJzA0w6
-         XpQngN8RvcL7EyWnKFx5wSnAFQiV5FLSmpYC7whqMb53+v8Nzfp+dCBklRxvpkiSFZDx
-         V3ReJuJ3HbSaarZnCVnEY+1Gj4BRa/TS4p/vpqrSVDEdef0f6GtNIBC3Np69tm1xoNit
-         dUKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ApLkMAsvtvuW3lLfkcuZOiBTHFW5KtHbpzX5B9uYltc=;
-        b=nauhhhWYR21eWFqj/2Mk+xId5+COYFAUaXzRQ+Sr81H4/4YJ+AFUEfiAWYXIYNPQO3
-         Z3HYkylgSSWRg/8hqzET/zqoU8bA0aqGjACNCX43EGsET3EzYn8KGKp4ma/Cgdo6DIKv
-         wtuveejTXdA2t3u4Q9AOjlfAYZurugcu4yE0aC20gthx0sCRr4LU/rNt/bnyV1PrnxU7
-         iJhtLx/lr5i0J5rGSdon1OAFW2wDsUQVx3BT17goVFqJXiqTe2DJl9EwMT29/ctun6f6
-         HRaBpD3HA3Yk/2l9Gy9wpKmVR/eNpsGL0JoPZn+0XohedbYCLJC8WcsVgjw11e9Mgsin
-         g+Fg==
-X-Gm-Message-State: AJIora+YXZKrrIj3zgClaHf+K1YaA7ByTC/JyfbpgQx3Mh/uvt0Qp/3+
-	UgatTn2QpEqcWUNnl+N1zc8EaLRBTow=
-X-Google-Smtp-Source: 
- AGRyM1vfSdhdcMRDAHlmVQkTJF1o13FQd0FX5X449TPWfWWD09Pz60J2FjOMo5FU/dXJ6j8IWnYzmg==
-X-Received: by 2002:a17:907:738a:b0:72e:8510:6bfd with SMTP id
- er10-20020a170907738a00b0072e85106bfdmr882000ejc.688.1658515166999;
-        Fri, 22 Jul 2022 11:39:26 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
- [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id
- bt8-20020a0564020a4800b0043bba5ed21csm2931885edb.15.2022.07.22.11.39.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Jul 2022 11:39:26 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 2/6] meta-ide-support: adjust to provide (e)SDK experience
- directly in a yocto build
-Date: Fri, 22 Jul 2022 20:39:12 +0200
-Message-Id: <20220722183916.360600-2-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220722183916.360600-1-alex@linutronix.de>
-References: <20220722183916.360600-1-alex@linutronix.de>
+ dkim=pass header.i=@ni.com header.s=pps11062020 header.b=ZEn0Ore8;
+ spf=pass (domain: ni.com, ip: 148.163.156.75,
+ mailfrom: prvs=4202f6fbb7=shruthi.ravichandran@ni.com)
+Received: from pps.filterd (m0239462.ppops.net [127.0.0.1])
+	by mx0b-00010702.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
+ 26MGXiMt029149
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 22 Jul 2022 13:54:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=PPS11062020;
+ bh=PPDTFbArTc+YH5iTMy+D2ekWvLfrCAG+45nHAB+cX1M=;
+ b=ZEn0Ore8322OEB2moJwRVDpvSNaUGFWcuznJ2d+v49mkfUCCc3L49CueKbngmYpY5WOe
+ qB+7yAmNUKzwSmN8CwwU8BsJPZvP0vo3S3IXav7xgiwrkZkQvgH0TupP6OPVVDxFowD8
+ COhSy8bt/vKKvIxgtAT5MzpkD1ibSQz7jzIWKkXsW10IZPlj4irExMugX8577UN27F06
+ x6XNNBmx2sMW7LQKJGRAiIsm1rEFJXs/b52dTi1swWK/UEP13D2r17xeijAJyc2kDD9s
+ NVnsoqyb0zDBCkgKwy5AVLgg5zf8/JL69PVTOUrtcMlY1qds36kd0EYIqiFGs4W32UhY aw==
+Received: from ni.com ([130.164.80.24])
+	by mx0b-00010702.pphosted.com (PPS) with ESMTPS id 3hbsdf4bvs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 22 Jul 2022 13:54:22 -0500
+Received: from us-aus-exhub1.ni.corp.natinst.com
+ (us-aus-exhub1.ni.corp.natinst.com [130.164.68.41])
+	by us-aus-skprod3.natinst.com (8.16.1.2/8.16.1.2) with ESMTPS id
+ 26MIsLg5011071
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Fri, 22 Jul 2022 13:54:21 -0500
+Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
+ us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.32; Fri, 22 Jul 2022 13:54:21 -0500
+Received: from ravich.amer.corp.natinst.com (172.18.68.32) by
+ us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP Server
+ id 15.0.1497.32 via Frontend Transport; Fri, 22 Jul 2022 13:54:21 -0500
+From: Shruthi Ravichandran <shruthi.ravichandran@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Shruthi Ravichandran <shruthi.ravichandran@ni.com>
+Subject: [OE-core][PATCH v3] package_manager/ipk: do not pipe stderr to stdout
+Date: Fri, 22 Jul 2022 11:54:12 -0700
+Message-ID: <20220722185412.5605-1-shruthi.ravichandran@ni.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: mSwgGZ0ns8DlJ7USNajOaWdXqCHM9K0Q
+X-Proofpoint-ORIG-GUID: mSwgGZ0ns8DlJ7USNajOaWdXqCHM9K0Q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-22_06,2022-07-21_02,2022-06-22_01
+X-Proofpoint-Spam-Reason: orgsafe
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Jul 2022 18:39:38 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Jul 2022 18:54:28 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168419
+ https://lists.openembedded.org/g/openembedded-core/message/168424
 
-Specifically:
-1. Add a few more toolchain items to DEPENDS so they're available in the recipe sysroot.
-2. Use deploy mechanism to place the SDK environment setup file and testdata for testing it
-into the image deploy directory.
-3. Add ability to run SDK tests via the testsdk class and task. This also requires providing
-a testdata json file.
-4. Ensure sysroot population always runs, as those items are mean to be picked up
-by 'bitbake build-sysroots' into the unified sysroot.
+Some opkg commands print an error during cleanup when the tmp_dir
+does not exist and an attempt is made to delete it. The error messages
+are harmless and the opkg commands eventually succeed.
+When these commands are run and stderr is piped to stdout, the error
+messages may clobber the stdout and cause unexpected results while
+parsing the output of the command. Therefore, when parsing the output
+of a command, do not pipe stderr to stdout. Instead, capture stderr
+and stdout separately, and upon success, send stderr to bb.note().
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Shruthi Ravichandran <shruthi.ravichandran@ni.com>
 ---
- meta/recipes-core/meta/meta-ide-support.bb | 26 +++++++++++++++++++---
- 1 file changed, 23 insertions(+), 3 deletions(-)
+ meta/lib/oe/package_manager/ipk/__init__.py | 23 ++++++++++++---------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-core/meta/meta-ide-support.bb b/meta/recipes-core/meta/meta-ide-support.bb
-index 39317d50e0..7f349f673d 100644
---- a/meta/recipes-core/meta/meta-ide-support.bb
-+++ b/meta/recipes-core/meta/meta-ide-support.bb
-@@ -2,11 +2,13 @@ SUMMARY = "Integrated Development Environment support"
- DESCRIPTION = "Meta package for ensuring the build directory contains all appropriate toolchain packages for using an IDE"
- LICENSE = "MIT"
+diff --git a/meta/lib/oe/package_manager/ipk/__init__.py b/meta/lib/oe/package_manager/ipk/__init__.py
+index 6fd2f021b6..7cbea0fa80 100644
+--- a/meta/lib/oe/package_manager/ipk/__init__.py
++++ b/meta/lib/oe/package_manager/ipk/__init__.py
+@@ -102,12 +102,14 @@ class OpkgDpkgPM(PackageManager):
+         This method extracts the common parts for Opkg and Dpkg
+         """
  
--DEPENDS = "virtual/libc gdb-cross-${TARGET_ARCH} qemu-native qemu-helper-native unfs3-native cmake-native"
-+DEPENDS = "virtual/libc gdb-cross-${TARGET_ARCH} qemu-native qemu-helper-native unfs3-native cmake-native autoconf-native automake-native meson-native intltool-native pkgconfig-native"
- PR = "r3"
- RM_WORK_EXCLUDE += "${PN}"
+-        try:
+-            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True).decode("utf-8")
+-        except subprocess.CalledProcessError as e:
++        proc = subprocess.run(cmd, capture_output=True, encoding="utf-8", shell=True)
++        if proc.returncode:
+             bb.fatal("Unable to list available packages. Command '%s' "
+-                     "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
+-        return opkg_query(output)
++                     "returned %d:\n%s" % (cmd, proc.returncode, proc.stderr))
++        elif proc.stderr:
++            bb.note("Command '%s' returned stderr: %s" % (cmd, proc.stderr))
++
++        return opkg_query(proc.stdout)
  
--inherit toolchain-scripts nopackages
-+inherit toolchain-scripts nopackages deploy testsdk
-+
-+TESTSDK_CLASS_NAME = "oeqa.sdk.testmetaidesupport.TestSDK"
+     def extract(self, pkg, pkg_info):
+         """
+@@ -445,15 +447,16 @@ class OpkgPM(OpkgDpkgPM):
+         cmd = "%s %s --noaction install %s " % (self.opkg_cmd,
+                                                 opkg_args,
+                                                 ' '.join(pkgs))
+-        try:
+-            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
+-        except subprocess.CalledProcessError as e:
++        proc = subprocess.run(cmd, capture_output=True, encoding="utf-8", shell=True)
++        if proc.returncode:
+             bb.fatal("Unable to dummy install packages. Command '%s' "
+-                     "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
++                     "returned %d:\n%s" % (cmd, proc.returncode, proc.stderr))
++        elif proc.stderr:
++            bb.note("Command '%s' returned stderr: %s" % (cmd, proc.stderr))
  
- do_populate_ide_support () {
-   toolchain_create_tree_env_script
-@@ -18,4 +20,22 @@ python () {
-     d.appendVarFlag("do_populate_ide_support", "file-checksums", " " + " ".join(searched))
- }
+         bb.utils.remove(temp_rootfs, True)
  
--addtask populate_ide_support before do_build after do_install
-+addtask populate_ide_support before do_deploy after do_install
-+
-+python do_write_test_data() {
-+    from oe.data import export2json
-+
-+    out_dir = d.getVar('B')
-+    testdata_name = os.path.join(out_dir, "%s.testdata.json" % d.getVar('PN'))
-+
-+    export2json(d, testdata_name)
-+}
-+addtask write_test_data before do_deploy after do_install
-+
-+do_deploy () {
-+        install ${B}/* ${DEPLOYDIR}
-+}
-+
-+addtask deploy before do_build
-+
-+do_build[deptask] += "do_prepare_recipe_sysroot"
+-        return output
++        return proc.stdout
+ 
+     def backup_packaging_data(self):
+         # Save the opkglib for increment ipk image generation
 -- 
-2.30.2
+2.20.1
 
 
