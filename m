@@ -2,63 +2,63 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0935DCCA47C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16DD2CCA489
 	for <webhook@archiver.kernel.org>; Fri, 22 Jul 2022 18:39:38 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web09.11473.1658515171520880319
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web11.11458.1658515168552939762
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Jul 2022 11:39:31 -0700
+ Fri, 22 Jul 2022 11:39:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=aGdPZrUG;
- spf=pass (domain: gmail.com, ip: 209.85.218.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=qTAf14tb;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48,
  mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id va17so10060291ejb.0
+Received: by mail-ej1-f48.google.com with SMTP id l23so10019619ejr.5
         for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Jul 2022 11:39:31 -0700 (PDT)
+ Fri, 22 Jul 2022 11:39:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=R8FBVLq9AFCEW9Z26eOWgsInvYCIr3eVsYaje6tixiw=;
-        b=aGdPZrUGP6xFUfgIpHgB6Oo/xIGKMQvXjsKAvFJ7TwXTy5JWLAOCkL6eiHt9SKUR1s
-         hK6j4Ka+vMx6XGXqJXxoFaidhm52ZyhIhxF6Viyf+PFYwDMgMoyhHcMZw7N0hoDJz/26
-         2GHY+W3XNTRSx72j5RHQ7zrMdUYMfxrak9aZHDQoDtvmWzBEr3RpZUwzfBochQhzKC/X
-         7HvZbK4phwIeDF0/5LJ6KaQ8GBAaQ7muE8UMwqvOgb7uuBui4AXdQiPJ0upx8sZI9sZ2
-         3Hl7SCh/G7bDNLiUzGE4O6Cm5mvL4+ZStvYCiVX7j5nlXQXhhzqFJ1ullZRPQnfwKecJ
-         Yl+A==
+        bh=ApLkMAsvtvuW3lLfkcuZOiBTHFW5KtHbpzX5B9uYltc=;
+        b=qTAf14tbuCDW0v+8ewi8ay0/IiWraNWErb0waWHZBQFitSh6BAzDWum5NCnLSBddQN
+         442kTVFZweWKJprKoOtzSqWBbnbafoo8Jk9HYkSCOAbwT7IY3s7y0S9G4tQcnz0iT/iU
+         kRNtfrfGbMaOhIeblQqJ6BHo9tsOGxDnngjEwkSZtuCsVbAvsMoiJR7IvWYSzUJzA0w6
+         XpQngN8RvcL7EyWnKFx5wSnAFQiV5FLSmpYC7whqMb53+v8Nzfp+dCBklRxvpkiSFZDx
+         V3ReJuJ3HbSaarZnCVnEY+1Gj4BRa/TS4p/vpqrSVDEdef0f6GtNIBC3Np69tm1xoNit
+         dUKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=R8FBVLq9AFCEW9Z26eOWgsInvYCIr3eVsYaje6tixiw=;
-        b=bKr+cGxL5x1mti+KnKJCu7SN264Lergim3S8yOK3a+VU62jRMMrPrL9SqrHwMnPICb
-         t7l/1peTBNObRX/4J76cGI86okmxxcvM2UqPV8SErqcpEaKZbmN4VseUFvQmbScEK3TU
-         ISBv6RtzaA6lL2rDw4kazkU+gzn3SbG1EuMiEj8rn7OM6utR0zwexsCfABfQHvY+Vxhz
-         ZCfhC7Hp2rtDV+FoNLvdeEW6mvqjD75eGeu92wlOSJMPk2WO8Bh0vPqgLsOf8hveoP08
-         DMyoScI6VTgejDmBy5jAdtgxiJaHt7CmzsObwK1vTGvQ634nAModIn2HY/YWThReGd79
-         cyVA==
-X-Gm-Message-State: AJIora/+5d21F6tx5FPqjl9Su1AxgDwmhwv9t1szWsWu2xykZPWsSNGg
-	wurqoEWeOTe3CUjVbU+TOSXjNN2q2pY=
+        bh=ApLkMAsvtvuW3lLfkcuZOiBTHFW5KtHbpzX5B9uYltc=;
+        b=nauhhhWYR21eWFqj/2Mk+xId5+COYFAUaXzRQ+Sr81H4/4YJ+AFUEfiAWYXIYNPQO3
+         Z3HYkylgSSWRg/8hqzET/zqoU8bA0aqGjACNCX43EGsET3EzYn8KGKp4ma/Cgdo6DIKv
+         wtuveejTXdA2t3u4Q9AOjlfAYZurugcu4yE0aC20gthx0sCRr4LU/rNt/bnyV1PrnxU7
+         iJhtLx/lr5i0J5rGSdon1OAFW2wDsUQVx3BT17goVFqJXiqTe2DJl9EwMT29/ctun6f6
+         HRaBpD3HA3Yk/2l9Gy9wpKmVR/eNpsGL0JoPZn+0XohedbYCLJC8WcsVgjw11e9Mgsin
+         g+Fg==
+X-Gm-Message-State: AJIora+YXZKrrIj3zgClaHf+K1YaA7ByTC/JyfbpgQx3Mh/uvt0Qp/3+
+	UgatTn2QpEqcWUNnl+N1zc8EaLRBTow=
 X-Google-Smtp-Source: 
- AGRyM1s2RrF0EDwn+v1T3oBAyaG0ZrMOtxTQbF60AtteceNS8fP26Le1ESfpLUM0xg2GfRqDZI0Uag==
-X-Received: by 2002:a17:906:9c82:b0:6df:baa2:9f75 with SMTP id
- fj2-20020a1709069c8200b006dfbaa29f75mr918448ejc.762.1658515170045;
-        Fri, 22 Jul 2022 11:39:30 -0700 (PDT)
+ AGRyM1vfSdhdcMRDAHlmVQkTJF1o13FQd0FX5X449TPWfWWD09Pz60J2FjOMo5FU/dXJ6j8IWnYzmg==
+X-Received: by 2002:a17:907:738a:b0:72e:8510:6bfd with SMTP id
+ er10-20020a170907738a00b0072e85106bfdmr882000ejc.688.1658515166999;
+        Fri, 22 Jul 2022 11:39:26 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de.
  [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id
- bt8-20020a0564020a4800b0043bba5ed21csm2931885edb.15.2022.07.22.11.39.29
+ bt8-20020a0564020a4800b0043bba5ed21csm2931885edb.15.2022.07.22.11.39.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Jul 2022 11:39:29 -0700 (PDT)
+        Fri, 22 Jul 2022 11:39:26 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 6/6] selftest/meta_ide: add a test for running SDK tests
+Subject: [PATCH 2/6] meta-ide-support: adjust to provide (e)SDK experience
  directly in a yocto build
-Date: Fri, 22 Jul 2022 20:39:16 +0200
-Message-Id: <20220722183916.360600-6-alex@linutronix.de>
+Date: Fri, 22 Jul 2022 20:39:12 +0200
+Message-Id: <20220722183916.360600-2-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220722183916.360600-1-alex@linutronix.de>
 References: <20220722183916.360600-1-alex@linutronix.de>
@@ -69,89 +69,66 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 22 Jul 2022 18:39:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168423
+ https://lists.openembedded.org/g/openembedded-core/message/168419
 
-There's been a recent discussion about how we can make the Yocto SDK
-experience better [1]. One of the ideas was to eliminate the SDK
-as a separate artefact altogether and simply provide everything
-that the SDK and eSDKs do directly in a yocto build. This does not
-mean that people have to 'learn Yocto', but rather that the integrators
-should provide a well-functioning sstate cache infrastructure (same as
-with minimal eSDK, really), and a few wrapper scripts for setting up the build
-and the SDK environment that run layer setup and bitbake behind the scenes.
-
-[1] https://lists.openembedded.org/g/openembedded-architecture/topic/thoughts_on_the_esdk/90990557
-
-So without further ado, here's how you get a 'SDK' without building one:
-
-1. Set up all the needed layers and a yocto build directory.
-
-2. Run:
-$ bitbake meta-ide-support
-$ bitbake -c populate_sysroot gtk+3
-(or any other target or native item that the application developer would need)
-$ bitbake populate-sysroots
-
-3. Set up the SDK environment:
-. tmp/deploy/images/qemux86-64/environment-setup-core2-64-poky-linux
-(adjust accordingly)
-
-Et voila! The Unix environment is now set up to use the cross-toolchain from
-Yocto, exactly as in the SDK. And devtool/bitbake are available to extend it,
-exactly as in the eSDK.
-
-Theare are numerous benefits here: no need to produce, test, distribute and maintain
-separate SDK artifacts. No two separate environments for the yocto build and the SDK.
-Less code paths where things can go wrong. Less awkward, gigantic tarballs. Less
-SDK update headaches: 'updating the SDK' simply means updating the yocto layers with
-git fetch or layer management tooling. Built-in SDK extensibility: just run bitbake
-again to add more things to the sysroot, or add layers if even more things are required.
-
-How is this tested?
-
-Exactly same as the regular SDK:
-$ bitbake -c testsdk meta-ide-support
-
-This runs the same toolchain tests from meta/lib/oeqa/sdk/cases as the regular
-sdk testing does.
+Specifically:
+1. Add a few more toolchain items to DEPENDS so they're available in the recipe sysroot.
+2. Use deploy mechanism to place the SDK environment setup file and testdata for testing it
+into the image deploy directory.
+3. Add ability to run SDK tests via the testsdk class and task. This also requires providing
+a testdata json file.
+4. Ensure sysroot population always runs, as those items are mean to be picked up
+by 'bitbake build-sysroots' into the unified sysroot.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/lib/oeqa/selftest/cases/meta_ide.py | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ meta/recipes-core/meta/meta-ide-support.bb | 26 +++++++++++++++++++---
+ 1 file changed, 23 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/meta_ide.py b/meta/lib/oeqa/selftest/cases/meta_ide.py
-index 6f10d30dc9..ce7bba401d 100644
---- a/meta/lib/oeqa/selftest/cases/meta_ide.py
-+++ b/meta/lib/oeqa/selftest/cases/meta_ide.py
-@@ -16,13 +16,14 @@ class MetaIDE(OESelftestTestCase):
-     def setUpClass(cls):
-         super(MetaIDE, cls).setUpClass()
-         bitbake('meta-ide-support')
--        bb_vars = get_bb_vars(['MULTIMACH_TARGET_SYS', 'TMPDIR', 'COREBASE'])
-+        bitbake('build-sysroots')
-+        bb_vars = get_bb_vars(['MULTIMACH_TARGET_SYS', 'DEPLOY_DIR_IMAGE', 'COREBASE'])
-         cls.environment_script = 'environment-setup-%s' % bb_vars['MULTIMACH_TARGET_SYS']
--        cls.tmpdir = bb_vars['TMPDIR']
--        cls.environment_script_path = '%s/%s' % (cls.tmpdir, cls.environment_script)
-+        cls.deploydir = bb_vars['DEPLOY_DIR_IMAGE']
-+        cls.environment_script_path = '%s/%s' % (cls.deploydir, cls.environment_script)
-         cls.corebasedir = bb_vars['COREBASE']
-         cls.tmpdir_metaideQA = tempfile.mkdtemp(prefix='metaide')
--        
+diff --git a/meta/recipes-core/meta/meta-ide-support.bb b/meta/recipes-core/meta/meta-ide-support.bb
+index 39317d50e0..7f349f673d 100644
+--- a/meta/recipes-core/meta/meta-ide-support.bb
++++ b/meta/recipes-core/meta/meta-ide-support.bb
+@@ -2,11 +2,13 @@ SUMMARY = "Integrated Development Environment support"
+ DESCRIPTION = "Meta package for ensuring the build directory contains all appropriate toolchain packages for using an IDE"
+ LICENSE = "MIT"
+ 
+-DEPENDS = "virtual/libc gdb-cross-${TARGET_ARCH} qemu-native qemu-helper-native unfs3-native cmake-native"
++DEPENDS = "virtual/libc gdb-cross-${TARGET_ARCH} qemu-native qemu-helper-native unfs3-native cmake-native autoconf-native automake-native meson-native intltool-native pkgconfig-native"
+ PR = "r3"
+ RM_WORK_EXCLUDE += "${PN}"
+ 
+-inherit toolchain-scripts nopackages
++inherit toolchain-scripts nopackages deploy testsdk
 +
-     @classmethod
-     def tearDownClass(cls):
-         shutil.rmtree(cls.tmpdir_metaideQA, ignore_errors=True)
-@@ -49,3 +50,8 @@ class MetaIDE(OESelftestTestCase):
-                         msg="Running make failed")
-         self.assertEqual(self.project.run_install(), 0,
-                         msg="Running make install failed")
++TESTSDK_CLASS_NAME = "oeqa.sdk.testmetaidesupport.TestSDK"
+ 
+ do_populate_ide_support () {
+   toolchain_create_tree_env_script
+@@ -18,4 +20,22 @@ python () {
+     d.appendVarFlag("do_populate_ide_support", "file-checksums", " " + " ".join(searched))
+ }
+ 
+-addtask populate_ide_support before do_build after do_install
++addtask populate_ide_support before do_deploy after do_install
 +
-+    def test_meta_ide_can_run_sdk_tests(self):
-+        bitbake('-c populate_sysroot gtk+3')
-+        bitbake('build-sysroots')
-+        bitbake('-c testsdk meta-ide-support')
++python do_write_test_data() {
++    from oe.data import export2json
++
++    out_dir = d.getVar('B')
++    testdata_name = os.path.join(out_dir, "%s.testdata.json" % d.getVar('PN'))
++
++    export2json(d, testdata_name)
++}
++addtask write_test_data before do_deploy after do_install
++
++do_deploy () {
++        install ${B}/* ${DEPLOYDIR}
++}
++
++addtask deploy before do_build
++
++do_build[deptask] += "do_prepare_recipe_sysroot"
 -- 
 2.30.2
 
