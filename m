@@ -1,105 +1,146 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <jdmason@kudzu.us>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD4D4C433EF
-	for <webhook@archiver.kernel.org>; Fri, 22 Jul 2022 14:55:26 +0000 (UTC)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
- [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.web08.8616.1658501725064613901
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AC58C433EF
+	for <webhook@archiver.kernel.org>; Fri, 22 Jul 2022 15:54:37 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web09.9521.1658505271420482366
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Jul 2022 07:55:25 -0700
+ Fri, 22 Jul 2022 08:54:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=d5ts9z2C;
- spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id h18so3602968qvr.12
+ dkim=pass header.i=@kudzu-us.20210112.gappssmtp.com header.s=20210112
+ header.b=vnndo0rq;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.167.42,
+ mailfrom: jdmason@kudzu.us)
+Received: by mail-lf1-f42.google.com with SMTP id d17so6188915lfa.12
         for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Jul 2022 07:55:24 -0700 (PDT)
+ Fri, 22 Jul 2022 08:54:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=kudzu-us.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TnOskD8k4cJHTAOwO8bz+iy47Bj/V1hxAHumOn87kxc=;
-        b=d5ts9z2C4G20jhBApR/SMEOQlmQIHOq1y9+5GIaZBabY04veQ4vNIsQzwtn7bkKdhB
-         S05B5dB/MEZVaw/GLiY6OaADew1fe9ZZheIDi1v56HPQpmZPVYeuQFtkONndmwiNYFHn
-         OJjG52endL522pKx/qZ0ccw5O2krAAnWSWH5WY9uOnCz5aw5ohKqzp985RJmSRT+sxMS
-         Gcm3ID4v5NMu/d6AlNZ43uMmz0Sj1dm4eo879CeVyUQOFNOtuRn+UxklyHCzhkK9Gr5C
-         /s8/nUxvBG1yew4yqOGATJ4Jchu+cOyw/JmBa0tyssJKic1Nn9S9elqVAxSBG0RSThKf
-         b9Gg==
+         :cc:content-transfer-encoding;
+        bh=CTWi0UcS22T21dAm/RTfpN/4x1OuzZ9n03332cjiaIY=;
+        b=vnndo0rqBk5pci+kcjPLAaxDhI9BIpK+7SmZRraQu2WTklqXOvgSBWM9vbpYhM8gl2
+         vhu7KOlr502onwvRAKyN8UZa3Bjx4NQT+viJXe+6bQt0dywbYbM4PK4IoaGyHCGl4Ndl
+         SXNCQPQni2djPHnlbN+KVSQ6o5EQxHqHs9F5lJSH9wtPMcSz2I3NGyoKOL7u3QgCESNR
+         ArzYMWfvSKvD/fMenwVdlfZjwOqTkKqCIpdoXTI1P2sl3xgVRToitLcNTJFw00EGgDvq
+         hF62QRw7nH76LsFFDw1tHvAKWDFf+Mld16/9XgwsTsby/iVYtfN+teaCW3DqkMym2lPR
+         1pvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TnOskD8k4cJHTAOwO8bz+iy47Bj/V1hxAHumOn87kxc=;
-        b=P8sd2TR59IkGikIgg7rguRwtdhZoj/urnJJ1s6j/JbiFChUUIOkOfEX38BerWu9oZH
-         qP5cVJeLhBNDx1jRrrgBu4yy1G1kHy6sDGkoczC6V33IGRSJmoqs65022ulcB6yogOif
-         UcCB6X15aC2JYQyFem1qNy0dmc7rH+KAbIttVBm8ln4JqprLrFYa2+iLPxIy6XjMJwbQ
-         SXS3j1tA+5xI/NZ+vKIrRbZnwWltZId/O7DJ2GmUyW7xwwAU3u6F9beb/ChytfCMgZfu
-         nD15r9pW8hSQETuG/VdZ7j/zg/TDgYUMwpTzO8YikqQlET6XBeQSKh3rEsVmz8220v0t
-         On8A==
-X-Gm-Message-State: AJIora8KB3mZwv6PFNteNqienK0xbsFyzgoUtnyfTWy8GttmSznEhZ3U
-	zuImxtUBoi/8mAivpuwdL6lWTxaJK7/Y9q8LBvA=
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=CTWi0UcS22T21dAm/RTfpN/4x1OuzZ9n03332cjiaIY=;
+        b=BDdqEEGFD8Iv9ql0lar6gj4Lg8nDF6zhdkJ9Qy6B8vnzE4PkP+z9Q4/Ru26u/tJ8h0
+         2GXV54xB1QgzZmUxK81BFAplG3luQDegePeOGbYzP+fQxzWkjLeWPX9t5rfiZ2Dk13+H
+         qZvtkUI7Ty7kuKiBGNR9W3HmYeBKPmZDpjS64yeC2l4r6FHux3ajw8AS3izJNzk88VY7
+         WRqj41yP9yjjwNpbVpLuBjK9amoAOH8Ql1peg+y2WDBUinkK9LUcMscrPCIJpk+/dRvj
+         aXK0wpDEVm+dXswqPUEEAkA9U3QENd9sAiUUHRiyPC0VUY+GbLZb132InVBVOTci8QRy
+         QzHA==
+X-Gm-Message-State: AJIora/PC8Z7NsM27JZ+IYGR9uHP4KouXjRF815dETGUQaB51cVe3+XZ
+	n8dndJzpnbdoVI2xXXKyV79BXVMWEFrMH5njj0X4Fg==
 X-Google-Smtp-Source: 
- AGRyM1uBlb+cbbjtTPPkT3e4FBLMSmrvcuF2gRRG2cWizBSw7mDLI0qC/hUYXx3u6IUgrAncwkENUJAZDjDH+39Ub/o=
-X-Received: by 2002:ad4:5bea:0:b0:473:301:3859 with SMTP id
- k10-20020ad45bea000000b0047303013859mr452218qvc.16.1658501724121; Fri, 22 Jul
- 2022 07:55:24 -0700 (PDT)
+ AGRyM1sEeKpiIgu/DKqNOpe5Hcv878VJrf3P4BZ5f9FnS/J9iiyYwEjSmdBXZwOZkTEn262PEixQWs0H0NoL5cPIaqc=
+X-Received: by 2002:ac2:5989:0:b0:48a:74a6:8658 with SMTP id
+ w9-20020ac25989000000b0048a74a68658mr252167lfn.660.1658505269589; Fri, 22 Jul
+ 2022 08:54:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220722111336.2143770-1-ross.burton@arm.com>
-In-Reply-To: <20220722111336.2143770-1-ross.burton@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 22 Jul 2022 10:54:57 -0400
+References: 
+ <CAMRc=McXfAzcUrdTLWsHHEo8DyUwU1gUuFTBALwXpJCuA0CoEA@mail.gmail.com>
+ <YtWrKcR6y1jWSFtC@kudzu.us>
+ <CAMKF1sqZh=fPoYHqh-uuJL6oftkmGoDHHcZkTgivoKapFFerAQ@mail.gmail.com>
+ <CAPoiz9zRWPGLSUNaeTQDO=E60cGD4zRVmnZmHFkSdVLrkx_WmA@mail.gmail.com>
+ <CAMRc=MecfyMPB2B5ukhYzMdQDWL4fY=8nbfUe0LR_8hUPhNP9w@mail.gmail.com>
+ <CAMKF1srBz3xL0VTZedyyf4oFgiXxn7ai4afH37yBrT63djTr3Q@mail.gmail.com>
+ <CAMRc=MdFDGv=a04jn23r2v0ZoYYTACW2-KNNi2dVboU2knoDoQ@mail.gmail.com>
+ <CAMKF1sr5cQeqoQum3HAdHVrv-3EbrCkMfmMzoppQUCiisLiEYA@mail.gmail.com>
+ <CAMRc=Mcaaufj-2+WnUZAgwznbkxroOVDEMmX_o4aZXFxmqwF0Q@mail.gmail.com>
+ <CAMKF1sr3C=MYuX4NXigMT+NdTxdMB65VhMvSK3gqBSbGi+7YXw@mail.gmail.com>
+ <CAMRc=Mdz9VMMKamV+TGkABX9v1k4i5051xQvyfTVVd_FEMSEuA@mail.gmail.com>
+ <CAMKF1sq4ZT91i881_tVXddV1axi+-NCJBkKizxpBUPLMuEVt8w@mail.gmail.com>
+ <CAMRc=McFVfxjG6U7ectAfHaWEBe9wyb4erd+Khjug1YyWXKLyw@mail.gmail.com>
+ <CAMKF1srvQZDtjtQnQPTaT2PNYZCaChCY9S9pBNVQV5ybqAjVkw@mail.gmail.com>
+ <CB11164A-DF98-44E2-B0BF-265797DB930A@arm.com>
+ <CAMKF1sqwUGGROP+BO=b77Peo_c0-DCAQODZ2ixW0rBMt39+Akw@mail.gmail.com>
+ <CAMKF1sr1E079Bj8DMJXdNq1BurGtj8_KV_SoZyhX-rhVM8n2SA@mail.gmail.com>
+In-Reply-To: 
+ <CAMKF1sr1E079Bj8DMJXdNq1BurGtj8_KV_SoZyhX-rhVM8n2SA@mail.gmail.com>
+From: Jon Mason <jdmason@kudzu.us>
+Date: Fri, 22 Jul 2022 11:54:17 -0400
 Message-ID: 
- <CAMKF1sqpH1MfeVVuY_GDegP8wNnKsXJNEfsaFdU2oxboZhT0Fg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] zstd: do verbose builds
-To: Ross Burton <ross.burton@arm.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>, nd <nd@arm.com>
+ <CAPoiz9zcNeYB8Rvw-NVTwaRXx4F8jARZuTcDzbQf6+GAJ6sS=Q@mail.gmail.com>
+Subject: Re: [oe] [meta-zephyr] build broken with current oe-core master
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Ross Burton <Ross.Burton@arm.com>, Bartosz Golaszewski <brgl@bgdev.pl>,
+	=?UTF-8?B?RWlsw61zIE7DrSBGaGxhbm5hZ8OhaW4=?= <elizabeth.flanagan@huawei.com>,
+	Jon Mason <Jon.Mason@arm.com>, Naveen Saini <naveen.kumar.saini@intel.com>,
+	Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+	openembedded-devel <openembedded-devel@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Jul 2022 14:55:26 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Jul 2022 15:54:37 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168413
+ https://lists.openembedded.org/g/openembedded-core/message/168414
 
-On Fri, Jul 22, 2022 at 7:13 AM Ross Burton <ross.burton@arm.com> wrote:
+On Fri, Jul 22, 2022 at 10:35 AM Khem Raj <raj.khem@gmail.com> wrote:
 >
-> Set V=1 so that the compile log is useful when things go wrong.
+> On Fri, Jul 22, 2022 at 10:31 AM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > On Fri, Jul 22, 2022 at 10:30 AM Ross Burton <Ross.Burton@arm.com> wrot=
+e:
+> > >
+> > > On 22 Jul 2022, at 15:28, Khem Raj via lists.openembedded.org <raj.kh=
+em=3Dgmail.com@lists.openembedded.org> wrote:
+> > > >
+> > > > On Fri, Jul 22, 2022 at 6:36 AM Bartosz Golaszewski <brgl@bgdev.pl>=
+ wrote:
+> > > >>
+> > > >> On Thu, Jul 21, 2022 at 3:52 PM Khem Raj <raj.khem@gmail.com> wrot=
+e:
+> > > >>>
+> > > >>> I don=E2=80=99t see config.log for Libstdc++ folder in there
+> > > >>> Can you see why that=E2=80=99s missing ?
+> > > >>>
+> > > >>
+> > > >> I was missing because I misunderstood you - you were probably aski=
+ng
+> > > >> for the config.log *with* Jon's patch applied.
+> > > >>
+> > > >> Here's the log: https://controlc.com/4544edd8
+> > > >
+> > > > right, so I can see that its checking for fcnt function on system
+> > > > where it should not, your toolchain
+> > > > is using newlib and I am not sure what Jon's build is using for
+> > > > zephyr, I guess it could be pure baremetal
+> > > > if so, then perhaps we have a place to look into.
+> > > >
+> > > > Jon, whats TCLIBC set to in zephyr's case.
+> > >
+> > > Our CI has the following workaround for a problem that we=E2=80=99ve =
+not managed to root-cause so far:
+> > >
+> > >     EXTRA_OECONF:append:pn-gcc-runtime =3D " ac_cv_func_fcntl=3Dno  a=
+c_cv_func_getexecname=3Dno=E2=80=9D
+> >
+> > ah, that speaks for the difference then. Is this workaround introduced
+> > after Richard's change ?
 >
+> perhaps came along with gcc 12 upgrade [1]
+>
+> [1] https://lists.yoctoproject.org/g/meta-arm/message/3469
 
-verbose logs do add to build time, usually when build fails the error
-parts are good with dumping error and
-compiler cmdline, is that not the case here ?
+Yes.  It is being tracked by
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14803
 
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/recipes-extended/zstd/zstd_1.5.2.bb | 2 ++
->  1 file changed, 2 insertions(+)
 >
-> diff --git a/meta/recipes-extended/zstd/zstd_1.5.2.bb b/meta/recipes-extended/zstd/zstd_1.5.2.bb
-> index 3887f31ecfa..2a638eb4269 100644
-> --- a/meta/recipes-extended/zstd/zstd_1.5.2.bb
-> +++ b/meta/recipes-extended/zstd/zstd_1.5.2.bb
-> @@ -26,6 +26,8 @@ PACKAGECONFIG[zlib] = "HAVE_ZLIB=1,HAVE_ZLIB=0,zlib"
->  # See programs/README.md for how to use this
->  ZSTD_LEGACY_SUPPORT ??= "4"
->
-> +EXTRA_OEMAKE += "V=1"
-> +
->  do_compile () {
->      oe_runmake ${PACKAGECONFIG_CONFARGS} ZSTD_LEGACY_SUPPORT=${ZSTD_LEGACY_SUPPORT}
->      oe_runmake ${PACKAGECONFIG_CONFARGS} ZSTD_LEGACY_SUPPORT=${ZSTD_LEGACY_SUPPORT} -C contrib/pzstd
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#168402): https://lists.openembedded.org/g/openembedded-core/message/168402
-> Mute This Topic: https://lists.openembedded.org/mt/92545058/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> >
+> > >
+> > > Ross
+> > >
 
