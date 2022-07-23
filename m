@@ -2,62 +2,63 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B14DCCA48A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4857DC43334
 	for <webhook@archiver.kernel.org>; Sat, 23 Jul 2022 14:54:24 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web08.6869.1658588060538139793
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.6957.1658588061615849532
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Jul 2022 07:54:20 -0700
+ Sat, 23 Jul 2022 07:54:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=TOEniayz;
- spf=pass (domain: gmail.com, ip: 209.85.214.182,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=O2z89G7h;
+ spf=pass (domain: gmail.com, ip: 209.85.214.173,
  mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f182.google.com with SMTP id f11so6825354plr.4
+Received: by mail-pl1-f173.google.com with SMTP id c6so2735708plc.5
         for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Jul 2022 07:54:20 -0700 (PDT)
+ Sat, 23 Jul 2022 07:54:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UjOy1OcsM45OrA/UPPsRylmsnYwLBnSHrahDcEBCncw=;
-        b=TOEniayzleYB9swSRH47dENCeXtk/17aNdPsKTQibk7sANcB8VcruV12/bxwNEGBX/
-         /Lr6PjTCmvfrRf1XebD0pUDNu3s/gXGNrHENwCl2IFmxoWEZ8CQwugzvyMVMM+BI/v3a
-         /187iu6uilQuJySJFXPYSwnu6o1SPS0lEK1XCBFEchBZNi7LkH+aV9mHwXl1wiPyWqy1
-         PfFTnaq091ssfaqYMz1j+GEUiwiIzVpWa9v8BRIyfP+iVGj9P2Z8GZMcKcVS9liGjO95
-         KF+JqWeqnK1l6QQFQhrww2ghKRysWMqY56KHdxka/o0tWJkx2jigq/l2akIlUhNM2dWc
-         X0RQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Vm9c4eUwLhccwwMZrMx4mgHFE0ijz6Ih0idJI8g2Nio=;
+        b=O2z89G7h5+YJln9N8Ptn9+SLPokruu5zpOK0suP9FBGxAWJwjjWCo2ibwoIxfidxnN
+         GCN+/MkRFJ4vMFkqdzizTz0zKVM79AO7kvyuZLAiaSqzdTSlQ1LwM8KeyfY81iYRv2LB
+         zLAKVQzpdjGb7eGAPq1Vmf7YK/JGPF2FpgqpaPNAI2kSh/+xybTBL77bn0iMBxEouJPD
+         /6oqkSqL5mh8oK19oy2w79qqy5KVkKG+3Tnfkt5mBnIYOswQZKLcuZCljLdNQ40TMpOU
+         dxVOKK9hRPjSpmLMre3Ey02PhbiWgeJPWwIfR5LYlVXqGyulgGHbjr2azxsBSthypYF8
+         nZgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UjOy1OcsM45OrA/UPPsRylmsnYwLBnSHrahDcEBCncw=;
-        b=jU/KtTkhdWLGPnL59akcoq9rvxdnzt3S+ajfa+LjsFCtqvFZXarko/r70fPM918+cZ
-         2HKxc/1Xb7a6dXo8q4jr78EAw2m0dQ60wbf8T1UpvRkwUB7ek21FCG0LEyo+Ud6wZNcO
-         F0DOUdtkf6JoO/HwaVh12+wqi88CKq4cHJMfDWz/f17wpdT2DONqUadTENhOFhjjC/p8
-         aVP2HibvcmfiItayTZAXF6NzqrB/GzvzuW0LJoY5URmpVWAPB+uZ5Ep9AOlXkJ/rosdn
-         Wro5QxfHN6OfMvn10R4iauEt+Cxo7ZdsT8vCWhu46ANdSctx8LKoNFt1+TiAyq3sZxZm
-         XlrQ==
-X-Gm-Message-State: AJIora+tS4SDCtLsctm8MSqZIHuJKTyFujlPZ8LqNvg7y4/wUJ1Ui9gL
-	oV30HH3mdlIjVh9IiHNl99FUY3dSEcBvSg==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Vm9c4eUwLhccwwMZrMx4mgHFE0ijz6Ih0idJI8g2Nio=;
+        b=Ql3OiE/gC0MkG2DM6EeANpWvkQN5Q/1nLP+sB8/NPkQPnyJTOQHnqYsEJhuP9+43gm
+         eEe1+ozslp1Y/4hXBPriGY45dr9idBikVGo2YIjwPhK1N8XhGNraeRlYDDlceAh2awT0
+         BPEKDonHFZPuw/PGqNzF+DnmUhugzZLVjrucxeSUluUIo42s5ODZEHa79pa/nxSSRjI9
+         kdVC4BhQQQDAun9UMLjf5c74tTcKQWRFfoF15240yplO3ORBb2jnQ7s+S1IEsxmyFZfo
+         olfMROv4RRc1/5bkYzvl44XBuKGy3ZTdY6ELSCTTV3k2ljZZ86Vzp4x/w81TDF0uP+E/
+         5UeA==
+X-Gm-Message-State: AJIora+eBTDADjiS1sWTQIM8CD0PCXBGO/7LQZRudYNIvP4PljWr71f6
+	gtliIqdIrmGiVvnHqyX0OmxhX5CJ//Thlg==
 X-Google-Smtp-Source: 
- AGRyM1uPyrEU+CI8r12hIxXGtADz1N6ROpf6ydSe2AKLAFl3MA4e7p9znsTSVYV6ZPEVLbg+OXqoMQ==
-X-Received: by 2002:a17:902:8504:b0:16d:105c:43de with SMTP id
- bj4-20020a170902850400b0016d105c43demr4946103plb.10.1658588059466;
-        Sat, 23 Jul 2022 07:54:19 -0700 (PDT)
+ AGRyM1tltP7FeSEQ3IB+bUMrm5vph7umQwXRKmygnJ5oQNs/uryqnv9eSX+sWe0LBXhLYsy2E5ZdBw==
+X-Received: by 2002:a17:902:c203:b0:16d:47f3:976d with SMTP id
+ 3-20020a170902c20300b0016d47f3976dmr5025770pll.131.1658588060554;
+        Sat, 23 Jul 2022 07:54:20 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a78c])
         by smtp.gmail.com with ESMTPSA id
- b2-20020a1709027e0200b0016191b843e2sm5771533plm.235.2022.07.23.07.54.18
+ b2-20020a1709027e0200b0016191b843e2sm5771533plm.235.2022.07.23.07.54.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Jul 2022 07:54:18 -0700 (PDT)
+        Sat, 23 Jul 2022 07:54:20 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/3] libgcc: Fix standalone target builds with usrmerge distro
- feature
-Date: Sat, 23 Jul 2022 07:54:14 -0700
-Message-Id: <20220723145416.1374755-1-raj.khem@gmail.com>
+Subject: [PATCH 2/3] gcc-runtime: Use static dummy libstdc++
+Date: Sat, 23 Jul 2022 07:54:15 -0700
+Message-Id: <20220723145416.1374755-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220723145416.1374755-1-raj.khem@gmail.com>
+References: <20220723145416.1374755-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -65,38 +66,29 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 23 Jul 2022 14:54:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168440
+ https://lists.openembedded.org/g/openembedded-core/message/168441
 
-Ignore the rmdir cmd if using usrmerge distro feature since the
-intention is to delete /lib or /lib64 but not libdir under /usr and
-base_libdir = libdir when usrmerge is enabled in distro
+some standalone targets e.g. riscv64-elf disable shared linking for
+baremetal ELF ABI in ld, therefore lets make it a static library
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gcc/libgcc-common.inc | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/gcc/libgcc-common.inc b/meta/recipes-devtools/gcc/libgcc-common.inc
-index 148c9f85a7c..9d4fd41f975 100644
---- a/meta/recipes-devtools/gcc/libgcc-common.inc
-+++ b/meta/recipes-devtools/gcc/libgcc-common.inc
-@@ -44,10 +44,14 @@ do_install () {
- }
- 
- do_install:append:libc-baremetal () {
--	rmdir ${D}${base_libdir}
-+	if ${@bb.utils.contains('DISTRO_FEATURES','usrmerge','false','true',d)}; then
-+		rmdir ${D}${base_libdir}
-+	fi
- }
- do_install:append:libc-newlib () {
--	rmdir ${D}${base_libdir}
-+	if ${@bb.utils.contains('DISTRO_FEATURES','usrmerge','false','true',d)}; then
-+		rmdir ${D}${base_libdir}
-+	fi
- }
- 
- # No rpm package is actually created but -dev depends on it, avoid dnf error
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index b63280ab3a4..15f4175214b 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -54,7 +54,7 @@ do_configure () {
+ 	# libstdc++ isn't built yet so CXX would error not able to find it which breaks stdc++'s configure
+ 	# tests. Create a dummy empty lib for the purposes of configure.
+ 	mkdir -p ${WORKDIR}/dummylib
+-	${CC} -x c /dev/null -nostartfiles -shared -o ${WORKDIR}/dummylib/libstdc++.so
++	${CC} -x c /dev/null -nostartfiles -nostdlib -nostdinc -static -o ${WORKDIR}/dummylib/libstdc++.a
+ 	for d in libgcc ${RUNTIMETARGET}; do
+ 		echo "Configuring $d"
+ 		rm -rf ${B}/${TARGET_SYS}/$d/
 -- 
 2.37.1
 
