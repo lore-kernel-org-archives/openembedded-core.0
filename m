@@ -1,853 +1,583 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <pevik@seznam.cz>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B510AC43334
-	for <webhook@archiver.kernel.org>; Sat, 23 Jul 2022 13:00:13 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web09.6081.1658581205123032565
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D96E0C433EF
+	for <webhook@archiver.kernel.org>; Sat, 23 Jul 2022 13:24:23 +0000 (UTC)
+Received: from mxd1.seznam.cz (mxd1.seznam.cz [77.75.78.210])
+ by mx.groups.io with SMTP id smtpd.web09.6314.1658582659501053577
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Jul 2022 06:00:05 -0700
+ Sat, 23 Jul 2022 06:24:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WEZs+dc+;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id
- x23-20020a05600c179700b003a30e3e7989so3861224wmo.0
-        for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Jul 2022 06:00:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Z1B3ioCAag8ZZyc84cR0LpLLbhza0aUx/BnE+WEXPMk=;
-        b=WEZs+dc+CBoNQzS0dD/OcWsV9aH5RgLnH5z9SUSZdFd8wEBFmnj3/4kvTlJhyjxxsW
-         khSi0XIAWJTA1KUh32Q3xIgOvCTaKtDdOTuSNJketg3KAtspgafJWOR1S/OGYnHK+hVX
-         PoGNHDrg/joPHuB5g5vQZ+Wxf/Mw/oq+yEoG8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Z1B3ioCAag8ZZyc84cR0LpLLbhza0aUx/BnE+WEXPMk=;
-        b=JPXcjUNVOH7BkgwibJXJagoyNsQerHSj7fp6fTOsfJdlJDzXKVniUSjHpgU5sR6ZQp
-         2gXXO2JvLXxc/oaczOJwfSh9C2ccGx3dYEbNlotGH70hveYo0sJiWYZw1EoIKDM1TXCH
-         aRQPDuxO3bFAOoTXbR1lDiJ4gNmsKXz3qs8uTAgOBmviaV+pEcBmaUtge2/2RGg9W+BT
-         Qqe8aul7ZPNLzpzAImu/u372zej85s3RgA9OjF6hV3KyEawa/8ckc3MmX7DD00eOPxj9
-         IRG1wKNmys1UABo1UfV5hnjPuCsqlCM8gV/0uHwsbczh6muxPS+8FEIue5RYQ2KPApYE
-         yyng==
-X-Gm-Message-State: AJIora9MeKfVDGU3J8TFAApKkbazxRBgltZn3AF2yHa5agA/iaCD/OGy
-	d8hAuWTbZ1GURT+xqY95LhPC8ARu9Jux2w==
-X-Google-Smtp-Source: 
- AGRyM1sT4z882oam4OU4MVnhi02KxcYCi0FyBoh28lnLxJRKzjAMGRZsUm8rauKGaRHOkpUvSmC+MQ==
-X-Received: by 2002:a7b:c391:0:b0:3a3:2f22:7bf6 with SMTP id
- s17-20020a7bc391000000b003a32f227bf6mr10712821wmj.96.1658581202730;
-        Sat, 23 Jul 2022 06:00:02 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:9bb3:b62f:20a1:a32])
-        by smtp.gmail.com with ESMTPSA id
- bn1-20020a056000060100b0021e71894692sm1498999wrb.91.2022.07.23.06.00.01
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Jul 2022 06:00:01 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ dkim=pass header.i=@seznam.cz header.s=beta header.b=M24R/R05;
+ spf=pass (domain: seznam.cz, ip: 77.75.78.210, mailfrom: pevik@seznam.cz)
+Received: from email.seznam.cz
+	by email-smtpc17b.ko.seznam.cz (email-smtpc17b.ko.seznam.cz [10.53.18.19])
+	id 01d015a2b7f0aaf901d7abd5;
+	Sat, 23 Jul 2022 15:24:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seznam.cz; s=beta;
+	t=1658582657; bh=XM01Ij1ExPB+VuRIxc1SxqcWl0+Ns2IdiNcU5RV9IUU=;
+	h=Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-szn-frgn:X-szn-frgc;
+	b=M24R/R051vcjBuhVnHhPXoZC1e+nCi1bVEjcW6wnTFphtUjwU2OkXYspC9n1PKezZ
+	 cSJzkNImifWh5QqK2QcJ8RyOxQdj9ZbyhnZoi0McLu+bJX3SrG+70vOM1CZOuAFPSU
+	 fTLGU3ldHI2ruP72U0JvazyAXn6lbPedJnHLngCY=
+Received: from localhost.localdomain (mail.ms-free.net [185.147.46.46])
+	by email-relay2.ko.seznam.cz (Seznam SMTPD 1.3.137) with ESMTP;
+	Sat, 23 Jul 2022 15:24:14 +0200 (CEST)  
+From: Petr Vorel <pevik@seznam.cz>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] rust-target-config: Create new class to contain target
- json config generation
-Date: Sat, 23 Jul 2022 14:00:00 +0100
-Message-Id: <20220723130001.1793949-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
+Cc: Petr Vorel <petr.vorel@gmail.com>,
+	=?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [PATCH 1/1] ltp: Add post release runtime fixes
+Date: Sat, 23 Jul 2022 15:24:09 +0200
+Message-Id: <20220723132409.61635-1-pevik@seznam.cz>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-szn-frgn: <4cd4e067-d485-4cbb-8331-7f3a10676f42>
+X-szn-frgc: <0>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 23 Jul 2022 13:00:13 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 23 Jul 2022 13:24:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168436
+ https://lists.openembedded.org/g/openembedded-core/message/168438
 
-Currently most of the rust recipes use this code but it is all piecemeal.
-Turn the code into a class where things can start to be rationalised. Ultimately
-some of the data and python code should be moved to a python library but one step
-at a time.
+From: Petr Vorel <petr.vorel@gmail.com>
 
-No functionality changes.
+Backport various post 20220527 release runtime fixes:
+* The concept of max runtime
+* tst_test.sh: Cleanup getopts usage
+* mountns0[1-3]: wait for umount completed in thread_b
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
 ---
- meta/classes/rust-target-config.bbclass       | 364 ++++++++++++++++++
- .../cargo/cargo-cross-canadian.inc            |   2 +-
- meta/recipes-devtools/rust/rust-common.inc    | 363 -----------------
- meta/recipes-devtools/rust/rust.inc           |   2 +-
- 4 files changed, 366 insertions(+), 365 deletions(-)
- create mode 100644 meta/classes/rust-target-config.bbclass
+Hi Richard, Daniel,
 
-diff --git a/meta/classes/rust-target-config.bbclass b/meta/classes/rust-target-config.bbclass
+could you please test this patchset?
+
+Kind regards,
+Petr
+
+ ...-Fix-usage-of-PAGESIZE-from-memcg_li.patch | 121 ++++++++++++++
+ ...ait-for-umount-completed-in-thread_b.patch |  63 +++++++
+ ...x-usage-of-variables-from-tst_net.sh.patch | 154 ++++++++++++++++++
+ ...0001-netstress-Restore-runtime-to-5m.patch |  53 ++++++
+ ...fs05_make_tree-Restore-5-min-timeout.patch |  31 ++++
+ ...igrate_pages03-restore-runtime-to-5m.patch |  44 +++++
+ 6 files changed, 466 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-memcg-functional-Fix-usage-of-PAGESIZE-from-memcg_li.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-mountns0-1-3-wait-for-umount-completed-in-thread_b.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-net_stress-Fix-usage-of-variables-from-tst_net.sh.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-netstress-Restore-runtime-to-5m.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-nfs05_make_tree-Restore-5-min-timeout.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-syscalls-migrate_pages03-restore-runtime-to-5m.patch
+
+diff --git a/meta/recipes-extended/ltp/ltp/0001-memcg-functional-Fix-usage-of-PAGESIZE-from-memcg_li.patch b/meta/recipes-extended/ltp/ltp/0001-memcg-functional-Fix-usage-of-PAGESIZE-from-memcg_li.patch
 new file mode 100644
-index 00000000000..8e59cefb06d
+index 0000000000..6cc36cda79
 --- /dev/null
-+++ b/meta/classes/rust-target-config.bbclass
-@@ -0,0 +1,364 @@
-+# Right now this is focused on arm-specific tune features.
-+# We get away with this for now as one can only use x86-64 as the build host
-+# (not arm).
-+# Note that TUNE_FEATURES is _always_ refering to the target, so we really
-+# don't want to use this for the host/build.
-+def llvm_features_from_tune(d):
-+    f = []
-+    feat = d.getVar('TUNE_FEATURES')
-+    if not feat:
-+        return []
-+    feat = frozenset(feat.split())
++++ b/meta/recipes-extended/ltp/ltp/0001-memcg-functional-Fix-usage-of-PAGESIZE-from-memcg_li.patch
+@@ -0,0 +1,121 @@
++From bda92ad659a52d38ac810099f69adff626b064c6 Mon Sep 17 00:00:00 2001
++From: Joerg Vehlow <joerg.vehlow@aox.de>
++Date: Mon, 27 Jun 2022 10:44:49 +0200
++Subject: [PATCH] memcg/functional: Fix usage of PAGESIZE from memcg_lib.sh
 +
-+    mach_overrides = d.getVar('MACHINEOVERRIDES')
-+    mach_overrides = frozenset(mach_overrides.split(':'))
++$PAGESIZES is set in memcg_lib.sh, which was moved to the bottom of the file.
 +
-+    if 'vfpv4' in feat:
-+        f.append("+vfp4")
-+    if 'vfpv3' in feat:
-+        f.append("+vfp3")
-+    if 'vfpv3d16' in feat:
-+        f.append("+d16")
++Fixes: 04021637f ("tst_test.sh: Cleanup getopts usage")
 +
-+    if 'vfpv2' in feat or 'vfp' in feat:
-+        f.append("+vfp2")
++Reviewed-by: Petr Vorel <pvorel@suse.cz>
++Signed-off-by: Joerg Vehlow <joerg.vehlow@aox.de>
++[ upstream status: bda92ad659a52d38ac810099f69adff626b064c6 ]
++---
++ .../controllers/memcg/functional/memcg_failcnt.sh      |  7 ++++---
++ .../memcg/functional/memcg_max_usage_in_bytes_test.sh  | 10 +++++-----
++ .../memcg/functional/memcg_subgroup_charge.sh          |  8 ++++----
++ .../memcg/functional/memcg_usage_in_bytes_test.sh      | 10 +++++-----
++ 4 files changed, 18 insertions(+), 17 deletions(-)
 +
-+    if 'neon' in feat:
-+        f.append("+neon")
++diff --git a/testcases/kernel/controllers/memcg/functional/memcg_failcnt.sh b/testcases/kernel/controllers/memcg/functional/memcg_failcnt.sh
++index 1fed01569..1be98a056 100755
++--- a/testcases/kernel/controllers/memcg/functional/memcg_failcnt.sh
+++++ b/testcases/kernel/controllers/memcg/functional/memcg_failcnt.sh
++@@ -12,9 +12,6 @@ MEMCG_TESTFUNC=test
++ MEMCG_SHMMAX=1
++ TST_TEST_DATA="--mmap-anon --mmap-file --shm"
++ 
++-MEMORY_LIMIT=$PAGESIZE
++-MEMORY_TO_ALLOCATE=$((MEMORY_LIMIT * 2))
++-
++ test()
++ {
++ 	ROD echo $MEMORY_LIMIT \> memory.limit_in_bytes
++@@ -36,4 +33,8 @@ test()
++ }
++ 
++ . memcg_lib.sh
+++
+++MEMORY_LIMIT=$PAGESIZE
+++MEMORY_TO_ALLOCATE=$((MEMORY_LIMIT * 2))
+++
++ tst_run
++diff --git a/testcases/kernel/controllers/memcg/functional/memcg_max_usage_in_bytes_test.sh b/testcases/kernel/controllers/memcg/functional/memcg_max_usage_in_bytes_test.sh
++index d1ffbe053..302810513 100755
++--- a/testcases/kernel/controllers/memcg/functional/memcg_max_usage_in_bytes_test.sh
+++++ b/testcases/kernel/controllers/memcg/functional/memcg_max_usage_in_bytes_test.sh
++@@ -9,11 +9,6 @@
++ MEMCG_TESTFUNC=test
++ TST_CNT=4
++ 
++-
++-MEM_TO_ALLOC=$((PAGESIZE * 1024))
++-MEM_EXPECTED_UPPER=$((MEM_TO_ALLOC + MEM_USAGE_RANGE))
++-MEM_LIMIT=$((MEM_TO_ALLOC * 2))
++-
++ # Run test cases which checks memory.[memsw.]max_usage_in_bytes after make
++ # some memory allocation
++ test_max_usage_in_bytes()
++@@ -88,4 +83,9 @@ test4()
++ }
++ 
++ . memcg_lib.sh
+++
+++MEM_TO_ALLOC=$((PAGESIZE * 1024))
+++MEM_EXPECTED_UPPER=$((MEM_TO_ALLOC + MEM_USAGE_RANGE))
+++MEM_LIMIT=$((MEM_TO_ALLOC * 2))
+++
++ tst_run
++diff --git a/testcases/kernel/controllers/memcg/functional/memcg_subgroup_charge.sh b/testcases/kernel/controllers/memcg/functional/memcg_subgroup_charge.sh
++index 08b6697d4..9bcc01258 100755
++--- a/testcases/kernel/controllers/memcg/functional/memcg_subgroup_charge.sh
+++++ b/testcases/kernel/controllers/memcg/functional/memcg_subgroup_charge.sh
++@@ -12,10 +12,6 @@
++ MEMCG_TESTFUNC=test
++ TST_CNT=3
++ 
++-
++-# Allocate memory bigger than per-cpu kernel memory
++-MEM_TO_ALLOC=$((PAGESIZES * 2))
++-
++ # Test the memory charge won't move to subgroup
++ # $1 - memory.limit_in_bytes in sub group
++ test_subgroup()
++@@ -67,4 +63,8 @@ test3()
++ }
++ 
++ . memcg_lib.sh
+++
+++# Allocate memory bigger than per-cpu kernel memory
+++MEM_TO_ALLOC=$((PAGESIZES * 2))
+++
++ tst_run
++diff --git a/testcases/kernel/controllers/memcg/functional/memcg_usage_in_bytes_test.sh b/testcases/kernel/controllers/memcg/functional/memcg_usage_in_bytes_test.sh
++index 6f932124e..125d88e55 100755
++--- a/testcases/kernel/controllers/memcg/functional/memcg_usage_in_bytes_test.sh
+++++ b/testcases/kernel/controllers/memcg/functional/memcg_usage_in_bytes_test.sh
++@@ -9,11 +9,6 @@
++ MEMCG_TESTFUNC=test
++ TST_CNT=2
++ 
++-
++-MEM_TO_ALLOC=$((PAGESIZE * 1024))
++-MEM_EXPECTED_UPPER=$((MEM_TO_ALLOC + MEM_USAGE_RANGE))
++-MEM_LIMIT=$((MEM_TO_ALLOC * 2))
++-
++ test1()
++ {
++ 	tst_res TINFO "Test memory.usage_in_bytes"
++@@ -35,4 +30,9 @@ test2()
++ }
++ 
++ . memcg_lib.sh
+++
+++MEM_TO_ALLOC=$((PAGESIZE * 1024))
+++MEM_EXPECTED_UPPER=$((MEM_TO_ALLOC + MEM_USAGE_RANGE))
+++MEM_LIMIT=$((MEM_TO_ALLOC * 2))
+++
++ tst_run
++-- 
++2.37.1
 +
-+    if 'mips32' in feat:
-+        f.append("+mips32")
+diff --git a/meta/recipes-extended/ltp/ltp/0001-mountns0-1-3-wait-for-umount-completed-in-thread_b.patch b/meta/recipes-extended/ltp/ltp/0001-mountns0-1-3-wait-for-umount-completed-in-thread_b.patch
+new file mode 100644
+index 0000000000..73904806fd
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-mountns0-1-3-wait-for-umount-completed-in-thread_b.patch
+@@ -0,0 +1,63 @@
++From 6d4c8343d33e7d8fa059246310413f029a9e8573 Mon Sep 17 00:00:00 2001
++From: Li Wang <liwang@redhat.com>
++Date: Thu, 7 Jul 2022 17:38:45 +0800
++Subject: [PATCH] mountns0[1-3]: wait for umount completed in thread_b
 +
-+    if 'mips32r2' in feat:
-+        f.append("+mips32r2")
++To get rid of race condition (occurs with umount_folders):
 +
-+    if target_is_armv7(d):
-+        f.append('+v7')
++    mountns01.c:42: TPASS: shared mount in parent passed
++    mountns01.c:83: TPASS: shared mount in child passed
++    tst_device.c:394: TWARN: umount('B') failed with EINVAL
++    mountns.h:39: TWARN: umount(B) failed: EINVAL (22)
 +
-+    if ('armv6' in mach_overrides) or ('armv6' in feat):
-+        f.append("+v6")
-+    if 'armv5te' in feat:
-+        f.append("+strict-align")
-+        f.append("+v5te")
-+    elif 'armv5' in feat:
-+        f.append("+strict-align")
-+        f.append("+v5")
++Signed-off-by: Li Wang <liwang@redhat.com>
++Reviewed-by: Yang Xu <xuyang2018.jy@fujitsu.com>
++[ upstream status: 6d4c8343d33e7d8fa059246310413f029a9e8573 ]
++---
++ testcases/kernel/containers/mountns/mountns01.c | 2 ++
++ testcases/kernel/containers/mountns/mountns02.c | 2 ++
++ testcases/kernel/containers/mountns/mountns03.c | 2 ++
++ 3 files changed, 6 insertions(+)
 +
-+    if ('armv4' in mach_overrides) or ('armv4' in feat):
-+        f.append("+strict-align")
++diff --git a/testcases/kernel/containers/mountns/mountns01.c b/testcases/kernel/containers/mountns/mountns01.c
++index e99134aba..e8f176920 100644
++--- a/testcases/kernel/containers/mountns/mountns01.c
+++++ b/testcases/kernel/containers/mountns/mountns01.c
++@@ -86,6 +86,8 @@ static void run(void)
++ 
++ 	TST_CHECKPOINT_WAKE(0);
++ 
+++	SAFE_WAIT(NULL);
+++
++ 	SAFE_UMOUNT(DIRA);
++ }
++ 
++diff --git a/testcases/kernel/containers/mountns/mountns02.c b/testcases/kernel/containers/mountns/mountns02.c
++index 258b61217..4b85fa79b 100644
++--- a/testcases/kernel/containers/mountns/mountns02.c
+++++ b/testcases/kernel/containers/mountns/mountns02.c
++@@ -87,6 +87,8 @@ static void run(void)
++ 
++ 	TST_CHECKPOINT_WAKE(0);
++ 
+++	SAFE_WAIT(NULL);
+++
++ 	SAFE_UMOUNT(DIRA);
++ }
++ 
++diff --git a/testcases/kernel/containers/mountns/mountns03.c b/testcases/kernel/containers/mountns/mountns03.c
++index f37ae7902..1d26a25d8 100644
++--- a/testcases/kernel/containers/mountns/mountns03.c
+++++ b/testcases/kernel/containers/mountns/mountns03.c
++@@ -97,6 +97,8 @@ static void run(void)
++ 
++ 	TST_CHECKPOINT_WAKE(0);
++ 
+++	SAFE_WAIT(NULL);
+++
++ 	SAFE_UMOUNT(DIRA);
++ }
++ 
++-- 
++2.37.1
 +
-+    if 'dsp' in feat:
-+        f.append("+dsp")
+diff --git a/meta/recipes-extended/ltp/ltp/0001-net_stress-Fix-usage-of-variables-from-tst_net.sh.patch b/meta/recipes-extended/ltp/ltp/0001-net_stress-Fix-usage-of-variables-from-tst_net.sh.patch
+new file mode 100644
+index 0000000000..ba187366ff
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-net_stress-Fix-usage-of-variables-from-tst_net.sh.patch
+@@ -0,0 +1,154 @@
++From 33c156e295e35d4839a135d8ba5db485b7712ced Mon Sep 17 00:00:00 2001
++From: Joerg Vehlow <joerg.vehlow@aox.de>
++Date: Mon, 27 Jun 2022 09:27:09 +0200
++Subject: [PATCH] net_stress: Fix usage of variables from tst_net.sh
 +
-+    if 'thumb' in feat:
-+        if d.getVar('ARM_THUMB_OPT') == "thumb":
-+            if target_is_armv7(d):
-+                f.append('+thumb2')
-+            f.append("+thumb-mode")
++These tests use variables (NS_TIMES, IP_TOTAL, ROUTE_TOTAL
++and IF_UPDOWN_TIMES) from tst_net.sh, before sourcing it.
 +
-+    if 'cortexa5' in feat:
-+        f.append("+a5")
-+    if 'cortexa7' in feat:
-+        f.append("+a7")
-+    if 'cortexa9' in feat:
-+        f.append("+a9")
-+    if 'cortexa15' in feat:
-+        f.append("+a15")
-+    if 'cortexa17' in feat:
-+        f.append("+a17")
-+    if ('riscv64' in feat) or ('riscv32' in feat):
-+        f.append("+a,+c,+d,+f,+m")
-+    return f
-+llvm_features_from_tune[vardepvalue] = "${@llvm_features_from_tune(d)}"
++Fixes: 04021637f ("tst_test.sh: Cleanup getopts usage")
 +
-+# TARGET_CC_ARCH changes from build/cross/target so it'll do the right thing
-+# this should go away when https://github.com/rust-lang/rust/pull/31709 is
-+# stable (1.9.0?)
-+def llvm_features_from_cc_arch(d):
-+    f = []
-+    feat = d.getVar('TARGET_CC_ARCH')
-+    if not feat:
-+        return []
-+    feat = frozenset(feat.split())
++Reviewed-by: Petr Vorel <pvorel@suse.cz>
++Signed-off-by: Joerg Vehlow <joerg.vehlow@aox.de>
++[ upstream status: 33c156e295e35d4839a135d8ba5db485b7712ced ]
++---
++ testcases/network/stress/interface/if-addr-adddel.sh    | 7 ++++---
++ testcases/network/stress/interface/if-addr-addlarge.sh  | 7 ++++---
++ testcases/network/stress/interface/if-route-adddel.sh   | 5 +++--
++ testcases/network/stress/interface/if-route-addlarge.sh | 5 +++--
++ testcases/network/stress/interface/if-updown.sh         | 5 +++--
++ testcases/network/stress/interface/if4-addr-change.sh   | 4 +++-
++ 6 files changed, 20 insertions(+), 13 deletions(-)
 +
-+    if '-mmmx' in feat:
-+        f.append("+mmx")
-+    if '-msse' in feat:
-+        f.append("+sse")
-+    if '-msse2' in feat:
-+        f.append("+sse2")
-+    if '-msse3' in feat:
-+        f.append("+sse3")
-+    if '-mssse3' in feat:
-+        f.append("+ssse3")
-+    if '-msse4.1' in feat:
-+        f.append("+sse4.1")
-+    if '-msse4.2' in feat:
-+        f.append("+sse4.2")
-+    if '-msse4a' in feat:
-+        f.append("+sse4a")
-+    if '-mavx' in feat:
-+        f.append("+avx")
-+    if '-mavx2' in feat:
-+        f.append("+avx2")
++diff --git a/testcases/network/stress/interface/if-addr-adddel.sh b/testcases/network/stress/interface/if-addr-adddel.sh
++index cb453e612..0750501f0 100755
++--- a/testcases/network/stress/interface/if-addr-adddel.sh
+++++ b/testcases/network/stress/interface/if-addr-adddel.sh
++@@ -7,9 +7,6 @@
++ 
++ IF_CMD='ifconfig'
++ 
++-# The interval of the check interface activity
++-CHECK_INTERVAL=${CHECK_INTERVAL:-$(($NS_TIMES / 20))}
++-
++ test_body()
++ {
++ 	local cmd="$CMD"
++@@ -89,4 +86,8 @@ test_body()
++ }
++ 
++ . if-lib.sh
+++
+++# The interval of the check interface activity
+++CHECK_INTERVAL=${CHECK_INTERVAL:-$(($NS_TIMES / 20))}
+++
++ tst_run
++diff --git a/testcases/network/stress/interface/if-addr-addlarge.sh b/testcases/network/stress/interface/if-addr-addlarge.sh
++index 3c876c17d..d0759c86b 100755
++--- a/testcases/network/stress/interface/if-addr-addlarge.sh
+++++ b/testcases/network/stress/interface/if-addr-addlarge.sh
++@@ -7,9 +7,6 @@
++ 
++ IF_CMD='ifconfig'
++ 
++-# The interval of the check interface activity
++-CHECK_INTERVAL=${CHECK_INTERVAL:-$(($IP_TOTAL / 20))}
++-
++ test_body()
++ {
++ 	local cmd="$CMD"
++@@ -110,4 +107,8 @@ test_body()
++ }
++ 
++ . if-lib.sh
+++
+++# The interval of the check interface activity
+++CHECK_INTERVAL=${CHECK_INTERVAL:-$(($IP_TOTAL / 20))}
+++
++ tst_run
++diff --git a/testcases/network/stress/interface/if-route-adddel.sh b/testcases/network/stress/interface/if-route-adddel.sh
++index b50da268a..51445e4f7 100755
++--- a/testcases/network/stress/interface/if-route-adddel.sh
+++++ b/testcases/network/stress/interface/if-route-adddel.sh
++@@ -7,8 +7,6 @@
++ 
++ IF_CMD='route'
++ 
++-CHECK_INTERVAL=${CHECK_INTERVAL:-$(($NS_TIMES / 20))}
++-
++ test_body()
++ {
++ 	local cmd="$CMD"
++@@ -64,4 +62,7 @@ test_body()
++ }
++ 
++ . if-lib.sh
+++
+++CHECK_INTERVAL=${CHECK_INTERVAL:-$(($NS_TIMES / 20))}
+++
++ tst_run
++diff --git a/testcases/network/stress/interface/if-route-addlarge.sh b/testcases/network/stress/interface/if-route-addlarge.sh
++index 7d09d1216..355b6b4ab 100755
++--- a/testcases/network/stress/interface/if-route-addlarge.sh
+++++ b/testcases/network/stress/interface/if-route-addlarge.sh
++@@ -7,8 +7,6 @@
++ 
++ IF_CMD='route'
++ 
++-CHECK_INTERVAL=${CHECK_INTERVAL:-$(($ROUTE_TOTAL / 20))}
++-
++ test_body()
++ {
++ 	local cmd="$CMD"
++@@ -76,4 +74,7 @@ test_body()
++ }
++ 
++ . if-lib.sh
+++
+++CHECK_INTERVAL=${CHECK_INTERVAL:-$(($ROUTE_TOTAL / 20))}
+++
++ tst_run
++diff --git a/testcases/network/stress/interface/if-updown.sh b/testcases/network/stress/interface/if-updown.sh
++index 9a5709c85..71c78d785 100755
++--- a/testcases/network/stress/interface/if-updown.sh
+++++ b/testcases/network/stress/interface/if-updown.sh
++@@ -8,8 +8,6 @@
++ IF_CMD='ifconfig'
++ TST_CLEANUP="if_cleanup_restore"
++ 
++-CHECK_INTERVAL=${CHECK_INTERVAL:-$(($IF_UPDOWN_TIMES / 20))}
++-
++ test_body()
++ {
++ 	local cmd="$CMD"
++@@ -47,4 +45,7 @@ test_body()
++ }
++ 
++ . if-lib.sh
+++
+++CHECK_INTERVAL=${CHECK_INTERVAL:-$(($IF_UPDOWN_TIMES / 20))}
+++
++ tst_run
++diff --git a/testcases/network/stress/interface/if4-addr-change.sh b/testcases/network/stress/interface/if4-addr-change.sh
++index b9ece2af9..f162e6a51 100755
++--- a/testcases/network/stress/interface/if4-addr-change.sh
+++++ b/testcases/network/stress/interface/if4-addr-change.sh
++@@ -9,7 +9,6 @@ TST_CLEANUP="do_cleanup"
++ TST_TESTFUNC="test_body"
++ TST_NEEDS_CMDS="ifconfig"
++ 
++-CHECK_INTERVAL=${CHECK_INTERVAL:-$(($NS_TIMES / 20))}
++ # Maximum host portion of the IPv4 address on the local host
++ LHOST_IPV4_HOST_MAX="254"
++ 
++@@ -61,4 +60,7 @@ test_body()
++ }
++ 
++ . tst_net.sh
+++
+++CHECK_INTERVAL=${CHECK_INTERVAL:-$(($NS_TIMES / 20))}
+++
++ tst_run
++-- 
++2.37.1
 +
-+    return f
+diff --git a/meta/recipes-extended/ltp/ltp/0001-netstress-Restore-runtime-to-5m.patch b/meta/recipes-extended/ltp/ltp/0001-netstress-Restore-runtime-to-5m.patch
+new file mode 100644
+index 0000000000..acaccf1e1f
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-netstress-Restore-runtime-to-5m.patch
+@@ -0,0 +1,53 @@
++From cc4a27c235d0cf69a55cd8829b232566b0223333 Mon Sep 17 00:00:00 2001
++From: Petr Vorel <pvorel@suse.cz>
++Date: Wed, 13 Jul 2022 09:46:14 +0200
++Subject: [PATCH] netstress: Restore runtime to 5m
 +
-+def llvm_features_from_target_fpu(d):
-+    # TARGET_FPU can be hard or soft. +soft-float tell llvm to use soft float
-+    # ABI. There is no option for hard.
++netstress requires the previous default timeout 5m due longer timeout
++for higher message sizes (e.g. 65535):
 +
-+    fpu = d.getVar('TARGET_FPU', True)
-+    return ["+soft-float"] if fpu == "soft" else []
++./sctp_ipsec.sh -6 -p comp -m transport -s 100:1000:65535:R65535
++sctp_ipsec 1 TPASS: netstress passed, median time 5 ms, data: 5 9 6 5 5
++sctp_ipsec 2 TINFO: run server 'netstress -T sctp -S fd00:1:1:1::1 -D ltp_ns_veth1 -R 500000 -B /tmp/LTP_sctp_ipsec.ARZbGkvjPa'
++sctp_ipsec 2 TINFO: run client 'netstress -l -T sctp -H fd00:1:1:1::1 -n 1000 -N 1000 -S fd00:1:1:1::2 -D ltp_ns_veth2 -a 2 -r 100 -d /tmp/LTP_sctp_ipsec.ARZbGkvjPa/tst_netload.res' 5 times
++sctp_ipsec 2 TPASS: netstress passed, median time 6 ms, data: 8 6 6 5 6
++sctp_ipsec 3 TINFO: run server 'netstress -T sctp -S fd00:1:1:1::1 -D ltp_ns_veth1 -R 500000 -B /tmp/LTP_sctp_ipsec.ARZbGkvjPa'
++sctp_ipsec 3 TINFO: run client 'netstress -l -T sctp -H fd00:1:1:1::1 -n 65535 -N 65535 -S fd00:1:1:1::2 -D ltp_ns_veth2 -a 2 -r 100 -d /tmp/LTP_sctp_ipsec.ARZbGkvjPa/tst_netload.res' 5 times
++sctp_ipsec 3 TWARN: netstress failed, ret: 2
++tst_test.c:1526: TINFO: Timeout per run is 0h 00m 30s
++netstress.c:896: TINFO: IP_BIND_ADDRESS_NO_PORT is used
++netstress.c:898: TINFO: connection: addr 'fd00:1:1:1::1', port '55097'
++netstress.c:900: TINFO: client max req: 100
++netstress.c:901: TINFO: clients num: 2
++netstress.c:906: TINFO: client msg size: 65535
++netstress.c:907: TINFO: server msg size: 65535
++netstress.c:979: TINFO: SCTP client
++netstress.c:475: TINFO: Running the test over IPv6
++Test timeouted, sending SIGKILL!
++tst_test.c:1577: TINFO: If you are running on slow machine, try exporting LTP_TIMEOUT_MUL > 1
++tst_test.c:1579: TBROK: Test killed! (timeout?)
 +
-+def llvm_features(d):
-+    return ','.join(llvm_features_from_tune(d) +
-+                    llvm_features_from_cc_arch(d) +
-+                    llvm_features_from_target_fpu(d))
++Converting netstress.c to use TST_NO_DEFAULT_MAIN (i.e. implementing main)
++would require more changes, because it uses .forks_child, .needs_checkpoints,
++cleanup function.
 +
++Signed-off-by: Petr Vorel <pvorel@suse.cz>
++[ upstream status: cc4a27c235d0cf69a55cd8829b232566b0223333 ]
++---
++ testcases/network/netstress/netstress.c | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+## arm-unknown-linux-gnueabihf
-+DATA_LAYOUT[arm-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
-+TARGET_ENDIAN[arm-eabi] = "little"
-+TARGET_POINTER_WIDTH[arm-eabi] = "32"
-+TARGET_C_INT_WIDTH[arm-eabi] = "32"
-+MAX_ATOMIC_WIDTH[arm-eabi] = "64"
-+FEATURES[arm-eabi] = "+v6,+vfp2"
++diff --git a/testcases/network/netstress/netstress.c b/testcases/network/netstress/netstress.c
++index 6c9e83112..7c222531d 100644
++--- a/testcases/network/netstress/netstress.c
+++++ b/testcases/network/netstress/netstress.c
++@@ -1028,5 +1028,6 @@ static struct tst_test test = {
++ 		{"B:", &server_bg, "Run in background, arg is the process directory"},
++ 		{}
++ 	},
+++	.max_runtime = 300,
++ 	.needs_checkpoints = 1,
++ };
++-- 
++2.37.1
 +
-+## armv7-unknown-linux-gnueabihf
-+DATA_LAYOUT[armv7-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
-+TARGET_ENDIAN[armv7-eabi] = "little"
-+TARGET_POINTER_WIDTH[armv7-eabi] = "32"
-+TARGET_C_INT_WIDTH[armv7-eabi] = "32"
-+MAX_ATOMIC_WIDTH[armv7-eabi] = "64"
-+FEATURES[armv7-eabi] = "+v7,+vfp2,+thumb2"
+diff --git a/meta/recipes-extended/ltp/ltp/0001-nfs05_make_tree-Restore-5-min-timeout.patch b/meta/recipes-extended/ltp/ltp/0001-nfs05_make_tree-Restore-5-min-timeout.patch
+new file mode 100644
+index 0000000000..c12449d814
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-nfs05_make_tree-Restore-5-min-timeout.patch
+@@ -0,0 +1,31 @@
++From 463da729537faa6d5ef206912fdec871c1059dac Mon Sep 17 00:00:00 2001
++From: Petr Vorel <pvorel@suse.cz>
++Date: Thu, 16 Jun 2022 16:33:31 +0200
++Subject: [PATCH] nfs05_make_tree: Restore 5 min timeout
 +
-+## aarch64-unknown-linux-{gnu, musl}
-+DATA_LAYOUT[aarch64] = "e-m:e-i8:8:32-i16:16:32-i64:64-i128:128-n32:64-S128"
-+TARGET_ENDIAN[aarch64] = "little"
-+TARGET_POINTER_WIDTH[aarch64] = "64"
-+TARGET_C_INT_WIDTH[aarch64] = "32"
-+MAX_ATOMIC_WIDTH[aarch64] = "128"
++nfs05_make_tree is a long running test. The previous default timeout 5
++min was enough after reducing runtime in 05be61cf6.
 +
-+## x86_64-unknown-linux-{gnu, musl}
-+DATA_LAYOUT[x86_64] = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
-+TARGET_ENDIAN[x86_64] = "little"
-+TARGET_POINTER_WIDTH[x86_64] = "64"
-+TARGET_C_INT_WIDTH[x86_64] = "32"
-+MAX_ATOMIC_WIDTH[x86_64] = "64"
++But the new default 30 sec introduced in the concept of max runtime is
++definitely not enough. Restore the previous timeout 5 min.
 +
-+## x86_64-unknown-linux-gnux32
-+DATA_LAYOUT[x86_64-x32] = "e-m:e-p:32:32-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-+TARGET_ENDIAN[x86_64-x32] = "little"
-+TARGET_POINTER_WIDTH[x86_64-x32] = "32"
-+TARGET_C_INT_WIDTH[x86_64-x32] = "32"
-+MAX_ATOMIC_WIDTH[x86_64-x32] = "64"
++Signed-off-by: Petr Vorel <pvorel@suse.cz>
 +
-+## i686-unknown-linux-{gnu, musl}
-+DATA_LAYOUT[i686] = "e-m:e-p:32:32-f64:32:64-f80:32-n8:16:32-S128"
-+TARGET_ENDIAN[i686] = "little"
-+TARGET_POINTER_WIDTH[i686] = "32"
-+TARGET_C_INT_WIDTH[i686] = "32"
-+MAX_ATOMIC_WIDTH[i686] = "64"
++[ upstream status: 463da729537faa6d5ef206912fdec871c1059dac ]
++---
++ testcases/network/nfs/nfs_stress/nfs05_make_tree.c | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+## XXX: a bit of a hack so qemux86 builds, clone of i686-unknown-linux-{gnu, musl} above
-+DATA_LAYOUT[i586] = "e-m:e-p:32:32-f64:32:64-f80:32-n8:16:32-S128"
-+TARGET_ENDIAN[i586] = "little"
-+TARGET_POINTER_WIDTH[i586] = "32"
-+TARGET_C_INT_WIDTH[i586] = "32"
-+MAX_ATOMIC_WIDTH[i586] = "64"
++diff --git a/testcases/network/nfs/nfs_stress/nfs05_make_tree.c b/testcases/network/nfs/nfs_stress/nfs05_make_tree.c
++index fdc13bd5d..5456c1bf0 100644
++--- a/testcases/network/nfs/nfs_stress/nfs05_make_tree.c
+++++ b/testcases/network/nfs/nfs_stress/nfs05_make_tree.c
++@@ -215,4 +215,5 @@ static struct tst_test test = {
++ 	.options = opts,
++ 	.test_all = do_test,
++ 	.setup = setup,
+++	.max_runtime = 300,
++ };
++-- 
++2.37.1
 +
-+## mips-unknown-linux-{gnu, musl}
-+DATA_LAYOUT[mips] = "E-m:m-p:32:32-i8:8:32-i16:16:32-i64:64-n32-S64"
-+TARGET_ENDIAN[mips] = "big"
-+TARGET_POINTER_WIDTH[mips] = "32"
-+TARGET_C_INT_WIDTH[mips] = "32"
-+MAX_ATOMIC_WIDTH[mips] = "32"
+diff --git a/meta/recipes-extended/ltp/ltp/0001-syscalls-migrate_pages03-restore-runtime-to-5m.patch b/meta/recipes-extended/ltp/ltp/0001-syscalls-migrate_pages03-restore-runtime-to-5m.patch
+new file mode 100644
+index 0000000000..8229f98d26
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-syscalls-migrate_pages03-restore-runtime-to-5m.patch
+@@ -0,0 +1,44 @@
++From 9fb28002bb2ce988b99d1756ff7b902f76e3472a Mon Sep 17 00:00:00 2001
++From: Jan Stancek <jstancek@redhat.com>
++Date: Tue, 21 Jun 2022 10:37:17 +0200
++Subject: [PATCH] syscalls/migrate_pages03: restore runtime to 5m
 +
-+## mipsel-unknown-linux-{gnu, musl}
-+DATA_LAYOUT[mipsel] = "e-m:m-p:32:32-i8:8:32-i16:16:32-i64:64-n32-S64"
-+TARGET_ENDIAN[mipsel] = "little"
-+TARGET_POINTER_WIDTH[mipsel] = "32"
-+TARGET_C_INT_WIDTH[mipsel] = "32"
-+MAX_ATOMIC_WIDTH[mipsel] = "32"
++Arches with large pages have trouble completing all loops in 30s,
++restore runtime to 5m. Also check for remaining runtime and
++exit if we run out.
 +
-+## mips64-unknown-linux-{gnu, musl}
-+DATA_LAYOUT[mips64] = "E-m:e-i8:8:32-i16:16:32-i64:64-n32:64-S128"
-+TARGET_ENDIAN[mips64] = "big"
-+TARGET_POINTER_WIDTH[mips64] = "64"
-+TARGET_C_INT_WIDTH[mips64] = "64"
-+MAX_ATOMIC_WIDTH[mips64] = "64"
++Signed-off-by: Jan Stancek <jstancek@redhat.com>
++Reviewed-by: Cyril Hrubis <chrubis@suse.cz>
++Signed-off-by: Li Wang <liwang@redhat.com>
++[ upstream status: 9fb28002bb2ce988b99d1756ff7b902f76e3472a ]
++---
++ testcases/kernel/syscalls/migrate_pages/migrate_pages03.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
 +
-+## mips64el-unknown-linux-{gnu, musl}
-+DATA_LAYOUT[mips64el] = "e-m:e-i8:8:32-i16:16:32-i64:64-n32:64-S128"
-+TARGET_ENDIAN[mips64el] = "little"
-+TARGET_POINTER_WIDTH[mips64el] = "64"
-+TARGET_C_INT_WIDTH[mips64el] = "64"
-+MAX_ATOMIC_WIDTH[mips64el] = "64"
++diff --git a/testcases/kernel/syscalls/migrate_pages/migrate_pages03.c b/testcases/kernel/syscalls/migrate_pages/migrate_pages03.c
++index c6afb4cce..2866c96e6 100644
++--- a/testcases/kernel/syscalls/migrate_pages/migrate_pages03.c
+++++ b/testcases/kernel/syscalls/migrate_pages/migrate_pages03.c
++@@ -127,6 +127,11 @@ static void migrate_test(void)
++ 			tst_res(TFAIL | TERRNO, "migrate_pages() failed");
++ 			return;
++ 		}
+++
+++		if (!tst_remaining_runtime()) {
+++			tst_res(TINFO, "Out of runtime, exitting...");
+++			break;
+++		}
++ 	}
++ 	SAFE_SETEUID(0);
++ 
++@@ -134,6 +139,7 @@ static void migrate_test(void)
++ }
++ 
++ static struct tst_test test = {
+++	.max_runtime = 300,
++ 	.min_kver = "2.6.32",
++ 	.needs_root = 1,
++ 	.setup = setup,
++-- 
++2.37.1
 +
-+## powerpc-unknown-linux-{gnu, musl}
-+DATA_LAYOUT[powerpc] = "E-m:e-p:32:32-i64:64-n32"
-+TARGET_ENDIAN[powerpc] = "big"
-+TARGET_POINTER_WIDTH[powerpc] = "32"
-+TARGET_C_INT_WIDTH[powerpc] = "32"
-+MAX_ATOMIC_WIDTH[powerpc] = "32"
-+
-+## powerpc64-unknown-linux-{gnu, musl}
-+DATA_LAYOUT[powerpc64] = "E-m:e-i64:64-n32:64-S128-v256:256:256-v512:512:512"
-+TARGET_ENDIAN[powerpc64] = "big"
-+TARGET_POINTER_WIDTH[powerpc64] = "64"
-+TARGET_C_INT_WIDTH[powerpc64] = "64"
-+MAX_ATOMIC_WIDTH[powerpc64] = "64"
-+
-+## powerpc64le-unknown-linux-{gnu, musl}
-+DATA_LAYOUT[powerpc64le] = "e-m:e-i64:64-n32:64-v256:256:256-v512:512:512"
-+TARGET_ENDIAN[powerpc64le] = "little"
-+TARGET_POINTER_WIDTH[powerpc64le] = "64"
-+TARGET_C_INT_WIDTH[powerpc64le] = "64"
-+MAX_ATOMIC_WIDTH[powerpc64le] = "64"
-+
-+## riscv32-unknown-linux-{gnu, musl}
-+DATA_LAYOUT[riscv32] = "e-m:e-p:32:32-i64:64-n32-S128"
-+TARGET_ENDIAN[riscv32] = "little"
-+TARGET_POINTER_WIDTH[riscv32] = "32"
-+TARGET_C_INT_WIDTH[riscv32] = "32"
-+MAX_ATOMIC_WIDTH[riscv32] = "32"
-+
-+## riscv64-unknown-linux-{gnu, musl}
-+DATA_LAYOUT[riscv64] = "e-m:e-p:64:64-i64:64-i128:128-n64-S128"
-+TARGET_ENDIAN[riscv64] = "little"
-+TARGET_POINTER_WIDTH[riscv64] = "64"
-+TARGET_C_INT_WIDTH[riscv64] = "64"
-+MAX_ATOMIC_WIDTH[riscv64] = "64"
-+
-+# Convert a normal arch (HOST_ARCH, TARGET_ARCH, BUILD_ARCH, etc) to something
-+# rust's internals won't choke on.
-+def arch_to_rust_target_arch(arch):
-+    if arch == "i586" or arch == "i686":
-+        return "x86"
-+    elif arch == "mipsel":
-+        return "mips"
-+    elif arch == "mip64sel":
-+        return "mips64"
-+    elif arch == "armv7":
-+        return "arm"
-+    elif arch == "powerpc64le":
-+        return "powerpc64"
-+    else:
-+        return arch
-+
-+# generates our target CPU value
-+def llvm_cpu(d):
-+    cpu = d.getVar('PACKAGE_ARCH')
-+    target = d.getVar('TRANSLATED_TARGET_ARCH')
-+
-+    trans = {}
-+    trans['corei7-64'] = "corei7"
-+    trans['core2-32'] = "core2"
-+    trans['x86-64'] = "x86-64"
-+    trans['i686'] = "i686"
-+    trans['i586'] = "i586"
-+    trans['powerpc'] = "powerpc"
-+    trans['mips64'] = "mips64"
-+    trans['mips64el'] = "mips64"
-+    trans['riscv64'] = "generic-rv64"
-+    trans['riscv32'] = "generic-rv32"
-+
-+    if target in ["mips", "mipsel"]:
-+        feat = frozenset(d.getVar('TUNE_FEATURES').split())
-+        if "mips32r2" in feat:
-+            trans['mipsel'] = "mips32r2"
-+            trans['mips'] = "mips32r2"
-+        elif "mips32" in feat:
-+            trans['mipsel'] = "mips32"
-+            trans['mips'] = "mips32"
-+
-+    try:
-+        return trans[cpu]
-+    except:
-+        return trans.get(target, "generic")
-+
-+def rust_gen_target(d, thing, wd, arch):
-+    import json
-+    sys = d.getVar('{}_SYS'.format(thing))
-+    prefix = d.getVar('{}_PREFIX'.format(thing))
-+
-+    cpu = "generic"
-+    features = ""
-+
-+    if thing == "TARGET":
-+        abi = d.getVar('ABIEXTENSION')
-+        cpu = d.getVar('TARGET_LLVM_CPU')
-+        if bb.data.inherits_class('native', d):
-+            features = ','.join(llvm_features_from_cc_arch(d))
-+        else:
-+            features = d.getVar('TARGET_LLVM_FEATURES') or ""
-+        # arm and armv7 have different targets in llvm
-+        if arch == "arm" and target_is_armv7(d):
-+            arch = 'armv7'
-+
-+    rust_arch = oe.rust.arch_to_rust_arch(arch)
-+
-+    if abi:
-+        arch_abi = "{}-{}".format(rust_arch, abi)
-+    else:
-+        arch_abi = rust_arch
-+
-+    features = features or d.getVarFlag('FEATURES', arch_abi) or ""
-+    features = features.strip()
-+
-+    llvm_target = d.getVar('RUST_TARGET_SYS')
-+    if thing == "BUILD":
-+        llvm_target = d.getVar('RUST_HOST_SYS')
-+
-+    # build tspec
-+    tspec = {}
-+    tspec['llvm-target'] = llvm_target
-+    tspec['data-layout'] = d.getVarFlag('DATA_LAYOUT', arch_abi)
-+    tspec['max-atomic-width'] = int(d.getVarFlag('MAX_ATOMIC_WIDTH', arch_abi))
-+    tspec['target-pointer-width'] = d.getVarFlag('TARGET_POINTER_WIDTH', arch_abi)
-+    tspec['target-c-int-width'] = d.getVarFlag('TARGET_C_INT_WIDTH', arch_abi)
-+    tspec['target-endian'] = d.getVarFlag('TARGET_ENDIAN', arch_abi)
-+    tspec['arch'] = arch_to_rust_target_arch(rust_arch)
-+    tspec['os'] = "linux"
-+    if "musl" in tspec['llvm-target']:
-+        tspec['env'] = "musl"
-+    else:
-+        tspec['env'] = "gnu"
-+    if "riscv64" in tspec['llvm-target']:
-+        tspec['llvm-abiname'] = "lp64d"
-+    if "riscv32" in tspec['llvm-target']:
-+        tspec['llvm-abiname'] = "ilp32d"
-+    tspec['vendor'] = "unknown"
-+    tspec['target-family'] = "unix"
-+    tspec['linker'] = "{}{}gcc".format(d.getVar('CCACHE'), prefix)
-+    tspec['cpu'] = cpu
-+    if features != "":
-+        tspec['features'] = features
-+    tspec['dynamic-linking'] = True
-+    tspec['executables'] = True
-+    tspec['linker-is-gnu'] = True
-+    tspec['linker-flavor'] = "gcc"
-+    tspec['has-rpath'] = True
-+    tspec['has-elf-tls'] = True
-+    tspec['position-independent-executables'] = True
-+    tspec['panic-strategy'] = d.getVar("RUST_PANIC_STRATEGY")
-+
-+    # write out the target spec json file
-+    with open(wd + sys + '.json', 'w') as f:
-+        json.dump(tspec, f, indent=4)
-+
-+# These are accounted for in tmpdir path names so don't need to be in the task sig
-+rust_gen_target[vardepsexclude] += "RUST_HOST_SYS RUST_TARGET_SYS"
-+
-+do_rust_gen_targets[vardeps] += "DATA_LAYOUT TARGET_ENDIAN TARGET_POINTER_WIDTH TARGET_C_INT_WIDTH MAX_ATOMIC_WIDTH FEATURES"
-+
-+python do_rust_gen_targets () {
-+    wd = d.getVar('WORKDIR') + '/targets/'
-+    build_arch = d.getVar('BUILD_ARCH')
-+    rust_gen_target(d, 'BUILD', wd, build_arch)
-+}
-+
-+addtask rust_gen_targets after do_patch before do_compile
-+do_rust_gen_targets[dirs] += "${WORKDIR}/targets"
-+
-diff --git a/meta/recipes-devtools/cargo/cargo-cross-canadian.inc b/meta/recipes-devtools/cargo/cargo-cross-canadian.inc
-index d12267db3d5..e83b6a67b3b 100644
---- a/meta/recipes-devtools/cargo/cargo-cross-canadian.inc
-+++ b/meta/recipes-devtools/cargo/cargo-cross-canadian.inc
-@@ -5,7 +5,7 @@ RUST_ALTERNATE_EXE_PATH = "${STAGING_LIBDIR_NATIVE}/llvm-rust/bin/llvm-config"
- HOST_SYS = "${HOST_ARCH}-unknown-linux-gnu"
- CARGO_RUST_TARGET_CCLD = "${RUST_BUILD_CCLD}"
- 
--require recipes-devtools/rust/rust-common.inc
-+inherit rust-target-config
- require cargo.inc
- 
- CARGO = "${WORKDIR}/${CARGO_SNAPSHOT}/bin/cargo"
-diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-devtools/rust/rust-common.inc
-index be9d1a301bd..139597f9cb0 100644
---- a/meta/recipes-devtools/rust/rust-common.inc
-+++ b/meta/recipes-devtools/rust/rust-common.inc
-@@ -1,365 +1,2 @@
- 
--# Right now this is focused on arm-specific tune features.
--# We get away with this for now as one can only use x86-64 as the build host
--# (not arm).
--# Note that TUNE_FEATURES is _always_ refering to the target, so we really
--# don't want to use this for the host/build.
--def llvm_features_from_tune(d):
--    f = []
--    feat = d.getVar('TUNE_FEATURES')
--    if not feat:
--        return []
--    feat = frozenset(feat.split())
--
--    mach_overrides = d.getVar('MACHINEOVERRIDES')
--    mach_overrides = frozenset(mach_overrides.split(':'))
--
--    if 'vfpv4' in feat:
--        f.append("+vfp4")
--    if 'vfpv3' in feat:
--        f.append("+vfp3")
--    if 'vfpv3d16' in feat:
--        f.append("+d16")
--
--    if 'vfpv2' in feat or 'vfp' in feat:
--        f.append("+vfp2")
--
--    if 'neon' in feat:
--        f.append("+neon")
--
--    if 'mips32' in feat:
--        f.append("+mips32")
--
--    if 'mips32r2' in feat:
--        f.append("+mips32r2")
--
--    if target_is_armv7(d):
--        f.append('+v7')
--
--    if ('armv6' in mach_overrides) or ('armv6' in feat):
--        f.append("+v6")
--    if 'armv5te' in feat:
--        f.append("+strict-align")
--        f.append("+v5te")
--    elif 'armv5' in feat:
--        f.append("+strict-align")
--        f.append("+v5")
--
--    if ('armv4' in mach_overrides) or ('armv4' in feat):
--        f.append("+strict-align")
--
--    if 'dsp' in feat:
--        f.append("+dsp")
--
--    if 'thumb' in feat:
--        if d.getVar('ARM_THUMB_OPT') == "thumb":
--            if target_is_armv7(d):
--                f.append('+thumb2')
--            f.append("+thumb-mode")
--
--    if 'cortexa5' in feat:
--        f.append("+a5")
--    if 'cortexa7' in feat:
--        f.append("+a7")
--    if 'cortexa9' in feat:
--        f.append("+a9")
--    if 'cortexa15' in feat:
--        f.append("+a15")
--    if 'cortexa17' in feat:
--        f.append("+a17")
--    if ('riscv64' in feat) or ('riscv32' in feat):
--        f.append("+a,+c,+d,+f,+m")
--    return f
--llvm_features_from_tune[vardepvalue] = "${@llvm_features_from_tune(d)}"
--
--# TARGET_CC_ARCH changes from build/cross/target so it'll do the right thing
--# this should go away when https://github.com/rust-lang/rust/pull/31709 is
--# stable (1.9.0?)
--def llvm_features_from_cc_arch(d):
--    f = []
--    feat = d.getVar('TARGET_CC_ARCH')
--    if not feat:
--        return []
--    feat = frozenset(feat.split())
--
--    if '-mmmx' in feat:
--        f.append("+mmx")
--    if '-msse' in feat:
--        f.append("+sse")
--    if '-msse2' in feat:
--        f.append("+sse2")
--    if '-msse3' in feat:
--        f.append("+sse3")
--    if '-mssse3' in feat:
--        f.append("+ssse3")
--    if '-msse4.1' in feat:
--        f.append("+sse4.1")
--    if '-msse4.2' in feat:
--        f.append("+sse4.2")
--    if '-msse4a' in feat:
--        f.append("+sse4a")
--    if '-mavx' in feat:
--        f.append("+avx")
--    if '-mavx2' in feat:
--        f.append("+avx2")
--
--    return f
--
--def llvm_features_from_target_fpu(d):
--    # TARGET_FPU can be hard or soft. +soft-float tell llvm to use soft float
--    # ABI. There is no option for hard.
--
--    fpu = d.getVar('TARGET_FPU', True)
--    return ["+soft-float"] if fpu == "soft" else []
--
--def llvm_features(d):
--    return ','.join(llvm_features_from_tune(d) +
--                    llvm_features_from_cc_arch(d) +
--                    llvm_features_from_target_fpu(d))
--
--
--## arm-unknown-linux-gnueabihf
--DATA_LAYOUT[arm-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
--TARGET_ENDIAN[arm-eabi] = "little"
--TARGET_POINTER_WIDTH[arm-eabi] = "32"
--TARGET_C_INT_WIDTH[arm-eabi] = "32"
--MAX_ATOMIC_WIDTH[arm-eabi] = "64"
--FEATURES[arm-eabi] = "+v6,+vfp2"
--
--## armv7-unknown-linux-gnueabihf
--DATA_LAYOUT[armv7-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
--TARGET_ENDIAN[armv7-eabi] = "little"
--TARGET_POINTER_WIDTH[armv7-eabi] = "32"
--TARGET_C_INT_WIDTH[armv7-eabi] = "32"
--MAX_ATOMIC_WIDTH[armv7-eabi] = "64"
--FEATURES[armv7-eabi] = "+v7,+vfp2,+thumb2"
--
--## aarch64-unknown-linux-{gnu, musl}
--DATA_LAYOUT[aarch64] = "e-m:e-i8:8:32-i16:16:32-i64:64-i128:128-n32:64-S128"
--TARGET_ENDIAN[aarch64] = "little"
--TARGET_POINTER_WIDTH[aarch64] = "64"
--TARGET_C_INT_WIDTH[aarch64] = "32"
--MAX_ATOMIC_WIDTH[aarch64] = "128"
--
--## x86_64-unknown-linux-{gnu, musl}
--DATA_LAYOUT[x86_64] = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
--TARGET_ENDIAN[x86_64] = "little"
--TARGET_POINTER_WIDTH[x86_64] = "64"
--TARGET_C_INT_WIDTH[x86_64] = "32"
--MAX_ATOMIC_WIDTH[x86_64] = "64"
--
--## x86_64-unknown-linux-gnux32
--DATA_LAYOUT[x86_64-x32] = "e-m:e-p:32:32-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
--TARGET_ENDIAN[x86_64-x32] = "little"
--TARGET_POINTER_WIDTH[x86_64-x32] = "32"
--TARGET_C_INT_WIDTH[x86_64-x32] = "32"
--MAX_ATOMIC_WIDTH[x86_64-x32] = "64"
--
--## i686-unknown-linux-{gnu, musl}
--DATA_LAYOUT[i686] = "e-m:e-p:32:32-f64:32:64-f80:32-n8:16:32-S128"
--TARGET_ENDIAN[i686] = "little"
--TARGET_POINTER_WIDTH[i686] = "32"
--TARGET_C_INT_WIDTH[i686] = "32"
--MAX_ATOMIC_WIDTH[i686] = "64"
--
--## XXX: a bit of a hack so qemux86 builds, clone of i686-unknown-linux-{gnu, musl} above
--DATA_LAYOUT[i586] = "e-m:e-p:32:32-f64:32:64-f80:32-n8:16:32-S128"
--TARGET_ENDIAN[i586] = "little"
--TARGET_POINTER_WIDTH[i586] = "32"
--TARGET_C_INT_WIDTH[i586] = "32"
--MAX_ATOMIC_WIDTH[i586] = "64"
--
--## mips-unknown-linux-{gnu, musl}
--DATA_LAYOUT[mips] = "E-m:m-p:32:32-i8:8:32-i16:16:32-i64:64-n32-S64"
--TARGET_ENDIAN[mips] = "big"
--TARGET_POINTER_WIDTH[mips] = "32"
--TARGET_C_INT_WIDTH[mips] = "32"
--MAX_ATOMIC_WIDTH[mips] = "32"
--
--## mipsel-unknown-linux-{gnu, musl}
--DATA_LAYOUT[mipsel] = "e-m:m-p:32:32-i8:8:32-i16:16:32-i64:64-n32-S64"
--TARGET_ENDIAN[mipsel] = "little"
--TARGET_POINTER_WIDTH[mipsel] = "32"
--TARGET_C_INT_WIDTH[mipsel] = "32"
--MAX_ATOMIC_WIDTH[mipsel] = "32"
--
--## mips64-unknown-linux-{gnu, musl}
--DATA_LAYOUT[mips64] = "E-m:e-i8:8:32-i16:16:32-i64:64-n32:64-S128"
--TARGET_ENDIAN[mips64] = "big"
--TARGET_POINTER_WIDTH[mips64] = "64"
--TARGET_C_INT_WIDTH[mips64] = "64"
--MAX_ATOMIC_WIDTH[mips64] = "64"
--
--## mips64el-unknown-linux-{gnu, musl}
--DATA_LAYOUT[mips64el] = "e-m:e-i8:8:32-i16:16:32-i64:64-n32:64-S128"
--TARGET_ENDIAN[mips64el] = "little"
--TARGET_POINTER_WIDTH[mips64el] = "64"
--TARGET_C_INT_WIDTH[mips64el] = "64"
--MAX_ATOMIC_WIDTH[mips64el] = "64"
--
--## powerpc-unknown-linux-{gnu, musl}
--DATA_LAYOUT[powerpc] = "E-m:e-p:32:32-i64:64-n32"
--TARGET_ENDIAN[powerpc] = "big"
--TARGET_POINTER_WIDTH[powerpc] = "32"
--TARGET_C_INT_WIDTH[powerpc] = "32"
--MAX_ATOMIC_WIDTH[powerpc] = "32"
--
--## powerpc64-unknown-linux-{gnu, musl}
--DATA_LAYOUT[powerpc64] = "E-m:e-i64:64-n32:64-S128-v256:256:256-v512:512:512"
--TARGET_ENDIAN[powerpc64] = "big"
--TARGET_POINTER_WIDTH[powerpc64] = "64"
--TARGET_C_INT_WIDTH[powerpc64] = "64"
--MAX_ATOMIC_WIDTH[powerpc64] = "64"
--
--## powerpc64le-unknown-linux-{gnu, musl}
--DATA_LAYOUT[powerpc64le] = "e-m:e-i64:64-n32:64-v256:256:256-v512:512:512"
--TARGET_ENDIAN[powerpc64le] = "little"
--TARGET_POINTER_WIDTH[powerpc64le] = "64"
--TARGET_C_INT_WIDTH[powerpc64le] = "64"
--MAX_ATOMIC_WIDTH[powerpc64le] = "64"
--
--## riscv32-unknown-linux-{gnu, musl}
--DATA_LAYOUT[riscv32] = "e-m:e-p:32:32-i64:64-n32-S128"
--TARGET_ENDIAN[riscv32] = "little"
--TARGET_POINTER_WIDTH[riscv32] = "32"
--TARGET_C_INT_WIDTH[riscv32] = "32"
--MAX_ATOMIC_WIDTH[riscv32] = "32"
--
--## riscv64-unknown-linux-{gnu, musl}
--DATA_LAYOUT[riscv64] = "e-m:e-p:64:64-i64:64-i128:128-n64-S128"
--TARGET_ENDIAN[riscv64] = "little"
--TARGET_POINTER_WIDTH[riscv64] = "64"
--TARGET_C_INT_WIDTH[riscv64] = "64"
--MAX_ATOMIC_WIDTH[riscv64] = "64"
--
--# Convert a normal arch (HOST_ARCH, TARGET_ARCH, BUILD_ARCH, etc) to something
--# rust's internals won't choke on.
--def arch_to_rust_target_arch(arch):
--    if arch == "i586" or arch == "i686":
--        return "x86"
--    elif arch == "mipsel":
--        return "mips"
--    elif arch == "mip64sel":
--        return "mips64"
--    elif arch == "armv7":
--        return "arm"
--    elif arch == "powerpc64le":
--        return "powerpc64"
--    else:
--        return arch
--
--# generates our target CPU value
--def llvm_cpu(d):
--    cpu = d.getVar('PACKAGE_ARCH')
--    target = d.getVar('TRANSLATED_TARGET_ARCH')
--
--    trans = {}
--    trans['corei7-64'] = "corei7"
--    trans['core2-32'] = "core2"
--    trans['x86-64'] = "x86-64"
--    trans['i686'] = "i686"
--    trans['i586'] = "i586"
--    trans['powerpc'] = "powerpc"
--    trans['mips64'] = "mips64"
--    trans['mips64el'] = "mips64"
--    trans['riscv64'] = "generic-rv64"
--    trans['riscv32'] = "generic-rv32"
--
--    if target in ["mips", "mipsel"]:
--        feat = frozenset(d.getVar('TUNE_FEATURES').split())
--        if "mips32r2" in feat:
--            trans['mipsel'] = "mips32r2"
--            trans['mips'] = "mips32r2"
--        elif "mips32" in feat:
--            trans['mipsel'] = "mips32"
--            trans['mips'] = "mips32"
--
--    try:
--        return trans[cpu]
--    except:
--        return trans.get(target, "generic")
--
--def rust_gen_target(d, thing, wd, arch):
--    import json
--    sys = d.getVar('{}_SYS'.format(thing))
--    prefix = d.getVar('{}_PREFIX'.format(thing))
--
--    cpu = "generic"
--    features = ""
--
--    if thing == "TARGET":
--        abi = d.getVar('ABIEXTENSION')
--        cpu = d.getVar('TARGET_LLVM_CPU')
--        if bb.data.inherits_class('native', d):
--            features = ','.join(llvm_features_from_cc_arch(d))
--        else:
--            features = d.getVar('TARGET_LLVM_FEATURES') or ""
--        # arm and armv7 have different targets in llvm
--        if arch == "arm" and target_is_armv7(d):
--            arch = 'armv7'
--
--    rust_arch = oe.rust.arch_to_rust_arch(arch)
--
--    if abi:
--        arch_abi = "{}-{}".format(rust_arch, abi)
--    else:
--        arch_abi = rust_arch
--
--    features = features or d.getVarFlag('FEATURES', arch_abi) or ""
--    features = features.strip()
--
--    llvm_target = d.getVar('RUST_TARGET_SYS')
--    if thing == "BUILD":
--        llvm_target = d.getVar('RUST_HOST_SYS')
--
--    # build tspec
--    tspec = {}
--    tspec['llvm-target'] = llvm_target
--    tspec['data-layout'] = d.getVarFlag('DATA_LAYOUT', arch_abi)
--    tspec['max-atomic-width'] = int(d.getVarFlag('MAX_ATOMIC_WIDTH', arch_abi))
--    tspec['target-pointer-width'] = d.getVarFlag('TARGET_POINTER_WIDTH', arch_abi)
--    tspec['target-c-int-width'] = d.getVarFlag('TARGET_C_INT_WIDTH', arch_abi)
--    tspec['target-endian'] = d.getVarFlag('TARGET_ENDIAN', arch_abi)
--    tspec['arch'] = arch_to_rust_target_arch(rust_arch)
--    tspec['os'] = "linux"
--    if "musl" in tspec['llvm-target']:
--        tspec['env'] = "musl"
--    else:
--        tspec['env'] = "gnu"
--    if "riscv64" in tspec['llvm-target']:
--        tspec['llvm-abiname'] = "lp64d"
--    if "riscv32" in tspec['llvm-target']:
--        tspec['llvm-abiname'] = "ilp32d"
--    tspec['vendor'] = "unknown"
--    tspec['target-family'] = "unix"
--    tspec['linker'] = "{}{}gcc".format(d.getVar('CCACHE'), prefix)
--    tspec['cpu'] = cpu
--    if features != "":
--        tspec['features'] = features
--    tspec['dynamic-linking'] = True
--    tspec['executables'] = True
--    tspec['linker-is-gnu'] = True
--    tspec['linker-flavor'] = "gcc"
--    tspec['has-rpath'] = True
--    tspec['has-elf-tls'] = True
--    tspec['position-independent-executables'] = True
--    tspec['panic-strategy'] = d.getVar("RUST_PANIC_STRATEGY")
--
--    # write out the target spec json file
--    with open(wd + sys + '.json', 'w') as f:
--        json.dump(tspec, f, indent=4)
--
--# These are accounted for in tmpdir path names so don't need to be in the task sig
--rust_gen_target[vardepsexclude] += "RUST_HOST_SYS RUST_TARGET_SYS"
--
--do_rust_gen_targets[vardeps] += "DATA_LAYOUT TARGET_ENDIAN TARGET_POINTER_WIDTH TARGET_C_INT_WIDTH MAX_ATOMIC_WIDTH FEATURES"
--
--python do_rust_gen_targets () {
--    wd = d.getVar('WORKDIR') + '/targets/'
--    build_arch = d.getVar('BUILD_ARCH')
--    rust_gen_target(d, 'BUILD', wd, build_arch)
--}
--
--addtask rust_gen_targets after do_patch before do_compile
--do_rust_gen_targets[dirs] += "${WORKDIR}/targets"
- 
-diff --git a/meta/recipes-devtools/rust/rust.inc b/meta/recipes-devtools/rust/rust.inc
-index ea716d31f2c..ecb057ad3b5 100644
---- a/meta/recipes-devtools/rust/rust.inc
-+++ b/meta/recipes-devtools/rust/rust.inc
-@@ -39,7 +39,7 @@ setup_cargo_environment () {
-     printf "linker = '%s'\n" "${RUST_BUILD_CCLD}" >> ${CARGO_HOME}/config
- }
- 
--include rust-common.inc
-+inherit rust-target-config
- 
- do_rust_setup_snapshot () {
-     for installer in "${WORKDIR}/rust-snapshot-components/"*"/install.sh"; do
 -- 
-2.34.1
+2.36.1
 
 
