@@ -1,104 +1,106 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C1EDC433EF
-	for <webhook@archiver.kernel.org>; Sat, 23 Jul 2022 14:54:24 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
- [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web08.6870.1658588062852467559
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BE33C433EF
+	for <webhook@archiver.kernel.org>; Sat, 23 Jul 2022 15:29:24 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web08.7188.1658590159856951753
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Jul 2022 07:54:22 -0700
+ Sat, 23 Jul 2022 08:29:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=gnhI4hfF;
- spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f46.google.com with SMTP id
- q43-20020a17090a17ae00b001f1f67e053cso6499836pja.4
+ dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
+ header.b=Z0meqy79;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179,
+ mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id o12so6773108pfp.5
         for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Jul 2022 07:54:22 -0700 (PDT)
+ Sat, 23 Jul 2022 08:29:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=HjlnMYiB3+/dv8aM9P3TlXr8M7zR1kyFLnXgTb3c8FY=;
-        b=gnhI4hfFivjvwnhgJS7LCgU+/nkDcpBXqpgreuOtJLrEJI7ZdVe9qAQfc5SGGmhjjs
-         T6SkaybldaU5i/x36vAMLmfvY/wI0mIsDM/OZNXTmkr1d/bTx5YSbjG8oWryPhg9Raj0
-         wGwMLwI56luPkXJSZ4e09HwuAUdkUY0wxZQhLdZmVIR8uUSJwCNxlQo1ABXEPDGMlzh9
-         nihZ4e9v4hDcRbgRLpK/2Eq10u9uEMYSgaO4MQkZvt4Tw+/eZLU3qGyE5bjQmwh8rSGI
-         EqsWz6PG+fj6DIdiHPq9ArJc428w58P9CIGzAh5wU1vYQZ8Z7LtwpdXoQKaimpTwjs9O
-         adaA==
+        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XTlHhyKaJI12pxhc6lAuIFgbKeLPZRkaAFJNoikb4xU=;
+        b=Z0meqy79/+qXAIAB2g3NZ4fAXv/qJ5jUSpscONPC3No7XTLWX46EnQu1lA2RQgNQP1
+         KiaRolzzKIGQFlr3fx9XnUI3qH191ECgjFgF5pM6BJuOvQ3ZBwEZASlwNnQdjrhVXzJT
+         Fj7PJQvt4zpKSLRyBKE190gLOaP/wN64AzsXFwD/21B/qhWcDGcndEOQybn6rGucFg9d
+         Xl5gjBVrDEzYhCLNQgFImzAZ44uLZnBOKE4nylecDEQ5xPF0cpwYeu2e8efkZDzF1U3h
+         UTK76Vw7Smh9GhwVxalPohSPq0TTIaDVjuDu/4prfKzDk+y2QajjeZFPtWh4YluUxrBm
+         0FJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=HjlnMYiB3+/dv8aM9P3TlXr8M7zR1kyFLnXgTb3c8FY=;
-        b=3GsSHYXKok3MJxBjvUtZU4fxeie3H+OqzaKclC8kg+Pqze2HRwkhzLbSHTEGil1GOF
-         uBscOraVYa3e8On63/9cw6xy62BSjjlyjAKU+B2D++B6bG+d9lo+bzmPqbE9uiCy+7CJ
-         LFovNx6X4msqcsOrd1EnpKHXTtFzjXVlfq6jjb0+iGeksOXkBXOkB3XilKRx4CTXkmVa
-         KOFoaIiV12DHRqAsWMshdrbvPLs+I94Swj8jLNBn/XzfMnj0TCaqStn+1OuVUC61DFVG
-         9udFzU4d0OCa3C6s+ACzTSrAYVcIo/j45N1lWQ2FeWvWiFiTg96vaGzDpg9kWxST1uoK
-         Rhrw==
-X-Gm-Message-State: AJIora8KLzNQRt89Zg0xeZvnSD9AbEDFjqZB6188ZWnTOSk66AKlciZK
-	SxuMlxoDRyeNjIWXwWKQSp2F7xkicOGLbA==
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XTlHhyKaJI12pxhc6lAuIFgbKeLPZRkaAFJNoikb4xU=;
+        b=oqmWHwKtfqLCMHOezsoPLfp1tpP5leTluPgqyc/9LI9B6NDjpDrAy+mqlxt5vbJ/OZ
+         HAOFY7lfq2Ftgw/Z+Cp5beO3JpXan6nvWGGjZY21Jrhsb7DtJIO0prdk4ilUTXLiQvfF
+         RLjPhzB8/Gx1pv4LLqXcThcjmgH8+4cQML28UhTvibFyT9pv631DayjUf1v4B/wbYIJR
+         L0F/FImZXc4IDCq8UNdygYvahsHmVGrRPgW7A7FyPJt4ZC11SriXypNHEMLuM7ZqwOuh
+         lo7Mqy3uov2CUrGbig1eZBclyROcNRmJ3Z8eulknm4OITJHyg9rAdZ5PYIyPJ+s3utzV
+         3gqg==
+X-Gm-Message-State: AJIora/3tJzH+z0eAxiTSBBX+A2OJzzn1JxmXDwXzYcXEvYLiniCWDGI
+	CKzJB6yDt1G+I3KdMwH5wXK8jmkj/ViPdb3I
 X-Google-Smtp-Source: 
- AGRyM1vq+lxn/APeVSq2lx4NR9GgVf1mJxpTBuEMBJsP6UW7/RFMZpYWIeTM89W83vuFXata/sOOuQ==
-X-Received: by 2002:a17:902:e80b:b0:16d:67a9:36ad with SMTP id
- u11-20020a170902e80b00b0016d67a936admr429772plg.102.1658588061744;
-        Sat, 23 Jul 2022 07:54:21 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::a78c])
+ AGRyM1sEbz0gRkD+mlgk/Je05cdC9G0rpsDp7k4zTagXLZyIqc8qEB/3fbnAzjd2rUUg/VHzf00q1w==
+X-Received: by 2002:a63:1b22:0:b0:411:9b47:f6bf with SMTP id
+ b34-20020a631b22000000b004119b47f6bfmr4279632pgb.200.1658590158490;
+        Sat, 23 Jul 2022 08:29:18 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
+ [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- b2-20020a1709027e0200b0016191b843e2sm5771533plm.235.2022.07.23.07.54.20
+ m7-20020a1709026bc700b0016be834d54asm5762986plt.306.2022.07.23.08.29.15
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Jul 2022 07:54:21 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+        Sat, 23 Jul 2022 08:29:16 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/3] gcc-runtime: Use --with-target-subdir for baremetal
- targets
-Date: Sat, 23 Jul 2022 07:54:16 -0700
-Message-Id: <20220723145416.1374755-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220723145416.1374755-1-raj.khem@gmail.com>
-References: <20220723145416.1374755-1-raj.khem@gmail.com>
+Subject: [OE-core][dunfell 0/4] Pull request (cover letter only)
+Date: Sat, 23 Jul 2022 05:28:57 -1000
+Message-Id: <cover.1658590082.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 23 Jul 2022 14:54:24 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 23 Jul 2022 15:29:24 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168442
+ https://lists.openembedded.org/g/openembedded-core/message/168443
 
-This disables tests for runtime system specific functions like fcntl
-there is no other change seen
+The following changes since commit bba069463ca3813666d084643b0239b9af0199e1:
 
-+configure:77372: checking for fcntl
-+configure:77372: result: yes
+  classes/cve-check: Move get_patches_cves to library (2022-07-13 05:25:10 -1000)
 
-In libsttdc++ configure log outputs.
+are available in the Git repository at:
 
-[YOCTO #14803]
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-runtime.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Bruce Ashfield (2):
+  linux-yocto/5.4: update to v5.4.205
+  linux-yocto-rt/5.4: fixup -rt build breakage
 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index 15f4175214b..91b74c732bd 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -16,7 +16,8 @@ EXTRA_OECONF_PATHS = "\
- 
- EXTRA_OECONF:append:linuxstdbase = " --enable-clocale=gnu"
- EXTRA_OECONF:append = " --cache-file=${B}/config.cache"
--EXTRA_OECONF:append:libc-newlib = " --with-newlib"
-+EXTRA_OECONF:append:libc-newlib = " --with-newlib --with-target-subdir"
-+EXTRA_OECONF:append:libc-baremetal = " --with-target-subdir"
- 
- # Disable ifuncs for libatomic on arm conflicts -march/-mcpu
- EXTRA_OECONF:append:arm = " libat_cv_have_ifunc=no "
+Ranjitsinh Rathod (1):
+  cve-extra-exclusions.inc: Use CVE_CHECK_WHITELIST
+
+Robert Joslyn (1):
+  curl: Fix CVE-2022-32206, CVE-2022-32207, and CVE-2022-32208
+
+ .../distro/include/cve-extra-exclusions.inc   |   6 +-
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ .../curl/curl/CVE-2022-32206.patch            |  52 ++++
+ .../curl/curl/CVE-2022-32207.patch            | 284 ++++++++++++++++++
+ .../curl/curl/CVE-2022-32208.patch            |  72 +++++
+ meta/recipes-support/curl/curl_7.69.1.bb      |   3 +
+ 8 files changed, 432 insertions(+), 21 deletions(-)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-32206.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-32207.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2022-32208.patch
+
 -- 
-2.37.1
+2.25.1
 
 
