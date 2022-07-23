@@ -1,130 +1,168 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 327AAC43334
-	for <webhook@archiver.kernel.org>; Sat, 23 Jul 2022 11:10:53 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web09.5337.1658574651462257693
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 863C1C43334
+	for <webhook@archiver.kernel.org>; Sat, 23 Jul 2022 12:27:13 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web08.5665.1658579227120981457
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Jul 2022 04:10:51 -0700
+ Sat, 23 Jul 2022 05:27:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=O3rhHIUD;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id
- ay11-20020a05600c1e0b00b003a3013da120so6548120wmb.5
-        for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Jul 2022 04:10:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=7gMR912ql6d3XzGNkLBHmKEbKnE947RJPgWEWYrTaio=;
-        b=O3rhHIUDGSfw+ScL9regAWd3TdSkrcfd9N2JzjDPqOKUYn/5fzxjjL0sTkHTufN4ka
-         9YjAzUWMWk4DDTbdPyxgmydNyNlE3ZFlz77s8pl03Er04gZ1+lraJV/4MJ98w+heT+Lv
-         8x3RO+N7zD37GajkcQI19EDb9Cx6VTLnFE8nQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7gMR912ql6d3XzGNkLBHmKEbKnE947RJPgWEWYrTaio=;
-        b=DebnD8HxjGXfn6fF1QufJ8Npby2UwbaDhltsrWV8S+FjmEaPVpHpeiU82Mw9N8t8+D
-         NY4ID8mFiB02EaXMRCHo7vHO4ClZ++AkXr9t23tvfLqgFdprAej+w0orHiTWpxhXtrgS
-         YTawRMzoOCK+gxkzjDzdZkBhSFTIdaifuzs5aXR5JbCz/eHS2TcSOauyEj44G7FGWVlV
-         O3B+jLqxGM2D/0O7FJqa3U6pd9AXqQ2JbrxaTqVUsAZ2W+7ZSNNBs2KB46l56LYTJaBX
-         N/SvaAQBvEcZ6DuyCh6nwKzTRQ7gfdTlndeqtvkc+hp67X0toISY7atlPeNQPzJpaakM
-         Ckxg==
-X-Gm-Message-State: AJIora9t5agRiIrkU/WxtitK6fxGE+dOkVWXsLASStyCtky4f6GnVLID
-	Uh+KJdaJor9R3chku5jn48odKWSBVC1APQ==
-X-Google-Smtp-Source: 
- AGRyM1sgOEdRFY7R5aDCN03j3AyhU+iYLi7u8TGdbhRXyyPC7O8E9tB0huO83juWj/j4SzYR7mOtXg==
-X-Received: by 2002:a7b:c442:0:b0:3a3:bdb:e84c with SMTP id
- l2-20020a7bc442000000b003a30bdbe84cmr2592189wmi.101.1658574649653;
-        Sat, 23 Jul 2022 04:10:49 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:9bb3:b62f:20a1:a32])
-        by smtp.gmail.com with ESMTPSA id
- f5-20020adff445000000b0021e5f32ade7sm3430181wrp.68.2022.07.23.04.10.48
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Jul 2022 04:10:49 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] rust-cross: Simplfy the rust_gen_target calls
-Date: Sat, 23 Jul 2022 12:10:45 +0100
-Message-Id: <20220723111045.1775562-4-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220723111045.1775562-1-richard.purdie@linuxfoundation.org>
-References: <20220723111045.1775562-1-richard.purdie@linuxfoundation.org>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=pgmt2RQN;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197,
+ mailfrom: alexandre.belloni@bootlin.com)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 2D46C1C0005;
+	Sat, 23 Jul 2022 12:27:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1658579224;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HPGpmX7O9NAYZk0fvSAOZanA+wS+ZWJPb3rtYu6BQlw=;
+	b=pgmt2RQNLFL3tr0DSuKyWPzCJe2o5i6uiqTsfQu4pvMXtso1nMYLYxmTC6ViG+x8LKO4Qf
+	T2zoNNIbrKvVIuzwr9JSZFIg+17ojoe6PwbfpzIMUBZOE8ZJspSn2qML+pUWc1V3DibFag
+	B4CwstpGneiZ3tJZGhyj6b9IsqJXbRAY34wRcp2lWn4Efd3sKx5J6LEOOjneorxMLKQgXr
+	CHW4H6v6ANY1XG1JoZAQ3kEOtPzGxd0wQW9WTmM9dW9UbZPFuIrdVqHSEAIqEcPk0bwtzM
+	wp1GZGbu/AOhe5vKAbCTpvXQwxLmSh0GzfFYoqMNKxDqfpsGyp0UHwCND5LeBQ==
+Date: Sat, 23 Jul 2022 14:27:03 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Sean Nyekjaer <sean@geanix.com>
+Cc: openembedded-core@lists.openembedded.org, denis@denix.org,
+	richard.purdie@linuxfoundation.org, raj.khem@gmail.com
+Subject: Re: [OE-core] [PATCH v2 1/2] zlib: split SRC_URI into inc file
+Message-ID: <YtvpFxiRz1bAFTR7@mail.local>
+References: <20220715115515.4012984-1-sean@geanix.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220715115515.4012984-1-sean@geanix.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 23 Jul 2022 11:10:53 -0000
+ <openembedded-core@lists.openembedded.org>; Sat, 23 Jul 2022 12:27:13 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168432
+ https://lists.openembedded.org/g/openembedded-core/message/168433
 
-Match the code in rust-cross-canadian so that further simplifications
-can be considered in future.
+Hello,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/rust/rust-common.inc | 12 ++++++------
- meta/recipes-devtools/rust/rust-cross.inc  | 16 ++++------------
- 2 files changed, 10 insertions(+), 18 deletions(-)
+This doesn't pass the selftests:
 
-diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-devtools/rust/rust-common.inc
-index 82ff03b9089..d00b380dbde 100644
---- a/meta/recipes-devtools/rust/rust-common.inc
-+++ b/meta/recipes-devtools/rust/rust-common.inc
-@@ -119,12 +119,12 @@ def llvm_features(d):
- 
- 
- ## arm-unknown-linux-gnueabihf
--DATA_LAYOUT[arm] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
--TARGET_ENDIAN[arm] = "little"
--TARGET_POINTER_WIDTH[arm] = "32"
--TARGET_C_INT_WIDTH[arm] = "32"
--MAX_ATOMIC_WIDTH[arm] = "64"
--FEATURES[arm] = "+v6,+vfp2"
-+DATA_LAYOUT[arm-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
-+TARGET_ENDIAN[arm-eabi] = "little"
-+TARGET_POINTER_WIDTH[arm-eabi] = "32"
-+TARGET_C_INT_WIDTH[arm-eabi] = "32"
-+MAX_ATOMIC_WIDTH[arm-eabi] = "64"
-+FEATURES[arm-eabi] = "+v6,+vfp2"
- 
- ## armv7-unknown-linux-gnueabihf
- DATA_LAYOUT[armv7-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
-diff --git a/meta/recipes-devtools/rust/rust-cross.inc b/meta/recipes-devtools/rust/rust-cross.inc
-index 4c026b1f388..2e47a3aa5f3 100644
---- a/meta/recipes-devtools/rust/rust-cross.inc
-+++ b/meta/recipes-devtools/rust/rust-cross.inc
-@@ -1,17 +1,9 @@
- python do_rust_gen_targets () {
-     wd = d.getVar('WORKDIR') + '/targets/'
--    # It is important 'TARGET' is last here so that it overrides our less
--    # informed choices for BUILD & HOST if TARGET happens to be the same as
--    # either of them.
--    for thing in ['BUILD', 'HOST', 'TARGET']:
--        bb.debug(1, "rust_gen_target for " + thing)
--        features = ""
--        cpu = "generic"
--        arch = d.getVar('{}_ARCH'.format(thing))
--        if thing is "TARGET":
--            features = d.getVar('TARGET_LLVM_FEATURES') or ""
--            cpu = d.getVar('TARGET_LLVM_CPU')
--        rust_gen_target(d, thing, wd, features, cpu, arch)
-+    # Order of BUILD, HOST, TARGET is important in case the files overwrite, most specific last
-+    rust_gen_target(d, 'BUILD', wd, "", "generic", d.getVar('BUILD_ARCH'))
-+    rust_gen_target(d, 'HOST', wd, "", "generic", d.getVar('HOST_ARCH'))
-+    rust_gen_target(d, 'TARGET', wd, d.getVar('TARGET_LLVM_FEATURES') or "", d.getVar('TARGET_LLVM_CPU'), d.getVar('TARGET_ARCH'))
- }
- 
- # Otherwise we'll depend on what we provide
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/3865/steps/14/logs/stdio
+
+2022-07-23 10:00:43,013 - oe-selftest - INFO - pkgdata.OePkgdataUtilTests.test_find_path (subunit.RemotedTestCase)
+2022-07-23 10:00:43,026 - oe-selftest - INFO -  ... FAIL
+Stderr:
+2022-07-23 08:46:34,614 - oe-selftest - INFO - Adding: "include selftest.inc" in /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-2078751/conf/local.conf
+2022-07-23 08:46:34,615 - oe-selftest - INFO - Adding: "include bblayers.inc" in bblayers.conf
+2022-07-23 10:00:17,568 - oe-selftest - INFO - Running bitbake to generate pkgdata
+2022-07-23 10:00:43,026 - oe-selftest - INFO - 3: 49/59 163/494 (3.69s) (pkgdata.OePkgdataUtilTests.test_find_path)
+2022-07-23 10:00:43,026 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/selftest/cases/pkgdata.py", line 50, in test_find_path
+    result = runCmd('oe-pkgdata-util find-path /lib/libz.so.1')
+  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/utils/commands.py", line 207, in runCmd
+    raise AssertionError("Command '%s' returned non-zero exit status %d:\n%s" % (command, result.status, exc_output))
+AssertionError: Command 'oe-pkgdata-util find-path /lib/libz.so.1' returned non-zero exit status 1:
+ERROR: Unable to find any package producing path /lib/libz.so.1
+Stderr:
+2022-07-23 08:46:34,614 - oe-selftest - INFO - Adding: "include selftest.inc" in /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-2078751/conf/local.conf
+2022-07-23 08:46:34,615 - oe-selftest - INFO - Adding: "include bblayers.inc" in bblayers.conf
+2022-07-23 10:00:17,568 - oe-selftest - INFO - Running bitbake to generate pkgdata
+2022-07-23 10:00:47,408 - oe-selftest - INFO - pkgdata.OePkgdataUtilTests.test_glob (subunit.RemotedTestCase)
+2022-07-23 10:00:47,408 - oe-selftest - INFO -  ... ok
+2022-07-23 10:00:47,408 - oe-selftest - INFO - 3: 50/59 164/494 (4.39s) (pkgdata.OePkgdataUtilTests.test_glob)
+2022-07-23 10:00:53,202 - oe-selftest - INFO - pkgdata.OePkgdataUtilTests.test_list_pkg_files (subunit.RemotedTestCase)
+2022-07-23 10:00:53,202 - oe-selftest - INFO -  ... FAIL
+Stderr:
+2022-07-23 08:46:34,614 - oe-selftest - INFO - Adding: "include selftest.inc" in /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-2078751/conf/local.conf
+2022-07-23 08:46:34,615 - oe-selftest - INFO - Adding: "include bblayers.inc" in bblayers.conf
+2022-07-23 10:00:17,568 - oe-selftest - INFO - Running bitbake to generate pkgdata
+2022-07-23 10:00:53,202 - oe-selftest - INFO - 3: 51/59 165/494 (5.79s) (pkgdata.OePkgdataUtilTests.test_list_pkg_files)
+2022-07-23 10:00:53,202 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/selftest/cases/pkgdata.py", line 147, in test_list_pkg_files
+    self.assertTrue(found, 'Could not find zlib library file %s in libz1 package file list: %s' % (libspec, files['libz1']))
+  File "/usr/lib64/python3.9/unittest/case.py", line 688, in assertTrue
+    raise self.failureException(msg)
+AssertionError: False is not true : Could not find zlib library file /lib/libz.so.1.* in libz1 package file list: ['/usr/lib/libz.so.1', '/usr/lib/libz.so.1.2.12']
+
+
+On 15/07/2022 13:55:14+0200, Sean Nyekjaer wrote:
+> This is done in preparation for adding packages from the zlib contrib
+> directory.
+> Unfortunatly it's not possible to add these via pkgconfig.
+> 
+> Signed-off-by: Sean Nyekjaer <sean@geanix.com>
+> ---
+> With this we are maintaining the same verison number for both zlib and
+> minizip in the recipe name. Would it be better to have it in the inc
+> file?
+> 
+> PV = "1.2.12" ?
+> 
+>  meta/recipes-core/zlib/zlib.inc       |  4 ++++
+>  meta/recipes-core/zlib/zlib_1.2.12.bb | 18 +++++++++---------
+>  2 files changed, 13 insertions(+), 9 deletions(-)
+>  create mode 100644 meta/recipes-core/zlib/zlib.inc
+> 
+> diff --git a/meta/recipes-core/zlib/zlib.inc b/meta/recipes-core/zlib/zlib.inc
+> new file mode 100644
+> index 0000000000..b607a82312
+> --- /dev/null
+> +++ b/meta/recipes-core/zlib/zlib.inc
+> @@ -0,0 +1,4 @@
+> +SRC_URI = "https://zlib.net/zlib-${PV}.tar.xz"
+> +UPSTREAM_CHECK_URI = "http://zlib.net/"
+> +
+> +SRC_URI[sha256sum] = "7db46b8d7726232a621befaab4a1c870f00a90805511c0e0090441dac57def18"
+> diff --git a/meta/recipes-core/zlib/zlib_1.2.12.bb b/meta/recipes-core/zlib/zlib_1.2.12.bb
+> index e921703137..ba986d8cf2 100644
+> --- a/meta/recipes-core/zlib/zlib_1.2.12.bb
+> +++ b/meta/recipes-core/zlib/zlib_1.2.12.bb
+> @@ -6,16 +6,16 @@ SECTION = "libs"
+>  LICENSE = "Zlib"
+>  LIC_FILES_CHKSUM = "file://zlib.h;beginline=6;endline=23;md5=5377232268e952e9ef63bc555f7aa6c0"
+>  
+> -SRC_URI = "https://zlib.net/${BP}.tar.xz \
+> -           file://cc.patch \
+> -           file://ldflags-tests.patch \
+> -           file://0001-configure-Pass-LDFLAGS-to-link-tests.patch \
+> -           file://run-ptest \
+> -           file://0001-Correct-incorrect-inputs-provided-to-the-CRC-functio.patch \
+> -           "
+> -UPSTREAM_CHECK_URI = "http://zlib.net/"
+> +include zlib.inc
+> +
+> +SRC_URI += "file://cc.patch \
+> +            file://ldflags-tests.patch \
+> +            file://0001-configure-Pass-LDFLAGS-to-link-tests.patch \
+> +            file://run-ptest \
+> +            file://0001-Correct-incorrect-inputs-provided-to-the-CRC-functio.patch \
+> +"
+>  
+> -SRC_URI[sha256sum] = "7db46b8d7726232a621befaab4a1c870f00a90805511c0e0090441dac57def18"
+> +UPSTREAM_CHECK_URI = "http://zlib.net/"
+>  
+>  CFLAGS += "-D_REENTRANT"
+>  
+> -- 
+> 2.37.0
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#168059): https://lists.openembedded.org/g/openembedded-core/message/168059
+> Mute This Topic: https://lists.openembedded.org/mt/92398812/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.34.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
