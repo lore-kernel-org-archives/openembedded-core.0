@@ -1,132 +1,120 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 146CEC433EF
-	for <webhook@archiver.kernel.org>; Sun, 24 Jul 2022 13:52:31 +0000 (UTC)
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
- [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.web11.16670.1658670745026186064
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 472ABC433EF
+	for <webhook@archiver.kernel.org>; Sun, 24 Jul 2022 14:38:31 +0000 (UTC)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web08.17069.1658673507162648438
  for <openembedded-core@lists.openembedded.org>;
- Sun, 24 Jul 2022 06:52:25 -0700
+ Sun, 24 Jul 2022 07:38:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=qp28/BBl;
- spf=pass (domain: gmail.com, ip: 209.85.160.179,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f179.google.com with SMTP id u12so6570992qtk.0
-        for <openembedded-core@lists.openembedded.org>;
- Sun, 24 Jul 2022 06:52:24 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=co6EN7Te;
+ spf=pass (domain: axis.com, ip: 195.60.68.18,
+ mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KLtUvj2tzYHYUPWCehvAes7QXfVEpOXPjLFpz+j6Fqs=;
-        b=qp28/BBldklQrvxmFnBd8gZOqIfCHtn/kqCYzPWvZSyRNDSbgZzysFuNUBimnGctZw
-         rOVLtEHgRgG/nK7PXx6Q1ErJWcVJ1g8tGhVOaNJu8g9N8RGqttGv7SyS9KBfy/DrwiQY
-         aNvXj11O/HYzjdX5we8NT5zP2Z9APn148vDTpoir+eA9tzEgwNJjN2v8hQAgKaXSH67s
-         aNrXocPHMs2fzbbUhQgAzI4Duj9fQcaT+HvbtHoKQNacROk8onCMwWkpvTcd/7tIHdr9
-         zYHmYSEfyIdVlGpdhej8atKXnqPG9pvL3XXnYGRW9ugGoog3uOA9u7RebRYtb7Wzycuo
-         JEMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KLtUvj2tzYHYUPWCehvAes7QXfVEpOXPjLFpz+j6Fqs=;
-        b=F1b5gfiGlyiJ3LCcriJH62QSFEm0F1q471RWvrsYudHCdM3HNqO43gzsr7IYLJmsyX
-         VC0w3+GhETie0iITtawbhj83fxzUqJIwA0cDroGdrYwiPz0e2lIf+fYt5yN9yN7n+GR7
-         19nD9oosB+C8hjuwDA/jxTMqKZpH329wQJKZa8IrGs+84QMLhIpu7VB3XtxhGc6V6qJ5
-         KIl2fF20p/GjbBb8oSNDDjqndPYdnxbW4CDZBuf+TfcQg+z2B4QtjHzHb2da8Ha2Zap4
-         bJ1nbwcLPNLXcjSfHGDv6x2xUyJzAAdWlgtpuNwIqdx+HkqKFZcz3qfBy4RgVV0MqvxD
-         c7Dw==
-X-Gm-Message-State: AJIora+YgiKQPx+ZPKMitFph3tPsi6cU/rAG7rrnmwDHBZHL7ifVnvk3
-	jamIOwdYqwMkBC/JuwQPiFxwDOBPgDFiruQzi4fdbPVwrgW44w==
-X-Google-Smtp-Source: 
- AGRyM1sE5XtKfbkAYZpO47NgQ7iWlsjWMK1XCMH4ZXJ4pxY4armSGk07Qn74/kl85jbSa1oSxnEWycFpgMKHWydhkBA=
-X-Received: by 2002:ac8:5a12:0:b0:31e:f233:50f1 with SMTP id
- n18-20020ac85a12000000b0031ef23350f1mr7081167qta.229.1658670743697; Sun, 24
- Jul 2022 06:52:23 -0700 (PDT)
-MIME-Version: 1.0
+  d=axis.com; q=dns/txt; s=axis-central1; t=1658673507;
+  x=1690209507;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=/WG3RjfJ6U1A8fS1vKPpiKQJHKOQkEuPcbvfFKjxqSE=;
+  b=co6EN7TeOsSYf3TzKxEbcSRmjnU882Fj9VJYsv0vN0b4lS1HcTTjQ3hN
+   0TGlxxvPEaVbujPwseLPx8F5C2ySLGzJpEipAAM3jCpRGuYUpjPz8i/Jc
+   dKsZ06XY7d64psz37EfdKPUE+xxxZCP/dzIPoQZ+adJN8QWsNWGEmjQ/G
+   ClU2hPvFO8W9QP/zT5c5NFu+zSXuqa0ayPbQ5uzdwk6kYgFPMLLcNIt7A
+   J5mtM0BexqQ0AAQ4H0SNzrwMBRH6egrS0qRnN6YsFtJWmV0yDq+bLByZR
+   CMhPSJrU0M/qkhEAiM6g78mBTsxK0EhXCXxvtRojgwHQS0v84AcLDQTDi
+   g==;
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Khem Raj <raj.khem@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 1/3] libgcc: Fix standalone target builds with
+ usrmerge distro feature
+Thread-Topic: [OE-core] [PATCH 1/3] libgcc: Fix standalone target builds with
+ usrmerge distro feature
+Thread-Index: AQHYnqQpTm3SgabHYk+gU2/3ZGbwpa2NZuNQgAADYYCAACv54A==
+Date: Sun, 24 Jul 2022 14:38:24 +0000
+Message-ID: <480f196925c140b2bfa4c952465aa80c@axis.com>
 References: <20220723145416.1374755-1-raj.khem@gmail.com>
  <f4ea3fac3a7e405ea15f39e33744f39a@axis.com>
-In-Reply-To: <f4ea3fac3a7e405ea15f39e33744f39a@axis.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 24 Jul 2022 09:51:57 -0400
-Message-ID: 
  <CAMKF1sp8a99JeMh8E0AcbvnAKepd3QmuxX=XD357Zg4eghrFtw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] libgcc: Fix standalone target builds with
- usrmerge distro feature
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: 
+ <CAMKF1sp8a99JeMh8E0AcbvnAKepd3QmuxX=XD357Zg4eghrFtw@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 24 Jul 2022 13:52:31 -0000
+ <openembedded-core@lists.openembedded.org>; Sun, 24 Jul 2022 14:38:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168456
+ https://lists.openembedded.org/g/openembedded-core/message/168457
 
-Hi Peter
-
-Thanks for the review.
-
-On Sun, Jul 24, 2022 at 7:47 AM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org> On Behalf Of Khem Raj
-> > Sent: den 23 juli 2022 16:54
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Khem Raj <raj.khem@gmail.com>
-> > Subject: [OE-core] [PATCH 1/3] libgcc: Fix standalone target builds with usrmerge distro feature
-> >
-> > Ignore the rmdir cmd if using usrmerge distro feature since the
-> > intention is to delete /lib or /lib64 but not libdir under /usr and
-> > base_libdir = libdir when usrmerge is enabled in distro
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/recipes-devtools/gcc/libgcc-common.inc | 8 ++++++--
-> >  1 file changed, 6 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/recipes-devtools/gcc/libgcc-common.inc b/meta/recipes-devtools/gcc/libgcc-common.inc
-> > index 148c9f85a7c..9d4fd41f975 100644
-> > --- a/meta/recipes-devtools/gcc/libgcc-common.inc
-> > +++ b/meta/recipes-devtools/gcc/libgcc-common.inc
-> > @@ -44,10 +44,14 @@ do_install () {
-> >  }
-> >
-> >  do_install:append:libc-baremetal () {
-> > -     rmdir ${D}${base_libdir}
-> > +     if ${@bb.utils.contains('DISTRO_FEATURES','usrmerge','false','true',d)}; then
->
-> Since the goal is to avoid deleting ${libdir} in case it happens to match
-> ${base_libdir}, I recommend to change the tests to instead be:
->
->         if [ "${base_libdir}" != "${libdir}" ]; then
->
-
-I don't see much benefit of doing this since our usecase is guarded by
-distro feature and I found it more readable
-having said that I am fine to change it as well, other option would be
-to use rmdir --ignore-fail-on-non-empty and avoid
-the check but that will make it generic and we might not see some
-unwanted files sneaking into base_libdir so erroring out
-is a good check.
-
-> > +             rmdir ${D}${base_libdir}
-> > +     fi
-> >  }
-> >  do_install:append:libc-newlib () {
-> > -     rmdir ${D}${base_libdir}
-> > +     if ${@bb.utils.contains('DISTRO_FEATURES','usrmerge','false','true',d)}; then
-> > +             rmdir ${D}${base_libdir}
-> > +     fi
-> >  }
-> >
-> >  # No rpm package is actually created but -dev depends on it, avoid dnf error
-> > --
-> > 2.37.1
->
-> //Peter
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1A
+Z21haWwuY29tPg0KPiBTZW50OiBkZW4gMjQganVsaSAyMDIyIDE1OjUyDQo+IFRvOiBQZXRlciBL
+amVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4NCj4gQ2M6IG9wZW5lbWJl
+ZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3Jl
+XSBbUEFUQ0ggMS8zXSBsaWJnY2M6IEZpeCBzdGFuZGFsb25lIHRhcmdldCBidWlsZHMNCj4gd2l0
+aCB1c3JtZXJnZSBkaXN0cm8gZmVhdHVyZQ0KPiANCj4gSGkgUGV0ZXINCj4gDQo+IFRoYW5rcyBm
+b3IgdGhlIHJldmlldy4NCj4gDQo+IE9uIFN1biwgSnVsIDI0LCAyMDIyIGF0IDc6NDcgQU0gUGV0
+ZXIgS2plbGxlcnN0ZWR0DQo+IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+IHdyb3RlOg0K
+PiA+DQo+ID4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4gRnJvbTogb3BlbmVt
+YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLQ0KPiBjb3Jl
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IE9uIEJlaGFsZiBPZiBLaGVtIFJhag0KPiA+ID4gU2Vu
+dDogZGVuIDIzIGp1bGkgMjAyMiAxNjo1NA0KPiA+ID4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxp
+c3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+IENjOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwu
+Y29tPg0KPiA+ID4gU3ViamVjdDogW09FLWNvcmVdIFtQQVRDSCAxLzNdIGxpYmdjYzogRml4IHN0
+YW5kYWxvbmUgdGFyZ2V0IGJ1aWxkcw0KPiB3aXRoIHVzcm1lcmdlIGRpc3RybyBmZWF0dXJlDQo+
+ID4gPg0KPiA+ID4gSWdub3JlIHRoZSBybWRpciBjbWQgaWYgdXNpbmcgdXNybWVyZ2UgZGlzdHJv
+IGZlYXR1cmUgc2luY2UgdGhlDQo+ID4gPiBpbnRlbnRpb24gaXMgdG8gZGVsZXRlIC9saWIgb3Ig
+L2xpYjY0IGJ1dCBub3QgbGliZGlyIHVuZGVyIC91c3IgYW5kDQo+ID4gPiBiYXNlX2xpYmRpciA9
+IGxpYmRpciB3aGVuIHVzcm1lcmdlIGlzIGVuYWJsZWQgaW4gZGlzdHJvDQo+ID4gPg0KPiA+ID4g
+U2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4NCj4gPiA+IC0tLQ0K
+PiA+ID4gIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nY2MvbGliZ2NjLWNvbW1vbi5pbmMgfCA4ICsr
+KysrKy0tDQo+ID4gPiAgMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlv
+bnMoLSkNCj4gPiA+DQo+ID4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dj
+Yy9saWJnY2MtY29tbW9uLmluYw0KPiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nY2MvbGliZ2Nj
+LWNvbW1vbi5pbmMNCj4gPiA+IGluZGV4IDE0OGM5Zjg1YTdjLi45ZDRmZDQxZjk3NSAxMDA2NDQN
+Cj4gPiA+IC0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nY2MvbGliZ2NjLWNvbW1vbi5pbmMN
+Cj4gPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nY2MvbGliZ2NjLWNvbW1vbi5pbmMN
+Cj4gPiA+IEBAIC00NCwxMCArNDQsMTQgQEAgZG9faW5zdGFsbCAoKSB7DQo+ID4gPiAgfQ0KPiA+
+ID4NCj4gPiA+ICBkb19pbnN0YWxsOmFwcGVuZDpsaWJjLWJhcmVtZXRhbCAoKSB7DQo+ID4gPiAt
+ICAgICBybWRpciAke0R9JHtiYXNlX2xpYmRpcn0NCj4gPiA+ICsgICAgIGlmDQo+ICR7QGJiLnV0
+aWxzLmNvbnRhaW5zKCdESVNUUk9fRkVBVFVSRVMnLCd1c3JtZXJnZScsJ2ZhbHNlJywndHJ1ZScs
+ZCl9OyB0aGVuDQo+ID4NCj4gPiBTaW5jZSB0aGUgZ29hbCBpcyB0byBhdm9pZCBkZWxldGluZyAk
+e2xpYmRpcn0gaW4gY2FzZSBpdCBoYXBwZW5zIHRvDQo+IG1hdGNoDQo+ID4gJHtiYXNlX2xpYmRp
+cn0sIEkgcmVjb21tZW5kIHRvIGNoYW5nZSB0aGUgdGVzdHMgdG8gaW5zdGVhZCBiZToNCj4gPg0K
+PiA+ICAgICAgICAgaWYgWyAiJHtiYXNlX2xpYmRpcn0iICE9ICIke2xpYmRpcn0iIF07IHRoZW4N
+Cj4gPg0KPiANCj4gSSBkb24ndCBzZWUgbXVjaCBiZW5lZml0IG9mIGRvaW5nIHRoaXMgc2luY2Ug
+b3VyIHVzZWNhc2UgaXMgZ3VhcmRlZCBieQ0KPiBkaXN0cm8gZmVhdHVyZSBhbmQgSSBmb3VuZCBp
+dCBtb3JlIHJlYWRhYmxlDQoNCldlIGFscmVhZHkgaGF2ZSBjb3JyZXNwb25kaW5nIHRlc3RzIGlu
+IG90aGVyIHBsYWNlcyB3aGVyZSB3ZSB3YW50IHRvIA0KYXZvaWQgcmVtb3ZpbmcgJHtsaWJkaXJ9
+IGlmIGl0IGhhcHBlbnMgdG8gbWF0Y2ggJHtiYXNlX2xpYmRpcn0sIGUuZy4sIA0KaW4gdGhlIGds
+aWJjLXBhY2thZ2UuaW5jIGZpbGUuDQoNClRoZSBiZW5lZml0IEkgc2VlIHdpdGggY29tcGFyaW5n
+IHRoZSB0d28gdmFyaWFibGVzIHJhdGhlciB0aGFuIHJlbHlpbmcgDQpvbiB0aGUgZGlzdHJvIGZl
+YXR1cmUgaXMgdGhhdCB0aGUgdGVzdCBpc24ndCByZWFsbHkgcmVsYXRlZCB0byB1c3JtZXJnZSwg
+DQppdCBvbmx5IGhhcHBlbnMgdG8gY29pbmNpZGUuIEkuZS4sIGlmIEkgd291bGQgbWFudWFsbHkg
+Y29uZmlndXJlIG15IA0Kc3lzdGVtIHNvIHRoYXQgJHtiYXNlX2xpYmRpcn0gPT0gJHtsaWJkaXJ9
+IHdpdGhvdXQgc2V0dGluZyB1c3JtZXJnZSwgDQp0aGUgdGVzdCBoZXJlIHdvdWxkIHN0aWxsIGRv
+IHRoZSByaWdodCB0aGluZyAodGhpbmdzIHdvdWxkIHByb2JhYmx5IA0KYnJlYWsgaW4gb3RoZXIg
+cGxhY2VzIHRob3VnaCwgYnV0IHRoYXQgaXMgYSBkaWZmZXJlbnQgc3RvcnkpLg0KDQo+IGhhdmlu
+ZyBzYWlkIHRoYXQgSSBhbSBmaW5lIHRvIGNoYW5nZSBpdCBhcyB3ZWxsLCBvdGhlciBvcHRpb24g
+d291bGQgYmUNCj4gdG8gdXNlIHJtZGlyIC0taWdub3JlLWZhaWwtb24tbm9uLWVtcHR5IGFuZCBh
+dm9pZA0KPiB0aGUgY2hlY2sgYnV0IHRoYXQgd2lsbCBtYWtlIGl0IGdlbmVyaWMgYW5kIHdlIG1p
+Z2h0IG5vdCBzZWUgc29tZQ0KPiB1bndhbnRlZCBmaWxlcyBzbmVha2luZyBpbnRvIGJhc2VfbGli
+ZGlyIHNvIGVycm9yaW5nIG91dA0KPiBpcyBhIGdvb2QgY2hlY2suDQo+IA0KPiA+ID4gKyAgICAg
+ICAgICAgICBybWRpciAke0R9JHtiYXNlX2xpYmRpcn0NCj4gPiA+ICsgICAgIGZpDQo+ID4gPiAg
+fQ0KPiA+ID4gIGRvX2luc3RhbGw6YXBwZW5kOmxpYmMtbmV3bGliICgpIHsNCj4gPiA+IC0gICAg
+IHJtZGlyICR7RH0ke2Jhc2VfbGliZGlyfQ0KPiA+ID4gKyAgICAgaWYgJHtAYmIudXRpbHMuY29u
+dGFpbnMoJ0RJU1RST19GRUFUVVJFUycsJ3Vzcm1lcmdlJywnZmFsc2UnLCd0cnVlJyxkKX07IHRo
+ZW4NCj4gPiA+ICsgICAgICAgICAgICAgcm1kaXIgJHtEfSR7YmFzZV9saWJkaXJ9DQo+ID4gPiAr
+ICAgICBmaQ0KPiA+ID4gIH0NCj4gPiA+DQo+ID4gPiAgIyBObyBycG0gcGFja2FnZSBpcyBhY3R1
+YWxseSBjcmVhdGVkIGJ1dCAtZGV2IGRlcGVuZHMgb24gaXQsIGF2b2lkIGRuZiBlcnJvcg0KPiA+
+ID4gLS0NCj4gPiA+IDIuMzcuMQ0KPiA+DQo+ID4gLy9QZXRlcg0KDQovL1BldGVyDQoNCg==
 
