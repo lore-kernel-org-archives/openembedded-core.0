@@ -1,486 +1,171 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2AA9C433EF
-	for <webhook@archiver.kernel.org>; Mon, 25 Jul 2022 13:26:07 +0000 (UTC)
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
- [209.85.160.182])
- by mx.groups.io with SMTP id smtpd.web11.27960.1658755561028975737
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E76CBCCA473
+	for <webhook@archiver.kernel.org>; Mon, 25 Jul 2022 13:59:27 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.41])
+ by mx.groups.io with SMTP id smtpd.web11.28344.1658757564682022601
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Jul 2022 06:26:01 -0700
+ Mon, 25 Jul 2022 06:59:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=mWxNSXVJ;
- spf=pass (domain: gmail.com, ip: 209.85.160.182,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f182.google.com with SMTP id l14so8165843qtv.4
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Jul 2022 06:26:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZAatTEdzfRXHFYxmcTFH00JWuRQeOa1q6I3NVr1t1w0=;
-        b=mWxNSXVJn4udEWCuAPJuRVz+lxkgzOIuSjcTG7HD9eYkUx/Nls+rtre0izDwvxojV9
-         VwIc5064NJriUqfnghd8Mw9CzA2s84Ci2rHoBFEiaFDzeN/OMkUhjr2JbZvOPGtjmu/O
-         9dw93dw9ZknaM1e/xXMPJMJyiCaaf24Y2PmpIEJONgqYcByE0y/TxCzoujhpYNjl0xf/
-         C7e5MYOGUBkWYPwyaTpQAtElkmQntUZQGmpayuEGL1HYGnnDMhnU67UxYyNLaTLBRTX2
-         xK+JlCzBw03R9/CmxEWOaCw3QW+esFKpyC6cm86h6DQ4BT1AgH7L7ytmcKEh0rya7tc6
-         Nqsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZAatTEdzfRXHFYxmcTFH00JWuRQeOa1q6I3NVr1t1w0=;
-        b=R7Qm9YiVwWCRDyxMjwYF+gDWoTEFUzF1HuUueVoy4f7mhxq6+zOKS/WT0LeJfOUygp
-         F7i3z9mRFO+qbEfQDrRgcEKtzJh+Y0JjwVsw+uI5OxTVkt7isus2R6DA9GkDPh7jPAAL
-         ZGknnNgwh2qCszrQTnBIMn27pwQVuRN9Rn51pxr6vzNwlyEVolbQNf+lMFRt7A819Hcw
-         bipfgoDg0ccw6HMieQx76JcCbMdOcaUP4q/Pn0YjlQ9PjYEUUwfrvVY5TXoMhuAuTy8w
-         9U1ZfzSpqIsiy4VpvPnkd4dnP98rteNRcfnAtbnNirjWbM+JvausquqhVv18JPQDFLqb
-         vQcg==
-X-Gm-Message-State: AJIora/XbybtT+jdp2X3SAdHdYUERq7INHFToFcnQOnbTqg0YtW7OAou
-	JvdGu44L6leRqRShzYWTFIMFcLTCrAURqTDjhIMIvllMgZY=
-X-Google-Smtp-Source: 
- AGRyM1svZ8wGC+hGZhj4pQmkPdXQ7FyiEBrPb3bpDiuOO9CbrODGDAY270Seu2nn4N63cIVWlMy9gZkCzVTJXPyk5Ws=
-X-Received: by 2002:ac8:5e4f:0:b0:31e:d96f:a4e7 with SMTP id
- i15-20020ac85e4f000000b0031ed96fa4e7mr10228887qtx.634.1658755559755; Mon, 25
- Jul 2022 06:25:59 -0700 (PDT)
+ dkim=pass header.i=@armh.onmicrosoft.com
+ header.s=selector2-armh-onmicrosoft-com header.b=lg49Kg1o;
+ spf=pass (domain: arm.com, ip: 40.107.20.41, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=BzO7lrNSemjKEIW3rQtzijbzQb3EQUzY34xukBLdULQ10n6CRxv711yLnM7XSrBnils8bOCeVDT8Eh7MeUmC6FQEBgsFQU1SLltp2z+CSGN2YIQCxGV36I6vcg7mYK1v+odRzbx2RQRbB0TUpil8tLIN+ODv7uuBGJtcrVR75lOlvIGz6Hn7RzZCz8uOn44MPmXiLTKeMuK1DTyW2MqT42rgxG/aLcRXhs0q4Mh8qWuFfzML9WIkfjpJ2EI40TLeFAOvv5SNC315JEkHO5DGxoXY8OgBRxwtBHHA5vXBLRjmHD343xtIRNCrvHrct8NPRSdqwJtSyZ1ZrKfy0t1Kdg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VeKMY0Q4637xJYrRaRZyYutjefwpTFjOcIRjcIKElLY=;
+ b=cIhf+Go0dT3UsqCrsIcYLsBjtuwv9yiLDP4GDRQyucliOL8yvZ/Z+ynviORdv4hlzlsYkuBr/lzXhQTC+xZzG+bgLZZXYBCBk3BHqKAe+IlEA7v7F2cuPlHMS97Gt5uGggyWjRO4VH3rd0/uwcIEVAU0TwemUoQNVeEQKuPA45pNmGTnrBVuvYzBXl5euLb60HhHJC47bXRSX4WuimZIx4/zEUIJBRo3DGNDZZUkfGEB1v1yKi+kub+M6QuBL1XQegxndoYlA0lCU8kHe72BtC5XK7ZhUoK4OSU/A+pG2/0Z+8ctXBxGSZ2GhTV5KIx9ufSnwyij4p/DpHFDEDBm6w==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=temperror (sender ip
+ is 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=arm.com; dmarc=temperror action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
+ oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VeKMY0Q4637xJYrRaRZyYutjefwpTFjOcIRjcIKElLY=;
+ b=lg49Kg1o3YKXpGXh6WCLiPBUagAKUt+GeyS0EHjKRW7yWScYQKBQODinjVoxEITvqb1OFKphcpvmk+KLPJ1CZGMN7vFCjTz6hNBcIpZ4BkZtbb8XzOGrLfGAqDGkODi83lraWPQJT3Jzfr5XIBjVkQhqIXqn2ouw2YBSXx9b2DE=
+Received: from AM5PR0701CA0069.eurprd07.prod.outlook.com (2603:10a6:203:2::31)
+ by AM9PR08MB6132.eurprd08.prod.outlook.com (2603:10a6:20b:2d7::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.19; Mon, 25 Jul
+ 2022 13:59:21 +0000
+Received: from AM5EUR03FT051.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:203:2:cafe::1c) by AM5PR0701CA0069.outlook.office365.com
+ (2603:10a6:203:2::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.7 via Frontend
+ Transport; Mon, 25 Jul 2022 13:59:21 +0000
+X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is
+ 63.35.35.123) smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=temperror action=none
+ header.from=arm.com;
+Received-SPF: TempError (protection.outlook.com: error in processing during
+ lookup of arm.com: DNS Timeout)
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM5EUR03FT051.mail.protection.outlook.com (10.152.16.246) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5458.17 via Frontend Transport; Mon, 25 Jul 2022 13:59:20 +0000
+Received: ("Tessian outbound fccf984e7173:v123");
+ Mon, 25 Jul 2022 13:59:20 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: e9e43d5b24c8debd
+X-CR-MTA-TID: 64aa7808
+Received: from 3609b32515bf.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ C34072E6-B517-4BFC-A3BC-7171837E0FB8.1;
+	Mon, 25 Jul 2022 13:59:13 +0000
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id
+ 3609b32515bf.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Mon, 25 Jul 2022 13:59:13 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e3RSR3J0w0GKVM2Rky61bce91bWBh4aUMxhLPBh9X3nWaxNzbQY/NPXta4nkqHd5p7HEBYMfXI92SqbFNjpQuGNJ/qzMPvv/QcW1aFBAipKvBT9JedGAswWf0Iy1dxVANCtjnB8IyaYdHp5Rsm7lnCNRXOOp0jiJqVfiIqe2NN62Fftim+n1QVRwlSFcPNAvtDfP8RBUGI6MV1/+Tj/1ijBjBEnVuIAaV7kABh2uaqO/N+FS2XZ51ZZlunKVsNWyP6j21CemiBvw1RXvaSmMuhJnyOzSaMSooMup0xRXE9b+aekQ0WGvvCo/LRN5vB8u00JbbNVN/pyZd3iAe4OpDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VeKMY0Q4637xJYrRaRZyYutjefwpTFjOcIRjcIKElLY=;
+ b=cgFJqM/BYFc8bDCBU0Ofsks8IRmJW8cyAevveyeHN+8dirVzLxX53LPxGftIYQzxS2f5ETfE6tCHOAhP5oi81EuxUAmJNZV0NRWx829A1GepGz8/HM47+V5YiNLf24cV4yrN+ZFM0T/JR0z3/cZntlnyYCE3YPemYV2TN+1BwJkPWhPT1CJETknZQPrsRASM5pR/Mg5WKuvG6ZnGXDpuiDlp0CI3RUZgnvtTpcBfojoDC6hQj/+IY01AxHMoHUliggDOv1U/9DsbT4I4UEStVqqEsAFn3wHxsQBVtQBldmOXQneLS9jT09qjm3Hm8lh9SxDWYBsIrV564UeQaY4EiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VeKMY0Q4637xJYrRaRZyYutjefwpTFjOcIRjcIKElLY=;
+ b=lg49Kg1o3YKXpGXh6WCLiPBUagAKUt+GeyS0EHjKRW7yWScYQKBQODinjVoxEITvqb1OFKphcpvmk+KLPJ1CZGMN7vFCjTz6hNBcIpZ4BkZtbb8XzOGrLfGAqDGkODi83lraWPQJT3Jzfr5XIBjVkQhqIXqn2ouw2YBSXx9b2DE=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AM0PR08MB3474.eurprd08.prod.outlook.com (2603:10a6:208:e1::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.24; Mon, 25 Jul
+ 2022 13:59:12 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::fc06:20ca:a7cd:4d72]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::fc06:20ca:a7cd:4d72%8]) with mapi id 15.20.5458.024; Mon, 25 Jul 2022
+ 13:59:12 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, nd <nd@arm.com>
+Subject: Re: [OE-core] [PATCH] oeqa/selftest/context: set branch name when
+ creating temporary git repo
+Thread-Topic: [OE-core] [PATCH] oeqa/selftest/context: set branch name when
+ creating temporary git repo
+Thread-Index: AQHYnbxnubsgWMIMaUGPvh1M/Rpmnq2NtzeAgAFqvwA=
+Date: Mon, 25 Jul 2022 13:59:12 +0000
+Message-ID: <7E39EDD4-F620-4CEB-BB00-E2880B2EBC96@arm.com>
+References: <20220722111534.2144462-1-ross.burton@arm.com>
+ <e6176b990acf909a305fe40b4fdd91c196c9a60f.camel@linuxfoundation.org>
+In-Reply-To: 
+ <e6176b990acf909a305fe40b4fdd91c196c9a60f.camel@linuxfoundation.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3696.100.31)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-MS-Office365-Filtering-Correlation-Id: 65936b27-4d0f-4153-b628-08da6e45df70
+x-ms-traffictypediagnostic: 
+	AM0PR08MB3474:EE_|AM5EUR03FT051:EE_|AM9PR08MB6132:EE_
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ qHKfZjMpg/5+AAAineU57mbBLJK4xhJxTpVNnt7IQjwMg2DgX8Zd1KoPaYZCkBXvC4F6PTwoNSft14ogzMnOSAzi7I6fXgP5wq6QekK7vlCdm2OXXgeQ+MhelA6jgzO51175GSl+68ggtDedcYsV0/3xgHDtOj6pIULY19o/4odchrO5NhAjd54kET+ApXPnP2xNU1XHwxYE6IxWwb1eP3/2H7/3bWZw+GyGyDM4VoVm9iIg+RxczgWyIQidsVhF6RbTrbxkyvQFNGW7Eeuse8xnhy68PKmBsZDbVHEY1gW2+0gAbHoIs09HoNN94OIOpgFj7AyTxthXf09ET4IYd9bN2wUnkNyWZrkqiO/eJvnEixQBLwsfowv9ikGIv1P/L6XAPv0qCGfjOPADvGaLkyMs6Ld+fOMOmhOmF8XcFGsMV/Bb1NysmaAIvraCPkMgN1bNgankIVb+cqHHAK2hVyR87+aH7LjJa/q2UhfDhjzjPBWeHYtivGYHKreRxZP202CzcOCe4uRwRt8okd05htbIhJUvJU1N+gJCAp7RacpBvkXi4dIIxUnnRfE+cuX1goke+ThVpcM2+mB3cOIbLjxinxUeGZVPBaifJpF5uRg7iVMkmenroBLaEe/PtSMETz8zxTQmuKYdDMtFfCEjryFsUXux3KX06Ee0FvOVNkslnRe4gq3lSeOzyNKxH8EwGel1vsb0LxDw4JyTWTgJEE+qSAbhfhA1yeHk8VjVG2Lgx1Z9DxJdwAjX++cnMRHFpfBkBxIqaUsVJQrY9IncQBnQYWJUnxacg3rS883RDrrJwtCEDGtaXzwDjnfB31Ec17lr36fIArPVREqyQpUwnevIvizQHG3u56zLaOt4BY5P/+ftsGEl11ZxUuBwNT/m
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(396003)(39860400002)(376002)(136003)(366004)(6486002)(6512007)(26005)(71200400001)(966005)(36756003)(33656002)(478600001)(6506007)(53546011)(38070700005)(54906003)(6916009)(41300700001)(86362001)(186003)(2616005)(316002)(76116006)(38100700002)(66556008)(66946007)(4326008)(4744005)(8676002)(122000001)(64756008)(66446008)(66476007)(91956017)(5660300002)(2906002)(8936002)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <CAF51D2FEC295F4FB93A929CA3411BFE@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20220705070318.737747-1-mingli.yu@windriver.com>
- <7af70882-4835-2316-5c54-52318b5e7d4b@gmail.com>
- <fd32991d-822a-b452-5c5e-b367b8542961@windriver.com>
- <CAMKF1sqXMhjrhBpNDPiBruZFY03hNb3zPUATQ2Xy=xmDj3O-1A@mail.gmail.com>
- <aa97c7be-febb-b203-71dc-1699c2ce4326@windriver.com>
-In-Reply-To: <aa97c7be-febb-b203-71dc-1699c2ce4326@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 25 Jul 2022 09:25:48 -0400
-Message-ID: 
- <CAMKF1sqgjkyussC5jEVtEDC3Gkd8DibMfACXXP5Aq-MtT+yeGA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] strace: set COMPATIBLE_HOST for riscv32
-To: "Yu, Mingli" <mingli.yu@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000e8955305e4a11f23"
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3474
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AM5EUR03FT051.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	52e8ff72-648b-4054-68b8-08da6e45daa7
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	wy9FtzKX45kCcqVh8hSVdFkoXz/vdjmIHqOIwfXnNG/uMTB6kvKG5CGrp2d9q8hn5JLZwmeu45xF3f1EeySJMLkI1nfUTqs16h0B0lVSkDj722Wc9GODmz6CMF3ujG1PrFVIoj+Rw4njkG0VB1+oD3Ora3iJeyai9AgUC3nz3/xQwMwvM22dpw9XWDXxrcAO/oiJs5NgXbENTovvJbE3tUPNNBIpYuiaqprEx/fCRWBfHjXci1gQV1R26zvispSR4Zk1wIqj0RcTUnG/nPZp+iE3VAeS9dIrSysCD986Qk13X4YQ7odyoxLMr5fcAjOaQuW+tqd7TZqWE3giiVMrKFJnyDEKrcnQDV3xNLb4Rywob7nZz18M3P+C2QDIFPv70UbkoQjmVJ34rixP5D9HKSvAcLiS89xYQ+OBgCYd5OPPoxFzEIgOy+B+JXXWXP3hYg/lBA0vKkM9Pi8nrwcwmxkyv0Tz6Kgvuy6scbeJLeIjU2xumXVTCHA6xC+v/9Vobx5viYwjT/XKkedoBUIkdR1LjqqGRgf+OEfcPQn+vsW6wr5KqG1cJTEUsfzueMG2kL+PopxkI5MrcDrZ2JNmb2SX2GjvP14QCZLOD4OoYx/N57Ou/9VarzWmiBwQffs6/gQxVe1YIpTCJxN/Wp4jj8ncUMEwIEYozh4XuRqa/USLhCe/wWAYsDnJHVvb2VQadlUbQnOs+3L/2dqH8pNmCSpzVhQZgrw6mR8UdTDHqNprbZglZX5DOVqDZxoL4mLCrjpXNyv5QziuU/mE5UjK7xiKJrG8/Frbw/Mh9qrcwkqqzv3/EpUezD6DNLO8N8/JqLwWMe1WKwEmVTzDzAscbLsrDT0UBuNxjGE8F7PNdQ6yKrWpHAR60YuSNus1T/44
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230016)(4636009)(376002)(346002)(396003)(39860400002)(136003)(40470700004)(46966006)(36840700001)(36860700001)(63350400001)(356005)(86362001)(36756003)(33656002)(70206006)(82740400003)(6862004)(186003)(8936002)(63370400001)(81166007)(336012)(47076005)(53546011)(26005)(6506007)(6512007)(478600001)(6486002)(40480700001)(966005)(41300700001)(54906003)(316002)(40460700003)(4744005)(5660300002)(2616005)(4326008)(8676002)(2906002)(70586007)(82310400005)(45980500001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2022 13:59:20.6226
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 65936b27-4d0f-4153-b628-08da6e45df70
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
+ TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM5EUR03FT051.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6132
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Jul 2022 13:26:07 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Jul 2022 13:59:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168484
+ https://lists.openembedded.org/g/openembedded-core/message/168485
 
---000000000000e8955305e4a11f23
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jul 25, 2022 at 1:56 AM Yu, Mingli <mingli.yu@windriver.com> wrote:
-
-> Hi Khem,
->
-> On 7/20/22 20:14, Khem Raj wrote:
-> > **[Please note: This e-mail is from an EXTERNAL e-mail address]
-> >
-> >
-> >
-> > On Wed, Jul 20, 2022 at 5:35 AM Yu, Mingli <mingli.yu@windriver.com
-> > <mailto:mingli.yu@windriver.com>> wrote:
-> >
-> >     Hi Khem,
-> >
-> >     On 7/5/22 21:39, Khem Raj wrote:
-> >      > [Please note: This e-mail is from an EXTERNAL e-mail address]
-> >      >
-> >      > On 7/5/22 3:03 AM, Yu, Mingli wrote:
-> >      >> From: Mingli Yu <mingli.yu@windriver.com
-> >     <mailto:mingli.yu@windriver.com>>
-> >      >>
-> >      >> Disable the build on riscv32 as it's not supported on riscv32
-> [1].
-> >      >>
-> >      >> [1]
-> >      >>
-> >
-> https://github.com/strace/strace/commit/69ff62ea5087506ad36a27599db088096=
-db215da
-> >     <
-> https://urldefense.com/v3/__https://github.com/strace/strace/commit/69ff6=
-2ea5087506ad36a27599db088096db215da__;!!AjveYdw8EvQ!d673WVMyl0hCL6dOFMygQ4B=
-ahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLgvWe7uKs$
-> >
-> >
-> >      >>
-> >      >>
-> >      >> Signed-off-by: Mingli Yu <mingli.yu@windriver.com
-> >     <mailto:mingli.yu@windriver.com>>
-> >      >> ---
-> >      >>   meta/recipes-devtools/strace/strace_5.18.bb
-> >     <
-> https://urldefense.com/v3/__http://strace_5.18.bb__;!!AjveYdw8EvQ!d673WVM=
-yl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLg5BtLgG=
-c$
-> >
-> >     | 3 +++
-> >      >>   1 file changed, 3 insertions(+)
-> >      >>
-> >      >> diff --git a/meta/recipes-devtools/strace/strace_5.18.bb
-> >     <
-> https://urldefense.com/v3/__http://strace_5.18.bb__;!!AjveYdw8EvQ!d673WVM=
-yl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLg5BtLgG=
-c$
-> >
-> >
-> >      >> b/meta/recipes-devtools/strace/strace_5.18.bb
-> >     <
-> https://urldefense.com/v3/__http://strace_5.18.bb__;!!AjveYdw8EvQ!d673WVM=
-yl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLg5BtLgG=
-c$
-> >
-> >      >> index 08f0f1d27e..75ff58bd50 100644
-> >      >> --- a/meta/recipes-devtools/strace/strace_5.18.bb
-> >     <
-> https://urldefense.com/v3/__http://strace_5.18.bb__;!!AjveYdw8EvQ!d673WVM=
-yl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLg5BtLgG=
-c$
-> >
-> >      >> +++ b/meta/recipes-devtools/strace/strace_5.18.bb
-> >     <
-> https://urldefense.com/v3/__http://strace_5.18.bb__;!!AjveYdw8EvQ!d673WVM=
-yl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLg5BtLgG=
-c$
-> >
-> >      >> @@ -18,6 +18,9 @@ SRC_URI[sha256sum] =3D
-> >      >> "60293ea79ac9253d600cdc9be077ad2988ca22284a439c9e66be5150db
-> >      >>
-> >      >>   inherit autotools ptest
-> >      >>
-> >      >> +# Not yet ported to rv32
-> >      >> +COMPATIBLE_HOST:riscv32 =3D "null"
-> >      >> +
-> >      >
-> >      > there might be more changes needed especially in package groups
-> >     perhaps.
-> >
-> >     What do you mean when you mentioned package groups here?
-> >
-> >     There comes do_configure error as below:
-> >     | checking for supported architecture... NO!
-> >     | configure: error: architecture riscv32 is not supported by strace
-> >     | NOTE: The following config.log files may provide further
-> information.
-> >     | NOTE:
-> >
->  /buildarea/build/tmp-glibc/work/riscv32-wrs-linux/strace/5.18-r0/build/c=
-onfig.log
-> >     | ERROR: configure failed
-> >     | WARNING: exit code 1 from a shell command.
-> >
-> >     Considering no support for riscv32 until now as
-> >
-> https://github.com/strace/strace/commit/69ff62ea5087506ad36a27599db088096=
-db215da
-> >     <
-> https://urldefense.com/v3/__https://github.com/strace/strace/commit/69ff6=
-2ea5087506ad36a27599db088096db215da__;!!AjveYdw8EvQ!d673WVMyl0hCL6dOFMygQ4B=
-ahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLgvWe7uKs$
-> >,
-> >
-> >     so we set COMPATIBLE_HOST for riscv32.
-> >
-> >
-> > That=E2=80=99s fine. I think strace is added in some other places to im=
-ages and
-> > package groups you might have to remove it for rv32 from them
-> >
->
-> The strace for rv32 has already excluded in package group as
->
-> https://git.openembedded.org/openembedded-core/commit/?id=3Dbec777887e7ee=
-d9a12b08231a612aaf19b622614
-> .
-
-
-Thanks I am ok with this patch then
-
->
->
-> Thanks,
->
-> >
-> >     Thanks,
-> >
-> >      >
-> >      >>   PACKAGECONFIG:class-target ??=3D "\
-> >      >>       ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth',
-> 'bluez',
-> >      >> '', d)} \
-> >      >>   "
-> >      >>
-> >      >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >      >> Links: You receive all messages sent to this group.
-> >      >> View/Reply Online (#167640):
-> >      >>
-> >     https://lists.openembedded.org/g/openembedded-core/message/167640
-> >     <
-> https://urldefense.com/v3/__https://lists.openembedded.org/g/openembedded=
--core/message/167640__;!!AjveYdw8EvQ!d673WVMyl0hCL6dOFMygQ4BahOO10FPcaHhp2S=
-9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLgnVp3icY$
-> >
-> >      >> Mute This Topic:
-> >     https://lists.openembedded.org/mt/92180245/1997914
-> >     <
-> https://urldefense.com/v3/__https://lists.openembedded.org/mt/92180245/19=
-97914__;!!AjveYdw8EvQ!d673WVMyl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj86MPAabH=
-2_xYSt5fUlR_1bzG8tBtYLgRjA59ns$
-> >
-> >      >> Group Owner: openembedded-core+owner@lists.openembedded.org
-> >     <mailto:openembedded-core%2Bowner@lists.openembedded.org>
-> >      >> Unsubscribe:
-> >     https://lists.openembedded.org/g/openembedded-core/unsub
-> >     <
-> https://urldefense.com/v3/__https://lists.openembedded.org/g/openembedded=
--core/unsub__;!!AjveYdw8EvQ!d673WVMyl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj86=
-MPAabH2_xYSt5fUlR_1bzG8tBtYLgVRirgww$
-> >
-> >
-> >      >> [raj.khem@gmail.com <mailto:raj.khem@gmail.com>]
-> >      >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >      >>
-> >
->
-
---000000000000e8955305e4a11f23
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Mon, Jul 25, 2022 at 1:56 AM Yu, Mingli &lt;<a href=3D"m=
-ailto:mingli.yu@windriver.com">mingli.yu@windriver.com</a>&gt; wrote:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex">Hi Khem,<br>
-<br>
-On 7/20/22 20:14, Khem Raj wrote:<br>
-&gt; **[Please note: This e-mail is from an EXTERNAL e-mail address]<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; On Wed, Jul 20, 2022 at 5:35 AM Yu, Mingli &lt;<a href=3D"mailto:mingl=
-i.yu@windriver.com" target=3D"_blank">mingli.yu@windriver.com</a> <br>
-&gt; &lt;mailto:<a href=3D"mailto:mingli.yu@windriver.com" target=3D"_blank=
-">mingli.yu@windriver.com</a>&gt;&gt; wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Hi Khem,<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0On 7/5/22 21:39, Khem Raj wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; [Please note: This e-mail is from an EXTERNAL=
- e-mail address]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; On 7/5/22 3:03 AM, Yu, Mingli wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; From: Mingli Yu &lt;<a href=3D"mailto:min=
-gli.yu@windriver.com" target=3D"_blank">mingli.yu@windriver.com</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:mingli.yu@windriver.co=
-m" target=3D"_blank">mingli.yu@windriver.com</a>&gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; Disable the build on riscv32 as it&#39;s =
-not supported on riscv32 [1].<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; [1]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://github.com/strace/strace/commit/=
-69ff62ea5087506ad36a27599db088096db215da" rel=3D"noreferrer" target=3D"_bla=
-nk">https://github.com/strace/strace/commit/69ff62ea5087506ad36a27599db0880=
-96db215da</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://urldefense.com/v3/__https://=
-github.com/strace/strace/commit/69ff62ea5087506ad36a27599db088096db215da__;=
-!!AjveYdw8EvQ!d673WVMyl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5f=
-UlR_1bzG8tBtYLgvWe7uKs$" rel=3D"noreferrer" target=3D"_blank">https://urlde=
-fense.com/v3/__https://github.com/strace/strace/commit/69ff62ea5087506ad36a=
-27599db088096db215da__;!!AjveYdw8EvQ!d673WVMyl0hCL6dOFMygQ4BahOO10FPcaHhp2S=
-9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLgvWe7uKs$</a>&gt;<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; Signed-off-by: Mingli Yu &lt;<a href=3D"m=
-ailto:mingli.yu@windriver.com" target=3D"_blank">mingli.yu@windriver.com</a=
-><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:mingli.yu@windriver.co=
-m" target=3D"_blank">mingli.yu@windriver.com</a>&gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; ---<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; =C2=A0 meta/recipes-devtools/strace/<a hr=
-ef=3D"http://strace_5.18.bb" rel=3D"noreferrer" target=3D"_blank">strace_5.=
-18.bb</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://urldefense.com/v3/__http://s=
-trace_5.18.bb__;!!AjveYdw8EvQ!d673WVMyl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj=
-86MPAabH2_xYSt5fUlR_1bzG8tBtYLg5BtLgGc$" rel=3D"noreferrer" target=3D"_blan=
-k">https://urldefense.com/v3/__http://strace_5.18.bb__;!!AjveYdw8EvQ!d673WV=
-Myl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLg5BtLg=
-Gc$</a>&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0| 3 +++<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; =C2=A0 1 file changed, 3 insertions(+)<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; diff --git a/meta/recipes-devtools/strace=
-/<a href=3D"http://strace_5.18.bb" rel=3D"noreferrer" target=3D"_blank">str=
-ace_5.18.bb</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://urldefense.com/v3/__http://s=
-trace_5.18.bb__;!!AjveYdw8EvQ!d673WVMyl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj=
-86MPAabH2_xYSt5fUlR_1bzG8tBtYLg5BtLgGc$" rel=3D"noreferrer" target=3D"_blan=
-k">https://urldefense.com/v3/__http://strace_5.18.bb__;!!AjveYdw8EvQ!d673WV=
-Myl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLg5BtLg=
-Gc$</a>&gt;<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; b/meta/recipes-devtools/strace/<a href=3D=
-"http://strace_5.18.bb" rel=3D"noreferrer" target=3D"_blank">strace_5.18.bb=
-</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://urldefense.com/v3/__http://s=
-trace_5.18.bb__;!!AjveYdw8EvQ!d673WVMyl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj=
-86MPAabH2_xYSt5fUlR_1bzG8tBtYLg5BtLgGc$" rel=3D"noreferrer" target=3D"_blan=
-k">https://urldefense.com/v3/__http://strace_5.18.bb__;!!AjveYdw8EvQ!d673WV=
-Myl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLg5BtLg=
-Gc$</a>&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; index 08f0f1d27e..75ff58bd50 100644<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; --- a/meta/recipes-devtools/strace/<a hre=
-f=3D"http://strace_5.18.bb" rel=3D"noreferrer" target=3D"_blank">strace_5.1=
-8.bb</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://urldefense.com/v3/__http://s=
-trace_5.18.bb__;!!AjveYdw8EvQ!d673WVMyl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj=
-86MPAabH2_xYSt5fUlR_1bzG8tBtYLg5BtLgGc$" rel=3D"noreferrer" target=3D"_blan=
-k">https://urldefense.com/v3/__http://strace_5.18.bb__;!!AjveYdw8EvQ!d673WV=
-Myl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLg5BtLg=
-Gc$</a>&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; +++ b/meta/recipes-devtools/strace/<a hre=
-f=3D"http://strace_5.18.bb" rel=3D"noreferrer" target=3D"_blank">strace_5.1=
-8.bb</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://urldefense.com/v3/__http://s=
-trace_5.18.bb__;!!AjveYdw8EvQ!d673WVMyl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj=
-86MPAabH2_xYSt5fUlR_1bzG8tBtYLg5BtLgGc$" rel=3D"noreferrer" target=3D"_blan=
-k">https://urldefense.com/v3/__http://strace_5.18.bb__;!!AjveYdw8EvQ!d673WV=
-Myl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLg5BtLg=
-Gc$</a>&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; @@ -18,6 +18,9 @@ SRC_URI[sha256sum] =3D<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; &quot;60293ea79ac9253d600cdc9be077ad2988c=
-a22284a439c9e66be5150db<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; =C2=A0 inherit autotools ptest<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; +# Not yet ported to rv32<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; +COMPATIBLE_HOST:riscv32 =3D &quot;null&q=
-uot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; there might be more changes needed especially=
- in package groups<br>
-&gt;=C2=A0 =C2=A0 =C2=A0perhaps.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0What do you mean when you mentioned package groups =
-here?<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0There comes do_configure error as below:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0| checking for supported architecture... NO!<br>
-&gt;=C2=A0 =C2=A0 =C2=A0| configure: error: architecture riscv32 is not sup=
-ported by strace<br>
-&gt;=C2=A0 =C2=A0 =C2=A0| NOTE: The following config.log files may provide =
-further information.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0| NOTE:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0/buildarea/build/tmp-glibc/work/riscv32-wrs-linux/s=
-trace/5.18-r0/build/config.log<br>
-&gt;=C2=A0 =C2=A0 =C2=A0| ERROR: configure failed<br>
-&gt;=C2=A0 =C2=A0 =C2=A0| WARNING: exit code 1 from a shell command.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Considering no support for riscv32 until now as<br>
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://github.com/strace/strace/commit/=
-69ff62ea5087506ad36a27599db088096db215da" rel=3D"noreferrer" target=3D"_bla=
-nk">https://github.com/strace/strace/commit/69ff62ea5087506ad36a27599db0880=
-96db215da</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://urldefense.com/v3/__https://=
-github.com/strace/strace/commit/69ff62ea5087506ad36a27599db088096db215da__;=
-!!AjveYdw8EvQ!d673WVMyl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5f=
-UlR_1bzG8tBtYLgvWe7uKs$" rel=3D"noreferrer" target=3D"_blank">https://urlde=
-fense.com/v3/__https://github.com/strace/strace/commit/69ff62ea5087506ad36a=
-27599db088096db215da__;!!AjveYdw8EvQ!d673WVMyl0hCL6dOFMygQ4BahOO10FPcaHhp2S=
-9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLgvWe7uKs$</a>&gt;,<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0so we set COMPATIBLE_HOST for riscv32.<br>
-&gt; <br>
-&gt; <br>
-&gt; That=E2=80=99s fine. I think strace is added in some other places to i=
-mages and <br>
-&gt; package groups you might have to remove it for rv32 from them<br>
-&gt; <br>
-<br>
-The strace for rv32 has already excluded in package group as <br>
-<a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=3Dbec7=
-77887e7eed9a12b08231a612aaf19b622614" rel=3D"noreferrer" target=3D"_blank">=
-https://git.openembedded.org/openembedded-core/commit/?id=3Dbec777887e7eed9=
-a12b08231a612aaf19b622614</a>.</blockquote><div dir=3D"auto"><br></div><div=
- dir=3D"auto">Thanks I am ok with this patch then</div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
--left:1ex" dir=3D"auto"><br>
-<br>
-Thanks,<br>
-<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Thanks,<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; =C2=A0 PACKAGECONFIG:class-target ??=3D &=
-quot;\<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${@bb.util=
-s.contains(&#39;DISTRO_FEATURES&#39;, &#39;bluetooth&#39;, &#39;bluez&#39;,=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; &#39;&#39;, d)} \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; =C2=A0 &quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=
-=3D-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; Links: You receive all messages sent to t=
-his group.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; View/Reply Online (#167640):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://lists.openembedded.org/g/openemb=
-edded-core/message/167640" rel=3D"noreferrer" target=3D"_blank">https://lis=
-ts.openembedded.org/g/openembedded-core/message/167640</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://urldefense.com/v3/__https://=
-lists.openembedded.org/g/openembedded-core/message/167640__;!!AjveYdw8EvQ!d=
-673WVMyl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLg=
-nVp3icY$" rel=3D"noreferrer" target=3D"_blank">https://urldefense.com/v3/__=
-https://lists.openembedded.org/g/openembedded-core/message/167640__;!!AjveY=
-dw8EvQ!d673WVMyl0hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5fUlR_1bz=
-G8tBtYLgnVp3icY$</a>&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; Mute This Topic:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://lists.openembedded.org/mt/921802=
-45/1997914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/mt/92180245/1997914</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://urldefense.com/v3/__https://=
-lists.openembedded.org/mt/92180245/1997914__;!!AjveYdw8EvQ!d673WVMyl0hCL6dO=
-FMygQ4BahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLgRjA59ns$" rel=
-=3D"noreferrer" target=3D"_blank">https://urldefense.com/v3/__https://lists=
-.openembedded.org/mt/92180245/1997914__;!!AjveYdw8EvQ!d673WVMyl0hCL6dOFMygQ=
-4BahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLgRjA59ns$</a>&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; Group Owner: <a href=3D"mailto:openembedd=
-ed-core%2Bowner@lists.openembedded.org" target=3D"_blank">openembedded-core=
-+owner@lists.openembedded.org</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:openembedded-core%252B=
-owner@lists.openembedded.org" target=3D"_blank">openembedded-core%2Bowner@l=
-ists.openembedded.org</a>&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; Unsubscribe:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://lists.openembedded.org/g/openemb=
-edded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openem=
-bedded.org/g/openembedded-core/unsub</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://urldefense.com/v3/__https://=
-lists.openembedded.org/g/openembedded-core/unsub__;!!AjveYdw8EvQ!d673WVMyl0=
-hCL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLgVRirgww$"=
- rel=3D"noreferrer" target=3D"_blank">https://urldefense.com/v3/__https://l=
-ists.openembedded.org/g/openembedded-core/unsub__;!!AjveYdw8EvQ!d673WVMyl0h=
-CL6dOFMygQ4BahOO10FPcaHhp2S9NPJswj86MPAabH2_xYSt5fUlR_1bzG8tBtYLgVRirgww$</=
-a>&gt;<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; [<a href=3D"mailto:raj.khem@gmail.com" ta=
-rget=3D"_blank">raj.khem@gmail.com</a> &lt;mailto:<a href=3D"mailto:raj.khe=
-m@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=
-=3D-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
-&gt; <br>
-</blockquote></div></div>
-
---000000000000e8955305e4a11f23--
+T24gMjQgSnVsIDIwMjIsIGF0IDE3OjIwLCBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVA
+bGludXhmb3VuZGF0aW9uLm9yZz4gd3JvdGU6DQo+IERvZXNuJ3Qgd29yayBJJ20gYWZyYWlkOg0K
+PiANCj4gaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhvb24vIy9idWls
+ZGVycy8xMTcvYnVpbGRzLzEyMjANCg0KSSBjaGVja2VkIG9sZGVyIGdpdCByZWxlYXNlcyBidXQg
+ZGlkbuKAmXQgdGhpbmsgdGhhdCB1YnVudHUgMTgwNCB3YXMgc28gb2xkLiAgT2ggd2VsbCwgd2Xi
+gJlsbCBqdXN0IGhhdmUgdG8gc2hlbHZlIHRoaXMgdW50aWwgYWxsIHN1cHBvcnRlZCBkaXN0cm9z
+IGhhdmUgYSBtb2Rlcm4gZ2l0Lg0KDQpSb3Nz
 
