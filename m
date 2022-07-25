@@ -1,172 +1,216 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A32DC43334
-	for <webhook@archiver.kernel.org>; Mon, 25 Jul 2022 08:49:26 +0000 (UTC)
-Received: from EUR03-AM5-obe.outbound.protection.outlook.com
- (EUR03-AM5-obe.outbound.protection.outlook.com [40.107.3.43])
- by mx.groups.io with SMTP id smtpd.web11.25845.1658738957357571671
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F962C43334
+	for <webhook@archiver.kernel.org>; Mon, 25 Jul 2022 09:00:46 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web09.25996.1658739642724053767
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Jul 2022 01:49:18 -0700
+ Mon, 25 Jul 2022 02:00:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com
- header.s=selector2-armh-onmicrosoft-com header.b=0EAmEvpj;
- spf=pass (domain: arm.com, ip: 40.107.3.43, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=AoyuVKVzTWX19yD/E+R93oxoj97X2cQthNKbu8+ZhyntewIc2F0ULO4gz3cnEem9mdopLHhhWVQRywzCt1ADtUuksMYE9D6iuXCCjrjDpWmMXSJ04P4Lcekg3qajsFKLj5SAcKixbr3AD8g8jXZwvOhqtds7mHbaC5ZRg/sT/GQy9FuuA670B3SsJmgv8Kn/Mu+yXSPVuzzk8GcyDW1lJZPPWTXFj1h9skEDtaTwtZmJ/0vTM8vURDNuGM39H7e9+wm5myCGghaTOgiJZ+PBBJqSaEvJW9Xa7wll2JOU++JSZEi349TUakyVb/G/O7tcGL/o6cJTDykfln23UyVOfQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pldSQFERLKElIScQnE0NFjOVVgxscTWruKwplEo3tXM=;
- b=ksf9s5fgPQ20chNMet/IAvYBuEVn0OdlOqVwLv5G4+nAS5Pzk/g4gflv3wkyyx1Der+DFXiwln+p/huqSDJsnx66duM4NlOosdUwg9WaWC8YK/WPgHTdRCjTE+qOcCiYD/n1K8cyQ5wqz6gApGbECgMPHkJk1ECPR/tw9wRGj9wGXQ0Qy/H1nAzhGeVPHlYhTERDLYiQDqIlS+EuboGAAXAUJt7PMK8zNLiZ6e9KdaK6W57OQbC6Y6UUZkZcpb/LqgzBfCBMGHY88+KR5tfrrWZZUNEUcB/owoyBM/aLM22O1kZf0wqD82k2e2qXllFaCRkGc9AbS5yujdHuYiSC+w==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
- oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pldSQFERLKElIScQnE0NFjOVVgxscTWruKwplEo3tXM=;
- b=0EAmEvpjDsM4Jcekra3QMT/KKOk/dFCRi/Ck64ckOJQrTlXmk+ib3IPBGucEarPkRaDahv4k42tW4Qi3ihp2O66/ZGX8BVaJc/a/rF4CBiO2ivUlVymzu/6bDPaJkjLtdGCrJ7Q8QyAa4LCuszA702rEuMxrxw0JnUgd65K7KPU=
-Received: from DB6PR07CA0051.eurprd07.prod.outlook.com (2603:10a6:6:2a::13) by
- AM7PR08MB5445.eurprd08.prod.outlook.com (2603:10a6:20b:10d::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5458.18; Mon, 25 Jul 2022 08:49:11 +0000
-Received: from DBAEUR03FT016.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:6:2a:cafe::46) by DB6PR07CA0051.outlook.office365.com
- (2603:10a6:6:2a::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.7 via Frontend
- Transport; Mon, 25 Jul 2022 08:49:11 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DBAEUR03FT016.mail.protection.outlook.com (100.127.142.204) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5458.17 via Frontend Transport; Mon, 25 Jul 2022 08:49:11 +0000
-Received: ("Tessian outbound 6a3290ff1310:v123");
- Mon, 25 Jul 2022 08:49:11 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: c256d9325e94734f
-X-CR-MTA-TID: 64aa7808
-Received: from eef4ed96fd6e.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- D9A96C49-08BE-454C-8D44-0D3E94844FE1.1;
-	Mon, 25 Jul 2022 08:49:04 +0000
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id
- eef4ed96fd6e.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Mon, 25 Jul 2022 08:49:04 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kJqPvYp2MQnv420KNHzhAiU7pMK4sH40UbOWp+q9AlAjWjEtRxaf27Gxn2bqMRdl+KmkP/iGRdRaYFAUlzTHbsh0V4qmDnbtYluPu7KrLJQyC2QjmU6RM1tWt29EGwOMTJhJ66g0wUQSI94sC53DNz3WDw0cb80182uiIKLvqf5rygGKLjJ/jYMeYKUZ/ZtM3te7LEpQxR0jEXL16XuUpdPzTAn817N+eYTCOLcV7dTZ6CBOkYc3JlrkiIkVPFPt19FMUAPQ5jAeXa/MyCM86SkyfZz2VowTCiiWTOPo5zswjtJT6YtUli5yVqX9zSbhZbhMHX2ODYKRYP7fh46M5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pldSQFERLKElIScQnE0NFjOVVgxscTWruKwplEo3tXM=;
- b=Wux7qNcdl8TZa86yke/LRYbW3vnYa5s7Blqjz/VucTmSOOb0fS1fflRW8+EmN7Ot6ZPrOOsUtCXTTaRMdaZOBQitdKcIU2uEGSARa9tWHPDRbMqPFiJTACVqSXzuJXJ/mWh/QEatltBti5U/2Gljfar5WFkWqbXnzJKpeqfCH4b3ti/EpxKkmRYWLEsA5AcQRK4e9uSS64yjOaQuVozjrIPVMjIzHu2PqPlE3YSW+o5tvhVNnPMRczR9J/AlFJFRNDnnjfmsKiURS4xFB+xWEpgJHVWhMHikDA7ZoollMPoVRLcCMmN/vsjrEQtOEvAV5i1K7SFGRUtZ3JCXvhS8LQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pldSQFERLKElIScQnE0NFjOVVgxscTWruKwplEo3tXM=;
- b=0EAmEvpjDsM4Jcekra3QMT/KKOk/dFCRi/Ck64ckOJQrTlXmk+ib3IPBGucEarPkRaDahv4k42tW4Qi3ihp2O66/ZGX8BVaJc/a/rF4CBiO2ivUlVymzu/6bDPaJkjLtdGCrJ7Q8QyAa4LCuszA702rEuMxrxw0JnUgd65K7KPU=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by VI1PR0802MB2368.eurprd08.prod.outlook.com (2603:10a6:800:9d::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.19; Mon, 25 Jul
- 2022 08:49:01 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::fc06:20ca:a7cd:4d72]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::fc06:20ca:a7cd:4d72%8]) with mapi id 15.20.5458.024; Mon, 25 Jul 2022
- 08:49:01 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: Matt Johnston <matt@codeconstruct.com.au>
-CC: "daniel@qtec.com" <daniel@qtec.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "dagmcr@gmail.com"
-	<dagmcr@gmail.com>, "yi.zhao@windriver.com" <yi.zhao@windriver.com>
-Subject: Re: [OE-core][PATCH] dropbear: Enable x11 forwarding
-Thread-Topic: [OE-core][PATCH] dropbear: Enable x11 forwarding
-Thread-Index: AQHYnHEvvNNAK+Eu1kaZyL2k1c9JAq2IizcAgAXkQ4CAAF5nAA==
-Date: Mon, 25 Jul 2022 08:49:01 +0000
-Message-ID: <258A1233-0D8F-4A61-B976-AE5D4A1516C5@arm.com>
-References: <20220720194416.89631-1-daniel@qtec.com>
- <8B7B30C0-321F-4AB4-9105-894148FC9D9C@arm.com>
- <f8a73d8f5126aab9d1b9b2c145ac6be0edbf0967.camel@codeconstruct.com.au>
-In-Reply-To: 
- <f8a73d8f5126aab9d1b9b2c145ac6be0edbf0967.camel@codeconstruct.com.au>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3696.100.31)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-MS-Office365-Filtering-Correlation-Id: 5fe788a2-60ad-4601-edbe-08da6e1a8b72
-x-ms-traffictypediagnostic: 
-	VI1PR0802MB2368:EE_|DBAEUR03FT016:EE_|AM7PR08MB5445:EE_
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- 9YQmslqMM2+ZjS93DhGco6deZ/IwmVHkJFyTxRCFRC9GIgGpaqHO4y2TzXACQEBCWDAM0n0uJMBiHohH6fd5VN61mFti4FMvQEBuP0UjyDr69wCz30dZeqlecQrN6ejm+POb4Wn4Fepuvg4ElOCkUP1DFQu1iTi3emaR4420J9+r01WSC+ZBU4UnpuAmQmytfDvvjFVk2YM5uc1gZwi951FX0/6QQAmrA0wXv37mgmzIoxHkRYh9GMdoSUfNM+rK81NOND94ayt3wgmHOJb2Blt/b1w/nNpvv5YIfjkLKEK65CySlb/BA3D9V6DtFGFfsOCjiwf9I8mi9PNwZjlIHfFqm+k1KUemDogFR+euv9z7yuO0gMXlM2K7WVtyAGStDkF7aLz0dWP1aIbQRIzCmxxd7Oi6NbEdXV6mIiab7d9CRAI+lMDnK1WPdkKK0vzfE9aG+7Q7IQxgFVaBTU0jUmvNyr8iHGv96Eh+vjuseWY3Npowj4J9qJR+8wNCY5yNQ26S3pfAvUGQHVmr4qh0H54UPtyLKnXBO9TSSs3DUMp6XI2RI5f3gjCf+NSEmj8xkhv4kbU8n8qjjnAULjNDfBaFaey+g+TqmcTs9yhp9hkFpaQU4aSikcahq+v6zG69AZVgqHM/ZadZPDcxZo2rpahGCNFYHXhIgGTfYd+HnL8iYOIf8DOkl8EVYDBbu9pifHHThLTzZpN58uBRniy2lOimDJFRqyOkiL/lICTpEKlztX2p69MYsfrLGPH/CCJURvMtPjiSd7wA9v4XYK6kjA8aB0+zlKRrnEt3i/OH6ibvnqiT0mHcOeDkh6mIgT8UmAIttb9V33e95uY/wnCTAg==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(396003)(39860400002)(136003)(346002)(366004)(122000001)(38070700005)(33656002)(86362001)(38100700002)(8936002)(478600001)(6486002)(5660300002)(4744005)(316002)(66556008)(64756008)(66446008)(54906003)(76116006)(66946007)(71200400001)(6916009)(91956017)(4326008)(2616005)(186003)(41300700001)(2906002)(26005)(53546011)(6512007)(6506007)(36756003)(8676002)(66476007)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <AAD4C939A33EE24C8E6C0538B2BF6992@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=oADuUnZL;
+ spf=pass (domain: gmail.com, ip: 209.85.167.41,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-lf1-f41.google.com with SMTP id w15so8982530lft.11
+        for <openembedded-core@lists.openembedded.org>;
+ Mon, 25 Jul 2022 02:00:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nZ979Mr2gGgpsD5eT/wFiu2867iJmkJN8LfBQVpmuL4=;
+        b=oADuUnZLIMw09l++MFCWKNyjriPGyFyYjZn7r8+7bbOTnNZyQ8yd8h0sWA8lTuuHkC
+         YqukhJVbRzpg3bu6vqpvsulf7Dz3dkQY3auaHWgLFBNeluzxNBfaveKpH/mJDnEJEslW
+         L5YK2x5TRGD5oqs0w/pwzrdSHvaskyhUWN9cYuJnlbA4NaXYlfclgLU2vmzq6Zy7eFjA
+         M7YWp16tShcxXxGkToeT1LFWfqPAraMQpKFnlMIdeAjYhOdzExHskEJlNvdXUbQNioC7
+         oiXVd4lVQQH6h2oa6W9XoJXROy3lBNRzfdSsspdqA6Zq+JpkCSUmylEDAXFoctIYxI4r
+         9CAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nZ979Mr2gGgpsD5eT/wFiu2867iJmkJN8LfBQVpmuL4=;
+        b=LnCv1JJ+dT8SVo1VtS3phLDrApjziVB3P05kRS2DZjC2H9tYgk30mhb4glE4P3hf3k
+         eBemy7C2tkfWxTQ6YZEa3NdDn88iQRqoSRo7P9NuEooEZjFQmCy3QeqVpgYkHLjWARM5
+         dCOZlsrs5OTbBGj3MoqiEDHmvMRuG8JUDKQ7HBusy4jVWDY0GEtZej1h1Cqq24kDxZGc
+         FTttAy/RQiA+6wpxxifqRFINcdzT/9PTB5oTSvw2EzpN16tMRujXUSH8Q25RwLXtLhJS
+         5HoA8pXgQVl46UP3RCwtLl6UdiRGNs6Ee6EvxHXrZPeiD+hnKm0BYDtyQUbyUtakTj8v
+         U5hg==
+X-Gm-Message-State: AJIora+w91zp0VRDLjHBvUITxJ1+SSfxH8A/AVeB6OhZtw9R9DHWdHJ0
+	cVLr9ixqvtTCl+UNjPP3AyAo03MLOcHU+ia9t+U=
+X-Google-Smtp-Source: 
+ AGRyM1tnc+Lz9TPOigLyFRJecwWt4GrmtpR9oPjebey6LBVwYhz5TgfPaQLDjVoqaJRyTPkIDUplOPlL3WeqLxTbcHw=
+X-Received: by 2002:a05:6512:1088:b0:48a:845c:452f with SMTP id
+ j8-20020a056512108800b0048a845c452fmr3145851lfg.471.1658739640481; Mon, 25
+ Jul 2022 02:00:40 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0802MB2368
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DBAEUR03FT016.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	acaaa9e9-e27e-4ae3-bbc2-08da6e1a85a7
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	sgKqvV8ffW1C9i0CQZccnGeQGLFP3A+Gpf84Sgn8b2TYyiiSc5OfUNJTamY0mk47SeTR0GskEuvbW/Acg++Jsi/NMKeTrG7LnZtaRuz22Iw6Y0JXRzO9MRCWNsv+z/njBhMhGnk31F615EBI7Th6TIgQuwY/3e7mwrGSccFOjuA9cvkBJw5fGiYdanotPdOUIRNDXIelQkJydBy7N7HAEJqdR1Vfr3N+drHx79Tt5ba5VSC3XxuSX8OpzzIOMWQb9ls5DsctfRNSFywSR5ss0ogJEITVNum4JCrlJXKuMnZHMZxrH9nGb5XpPVubHmyw8b38dQRUxGgQF5ONuus12jF+2RgaaiDHCybb00qPvgTxF8U3siBfJ1L+i+OcHxLD9+gfPYQhGdT86nHrQJwAYnZ285IJvtW22WhHnqMaGKifK/IPhwtgedhE9jxkaM7MZBNWki6kXNWhF0lH7DzEvjgiU9d0Z8yX8bvd3ERLQehnusF9crezgQQ0p4sC96tSCIxOwOu1CYiAFmQ6ykrDtgTgY95N3b4VviBj6r9qMy9tpnAxrNzHrxgyF3IkfUpmLXGPMXVQ/RGqsvCRg4iENLPQmuVhwegCxOtBw89KqjNq4oVAn/bbYyBCxrE91g3cdUmM7iWRpwtXMbvUITDW2TQk6eoZ94VciVgHb08QPwqjLQag3NKgFN46350rNjNUYcfTXM8+GX0cZeBCcodXbM+pazj6P6d8MWkrF7i+dn91EplgLwcBFBuSFON/BMEXY5Mtfz2VktUA1OrQA5Qbxg==
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230016)(4636009)(396003)(39860400002)(136003)(376002)(346002)(46966006)(36840700001)(8936002)(70586007)(8676002)(6862004)(54906003)(82310400005)(70206006)(40480700001)(4326008)(5660300002)(6506007)(86362001)(36860700001)(6512007)(4744005)(2906002)(26005)(82740400003)(33656002)(81166007)(478600001)(6486002)(36756003)(336012)(2616005)(316002)(186003)(41300700001)(47076005)(356005)(107886003)(53546011);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2022 08:49:11.3960
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 5fe788a2-60ad-4601-edbe-08da6e1a8b72
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
- TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DBAEUR03FT016.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5445
+References: <20220722123124.390710-1-jose.quaresma@foundries.io>
+ <20220722123124.390710-2-jose.quaresma@foundries.io>
+ <a14df0caa6e07cbc042ac622758f97056608a2f8.camel@linuxfoundation.org>
+In-Reply-To: 
+ <a14df0caa6e07cbc042ac622758f97056608a2f8.camel@linuxfoundation.org>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Mon, 25 Jul 2022 10:00:29 +0100
+Message-ID: 
+ <CANPvuR=dCJpMFKSV_ZfhGDZ8WiwERdfePK7=4Ryqzsiyia+J_Q@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 2/3] archiver.bbclass: avoid kernel rebuilds
+ caused by the do_unpack_and_patch
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Ricardo Salveti <ricardo@foundries.io>, daiane.angolini@foundries.io,
+	Jose Quaresma <jose.quaresma@foundries.io>
+Content-Type: multipart/alternative; boundary="0000000000000bbc8b05e49d6b9d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Jul 2022 08:49:26 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Jul 2022 09:00:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168473
+ https://lists.openembedded.org/g/openembedded-core/message/168474
 
-T24gMjUgSnVsIDIwMjIsIGF0IDA0OjExLCBNYXR0IEpvaG5zdG9uIDxtYXR0QGNvZGVjb25zdHJ1
-Y3QuY29tLmF1PiB3cm90ZToNCj4gVGhlIHVwc3RyZWFtIG1ldGhvZCBmb3IgRHJvcGJlYXIgY29u
-ZmlndXJhdGlvbiBpcyAjZGVmaW5lIGVudHJpZXMgaW4gYQ0KPiBsb2NhbG9wdGlvbnMuaCBmaWxl
-LiAgZGVmYXVsdF9vcHRpb25zLmggc2hvdWxkIGJlIGxlZnQgdW50b3VjaGVkLiAgQWRkaW5nIGl0
-DQo+IHRvIENGTEFHUyBmb3IgY29uZmlndXJlIHdvdWxkIGFsc28gd29yaywgYXMgDQo+IA0KPiAu
-L2NvbmZpZ3VyZSBDRkxBR1M9Ii1PcyAtV2FsbCAtRERST1BCRUFSX1gxMUZXRD0x4oCdDQoNClBl
-cmZlY3QsIHRoYW5rcyBNYXR0IQ0KDQpSb3NzDQoNCg==
+--0000000000000bbc8b05e49d6b9d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
+domingo, 24/07/2022 =C3=A0(s) 10:53:
+
+> On Fri, 2022-07-22 at 13:31 +0100, Jose Quaresma wrote:
+> > The commit b8c5680 [1] add the funcion is_work_shared and at the same
+> > time change from kernel-yocto.bbclass to a more generic kernel.bbclass.
+> >
+> > This is also a fixup for the commit fed0ed8 [2] to avoid kernel rebuild=
+s
+> > because of the do_kernel_configme->do_unpack_and_patch task dependency.
+> >
+> > [1]
+> https://git.openembedded.org/openembedded-core/commit/?id=3Db8c5680a67888=
+d43540366a40bd0c501e926ac31
+> > [2]
+> https://git.openembedded.org/openembedded-core/commit/?id=3Dfed0ed82928e6=
+a7846fbad233ac657bd17bcefc7
+> >
+> > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> > ---
+> >  meta/classes/archiver.bbclass | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/classes/archiver.bbclass
+> b/meta/classes/archiver.bbclass
+> > index 5da369d422..9c605cc932 100644
+> > --- a/meta/classes/archiver.bbclass
+> > +++ b/meta/classes/archiver.bbclass
+> > @@ -610,6 +610,6 @@ python () {
+> >      # sstatesig.py:sstate_rundepfilter has special support that
+> excludes this dependency
+> >      # so that do_kernel_configme does not need to run again when
+> do_unpack_and_patch
+> >      # gets added or removed (by adding or removing archiver.bbclass).
+> > -    if bb.data.inherits_class('kernel-yocto', d):
+> > +    if bb.data.inherits_class('kernel', d):
+> >          bb.build.addtask('do_kernel_configme', 'do_configure',
+> 'do_unpack_and_patch', d)
+> >  }
+>
+> This doesn't look right since do_kernel_configme is only available in
+> kernel-yocto.bbclass, not from kernel.bbclass?
+>
+
+Right, thanks for reviewing and sorry for that. Please drop this patch.
+
+I don't even know how I got here because in fact we use
+kernel-yocto.bbclass in our kernel,
+when debugging the patch 3/3 and during blaming I made some confusion and
+concluded it wrongly.
+
+Jose
+
+
+>
+> Cheers,
+>
+> Richard
+>
+
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--0000000000000bbc8b05e49d6b9d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
+richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
+gt; escreveu no dia domingo, 24/07/2022 =C3=A0(s) 10:53:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">On Fri, 2022-07-22 at 13:31 +0100,=
+ Jose Quaresma wrote:<br>
+&gt; The commit b8c5680 [1] add the funcion is_work_shared and at the same<=
+br>
+&gt; time change from kernel-yocto.bbclass to a more generic kernel.bbclass=
+.<br>
+&gt; <br>
+&gt; This is also a fixup for the commit fed0ed8 [2] to avoid kernel rebuil=
+ds<br>
+&gt; because of the do_kernel_configme-&gt;do_unpack_and_patch task depende=
+ncy.<br>
+&gt; <br>
+&gt; [1] <a href=3D"https://git.openembedded.org/openembedded-core/commit/?=
+id=3Db8c5680a67888d43540366a40bd0c501e926ac31" rel=3D"noreferrer" target=3D=
+"_blank">https://git.openembedded.org/openembedded-core/commit/?id=3Db8c568=
+0a67888d43540366a40bd0c501e926ac31</a><br>
+&gt; [2] <a href=3D"https://git.openembedded.org/openembedded-core/commit/?=
+id=3Dfed0ed82928e6a7846fbad233ac657bd17bcefc7" rel=3D"noreferrer" target=3D=
+"_blank">https://git.openembedded.org/openembedded-core/commit/?id=3Dfed0ed=
+82928e6a7846fbad233ac657bd17bcefc7</a><br>
+&gt; <br>
+&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@found=
+ries.io" target=3D"_blank">jose.quaresma@foundries.io</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/classes/archiver.bbclass | 2 +-<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbc=
+lass<br>
+&gt; index 5da369d422..9c605cc932 100644<br>
+&gt; --- a/meta/classes/archiver.bbclass<br>
+&gt; +++ b/meta/classes/archiver.bbclass<br>
+&gt; @@ -610,6 +610,6 @@ python () {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 # sstatesig.py:sstate_rundepfilter has special sup=
+port that excludes this dependency<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 # so that do_kernel_configme does not need to run =
+again when do_unpack_and_patch<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 # gets added or removed (by adding or removing arc=
+hiver.bbclass).<br>
+&gt; -=C2=A0 =C2=A0 if bb.data.inherits_class(&#39;kernel-yocto&#39;, d):<b=
+r>
+&gt; +=C2=A0 =C2=A0 if bb.data.inherits_class(&#39;kernel&#39;, d):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.build.addtask(&#39;do_kernel_conf=
+igme&#39;, &#39;do_configure&#39;, &#39;do_unpack_and_patch&#39;, d)<br>
+&gt;=C2=A0 }<br>
+<br>
+This doesn&#39;t look right since do_kernel_configme is only available in<b=
+r>
+kernel-yocto.bbclass, not from kernel.bbclass?<br></blockquote><div><br></d=
+iv><div>Right, thanks=C2=A0for reviewing=C2=A0and sorry for that.=C2=A0Plea=
+se drop this patch.</div><div><br></div><div>I don&#39;t even know how I go=
+t here because in fact we use kernel-yocto.bbclass in our kernel,</div><div=
+>when debugging=C2=A0the patch 3/3 and during blaming=C2=A0I made some conf=
+usion and concluded it wrongly.</div><div><br></div><div>Jose</div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
+ Quaresma</div></div></div></div>
+
+--0000000000000bbc8b05e49d6b9d--
 
