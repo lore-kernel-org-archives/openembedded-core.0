@@ -1,216 +1,235 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <jay.shen.teoh@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F962C43334
-	for <webhook@archiver.kernel.org>; Mon, 25 Jul 2022 09:00:46 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web09.25996.1658739642724053767
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDB89C43334
+	for <webhook@archiver.kernel.org>; Mon, 25 Jul 2022 09:32:16 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by mx.groups.io with SMTP id smtpd.web12.26077.1658741526882534591
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Jul 2022 02:00:43 -0700
+ Mon, 25 Jul 2022 02:32:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=oADuUnZL;
- spf=pass (domain: gmail.com, ip: 209.85.167.41,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id w15so8982530lft.11
-        for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Jul 2022 02:00:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nZ979Mr2gGgpsD5eT/wFiu2867iJmkJN8LfBQVpmuL4=;
-        b=oADuUnZLIMw09l++MFCWKNyjriPGyFyYjZn7r8+7bbOTnNZyQ8yd8h0sWA8lTuuHkC
-         YqukhJVbRzpg3bu6vqpvsulf7Dz3dkQY3auaHWgLFBNeluzxNBfaveKpH/mJDnEJEslW
-         L5YK2x5TRGD5oqs0w/pwzrdSHvaskyhUWN9cYuJnlbA4NaXYlfclgLU2vmzq6Zy7eFjA
-         M7YWp16tShcxXxGkToeT1LFWfqPAraMQpKFnlMIdeAjYhOdzExHskEJlNvdXUbQNioC7
-         oiXVd4lVQQH6h2oa6W9XoJXROy3lBNRzfdSsspdqA6Zq+JpkCSUmylEDAXFoctIYxI4r
-         9CAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nZ979Mr2gGgpsD5eT/wFiu2867iJmkJN8LfBQVpmuL4=;
-        b=LnCv1JJ+dT8SVo1VtS3phLDrApjziVB3P05kRS2DZjC2H9tYgk30mhb4glE4P3hf3k
-         eBemy7C2tkfWxTQ6YZEa3NdDn88iQRqoSRo7P9NuEooEZjFQmCy3QeqVpgYkHLjWARM5
-         dCOZlsrs5OTbBGj3MoqiEDHmvMRuG8JUDKQ7HBusy4jVWDY0GEtZej1h1Cqq24kDxZGc
-         FTttAy/RQiA+6wpxxifqRFINcdzT/9PTB5oTSvw2EzpN16tMRujXUSH8Q25RwLXtLhJS
-         5HoA8pXgQVl46UP3RCwtLl6UdiRGNs6Ee6EvxHXrZPeiD+hnKm0BYDtyQUbyUtakTj8v
-         U5hg==
-X-Gm-Message-State: AJIora+w91zp0VRDLjHBvUITxJ1+SSfxH8A/AVeB6OhZtw9R9DHWdHJ0
-	cVLr9ixqvtTCl+UNjPP3AyAo03MLOcHU+ia9t+U=
-X-Google-Smtp-Source: 
- AGRyM1tnc+Lz9TPOigLyFRJecwWt4GrmtpR9oPjebey6LBVwYhz5TgfPaQLDjVoqaJRyTPkIDUplOPlL3WeqLxTbcHw=
-X-Received: by 2002:a05:6512:1088:b0:48a:845c:452f with SMTP id
- j8-20020a056512108800b0048a845c452fmr3145851lfg.471.1658739640481; Mon, 25
- Jul 2022 02:00:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220722123124.390710-1-jose.quaresma@foundries.io>
- <20220722123124.390710-2-jose.quaresma@foundries.io>
- <a14df0caa6e07cbc042ac622758f97056608a2f8.camel@linuxfoundation.org>
-In-Reply-To: 
- <a14df0caa6e07cbc042ac622758f97056608a2f8.camel@linuxfoundation.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Mon, 25 Jul 2022 10:00:29 +0100
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=DAJ5TYJW;
+ spf=pass (domain: intel.com, ip: 192.55.52.93,
+ mailfrom: jay.shen.teoh@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658741526; x=1690277526;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=T2ewIQUgmhuZGBgjbuQJssg5ajP5F5Ka2Mokabo4p5Q=;
+  b=DAJ5TYJW7OGLXOmSlxaLjRrfDxPjyGNkwK8GmFvsCAjgDngsUYX3a/Uh
+   Ju3sOkXACPfAFtr3qaul5y4fy4cHpDWV7HWlqkIhLJ7cDlbSWiefbWzIh
+   qiYFxu7VpNVFlLCO/OSB6bRQOajpXvIWCaMiimpRPNcdJxRzIHyxAhRiw
+   1hDRu3gLBFg7QKWKY+7iMLuOIIjzXAfxnnf9HC57byjoGY4sJkYKLB/2h
+   8kKIlHR4a5joNRHD+7uhdjeW/TdAHpeBqVxNzta9sa9x/ifDczIZahEpa
+   CKvXTrzp3uSfrEwdmX/E91QGEIyriRrw9dX2Tk36DUIi61wtRRYSD/mo9
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10418"; a="285205061"
+X-IronPort-AV: E=Sophos;i="5.93,192,1654585200";
+   d="scan'208";a="285205061"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jul 2022 02:32:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,192,1654585200";
+   d="scan'208";a="574981308"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+  by orsmga006.jf.intel.com with ESMTP; 25 Jul 2022 02:32:05 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Mon, 25 Jul 2022 02:32:05 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28 via Frontend Transport; Mon, 25 Jul 2022 02:32:05 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.28; Mon, 25 Jul 2022 02:32:04 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jhmfhfJ5yVRn88T/qxHVG1H+0REu77fT067JZcRKwEUkl12uRRdjcEI5axsz+PIIHlz36wwgzbEeqwVo2wu25EpkhQFehRF0OaWEqC0vI9EOPDerhzwxGJqqg+XR+LyM3cUNSl34XHZItBeMQbW7PUR8H2Z9XbnHP8ARy4Yp07VFfE3wfYvZQsHMtKqBTl5RkDKFQAL7v7TwqlqdinlGWad05gNG4HGBNraQoY3DEwKGVxo6jDuXeXFqDCBCetOKK9K6i0aYUar6hHDpxUERl2FTdRSzK+wk5rGW5x8Bv35tG/SE7QsbcwNAKp+xIV5Rw2hrt+TR/1h9e2qyNsSZ+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Hiu2PVsHfWn8DtlmdAd4XlhaJAgjU3stYoF8XzWFF5M=;
+ b=kB1eokoNhiiyU28WjUtaxM2F84MiIdG4HhtoNIQN9jkgorfzuJd2nxrWL7IPJrMVBgTet/L5qKjk977ObZVMluBfBeO9mT5dAo3RGPsFNSGDPTmD9VXRCA9oWlMzmpQanuQK4zNEdTeZUYKt/T9YDb6gLhIoQ1mdRchj21NOI4bMV+sI3Jv3Wi0MXHOZ+DC2kAaTY6tnnnjV9X9hDSRRXm9yusNYUoM2Fmj84J3BQsLFjlr1hCFRcVAOKdW9qziWCdz2O7zfY6oy1bZ0lSjpsMK/+wctQQTgibVHyHRcw+U468YhhzqOeMO2QExhaxEUSdNBKO2ee4EELDAMe++AFg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM5PR1101MB2348.namprd11.prod.outlook.com (2603:10b6:3:a8::16)
+ by CO1PR11MB4819.namprd11.prod.outlook.com (2603:10b6:303:91::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.20; Mon, 25 Jul
+ 2022 09:32:03 +0000
+Received: from DM5PR1101MB2348.namprd11.prod.outlook.com
+ ([fe80::4d41:d985:2a5f:16ed]) by DM5PR1101MB2348.namprd11.prod.outlook.com
+ ([fe80::4d41:d985:2a5f:16ed%5]) with mapi id 15.20.5458.024; Mon, 25 Jul 2022
+ 09:32:03 +0000
+From: "Teoh, Jay Shen" <jay.shen.teoh@intel.com>
+To: "qa-build-notification@lists.yoctoproject.org"
+	<qa-build-notification@lists.yoctoproject.org>,
+	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: RE: [qa-build-notification] QA notification for completed autobuilder
+ build (yocto-4.1_M2.rc1)
+Thread-Topic: [qa-build-notification] QA notification for completed
+ autobuilder build (yocto-4.1_M2.rc1)
+Thread-Index: AQHYm6UN4GgPfMhK5UO2M/zdEEJnyK2O2wAQ
+Date: Mon, 25 Jul 2022 09:32:02 +0000
 Message-ID: 
- <CANPvuR=dCJpMFKSV_ZfhGDZ8WiwERdfePK7=4Ryqzsiyia+J_Q@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 2/3] archiver.bbclass: avoid kernel rebuilds
- caused by the do_unpack_and_patch
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Ricardo Salveti <ricardo@foundries.io>, daiane.angolini@foundries.io,
-	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: multipart/alternative; boundary="0000000000000bbc8b05e49d6b9d"
+ <DM5PR1101MB2348800F1CD86C38EAEF804BBB959@DM5PR1101MB2348.namprd11.prod.outlook.com>
+References: 
+ <0101018217ea3768-11ff38ae-a6a9-44fa-a01f-495f642b5a1c-000000@us-west-2.amazonses.com>
+In-Reply-To: 
+ <0101018217ea3768-11ff38ae-a6a9-44fa-a01f-495f642b5a1c-000000@us-west-2.amazonses.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.6.500.17
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f6722dd9-8a92-468e-fcf3-08da6e20883e
+x-ms-traffictypediagnostic: CO1PR11MB4819:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ L9SkqlcgW57UBztTQiO6aZyKyeaYWqiP3yf05lukD/dH+SemiQf/sHCIuNcHxXkn9zr9sMDuNX76r9+0xZMnmZYSE6tNXnuDwW9Y3zHhtoeiG/SBhLiUzFr0dlwW17TOIpaOo7V1iVulcSyvd0e2kEBCkmLmEgOrL3H+eEYkoo5m/+SLLRX9XKMxLRidedRQYMIxlpceG+yAwClymirBwKOsE7hOO2KeSEKwwiio6b0wrtrRRMnb/vGMAY1nCZOywu1vOxRg+I3UjOBnM9mljLUYRWmvZnWCt/YqTkWZWCDPWu+3Wrhc7vCtspaqXO91BiQU46xZzIvJaS4yYywx9aS/cCf5+ZtKj2H67eiOrGAh+qh0JedO4dafKBa+rO0bkX07uG1PjKxG2N9Id6Nsuyr/lz+sxY5tEHsMMOeqjO4N7SECELC/ISk6QcMiQFmwATR89twkhGVeMcHs+2xsx5tcoYHhmoCXM3gF/2wXE46Ta1q9XiV/z0edJ/xrJs9BVSSdCa+D6ypGHCkudUl6k0ZHutHZbcuu6XDNZf48lYtaNT8sRB1INJLaG5E5yeUYa2rdcHbuPyzDBXhItvKoU8Q7Hwgn2IW1r/a1DsRmROpG8OCbgmZEIGSwB4AuvKYAk9X/MXENOjCD2wCJZvs3Tg3uP1tJUJBlWIOizaiTPQyBzo4MMYWqbrUEd7fk/6npKu3lOt2UnNbQAST63OcXgcfD000aQu9UfxTye5PqGeVTgVzqC+/RDdeD8JdOJKDr2IO9iAfccLk6062HyROCVsTRlG8NO1LhJSN/BOfq6qhC4ZW0Idj7DQ4GVxCdRMvFtEadP8lx1hSTGa+F9xe1HiUC9Q0etG8DgCoWpd8WdiNSes2/rG2lysQovUI3M4jZ
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR1101MB2348.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(366004)(39860400002)(376002)(136003)(396003)(346002)(76116006)(15650500001)(82960400001)(8936002)(38070700005)(52536014)(122000001)(5660300002)(64756008)(66446008)(66476007)(66946007)(38100700002)(66556008)(33656002)(83380400001)(316002)(41300700001)(966005)(8676002)(55016003)(2906002)(7696005)(110136005)(6506007)(53546011)(71200400001)(55236004)(26005)(478600001)(186003)(86362001)(9686003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?OwSP8K75zGS99O66lKAJTIUOOb6cApgGIdPzg8al4NomuOsWIhze0K5Gr5SR?=
+ =?us-ascii?Q?bQFrLB0gTX+coQboSEfmh70Qi6vlakAfQKbOTcTmQ6PA3GNsZbM2JzxZP1ZT?=
+ =?us-ascii?Q?7pJ8pTBmVRsKjeNs2To6d/EVh2Bt+UCbTgRcTDXh42Tb2L9xxuMhh0lZCMGB?=
+ =?us-ascii?Q?cKh26+VxM8a5WA4BQ97Ytw9V5dYCdJ2uVN/60dBOO1dTXf8xkDEN0qXNP0bO?=
+ =?us-ascii?Q?wB0rvrfXQvp3QOmroiXp3rRETWKH8VIYvG635ccnkB4h1THBHEatBnlpdmCD?=
+ =?us-ascii?Q?NdStHtzy9qwbQtNYu6U6XrX7/8gdGbdytQbg6Snn3BxP+lyRWq8owZFNalac?=
+ =?us-ascii?Q?tWdXgHSZidjA3hl3pkOFU1ipxQVItTXTBTJ1YuOx3GTl4l9K9c7PqeWFr+Al?=
+ =?us-ascii?Q?EdmLUWDNYIQ9gL8cNKsT8pPlrwmGf2XEicYxiAXoEC3QrOlIBK4NlvlKPc8v?=
+ =?us-ascii?Q?sIACVGuY5F6gJJasW6LKJ4ylpmpYVDj+RQO0NbnwKOPb9F2NhV5khhYi1cz7?=
+ =?us-ascii?Q?PzbLT3BlBdZ/YFhXTHL99yip9tok4+/1G2Diq3xRuUUZdX+57KGWYYESRByT?=
+ =?us-ascii?Q?H01e9ViZISMoDte2E3KY6yn39fHiGwGhOg7nVGVNaUsSn+3Ks5o+2x5gSwoJ?=
+ =?us-ascii?Q?4WHbfr0guQHxGkIUzmMF9pUAFbH/LYz/Mf9ZAkfuWVzuxl5Dd8e+ckj5/PDU?=
+ =?us-ascii?Q?a+c3XQWv6Wc4yiqd7Z+Ih9LS5EoOxTvrFPCbzahLYudAFUp6lagMnL6sozso?=
+ =?us-ascii?Q?e78GWQ6q/+sLMu3i3W0/dubDCNYGNTfstiMKkJZCOrwMWutKtvVEHDMEQu5s?=
+ =?us-ascii?Q?fyEhTwzxzQBgcj0qemVDMaWFN8ynrXS03515epQXxklZXZ48A8cPIYC1Byzt?=
+ =?us-ascii?Q?u4OeXwaVONG4KWyYeWFY/9IViDvh9SeFwVx0pP4w9Wb0nSjBLIzTbr7z8RJm?=
+ =?us-ascii?Q?WWysCM4GSE1viGaWq6ylKvdzJKAaqYft2DIVn5vXz9BCvNRY7NRiRnw6J29q?=
+ =?us-ascii?Q?drhSE5PXd22Hqu+zaoivh9bpDlt2cj89QM/Kmm8ytJZLco8CRMLTVYq3ngQG?=
+ =?us-ascii?Q?OkRAdaXo3SoQuPmi0IKdXc9zr8pjoiVyVUaaNBYr+g/bzieVDPjZJGfQE/qa?=
+ =?us-ascii?Q?sDRxa/VPX5c4Phfvc2dsEHiM2kwHUoxnc7qOxuJIKZfvvuxFAsOeF7KwFlML?=
+ =?us-ascii?Q?tluA11QCqWNKQPTOqORjQdrkQ6ZUoTwhr5++ogRlg45eXoBpjWVZ4PQbm6Hq?=
+ =?us-ascii?Q?m28p2TvHZJqPNvhXaNLHl7zzxECIY+mDUDaTey6zJd8Em9PZA0M09R8hoTXN?=
+ =?us-ascii?Q?8iu0CaQ1d22ZiUiNjLqX4kkSmOpG0VwVFzMvZEy1N+dqbaIMjdgvvoCRxpmR?=
+ =?us-ascii?Q?mQyB+reMWhRyKEoP34nge+k7AAOtbQXFce7g96KxX/Qy2P4eenL5s1GQ/paM?=
+ =?us-ascii?Q?G6cGaQGC5dSoiHiJIF3FhxoPLM4F0Y92Ou7lEz7WL1tE+nmjrZCT7v9HWv/p?=
+ =?us-ascii?Q?e4xClYuxMxt0qtvradb4YO0teL4XZm+R4NOH8VFT4zSLlBxEQrDJJr3hKu8n?=
+ =?us-ascii?Q?agJpN8z0JXOVq89nlzYd2yNDbW4crkiGFItJsPfO?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: 
+ DM5PR1101MB2348.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ f6722dd9-8a92-468e-fcf3-08da6e20883e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jul 2022 09:32:02.9715
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 
+ lbaIlUqYJxFckZuFLEwmoht2G+zRtXMR2/+eM62vNZSUHxwMCIKkelrVZfnmz48Ahx76nfLDyXX+pFGqmrau6g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4819
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Jul 2022 09:00:46 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Jul 2022 09:32:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168474
+ https://lists.openembedded.org/g/openembedded-core/message/168475
 
---0000000000000bbc8b05e49d6b9d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hello everyone,
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
-domingo, 24/07/2022 =C3=A0(s) 10:53:
+This is the full report for yocto-4.1_M2.rc1: =20
+https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
+h=3Dintel-yocto-testresults
 
-> On Fri, 2022-07-22 at 13:31 +0100, Jose Quaresma wrote:
-> > The commit b8c5680 [1] add the funcion is_work_shared and at the same
-> > time change from kernel-yocto.bbclass to a more generic kernel.bbclass.
-> >
-> > This is also a fixup for the commit fed0ed8 [2] to avoid kernel rebuild=
-s
-> > because of the do_kernel_configme->do_unpack_and_patch task dependency.
-> >
-> > [1]
-> https://git.openembedded.org/openembedded-core/commit/?id=3Db8c5680a67888=
-d43540366a40bd0c501e926ac31
-> > [2]
-> https://git.openembedded.org/openembedded-core/commit/?id=3Dfed0ed82928e6=
-a7846fbad233ac657bd17bcefc7
-> >
-> > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-> > ---
-> >  meta/classes/archiver.bbclass | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/classes/archiver.bbclass
-> b/meta/classes/archiver.bbclass
-> > index 5da369d422..9c605cc932 100644
-> > --- a/meta/classes/archiver.bbclass
-> > +++ b/meta/classes/archiver.bbclass
-> > @@ -610,6 +610,6 @@ python () {
-> >      # sstatesig.py:sstate_rundepfilter has special support that
-> excludes this dependency
-> >      # so that do_kernel_configme does not need to run again when
-> do_unpack_and_patch
-> >      # gets added or removed (by adding or removing archiver.bbclass).
-> > -    if bb.data.inherits_class('kernel-yocto', d):
-> > +    if bb.data.inherits_class('kernel', d):
-> >          bb.build.addtask('do_kernel_configme', 'do_configure',
-> 'do_unpack_and_patch', d)
-> >  }
->
-> This doesn't look right since do_kernel_configme is only available in
-> kernel-yocto.bbclass, not from kernel.bbclass?
->
+=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
+No high milestone defects.
 
-Right, thanks for reviewing and sorry for that. Please drop this patch.
+new issue found=20
 
-I don't even know how I got here because in fact we use
-kernel-yocto.bbclass in our kernel,
-when debugging the patch 3/3 and during blaming I made some confusion and
-concluded it wrongly.
+Bug 14865 - systemd-fstab-generator[11101]: Failed to create unit file /run=
+/systemd/generator/-.mount, as it already exists.
 
-Jose
+=3D=3D=3D=3D=3D=3D=3D Bugs =3D=3D=3D=3D=3D=3D=3D=3D
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14865
 
+Regards,
+Jay
 
->
-> Cheers,
->
-> Richard
->
+> -----Original Message-----
+> From: qa-build-notification@lists.yoctoproject.org <qa-build-
+> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
+> Sent: Wednesday, 20 July, 2022 3:23 AM
+> To: yocto@lists.yoctoproject.org
+> Cc: qa-build-notification@lists.yoctoproject.org
+> Subject: [qa-build-notification] QA notification for completed autobuilde=
+r
+> build (yocto-4.1_M2.rc1)
+>=20
+>=20
+> A build flagged for QA (yocto-4.1_M2.rc1) was completed on the autobuilde=
+r
+> and is available at:
+>=20
+>=20
+>     https://autobuilder.yocto.io/pub/releases/yocto-4.1_M2.rc1
+>=20
+>=20
+> Build hash information:
+>=20
+> bitbake: b171aa45fb8518dcfbba315b303a4fe9bf2180c6
+> meta-agl: b5044156fc318a4881e766513871611a560170be
+> meta-arm: 6481a473d84f84530e0c48d56acdc185919869b6
+> meta-aws: 2f5075673489ee2d3fc318f6626d45145f65d5ea
+> meta-gplv2: d2f8b5cdb285b72a4ed93450f6703ca27aa42e8a
+> meta-intel: de5851890f9a268621515193d2ad84f8359fbe24
+> meta-mingw: 205e9d942bc8ea1643a8d27b79e773625d173c00
+> meta-openembedded: 0c2e416567351d55ae45e67513be6f20aa754d4b
+> meta-virtualization: 7ec4b4746d9d76062a868ea77818a150ddd53c54
+> oecore: b4f1b78aef77198f26a8ef9e105fa690cc12e836
+> poky: 899979696f68ff4414cebf7782b37d7bae27144b
+>=20
+>=20
+>=20
+> This is an automated message from the Yocto Project Autobuilder
+> Git: git://git.yoctoproject.org/yocto-autobuilder2
+> Email: richard.purdie@linuxfoundation.org
+>=20
+>=20
+>=20
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#164): https://lists.yoctoproject.org/g/qa-build-
+> notification/message/164
+> Mute This Topic: https://lists.yoctoproject.org/mt/92490173/4899463
+> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
+> notification/leave/10406805/4899463/715389995/xyzzy
+> [jay.shen.teoh@intel.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---0000000000000bbc8b05e49d6b9d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
-richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
-gt; escreveu no dia domingo, 24/07/2022 =C3=A0(s) 10:53:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">On Fri, 2022-07-22 at 13:31 +0100,=
- Jose Quaresma wrote:<br>
-&gt; The commit b8c5680 [1] add the funcion is_work_shared and at the same<=
-br>
-&gt; time change from kernel-yocto.bbclass to a more generic kernel.bbclass=
-.<br>
-&gt; <br>
-&gt; This is also a fixup for the commit fed0ed8 [2] to avoid kernel rebuil=
-ds<br>
-&gt; because of the do_kernel_configme-&gt;do_unpack_and_patch task depende=
-ncy.<br>
-&gt; <br>
-&gt; [1] <a href=3D"https://git.openembedded.org/openembedded-core/commit/?=
-id=3Db8c5680a67888d43540366a40bd0c501e926ac31" rel=3D"noreferrer" target=3D=
-"_blank">https://git.openembedded.org/openembedded-core/commit/?id=3Db8c568=
-0a67888d43540366a40bd0c501e926ac31</a><br>
-&gt; [2] <a href=3D"https://git.openembedded.org/openembedded-core/commit/?=
-id=3Dfed0ed82928e6a7846fbad233ac657bd17bcefc7" rel=3D"noreferrer" target=3D=
-"_blank">https://git.openembedded.org/openembedded-core/commit/?id=3Dfed0ed=
-82928e6a7846fbad233ac657bd17bcefc7</a><br>
-&gt; <br>
-&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@found=
-ries.io" target=3D"_blank">jose.quaresma@foundries.io</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/archiver.bbclass | 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbc=
-lass<br>
-&gt; index 5da369d422..9c605cc932 100644<br>
-&gt; --- a/meta/classes/archiver.bbclass<br>
-&gt; +++ b/meta/classes/archiver.bbclass<br>
-&gt; @@ -610,6 +610,6 @@ python () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 # sstatesig.py:sstate_rundepfilter has special sup=
-port that excludes this dependency<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 # so that do_kernel_configme does not need to run =
-again when do_unpack_and_patch<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 # gets added or removed (by adding or removing arc=
-hiver.bbclass).<br>
-&gt; -=C2=A0 =C2=A0 if bb.data.inherits_class(&#39;kernel-yocto&#39;, d):<b=
-r>
-&gt; +=C2=A0 =C2=A0 if bb.data.inherits_class(&#39;kernel&#39;, d):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.build.addtask(&#39;do_kernel_conf=
-igme&#39;, &#39;do_configure&#39;, &#39;do_unpack_and_patch&#39;, d)<br>
-&gt;=C2=A0 }<br>
-<br>
-This doesn&#39;t look right since do_kernel_configme is only available in<b=
-r>
-kernel-yocto.bbclass, not from kernel.bbclass?<br></blockquote><div><br></d=
-iv><div>Right, thanks=C2=A0for reviewing=C2=A0and sorry for that.=C2=A0Plea=
-se drop this patch.</div><div><br></div><div>I don&#39;t even know how I go=
-t here because in fact we use kernel-yocto.bbclass in our kernel,</div><div=
->when debugging=C2=A0the patch 3/3 and during blaming=C2=A0I made some conf=
-usion and concluded it wrongly.</div><div><br></div><div>Jose</div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
-
---0000000000000bbc8b05e49d6b9d--
 
