@@ -1,159 +1,103 @@
-Return-Path: <rustyhowell@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC33BC00144
-	for <webhook@archiver.kernel.org>; Tue, 26 Jul 2022 21:13:35 +0000 (UTC)
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
- [209.85.166.175])
- by mx.groups.io with SMTP id smtpd.web10.12422.1658870012919801503
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19AACC00144
+	for <webhook@archiver.kernel.org>; Tue, 26 Jul 2022 21:34:16 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web11.12558.1658871255081552748
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 14:13:33 -0700
+ Tue, 26 Jul 2022 14:34:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=jPpUwJjg;
- spf=pass (domain: gmail.com, ip: 209.85.166.175,
- mailfrom: rustyhowell@gmail.com)
-Received: by mail-il1-f175.google.com with SMTP id 1so7877847ill.11
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fdfhP/Be;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47,
+ mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id c22so9479933wmr.2
         for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 14:13:32 -0700 (PDT)
+ Tue, 26 Jul 2022 14:34:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cVmYkokvpy/yJwFTlfvv3xd44Hf1lXpDpWihBOMol1Q=;
-        b=jPpUwJjg1clDpL6JO5rWo6Yu+HaIaNC2HcHQYJvgLZsclXcNt3Xn4Wqr/19NafueRQ
-         in+ENL7zPuKaPi5OQQfnQUYRbzypYmNEuPPIAfleBZOCi3J+KfQ23F62WyMxuyQJ/1Ef
-         hkteb42QrlH8IGDNqTIjTrNjQite5UaK3Zw9QHBjn22I+d/nFklhxeVuWOtyNgNADSXc
-         cnvOUBju+VdTo4a0kGhxnIISDgvli16ktx6H+cW0bc36cMcI81uZFYC/SxRxjd+T2gjz
-         wEQQv14jsLtc15cR+DD3jx3GpZRfPFdMv+3i8Lh+oBCQEIzmJHOVmpe894DO0LIiLseG
-         ZJXw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=aQWPC1uQpNB+fHdc24FFvmvg4R5RX4gfmfn6c91r7eE=;
+        b=fdfhP/BeuVaFVwG1AFzL3Ggbv2ZEcoVKQoaoiRDYKhmzDtG7QDEOCvsXA0RkvyCEK8
+         xN9UWdM4FJaHN7fZXfO42nX3vICQLVr2XEIgjPGgCeAxjSnb21MTuPch+5LzF6O/zjrb
+         pmXoHAFYgTRUVlm8vM2AOrTk//3qY8miSMu7c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cVmYkokvpy/yJwFTlfvv3xd44Hf1lXpDpWihBOMol1Q=;
-        b=O12h89DJ7i3ahds1jK4gDYoagcrNdI45WCn5GBqkvrVbxSIkY8NPuazv9kbhLgEGmm
-         6kvAhczdz4CrwTdrSGYfib3OB468bFvDEWFBlr1b/fw5DUoB0U2wrFfAUUH6Jivvmuj0
-         BRYul+BUbTgy6y3WBr8QjnL97nAzOxd4qfXNGpfcJUeM+f5Lul9WDp50Od7JGRvBfaDC
-         ODIBjaVB/a2Q6xzyUHGnoe0M/F0tNmLeiwKHT49FfCPTOzXqAfz5qShkrEkB7JaSTgRv
-         H+9R4esQYRig8fjnpjMT0X1lPQpisQWmeXsawAZ3TRR/akuFVWF2BM9hcj37n5YrWbzJ
-         xp2Q==
-X-Gm-Message-State: AJIora9fEydV0syotSQmOrZJa7UayrSFa4Depgn9JVE4+xYckNxNTly2
-	2/leswsKvCG8Yc6BBECDMDUA2WzDLsE=
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=aQWPC1uQpNB+fHdc24FFvmvg4R5RX4gfmfn6c91r7eE=;
+        b=Zpb9EewymvveLTQqH5247KqHySkZe+SJMvzNGlG/KeOGp2bEsS2aa9SR6qx8xkCaEN
+         9FQt/1Zahg/v2ckQqymuU9u4iA6dl/zk2Q5Ai+dp80pYaotZ6yiOmaBaCEhjsCLArXSp
+         iorM+KD6vRQ6WE54XK2fuUj/xKn1zFl9RsLKPlIr0VkQk7pypRrijwKqjgPCz6JvoRY0
+         ShTk4xXIbIkS61uO864pT7UQIPD25PhN9tFRr78BlE3TFUDxsOYpQhePs9w3YBTptxG1
+         B4RkNDABKku8smzbizyA/OOEHTw4nCEH1/WVdEiVuIrzRQNMhQBV3fqlen1ScDTEgRWt
+         GPhQ==
+X-Gm-Message-State: AJIora/hbUhhOPtDyOI0hlElFEdd4fe0ITj2n9T0QnVPturyug8oPZ0X
+	t+Lv1GZjJT4/aoVarF1kSO5cFw==
 X-Google-Smtp-Source: 
- AGRyM1umw9OrgNOx9Zze/BarvyawAuS/j3OxYG/fTlclk6YuuJ2Qcj6Fm3zBea9blWCXs5pSGXiHmA==
-X-Received: by 2002:a05:6e02:188c:b0:2dc:a00:3222 with SMTP id
- o12-20020a056e02188c00b002dc0a003222mr7039458ilu.43.1658870011863;
-        Tue, 26 Jul 2022 14:13:31 -0700 (PDT)
-Received: from sirius.control4.com ([2605:a601:a937:b200:4ab8:8bba:4dee:8b77])
+ AGRyM1vzJCea8dpBXWDYo8T89MYjuW6vjcRN+c1pL6mdbMclk8RoPuRDoa2ciwPetNxPISDyhYmkCQ==
+X-Received: by 2002:a05:600c:3510:b0:3a3:34e7:cfc8 with SMTP id
+ h16-20020a05600c351000b003a334e7cfc8mr766366wmq.164.1658871253297;
+        Tue, 26 Jul 2022 14:34:13 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:10da:2f6d:ad7e:fd?
+ ([2001:8b0:aba:5f3c:10da:2f6d:ad7e:fd])
         by smtp.gmail.com with ESMTPSA id
- y13-20020a02730d000000b0033f1fb23d9asm7229590jab.137.2022.07.26.14.13.31
+ n6-20020adfe346000000b0021d7ad6b9fdsm15434077wrj.57.2022.07.26.14.34.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jul 2022 14:13:31 -0700 (PDT)
-From: Rusty Howell <rustyhowell@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Rusty Howell <rustyhowell@gmail.com>
-Subject: [PATCH] debian packaging: set md5sums for conffiles
-Date: Tue, 26 Jul 2022 15:13:28 -0600
-Message-Id: <20220726211328.2122681-1-rustyhowell@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 26 Jul 2022 14:34:12 -0700 (PDT)
+Message-ID: 
+ <17b35aa4c6c3c8f0e1dcb309e7897048ec5f8510.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/1] lame: Remove hardcoded rpaths
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paulo Neves <ptsneves@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 26 Jul 2022 22:34:11 +0100
+In-Reply-To: <20220726202337.2141895-1-ptsneves@gmail.com>
+References: <20220726202337.2141895-1-ptsneves@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Jul 2022 21:13:35 -0000
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Jul 2022 21:34:16 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168515
+ https://lists.openembedded.org/g/openembedded-core/message/168516
 
-Currently in an image created with debian package management, dpkg is missing the md5sums in
-/var/lib/dpkg/status for files designated as conffiles.  They are just listed as "newconffile",
-which is an intermediate state when dpkg installs a package with an conf file.  Also, when the
-device first boots the script /usr/sbin/run-postinsts does not cause /var/lib/dpkg/status to update
-those hashes either.
+On Tue, 2022-07-26 at 22:23 +0200, Paulo Neves wrote:
+> Due to hardcoded rpaths tmpdir contamination happened on lame
+> executable. This commit hot patches libtool to not hardcode
+> the .libs directory in the rpath. This solves [YOCTO #14863]
+>=20
+> Signed-off-by: Paulo Neves <ptsneves@gmail.com>
+> ---
+>  meta/recipes-multimedia/lame/lame_3.100.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/meta/recipes-multimedia/lame/lame_3.100.bb b/meta/recipes-mu=
+ltimedia/lame/lame_3.100.bb
+> index 5b42795f4e..2d9bd9d29f 100644
+> --- a/meta/recipes-multimedia/lame/lame_3.100.bb
+> +++ b/meta/recipes-multimedia/lame/lame_3.100.bb
+> @@ -24,3 +24,7 @@ FILES:${PN} =3D "${bindir}/lame"
+>  FILES:libmp3lame =3D "${libdir}/libmp3lame.so.*"
+>  FILES:libmp3lame-dev =3D "${includedir} ${libdir}/*"
+>  FILES:${PN}-dev =3D ""
+> +do_compile:prepend() {
+> +    # Stop libtool adding RPATHs
+> +    sed -i -e 's|hardcode_libdir_flag_spec=3D".*"|hardcode_libdir_flag_s=
+pec=3D""|' ${B}/libtool
+> +}
 
-The problem here is that when using a package feed, all the conf files are listed as "newconffile",
-which will indicate to dpkg to replace them all on the first update.  dpkg will not follow the rules for
-confold, confnew, confdef.
----
- meta/lib/oe/package_manager/deb/__init__.py | 42 +++++++++++++++++++++
- meta/lib/oe/package_manager/deb/rootfs.py   |  2 +
- 2 files changed, 44 insertions(+)
+Any idea why lame has this issue but we don't see it with anything else
+using libtool? I'm wondering if there is an underlying cause we should
+look at?
 
-diff --git a/meta/lib/oe/package_manager/deb/__init__.py b/meta/lib/oe/package_manager/deb/__init__.py
-index 2ee68fefb1..fabb955558 100644
---- a/meta/lib/oe/package_manager/deb/__init__.py
-+++ b/meta/lib/oe/package_manager/deb/__init__.py
-@@ -3,6 +3,7 @@
- #
- 
- import re
-+import glob
- import subprocess
- from oe.package_manager import *
- 
-@@ -216,6 +217,47 @@ class DpkgPM(OpkgDpkgPM):
- 
-         os.rename(status_file + ".tmp", status_file)
- 
-+    def set_conffile_hashes(self):
-+        """
-+        This function will populate the md5sums for all the conffiles listed in /var/lib/dpkg/status
-+        """
-+        status_file = self.target_rootfs + "/var/lib/dpkg/status"
-+
-+        with open(status_file, "r") as sf:
-+            with open(status_file + ".tmp", "w+") as tmp_sf:
-+                status = sf.read()
-+
-+                conffiles = glob.glob(self.target_rootfs + "/var/lib/dpkg/info/*.conffiles")
-+                for cf in conffiles:
-+                    fname = os.path.basename(cf)
-+                    pkg = fname.split('.')[0]
-+
-+                    bb.note("Populating md5sums for pkg %s" % pkg)
-+                    conffiles = "%s/var/lib/dpkg/info/%s.conffiles" % (self.target_rootfs, pkg)
-+                    md5sums = "%s/var/lib/dpkg/info/%s.md5sums" % (self.target_rootfs, pkg)
-+                    if os.path.exists(conffiles) and os.path.exists(md5sums):
-+                        conf_hashes = {}
-+                        with open(md5sums, "r") as md5s:
-+                            for line in md5s.read().split('\n'):
-+                                m = re.match(r"^([a-f0-9]+)\s+(\S+)", line)
-+                                if m:
-+                                    hash_ = m.group(1)
-+                                    fpath = m.group(2)
-+                                    if not fpath.startswith('/'):
-+                                        fpath = '/' + fpath
-+                                    conf_hashes[fpath] = hash_
-+
-+                        with open(conffiles, "r") as cf:
-+                            for fpath in cf.read().split('\n'):
-+                                hash_ = conf_hashes.get(fpath, None)
-+                                if hash_:
-+                                    status = re.sub("%s newconffile" % fpath, "%s %s" % (fpath, hash_), status)
-+
-+
-+                tmp_sf.write(status)
-+
-+        os.rename(status_file + ".tmp", status_file)
-+
-     def run_pre_post_installs(self, package_name=None):
-         """
-         Run the pre/post installs for package "package_name". If package_name is
-diff --git a/meta/lib/oe/package_manager/deb/rootfs.py b/meta/lib/oe/package_manager/deb/rootfs.py
-index 8fbaca11d6..06e99158de 100644
---- a/meta/lib/oe/package_manager/deb/rootfs.py
-+++ b/meta/lib/oe/package_manager/deb/rootfs.py
-@@ -186,6 +186,8 @@ class PkgRootfs(DpkgOpkgRootfs):
- 
-         execute_pre_post_process(self.d, deb_post_process_cmds)
- 
-+        self.pm.set_conffile_hashes()
-+
-         if self.progress_reporter:
-             self.progress_reporter.next_stage()
- 
--- 
-2.25.1
+Cheers,
 
+Richard
 
