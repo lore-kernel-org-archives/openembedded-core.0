@@ -2,57 +2,59 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1B2FC00144
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFFCBC3F6B0
 	for <webhook@archiver.kernel.org>; Tue, 26 Jul 2022 14:24:23 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web12.7275.1658845457546019442
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web08.7387.1658845458491939290
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 07:24:17 -0700
+ Tue, 26 Jul 2022 07:24:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DTsmN5Yk;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43,
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=a6LwmFiA;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44,
  mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id h9so20428916wrm.0
+Received: by mail-wm1-f44.google.com with SMTP id
+ c187-20020a1c35c4000000b003a30d88fe8eso11431221wma.2
         for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 07:24:17 -0700 (PDT)
+ Tue, 26 Jul 2022 07:24:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=t0ziEwlbPtSSA68On0TM05PIVtcwVvRlfV2RTtTSV4U=;
-        b=DTsmN5YkGYWxmrCX64cKs+66Ne5nY9mhpAvrzNszMAmlOi5REoKFiA/IA21J3skXSI
-         Z4GwE6lJ5ehn/x90lBExHpBJ0LtBaAS71sThaK653R2S2Y+/+TNsl0/tGsMktR03YuMa
-         YulzldfDjfENMMuUGRBGvl+fW+jshKAs6R4PM=
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=C8820Pq+ObVwtPhiafMUeE7J8q29sOlj3GJlJaCCEkk=;
+        b=a6LwmFiA7BT67vtYVwiIJ7cAwq/I3drJ8ek2USxpHtCXVtVH65R2ltVANieWBuMy52
+         dbqY1G5ws0Dc85ELZbPLdpJsHvsyE0s+LaGPvtbYoGUi9tm2W1ze8ReFf3nHcdIyQRMG
+         rmf4QUSrnFj13AjvC96u+78gjU4ZjmQIIh9Lo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=t0ziEwlbPtSSA68On0TM05PIVtcwVvRlfV2RTtTSV4U=;
-        b=S6hFxXsC6McDUDebJisPiIbh8Xt/iaUarOsnMGnzclLJfP+SXxU0oEr6MmpqQ3oKYy
-         24bvReW5tUsBTPOvVKG1CagtDpNmSVCWMZFtOrrJ4q9jCJ9ClUO5tlUud/U3lUac8Dh/
-         56fIbFDzyGc0+bo8a0cxEjM9NY0LgJDWtNpndUp6C21RC3wmzJEjRh+DUc/22lEcmLmF
-         NbdxGWaTOkmuShx7QUvMS7N9V45wXZxC6+7HIzongJIK6PjMqM6/ewodqhVvI+2zqhM4
-         RH3oLa34etJmeYE1WMWuN2B8PpI4AjfofKl6Zrw667CUkAqUfE1/RUErx4Qa7z/BJMYY
-         BCSw==
-X-Gm-Message-State: AJIora9GCZhVXusHOAlWb7SkDeAC1lTWTlUvHB3UYoP0t90OlqqrTtmp
-	PUKUtdinjb9+7Vk6kgybfE2MNtSbqUgCZQ==
+        bh=C8820Pq+ObVwtPhiafMUeE7J8q29sOlj3GJlJaCCEkk=;
+        b=P6XE5ikyyyhTe4oqunOFfQO3PNAXZXNq0C/MeWnofO5XJe9hLTQljYgMlznzaCWXv5
+         sgAdTJXZ5iwfJjVoX1Gljv0XA0lTASWWTrXgdTJaBRHs+ZeLZ+lXFfADQXfqQvROBwHv
+         o9QYPh2qiAHYLjUk9tGMlw6jhfxhYAKL/ueQ+RvsiN4+CX4s71tZ75F+xVpWqsZTThNj
+         VaJNr3x7MdY3gIfl809ZRC1s97YFHvgC4XP2PHRTnQIrlqHZVJPmKI2c2LLa7BY4W/EK
+         HTeWmTxgXaNkzISXXBTlSBMafi9kLoyZc2/AwrdUp+V+tzv+y2skq8nBrjGUZdCCVVsl
+         +Luw==
+X-Gm-Message-State: AJIora9IoRiaaJq1IiFb0VnLvDmCHmtHzNW0UPJ6x/NYAi/duEHGmU+F
+	kr1MsC24EjYn0ZehuAYhxya5nVlU+rR2lg==
 X-Google-Smtp-Source: 
- AGRyM1uKcrsnRmMky5aHUtvh8G9/0RMhOKyrw1H9GB1b6cy57AcyrfX0SFEmR4/dj2wOjps63Gu5zg==
-X-Received: by 2002:adf:fe8d:0:b0:21e:bd7d:da9f with SMTP id
- l13-20020adffe8d000000b0021ebd7dda9fmr414018wrr.144.1658845455466;
-        Tue, 26 Jul 2022 07:24:15 -0700 (PDT)
+ AGRyM1tXwo2kCV/qN9mtYeOTiB7k2HkO5KIFdFpYhZW+kbemGoxDm5e7mufb/HeOJDPrXB7LJ+z+ew==
+X-Received: by 2002:a05:600c:1d1b:b0:3a3:e2:42d1 with SMTP id
+ l27-20020a05600c1d1b00b003a300e242d1mr12144710wms.137.1658845456539;
+        Tue, 26 Jul 2022 07:24:16 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:289a:8162:dbfe:813c])
         by smtp.gmail.com with ESMTPSA id
- w10-20020adfde8a000000b0021e50971147sm14522654wrl.44.2022.07.26.07.24.14
+ w10-20020adfde8a000000b0021e50971147sm14522654wrl.44.2022.07.26.07.24.15
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jul 2022 07:24:14 -0700 (PDT)
+        Tue, 26 Jul 2022 07:24:15 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 2/3] oeqa/sdk: Add basic rust cargo test
-Date: Tue, 26 Jul 2022 15:24:12 +0100
-Message-Id: <20220726142413.2262729-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 3/3] populate_sdk: Add SDK toolchain language selection
+ support
+Date: Tue, 26 Jul 2022 15:24:13 +0100
+Message-Id: <20220726142413.2262729-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220726142413.2262729-1-richard.purdie@linuxfoundation.org>
 References: <20220726142413.2262729-1-richard.purdie@linuxfoundation.org>
@@ -63,85 +65,45 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 26 Jul 2022 14:24:23 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168508
+ https://lists.openembedded.org/g/openembedded-core/message/168509
 
-From: Otavio Salvador <otavio@ossystems.com.br>
+Add a new variable SDK_TOOLCHAIN_LANGS to allow different laguage support
+to be selected within SDKs. Initially supported options are rust and go.
 
-Add a QA test to the SDK to test that a basic cargo build works.
-
-[RP: Tweaked to work for multilibs and updated to match toolchain changes]
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/sdk/cases/rust.py               | 33 +++++++++++++++++++
- meta/lib/oeqa/sdk/files/rust/hello/Cargo.toml |  6 ++++
- .../lib/oeqa/sdk/files/rust/hello/src/main.rs |  3 ++
- 3 files changed, 42 insertions(+)
- create mode 100644 meta/lib/oeqa/sdk/cases/rust.py
- create mode 100644 meta/lib/oeqa/sdk/files/rust/hello/Cargo.toml
- create mode 100644 meta/lib/oeqa/sdk/files/rust/hello/src/main.rs
+ meta/classes/populate_sdk_base.bbclass | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/sdk/cases/rust.py b/meta/lib/oeqa/sdk/cases/rust.py
-new file mode 100644
-index 00000000000..c122b64d0c5
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/cases/rust.py
-@@ -0,0 +1,33 @@
-+#
-+# SPDX-License-Identifier: MIT
-+#
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 16f929bf596..bbca4cedadb 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -43,9 +43,22 @@ B:task-populate-sdk = "${SDK_DIR}"
+ 
+ SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${REAL_MULTIMACH_TARGET_SYS}"
+ 
+-TOOLCHAIN_HOST_TASK ?= "nativesdk-packagegroup-sdk-host packagegroup-cross-canadian-${MACHINE}"
++SDK_TOOLCHAIN_LANGS ??= ""
++SDK_TOOLCHAIN_LANGS:remove:mingw32 = "rust"
 +
-+import os
-+import shutil
-+import unittest
-+
-+from oeqa.core.utils.path import remove_safe
-+from oeqa.sdk.case import OESDKTestCase
-+
-+from oeqa.utils.subprocesstweak import errors_have_output
-+errors_have_output()
-+
-+class RustCompileTest(OESDKTestCase):
-+    td_vars = ['MACHINE']
-+
-+    @classmethod
-+    def setUpClass(self):
-+        targetdir = os.path.join(self.tc.sdk_dir, "hello")
-+        try:
-+            os.removedirs(targetdir)
-+        except OSError:
-+            pass
-+        shutil.copytree(os.path.join(self.tc.sdk_files_dir, "rust/hello"), targetdir)
-+
-+    def setUp(self):
-+        machine = self.td.get("MACHINE")
-+        if not self.tc.hasHostPackage("packagegroup-rust-cross-canadian-%s" % machine):
-+            raise unittest.SkipTest("RustCompileTest class: SDK doesn't contain a Rust cross-canadian toolchain")
-+
-+    def test_cargo_build(self):
-+        self._run('cd %s/hello; cargo build' % self.tc.sdk_dir)
-diff --git a/meta/lib/oeqa/sdk/files/rust/hello/Cargo.toml b/meta/lib/oeqa/sdk/files/rust/hello/Cargo.toml
-new file mode 100644
-index 00000000000..fe619478a68
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/files/rust/hello/Cargo.toml
-@@ -0,0 +1,6 @@
-+[package]
-+name = "hello"
-+version = "0.1.0"
-+edition = "2021"
-+
-+[dependencies]
-diff --git a/meta/lib/oeqa/sdk/files/rust/hello/src/main.rs b/meta/lib/oeqa/sdk/files/rust/hello/src/main.rs
-new file mode 100644
-index 00000000000..a06c03f82ae
---- /dev/null
-+++ b/meta/lib/oeqa/sdk/files/rust/hello/src/main.rs
-@@ -0,0 +1,3 @@
-+fn main() {
-+    println!("Hello, OpenEmbedded world!");
-+}
++TOOLCHAIN_HOST_TASK ?= " \
++    nativesdk-packagegroup-sdk-host \
++    packagegroup-cross-canadian-${MACHINE} \
++    ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'go', 'packagegroup-go-cross-canadian-${MACHINE}', '', d)} \
++    ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'rust', 'packagegroup-rust-cross-canadian-${MACHINE}', '', d)} \
++"
+ TOOLCHAIN_HOST_TASK_ATTEMPTONLY ?= ""
+-TOOLCHAIN_TARGET_TASK ?= "${@multilib_pkg_extend(d, 'packagegroup-core-standalone-sdk-target')} target-sdk-provides-dummy"
++TOOLCHAIN_TARGET_TASK ?= " \
++    ${@multilib_pkg_extend(d, 'packagegroup-core-standalone-sdk-target')} \
++    ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'go', multilib_pkg_extend(d, 'packagegroup-go-sdk-target'), '', d)} \
++    ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'rust', multilib_pkg_extend(d, 'libstd-rs'), '', d)} \
++    target-sdk-provides-dummy \
++"
+ TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
+ TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
+ 
 -- 
 2.34.1
 
