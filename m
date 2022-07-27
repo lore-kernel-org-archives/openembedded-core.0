@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEE0CC3F6B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEDE8C19F21
 	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 00:41:46 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web09.14405.1658882503188295579
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web12.14373.1658882501172163838
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 17:41:43 -0700
+ Tue, 26 Jul 2022 17:41:41 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=wxKuxcr+;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178,
+ header.b=ENes4Rjo;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.42,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id z3so14813706plb.1
+Received: by mail-pj1-f42.google.com with SMTP id ku18so14935006pjb.2
         for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 17:41:43 -0700 (PDT)
+ Tue, 26 Jul 2022 17:41:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=lmLeydW/LoQlnNyWhOAtE/Aoy11s0mrEvy2HosCOsdI=;
-        b=wxKuxcr+n5CUcjd6hFycfD23hInp2sK7Dmu/UVhZPDF9TbwIeJmxWmlwIykjcwHgyf
-         pEbQzTnNmVOHJuaMt/KKIYaXQ/Vdu7VQlWu9DpayF0hOMcebYXNlhOvsdGvxwDXatmMc
-         T31ACTWltdbIAye21JvOg3ueVtdirrQdfIT5yLUMn42Jm+KLiZXw5q7T6W7IaZmDVbu5
-         Vkd+haYqmff7F+nKLXoLvyDIEtavVvuXlRchX+31fI3KqnhACfE4BRMTZKMYK6JjUTpJ
-         QwiOZmcCg4bLdakGboBnNIWiy3TqxG67Fxw3k/ZsrKvYkXpSLE+ZOgXr1YHjxZxViB/2
-         Fiwg==
+        bh=pnKao7jjT0Sk6uigFyd8iazxRG/SDB+M8xkGYu0JxEM=;
+        b=ENes4Rjo9Vm0HLGBgvJdYI9CV7HJbBgSiu8aU+4xw0OipM+B4bkcXExf9N1K3hDwSG
+         NLIkdbqX9XQLnIclb4x77Q/pH79ZSK4vxNYbLzcHobaWKgS3K07AiBxUgw/kIGFcRZWq
+         ZX24wjUyZzFYtdzH206icm5ORd1xNpBt8Yy75yMnG0RTGgWCx8qgwEUsYGz4D8zv+aIe
+         /5pIGW5c04wDve0FAZ3cvHhWo551mtz9zvyGtGWa0hVxCWaNrqIg/5O+QQrB64tb1wgV
+         A/k9NDgZikP1leIR6qwkBIR8cXXIZgolJ4MjFdCyR4NmWqJ3A6fbM7ul6iVBa3NEM4pU
+         zYzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=lmLeydW/LoQlnNyWhOAtE/Aoy11s0mrEvy2HosCOsdI=;
-        b=l9wGM9o+XjkHTAcNLox2PiLqfWVP8T4Y+JyepheDuHcPKIWg6ytli3Rn3i/ZvYsWjr
-         jCyXvFWSe147h51hcZ900oxFQbae4/gJS+ZiflwDjas775IlkTtnLBtZPlUiNCyTkjxe
-         jVBV80vZZEUC/lDjBh4NcZFiEzq7MI041EmpX29EaKseySpUNkn7CrTtk13ko4itE/FM
-         1P9mTH3zuSO2GD+4LrQji0Fude7qAcTDhq5ZW57bJmP/odu5+J9B2pU26UTTIeB9qyka
-         YfBTGEvChpCjISwcWOUtnoxYgLgrggZ4UlQn8D2Ux/o82eHAjEF/qNZOE+By0tLL9VEx
-         5D3A==
-X-Gm-Message-State: AJIora+1LXSNPgUsV2PzKGIE0QvaYCUrXCFRRFY4DHkDZ7oYFV2Z/oaS
-	AsPQo3N/hDx/WGqDm5s/uDzYyfAOm+qaQhCS
+        bh=pnKao7jjT0Sk6uigFyd8iazxRG/SDB+M8xkGYu0JxEM=;
+        b=Kk88UwnxjAJE17qC8jAFfyCKB5FOaEZFAUJlsYl27CQSOZvb7zzToyIwEMxX6rdp7y
+         lNCNFRWJ/YQzi1NyvTbws+zLzSXRsYvN7C5Wx165c6oUoYDmeNPpisoC0OJ0Pc1AgLDf
+         yjRCruFC8dlZKPoW87qHzHxLXbVbT37qqj+WnmJHTtKzT9mCXepmHTrDQtdnn3ygzOcM
+         sXmIk+v/5FLUsPQjPdhqslxUtZ0RKOXDM+ZJVxELKettNgPDB3CKxAYzpwRysXgrs7Oi
+         ilALJ6IaL10TjBl5lsUogcV80gnna2Um91Ld8uNrqHNC7+40j59+i5zmOPGiEUG++F2c
+         9dNg==
+X-Gm-Message-State: AJIora+PsP/FJt0mxWC6m2ZcHtxbTULHPzI76kBlCvEsXfa1gRMubwUj
+	9HoOt448mYfeA38pEY8w61l8io9Klk78VtvW
 X-Google-Smtp-Source: 
- AGRyM1v8Dki7J4yNXVXu685jXgArGex8W4Akse+XCZ+XkGu/M9BLfkkGcFZruG4BPzd9u/LKkRC+cQ==
-X-Received: by 2002:a17:902:7c83:b0:16d:3db9:fdc5 with SMTP id
- y3-20020a1709027c8300b0016d3db9fdc5mr18376505pll.153.1658882502154;
-        Tue, 26 Jul 2022 17:41:42 -0700 (PDT)
+ AGRyM1tMFgivRuSxL2UYw2xW3tGigXcc+y92qHT85SXuAUlGREyLgQm1m7a4/mAAkqHvMdjbQHh6jA==
+X-Received: by 2002:a17:90b:1d87:b0:1f0:6c87:fc8 with SMTP id
+ pf7-20020a17090b1d8700b001f06c870fc8mr1604631pjb.173.1658882500127;
+        Tue, 26 Jul 2022 17:41:40 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- u16-20020a170902e5d000b0015e8d4eb219sm12356278plf.99.2022.07.26.17.41.40
+ u16-20020a170902e5d000b0015e8d4eb219sm12356278plf.99.2022.07.26.17.41.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jul 2022 17:41:41 -0700 (PDT)
+        Tue, 26 Jul 2022 17:41:39 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 11/15] sstatesig: Include all dependencies in
- SPDX task signatures
-Date: Tue, 26 Jul 2022 14:40:42 -1000
+Subject: [OE-core][kirkstone 10/15] git: upgrade v2.35.3 -> v2.35.4
+Date: Tue, 26 Jul 2022 14:40:41 -1000
 Message-Id: 
- <7549429fc93218dee33b216010b2c36a9f814091.1658882276.git.steve@sakoman.com>
+ <11943acaacd9b81b09ca378f40b17c393d33cb4b.1658882276.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1658882276.git.steve@sakoman.com>
 References: <cover.1658882276.git.steve@sakoman.com>
@@ -70,51 +69,32 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 00:41:46 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168534
+ https://lists.openembedded.org/g/openembedded-core/message/168533
 
-From: Joshua Watt <JPEWhacker@gmail.com>
+From: Sakib Sajal <sakib.sajal@windriver.com>
 
-SDPX generation involves looking through BB_TASKDEPDATA for
-dependencies, then linking to the generated documents for those
-dependencies. These document links use a checksum to validate the
-document, which means that if a upstream document changes, all
-downstream documents must be regenerated to get the new checksum,
-otherwise the compendium of documents produced by the build will have
-broken links; therefore all dependent task should be included in the
-signature (even from "ABI safe" recipes).
+Minor upgrade which includes fix for CVE-2022-29187.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 5fe543b9ceec971cf0297ff0ae3b0ccc4703cece)
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oe/sstatesig.py | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/recipes-devtools/git/{git_2.35.3.bb => git_2.35.4.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/git/{git_2.35.3.bb => git_2.35.4.bb} (98%)
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 7150bd0929..de65244932 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -24,10 +24,19 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCaches):
-         return "/allarch.bbclass" in inherits
-     def isImage(mc, fn):
-         return "/image.bbclass" in " ".join(dataCaches[mc].inherits[fn])
-+    def isSPDXTask(task):
-+        return task in ("do_create_spdx", "do_create_runtime_spdx")
+diff --git a/meta/recipes-devtools/git/git_2.35.3.bb b/meta/recipes-devtools/git/git_2.35.4.bb
+similarity index 98%
+rename from meta/recipes-devtools/git/git_2.35.3.bb
+rename to meta/recipes-devtools/git/git_2.35.4.bb
+index 794045c8b7..18f39875db 100644
+--- a/meta/recipes-devtools/git/git_2.35.3.bb
++++ b/meta/recipes-devtools/git/git_2.35.4.bb
+@@ -165,4 +165,4 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+                  "
+ EXTRA_OEMAKE += "NO_GETTEXT=1"
  
-     depmc, _, deptaskname, depmcfn = bb.runqueue.split_tid_mcfn(dep)
-     mc, _ = bb.runqueue.split_mc(fn)
- 
-+    # Keep all dependencies between SPDX tasks in the signature. SPDX documents
-+    # are linked together by hashes, which means if a dependent document changes,
-+    # all downstream documents must be re-written (even if they are "safe"
-+    # dependencies).
-+    if isSPDXTask(task) and isSPDXTask(deptaskname):
-+        return True
-+
-     # (Almost) always include our own inter-task dependencies (unless it comes
-     # from a mcdepends). The exception is the special
-     # do_kernel_configme->do_unpack_and_patch dependency from archiver.bbclass.
+-SRC_URI[tarball.sha256sum] = "cad708072d5c0b390c71651f5edb44143f00b357766973470bf9adebc0944c03"
++SRC_URI[tarball.sha256sum] = "4970108bdc227e2c3687899f8fc7501c54c839dcc42f4d999ac9e3e3f52df583"
 -- 
 2.25.1
 
