@@ -1,248 +1,146 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <otavio@ossystems.com.br>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7698C04A68
-	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 16:48:31 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web09.22183.1658940510243386397
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4D5AC3F6B0
+	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 16:56:01 +0000 (UTC)
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com
+ [209.85.160.44])
+ by mx.groups.io with SMTP id smtpd.web12.22148.1658940952996421985
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jul 2022 09:48:31 -0700
+ Wed, 27 Jul 2022 09:55:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=G8YGyB27;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193,
- mailfrom: luca.ceresoli@bootlin.com)
-Received: from booty (unknown [77.244.183.192])
-	(Authenticated sender: luca.ceresoli@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id D3192240006;
-	Wed, 27 Jul 2022 16:48:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1658940508;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2FpnrHSsfKCokiFlzZL/YkA/10Np2GQtXBIP1w8KRlY=;
-	b=G8YGyB27VHWbnt2e1sd0DBFz8LC+oJycXmqUgKPgS10Y2bM+W+nrZE51sK0kD0OlqQYmfd
-	vcUU9PmzlBQPmScfb6u+hzq41e+hdHdUKuqUrnoBq34WaP3z/jt2NkdCMrSUzK1cw7URMg
-	vI8+5pdrXIdGI2+TDOCg+igPhG2rEBSjxgwUjOSvdq8dmcS4KTnHnTDPNS+VFnJfy+Ka7B
-	KUTbDReyBnxW1VOyoYKvjCRKUfrn5kXH1chj/LoLv96BvmPWSQzP3cG4K8GU+RV57PHsj7
-	/srGN69+NlwuZ28bHFgSO+zbutEVE2nKuyz/XXPNUuPwmir3bzyDOag86FPAvQ==
-Date: Wed, 27 Jul 2022 18:48:26 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, Otavio Salvador
- <otavio@ossystems.com.br>
-Subject: Re: [OE-core] [PATCH 2/3] oeqa/sdk: Add basic rust cargo test
-Message-ID: <20220727184826.04eb9d05@booty>
-In-Reply-To: <20220726142413.2262729-2-richard.purdie@linuxfoundation.org>
-References: <20220726142413.2262729-1-richard.purdie@linuxfoundation.org>
-	<20220726142413.2262729-2-richard.purdie@linuxfoundation.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ dkim=missing;
+ spf=pass (domain: gmail.com, ip: 209.85.160.44, mailfrom: otavio.salvador@gmail.com)
+Received: by mail-oa1-f44.google.com with SMTP id
+ 586e51a60fabf-f2a4c51c45so23266854fac.9
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 27 Jul 2022 09:55:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CDWX9a5llo0EtwAv+z2m1rbCh5mUjXgss9Q7Lya+LVE=;
+        b=HINENTVX5AuqhOxR8JNp8nPkkfQ/HtMvC22D76G0jzzLL3D6uF2wx7DMXly3gqqhXX
+         AjOswD61lU88kFAbhdVg5rD2Nc7wGcRJOGZ5xuNvXDfTpYdzK17LQR6VSj0PegkWvjYW
+         ReyIN4B1Wy4Z9a3I5Io9xHnnH5slC1gxiuyi8dL8ntMHCmPBqkVrQvueUfoRQMLFP9rv
+         ErnrJLyE8zDEp+2bzyI+ZphuRwDOlxd3Y5mljcemELU78SMyyAKN4cKYFwl5TNVyRf0r
+         idr5DV+AntAjvfGkQSOPMwL22Xnar0itSnraj82mk2p6m9wGgTBq5xvm8oCRSP9bFQHy
+         LguA==
+X-Gm-Message-State: AJIora+Mo2fhhM8aaI9tg0E1R8gkJYnRfrrL1wrl0k9Fl7kTIxygfbqx
+	KRC8s1a9BEr/tZqy12W+z93Et4e4+gE34g==
+X-Google-Smtp-Source: 
+ AGRyM1t7CuM/buEIknT/5mb8WoS/pXuN9KlTmUfvkTPD2uK/FnvYoNYpPgmdhHvajgq3mYRH9im9Qg==
+X-Received: by 2002:a05:6870:b520:b0:10d:758e:678e with SMTP id
+ v32-20020a056870b52000b0010d758e678emr2710869oap.101.1658940950485;
+        Wed, 27 Jul 2022 09:55:50 -0700 (PDT)
+Received: from localhost ([2804:d51:59d2:bc00:5dfc:6f17:839f:61a4])
+        by smtp.gmail.com with ESMTPSA id
+ b17-20020a056808011100b0033a9f4c13cesm7375786oie.13.2022.07.27.09.55.49
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Jul 2022 09:55:50 -0700 (PDT)
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] libusb1: Link with -latomic only if no atomic builtins
+Date: Wed, 27 Jul 2022 13:55:39 -0300
+Message-Id: <20220727165539.658218-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="MP_/FnnfwH7/JaVj2eFJ0q+2CMl"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 16:48:31 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 16:56:01 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168578
+ https://lists.openembedded.org/g/openembedded-core/message/168579
 
---MP_/FnnfwH7/JaVj2eFJ0q+2CMl
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Backport a fix from 1.0.27 so we only link atomic if no atomic builtins
+are available.
 
-Hello Richard,
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-On Tue, 26 Jul 2022 15:24:12 +0100
-"Richard Purdie" <richard.purdie@linuxfoundation.org> wrote:
+Changes in v2:
+- add signed-off-by
 
-> From: Otavio Salvador <otavio@ossystems.com.br>
-> 
-> Add a QA test to the SDK to test that a basic cargo build works.
-> 
-> [RP: Tweaked to work for multilibs and updated to match toolchain changes]
-> 
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ ...k-with-latomic-only-if-no-atomic-bui.patch | 53 +++++++++++++++++++
+ meta/recipes-support/libusb/libusb1_1.0.26.bb |  1 +
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch
 
-We have a build failure with this series applied:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/5615/steps/26/logs/stdio
-
-Attached is the do_testsdk log.
-
+diff --git a/meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch b/meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch
+new file mode 100644
+index 0000000000..5c49cbb8a7
+--- /dev/null
++++ b/meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch
+@@ -0,0 +1,53 @@
++From a6890a6a9a8f88b567631874e209aaadc79e28e5 Mon Sep 17 00:00:00 2001
++From: Lonnie Abelbeck <lonnie@abelbeck.com>
++Date: Sun, 8 May 2022 14:05:56 -0500
++Subject: [PATCH] configure.ac: Link with -latomic only if no atomic builtins
++
++Follow-up to 561dbda, a check of GCC atomic builtins needs to be done
++first.
++
++I'm no autoconf guru, but using this:
++https://github.com/mesa3d/mesa/blob/0df485c285b73c34ba9062f0c27e55c3c702930d/configure.ac#L469
++as inspiration, I created a pre-check before calling AC_SEARCH_LIBS(...)
++
++Upstream-Status: Backport [1.0.27]
++
++Fixes #1135
++Closes #1139
++(cherry picked from commit 95e601ce116dd46ea7915c171976b85ea0905d58)
++
++Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
++---
++ configure.ac | 16 +++++++++++++++-
++ 1 file changed, 15 insertions(+), 1 deletion(-)
++
++diff --git a/configure.ac b/configure.ac
++index d4f12510..96787500 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -153,7 +153,21 @@ if test "x$platform" = xposix; then
++ 	AC_SEARCH_LIBS([pthread_create], [pthread],
++ 		[test "x$ac_cv_search_pthread_create" != "xnone required" && AC_SUBST(THREAD_LIBS, [-lpthread])],
++ 		[], [])
++-	AC_SEARCH_LIBS([__atomic_fetch_add_4], [atomic])
+++	dnl Check for new-style atomic builtins. We first check without linking to -latomic.
+++	AC_MSG_CHECKING(whether __atomic_load_n is supported)
+++	AC_LINK_IFELSE([AC_LANG_SOURCE([[
+++	#include <stdint.h>
+++	int main() {
+++		struct {
+++			uint64_t *v;
+++		} x;
+++		return (int)__atomic_load_n(x.v, __ATOMIC_ACQUIRE) &
+++		       (int)__atomic_add_fetch(x.v, (uint64_t)1, __ATOMIC_ACQ_REL);
+++	}]])], GCC_ATOMIC_BUILTINS_SUPPORTED=yes, GCC_ATOMIC_BUILTINS_SUPPORTED=no)
+++	AC_MSG_RESULT($GCC_ATOMIC_BUILTINS_SUPPORTED)
+++	if test "x$GCC_ATOMIC_BUILTINS_SUPPORTED" != xyes; then
+++		AC_SEARCH_LIBS([__atomic_fetch_add_4], [atomic])
+++	fi
++ elif test "x$platform" = xwindows; then
++ 	AC_DEFINE([PLATFORM_WINDOWS], [1], [Define to 1 if compiling for a Windows platform.])
++ else
++-- 
++2.37.0
++
+diff --git a/meta/recipes-support/libusb/libusb1_1.0.26.bb b/meta/recipes-support/libusb/libusb1_1.0.26.bb
+index fd63e7adc2..ff3f0be7a5 100644
+--- a/meta/recipes-support/libusb/libusb1_1.0.26.bb
++++ b/meta/recipes-support/libusb/libusb1_1.0.26.bb
+@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ SRC_URI = "https://github.com/libusb/libusb/releases/download/v${PV}/libusb-${PV}.tar.bz2 \
++           file://0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch \
+            file://run-ptest \
+           "
+ 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.37.0
 
---MP_/FnnfwH7/JaVj2eFJ0q+2CMl
-Content-Type: application/octet-stream; name=log.do_testsdk.37977
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename=log.do_testsdk.37977
-
-REVCVUc6IEV4ZWN1dGluZyBweXRob24gZnVuY3Rpb24gZG9fdGVzdHNkawovaG9tZS9wb2t5YnVp
-bGQveW9jdG8td29ya2VyL211bHRpbGliL2J1aWxkL21ldGEvbGliL29lcWEvc2RrL3Rlc3RzZGsu
-cHk6ODg6IFJlc291cmNlV2FybmluZzogdW5jbG9zZWQgZmlsZSA8X2lvLlRleHRJT1dyYXBwZXIg
-bmFtZT0nL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9tdWx0aWxpYi9idWlsZC9idWlsZC90
-bXAvZGVwbG95L3Nkay9wb2t5LWdsaWJjLXg4Nl82NC1jb3JlLWltYWdlLW1pbmltYWwtbWlwczY0
-LW4zMi1xZW11bWlwczY0LXRvb2xjaGFpbi00LjErc25hcHNob3QudGVzdGRhdGEuanNvbicgbW9k
-ZT0ncicgZW5jb2Rpbmc9J1VURi04Jz4KICB0ZXN0X2RhdGEgPSBqc29uLmxvYWQob3Blbih0ZG5h
-bWUsICJyIikpClJlc291cmNlV2FybmluZzogRW5hYmxlIHRyYWNlbWFsbG9jIHRvIGdldCB0aGUg
-b2JqZWN0IGFsbG9jYXRpb24gdHJhY2ViYWNrCi91c3IvbGliL3B5dGhvbjMuMTAvc2l0ZS1wYWNr
-YWdlcy90ZXN0dG9vbHMvZGlzdHV0aWxzY21kLnB5Ojc6IERlcHJlY2F0aW9uV2FybmluZzogVGhl
-IGRpc3R1dGlscyBwYWNrYWdlIGlzIGRlcHJlY2F0ZWQgYW5kIHNsYXRlZCBmb3IgcmVtb3ZhbCBp
-biBQeXRob24gMy4xMi4gVXNlIHNldHVwdG9vbHMgb3IgY2hlY2sgUEVQIDYzMiBmb3IgcG90ZW50
-aWFsIGFsdGVybmF0aXZlcwogIGZyb20gZGlzdHV0aWxzLmNvcmUgaW1wb3J0IENvbW1hbmQKU0RL
-IHRlc3RpbmcgZW52aXJvbm1lbnQ6IG1pcHMzMnIyLXBva3ltbGxpYjMyLWxpbnV4Ck5PVEU6IHRl
-c3RfYXNzaW1wIChhc3NpbXAuQnVpbGRBc3NpbXApCk5PVEU6ICAuLi4gb2sKTk9URTogdGVzdF9j
-cGlvIChidWlsZGNwaW8uQnVpbGRDcGlvVGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X2Vw
-b3h5IChidWlsZGVwb3h5LkVwb3h5VGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X2dhbGN1
-bGF0b3IgKGJ1aWxkZ2FsY3VsYXRvci5HYWxjdWxhdG9yVGVzdCkKTk9URTogIC4uLiBza2lwcGVk
-ICJHYWxjdWxhdG9yVGVzdCBjbGFzczogU0RLIGRvbid0IHN1cHBvcnQgZ3RrKzMiCkdhbGN1bGF0
-b3JUZXN0IGNsYXNzOiBTREsgZG9uJ3Qgc3VwcG9ydCBndGsrMwpOT1RFOiB0ZXN0X2x6aXAgKGJ1
-aWxkbHppcC5CdWlsZEx6aXBUZXN0KQpOT1RFOiAgLi4uIG9rCk5PVEU6IHRlc3RfZ2NjX2NvbXBp
-bGUgKGdjYy5HY2NDb21waWxlVGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X2dwcDJfY29t
-cGlsZSAoZ2NjLkdjY0NvbXBpbGVUZXN0KQpOT1RFOiAgLi4uIG9rCk5PVEU6IHRlc3RfZ3BwX2Nv
-bXBpbGUgKGdjYy5HY2NDb21waWxlVGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X21ha2Ug
-KGdjYy5HY2NDb21waWxlVGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X3BlcmwgKHBlcmwu
-UGVybFRlc3QpCk5PVEU6ICAuLi4gb2sKTk9URTogdGVzdF9weXRob24zIChweXRob24uUHl0aG9u
-M1Rlc3QpCk5PVEU6ICAuLi4gb2sKTk9URTogdGVzdF9jYXJnb19idWlsZCAocnVzdC5SdXN0Q29t
-cGlsZVRlc3QpCk5PVEU6ICAuLi4gc2tpcHBlZCAiUnVzdENvbXBpbGVUZXN0IGNsYXNzOiBTREsg
-ZG9lc24ndCBjb250YWluIGEgUnVzdCBjcm9zcy1jYW5hZGlhbiB0b29sY2hhaW4iClJ1c3RDb21w
-aWxlVGVzdCBjbGFzczogU0RLIGRvZXNuJ3QgY29udGFpbiBhIFJ1c3QgY3Jvc3MtY2FuYWRpYW4g
-dG9vbGNoYWluCk5PVEU6IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KTk9URTogUmFuIDEyIHRlc3RzIGluIDIwNi42
-NjdzCk5PVEU6IE9LCk5PVEU6ICAoc2tpcHBlZD0yKQpSRVNVTFRTOgpSRVNVTFRTIC0gYXNzaW1w
-LkJ1aWxkQXNzaW1wLnRlc3RfYXNzaW1wOiBQQVNTRUQgKDExMi41MXMpClJFU1VMVFMgLSBidWls
-ZGNwaW8uQnVpbGRDcGlvVGVzdC50ZXN0X2NwaW86IFBBU1NFRCAoMzkuNTFzKQpSRVNVTFRTIC0g
-YnVpbGRlcG94eS5FcG94eVRlc3QudGVzdF9lcG94eTogUEFTU0VEICg0OS44OXMpClJFU1VMVFMg
-LSBidWlsZGx6aXAuQnVpbGRMemlwVGVzdC50ZXN0X2x6aXA6IFBBU1NFRCAoMy43MnMpClJFU1VM
-VFMgLSBnY2MuR2NjQ29tcGlsZVRlc3QudGVzdF9nY2NfY29tcGlsZTogUEFTU0VEICgwLjE0cykK
-UkVTVUxUUyAtIGdjYy5HY2NDb21waWxlVGVzdC50ZXN0X2dwcDJfY29tcGlsZTogUEFTU0VEICgw
-LjE5cykKUkVTVUxUUyAtIGdjYy5HY2NDb21waWxlVGVzdC50ZXN0X2dwcF9jb21waWxlOiBQQVNT
-RUQgKDAuNDZzKQpSRVNVTFRTIC0gZ2NjLkdjY0NvbXBpbGVUZXN0LnRlc3RfbWFrZTogUEFTU0VE
-ICgwLjEzcykKUkVTVUxUUyAtIHBlcmwuUGVybFRlc3QudGVzdF9wZXJsOiBQQVNTRUQgKDAuMDJz
-KQpSRVNVTFRTIC0gcHl0aG9uLlB5dGhvbjNUZXN0LnRlc3RfcHl0aG9uMzogUEFTU0VEICgwLjA0
-cykKUkVTVUxUUyAtIGJ1aWxkZ2FsY3VsYXRvci5HYWxjdWxhdG9yVGVzdC50ZXN0X2dhbGN1bGF0
-b3I6IFNLSVBQRUQgKDAuMDBzKQpSRVNVTFRTIC0gcnVzdC5SdXN0Q29tcGlsZVRlc3QudGVzdF9j
-YXJnb19idWlsZDogU0tJUFBFRCAoMC4wMHMpClNVTU1BUlk6CmNvcmUtaW1hZ2UtbWluaW1hbCBz
-ZGsgKHBva3ktZ2xpYmMteDg2XzY0LWNvcmUtaW1hZ2UtbWluaW1hbC1taXBzNjQtbjMyLXFlbXVt
-aXBzNjQtdG9vbGNoYWluLTQuMStzbmFwc2hvdC5zaDplbnZpcm9ubWVudC1zZXR1cC1taXBzMzJy
-Mi1wb2t5bWxsaWIzMi1saW51eCkgLSBSYW4gMTIgdGVzdHMgaW4gMjA2LjY2N3MKY29yZS1pbWFn
-ZS1taW5pbWFsIHNkayAtIE9LIC0gQWxsIHJlcXVpcmVkIHRlc3RzIHBhc3NlZCAoc3VjY2Vzc2Vz
-PTEwLCBza2lwcGVkPTIsIGZhaWx1cmVzPTAsIGVycm9ycz0wKQpTREsgdGVzdGluZyBlbnZpcm9u
-bWVudDogbWlwczY0LXBva3ltbGxpYjY0LWxpbnV4Ck5PVEU6IHRlc3RfYXNzaW1wIChhc3NpbXAu
-QnVpbGRBc3NpbXApCk5PVEU6ICAuLi4gb2sKTk9URTogdGVzdF9jcGlvIChidWlsZGNwaW8uQnVp
-bGRDcGlvVGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X2Vwb3h5IChidWlsZGVwb3h5LkVw
-b3h5VGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X2dhbGN1bGF0b3IgKGJ1aWxkZ2FsY3Vs
-YXRvci5HYWxjdWxhdG9yVGVzdCkKTk9URTogIC4uLiBza2lwcGVkICJHYWxjdWxhdG9yVGVzdCBj
-bGFzczogU0RLIGRvbid0IHN1cHBvcnQgZ3RrKzMiCkdhbGN1bGF0b3JUZXN0IGNsYXNzOiBTREsg
-ZG9uJ3Qgc3VwcG9ydCBndGsrMwpOT1RFOiB0ZXN0X2x6aXAgKGJ1aWxkbHppcC5CdWlsZEx6aXBU
-ZXN0KQpOT1RFOiAgLi4uIG9rCk5PVEU6IHRlc3RfZ2NjX2NvbXBpbGUgKGdjYy5HY2NDb21waWxl
-VGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X2dwcDJfY29tcGlsZSAoZ2NjLkdjY0NvbXBp
-bGVUZXN0KQpOT1RFOiAgLi4uIG9rCk5PVEU6IHRlc3RfZ3BwX2NvbXBpbGUgKGdjYy5HY2NDb21w
-aWxlVGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X21ha2UgKGdjYy5HY2NDb21waWxlVGVz
-dCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X3BlcmwgKHBlcmwuUGVybFRlc3QpCk5PVEU6ICAu
-Li4gb2sKTk9URTogdGVzdF9weXRob24zIChweXRob24uUHl0aG9uM1Rlc3QpCk5PVEU6ICAuLi4g
-b2sKTk9URTogRVJST1IKTk9URTogPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQpOT1RFOiBFUlJPUjogc2V0VXBDbGFz
-cyAocnVzdC5SdXN0Q29tcGlsZVRlc3QpCk5PVEU6IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KTk9URTogVHJhY2Vi
-YWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIi9ob21lL3Bva3lidWlsZC95b2N0
-by13b3JrZXIvbXVsdGlsaWIvYnVpbGQvbWV0YS9saWIvb2VxYS9jb3JlL2Nhc2UucHkiLCBsaW5l
-IDM5LCBpbiBfb2VTZXRVcENsYXNzCiAgICBjbHNzLnNldFVwQ2xhc3NNZXRob2QoKQogIEZpbGUg
-Ii9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvbXVsdGlsaWIvYnVpbGQvbWV0YS9saWIvb2Vx
-YS9zZGsvY2FzZXMvcnVzdC5weSIsIGxpbmUgMjUsIGluIHNldFVwQ2xhc3MKICAgIHNodXRpbC5j
-b3B5dHJlZShvcy5wYXRoLmpvaW4oc2VsZi50Yy5zZGtfZmlsZXNfZGlyLCAicnVzdC9oZWxsbyIp
-LCB0YXJnZXRkaXIpCiAgRmlsZSAiL3Vzci9saWI2NC9weXRob24zLjEwL3NodXRpbC5weSIsIGxp
-bmUgNTU4LCBpbiBjb3B5dHJlZQogICAgcmV0dXJuIF9jb3B5dHJlZShlbnRyaWVzPWVudHJpZXMs
-IHNyYz1zcmMsIGRzdD1kc3QsIHN5bWxpbmtzPXN5bWxpbmtzLAogIEZpbGUgIi91c3IvbGliNjQv
-cHl0aG9uMy4xMC9zaHV0aWwucHkiLCBsaW5lIDQ1NywgaW4gX2NvcHl0cmVlCiAgICBvcy5tYWtl
-ZGlycyhkc3QsIGV4aXN0X29rPWRpcnNfZXhpc3Rfb2spCiAgRmlsZSAiL3Vzci9saWI2NC9weXRo
-b24zLjEwL29zLnB5IiwgbGluZSAyMjUsIGluIG1ha2VkaXJzCiAgICBta2RpcihuYW1lLCBtb2Rl
-KQpGaWxlRXhpc3RzRXJyb3I6IFtFcnJubyAxN10gRmlsZSBleGlzdHM6ICcvaG9tZS9wb2t5YnVp
-bGQveW9jdG8td29ya2VyL211bHRpbGliL2J1aWxkL2J1aWxkL3RtcC93b3JrL3FlbXVtaXBzNjQt
-cG9reS1saW51eC1nbnVuMzIvY29yZS1pbWFnZS1taW5pbWFsLzEuMC1yMC90ZXN0aW1hZ2Utc2Rr
-L2hlbGxvJwoKTk9URTogLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpOT1RFOiBSYW4gMTEgdGVzdHMgaW4gMjE1LjU1
-MnMKTk9URTogRkFJTEVECk5PVEU6ICAoZXJyb3JzPTEsIHNraXBwZWQ9MSkKUkVTVUxUUzoKUkVT
-VUxUUyAtIGFzc2ltcC5CdWlsZEFzc2ltcC50ZXN0X2Fzc2ltcDogUEFTU0VEICgxNDEuNDVzKQpS
-RVNVTFRTIC0gYnVpbGRjcGlvLkJ1aWxkQ3Bpb1Rlc3QudGVzdF9jcGlvOiBQQVNTRUQgKDM5LjA1
-cykKUkVTVUxUUyAtIGJ1aWxkZXBveHkuRXBveHlUZXN0LnRlc3RfZXBveHk6IFBBU1NFRCAoMzAu
-NTBzKQpSRVNVTFRTIC0gYnVpbGRsemlwLkJ1aWxkTHppcFRlc3QudGVzdF9semlwOiBQQVNTRUQg
-KDMuNTZzKQpSRVNVTFRTIC0gZ2NjLkdjY0NvbXBpbGVUZXN0LnRlc3RfZ2NjX2NvbXBpbGU6IFBB
-U1NFRCAoMC4xM3MpClJFU1VMVFMgLSBnY2MuR2NjQ29tcGlsZVRlc3QudGVzdF9ncHAyX2NvbXBp
-bGU6IFBBU1NFRCAoMC4yMHMpClJFU1VMVFMgLSBnY2MuR2NjQ29tcGlsZVRlc3QudGVzdF9ncHBf
-Y29tcGlsZTogUEFTU0VEICgwLjUwcykKUkVTVUxUUyAtIGdjYy5HY2NDb21waWxlVGVzdC50ZXN0
-X21ha2U6IFBBU1NFRCAoMC4xMnMpClJFU1VMVFMgLSBwZXJsLlBlcmxUZXN0LnRlc3RfcGVybDog
-UEFTU0VEICgwLjAycykKUkVTVUxUUyAtIHB5dGhvbi5QeXRob24zVGVzdC50ZXN0X3B5dGhvbjM6
-IFBBU1NFRCAoMC4wM3MpClJFU1VMVFMgLSBidWlsZGdhbGN1bGF0b3IuR2FsY3VsYXRvclRlc3Qu
-dGVzdF9nYWxjdWxhdG9yOiBTS0lQUEVEICgwLjAwcykKUkVTVUxUUyAtIHJ1c3QuUnVzdENvbXBp
-bGVUZXN0LnRlc3RfY2FyZ29fYnVpbGQ6IEVSUk9SClNVTU1BUlk6CmNvcmUtaW1hZ2UtbWluaW1h
-bCBzZGsgKHBva3ktZ2xpYmMteDg2XzY0LWNvcmUtaW1hZ2UtbWluaW1hbC1taXBzNjQtbjMyLXFl
-bXVtaXBzNjQtdG9vbGNoYWluLTQuMStzbmFwc2hvdC5zaDplbnZpcm9ubWVudC1zZXR1cC1taXBz
-NjQtcG9reW1sbGliNjQtbGludXgpIC0gUmFuIDExIHRlc3RzIGluIDIxNS41NTNzCmNvcmUtaW1h
-Z2UtbWluaW1hbCBzZGsgLSBGQUlMIC0gUmVxdWlyZWQgdGVzdHMgZmFpbGVkIChzdWNjZXNzZXM9
-MTAsIHNraXBwZWQ9MSwgZmFpbHVyZXM9MCwgZXJyb3JzPTEpClNESyB0ZXN0aW5nIGVudmlyb25t
-ZW50OiBtaXBzNjQtbjMyLXBva3ktbGludXgtZ251bjMyCk5PVEU6IHRlc3RfYXNzaW1wIChhc3Np
-bXAuQnVpbGRBc3NpbXApCk5PVEU6ICAuLi4gb2sKTk9URTogdGVzdF9jcGlvIChidWlsZGNwaW8u
-QnVpbGRDcGlvVGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X2Vwb3h5IChidWlsZGVwb3h5
-LkVwb3h5VGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X2dhbGN1bGF0b3IgKGJ1aWxkZ2Fs
-Y3VsYXRvci5HYWxjdWxhdG9yVGVzdCkKTk9URTogIC4uLiBza2lwcGVkICJHYWxjdWxhdG9yVGVz
-dCBjbGFzczogU0RLIGRvbid0IHN1cHBvcnQgZ3RrKzMiCkdhbGN1bGF0b3JUZXN0IGNsYXNzOiBT
-REsgZG9uJ3Qgc3VwcG9ydCBndGsrMwpOT1RFOiB0ZXN0X2x6aXAgKGJ1aWxkbHppcC5CdWlsZEx6
-aXBUZXN0KQpOT1RFOiAgLi4uIG9rCk5PVEU6IHRlc3RfZ2NjX2NvbXBpbGUgKGdjYy5HY2NDb21w
-aWxlVGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X2dwcDJfY29tcGlsZSAoZ2NjLkdjY0Nv
-bXBpbGVUZXN0KQpOT1RFOiAgLi4uIG9rCk5PVEU6IHRlc3RfZ3BwX2NvbXBpbGUgKGdjYy5HY2ND
-b21waWxlVGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X21ha2UgKGdjYy5HY2NDb21waWxl
-VGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X3BlcmwgKHBlcmwuUGVybFRlc3QpCk5PVEU6
-ICAuLi4gb2sKTk9URTogdGVzdF9weXRob24zIChweXRob24uUHl0aG9uM1Rlc3QpCk5PVEU6ICAu
-Li4gb2sKTk9URTogRVJST1IKTk9URTogPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQpOT1RFOiBFUlJPUjogc2V0VXBD
-bGFzcyAocnVzdC5SdXN0Q29tcGlsZVRlc3QpCk5PVEU6IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KTk9URTogVHJh
-Y2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIi9ob21lL3Bva3lidWlsZC95
-b2N0by13b3JrZXIvbXVsdGlsaWIvYnVpbGQvbWV0YS9saWIvb2VxYS9jb3JlL2Nhc2UucHkiLCBs
-aW5lIDM5LCBpbiBfb2VTZXRVcENsYXNzCiAgICBjbHNzLnNldFVwQ2xhc3NNZXRob2QoKQogIEZp
-bGUgIi9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvbXVsdGlsaWIvYnVpbGQvbWV0YS9saWIv
-b2VxYS9zZGsvY2FzZXMvcnVzdC5weSIsIGxpbmUgMjUsIGluIHNldFVwQ2xhc3MKICAgIHNodXRp
-bC5jb3B5dHJlZShvcy5wYXRoLmpvaW4oc2VsZi50Yy5zZGtfZmlsZXNfZGlyLCAicnVzdC9oZWxs
-byIpLCB0YXJnZXRkaXIpCiAgRmlsZSAiL3Vzci9saWI2NC9weXRob24zLjEwL3NodXRpbC5weSIs
-IGxpbmUgNTU4LCBpbiBjb3B5dHJlZQogICAgcmV0dXJuIF9jb3B5dHJlZShlbnRyaWVzPWVudHJp
-ZXMsIHNyYz1zcmMsIGRzdD1kc3QsIHN5bWxpbmtzPXN5bWxpbmtzLAogIEZpbGUgIi91c3IvbGli
-NjQvcHl0aG9uMy4xMC9zaHV0aWwucHkiLCBsaW5lIDQ1NywgaW4gX2NvcHl0cmVlCiAgICBvcy5t
-YWtlZGlycyhkc3QsIGV4aXN0X29rPWRpcnNfZXhpc3Rfb2spCiAgRmlsZSAiL3Vzci9saWI2NC9w
-eXRob24zLjEwL29zLnB5IiwgbGluZSAyMjUsIGluIG1ha2VkaXJzCiAgICBta2RpcihuYW1lLCBt
-b2RlKQpGaWxlRXhpc3RzRXJyb3I6IFtFcnJubyAxN10gRmlsZSBleGlzdHM6ICcvaG9tZS9wb2t5
-YnVpbGQveW9jdG8td29ya2VyL211bHRpbGliL2J1aWxkL2J1aWxkL3RtcC93b3JrL3FlbXVtaXBz
-NjQtcG9reS1saW51eC1nbnVuMzIvY29yZS1pbWFnZS1taW5pbWFsLzEuMC1yMC90ZXN0aW1hZ2Ut
-c2RrL2hlbGxvJwoKTk9URTogLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpOT1RFOiBSYW4gMTEgdGVzdHMgaW4gMTk4
-LjQ2MHMKTk9URTogRkFJTEVECk5PVEU6ICAoZXJyb3JzPTEsIHNraXBwZWQ9MSkKUkVTVUxUUzoK
-UkVTVUxUUyAtIGFzc2ltcC5CdWlsZEFzc2ltcC50ZXN0X2Fzc2ltcDogUEFTU0VEICgxMzMuNjZz
-KQpSRVNVTFRTIC0gYnVpbGRjcGlvLkJ1aWxkQ3Bpb1Rlc3QudGVzdF9jcGlvOiBQQVNTRUQgKDMw
-Ljk4cykKUkVTVUxUUyAtIGJ1aWxkZXBveHkuRXBveHlUZXN0LnRlc3RfZXBveHk6IFBBU1NFRCAo
-MjkuNDJzKQpSRVNVTFRTIC0gYnVpbGRsemlwLkJ1aWxkTHppcFRlc3QudGVzdF9semlwOiBQQVNT
-RUQgKDMuMzZzKQpSRVNVTFRTIC0gZ2NjLkdjY0NvbXBpbGVUZXN0LnRlc3RfZ2NjX2NvbXBpbGU6
-IFBBU1NFRCAoMC4xMXMpClJFU1VMVFMgLSBnY2MuR2NjQ29tcGlsZVRlc3QudGVzdF9ncHAyX2Nv
-bXBpbGU6IFBBU1NFRCAoMC4yMnMpClJFU1VMVFMgLSBnY2MuR2NjQ29tcGlsZVRlc3QudGVzdF9n
-cHBfY29tcGlsZTogUEFTU0VEICgwLjUxcykKUkVTVUxUUyAtIGdjYy5HY2NDb21waWxlVGVzdC50
-ZXN0X21ha2U6IFBBU1NFRCAoMC4xNXMpClJFU1VMVFMgLSBwZXJsLlBlcmxUZXN0LnRlc3RfcGVy
-bDogUEFTU0VEICgwLjAycykKUkVTVUxUUyAtIHB5dGhvbi5QeXRob24zVGVzdC50ZXN0X3B5dGhv
-bjM6IFBBU1NFRCAoMC4wNHMpClJFU1VMVFMgLSBidWlsZGdhbGN1bGF0b3IuR2FsY3VsYXRvclRl
-c3QudGVzdF9nYWxjdWxhdG9yOiBTS0lQUEVEICgwLjAwcykKUkVTVUxUUyAtIHJ1c3QuUnVzdENv
-bXBpbGVUZXN0LnRlc3RfY2FyZ29fYnVpbGQ6IEVSUk9SClNVTU1BUlk6CmNvcmUtaW1hZ2UtbWlu
-aW1hbCBzZGsgKHBva3ktZ2xpYmMteDg2XzY0LWNvcmUtaW1hZ2UtbWluaW1hbC1taXBzNjQtbjMy
-LXFlbXVtaXBzNjQtdG9vbGNoYWluLTQuMStzbmFwc2hvdC5zaDplbnZpcm9ubWVudC1zZXR1cC1t
-aXBzNjQtbjMyLXBva3ktbGludXgtZ251bjMyKSAtIFJhbiAxMSB0ZXN0cyBpbiAxOTguNDYxcwpj
-b3JlLWltYWdlLW1pbmltYWwgc2RrIC0gRkFJTCAtIFJlcXVpcmVkIHRlc3RzIGZhaWxlZCAoc3Vj
-Y2Vzc2VzPTEwLCBza2lwcGVkPTEsIGZhaWx1cmVzPTAsIGVycm9ycz0xKQpFUlJPUjogY29yZS1p
-bWFnZS1taW5pbWFsIC0gRkFJTEVEIC0gY2hlY2sgdGhlIHRhc2sgbG9nIGFuZCB0aGUgY29tbWFu
-ZHMgbG9nCkRFQlVHOiBQeXRob24gZnVuY3Rpb24gZG9fdGVzdHNkayBmaW5pc2hlZAo=
-
---MP_/FnnfwH7/JaVj2eFJ0q+2CMl--
 
