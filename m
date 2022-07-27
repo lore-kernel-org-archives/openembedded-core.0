@@ -1,140 +1,248 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F6A1C04A68
-	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 16:41:21 +0000 (UTC)
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
- [209.85.160.171])
- by mx.groups.io with SMTP id smtpd.web10.22149.1658940076672589448
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7698C04A68
+	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 16:48:31 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web09.22183.1658940510243386397
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jul 2022 09:41:17 -0700
+ Wed, 27 Jul 2022 09:48:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20210112.gappssmtp.com header.s=20210112
- header.b=EQAgao1T;
- spf=pass (domain: ossystems.com.br, ip: 209.85.160.171,
- mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qt1-f171.google.com with SMTP id y9so13030905qtv.5
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jul 2022 09:41:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20210112.gappssmtp.com; s=20210112;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc;
-        bh=c1NQI6T+576SufDEI6TIeIAYOEa6Q9h//PpY7Xk2QCc=;
-        b=EQAgao1Ti4KFs88XDzs0WRURsb5jgUKxtZbjrGkC7ZbCqpEZVXs9GTBJ9rQnfZ3WCh
-         7RRCX+QUvbIhClUNwhp4Yzhrv6PxL1iHmJmz/11pX8wa4uv1wx/MMkJ2/ZKqL8jJ22Cg
-         opMwHe0PP5neEKYp3NPeAKdOYQZE0nMPG/kPY8o/ks6X9dkMr01UI4w8V9AEbTJ8ErDW
-         J0gItq9gK7yo5/5H1LPK3jTN0vVo9AlbaOmYqj+pyFC6nBi09kFM7Af4jAw7Mi/l3TiZ
-         84Dtbn+9LPQiCgb5q28X6iLb2SyiQXLg8tm0/4yvYIVSSesU1MfMScTGHDacBA+qljhm
-         8ORQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc;
-        bh=c1NQI6T+576SufDEI6TIeIAYOEa6Q9h//PpY7Xk2QCc=;
-        b=0iTb/BxYUMMkeVjEUBrf+qQUZrue93yrD8FPE6Fnofbmyx6XMmiGwFs+TF7kITT7zG
-         o75Vt0V9WuSg+Thn/u9BVh9INekw3JJMQAg6r3tyXXgrEeC65z9mAQWnGpAR5ek/ysno
-         M4JSRaS4IuytuT/BC8XiJ6PVLqRqVMH5TdFpKbCPaZ/bqv7hqXfxpm/NmTyelE6GrOpe
-         GOCt/F51+QbXuXbUscFhf5YUz3TCyfDz7x7QviYZfdP61TeDzMhdsbYXTebljmYm+3MF
-         HlWwgyIfeDyFyWCcti/A8yMC/QcmsltOOrYkqcDEUjNY/p5mB8KcPMgNMLnQ6tGWp573
-         dWNw==
-X-Gm-Message-State: AJIora8x3DG5OhcMNar3aL06keBmJFBfgVFS28ZwdTVZD6raBb41P00N
-	TmHrAEavlUT9kkf2r4xN7STyE4chen19FsPv
-X-Google-Smtp-Source: 
- AGRyM1v0BKnCxS0m9PMnQ8NpDGsmmMR/hjxLgAieMUCylk4ppBU1OTbxnHI/VrPlzr93anQtc+8Opg==
-X-Received: by 2002:ac8:7dd2:0:b0:31e:f857:a8ab with SMTP id
- c18-20020ac87dd2000000b0031ef857a8abmr19564855qte.346.1658940075466;
-        Wed, 27 Jul 2022 09:41:15 -0700 (PDT)
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com.
- [209.85.160.180])
-        by smtp.gmail.com with ESMTPSA id
- bn31-20020a05620a2adf00b006b5ef0aff29sm12917132qkb.87.2022.07.27.09.41.14
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Jul 2022 09:41:14 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qt1-f180.google.com with SMTP id h22so13046496qta.3
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jul 2022 09:41:14 -0700 (PDT)
-X-Received: by 2002:a05:622a:148c:b0:31e:e643:953f with SMTP id
- t12-20020a05622a148c00b0031ee643953fmr19763079qtx.678.1658940074522; Wed, 27
- Jul 2022 09:41:14 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=G8YGyB27;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193,
+ mailfrom: luca.ceresoli@bootlin.com)
+Received: from booty (unknown [77.244.183.192])
+	(Authenticated sender: luca.ceresoli@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id D3192240006;
+	Wed, 27 Jul 2022 16:48:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1658940508;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2FpnrHSsfKCokiFlzZL/YkA/10Np2GQtXBIP1w8KRlY=;
+	b=G8YGyB27VHWbnt2e1sd0DBFz8LC+oJycXmqUgKPgS10Y2bM+W+nrZE51sK0kD0OlqQYmfd
+	vcUU9PmzlBQPmScfb6u+hzq41e+hdHdUKuqUrnoBq34WaP3z/jt2NkdCMrSUzK1cw7URMg
+	vI8+5pdrXIdGI2+TDOCg+igPhG2rEBSjxgwUjOSvdq8dmcS4KTnHnTDPNS+VFnJfy+Ka7B
+	KUTbDReyBnxW1VOyoYKvjCRKUfrn5kXH1chj/LoLv96BvmPWSQzP3cG4K8GU+RV57PHsj7
+	/srGN69+NlwuZ28bHFgSO+zbutEVE2nKuyz/XXPNUuPwmir3bzyDOag86FPAvQ==
+Date: Wed, 27 Jul 2022 18:48:26 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, Otavio Salvador
+ <otavio@ossystems.com.br>
+Subject: Re: [OE-core] [PATCH 2/3] oeqa/sdk: Add basic rust cargo test
+Message-ID: <20220727184826.04eb9d05@booty>
+In-Reply-To: <20220726142413.2262729-2-richard.purdie@linuxfoundation.org>
+References: <20220726142413.2262729-1-richard.purdie@linuxfoundation.org>
+	<20220726142413.2262729-2-richard.purdie@linuxfoundation.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20220727120036.633822-1-otavio@ossystems.com.br>
- <EC73E18E-0AA2-4655-8A53-EA278A198969@arm.com>
- <CAP9ODKpT6y0qvhryKm_NqTX82dmOytSU34yR_-8fG=WGZ06QNg@mail.gmail.com>
- <PA4PR08MB7411B7CCCEF2AF6FFB1EA063E8979@PA4PR08MB7411.eurprd08.prod.outlook.com>
-In-Reply-To: 
- <PA4PR08MB7411B7CCCEF2AF6FFB1EA063E8979@PA4PR08MB7411.eurprd08.prod.outlook.com>
-Date: Wed, 27 Jul 2022 13:41:03 -0300
-X-Gmail-Original-Message-ID: 
- <CAP9ODKpo9=JeKvdEK+kX5_2gVWv4haSyU1jYgFLGcwPci8qMsQ@mail.gmail.com>
-Message-ID: 
- <CAP9ODKpo9=JeKvdEK+kX5_2gVWv4haSyU1jYgFLGcwPci8qMsQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libusb1: Link with -latomic only if no atomic
- builtins
-To: Ross Burton <ross.burton@arm.com>
-Cc: "Purdie, Richard" <richard.purdie@linuxfoundation.org>,
-	"otavio@ossystems.com.br" <otavio@ossystems.com.br>,
-	"openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000d87d1105e4cc151b"
+Content-Type: multipart/mixed; boundary="MP_/FnnfwH7/JaVj2eFJ0q+2CMl"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 16:41:21 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 16:48:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168576
+ https://lists.openembedded.org/g/openembedded-core/message/168578
 
---000000000000d87d1105e4cc151b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--MP_/FnnfwH7/JaVj2eFJ0q+2CMl
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-Em qua., 27 de jul. de 2022 =C3=A0s 13:35, Ross Burton <ross.burton@arm.com=
->
-escreveu:
+Hello Richard,
 
-> Whoever adds the patch needs to add their S-o-b.
->
+On Tue, 26 Jul 2022 15:24:12 +0100
+"Richard Purdie" <richard.purdie@linuxfoundation.org> wrote:
 
-The patch sanity check should warn about it as it does for the status
-header. I said, RP can add it.
+> From: Otavio Salvador <otavio@ossystems.com.br>
+> 
+> Add a QA test to the SDK to test that a basic cargo build works.
+> 
+> [RP: Tweaked to work for multilibs and updated to match toolchain changes]
+> 
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+We have a build failure with this series applied:
 
---000000000000d87d1105e4cc151b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/5615/steps/26/logs/stdio
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Em qua., 27 de jul. de 2022 =C3=A0s 1=
-3:35, Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com">ross.burton@ar=
-m.com</a>&gt; escreveu:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">
+Attached is the do_testsdk log.
 
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
+--MP_/FnnfwH7/JaVj2eFJ0q+2CMl
+Content-Type: application/octet-stream; name=log.do_testsdk.37977
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=log.do_testsdk.37977
 
+REVCVUc6IEV4ZWN1dGluZyBweXRob24gZnVuY3Rpb24gZG9fdGVzdHNkawovaG9tZS9wb2t5YnVp
+bGQveW9jdG8td29ya2VyL211bHRpbGliL2J1aWxkL21ldGEvbGliL29lcWEvc2RrL3Rlc3RzZGsu
+cHk6ODg6IFJlc291cmNlV2FybmluZzogdW5jbG9zZWQgZmlsZSA8X2lvLlRleHRJT1dyYXBwZXIg
+bmFtZT0nL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9tdWx0aWxpYi9idWlsZC9idWlsZC90
+bXAvZGVwbG95L3Nkay9wb2t5LWdsaWJjLXg4Nl82NC1jb3JlLWltYWdlLW1pbmltYWwtbWlwczY0
+LW4zMi1xZW11bWlwczY0LXRvb2xjaGFpbi00LjErc25hcHNob3QudGVzdGRhdGEuanNvbicgbW9k
+ZT0ncicgZW5jb2Rpbmc9J1VURi04Jz4KICB0ZXN0X2RhdGEgPSBqc29uLmxvYWQob3Blbih0ZG5h
+bWUsICJyIikpClJlc291cmNlV2FybmluZzogRW5hYmxlIHRyYWNlbWFsbG9jIHRvIGdldCB0aGUg
+b2JqZWN0IGFsbG9jYXRpb24gdHJhY2ViYWNrCi91c3IvbGliL3B5dGhvbjMuMTAvc2l0ZS1wYWNr
+YWdlcy90ZXN0dG9vbHMvZGlzdHV0aWxzY21kLnB5Ojc6IERlcHJlY2F0aW9uV2FybmluZzogVGhl
+IGRpc3R1dGlscyBwYWNrYWdlIGlzIGRlcHJlY2F0ZWQgYW5kIHNsYXRlZCBmb3IgcmVtb3ZhbCBp
+biBQeXRob24gMy4xMi4gVXNlIHNldHVwdG9vbHMgb3IgY2hlY2sgUEVQIDYzMiBmb3IgcG90ZW50
+aWFsIGFsdGVybmF0aXZlcwogIGZyb20gZGlzdHV0aWxzLmNvcmUgaW1wb3J0IENvbW1hbmQKU0RL
+IHRlc3RpbmcgZW52aXJvbm1lbnQ6IG1pcHMzMnIyLXBva3ltbGxpYjMyLWxpbnV4Ck5PVEU6IHRl
+c3RfYXNzaW1wIChhc3NpbXAuQnVpbGRBc3NpbXApCk5PVEU6ICAuLi4gb2sKTk9URTogdGVzdF9j
+cGlvIChidWlsZGNwaW8uQnVpbGRDcGlvVGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X2Vw
+b3h5IChidWlsZGVwb3h5LkVwb3h5VGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X2dhbGN1
+bGF0b3IgKGJ1aWxkZ2FsY3VsYXRvci5HYWxjdWxhdG9yVGVzdCkKTk9URTogIC4uLiBza2lwcGVk
+ICJHYWxjdWxhdG9yVGVzdCBjbGFzczogU0RLIGRvbid0IHN1cHBvcnQgZ3RrKzMiCkdhbGN1bGF0
+b3JUZXN0IGNsYXNzOiBTREsgZG9uJ3Qgc3VwcG9ydCBndGsrMwpOT1RFOiB0ZXN0X2x6aXAgKGJ1
+aWxkbHppcC5CdWlsZEx6aXBUZXN0KQpOT1RFOiAgLi4uIG9rCk5PVEU6IHRlc3RfZ2NjX2NvbXBp
+bGUgKGdjYy5HY2NDb21waWxlVGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X2dwcDJfY29t
+cGlsZSAoZ2NjLkdjY0NvbXBpbGVUZXN0KQpOT1RFOiAgLi4uIG9rCk5PVEU6IHRlc3RfZ3BwX2Nv
+bXBpbGUgKGdjYy5HY2NDb21waWxlVGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X21ha2Ug
+KGdjYy5HY2NDb21waWxlVGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X3BlcmwgKHBlcmwu
+UGVybFRlc3QpCk5PVEU6ICAuLi4gb2sKTk9URTogdGVzdF9weXRob24zIChweXRob24uUHl0aG9u
+M1Rlc3QpCk5PVEU6ICAuLi4gb2sKTk9URTogdGVzdF9jYXJnb19idWlsZCAocnVzdC5SdXN0Q29t
+cGlsZVRlc3QpCk5PVEU6ICAuLi4gc2tpcHBlZCAiUnVzdENvbXBpbGVUZXN0IGNsYXNzOiBTREsg
+ZG9lc24ndCBjb250YWluIGEgUnVzdCBjcm9zcy1jYW5hZGlhbiB0b29sY2hhaW4iClJ1c3RDb21w
+aWxlVGVzdCBjbGFzczogU0RLIGRvZXNuJ3QgY29udGFpbiBhIFJ1c3QgY3Jvc3MtY2FuYWRpYW4g
+dG9vbGNoYWluCk5PVEU6IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KTk9URTogUmFuIDEyIHRlc3RzIGluIDIwNi42
+NjdzCk5PVEU6IE9LCk5PVEU6ICAoc2tpcHBlZD0yKQpSRVNVTFRTOgpSRVNVTFRTIC0gYXNzaW1w
+LkJ1aWxkQXNzaW1wLnRlc3RfYXNzaW1wOiBQQVNTRUQgKDExMi41MXMpClJFU1VMVFMgLSBidWls
+ZGNwaW8uQnVpbGRDcGlvVGVzdC50ZXN0X2NwaW86IFBBU1NFRCAoMzkuNTFzKQpSRVNVTFRTIC0g
+YnVpbGRlcG94eS5FcG94eVRlc3QudGVzdF9lcG94eTogUEFTU0VEICg0OS44OXMpClJFU1VMVFMg
+LSBidWlsZGx6aXAuQnVpbGRMemlwVGVzdC50ZXN0X2x6aXA6IFBBU1NFRCAoMy43MnMpClJFU1VM
+VFMgLSBnY2MuR2NjQ29tcGlsZVRlc3QudGVzdF9nY2NfY29tcGlsZTogUEFTU0VEICgwLjE0cykK
+UkVTVUxUUyAtIGdjYy5HY2NDb21waWxlVGVzdC50ZXN0X2dwcDJfY29tcGlsZTogUEFTU0VEICgw
+LjE5cykKUkVTVUxUUyAtIGdjYy5HY2NDb21waWxlVGVzdC50ZXN0X2dwcF9jb21waWxlOiBQQVNT
+RUQgKDAuNDZzKQpSRVNVTFRTIC0gZ2NjLkdjY0NvbXBpbGVUZXN0LnRlc3RfbWFrZTogUEFTU0VE
+ICgwLjEzcykKUkVTVUxUUyAtIHBlcmwuUGVybFRlc3QudGVzdF9wZXJsOiBQQVNTRUQgKDAuMDJz
+KQpSRVNVTFRTIC0gcHl0aG9uLlB5dGhvbjNUZXN0LnRlc3RfcHl0aG9uMzogUEFTU0VEICgwLjA0
+cykKUkVTVUxUUyAtIGJ1aWxkZ2FsY3VsYXRvci5HYWxjdWxhdG9yVGVzdC50ZXN0X2dhbGN1bGF0
+b3I6IFNLSVBQRUQgKDAuMDBzKQpSRVNVTFRTIC0gcnVzdC5SdXN0Q29tcGlsZVRlc3QudGVzdF9j
+YXJnb19idWlsZDogU0tJUFBFRCAoMC4wMHMpClNVTU1BUlk6CmNvcmUtaW1hZ2UtbWluaW1hbCBz
+ZGsgKHBva3ktZ2xpYmMteDg2XzY0LWNvcmUtaW1hZ2UtbWluaW1hbC1taXBzNjQtbjMyLXFlbXVt
+aXBzNjQtdG9vbGNoYWluLTQuMStzbmFwc2hvdC5zaDplbnZpcm9ubWVudC1zZXR1cC1taXBzMzJy
+Mi1wb2t5bWxsaWIzMi1saW51eCkgLSBSYW4gMTIgdGVzdHMgaW4gMjA2LjY2N3MKY29yZS1pbWFn
+ZS1taW5pbWFsIHNkayAtIE9LIC0gQWxsIHJlcXVpcmVkIHRlc3RzIHBhc3NlZCAoc3VjY2Vzc2Vz
+PTEwLCBza2lwcGVkPTIsIGZhaWx1cmVzPTAsIGVycm9ycz0wKQpTREsgdGVzdGluZyBlbnZpcm9u
+bWVudDogbWlwczY0LXBva3ltbGxpYjY0LWxpbnV4Ck5PVEU6IHRlc3RfYXNzaW1wIChhc3NpbXAu
+QnVpbGRBc3NpbXApCk5PVEU6ICAuLi4gb2sKTk9URTogdGVzdF9jcGlvIChidWlsZGNwaW8uQnVp
+bGRDcGlvVGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X2Vwb3h5IChidWlsZGVwb3h5LkVw
+b3h5VGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X2dhbGN1bGF0b3IgKGJ1aWxkZ2FsY3Vs
+YXRvci5HYWxjdWxhdG9yVGVzdCkKTk9URTogIC4uLiBza2lwcGVkICJHYWxjdWxhdG9yVGVzdCBj
+bGFzczogU0RLIGRvbid0IHN1cHBvcnQgZ3RrKzMiCkdhbGN1bGF0b3JUZXN0IGNsYXNzOiBTREsg
+ZG9uJ3Qgc3VwcG9ydCBndGsrMwpOT1RFOiB0ZXN0X2x6aXAgKGJ1aWxkbHppcC5CdWlsZEx6aXBU
+ZXN0KQpOT1RFOiAgLi4uIG9rCk5PVEU6IHRlc3RfZ2NjX2NvbXBpbGUgKGdjYy5HY2NDb21waWxl
+VGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X2dwcDJfY29tcGlsZSAoZ2NjLkdjY0NvbXBp
+bGVUZXN0KQpOT1RFOiAgLi4uIG9rCk5PVEU6IHRlc3RfZ3BwX2NvbXBpbGUgKGdjYy5HY2NDb21w
+aWxlVGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X21ha2UgKGdjYy5HY2NDb21waWxlVGVz
+dCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X3BlcmwgKHBlcmwuUGVybFRlc3QpCk5PVEU6ICAu
+Li4gb2sKTk9URTogdGVzdF9weXRob24zIChweXRob24uUHl0aG9uM1Rlc3QpCk5PVEU6ICAuLi4g
+b2sKTk9URTogRVJST1IKTk9URTogPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQpOT1RFOiBFUlJPUjogc2V0VXBDbGFz
+cyAocnVzdC5SdXN0Q29tcGlsZVRlc3QpCk5PVEU6IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KTk9URTogVHJhY2Vi
+YWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIi9ob21lL3Bva3lidWlsZC95b2N0
+by13b3JrZXIvbXVsdGlsaWIvYnVpbGQvbWV0YS9saWIvb2VxYS9jb3JlL2Nhc2UucHkiLCBsaW5l
+IDM5LCBpbiBfb2VTZXRVcENsYXNzCiAgICBjbHNzLnNldFVwQ2xhc3NNZXRob2QoKQogIEZpbGUg
+Ii9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvbXVsdGlsaWIvYnVpbGQvbWV0YS9saWIvb2Vx
+YS9zZGsvY2FzZXMvcnVzdC5weSIsIGxpbmUgMjUsIGluIHNldFVwQ2xhc3MKICAgIHNodXRpbC5j
+b3B5dHJlZShvcy5wYXRoLmpvaW4oc2VsZi50Yy5zZGtfZmlsZXNfZGlyLCAicnVzdC9oZWxsbyIp
+LCB0YXJnZXRkaXIpCiAgRmlsZSAiL3Vzci9saWI2NC9weXRob24zLjEwL3NodXRpbC5weSIsIGxp
+bmUgNTU4LCBpbiBjb3B5dHJlZQogICAgcmV0dXJuIF9jb3B5dHJlZShlbnRyaWVzPWVudHJpZXMs
+IHNyYz1zcmMsIGRzdD1kc3QsIHN5bWxpbmtzPXN5bWxpbmtzLAogIEZpbGUgIi91c3IvbGliNjQv
+cHl0aG9uMy4xMC9zaHV0aWwucHkiLCBsaW5lIDQ1NywgaW4gX2NvcHl0cmVlCiAgICBvcy5tYWtl
+ZGlycyhkc3QsIGV4aXN0X29rPWRpcnNfZXhpc3Rfb2spCiAgRmlsZSAiL3Vzci9saWI2NC9weXRo
+b24zLjEwL29zLnB5IiwgbGluZSAyMjUsIGluIG1ha2VkaXJzCiAgICBta2RpcihuYW1lLCBtb2Rl
+KQpGaWxlRXhpc3RzRXJyb3I6IFtFcnJubyAxN10gRmlsZSBleGlzdHM6ICcvaG9tZS9wb2t5YnVp
+bGQveW9jdG8td29ya2VyL211bHRpbGliL2J1aWxkL2J1aWxkL3RtcC93b3JrL3FlbXVtaXBzNjQt
+cG9reS1saW51eC1nbnVuMzIvY29yZS1pbWFnZS1taW5pbWFsLzEuMC1yMC90ZXN0aW1hZ2Utc2Rr
+L2hlbGxvJwoKTk9URTogLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpOT1RFOiBSYW4gMTEgdGVzdHMgaW4gMjE1LjU1
+MnMKTk9URTogRkFJTEVECk5PVEU6ICAoZXJyb3JzPTEsIHNraXBwZWQ9MSkKUkVTVUxUUzoKUkVT
+VUxUUyAtIGFzc2ltcC5CdWlsZEFzc2ltcC50ZXN0X2Fzc2ltcDogUEFTU0VEICgxNDEuNDVzKQpS
+RVNVTFRTIC0gYnVpbGRjcGlvLkJ1aWxkQ3Bpb1Rlc3QudGVzdF9jcGlvOiBQQVNTRUQgKDM5LjA1
+cykKUkVTVUxUUyAtIGJ1aWxkZXBveHkuRXBveHlUZXN0LnRlc3RfZXBveHk6IFBBU1NFRCAoMzAu
+NTBzKQpSRVNVTFRTIC0gYnVpbGRsemlwLkJ1aWxkTHppcFRlc3QudGVzdF9semlwOiBQQVNTRUQg
+KDMuNTZzKQpSRVNVTFRTIC0gZ2NjLkdjY0NvbXBpbGVUZXN0LnRlc3RfZ2NjX2NvbXBpbGU6IFBB
+U1NFRCAoMC4xM3MpClJFU1VMVFMgLSBnY2MuR2NjQ29tcGlsZVRlc3QudGVzdF9ncHAyX2NvbXBp
+bGU6IFBBU1NFRCAoMC4yMHMpClJFU1VMVFMgLSBnY2MuR2NjQ29tcGlsZVRlc3QudGVzdF9ncHBf
+Y29tcGlsZTogUEFTU0VEICgwLjUwcykKUkVTVUxUUyAtIGdjYy5HY2NDb21waWxlVGVzdC50ZXN0
+X21ha2U6IFBBU1NFRCAoMC4xMnMpClJFU1VMVFMgLSBwZXJsLlBlcmxUZXN0LnRlc3RfcGVybDog
+UEFTU0VEICgwLjAycykKUkVTVUxUUyAtIHB5dGhvbi5QeXRob24zVGVzdC50ZXN0X3B5dGhvbjM6
+IFBBU1NFRCAoMC4wM3MpClJFU1VMVFMgLSBidWlsZGdhbGN1bGF0b3IuR2FsY3VsYXRvclRlc3Qu
+dGVzdF9nYWxjdWxhdG9yOiBTS0lQUEVEICgwLjAwcykKUkVTVUxUUyAtIHJ1c3QuUnVzdENvbXBp
+bGVUZXN0LnRlc3RfY2FyZ29fYnVpbGQ6IEVSUk9SClNVTU1BUlk6CmNvcmUtaW1hZ2UtbWluaW1h
+bCBzZGsgKHBva3ktZ2xpYmMteDg2XzY0LWNvcmUtaW1hZ2UtbWluaW1hbC1taXBzNjQtbjMyLXFl
+bXVtaXBzNjQtdG9vbGNoYWluLTQuMStzbmFwc2hvdC5zaDplbnZpcm9ubWVudC1zZXR1cC1taXBz
+NjQtcG9reW1sbGliNjQtbGludXgpIC0gUmFuIDExIHRlc3RzIGluIDIxNS41NTNzCmNvcmUtaW1h
+Z2UtbWluaW1hbCBzZGsgLSBGQUlMIC0gUmVxdWlyZWQgdGVzdHMgZmFpbGVkIChzdWNjZXNzZXM9
+MTAsIHNraXBwZWQ9MSwgZmFpbHVyZXM9MCwgZXJyb3JzPTEpClNESyB0ZXN0aW5nIGVudmlyb25t
+ZW50OiBtaXBzNjQtbjMyLXBva3ktbGludXgtZ251bjMyCk5PVEU6IHRlc3RfYXNzaW1wIChhc3Np
+bXAuQnVpbGRBc3NpbXApCk5PVEU6ICAuLi4gb2sKTk9URTogdGVzdF9jcGlvIChidWlsZGNwaW8u
+QnVpbGRDcGlvVGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X2Vwb3h5IChidWlsZGVwb3h5
+LkVwb3h5VGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X2dhbGN1bGF0b3IgKGJ1aWxkZ2Fs
+Y3VsYXRvci5HYWxjdWxhdG9yVGVzdCkKTk9URTogIC4uLiBza2lwcGVkICJHYWxjdWxhdG9yVGVz
+dCBjbGFzczogU0RLIGRvbid0IHN1cHBvcnQgZ3RrKzMiCkdhbGN1bGF0b3JUZXN0IGNsYXNzOiBT
+REsgZG9uJ3Qgc3VwcG9ydCBndGsrMwpOT1RFOiB0ZXN0X2x6aXAgKGJ1aWxkbHppcC5CdWlsZEx6
+aXBUZXN0KQpOT1RFOiAgLi4uIG9rCk5PVEU6IHRlc3RfZ2NjX2NvbXBpbGUgKGdjYy5HY2NDb21w
+aWxlVGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X2dwcDJfY29tcGlsZSAoZ2NjLkdjY0Nv
+bXBpbGVUZXN0KQpOT1RFOiAgLi4uIG9rCk5PVEU6IHRlc3RfZ3BwX2NvbXBpbGUgKGdjYy5HY2ND
+b21waWxlVGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X21ha2UgKGdjYy5HY2NDb21waWxl
+VGVzdCkKTk9URTogIC4uLiBvawpOT1RFOiB0ZXN0X3BlcmwgKHBlcmwuUGVybFRlc3QpCk5PVEU6
+ICAuLi4gb2sKTk9URTogdGVzdF9weXRob24zIChweXRob24uUHl0aG9uM1Rlc3QpCk5PVEU6ICAu
+Li4gb2sKTk9URTogRVJST1IKTk9URTogPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQpOT1RFOiBFUlJPUjogc2V0VXBD
+bGFzcyAocnVzdC5SdXN0Q29tcGlsZVRlc3QpCk5PVEU6IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KTk9URTogVHJh
+Y2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgIi9ob21lL3Bva3lidWlsZC95
+b2N0by13b3JrZXIvbXVsdGlsaWIvYnVpbGQvbWV0YS9saWIvb2VxYS9jb3JlL2Nhc2UucHkiLCBs
+aW5lIDM5LCBpbiBfb2VTZXRVcENsYXNzCiAgICBjbHNzLnNldFVwQ2xhc3NNZXRob2QoKQogIEZp
+bGUgIi9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvbXVsdGlsaWIvYnVpbGQvbWV0YS9saWIv
+b2VxYS9zZGsvY2FzZXMvcnVzdC5weSIsIGxpbmUgMjUsIGluIHNldFVwQ2xhc3MKICAgIHNodXRp
+bC5jb3B5dHJlZShvcy5wYXRoLmpvaW4oc2VsZi50Yy5zZGtfZmlsZXNfZGlyLCAicnVzdC9oZWxs
+byIpLCB0YXJnZXRkaXIpCiAgRmlsZSAiL3Vzci9saWI2NC9weXRob24zLjEwL3NodXRpbC5weSIs
+IGxpbmUgNTU4LCBpbiBjb3B5dHJlZQogICAgcmV0dXJuIF9jb3B5dHJlZShlbnRyaWVzPWVudHJp
+ZXMsIHNyYz1zcmMsIGRzdD1kc3QsIHN5bWxpbmtzPXN5bWxpbmtzLAogIEZpbGUgIi91c3IvbGli
+NjQvcHl0aG9uMy4xMC9zaHV0aWwucHkiLCBsaW5lIDQ1NywgaW4gX2NvcHl0cmVlCiAgICBvcy5t
+YWtlZGlycyhkc3QsIGV4aXN0X29rPWRpcnNfZXhpc3Rfb2spCiAgRmlsZSAiL3Vzci9saWI2NC9w
+eXRob24zLjEwL29zLnB5IiwgbGluZSAyMjUsIGluIG1ha2VkaXJzCiAgICBta2RpcihuYW1lLCBt
+b2RlKQpGaWxlRXhpc3RzRXJyb3I6IFtFcnJubyAxN10gRmlsZSBleGlzdHM6ICcvaG9tZS9wb2t5
+YnVpbGQveW9jdG8td29ya2VyL211bHRpbGliL2J1aWxkL2J1aWxkL3RtcC93b3JrL3FlbXVtaXBz
+NjQtcG9reS1saW51eC1nbnVuMzIvY29yZS1pbWFnZS1taW5pbWFsLzEuMC1yMC90ZXN0aW1hZ2Ut
+c2RrL2hlbGxvJwoKTk9URTogLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpOT1RFOiBSYW4gMTEgdGVzdHMgaW4gMTk4
+LjQ2MHMKTk9URTogRkFJTEVECk5PVEU6ICAoZXJyb3JzPTEsIHNraXBwZWQ9MSkKUkVTVUxUUzoK
+UkVTVUxUUyAtIGFzc2ltcC5CdWlsZEFzc2ltcC50ZXN0X2Fzc2ltcDogUEFTU0VEICgxMzMuNjZz
+KQpSRVNVTFRTIC0gYnVpbGRjcGlvLkJ1aWxkQ3Bpb1Rlc3QudGVzdF9jcGlvOiBQQVNTRUQgKDMw
+Ljk4cykKUkVTVUxUUyAtIGJ1aWxkZXBveHkuRXBveHlUZXN0LnRlc3RfZXBveHk6IFBBU1NFRCAo
+MjkuNDJzKQpSRVNVTFRTIC0gYnVpbGRsemlwLkJ1aWxkTHppcFRlc3QudGVzdF9semlwOiBQQVNT
+RUQgKDMuMzZzKQpSRVNVTFRTIC0gZ2NjLkdjY0NvbXBpbGVUZXN0LnRlc3RfZ2NjX2NvbXBpbGU6
+IFBBU1NFRCAoMC4xMXMpClJFU1VMVFMgLSBnY2MuR2NjQ29tcGlsZVRlc3QudGVzdF9ncHAyX2Nv
+bXBpbGU6IFBBU1NFRCAoMC4yMnMpClJFU1VMVFMgLSBnY2MuR2NjQ29tcGlsZVRlc3QudGVzdF9n
+cHBfY29tcGlsZTogUEFTU0VEICgwLjUxcykKUkVTVUxUUyAtIGdjYy5HY2NDb21waWxlVGVzdC50
+ZXN0X21ha2U6IFBBU1NFRCAoMC4xNXMpClJFU1VMVFMgLSBwZXJsLlBlcmxUZXN0LnRlc3RfcGVy
+bDogUEFTU0VEICgwLjAycykKUkVTVUxUUyAtIHB5dGhvbi5QeXRob24zVGVzdC50ZXN0X3B5dGhv
+bjM6IFBBU1NFRCAoMC4wNHMpClJFU1VMVFMgLSBidWlsZGdhbGN1bGF0b3IuR2FsY3VsYXRvclRl
+c3QudGVzdF9nYWxjdWxhdG9yOiBTS0lQUEVEICgwLjAwcykKUkVTVUxUUyAtIHJ1c3QuUnVzdENv
+bXBpbGVUZXN0LnRlc3RfY2FyZ29fYnVpbGQ6IEVSUk9SClNVTU1BUlk6CmNvcmUtaW1hZ2UtbWlu
+aW1hbCBzZGsgKHBva3ktZ2xpYmMteDg2XzY0LWNvcmUtaW1hZ2UtbWluaW1hbC1taXBzNjQtbjMy
+LXFlbXVtaXBzNjQtdG9vbGNoYWluLTQuMStzbmFwc2hvdC5zaDplbnZpcm9ubWVudC1zZXR1cC1t
+aXBzNjQtbjMyLXBva3ktbGludXgtZ251bjMyKSAtIFJhbiAxMSB0ZXN0cyBpbiAxOTguNDYxcwpj
+b3JlLWltYWdlLW1pbmltYWwgc2RrIC0gRkFJTCAtIFJlcXVpcmVkIHRlc3RzIGZhaWxlZCAoc3Vj
+Y2Vzc2VzPTEwLCBza2lwcGVkPTEsIGZhaWx1cmVzPTAsIGVycm9ycz0xKQpFUlJPUjogY29yZS1p
+bWFnZS1taW5pbWFsIC0gRkFJTEVEIC0gY2hlY2sgdGhlIHRhc2sgbG9nIGFuZCB0aGUgY29tbWFu
+ZHMgbG9nCkRFQlVHOiBQeXRob24gZnVuY3Rpb24gZG9fdGVzdHNkayBmaW5pc2hlZAo=
 
-
-<div lang=3D"EN-GB" style=3D"overflow-wrap: break-word;">
-<div class=3D"gmail-m_-964568925530506581WordSection1">
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt">Whoever adds the patc=
-h needs to add their S-o-b.</span></p></div></div></blockquote><div><br></d=
-iv><div>The patch sanity check should warn about it as it does for the stat=
-us header. I said, RP can add it.</div><div>=C2=A0</div></div>-- <br><div d=
-ir=3D"ltr" class=3D"gmail_signature">Otavio Salvador =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 O.S. Systems<br><a href=3D"http://www.ossystems.com.br" target=3D"_blan=
-k">http://www.ossystems.com.br</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"ht=
-tp://code.ossystems.com.br" target=3D"_blank">http://code.ossystems.com.br<=
-/a><br>Mobile: +55 (53) 9 9981-7854 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mobil=
-e: +1 (347) 903-9750</div></div>
-
---000000000000d87d1105e4cc151b--
+--MP_/FnnfwH7/JaVj2eFJ0q+2CMl--
 
