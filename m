@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0024C00144
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5C42C19F2A
 	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 00:41:26 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
- [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web09.14401.1658882484121151218
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+ [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web11.14386.1658882481481615181
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 17:41:24 -0700
+ Tue, 26 Jul 2022 17:41:21 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=ISOTNak8;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.172,
+ header.b=4XfwvdlV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.178,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f172.google.com with SMTP id c6so10712343plc.5
+Received: by mail-pf1-f178.google.com with SMTP id 70so14736650pfx.1
         for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 17:41:24 -0700 (PDT)
+ Tue, 26 Jul 2022 17:41:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=rdBL6F71p0ASy3NBgI9R57OSs0uJJqgTqwsJUxjrAK4=;
-        b=ISOTNak8+/AOvMD0ieX7TUqP/jBZspMuHVILP+a4RDz43UfHMgS0DkgyTfYseKMGeb
-         vz+1SVLU7r99WCYyZfh6atk97azG+7G11IzT3NikEOZQxj4xoeVCHrXRfZ+I9ImFoNix
-         tNOlI/DlJjSLbkMst2QO4UlzKGoA4buNpeFuFh4QMnYbnaxhhalEYNCtb8Q2jW5OTt5/
-         7rrw/QmX2EH0R8GfPhd6HMijccODVP7StP+fAzKuVH03LnELtseqkMJkQitTPHVh5thq
-         GpWSPvcQpKyLlwb/cbwkS34otE3tHuYfnxXOSU6fupHKQQuY4uZyvz/iOtizG9Q4umAw
-         6NQg==
+        bh=jw/GYF7cy3IYOnD5Otkg5Vc8NyXpsCWg7bDxfgMv/Mw=;
+        b=4XfwvdlVwuFbkNt8kShchCbjtPx9L/aXK1ubPdlJo16mE5g9Vp0gMiXTysNyYYeqLT
+         PXRm4d7pr7WTYMg8mzJvApR/DzRLhFTrpMRkzTJMvJ8oMjc/MuqMiuNufYmgc+/hHaKO
+         Kd58tW0iZmgPwLhqNy4LmvW9gZ3JfDZfZMIn4+aW7g/jMP9a46XJZ8wGqkpBZ9EkPNBP
+         HeUTui7TTTE2eKVel886e5MgHeMI0NZnENp/c5sb9W4eROtXb9yRVFGRN1pbiqr0IkYp
+         9Ne7amSO/mMO1zg3TCxdIiJ0YkG6Hh4l/RGEGhrR4aG/URj93dQ5EeKrgqsqh5DiZN+A
+         rmlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=rdBL6F71p0ASy3NBgI9R57OSs0uJJqgTqwsJUxjrAK4=;
-        b=u9fWVRxqsiw+3+zt1Vs9C7MzDz4e/PHx2HEaH2sgNHVgNBdu1kGe+SWFmhPxHaz9jU
-         CXUugxZbWKXOUWSVf3Rqfgn6CyaYxrtDNht2MIJPYkigV3IGbOA3IEYLwytON8G5f+eY
-         jybUleB/G2bJfkflo7Dyo543o51SYzCdvts1j5QJK4XFA3/B03rKVOA7yfvBHhv5ysFL
-         nssGZyFHJ43enwqWTPGvX3V8Yu4mC6MUW7b0AQXHa51fueSIT4RHZGRAB5fHFhoG/zcO
-         f19aLa1k0v+schM+DefJ28RGHhr+JAJIW1RI9Yt1QR5eYIfhlDIFXbfTufbs7nIKwbLT
-         YK8w==
-X-Gm-Message-State: AJIora/Qjjqwf4HIpSRuHLeaU34zrzohL6Ixd0IHienJNvB3cAlvBwVx
-	G1GssBWJZ6l+O3JH1ZkHqR482MPQPo1w6TXB
+        bh=jw/GYF7cy3IYOnD5Otkg5Vc8NyXpsCWg7bDxfgMv/Mw=;
+        b=I3J7YsoxUxFrZJbTJhLZ/LyYTRibiGAXokcO7jscNKpl+3JGf8wZm38vx8/fPDfaWl
+         9xxBB8LOUoCXrbgHt3E802e2e+01/KL+D4b6gQEF9unD1rbhWx614JKSP4AjmCDOtB9j
+         TMHyNfGxB8sP40z1c/5yA8topYJ+rTx4CejyPSNOg6MP7AEsr9ThJgbFvGUectAmohcf
+         SXpRJd/WRqcNq0S0bs/zq64lUaVYNaC2LmxGNYAPUxFHGKbuL0fMDLPH0ulnV8JJ8PtE
+         dvBKNHtEHF4f8qkAa+B459sv1ZxaIGcznKG+KkSj0K0PzSdj7kK6xrcOLxuMX0aM46qj
+         4cVA==
+X-Gm-Message-State: AJIora+MDKUg93K7e7l01yInViBUqip/KQ7JtvQldlRMpmri0FuRfmNE
+	4G6RfS6K/FM2qY+my0elcL3ApV+8Um3pEnyI
 X-Google-Smtp-Source: 
- AGRyM1vK5Xqa3N5GwEU/lMwk8Khw9mrCciIaeZJHf+npMaKHf417U0FCkjLM6zixSILoAHURZ1U/Iw==
-X-Received: by 2002:a17:902:cec8:b0:16d:8eb5:1d4c with SMTP id
- d8-20020a170902cec800b0016d8eb51d4cmr8029856plg.129.1658882482809;
-        Tue, 26 Jul 2022 17:41:22 -0700 (PDT)
+ AGRyM1sqPq7AFKvZ5ZcPVg7vSqHMVNcPrQho8v9P58yKO3fn+g2NTuNsf6HWGg1LmLFeODXCtN4E2g==
+X-Received: by 2002:a63:4cf:0:b0:41a:617f:e195 with SMTP id
+ 198-20020a6304cf000000b0041a617fe195mr16453127pge.89.1658882480248;
+        Tue, 26 Jul 2022 17:41:20 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- u16-20020a170902e5d000b0015e8d4eb219sm12356278plf.99.2022.07.26.17.41.21
+ u16-20020a170902e5d000b0015e8d4eb219sm12356278plf.99.2022.07.26.17.41.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jul 2022 17:41:22 -0700 (PDT)
+        Tue, 26 Jul 2022 17:41:19 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 03/15] dpkg: fix CVE-2022-1664
-Date: Tue, 26 Jul 2022 14:40:34 -1000
+Subject: [OE-core][kirkstone 02/15] tiff: Security fixes CVE-2022-1354 and
+ CVE-2022-1355
+Date: Tue, 26 Jul 2022 14:40:33 -1000
 Message-Id: 
- <e22b7b2a30c4c688b9c4414824c93ae8a884496c.1658882276.git.steve@sakoman.com>
+ <6c373c041f1dd45458866408d1ca16d47cacbd86.1658882276.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1658882276.git.steve@sakoman.com>
 References: <cover.1658882276.git.steve@sakoman.com>
@@ -69,366 +70,334 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 00:41:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168526
+ https://lists.openembedded.org/g/openembedded-core/message/168525
 
-From: Sakib Sajal <sakib.sajal@windriver.com>
+From: Yi Zhao <yi.zhao@windriver.com>
 
-Backport patch to fix CVE-2022-1664.
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2022-1354
+https://security-tracker.debian.org/tracker/CVE-2022-1354
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+https://nvd.nist.gov/vuln/detail/CVE-2022-1355
+https://security-tracker.debian.org/tracker/CVE-2022-1355
+
+Patches from:
+
+CVE-2022-1354:
+https://gitlab.com/libtiff/libtiff/-/commit/87f580f39011109b3bb5f6eca13fac543a542798
+
+CVE-2022-1355:
+https://gitlab.com/libtiff/libtiff/-/commit/c1ae29f9ebacd29b7c3e0c7db671af7db3584bc2
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...ive-Prevent-directory-traversal-for-.patch | 328 ++++++++++++++++++
- meta/recipes-devtools/dpkg/dpkg_1.21.4.bb     |   1 +
- 2 files changed, 329 insertions(+)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/0001-Dpkg-Source-Archive-Prevent-directory-traversal-for-.patch
+ .../libtiff/tiff/CVE-2022-1354.patch          | 212 ++++++++++++++++++
+ .../libtiff/tiff/CVE-2022-1355.patch          |  62 +++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   2 +
+ 3 files changed, 276 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-1354.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-1355.patch
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-Dpkg-Source-Archive-Prevent-directory-traversal-for-.patch b/meta/recipes-devtools/dpkg/dpkg/0001-Dpkg-Source-Archive-Prevent-directory-traversal-for-.patch
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1354.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1354.patch
 new file mode 100644
-index 0000000000..d249d854fb
+index 0000000000..71b85cac10
 --- /dev/null
-+++ b/meta/recipes-devtools/dpkg/dpkg/0001-Dpkg-Source-Archive-Prevent-directory-traversal-for-.patch
-@@ -0,0 +1,328 @@
-+From 6d8a6799639f8853a2af1f9036bc70fddbfdd2a2 Mon Sep 17 00:00:00 2001
-+From: Guillem Jover <guillem@debian.org>
-+Date: Tue, 3 May 2022 02:09:32 +0200
-+Subject: [PATCH] Dpkg::Source::Archive: Prevent directory traversal for
-+ in-place extracts
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1354.patch
+@@ -0,0 +1,212 @@
++From 87881e093691a35c60b91cafed058ba2dd5d9807 Mon Sep 17 00:00:00 2001
++From: Even Rouault <even.rouault@spatialys.com>
++Date: Sun, 5 Dec 2021 14:37:46 +0100
++Subject: [PATCH] TIFFReadDirectory: fix OJPEG hack (fixes #319)
 +
-+For untrusted v2 and v3 source package formats that include a debian.tar
-+archive, when we are extracting it, we do that as an in-place extraction,
-+which can lead to directory traversal situations on specially crafted
-+orig.tar and debian.tar tarballs.
++to avoid having the size of the strip arrays inconsistent with the
++number of strips returned by TIFFNumberOfStrips(), which may cause
++out-ouf-bounds array read afterwards.
 +
-+GNU tar replaces entries on the filesystem by the entries present on
-+the tarball, but it will follow symlinks when the symlink pathname
-+itself is not present as an actual directory on the tarball.
++One of the OJPEG hack that alters SamplesPerPixel may influence the
++number of strips. Hence compute tif_dir.td_nstrips only afterwards.
 +
-+This means we can create an orig.tar where there's a symlink pointing
-+out of the source tree root directory, and then a debian.tar that
-+contains an entry within that symlink as if it was a directory, without
-+a directory entry for the symlink pathname itself, which will be
-+extracted following the symlink outside the source tree root.
++CVE: CVE-2022-1354
 +
-+This is currently noted as expected in GNU tar documentation. But even
-+if there was a new extraction mode avoiding this problem we'd need such
-+new version. Using perl's Archive::Tar would solve the problem, but
-+switching to such different pure perl implementation, could cause
-+compatibility or performance issues.
++Upstream-Status: Backport
++[https://gitlab.com/libtiff/libtiff/-/commit/87f580f39011109b3bb5f6eca13fac543a542798]
 +
-+What we do is when we are requested to perform an in-place extract, we
-+instead still use a temporary directory, then walk that directory and
-+remove any matching entry in the destination directory, replicating what
-+GNU tar would do, but in addition avoiding the directory traversal issue
-+for symlinks. Which should work with any tar implementation and be safe.
-+
-+Reported-by: Max Justicz <max@justi.cz>
-+Stable-Candidates: 1.18.x 1.19.x 1.20.x
-+Fixes: commit 0c0057a27fecccab77d2b3cffa9a7d172846f0b4 (1.14.17)
-+Fixes: CVE-2022-1664
-+
-+CVE: CVE-2022-1664
-+Upstream-Status: Backport [7a6c03cb34d4a09f35df2f10779cbf1b70a5200b]
-+
-+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 +---
-+ scripts/Dpkg/Source/Archive.pm  | 122 +++++++++++++++++++++++++-------
-+ scripts/t/Dpkg_Source_Archive.t | 110 +++++++++++++++++++++++++++-
-+ 2 files changed, 204 insertions(+), 28 deletions(-)
++ libtiff/tif_dirread.c | 162 ++++++++++++++++++++++--------------------
++ 1 file changed, 83 insertions(+), 79 deletions(-)
 +
-+diff --git a/scripts/Dpkg/Source/Archive.pm b/scripts/Dpkg/Source/Archive.pm
-+index 33c181b20..2ddd04af8 100644
-+--- a/scripts/Dpkg/Source/Archive.pm
-++++ b/scripts/Dpkg/Source/Archive.pm
-+@@ -21,9 +21,11 @@ use warnings;
-+ our $VERSION = '0.01';
++diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
++index 8f434ef5..14c031d1 100644
++--- a/libtiff/tif_dirread.c
+++++ b/libtiff/tif_dirread.c
++@@ -3794,50 +3794,7 @@ TIFFReadDirectory(TIFF* tif)
++ 		MissingRequired(tif,"ImageLength");
++ 		goto bad;
++ 	}
++-	/*
++-	 * Setup appropriate structures (by strip or by tile)
++-	 */
++-	if (!TIFFFieldSet(tif, FIELD_TILEDIMENSIONS)) {
++-		tif->tif_dir.td_nstrips = TIFFNumberOfStrips(tif);  
++-		tif->tif_dir.td_tilewidth = tif->tif_dir.td_imagewidth;
++-		tif->tif_dir.td_tilelength = tif->tif_dir.td_rowsperstrip;
++-		tif->tif_dir.td_tiledepth = tif->tif_dir.td_imagedepth;
++-		tif->tif_flags &= ~TIFF_ISTILED;
++-	} else {
++-		tif->tif_dir.td_nstrips = TIFFNumberOfTiles(tif);
++-		tif->tif_flags |= TIFF_ISTILED;
++-	}
++-	if (!tif->tif_dir.td_nstrips) {
++-		TIFFErrorExt(tif->tif_clientdata, module,
++-		    "Cannot handle zero number of %s",
++-		    isTiled(tif) ? "tiles" : "strips");
++-		goto bad;
++-	}
++-	tif->tif_dir.td_stripsperimage = tif->tif_dir.td_nstrips;
++-	if (tif->tif_dir.td_planarconfig == PLANARCONFIG_SEPARATE)
++-		tif->tif_dir.td_stripsperimage /= tif->tif_dir.td_samplesperpixel;
++-	if (!TIFFFieldSet(tif, FIELD_STRIPOFFSETS)) {
++-#ifdef OJPEG_SUPPORT
++-		if ((tif->tif_dir.td_compression==COMPRESSION_OJPEG) &&
++-		    (isTiled(tif)==0) &&
++-		    (tif->tif_dir.td_nstrips==1)) {
++-			/*
++-			 * XXX: OJPEG hack.
++-			 * If a) compression is OJPEG, b) it's not a tiled TIFF,
++-			 * and c) the number of strips is 1,
++-			 * then we tolerate the absence of stripoffsets tag,
++-			 * because, presumably, all required data is in the
++-			 * JpegInterchangeFormat stream.
++-			 */
++-			TIFFSetFieldBit(tif, FIELD_STRIPOFFSETS);
++-		} else
++-#endif
++-        {
++-			MissingRequired(tif,
++-				isTiled(tif) ? "TileOffsets" : "StripOffsets");
++-			goto bad;
++-		}
++-	}
+++
++ 	/*
++ 	 * Second pass: extract other information.
++ 	 */
++@@ -4042,41 +3999,6 @@ TIFFReadDirectory(TIFF* tif)
++ 			} /* -- if (!dp->tdir_ignore) */
++ 		} /* -- for-loop -- */
 + 
-+ use Carp;
-++use Errno qw(ENOENT);
-+ use File::Temp qw(tempdir);
-+ use File::Basename qw(basename);
-+ use File::Spec;
-++use File::Find;
-+ use Cwd;
-+ 
-+ use Dpkg ();
-+@@ -110,19 +112,13 @@ sub extract {
-+     my %spawn_opts = (wait_child => 1);
-+ 
-+     # Prepare destination
-+-    my $tmp;
-+-    if ($opts{in_place}) {
-+-        $spawn_opts{chdir} = $dest;
-+-        $tmp = $dest; # So that fixperms call works
-+-    } else {
-+-        my $template = basename($self->get_filename()) .  '.tmp-extract.XXXXX';
-+-        unless (-e $dest) {
-+-            # Kludge so that realpath works
-+-            mkdir($dest) or syserr(g_('cannot create directory %s'), $dest);
++-        if( tif->tif_mode == O_RDWR &&
++-            tif->tif_dir.td_stripoffset_entry.tdir_tag != 0 &&
++-            tif->tif_dir.td_stripoffset_entry.tdir_count == 0 &&
++-            tif->tif_dir.td_stripoffset_entry.tdir_type == 0 &&
++-            tif->tif_dir.td_stripoffset_entry.tdir_offset.toff_long8 == 0 &&
++-            tif->tif_dir.td_stripbytecount_entry.tdir_tag != 0 &&
++-            tif->tif_dir.td_stripbytecount_entry.tdir_count == 0 &&
++-            tif->tif_dir.td_stripbytecount_entry.tdir_type == 0 &&
++-            tif->tif_dir.td_stripbytecount_entry.tdir_offset.toff_long8 == 0 )
++-        {
++-            /* Directory typically created with TIFFDeferStrileArrayWriting() */
++-            TIFFSetupStrips(tif);
 +-        }
-+-        $tmp = tempdir($template, DIR => Cwd::realpath("$dest/.."), CLEANUP => 1);
-+-        $spawn_opts{chdir} = $tmp;
-++    my $template = basename($self->get_filename()) .  '.tmp-extract.XXXXX';
-++    unless (-e $dest) {
-++        # Kludge so that realpath works
-++        mkdir($dest) or syserr(g_('cannot create directory %s'), $dest);
-+     }
-++    my $tmp = tempdir($template, DIR => Cwd::realpath("$dest/.."), CLEANUP => 1);
-++    $spawn_opts{chdir} = $tmp;
-+ 
-+     # Prepare stuff that handles the input of tar
-+     $self->ensure_open('r', delete_sig => [ 'PIPE' ]);
-+@@ -145,22 +141,94 @@ sub extract {
-+     # have to be calculated using mount options and other madness.
-+     fixperms($tmp) unless $opts{no_fixperms};
-+ 
-+-    # Stop here if we extracted in-place as there's nothing to move around
-+-    return if $opts{in_place};
++-        else if( !(tif->tif_flags&TIFF_DEFERSTRILELOAD) )
++-        {
++-            if( tif->tif_dir.td_stripoffset_entry.tdir_tag != 0 )
++-            {
++-                if (!TIFFFetchStripThing(tif,&(tif->tif_dir.td_stripoffset_entry),
++-                                         tif->tif_dir.td_nstrips,
++-                                         &tif->tif_dir.td_stripoffset_p))
++-                {
++-                    goto bad;
++-                }
++-            }
++-            if( tif->tif_dir.td_stripbytecount_entry.tdir_tag != 0 )
++-            {
++-                if (!TIFFFetchStripThing(tif,&(tif->tif_dir.td_stripbytecount_entry),
++-                                         tif->tif_dir.td_nstrips,
++-                                         &tif->tif_dir.td_stripbytecount_p))
++-                {
++-                    goto bad;
++-                }
++-            }
++-        }
 +-
-+-    # Rename extracted directory
-+-    opendir(my $dir_dh, $tmp) or syserr(g_('cannot opendir %s'), $tmp);
-+-    my @entries = grep { $_ ne '.' && $_ ne '..' } readdir($dir_dh);
-+-    closedir($dir_dh);
-+-    my $done = 0;
-+-    erasedir($dest);
-+-    if (scalar(@entries) == 1 && ! -l "$tmp/$entries[0]" && -d _) {
-+-	rename("$tmp/$entries[0]", $dest)
-+-	    or syserr(g_('unable to rename %s to %s'),
-+-	              "$tmp/$entries[0]", $dest);
-++    # If we are extracting "in-place" do not remove the destination directory.
-++    if ($opts{in_place}) {
-++        my $canon_basedir = Cwd::realpath($dest);
-++        # On Solaris /dev/null points to /devices/pseudo/mm@0:null.
-++        my $canon_devnull = Cwd::realpath('/dev/null');
-++        my $check_symlink = sub {
-++            my $pathname = shift;
-++            my $canon_pathname = Cwd::realpath($pathname);
-++            if (not defined $canon_pathname) {
-++                return if $! == ENOENT;
++ 	/*
++ 	 * OJPEG hack:
++ 	 * - If a) compression is OJPEG, and b) photometric tag is missing,
++@@ -4147,6 +4069,88 @@ TIFFReadDirectory(TIFF* tif)
++ 		}
++ 	}
++ 
+++	/*
+++	 * Setup appropriate structures (by strip or by tile)
+++	 * We do that only after the above OJPEG hack which alters SamplesPerPixel
+++	 * and thus influences the number of strips in the separate planarconfig.
+++	 */
+++	if (!TIFFFieldSet(tif, FIELD_TILEDIMENSIONS)) {
+++		tif->tif_dir.td_nstrips = TIFFNumberOfStrips(tif);  
+++		tif->tif_dir.td_tilewidth = tif->tif_dir.td_imagewidth;
+++		tif->tif_dir.td_tilelength = tif->tif_dir.td_rowsperstrip;
+++		tif->tif_dir.td_tiledepth = tif->tif_dir.td_imagedepth;
+++		tif->tif_flags &= ~TIFF_ISTILED;
+++	} else {
+++		tif->tif_dir.td_nstrips = TIFFNumberOfTiles(tif);
+++		tif->tif_flags |= TIFF_ISTILED;
+++	}
+++	if (!tif->tif_dir.td_nstrips) {
+++		TIFFErrorExt(tif->tif_clientdata, module,
+++		    "Cannot handle zero number of %s",
+++		    isTiled(tif) ? "tiles" : "strips");
+++		goto bad;
+++	}
+++	tif->tif_dir.td_stripsperimage = tif->tif_dir.td_nstrips;
+++	if (tif->tif_dir.td_planarconfig == PLANARCONFIG_SEPARATE)
+++		tif->tif_dir.td_stripsperimage /= tif->tif_dir.td_samplesperpixel;
+++	if (!TIFFFieldSet(tif, FIELD_STRIPOFFSETS)) {
+++#ifdef OJPEG_SUPPORT
+++		if ((tif->tif_dir.td_compression==COMPRESSION_OJPEG) &&
+++		    (isTiled(tif)==0) &&
+++		    (tif->tif_dir.td_nstrips==1)) {
+++			/*
+++			 * XXX: OJPEG hack.
+++			 * If a) compression is OJPEG, b) it's not a tiled TIFF,
+++			 * and c) the number of strips is 1,
+++			 * then we tolerate the absence of stripoffsets tag,
+++			 * because, presumably, all required data is in the
+++			 * JpegInterchangeFormat stream.
+++			 */
+++			TIFFSetFieldBit(tif, FIELD_STRIPOFFSETS);
+++		} else
+++#endif
+++        {
+++			MissingRequired(tif,
+++				isTiled(tif) ? "TileOffsets" : "StripOffsets");
+++			goto bad;
+++		}
+++	}
 ++
-++                syserr(g_("pathname '%s' cannot be canonicalized"), $pathname);
-++            }
-++            return if $canon_pathname eq $canon_devnull;
-++            return if $canon_pathname eq $canon_basedir;
-++            return if $canon_pathname =~ m{^\Q$canon_basedir/\E};
-++            warning(g_("pathname '%s' points outside source root (to '%s')"),
-++                    $pathname, $canon_pathname);
-++        };
-++
-++        my $move_in_place = sub {
-++            my $relpath = File::Spec->abs2rel($File::Find::name, $tmp);
-++            my $destpath = File::Spec->catfile($dest, $relpath);
-++
-++            my ($mode, $atime, $mtime);
-++            lstat $File::Find::name
-++                or syserr(g_('cannot get source pathname %s metadata'), $File::Find::name);
-++            ((undef) x 2, $mode, (undef) x 5, $atime, $mtime) = lstat _;
-++            my $src_is_dir = -d _;
-++
-++            my $dest_exists = 1;
-++            if (not lstat $destpath) {
-++                if ($! == ENOENT) {
-++                    $dest_exists = 0;
-++                } else {
-++                    syserr(g_('cannot get target pathname %s metadata'), $destpath);
-++                }
-++            }
-++            my $dest_is_dir = -d _;
-++            if ($dest_exists) {
-++                if ($dest_is_dir && $src_is_dir) {
-++                    # Refresh the destination directory attributes with the
-++                    # ones from the tarball.
-++                    chmod $mode, $destpath
-++                        or syserr(g_('cannot change directory %s mode'), $File::Find::name);
-++                    utime $atime, $mtime, $destpath
-++                        or syserr(g_('cannot change directory %s times'), $File::Find::name);
-++
-++                    # We should do nothing, and just walk further tree.
-++                    return;
-++                } elsif ($dest_is_dir) {
-++                    rmdir $destpath
-++                        or syserr(g_('cannot remove destination directory %s'), $destpath);
-++                } else {
-++                    $check_symlink->($destpath);
-++                    unlink $destpath
-++                        or syserr(g_('cannot remove destination file %s'), $destpath);
-++                }
-++            }
-++            # If we are moving a directory, we do not need to walk it.
-++            if ($src_is_dir) {
-++                $File::Find::prune = 1;
-++            }
-++            rename $File::Find::name, $destpath
-++                or syserr(g_('cannot move %s to %s'), $File::Find::name, $destpath);
-++        };
-++
-++        find({
-++            wanted => $move_in_place,
-++            no_chdir => 1,
-++            dangling_symlinks => 0,
-++        }, $tmp);
-+     } else {
-+-	rename($tmp, $dest)
-+-	    or syserr(g_('unable to rename %s to %s'), $tmp, $dest);
-++        # Rename extracted directory
-++        opendir(my $dir_dh, $tmp) or syserr(g_('cannot opendir %s'), $tmp);
-++        my @entries = grep { $_ ne '.' && $_ ne '..' } readdir($dir_dh);
-++        closedir($dir_dh);
-++
-++        erasedir($dest);
-++
-++        if (scalar(@entries) == 1 && ! -l "$tmp/$entries[0]" && -d _) {
-++            rename("$tmp/$entries[0]", $dest)
-++                or syserr(g_('unable to rename %s to %s'),
-++                          "$tmp/$entries[0]", $dest);
-++        } else {
-++            rename($tmp, $dest)
-++                or syserr(g_('unable to rename %s to %s'), $tmp, $dest);
+++        if( tif->tif_mode == O_RDWR &&
+++            tif->tif_dir.td_stripoffset_entry.tdir_tag != 0 &&
+++            tif->tif_dir.td_stripoffset_entry.tdir_count == 0 &&
+++            tif->tif_dir.td_stripoffset_entry.tdir_type == 0 &&
+++            tif->tif_dir.td_stripoffset_entry.tdir_offset.toff_long8 == 0 &&
+++            tif->tif_dir.td_stripbytecount_entry.tdir_tag != 0 &&
+++            tif->tif_dir.td_stripbytecount_entry.tdir_count == 0 &&
+++            tif->tif_dir.td_stripbytecount_entry.tdir_type == 0 &&
+++            tif->tif_dir.td_stripbytecount_entry.tdir_offset.toff_long8 == 0 )
+++        {
+++            /* Directory typically created with TIFFDeferStrileArrayWriting() */
+++            TIFFSetupStrips(tif);
 ++        }
-+     }
-+     erasedir($tmp);
-+ }
-+diff --git a/scripts/t/Dpkg_Source_Archive.t b/scripts/t/Dpkg_Source_Archive.t
-+index 7b70da68e..504fbe1d4 100644
-+--- a/scripts/t/Dpkg_Source_Archive.t
-++++ b/scripts/t/Dpkg_Source_Archive.t
-+@@ -16,12 +16,120 @@
-+ use strict;
-+ use warnings;
-+ 
-+-use Test::More tests => 1;
-++use Test::More tests => 4;
-++use Test::Dpkg qw(:paths);
+++        else if( !(tif->tif_flags&TIFF_DEFERSTRILELOAD) )
+++        {
+++            if( tif->tif_dir.td_stripoffset_entry.tdir_tag != 0 )
+++            {
+++                if (!TIFFFetchStripThing(tif,&(tif->tif_dir.td_stripoffset_entry),
+++                                         tif->tif_dir.td_nstrips,
+++                                         &tif->tif_dir.td_stripoffset_p))
+++                {
+++                    goto bad;
+++                }
+++            }
+++            if( tif->tif_dir.td_stripbytecount_entry.tdir_tag != 0 )
+++            {
+++                if (!TIFFFetchStripThing(tif,&(tif->tif_dir.td_stripbytecount_entry),
+++                                         tif->tif_dir.td_nstrips,
+++                                         &tif->tif_dir.td_stripbytecount_p))
+++                {
+++                    goto bad;
+++                }
+++            }
+++        }
 ++
-++use File::Spec;
-++use File::Path qw(make_path rmtree);
-+ 
-+ BEGIN {
-+     use_ok('Dpkg::Source::Archive');
-+ }
-+ 
-++use Dpkg;
-++
-++my $tmpdir = test_get_temp_path();
-++
-++rmtree($tmpdir);
-++
-++sub test_touch
-++{
-++    my ($name, $data) = @_;
-++
-++    open my $fh, '>', $name
-++        or die "cannot touch file $name\n";
-++    print { $fh } $data if $data;
-++    close $fh;
-++}
-++
-++sub test_path_escape
-++{
-++    my $name = shift;
-++
-++    my $treedir = File::Spec->rel2abs("$tmpdir/$name-tree");
-++    my $overdir = File::Spec->rel2abs("$tmpdir/$name-overlay");
-++    my $outdir = "$tmpdir/$name-out";
-++    my $expdir = "$tmpdir/$name-exp";
-++
-++    # This is the base directory, where we are going to be extracting stuff
-++    # into, which include traps.
-++    make_path("$treedir/subdir-a");
-++    test_touch("$treedir/subdir-a/file-a");
-++    test_touch("$treedir/subdir-a/file-pre-a");
-++    make_path("$treedir/subdir-b");
-++    test_touch("$treedir/subdir-b/file-b");
-++    test_touch("$treedir/subdir-b/file-pre-b");
-++    symlink File::Spec->abs2rel($outdir, $treedir), "$treedir/symlink-escape";
-++    symlink File::Spec->abs2rel("$outdir/nonexistent", $treedir), "$treedir/symlink-nonexistent";
-++    symlink "$treedir/file", "$treedir/symlink-within";
-++    test_touch("$treedir/supposed-dir");
-++
-++    # This is the overlay directory, which we'll pack and extract over the
-++    # base directory.
-++    make_path($overdir);
-++    make_path("$overdir/subdir-a/aa");
-++    test_touch("$overdir/subdir-a/aa/file-aa", 'aa');
-++    test_touch("$overdir/subdir-a/file-a", 'a');
-++    make_path("$overdir/subdir-b/bb");
-++    test_touch("$overdir/subdir-b/bb/file-bb", 'bb');
-++    test_touch("$overdir/subdir-b/file-b", 'b');
-++    make_path("$overdir/symlink-escape");
-++    test_touch("$overdir/symlink-escape/escaped-file", 'escaped');
-++    test_touch("$overdir/symlink-nonexistent", 'nonexistent');
-++    make_path("$overdir/symlink-within");
-++    make_path("$overdir/supposed-dir");
-++    test_touch("$overdir/supposed-dir/supposed-file", 'something');
-++
-++    # Generate overlay tar.
-++    system($Dpkg::PROGTAR, '-cf', "$overdir.tar", '-C', $overdir, qw(
-++        subdir-a subdir-b
-++        symlink-escape/escaped-file symlink-nonexistent symlink-within
-++        supposed-dir
-++        )) == 0
-++        or die "cannot create overlay tar archive\n";
-++
-++   # This is the expected directory, which we'll be comparing against.
-++    make_path($expdir);
-++    system('cp', '-a', $overdir, $expdir) == 0
-++        or die "cannot copy overlay hierarchy into expected directory\n";
-++
-++    # Store the expected and out reference directories into a tar to compare
-++    # its structure against the result reference.
-++    system($Dpkg::PROGTAR, '-cf', "$expdir.tar", '-C', $overdir, qw(
-++        subdir-a subdir-b
-++        symlink-escape/escaped-file symlink-nonexistent symlink-within
-++        supposed-dir
-++        ), '-C', $treedir, qw(
-++        subdir-a/file-pre-a
-++        subdir-b/file-pre-b
-++        )) == 0
-++        or die "cannot create expected tar archive\n";
-++
-++    # This directory is supposed to remain empty, anything inside implies a
-++    # directory traversal.
-++    make_path($outdir);
-++
-++    my $warnseen;
-++    local $SIG{__WARN__} = sub { $warnseen = $_[0] };
-++
-++    # Perform the extraction.
-++    my $tar = Dpkg::Source::Archive->new(filename => "$overdir.tar");
-++    $tar->extract($treedir, in_place => 1);
-++
-++    # Store the result into a tar to compare its structure against a reference.
-++    system($Dpkg::PROGTAR, '-cf', "$treedir.tar", '-C', $treedir, '.');
-++
-++    # Check results
-++    ok(length $warnseen && $warnseen =~ m/points outside source root/,
-++       'expected warning seen');
-++    ok(system($Dpkg::PROGTAR, '--compare', '-f', "$expdir.tar", '-C', $treedir) == 0,
-++       'expected directory matches');
-++    ok(! -e "$outdir/escaped-file",
-++       'expected output directory is empty, directory traversal');
-++}
-++
-++test_path_escape('in-place');
-++
-+ # TODO: Add actual test cases.
-+ 
-+ 1;
++ 	/*
++ 	 * Make sure all non-color channels are extrasamples.
++ 	 * If it's not the case, define them as such.
 +-- 
-+2.33.0
++2.25.1
 +
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb b/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
-index 681909f0bf..7ef6233ee4 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
-@@ -14,6 +14,7 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=main
-            file://0001-dpkg-Support-muslx32-build.patch \
-            file://pager.patch \
-            file://0001-Add-support-for-riscv32-CPU.patch \
-+           file://0001-Dpkg-Source-Archive-Prevent-directory-traversal-for-.patch \
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1355.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1355.patch
+new file mode 100644
+index 0000000000..e59f5aad55
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-1355.patch
+@@ -0,0 +1,62 @@
++From fb1db384959698edd6caeea84e28253d272a0f96 Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Sat, 2 Apr 2022 22:33:31 +0200
++Subject: [PATCH] tiffcp: avoid buffer overflow in "mode" string (fixes #400)
++
++CVE: CVE-2022-1355
++
++Upstream-Status: Backport
++[https://gitlab.com/libtiff/libtiff/-/commit/c1ae29f9ebacd29b7c3e0c7db671af7db3584bc2]
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ tools/tiffcp.c | 25 ++++++++++++++++++++-----
++ 1 file changed, 20 insertions(+), 5 deletions(-)
++
++diff --git a/tools/tiffcp.c b/tools/tiffcp.c
++index fd129bb7..8d944ff6 100644
++--- a/tools/tiffcp.c
+++++ b/tools/tiffcp.c
++@@ -274,19 +274,34 @@ main(int argc, char* argv[])
++ 			deftilewidth = atoi(optarg);
++ 			break;
++ 		case 'B':
++-			*mp++ = 'b'; *mp = '\0';
+++			if (strlen(mode) < (sizeof(mode) - 1))
+++			{
+++				*mp++ = 'b'; *mp = '\0';
+++			}
++ 			break;
++ 		case 'L':
++-			*mp++ = 'l'; *mp = '\0';
+++			if (strlen(mode) < (sizeof(mode) - 1))
+++			{
+++				*mp++ = 'l'; *mp = '\0';
+++			}
++ 			break;
++ 		case 'M':
++-			*mp++ = 'm'; *mp = '\0';
+++			if (strlen(mode) < (sizeof(mode) - 1))
+++			{
+++				*mp++ = 'm'; *mp = '\0';
+++			}
++ 			break;
++ 		case 'C':
++-			*mp++ = 'c'; *mp = '\0';
+++			if (strlen(mode) < (sizeof(mode) - 1))
+++			{
+++				*mp++ = 'c'; *mp = '\0';
+++			}
++ 			break;
++ 		case '8':
++-			*mp++ = '8'; *mp = '\0';
+++			if (strlen(mode) < (sizeof(mode)-1))
+++			{
+++				*mp++ = '8'; *mp = '\0';
+++			}
++ 			break;
++ 		case 'x':
++ 			pageInSeq = 1;
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+index c2d4b35d49..149516508f 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+@@ -19,6 +19,8 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://0005-fix-the-FPE-in-tiffcrop-393.patch \
+            file://0006-fix-heap-buffer-overflow-in-tiffcp-278.patch \
+            file://0001-fix-the-FPE-in-tiffcrop-415-427-and-428.patch \
++           file://CVE-2022-1354.patch \
++           file://CVE-2022-1355.patch \
             "
  
- SRC_URI:append:class-native = " file://0001-build.c-ignore-return-of-1-from-tar-cf.patch"
+ SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
 -- 
 2.25.1
 
