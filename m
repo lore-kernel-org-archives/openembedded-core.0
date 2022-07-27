@@ -1,77 +1,49 @@
-Return-Path: <ptsneves@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <5e177514-1fce-4a2a-b85f-1adfb5623c03@gmail.com>
-Date: Wed, 27 Jul 2022 10:32:24 +0200
+Message-ID: <fb3e160b-4c49-f08a-716d-1ed69ecb3c00@gmail.com>
+Date: Wed, 27 Jul 2022 12:45:33 -0400
 MIME-Version: 1.0
-Subject: Re: [OE-core] [PATCH 1/1] lame: Remove hardcoded rpaths
-References: <20220726202337.2141895-1-ptsneves@gmail.com>
- <17b35aa4c6c3c8f0e1dcb309e7897048ec5f8510.camel@linuxfoundation.org>
-From: "Paulo Neves" <ptsneves@gmail.com>
-In-Reply-To: <17b35aa4c6c3c8f0e1dcb309e7897048ec5f8510.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] libusb1: Link with -latomic only if no atomic builtins
+References: <20220727120036.633822-1-otavio@ossystems.com.br>
+ <EC73E18E-0AA2-4655-8A53-EA278A198969@arm.com>
+ <CAP9ODKpT6y0qvhryKm_NqTX82dmOytSU34yR_-8fG=WGZ06QNg@mail.gmail.com>
+ <PA4PR08MB7411B7CCCEF2AF6FFB1EA063E8979@PA4PR08MB7411.eurprd08.prod.outlook.com>
+ <CAP9ODKpo9=JeKvdEK+kX5_2gVWv4haSyU1jYgFLGcwPci8qMsQ@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+In-Reply-To: <CAP9ODKpo9=JeKvdEK+kX5_2gVWv4haSyU1jYgFLGcwPci8qMsQ@mail.gmail.com>
 Content-Language: en-US
 Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Transfer-Encoding: 8bit
 List-id: <openembedded-core.lists.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core@lists.openembedded.org
-
-I thought of that myself, but did not yet investigate. We have 
-hardcode_into_libs disabling in 4 "recipes":
-
-git grep hardcode_into_libs -- meta
-recipes-devtools/binutils/binutils/0009-Use-libtool-2.4.patch: 
-hardcode_into_libs=yes
-recipes-devtools/binutils/binutils/0009-Use-libtool-2.4.patch: if test 
-"$hardcode_into_libs" != yes || test "$build_old_libs" = yes; then
-recipes-devtools/gcc/gcc-sanitizers.inc:    sed -i -e 
-'s/hardcode_into_libs=yes/hardcode_into_libs=no/' 
-${B}/${TARGET_SYS}/libsanitizer/libtool
-recipes-devtools/gcc/gcc-source.inc:    cmd = d.expand("sed -i -e 
-'s/hardcode_into_libs=yes/hardcode_into_libs=no/' ${S}/libcc1/configure")
-recipes-devtools/gcc/libgfortran.inc:              sed -i -e 
-'s/hardcode_into_libs=yes/hardcode_into_libs=no/' 
-${B}/${TARGET_SYS}/$target/libtool
-recipes-support/db/db_5.3.28.bb:    sed -i -e 
-'s|hardcode_into_libs=yes|hardcode_into_libs=no|' ${B}/libtool
-
-The hardcode_into_libs=no did not fix things for the lame case. We have 
-a patch for libtools that looks like could be the culprit and need 
-tightening [1]
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>, Ross Burton <ross.burton@arm.com>
+Cc: "Purdie, Richard" <richard.purdie@linuxfoundation.org>, "otavio@ossystems.com.br" <otavio@ossystems.com.br>, "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 
 
-[1] 
-recipes-devtools/libtool/libtool/0004-ltmain.sh-Fix-sysroot-paths-being-encoded-into-RPATH.patch
 
-Paulo Neves
+On 7/27/22 12:41 PM, Otavio Salvador wrote:
+> 
+> 
+> Em qua., 27 de jul. de 2022 às 13:35, Ross Burton <ross.burton@arm.com 
+> <mailto:ross.burton@arm.com>> escreveu:
+> 
+>     Whoever adds the patch needs to add their S-o-b.
+> 
+> 
+> The patch sanity check should warn about it as it does for the status 
+> header. I said, RP can add it.
 
-On 7/26/22 23:34, Richard Purdie wrote:
-> On Tue, 2022-07-26 at 22:23 +0200, Paulo Neves wrote:
->> Due to hardcoded rpaths tmpdir contamination happened on lame
->> executable. This commit hot patches libtool to not hardcode
->> the .libs directory in the rpath. This solves [YOCTO #14863]
->>
->> Signed-off-by: Paulo Neves <ptsneves@gmail.com>
->> ---
->>   meta/recipes-multimedia/lame/lame_3.100.bb | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/meta/recipes-multimedia/lame/lame_3.100.bb b/meta/recipes-multimedia/lame/lame_3.100.bb
->> index 5b42795f4e..2d9bd9d29f 100644
->> --- a/meta/recipes-multimedia/lame/lame_3.100.bb
->> +++ b/meta/recipes-multimedia/lame/lame_3.100.bb
->> @@ -24,3 +24,7 @@ FILES:${PN} = "${bindir}/lame"
->>   FILES:libmp3lame = "${libdir}/libmp3lame.so.*"
->>   FILES:libmp3lame-dev = "${includedir} ${libdir}/*"
->>   FILES:${PN}-dev = ""
->> +do_compile:prepend() {
->> +    # Stop libtool adding RPATHs
->> +    sed -i -e 's|hardcode_libdir_flag_spec=".*"|hardcode_libdir_flag_spec=""|' ${B}/libtool
->> +}
-> Any idea why lame has this issue but we don't see it with anything else
-> using libtool? I'm wondering if there is an underlying cause we should
-> look at?
->
-> Cheers,
->
-> Richard
+RP can do, but he can only do so much :) lets try to help him.
+Its not something that can be added during applying patch which could be 
+done, this needs to change the libusb1 patch and then final patch 
+regenerated, its better if it can be done by you and resend a v2.
 
+> -- 
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br <http://www.ossystems.com.br> 
+> http://code.ossystems.com.br <http://code.ossystems.com.br>
+> Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+> 
+> 
+> 
+> 
