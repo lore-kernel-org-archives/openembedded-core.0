@@ -1,107 +1,259 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D8EBC04A68
-	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 11:52:20 +0000 (UTC)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by mx.groups.io with SMTP id smtpd.web11.18815.1658922732931695380
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D63DC04A68
+	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 11:57:20 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web08.18980.1658923036913509095
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jul 2022 04:52:13 -0700
+ Wed, 27 Jul 2022 04:57:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=eDlXaE3l;
- spf=pass (domain: gmail.com, ip: 209.85.208.173,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f173.google.com with SMTP id b21so12518114ljk.8
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=oLdKR7Hn;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42,
+ mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id sz17so31085126ejc.9
         for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jul 2022 04:52:12 -0700 (PDT)
+ Wed, 27 Jul 2022 04:57:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eZacHgMmWS5eAlVwerIPJjftmp2E4i2MwSCiA9Pa/1s=;
-        b=eDlXaE3lWaHq4Eo5fzfJQXUZu+v/Gi8Dcccg8aDCmwspbNetayUj5o0gPyN53tMIKN
-         +iQhzq7E9MuFSat/qV5AEy5pqvSFnH3AqtGjnsUq1Xn6jD4RZZQ/qOvxWjwxRmNfgcPD
-         pl/2o2a6cNYM0EejDrBqiMQmm7cEIs5cpNvWxAI6fFgdH7PtmAiQLe7GoWdcDU+4L/vk
-         sTGeD60oMWwcjrCY7rRdWnhm4/9QQBULsnUIys+9bhgXNm1VCJpOPPlLIcHrrSwKMes8
-         WxqfmtHVmTtHjFgSn5qioGkJIH+3VE5byVwEHZD2W9WrHL34U0IEpYT39JMDNPIqmpCU
-         +5hg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=MuQBLRDRrGLnQtqQXpZFOtTE55z4PtShV1CKnRwv9NQ=;
+        b=oLdKR7HnR/i4mwBxXDrjIfOQ/kQfg6MQOiO6lqH32taHXUakUivb5caq02E6ewXNA5
+         sIFWVufJxtx44rOlKBWVz6mTQmWNt7x0mvD1JCSikJhP++xj6pDMyXseJ06VKoCqBQ9l
+         IPLPTXAnU0R0kwQ/Emo4zMUTGmlxgbI1lKs0sEKLptVkD0iH47da2tj3KZZCfvY0RISK
+         6gDbl+LlJv12Y8h+TrDSZaujB2qVkn0QadEr+o0Ff7fo7kR85uKz0BRUhU28tfeNgQoZ
+         6unz/jyd5aSYU/bVmZ/lKrpNKRTsVWZ7jNV73c3d4roWeANB3EWCBR7UCZR5wGqm573A
+         J6Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eZacHgMmWS5eAlVwerIPJjftmp2E4i2MwSCiA9Pa/1s=;
-        b=2pxzNfRoBuFxAitpTMk83yB1PJtiM2gDlv1QoxjHt/NwG72zlgg7gsQ79DtkCJLD/U
-         z6IeLbgR2U6kRHG7OCo+yG1Mbp4JUq1UVURX6A8EeNUaxFCq3sV3hWiGkHYFqXwWbaGs
-         ee1mWFlYe9eiUWBFQVRsYIytoUnl4vpzc0FDqWmKMh2ZMDEndkv9PQEOdwpnezpL2NXi
-         uqQKXLKlmtAOYtBrqHBEERfJGxTh0BfdpvkGErv5tYuPPE90kO1myx0/FsBkpJHHSaUj
-         LgqzgfebBY1xxb9+w65cqmI2pN/p/x26Ndhn+IiUmg/MKc9LqURyRRAficIb4t7rRhPn
-         3+rQ==
-X-Gm-Message-State: AJIora/rIPL79QkE1fwXfDfHq1TWDShq0jd17SVKwn1ptGCk62c7KQBX
-	ZX4ZT7u4KR04u6R/hchCSwdP4KgrN3vPAfC8WWI8OHBF
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=MuQBLRDRrGLnQtqQXpZFOtTE55z4PtShV1CKnRwv9NQ=;
+        b=0U8KIMR+krn92whRbXvXV2tuUkRSs76nad9VXGtrg0jX/Pa/XWVDyCYZOcQEhbhcZt
+         u7xHlkcfbN9BWKv0U2+pejpkQEDRkSXU5r6dfQypJCjWJ8bsT2O6Z0VQ6ZDvGT3l8crB
+         0wc1mUEb4jwmttoT1U7owit0ewBbrvWe8eWFnYCC6mAcBp1LzStQ2wIZB7RegFXnQbhz
+         vcZuzB+dizVSDk3MB7ZCn9vVHV5XyyDJr/CKDU8jlSg5mIAt95wopLC6RpGst/LcUa70
+         9OVvNClMaGuPcgQoeXP9d344bJALRmnwpgNHZV/Tor/4GnGWIeu0xY54qMwDc16FS34V
+         CWqw==
+X-Gm-Message-State: AJIora+B+/YRNsYRve25HXM5FDzyU7W8gRlw4/fpxnijBoIdVSZon2cb
+	2PoSSV8Q1Eq8zbOTVmgMeB6ip5ZEeJs=
 X-Google-Smtp-Source: 
- AGRyM1u9U6ar3SfQlBAa2hHifrlGsa/Q5dYQFFqCTAAUo4vqtqRW2PYsGlFoC8srUQeVwJKNBLxfnKDQXOIhgjHtHGs=
-X-Received: by 2002:a2e:a36a:0:b0:25d:d73d:d8c9 with SMTP id
- i10-20020a2ea36a000000b0025dd73dd8c9mr7173347ljn.68.1658922730926; Wed, 27
- Jul 2022 04:52:10 -0700 (PDT)
+ AGRyM1uyDYQ2abPEFfhY8uxRPAnw0lLqNiD0UNakYxxbBCTnfLByFNk9l16+mhB8Po0VlJ6MXJAf9Q==
+X-Received: by 2002:a17:906:844b:b0:72b:54b9:b97d with SMTP id
+ e11-20020a170906844b00b0072b54b9b97dmr18279122ejy.229.1658923034924;
+        Wed, 27 Jul 2022 04:57:14 -0700 (PDT)
+Received: from localhost ([109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id
+ o13-20020a170906768d00b0072f9e7ce354sm6998172ejm.139.2022.07.27.04.57.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Jul 2022 04:57:14 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: sundeep.kokkonda@gmail.com,
+	raj.khem@gmail.com,
+	Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [RFC][PATCHv2] glibc: revert one upstream change to work around
+ broken DEBUG_BUILD build
+Date: Wed, 27 Jul 2022 13:56:47 +0200
+Message-Id: <20220727115647.901722-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: 
+ <29469a94b96725978e7a2957de16d670fc981a7b.camel@linuxfoundation.org>
+References: 
+ <29469a94b96725978e7a2957de16d670fc981a7b.camel@linuxfoundation.org>
 MIME-Version: 1.0
-References: <20220727053939.353717-1-changqing.li@windriver.com>
-In-Reply-To: <20220727053939.353717-1-changqing.li@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 27 Jul 2022 13:51:59 +0200
-Message-ID: 
- <CANNYZj--dxtiE6OvQzmUkpzKD3nQ-Zt1C5kbPLUWaBszfvqFLA@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][master][PATCH] apt: fix do_package_qa
- failure
-To: Changqing Li <changqing.li@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 11:52:20 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 11:57:20 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168557
+ https://lists.openembedded.org/g/openembedded-core/message/168558
 
-What is actually being installed in there? Is it really right to remove it?
+* work around for build failure with DEBUG_BUILD:
+  http://errors.yoctoproject.org/Errors/Details/661468/
 
-Alex
+  TOPDIR/tmp-glibc/work/core2-64-oe-linux/glibc/2.35-r0/recipe-sysroot-native/usr/bin/x86_64-oe-linux/../../libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/11.3.0/ld.bfd:
+  TOPDIR/tmp-glibc/work/core2-64-oe-linux/glibc/2.35-r0/build-x86_64-oe-linux/libc.a(libc-tls.o):
+  in function `__libc_setup_tls':
+  /usr/src/debug/glibc/2.35-r0/git/csu/libc-tls.c:202: undefined reference to `_startup_fatal_not_constant'
 
-On Wed, 27 Jul 2022 at 07:39, Changqing Li <changqing.li@windriver.com> wrote:
->
-> From: Changqing Li <changqing.li@windriver.com>
->
-> bitbake nativesdk-apt failed with error:
-> ERROR: nativesdk-apt-2.4.5-r0 do_package_qa: QA Issue: nativesdk-apt installs files in /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/var/volatile, but it is expected to be empty [empty-dirs]
->
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  meta/recipes-devtools/apt/apt_2.4.5.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-devtools/apt/apt_2.4.5.bb b/meta/recipes-devtools/apt/apt_2.4.5.bb
-> index 1d94dd118c..d79a33857a 100644
-> --- a/meta/recipes-devtools/apt/apt_2.4.5.bb
-> +++ b/meta/recipes-devtools/apt/apt_2.4.5.bb
-> @@ -123,6 +123,7 @@ do_install:append:class-native() {
->
->  do_install:append:class-nativesdk() {
->         customize_apt_conf_sample
-> +       rm -rf ${D}${localstatedir}/log
->  }
->
->  do_install:append:class-target() {
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#168542): https://lists.openembedded.org/g/openembedded-core/message/168542
-> Mute This Topic: https://lists.openembedded.org/mt/92643987/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+  introduced in:
+  https://git.openembedded.org/openembedded-core/commit/?id=50ca0eea5424c89c9b39cf69d8bd73fd65f06e95
+  with:
+  https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=a2a6bce7d7e52c1c34369a7da62c501cc350bc31
+
+  Temporary reverting as discussed in:
+  https://lists.openembedded.org/g/openembedded-core/message/168463
+  (it's also reverted in buildroot now with: https://lore.kernel.org/buildroot/20220720213853.1A27184110@busybox.osuosl.org/t/)
+
+  instead of revert we can use -fexpensive-optimizations which
+  will optimize-out the symbol, but that works only with -O1 and
+  not -Og used by DEBUG_BUILD
+
+  upstream report:
+  https://sourceware.org/bugzilla/show_bug.cgi?id=29249
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+
+ v2: mention -fexpensive-optimizations and add link to upstream
+     bug report
+
+ ...lement-a-useful-version-of-_startup_.patch | 128 ++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.35.bb         |   2 +
+ 2 files changed, 130 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0001-Revert-Linux-Implement-a-useful-version-of-_startup_.patch
+
+diff --git a/meta/recipes-core/glibc/glibc/0001-Revert-Linux-Implement-a-useful-version-of-_startup_.patch b/meta/recipes-core/glibc/glibc/0001-Revert-Linux-Implement-a-useful-version-of-_startup_.patch
+new file mode 100644
+index 0000000000..2421a63605
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0001-Revert-Linux-Implement-a-useful-version-of-_startup_.patch
+@@ -0,0 +1,128 @@
++From 6b8959add09e425df262bf9178b39ca35bc4003c Mon Sep 17 00:00:00 2001
++From: Martin Jansa <Martin.Jansa@gmail.com>
++Date: Sun, 24 Jul 2022 19:41:41 +0200
++Subject: [PATCH] Revert "Linux: Implement a useful version of _startup_fatal"
++
++This reverts commit 2d05ba7f8ef979947e910a37ae8115a816eb4d08.
++Upstream-Status: Inappropriate [temporary work around]
++
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++
++---
++ sysdeps/unix/sysv/linux/i386/startup.h | 23 ++++++++++++---
++ sysdeps/unix/sysv/linux/ia64/startup.h | 22 ---------------
++ sysdeps/unix/sysv/linux/startup.h      | 39 --------------------------
++ 3 files changed, 19 insertions(+), 65 deletions(-)
++ delete mode 100644 sysdeps/unix/sysv/linux/ia64/startup.h
++ delete mode 100644 sysdeps/unix/sysv/linux/startup.h
++
++diff --git a/sysdeps/unix/sysv/linux/i386/startup.h b/sysdeps/unix/sysv/linux/i386/startup.h
++index 213805d7d2..67c9310f3a 100644
++--- a/sysdeps/unix/sysv/linux/i386/startup.h
+++++ b/sysdeps/unix/sysv/linux/i386/startup.h
++@@ -1,5 +1,5 @@
++ /* Linux/i386 definitions of functions used by static libc main startup.
++-   Copyright (C) 2022 Free Software Foundation, Inc.
+++   Copyright (C) 2017-2022 Free Software Foundation, Inc.
++    This file is part of the GNU C Library.
++ 
++    The GNU C Library is free software; you can redistribute it and/or
++@@ -16,7 +16,22 @@
++    License along with the GNU C Library; if not, see
++    <https://www.gnu.org/licenses/>.  */
++ 
++-/* Can't use "call *%gs:SYSINFO_OFFSET" during startup.  */
++-#define I386_USE_SYSENTER 0
+++#if BUILD_PIE_DEFAULT
+++/* Can't use "call *%gs:SYSINFO_OFFSET" during statup in static PIE.  */
+++# define I386_USE_SYSENTER 0
++ 
++-#include_next <startup.h>
+++# include <sysdep.h>
+++# include <abort-instr.h>
+++
+++__attribute__ ((__noreturn__))
+++static inline void
+++_startup_fatal (const char *message __attribute__ ((unused)))
+++{
+++  /* This is only called very early during startup in static PIE.
+++     FIXME: How can it be improved?  */
+++  ABORT_INSTRUCTION;
+++  __builtin_unreachable ();
+++}
+++#else
+++# include_next <startup.h>
+++#endif
++diff --git a/sysdeps/unix/sysv/linux/ia64/startup.h b/sysdeps/unix/sysv/linux/ia64/startup.h
++deleted file mode 100644
++index 77f29f15a2..0000000000
++--- a/sysdeps/unix/sysv/linux/ia64/startup.h
+++++ /dev/null
++@@ -1,22 +0,0 @@
++-/* Linux/ia64 definitions of functions used by static libc main startup.
++-   Copyright (C) 2022 Free Software Foundation, Inc.
++-   This file is part of the GNU C Library.
++-
++-   The GNU C Library is free software; you can redistribute it and/or
++-   modify it under the terms of the GNU Lesser General Public
++-   License as published by the Free Software Foundation; either
++-   version 2.1 of the License, or (at your option) any later version.
++-
++-   The GNU C Library is distributed in the hope that it will be useful,
++-   but WITHOUT ANY WARRANTY; without even the implied warranty of
++-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++-   Lesser General Public License for more details.
++-
++-   You should have received a copy of the GNU Lesser General Public
++-   License along with the GNU C Library; if not, see
++-   <https://www.gnu.org/licenses/>.  */
++-
++-/* This code is used before the TCB is set up.  */
++-#define IA64_USE_NEW_STUB 0
++-
++-#include_next <startup.h>
++diff --git a/sysdeps/unix/sysv/linux/startup.h b/sysdeps/unix/sysv/linux/startup.h
++deleted file mode 100644
++index 39859b404a..0000000000
++--- a/sysdeps/unix/sysv/linux/startup.h
+++++ /dev/null
++@@ -1,39 +0,0 @@
++-/* Linux definitions of functions used by static libc main startup.
++-   Copyright (C) 2017-2022 Free Software Foundation, Inc.
++-   This file is part of the GNU C Library.
++-
++-   The GNU C Library is free software; you can redistribute it and/or
++-   modify it under the terms of the GNU Lesser General Public
++-   License as published by the Free Software Foundation; either
++-   version 2.1 of the License, or (at your option) any later version.
++-
++-   The GNU C Library is distributed in the hope that it will be useful,
++-   but WITHOUT ANY WARRANTY; without even the implied warranty of
++-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++-   Lesser General Public License for more details.
++-
++-   You should have received a copy of the GNU Lesser General Public
++-   License along with the GNU C Library; if not, see
++-   <https://www.gnu.org/licenses/>.  */
++-
++-#ifdef SHARED
++-# include_next <startup.h>
++-#else
++-# include <sysdep.h>
++-
++-/* Avoid a run-time invocation of strlen.  */
++-#define _startup_fatal(message)                                         \
++-  do                                                                    \
++-    {                                                                   \
++-      size_t __message_length = __builtin_strlen (message);             \
++-      if (! __builtin_constant_p (__message_length))                    \
++-        {                                                               \
++-          extern void _startup_fatal_not_constant (void);               \
++-          _startup_fatal_not_constant ();                               \
++-        }                                                               \
++-      INTERNAL_SYSCALL_CALL (write, STDERR_FILENO, (message),           \
++-                             __message_length);                         \
++-      INTERNAL_SYSCALL_CALL (exit_group, 127);                          \
++-    }                                                                   \
++-  while (0)
++-#endif  /* !SHARED */
+diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/glibc/glibc_2.35.bb
+index 96fe39c548..df847e76bf 100644
+--- a/meta/recipes-core/glibc/glibc_2.35.bb
++++ b/meta/recipes-core/glibc/glibc_2.35.bb
+@@ -48,6 +48,8 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0022-sysdeps-gnu-configure.ac-Set-libc_cv_rootsbindir-onl.patch \
+            file://0023-timezone-Make-shell-interpreter-overridable-in-tzsel.patch \
+            file://0024-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
++           \
++           file://0001-Revert-Linux-Implement-a-useful-version-of-_startup_.patch \
+            "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
 
