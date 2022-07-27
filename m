@@ -1,146 +1,226 @@
-Return-Path: <otavio@ossystems.com.br>
+Return-Path: <otavio.salvador@ossystems.com.br>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4D5AC3F6B0
-	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 16:56:01 +0000 (UTC)
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com
- [209.85.160.44])
- by mx.groups.io with SMTP id smtpd.web12.22148.1658940952996421985
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A23FC19F2B
+	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 16:56:21 +0000 (UTC)
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
+ [209.85.222.180])
+ by mx.groups.io with SMTP id smtpd.web11.22264.1658940973199244138
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jul 2022 09:55:53 -0700
+ Wed, 27 Jul 2022 09:56:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=pass (domain: gmail.com, ip: 209.85.160.44, mailfrom: otavio.salvador@gmail.com)
-Received: by mail-oa1-f44.google.com with SMTP id
- 586e51a60fabf-f2a4c51c45so23266854fac.9
+ dkim=pass header.i=@ossystems-com-br.20210112.gappssmtp.com header.s=20210112
+ header.b=nqls7gmi;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.222.180,
+ mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qk1-f180.google.com with SMTP id o21so13684942qkm.10
         for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jul 2022 09:55:52 -0700 (PDT)
+ Wed, 27 Jul 2022 09:56:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ossystems-com-br.20210112.gappssmtp.com; s=20210112;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+         :cc;
+        bh=wSY6E+ZAie96L3Zy0vyQZzjepvJP+vTvjcRLk/jIz0M=;
+        b=nqls7gmiK52fqkioptK32TGLXUHDBaUX+1CXDixb5cjRiyahc1hD9xenN0uWAnMica
+         4/bB1L52iSAKVdoc0KUtAThK/W2GRRAYb82Kfll4IMSN+saec30P6qIrqfzggwS6MsuK
+         XzxceB34623mriCfmHQIYH4kiqcBmoMk5bDkwj9+k7grQCU4QKJIfVV6CjBaKiyN8ifK
+         QvZdhpqb+c1/gdzd47FMehal59/HPAKDwHwuXrcnSLJuKMgb5MNa8LIUmcJaQ9/4SzvP
+         DWv8+Y5QMlmGFeesHG2UinwPckSiblc4MI2n7i41IQaKJlprNw58ERdcICOe6/727sX6
+         wSMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CDWX9a5llo0EtwAv+z2m1rbCh5mUjXgss9Q7Lya+LVE=;
-        b=HINENTVX5AuqhOxR8JNp8nPkkfQ/HtMvC22D76G0jzzLL3D6uF2wx7DMXly3gqqhXX
-         AjOswD61lU88kFAbhdVg5rD2Nc7wGcRJOGZ5xuNvXDfTpYdzK17LQR6VSj0PegkWvjYW
-         ReyIN4B1Wy4Z9a3I5Io9xHnnH5slC1gxiuyi8dL8ntMHCmPBqkVrQvueUfoRQMLFP9rv
-         ErnrJLyE8zDEp+2bzyI+ZphuRwDOlxd3Y5mljcemELU78SMyyAKN4cKYFwl5TNVyRf0r
-         idr5DV+AntAjvfGkQSOPMwL22Xnar0itSnraj82mk2p6m9wGgTBq5xvm8oCRSP9bFQHy
-         LguA==
-X-Gm-Message-State: AJIora+Mo2fhhM8aaI9tg0E1R8gkJYnRfrrL1wrl0k9Fl7kTIxygfbqx
-	KRC8s1a9BEr/tZqy12W+z93Et4e4+gE34g==
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+         :message-id:subject:to:cc;
+        bh=wSY6E+ZAie96L3Zy0vyQZzjepvJP+vTvjcRLk/jIz0M=;
+        b=0sVJzQyMEe3WaJBzWSpJAt5sJfnXBQIvS1U3StIrV3ONeMl8vOWv7oJheXoZakjMaZ
+         oD/GJlrM9nEFhRemP9KoT7C1tEStUountFkFbhO3jT5znzx1YWVhWeKwNiZOO9y5uu1R
+         rPTYRTSwk9ekid5bc0vNw9n3OmUE0aHF4lhBjyy6YOOU+RN6iJuNInaY5ydxnK4kY9kd
+         eXXiTp6igShqmKnZFSxBzWxupfS9pkho/Ad69UDnToGhKznloPWJfxSfvLljJSWQHfaP
+         UtgH55WUK0vUelBfclj7K569N4WUpbLNmJ6qNviezaDBTJuv68V0FEUgoGst8VyqDbCG
+         vznA==
+X-Gm-Message-State: AJIora/lCENUfQzPG0PUPX3A585ZjJOX5JI52ZZartDlVHa7kVSM8UM4
+	hzw/Pzvqv3DWM38iq6CSJ4HageHcNxmWnAzI
 X-Google-Smtp-Source: 
- AGRyM1t7CuM/buEIknT/5mb8WoS/pXuN9KlTmUfvkTPD2uK/FnvYoNYpPgmdhHvajgq3mYRH9im9Qg==
-X-Received: by 2002:a05:6870:b520:b0:10d:758e:678e with SMTP id
- v32-20020a056870b52000b0010d758e678emr2710869oap.101.1658940950485;
-        Wed, 27 Jul 2022 09:55:50 -0700 (PDT)
-Received: from localhost ([2804:d51:59d2:bc00:5dfc:6f17:839f:61a4])
+ AGRyM1sCVRCgd7O9JlpfQTZtElHmNIkTclm1y67FLtP/dIpVwGwWrav4hfGiBMzzoyOARHw/lIg8/w==
+X-Received: by 2002:a05:620a:4905:b0:6b5:c742:6161 with SMTP id
+ ed5-20020a05620a490500b006b5c7426161mr17384349qkb.107.1658940971786;
+        Wed, 27 Jul 2022 09:56:11 -0700 (PDT)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com.
+ [209.85.219.47])
         by smtp.gmail.com with ESMTPSA id
- b17-20020a056808011100b0033a9f4c13cesm7375786oie.13.2022.07.27.09.55.49
+ bk4-20020a05620a1a0400b006b5fe4c333fsm13954718qkb.85.2022.07.27.09.56.11
         for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jul 2022 09:55:50 -0700 (PDT)
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] libusb1: Link with -latomic only if no atomic builtins
-Date: Wed, 27 Jul 2022 13:55:39 -0300
-Message-Id: <20220727165539.658218-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.37.0
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Jul 2022 09:56:11 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qv1-f47.google.com with SMTP id mh14so13341338qvb.1
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 27 Jul 2022 09:56:11 -0700 (PDT)
+X-Received: by 2002:a05:6214:27ec:b0:474:4ce:e7a4 with SMTP id
+ jt12-20020a05621427ec00b0047404cee7a4mr20514701qvb.4.1658940970914; Wed, 27
+ Jul 2022 09:56:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220727120036.633822-1-otavio@ossystems.com.br>
+ <EC73E18E-0AA2-4655-8A53-EA278A198969@arm.com>
+ <CAP9ODKpT6y0qvhryKm_NqTX82dmOytSU34yR_-8fG=WGZ06QNg@mail.gmail.com>
+ <PA4PR08MB7411B7CCCEF2AF6FFB1EA063E8979@PA4PR08MB7411.eurprd08.prod.outlook.com>
+ <CAP9ODKpo9=JeKvdEK+kX5_2gVWv4haSyU1jYgFLGcwPci8qMsQ@mail.gmail.com>
+ <fb3e160b-4c49-f08a-716d-1ed69ecb3c00@gmail.com>
+In-Reply-To: <fb3e160b-4c49-f08a-716d-1ed69ecb3c00@gmail.com>
+Date: Wed, 27 Jul 2022 13:55:59 -0300
+X-Gmail-Original-Message-ID: 
+ <CAP9ODKq_i_BvaOQ4RXHe=ebU=7vgFV8-XxKtLgFYQRLOsEoWWw@mail.gmail.com>
+Message-ID: 
+ <CAP9ODKq_i_BvaOQ4RXHe=ebU=7vgFV8-XxKtLgFYQRLOsEoWWw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] libusb1: Link with -latomic only if no atomic
+ builtins
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Ross Burton <ross.burton@arm.com>,
+	"Purdie, Richard" <richard.purdie@linuxfoundation.org>,
+	"otavio@ossystems.com.br" <otavio@ossystems.com.br>,
+	"openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000004658fb05e4cc4be4"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 16:56:01 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 16:56:21 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168579
+ https://lists.openembedded.org/g/openembedded-core/message/168580
 
-Backport a fix from 1.0.27 so we only link atomic if no atomic builtins
-are available.
+--0000000000004658fb05e4cc4be4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+Sent :-)
 
-Changes in v2:
-- add signed-off-by
+Em qua., 27 de jul. de 2022 =C3=A0s 13:45, Khem Raj <raj.khem@gmail.com>
+escreveu:
 
- ...k-with-latomic-only-if-no-atomic-bui.patch | 53 +++++++++++++++++++
- meta/recipes-support/libusb/libusb1_1.0.26.bb |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch
+>
+>
+> On 7/27/22 12:41 PM, Otavio Salvador wrote:
+> >
+> >
+> > Em qua., 27 de jul. de 2022 =C3=A0s 13:35, Ross Burton <ross.burton@arm=
+.com
+> > <mailto:ross.burton@arm.com>> escreveu:
+> >
+> >     Whoever adds the patch needs to add their S-o-b.
+> >
+> >
+> > The patch sanity check should warn about it as it does for the status
+> > header. I said, RP can add it.
+>
+> RP can do, but he can only do so much :) lets try to help him.
+> Its not something that can be added during applying patch which could be
+> done, this needs to change the libusb1 patch and then final patch
+> regenerated, its better if it can be done by you and resend a v2.
+>
+> > --
+> > Otavio Salvador                             O.S. Systems
+> > http://www.ossystems.com.br <http://www.ossystems.com.br>
+> > http://code.ossystems.com.br <http://code.ossystems.com.br>
+> > Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+> >
+> >
+> >
+> >
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#168577):
+> https://lists.openembedded.org/g/openembedded-core/message/168577
+> Mute This Topic: https://lists.openembedded.org/mt/92647443/3617537
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> otavio.salvador@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-diff --git a/meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch b/meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch
-new file mode 100644
-index 0000000000..5c49cbb8a7
---- /dev/null
-+++ b/meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch
-@@ -0,0 +1,53 @@
-+From a6890a6a9a8f88b567631874e209aaadc79e28e5 Mon Sep 17 00:00:00 2001
-+From: Lonnie Abelbeck <lonnie@abelbeck.com>
-+Date: Sun, 8 May 2022 14:05:56 -0500
-+Subject: [PATCH] configure.ac: Link with -latomic only if no atomic builtins
-+
-+Follow-up to 561dbda, a check of GCC atomic builtins needs to be done
-+first.
-+
-+I'm no autoconf guru, but using this:
-+https://github.com/mesa3d/mesa/blob/0df485c285b73c34ba9062f0c27e55c3c702930d/configure.ac#L469
-+as inspiration, I created a pre-check before calling AC_SEARCH_LIBS(...)
-+
-+Upstream-Status: Backport [1.0.27]
-+
-+Fixes #1135
-+Closes #1139
-+(cherry picked from commit 95e601ce116dd46ea7915c171976b85ea0905d58)
-+
-+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-+---
-+ configure.ac | 16 +++++++++++++++-
-+ 1 file changed, 15 insertions(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index d4f12510..96787500 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -153,7 +153,21 @@ if test "x$platform" = xposix; then
-+ 	AC_SEARCH_LIBS([pthread_create], [pthread],
-+ 		[test "x$ac_cv_search_pthread_create" != "xnone required" && AC_SUBST(THREAD_LIBS, [-lpthread])],
-+ 		[], [])
-+-	AC_SEARCH_LIBS([__atomic_fetch_add_4], [atomic])
-++	dnl Check for new-style atomic builtins. We first check without linking to -latomic.
-++	AC_MSG_CHECKING(whether __atomic_load_n is supported)
-++	AC_LINK_IFELSE([AC_LANG_SOURCE([[
-++	#include <stdint.h>
-++	int main() {
-++		struct {
-++			uint64_t *v;
-++		} x;
-++		return (int)__atomic_load_n(x.v, __ATOMIC_ACQUIRE) &
-++		       (int)__atomic_add_fetch(x.v, (uint64_t)1, __ATOMIC_ACQ_REL);
-++	}]])], GCC_ATOMIC_BUILTINS_SUPPORTED=yes, GCC_ATOMIC_BUILTINS_SUPPORTED=no)
-++	AC_MSG_RESULT($GCC_ATOMIC_BUILTINS_SUPPORTED)
-++	if test "x$GCC_ATOMIC_BUILTINS_SUPPORTED" != xyes; then
-++		AC_SEARCH_LIBS([__atomic_fetch_add_4], [atomic])
-++	fi
-+ elif test "x$platform" = xwindows; then
-+ 	AC_DEFINE([PLATFORM_WINDOWS], [1], [Define to 1 if compiling for a Windows platform.])
-+ else
-+-- 
-+2.37.0
-+
-diff --git a/meta/recipes-support/libusb/libusb1_1.0.26.bb b/meta/recipes-support/libusb/libusb1_1.0.26.bb
-index fd63e7adc2..ff3f0be7a5 100644
---- a/meta/recipes-support/libusb/libusb1_1.0.26.bb
-+++ b/meta/recipes-support/libusb/libusb1_1.0.26.bb
-@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
- BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI = "https://github.com/libusb/libusb/releases/download/v${PV}/libusb-${PV}.tar.bz2 \
-+           file://0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch \
-            file://run-ptest \
-           "
- 
--- 
-2.37.0
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
+--0000000000004658fb05e4cc4be4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Sent :-)</div><br><div class=3D"gmail_quote"><div dir=3D"l=
+tr" class=3D"gmail_attr">Em qua., 27 de jul. de 2022 =C3=A0s 13:45, Khem Ra=
+j &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; escr=
+eveu:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+<br>
+On 7/27/22 12:41 PM, Otavio Salvador wrote:<br>
+&gt; <br>
+&gt; <br>
+&gt; Em qua., 27 de jul. de 2022 =C3=A0s 13:35, Ross Burton &lt;<a href=3D"=
+mailto:ross.burton@arm.com" target=3D"_blank">ross.burton@arm.com</a> <br>
+&gt; &lt;mailto:<a href=3D"mailto:ross.burton@arm.com" target=3D"_blank">ro=
+ss.burton@arm.com</a>&gt;&gt; escreveu:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Whoever adds the patch needs to add their S-o-b.<br=
+>
+&gt; <br>
+&gt; <br>
+&gt; The patch sanity check should warn about it as it does for the status =
+<br>
+&gt; header. I said, RP can add it.<br>
+<br>
+RP can do, but he can only do so much :) lets try to help him.<br>
+Its not something that can be added during applying patch which could be <b=
+r>
+done, this needs to change the libusb1 patch and then final patch <br>
+regenerated, its better if it can be done by you and resend a v2.<br>
+<br>
+&gt; -- <br>
+&gt; Otavio Salvador =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. Systems<br>
+&gt; <a href=3D"http://www.ossystems.com.br" rel=3D"noreferrer" target=3D"_=
+blank">http://www.ossystems.com.br</a> &lt;<a href=3D"http://www.ossystems.=
+com.br" rel=3D"noreferrer" target=3D"_blank">http://www.ossystems.com.br</a=
+>&gt; <br>
+&gt; <a href=3D"http://code.ossystems.com.br" rel=3D"noreferrer" target=3D"=
+_blank">http://code.ossystems.com.br</a> &lt;<a href=3D"http://code.ossyste=
+ms.com.br" rel=3D"noreferrer" target=3D"_blank">http://code.ossystems.com.b=
+r</a>&gt;<br>
+&gt; Mobile: +55 (53) 9 9981-7854 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mobile:=
+ +1 (347) 903-9750<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#168577): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/168577" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/168577</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/92647443/3617=
+537" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/92647443/3617537</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:otavio.salvador@gmail.com"=
+ target=3D"_blank">otavio.salvador@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">Otavio Salvador =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. Sys=
+tems<br><a href=3D"http://www.ossystems.com.br" target=3D"_blank">http://ww=
+w.ossystems.com.br</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://code.os=
+systems.com.br" target=3D"_blank">http://code.ossystems.com.br</a><br>Mobil=
+e: +55 (53) 9 9981-7854 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mobile: +1 (347) =
+903-9750</div>
+
+--0000000000004658fb05e4cc4be4--
 
