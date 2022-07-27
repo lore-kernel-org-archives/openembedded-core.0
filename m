@@ -1,101 +1,157 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 558D2C19F21
-	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 05:39:48 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web12.16444.1658900382216194738
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C587EC04A68
+	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 06:53:58 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.16964.1658904822183192157
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 22:39:42 -0700
+ Tue, 26 Jul 2022 23:53:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=O5IqTr7s;
- spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=4207966b4e=changqing.li@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 26R5ajt3002885
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 22:39:41 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PPS06212021;
- bh=n6xxVQjknBzipowAMhqI+CmMPtCvLQ9nscFyt2h5c70=;
- b=O5IqTr7sCc3qGccif+Dy9yhpUNGpwiYdAIo/q68C/y3atCZG/52clLBILIQjj/ohLLA0
- Ng2eVat4kccKr/Ir00SeT3nLV2/GhqXAPYXhtQuAj98EUm1RHHbkhhhl6VB/S3FujCR2
- zQqLRcb4ifHW5WXCazEpMhKU83fLs8eoYIAPzq8V7QBssnxO6Cv11cQM3J74vWIZRz3P
- 85mf2rY5TPqXs1Yx6jKWryB/Y842ztp2OO0fMtm2QOmz6o+m/AfOjWf32t6q1lI0ApFk
- w+BzRJ9i/Rux58fPbpu/F1i1MgXdrOVowjoy/GaOhJX3SiRPrpwKGzezukr82Ud2kBpO Lw==
-Received: from ala-exchng01.corp.ad.wrs.com (unknown-82-252.windriver.com
- [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3hgggkaqwb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 22:39:41 -0700
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Tue, 26 Jul 2022 22:39:40 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 26 Jul 2022 22:39:40 -0700
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2242.12 via Frontend Transport; Tue, 26 Jul 2022 22:39:39 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [kirkstone][master][PATCH] apt: fix do_package_qa failure
-Date: Wed, 27 Jul 2022 13:39:39 +0800
-Message-ID: <20220727053939.353717-1-changqing.li@windriver.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=jSy909qB;
+ spf=pass (domain: mvista.com, ip: 209.85.214.181,
+ mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f181.google.com with SMTP id y15so15356218plp.10
+        for <openembedded-core@lists.openembedded.org>;
+ Tue, 26 Jul 2022 23:53:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QyKGklzLe67Q9afU2/7ahrKFg8rK9ecAofPadoVKcgY=;
+        b=jSy909qBBlSSlqw+AxUJvjYgUpePDc/pBKORUTltSzKlblsZ8Z3biCk881Fr+CowZ+
+         iEaPYamIc1QBGr8LdADVdhs9pup987Agm9m4jdgbTOFWUZEfxpwJk/r7vyPV7cgJcWyH
+         3/8ZYy8r4X4rdBKtYq+ynxF07n2ANnoeXzdpA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QyKGklzLe67Q9afU2/7ahrKFg8rK9ecAofPadoVKcgY=;
+        b=JR6VBw2q86D3/CWh//jwP3sy18riAThEfnv/qy8XAr9gcywHITrrbI+gwZaSCKlS7b
+         vU+uKy7xthEBzt6qZvqKS2GynNp3WBoW1hdnabHZA1MLLxnBB3J8uVlHjDWzFgCf8gmm
+         lNt/Y3Vkm+wNtTXrHziMd+5bHuw4W48XyX79lRJPLX8tKnsFghlX0tvsid9NQ7CRrJ8X
+         Narc6KbeZJd6MX/TrlUzNeNs149KnnwotPb5r1qhvIeDTq8hiIfuecaClx6ywGUNA3rh
+         JeyAj3LCY8o9CCGg/Cx0xB8b2eQxz4LJblTbXQtQzwKQ88s7LYWdNDReJT1LvcxYC5FF
+         GZKQ==
+X-Gm-Message-State: AJIora/va8u9HITWIKE3YohNPBnkEycVGyGqiWMe5zvmwpk9dzDVW3Ev
+	K6u0d9Nig4b5jhL+I9PEBO7MJd4GjI6PJQ==
+X-Google-Smtp-Source: 
+ AGRyM1vpTs6oV8d79PUF+0lpUJHX4Tk2TwyuSzzS8k5Em4fN2vGdpm+M6M414+wn06NGuL2Um1U63g==
+X-Received: by 2002:a17:90b:4d11:b0:1f0:414b:586e with SMTP id
+ mw17-20020a17090b4d1100b001f0414b586emr2964231pjb.111.1658904821003;
+        Tue, 26 Jul 2022 23:53:41 -0700 (PDT)
+Received: from MVIN00024 ([43.249.234.158])
+        by smtp.gmail.com with ESMTPSA id
+ x11-20020a170902a38b00b0016bea2a0a8dsm12825202pla.91.2022.07.26.23.53.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Jul 2022 23:53:40 -0700 (PDT)
+Received: by MVIN00024 (sSMTP sendmail emulation);
+ Wed, 27 Jul 2022 12:23:26 +0530
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] qemu: CVE-2022-35414 can perform an uninitialized
+ read on the translate_fail path, leading to an io_readx or io_writex crash
+Date: Wed, 27 Jul 2022 12:23:25 +0530
+Message-Id: <20220727065325.241476-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 9ktthPsHvWPagDr1unC7P7twh55bh-_V
-X-Proofpoint-GUID: 9ktthPsHvWPagDr1unC7P7twh55bh-_V
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-26_07,2022-07-26_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=742
- impostorscore=0 bulkscore=0 clxscore=1011 adultscore=0 lowpriorityscore=0
- priorityscore=1501 mlxscore=0 phishscore=0 malwarescore=0 spamscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207270019
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 05:39:48 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 06:53:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168542
+ https://lists.openembedded.org/g/openembedded-core/message/168543
 
-From: Changqing Li <changqing.li@windriver.com>
+Source: https://github.com/qemu/qemu
+MR: 119830
+Type: Security Fix
+Disposition: Backport from https://github.com/qemu/qemu/commit/418ade7849ce7641c0f7333718caf5091a02fd4c
+ChangeID: 41d6646e06319e629da574b9b2e8a3a197a73441
+Description:
+        CVE-2022-35414 qemu: can perform an uninitialized read on the translate_fail path, leading to an io_readx or io_writex crash.
 
-bitbake nativesdk-apt failed with error:
-ERROR: nativesdk-apt-2.4.5-r0 do_package_qa: QA Issue: nativesdk-apt installs files in /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/var/volatile, but it is expected to be empty [empty-dirs]
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- meta/recipes-devtools/apt/apt_2.4.5.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2022-35414.patch            | 53 +++++++++++++++++++
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-35414.patch
 
-diff --git a/meta/recipes-devtools/apt/apt_2.4.5.bb b/meta/recipes-devtools/apt/apt_2.4.5.bb
-index 1d94dd118c..d79a33857a 100644
---- a/meta/recipes-devtools/apt/apt_2.4.5.bb
-+++ b/meta/recipes-devtools/apt/apt_2.4.5.bb
-@@ -123,6 +123,7 @@ do_install:append:class-native() {
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 8c5a649c76..2395625948 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -35,6 +35,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://pvrdma.patch \
+            file://CVE-2021-4206.patch \
+            file://CVE-2021-4207.patch \
++           file://CVE-2022-35414.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
- do_install:append:class-nativesdk() {
- 	customize_apt_conf_sample
-+	rm -rf ${D}${localstatedir}/log
- }
- 
- do_install:append:class-target() {
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2022-35414.patch b/meta/recipes-devtools/qemu/qemu/CVE-2022-35414.patch
+new file mode 100644
+index 0000000000..3786497f01
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2022-35414.patch
+@@ -0,0 +1,53 @@
++From ee76e64ee1cb232b77652b21cc94ec6b6c7e4b13 Mon Sep 17 00:00:00 2001
++From: Hitendra Prajapati <hprajapati@mvista.com>
++Date: Wed, 27 Jul 2022 10:49:47 +0530
++Subject: [PATCH] CVE-2022-35414
++
++Upstream-Status: Backport [https://github.com/qemu/qemu/commit/418ade7849ce7641c0f7333718caf5091a02fd4c]
++CVE: CVE-2022-35414
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ softmmu/physmem.c | 13 ++++++++++++-
++ 1 file changed, 12 insertions(+), 1 deletion(-)
++
++diff --git a/softmmu/physmem.c b/softmmu/physmem.c
++index 3524c04c2..3c467527d 100644
++--- a/softmmu/physmem.c
+++++ b/softmmu/physmem.c
++@@ -667,7 +667,7 @@ void tcg_iommu_init_notifier_list(CPUState *cpu)
++ 
++ /* Called from RCU critical section */
++ MemoryRegionSection *
++-address_space_translate_for_iotlb(CPUState *cpu, int asidx, hwaddr addr,
+++address_space_translate_for_iotlb(CPUState *cpu, int asidx, hwaddr orig_addr,
++                                   hwaddr *xlat, hwaddr *plen,
++                                   MemTxAttrs attrs, int *prot)
++ {
++@@ -676,6 +676,7 @@ address_space_translate_for_iotlb(CPUState *cpu, int asidx, hwaddr addr,
++     IOMMUMemoryRegionClass *imrc;
++     IOMMUTLBEntry iotlb;
++     int iommu_idx;
+++    hwaddr addr = orig_addr;
++     AddressSpaceDispatch *d =
++         qatomic_rcu_read(&cpu->cpu_ases[asidx].memory_dispatch);
++ 
++@@ -720,6 +721,16 @@ address_space_translate_for_iotlb(CPUState *cpu, int asidx, hwaddr addr,
++     return section;
++ 
++ translate_fail:
+++    /*
+++     * We should be given a page-aligned address -- certainly
+++     * tlb_set_page_with_attrs() does so.  The page offset of xlat
+++     * is used to index sections[], and PHYS_SECTION_UNASSIGNED = 0.
+++     * The page portion of xlat will be logged by memory_region_access_valid()
+++     * when this memory access is rejected, so use the original untranslated
+++     * physical address.
+++     */
+++    assert((orig_addr & ~TARGET_PAGE_MASK) == 0);
+++    *xlat = orig_addr;
++     return &d->map.sections[PHYS_SECTION_UNASSIGNED];
++ }
++ 
++-- 
++2.25.1
++
 -- 
 2.25.1
 
