@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCFDEC19F28
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D499DC19F21
 	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 00:41:36 +0000 (UTC)
 Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
  [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web10.14472.1658882489173289514
+ by mx.groups.io with SMTP id smtpd.web10.14473.1658882491916841790
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 17:41:29 -0700
+ Tue, 26 Jul 2022 17:41:32 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=xLEX+TJB;
+ header.b=z1+NPrD6;
  spf=softfail (domain: sakoman.com, ip: 209.85.216.43,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id e1so4337545pjl.1
+Received: by mail-pj1-f43.google.com with SMTP id y1so6777186pja.4
         for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 17:41:29 -0700 (PDT)
+ Tue, 26 Jul 2022 17:41:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=QngP10n1UpLQ1mvCkG6BIyKYpS0AszeTJqIB02iFY5A=;
-        b=xLEX+TJBNg9IvOKVTLT1fR2n47qydtGrPP8AKIYxfuSgZpZvBAXStYXU5SVAa9rZp3
-         kw9KMXlvtqEJwYnA4vXmqImlayAYDOfkBWQhp1MlnrT+/eq+5TsjgMwkvsAoW3BM1GUJ
-         s99Sc14Br2r3CxVo7rQ83cnclIjmCS61ts7MYZHdlMVu51eJWIingh0zA4H+4jXacAVF
-         3bns7AVydtZ9Fx4nrxuMyj10z4myj9rwmheVfdtz76LIgAd/swzL4IqZGcg0ZpZUDgWa
-         D2Z8Ik/B7OPhHbutlR+T/0pLLA0qN5jkzN6WeYWjMoI9urhg7/fHGfh/YbfQbxdIxyrD
-         YXCw==
+        bh=6DTb3FtitZxw1kV04XhAqTBCI5zzHc5oGmXvCUdJmKI=;
+        b=z1+NPrD6PpUg/OHW0Lqxk0Vl2ul4imnvYdhafr3Ns/a0aHE7koXYF9aHf9hAHKftuv
+         keXIdgUfptJuP6H1Y6m70xIgeEJcJCFU3Eo3HfpVtQIvO0NogwLjhSJiUdOyro+n68C4
+         lwDAgUt4Pv4rzb4oDql67dZO5DlQO2SnqvKL6dypsY2jtjRVaDsqrO49izUbn5vrvbSS
+         0QPfYJCxpgDItcRLLikNd0n+mgASBWdphA0k68Q0GASECHOMfalStImIahtPWueBkRyK
+         r8S9f8nxl+QpydBn9gRfl+seQ4rHjVz2GD9N2MGuqKjP+T454VfRex0vdZzK97bz3JZt
+         HQUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=QngP10n1UpLQ1mvCkG6BIyKYpS0AszeTJqIB02iFY5A=;
-        b=rGiLrVC1B8RSYBfAro/DX+Im3GrrStdZJwzZB9fQEolsvKfrwOcWd0aK6VOFNwxfsh
-         F17f0RkxzkvrKWrVlMH5ruWSy7nSNX/CmD2i4rAx1iGPiqwp3lc6TarH6eHAFdhgJBYG
-         1Cchy84DvgJ99t2/2/EHmZc13eq8V5KAd4AFKOsFUdyUT1IbOotVu3fQTlAeKgjr+u9X
-         NWC5MP0r0oNa8UCxZkyAeGwjTQk3QBWS6dq/oQAXks2VQwHFqCgrj+IJx5aADsJVs/qt
-         cOLB6i+oDpK9v9Mt0GSi/WOMKQ85YsqjeKq6aWrkuxT+ggJF4T7zEulWtv4FBzhk6v6w
-         +3lw==
-X-Gm-Message-State: AJIora9pwzYUPlfO5ZFp9U6V9/lvlLtevxOB4LAmbhDoztTTUXyWpbjw
-	Q/d+M6+ZNwPvFO9ZEfHdPcSN5ZpNJnSqkMR6
+        bh=6DTb3FtitZxw1kV04XhAqTBCI5zzHc5oGmXvCUdJmKI=;
+        b=3nGmgk7pnQ5C6JU7fPtWLHHweDF8UV/H7TdQ2WxC0QOnzlIEKXjc+dNVoQeCBOPEku
+         EVlKh7T5vaVARa6dWqJdwZ7qefUYpKbMPRrI4Kyh8kYiYSGdXTSM+8ORIBQavAePhPWg
+         QyUli4zCFN27Aaxlozs4/1/a7LMv9cG7zU7d6dtbBItbkzDhG4mv4MKg1vVg7Nc6lOaQ
+         ohpTH9fHVTt0Gqmla28yggSa/10ZeGbbCtGAXiJ4bUA2qbSMoc1LCMN2jP8j5VJ/XnYD
+         LUp7mBEtr1H02RmMvFFVlbxidGekmu4xqmrpM5uKsSGi6Ss3Bjv8YY21N9V6hpmMumlB
+         QQyQ==
+X-Gm-Message-State: AJIora/LpYWwjV7+W00PZx9M7vIQKcZo6n8SOKAMnqYUu0QRVS9ze8hw
+	2G7iHq6XfZUqUGUnKpuJBn4rXRhaSOaSUtNn
 X-Google-Smtp-Source: 
- AGRyM1vw2GFHN11Ks3YkgBgzz7cAKZM44Gy216qgfsKhTa35RuwI3VSwc4sMd2VyXSVeKcHOeYhvUA==
-X-Received: by 2002:a17:90a:fec:b0:1f2:8c1f:210b with SMTP id
- 99-20020a17090a0fec00b001f28c1f210bmr1677364pjz.114.1658882487945;
-        Tue, 26 Jul 2022 17:41:27 -0700 (PDT)
+ AGRyM1tiyhOdBoX2m3C+j/DMKkmU/g805T5Z8bY1qjlMis6Qrkc6Xaj5XTfkDRTes49Pfbul3MkdfQ==
+X-Received: by 2002:a17:90b:4f47:b0:1f2:ab5b:f1b4 with SMTP id
+ pj7-20020a17090b4f4700b001f2ab5bf1b4mr1611250pjb.208.1658882490617;
+        Tue, 26 Jul 2022 17:41:30 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- u16-20020a170902e5d000b0015e8d4eb219sm12356278plf.99.2022.07.26.17.41.26
+ u16-20020a170902e5d000b0015e8d4eb219sm12356278plf.99.2022.07.26.17.41.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jul 2022 17:41:27 -0700 (PDT)
+        Tue, 26 Jul 2022 17:41:29 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 05/15] bind: upgrade 9.18.3 -> 9.18.4
-Date: Tue, 26 Jul 2022 14:40:36 -1000
+Subject: [OE-core][kirkstone 06/15] gnupg: update 2.3.4 -> 2.3.6
+Date: Tue, 26 Jul 2022 14:40:37 -1000
 Message-Id: 
- <5bfb44bff5d296b8fd447acb7bdb29b544bd1c20.1658882276.git.steve@sakoman.com>
+ <4e9c180baf5fea79a2ca472651b782038051b837.1658882276.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1658882276.git.steve@sakoman.com>
 References: <cover.1658882276.git.steve@sakoman.com>
@@ -69,118 +69,186 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 00:41:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168528
+ https://lists.openembedded.org/g/openembedded-core/message/168529
 
-From: wangmy <wangmy@fujitsu.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Changelog:
-==========
-[func]          Don't try to process DNSSEC-related and ZONEMD records
-                in catz. [GL #3380]
+Remove 0003-dirmngr-uses-libgpg-error.patch
+(upstream addressed the issue).
 
-[func]          Add some more dnssec-policy checks to detect weird
-                policies. [GL #1611]
-
-[test]          Add new set of unit test macros and move the unit
-                tests under single namespace in /tests/. [GL !6243]
-
-[func]          Key timing options for 'dnssec-settime' and related
-                utilities now accept "UNSET" times as printed by
-                'dnssec-settime -p'. [GL #3361]
-
-[bug]           When the fetches-per-server quota was adjusted
-                because of an authoritative server timing out more
-                or less frequently, it was incorrectly set to 1
-                rather than the intended value.  This has been
-                fixed. [GL #3327]
-
-[bug]           Only write key files if the dnssec-policy keymgr has
-                changed the metadata. [GL #3302]
-
-[func]          Key timing options for 'dnssec-keygen' and
-                'dnssec-settime' now accept times as printed by
-                'dnssec-settime -p'. [GL !2947]
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d5a12d549209f01324d03963db96449ee43452eb)
+Signed-off-by: Yue Tao <yue.tao@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../0001-avoid-start-failure-with-bind-user.patch               | 0
- .../0001-named-lwresd-V-and-start-log-hide-build-options.patch  | 0
- .../bind-ensure-searching-for-json-headers-searches-sysr.patch  | 0
- .../bind/{bind-9.18.3 => bind-9.18.4}/bind9                     | 0
- .../bind/{bind-9.18.3 => bind-9.18.4}/conf.patch                | 0
- .../bind/{bind-9.18.3 => bind-9.18.4}/generate-rndc-key.sh      | 0
- .../init.d-add-support-for-read-only-rootfs.patch               | 0
- .../make-etc-initd-bind-stop-work.patch                         | 0
- .../bind/{bind-9.18.3 => bind-9.18.4}/named.service             | 0
- .../bind/{bind_9.18.3.bb => bind_9.18.4.bb}                     | 2 +-
- 10 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/bind/{bind-9.18.3 => bind-9.18.4}/0001-avoid-start-failure-with-bind-user.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.3 => bind-9.18.4}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.3 => bind-9.18.4}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.3 => bind-9.18.4}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.3 => bind-9.18.4}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.3 => bind-9.18.4}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.3 => bind-9.18.4}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.3 => bind-9.18.4}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.3 => bind-9.18.4}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.18.3.bb => bind_9.18.4.bb} (98%)
+ ...-a-custom-value-for-the-location-of-.patch |  6 ++--
+ .../0003-dirmngr-uses-libgpg-error.patch      | 29 -------------------
+ .../gnupg/gnupg/relocate.patch                | 18 ++++++------
+ .../gnupg/{gnupg_2.3.4.bb => gnupg_2.3.6.bb}  |  3 +-
+ 4 files changed, 13 insertions(+), 43 deletions(-)
+ delete mode 100644 meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
+ rename meta/recipes-support/gnupg/{gnupg_2.3.4.bb => gnupg_2.3.6.bb} (95%)
 
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.3/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.18.4/0001-avoid-start-failure-with-bind-user.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.3/0001-avoid-start-failure-with-bind-user.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.4/0001-avoid-start-failure-with-bind-user.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.3/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.18.4/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.3/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.4/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.3/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.18.4/bind-ensure-searching-for-json-headers-searches-sysr.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.3/bind-ensure-searching-for-json-headers-searches-sysr.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.4/bind-ensure-searching-for-json-headers-searches-sysr.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.3/bind9 b/meta/recipes-connectivity/bind/bind-9.18.4/bind9
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.3/bind9
-rename to meta/recipes-connectivity/bind/bind-9.18.4/bind9
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.3/conf.patch b/meta/recipes-connectivity/bind/bind-9.18.4/conf.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.3/conf.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.4/conf.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.3/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.18.4/generate-rndc-key.sh
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.3/generate-rndc-key.sh
-rename to meta/recipes-connectivity/bind/bind-9.18.4/generate-rndc-key.sh
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.3/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.18.4/init.d-add-support-for-read-only-rootfs.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.3/init.d-add-support-for-read-only-rootfs.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.4/init.d-add-support-for-read-only-rootfs.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.3/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.18.4/make-etc-initd-bind-stop-work.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.3/make-etc-initd-bind-stop-work.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.4/make-etc-initd-bind-stop-work.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.3/named.service b/meta/recipes-connectivity/bind/bind-9.18.4/named.service
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.3/named.service
-rename to meta/recipes-connectivity/bind/bind-9.18.4/named.service
-diff --git a/meta/recipes-connectivity/bind/bind_9.18.3.bb b/meta/recipes-connectivity/bind/bind_9.18.4.bb
-similarity index 98%
-rename from meta/recipes-connectivity/bind/bind_9.18.3.bb
-rename to meta/recipes-connectivity/bind/bind_9.18.4.bb
-index b511b77f2e..5af2022129 100644
---- a/meta/recipes-connectivity/bind/bind_9.18.3.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.18.4.bb
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
+diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+index b58fbfe6f5..c4ede9ea5e 100644
+--- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
++++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+@@ -1,4 +1,4 @@
+-From bdde1faa774753e29d582d79186e08a38597de9e Mon Sep 17 00:00:00 2001
++From 89b98553084fbefe1ef2c7cbff9e72cf43144c49 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 22 Jan 2018 18:00:21 +0200
+ Subject: [PATCH] configure.ac: use a custom value for the location of
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 5cdd316..e5f2d6a 100644
++index d86c60e..65c22b2 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1962,7 +1962,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
++@@ -1955,7 +1955,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
+  
+  AC_DEFINE_UNQUOTED(GPGTAR_NAME, "gpgtar", [The name of the gpgtar tool])
+  
+diff --git a/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch b/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
+deleted file mode 100644
+index b4106d3620..0000000000
+--- a/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From 9ace8f1b68ab708c44dce4c0152b975fbceb0398 Mon Sep 17 00:00:00 2001
+-From: Saul Wold <sgw@linux.intel.com>
+-Date: Wed, 16 Aug 2017 11:18:01 +0800
+-Subject: [PATCH] dirmngr uses libgpg error
+-
+-Upstream-Status: Pending
+-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+-
+-Rebase to 2.1.23
+-
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+-
+----
+- dirmngr/Makefile.am | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/dirmngr/Makefile.am b/dirmngr/Makefile.am
+-index 77ca3f5..1446775 100644
+---- a/dirmngr/Makefile.am
+-+++ b/dirmngr/Makefile.am
+-@@ -86,7 +86,7 @@ endif
+- dirmngr_LDADD = $(libcommonpth) \
+-         $(DNSLIBS) $(LIBASSUAN_LIBS) \
+- 	$(LIBGCRYPT_LIBS) $(KSBA_LIBS) $(NPTH_LIBS) \
+--	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV) $(NETLIBS)
+-+	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV) $(NETLIBS) $(GPG_ERROR_LIBS)
+- if USE_LDAP
+- dirmngr_LDADD += $(ldaplibs)
+- endif
+diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
+index 74f48e9582..43999b8a6d 100644
+--- a/meta/recipes-support/gnupg/gnupg/relocate.patch
++++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
+@@ -1,4 +1,4 @@
+-From 1e34e1d477f843c0ee2f1a3fddc20201f0233e81 Mon Sep 17 00:00:00 2001
++From 89ae4f03307104689e1857d9857d452af6b35ac4 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Wed, 19 Sep 2018 14:44:40 +0100
+ Subject: [PATCH] Allow the environment to override where gnupg looks for its
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 7 insertions(+), 7 deletions(-)
+ 
+ diff --git a/common/homedir.c b/common/homedir.c
+-index 174d961..f4c25fb 100644
++index 260aeb2..1aeb08d 100644
+ --- a/common/homedir.c
+ +++ b/common/homedir.c
+-@@ -1161,7 +1161,7 @@ gnupg_socketdir (void)
++@@ -1143,7 +1143,7 @@ gnupg_socketdir (void)
+    if (!name)
+      {
+        unsigned int dummy;
+@@ -26,7 +26,7 @@ index 174d961..f4c25fb 100644
+        gpgrt_annotate_leaked_object (name);
+      }
+  
+-@@ -1193,7 +1193,7 @@ gnupg_sysconfdir (void)
++@@ -1175,7 +1175,7 @@ gnupg_sysconfdir (void)
+    if (dir)
+      return dir;
+    else
+@@ -35,7 +35,7 @@ index 174d961..f4c25fb 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1229,7 +1229,7 @@ gnupg_bindir (void)
++@@ -1211,7 +1211,7 @@ gnupg_bindir (void)
+        return name;
+      }
+    else
+@@ -44,7 +44,7 @@ index 174d961..f4c25fb 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1256,7 +1256,7 @@ gnupg_libexecdir (void)
++@@ -1238,7 +1238,7 @@ gnupg_libexecdir (void)
+        return name;
+      }
+    else
+@@ -53,7 +53,7 @@ index 174d961..f4c25fb 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1286,7 +1286,7 @@ gnupg_libdir (void)
++@@ -1268,7 +1268,7 @@ gnupg_libdir (void)
+        return name;
+      }
+    else
+@@ -62,7 +62,7 @@ index 174d961..f4c25fb 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1317,7 +1317,7 @@ gnupg_datadir (void)
++@@ -1299,7 +1299,7 @@ gnupg_datadir (void)
+        return name;
+      }
+    else
+@@ -71,7 +71,7 @@ index 174d961..f4c25fb 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1349,7 +1349,7 @@ gnupg_localedir (void)
++@@ -1331,7 +1331,7 @@ gnupg_localedir (void)
+        return name;
+      }
+    else
+diff --git a/meta/recipes-support/gnupg/gnupg_2.3.4.bb b/meta/recipes-support/gnupg/gnupg_2.3.6.bb
+similarity index 95%
+rename from meta/recipes-support/gnupg/gnupg_2.3.4.bb
+rename to meta/recipes-support/gnupg/gnupg_2.3.6.bb
+index d27bddb8bd..f35eb8c75a 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.3.4.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.3.6.bb
+@@ -16,7 +16,6 @@ inherit autotools gettext texinfo pkgconfig
+ UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
+ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://0002-use-pkgconfig-instead-of-npth-config.patch \
+-           file://0003-dirmngr-uses-libgpg-error.patch \
+            file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
+            file://0001-Woverride-init-is-not-needed-with-gcc-9.patch \
             "
+@@ -24,7 +23,7 @@ SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-
+                                 file://relocate.patch"
+ SRC_URI:append:class-nativesdk = " file://relocate.patch"
  
--SRC_URI[sha256sum] = "0ad8da773bd93cba0ef66cc81999698ebdf9c3e51faed5e5c8c1eb75cad2ae6f"
-+SRC_URI[sha256sum] = "f277ae50159a00c300eb926a9c5d51953038a936bd8242d6913dfb6eac42761d"
+-SRC_URI[sha256sum] = "f3468ecafb1d7f9ad7b51fd1db7aebf17ceb89d2efa8a05cf2f39b4d405402ae"
++SRC_URI[sha256sum] = "21f7fe2fc5c2f214184ab050977ec7a8e304e58bfae2ab098fec69f8fabda9c1"
  
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # follow the ESV versions divisible by 2
+ EXTRA_OECONF = "--disable-ldap \
+ 		--disable-ccid-driver \
 -- 
 2.25.1
 
