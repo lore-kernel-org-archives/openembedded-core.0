@@ -1,183 +1,127 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <mihai.lindner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC1C4C19F2B
-	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 17:04:31 +0000 (UTC)
-Received: from mailout03.t-online.de (mailout03.t-online.de [194.25.134.81])
- by mx.groups.io with SMTP id smtpd.web08.22532.1658941463411583302
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3634C19F2B
+	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 17:09:31 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web10.22485.1658941767849681450
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jul 2022 10:04:23 -0700
+ Wed, 27 Jul 2022 10:09:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing;
- spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.81,
- mailfrom: f_l_k@t-online.de)
-Received: from fwd79.dcpf.telekom.de (fwd79.aul.t-online.de [10.223.144.105])
-	by mailout03.t-online.de (Postfix) with SMTP id 5AB0A3C9B;
-	Wed, 27 Jul 2022 19:04:21 +0200 (CEST)
-Received: from [192.168.178.83] ([84.163.44.9]) by fwd79.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1oGkSK-3PBHiy0; Wed, 27 Jul 2022 19:04:21 +0200
-Date: Wed, 27 Jul 2022 19:04:15 +0200
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [OE-core] [meta-oe][PATCH] wic/direct.py: ignore root mountpoint
- in fstab updater
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Message-Id: <3FVOFR.R0ZY9H7K1WKY1@t-online.de>
-In-Reply-To: <1705BCB17DD12169.1380@lists.openembedded.org>
-References: <20220727134512.4033-1-f_l_k@t-online.de>
-	<A08B6BB6-EFD1-425D-AC02-457EF8A40229@arm.com>
-	<1705BCB17DD12169.1380@lists.openembedded.org>
-X-Mailer: geary/40.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=K7jAPRLR;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41,
+ mailfrom: mihai.lindner@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id b11so32602476eju.10
+        for <openembedded-core@lists.openembedded.org>;
+ Wed, 27 Jul 2022 10:09:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MZuxc3ky4inNm349m5wpTb+bisWQ3hN+kNhqPdY6jMw=;
+        b=K7jAPRLR1t4DQ9RPC85KVLdiViejeaZgR6AA+KywDiL3WR8i+jCf+Jv/3ABHHpBmbF
+         si0hRjFhw3iQ4zVSGUnMv+Vnw77MTwy+Scctxf8T34Wr3jWO7+n9wdSC2haZvqQrB9hJ
+         L9gZ7j5uzBXhHGq3PXuHdsG7rdrsF5yhyG52UEeZ5naSWV5Ph3xcWOHBGT6v4oFB6rXw
+         D+jaia/1F99n/fNrxETKWJBK7009GKUo6XHhXVUVOSLrIB5mVGQ/TwtV06D06ZURfqW5
+         Uomd/Va05aM58oAtxHARNRC7G+wdTuDl4nxqMJwI8fkCYbz8bvpGdwNwEuIyplAggzov
+         OLwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MZuxc3ky4inNm349m5wpTb+bisWQ3hN+kNhqPdY6jMw=;
+        b=syPg/xFjBDXW1FuTC3FyeWqwHDS0U5rRVC/lItoLVxPsPcROVZnoJQ/tI1hio/P3JG
+         VRUvickmdQNBtz5bohfLrrakmhLARXWSUAGLGW+FD7F8sYTWG93PCtgKEMAlrxn3vLFb
+         AN7sfca4GjsarDYtmGesua5Je5uWAMuNow/mQ2lMM1ME9JEDFJHzt2m6QLqh+BRc3UuK
+         AWsfQyOwGZhQD2EzkJS/UkzW5xHJQnS7J/tPtzHyJNeRzzJOT9VOxLAL65tHRpboWJss
+         cPCOCrfECAbFxfGua4rAa2hEh25KDD3a5GJANfy1vCJ0SWfcKwoqErGlzZ19YpZtFaYw
+         rCdw==
+X-Gm-Message-State: AJIora85j6lV1vpDd9udIozdnsExrexKqN3kXUk5YrBxBAYkqxApdu0R
+	ZrmKEJKMuWEpEUbsQ5/Mki77PnYUGW9/VdAs
+X-Google-Smtp-Source: 
+ AGRyM1v7uHrBxTDsg71bH+C88ogo6myUPHFDjqFpEGvSAEbHKDddpT/+v+HGrynzcIbtKYA0nQ0PWA==
+X-Received: by 2002:a17:906:dc95:b0:72f:ab47:1692 with SMTP id
+ cs21-20020a170906dc9500b0072fab471692mr18056972ejc.319.1658941766302;
+        Wed, 27 Jul 2022 10:09:26 -0700 (PDT)
+Received: from fun2.lenovo.com ([2a02:2f07:7215:e600:b43b:ef09:3bb9:3e14])
+        by smtp.gmail.com with ESMTPSA id
+ 19-20020a170906329300b0072b6d91b056sm7833533ejw.142.2022.07.27.10.09.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Jul 2022 10:09:25 -0700 (PDT)
+From: Mihai Lindner <mihai.lindner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>,
+	Mihai Lindner <mihai.lindner@gmail.com>
+Subject: [PATCH] create-spdx: Fix supplier field
+Date: Wed, 27 Jul 2022 20:09:18 +0300
+Message-Id: <20220727170918.6960-1-mihai.lindner@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-O8SlnrN2xRnOluGbDDN1"
-X-TOI-EXPURGATEID: 150726::1658941461-014551EF-F19CB7D1/0/0 CLEAN NORMAL
-X-TOI-MSGID: 7060902c-2a90-4e11-984b-cc1f8fc9ae92
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 17:04:31 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 17:09:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168581
+ https://lists.openembedded.org/g/openembedded-core/message/168582
 
---=-O8SlnrN2xRnOluGbDDN1
-Content-Type: text/plain; charset=us-ascii; format=flowed
+The correct field name is "supplier" according to SPDX schema.
+The "supplier" field translates to "PackageSupplier", but that's for
+tag-value format.
 
-But looking at the commit that introduced the problem, I see that it 
-completely undoes it.
-In general, I like the idea of having the fstab_updater create the root 
-entry, but for this to work without duplication, the /dev/root entry 
-would have to be removed from fstab.
-This would force any wic image to use the fstab_updater (which can also 
-be disabled) and would otherwise result in an fstab file with no root 
-entry.
-Probably removing the /dev/root entry would also break the boot of 
-images that do not use wic
+Signed-off-by: Mihai Lindner <mihai.lindner@gmail.com>
+---
+ meta/classes/create-spdx.bbclass | 6 +++---
+ meta/lib/oe/spdx.py              | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-Translated with www.DeepL.com/Translator (free version)
-
-Am Mi, 27. Jul 2022 um 18:31:38 +0200 schrieb Markus Volk 
-<f_l_k@t-online.de>:
-> Yes. With the patch the warning disappears from dmesg
-> 
-> Am Mi, 27. Jul 2022 um 15:44:48 +0000 schrieb Ross Burton 
-> <ross.burton@arm.com>:
->> This looks like a fix for 
->> <https://bugzilla.yoctoproject.org/show_bug.cgi?id=14865>, can you 
->> confirm that?
->> 
->> Ross
->> 
->>>  On 27 Jul 2022, at 14:45, Markus Volk via lists.openembedded.org 
->>> <f_l_k=t-online.de@lists.openembedded.org 
->>> <mailto:f_l_k=t-online.de@lists.openembedded.org>> wrote:
->>> 
->>>  We already have a root entry in fstab. This commit prevents 
->>> processing root
->>>  mountpoint in fstab_updater and thus avoids duplicate entries for 
->>> root in fstab.
->>> 
->>>  Signed-off-by: Markus Volk <f_l_k@t-online.de 
->>> <mailto:f_l_k@t-online.de>>
->>>  ---
->>>  scripts/lib/wic/plugins/imager/direct.py | 3 ++-
->>>  1 file changed, 2 insertions(+), 1 deletion(-)
->>> 
->>>  diff --git a/scripts/lib/wic/plugins/imager/direct.py 
->>> b/scripts/lib/wic/plugins/imager/direct.py
->>>  index c44159b235..75004ab320 100644
->>>  --- a/scripts/lib/wic/plugins/imager/direct.py
->>>  +++ b/scripts/lib/wic/plugins/imager/direct.py
->>>  @@ -117,7 +117,8 @@ class DirectPlugin(ImagerPlugin):
->>>          updated = False
->>>          for part in self.parts:
->>>              if not part.realnum or not part.mountpoint \
->>>  -               or not part.mountpoint.startswith('/'):
->>>  +               or not part.mountpoint.startswith('/') \
->>>  +               or part.mountpoint == "/":
->>>                  continue
->>> 
->>>              if part.use_uuid:
->>>  --
->>>  2.34.1
->>> 
->>> 
->>> 
->>> 
->> 
->> 
->> 
->> 
-
-
---=-O8SlnrN2xRnOluGbDDN1
-Content-Type: text/html; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-
-<div id=3D"geary-body" dir=3D"auto"><div>But looking at the commit that int=
-roduced the problem, I see that it completely undoes it.</div><div>In gener=
-al, I like the idea of having the fstab_updater create the root entry, but =
-for this to work without duplication, the /dev/root entry would have to be =
-removed from fstab.</div><div>This would force any wic image to use the fst=
-ab_updater (which can also be disabled) and would otherwise result in an fs=
-tab file with no root entry.</div><div>Probably removing the /dev/root entr=
-y would also break the boot of images that do not use wic</div><div><br></d=
-iv><div>Translated with www.DeepL.com/Translator (free version)</div></div>=
-<div id=3D"geary-quote" dir=3D"auto"><br>Am Mi, 27. Jul 2022 um 18:31:38 +0=
-200 schrieb Markus Volk &lt;f_l_k@t-online.de&gt;:<br><blockquote type=3D"c=
-ite"><div id=3D"geary-body" dir=3D"auto"><div>Yes. With the patch the warni=
-ng disappears from dmesg</div></div><div id=3D"geary-quote" dir=3D"auto"><b=
-r>Am Mi, 27. Jul 2022 um 15:44:48 +0000 schrieb Ross Burton &lt;ross.burton=
-@arm.com&gt;:<br><blockquote type=3D"cite"><div class=3D"plaintext" style=
-=3D"white-space: break-spaces;">This looks like a fix for <a href=3D"https:=
-//bugzilla.yoctoproject.org/show_bug.cgi?id=3D14865">https://bugzilla.yocto=
-project.org/show_bug.cgi?id=3D14865</a>, can you confirm that?
-
-Ross
-
-<blockquote> On 27 Jul 2022, at 14:45, Markus Volk via lists.openembedded.o=
-rg &lt;<a href=3D"mailto:f_l_k=3Dt-online.de@lists.openembedded.org">f_l_k=
-=3Dt-online.de@lists.openembedded.org</a>&gt; wrote:
-=20
- We already have a root entry in fstab. This commit prevents processing roo=
-t
- mountpoint in fstab_updater and thus avoids duplicate entries for root in =
-fstab.
-=20
- Signed-off-by: Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de">f_l_k@=
-t-online.de</a>&gt;
- ---
- scripts/lib/wic/plugins/imager/direct.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-=20
- diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/pl=
-ugins/imager/direct.py
- index c44159b235..75004ab320 100644
- --- a/scripts/lib/wic/plugins/imager/direct.py
- +++ b/scripts/lib/wic/plugins/imager/direct.py
- @@ -117,7 +117,8 @@ class DirectPlugin(ImagerPlugin):
-         updated =3D False
-         for part in self.parts:
-             if not part.realnum or not part.mountpoint \
- -               or not part.mountpoint.startswith('/'):
- +               or not part.mountpoint.startswith('/') \
- +               or part.mountpoint =3D=3D "/":
-                 continue
-=20
-             if part.use_uuid:
- --=20
- 2.34.1
-=20
-=20
-=20
-=20
-</blockquote>
-</div><div class=3D"plaintext" style=3D"white-space: break-spaces;">
-
-
-</div></blockquote></div>
-</blockquote></div>
---=-O8SlnrN2xRnOluGbDDN1--
+diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bbclass
+index 15cccac84b..21cd5be3cb 100644
+--- a/meta/classes/create-spdx.bbclass
++++ b/meta/classes/create-spdx.bbclass
+@@ -451,7 +451,7 @@ python do_create_spdx() {
+     recipe.name = d.getVar("PN")
+     recipe.versionInfo = d.getVar("PV")
+     recipe.SPDXID = oe.sbom.get_recipe_spdxid(d)
+-    recipe.packageSupplier = d.getVar("SPDX_SUPPLIER")
++    recipe.supplier = d.getVar("SPDX_SUPPLIER")
+     if bb.data.inherits_class("native", d) or bb.data.inherits_class("cross", d):
+         recipe.annotations.append(create_annotation(d, "isNative"))
+ 
+@@ -561,7 +561,7 @@ python do_create_spdx() {
+             spdx_package.name = pkg_name
+             spdx_package.versionInfo = d.getVar("PV")
+             spdx_package.licenseDeclared = convert_license_to_spdx(package_license, package_doc, d, found_licenses)
+-            spdx_package.packageSupplier = d.getVar("SPDX_SUPPLIER")
++            spdx_package.supplier = d.getVar("SPDX_SUPPLIER")
+ 
+             package_doc.packages.append(spdx_package)
+ 
+@@ -901,7 +901,7 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages):
+     image.name = d.getVar("PN")
+     image.versionInfo = d.getVar("PV")
+     image.SPDXID = rootfs_spdxid
+-    image.packageSupplier = d.getVar("SPDX_SUPPLIER")
++    image.supplier = d.getVar("SPDX_SUPPLIER")
+ 
+     doc.packages.append(image)
+ 
+diff --git a/meta/lib/oe/spdx.py b/meta/lib/oe/spdx.py
+index 14ca706895..6d56ed90df 100644
+--- a/meta/lib/oe/spdx.py
++++ b/meta/lib/oe/spdx.py
+@@ -218,7 +218,7 @@ class SPDXPackage(SPDXObject):
+     SPDXID = _String()
+     versionInfo = _String()
+     downloadLocation = _String(default="NOASSERTION")
+-    packageSupplier = _String(default="NOASSERTION")
++    supplier = _String(default="NOASSERTION")
+     homepage = _String()
+     licenseConcluded = _String(default="NOASSERTION")
+     licenseDeclared = _String(default="NOASSERTION")
+-- 
+2.35.1
 
 
