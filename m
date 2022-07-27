@@ -1,226 +1,183 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A23FC19F2B
-	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 16:56:21 +0000 (UTC)
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
- [209.85.222.180])
- by mx.groups.io with SMTP id smtpd.web11.22264.1658940973199244138
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC1C4C19F2B
+	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 17:04:31 +0000 (UTC)
+Received: from mailout03.t-online.de (mailout03.t-online.de [194.25.134.81])
+ by mx.groups.io with SMTP id smtpd.web08.22532.1658941463411583302
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jul 2022 09:56:13 -0700
+ Wed, 27 Jul 2022 10:04:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20210112.gappssmtp.com header.s=20210112
- header.b=nqls7gmi;
- spf=pass (domain: ossystems.com.br, ip: 209.85.222.180,
- mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qk1-f180.google.com with SMTP id o21so13684942qkm.10
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jul 2022 09:56:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20210112.gappssmtp.com; s=20210112;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc;
-        bh=wSY6E+ZAie96L3Zy0vyQZzjepvJP+vTvjcRLk/jIz0M=;
-        b=nqls7gmiK52fqkioptK32TGLXUHDBaUX+1CXDixb5cjRiyahc1hD9xenN0uWAnMica
-         4/bB1L52iSAKVdoc0KUtAThK/W2GRRAYb82Kfll4IMSN+saec30P6qIrqfzggwS6MsuK
-         XzxceB34623mriCfmHQIYH4kiqcBmoMk5bDkwj9+k7grQCU4QKJIfVV6CjBaKiyN8ifK
-         QvZdhpqb+c1/gdzd47FMehal59/HPAKDwHwuXrcnSLJuKMgb5MNa8LIUmcJaQ9/4SzvP
-         DWv8+Y5QMlmGFeesHG2UinwPckSiblc4MI2n7i41IQaKJlprNw58ERdcICOe6/727sX6
-         wSMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc;
-        bh=wSY6E+ZAie96L3Zy0vyQZzjepvJP+vTvjcRLk/jIz0M=;
-        b=0sVJzQyMEe3WaJBzWSpJAt5sJfnXBQIvS1U3StIrV3ONeMl8vOWv7oJheXoZakjMaZ
-         oD/GJlrM9nEFhRemP9KoT7C1tEStUountFkFbhO3jT5znzx1YWVhWeKwNiZOO9y5uu1R
-         rPTYRTSwk9ekid5bc0vNw9n3OmUE0aHF4lhBjyy6YOOU+RN6iJuNInaY5ydxnK4kY9kd
-         eXXiTp6igShqmKnZFSxBzWxupfS9pkho/Ad69UDnToGhKznloPWJfxSfvLljJSWQHfaP
-         UtgH55WUK0vUelBfclj7K569N4WUpbLNmJ6qNviezaDBTJuv68V0FEUgoGst8VyqDbCG
-         vznA==
-X-Gm-Message-State: AJIora/lCENUfQzPG0PUPX3A585ZjJOX5JI52ZZartDlVHa7kVSM8UM4
-	hzw/Pzvqv3DWM38iq6CSJ4HageHcNxmWnAzI
-X-Google-Smtp-Source: 
- AGRyM1sCVRCgd7O9JlpfQTZtElHmNIkTclm1y67FLtP/dIpVwGwWrav4hfGiBMzzoyOARHw/lIg8/w==
-X-Received: by 2002:a05:620a:4905:b0:6b5:c742:6161 with SMTP id
- ed5-20020a05620a490500b006b5c7426161mr17384349qkb.107.1658940971786;
-        Wed, 27 Jul 2022 09:56:11 -0700 (PDT)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com.
- [209.85.219.47])
-        by smtp.gmail.com with ESMTPSA id
- bk4-20020a05620a1a0400b006b5fe4c333fsm13954718qkb.85.2022.07.27.09.56.11
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Jul 2022 09:56:11 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qv1-f47.google.com with SMTP id mh14so13341338qvb.1
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jul 2022 09:56:11 -0700 (PDT)
-X-Received: by 2002:a05:6214:27ec:b0:474:4ce:e7a4 with SMTP id
- jt12-20020a05621427ec00b0047404cee7a4mr20514701qvb.4.1658940970914; Wed, 27
- Jul 2022 09:56:10 -0700 (PDT)
+ dkim=missing;
+ spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.81,
+ mailfrom: f_l_k@t-online.de)
+Received: from fwd79.dcpf.telekom.de (fwd79.aul.t-online.de [10.223.144.105])
+	by mailout03.t-online.de (Postfix) with SMTP id 5AB0A3C9B;
+	Wed, 27 Jul 2022 19:04:21 +0200 (CEST)
+Received: from [192.168.178.83] ([84.163.44.9]) by fwd79.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1oGkSK-3PBHiy0; Wed, 27 Jul 2022 19:04:21 +0200
+Date: Wed, 27 Jul 2022 19:04:15 +0200
+From: Markus Volk <f_l_k@t-online.de>
+Subject: Re: [OE-core] [meta-oe][PATCH] wic/direct.py: ignore root mountpoint
+ in fstab updater
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Message-Id: <3FVOFR.R0ZY9H7K1WKY1@t-online.de>
+In-Reply-To: <1705BCB17DD12169.1380@lists.openembedded.org>
+References: <20220727134512.4033-1-f_l_k@t-online.de>
+	<A08B6BB6-EFD1-425D-AC02-457EF8A40229@arm.com>
+	<1705BCB17DD12169.1380@lists.openembedded.org>
+X-Mailer: geary/40.0
 MIME-Version: 1.0
-References: <20220727120036.633822-1-otavio@ossystems.com.br>
- <EC73E18E-0AA2-4655-8A53-EA278A198969@arm.com>
- <CAP9ODKpT6y0qvhryKm_NqTX82dmOytSU34yR_-8fG=WGZ06QNg@mail.gmail.com>
- <PA4PR08MB7411B7CCCEF2AF6FFB1EA063E8979@PA4PR08MB7411.eurprd08.prod.outlook.com>
- <CAP9ODKpo9=JeKvdEK+kX5_2gVWv4haSyU1jYgFLGcwPci8qMsQ@mail.gmail.com>
- <fb3e160b-4c49-f08a-716d-1ed69ecb3c00@gmail.com>
-In-Reply-To: <fb3e160b-4c49-f08a-716d-1ed69ecb3c00@gmail.com>
-Date: Wed, 27 Jul 2022 13:55:59 -0300
-X-Gmail-Original-Message-ID: 
- <CAP9ODKq_i_BvaOQ4RXHe=ebU=7vgFV8-XxKtLgFYQRLOsEoWWw@mail.gmail.com>
-Message-ID: 
- <CAP9ODKq_i_BvaOQ4RXHe=ebU=7vgFV8-XxKtLgFYQRLOsEoWWw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libusb1: Link with -latomic only if no atomic
- builtins
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Ross Burton <ross.burton@arm.com>,
-	"Purdie, Richard" <richard.purdie@linuxfoundation.org>,
-	"otavio@ossystems.com.br" <otavio@ossystems.com.br>,
-	"openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000004658fb05e4cc4be4"
+Content-Type: multipart/alternative; boundary="=-O8SlnrN2xRnOluGbDDN1"
+X-TOI-EXPURGATEID: 150726::1658941461-014551EF-F19CB7D1/0/0 CLEAN NORMAL
+X-TOI-MSGID: 7060902c-2a90-4e11-984b-cc1f8fc9ae92
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 16:56:21 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 17:04:31 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168580
+ https://lists.openembedded.org/g/openembedded-core/message/168581
 
---0000000000004658fb05e4cc4be4
-Content-Type: text/plain; charset="UTF-8"
+--=-O8SlnrN2xRnOluGbDDN1
+Content-Type: text/plain; charset=us-ascii; format=flowed
+
+But looking at the commit that introduced the problem, I see that it 
+completely undoes it.
+In general, I like the idea of having the fstab_updater create the root 
+entry, but for this to work without duplication, the /dev/root entry 
+would have to be removed from fstab.
+This would force any wic image to use the fstab_updater (which can also 
+be disabled) and would otherwise result in an fstab file with no root 
+entry.
+Probably removing the /dev/root entry would also break the boot of 
+images that do not use wic
+
+Translated with www.DeepL.com/Translator (free version)
+
+Am Mi, 27. Jul 2022 um 18:31:38 +0200 schrieb Markus Volk 
+<f_l_k@t-online.de>:
+> Yes. With the patch the warning disappears from dmesg
+> 
+> Am Mi, 27. Jul 2022 um 15:44:48 +0000 schrieb Ross Burton 
+> <ross.burton@arm.com>:
+>> This looks like a fix for 
+>> <https://bugzilla.yoctoproject.org/show_bug.cgi?id=14865>, can you 
+>> confirm that?
+>> 
+>> Ross
+>> 
+>>>  On 27 Jul 2022, at 14:45, Markus Volk via lists.openembedded.org 
+>>> <f_l_k=t-online.de@lists.openembedded.org 
+>>> <mailto:f_l_k=t-online.de@lists.openembedded.org>> wrote:
+>>> 
+>>>  We already have a root entry in fstab. This commit prevents 
+>>> processing root
+>>>  mountpoint in fstab_updater and thus avoids duplicate entries for 
+>>> root in fstab.
+>>> 
+>>>  Signed-off-by: Markus Volk <f_l_k@t-online.de 
+>>> <mailto:f_l_k@t-online.de>>
+>>>  ---
+>>>  scripts/lib/wic/plugins/imager/direct.py | 3 ++-
+>>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>> 
+>>>  diff --git a/scripts/lib/wic/plugins/imager/direct.py 
+>>> b/scripts/lib/wic/plugins/imager/direct.py
+>>>  index c44159b235..75004ab320 100644
+>>>  --- a/scripts/lib/wic/plugins/imager/direct.py
+>>>  +++ b/scripts/lib/wic/plugins/imager/direct.py
+>>>  @@ -117,7 +117,8 @@ class DirectPlugin(ImagerPlugin):
+>>>          updated = False
+>>>          for part in self.parts:
+>>>              if not part.realnum or not part.mountpoint \
+>>>  -               or not part.mountpoint.startswith('/'):
+>>>  +               or not part.mountpoint.startswith('/') \
+>>>  +               or part.mountpoint == "/":
+>>>                  continue
+>>> 
+>>>              if part.use_uuid:
+>>>  --
+>>>  2.34.1
+>>> 
+>>> 
+>>> 
+>>> 
+>> 
+>> 
+>> 
+>> 
+
+
+--=-O8SlnrN2xRnOluGbDDN1
+Content-Type: text/html; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-Sent :-)
+<div id=3D"geary-body" dir=3D"auto"><div>But looking at the commit that int=
+roduced the problem, I see that it completely undoes it.</div><div>In gener=
+al, I like the idea of having the fstab_updater create the root entry, but =
+for this to work without duplication, the /dev/root entry would have to be =
+removed from fstab.</div><div>This would force any wic image to use the fst=
+ab_updater (which can also be disabled) and would otherwise result in an fs=
+tab file with no root entry.</div><div>Probably removing the /dev/root entr=
+y would also break the boot of images that do not use wic</div><div><br></d=
+iv><div>Translated with www.DeepL.com/Translator (free version)</div></div>=
+<div id=3D"geary-quote" dir=3D"auto"><br>Am Mi, 27. Jul 2022 um 18:31:38 +0=
+200 schrieb Markus Volk &lt;f_l_k@t-online.de&gt;:<br><blockquote type=3D"c=
+ite"><div id=3D"geary-body" dir=3D"auto"><div>Yes. With the patch the warni=
+ng disappears from dmesg</div></div><div id=3D"geary-quote" dir=3D"auto"><b=
+r>Am Mi, 27. Jul 2022 um 15:44:48 +0000 schrieb Ross Burton &lt;ross.burton=
+@arm.com&gt;:<br><blockquote type=3D"cite"><div class=3D"plaintext" style=
+=3D"white-space: break-spaces;">This looks like a fix for <a href=3D"https:=
+//bugzilla.yoctoproject.org/show_bug.cgi?id=3D14865">https://bugzilla.yocto=
+project.org/show_bug.cgi?id=3D14865</a>, can you confirm that?
 
-Em qua., 27 de jul. de 2022 =C3=A0s 13:45, Khem Raj <raj.khem@gmail.com>
-escreveu:
+Ross
 
->
->
-> On 7/27/22 12:41 PM, Otavio Salvador wrote:
-> >
-> >
-> > Em qua., 27 de jul. de 2022 =C3=A0s 13:35, Ross Burton <ross.burton@arm=
-.com
-> > <mailto:ross.burton@arm.com>> escreveu:
-> >
-> >     Whoever adds the patch needs to add their S-o-b.
-> >
-> >
-> > The patch sanity check should warn about it as it does for the status
-> > header. I said, RP can add it.
->
-> RP can do, but he can only do so much :) lets try to help him.
-> Its not something that can be added during applying patch which could be
-> done, this needs to change the libusb1 patch and then final patch
-> regenerated, its better if it can be done by you and resend a v2.
->
-> > --
-> > Otavio Salvador                             O.S. Systems
-> > http://www.ossystems.com.br <http://www.ossystems.com.br>
-> > http://code.ossystems.com.br <http://code.ossystems.com.br>
-> > Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
-> >
-> >
-> >
-> >
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#168577):
-> https://lists.openembedded.org/g/openembedded-core/message/168577
-> Mute This Topic: https://lists.openembedded.org/mt/92647443/3617537
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> otavio.salvador@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+<blockquote> On 27 Jul 2022, at 14:45, Markus Volk via lists.openembedded.o=
+rg &lt;<a href=3D"mailto:f_l_k=3Dt-online.de@lists.openembedded.org">f_l_k=
+=3Dt-online.de@lists.openembedded.org</a>&gt; wrote:
+=20
+ We already have a root entry in fstab. This commit prevents processing roo=
+t
+ mountpoint in fstab_updater and thus avoids duplicate entries for root in =
+fstab.
+=20
+ Signed-off-by: Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de">f_l_k@=
+t-online.de</a>&gt;
+ ---
+ scripts/lib/wic/plugins/imager/direct.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+=20
+ diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/pl=
+ugins/imager/direct.py
+ index c44159b235..75004ab320 100644
+ --- a/scripts/lib/wic/plugins/imager/direct.py
+ +++ b/scripts/lib/wic/plugins/imager/direct.py
+ @@ -117,7 +117,8 @@ class DirectPlugin(ImagerPlugin):
+         updated =3D False
+         for part in self.parts:
+             if not part.realnum or not part.mountpoint \
+ -               or not part.mountpoint.startswith('/'):
+ +               or not part.mountpoint.startswith('/') \
+ +               or part.mountpoint =3D=3D "/":
+                 continue
+=20
+             if part.use_uuid:
+ --=20
+ 2.34.1
+=20
+=20
+=20
+=20
+</blockquote>
+</div><div class=3D"plaintext" style=3D"white-space: break-spaces;">
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
---0000000000004658fb05e4cc4be4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+</div></blockquote></div>
+</blockquote></div>
+--=-O8SlnrN2xRnOluGbDDN1--
 
-<div dir=3D"ltr">Sent :-)</div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">Em qua., 27 de jul. de 2022 =C3=A0s 13:45, Khem Ra=
-j &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; escr=
-eveu:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-<br>
-On 7/27/22 12:41 PM, Otavio Salvador wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; Em qua., 27 de jul. de 2022 =C3=A0s 13:35, Ross Burton &lt;<a href=3D"=
-mailto:ross.burton@arm.com" target=3D"_blank">ross.burton@arm.com</a> <br>
-&gt; &lt;mailto:<a href=3D"mailto:ross.burton@arm.com" target=3D"_blank">ro=
-ss.burton@arm.com</a>&gt;&gt; escreveu:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Whoever adds the patch needs to add their S-o-b.<br=
->
-&gt; <br>
-&gt; <br>
-&gt; The patch sanity check should warn about it as it does for the status =
-<br>
-&gt; header. I said, RP can add it.<br>
-<br>
-RP can do, but he can only do so much :) lets try to help him.<br>
-Its not something that can be added during applying patch which could be <b=
-r>
-done, this needs to change the libusb1 patch and then final patch <br>
-regenerated, its better if it can be done by you and resend a v2.<br>
-<br>
-&gt; -- <br>
-&gt; Otavio Salvador =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. Systems<br>
-&gt; <a href=3D"http://www.ossystems.com.br" rel=3D"noreferrer" target=3D"_=
-blank">http://www.ossystems.com.br</a> &lt;<a href=3D"http://www.ossystems.=
-com.br" rel=3D"noreferrer" target=3D"_blank">http://www.ossystems.com.br</a=
->&gt; <br>
-&gt; <a href=3D"http://code.ossystems.com.br" rel=3D"noreferrer" target=3D"=
-_blank">http://code.ossystems.com.br</a> &lt;<a href=3D"http://code.ossyste=
-ms.com.br" rel=3D"noreferrer" target=3D"_blank">http://code.ossystems.com.b=
-r</a>&gt;<br>
-&gt; Mobile: +55 (53) 9 9981-7854 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mobile:=
- +1 (347) 903-9750<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#168577): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/168577" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/168577</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/92647443/3617=
-537" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/92647443/3617537</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:otavio.salvador@gmail.com"=
- target=3D"_blank">otavio.salvador@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">Otavio Salvador =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. Sys=
-tems<br><a href=3D"http://www.ossystems.com.br" target=3D"_blank">http://ww=
-w.ossystems.com.br</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://code.os=
-systems.com.br" target=3D"_blank">http://code.ossystems.com.br</a><br>Mobil=
-e: +55 (53) 9 9981-7854 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mobile: +1 (347) =
-903-9750</div>
-
---0000000000004658fb05e4cc4be4--
 
