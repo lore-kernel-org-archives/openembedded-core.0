@@ -1,158 +1,200 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C85EEC3F6B0
-	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 00:41:56 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web12.14373.1658882501172163838
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC5A3C19F21
+	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 03:19:27 +0000 (UTC)
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
+ [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.web11.15686.1658891958974195310
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 17:41:48 -0700
+ Tue, 26 Jul 2022 20:19:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=P+Q3tQw5;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.42,
- mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f42.google.com with SMTP id ku18so14935261pjb.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=VMkv9QrO;
+ spf=pass (domain: gmail.com, ip: 209.85.222.170,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f170.google.com with SMTP id z18so12158334qki.2
         for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 17:41:48 -0700 (PDT)
+ Tue, 26 Jul 2022 20:19:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=0ro3I/8eCLaC0bFIvHDC2GJYYjRtJxWSg8EGiYzqEK0=;
-        b=P+Q3tQw53ZzRbXXbkj2m93fqfVjuWuZaJUsXy/sr5Pm0rI6osTvWKCbJmubk1c6Bar
-         6f33CHqyJlEw8HvZZavXkveDNQ5/6lX8DNO0dkrpUMwu14qmVAxcuHFbbFAiXQ2P9aAY
-         uRiFtqMxRligXBTp0NkVp5sYqt6M2vPWS2cQh/2lgw7bn12pFFLM9r2Hwb9oeLIZhJmx
-         BpO1nVEYRePWVaW7feZV1/XgJyu/O6XnjvfEdwwvbVkBseBWaYHMYC83ghn/Ne+FX2Xy
-         iBf1cLOa8VWwvagFNp780rQD390RZ7AFn4UWoWxgf+wqmmLEWfXkwQFleb0ktnfoJ0od
-         ENjw==
+        bh=8A2VupvFbCNuly3Sy0qIVQDopmF9zyD2QeRsGtqCIEo=;
+        b=VMkv9QrOWo6sYBOEigP+4YEH2ujgC+5J2OyfI5xL/vHLeh85BDxEuhDitqCwNwUem6
+         3XrWKWrUS6Qx0qw2sNFFzk3E6QI4qmqBx0lGCHDm1u+4d/zjECk1xHwDGC6LVwedwbfR
+         P56UHjEWVyDdGYssIplKGa4hFA75IWpBZS3+CyS8K4tLJgSN2DJbg6g2qdycb/yEO74r
+         D0fA05HRIy4c8v7K4NJgRqnsjUdVOKLb1HLh2SPd05jqplOOTji2xuOPX7/iPmwsUFp/
+         slpm7XywmNUSWrEBAItvheVqD/lNZ56iQjfiMzjuhHUNymY2qIEqQaA6/iAtEbEMrR1t
+         Zi7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=0ro3I/8eCLaC0bFIvHDC2GJYYjRtJxWSg8EGiYzqEK0=;
-        b=ef556o3Ey0fSAAjK/dRrgugd+hUpPQzRldYis9su7BpJVwYOrnZ297UUm7V8bazy+b
-         w7cmG/9EcljYeNiWdvc6kL/aSKkWazrQDJ3Vd2bA9gY9yqPhURtY82/du1msAIftTJIr
-         OqoBuqcqdfQYl2pxp7Jm2Yf9z66nEHKGqTbJu4+KgIEzR4i/4rNi8PGlQMT3/DpTokT+
-         jn31fHtoo7buoUFD20XvrwW/tWOFvzG2wNnjLnv6H4qzNwwsl2SC5DA7uhd2iKsQfDO7
-         6NAIi/RjKWkJ1J93mMDzCfuHnSxoryZcNEf0FFWePeghPJPbDZecWIwqsmeZYQ4FG1/I
-         Fn8w==
-X-Gm-Message-State: AJIora985k10kM1+B3wVswKp05Ru/YXCcCQGr457o78a2pT4Mb1UVxIN
-	zG0QXPPDyIrRYGAHypoqS14LsfNxOtHB9Os3
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8A2VupvFbCNuly3Sy0qIVQDopmF9zyD2QeRsGtqCIEo=;
+        b=mo6HYvawGdwXuTpAHAXb9+WeqOi1SYL/TaCesPSrBXc//PERd96EgzjqtdhyHIv75L
+         m/lwFfOfdCQX2V029Ny/RycrxWsOTG9NpKano63GDnMB1+StCcRnX7XZNm8Vv59rSYkC
+         aLyWPewrJEnKSOP15ibqGsxUZ++5qTnbGMypVxyTipCPm64xX345/nPnsxWDJJ/w2zG1
+         IbVG20ikBtbe7G2lPdzLDZ8GDgCmGtgZsOQmmgSTQ0oMmVFjKMa296rriGUQKFyp7joH
+         Ue7iwNYTqXd+onPxx7iCV9W62Jk3c7j8bDSkCkUPynlDUlewzS32Q7ktc7TIsH2LvlB+
+         KhCw==
+X-Gm-Message-State: AJIora/FrZBmc76Th6jsw1l9IB1hHd+TAQzW8+vR7wgdytOg/vzehW0H
+	VK6hCcNk6RUcGSc6OGBp8u0lTCQqoJH/ow==
 X-Google-Smtp-Source: 
- AGRyM1tCKEKmK2vlnbGkNz9weKBt0DrIiw1L1PtqmUw4XX6SPdE6OFo8YdR+W7+HsOr2oqEYpeoZRw==
-X-Received: by 2002:a17:90b:4f44:b0:1f2:a900:a1e8 with SMTP id
- pj4-20020a17090b4f4400b001f2a900a1e8mr1764142pjb.32.1658882507354;
-        Tue, 26 Jul 2022 17:41:47 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
- [72.253.6.214])
+ AGRyM1sVnRfY4AhUncq4kckBsqpArE36Kqc/iv2Ce6RA5cPEIXJQznJ8vs0Dh4hQnNRZcSb7WIM5UA==
+X-Received: by 2002:a05:620a:4411:b0:6b6:59a:5456 with SMTP id
+ v17-20020a05620a441100b006b6059a5456mr14642696qkp.574.1658891957620;
+        Tue, 26 Jul 2022 20:19:17 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2607:fea8:95df:9730:e8b7:596a:a352:5d5c])
         by smtp.gmail.com with ESMTPSA id
- u16-20020a170902e5d000b0015e8d4eb219sm12356278plf.99.2022.07.26.17.41.45
-        for <openembedded-core@lists.openembedded.org>
+ d21-20020ac85ad5000000b0031ea1ad6c5asm10772457qtd.75.2022.07.26.20.19.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jul 2022 17:41:46 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
+        Tue, 26 Jul 2022 20:19:16 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 13/15] gobject-introspection-data: Disable cache
- for g-ir-scanner
-Date: Tue, 26 Jul 2022 14:40:44 -1000
-Message-Id: 
- <bb1dc2bbfe268e73008dc37d6b1f83a861b48915.1658882276.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1658882276.git.steve@sakoman.com>
-References: <cover.1658882276.git.steve@sakoman.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] systemd: Fix conflict between glibc mount.h and kernel
+ mount.h
+Date: Tue, 26 Jul 2022 23:19:04 -0400
+Message-Id: <20220727031904.16562-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.32.1 (Apple Git-133)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 00:41:56 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 03:19:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168536
+ https://lists.openembedded.org/g/openembedded-core/message/168539
 
-From: Tom Hochstein <tom.hochstein@nxp.com>
+See glibc documentation [1] for details
 
-An intermittent failure occurs in libical-native do_compile:
+[1] https://sourceware.org/glibc/wiki/Release/2.36
 
-| Traceback (most recent call last):
-|   File "/.../build/tmp/work/x86_64-linux/libical-native/3.0.14-r0/recipe-sysroot-native/usr/lib/python3.10/shutil.py", line 813, in move
-|     os.rename(src, real_dst)
-| OSError: [Errno 18] Invalid cross-device link: '/tmp/g-ir-scanner-cache-adxo_2bq' -> '/home/bamboo/.cache/g-ir-scanner/bab9a83d2cd93e62ed005a2c1d4f89ae75c67251'
-|
-| During handling of the above exception, another exception occurred:
-|
-| Traceback (most recent call last):
-|   File "/.../tmp/work/x86_64-linux/libical-native/3.0.14-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/bin/g-ir-scanner", line 99, in <module>
-|     sys.exit(scanner_main(sys.argv))
-|   File "/.../tmp/work/x86_64-linux/libical-native/3.0.14-r0/recipe-sysroot-native/usr/lib/gobject-introspection/giscanner/scannermain.py", line 590, in scanner_main
-|     transformer = create_transformer(namespace, options)
-|   File "/.../tmp/work/x86_64-linux/libical-native/3.0.14-r0/recipe-sysroot-native/usr/lib/gobject-introspection/giscanner/scannermain.py", line 409, in create_transformer
-|     transformer.register_include(include_obj)
-|   File "/.../tmp/work/x86_64-linux/libical-native/3.0.14-r0/recipe-sysroot-native/usr/lib/gobject-introspection/giscanner/transformer.py", line 140, in register_include
-|     self._parse_include(filename)
-|   File "/.../tmp/work/x86_64-linux/libical-native/3.0.14-r0/recipe-sysroot-native/usr/lib/gobject-introspection/giscanner/transformer.py", line 230, in _parse_include
-|     self._parse_include(dep_filename)
-|   File "/.../tmp/work/x86_64-linux/libical-native/3.0.14-r0/recipe-sysroot-native/usr/lib/gobject-introspection/giscanner/transformer.py", line 225, in _parse_include
-|     self._cachestore.store(filename, parser)
-|   File "/.../tmp/work/x86_64-linux/libical-native/3.0.14-r0/recipe-sysroot-native/usr/lib/gobject-introspection/giscanner/cachestore.py", line 153, in store
-|     shutil.move(tmp_filename, store_filename)
-|   File "/.../tmp/work/x86_64-linux/libical-native/3.0.14-r0/recipe-sysroot-native/usr/lib/python3.10/shutil.py", line 833, in move
-|     copy_function(src, real_dst)
-|   File "/.../tmp/work/x86_64-linux/libical-native/3.0.14-r0/recipe-sysroot-native/usr/lib/python3.10/shutil.py", line 435, in copy2
-|     copystat(src, dst, follow_symlinks=follow_symlinks)
-|   File "/.../tmp/work/x86_64-linux/libical-native/3.0.14-r0/recipe-sysroot-native/usr/lib/python3.10/shutil.py", line 374, in copystat
-|     lookup("utime")(dst, ns=(st.st_atime_ns, st.st_mtime_ns),
-| FileNotFoundError: [Errno 2] No such file or directory
-
-A similar issue is described in a fix for gobject-introspection-native.
-
-https://github.com/openembedded/openembedded-core/commit/d3c48ff7d19e86b2338b1778f9563969bba3d336
-
-The problem was fixed there by setting the environment variable
-GI_SCANNER_DISABLE_CACHE to disable the use of $HOME/.cache.
-
-Extend the fix to users of gobject-instropection by promoting the fix
-to the bbclass.
-
-Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 35d5f707f6bb2ce5e9ab908e66e1ea9eeac754b1)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/gobject-introspection-data.bbclass              | 5 +++++
- .../gobject-introspection/gobject-introspection_1.72.0.bb    | 3 ---
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ ...lude-linux-fs.h-to-resolve-fsconfig_.patch | 97 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_251.3.bb    |  1 +
+ 2 files changed, 98 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-glibc-Remove-include-linux-fs.h-to-resolve-fsconfig_.patch
 
-diff --git a/meta/classes/gobject-introspection-data.bbclass b/meta/classes/gobject-introspection-data.bbclass
-index 2ef684626a..d90cdb4839 100644
---- a/meta/classes/gobject-introspection-data.bbclass
-+++ b/meta/classes/gobject-introspection-data.bbclass
-@@ -5,3 +5,8 @@
- # so that qemu use can be avoided when necessary.
- GI_DATA_ENABLED ?= "${@bb.utils.contains('DISTRO_FEATURES', 'gobject-introspection-data', \
-                       bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'True', 'False', d), 'False', d)}"
+diff --git a/meta/recipes-core/systemd/systemd/0001-glibc-Remove-include-linux-fs.h-to-resolve-fsconfig_.patch b/meta/recipes-core/systemd/systemd/0001-glibc-Remove-include-linux-fs.h-to-resolve-fsconfig_.patch
+new file mode 100644
+index 0000000000..6222dfe60d
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-glibc-Remove-include-linux-fs.h-to-resolve-fsconfig_.patch
+@@ -0,0 +1,97 @@
++From b0933e76c6f0594c10cf8a9a70b34e15b68066d1 Mon Sep 17 00:00:00 2001
++From: Rudi Heitbaum <rudi@heitbaum.com>
++Date: Sat, 23 Jul 2022 10:38:49 +0000
++Subject: [PATCH] glibc: Remove #include <linux/fs.h> to resolve fsconfig_command/mount_attr conflict with glibc 2.36
 +
-+do_compile:prepend() {
-+    # This prevents g-ir-scanner from writing cache data to $HOME
-+    export GI_SCANNER_DISABLE_CACHE=1
-+}
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb
-index 355e77d107..9a47e908b7 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.72.0.bb
-@@ -113,9 +113,6 @@ EOF
- }
++Upstream-Status: Backport [https://github.com/systemd/systemd/pull/23992/commits/21c03ad5e9d8d0350e30dae92a5e15da318a1539]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ meson.build             | 13 ++++++++++++-
++ src/basic/fd-util.c     |  2 ++
++ src/core/namespace.c    |  2 ++
++ src/shared/mount-util.c |  2 ++
++ 4 files changed, 18 insertions(+), 1 deletion(-)
++
++diff --git a/meson.build b/meson.build
++index 9c170acc0a..a2e4d5054e 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -481,7 +481,6 @@ decl_headers = '''
++ #include <uchar.h>
++ #include <sys/mount.h>
++ #include <sys/stat.h>
++-#include <linux/fs.h>
++ '''
++ 
++ foreach decl : ['char16_t',
++@@ -493,6 +492,17 @@ foreach decl : ['char16_t',
++         # We get -1 if the size cannot be determined
++         have = cc.sizeof(decl, prefix : decl_headers, args : '-D_GNU_SOURCE') > 0
++ 
+++        if decl == 'struct mount_attr'
+++                if have
+++                        want_linux_fs_h = false
+++                else
+++                        have = cc.sizeof(decl,
+++                                         prefix : decl_headers + '#include <linux/fs.h>',
+++                                         args : '-D_GNU_SOURCE') > 0
+++                        want_linux_fs_h = have
+++                endif
+++        endif
+++
++         if decl == 'struct statx'
++                 if have
++                         want_linux_stat_h = false
++@@ -508,6 +518,7 @@ foreach decl : ['char16_t',
++ endforeach
++ 
++ conf.set10('WANT_LINUX_STAT_H', want_linux_stat_h)
+++conf.set10('WANT_LINUX_FS_H', want_linux_fs_h)
++ 
++ foreach ident : ['secure_getenv', '__secure_getenv']
++         conf.set10('HAVE_' + ident.to_upper(), cc.has_function(ident))
++diff --git a/src/basic/fd-util.c b/src/basic/fd-util.c
++index 6c1de92a26..00591d6c2d 100644
++--- a/src/basic/fd-util.c
+++++ b/src/basic/fd-util.c
++@@ -3,7 +3,9 @@
++ #include <errno.h>
++ #include <fcntl.h>
++ #include <linux/btrfs.h>
+++#if WANT_LINUX_FS_H
++ #include <linux/fs.h>
+++#endif
++ #include <linux/magic.h>
++ #include <sys/ioctl.h>
++ #include <sys/resource.h>
++diff --git a/src/core/namespace.c b/src/core/namespace.c
++index 3256871803..2eafe43290 100644
++--- a/src/core/namespace.c
+++++ b/src/core/namespace.c
++@@ -7,7 +7,9 @@
++ #include <sys/file.h>
++ #include <sys/mount.h>
++ #include <unistd.h>
+++#if WANT_LINUX_FS_H
++ #include <linux/fs.h>
+++#endif
++ 
++ #include "alloc-util.h"
++ #include "base-filesystem.h"
++diff --git a/src/shared/mount-util.c b/src/shared/mount-util.c
++index e76e4a0b38..0c8dec7688 100644
++--- a/src/shared/mount-util.c
+++++ b/src/shared/mount-util.c
++@@ -7,7 +7,9 @@
++ #include <sys/statvfs.h>
++ #include <unistd.h>
++ #include <linux/loop.h>
+++#if WANT_LINUX_FS_H
++ #include <linux/fs.h>
+++#endif
++ 
++ #include "alloc-util.h"
++ #include "chase-symlinks.h"
++-- 
++2.25.1
++
+diff --git a/meta/recipes-core/systemd/systemd_251.3.bb b/meta/recipes-core/systemd/systemd_251.3.bb
+index 8497e24af9..72b9155f2e 100644
+--- a/meta/recipes-core/systemd/systemd_251.3.bb
++++ b/meta/recipes-core/systemd/systemd_251.3.bb
+@@ -25,6 +25,7 @@ SRC_URI += " \
+            file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
+            file://0003-implment-systemd-sysv-install-for-OE.patch \
+            file://0001-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch \
++           file://0001-glibc-Remove-include-linux-fs.h-to-resolve-fsconfig_.patch \
+            "
  
- do_compile:prepend() {
--        # This prevents g-ir-scanner from writing cache data to $HOME
--        export GI_SCANNER_DISABLE_CACHE=1
--
-         # Needed to run g-ir unit tests, which won't be able to find the built libraries otherwise
-         export GIR_EXTRA_LIBS_PATH=$B/.libs
- }
+ # patches needed by musl
 -- 
-2.25.1
+2.32.1 (Apple Git-133)
 
 
