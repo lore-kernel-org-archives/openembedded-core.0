@@ -1,195 +1,240 @@
-Return-Path: <johannes.schneider@leica-geosystems.com>
+Return-Path: <jay.shen.teoh@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0DE7C19F21
-	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 03:37:57 +0000 (UTC)
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
- (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.112])
- by mx.groups.io with SMTP id smtpd.web12.15731.1658893067943537282
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4AC7C19F21
+	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 03:43:47 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by mx.groups.io with SMTP id smtpd.web08.15976.1658893422514107177
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 20:37:48 -0700
+ Tue, 26 Jul 2022 20:43:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@leica-geosystems.com
- header.s=selector1 header.b=DJUA8TnP;
- spf=permerror,
- err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}:
- invalid domain name (domain: leica-geosystems.com, ip: 40.107.15.112,
- mailfrom: johannes.schneider@leica-geosystems.com)
+ dkim=fail reason="unable to parse pub key" header.i=@intel.com header.s=intel
+ header.b=jFkGIG0G;
+ spf=pass (domain: intel.com, ip: 192.55.52.88,
+ mailfrom: jay.shen.teoh@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658893422; x=1690429422;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=eikNkh8bg4yeIartJc3/zW+iMNV4OeXKRI7+VageXt4=;
+  b=jFkGIG0G1IS5w0L/0b1uiqFXBCDf74SDM/xp0bY9zIDGdM20xkf0qxA3
+   TmdL9ZFdUxWclSfBgVA20Cay/JxlLubCMiGwN9wAKlgcXPHllf4ARfesX
+   coeFLp2yZ87E3huXlZQQEQc00TSd8vW3q4chUO2s4Gj9ySAs1O1UMd/Pb
+   /yR46mIPl65EImnwaI4F5SRIwrdnLmXIyOH2tevKT6Hjxw9rg3iHkuakF
+   Q5QKt3d8/116V96BEnb+hIRgZ3mtrGsvLdDGDLU3oUr6XpsnXPwwJJdGi
+   u0EsbE9RToqNmHtaNNUcTR/i4xNae/fTa8KakxvMtdn6XBe2gNHRDIyfh
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10420"; a="313911270"
+X-IronPort-AV: E=Sophos;i="5.93,194,1654585200";
+   d="scan'208";a="313911270"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jul 2022 20:43:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,194,1654585200";
+   d="scan'208";a="604002340"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
+  by fmsmga007.fm.intel.com with ESMTP; 26 Jul 2022 20:43:41 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Tue, 26 Jul 2022 20:43:41 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Tue, 26 Jul 2022 20:43:40 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28 via Frontend Transport; Tue, 26 Jul 2022 20:43:40 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.28; Tue, 26 Jul 2022 20:43:40 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z2iQDnyKK3kE2tDvxibTIJ9q5FDTYMwdo0VqPP9V1bZ0yqJAgOTmkVwqIHDtLRONI9q709Dyqv/f077Vn4tCztTgRmf8CV8VKNqobTDVJxUtROmeOMqWO3Cq4Fiv4EvzjU29iF67OT62GcFwyMePrZXT6uxiDZpMDN9VYT3n4UNzC1mKQntwZ/+/xC0O9+ElewU5dBFg19+MpoxiXTnmlK0NsfvFBXQ5nqByPA/BoJ1zLSb4t3hyadP3Ml3o9YflnShY7SnIDnWhT4a/ceEdK1StLd2QuKCj9VcVyTIMpQ44CpDbeDt6O2c6fTUKEt/qf8KbOJPoQVxcFKZCh4JyVw==
+ b=lHEx0R6DgkOUYOjPy08hp+ApgBN7tzgk4Llt+1+ch5y2vdBRI8ZQ1UXWVamMfTeRA4Ld/uZvCsMbaXBK4wdn9/ZgUZgihVUCybHy+7m/v6MQ/xscP0mrjXPwrtJ5GX9wsZyuYv9csU8M/obs2K8ANZ+9HlQH9ySTNm1jZYNhrrowTw9Q+G0Y//Aq/h+cc0KYcKIRQaeKVCJG1rlbXOfSp1Rxxv99ObNLi2PiWmccG1KKXTWQ33l3kZAAQkTDDh5g9Gm2PBGU2ZquhjyTtnqupWTry+HrkQvMLQQ6JK6EJ/ok+0GZibi4Jl2bJQ+ygqSMb7Y9Ci51s09gQTLdx6nuCw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ng4emkOmxFFYtK/L/zYf2sXYpBgwbz6mZAi71qIcan8=;
- b=IQrahb4pKyhZrH8S3fQtVfCCi/gH0zNgwWBX6yV8xyWkmisod+SMVBToPO5HvfnnytOqkwTgE33utvJUTb4WHFqSzDhxBU5gHfhN336Hn0l1gTFkw+RS8OT8umU9YPEoJMum8vzrIm03iFnvIBR7mO22PEaa+J4yda+WE4o72SyEl7np8/SFUfFriu3LGDyncrpAiQXB5tVJm2skSQ4pUhPlZX1Hhw6yuqPint/MrqIgm02UBxsQYGi6hIyy7GHm9O3L7JekeptzP1VtUrgV9N83jyOHHoq7jk7vXgqi5LKOTmAFtrQ4cwW/l/HfAoLhiiYu8/iHkZLESQnxRA0ykg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 193.8.40.94) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=leica-geosystems.com; dmarc=pass (p=quarantine sp=quarantine
- pct=100) action=none header.from=leica-geosystems.com; dkim=none (message not
- signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ng4emkOmxFFYtK/L/zYf2sXYpBgwbz6mZAi71qIcan8=;
- b=DJUA8TnPGY8jqaxgVZZI3tPNdYFfDbU7W7Vl12YGR7aJxKwxplJnr2W7NlIQ4X4xSKAdTgaLtjyD9tTkr4NjHNv/jBsg3PqISxqLNoFppk6OEqzC4q1FFAEN4o2sC49j/wKSyOkoXQhGPEhoVyvbbpTHW/czHE6+3OqRXBgAmpE=
-Received: from OS6P279CA0023.NORP279.PROD.OUTLOOK.COM (2603:10a6:e10:33::9) by
- PAXPR06MB8111.eurprd06.prod.outlook.com (2603:10a6:102:1ad::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5458.18; Wed, 27 Jul 2022 03:37:44 +0000
-Received: from HE1EUR02FT049.eop-EUR02.prod.protection.outlook.com
- (2603:10a6:e10:33:cafe::95) by OS6P279CA0023.outlook.office365.com
- (2603:10a6:e10:33::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.10 via Frontend
- Transport; Wed, 27 Jul 2022 03:37:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.94)
- smtp.mailfrom=leica-geosystems.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=leica-geosystems.com;
-Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com
- designates 193.8.40.94 as permitted sender) receiver=protection.outlook.com;
- client-ip=193.8.40.94; helo=aherlnxbspsrv01.lgs-net.com; pr=C
-Received: from aherlnxbspsrv01.lgs-net.com (193.8.40.94) by
- HE1EUR02FT049.mail.protection.outlook.com (10.152.11.8) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5482.10 via Frontend Transport; Wed, 27 Jul 2022 03:37:43 +0000
-From: Johannes Schneider <johannes.schneider@leica-geosystems.com>
-To: openembedded-core@lists.openembedded.org
-CC: Johannes Schneider <johannes.schneider@leica-geosystems.com>
-Subject: [meta-oe][PATCH v3] classes: rootfs-postcommands: autologin root on
- serial-getty
-Date: Wed, 27 Jul 2022 05:37:39 +0200
-Message-ID: <20220727033739.1752802-1-johannes.schneider@leica-geosystems.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
+ bh=NAwgIdN2d4y41XuYm/7nICY67IGGUsxA7K6DJfdW46A=;
+ b=G1z0r2osPOwuAEQqg3lREj1jc9lNmmBqfGiBY0i+v71NDPn1lnkRsfNnSO389yeTbJpL3qOBPh4adDRbDBe7/CLVi9MGRo852l4wgoY1ZbfxGGVHxZkuERzq5rBGA8XTYEXMNCo9g2Ctycumm2YlKwYEuOWV85JOoXeF1jGfPOfEMhPX15CsQ5/Vpe4XrhJER3zmfDwpzPIoYbEatloE/U2qqLMf+9y0UfZgUpd+1dXHS/j+0gPP/ILaTRjm0SLA2we7iUK7w6Hb0ET6l4pz41+KQWISfznJB2/TFnbmknYt39J30zv/g5Kp5n5e/IU01G/jkdSQR6VqQZB4qcCVeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM5PR1101MB2348.namprd11.prod.outlook.com (2603:10b6:3:a8::16)
+ by BL0PR11MB2882.namprd11.prod.outlook.com (2603:10b6:208:7f::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.18; Wed, 27 Jul
+ 2022 03:43:39 +0000
+Received: from DM5PR1101MB2348.namprd11.prod.outlook.com
+ ([fe80::4d41:d985:2a5f:16ed]) by DM5PR1101MB2348.namprd11.prod.outlook.com
+ ([fe80::4d41:d985:2a5f:16ed%5]) with mapi id 15.20.5458.025; Wed, 27 Jul 2022
+ 03:43:38 +0000
+From: "Teoh, Jay Shen" <jay.shen.teoh@intel.com>
+To: "qa-build-notification@lists.yoctoproject.org"
+	<qa-build-notification@lists.yoctoproject.org>,
+	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: RE: [qa-build-notification] QA notification for completed autobuilder
+ build (yocto-3.1.18.rc1)
+Thread-Topic: [qa-build-notification] QA notification for completed
+ autobuilder build (yocto-3.1.18.rc1)
+Thread-Index: AQHYoHAJl/c7tpd8eE+n1PGO5AhDPK2RlOcw
+Date: Wed, 27 Jul 2022 03:43:38 +0000
+Message-ID: 
+ <DM5PR1101MB234876C14823EF2E8897D3BCBB979@DM5PR1101MB2348.namprd11.prod.outlook.com>
+References: 
+ <0101018237539254-f6b986ca-1380-43de-bd08-061d94334983-000000@us-west-2.amazonses.com>
+In-Reply-To: 
+ <0101018237539254-f6b986ca-1380-43de-bd08-061d94334983-000000@us-west-2.amazonses.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.6.500.17
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 595e4d79-d685-4881-6ec7-08da6f823114
+x-ms-traffictypediagnostic: BL0PR11MB2882:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ LcRMyyHar07Px8QFB4yN9c1N/OhcrzSunfTg4LBrLEGBIrYEB2SvgILRXvfwx1eJE+L81kUtt7m56unnGFkTpi562YZ/iRcxigiBa3lm0kIeQCBUJ4v1QTw1FseeWTatC1VsNn4KxW1dZtWXG+SnedOfr4k591WRpqPdagWru3mV+GiKt6FoWhC/taR8Zu3ZLZE6AAJrzvQBAqllv1S5KFSd/skMsTb88vTy6TMFQtjuHlnj1g0F/39SUx/NUqz7UhulEbbJztg6zYJ+CmVZlxBbKztcYagPJIYdGEvt1wUFJcZG4c1fbvmwVb6783fP7IEBhe/68ea8RlDhAAAdyBIbSU7ehMIlzMJfGLfLeNSlXDu5mOrWlb54z4QpbrYoqN4zE/U80SkcgahMKbbHZadrnpUEUHKQ+i/MZwkx0QjBZSytpLzohgmgXYupJk7DaLoGfE4AbQZQ6m2O01LvcXUsABQav0Hp4tCUkZVG7BLG/ScTrjEUAVs3qnlI1aGNG1s0sGZ4m7yePqf48H83IReKZtgwx/nVodbfp8ut3gMYxzLVILefbeWYyCjts5rXXmrEdvgCY6gd2wS8zGqnmz8mYNccHkpIViMm6QtT1hZubxRB6u1rFqcj46SaXJdBXerWSLIoiWuAsuYYH24aXxtuXrMOGyvhYpr1bM/W7p0Os3mr2smJM5EKdy8a8kNOJgV9yDUNcvCT/3P3TE7XVySDANKy9j92XxN7fM3e/IH/FhpdX/j6Hxoqmq0yRuVTbhOkMC5bXmdSxt5oVc1bWfUgg5gWwhnu5GJNJgjF5bmM9aqM4lwNluR6wOwwE7ztReViKQZrr0nnQmJeV5BItSOb4kX8oP4lvL0dngBOG3uRzHNCVzlb38pawwnb1VU8
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR1101MB2348.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(346002)(376002)(396003)(136003)(366004)(39860400002)(122000001)(966005)(33656002)(38070700005)(86362001)(38100700002)(52536014)(82960400001)(478600001)(9686003)(5660300002)(8936002)(316002)(110136005)(64756008)(76116006)(66446008)(71200400001)(66476007)(8676002)(186003)(55016003)(83380400001)(2906002)(7696005)(41300700001)(15650500001)(66556008)(26005)(53546011)(66946007)(55236004)(6506007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?BtmjRB/I9/gpKSi4UcX7ud30mL66CuqI6tWeogveRcRiUQkAmVmxb3ecGR04?=
+ =?us-ascii?Q?FJWncmSIEiM8Ixb5dlg6VigccicfG0VtU6nnbUeElfvKBkuQyvKeOL9Zl2yX?=
+ =?us-ascii?Q?tkZKyeuiIcdO0obpC3VQNFucv92yvGk+bpvsFUS5qhmmE+xSaspDJBOYOVk3?=
+ =?us-ascii?Q?Scuerk1a9IsnMfkdtnqQUwddxUB5lUKWy85R4ps9bq3a+SVsdJX9kg3QSUc9?=
+ =?us-ascii?Q?S1OJ6AALyGI8GPeWc2LZsULTR9g+3loRPA/oaihqV7tQWxdEr0gr5oUrm4mB?=
+ =?us-ascii?Q?o9Vbz+mOgL9ttXjkhWHeG2nGQLO2hUFmFWKtMyMwPq3uGbCfqya8aXYVmfnr?=
+ =?us-ascii?Q?ZoGwDZkimEhsBxyYWQTPX3r0twy8tGEIpNZdpR9DMpJCX2Hl3LSBr9SX8A9z?=
+ =?us-ascii?Q?DT6bTmFv5qMFcLqtTAgkVTWxJTljAHFrWKP3YK7sjxGEj1g2pz7OT0A+NnAp?=
+ =?us-ascii?Q?D9mYPaTe4IyuCO5UvxAHwbylz1TZH48CNJdLGegrRBDsGmT8HPpMx7P9eI9Y?=
+ =?us-ascii?Q?1p4aFQmNn1bIe5BRFdFAL1t+n7ZX80y1SF6ByLBn6vOjXVPW9nAUqapBIQfR?=
+ =?us-ascii?Q?3VzGPGIj2uKdY5xDz++BtEtxGpAuXrPzlR3dIeoyYc9Obnj2NMv5pzi3BAyl?=
+ =?us-ascii?Q?DBmAQtcswWJZSxSEk5j9oXJXl/6QzD/h0stZ7lPocM51ygTfwBdgrAMKh/X+?=
+ =?us-ascii?Q?QLJ2cvoxF8y+uUAEXFgsrUJYqruSh6Ra3C73P68mUTFxX/Th2om5wGPMdSDD?=
+ =?us-ascii?Q?xVHBXRoluMWbXsGgc3LVy00oLV8C4rWBRGxzi8Xarf64a2nv3JK0z3JPC7Ru?=
+ =?us-ascii?Q?4/0prUp4CQgXEHb/GoiokafKw+qajP8EIl0BzHvu5rp4WDIX3GiEMCamNKFT?=
+ =?us-ascii?Q?64Y+CP1jIyD0chgKrJMF/mfyLbuHl9Ima7u2YF2pRm6lbAseK5FOKQd1q2L8?=
+ =?us-ascii?Q?7p0FkC8B2ueko0CaGJYJunCCveJHFI1TfefhU3cZPrAf0Dl8ubnd87oiv+5x?=
+ =?us-ascii?Q?wULXH49rTMnkBldggGiKe9mT/k2rdveh8Kgz+4mDM4zuuMWnTPmTP8nSLG2T?=
+ =?us-ascii?Q?JAxQ8PR/ujD/nD2SQqqXzOQK2OQiTfr8411+r3f0+QpFlLLa1Z0b/T2C1LOV?=
+ =?us-ascii?Q?YIEkqZoopXdpuC8qYHP3jCNIaiwm3WNRZv5T2dzc5BTNml84LN9WbS8TdtOx?=
+ =?us-ascii?Q?EXJKKmEXnZ5k6aOpv+E3+GYM9i/5wzFbhVHHJevtQT06t4s88fsK79G6QLda?=
+ =?us-ascii?Q?HEruQ2FUJJFJ7YhV3FUAtsMaVN9Zb49UFqhjT4LyHONNkGjle/qTOWHKCaHH?=
+ =?us-ascii?Q?nhxbxBsL9/nOijO8YTgUN72oDpEcHPjPTjnAydV+q+3hrUiL9TvPTwqjd8ij?=
+ =?us-ascii?Q?j7+KOkvJcTd87RB2QMtu9UtgLEtGy2pC+NGvGQYC2DLzDrjjbzVA8hpIaSSd?=
+ =?us-ascii?Q?Why9AX40SSQeufbVBwa5aR7HRf4VfzMB+D9JBO4E6PK5eRVtUDfO0401nSpR?=
+ =?us-ascii?Q?Z0KLofDla0Lm5j5HELkUV/o9B78Lx51IBD44mO8pTB67oDD1QTqIAElNfWVp?=
+ =?us-ascii?Q?c/LSKCHQHzYExwcL11kyMcogHTMFqlWS2HLgDflx?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: bb750e17-248a-4a2a-ff2f-08da6f815d72
-X-MS-TrafficTypeDiagnostic: PAXPR06MB8111:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	z+JNEsKul1ffK1Ycs+tKYLKjX0FxJAkSleBIWBytbK9ss3xyH30lzuok7bvqIl5ha0uPL+1huh+G53SdhtkZnV8cc00ra6ovfAEW0+/uTn4Txo+JD4ub03aMbZ9So3j83HKMGsgmNphzbm2SfBIdN/DweYTnR9EalJg2iBhuaQX4oi5csokFCzdSzbZy5VU73rZ/9Hw9bLvz/jVUe6nnu8uxfSWiJHFpzyKsUw1xa+TBvQdBvvNvDcYsX4ejGmU2xAstyl6yQgngUZHAIXzFtQAqwpOEUT7JZy5o29tBJMDWcrshKVCyfzur3TuwAM2B4wCCJf7Nbssh1vSRWPCjhuhPcF3M4lNT8a5HPrSmFfnTszuTPDsq9EAR+CgQRV83/gYBI8l6LVU5KGfxfdYgl21tvkm7oRDy1rXaN/ADzWA+2cG7oo538i+PO4qTsFEunymU4Qg3fhEMxYs4/0Ps6WECU5EWS1dbUcUulrLEUDUtih54sEiM1yZ3ANHnkHOflt7F3PrEP7fGjeXMVh5my0WuGOsLhwBhr7KRs+kFmny/DSdtXAgpsAOmu4IutK9z72JeBqNwaEewzTr+xK8bpUc5qbabXM1ONo5fKQT0Kq/+BwnOxcSjmli8J/TmcZtTwnmMl2Ho/6LciICD2hcMwIhMb/5eNuLR5861QjL/CZLn3SX3IYefH3bofJBsx2dV9415J/KTS0pF1xG4hosVztDA3p8tn1yRhFQtayP3ssOOerLZHPDHSlfJSz3qM7kJBb0EUeJcuzK8r0cgZD66n1Da1YXYBA6Xa+Bemik5jwViUmepfHWA11YNOXWrfpLh
-X-Forefront-Antispam-Report: 
-	CIP:193.8.40.94;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:aherlnxbspsrv01.lgs-net.com;PTR:ahersrvdom50.leica-geosystems.com;CAT:NONE;SFS:(13230016)(4636009)(346002)(396003)(39860400002)(136003)(376002)(46966006)(40470700004)(36840700001)(82310400005)(6486002)(36860700001)(356005)(9316004)(40460700003)(86362001)(478600001)(82740400003)(81166007)(44832011)(8936002)(316002)(36736006)(5660300002)(6506007)(2616005)(47076005)(4326008)(956004)(70206006)(70586007)(336012)(6916009)(107886003)(186003)(40480700001)(1076003)(41300700001)(8676002)(26005)(118246002)(2906002)(6512007)(83380400001)(6666004)(36756003);DIR:OUT;SFP:1102;
-X-OriginatorOrg: leica-geosystems.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2022 03:37:43.3909
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- bb750e17-248a-4a2a-ff2f-08da6f815d72
-X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: 
- TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.94];Helo=[aherlnxbspsrv01.lgs-net.com]
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: 
- HE1EUR02FT049.eop-EUR02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR06MB8111
+ DM5PR1101MB2348.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 595e4d79-d685-4881-6ec7-08da6f823114
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jul 2022 03:43:38.5888
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 
+ rSPKibcgoYMdSRUzZONGeBNQFCIFbsAbqScqEPTa0Yd/ibfcmUusicJY1Akezal+LiDIloSdHasSIJhbdv7BWg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR11MB2882
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 03:37:57 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 03:43:47 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168540
+ https://lists.openembedded.org/g/openembedded-core/message/168541
 
-when empty-root-password AND serial-autologin-root are part of the
-IMAGE_FEATURES, save some of the developers time by not having to type
-the (then still sole) 'root' username on the serial consoleafter each
-and every reboot
+Hi all,
 
-this is done by inserting '--autologin root' into the command line of
-the responsible 'getty' service
+Intel and WR YP QA is planning for QA execution for YP build yocto-3.1.18.r=
+c1. We are planning to execute following tests for this cycle:
 
-Signed-off-by: Johannes Schneider <johannes.schneider@leica-geosystems.com>
----
- meta/classes/core-image.bbclass          |  1 +
- meta/classes/image.bbclass               |  2 +-
- meta/classes/rootfs-postcommands.bbclass | 15 +++++++++++++++
- 3 files changed, 17 insertions(+), 1 deletion(-)
+OEQA-manual tests for following module:
+1. OE-Core
+2. BSP-hw
 
-diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbcl=
-ass
-index 84fd3eeb38..6764035729 100644
---- a/meta/classes/core-image.bbclass
-+++ b/meta/classes/core-image.bbclass
-@@ -29,6 +29,7 @@
- #   - allow-empty-password
- #   - allow-root-login
- #   - post-install-logging
-+# - serial-autologin-root - with 'empty-root-password': autologin 'root' o=
-n the serial console
- # - dev-pkgs            - development packages (headers, etc.) for all ins=
-talled packages in the rootfs
- # - dbg-pkgs            - debug symbol packages for all installed packages=
- in the rootfs
- # - lic-pkgs            - license packages for all installed pacakges in t=
-he rootfs, requires
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 2139a7e576..fe32cdefd5 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -34,7 +34,7 @@ INHIBIT_DEFAULT_DEPS =3D "1"
- # IMAGE_FEATURES may contain any available package group
- IMAGE_FEATURES ?=3D ""
- IMAGE_FEATURES[type] =3D "list"
--IMAGE_FEATURES[validitems] +=3D "debug-tweaks read-only-rootfs read-only-r=
-ootfs-delayed-postinsts stateless-rootfs empty-root-password allow-empty-pa=
-ssword allow-root-login post-install-logging overlayfs-etc"
-+IMAGE_FEATURES[validitems] +=3D "debug-tweaks read-only-rootfs read-only-r=
-ootfs-delayed-postinsts stateless-rootfs empty-root-password allow-empty-pa=
-ssword allow-root-login serial-autologin-root post-install-logging overlayf=
-s-etc"
-=20
- # Generate companion debugfs?
- IMAGE_GEN_DEBUGFS ?=3D "0"
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs=
--postcommands.bbclass
-index a8a952f31d..65fe74cc5d 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -8,6 +8,9 @@ ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains_any("=
-IMAGE_FEATURES", [ 'deb
- # Allow dropbear/openssh to accept root logins if debug-tweaks or allow-ro=
-ot-login is enabled
- ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains_any("IMAGE_FEATURES"=
-, [ 'debug-tweaks', 'allow-root-login' ], "ssh_allow_root_login; ", "",d)}'
-=20
-+# Autologin the root user on the serial console, if empty-root-password an=
-d serial-autologin-root are active
-+ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("IMAGE_FEATURES", [ =
-'empty-root-password', 'serial-autologin-root' ], "serial_autologin_root; "=
-, "",d)}'
-+
- # Enable postinst logging if debug-tweaks or post-install-logging is enabl=
-ed
- ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains_any("IMAGE_FEATURES"=
-, [ 'debug-tweaks', 'post-install-logging' ], "postinst_enable_logging; ", =
-"",d)}'
-=20
-@@ -196,6 +199,18 @@ ssh_allow_root_login () {
- 	fi
- }
-=20
-+#
-+# Autologin the 'root' user on the serial terminal,
-+# if empty-root-password' AND 'serial-autologin-root are enabled
-+#
-+serial_autologin_root () {
-+	if [ -e ${IMAGE_ROOTFS}${systemd_system_unitdir}/serial-getty@.service ];=
- then
-+		sed -i '/^\s*ExecStart\b/ s/getty /&--autologin root /' \
-+			"${IMAGE_ROOTFS}${systemd_system_unitdir}/serial-getty@.service"
-+	fi
-+}
-+
-+
- python sort_passwd () {
-     import rootfspostcommands
-     rootfspostcommands.sort_passwd(d.expand('${IMAGE_ROOTFS}${sysconfdir}'=
-))
---=20
-2.25.1
+Runtime auto test for following platforms:
+1. MinnowTurbot 32-bit
+2. NUC 7
+3. NUC 6
+4. Edgerouter
+5. Beaglebone
+
+ETA for completion next Tuesday, August 2.
+
+Thanks,
+Jay
+
+> -----Original Message-----
+> From: qa-build-notification@lists.yoctoproject.org <qa-build-
+> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
+> Sent: Tuesday, 26 July, 2022 5:47 AM
+> To: yocto@lists.yoctoproject.org
+> Cc: qa-build-notification@lists.yoctoproject.org
+> Subject: [qa-build-notification] QA notification for completed autobuilde=
+r
+> build (yocto-3.1.18.rc1)
+>=20
+>=20
+> A build flagged for QA (yocto-3.1.18.rc1) was completed on the autobuilde=
+r
+> and is available at:
+>=20
+>=20
+>     https://autobuilder.yocto.io/pub/releases/yocto-3.1.18.rc1
+>=20
+>=20
+> Build hash information:
+>=20
+> bitbake: 7fc4cffebf5dcc1d050416c0b7f7d58c765c1d69
+> meta-agl: 6c9fa75459cf86576c47411fc239e0d7896d483c
+> meta-arm: 5c09684863be8e803e3e987a5ce4940721c3f39a
+> meta-aws: dd742bafa5eff33ac930e97dde851f41cbde85e8
+> meta-gplv2: 60b251c25ba87e946a0ca4cdc8d17b1cb09292ac
+> meta-intel: 1c1a8f769ef93d96ae488f40abbcd11946403169
+> meta-mingw: 524de686205b5d6736661d4532f5f98fee8589b7
+> meta-openembedded: 52cee67833d1975a5bd52e4556c4cd312425a017
+> meta-virtualization: a63a54df3170fed387f810f23cdc2f483ad587df
+> oecore: 3f40d5f095ceb099b604750db96058df00fcd49e
+> poky: d695bd0d3dc66f2111a25c6922f617be2d991071
+>=20
+>=20
+>=20
+> This is an automated message from the Yocto Project Autobuilder
+> Git: git://git.yoctoproject.org/yocto-autobuilder2
+> Email: richard.purdie@linuxfoundation.org
+>=20
+>=20
+>=20
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#167): https://lists.yoctoproject.org/g/qa-build-
+> notification/message/167
+> Mute This Topic: https://lists.yoctoproject.org/mt/92615446/4899463
+> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
+> notification/leave/10406805/4899463/715389995/xyzzy
+> [jay.shen.teoh@intel.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
 
