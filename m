@@ -2,194 +2,169 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC4EEC00144
-	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 00:41:16 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
- [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web11.14385.1658882472935540883
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D25E7C19F21
+	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 00:41:26 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web09.14400.1658882478851420184
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 17:41:13 -0700
+ Tue, 26 Jul 2022 17:41:19 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=RNnainyS;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.169,
+ header.b=cF2twhnV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f169.google.com with SMTP id 17so14754973pfy.0
+Received: by mail-pj1-f49.google.com with SMTP id
+ x24-20020a17090ab01800b001f21556cf48so547506pjq.4
         for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 17:41:12 -0700 (PDT)
+ Tue, 26 Jul 2022 17:41:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=vGDxvf7IYjTSCd+r87sZlth9Jr29IC8M2ZQ142KTt7g=;
-        b=RNnainySxSKHZmBZdulbc5ylM1vsXZjHSOUSIzku1cfV4hSrdHqoyjAtYI46P/F2HL
-         VvtN2YZCe87kPK/tovNM8wO9wl89mC1AoBPQiy0fDkTNAAe9U+vtTWol6MXOwddFrmu7
-         VKK2csTn1FVqbM//mdvm++u2ed7gvV8feCVmOxHT0EGC0zUKsv080LKmVFF98DUoohyh
-         TiPt9u9tZ90x0QVE4fx440qCDccxRK4oeTCMd1eOzI4sprehsmFqlnVaCKFlP0BCqd76
-         nLYbl06PtzppMjGz1fLWFo6r6f4Hm/Xxo9zrOHzGRM5g9uSBDmJ8JunYsVWx39gmnuf6
-         U94A==
+        bh=8EvD88UKmgYRQYykSnfqEISHV6TwiBhTO4oxXX3qFK0=;
+        b=cF2twhnVq8hDri3IclaJ4/jvs6OlMEvYcjTi13LiSytSxorqgf64whp97uB2DRm9Tg
+         xCbYOk6BYzOxic+haeWvbgDj8OPNiLiwCS7Bx7d5LpXpR/NKilP2V14X9c66EmCnVNRf
+         Dz8unmJLnDAMTFhuEKN8PHbdHAAcqbWMsY6bKA7OwZM36NVMoGMOum+RYtZlLS2jQvBh
+         +okFGP90jEksSbf+0HNd6TOznN1AUiECiLZwkTOeyXsLCSN+kxz/8EQgmIi73N3VKfLk
+         XguNXVtLXZcyLAt1IgBTaJiD3gydLk3fGpHseGd6XUJlc6v47zoSd8MVisdxePHmcGXX
+         FtNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vGDxvf7IYjTSCd+r87sZlth9Jr29IC8M2ZQ142KTt7g=;
-        b=euRLla0L0JgZ6v1XSl36IwKgdkPr+nWhnytKvq3xqPsqVHJnuo0iOArTIYaef+f3Pg
-         tc8VyQpK2lzt2d30ej6040Wo0KpTmX/B75SkgQ0HtRxcJvTFXHzkYSMQQPu0PCsTWFF0
-         VWt5ykP1VW3lYDumWcLPhVtRhfeiehaVo5MODo6KPyF4kYa88OOMixC1IAqiok0I/OkB
-         8hmdMPapbRqV9x0w7/PkGaAgCthFciul6tp3KGxhBe2ynTswQpFVdCEEYDus7DemHJ0Y
-         Ah2jwB0/K0KwrLymi/jiAV+WCdYxuxko6nacazdoSiWKYMTcPkUb4LpVeCoRoQYvfdvB
-         3kYA==
-X-Gm-Message-State: AJIora/uh/Fcyv74gWKBsH+lzCA176Hf44nHXNDNXxplovR18j+dvMff
-	wtSN63kUUBFe7EYIiM12hTmpWOeBVa7LwNiE
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=8EvD88UKmgYRQYykSnfqEISHV6TwiBhTO4oxXX3qFK0=;
+        b=aC5CvAfl8CerS1tPOtnzPtP9iaMS44lZDRCUpDbEvIl9g1cHjWY1gdbdX2/S8APNY7
+         KHryGGcGXdKffpjWmFpKvrTC9ZhkYzcAv3QDwzDfvwaSV1406qWyGBjfLnveV44qBY7t
+         HWgegSsm19J4TLAu/Jsm7ucr+tTMDHiNIb//QMlg5QpSF+XjlKwnp2gHVIhDX2iAGPfb
+         0Ax7X1r/MjuWnQkdA7Qqird9iM1KIaFZp05I3cz0S6IguH9yPZ5IV3N2oHUCdm/NXfhj
+         pW2uBGRhTyjOXt6QhnLCfVykMrICScLGsYzVuE0Y1NWcqdTD+0kdHs2HtqY4LFuQJMeg
+         TdRQ==
+X-Gm-Message-State: AJIora/hXUjTbKwlVRUT74eVgzN+z+16X5rrsy3vtK1NmaWNpWaDvlwt
+	VK4hetaE4RMi0VQinZkCnLEAp9BFABRkPiG4
 X-Google-Smtp-Source: 
- AGRyM1ucao8GbnKxVokE0av3IN2Klkr1oMgcxVjIDsvL9XOdAHTugUTcTxVF+xKmeYstSU7Lyelz/Q==
-X-Received: by 2002:a63:4a12:0:b0:419:9ede:b7a0 with SMTP id
- x18-20020a634a12000000b004199edeb7a0mr16485778pga.167.1658882471332;
-        Tue, 26 Jul 2022 17:41:11 -0700 (PDT)
+ AGRyM1ts6pyZ2r4V00jp/6ktXlX7bl0Uj3PQeGd0+Jgw/XjLAPbVtb1M+gdC+Awn0UyCNI3Uxok1Ng==
+X-Received: by 2002:a17:90a:5:b0:1f2:ea98:a273 with SMTP id
+ 5-20020a17090a000500b001f2ea98a273mr1697646pja.155.1658882475450;
+        Tue, 26 Jul 2022 17:41:15 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- u16-20020a170902e5d000b0015e8d4eb219sm12356278plf.99.2022.07.26.17.41.09
+ u16-20020a170902e5d000b0015e8d4eb219sm12356278plf.99.2022.07.26.17.41.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jul 2022 17:41:10 -0700 (PDT)
+        Tue, 26 Jul 2022 17:41:14 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/15] Patch review
-Date: Tue, 26 Jul 2022 14:40:31 -1000
-Message-Id: <cover.1658882276.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 01/15] lua: Backport fix for CVE-2022-33099
+Date: Tue, 26 Jul 2022 14:40:32 -1000
+Message-Id: 
+ <16be6e3b750c66aab3ef68eaa805b71abd50319a.1658882276.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1658882276.git.steve@sakoman.com>
+References: <cover.1658882276.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 00:41:16 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 00:41:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168523
+ https://lists.openembedded.org/g/openembedded-core/message/168524
 
-Please review this set of patches for kirkstone and have comments back by
-end of day Thursday.
+From: Khem Raj <raj.khem@gmail.com>
 
-Passed a-full on autobuilder:
+Fixes stack overflow while handling recurring errors in Lua-stack
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/3979
-
-The following changes since commit f1c2e21a28f8ad5dc6ff7b0db877aa22e01a9e00:
-
-  pulseaudio: add m4-native to DEPENDS (2022-07-17 16:59:57 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Alexander Kanavin (1):
-  gnupg: update 2.3.4 -> 2.3.6
-
-Joshua Watt (1):
-  sstatesig: Include all dependencies in SPDX task signatures
-
-Khem Raj (2):
-  lua: Backport fix for CVE-2022-33099
-  gcc-runtime: Pass -nostartfiles when building dummy libstdc++.so
-
-Ming Liu (1):
-  rootfs-postcommands.bbclass: move host-user-contaminated.txt to ${S}
-
-Naveen (1):
-  gcc: Backport a fix for gcc bug 105039
-
-Richard Purdie (1):
-  vim: Upgrade 9.0.0021 -> 9.0.0063
-
-Sakib Sajal (3):
-  dpkg: fix CVE-2022-1664
-  go: update v1.17.10 -> v1.17.12
-  git: upgrade v2.35.3 -> v2.35.4
-
-Tom Hochstein (1):
-  gobject-introspection-data: Disable cache for g-ir-scanner
-
-Yi Zhao (1):
-  tiff: Security fixes CVE-2022-1354 and CVE-2022-1355
-
-Yue Tao (1):
-  gnupg: upgrade to 2.3.7 to fix CVE-2022-34903
-
-wangmy (2):
-  bind: upgrade 9.18.2 -> 9.18.3
-  bind: upgrade 9.18.3 -> 9.18.4
-
- .../gobject-introspection-data.bbclass        |   5 +
- meta/classes/rootfs-postcommands.bbclass      |   2 +-
- meta/lib/oe/sstatesig.py                      |   9 +
- ...1-avoid-start-failure-with-bind-user.patch |   0
- ...d-V-and-start-log-hide-build-options.patch |   0
- ...ching-for-json-headers-searches-sysr.patch |   0
- .../bind/{bind-9.18.2 => bind-9.18.4}/bind9   |   0
- .../{bind-9.18.2 => bind-9.18.4}/conf.patch   |   0
- .../generate-rndc-key.sh                      |   0
- ...t.d-add-support-for-read-only-rootfs.patch |   0
- .../make-etc-initd-bind-stop-work.patch       |   0
- .../named.service                             |   0
- .../bind/{bind_9.18.2.bb => bind_9.18.4.bb}   |   2 +-
- ...ive-Prevent-directory-traversal-for-.patch | 328 ++++++++++++++++++
- meta/recipes-devtools/dpkg/dpkg_1.21.4.bb     |   1 +
- meta/recipes-devtools/gcc/gcc-11.3.inc        |   2 +-
- meta/recipes-devtools/gcc/gcc-runtime.inc     |   3 +-
- .../gcc/gcc/0030-rust-recursion-limit.patch   |  92 +++++
- .../git/{git_2.35.3.bb => git_2.35.4.bb}      |   2 +-
- .../go/{go-1.17.10.inc => go-1.17.12.inc}     |   2 +-
- ...1.17.10.bb => go-binary-native_1.17.12.bb} |   4 +-
- ....17.10.bb => go-cross-canadian_1.17.12.bb} |   0
- ...o-cross_1.17.10.bb => go-cross_1.17.12.bb} |   0
- ...ssdk_1.17.10.bb => go-crosssdk_1.17.12.bb} |   0
- ...native_1.17.10.bb => go-native_1.17.12.bb} |   0
- ...ntime_1.17.10.bb => go-runtime_1.17.12.bb} |   0
- .../go/{go_1.17.10.bb => go_1.17.12.bb}       |   0
- .../lua/lua/CVE-2022-33099.patch              |  61 ++++
- meta/recipes-devtools/lua/lua_5.4.4.bb        |   1 +
- .../gobject-introspection_1.72.0.bb           |   3 -
- .../libtiff/tiff/CVE-2022-1354.patch          | 212 +++++++++++
- .../libtiff/tiff/CVE-2022-1355.patch          |  62 ++++
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   2 +
- ...-a-custom-value-for-the-location-of-.patch |   6 +-
- .../0003-dirmngr-uses-libgpg-error.patch      |  29 --
- .../gnupg/gnupg/relocate.patch                |  18 +-
- .../gnupg/{gnupg_2.3.4.bb => gnupg_2.3.7.bb}  |   3 +-
- .../vim/files/crosscompile.patch              |  51 +++
- meta/recipes-support/vim/files/racefix.patch  |  12 +-
- meta/recipes-support/vim/vim.inc              |   9 +-
- 40 files changed, 860 insertions(+), 61 deletions(-)
- rename meta/recipes-connectivity/bind/{bind-9.18.2 => bind-9.18.4}/0001-avoid-start-failure-with-bind-user.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.2 => bind-9.18.4}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.2 => bind-9.18.4}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.2 => bind-9.18.4}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.2 => bind-9.18.4}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.2 => bind-9.18.4}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.2 => bind-9.18.4}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.2 => bind-9.18.4}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.2 => bind-9.18.4}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.18.2.bb => bind_9.18.4.bb} (98%)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/0001-Dpkg-Source-Archive-Prevent-directory-traversal-for-.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc/0030-rust-recursion-limit.patch
- rename meta/recipes-devtools/git/{git_2.35.3.bb => git_2.35.4.bb} (98%)
- rename meta/recipes-devtools/go/{go-1.17.10.inc => go-1.17.12.inc} (92%)
- rename meta/recipes-devtools/go/{go-binary-native_1.17.10.bb => go-binary-native_1.17.12.bb} (83%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.17.10.bb => go-cross-canadian_1.17.12.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.17.10.bb => go-cross_1.17.12.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.17.10.bb => go-crosssdk_1.17.12.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.17.10.bb => go-native_1.17.12.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.17.10.bb => go-runtime_1.17.12.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.17.10.bb => go_1.17.12.bb} (100%)
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit caad9d5f7184f0fa60fa7770e5d3da3f533647cb)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../lua/lua/CVE-2022-33099.patch              | 61 +++++++++++++++++++
+ meta/recipes-devtools/lua/lua_5.4.4.bb        |  1 +
+ 2 files changed, 62 insertions(+)
  create mode 100644 meta/recipes-devtools/lua/lua/CVE-2022-33099.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-1354.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-1355.patch
- delete mode 100644 meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
- rename meta/recipes-support/gnupg/{gnupg_2.3.4.bb => gnupg_2.3.7.bb} (95%)
- create mode 100644 meta/recipes-support/vim/files/crosscompile.patch
 
+diff --git a/meta/recipes-devtools/lua/lua/CVE-2022-33099.patch b/meta/recipes-devtools/lua/lua/CVE-2022-33099.patch
+new file mode 100644
+index 0000000000..fe7b6065c2
+--- /dev/null
++++ b/meta/recipes-devtools/lua/lua/CVE-2022-33099.patch
+@@ -0,0 +1,61 @@
++From 42d40581dd919fb134c07027ca1ce0844c670daf Mon Sep 17 00:00:00 2001
++From: Roberto Ierusalimschy <roberto@inf.puc-rio.br>
++Date: Fri, 20 May 2022 13:14:33 -0300
++Subject: [PATCH] Save stack space while handling errors
++
++Because error handling (luaG_errormsg) uses slots from EXTRA_STACK,
++and some errors can recur (e.g., string overflow while creating an
++error message in 'luaG_runerror', or a C-stack overflow before calling
++the message handler), the code should use stack slots with parsimony.
++
++This commit fixes the bug "Lua-stack overflow when C stack overflows
++while handling an error".
++
++CVE: CVE-2022-33099
++
++Upstream-Status: Backport [https://github.com/lua/lua/commit/42d40581dd919fb134c07027ca1ce0844c670daf]
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ ldebug.c | 5 ++++-
++ lvm.c    | 6 ++++--
++ 2 files changed, 8 insertions(+), 3 deletions(-)
++
++--- a/src/ldebug.c
+++++ b/src/ldebug.c
++@@ -824,8 +824,11 @@ l_noret luaG_runerror (lua_State *L, con
++   va_start(argp, fmt);
++   msg = luaO_pushvfstring(L, fmt, argp);  /* format message */
++   va_end(argp);
++-  if (isLua(ci))  /* if Lua function, add source:line information */
+++  if (isLua(ci)) {  /* if Lua function, add source:line information */
++     luaG_addinfo(L, msg, ci_func(ci)->p->source, getcurrentline(ci));
+++    setobjs2s(L, L->top - 2, L->top - 1);  /* remove 'msg' from the stack */
+++    L->top--;
+++  }
++   luaG_errormsg(L);
++ }
++ 
++--- a/src/lvm.c
+++++ b/src/lvm.c
++@@ -656,8 +656,10 @@ void luaV_concat (lua_State *L, int tota
++       /* collect total length and number of strings */
++       for (n = 1; n < total && tostring(L, s2v(top - n - 1)); n++) {
++         size_t l = vslen(s2v(top - n - 1));
++-        if (l_unlikely(l >= (MAX_SIZE/sizeof(char)) - tl))
+++        if (l_unlikely(l >= (MAX_SIZE/sizeof(char)) - tl)) {
+++          L->top = top - total;  /* pop strings to avoid wasting stack */
++           luaG_runerror(L, "string length overflow");
+++        }
++         tl += l;
++       }
++       if (tl <= LUAI_MAXSHORTLEN) {  /* is result a short string? */
++@@ -672,7 +674,7 @@ void luaV_concat (lua_State *L, int tota
++       setsvalue2s(L, top - n, ts);  /* create result */
++     }
++     total -= n-1;  /* got 'n' strings to create 1 new */
++-    L->top -= n-1;  /* popped 'n' strings and pushed one */
+++    L->top = top - (n - 1);  /* popped 'n' strings and pushed one */
++   } while (total > 1);  /* repeat until only 1 result left */
++ }
++ 
+diff --git a/meta/recipes-devtools/lua/lua_5.4.4.bb b/meta/recipes-devtools/lua/lua_5.4.4.bb
+index 6f2cea5314..0b2e754b31 100644
+--- a/meta/recipes-devtools/lua/lua_5.4.4.bb
++++ b/meta/recipes-devtools/lua/lua_5.4.4.bb
+@@ -7,6 +7,7 @@ HOMEPAGE = "http://www.lua.org/"
+ SRC_URI = "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=tarballsrc \
+            file://lua.pc.in \
+            file://CVE-2022-28805.patch \
++           file://CVE-2022-33099.patch \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'http://www.lua.org/tests/lua-${PV_testsuites}-tests.tar.gz;name=tarballtest file://run-ptest ', '', d)} \
+            "
+ 
 -- 
 2.25.1
 
