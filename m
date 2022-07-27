@@ -2,64 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D25E7C19F21
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0024C00144
 	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 00:41:26 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web09.14400.1658882478851420184
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web09.14401.1658882484121151218
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 17:41:19 -0700
+ Tue, 26 Jul 2022 17:41:24 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=cF2twhnV;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49,
+ header.b=ISOTNak8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.172,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id
- x24-20020a17090ab01800b001f21556cf48so547506pjq.4
+Received: by mail-pl1-f172.google.com with SMTP id c6so10712343plc.5
         for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 17:41:18 -0700 (PDT)
+ Tue, 26 Jul 2022 17:41:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=8EvD88UKmgYRQYykSnfqEISHV6TwiBhTO4oxXX3qFK0=;
-        b=cF2twhnVq8hDri3IclaJ4/jvs6OlMEvYcjTi13LiSytSxorqgf64whp97uB2DRm9Tg
-         xCbYOk6BYzOxic+haeWvbgDj8OPNiLiwCS7Bx7d5LpXpR/NKilP2V14X9c66EmCnVNRf
-         Dz8unmJLnDAMTFhuEKN8PHbdHAAcqbWMsY6bKA7OwZM36NVMoGMOum+RYtZlLS2jQvBh
-         +okFGP90jEksSbf+0HNd6TOznN1AUiECiLZwkTOeyXsLCSN+kxz/8EQgmIi73N3VKfLk
-         XguNXVtLXZcyLAt1IgBTaJiD3gydLk3fGpHseGd6XUJlc6v47zoSd8MVisdxePHmcGXX
-         FtNg==
+        bh=rdBL6F71p0ASy3NBgI9R57OSs0uJJqgTqwsJUxjrAK4=;
+        b=ISOTNak8+/AOvMD0ieX7TUqP/jBZspMuHVILP+a4RDz43UfHMgS0DkgyTfYseKMGeb
+         vz+1SVLU7r99WCYyZfh6atk97azG+7G11IzT3NikEOZQxj4xoeVCHrXRfZ+I9ImFoNix
+         tNOlI/DlJjSLbkMst2QO4UlzKGoA4buNpeFuFh4QMnYbnaxhhalEYNCtb8Q2jW5OTt5/
+         7rrw/QmX2EH0R8GfPhd6HMijccODVP7StP+fAzKuVH03LnELtseqkMJkQitTPHVh5thq
+         GpWSPvcQpKyLlwb/cbwkS34otE3tHuYfnxXOSU6fupHKQQuY4uZyvz/iOtizG9Q4umAw
+         6NQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8EvD88UKmgYRQYykSnfqEISHV6TwiBhTO4oxXX3qFK0=;
-        b=aC5CvAfl8CerS1tPOtnzPtP9iaMS44lZDRCUpDbEvIl9g1cHjWY1gdbdX2/S8APNY7
-         KHryGGcGXdKffpjWmFpKvrTC9ZhkYzcAv3QDwzDfvwaSV1406qWyGBjfLnveV44qBY7t
-         HWgegSsm19J4TLAu/Jsm7ucr+tTMDHiNIb//QMlg5QpSF+XjlKwnp2gHVIhDX2iAGPfb
-         0Ax7X1r/MjuWnQkdA7Qqird9iM1KIaFZp05I3cz0S6IguH9yPZ5IV3N2oHUCdm/NXfhj
-         pW2uBGRhTyjOXt6QhnLCfVykMrICScLGsYzVuE0Y1NWcqdTD+0kdHs2HtqY4LFuQJMeg
-         TdRQ==
-X-Gm-Message-State: AJIora/hXUjTbKwlVRUT74eVgzN+z+16X5rrsy3vtK1NmaWNpWaDvlwt
-	VK4hetaE4RMi0VQinZkCnLEAp9BFABRkPiG4
+        bh=rdBL6F71p0ASy3NBgI9R57OSs0uJJqgTqwsJUxjrAK4=;
+        b=u9fWVRxqsiw+3+zt1Vs9C7MzDz4e/PHx2HEaH2sgNHVgNBdu1kGe+SWFmhPxHaz9jU
+         CXUugxZbWKXOUWSVf3Rqfgn6CyaYxrtDNht2MIJPYkigV3IGbOA3IEYLwytON8G5f+eY
+         jybUleB/G2bJfkflo7Dyo543o51SYzCdvts1j5QJK4XFA3/B03rKVOA7yfvBHhv5ysFL
+         nssGZyFHJ43enwqWTPGvX3V8Yu4mC6MUW7b0AQXHa51fueSIT4RHZGRAB5fHFhoG/zcO
+         f19aLa1k0v+schM+DefJ28RGHhr+JAJIW1RI9Yt1QR5eYIfhlDIFXbfTufbs7nIKwbLT
+         YK8w==
+X-Gm-Message-State: AJIora/Qjjqwf4HIpSRuHLeaU34zrzohL6Ixd0IHienJNvB3cAlvBwVx
+	G1GssBWJZ6l+O3JH1ZkHqR482MPQPo1w6TXB
 X-Google-Smtp-Source: 
- AGRyM1ts6pyZ2r4V00jp/6ktXlX7bl0Uj3PQeGd0+Jgw/XjLAPbVtb1M+gdC+Awn0UyCNI3Uxok1Ng==
-X-Received: by 2002:a17:90a:5:b0:1f2:ea98:a273 with SMTP id
- 5-20020a17090a000500b001f2ea98a273mr1697646pja.155.1658882475450;
-        Tue, 26 Jul 2022 17:41:15 -0700 (PDT)
+ AGRyM1vK5Xqa3N5GwEU/lMwk8Khw9mrCciIaeZJHf+npMaKHf417U0FCkjLM6zixSILoAHURZ1U/Iw==
+X-Received: by 2002:a17:902:cec8:b0:16d:8eb5:1d4c with SMTP id
+ d8-20020a170902cec800b0016d8eb51d4cmr8029856plg.129.1658882482809;
+        Tue, 26 Jul 2022 17:41:22 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- u16-20020a170902e5d000b0015e8d4eb219sm12356278plf.99.2022.07.26.17.41.13
+ u16-20020a170902e5d000b0015e8d4eb219sm12356278plf.99.2022.07.26.17.41.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jul 2022 17:41:14 -0700 (PDT)
+        Tue, 26 Jul 2022 17:41:22 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 01/15] lua: Backport fix for CVE-2022-33099
-Date: Tue, 26 Jul 2022 14:40:32 -1000
+Subject: [OE-core][kirkstone 03/15] dpkg: fix CVE-2022-1664
+Date: Tue, 26 Jul 2022 14:40:34 -1000
 Message-Id: 
- <16be6e3b750c66aab3ef68eaa805b71abd50319a.1658882276.git.steve@sakoman.com>
+ <e22b7b2a30c4c688b9c4414824c93ae8a884496c.1658882276.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1658882276.git.steve@sakoman.com>
 References: <cover.1658882276.git.steve@sakoman.com>
@@ -70,101 +69,366 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 00:41:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168524
+ https://lists.openembedded.org/g/openembedded-core/message/168526
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Sakib Sajal <sakib.sajal@windriver.com>
 
-Fixes stack overflow while handling recurring errors in Lua-stack
+Backport patch to fix CVE-2022-1664.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit caad9d5f7184f0fa60fa7770e5d3da3f533647cb)
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../lua/lua/CVE-2022-33099.patch              | 61 +++++++++++++++++++
- meta/recipes-devtools/lua/lua_5.4.4.bb        |  1 +
- 2 files changed, 62 insertions(+)
- create mode 100644 meta/recipes-devtools/lua/lua/CVE-2022-33099.patch
+ ...ive-Prevent-directory-traversal-for-.patch | 328 ++++++++++++++++++
+ meta/recipes-devtools/dpkg/dpkg_1.21.4.bb     |   1 +
+ 2 files changed, 329 insertions(+)
+ create mode 100644 meta/recipes-devtools/dpkg/dpkg/0001-Dpkg-Source-Archive-Prevent-directory-traversal-for-.patch
 
-diff --git a/meta/recipes-devtools/lua/lua/CVE-2022-33099.patch b/meta/recipes-devtools/lua/lua/CVE-2022-33099.patch
+diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-Dpkg-Source-Archive-Prevent-directory-traversal-for-.patch b/meta/recipes-devtools/dpkg/dpkg/0001-Dpkg-Source-Archive-Prevent-directory-traversal-for-.patch
 new file mode 100644
-index 0000000000..fe7b6065c2
+index 0000000000..d249d854fb
 --- /dev/null
-+++ b/meta/recipes-devtools/lua/lua/CVE-2022-33099.patch
-@@ -0,0 +1,61 @@
-+From 42d40581dd919fb134c07027ca1ce0844c670daf Mon Sep 17 00:00:00 2001
-+From: Roberto Ierusalimschy <roberto@inf.puc-rio.br>
-+Date: Fri, 20 May 2022 13:14:33 -0300
-+Subject: [PATCH] Save stack space while handling errors
++++ b/meta/recipes-devtools/dpkg/dpkg/0001-Dpkg-Source-Archive-Prevent-directory-traversal-for-.patch
+@@ -0,0 +1,328 @@
++From 6d8a6799639f8853a2af1f9036bc70fddbfdd2a2 Mon Sep 17 00:00:00 2001
++From: Guillem Jover <guillem@debian.org>
++Date: Tue, 3 May 2022 02:09:32 +0200
++Subject: [PATCH] Dpkg::Source::Archive: Prevent directory traversal for
++ in-place extracts
 +
-+Because error handling (luaG_errormsg) uses slots from EXTRA_STACK,
-+and some errors can recur (e.g., string overflow while creating an
-+error message in 'luaG_runerror', or a C-stack overflow before calling
-+the message handler), the code should use stack slots with parsimony.
++For untrusted v2 and v3 source package formats that include a debian.tar
++archive, when we are extracting it, we do that as an in-place extraction,
++which can lead to directory traversal situations on specially crafted
++orig.tar and debian.tar tarballs.
 +
-+This commit fixes the bug "Lua-stack overflow when C stack overflows
-+while handling an error".
++GNU tar replaces entries on the filesystem by the entries present on
++the tarball, but it will follow symlinks when the symlink pathname
++itself is not present as an actual directory on the tarball.
 +
-+CVE: CVE-2022-33099
++This means we can create an orig.tar where there's a symlink pointing
++out of the source tree root directory, and then a debian.tar that
++contains an entry within that symlink as if it was a directory, without
++a directory entry for the symlink pathname itself, which will be
++extracted following the symlink outside the source tree root.
 +
-+Upstream-Status: Backport [https://github.com/lua/lua/commit/42d40581dd919fb134c07027ca1ce0844c670daf]
++This is currently noted as expected in GNU tar documentation. But even
++if there was a new extraction mode avoiding this problem we'd need such
++new version. Using perl's Archive::Tar would solve the problem, but
++switching to such different pure perl implementation, could cause
++compatibility or performance issues.
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++What we do is when we are requested to perform an in-place extract, we
++instead still use a temporary directory, then walk that directory and
++remove any matching entry in the destination directory, replicating what
++GNU tar would do, but in addition avoiding the directory traversal issue
++for symlinks. Which should work with any tar implementation and be safe.
++
++Reported-by: Max Justicz <max@justi.cz>
++Stable-Candidates: 1.18.x 1.19.x 1.20.x
++Fixes: commit 0c0057a27fecccab77d2b3cffa9a7d172846f0b4 (1.14.17)
++Fixes: CVE-2022-1664
++
++CVE: CVE-2022-1664
++Upstream-Status: Backport [7a6c03cb34d4a09f35df2f10779cbf1b70a5200b]
++
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 +---
-+ ldebug.c | 5 ++++-
-+ lvm.c    | 6 ++++--
-+ 2 files changed, 8 insertions(+), 3 deletions(-)
++ scripts/Dpkg/Source/Archive.pm  | 122 +++++++++++++++++++++++++-------
++ scripts/t/Dpkg_Source_Archive.t | 110 +++++++++++++++++++++++++++-
++ 2 files changed, 204 insertions(+), 28 deletions(-)
 +
-+--- a/src/ldebug.c
-++++ b/src/ldebug.c
-+@@ -824,8 +824,11 @@ l_noret luaG_runerror (lua_State *L, con
-+   va_start(argp, fmt);
-+   msg = luaO_pushvfstring(L, fmt, argp);  /* format message */
-+   va_end(argp);
-+-  if (isLua(ci))  /* if Lua function, add source:line information */
-++  if (isLua(ci)) {  /* if Lua function, add source:line information */
-+     luaG_addinfo(L, msg, ci_func(ci)->p->source, getcurrentline(ci));
-++    setobjs2s(L, L->top - 2, L->top - 1);  /* remove 'msg' from the stack */
-++    L->top--;
-++  }
-+   luaG_errormsg(L);
-+ }
++diff --git a/scripts/Dpkg/Source/Archive.pm b/scripts/Dpkg/Source/Archive.pm
++index 33c181b20..2ddd04af8 100644
++--- a/scripts/Dpkg/Source/Archive.pm
+++++ b/scripts/Dpkg/Source/Archive.pm
++@@ -21,9 +21,11 @@ use warnings;
++ our $VERSION = '0.01';
 + 
-+--- a/src/lvm.c
-++++ b/src/lvm.c
-+@@ -656,8 +656,10 @@ void luaV_concat (lua_State *L, int tota
-+       /* collect total length and number of strings */
-+       for (n = 1; n < total && tostring(L, s2v(top - n - 1)); n++) {
-+         size_t l = vslen(s2v(top - n - 1));
-+-        if (l_unlikely(l >= (MAX_SIZE/sizeof(char)) - tl))
-++        if (l_unlikely(l >= (MAX_SIZE/sizeof(char)) - tl)) {
-++          L->top = top - total;  /* pop strings to avoid wasting stack */
-+           luaG_runerror(L, "string length overflow");
-++        }
-+         tl += l;
-+       }
-+       if (tl <= LUAI_MAXSHORTLEN) {  /* is result a short string? */
-+@@ -672,7 +674,7 @@ void luaV_concat (lua_State *L, int tota
-+       setsvalue2s(L, top - n, ts);  /* create result */
++ use Carp;
+++use Errno qw(ENOENT);
++ use File::Temp qw(tempdir);
++ use File::Basename qw(basename);
++ use File::Spec;
+++use File::Find;
++ use Cwd;
++ 
++ use Dpkg ();
++@@ -110,19 +112,13 @@ sub extract {
++     my %spawn_opts = (wait_child => 1);
++ 
++     # Prepare destination
++-    my $tmp;
++-    if ($opts{in_place}) {
++-        $spawn_opts{chdir} = $dest;
++-        $tmp = $dest; # So that fixperms call works
++-    } else {
++-        my $template = basename($self->get_filename()) .  '.tmp-extract.XXXXX';
++-        unless (-e $dest) {
++-            # Kludge so that realpath works
++-            mkdir($dest) or syserr(g_('cannot create directory %s'), $dest);
++-        }
++-        $tmp = tempdir($template, DIR => Cwd::realpath("$dest/.."), CLEANUP => 1);
++-        $spawn_opts{chdir} = $tmp;
+++    my $template = basename($self->get_filename()) .  '.tmp-extract.XXXXX';
+++    unless (-e $dest) {
+++        # Kludge so that realpath works
+++        mkdir($dest) or syserr(g_('cannot create directory %s'), $dest);
 +     }
-+     total -= n-1;  /* got 'n' strings to create 1 new */
-+-    L->top -= n-1;  /* popped 'n' strings and pushed one */
-++    L->top = top - (n - 1);  /* popped 'n' strings and pushed one */
-+   } while (total > 1);  /* repeat until only 1 result left */
+++    my $tmp = tempdir($template, DIR => Cwd::realpath("$dest/.."), CLEANUP => 1);
+++    $spawn_opts{chdir} = $tmp;
++ 
++     # Prepare stuff that handles the input of tar
++     $self->ensure_open('r', delete_sig => [ 'PIPE' ]);
++@@ -145,22 +141,94 @@ sub extract {
++     # have to be calculated using mount options and other madness.
++     fixperms($tmp) unless $opts{no_fixperms};
++ 
++-    # Stop here if we extracted in-place as there's nothing to move around
++-    return if $opts{in_place};
++-
++-    # Rename extracted directory
++-    opendir(my $dir_dh, $tmp) or syserr(g_('cannot opendir %s'), $tmp);
++-    my @entries = grep { $_ ne '.' && $_ ne '..' } readdir($dir_dh);
++-    closedir($dir_dh);
++-    my $done = 0;
++-    erasedir($dest);
++-    if (scalar(@entries) == 1 && ! -l "$tmp/$entries[0]" && -d _) {
++-	rename("$tmp/$entries[0]", $dest)
++-	    or syserr(g_('unable to rename %s to %s'),
++-	              "$tmp/$entries[0]", $dest);
+++    # If we are extracting "in-place" do not remove the destination directory.
+++    if ($opts{in_place}) {
+++        my $canon_basedir = Cwd::realpath($dest);
+++        # On Solaris /dev/null points to /devices/pseudo/mm@0:null.
+++        my $canon_devnull = Cwd::realpath('/dev/null');
+++        my $check_symlink = sub {
+++            my $pathname = shift;
+++            my $canon_pathname = Cwd::realpath($pathname);
+++            if (not defined $canon_pathname) {
+++                return if $! == ENOENT;
+++
+++                syserr(g_("pathname '%s' cannot be canonicalized"), $pathname);
+++            }
+++            return if $canon_pathname eq $canon_devnull;
+++            return if $canon_pathname eq $canon_basedir;
+++            return if $canon_pathname =~ m{^\Q$canon_basedir/\E};
+++            warning(g_("pathname '%s' points outside source root (to '%s')"),
+++                    $pathname, $canon_pathname);
+++        };
+++
+++        my $move_in_place = sub {
+++            my $relpath = File::Spec->abs2rel($File::Find::name, $tmp);
+++            my $destpath = File::Spec->catfile($dest, $relpath);
+++
+++            my ($mode, $atime, $mtime);
+++            lstat $File::Find::name
+++                or syserr(g_('cannot get source pathname %s metadata'), $File::Find::name);
+++            ((undef) x 2, $mode, (undef) x 5, $atime, $mtime) = lstat _;
+++            my $src_is_dir = -d _;
+++
+++            my $dest_exists = 1;
+++            if (not lstat $destpath) {
+++                if ($! == ENOENT) {
+++                    $dest_exists = 0;
+++                } else {
+++                    syserr(g_('cannot get target pathname %s metadata'), $destpath);
+++                }
+++            }
+++            my $dest_is_dir = -d _;
+++            if ($dest_exists) {
+++                if ($dest_is_dir && $src_is_dir) {
+++                    # Refresh the destination directory attributes with the
+++                    # ones from the tarball.
+++                    chmod $mode, $destpath
+++                        or syserr(g_('cannot change directory %s mode'), $File::Find::name);
+++                    utime $atime, $mtime, $destpath
+++                        or syserr(g_('cannot change directory %s times'), $File::Find::name);
+++
+++                    # We should do nothing, and just walk further tree.
+++                    return;
+++                } elsif ($dest_is_dir) {
+++                    rmdir $destpath
+++                        or syserr(g_('cannot remove destination directory %s'), $destpath);
+++                } else {
+++                    $check_symlink->($destpath);
+++                    unlink $destpath
+++                        or syserr(g_('cannot remove destination file %s'), $destpath);
+++                }
+++            }
+++            # If we are moving a directory, we do not need to walk it.
+++            if ($src_is_dir) {
+++                $File::Find::prune = 1;
+++            }
+++            rename $File::Find::name, $destpath
+++                or syserr(g_('cannot move %s to %s'), $File::Find::name, $destpath);
+++        };
+++
+++        find({
+++            wanted => $move_in_place,
+++            no_chdir => 1,
+++            dangling_symlinks => 0,
+++        }, $tmp);
++     } else {
++-	rename($tmp, $dest)
++-	    or syserr(g_('unable to rename %s to %s'), $tmp, $dest);
+++        # Rename extracted directory
+++        opendir(my $dir_dh, $tmp) or syserr(g_('cannot opendir %s'), $tmp);
+++        my @entries = grep { $_ ne '.' && $_ ne '..' } readdir($dir_dh);
+++        closedir($dir_dh);
+++
+++        erasedir($dest);
+++
+++        if (scalar(@entries) == 1 && ! -l "$tmp/$entries[0]" && -d _) {
+++            rename("$tmp/$entries[0]", $dest)
+++                or syserr(g_('unable to rename %s to %s'),
+++                          "$tmp/$entries[0]", $dest);
+++        } else {
+++            rename($tmp, $dest)
+++                or syserr(g_('unable to rename %s to %s'), $tmp, $dest);
+++        }
++     }
++     erasedir($tmp);
++ }
++diff --git a/scripts/t/Dpkg_Source_Archive.t b/scripts/t/Dpkg_Source_Archive.t
++index 7b70da68e..504fbe1d4 100644
++--- a/scripts/t/Dpkg_Source_Archive.t
+++++ b/scripts/t/Dpkg_Source_Archive.t
++@@ -16,12 +16,120 @@
++ use strict;
++ use warnings;
++ 
++-use Test::More tests => 1;
+++use Test::More tests => 4;
+++use Test::Dpkg qw(:paths);
+++
+++use File::Spec;
+++use File::Path qw(make_path rmtree);
++ 
++ BEGIN {
++     use_ok('Dpkg::Source::Archive');
 + }
 + 
-diff --git a/meta/recipes-devtools/lua/lua_5.4.4.bb b/meta/recipes-devtools/lua/lua_5.4.4.bb
-index 6f2cea5314..0b2e754b31 100644
---- a/meta/recipes-devtools/lua/lua_5.4.4.bb
-+++ b/meta/recipes-devtools/lua/lua_5.4.4.bb
-@@ -7,6 +7,7 @@ HOMEPAGE = "http://www.lua.org/"
- SRC_URI = "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=tarballsrc \
-            file://lua.pc.in \
-            file://CVE-2022-28805.patch \
-+           file://CVE-2022-33099.patch \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'http://www.lua.org/tests/lua-${PV_testsuites}-tests.tar.gz;name=tarballtest file://run-ptest ', '', d)} \
+++use Dpkg;
+++
+++my $tmpdir = test_get_temp_path();
+++
+++rmtree($tmpdir);
+++
+++sub test_touch
+++{
+++    my ($name, $data) = @_;
+++
+++    open my $fh, '>', $name
+++        or die "cannot touch file $name\n";
+++    print { $fh } $data if $data;
+++    close $fh;
+++}
+++
+++sub test_path_escape
+++{
+++    my $name = shift;
+++
+++    my $treedir = File::Spec->rel2abs("$tmpdir/$name-tree");
+++    my $overdir = File::Spec->rel2abs("$tmpdir/$name-overlay");
+++    my $outdir = "$tmpdir/$name-out";
+++    my $expdir = "$tmpdir/$name-exp";
+++
+++    # This is the base directory, where we are going to be extracting stuff
+++    # into, which include traps.
+++    make_path("$treedir/subdir-a");
+++    test_touch("$treedir/subdir-a/file-a");
+++    test_touch("$treedir/subdir-a/file-pre-a");
+++    make_path("$treedir/subdir-b");
+++    test_touch("$treedir/subdir-b/file-b");
+++    test_touch("$treedir/subdir-b/file-pre-b");
+++    symlink File::Spec->abs2rel($outdir, $treedir), "$treedir/symlink-escape";
+++    symlink File::Spec->abs2rel("$outdir/nonexistent", $treedir), "$treedir/symlink-nonexistent";
+++    symlink "$treedir/file", "$treedir/symlink-within";
+++    test_touch("$treedir/supposed-dir");
+++
+++    # This is the overlay directory, which we'll pack and extract over the
+++    # base directory.
+++    make_path($overdir);
+++    make_path("$overdir/subdir-a/aa");
+++    test_touch("$overdir/subdir-a/aa/file-aa", 'aa');
+++    test_touch("$overdir/subdir-a/file-a", 'a');
+++    make_path("$overdir/subdir-b/bb");
+++    test_touch("$overdir/subdir-b/bb/file-bb", 'bb');
+++    test_touch("$overdir/subdir-b/file-b", 'b');
+++    make_path("$overdir/symlink-escape");
+++    test_touch("$overdir/symlink-escape/escaped-file", 'escaped');
+++    test_touch("$overdir/symlink-nonexistent", 'nonexistent');
+++    make_path("$overdir/symlink-within");
+++    make_path("$overdir/supposed-dir");
+++    test_touch("$overdir/supposed-dir/supposed-file", 'something');
+++
+++    # Generate overlay tar.
+++    system($Dpkg::PROGTAR, '-cf', "$overdir.tar", '-C', $overdir, qw(
+++        subdir-a subdir-b
+++        symlink-escape/escaped-file symlink-nonexistent symlink-within
+++        supposed-dir
+++        )) == 0
+++        or die "cannot create overlay tar archive\n";
+++
+++   # This is the expected directory, which we'll be comparing against.
+++    make_path($expdir);
+++    system('cp', '-a', $overdir, $expdir) == 0
+++        or die "cannot copy overlay hierarchy into expected directory\n";
+++
+++    # Store the expected and out reference directories into a tar to compare
+++    # its structure against the result reference.
+++    system($Dpkg::PROGTAR, '-cf', "$expdir.tar", '-C', $overdir, qw(
+++        subdir-a subdir-b
+++        symlink-escape/escaped-file symlink-nonexistent symlink-within
+++        supposed-dir
+++        ), '-C', $treedir, qw(
+++        subdir-a/file-pre-a
+++        subdir-b/file-pre-b
+++        )) == 0
+++        or die "cannot create expected tar archive\n";
+++
+++    # This directory is supposed to remain empty, anything inside implies a
+++    # directory traversal.
+++    make_path($outdir);
+++
+++    my $warnseen;
+++    local $SIG{__WARN__} = sub { $warnseen = $_[0] };
+++
+++    # Perform the extraction.
+++    my $tar = Dpkg::Source::Archive->new(filename => "$overdir.tar");
+++    $tar->extract($treedir, in_place => 1);
+++
+++    # Store the result into a tar to compare its structure against a reference.
+++    system($Dpkg::PROGTAR, '-cf', "$treedir.tar", '-C', $treedir, '.');
+++
+++    # Check results
+++    ok(length $warnseen && $warnseen =~ m/points outside source root/,
+++       'expected warning seen');
+++    ok(system($Dpkg::PROGTAR, '--compare', '-f', "$expdir.tar", '-C', $treedir) == 0,
+++       'expected directory matches');
+++    ok(! -e "$outdir/escaped-file",
+++       'expected output directory is empty, directory traversal');
+++}
+++
+++test_path_escape('in-place');
+++
++ # TODO: Add actual test cases.
++ 
++ 1;
++-- 
++2.33.0
++
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb b/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
+index 681909f0bf..7ef6233ee4 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.21.4.bb
+@@ -14,6 +14,7 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=main
+            file://0001-dpkg-Support-muslx32-build.patch \
+            file://pager.patch \
+            file://0001-Add-support-for-riscv32-CPU.patch \
++           file://0001-Dpkg-Source-Archive-Prevent-directory-traversal-for-.patch \
             "
  
+ SRC_URI:append:class-native = " file://0001-build.c-ignore-return-of-1-from-tar-cf.patch"
 -- 
 2.25.1
 
