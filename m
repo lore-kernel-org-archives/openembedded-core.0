@@ -1,158 +1,85 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C587EC04A68
-	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 06:53:58 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.16964.1658904822183192157
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDA49C04A68
+	for <webhook@archiver.kernel.org>; Wed, 27 Jul 2022 07:28:18 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web10.17216.1658906890450167833
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 23:53:45 -0700
+ Wed, 27 Jul 2022 00:28:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=jSy909qB;
- spf=pass (domain: mvista.com, ip: 209.85.214.181,
- mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f181.google.com with SMTP id y15so15356218plp.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=bLJselur;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49,
+ mailfrom: rybczynska@gmail.com)
+Received: by mail-lf1-f49.google.com with SMTP id p11so21049114lfu.5
         for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jul 2022 23:53:41 -0700 (PDT)
+ Wed, 27 Jul 2022 00:28:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QyKGklzLe67Q9afU2/7ahrKFg8rK9ecAofPadoVKcgY=;
-        b=jSy909qBBlSSlqw+AxUJvjYgUpePDc/pBKORUTltSzKlblsZ8Z3biCk881Fr+CowZ+
-         iEaPYamIc1QBGr8LdADVdhs9pup987Agm9m4jdgbTOFWUZEfxpwJk/r7vyPV7cgJcWyH
-         3/8ZYy8r4X4rdBKtYq+ynxF07n2ANnoeXzdpA=
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=eSw4bXRsnlMTtj0gAqlIV3Zh/dayICAgOIm/xBCZTXM=;
+        b=bLJselurE/gJ+0mZLDR6AfDjIrBncgf6/jNFuGBxhU9U3YiBkOjBAqQrDbtgBARkxZ
+         NOXf8NYY2l159W+v++UWezsLnL3rdisUhif08GO5Yk3tMZLppq0neXI5E05S3Ym0mxNn
+         rsgTtJU96P+IS59fea2v+C/WP9G/WZ8jy/cJQKlDIilztSdtWZoQfuvW6/L9/sVzM3MV
+         na9d6sKzYhNRYtGs+US9aYAKHhC2rDEbjO4KCgrL87Bxiyk00OmZU9k5C5vunMjI8y/x
+         SHlIcnz32QP/38PEZ+95P5uJvwMUljJ/nSs6drXNUMFHT/I2S4aYpVdKMTVm7AyW+IgJ
+         vnHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QyKGklzLe67Q9afU2/7ahrKFg8rK9ecAofPadoVKcgY=;
-        b=JR6VBw2q86D3/CWh//jwP3sy18riAThEfnv/qy8XAr9gcywHITrrbI+gwZaSCKlS7b
-         vU+uKy7xthEBzt6qZvqKS2GynNp3WBoW1hdnabHZA1MLLxnBB3J8uVlHjDWzFgCf8gmm
-         lNt/Y3Vkm+wNtTXrHziMd+5bHuw4W48XyX79lRJPLX8tKnsFghlX0tvsid9NQ7CRrJ8X
-         Narc6KbeZJd6MX/TrlUzNeNs149KnnwotPb5r1qhvIeDTq8hiIfuecaClx6ywGUNA3rh
-         JeyAj3LCY8o9CCGg/Cx0xB8b2eQxz4LJblTbXQtQzwKQ88s7LYWdNDReJT1LvcxYC5FF
-         GZKQ==
-X-Gm-Message-State: AJIora/va8u9HITWIKE3YohNPBnkEycVGyGqiWMe5zvmwpk9dzDVW3Ev
-	K6u0d9Nig4b5jhL+I9PEBO7MJd4GjI6PJQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=eSw4bXRsnlMTtj0gAqlIV3Zh/dayICAgOIm/xBCZTXM=;
+        b=RtgP8Hc1J433fGjxv8B1D3ADiUnGJsxgkBuiO+YpI5sv/9Mmyv76K+kmr8VNfNJnWo
+         xo2Ftf9H9ik+RSXScABJO+xmmGR/wVxtc1fpu+nm4VPOr0TMooUdq+hG8u0z/y4pXjGn
+         Bx502NPlMdDQd+0iMdUkPTwArVh+daUtOZJ+KYzKhHVGa4Irbf6stNLW6X9Pfxf3TAoJ
+         fBS3KspaKdObhwmpuVlVpwwMUTNG0Al/qlh+iiF9UwZof6VzDrX45HS3JktcaeryDh3M
+         s/gHumdPI6cfgaC4XuLfe/chQ4j2QBB46bYQft7GqOVLP+clRzW44228Lz8h9g2JN2vS
+         US3w==
+X-Gm-Message-State: AJIora8ysceohgUHTPi3FjS2kjiL1AZMc9iHxwzWqy/k+bQkydD1OeJc
+	ZLcVHnh2aNXST3zk1nDe2xu/MB37hAh/zY6CGpo=
 X-Google-Smtp-Source: 
- AGRyM1vpTs6oV8d79PUF+0lpUJHX4Tk2TwyuSzzS8k5Em4fN2vGdpm+M6M414+wn06NGuL2Um1U63g==
-X-Received: by 2002:a17:90b:4d11:b0:1f0:414b:586e with SMTP id
- mw17-20020a17090b4d1100b001f0414b586emr2964231pjb.111.1658904821003;
-        Tue, 26 Jul 2022 23:53:41 -0700 (PDT)
-Received: from MVIN00024 ([43.249.234.158])
-        by smtp.gmail.com with ESMTPSA id
- x11-20020a170902a38b00b0016bea2a0a8dsm12825202pla.91.2022.07.26.23.53.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jul 2022 23:53:40 -0700 (PDT)
-Received: by MVIN00024 (sSMTP sendmail emulation);
- Wed, 27 Jul 2022 12:23:26 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] qemu: CVE-2022-35414 can perform an uninitialized
- read on the translate_fail path, leading to an io_readx or io_writex crash
-Date: Wed, 27 Jul 2022 12:23:25 +0530
-Message-Id: <20220727065325.241476-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ AGRyM1v1Xhnp1eXXcpYYeaK1RQHuE9q3RCNWpfBjBol5h/dogJij37V4xv9vAEMNUHRyz8lIA1RfkG+bYacUyv2y+RA=
+X-Received: by 2002:a05:6512:3fa2:b0:48a:16df:266f with SMTP id
+ x34-20020a0565123fa200b0048a16df266fmr7379046lfa.414.1658906887816; Wed, 27
+ Jul 2022 00:28:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220727033739.1752802-1-johannes.schneider@leica-geosystems.com>
+In-Reply-To: 
+ <20220727033739.1752802-1-johannes.schneider@leica-geosystems.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Wed, 27 Jul 2022 09:27:56 +0200
+Message-ID: 
+ <CAApg2=Qt=nwRRbRF6u4tsze9O09JiJDAmrSHv_A=9mX2xUFMAA@mail.gmail.com>
+Subject: Re: [OE-core] [meta-oe][PATCH v3] classes: rootfs-postcommands:
+ autologin root on serial-getty
+To: johannes.schneider@leica-geosystems.com
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 06:53:58 -0000
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Jul 2022 07:28:18 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168543
+ https://lists.openembedded.org/g/openembedded-core/message/168544
 
-Source: https://github.com/qemu/qemu
-MR: 119830
-Type: Security Fix
-Disposition: Backport from https://github.com/qemu/qemu/commit/418ade7849ce7641c0f7333718caf5091a02fd4c
-ChangeID: 41d6646e06319e629da574b9b2e8a3a197a73441
-Description:
-        CVE-2022-35414 qemu: can perform an uninitialized read on the translate_fail path, leading to an io_readx or io_writex crash.
+On Wed, Jul 27, 2022 at 5:37 AM Johannes Schneider via
+lists.openembedded.org
+<johannes.schneider=leica-geosystems.com@lists.openembedded.org>
+wrote:
+>
+> when empty-root-password AND serial-autologin-root are part of the
+> IMAGE_FEATURES, save some of the developers time by not having to type
+> the (then still sole) 'root' username on the serial consoleafter each
+> and every reboot
+>
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2022-35414.patch            | 53 +++++++++++++++++++
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-35414.patch
+If this change is accepted, it would be good to have it documented
+really soon. It is likely
+to break CIs.
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 8c5a649c76..2395625948 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -35,6 +35,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://pvrdma.patch \
-            file://CVE-2021-4206.patch \
-            file://CVE-2021-4207.patch \
-+           file://CVE-2022-35414.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2022-35414.patch b/meta/recipes-devtools/qemu/qemu/CVE-2022-35414.patch
-new file mode 100644
-index 0000000000..3786497f01
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2022-35414.patch
-@@ -0,0 +1,53 @@
-+From ee76e64ee1cb232b77652b21cc94ec6b6c7e4b13 Mon Sep 17 00:00:00 2001
-+From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Wed, 27 Jul 2022 10:49:47 +0530
-+Subject: [PATCH] CVE-2022-35414
-+
-+Upstream-Status: Backport [https://github.com/qemu/qemu/commit/418ade7849ce7641c0f7333718caf5091a02fd4c]
-+CVE: CVE-2022-35414
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ softmmu/physmem.c | 13 ++++++++++++-
-+ 1 file changed, 12 insertions(+), 1 deletion(-)
-+
-+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-+index 3524c04c2..3c467527d 100644
-+--- a/softmmu/physmem.c
-++++ b/softmmu/physmem.c
-+@@ -667,7 +667,7 @@ void tcg_iommu_init_notifier_list(CPUState *cpu)
-+ 
-+ /* Called from RCU critical section */
-+ MemoryRegionSection *
-+-address_space_translate_for_iotlb(CPUState *cpu, int asidx, hwaddr addr,
-++address_space_translate_for_iotlb(CPUState *cpu, int asidx, hwaddr orig_addr,
-+                                   hwaddr *xlat, hwaddr *plen,
-+                                   MemTxAttrs attrs, int *prot)
-+ {
-+@@ -676,6 +676,7 @@ address_space_translate_for_iotlb(CPUState *cpu, int asidx, hwaddr addr,
-+     IOMMUMemoryRegionClass *imrc;
-+     IOMMUTLBEntry iotlb;
-+     int iommu_idx;
-++    hwaddr addr = orig_addr;
-+     AddressSpaceDispatch *d =
-+         qatomic_rcu_read(&cpu->cpu_ases[asidx].memory_dispatch);
-+ 
-+@@ -720,6 +721,16 @@ address_space_translate_for_iotlb(CPUState *cpu, int asidx, hwaddr addr,
-+     return section;
-+ 
-+ translate_fail:
-++    /*
-++     * We should be given a page-aligned address -- certainly
-++     * tlb_set_page_with_attrs() does so.  The page offset of xlat
-++     * is used to index sections[], and PHYS_SECTION_UNASSIGNED = 0.
-++     * The page portion of xlat will be logged by memory_region_access_valid()
-++     * when this memory access is rejected, so use the original untranslated
-++     * physical address.
-++     */
-++    assert((orig_addr & ~TARGET_PAGE_MASK) == 0);
-++    *xlat = orig_addr;
-+     return &d->map.sections[PHYS_SECTION_UNASSIGNED];
-+ }
-+ 
-+-- 
-+2.25.1
-+
--- 
-2.25.1
-
+Regards,
+Marta
 
