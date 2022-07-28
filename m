@@ -1,263 +1,219 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E78C1C04A68
-	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 03:47:34 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web08.28830.1658980045746016301
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE624C04A68
+	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 03:53:54 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
+ [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web09.28809.1658980431893221734
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jul 2022 20:47:25 -0700
+ Wed, 27 Jul 2022 20:53:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=T0c1C1av;
- spf=pass (domain: mvista.com, ip: 209.85.214.170,
- mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f170.google.com with SMTP id t2so722698ply.2
-        for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jul 2022 20:47:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ovGdK/vkEG8mdO80v9yjTOz5SJkKXgKovM+z22o8Cfo=;
-        b=T0c1C1avJk8RsoYpDCLftueRQGl8e2/dtjn2XZ3rHaMwrROUrCqeXRCOM/0vzhbzP3
-         Zqb1ygLsHd7K4sBqNx48LpbHlfjdeZ107of9It2bfDDODE+sbeXEZSDmLqTgM7s8ESXu
-         4/iUCCswJa5+Gso5Q8aGVsQpUIjE083XFunIg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ovGdK/vkEG8mdO80v9yjTOz5SJkKXgKovM+z22o8Cfo=;
-        b=iud6sZZIpA6c7YNURL/2BmeXxHU3ty7KmSjnECiuqsJvVxHIjH8MI0RK0yw/3ssOLt
-         59um5HXK1WvAC7RGqlklGHESRgsjimFnck4pCmky8NdVDasWt/Kjl2o02RTI9NARZiJA
-         WoIv7F8FI9kmpRtnCX27jM8Nkp7lBLNdjmxggHmN/IGe1RGApEVFHAnNvDZa8ovnwzGM
-         17xtyFTAv8bN/8wYSLNqv3uFbucpsm0n664bAoj96xOym9dr8oYFYxy5sO+DHIrBP0oU
-         T+kDIWZPyXZEvr9bVClSdFN794pwOPihEdRq5ekjpMnR3OzXqhf2su+nX0yFCyDpz6So
-         6c5A==
-X-Gm-Message-State: AJIora+nzGV4/+80QoCW620upSKnycIRciYq3QD1gNAX4KOPon6sUdr1
-	PmvpP8T0/KSp7x35pOhgZ0EU4ccdYToVaA==
-X-Google-Smtp-Source: 
- AGRyM1sXc6vPHYvzH6rsuFaD0rcuYLI8/R65aJKRhV06T0NUCvzOMDWWqvYZkVaCabSE9B1/HQidKQ==
-X-Received: by 2002:a17:90a:430b:b0:1f0:beb5:5932 with SMTP id
- q11-20020a17090a430b00b001f0beb55932mr8078130pjg.27.1658980044586;
-        Wed, 27 Jul 2022 20:47:24 -0700 (PDT)
-Received: from MVIN00024 ([43.249.234.242])
-        by smtp.gmail.com with ESMTPSA id
- im9-20020a170902bb0900b0016b865ea2ddsm14409602plb.85.2022.07.27.20.47.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jul 2022 20:47:24 -0700 (PDT)
-Received: by MVIN00024 (sSMTP sendmail emulation);
- Thu, 28 Jul 2022 09:17:19 +0530
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] libtirpc: CVE-2021-46828 DoS vulnerability with
- lots of connections
-Date: Thu, 28 Jul 2022 09:17:16 +0530
-Message-Id: <20220728034716.7115-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=fg/8G76O;
+ spf=permerror,
+ err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
+ invalid domain name (domain: windriver.com, ip: 205.220.166.238,
+ mailfrom: prvs=42083b20aa=changqing.li@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
+ 26S3rp9H031317
+	for <openembedded-core@lists.openembedded.org>;
+ Wed, 27 Jul 2022 20:53:51 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=message-id : date
+ : subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=z2xGZp9BvzQPxF5akBBt24cr8zPxpWbBIBl7ivr/GB8=;
+ b=fg/8G76OihRoaSkuHV2RO0vAj5KLJXSP2Ds+RAlDrk55VCdfrm/kCLGObK2GovTUzwZ6
+ cRSYt+cWFDmhtZQSnJLiKnOy8lMkYUSqzvfuMxPAXSdrGHgjBKzKcYck22okCtUgKob2
+ +7MrqQwCcI5TIrRw5+u0qD+n4XqNx8kbIyHmY7dq/sws5YpLFSP9w+YoOKVpRM+Bwvut
+ 7+tIDWUrouVfRlrHJE+tU8teiEeUDeLu6wvl2sVO7Zu37aZSMO7MtRhpRTWu1/vFVp4P
+ rYw1WPHflu6HIWaMsB1hG45JC/WdT7jtxnC5x7zYF/BR9T+iGSigSDQOECctT/rnUkmJ MQ==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3hgggkbkjd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+ Wed, 27 Jul 2022 20:53:51 -0700
+Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26S3rojL031300
+	for <openembedded-core@lists.openembedded.org>;
+ Wed, 27 Jul 2022 20:53:50 -0700
+Received: from nam11-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2176.outbound.protection.outlook.com [104.47.56.176])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3hgggkbkjc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 27 Jul 2022 20:53:50 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F9rC/5FdTf4SPFP8R2dcKqzbkcK97ZOvYyTugwvaqxiZsKLJIHM3Zhp/v51sc6zHhRtx67Fi88HoCkenJl8LyG/98u8u3UJL1zTrxqfi9vnVHlHnUsulnF1G0+v1iMNtwEpOMtNCtQypx0D9W4nTRixdD1TzGk7g7aLGiji52XRxPldgZpoEuX6PcvEO5arSujW7Ga4IW+3KKN2aSbJT/DbOhvkTSLAfrBNMpI07I6pe2B5RJRzeGwhm6x6GQ3buTAiB6Tu2/a/J6GjehzOlqivOIsID9+Tg4XybXFHRCiyR3n5lY77SXj9kH+9sogHho6qdlpvQEzm+Rvc5y/ke0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z2xGZp9BvzQPxF5akBBt24cr8zPxpWbBIBl7ivr/GB8=;
+ b=jSfyJSCwssFFxXOp+xgHgvNvEkk1o3vP2G0vhQwQaJ7Mc+XN1WdEYEsnahFSo6lYT9RwxmmTI7xOlsvDOW4RhcKO0nX90bifQucJlausC8IYR8PgwIJBnqRSOJ6y2UD/UxaIXZfPuhEqjQoS2OSSkupVQSu97W5tFwJT9IvL5XX1KyN6F4rHbWIlmQTRHAk9pCCtRA+He5tqv97QEMeiMXWRE50VUTEbCRn4rdxkPqU4Tq3SrMjiS9NiTZ5mdaEvcoTe4saaX4hD4HM7cB9yYhLcKWobH7LeGzNss2SjfuzpoO+H86I3mNm/WZYEUKW/pWyWKPmEbZYMsVexQ7MNaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SN6PR11MB2557.namprd11.prod.outlook.com (2603:10b6:805:56::33)
+ by SJ0PR11MB5866.namprd11.prod.outlook.com (2603:10b6:a03:429::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.24; Thu, 28 Jul
+ 2022 03:53:47 +0000
+Received: from SN6PR11MB2557.namprd11.prod.outlook.com
+ ([fe80::b15a:47d5:1944:4a86]) by SN6PR11MB2557.namprd11.prod.outlook.com
+ ([fe80::b15a:47d5:1944:4a86%5]) with mapi id 15.20.5458.025; Thu, 28 Jul 2022
+ 03:53:47 +0000
+Message-ID: <1dfde637-8448-920a-91cb-7963cda09297@windriver.com>
+Date: Thu, 28 Jul 2022 11:53:40 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [OE-core] [kirkstone][master][PATCH] apt: fix do_package_qa
+ failure
+Content-Language: en-US
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+References: <20220727053939.353717-1-changqing.li@windriver.com>
+ <CANNYZj--dxtiE6OvQzmUkpzKD3nQ-Zt1C5kbPLUWaBszfvqFLA@mail.gmail.com>
+From: Changqing Li <changqing.li@windriver.com>
+In-Reply-To: 
+ <CANNYZj--dxtiE6OvQzmUkpzKD3nQ-Zt1C5kbPLUWaBszfvqFLA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SG2P153CA0024.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::11)
+ To SN6PR11MB2557.namprd11.prod.outlook.com (2603:10b6:805:56::33)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 84894774-54e4-46bd-7acf-08da704cc648
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB5866:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	rroDed+V3ZuZhfkg6RXs7FCt59j4oiOIax8vDZbaNqAMsiZUgPbVL2goej0HmdKkWSuXxAGdFgIj2hryCRn/L03X19Xei5dsU6cXBudg1E0hZsmrFHJzherJL6yoi9cw7VPH1LJ6BSF02VYIUILXA3S88VpESb+MtVPEPBqlmf3NGUhCCIimIe7aju9fccOjNMCoLKseZk5rfdW3JdWGBXgMpN+rwNvI9diB4MBaG5fgbPP0D9xLnLWLfRBP9Cc41tQx0CD6jWJ6kS9q6N8Ju8ewrHJ9qjAseKrN2XGOiJ/IRj3b9z1WEj8dC1RuDwyJgBlExxmC6aDbo83+HQEwzq/p1qvx23JQfpKp+bxesZBgTSKwRV9/kQ8MlGzspIZMhoLm40tIyDwAXaRzF1ZsLLrNC2RTZEstaUzWO0SMVXMhTnhUtxoyvUP2bIpRCoCr5UoFMSSFs5oxMgEDPgnL85O9V9bJqeUwBr2E+db3YK9xSJ6MjQPa1H0zHhaqsO+txFmu8B+zmBzDJuNzfUx6dpv/wUQGwEzADNAqNUNYMX2YXK7M0SXEsBo47IRvPjXu27mDhDF2iEpMFT1BCNKO3iytDLLGANTCioxVFZ5SCpciEN7h4vURm493CAkaGmh2zlw20EWChpe06eu4jOiMyinrvalYNMIAIebYKLClwqh+e8jaQkCD8hrvnm2Yg8SIRWk05Su07mkQNKuvMFJ0KLBiUFDJYTzj4cvxErD6r6x1EumrUK/GreYEzrY6y2fFMzI9c61q+cdCcklRXuSpgh+7k2cNc6ME+HVN1Nt89fbavTIY/NpONf27jnS4MKGNPwAK03gUxnbsZ71VyARqi+XrZgPr6Th8MLXSEi5zpYaAHo66LvZIjl4xn4UlpJYN6yc2BLvTNpr4iiYe5b5wCQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2557.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(346002)(366004)(396003)(39850400004)(136003)(6512007)(8936002)(6506007)(83380400001)(6666004)(53546011)(2906002)(66946007)(186003)(44832011)(86362001)(31696002)(41300700001)(5660300002)(478600001)(966005)(26005)(6486002)(6916009)(2616005)(38100700002)(66556008)(4326008)(8676002)(31686004)(316002)(66476007)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?K1l2L3Faazl0cVBrTStDVTh4QXdZb3lPQi96Q25RMzhjUnVJVE05bWw1SWEy?=
+ =?utf-8?B?NnYxZkJ2UXNFeEpKWWlCcVMyTUhjOERrZmVTQzZ5VSt0aFlKdWwxMjFtWlho?=
+ =?utf-8?B?VmdHK3pBUlR5eGRKaTVQU0E5R0g0TVo1bWFLellmbHMrbHRnYnhtNlI0RE9y?=
+ =?utf-8?B?TWpVYW14YTVYbkpJd3RmTTRJTnBETnM1NXd4M25SZ1dFVXFaeDlySEFuL1FL?=
+ =?utf-8?B?dUR4ZmJuSnUra2FPbXhXd3FiVzErQWpHU3BHM0xGdW4rNlNDcDJZYmZkb1Rq?=
+ =?utf-8?B?N2RIZUlSR3p6by95cktuZ0ZDNjVhT1h6V1krVmMxaEtEUmNWajhTWEpsSWkw?=
+ =?utf-8?B?dXErbmdsRUErc2cvZUcxY0NDTUZNMW1ueTdGM3dDQ0pSdDlmNWhLVnpsY3pJ?=
+ =?utf-8?B?cE85eDlrMWdoN0JPTkZkM2FDemdOZFllQjA4RnFzT3V6ZVhrWlZEMVBibnRn?=
+ =?utf-8?B?R0NFVm0yTTEvZ244WEtCZU00eElpeDBnZjNaTThyWXBsUmR4ZUVFZ3ZpWGt2?=
+ =?utf-8?B?aUZnMFVsNDk0MmhnNW1SV21oU05udDZnVlAvVUxOcTVsVGtEajVMYjhRRXZo?=
+ =?utf-8?B?RytKU3R5WFd2NVAwYmlpR2cxY0pySG5zNHNDZm9wMVA3alludGI0SzBSWmtv?=
+ =?utf-8?B?L1RCK3VaMnJRcUtwbnpJS2JCdXE4Y3MrQmhSVFpXc2VlUXBIZGg5aFFkaXE2?=
+ =?utf-8?B?SWo4eTlDTngzbnNCVmtpNnZoLzY3WTArdHJLcUxRVnF2Mk5CblF2cWE2RUox?=
+ =?utf-8?B?YmIwUVIrRGFFc0tUSXZiSjVSYTB4cWd2WHJjV0VhdmtpMkZmRmdUMVA0aG12?=
+ =?utf-8?B?VzhHeDJpaWt2Zjk1R2M5djZqZVhQbkcvZzUyRnl5cEZNMndJNVcrR0hucnpa?=
+ =?utf-8?B?R2NUWDQzSnV2emlDWGdkU1pEaTlvODZtU3B4ZVpDTlFSMVdrSEg3a0lXRlN1?=
+ =?utf-8?B?NGVvd1VPNE1hQUFyQVhzc2ZTUktzcUROL0o4dHdqMktnb05hclRrbFRUNHlo?=
+ =?utf-8?B?SGpDdXFBRks1ellwYnhnS1NuMjNqb3J4K1RiY0Nybnl5bHVJdlhHa1R0cmhT?=
+ =?utf-8?B?UFJEWkdZNUt3ZXJVZ3dISWRPZVc2VWxQYTdXK3JEbWZEcUhxUzZ1emRQSDA1?=
+ =?utf-8?B?bkdWV2NINHB4WHFvdUJFYitvbnkvRUZRa3ZabjF0b2piSkZnVFpOZEFaTk00?=
+ =?utf-8?B?bmhyeEZmdGxVNDhIcndPVlpKRGRBa0RiaHczODA0V3h4SmJ3SmlBZVFXbmFM?=
+ =?utf-8?B?cFVkVzRxYmkxL2hEQ0dvQzdqc01Ld3RrTzc3ZUc2VVprUTZmZkpHSnhUZXpR?=
+ =?utf-8?B?a0NHek1lNS8yYkN3OUV5cXk4WjJoNUsyUDNvS3E0eVZaVnU1RGpjYlExa3pI?=
+ =?utf-8?B?TFVIdW5mNlRoVVZIVWdWR1JDLzhGWTN0UUpoNW1zcVRIbjkrOEV6NkFNRXZN?=
+ =?utf-8?B?cGNQSGVyQ0ZNT1JFL0RnNjVyVzdTeG51OUFYKzFvQ0tmV1o3TElXSmpEZmp6?=
+ =?utf-8?B?eCtwYVNaMUNiTmg1cDdQYVlOL0FxZC9pemdEQXhWRDJKSDI5ZmZsZi9GaUZZ?=
+ =?utf-8?B?MGR0L1dGVllHRlZCajB4bHRJRVNTdW1vdTlSSjQxdVcvYWRzUFowZUs4L1Nt?=
+ =?utf-8?B?V0RKZFVpdDhtZnRkMmlKTE8wYXo5bkVyb1ZERUV5b2xFMm5lNzUxd01LcWlv?=
+ =?utf-8?B?Vi9mcmR2cVp0YlljKzZEcmF4NGtaS2llZHVJWkhJd2pZNkdMN0syUTZwTjJl?=
+ =?utf-8?B?UWFDTGprMEtzT2Q2My9JdEViWHQ0WUNLeUlQcTR0d0ZvT0RnQjlUR3VLbXZY?=
+ =?utf-8?B?bmpMQmVQVkltYmNqSDBtTHJ6Z3hLV1N0S3BmdWxaSThWWTVJTXl6WjB0VnBY?=
+ =?utf-8?B?UThsTGZFbUwwNnpSbElJV0xaNTFGNUlMelVzbFhKMEZDWFdMTEpNQWFXMWc0?=
+ =?utf-8?B?czlsMWR2K2dUcnBUdmRUa01mbGRudStnc2hNbDZFYW1IQUtnNGkxazFPeGNX?=
+ =?utf-8?B?KytFSzNyb1Q2bDA0dkdjeHdwL1RSTVEvaVJuQWRrSnVieVNnN0JBVE9iSzI5?=
+ =?utf-8?B?aVRvdXVxV2JvSlRxaFJ1NldFajN4M2t0dXY1Q3NlQTkva3BRTy85SE5pODR2?=
+ =?utf-8?B?b2QxY2hSTGN6MEljdTJmRFhpU0dLZ1hPUFdPRmxXUWdkOGVpN0YrOWg3ZjNy?=
+ =?utf-8?B?OXc9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ 84894774-54e4-46bd-7acf-08da704cc648
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2557.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2022 03:53:47.6091
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 
+ UgKSd3CmvhOjiVQBFz2F+CrOzy8RDziAe2Qv78gp+iOlIFvVGXumB2/5l0qqZ2oZT6o6tfZnAsZrwre97Q3Oh2lHwkWnxt9ibQKKiKsIvHQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5866
+X-Proofpoint-ORIG-GUID: WLi6UP4SpWi6Tr7RqCctifgbOini3Lms
+X-Proofpoint-GUID: fKhBngfl2S_53JEopD-nvEDZJjXVfDfy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-27_08,2022-07-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ impostorscore=0 bulkscore=0 clxscore=1015 adultscore=0 lowpriorityscore=0
+ priorityscore=1501 mlxscore=0 phishscore=0 malwarescore=0 spamscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207280017
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 03:47:34 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 03:53:54 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168589
+ https://lists.openembedded.org/g/openembedded-core/message/168590
 
-Source: http://git.linux-nfs.org/?p=steved/libtirpc.git;
-MR: 120225
-Type: Security Fix
-Disposition: Backport from http://git.linux-nfs.org/?p=steved/libtirpc.git;a=commit;h=86529758570cef4c73fb9b9c4104fdc510f701ed
-ChangeID: 29c32ee171a6a47e06c788e5c608fac9bb3a64b2
-Description:
-        CVE-2021-46828 libtirpc: DoS vulnerability with lots of connections.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../libtirpc/libtirpc/CVE-2021-46828.patch    | 155 ++++++++++++++++++
- .../libtirpc/libtirpc_1.3.2.bb                |   4 +-
- 2 files changed, 158 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/libtirpc/libtirpc/CVE-2021-46828.patch
+On 7/27/22 19:51, Alexander Kanavin wrote:
+> [Please note: This e-mail is from an EXTERNAL e-mail address]
+>
+> What is actually being installed in there? Is it really right to remove it?
 
-diff --git a/meta/recipes-extended/libtirpc/libtirpc/CVE-2021-46828.patch b/meta/recipes-extended/libtirpc/libtirpc/CVE-2021-46828.patch
-new file mode 100644
-index 0000000000..3d5e5b8db9
---- /dev/null
-+++ b/meta/recipes-extended/libtirpc/libtirpc/CVE-2021-46828.patch
-@@ -0,0 +1,155 @@
-+From 3ee23a0a5a8c2261e788acbee67722fcbecbea28 Mon Sep 17 00:00:00 2001
-+From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Wed, 27 Jul 2022 17:34:21 +0530
-+Subject: [PATCH] CVE-2021-46828
-+
-+Upstream-Status: Backport [http://git.linux-nfs.org/?p=steved/libtirpc.git;a=commit;h=86529758570cef4c73fb9b9c4104fdc510f701ed}
-+CVE: CVE-2021-46828
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/svc.c    | 17 +++++++++++++-
-+ src/svc_vc.c | 62 +++++++++++++++++++++++++++++++++++++++++++++++++++-
-+ 2 files changed, 77 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/svc.c b/src/svc.c
-+index 6db164b..3a8709f 100644
-+--- a/src/svc.c
-++++ b/src/svc.c
-+@@ -57,7 +57,7 @@
-+ 
-+ #define max(a, b) (a > b ? a : b)
-+ 
-+-static SVCXPRT **__svc_xports;
-++SVCXPRT **__svc_xports;
-+ int __svc_maxrec;
-+ 
-+ /*
-+@@ -194,6 +194,21 @@ __xprt_do_unregister (xprt, dolock)
-+     rwlock_unlock (&svc_fd_lock);
-+ }
-+ 
-++int
-++svc_open_fds()
-++{
-++	int ix;
-++	int nfds = 0;
-++
-++	rwlock_rdlock (&svc_fd_lock);
-++	for (ix = 0; ix < svc_max_pollfd; ++ix) {
-++		if (svc_pollfd[ix].fd != -1)
-++			nfds++;
-++	}
-++	rwlock_unlock (&svc_fd_lock);
-++	return (nfds);
-++}
-++
-+ /*
-+  * Add a service program to the callout list.
-+  * The dispatch routine will be called when a rpc request for this
-+diff --git a/src/svc_vc.c b/src/svc_vc.c
-+index f1d9f00..3dc8a75 100644
-+--- a/src/svc_vc.c
-++++ b/src/svc_vc.c
-+@@ -64,6 +64,8 @@
-+ 
-+ 
-+ extern rwlock_t svc_fd_lock;
-++extern SVCXPRT **__svc_xports;
-++extern int svc_open_fds();
-+ 
-+ static SVCXPRT *makefd_xprt(int, u_int, u_int);
-+ static bool_t rendezvous_request(SVCXPRT *, struct rpc_msg *);
-+@@ -82,6 +84,7 @@ static void svc_vc_ops(SVCXPRT *);
-+ static bool_t svc_vc_control(SVCXPRT *xprt, const u_int rq, void *in);
-+ static bool_t svc_vc_rendezvous_control (SVCXPRT *xprt, const u_int rq,
-+ 				   	     void *in);
-++static int __svc_destroy_idle(int timeout);
-+ 
-+ struct cf_rendezvous { /* kept in xprt->xp_p1 for rendezvouser */
-+ 	u_int sendsize;
-+@@ -313,13 +316,14 @@ done:
-+ 	return (xprt);
-+ }
-+ 
-++
-+ /*ARGSUSED*/
-+ static bool_t
-+ rendezvous_request(xprt, msg)
-+ 	SVCXPRT *xprt;
-+ 	struct rpc_msg *msg;
-+ {
-+-	int sock, flags;
-++	int sock, flags, nfds, cnt;
-+ 	struct cf_rendezvous *r;
-+ 	struct cf_conn *cd;
-+ 	struct sockaddr_storage addr;
-+@@ -379,6 +383,16 @@ again:
-+ 
-+ 	gettimeofday(&cd->last_recv_time, NULL);
-+ 
-++	nfds = svc_open_fds();
-++	if (nfds >= (_rpc_dtablesize() / 5) * 4) {
-++		/* destroy idle connections */
-++		cnt = __svc_destroy_idle(15);
-++		if (cnt == 0) {
-++			/* destroy least active */
-++			__svc_destroy_idle(0);
-++		}
-++	}
-++
-+ 	return (FALSE); /* there is never an rpc msg to be processed */
-+ }
-+ 
-+@@ -820,3 +834,49 @@ __svc_clean_idle(fd_set *fds, int timeout, bool_t cleanblock)
-+ {
-+ 	return FALSE;
-+ }
-++
-++static int
-++__svc_destroy_idle(int timeout)
-++{
-++	int i, ncleaned = 0;
-++	SVCXPRT *xprt, *least_active;
-++	struct timeval tv, tdiff, tmax;
-++	struct cf_conn *cd;
-++
-++	gettimeofday(&tv, NULL);
-++	tmax.tv_sec = tmax.tv_usec = 0;
-++	least_active = NULL;
-++	rwlock_wrlock(&svc_fd_lock);
-++
-++	for (i = 0; i <= svc_max_pollfd; i++) {
-++		if (svc_pollfd[i].fd == -1)
-++			continue;
-++		xprt = __svc_xports[i];
-++		if (xprt == NULL || xprt->xp_ops == NULL ||
-++			xprt->xp_ops->xp_recv != svc_vc_recv)
-++			continue;
-++		cd = (struct cf_conn *)xprt->xp_p1;
-++		if (!cd->nonblock)
-++			continue;
-++		if (timeout == 0) {
-++			timersub(&tv, &cd->last_recv_time, &tdiff);
-++			if (timercmp(&tdiff, &tmax, >)) {
-++				tmax = tdiff;
-++				least_active = xprt;
-++			}
-++			continue;
-++		}
-++		if (tv.tv_sec - cd->last_recv_time.tv_sec > timeout) {
-++			__xprt_unregister_unlocked(xprt);
-++			__svc_vc_dodestroy(xprt);
-++			ncleaned++;
-++		}
-++	}
-++	if (timeout == 0 && least_active != NULL) {
-++		__xprt_unregister_unlocked(least_active);
-++		__svc_vc_dodestroy(least_active);
-++		ncleaned++;
-++	}
-++	rwlock_unlock(&svc_fd_lock);
-++	return (ncleaned);
-++}
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb b/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb
-index 45b3d2befc..66bc4ecdd1 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_1.3.2.bb
-@@ -9,7 +9,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f835cce8852481e4b2bbbdd23b5e47f3 \
- 
- PROVIDES = "virtual/librpc"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2 \
-+	   file://CVE-2021-46828.patch \
-+	  "
- UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/libtirpc/files/libtirpc/"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
- SRC_URI[sha256sum] = "e24eb88b8ce7db3b7ca6eb80115dd1284abc5ec32a8deccfed2224fc2532b9fd"
--- 
-2.25.1
+An empty dir apt is installed under /var/log/. It should be ok to remove 
+it since apt could create it when it doesn't exist.
 
+We have remove it for target. So I do the same for nativesdk. Another 
+solution could be INSANE_SKIP the empty-dirs.
+
+How do you think?
+
+Changqing
+
+>
+> Alex
+>
+> On Wed, 27 Jul 2022 at 07:39, Changqing Li <changqing.li@windriver.com> wrote:
+>> From: Changqing Li <changqing.li@windriver.com>
+>>
+>> bitbake nativesdk-apt failed with error:
+>> ERROR: nativesdk-apt-2.4.5-r0 do_package_qa: QA Issue: nativesdk-apt installs files in /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/var/volatile, but it is expected to be empty [empty-dirs]
+>>
+>> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> ---
+>>   meta/recipes-devtools/apt/apt_2.4.5.bb | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-devtools/apt/apt_2.4.5.bb b/meta/recipes-devtools/apt/apt_2.4.5.bb
+>> index 1d94dd118c..d79a33857a 100644
+>> --- a/meta/recipes-devtools/apt/apt_2.4.5.bb
+>> +++ b/meta/recipes-devtools/apt/apt_2.4.5.bb
+>> @@ -123,6 +123,7 @@ do_install:append:class-native() {
+>>
+>>   do_install:append:class-nativesdk() {
+>>          customize_apt_conf_sample
+>> +       rm -rf ${D}${localstatedir}/log
+>>   }
+>>
+>>   do_install:append:class-target() {
+>> --
+>> 2.25.1
+>>
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#168542): https://lists.openembedded.org/g/openembedded-core/message/168542
+>> Mute This Topic: https://lists.openembedded.org/mt/92643987/1686489
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
 
