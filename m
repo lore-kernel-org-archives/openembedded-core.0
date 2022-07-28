@@ -1,136 +1,466 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E9B8C19F2B
-	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 14:30:58 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web11.33303.1659018650145529917
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2692DC04A68
+	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 14:32:48 +0000 (UTC)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by mx.groups.io with SMTP id smtpd.web10.33235.1659018757645956625
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jul 2022 07:30:50 -0700
+ Thu, 28 Jul 2022 07:32:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=PwlYoWDL;
- spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f43.google.com with SMTP id
- c19-20020a17090ae11300b001f2f94ed5c6so5185863pjz.1
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=gwoePa64;
+ spf=pass (domain: gmail.com, ip: 209.85.208.179,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-lj1-f179.google.com with SMTP id p22so2147912lji.10
         for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jul 2022 07:30:50 -0700 (PDT)
+ Thu, 28 Jul 2022 07:32:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=s3xs0Hun53Ns7zk5ReIYbYWuNZzyy0HeZQ2vWQQH5Mw=;
-        b=PwlYoWDLaQWULfulV5eOeCcVY8sLZQGymdtMEBUfLA9yovS+48w5XEQts07ey0TdEP
-         3/4T9LFAjSKJOYbLuZwwBBgeG3jS+NaTFdaGoqM250Lxv5mFtf3MVBOcI0mklF9yMf3D
-         b+86DBFyaiaseCIhtvSkSPCKxR2rkl6CzwxbhS1tsivHvBDvZhl1zZCnRJPsJ3Hpmad6
-         Gg2yioEsvWfiCY+o2nvkYv26Y2Kts5yI+YFIrUzsDixaSBdMLEeoCHcXOvH9KO/odhc2
-         ztLMRz+4ttDXXsPHAmy9ZeeS9OZo1y7xJz7qNJGRGCQZkN+Zgeqg9ccarJdSDxUP7UMn
-         +qvg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=tSD9pJzlKIMGzovi3nh3RVCJzJiREtBb5P2k+fEGFOw=;
+        b=gwoePa64RpXDpQ/s0QA1SNCwq7d9b7OCW+x+xb3DVsvsMuaBNzZBpShVdmgKZOksZh
+         E7T9hxblBFLsLQ6591wtjWVdXmlASpG28dhh5WRr8BZrd2H7hSNlhENYF+XzUQGnYShe
+         ujPeGy2KdB84WPpzNN07LDTB3Z0SJ/k4nr3+8riRlasaffGNspBZ2IKcX00JSabcCQId
+         b6AMOiqnaxB7+OG8KhBiqt7eIGpXDBgEk0i+1RFd0vN2BI5rMKqUJpK1ZYF0a5IEMbbL
+         Yi/I9utQVkIP23W1MXmIOBaO+54hvz1ChWYlQ1pmGw2zxGbtba/Q2NF8nHO5R6DWwWHu
+         m7nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=s3xs0Hun53Ns7zk5ReIYbYWuNZzyy0HeZQ2vWQQH5Mw=;
-        b=KJm/N4CO+AFdGgN3OzJZaxTJVQ2/C46LFLZEfI8CEm6brvI56bx8/6d/62kRRxAnKR
-         JX0cIPJ/WI4oKPP88KuXla6dB8/8NeI3ikvRp9nJihTlVpp6ZUA25O03a3nCQSyX0Yki
-         O8Dfwtsqy+cYdvKkFQ69UioMCJk0gCCPtB8GA9sha+Qq4xSZUY1dR06KIx5WavjwrDQH
-         aryiDqoeDeKMKhTNhdB/Xb01GCuRZGthbk7Ac+ShMvGGDn3TD1v4oaf1kA4QJil3QUr6
-         Clp3A7VhD9Or3lFxtSupm04B9EtGtXnXuo6IjXi36Mm49pnkcfSc4Vt8wRwvAFwe/q1t
-         Aj9Q==
-X-Gm-Message-State: AJIora/Oig10Q3hM4wSwgrWeOIBpzt3920FaANQ+DiSbeNqoBt0ZyrqA
-	QBPsEDmsdmC/yaiCfgFG4WCftlhMd5Kl5A==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=tSD9pJzlKIMGzovi3nh3RVCJzJiREtBb5P2k+fEGFOw=;
+        b=Z9iPEpEcSnlZxfw4k+x6esRVXXLAomgn+pywOxiVyPbZ89AvCSwJ7YZxIHAD8ZfHUm
+         47xbTTLaZALGoVz9x9jSA2a5Ff1f2fHdLYKItSVZHFiqvOcO/QyhtH2TfSegi/yFfOhx
+         2+kibgnXgv+rxypzzlw9v1UaxDs/vW0HEux7q0zcWzT9eqvXApcsRuBYdxlj7WtHWMmp
+         IM4YLkAD0yAgFVlpvZ0P6qC70HPeGGe23d+AqW5I859TsVwlCCqxYk6t0gaBU1bnK3zT
+         nwt0nXY6vJfoCkwHO3lcakjbYlCcbqbEENkka2xtssVnBvFe/RR4ZHjYRtb4AXewFFxb
+         p7Jg==
+X-Gm-Message-State: AJIora8t1/RKLxG6wuORIgAFvRkYz7tdLaTH7H6JWxtd5oBXwpla0tmT
+	6mINvlUxysY3g3AlrvD7FnFzYsvtIxoYgOz1/tI=
 X-Google-Smtp-Source: 
- AGRyM1vQdlE0ouj9XnWKn9OicKZ7ql/JD7ogVJwaZVj503MRqmHaLhDtGlCAxHFfkinc+p3w9DE42w==
-X-Received: by 2002:a17:90b:4c87:b0:1f2:cf1d:c906 with SMTP id
- my7-20020a17090b4c8700b001f2cf1dc906mr10575841pjb.119.1659018649123;
-        Thu, 28 Jul 2022 07:30:49 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::8ca5])
-        by smtp.gmail.com with ESMTPSA id
- j1-20020a170902da8100b0016c4cbefea3sm1331481plx.218.2022.07.28.07.30.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jul 2022 07:30:48 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/2] btrfs-tools: Use linux/mount.h instead of sys/mount.h
-Date: Thu, 28 Jul 2022 07:30:44 -0700
-Message-Id: <20220728143044.1696098-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220728143044.1696098-1-raj.khem@gmail.com>
-References: <20220728143044.1696098-1-raj.khem@gmail.com>
+ AGRyM1sZyTYYnNbMSDgWqnH4Wlkl5QJBz8AEvfvsOB9baAvldnIs8DkMRhe6Qtc7t20LR7FhdWY5FiFYHTqiSS50MPg=
+X-Received: by 2002:a05:651c:1502:b0:25e:384:d04d with SMTP id
+ e2-20020a05651c150200b0025e0384d04dmr7528956ljf.208.1659018755521; Thu, 28
+ Jul 2022 07:32:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220728085407.293067-1-jose.quaresma@foundries.io>
+ <b5964850b01ae9766ee70404edcf189e78c4921f.camel@linuxfoundation.org>
+ <1705FBBA058AF979.1380@lists.openembedded.org>
+In-Reply-To: <1705FBBA058AF979.1380@lists.openembedded.org>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Thu, 28 Jul 2022 15:32:13 +0100
+Message-ID: 
+ <CANPvuRknJ5w3161hpoCAXVycDcPLEG9yPmg_AmysC_4mj+AZQw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] create-spdx: Runs the do_create_spdx task after
+ the do_package_write_*
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	Ricardo Salveti <ricardo@foundries.io>, daiane.angolini@foundries.io,
+	Jose Quaresma <jose.quaresma@foundries.io>
+Content-Type: multipart/alternative; boundary="00000000000099403405e4de6798"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 14:30:58 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 14:32:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168608
+ https://lists.openembedded.org/g/openembedded-core/message/168609
 
-This fixes the conflict thats with mount.h from glibc 2.36+ and kernel
-[1]
+--00000000000099403405e4de6798
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[1] https://sourceware.org/glibc/wiki/Release/2.36
+Jose Quaresma via lists.openembedded.org <quaresma.jose=3D
+gmail.com@lists.openembedded.org> escreveu no dia quinta, 28/07/2022 =C3=A0=
+(s)
+12:46:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...se-linux-mount.h-instead-of-sys-moun.patch | 32 +++++++++++++++++++
- .../btrfs-tools/btrfs-tools_5.18.1.bb         |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-device-utils.c-Use-linux-mount.h-instead-of-sys-moun.patch
+>
+>
+> Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
+> quinta, 28/07/2022 =C3=A0(s) 12:01:
+>
+>> On Thu, 2022-07-28 at 09:54 +0100, Jose Quaresma wrote:
+>> > Otherwise spdx can have references for data that is not packed.
+>> > in the package delivered.
+>> >
+>> > During do_package_write_ipk task in do_package_ipk some files
+>> > is cleaned up from packages-split directory in the funcion
+>> > cleanupcontrol.
+>> >
+>> > This also fixes the following race condictions when the do_create_spdx
+>> > task runs the add_package_files function and these files is been delet=
+ed
+>> > at same time in the task do_package_write_ipk:
+>> >
+>> > ERROR: alsa-topology-conf-1.2.5.1-r0 do_create_spdx: Error executing a
+>> python function in exec_func_python() autogenerated:
+>> >
+>> > The stack trace of python calls that resulted in this exception/failur=
+e
+>> was:
+>> > File: 'exec_func_python() autogenerated', lineno: 2, function: <module=
+>
+>> >      0001:
+>> >  *** 0002:do_create_spdx(d)
+>> >      0003:
+>> > File:
+>> '/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/create-s=
+pdx.bbclass',
+>> lineno: 567, function: do_create_spdx
+>> >      0563:            package_doc.add_relationship(package_doc,
+>> "DESCRIBES", spdx_package)
+>> >      0564:
+>> >      0565:            package_archive =3D deploy_dir_spdx / "packages"=
+ / (
+>> package_doc.name + ".tar.zst")
+>> >      0566:            with optional_tarfile(package_archive,
+>> archive_packaged) as archive:
+>> >  *** 0567:                package_files =3D add_package_files(
+>> >      0568:                    d,
+>> >      0569:                    package_doc,
+>> >      0570:                    spdx_package,
+>> >      0571:                    pkgdest / package,
+>> > File:
+>> '/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/create-s=
+pdx.bbclass',
+>> lineno: 234, function: add_package_files
+>> >      0230:                            info.mtime =3D source_date_epoch
+>> >      0231:
+>> >      0232:                        archive.addfile(info, f)
+>> >      0233:
+>> >  *** 0234:                sha1 =3D bb.utils.sha1_file(filepath)
+>> >      0235:                sha1s.append(sha1)
+>> >      0236:
+>> spdx_file.checksums.append(oe.spdx.SPDXChecksum(
+>> >      0237:                        algorithm=3D"SHA1",
+>> >      0238:                        checksumValue=3Dsha1,
+>> > File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 559, function:
+>> sha1_file
+>> >      0555:    """
+>> >      0556:    Return the hex string representation of the SHA1 checksu=
+m
+>> of the filename
+>> >      0557:    """
+>> >      0558:    import hashlib
+>> >  *** 0559:    return _hasher(hashlib.sha1(), filename)
+>> >      0560:
+>> >      0561:def sha384_file(filename):
+>> >      0562:    """
+>> >      0563:    Return the hex string representation of the SHA384
+>> checksum of the filename
+>> > File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 528, function: _hashe=
+r
+>> >      0524:
+>> >      0525:def _hasher(method, filename):
+>> >      0526:    import mmap
+>> >      0527:
+>> >  *** 0528:    with open(filename, "rb") as f:
+>> >      0529:        try:
+>> >      0530:            with mmap.mmap(f.fileno(), 0,
+>> access=3Dmmap.ACCESS_READ) as mm:
+>> >      0531:                for chunk in iter(lambda: mm.read(8192), b''=
+):
+>> >      0532:                    method.update(chunk)
+>> > Exception: FileNotFoundError: [Errno 2] No such file or directory:
+>> '/srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/=
+packages-split/alsa-topology-conf/CONTROL/control'
+>>
+>> We have other places where we've had to teach the code to ignore the
+>> control files and we'll probably have to do that here (grep for
+>> CONTROL).
+>>
+>
+> The snip that delete this files is in cleanupcontrol
+> https://git.yoctoproject.org/poky/tree/meta/classes/package_ipk.bbclass#n=
+51
+>
+> So these files are not shipped in the ipk package produced.
+>
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-device-utils.c-Use-linux-mount.h-instead-of-sys-moun.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-device-utils.c-Use-linux-mount.h-instead-of-sys-moun.patch
-new file mode 100644
-index 00000000000..1397e50b30b
---- /dev/null
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-device-utils.c-Use-linux-mount.h-instead-of-sys-moun.patch
-@@ -0,0 +1,32 @@
-+From d9f118a3408a8a2530f0f60e8072f4323911530f Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 27 Jul 2022 01:08:20 +0000
-+Subject: [PATCH] device-utils.c: Use linux mount.h instead of sys/mount.h
-+
-+This file includes linucx/fs.h which includes linux/mount.h and with
-+glibc 2.36 linux/mount.h and glibc mount.h are not compatible [1]
-+therefore try to avoid including both headers
-+
-+[1] https://sourceware.org/glibc/wiki/Release/2.36
-+
-+Upstream-Status: Submitted [https://www.spinics.net/lists/linux-btrfs/msg126918.html]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ common/device-utils.c | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/common/device-utils.c b/common/device-utils.c
-+index 617b6746..25a4fb8c 100644
-+--- a/common/device-utils.c
-++++ b/common/device-utils.c
-+@@ -15,7 +15,6 @@
-+  */
-+ 
-+ #include <sys/ioctl.h>
-+-#include <sys/mount.h>
-+ #include <sys/statfs.h>
-+ #include <sys/types.h>
-+ #include <stdio.h>
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.18.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.18.1.bb
-index 816fc17ae16..5b24bef5cda 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.18.1.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.18.1.bb
-@@ -17,6 +17,7 @@ DEPENDS = "util-linux zlib"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master \
-            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
-+           file://0001-device-utils.c-Use-linux-mount.h-instead-of-sys-moun.patch \
-            "
- SRCREV = "47b5cf867fc37411ef51eb5c09893a95f7f6c3b7"
- S = "${WORKDIR}/git"
--- 
-2.37.1
+What I mean is those files are not part of the content deployed and it is a
+requirement of the packing
+standard used so tracking it the sbom doesn't make much sense imo.
 
+ar -xv deploy/ipk/all/alsa-topology-conf_1.2.5.1-r0_all.ipk
+x - debian-binary
+x - control.tar.gz
+x - data.tar.xz
+
+For and deb and ipk we have in deb_write_pkg and ipk_write_pkg:
+
+    finally:
+        cleanupcontrol(root)
+        bb.utils.unlockfile(lf)
+
+For rpm we have in do_package_rpm:
+
+        # rpm 4 creates various empty directories in _topdir, let's clean
+them up
+        cleanupcmd =3D "rm -rf %s/BUILDROOT %s/SOURCES %s/SPECS %s/SRPMS" %
+(workdir, workdir, workdir, workdir)
+
+So all of them delete this package control content at the end but as
+do_create_spdx
+runs at the same time it can see and track this content as well.
+
+Thanks,
+Jose
+
+It breaks the do_create_spdx because it runs after the do_package
+> and the same happens for do_package_write_ipk so the two tasks
+> can run at the same time.
+>
+>
+>> Ideally we'd fix opkg (and maybe dpkg) to allow creation of packages
+>> with the files placed externally.
+>>
+>
+> I think I didn't quite understand this part, can you please explain it a
+> bit more?
+>
+>
+>>
+>> I have also wondered if we should create a specific hardlinked tree to
+>> handle this but that does come at an IO cost.
+>>
+>> I don't really want to add a dependency constraint like this for
+>> something we already handle differently elsewhere though.
+>>
+>
+> yeah, It's a bit ugly because it adds some tasks that don't even run (all
+> types of packages
+> in this case). Since I don't know what package types are chosen by the
+> user, I added all of them.
+>
+> Jose
+>
+>
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>
+>
+> --
+> Best regards,
+>
+> Jos=C3=A9 Quaresma
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#168603):
+> https://lists.openembedded.org/g/openembedded-core/message/168603
+> Mute This Topic: https://lists.openembedded.org/mt/92666627/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--00000000000099403405e4de6798
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Jose Quaresma via <a href=3D"http://l=
+ists.openembedded.org">lists.openembedded.org</a> &lt;quaresma.jose=3D<a hr=
+ef=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded=
+.org</a>&gt; escreveu no dia quinta, 28/07/2022 =C3=A0(s) 12:46:<br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=
+=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
+"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfound=
+ation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; esc=
+reveu no dia quinta, 28/07/2022 =C3=A0(s) 12:01:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">On Thu, 2022-07-28 at 09:54 +0100, Jose Qu=
+aresma wrote:<br>
+&gt; Otherwise spdx can have references for data that is not packed.<br>
+&gt; in the package delivered.<br>
+&gt; <br>
+&gt; During do_package_write_ipk task in do_package_ipk some files<br>
+&gt; is cleaned up from packages-split directory in the funcion<br>
+&gt; cleanupcontrol.<br>
+&gt; <br>
+&gt; This also fixes the following race condictions when the do_create_spdx=
+<br>
+&gt; task runs the add_package_files function and these files is been delet=
+ed<br>
+&gt; at same time in the task do_package_write_ipk:<br>
+&gt; <br>
+&gt; ERROR: alsa-topology-conf-1.2.5.1-r0 do_create_spdx: Error executing a=
+ python function in exec_func_python() autogenerated:<br>
+&gt; <br>
+&gt; The stack trace of python calls that resulted in this exception/failur=
+e was:<br>
+&gt; File: &#39;exec_func_python() autogenerated&#39;, lineno: 2, function:=
+ &lt;module&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0001:<br>
+&gt;=C2=A0 *** 0002:do_create_spdx(d)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0003:<br>
+&gt; File: &#39;/srv/oe/build/conf/../../layers/openembedded-core/meta/clas=
+ses/create-spdx.bbclass&#39;, lineno: 567, function: do_create_spdx<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0563:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pac=
+kage_doc.add_relationship(package_doc, &quot;DESCRIBES&quot;, spdx_package)=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0564:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0565:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pac=
+kage_archive =3D deploy_dir_spdx / &quot;packages&quot; / (<a href=3D"http:=
+//package_doc.name" rel=3D"noreferrer" target=3D"_blank">package_doc.name</=
+a> + &quot;.tar.zst&quot;)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0566:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 wit=
+h optional_tarfile(package_archive, archive_packaged) as archive:<br>
+&gt;=C2=A0 *** 0567:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ package_files =3D add_package_files(<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0568:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 d,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0569:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 package_doc,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0570:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 spdx_package,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0571:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 pkgdest / package,<br>
+&gt; File: &#39;/srv/oe/build/conf/../../layers/openembedded-core/meta/clas=
+ses/create-spdx.bbclass&#39;, lineno: 234, function: add_package_files<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0230:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.mtime =3D source_=
+date_epoch<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0231:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0232:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 archive.addfile(info, f)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0233:<br>
+&gt;=C2=A0 *** 0234:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ sha1 =3D bb.utils.sha1_file(filepath)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0235:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 sha1s.append(sha1)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0236:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 spdx_file.checksums.append(oe.spdx.SPDXChecksum(<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0237:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 algorithm=3D&quot;SHA1&quot;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0238:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 checksumValue=3Dsha1,<br>
+&gt; File: &#39;/srv/oe/bitbake/lib/bb/utils.py&#39;, lineno: 559, function=
+: sha1_file<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0555:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0556:=C2=A0 =C2=A0 Return the hex string represent=
+ation of the SHA1 checksum of the filename<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0557:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0558:=C2=A0 =C2=A0 import hashlib<br>
+&gt;=C2=A0 *** 0559:=C2=A0 =C2=A0 return _hasher(hashlib.sha1(), filename)<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0560:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0561:def sha384_file(filename):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0562:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0563:=C2=A0 =C2=A0 Return the hex string represent=
+ation of the SHA384 checksum of the filename<br>
+&gt; File: &#39;/srv/oe/bitbake/lib/bb/utils.py&#39;, lineno: 528, function=
+: _hasher<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0524:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0525:def _hasher(method, filename):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0526:=C2=A0 =C2=A0 import mmap<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0527:<br>
+&gt;=C2=A0 *** 0528:=C2=A0 =C2=A0 with open(filename, &quot;rb&quot;) as f:=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0529:=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0530:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 wit=
+h mmap.mmap(f.fileno(), 0, access=3Dmmap.ACCESS_READ) as mm:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0531:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 for chunk in iter(lambda: mm.read(8192), b&#39;&#39;):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0532:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 method.update(chunk)<br>
+&gt; Exception: FileNotFoundError: [Errno 2] No such file or directory: &#3=
+9;/srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/pa=
+ckages-split/alsa-topology-conf/CONTROL/control&#39;<br>
+<br>
+We have other places where we&#39;ve had to teach the code to ignore the<br=
+>
+control files and we&#39;ll probably have to do that here (grep for<br>
+CONTROL).<br></blockquote><div><br></div><div>The snip=C2=A0that delete thi=
+s files is in=C2=A0cleanupcontrol<br></div><div><a href=3D"https://git.yoct=
+oproject.org/poky/tree/meta/classes/package_ipk.bbclass#n51" target=3D"_bla=
+nk">https://git.yoctoproject.org/poky/tree/meta/classes/package_ipk.bbclass=
+#n51</a><br></div><div><br></div><div>So these=C2=A0files are not shipped=
+=C2=A0in the ipk package produced.</div></div></div></blockquote><div><br><=
+/div><div>What I mean is those files are not part of the content deployed a=
+nd it is a requirement=C2=A0of the packing</div><div>standard used so track=
+ing it the sbom doesn&#39;t make much sense imo.</div><div><br></div><div>a=
+r -xv deploy/ipk/all/alsa-topology-conf_1.2.5.1-r0_all.ipk<br>x - debian-bi=
+nary<br>x - control.tar.gz<br>x - data.tar.xz<br></div><div><br>For and deb=
+ and ipk we have in deb_write_pkg and ipk_write_pkg:<br>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 <br>=C2=A0 =C2=A0 finally:<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0c=
+leanupcontrol(root)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.unlockfile(lf)<=
+/div><div><br>For rpm we have in do_package_rpm:<br><br>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 # rpm 4 creates various empty directories in _topdir, let&#39;s =
+clean them up<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0cleanupcmd =3D &quot;rm -=
+rf %s/BUILDROOT %s/SOURCES %s/SPECS %s/SRPMS&quot; % (workdir, workdir, wor=
+kdir, workdir)<br>=C2=A0<br>So all of them delete this package control cont=
+ent at the end but as do_create_spdx</div><div>runs at the same time it can=
+ see and track this content as well.</div><div><br>Thanks,<br>Jose<br><br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><di=
+v class=3D"gmail_quote"><div>It breaks=C2=A0the do_create_spdx because it r=
+uns after the do_package</div><div>and the same happens for do_package_writ=
+e_ipk so the two tasks</div><div>can run at the same time.<br><br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Ideally we&#39;d fix opkg (and maybe dpkg) to allow creation of packages<br=
+>
+with the files placed externally.<br></blockquote><div><br>I think I didn&#=
+39;t quite understand this part, can you please explain it a bit more?</div=
+><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+I have also wondered if we should create a specific hardlinked tree to<br>
+handle this but that does come at an IO cost.<br>
+<br>
+I don&#39;t really want to add a dependency constraint like this for<br>
+something we already handle differently elsewhere though.<br></blockquote><=
+div><br>yeah, It&#39;s a bit ugly because it adds some tasks that don&#39;t=
+ even run (all types of packages</div><div>in this case). Since I don&#39;t=
+ know what package types are chosen=C2=A0by the user, I added all of them.<=
+/div><div><br></div><div>Jose</div><div>=C2=A0</div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div=
+></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#168603): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/168603" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/168603</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/92666627/5052=
+612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/92666627/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
+ Quaresma</div></div></div></div>
+
+--00000000000099403405e4de6798--
 
