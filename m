@@ -2,62 +2,63 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D294C04A68
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E9B8C19F2B
 	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 14:30:58 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web10.33206.1659018648986494867
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
+ [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web11.33303.1659018650145529917
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jul 2022 07:30:49 -0700
+ Thu, 28 Jul 2022 07:30:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=aDCYs/KY;
- spf=pass (domain: gmail.com, ip: 209.85.210.182,
- mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f182.google.com with SMTP id o12so2084679pfp.5
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=PwlYoWDL;
+ spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f43.google.com with SMTP id
+ c19-20020a17090ae11300b001f2f94ed5c6so5185863pjz.1
         for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jul 2022 07:30:48 -0700 (PDT)
+ Thu, 28 Jul 2022 07:30:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yAKhXqoQKVATRqAeqwWuSoRtRG88nBfwdSfagFJgVlk=;
-        b=aDCYs/KYdbkCM/bHMaVcJsqR2RS98p3i5VAkb4bmcNHUVaQaLJq4092IG2i4Y3GpSo
-         Bj9IUuqCKF1i6lLaNX5QDhXimzJKKdrQ+oj8V1RLJwexsZ35HRmuuSoTOKHpaxoqASr5
-         n6oL9loCRgTmsxBEuM88kRfq86ikmrkgWEqpS/DFakQBKuVkYASp9lI3ICqHQLAgKCfd
-         RbA6b4wpfEtz/bSGt8gUCWEIgNLfn87tbmWXzumvbmHoAJSIU0zzZjyoXJkQDnMvAhYj
-         vbjdZeBo0yCDiwL+M/9oVJ533r5a33La20C1C4O2uCwaswyxmio+xXxBETymCsa3+nf5
-         GMeg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=s3xs0Hun53Ns7zk5ReIYbYWuNZzyy0HeZQ2vWQQH5Mw=;
+        b=PwlYoWDLaQWULfulV5eOeCcVY8sLZQGymdtMEBUfLA9yovS+48w5XEQts07ey0TdEP
+         3/4T9LFAjSKJOYbLuZwwBBgeG3jS+NaTFdaGoqM250Lxv5mFtf3MVBOcI0mklF9yMf3D
+         b+86DBFyaiaseCIhtvSkSPCKxR2rkl6CzwxbhS1tsivHvBDvZhl1zZCnRJPsJ3Hpmad6
+         Gg2yioEsvWfiCY+o2nvkYv26Y2Kts5yI+YFIrUzsDixaSBdMLEeoCHcXOvH9KO/odhc2
+         ztLMRz+4ttDXXsPHAmy9ZeeS9OZo1y7xJz7qNJGRGCQZkN+Zgeqg9ccarJdSDxUP7UMn
+         +qvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yAKhXqoQKVATRqAeqwWuSoRtRG88nBfwdSfagFJgVlk=;
-        b=1braeOziClslpwCKtrnk647r8KfkLUWu0bRc7l25S3d8j5UO5EmXUDHP6bzly4whAJ
-         NkuKQ/08EKkDZFs36efosrqbWSMJGaOL0Fch/sE41ZEjbOhgkD3n51dRhxdNVL7RwrCX
-         CAb6TbPo2ZkAnsJ/i9xOePvrAIPQAZ0LSnBWxKKhpYuL/x4zHshXm6QxL3Pc3REdLX0U
-         zl68v4RTfXtQ2KMzLHlfkisi92mC3grkHe3+I09YtD/k8k+1PQXaoH2xIxkp48EkDmDx
-         PiirIIgmATlgydmCv2LCUzwbhYgzJqyCbaI3PJXDLzVzC8HwLWDVfYUF/rQ25HHp+62T
-         jfCw==
-X-Gm-Message-State: AJIora8WqfyBJCF6IVAcnzOXKHzC8fUX8NjHLzEHt+0+RsxSQSp9LC0d
-	L28D0OO+AqCTH9gEAEMKKGP2Ho5+eV48QA==
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=s3xs0Hun53Ns7zk5ReIYbYWuNZzyy0HeZQ2vWQQH5Mw=;
+        b=KJm/N4CO+AFdGgN3OzJZaxTJVQ2/C46LFLZEfI8CEm6brvI56bx8/6d/62kRRxAnKR
+         JX0cIPJ/WI4oKPP88KuXla6dB8/8NeI3ikvRp9nJihTlVpp6ZUA25O03a3nCQSyX0Yki
+         O8Dfwtsqy+cYdvKkFQ69UioMCJk0gCCPtB8GA9sha+Qq4xSZUY1dR06KIx5WavjwrDQH
+         aryiDqoeDeKMKhTNhdB/Xb01GCuRZGthbk7Ac+ShMvGGDn3TD1v4oaf1kA4QJil3QUr6
+         Clp3A7VhD9Or3lFxtSupm04B9EtGtXnXuo6IjXi36Mm49pnkcfSc4Vt8wRwvAFwe/q1t
+         Aj9Q==
+X-Gm-Message-State: AJIora/Oig10Q3hM4wSwgrWeOIBpzt3920FaANQ+DiSbeNqoBt0ZyrqA
+	QBPsEDmsdmC/yaiCfgFG4WCftlhMd5Kl5A==
 X-Google-Smtp-Source: 
- AGRyM1ttlg55M6Y2Bw78YJOkEW4d/W4mAuIUayox9C4mmlyUmTkCXQc96u+7/f6Jz7RUlvAPj6b/nA==
-X-Received: by 2002:a05:6a00:22cc:b0:52b:1840:ad8b with SMTP id
- f12-20020a056a0022cc00b0052b1840ad8bmr27588299pfj.58.1659018648016;
-        Thu, 28 Jul 2022 07:30:48 -0700 (PDT)
+ AGRyM1vQdlE0ouj9XnWKn9OicKZ7ql/JD7ogVJwaZVj503MRqmHaLhDtGlCAxHFfkinc+p3w9DE42w==
+X-Received: by 2002:a17:90b:4c87:b0:1f2:cf1d:c906 with SMTP id
+ my7-20020a17090b4c8700b001f2cf1dc906mr10575841pjb.119.1659018649123;
+        Thu, 28 Jul 2022 07:30:49 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::8ca5])
         by smtp.gmail.com with ESMTPSA id
- j1-20020a170902da8100b0016c4cbefea3sm1331481plx.218.2022.07.28.07.30.47
+ j1-20020a170902da8100b0016c4cbefea3sm1331481plx.218.2022.07.28.07.30.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jul 2022 07:30:47 -0700 (PDT)
+        Thu, 28 Jul 2022 07:30:48 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] libarchive: Avoid mount.h conflict between kernel and
- glibc
-Date: Thu, 28 Jul 2022 07:30:43 -0700
-Message-Id: <20220728143044.1696098-1-raj.khem@gmail.com>
+Subject: [PATCH 2/2] btrfs-tools: Use linux/mount.h instead of sys/mount.h
+Date: Thu, 28 Jul 2022 07:30:44 -0700
+Message-Id: <20220728143044.1696098-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220728143044.1696098-1-raj.khem@gmail.com>
+References: <20220728143044.1696098-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -65,89 +66,70 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 14:30:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168607
+ https://lists.openembedded.org/g/openembedded-core/message/168608
 
-glibc 2.36 implements fsconfig_command but it now conflicts with kernel
-mount.h and there is no workaround, code in apps have to be adjusted to
-use correct API see [1]
+This fixes the conflict thats with mount.h from glibc 2.36+ and kernel
+[1]
 
 [1] https://sourceware.org/glibc/wiki/Release/2.36
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...t-include-sys-mount.h-when-linux-fs..patch | 47 +++++++++++++++++++
- .../libarchive/libarchive_3.6.1.bb            |  4 +-
- 2 files changed, 50 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-libarchive-Do-not-include-sys-mount.h-when-linux-fs..patch
+ ...se-linux-mount.h-instead-of-sys-moun.patch | 32 +++++++++++++++++++
+ .../btrfs-tools/btrfs-tools_5.18.1.bb         |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-device-utils.c-Use-linux-mount.h-instead-of-sys-moun.patch
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/0001-libarchive-Do-not-include-sys-mount.h-when-linux-fs..patch b/meta/recipes-extended/libarchive/libarchive/0001-libarchive-Do-not-include-sys-mount.h-when-linux-fs..patch
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-device-utils.c-Use-linux-mount.h-instead-of-sys-moun.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-device-utils.c-Use-linux-mount.h-instead-of-sys-moun.patch
 new file mode 100644
-index 00000000000..0d217996826
+index 00000000000..1397e50b30b
 --- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/0001-libarchive-Do-not-include-sys-mount.h-when-linux-fs..patch
-@@ -0,0 +1,47 @@
-+From a2f68263a1da5ad227bcb9cd8fa91b93c8b6c99f Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-device-utils.c-Use-linux-mount.h-instead-of-sys-moun.patch
+@@ -0,0 +1,32 @@
++From d9f118a3408a8a2530f0f60e8072f4323911530f Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 25 Jul 2022 10:56:53 -0700
-+Subject: [PATCH] libarchive: Do not include sys/mount.h when linux/fs.h is
-+ present
++Date: Wed, 27 Jul 2022 01:08:20 +0000
++Subject: [PATCH] device-utils.c: Use linux mount.h instead of sys/mount.h
 +
-+These headers are in conflict and only one is needed by
-+archive_read_disk_posix.c therefore include linux/fs.h if it exists
-+otherwise include sys/mount.h
-+
-+It also helps compiling with glibc 2.36
-+where sys/mount.h conflicts with linux/mount.h see [1]
++This file includes linucx/fs.h which includes linux/mount.h and with
++glibc 2.36 linux/mount.h and glibc mount.h are not compatible [1]
++therefore try to avoid including both headers
 +
 +[1] https://sourceware.org/glibc/wiki/Release/2.36
 +
-+Upstream-Status: Submitted [https://github.com/libarchive/libarchive/pull/1761]
++Upstream-Status: Submitted [https://www.spinics.net/lists/linux-btrfs/msg126918.html]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ libarchive/archive_read_disk_posix.c | 5 ++---
-+ 1 file changed, 2 insertions(+), 3 deletions(-)
++ common/device-utils.c | 1 -
++ 1 file changed, 1 deletion(-)
 +
-+diff --git a/libarchive/archive_read_disk_posix.c b/libarchive/archive_read_disk_posix.c
-+index 2b39e672..a96008db 100644
-+--- a/libarchive/archive_read_disk_posix.c
-++++ b/libarchive/archive_read_disk_posix.c
-+@@ -34,9 +34,6 @@ __FBSDID("$FreeBSD$");
-+ #ifdef HAVE_SYS_PARAM_H
-+ #include <sys/param.h>
-+ #endif
-+-#ifdef HAVE_SYS_MOUNT_H
++diff --git a/common/device-utils.c b/common/device-utils.c
++index 617b6746..25a4fb8c 100644
++--- a/common/device-utils.c
+++++ b/common/device-utils.c
++@@ -15,7 +15,6 @@
++  */
++ 
++ #include <sys/ioctl.h>
 +-#include <sys/mount.h>
-+-#endif
-+ #ifdef HAVE_SYS_STAT_H
-+ #include <sys/stat.h>
-+ #endif
-+@@ -54,6 +51,8 @@ __FBSDID("$FreeBSD$");
-+ #endif
-+ #ifdef HAVE_LINUX_FS_H
-+ #include <linux/fs.h>
-++#elif HAVE_SYS_MOUNT_H
-++#include <sys/mount.h>
-+ #endif
-+ /*
-+  * Some Linux distributions have both linux/ext2_fs.h and ext2fs/ext2_fs.h.
++ #include <sys/statfs.h>
++ #include <sys/types.h>
++ #include <stdio.h>
 +-- 
 +2.25.1
 +
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.6.1.bb b/meta/recipes-extended/libarchive/libarchive_3.6.1.bb
-index 761cfca6473..24d7918bf9d 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.6.1.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.6.1.bb
-@@ -32,7 +32,9 @@ PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd,"
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.18.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.18.1.bb
+index 816fc17ae16..5b24bef5cda 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.18.1.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.18.1.bb
+@@ -17,6 +17,7 @@ DEPENDS = "util-linux zlib"
  
- EXTRA_OECONF += "--enable-largefile"
- 
--SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
-+SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-+           file://0001-libarchive-Do-not-include-sys-mount.h-when-linux-fs..patch \
-+           "
- UPSTREAM_CHECK_URI = "http://libarchive.org/"
- 
- SRC_URI[sha256sum] = "c676146577d989189940f1959d9e3980d28513d74eedfbc6b7f15ea45fe54ee2"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
++           file://0001-device-utils.c-Use-linux-mount.h-instead-of-sys-moun.patch \
+            "
+ SRCREV = "47b5cf867fc37411ef51eb5c09893a95f7f6c3b7"
+ S = "${WORKDIR}/git"
 -- 
 2.37.1
 
