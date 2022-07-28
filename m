@@ -2,63 +2,66 @@ Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C8FBC19F2C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52F02C04A68
 	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 11:41:27 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web09.31543.1659008477311914180
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web10.31318.1659008485433104791
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jul 2022 04:41:17 -0700
+ Thu, 28 Jul 2022 04:41:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=WuGlt6rd;
- spf=pass (domain: gmail.com, ip: 209.85.208.49,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=dxQe1fq6;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50,
  mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id a89so1818201edf.5
+Received: by mail-ej1-f50.google.com with SMTP id b11so2655524eju.10
         for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jul 2022 04:41:17 -0700 (PDT)
+ Thu, 28 Jul 2022 04:41:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UwgN/QXujZrd/yDA+tkcvteOVjP21nhyPHRNVt0ErpI=;
-        b=WuGlt6rdCgFTMB/w4td/GklAqYjbVWcvACvmecWZ+3blO9VDX+swo+diGTLRdGXtBJ
-         CEbaoBDFowurHZxCfRVEYuR8pl6buk81ShEJQV4RVKI47SJixpRkPK3njWJ4cEh13Oac
-         rRPgIxHarIhtV/8jAcuNzT20UQbeTrzWOEriUrs/ED11f8NwCvMxZWGHYIxqsFmPIWuR
-         zrGR+93GnAfOTQPOcNsVcB4CdP/IP9Hrij/9vMo6mpHIm5sBR+CoyRPQjpyWw+HFuhvN
-         Nlb9Rdl9jPDZo8cBXASzQOtwdNFk3b9Ay6suxkvAs5O4T2u6QguWAKuhKecDcBbEqbXH
-         ADyA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=PCBLTrsib/ul/7XtdGzRw+heDLitDbNn/KoLV6CZI6g=;
+        b=dxQe1fq6Nd3nOBQsjI5Eo4Wtgd0z4xWqdIvylqBuYzfC1+ViraIkrarobacmCMD19f
+         MY4ZQ5KkbjiXrg3p1MXSr+p3fS2tL76juQpwXxdYbvhQzJ2VY3HnOvQ30Dw7Cuon+N8t
+         95vgiMrr5e5ikKKG0UeBIz8jUth8YnXTgBHwQHlSIb/fIlIl1g42IHK668AEW6guU1Tn
+         xox1PQdLXeTfHOgkNx6HtI7OD32lymay7etWhHftMsf8F2HkpqG5P6j7fc2/nPxobf1e
+         t9gRZFNHUW5o/PX42LGoFRWbqpWlbZ00pfDcn8E5j11aHQlddITvqsySgjgInxHK0DZo
+         N8Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=UwgN/QXujZrd/yDA+tkcvteOVjP21nhyPHRNVt0ErpI=;
-        b=FanODumpsNWrO/5K8FTW3VEdXV7+ebQEQ5j+qFuH1ttq7V+FwFhsA5R0wjlqPq4RoW
-         NppkF1rv6NJRCzPNH1Wkp/pzx3qlzTSHjjqSsKKR+sK7Gf07KTp9ihHjaMMsoXtch0lj
-         xytxhdbPchSRCEvgRr7Os8AohBypOY4DYDoqg7crQvHc8suDCVm39JWg6paOglzWGumZ
-         BB8HDAdk9xBL0FbcbQucTUo3UHVRhrnD3sMzjoQIaHkqGK6d3Fiz2b/esYPFjMKMXKiK
-         B+Y/qSpDtFy0FZI/sIPq/FCF2ti/6oyRBmy0L0LyHtKz9pg3V8BxUq04ZxfONwy3N2cw
-         vckg==
-X-Gm-Message-State: AJIora9/a4G1U7IMOTLrU5izZLuzJC78j9FvaM8i2LSApHE/zxyBBHb2
-	v4AMsvEwqXv26Zq7QFSWkwvXCF0iQMs=
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=PCBLTrsib/ul/7XtdGzRw+heDLitDbNn/KoLV6CZI6g=;
+        b=n3ydMlKDDu4KnMpx3nnHnH4jKUCc22YTsFp7sbi196a0cHC7Ki72QoC4wWwOXN8kvp
+         azNZ57eTqI87Kjh3xtUIsKfoayv30mIOZ89muZxeHFj/id1CmVw0McW3YZEwD0aBGk1t
+         Y1v583kfa4W5ulePEABZ89gxEXh1tP2r4JvIhPu7xE2EHU74vfYtDLx1m5EkDCS57zgp
+         U/0Eh9MUNCbnb8Pqv8K8LyrGjDhySSWTVl2teAaUiy/Q6GaVOqpNxSjqPcDnCGDf8RlU
+         HmDSzdmxJH4wln3Vr41wmx4jRsrB57X4HGS6jtSETriIcswgJzR/Am/Z2QQPVYbPMMjw
+         mB4w==
+X-Gm-Message-State: AJIora9f+6ERnXGNIogQuw7KJoFMUFEomH8yKPF2gUzzxaIYcTv2wfon
+	R8B12YZwloUM26/VHN0kyN+zd4R4Ge8=
 X-Google-Smtp-Source: 
- AGRyM1uocoLHe/QIoa8owJ7sAmXCXIX/WG+sUtttxH59+aioY8ebUMX/L+camZo72o71lJ3sNTrXSA==
-X-Received: by 2002:a05:6402:1389:b0:43a:ceea:93fd with SMTP id
- b9-20020a056402138900b0043aceea93fdmr27668274edv.64.1659008475635;
-        Thu, 28 Jul 2022 04:41:15 -0700 (PDT)
+ AGRyM1v+xfHHHM+Q+ash1V/2cqZkE/53DYl7sPA/PdRz2wP3RzXhbv1qBochb53MaJsYuDX0YRDnRw==
+X-Received: by 2002:a17:907:60cf:b0:72f:267e:eb8e with SMTP id
+ hv15-20020a17090760cf00b0072f267eeb8emr21297202ejc.544.1659008483928;
+        Thu, 28 Jul 2022 04:41:23 -0700 (PDT)
 Received: from localhost ([109.238.218.228])
         by smtp.gmail.com with ESMTPSA id
- k20-20020a170906055400b0072b11cb485asm313406eja.208.2022.07.28.04.41.13
+ lz7-20020a170906fb0700b0072aa009aa68sm333836ejb.36.2022.07.28.04.41.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jul 2022 04:41:14 -0700 (PDT)
+        Thu, 28 Jul 2022 04:41:23 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: petr.vorel@gmail.com,
 	Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] ltp: fix build with ld-is-gold in DISTRO_FEATURES
-Date: Thu, 28 Jul 2022 13:40:44 +0200
-Message-Id: <20220728114046.3529197-1-Martin.Jansa@gmail.com>
+Subject: [RFC][PATCH] bitbake.conf: change TOOLCHAIN_OPTIONS not to start with
+ space
+Date: Thu, 28 Jul 2022 13:40:46 +0200
+Message-Id: <20220728114046.3529197-3-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220728114046.3529197-1-Martin.Jansa@gmail.com>
+References: <20220728114046.3529197-1-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
@@ -66,249 +69,132 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 11:41:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168600
+ https://lists.openembedded.org/g/openembedded-core/message/168602
 
-* backport one more commit for LD call which conflicts with the
-  0001-kvm-use-LD-instead-of-hardcoding-ld.patch we already had
-  and replace this 2nd patch with the rebased version which is
-  now merged upstream
+* it was introduced this way in 2007:
+  https://git.openembedded.org/openembedded-core/commit/?id=0138501213f140198abdead3ffa6b3ba80462c98
+  but now there are quite a few places which use it after a space (which doesn't hurt):
+  meta/classes/cmake.bbclass:OECMAKE_C_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CFLAGS}"
+  meta/classes/cmake.bbclass:OECMAKE_CXX_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS}"
+  meta/classes/cmake.bbclass:OECMAKE_C_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CPPFLAGS} ${LDFLAGS}"
+  meta/classes/cmake.bbclass:OECMAKE_CXX_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS} ${LDFLAGS}"
+  meta/classes/kernel-yocto.bbclass:  CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}" CC="${KERNEL_CC}" LD="${KERNEL_LD}" ARCH=${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs} > ${meta_dir}/cfg/merge_config_build.log 2>&1
+  meta/recipes-bsp/u-boot/u-boot.inc:EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}" V=1'
+  meta/recipes-devtools/diffstat/diffstat_1.64.bb:LDFLAGS += "${TOOLCHAIN_OPTIONS}"
+  meta/recipes-devtools/go/go-runtime.inc:GO_EXTLDFLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${LDFLAGS}"
+  meta/recipes-extended/wget/wget.inc:EXTRA_OEMAKE += 'TOOLCHAIN_OPTIONS="${TOOLCHAIN_OPTIONS}" \
+  meta/recipes-kernel/linux/linux-yocto.inc:KERNEL_CC:append:aarch64 = " ${TOOLCHAIN_OPTIONS}"
+  meta/recipes-kernel/linux/linux-yocto.inc:KERNEL_LD:append:aarch64 = " ${TOOLCHAIN_OPTIONS}"
+  meta/recipes-kernel/linux/linux-yocto.inc:KERNEL_CC:append:nios2 = " ${TOOLCHAIN_OPTIONS}"
+  meta/recipes-kernel/linux/linux-yocto.inc:KERNEL_LD:append:nios2 = " ${TOOLCHAIN_OPTIONS}"
+  meta/recipes-kernel/linux/linux-yocto.inc:KERNEL_CC:append:arc = " ${TOOLCHAIN_OPTIONS}"
+  meta/recipes-kernel/linux/linux-yocto.inc:KERNEL_LD:append:arc = " ${TOOLCHAIN_OPTIONS}"
 
-* then backport additional patch which introduces KVM_LD variable
-  which we can set to use .bfd suffix in LD when ld-is-gold is
-  in DISTRO_FEATURES to work around gold incompatibility reported:
-  https://github.com/linux-test-project/ltp/pull/948#issuecomment-1193138866
-  https://lists.openembedded.org/g/openembedded-core/message/168193
+  not using space now seems a bit strange to me (noticed when trying to prepend
+  something to TOOLCHAIN_OPTIONS)
 
-  http://errors.yoctoproject.org/Errors/Details/663094/
-
-  x86_64-oe-linux-ld --sysroot=/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/ltp/20220527-r0/recipe-sysroot   -z noexecstack -r -T /OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/ltp/20220527-r0/git/testcases/kernel/kvm/linker/payload.lds --oformat=elf64-x86-64 -o kvm_pagefault01-payload.o kvm_pagefault01-payload.bin
-  x86_64-oe-linux-ld: error: kvm_pagefault01-payload.bin:1:1: invalid character
-  make: *** [Makefile:53: kvm_pagefault01-payload.o] Error 1
+* it made more sense when default TOOLCHAIN_OPTIONS were empty, but
+  since 2010 it's almost always used to set --sysroot:
+  https://git.openembedded.org/openembedded-core/commit/?id=6124cccddfc202124fa76bb677ad3e06f0fefc70
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- depends on "ltp: Add post release runtime fixes" change currently in master-next:
- https://git.openembedded.org/openembedded-core/commit/?h=master-next&id=024ce059a64eb2f96dce2880e5708afd25dd45f2
+ meta/classes/cross-canadian.bbclass            |  2 +-
+ meta/classes/go.bbclass                        |  2 +-
+ meta/conf/bitbake.conf                         | 12 ++++++------
+ meta/recipes-devtools/go/go-runtime.inc        |  2 +-
+ meta/recipes-extended/ltp/ltp_20220527.bb      |  2 +-
+ meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb |  2 +-
+ 6 files changed, 11 insertions(+), 11 deletions(-)
 
- ...-access-mode-in-KVM-test-ELF-headers.patch | 40 ++++++++++++
- ...kvm-use-LD-instead-of-hardcoding-ld.patch} | 26 ++++----
- ...ile-variable-for-building-KVM-payloa.patch | 63 +++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20220527.bb     | 13 +++-
- 4 files changed, 128 insertions(+), 14 deletions(-)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-kvm-Fix-stack-access-mode-in-KVM-test-ELF-headers.patch
- rename meta/recipes-extended/ltp/ltp/{0001-kvm-use-LD-instead-of-hardcoding-ld.patch => 0002-kvm-use-LD-instead-of-hardcoding-ld.patch} (60%)
- create mode 100644 meta/recipes-extended/ltp/ltp/0003-Add-KVM_LD-Makefile-variable-for-building-KVM-payloa.patch
-
-diff --git a/meta/recipes-extended/ltp/ltp/0001-kvm-Fix-stack-access-mode-in-KVM-test-ELF-headers.patch b/meta/recipes-extended/ltp/ltp/0001-kvm-Fix-stack-access-mode-in-KVM-test-ELF-headers.patch
-new file mode 100644
-index 0000000000..764e9c0d9f
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-kvm-Fix-stack-access-mode-in-KVM-test-ELF-headers.patch
-@@ -0,0 +1,40 @@
-+From 608fc7bcda43e60536ae1f19842f7affba8f0aea Mon Sep 17 00:00:00 2001
-+From: Martin Doucha <mdoucha@suse.cz>
-+Date: Wed, 1 Jun 2022 16:16:34 +0200
-+Subject: [PATCH] kvm: Fix stack access mode in KVM test ELF headers
-+
-+When the linker converts guest payload binary into a linkable resource
-+object file, it somehow defaults to requesting executable stack section
-+for the final test binary. This trips some build-time security checks
-+on newer systems. Add explicit linker option to make the stack
-+non-executable.
-+
-+Suggested-by: Fabian Vogt <fvogt@suse.com>
-+Signed-off-by: Martin Doucha <mdoucha@suse.cz>
-+Reviewed-by: Petr Vorel <pvorel@suse.cz>
-+Reviewed-by: Cyril Hrubis <chrubis@suse.cz>
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+Upstream-Status: Backport [https://github.com/linux-test-project/ltp/commit/f9715d7c2e78713e26533c6e0846aaabf5c4095b]
-+---
-+ testcases/kernel/kvm/Makefile | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/testcases/kernel/kvm/Makefile b/testcases/kernel/kvm/Makefile
-+index 69a9946fe..adab56952 100644
-+--- a/testcases/kernel/kvm/Makefile
-++++ b/testcases/kernel/kvm/Makefile
-+@@ -50,11 +50,11 @@ include $(top_srcdir)/include/mk/generic_leaf_target.mk
-+ ifdef VERBOSE
-+ 	$(CC) $(GUEST_CPPFLAGS) $(GUEST_CFLAGS) $(GUEST_LDFLAGS) -o $*-payload.elf $^ $(GUEST_LDLIBS)
-+ 	objcopy -O binary -j .init.boot -j .text -j .data -j .init -j .preinit_array -j .init_array --gap-fill=0 $*-payload.elf $*-payload.bin
-+-	ld -r -T $(abs_srcdir)/linker/payload.lds --oformat=$(BIN_FORMAT) -o $@ $*-payload.bin
-++	ld -z noexecstack -r -T $(abs_srcdir)/linker/payload.lds --oformat=$(BIN_FORMAT) -o $@ $*-payload.bin
-+ else
-+ 	@$(CC) $(GUEST_CPPFLAGS) $(GUEST_CFLAGS) $(GUEST_LDFLAGS) -o $*-payload.elf $^ $(GUEST_LDLIBS)
-+ 	@objcopy -O binary -j .init.boot -j .text -j .data -j .init -j .preinit_array -j .init_array --gap-fill=0 $*-payload.elf $*-payload.bin
-+-	@ld -r -T $(abs_srcdir)/linker/payload.lds --oformat=$(BIN_FORMAT) -o $@ $*-payload.bin
-++	@ld -z noexecstack -r -T $(abs_srcdir)/linker/payload.lds --oformat=$(BIN_FORMAT) -o $@ $*-payload.bin
-+ 	@echo KVM_CC $(target_rel_dir)$@
-+ endif
-+ 	@rm $*-payload.elf $*-payload.bin
-diff --git a/meta/recipes-extended/ltp/ltp/0001-kvm-use-LD-instead-of-hardcoding-ld.patch b/meta/recipes-extended/ltp/ltp/0002-kvm-use-LD-instead-of-hardcoding-ld.patch
-similarity index 60%
-rename from meta/recipes-extended/ltp/ltp/0001-kvm-use-LD-instead-of-hardcoding-ld.patch
-rename to meta/recipes-extended/ltp/ltp/0002-kvm-use-LD-instead-of-hardcoding-ld.patch
-index 23634d0c86..060ba05835 100644
---- a/meta/recipes-extended/ltp/ltp/0001-kvm-use-LD-instead-of-hardcoding-ld.patch
-+++ b/meta/recipes-extended/ltp/ltp/0002-kvm-use-LD-instead-of-hardcoding-ld.patch
-@@ -1,7 +1,4 @@
--Upstream-Status: Submitted [https://github.com/linux-test-project/ltp/pull/948]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--From 7670233e43df2aed6d44b96c51b034f8e2d28a19 Mon Sep 17 00:00:00 2001
-+From 1cea308a647c2a2f9790b0bac7c523de7aa83270 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Tue, 12 Jul 2022 15:03:54 +0100
- Subject: [PATCH] kvm: use $(LD) instead of hardcoding ld
-@@ -9,29 +6,34 @@ Subject: [PATCH] kvm: use $(LD) instead of hardcoding ld
- In cross-compiled builds the host ld may not know the required ELF format,
- so ensure we use $(LD) which will be the cross-capable ld binary.
+diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
+index a0e9d23836..686646357c 100644
+--- a/meta/classes/cross-canadian.bbclass
++++ b/meta/classes/cross-canadian.bbclass
+@@ -104,7 +104,7 @@ INHIBIT_DEFAULT_DEPS = "1"
  
-+Closes: https://github.com/linux-test-project/ltp/pull/948
-+
-+Upstream-Status: Backport [https://github.com/linux-test-project/ltp/commit/f94e0ef3b7280f886384703ef9019aaf2f2dfebb]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+Reviewed-by: Petr Vorel <pvorel@suse.cz>
-+Reviewed-by: Martin Doucha <mdoucha@suse.cz>
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
- ---
-  testcases/kernel/kvm/Makefile | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
+ STAGING_DIR_HOST = "${RECIPE_SYSROOT}"
  
- diff --git a/testcases/kernel/kvm/Makefile b/testcases/kernel/kvm/Makefile
--index 69a9946fe..4ddef9f95 100644
-+index adab56952..d67230735 100644
- --- a/testcases/kernel/kvm/Makefile
- +++ b/testcases/kernel/kvm/Makefile
- @@ -50,11 +50,11 @@ include $(top_srcdir)/include/mk/generic_leaf_target.mk
-  ifdef VERBOSE
-  	$(CC) $(GUEST_CPPFLAGS) $(GUEST_CFLAGS) $(GUEST_LDFLAGS) -o $*-payload.elf $^ $(GUEST_LDLIBS)
-  	objcopy -O binary -j .init.boot -j .text -j .data -j .init -j .preinit_array -j .init_array --gap-fill=0 $*-payload.elf $*-payload.bin
---	ld -r -T $(abs_srcdir)/linker/payload.lds --oformat=$(BIN_FORMAT) -o $@ $*-payload.bin
--+	$(LD) -r -T $(abs_srcdir)/linker/payload.lds --oformat=$(BIN_FORMAT) -o $@ $*-payload.bin
-+-	ld -z noexecstack -r -T $(abs_srcdir)/linker/payload.lds --oformat=$(BIN_FORMAT) -o $@ $*-payload.bin
-++	$(LD) -z noexecstack -r -T $(abs_srcdir)/linker/payload.lds --oformat=$(BIN_FORMAT) -o $@ $*-payload.bin
-  else
-  	@$(CC) $(GUEST_CPPFLAGS) $(GUEST_CFLAGS) $(GUEST_LDFLAGS) -o $*-payload.elf $^ $(GUEST_LDLIBS)
-  	@objcopy -O binary -j .init.boot -j .text -j .data -j .init -j .preinit_array -j .init_array --gap-fill=0 $*-payload.elf $*-payload.bin
---	@ld -r -T $(abs_srcdir)/linker/payload.lds --oformat=$(BIN_FORMAT) -o $@ $*-payload.bin
--+	@$(LD) -r -T $(abs_srcdir)/linker/payload.lds --oformat=$(BIN_FORMAT) -o $@ $*-payload.bin
-+-	@ld -z noexecstack -r -T $(abs_srcdir)/linker/payload.lds --oformat=$(BIN_FORMAT) -o $@ $*-payload.bin
-++	@$(LD) -z noexecstack -r -T $(abs_srcdir)/linker/payload.lds --oformat=$(BIN_FORMAT) -o $@ $*-payload.bin
-  	@echo KVM_CC $(target_rel_dir)$@
-  endif
-  	@rm $*-payload.elf $*-payload.bin
---- 
--2.34.1
--
-diff --git a/meta/recipes-extended/ltp/ltp/0003-Add-KVM_LD-Makefile-variable-for-building-KVM-payloa.patch b/meta/recipes-extended/ltp/ltp/0003-Add-KVM_LD-Makefile-variable-for-building-KVM-payloa.patch
-new file mode 100644
-index 0000000000..974ca5eebe
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0003-Add-KVM_LD-Makefile-variable-for-building-KVM-payloa.patch
-@@ -0,0 +1,63 @@
-+From a8d41b7937a34904611011ca357f8db880d42270 Mon Sep 17 00:00:00 2001
-+From: Martin Doucha <mdoucha@suse.cz>
-+Date: Mon, 25 Jul 2022 17:37:27 +0200
-+Subject: [PATCH] Add KVM_LD Makefile variable for building KVM payload
-+ binaries
-+
-+KVM linker needs to be configurable for cross-compiling but some
-+linkers don't support the linker script for wrapping arbitrary files
-+into linkable resource files. Allow KVM linker to be changed
-+independently of $LD via $KVM_LD.
-+
-+Signed-off-by: Martin Doucha <mdoucha@suse.cz>
-+Acked-by: Richard Palethorpe <rpalethorpe@suse.com>
-+
-+Upstream-Status: Backport [https://github.com/linux-test-project/ltp/commit/5ef0b7892a17b64040e55e9ad62d36ebb75d33fd]
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ doc/build-system-guide.txt    | 5 +++++
-+ testcases/kernel/kvm/Makefile | 5 +++--
-+ 2 files changed, 8 insertions(+), 2 deletions(-)
-+
-+diff --git a/doc/build-system-guide.txt b/doc/build-system-guide.txt
-+index 166f7fb92..b8d267b4b 100644
-+--- a/doc/build-system-guide.txt
-++++ b/doc/build-system-guide.txt
-+@@ -145,6 +145,11 @@ $(CPPFLAGS)		: Preprocessor flags, e.g. -I arguments.
-+ 
-+ $(DEBUG_CFLAGS)		: Debug flags to pass to $(CC), -g, etc.
-+ 
-++$(KVM_LD)		: Special linker for wrapping KVM payload binaries
-++			  into linkable object files. Defaults to $(LD).
-++			  Change this variable if the KVM Makefile fails
-++			  to build files named *-payload.o.
-++
-+ $(LD)			: The system linker (typically $(CC), but not
-+ 			  necessarily).
-+ 
-+diff --git a/testcases/kernel/kvm/Makefile b/testcases/kernel/kvm/Makefile
-+index d67230735..31f144c26 100644
-+--- a/testcases/kernel/kvm/Makefile
-++++ b/testcases/kernel/kvm/Makefile
-+@@ -11,6 +11,7 @@ GUEST_CPPFLAGS = $(CPPFLAGS) -DCOMPILE_PAYLOAD
-+ GUEST_CFLAGS = -ffreestanding -O2 -Wall -fno-asynchronous-unwind-tables -mno-mmx -mno-sse
-+ GUEST_LDFLAGS = -nostdlib -Wl,--build-id=none
-+ GUEST_LDLIBS =
-++KVM_LD ?= $(LD)
-+ 
-+ FILTER_OUT_MAKE_TARGETS := lib_guest lib_host lib_x86
-+ 
-+@@ -50,11 +51,11 @@ include $(top_srcdir)/include/mk/generic_leaf_target.mk
-+ ifdef VERBOSE
-+ 	$(CC) $(GUEST_CPPFLAGS) $(GUEST_CFLAGS) $(GUEST_LDFLAGS) -o $*-payload.elf $^ $(GUEST_LDLIBS)
-+ 	objcopy -O binary -j .init.boot -j .text -j .data -j .init -j .preinit_array -j .init_array --gap-fill=0 $*-payload.elf $*-payload.bin
-+-	$(LD) -z noexecstack -r -T $(abs_srcdir)/linker/payload.lds --oformat=$(BIN_FORMAT) -o $@ $*-payload.bin
-++	$(KVM_LD) -z noexecstack -r -T $(abs_srcdir)/linker/payload.lds --oformat=$(BIN_FORMAT) -o $@ $*-payload.bin
-+ else
-+ 	@$(CC) $(GUEST_CPPFLAGS) $(GUEST_CFLAGS) $(GUEST_LDFLAGS) -o $*-payload.elf $^ $(GUEST_LDLIBS)
-+ 	@objcopy -O binary -j .init.boot -j .text -j .data -j .init -j .preinit_array -j .init_array --gap-fill=0 $*-payload.elf $*-payload.bin
-+-	@$(LD) -z noexecstack -r -T $(abs_srcdir)/linker/payload.lds --oformat=$(BIN_FORMAT) -o $@ $*-payload.bin
-++	@$(KVM_LD) -z noexecstack -r -T $(abs_srcdir)/linker/payload.lds --oformat=$(BIN_FORMAT) -o $@ $*-payload.bin
-+ 	@echo KVM_CC $(target_rel_dir)$@
-+ endif
-+ 	@rm $*-payload.elf $*-payload.bin
+-TOOLCHAIN_OPTIONS = " --sysroot=${RECIPE_SYSROOT}"
++TOOLCHAIN_OPTIONS = "--sysroot=${RECIPE_SYSROOT}"
+ 
+ PATH:append = ":${TMPDIR}/sysroots/${HOST_ARCH}/${bindir_cross}"
+ PKGHIST_DIR = "${TMPDIR}/pkghistory/${HOST_ARCH}-${SDKPKGSUFFIX}${HOST_VENDOR}-${HOST_OS}/"
+diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+index cd2daed70b..c6b38bd294 100644
+--- a/meta/classes/go.bbclass
++++ b/meta/classes/go.bbclass
+@@ -40,7 +40,7 @@ GO_RPATH_LINK = "${@'-Wl,-rpath-link=${STAGING_DIR_TARGET}${libdir}/go/pkg/${TAR
+ GO_RPATH = "${@'-r ${libdir}/go/pkg/${TARGET_GOTUPLE}_dynlink' if d.getVar('GO_DYNLINK') else ''}"
+ GO_RPATH:class-native = "${@'-r ${STAGING_LIBDIR_NATIVE}/go/pkg/${TARGET_GOTUPLE}_dynlink' if d.getVar('GO_DYNLINK') else ''}"
+ GO_RPATH_LINK:class-native = "${@'-Wl,-rpath-link=${STAGING_LIBDIR_NATIVE}/go/pkg/${TARGET_GOTUPLE}_dynlink' if d.getVar('GO_DYNLINK') else ''}"
+-GO_EXTLDFLAGS ?= "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${GO_RPATH_LINK} ${LDFLAGS}"
++GO_EXTLDFLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${GO_RPATH_LINK} ${LDFLAGS}"
+ GO_LINKMODE ?= ""
+ GO_LINKMODE:class-nativesdk = "--linkmode=external"
+ GO_LINKMODE:class-native = "--linkmode=external"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 1c2ebf333e..27478b1107 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -547,14 +547,14 @@ HOSTTOOLS_NONFATAL += "git-lfs"
+ 
+ CCACHE ??= ""
+ 
+-TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TARGET}"
++TOOLCHAIN_OPTIONS = "--sysroot=${STAGING_DIR_TARGET}"
+ 
+-export CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+-export CXX = "${CCACHE}${HOST_PREFIX}g++ ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+-export FC = "${CCACHE}${HOST_PREFIX}gfortran ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+-export CPP = "${HOST_PREFIX}gcc -E${TOOLCHAIN_OPTIONS} ${HOST_CC_ARCH}"
++export CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
++export CXX = "${CCACHE}${HOST_PREFIX}g++ ${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
++export FC = "${CCACHE}${HOST_PREFIX}gfortran ${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
++export CPP = "${HOST_PREFIX}gcc -E ${TOOLCHAIN_OPTIONS} ${HOST_CC_ARCH}"
+ LINKER = "ld"
+-export LD = "${HOST_PREFIX}${LINKER}${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}"
++export LD = "${HOST_PREFIX}${LINKER} ${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}"
+ export CCLD = "${CC}"
+ export AR = "${HOST_PREFIX}gcc-ar"
+ export AS = "${HOST_PREFIX}as ${HOST_AS_ARCH}"
+diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/recipes-devtools/go/go-runtime.inc
+index e18339cddb..d1846707cc 100644
+--- a/meta/recipes-devtools/go/go-runtime.inc
++++ b/meta/recipes-devtools/go/go-runtime.inc
+@@ -14,7 +14,7 @@ export CGO_CXXFLAGS = "${CXXFLAGS}"
+ export CGO_LDFLAGS = "${@ ' '.join(filter(lambda f: not f.startswith('-fdebug-prefix-map'), d.getVar('LDFLAGS').split())) }"
+ export GOCACHE = "${B}/.cache"
+ 
+-GO_EXTLDFLAGS ?= "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${LDFLAGS}"
++GO_EXTLDFLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${LDFLAGS}"
+ GO_SHLIB_LDFLAGS ?= '-ldflags="--linkmode=external -extldflags '${GO_EXTLDFLAGS}'"'
+ 
+ do_configure() {
 diff --git a/meta/recipes-extended/ltp/ltp_20220527.bb b/meta/recipes-extended/ltp/ltp_20220527.bb
-index d07563c4e1..b0f4ea6021 100644
+index b0f4ea6021..aa64385846 100644
 --- a/meta/recipes-extended/ltp/ltp_20220527.bb
 +++ b/meta/recipes-extended/ltp/ltp_20220527.bb
-@@ -28,7 +28,9 @@ SRCREV = "6f88e0f6f1d6eb12c48c902f50f47ecbd3b0f18a"
- SRC_URI = "git://github.com/linux-test-project/ltp.git;branch=master;protocol=https \
-            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
-            file://disable_hanging_tests.patch \
--           file://0001-kvm-use-LD-instead-of-hardcoding-ld.patch \
-+           file://0001-kvm-Fix-stack-access-mode-in-KVM-test-ELF-headers.patch \
-+           file://0002-kvm-use-LD-instead-of-hardcoding-ld.patch \
-+           file://0003-Add-KVM_LD-Makefile-variable-for-building-KVM-payloa.patch \
-            file://0001-nfs05_make_tree-Restore-5-min-timeout.patch \
-            file://0001-syscalls-migrate_pages03-restore-runtime-to-5m.patch \
-            file://0001-mountns0-1-3-wait-for-umount-completed-in-thread_b.patch \
-@@ -47,6 +49,13 @@ inherit autotools-brokensep pkgconfig
- # https://github.com/linux-test-project/ltp/commit/3fce2064b54843218d085aae326c8f7ecf3a8c41#diff-39268f0855c634ca48c8993fcd2c95b12a65b79e8d9fa5ccd6b0f5a8785c0dd6R36
- LDFLAGS:append = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd', '', d)}"
+@@ -54,7 +54,7 @@ LDFLAGS:append = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-
+ # it fails with gold also a bit later when trying to use *-payload.bin
+ # http://errors.yoctoproject.org/Errors/Details/663094/
+ # work around this by forcing .bfd linked in LD when ld-is-gold is in DISTRO_FEATURES
+-KVM_LD = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '${HOST_PREFIX}ld.bfd${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}', '${LD}', d)}"
++KVM_LD = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '${HOST_PREFIX}ld.bfd ${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}', '${LD}', d)}"
  
-+# After 0002-kvm-use-LD-instead-of-hardcoding-ld.patch
-+# https://github.com/linux-test-project/ltp/commit/f94e0ef3b7280f886384703ef9019aaf2f2dfebb
-+# it fails with gold also a bit later when trying to use *-payload.bin
-+# http://errors.yoctoproject.org/Errors/Details/663094/
-+# work around this by forcing .bfd linked in LD when ld-is-gold is in DISTRO_FEATURES
-+KVM_LD = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '${HOST_PREFIX}ld.bfd${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}', '${LD}', d)}"
-+
  TARGET_CC_ARCH += "${LDFLAGS}"
  
- export prefix = "/opt/${PN}"
-@@ -59,7 +68,7 @@ EXTRA_OECONF = " --with-realtime-testsuite --with-open-posix-testsuite "
- EXTRA_OECONF += " --without-tirpc "
- 
- do_compile() {
--    oe_runmake HOSTCC="${CC_FOR_BUILD}" HOST_CFLAGS="${CFLAGS_FOR_BUILD}" HOST_LDFLAGS="${LDFLAGS_FOR_BUILD}"
-+    oe_runmake HOSTCC="${CC_FOR_BUILD}" HOST_CFLAGS="${CFLAGS_FOR_BUILD}" HOST_LDFLAGS="${LDFLAGS_FOR_BUILD}" KVM_LD="${KVM_LD}"
- }
- 
- do_install(){
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
+index dd14f8df6f..a2f85b1fe9 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
+@@ -108,7 +108,7 @@ EXTRA_OECONF = " \
+     --arch=${TARGET_ARCH} \
+     --target-os='linux' \
+     --enable-cross-compile \
+-    --extra-cflags='${CFLAGS} ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}' \
++    --extra-cflags='${CFLAGS} ${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}' \
+     --extra-ldflags='${LDFLAGS}' \
+     --sysroot='${STAGING_DIR_TARGET}' \
+     ${EXTRA_FFCONF} \
 
