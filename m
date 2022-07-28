@@ -1,81 +1,159 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6CBCC04A68
-	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 07:06:05 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web08.29913.1658991956806339103
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68CA7C04A68
+	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 08:54:36 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web09.30404.1658998469065694119
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jul 2022 00:05:57 -0700
+ Thu, 28 Jul 2022 01:54:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=FzgwU5xD;
- spf=pass (domain: gmail.com, ip: 209.85.167.42,
- mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id z25so1555594lfr.2
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=eKBZHRJM;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id
+ ay11-20020a05600c1e0b00b003a3013da120so2171006wmb.5
         for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jul 2022 00:05:56 -0700 (PDT)
+ Thu, 28 Jul 2022 01:54:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GAIgSPf0b3lToPjLCiElmZmarWyjLdZmwPYJuEB1kuI=;
-        b=FzgwU5xDIaJ+z6aVjANsdK2K3ro8EOYORgJeG5N/JdKPSOWgqmdnSlQmafk/0Ne8U/
-         FdCfxLGnwzrr1bsO9iGZxhzQ5mBEfquOlh9eiUsfz4WuMVaatX6RPpK7KmdgpZxlpYyo
-         iTRAfIxUo0NswhZFvA4nDBMKtsDx5JGKDJ4ijginHb6WUtarbONxhJe+ue5jMzLwJWhS
-         WtOnu0+aRiFnlKn6tQXbzFTnm2PtofIk/9j/xwqgXuBP0TrArG1PQ7gpQqyYwmEYYvzx
-         2rzomZmylkB0t1/uNiupjstbawSDMbaevwRiwLgYMrGpr3h+tAbs0fUwzcZOs9VPo6mn
-         Uvxw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=DEYKRWlXXD9zs3skdWj1TIpzYvGKOI3rNXTgi0QpQvE=;
+        b=eKBZHRJMa7uY3N3Kbb1RIvPj47WLyUNeT8krsVrYzDqXl6zB1XXdfGxyxW7N/nnyn3
+         9kaNLUjBatQjgkWSpVxzx22dYcb/p598lBPRJynwdukOWwWznXYObSMh3ARnZWpt984L
+         bU9yhqbQTJQ0IB0/EjA8JkyA9q8zzmQtC12HKgUn3nVnQpJrwdYmR0v2wjL6/8vqc2iX
+         YVBqPNRJOF6NO3CRzdGJ2t9gZlW3uAM5buMBX6a2LLuY0lraCnYFFy6o1aOHRT8pZQQo
+         IRpdgUR0cKwQ/VVbF5KJ72Sqhq8qwDlbRrlWNDaUTT9klEcilmHtbDWSFIOuQ1MxHoy6
+         IU9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GAIgSPf0b3lToPjLCiElmZmarWyjLdZmwPYJuEB1kuI=;
-        b=XHDB6rAddMnN/CQshN4GNqTvPU1ywKnPqw03Pmu8aVIyyMuUqV806dWEVa6x40otzZ
-         ltSiZwkBYyZug7k3IFi4F7jHhjhdJdPNZSKORlMxc1DZxM76VRRGHUdMQgX/3VlfiTrw
-         wjo+AC2Ae1uMi9ZoTSaxMsBp79W160P9+Yj9eq1YC+zdBQGThZYSR8IfgqOjrU3TSTai
-         RvfQntNild1UPx716AliTWjI9evSrSkh64DCoVXexvVRQzCO7BStV1+sAbLpFwNZEy6p
-         /05PJyvDdFNeEGM2vOBf16HIJkBPaAXU8ICUA4qOrbcUXDwbotvIIm4vp9FmCM/FSMcy
-         Rq1g==
-X-Gm-Message-State: AJIora+tJyEG6OfWINTbC3xLRifM3ujuTBoMAWmR8EpmmYWpvaXt+6+V
-	/YkSR7LaoOJRXQZGcwuGpvusOrlG11NKKIbLv7Y=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=DEYKRWlXXD9zs3skdWj1TIpzYvGKOI3rNXTgi0QpQvE=;
+        b=fi8PvA+bqMRuVZ/ATtuniRt9/BnZJ7t72sQd2Yx/vfG6+JSu5Hn374bWN4cSr3iq18
+         7sP0XvFyOCu24cvycr0QqwZmGRH40kFwrdOzeicJEGZIucghh5ozlT1VhvpeEw8l9eWb
+         ITmWfRgJtXWQ45Im9237DF2POQIm3rVCW7vuRtK4RP+MuFqztGrw9XpoMzdmIArtxe6K
+         uwvBPZeWusRP46Zo1NvDG08TzH4wsV9MKPMYUX+2H7C/AvmZgmQ1Ci7irF/LGj/3myxf
+         r0C81x1mufOKgXXWNFgIy4rRdKftPPT3nI8JZaA8S7AF3ImsWJklORCdtPr3G/1hqfzm
+         hMXQ==
+X-Gm-Message-State: AJIora9xcQyqsYT0SHZJdENtAmHjh7czlNA0/cW8Omcq1Oss6g75ONUu
+	A25sB1hKQhlo8Gi4yLY/Bm6UQh5qpR0=
 X-Google-Smtp-Source: 
- AGRyM1u0Qrqdma72qdZauLLR+QRd3ozB0xIRF4HLEya9VjrCkJg93LZecS95+YaqASYdgsh7S8CieYOCMXGXk9B/iTE=
-X-Received: by 2002:a05:6512:1050:b0:48a:2319:59bc with SMTP id
- c16-20020a056512105000b0048a231959bcmr9160224lfb.665.1658991954191; Thu, 28
- Jul 2022 00:05:54 -0700 (PDT)
+ AGRyM1vsalM095BDzIeKKqhQgysqP63vkdW+Lwr1dAwekbM0h9N7wrDs358qmWypfIuvjeGuXs/Mpw==
+X-Received: by 2002:a05:600c:3b24:b0:3a3:1fa6:77d with SMTP id
+ m36-20020a05600c3b2400b003a31fa6077dmr5646294wms.3.1658998466978;
+        Thu, 28 Jul 2022 01:54:26 -0700 (PDT)
+Received: from localhost.localdomain (176.57.115.89.rev.vodafone.pt.
+ [89.115.57.176])
+        by smtp.gmail.com with ESMTPSA id
+ b2-20020a5d45c2000000b0021e9d98bec4sm330759wrs.88.2022.07.28.01.54.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Jul 2022 01:54:25 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: ricardo@foundries.io,
+	daiane.angolini@foundries.io,
+	Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [OE-core][PATCH] create-spdx: Runs the do_create_spdx task after the
+ do_package_write_*
+Date: Thu, 28 Jul 2022 09:54:07 +0100
+Message-Id: <20220728085407.293067-1-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-References: <20220727053939.353717-1-changqing.li@windriver.com>
- <CANNYZj--dxtiE6OvQzmUkpzKD3nQ-Zt1C5kbPLUWaBszfvqFLA@mail.gmail.com>
- <1dfde637-8448-920a-91cb-7963cda09297@windriver.com>
-In-Reply-To: <1dfde637-8448-920a-91cb-7963cda09297@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 28 Jul 2022 09:05:42 +0200
-Message-ID: 
- <CANNYZj_7VOR6t9RgrfyPZVSCH8XjyfPZ=+PiSiEVSW94gX6uaQ@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][master][PATCH] apt: fix do_package_qa
- failure
-To: Changqing Li <changqing.li@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 07:06:05 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 08:54:36 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168596
+ https://lists.openembedded.org/g/openembedded-core/message/168597
 
-On Thu, 28 Jul 2022 at 05:53, Changqing Li <changqing.li@windriver.com> wrote:
-> An empty dir apt is installed under /var/log/. It should be ok to remove
-> it since apt could create it when it doesn't exist.
->
-> We have remove it for target. So I do the same for nativesdk. Another
-> solution could be INSANE_SKIP the empty-dirs.
->
-> How do you think?
+Otherwise spdx can have references for data that is not packed.
+in the package delivered.
 
-That is fine, but please resend with this information in the commit message.
+During do_package_write_ipk task in do_package_ipk some files
+is cleaned up from packages-split directory in the funcion
+cleanupcontrol.
 
-Alex
+This also fixes the following race condictions when the do_create_spdx
+task runs the add_package_files function and these files is been deleted
+at same time in the task do_package_write_ipk:
+
+ERROR: alsa-topology-conf-1.2.5.1-r0 do_create_spdx: Error executing a python function in exec_func_python() autogenerated:
+
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:do_create_spdx(d)
+     0003:
+File: '/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/create-spdx.bbclass', lineno: 567, function: do_create_spdx
+     0563:            package_doc.add_relationship(package_doc, "DESCRIBES", spdx_package)
+     0564:
+     0565:            package_archive = deploy_dir_spdx / "packages" / (package_doc.name + ".tar.zst")
+     0566:            with optional_tarfile(package_archive, archive_packaged) as archive:
+ *** 0567:                package_files = add_package_files(
+     0568:                    d,
+     0569:                    package_doc,
+     0570:                    spdx_package,
+     0571:                    pkgdest / package,
+File: '/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/create-spdx.bbclass', lineno: 234, function: add_package_files
+     0230:                            info.mtime = source_date_epoch
+     0231:
+     0232:                        archive.addfile(info, f)
+     0233:
+ *** 0234:                sha1 = bb.utils.sha1_file(filepath)
+     0235:                sha1s.append(sha1)
+     0236:                spdx_file.checksums.append(oe.spdx.SPDXChecksum(
+     0237:                        algorithm="SHA1",
+     0238:                        checksumValue=sha1,
+File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 559, function: sha1_file
+     0555:    """
+     0556:    Return the hex string representation of the SHA1 checksum of the filename
+     0557:    """
+     0558:    import hashlib
+ *** 0559:    return _hasher(hashlib.sha1(), filename)
+     0560:
+     0561:def sha384_file(filename):
+     0562:    """
+     0563:    Return the hex string representation of the SHA384 checksum of the filename
+File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 528, function: _hasher
+     0524:
+     0525:def _hasher(method, filename):
+     0526:    import mmap
+     0527:
+ *** 0528:    with open(filename, "rb") as f:
+     0529:        try:
+     0530:            with mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ) as mm:
+     0531:                for chunk in iter(lambda: mm.read(8192), b''):
+     0532:                    method.update(chunk)
+Exception: FileNotFoundError: [Errno 2] No such file or directory: '/srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/packages-split/alsa-topology-conf/CONTROL/control'
+
+ERROR: Logfile of failure stored in: /srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/temp/log.do_create_spdx.998864
+INFO: recipe alsa-topology-conf-1.2.5.1-r0: task do_create_spdx: Failed
+
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+---
+ meta/classes/create-spdx.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bbclass
+index 15cccac84b..c4930b0de7 100644
+--- a/meta/classes/create-spdx.bbclass
++++ b/meta/classes/create-spdx.bbclass
+@@ -588,7 +588,7 @@ python do_create_spdx() {
+             oe.sbom.write_doc(d, package_doc, "packages", indent=get_json_indent(d))
+ }
+ # NOTE: depending on do_unpack is a hack that is necessary to get it's dependencies for archive the source
+-addtask do_create_spdx after do_package do_packagedata do_unpack before do_populate_sdk do_build do_rm_work
++addtask do_create_spdx after do_package_write_rpm do_package_write_ipk do_package_write_deb do_unpack before do_populate_sdk do_build do_rm_work
+ 
+ SSTATETASKS += "do_create_spdx"
+ do_create_spdx[sstate-inputdirs] = "${SPDXDEPLOY}"
+-- 
+2.37.1
+
 
