@@ -2,158 +2,262 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68CA7C04A68
-	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 08:54:36 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web09.30404.1658998469065694119
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89D8CC04A68
+	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 09:15:26 +0000 (UTC)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ by mx.groups.io with SMTP id smtpd.web11.30566.1658999718035722633
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jul 2022 01:54:29 -0700
+ Thu, 28 Jul 2022 02:15:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=eKBZHRJM;
- spf=pass (domain: gmail.com, ip: 209.85.128.52,
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=F5Nhe8nB;
+ spf=pass (domain: gmail.com, ip: 209.85.208.181,
  mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id
- ay11-20020a05600c1e0b00b003a3013da120so2171006wmb.5
+Received: by mail-lj1-f181.google.com with SMTP id w16so853758ljh.3
         for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jul 2022 01:54:28 -0700 (PDT)
+ Thu, 28 Jul 2022 02:15:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=DEYKRWlXXD9zs3skdWj1TIpzYvGKOI3rNXTgi0QpQvE=;
-        b=eKBZHRJMa7uY3N3Kbb1RIvPj47WLyUNeT8krsVrYzDqXl6zB1XXdfGxyxW7N/nnyn3
-         9kaNLUjBatQjgkWSpVxzx22dYcb/p598lBPRJynwdukOWwWznXYObSMh3ARnZWpt984L
-         bU9yhqbQTJQ0IB0/EjA8JkyA9q8zzmQtC12HKgUn3nVnQpJrwdYmR0v2wjL6/8vqc2iX
-         YVBqPNRJOF6NO3CRzdGJ2t9gZlW3uAM5buMBX6a2LLuY0lraCnYFFy6o1aOHRT8pZQQo
-         IRpdgUR0cKwQ/VVbF5KJ72Sqhq8qwDlbRrlWNDaUTT9klEcilmHtbDWSFIOuQ1MxHoy6
-         IU9A==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=c7AcZXWGZyc0EANbjh3En5N9k31OHp/x/g/raPtEq1k=;
+        b=F5Nhe8nBb9hTg+6CT3U+qcI6VafVtCkWAJp9zegxyviLX8ou1bLsN/9fx7pM5Fyy0c
+         3ucNB8yEQD3xdco6ed9Mqv18idG4nfTS2kgpaulkooZQ7vIXn2HBITsaTgDhSOK2OIY/
+         jQPwWGaHKkSQRAZGpYxQETny/6AOJ07cg3pbwXdCAbwl4kCHL/XbNvctk6O0qLtUc/Mw
+         W7D+18H6GBkeYK+3HBi9gGUtda+d6aRAZTOLs6kzqNKWS9uEv7UhMhagZtf92Q++nk7D
+         KOJlHXXn5Jv3AnvRU1egpSHqfJ9ijMNpcfjm/Pv3SHNsivKo0ttwolcDcbgiSnihbVlx
+         7RsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=DEYKRWlXXD9zs3skdWj1TIpzYvGKOI3rNXTgi0QpQvE=;
-        b=fi8PvA+bqMRuVZ/ATtuniRt9/BnZJ7t72sQd2Yx/vfG6+JSu5Hn374bWN4cSr3iq18
-         7sP0XvFyOCu24cvycr0QqwZmGRH40kFwrdOzeicJEGZIucghh5ozlT1VhvpeEw8l9eWb
-         ITmWfRgJtXWQ45Im9237DF2POQIm3rVCW7vuRtK4RP+MuFqztGrw9XpoMzdmIArtxe6K
-         uwvBPZeWusRP46Zo1NvDG08TzH4wsV9MKPMYUX+2H7C/AvmZgmQ1Ci7irF/LGj/3myxf
-         r0C81x1mufOKgXXWNFgIy4rRdKftPPT3nI8JZaA8S7AF3ImsWJklORCdtPr3G/1hqfzm
-         hMXQ==
-X-Gm-Message-State: AJIora9xcQyqsYT0SHZJdENtAmHjh7czlNA0/cW8Omcq1Oss6g75ONUu
-	A25sB1hKQhlo8Gi4yLY/Bm6UQh5qpR0=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=c7AcZXWGZyc0EANbjh3En5N9k31OHp/x/g/raPtEq1k=;
+        b=oNI4IrXm1x4TdzX5LU8fSraEt+p2NGV3c3vijgt6312kvMgeMU+bCrY43y85aj1Csl
+         KeyXJAXeJSGNgXCHV1Q7nCmPx8PkAm6JtEaeK1a003bpYFm21rdyZAFw9Xg0Z+R9w7yr
+         cOf0rtxAGychIKcLriNt3uQsVCLIRpuz0yL3bejmpIsr16G1rLFdsoDJSU00a+d1A+oe
+         lpW2bkxHHNn0IuTvC4ZAZF2yAaGlnfbqdy2ERqEEREncqFT9gORfKLVrw/tGJ7VOw/ul
+         uBmJdS1CIgzq/hjIl7hkUKBgdxbHCV9yTSpkI6ORa7wCnlKBZhybmpiBOhc8hvw59ROW
+         QKXw==
+X-Gm-Message-State: AJIora9Fj6MG8W8vIGLGs70hExX8F/xeJkFtc13svb5oonLcLgLam+qS
+	T5OMCAQEtINaq0b4mLJwpusgOHw474loJLX9Tnc=
 X-Google-Smtp-Source: 
- AGRyM1vsalM095BDzIeKKqhQgysqP63vkdW+Lwr1dAwekbM0h9N7wrDs358qmWypfIuvjeGuXs/Mpw==
-X-Received: by 2002:a05:600c:3b24:b0:3a3:1fa6:77d with SMTP id
- m36-20020a05600c3b2400b003a31fa6077dmr5646294wms.3.1658998466978;
-        Thu, 28 Jul 2022 01:54:26 -0700 (PDT)
-Received: from localhost.localdomain (176.57.115.89.rev.vodafone.pt.
- [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id
- b2-20020a5d45c2000000b0021e9d98bec4sm330759wrs.88.2022.07.28.01.54.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jul 2022 01:54:25 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: ricardo@foundries.io,
-	daiane.angolini@foundries.io,
-	Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][PATCH] create-spdx: Runs the do_create_spdx task after the
- do_package_write_*
-Date: Thu, 28 Jul 2022 09:54:07 +0100
-Message-Id: <20220728085407.293067-1-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.37.1
+ AGRyM1vKqvhykN3w/1Sui6f9drJcSYNe5693hkNovj+O4DTc48Mws140g5s2LQrTLHzX1PiWbFlKeTWszd79yFLUTSQ=
+X-Received: by 2002:a2e:bc06:0:b0:25e:2021:18d7 with SMTP id
+ b6-20020a2ebc06000000b0025e202118d7mr2844080ljf.151.1658999715999; Thu, 28
+ Jul 2022 02:15:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1705E3C5B18AD43E.21236@lists.openembedded.org>
+ <CO1PR11MB50265B0B71DA4F44D252BCE1C4969@CO1PR11MB5026.namprd11.prod.outlook.com>
+In-Reply-To: 
+ <CO1PR11MB50265B0B71DA4F44D252BCE1C4969@CO1PR11MB5026.namprd11.prod.outlook.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Thu, 28 Jul 2022 10:14:54 +0100
+Message-ID: 
+ <CANPvuRkb5VPGFqWW=oCo67ZvxH=HOwvSO5DvEt1py0wusY-6GA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gstreamer1.0-plugins-bad: add PACKAGECONFIG for
+ onevpl
+To: Naveen Saini <naveen.kumar.saini@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000c1356205e4d9f89c"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 08:54:36 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 09:15:26 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168597
+ https://lists.openembedded.org/g/openembedded-core/message/168598
 
-Otherwise spdx can have references for data that is not packed.
-in the package delivered.
+--000000000000c1356205e4d9f89c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-During do_package_write_ipk task in do_package_ipk some files
-is cleaned up from packages-split directory in the funcion
-cleanupcontrol.
+Hi Naveen,
 
-This also fixes the following race condictions when the do_create_spdx
-task runs the add_package_files function and these files is been deleted
-at same time in the task do_package_write_ipk:
+PACKAGECONFIG[msdk] =3D "-Dmsdk=3Denabled,-Dmsdk=3Ddisabled,intel-mediasdk"
+https://cgit.openembedded.org/openembedded-core/tree/meta/recipes-multimedi=
+a/gstreamer/gstreamer1.0-plugins-bad_1.20.3.bb#n64
 
-ERROR: alsa-topology-conf-1.2.5.1-r0 do_create_spdx: Error executing a python function in exec_func_python() autogenerated:
+The msdk knob is already there so what is missing is the -Dmfx_api that
+will change the target dependency.
 
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:do_create_spdx(d)
-     0003:
-File: '/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/create-spdx.bbclass', lineno: 567, function: do_create_spdx
-     0563:            package_doc.add_relationship(package_doc, "DESCRIBES", spdx_package)
-     0564:
-     0565:            package_archive = deploy_dir_spdx / "packages" / (package_doc.name + ".tar.zst")
-     0566:            with optional_tarfile(package_archive, archive_packaged) as archive:
- *** 0567:                package_files = add_package_files(
-     0568:                    d,
-     0569:                    package_doc,
-     0570:                    spdx_package,
-     0571:                    pkgdest / package,
-File: '/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/create-spdx.bbclass', lineno: 234, function: add_package_files
-     0230:                            info.mtime = source_date_epoch
-     0231:
-     0232:                        archive.addfile(info, f)
-     0233:
- *** 0234:                sha1 = bb.utils.sha1_file(filepath)
-     0235:                sha1s.append(sha1)
-     0236:                spdx_file.checksums.append(oe.spdx.SPDXChecksum(
-     0237:                        algorithm="SHA1",
-     0238:                        checksumValue=sha1,
-File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 559, function: sha1_file
-     0555:    """
-     0556:    Return the hex string representation of the SHA1 checksum of the filename
-     0557:    """
-     0558:    import hashlib
- *** 0559:    return _hasher(hashlib.sha1(), filename)
-     0560:
-     0561:def sha384_file(filename):
-     0562:    """
-     0563:    Return the hex string representation of the SHA384 checksum of the filename
-File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 528, function: _hasher
-     0524:
-     0525:def _hasher(method, filename):
-     0526:    import mmap
-     0527:
- *** 0528:    with open(filename, "rb") as f:
-     0529:        try:
-     0530:            with mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ) as mm:
-     0531:                for chunk in iter(lambda: mm.read(8192), b''):
-     0532:                    method.update(chunk)
-Exception: FileNotFoundError: [Errno 2] No such file or directory: '/srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/packages-split/alsa-topology-conf/CONTROL/control'
+Jose
 
-ERROR: Logfile of failure stored in: /srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/temp/log.do_create_spdx.998864
-INFO: recipe alsa-topology-conf-1.2.5.1-r0: task do_create_spdx: Failed
+Naveen Saini <naveen.kumar.saini@intel.com> escreveu no dia quinta,
+28/07/2022 =C3=A0(s) 07:48:
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
----
- meta/classes/create-spdx.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Please ignore this patch. It needs some re-work !
+>
+> Regards,
+> Naveen
+>
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-
+> > core@lists.openembedded.org> On Behalf Of Naveen Saini
+> > Sent: Thursday, July 28, 2022 12:47 PM
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [PATCH] gstreamer1.0-plugins-bad: add PACKAGECONFIG
+> > for onevpl
+> >
+> > Allow user to build this plugin against MFX version 2.2+ (oneVPL)
+> >
+> > https://github.com/GStreamer/gst-plugins-
+> > bad/commit/beda9a73339bef878e95798f629a868c647627ce
+> >
+> > Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
+> > ---
+> >  .../gstreamer/gstreamer1.0-plugins-bad_1.20.3.bb                 | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-
+> > bad_1.20.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-
+> > bad_1.20.3.bb
+> > index 2dd42395f7..6048e17214 100644
+> > --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-
+> > bad_1.20.3.bb
+> > +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-
+> > bad_1.20.3.bb
+> > @@ -97,6 +97,7 @@ PACKAGECONFIG[webrtcdsp]       =3D "-
+> > Dwebrtcdsp=3Denabled,-Dwebrtcdsp=3Ddisabled,webrt
+> >  PACKAGECONFIG[zbar]            =3D "-Dzbar=3Denabled,-Dzbar=3Ddisabled=
+,zbar"
+> >  PACKAGECONFIG[x11]             =3D "-Dx11=3Denabled,-Dx11=3Ddisabled,l=
+ibxcb
+> > libxkbcommon"
+> >  PACKAGECONFIG[x265]            =3D "-Dx265=3Denabled,-Dx265=3Ddisabled=
+,x265"
+> > +PACKAGECONFIG[onevpl]          =3D "-Dmsdk=3Denabled -Dmfx_api=3DoneVP=
+L,-
+> > Dmsdk=3Ddisabled,onevpl onevpl-intel-gpu"
+> >
+> >  GSTREAMER_GPL =3D "${@bb.utils.filter('PACKAGECONFIG', 'faad resindvd
+> > x265', d)}"
+> >
+> > --
+> > 2.25.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#168595):
+> https://lists.openembedded.org/g/openembedded-core/message/168595
+> Mute This Topic: https://lists.openembedded.org/mt/92664604/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bbclass
-index 15cccac84b..c4930b0de7 100644
---- a/meta/classes/create-spdx.bbclass
-+++ b/meta/classes/create-spdx.bbclass
-@@ -588,7 +588,7 @@ python do_create_spdx() {
-             oe.sbom.write_doc(d, package_doc, "packages", indent=get_json_indent(d))
- }
- # NOTE: depending on do_unpack is a hack that is necessary to get it's dependencies for archive the source
--addtask do_create_spdx after do_package do_packagedata do_unpack before do_populate_sdk do_build do_rm_work
-+addtask do_create_spdx after do_package_write_rpm do_package_write_ipk do_package_write_deb do_unpack before do_populate_sdk do_build do_rm_work
- 
- SSTATETASKS += "do_create_spdx"
- do_create_spdx[sstate-inputdirs] = "${SPDXDEPLOY}"
--- 
-2.37.1
+--=20
+Best regards,
 
+Jos=C3=A9 Quaresma
+
+--000000000000c1356205e4d9f89c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Naveen,</div><div><br>PACKAGECONFIG[msdk] =3D &quo=
+t;-Dmsdk=3Denabled,-Dmsdk=3Ddisabled,intel-mediasdk&quot;<br></div><div><a =
+href=3D"https://cgit.openembedded.org/openembedded-core/tree/meta/recipes-m=
+ultimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.3.bb#n64">https://cgit.op=
+enembedded.org/openembedded-core/tree/meta/recipes-multimedia/gstreamer/gst=
+reamer1.0-plugins-bad_1.20.3.bb#n64</a></div><div><br><div>The msdk knob is=
+ already=C2=A0there so what is missing is the -Dmfx_api that will change th=
+e target dependency.</div></div><div><br></div><div>Jose</div><br><div clas=
+s=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Naveen Saini &lt;<a=
+ href=3D"mailto:naveen.kumar.saini@intel.com" target=3D"_blank">naveen.kuma=
+r.saini@intel.com</a>&gt; escreveu no dia quinta, 28/07/2022 =C3=A0(s) 07:4=
+8:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Please ignore=
+ this patch. It needs some re-work !<br>
+<br>
+Regards,<br>
+Naveen<br>
+<br>
+&gt; -----Original Message-----<br>
+&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;openembedded=
+-<br>
+&gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_blank">core@=
+lists.openembedded.org</a>&gt; On Behalf Of Naveen Saini<br>
+&gt; Sent: Thursday, July 28, 2022 12:47 PM<br>
+&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
+=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; Subject: [OE-core] [PATCH] gstreamer1.0-plugins-bad: add PACKAGECONFIG=
+<br>
+&gt; for onevpl<br>
+&gt; <br>
+&gt; Allow user to build this plugin against MFX version 2.2+ (oneVPL)<br>
+&gt; <br>
+&gt; <a href=3D"https://github.com/GStreamer/gst-plugins-" rel=3D"noreferre=
+r" target=3D"_blank">https://github.com/GStreamer/gst-plugins-</a><br>
+&gt; bad/commit/beda9a73339bef878e95798f629a868c647627ce<br>
+&gt; <br>
+&gt; Signed-off-by: Naveen Saini &lt;<a href=3D"mailto:naveen.kumar.saini@i=
+ntel.com" target=3D"_blank">naveen.kumar.saini@intel.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 .../gstreamer/<a href=3D"http://gstreamer1.0-plugins-bad_1.20.3.=
+bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0-plugins-bad_1.20.3.bb=
+</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 1 +<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+)<br>
+&gt; <br>
+&gt; diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-<b=
+r>
+&gt; <a href=3D"http://bad_1.20.3.bb" rel=3D"noreferrer" target=3D"_blank">=
+bad_1.20.3.bb</a> b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-=
+<br>
+&gt; <a href=3D"http://bad_1.20.3.bb" rel=3D"noreferrer" target=3D"_blank">=
+bad_1.20.3.bb</a><br>
+&gt; index 2dd42395f7..6048e17214 100644<br>
+&gt; --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-<br>
+&gt; <a href=3D"http://bad_1.20.3.bb" rel=3D"noreferrer" target=3D"_blank">=
+bad_1.20.3.bb</a><br>
+&gt; +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-<br>
+&gt; <a href=3D"http://bad_1.20.3.bb" rel=3D"noreferrer" target=3D"_blank">=
+bad_1.20.3.bb</a><br>
+&gt; @@ -97,6 +97,7 @@ PACKAGECONFIG[webrtcdsp]=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+=3D &quot;-<br>
+&gt; Dwebrtcdsp=3Denabled,-Dwebrtcdsp=3Ddisabled,webrt<br>
+&gt;=C2=A0 PACKAGECONFIG[zbar]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D=
+ &quot;-Dzbar=3Denabled,-Dzbar=3Ddisabled,zbar&quot;<br>
+&gt;=C2=A0 PACKAGECONFIG[x11]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0=3D &quot;-Dx11=3Denabled,-Dx11=3Ddisabled,libxcb<br>
+&gt; libxkbcommon&quot;<br>
+&gt;=C2=A0 PACKAGECONFIG[x265]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D=
+ &quot;-Dx265=3Denabled,-Dx265=3Ddisabled,x265&quot;<br>
+&gt; +PACKAGECONFIG[onevpl]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;-Dm=
+sdk=3Denabled -Dmfx_api=3DoneVPL,-<br>
+&gt; Dmsdk=3Ddisabled,onevpl onevpl-intel-gpu&quot;<br>
+&gt; <br>
+&gt;=C2=A0 GSTREAMER_GPL =3D &quot;${@bb.utils.filter(&#39;PACKAGECONFIG&#3=
+9;, &#39;faad resindvd<br>
+&gt; x265&#39;, d)}&quot;<br>
+&gt; <br>
+&gt; --<br>
+&gt; 2.25.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#168595): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/168595" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/168595</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/92664604/5052=
+612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/92664604/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div=
+></div>
+
+--000000000000c1356205e4d9f89c--
 
