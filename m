@@ -1,359 +1,141 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A663C04A68
-	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 11:46:57 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web10.31364.1659008813484298362
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0B14C04A68
+	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 13:21:27 +0000 (UTC)
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com
+ [209.85.210.53])
+ by mx.groups.io with SMTP id smtpd.web08.32469.1659014484850733438
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jul 2022 04:46:53 -0700
+ Thu, 28 Jul 2022 06:21:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=CPF0Mdux;
- spf=pass (domain: gmail.com, ip: 209.85.167.53,
- mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id w15so2422180lft.11
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=cySkxy7B;
+ spf=pass (domain: gmail.com, ip: 209.85.210.53,
+ mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f53.google.com with SMTP id
+ k25-20020a056830169900b0061c6f68f451so1142741otr.9
         for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jul 2022 04:46:53 -0700 (PDT)
+ Thu, 28 Jul 2022 06:21:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=rctmY3oLka9Dftz5D7lV+Z2yu+FzN9aXw26oXDI/3rw=;
-        b=CPF0MduxJx5Ypm1XWiw4dJEBT4bKvj0MYr/tKmnqyrscc+Gd0H/b9fJ18UvbzgcGo5
-         VjW5pdnLX9H89l8cKHVgVcFyeg/3Jmcn+R36NoxdXQEhFs13Vx5Cs58nE6WH5gxXXWkT
-         5rvkMfCaIKk1Yr7xNy6ARYF5VazFWL5BNSHlJ/9rkSZBLYjMS37u5wEdEMljz30S6/5r
-         0sOuPazjmW5QAmk1WKt6A4bG/Q5FFcDvucGeJWNntnN72h3VcwBwu3jpZFOMzpbCs69y
-         KCoIGa4p1UKhQib+c1AR4s6SBSoSBxEEFqB84hevl0s2YwptJhDkdvfsGb6yECPfrr0r
-         QSfA==
+        h=from:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:in-reply-to
+         :content-transfer-encoding;
+        bh=qtyhF7hqYafTnxsBXcc3M83h40UVLRjZAKCIw6+bzWE=;
+        b=cySkxy7BRfs9GfH7vUHy3hUlNpGN8M02BGVlA4LKNAMKUIkBdSE70r6RXQsnjvwwXW
+         GkqZgkHWWaR1n15ubI80wo13cTsdH5lZO52JE+L6cKwY0OglYzur+sIjy05Mkyosc0Vs
+         CEVe4HAOsZyWYoeNKyu4O6GlHDL3IuPkY3ecBi0pF7zIlGRPnYE7juIug0LGl02KUvAD
+         ce0Z7bkDGASQ4rAg4N5PbKXSBv8hTOJ/sJZoj7mt0dikCHggfOlTpIiIPPcMkhT+Nb4h
+         17eFn+IYfE9xgyj122fXkCwEkARPFra2/GHmqijT0WARidJXAH4z7ukIZ4aV8iudVGtb
+         5bsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=rctmY3oLka9Dftz5D7lV+Z2yu+FzN9aXw26oXDI/3rw=;
-        b=FtIpoMdySPMI2/IYsqdDJyjk4mVXAQ6VvnRRGGIVCB8vru/hK0LWcxZmy5fQ0EXHQH
-         IduVNSDnVfFb4hlboUKF7mYLt5mXmVWJSaIQ+HR9EIN1KzcHJerKQxyjoWVnaPj8qTD4
-         QLE5tjHKxZSgIBUfQL5y2AJTPA98/jep0RaFrq9O/x282NgbQ5tR3YbZxEfcIIVM1Zdd
-         ubX+Go+icO7gQTnyuRg19kaARf43jsowlAWcI0TIn4CZiCD5ZnizAN2HPFMYbp3MCrm8
-         irEvSDWI23gfi1rf3uNDbkHQCbCHpAy1y/0ARA1oVPRZFFcYlpXjQygTly99kaDcVpYd
-         4K9Q==
-X-Gm-Message-State: AJIora/S7NGmavEildDltLaXTtqd/d7MheWxJGQr5Zy0zf2TrI7SKRFa
-	BWnL+GCfReL8cTV2P5wi6uqii71isIaA6py0uIQ=
+        h=x-gm-message-state:from:message-id:date:mime-version:user-agent
+         :subject:content-language:to:references:in-reply-to
+         :content-transfer-encoding;
+        bh=qtyhF7hqYafTnxsBXcc3M83h40UVLRjZAKCIw6+bzWE=;
+        b=TZVE9gwXKdI2DVwba2LGgBhXCDrUyne794UGrPGrLBio9eJbdDLOX0B7aK7FCpWLws
+         h2m8aELL64jVDBRaX6cVmGNWGr98atvKsZYSfHTT5jT3Q5tHfItI1CeTIfr9yt/JMO5f
+         linW5ouQPlzBetDHhGFXadWVuvEXv9lrjbdH4G4aQpFWRTN1AgsnMbyobXv9g7Bo0JLU
+         sr4cNKOnkln33da4U5tr9sX0QFDBzeP2xB4tDfv7UBdfMSynyfKLXbMyKY+FgdnVCXNA
+         w2ssfmApIpVIGxmsruVm679ReGx/67GcSiD47GYZOasMqayC+VFNkICpGDGWiOJtOfXz
+         DW+Q==
+X-Gm-Message-State: AJIora+WL3jpQfVuB3q5znfPoz9eKGWnENZFkggGxSDvfpKkzJvmrcxa
+	CzYQPQR2Vm2U4o/C0e4VIPI=
 X-Google-Smtp-Source: 
- AGRyM1tzpsS0ILHfNhLAWOiGkNwN4wZ+vNNT4wey5BupGHZoYjaFzFYqTLkEDKyziBvR+NygZo7rwNfwHQDvZzvGib8=
-X-Received: by 2002:a05:6512:2254:b0:48a:9dc2:e3d8 with SMTP id
- i20-20020a056512225400b0048a9dc2e3d8mr5313686lfu.534.1659008811520; Thu, 28
- Jul 2022 04:46:51 -0700 (PDT)
+ AGRyM1sy0UPCACzxg6kEa1454JLHHl5X+vpVebCLC+QO0VdBv861gbo14ZKOrahTKFOMPYk//wfMgQ==
+X-Received: by 2002:a9d:6f01:0:b0:61c:b224:e7c9 with SMTP id
+ n1-20020a9d6f01000000b0061cb224e7c9mr10453503otq.245.1659014484174;
+        Thu, 28 Jul 2022 06:21:24 -0700 (PDT)
+Received: from ?IPV6:2605:a601:ac3d:c100:e3e8:d9:3a56:e27d?
+ ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+        by smtp.gmail.com with ESMTPSA id
+ j10-20020a54480a000000b0033a9f4c13cesm257834oij.13.2022.07.28.06.21.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Jul 2022 06:21:23 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Message-ID: <c8cec197-ace4-698e-5c41-112dd2d97207@gmail.com>
+Date: Thu, 28 Jul 2022 08:21:22 -0500
 MIME-Version: 1.0
-References: <20220728085407.293067-1-jose.quaresma@foundries.io>
- <b5964850b01ae9766ee70404edcf189e78c4921f.camel@linuxfoundation.org>
-In-Reply-To: 
- <b5964850b01ae9766ee70404edcf189e78c4921f.camel@linuxfoundation.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Thu, 28 Jul 2022 12:46:29 +0100
-Message-ID: 
- <CANPvuRkyURtr29SGZjdGoffE=v4mQ9j+qLcGAvm7bSVQ-qTJBA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] create-spdx: Runs the do_create_spdx task after
- the do_package_write_*
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Ricardo Salveti <ricardo@foundries.io>, daiane.angolini@foundries.io,
-	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: multipart/alternative; boundary="000000000000e3eda605e4dc16eb"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] create-spdx: Fix supplier field
+Content-Language: en-US
+To: Mihai Lindner <mihai.lindner@gmail.com>,
+ openembedded-core@lists.openembedded.org
+References: <20220727170918.6960-1-mihai.lindner@gmail.com>
+In-Reply-To: <20220727170918.6960-1-mihai.lindner@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 11:46:57 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 13:21:27 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168603
-
---000000000000e3eda605e4dc16eb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia quinta,
-28/07/2022 =C3=A0(s) 12:01:
-
-> On Thu, 2022-07-28 at 09:54 +0100, Jose Quaresma wrote:
-> > Otherwise spdx can have references for data that is not packed.
-> > in the package delivered.
-> >
-> > During do_package_write_ipk task in do_package_ipk some files
-> > is cleaned up from packages-split directory in the funcion
-> > cleanupcontrol.
-> >
-> > This also fixes the following race condictions when the do_create_spdx
-> > task runs the add_package_files function and these files is been delete=
-d
-> > at same time in the task do_package_write_ipk:
-> >
-> > ERROR: alsa-topology-conf-1.2.5.1-r0 do_create_spdx: Error executing a
-> python function in exec_func_python() autogenerated:
-> >
-> > The stack trace of python calls that resulted in this exception/failure
-> was:
-> > File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-> >      0001:
-> >  *** 0002:do_create_spdx(d)
-> >      0003:
-> > File:
-> '/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/create-sp=
-dx.bbclass',
-> lineno: 567, function: do_create_spdx
-> >      0563:            package_doc.add_relationship(package_doc,
-> "DESCRIBES", spdx_package)
-> >      0564:
-> >      0565:            package_archive =3D deploy_dir_spdx / "packages" =
-/ (
-> package_doc.name + ".tar.zst")
-> >      0566:            with optional_tarfile(package_archive,
-> archive_packaged) as archive:
-> >  *** 0567:                package_files =3D add_package_files(
-> >      0568:                    d,
-> >      0569:                    package_doc,
-> >      0570:                    spdx_package,
-> >      0571:                    pkgdest / package,
-> > File:
-> '/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/create-sp=
-dx.bbclass',
-> lineno: 234, function: add_package_files
-> >      0230:                            info.mtime =3D source_date_epoch
-> >      0231:
-> >      0232:                        archive.addfile(info, f)
-> >      0233:
-> >  *** 0234:                sha1 =3D bb.utils.sha1_file(filepath)
-> >      0235:                sha1s.append(sha1)
-> >      0236:
-> spdx_file.checksums.append(oe.spdx.SPDXChecksum(
-> >      0237:                        algorithm=3D"SHA1",
-> >      0238:                        checksumValue=3Dsha1,
-> > File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 559, function: sha1_fi=
-le
-> >      0555:    """
-> >      0556:    Return the hex string representation of the SHA1 checksum
-> of the filename
-> >      0557:    """
-> >      0558:    import hashlib
-> >  *** 0559:    return _hasher(hashlib.sha1(), filename)
-> >      0560:
-> >      0561:def sha384_file(filename):
-> >      0562:    """
-> >      0563:    Return the hex string representation of the SHA384
-> checksum of the filename
-> > File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 528, function: _hasher
-> >      0524:
-> >      0525:def _hasher(method, filename):
-> >      0526:    import mmap
-> >      0527:
-> >  *** 0528:    with open(filename, "rb") as f:
-> >      0529:        try:
-> >      0530:            with mmap.mmap(f.fileno(), 0,
-> access=3Dmmap.ACCESS_READ) as mm:
-> >      0531:                for chunk in iter(lambda: mm.read(8192), b'')=
-:
-> >      0532:                    method.update(chunk)
-> > Exception: FileNotFoundError: [Errno 2] No such file or directory:
-> '/srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/p=
-ackages-split/alsa-topology-conf/CONTROL/control'
->
-> We have other places where we've had to teach the code to ignore the
-> control files and we'll probably have to do that here (grep for
-> CONTROL).
->
-
-The snip that delete this files is in cleanupcontrol
-https://git.yoctoproject.org/poky/tree/meta/classes/package_ipk.bbclass#n51
-
-So these files are not shipped in the ipk package produced.
-It breaks the do_create_spdx because it runs after the do_package
-and the same happens for do_package_write_ipk so the two tasks
-can run at the same time.
+ https://lists.openembedded.org/g/openembedded-core/message/168604
 
 
-> Ideally we'd fix opkg (and maybe dpkg) to allow creation of packages
-> with the files placed externally.
->
+On 7/27/22 12:09, Mihai Lindner wrote:
+> The correct field name is "supplier" according to SPDX schema.
+> The "supplier" field translates to "PackageSupplier", but that's for
+> tag-value format.
 
-I think I didn't quite understand this part, can you please explain it a
-bit more?
+LGTM, Thanks.
 
+
+Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
 
 >
-> I have also wondered if we should create a specific hardlinked tree to
-> handle this but that does come at an IO cost.
+> Signed-off-by: Mihai Lindner <mihai.lindner@gmail.com>
+> ---
+>   meta/classes/create-spdx.bbclass | 6 +++---
+>   meta/lib/oe/spdx.py              | 2 +-
+>   2 files changed, 4 insertions(+), 4 deletions(-)
 >
-> I don't really want to add a dependency constraint like this for
-> something we already handle differently elsewhere though.
->
-
-yeah, It's a bit ugly because it adds some tasks that don't even run (all
-types of packages
-in this case). Since I don't know what package types are chosen by the
-user, I added all of them.
-
-Jose
-
-
->
-> Cheers,
->
-> Richard
->
-
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---000000000000e3eda605e4dc16eb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
-richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
-gt; escreveu no dia quinta, 28/07/2022 =C3=A0(s) 12:01:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">On Thu, 2022-07-28 at 09:54 +0100, =
-Jose Quaresma wrote:<br>
-&gt; Otherwise spdx can have references for data that is not packed.<br>
-&gt; in the package delivered.<br>
-&gt; <br>
-&gt; During do_package_write_ipk task in do_package_ipk some files<br>
-&gt; is cleaned up from packages-split directory in the funcion<br>
-&gt; cleanupcontrol.<br>
-&gt; <br>
-&gt; This also fixes the following race condictions when the do_create_spdx=
-<br>
-&gt; task runs the add_package_files function and these files is been delet=
-ed<br>
-&gt; at same time in the task do_package_write_ipk:<br>
-&gt; <br>
-&gt; ERROR: alsa-topology-conf-1.2.5.1-r0 do_create_spdx: Error executing a=
- python function in exec_func_python() autogenerated:<br>
-&gt; <br>
-&gt; The stack trace of python calls that resulted in this exception/failur=
-e was:<br>
-&gt; File: &#39;exec_func_python() autogenerated&#39;, lineno: 2, function:=
- &lt;module&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0001:<br>
-&gt;=C2=A0 *** 0002:do_create_spdx(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0003:<br>
-&gt; File: &#39;/srv/oe/build/conf/../../layers/openembedded-core/meta/clas=
-ses/create-spdx.bbclass&#39;, lineno: 567, function: do_create_spdx<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0563:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pac=
-kage_doc.add_relationship(package_doc, &quot;DESCRIBES&quot;, spdx_package)=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0564:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0565:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pac=
-kage_archive =3D deploy_dir_spdx / &quot;packages&quot; / (<a href=3D"http:=
-//package_doc.name" rel=3D"noreferrer" target=3D"_blank">package_doc.name</=
-a> + &quot;.tar.zst&quot;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0566:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 wit=
-h optional_tarfile(package_archive, archive_packaged) as archive:<br>
-&gt;=C2=A0 *** 0567:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- package_files =3D add_package_files(<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0568:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 d,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0569:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 package_doc,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0570:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 spdx_package,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0571:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 pkgdest / package,<br>
-&gt; File: &#39;/srv/oe/build/conf/../../layers/openembedded-core/meta/clas=
-ses/create-spdx.bbclass&#39;, lineno: 234, function: add_package_files<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0230:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.mtime =3D source_=
-date_epoch<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0231:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0232:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 archive.addfile(info, f)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0233:<br>
-&gt;=C2=A0 *** 0234:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- sha1 =3D bb.utils.sha1_file(filepath)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0235:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 sha1s.append(sha1)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0236:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 spdx_file.checksums.append(oe.spdx.SPDXChecksum(<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0237:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 algorithm=3D&quot;SHA1&quot;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0238:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 checksumValue=3Dsha1,<br>
-&gt; File: &#39;/srv/oe/bitbake/lib/bb/utils.py&#39;, lineno: 559, function=
-: sha1_file<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0555:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0556:=C2=A0 =C2=A0 Return the hex string represent=
-ation of the SHA1 checksum of the filename<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0557:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0558:=C2=A0 =C2=A0 import hashlib<br>
-&gt;=C2=A0 *** 0559:=C2=A0 =C2=A0 return _hasher(hashlib.sha1(), filename)<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0560:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0561:def sha384_file(filename):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0562:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0563:=C2=A0 =C2=A0 Return the hex string represent=
-ation of the SHA384 checksum of the filename<br>
-&gt; File: &#39;/srv/oe/bitbake/lib/bb/utils.py&#39;, lineno: 528, function=
-: _hasher<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0524:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0525:def _hasher(method, filename):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0526:=C2=A0 =C2=A0 import mmap<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0527:<br>
-&gt;=C2=A0 *** 0528:=C2=A0 =C2=A0 with open(filename, &quot;rb&quot;) as f:=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0529:=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0530:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 wit=
-h mmap.mmap(f.fileno(), 0, access=3Dmmap.ACCESS_READ) as mm:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0531:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 for chunk in iter(lambda: mm.read(8192), b&#39;&#39;):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0532:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 method.update(chunk)<br>
-&gt; Exception: FileNotFoundError: [Errno 2] No such file or directory: &#3=
-9;/srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/pa=
-ckages-split/alsa-topology-conf/CONTROL/control&#39;<br>
-<br>
-We have other places where we&#39;ve had to teach the code to ignore the<br=
->
-control files and we&#39;ll probably have to do that here (grep for<br>
-CONTROL).<br></blockquote><div><br></div><div>The snip=C2=A0that delete thi=
-s files is in=C2=A0cleanupcontrol<br></div><div><a href=3D"https://git.yoct=
-oproject.org/poky/tree/meta/classes/package_ipk.bbclass#n51">https://git.yo=
-ctoproject.org/poky/tree/meta/classes/package_ipk.bbclass#n51</a><br></div>=
-<div><br></div><div>So these=C2=A0files are not shipped=C2=A0in the ipk pac=
-kage produced.</div><div>It breaks=C2=A0the do_create_spdx because it runs =
-after the do_package</div><div>and the same happens for do_package_write_ip=
-k so the two tasks</div><div>can run at the same time.<br><br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">
-<br>
-Ideally we&#39;d fix opkg (and maybe dpkg) to allow creation of packages<br=
->
-with the files placed externally.<br></blockquote><div><br>I think I didn&#=
-39;t quite understand this part, can you please explain it a bit more?</div=
-><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-I have also wondered if we should create a specific hardlinked tree to<br>
-handle this but that does come at an IO cost.<br>
-<br>
-I don&#39;t really want to add a dependency constraint like this for<br>
-something we already handle differently elsewhere though.<br></blockquote><=
-div><br>yeah, It&#39;s a bit ugly because it adds some tasks that don&#39;t=
- even run (all types of packages</div><div>in this case). Since I don&#39;t=
- know what package types are chosen=C2=A0by the user, I added all of them.<=
-/div><div><br></div><div>Jose</div><div>=C2=A0</div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
- Quaresma</div></div></div></div>
-
---000000000000e3eda605e4dc16eb--
+> diff --git a/meta/classes/create-spdx.bbclass b/meta/classes/create-spdx.bbclass
+> index 15cccac84b..21cd5be3cb 100644
+> --- a/meta/classes/create-spdx.bbclass
+> +++ b/meta/classes/create-spdx.bbclass
+> @@ -451,7 +451,7 @@ python do_create_spdx() {
+>       recipe.name = d.getVar("PN")
+>       recipe.versionInfo = d.getVar("PV")
+>       recipe.SPDXID = oe.sbom.get_recipe_spdxid(d)
+> -    recipe.packageSupplier = d.getVar("SPDX_SUPPLIER")
+> +    recipe.supplier = d.getVar("SPDX_SUPPLIER")
+>       if bb.data.inherits_class("native", d) or bb.data.inherits_class("cross", d):
+>           recipe.annotations.append(create_annotation(d, "isNative"))
+>   
+> @@ -561,7 +561,7 @@ python do_create_spdx() {
+>               spdx_package.name = pkg_name
+>               spdx_package.versionInfo = d.getVar("PV")
+>               spdx_package.licenseDeclared = convert_license_to_spdx(package_license, package_doc, d, found_licenses)
+> -            spdx_package.packageSupplier = d.getVar("SPDX_SUPPLIER")
+> +            spdx_package.supplier = d.getVar("SPDX_SUPPLIER")
+>   
+>               package_doc.packages.append(spdx_package)
+>   
+> @@ -901,7 +901,7 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages):
+>       image.name = d.getVar("PN")
+>       image.versionInfo = d.getVar("PV")
+>       image.SPDXID = rootfs_spdxid
+> -    image.packageSupplier = d.getVar("SPDX_SUPPLIER")
+> +    image.supplier = d.getVar("SPDX_SUPPLIER")
+>   
+>       doc.packages.append(image)
+>   
+> diff --git a/meta/lib/oe/spdx.py b/meta/lib/oe/spdx.py
+> index 14ca706895..6d56ed90df 100644
+> --- a/meta/lib/oe/spdx.py
+> +++ b/meta/lib/oe/spdx.py
+> @@ -218,7 +218,7 @@ class SPDXPackage(SPDXObject):
+>       SPDXID = _String()
+>       versionInfo = _String()
+>       downloadLocation = _String(default="NOASSERTION")
+> -    packageSupplier = _String(default="NOASSERTION")
+> +    supplier = _String(default="NOASSERTION")
+>       homepage = _String()
+>       licenseConcluded = _String(default="NOASSERTION")
+>       licenseDeclared = _String(default="NOASSERTION")
 
