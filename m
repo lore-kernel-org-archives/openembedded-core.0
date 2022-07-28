@@ -1,219 +1,274 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <johannes.schneider@leica-geosystems.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE624C04A68
-	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 03:53:54 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com
- [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web09.28809.1658980431893221734
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09673C04A68
+	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 04:09:35 +0000 (UTC)
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com
+ (EUR03-VE1-obe.outbound.protection.outlook.com [40.107.5.106])
+ by mx.groups.io with SMTP id smtpd.web10.28742.1658981368680377968
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jul 2022 20:53:52 -0700
+ Wed, 27 Jul 2022 21:09:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=pps06212021 header.b=fg/8G76O;
+ dkim=pass header.i=@leica-geosystems.com header.s=selector1
+ header.b=Rk05Eqpj;
  spf=permerror,
- err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}:
- invalid domain name (domain: windriver.com, ip: 205.220.166.238,
- mailfrom: prvs=42083b20aa=changqing.li@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id
- 26S3rp9H031317
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jul 2022 20:53:51 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=message-id : date
- : subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=z2xGZp9BvzQPxF5akBBt24cr8zPxpWbBIBl7ivr/GB8=;
- b=fg/8G76OihRoaSkuHV2RO0vAj5KLJXSP2Ds+RAlDrk55VCdfrm/kCLGObK2GovTUzwZ6
- cRSYt+cWFDmhtZQSnJLiKnOy8lMkYUSqzvfuMxPAXSdrGHgjBKzKcYck22okCtUgKob2
- +7MrqQwCcI5TIrRw5+u0qD+n4XqNx8kbIyHmY7dq/sws5YpLFSP9w+YoOKVpRM+Bwvut
- 7+tIDWUrouVfRlrHJE+tU8teiEeUDeLu6wvl2sVO7Zu37aZSMO7MtRhpRTWu1/vFVp4P
- rYw1WPHflu6HIWaMsB1hG45JC/WdT7jtxnC5x7zYF/BR9T+iGSigSDQOECctT/rnUkmJ MQ==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3hgggkbkjd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jul 2022 20:53:51 -0700
-Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26S3rojL031300
-	for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jul 2022 20:53:50 -0700
-Received: from nam11-co1-obe.outbound.protection.outlook.com
- (mail-co1nam11lp2176.outbound.protection.outlook.com [104.47.56.176])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3hgggkbkjc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 27 Jul 2022 20:53:50 -0700
+ err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}:
+ invalid domain name (domain: leica-geosystems.com, ip: 40.107.5.106,
+ mailfrom: johannes.schneider@leica-geosystems.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F9rC/5FdTf4SPFP8R2dcKqzbkcK97ZOvYyTugwvaqxiZsKLJIHM3Zhp/v51sc6zHhRtx67Fi88HoCkenJl8LyG/98u8u3UJL1zTrxqfi9vnVHlHnUsulnF1G0+v1iMNtwEpOMtNCtQypx0D9W4nTRixdD1TzGk7g7aLGiji52XRxPldgZpoEuX6PcvEO5arSujW7Ga4IW+3KKN2aSbJT/DbOhvkTSLAfrBNMpI07I6pe2B5RJRzeGwhm6x6GQ3buTAiB6Tu2/a/J6GjehzOlqivOIsID9+Tg4XybXFHRCiyR3n5lY77SXj9kH+9sogHho6qdlpvQEzm+Rvc5y/ke0w==
+ b=SbBuxyctrCaNS2HF+QKHUmhiBqz8Yaqao1LljJE22RAOQ+4FWLa+NamZE4A0HF8eEC0afs5yXdgOcJWQol/tFEzlA3tpWXXjjMrxVh+zXx6hBOhCuyRDEK9JBY/3yQ6akVDNSsl/WVvziwc+FYyXihqacj0s5gtq/sjsM6YZJ6yKPjNjiIVkBsiY5+muo+EEadrdcpKSSyiFBFX4AgbG/vLUNJ0rIWo3/2gJ/sW01v1PlZVaJob00UFUY0zLiKkHXcyBSuCqMhycABwZorL5hHITK8DiG5a9Gr9H/kXWTSQW52/gzEz8WZFt+geZm6EVUelkTf0uAx3Ptap9P42BiQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z2xGZp9BvzQPxF5akBBt24cr8zPxpWbBIBl7ivr/GB8=;
- b=jSfyJSCwssFFxXOp+xgHgvNvEkk1o3vP2G0vhQwQaJ7Mc+XN1WdEYEsnahFSo6lYT9RwxmmTI7xOlsvDOW4RhcKO0nX90bifQucJlausC8IYR8PgwIJBnqRSOJ6y2UD/UxaIXZfPuhEqjQoS2OSSkupVQSu97W5tFwJT9IvL5XX1KyN6F4rHbWIlmQTRHAk9pCCtRA+He5tqv97QEMeiMXWRE50VUTEbCRn4rdxkPqU4Tq3SrMjiS9NiTZ5mdaEvcoTe4saaX4hD4HM7cB9yYhLcKWobH7LeGzNss2SjfuzpoO+H86I3mNm/WZYEUKW/pWyWKPmEbZYMsVexQ7MNaA==
+ bh=M0Od62B6VsDpyBXnnaf838PJzDLuWQCW77pk0Jxh4Yo=;
+ b=bR5pLptjKP3BIhZqusuum7/MgqzJJEXWghVhW0c3POFbDCObF8Qg45DVNyGx+3LDjz+x1HVWasvYovY+Ic+QcZhpdEcot9j7EpSV1eLcuiwpwWh4sXxJEAzSEIP2cSqLDeJz0L3Wwr6x511YeJWYn51FQFdpgJmLcPnNf9CTYNrwWncLZUE3qshze3uUWWialBxPcvAcqNMRfneRH/sVQHhcbmgj2OBnB4sWN4h2SFHGPgwXlv39ZC6AzLXCBVhOGAVOOn1LVCyXfm92kzNTXeGtuIE29UwSRFyjnqU6JZb66b10tRShWhtr5tghqRw+eUcIkzWz7CsQ+8qjm4/zIQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from SN6PR11MB2557.namprd11.prod.outlook.com (2603:10b6:805:56::33)
- by SJ0PR11MB5866.namprd11.prod.outlook.com (2603:10b6:a03:429::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.24; Thu, 28 Jul
- 2022 03:53:47 +0000
-Received: from SN6PR11MB2557.namprd11.prod.outlook.com
- ([fe80::b15a:47d5:1944:4a86]) by SN6PR11MB2557.namprd11.prod.outlook.com
- ([fe80::b15a:47d5:1944:4a86%5]) with mapi id 15.20.5458.025; Thu, 28 Jul 2022
- 03:53:47 +0000
-Message-ID: <1dfde637-8448-920a-91cb-7963cda09297@windriver.com>
-Date: Thu, 28 Jul 2022 11:53:40 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [OE-core] [kirkstone][master][PATCH] apt: fix do_package_qa
- failure
+ smtp.mailfrom=leica-geosystems.com; dmarc=pass action=none
+ header.from=leica-geosystems.com; dkim=pass header.d=leica-geosystems.com;
+ arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M0Od62B6VsDpyBXnnaf838PJzDLuWQCW77pk0Jxh4Yo=;
+ b=Rk05EqpjW8G2eLPVipvfbtTBgMztAI90TF0OjMuCyomRJC6yV9sXYTXfGpYeqhttgeJOiNPkTOqIq1j6Ewt6U1BL64gvIjEPQEe5E9rzNN5CrSdwWcsarc6rkhvEcUzbrv1LRKdXwGkZKe42n+zhyiTKF7akCZfkNdbf7NDsPj8=
+Received: from DB6PR06MB4008.eurprd06.prod.outlook.com (2603:10a6:6:54::31) by
+ DB6PR0601MB2118.eurprd06.prod.outlook.com (2603:10a6:4:48::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5458.20; Thu, 28 Jul 2022 04:09:24 +0000
+Received: from DB6PR06MB4008.eurprd06.prod.outlook.com
+ ([fe80::ac78:c445:6beb:699b]) by DB6PR06MB4008.eurprd06.prod.outlook.com
+ ([fe80::ac78:c445:6beb:699b%5]) with mapi id 15.20.5458.025; Thu, 28 Jul 2022
+ 04:09:24 +0000
+From: SCHNEIDER Johannes <johannes.schneider@leica-geosystems.com>
+To: Ross Burton <Ross.Burton@arm.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [meta-oe][PATCH v2] classes: rootfs-postcommands:
+ autologin root on serial-getty
+Thread-Topic: [OE-core] [meta-oe][PATCH v2] classes: rootfs-postcommands:
+ autologin root on serial-getty
+Thread-Index: AQHYoNORkHKiMbN5n02NMEOl2h/iza2SWgiAgADSgzM=
+Date: Thu, 28 Jul 2022 04:09:23 +0000
+Message-ID: 
+ <DB6PR06MB40083CBE1C51803775D55256BC969@DB6PR06MB4008.eurprd06.prod.outlook.com>
+References: <20220726093906.619035-1-johannes.schneider@leica-geosystems.com>
+ <1D505589-2A1C-4E82-B219-80354DAAAD37@arm.com>
+In-Reply-To: <1D505589-2A1C-4E82-B219-80354DAAAD37@arm.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-References: <20220727053939.353717-1-changqing.li@windriver.com>
- <CANNYZj--dxtiE6OvQzmUkpzKD3nQ-Zt1C5kbPLUWaBszfvqFLA@mail.gmail.com>
-From: Changqing Li <changqing.li@windriver.com>
-In-Reply-To: 
- <CANNYZj--dxtiE6OvQzmUkpzKD3nQ-Zt1C5kbPLUWaBszfvqFLA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2P153CA0024.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::11)
- To SN6PR11MB2557.namprd11.prod.outlook.com (2603:10b6:805:56::33)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=leica-geosystems.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d3fc293f-c46e-42b7-83d6-08da704ef49f
+x-ms-traffictypediagnostic: DB6PR0601MB2118:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ 5xTjD9tc/k3RHr3TOEEs5vCHatf0lHD2Q/MxKv5/IJpG2F3zUKlnUYIy1TLvBMK5pye89vLN5sAWkP/OSvc8pDBWKJcskoQoL/i3ZVTYAqhsMExbpAsoB/T8126AOXdAvRioumAYzP4cj+TzT9auizyEdzoD+wejfRInxFN5IPSsGNHeO/JNrFMmZmUAfXzguBKs8UmkmTGF6z3YEWvoA6+KMRkah7SCil0IOjuGek204eayja+alXgGMBShC5/QHfUhCtPC2/kGd/Kb6yEufywqGV56boije4FR3esHxs9u1WN2XO5niNZDlUYT/XucuRzj6wAdNRFI96u9LQP47sjBGwVvldsbCgWEIPy4avOwgAxaVtl0jmKNU7XCoV1I3qAxdzADl8Kb6DioQBQu+Z3XNW5Zy3WofSTzM4Z1qg75L2CKd1dh3UuMmqRLymju6dlhFTxIWuSmUG3v+6h7+HHYkLXtyNZFtr/IG7plIpjIOGak+mG8jYCswo7axTqglMs5WVlkG7MSxOhVDuZH8nwF/8mq86Gv6zcj297GsG/LH5kBnFNVXZDmy+P8xhD2k4stTS4xaMWlq/dgT0uiCy6A3n7aXN7qdMpbe6p3LRKzYUShFxMG4MBATC35AHp3gRxCOjLAyD80owdOi6oJpXhDm6Yq7B2mC4zK6ZIqqWR4XMjMVjqDHWgbu8KIaNiazq3lCQHfa37jW6DO//sDUexGHf9ah1/shptco5vFnJiK21OUAwxnBYK18n4dddy+jNZPguEmJvdr5XyCjdU2YjNdVZ6C9TIXEC3D/sBB0rMInCk4ol602zWZe4b9Xk+9
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB6PR06MB4008.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(39860400002)(396003)(376002)(346002)(366004)(26005)(8676002)(33656002)(53546011)(9686003)(966005)(6916009)(166002)(66446008)(4326008)(186003)(66556008)(66946007)(6506007)(7696005)(91956017)(64756008)(66476007)(86362001)(19627405001)(55016003)(8936002)(83380400001)(41300700001)(2906002)(38100700002)(38070700005)(52536014)(316002)(122000001)(5660300002)(478600001)(45080400002)(76116006)(71200400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?Windows-1252?Q?VuTvuoH4DFYAA/p5ZEMdHK+Kj6UZc1Q7p2hEX1tQk5zzRvNBQAlXJIye?=
+ =?Windows-1252?Q?Ey3cSdFMSaMsZojlr+/d5UtDAFcZ5VFqWpfVsbQZmOGHk1l684WoiD0n?=
+ =?Windows-1252?Q?3i9IidqsQIlYro6N+1Ar7xksI0yv2U+cq1SXkVRPQObfhYnBBhMh43g4?=
+ =?Windows-1252?Q?WryCFDe/iKc6AiwsbjG2NVV+u03eDAyRvYMiCPokS8LZDmawr/x+pJdc?=
+ =?Windows-1252?Q?wR5yfdM7q6F5BD9VFtaLq8IlUZLOlwRffDUDg28nrpjdOXf7X+6TbY7X?=
+ =?Windows-1252?Q?Zs7V2TpxdQb7JBOUddSF7ohM4ebmAFuYdzNam1popN/NdULM0msFXefu?=
+ =?Windows-1252?Q?isZuAvWP5uK+ZuNoF8Zl157B69LM0WKH8jH0R9vtGtNaytqknWMqbwZH?=
+ =?Windows-1252?Q?O5SkEVuoYevw0g/szuSRDquSpfEirTH46+KJJ4OUxIPgD8Mm/AJf2BlL?=
+ =?Windows-1252?Q?biMGToacbed9ff8QUEjq56OAGJ/MPPmklQURCt1JSpZT0fGFG27Vnph1?=
+ =?Windows-1252?Q?CcIMtuom5Lj5qIEYRSKA1cUMERBGOBT3zknTCl8auBVBt4qk3gc8gk9g?=
+ =?Windows-1252?Q?PKW9yEm0RYBHIkclC4dWlEzS55o8uhs8BfmFgdnfOS7ev+x3UzCMEllC?=
+ =?Windows-1252?Q?X7IJykgQN6tQ+vuvhdXfLT7eHxB82AIlbFNbIqHTf/vOaFng9bxLnAlo?=
+ =?Windows-1252?Q?MLdQkIArmDtE+J2UDXQZw9ctDe83xYM+tOwLGwuCfrrdJFVUWhlRwRle?=
+ =?Windows-1252?Q?h9a7Pz6eeqqPo05etR4kFqiAhf4/s8/fml/54ofKeY1T+L+aDgByrzR8?=
+ =?Windows-1252?Q?YAzcS/TeuZJBdnvKWqDnsYYDSaFEJjIcazhwcC71diTY5NjkJRrEHIgz?=
+ =?Windows-1252?Q?RTV9F/duLGWxVX86h+4aCOUoHpAPar8I88IDgBjXMQyaF92+4aGMCvXC?=
+ =?Windows-1252?Q?XNfUhVVs3AsAQnFVz2HIHpoo0Mt1npe7jgnhjxTb+I4Z83CkCPYlYrb2?=
+ =?Windows-1252?Q?yeza3TZRDasOFqhyQ/Q1t4XLqXknurYntcKA8TATOaSr5aSkx5qYWmLR?=
+ =?Windows-1252?Q?j6tWVeq75ClMwCK2bC5G9cKotd3VYo/03EYNiB6FwyTfuDpe/6T5BCiL?=
+ =?Windows-1252?Q?WOFK+10UL4vey0Wdnti2WApOYc0Y4VeGlXIO8GRvBNHUNqroj1Z498y6?=
+ =?Windows-1252?Q?HBDL/S3NDIHe0FRZ9J7BHm6g3Y+ogeAqgbYls415l/sbgRJlhPdwo66T?=
+ =?Windows-1252?Q?zdkg+0Ch7+mfc72QWKkmu9bpeylM+upRgG4eOmIlJAdzQt9JW0LMh7Aj?=
+ =?Windows-1252?Q?PAy7k1P4bz+7WxTNnII3940F4DMUGf51Ww89CEEoB2zkuN2fvAeYdXtZ?=
+ =?Windows-1252?Q?ADZSQZz30qAqAL0Qhi70nwtKDAiVpOPylTT0e6FnFX9aWCqJoOx1H2ME?=
+ =?Windows-1252?Q?1u/dYMKRuzrKKG4xiYlQ1RWDvzdz6oIvfx/XV/Qr0R2AyldFJCVjupaz?=
+ =?Windows-1252?Q?RRtR8E4TlGKs7A7eNQpo/NZMtuz9BdDag0L1XAitnRUxvrfubQhm/daF?=
+ =?Windows-1252?Q?PuaOfADumSjtyVifggi+fyBMFl+FqGxirxYQP07W3IwbnpAEzCEQde+z?=
+ =?Windows-1252?Q?j74ip3O25cAsx8pDSNkoCv+buJZFGo9sd8IalsRqmcgsJztyJY3TYF0M?=
+ =?Windows-1252?Q?NAp1b5SuDYeEJe1gtAwskK3K4E6bJ3aG+iJ0EcDqcigUi4IURcU/876X?=
+ =?Windows-1252?Q?mEx5VdmCkduP/svx1So=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_DB6PR06MB40083CBE1C51803775D55256BC969DB6PR06MB4008eurp_"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 84894774-54e4-46bd-7acf-08da704cc648
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB5866:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	rroDed+V3ZuZhfkg6RXs7FCt59j4oiOIax8vDZbaNqAMsiZUgPbVL2goej0HmdKkWSuXxAGdFgIj2hryCRn/L03X19Xei5dsU6cXBudg1E0hZsmrFHJzherJL6yoi9cw7VPH1LJ6BSF02VYIUILXA3S88VpESb+MtVPEPBqlmf3NGUhCCIimIe7aju9fccOjNMCoLKseZk5rfdW3JdWGBXgMpN+rwNvI9diB4MBaG5fgbPP0D9xLnLWLfRBP9Cc41tQx0CD6jWJ6kS9q6N8Ju8ewrHJ9qjAseKrN2XGOiJ/IRj3b9z1WEj8dC1RuDwyJgBlExxmC6aDbo83+HQEwzq/p1qvx23JQfpKp+bxesZBgTSKwRV9/kQ8MlGzspIZMhoLm40tIyDwAXaRzF1ZsLLrNC2RTZEstaUzWO0SMVXMhTnhUtxoyvUP2bIpRCoCr5UoFMSSFs5oxMgEDPgnL85O9V9bJqeUwBr2E+db3YK9xSJ6MjQPa1H0zHhaqsO+txFmu8B+zmBzDJuNzfUx6dpv/wUQGwEzADNAqNUNYMX2YXK7M0SXEsBo47IRvPjXu27mDhDF2iEpMFT1BCNKO3iytDLLGANTCioxVFZ5SCpciEN7h4vURm493CAkaGmh2zlw20EWChpe06eu4jOiMyinrvalYNMIAIebYKLClwqh+e8jaQkCD8hrvnm2Yg8SIRWk05Su07mkQNKuvMFJ0KLBiUFDJYTzj4cvxErD6r6x1EumrUK/GreYEzrY6y2fFMzI9c61q+cdCcklRXuSpgh+7k2cNc6ME+HVN1Nt89fbavTIY/NpONf27jnS4MKGNPwAK03gUxnbsZ71VyARqi+XrZgPr6Th8MLXSEi5zpYaAHo66LvZIjl4xn4UlpJYN6yc2BLvTNpr4iiYe5b5wCQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2557.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(346002)(366004)(396003)(39850400004)(136003)(6512007)(8936002)(6506007)(83380400001)(6666004)(53546011)(2906002)(66946007)(186003)(44832011)(86362001)(31696002)(41300700001)(5660300002)(478600001)(966005)(26005)(6486002)(6916009)(2616005)(38100700002)(66556008)(4326008)(8676002)(31686004)(316002)(66476007)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?K1l2L3Faazl0cVBrTStDVTh4QXdZb3lPQi96Q25RMzhjUnVJVE05bWw1SWEy?=
- =?utf-8?B?NnYxZkJ2UXNFeEpKWWlCcVMyTUhjOERrZmVTQzZ5VSt0aFlKdWwxMjFtWlho?=
- =?utf-8?B?VmdHK3pBUlR5eGRKaTVQU0E5R0g0TVo1bWFLellmbHMrbHRnYnhtNlI0RE9y?=
- =?utf-8?B?TWpVYW14YTVYbkpJd3RmTTRJTnBETnM1NXd4M25SZ1dFVXFaeDlySEFuL1FL?=
- =?utf-8?B?dUR4ZmJuSnUra2FPbXhXd3FiVzErQWpHU3BHM0xGdW4rNlNDcDJZYmZkb1Rq?=
- =?utf-8?B?N2RIZUlSR3p6by95cktuZ0ZDNjVhT1h6V1krVmMxaEtEUmNWajhTWEpsSWkw?=
- =?utf-8?B?dXErbmdsRUErc2cvZUcxY0NDTUZNMW1ueTdGM3dDQ0pSdDlmNWhLVnpsY3pJ?=
- =?utf-8?B?cE85eDlrMWdoN0JPTkZkM2FDemdOZFllQjA4RnFzT3V6ZVhrWlZEMVBibnRn?=
- =?utf-8?B?R0NFVm0yTTEvZ244WEtCZU00eElpeDBnZjNaTThyWXBsUmR4ZUVFZ3ZpWGt2?=
- =?utf-8?B?aUZnMFVsNDk0MmhnNW1SV21oU05udDZnVlAvVUxOcTVsVGtEajVMYjhRRXZo?=
- =?utf-8?B?RytKU3R5WFd2NVAwYmlpR2cxY0pySG5zNHNDZm9wMVA3alludGI0SzBSWmtv?=
- =?utf-8?B?L1RCK3VaMnJRcUtwbnpJS2JCdXE4Y3MrQmhSVFpXc2VlUXBIZGg5aFFkaXE2?=
- =?utf-8?B?SWo4eTlDTngzbnNCVmtpNnZoLzY3WTArdHJLcUxRVnF2Mk5CblF2cWE2RUox?=
- =?utf-8?B?YmIwUVIrRGFFc0tUSXZiSjVSYTB4cWd2WHJjV0VhdmtpMkZmRmdUMVA0aG12?=
- =?utf-8?B?VzhHeDJpaWt2Zjk1R2M5djZqZVhQbkcvZzUyRnl5cEZNMndJNVcrR0hucnpa?=
- =?utf-8?B?R2NUWDQzSnV2emlDWGdkU1pEaTlvODZtU3B4ZVpDTlFSMVdrSEg3a0lXRlN1?=
- =?utf-8?B?NGVvd1VPNE1hQUFyQVhzc2ZTUktzcUROL0o4dHdqMktnb05hclRrbFRUNHlo?=
- =?utf-8?B?SGpDdXFBRks1ellwYnhnS1NuMjNqb3J4K1RiY0Nybnl5bHVJdlhHa1R0cmhT?=
- =?utf-8?B?UFJEWkdZNUt3ZXJVZ3dISWRPZVc2VWxQYTdXK3JEbWZEcUhxUzZ1emRQSDA1?=
- =?utf-8?B?bkdWV2NINHB4WHFvdUJFYitvbnkvRUZRa3ZabjF0b2piSkZnVFpOZEFaTk00?=
- =?utf-8?B?bmhyeEZmdGxVNDhIcndPVlpKRGRBa0RiaHczODA0V3h4SmJ3SmlBZVFXbmFM?=
- =?utf-8?B?cFVkVzRxYmkxL2hEQ0dvQzdqc01Ld3RrTzc3ZUc2VVprUTZmZkpHSnhUZXpR?=
- =?utf-8?B?a0NHek1lNS8yYkN3OUV5cXk4WjJoNUsyUDNvS3E0eVZaVnU1RGpjYlExa3pI?=
- =?utf-8?B?TFVIdW5mNlRoVVZIVWdWR1JDLzhGWTN0UUpoNW1zcVRIbjkrOEV6NkFNRXZN?=
- =?utf-8?B?cGNQSGVyQ0ZNT1JFL0RnNjVyVzdTeG51OUFYKzFvQ0tmV1o3TElXSmpEZmp6?=
- =?utf-8?B?eCtwYVNaMUNiTmg1cDdQYVlOL0FxZC9pemdEQXhWRDJKSDI5ZmZsZi9GaUZZ?=
- =?utf-8?B?MGR0L1dGVllHRlZCajB4bHRJRVNTdW1vdTlSSjQxdVcvYWRzUFowZUs4L1Nt?=
- =?utf-8?B?V0RKZFVpdDhtZnRkMmlKTE8wYXo5bkVyb1ZERUV5b2xFMm5lNzUxd01LcWlv?=
- =?utf-8?B?Vi9mcmR2cVp0YlljKzZEcmF4NGtaS2llZHVJWkhJd2pZNkdMN0syUTZwTjJl?=
- =?utf-8?B?UWFDTGprMEtzT2Q2My9JdEViWHQ0WUNLeUlQcTR0d0ZvT0RnQjlUR3VLbXZY?=
- =?utf-8?B?bmpMQmVQVkltYmNqSDBtTHJ6Z3hLV1N0S3BmdWxaSThWWTVJTXl6WjB0VnBY?=
- =?utf-8?B?UThsTGZFbUwwNnpSbElJV0xaNTFGNUlMelVzbFhKMEZDWFdMTEpNQWFXMWc0?=
- =?utf-8?B?czlsMWR2K2dUcnBUdmRUa01mbGRudStnc2hNbDZFYW1IQUtnNGkxazFPeGNX?=
- =?utf-8?B?KytFSzNyb1Q2bDA0dkdjeHdwL1RSTVEvaVJuQWRrSnVieVNnN0JBVE9iSzI5?=
- =?utf-8?B?aVRvdXVxV2JvSlRxaFJ1NldFajN4M2t0dXY1Q3NlQTkva3BRTy85SE5pODR2?=
- =?utf-8?B?b2QxY2hSTGN6MEljdTJmRFhpU0dLZ1hPUFdPRmxXUWdkOGVpN0YrOWg3ZjNy?=
- =?utf-8?B?OXc9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 
- 84894774-54e4-46bd-7acf-08da704cc648
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2557.namprd11.prod.outlook.com
+X-OriginatorOrg: leica-geosystems.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2022 03:53:47.6091
+X-MS-Exchange-CrossTenant-AuthSource: DB6PR06MB4008.eurprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 
+ d3fc293f-c46e-42b7-83d6-08da704ef49f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jul 2022 04:09:23.9888
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 
- UgKSd3CmvhOjiVQBFz2F+CrOzy8RDziAe2Qv78gp+iOlIFvVGXumB2/5l0qqZ2oZT6o6tfZnAsZrwre97Q3Oh2lHwkWnxt9ibQKKiKsIvHQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5866
-X-Proofpoint-ORIG-GUID: WLi6UP4SpWi6Tr7RqCctifgbOini3Lms
-X-Proofpoint-GUID: fKhBngfl2S_53JEopD-nvEDZJjXVfDfy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-27_08,2022-07-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- impostorscore=0 bulkscore=0 clxscore=1015 adultscore=0 lowpriorityscore=0
- priorityscore=1501 mlxscore=0 phishscore=0 malwarescore=0 spamscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207280017
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 
+ xCg6ZNWLMcDecm5etN5j/jGmG7uUtN2po33lfE3uyv75l/RcPlJPqtkgV5uwNQ1rvVYJ6oXVFfJuEUOX+Fb61udpYTeY0rXW6qMsVDy5KxFGIUa9VKiMICf/V2vXnbVC
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0601MB2118
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 03:53:54 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 04:09:35 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168590
+ https://lists.openembedded.org/g/openembedded-core/message/168592
+
+--_000_DB6PR06MB40083CBE1C51803775D55256BC969DB6PR06MB4008eurp_
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+good question, haven't had a sysvinit system in ages... so no easy "let's t=
+est it on this platform" :-s
+do you happen to have one?
 
 
-On 7/27/22 19:51, Alexander Kanavin wrote:
-> [Please note: This e-mail is from an EXTERNAL e-mail address]
->
-> What is actually being installed in there? Is it really right to remove it?
+should the patch include a warning to sysvinit users like "not supported" "=
+config switch only applies to systemd" ... suggestions? (-:
 
-An empty dir apt is installed under /var/log/. It should be ok to remove 
-it since apt could create it when it doesn't exist.
+the only sysvinit+getty reference i see in the code is ./meta/recipes-core/=
+sysvinit/sysvinit-inittab/start_getty
+which relies on a symlinked getty - possibly provided by busybox or others?
 
-We have remove it for target. So I do the same for nativesdk. Another 
-solution could be INSANE_SKIP the empty-dirs.
+regards
+________________________________
+From: Ross Burton <Ross.Burton@arm.com>
+Sent: Wednesday, July 27, 2022 17:30
+To: SCHNEIDER Johannes <johannes.schneider@leica-geosystems.com>
+Cc: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
+mbedded.org>
+Subject: Re: [OE-core] [meta-oe][PATCH v2] classes: rootfs-postcommands: au=
+tologin root on serial-getty
 
-How do you think?
+[You don't often get email from ross.burton@arm.com. Learn why this is impo=
+rtant at https://aka.ms/LearnAboutSenderIdentification ]
 
-Changqing
+This email is not from Hexagon=92s Office 365 instance. Please be careful w=
+hile clicking links, opening attachments, or replying to this email.
 
->
-> Alex
->
-> On Wed, 27 Jul 2022 at 07:39, Changqing Li <changqing.li@windriver.com> wrote:
->> From: Changqing Li <changqing.li@windriver.com>
->>
->> bitbake nativesdk-apt failed with error:
->> ERROR: nativesdk-apt-2.4.5-r0 do_package_qa: QA Issue: nativesdk-apt installs files in /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/var/volatile, but it is expected to be empty [empty-dirs]
->>
->> Signed-off-by: Changqing Li <changqing.li@windriver.com>
->> ---
->>   meta/recipes-devtools/apt/apt_2.4.5.bb | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/recipes-devtools/apt/apt_2.4.5.bb b/meta/recipes-devtools/apt/apt_2.4.5.bb
->> index 1d94dd118c..d79a33857a 100644
->> --- a/meta/recipes-devtools/apt/apt_2.4.5.bb
->> +++ b/meta/recipes-devtools/apt/apt_2.4.5.bb
->> @@ -123,6 +123,7 @@ do_install:append:class-native() {
->>
->>   do_install:append:class-nativesdk() {
->>          customize_apt_conf_sample
->> +       rm -rf ${D}${localstatedir}/log
->>   }
->>
->>   do_install:append:class-target() {
->> --
->> 2.25.1
->>
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#168542): https://lists.openembedded.org/g/openembedded-core/message/168542
->> Mute This Topic: https://lists.openembedded.org/mt/92643987/1686489
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
+
+> +serial_autologin_root () {
+> +     if [ -e ${IMAGE_ROOTFS}${systemd_system_unitdir}/serial-getty@.serv=
+ice ]; then
+> +             sed -i '/^\s*ExecStart\b/ s/getty /&--autologin root /' \
+> +                     "${IMAGE_ROOTFS}${systemd_system_unitdir}/serial-ge=
+tty@.service"
+> +     fi
+> +}
+
+What about images using sysvinit?
+
+Ross
+
+--_000_DB6PR06MB40083CBE1C51803775D55256BC969DB6PR06MB4008eurp_
+Content-Type: text/html; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+good question, haven't had a sysvinit system in ages... so no easy &quot;le=
+t's test it on this platform&quot; :-s</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+do you happen to have one?</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+should the patch include a warning to sysvinit users like &quot;not support=
+ed&quot; &quot;config switch only applies to systemd&quot; ... suggestions?=
+ (-:<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+the only sysvinit+getty reference i see in the code is ./meta/recipes-core/=
+sysvinit/sysvinit-inittab/start_getty</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+which relies on a symlinked getty - possibly provided by busybox or others?=
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+regards<br>
+</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Ross Burton &lt;Ross.=
+Burton@arm.com&gt;<br>
+<b>Sent:</b> Wednesday, July 27, 2022 17:30<br>
+<b>To:</b> SCHNEIDER Johannes &lt;johannes.schneider@leica-geosystems.com&g=
+t;<br>
+<b>Cc:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
+ists.openembedded.org&gt;<br>
+<b>Subject:</b> Re: [OE-core] [meta-oe][PATCH v2] classes: rootfs-postcomma=
+nds: autologin root on serial-getty</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">[You don't often get email from ross.burton@arm.co=
+m. Learn why this is important at
+<a href=3D"https://aka.ms/LearnAboutSenderIdentification">https://aka.ms/Le=
+arnAboutSenderIdentification</a> ]<br>
+<br>
+This email is not from Hexagon=92s Office 365 instance. Please be careful w=
+hile clicking links, opening attachments, or replying to this email.<br>
+<br>
+<br>
+&gt; +serial_autologin_root () {<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; if [ -e ${IMAGE_ROOTFS}${systemd_system_unit=
+dir}/serial-getty@.service ]; then<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; sed -i '/^\s*ExecStart\b/ s/getty /&amp;--autologin root /' \<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;${IMAGE_ROOTFS}${=
+systemd_system_unitdir}/serial-getty@.service&quot;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; fi<br>
+&gt; +}<br>
+<br>
+What about images using sysvinit?<br>
+<br>
+Ross<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_DB6PR06MB40083CBE1C51803775D55256BC969DB6PR06MB4008eurp_--
 
