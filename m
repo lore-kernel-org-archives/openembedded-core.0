@@ -1,253 +1,220 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64B6EC04A68
-	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 21:15:19 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web08.862.1659042916908109693
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79132C04A68
+	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 21:44:09 +0000 (UTC)
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
+ [209.85.222.176])
+ by mx.groups.io with SMTP id smtpd.web12.1159.1659044639333092753
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jul 2022 14:15:17 -0700
+ Thu, 28 Jul 2022 14:43:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=G8Ihlh4O;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51,
- mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id
- x23-20020a05600c179700b003a30e3e7989so1671061wmo.0
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=V4NfZ2WO;
+ spf=pass (domain: gmail.com, ip: 209.85.222.176,
+ mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f176.google.com with SMTP id m7so2437064qkk.6
         for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jul 2022 14:15:16 -0700 (PDT)
+ Thu, 28 Jul 2022 14:43:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=50Y1Oax1kZols9GhkDPbqDGHVVPv/MGQtgBgqH2Q0Sc=;
-        b=G8Ihlh4OpO66SL1kGv6KNSf/SUq9hKU9wJUjGUjG+tP0s8deFndzCbqiOj8GlA+AaW
-         wNb1h+v02OJ8t3fsN/QszQ0AKX/m/JCzXb/YXELFyoA6QDRvx8Z6pay+xsBCesy0twvD
-         JKvBCy3Ap+c/Rr0St5CVpPSz30CaSd0cXmiAI=
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hvEJ489JLWQ3Ag05UZOv+4QFjx/+WgduDsG9ZqDyddw=;
+        b=V4NfZ2WOvcG+Ts61i1wmHyhUjenD76F9Ljvu7AphBkInEfCVlXZPS89lFS5heXLxCW
+         1SF+11/OtQaSXEK7t/YDQsVwdFFlbB+qBI8o47Pw7KZ2rx0hR4L6xdkMnsAhIlSMwKvf
+         wlumPfIDtC8vT+Su/tB5Y9D8BC+oav8H2Iu1+NG6pSnZ59T3b6wO1nh05NG040VgI0ca
+         X+KENd3XY76TMVgpTAMS3+6Gs9jXXmeQl31uoldSHSlLmV0eCWeCuGGKUGyqyS1K2FW+
+         7QVHYz4NOjHGeF3XLr1mEN+Um2hhcamHCn0MZ/thjDlqWYSrMKwNIG4PpuUudD5X3qh1
+         EjiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=50Y1Oax1kZols9GhkDPbqDGHVVPv/MGQtgBgqH2Q0Sc=;
-        b=Ws0ihd960GjImE7bK++VZThrYkvvPfTa9rUhUn2kJXtGrWFmm6/bHyyoZGtdhVagvo
-         mWgUJRMz0rSPOGOmn3JQCXJH9v+sm7G7e9jllgXirqO5NvWT7D41LTEOtwoP9boFvqGG
-         /yFmijBW7FhaDtr92xKBoxQC6GGRC6kxqxnKMjTDOgVOqlVKU5g0pPCB5jZTLiT4mIgW
-         UnNK3rH9FDpjYeiwArpz4aJhhug6uNUU7WUQTEQ4k6LsLohf2nEX0Wxgtj+0/ayBeZAX
-         7TQuZU6va9cvAEh6FvIZZFbzMybK+0mzKuty9xHJShdDGy7l2noD9q/TQsFBSi/vyEub
-         EOOA==
-X-Gm-Message-State: AJIora9GWk7oJ8u3OMK0fcYFf2A+K2hl8hTjIlbmne5X8vwKVJCg48ab
-	DbU48XmOLpJRvmcd9hqgyEjMpw==
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hvEJ489JLWQ3Ag05UZOv+4QFjx/+WgduDsG9ZqDyddw=;
+        b=N2XWvoEdrybE360VAHUEVMqO3MKmeajdAAouzAnOGmp16bBDLEmNLXW1/01/jVuJ3c
+         6/KfK7sxLc8ufxNxABVMl+6Mx71gTo2yqEIRQOvJEbDVBfSTnIUGzNFdOTXdmhcts2gd
+         tUa9qqXQechcy8Ra7Zo+LSYLYQ3HpBYN2enrAYvAykmHCmur+9l8eUGJChJslDmEYEdX
+         35l97DPTIUIgVIc53v2fG4mZaRrXRBfooqy4HnaBLjBT1imhuG1uW4irmTKKzx3mvcpw
+         fYf2gtRQTotq56luoUPcx08xb6ot6P3T3H/P1DZ0ecKge5xBtM5IR/x1jLeRQsvCb2Nd
+         vLtQ==
+X-Gm-Message-State: AJIora8YfFujvvvg2OoUrB0LdFFTNW/+Vqo1FS91EVKcdZJQvYp2iJYH
+	bB51vBbIVVJRSBHn9WH11CS7qna236irlgF8xMQ=
 X-Google-Smtp-Source: 
- AGRyM1uayP21Lmjc8rCzjryNzPWiiMT7AeL9L9IxwztQJAe34AV8MCx3B7rvFHE6UXPs+A3tzx4ypA==
-X-Received: by 2002:a05:600c:3b9a:b0:3a3:21c2:e289 with SMTP id
- n26-20020a05600c3b9a00b003a321c2e289mr402221wms.77.1659042915131;
-        Thu, 28 Jul 2022 14:15:15 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:8ec8:b67:91aa:e08?
- ([2001:8b0:aba:5f3c:8ec8:b67:91aa:e08])
-        by smtp.gmail.com with ESMTPSA id
- n40-20020a05600c3ba800b003a2ed2a40e4sm6935042wms.17.2022.07.28.14.14.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jul 2022 14:14:59 -0700 (PDT)
-Message-ID: 
- <0cc4cf664450fda920f3c9176b56ce1955b83226.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] create-spdx: Runs the do_create_spdx task
- after the do_package_write_*
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, Ricardo Salveti
-	 <ricardo@foundries.io>, daiane.angolini@foundries.io, Jose Quaresma
-	 <jose.quaresma@foundries.io>
-Date: Thu, 28 Jul 2022 22:14:46 +0100
-In-Reply-To: 
- <CANPvuRknJ5w3161hpoCAXVycDcPLEG9yPmg_AmysC_4mj+AZQw@mail.gmail.com>
-References: <20220728085407.293067-1-jose.quaresma@foundries.io>
-	 <b5964850b01ae9766ee70404edcf189e78c4921f.camel@linuxfoundation.org>
-	 <1705FBBA058AF979.1380@lists.openembedded.org>
-	 <CANPvuRknJ5w3161hpoCAXVycDcPLEG9yPmg_AmysC_4mj+AZQw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1-0ubuntu1 
+ AGRyM1sNQRCR4g1HkugP27ET0go4T3YOKsJZSs0NT3JakfVO+gECOYKHzyY1TPlbogBBfFNDNvvyGiHhFP5M7H5dQnI=
+X-Received: by 2002:a05:620a:f85:b0:6b5:e2be:1d04 with SMTP id
+ b5-20020a05620a0f8500b006b5e2be1d04mr700562qkn.72.1659044638221; Thu, 28 Jul
+ 2022 14:43:58 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220728114046.3529197-1-Martin.Jansa@gmail.com>
+ <20220728114046.3529197-2-Martin.Jansa@gmail.com>
+In-Reply-To: <20220728114046.3529197-2-Martin.Jansa@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 28 Jul 2022 17:43:47 -0400
+Message-ID: 
+ <CAMKF1sou7imybgWnkyWVWhvy=PxPX0ihSxxV3EJwE8MqGEtv3w@mail.gmail.com>
+Subject: Re: [OE-core] [RFC][PATCH] bitbake.conf: introduce
+ LINKER/BUILD_LINKER variables
+To: Martin Jansa <Martin.Jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, petr.vorel@gmail.com
+Content-Type: multipart/alternative; boundary="00000000000053e96805e4e46ea9"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 21:15:19 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 21:44:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168619
+ https://lists.openembedded.org/g/openembedded-core/message/168620
 
-On Thu, 2022-07-28 at 15:32 +0100, Jose Quaresma wrote:
->=20
->=20
-> Jose Quaresma via lists.openembedded.org
-> <quaresma.jose=3Dgmail.com@lists.openembedded.org> escreveu no dia
-> quinta, 28/07/2022 =C3=A0(s) 12:46:
-> >=20
-> >=20
-> > Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
-> > quinta, 28/07/2022 =C3=A0(s) 12:01:
-> > > On Thu, 2022-07-28 at 09:54 +0100, Jose Quaresma wrote:
-> > > > Otherwise spdx can have references for data that is not packed.
-> > > > in the package delivered.
-> > > >=20
-> > > > During do_package_write_ipk task in do_package_ipk some files
-> > > > is cleaned up from packages-split directory in the funcion
-> > > > cleanupcontrol.
-> > > >=20
-> > > > This also fixes the following race condictions when the
-> > > > do_create_spdx
-> > > > task runs the add_package_files function and these files is
-> > > > been deleted
-> > > > at same time in the task do_package_write_ipk:
-> > > >=20
-> > > > ERROR: alsa-topology-conf-1.2.5.1-r0 do_create_spdx: Error
-> > > > executing a python function in exec_func_python()
-> > > > autogenerated:
-> > > >=20
-> > > > The stack trace of python calls that resulted in this
-> > > > exception/failure was:
-> > > > File: 'exec_func_python() autogenerated', lineno: 2, function:
-> > > > <module>
-> > > > =C2=A0 =C2=A0 =C2=A0 0001:
-> > > > =C2=A0 *** 0002:do_create_spdx(d)
-> > > > =C2=A0 =C2=A0 =C2=A0 0003:
-> > > > File: '/srv/oe/build/conf/../../layers/openembedded-
-> > > > core/meta/classes/create-spdx.bbclass', lineno: 567, function:
-> > > > do_create_spdx
-> > > > =C2=A0 =C2=A0 =C2=A0 0563:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
-> > > > package_doc.add_relationship(package_doc, "DESCRIBES",
-> > > > spdx_package)
-> > > > =C2=A0 =C2=A0 =C2=A0 0564:
-> > > > =C2=A0 =C2=A0 =C2=A0 0565:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- package_archive =3D deploy_dir_spdx /
-> > > > "packages" / (package_doc.name + ".tar.zst")
-> > > > =C2=A0 =C2=A0 =C2=A0 0566:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- with optional_tarfile(package_archive,
-> > > > archive_packaged) as archive:
-> > > > =C2=A0 *** 0567:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 package_files =3D add_package_files(
-> > > > =C2=A0 =C2=A0 =C2=A0 0568:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 d,
-> > > > =C2=A0 =C2=A0 =C2=A0 0569:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 package_doc,
-> > > > =C2=A0 =C2=A0 =C2=A0 0570:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 spdx_package,
-> > > > =C2=A0 =C2=A0 =C2=A0 0571:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 pkgdest / package,
-> > > > File: '/srv/oe/build/conf/../../layers/openembedded-
-> > > > core/meta/classes/create-spdx.bbclass', lineno: 234, function:
-> > > > add_package_files
-> > > > =C2=A0 =C2=A0 =C2=A0 0230:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.mtime =3D
-> > > > source_date_epoch
-> > > > =C2=A0 =C2=A0 =C2=A0 0231:
-> > > > =C2=A0 =C2=A0 =C2=A0 0232:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 archive.addfile(info, f)
-> > > > =C2=A0 =C2=A0 =C2=A0 0233:
-> > > > =C2=A0 *** 0234:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 sha1 =3D bb.utils.sha1_file(filepath)
-> > > > =C2=A0 =C2=A0 =C2=A0 0235:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 sha1s.append(sha1)
-> > > > =C2=A0 =C2=A0 =C2=A0 0236:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0
-> > > > spdx_file.checksums.append(oe.spdx.SPDXChecksum(
-> > > > =C2=A0 =C2=A0 =C2=A0 0237:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 algorithm=3D"SHA1",
-> > > > =C2=A0 =C2=A0 =C2=A0 0238:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 checksumValue=3Dsha1,
-> > > > File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 559, function:
-> > > > sha1_file
-> > > > =C2=A0 =C2=A0 =C2=A0 0555:=C2=A0 =C2=A0 """
-> > > > =C2=A0 =C2=A0 =C2=A0 0556:=C2=A0 =C2=A0 Return the hex string repre=
-sentation of the SHA1
-> > > > checksum of the filename
-> > > > =C2=A0 =C2=A0 =C2=A0 0557:=C2=A0 =C2=A0 """
-> > > > =C2=A0 =C2=A0 =C2=A0 0558:=C2=A0 =C2=A0 import hashlib
-> > > > =C2=A0 *** 0559:=C2=A0 =C2=A0 return _hasher(hashlib.sha1(), filena=
-me)
-> > > > =C2=A0 =C2=A0 =C2=A0 0560:
-> > > > =C2=A0 =C2=A0 =C2=A0 0561:def sha384_file(filename):
-> > > > =C2=A0 =C2=A0 =C2=A0 0562:=C2=A0 =C2=A0 """
-> > > > =C2=A0 =C2=A0 =C2=A0 0563:=C2=A0 =C2=A0 Return the hex string repre=
-sentation of the
-> > > > SHA384 checksum of the filename
-> > > > File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 528, function:
-> > > > _hasher
-> > > > =C2=A0 =C2=A0 =C2=A0 0524:
-> > > > =C2=A0 =C2=A0 =C2=A0 0525:def _hasher(method, filename):
-> > > > =C2=A0 =C2=A0 =C2=A0 0526:=C2=A0 =C2=A0 import mmap
-> > > > =C2=A0 =C2=A0 =C2=A0 0527:
-> > > > =C2=A0 *** 0528:=C2=A0 =C2=A0 with open(filename, "rb") as f:
-> > > > =C2=A0 =C2=A0 =C2=A0 0529:=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:
-> > > > =C2=A0 =C2=A0 =C2=A0 0530:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- with mmap.mmap(f.fileno(), 0,
-> > > > access=3Dmmap.ACCESS_READ) as mm:
-> > > > =C2=A0 =C2=A0 =C2=A0 0531:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 for chunk in iter(lambda:
-> > > > mm.read(8192), b''):
-> > > > =C2=A0 =C2=A0 =C2=A0 0532:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 method.update(chunk)
-> > > > Exception: FileNotFoundError: [Errno 2] No such file or
-> > > > directory: '/srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-
-> > > > topology-conf/1.2.5.1-r0/packages-split/alsa-topology-
-> > > > conf/CONTROL/control'
-> > >=20
-> > > We have other places where we've had to teach the code to ignore
-> > > the
-> > > control files and we'll probably have to do that here (grep for
-> > > CONTROL).
-> > >=20
-> >=20
-> >=20
-> > The snip=C2=A0that delete this files is in=C2=A0cleanupcontrol
-> > https://git.yoctoproject.org/poky/tree/meta/classes/package_ipk.bbclass=
-#n51
-> >=20
-> > So these=C2=A0files are not shipped=C2=A0in the ipk package produced.
-> >=20
->=20
->=20
-> What I mean is those files are not part of the content deployed and
-> it is a requirement=C2=A0of the packing
-> standard used so tracking it the sbom doesn't make much sense imo.
+--00000000000053e96805e4e46ea9
+Content-Type: text/plain; charset="UTF-8"
 
-Right, it would be fine to make the spdx class skip them if they were
-present.
+On Thu, Jul 28, 2022 at 7:41 AM Martin Jansa <Martin.Jansa@gmail.com> wrote:
 
-> ar -xv deploy/ipk/all/alsa-topology-conf_1.2.5.1-r0_all.ipk
-> x - debian-binary
-> x - control.tar.gz
-> x - data.tar.xz
->=20
-> For and deb and ipk we have in deb_write_pkg and ipk_write_pkg:
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0=20
-> =C2=A0 =C2=A0 finally:
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0cleanupcontrol(root)
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.unlockfile(lf)
->=20
-> For rpm we have in do_package_rpm:
->=20
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 # rpm 4 creates various empty directories in =
-_topdir, let's
-> clean them up
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0cleanupcmd =3D "rm -rf %s/BUILDROOT %s/S=
-OURCES %s/SPECS
-> %s/SRPMS" % (workdir, workdir, workdir, workdir)
-> =C2=A0
-> So all of them delete this package control content at the end but as
-> do_create_spdx
-> runs at the same time it can see and track this content as well.
-
-Yes, it is a race. We've generally tweaked the code using these
-directories to ignore these files rather than change the dependencies
-though.
-
-Ideally we'd change dpkg/opkg to place the files somewhere else during
-package build but we've not worked out how to do that as yet.
-
-Cheers,
-
-Richard
+> * makes it a bit easier to replace ld with ld.bfd or some other
+> implementation
+>   in LD/BUILD_LD variables without changing this whole variable and without
+>   depending on ld-is-gold to set ld symlink to preferred implementation (or
+>   when we want to force different one for specific recipe, e.g. forcing bfd
+>   where gold fails, like in ltp)
 
 
+This is fixing bare ld calls but there are perhaps handful of recipes where
+bare ld is used in most of the cases we rely on compiler driver to do the
+linking and this confuses that use case.
+
+
+>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/conf/bitbake.conf | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 1d36aae8b3..1c2ebf333e 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -553,7 +553,8 @@ export CC = "${CCACHE}${HOST_PREFIX}gcc
+> ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+>  export CXX = "${CCACHE}${HOST_PREFIX}g++
+> ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+>  export FC = "${CCACHE}${HOST_PREFIX}gfortran
+> ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+>  export CPP = "${HOST_PREFIX}gcc -E${TOOLCHAIN_OPTIONS} ${HOST_CC_ARCH}"
+> -export LD = "${HOST_PREFIX}ld${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}"
+> +LINKER = "ld"
+> +export LD = "${HOST_PREFIX}${LINKER}${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}"
+>  export CCLD = "${CC}"
+>  export AR = "${HOST_PREFIX}gcc-ar"
+>  export AS = "${HOST_PREFIX}as ${HOST_AS_ARCH}"
+> @@ -570,7 +571,8 @@ export BUILD_CC = "${CCACHE}${BUILD_PREFIX}gcc
+> ${BUILD_CC_ARCH}"
+>  export BUILD_CXX = "${CCACHE}${BUILD_PREFIX}g++ ${BUILD_CC_ARCH}"
+>  export BUILD_FC = "${CCACHE}${BUILD_PREFIX}gfortran ${BUILD_CC_ARCH}"
+>  export BUILD_CPP = "${BUILD_PREFIX}gcc ${BUILD_CC_ARCH} -E"
+> -export BUILD_LD = "${BUILD_PREFIX}ld ${BUILD_LD_ARCH}"
+> +BUILD_LINKER = "ld"
+> +export BUILD_LD = "${BUILD_PREFIX}${BUILD_LINKER} ${BUILD_LD_ARCH}"
+>  export BUILD_CCLD = "${BUILD_PREFIX}gcc ${BUILD_CC_ARCH}"
+>  export BUILD_AR = "${BUILD_PREFIX}ar"
+>  export BUILD_AS = "${BUILD_PREFIX}as ${BUILD_AS_ARCH}"
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#168601):
+> https://lists.openembedded.org/g/openembedded-core/message/168601
+> Mute This Topic: https://lists.openembedded.org/mt/92668261/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--00000000000053e96805e4e46ea9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, Jul 28, 2022 at 7:41 AM Martin Jansa &lt;<a href=3D=
+"mailto:Martin.Jansa@gmail.com">Martin.Jansa@gmail.com</a>&gt; wrote:<br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
+t:1px #ccc solid;padding-left:1ex">* makes it a bit easier to replace ld wi=
+th ld.bfd or some other implementation<br>
+=C2=A0 in LD/BUILD_LD variables without changing this whole variable and wi=
+thout<br>
+=C2=A0 depending on ld-is-gold to set ld symlink to preferred implementatio=
+n (or<br>
+=C2=A0 when we want to force different one for specific recipe, e.g. forcin=
+g bfd<br>
+=C2=A0 where gold fails, like in ltp)</blockquote><div dir=3D"auto"><br></d=
+iv><div dir=3D"auto">This is fixing bare ld calls but there are perhaps han=
+dful of recipes where bare ld is used in most of the cases we rely on compi=
+ler driver to do the linking and this confuses that use case.=C2=A0</div><d=
+iv dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
+<br>
+Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com" t=
+arget=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/conf/bitbake.conf | 6 ++++--<br>
+=C2=A01 file changed, 4 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br>
+index 1d36aae8b3..1c2ebf333e 100644<br>
+--- a/meta/conf/bitbake.conf<br>
++++ b/meta/conf/bitbake.conf<br>
+@@ -553,7 +553,8 @@ export CC =3D &quot;${CCACHE}${HOST_PREFIX}gcc ${HOST_C=
+C_ARCH}${TOOLCHAIN_OPTIONS}&quot;<br>
+=C2=A0export CXX =3D &quot;${CCACHE}${HOST_PREFIX}g++ ${HOST_CC_ARCH}${TOOL=
+CHAIN_OPTIONS}&quot;<br>
+=C2=A0export FC =3D &quot;${CCACHE}${HOST_PREFIX}gfortran ${HOST_CC_ARCH}${=
+TOOLCHAIN_OPTIONS}&quot;<br>
+=C2=A0export CPP =3D &quot;${HOST_PREFIX}gcc -E${TOOLCHAIN_OPTIONS} ${HOST_=
+CC_ARCH}&quot;<br>
+-export LD =3D &quot;${HOST_PREFIX}ld${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}&q=
+uot;<br>
++LINKER =3D &quot;ld&quot;<br>
++export LD =3D &quot;${HOST_PREFIX}${LINKER}${TOOLCHAIN_OPTIONS} ${HOST_LD_=
+ARCH}&quot;<br>
+=C2=A0export CCLD =3D &quot;${CC}&quot;<br>
+=C2=A0export AR =3D &quot;${HOST_PREFIX}gcc-ar&quot;<br>
+=C2=A0export AS =3D &quot;${HOST_PREFIX}as ${HOST_AS_ARCH}&quot;<br>
+@@ -570,7 +571,8 @@ export BUILD_CC =3D &quot;${CCACHE}${BUILD_PREFIX}gcc $=
+{BUILD_CC_ARCH}&quot;<br>
+=C2=A0export BUILD_CXX =3D &quot;${CCACHE}${BUILD_PREFIX}g++ ${BUILD_CC_ARC=
+H}&quot;<br>
+=C2=A0export BUILD_FC =3D &quot;${CCACHE}${BUILD_PREFIX}gfortran ${BUILD_CC=
+_ARCH}&quot;<br>
+=C2=A0export BUILD_CPP =3D &quot;${BUILD_PREFIX}gcc ${BUILD_CC_ARCH} -E&quo=
+t;<br>
+-export BUILD_LD =3D &quot;${BUILD_PREFIX}ld ${BUILD_LD_ARCH}&quot;<br>
++BUILD_LINKER =3D &quot;ld&quot;<br>
++export BUILD_LD =3D &quot;${BUILD_PREFIX}${BUILD_LINKER} ${BUILD_LD_ARCH}&=
+quot;<br>
+=C2=A0export BUILD_CCLD =3D &quot;${BUILD_PREFIX}gcc ${BUILD_CC_ARCH}&quot;=
+<br>
+=C2=A0export BUILD_AR =3D &quot;${BUILD_PREFIX}ar&quot;<br>
+=C2=A0export BUILD_AS =3D &quot;${BUILD_PREFIX}as ${BUILD_AS_ARCH}&quot;<br=
+>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#168601): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/168601" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/168601</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/92668261/1997=
+914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/92668261/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--00000000000053e96805e4e46ea9--
 
