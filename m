@@ -1,136 +1,167 @@
-Return-Path: <chuckwolber@gmail.com>
+Return-Path: <otavio.salvador@ossystems.com.br>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D08EC04A68
-	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 18:52:29 +0000 (UTC)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
- [209.85.219.181])
- by mx.groups.io with SMTP id smtpd.web11.36708.1659034344236037476
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F044C04A68
+	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 19:02:09 +0000 (UTC)
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
+ [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.web09.36815.1659034921942197054
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jul 2022 11:52:24 -0700
+ Thu, 28 Jul 2022 12:02:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=E+YMjNzO;
- spf=pass (domain: gmail.com, ip: 209.85.219.181,
- mailfrom: chuckwolber@gmail.com)
-Received: by mail-yb1-f181.google.com with SMTP id y127so4651903yby.8
+ dkim=pass header.i=@ossystems-com-br.20210112.gappssmtp.com header.s=20210112
+ header.b=pbUG7wWp;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.222.170,
+ mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qk1-f170.google.com with SMTP id v28so2102419qkg.13
         for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jul 2022 11:52:24 -0700 (PDT)
+ Thu, 28 Jul 2022 12:02:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+        d=ossystems-com-br.20210112.gappssmtp.com; s=20210112;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
          :cc;
-        bh=fsiFgqpprehF/bqFtT9//+IQDO4Gsrxxo/SoqLtlRMw=;
-        b=E+YMjNzOX65kqkqfhe/8DOKqLhsXYHKaYn/AoXXha0EQkN9R1hE5Is1DdlyqxQd3ev
-         uP1b+TjfkiEvDAbiPrWhrmNT0DXDV8bfa3d+9Y97Co3IuLvZxXCqIrMq89VPNlsmVUOm
-         gtX7y79p0Wso7SLbMFq22z+dErIRIF/cF2BuiNp+hDSsAZ4QbVDBFTLarJTCdqaNPQCv
-         DeFT6qVRrA4dkI1XrlSROR0BzfdA3GufNbolUp3u0OfVmc77iOiap5Jc5yn1p8RCwtIJ
-         MuNh3MicTewBj1CGsrDesDVHguNMUVLAodxBcQi5vA7eaUzObf19C459cb0otMf6JjC0
-         2fNw==
+        bh=tQ4BqL6Pdg1xfwH1Wijz5vHWs9A9fR/IA52z7w1NZ+c=;
+        b=pbUG7wWpea7VhsTdXmslNwNhL9rOoqwrPr+WT0PUZSH0VYPo3eY9qAO3yN+pAbQp+J
+         SAol/tlWmCfJjtyrgZT4RUrEQGGjKWiA3jJ57mm65QJ3HLr2/Pe6niW8fwQYySjOz6FG
+         GWeNTcAJRPEmdCf5EwtkFr/xN7xRroUVkulPStRnz+emgV7BiY96NVS7CynIUCOToj+8
+         FFYgkPUcMA/+ZK0TjpFdn1RR2310uXscj4URN8VrWvHin1pLaHvWcZjNP7YaV6NsYyX1
+         61iXGe0B6ZjIBBKJRGGWxqNffS4o/NdI8X6c5q7hF91GJjEbrB+kTgp4hOq98Vt2OOPL
+         Rn+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
          :message-id:subject:to:cc;
-        bh=fsiFgqpprehF/bqFtT9//+IQDO4Gsrxxo/SoqLtlRMw=;
-        b=ENyYj7ROhGaOPvfQOZNMkZjPPMTRW5+BPuSK9ZmnTQRTgIyIvmWsCqx8hnxMITADOc
-         RVQ7Y146DJVSmPoPlhll5Y/094CwhMpxgJeMVEMyNQz77u2kuWuj5Cvr7HZLM4n8F/06
-         9xa0gi3KuRmGXnN0y2nOykfmJnab0dXqIT1PeecdU1WD4KUrHdmPiYXat5RFGFGRVw6w
-         TCUrViBa+1ZLya2CMXSse91Uy8Ry9BJY/qan1fouGGzaFR5JawHQH6Ru0KS7FXiHSipv
-         KEGTQ47XS+nAW7qfmCq61MQDIMJK8bORJVBycdE8CXnOork8xXTsTDxk3XZ2tsmHD5A/
-         8xkA==
-X-Gm-Message-State: ACgBeo0VxVlBEvrRCM1JrsnjqApF5Pb+E8CWgwRWQS+opvulSCvetnDW
-	WkjPPKt+SojARaUU+QereO+b9eEzucoJERszYJk=
+        bh=tQ4BqL6Pdg1xfwH1Wijz5vHWs9A9fR/IA52z7w1NZ+c=;
+        b=f6drJO0khssixqGD+N01JcsmVcvlO7rTTk/q0mxUuBH/cV6U54IluCdTuvYPFwwjgD
+         ybni4xD394ZZxEKAJHtW8EH5k/JXlBL/yjOJNB9fJu32SmhcI/wHsc9uWfuTftW+N1hc
+         ura/d9PfKjccuDmU7jH+vzSSZyJ2CiS56dlbP6RPiIlkLxGCiJ3ZNH9ZnRhQuVsjgs5C
+         gMBBWGXuUI5pOI70g3gVyiPmVMGhpzDWNWViT/fa2O4Ypf7+gW2pWeXSy0lXJSMrltq6
+         oAZvoSRAUi8KoePgMk7QBjlDH88JyW6Q/TWZbbsDH6T73l5MPIJKlkjkki7t71f5ATxp
+         0QoQ==
+X-Gm-Message-State: AJIora9uzXxpZsMpT4BLGIbnFWXmr50YKoA/fit4LNkS4Q+uCJ1G/YNI
+	e+Mgws4xNjggWgNb8SOZOLu7KkdS76XTCYV1
 X-Google-Smtp-Source: 
- AA6agR7d0Ha7QMY1KxMAX6ykJu6GLkLsO86q4ah+lBpeKlmHDaHAhNhnt5JOptRIKPheF4JxxUzmRpNHegbDo8kK4Tg=
-X-Received: by 2002:a5b:3ce:0:b0:66f:4692:27a2 with SMTP id
- t14-20020a5b03ce000000b0066f469227a2mr35086ybp.167.1659034343322; Thu, 28 Jul
- 2022 11:52:23 -0700 (PDT)
+ AGRyM1uTqIXoPNJy6VgfFZ2Op6tgVzl6j3YMav641Ttpr3mJDcV+hKl+q2+Mur7fpVY6UGIUJ4LOSA==
+X-Received: by 2002:a05:620a:461f:b0:6b6:63a3:72dd with SMTP id
+ br31-20020a05620a461f00b006b663a372ddmr184036qkb.681.1659034920425;
+        Thu, 28 Jul 2022 12:02:00 -0700 (PDT)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com.
+ [209.85.219.42])
+        by smtp.gmail.com with ESMTPSA id
+ w22-20020ac87196000000b00304bc2acc25sm874953qto.6.2022.07.28.12.01.59
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Jul 2022 12:02:00 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qv1-f42.google.com with SMTP id d1so530059qvs.0
+        for <openembedded-core@lists.openembedded.org>;
+ Thu, 28 Jul 2022 12:01:59 -0700 (PDT)
+X-Received: by 2002:a05:6214:29cc:b0:474:5164:b4de with SMTP id
+ gh12-20020a05621429cc00b004745164b4demr16839101qvb.105.1659034919689; Thu, 28
+ Jul 2022 12:01:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1658882276.git.steve@sakoman.com>
- <bb1dc2bbfe268e73008dc37d6b1f83a861b48915.1658882276.git.steve@sakoman.com>
- <CAB=6tBTxdkT640huLEiMRKxWbONvbniKBb6_oiz7P_aUwjNKYQ@mail.gmail.com>
- <CAOSpxdY9JCXzDo6z2GxyTbXFQynFD2nj7T-FoJAEJzay3QnDJQ@mail.gmail.com>
-In-Reply-To: 
- <CAOSpxdY9JCXzDo6z2GxyTbXFQynFD2nj7T-FoJAEJzay3QnDJQ@mail.gmail.com>
-From: Chuck Wolber <chuckwolber@gmail.com>
-Date: Thu, 28 Jul 2022 11:52:12 -0700
+References: <20220728184436.1866411-1-tom.hochstein@nxp.com>
+In-Reply-To: <20220728184436.1866411-1-tom.hochstein@nxp.com>
+Date: Thu, 28 Jul 2022 16:01:48 -0300
+X-Gmail-Original-Message-ID: 
+ <CAP9ODKr72K77fxjo3JRcAq_5keBPpAK2=BkpFyY+8bv8jMXFWQ@mail.gmail.com>
 Message-ID: 
- <CAB=6tBRwUSnj+egXoRMU5YaxQ3SQs1LnYdKK95Rabiu0qaAMxA@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone 13/15] gobject-introspection-data: Disable
- cache for g-ir-scanner
-To: Steve Sakoman <steve@sakoman.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000b437b805e4e2080b"
+ <CAP9ODKr72K77fxjo3JRcAq_5keBPpAK2=BkpFyY+8bv8jMXFWQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] uboot-config.bbclass: Raise error for bad key
+To: Tom Hochstein <tom.hochstein@nxp.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000000eea1205e4e22b52"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 18:52:29 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 19:02:09 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168615
+ https://lists.openembedded.org/g/openembedded-core/message/168616
 
---000000000000b437b805e4e2080b
+--0000000000000eea1205e4e22b52
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 28, 2022 at 11:37 AM Steve Sakoman <steve@sakoman.com> wrote:
+Em qui., 28 de jul. de 2022 =C3=A0s 15:44, Tom Hochstein <tom.hochstein@nxp=
+.com>
+escreveu:
 
-> On Thu, Jul 28, 2022 at 7:55 AM Chuck Wolber <chuckwolber@gmail.com>
-> wrote:
-> >
-> > FWIW, the gobject-introspection-native recipe was one of the "canaries
-> in the mine" that reliably caused an image build to die while I was
-> actively encountering this GCC10 compiler issue in Hardknott:
+> If an invalid key is used, the class ignores the error, with an
+> indeterminate result. In my case, the problem surfaced in do_deploy:
 >
-> Have you encountered this issue with Kirkstone?
+> ```
+> | cp: cannot stat
+> '/.../build/tmp/work/imx6qdlsabresd-fsl-linux-gnueabi/u-boot-imx-mfgtool/=
+2022.04-r0/deploy-u-boot-imx-mfgtool/u-boot.imx':
+> No such file or
+> | directory
+> ```
+>
+> The root cause of this was that the uboot config key did not match
+> a valid option. With the fix, the error is caught by the class:
+>
+> ```
+> ERROR: Nothing PROVIDES 'u-boot-imx-mfgtool'
+> u-boot-imx-mfgtool was skipped: The selected UBOOT_CONFIG key ['mfgtool']
+> has no match in dict_keys(['sd-fslc', 'sd-imx', 'sd-optee-imx', 'sata-imx=
+',
+> 'mfgtool-imx']).
+> ```
+>
+> Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
 >
 
-We have not tried yet. We are debating the Hardknott to Kirkstone upgrade
-question right now.
-
-Our build is complex and 2.6 (Thud) -> 3.3 (Hardknott) took two months of
-very intensive work and then six months of stabilization. Granted python2
--> python3 was part of that, so a big chunk of the stabilization damage was
-self-inflicted. I do not expect anything as major for Hardknott ->
-Kirkstone, but I am also not na=C3=AFve either - all blockpoint upgrades ar=
-e
-painful in their own way...
-
-..Ch:W..
-
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
 --=20
-*"Perfection must be reached by degrees; she requires the slow hand of
-time." - Voltaire*
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
---000000000000b437b805e4e2080b
+--0000000000000eea1205e4e22b52
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jul 28, 2022 at 11:37 AM Stev=
-e Sakoman &lt;<a href=3D"mailto:steve@sakoman.com">steve@sakoman.com</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu,=
- Jul 28, 2022 at 7:55 AM Chuck Wolber &lt;<a href=3D"mailto:chuckwolber@gma=
-il.com" target=3D"_blank">chuckwolber@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; FWIW, the gobject-introspection-native recipe was one of the &quot;can=
-aries in the mine&quot; that reliably caused an image build to die while I =
-was actively encountering this GCC10 compiler issue in Hardknott:<br>
+<div dir=3D"ltr" class=3D"gmail_attr">Em qui., 28 de jul. de 2022 =C3=A0s 1=
+5:44, Tom Hochstein &lt;<a href=3D"mailto:tom.hochstein@nxp.com">tom.hochst=
+ein@nxp.com</a>&gt; escreveu:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">If an invalid key is used, the class ignores the error, with =
+an<br>
+indeterminate result. In my case, the problem surfaced in do_deploy:<br>
 <br>
-Have you encountered this issue with Kirkstone?<br></blockquote><div><br></=
-div><div>We have not tried yet. We are debating the Hardknott to Kirkstone =
-upgrade question right now.<br></div><div><br></div><div>Our build is compl=
-ex and 2.6 (Thud) -&gt; 3.3 (Hardknott) took two months of very intensive w=
-ork and then six months of stabilization. Granted python2 -&gt; python3 was=
- part of that, so a big chunk of the stabilization damage was self-inflicte=
-d. I do not expect anything as major for Hardknott -&gt; Kirkstone, but I a=
-m also not na=C3=AFve either - all blockpoint upgrades are painful in their=
- own way...</div><div><br></div><div>..Ch:W..<br></div></div><br clear=3D"a=
-ll"><br>-- <br><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr">=
-<div><b><span style=3D"font-family:monospace">&quot;Perfection must be reac=
-hed by degrees; she requires the slow hand of time.&quot; - Voltaire</span>=
-</b></div></div></div></div>
+```<br>
+| cp: cannot stat &#39;/.../build/tmp/work/imx6qdlsabresd-fsl-linux-gnueabi=
+/u-boot-imx-mfgtool/2022.04-r0/deploy-u-boot-imx-mfgtool/u-boot.imx&#39;: N=
+o such file or<br>
+| directory<br>
+```<br>
+<br>
+The root cause of this was that the uboot config key did not match<br>
+a valid option. With the fix, the error is caught by the class:<br>
+<br>
+```<br>
+ERROR: Nothing PROVIDES &#39;u-boot-imx-mfgtool&#39;<br>
+u-boot-imx-mfgtool was skipped: The selected UBOOT_CONFIG key [&#39;mfgtool=
+&#39;] has no match in dict_keys([&#39;sd-fslc&#39;, &#39;sd-imx&#39;, &#39=
+;sd-optee-imx&#39;, &#39;sata-imx&#39;, &#39;mfgtool-imx&#39;]).<br>
+```<br>
+<br>
+Signed-off-by: Tom Hochstein &lt;<a href=3D"mailto:tom.hochstein@nxp.com" t=
+arget=3D"_blank">tom.hochstein@nxp.com</a>&gt;<br></blockquote><div><br></d=
+iv><div>Acked-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossystems.co=
+m.br">otavio@ossystems.com.br</a>&gt;=C2=A0</div></div><div><br></div>-- <b=
+r><div dir=3D"ltr" class=3D"gmail_signature">Otavio Salvador =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 O.S. Systems<br><a href=3D"http://www.ossystems.com.br" target=
+=3D"_blank">http://www.ossystems.com.br</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0<a h=
+ref=3D"http://code.ossystems.com.br" target=3D"_blank">http://code.ossystem=
+s.com.br</a><br>Mobile: +55 (53) 9 9981-7854 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0Mobile: +1 (347) 903-9750</div></div>
 
---000000000000b437b805e4e2080b--
+--0000000000000eea1205e4e22b52--
 
