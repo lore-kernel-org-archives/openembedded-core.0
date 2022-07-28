@@ -1,200 +1,359 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52F02C04A68
-	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 11:41:27 +0000 (UTC)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web10.31318.1659008485433104791
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A663C04A68
+	for <webhook@archiver.kernel.org>; Thu, 28 Jul 2022 11:46:57 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web10.31364.1659008813484298362
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jul 2022 04:41:25 -0700
+ Thu, 28 Jul 2022 04:46:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20210112 header.b=dxQe1fq6;
- spf=pass (domain: gmail.com, ip: 209.85.218.50,
- mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id b11so2655524eju.10
+ dkim=pass header.i=@gmail.com header.s=20210112 header.b=CPF0Mdux;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53,
+ mailfrom: quaresma.jose@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id w15so2422180lft.11
         for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jul 2022 04:41:25 -0700 (PDT)
+ Thu, 28 Jul 2022 04:46:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=PCBLTrsib/ul/7XtdGzRw+heDLitDbNn/KoLV6CZI6g=;
-        b=dxQe1fq6Nd3nOBQsjI5Eo4Wtgd0z4xWqdIvylqBuYzfC1+ViraIkrarobacmCMD19f
-         MY4ZQ5KkbjiXrg3p1MXSr+p3fS2tL76juQpwXxdYbvhQzJ2VY3HnOvQ30Dw7Cuon+N8t
-         95vgiMrr5e5ikKKG0UeBIz8jUth8YnXTgBHwQHlSIb/fIlIl1g42IHK668AEW6guU1Tn
-         xox1PQdLXeTfHOgkNx6HtI7OD32lymay7etWhHftMsf8F2HkpqG5P6j7fc2/nPxobf1e
-         t9gRZFNHUW5o/PX42LGoFRWbqpWlbZ00pfDcn8E5j11aHQlddITvqsySgjgInxHK0DZo
-         N8Hw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=rctmY3oLka9Dftz5D7lV+Z2yu+FzN9aXw26oXDI/3rw=;
+        b=CPF0MduxJx5Ypm1XWiw4dJEBT4bKvj0MYr/tKmnqyrscc+Gd0H/b9fJ18UvbzgcGo5
+         VjW5pdnLX9H89l8cKHVgVcFyeg/3Jmcn+R36NoxdXQEhFs13Vx5Cs58nE6WH5gxXXWkT
+         5rvkMfCaIKk1Yr7xNy6ARYF5VazFWL5BNSHlJ/9rkSZBLYjMS37u5wEdEMljz30S6/5r
+         0sOuPazjmW5QAmk1WKt6A4bG/Q5FFcDvucGeJWNntnN72h3VcwBwu3jpZFOMzpbCs69y
+         KCoIGa4p1UKhQib+c1AR4s6SBSoSBxEEFqB84hevl0s2YwptJhDkdvfsGb6yECPfrr0r
+         QSfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PCBLTrsib/ul/7XtdGzRw+heDLitDbNn/KoLV6CZI6g=;
-        b=n3ydMlKDDu4KnMpx3nnHnH4jKUCc22YTsFp7sbi196a0cHC7Ki72QoC4wWwOXN8kvp
-         azNZ57eTqI87Kjh3xtUIsKfoayv30mIOZ89muZxeHFj/id1CmVw0McW3YZEwD0aBGk1t
-         Y1v583kfa4W5ulePEABZ89gxEXh1tP2r4JvIhPu7xE2EHU74vfYtDLx1m5EkDCS57zgp
-         U/0Eh9MUNCbnb8Pqv8K8LyrGjDhySSWTVl2teAaUiy/Q6GaVOqpNxSjqPcDnCGDf8RlU
-         HmDSzdmxJH4wln3Vr41wmx4jRsrB57X4HGS6jtSETriIcswgJzR/Am/Z2QQPVYbPMMjw
-         mB4w==
-X-Gm-Message-State: AJIora9f+6ERnXGNIogQuw7KJoFMUFEomH8yKPF2gUzzxaIYcTv2wfon
-	R8B12YZwloUM26/VHN0kyN+zd4R4Ge8=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=rctmY3oLka9Dftz5D7lV+Z2yu+FzN9aXw26oXDI/3rw=;
+        b=FtIpoMdySPMI2/IYsqdDJyjk4mVXAQ6VvnRRGGIVCB8vru/hK0LWcxZmy5fQ0EXHQH
+         IduVNSDnVfFb4hlboUKF7mYLt5mXmVWJSaIQ+HR9EIN1KzcHJerKQxyjoWVnaPj8qTD4
+         QLE5tjHKxZSgIBUfQL5y2AJTPA98/jep0RaFrq9O/x282NgbQ5tR3YbZxEfcIIVM1Zdd
+         ubX+Go+icO7gQTnyuRg19kaARf43jsowlAWcI0TIn4CZiCD5ZnizAN2HPFMYbp3MCrm8
+         irEvSDWI23gfi1rf3uNDbkHQCbCHpAy1y/0ARA1oVPRZFFcYlpXjQygTly99kaDcVpYd
+         4K9Q==
+X-Gm-Message-State: AJIora/S7NGmavEildDltLaXTtqd/d7MheWxJGQr5Zy0zf2TrI7SKRFa
+	BWnL+GCfReL8cTV2P5wi6uqii71isIaA6py0uIQ=
 X-Google-Smtp-Source: 
- AGRyM1v+xfHHHM+Q+ash1V/2cqZkE/53DYl7sPA/PdRz2wP3RzXhbv1qBochb53MaJsYuDX0YRDnRw==
-X-Received: by 2002:a17:907:60cf:b0:72f:267e:eb8e with SMTP id
- hv15-20020a17090760cf00b0072f267eeb8emr21297202ejc.544.1659008483928;
-        Thu, 28 Jul 2022 04:41:23 -0700 (PDT)
-Received: from localhost ([109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id
- lz7-20020a170906fb0700b0072aa009aa68sm333836ejb.36.2022.07.28.04.41.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jul 2022 04:41:23 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: petr.vorel@gmail.com,
-	Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [RFC][PATCH] bitbake.conf: change TOOLCHAIN_OPTIONS not to start with
- space
-Date: Thu, 28 Jul 2022 13:40:46 +0200
-Message-Id: <20220728114046.3529197-3-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220728114046.3529197-1-Martin.Jansa@gmail.com>
-References: <20220728114046.3529197-1-Martin.Jansa@gmail.com>
+ AGRyM1tzpsS0ILHfNhLAWOiGkNwN4wZ+vNNT4wey5BupGHZoYjaFzFYqTLkEDKyziBvR+NygZo7rwNfwHQDvZzvGib8=
+X-Received: by 2002:a05:6512:2254:b0:48a:9dc2:e3d8 with SMTP id
+ i20-20020a056512225400b0048a9dc2e3d8mr5313686lfu.534.1659008811520; Thu, 28
+ Jul 2022 04:46:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220728085407.293067-1-jose.quaresma@foundries.io>
+ <b5964850b01ae9766ee70404edcf189e78c4921f.camel@linuxfoundation.org>
+In-Reply-To: 
+ <b5964850b01ae9766ee70404edcf189e78c4921f.camel@linuxfoundation.org>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Thu, 28 Jul 2022 12:46:29 +0100
+Message-ID: 
+ <CANPvuRkyURtr29SGZjdGoffE=v4mQ9j+qLcGAvm7bSVQ-qTJBA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] create-spdx: Runs the do_create_spdx task after
+ the do_package_write_*
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Ricardo Salveti <ricardo@foundries.io>, daiane.angolini@foundries.io,
+	Jose Quaresma <jose.quaresma@foundries.io>
+Content-Type: multipart/alternative; boundary="000000000000e3eda605e4dc16eb"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 11:41:27 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Jul 2022 11:46:57 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168602
+ https://lists.openembedded.org/g/openembedded-core/message/168603
 
-* it was introduced this way in 2007:
-  https://git.openembedded.org/openembedded-core/commit/?id=0138501213f140198abdead3ffa6b3ba80462c98
-  but now there are quite a few places which use it after a space (which doesn't hurt):
-  meta/classes/cmake.bbclass:OECMAKE_C_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CFLAGS}"
-  meta/classes/cmake.bbclass:OECMAKE_CXX_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS}"
-  meta/classes/cmake.bbclass:OECMAKE_C_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CPPFLAGS} ${LDFLAGS}"
-  meta/classes/cmake.bbclass:OECMAKE_CXX_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS} ${LDFLAGS}"
-  meta/classes/kernel-yocto.bbclass:  CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}" CC="${KERNEL_CC}" LD="${KERNEL_LD}" ARCH=${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs} > ${meta_dir}/cfg/merge_config_build.log 2>&1
-  meta/recipes-bsp/u-boot/u-boot.inc:EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}" V=1'
-  meta/recipes-devtools/diffstat/diffstat_1.64.bb:LDFLAGS += "${TOOLCHAIN_OPTIONS}"
-  meta/recipes-devtools/go/go-runtime.inc:GO_EXTLDFLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${LDFLAGS}"
-  meta/recipes-extended/wget/wget.inc:EXTRA_OEMAKE += 'TOOLCHAIN_OPTIONS="${TOOLCHAIN_OPTIONS}" \
-  meta/recipes-kernel/linux/linux-yocto.inc:KERNEL_CC:append:aarch64 = " ${TOOLCHAIN_OPTIONS}"
-  meta/recipes-kernel/linux/linux-yocto.inc:KERNEL_LD:append:aarch64 = " ${TOOLCHAIN_OPTIONS}"
-  meta/recipes-kernel/linux/linux-yocto.inc:KERNEL_CC:append:nios2 = " ${TOOLCHAIN_OPTIONS}"
-  meta/recipes-kernel/linux/linux-yocto.inc:KERNEL_LD:append:nios2 = " ${TOOLCHAIN_OPTIONS}"
-  meta/recipes-kernel/linux/linux-yocto.inc:KERNEL_CC:append:arc = " ${TOOLCHAIN_OPTIONS}"
-  meta/recipes-kernel/linux/linux-yocto.inc:KERNEL_LD:append:arc = " ${TOOLCHAIN_OPTIONS}"
+--000000000000e3eda605e4dc16eb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  not using space now seems a bit strange to me (noticed when trying to prepend
-  something to TOOLCHAIN_OPTIONS)
+Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia quinta,
+28/07/2022 =C3=A0(s) 12:01:
 
-* it made more sense when default TOOLCHAIN_OPTIONS were empty, but
-  since 2010 it's almost always used to set --sysroot:
-  https://git.openembedded.org/openembedded-core/commit/?id=6124cccddfc202124fa76bb677ad3e06f0fefc70
+> On Thu, 2022-07-28 at 09:54 +0100, Jose Quaresma wrote:
+> > Otherwise spdx can have references for data that is not packed.
+> > in the package delivered.
+> >
+> > During do_package_write_ipk task in do_package_ipk some files
+> > is cleaned up from packages-split directory in the funcion
+> > cleanupcontrol.
+> >
+> > This also fixes the following race condictions when the do_create_spdx
+> > task runs the add_package_files function and these files is been delete=
+d
+> > at same time in the task do_package_write_ipk:
+> >
+> > ERROR: alsa-topology-conf-1.2.5.1-r0 do_create_spdx: Error executing a
+> python function in exec_func_python() autogenerated:
+> >
+> > The stack trace of python calls that resulted in this exception/failure
+> was:
+> > File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+> >      0001:
+> >  *** 0002:do_create_spdx(d)
+> >      0003:
+> > File:
+> '/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/create-sp=
+dx.bbclass',
+> lineno: 567, function: do_create_spdx
+> >      0563:            package_doc.add_relationship(package_doc,
+> "DESCRIBES", spdx_package)
+> >      0564:
+> >      0565:            package_archive =3D deploy_dir_spdx / "packages" =
+/ (
+> package_doc.name + ".tar.zst")
+> >      0566:            with optional_tarfile(package_archive,
+> archive_packaged) as archive:
+> >  *** 0567:                package_files =3D add_package_files(
+> >      0568:                    d,
+> >      0569:                    package_doc,
+> >      0570:                    spdx_package,
+> >      0571:                    pkgdest / package,
+> > File:
+> '/srv/oe/build/conf/../../layers/openembedded-core/meta/classes/create-sp=
+dx.bbclass',
+> lineno: 234, function: add_package_files
+> >      0230:                            info.mtime =3D source_date_epoch
+> >      0231:
+> >      0232:                        archive.addfile(info, f)
+> >      0233:
+> >  *** 0234:                sha1 =3D bb.utils.sha1_file(filepath)
+> >      0235:                sha1s.append(sha1)
+> >      0236:
+> spdx_file.checksums.append(oe.spdx.SPDXChecksum(
+> >      0237:                        algorithm=3D"SHA1",
+> >      0238:                        checksumValue=3Dsha1,
+> > File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 559, function: sha1_fi=
+le
+> >      0555:    """
+> >      0556:    Return the hex string representation of the SHA1 checksum
+> of the filename
+> >      0557:    """
+> >      0558:    import hashlib
+> >  *** 0559:    return _hasher(hashlib.sha1(), filename)
+> >      0560:
+> >      0561:def sha384_file(filename):
+> >      0562:    """
+> >      0563:    Return the hex string representation of the SHA384
+> checksum of the filename
+> > File: '/srv/oe/bitbake/lib/bb/utils.py', lineno: 528, function: _hasher
+> >      0524:
+> >      0525:def _hasher(method, filename):
+> >      0526:    import mmap
+> >      0527:
+> >  *** 0528:    with open(filename, "rb") as f:
+> >      0529:        try:
+> >      0530:            with mmap.mmap(f.fileno(), 0,
+> access=3Dmmap.ACCESS_READ) as mm:
+> >      0531:                for chunk in iter(lambda: mm.read(8192), b'')=
+:
+> >      0532:                    method.update(chunk)
+> > Exception: FileNotFoundError: [Errno 2] No such file or directory:
+> '/srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/p=
+ackages-split/alsa-topology-conf/CONTROL/control'
+>
+> We have other places where we've had to teach the code to ignore the
+> control files and we'll probably have to do that here (grep for
+> CONTROL).
+>
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/cross-canadian.bbclass            |  2 +-
- meta/classes/go.bbclass                        |  2 +-
- meta/conf/bitbake.conf                         | 12 ++++++------
- meta/recipes-devtools/go/go-runtime.inc        |  2 +-
- meta/recipes-extended/ltp/ltp_20220527.bb      |  2 +-
- meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb |  2 +-
- 6 files changed, 11 insertions(+), 11 deletions(-)
+The snip that delete this files is in cleanupcontrol
+https://git.yoctoproject.org/poky/tree/meta/classes/package_ipk.bbclass#n51
 
-diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
-index a0e9d23836..686646357c 100644
---- a/meta/classes/cross-canadian.bbclass
-+++ b/meta/classes/cross-canadian.bbclass
-@@ -104,7 +104,7 @@ INHIBIT_DEFAULT_DEPS = "1"
- 
- STAGING_DIR_HOST = "${RECIPE_SYSROOT}"
- 
--TOOLCHAIN_OPTIONS = " --sysroot=${RECIPE_SYSROOT}"
-+TOOLCHAIN_OPTIONS = "--sysroot=${RECIPE_SYSROOT}"
- 
- PATH:append = ":${TMPDIR}/sysroots/${HOST_ARCH}/${bindir_cross}"
- PKGHIST_DIR = "${TMPDIR}/pkghistory/${HOST_ARCH}-${SDKPKGSUFFIX}${HOST_VENDOR}-${HOST_OS}/"
-diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-index cd2daed70b..c6b38bd294 100644
---- a/meta/classes/go.bbclass
-+++ b/meta/classes/go.bbclass
-@@ -40,7 +40,7 @@ GO_RPATH_LINK = "${@'-Wl,-rpath-link=${STAGING_DIR_TARGET}${libdir}/go/pkg/${TAR
- GO_RPATH = "${@'-r ${libdir}/go/pkg/${TARGET_GOTUPLE}_dynlink' if d.getVar('GO_DYNLINK') else ''}"
- GO_RPATH:class-native = "${@'-r ${STAGING_LIBDIR_NATIVE}/go/pkg/${TARGET_GOTUPLE}_dynlink' if d.getVar('GO_DYNLINK') else ''}"
- GO_RPATH_LINK:class-native = "${@'-Wl,-rpath-link=${STAGING_LIBDIR_NATIVE}/go/pkg/${TARGET_GOTUPLE}_dynlink' if d.getVar('GO_DYNLINK') else ''}"
--GO_EXTLDFLAGS ?= "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${GO_RPATH_LINK} ${LDFLAGS}"
-+GO_EXTLDFLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${GO_RPATH_LINK} ${LDFLAGS}"
- GO_LINKMODE ?= ""
- GO_LINKMODE:class-nativesdk = "--linkmode=external"
- GO_LINKMODE:class-native = "--linkmode=external"
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 1c2ebf333e..27478b1107 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -547,14 +547,14 @@ HOSTTOOLS_NONFATAL += "git-lfs"
- 
- CCACHE ??= ""
- 
--TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TARGET}"
-+TOOLCHAIN_OPTIONS = "--sysroot=${STAGING_DIR_TARGET}"
- 
--export CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
--export CXX = "${CCACHE}${HOST_PREFIX}g++ ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
--export FC = "${CCACHE}${HOST_PREFIX}gfortran ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
--export CPP = "${HOST_PREFIX}gcc -E${TOOLCHAIN_OPTIONS} ${HOST_CC_ARCH}"
-+export CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
-+export CXX = "${CCACHE}${HOST_PREFIX}g++ ${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
-+export FC = "${CCACHE}${HOST_PREFIX}gfortran ${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
-+export CPP = "${HOST_PREFIX}gcc -E ${TOOLCHAIN_OPTIONS} ${HOST_CC_ARCH}"
- LINKER = "ld"
--export LD = "${HOST_PREFIX}${LINKER}${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}"
-+export LD = "${HOST_PREFIX}${LINKER} ${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}"
- export CCLD = "${CC}"
- export AR = "${HOST_PREFIX}gcc-ar"
- export AS = "${HOST_PREFIX}as ${HOST_AS_ARCH}"
-diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/recipes-devtools/go/go-runtime.inc
-index e18339cddb..d1846707cc 100644
---- a/meta/recipes-devtools/go/go-runtime.inc
-+++ b/meta/recipes-devtools/go/go-runtime.inc
-@@ -14,7 +14,7 @@ export CGO_CXXFLAGS = "${CXXFLAGS}"
- export CGO_LDFLAGS = "${@ ' '.join(filter(lambda f: not f.startswith('-fdebug-prefix-map'), d.getVar('LDFLAGS').split())) }"
- export GOCACHE = "${B}/.cache"
- 
--GO_EXTLDFLAGS ?= "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${LDFLAGS}"
-+GO_EXTLDFLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${LDFLAGS}"
- GO_SHLIB_LDFLAGS ?= '-ldflags="--linkmode=external -extldflags '${GO_EXTLDFLAGS}'"'
- 
- do_configure() {
-diff --git a/meta/recipes-extended/ltp/ltp_20220527.bb b/meta/recipes-extended/ltp/ltp_20220527.bb
-index b0f4ea6021..aa64385846 100644
---- a/meta/recipes-extended/ltp/ltp_20220527.bb
-+++ b/meta/recipes-extended/ltp/ltp_20220527.bb
-@@ -54,7 +54,7 @@ LDFLAGS:append = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-
- # it fails with gold also a bit later when trying to use *-payload.bin
- # http://errors.yoctoproject.org/Errors/Details/663094/
- # work around this by forcing .bfd linked in LD when ld-is-gold is in DISTRO_FEATURES
--KVM_LD = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '${HOST_PREFIX}ld.bfd${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}', '${LD}', d)}"
-+KVM_LD = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '${HOST_PREFIX}ld.bfd ${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}', '${LD}', d)}"
- 
- TARGET_CC_ARCH += "${LDFLAGS}"
- 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-index dd14f8df6f..a2f85b1fe9 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-@@ -108,7 +108,7 @@ EXTRA_OECONF = " \
-     --arch=${TARGET_ARCH} \
-     --target-os='linux' \
-     --enable-cross-compile \
--    --extra-cflags='${CFLAGS} ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}' \
-+    --extra-cflags='${CFLAGS} ${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}' \
-     --extra-ldflags='${LDFLAGS}' \
-     --sysroot='${STAGING_DIR_TARGET}' \
-     ${EXTRA_FFCONF} \
+So these files are not shipped in the ipk package produced.
+It breaks the do_create_spdx because it runs after the do_package
+and the same happens for do_package_write_ipk so the two tasks
+can run at the same time.
+
+
+> Ideally we'd fix opkg (and maybe dpkg) to allow creation of packages
+> with the files placed externally.
+>
+
+I think I didn't quite understand this part, can you please explain it a
+bit more?
+
+
+>
+> I have also wondered if we should create a specific hardlinked tree to
+> handle this but that does come at an IO cost.
+>
+> I don't really want to add a dependency constraint like this for
+> something we already handle differently elsewhere though.
+>
+
+yeah, It's a bit ugly because it adds some tasks that don't even run (all
+types of packages
+in this case). Since I don't know what package types are chosen by the
+user, I added all of them.
+
+Jose
+
+
+>
+> Cheers,
+>
+> Richard
+>
+
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--000000000000e3eda605e4dc16eb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
+richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
+gt; escreveu no dia quinta, 28/07/2022 =C3=A0(s) 12:01:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">On Thu, 2022-07-28 at 09:54 +0100, =
+Jose Quaresma wrote:<br>
+&gt; Otherwise spdx can have references for data that is not packed.<br>
+&gt; in the package delivered.<br>
+&gt; <br>
+&gt; During do_package_write_ipk task in do_package_ipk some files<br>
+&gt; is cleaned up from packages-split directory in the funcion<br>
+&gt; cleanupcontrol.<br>
+&gt; <br>
+&gt; This also fixes the following race condictions when the do_create_spdx=
+<br>
+&gt; task runs the add_package_files function and these files is been delet=
+ed<br>
+&gt; at same time in the task do_package_write_ipk:<br>
+&gt; <br>
+&gt; ERROR: alsa-topology-conf-1.2.5.1-r0 do_create_spdx: Error executing a=
+ python function in exec_func_python() autogenerated:<br>
+&gt; <br>
+&gt; The stack trace of python calls that resulted in this exception/failur=
+e was:<br>
+&gt; File: &#39;exec_func_python() autogenerated&#39;, lineno: 2, function:=
+ &lt;module&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0001:<br>
+&gt;=C2=A0 *** 0002:do_create_spdx(d)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0003:<br>
+&gt; File: &#39;/srv/oe/build/conf/../../layers/openembedded-core/meta/clas=
+ses/create-spdx.bbclass&#39;, lineno: 567, function: do_create_spdx<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0563:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pac=
+kage_doc.add_relationship(package_doc, &quot;DESCRIBES&quot;, spdx_package)=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0564:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0565:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pac=
+kage_archive =3D deploy_dir_spdx / &quot;packages&quot; / (<a href=3D"http:=
+//package_doc.name" rel=3D"noreferrer" target=3D"_blank">package_doc.name</=
+a> + &quot;.tar.zst&quot;)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0566:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 wit=
+h optional_tarfile(package_archive, archive_packaged) as archive:<br>
+&gt;=C2=A0 *** 0567:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ package_files =3D add_package_files(<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0568:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 d,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0569:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 package_doc,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0570:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 spdx_package,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0571:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 pkgdest / package,<br>
+&gt; File: &#39;/srv/oe/build/conf/../../layers/openembedded-core/meta/clas=
+ses/create-spdx.bbclass&#39;, lineno: 234, function: add_package_files<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0230:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.mtime =3D source_=
+date_epoch<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0231:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0232:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 archive.addfile(info, f)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0233:<br>
+&gt;=C2=A0 *** 0234:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ sha1 =3D bb.utils.sha1_file(filepath)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0235:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 sha1s.append(sha1)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0236:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 spdx_file.checksums.append(oe.spdx.SPDXChecksum(<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0237:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 algorithm=3D&quot;SHA1&quot;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0238:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 checksumValue=3Dsha1,<br>
+&gt; File: &#39;/srv/oe/bitbake/lib/bb/utils.py&#39;, lineno: 559, function=
+: sha1_file<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0555:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0556:=C2=A0 =C2=A0 Return the hex string represent=
+ation of the SHA1 checksum of the filename<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0557:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0558:=C2=A0 =C2=A0 import hashlib<br>
+&gt;=C2=A0 *** 0559:=C2=A0 =C2=A0 return _hasher(hashlib.sha1(), filename)<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0560:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0561:def sha384_file(filename):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0562:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0563:=C2=A0 =C2=A0 Return the hex string represent=
+ation of the SHA384 checksum of the filename<br>
+&gt; File: &#39;/srv/oe/bitbake/lib/bb/utils.py&#39;, lineno: 528, function=
+: _hasher<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0524:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0525:def _hasher(method, filename):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0526:=C2=A0 =C2=A0 import mmap<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0527:<br>
+&gt;=C2=A0 *** 0528:=C2=A0 =C2=A0 with open(filename, &quot;rb&quot;) as f:=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0529:=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0530:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 wit=
+h mmap.mmap(f.fileno(), 0, access=3Dmmap.ACCESS_READ) as mm:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0531:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 for chunk in iter(lambda: mm.read(8192), b&#39;&#39;):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 0532:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 method.update(chunk)<br>
+&gt; Exception: FileNotFoundError: [Errno 2] No such file or directory: &#3=
+9;/srv/oe/build/tmp-lmp/work/all-lmp-linux/alsa-topology-conf/1.2.5.1-r0/pa=
+ckages-split/alsa-topology-conf/CONTROL/control&#39;<br>
+<br>
+We have other places where we&#39;ve had to teach the code to ignore the<br=
+>
+control files and we&#39;ll probably have to do that here (grep for<br>
+CONTROL).<br></blockquote><div><br></div><div>The snip=C2=A0that delete thi=
+s files is in=C2=A0cleanupcontrol<br></div><div><a href=3D"https://git.yoct=
+oproject.org/poky/tree/meta/classes/package_ipk.bbclass#n51">https://git.yo=
+ctoproject.org/poky/tree/meta/classes/package_ipk.bbclass#n51</a><br></div>=
+<div><br></div><div>So these=C2=A0files are not shipped=C2=A0in the ipk pac=
+kage produced.</div><div>It breaks=C2=A0the do_create_spdx because it runs =
+after the do_package</div><div>and the same happens for do_package_write_ip=
+k so the two tasks</div><div>can run at the same time.<br><br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">
+<br>
+Ideally we&#39;d fix opkg (and maybe dpkg) to allow creation of packages<br=
+>
+with the files placed externally.<br></blockquote><div><br>I think I didn&#=
+39;t quite understand this part, can you please explain it a bit more?</div=
+><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+I have also wondered if we should create a specific hardlinked tree to<br>
+handle this but that does come at an IO cost.<br>
+<br>
+I don&#39;t really want to add a dependency constraint like this for<br>
+something we already handle differently elsewhere though.<br></blockquote><=
+div><br>yeah, It&#39;s a bit ugly because it adds some tasks that don&#39;t=
+ even run (all types of packages</div><div>in this case). Since I don&#39;t=
+ know what package types are chosen=C2=A0by the user, I added all of them.<=
+/div><div><br></div><div>Jose</div><div>=C2=A0</div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9=
+ Quaresma</div></div></div></div>
+
+--000000000000e3eda605e4dc16eb--
 
