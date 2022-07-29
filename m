@@ -2,65 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D0FAC00144
-	for <webhook@archiver.kernel.org>; Fri, 29 Jul 2022 14:47:28 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
- [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web11.46.1659106046384414125
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 883BBC3F6B0
+	for <webhook@archiver.kernel.org>; Fri, 29 Jul 2022 14:47:38 +0000 (UTC)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
+ [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web10.57.1659106055317792530
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Jul 2022 07:47:26 -0700
+ Fri, 29 Jul 2022 07:47:35 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=v7+r/XpO;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.173,
+ header.b=b9o+urKZ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id e16so4806235pfm.11
+Received: by mail-pf1-f174.google.com with SMTP id c139so4829346pfc.2
         for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Jul 2022 07:47:26 -0700 (PDT)
+ Fri, 29 Jul 2022 07:47:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=lmGGLUZM/ZoarsTVh77Ut3yQTta9abBAXSk/VvmLXKI=;
-        b=v7+r/XpO0SIE00xWINL/LQWcna/hvD5XmnehkFN4+kroeKQdX1EhLoMkgyoI/MKuHg
-         mUT2KZg3yy8jGQOZcT5oBKv8Z2J1DsyOoUAHeHIytXL5+/GN+1Cag+H95oFh9WqoV7vr
-         Cb5Sr/lPgSOMBwVvvZ62xVncvIS14JZSnqZMqtei9ZxD9/saJ7//jENWWUM6z4goOCNc
-         wGSWblP6hEut+l3UeqURrolKXFBfJFwfG9cNf31UfZiPxkZ1eBbGShX/nPK9x3WEuKJT
-         5b0o04CfWDPvQDwpW7DFJ/1PT+Td7A3wV5rhfAeBYu4jCsksRBEKD9SU3l9h6N1tKoPY
-         RFow==
+        bh=OToOd7k5cqip8kzyw1d2hTsjxzTDl7YOsXDdKcb51eo=;
+        b=b9o+urKZigB29cKQkgQGqgke4r8PCb4Ik/1nvbQwogYSIIqgd+I7X4CTD40d430Qpg
+         20m6Xfl/4QgtQNJGkBqi4+0G4W/eAXUI9BkczkcgElRWISCNhc+oXyQ8q6fKeGxuhNfM
+         LOB1D1NxK41sYXcZyls3P2Wqyw+DqCLYLDQSF+iLqFMePmi+oDWBoNUGsnGOpWYl7ZAt
+         HRhxpmAUbz0/Jzkxl12JN/l7PcRoYDqcyCaAtYaV05l8DzlFCPD6FJ9HV+LLuxy4otWx
+         rQ0SaWlvdVgj3r2m4sZ/79fJJpFy0fuizKBBMrkAZP9p3LQtajFsHGhDmvrH6x+A1HlV
+         TymQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=lmGGLUZM/ZoarsTVh77Ut3yQTta9abBAXSk/VvmLXKI=;
-        b=nXWv+67N0GnuyNsBzVdnfTIYqRolzor1L0A6kqQfYQt07O/HzRMvuuRhIEMiNs2Ed8
-         qtKFEHaOnfaeDbOXJrFUf4Z7PfBdNQZIgI0DbAkC29wTu1ZoweJuOJSQfqhwzP7kumjf
-         pBtdlFMjVK38xwKOsSrFea2r1qaIvhRqHoguGpOG6TZknFn6IHP/Lx/Vbyp0zohIwNMR
-         cpAmGgqSBfLvI889+in/4Pvu7kvmDA5Ld3v7uhsr+bWVY55r08WKOKaA+7Z1o3AaVdvK
-         gklxAcCue6V86hEMUv/HWCQcBMI6fcZHkHIr9bJ6OUXui12LD8O2TZlR1zM7P2odW7bU
-         dibA==
-X-Gm-Message-State: AJIora+5pf4YeWXYgR36su3FGBImvcDJoludce3CoUeiyZdz8KjY28ow
-	K0YO2jQeZOpjRT9PsB36WpZF3CSZFYHYTVeL
+        bh=OToOd7k5cqip8kzyw1d2hTsjxzTDl7YOsXDdKcb51eo=;
+        b=z264tZGmgHj7KlT+AX6zHWAM0bxI/yTDSWQ8QnK3cDIjzXiQPzIPJnl1dUXXqtQ0mf
+         42X2YPL17Li23XAe46Z8wEv9pRSo6/lsu4w8gDFjGhb5RzSPenkLp1XeLsrHiKLxieHM
+         K7/9ydozT5kqt+vc3qHtdTFi892IteEs45WT3LZIGcdQ7AuKUrFlj4Ab5Saa5uU18ssu
+         OtsqCNfX9Ipjh15BNM0qOvzNRFeExtCtYumCXw4bw1KNOJ2GbLJ+5zlXUYkeSWqqCiux
+         hEQvFR+akCAAxie2RUSz77Kj18Yon/p2wQKvpiPDSWTpEz3+4CLHEVUDr80zsJzOLZdt
+         Gi4A==
+X-Gm-Message-State: AJIora+/IwCYPYKjEyHCBJ11Jaexx0JewgBH99GLZNcMls8jULHYkSa5
+	vrfecaPyoSl5O0SlxtZ3uLgFlDpSypc91UTD
 X-Google-Smtp-Source: 
- AGRyM1t/3XzdlWUc7ZdotHgDMbTuaHPtrfLdi9mYp5iahbQIOECiIg2oc2eYFEDVtQFyS/X657NzFw==
-X-Received: by 2002:a63:4546:0:b0:41b:99c8:4cec with SMTP id
- u6-20020a634546000000b0041b99c84cecmr1541576pgk.220.1659106045286;
-        Fri, 29 Jul 2022 07:47:25 -0700 (PDT)
+ AGRyM1uLI6Qn20lzCscb+DCHhVO2lH8liNjhFG7H7pRqf801axO0NVe3Gy2H7gjACFpNJHguNkAEYA==
+X-Received: by 2002:a63:e908:0:b0:41b:390a:f60d with SMTP id
+ i8-20020a63e908000000b0041b390af60dmr3223341pgh.147.1659106054281;
+        Fri, 29 Jul 2022 07:47:34 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- x24-20020aa79418000000b00528c6c7bf37sm2958782pfo.129.2022.07.29.07.47.24
+ x24-20020aa79418000000b00528c6c7bf37sm2958782pfo.129.2022.07.29.07.47.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Jul 2022 07:47:24 -0700 (PDT)
+        Fri, 29 Jul 2022 07:47:33 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 01/29] qemu: CVE-2022-35414 can perform an
- uninitialized read on the translate_fail path,
- leading to an io_readx or io_writex crash
-Date: Fri, 29 Jul 2022 04:46:17 -1000
+Subject: [OE-core][kirkstone 05/29] xorg-app: Tweak handling of compression
+ changes in SRC_URI
+Date: Fri, 29 Jul 2022 04:46:21 -1000
 Message-Id: 
- <5f236e744b5b528bdf8d95c9580c273f63c04452.1659105705.git.steve@sakoman.com>
+ <5f3d70970746ee6d9ad68f16419a016331b45df4.1659105705.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1659105705.git.steve@sakoman.com>
 References: <cover.1659105705.git.steve@sakoman.com>
@@ -69,99 +68,86 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Jul 2022 14:47:28 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Jul 2022 14:47:38 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168636
+ https://lists.openembedded.org/g/openembedded-core/message/168640
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Source: https://github.com/qemu/qemu
-MR: 119830
-Type: Security Fix
-Disposition: Backport from https://github.com/qemu/qemu/commit/418ade7849ce7641c0f7333718caf5091a02fd4c
-ChangeID: 41d6646e06319e629da574b9b2e8a3a197a73441
-Description:
-        CVE-2022-35414 qemu: can perform an uninitialized read on the translate_fail path, leading to an io_readx or io_writex crash.
+Rather than duplicating SRC_URI, change the compression to a variable.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 21547dd5319f27a8f7f20a80e39478f816b4bbe0)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2022-35414.patch            | 53 +++++++++++++++++++
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2022-35414.patch
+ meta/recipes-graphics/xorg-app/mkfontscale_1.2.2.bb | 3 +--
+ meta/recipes-graphics/xorg-app/xdpyinfo_1.3.3.bb    | 3 +--
+ meta/recipes-graphics/xorg-app/xorg-app-common.inc  | 3 ++-
+ meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb      | 3 +--
+ 4 files changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 63f0569d06..54a68e1730 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -35,6 +35,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://pvrdma.patch \
-            file://CVE-2021-4206.patch \
-            file://CVE-2021-4207.patch \
-+           file://CVE-2022-35414.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-graphics/xorg-app/mkfontscale_1.2.2.bb b/meta/recipes-graphics/xorg-app/mkfontscale_1.2.2.bb
+index 573b05128e..cd658ab219 100644
+--- a/meta/recipes-graphics/xorg-app/mkfontscale_1.2.2.bb
++++ b/meta/recipes-graphics/xorg-app/mkfontscale_1.2.2.bb
+@@ -15,8 +15,7 @@ RPROVIDES:${PN} += "mkfontdir"
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2022-35414.patch b/meta/recipes-devtools/qemu/qemu/CVE-2022-35414.patch
-new file mode 100644
-index 0000000000..3786497f01
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2022-35414.patch
-@@ -0,0 +1,53 @@
-+From ee76e64ee1cb232b77652b21cc94ec6b6c7e4b13 Mon Sep 17 00:00:00 2001
-+From: Hitendra Prajapati <hprajapati@mvista.com>
-+Date: Wed, 27 Jul 2022 10:49:47 +0530
-+Subject: [PATCH] CVE-2022-35414
-+
-+Upstream-Status: Backport [https://github.com/qemu/qemu/commit/418ade7849ce7641c0f7333718caf5091a02fd4c]
-+CVE: CVE-2022-35414
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ softmmu/physmem.c | 13 ++++++++++++-
-+ 1 file changed, 12 insertions(+), 1 deletion(-)
-+
-+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-+index 3524c04c2..3c467527d 100644
-+--- a/softmmu/physmem.c
-++++ b/softmmu/physmem.c
-+@@ -667,7 +667,7 @@ void tcg_iommu_init_notifier_list(CPUState *cpu)
-+ 
-+ /* Called from RCU critical section */
-+ MemoryRegionSection *
-+-address_space_translate_for_iotlb(CPUState *cpu, int asidx, hwaddr addr,
-++address_space_translate_for_iotlb(CPUState *cpu, int asidx, hwaddr orig_addr,
-+                                   hwaddr *xlat, hwaddr *plen,
-+                                   MemTxAttrs attrs, int *prot)
-+ {
-+@@ -676,6 +676,7 @@ address_space_translate_for_iotlb(CPUState *cpu, int asidx, hwaddr addr,
-+     IOMMUMemoryRegionClass *imrc;
-+     IOMMUTLBEntry iotlb;
-+     int iommu_idx;
-++    hwaddr addr = orig_addr;
-+     AddressSpaceDispatch *d =
-+         qatomic_rcu_read(&cpu->cpu_ases[asidx].memory_dispatch);
-+ 
-+@@ -720,6 +721,16 @@ address_space_translate_for_iotlb(CPUState *cpu, int asidx, hwaddr addr,
-+     return section;
-+ 
-+ translate_fail:
-++    /*
-++     * We should be given a page-aligned address -- certainly
-++     * tlb_set_page_with_attrs() does so.  The page offset of xlat
-++     * is used to index sections[], and PHYS_SECTION_UNASSIGNED = 0.
-++     * The page portion of xlat will be logged by memory_region_access_valid()
-++     * when this memory access is rejected, so use the original untranslated
-++     * physical address.
-++     */
-++    assert((orig_addr & ~TARGET_PAGE_MASK) == 0);
-++    *xlat = orig_addr;
-+     return &d->map.sections[PHYS_SECTION_UNASSIGNED];
-+ }
-+ 
-+-- 
-+2.25.1
-+
+ BBCLASSEXTEND = "native"
+ 
+-SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.xz"
+-
+ LIC_FILES_CHKSUM = "file://COPYING;md5=99b1e1269aba5179139b9e4380fc0934"
+ 
++SRC_URI_EXT = "xz"
+ SRC_URI[sha256sum] = "8ae3fb5b1fe7436e1f565060acaa3e2918fe745b0e4979b5593968914fe2d5c4"
+diff --git a/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.3.bb b/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.3.bb
+index fa0fe36451..e75a840b7d 100644
+--- a/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.3.bb
++++ b/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.3.bb
+@@ -8,14 +8,13 @@ predefined values for various parameters used in communicating between \
+ clients and the server, and the different types of screens and visuals \
+ that are available."
+ 
+-SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.xz"
+-
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f3d09e6b9e203a1af489e16c708f4fb3"
+ DEPENDS += "libxtst libxext libxxf86vm libxi libxrender libxinerama libdmx libxau libxcomposite"
+ PE = "1"
+ 
+ SRC_URI += "file://disable-xkb.patch"
+ 
++SRC_URI_EXT = "xz"
+ SRC_URI[sha256sum] = "356d5fd62f3e98ee36d6becf1b32d4ab6112d618339fb4b592ccffbd9e0fc206"
+ 
+ EXTRA_OECONF = "--disable-xkb"
+diff --git a/meta/recipes-graphics/xorg-app/xorg-app-common.inc b/meta/recipes-graphics/xorg-app/xorg-app-common.inc
+index 1c64e20aac..5dbe8abe86 100644
+--- a/meta/recipes-graphics/xorg-app/xorg-app-common.inc
++++ b/meta/recipes-graphics/xorg-app/xorg-app-common.inc
+@@ -8,7 +8,8 @@ DEPENDS = "util-macros-native virtual/libx11"
+ # depends on virtual/libx11
+ REQUIRED_DISTRO_FEATURES = "x11"
+ 
+-SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.bz2"
++SRC_URI_EXT = "bz2"
++SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.${SRC_URI_EXT}"
+ 
+ inherit autotools pkgconfig features_check
+ 
+diff --git a/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb b/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb
+index 57b43ff28c..0e0347f768 100644
+--- a/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb
++++ b/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb
+@@ -11,8 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fe1608bdb33cf8c62a4438f7d34679b3"
+ DEPENDS += "libxrandr libxrender"
+ PE = "1"
+ 
+-SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.xz"
+-
++SRC_URI_EXT = "xz"
+ SRC_URI[md5sum] = "fe40f7a4fd39dd3a02248d3e0b1972e4"
+ SRC_URI[sha256sum] = "7bc76daf9d72f8aff885efad04ce06b90488a1a169d118dea8a2b661832e8762"
+ 
 -- 
 2.25.1
 
