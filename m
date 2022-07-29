@@ -1,116 +1,280 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <sundeep.kokkonda@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Message-ID: <593d8723-658b-181f-084b-0f310d83c519@gmail.com>
-Date: Thu, 28 Jul 2022 00:03:07 -0400
+Message-ID: <7956d8df-578b-c1e5-b080-d732bf22d88a@gmail.com>
+Date: Fri, 29 Jul 2022 12:31:06 +0530
 MIME-Version: 1.0
-Subject: Re: [OE-core] [PATCHv2]] recipes-support: rng-tools change systemd service name
-References: <20220726193322.1569574-1-limon.anibal@gmail.com>
- <20220727124406.4f7bc8ec@booty>
- <CAPS-YPA4qwJu_3dJ+5X+HEzE1ZGzT6H4Y2urbCKzT14ZPOOiKg@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-In-Reply-To: <CAPS-YPA4qwJu_3dJ+5X+HEzE1ZGzT6H4Y2urbCKzT14ZPOOiKg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH RFC] rust: Rework and improve so SDK and target versions work
+References: <20220724164252.1976353-1-richard.purdie@linuxfoundation.org>
+ <3204.1658821874985939411@lists.openembedded.org>
+ <5024fd0989f7ca4e473ebd2404a380d825c2243f.camel@linuxfoundation.org>
+From: "Sundeep KOKKONDA" <sundeep.kokkonda@gmail.com>
+In-Reply-To: <5024fd0989f7ca4e473ebd2404a380d825c2243f.camel@linuxfoundation.org>
+Content-Type: multipart/alternative;
+ boundary="------------S4lp6eQ0Kg1Y8Lmyn4CXfCMc"
 Content-Language: en-US
+List-id: <openembedded-core.lists.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core@lists.openembedded.org
+
+--------------S4lp6eQ0Kg1Y8Lmyn4CXfCMc
 Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Transfer-Encoding: 8bit
-List-id: <openembedded-core.lists.openembedded.org>
-To: An?bal Lim?n <limon.anibal@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>, otavio.salvador@ossystems.com.br, Richard Purdie <richard.purdie@linuxfoundation.org>
 
 
+On 26-07-2022 14:30, Richard Purdie wrote:
+> On Tue, 2022-07-26 at 00:51 -0700, Sundeep KOKKONDA wrote:
+>> I tried a few tests with new rust patches and found below issues.
+>>   
+>> 1. I build the 'master-next' with 'bitbake core-image-minimal -cpopulate_sdk' for qemuarm64 machine. The build has no issues and sdk installed successfully but, rustc in the installed sdk is showing below error.
+>>   
+>>> $ source arm64_toolchain/environment-setup-cortexa57-oe-linux
+>>> $ which rustc
+>>> /ala-lpggp31/skokkonda/master-next/build/arm64_toolchain/sysroots/x86_64-oesdk-linux/usr/bin/rustc
+>>> $ file /ala-lpggp31/skokkonda/master-next/build/arm64_toolchain/sysroots/x86_64-oesdk-linux/usr/bin/rustc
+>>> /ala-lpggp31/skokkonda/master-next/build/arm64_toolchain/sysroots/x86_64-oesdk-linux/usr/bin/rustc: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=a9e96a057bcea4b5b3ad3e0b5ddc96f30231d6d6, not stripped
+>>> $ rustc
+>>> rustc: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.33' not found (required by /ala-lpggp31/skokkonda/master-next/build/arm64_toolchain/sysroots/x86_64-oesdk-linux/usr/bin/../lib/../lib/libstdc++.so.6)
+>>> rustc: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.32' not found (required by /ala-lpggp31/skokkonda/master-next/build/arm64_toolchain/sysroots/x86_64-oesdk-linux/usr/bin/../lib/../lib/libstdc++.so.6)
+>>> rustc: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.34' not found (required by /ala-lpggp31/skokkonda/master-next/build/arm64_toolchain/sysroots/x86_64-oesdk-linux/usr/bin/../lib/../lib/libstdc++.so.6)
+>>
+> Just to be clear, if this worked previously the above is probably a
+> regression and I'm not sure that would be fixed in my series in master-
+> next.
+>   
+>> 2. I tried to build the rust for x86_64 target but the below error is observed. (by adding IMAGE_INSTALL:append = " rust" in local.conf)
+>>   
+>>> ERROR: Nothing RPROVIDES 'rust' (but /ala-lpggp31/skokkonda/master-next/openembedded-core/meta/recipes-core/images/core-image-minimal.bb RDEPENDS on or otherwise requires it)
+>>> rust was skipped: Rust recipe doesn't work for target builds at this time. Fixes welcome.
+>>> NOTE: Runtime target 'rust' is unbuildable, removing...
+>>> Missing or unbuildable dependency chain was: ['rust']
+>>> ERROR: Required build target 'core-image-minimal' has n
+>> I'll keep you posted if I've any further updates.
+>>
+>> --
+>> Thanks,
+>> Sundeep K.
+>> 
+>>
+>>> o buildable providers.
+>>> Missing or unbuildable dependency chain was: ['core-image-minimal', 'rust']
+>>> Summary: There were 2 ERROR messages, returning a non-zero exit code.
+>
+> That code is removed in current master-next so that one should be
+> resolved.
+>
+>> 3. Getting below error when MACHINE ?= "beaglebone-yocto" and added TOOLCHAIN_HOST_TASK:append = " packagegroup-rust-cross-canadian-${MACHINE}"
+>>   
+>>> ERROR: rust-native-1.62.0-r0 do_rust_gen_targets: Error executing a python function in exec_func_python() autogenerated:
+>>>   
+>>> The stack trace of python calls that resulted in this exception/failure was:
+>>> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+>>>       0001:
+>>>   *** 0002:do_rust_gen_targets(d)
+>>>       0003:
+>>> File: '/ala-lpggp31/skokkonda/yocto/poky/meta/classes/rust-target-config.bbclass', lineno: 369, function: do_rust_gen_targets
+>>>       0365:    rust_gen_target(d, 'BUILD', wd, d.getVar('BUILD_ARCH'))
+>>>       0366:    if "HOST" in d.getVar("RUST_TARGETGENS"):
+>>>       0367:        rust_gen_target(d, 'HOST', wd, d.getVar('HOST_ARCH'))
+>>>       0368:    if "TARGET" in d.getVar("RUST_TARGETGENS"):
+>>>   *** 0369:        rust_gen_target(d, 'TARGET', wd, d.getVar('TARGET_ARCH'))
+>>>       0370:}
+>>>       0371:
+>>>       0372:addtask rust_gen_targets after do_patch before do_compile
+>>>       0373:do_rust_gen_targets[dirs] += "${RUST_TARGETS_DIR}"
+>>> File: '/ala-lpggp31/skokkonda/yocto/poky/meta/classes/rust-target-config.bbclass', lineno: 319, function: rust_gen_target
+>>>       0315:    # build tspec
+>>>       0316:    tspec = {}
+>>>       0317:    tspec['llvm-target'] = rustsys
+>>>       0318:    tspec['data-layout'] = d.getVarFlag('DATA_LAYOUT', arch_abi)
+>>>   *** 0319:    tspec['max-atomic-width'] = int(d.getVarFlag('MAX_ATOMIC_WIDTH', arch_abi))
+>>>       0320:    tspec['target-pointer-width'] = d.getVarFlag('TARGET_POINTER_WIDTH', arch_abi)
+>>>       0321:    tspec['target-c-int-width'] = d.getVarFlag('TARGET_C_INT_WIDTH', arch_abi)
+>>>       0322:    tspec['target-endian'] = d.getVarFlag('TARGET_ENDIAN', arch_abi)
+>>>       0323:    tspec['arch'] = arch_to_rust_target_arch(rust_arch)
+>>> Exception: TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+>>>   
+>>> ERROR: Logfile of failure stored in: /ala-lpggp31/skokkonda/yocto/build-bb/tmp/work/x86_64-linux/rust-native/1.62.0-r0/temp/log.do_rust_gen_targets.45760
+>>> ERROR: Task (virtual:native:/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust_1.62.0.bb:do_rust_gen_targets) failed with exit code '1'
+> This one was definitely fixed this morning with the native.bbclass tweak.
+>
+> Cheers,
+>
+> Richard
 
-On 7/27/22 10:51 AM, An?bal Lim?n wrote:
-> 
-> 
-> On Wed, Jul 27, 2022 at 5:44 AM Luca Ceresoli <luca.ceresoli@bootlin.com 
-> <mailto:luca.ceresoli@bootlin.com>> wrote:
-> 
->     Hello Aníbal,
-> 
->     On Tue, 26 Jul 2022 14:33:22 -0500
->     "An?bal Lim?n" <limon.anibal@gmail.com
->     <mailto:limon.anibal@gmail.com>> wrote:
-> 
->      > From: Aníbal Limón <limon.anibal@gmail.com
->     <mailto:limon.anibal@gmail.com>>
->      >
->      > Change systemd service name from rngd -> rng-tools to avoid load
->     twice
->      > the service when sysvinit compatibility is enabled,
->      >
->      > ...
->      > root@:~# ps  | grep rng
->      >    23 root         0 SW   [hwrng]
->      > 13109 root      3528 R    /usr/sbin/rngd -f -r /dev/hwrng
->      > 13117 root      2348 S    grep rng
->      > 29418 root     12756 S    /usr/sbin/rngd -r /dev/hwrng
->      > ...
->      >
->      > Signed-off-by: Aníbal Limón <limon.anibal@gmail.com
->     <mailto:limon.anibal@gmail.com>>
->      > ---
->      >  .../rng-tools/{rngd.service => rng-tools.service}    |  0
->      >  meta/recipes-support/rng-tools/rng-tools_6.15.bb
->     <http://rng-tools_6.15.bb>     | 12 ++++++------
->      >  2 files changed, 6 insertions(+), 6 deletions(-)
->      >  rename meta/recipes-support/rng-tools/rng-tools/{rngd.service =>
->     rng-tools.service} (100%)
->      >
->      > diff --git
->     a/meta/recipes-support/rng-tools/rng-tools/rngd.service
->     b/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
->      > similarity index 100%
->      > rename from meta/recipes-support/rng-tools/rng-tools/rngd.service
->      > rename to meta/recipes-support/rng-tools/rng-tools/rng-tools.service
->      > diff --git a/meta/recipes-support/rng-tools/rng-tools_6.15.bb
->     <http://rng-tools_6.15.bb>
->     b/meta/recipes-support/rng-tools/rng-tools_6.15.bb
->     <http://rng-tools_6.15.bb>
->      > index 0696351903..efc08b5e0a 100644
->      > --- a/meta/recipes-support/rng-tools/rng-tools_6.15.bb
->     <http://rng-tools_6.15.bb>
->      > +++ b/meta/recipes-support/rng-tools/rng-tools_6.15.bb
->     <http://rng-tools_6.15.bb>
->      > @@ -11,7 +11,7 @@ DEPENDS = "sysfsutils openssl"
->      >  SRC_URI =
->     "git://github.com/nhorman/rng-tools.git;branch=master;protocol=https
->     <http://github.com/nhorman/rng-tools.git;branch=master;protocol=https> \
->      >             file://init \
->      >             file://default \
->      > -           file://rngd.service \
->      > +           file://rng-tools.service \
-> 
->     This feels strange to me: "rng-tools" does not look like a daemon name,
->     but rather a, well, tools name. Maybe "rng-daemon" would clarify?
-> 
-> 
-> Another option is to change the init daemon to be called rngd.
+Hello,
 
-I think yet another way is to check for condition when sysvinit 
-compatibility is enabled during install time and decide if we need to 
-install both sysvinit script and systemd service or not. I do not think
-renaming .service file is a good solution here.
+I tested the above reported issues on the latest sources 
+with/beaglebone-yocto /machine and none of them are reproduced. The 
+/rustc /is added to the image and on the booted image I can run the /rustc/.
 
-> 
-> Regards,
-> Anibal
-> 
-> 
->     Still I'm taking this patch for testing, I'll replace it with v2 should
->     you send one.
-> 
->     However please note there is an extra ']' in the subject: [PATCHv2]]
->     should be [PATCHv2]. This leads 'git am' to produce a commit starting
->     with a "] " prefix. I fixed it while applying, however you should check
->     that in the future.
-> 
->     Best regards.
->     -- 
->     Luca Ceresoli, Bootlin
->     Embedded Linux and Kernel engineering
->     https://bootlin.com <https://bootlin.com>
-> 
-> 
-> 
-> 
-> 
+/root@beaglebone-yocto:~# uname -a//
+//Linux beaglebone-yocto 5.15.54-yocto-standard #1 PREEMPT Thu Jul 14 
+18:52:26 UTC 2022 armv7l GNU/Linux//
+//root@beaglebone-yocto:~# which rustc//
+///usr/bin/rustc//
+//root@beaglebone-yocto:~# rustc --version//
+//rustc 1.62.0//
+/
+
+Thanks,
+
+Sundeep K.
+
+--------------S4lp6eQ0Kg1Y8Lmyn4CXfCMc
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 26-07-2022 14:30, Richard Purdie
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:5024fd0989f7ca4e473ebd2404a380d825c2243f.camel@linuxfoundation.org">
+      <pre class="moz-quote-pre" wrap="">On Tue, 2022-07-26 at 00:51 -0700, Sundeep KOKKONDA wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">I tried a few tests with new rust patches and found below issues.
+ 
+1. I build the 'master-next' with 'bitbake core-image-minimal -cpopulate_sdk' for qemuarm64 machine. The build has no issues and sdk installed successfully but, rustc in the installed sdk is showing below error.
+ 
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">$ source arm64_toolchain/environment-setup-cortexa57-oe-linux
+$ which rustc
+/ala-lpggp31/skokkonda/master-next/build/arm64_toolchain/sysroots/x86_64-oesdk-linux/usr/bin/rustc
+$ file /ala-lpggp31/skokkonda/master-next/build/arm64_toolchain/sysroots/x86_64-oesdk-linux/usr/bin/rustc
+/ala-lpggp31/skokkonda/master-next/build/arm64_toolchain/sysroots/x86_64-oesdk-linux/usr/bin/rustc: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=a9e96a057bcea4b5b3ad3e0b5ddc96f30231d6d6, not stripped
+$ rustc
+rustc: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.33' not found (required by /ala-lpggp31/skokkonda/master-next/build/arm64_toolchain/sysroots/x86_64-oesdk-linux/usr/bin/../lib/../lib/libstdc++.so.6)
+rustc: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.32' not found (required by /ala-lpggp31/skokkonda/master-next/build/arm64_toolchain/sysroots/x86_64-oesdk-linux/usr/bin/../lib/../lib/libstdc++.so.6)
+rustc: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.34' not found (required by /ala-lpggp31/skokkonda/master-next/build/arm64_toolchain/sysroots/x86_64-oesdk-linux/usr/bin/../lib/../lib/libstdc++.so.6)
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Just to be clear, if this worked previously the above is probably a
+regression and I'm not sure that would be fixed in my series in master-
+next.
+ 
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">2. I tried to build the rust for x86_64 target but the below error is observed. (by adding IMAGE_INSTALL:append = " rust" in local.conf)
+ 
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">ERROR: Nothing RPROVIDES 'rust' (but /ala-lpggp31/skokkonda/master-next/openembedded-core/meta/recipes-core/images/core-image-minimal.bb RDEPENDS on or otherwise requires it)
+rust was skipped: Rust recipe doesn't work for target builds at this time. Fixes welcome.
+NOTE: Runtime target 'rust' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['rust']
+ERROR: Required build target 'core-image-minimal' has n 
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+I'll keep you posted if I've any further updates.
+
+--
+Thanks,
+Sundeep K.
+
+
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+      <blockquote type="cite">
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">o buildable providers.
+Missing or unbuildable dependency chain was: ['core-image-minimal', 'rust']
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+</pre>
+        </blockquote>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+
+That code is removed in current master-next so that one should be
+resolved.
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">3. Getting below error when MACHINE ?= "beaglebone-yocto" and added TOOLCHAIN_HOST_TASK:append = " packagegroup-rust-cross-canadian-${MACHINE}"
+ 
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">ERROR: rust-native-1.62.0-r0 do_rust_gen_targets: Error executing a python function in exec_func_python() autogenerated:
+ 
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: &lt;module&gt;
+     0001:
+ *** 0002:do_rust_gen_targets(d)
+     0003:
+File: '/ala-lpggp31/skokkonda/yocto/poky/meta/classes/rust-target-config.bbclass', lineno: 369, function: do_rust_gen_targets
+     0365:    rust_gen_target(d, 'BUILD', wd, d.getVar('BUILD_ARCH'))
+     0366:    if "HOST" in d.getVar("RUST_TARGETGENS"):
+     0367:        rust_gen_target(d, 'HOST', wd, d.getVar('HOST_ARCH'))
+     0368:    if "TARGET" in d.getVar("RUST_TARGETGENS"):
+ *** 0369:        rust_gen_target(d, 'TARGET', wd, d.getVar('TARGET_ARCH'))
+     0370:}
+     0371:
+     0372:addtask rust_gen_targets after do_patch before do_compile
+     0373:do_rust_gen_targets[dirs] += "${RUST_TARGETS_DIR}"
+File: '/ala-lpggp31/skokkonda/yocto/poky/meta/classes/rust-target-config.bbclass', lineno: 319, function: rust_gen_target
+     0315:    # build tspec
+     0316:    tspec = {}
+     0317:    tspec['llvm-target'] = rustsys
+     0318:    tspec['data-layout'] = d.getVarFlag('DATA_LAYOUT', arch_abi)
+ *** 0319:    tspec['max-atomic-width'] = int(d.getVarFlag('MAX_ATOMIC_WIDTH', arch_abi))
+     0320:    tspec['target-pointer-width'] = d.getVarFlag('TARGET_POINTER_WIDTH', arch_abi)
+     0321:    tspec['target-c-int-width'] = d.getVarFlag('TARGET_C_INT_WIDTH', arch_abi)
+     0322:    tspec['target-endian'] = d.getVarFlag('TARGET_ENDIAN', arch_abi)
+     0323:    tspec['arch'] = arch_to_rust_target_arch(rust_arch)
+Exception: TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+ 
+ERROR: Logfile of failure stored in: /ala-lpggp31/skokkonda/yocto/build-bb/tmp/work/x86_64-linux/rust-native/1.62.0-r0/temp/log.do_rust_gen_targets.45760
+ERROR: Task (virtual:native:/ala-lpggp31/skokkonda/yocto/poky/meta/recipes-devtools/rust/rust_1.62.0.bb:do_rust_gen_targets) failed with exit code '1'
+</pre>
+        </blockquote>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+This one was definitely fixed this morning with the native.bbclass tweak.
+
+Cheers,
+
+Richard
+</pre>
+    </blockquote>
+    <p>Hello,</p>
+    <p>I tested the above reported issues on the latest sources with<i>
+        beaglebone-yocto  </i>machine and none of them are reproduced.
+      The <i>rustc </i>is added to the image and on the booted image I
+      can run the <i>rustc</i>.</p>
+    <p><i>root@beaglebone-yocto:~# uname -a</i><i><br>
+      </i><i>Linux beaglebone-yocto 5.15.54-yocto-standard #1 PREEMPT
+        Thu Jul 14 18:52:26 UTC 2022 armv7l GNU/Linux</i><i><br>
+      </i><i>root@beaglebone-yocto:~# which rustc</i><i><br>
+      </i><i>/usr/bin/rustc</i><i><br>
+      </i><i>root@beaglebone-yocto:~# rustc --version</i><i><br>
+      </i><i>rustc 1.62.0</i><i><br>
+      </i><br>
+      <br>
+    </p>
+    <p>Thanks,</p>
+    <p>Sundeep K.<br>
+    </p>
+    <blockquote type="cite"
+cite="mid:5024fd0989f7ca4e473ebd2404a380d825c2243f.camel@linuxfoundation.org">
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------S4lp6eQ0Kg1Y8Lmyn4CXfCMc--
