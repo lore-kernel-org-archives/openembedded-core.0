@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C20C00144
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B461C19F2B
 	for <webhook@archiver.kernel.org>; Fri, 29 Jul 2022 14:47:58 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web10.66.1659106078074453528
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web09.56.1659106075831474462
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Jul 2022 07:47:58 -0700
+ Fri, 29 Jul 2022 07:47:55 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=ujB4xJeB;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175,
+ header.b=H5a0pWXJ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49,
  mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id b133so4828448pfb.6
+Received: by mail-pj1-f49.google.com with SMTP id y1so4836676pja.4
         for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Jul 2022 07:47:58 -0700 (PDT)
+ Fri, 29 Jul 2022 07:47:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=OjvLg7D1v/XIcxHyXhJTslibDC+ygOX8Lba81ccDpEw=;
-        b=ujB4xJeBfYOyad0M0Pkt4rXge2YbiwxLplJom2bVSk/ewri9pz0TeY9BzlOWAwR5Vi
-         ohuYUcnW53j11vNPbPy6EMBZHZ7FqsYhfqxFfGUGR/jW8JfAtoAS+tK27lBh5H04OEL2
-         zv53GHJoIievPeKey1B/InFj+cgduOMUxROQRs5wCgJzcQYMsV+v0H0QAupqumbtpinU
-         AYNnsxaQjwFBSYG+zxbKwhrMAXppMiz9Jvwy+Sl/3OqzRspm8hok7ntw2d0sif0krCrk
-         LU192a7WirI1IyIspQn8hMh1+H5Gzs6JC9noG+7sH6+6q4ihmNXRW/i3K4qu9tgS7qi6
-         DrdQ==
+        bh=MAed/aU/tNAWQMRmnU6Sd5zirr7LaUpoPRNJpb1PO5g=;
+        b=H5a0pWXJrXdTC4YPWyTU83eTI3AbR7QN/d8wbXOWQStqO97v8xUDGlqpl2K6TYvkMW
+         FSMFp+VzAW6FatQ/8sW26G0DzcJmZKXixa6v/ty2QO1JbL09R8c4H/69ZnRoaTvoUiT6
+         UGeh0G0j6ICcwcJ8fn+rAb7GIuml0Cr+TOKCeO8gVEw5db8OBqvif7ClCRGinSfzrpJC
+         A+PM3thC5gUQ0Z2YKEaO/Y83v02TuXnPDNo0/bPiItszJTRanU+VsL1l7rp3CTAiE7/k
+         XPadiAsRphWqtMYPDdUSMyOLr2MVoofueRiyGOu4SLkO04QPXUVWheRqkldKFt1UuV3b
+         xtfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OjvLg7D1v/XIcxHyXhJTslibDC+ygOX8Lba81ccDpEw=;
-        b=TL9TN35gq5TTcaewCIepI4iZxyU8DtLxThFjSja1lVNiYTPp9eXgN/MsPGY7fNJGas
-         nH21HMxZhAwbeO/nJoV7m8ip0MUrzwsXsmR5BI1VSXnQsF/j9dFlaEO0q+73479c/2zR
-         F1h6ftUQF8foK8/jzwtpQIXnMokR5zvXkq6q8h4H5o2emU8jdre1PRDHGigZfVeGwRJB
-         M3hBJJ5xbpLIDaqhvdaAChUMCcOmB40ysvcVmodI/iVAEOe9vU5GpteCRQ0Y+gRIUeUD
-         BMny6W/gUFInps0SoVuMzfiobvfW7aZ/LuoTwP/IDItPw6pIEDs3OZkNDxaOFZypfBQN
-         +OIA==
-X-Gm-Message-State: AJIora/ct6nUC02tQQbaLp8VPZww+oyOLiPSdzRm6V5p2fApLT2WeuCD
-	JsI2sg3en6FlDYL2gmX2avBqcTgJ6sMc/LTW
+        bh=MAed/aU/tNAWQMRmnU6Sd5zirr7LaUpoPRNJpb1PO5g=;
+        b=wUQ51NYq1Q/+7iFdRCostcjptSQmg7dg2/YFd2WmTJJmmuIAxGSrC+2Xz07zpRo3LJ
+         KC6ODsbcuWI59o9i6Vp6bmJN2r8mpkxkqVFpT/w1b+387cHDrUanBatXW+8kRjGMpOIh
+         aqbMZ7oYKaHKSoYmy1Q+hgTr18vu93uyb7IkNQ1SbeZp559VxGlDun0DYcpo5YgmjZ5M
+         cBRfxkEwH6e9XrY+JjRqgKGIyVfZVYOVAn/dcqlpqBky7FWsXJBRLf1WbpeCfplPWJRJ
+         k3K+c5mJFayNohMk3GzYdDb5U2aaJDUp7PFVd7t9NmHyWj+W5am60youfYLxSRYmTZ1U
+         ObXw==
+X-Gm-Message-State: ACgBeo1CDswTv47nwOSbZJUteDg4WarvXkFYy0Np1HpetZWFJXSbuFNj
+	84bTMDDUKMlZRopbTKTKv7bDwqfkJQD3VApC
 X-Google-Smtp-Source: 
- AGRyM1vVJEB+Qy2KoZQVK/lBUC9hulXG5SuiEKJIgY3eKMybXemotWzQSUCCcvDYvcL1QbdPrx9KwA==
-X-Received: by 2002:a05:6a00:1a56:b0:52b:f5ad:3741 with SMTP id
- h22-20020a056a001a5600b0052bf5ad3741mr3872594pfv.64.1659106077047;
-        Fri, 29 Jul 2022 07:47:57 -0700 (PDT)
+ AA6agR56quNuMEmcg761qbRQcd2G7OfGGFwZEP/AZ9OE8CFjRVaAQnDRAkjho/z4OMBpW6+vSDZ3Ew==
+X-Received: by 2002:a17:903:244e:b0:16d:d5cd:c184 with SMTP id
+ l14-20020a170903244e00b0016dd5cdc184mr2400952pls.44.1659106074753;
+        Fri, 29 Jul 2022 07:47:54 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- x24-20020aa79418000000b00528c6c7bf37sm2958782pfo.129.2022.07.29.07.47.55
+ x24-20020aa79418000000b00528c6c7bf37sm2958782pfo.129.2022.07.29.07.47.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Jul 2022 07:47:56 -0700 (PDT)
+        Fri, 29 Jul 2022 07:47:54 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 15/29] vala: upgrade 0.56.0 -> 0.56.1
-Date: Fri, 29 Jul 2022 04:46:31 -1000
+Subject: [OE-core][kirkstone 14/29] log4cplus: upgrade 2.0.7 -> 2.0.8
+Date: Fri, 29 Jul 2022 04:46:30 -1000
 Message-Id: 
- <b19e2022184c567b53858981c77ebf3b1d283a8b.1659105705.git.steve@sakoman.com>
+ <1dae5b5482b0d8c1c7832fc69d9e2998e5311dca.1659105705.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1659105705.git.steve@sakoman.com>
 References: <cover.1659105705.git.steve@sakoman.com>
@@ -69,51 +69,45 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 29 Jul 2022 14:47:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168650
+ https://lists.openembedded.org/g/openembedded-core/message/168649
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Changes in 0.56.1 LTS relase:
+Changes:
 
-  - vala: Improve accessibility check inside member initializer [#1300]
-  - vala: Don't allow nullable enum value as real GObject property [#1074]
-  - valadoc: Include path to doclet in error message
-  - manual: Update from wiki.gnome.org
-  - gtk4: Fix GLib.Value parameter in ContentProvider.get_value()
-  - gtk4: Split out gtk4-wayland and gtk4-x11 into separate bindings [#1308]
-  - gstreamer: Update from 1.21+ git main
-  - vapi: Update GIR-based bindings
+Add CMake alias libraries
+Add an option to disable tests to configure script
+Fix C++11 compatibility: C++11 does not have basic_string_view.
+Look for Android's log library
+Fix handling of ,aux extension for FileAppender
+filename should not be empty for TimeBasedRollingFileAppender
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0d78d6d6122b776f9abac27e3a71a3196999bebd)
+(cherry picked from commit e09ffe4ec692329502165282ac80cf552113a4d5)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/vala/vala_0.56.0.bb | 3 ---
- meta/recipes-devtools/vala/vala_0.56.1.bb | 3 +++
- 2 files changed, 3 insertions(+), 3 deletions(-)
- delete mode 100644 meta/recipes-devtools/vala/vala_0.56.0.bb
- create mode 100644 meta/recipes-devtools/vala/vala_0.56.1.bb
+ .../log4cplus/{log4cplus_2.0.7.bb => log4cplus_2.0.8.bb}        | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/log4cplus/{log4cplus_2.0.7.bb => log4cplus_2.0.8.bb} (90%)
 
-diff --git a/meta/recipes-devtools/vala/vala_0.56.0.bb b/meta/recipes-devtools/vala/vala_0.56.0.bb
-deleted file mode 100644
-index a4d6760f10..0000000000
---- a/meta/recipes-devtools/vala/vala_0.56.0.bb
-+++ /dev/null
-@@ -1,3 +0,0 @@
--require ${BPN}.inc
--
--SRC_URI[sha256sum] = "d92bd13c5630905eeb6a983dcb702204da9731460c2a6e4e39f867996f371040"
-diff --git a/meta/recipes-devtools/vala/vala_0.56.1.bb b/meta/recipes-devtools/vala/vala_0.56.1.bb
-new file mode 100644
-index 0000000000..48d21685e8
---- /dev/null
-+++ b/meta/recipes-devtools/vala/vala_0.56.1.bb
-@@ -0,0 +1,3 @@
-+require ${BPN}.inc
-+
-+SRC_URI[sha256sum] = "c518b81dfdda82d1cdf586b3f9b2323162cb96bd3cb5a2c03650cea025d91fb9"
+diff --git a/meta/recipes-devtools/log4cplus/log4cplus_2.0.7.bb b/meta/recipes-devtools/log4cplus/log4cplus_2.0.8.bb
+similarity index 90%
+rename from meta/recipes-devtools/log4cplus/log4cplus_2.0.7.bb
+rename to meta/recipes-devtools/log4cplus/log4cplus_2.0.8.bb
+index 3798b93f76..bbf4ce6218 100644
+--- a/meta/recipes-devtools/log4cplus/log4cplus_2.0.7.bb
++++ b/meta/recipes-devtools/log4cplus/log4cplus_2.0.8.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=41e8e060c26822886b592ab4765c756b"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}-stable/${PV}/${BP}.tar.gz \
+           "
+-SRC_URI[sha256sum] = "086451c7e7c582862cbd6c60d87bb6d9d63c4b65321dba85fa71766382f7ec6d"
++SRC_URI[sha256sum] = "cdc3c738e00be84d8d03b580816b9f12628ecc1d71e1395080c802615d2d9ced"
+ 
+ UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/log4cplus/files/log4cplus-stable/"
+ UPSTREAM_CHECK_REGEX = "log4cplus-stable/(?P<pver>\d+(\.\d+)+)/"
 -- 
 2.25.1
 
