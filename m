@@ -2,63 +2,64 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B461C19F2B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F5B6C3F6B0
 	for <webhook@archiver.kernel.org>; Fri, 29 Jul 2022 14:47:58 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web09.56.1659106075831474462
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
+ [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web11.53.1659106073450855349
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Jul 2022 07:47:55 -0700
+ Fri, 29 Jul 2022 07:47:53 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=H5a0pWXJ;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49,
+ header.b=2IBP0k7g;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.43,
  mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id y1so4836676pja.4
+Received: by mail-pj1-f43.google.com with SMTP id
+ q7-20020a17090a7a8700b001f300db8677so5469589pjf.5
         for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Jul 2022 07:47:55 -0700 (PDT)
+ Fri, 29 Jul 2022 07:47:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=MAed/aU/tNAWQMRmnU6Sd5zirr7LaUpoPRNJpb1PO5g=;
-        b=H5a0pWXJrXdTC4YPWyTU83eTI3AbR7QN/d8wbXOWQStqO97v8xUDGlqpl2K6TYvkMW
-         FSMFp+VzAW6FatQ/8sW26G0DzcJmZKXixa6v/ty2QO1JbL09R8c4H/69ZnRoaTvoUiT6
-         UGeh0G0j6ICcwcJ8fn+rAb7GIuml0Cr+TOKCeO8gVEw5db8OBqvif7ClCRGinSfzrpJC
-         A+PM3thC5gUQ0Z2YKEaO/Y83v02TuXnPDNo0/bPiItszJTRanU+VsL1l7rp3CTAiE7/k
-         XPadiAsRphWqtMYPDdUSMyOLr2MVoofueRiyGOu4SLkO04QPXUVWheRqkldKFt1UuV3b
-         xtfA==
+        bh=40dCjRrlmCjctDbbIGsRTkowY/QYcVToyO8f5+9mRNA=;
+        b=2IBP0k7gdQbTLUDf5loVxtfwwkuGuDxaNFHIIIOP7UrFBqcIR/dyxwRluoZwi7Acvy
+         hhMlDgNl/C7/sxLkH29IT+wsUzRMhtJiXcCgGzIQuFSmH1U8ao0HWstTykxUZqp7PglY
+         ikAgOrfGmuS6l+b9madCE9N7C33FMlJDumRBl2oQD8IztL4uqFfA9IhmrdK7+0ytFk1B
+         BaxURQd2wMCBSwWz9FXB7me8HXNfTBDcqm4gTp4NzXV1OuEQDnyUO5pc2lcIFZ4c9U5H
+         8UZveJtSJDofin55NTSHmDMIsyjKgNCV0PpblUYm8cmtwpLmxCpBEy/dGlbli21Ol5Ur
+         c1fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=MAed/aU/tNAWQMRmnU6Sd5zirr7LaUpoPRNJpb1PO5g=;
-        b=wUQ51NYq1Q/+7iFdRCostcjptSQmg7dg2/YFd2WmTJJmmuIAxGSrC+2Xz07zpRo3LJ
-         KC6ODsbcuWI59o9i6Vp6bmJN2r8mpkxkqVFpT/w1b+387cHDrUanBatXW+8kRjGMpOIh
-         aqbMZ7oYKaHKSoYmy1Q+hgTr18vu93uyb7IkNQ1SbeZp559VxGlDun0DYcpo5YgmjZ5M
-         cBRfxkEwH6e9XrY+JjRqgKGIyVfZVYOVAn/dcqlpqBky7FWsXJBRLf1WbpeCfplPWJRJ
-         k3K+c5mJFayNohMk3GzYdDb5U2aaJDUp7PFVd7t9NmHyWj+W5am60youfYLxSRYmTZ1U
-         ObXw==
-X-Gm-Message-State: ACgBeo1CDswTv47nwOSbZJUteDg4WarvXkFYy0Np1HpetZWFJXSbuFNj
-	84bTMDDUKMlZRopbTKTKv7bDwqfkJQD3VApC
+        bh=40dCjRrlmCjctDbbIGsRTkowY/QYcVToyO8f5+9mRNA=;
+        b=Fe1K6/axgu4GIGr7kIwmUvVTjjnGfr3KfjpEw1AJQRffF60Mp4Auvgtryejt7zMA1i
+         kh8RkPCDnU6M4us5juxvHEFptckOZsxHL8dcYQ/QFm0WQeJRHFwbKV28C7wYExEIZMi7
+         QfuhRukzOh2w2pElOSZCnUF1b1aQRGDMunbjsfXrd5qLMoV7E0i2/vPMXtA7QtRaDwxe
+         gIDOukbeqEIR2ls7v+X5bz3M3m8hV+pY5E054oO29R4rPcCx5ZYutXy5xl3vr/wvor+V
+         s8mAc3aQgxJduVyPF6oN1sY/sYHGITViuU2ZYdOyQmKyc4dURODb+L1gNY0xRXwm9AwQ
+         qMcA==
+X-Gm-Message-State: ACgBeo1Am03ser6l47VAxaKMagLXqJOk9v4Cco8Q5yxcXI9rhVirjpbl
+	4X4CkanlFRJBse5f0LBkt+j/8wF0pp/Rj8bT
 X-Google-Smtp-Source: 
- AA6agR56quNuMEmcg761qbRQcd2G7OfGGFwZEP/AZ9OE8CFjRVaAQnDRAkjho/z4OMBpW6+vSDZ3Ew==
-X-Received: by 2002:a17:903:244e:b0:16d:d5cd:c184 with SMTP id
- l14-20020a170903244e00b0016dd5cdc184mr2400952pls.44.1659106074753;
-        Fri, 29 Jul 2022 07:47:54 -0700 (PDT)
+ AA6agR7DgtAR1EXbTg88u7okoY+q2fW3FQgW3kIsKdjCK5CfD63YmzzaZtD2Obe/uQ8xaFCtTy4rrA==
+X-Received: by 2002:a17:90a:bc1:b0:1f2:435f:94bc with SMTP id
+ x1-20020a17090a0bc100b001f2435f94bcmr4676919pjd.5.1659106072377;
+        Fri, 29 Jul 2022 07:47:52 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- x24-20020aa79418000000b00528c6c7bf37sm2958782pfo.129.2022.07.29.07.47.53
+ x24-20020aa79418000000b00528c6c7bf37sm2958782pfo.129.2022.07.29.07.47.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Jul 2022 07:47:54 -0700 (PDT)
+        Fri, 29 Jul 2022 07:47:51 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 14/29] log4cplus: upgrade 2.0.7 -> 2.0.8
-Date: Fri, 29 Jul 2022 04:46:30 -1000
+Subject: [OE-core][kirkstone 13/29] libuv: upgrade 1.44.1 -> 1.44.2
+Date: Fri, 29 Jul 2022 04:46:29 -1000
 Message-Id: 
- <1dae5b5482b0d8c1c7832fc69d9e2998e5311dca.1659105705.git.steve@sakoman.com>
+ <c785f1d3a7f8ef2c7047fad7a2a483c5ebd658e0.1659105705.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1659105705.git.steve@sakoman.com>
 References: <cover.1659105705.git.steve@sakoman.com>
@@ -69,45 +70,48 @@ X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 29 Jul 2022 14:47:58 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168649
+ https://lists.openembedded.org/g/openembedded-core/message/168648
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Changes:
+Important bugs fixed
 
-Add CMake alias libraries
-Add an option to disable tests to configure script
-Fix C++11 compatibility: C++11 does not have basic_string_view.
-Look for Android's log library
-Fix handling of ,aux extension for FileAppender
-filename should not be empty for TimeBasedRollingFileAppender
+loop: better align order-of-events behavior between platforms #3598
+zos: fix fs event not fired if the watched file is moved/removed/recreated #3540
+win: Fix pipe resource leak if closed during connect (and other bugs) #3611
+zos: don't error when killing a zombie process #3625
+
+Regressions fixed
+
+macos: avoid posix_spawnp() cwd bug #3597
+kqueue: skip EVFILT_PROC events when invalidating events for an fd. #3629
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e09ffe4ec692329502165282ac80cf552113a4d5)
+(cherry picked from commit ccd589604c2d7648dcd3541c61a2b48e692ca258)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../log4cplus/{log4cplus_2.0.7.bb => log4cplus_2.0.8.bb}        | 2 +-
+ .../libuv/{libuv_1.44.1.bb => libuv_1.44.2.bb}                  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/log4cplus/{log4cplus_2.0.7.bb => log4cplus_2.0.8.bb} (90%)
+ rename meta/recipes-connectivity/libuv/{libuv_1.44.1.bb => libuv_1.44.2.bb} (93%)
 
-diff --git a/meta/recipes-devtools/log4cplus/log4cplus_2.0.7.bb b/meta/recipes-devtools/log4cplus/log4cplus_2.0.8.bb
-similarity index 90%
-rename from meta/recipes-devtools/log4cplus/log4cplus_2.0.7.bb
-rename to meta/recipes-devtools/log4cplus/log4cplus_2.0.8.bb
-index 3798b93f76..bbf4ce6218 100644
---- a/meta/recipes-devtools/log4cplus/log4cplus_2.0.7.bb
-+++ b/meta/recipes-devtools/log4cplus/log4cplus_2.0.8.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=41e8e060c26822886b592ab4765c756b"
+diff --git a/meta/recipes-connectivity/libuv/libuv_1.44.1.bb b/meta/recipes-connectivity/libuv/libuv_1.44.2.bb
+similarity index 93%
+rename from meta/recipes-connectivity/libuv/libuv_1.44.1.bb
+rename to meta/recipes-connectivity/libuv/libuv_1.44.2.bb
+index 4c96d80a65..4c1b8eed56 100644
+--- a/meta/recipes-connectivity/libuv/libuv_1.44.1.bb
++++ b/meta/recipes-connectivity/libuv/libuv_1.44.2.bb
+@@ -5,7 +5,7 @@ BUGTRACKER = "https://github.com/libuv/libuv/issues"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=ad93ca1fffe931537fcf64f6fcce084d"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}-stable/${PV}/${BP}.tar.gz \
-           "
--SRC_URI[sha256sum] = "086451c7e7c582862cbd6c60d87bb6d9d63c4b65321dba85fa71766382f7ec6d"
-+SRC_URI[sha256sum] = "cdc3c738e00be84d8d03b580816b9f12628ecc1d71e1395080c802615d2d9ced"
+-SRCREV = "e8b7eb6908a847ffbe6ab2eec7428e43a0aa53a2"
++SRCREV = "0c1fa696aa502eb749c2c4735005f41ba00a27b8"
+ SRC_URI = "git://github.com/libuv/libuv;branch=v1.x;protocol=https"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
  
- UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/log4cplus/files/log4cplus-stable/"
- UPSTREAM_CHECK_REGEX = "log4cplus-stable/(?P<pver>\d+(\.\d+)+)/"
 -- 
 2.25.1
 
