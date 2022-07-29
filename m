@@ -2,63 +2,63 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87987C00144
-	for <webhook@archiver.kernel.org>; Fri, 29 Jul 2022 14:47:38 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.56.1659106053147928905
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 849EFC00144
+	for <webhook@archiver.kernel.org>; Fri, 29 Jul 2022 14:47:48 +0000 (UTC)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
+ [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web11.49.1659106058332052554
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Jul 2022 07:47:33 -0700
+ Fri, 29 Jul 2022 07:47:38 -0700
 Authentication-Results: mx.groups.io;
  dkim=pass header.i=@sakoman-com.20210112.gappssmtp.com header.s=20210112
- header.b=mPLqxBxv;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171,
+ header.b=aoNgrxEw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.178,
  mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id b22so4794315plz.9
+Received: by mail-pg1-f178.google.com with SMTP id l193so3795121pge.9
         for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Jul 2022 07:47:33 -0700 (PDT)
+ Fri, 29 Jul 2022 07:47:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=P2u/U7/WDfy3P/1di3fm8jSLKk60txj9NDx5791YT1A=;
-        b=mPLqxBxvBOGu7E99Ys9uUnajYWTncDidKIxvwy/CqVgdLeoAfbaXIxNThlBaFTzXoe
-         QQL5XQT2lgwVyJnWlows4WCBvCE+p8GrSr6nWf3DAyDqRhpuB3pjXDOgx2BmaBzeLoM3
-         nP+OvsKkMb8ZNtU+DpcHslVaDDgEjMIuCLwXhgkf/SDqk1Di8OgHqVM523IMcENb9dMK
-         bYEhZM2HYqkAC/MJVkVQywEZl5qrXGnIjYGb23z6rsRrrV7L137f8y3/ENBhojhjrRef
-         r0vSL2OfGxmM8yz0WdTCEh3jTCCCzSbrVTzPmvmsB8Kwt6PElv6o3IA2AztU844vAZJj
-         mY/A==
+        bh=m2a0IRBc3oWIOQ7qxRXAqJ2oQ91eNLJGa70Il3v2bo0=;
+        b=aoNgrxEws+qg6SZIXJ8ndX07cW0jlutQX0W3P53IT4yffbjg7CJNIOew1aA5vknUVz
+         rk/ksvYXCGi3bHD7GCoP8pnnFEeEMuyVJvfpkaegI+8KDfpJw4wKFBEzxmgTVabUjwf1
+         8WUalUAW244Fb+1Xoi63Tll2ZbtarvmrAlGLQFAOLH6g69gbsBfo9/R7yN6n8j1Jbwty
+         Jrp8R/WtHndQHcJzouaGSDGbuSiSuC+wHNeCi6Wi4sVqQBKpMw8+yYSljnMAjaohC7ks
+         3G2D7ggtm7oWqP4vg/VSALH8UVVYiGmTawPup+gMZSjxGmxDUVK0gBfTH7fCN+qBdIPH
+         oU4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=P2u/U7/WDfy3P/1di3fm8jSLKk60txj9NDx5791YT1A=;
-        b=cIYdHHEoinf4hXwyR7Ct6HO/0r9oSu03SPgJngpYtM7SZkDiv79Izeeac7VQNVSJMO
-         WFuvJdQbE6cxyM4V04ArnYZNiabSZisu37Z7QlxbNiUGl6/B1lUBlZMpMrq250P8Dvbz
-         ppJ0JMQWEff5pMJ8cvEKZKiHKOwKJ5WVu9cPQKIJ4pCmywPD74TEPGLSDYqBHYYbd5Fw
-         /YwMPG7LnOj/VrkawrK+20+CDiLpuBvwjWzCqpMnb1aQUf+71cd4FXzO+QNdFcdQdsGG
-         AGZR8BlCAFGnc7sLH2SMFqxaGnKOzAvudmxAr76gWmA2LSleIRQiejH65hNU9DPj8dzo
-         fi3A==
-X-Gm-Message-State: ACgBeo1bW0Mxtz4GN1+AfIz4m4E/IU9nXfh1UuianQgYlQvuGPbGJYuz
-	113EaZfCob+wG5whxU0OuNlGfVay0YZ6QZOz
+        bh=m2a0IRBc3oWIOQ7qxRXAqJ2oQ91eNLJGa70Il3v2bo0=;
+        b=acBLT938vDThRkh4tQ8RBtWkQES0vSOag44EwAYyyjtqICNeOk1SyLXMxrNfm6JZOk
+         EopLdeB4XFNJWZ+/WOJWKBK79zPl32RzN8dKmVXGqJio9n+p3oOmSxt0hWRZ6ljf+3HP
+         5LyX9C8NsWAEvYh5aUtqfvllX2bm3xJMLEcmhJ5PkAJjiVY9njFnDNi9QZiN7Ibt9XKo
+         e+LcPADM/k0GLv2sNVTc7dYGx0V8RqMbgiGHatWWyOh7L1y8G1penp1jw95Z2iQHzYic
+         uAwFDGeCNYT14S5rycD0ekMv3LUpflFn78SljvIHkih2rZX/3PFaqLvJ5IxrhmKhECaS
+         fJcg==
+X-Gm-Message-State: ACgBeo0DLhzmzTRVCByWnfWhh44p6rqlhp10cVKoH89faca1k5+AZz8v
+	nXudZlmweXNBy1380IRaxIRNQleoXI+De2QZ
 X-Google-Smtp-Source: 
- AA6agR5KHe9wjR/SWBDFEiLSaLfrQGTiVoNGkxWEmUP7wfIXJ4QrOLUBGxcRlOagaPXVlcHG/KRWLQ==
-X-Received: by 2002:a17:90b:3b48:b0:1f3:2401:d0e3 with SMTP id
- ot8-20020a17090b3b4800b001f32401d0e3mr4468678pjb.61.1659106052118;
-        Fri, 29 Jul 2022 07:47:32 -0700 (PDT)
+ AA6agR4IrDc5xqZS73AJIp1nbLZv6Cux8I8xd0WRLMOayTve966l96aGl4BQPbmz+DY/qvOE2kSm/Q==
+X-Received: by 2002:aa7:810a:0:b0:52c:e906:e355 with SMTP id
+ b10-20020aa7810a000000b0052ce906e355mr776836pfi.16.1659106057304;
+        Fri, 29 Jul 2022 07:47:37 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-253-6-214.hawaiiantel.net.
  [72.253.6.214])
         by smtp.gmail.com with ESMTPSA id
- x24-20020aa79418000000b00528c6c7bf37sm2958782pfo.129.2022.07.29.07.47.30
+ x24-20020aa79418000000b00528c6c7bf37sm2958782pfo.129.2022.07.29.07.47.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Jul 2022 07:47:31 -0700 (PDT)
+        Fri, 29 Jul 2022 07:47:35 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 04/29] xdpyinfo: upgrade 1.3.2 -> 1.3.3
-Date: Fri, 29 Jul 2022 04:46:20 -1000
+Subject: [OE-core][kirkstone 06/29] xev: update 1.2.4 -> 1.2.5
+Date: Fri, 29 Jul 2022 04:46:22 -1000
 Message-Id: 
- <cde61983f3cdae55c78466d6e9975a19bff04ccf.1659105705.git.steve@sakoman.com>
+ <2f9ab1a77a170fe7d1d493470a448e42b1750c19.1659105705.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1659105705.git.steve@sakoman.com>
 References: <cover.1659105705.git.steve@sakoman.com>
@@ -67,66 +67,44 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Jul 2022 14:47:38 -0000
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Jul 2022 14:47:48 -0000
 X-Groupsio-URL: 
- https://lists.openembedded.org/g/openembedded-core/message/168639
+ https://lists.openembedded.org/g/openembedded-core/message/168641
 
-From: wangmy <wangmy@fujitsu.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
 Changes:
 
-      xdpyinfo: Fix printing the X.Org release version for xserver >= 21
-      Update README for gitlab migration
-      Update configure.ac bug URL for gitlab migration
-      Only check for XFree86 if vendor string doesn't match X.Org
-      Add explicit casts to clear implicit conversion warnings
-      Disable DMX support by default, leave --with-dmx to enable it
       gitlab CI: add a basic build test
       Build xz tarballs instead of bzip2
-      Fix spelling/wording issues
-      gitlab CI: stop requiring Signed-off-by in commits
-      autogen.sh: use quoted string variables
-      autogen: add default patch prefix
-      autogen.sh: use exec instead of waiting for configure to finish
-      fix -Wunused-[...] compiler warnings
+      man page: remove out-of-date reference to X(7)
+      xev: fix KeymapNotify event printing
 
-temporarily override SRC_URI which is hard-coded in xorg-app-common.inc
-since new versions of packages use a new compression format - .tar.xz
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 712552b5cc427d7be1258c45886de9b57f7272c9)
+(cherry picked from commit 83c9b5aead195d933a43a4782428fdfa3eb51967)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../xorg-app/{xdpyinfo_1.3.2.bb => xdpyinfo_1.3.3.bb}        | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-app/{xdpyinfo_1.3.2.bb => xdpyinfo_1.3.3.bb} (80%)
+ meta/recipes-graphics/xorg-app/{xev_1.2.4.bb => xev_1.2.5.bb} | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+ rename meta/recipes-graphics/xorg-app/{xev_1.2.4.bb => xev_1.2.5.bb} (81%)
 
-diff --git a/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.2.bb b/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.3.bb
-similarity index 80%
-rename from meta/recipes-graphics/xorg-app/xdpyinfo_1.3.2.bb
-rename to meta/recipes-graphics/xorg-app/xdpyinfo_1.3.3.bb
-index 2d10b7acca..fa0fe36451 100644
---- a/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.2.bb
-+++ b/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.3.bb
-@@ -8,13 +8,14 @@ predefined values for various parameters used in communicating between \
- clients and the server, and the different types of screens and visuals \
- that are available."
+diff --git a/meta/recipes-graphics/xorg-app/xev_1.2.4.bb b/meta/recipes-graphics/xorg-app/xev_1.2.5.bb
+similarity index 81%
+rename from meta/recipes-graphics/xorg-app/xev_1.2.4.bb
+rename to meta/recipes-graphics/xorg-app/xev_1.2.5.bb
+index 9407fa65f1..0e3def6eee 100644
+--- a/meta/recipes-graphics/xorg-app/xev_1.2.4.bb
++++ b/meta/recipes-graphics/xorg-app/xev_1.2.5.bb
+@@ -14,4 +14,6 @@ DEPENDS += "libxrandr xorgproto"
  
-+SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.xz"
+ SRC_URI += "file://diet-x11.patch"
+ 
+-SRC_URI[sha256sum] = "d700e08bfe751ed2dbf802baa204b056d0e49348b6eb3c6f9cb035d8ae4885e2"
++SRC_URI[sha256sum] = "c9461a4389714e0f33974f9e75934bdc38d836a0f059b8dc089c7cbf2ce36ec1"
 +
- LIC_FILES_CHKSUM = "file://COPYING;md5=f3d09e6b9e203a1af489e16c708f4fb3"
- DEPENDS += "libxtst libxext libxxf86vm libxi libxrender libxinerama libdmx libxau libxcomposite"
- PE = "1"
- 
- SRC_URI += "file://disable-xkb.patch"
- 
--SRC_URI[md5sum] = "8809037bd48599af55dad81c508b6b39"
--SRC_URI[sha256sum] = "30238ed915619e06ceb41721e5f747d67320555cc38d459e954839c189ccaf51"
-+SRC_URI[sha256sum] = "356d5fd62f3e98ee36d6becf1b32d4ab6112d618339fb4b592ccffbd9e0fc206"
- 
- EXTRA_OECONF = "--disable-xkb"
++SRC_URI_EXT = "xz"
 -- 
 2.25.1
 
